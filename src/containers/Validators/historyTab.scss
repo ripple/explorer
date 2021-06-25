@@ -1,0 +1,149 @@
+@import '../shared/css/variables.scss';
+
+.history-reports {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+  font-size: 12px;
+  line-height: 24px;
+  list-style: none;
+
+  @include for-size(desktop-up) {
+    font-size: 14px;
+  }
+
+  // Col overall styling
+  .col-date,
+  .col-chain,
+  .col-score,
+  .col-missed,
+  .col-total {
+    display: inline-block;
+    overflow: hidden;
+    color: $gray-400;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .col-date {
+    width: 90px;
+    @include for-size(tablet-landscape-up) {
+      width: 200px;
+    }
+    @include for-size(desktop-up) {
+      width: 300px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 390px;
+    }
+    .abbrev-date {
+      @include for-size(tablet-landscape-up) {
+        display: none;
+      }
+    }
+    .full-date {
+      display: none;
+      @include for-size(tablet-landscape-up) {
+        display: inline-block;
+      }
+    }
+  }
+
+  .col-chain {
+    width: 55px;
+    @include for-size(tablet-landscape-up) {
+      width: 70px;
+    }
+    @include for-size(desktop-up) {
+      width: 100px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 200px;
+    }
+  }
+
+  .col-score {
+    width: 55px;
+    @include for-size(tablet-landscape-up) {
+      width: 70px;
+    }
+    @include for-size(desktop-up) {
+      width: 100px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 150px;
+    }
+  }
+
+  .col-total {
+    width: 55px;
+    @include for-size(tablet-landscape-up) {
+      width: 70px;
+    }
+    @include for-size(desktop-up) {
+      width: 100px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 165px;
+    }
+  }
+
+  .col-missed {
+    width: 55px;
+    @include for-size(tablet-landscape-up) {
+      width: 70px;
+    }
+    @include for-size(desktop-up) {
+      width: 100px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 165px;
+    }
+  }
+
+  .history-li {
+    position: relative;
+    display: block;
+    flex-direction: row;
+    padding: 20px 32px;
+    border-bottom: 1px solid $gray-800;
+    line-height: 20px;
+  }
+
+  .history-li-header {
+    display: flex;
+    flex-direction: row;
+    padding: 40px 32px 18px;
+    border-bottom: 1px solid $gray-800;
+    font-size: 8px;
+    table-layout: fixed;
+    text-transform: uppercase;
+
+    @include for-size(tablet-landscape-up) {
+      font-size: 12px;
+    }
+
+    &:hover {
+      background-color: inherit;
+    }
+
+    .col-date,
+    .col-chain,
+    .col-status,
+    .col-score,
+    .col-total,
+    .col-missed {
+      border: none;
+      color: $white;
+      letter-spacing: 0.5px;
+      @include bold;
+    }
+  }
+
+  .td-missed {
+    color: $orange-600;
+  }
+}

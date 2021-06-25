@@ -1,0 +1,66 @@
+{
+  "hash": "F4AD54E6FE56B53F8FB8B422C4E9636D6AD56682EA45FF3C8AFBC66EF2D82612",
+  "ledger_index": 37432866,
+  "date": "2018-03-23T13:34:51+00:00",
+  "tx": {
+    "Account": "rP1TMyJHp5QceDoh9MdxLhYaJL2yCwPom",
+    "Fee": "12",
+    "Flags": 2147483648,
+    "LastLedgerSequence": 27,
+    "Sequence": 47,
+    "SigningPubKey": "03A3D6C689BDB3B65BED054E06BFC2DA6B43FD45C0CA8D1C7322AC4FAD9D4E37BB",
+    "TicketCount": 1,
+    "TransactionType": "TicketCreate",
+    "TxnSignature": "304402201ACAAABFE49DA1BA7F7DE66E45A20D4C35799804E9906CEA666CB38529C56F1802206E6100902CF62F77729A587688757D1596AC6C2635961F1FD0D076F4C100AAB2"
+  },
+  "meta": {
+    "TransactionIndex": 7,
+    "AffectedNodes": [
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "Ticket",
+          "LedgerIndex": "5F08C48A615894960BBBA4E8C40DBF01D7674224F4440D5BFAB4D58100E6F087",
+          "NewFields": {
+            "Account": "rP1TMyJHp5QceDoh9MdxLhYaJL2yCwPom",
+            "TicketSequence": 48
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rP1TMyJHp5QceDoh9MdxLhYaJL2yCwPom",
+            "RootIndex": "D73D45E604CE9BB51B30887337D87C27AEA5502973B451C58ED4E9248ED0A10B"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "D73D45E604CE9BB51B30887337D87C27AEA5502973B451C58ED4E9248ED0A10B"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rP1TMyJHp5QceDoh9MdxLhYaJL2yCwPom",
+            "Balance": "1999919712",
+            "Flags": 0,
+            "OwnerCount": 15,
+            "Sequence": 49,
+            "TicketCount": 15
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "FF9B577663B13A39A4747AD29A05ACFBBE8936DBA1FC1624C12C454E754E0467",
+          "PreviousFields": {
+            "Balance": "1999919724",
+            "OwnerCount": 14,
+            "Sequence": 47,
+            "TicketCount": 14
+          },
+          "PreviousTxnID": "1C6EA0D4EAC873FDBCF8638CDDB922A3DF585367A6412EC43E2157F322393C50",
+          "PreviousTxnLgrSeq": 22
+        }
+      }
+    ],
+    "TransactionResult": "tesSUCCESS",
+    "delivered_amount": "2421826800"
+  }
+}

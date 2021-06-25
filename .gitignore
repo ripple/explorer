@@ -1,0 +1,75 @@
+# Dependency directories
+node_modules/
+
+# testing
+/coverage
+
+# production
+/build
+src/**/*.css
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env
+
+# Logs
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Output of 'npm pack'
+*.tgz
+
+# FACEBOOK GITIGNORE (https://github.com/facebook/react/blob/master/.gitignore)
+.DS_STORE
+node_modules
+*~
+*.pyc
+static
+.grunt
+_SpecRunner.html
+__benchmarks__
+build/
+remote-repo/
+coverage/
+.module-cache
+*.gem
+docs/.bundle
+docs/code
+docs/_site
+docs/.sass-cache
+docs/js/*
+docs/downloads/*.zip
+docs/vendor/bundle
+fixtures/dom/public/react-dom.js
+fixtures/dom/public/react.js
+test/the-files-to-test.generated.js
+*.log*
+chrome-user-data
+*.sublime-project
+*.sublime-workspace
+.idea
+*.iml
+*.swp
+*.swo
+*react*min*.js
+
+#DEV deployment
+deploy.sh
+
+#ENV
+.env

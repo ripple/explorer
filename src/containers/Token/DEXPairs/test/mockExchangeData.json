@@ -1,0 +1,56 @@
+{
+  "BTC.issuer1": {
+    "ledger_current_index": 63634230,
+    "offers": [1, 2, 3],
+    "status": "success",
+    "validated": false,
+    "averageExchangeRate": 34958984318.847374,
+    "highestExchangeRate": 1000000000000,
+    "lowestExchangeRate": 74990625.98172854
+  },
+  "USD.issuer2": {
+    "ledger_current_index": 63634230,
+    "offers": [1, 2, 3],
+    "status": "success",
+    "validated": false,
+    "averageExchangeRate": 1162811490173012.8,
+    "highestExchangeRate": 100000000000000000,
+    "lowestExchangeRate": 2170277142.31102
+  },
+  "ETH.issuer3": {
+    "ledger_current_index": 63634230,
+    "offers": [1, 2, 3],
+    "status": "success",
+    "validated": false,
+    "averageExchangeRate": 16807828636433.955,
+    "highestExchangeRate": 3333333333333333.5,
+    "lowestExchangeRate": 29328403498.70949
+  },
+  "XRP": {
+    "ledger_current_index": 63634230,
+    "offers": [1, 2, 3],
+    "status": "success",
+    "validated": false,
+    "averageExchangeRate": 16807828636433.955,
+    "highestExchangeRate": 3333333333333333.5,
+    "lowestExchangeRate": 29328403498.70949
+  },
+  "BTC.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B": {
+    "ledger_current_index": 63634230,
+    "offers": [1, 2, 3],
+    "status": "success",
+    "validated": false,
+    "averageExchangeRate": 16807828636433.955,
+    "highestExchangeRate": 3333333333333333.5,
+    "lowestExchangeRate": 29328403498.70949
+  },
+  "USD.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B": {
+    "ledger_current_index": 63634230,
+    "offers": [1, 2, 3],
+    "status": "success",
+    "validated": false,
+    "averageExchangeRate": 16807828636433.955,
+    "highestExchangeRate": 3333333333333333.5,
+    "lowestExchangeRate": 29328403498.70949
+  }
+}

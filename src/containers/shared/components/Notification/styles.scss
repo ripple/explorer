@@ -1,0 +1,145 @@
+@import '../../css/variables.scss';
+
+.notification {
+  border: 1px solid;
+  margin: 12px 24px;
+  background: $blue;
+  border-radius: 4px;
+  color: $white;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  @include bold;
+
+  span {
+    padding: 0 22px;
+  }
+
+  &.primary {
+    color: $white;
+
+    &.default {
+      border-color: $blue2;
+      background: $blue2;
+    }
+
+    &.success {
+      border-color: $green;
+      background: $green;
+    }
+
+    &.warning {
+      border-color: $orange;
+      background: $orange;
+    }
+
+    &.danger {
+      border-color: $red;
+      background: $red;
+    }
+
+    &.dark {
+      border-color: $black-100;
+      background: $black-100;
+    }
+
+    &.dark50 {
+      border-color: $black-50;
+      background: $black-50;
+    }
+
+    &.light {
+      border-color: $white;
+      background: $white;
+      color: $black-100;
+    }
+  }
+
+  &.secondaryThemes {
+    &.default {
+      border-color: $blue2;
+      background: $white;
+      color: $blue2;
+    }
+
+    &.success {
+      border-color: $green;
+      background: $white;
+      color: $green;
+    }
+
+    &.warning {
+      border-color: $orange;
+      background: $white;
+      color: $orange;
+    }
+
+    &.danger {
+      border-color: $red;
+      background: $white;
+      color: $red;
+    }
+
+    &.dark {
+      border-color: $black-100;
+      background: $white;
+      color: $black-100;
+    }
+
+    &.dark50 {
+      border-color: $black-50;
+      background: $white;
+      color: $black-50;
+    }
+
+    &.light {
+      border-color: $white;
+      background: $black-100;
+      color: $white;
+    }
+  }
+
+  &.ghostThemes {
+    &.default {
+      border-color: transparent;
+      background: transparent;
+      color: $blue2;
+    }
+
+    &.success {
+      border-color: transparent;
+      background: transparent;
+      color: $green;
+    }
+
+    &.warning {
+      border-color: transparent;
+      background: transparent;
+      color: $orange;
+    }
+
+    &.danger {
+      border-color: transparent;
+      background: transparent;
+      color: $red;
+    }
+
+    &.dark {
+      border-color: transparent;
+      background: transparent;
+      color: $black-100;
+    }
+
+    &.dark50 {
+      border-color: transparent;
+      background: transparent;
+      color: $black-50;
+    }
+
+    &.light {
+      border-color: $white;
+      background: $white;
+      color: $black-100;
+    }
+  }
+}

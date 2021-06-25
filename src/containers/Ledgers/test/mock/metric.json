@@ -1,0 +1,41 @@
+[
+  {
+    "type": "metric",
+    "data": {
+      "base_fee": "0.00001",
+      "txn_sec": "4.54",
+      "txn_ledger": "17.20",
+      "ledger_interval": "3.788",
+      "avg_fee": "0.00001185",
+      "quorum": 7,
+      "nUNL": []
+    }
+  },
+  {
+    "type": "metric",
+    "data": {
+      "base_fee": "0.00001",
+      "txn_sec": "4.54",
+      "txn_ledger": "17.20",
+      "ledger_interval": "3.788",
+      "avg_fee": "0.00001185",
+      "quorum": 7,
+      "nUNL": ["nHUroc3Q1ErBXs689SEi3nWEeM759Pn1LsZk27jMHJtiemHXVmJb"]
+    }
+  },
+  {
+    "type": "metric",
+    "data": {
+      "base_fee": "0.00001",
+      "txn_sec": "4.54",
+      "txn_ledger": "17.20",
+      "ledger_interval": "3.788",
+      "avg_fee": "0.00001185",
+      "quorum": 7,
+      "nUNL": [
+        "nHUigfqnuuNAzcppLjb33mquLVnxU6jGQHvEo47XRjaHHE6pZUUY",
+        "nHUACtV4UJoQjA6eR7Nj5sc5hKwXFrzXKz8H3qxD5ksjt3ihgf4c"
+      ]
+    }
+  }
+]

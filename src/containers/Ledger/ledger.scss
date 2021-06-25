@@ -1,0 +1,458 @@
+@import '../shared/css/variables.scss';
+
+.ledger {
+  position: relative;
+  min-height: 600px;
+
+  .loader {
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    background: $black;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    &.show {
+      opacity: 0.8;
+      transition: opacity 0.15s ease;
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ledger-nav {
+    padding: 8px 4px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+    color: $gray-400;
+    font-size: 12px;
+    letter-spacing: 0px;
+    line-height: 15px;
+
+    svg {
+      position: relative;
+      height: 8px;
+      color: $gray-400;
+    }
+
+    .previous {
+      padding: 6px 16px;
+      border: 1px solid $gray-400;
+      border-radius: 100px;
+      float: left;
+
+      svg {
+        margin-right: 16px;
+      }
+
+      &:focus,
+      &:hover {
+        background-color: $gray-800;
+      }
+    }
+
+    .next {
+      padding: 6px 16px;
+      border: 1px solid $gray-400;
+      border-radius: 100px;
+      float: right;
+
+      svg {
+        margin-left: 16px;
+      }
+
+      &:focus,
+      &:hover {
+        background-color: $gray-800;
+      }
+    }
+  }
+
+  .ledger-header {
+    margin: 0px auto;
+
+    @include for-size(tablet-landscape-up) {
+      width: 600px;
+    }
+    @include for-size(desktop-up) {
+      width: 772px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 864px;
+    }
+
+    .ledger-info {
+      overflow: hidden;
+      padding: 10px 8px;
+
+      @include for-size(desktop-up) {
+        padding: 10px 0px;
+      }
+
+      .closed-date,
+      .ledger-hash {
+        overflow: hidden;
+        padding-top: 48px;
+        margin: auto;
+        color: $gray-300;
+        font-size: 12px;
+        line-height: 18px;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .closed-date {
+        color: $gray-300;
+        font-size: 10px;
+
+        @include for-size(desktop-up) {
+          float: right;
+        }
+      }
+
+      .ledger-hash {
+        @include for-size(desktop-up) {
+          float: left;
+        }
+
+        @include for-size(big-desktop-up) {
+          font-size: 12px;
+        }
+      }
+
+      .summary {
+        display: block;
+        overflow: hidden;
+
+        .title {
+          color: $gray-400;
+          font-size: 10px;
+          letter-spacing: 0px;
+          line-height: 18px;
+          text-transform: uppercase;
+          @include medium;
+
+          @include for-size(desktop-up) {
+            font-size: 10px;
+            line-height: 20px;
+          }
+        }
+
+        .value {
+          color: $white;
+          @include bold;
+        }
+
+        .ledger-cols {
+          display: table;
+          width: 100%;
+          margin-bottom: 20px;
+          text-align: right;
+
+          .ledger-col {
+            display: table-cell;
+
+            &:first-child {
+              text-align: left;
+            }
+
+            @include for-size(desktop-up) {
+              width: auto;
+              margin-right: 0px;
+              margin-left: 40px;
+            }
+            @include for-size(big-desktop-up) {
+              margin-right: 0px;
+              margin-left: 40px;
+            }
+
+            .value {
+              margin-top: -4px;
+              font-size: 18px;
+              line-height: 28px;
+
+              @include for-size(desktop-up) {
+                margin-top: -8px;
+                font-size: 18px;
+                line-height: 36px;
+              }
+            }
+
+            &.ledger-index .value {
+              margin-top: 4px;
+              font-family: 'Space Mono', monospace;
+              font-size: 42px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .trans-table {
+    display: block;
+    width: 100%;
+    padding: 30px 0px;
+    margin: 0px auto;
+
+    @include for-size(tablet-landscape-up) {
+      width: 600px;
+    }
+    @include for-size(desktop-up) {
+      width: 772px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 864px;
+    }
+
+    .no-trans {
+      margin-top: 32px;
+      color: $gray-400;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+      @include regular;
+    }
+
+    .col {
+      display: inline-block;
+      overflow: hidden;
+      min-height: 18px;
+      padding: 0px 8px 0px 4px;
+      line-height: 18px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @include for-size(desktop-up) {
+        padding: 0 8px;
+      }
+
+      @include for-size(big-desktop-up) {
+        @include regular;
+      }
+    }
+
+    .col-type {
+      width: 175px;
+
+      @include for-size(big-desktop-up) {
+        width: 210px;
+      }
+    }
+
+    .col-type img {
+      height: 12px;
+      vertical-align: middle;
+    }
+
+    .col-account {
+      width: calc(100% - 199px);
+      text-align: right;
+
+      @include for-size(tablet-portrait-up) {
+        width: calc(100% - 312px);
+        text-align: left;
+      }
+
+      @include for-size(tablet-landscape-up) {
+        width: calc(100% - 413px);
+      }
+
+      @include for-size(desktop-up) {
+        width: calc(100% - 450px);
+      }
+
+      @include for-size(big-desktop-up) {
+        width: calc(100% - 485px);
+      }
+    }
+
+    .col-sequence {
+      display: none;
+
+      @include for-size(tablet-landscape-up) {
+        display: inline-block;
+        width: 85px;
+      }
+
+      @include for-size(desktop-up) {
+        width: 100px;
+      }
+    }
+
+    .col-fee {
+      display: none;
+      text-align: right;
+
+      @include for-size(tablet-portrait-up) {
+        display: inline-block;
+        width: 100px;
+      }
+
+      @include for-size(tablet-landscape-up) {
+        width: 105px;
+      }
+
+      @include for-size(desktop-up) {
+        width: 110px;
+      }
+    }
+
+    .trans-header {
+      padding-bottom: 22px;
+      border-bottom: 1px solid $gray-800;
+      border-left: 4px solid transparent;
+      color: $white;
+      font-size: 10px;
+      text-transform: uppercase;
+
+      @include for-size(desktop-up) {
+        border-left: 0px;
+      }
+
+      .col {
+        padding: 4px 8px 4px 4px;
+        @include bold;
+
+        @include for-size(desktop-up) {
+          padding: 4px 8px;
+          font-size: 10px;
+        }
+      }
+    }
+
+    .trans-row {
+      display: block;
+      border-left: 4px solid;
+      margin-bottom: 1px;
+      vertical-align: middle;
+
+      @include for-size(desktop-up) {
+        border-left: 0px;
+      }
+
+      &:hover {
+        background: $gray-900;
+
+        @include for-size(desktop-up) {
+          border-radius: 4px;
+        }
+      }
+
+      .upper {
+        padding: 20px 0px 4px 0px;
+        color: $white;
+        font-size: 14px;
+
+        .col-sequence,
+        .col-fee {
+          color: $gray-400;
+        }
+      }
+
+      .col {
+        vertical-align: middle;
+      }
+
+      .col-type {
+        font-size: 14px;
+        letter-spacing: 0px;
+        @include bold;
+
+        @include for-size(desktop-up) {
+          letter-spacing: 0.5px;
+        }
+
+        span {
+          margin-left: 3px;
+        }
+      }
+
+      .col-account {
+        font-size: 11px;
+        letter-spacing: 0px;
+        @include medium;
+
+        @include for-size(desktop-up) {
+          font-size: 12px;
+        }
+      }
+
+      .details {
+        min-height: 30px;
+        padding: 2px 4px 16px;
+        border-bottom: 1px solid $gray-800;
+        color: $gray-400;
+        font-size: 10px;
+        letter-spacing: 0px;
+        text-transform: uppercase;
+
+        @include for-size(tablet-landscape-up) {
+          font-size: 12px;
+        }
+
+        @include for-size(desktop-up) {
+          padding: 2px 8px 16px;
+        }
+
+        span {
+          display: inline-block;
+          margin-right: 5px;
+
+          span {
+            margin: 0px;
+          }
+        }
+
+        .label {
+          @include bold;
+        }
+
+        .currency {
+          margin-left: 5px;
+          font-size: 0.9em;
+        }
+
+        .partial-payment,
+        .closed,
+        .flag,
+        .unsetregularkey,
+        .empty {
+          font-style: italic;
+          text-transform: none;
+        }
+
+        .key,
+        .domain,
+        .account,
+        .email-hash,
+        .message-key {
+          text-transform: none;
+        }
+
+        .partial-payment,
+        .closed {
+          color: #944;
+        }
+
+        .flag {
+          color: $blue-grey;
+        }
+
+        .condition,
+        .fulfillment {
+          word-break: break-all;
+        }
+      }
+
+      &.fail {
+        opacity: 0.4;
+      }
+    }
+  }
+}

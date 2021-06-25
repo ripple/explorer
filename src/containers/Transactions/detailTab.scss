@@ -1,0 +1,148 @@
+@import '../shared/css/variables.scss';
+
+.detail-body {
+  margin-top: 20px;
+  color: $gray-400;
+  font-size: 12px;
+  letter-spacing: 0px;
+
+  .section {
+    padding: 5px 15px;
+    border-bottom: 1px solid $gray-800;
+    margin: 0px 0px 30px;
+
+    &:last-child {
+      border: none;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      width: 552px;
+    }
+    @include for-size(desktop-up) {
+      width: 772px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 882px;
+    }
+
+    b {
+      color: $gray-300;
+      @include medium;
+
+      small {
+        margin-left: 5px;
+      }
+    }
+
+    ul {
+      padding: 0px 30px;
+      margin: 0px;
+
+      li {
+        ul {
+          list-style: square;
+        }
+
+        li {
+          margin: 0px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .flags {
+      font-style: italic;
+    }
+
+    .title {
+      margin-bottom: 4px;
+      color: $white;
+      font-size: 16px;
+      text-transform: capitalize;
+      @include bold;
+
+      @include for-size(tablet-landscape-up) {
+        //width: 584px;
+      }
+
+      span {
+        margin-left: 8px;
+        font-size: 10px;
+        line-height: 18px;
+      }
+    }
+
+    .meta-title {
+      margin-top: 16px;
+      margin-bottom: 2px;
+      color: $gray-400;
+      font-size: 14px;
+      text-transform: uppercase;
+      @include medium;
+    }
+
+    .ledger {
+      color: $gray-300;
+      @include medium;
+    }
+
+    .tx-result.fail {
+      color: $orange-600;
+    }
+
+    .dt {
+      color: $gray-300;
+      font-size: 0.9em;
+      text-transform: capitalize;
+      @include medium;
+    }
+
+    .time {
+      color: $blue-grey;
+    }
+
+    .hash {
+      @include medium;
+    }
+
+    .condition,
+    .fulfillment,
+    .channel,
+    .regular-key,
+    .email,
+    .message-key {
+      color: $blue-grey;
+      font-size: 13px;
+      word-break: break-all;
+    }
+
+    .domain {
+      color: $blue-grey;
+    }
+
+    .flag {
+      color: $blue-grey;
+      font-style: italic;
+    }
+
+    .account {
+      color: $purple-grey;
+      font-size: 11px;
+      @include bold;
+    }
+
+    .signers {
+      margin: 5px 0px;
+      list-style: decimal;
+
+      li {
+        margin: 2px;
+
+        .label {
+          font-size: 12px;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+@import '../shared/css/variables.scss';
+
+.token-discovery-page {
+  display: flex;
+  // This width follows the same footer width so they are aligned
+  width: 80%;
+  height: 100%;
+  min-height: $min-height;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-between;
+  margin: auto;
+
+  .loader {
+    min-height: 100px;
+    background: $black;
+    opacity: 0.8;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  @include for-size(phone-only) {
+    margin: 50px 35px 4px 32px;
+  }
+
+  @include for-size(tablet-portrait-up) {
+    margin: 50px 35px 4px 32px;
+  }
+
+  @include for-size(tablet-landscape-up) {
+    margin: 102px 76px 8px 75px;
+  }
+
+  @include for-size(desktop-up) {
+    // Margins from https://www.figma.com/file/tBZiCdTfSJHxnQcU6xC4mq/XRPL.org-Explorer?node-id=1488%3A757
+    // For smaller screens, the margins are not specified in Figma
+    margin: 106px 152px 16px 150px; // top right bottom left
+  }
+}

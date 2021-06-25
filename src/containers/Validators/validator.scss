@@ -1,0 +1,174 @@
+@import '../shared/css/variables.scss';
+
+.validator {
+  position: relative;
+  min-height: 600px;
+
+  .loader {
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    background: $black;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    &.show {
+      opacity: 0.8;
+      transition: opacity 0.15s ease;
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .tabs {
+    border-bottom: 2px solid $gray-800;
+    margin: 0px auto;
+
+    @include for-size(tablet-landscape-up) {
+      width: 552px;
+    }
+
+    @include for-size(desktop-up) {
+      width: 772px;
+    }
+
+    @include for-size(big-desktop-up) {
+      width: 1140px;
+    }
+  }
+
+  .summary {
+    width: calc(100% - 32px);
+    padding: 30px 0px 20px;
+    margin: 0px auto;
+
+    @include for-size(tablet-landscape-up) {
+      width: 552px;
+    }
+    @include for-size(desktop-up) {
+      width: 772px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 1140px;
+    }
+
+    .type {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: $white;
+      font-size: 32px;
+      @include bold;
+    }
+
+    .label {
+      margin-top: 16px;
+      margin-bottom: 4px;
+      color: $black-80;
+      font-size: 24px;
+      line-height: 32px;
+      @include bold;
+
+      @include for-size(tablet-landscape-up) {
+        font-size: 32px;
+        line-height: 40px;
+      }
+      @include for-size(desktop-up) {
+        font-size: 40px;
+        line-height: 48px;
+      }
+      @include for-size(big-desktop-up) {
+        font-size: 40px;
+        line-height: 48px;
+      }
+    }
+
+    .hash {
+      overflow: hidden;
+      padding-bottom: 87px;
+      color: $black-40;
+      font-size: 12px;
+      letter-spacing: 0px;
+      line-height: 20px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      @include medium;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 0px 15px 5px;
+      font-size: 10px;
+      line-height: 18px;
+      text-transform: uppercase;
+      vertical-align: middle;
+      @include bold;
+
+      @include for-size(tablet-landscape-up) {
+        font-size: 12px;
+        line-height: 20px;
+      }
+      @include for-size(desktop-up) {
+        font-size: 12px;
+        line-height: 20px;
+      }
+      @include for-size(big-desktop-up) {
+        font-size: 12px;
+        line-height: 20px;
+      }
+
+      &.success {
+        color: $green;
+      }
+
+      &.fail {
+        color: $orange-600;
+
+        span {
+          text-transform: none;
+        }
+      }
+
+      img {
+        position: relative;
+        top: 4px;
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
+      }
+    }
+  }
+
+  .tab-body {
+    margin: 0px auto;
+
+    @include for-size(tablet-landscape-up) {
+      width: 552px;
+    }
+    @include for-size(desktop-up) {
+      width: 772px;
+    }
+    @include for-size(big-desktop-up) {
+      width: 1140px;
+    }
+
+    .react-json-view {
+      overflow: scroll;
+      margin-bottom: 40px;
+      font-size: 12px;
+      letter-spacing: 0px;
+
+      .variable-row,
+      .object-key-val {
+        padding: 1px 5px 1px 15px !important;
+      }
+
+      .copy-icon svg {
+        height: 14px !important;
+      }
+    }
+  }
+}

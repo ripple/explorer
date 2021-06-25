@@ -1,0 +1,176 @@
+// ONLY RE-USABLE VARIABLES AND MIXINS
+
+// View breakpoints
+$phone-upper-boundary: 415px;
+$tablet-portrait-upper-boundary: 600px;
+$tablet-landscape-upper-boundary: 900px;
+$desktop-upper-boundary: 1200px;
+
+// Minimum height and width
+$min-height: 667px;
+$min-width: 375px;
+
+// Colors
+$black-100: #171c21;
+$black-90: #23292f;
+$black-80: #3b4147;
+$black-70: #53585d;
+$black-60: #6b7075;
+$black-50: #999da2;
+$black-40: #b1b5ba;
+$black-30: #c9cdd1;
+$black-20: #e1e4e8;
+$black-15: #eaecef;
+$black-10: #f2f4f7;
+$black-05: #fcfbfb;
+$black: #000;
+$gray-900: #22252b;
+$gray-800: #383d47;
+$gray-500: #7e889a;
+$gray-400: #9ba2b0;
+$gray-300: #b8bdc7;
+$gray-200: #d4d7dd;
+$gray-100: #f1f2f4;
+$blue: #0f72e5;
+$blue1: #1db4ff;
+$blue2: #0a93eb;
+$blue-grey: #7b90d1;
+$dark-blue: #005dca;
+$navy: #0d294e;
+$green: #19ff83;
+$green2: #00e66a;
+$orange: #f90;
+$orange2: #c60;
+$orange-600: #ff671a;
+$red: #f23548;
+$dark-red: #a22;
+$magenta: #f52a79;
+$violet: #be05d8;
+$purple: #691fdd;
+$purple-grey: #7e7ca5;
+$shadows: #23292f;
+$white: #fff;
+$white-transparent: rgba(255, 255, 255, 0.75);
+$testnet: #e54d00;
+$devnet: #008ae5;
+
+// TX type colors
+// @see global.scss
+$signerlistset: #791aff;
+$setregularkey: #5f00e5;
+$accountset: #ff1a8b;
+$trustset: #afb200;
+$offercreate: #008ae5;
+$offercancel: $orange-600;
+$payment: $green2;
+$checkcash: #00803b;
+$checkcancel: #e54d00;
+$checkcreate: #006bb2;
+$escrowcreate: #d91aff;
+$escrowcancel: #e50071;
+$escrowfinish: #c000e5;
+$paymentchannelcreate: #7d8000;
+$paymentchannelfund: #004d23;
+$paymentchannelclaim: #4b4d00;
+$ticketcreate: #55805d;
+$enableamendment: #9ba2b0;
+$setfee: #9ba2b0;
+$unlmodify: #9ba2b0;
+
+// Currency colors
+$CURRENCY_DEFAULT: #aedbf7;
+$XRP_KRW: #0f72e5;
+$XRP_USD: #2bcb96;
+$XRP_BTC: #f90;
+$XRP_ETH: #53585d;
+$XRP_USDT: #91ffdb;
+$XRP_INR: #ff8000;
+$XRP_JPY: #691fdd;
+$XRP_AUD: #ffcd00;
+$XRP_MXN: #c74444;
+$XRP_THB: #ed1c24;
+$XRP_CNY: #f23548;
+$XRP_IDR: #ce1126;
+$XRP_RUB: #0039a6;
+$XRP_BITCNY: #f88064;
+$XRP_ZAR: #000;
+$XRP_XLM: #04b5e5;
+$XRP_LTC: #b8b8b8;
+$XRP_ADA: #2d71d0;
+$XRP_BRL: #009b3a;
+$XRP_BCH: #c8e6ad;
+$XRP_ETC: #42967b;
+$XRP_REP: #551a8b;
+$XRP_GBP: #00247d;
+$XRP_QAU: #0f73c3;
+$XRP_UAH: #ffd700;
+$XRP_CND: #00aae4;
+$XRP_EUR: #ffd600;
+$XRP_XRP: #0a93eb;
+$XRP_CAD: #ca3103;
+$XRP_OTHERS: #f52a79;
+
+// Font wights
+@mixin thin {
+  font-weight: 100;
+}
+
+@mixin light {
+  font-weight: 300;
+}
+
+@mixin regular {
+  font-weight: 400;
+}
+
+@mixin medium {
+  font-weight: 500;
+}
+
+@mixin semibold {
+  font-weight: 600;
+}
+
+@mixin bold {
+  font-weight: 700;
+}
+
+@mixin black {
+  font-weight: 900;
+}
+
+// View bucket sizes
+@mixin for-size($range) {
+  @if $range == phone-only {
+    @media (max-width: $phone-upper-boundary) {
+      @content;
+    }
+  } @else if $range == tablet-portrait-up {
+    @media (min-width: $phone-upper-boundary) {
+      @content;
+    }
+  } @else if $range == tablet-landscape-up {
+    @media (min-width: $tablet-portrait-upper-boundary) {
+      @content;
+    }
+  } @else if $range == desktop-up {
+    @media (min-width: $tablet-landscape-upper-boundary) {
+      @content;
+    }
+  } @else if $range == big-desktop-up {
+    @media (min-width: $desktop-upper-boundary) {
+      @content;
+    }
+  }
+}
+
+// KeyFrames
+@keyframes black-10-fade {
+  from {
+    background-color: $black-10;
+  }
+
+  to {
+    background-color: $white;
+  }
+}

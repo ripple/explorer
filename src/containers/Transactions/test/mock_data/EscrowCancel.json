@@ -1,0 +1,70 @@
+{
+  "hash": "C6A85A5DAC39F60F52372A5992A3760F2E042AD4146C5BB1D332EB7B6671E67D",
+  "ledger_index": 36481307,
+  "date": "2018-02-10T23:45:21+00:00",
+  "tx": {
+    "TransactionType": "EscrowCancel",
+    "Flags": 2147483648,
+    "Sequence": 14,
+    "OfferSequence": 9,
+    "Fee": "10",
+    "SigningPubKey": "03A0452D88684D99C2E64FA9C21D749E496E8BF6E2339A78ED7CE90F009789A868",
+    "TxnSignature": "3045022100A395018AE11415150546340FC4E8A8903E473626540D9804967089617EA6DB49022016F1415F974526F2D09FE5831696D2C964AC3EB68D78360C963AA9DAE7244EF4",
+    "Account": "rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56",
+    "Owner": "rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56"
+  },
+  "meta": {
+    "TransactionIndex": 21,
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "PreviousTxnLgrSeq": 36481294,
+          "PreviousTxnID": "CDA75ED59DBA56E6B699793EBF984C7702D3BB37BBFB4DFE429259FB49830CD1",
+          "LedgerIndex": "585A58602324683ED54FAE51B2DA583979879392B41BB906251FFB8293889974",
+          "PreviousFields": {
+            "Sequence": 14,
+            "OwnerCount": 1,
+            "Balance": "508959870"
+          },
+          "FinalFields": {
+            "Flags": 0,
+            "Sequence": 15,
+            "OwnerCount": 0,
+            "Balance": "644749860",
+            "Account": "rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56"
+          }
+        }
+      },
+      {
+        "DeletedNode": {
+          "LedgerEntryType": "Escrow",
+          "LedgerIndex": "CEE1B7E04519FAEC58F4F440EFE714A91DDE7E83A3599B050ED24E84A598BF46",
+          "FinalFields": {
+            "Flags": 0,
+            "PreviousTxnLgrSeq": 36480365,
+            "CancelAfter": 571621204,
+            "FinishAfter": 571620604,
+            "OwnerNode": "0000000000000000",
+            "PreviousTxnID": "A979AD5C6A6C844913DA51D71BF5F0B8E254D9A211FA837C4B322C4A8FD358E6",
+            "Amount": "135790000",
+            "Account": "rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56",
+            "Destination": "rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "F7DBEAAF43ACF1C656C878489D307A49A31EAF96A41951B00A043D262B4B6717",
+          "FinalFields": {
+            "Flags": 0,
+            "RootIndex": "F7DBEAAF43ACF1C656C878489D307A49A31EAF96A41951B00A043D262B4B6717",
+            "Owner": "rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56"
+          }
+        }
+      }
+    ],
+    "TransactionResult": "tesSUCCESS"
+  }
+}

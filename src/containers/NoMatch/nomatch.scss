@@ -1,0 +1,51 @@
+@import '../shared/css/variables.scss';
+
+.no-match {
+  margin: 10% auto;
+  text-align: center;
+
+  .uh-oh {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid $black-80;
+    margin-bottom: 24px;
+    border-radius: 4px;
+    color: $black-20;
+    font-size: 12px;
+    line-height: 20px;
+    @include bold;
+  }
+
+  .title {
+    margin-bottom: 16px;
+    color: $black-20;
+    font-size: 40px;
+    line-height: 48px;
+    @include bold;
+  }
+
+  .hint {
+    margin-bottom: 16px;
+    color: $black-50;
+    font-size: 16px;
+    line-height: 24px;
+    @include bold;
+  }
+
+  .warning {
+    color: $orange;
+    font-size: 12px;
+    line-height: 20px;
+    text-transform: uppercase;
+    @include bold;
+
+    img {
+      transform: scale(0.5);
+    }
+
+    span {
+      position: relative;
+      top: -12px;
+    }
+  }
+}

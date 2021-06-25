@@ -1,0 +1,82 @@
+@import '../../shared/css/variables.scss';
+.dex-pairs-container {
+  padding-bottom: 100px;
+
+  .title {
+    padding: 64px 0px 18px 0px;
+    border-bottom: 1px $gray-800 solid;
+    color: $white;
+    font-size: 24px;
+    @include bold;
+
+    @include for-size(desktop-up) {
+      padding-top: 80px;
+    }
+  }
+  .pairs-table {
+    position: relative;
+    table {
+      width: 100%;
+      margin: auto;
+      border-collapse: collapse;
+      font-size: 14px;
+
+      td {
+        width: 200px;
+        padding: 2px 5px;
+        border-top: 1px solid $gray-800;
+        border-bottom: 1px solid $gray-800;
+        color: $gray-400;
+
+        .loader {
+          border-bottom: 1px solid $black;
+        }
+      }
+      .pair {
+        @include bold;
+
+        color: $white;
+        font-size: 18px;
+        text-align: left;
+      }
+      .issuer-address {
+        text-align: center;
+        a {
+          color: white;
+          font-size: 14px;
+          text-decoration: none;
+          @include bold;
+        }
+      }
+
+      .pair-stats-container {
+        float: right;
+        table {
+          width: 322px;
+        }
+        td {
+          border: none;
+        }
+        .low {
+          text-align: left;
+        }
+        .low-num {
+          color: #19ff83;
+        }
+        .high-num {
+          color: #ff6719;
+        }
+
+        .high {
+          text-align: right;
+        }
+      }
+    }
+    .no-pairs-message {
+      padding: 16px;
+      color: #9ba2b0;
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+}

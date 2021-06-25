@@ -1,0 +1,34 @@
+@import '../../shared/css/variables.scss';
+
+.nodes-map {
+  position: relative;
+  background: $black;
+
+  svg {
+    display: block;
+    margin: auto;
+
+    .country {
+      fill: $gray-400;
+      opacity: 0.2;
+    }
+
+    .tooltip {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+
+      rect {
+        fill: white;
+        fill-opacity: 0.5;
+      }
+    }
+
+    .legend {
+      text {
+        fill: $gray-400;
+        font-size: 10px;
+        @include regular;
+      }
+    }
+  }
+}

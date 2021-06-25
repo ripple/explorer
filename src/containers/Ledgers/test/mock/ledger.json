@@ -1,0 +1,10 @@
+{
+  "type": "ledger",
+  "data": {
+    "ledger_index": 44921927,
+    "ledger_hash": "A1689E0CDA6523C82D5D848202DAB2FD458D715EED9DB11A3B7088A56681D588",
+    "txn_count": 24,
+    "close_time": 1549400031000,
+    "seen": 1549400033239
+  }
+}

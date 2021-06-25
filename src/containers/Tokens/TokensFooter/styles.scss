@@ -1,0 +1,24 @@
+@import '../../shared/css/variables.scss';
+
+.tokens-footer-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  color: #fff;
+
+  @include for-size(phone-only) {
+    font-size: 10px;
+  }
+
+  @include for-size(tablet-portrait-up) {
+    font-size: 12px;
+  }
+
+  @include for-size(tablet-landscape-up) {
+    font-size: 14px;
+  }
+
+  @include for-size(desktop-up) {
+    font-size: 16px;
+  }
+}

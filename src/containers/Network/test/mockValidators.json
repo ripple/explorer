@@ -1,0 +1,106 @@
+[
+  {
+    "master_key": "nHUtXf1nPkE4YuVTurzCJjSWKpmET3orqgfSFXWiQD31fMhf4Sf1",
+    "signing_key": "n9MLBvEW5cNsF4kzjKfF8eaLSg3fKDay4EpkG4pNxoYemmWz926y",
+    "ledger_hash": "0FF09638B2F02577ABB916E20E99F94B1D159FC0F4A6E233B0029F6211A28B32",
+    "ledger_index": 44993868,
+    "load_fee": null,
+    "partial": false,
+    "chain": null,
+    "unl": "vl.ripple.com",
+    "last_ledger_time": "2019-02-08T22:44:56.000Z",
+    "agreement_1hour": {
+      "score": 1,
+      "missed": 0,
+      "incomplete": false
+    },
+    "agreement_24hour": {
+      "score": 0.91729,
+      "missed": 17,
+      "incomplete": true
+    },
+    "agreement_30day": {
+      "score": 0.98468,
+      "missed": 120,
+      "incomplete": true
+    }
+  },
+  {
+    "master_key": "nHDaxUL87HiVszvCamVu4A3Gecq6LTxKkUVNdzf3nqmuSywgRqu4",
+    "signing_key": "n9KP4hb94gXC5Sq8Kay4ibXmaxcHWyGDB4RX4AxxgzsQZq1YJ3Co",
+    "ledger_hash": "0FF09638B2F02577ABB916E20E99F94B1D159FC0F4A6E233B0029F6211A28B32",
+    "ledger_index": 44993868,
+    "load_fee": null,
+    "partial": false,
+    "chain": null,
+    "unl": "vl.ripple.com",
+    "last_ledger_time": "2019-02-08T22:44:56.000Z",
+    "agreement_1hour": {
+      "score": 1,
+      "missed": 0,
+      "incomplete": false
+    },
+    "agreement_24hour": {
+      "score": 1,
+      "missed": 0,
+      "incomplete": true
+    },
+    "agreement_30day": {
+      "score": 0.98,
+      "missed": 1,
+      "incomplete": true
+    }
+  },
+  {
+    "master_key": "nHUroc3Q1ErBXs689SEi3nWEeM759Pn1LsZk27jMHJtiemHXVmJb",
+    "signing_key": "n9MvNaY8mc9zjp5FfkWNG86medDQe3KSGdovyTnhj1w5x1eqFo7F",
+    "ledger_hash": "0FF09638B2F02577ABB916E20E99F94B1D159FC0F4A6E233B0029F6211A28B32",
+    "ledger_index": 44993868,
+    "load_fee": null,
+    "partial": false,
+    "chain": null,
+    "unl": null,
+    "last_ledger_time": "2019-02-08T22:44:56.000Z",
+    "agreement_1hour": {
+      "score": 1,
+      "missed": 0,
+      "incomplete": false
+    },
+    "agreement_24hour": {
+      "score": 1,
+      "missed": 0,
+      "incomplete": true
+    },
+    "agreement_30day": {
+      "score": 0.99947,
+      "missed": 33,
+      "incomplete": true
+    }
+  },
+  {
+    "master_key": null,
+    "signing_key": "n9Jq65bCFdcPzC6Fca6RrXmvu9jwgVo9rPJ3UZv6y9Kihnt2Xfd8",
+    "ledger_hash": "0FF09638B2F02577ABB916E20E99F94B1D159FC0F4A6E233B0029F6211A28B32",
+    "ledger_index": 44993868,
+    "load_fee": null,
+    "partial": false,
+    "chain": null,
+    "unl": null,
+    "last_ledger_time": "2019-02-08T22:44:56.000Z",
+    "agreement_1hour": {
+      "score": 1,
+      "missed": 0,
+      "incomplete": false
+    },
+    "agreement_24hour": {
+      "score": 0.99942,
+      "missed": 7,
+      "incomplete": true
+    },
+    "agreement_30day": {
+      "score": 0.99964,
+      "missed": 15,
+      "incomplete": true
+    }
+  }
+]

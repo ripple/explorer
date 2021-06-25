@@ -1,0 +1,54 @@
+@import '../../shared/css/variables.scss';
+
+.network-page {
+  .loader {
+    position: absolute;
+    top: 1px;
+    min-height: 100px;
+    background: $black;
+    opacity: 0.8;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .tabs {
+    width: 80%;
+    padding-top: 20px;
+    padding-bottom: 122px;
+    text-align: left;
+
+    .tab {
+      margin-bottom: -1px;
+    }
+  }
+
+  .stat {
+    min-height: 15px;
+    padding: 2px;
+    color: $gray-400;
+    font-size: 11px;
+    text-align: center;
+    text-transform: uppercase;
+
+    i {
+      font-size: 10px;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      padding: 4px 10px;
+      font-size: 12px;
+
+      i {
+        font-size: 11px;
+      }
+    }
+  }
+
+  .wrap {
+    overflow: auto;
+    width: 100%;
+    max-width: 1500px;
+    margin: auto;
+    text-align: center;
+  }
+}

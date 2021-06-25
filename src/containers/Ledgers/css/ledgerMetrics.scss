@@ -1,0 +1,128 @@
+@import '../../shared/css/variables.scss';
+
+.metrics {
+  overflow: hidden;
+  padding: 10px 20px;
+  background: $black;
+  text-align: center;
+
+  @include for-size(tablet-landscape-up) {
+    display: flex;
+    width: calc(100% - 124px);
+    justify-content: space-between;
+    padding: 0px 12px;
+    margin: auto;
+  }
+
+  @include for-size(desktop-up) {
+    display: block;
+    max-width: inherit;
+  }
+
+  .cell {
+    display: inline-block;
+    width: 100%;
+    color: $white;
+    font-size: 16px;
+    text-align: center;
+
+    @include for-size(tablet-landscape-up) {
+      width: auto;
+      min-width: 100px;
+      margin: 15px 5px;
+    }
+
+    @include for-size(desktop-up) {
+      min-width: 160px;
+      margin: 15px 5px;
+      font-size: 18px;
+      line-height: 22px;
+      text-align: right;
+    }
+
+    @include for-size(big-desktop-up) {
+      margin: 20px 30px;
+    }
+
+    .label {
+      display: inline-block;
+      overflow: hidden;
+      color: $gray-400;
+      float: left;
+      font-size: 12px;
+      line-height: 25px;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+      @include semibold;
+
+      @include for-size(tablet-landscape-up) {
+        display: block;
+        float: none;
+        font-size: 10px;
+        line-height: 12px;
+      }
+    }
+
+    .label.nUnlMetric {
+      text-transform: none;
+    }
+
+    span {
+      display: inline-block;
+      float: right;
+      font-family: 'currency_symbols', 'Space Mono', monospace;
+      letter-spacing: 0px;
+      @include bold;
+
+      @include for-size(tablet-landscape-up) {
+        display: block;
+        float: none;
+      }
+    }
+  }
+}
+
+.control {
+  display: flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 0px 14px 0px 32px;
+  background: $black;
+  line-height: 14px;
+  text-align: right;
+
+  .pause-resume {
+    display: flex;
+    height: 40px;
+    flex-direction: row;
+    align-items: center;
+    color: $white;
+    cursor: pointer;
+    float: left;
+    font-size: 10px;
+    text-align: left;
+    text-transform: uppercase;
+    @include medium;
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 16px;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      color: $gray-300;
+    }
+  }
+}
+
+.metrics-control {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  @include for-size(tablet-landscape-up) {
+    flex-direction: row;
+  }
+}

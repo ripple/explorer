@@ -1,0 +1,43 @@
+@import '../../shared/css/variables.scss';
+
+.paystring-header {
+  margin-top: 106px;
+  margin-bottom: 16px;
+  @include for-size(tablet-landscape-up) {
+    width: 552px;
+  }
+
+  @include for-size(desktop-up) {
+    width: 1140px;
+  }
+
+  .box-header {
+    display: flex;
+    align-content: center;
+    padding: 4px 8px 40px 8px;
+    text-align: center;
+
+    .paystring-logomark {
+      width: 48px;
+      height: 48px;
+      padding-right: 8px;
+      float: left;
+    }
+
+    .question {
+      width: 17px;
+      height: 17px;
+      padding-left: 8px;
+      margin: auto 0px;
+      float: right;
+    }
+
+    .paystring-id {
+      display: flex;
+      margin: auto 0px;
+      color: $white;
+      font-size: 42px;
+      @include bold;
+    }
+  }
+}

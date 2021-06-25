@@ -1,0 +1,23 @@
+@import '../shared/css/variables.scss';
+
+.paystring-page {
+  width: 100%;
+  margin: 24px auto 0px;
+
+  .loader {
+    min-height: 100px;
+    background: $black;
+    opacity: 0.8;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  @include for-size(tablet-landscape-up) {
+    width: 552px;
+    margin: 0px auto;
+  }
+
+  @include for-size(desktop-up) {
+    width: 1140px;
+  }
+}

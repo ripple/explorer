@@ -1,0 +1,72 @@
+{
+  "hash": "985F9CA6FD2256D5C59F8B2CC1F51BDB2F12EB7C58CB2CCA7E4A74161432B7C4",
+  "ledger_index": 37467862,
+  "date": "2018-03-25T00:45:12+00:00",
+  "tx": {
+    "TransactionType": "EscrowFinish",
+    "Flags": 2147483648,
+    "Fulfillment": "Fulfillment",
+    "Sequence": 31,
+    "OfferSequence": 28,
+    "LastLedgerSequence": 37467863,
+    "Fee": "12",
+    "SigningPubKey": "0380BB0305B1192D1F20E2E15C93E99434F8DF52ED72FC18FA4F69671B578691DF",
+    "TxnSignature": "30450221009254A6DE4960F185E19A6717B000EB542C1340BABB5E1C0447D743FB00A026A50220232DFE95819DA27B789DF47359C3EDD29FC539041EFF8526185D42485CF886A6",
+    "Account": "r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8",
+    "Owner": "r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8"
+  },
+  "meta": {
+    "TransactionIndex": 23,
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "PreviousTxnLgrSeq": 37467849,
+          "PreviousTxnID": "C730DAD26F068100CDD7F5CF17CFB7EA729D3000BFDF92BBC36590C4FE906866",
+          "LedgerIndex": "70AD67C13AB61B6FCAF9CD65862478E079B05C772D65F60179EC8E7E7701740E",
+          "PreviousFields": {
+            "Sequence": 31,
+            "OwnerCount": 4,
+            "Balance": "59916121"
+          },
+          "FinalFields": {
+            "Flags": 0,
+            "Sequence": 32,
+            "OwnerCount": 3,
+            "Balance": "59931509",
+            "Account": "r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "7C3EC8879AD0E00BAE0957F7A5F1DBDD0E84F04202912AF9910296CD6FC427E0",
+          "FinalFields": {
+            "Flags": 0,
+            "RootIndex": "7C3EC8879AD0E00BAE0957F7A5F1DBDD0E84F04202912AF9910296CD6FC427E0",
+            "Owner": "r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8"
+          }
+        }
+      },
+      {
+        "DeletedNode": {
+          "LedgerEntryType": "Escrow",
+          "LedgerIndex": "C4B2935F1E8BBCF7C10FBF5E3C98897DE37A2DA6C6F3E3A591B55D1A6DC8FDEF",
+          "FinalFields": {
+            "Flags": 0,
+            "PreviousTxnLgrSeq": 37466547,
+            "DestinationTag": 0,
+            "FinishAfter": 575249422,
+            "OwnerNode": "0000000000000000",
+            "PreviousTxnID": "3E2E755FA75FF1020C39E2ECC407E9F1C0E49A7229EDD15FF93B9F869878F1CC",
+            "Amount": "15400",
+            "Account": "r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8",
+            "Destination": "r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8"
+          }
+        }
+      }
+    ],
+    "TransactionResult": "tesSUCCESS"
+  }
+}

@@ -1,0 +1,44 @@
+@import './variables.scss';
+
+.nested-menu {
+  position: relative;
+  display: inline-block;
+
+  .title {
+    margin-right: 10px;
+  }
+
+  .arrow {
+    position: relative;
+    top: 1px;
+  }
+
+  .nested-items {
+    width: 100%;
+    padding: 8px 0px;
+    background-color: $white;
+    border-radius: 4px;
+  }
+
+  .vertical {
+    margin-bottom: 1px;
+
+    &:hover,
+    &:focus {
+      background-color: $black-10;
+      color: $black-80;
+      @include bold;
+    }
+  }
+
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    line-height: 16px;
+
+    &:hover {
+      background-color: $black-10;
+    }
+  }
+}

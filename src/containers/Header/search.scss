@@ -1,0 +1,69 @@
+@import '../shared/css/variables.scss';
+
+.search {
+  text-align: right;
+
+  input {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border: 1px transparent;
+    background: url('../shared/images/search.svg') no-repeat right;
+    background-color: $gray-900;
+    background-position: right center;
+    background-size: 12px;
+    border-radius: 4px;
+    color: $white;
+    font-size: 14px;
+    text-align: left;
+    text-overflow: ellipsis;
+    transition: width 0.2s, background-position-x 0.2s;
+    @include regular;
+
+    &::placeholder {
+      color: $gray-400;
+    }
+  }
+
+  &.in-header {
+    display: none;
+    justify-content: center;
+    margin: 24px 0px;
+
+    @include for-size(desktop-up) {
+      display: inline-block;
+    }
+
+    input {
+      width: auto;
+      border: none;
+      background-color: $gray-900;
+      border-radius: 100px;
+      font-size: 10px;
+      line-height: 15px;
+
+      &::placeholder {
+        color: $gray-400;
+      }
+
+      @include for-size(desktop-up) {
+        width: 155px;
+        padding: 8px 40px 8px 25px;
+        background-position-x: 185px;
+      }
+
+      @include for-size(big-desktop-up) {
+        width: 222px;
+        padding: 8px 25px 8px 25px;
+        background-position-x: 235px;
+      }
+
+      &:focus {
+        @include for-size(desktop-up) {
+          width: 222px;
+          padding: 8px 25px 8px 25px;
+          background-position-x: 235px;
+        }
+      }
+    }
+  }
+}

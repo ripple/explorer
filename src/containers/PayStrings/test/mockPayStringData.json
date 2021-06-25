@@ -1,0 +1,61 @@
+{
+  "addresses": [
+    {
+      "paymentNetwork": "BTC",
+      "environment": "MAINNET",
+      "addressDetailsType": "CryptoAddressDetails",
+      "addressDetails": {
+        "address": "13jsn3XrQmE6o1ogECMYLSirEE2xS6SQAn"
+      }
+    },
+    {
+      "paymentNetwork": "ETH",
+      "environment": "MAINNET",
+      "addressDetailsType": "CryptoAddressDetails",
+      "addressDetails": {
+        "address": "0x996217744587b24285A5abdB62d32a0b270a7942"
+      }
+    },
+    {
+      "paymentNetwork": "LTC",
+      "environment": "MAINNET",
+      "addressDetailsType": "CryptoAddressDetails",
+      "addressDetails": {
+        "address": "ltc1quefs488zpmkvwzuzxyqr7y9ezus7lzhu78dz5a"
+      }
+    },
+    {
+      "paymentNetwork": "BCH",
+      "environment": "MAINNET",
+      "addressDetailsType": "CryptoAddressDetails",
+      "addressDetails": {
+        "address": "bitcoincash:qpwnkn4ph5dt0lcdxcn4v80lcg89zhtmuujkyffhxm"
+      }
+    },
+    {
+      "paymentNetwork": "ZEC",
+      "environment": "MAINNET",
+      "addressDetailsType": "CryptoAddressDetails",
+      "addressDetails": {
+        "address": "t1Nxfw7Ubsz3TCXNp9StMt8bwMQg3YEFks2"
+      }
+    },
+    {
+      "paymentNetwork": "GUSD",
+      "environment": "MAINNET",
+      "addressDetailsType": "CryptoAddressDetails",
+      "addressDetails": {
+        "address": "0x996217744587b24285A5abdB62d32a0b270a7942"
+      }
+    },
+    {
+      "paymentNetwork": "XRPL",
+      "environment": "TESTNET",
+      "addressDetailsType": "CryptoAddressDetails",
+      "addressDetails": {
+        "address": "TVPWantCE8yF535YNRaojLpyEobaS3fKQLh8Gb6NSyptbMF"
+      }
+    }
+  ],
+  "payId": "waterproject$paystring.tgbwidget.com"
+}

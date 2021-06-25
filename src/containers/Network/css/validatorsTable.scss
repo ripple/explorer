@@ -1,0 +1,148 @@
+@import '../../shared/css/variables.scss';
+
+.validators-table {
+  position: relative;
+  min-height: 150px;
+
+  table {
+    width: 100%;
+    border-bottom: 1px solid $gray-800;
+    margin: auto;
+    border-collapse: collapse;
+    font-size: 13px;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    th {
+      padding: 22px 10px;
+      border-bottom: 1px solid $gray-800;
+      color: $white;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 2px 5px;
+      border-top: 1px solid $gray-800;
+      color: $gray-400;
+      text-align: right;
+    }
+
+    td.fee {
+      min-width: 90px;
+      color: $orange-600;
+    }
+
+    .td-missed {
+      color: $orange-600;
+    }
+
+    .pubkey {
+      color: $white;
+      font-size: 11px;
+      text-align: left;
+    }
+    .td-pubkey {
+      color: $gray-400;
+      font-size: 11px;
+      text-align: left;
+    }
+
+    .pubkey div {
+      overflow: hidden;
+      width: 100px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .domain {
+      overflow: hidden;
+      max-width: 140px;
+      color: $white;
+      text-align: left;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      @include medium;
+    }
+    .td-domain {
+      overflow: hidden;
+      max-width: 140px;
+      color: $gray-400;
+      text-align: left;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      @include medium;
+    }
+
+    .last-ledger {
+      min-width: 55px;
+      @include bold;
+    }
+
+    .unl {
+      color: $white;
+      text-align: center;
+
+      img {
+        height: 16px;
+      }
+    }
+
+    .unl.yes {
+      color: $green;
+    }
+
+    .nUnl {
+      color: $white;
+      text-align: center;
+      text-transform: none;
+
+      img {
+        height: 16px;
+        transform: rotate(180deg);
+      }
+    }
+
+    .nUnl.yes {
+      color: #c97;
+    }
+
+    .pubkey,
+    .score.h1,
+    .score.d30,
+    .fee {
+      display: none;
+    }
+
+    @include for-size(tablet-portrait-up) {
+      td {
+        padding: 15px 10px;
+        color: $gray-400;
+      }
+
+      .domain {
+        max-width: auto;
+      }
+
+      .score.d30 {
+        display: table-cell;
+      }
+    }
+
+    @include for-size(tablet-landscape-up) {
+      .pubkey {
+        display: table-cell;
+      }
+    }
+
+    @include for-size(desktop-up) {
+      .score.h1,
+      .fee {
+        display: table-cell;
+      }
+    }
+  }
+}

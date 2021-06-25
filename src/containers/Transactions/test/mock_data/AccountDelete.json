@@ -1,0 +1,61 @@
+{
+  "tx": {
+    "Account": "raf19Ns8czi85kTfia3KJ9ndjSp9baTLyH",
+    "Destination": "raT74sdzpxJUaubcBAQNS8aLqFMU85Rr5J",
+    "Fee": "5000000",
+    "Flags": 2147483648,
+    "Sequence": 58118671,
+    "SigningPubKey": "0211DA2A9AEF04FB772776CD35291AF20DC09A6F0EF52C1A58E4ED43C8685D7093",
+    "TransactionType": "AccountDelete",
+    "TxnSignature": "304402202E61AC4B56BFFD2186D3E9BDECE7B68CD21B9486F691C5B31AA0E84E161E2C1C022048B70011A1D04566883EFEC3E988C31A853B89D18E0159315EF488DE89F7BA8B"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Account": "raf19Ns8czi85kTfia3KJ9ndjSp9baTLyH",
+            "Balance": "0",
+            "Flags": 0,
+            "MessageKey": "020000000000000000000000007C50654DCAE0020232ABB4C236F7CE03CF2784B0",
+            "OwnerCount": 0,
+            "PreviousTxnID": "9A0AD95BA92118D66BDB3DCF86575BAEBE34D3F640146BD5A68D4AC355E56A21",
+            "PreviousTxnLgrSeq": 58233607,
+            "Sequence": 58118672
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "1F8BBAE9AD8533D18C1A2DD03E22232D49A28CCF2383D80CEE50735E82900068",
+          "PreviousFields": {
+            "Balance": "19999988",
+            "Sequence": 58118671
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "raT74sdzpxJUaubcBAQNS8aLqFMU85Rr5J",
+            "Balance": "11468518495",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 58233435
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "40D5C5FF088C4BC3CA79974DCB585DDD04E9D88FF732AE6E7E36F0FF1CDD4220",
+          "PreviousFields": {
+            "Balance": "11453518507"
+          },
+          "PreviousTxnID": "9A0AD95BA92118D66BDB3DCF86575BAEBE34D3F640146BD5A68D4AC355E56A21",
+          "PreviousTxnLgrSeq": 58233607
+        }
+      }
+    ],
+    "DeliveredAmount": "14999988",
+    "TransactionIndex": 34,
+    "TransactionResult": "tesSUCCESS",
+    "delivered_amount": "14999988"
+  },
+  "hash": "91BCF2965F7381EC01EDA6A36948A23480B566A0DDD3B13610ED8FD59840956D",
+  "ledger_index": 58233707,
+  "date": "2020-09-16T23:18:20Z"
+}

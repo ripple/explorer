@@ -1,0 +1,14 @@
+@import './variables.scss';
+
+.tx-label {
+  display: inline-block;
+  padding: 2px 14px;
+  border: 1px solid currentColor;
+  border-radius: 100px;
+  div {
+    color: $white;
+    font-size: 14px;
+    text-transform: uppercase;
+    @include semibold;
+  }
+}

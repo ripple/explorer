@@ -1,0 +1,349 @@
+@import '../../shared/css/variables.scss';
+
+.ledgers {
+  min-height: 600px;
+
+  .control {
+    overflow: hidden;
+    width: calc(100% - 28px);
+    min-height: 30px;
+    padding: 4px 14px;
+    background: $black;
+    line-height: 14px;
+    text-align: right;
+
+    @include for-size(desktop-up) {
+      width: calc(100% - 80px);
+      padding: 4px 40px;
+    }
+
+    .selected-validator {
+      display: inline-block;
+      width: calc(100% - 100px);
+
+      a {
+        display: inline-block;
+        overflow: hidden;
+        margin: 1px 2px;
+        color: $black-60;
+        line-height: 20px;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        vertical-align: top;
+        white-space: nowrap;
+
+        &.domain {
+          max-width: calc(70% - 5px);
+          color: $black-80;
+          font-size: 14px;
+          @include medium;
+        }
+
+        &.pubkey {
+          max-width: calc(30% - 5px);
+          padding-top: 1.5px;
+          font-size: 11px;
+          letter-spacing: 0px;
+        }
+
+        @include for-size(tablet-landscape-up) {
+          &.domain {
+            max-width: calc(50% - 5px);
+          }
+
+          &.pubkey {
+            max-width: calc(50% - 5px);
+          }
+        }
+      }
+    }
+  }
+
+  .ledger-list {
+    z-index: 20;
+    width: calc(100% - 32px);
+    padding-bottom: 40px;
+    padding-left: 32px;
+    margin-top: -45px;
+    background-color: $black;
+    overflow-x: auto;
+  }
+
+  .ledger-line {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: 45px;
+    border-bottom: 1px solid $gray-800;
+  }
+
+  .ledger {
+    display: table-cell;
+    overflow: hidden;
+    padding-right: 32px;
+    animation-duration: 0.4s;
+    animation-name: lEnter;
+    white-space: normal;
+  }
+
+  @keyframes lEnter {
+    from {
+      max-width: 0;
+    }
+
+    to {
+      max-width: 168px;
+    }
+  }
+
+  .ledger-head {
+    width: 102px;
+    min-height: 170px;
+    padding: 32px;
+    border: 1px solid $gray-800;
+    border-bottom: 0;
+    background-color: $black;
+    color: $gray-400;
+    font-size: 10px;
+    line-height: 12px;
+    text-align: center;
+    text-transform: uppercase;
+    @include bold;
+
+    .close-time {
+      padding-bottom: 24px;
+      color: $gray-400;
+      font-size: 10px;
+    }
+
+    .txn-count {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .fees {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    b {
+      color: $white;
+      font-size: 10px;
+      text-align: end;
+      @include medium;
+    }
+
+    .ledger-index {
+      padding-bottom: 3px;
+      color: $white;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 16px;
+
+      a {
+        display: inline-block;
+        padding: 2px 4px;
+        margin-right: -4px;
+        border-radius: 2px;
+        color: $white;
+        text-decoration: none;
+      }
+
+      a:hover {
+        background: $gray-800;
+      }
+
+      &.flag-ledger a {
+        background: $black-70;
+        color: $white;
+      }
+    }
+
+    .transactions {
+      padding-top: 32px;
+      text-align: left;
+    }
+
+    @keyframes txEnter {
+      from {
+        width: 0px;
+        height: 0px;
+      }
+
+      to {
+        width: 7px;
+        height: 7px;
+      }
+    }
+
+    .txn {
+      display: inline-block;
+      overflow: hidden;
+      width: 8px;
+      height: 8px;
+      margin: 1px;
+      animation-duration: 0.3s;
+      animation-name: txEnter;
+      border-radius: 8px;
+      color: $black-60;
+      font-size: 26px;
+      line-height: 12px;
+      opacity: 0.35;
+    }
+
+    .txn span {
+      display: none;
+    }
+
+    .txn::before {
+      content: '/';
+    }
+
+    .txn.tesSUCCESS {
+      opacity: 1;
+    }
+
+    .txn.tesSUCCESS::before {
+      content: '';
+    }
+  }
+
+  .hash {
+    overflow: hidden;
+    width: 102px;
+    padding: 0px 32px 32px;
+    border: 1px solid $gray-800;
+    border-top: 0;
+    background: $gray-900;
+    color: $white;
+    font-size: 15px;
+    text-align: left;
+
+    .bar {
+      height: 2px;
+      margin: 0px -32px;
+    }
+
+    &.unselected {
+      opacity: 0.5;
+
+      .bar {
+        background: #ddd0cc !important;
+      }
+    }
+
+    .ledger-hash {
+      text-align: center;
+    }
+
+    .hash-concat {
+      padding-top: 32px;
+      color: $white;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      @include bold;
+    }
+
+    .subtitle {
+      display: flex;
+      overflow: hidden;
+      flex-direction: column;
+      padding-top: 24px;
+      padding-bottom: 32px;
+      color: $gray-400;
+      font-size: 10px;
+      line-height: 14px;
+      text-transform: uppercase;
+      @include bold;
+    }
+
+    .validation-total {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .subtitle b {
+      color: $white;
+      font-size: 11px;
+    }
+
+    .subtitle span {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2px;
+    }
+
+    .subtitle span.missed {
+      color: white;
+      cursor: pointer;
+    }
+
+    .subtitle span.missed b {
+      background: $orange-600;
+      border-radius: 2px;
+      color: white;
+    }
+
+    .validated {
+      display: inline-block;
+      height: 26px;
+      color: $green;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    @keyframes vEnter {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 0.85;
+      }
+    }
+
+    .validation {
+      overflow: hidden;
+      width: 14px;
+      height: 4px;
+      margin: 2px 4px;
+      background: #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      float: left;
+      opacity: 0.85;
+    }
+
+    .validation:nth-child(5n + 1) {
+      margin-left: 0;
+    }
+
+    .validation:nth-child(5n) {
+      margin-right: 0;
+    }
+
+    .validation:hover {
+      opacity: 1;
+    }
+
+    .validation.trusted {
+      background: $gray-400;
+    }
+
+    .validation.selected {
+      background: #484;
+      opacity: 1;
+    }
+
+    .validation.unselected:not(.selected) {
+      opacity: 0.4;
+    }
+
+    .partial {
+      width: 50%;
+      height: 100%;
+      background: #c22;
+    }
+  }
+}

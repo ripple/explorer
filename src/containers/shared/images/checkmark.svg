@@ -1,0 +1,12 @@
+<svg width="12" height="10" viewBox="0 0 12 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>icon-checkmark-small</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-2663 33)">
+<g id="icon-checkmark-small">
+<use xlink:href="#path0_fill" transform="translate(2663 -32.5)" fill="#3B4147"/>
+</g>
+</g>
+<defs>
+<path id="path0_fill" fill-rule="evenodd" d="M 10.2933 0.29325L 4.00025 6.58625L 1.70725 4.29325C 1.31625 3.90225 0.68425 3.90225 0.29325 4.29325C -0.09775 4.68425 -0.09775 5.31625 0.29325 5.70725L 3.29325 8.70725C 3.48825 8.90225 3.74425 9.00025 4.00025 9.00025C 4.25625 9.00025 4.51225 8.90225 4.70725 8.70725L 11.7072 1.70725C 12.0982 1.31625 12.0982 0.68425 11.7072 0.29325C 11.3162 -0.09775 10.6842 -0.09775 10.2933 0.29325Z"/>
+</defs>
+</svg>

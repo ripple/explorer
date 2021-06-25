@@ -1,0 +1,24 @@
+{
+  "result": "success",
+  "updated": 123455,
+  "tokens": [
+    {
+      "issuer": "issuer1",
+      "currency": "BTC",
+      "trustlines": 132650,
+      "volume": 497333.7756590149
+    },
+    {
+      "issuer": "issuer2",
+      "currency": "USD",
+      "trustlines": 116684,
+      "volume": 64791839553.191696
+    },
+    {
+      "issuer": "issuer3",
+      "currency": "ETH",
+      "trustlines": 108575,
+      "volume": 3275636.0915857945
+    }
+  ]
+}

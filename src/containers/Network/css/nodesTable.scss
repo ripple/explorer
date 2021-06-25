@@ -1,0 +1,191 @@
+@import '../../shared/css/variables.scss';
+
+.nodes-table {
+  position: relative;
+  min-height: 150px;
+
+  table {
+    overflow: hidden;
+    width: 100%;
+    border-top: none;
+    margin: auto;
+    border-collapse: collapse;
+    color: $gray-400;
+    font-size: 13px;
+    letter-spacing: 0px;
+    text-align: left;
+
+    th {
+      padding: 22px 5px;
+      border-bottom: 1px solid $gray-800;
+      color: $white;
+      font-size: 11px;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 15px 5px;
+      border-bottom: 1px solid $gray-800;
+    }
+
+    .right {
+      text-align: right;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .pubkey div {
+      overflow: hidden;
+      width: 70px;
+      padding: 2px;
+      font-size: 11px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @include for-size(tablet-portrait-up) {
+        width: 100px;
+      }
+
+      @include for-size(big-desktop-up) {
+        width: 180px;
+      }
+
+      @media (min-width: 1300px) {
+        width: 280px;
+      }
+
+      @media (min-width: 1400px) {
+        width: 350px;
+      }
+    }
+
+    .host {
+      font-size: 11px;
+    }
+
+    .state {
+      min-width: 60px;
+      font-size: 11px;
+      text-transform: uppercase;
+      @include semibold;
+    }
+
+    .state span {
+      display: inline-block;
+      padding: 4px 12px;
+      margin: 1px 0;
+      border-radius: 100px;
+    }
+
+    .state .full {
+      border: 1px solid $green2;
+      background-color: $green;
+      color: black;
+    }
+
+    .state .proposing {
+      background-color: $orange;
+      color: white;
+    }
+
+    .state .connected {
+      background-color: yellow;
+      color: #444;
+    }
+
+    .version {
+      max-width: 60px;
+    }
+
+    .uptime {
+      text-align: right;
+
+      @include for-size(tablet-landscape-up) {
+        text-align: left;
+      }
+    }
+
+    .last-ledger {
+      a {
+        text-decoration: none;
+      }
+
+      i {
+        color: #ccc;
+      }
+
+      small {
+        margin: 0 5px;
+        color: #666;
+      }
+    }
+
+    .in-out small {
+      color: #666;
+    }
+
+    .ledgers {
+      text-align: right;
+
+      @include for-size(big-desktop-up) {
+        text-align: left;
+      }
+    }
+
+    .ledgers .boxes {
+      position: relative;
+      display: none;
+      height: 12px;
+      margin: 3px 5px;
+      vertical-align: middle;
+
+      @include for-size(big-desktop-up) {
+        display: inline-block;
+      }
+    }
+
+    .ledgers .boxes div {
+      position: absolute;
+      height: 100%;
+      background: #567;
+      border-radius: 2px;
+    }
+
+    .ledgers span {
+      color: #666;
+      vertical-align: middle;
+    }
+
+    .quorum,
+    .load-factor,
+    .latency {
+      display: none;
+
+      @include for-size(desktop-up) {
+        display: table-cell;
+      }
+    }
+
+    .last-ledger,
+    .ledgers {
+      display: none;
+
+      @media (min-width: 750px) {
+        display: table-cell;
+      }
+    }
+
+    .peers,
+    .version,
+    .in-out {
+      display: none;
+
+      @include for-size(tablet-landscape-up) {
+        display: table-cell;
+      }
+    }
+  }
+}

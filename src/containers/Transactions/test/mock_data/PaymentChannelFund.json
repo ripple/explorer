@@ -1,0 +1,64 @@
+{
+  "hash": "56C30DEB930917C85C07AA91E48DAD849B3F68EB51AC244C20CD925BACE89ED5",
+  "ledger_index": 36435648,
+  "date": "2018-02-09T00:06:22+00:00",
+  "tx": {
+    "TransactionType": "PaymentChannelFund",
+    "Flags": 2147483648,
+    "Sequence": 593,
+    "LastLedgerSequence": 36435649,
+    "Channel": "4BEAC9E4C10674AB698EAC0F2D78A4FF507428370578A59B04883E7EB8D82260",
+    "Amount": "1000000",
+    "Fee": "12",
+    "SigningPubKey": "03D488B5AA26C87CB14BF23D470520F592A0006A916F5FEEAAB48335D8811A2E9F",
+    "TxnSignature": "3045022100F801125D3F6A64A7B3BDCF17DC07365C89BAE2D84590E986310E34ADDA33F60E022063667A423E05A44F5BA4C474B94589397F64ED9E0AE366B4E1BEF162EEF58157",
+    "Account": "rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN"
+  },
+  "meta": {
+    "TransactionIndex": 2,
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "PreviousTxnLgrSeq": 36435648,
+          "PreviousTxnID": "BF6B24B492A4236CC138F375A5EB98A9C52F257204935457CDE28A5B0B28B14F",
+          "LedgerIndex": "1779FCFCF53ACAF81150E49FCDA32AE74B3DB67FCA77C054E0DEA3DEC4EFE053",
+          "PreviousFields": {
+            "Sequence": 593,
+            "Balance": "283417527"
+          },
+          "FinalFields": {
+            "Flags": 0,
+            "Sequence": 594,
+            "OwnerCount": 50,
+            "Balance": "282417515",
+            "Account": "rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "PayChannel",
+          "PreviousTxnLgrSeq": 36435648,
+          "PreviousTxnID": "BF6B24B492A4236CC138F375A5EB98A9C52F257204935457CDE28A5B0B28B14F",
+          "LedgerIndex": "4BEAC9E4C10674AB698EAC0F2D78A4FF507428370578A59B04883E7EB8D82260",
+          "PreviousFields": {
+            "Amount": "74000000"
+          },
+          "FinalFields": {
+            "Flags": 0,
+            "SourceTag": 3839231768,
+            "SettleDelay": 3600,
+            "OwnerNode": "0000000000000001",
+            "Amount": "75000000",
+            "Balance": "61859345",
+            "PublicKey": "ED1E97883F12E98C222752A93375481288158401948D2FD8C070AC8D7B5E9E0D7C",
+            "Account": "rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN",
+            "Destination": "rBFpf3YQQrcR1HnCt5AhYpNVvXUh4W89Dr"
+          }
+        }
+      }
+    ],
+    "TransactionResult": "tesSUCCESS"
+  }
+}

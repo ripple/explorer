@@ -1,0 +1,20 @@
+<svg width="24" height="24" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Canvas" fill="none">
+<g id="sell" clip-path="url(#clip0)">
+<rect width="24" height="24" fill="white"/>
+<g id="icon_sell">
+<g id="Vector (Stroke)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M 3 1C 3 0.447715 3.44772 0 4 0L 10 0C 10.5523 0 11 0.447715 11 1L 11 7C 11 7.55228 10.5523 8 10 8C 9.44771 8 9 7.55228 9 7L 9 3.41421L 1.70711 10.7071C 1.31658 11.0976 0.683417 11.0976 0.292893 10.7071C -0.0976311 10.3166 -0.0976311 9.68342 0.292893 9.29289L 7.58579 2L 4 2C 3.44772 2 3 1.55228 3 1Z" transform="translate(7 17) scale(1 -1)" fill="#F23548"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+
+<clipPath id="clip0">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+
+</defs>
+</svg>
+

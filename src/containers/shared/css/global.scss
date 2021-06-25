@@ -1,0 +1,287 @@
+// ONLY GLOBAL CSS, KEEP IT TO MINIMAL
+// CSS SHOULD BE SCOPPED TO COMPONENT
+@import './variables.scss';
+
+/* prettier-ignore */
+@font-face {
+  font-family: 'currency_symbols';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/fonts/currency_symbols.eot');
+  src:
+    url('/fonts/currency_symbols.eot#iefix') format('embedded-opentype'),
+    url('/fonts/currency_symbols.ttf') format('truetype'),
+    url('/fonts/currency_symbols.woff') format('woff'),
+    url('/fonts/currency_symbols.svg') format('svg');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('/fonts/SpaceMono-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: italic;
+  src: url('/fonts/SpaceMono-Italic.ttf');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-weight: bold;
+  src: url('/fonts/SpaceMono-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: italic;
+  font-weight: bold;
+  src: url('/fonts/SpaceMono-BoldItalic.ttf');
+}
+
+body,
+input {
+  padding: 0px;
+  margin: 0px;
+  background-color: $black;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  letter-spacing: 0.5px;
+}
+
+body,
+input,
+button {
+  font-family: 'currency_symbols', system-ui, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+    'Helvetica Neue', sans-serif;
+}
+
+.clear {
+  clear: both;
+}
+
+* {
+  outline: none !important; // remove blue outline in click and focus
+}
+
+svg.react-stockchart {
+  z-index: auto !important;
+  left: 0px;
+}
+
+div.react-stockchart div {
+  z-index: auto !important;
+}
+
+.async-component-error {
+  margin: 0px auto;
+  color: $black-40;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  @include bold;
+}
+
+.tx-type {
+  border-left-color: $black;
+  color: $black;
+
+  &.bg {
+    background: $black;
+  }
+
+  &.SetRegularKey {
+    border-left-color: $setregularkey;
+    color: $setregularkey;
+
+    &.bg {
+      background: $setregularkey;
+    }
+  }
+
+  &.SignerListSet {
+    border-left-color: $signerlistset;
+    color: $signerlistset;
+
+    &.bg {
+      background: $signerlistset;
+    }
+  }
+
+  &.TrustSet {
+    border-left-color: $trustset;
+    color: $trustset;
+
+    &.bg {
+      background: $trustset;
+    }
+  }
+
+  &.AccountSet {
+    border-left-color: $accountset;
+    color: $accountset;
+
+    &.bg {
+      background: $accountset;
+    }
+  }
+
+  &.CheckCancel {
+    border-left-color: $checkcancel;
+    color: $checkcancel;
+
+    &.bg {
+      background: $checkcancel;
+    }
+  }
+
+  &.CheckCash {
+    border-left-color: $checkcash;
+    color: $checkcash;
+
+    &.bg {
+      background: $checkcash;
+    }
+  }
+
+  &.CheckCreate {
+    border-left-color: $checkcreate;
+    color: $checkcreate;
+
+    &.bg {
+      background: $checkcreate;
+    }
+  }
+
+  &.EscrowCancel {
+    border-left-color: $escrowcancel;
+    color: $escrowcancel;
+
+    &.bg {
+      background: $escrowcancel;
+    }
+  }
+
+  &.EscrowCreate {
+    border-left-color: $escrowcreate;
+    color: $escrowcreate;
+
+    &.bg {
+      background: $escrowcreate;
+    }
+  }
+
+  &.EscrowFinish {
+    border-left-color: $escrowfinish;
+    color: $escrowfinish;
+
+    &.bg {
+      background: $escrowfinish;
+    }
+  }
+
+  &.OfferCancel {
+    border-left-color: $offercancel;
+    color: $offercancel;
+
+    &.bg {
+      background: $offercancel;
+    }
+  }
+
+  &.OfferCreate {
+    border-left-color: $offercreate;
+    color: $offercreate;
+
+    &.bg {
+      background: $offercreate;
+    }
+  }
+
+  &.TicketCreate {
+    border-left-color: $ticketcreate;
+    color: $ticketcreate;
+
+    &.bg {
+      background: $ticketcreate;
+    }
+  }
+
+  &.Payment {
+    border-left-color: $payment;
+    color: $payment;
+
+    &.bg {
+      background: $payment;
+    }
+  }
+
+  &.PaymentChannelClaim {
+    border-left-color: $paymentchannelclaim;
+    color: $paymentchannelclaim;
+
+    &.bg {
+      background: $paymentchannelclaim;
+    }
+  }
+
+  &.PaymentChannelCreate {
+    border-left-color: $paymentchannelcreate;
+    color: $paymentchannelcreate;
+
+    &.bg {
+      background: $paymentchannelcreate;
+    }
+  }
+
+  &.PaymentChannelFund {
+    border-left-color: $paymentchannelfund;
+    color: $paymentchannelfund;
+
+    &.bg {
+      background: $paymentchannelfund;
+    }
+  }
+
+  &.EnableAmendment {
+    border-left-color: $enableamendment;
+    color: $enableamendment;
+
+    &.bg {
+      background: $enableamendment;
+    }
+  }
+
+  &.SetFee {
+    border-left-color: $setfee;
+    color: $setfee;
+
+    &.bg {
+      background: $setfee;
+    }
+  }
+
+  &.UNLModify {
+    border-left-color: $unlmodify;
+    color: $unlmodify;
+
+    &.bg {
+      background: $unlmodify;
+    }
+  }
+}
+
+.tx-result {
+  &.success {
+    color: $green;
+  }
+
+  &.fail {
+    color: $orange-600;
+  }
+}
+
+.label {
+  margin-bottom: 8px;
+}

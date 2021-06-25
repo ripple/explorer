@@ -1,0 +1,62 @@
+[
+  {
+    "issuer": "rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL",
+    "currency": "BTC",
+    "trustlines": 132650,
+    "volume": 497333.7756590149
+  },
+  {
+    "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+    "currency": "USD",
+    "trustlines": 116684,
+    "volume": 64791839553.191696
+  },
+  {
+    "issuer": "rcA8X3TVMST1n3CJeAdGk1RdRCHii7N2h",
+    "currency": "ETH",
+    "trustlines": 108575,
+    "volume": 3275636.0915857945
+  },
+  {
+    "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+    "currency": "EUR",
+    "trustlines": 95273,
+    "volume": 2143614951.4347985
+  },
+  {
+    "issuer": "rDAN8tzydyNfnNf2bfUQY6iR96UbpvNsze",
+    "currency": "ETC",
+    "trustlines": 37923,
+    "volume": 327030.20403600147
+  },
+  {
+    "issuer": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA",
+    "currency": "CNY",
+    "trustlines": 31986,
+    "volume": null
+  },
+  {
+    "issuer": "rckzVpTnKpP4TJ1puQe827bV3X4oYtdTP",
+    "currency": "REP",
+    "trustlines": 30356,
+    "volume": null
+  },
+  {
+    "issuer": "rNdwi8ain5ibXNB9A7H3zzKtSxgVzAqqAe",
+    "currency": "GCB",
+    "trustlines": 26794,
+    "volume": null
+  },
+  {
+    "issuer": "rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds",
+    "currency": "BCH",
+    "trustlines": 24265,
+    "volume": 127956.13919999951
+  },
+  {
+    "issuer": "rcXY84C4g14iFp6taFXjjQGVeHqSCh9RX",
+    "currency": "DSH",
+    "trustlines": 20486,
+    "volume": 625570.3497660015
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "type": "validation",
+  "data": {
+    "ledger_index": 44921927,
+    "ledger_hash": "A1689E0CDA6523C82D5D848202DAB2FD458D715EED9DB11A3B7088A56681D588",
+    "pubkey": "n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR",
+    "partial": false,
+    "time": 1549400032000
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "ETC.rDAN8tzydyNfnNf2bfUQY6iR96UbpvNsze": {
+    "reserve": 20,
+    "sequence": 185,
+    "rate": 0.003,
+    "balance": "98160000",
+    "flags": ["lsfDefaultRipple", "lsfDisallowXRP", "lsfRequireDestTag", "lsfPasswordSpent"],
+    "obligations": "37925.73768537291",
+    "previousTxn": "28EEB9449CC5B95388A4A00A645FECDFE1AC673666995483E45E0C3906B326B0",
+    "previousLedger": 63632302
+  },
+  "ETH.rcA8X3TVMST1n3CJeAdGk1RdRCHii7N2h": {
+    "reserve": 80,
+    "sequence": 846,
+    "rate": 0.003,
+    "balance": "118400000",
+    "flags": ["lsfDefaultRipple", "lsfDisallowXRP", "lsfRequireDestTag"],
+    "obligations": "8350.750727368116",
+    "previousTxn": "346A5A339457F075D3FEE89163B97D76FF7EB4A25581A8FA8F1232ECCA1B2C8B",
+    "previousLedger": 63634097
+  },
+  "BTC.rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL": {
+    "reserve": 50,
+    "sequence": 1243,
+    "rate": 0.002,
+    "balance": "187580000",
+    "flags": ["lsfDefaultRipple", "lsfDisallowXRP", "lsfRequireDestTag"],
+    "obligations": "609.2126839041673",
+    "previousTxn": "7A4B847038D75A26D6EE42753A3A8A2B14138A4D37AC0EE2F317E5CB77B41B21",
+    "previousLedger": 63633771
+  },
+  "REP.rckzVpTnKpP4TJ1puQe827bV3X4oYtdTP": {
+    "reserve": 20,
+    "sequence": 156,
+    "rate": 0.003,
+    "balance": "198450000",
+    "flags": [
+      "lsfDefaultRipple",
+      "lsfGlobalFreeze",
+      "lsfDisallowXRP",
+      "lsfRequireDestTag",
+      "lsfPasswordSpent"
+    ],
+    "obligations": "7916.764171045748",
+    "previousTxn": "9EF59B75607616D0ABDB26F849AD0641834EC1B217922D2F13D63C26189B88F6",
+    "previousLedger": 63631273
+  },
+  "CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA": {
+    "reserve": 335,
+    "sequence": 776,
+    "balance": "9831899546",
+    "flags": ["lsfDefaultRipple"],
+    "obligations": "15783768.44055129",
+    "previousTxn": "6E2C1D4B47F12C4B9E7FCE2B02D4078DFA45168A1CDD6EFAC46247BD518EF6BF",
+    "previousLedger": 63628362
+  },
+  "BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds": {
+    "reserve": 20,
+    "sequence": 32,
+    "rate": 0.003,
+    "balance": "99690000",
+    "flags": ["lsfDefaultRipple", "lsfDisallowXRP", "lsfRequireDestTag", "lsfPasswordSpent"],
+    "obligations": "932.0327812976501",
+    "previousTxn": "122E31895F19E84F77FFE89643543D4BBB51DFBADF808ACB48E1195B8B11B62C",
+    "previousLedger": 63633593
+  },
+  "GCB.rNdwi8ain5ibXNB9A7H3zzKtSxgVzAqqAe": {
+    "reserve": 965,
+    "sequence": 1917,
+    "balance": "685000000",
+    "flags": [],
+    "obligations": "5007984562951583e12",
+    "previousTxn": "823D73972CAAD3F88025F5A697B58D463F4D92FA1E6B49DCBA575F3B582480D3",
+    "previousLedger": 63474640
+  },
+  "USD.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq": {
+    "reserve": 90,
+    "sequence": 2660,
+    "rate": 0.002,
+    "balance": "4958433085635",
+    "flags": ["lsfDefaultRipple", "lsfRequireDestTag"],
+    "obligations": "14986585.69181937",
+    "previousTxn": "C4D18036E01DAC7C936771331424F44307673042AC2A8EEFB3AD586B4CDB27E9",
+    "previousLedger": 63634087
+  },
+  "DSH.rcXY84C4g14iFp6taFXjjQGVeHqSCh9RX": {
+    "reserve": 25,
+    "sequence": 40,
+    "rate": 0.003,
+    "balance": "99610000",
+    "flags": ["lsfDefaultRipple", "lsfDisallowXRP", "lsfRequireDestTag", "lsfPasswordSpent"],
+    "obligations": "1312.21201080789",
+    "previousTxn": "64486C588125718C73D04A647550BC0F01090CAC7A192D30C4B6D41FC419F426",
+    "previousLedger": 63632412
+  },
+  "EUR.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq": {
+    "reserve": 90,
+    "sequence": 2660,
+    "rate": 0.002,
+    "balance": "4958433085635",
+    "flags": ["lsfDefaultRipple", "lsfRequireDestTag"],
+    "obligations": "3938954.373880429",
+    "previousTxn": "C4D18036E01DAC7C936771331424F44307673042AC2A8EEFB3AD586B4CDB27E9",
+    "previousLedger": 63634087
+  }
+}

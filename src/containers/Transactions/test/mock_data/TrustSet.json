@@ -1,0 +1,109 @@
+{
+  "hash": "B18F78D2380E10F542F97B87047404142653984FDB26CADE4342D39C00D4DFC8",
+  "ledger_index": 37470157,
+  "date": "2018-03-25T03:03:41+00:00",
+  "tx": {
+    "TransactionType": "TrustSet",
+    "Flags": 2147614720,
+    "Sequence": 261,
+    "LastLedgerSequence": 37470164,
+    "LimitAmount": {
+      "value": "1000000000",
+      "currency": "CNY",
+      "issuer": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA"
+    },
+    "Fee": "12",
+    "SigningPubKey": "02FFC308078225AB4447DBE14832E9DBF277943843D730353BADFD1FAB3231A8D9",
+    "TxnSignature": "30440220352B22464E56C62850ECBDCE83E059247044AF1568C234E7D9F968E902561C3E0220416A0E3A4F90112D46E5A31E972A6DE9AE18BAF3B633C701017633AC367162A7",
+    "Account": "rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc",
+    "Memos": [
+      {
+        "Memo": {
+          "MemoType": "636C69656E74",
+          "MemoData": "7274312E312E33322D6275676669782D322D67653135323239372D6469727479"
+        }
+      }
+    ]
+  },
+  "meta": {
+    "TransactionIndex": 36,
+    "AffectedNodes": [
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "5D193A93BFC1CF2E80AA6191CC235E2DD5B426DB0082C5D2789425A3D7EB6F4B",
+          "NewFields": {
+            "RootIndex": "5D193A93BFC1CF2E80AA6191CC235E2DD5B426DB0082C5D2789425A3D7EB6F4B",
+            "Owner": "rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc"
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "5DCC9786FDDEC880D7D60FAF0218BB3A534257E2D5F4247DB1CEACF136EE62C5",
+          "NewFields": {
+            "Flags": 1114112,
+            "HighNode": "00000000000004BB",
+            "Balance": {
+              "value": "0",
+              "currency": "CNY",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji"
+            },
+            "LowLimit": {
+              "value": "1000000000",
+              "currency": "CNY",
+              "issuer": "rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc"
+            },
+            "HighLimit": {
+              "value": "0",
+              "currency": "CNY",
+              "issuer": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA"
+            }
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "PreviousTxnLgrSeq": 37470094,
+          "PreviousTxnID": "981C3B9DBB84A0EC62221F1EDB8D66B42865F546211BF13D6EB79CC0B009B39E",
+          "LedgerIndex": "7A5C344F34A4F509CA0F211A23B076D9153061ABE9A4CF1C68D359EC7E9443D4",
+          "PreviousFields": {
+            "Sequence": 271,
+            "OwnerCount": 0,
+            "Balance": "31000000"
+          },
+          "FinalFields": {
+            "Flags": 0,
+            "Sequence": 2,
+            "OwnerCount": 1,
+            "Balance": "30999988",
+            "Account": "rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "B5893F42A404E7E9D720AD5453F0856F2496C3F895667634AC5D353092E06A02",
+          "FinalFields": {
+            "Flags": 0,
+            "IndexPrevious": "00000000000004BA",
+            "RootIndex": "494660EA99CF2FE02C1D8235791BD46F80D84253D413A5C67AF7E276E9C7404F",
+            "Owner": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "PreviousTxnLgrSeq": 37469798,
+          "PreviousTxnID": "91CAD179B766842DDD054EDE6120871CDFBF92555492320D629B26BF56072EAE",
+          "LedgerIndex": "D9A4529146AB12ABD244CCC0ED0523CF5C6BA97043999AB27C1D4EB567929069"
+        }
+      }
+    ],
+    "TransactionResult": "tesSUCCESS"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "hash": "5988C2790600974A277DE9748BB2D52D3531A8CC6C7C5DB6A1CEF6486FC86A31",
+  "ledger_index": 37375929,
+  "date": "2018-03-21T04:32:01+00:00",
+  "tx": {
+    "TransactionType": "SignerListSet",
+    "Flags": 0,
+    "Sequence": 251,
+    "SignerQuorum": 3,
+    "Fee": "10000",
+    "SigningPubKey": "022B4444D353A98D3A3BCCA5D9683004FEF876DB5D5038CC9091DA4DB040595F5E",
+    "TxnSignature": "3045022100A364318D2F6A37BF4221D2086121E9154723FA57F9F549EFF878577F3CE2C139022018A115B24F4F084645A2A0BA4605F8DC30C421BF055C04E44AC3E7A08277894F",
+    "Account": "radE4Xd2RpQTBAx6YkpWbb7Z3fkcAgsHpK",
+    "SignerEntries": [
+      {
+        "SignerEntry": {
+          "SignerWeight": 2,
+          "Account": "rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv"
+        }
+      },
+      {
+        "SignerEntry": {
+          "SignerWeight": 1,
+          "Account": "rLoRH7XuBgz2kTP1ACkoyVYk9hsLggVvbP"
+        }
+      },
+      {
+        "SignerEntry": {
+          "SignerWeight": 1,
+          "Account": "rL6SsrxyVp1JLNEZsX1hFWHcP2iJcZJ2dy"
+        }
+      }
+    ]
+  },
+  "meta": {
+    "TransactionIndex": 22,
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "PreviousTxnLgrSeq": 37356198,
+          "PreviousTxnID": "DCA0D15C6D6FA40FCCAABD185FEE0568657648F2D65BD0BF2A6BFF1EBF802E1A",
+          "LedgerIndex": "B5530506FA862EEE6BC12C49D58CAA6B21A3F1DC948740C48AB3C4D2C5FAF1CE",
+          "PreviousFields": {
+            "Sequence": 291,
+            "Balance": "30000000"
+          },
+          "FinalFields": {
+            "Flags": 0,
+            "Sequence": 2,
+            "OwnerCount": 0,
+            "Balance": "29990000",
+            "Account": "radE4Xd2RpQTBAx6YkpWbb7Z3fkcAgsHpK"
+          }
+        }
+      }
+    ],
+    "TransactionResult": "tecINSUFFICIENT_RESERVE"
+  }
+}

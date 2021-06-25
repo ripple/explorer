@@ -1,0 +1,66 @@
+{
+  "hash": "B576A11C6AE8830A1C1B77C27567D62E39A03E62DBE8FC1A09D463C2400B808A",
+  "ledger_index": 37564494,
+  "date": "2018-03-29T01:38:11+00:00",
+  "tx": {
+    "TransactionType": "PaymentChannelClaim",
+    "Flags": 2147483648,
+    "Sequence": 1103,
+    "LastLedgerSequence": 37564495,
+    "Channel": "50107651E7163E294CE0EAD8A20BF7CC046304480FCC9C74A49FFAB3F46FB98E",
+    "Balance": "49657160",
+    "Fee": "12",
+    "PublicKey": "ED46FF956B8EEC4BA614B1A6B0B4343D623AE37A891A0461F1F51464CFC3442CF7",
+    "SigningPubKey": "03D488B5AA26C87CB14BF23D470520F592A0006A916F5FEEAAB48335D8811A2E9F",
+    "TxnSignature": "304402205E511EE2CA9BEE36F4078C24E8849A87565692938DB6C1998B449EE4A4A7BFF402201B9B78A1CE11522CCEB973FFA0BC55D8F561657A5383331EAADC6F0D67F2C347",
+    "Signature": "55C8169517E6353A7168B4F6BE202C0C4D0828CBC3556D4576A3FF67D117F678AEC624FC98417460FA172F313FD920030C8C50B38542BD8744F578A568FB730B",
+    "Account": "rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN"
+  },
+  "meta": {
+    "TransactionIndex": 10,
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "PreviousTxnLgrSeq": 37563014,
+          "PreviousTxnID": "6540E08162D034074B36A130C3683147C5BAC4E081138A97AABC4425ED264DDB",
+          "LedgerIndex": "1779FCFCF53ACAF81150E49FCDA32AE74B3DB67FCA77C054E0DEA3DEC4EFE053",
+          "PreviousFields": {
+            "Sequence": 1103,
+            "Balance": "284620533"
+          },
+          "FinalFields": {
+            "Flags": 0,
+            "Sequence": 1104,
+            "OwnerCount": 50,
+            "Balance": "284630521",
+            "Account": "rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "PayChannel",
+          "PreviousTxnLgrSeq": 37539781,
+          "PreviousTxnID": "9CB070C9F40DB0D50D70E1EB1E4C69D8B48DBDDDE06263711D01595F68722936",
+          "LedgerIndex": "50107651E7163E294CE0EAD8A20BF7CC046304480FCC9C74A49FFAB3F46FB98E",
+          "PreviousFields": {
+            "Balance": "49647160"
+          },
+          "FinalFields": {
+            "Flags": 0,
+            "SourceTag": 1002539517,
+            "SettleDelay": 3600,
+            "OwnerNode": "0000000000000001",
+            "Amount": "70000000",
+            "Balance": "49657160",
+            "PublicKey": "ED46FF956B8EEC4BA614B1A6B0B4343D623AE37A891A0461F1F51464CFC3442CF7",
+            "Account": "rnNzy3iPc7gPEAJbAdXwxY1UTBamBqTYhR",
+            "Destination": "rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN"
+          }
+        }
+      }
+    ],
+    "TransactionResult": "tesSUCCESS"
+  }
+}

@@ -1,0 +1,20 @@
+@import '../shared/css/variables.scss';
+
+.app {
+  position: relative;
+
+  .content {
+    min-width: $min-width;
+    min-height: 100%;
+    padding-top: 97px;
+    padding-bottom: 20px;
+    background: $black;
+
+    @include for-size(desktop-up) {
+      min-height: $min-height;
+    }
+    @include for-size(big-desktop-up) {
+      min-height: $min-height;
+    }
+  }
+}

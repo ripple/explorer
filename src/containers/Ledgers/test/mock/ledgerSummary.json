@@ -1,0 +1,181 @@
+{
+  "type": "ledgerSummary",
+  "data": {
+    "ledger_index": 44921927,
+    "ledger_hash": "A1689E0CDA6523C82D5D848202DAB2FD458D715EED9DB11A3B7088A56681D588",
+    "parent_hash": "814228D2461F355C05D278FD94CE283BEF37CD299B49D5518F60A0422583A81C",
+    "close_time": "2019-02-05T20:53:51Z",
+    "total_xrp": 99991697049.15701,
+    "total_fees": 0.000278,
+    "transactions": [
+      {
+        "hash": "EF19786B62E9043E7F14D211B8F84C0F764847363FD94FDE943F539A11C35F08",
+        "type": "OfferCancel",
+        "result": "tesSUCCESS",
+        "account": "rMufYXANKZc5JqTmfWwy5WD6M8DBFLZCnb",
+        "index": 0
+      },
+      {
+        "hash": "8522551C4057AFF4C312D9DD1C146A43F827445CAB7E0E2EECD34D3524C825A3",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rMufYXANKZc5JqTmfWwy5WD6M8DBFLZCnb",
+        "index": 1
+      },
+      {
+        "hash": "EDA4E9DEAF4F3C764D339C284E4F9928939994E8857EA72E3540DDA0FADD3D2E",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rMBzp8CgpE441cp5PVyA9rpVV7oT8hP3ys",
+        "index": 2
+      },
+      {
+        "hash": "22B6BD8DD44B853C35068BD2461FFF8494A3D6F887887769DE865D2BA3003634",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rMBzp8CgpE441cp5PVyA9rpVV7oT8hP3ys",
+        "index": 3
+      },
+      {
+        "hash": "B61EE203064C1E03AF882ED619ED4FDECDC64153542DF9803C6003AD4D8CE000",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe",
+        "index": 4
+      },
+      {
+        "hash": "50696D6028989E7164450497F01DACBA193D4AF3FF930FBC15D1DEEF88442CB0",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe",
+        "index": 5
+      },
+      {
+        "hash": "35E4A1918B908E588DBEDDC0F06BEC6C09323AB447CCBA395F66969C2092D63A",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe",
+        "index": 6
+      },
+      {
+        "hash": "CED02BFD5E9CEA095D0DAA1D43847B4C9CA1900B07DA741CBCA5B12CBC006219",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe",
+        "index": 7
+      },
+      {
+        "hash": "5FC8B1D34C8EEDDBF8CAE278B5A02AC16AE5C57C50BBFC2E9FAA2A5E79DF2F89",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rwchA2b36zu2r6CJfEMzPLQ1cmciKFcw9t",
+        "index": 8
+      },
+      {
+        "hash": "C0EC7C50FB1F3DC4D12D411BAF3242517924E17A8673C3F0D15A3189FA48AE65",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rwchA2b36zu2r6CJfEMzPLQ1cmciKFcw9t",
+        "index": 9
+      },
+      {
+        "hash": "4A7325B60C34C572547CDBAD938AD6D0F78D26ABAEA65DAAEBB140743140839E",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rwchA2b36zu2r6CJfEMzPLQ1cmciKFcw9t",
+        "index": 10
+      },
+      {
+        "hash": "E4866A6D4ACBBCD20E4B8611B800EE5296BDD8C494FDAF82B0BA9F7332A671B8",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rwchA2b36zu2r6CJfEMzPLQ1cmciKFcw9t",
+        "index": 11
+      },
+      {
+        "hash": "BAE88E3D8D791FD94756997113360422E53075DD375651EF5DEEAD0365D4C633",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rUTEn2jLLv4ESmrUqQmhZfEfDN3LorhgvZ",
+        "index": 12
+      },
+      {
+        "hash": "E07F0E541FB8F86DDC81C2DE642C89623A7E6F803172DD8AD0539DF159F5C75F",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rUTEn2jLLv4ESmrUqQmhZfEfDN3LorhgvZ",
+        "index": 13
+      },
+      {
+        "hash": "71F73262EC8EBA7974457BF72A0B3CF84F3C2C3A6A1EF05BD52AA4B4F187F7F4",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rUTEn2jLLv4ESmrUqQmhZfEfDN3LorhgvZ",
+        "index": 14
+      },
+      {
+        "hash": "70C57413A79A4A7D30DE22CCE1A1B37FD1E70264AA4A04531679CFA3A447E365",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rUTEn2jLLv4ESmrUqQmhZfEfDN3LorhgvZ",
+        "index": 15
+      },
+      {
+        "hash": "E1278051AE50598BEF19C7445BB3301C80F32498BCC093C8180AA82AACBE746C",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rnPbTWbd9HKmkkzBtcKiUMBBytQB4VCyKz",
+        "index": 16
+      },
+      {
+        "hash": "6521641A600D7F9F37A9DE85E56F411A0C018DAF4934951BE64573F4FEA43F7F",
+        "type": "OfferCreate",
+        "result": "tesSUCCESS",
+        "account": "rnPbTWbd9HKmkkzBtcKiUMBBytQB4VCyKz",
+        "index": 17
+      },
+      {
+        "hash": "7305202DB7F4DC4F70D18F6871805616FC0744A4AC0DF58A19EAE1E57552733B",
+        "type": "Payment",
+        "result": "tecPATH_DRY",
+        "account": "rKLpjpCoXgLQQYQyj13zgay73rsgmzNH13",
+        "index": 18
+      },
+      {
+        "hash": "443A25551CB66C4FD9DB72EF9B0D6E46AADF75D362CE90E2A92CEF9999607B34",
+        "type": "Payment",
+        "result": "tecPATH_DRY",
+        "account": "rNXQc5mT7b336bFTkenFTPiF5TYuyrJ3ZH",
+        "index": 19
+      },
+      {
+        "hash": "A8E34C5F4833D35070248192A4A7FC87355FD3375C8F8CDB62AD9D666DC190D4",
+        "type": "Payment",
+        "result": "tecPATH_DRY",
+        "account": "r9x5PHDiwuvbpYB3uvGAqEUVV5wxHayQEx",
+        "index": 20
+      },
+      {
+        "hash": "159770FD89B11DBA0F6BDDBCEB97C8A5A9C64CB1D045E5EE4147620181B8C906",
+        "type": "Payment",
+        "result": "tecPATH_DRY",
+        "account": "r9KG7Du7aFmABzMvDnwuvPaEoMu4Eurwok",
+        "index": 21
+      },
+      {
+        "hash": "71B751EFCFF49541B6A40DFA015EC072C8769C09AE36DAFCC27C73842D51717B",
+        "type": "Payment",
+        "result": "tecPATH_DRY",
+        "account": "r96HghtYDxvpHNaru1xbCQPcsHZwqiaENE",
+        "index": 22
+      },
+      {
+        "hash": "A978050398C7D53416E44171048E9894DD1A1288E89F6E694F07C20511F22EAE",
+        "type": "Payment",
+        "result": "tecPATH_DRY",
+        "account": "rsE7AtkwCsXo8zvRu5VHEBEbARcEqUeRnM",
+        "index": 23
+      }
+    ]
+  }
+}
