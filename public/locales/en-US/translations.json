@@ -313,6 +313,6 @@
   "no_pairs_message": "No trading pairs found",
   "high":"High",
   "low":"Low",
-  "rank_message": "Tokens are ranked by # of trustlines.",
+  "rank_message": "Tokens are ranked by number of trustlines.",
   "obligations_message": "Obligations are the total amounts of each token issued to addresses"
 }
