@@ -1,5 +1,3 @@
-[![pipeline status](https://gitlab.ops.ripple.com/DataTeam/xrpcharts/badges/master/pipeline.svg)](https://gitlab.ops.ripple.com/DataTeam/xrpcharts/commits/master) [![coverage report](https://gitlab.ops.ripple.com/DataTeam/xrpcharts/badges/master/coverage.svg)](https://datateam.gitlab.ops.ripple.com/xrpcharts/master/)
-
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find the most recent version of guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
 # Important documentation
