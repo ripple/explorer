@@ -82,7 +82,7 @@ describe('utils', () => {
 
   it('getLocalizedCurrencySymbol', () => {
     expect(getLocalizedCurrencySymbol()).toEqual('$');
-    expect(getLocalizedCurrencySymbol('zh-Hans', 'CNY')).toEqual('CN¥');
+    expect(getLocalizedCurrencySymbol('zh-Hans', 'CNY')).toEqual('¥');
     expect(getLocalizedCurrencySymbol('ja-JP', 'EUR')).toEqual('€');
     expect(getLocalizedCurrencySymbol('en-US', 'USDT')).toEqual('');
     expect(getLocalizedCurrencySymbol('en-US', 'BTC')).toEqual('₿');
