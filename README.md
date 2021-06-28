@@ -23,7 +23,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 1.  `npm install -g create-react-app`
 1.  `brew install watchman`
 
-
 ### Google BigQuery Setup
 This setup is required for the Tokens page of the explorer to function:
 
