@@ -3,11 +3,6 @@ Thanks for contributing to the explorer!
 
 We're thrilled you're interested and your help is greatly appreciated. Contributing is a great way to learn about the XRP Ledger (XRPL).
 
-
-## About This Site
-
-This repo is a block explorer site for the XRP Ledger. It was initially created using [Create React App](https://reactjs.org/docs/create-a-new-react-app.html).
-
 ## Repository Layout
 
 - [server/](server/) - Backend code lives here
