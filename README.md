@@ -43,7 +43,6 @@ GOOGLE_APP_CLIENT_EMAIL=your-client-email
 * `npm start` for development mode, or
 * `npm run build` then `npm run prod-server` for production mode
 
-
 ## Running on Parallel Networks
 
 ### Testnet mode
