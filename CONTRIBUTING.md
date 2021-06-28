@@ -1,5 +1,5 @@
 # Contributing
-Thanks contributing to the explorer!
+Thanks for contributing to the explorer!
 
 We're thrilled you're interested and your help is greatly appreciated. Contributing is a great way to learn about the XRP Ledger (XRPL).
 

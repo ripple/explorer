@@ -21,6 +21,21 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 1.  `npm install -g create-react-app`
 1.  `brew install watchman`
 
+
+### Google BigQuery Setup
+This setup is required for the Tokens page of the explorer to function:
+
+1.  [Select or create a Cloud Platform project][projects].
+1.  [Enable the Google BigQuery API][enable_api].
+1.  [Set up authentication with a service account][auth]
+
+Once you have completed these steps and generated the JSON key file, you must populate the following environment variables in the .env file with their corresponding values from the JSON key file:
+```
+GOOGLE_APP_PROJECT_ID=your-project-id
+GOOGLE_APP_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n...
+GOOGLE_APP_CLIENT_EMAIL=your-client-email
+```
+
 ## Install, compile, and run
 
 * `npm install` then
@@ -101,3 +116,7 @@ The following polyfills has been loaded conditionally to support older browsers 
 1.  [raf](https://www.npmjs.com/package/raf)
 
 Using [require-ensure](https://webpack.js.org/api/module-methods/#require-ensure) Webpack will create different `chunk` for these polyfills and they get loaded if user borwser don't support the feature needed.
+
+[enable_api]: https://console.cloud.google.com/flows/enableapi?apiid=bigquery.googleapis.com
+[projects]: https://console.cloud.google.com/project
+[auth]: https://cloud.google.com/docs/authentication/getting-started
