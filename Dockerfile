@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:13
 MAINTAINER Ripple Operations <ops@ripple.com>
 
 RUN mkdir /explorer
