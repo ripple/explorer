@@ -22,10 +22,14 @@ const MAINNET_LINK = process.env.REACT_APP_MAINNET_LINK;
 const TESTNET_LINK = process.env.REACT_APP_TESTNET_LINK;
 const DEVNET_LINK = process.env.REACT_APP_DEVNET_LINK;
 class Header extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   getCurrentPath() {
-    return this.props.location.pathname;
+    const { location } = this.props;
+    return location.pathname;
   }
 
   toggleExpand = () => {
@@ -75,7 +79,8 @@ class Header extends Component {
 
   render() {
     const { t, isScrolled, width } = this.props;
-    const classNames = `dropdown ${this.state.expanded ? 'expanded' : ''}`;
+    const { expanded } = this.state;
+    const classNames = `dropdown ${expanded ? 'expanded' : ''}`;
     const headerShadow = isScrolled ? 'header-shadow' : '';
     const menu =
       width >= BREAKPOINTS.landscape ? <Menu t={t} currentPath={this.getCurrentPath()} /> : null;
@@ -85,7 +90,7 @@ class Header extends Component {
       ) : null;
 
     return (
-      <React.Fragment>
+      <>
         <div className={`header ${headerShadow}`}>
           <div className={`network ${MODE}`}>
             <div
@@ -151,7 +156,7 @@ class Header extends Component {
 
           <div className="clear" />
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }

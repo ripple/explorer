@@ -9,10 +9,7 @@ describe.only('Transaction reducers', () => {
   });
 
   it('should handle START_LOADING_TRANSACTION', () => {
-    const nextState = Object.assign({}, initialState, {
-      loading: true,
-      data: { id: mockTransaction.hash }
-    });
+    const nextState = { ...initialState, loading: true, data: { id: mockTransaction.hash } };
     expect(
       reducer(initialState, {
         type: actionTypes.START_LOADING_TRANSACTION,
@@ -22,16 +19,14 @@ describe.only('Transaction reducers', () => {
   });
 
   it('should handle FINISH_LOADING_TRANSACTION', () => {
-    const nextState = Object.assign({}, initialState, { loading: false });
+    const nextState = { ...initialState, loading: false };
     expect(reducer(initialState, { type: actionTypes.FINISH_LOADING_TRANSACTION })).toEqual(
       nextState
     );
   });
 
   it('should handle LOADING_TRANSACTION_SUCCESS', () => {
-    const nextState = Object.assign({}, initialState, {
-      data: mockTransaction
-    });
+    const nextState = { ...initialState, data: mockTransaction };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_TRANSACTION_SUCCESS,
@@ -41,10 +36,11 @@ describe.only('Transaction reducers', () => {
   });
 
   it('should handle LOADING_TRANSACTION_FAIL', () => {
-    const nextState = Object.assign({}, initialState, {
+    const nextState = {
+      ...initialState,
       error: true,
       data: { error: BAD_REQUEST, id: mockTransaction.hash }
-    });
+    };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_TRANSACTION_FAIL,
@@ -55,10 +51,11 @@ describe.only('Transaction reducers', () => {
   });
 
   it('should clear data on rehydration', () => {
-    const nextState = Object.assign({}, initialState, {
+    const nextState = {
+      ...initialState,
       error: true,
       data: { error: BAD_REQUEST, id: mockTransaction.hash }
-    });
+    };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_TRANSACTION_FAIL,

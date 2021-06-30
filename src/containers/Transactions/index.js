@@ -62,7 +62,7 @@ class Transaction extends Component {
       ) : (
         <div className="status fail">
           <img src={infoIcon} alt="fail" />
-          {t('fail')} - <span>{data.raw.meta.TransactionResult}</span>
+          {t('fail')} -<span>{data.raw.meta.TransactionResult}</span>
         </div>
       );
     return (
@@ -118,11 +118,11 @@ class Transaction extends Component {
         break;
     }
     return (
-      <React.Fragment>
+      <>
         {this.renderSummary()}
         {this.renderTabs()}
         <div className="tab-body">{body}</div>
-      </React.Fragment>
+      </>
     );
   }
 

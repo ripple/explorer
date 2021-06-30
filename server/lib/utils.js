@@ -78,7 +78,8 @@ const formatAccountInfo = (info, reserve) => ({
 const formatTransaction = tx => {
   const txn = tx.tx || tx;
   return {
-    tx: Object.assign({}, txn, {
+    tx: {
+      ...txn,
       metaData: undefined,
       meta: undefined,
       hash: undefined,
@@ -87,7 +88,7 @@ const formatTransaction = tx => {
       status: undefined,
       validated: undefined,
       date: txn.date ? convertRippleDate(txn.date) : undefined
-    }),
+    },
     meta: tx.meta || tx.metaData,
     hash: txn.hash,
     ledger_index: txn.ledger_index,

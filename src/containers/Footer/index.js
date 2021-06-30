@@ -105,7 +105,7 @@ class Footer extends Component {
 
   renderLanguage() {
     const { isLangOpen } = this.state;
-    const selectedLang = this.props.language;
+    const { language } = this.props;
     const handleEvents = this.languageEvents;
     let items;
     let className = 'language';
@@ -113,7 +113,7 @@ class Footer extends Component {
       items = ORDER.map(code => this.languageItem(LANGUAGES[code]));
       className += ' open';
     } else {
-      items = this.languageItem(LANGUAGES[selectedLang]);
+      items = this.languageItem(LANGUAGES[language]);
     }
 
     return (

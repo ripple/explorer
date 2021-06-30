@@ -9,7 +9,7 @@ const MILLION = 1000000;
 const render = (t, language, action, node, index) => {
   const fields = node.FinalFields || node.NewFields;
   const prev = node.PreviousFields;
-  const numberOption = Object.assign({}, CURRENCY_OPTIONS, { currency: 'XRP' });
+  const numberOption = { ...CURRENCY_OPTIONS, currency: 'XRP' };
   const prevBalance = prev && prev.Balance ? prev.Balance : null;
   const prevAmount = prev && prev.Amount ? prev.Amount : null;
 

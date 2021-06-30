@@ -8,7 +8,7 @@ const render = (t, language, action, node, index) => {
   const fields = node.FinalFields || node.NewFields;
   const prev = node.PreviousFields;
   const { currency } = fields.Balance;
-  const numberOption = Object.assign({}, CURRENCY_OPTIONS, { currency });
+  const numberOption = { ...CURRENCY_OPTIONS, currency };
   let finalBalance = fields.Balance.value;
   let previousBalance = prev && prev.Balance ? prev.Balance.value : 0;
   let account;

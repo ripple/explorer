@@ -18,7 +18,7 @@ const PaymentChannelClaim = props => {
     close,
     deleted
   } = data.instructions;
-  const options = Object.assign({}, CURRENCY_OPTIONS, { currency: 'XRP' });
+  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' };
   const amt = amount ? localizeNumber(amount.amount, language, options) : null;
   const claimAmt = claimed ? localizeNumber(claimed.amount, language, options) : null;
   const totalAmt = total ? localizeNumber(total.amount, language, options) : null;
@@ -26,7 +26,7 @@ const PaymentChannelClaim = props => {
   const sParts = source.split(':');
 
   return (
-    <React.Fragment>
+    <>
       {amount && (
         <div className="row">
           <div className="label">{t('channel_amount')}</div>
@@ -96,7 +96,7 @@ const PaymentChannelClaim = props => {
           <div className="value closed">{t('payment_channel_closed')}</div>
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

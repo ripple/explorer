@@ -6,11 +6,11 @@
  * Part 2 of 2
  */
 
+const addressCodec = require('ripple-address-codec');
 const utils = require('../../lib/utils');
 const rippled = require('../../lib/rippled');
 const summarize = require('../../lib/txSummary');
 const log = require('../../lib/logger')({ name: 'account transactions' });
-const addressCodec = require('ripple-address-codec');
 
 module.exports = (req, res) => {
   const { id: account, currency } = req.params;

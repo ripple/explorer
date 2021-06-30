@@ -8,7 +8,7 @@ import { localizeNumber, localizeDate } from '../utils';
 class TxDetails extends Component {
   renderAmount = d => {
     const { language } = this.props;
-    const options = Object.assign({}, CURRENCY_OPTIONS, { currency: d.currency });
+    const options = { ...CURRENCY_OPTIONS, currency: d.currency };
     const amount = localizeNumber(d.amount, language, options);
 
     return (
@@ -27,8 +27,8 @@ class TxDetails extends Component {
         {owner && (
           <div>
             <span className="label">{t('finish_escrow')}</span>
-            <span className="account"> {owner}</span>
-            <span> - {sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}</span>
+            <span className="account">{owner}</span>
+            <span> -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}</span>
           </div>
         )}
         {amount && (
@@ -40,7 +40,7 @@ class TxDetails extends Component {
         {fulfillment && (
           <div>
             <span className="label">{t('fulfillment')}</span>
-            <span className="fulfillment"> {fulfillment}</span>
+            <span className="fulfillment"> {fulfillment} </span>
           </div>
         )}
       </div>
@@ -55,8 +55,8 @@ class TxDetails extends Component {
         {owner && (
           <div>
             <span className="label">{t('cancel_escrow')}</span>
-            <span className="account"> {owner}</span>
-            <span> - {sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}</span>
+            <span className="account"> {owner} </span>
+            <span> -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}</span>
           </div>
         )}
       </div>
@@ -77,25 +77,25 @@ class TxDetails extends Component {
         {destination && (
           <div>
             <span className="label">{t('destination')}</span>
-            <span className="account"> {destination}</span>
+            <span className="account"> {destination} </span>
           </div>
         )}
         {condition && (
           <div>
             <span className="label">{t('condition')}</span>
-            <span className="condition"> {condition}</span>
+            <span className="condition"> {condition} </span>
           </div>
         )}
         {finishAfter && (
           <div>
             <span className="label">{t('finish_after')}</span>
-            <span>{localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS)} UTC</span>
+            <span> {localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS)} UTC </span>
           </div>
         )}
         {cancelAfter && (
           <div>
             <span className="label">{t('cancel_after')}</span>
-            <span>{localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)} UTC</span>
+            <span> {localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)} UTC </span>
           </div>
         )}
       </div>
@@ -117,7 +117,7 @@ class TxDetails extends Component {
   renderAccountSet() {
     const { t, instructions } = this.props;
     return (
-      <React.Fragment>
+      <>
         {instructions.domain && (
           <div>
             <span className="label">{t('domain')}:</span>{' '}
@@ -155,7 +155,7 @@ class TxDetails extends Component {
         {Object.keys(instructions).length === 0 && (
           <div className="empty">{t('no_account_settings')}</div>
         )}
-      </React.Fragment>
+      </>
     );
   }
 
@@ -164,7 +164,7 @@ class TxDetails extends Component {
     const { key } = instructions;
     return key ? (
       <div className="setregularkey">
-        <span className="label">{t('regular_key')}</span>: <span className="key">{key}</span>
+        <span className="label">{t('regular_key')}</span>:<span className="key">{key}</span>
       </div>
     ) : (
       <div className="unsetregularkey">{t('unset_regular_key')}</div>
@@ -189,7 +189,7 @@ class TxDetails extends Component {
     return pays && gets ? (
       <div className="offercreate">
         <div className="price">
-          <span className="label">{t('price')}:</span>
+          <span className="label"> {t('price')}:</span>
           <span className="amount">
             {` ${price} `}
             {pair}
@@ -245,7 +245,7 @@ class TxDetails extends Component {
         <span className="label">{t('send')}</span>
         {this.renderAmount(amount)}
         <span>{t('to')}</span>
-        <span className="account"> {destination}</span>
+        <span className="account"> {destination} </span>
         {sourceTag !== undefined && (
           <div className="st">
             {t('source_tag')}
@@ -266,11 +266,11 @@ class TxDetails extends Component {
       <div className="paymentChannelCreate">
         <div>
           <span className="label">{t('source')}</span>
-          <span className="account"> {source}</span>
+          <span className="account">{source}</span>
         </div>
         <div>
           <span className="label">{t('destination')}</span>
-          <span className="account"> {destination}</span>
+          <span className="account"> {destination} </span>
         </div>
         <div>
           <span className="label">{t('channel_amount')}</span>
@@ -298,13 +298,13 @@ class TxDetails extends Component {
         {source && (
           <div>
             <span className="label">{t('source')}</span>
-            <span className="account"> {source}</span>
+            <span className="account"> {source} </span>
           </div>
         )}
         {destination && (
           <div>
             <span className="label">{t('destination')}</span>
-            <span className="account"> {destination}</span>
+            <span className="account"> {destination} </span>
           </div>
         )}
         {claimed && (

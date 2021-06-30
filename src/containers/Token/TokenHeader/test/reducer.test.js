@@ -7,14 +7,14 @@ describe('AccountHeader reducers', () => {
   });
 
   it('should handle START_LOADING_ACCOUNT_STATE', () => {
-    const nextState = Object.assign({}, initialState, { loading: true });
+    const nextState = { ...initialState, loading: true };
     expect(reducer(initialState, { type: actionTypes.START_LOADING_ACCOUNT_STATE })).toEqual(
       nextState
     );
   });
 
   it('should handle FINISHED_LOADING_ACCOUNT_STATE', () => {
-    const nextState = Object.assign({}, initialState, { loading: false });
+    const nextState = { ...initialState, loading: false };
     expect(reducer(initialState, { type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE })).toEqual(
       nextState
     );
@@ -22,7 +22,7 @@ describe('AccountHeader reducers', () => {
 
   it('should handle ACCOUNT_STATE_LOAD_SUCCESS', () => {
     const data = [['XRP', 123.456]];
-    const nextState = Object.assign({}, initialState, { data });
+    const nextState = { ...initialState, data };
     expect(
       reducer(initialState, {
         data,
@@ -34,7 +34,7 @@ describe('AccountHeader reducers', () => {
   it('should handle ACCOUNT_STATE_LOAD_FAIL', () => {
     const status = 500;
     const error = 'error';
-    const nextState = Object.assign({}, initialState, { status, error });
+    const nextState = { ...initialState, status, error };
     expect(
       reducer(initialState, {
         status,
@@ -48,8 +48,8 @@ describe('AccountHeader reducers', () => {
     const data = [['XRP', 123.456]];
     const error = 'error';
     const status = 500;
-    const stateWithData = Object.assign({}, initialState, { data });
-    const nextState = Object.assign({}, stateWithData, { error, status });
+    const stateWithData = { ...initialState, data };
+    const nextState = { ...stateWithData, error, status };
     expect(
       reducer(stateWithData, {
         status,
@@ -62,10 +62,7 @@ describe('AccountHeader reducers', () => {
   it('should clear data on rehydration', () => {
     const error = 'error';
     const status = 500;
-    const nextState = Object.assign({}, initialState, {
-      error,
-      status
-    });
+    const nextState = { ...initialState, error, status };
     expect(
       reducer(initialState, {
         type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,

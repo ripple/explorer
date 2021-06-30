@@ -16,13 +16,13 @@ class Payment extends Component {
     const { data, t, language } = this.props;
     const { amount, max = {}, destination, sourceTag, partial } = data.instructions;
     const parts = destination.split(':');
-    const options = Object.assign({}, CURRENCY_OPTIONS, { currency: amount.currency });
+    const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
     const amt = localizeNumber(amount.amount, language, options);
-    const maxOptions = Object.assign({}, CURRENCY_OPTIONS, { currency: max.currency });
+    const maxOptions = { ...CURRENCY_OPTIONS, currency: max.currency };
     const maxAmount = localizeNumber(max.amount, language, maxOptions);
 
     return (
-      <React.Fragment>
+      <>
         {max.amount && (
           <div className="row">
             <div className="label">{t('using_at_most')}</div>
@@ -53,20 +53,20 @@ class Payment extends Component {
             {parts[1] && <span className="dt">:{parts[1]}</span>}
           </div>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 
   renderConversion() {
     const { data, t, language } = this.props;
     const { convert, amount } = data.instructions;
-    const options = Object.assign({}, CURRENCY_OPTIONS, { currency: amount.currency });
+    const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
     const amt = localizeNumber(amount.amount, language, options);
-    const convertOptions = Object.assign({}, CURRENCY_OPTIONS, { currency: convert.currency });
+    const convertOptions = { ...CURRENCY_OPTIONS, currency: convert.currency };
     const convertAmount = localizeNumber(convert.amount, language, convertOptions);
 
     return (
-      <React.Fragment>
+      <>
         <div className="row">
           <div className="label">{t('using_at_most')}</div>
           <div className="value">
@@ -82,7 +82,7 @@ class Payment extends Component {
           </div>
         </div>
         {this.renderPartial()}
-      </React.Fragment>
+      </>
     );
   }
 

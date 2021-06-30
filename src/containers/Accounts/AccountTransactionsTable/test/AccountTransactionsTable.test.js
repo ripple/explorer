@@ -40,7 +40,7 @@ describe('AccountTransactionsTable container', () => {
   });
 
   it('renders loader when fetching data', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.accountTransactions.loading = true;
     const wrapper = creatWrapper(state);
     expect(wrapper.find('.loader').length).toBe(1);
@@ -48,12 +48,13 @@ describe('AccountTransactionsTable container', () => {
   });
 
   it('does not render loader if we have offline data', () => {
-    const state = Object.assign({}, initialState, {
+    const state = {
+      ...initialState,
       accountTransactions: {
         loading: true,
         data: TEST_TRANSACTIONS_DATA
       }
-    });
+    };
     const wrapper = creatWrapper(state);
     expect(wrapper.find('.loader').length).toBe(1);
     wrapper.unmount();

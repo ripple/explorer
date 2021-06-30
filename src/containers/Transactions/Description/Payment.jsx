@@ -43,13 +43,13 @@ const Payment = props => {
         <small>{data.tx.Amount.currency || 'XRP'}</small>
       </b>
       {data.tx.SendMax && (
-        <React.Fragment>
+        <>
           <span> {t('payment_desc_line_5')}</span>
           <b>
             <span> {normalizeAmount(data.tx.SendMax, language)}</span>
             <small>{data.tx.SendMax.currency || 'XRP'}</small>
           </b>
-        </React.Fragment>
+        </>
       )}
     </div>
   );

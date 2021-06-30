@@ -1,6 +1,6 @@
-const log = require('../../lib/logger')({ name: 'token discovery' });
-
 const { BigQuery } = require('@google-cloud/bigquery');
+
+const log = require('../../lib/logger')({ name: 'token discovery' });
 
 const DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 

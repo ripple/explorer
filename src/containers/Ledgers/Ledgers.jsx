@@ -9,11 +9,14 @@ import './css/ledgers.css';
 import { ReactComponent as SuccessIcon } from '../shared/images/success.svg';
 
 class Ledgers extends Component {
-  state = {
-    ledgers: [],
-    validators: {},
-    tooltip: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      ledgers: [],
+      validators: {},
+      tooltip: null
+    };
+  }
 
   static getDerivedStateFromProps = (nextProps, prevState) => ({
     selected: nextProps.selected,
@@ -49,12 +52,13 @@ class Ledgers extends Component {
   showTooltip = (mode, event, data) => {
     const { validators } = this.state;
     this.setState({
-      tooltip: Object.assign({}, data, {
+      tooltip: {
+        ...data,
         mode,
         v: mode === 'validator' && validators[data.pubkey],
         x: event.pageX,
         y: event.pageY
-      })
+      }
     });
   };
 
@@ -116,18 +120,18 @@ class Ledgers extends Component {
     const { t } = this.props;
     return count ? (
       <div className="txn-count">
-        {t('txn_count')}: <b>{count.toLocaleString()}</b>
+        {t('txn_count')}:<b>{count.toLocaleString()}</b>
       </div>
     ) : null;
   };
 
   renderFees = d => {
     const { t, language } = this.props;
-    const options = Object.assign({}, CURRENCY_OPTIONS, { currency: 'XRP' });
+    const options = { ...CURRENCY_OPTIONS, currency: 'XRP' };
     const amount = localizeNumber(d, language, options);
     return d ? (
       <div className="fees">
-        {t('fees')}: <b>{amount}</b>
+        {t('fees')}:<b>{amount}</b>
       </div>
     ) : null;
   };
@@ -196,9 +200,11 @@ class Ledgers extends Component {
   };
 
   renderValidator = (v, i) => {
+    const { setSelected } = this.props;
+    const { selected: selectedState } = this.state;
     const trusted = v.unl ? 'trusted' : '';
-    const unselected = this.state.selected ? 'unselected' : '';
-    const selected = this.state.selected === v.pubkey ? 'selected' : '';
+    const unselected = selectedState ? 'unselected' : '';
+    const selected = selectedState === v.pubkey ? 'selected' : '';
     const className = `validation ${trusted} ${unselected} ${selected} ${v.pubkey}`;
     const partial = v.partial ? <div className="partial" /> : null;
     return (
@@ -211,7 +217,7 @@ class Ledgers extends Component {
         onFocus={e => {}}
         onKeyUp={e => {}}
         onMouseLeave={this.hideTooltip}
-        onClick={() => this.props.setSelected(v.pubkey)}
+        onClick={() => setSelected(v.pubkey)}
       >
         {partial}
       </div>
@@ -219,17 +225,17 @@ class Ledgers extends Component {
   };
 
   render() {
-    const { ledgers, selected } = this.state;
+    const { ledgers, selected, tooltip } = this.state;
     const { t, language } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className="ledgers">
           <div className="control">{selected && this.renderSelected()}</div>
           <div className="ledger-line" />
           <div className="ledger-list">{ledgers.map(this.renderLedger)}</div>
         </div>
-        <Tooltip t={t} language={language} data={this.state.tooltip} />
-      </React.Fragment>
+        <Tooltip t={t} language={language} data={tooltip} />
+      </>
     );
   }
 }
@@ -241,7 +247,8 @@ Ledgers.propTypes = {
   selected: PropTypes.string, // eslint-disable-line
   setSelected: PropTypes.func,
   language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
+  paused: PropTypes.bool
 };
 
 Ledgers.defaultProps = {
@@ -249,7 +256,8 @@ Ledgers.defaultProps = {
   validators: {},
   unlCount: 0,
   selected: null,
-  setSelected: () => {}
+  setSelected: () => {},
+  paused: false
 };
 
 export default translate()(Ledgers);

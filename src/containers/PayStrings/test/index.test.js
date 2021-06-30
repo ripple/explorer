@@ -36,13 +36,14 @@ describe('PayString container', () => {
   });
 
   it('renders static parts', () => {
-    const state = Object.assign({}, initialState, {
+    const state = {
+      ...initialState,
       accountHeader: {
         loading: false,
         error: null,
         data: mockPayStringData
       }
-    });
+    };
 
     const wrapper = creatWrapper(state);
     expect(wrapper.find(PayStringHeader).length).toBe(1);

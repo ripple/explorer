@@ -4,11 +4,11 @@
  * part 1 of 2
  */
 
+const addressCodec = require('ripple-address-codec');
 const streams = require('../../lib/streams');
 const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'account balances' });
 const utils = require('../../lib/utils');
-const addressCodec = require('ripple-address-codec');
 
 const formatResults = (info, data) => {
   const balances = { XRP: Number(info.Balance) / 1000000 };

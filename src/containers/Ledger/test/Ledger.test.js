@@ -33,7 +33,7 @@ describe('Ledger container', () => {
   });
 
   it('renders loading', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.ledger.data = {};
     state.ledger.loading = true;
     const wrapper = createWrapper(state);
@@ -42,7 +42,7 @@ describe('Ledger container', () => {
   });
 
   it('renders ledger navbar', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.ledger.data = mockLedger;
     state.ledger.loading = false;
     state.ledger.error = false;
@@ -55,7 +55,7 @@ describe('Ledger container', () => {
   });
 
   it('renders ledger summary', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.ledger.data = mockLedger;
     state.ledger.loading = false;
     state.ledger.error = false;
@@ -73,7 +73,7 @@ describe('Ledger container', () => {
   });
 
   it('renders transaction table header', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.ledger.data = mockLedger;
     state.ledger.loading = false;
     state.ledger.error = false;
@@ -87,7 +87,7 @@ describe('Ledger container', () => {
   });
 
   it('renders all transactions', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.ledger.data = mockLedger;
     state.ledger.loading = false;
     state.ledger.error = false;
@@ -99,7 +99,7 @@ describe('Ledger container', () => {
   });
 
   it('renders 404 page on no match', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.ledger.data = { error: NOT_FOUND, id: 1 };
     state.ledger.loading = false;
     state.ledger.error = true;
@@ -110,7 +110,7 @@ describe('Ledger container', () => {
   });
 
   it('renders server error', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.ledger.data = { error: SERVER_ERROR, id: 1 };
     state.ledger.loading = false;
     state.ledger.error = true;
@@ -121,7 +121,7 @@ describe('Ledger container', () => {
   });
 
   it('renders invalid id error', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.ledger.data = { error: BAD_REQUEST, id: 'zzzz' };
     state.ledger.loading = false;
 

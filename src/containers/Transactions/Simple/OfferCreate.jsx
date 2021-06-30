@@ -7,13 +7,13 @@ import Currency from '../../shared/components/Currency';
 const OfferCreate = props => {
   const { data, t, language } = props;
   const { price, pair, pays, gets, cancel } = data.instructions;
-  const buyOptions = Object.assign({}, CURRENCY_OPTIONS, { currency: pays.currency });
+  const buyOptions = { ...CURRENCY_OPTIONS, currency: pays.currency };
   const buy = localizeNumber(pays.amount, language, buyOptions);
-  const sellOptions = Object.assign({}, CURRENCY_OPTIONS, { currency: gets.currency });
+  const sellOptions = { ...CURRENCY_OPTIONS, currency: gets.currency };
   const sell = localizeNumber(gets.amount, language, sellOptions);
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label">{t('price')}</div>
         <div className="value">
@@ -38,10 +38,10 @@ const OfferCreate = props => {
       {cancel && (
         <div className="row">
           <div className="label">{t('cancel_offer')}</div>
-          <div className="value"># {cancel}</div>
+          <div className="value">#{cancel}</div>
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

@@ -69,7 +69,8 @@ const cacheNodes = async () => {
       cache.nodes.sort((a, b) => {
         if (a.server_state === b.server_state) {
           return ledgerCompare(a, b);
-        } else if (a.server_state && !b.server_state) {
+        }
+        if (a.server_state && !b.server_state) {
           return -1;
         }
         return 1;

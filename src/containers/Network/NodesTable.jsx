@@ -38,12 +38,12 @@ const renderLedgerHistory = (ledgers, range) => {
     }
 
     return (
-      <React.Fragment>
+      <>
         <div className="boxes" style={{ width: MAX_WIDTH }}>
           {boxes}
         </div>
         <span>{`~${durationToHuman(count * 3.55, 0)}`}</span>
-      </React.Fragment>
+      </>
     );
   }
 
@@ -62,10 +62,10 @@ const formatLedgerHistory = nodes =>
         })
         .filter(l => Boolean(l));
 
-      return Object.assign({}, d, { ledgers });
+      return { ...d, ledgers };
     }
 
-    return Object.assign({}, d);
+    return { ...d };
   });
 
 const getLedgerRange = data => {
@@ -90,7 +90,10 @@ const getLedgerRange = data => {
 };
 
 class NodesTable extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const nodes = nextProps.nodes ? formatLedgerHistory(nextProps.nodes) : null;
@@ -100,32 +103,35 @@ class NodesTable extends Component {
     };
   }
 
-  renderNode = node => (
-    <tr key={node.pubkey_node}>
-      <td className="pubkey">
-        <div className="title">{node.pubkey_node}</div>
-      </td>
-      <td className="host">{node.host}</td>
-      <td className="state center">
-        <span className={node.server_state}>{node.server_state}</span>
-      </td>
-      <td className="version">{node.version}</td>
-      <td className="last-ledger">{renderLastLedger(node.validated_ledger)}</td>
-      <td className="uptime">{durationToHuman(node.uptime)}</td>
-      <td className="peers right">{node.in + node.out}</td>
-      <td className="in-out">
-        <small>
-          ({node.in}:{node.out})
-        </small>
-      </td>
-      <td className="ledgers">{renderLedgerHistory(node.ledgers, this.state.ledgerRange)}</td>
-      <td className="quorum right">{node.quorum}</td>
-      <td className="load-factor right">
-        {node.load_factor && node.load_factor > 1 ? node.load_factor.toFixed(2) : ''}
-      </td>
-      <td className="latency right">{node.latency && node.latency > 1}</td>
-    </tr>
-  );
+  renderNode = node => {
+    const { ledgerRange } = this.state;
+    return (
+      <tr key={node.pubkey_node}>
+        <td className="pubkey">
+          <div className="title">{node.pubkey_node}</div>
+        </td>
+        <td className="host">{node.host}</td>
+        <td className="state center">
+          <span className={node.server_state}>{node.server_state}</span>
+        </td>
+        <td className="version">{node.version}</td>
+        <td className="last-ledger">{renderLastLedger(node.validated_ledger)}</td>
+        <td className="uptime">{durationToHuman(node.uptime)}</td>
+        <td className="peers right">{node.in + node.out}</td>
+        <td className="in-out">
+          <small>
+            ({node.in}:{node.out})
+          </small>
+        </td>
+        <td className="ledgers">{renderLedgerHistory(node.ledgers, ledgerRange)}</td>
+        <td className="quorum right">{node.quorum}</td>
+        <td className="load-factor right">
+          {node.load_factor && node.load_factor > 1 ? node.load_factor.toFixed(2) : ''}
+        </td>
+        <td className="latency right">{node.latency && node.latency > 1}</td>
+      </tr>
+    );
+  };
 
   render() {
     const { t } = this.props;

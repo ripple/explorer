@@ -7,7 +7,7 @@ const SetRegularKey = props => {
   const { quorum, max, signers } = data.instructions;
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label">{t('signers')}</div>
         <div className="value">
@@ -30,7 +30,7 @@ const SetRegularKey = props => {
           {max}
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

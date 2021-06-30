@@ -26,8 +26,9 @@ class TokenHeader extends Component {
   componentWillReceiveProps(nextProps) {
     const nextAccountId = nextProps.accountId;
     const nextCurrency = nextProps.currency;
-    if (nextAccountId !== this.props.accountId || nextCurrency !== this.props.currency) {
-      this.props.actions.loadTokenState(nextCurrency, nextAccountId);
+    const { accountId, currency, actions } = this.props;
+    if (nextAccountId !== accountId || nextCurrency !== currency) {
+      actions.loadTokenState(nextCurrency, nextAccountId);
     }
   }
 

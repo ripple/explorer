@@ -43,7 +43,7 @@ const formatLedgers = data =>
           validated
         };
       });
-      return Object.assign({}, l[1], { hashes });
+      return { ...l[1], hashes };
     })
     .sort((a, b) => b.ledger_index - a.ledger_index);
 
@@ -162,29 +162,6 @@ class Streams extends Component {
     return { ledgers, maxLedger: max };
   }
 
-  updateNegativeUNL() {
-    this.updateQuorum();
-    fetchNegativeUNL().then(nUnl => {
-      const { updateMetrics } = this.props;
-      this.setState(prevState => {
-        const metrics = Object.assign(prevState.metrics, { nUnl });
-        updateMetrics(metrics);
-        return { metrics };
-      });
-    });
-  }
-
-  updateQuorum() {
-    fetchQuorum().then(quorum => {
-      const { updateMetrics } = this.props;
-      this.setState(prevState => {
-        const metrics = Object.assign(prevState.metrics, quorum);
-        updateMetrics(metrics);
-        return { metrics };
-      });
-    });
-  }
-
   purge = () => {
     const now = Date.now();
     this.setState(prevState => {
@@ -207,6 +184,29 @@ class Streams extends Component {
       this.connect();
     }
   };
+
+  updateQuorum() {
+    fetchQuorum().then(quorum => {
+      const { updateMetrics } = this.props;
+      this.setState(prevState => {
+        const metrics = Object.assign(prevState.metrics, quorum);
+        updateMetrics(metrics);
+        return { metrics };
+      });
+    });
+  }
+
+  updateNegativeUNL() {
+    this.updateQuorum();
+    fetchNegativeUNL().then(nUnl => {
+      const { updateMetrics } = this.props;
+      this.setState(prevState => {
+        const metrics = Object.assign(prevState.metrics, { nUnl });
+        updateMetrics(metrics);
+        return { metrics };
+      });
+    });
+  }
 
   connect() {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';

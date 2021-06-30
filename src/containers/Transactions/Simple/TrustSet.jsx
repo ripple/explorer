@@ -7,11 +7,11 @@ import Currency from '../../shared/components/Currency';
 const TrustSet = props => {
   const { data, t, language } = props;
   const { limit } = data.instructions;
-  const options = Object.assign({}, CURRENCY_OPTIONS, { currency: limit.currency });
+  const options = { ...CURRENCY_OPTIONS, currency: limit.currency };
   const amount = localizeNumber(limit.amount, language, options);
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label">{t('set_limit')}</div>
         <div className="value">
@@ -19,7 +19,7 @@ const TrustSet = props => {
           <Currency {...limit} />
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

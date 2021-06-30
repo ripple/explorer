@@ -26,7 +26,11 @@ ERROR_MESSAGES.default = {
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
 
 class Validator extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   componentDidMount() {
     const { t, actions, match, data } = this.props;
     const { identifier = '', tab = 'details' } = match.params;
@@ -114,11 +118,11 @@ class Validator extends Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         {this.renderSummary()}
         {this.renderTabs()}
         <div className="tab-body">{body}</div>
-      </React.Fragment>
+      </>
     );
   }
 

@@ -4,7 +4,8 @@ import { Trans } from 'react-i18next';
 import Account from '../../shared/components/Account';
 
 const DepositPreauth = props => {
-  const { tx } = props.data;
+  const { data } = props;
+  const { tx } = data;
   return tx.Authorize ? (
     <div>
       <Trans i18nKey="deposit_auth">

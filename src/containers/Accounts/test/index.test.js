@@ -36,13 +36,14 @@ describe('Account container', () => {
   });
 
   it('renders static parts', () => {
-    const state = Object.assign({}, initialState, {
+    const state = {
+      ...initialState,
       accountHeader: {
         loading: false,
         error: null,
         data: mockAccountState
       }
-    });
+    };
 
     const wrapper = creatWrapper(state);
     expect(wrapper.find(AccountHeader).length).toBe(1);

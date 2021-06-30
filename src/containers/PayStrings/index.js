@@ -44,7 +44,10 @@ class PayString extends Component {
     );
   }
 
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   componentDidMount() {
     analytics(ANALYTIC_TYPES.pageview, { title: 'PayStrings', path: '/paystrings' });
