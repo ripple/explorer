@@ -55,7 +55,7 @@ describe('Testing hooks', () => {
       wrapper.unmount();
     });
 
-    it('renders all pairs', async done => {
+    it('renders all pairs', done => {
       setImmediate(() => {
         wrapper.update();
         const allPairs = wrapper.find('.pair');
@@ -64,7 +64,7 @@ describe('Testing hooks', () => {
         done();
       });
     });
-    it('renders all PairStats components', async done => {
+    it('renders all PairStats components', done => {
       setImmediate(() => {
         wrapper.update();
         const allLows = wrapper.find('.low');
@@ -86,7 +86,7 @@ describe('Testing hooks', () => {
       wrapper.unmount();
     });
 
-    it('renders on top tokens failure', async done => {
+    it('renders on top tokens failure', done => {
       // setImmediate will execute the callback immediately after all queued promise callbacks are executed
       setImmediate(() => {
         wrapper.update();
