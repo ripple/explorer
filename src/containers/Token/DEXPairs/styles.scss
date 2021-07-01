@@ -20,7 +20,20 @@
       margin: auto;
       border-collapse: collapse;
       font-size: 14px;
+      th {
+        @include bold;
+        color: $white;
+        border-bottom: 1px black solid;
+        font-size: 18px;
+        text-align: center;
+      }
+      .pair-header{
+        padding-right:8%;
+      }
+      .stats-header{
+        padding-left: 8%;
 
+      }
       td {
         width: 200px;
         padding: 2px 5px;
