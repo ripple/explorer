@@ -35,6 +35,16 @@
       font-size: 13px;
       text-align: left;
 
+      .loader {
+        min-height: 13px;
+
+        img {
+          min-height: 15px;
+          display: flex;
+          left: 25%;
+        }
+      }
+
       a {
         color: inherit;
         text-decoration: none;

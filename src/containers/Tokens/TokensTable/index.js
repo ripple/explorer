@@ -25,10 +25,10 @@ function processBigNumber(number, language, currency = undefined) {
 }
 
 const TokensTable = props => {
-  const [tokens, setTokens] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [tokenMap, setTokenMap] = useState(new Map());
   const [loadingMap, setLoadingMap] = useState(new Map());
+  const [renderThing, setRenderThing] = useState(0);
 
   const updateTokenMap = (k, v) => {
     setTokenMap(tokenMap.set(k, v));
@@ -36,8 +36,6 @@ const TokensTable = props => {
   const updateLoadingMap = (k, v) => {
     setLoadingMap(loadingMap.set(k, v));
   };
-
-  const allTokensInfo = [];
   const promises = [];
 
   const { allTokens, t, isError } = props;
@@ -101,6 +99,7 @@ const TokensTable = props => {
 
   useEffect(() => {
     if (allTokens.length === 0) return;
+    setIsLoading(false);
     const numTokensToDisplay = Math.min(NUM_TOKENS_DISPLAYED, allTokens.length);
     for (let rank = 1; rank <= numTokensToDisplay; rank += 1) {
       const tokenInfo = allTokens[rank - 1];
@@ -114,8 +113,7 @@ const TokensTable = props => {
     // Once all the HTTP request calls (ie Promises) are resolved
     Promise.all(promises)
       .then(() => {
-        // Sort the tokens by rank and set the state
-        setIsLoading(false);
+        setRenderThing(old => old + 1);
       })
       .catch(err => {
         Log.error(err);
@@ -138,10 +136,12 @@ const TokensTable = props => {
     const { lng } = props;
     const tokenName = `${tokenInfo.currency}.${tokenInfo.issuer}`;
     const currencySymbol = getLocalizedCurrencySymbol(lng, tokenInfo.currency);
+    const { rank } = tokenInfo;
+    const obligations = tokenInfo.obligations ? processBigNumber(tokenInfo.obligations, lng) : 0;
 
     return (
-      <tr key={tokenInfo.rank} className="tokens-table-row">
-        <td className="rank">{tokenInfo.rank}</td>
+      <tr key={rank} className="tokens-table-row">
+        <td className="rank">{rank}</td>
         <td className="token">
           {tokenInfo.gravatar && <img alt={`${tokenName} logo`} src={tokenInfo.gravatar} />}
           {!tokenInfo.gravatar && currencySymbol}
@@ -158,18 +158,20 @@ const TokensTable = props => {
             </span>
           )}
         </td>
-        <td className="obligations">
-          {tokenInfo.obligations ? processBigNumber(tokenInfo.obligations, lng) : 0}
-        </td>
+        <td className="obligations">{loadingMap.get(rank) ? <Loader /> : obligations}</td>
         <td className="volume">{tokenInfo.volume ? processBigNumber(tokenInfo.volume, lng) : 0}</td>
         <td className="market-cap">
-          {`${processBigNumber(
-            tokenInfo.exchangeRate && tokenInfo.obligations
-              ? tokenInfo.exchangeRate * tokenInfo.obligations
-              : 0,
-            lng,
-            'XRP'
-          )}`}
+          {loadingMap.get(rank) ? (
+            <Loader />
+          ) : (
+            `${processBigNumber(
+              tokenInfo.exchangeRate && tokenInfo.obligations
+                ? tokenInfo.exchangeRate * tokenInfo.obligations
+                : 0,
+              lng,
+              'XRP'
+            )}`
+          )}
         </td>
       </tr>
     );
