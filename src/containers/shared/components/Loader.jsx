@@ -4,11 +4,14 @@ import { translate } from 'react-i18next';
 import loader from '../images/xrp-loader.png';
 import '../css/loader.css';
 
-const Loader = props => (
-  <div className={`loader ${props.className}`}>
-    <img src={loader} alt={props.t('loading')} />
-  </div>
-);
+const Loader = props => {
+  const { className, t } = props;
+  return (
+    <div className={`loader ${className}`}>
+      <img src={loader} alt={t('loading')} />
+    </div>
+  );
+};
 
 Loader.propTypes = {
   className: PropTypes.string,

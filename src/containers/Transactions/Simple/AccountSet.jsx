@@ -13,7 +13,7 @@ const AccountSet = props => {
   } = data.instructions;
 
   return (
-    <React.Fragment>
+    <>
       {domain && (
         <div className="row">
           <div className="label">{t('domain')}</div>
@@ -56,7 +56,7 @@ const AccountSet = props => {
       {Object.keys(data.instructions).length === 0 && (
         <div className="row empty">{t('no_account_settings')}</div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

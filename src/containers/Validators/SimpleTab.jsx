@@ -30,7 +30,7 @@ class SimpleTab extends Component {
       </div>
     );
     return (
-      <React.Fragment>
+      <>
         <div className="row">
           <div className="label">Last Ledger {t('formatted_date', { timeZone: TIME_ZONE })}</div>
           <div className="value">{lastLedgerTime}</div>
@@ -46,7 +46,7 @@ class SimpleTab extends Component {
           <div className="label">Updated {t('formatted_date', { timeZone: TIME_ZONE })}</div>
           <div className="value">{updated}</div>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 
@@ -76,12 +76,13 @@ class SimpleTab extends Component {
   render() {
     const { t, language, data, width } = this.props;
 
-    const formattedData = Object.assign({}, data, {
+    const formattedData = {
+      ...data,
       last_ledger_time: data.last_ledger_time
         ? localizeDate(new Date(data.last_ledger_time), language, DATE_OPTIONS)
         : '',
       updated: data.updated ? localizeDate(new Date(data.updated), language, DATE_OPTIONS) : ''
-    });
+    };
 
     let rowIndex;
     let cartIndex;

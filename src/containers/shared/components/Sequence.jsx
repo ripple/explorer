@@ -4,7 +4,10 @@ import { translate } from 'react-i18next';
 import { ACCOUNT_ZERO } from '../transactionUtils';
 
 class Sequence extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   render() {
     const { t, addContextHelp, sequence, ticketSequence, account } = this.props;

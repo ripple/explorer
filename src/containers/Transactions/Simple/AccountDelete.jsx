@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import AccountTransactionsTable from '../../Accounts/AccountTransactionsTable';
 
 const AccountDelete = props => {
-  const { t } = props;
-  const { account } = props.data.instructions;
+  const { t, data } = props;
+  const { account } = data.instructions;
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div style={{ width: '100%', textAlign: 'center' }}>Account History</div>
       </div>
       <div className="row">
         <AccountTransactionsTable accountId={account} t={t} />
       </div>
-    </React.Fragment>
+    </>
   );
 };
 AccountDelete.propTypes = {

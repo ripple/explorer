@@ -14,7 +14,7 @@ const getDimensions = width => ({
   radius: Math.min(width, MAX_WIDTH) / 25
 });
 
-const prepareHexagaons = (data, list, prev = [], height, radius) => {
+const prepareHexagons = (data, list, prev = [], height, radius) => {
   const maxRows = Math.ceil(height / ((radius * 3) / 2));
   const hexWidth = radius * Math.sqrt(3);
   let row = 0;
@@ -36,30 +36,30 @@ const prepareHexagaons = (data, list, prev = [], height, radius) => {
       row += 1;
     }
 
-    return Object.assign({}, d, pos, list[d.pubkey], {
+    return {
+      ...d,
+      ...pos,
+      ...list[d.pubkey],
       prev:
         prev[i] && prev[i].ledger_hash !== d.ledger_hash
           ? prev[i].ledger_hash.substr(0, 6)
           : undefined
-    });
+    };
   });
 };
 
 class Validators extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { width, height, radius } = getDimensions(nextProps.width);
     return {
       selected: nextProps.selected,
       list: nextProps.list,
-      hexagons: prepareHexagaons(
-        nextProps.data,
-        nextProps.list,
-        prevState.hexagons,
-        height,
-        radius
-      ),
+      hexagons: prepareHexagons(nextProps.data, nextProps.list, prevState.hexagons, height, radius),
       width,
       height,
       radius,
@@ -75,12 +75,7 @@ class Validators extends Component {
   showTooltip = (event, data) => {
     const { list } = this.state;
     this.setState({
-      tooltip: Object.assign({}, data, {
-        mode: 'validator',
-        v: list[data.pubkey],
-        x: event.pageX,
-        y: event.pageY
-      })
+      tooltip: { ...data, mode: 'validator', v: list[data.pubkey], x: event.pageX, y: event.pageY }
     });
   };
 
@@ -140,7 +135,13 @@ class Validators extends Component {
 Validators.propTypes = {
   language: PropTypes.string.isRequired,
   list: PropTypes.shape({}).isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired // eslint-disable-line
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired, // eslint-disable-line
+  width: PropTypes.number.isRequired,
+  selected: PropTypes.string
+};
+
+Validators.defaultProps = {
+  selected: undefined
 };
 
 export default connect(state => ({

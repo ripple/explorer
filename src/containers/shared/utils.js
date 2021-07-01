@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Log from '../shared/log';
+import Log from './log';
 
 const THOUSAND = 1000;
 const MILLION = THOUSAND * THOUSAND;
@@ -63,18 +63,17 @@ export const normalizeLanguage = lang => {
 
   if (lang === 'en' || lang === 'en-US' || lang.indexOf('en-') === 0) {
     return 'en-US'; // Only US English supported now
-  } else if (
-    lang === 'zh' ||
-    lang === 'zh-Hans' ||
-    lang === 'zh-Hant' ||
-    lang.indexOf('zh-') === 0
-  ) {
+  }
+  if (lang === 'zh' || lang === 'zh-Hans' || lang === 'zh-Hant' || lang.indexOf('zh-') === 0) {
     return 'zh-Hans'; // Only Simplified chinese supported now
-  } else if (lang === 'ja' || lang === 'ja-JP' || lang.indexOf('ja-') === 0) {
+  }
+  if (lang === 'ja' || lang === 'ja-JP' || lang.indexOf('ja-') === 0) {
     return 'ja-JP'; // Japanese
-  } else if (lang === 'ko' || lang === 'ko-KR' || lang === 'ko-KP' || lang.indexOf('ko-') === 0) {
+  }
+  if (lang === 'ko' || lang === 'ko-KR' || lang === 'ko-KP' || lang.indexOf('ko-') === 0) {
     return 'ko-KP'; // Korean
-  } else if (
+  }
+  if (
     lang === 'es' ||
     lang === 'es-ES' ||
     lang === 'es-MX' ||
@@ -84,7 +83,8 @@ export const normalizeLanguage = lang => {
     lang.indexOf('es-') === 0
   ) {
     return 'es-MX'; // Mexican Spanish
-  } else if (lang === 'pt-PT' || lang === 'pt-BR' || lang.indexOf('pt-') === 0) {
+  }
+  if (lang === 'pt-PT' || lang === 'pt-BR' || lang.indexOf('pt-') === 0) {
     return 'pt-BR'; // Brazilian Portuguese
   }
 
@@ -102,11 +102,12 @@ export const formatPrice = (number, lang = 'en-US', currency = 'USD', decimals =
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   const number = Number.parseFloat(num);
-  const config = Object.assign({}, NUMBER_DEFAULT_OPTIONS, options);
+  const config = { ...NUMBER_DEFAULT_OPTIONS, ...options };
 
   if (Number.isNaN(number)) {
     return null;
-  } else if (config.style === 'currency') {
+  }
+  if (config.style === 'currency') {
     try {
       const neg = number < 0 ? '-' : '';
       const d = new Intl.NumberFormat(lang, config).format(number);

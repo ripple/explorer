@@ -62,7 +62,7 @@ describe('Ledgers Page container', () => {
     wrapper.unmount();
   });
 
-  test('receives messages from streams', async done => {
+  test('receives messages from streams', async () => {
     const server = new WS(`ws://${window.location.host}/ws`, { jsonProtocol: true });
     const wrapper = createWrapper();
 
@@ -140,7 +140,6 @@ describe('Ledgers Page container', () => {
 
       setTimeout(() => {
         wrapper.unmount();
-        done();
       }, 6000);
     }, 300);
   }, 8000);

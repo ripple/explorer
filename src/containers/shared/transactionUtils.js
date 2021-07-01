@@ -170,7 +170,7 @@ const zeroPad = (num, size, back = false) => {
 export const normalizeAmount = (amount, language = 'en-US') => {
   const currency = amount.currency || 'XRP';
   const value = amount.value || amount / XRP_BASE;
-  const numberOption = Object.assign({}, CURRENCY_OPTIONS, { currency });
+  const numberOption = { ...CURRENCY_OPTIONS, currency };
   return localizeNumber(value, language, numberOption);
 };
 

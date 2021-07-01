@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { ReactComponent as PairLine } from '../../shared/images/pair_line.svg';
 
 const PairStats = props => {
-  const { low, high, token } = props.pair;
+  const { pair } = props;
+  const { low, high, token } = pair;
   const { t } = props;
 
   return (

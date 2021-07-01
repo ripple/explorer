@@ -29,7 +29,7 @@ class SimpleTab extends Component {
   renderRowIndex(time, ledgerIndex, fee, account, sequence, ticketSequence) {
     const { t } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className="row">
           <div className="label">{t('formatted_date', { timeZone: TIME_ZONE })}</div>
           <div className="value">{time}</div>
@@ -56,7 +56,7 @@ class SimpleTab extends Component {
           <div className="label">{t('transaction_cost')}</div>
           <div className="value">{fee}</div>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 
@@ -87,7 +87,7 @@ class SimpleTab extends Component {
   render() {
     const { t, language, data, width } = this.props;
     const { raw } = data;
-    const numberOptions = Object.assign({}, CURRENCY_OPTIONS, { currency: 'XRP' });
+    const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' };
     const time = localizeDate(new Date(raw.date), language, DATE_OPTIONS);
     const ledgerIndex = raw.ledger_index;
     const fee = raw.tx.Fee

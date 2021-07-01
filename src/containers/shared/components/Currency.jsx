@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import Account from './Account';
 
 const Currency = props => {
-  const content = props.issuer ? (
-    <React.Fragment>
-      {props.currency}
+  const { issuer, currency, link } = props;
+  const content = issuer ? (
+    <>
+      {currency}
       {'.'}
-      <Account account={props.issuer} link={props.link} />
-    </React.Fragment>
+      <Account account={issuer} link={link} />
+    </>
   ) : (
-    props.currency
+    currency
   );
 
   return <span className="currency">{content}</span>;

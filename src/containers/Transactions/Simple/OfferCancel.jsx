@@ -8,7 +8,7 @@ const OfferCancel = props => {
   return (
     <div className="row">
       <div className="label">{t('cancel_offer')}</div>
-      <div className="value"># {cancel}</div>
+      <div className="value">#{cancel}</div>
     </div>
   );
 };

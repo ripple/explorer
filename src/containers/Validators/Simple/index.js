@@ -24,7 +24,7 @@ const Simple = props => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label">Domain Name</div>
         <div className="value">{data.domain || 'Unknown'}</div>
@@ -46,7 +46,7 @@ const Simple = props => {
       {renderAgreement('h1', data.agreement_1hour, 'Agreement (1 hour)')}
       {renderAgreement('h24', data.agreement_24hour, 'Agreement (24 hours)')}
       {renderAgreement('d30', data.agreement_30day, 'Agreement (30 days)')}
-    </React.Fragment>
+    </>
   );
 };
 

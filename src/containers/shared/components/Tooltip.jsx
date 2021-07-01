@@ -15,7 +15,10 @@ const DATE_OPTIONS = {
 };
 
 class Tooltip extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   static getDerivedStateFromProps(nextProps) {
     return nextProps.data || { mode: null };
@@ -37,7 +40,7 @@ class Tooltip extends Component {
     const key = v.master_key || pubkey;
 
     return (
-      <React.Fragment>
+      <>
         <div className="domain">{v.domain}</div>
         <div className="pubkey">{key}</div>
         <div className="time">{localizeDate(time, language, DATE_OPTIONS)}</div>
@@ -47,7 +50,7 @@ class Tooltip extends Component {
             <img src={successIcon} alt={v.unl} />
           </div>
         )}
-      </React.Fragment>
+      </>
     );
   }
 
@@ -55,14 +58,14 @@ class Tooltip extends Component {
     const { type, result, account } = this.state;
     const success = result === 'tesSUCCESS';
     return (
-      <React.Fragment>
+      <>
         <div className={`tx-type ${type}`}>
           {type}
           <img src={success ? successIcon : infoIcon} alt={result} />
           <span className={`result ${result}`}>{success ? '' : result}</span>
         </div>
         <div className="account">{account}</div>
-      </React.Fragment>
+      </>
     );
   }
 
@@ -76,10 +79,10 @@ class Tooltip extends Component {
     ));
 
     return (
-      <React.Fragment>
+      <>
         <div className="label">{t('missing')}:</div>
         {list}
-      </React.Fragment>
+      </>
     );
   }
 

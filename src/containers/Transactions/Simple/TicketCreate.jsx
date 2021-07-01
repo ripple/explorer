@@ -6,12 +6,12 @@ const OfferCreate = props => {
   const { ticketCount } = data.instructions;
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label ticket-count">{t('ticket_count')}</div>
         <div className="value">{ticketCount}</div>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

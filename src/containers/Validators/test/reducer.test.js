@@ -8,10 +8,7 @@ describe.only('Validator reducers', () => {
   });
 
   it('should handle START_LOADING_VALIDATOR', () => {
-    const nextState = Object.assign({}, initialState, {
-      loading: true,
-      data: { id: 'mock-validator-key' }
-    });
+    const nextState = { ...initialState, loading: true, data: { id: 'mock-validator-key' } };
     expect(
       reducer(initialState, {
         type: actionTypes.START_LOADING_VALIDATOR,
@@ -21,16 +18,14 @@ describe.only('Validator reducers', () => {
   });
 
   it('should handle FINISH_LOADING_VALIDATOR', () => {
-    const nextState = Object.assign({}, initialState, { loading: false });
+    const nextState = { ...initialState, loading: false };
     expect(reducer(initialState, { type: actionTypes.FINISH_LOADING_VALIDATOR })).toEqual(
       nextState
     );
   });
 
   it('should handle LOADING_VALIDATOR_SUCCESS', () => {
-    const nextState = Object.assign({}, initialState, {
-      data: { master_key: 'foo' }
-    });
+    const nextState = { ...initialState, data: { master_key: 'foo' } };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_VALIDATOR_SUCCESS,
@@ -40,10 +35,11 @@ describe.only('Validator reducers', () => {
   });
 
   it('should handle LOADING_VALIDATOR_FAIL', () => {
-    const nextState = Object.assign({}, initialState, {
+    const nextState = {
+      ...initialState,
       error: true,
       data: { error: BAD_REQUEST, id: 'mock-validator-key' }
-    });
+    };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_VALIDATOR_FAIL,
@@ -54,10 +50,11 @@ describe.only('Validator reducers', () => {
   });
 
   it('should clear data on rehydration', () => {
-    const nextState = Object.assign({}, initialState, {
+    const nextState = {
+      ...initialState,
       error: true,
       data: { error: BAD_REQUEST, id: 'mock-validator-key' }
-    });
+    };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_VALIDATOR_FAIL,

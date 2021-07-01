@@ -36,7 +36,7 @@ describe('Transaction container', () => {
   });
 
   it('renders loading', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.transaction.data = {};
     state.transaction.loading = true;
     const wrapper = createWrapper(state);
@@ -45,7 +45,7 @@ describe('Transaction container', () => {
   });
 
   it('renders 404 page on no match', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.transaction.data = { error: BAD_REQUEST };
     state.transaction.loading = false;
     state.transaction.error = true;
@@ -55,7 +55,7 @@ describe('Transaction container', () => {
   });
 
   it('renders summary section', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.transaction.data = { raw: mockTransaction, summary: mockTransactionSummary };
     state.transaction.loading = false;
     state.transaction.error = false;
@@ -83,7 +83,7 @@ describe('Transaction container', () => {
   });
 
   it('renders tabs', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.transaction.data = { raw: mockTransaction, summary: mockTransactionSummary };
     const wrapper = createWrapper(state);
     expect(wrapper.find('.tabs').length).toBe(1);
@@ -111,7 +111,7 @@ describe('Transaction container', () => {
   });
 
   it('renders detailed tab', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.transaction.data = { raw: mockTransaction, summary: mockTransactionSummary };
     const wrapper = createWrapper(state, 'detailed');
     expect(wrapper.find('a.tab.selected').text()).toEqual('detailed');
@@ -120,7 +120,7 @@ describe('Transaction container', () => {
   });
 
   it('renders raw tab', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.transaction.data = { raw: mockTransaction, summary: mockTransactionSummary };
     const wrapper = createWrapper(state, 'raw');
     expect(wrapper.find('a.tab.selected').text()).toEqual('raw');

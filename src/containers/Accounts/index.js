@@ -33,6 +33,7 @@ class Accounts extends Component {
       currencySelected: 'XRP'
     };
   }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     const { match } = nextProps;
     return {
@@ -69,6 +70,7 @@ class Accounts extends Component {
     const { prevId } = this.state;
     const accountId = match.params.id || '';
     const showError = accountId === prevId && error;
+    const { currencySelected } = this.state;
 
     document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`;
 
@@ -81,14 +83,14 @@ class Accounts extends Component {
             accountId={accountId}
             t={t}
             onSetCurrencySelected={currency => this.setCurrencySelected(currency)}
-            currencySelected={this.state.currencySelected}
+            currencySelected={currencySelected}
           />
         )}
         {accountId && (
           <AccountTransactionsTable
             accountId={accountId}
             t={t}
-            currencySelected={this.state.currencySelected}
+            currencySelected={currencySelected}
           />
         )}
         {!accountId && (

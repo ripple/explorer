@@ -44,19 +44,20 @@ export class TokenTxTable extends Component {
   componentWillReceiveProps(nextProps) {
     const nextAccountId = nextProps.accountId;
     const nextCurrency = nextProps.currency;
-    if (nextAccountId !== this.props.accountId || nextCurrency !== this.props.currency) {
+    const { accountId, currency, actions, data } = this.props;
+    if (nextAccountId !== accountId || nextCurrency !== currency) {
       this.setState({
         transactions: [],
         marker: undefined
       });
-      this.props.actions.loadTokenTransactions(nextAccountId, nextCurrency);
+      actions.loadTokenTransactions(nextAccountId, nextCurrency);
     }
 
     // Only update this.state.transactions if loading just completed without error
     const newTransactionsRecieved =
       nextProps.loadingError === '' &&
       nextProps.data &&
-      this.props.data !== nextProps.data &&
+      data !== nextProps.data &&
       nextProps.data.transactions;
     if (newTransactionsRecieved) {
       this.setState(prevState => ({
@@ -79,11 +80,9 @@ export class TokenTxTable extends Component {
   }
 
   loadMoreTransactions() {
-    this.props.actions.loadTokenTransactions(
-      this.props.accountId,
-      this.props.currency,
-      this.state.marker
-    );
+    const { accountId, currency, actions } = this.props;
+    const { marker } = this.state;
+    actions.loadTokenTransactions(accountId, currency, marker);
   }
 
   formatTransactionData(transaction) {

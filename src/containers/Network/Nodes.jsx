@@ -10,7 +10,10 @@ import Log from '../shared/log';
 import { localizeNumber } from '../shared/utils';
 
 class NodesPage extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   componentDidMount() {
     this.fetchData();
@@ -45,7 +48,7 @@ class NodesPage extends Component {
         <Map nodes={nodes} locations={locations} />
         <div className="stat">
           {nodes && (
-            <React.Fragment>
+            <>
               <span>{t('nodes_found')}: </span>
               <span>
                 {localizeNumber(nodes.length, language)}
@@ -56,7 +59,7 @@ class NodesPage extends Component {
                   </i>
                 ) : null}
               </span>
-            </React.Fragment>
+            </>
           )}
         </div>
         <div className="wrap">

@@ -1,5 +1,5 @@
-const rippled = require('../../lib/rippled');
 const { encodeNodePublic } = require('ripple-address-codec');
+const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'nunl' });
 
 module.exports = (req, res) => {

@@ -8,8 +8,8 @@ import './css/style.css';
 
 class Network extends Component {
   componentDidMount() {
-    const { t } = this.props;
-    const { params } = this.props.match;
+    const { t, match } = this.props;
+    const { params } = match;
     document.title = `${t('xrpl_explorer')} | ${t('network')}`;
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'network',
@@ -18,7 +18,8 @@ class Network extends Component {
   }
 
   render() {
-    const { params, path } = this.props.match;
+    const { match } = this.props;
+    const { params, path } = match;
     const { tab = 'nodes' } = params;
     const base = path.split('/:')[0];
     return tab === 'nodes' ? <Nodes path={base} /> : <Validators path={base} />;

@@ -49,6 +49,7 @@ class Menu extends Component {
   nestedItem(route) {
     const { t } = this.props;
     const { handleEvents } = this;
+    // eslint-disable-next-line react/destructuring-assignment
     const style = { display: this.state[route.title] ? 'block' : 'none' };
     return (
       <div
@@ -94,7 +95,8 @@ class Menu extends Component {
     const menu = routes.map(route => {
       if (route.path) {
         return this.item(route, 'horizontal');
-      } else if (route.link) {
+      }
+      if (route.link) {
         return this.externalLink(route);
       }
 

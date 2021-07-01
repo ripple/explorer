@@ -11,11 +11,14 @@ import Log from '../shared/log';
 import { localizeNumber } from '../shared/utils';
 
 class Validators extends Component {
-  state = {
-    vList: {},
-    liveValidators: [],
-    metrics: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      vList: {},
+      liveValidators: [],
+      metrics: {}
+    };
+  }
 
   componentDidMount() {
     this.fetchData();
@@ -83,20 +86,20 @@ class Validators extends Component {
   };
 
   render() {
-    const { validators, unlCount } = this.state;
+    const { validators, unlCount, vList, liveValidators, metrics } = this.state;
     const { path, t, language } = this.props;
     const tabs = ['nodes', 'validators'];
     return (
       <div className="network-page">
         <Streams
-          validators={this.state.vList}
+          validators={vList}
           updateValidators={this.updateValidators}
           updateMetrics={this.updateMetrics}
         />
-        <Hexagons data={this.state.liveValidators} list={this.state.vList} />
+        <Hexagons data={liveValidators} list={vList} />
         <div className="stat">
           {validators && (
-            <React.Fragment>
+            <>
               <span>{t('validators_found')}: </span>
               <span>
                 {localizeNumber(validators.length, language)}
@@ -107,12 +110,12 @@ class Validators extends Component {
                   </i>
                 )}
               </span>
-            </React.Fragment>
+            </>
           )}
         </div>
         <div className="wrap">
           <Tabs tabs={tabs} selected="validators" path={path} />
-          <ValidatorsTable validators={validators} metrics={this.state.metrics} />
+          <ValidatorsTable validators={validators} metrics={metrics} />
         </div>
       </div>
     );

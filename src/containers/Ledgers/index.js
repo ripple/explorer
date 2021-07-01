@@ -10,11 +10,14 @@ import LedgerMetrics from './LedgerMetrics';
 import Ledgers from './Ledgers';
 
 class LedgersPage extends Component {
-  state = {
-    validators: {},
-    ledgers: [],
-    paused: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      validators: {},
+      ledgers: [],
+      paused: false
+    };
+  }
 
   componentDidMount() {
     const { t } = this.props;
@@ -66,27 +69,28 @@ class LedgersPage extends Component {
 
   render() {
     const { language } = this.props;
+    const { validators, metrics, paused, ledgers, unlCount, selected } = this.state;
     return (
       <div className="ledgers-page">
         <Streams
-          validators={this.state.validators}
+          validators={validators}
           updateLedgers={this.updateLedgers}
           updateMetrics={this.updateMetrics}
         />
         <LedgerMetrics
           language={language}
-          data={this.state.metrics}
+          data={metrics}
           onPause={() => this.pause()}
-          paused={this.state.paused}
+          paused={paused}
         />
         <Ledgers
           language={language}
-          ledgers={this.state.ledgers}
-          validators={this.state.validators}
-          unlCount={this.state.unlCount}
-          selected={this.state.selected}
+          ledgers={ledgers}
+          validators={validators}
+          unlCount={unlCount}
+          selected={selected}
           setSelected={this.setSelected}
-          paused={this.state.paused}
+          paused={paused}
         />
       </div>
     );

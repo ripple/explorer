@@ -19,31 +19,32 @@ const DEFAULTS = {
 };
 
 const renderXRP = (d, language) => {
-  const options = Object.assign({}, CURRENCY_OPTIONS, { currency: 'XRP' });
+  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' };
   return localizeNumber(d, language, options);
 };
 
 class LedgerMetrics extends Component {
-  state = {
-    tooltip: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      tooltip: null
+    };
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    return Object.assign({}, prevState, nextProps);
+    return { ...prevState, ...nextProps };
   }
 
   showTooltip = event => {
+    const { data, nUnl } = this.state;
     this.setState({
-      tooltip: Object.assign(
-        {},
-        { nUnl: this.state.data.nUnl },
-        {
-          mode: 'nUnl',
-          v: this.state.nUnl,
-          x: event.pageX,
-          y: event.pageY
-        }
-      )
+      tooltip: {
+        nUnl: data.nUnl,
+        mode: 'nUnl',
+        v: nUnl,
+        x: event.pageX,
+        y: event.pageY
+      }
     });
   };
 
@@ -64,7 +65,8 @@ class LedgerMetrics extends Component {
 
   render() {
     const { language, t } = this.props;
-    const data = Object.assign({}, DEFAULTS, this.state.data);
+    const { data: stateData } = this.state;
+    const data = { ...DEFAULTS, ...stateData };
 
     if (data.load_fee === '--') {
       data.load_fee = data.base_fee || '--';
@@ -115,11 +117,13 @@ class LedgerMetrics extends Component {
       })
       .reverse();
 
+    const { tooltip } = this.state;
+
     return (
       <div className="metrics-control">
         <div className="control">{this.renderPause()}</div>
         <div className="metrics">{items}</div>
-        <Tooltip t={t} language={language} data={this.state.tooltip} />
+        <Tooltip t={t} language={language} data={tooltip} />
       </div>
     );
   }

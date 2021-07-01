@@ -20,15 +20,20 @@ import './search.css';
 const getIdType = id => {
   if (DECIMAL_REGEX.test(id)) {
     return 'ledgers';
-  } else if (isValidClassicAddress(id)) {
+  }
+  if (isValidClassicAddress(id)) {
     return 'accounts';
-  } else if (HASH_REGEX.test(id)) {
+  }
+  if (HASH_REGEX.test(id)) {
     return 'transactions';
-  } else if (isValidXAddress(id) || isValidClassicAddress(id.split(':')[0])) {
+  }
+  if (isValidXAddress(id) || isValidClassicAddress(id.split(':')[0])) {
     return 'accounts'; // TODO: Consider a new path/page specific to X-addresses
-  } else if (isValidPayString(id) || isValidPayString(id.replace('@', '$'))) {
+  }
+  if (isValidPayString(id) || isValidPayString(id.replace('@', '$'))) {
     return 'paystrings';
-  } else if (CURRENCY_REGEX.test(id) && isValidClassicAddress(id.split('.')[1])) {
+  }
+  if (CURRENCY_REGEX.test(id) && isValidClassicAddress(id.split('.')[1])) {
     return 'token';
   }
 
@@ -40,7 +45,8 @@ const getIdType = id => {
 const normalize = (id, type) => {
   if (type === 'transactions') {
     return id.toUpperCase();
-  } else if (type === 'accounts' && id.includes(':')) {
+  }
+  if (type === 'accounts' && id.includes(':')) {
     // TODO: Test invalid classic address; "invalid" tag (?)
     const components = id.split(':');
     try {
@@ -75,12 +81,6 @@ class Search extends Component {
     this.setState({ redirect: '' });
   }
 
-  onKeyDown(event) {
-    if (event.key === 'Enter') {
-      this.handleSearch(event.currentTarget.value.trim());
-    }
-  }
-
   handleSearch(id) {
     const { callback } = this.props;
     const type = getIdType(id);
@@ -97,6 +97,12 @@ class Search extends Component {
       },
       callback
     );
+  }
+
+  onKeyDown(event) {
+    if (event.key === 'Enter') {
+      this.handleSearch(event.currentTarget.value.trim());
+    }
   }
 
   render() {

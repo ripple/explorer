@@ -39,11 +39,14 @@ const calculateDelaySinceLastUpdate = lastUpdatedTime => {
 
     if (diffInMinutes <= 1) {
       return `Last updated 1 minute ago`;
-    } else if (diffInMinutes < 60) {
+    }
+    if (diffInMinutes < 60) {
       return `Last updated ${diffInMinutes} minutes ago`;
-    } else if (diffInMinutes >= 60 && diffInMinutes < 90) {
+    }
+    if (diffInMinutes >= 60 && diffInMinutes < 90) {
       return `Last updated 1 hour ago`;
-    } else if (diffInMinutes >= 90) {
+    }
+    if (diffInMinutes >= 90) {
       return `Last updated ${Math.round(diffInMinutes / 60)} hours ago`;
     }
   }

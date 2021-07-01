@@ -9,11 +9,11 @@ import { localizeNumber } from '../../shared/utils';
 const EscrowCancel = props => {
   const { data, language, t } = props;
   const { owner, sequence, tx, destination, amount = {}, condition } = data.instructions;
-  const options = Object.assign({}, CURRENCY_OPTIONS, { currency: amount.currency });
+  const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
   const amt = localizeNumber(amount.amount, language, options);
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label">{t('cancel_escrow')}</div>
         <div className="value">
@@ -54,7 +54,7 @@ const EscrowCancel = props => {
           </div>
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

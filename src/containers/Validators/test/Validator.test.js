@@ -34,7 +34,7 @@ describe('Validator container', () => {
   });
 
   it('renders loading', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.validator.data = {};
     state.validator.loading = true;
     const wrapper = createWrapper(state);
@@ -43,7 +43,7 @@ describe('Validator container', () => {
   });
 
   it('sets title to domain', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.validator.data = {
       domain: 'example.com'
     };
@@ -53,7 +53,7 @@ describe('Validator container', () => {
   });
 
   it('sets title to master_key', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.validator.data = {
       master_key: 'foo'
     };
@@ -63,7 +63,7 @@ describe('Validator container', () => {
   });
 
   it('sets title to signing_key', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.validator.data = {
       signing_key: 'bar'
     };
@@ -73,7 +73,7 @@ describe('Validator container', () => {
   });
 
   it('renders 404 page on no match', () => {
-    const state = Object.assign({}, initialState);
+    const state = { ...initialState };
     state.validator.data = { error: BAD_REQUEST };
     state.validator.loading = false;
     state.validator.error = true;
