@@ -27,6 +27,15 @@ function processBigNumber(number, language, currency = undefined) {
 const TokensTable = props => {
   const [tokens, setTokens] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [tokenMap, setTokenMap] = useState(new Map());
+  const [loadingMap, setLoadingMap] = useState(new Map());
+
+  const updateTokenMap = (k, v) => {
+    setTokenMap(tokenMap.set(k, v));
+  };
+  const updateLoadingMap = (k, v) => {
+    setLoadingMap(loadingMap.set(k, v));
+  };
 
   const allTokensInfo = [];
   const promises = [];
@@ -66,7 +75,8 @@ const TokensTable = props => {
       };
 
       // Populate allTokensInfo array
-      allTokensInfo.push(tokenData);
+      updateTokenMap(rank, tokenData);
+      updateLoadingMap(rank, false);
     };
 
     // .then returns a Promise
@@ -95,6 +105,8 @@ const TokensTable = props => {
     for (let rank = 1; rank <= numTokensToDisplay; rank += 1) {
       const tokenInfo = allTokens[rank - 1];
 
+      updateTokenMap(rank, tokenInfo);
+      updateLoadingMap(rank, true);
       // We populate 'promises' with Promises to then be able to use Promise.all
       promises.push(retrieveExchangeDataByToken(tokenInfo, rank));
     }
@@ -103,12 +115,10 @@ const TokensTable = props => {
     Promise.all(promises)
       .then(() => {
         // Sort the tokens by rank and set the state
-        setTokens(allTokensInfo.sort((a, b) => a.rank - b.rank));
         setIsLoading(false);
       })
       .catch(err => {
         Log.error(err);
-        setIsLoading(false);
       });
   }, [allTokens]);
 
@@ -187,7 +197,11 @@ const TokensTable = props => {
                 <th>{t('market_cap')}</th>
               </tr>
             )}
-            {!isLoading && !isError && tokens.map(renderRow)}
+            {!isLoading &&
+              !isError &&
+              Array.from(tokenMap.keys()).map(rank => {
+                return renderRow({ ...tokenMap.get(rank), rank });
+              })}
           </tbody>
         </table>
         {isLoading && <Loader />}
@@ -205,11 +219,11 @@ TokensTable.propTypes = {
       currency: PropTypes.string.isRequired,
       trustlines: PropTypes.number.isRequired,
       volume: PropTypes.number,
-      rank: PropTypes.number.isRequired,
+      rank: PropTypes.number,
       gravatar: PropTypes.string,
       domain: PropTypes.string,
-      obligations: PropTypes.number,
-      exchangeRate: PropTypes.number
+      exchangeRate: PropTypes.number,
+      obligations: PropTypes.number
     })
   ).isRequired,
   lng: PropTypes.string.isRequired,
