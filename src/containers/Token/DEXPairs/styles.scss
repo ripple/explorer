@@ -22,8 +22,9 @@
       font-size: 14px;
       th {
         @include bold;
-        color: $white;
+
         border-bottom: 1px black solid;
+        color: $white;
         font-size: 18px;
         text-align: center;
       }
