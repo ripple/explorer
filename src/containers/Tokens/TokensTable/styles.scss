@@ -25,6 +25,14 @@
     width: 100%;
     flex-flow: row wrap;
 
+    img {
+      width: 13px;
+      height: 13px;
+      margin-right: 2px;
+      margin-left: 0px;
+      object-fit: contain;
+    }
+
     table {
       width: 100%;
       border-top: none;
@@ -39,9 +47,9 @@
         min-height: 13px;
 
         img {
-          min-height: 15px;
-          display: flex;
           left: 25%;
+          display: flex;
+          min-height: 15px;
         }
       }
 
@@ -93,14 +101,6 @@
       td {
         padding: 2px 5px;
         color: $white;
-      }
-
-      img {
-        width: 13px;
-        height: 13px;
-        margin-right: 2px;
-        margin-left: 0px;
-        object-fit: contain;
       }
 
       .question {
