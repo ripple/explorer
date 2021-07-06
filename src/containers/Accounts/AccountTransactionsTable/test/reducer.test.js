@@ -7,14 +7,14 @@ describe('AccountHeader reducers', () => {
   });
 
   it('should handle START_LOADING_ACCOUNT_TRANSACTIONS', () => {
-    const nextState = Object.assign({}, initialState, { loading: true });
+    const nextState = { ...initialState, loading: true };
     expect(reducer(initialState, { type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS })).toEqual(
       nextState
     );
   });
 
   it('should handle FINISHED_LOADING_ACCOUNT_TRANSACTIONS', () => {
-    const nextState = Object.assign({}, initialState, { loading: false });
+    const nextState = { ...initialState, loading: false };
     expect(
       reducer(initialState, { type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS })
     ).toEqual(nextState);
@@ -30,7 +30,7 @@ describe('AccountHeader reducers', () => {
         to: 'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn'
       }
     ];
-    const nextState = Object.assign({}, initialState, { data });
+    const nextState = { ...initialState, data };
     expect(
       reducer(initialState, {
         data,
@@ -41,7 +41,7 @@ describe('AccountHeader reducers', () => {
 
   it('should handle ACCOUNT_TRANSACTIONS_LOAD_FAIL', () => {
     const error = 'get_account_transactions_failed';
-    const nextState = Object.assign({}, initialState, { error });
+    const nextState = { ...initialState, error };
     expect(
       reducer(initialState, {
         error,
@@ -61,8 +61,8 @@ describe('AccountHeader reducers', () => {
       }
     ];
     const error = 'get_account_transactions_failed';
-    const stateWithData = Object.assign({}, initialState, { data });
-    const nextState = Object.assign({}, stateWithData, { error });
+    const stateWithData = { ...initialState, data };
+    const nextState = { ...stateWithData, error };
     expect(
       reducer(stateWithData, {
         error,
@@ -72,7 +72,7 @@ describe('AccountHeader reducers', () => {
   });
 
   it('should clear data on rehydration', () => {
-    const nextState = Object.assign({}, initialState, { error: 'error' });
+    const nextState = { ...initialState, error: 'error' };
     expect(
       reducer(initialState, {
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL,

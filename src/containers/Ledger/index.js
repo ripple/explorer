@@ -164,7 +164,7 @@ class Ledger extends Component {
                 <Sequence
                   sequence={sequence}
                   ticketSequence={ticketSequence}
-                  language={this.props.language}
+                  language={language}
                   account={account}
                 />
               </div>
@@ -188,10 +188,10 @@ class Ledger extends Component {
   renderLedger() {
     const { data } = this.props;
     return data.ledger_hash ? (
-      <React.Fragment>
+      <>
         {this.renderNav()}
         {this.renderTable()}
-      </React.Fragment>
+      </>
     ) : null;
   }
 

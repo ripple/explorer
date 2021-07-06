@@ -24,16 +24,17 @@ export class PayStringAddressesTable extends Component {
 
   componentWillReceiveProps(nextProps) {
     const nextAccountId = nextProps.accountId;
-    if (nextAccountId !== this.props.accountId) {
+    const { accountId, actions, data } = this.props;
+    if (nextAccountId !== accountId) {
       this.setState({
         data: {}
       });
-      this.props.actions.loadPayStringData(nextAccountId);
+      actions.loadPayStringData(nextAccountId);
     }
 
     // Only update this.state.data if loading just completed without error
     const newDataRecieved =
-      nextProps.loadingError === '' && nextProps.data && this.props.data !== nextProps.data;
+      nextProps.loadingError === '' && nextProps.data && data !== nextProps.data;
 
     if (newDataRecieved) {
       this.setState(prevState => ({

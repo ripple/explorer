@@ -42,7 +42,7 @@ describe('Nodes Page container', () => {
     wrapper.unmount();
   });
 
-  it('receives live validation', async done => {
+  it('receives live validation', async () => {
     const server = new WS(`ws://${window.location.host}/ws`, { jsonProtocol: true });
     const wrapper = createWrapper();
 
@@ -83,7 +83,6 @@ describe('Nodes Page container', () => {
       expect(wrapper.find('.validators .hexagons').length).toBe(1);
       expect(wrapper.find('.validators-table table tr').length).toBe(5);
       wrapper.unmount();
-      done();
     });
   });
 });

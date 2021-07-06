@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import Account from '../../shared/components/Account';
 
 const SignerListSet = props => {
-  const { t } = props;
-  const { tx } = props.data;
+  const { t, data } = props;
+  const { tx } = data;
 
   return tx.SignerQuorum === 0 ? (
     <div>{t('delete_singer_list_description')}</div>
   ) : (
-    <React.Fragment>
+    <>
       <div>{t('set_signer_list_description', { quorum: tx.SignerQuorum })}:</div>
       <ul className="signers">
         {tx.SignerEntries.map(d => (
@@ -20,7 +20,7 @@ const SignerListSet = props => {
           </li>
         ))}
       </ul>
-    </React.Fragment>
+    </>
   );
 };
 

@@ -22,7 +22,8 @@ const TransactionDescription = props => {
 
   if (!data || !data.tx) {
     return null;
-  } else if (data.tx.TransactionType === 'OfferCreate') {
+  }
+  if (data.tx.TransactionType === 'OfferCreate') {
     body = <OfferCreate t={t} language={language} data={data} />;
   } else if (data.tx.TransactionType === 'OfferCancel') {
     body = <OfferCancel t={t} data={data} />;

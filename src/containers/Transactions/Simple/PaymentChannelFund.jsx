@@ -16,7 +16,7 @@ const PaymentChannelFund = props => {
     channel
   } = data.instructions;
 
-  const options = Object.assign({}, CURRENCY_OPTIONS, { currency: 'XRP' });
+  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' };
   const amt = amount ? localizeNumber(amount.amount, language, options) : null;
   const increaseAmt = increase ? localizeNumber(increase.amount, language, options) : null;
   const totalAmt = total ? localizeNumber(total.amount, language, options) : null;
@@ -24,7 +24,7 @@ const PaymentChannelFund = props => {
   const sParts = source.split(':');
 
   return (
-    <React.Fragment>
+    <>
       {increase && (
         <div className="row">
           <div className="label">{t('channel_amount_increase')}</div>
@@ -76,7 +76,7 @@ const PaymentChannelFund = props => {
           <div className="value channel">{channel}</div>
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

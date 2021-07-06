@@ -38,7 +38,7 @@ const formatPaychannel = d => ({
 
 // generic RPC query
 const query = options => {
-  const params = Object.assign({}, options, { headers: { 'X-User': HOSTNAME } });
+  const params = { ...options, headers: { 'X-User': HOSTNAME } };
   return axios.post(URL, params).catch(error => {
     const message = error.response && error.response.data ? error.response.data : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
@@ -50,7 +50,7 @@ const query = options => {
 module.exports.getLedger = parameters => {
   const request = {
     method: 'ledger',
-    params: [Object.assign({}, parameters, { transactions: true, expand: true })]
+    params: [{ ...parameters, transactions: true, expand: true }]
   };
 
   return query(request)

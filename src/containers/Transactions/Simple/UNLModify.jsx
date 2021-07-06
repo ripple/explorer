@@ -9,7 +9,7 @@ const UNLModify = props => {
   const encoded = encodeNodePublic(Buffer.from(validator, 'hex'));
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label">{t('validator')}</div>
         <div className="value">
@@ -20,7 +20,7 @@ const UNLModify = props => {
         <div className="label">{t('action')}</div>
         <div className="value"> {disabling ? 'DISABLE' : 'ENABLE'}</div>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

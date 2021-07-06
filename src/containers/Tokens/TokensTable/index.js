@@ -31,6 +31,8 @@ const TokensTable = props => {
   const allTokensInfo = [];
   const promises = [];
 
+  const { allTokens, t, isError } = props;
+
   /**
    * Retrieves all the necessary information for a specific token
    *
@@ -88,10 +90,10 @@ const TokensTable = props => {
   };
 
   useEffect(() => {
-    if (props.allTokens.length === 0) return;
-    const numTokensToDisplay = Math.min(NUM_TOKENS_DISPLAYED, props.allTokens.length);
+    if (allTokens.length === 0) return;
+    const numTokensToDisplay = Math.min(NUM_TOKENS_DISPLAYED, allTokens.length);
     for (let rank = 1; rank <= numTokensToDisplay; rank += 1) {
-      const tokenInfo = props.allTokens[rank - 1];
+      const tokenInfo = allTokens[rank - 1];
 
       // We populate 'promises' with Promises to then be able to use Promise.all
       promises.push(retrieveExchangeDataByToken(tokenInfo, rank));
@@ -108,10 +110,10 @@ const TokensTable = props => {
         Log.error(err);
         setIsLoading(false);
       });
-  }, [props.allTokens]);
+  }, [allTokens]);
 
   function renderNoTokens() {
-    return <div className="empty-tokens-message">{props.t('no_tokens_message')}</div>;
+    return <div className="empty-tokens-message">{t('no_tokens_message')}</div>;
   }
 
   function renderTooltip(tooltipText, altText) {
@@ -172,24 +174,24 @@ const TokensTable = props => {
             {!isLoading && (
               <tr className="tokens-table-header">
                 <th>
-                  {props.t('rank')}
-                  {renderTooltip(props.t('rank_message'), 'Rank')}
+                  {t('rank')}
+                  {renderTooltip(t('rank_message'), 'Rank')}
                 </th>
-                <th>{props.t('token')}</th>
-                <th>{props.t('issuer_address')}</th>
+                <th>{t('token')}</th>
+                <th>{t('issuer_address')}</th>
                 <th>
-                  {props.t('obligations')}
-                  {renderTooltip(props.t('obligations_message'), 'Obligations')}
+                  {t('obligations')}
+                  {renderTooltip(t('obligations_message'), 'Obligations')}
                 </th>
-                <th>{props.t('volume_24h')}</th>
-                <th>{props.t('market_cap')}</th>
+                <th>{t('volume_24h')}</th>
+                <th>{t('market_cap')}</th>
               </tr>
             )}
-            {!isLoading && !props.isError && tokens.map(renderRow)}
+            {!isLoading && !isError && tokens.map(renderRow)}
           </tbody>
         </table>
         {isLoading && <Loader />}
-        {props.isError && renderNoTokens()}
+        {isError && renderNoTokens()}
       </div>
     </div>
   );
@@ -202,7 +204,12 @@ TokensTable.propTypes = {
       issuer: PropTypes.string.isRequired,
       currency: PropTypes.string.isRequired,
       trustlines: PropTypes.number.isRequired,
-      volume: PropTypes.number
+      volume: PropTypes.number,
+      rank: PropTypes.number.isRequired,
+      gravatar: PropTypes.string,
+      domain: PropTypes.string,
+      obligations: PropTypes.number,
+      exchangeRate: PropTypes.number
     })
   ).isRequired,
   lng: PropTypes.string.isRequired,

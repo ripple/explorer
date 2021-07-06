@@ -43,7 +43,10 @@ class ValidatorsTable extends Component {
     return data;
   };
 
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   static renderDomain = domain =>
     domain && (
@@ -69,10 +72,11 @@ class ValidatorsTable extends Component {
   };
 
   renderValidator = d => {
+    const { metrics } = this.state;
     const color = d.ledger_hash ? `#${d.ledger_hash.substr(0, 6)}` : '';
     const trusted = d.unl ? 'yes' : 'no';
     const pubkey = d.master_key || d.signing_key;
-    const onNegativeUnl = this.state.metrics.nUnl && this.state.metrics.nUnl.includes(pubkey);
+    const onNegativeUnl = metrics.nUnl && metrics.nUnl.includes(pubkey);
     const nUnl = onNegativeUnl ? 'yes' : 'no';
 
     return (
@@ -131,7 +135,8 @@ class ValidatorsTable extends Component {
 
 ValidatorsTable.propTypes = {
   validators: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
+  metrics: PropTypes.shape({}).isRequired
 };
 
 ValidatorsTable.defaultProps = {

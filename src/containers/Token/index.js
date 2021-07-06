@@ -45,7 +45,10 @@ class Token extends Component {
     );
   }
 
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   componentDidMount() {
     analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' });

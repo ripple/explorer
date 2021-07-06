@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Account = props =>
-  props.link ? (
-    <Link className="account" title={props.account} to={`/accounts/${props.account}`}>
-      {props.account}
+const Account = props => {
+  const { link, account } = props;
+  return link ? (
+    <Link className="account" title={account} to={`/accounts/${account}`}>
+      {account}
     </Link>
   ) : (
-    <span className="account" title={props.account}>
-      {props.account}
+    <span className="account" title={account}>
+      {account}
     </span>
   );
+};
 
 Account.defaultProps = {
   link: true

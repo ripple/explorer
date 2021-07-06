@@ -26,10 +26,10 @@ class DetailTab extends Component {
       line1 = t('successful_transaction');
     } else {
       line1 = (
-        <React.Fragment>
+        <>
           {t('fail_transaction')}
           <span className="tx-result fail">{TransactionResult}</span>
-        </React.Fragment>
+        </>
       );
     }
 
@@ -65,7 +65,7 @@ class DetailTab extends Component {
 
   renderFee() {
     const { t, data, language } = this.props;
-    const numberOptions = Object.assign({}, CURRENCY_OPTIONS, { currency: 'XRP' });
+    const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' };
     const totalCost = data.tx.Fee
       ? localizeNumber(Number.parseFloat(data.tx.Fee) / XRP_BASE, language, numberOptions)
       : null;

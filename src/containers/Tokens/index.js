@@ -18,7 +18,9 @@ const Tokens = props => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  document.title = `${props.t('xrpl_explorer')} | ${props.t('tokens')}`;
+  const { t, error } = props;
+
+  document.title = `${t('xrpl_explorer')} | ${t('tokens')}`;
 
   useEffect(() => {
     axios
@@ -29,11 +31,11 @@ const Tokens = props => {
         setUpdatedTime(updated);
         setIsLoading(false);
       })
-      .catch(error => {
-        Log.error(`${TOP_TOKENS_URL} --- ${JSON.stringify(error)}`);
+      .catch(axiosError => {
+        Log.error(`${TOP_TOKENS_URL} --- ${JSON.stringify(axiosError)}`);
 
         analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `${TOP_TOKENS_URL} --- ${JSON.stringify(error)}`
+          exDescription: `${TOP_TOKENS_URL} --- ${JSON.stringify(axiosError)}`
         });
 
         setUpdatedTime(NaN);
@@ -42,8 +44,8 @@ const Tokens = props => {
       });
   }, []);
 
-  return props.error ? (
-    Tokens.renderError(props.error)
+  return error ? (
+    Tokens.renderError(error)
   ) : (
     <div className="token-discovery-page">
       <TokensHeader tokens={allTokens} isLoading={isLoading} isError={isError} />

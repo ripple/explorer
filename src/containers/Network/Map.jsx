@@ -15,7 +15,10 @@ const BAR_COUNT = 30;
 const HEX_RADIUS_FACTOR = 40;
 
 class Map extends Component {
-  state = { countries: feature(mapJSON, mapJSON.objects.countries).features };
+  constructor(props) {
+    super(props);
+    this.state = { countries: feature(mapJSON, mapJSON.objects.countries).features };
+  }
 
   static getProjection = (width, height) =>
     geoNaturalEarth1()
@@ -40,9 +43,9 @@ class Map extends Component {
   }
 
   renderMap(width, height) {
-    const { locations, t } = this.props;
+    const { locations, t, width: propsWidth } = this.props;
     const { countries, tooltip } = this.state;
-    const offset = (this.props.width - width) / 2;
+    const offset = (propsWidth - width) / 2;
     const projection = Map.getProjection(width, height);
     const hex = Map.getHexbin(offset, width, height);
     const bins = hex(locations.map(node => projection([node.long, node.lat])));
@@ -69,7 +72,7 @@ class Map extends Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         <g className="map">
           {countries.map(d => (
             <path
@@ -155,17 +158,17 @@ class Map extends Component {
             </text>
           </g>
         )}
-      </React.Fragment>
+      </>
     );
   }
 
   render() {
-    const { locations } = this.props;
+    const { locations, width: propsWidth } = this.props;
     const { width, height } = this.getDimensions();
     return (
       <div className="nodes-map" style={{ height }}>
         {!locations && <Loader />}
-        <svg width={this.props.width} height={height}>
+        <svg width={propsWidth} height={height}>
           {locations && this.renderMap(width, height)}
         </svg>
       </div>

@@ -135,33 +135,34 @@ class EnableAmendment extends Component {
   }
 
   render() {
+    const { amendmentName, amendmentStatus, minRippledVersion, expectedDate } = this.state;
     return (
-      <React.Fragment>
+      <>
         {[
           <div className="row">
             <div className="label">Amendment Name </div>
-            <div className="value">{this.state.amendmentName}</div>
+            <div className="value">{amendmentName}</div>
           </div>,
           <div className="row">
             <div className="label">Amendment Status </div>
             <div className="value">
               <a href="https://xrpl.org/enableamendment.html#enableamendment-flags">
-                {this.state.amendmentStatus}
+                {amendmentStatus}
               </a>
             </div>
           </div>,
           <div className="row">
             <div className="label">Introduced In </div>
-            <div className="value">{this.state.minRippledVersion}</div>
+            <div className="value">{minRippledVersion}</div>
           </div>,
-          this.state.amendmentStatus === 'Got Majority' ? (
+          amendmentStatus === 'Got Majority' ? (
             <div className="row">
               <div className="label">Expected Date </div>
-              <div className="value">{this.state.expectedDate}</div>
+              <div className="value">{expectedDate}</div>
             </div>
           ) : null
         ]}
-      </React.Fragment>
+      </>
     );
   }
 }

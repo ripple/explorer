@@ -17,11 +17,11 @@ const EscrowFinish = props => {
     condition,
     fulfillment
   } = data.instructions;
-  const options = Object.assign({}, CURRENCY_OPTIONS, { currency: amount.currency });
+  const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
   const amt = localizeNumber(amount.amount, language, options);
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label">{t('finish_escrow')}</div>
         <div className="value">
@@ -68,7 +68,7 @@ const EscrowFinish = props => {
           </div>
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

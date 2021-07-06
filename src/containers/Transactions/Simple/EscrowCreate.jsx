@@ -8,13 +8,13 @@ import Account from '../../shared/components/Account';
 const EscrowCreate = props => {
   const { data, language, t } = props;
   const { amount, destination, condition, finishAfter, cancelAfter } = data.instructions;
-  const options = Object.assign({}, CURRENCY_OPTIONS, { currency: amount.currency });
+  const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
   const amt = localizeNumber(amount.amount, language, options);
   const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS);
   const faDate = localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS);
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label">{t('escrow')}</div>
         <div className="value">
@@ -52,7 +52,7 @@ const EscrowCreate = props => {
           </div>
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

@@ -21,14 +21,14 @@ const renderChanges = (t, language, node, index) => {
 
   const renderIssuer = issuer =>
     issuer ? (
-      <React.Fragment>
+      <>
         .
         <Account account={issuer} />
-      </React.Fragment>
+      </>
     ) : null;
 
   if (prevPays && finalPays) {
-    const options = Object.assign({}, CURRENCY_OPTIONS, { currency: paysCurrency });
+    const options = { ...CURRENCY_OPTIONS, currency: paysCurrency };
     meta.push(
       <li key={`taker_pays_decreased_${index}`} className="meta-line">
         <span className="field">TakerPays </span>
@@ -50,7 +50,7 @@ const renderChanges = (t, language, node, index) => {
     );
   }
   if (prevGets && finalGets) {
-    const options = Object.assign({}, CURRENCY_OPTIONS, { currency: getsCurrency });
+    const options = { ...CURRENCY_OPTIONS, currency: getsCurrency };
     meta.push(
       <li key={`taker_gets_decreased_${index}`} className="meta-line">
         <span className="field">TakerGets </span>

@@ -16,7 +16,7 @@ const PaymentChannelCreate = props => {
     expiration,
     channel
   } = data.instructions;
-  const options = Object.assign({}, CURRENCY_OPTIONS, { currency: amount.currency });
+  const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
   const amt = localizeNumber(amount.amount, language, options);
   const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS);
   const exDate = localizeDate(Date.parse(expiration), language, DATE_OPTIONS);
@@ -24,7 +24,7 @@ const PaymentChannelCreate = props => {
   const sParts = source.split(':');
 
   return (
-    <React.Fragment>
+    <>
       <div className="row">
         <div className="label">{t('amount')}</div>
         <div className="value">
@@ -75,7 +75,7 @@ const PaymentChannelCreate = props => {
           <div className="value channel">{channel}</div>
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

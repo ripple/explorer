@@ -11,7 +11,7 @@ const validators = {};
 const reserve = {};
 
 // fetch current reserve
-module.exports.getReserve = () => Object.assign({}, reserve);
+module.exports.getReserve = () => ({ ...reserve });
 
 // handle ledger messages
 module.exports.handleLedger = data => {

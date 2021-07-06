@@ -8,7 +8,7 @@ const render = (t, language, action, node, index) => {
   const fields = node.FinalFields || node.NewFields || { Balance: 0 };
   const prev = node.PreviousFields || { Balance: 0 };
   const change = (fields.Balance - prev.Balance) / XRP_BASE;
-  const numberOption = Object.assign({}, CURRENCY_OPTIONS, { currency: 'XRP' });
+  const numberOption = { ...CURRENCY_OPTIONS, currency: 'XRP' };
   const prevBalance = localizeNumber(prev.Balance / XRP_BASE, language, numberOption);
   const finalBalance = localizeNumber(fields.Balance / XRP_BASE, language, numberOption);
 
@@ -37,7 +37,8 @@ const render = (t, language, action, node, index) => {
           </li>
         </ul>
       );
-    } else if (change < 0) {
+    }
+    if (change < 0) {
       return (
         <ul key={`account_balance_reduced_${index}`} className="meta-line">
           <li>
@@ -68,9 +69,9 @@ const render = (t, language, action, node, index) => {
 
   const renderLine1 = () =>
     fields && fields.Account ? (
-      <React.Fragment>
+      <>
         {t('owned_account_root', { action })} <Account account={fields.Account} />
-      </React.Fragment>
+      </>
     ) : (
       t('unowned_account_root', { action })
     );

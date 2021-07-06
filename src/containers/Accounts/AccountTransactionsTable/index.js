@@ -42,20 +42,21 @@ export class AccountTxTable extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { actions, data, accountId } = this.props;
     const nextAccountId = nextProps.accountId;
-    if (nextAccountId !== this.props.accountId) {
+    if (nextAccountId !== accountId) {
       this.setState({
         transactions: [],
         marker: undefined
       });
-      this.props.actions.loadAccountTransactions(nextAccountId);
+      actions.loadAccountTransactions(nextAccountId);
     }
 
     // Only update this.state.transactions if loading just completed without error
     const newTransactionsRecieved =
       nextProps.loadingError === '' &&
       nextProps.data &&
-      this.props.data !== nextProps.data &&
+      data !== nextProps.data &&
       nextProps.data.transactions;
     if (newTransactionsRecieved) {
       this.setState(prevState => ({
@@ -78,7 +79,9 @@ export class AccountTxTable extends Component {
   }
 
   loadMoreTransactions() {
-    this.props.actions.loadAccountTransactions(this.props.accountId, this.state.marker);
+    const { actions, accountId } = this.props;
+    const { marker } = this.state;
+    actions.loadAccountTransactions(accountId, marker);
   }
 
   formatTransactionData(transaction) {
