@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { translate } from 'react-i18next';
 
 import ToolTip from './ToolTip';
 import retrieveExchangeDataByToken from './utils/tokens-utils';
@@ -11,7 +12,7 @@ import './styles.css';
 const NUM_TOKENS_DISPLAYED = 10;
 
 const TokensTable = props => {
-  const { allTokens, t, isError } = props;
+  const { t, allTokens, isError } = props;
 
   const [tokensData, setTokensData] = useState([]);
 
@@ -60,7 +61,8 @@ const TokensTable = props => {
               tokensData.map(tokenData => <TokenRow key={tokenData.rank} tokenData={tokenData} />)}
           </tbody>
         </table>
-        {tokensData.length === 0 && <Loader />}
+        {!isError && tokensData.length === 0 && <Loader />}
+        {isError && <div className="empty-tokens-message">{t('no_tokens_message')}</div>}
       </div>
     </div>
   );
@@ -84,4 +86,4 @@ TokensTable.propTypes = {
   isError: PropTypes.bool.isRequired
 };
 
-export default TokensTable;
+export default translate()(TokensTable);

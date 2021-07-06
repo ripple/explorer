@@ -49,7 +49,7 @@ const Tokens = props => {
   ) : (
     <div className="token-discovery-page">
       <TokensHeader tokens={allTokens} isLoading={isLoading} isError={isError} />
-      <TokensTable allTokens={allTokens} isError={isError} t={t} />
+      <TokensTable allTokens={allTokens} isError={isError} />
       <TokensFooter updated={updatedTime} isLoading={isLoading} isError={isError} />
     </div>
   );
