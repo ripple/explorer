@@ -5,6 +5,7 @@ const utils = require('./utils');
 
 const HOSTNAME = os.hostname();
 const URL = `https://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`;
+const URL_HEALTH = `https://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}/health`;
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
 
 const formatEscrow = d => ({
@@ -325,4 +326,10 @@ module.exports.getOffers = (currencyCode, issuerAddress, pairCurrencyCode, pairI
 
       return resp;
     });
+};
+
+module.exports.getHealth = () => {
+  return axios.get(URL_HEALTH).catch(error => {
+    console.log(error);
+  });
 };
