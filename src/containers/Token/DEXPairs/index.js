@@ -140,9 +140,9 @@ const DEXPairs = props => {
         <table>
           <thead>
             <tr>
-              <th className="pair-header">Pair</th>
-              <th>Issuer</th>
-              <th className="stats-header">Stats</th>
+              <th className="pair-header">{t('pair')}</th>
+              <th>{t('issuer')}</th>
+              <th className="stats-header">{t('offer_range')}</th>
             </tr>
           </thead>
           <tbody>
