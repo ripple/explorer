@@ -138,6 +138,13 @@ const DEXPairs = props => {
       <div className="title"> {t('top_trading_pairs')}</div>
       <div className="pairs-table">
         <table>
+          <thead>
+            <tr>
+              <th className="pair-header">{t('pair')}</th>
+              <th>{t('issuer')}</th>
+              <th className="stats-header">{t('offer_range')}</th>
+            </tr>
+          </thead>
           <tbody>
             {pairs.map(renderRow)}
             {isLoading && (

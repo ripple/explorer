@@ -314,5 +314,8 @@
   "high":"High",
   "low":"Low",
   "rank_message": "Tokens are ranked by number of trustlines.",
-  "obligations_message": "Obligations are the total amounts of each token issued to addresses"
+  "obligations_message": "Obligations are the total amounts of each token issued to addresses",
+  "issuer":"Issuer",
+  "pair":"Pair",
+  "offer_range":"Offer Range"
 }
