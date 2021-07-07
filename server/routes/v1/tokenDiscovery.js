@@ -1,7 +1,5 @@
 const { BigQuery } = require('@google-cloud/bigquery');
-const streams = require('../../lib/streams');
 const rippled = require('../../lib/rippled');
-const { formatAccountInfo } = require('../../lib/utils');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
@@ -25,8 +23,8 @@ async function getAccountInfo(issuer, currencyCode) {
   const balances = await rippled.getBalances(issuer);
   const obligations = balances.obligations[currencyCode.toUpperCase()];
   const info = await rippled.getAccountInfo(issuer);
-  const { domain, gravatar } = formatAccountInfo(info, streams.getReserve());
-  return { domain, gravatar, obligations };
+  const domain = info.Domain ? Buffer.from(info.Domain, 'hex').toString() : undefined;
+  return { domain, gravatar: info.urlgravatar, obligations };
 }
 
 async function getExchangeRate(issuer, currencyCode) {
