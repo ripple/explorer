@@ -45,24 +45,14 @@ const TokensTable = props => {
 
     // Fetch exchange info for market cap
     const exchangeURL = `/api/v1/token/${currency}.${issuer}/offers/XRP`;
-    const tokenURL = `/api/v1/token/${currency}.${issuer}`;
 
-    const exchangeRequest = axios.get(exchangeURL);
-    const tokenRequest = axios.get(tokenURL);
-
-    let obligations;
     let exchangeRate;
-    let gravatar;
-    let domain;
 
     const pushTokenData = () => {
       const tokenData = {
         rank,
         ...tokenInfo,
-        obligations,
-        exchangeRate,
-        gravatar,
-        domain
+        exchangeRate
       };
 
       // Populate allTokensInfo array
@@ -71,18 +61,14 @@ const TokensTable = props => {
 
     // .then returns a Promise
     return axios
-      .all([exchangeRequest, tokenRequest])
-      .then(
-        axios.spread((...responses) => {
-          const exchangeResponse = responses[0].data;
-          const tokenResponse = responses[1].data;
+      .get(exchangeURL)
+      .then(res => {
+        const exchangeResponse = res.data;
 
-          exchangeRate = exchangeResponse.lowestExchangeRate / 1000000;
-          ({ obligations, gravatar, domain } = tokenResponse);
+        exchangeRate = exchangeResponse.lowestExchangeRate / 1000000;
 
-          pushTokenData();
-        })
-      )
+        pushTokenData();
+      })
       .catch(err => {
         Log.error(err);
         pushTokenData();

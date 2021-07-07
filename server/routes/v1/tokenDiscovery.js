@@ -1,8 +1,13 @@
 const { BigQuery } = require('@google-cloud/bigquery');
+const streams = require('../../lib/streams');
+const rippled = require('../../lib/rippled');
+const { formatAccountInfo } = require('../../lib/utils');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
 const TIME_INTERVAL = 1000 * 30; // 30 seconds
+
+const NUM_TOKENS_DISPLAYED = 10;
 
 let cachedTokensList = { tokens: [], date: null };
 
@@ -15,6 +20,14 @@ let options = {
 };
 
 const bigQuery = new BigQuery(options);
+
+async function getAccountInfo(issuer, currencyCode) {
+  const balances = await rippled.getBalances(issuer);
+  const obligations = balances.obligations[currencyCode.toUpperCase()];
+  const info = await rippled.getAccountInfo(issuer);
+  const { domain, gravatar } = formatAccountInfo(info, streams.getReserve());
+  return { domain, gravatar, obligations };
+}
 
 async function getTokensList() {
   const query = `WITH
@@ -50,6 +63,25 @@ async function getTokensList() {
 
   options = { query, location: 'US' };
   const [rankedTokens] = await bigQuery.query(options);
+
+  const promises = [];
+  for (let i = 0; i <= NUM_TOKENS_DISPLAYED; i += 1) {
+    const { issuer, currency } = rankedTokens[i];
+    promises.push(getAccountInfo(issuer, currency));
+    // log.info(domain, gravatar, obligations);
+    // const newInfo = { ...rankedTokens[i], domain, gravatar, obligations };
+    // rankedTokens[i] = newInfo;
+    // log.info(rankedTokens[i]);
+  }
+
+  Promise.all(promises).then(results => {
+    for (let i = 0; i < results.length; i += 1) {
+      const { domain, gravatar, obligations } = results[i];
+      const newInfo = { ...rankedTokens[i], domain, gravatar, obligations };
+      rankedTokens[i] = newInfo;
+      log.info(rankedTokens[i]);
+    }
+  });
 
   return rankedTokens;
 }
