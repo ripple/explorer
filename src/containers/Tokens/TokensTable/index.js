@@ -78,24 +78,20 @@ const TokensTable = props => {
   useEffect(() => {
     if (allTokens.length === 0) return;
     const numTokensToDisplay = Math.min(NUM_TOKENS_DISPLAYED, allTokens.length);
-    for (let rank = 1; rank <= numTokensToDisplay; rank += 1) {
-      const tokenInfo = allTokens[rank - 1];
-
-      // We populate 'promises' with Promises to then be able to use Promise.all
-      promises.push(retrieveExchangeDataByToken(tokenInfo, rank));
-    }
+    setTokens(allTokens.slice(0, numTokensToDisplay));
+    setIsLoading(false);
 
     // Once all the HTTP request calls (ie Promises) are resolved
-    Promise.all(promises)
-      .then(() => {
-        // Sort the tokens by rank and set the state
-        setTokens(allTokensInfo.sort((a, b) => a.rank - b.rank));
-        setIsLoading(false);
-      })
-      .catch(err => {
-        Log.error(err);
-        setIsLoading(false);
-      });
+    // Promise.all(promises)
+    //   .then(() => {
+    //     // Sort the tokens by rank and set the state
+    //     setTokens(allTokensInfo.sort((a, b) => a.rank - b.rank));
+    //     setIsLoading(false);
+    //   })
+    //   .catch(err => {
+    //     Log.error(err);
+    //     setIsLoading(false);
+    //   });
   }, [allTokens]);
 
   function renderNoTokens() {
@@ -110,14 +106,14 @@ const TokensTable = props => {
     );
   }
 
-  function renderRow(tokenInfo) {
+  function renderRow(tokenInfo, rank) {
     const { lng } = props;
     const tokenName = `${tokenInfo.currency}.${tokenInfo.issuer}`;
     const currencySymbol = getLocalizedCurrencySymbol(lng, tokenInfo.currency);
 
     return (
-      <tr key={tokenInfo.rank} className="tokens-table-row">
-        <td className="rank">{tokenInfo.rank}</td>
+      <tr key={rank} className="tokens-table-row">
+        <td className="rank">{rank}</td>
         <td className="token">
           {tokenInfo.gravatar && <img alt={`${tokenName} logo`} src={tokenInfo.gravatar} />}
           {!tokenInfo.gravatar && currencySymbol}
@@ -173,7 +169,11 @@ const TokensTable = props => {
                 <th>{t('market_cap')}</th>
               </tr>
             )}
-            {!isLoading && !isError && tokens.map(renderRow)}
+            {!isLoading &&
+              !isError &&
+              tokens.map((token, index) => {
+                return renderRow(token, index + 1);
+              })}
           </tbody>
         </table>
         {isLoading && <Loader />}
@@ -191,10 +191,9 @@ TokensTable.propTypes = {
       currency: PropTypes.string.isRequired,
       trustlines: PropTypes.number.isRequired,
       volume: PropTypes.number,
-      rank: PropTypes.number.isRequired,
       gravatar: PropTypes.string,
       domain: PropTypes.string,
-      obligations: PropTypes.number,
+      obligations: PropTypes.string,
       exchangeRate: PropTypes.number
     })
   ).isRequired,

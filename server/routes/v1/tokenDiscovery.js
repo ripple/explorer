@@ -7,7 +7,7 @@ const log = require('../../lib/logger')({ name: 'token discovery' });
 
 const TIME_INTERVAL = 1000 * 30; // 30 seconds
 
-const NUM_TOKENS_DISPLAYED = 10;
+const NUM_TOKENS_FETCH_ALL = 10;
 
 let cachedTokensList = { tokens: [], date: null };
 
@@ -27,6 +27,17 @@ async function getAccountInfo(issuer, currencyCode) {
   const info = await rippled.getAccountInfo(issuer);
   const { domain, gravatar } = formatAccountInfo(info, streams.getReserve());
   return { domain, gravatar, obligations };
+}
+
+async function getExchangeRate(issuer, currencyCode) {
+  const { offers } = await rippled.getOffers(currencyCode, issuer, 'XRP', undefined);
+  const reducer = (acc, offer) => {
+    const takerPays = offer.TakerPays.value || offer.TakerPays;
+    const takerGets = offer.TakerGets.value || offer.TakerGets;
+    const rate = takerPays / takerGets;
+    return Math.min(acc, rate);
+  };
+  return offers.reduce(reducer, Number.MAX_VALUE) / 1000000;
 }
 
 async function getTokensList() {
@@ -65,21 +76,20 @@ async function getTokensList() {
   const [rankedTokens] = await bigQuery.query(options);
 
   const promises = [];
-  for (let i = 0; i <= NUM_TOKENS_DISPLAYED; i += 1) {
+  for (let i = 0; i <= NUM_TOKENS_FETCH_ALL; i += 1) {
     const { issuer, currency } = rankedTokens[i];
     promises.push(getAccountInfo(issuer, currency));
-    // log.info(domain, gravatar, obligations);
-    // const newInfo = { ...rankedTokens[i], domain, gravatar, obligations };
-    // rankedTokens[i] = newInfo;
-    // log.info(rankedTokens[i]);
+    promises.push(getExchangeRate(issuer, currency));
   }
 
   Promise.all(promises).then(results => {
-    for (let i = 0; i < results.length; i += 1) {
+    for (let i = 0; i < results.length; i += 2) {
+      const tokenIndex = i / 2;
       const { domain, gravatar, obligations } = results[i];
-      const newInfo = { ...rankedTokens[i], domain, gravatar, obligations };
-      rankedTokens[i] = newInfo;
-      log.info(rankedTokens[i]);
+      const exchangeRate = results[i + 1];
+      const newInfo = { ...rankedTokens[i], domain, gravatar, obligations, exchangeRate };
+      rankedTokens[tokenIndex] = newInfo;
+      log.info(rankedTokens[tokenIndex]);
     }
   });
 
