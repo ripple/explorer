@@ -2,7 +2,7 @@ const { BigQuery } = require('@google-cloud/bigquery');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
-const DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
+const TIME_INTERVAL = 1000 * 30; // 30 seconds
 
 const cachedTokensList = { tokens: [], time: null };
 
@@ -56,8 +56,10 @@ async function getTokensList() {
 
 async function cacheTokensList() {
   try {
+    log.info('caching new data');
     cachedTokensList.tokens = await getTokensList();
     cachedTokensList.date = Date.now();
+    setTimeout(cacheTokensList, TIME_INTERVAL);
   } catch (error) {
     log.error(error.toString());
   }
@@ -66,10 +68,8 @@ async function cacheTokensList() {
 module.exports = async (req, res) => {
   log.info(`getting token discovery`);
   try {
-    if (
-      cachedTokensList.tokens.length === 0 ||
-      Date.now() - cachedTokensList.date > DAY_IN_MILLISECONDS
-    ) {
+    if (cachedTokensList.tokens.length === 0) {
+      // start the recursive caching process
       await cacheTokensList();
     }
 
