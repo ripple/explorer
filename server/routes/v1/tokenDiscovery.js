@@ -89,7 +89,6 @@ async function getTokensList() {
       const exchangeRate = results[i + 1];
       const newInfo = { ...rankedTokens[i], domain, gravatar, obligations, exchangeRate };
       rankedTokens[tokenIndex] = newInfo;
-      log.info(rankedTokens[tokenIndex]);
     }
   });
 
@@ -98,7 +97,6 @@ async function getTokensList() {
 
 async function cacheTokensList() {
   try {
-    log.info('caching new data');
     cachedTokensList = { tokens: await getTokensList(), date: Date.now() };
     setTimeout(cacheTokensList, TIME_INTERVAL);
   } catch (error) {
