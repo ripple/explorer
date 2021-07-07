@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import axios from 'axios';
 import './styles.css';
-import Log from '../../shared/log';
 import Loader from '../../shared/components/Loader';
 import { formatLargeNumber, getLocalizedCurrencySymbol } from '../../shared/utils';
 import Currency from '../../shared/components/Currency';
@@ -28,70 +26,13 @@ const TokensTable = props => {
   const [tokens, setTokens] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const allTokensInfo = [];
-  const promises = [];
-
   const { allTokens, t, isError } = props;
-
-  /**
-   * Retrieves all the necessary information for a specific token
-   *
-   * @param {*} tokenInfo
-   * @param {*} rank
-   * @returns
-   */
-  const retrieveExchangeDataByToken = (tokenInfo, rank) => {
-    const { issuer, currency } = tokenInfo;
-
-    // Fetch exchange info for market cap
-    const exchangeURL = `/api/v1/token/${currency}.${issuer}/offers/XRP`;
-
-    let exchangeRate;
-
-    const pushTokenData = () => {
-      const tokenData = {
-        rank,
-        ...tokenInfo,
-        exchangeRate
-      };
-
-      // Populate allTokensInfo array
-      allTokensInfo.push(tokenData);
-    };
-
-    // .then returns a Promise
-    return axios
-      .get(exchangeURL)
-      .then(res => {
-        const exchangeResponse = res.data;
-
-        exchangeRate = exchangeResponse.lowestExchangeRate / 1000000;
-
-        pushTokenData();
-      })
-      .catch(err => {
-        Log.error(err);
-        pushTokenData();
-      });
-  };
 
   useEffect(() => {
     if (allTokens.length === 0) return;
     const numTokensToDisplay = Math.min(NUM_TOKENS_DISPLAYED, allTokens.length);
     setTokens(allTokens.slice(0, numTokensToDisplay));
     setIsLoading(false);
-
-    // Once all the HTTP request calls (ie Promises) are resolved
-    // Promise.all(promises)
-    //   .then(() => {
-    //     // Sort the tokens by rank and set the state
-    //     setTokens(allTokensInfo.sort((a, b) => a.rank - b.rank));
-    //     setIsLoading(false);
-    //   })
-    //   .catch(err => {
-    //     Log.error(err);
-    //     setIsLoading(false);
-    //   });
   }, [allTokens]);
 
   function renderNoTokens() {
