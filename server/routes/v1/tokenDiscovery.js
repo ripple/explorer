@@ -4,7 +4,7 @@ const log = require('../../lib/logger')({ name: 'token discovery' });
 
 const TIME_INTERVAL = 1000 * 30; // 30 seconds
 
-const cachedTokensList = { tokens: [], time: null };
+let cachedTokensList = { tokens: [], date: null };
 
 let options = {
   projectId: process.env.GOOGLE_APP_PROJECT_ID,
@@ -57,8 +57,7 @@ async function getTokensList() {
 async function cacheTokensList() {
   try {
     log.info('caching new data');
-    cachedTokensList.tokens = await getTokensList();
-    cachedTokensList.date = Date.now();
+    cachedTokensList = { tokens: await getTokensList(), date: Date.now() };
     setTimeout(cacheTokensList, TIME_INTERVAL);
   } catch (error) {
     log.error(error.toString());
