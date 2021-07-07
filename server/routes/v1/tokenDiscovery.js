@@ -9,7 +9,7 @@ const TIME_INTERVAL = 1000 * 30; // 30 seconds
 
 const NUM_TOKENS_FETCH_ALL = 10;
 
-let cachedTokensList = { tokens: [], date: null };
+const cachedTokensList = { tokens: [], date: null };
 
 let options = {
   projectId: process.env.GOOGLE_APP_PROJECT_ID,
@@ -82,34 +82,50 @@ async function getTokensList() {
     promises.push(getExchangeRate(issuer, currency));
   }
 
-  Promise.all(promises).then(results => {
-    for (let i = 0; i < results.length; i += 2) {
-      const tokenIndex = i / 2;
-      const { domain, gravatar, obligations } = results[i];
-      const exchangeRate = results[i + 1];
-      const newInfo = { ...rankedTokens[i], domain, gravatar, obligations, exchangeRate };
-      rankedTokens[tokenIndex] = newInfo;
-    }
-  });
-
-  return rankedTokens;
+  return Promise.all(promises)
+    .then(results => {
+      for (let i = 0; i < results.length; i += 2) {
+        const tokenIndex = i / 2;
+        const { domain, gravatar, obligations } = results[i];
+        const exchangeRate = results[i + 1];
+        const newInfo = {
+          ...rankedTokens[tokenIndex],
+          domain,
+          gravatar,
+          obligations,
+          exchangeRate
+        };
+        rankedTokens[tokenIndex] = newInfo;
+      }
+      return rankedTokens;
+    })
+    .catch(error => {
+      log.error(error);
+    });
 }
 
 async function cacheTokensList() {
   try {
-    cachedTokensList = { tokens: await getTokensList(), date: Date.now() };
+    const tokens = await getTokensList();
+    cachedTokensList.tokens = tokens;
+    cachedTokensList.date = Date.now();
     setTimeout(cacheTokensList, TIME_INTERVAL);
   } catch (error) {
-    log.error(error.toString());
+    log.error(error);
   }
+}
+
+cacheTokensList();
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 module.exports = async (req, res) => {
   log.info(`getting token discovery`);
   try {
-    if (cachedTokensList.tokens.length === 0) {
-      // start the recursive caching process
-      await cacheTokensList();
+    while (cachedTokensList.tokens.length === 0) {
+      sleep(1000);
     }
 
     res.send({
@@ -117,7 +133,8 @@ module.exports = async (req, res) => {
       updated: cachedTokensList.date,
       tokens: cachedTokensList.tokens
     });
-  } catch {
+  } catch (error) {
+    log.error(error);
     res.send({ result: 'error', message: 'internal error' });
   }
 };
