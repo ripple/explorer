@@ -1,8 +1,11 @@
 const { BigQuery } = require('@google-cloud/bigquery');
+const rippled = require('../../lib/rippled');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
-const DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
+const TIME_INTERVAL = 1000 * 60 * 30; // 30 minutes
+
+const NUM_TOKENS_FETCH_ALL = 10;
 
 const cachedTokensList = { tokens: [], time: null };
 
@@ -15,6 +18,25 @@ let options = {
 };
 
 const bigQuery = new BigQuery(options);
+
+async function getAccountInfo(issuer, currencyCode) {
+  const balances = await rippled.getBalances(issuer);
+  const obligations = balances.obligations[currencyCode.toUpperCase()];
+  const info = await rippled.getAccountInfo(issuer);
+  const domain = info.Domain ? Buffer.from(info.Domain, 'hex').toString() : undefined;
+  return { domain, gravatar: info.urlgravatar, obligations };
+}
+
+async function getExchangeRate(issuer, currencyCode) {
+  const { offers } = await rippled.getOffers(currencyCode, issuer, 'XRP', undefined);
+  const reducer = (acc, offer) => {
+    const takerPays = offer.TakerPays.value || offer.TakerPays;
+    const takerGets = offer.TakerGets.value || offer.TakerGets;
+    const rate = takerPays / takerGets;
+    return Math.min(acc, rate);
+  };
+  return offers.reduce(reducer, Number.MAX_VALUE) / 1000000;
+}
 
 async function getTokensList() {
   const query = `WITH
@@ -51,34 +73,66 @@ async function getTokensList() {
   options = { query, location: 'US' };
   const [rankedTokens] = await bigQuery.query(options);
 
-  return rankedTokens;
+  const promises = [];
+  for (let i = 0; i <= NUM_TOKENS_FETCH_ALL; i += 1) {
+    const { issuer, currency } = rankedTokens[i];
+    promises.push(getAccountInfo(issuer, currency));
+    promises.push(getExchangeRate(issuer, currency));
+  }
+
+  return Promise.all(promises)
+    .then(results => {
+      for (let i = 0; i < results.length; i += 2) {
+        const tokenIndex = i / 2;
+        const { domain, gravatar, obligations } = results[i];
+        const exchangeRate = results[i + 1];
+        const newInfo = {
+          ...rankedTokens[tokenIndex],
+          domain,
+          gravatar,
+          obligations,
+          exchangeRate
+        };
+        rankedTokens[tokenIndex] = newInfo;
+      }
+      return rankedTokens;
+    })
+    .catch(error => {
+      log.error(error);
+    });
 }
 
 async function cacheTokensList() {
   try {
-    cachedTokensList.tokens = await getTokensList();
-    cachedTokensList.date = Date.now();
+    const tokens = await getTokensList();
+    cachedTokensList.tokens = tokens;
+    cachedTokensList.time = Date.now();
+    setTimeout(cacheTokensList, TIME_INTERVAL);
   } catch (error) {
-    log.error(error.toString());
+    log.error(error);
   }
+}
+
+cacheTokensList();
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 module.exports = async (req, res) => {
   log.info(`getting token discovery`);
   try {
-    if (
-      cachedTokensList.tokens.length === 0 ||
-      Date.now() - cachedTokensList.date > DAY_IN_MILLISECONDS
-    ) {
-      await cacheTokensList();
+    while (cachedTokensList.tokens.length === 0) {
+      sleep(1000);
     }
 
     res.send({
       result: 'success',
-      updated: cachedTokensList.date,
+      updated: cachedTokensList.time,
       tokens: cachedTokensList.tokens
     });
-  } catch {
+  } catch (error) {
+    log.error(error);
     res.send({ result: 'error', message: 'internal error' });
   }
 };
