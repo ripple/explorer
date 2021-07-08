@@ -7,7 +7,7 @@ const TIME_INTERVAL = 1000 * 60 * 30; // 30 minutes
 
 const NUM_TOKENS_FETCH_ALL = 10;
 
-const cachedTokensList = { tokens: [], date: null };
+const cachedTokensList = { tokens: [], time: null };
 
 let options = {
   projectId: process.env.GOOGLE_APP_PROJECT_ID,
@@ -106,7 +106,7 @@ async function cacheTokensList() {
   try {
     const tokens = await getTokensList();
     cachedTokensList.tokens = tokens;
-    cachedTokensList.date = Date.now();
+    cachedTokensList.time = Date.now();
     setTimeout(cacheTokensList, TIME_INTERVAL);
   } catch (error) {
     log.error(error);
@@ -128,7 +128,7 @@ module.exports = async (req, res) => {
 
     res.send({
       result: 'success',
-      updated: cachedTokensList.date,
+      updated: cachedTokensList.time,
       tokens: cachedTokensList.tokens
     });
   } catch (error) {
