@@ -23,17 +23,26 @@ class AccountHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showBalanceSelector: false
+      showBalanceSelector: false,
+      prevProps: this.props
     };
     props.actions.loadAccountState(props.accountId);
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const nextAccountId = nextProps.accountId;
-    const { accountId, actions } = this.props;
+    const { accountId } = prevState;
     if (nextAccountId !== accountId) {
-      actions.loadAccountState(nextAccountId);
-      this.setState({ showBalanceSelector: false });
+      return { showBalanceSelector: false, prevProps: nextProps };
+    }
+    return null;
+  }
+
+  componentDidUpdate() {
+    const { accountId, actions } = this.props;
+    const { prevProps } = this.state;
+    if (prevProps.accountId !== accountId) {
+      actions.loadAccountState(accountId);
     }
   }
 

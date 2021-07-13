@@ -81,6 +81,8 @@ describe('AccountTransactionsTable container', () => {
       data: TEST_TRANSACTIONS_DATA
     });
 
+    console.log(component.find('.load-more-btn'));
+    console.log(component.find('.load-more-btn').length);
     expect(component.find('.load-more-btn').length).toBe(1);
     expect(component.find('.account-transactions').length).toBe(1);
     expect(component.find('.transaction-li.transaction-li-header').length).toBe(1);

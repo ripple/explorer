@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -25,21 +25,235 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE
 };
 
-export class AccountTxTable extends Component {
+export const AccountTxTable = props => {
+  const [state, setState] = useState({
+    transactions: [],
+    marker: undefined
+  });
+  const { accountId, actions, data } = props;
+
+  useEffect(() => {
+    // const { actions, accountId } = props;
+    actions.loadAccountTransactions(accountId);
+    // returned function will be called on component unmount
+    return () => {
+      resetPage();
+    };
+  }, []);
+
+  useEffect(() => {
+    setState({
+      transactions: [],
+      marker: undefined
+    });
+    // const { accountId, actions } = props;
+    actions.loadAccountTransactions(accountId);
+  }, [accountId]);
+
+  useEffect(() => {
+    // Only update this.state.transactions if loading just completed without error
+    const newTransactionsRecieved =
+      props.loadingError === '' &&
+      props.data &&
+      state.data !== props.data &&
+      props.data.transactions;
+
+    if (newTransactionsRecieved) {
+      setState(prevState => ({
+        marker: props.data.marker,
+        transactions: prevState.transactions.concat(props.data.transactions)
+      }));
+    }
+  }, [props]);
+
+  const resetPage = () => {
+    // const { data } = props;
+    setState({
+      transactions: [],
+      marker: data.marker
+    });
+  };
+
+  const loadMoreTransactions = () => {
+    // const { actions, accountId } = props;
+    const { marker } = state;
+
+    actions.loadAccountTransactions(accountId, marker);
+  };
+
+  const formatTransactionData = transaction => {
+    const { language } = props;
+    const amount = {};
+    return {
+      account: transaction.tx.Account,
+      destination: transaction.tx.Destination,
+      type: transaction.tx.TransactionType,
+      amount:
+        !!amount &&
+        localizeNumber(amount.value, language, {
+          style: 'currency',
+          currency: amount.currency,
+          maximumFractionDigits: 6
+        }),
+      date: localizeDate(new Date(transaction.date), language, {
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: false
+      })
+    };
+  };
+
+  const renderListItem = tx => {
+    const { language, t } = props;
+    const success = tx.result === 'tesSUCCESS';
+    const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS);
+    const status = success ? 'Success' : `Fail - ${tx.result}`;
+
+    return (
+      <li
+        key={tx.hash}
+        className={`transaction-li tx-type ${tx.type} ${success ? 'success' : 'fail'}`}
+      >
+        <Link to={`/transactions/${tx.hash}`}>
+          <div className="upper">
+            <div className="col-account">
+              <div className="transaction-address" title={tx.account}>
+                {tx.account}
+              </div>
+            </div>
+            <div className={`col-type tx-type ${tx.type}`}>
+              <TxLabel type={tx.type} t={t} />
+            </div>
+            <div className="col-status">
+              <span title={tx.result} className={`tx-result ${success ? 'success' : 'fail'}`}>
+                {success ? (
+                  <SuccessIcon className="successful" alt={t('success')} />
+                ) : (
+                  <FailIcon className="failed" alt={t('fail')} />
+                )}
+                <span className="status">{status}</span>
+              </span>
+            </div>
+            <div className="col-date">{date}</div>
+          </div>
+          <div className="details">
+            <TxDetails language={language} type={tx.type} instructions={tx.details.instructions} />
+          </div>
+        </Link>
+      </li>
+    );
+  };
+
+  const renderLoadMoreButton = () => {
+    const { t } = props;
+    const { marker } = state;
+    return (
+      marker && (
+        <button className="load-more-btn" onClick={loadMoreTransactions}>
+          {t('load_more_action')}
+        </button>
+      )
+    );
+  };
+
+  const renderListContents = () => {
+    const { t, loading, loadingError, currencySelected } = props;
+    const { transactions } = state;
+    let processedTransactions = transactions;
+    if (currencySelected !== 'XRP') {
+      processedTransactions = transactions.filter(
+        tx =>
+          !currencySelected ||
+          (currencySelected &&
+            JSON.stringify(tx).includes(`"currency":"${currencySelected.toUpperCase()}"`))
+      );
+      if (processedTransactions.length === 0) {
+        return <div className="empty-transactions-message">Try loading more transactions</div>;
+      }
+    }
+    if (!loading && processedTransactions.length === 0 && !loadingError) {
+      return <div className="empty-transactions-message">{t('no_transactions_message')}</div>;
+    }
+    return processedTransactions.map(transaction => renderListItem(transaction));
+  };
+
+  const { t, loading } = props;
+
+  return (
+    <div className="section transactions-table">
+      <ol className="account-transactions">
+        <div className="title">Transactions</div>
+        <li className="transaction-li transaction-li-header">
+          <div className="col-account">{t('account')}</div>
+          <div className="col-type">{t('transaction_type')}</div>
+          <div className="col-status">{t('status')}</div>
+          <div className="col-date">{t('transactions.date_header')}</div>
+        </li>
+        {renderListContents()}
+      </ol>
+      {loading ? <Loader /> : renderLoadMoreButton()}
+    </div>
+  );
+};
+
+/* export class AccountTxTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       transactions: [],
       marker: undefined
+      // accountId: '',
+      // actions: '',
+      // data: {}
     };
 
     this.loadMoreTransactions = this.loadMoreTransactions.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { actions, accountId } = this.props;
     actions.loadAccountTransactions(accountId);
   }
+
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   const nextAccountId = nextProps.accountId;
+  //   const { accountId, actions, data } = prevState;
+
+  //   if (nextAccountId !== accountId) {
+  //     return {
+  //       transactions: [],
+  //       marker: undefined,
+  //       accountId: nextAccountId,
+  //       actions,
+  //       data: {}
+  //     };
+  //   }
+  //   // Only update this.state.data if loading just completed without error
+  //   const newDataRecieved =
+  //     nextProps.loadingError === '' && nextProps.data && data !== nextProps.data;
+
+  //   if (newDataRecieved) {
+  //     return(x => ({
+  //       marker: nextProps.data.marker,
+  //       transactions: x.transactions.concat(nextProps.data.transactions),
+  //       accountId: nextAccountId,
+  //       actions,
+  //       data: nextProps.data
+  //     }));
+  //   }
+  //   return null;
+  // }
+
+  // componentDidUpdate(prevProps) {
+  //   const { accountId, actions } = this.props;
+  //   if (prevProps.accountId !== accountId) {
+  //     actions.loadAccountTransactions(accountId);
+  //   }
+  // }
 
   componentWillReceiveProps(nextProps) {
     const { actions, data, accountId } = this.props;
@@ -203,7 +417,7 @@ export class AccountTxTable extends Component {
       </div>
     );
   }
-}
+} */
 
 AccountTxTable.propTypes = {
   t: PropTypes.func.isRequired,
