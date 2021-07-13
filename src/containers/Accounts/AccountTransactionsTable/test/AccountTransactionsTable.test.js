@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { I18nextProvider } from 'react-i18next';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -80,8 +80,6 @@ describe('AccountTransactionsTable container', () => {
       </I18nextProvider>
     );
 
-    console.log(component.find('.load-more-btn'));
-    console.log(component.find('.load-more-btn').length);
     expect(component.find('.load-more-btn').length).toBe(1);
     expect(component.find('.account-transactions').length).toBe(1);
     expect(component.find('.transaction-li.transaction-li-header').length).toBe(1);

@@ -45,50 +45,12 @@ export class TokenTxTable extends Component {
   // memoize. move props(a,c,a,d) to state and then compare new props and state
   // check for conditions and returning object will set new new state.
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   const nextAccountId = nextProps.accountId;
-  //   const nextCurrency = nextProps.currency;
-  //   console.log(nextProps);
-  //   const { accountId, currency, data } = prevState.prevProps;
-  //   if (nextAccountId !== accountId || nextCurrency !== currency) {
-  //     return { transactions: [], marker: undefined, prevProps: nextProps };
-  //   }
-
-  //   // Only update this.state.transactions if loading just completed without error
-  //   const newTransactionsRecieved =
-  //     nextProps.loadingError === '' &&
-  //     nextProps.data &&
-  //     data !== nextProps.data &&
-  //     nextProps.data.transactions;
-  //   if (newTransactionsRecieved) {
-  //     return( x => ({
-  //       marker: nextProps.data.marker,
-  //       transactions: x.transactions.concat(nextProps.data.transactions),
-  //       prevProps: nextProps
-  //     }));
-  //   }
-  //   return null;
-  // }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { accountId, currency, actions } = this.props;
-  //   console.log(prevProps, { accountId, currency, actions });
-  //   if (prevProps.accountId !== accountId) {
-  //     actions.loadTokenTransactions(accountId, currency);
-  //   }
-  // }
-
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const nextAccountId = nextProps.accountId;
     const nextCurrency = nextProps.currency;
-    const { accountId, currency, actions, data } = this.props;
-    // console.log({ accountId, currency, actions, data }, { nextAccountId, nextCurrency });
+    const { accountId, currency, data } = prevState.prevProps;
     if (nextAccountId !== accountId || nextCurrency !== currency) {
-      this.setState({
-        transactions: [],
-        marker: undefined
-      });
-      actions.loadTokenTransactions(nextAccountId, nextCurrency);
+      return { transactions: [], marker: undefined, prevProps: nextProps };
     }
 
     // Only update this.state.transactions if loading just completed without error
@@ -98,12 +60,48 @@ export class TokenTxTable extends Component {
       data !== nextProps.data &&
       nextProps.data.transactions;
     if (newTransactionsRecieved) {
-      this.setState(prevState => ({
+      return x => ({
         marker: nextProps.data.marker,
-        transactions: prevState.transactions.concat(nextProps.data.transactions)
-      }));
+        transactions: x.transactions.concat(nextProps.data.transactions),
+        prevProps: nextProps
+      });
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { accountId, currency, actions } = this.props;
+    if (prevProps.accountId !== accountId) {
+      actions.loadTokenTransactions(accountId, currency);
     }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const nextAccountId = nextProps.accountId;
+  //   const nextCurrency = nextProps.currency;
+  //   const { accountId, currency, actions, data } = this.props;
+  //   // console.log({ accountId, currency, actions, data }, { nextAccountId, nextCurrency });
+  //   if (nextAccountId !== accountId || nextCurrency !== currency) {
+  //     this.setState({
+  //       transactions: [],
+  //       marker: undefined
+  //     });
+  //     actions.loadTokenTransactions(nextAccountId, nextCurrency);
+  //   }
+
+  //   // Only update this.state.transactions if loading just completed without error
+  //   const newTransactionsRecieved =
+  //     nextProps.loadingError === '' &&
+  //     nextProps.data &&
+  //     data !== nextProps.data &&
+  //     nextProps.data.transactions;
+  //   if (newTransactionsRecieved) {
+  //     this.setState(prevState => ({
+  //       marker: nextProps.data.marker,
+  //       transactions: prevState.transactions.concat(nextProps.data.transactions)
+  //     }));
+  //   }
+  // }
 
   componentWillUnmount() {
     this.resetPage();
