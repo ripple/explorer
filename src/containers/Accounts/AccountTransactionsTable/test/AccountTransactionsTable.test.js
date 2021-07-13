@@ -65,21 +65,20 @@ describe('AccountTransactionsTable container', () => {
       loadAccountTransactions: Function.prototype
     };
 
-    const component = shallow(
-      <AccountTxTable
-        t={d => d}
-        language="en-US"
-        loading={false}
-        data={{}}
-        actions={actions}
-        accountId="zzz"
-      />
+    const component = mount(
+      <I18nextProvider i18n={i18n}>
+        <Router>
+          <AccountTxTable
+            t={d => d}
+            language="en-US"
+            loading={false}
+            data={TEST_TRANSACTIONS_DATA}
+            actions={actions}
+            accountId={TEST_ACCOUNT_ID}
+          />
+        </Router>
+      </I18nextProvider>
     );
-
-    component.setProps({
-      accountId: TEST_ACCOUNT_ID,
-      data: TEST_TRANSACTIONS_DATA
-    });
 
     console.log(component.find('.load-more-btn'));
     console.log(component.find('.load-more-btn').length);
