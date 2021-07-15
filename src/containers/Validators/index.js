@@ -16,11 +16,11 @@ import './validator.css';
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'validator_not_found',
-  hints: ['check_validator_key']
+  hints: ['check_validator_key'],
 };
 ERROR_MESSAGES.default = {
   title: 'generic_error',
-  hints: ['not_your_fault']
+  hints: ['not_your_fault'],
 };
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
@@ -48,7 +48,7 @@ class Validator extends Component {
 
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'Validator',
-      path: `/validators/:identifier/${tab}`
+      path: `/validators/:identifier/${tab}`,
     });
 
     if (identifier && identifier !== data.master_key && identifier !== data.signing_key) {
@@ -164,19 +164,19 @@ Validator.propTypes = {
       PropTypes.object,
       PropTypes.number,
       PropTypes.array,
-      PropTypes.bool
+      PropTypes.bool,
     ])
   ).isRequired,
   match: PropTypes.shape({
     path: PropTypes.string,
     params: PropTypes.shape({
       identifier: PropTypes.string,
-      tab: PropTypes.string
-    })
+      tab: PropTypes.string,
+    }),
   }).isRequired,
   actions: PropTypes.shape({
-    loadValidator: PropTypes.func
-  }).isRequired
+    loadValidator: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(
@@ -184,14 +184,14 @@ export default connect(
     loading: state.validator.loading, // refers to state object in rootReducer.js
     data: state.validator.data,
     width: state.app.width,
-    language: state.app.language
+    language: state.app.language,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadValidator
+        loadValidator,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(Validator));

@@ -13,7 +13,7 @@ export class PayStringAddressesTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {}
+      data: {},
     };
   }
 
@@ -27,7 +27,7 @@ export class PayStringAddressesTable extends Component {
     const { accountId, actions, data } = this.props;
     if (nextAccountId !== accountId) {
       this.setState({
-        data: {}
+        data: {},
       });
       actions.loadPayStringData(nextAccountId);
     }
@@ -38,7 +38,7 @@ export class PayStringAddressesTable extends Component {
 
     if (newDataRecieved) {
       this.setState(prevState => ({
-        data: nextProps.data
+        data: nextProps.data,
       }));
     }
   }
@@ -49,7 +49,7 @@ export class PayStringAddressesTable extends Component {
 
   resetPage() {
     this.setState({
-      data: {}
+      data: {},
     });
   }
 
@@ -210,18 +210,18 @@ PayStringAddressesTable.propTypes = {
         addressDetailsType: PropTypes.string,
         addressDetails: PropTypes.shape({
           address: PropTypes.string,
-          tag: PropTypes.string // optional
-        })
+          tag: PropTypes.string, // optional
+        }),
       })
-    )
+    ),
   }).isRequired,
   actions: PropTypes.shape({
-    loadPayStringData: PropTypes.func
-  }).isRequired
+    loadPayStringData: PropTypes.func,
+  }).isRequired,
 };
 
 PayStringAddressesTable.defaultProps = {
-  loadingError: ''
+  loadingError: '',
 };
 
 export default connect(
@@ -230,14 +230,14 @@ export default connect(
     width: state.app.width,
     loadingError: state.payStringData.error,
     loading: state.payStringData.loading,
-    data: state.payStringData.data
+    data: state.payStringData.data,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadPayStringData
+        loadPayStringData,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(PayStringAddressesTable));

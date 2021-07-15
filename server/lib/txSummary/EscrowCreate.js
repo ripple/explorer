@@ -6,5 +6,5 @@ module.exports = tx => ({
   destination: tx.Destination !== tx.Account ? tx.Destination : undefined,
   condition: tx.Condition,
   cancelAfter: tx.CancelAfter ? utils.convertRippleDate(tx.CancelAfter) : undefined,
-  finishAfter: tx.FinishAfter ? utils.convertRippleDate(tx.FinishAfter) : undefined
+  finishAfter: tx.FinishAfter ? utils.convertRippleDate(tx.FinishAfter) : undefined,
 });

@@ -23,7 +23,7 @@ describe('Validator actions', () => {
     const expectedActions = [
       { type: actionTypes.START_LOADING_VALIDATOR, data: { id: 'some-validator-hash' } },
       { type: actionTypes.FINISH_LOADING_VALIDATOR },
-      { type: actionTypes.LOADING_VALIDATOR_SUCCESS, data: { ledger_hash: 'test' } }
+      { type: actionTypes.LOADING_VALIDATOR_SUCCESS, data: { ledger_hash: 'test' } },
     ];
     store.dispatch(actions.loadValidator('some-validator-hash'));
     moxios.wait(() => {
@@ -31,7 +31,7 @@ describe('Validator actions', () => {
       request
         .respondWith({
           status: 200,
-          response: { ledger_hash: 'test' }
+          response: { ledger_hash: 'test' },
         })
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
@@ -47,8 +47,8 @@ describe('Validator actions', () => {
       {
         type: actionTypes.LOADING_VALIDATOR_FAIL,
         data: { error: 500, id: 'some-validator-hash' },
-        error: 'get_validator_failed'
-      }
+        error: 'get_validator_failed',
+      },
     ];
     store.dispatch(actions.loadValidator('some-validator-hash'));
     moxios.wait(() => {
@@ -56,7 +56,7 @@ describe('Validator actions', () => {
       request
         .respondWith({
           status: 500,
-          response: {}
+          response: {},
         })
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
@@ -69,8 +69,8 @@ describe('Validator actions', () => {
     const expectedActions = [
       {
         type: actionTypes.START_LOADING_VALIDATOR,
-        data: { id: { identifier: 'invalid_validator_hash' } }
-      }
+        data: { id: { identifier: 'invalid_validator_hash' } },
+      },
     ];
     store.dispatch(actions.loadValidator({ identifier: 'invalid_validator_hash' }));
     expect(store.getActions()).toEqual(expectedActions);

@@ -2,20 +2,20 @@ import { combineReducers } from 'redux';
 import appReducer, { initialState as appState } from './containers/App/reducer';
 import ledgerReducer, { initialState as ledgerState } from './containers/Ledger/reducer';
 import accountHeaderReducer, {
-  initialState as accountHeaderState
+  initialState as accountHeaderState,
 } from './containers/Accounts/AccountHeader/reducer';
 import accountTransactionsReducer, {
-  initialState as accountTransactionsState
+  initialState as accountTransactionsState,
 } from './containers/Accounts/AccountTransactionsTable/reducer';
 import transactionReducer, {
-  initialState as transactionState
+  initialState as transactionState,
 } from './containers/Transactions/reducer';
 import validatorReducer, { initialState as validatorState } from './containers/Validators/reducer';
 import payStringReducer, {
-  initialState as payStringState
+  initialState as payStringState,
 } from './containers/PayStrings/PayStringMappingsTable/reducer';
 import tokenHeaderReducer, {
-  initialState as tokenHeaderState
+  initialState as tokenHeaderState,
 } from './containers/Token/TokenHeader/reducer';
 
 export const initialState = {
@@ -26,7 +26,7 @@ export const initialState = {
   transaction: transactionState,
   validator: validatorState,
   payStringData: payStringState,
-  tokenHeader: tokenHeaderState
+  tokenHeader: tokenHeaderState,
 };
 
 const rootReducer = combineReducers({
@@ -37,7 +37,7 @@ const rootReducer = combineReducers({
   transaction: transactionReducer,
   validator: validatorReducer,
   payStringData: payStringReducer,
-  tokenHeader: tokenHeaderReducer
+  tokenHeader: tokenHeaderReducer,
 });
 
 export default rootReducer;

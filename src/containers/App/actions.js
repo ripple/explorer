@@ -13,8 +13,8 @@ export const updateViewportDimensions = () => {
     data: {
       width: element[`${prefix}Width`],
       height: element[`${prefix}Height`],
-      pixelRatio: window.devicePixelRatio || 1
-    }
+      pixelRatio: window.devicePixelRatio || 1,
+    },
   };
 };
 

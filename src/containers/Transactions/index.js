@@ -19,15 +19,15 @@ import './transaction.css';
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'transaction_not_found',
-  hints: ['check_transaction_hash']
+  hints: ['check_transaction_hash'],
 };
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_transaction_hash',
-  hints: ['check_transaction_hash']
+  hints: ['check_transaction_hash'],
 };
 ERROR_MESSAGES.default = {
   title: 'generic_error',
-  hints: ['not_your_fault']
+  hints: ['not_your_fault'],
 };
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
@@ -42,7 +42,7 @@ class Transaction extends Component {
     document.title = `${t('xrpl_explorer')} | ${t('transaction_short')} ${short}...`;
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'Transaction',
-      path: `/transactions/:hash/${tab}`
+      path: `/transactions/:hash/${tab}`,
     });
 
     if (identifier && identifier !== hash) {
@@ -165,12 +165,12 @@ Transaction.propTypes = {
     path: PropTypes.string,
     params: PropTypes.shape({
       identifier: PropTypes.string,
-      tab: PropTypes.string
-    })
+      tab: PropTypes.string,
+    }),
   }).isRequired,
   actions: PropTypes.shape({
-    loadTransaction: PropTypes.func
-  }).isRequired
+    loadTransaction: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(
@@ -178,14 +178,14 @@ export default connect(
     loading: state.transaction.loading,
     data: state.transaction.data,
     width: state.app.width,
-    language: state.app.language
+    language: state.app.language,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadTransaction
+        loadTransaction,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(Transaction));

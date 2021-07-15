@@ -45,7 +45,7 @@ const renderApp = () => {
 const isDevelopment = process.env.NODE_ENV === 'development';
 const persistConfig = {
   key: 'xrpl_explorer',
-  storage: localForage
+  storage: localForage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -110,11 +110,11 @@ class Menu extends Component {
 Menu.propTypes = {
   t: PropTypes.func.isRequired,
   currentPath: PropTypes.string.isRequired,
-  routes: PropTypes.arrayOf(PropTypes.shape({}))
+  routes: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 Menu.defaultProps = {
-  routes: defaultRoutes
+  routes: defaultRoutes,
 };
 
 export default Menu;

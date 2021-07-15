@@ -13,15 +13,15 @@ import { analytics, ANALYTIC_TYPES, NOT_FOUND, BAD_REQUEST } from '../shared/uti
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'account_not_found',
-  hints: ['check_account_id']
+  hints: ['check_account_id'],
 };
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_xrpl_address',
-  hints: ['check_account_id']
+  hints: ['check_account_id'],
 };
 ERROR_MESSAGES.default = {
   title: 'generic_error',
-  hints: ['not_your_fault']
+  hints: ['not_your_fault'],
 };
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
@@ -31,7 +31,7 @@ class PayString extends Component {
     const { match } = nextProps;
     return {
       accountId: match.params.id,
-      prevId: prevState && prevState.accountId
+      prevId: prevState && prevState.accountId,
     };
   }
 
@@ -89,17 +89,17 @@ PayString.propTypes = {
   error: PropTypes.number,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.string
-    })
-  }).isRequired
+      id: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 PayString.defaultProps = {
-  error: null
+  error: null,
 };
 
 export default connect(state => ({
   width: state.app.width,
   error: state.accountHeader.status,
-  language: state.app.language
+  language: state.app.language,
 }))(translate()(PayString));

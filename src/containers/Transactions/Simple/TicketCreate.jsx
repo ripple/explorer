@@ -20,9 +20,9 @@ OfferCreate.propTypes = {
   data: PropTypes.shape({
     instructions: PropTypes.shape({
       ticketCount: PropTypes.number,
-      ticketSequence: PropTypes.number
-    })
-  }).isRequired
+      ticketSequence: PropTypes.number,
+    }),
+  }).isRequired,
 };
 
 export default OfferCreate;

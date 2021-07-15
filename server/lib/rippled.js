@@ -25,7 +25,7 @@ const formatEscrow = d => ({
         .unix(d.FinishAfter + utils.EPOCH_OFFSET)
         .utc()
         .format()
-    : undefined
+    : undefined,
 });
 
 const formatPaychannel = d => ({
@@ -34,7 +34,7 @@ const formatPaychannel = d => ({
   destination: d.Destination,
   amount: d.Amount / utils.XRP_BASE,
   balance: d.Balance / utils.XRP_BASE,
-  settleDelay: d.SettleDelay
+  settleDelay: d.SettleDelay,
 });
 
 // generic RPC query
@@ -51,7 +51,7 @@ const query = options => {
 module.exports.getLedger = parameters => {
   const request = {
     method: 'ledger',
-    params: [{ ...parameters, transactions: true, expand: true }]
+    params: [{ ...parameters, transactions: true, expand: true }],
   };
 
   return query(request)
@@ -80,7 +80,7 @@ module.exports.getLedger = parameters => {
 module.exports.getTransaction = txHash => {
   const params = {
     method: 'tx',
-    params: [{ transaction: txHash }]
+    params: [{ transaction: txHash }],
   };
 
   return query(params)
@@ -110,7 +110,7 @@ module.exports.getTransaction = txHash => {
 module.exports.getAccountInfo = (account, ledger_index = 'validated') =>
   query({
     method: 'account_info',
-    params: [{ account, ledger_index, signer_lists: true }]
+    params: [{ account, ledger_index, signer_lists: true }],
   })
     .then(resp => resp.data.result)
     .then(resp => {
@@ -123,7 +123,7 @@ module.exports.getAccountInfo = (account, ledger_index = 'validated') =>
       }
 
       return Object.assign(resp.account_data, {
-        ledger_index: resp.ledger_index
+        ledger_index: resp.ledger_index,
       });
     });
 
@@ -131,7 +131,7 @@ module.exports.getAccountInfo = (account, ledger_index = 'validated') =>
 module.exports.getAccountEscrows = (account, ledger_index = 'validated') =>
   query({
     method: 'account_objects',
-    params: [{ account, ledger_index, type: 'escrow', limit: 400 }]
+    params: [{ account, ledger_index, type: 'escrow', limit: 400 }],
   })
     .then(resp => resp.data.result)
     .then(resp => {
@@ -173,7 +173,7 @@ module.exports.getAccountPaychannels = async (account, ledger_index = 'validated
   const getChannels = marker =>
     query({
       method: 'account_objects',
-      params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }]
+      params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }],
     })
       .then(resp => resp.data.result)
       .then(resp => {
@@ -205,7 +205,7 @@ module.exports.getAccountPaychannels = async (account, ledger_index = 'validated
   return channels.length
     ? {
         channels,
-        total_available: remaining / utils.XRP_BASE
+        total_available: remaining / utils.XRP_BASE,
       }
     : null;
 };
@@ -214,7 +214,7 @@ module.exports.getAccountPaychannels = async (account, ledger_index = 'validated
 module.exports.getBalances = (account, ledger_index = 'validated') =>
   query({
     method: 'gateway_balances',
-    params: [{ account, ledger_index }]
+    params: [{ account, ledger_index }],
   })
     .then(resp => resp.data.result)
     .then(resp => {
@@ -245,11 +245,11 @@ module.exports.getAccountTransactions = (account, limit = 20, marker = '') => {
         marker: marker
           ? {
               ledger,
-              seq
+              seq,
             }
-          : undefined
-      }
-    ]
+          : undefined,
+      },
+    ],
   })
     .then(resp => resp.data.result)
     .then(resp => {
@@ -262,7 +262,7 @@ module.exports.getAccountTransactions = (account, limit = 20, marker = '') => {
       }
       return {
         transactions: resp.transactions,
-        marker: resp.marker ? `${resp.marker.ledger}.${resp.marker.seq}` : undefined
+        marker: resp.marker ? `${resp.marker.ledger}.${resp.marker.seq}` : undefined,
       };
     });
 };
@@ -272,9 +272,9 @@ module.exports.getNegativeUNL = () =>
     method: 'ledger_entry',
     params: [
       {
-        index: N_UNL_INDEX
-      }
-    ]
+        index: N_UNL_INDEX,
+      },
+    ],
   })
     .then(resp => resp.data.result)
     .then(resp => {
@@ -291,7 +291,7 @@ module.exports.getNegativeUNL = () =>
 
 module.exports.getServerInfo = () =>
   query({
-    method: 'server_info'
+    method: 'server_info',
   })
     .then(resp => resp.data.result)
     .then(resp => {
@@ -309,14 +309,14 @@ module.exports.getOffers = (currencyCode, issuerAddress, pairCurrencyCode, pairI
       {
         taker_gets: {
           currency: `${currencyCode.toUpperCase()}`,
-          issuer: currencyCode.toUpperCase() === 'XRP' ? undefined : `${issuerAddress}`
+          issuer: currencyCode.toUpperCase() === 'XRP' ? undefined : `${issuerAddress}`,
         },
         taker_pays: {
           currency: `${pairCurrencyCode.toUpperCase()}`,
-          issuer: pairCurrencyCode.toUpperCase() === 'XRP' ? undefined : `${pairIssuerAddress}`
-        }
-      }
-    ]
+          issuer: pairCurrencyCode.toUpperCase() === 'XRP' ? undefined : `${pairIssuerAddress}`,
+        },
+      },
+    ],
   })
     .then(resp => resp.data.result)
     .then(resp => {

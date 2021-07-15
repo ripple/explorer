@@ -53,8 +53,8 @@ describe('TokenTransactionsTable container', () => {
       ...initialState,
       accountTransactions: {
         loading: true,
-        data: TEST_TRANSACTIONS_DATA
-      }
+        data: TEST_TRANSACTIONS_DATA,
+      },
     };
     const wrapper = creatWrapper(state);
     expect(wrapper.find('.loader').length).toBe(1);
@@ -63,7 +63,7 @@ describe('TokenTransactionsTable container', () => {
 
   it('renders dynamic content with transaction data', () => {
     const actions = {
-      loadTokenTransactions: Function.prototype
+      loadTokenTransactions: Function.prototype,
     };
 
     const component = shallow(
@@ -80,7 +80,7 @@ describe('TokenTransactionsTable container', () => {
     component.setProps({
       accountId: TEST_ACCOUNT_ID,
       currency: TEST_CURRENCY,
-      data: TEST_TRANSACTIONS_DATA
+      data: TEST_TRANSACTIONS_DATA,
     });
 
     expect(component.find('.load-more-btn').length).toBe(1);

@@ -5,7 +5,7 @@ import {
   BAD_REQUEST,
   SERVER_ERROR,
   DECIMAL_REGEX,
-  HASH_REGEX
+  HASH_REGEX,
 } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 
@@ -13,14 +13,14 @@ export const loadLedger = identifier => dispatch => {
   if (!DECIMAL_REGEX.test(identifier) && !HASH_REGEX.test(identifier)) {
     dispatch({
       type: actionTypes.LOADING_FULL_LEDGER_FAIL,
-      data: { error: BAD_REQUEST }
+      data: { error: BAD_REQUEST },
     });
     return Promise.resolve();
   }
 
   dispatch({
     type: actionTypes.START_LOADING_FULL_LEDGER,
-    data: { id: identifier }
+    data: { id: identifier },
   });
 
   const url = `/api/v1/ledgers/${identifier}`;
@@ -39,7 +39,7 @@ export const loadLedger = identifier => dispatch => {
       dispatch({
         type: actionTypes.LOADING_FULL_LEDGER_FAIL,
         data: { error: status, id: identifier },
-        error: status === 500 ? 'get_ledger_failed' : ''
+        error: status === 500 ? 'get_ledger_failed' : '',
       });
     });
 };

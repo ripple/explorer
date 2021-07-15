@@ -69,11 +69,11 @@ EscrowCancel.propTypes = {
       destination: PropTypes.string,
       amount: PropTypes.shape({
         amount: PropTypes.number,
-        currency: PropTypes.string
+        currency: PropTypes.string,
       }),
-      condition: PropTypes.string
-    })
-  }).isRequired
+      condition: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default EscrowCancel;

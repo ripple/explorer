@@ -35,7 +35,7 @@ const Tokens = props => {
         Log.error(`${TOP_TOKENS_URL} --- ${JSON.stringify(axiosError)}`);
 
         analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `${TOP_TOKENS_URL} --- ${JSON.stringify(axiosError)}`
+          exDescription: `${TOP_TOKENS_URL} --- ${JSON.stringify(axiosError)}`,
         });
 
         setUpdatedTime(NaN);
@@ -57,11 +57,11 @@ const Tokens = props => {
 
 Tokens.propTypes = {
   t: PropTypes.func.isRequired,
-  error: PropTypes.number
+  error: PropTypes.number,
 };
 
 Tokens.defaultProps = {
-  error: null
+  error: null,
 };
 
 export default translate()(Tokens);

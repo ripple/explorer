@@ -61,19 +61,19 @@ Simple.propTypes = {
     agreement_1hour: PropTypes.shape({
       score: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       missed: PropTypes.number,
-      incomplete: PropTypes.bool
+      incomplete: PropTypes.bool,
     }),
     agreement_24hour: PropTypes.shape({
       score: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       missed: PropTypes.number,
-      incomplete: PropTypes.bool
+      incomplete: PropTypes.bool,
     }),
     agreement_30day: PropTypes.shape({
       score: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       missed: PropTypes.number,
-      incomplete: PropTypes.bool
-    })
-  }).isRequired
+      incomplete: PropTypes.bool,
+    }),
+  }).isRequired,
 };
 
 export default Simple;

@@ -12,7 +12,7 @@ const GA_ID = process.env.REACT_APP_GA_ID;
 const EXOTIC_SYMBOLS = {
   BTC: '\u20BF',
   XRP: '\uE900',
-  ETH: '\uE902'
+  ETH: '\uE902',
 };
 
 export const TITLE_LENGTH = 77;
@@ -38,7 +38,7 @@ export const BREAKPOINTS = {
   desktop: 1200,
   landscape: 900,
   portrait: 600,
-  phone: 415
+  phone: 415,
 };
 
 export const ANALYTIC_TYPES = {
@@ -46,14 +46,14 @@ export const ANALYTIC_TYPES = {
   event: 'event',
   social: 'social',
   timing: 'timing',
-  exception: 'exception'
+  exception: 'exception',
 };
 
 const NUMBER_DEFAULT_OPTIONS = {
   style: 'decimal',
   minimumFractionDigits: 0,
   maximumFractionDigits: 20,
-  useGrouping: true
+  useGrouping: true,
 };
 
 export const normalizeLanguage = lang => {
@@ -95,7 +95,7 @@ export const formatPrice = (number, lang = 'en-US', currency = 'USD', decimals =
   number
     ? localizeNumber(number.toPrecision(decimals), lang, {
         style: 'currency',
-        currency
+        currency,
       })
     : undefined;
 
@@ -144,7 +144,7 @@ export const getLocalizedCurrencySymbol = (lang = 'en-US', currency = 'USD') => 
     style: 'currency',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-    currency
+    currency,
   };
 
   const formatted = localizeNumber(1, lang, options);
@@ -155,41 +155,41 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
   if (d >= QUADRILLION) {
     return {
       num: (d / QUADRILLION).toFixed(digits),
-      unit: 'Q'
+      unit: 'Q',
     };
   }
 
   if (d >= TRILLION) {
     return {
       num: (d / TRILLION).toFixed(digits),
-      unit: 'T'
+      unit: 'T',
     };
   }
 
   if (d >= BILLION) {
     return {
       num: (d / BILLION).toFixed(digits),
-      unit: 'B'
+      unit: 'B',
     };
   }
 
   if (d >= MILLION) {
     return {
       num: (d / MILLION).toFixed(digits),
-      unit: 'M'
+      unit: 'M',
     };
   }
 
   if (d >= THOUSAND) {
     return {
       num: (d / THOUSAND).toFixed(digits),
-      unit: 'K'
+      unit: 'K',
     };
   }
 
   return {
     num: d.toFixed(digits),
-    unit: ''
+    unit: '',
   };
 };
 
@@ -217,7 +217,7 @@ export const analytics = (type = null, fields = {}) => {
       if (!!fields.eventCategory && !!fields.eventAction) {
         window.gtag('event', fields.eventAction, {
           event_category: fields.eventCategory,
-          event_label: fields.eventLabel
+          event_label: fields.eventLabel,
         });
         return true;
       }

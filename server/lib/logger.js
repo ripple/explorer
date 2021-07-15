@@ -15,6 +15,6 @@ module.exports = options => {
     },
     debug: (...args) => {
       logger.debug(...args);
-    }
+    },
   };
 };

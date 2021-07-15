@@ -63,14 +63,14 @@ EscrowCreate.propTypes = {
       destination: PropTypes.string,
       amount: PropTypes.shape({
         amount: PropTypes.number,
-        currency: PropTypes.string
+        currency: PropTypes.string,
       }),
       condition: PropTypes.string,
       finishAfter: PropTypes.string,
-      cancelAfter: PropTypes.string
-    })
+      cancelAfter: PropTypes.string,
+    }),
   }).isRequired,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
 };
 
 export default EscrowCreate;

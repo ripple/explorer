@@ -16,7 +16,7 @@ const getDetails = node => {
   return {
     source: `${node.FinalFields.Account}${st}`,
     destination: `${node.FinalFields.Destination}${dt}`,
-    channel: node.LedgerIndex
+    channel: node.LedgerIndex,
   };
 };
 
@@ -26,7 +26,7 @@ module.exports = (tx, meta) => {
     channel: tx.Channel,
     total_claimed: tx.Balance ? formatAmount(tx.Balance) : undefined,
     renew: hasRenew(tx.Flags) || undefined,
-    close: hasClose(tx.Flags) || undefined
+    close: hasClose(tx.Flags) || undefined,
   };
 
   if (node) {
@@ -39,7 +39,7 @@ module.exports = (tx, meta) => {
     return Object.assign(data, details, {
       channel_amount: formatAmount(amount),
       claimed: claimed ? formatAmount(claimed) : undefined,
-      remaining: formatAmount(remaining)
+      remaining: formatAmount(remaining),
     });
   }
 
@@ -52,7 +52,7 @@ module.exports = (tx, meta) => {
       channel_amount: formatAmount(node.FinalFields.Amount),
       total_claimed: formatAmount(node.FinalFields.Balance),
       returned: returned ? formatAmount(returned) : undefined,
-      deleted: true
+      deleted: true,
     });
   }
 

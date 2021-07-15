@@ -30,10 +30,10 @@ SignerListSet.propTypes = {
     tx: PropTypes.shape({
       SignerQuorum: PropTypes.number,
       SignerEntries: PropTypes.shape({
-        map: PropTypes.func
-      })
-    }).isRequired
-  }).isRequired
+        map: PropTypes.func,
+      }),
+    }).isRequired,
+  }).isRequired,
 };
 
 export default SignerListSet;

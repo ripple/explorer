@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import {
   isValidClassicAddress,
   isValidXAddress,
-  classicAddressToXAddress
+  classicAddressToXAddress,
 } from 'ripple-address-codec';
 import { isValidPayId as isValidPayString } from 'payid-lib';
 import {
@@ -13,7 +13,7 @@ import {
   ANALYTIC_TYPES,
   CURRENCY_REGEX,
   DECIMAL_REGEX,
-  HASH_REGEX
+  HASH_REGEX,
 } from '../shared/utils';
 import './search.css';
 
@@ -88,12 +88,12 @@ class Search extends Component {
     analytics(ANALYTIC_TYPES.event, {
       eventCategory: 'globalSearch',
       eventAction: type,
-      eventLabel: id
+      eventLabel: id,
     });
 
     this.setState(
       {
-        redirect: type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`
+        redirect: type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
       },
       callback
     );
@@ -125,12 +125,12 @@ class Search extends Component {
 Search.propTypes = {
   t: PropTypes.func.isRequired,
   mobile: PropTypes.bool,
-  callback: PropTypes.func
+  callback: PropTypes.func,
 };
 
 Search.defaultProps = {
   mobile: false,
-  callback: () => {}
+  callback: () => {},
 };
 
 export default translate()(Search);

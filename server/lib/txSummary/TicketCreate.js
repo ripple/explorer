@@ -3,6 +3,6 @@ module.exports = tx => {
   const ticketSequence = tx.TicketSequence;
   return {
     ticketCount,
-    ticketSequence
+    ticketSequence,
   };
 };

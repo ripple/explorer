@@ -41,8 +41,8 @@ describe('PayString container', () => {
       accountHeader: {
         loading: false,
         error: null,
-        data: mockPayStringData
-      }
+        data: mockPayStringData,
+      },
     };
 
     const wrapper = creatWrapper(state);

@@ -15,7 +15,7 @@ class LedgersPage extends Component {
     this.state = {
       validators: {},
       ledgers: [],
-      paused: false
+      paused: false,
     };
   }
 
@@ -33,7 +33,7 @@ class LedgersPage extends Component {
 
   setSelected = pubkey => {
     this.setState(prevState => ({
-      selected: prevState.selected === pubkey ? null : pubkey
+      selected: prevState.selected === pubkey ? null : pubkey,
     }));
   };
 
@@ -99,9 +99,9 @@ class LedgersPage extends Component {
 
 LedgersPage.propTypes = {
   language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 export default connect(state => ({
-  language: state.app.language
+  language: state.app.language,
 }))(translate()(LedgersPage));

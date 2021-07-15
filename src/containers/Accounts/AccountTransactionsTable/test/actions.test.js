@@ -25,18 +25,18 @@ describe('AccountTransactionsTable Actions', () => {
         hash: '074415C5DC6DB0029E815EA6FC2629FBC29A2C9D479F5D040AFF94ED58ECC820',
         amount: '100000000',
         from: 'ra5nK24KXen9AHvsdFTKHSANinZseWnPcX',
-        to: 'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn'
-      }
+        to: 'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn',
+      },
     ];
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS },
       { type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS },
-      { type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS, data }
+      { type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS, data },
     ];
     const store = mockStore({ news: initialState });
     moxios.stubRequest(`/api/v1/account_transactions/${TEST_ADDRESS}`, {
       status: 200,
-      response: data
+      response: data,
     });
     return store.dispatch(actions.loadAccountTransactions(TEST_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
@@ -47,12 +47,15 @@ describe('AccountTransactionsTable Actions', () => {
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS },
       { type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS },
-      { type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL, error: 'get_account_transactions_failed' }
+      {
+        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL,
+        error: 'get_account_transactions_failed',
+      },
     ];
     const store = mockStore({ news: initialState });
     moxios.stubRequest(`/api/v1/account_transactions/${TEST_ADDRESS}`, {
       status: 500,
-      response: null
+      response: null,
     });
     return store.dispatch(actions.loadAccountTransactions(TEST_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);

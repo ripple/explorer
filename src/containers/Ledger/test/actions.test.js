@@ -25,7 +25,7 @@ describe('Ledger actions', () => {
     const expectedActions = [
       { type: actionTypes.START_LOADING_FULL_LEDGER, data: { id: mockLedger.ledger_index } },
       { type: actionTypes.FINISH_LOADING_FULL_LEDGER },
-      { type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data: mockLedger }
+      { type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data: mockLedger },
     ];
     store.dispatch(actions.loadLedger(mockLedger.ledger_index));
     moxios.wait(() => {
@@ -33,7 +33,7 @@ describe('Ledger actions', () => {
       request
         .respondWith({
           status: 200,
-          response: mockLedger
+          response: mockLedger,
         })
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
@@ -46,7 +46,7 @@ describe('Ledger actions', () => {
     const expectedActions = [
       { type: actionTypes.START_LOADING_FULL_LEDGER, data: { id: mockLedger.ledger_hash } },
       { type: actionTypes.FINISH_LOADING_FULL_LEDGER },
-      { type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data: mockLedger }
+      { type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data: mockLedger },
     ];
     store.dispatch(actions.loadLedger(mockLedger.ledger_hash));
     moxios.wait(() => {
@@ -54,7 +54,7 @@ describe('Ledger actions', () => {
       request
         .respondWith({
           status: 200,
-          response: mockLedger
+          response: mockLedger,
         })
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
@@ -65,7 +65,7 @@ describe('Ledger actions', () => {
 
   it('should dispatch correct actions on fail for loadLedger with invalid id', () => {
     const expectedActions = [
-      { type: actionTypes.LOADING_FULL_LEDGER_FAIL, data: { error: BAD_REQUEST } }
+      { type: actionTypes.LOADING_FULL_LEDGER_FAIL, data: { error: BAD_REQUEST } },
     ];
     store.dispatch(actions.loadLedger('zzz'));
     expect(store.getActions()).toEqual(expectedActions);
@@ -80,10 +80,10 @@ describe('Ledger actions', () => {
         type: actionTypes.LOADING_FULL_LEDGER_FAIL,
         data: {
           error: NOT_FOUND,
-          id: LEDGER_INDEX
+          id: LEDGER_INDEX,
         },
-        error: ''
-      }
+        error: '',
+      },
     ];
     store.dispatch(actions.loadLedger(LEDGER_INDEX));
     moxios.wait(() => {
@@ -91,7 +91,7 @@ describe('Ledger actions', () => {
       request
         .respondWith({
           status: 404,
-          response: {}
+          response: {},
         })
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
@@ -109,9 +109,9 @@ describe('Ledger actions', () => {
         error: 'get_ledger_failed',
         data: {
           error: SERVER_ERROR,
-          id: 1
-        }
-      }
+          id: 1,
+        },
+      },
     ];
     store.dispatch(actions.loadLedger(1));
     moxios.wait(() => {
@@ -119,7 +119,7 @@ describe('Ledger actions', () => {
       request
         .respondWith({
           status: 500,
-          response: {}
+          response: {},
         })
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);

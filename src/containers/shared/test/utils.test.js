@@ -7,7 +7,7 @@ import {
   localizeDate,
   analytics,
   ANALYTIC_TYPES,
-  durationToHuman
+  durationToHuman,
 } from '../utils';
 
 describe('utils', () => {
@@ -49,28 +49,28 @@ describe('utils', () => {
       localizeNumber(12.2334, 'en-US', {
         style: 'currency',
         currency: 'USD',
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       })
     ).toEqual('$12.23');
     expect(
       localizeNumber(12.2334, 'en-US', {
         style: 'currency',
         currency: 'xrp',
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       })
     ).toEqual('12.23');
     expect(
       localizeNumber(12.2334, 'en-US', {
         style: 'currency',
         currency: 'PRX',
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       })
     ).toEqual('12.23');
     expect(
       localizeNumber(12.2334, 'en-US', {
         style: 'currency',
         currency: 'XRp',
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       })
     ).toEqual('12.23');
   });
@@ -108,12 +108,12 @@ describe('utils', () => {
     expect(
       analytics(ANALYTIC_TYPES.event, {
         eventCategory: 'MobileMenu',
-        eventAction: 'Open'
+        eventAction: 'Open',
       })
     ).toEqual(true);
     expect(
       analytics(ANALYTIC_TYPES.exception, {
-        exDescription: 'something bad happened'
+        exDescription: 'something bad happened',
       })
     ).toEqual(true);
   });

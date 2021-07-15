@@ -35,7 +35,7 @@ const summarize = {
   EnableAmendment,
   UNLModify,
   AccountDelete,
-  TicketCreate
+  TicketCreate,
 };
 
 const getInstructions = (tx, meta) =>
@@ -54,9 +54,9 @@ const summarizeTransaction = (d, details = false) => ({
   details: details
     ? {
         instructions: getInstructions(d.tx, d.meta),
-        effects: undefined
+        effects: undefined,
       }
-    : undefined
+    : undefined,
 });
 
 module.exports = summarizeTransaction;

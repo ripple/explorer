@@ -12,7 +12,7 @@ describe.only('Ledger reducers', () => {
     expect(
       reducer(initialState, {
         type: actionTypes.START_LOADING_FULL_LEDGER,
-        data: { id: 1 }
+        data: { id: 1 },
       })
     ).toEqual(nextState);
   });
@@ -44,13 +44,13 @@ describe.only('Ledger reducers', () => {
       ...initialState,
       loading: false,
       error: 'get_ledger_failed',
-      data: { error: 'not found' }
+      data: { error: 'not found' },
     };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_FULL_LEDGER_FAIL,
         data: { error: 'not found' },
-        error: 'get_ledger_failed'
+        error: 'get_ledger_failed',
       })
     ).toEqual(nextState);
     expect(reducer(nextState, { type: 'persist/REHYDRATE' })).toEqual(initialState);
@@ -61,7 +61,7 @@ describe.only('Ledger reducers', () => {
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_FULL_LEDGER_SUCCESS,
-        data: mockLedger
+        data: mockLedger,
       })
     ).toEqual(nextState);
     expect(reducer(nextState, { type: 'persist/REHYDRATE' })).toEqual(initialState);

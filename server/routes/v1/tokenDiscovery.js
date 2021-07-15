@@ -13,8 +13,8 @@ let options = {
   projectId: process.env.GOOGLE_APP_PROJECT_ID,
   credentials: {
     client_email: process.env.GOOGLE_APP_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_APP_PRIVATE_KEY.replace(/\\n/g, '\n')
-  }
+    private_key: process.env.GOOGLE_APP_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  },
 };
 
 const bigQuery = new BigQuery(options);
@@ -91,7 +91,7 @@ async function getTokensList() {
           domain,
           gravatar,
           obligations,
-          exchangeRate
+          exchangeRate,
         };
         rankedTokens[tokenIndex] = newInfo;
       }
@@ -129,7 +129,7 @@ module.exports = async (req, res) => {
     res.send({
       result: 'success',
       updated: cachedTokensList.time,
-      tokens: cachedTokensList.tokens
+      tokens: cachedTokensList.tokens,
     });
   } catch (error) {
     log.error(error);

@@ -290,7 +290,7 @@ class TxDetails extends Component {
       remaining,
       renew,
       close,
-      deleted
+      deleted,
     } = instructions;
 
     return (
@@ -381,16 +381,16 @@ TxDetails.propTypes = {
     convert: PropTypes.shape({}),
     amount: PropTypes.shape({}),
     destination: PropTypes.string,
-    partial: PropTypes.bool
+    partial: PropTypes.bool,
   }),
   type: PropTypes.string,
   language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 TxDetails.defaultProps = {
   instructions: {},
-  type: null
+  type: null,
 };
 
 export default translate()(TxDetails);

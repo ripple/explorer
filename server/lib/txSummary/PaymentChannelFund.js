@@ -13,7 +13,7 @@ const getDetails = node => {
   return {
     source: `${node.FinalFields.Account}${st}`,
     destination: `${node.FinalFields.Destination}${dt}`,
-    channel: node.LedgerIndex
+    channel: node.LedgerIndex,
   };
 };
 

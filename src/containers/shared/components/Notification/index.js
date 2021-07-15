@@ -12,7 +12,7 @@ class Notification extends React.Component {
     super(props);
 
     this.state = {
-      dismissed: props.dismissed || false
+      dismissed: props.dismissed || false,
     };
   }
 
@@ -47,7 +47,7 @@ Notification.defaultProps = {
   autoDismiss: false,
   dismissed: undefined,
   delay: 5000,
-  className: ''
+  className: '',
 };
 
 Notification.propTypes = {
@@ -58,7 +58,7 @@ Notification.propTypes = {
   autoDismiss: PropTypes.bool,
   dismissed: PropTypes.bool,
   delay: PropTypes.number,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default Notification;

@@ -22,7 +22,7 @@ const DATE_OPTIONS = {
   month: 'numeric',
   day: 'numeric',
   hour12: true,
-  timeZone: TIME_ZONE
+  timeZone: TIME_ZONE,
 };
 
 export class AccountTxTable extends Component {
@@ -30,7 +30,7 @@ export class AccountTxTable extends Component {
     super(props);
     this.state = {
       transactions: [],
-      marker: undefined
+      marker: undefined,
     };
 
     this.loadMoreTransactions = this.loadMoreTransactions.bind(this);
@@ -47,7 +47,7 @@ export class AccountTxTable extends Component {
     if (nextAccountId !== accountId) {
       this.setState({
         transactions: [],
-        marker: undefined
+        marker: undefined,
       });
       actions.loadAccountTransactions(nextAccountId);
     }
@@ -61,7 +61,7 @@ export class AccountTxTable extends Component {
     if (newTransactionsRecieved) {
       this.setState(prevState => ({
         marker: nextProps.data.marker,
-        transactions: prevState.transactions.concat(nextProps.data.transactions)
+        transactions: prevState.transactions.concat(nextProps.data.transactions),
       }));
     }
   }
@@ -74,7 +74,7 @@ export class AccountTxTable extends Component {
     const { data } = this.props;
     this.setState({
       transactions: [],
-      marker: data.marker
+      marker: data.marker,
     });
   }
 
@@ -96,7 +96,7 @@ export class AccountTxTable extends Component {
         localizeNumber(amount.value, language, {
           style: 'currency',
           currency: amount.currency,
-          maximumFractionDigits: 6
+          maximumFractionDigits: 6,
         }),
       date: localizeDate(new Date(transaction.date), language, {
         month: 'numeric',
@@ -105,8 +105,8 @@ export class AccountTxTable extends Component {
         hour: 'numeric',
         minute: 'numeric',
         second: 'numeric',
-        hour12: false
-      })
+        hour12: false,
+      }),
     };
   }
 
@@ -221,18 +221,18 @@ AccountTxTable.propTypes = {
         date: PropTypes.string,
         creator: PropTypes.string,
         image: PropTypes.string,
-        speed: PropTypes.number
+        speed: PropTypes.number,
       })
-    )
+    ),
   }).isRequired,
   actions: PropTypes.shape({
-    loadAccountTransactions: PropTypes.func
+    loadAccountTransactions: PropTypes.func,
   }).isRequired,
-  currencySelected: PropTypes.string.isRequired
+  currencySelected: PropTypes.string.isRequired,
 };
 
 AccountTxTable.defaultProps = {
-  loadingError: ''
+  loadingError: '',
 };
 
 export default connect(
@@ -241,14 +241,14 @@ export default connect(
     width: state.app.width,
     loadingError: state.accountTransactions.error,
     loading: state.accountTransactions.loading,
-    data: state.accountTransactions.data
+    data: state.accountTransactions.data,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadAccountTransactions
+        loadAccountTransactions,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(AccountTxTable));

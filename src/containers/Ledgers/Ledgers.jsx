@@ -14,7 +14,7 @@ class Ledgers extends Component {
     this.state = {
       ledgers: [],
       validators: {},
-      tooltip: null
+      tooltip: null,
     };
   }
 
@@ -22,12 +22,12 @@ class Ledgers extends Component {
     selected: nextProps.selected,
     ledgers: nextProps.paused ? prevState.ledgers : nextProps.ledgers,
     validators: nextProps.validators,
-    unlCount: nextProps.unlCount
+    unlCount: nextProps.unlCount,
   });
 
   setSelected = pubkey =>
     this.setState(prevState => ({
-      selected: prevState.selected === pubkey ? null : pubkey
+      selected: prevState.selected === pubkey ? null : pubkey,
     }));
 
   getMissingValidators = hash => {
@@ -57,8 +57,8 @@ class Ledgers extends Component {
         mode,
         v: mode === 'validator' && validators[data.pubkey],
         x: event.pageX,
-        y: event.pageY
-      }
+        y: event.pageY,
+      },
     });
   };
 
@@ -248,7 +248,7 @@ Ledgers.propTypes = {
   setSelected: PropTypes.func,
   language: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
-  paused: PropTypes.bool
+  paused: PropTypes.bool,
 };
 
 Ledgers.defaultProps = {
@@ -257,7 +257,7 @@ Ledgers.defaultProps = {
   unlCount: 0,
   selected: null,
   setSelected: () => {},
-  paused: false
+  paused: false,
 };
 
 export default translate()(Ledgers);

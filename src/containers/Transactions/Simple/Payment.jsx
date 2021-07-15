@@ -101,25 +101,25 @@ Payment.propTypes = {
       partial: PropTypes.bool,
       amount: PropTypes.shape({
         amount: PropTypes.number,
-        currency: PropTypes.string
+        currency: PropTypes.string,
       }),
       max: PropTypes.shape({
         amount: PropTypes.number,
-        currency: PropTypes.string
+        currency: PropTypes.string,
       }),
       convert: PropTypes.shape({
         amount: PropTypes.number,
-        currency: PropTypes.string
+        currency: PropTypes.string,
       }),
       destination: PropTypes.oneOfType([
         PropTypes.shape({
-          split: PropTypes.func
+          split: PropTypes.func,
         }),
-        PropTypes.string
+        PropTypes.string,
       ]),
-      sourceTag: PropTypes.string
-    })
-  }).isRequired
+      sourceTag: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default Payment;

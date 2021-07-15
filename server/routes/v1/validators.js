@@ -73,7 +73,7 @@ module.exports = (req, res) => {
       agreement_24hour: v.agreement_24h,
       agreement_30day: v.agreement_30day,
       chain: v.chain,
-      partial: v.partial
+      partial: v.partial,
     }));
 
     if (req.query.key) {
@@ -91,7 +91,7 @@ module.exports = (req, res) => {
     signing_key: v.signing_key,
     master_key: v.master_key,
     unl: v.unl,
-    domain: v.domain
+    domain: v.domain,
   }));
 
   if (req.query.unl === process.env.REACT_APP_VALIDATOR) {

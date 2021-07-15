@@ -17,7 +17,7 @@ const Banner = props => {
 
 Banner.propTypes = {
   t: PropTypes.func.isRequired,
-  messages: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired
+  messages: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
 };
 
 export default connect(state => {
@@ -26,7 +26,7 @@ export default connect(state => {
     ['transactionError', state.transaction.error],
     ['balanceError', state.accountHeader.error],
     ['transactionsError', state.accountTransactions.error],
-    ['payStringError', state.payStringData.error]
+    ['payStringError', state.payStringData.error],
   ];
 
   return { messages: messages.filter(d => Boolean(d[1])) };

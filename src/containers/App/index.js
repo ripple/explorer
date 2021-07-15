@@ -26,7 +26,7 @@ const MODE = process.env.REACT_APP_ENVIRONMENT;
 class App extends Component {
   static componentDidCatch(error, info) {
     analytics(ANALYTIC_TYPES.exception, {
-      exDescription: `${error.toString()} -------->>>>>  ${info.componentStack}`
+      exDescription: `${error.toString()} -------->>>>>  ${info.componentStack}`,
     });
   }
 
@@ -112,34 +112,34 @@ App.propTypes = {
   language: PropTypes.string.isRequired,
   i18n: PropTypes.shape({
     language: PropTypes.string,
-    changeLanguage: PropTypes.func.isRequired
+    changeLanguage: PropTypes.func.isRequired,
   }).isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string,
-    pathname: PropTypes.string
+    pathname: PropTypes.string,
   }).isRequired,
   actions: PropTypes.shape({
     updateViewportDimensions: PropTypes.func,
     onScroll: PropTypes.func,
-    updateLanguage: PropTypes.func
-  }).isRequired
+    updateLanguage: PropTypes.func,
+  }).isRequired,
 };
 
 export default withRouter(
   translate()(
     connect(
       state => ({
-        language: state.app.language
+        language: state.app.language,
       }),
       dispatch => ({
         actions: bindActionCreators(
           {
             updateViewportDimensions,
             onScroll,
-            updateLanguage
+            updateLanguage,
           },
           dispatch
-        )
+        ),
       })
     )(App)
   )

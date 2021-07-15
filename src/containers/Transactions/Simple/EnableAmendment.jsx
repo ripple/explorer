@@ -9,7 +9,7 @@ let cachedRippledVersions = {};
 
 const states = {
   loading: 'Loading',
-  unknown: 'Unknown'
+  unknown: 'Unknown',
 };
 
 const TIME_ZONE = 'UTC';
@@ -21,7 +21,7 @@ const DATE_OPTIONS = {
   month: 'numeric',
   day: 'numeric',
   hour12: true,
-  timeZone: TIME_ZONE
+  timeZone: TIME_ZONE,
 };
 
 class EnableAmendment extends Component {
@@ -113,7 +113,7 @@ class EnableAmendment extends Component {
       amendmentName: states.loading,
       amendmentStatus: status,
       minRippledVersion: states.loading,
-      expectedDate: expected
+      expectedDate: expected,
     };
   }
 
@@ -160,7 +160,7 @@ class EnableAmendment extends Component {
               <div className="label">Expected Date </div>
               <div className="value">{expectedDate}</div>
             </div>
-          ) : null
+          ) : null,
         ]}
       </>
     );
@@ -171,7 +171,7 @@ EnableAmendment.propTypes = {
   data: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number, PropTypes.array])
   ).isRequired,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
 };
 
 export default EnableAmendment;

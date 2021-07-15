@@ -45,7 +45,7 @@ describe('Nodes Page container', () => {
 
     moxios.stubRequest(`/api/v1/nodes`, {
       status: 200,
-      response: mockNodes
+      response: mockNodes,
     });
 
     expect(wrapper.find('.nodes-map').length).toBe(1);

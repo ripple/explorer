@@ -13,7 +13,7 @@ class Network extends Component {
     document.title = `${t('xrpl_explorer')} | ${t('network')}`;
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'network',
-      path: `/network/${params.tab || 'nodes'}`
+      path: `/network/${params.tab || 'nodes'}`,
     });
   }
 
@@ -32,9 +32,9 @@ Network.propTypes = {
     path: PropTypes.string,
     params: PropTypes.shape({
       identifier: PropTypes.string,
-      tab: PropTypes.string
-    })
-  }).isRequired
+      tab: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default translate()(Network);

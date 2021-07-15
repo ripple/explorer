@@ -15,7 +15,7 @@ const BalanceSelector = ({
   expandMenu,
   onMouseLeave,
   onSetCurrencySelected,
-  currencySelected
+  currencySelected,
 }) => {
   const balanceMenuItems = Object.entries(balances).map(([currency, value]) => {
     if (currency === currencySelected) {
@@ -26,7 +26,7 @@ const BalanceSelector = ({
         style: 'currency',
         currency,
         minimumFractionDigits: 0,
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       }) || '0.00';
     return (
       <button
@@ -72,7 +72,7 @@ BalanceSelector.propTypes = {
   onClick: PropTypes.func.isRequired,
   onMouseLeave: PropTypes.func.isRequired,
   onSetCurrencySelected: PropTypes.func.isRequired,
-  currencySelected: PropTypes.string.isRequired
+  currencySelected: PropTypes.string.isRequired,
 };
 
 export default BalanceSelector;

@@ -9,7 +9,7 @@ const AccountSet = props => {
     email_hash: email,
     message_key: messageKey,
     set_flag: setFlag,
-    clear_flag: clearFlag
+    clear_flag: clearFlag,
   } = data.instructions;
 
   return (
@@ -68,9 +68,9 @@ AccountSet.propTypes = {
       email_hash: PropTypes.string,
       message_key: PropTypes.string,
       set_flag: PropTypes.string,
-      clear_flag: PropTypes.string
-    })
-  }).isRequired
+      clear_flag: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default AccountSet;
