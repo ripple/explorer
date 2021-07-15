@@ -13,46 +13,33 @@ export class PayStringAddressesTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accountId: '',
-      actions: '',
       data: {},
     };
   }
 
-  componentDidMount() {
-    const { accountId, actions } = this.props;
+  componentWillMount() {
+    const { actions, accountId } = this.props;
     actions.loadPayStringData(accountId);
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  componentWillReceiveProps(nextProps) {
     const nextAccountId = nextProps.accountId;
-    const { accountId, actions, data } = prevState;
-
+    const { accountId, actions, data } = this.props;
     if (nextAccountId !== accountId) {
-      return {
-        accountId: nextAccountId,
-        actions,
+      this.setState({
         data: {},
-      };
+      });
+      actions.loadPayStringData(nextAccountId);
     }
+
     // Only update this.state.data if loading just completed without error
     const newDataRecieved =
       nextProps.loadingError === '' && nextProps.data && data !== nextProps.data;
 
     if (newDataRecieved) {
-      return {
-        accountId: nextAccountId,
-        actions,
+      this.setState(prevState => ({
         data: nextProps.data,
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps) {
-    const { accountId, actions } = this.props;
-    if (prevProps.accountId !== accountId) {
-      actions.loadPayStringData(accountId);
+      }));
     }
   }
 
