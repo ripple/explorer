@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
-import { localizeDate, localizeNumber } from '../../shared/utils';
+import { localizeDate } from '../../shared/utils';
 import { loadTokenTransactions } from './actions';
 import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
@@ -25,130 +25,61 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE
 };
 
-export class TokenTxTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+export const TokenTxTable = props => {
+  const [state, setState] = useState({
+    transactions: [],
+    marker: undefined,
+    prevProps: { accountId: '', currency: '', data: '', actions: {} }
+  });
+
+  const { accountId, actions, data, currency } = props;
+
+  useEffect(() => {
+    actions.loadTokenTransactions(accountId, currency);
+    // returned function will be called on component unmount
+    return () => {
+      resetPage();
+    };
+  }, []);
+
+  useEffect(() => {
+    setState({
       transactions: [],
       marker: undefined
-    };
-
-    this.loadMoreTransactions = this.loadMoreTransactions.bind(this);
-  }
-
-  componentDidMount() {
-    const { actions, accountId, currency } = this.props;
+    });
     actions.loadTokenTransactions(accountId, currency);
-  }
+  }, [accountId, currency]);
 
-  // getDerivedStateFromProps(props, state)
-  // memoize. move props(a,c,a,d) to state and then compare new props and state
-  // check for conditions and returning object will set new new state.
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const nextAccountId = nextProps.accountId;
-    const nextCurrency = nextProps.currency;
-    const { accountId, currency, data } = prevState.prevProps;
-    if (nextAccountId !== accountId || nextCurrency !== currency) {
-      return { transactions: [], marker: undefined, prevProps: nextProps };
-    }
-
+  useEffect(() => {
     // Only update this.state.transactions if loading just completed without error
     const newTransactionsRecieved =
-      nextProps.loadingError === '' &&
-      nextProps.data &&
-      data !== nextProps.data &&
-      nextProps.data.transactions;
+      props.loadingError === '' &&
+      props.data &&
+      state.data !== props.data &&
+      props.data.transactions;
+
     if (newTransactionsRecieved) {
-      return x => ({
-        marker: nextProps.data.marker,
-        transactions: x.transactions.concat(nextProps.data.transactions),
-        prevProps: nextProps
-      });
+      setState(prevState => ({
+        marker: props.data.marker,
+        transactions: prevState.transactions.concat(props.data.transactions)
+      }));
     }
-    return null;
-  }
+  }, [props]);
 
-  componentDidUpdate(prevProps, prevState) {
-    const { accountId, currency, actions } = this.props;
-    if (prevProps.accountId !== accountId) {
-      actions.loadTokenTransactions(accountId, currency);
-    }
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const nextAccountId = nextProps.accountId;
-  //   const nextCurrency = nextProps.currency;
-  //   const { accountId, currency, actions, data } = this.props;
-  //   // console.log({ accountId, currency, actions, data }, { nextAccountId, nextCurrency });
-  //   if (nextAccountId !== accountId || nextCurrency !== currency) {
-  //     this.setState({
-  //       transactions: [],
-  //       marker: undefined
-  //     });
-  //     actions.loadTokenTransactions(nextAccountId, nextCurrency);
-  //   }
-
-  //   // Only update this.state.transactions if loading just completed without error
-  //   const newTransactionsRecieved =
-  //     nextProps.loadingError === '' &&
-  //     nextProps.data &&
-  //     data !== nextProps.data &&
-  //     nextProps.data.transactions;
-  //   if (newTransactionsRecieved) {
-  //     this.setState(prevState => ({
-  //       marker: nextProps.data.marker,
-  //       transactions: prevState.transactions.concat(nextProps.data.transactions)
-  //     }));
-  //   }
-  // }
-
-  componentWillUnmount() {
-    this.resetPage();
-  }
-
-  resetPage() {
-    const { data } = this.props;
-    this.setState({
+  const resetPage = () => {
+    setState({
       transactions: [],
       marker: data.marker
     });
-  }
+  };
 
-  loadMoreTransactions() {
-    const { accountId, currency, actions } = this.props;
-    const { marker } = this.state;
+  const loadMoreTransactions = () => {
+    const { marker } = state;
     actions.loadTokenTransactions(accountId, currency, marker);
-  }
+  };
 
-  formatTransactionData(transaction) {
-    const { language } = this.props;
-    const amount = {};
-    return {
-      account: transaction.tx.Account,
-      destination: transaction.tx.Destination,
-      type: transaction.tx.TransactionType,
-      amount:
-        !!amount &&
-        localizeNumber(amount.value, language, {
-          style: 'currency',
-          currency: amount.currency,
-          maximumFractionDigits: 6
-        }),
-      date: localizeDate(new Date(transaction.date), language, {
-        month: 'numeric',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: false
-      })
-    };
-  }
-
-  renderListItem(tx) {
-    const { language, t } = this.props;
+  const renderListItem = tx => {
+    const { language, t } = props;
     const success = tx.result === 'tesSUCCESS';
     const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS);
     const status = success ? 'Success' : `Fail - ${tx.result}`;
@@ -186,49 +117,47 @@ export class TokenTxTable extends Component {
         </Link>
       </li>
     );
-  }
+  };
 
-  renderLoadMoreButton() {
-    const { t } = this.props;
-    const { marker } = this.state;
+  const renderLoadMoreButton = () => {
+    const { t } = props;
+    const { marker } = state;
     return (
       marker && (
-        <button className="load-more-btn" onClick={this.loadMoreTransactions}>
+        <button className="load-more-btn" onClick={loadMoreTransactions} type="button">
           {t('load_more_action')}
         </button>
       )
     );
-  }
+  };
 
-  renderListContents() {
-    const { t, loading, loadingError } = this.props;
-    const { transactions } = this.state;
+  const renderListContents = () => {
+    const { t, loading, loadingError } = props;
+    const { transactions } = state;
     if (!loading && transactions.length === 0 && !loadingError) {
       return <div className="empty-transactions-message">{t('no_transactions_message')}</div>;
     }
-    return transactions.map(transaction => this.renderListItem(transaction));
-  }
+    return transactions.map(transaction => renderListItem(transaction));
+  };
 
-  render() {
-    const { t, loading } = this.props;
+  const { t, loading } = props;
 
-    return (
-      <div className="section transactions-table">
-        <ol className="account-transactions">
-          <div className="title">Token Transactions</div>
-          <li className="transaction-li transaction-li-header">
-            <div className="col-account">{t('account')}</div>
-            <div className="col-type">{t('transaction_type')}</div>
-            <div className="col-status">{t('status')}</div>
-            <div className="col-date">{t('transactions.date_header')}</div>
-          </li>
-          {this.renderListContents()}
-        </ol>
-        {loading ? <Loader /> : this.renderLoadMoreButton()}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="section transactions-table">
+      <ol className="account-transactions">
+        <div className="title">Token Transactions</div>
+        <li className="transaction-li transaction-li-header">
+          <div className="col-account">{t('account')}</div>
+          <div className="col-type">{t('transaction_type')}</div>
+          <div className="col-status">{t('status')}</div>
+          <div className="col-date">{t('transactions.date_header')}</div>
+        </li>
+        {renderListContents()}
+      </ol>
+      {loading ? <Loader /> : renderLoadMoreButton()}
+    </div>
+  );
+};
 
 TokenTxTable.propTypes = {
   t: PropTypes.func.isRequired,

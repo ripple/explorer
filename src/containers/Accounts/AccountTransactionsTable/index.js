@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
-import { localizeDate, localizeNumber } from '../../shared/utils';
+import { localizeDate } from '../../shared/utils';
 import { loadAccountTransactions } from './actions';
 import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
@@ -76,32 +76,6 @@ export const AccountTxTable = props => {
     actions.loadAccountTransactions(accountId, marker);
   };
 
-  const formatTransactionData = transaction => {
-    const { language } = props;
-    const amount = {};
-    return {
-      account: transaction.tx.Account,
-      destination: transaction.tx.Destination,
-      type: transaction.tx.TransactionType,
-      amount:
-        !!amount &&
-        localizeNumber(amount.value, language, {
-          style: 'currency',
-          currency: amount.currency,
-          maximumFractionDigits: 6
-        }),
-      date: localizeDate(new Date(transaction.date), language, {
-        month: 'numeric',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: false
-      })
-    };
-  };
-
   const renderListItem = tx => {
     const { language, t } = props;
     const success = tx.result === 'tesSUCCESS';
@@ -148,7 +122,7 @@ export const AccountTxTable = props => {
     const { marker } = state;
     return (
       marker && (
-        <button className="load-more-btn" onClick={loadMoreTransactions}>
+        <button type="button" className="load-more-btn" onClick={loadMoreTransactions}>
           {t('load_more_action')}
         </button>
       )

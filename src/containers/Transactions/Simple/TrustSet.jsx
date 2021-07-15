@@ -16,7 +16,7 @@ const TrustSet = props => {
         <div className="label">{t('set_limit')}</div>
         <div className="value">
           {amount}
-          <Currency {...limit} />
+          <Currency currency={limit.currency} amount={limit.amount} />
         </div>
       </div>
     </>

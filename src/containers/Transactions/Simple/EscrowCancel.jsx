@@ -32,7 +32,7 @@ const EscrowCancel = props => {
           <div className="label">{t('escrow_amount')}</div>
           <div className="value">
             {amt}
-            <Currency {...amount} />
+            <Currency currency={amount.currency} issuer={amount.issuer} link={amount.link} />
           </div>
         </div>
       )}

@@ -76,6 +76,7 @@ describe('TokenTransactionsTable container', () => {
             data={TEST_TRANSACTIONS_DATA}
             actions={actions}
             accountId={TEST_ACCOUNT_ID}
+            currency={TEST_CURRENCY}
           />
         </Router>
       </I18nextProvider>
