@@ -147,6 +147,47 @@
     "not ie <= 11",
     "not op_mini all"
   ],
+  "eslintConfig": {
+    "extends": ["airbnb", "react-app", "plugin:prettier/recommended", "plugin:jsx-a11y/recommended", "prettier/react"],
+    "plugins": ["jsx-a11y"],
+    "env": {
+      "browser": true,
+      "jest": true,
+      "es6": true
+    },
+    "rules": {
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "jsx-a11y/href-no-hash": "off",
+      "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
+      "no-bitwise": "off",
+      "react/button-has-type": "warn",
+      "react/jsx-props-no-spreading": "warn"
+    },
+    "parserOptions": {
+      "allowImportExportEverywhere": true
+    },
+    "globals": {
+      "ga": true
+    }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "semi": true,
+    "singleQuote": true
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-recommended-scss",
+      "stylelint-config-idiomatic-order",
+      "stylelint-config-prettier"
+    ],
+    "rules": {
+      "at-rule-empty-line-before": null,
+      "block-closing-brace-newline-after": null,
+      "length-zero-no-unit": null
+    }
+  },
   "engines": {
     "node": ">=14.15.0 <15.0.0",
     "npm": ">=6.14.0 <7.0.0"
