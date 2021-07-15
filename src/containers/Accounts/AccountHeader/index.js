@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -23,15 +23,13 @@ class AccountHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showBalanceSelector: false,
-      prevProps: this.props
+      showBalanceSelector: false
     };
     props.actions.loadAccountState(props.accountId);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { accountId, actions } = this.props;
-    const { prevProps } = this.state;
     if (prevProps.accountId !== accountId) {
       actions.loadAccountState(accountId);
     }
