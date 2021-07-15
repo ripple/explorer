@@ -72,11 +72,13 @@ export const AccountTxTable = props => {
   };
 
   const loadMoreTransactions = () => {
+    console.log(`loadMoreTransactions invoked`);
     const { marker } = state;
     actions.loadAccountTransactions(accountId, marker);
   };
 
   const renderListItem = tx => {
+    console.log(`renderListItem invoked`);
     const { language, t } = props;
     const success = tx.result === 'tesSUCCESS';
     const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS);
@@ -118,8 +120,10 @@ export const AccountTxTable = props => {
   };
 
   const renderLoadMoreButton = () => {
+    console.log(`renderLoadMoreButton invoked`);
     const { t } = props;
     const { marker } = state;
+    console.log(marker, state, props);
     return (
       marker && (
         <button type="button" className="load-more-btn" onClick={loadMoreTransactions}>
@@ -130,6 +134,7 @@ export const AccountTxTable = props => {
   };
 
   const renderListContents = () => {
+    console.log(`renderListContents invoked`);
     const { t, loading, loadingError, currencySelected } = props;
     const { transactions } = state;
     let processedTransactions = transactions;

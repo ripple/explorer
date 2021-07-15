@@ -71,6 +71,7 @@ class Accounts extends Component {
     const accountId = match.params.id || '';
     const showError = accountId === prevId && error;
     const { currencySelected } = this.state;
+    console.log(this.props, this.state);
 
     document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`;
 
