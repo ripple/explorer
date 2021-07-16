@@ -26,23 +26,23 @@ You need only to do this once and you have probably already done this if you alr
 
 ### Clone the repository on your local machine.
 ```
-$ git clone git@github.com:username/explorer.git --branch stage
+$ git clone git@github.com:username/explorer.git --branch staging
 $ cd explorer
 $ git remote add upstream git@github.com:ripple/explorer.git
 ```
 
 ### Start work in a new branch.
 ```
-$ git fetch upstream stage
-$ git checkout stage
+$ git fetch upstream staging
+$ git checkout staging
 $ git checkout -b your-branch-name
 $ git push --set-upstream origin your-branch-name
 ```
 
-Bring in recent changes to the “stage” branch into your own branch
+Bring in recent changes to the “staging” branch into your own branch
 ```
-$ git fetch upstream stage
-$ git pull upstream stage
+$ git fetch upstream staging
+$ git pull upstream staging
 ```
 
 ### Ask to submit code from a branch of your GitHub fork.
