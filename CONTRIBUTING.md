@@ -10,11 +10,56 @@ We're thrilled you're interested and your help is greatly appreciated. Contribut
 - [public](public/) - Translations, fonts, and other misc files live here
 - [.env](.env.example) - Environment variables
 
+## Git setup
+You need only to do this once and you have probably already done this if you already use git.
+
+1. Download git.
+2. Set your email address and name:
+3. git config --global user.email your@some-email.com
+4. git config --global user.name “Your Name Here”
+
+### Fork the repository
+1. Create a GitHub account if you haven’t already.  Let’s assume your git account name is username.
+2. Go to https://github.com/ripple/explorer.
+3. Click on the “Watch”, “Star” and “Fork” buttons in the top right.
+4. That last command will fork a new copy of the repo in your personal git area at https://github.com/username/explorer
+
+### Clone the repository on your local machine.
+```
+$ git clone git@github.com:username/explorer.git --branch stage
+$ cd explorer
+$ git remote add upstream git@github.com:ripple/explorer.git
+```
+
+### Start work in a new branch.
+```
+$ git fetch upstream stage
+$ git checkout stage
+$ git checkout -b your-branch-name
+$ git push --set-upstream origin your-branch-name
+```
+
+Bring in recent changes to the “stage” branch into your own branch
+```
+$ git fetch upstream stage
+$ git pull upstream stage
+```
+
+### Ask to submit code from a branch of your GitHub fork.
+
+You must submit a pushed branch of your GitHub fork.
+
+1. Go to your fork of the code at https://github.com/username/explorer.
+2. Select the branch you want reviewed from the grey “branch” menu on the left of the page.
+3. Click on the green button marked “Compare & pull request” on the right of the page.
+4. Fill in the PR template, then press the green “Send pull request” button on the right side.
+
 ## Requirements for a Successful Pull Request
 
 Before being considered for review or merging, each pull request must:
 
-- Pass continuous integration tests
+- Pass tests and linter locally
+  - running `$ npm run test` and `$ npm run lint` should show no errors or create additional warnings.
 - Be [marked as drafts](https://github.blog/2019-02-14-introducing-draft-pull-requests/) until they are ready for review.
 - Adhere to the [code of conduct](CODE_OF_CONDUCT.md) for this repository.
 
@@ -88,14 +133,6 @@ We are using Google Analytics. For more info read the [documentation](https://de
 1.  `npm install -g nsp`
 1.  to check for security issues run `nsp check --output summary`
 1.  [documentation](https://www.npmjs.com/package/nsp)
-
-### Snyk Security for Node.js
-
-1.  `npm install -g snyk`
-1.  `snyk auth`
-1.  to test for vulnerabilities run `snyk test`
-1.  follow the steps to fix issues
-1.  [documentation](https://snyk.io/)
 
 ## bash_profile
 
