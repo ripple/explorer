@@ -73,12 +73,15 @@ const normalize = (id, type) => {
 class Search extends Component {
   constructor(props) {
     super(props);
-    this.state = { redirect: '' };
+    this.state = { redirect: '', prevProps: this.props };
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ redirect: '' });
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.redirect !== prevState.prevProps.redirect) {
+      return { redirect: '', prevProps: nextProps };
+    }
+    return null;
   }
 
   handleSearch(id) {
@@ -125,7 +128,8 @@ class Search extends Component {
 Search.propTypes = {
   t: PropTypes.func.isRequired,
   mobile: PropTypes.bool,
-  callback: PropTypes.func
+  callback: PropTypes.func,
+  redirect: PropTypes.string.isRequired
 };
 
 Search.defaultProps = {

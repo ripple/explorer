@@ -22,10 +22,11 @@ class MobileMenu extends Component {
     this.closeMenu = this.closeMenu.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps) {
     if (nextProps.width >= BREAKPOINTS.landscape) {
-      this.setState(prevState => ({ isOpen: false }));
+      return { isOpen: false };
     }
+    return null;
   }
 
   handleEvents(event) {

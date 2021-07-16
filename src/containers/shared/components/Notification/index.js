@@ -16,7 +16,7 @@ class Notification extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { autoDismiss, delay } = this.props;
 
     if (autoDismiss) {

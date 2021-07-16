@@ -4,6 +4,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../../../i18nTestConfig';
 import NoMatch from '../index';
 
+/* eslint-disable react/jsx-props-no-spreading */
 describe('NoMatch container', () => {
   const createWrapper = (props = {}) =>
     mount(
