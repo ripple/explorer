@@ -7,8 +7,6 @@ import moxios from 'moxios';
 import i18n from '../../../../i18nTestConfig';
 import TokensTable from '../index';
 import mockTopEndpoint from './mockTopEndpoint.json';
-import mockExchangeData from './mockExchangeData.json';
-import mockTokenData from './mockTokenData.json';
 import expectedOutputData from './expectedOutputData.json';
 
 const mountTable = (isError = false, allTokens = []) => {
@@ -31,22 +29,6 @@ describe('Testing hooks', () => {
   });
 
   const setupPage = async (shouldRender = true) => {
-    mockTopEndpoint.forEach(tokenInfo => {
-      const { issuer, currency } = tokenInfo;
-      const currencyName = `${currency}.${issuer}`;
-      const exchangeURL = `/api/v1/token/${currencyName}/offers/XRP`;
-      const tokenURL = `/api/v1/token/${currencyName}`;
-
-      moxios.stubRequest(exchangeURL, {
-        status: shouldRender ? 200 : 400,
-        response: shouldRender ? mockExchangeData[currencyName] : { message: 'Bad Request' }
-      });
-      moxios.stubRequest(tokenURL, {
-        status: shouldRender ? 200 : 400,
-        response: shouldRender ? mockTokenData[currencyName] : { message: 'Bad Request' }
-      });
-    });
-
     const wrapper = mountTable(!shouldRender, shouldRender ? mockTopEndpoint : []);
 
     await act(async () => {

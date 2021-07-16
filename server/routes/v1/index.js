@@ -12,6 +12,7 @@ const getOffers = require('./offers');
 const getValidators = require('./validators');
 const getNodes = require('./nodes');
 const getValidatorReport = require('./validatorReport');
+const getHealth = require('./health');
 
 api.use('/account_state/:id', getAccountState);
 api.use('/account_transactions/:id/:currency?', getAccountTransactions);
@@ -32,5 +33,6 @@ api.use('/healthz', (_req, res) => {
 api.use('/validators', getValidators);
 api.use('/validator_report/:id', getValidatorReport);
 api.use('/nodes', getNodes);
+api.use('/health', getHealth);
 
 module.exports = api;
