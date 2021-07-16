@@ -29,7 +29,7 @@ const PaymentChannelCreate = props => {
         <div className="label">{t('amount')}</div>
         <div className="value">
           {amt}
-          <Currency {...amount} />
+          <Currency currency={amount.currency} amount={amount.amount} />
         </div>
       </div>
       {sParts[1] && (

@@ -7,6 +7,7 @@ import ValidatorsTable from '../ValidatorsTable';
 import validators from './mockValidators.json';
 import metrics from '../../Ledgers/test/mock/metric.json';
 
+/* eslint-disable react/jsx-props-no-spreading */
 const createWrapper = (props = {}) =>
   mount(
     <Router>

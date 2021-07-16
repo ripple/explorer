@@ -31,6 +31,7 @@ const BalanceSelector = ({
     return (
       <button
         className="menu-item"
+        type="button"
         onClick={() => {
           onSetCurrencySelected(currency);
           onClick();
@@ -51,7 +52,7 @@ const BalanceSelector = ({
       className={`balance-selector nested-menu ${expandMenu ? 'is-active' : ''}`}
       onMouseLeave={() => setTimeout(onMouseLeave, 2000)}
     >
-      <button className="balance-selector-button" onClick={onClick}>
+      <button type="button" className="balance-selector-button" onClick={onClick}>
         <span className="selector-text">{text}</span>
         {expandMenu ? (
           <img className="icon selector-icon selector-icon-close" src={iconClose} alt="" />
