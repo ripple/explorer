@@ -28,12 +28,10 @@ class AccountHeader extends Component {
     props.actions.loadAccountState(props.accountId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const nextAccountId = nextProps.accountId;
+  componentDidUpdate(prevProps) {
     const { accountId, actions } = this.props;
-    if (nextAccountId !== accountId) {
-      actions.loadAccountState(nextAccountId);
-      this.setState({ showBalanceSelector: false });
+    if (prevProps.accountId !== accountId) {
+      actions.loadAccountState(accountId);
     }
   }
 

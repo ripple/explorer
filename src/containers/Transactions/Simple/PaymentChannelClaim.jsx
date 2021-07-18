@@ -32,7 +32,7 @@ const PaymentChannelClaim = props => {
           <div className="label">{t('channel_amount')}</div>
           <div className="value">
             {amt}
-            <Currency {...amount} />
+            <Currency currency={amount.currency} amount={amount.amount} />
           </div>
         </div>
       )}
@@ -41,7 +41,7 @@ const PaymentChannelClaim = props => {
           <div className="label">{t('amount_claimed')}</div>
           <div className="value">
             {claimAmt}
-            <Currency {...claimed} />
+            <Currency amount={claimed.amount} />
           </div>
         </div>
       )}
@@ -50,7 +50,7 @@ const PaymentChannelClaim = props => {
           <div className="label">{t('total_claimed')}</div>
           <div className="value">
             {totalAmt}
-            <Currency {...total} />
+            <Currency currency={total.currency} amount={total.amount} />
           </div>
         </div>
       )}

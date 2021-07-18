@@ -20,11 +20,12 @@ describe('Ledgers Page container', () => {
   const mockStore = configureMockStore(middlewares);
   const createWrapper = (props = {}) => {
     const store = mockStore({ ...initialState });
+
     return mount(
       <Router>
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
-            <Ledgers {...props} />
+            <Ledgers msg={props.msg} />
           </Provider>
         </I18nextProvider>
       </Router>

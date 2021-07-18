@@ -19,7 +19,7 @@ const EscrowCreate = props => {
         <div className="label">{t('escrow')}</div>
         <div className="value">
           {amt}
-          <Currency {...amount} />
+          <Currency currency={amount.currency} />
         </div>
       </div>
       {destination && (

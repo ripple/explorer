@@ -13,6 +13,7 @@ import Network from '../index';
 import mockValidators from './mockValidators.json';
 import validationMessage from './mockValidation.json';
 
+/* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const store = mockStore({ app: initialState });

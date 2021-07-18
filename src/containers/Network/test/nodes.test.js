@@ -11,6 +11,7 @@ import i18n from '../../../i18nTestConfig';
 import Network from '../index';
 import mockNodes from './mockNodes.json';
 
+/* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const store = mockStore({ app: initialState });

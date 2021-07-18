@@ -28,7 +28,7 @@ class Payment extends Component {
             <div className="label">{t('using_at_most')}</div>
             <div className="value">
               {maxAmount}
-              <Currency {...max} />
+              <Currency amount={max.amount} currency={max.currency} />
             </div>
           </div>
         )}
@@ -36,7 +36,7 @@ class Payment extends Component {
           <div className="label">{partial ? t('delivered') : t('send')}</div>
           <div className="value">
             {amt}
-            <Currency {...amount} />
+            <Currency amount={amount.amount} currency={amount.currency} />
             {this.renderPartial()}
           </div>
         </div>
@@ -71,14 +71,14 @@ class Payment extends Component {
           <div className="label">{t('using_at_most')}</div>
           <div className="value">
             {convertAmount}
-            <Currency {...convert} />
+            <Currency amount={convert.amount} currency={convert.currency} />
           </div>
         </div>
         <div className="row">
           <div className="label">{t('convert_to')}</div>
           <div className="value">
             {amt}
-            <Currency {...amount} />
+            <Currency amount={amount.amount} currency={amount.currency} />
           </div>
         </div>
         {this.renderPartial()}

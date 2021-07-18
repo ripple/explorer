@@ -64,7 +64,7 @@ class Ledger extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     const { actions, match } = nextProps;
     const { match: prevMatch } = this.props;
     const { identifier } = match.params;

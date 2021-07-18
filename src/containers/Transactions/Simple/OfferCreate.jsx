@@ -25,14 +25,14 @@ const OfferCreate = props => {
         <div className="label">{t('buy')}</div>
         <div className="value">
           {buy}
-          <Currency {...pays} />
+          <Currency amount={pays.amount} currency={pays.currency} />
         </div>
       </div>
       <div className="row">
         <div className="label">{t('sell')}</div>
         <div className="value">
           {sell}
-          <Currency {...gets} />
+          <Currency amount={gets.amount} currency={gets.currency} />
         </div>
       </div>
       {cancel && (

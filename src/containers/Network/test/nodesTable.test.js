@@ -6,6 +6,7 @@ import i18n from '../../../i18nTestConfig';
 import NodesTable from '../NodesTable';
 import nodes from './mockNodes.json';
 
+/* eslint-disable react/jsx-props-no-spreading */
 const createWrapper = (props = {}) =>
   mount(
     <Router>

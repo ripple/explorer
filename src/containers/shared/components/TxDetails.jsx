@@ -10,11 +10,12 @@ class TxDetails extends Component {
     const { language } = this.props;
     const options = { ...CURRENCY_OPTIONS, currency: d.currency };
     const amount = localizeNumber(d.amount, language, options);
+    const { issuer, currency } = d;
 
     return (
       <span className="amount">
         {amount}
-        <Currency {...d} link={false} />
+        <Currency issuer={issuer} currency={currency} link={false} />
       </span>
     );
   };

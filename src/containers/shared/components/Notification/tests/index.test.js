@@ -2,6 +2,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import Notification from '../index';
 
+/* eslint-disable react/jsx-props-no-spreading */
 const VALID_USAGES = ['default', 'success', 'warning', 'danger', 'dark', 'light', 'dark50'];
 const notificationLevels = ['primary', 'secondary', 'ghost'];
 const message = 'A catchy message';
@@ -19,7 +20,7 @@ describe('<Notification />', () => {
   });
 
   it('should render the action button', () => {
-    const action = <button />;
+    const action = <button type="button" />;
     const wrapper = renderComponent({
       message,
       action,
@@ -59,6 +60,7 @@ describe('<Notification />', () => {
         message,
       });
       const wrapperProps = wrapper.props();
+      // console.log(wrapperProps);
       expect(wrapperProps.usage).toEqual(usage);
     });
 
