@@ -35,7 +35,7 @@ Sequence.propTypes = {
   sequence: PropTypes.number,
   ticketSequence: PropTypes.number,
   addContextHelp: PropTypes.bool,
-  account: PropTypes.string
+  account: PropTypes.string,
 };
 
 Sequence.defaultProps = {
@@ -43,7 +43,7 @@ Sequence.defaultProps = {
   sequence: PropTypes.number,
   ticketSequence: 0,
   addContextHelp: false,
-  account: ''
+  account: '',
 };
 
 export default translate()(Sequence);

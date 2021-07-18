@@ -12,7 +12,7 @@ describe.only('Validator reducers', () => {
     expect(
       reducer(initialState, {
         type: actionTypes.START_LOADING_VALIDATOR,
-        data: { id: 'mock-validator-key' }
+        data: { id: 'mock-validator-key' },
       })
     ).toEqual(nextState);
   });
@@ -29,7 +29,7 @@ describe.only('Validator reducers', () => {
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_VALIDATOR_SUCCESS,
-        data: { master_key: 'foo' }
+        data: { master_key: 'foo' },
       })
     ).toEqual(nextState);
   });
@@ -38,13 +38,13 @@ describe.only('Validator reducers', () => {
     const nextState = {
       ...initialState,
       error: true,
-      data: { error: BAD_REQUEST, id: 'mock-validator-key' }
+      data: { error: BAD_REQUEST, id: 'mock-validator-key' },
     };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_VALIDATOR_FAIL,
         error: true,
-        data: { error: BAD_REQUEST, id: 'mock-validator-key' }
+        data: { error: BAD_REQUEST, id: 'mock-validator-key' },
       })
     ).toEqual(nextState);
   });
@@ -53,13 +53,13 @@ describe.only('Validator reducers', () => {
     const nextState = {
       ...initialState,
       error: true,
-      data: { error: BAD_REQUEST, id: 'mock-validator-key' }
+      data: { error: BAD_REQUEST, id: 'mock-validator-key' },
     };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_VALIDATOR_FAIL,
         error: true,
-        data: { error: BAD_REQUEST, id: 'mock-validator-key' }
+        data: { error: BAD_REQUEST, id: 'mock-validator-key' },
       })
     ).toEqual(nextState);
     expect(reducer(nextState, { type: 'persist/REHYDRATE' })).toEqual(initialState);

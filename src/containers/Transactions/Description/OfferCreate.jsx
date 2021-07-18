@@ -7,7 +7,7 @@ import {
   CURRENCY_ORDER,
   RIPPLE_EPOCH,
   XRP_BASE,
-  normalizeAmount
+  normalizeAmount,
 } from '../../shared/transactionUtils';
 import Account from '../../shared/components/Account';
 
@@ -91,7 +91,7 @@ const OfferCreate = props => {
 OfferCreate.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
-  data: PropTypes.shape({}).isRequired
+  data: PropTypes.shape({}).isRequired,
 };
 
 export default OfferCreate;

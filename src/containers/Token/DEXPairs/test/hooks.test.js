@@ -24,7 +24,7 @@ describe('Testing hooks', () => {
 
     moxios.stubRequest(topUrl, {
       status: shouldRender ? 200 : 400,
-      response: shouldRender ? mockTopEndpoint : { message: 'Bad Request' }
+      response: shouldRender ? mockTopEndpoint : { message: 'Bad Request' },
     });
 
     const keys = Object.keys(mockExchangeData);
@@ -32,7 +32,7 @@ describe('Testing hooks', () => {
       const url = `/api/v1/token/${currency}.${address}/offers/${key}`;
       moxios.stubRequest(url, {
         status: shouldRender ? 200 : 400,
-        response: shouldRender ? mockExchangeData[key] : { message: 'Bad Request' }
+        response: shouldRender ? mockExchangeData[key] : { message: 'Bad Request' },
       });
     }
 

@@ -11,7 +11,7 @@ describe.only('app reducers', () => {
     expect(
       reducer(initialState, {
         data: { height: 768, width: 1024 },
-        type: actionTypes.UPDATE_VIEWPORT_DIMENSIONS
+        type: actionTypes.UPDATE_VIEWPORT_DIMENSIONS,
       })
     ).toEqual(nextState);
   });

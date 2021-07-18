@@ -5,5 +5,5 @@ module.exports = tx => ({
   set_flag: tx.SetFlag,
   clear_flag: tx.ClearFlag,
   tick: tx.TickSize,
-  rate: tx.TransferRate
+  rate: tx.TransferRate,
 });

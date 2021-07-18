@@ -13,7 +13,7 @@ const TxLabel = props => {
 
 TxLabel.propTypes = {
   type: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 export default TxLabel;

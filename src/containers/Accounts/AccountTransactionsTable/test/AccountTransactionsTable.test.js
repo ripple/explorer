@@ -52,8 +52,8 @@ describe('AccountTransactionsTable container', () => {
       ...initialState,
       accountTransactions: {
         loading: true,
-        data: TEST_TRANSACTIONS_DATA
-      }
+        data: TEST_TRANSACTIONS_DATA,
+      },
     };
     const wrapper = creatWrapper(state);
     expect(wrapper.find('.loader').length).toBe(1);
@@ -62,7 +62,7 @@ describe('AccountTransactionsTable container', () => {
 
   it('renders dynamic content with transaction data', () => {
     const actions = {
-      loadAccountTransactions: Function.prototype
+      loadAccountTransactions: Function.prototype,
     };
 
     const component = mount(

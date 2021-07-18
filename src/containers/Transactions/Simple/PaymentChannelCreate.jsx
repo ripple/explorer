@@ -14,7 +14,7 @@ const PaymentChannelCreate = props => {
     delay,
     cancelAfter,
     expiration,
-    channel
+    channel,
   } = data.instructions;
   const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
   const amt = localizeNumber(amount.amount, language, options);
@@ -85,21 +85,21 @@ PaymentChannelCreate.propTypes = {
     instructions: PropTypes.shape({
       amount: PropTypes.shape({
         amount: PropTypes.number,
-        currency: PropTypes.string
+        currency: PropTypes.string,
       }),
       source: PropTypes.shape({
-        split: PropTypes.func
+        split: PropTypes.func,
       }),
       destination: PropTypes.shape({
-        split: PropTypes.func
+        split: PropTypes.func,
       }),
       channel: PropTypes.string,
       delay: PropTypes.number,
       cancelAfter: PropTypes.string,
-      expiration: PropTypes.string
-    })
+      expiration: PropTypes.string,
+    }),
   }).isRequired,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
 };
 
 export default PaymentChannelCreate;

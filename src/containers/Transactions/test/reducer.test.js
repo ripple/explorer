@@ -13,7 +13,7 @@ describe.only('Transaction reducers', () => {
     expect(
       reducer(initialState, {
         type: actionTypes.START_LOADING_TRANSACTION,
-        data: { id: mockTransaction.hash }
+        data: { id: mockTransaction.hash },
       })
     ).toEqual(nextState);
   });
@@ -30,7 +30,7 @@ describe.only('Transaction reducers', () => {
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_TRANSACTION_SUCCESS,
-        data: mockTransaction
+        data: mockTransaction,
       })
     ).toEqual(nextState);
   });
@@ -39,13 +39,13 @@ describe.only('Transaction reducers', () => {
     const nextState = {
       ...initialState,
       error: true,
-      data: { error: BAD_REQUEST, id: mockTransaction.hash }
+      data: { error: BAD_REQUEST, id: mockTransaction.hash },
     };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_TRANSACTION_FAIL,
         error: true,
-        data: { error: BAD_REQUEST, id: mockTransaction.hash }
+        data: { error: BAD_REQUEST, id: mockTransaction.hash },
       })
     ).toEqual(nextState);
   });
@@ -54,13 +54,13 @@ describe.only('Transaction reducers', () => {
     const nextState = {
       ...initialState,
       error: true,
-      data: { error: BAD_REQUEST, id: mockTransaction.hash }
+      data: { error: BAD_REQUEST, id: mockTransaction.hash },
     };
     expect(
       reducer(initialState, {
         type: actionTypes.LOADING_TRANSACTION_FAIL,
         error: true,
-        data: { error: BAD_REQUEST, id: mockTransaction.hash }
+        data: { error: BAD_REQUEST, id: mockTransaction.hash },
       })
     ).toEqual(nextState);
     expect(reducer(nextState, { type: 'persist/REHYDRATE' })).toEqual(initialState);

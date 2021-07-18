@@ -27,14 +27,14 @@ describe('AccountHeader reducers', () => {
         hash: '074415C5DC6DB0029E815EA6FC2629FBC29A2C9D479F5D040AFF94ED58ECC820',
         amount: '100000000',
         from: 'ra5nK24KXen9AHvsdFTKHSANinZseWnPcX',
-        to: 'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn'
-      }
+        to: 'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn',
+      },
     ];
     const nextState = { ...initialState, data };
     expect(
       reducer(initialState, {
         data,
-        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS
+        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
       })
     ).toEqual(nextState);
   });
@@ -45,7 +45,7 @@ describe('AccountHeader reducers', () => {
     expect(
       reducer(initialState, {
         error,
-        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL
+        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL,
       })
     ).toEqual(nextState);
   });
@@ -57,8 +57,8 @@ describe('AccountHeader reducers', () => {
         hash: '074415C5DC6DB0029E815EA6FC2629FBC29A2C9D479F5D040AFF94ED58ECC820',
         amount: '100000000',
         from: 'ra5nK24KXen9AHvsdFTKHSANinZseWnPcX',
-        to: 'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn'
-      }
+        to: 'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn',
+      },
     ];
     const error = 'get_account_transactions_failed';
     const stateWithData = { ...initialState, data };
@@ -66,7 +66,7 @@ describe('AccountHeader reducers', () => {
     expect(
       reducer(stateWithData, {
         error,
-        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL
+        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL,
       })
     ).toEqual(nextState);
   });
@@ -76,7 +76,7 @@ describe('AccountHeader reducers', () => {
     expect(
       reducer(initialState, {
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL,
-        error: 'error'
+        error: 'error',
       })
     ).toEqual(nextState);
     expect(reducer(nextState, { type: 'persist/REHYDRATE' })).toEqual(initialState);

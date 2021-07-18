@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
       flags,
       gravatar,
       previousTxn,
-      previousLedger
+      previousLedger,
     } = formatAccountInfo(info, streams.getReserve());
 
     return res.status(200).send({
@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
       gravatar,
       obligations,
       previousTxn,
-      previousLedger
+      previousLedger,
     });
   } catch (error) {
     log.error(error.toString());

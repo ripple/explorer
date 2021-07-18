@@ -5,7 +5,7 @@ const COLOURS = {
   trace: 'lightblue',
   info: 'blue',
   warn: 'orange',
-  error: 'red'
+  error: 'red',
 };
 
 class Log {

@@ -4,7 +4,7 @@ export const initialState = {
   loading: false,
   data: {},
   error: '',
-  status: null
+  status: null,
 };
 
 const tokenReducer = (state = initialState, action) => {
@@ -20,7 +20,7 @@ const tokenReducer = (state = initialState, action) => {
         ...state,
         error: action.error,
         status: action.status,
-        data: state.data.length ? state.data : {}
+        data: state.data.length ? state.data : {},
       };
     case 'persist/REHYDRATE':
       return { ...initialState };

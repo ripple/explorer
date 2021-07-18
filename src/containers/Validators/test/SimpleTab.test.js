@@ -23,20 +23,20 @@ describe('SimpleTab container', () => {
             agreement_1hour: {
               score: 1,
               missed: 0,
-              incomplete: false
+              incomplete: false,
             },
             agreement_24hour: {
               score: 1,
               missed: 0,
-              incomplete: true
+              incomplete: true,
             },
             agreement_30day: {
               score: 1,
               missed: 0,
-              incomplete: true
+              incomplete: true,
             },
             updated: '2020-05-28T09:21:19.188Z',
-            domain: 'digifin.uk'
+            domain: 'digifin.uk',
           }}
           width={width}
         />

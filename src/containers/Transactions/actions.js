@@ -6,7 +6,7 @@ export const loadTransaction = identifier => dispatch => {
   if (!HASH_REGEX.test(identifier)) {
     dispatch({
       type: actionTypes.LOADING_TRANSACTION_FAIL,
-      data: { error: BAD_REQUEST }
+      data: { error: BAD_REQUEST },
     });
     return Promise.resolve();
   }
@@ -26,7 +26,7 @@ export const loadTransaction = identifier => dispatch => {
       dispatch({
         type: actionTypes.LOADING_TRANSACTION_FAIL,
         data: { error: status, id: identifier },
-        error: status === 500 ? 'get_transaction_failed' : ''
+        error: status === 500 ? 'get_transaction_failed' : '',
       });
     });
 };

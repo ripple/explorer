@@ -45,7 +45,7 @@ describe('Validator container', () => {
   it('sets title to domain', () => {
     const state = { ...initialState };
     state.validator.data = {
-      domain: 'example.com'
+      domain: 'example.com',
     };
     const wrapper = createWrapper(state);
     expect(document.title).toBe('Validator example.com | xrpl_explorer');
@@ -55,7 +55,7 @@ describe('Validator container', () => {
   it('sets title to master_key', () => {
     const state = { ...initialState };
     state.validator.data = {
-      master_key: 'foo'
+      master_key: 'foo',
     };
     const wrapper = createWrapper(state);
     expect(document.title).toBe('Validator foo... | xrpl_explorer');
@@ -65,7 +65,7 @@ describe('Validator container', () => {
   it('sets title to signing_key', () => {
     const state = { ...initialState };
     state.validator.data = {
-      signing_key: 'bar'
+      signing_key: 'bar',
     };
     const wrapper = createWrapper(state);
     expect(document.title).toBe('Validator bar... | xrpl_explorer');

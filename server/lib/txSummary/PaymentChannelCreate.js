@@ -20,6 +20,6 @@ module.exports = (tx, meta) => {
     delay: tx.SettleDelay,
     expiration: tx.Expiration ? utils.convertRippleDate(tx.Expiration) : undefined,
     cancelAfter: tx.CancelAfter ? utils.convertRippleDate(tx.CancelAfter) : undefined,
-    channel: node && node.LedgerIndex
+    channel: node && node.LedgerIndex,
   };
 };

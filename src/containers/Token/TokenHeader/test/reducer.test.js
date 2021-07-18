@@ -26,7 +26,7 @@ describe('AccountHeader reducers', () => {
     expect(
       reducer(initialState, {
         data,
-        type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS
+        type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS,
       })
     ).toEqual(nextState);
   });
@@ -39,7 +39,7 @@ describe('AccountHeader reducers', () => {
       reducer(initialState, {
         status,
         error,
-        type: actionTypes.ACCOUNT_STATE_LOAD_FAIL
+        type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,
       })
     ).toEqual(nextState);
   });
@@ -54,7 +54,7 @@ describe('AccountHeader reducers', () => {
       reducer(stateWithData, {
         status,
         error,
-        type: actionTypes.ACCOUNT_STATE_LOAD_FAIL
+        type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,
       })
     ).toEqual(nextState);
   });
@@ -67,7 +67,7 @@ describe('AccountHeader reducers', () => {
       reducer(initialState, {
         type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,
         error,
-        status
+        status,
       })
     ).toEqual(nextState);
     expect(reducer(nextState, { type: 'persist/REHYDRATE' })).toEqual(initialState);

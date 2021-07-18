@@ -16,14 +16,14 @@ const CURRENCY_OPTIONS = {
   style: 'currency',
   currency: 'XRP',
   minimumFractionDigits: 2,
-  maximumFractionDigits: 6
+  maximumFractionDigits: 6,
 };
 
 class AccountHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showBalanceSelector: false
+      showBalanceSelector: false,
     };
     props.actions.loadAccountState(props.accountId);
   }
@@ -37,7 +37,7 @@ class AccountHeader extends Component {
 
   toggleBalanceSelector(force) {
     this.setState(prevState => ({
-      showBalanceSelector: force !== undefined ? force : !prevState.showBalanceSelector
+      showBalanceSelector: force !== undefined ? force : !prevState.showBalanceSelector,
     }));
   }
 
@@ -244,7 +244,7 @@ class AccountHeader extends Component {
       style: 'currency',
       currency: currencySelected,
       minimumFractionDigits: 0,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     });
     return (
       <div className="section header-container">
@@ -289,24 +289,24 @@ AccountHeader.propTypes = {
   accountId: PropTypes.string.isRequired,
   data: PropTypes.shape({
     balances: PropTypes.shape({
-      XRP: PropTypes.number
+      XRP: PropTypes.number,
     }),
     paychannels: PropTypes.shape({
       total_available: PropTypes.string,
       channels: PropTypes.shape({
-        length: PropTypes.number
-      })
+        length: PropTypes.number,
+      }),
     }),
     escrows: PropTypes.shape({
       totalIn: PropTypes.number,
-      totalOut: PropTypes.number
+      totalOut: PropTypes.number,
     }),
     signerList: PropTypes.shape({
       signers: PropTypes.shape({
-        map: PropTypes.func
+        map: PropTypes.func,
       }),
       quorum: PropTypes.number,
-      max: PropTypes.number
+      max: PropTypes.number,
     }),
     info: PropTypes.shape({
       reserve: PropTypes.number,
@@ -314,31 +314,31 @@ AccountHeader.propTypes = {
       ticketCount: PropTypes.number,
       domain: PropTypes.string,
       email_hash: PropTypes.string,
-      flags: PropTypes.arrayOf(PropTypes.string)
+      flags: PropTypes.arrayOf(PropTypes.string),
     }),
     xAddress: PropTypes.shape({
       classicAddress: PropTypes.string,
       tag: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-      test: PropTypes.bool
-    })
+      test: PropTypes.bool,
+    }),
   }).isRequired,
   actions: PropTypes.shape({
-    loadAccountState: PropTypes.func.isRequired
-  }).isRequired
+    loadAccountState: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(
   state => ({
     language: state.app.language,
     loading: state.accountHeader.loading,
-    data: state.accountHeader.data
+    data: state.accountHeader.data,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadAccountState
+        loadAccountState,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(AccountHeader));

@@ -18,6 +18,6 @@ module.exports = (tx, meta) => {
     amount: escrow.Amount ? formatAmount(escrow.Amount) : undefined,
     destination:
       escrow.Destination && escrow.Destination !== escrow.Account ? escrow.Destination : undefined,
-    condition: escrow.Condition
+    condition: escrow.Condition,
   };
 };

@@ -31,11 +31,11 @@ describe('Banner component', () => {
     const state = {
       ...initialState,
       ledger: {
-        error: 'ledger_error'
+        error: 'ledger_error',
       },
       transaction: {
-        error: 'transaction_error'
-      }
+        error: 'transaction_error',
+      },
     };
 
     const wrapper = createWrapper(state);

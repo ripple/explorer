@@ -29,9 +29,9 @@ DepositPreauth.propTypes = {
   data: PropTypes.shape({
     tx: PropTypes.shape({
       Authorize: PropTypes.string,
-      Unauthorize: PropTypes.string
-    }).isRequired
-  }).isRequired
+      Unauthorize: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default DepositPreauth;

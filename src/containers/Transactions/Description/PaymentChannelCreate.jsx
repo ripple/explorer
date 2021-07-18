@@ -5,7 +5,7 @@ import {
   DATE_OPTIONS,
   RIPPLE_EPOCH,
   normalizeAmount,
-  findNode
+  findNode,
 } from '../../shared/transactionUtils';
 import Account from '../../shared/components/Account';
 
@@ -102,7 +102,7 @@ const PaymentChannelCreate = props => {
 PaymentChannelCreate.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
-  data: PropTypes.shape({}).isRequired
+  data: PropTypes.shape({}).isRequired,
 };
 
 export default PaymentChannelCreate;

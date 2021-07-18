@@ -32,7 +32,7 @@ const PayStringHeader = props => {
           data={{
             mode: 'paystring',
             x: questionRef.current.getBoundingClientRect().x,
-            y: questionRef.current.getBoundingClientRect().y
+            y: questionRef.current.getBoundingClientRect().y,
           }}
         />
       )}
@@ -42,7 +42,7 @@ const PayStringHeader = props => {
 
 PayStringHeader.propTypes = {
   accountId: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
 };
 
 export default translate()(PayStringHeader);

@@ -19,7 +19,7 @@ import {
   NOT_FOUND,
   BAD_REQUEST,
   analytics,
-  ANALYTIC_TYPES
+  ANALYTIC_TYPES,
 } from '../shared/utils';
 import './ledger.css';
 import TxLabel from '../shared/components/TxLabel';
@@ -33,21 +33,21 @@ const DATE_OPTIONS = {
   month: 'numeric',
   day: 'numeric',
   hour12: true,
-  timeZone: TIME_ZONE
+  timeZone: TIME_ZONE,
 };
 
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'ledger_not_found',
-  hints: ['check_ledger_id']
+  hints: ['check_ledger_id'],
 };
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_ledger_id',
-  hints: ['check_ledger_id']
+  hints: ['check_ledger_id'],
 };
 ERROR_MESSAGES.default = {
   title: 'generic_error',
-  hints: ['not_your_fault']
+  hints: ['not_your_fault'],
 };
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
@@ -229,26 +229,26 @@ Ledger.propTypes = {
   ).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      identifier: PropTypes.string
-    })
+      identifier: PropTypes.string,
+    }),
   }).isRequired,
   actions: PropTypes.shape({
-    loadLedger: PropTypes.func
-  }).isRequired
+    loadLedger: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(
   state => ({
     loading: state.ledger.loading,
     data: state.ledger.data,
-    language: state.app.language
+    language: state.app.language,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadLedger
+        loadLedger,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(Ledger));

@@ -55,14 +55,14 @@ OfferCreate.propTypes = {
       cancel: PropTypes.number,
       pays: PropTypes.shape({
         amount: PropTypes.number,
-        currency: PropTypes.string
+        currency: PropTypes.string,
       }),
       gets: PropTypes.shape({
         amount: PropTypes.number,
-        currency: PropTypes.string
-      })
-    })
-  }).isRequired
+        currency: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
 };
 
 export default OfferCreate;

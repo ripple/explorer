@@ -10,13 +10,13 @@ export const loadTokenState = (currency, accountId) => dispatch => {
     dispatch({
       type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,
       status: BAD_REQUEST,
-      error: ''
+      error: '',
     });
     return Promise.resolve();
   }
 
   dispatch({
-    type: actionTypes.START_LOADING_ACCOUNT_STATE
+    type: actionTypes.START_LOADING_ACCOUNT_STATE,
   });
   return axios
     .get(url)
@@ -24,7 +24,7 @@ export const loadTokenState = (currency, accountId) => dispatch => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE });
       dispatch({
         type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS,
-        data: response.data
+        data: response.data,
       });
     })
     .catch(error => {
@@ -34,7 +34,7 @@ export const loadTokenState = (currency, accountId) => dispatch => {
       dispatch({
         type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,
         error: status === 500 ? 'get_account_state_failed' : '',
-        status
+        status,
       });
     });
 };

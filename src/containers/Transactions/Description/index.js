@@ -79,7 +79,7 @@ TransactionDescription.propTypes = {
   data: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number, PropTypes.array])
   ).isRequired,
-  instructions: PropTypes.shape({ partial: PropTypes.bool }).isRequired
+  instructions: PropTypes.shape({ partial: PropTypes.bool }).isRequired,
 };
 
 export default TransactionDescription;
