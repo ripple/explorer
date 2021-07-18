@@ -11,7 +11,7 @@ const DATE_OPTIONS = {
   hour: 'numeric',
   minute: 'numeric',
   second: 'numeric',
-  hour12: true
+  hour12: true,
 };
 
 class Tooltip extends Component {
@@ -130,13 +130,13 @@ class Tooltip extends Component {
 Tooltip.propTypes = {
   t: PropTypes.func,
   language: PropTypes.string,
-  data: PropTypes.shape({})
+  data: PropTypes.shape({}),
 };
 
 Tooltip.defaultProps = {
   t: d => d,
   language: undefined,
-  data: null
+  data: null,
 };
 
 export default Tooltip;

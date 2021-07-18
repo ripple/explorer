@@ -65,7 +65,7 @@ module.exports = (req, res) => {
         );
       return {
         transactions,
-        marker: data.marker
+        marker: data.marker,
       };
     })
     .then(d => res.send(d))

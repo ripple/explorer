@@ -82,7 +82,7 @@ const EscrowCreate = props => {
 EscrowCreate.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
-  data: PropTypes.shape({}).isRequired
+  data: PropTypes.shape({}).isRequired,
 };
 
 export default EscrowCreate;

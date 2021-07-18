@@ -15,11 +15,11 @@ const Loader = props => {
 
 Loader.propTypes = {
   className: PropTypes.string,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 Loader.defaultProps = {
-  className: ''
+  className: '',
 };
 
 export default translate()(Loader);

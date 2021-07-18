@@ -13,7 +13,7 @@ const PaymentChannelFund = props => {
     total_claimed: total,
     source = '',
     destination = '',
-    channel
+    channel,
   } = data.instructions;
 
   const options = { ...CURRENCY_OPTIONS, currency: 'XRP' };
@@ -86,19 +86,19 @@ PaymentChannelFund.propTypes = {
     instructions: PropTypes.shape({
       channel_amount: PropTypes.shape({}),
       increase: PropTypes.shape({
-        amount: PropTypes.number
+        amount: PropTypes.number,
       }),
       total_claimed: PropTypes.shape({}),
       source: PropTypes.shape({
-        split: PropTypes.func
+        split: PropTypes.func,
       }),
       destination: PropTypes.shape({
-        split: PropTypes.func
+        split: PropTypes.func,
       }),
-      channel: PropTypes.string
-    })
+      channel: PropTypes.string,
+    }),
   }).isRequired,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
 };
 
 export default PaymentChannelFund;

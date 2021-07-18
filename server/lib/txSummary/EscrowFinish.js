@@ -19,6 +19,6 @@ module.exports = (tx, meta) => {
     destination:
       escrow.Destination && escrow.Destination !== escrow.Account ? escrow.Destination : undefined,
     condition: escrow.Condition,
-    fulfillment: tx.Fulfillment
+    fulfillment: tx.Fulfillment,
   };
 };

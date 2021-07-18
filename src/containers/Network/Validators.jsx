@@ -16,7 +16,7 @@ class Validators extends Component {
     this.state = {
       vList: {},
       liveValidators: [],
-      metrics: {}
+      metrics: {},
     };
   }
 
@@ -35,7 +35,7 @@ class Validators extends Component {
     live.forEach(d => {
       latest[d.pubkey] = {
         ledger_index: d.ledger_index,
-        ledger_hash: d.ledger_hash
+        ledger_hash: d.ledger_hash,
       };
     });
 
@@ -57,7 +57,7 @@ class Validators extends Component {
   updateValidators = liveValidators =>
     this.setState(prevState => ({
       liveValidators,
-      validators: this.mergeLatest(prevState.validators, liveValidators)
+      validators: this.mergeLatest(prevState.validators, liveValidators),
     }));
 
   fetchData = () => {
@@ -72,14 +72,14 @@ class Validators extends Component {
             signing_key: v.signing_key,
             master_key: v.master_key,
             unl: v.unl,
-            domain: v.domain
+            domain: v.domain,
           };
         });
 
         this.setState(prevState => ({
           vList,
           validators: this.mergeLatest(resp.data, prevState.liveValidators),
-          unlCount: resp.data.filter(d => Boolean(d.unl)).length
+          unlCount: resp.data.filter(d => Boolean(d.unl)).length,
         }));
       })
       .catch(e => Log.error(e));
@@ -125,9 +125,9 @@ class Validators extends Component {
 Validators.propTypes = {
   path: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 export default connect(state => ({
-  language: state.app.language
+  language: state.app.language,
 }))(translate()(Validators));

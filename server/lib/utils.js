@@ -14,7 +14,7 @@ const ACCOUNT_FLAGS = {
   0x00200000: 'lsfNoFreeze',
   0x00400000: 'lsfGlobalFreeze',
   0x00800000: 'lsfDefaultRipple',
-  0x01000000: 'lsfDepositAuth'
+  0x01000000: 'lsfDepositAuth',
 };
 
 const hex32 = d => {
@@ -55,8 +55,8 @@ const formatSignerList = data => ({
   max: data.SignerEntries.reduce((total, d) => total + d.SignerEntry.SignerWeight, 0),
   signers: data.SignerEntries.map(d => ({
     account: d.SignerEntry.Account,
-    weight: d.SignerEntry.SignerWeight
-  }))
+    weight: d.SignerEntry.SignerWeight,
+  })),
 });
 
 const formatAccountInfo = (info, reserve) => ({
@@ -72,7 +72,7 @@ const formatAccountInfo = (info, reserve) => ({
   balance: info.Balance,
   gravatar: info.urlgravatar,
   previousTxn: info.PreviousTxnID,
-  previousLedger: info.PreviousTxnLgrSeq
+  previousLedger: info.PreviousTxnLgrSeq,
 });
 
 const formatTransaction = tx => {
@@ -87,12 +87,12 @@ const formatTransaction = tx => {
       ledger_index: undefined,
       status: undefined,
       validated: undefined,
-      date: txn.date ? convertRippleDate(txn.date) : undefined
+      date: txn.date ? convertRippleDate(txn.date) : undefined,
     },
     meta: tx.meta || tx.metaData,
     hash: txn.hash,
     ledger_index: txn.ledger_index,
-    date: txn.date ? convertRippleDate(txn.date) : undefined
+    date: txn.date ? convertRippleDate(txn.date) : undefined,
   };
 };
 
@@ -121,7 +121,7 @@ module.exports.summarizeLedger = (ledger, txDetails = false) => {
     close_time: convertRippleDate(ledger.close_time),
     total_xrp: ledger.total_coins / 1000000,
     total_fees: 0,
-    transactions: []
+    transactions: [],
   };
 
   ledger.transactions.forEach(tx => {

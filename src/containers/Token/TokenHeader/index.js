@@ -14,7 +14,7 @@ const CURRENCY_OPTIONS = {
   style: 'currency',
   currency: 'XRP',
   minimumFractionDigits: 2,
-  maximumFractionDigits: 6
+  maximumFractionDigits: 6,
 };
 
 class TokenHeader extends Component {
@@ -222,44 +222,44 @@ TokenHeader.propTypes = {
     paychannels: PropTypes.shape({
       total_available: PropTypes.string,
       channels: PropTypes.shape({
-        length: PropTypes.number
-      })
+        length: PropTypes.number,
+      }),
     }),
     escrows: PropTypes.shape({
       totalIn: PropTypes.number,
-      totalOut: PropTypes.number
+      totalOut: PropTypes.number,
     }),
     signerList: PropTypes.shape({
       signers: PropTypes.shape({
-        map: PropTypes.func
+        map: PropTypes.func,
       }),
       quorum: PropTypes.number,
-      max: PropTypes.number
+      max: PropTypes.number,
     }),
     flags: PropTypes.arrayOf(PropTypes.string),
     xAddress: PropTypes.shape({
       classicAddress: PropTypes.string,
       tag: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-      test: PropTypes.bool
-    })
+      test: PropTypes.bool,
+    }),
   }).isRequired,
   actions: PropTypes.shape({
-    loadTokenState: PropTypes.func.isRequired
-  }).isRequired
+    loadTokenState: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(
   state => ({
     language: state.app.language,
     loading: state.tokenHeader.loading,
-    data: state.tokenHeader.data
+    data: state.tokenHeader.data,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadTokenState
+        loadTokenState,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(TokenHeader));

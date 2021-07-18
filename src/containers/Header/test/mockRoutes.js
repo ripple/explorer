@@ -1,25 +1,25 @@
 const routes = [
   {
     path: '/',
-    title: 'home'
+    title: 'home',
   },
   {
     title: 'explorer',
     children: [
       {
         path: '/ledgers',
-        title: 'ledgers'
+        title: 'ledgers',
       },
       {
         path: '/transactions',
-        title: 'transactions'
-      }
-    ]
+        title: 'transactions',
+      },
+    ],
   },
   {
     path: '/nodes',
-    title: 'network'
-  }
+    title: 'network',
+  },
 ];
 
 export default routes;

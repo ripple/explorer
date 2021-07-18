@@ -10,7 +10,7 @@ module.exports = (req, res) => {
     .then(utils.formatTransaction)
     .then(data => ({
       summary: summarize(data, true).details,
-      raw: data
+      raw: data,
     }))
     .then(data => res.send(data))
     .catch(error => {

@@ -12,7 +12,7 @@ class ValidatorsTable extends Component {
     return nextProps.validators
       ? {
           validators: ValidatorsTable.sortValidators(nextProps.validators),
-          metrics: nextProps.metrics
+          metrics: nextProps.metrics,
         }
       : null;
   }
@@ -136,11 +136,11 @@ class ValidatorsTable extends Component {
 ValidatorsTable.propTypes = {
   validators: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
   t: PropTypes.func.isRequired,
-  metrics: PropTypes.shape({}).isRequired
+  metrics: PropTypes.shape({}).isRequired,
 };
 
 ValidatorsTable.defaultProps = {
-  validators: null
+  validators: null,
 };
 
 export default translate()(ValidatorsTable);

@@ -16,8 +16,8 @@ export const loadValidator = identifier => dispatch => {
             data: {
               ...response.data,
               ledger_hash: ledgerResp.data.ledger_hash,
-              last_ledger_time: ledgerResp.data.close_time
-            }
+              last_ledger_time: ledgerResp.data.close_time,
+            },
           });
         });
       } else {
@@ -32,7 +32,7 @@ export const loadValidator = identifier => dispatch => {
       dispatch({
         type: actionTypes.LOADING_VALIDATOR_FAIL,
         data: { error: status, id: identifier },
-        error: status === 500 ? 'get_validator_failed' : ''
+        error: status === 500 ? 'get_validator_failed' : '',
       });
     });
 };

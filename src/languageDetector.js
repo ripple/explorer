@@ -66,7 +66,7 @@ const languageDetector = {
   detect: () => getFromQS() || getFromLocalStorage() || getFromNavigator() || 'en-US',
   cacheUserLanguage: lng => {
     window.localStorage.setItem(localStorageKey, lng);
-  }
+  },
 };
 
 export default languageDetector;

@@ -58,7 +58,7 @@ module.exports.handleValidation = data => {
       ledger_hash: ledgerHash,
       pubkey,
       partial: !data.full,
-      time: (data.signing_time + utils.EPOCH_OFFSET) * 1000
+      time: (data.signing_time + utils.EPOCH_OFFSET) * 1000,
     });
   }
 };
@@ -118,7 +118,7 @@ const updateMetrics = baseFee => {
     txn_sec: time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
     txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
     ledger_interval: timeCount ? (time / timeCount / 1000).toFixed(3) : undefined,
-    avg_fee: txCount ? (fees / txCount).toPrecision(4) : undefined
+    avg_fee: txCount ? (fees / txCount).toPrecision(4) : undefined,
   });
 };
 
@@ -128,7 +128,7 @@ const addLedger = data => {
   if (!ledgers[ledgerIndex]) {
     ledgers[ledgerIndex] = {
       ledger_index: Number(ledgerIndex),
-      seen: Date.now()
+      seen: Date.now(),
     };
   }
 

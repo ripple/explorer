@@ -99,7 +99,7 @@ class NodesTable extends Component {
     const nodes = nextProps.nodes ? formatLedgerHistory(nextProps.nodes) : null;
     return {
       ledgerRange: nodes && getLedgerRange(nodes),
-      nodes
+      nodes,
     };
   }
 
@@ -168,11 +168,11 @@ class NodesTable extends Component {
 
 NodesTable.propTypes = {
   nodes: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 NodesTable.defaultProps = {
-  nodes: null
+  nodes: null,
 };
 
 export default translate()(NodesTable);

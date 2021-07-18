@@ -9,7 +9,7 @@ import {
   formatLargeNumber,
   getLocalizedCurrencySymbol,
   analytics,
-  ANALYTIC_TYPES
+  ANALYTIC_TYPES,
 } from '../../shared/utils';
 import PairStats from './PairStats';
 
@@ -17,7 +17,7 @@ import PairStats from './PairStats';
 const pairsHardCoded = [
   'XRP',
   'USD.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B', // Bitstamp USD
-  'BTC.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B' // Bitstamp BTC
+  'BTC.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B', // Bitstamp BTC
 ];
 
 const DEXPairs = props => {
@@ -74,7 +74,7 @@ const DEXPairs = props => {
                           issuer: tokenSplit[1],
                           low,
                           high,
-                          average
+                          average,
                         });
                       });
                     }
@@ -83,7 +83,7 @@ const DEXPairs = props => {
                 .catch(err => {
                   Log.error(err);
                   analytics(ANALYTIC_TYPES.exception, {
-                    exDescription: `Error getting offers endpoint ${url}`
+                    exDescription: `Error getting offers endpoint ${url}`,
                   });
                 })
             );
@@ -102,7 +102,7 @@ const DEXPairs = props => {
         }
         Log.error(err);
         analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `Error getting top tokens from /api/v1/tokens/top`
+          exDescription: `Error getting top tokens from /api/v1/tokens/top`,
         });
       });
     return () => {
@@ -165,6 +165,6 @@ const DEXPairs = props => {
 DEXPairs.propTypes = {
   accountId: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 export default translate()(DEXPairs);

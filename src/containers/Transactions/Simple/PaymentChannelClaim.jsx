@@ -16,7 +16,7 @@ const PaymentChannelClaim = props => {
     channel,
     renew,
     close,
-    deleted
+    deleted,
   } = data.instructions;
   const options = { ...CURRENCY_OPTIONS, currency: 'XRP' };
   const amt = amount ? localizeNumber(amount.amount, language, options) : null;
@@ -106,22 +106,22 @@ PaymentChannelClaim.propTypes = {
     instructions: PropTypes.shape({
       channel_amount: PropTypes.shape({}),
       claimed: PropTypes.shape({
-        amount: PropTypes.number
+        amount: PropTypes.number,
       }),
       total_claimed: PropTypes.shape({}),
       source: PropTypes.shape({
-        split: PropTypes.func
+        split: PropTypes.func,
       }),
       destination: PropTypes.shape({
-        split: PropTypes.func
+        split: PropTypes.func,
       }),
       channel: PropTypes.string,
       renew: PropTypes.bool,
       close: PropTypes.bool,
-      deleted: PropTypes.bool
-    })
+      deleted: PropTypes.bool,
+    }),
   }).isRequired,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
 };
 
 export default PaymentChannelClaim;

@@ -61,10 +61,10 @@ TokensHeader.propTypes = {
       issuer: PropTypes.string.isRequired,
       currency: PropTypes.string.isRequired,
       trustlines: PropTypes.number.isRequired,
-      volume: PropTypes.number
+      volume: PropTypes.number,
     })
   ).isRequired,
-  isError: PropTypes.bool.isRequired
+  isError: PropTypes.bool.isRequired,
 };
 
 export default translate()(TokensHeader);

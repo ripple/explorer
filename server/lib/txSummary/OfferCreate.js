@@ -15,7 +15,7 @@ const CURRENCY_ORDER = [
   'BTC',
   'XAG',
   'XAU',
-  'XRP'
+  'XRP',
 ];
 
 module.exports = tx => {
@@ -31,6 +31,6 @@ module.exports = tx => {
     pays,
     price: (invert ? 1 / price : price).toPrecision(6),
     pair: invert ? `${counter}/${base}` : `${base}/${counter}`,
-    cancel: tx.OfferSequence
+    cancel: tx.OfferSequence,
   };
 };

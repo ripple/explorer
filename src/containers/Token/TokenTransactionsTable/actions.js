@@ -8,7 +8,7 @@ export const loadTokenTransactions = (accountId, currency, marker) => dispatch =
     url += `?marker=${marker}`;
   }
   dispatch({
-    type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS
+    type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS,
   });
   return axios
     .get(url)
@@ -16,7 +16,7 @@ export const loadTokenTransactions = (accountId, currency, marker) => dispatch =
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS });
       dispatch({
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
-        data: response.data
+        data: response.data,
       });
     })
     .catch(error => {
@@ -24,7 +24,7 @@ export const loadTokenTransactions = (accountId, currency, marker) => dispatch =
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS });
       dispatch({
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL,
-        error: 'get_account_transactions_failed'
+        error: 'get_account_transactions_failed',
       });
     });
 };

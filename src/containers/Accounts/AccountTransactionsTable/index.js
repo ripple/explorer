@@ -22,13 +22,13 @@ const DATE_OPTIONS = {
   month: 'numeric',
   day: 'numeric',
   hour12: true,
-  timeZone: TIME_ZONE
+  timeZone: TIME_ZONE,
 };
 
 export const AccountTxTable = props => {
   const [state, setState] = useState({
     transactions: [],
-    marker: undefined
+    marker: undefined,
   });
   const { accountId, actions, data } = props;
 
@@ -43,7 +43,7 @@ export const AccountTxTable = props => {
   useEffect(() => {
     setState({
       transactions: [],
-      marker: undefined
+      marker: undefined,
     });
     actions.loadAccountTransactions(accountId);
   }, [accountId]);
@@ -59,7 +59,7 @@ export const AccountTxTable = props => {
     if (newTransactionsRecieved) {
       setState(prevState => ({
         marker: props.data.marker,
-        transactions: prevState.transactions.concat(props.data.transactions)
+        transactions: prevState.transactions.concat(props.data.transactions),
       }));
     }
   }, [props]);
@@ -67,7 +67,7 @@ export const AccountTxTable = props => {
   const resetPage = () => {
     setState({
       transactions: [],
-      marker: data.marker
+      marker: data.marker,
     });
   };
 
@@ -185,18 +185,18 @@ AccountTxTable.propTypes = {
         date: PropTypes.string,
         creator: PropTypes.string,
         image: PropTypes.string,
-        speed: PropTypes.number
+        speed: PropTypes.number,
       })
-    )
+    ),
   }).isRequired,
   actions: PropTypes.shape({
-    loadAccountTransactions: PropTypes.func
+    loadAccountTransactions: PropTypes.func,
   }).isRequired,
-  currencySelected: PropTypes.string.isRequired
+  currencySelected: PropTypes.string.isRequired,
 };
 
 AccountTxTable.defaultProps = {
-  loadingError: ''
+  loadingError: '',
 };
 
 export default connect(
@@ -205,14 +205,14 @@ export default connect(
     width: state.app.width,
     loadingError: state.accountTransactions.error,
     loading: state.accountTransactions.loading,
-    data: state.accountTransactions.data
+    data: state.accountTransactions.data,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadAccountTransactions
+        loadAccountTransactions,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(AccountTxTable));

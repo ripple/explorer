@@ -25,7 +25,7 @@ describe('Transaction actions', () => {
     const expectedActions = [
       { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },
-      { type: actionTypes.LOADING_TRANSACTION_SUCCESS, data: OfferCreateData }
+      { type: actionTypes.LOADING_TRANSACTION_SUCCESS, data: OfferCreateData },
     ];
     store.dispatch(actions.loadTransaction(OfferCreateData.hash));
     moxios.wait(() => {
@@ -33,7 +33,7 @@ describe('Transaction actions', () => {
       request
         .respondWith({
           status: 200,
-          response: OfferCreateData
+          response: OfferCreateData,
         })
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
@@ -49,8 +49,8 @@ describe('Transaction actions', () => {
       {
         type: actionTypes.LOADING_TRANSACTION_FAIL,
         data: { error: 500, id: OfferCreateData.hash },
-        error: 'get_transaction_failed'
-      }
+        error: 'get_transaction_failed',
+      },
     ];
     store.dispatch(actions.loadTransaction(OfferCreateData.hash));
     moxios.wait(() => {
@@ -58,7 +58,7 @@ describe('Transaction actions', () => {
       request
         .respondWith({
           status: 500,
-          response: {}
+          response: {},
         })
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
@@ -69,7 +69,7 @@ describe('Transaction actions', () => {
 
   it('should dispatch correct actions on fail for loadTransaction with invalid hash', () => {
     const expectedActions = [
-      { type: actionTypes.LOADING_TRANSACTION_FAIL, data: { error: BAD_REQUEST } }
+      { type: actionTypes.LOADING_TRANSACTION_FAIL, data: { error: BAD_REQUEST } },
     ];
     store.dispatch(actions.loadTransaction({ identifier: 'invalid_transaction_hash' }));
     expect(store.getActions()).toEqual(expectedActions);

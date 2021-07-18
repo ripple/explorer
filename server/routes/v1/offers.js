@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
       averageExchangeRate,
       highestExchangeRate,
       lowestExchangeRate,
-      offers
+      offers,
     };
 
     return res.send(orderBook);

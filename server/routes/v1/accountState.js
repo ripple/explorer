@@ -80,7 +80,7 @@ module.exports = (req, res) => {
           .getBalances(classicAddress, info.ledger_index)
           .then(data => formatResults(info, data)),
         rippled.getAccountEscrows(classicAddress, info.ledger_index),
-        rippled.getAccountPaychannels(classicAddress, info.ledger_index)
+        rippled.getAccountPaychannels(classicAddress, info.ledger_index),
       ]).then(data => {
         res.send({
           account: info.Account,
@@ -92,7 +92,7 @@ module.exports = (req, res) => {
             : undefined,
           escrows: data[1],
           paychannels: data[2],
-          xAddress: decomposedAddress || undefined
+          xAddress: decomposedAddress || undefined,
         });
       })
     )

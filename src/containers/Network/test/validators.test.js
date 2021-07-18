@@ -49,7 +49,7 @@ describe('Nodes Page container', () => {
 
     moxios.stubRequest('/api/v1/validators?verbose=true', {
       status: 200,
-      response: mockValidators
+      response: mockValidators,
     });
 
     expect(wrapper.find('.validators').length).toBe(1);

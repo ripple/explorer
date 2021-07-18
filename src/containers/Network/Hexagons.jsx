@@ -11,7 +11,7 @@ const MAX_WIDTH = 1200;
 const getDimensions = width => ({
   width,
   height: Math.min(width, MAX_WIDTH) / 2.4,
-  radius: Math.min(width, MAX_WIDTH) / 25
+  radius: Math.min(width, MAX_WIDTH) / 25,
 });
 
 const prepareHexagons = (data, list, prev = [], height, radius) => {
@@ -24,7 +24,7 @@ const prepareHexagons = (data, list, prev = [], height, radius) => {
   return data.map((d, i) => {
     const pos = {
       x: column * hexWidth + (row % 2 ? hexWidth / 2 : 0),
-      y: (row * radius * 3) / 2
+      y: (row * radius * 3) / 2,
     };
 
     if (row === maxRows || (column === 0 && row === max)) {
@@ -43,7 +43,7 @@ const prepareHexagons = (data, list, prev = [], height, radius) => {
       prev:
         prev[i] && prev[i].ledger_hash !== d.ledger_hash
           ? prev[i].ledger_hash.substr(0, 6)
-          : undefined
+          : undefined,
     };
   });
 };
@@ -66,16 +66,16 @@ class Validators extends Component {
       hex: hexbin()
         .extent([
           [0, 0],
-          [width, height]
+          [width, height],
         ])
-        .radius(radius)
+        .radius(radius),
     };
   }
 
   showTooltip = (event, data) => {
     const { list } = this.state;
     this.setState({
-      tooltip: { ...data, mode: 'validator', v: list[data.pubkey], x: event.pageX, y: event.pageY }
+      tooltip: { ...data, mode: 'validator', v: list[data.pubkey], x: event.pageX, y: event.pageY },
     });
   };
 
@@ -137,14 +137,14 @@ Validators.propTypes = {
   list: PropTypes.shape({}).isRequired,
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired, // eslint-disable-line
   width: PropTypes.number.isRequired,
-  selected: PropTypes.string
+  selected: PropTypes.string,
 };
 
 Validators.defaultProps = {
-  selected: undefined
+  selected: undefined,
 };
 
 export default connect(state => ({
   language: state.app.language,
-  width: state.app.width
+  width: state.app.width,
 }))(translate()(Validators));

@@ -29,7 +29,7 @@ class Map extends Component {
     hexbin()
       .extent([
         [0, 0],
-        [offset * 2 + width, height]
+        [offset * 2 + width, height],
       ])
       .radius(Math.sqrt(width / HEX_RADIUS_FACTOR));
 
@@ -38,7 +38,7 @@ class Map extends Component {
     const width = Math.min(pageWidth, MAX_WIDTH);
     return {
       width,
-      height: width / 2
+      height: width / 2,
     };
   }
 
@@ -66,7 +66,7 @@ class Map extends Component {
       const increment = (max / BAR_COUNT) * i + 1;
       bars.push({
         index: i,
-        color: color(increment)
+        color: color(increment),
       });
       i += 1;
     }
@@ -131,8 +131,8 @@ class Map extends Component {
                   tooltip: {
                     count: bin.length,
                     x: bin.x,
-                    y: bin.y
-                  }
+                    y: bin.y,
+                  },
                 });
               }}
               onFocus={e => {}}
@@ -179,11 +179,11 @@ class Map extends Component {
 Map.propTypes = {
   locations: PropTypes.arrayOf(PropTypes.shape({})),
   width: PropTypes.number.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 Map.defaultProps = {
-  locations: null
+  locations: null,
 };
 
 export default connect(state => ({ width: state.app.width }))(translate()(Map));

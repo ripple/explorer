@@ -65,9 +65,9 @@ AccountSet.propTypes = {
   t: PropTypes.func.isRequired,
   data: PropTypes.shape({
     tx: PropTypes.shape({
-      Domain: PropTypes.string
-    }).isRequired
-  }).isRequired
+      Domain: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default AccountSet;

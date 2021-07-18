@@ -43,28 +43,28 @@ class Header extends Component {
         case MAINNET:
           analytics(ANALYTIC_TYPES.event, {
             eventCategory: 'mode switch',
-            eventAction: MAINNET_LINK
+            eventAction: MAINNET_LINK,
           });
           window.location = MAINNET_LINK;
           break;
         case TESTNET:
           analytics(ANALYTIC_TYPES.event, {
             eventCategory: 'mode switch',
-            eventAction: TESTNET_LINK
+            eventAction: TESTNET_LINK,
           });
           window.location = TESTNET_LINK;
           break;
         case DEVNET:
           analytics(ANALYTIC_TYPES.event, {
             eventCategory: 'mode switch',
-            eventAction: DEVNET_LINK
+            eventAction: DEVNET_LINK,
           });
           window.location = DEVNET_LINK;
           break;
         default:
           analytics(ANALYTIC_TYPES.event, {
             eventCategory: 'mode switch',
-            eventAction: MAINNET_LINK
+            eventAction: MAINNET_LINK,
           });
           window.location = MAINNET_LINK;
           break;
@@ -166,15 +166,15 @@ Header.propTypes = {
   width: PropTypes.number.isRequired,
   isScrolled: PropTypes.bool.isRequired,
   location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired
-  }).isRequired
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default withRouter(
   translate()(
     connect(state => ({
       width: state.app.width,
-      isScrolled: state.app.isScrolled
+      isScrolled: state.app.isScrolled,
     }))(Header)
   )
 );

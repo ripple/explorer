@@ -2,20 +2,20 @@
 const routesConfig = [
   {
     path: '/',
-    title: 'explorer'
+    title: 'explorer',
   },
   {
     path: '/network',
-    title: 'network'
+    title: 'network',
   },
   {
     path: '/tokens',
-    title: 'tokens'
+    title: 'tokens',
   },
   {
     link: 'https://xrpl.org',
-    title: 'xrpl_org'
-  }
+    title: 'xrpl_org',
+  },
 ];
 
 export default routesConfig;

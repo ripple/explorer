@@ -38,12 +38,12 @@ class NoMatch extends Component {
 NoMatch.propTypes = {
   t: PropTypes.func.isRequired,
   title: PropTypes.string,
-  hints: PropTypes.arrayOf(PropTypes.string)
+  hints: PropTypes.arrayOf(PropTypes.string),
 };
 
 NoMatch.defaultProps = {
   title: '404_default_title',
-  hints: ['404_check_url']
+  hints: ['404_check_url'],
 };
 
 export default translate()(NoMatch);

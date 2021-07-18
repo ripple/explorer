@@ -6,7 +6,7 @@ const render = (t, action, node, index) => {
   return (
     <li key={`directory_${index}`} className="meta-line">
       {t(fields.Owner ? 'transaction_owned_directory' : 'transaction_unowned_directory', {
-        action
+        action,
       })}
       {fields.Owner && (
         <span>

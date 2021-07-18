@@ -16,7 +16,7 @@ class MobileMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
     this.handleEvents = this.handleEvents.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
@@ -39,7 +39,7 @@ class MobileMenu extends Component {
         newState.isOpen = true;
         analytics(ANALYTIC_TYPES.event, {
           eventCategory: 'MobileMenu',
-          eventAction: 'Tab-Open'
+          eventAction: 'Tab-Open',
         });
       }
       return newState;
@@ -137,13 +137,13 @@ MobileMenu.propTypes = {
   t: PropTypes.func.isRequired,
   currentPath: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
-  routes: PropTypes.arrayOf(PropTypes.shape({}))
+  routes: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 MobileMenu.defaultProps = {
-  routes: defaultRoutes
+  routes: defaultRoutes,
 };
 
 export default connect(state => ({
-  width: state.app.width
+  width: state.app.width,
 }))(MobileMenu);
