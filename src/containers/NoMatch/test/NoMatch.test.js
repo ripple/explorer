@@ -33,7 +33,7 @@ describe('NoMatch container', () => {
   it('renders correct messages from props', () => {
     const params = {
       title: 'props_title',
-      hints: ['props_hint_1', 'props_hint_2']
+      hints: ['props_hint_1', 'props_hint_2'],
     };
     const wrapper = createWrapper(params);
     expect(wrapper.find('.uh-oh').length).toBe(1);

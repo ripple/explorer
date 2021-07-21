@@ -52,8 +52,8 @@ describe('PayStringMappingsTable container', () => {
       ...initialState,
       accountTransactions: {
         loading: true,
-        data: TEST_TRANSACTIONS_DATA
-      }
+        data: TEST_TRANSACTIONS_DATA,
+      },
     };
     const wrapper = creatWrapper(state);
     expect(wrapper.find('.loader').length).toBe(1);
@@ -62,7 +62,7 @@ describe('PayStringMappingsTable container', () => {
 
   it('renders dynamic content with paystring data', () => {
     const actions = {
-      loadPayStringData: Function.prototype
+      loadPayStringData: Function.prototype,
     };
 
     const component = shallow(
@@ -78,7 +78,7 @@ describe('PayStringMappingsTable container', () => {
 
     component.setProps({
       accountId: TEST_ACCOUNT_ID,
-      data: TEST_TRANSACTIONS_DATA
+      data: TEST_TRANSACTIONS_DATA,
     });
 
     expect(component.find('.paystring-addresses').length).toBe(1);

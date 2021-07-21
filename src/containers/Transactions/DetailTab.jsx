@@ -11,7 +11,7 @@ import {
   SUCCESSFULL_TRANSACTION,
   XRP_BASE,
   buildFlags,
-  buildMemos
+  buildMemos,
 } from '../shared/transactionUtils';
 import './detailTab.css';
 
@@ -138,7 +138,7 @@ DetailTab.propTypes = {
   data: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number, PropTypes.array])
   ).isRequired,
-  instructions: PropTypes.shape({}).isRequired
+  instructions: PropTypes.shape({}).isRequired,
 };
 
 export default DetailTab;

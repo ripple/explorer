@@ -29,10 +29,10 @@ TrustSet.propTypes = {
       Account: PropTypes.string,
       LimitAmount: PropTypes.shape({
         currency: PropTypes.string,
-        issuer: PropTypes.string
-      })
-    })
-  }).isRequired
+        issuer: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
 };
 
 export default TrustSet;

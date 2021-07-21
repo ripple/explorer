@@ -3,9 +3,9 @@ module.exports = d =>
     ? {
         currency: d.currency,
         issuer: d.issuer,
-        amount: Number(d.value)
+        amount: Number(d.value),
       }
     : {
         currency: 'XRP',
-        amount: d / 1000000
+        amount: d / 1000000,
       };

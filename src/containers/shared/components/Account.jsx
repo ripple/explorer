@@ -16,12 +16,12 @@ const Account = props => {
 };
 
 Account.defaultProps = {
-  link: true
+  link: true,
 };
 
 Account.propTypes = {
   account: PropTypes.string.isRequired,
-  link: PropTypes.bool
+  link: PropTypes.bool,
 };
 
 export default Account;

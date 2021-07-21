@@ -1,3 +1,3 @@
 module.exports = tx => ({
-  key: tx.RegularKey || null
+  key: tx.RegularKey || null,
 });

@@ -41,10 +41,10 @@ SetRegularKey.propTypes = {
       quorum: PropTypes.number,
       max: PropTypes.number,
       signers: PropTypes.shape({
-        map: PropTypes.func
-      })
-    })
-  }).isRequired
+        map: PropTypes.func,
+      }),
+    }),
+  }).isRequired,
 };
 
 export default SetRegularKey;

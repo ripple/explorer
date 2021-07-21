@@ -21,12 +21,12 @@ Tabs.propTypes = {
   selected: PropTypes.string,
   tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
   path: PropTypes.string,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 Tabs.defaultProps = {
   selected: null,
-  path: ''
+  path: '',
 };
 
 export default translate()(Tabs);

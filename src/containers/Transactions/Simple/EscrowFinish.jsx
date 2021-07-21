@@ -15,7 +15,7 @@ const EscrowFinish = props => {
     destination,
     amount = {},
     condition,
-    fulfillment
+    fulfillment,
   } = data.instructions;
   const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
   const amt = localizeNumber(amount.amount, language, options);
@@ -83,12 +83,12 @@ EscrowFinish.propTypes = {
       destination: PropTypes.string,
       amount: PropTypes.shape({
         amount: PropTypes.number,
-        currency: PropTypes.string
+        currency: PropTypes.string,
       }),
       condition: PropTypes.string,
-      fulfillment: PropTypes.string
-    })
-  }).isRequired
+      fulfillment: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default EscrowFinish;

@@ -19,13 +19,13 @@ const Currency = props => {
 
 Currency.defaultProps = {
   issuer: null,
-  link: true
+  link: true,
 };
 
 Currency.propTypes = {
   currency: PropTypes.string.isRequired,
   issuer: PropTypes.string,
-  link: PropTypes.bool
+  link: PropTypes.bool,
 };
 
 export default Currency;

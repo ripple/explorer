@@ -23,7 +23,7 @@ const LANGUAGES = {
   'ja-JP': { title: '日本語', flag: flagJapan, code: 'ja-JP' },
   'ko-KP': { title: '한국어', flag: flagKorea, code: 'ko-KP' },
   'es-MX': { title: 'Español', flag: flagMexico, code: 'es-MX' },
-  'pt-BR': { title: 'Português', flag: flagBrazil, code: 'pt-BR' }
+  'pt-BR': { title: 'Português', flag: flagBrazil, code: 'pt-BR' },
 };
 
 const ORDER = ['en-US', 'zh-Hans', 'ja-JP', 'ko-KP', 'es-MX', 'pt-BR'];
@@ -32,7 +32,7 @@ class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLangOpen: false
+      isLangOpen: false,
     };
     this.languageEvents = this.languageEvents.bind(this);
     this.changeLanguage = this.changeLanguage.bind(this);
@@ -49,7 +49,7 @@ class Footer extends Component {
         analytics(ANALYTIC_TYPES.event, {
           eventCategory: 'LanguageSelector',
           eventAction: 'changeLanguage',
-          eventLabel: code
+          eventLabel: code,
         });
         i18n.changeLanguage(code);
         actions.updateLanguage(code);
@@ -229,23 +229,23 @@ Footer.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   i18n: PropTypes.shape({
-    changeLanguage: PropTypes.func.isRequired
+    changeLanguage: PropTypes.func.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
-    updateLanguage: PropTypes.func
-  }).isRequired
+    updateLanguage: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(
   state => ({
-    language: state.app.language
+    language: state.app.language,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        updateLanguage
+        updateLanguage,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(Footer));

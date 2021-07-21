@@ -22,14 +22,14 @@ const DATE_OPTIONS = {
   month: 'numeric',
   day: 'numeric',
   hour12: true,
-  timeZone: TIME_ZONE
+  timeZone: TIME_ZONE,
 };
 
 export const TokenTxTable = props => {
   const [state, setState] = useState({
     transactions: [],
     marker: undefined,
-    prevProps: { accountId: '', currency: '', data: '', actions: {} }
+    prevProps: { accountId: '', currency: '', data: '', actions: {} },
   });
 
   const { accountId, actions, data, currency } = props;
@@ -45,7 +45,7 @@ export const TokenTxTable = props => {
   useEffect(() => {
     setState({
       transactions: [],
-      marker: undefined
+      marker: undefined,
     });
     actions.loadTokenTransactions(accountId, currency);
   }, [accountId, currency]);
@@ -61,7 +61,7 @@ export const TokenTxTable = props => {
     if (newTransactionsRecieved) {
       setState(prevState => ({
         marker: props.data.marker,
-        transactions: prevState.transactions.concat(props.data.transactions)
+        transactions: prevState.transactions.concat(props.data.transactions),
       }));
     }
   }, [props]);
@@ -69,7 +69,7 @@ export const TokenTxTable = props => {
   const resetPage = () => {
     setState({
       transactions: [],
-      marker: data.marker
+      marker: data.marker,
     });
   };
 
@@ -176,17 +176,17 @@ TokenTxTable.propTypes = {
         date: PropTypes.string,
         creator: PropTypes.string,
         image: PropTypes.string,
-        speed: PropTypes.number
+        speed: PropTypes.number,
       })
-    )
+    ),
   }).isRequired,
   actions: PropTypes.shape({
-    loadTokenTransactions: PropTypes.func
-  }).isRequired
+    loadTokenTransactions: PropTypes.func,
+  }).isRequired,
 };
 
 TokenTxTable.defaultProps = {
-  loadingError: ''
+  loadingError: '',
 };
 
 export default connect(
@@ -195,14 +195,14 @@ export default connect(
     width: state.app.width,
     loadingError: state.accountTransactions.error,
     loading: state.accountTransactions.loading,
-    data: state.accountTransactions.data
+    data: state.accountTransactions.data,
   }),
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadTokenTransactions
+        loadTokenTransactions,
       },
       dispatch
-    )
+    ),
   })
 )(translate()(TokenTxTable));

@@ -73,11 +73,11 @@ Payment.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   data: PropTypes.shape({}).isRequired,
-  partial: PropTypes.bool
+  partial: PropTypes.bool,
 };
 
 Payment.defaultProps = {
-  partial: false
+  partial: false,
 };
 
 export default Payment;

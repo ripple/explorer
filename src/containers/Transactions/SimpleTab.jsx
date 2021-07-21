@@ -17,13 +17,13 @@ const DATE_OPTIONS = {
   month: 'numeric',
   day: 'numeric',
   hour12: true,
-  timeZone: TIME_ZONE
+  timeZone: TIME_ZONE,
 };
 const CURRENCY_OPTIONS = {
   style: 'currency',
   currency: '',
   minimumFractionDigits: 2,
-  maximumFractionDigits: 8
+  maximumFractionDigits: 8,
 };
 class SimpleTab extends Component {
   renderRowIndex(time, ledgerIndex, fee, account, sequence, ticketSequence) {
@@ -137,7 +137,7 @@ SimpleTab.propTypes = {
   width: PropTypes.number.isRequired,
   data: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number, PropTypes.array])
-  ).isRequired
+  ).isRequired,
 };
 
 export default SimpleTab;

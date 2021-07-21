@@ -17,9 +17,9 @@ SetRegularKey.propTypes = {
   t: PropTypes.func.isRequired,
   data: PropTypes.shape({
     tx: PropTypes.shape({
-      RegularKey: PropTypes.string
-    }).isRequired
-  }).isRequired
+      RegularKey: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default SetRegularKey;

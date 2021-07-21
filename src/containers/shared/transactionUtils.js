@@ -8,12 +8,12 @@ export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp';
 
 export const TX_FLAGS = {
   all: {
-    0x80000000: 'tfFullyCanonicalSig'
+    0x80000000: 'tfFullyCanonicalSig',
   },
   Payment: {
     0x00010000: 'tfNoDirectRipple',
     0x00020000: 'tfPartialPayment',
-    0x00040000: 'tfLimitQuality'
+    0x00040000: 'tfLimitQuality',
   },
   AccountSet: {
     0x00010000: 'tfRequireDestTag',
@@ -21,25 +21,25 @@ export const TX_FLAGS = {
     0x00040000: 'tfRequireAuth',
     0x00080000: 'tfOptionalAuth',
     0x00100000: 'tfDisallowXRP',
-    0x00200000: 'tfAllowXRP'
+    0x00200000: 'tfAllowXRP',
   },
   OfferCreate: {
     0x00010000: 'tfPassive',
     0x00020000: 'tfImmediateOrCancel',
     0x00040000: 'tfFillOrKill',
-    0x00080000: 'tfSell'
+    0x00080000: 'tfSell',
   },
   TrustSet: {
     0x00010000: 'tfSetAuth',
     0x00020000: 'tfSetNoRipple',
     0x00040000: 'tfClearNoRipple',
     0x00100000: 'tfSetFreeze',
-    0x00200000: 'tfClearFreeze'
+    0x00200000: 'tfClearFreeze',
   },
   PaymentChannelClaim: {
     0x00010000: 'tfRenew',
-    0x00020000: 'tfClose'
-  }
+    0x00020000: 'tfClose',
+  },
 };
 
 export const ACCOUNT_FLAGS = {
@@ -51,7 +51,7 @@ export const ACCOUNT_FLAGS = {
   4: 'asfDisableMaster',
   3: 'asfDisallowXRP',
   2: 'asfRequireAuth',
-  1: 'asfRequireDest'
+  1: 'asfRequireDest',
 };
 
 export const CURRENCY_ORDER = [
@@ -69,14 +69,14 @@ export const CURRENCY_ORDER = [
   'BTC',
   'XAG',
   'XAU',
-  'XRP'
+  'XRP',
 ];
 
 export const CURRENCY_OPTIONS = {
   style: 'currency',
   currency: '',
   minimumFractionDigits: 2,
-  maximumFractionDigits: 8
+  maximumFractionDigits: 8,
 };
 
 export const DATE_OPTIONS = {
@@ -87,14 +87,14 @@ export const DATE_OPTIONS = {
   month: 'long',
   day: 'numeric',
   hour12: true,
-  timeZone: 'UTC'
+  timeZone: 'UTC',
 };
 
 export const groupAffectedNodes = trans => {
   const group = {
     created: [],
     modified: [],
-    deleted: []
+    deleted: [],
   };
   (trans.meta.AffectedNodes || []).forEach(node => {
     if (node.DeletedNode) {

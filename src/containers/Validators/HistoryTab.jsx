@@ -10,14 +10,14 @@ const RecordItem = (t, language, record) => {
       <div className="col-date">
         <div className="full-date">
           {localizeDate(new Date(record.date), language, {
-            dateStyle: 'full'
+            dateStyle: 'full',
           })}
         </div>
         <div className="abbrev-date">
           {localizeDate(new Date(record.date), language, {
             year: 'numeric',
             month: 'numeric',
-            day: 'numeric'
+            day: 'numeric',
           })}
         </div>
       </div>
@@ -68,9 +68,9 @@ HistoryTab.propTypes = {
       score: PropTypes.string,
       total: PropTypes.string,
       missed: PropTypes.string,
-      incomplete: PropTypes.bool
+      incomplete: PropTypes.bool,
     })
-  ).isRequired
+  ).isRequired,
 };
 
 export default HistoryTab;

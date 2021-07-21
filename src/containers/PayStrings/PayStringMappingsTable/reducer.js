@@ -3,7 +3,7 @@ import * as actionTypes from './actionTypes';
 export const initialState = {
   loading: false,
   data: {},
-  error: ''
+  error: '',
 };
 
 const payStringReducer = (state = initialState, action) => {
@@ -18,7 +18,7 @@ const payStringReducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.error,
-        data: state.data.length ? state.data : {}
+        data: state.data.length ? state.data : {},
       };
     case 'persist/REHYDRATE':
       return { ...initialState };

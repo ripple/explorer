@@ -32,7 +32,7 @@ class NodesPage extends Component {
         this.setState({
           nodes: resp.data,
           unmapped: resp.data.length - nodesWithLocations.length,
-          locations: nodesWithLocations
+          locations: nodesWithLocations,
         });
       })
       .catch(e => Log.error(e));
@@ -74,9 +74,9 @@ class NodesPage extends Component {
 NodesPage.propTypes = {
   path: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 export default connect(state => ({
-  language: state.app.language
+  language: state.app.language,
 }))(translate()(NodesPage));

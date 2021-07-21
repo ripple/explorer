@@ -40,7 +40,7 @@ const formatLedgers = data =>
           trusted_count: h[1].filter(d => d.unl).length,
           validations: h[1],
           unselected: !validated && Boolean(l[1].ledger_hash),
-          validated
+          validated,
         };
       });
       return { ...l[1], hashes };
@@ -55,7 +55,7 @@ class Streams extends Component {
       ledgers: {},
       metrics: {}, // eslint-disable-line
       validators: {}, // eslint-disable-line
-      maxLedger: 0
+      maxLedger: 0,
     };
 
     this.updateLedgers = throttle(ledgers => {
@@ -126,7 +126,7 @@ class Streams extends Component {
       if (!ledgers[ledgerIndex]) {
         ledgers[ledgerIndex] = {
           ledger_index: ledgerIndex,
-          hashes: {}
+          hashes: {},
         };
       }
 
@@ -140,7 +140,7 @@ class Streams extends Component {
         pubkey: data.pubkey,
         partial: data.partial,
         time: data.time,
-        unl: vList && vList[data.pubkey] && vList[data.pubkey].unl
+        unl: vList && vList[data.pubkey] && vList[data.pubkey].unl,
       });
 
       validators[data.pubkey] = data;
@@ -259,14 +259,14 @@ Streams.propTypes = {
   validators: PropTypes.shape({}),
   updateMetrics: PropTypes.func,
   updateLedgers: PropTypes.func,
-  updateValidators: PropTypes.func
+  updateValidators: PropTypes.func,
 };
 
 Streams.defaultProps = {
   validators: {},
   updateMetrics: () => {},
   updateLedgers: () => {},
-  updateValidators: () => {}
+  updateValidators: () => {},
 };
 
 export default Streams;

@@ -29,9 +29,9 @@ UNLModify.propTypes = {
   data: PropTypes.shape({
     instructions: PropTypes.shape({
       validator: PropTypes.string,
-      disabling: PropTypes.number
-    })
-  }).isRequired
+      disabling: PropTypes.number,
+    }),
+  }).isRequired,
 };
 
 export default UNLModify;

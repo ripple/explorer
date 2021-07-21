@@ -56,11 +56,11 @@ const calculateDelaySinceLastUpdate = lastUpdatedTime => {
 TokensFooter.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   updated: PropTypes.number,
-  isError: PropTypes.bool.isRequired
+  isError: PropTypes.bool.isRequired,
 };
 
 TokensFooter.defaultProps = {
-  updated: undefined
+  updated: undefined,
 };
 
 export default TokensFooter;

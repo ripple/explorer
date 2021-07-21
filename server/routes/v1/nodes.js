@@ -48,7 +48,7 @@ const cacheNodes = async () => {
         uptime: node.uptime,
         networks: node.networks,
         validated_ledger: {
-          ledger_index: node.complete_ledgers ? Number(node.complete_ledgers.split('-')[1]) : 0
+          ledger_index: node.complete_ledgers ? Number(node.complete_ledgers.split('-')[1]) : 0,
         },
         in: node.inbound_count,
         out: node.outbound_count,
@@ -56,7 +56,7 @@ const cacheNodes = async () => {
         latency: node.io_latency_ms,
         load_factor: Number(node.load_factor_server),
         lat: node.lat,
-        long: node.long
+        long: node.long,
       }));
       cache.nodes = formattedNodes.filter(node => {
         return (

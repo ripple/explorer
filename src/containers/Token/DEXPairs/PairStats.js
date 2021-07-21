@@ -46,19 +46,19 @@ PairStats.propTypes = {
   pair: PropTypes.shape({
     low: PropTypes.shape({
       num: PropTypes.string.isRequired,
-      unit: PropTypes.string.isRequired
+      unit: PropTypes.string.isRequired,
     }).isRequired,
     high: PropTypes.shape({
       num: PropTypes.string.isRequired,
-      unit: PropTypes.string.isRequired
+      unit: PropTypes.string.isRequired,
     }).isRequired,
     average: PropTypes.shape({
       num: PropTypes.string.isRequired,
-      unit: PropTypes.string.isRequired
+      unit: PropTypes.string.isRequired,
     }).isRequired,
-    token: PropTypes.string.isRequired
+    token: PropTypes.string.isRequired,
   }).isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 };
 
 export default PairStats;

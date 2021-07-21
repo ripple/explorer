@@ -6,8 +6,8 @@ const RIPPLEDS = [
   {
     host: process.env.RIPPLED_HOST,
     port: process.env.RIPPLED_WS_PORT,
-    primary: true
-  }
+    primary: true,
+  },
 ];
 
 let connections = [];
@@ -17,7 +17,7 @@ if (process.env.RIPPLED_SECONDARY) {
     const rippled = d.split(':');
     RIPPLEDS.push({
       host: rippled[0],
-      port: rippled[1] || 443
+      port: rippled[1] || 443,
     });
   });
 }
@@ -44,7 +44,7 @@ const connect = rippled => {
     ws.send(
       JSON.stringify({
         command: 'subscribe',
-        streams: rippled.primary ? ['ledger', 'validations', 'server'] : ['validations']
+        streams: rippled.primary ? ['ledger', 'validations', 'server'] : ['validations'],
       })
     );
   });

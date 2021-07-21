@@ -15,7 +15,7 @@ const DEFAULTS = {
   ledger_interval: '--',
   avg_fee: '--',
   quorum: '--',
-  nUnl: []
+  nUnl: [],
 };
 
 const renderXRP = (d, language) => {
@@ -27,7 +27,7 @@ class LedgerMetrics extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tooltip: null
+      tooltip: null,
     };
   }
 
@@ -43,8 +43,8 @@ class LedgerMetrics extends Component {
         mode: 'nUnl',
         v: nUnl,
         x: event.pageX,
-        y: event.pageY
-      }
+        y: event.pageY,
+      },
     });
   };
 
@@ -134,11 +134,11 @@ LedgerMetrics.propTypes = {
   language: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
   onPause: PropTypes.func.isRequired,
-  paused: PropTypes.bool.isRequired
+  paused: PropTypes.bool.isRequired,
 };
 
 LedgerMetrics.defaultProps = {
-  data: {}
+  data: {},
 };
 
 export default translate()(LedgerMetrics);

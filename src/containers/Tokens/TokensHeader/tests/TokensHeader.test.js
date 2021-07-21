@@ -77,26 +77,26 @@ describe('Testing hooks', () => {
       issuer: '1234',
       currency: 'BTC',
       obligations: 111943486997895,
-      trustlines: 152625
+      trustlines: 152625,
     },
     {
       issuer: '4321',
       currency: 'ETH',
       obligations: 21196997895.66,
-      trustlines: 132635
+      trustlines: 132635,
     },
     {
       issuer: '1234',
       currency: 'USD',
       obligations: 21196997895.66,
-      trustlines: 132635
+      trustlines: 132635,
     },
     {
       issuer: 'abcd',
       currency: 'BTC',
       obligations: 21196997895.66,
-      trustlines: 132635
-    }
+      trustlines: 132635,
+    },
   ];
 
   it('loads the total issuers and tokens on successful request', async () => {

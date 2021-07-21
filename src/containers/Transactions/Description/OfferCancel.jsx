@@ -15,9 +15,9 @@ OfferCancel.propTypes = {
   t: PropTypes.func.isRequired,
   data: PropTypes.shape({
     tx: PropTypes.shape({
-      OfferSequence: PropTypes.number.isRequired
-    }).isRequired
-  }).isRequired
+      OfferSequence: PropTypes.number.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default OfferCancel;

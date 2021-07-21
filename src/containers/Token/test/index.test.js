@@ -41,8 +41,8 @@ describe('Token container', () => {
       accountHeader: {
         loading: false,
         error: null,
-        data: mockAccountState
-      }
+        data: mockAccountState,
+      },
     };
 
     const wrapper = creatWrapper(state);

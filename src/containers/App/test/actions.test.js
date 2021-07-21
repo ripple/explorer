@@ -20,8 +20,8 @@ describe('App actions', () => {
     const expectedActions = [
       {
         data: { height: 768, width: 1024, pixelRatio: 1 },
-        type: actionTypes.UPDATE_VIEWPORT_DIMENSIONS
-      }
+        type: actionTypes.UPDATE_VIEWPORT_DIMENSIONS,
+      },
     ];
     store.dispatch(actions.updateViewportDimensions());
     expect(store.getActions()).toEqual(expectedActions);
@@ -32,9 +32,9 @@ describe('App actions', () => {
     const event = {
       target: {
         scrollingElement: {
-          scrollTop: 25
-        }
-      }
+          scrollTop: 25,
+        },
+      },
     };
     store.dispatch(actions.onScroll(event));
     expect(store.getActions()).toEqual(expectedActions);

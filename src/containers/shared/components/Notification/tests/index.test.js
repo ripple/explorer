@@ -13,7 +13,7 @@ describe('<Notification />', () => {
     const className = 'test-class';
     const wrapper = renderComponent({
       message,
-      className
+      className,
     });
 
     expect(wrapper.hasClass(className)).toEqual(true);
@@ -23,7 +23,7 @@ describe('<Notification />', () => {
     const action = <button type="button" />;
     const wrapper = renderComponent({
       message,
-      action
+      action,
     });
 
     expect(wrapper.containsMatchingElement(action)).toEqual(true);
@@ -31,7 +31,7 @@ describe('<Notification />', () => {
 
   it('should render its message', () => {
     const wrapper = renderComponent({
-      message
+      message,
     });
 
     expect(wrapper.containsMatchingElement(message)).toEqual(true);
@@ -42,7 +42,7 @@ describe('<Notification />', () => {
     it(`should accept level prop of ${level}`, () => {
       const wrapper = renderComponent({
         level,
-        message
+        message,
       });
       const wrapperProps = wrapper.props();
 
@@ -57,7 +57,7 @@ describe('<Notification />', () => {
     it(`should render with usage prop of ${usage}`, () => {
       const wrapper = renderComponent({
         usage,
-        message
+        message,
       });
       const wrapperProps = wrapper.props();
       // console.log(wrapperProps);

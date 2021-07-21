@@ -63,7 +63,7 @@ TransactionMeta.propTypes = {
   language: PropTypes.string.isRequired,
   data: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number, PropTypes.array])
-  ).isRequired
+  ).isRequired,
 };
 
 export default TransactionMeta;

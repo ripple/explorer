@@ -16,7 +16,7 @@ module.exports = (tx, meta) => {
     return {
       amount,
       convert: max,
-      partial
+      partial,
     };
   }
 
@@ -25,6 +25,6 @@ module.exports = (tx, meta) => {
     max,
     destination: `${tx.Destination}${dt}`,
     sourceTag: tx.SourceTag,
-    partial
+    partial,
   };
 };

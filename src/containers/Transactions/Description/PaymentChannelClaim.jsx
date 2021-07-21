@@ -61,7 +61,7 @@ const PaymentChannelClaim = props => {
 PaymentChannelClaim.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
-  data: PropTypes.shape({}).isRequired
+  data: PropTypes.shape({}).isRequired,
 };
 
 export default PaymentChannelClaim;

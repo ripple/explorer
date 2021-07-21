@@ -6,7 +6,7 @@ export const initialState = {
   isOverlayOpen: false,
   isScrolled: false,
   language: 'en-US',
-  pixelRatio: 1
+  pixelRatio: 1,
 };
 
 const rehydrate = action => {

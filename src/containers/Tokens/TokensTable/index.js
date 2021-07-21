@@ -135,11 +135,11 @@ TokensTable.propTypes = {
       gravatar: PropTypes.string,
       domain: PropTypes.string,
       obligations: PropTypes.string,
-      exchangeRate: PropTypes.number
+      exchangeRate: PropTypes.number,
     })
   ).isRequired,
   lng: PropTypes.string.isRequired,
-  isError: PropTypes.bool.isRequired
+  isError: PropTypes.bool.isRequired,
 };
 
 export default translate()(TokensTable);

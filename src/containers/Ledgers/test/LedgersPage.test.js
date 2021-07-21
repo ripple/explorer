@@ -55,7 +55,7 @@ describe('Ledgers Page container', () => {
   it('renders all parts', () => {
     moxios.stubRequest(`/api/v1/validators`, {
       status: 200,
-      response: []
+      response: [],
     });
 
     const wrapper = createWrapper();
@@ -73,19 +73,19 @@ describe('Ledgers Page container', () => {
         {
           signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
           master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-          unl: process.env.REACT_APP_VALIDATOR
+          unl: process.env.REACT_APP_VALIDATOR,
         },
         {
           signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
           master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-          unl: process.env.REACT_APP_VALIDATOR
+          unl: process.env.REACT_APP_VALIDATOR,
         },
         {
           signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
           master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-          unl: null
-        }
-      ]
+          unl: null,
+        },
+      ],
     });
 
     expect(wrapper.find('.ledger').length).toBe(0);

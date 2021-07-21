@@ -10,15 +10,15 @@ const options = {
   keySeparator: false, // we use content as keys
   interpolation: {
     escapeValue: false, // not needed for react!!
-    formatSeparator: ','
+    formatSeparator: ',',
   },
   react: {
-    wait: true
+    wait: true,
   },
   backend: {
-    loadPath: '/locales/{{lng}}/{{ns}}.json'
+    loadPath: '/locales/{{lng}}/{{ns}}.json',
   },
-  load: 'currentOnly'
+  load: 'currentOnly',
 };
 
 i18n

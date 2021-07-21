@@ -3,7 +3,7 @@ import * as actionTypes from './actionTypes';
 export const initialState = {
   loading: false,
   error: '',
-  data: {}
+  data: {},
 };
 
 const transactionReducer = (state = initialState, action) => {

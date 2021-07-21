@@ -40,7 +40,7 @@ const renderChanges = (t, language, node, index) => {
           from
           <b>
             {{
-              previous: localizeNumber(normalize(prevPays, paysCurrency), language, options)
+              previous: localizeNumber(normalize(prevPays, paysCurrency), language, options),
             }}
           </b>
           to
@@ -62,7 +62,7 @@ const renderChanges = (t, language, node, index) => {
           from
           <b>
             {{
-              previous: localizeNumber(normalize(prevGets, getsCurrency), language, options)
+              previous: localizeNumber(normalize(prevGets, getsCurrency), language, options),
             }}
           </b>
           to

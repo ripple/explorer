@@ -7,15 +7,15 @@ describe('languageDetector', () => {
 
   it('detect language from navigator', () => {
     Object.defineProperty(navigator, 'languages', {
-      get: () => ['ko']
+      get: () => ['ko'],
     });
 
     Object.defineProperty(navigator, 'language', {
-      get: () => ['zzz']
+      get: () => ['zzz'],
     });
 
     Object.defineProperty(navigator, 'userLanguage', {
-      get: () => ['yyy']
+      get: () => ['yyy'],
     });
 
     expect(languageDetector.detect()).toEqual('ko-KP');
