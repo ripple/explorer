@@ -59,10 +59,16 @@ export const AccountTxTable = props => {
     if (newTransactionsRecieved) {
       setState(prevState => ({
         marker: props.data.marker,
-        transactions: prevState.transactions.concat(props.data.transactions),
+        transactions: concatTx(prevState.transactions, props.data.transactions),
       }));
     }
   }, [props]);
+
+  const concatTx = (a, b) => {
+    if (a.length === 0) return b;
+    if (a[0].hash === b[0].hash) return a;
+    return b;
+  };
 
   const resetPage = () => {
     setState({
