@@ -17,7 +17,7 @@ describe('utils', () => {
     expect(formatLargeNumber(3300000000)).toEqual({ num: '3.300000', unit: 'B' });
     expect(formatLargeNumber(44400000)).toEqual({ num: '44.400000', unit: 'M' });
     expect(formatLargeNumber(555500)).toEqual({ num: '555.500000', unit: 'K' });
-    expect(formatLargeNumber(66.666, 2)).toEqual({ num: '66.666000', unit: '' });
+    expect(formatLargeNumber(66.666, 2)).toEqual({ num: '66.67', unit: '' });
   });
 
   it('normalizeLanguage', () => {
