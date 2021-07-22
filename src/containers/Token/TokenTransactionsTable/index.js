@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
-import { localizeDate } from '../../shared/utils';
+import { localizeDate, concatTx } from '../../shared/utils';
 import { loadTokenTransactions } from './actions';
 import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
@@ -65,18 +65,6 @@ export const TokenTxTable = props => {
       }));
     }
   }, [props]);
-
-  const concatTx = (a, b) => {
-    if (a.length === 0) return b;
-    if (a[0].hash === b[0].hash) return a;
-    let i = 0;
-    for (i = 0; i < b.length; i += 1) {
-      if (b[i].hash === a[0].hash) {
-        break;
-      }
-    }
-    return b.splice(0, i).concat(a);
-  };
 
   const resetPage = () => {
     setState({

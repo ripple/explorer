@@ -139,6 +139,18 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
   return new Intl.DateTimeFormat(lang, options).format(date);
 };
 
+export const concatTx = (a, b) => {
+  if (a.length === 0) return b;
+  if (a[0].hash === b[0].hash) return a;
+  let iterator = 0;
+  for (iterator = 0; iterator < b.length; iterator += 1) {
+    if (b[iterator].hash === a[0].hash) {
+      break;
+    }
+  }
+  return b.splice(0, iterator).concat(a);
+};
+
 export const getLocalizedCurrencySymbol = (lang = 'en-US', currency = 'USD') => {
   const options = {
     style: 'currency',

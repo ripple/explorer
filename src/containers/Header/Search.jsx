@@ -77,7 +77,7 @@ class Search extends Component {
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ redirect: '' });
   }
