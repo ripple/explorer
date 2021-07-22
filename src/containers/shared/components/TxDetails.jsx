@@ -357,7 +357,7 @@ TxDetails.propTypes = {
     cancelAfter: PropTypes.string,
     condition: PropTypes.string,
     quorum: PropTypes.number,
-    max: PropTypes.number,
+    max: PropTypes.shape({}),
     signers: PropTypes.arrayOf(PropTypes.shape({})),
     domain: PropTypes.string,
     email_hash: PropTypes.string,
