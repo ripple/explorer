@@ -12,12 +12,12 @@ import {
 
 describe('utils', () => {
   it('formatLargeNumber format numbers correctly', () => {
-    expect(formatLargeNumber()).toEqual({ num: '0.0000', unit: '' });
-    expect(formatLargeNumber(2000000000000)).toEqual({ num: '2.0000', unit: 'T' });
-    expect(formatLargeNumber(3300000000)).toEqual({ num: '3.3000', unit: 'B' });
-    expect(formatLargeNumber(44400000)).toEqual({ num: '44.4000', unit: 'M' });
-    expect(formatLargeNumber(555500)).toEqual({ num: '555.5000', unit: 'K' });
-    expect(formatLargeNumber(66.666, 2)).toEqual({ num: '66.67', unit: '' });
+    expect(formatLargeNumber()).toEqual({ num: '0.000000', unit: '' });
+    expect(formatLargeNumber(2000000000000)).toEqual({ num: '2.000000', unit: 'T' });
+    expect(formatLargeNumber(3300000000)).toEqual({ num: '3.300000', unit: 'B' });
+    expect(formatLargeNumber(44400000)).toEqual({ num: '44.400000', unit: 'M' });
+    expect(formatLargeNumber(555500)).toEqual({ num: '555.500000', unit: 'K' });
+    expect(formatLargeNumber(66.666, 2)).toEqual({ num: '66.666000', unit: '' });
   });
 
   it('normalizeLanguage', () => {
