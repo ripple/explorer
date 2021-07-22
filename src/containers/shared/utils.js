@@ -152,7 +152,7 @@ export const getLocalizedCurrencySymbol = (lang = 'en-US', currency = 'USD') => 
 };
 
 export const formatLargeNumber = (d = 0, digits = 6) => {
-  let digits_local = 6;
+  let digitsLocal = 6;
   let zeros = 0;
   let copy = d;
   if (d >= QUADRILLION) {
@@ -190,16 +190,16 @@ export const formatLargeNumber = (d = 0, digits = 6) => {
     };
   }
 
-  while (copy < 1 && digits_local < 20) {
+  while (copy < 1 && digitsLocal < 20) {
     copy *= 10;
     zeros += 1;
-    digits_local = zeros > digits_local - 1 ? digits_local + 1 : digits_local;
+    digitsLocal = zeros > digitsLocal - 1 ? digitsLocal + 1 : digitsLocal;
   }
 
-  digits = Math.trunc(d.toFixed(20)) === 0 ? digits : digits_local;
+  digitsLocal = Math.trunc(d.toFixed(20)) === 0 ? digits : digitsLocal;
 
   return {
-    num: d.toFixed(digits),
+    num: d.toFixed(digitsLocal),
     unit: '',
   };
 };
