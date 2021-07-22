@@ -64,9 +64,8 @@ class Ledger extends Component {
     }
   }
 
-  /* eslint-disable */
+  // eslint-disable-next-line
   UNSAFE_componentWillReceiveProps(nextProps) {
-    /* eslint-enable */
     const { actions, match } = nextProps;
     const { match: prevMatch } = this.props;
     const { identifier } = match.params;

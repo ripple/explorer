@@ -69,7 +69,13 @@ export const TokenTxTable = props => {
   const concatTx = (a, b) => {
     if (a.length === 0) return b;
     if (a[0].hash === b[0].hash) return a;
-    return b;
+    let i = 0;
+    for (i = 0; i < b.length; i += 1) {
+      if (b[i].hash === a[0].hash) {
+        break;
+      }
+    }
+    return b.splice(0, i).concat(a);
   };
 
   const resetPage = () => {

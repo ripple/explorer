@@ -77,9 +77,8 @@ class Search extends Component {
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
-  /* eslint-disable */
+  // eslint-disable-next-line
   UNSAFE_componentWillReceiveProps(nextProps) {
-    /* eslint-enable */
     this.setState({ redirect: '' });
   }
 
