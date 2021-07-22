@@ -151,8 +151,6 @@ export const getLocalizedCurrencySymbol = (lang = 'en-US', currency = 'USD') => 
   return formatted.split('1')[0].trim();
 };
 
-// displaying 4 digits will give user a sense of how small the number is.
-// less number of digits might not have siginificant information since tokens have really small value.
 export const formatLargeNumber = (d = 0, digits = 4) => {
   let variableDigits = digits;
   let numberOfZeros = 0;
