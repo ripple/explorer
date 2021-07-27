@@ -62,9 +62,9 @@ const DEXPairs = props => {
                       highestExchangeRate /= 1000000;
                     }
 
-                    const low = formatLargeNumber(lowestExchangeRate);
-                    const high = formatLargeNumber(highestExchangeRate);
-                    const average = formatLargeNumber(averageExchangeRate);
+                    const low = formatLargeNumber(lowestExchangeRate, 6);
+                    const high = formatLargeNumber(highestExchangeRate, 6);
+                    const average = formatLargeNumber(averageExchangeRate, 6);
                     const tokenSplit = token.split('.');
 
                     if (isMountedRef.current) {
