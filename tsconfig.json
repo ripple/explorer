@@ -1,31 +1,30 @@
 {
   "compilerOptions": {
-    // Basic Options
     "target": "ES2017",
-    "module": "commonjs",
+    "module": "esnext",
     "declaration": true,
     "sourceMap": true,
-
-    // Directories
     "outDir": "build",
-
-    // Strict Type-Checking Options
     "strict": true,
-
-    // Additional Checks
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-
-    // Module Resolution Options
     "moduleResolution": "node",
-
-    // Advanced Options
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
   "include": [
     "src/**/*"
