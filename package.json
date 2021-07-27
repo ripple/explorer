@@ -8,6 +8,7 @@
     "@types/node": "^16.4.3",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
+    "@types/react-i18next": "^8.1.0",
     "@types/react-router-dom": "^5.1.8",
     "axios": "^0.21.1",
     "body-parser": "^1.18.2",
@@ -124,7 +125,7 @@
       "git add"
     ]
   },
-  "main": "index.js",
+  "main": "index",
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",

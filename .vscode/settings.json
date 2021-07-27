@@ -40,4 +40,5 @@
     "css.validate": false, // Make sure to install the recommended extensions for StyleLint
     "jestRunIt.jestPath": "./backend/node_modules/.bin/jest",
     "jestRunIt.jestConfigPath": "./backend/jest.config.js",
+    "typescript.tsdk": "/Users/mvadari/Documents/explorer-open/node_modules/typescript/lib",
   }
