@@ -139,9 +139,19 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
   return new Intl.DateTimeFormat(lang, options).format(date);
 };
 
+/**
+ *
+ * @param {list} a The transactions in state.
+ * @param {list} b The new transactions from props.
+ * @returns {list} Concatenated list.
+ */
+// extract new items from top of array b using iterator
+// and merge it into the state array a.
 export const concatTx = (a, b) => {
   if (a.length === 0) return b;
   if (a[0].hash === b[0].hash) return a;
+
+  // joins if b has only old new transactions or has new ones on top of old ones.
   let iterator = 0;
   for (iterator = 0; iterator < b.length; iterator += 1) {
     if (b[iterator].hash === a[0].hash) {
