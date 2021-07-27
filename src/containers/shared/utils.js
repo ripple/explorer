@@ -140,13 +140,12 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
 };
 
 /**
- *
+ * extract new items from top of array b using iterator
+ * and merge it into the state array a.
  * @param {list} a The transactions in state.
  * @param {list} b The new transactions from props.
  * @returns {list} Concatenated list.
  */
-// extract new items from top of array b using iterator
-// and merge it into the state array a.
 export const concatTx = (a, b) => {
   if (a.length === 0) return b;
   if (a[0].hash === b[0].hash) return a;
