@@ -117,7 +117,7 @@ Payment.propTypes = {
         }),
         PropTypes.string,
       ]),
-      sourceTag: PropTypes.string,
+      sourceTag: PropTypes.number,
     }),
   }).isRequired,
 };

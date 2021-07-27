@@ -17,7 +17,7 @@ const OfferCreate = props => {
       <div className="row">
         <div className="label">{t('price')}</div>
         <div className="value">
-          {price}
+          {`${Number(price)}`}
           <span className="currency">{pair}</span>
         </div>
       </div>
@@ -50,7 +50,7 @@ OfferCreate.propTypes = {
   language: PropTypes.string.isRequired,
   data: PropTypes.shape({
     instructions: PropTypes.shape({
-      price: PropTypes.number,
+      price: PropTypes.string,
       pair: PropTypes.string,
       cancel: PropTypes.number,
       pays: PropTypes.shape({
