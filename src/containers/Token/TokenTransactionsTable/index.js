@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
-import { localizeDate } from '../../shared/utils';
+import { localizeDate, concatTx } from '../../shared/utils';
 import { loadTokenTransactions } from './actions';
 import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
@@ -61,7 +61,7 @@ export const TokenTxTable = props => {
     if (newTransactionsRecieved) {
       setState(prevState => ({
         marker: props.data.marker,
-        transactions: prevState.transactions.concat(props.data.transactions),
+        transactions: concatTx(prevState.transactions, props.data.transactions),
       }));
     }
   }, [props]);

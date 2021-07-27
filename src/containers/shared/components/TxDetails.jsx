@@ -192,7 +192,7 @@ class TxDetails extends Component {
         <div className="price">
           <span className="label"> {t('price')}:</span>
           <span className="amount">
-            {` ${price} `}
+            {` ${Number(price)} `}
             {pair}
           </span>
         </div>
@@ -367,7 +367,7 @@ TxDetails.propTypes = {
     key: PropTypes.string,
     limit: PropTypes.shape({}),
     pair: PropTypes.string,
-    sourceTag: PropTypes.string,
+    sourceTag: PropTypes.number,
     source: PropTypes.string,
     claimed: PropTypes.shape({}),
     channel_amount: PropTypes.number,
