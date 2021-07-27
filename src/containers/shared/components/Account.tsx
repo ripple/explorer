@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Account = props => {
+interface Props {
+  link?: string;
+  account: string;
+}
+
+const Account = (props: Props) => {
   const { link, account } = props;
   return link ? (
     <Link className="account" title={account} to={`/accounts/${account}`}>

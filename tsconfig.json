@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    // Basic Options
+    "target": "ES2017",
+    "module": "commonjs",
+    "declaration": true,
+    "sourceMap": true,
+
+    // Directories
+    "outDir": "build",
+
+    // Strict Type-Checking Options
+    "strict": true,
+
+    // Additional Checks
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Module Resolution Options
+    "moduleResolution": "node",
+
+    // Advanced Options
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

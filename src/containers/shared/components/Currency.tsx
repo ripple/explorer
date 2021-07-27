@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Account from './Account';
 
-const Currency = props => {
+interface Props {
+  issuer?: string;
+  currency: string;
+  link: string;
+}
+
+const Currency = (props: Props) => {
   const { issuer, currency, link } = props;
   const content = issuer ? (
     <>
