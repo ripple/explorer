@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import Currency from './Currency';
@@ -44,7 +44,7 @@ interface Instructions {
 
 interface Props {
   instructions: Instructions;
-  type?: string;
+  type: string | null;
   language: string;
   t: (s: string) => string;
 }
@@ -59,7 +59,7 @@ const TxDetails = (props: Props) => {
     return (
       <span className="amount">
         {amount}
-        <Currency issuer={issuer} currency={currency} />
+        <Currency issuer={issuer} currency={currency} link={false} />
       </span>
     );
   }

@@ -1,9 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 interface Props {
-  link?: string;
+  link?: boolean;
   account: string;
 }
 

@@ -1,11 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Account from './Account';
 
 interface Props {
   issuer?: string;
   currency: string;
-  link: string;
+  link: boolean;
 }
 
 const Currency = (props: Props) => {
