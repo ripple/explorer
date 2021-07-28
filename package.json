@@ -160,7 +160,8 @@
       "react-app",
       "plugin:prettier/recommended",
       "plugin:jsx-a11y/recommended",
-      "prettier/react"
+      "prettier/react",
+      "plugin:import/typescript"
     ],
     "plugins": [
       "jsx-a11y"
@@ -190,8 +191,17 @@
         }
       ],
       "no-bitwise": "off",
-      "react/button-has-type": "warn",
-      "react/jsx-props-no-spreading": "warn"
+      "react/jsx-props-no-spreading": "warn",
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "never",
+          "jsx": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
+     ]
     },
     "parserOptions": {
       "allowImportExportEverywhere": true
