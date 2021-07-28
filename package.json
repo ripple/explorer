@@ -201,7 +201,7 @@
           "ts": "never",
           "tsx": "never"
         }
-     ]
+      ]
     },
     "parserOptions": {
       "allowImportExportEverywhere": true
