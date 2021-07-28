@@ -185,7 +185,7 @@ const TxDetails = (props: Props) => {
           <div>
             <span className="label">{t('set_flag')}:</span>{' '}
             <span className="flag">
-              {ACCOUNT_FLAGS[instructions.set_flag] || instructions.set_flag}
+              {ACCOUNT_FLAGS[Number(instructions.set_flag)] || instructions.set_flag}
             </span>
           </div>
         )}
@@ -193,7 +193,7 @@ const TxDetails = (props: Props) => {
           <div>
             <span className="label">{t('clear_flag')}:</span>{' '}
             <span className="flag">
-              {ACCOUNT_FLAGS[instructions.clear_flag] || instructions.clear_flag}
+              {ACCOUNT_FLAGS[Number(instructions.clear_flag)] || instructions.clear_flag}
             </span>
           </div>
         )}
