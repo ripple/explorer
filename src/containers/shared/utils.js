@@ -140,28 +140,6 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
   return new Intl.DateTimeFormat(lang, options).format(date);
 };
 
-/**
- * extract new items from top of array b using iterator
- * and merge it into the state array a.
- * @param {list} a The transactions in state.
- * @param {list} b The new transactions from props.
- * @returns {list} Concatenated list.
- */
-export const concatTx = (a, b) => {
-  if (a.length === 0) return b;
-  if (b.length === 0) return a;
-  if (a[0].hash === b[0].hash) return a;
-
-  // joins if b has only old new transactions or has new ones on top of old ones.
-  let iterator = 0;
-  for (iterator = 0; iterator < b.length; iterator += 1) {
-    if (b[iterator].hash === a[0].hash) {
-      break;
-    }
-  }
-  return b.slice(0, iterator).concat(a);
-};
-
 export const getLocalizedCurrencySymbol = (lang = 'en-US', currency = 'USD') => {
   const options = {
     style: 'currency',

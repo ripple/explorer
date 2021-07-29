@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
-import { localizeDate, concatTx } from '../../shared/utils';
-import { loadAccountTransactions } from './actions';
+import { localizeDate, analytics, ANALYTIC_TYPES } from '../../shared/utils';
 import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
 import './styles.css';
 import TxLabel from '../../shared/components/TxLabel';
+import Log from '../../shared/log';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -25,41 +24,51 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 };
 
+const loadAccountTransactions = async (accountId, currency, marker) => {
+  let url = `/api/v1/account_transactions/${accountId}`;
+  if (marker) {
+    url += `?marker=${marker}`;
+  }
+  return axios
+    .get(url)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      analytics(ANALYTIC_TYPES.exception, {
+        exDescription: `${url} --- ${JSON.stringify(error)}`,
+      });
+      Log.error(`${url} --- ${JSON.stringify(error)}`);
+    });
+};
+
 export const AccountTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(undefined);
-  const { accountId, actions, data, loadingError } = props;
+  const [loading, setLoading] = useState(true);
+  const { accountId, loadingError } = props;
+
+  const processData = data => {
+    setMarker(data.marker);
+    setTransactions(oldTransactions => {
+      return oldTransactions.concat(data.transactions);
+    });
+  };
 
   useEffect(() => {
-    actions.loadAccountTransactions(accountId);
-    setTransactions([]);
-    setMarker(undefined);
-    const resetPage = () => {
-      setTransactions([]);
-      setMarker(data.marker);
-    };
-    // returned function will be called on component unmount
-    return () => {
-      resetPage();
-    };
-  }, [actions, accountId, data.marker]);
-
-  useEffect(() => {
-    actions.loadAccountTransactions(accountId);
-  }, [accountId, actions]);
-
-  useEffect(() => {
-    // Only update this.state.transactions if loading just completed without error
-    const newTransactionsRecieved = loadingError === '' && data && data.transactions;
-
-    if (newTransactionsRecieved) {
-      setTransactions(concatTx(transactions, data.transactions));
-      setMarker(data.marker);
-    }
-  }, [loadingError, data, transactions]);
+    setLoading(true);
+    loadAccountTransactions(accountId).then(data => {
+      setLoading(false);
+      processData(data);
+    });
+  }, [accountId]);
 
   const loadMoreTransactions = () => {
-    actions.loadAccountTransactions(accountId, marker);
+    setLoading(true);
+    loadAccountTransactions(accountId, marker).then(data => {
+      setLoading(false);
+      processData(data);
+    });
   };
 
   const renderListItem = tx => {
@@ -115,7 +124,7 @@ export const AccountTxTable = props => {
   };
 
   const renderListContents = () => {
-    const { t, loading, currencySelected } = props;
+    const { t, currencySelected } = props;
     let processedTransactions = transactions;
     if (currencySelected !== 'XRP') {
       processedTransactions = transactions.filter(
@@ -134,7 +143,7 @@ export const AccountTxTable = props => {
     return processedTransactions.map(transaction => renderListItem(transaction));
   };
 
-  const { t, loading } = props;
+  const { t } = props;
 
   return (
     <div className="section transactions-table">
@@ -156,26 +165,8 @@ export const AccountTxTable = props => {
 AccountTxTable.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
   loadingError: PropTypes.string,
   accountId: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    marker: PropTypes.string,
-    transactions: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        title: PropTypes.string,
-        link: PropTypes.string,
-        date: PropTypes.string,
-        creator: PropTypes.string,
-        image: PropTypes.string,
-        speed: PropTypes.number,
-      })
-    ),
-  }).isRequired,
-  actions: PropTypes.shape({
-    loadAccountTransactions: PropTypes.func,
-  }).isRequired,
   currencySelected: PropTypes.string.isRequired,
 };
 
@@ -183,20 +174,4 @@ AccountTxTable.defaultProps = {
   loadingError: '',
 };
 
-export default connect(
-  state => ({
-    language: state.app.language,
-    width: state.app.width,
-    loadingError: state.accountTransactions.error,
-    loading: state.accountTransactions.loading,
-    data: state.accountTransactions.data,
-  }),
-  dispatch => ({
-    actions: bindActionCreators(
-      {
-        loadAccountTransactions,
-      },
-      dispatch
-    ),
-  })
-)(translate()(AccountTxTable));
+export default translate()(AccountTxTable);
