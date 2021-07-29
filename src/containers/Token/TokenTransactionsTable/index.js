@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
-import { localizeDate, concatTx } from '../../shared/utils';
-import { loadTokenTransactions } from './actions';
+import { localizeDate, concatTx, analytics, ANALYTIC_TYPES } from '../../shared/utils';
 import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
 import '../../Accounts/AccountTransactionsTable/styles.css'; // Reuse AccountTransactionsTable styling
 import TxLabel from '../../shared/components/TxLabel';
+import Log from '../../shared/log';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -25,41 +24,58 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 };
 
+const loadTokenTransactions = async (accountId, currency, marker) => {
+  let url = `/api/v1/account_transactions/${accountId}/${currency}`;
+  if (marker) {
+    url += `?marker=${marker}`;
+  }
+  return axios
+    .get(url)
+    .then(response => {
+      console.log(response);
+      return response.data;
+    })
+    .catch(error => {
+      analytics(ANALYTIC_TYPES.exception, {
+        exDescription: `${url} --- ${JSON.stringify(error)}`,
+      });
+      Log.error(`${url} --- ${JSON.stringify(error)}`);
+    });
+};
+
 export const TokenTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(undefined);
+  const [loading, setLoading] = useState(true);
 
-  const { accountId, actions, data, currency, loadingError } = props;
+  const { accountId, currency, loadingError, t } = props;
 
-  useEffect(() => {
-    actions.loadTokenTransactions(accountId, currency);
-
-    const resetPage = () => {
-      setTransactions([]);
-      setMarker(data.marker);
-    };
-    // returned function will be called on component unmount
-    return () => {
-      resetPage();
-    };
-  }, [accountId, currency, actions, data.marker]);
+  const processData = data => {
+    console.log(data.transactions);
+    setMarker(data.marker);
+    setTransactions(oldTransactions => {
+      return concatTx(oldTransactions, data.transactions);
+    });
+  };
 
   useEffect(() => {
-    // Only update this.state.transactions if loading just completed without error
-    const newTransactionsRecieved = loadingError === '' && data && data.transactions;
-
-    if (newTransactionsRecieved) {
-      setMarker(data.marker);
-      setTransactions(concatTx(transactions, data.transactions));
-    }
-  }, [loadingError, data, transactions]);
+    setLoading(true);
+    loadTokenTransactions(accountId, currency).then(data => {
+      setLoading(false);
+      processData(data);
+    });
+  }, [accountId, currency]);
 
   const loadMoreTransactions = () => {
-    actions.loadTokenTransactions(accountId, currency, marker);
+    setLoading(true);
+    loadTokenTransactions(accountId, currency, marker).then(data => {
+      setLoading(false);
+      processData(data);
+    });
   };
 
   const renderListItem = tx => {
-    const { language, t } = props;
+    const { language } = props;
     const success = tx.result === 'tesSUCCESS';
     const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS);
     const status = success ? 'Success' : `Fail - ${tx.result}`;
@@ -100,7 +116,6 @@ export const TokenTxTable = props => {
   };
 
   const renderLoadMoreButton = () => {
-    const { t } = props;
     return (
       marker && (
         <button className="load-more-btn" onClick={loadMoreTransactions} type="button">
@@ -111,14 +126,11 @@ export const TokenTxTable = props => {
   };
 
   const renderListContents = () => {
-    const { t, loading } = props;
     if (!loading && transactions.length === 0 && !loadingError) {
       return <div className="empty-transactions-message">{t('no_transactions_message')}</div>;
     }
     return transactions.map(transaction => renderListItem(transaction));
   };
-
-  const { t, loading } = props;
 
   return (
     <div className="section transactions-table">
@@ -139,48 +151,15 @@ export const TokenTxTable = props => {
 
 TokenTxTable.propTypes = {
   t: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
+  language: PropTypes.string,
   loadingError: PropTypes.string,
   accountId: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    marker: PropTypes.string,
-    transactions: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        title: PropTypes.string,
-        link: PropTypes.string,
-        date: PropTypes.string,
-        creator: PropTypes.string,
-        image: PropTypes.string,
-        speed: PropTypes.number,
-      })
-    ),
-  }).isRequired,
-  actions: PropTypes.shape({
-    loadTokenTransactions: PropTypes.func,
-  }).isRequired,
 };
 
 TokenTxTable.defaultProps = {
   loadingError: '',
+  language: 'en-us',
 };
 
-export default connect(
-  state => ({
-    language: state.app.language,
-    width: state.app.width,
-    loadingError: state.accountTransactions.error,
-    loading: state.accountTransactions.loading,
-    data: state.accountTransactions.data,
-  }),
-  dispatch => ({
-    actions: bindActionCreators(
-      {
-        loadTokenTransactions,
-      },
-      dispatch
-    ),
-  })
-)(translate()(TokenTxTable));
+export default translate()(TokenTxTable);

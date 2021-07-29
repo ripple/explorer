@@ -149,6 +149,7 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
  */
 export const concatTx = (a, b) => {
   if (a.length === 0) return b;
+  if (b.length === 0) return a;
   if (a[0].hash === b[0].hash) return a;
 
   // joins if b has only old new transactions or has new ones on top of old ones.

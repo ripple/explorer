@@ -26,50 +26,39 @@ const DATE_OPTIONS = {
 };
 
 export const AccountTxTable = props => {
-  const [state, setState] = useState({
-    transactions: [],
-    marker: undefined,
-  });
+  const [transactions, setTransactions] = useState([]);
+  const [marker, setMarker] = useState(undefined);
   const { accountId, actions, data, loadingError } = props;
-
-  const resetPage = () => {
-    setState({
-      transactions: [],
-      marker: data.marker,
-    });
-  };
 
   useEffect(() => {
     actions.loadAccountTransactions(accountId);
+    setTransactions([]);
+    setMarker(undefined);
+    const resetPage = () => {
+      setTransactions([]);
+      setMarker(data.marker);
+    };
     // returned function will be called on component unmount
     return () => {
       resetPage();
     };
-  }, []);
+  }, [actions, accountId, data.marker]);
 
   useEffect(() => {
-    setState({
-      transactions: [],
-      marker: undefined,
-    });
     actions.loadAccountTransactions(accountId);
   }, [accountId, actions]);
 
   useEffect(() => {
     // Only update this.state.transactions if loading just completed without error
-    const newTransactionsRecieved =
-      loadingError === '' && data && state.data !== data && data.transactions;
+    const newTransactionsRecieved = loadingError === '' && data && data.transactions;
 
     if (newTransactionsRecieved) {
-      setState(prevState => ({
-        marker: data.marker,
-        transactions: concatTx(prevState.transactions, data.transactions),
-      }));
+      setTransactions(concatTx(transactions, data.transactions));
+      setMarker(data.marker);
     }
-  }, [loadingError, data]);
+  }, [loadingError, data, transactions]);
 
   const loadMoreTransactions = () => {
-    const { marker } = state;
     actions.loadAccountTransactions(accountId, marker);
   };
 
@@ -116,7 +105,6 @@ export const AccountTxTable = props => {
 
   const renderLoadMoreButton = () => {
     const { t } = props;
-    const { marker } = state;
     return (
       marker && (
         <button type="button" className="load-more-btn" onClick={loadMoreTransactions}>
@@ -128,7 +116,6 @@ export const AccountTxTable = props => {
 
   const renderListContents = () => {
     const { t, loading, currencySelected } = props;
-    const { transactions } = state;
     let processedTransactions = transactions;
     if (currencySelected !== 'XRP') {
       processedTransactions = transactions.filter(
