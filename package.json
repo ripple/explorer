@@ -3,6 +3,7 @@
   "description": "XRPL Data Visualization",
   "version": "1.5.0",
   "dependencies": {
+    "@babel/eslint-parser": "^7.14.7",
     "@google-cloud/bigquery": "^5.5.0",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.3",
@@ -62,16 +63,19 @@
     "xml2json": "^0.11.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
     "canvas": "^2.6.1",
-    "eslint": "^7.29.0",
+    "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^4.2.0",
-    "eslint-config-react-app": "^2.1.0",
-    "eslint-plugin-flowtype": "^2.50.3",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.8.2",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "http-proxy-middleware": "^0.19.2",
     "husky": "^0.14.3",
     "jest-websocket-mock": "^1.1.1",
@@ -137,7 +141,7 @@
     "eject": "react-scripts eject",
     "lint": "run-s lint:js lint:css",
     "lint:css": "node_modules/.bin/stylelint src/**/*.scss --syntax scss",
-    "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --color . --fix",
+    "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --ext=ts --ext=tsx --color . --fix",
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
     "start": "run-p watch-css dev-server dev-client",
@@ -203,8 +207,13 @@
           "ts": "never",
           "tsx": "never"
         }
+      ],
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": [
+        "error"
       ]
     },
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "allowImportExportEverywhere": true
     },

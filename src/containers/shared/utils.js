@@ -91,14 +91,6 @@ export const normalizeLanguage = lang => {
   return undefined;
 };
 
-export const formatPrice = (number, lang = 'en-US', currency = 'USD', decimals = 4) =>
-  number
-    ? localizeNumber(number.toPrecision(decimals), lang, {
-        style: 'currency',
-        currency,
-      })
-    : undefined;
-
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   const number = Number.parseFloat(num);
@@ -129,6 +121,15 @@ export const localizeNumber = (num, lang = 'en-US', options = {}) => {
 
   return new Intl.NumberFormat(lang, config).format(number);
 };
+
+export function formatPrice(number, lang = 'en-US', currency = 'USD', decimals = 4) {
+  return number
+    ? localizeNumber(number.toPrecision(decimals), lang, {
+        style: 'currency',
+        currency,
+      })
+    : undefined;
+}
 
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
 export const localizeDate = (date, lang = 'en-US', options = {}) => {

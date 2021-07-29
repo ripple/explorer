@@ -17,9 +17,13 @@ interface Instructions {
   max: any;
   signers: any[];
   domain: string;
+  // eslint-disable-next-line camelcase
   email_hash: string;
+  // eslint-disable-next-line camelcase
   message_key: string;
+  // eslint-disable-next-line camelcase
   set_flag: string;
+  // eslint-disable-next-line camelcase
   clear_flag: string;
   key: string;
   limit: any;
@@ -27,6 +31,7 @@ interface Instructions {
   sourceTag: number;
   source: string;
   claimed: any;
+  // eslint-disable-next-line camelcase
   channel_amount: number;
   remaining: number;
   renew: boolean;
@@ -358,12 +363,10 @@ const TxDetails = (props: Props) => {
             {renderAmount(claimed)}
             {remaining && amount && (
               <span>
-                {'('}
-                {renderAmount(remaining)}
+                ({renderAmount(remaining)}
                 <span>{t('out_of')}</span>
                 {renderAmount(amount)}
-                {t('remaining')}
-                {')'}
+                {t('remaining')})
               </span>
             )}
           </div>

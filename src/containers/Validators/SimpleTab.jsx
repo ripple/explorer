@@ -25,7 +25,7 @@ class SimpleTab extends Component {
       <div className="row">
         <div className="label">UNL</div>
         <div className="value unl yes">
-          {<img src={successIcon} title={unl} alt={unl} />} {unl}
+          <img src={successIcon} title={unl} alt={unl} /> {unl}
         </div>
       </div>
     );
@@ -56,7 +56,7 @@ class SimpleTab extends Component {
       <div className="val">
         <div className="title">UNL</div>
         <div className="val unl yes">
-          {<img src={successIcon} title={unl} alt={unl} />} {unl}
+          <img src={successIcon} title={unl} alt={unl} /> {unl}
         </div>
       </div>
     );

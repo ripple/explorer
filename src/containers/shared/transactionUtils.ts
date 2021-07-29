@@ -212,12 +212,9 @@ export function normalizeAmount(
   return localizeNumber(value, language, numberOption);
 }
 
-// @ts-ignore
-export function findNode(transaction: Transaction, nodeType, entryType: string): Node {
+export function findNode(transaction: Transaction, nodeType: keyof Node, entryType: string): Node {
   const metaNode = transaction.meta.AffectedNodes.find(
-    // @ts-ignore
     node => node[nodeType] && node[nodeType].LedgerEntryType === entryType
   );
-  // @ts-ignore
   return metaNode ? metaNode[nodeType] : null;
 }

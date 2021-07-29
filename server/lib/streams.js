@@ -10,6 +10,127 @@ const ledgers = {};
 const validators = {};
 const reserve = {};
 
+// add the ledger to the cache
+const addLedger = data => {
+  const { ledger_index: ledgerIndex } = data;
+  if (!ledgers[ledgerIndex]) {
+    ledgers[ledgerIndex] = {
+      ledger_index: Number(ledgerIndex),
+      seen: Date.now(),
+    };
+  }
+
+  return ledgers[ledgerIndex];
+};
+
+// emit to clients
+const emit = (type, data) => {
+  sockets.forEach((ws, i) => {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ type, data }));
+    }
+  });
+};
+
+// fetch full ledger
+const fetchLedger = (ledger, attempts = 0) => {
+  rippled
+    .getLedger({ ledger_hash: ledger.ledger_hash })
+    .then(utils.summarizeLedger)
+    .then(summary => {
+      Object.assign(ledger, summary);
+      emit('ledgerSummary', summary);
+    })
+    .catch(error => {
+      log.error(error.toString());
+      if (error.code === 404 && attempts < 5) {
+        log.info(`retry ledger ${ledger.ledger_index} (attempt:${attempts + 1})`);
+        setTimeout(fetchLedger, 500, ledger, attempts + 1);
+      }
+    });
+};
+
+// determine if the ledger index
+// is on the validated ledger chain
+const isValidatedChain = ledgerIndex => {
+  let prev = ledgerIndex - 1;
+  while (ledgers[prev]) {
+    if (ledgers[prev].ledger_hash) {
+      return true;
+    }
+    prev -= 1;
+  }
+
+  return false;
+};
+
+// convert to array and sort
+const organizeChain = () =>
+  Object.entries(ledgers)
+    .map(d => d[1])
+    .sort((a, b) => a.ledger_index - b.ledger_index);
+
+// purge old data
+const purge = () => {
+  const now = Date.now();
+
+  Object.keys(ledgers).forEach(key => {
+    if (now - ledgers[key].seen > MAX_AGE) {
+      delete ledgers[key];
+    }
+  });
+
+  Object.keys(validators).forEach(key => {
+    if (now - validators[key].last > MAX_AGE) {
+      delete validators[key];
+    }
+  });
+
+  let index = sockets.length;
+  while (index) {
+    index -= 1;
+    if (sockets[index].readyState !== WebSocket.OPEN) {
+      sockets[index].terminate();
+      sockets.splice(index, 1);
+    }
+  }
+
+  log.info('#sockets', sockets.length);
+};
+
+// update rolling metrics
+const updateMetrics = baseFee => {
+  const chain = organizeChain().slice(-100);
+
+  let time = 0;
+  let fees = 0;
+  let timeCount = 0;
+  let txCount = 0;
+  let ledgerCount = 0;
+
+  chain.forEach((d, i) => {
+    const next = chain[i + 1];
+    if (next && next.seen && d.seen) {
+      time += next.seen - d.seen;
+      timeCount += 1;
+    }
+
+    if (d.total_fees) {
+      fees += d.total_fees;
+      txCount += d.txn_count;
+      ledgerCount += 1;
+    }
+  });
+
+  emit('metric', {
+    base_fee: Number(baseFee.toPrecision(4)).toString(),
+    txn_sec: time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
+    txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
+    ledger_interval: timeCount ? (time / timeCount / 1000).toFixed(3) : undefined,
+    avg_fee: txCount ? (fees / txCount).toPrecision(4) : undefined,
+  });
+};
+
 // fetch current reserve
 module.exports.getReserve = () => ({ ...reserve });
 
@@ -67,127 +188,6 @@ module.exports.handleValidation = data => {
 module.exports.handleLoadFee = data => {
   const loadFee = (data.base_fee * data.load_factor) / data.load_factor_fee_reference / 1000000;
   emit('metric', { load_fee: Number(loadFee.toPrecision(4)).toString() });
-};
-
-// determine if the ledger index
-// is on the validated ledger chain
-const isValidatedChain = ledgerIndex => {
-  let prev = ledgerIndex - 1;
-  while (ledgers[prev]) {
-    if (ledgers[prev].ledger_hash) {
-      return true;
-    }
-    prev -= 1;
-  }
-
-  return false;
-};
-
-// convert to array and sort
-const organizeChain = () =>
-  Object.entries(ledgers)
-    .map(d => d[1])
-    .sort((a, b) => a.ledger_index - b.ledger_index);
-
-// update rolling metrics
-const updateMetrics = baseFee => {
-  const chain = organizeChain().slice(-100);
-
-  let time = 0;
-  let fees = 0;
-  let timeCount = 0;
-  let txCount = 0;
-  let ledgerCount = 0;
-
-  chain.forEach((d, i) => {
-    const next = chain[i + 1];
-    if (next && next.seen && d.seen) {
-      time += next.seen - d.seen;
-      timeCount += 1;
-    }
-
-    if (d.total_fees) {
-      fees += d.total_fees;
-      txCount += d.txn_count;
-      ledgerCount += 1;
-    }
-  });
-
-  emit('metric', {
-    base_fee: Number(baseFee.toPrecision(4)).toString(),
-    txn_sec: time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
-    txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
-    ledger_interval: timeCount ? (time / timeCount / 1000).toFixed(3) : undefined,
-    avg_fee: txCount ? (fees / txCount).toPrecision(4) : undefined,
-  });
-};
-
-// add the ledger to the cache
-const addLedger = data => {
-  const { ledger_index: ledgerIndex } = data;
-  if (!ledgers[ledgerIndex]) {
-    ledgers[ledgerIndex] = {
-      ledger_index: Number(ledgerIndex),
-      seen: Date.now(),
-    };
-  }
-
-  return ledgers[ledgerIndex];
-};
-
-// emit to clients
-const emit = (type, data) => {
-  sockets.forEach((ws, i) => {
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type, data }));
-    }
-  });
-};
-
-// fetch full ledger
-const fetchLedger = (ledger, attempts = 0) => {
-  rippled
-    .getLedger({ ledger_hash: ledger.ledger_hash })
-    .then(utils.summarizeLedger)
-    .then(summary => {
-      Object.assign(ledger, summary);
-      emit('ledgerSummary', summary);
-    })
-    .catch(error => {
-      log.error(error.toString());
-      if (error.code === 404 && attempts < 5) {
-        log.info(`retry ledger ${ledger.ledger_index} (attempt:${attempts + 1})`);
-        setTimeout(fetchLedger, 500, ledger, attempts + 1);
-      }
-    });
-};
-
-// purge old data
-const purge = () => {
-  const now = Date.now();
-
-  Object.keys(ledgers).forEach(key => {
-    if (now - ledgers[key].seen > MAX_AGE) {
-      delete ledgers[key];
-    }
-  });
-
-  Object.keys(validators).forEach(key => {
-    if (now - validators[key].last > MAX_AGE) {
-      delete validators[key];
-    }
-  });
-
-  let index = sockets.length;
-  while (index) {
-    index -= 1;
-    if (sockets[index].readyState !== WebSocket.OPEN) {
-      sockets[index].terminate();
-      sockets.splice(index, 1);
-    }
-  }
-
-  log.info('#sockets', sockets.length);
 };
 
 setInterval(purge, PURGE_INTERVAL);

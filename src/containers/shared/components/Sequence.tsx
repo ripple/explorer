@@ -21,8 +21,7 @@ const Sequence = (props: Props) => {
         <span className="row">
           {ticketSequence}
           {' ('}
-          {addContextHelp && addContextHelp === true ? t('ticket_used') : t('ticket')}
-          {')'}
+          {addContextHelp && addContextHelp === true ? t('ticket_used') : t('ticket')})
         </span>
       ) : (
         sequence

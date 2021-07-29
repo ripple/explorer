@@ -22,6 +22,10 @@ import App from './containers/App';
 
 require('typeface-roboto');
 
+let enhancers;
+let store;
+let persistor;
+
 // Check if polyfill required for Promise
 if (!Promise) {
   require('es6-promise/auto'); // eslint-disable-line global-require
@@ -50,10 +54,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const middlewarePackages = [thunk];
-let enhancers;
 let middleware = applyMiddleware(...middlewarePackages);
-let store;
-let persistor;
 if (isDevelopment) {
   localStorage.setItem('debug', 'xrpl-debug:*');
   middlewarePackages.push(reduxLogger);

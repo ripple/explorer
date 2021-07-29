@@ -13,7 +13,7 @@ const Currency = (props: Props) => {
   const content = issuer ? (
     <>
       {currency}
-      {'.'}
+      .
       <Account account={issuer} link={link} />
     </>
   ) : (

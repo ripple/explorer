@@ -26,55 +26,35 @@ const DATE_OPTIONS = {
 };
 
 export const TokenTxTable = props => {
-  const [state, setState] = useState({
-    transactions: [],
-    marker: undefined,
-    prevProps: { accountId: '', currency: '', data: '', actions: {} },
-  });
+  const [transactions, setTransactions] = useState([]);
+  const [marker, setMarker] = useState(undefined);
 
-  const { accountId, actions, data, currency } = props;
+  const { accountId, actions, data, currency, loadingError } = props;
 
   useEffect(() => {
     actions.loadTokenTransactions(accountId, currency);
+
+    const resetPage = () => {
+      setTransactions([]);
+      setMarker(data.marker);
+    };
     // returned function will be called on component unmount
     return () => {
       resetPage();
     };
-  }, []);
-
-  useEffect(() => {
-    setState({
-      transactions: [],
-      marker: undefined,
-    });
-    actions.loadTokenTransactions(accountId, currency);
-  }, [accountId, currency]);
+  }, [accountId, currency, actions, data.marker]);
 
   useEffect(() => {
     // Only update this.state.transactions if loading just completed without error
-    const newTransactionsRecieved =
-      props.loadingError === '' &&
-      props.data &&
-      state.data !== props.data &&
-      props.data.transactions;
+    const newTransactionsRecieved = loadingError === '' && data && data.transactions;
 
     if (newTransactionsRecieved) {
-      setState(prevState => ({
-        marker: props.data.marker,
-        transactions: concatTx(prevState.transactions, props.data.transactions),
-      }));
+      setMarker(data.marker);
+      setTransactions(concatTx(transactions, data.transactions));
     }
-  }, [props]);
-
-  const resetPage = () => {
-    setState({
-      transactions: [],
-      marker: data.marker,
-    });
-  };
+  }, [loadingError, data, transactions]);
 
   const loadMoreTransactions = () => {
-    const { marker } = state;
     actions.loadTokenTransactions(accountId, currency, marker);
   };
 
@@ -121,7 +101,6 @@ export const TokenTxTable = props => {
 
   const renderLoadMoreButton = () => {
     const { t } = props;
-    const { marker } = state;
     return (
       marker && (
         <button className="load-more-btn" onClick={loadMoreTransactions} type="button">
@@ -132,8 +111,7 @@ export const TokenTxTable = props => {
   };
 
   const renderListContents = () => {
-    const { t, loading, loadingError } = props;
-    const { transactions } = state;
+    const { t, loading } = props;
     if (!loading && transactions.length === 0 && !loadingError) {
       return <div className="empty-transactions-message">{t('no_transactions_message')}</div>;
     }
