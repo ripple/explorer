@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "esnext",
     "module": "esnext",
     "declaration": true,
     "sourceMap": true,
@@ -12,9 +12,10 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "allowJs": true,
+    "checkJs": false,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "lib": [
       "dom",
       "dom.iterable",
@@ -30,5 +31,10 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "types.d.ts"
-  ]
+  ],
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  }
 }

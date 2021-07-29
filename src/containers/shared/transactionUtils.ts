@@ -126,7 +126,7 @@ interface IssuedCurrencyAmount {
   value: string;
 }
 
-export const groupAffectedNodes = (trans: Transaction) => {
+export function groupAffectedNodes(trans: Transaction) {
   const group: Record<string, Node[]> = {
     created: [],
     modified: [],
@@ -143,18 +143,18 @@ export const groupAffectedNodes = (trans: Transaction) => {
   });
   group.modified.sort((a, b) => a.LedgerEntryType.localeCompare(b.LedgerEntryType));
   return group;
-};
+}
 
-export const decodeHex = (hex: string) => {
+export function decodeHex(hex: string) {
   let str = '';
   for (let i = 0; i < hex.length; i += 2) {
     const v = parseInt(hex.substr(i, 2), 16);
     str += v ? String.fromCharCode(v) : '';
   }
   return str;
-};
+}
 
-export const buildMemos = (trans: Transaction) => {
+export function buildMemos(trans: Transaction) {
   const { Memos = [] } = trans.tx;
   const memoList: string[] = [];
   Memos.forEach(data => {
@@ -171,9 +171,9 @@ export const buildMemos = (trans: Transaction) => {
     }
   });
   return memoList;
-};
+}
 
-export const buildFlags = (trans: Transaction) => {
+export function buildFlags(trans: Transaction) {
   const flags = TX_FLAGS[trans.tx.TransactionType] || {};
   const bits = zeroPad((trans.tx.Flags || 0).toString(2), 32).split('');
 
@@ -182,37 +182,42 @@ export const buildFlags = (trans: Transaction) => {
       const bin = zeroPad(1, 32 - i, true);
       const int = parseInt(bin, 2);
       // const type = i < 8 ? 'universal' : (i < 16 ? 'type_specific' : 'reserved');
-
       return value === '1' ? TX_FLAGS.all[int] || flags[int] || hex32(int) : undefined;
     })
     .filter(d => Boolean(d));
-};
+}
 
-const hex32 = (d: number) => {
+function hex32(d: number): string {
   const int = d & 0xffffffff;
   const hex = int.toString(16).toUpperCase();
   return `0x${`00000000${hex}`.slice(-8)}`;
-};
+}
 
-const zeroPad = (num: string | number, size: number, back = false) => {
+function zeroPad(num: string | number, size: number, back = false): string {
   let s = String(num);
   while (s.length < (size || 2)) {
     s = back ? `${s}0` : `0${s}`;
   }
 
   return s;
-};
+}
 
-export const normalizeAmount = (amount: IssuedCurrencyAmount | number, language = 'en-US') => {
+export function normalizeAmount(
+  amount: IssuedCurrencyAmount | number,
+  language = 'en-US'
+): string | null {
   const currency = typeof amount === 'object' ? amount.currency : 'XRP';
   const value = typeof amount === 'object' ? amount.value : amount / XRP_BASE;
   const numberOption = { ...CURRENCY_OPTIONS, currency };
   return localizeNumber(value, language, numberOption);
-};
+}
 
-export const findNode = (transaction: Transaction, nodeType: keyof Node, entryType: string) => {
+// @ts-ignore
+export function findNode(transaction: Transaction, nodeType, entryType: string): Node {
   const metaNode = transaction.meta.AffectedNodes.find(
+    // @ts-ignore
     node => node[nodeType] && node[nodeType].LedgerEntryType === entryType
   );
+  // @ts-ignore
   return metaNode ? metaNode[nodeType] : null;
-};
+}

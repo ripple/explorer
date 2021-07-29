@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import Currency from './Currency';
