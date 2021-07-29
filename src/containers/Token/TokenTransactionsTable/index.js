@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
-import { localizeDate, analytics, ANALYTIC_TYPES } from '../../shared/utils';
+import { localizeDate, concatTx } from '../../shared/utils';
 import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
 import '../../Accounts/AccountTransactionsTable/styles.css'; // Reuse AccountTransactionsTable styling
 import TxLabel from '../../shared/components/TxLabel';
-import Log from '../../shared/log';
+
+import { loadTokenTransactions } from './actions';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -24,52 +26,26 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 };
 
-const loadTokenTransactions = async (accountId, currency, marker) => {
-  let url = `/api/v1/account_transactions/${accountId}/${currency}`;
-  if (marker) {
-    url += `?marker=${marker}`;
-  }
-  return axios
-    .get(url)
-    .then(response => {
-      return response.data;
-    })
-    .catch(error => {
-      analytics(ANALYTIC_TYPES.exception, {
-        exDescription: `${url} --- ${JSON.stringify(error)}`,
-      });
-      Log.error(`${url} --- ${JSON.stringify(error)}`);
-    });
-};
-
 export const TokenTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(undefined);
-  const [loading, setLoading] = useState(true);
 
-  const { accountId, currency, loadingError, t } = props;
-
-  const processData = data => {
-    setMarker(data.marker);
-    setTransactions(oldTransactions => {
-      return oldTransactions.concat(data.transactions);
-    });
-  };
+  const { accountId, currency, actions, data, loading, t, loadingError } = props;
 
   useEffect(() => {
-    setLoading(true);
-    loadTokenTransactions(accountId, currency).then(data => {
-      setLoading(false);
-      processData(data);
+    if (data.transactions == null) return;
+    setMarker(data.marker);
+    setTransactions(oldTransactions => {
+      return concatTx(oldTransactions, data.transactions);
     });
-  }, [accountId, currency]);
+  }, [data]);
+
+  useEffect(() => {
+    actions.loadTokenTransactions(accountId, currency);
+  }, [accountId, currency, actions]);
 
   const loadMoreTransactions = () => {
-    setLoading(true);
-    loadTokenTransactions(accountId, currency, marker).then(data => {
-      setLoading(false);
-      processData(data);
-    });
+    actions.loadTokenTransactions(accountId, marker);
   };
 
   const renderListItem = tx => {
@@ -149,15 +125,48 @@ export const TokenTxTable = props => {
 
 TokenTxTable.propTypes = {
   t: PropTypes.func.isRequired,
-  language: PropTypes.string,
+  language: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
   loadingError: PropTypes.string,
   accountId: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    marker: PropTypes.string,
+    transactions: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        link: PropTypes.string,
+        date: PropTypes.string,
+        creator: PropTypes.string,
+        image: PropTypes.string,
+        speed: PropTypes.number,
+      })
+    ),
+  }).isRequired,
+  actions: PropTypes.shape({
+    loadTokenTransactions: PropTypes.func,
+  }).isRequired,
 };
 
 TokenTxTable.defaultProps = {
   loadingError: '',
-  language: 'en-us',
 };
 
-export default translate()(TokenTxTable);
+export default connect(
+  state => ({
+    language: state.app.language,
+    width: state.app.width,
+    loadingError: state.accountTransactions.error,
+    loading: state.accountTransactions.loading,
+    data: state.accountTransactions.data,
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        loadTokenTransactions,
+      },
+      dispatch
+    ),
+  })
+)(translate()(TokenTxTable));
