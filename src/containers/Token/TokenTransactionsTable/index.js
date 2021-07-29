@@ -28,7 +28,7 @@ const DATE_OPTIONS = {
 
 export const TokenTxTable = props => {
   const [transactions, setTransactions] = useState([]);
-  const [marker, setMarker] = useState(undefined);
+  const [marker, setMarker] = useState(null);
 
   const { accountId, currency, actions, data, loading, t, loadingError } = props;
 
