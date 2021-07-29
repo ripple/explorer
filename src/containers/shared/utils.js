@@ -159,7 +159,7 @@ export const concatTx = (a, b) => {
       break;
     }
   }
-  return b.splice(0, iterator).concat(a);
+  return b.slice(0, iterator).concat(a);
 };
 
 export const getLocalizedCurrencySymbol = (lang = 'en-US', currency = 'USD') => {

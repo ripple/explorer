@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
-import { localizeDate, concatTx, analytics, ANALYTIC_TYPES } from '../../shared/utils';
+import { localizeDate, analytics, ANALYTIC_TYPES } from '../../shared/utils';
 import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
 import '../../Accounts/AccountTransactionsTable/styles.css'; // Reuse AccountTransactionsTable styling
@@ -32,7 +32,6 @@ const loadTokenTransactions = async (accountId, currency, marker) => {
   return axios
     .get(url)
     .then(response => {
-      console.log(response);
       return response.data;
     })
     .catch(error => {
@@ -51,10 +50,9 @@ export const TokenTxTable = props => {
   const { accountId, currency, loadingError, t } = props;
 
   const processData = data => {
-    console.log(data.transactions);
     setMarker(data.marker);
     setTransactions(oldTransactions => {
-      return concatTx(oldTransactions, data.transactions);
+      return oldTransactions.concat(data.transactions);
     });
   };
 
