@@ -33,7 +33,8 @@ Please check relevant options, delete irrelevant ones.
 ### TypeScript/Hooks Update
 
 <!--
-In an effort to modernize the codebase, you should convert the files that you work with to React Hooks and Typescript.
+In an effort to modernize the codebase, you should convert the files that you work with to React Hooks and TypeScript.
+If this is not possible (e.g. it's too many changes, touching too many files, etc.) please explain why here.
 -->
 
 - [ ] Updated files to React Hooks
