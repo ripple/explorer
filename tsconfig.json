@@ -28,8 +28,7 @@
     "noEmit": true
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "types.d.ts"
+    "src",
+    "server",
   ]
 }
