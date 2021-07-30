@@ -3,7 +3,6 @@
 <!--
 Please include a summary/list of the changes.
 If too broad, please consider splitting into multiple PRs.
-If a relevant Asana task, please link it here.
 -->
 
 ### Context of Change
@@ -30,6 +29,15 @@ Please check relevant options, delete irrelevant ones.
 - [ ] Tests (You added tests for code that already exists, or your new feature included in this PR)
 - [ ] Documentation Updates
 - [ ] Release
+
+### TypeScript/Hooks Update
+
+<!--
+In an effort to modernize the codebase, you should convert the files that you work with to React Hooks and Typescript.
+-->
+
+- [ ] Updated files to React Hooks
+- [ ] Updated files to TypeScript
 
 ## Before / After
 
