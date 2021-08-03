@@ -135,7 +135,7 @@
     "analyze": "source-map-explorer build/static/js/main.*",
     "build": "run-s build-css build-js",
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
-    "build-js": "node ./build-non-split.js",
+    "build-js": "DISABLE_NEW_JSX_TRANSFORM=true node ./build-non-split.js",
     "dev-client": "react-scripts start",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "eject": "react-scripts eject",
