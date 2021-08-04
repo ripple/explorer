@@ -4,7 +4,12 @@ import { translate } from 'react-i18next';
 import loader from '../images/xrp-loader.png';
 import '../css/loader.css';
 
-const Loader = props => {
+interface Props {
+  className: string;
+  t: (s: string) => string;
+}
+
+const Loader = (props: Props) => {
   const { className, t } = props;
   return (
     <div className={`loader ${className}`}>

@@ -6,7 +6,7 @@ export const XRP_BASE = 1000000;
 export const hexMatch = new RegExp('^(0x)?[0-9A-Fa-f]+$');
 export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp';
 
-export const TX_FLAGS = {
+export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
   },
@@ -42,7 +42,7 @@ export const TX_FLAGS = {
   },
 };
 
-export const ACCOUNT_FLAGS = {
+export const ACCOUNT_FLAGS: Record<number, string> = {
   9: 'asfDepositAuth',
   8: 'asfDefaultRipple',
   7: 'asfGlobalFreeze',
@@ -90,8 +90,44 @@ export const DATE_OPTIONS = {
   timeZone: 'UTC',
 };
 
-export const groupAffectedNodes = trans => {
-  const group = {
+interface Node {
+  DeletedNode?: any;
+  ModifiedNode?: any;
+  CreatedNode?: any;
+  LedgerEntryType: string;
+}
+
+interface Meta {
+  AffectedNodes: Node[];
+}
+
+interface Memo {
+  Memo: {
+    MemoType: string;
+    MemoData: string;
+    MemoFormat: string;
+  };
+}
+
+interface Tx {
+  Memos: Memo[];
+  TransactionType: string;
+  Flags: number;
+}
+
+interface Transaction {
+  meta: Meta;
+  tx: Tx;
+}
+
+interface IssuedCurrencyAmount {
+  currency: string;
+  issuer: string;
+  value: string;
+}
+
+export function groupAffectedNodes(trans: Transaction) {
+  const group: Record<string, Node[]> = {
     created: [],
     modified: [],
     deleted: [],
@@ -107,20 +143,20 @@ export const groupAffectedNodes = trans => {
   });
   group.modified.sort((a, b) => a.LedgerEntryType.localeCompare(b.LedgerEntryType));
   return group;
-};
+}
 
-export const decodeHex = hex => {
+export function decodeHex(hex: string) {
   let str = '';
   for (let i = 0; i < hex.length; i += 2) {
     const v = parseInt(hex.substr(i, 2), 16);
     str += v ? String.fromCharCode(v) : '';
   }
   return str;
-};
+}
 
-export const buildMemos = trans => {
+export function buildMemos(trans: Transaction) {
   const { Memos = [] } = trans.tx;
-  const memoList = [];
+  const memoList: string[] = [];
   Memos.forEach(data => {
     if (hexMatch.test(data.Memo.MemoType)) {
       memoList.push(decodeHex(data.Memo.MemoType));
@@ -135,9 +171,9 @@ export const buildMemos = trans => {
     }
   });
   return memoList;
-};
+}
 
-export const buildFlags = trans => {
+export function buildFlags(trans: Transaction) {
   const flags = TX_FLAGS[trans.tx.TransactionType] || {};
   const bits = zeroPad((trans.tx.Flags || 0).toString(2), 32).split('');
 
@@ -146,37 +182,39 @@ export const buildFlags = trans => {
       const bin = zeroPad(1, 32 - i, true);
       const int = parseInt(bin, 2);
       // const type = i < 8 ? 'universal' : (i < 16 ? 'type_specific' : 'reserved');
-
       return value === '1' ? TX_FLAGS.all[int] || flags[int] || hex32(int) : undefined;
     })
     .filter(d => Boolean(d));
-};
+}
 
-const hex32 = d => {
+function hex32(d: number): string {
   const int = d & 0xffffffff;
   const hex = int.toString(16).toUpperCase();
   return `0x${`00000000${hex}`.slice(-8)}`;
-};
+}
 
-const zeroPad = (num, size, back = false) => {
+function zeroPad(num: string | number, size: number, back = false): string {
   let s = String(num);
   while (s.length < (size || 2)) {
     s = back ? `${s}0` : `0${s}`;
   }
 
   return s;
-};
+}
 
-export const normalizeAmount = (amount, language = 'en-US') => {
-  const currency = amount.currency || 'XRP';
-  const value = amount.value || amount / XRP_BASE;
+export function normalizeAmount(
+  amount: IssuedCurrencyAmount | number,
+  language = 'en-US'
+): string | null {
+  const currency = typeof amount === 'object' ? amount.currency : 'XRP';
+  const value = typeof amount === 'object' ? amount.value : amount / XRP_BASE;
   const numberOption = { ...CURRENCY_OPTIONS, currency };
   return localizeNumber(value, language, numberOption);
-};
+}
 
-export const findNode = (transaction, nodeType, entryType) => {
+export function findNode(transaction: Transaction, nodeType: keyof Node, entryType: string): Node {
   const metaNode = transaction.meta.AffectedNodes.find(
     node => node[nodeType] && node[nodeType].LedgerEntryType === entryType
   );
   return metaNode ? metaNode[nodeType] : null;
-};
+}

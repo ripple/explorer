@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 import { I18nextProvider } from 'react-i18next';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import moxios from 'moxios';
 import i18n from '../../../../i18nTestConfig';
 import TokensTable from '../index';
 import mockTopEndpoint from './mockTopEndpoint.json';
@@ -20,14 +19,6 @@ const mountTable = (isError = false, allTokens = []) => {
 };
 
 describe('Testing hooks', () => {
-  beforeEach(() => {
-    moxios.install();
-  });
-
-  afterEach(() => {
-    moxios.uninstall();
-  });
-
   const setupPage = async (shouldRender = true) => {
     const wrapper = mountTable(!shouldRender, shouldRender ? mockTopEndpoint : []);
 

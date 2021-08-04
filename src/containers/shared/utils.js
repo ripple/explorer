@@ -91,14 +91,6 @@ export const normalizeLanguage = lang => {
   return undefined;
 };
 
-export const formatPrice = (number, lang = 'en-US', currency = 'USD', decimals = 4) =>
-  number
-    ? localizeNumber(number.toPrecision(decimals), lang, {
-        style: 'currency',
-        currency,
-      })
-    : undefined;
-
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   const number = Number.parseFloat(num);
@@ -130,6 +122,15 @@ export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   return new Intl.NumberFormat(lang, config).format(number);
 };
 
+export function formatPrice(number, lang = 'en-US', currency = 'USD', decimals = 4) {
+  return number
+    ? localizeNumber(number.toPrecision(decimals), lang, {
+        style: 'currency',
+        currency,
+      })
+    : undefined;
+}
+
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
 export const localizeDate = (date, lang = 'en-US', options = {}) => {
   // TODO: default config
@@ -148,6 +149,7 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
  */
 export const concatTx = (a, b) => {
   if (a.length === 0) return b;
+  if (b.length === 0) return a;
   if (a[0].hash === b[0].hash) return a;
 
   // joins if b has only old new transactions or has new ones on top of old ones.
@@ -157,7 +159,7 @@ export const concatTx = (a, b) => {
       break;
     }
   }
-  return b.splice(0, iterator).concat(a);
+  return a.concat(b.slice(0, iterator));
 };
 
 export const getLocalizedCurrencySymbol = (lang = 'en-US', currency = 'USD') => {

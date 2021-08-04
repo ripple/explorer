@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../css/txlabel.css';
 
-const TxLabel = props => {
+interface Props {
+  type: string;
+  t: (s: string) => string;
+}
+
+const TxLabel = (props: Props) => {
   const { type, t } = props;
   return (
     <div className={`tx-label tx-type ${type}`}>

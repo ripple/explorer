@@ -4,26 +4,6 @@ import Loader from '../../shared/components/Loader';
 
 import './styles.css';
 
-const TokensFooter = props => {
-  const [updatedTime, setUpdatedTime] = useState();
-  const { updated, isLoading, isError } = props;
-
-  useEffect(() => {
-    if (!isError) {
-      setUpdatedTime(calculateDelaySinceLastUpdate(updated));
-    } else {
-      setUpdatedTime(calculateDelaySinceLastUpdate(NaN));
-    }
-  }, [updated, isError]);
-
-  return (
-    <div className="tokens-footer-container">
-      <div className="disclaimer" />
-      <div className="last-update">{isLoading ? <Loader /> : updatedTime}</div>
-    </div>
-  );
-};
-
 /**
  * Calculate the time between the moment the Tokens page is loaded and the last Big Query execution
  *
@@ -51,6 +31,26 @@ const calculateDelaySinceLastUpdate = lastUpdatedTime => {
     }
   }
   return `Last updated time unavailable`;
+};
+
+const TokensFooter = props => {
+  const [updatedTime, setUpdatedTime] = useState();
+  const { updated, isLoading, isError } = props;
+
+  useEffect(() => {
+    if (!isError) {
+      setUpdatedTime(calculateDelaySinceLastUpdate(updated));
+    } else {
+      setUpdatedTime(calculateDelaySinceLastUpdate(NaN));
+    }
+  }, [updated, isError]);
+
+  return (
+    <div className="tokens-footer-container">
+      <div className="disclaimer" />
+      <div className="last-update">{isLoading ? <Loader /> : updatedTime}</div>
+    </div>
+  );
 };
 
 TokensFooter.propTypes = {

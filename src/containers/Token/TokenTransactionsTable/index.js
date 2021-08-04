@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
 import { localizeDate, concatTx } from '../../shared/utils';
-import { loadTokenTransactions } from './actions';
 import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
 import '../../Accounts/AccountTransactionsTable/styles.css'; // Reuse AccountTransactionsTable styling
 import TxLabel from '../../shared/components/TxLabel';
+
+import { loadTokenTransactions } from './actions';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -26,60 +27,29 @@ const DATE_OPTIONS = {
 };
 
 export const TokenTxTable = props => {
-  const [state, setState] = useState({
-    transactions: [],
-    marker: undefined,
-    prevProps: { accountId: '', currency: '', data: '', actions: {} },
-  });
+  const [transactions, setTransactions] = useState([]);
+  const [marker, setMarker] = useState(null);
 
-  const { accountId, actions, data, currency } = props;
+  const { accountId, currency, actions, data, loading, t, loadingError } = props;
+
+  useEffect(() => {
+    if (data.transactions == null) return;
+    setMarker(data.marker);
+    setTransactions(oldTransactions => {
+      return concatTx(oldTransactions, data.transactions);
+    });
+  }, [data]);
 
   useEffect(() => {
     actions.loadTokenTransactions(accountId, currency);
-    // returned function will be called on component unmount
-    return () => {
-      resetPage();
-    };
-  }, []);
-
-  useEffect(() => {
-    setState({
-      transactions: [],
-      marker: undefined,
-    });
-    actions.loadTokenTransactions(accountId, currency);
-  }, [accountId, currency]);
-
-  useEffect(() => {
-    // Only update this.state.transactions if loading just completed without error
-    const newTransactionsRecieved =
-      props.loadingError === '' &&
-      props.data &&
-      state.data !== props.data &&
-      props.data.transactions;
-
-    if (newTransactionsRecieved) {
-      setState(prevState => ({
-        marker: props.data.marker,
-        transactions: concatTx(prevState.transactions, props.data.transactions),
-      }));
-    }
-  }, [props]);
-
-  const resetPage = () => {
-    setState({
-      transactions: [],
-      marker: data.marker,
-    });
-  };
+  }, [accountId, currency, actions]);
 
   const loadMoreTransactions = () => {
-    const { marker } = state;
-    actions.loadTokenTransactions(accountId, currency, marker);
+    actions.loadTokenTransactions(accountId, marker);
   };
 
   const renderListItem = tx => {
-    const { language, t } = props;
+    const { language } = props;
     const success = tx.result === 'tesSUCCESS';
     const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS);
     const status = success ? 'Success' : `Fail - ${tx.result}`;
@@ -120,8 +90,6 @@ export const TokenTxTable = props => {
   };
 
   const renderLoadMoreButton = () => {
-    const { t } = props;
-    const { marker } = state;
     return (
       marker && (
         <button className="load-more-btn" onClick={loadMoreTransactions} type="button">
@@ -132,15 +100,11 @@ export const TokenTxTable = props => {
   };
 
   const renderListContents = () => {
-    const { t, loading, loadingError } = props;
-    const { transactions } = state;
     if (!loading && transactions.length === 0 && !loadingError) {
       return <div className="empty-transactions-message">{t('no_transactions_message')}</div>;
     }
     return transactions.map(transaction => renderListItem(transaction));
   };
-
-  const { t, loading } = props;
 
   return (
     <div className="section transactions-table">

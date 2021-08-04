@@ -22,7 +22,7 @@ import TxDetails from '../components/TxDetails';
 import summarize from '../../../../server/lib/txSummary';
 
 describe('TxDetails', () => {
-  const createWrapper = (tx, width = 1200) =>
+  const createWrapper = tx =>
     mount(
       <I18nextProvider i18n={i18n}>
         <TxDetails
