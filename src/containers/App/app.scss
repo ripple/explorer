@@ -5,11 +5,11 @@
 
   .content {
     display: flex;
-    margin: 97px 0 50px 0;
-    flex-direction: column;
     width: 100%;
-    justify-content: center;
     min-height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    margin: 97px 0 50px 0;
     background: $black;
 
     @include for-size(desktop-up) {

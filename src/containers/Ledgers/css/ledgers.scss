@@ -2,15 +2,15 @@
 
 .ledgers-page {
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
   margin: 1% 0 auto 0;
 }
 
 .ledgers {
-  justify-self: space-between;
   min-height: 600px;
+  justify-self: space-between;
 
   .control {
     overflow: hidden;
@@ -69,11 +69,11 @@
   }
 
   .ledger-list {
-    display: flex;
-    margin: -45px 16px 20px 16px;
     z-index: 20;
+    display: flex;
     width: 100%;
     padding: 0 0 40px 32px;
+    margin: -45px 16px 20px 16px;
     background-color: $black;
     overflow-x: auto;
   }

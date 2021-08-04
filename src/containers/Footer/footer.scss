@@ -1,13 +1,13 @@
 @import '../shared/css/variables.scss';
 
 .footer {
-  display: flex;
-  justify-content: space-around;
-  margin: 0 10%;
-  flex-direction: column;
-  background: $black;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   border-top: 1px solid $black-80;
+  margin: 0 10%;
+  background: $black;
 
   .footer-links {
     display: flex;
