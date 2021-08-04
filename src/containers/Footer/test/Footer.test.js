@@ -56,13 +56,13 @@ describe('Footer component', () => {
     wrapper.unmount();
   });
 
-  it('can change language by keybord', () => {
+  it('can change language by keyboard', () => {
     const wrapper = createWrapper();
     const language = wrapper.find('.language');
     expect(language.length).toEqual(1);
     i18n.changeLanguage('en-US');
     expect(i18n.language).toEqual('en-US');
-    // Enzym doesn't support onKeyUp event yet
+    // Enzyme doesn't support onKeyUp event yet
     language.simulate('click', { key: 'Tab', type: 'keyup' });
     wrapper.find("[data-code='ko-KP']").simulate('keydown', { key: 'Enter', type: 'keydown' });
     expect(i18n.language).toEqual('ko-KP');

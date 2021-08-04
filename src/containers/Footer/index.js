@@ -123,8 +123,8 @@ class Footer extends Component {
       <div className="language-container">
         <div
           className={classnames('language', { open: isLangOpen })}
-          onClick={this.handleEvents}
-          onKeyUp={this.handleEvents}
+          onClick={this.languageEvents}
+          onKeyUp={this.languageEvents}
           onMouseLeave={this.handleEvents}
           role="menubar"
           tabIndex="0"
