@@ -1,13 +1,62 @@
-import React, { Component } from 'react';
+import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import Currency from './Currency';
 import { CURRENCY_OPTIONS, DATE_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils';
 import { localizeNumber, localizeDate } from '../utils';
 
-class TxDetails extends Component {
-  renderAmount = d => {
-    const { language } = this.props;
+interface Instructions {
+  owner: string;
+  sequence: number;
+  ticketSequence: number;
+  fulfillment: string;
+  finishAfter: string;
+  cancelAfter: string;
+  condition: string;
+  quorum: number;
+  max: any;
+  signers: any[];
+  domain: string;
+  // eslint-disable-next-line camelcase
+  email_hash: string;
+  // eslint-disable-next-line camelcase
+  message_key: string;
+  // eslint-disable-next-line camelcase
+  set_flag: string;
+  // eslint-disable-next-line camelcase
+  clear_flag: string;
+  key: string;
+  limit: any;
+  pair: string;
+  sourceTag: number;
+  source: string;
+  claimed: any;
+  // eslint-disable-next-line camelcase
+  channel_amount: number;
+  remaining: number;
+  renew: boolean;
+  close: boolean;
+  deleted: boolean;
+  gets: any;
+  pays: any;
+  price: string;
+  cancel: number;
+  convert: any;
+  amount: any;
+  destination: string;
+  partial: boolean;
+}
+
+interface Props {
+  instructions: Instructions;
+  type: string | null;
+  language: string;
+  t: (s: string) => string;
+}
+
+const TxDetails = (props: Props) => {
+  function renderAmount(d: any): ReactElement {
+    const { language } = props;
     const options = { ...CURRENCY_OPTIONS, currency: d.currency };
     const amount = localizeNumber(d.amount, language, options);
     const { issuer, currency } = d;
@@ -18,10 +67,10 @@ class TxDetails extends Component {
         <Currency issuer={issuer} currency={currency} link={false} />
       </span>
     );
-  };
+  }
 
-  renderEscrowFinish() {
-    const { t, instructions } = this.props;
+  function renderEscrowFinish(): ReactElement {
+    const { t, instructions } = props;
     const { amount, owner, sequence, fulfillment, ticketSequence } = instructions;
     return (
       <div className="escrow">
@@ -35,7 +84,7 @@ class TxDetails extends Component {
         {amount && (
           <div>
             <span className="label">{t('amount')}</span>
-            {this.renderAmount(amount)}
+            {renderAmount(amount)}
           </div>
         )}
         {fulfillment && (
@@ -48,8 +97,8 @@ class TxDetails extends Component {
     );
   }
 
-  renderEscrowCancel() {
-    const { t, instructions } = this.props;
+  function renderEscrowCancel(): ReactElement {
+    const { t, instructions } = props;
     const { owner, sequence, ticketSequence } = instructions;
     return (
       <div className="escrow">
@@ -64,15 +113,15 @@ class TxDetails extends Component {
     );
   }
 
-  renderEscrowCreate() {
-    const { t, language, instructions } = this.props;
+  function renderEscrowCreate(): ReactElement {
+    const { t, language, instructions } = props;
     const { amount, destination, finishAfter, cancelAfter, condition } = instructions;
     return (
       <div className="escrow">
         {amount && (
           <div>
             <span className="label">{t('amount')}</span>
-            {this.renderAmount(amount)}
+            {renderAmount(amount)}
           </div>
         )}
         {destination && (
@@ -103,8 +152,8 @@ class TxDetails extends Component {
     );
   }
 
-  renderSignerListSet() {
-    const { t, instructions } = this.props;
+  function renderSignerListSet(): ReactElement {
+    const { t, instructions } = props;
     const { quorum, max, signers } = instructions;
     return (
       <div>
@@ -115,8 +164,8 @@ class TxDetails extends Component {
     );
   }
 
-  renderAccountSet() {
-    const { t, instructions } = this.props;
+  function renderAccountSet(): ReactElement {
+    const { t, instructions } = props;
     return (
       <>
         {instructions.domain && (
@@ -141,7 +190,7 @@ class TxDetails extends Component {
           <div>
             <span className="label">{t('set_flag')}:</span>{' '}
             <span className="flag">
-              {ACCOUNT_FLAGS[instructions.set_flag] || instructions.set_flag}
+              {ACCOUNT_FLAGS[Number(instructions.set_flag)] || instructions.set_flag}
             </span>
           </div>
         )}
@@ -149,7 +198,7 @@ class TxDetails extends Component {
           <div>
             <span className="label">{t('clear_flag')}:</span>{' '}
             <span className="flag">
-              {ACCOUNT_FLAGS[instructions.clear_flag] || instructions.clear_flag}
+              {ACCOUNT_FLAGS[Number(instructions.clear_flag)] || instructions.clear_flag}
             </span>
           </div>
         )}
@@ -160,8 +209,8 @@ class TxDetails extends Component {
     );
   }
 
-  renderSetRegularKey() {
-    const { t, instructions } = this.props;
+  function renderSetRegularKey(): ReactElement {
+    const { t, instructions } = props;
     const { key } = instructions;
     return key ? (
       <div className="setregularkey">
@@ -172,19 +221,19 @@ class TxDetails extends Component {
     );
   }
 
-  renderTrustSet() {
-    const { t, instructions } = this.props;
+  function renderTrustSet(): ReactElement {
+    const { t, instructions } = props;
     const { limit } = instructions;
     return (
       <div className="trustset">
         <span className="label">{t('set_limit')}</span>
-        {this.renderAmount(limit)}
+        {renderAmount(limit)}
       </div>
     );
   }
 
-  renderOfferCreate() {
-    const { t, instructions } = this.props;
+  function renderOfferCreate(): ReactElement | null {
+    const { t, instructions } = props;
     const { gets, pays, price, pair, cancel } = instructions;
 
     return pays && gets ? (
@@ -198,9 +247,9 @@ class TxDetails extends Component {
         </div>
         <div className="amounts">
           <span className="label">{t('buy')}</span>
-          {this.renderAmount(gets)}
+          {renderAmount(gets)}
           <span className="label">{`- ${t('sell')}`}</span>
-          {this.renderAmount(pays)}
+          {renderAmount(pays)}
         </div>
         {cancel && (
           <div className="cancel">
@@ -213,8 +262,8 @@ class TxDetails extends Component {
     ) : null;
   }
 
-  renderOfferCancel() {
-    const { t, instructions } = this.props;
+  function renderOfferCancel(): ReactElement {
+    const { t, instructions } = props;
     const { cancel } = instructions;
     return (
       <div className="offercancel">
@@ -225,17 +274,17 @@ class TxDetails extends Component {
     );
   }
 
-  renderPayment() {
-    const { t, instructions } = this.props;
+  function renderPayment(): ReactElement | null {
+    const { t, instructions } = props;
     const { convert, amount, destination, partial, sourceTag } = instructions;
 
     if (convert) {
       return (
         <div className="payment conversion">
           <span className="label">{t('convert_maximum')}</span>
-          {this.renderAmount(convert)}
+          {renderAmount(convert)}
           <span>{t('to')}</span>
-          {this.renderAmount(amount)}
+          {renderAmount(amount)}
           {partial && <div className="partial-payment">{t('partial_payment_allowed')}</div>}
         </div>
       );
@@ -244,7 +293,7 @@ class TxDetails extends Component {
     return amount ? (
       <div className="payment">
         <span className="label">{t('send')}</span>
-        {this.renderAmount(amount)}
+        {renderAmount(amount)}
         <span>{t('to')}</span>
         <span className="account"> {destination} </span>
         {sourceTag !== undefined && (
@@ -259,8 +308,8 @@ class TxDetails extends Component {
     ) : null;
   }
 
-  renderPaymentChannelCreate() {
-    const { t, instructions } = this.props;
+  function renderPaymentChannelCreate(): ReactElement {
+    const { t, instructions } = props;
     const { amount, source, destination } = instructions;
 
     return (
@@ -275,14 +324,14 @@ class TxDetails extends Component {
         </div>
         <div>
           <span className="label">{t('channel_amount')}</span>
-          {this.renderAmount(amount)}
+          {renderAmount(amount)}
         </div>
       </div>
     );
   }
 
-  renderPaymentChannelClaim() {
-    const { t, instructions } = this.props;
+  function renderPaymentChannelClaim(): ReactElement {
+    const { t, instructions } = props;
     const {
       source,
       destination,
@@ -311,15 +360,13 @@ class TxDetails extends Component {
         {claimed && (
           <div>
             <span className="label">{t('claimed')}</span>
-            {this.renderAmount(claimed)}
+            {renderAmount(claimed)}
             {remaining && amount && (
               <span>
-                {'('}
-                {this.renderAmount(remaining)}
+                ({renderAmount(remaining)}
                 <span>{t('out_of')}</span>
-                {this.renderAmount(amount)}
-                {t('remaining')}
-                {')'}
+                {renderAmount(amount)}
+                {t('remaining')})
               </span>
             )}
           </div>
@@ -327,7 +374,7 @@ class TxDetails extends Component {
         {amount && !claimed && (
           <div>
             <span className="label">{t('channel_amount')}</span>
-            {this.renderAmount(amount)}
+            {renderAmount(amount)}
           </div>
         )}
         {renew && <div className="flag">{t('renew_channel')}</div>}
@@ -337,15 +384,27 @@ class TxDetails extends Component {
     );
   }
 
-  render() {
-    const { type } = this.props;
-    if (this[`render${type}`]) {
-      return this[`render${type}`]();
-    }
-
-    return null;
+  const { type } = props;
+  const functionMap: { [key: string]: () => ReactElement | null } = {
+    renderEscrowFinish,
+    renderEscrowCancel,
+    renderEscrowCreate,
+    renderSignerListSet,
+    renderAccountSet,
+    renderSetRegularKey,
+    renderTrustSet,
+    renderOfferCreate,
+    renderOfferCancel,
+    renderPayment,
+    renderPaymentChannelCreate,
+    renderPaymentChannelClaim,
+  };
+  if (functionMap[`render${type}`]) {
+    return functionMap[`render${type}`]();
   }
-}
+
+  return null;
+};
 
 TxDetails.propTypes = {
   instructions: PropTypes.shape({

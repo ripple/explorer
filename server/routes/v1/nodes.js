@@ -5,12 +5,6 @@ const DATA_URL = process.env.REACT_APP_DATA_URL;
 
 const cache = {};
 
-const ledgerCompare = (a = 0, b = 0) => {
-  const aLedger = a.validated_ledger ? a.validated_ledger.ledger_index : 0;
-  const bLedger = b.validated_ledger ? b.validated_ledger.ledger_index : 0;
-  return bLedger === aLedger ? semverCompare(b.version, a.version) : bLedger - aLedger;
-};
-
 const semverCompare = (a = '', b = '') => {
   const chopa = a.split('+')[0];
   const chopb = b.split('+')[0];
@@ -27,6 +21,12 @@ const semverCompare = (a = '', b = '') => {
   }
 
   return 0;
+};
+
+const ledgerCompare = (a = 0, b = 0) => {
+  const aLedger = a.validated_ledger ? a.validated_ledger.ledger_index : 0;
+  const bLedger = b.validated_ledger ? b.validated_ledger.ledger_index : 0;
+  return bLedger === aLedger ? semverCompare(b.version, a.version) : bLedger - aLedger;
 };
 
 const fetchNodes = () => {

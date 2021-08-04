@@ -4,7 +4,14 @@ import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import '../css/tabs.css';
 
-const Tabs = props => {
+interface Props {
+  t: (s: string) => string;
+  path: string;
+  selected: string;
+  tabs: string[];
+}
+
+const Tabs = (props: Props) => {
   const { t, tabs, selected, path } = props;
   const items = tabs.map(title => {
     const className = selected === title ? 'tab selected' : 'tab';

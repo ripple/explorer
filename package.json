@@ -56,16 +56,26 @@
     "xml2json": "^0.11.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.14.7",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.4.3",
+    "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-i18next": "^8.1.0",
+    "@types/react-router-dom": "^5.1.8",
     "canvas": "^2.6.1",
-    "eslint": "^7.29.0",
+    "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^4.2.0",
-    "eslint-config-react-app": "^2.1.0",
-    "eslint-plugin-flowtype": "^2.50.3",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.8.2",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "http-proxy-middleware": "^0.19.2",
     "husky": "^0.14.3",
     "jest-websocket-mock": "^1.1.1",
@@ -84,7 +94,8 @@
     "stylelint-config-recommended-scss": "^3.3.0",
     "stylelint-config-standard": "^18.3.0",
     "stylelint-prettier": "^1.0.6",
-    "stylelint-scss": "^3.6.0"
+    "stylelint-scss": "^3.6.0",
+    "typescript": "^4.3.5"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -118,19 +129,19 @@
       "git add"
     ]
   },
-  "main": "index.js",
+  "main": "index",
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
     "build": "run-s build-css build-js",
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
-    "build-js": "node ./build-non-split.js",
+    "build-js": "DISABLE_NEW_JSX_TRANSFORM=true node ./build-non-split.js",
     "dev-client": "react-scripts start",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "eject": "react-scripts eject",
     "lint": "run-s lint:js lint:css",
     "lint:css": "node_modules/.bin/stylelint src/**/*.scss --syntax scss",
-    "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --color . --fix",
+    "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --ext=ts --ext=tsx --color . --fix",
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
     "start": "run-p watch-css dev-server dev-client",
@@ -153,7 +164,8 @@
       "react-app",
       "plugin:prettier/recommended",
       "plugin:jsx-a11y/recommended",
-      "prettier/react"
+      "prettier/react",
+      "plugin:import/typescript"
     ],
     "plugins": [
       "jsx-a11y"
@@ -168,6 +180,8 @@
         1,
         {
           "extensions": [
+            ".ts",
+            ".tsx",
             ".js",
             ".jsx"
           ]
@@ -183,9 +197,23 @@
         }
       ],
       "no-bitwise": "off",
-      "react/button-has-type": "warn",
-      "react/jsx-props-no-spreading": "warn"
+      "react/jsx-props-no-spreading": "warn",
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "never",
+          "jsx": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
+      ],
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": [
+        "error"
+      ]
     },
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "allowImportExportEverywhere": true
     },
@@ -214,6 +242,6 @@
   },
   "engines": {
     "node": ">=14.15.0 <15.0.0",
-    "npm": ">=6.14.0 <7.0.0"
+    "npm": ">=6.14.0 <8.0.0"
   }
 }
