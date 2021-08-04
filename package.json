@@ -7,6 +7,7 @@
     "axios": "^0.21.1",
     "body-parser": "^1.18.2",
     "bunyan": "^1.8.15",
+    "classnames": "^2.3.1",
     "core-js": "^3.9.0",
     "d3-geo": "^1.11.3",
     "d3-hexbin": "^0.2.2",
@@ -159,17 +160,40 @@
     "not op_mini all"
   ],
   "eslintConfig": {
-    "extends": ["airbnb", "react-app", "plugin:prettier/recommended", "plugin:jsx-a11y/recommended", "prettier/react"],
-    "plugins": ["jsx-a11y"],
+    "extends": [
+      "airbnb",
+      "react-app",
+      "plugin:prettier/recommended",
+      "plugin:jsx-a11y/recommended",
+      "prettier/react"
+    ],
+    "plugins": [
+      "jsx-a11y"
+    ],
     "env": {
       "browser": true,
       "jest": true,
       "es6": true
     },
     "rules": {
-      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
+      ],
       "jsx-a11y/href-no-hash": "off",
-      "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
+      "jsx-a11y/anchor-is-valid": [
+        "warn",
+        {
+          "aspects": [
+            "invalidHref"
+          ]
+        }
+      ],
       "no-bitwise": "off",
       "react/jsx-props-no-spreading": "warn",
       "import/extensions": [

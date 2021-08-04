@@ -4,10 +4,12 @@
   position: relative;
 
   .content {
-    min-width: $min-width;
+    display: flex;
+    margin: 97px 0 50px 0;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
     min-height: 100%;
-    padding-top: 97px;
-    padding-bottom: 20px;
     background: $black;
 
     @include for-size(desktop-up) {
@@ -16,5 +18,10 @@
     @include for-size(big-desktop-up) {
       min-height: $min-height;
     }
+  }
+
+  .content,
+  .footer {
+    min-width: $min-width;
   }
 }

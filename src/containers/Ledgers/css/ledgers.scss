@@ -1,6 +1,15 @@
 @import '../../shared/css/variables.scss';
 
+.ledgers-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin: 1% 0 auto 0;
+}
+
 .ledgers {
+  justify-self: space-between;
   min-height: 600px;
 
   .control {
@@ -60,11 +69,11 @@
   }
 
   .ledger-list {
+    display: flex;
+    margin: -45px 16px 20px 16px;
     z-index: 20;
-    width: calc(100% - 32px);
-    padding-bottom: 40px;
-    padding-left: 32px;
-    margin-top: -45px;
+    width: 100%;
+    padding: 0 0 40px 32px;
     background-color: $black;
     overflow-x: auto;
   }
@@ -79,11 +88,14 @@
 
   .ledger {
     display: table-cell;
-    overflow: hidden;
-    padding-right: 32px;
+    margin: 0 0 0 32px;
     animation-duration: 0.4s;
     animation-name: lEnter;
     white-space: normal;
+
+    &:first-child {
+      margin: 0;
+    }
   }
 
   @keyframes lEnter {
