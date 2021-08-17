@@ -3,7 +3,7 @@ const rippled = require('../../lib/rippled');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
-const TIME_INTERVAL = 1000 * 60 * 30; // 30 minutes
+const TIME_INTERVAL = 1000 * 60 * 5; // 5 minutes
 
 const NUM_TOKENS_FETCH_ALL = 10;
 
