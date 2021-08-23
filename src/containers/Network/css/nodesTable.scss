@@ -15,9 +15,12 @@
     letter-spacing: 0px;
     text-align: left;
 
+    tr {
+      border-bottom: 1px solid $gray-800;
+    }
+
     th {
       padding: 22px 5px;
-      border-bottom: 1px solid $gray-800;
       color: $white;
       font-size: 11px;
       text-align: left;
@@ -26,7 +29,6 @@
 
     td {
       padding: 15px 5px;
-      border-bottom: 1px solid $gray-800;
     }
 
     .right {
