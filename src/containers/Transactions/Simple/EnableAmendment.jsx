@@ -33,9 +33,13 @@ class EnableAmendment extends Component {
 
     const amendmentNames = [];
     text.split('\n').forEach(line => {
-      const name = line.match(/^\s*\/?\/?\s*"(.+)",.*$/);
+      const name = line.match(/^\s*REGISTER_F[A-Z]+\s*\((\S+),\s*.*$/);
       if (name) {
         amendmentNames.push(name[1]);
+      }
+      const name2 = line.match(/^ .*retireFeature\("(\S+)"\)[,;].*$/);
+      if (name2) {
+        amendmentNames.push(name2[1]);
       }
     });
     return amendmentNames;
