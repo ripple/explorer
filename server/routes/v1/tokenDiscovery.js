@@ -116,6 +116,7 @@ async function cacheTokensList() {
 
 if (!timerStarted) {
   timerStarted = true;
+  cacheTokensList();
   setInterval(() => cacheTokensList(), TIME_INTERVAL);
 }
 
