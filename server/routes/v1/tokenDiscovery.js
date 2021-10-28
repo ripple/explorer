@@ -114,7 +114,7 @@ async function cacheTokensList() {
   }
 }
 
-if (!timerStarted) {
+if (!timerStarted && process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
   timerStarted = true;
   cacheTokensList();
   setInterval(() => cacheTokensList(), TIME_INTERVAL);
