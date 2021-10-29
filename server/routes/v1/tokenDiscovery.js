@@ -3,6 +3,8 @@ const rippled = require('../../lib/rippled');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
+// whether this is running in the prod environment (or in dev/staging)
+// for the purpose of running locally, this equals true if the env var doesn't exist
 const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK
   ? process.env.REACT_APP_MAINNET_LINK.includes('xrpl.org')
   : true;
@@ -110,7 +112,7 @@ async function getTokensList() {
 
 async function cacheTokensList() {
   try {
-    log.warn('caching tokens');
+    log.info('caching tokens');
     const tokens = await getTokensList();
     cachedTokensList.tokens = tokens;
     cachedTokensList.time = Date.now();
@@ -125,7 +127,7 @@ function startCaching() {
     const intervalId = setInterval(() => cacheTokensList(), TIME_INTERVAL);
     if (!IS_PROD_ENV) {
       setTimeout(() => {
-        log.warn('stopping caching tokens');
+        log.info('stopping caching tokens');
         clearInterval(intervalId);
       }, TIME_TO_TEST);
     }
@@ -139,17 +141,13 @@ function sleep(ms) {
 }
 
 module.exports = async (req, res) => {
+  // * * * * * * * * IMPORTANT * * * * * * * * * * * *
+  // Running the BQ query costs money. Don't let it run if you don't need to.
   log.info(`getting token discovery`);
   try {
     // if it's been a while since caching happened in the non-prod envs,
     // then restart the caching
     // (needed because `startCaching` turns off caching after TIME_TO_TEST for non-prod envs)
-    log.warn(
-      Date.now() - cachedTokensList.time,
-      TIME_INTERVAL * 2,
-      IS_PROD_ENV,
-      cachedTokensList.time
-    );
     if (
       !IS_PROD_ENV &&
       cachedTokensList.time != null &&
