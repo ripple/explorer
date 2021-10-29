@@ -3,6 +3,10 @@ const rippled = require('../../lib/rippled');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
+const IS_PROD_ENV = process.env.RELEASE_ENV.includes('prod-');
+// how long the auto-caching should run in dev and staging environments
+const TIME_TO_TEST = 1000 * 60 * 60 * 1; // 1 hour
+
 const TIME_INTERVAL = 1000 * 60 * 5; // 5 minutes
 
 const NUM_TOKENS_FETCH_ALL = 10;
@@ -114,11 +118,18 @@ async function cacheTokensList() {
   }
 }
 
-if (!timerStarted && process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
-  timerStarted = true;
-  cacheTokensList();
-  setInterval(() => cacheTokensList(), TIME_INTERVAL);
+function startCaching() {
+  if (!timerStarted && process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
+    timerStarted = true;
+    cacheTokensList();
+    const intervalId = setInterval(() => cacheTokensList(), TIME_INTERVAL);
+    if (!IS_PROD_ENV) {
+      setTimeout(() => clearInterval(intervalId), TIME_TO_TEST);
+    }
+  }
 }
+
+startCaching();
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -127,6 +138,12 @@ function sleep(ms) {
 module.exports = async (req, res) => {
   log.info(`getting token discovery`);
   try {
+    // if it's been a while since caching happened in the non-prod envs,
+    // then restart the caching
+    // (needed because `startCaching` turns off caching after TIME_TO_TEST for non-prod envs)
+    if (Date.now() - cachedTokensList.time > TIME_INTERVAL * 2 && !IS_PROD_ENV) {
+      startCaching();
+    }
     while (cachedTokensList.tokens.length === 0) {
       sleep(1000);
     }
