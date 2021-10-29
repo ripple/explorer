@@ -5,14 +5,13 @@ const log = require('../../lib/logger')({ name: 'token discovery' });
 
 const IS_PROD_ENV = process.env.RELEASE_ENV.includes('prod-');
 // how long the auto-caching should run in dev and staging environments
-const TIME_TO_TEST = 1000 * 60 * 60 * 1; // 1 hour
+const TIME_TO_TEST = 1000 * 60 * 10; // 10 minutes
 
 const TIME_INTERVAL = 1000 * 60 * 5; // 5 minutes
 
 const NUM_TOKENS_FETCH_ALL = 10;
 
 const cachedTokensList = { tokens: [], time: null };
-let timerStarted = false;
 
 let options = {
   projectId: process.env.GOOGLE_APP_PROJECT_ID,
@@ -119,12 +118,14 @@ async function cacheTokensList() {
 }
 
 function startCaching() {
-  if (!timerStarted && process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
-    timerStarted = true;
+  if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
     cacheTokensList();
     const intervalId = setInterval(() => cacheTokensList(), TIME_INTERVAL);
     if (!IS_PROD_ENV) {
-      setTimeout(() => clearInterval(intervalId), TIME_TO_TEST);
+      setTimeout(() => {
+        log.warn('stopping caching tokens');
+        clearInterval(intervalId);
+      }, TIME_TO_TEST);
     }
   }
 }
@@ -141,7 +142,12 @@ module.exports = async (req, res) => {
     // if it's been a while since caching happened in the non-prod envs,
     // then restart the caching
     // (needed because `startCaching` turns off caching after TIME_TO_TEST for non-prod envs)
-    if (Date.now() - cachedTokensList.time > TIME_INTERVAL * 2 && !IS_PROD_ENV) {
+    log.warn(Date.now() - cachedTokensList.time, TIME_INTERVAL * 2);
+    if (
+      !IS_PROD_ENV &&
+      cachedTokensList.time != null &&
+      Date.now() - cachedTokensList.time > TIME_INTERVAL * 2
+    ) {
       startCaching();
     }
     while (cachedTokensList.tokens.length === 0) {
