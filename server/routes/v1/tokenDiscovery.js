@@ -3,7 +3,9 @@ const rippled = require('../../lib/rippled');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
-const IS_PROD_ENV = process.env.RELEASE_ENV ? process.env.RELEASE_ENV.includes('prod-') : true;
+const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK
+  ? process.env.REACT_APP_MAINNET_LINK.includes('xrpl.org')
+  : true;
 // how long the auto-caching should run in dev and staging environments
 const TIME_TO_TEST = 1000 * 60 * 10; // 10 minutes
 
