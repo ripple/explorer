@@ -3,7 +3,7 @@ const rippled = require('../../lib/rippled');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
-const IS_PROD_ENV = process.env.RELEASE_ENV.includes('prod-');
+const IS_PROD_ENV = process.env.RELEASE_ENV ? process.env.RELEASE_ENV.includes('prod-') : true;
 // how long the auto-caching should run in dev and staging environments
 const TIME_TO_TEST = 1000 * 60 * 10; // 10 minutes
 
@@ -142,7 +142,12 @@ module.exports = async (req, res) => {
     // if it's been a while since caching happened in the non-prod envs,
     // then restart the caching
     // (needed because `startCaching` turns off caching after TIME_TO_TEST for non-prod envs)
-    log.warn(Date.now() - cachedTokensList.time, TIME_INTERVAL * 2);
+    log.warn(
+      Date.now() - cachedTokensList.time,
+      TIME_INTERVAL * 2,
+      IS_PROD_ENV,
+      cachedTokensList.time
+    );
     if (
       !IS_PROD_ENV &&
       cachedTokensList.time != null &&
@@ -151,7 +156,8 @@ module.exports = async (req, res) => {
       startCaching();
     }
     while (cachedTokensList.tokens.length === 0) {
-      sleep(1000);
+      // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
+      await sleep(1000);
     }
 
     res.send({
