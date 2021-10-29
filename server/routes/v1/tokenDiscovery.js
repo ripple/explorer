@@ -153,6 +153,8 @@ module.exports = async (req, res) => {
       cachedTokensList.time != null &&
       Date.now() - cachedTokensList.time > TIME_INTERVAL * 2
     ) {
+      cachedTokensList.tokens = [];
+      cachedTokensList.time = null;
       startCaching();
     }
     while (cachedTokensList.tokens.length === 0) {
