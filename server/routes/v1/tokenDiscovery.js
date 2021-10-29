@@ -4,10 +4,12 @@ const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
 // whether this is running in the prod environment (or in dev/staging)
-// for the purpose of running locally, this equals true if the env var doesn't exist
+// for the purpose of running locally, this equals false if the env var doesn't exist
+// DO NOT SET TO TRUE UNLESS YOU'RE SURE ABOUT BIGQUERY USAGE
+// aka don't let the site run after you're done using it, because it'll cost $$
 const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK
   ? process.env.REACT_APP_MAINNET_LINK.includes('xrpl.org')
-  : true;
+  : false;
 // how long the auto-caching should run in dev and staging environments
 const TIME_TO_TEST = 1000 * 60 * 60 * 1; // 1 hour
 
