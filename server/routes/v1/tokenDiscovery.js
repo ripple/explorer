@@ -11,6 +11,8 @@ const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK
   ? process.env.REACT_APP_MAINNET_LINK.includes('xrpl.org')
   : false;
 // how long the auto-caching should run in dev and staging environments
+// We want to turn it off after some time so it doesn't run when we don't need it, which costs us
+// money per BigQuery query
 const TIME_TO_TEST = 1000 * 60 * 60 * 1; // 1 hour
 
 const TIME_INTERVAL = 1000 * 60 * 30; // 30 minutes
@@ -123,10 +125,19 @@ async function cacheTokensList() {
   }
 }
 
+// starts the caching process for bigquery
 function startCaching() {
+  // only run if on mainnet (the tokens page doesn't exist on devnet/testnet)
   if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
+    // initialize the cache
     cacheTokensList();
+    // cache every TIME_INTERVAL ms (only starts after one interval)
     const intervalId = setInterval(() => cacheTokensList(), TIME_INTERVAL);
+    // Stop the auto-running of the caching in the previous line after TIME_TO_TEST ms
+    // Only do this if not in the prod env, so we don't have excessive BigQuery queries when we're
+    // not actually using what's in the dev and staging environments
+    // We don't want regular caching to stop in prod, though, because then a missed cache would
+    // result in a several-second delay while the query is re-run, and this is a poor UX
     if (!IS_PROD_ENV) {
       setTimeout(() => {
         log.info('stopping caching tokens');
@@ -144,17 +155,26 @@ function sleep(ms) {
 
 module.exports = async (req, res) => {
   // * * * * * * * * IMPORTANT * * * * * * * * * * * *
-  // Running the BQ query costs money. Don't let it run if you don't need to.
+  // Running the BigQuery query costs money. Don't let it run if you don't need to.
   log.info(`getting token discovery`);
   try {
-    // if it's been a while since caching happened in the non-prod envs,
-    // then restart the caching
+    // if it's been a while since caching happened in the non-prod envs, then restart the caching
     // (needed because `startCaching` turns off caching after TIME_TO_TEST for non-prod envs)
     if (
+      // true if in dev or staging
       !IS_PROD_ENV &&
+      // true if the cache has already been initialized (i.e. if `startCaching` has already run at
+      // least once)
+      // (prevents race conditions where an API call is made on container startup before the
+      // initial `startCaching` has returned)
       cachedTokensList.time != null &&
+      // true if some time has passed since the cache was last updated (i.e. `startCaching` was
+      // turned off)
+      // this uses `TIME_INTERVAL * 2` to prevent race conditions around `TIME_INTERVAL`, in case
+      // the cache just took some time to load but `startCaching` has already been triggered
       Date.now() - cachedTokensList.time > TIME_INTERVAL * 2
     ) {
+      // reset the cache so the API call waits below until it's been refilled
       cachedTokensList.tokens = [];
       cachedTokensList.time = null;
       startCaching();
