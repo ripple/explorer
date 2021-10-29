@@ -9,9 +9,9 @@ const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK
   ? process.env.REACT_APP_MAINNET_LINK.includes('xrpl.org')
   : true;
 // how long the auto-caching should run in dev and staging environments
-const TIME_TO_TEST = 1000 * 60 * 10; // 10 minutes
+const TIME_TO_TEST = 1000 * 60 * 60 * 1; // 1 hour
 
-const TIME_INTERVAL = 1000 * 60 * 5; // 5 minutes
+const TIME_INTERVAL = 1000 * 60 * 30; // 30 minutes
 
 const NUM_TOKENS_FETCH_ALL = 10;
 
