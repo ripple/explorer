@@ -317,7 +317,5 @@
   "obligations_message": "Obligations are the total amounts of each token issued to addresses",
   "issuer":"Issuer",
   "pair":"Pair",
-  "offer_range":"Offer Range",
-  "error": "Error",
-  "internal error": "Internal Server Error"
+  "offer_range":"Offer Range"
 }

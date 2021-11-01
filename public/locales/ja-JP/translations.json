@@ -195,7 +195,5 @@
   "invalid_ripple_address": "無効なRippleアドレス",
   "tokens": "トークン",
   "total_issuers": "総発行者数",
-  "total_tokens": "トークン総計",
-  "error": "エラー",
-  "internal error":"内部サーバーエラー"
+  "total_tokens": "トークン総計"
 }

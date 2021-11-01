@@ -196,7 +196,5 @@
   "invalid_ripple_address": "잘못된 Ripple 주소입니다.",
   "tokens": "토큰",
   "total_issuers": "총 발행자",
-  "total_tokens": "총 토큰",
-  "error": "오류",
-  "internal error": "인터넷 서버 오류"
+  "total_tokens": "총 토큰"
 }
