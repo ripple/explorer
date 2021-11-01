@@ -3,14 +3,14 @@ const rippled = require('../../lib/rippled');
 
 const log = require('../../lib/logger')({ name: 'token discovery' });
 
-// whether this is running in the prod environment (or in dev/staging)
-// for the purpose of running locally, this equals false if the env var doesn't exist
+// Whether this is running in the prod environment (or in dev/staging)
+// For the purpose of running locally, this equals false if the env var doesn't exist
 // DO NOT SET TO TRUE UNLESS YOU'RE SURE ABOUT BIGQUERY USAGE
 // aka don't let the site run after you're done using it, because it'll cost $$
 const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK
   ? process.env.REACT_APP_MAINNET_LINK.includes('xrpl.org')
   : false;
-// how long the auto-caching should run in dev and staging environments
+// How long the auto-caching should run in dev and staging environments
 // We want to turn it off after some time so it doesn't run when we don't need it, which costs us
 // money per BigQuery query
 const TIME_TO_TEST = 1000 * 60 * 60 * 1; // 1 hour
@@ -125,13 +125,13 @@ async function cacheTokensList() {
   }
 }
 
-// starts the caching process for bigquery
+// Starts the caching process for bigquery
 function startCaching() {
-  // only run if on mainnet (the tokens page doesn't exist on devnet/testnet)
+  // Only run if on mainnet (the tokens page doesn't exist on devnet/testnet)
   if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
-    // initialize the cache
+    // Initialize the cache
     cacheTokensList();
-    // cache every TIME_INTERVAL ms (only starts after one interval)
+    // Cache every TIME_INTERVAL ms (only starts after one interval)
     const intervalId = setInterval(() => cacheTokensList(), TIME_INTERVAL);
     // Stop the auto-running of the caching in the previous line after TIME_TO_TEST ms
     // Only do this if not in the prod env, so we don't have excessive BigQuery queries when we're
@@ -158,7 +158,7 @@ module.exports = async (req, res) => {
   // Running the BigQuery query costs money. Don't let it run if you don't need to.
   log.info(`getting token discovery`);
   try {
-    // if it's been a while since caching happened in the non-prod envs, then restart the caching
+    // If it's been a while since caching happened in the non-prod envs, then restart the caching
     // (needed because `startCaching` turns off caching after TIME_TO_TEST for non-prod envs)
     if (
       // true if in dev or staging
@@ -170,11 +170,11 @@ module.exports = async (req, res) => {
       cachedTokensList.time != null &&
       // true if some time has passed since the cache was last updated (i.e. `startCaching` was
       // turned off)
-      // this uses `TIME_INTERVAL * 2` to prevent race conditions around `TIME_INTERVAL`, in case
+      // This uses `TIME_INTERVAL * 2` to prevent race conditions around `TIME_INTERVAL`, in case
       // the cache just took some time to load but `startCaching` has already been triggered
       Date.now() - cachedTokensList.time > TIME_INTERVAL * 2
     ) {
-      // reset the cache so the API call waits below until it's been refilled
+      // Reset the cache so the API call waits below until it's been refilled
       cachedTokensList.tokens = [];
       cachedTokensList.time = null;
       startCaching();
