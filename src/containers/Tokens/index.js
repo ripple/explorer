@@ -16,7 +16,6 @@ const Tokens = props => {
   const [allTokens, setAllTokens] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const errorInfoRef = useRef({ title: '', hints: '' });
 
   const { t, error } = props;
 
@@ -26,8 +25,6 @@ const Tokens = props => {
     axios
       .get(TOP_TOKENS_URL)
       .then(res => {
-        const { tokens } = res.data;
-
         if (res.data.result === 'error') {
           Log.error(`${TOP_TOKENS_URL} --- ${JSON.stringify(res.data)}`);
 
@@ -35,11 +32,14 @@ const Tokens = props => {
             exDescription: `${TOP_TOKENS_URL} --- ${JSON.stringify(res.data)}`,
           });
 
-          errorInfoRef.current = res.data;
           setIsError(true);
+          setAllTokens([]);
+          setIsLoading(false);
+        } else {
+          const { tokens } = res.data;
+          setAllTokens(tokens);
+          setIsLoading(false);
         }
-        setAllTokens(tokens);
-        setIsLoading(false);
       })
       .catch(axiosError => {
         Log.error(`${TOP_TOKENS_URL} --- ${JSON.stringify(axiosError)}`);
@@ -48,18 +48,22 @@ const Tokens = props => {
           exDescription: `${TOP_TOKENS_URL} --- ${JSON.stringify(axiosError)}`,
         });
 
+        setAllTokens([]);
         setIsLoading(false);
         setIsError(true);
       });
   }, []);
 
-  function renderError(errorInfo) {
-    const { result, message } = errorInfo;
-    return <NoMatch title={result} hints={[message]} />;
+  function renderError() {
+    return (
+      <div className="token-discovery-page">
+        <NoMatch title="generic_error" hints={['not_your_fault']} />
+      </div>
+    );
   }
 
   return error || isError ? (
-    renderError(errorInfoRef.current)
+    renderError()
   ) : (
     <div className="token-discovery-page">
       <TokensHeader tokens={allTokens} isLoading={isLoading} isError={isError} />
