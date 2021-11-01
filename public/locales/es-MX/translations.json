@@ -214,5 +214,6 @@
   "high":"Alto",
   "low":"Bajo",
   "rank_message": "Los tokens se clasifican por número de líneas de confianza",
-  "obligations_message": "Las obligaciones son el número total de tokens emitidos a direcciones"
+  "obligations_message": "Las obligaciones son el número total de tokens emitidos a direcciones",
+  "internal error": "Error de servidor interno"
 }
