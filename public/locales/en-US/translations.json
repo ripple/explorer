@@ -128,7 +128,7 @@
   "transaction_EnableAmendment": "Enable Amendment",
   "transaction_SetFee": "Set Fee",
   "generic_error": "Something bad happened",
-  "not_your_fault": "Its probably not your fault",
+  "not_your_fault": "It's probably not your fault",
   "invalid_ledger_id": "The ledger id is invalid",
   "invalid_transaction_hash": "The transaction hash is invalid",
   "ledger_not_found": "Ledger not Found",
