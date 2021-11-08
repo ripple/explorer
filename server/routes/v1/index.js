@@ -21,7 +21,9 @@ api.use('/transactions/:id', getTransaction);
 api.use('/paystrings/:id', getPayString);
 api.use('/nunl', nUNL);
 api.use('/quorum', getQuorum);
-api.use('/token/top', getTokenDiscovery);
+if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
+  api.use('/token/top', getTokenDiscovery);
+}
 api.use(
   '/token/:currencyCode.:issuerAddress?/offers/:pairCurrencyCode.:pairIssuerAddress?',
   getOffers
