@@ -7,9 +7,7 @@ const log = require('../../lib/logger')({ name: 'token discovery' });
 // For the purpose of running locally, this equals false if the env var doesn't exist
 // DO NOT SET TO TRUE UNLESS YOU'RE SURE ABOUT BIGQUERY USAGE
 // aka don't let the site run after you're done using it, because it'll cost $$
-const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK
-  ? process.env.REACT_APP_MAINNET_LINK.includes('xrpl.org')
-  : false;
+const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK?.includes('xrpl.org');
 // How long the auto-caching should run in dev and staging environments
 // We want to turn it off after some time so it doesn't run when we don't need it, which costs us
 // money per BigQuery query
@@ -128,22 +126,23 @@ async function cacheTokensList() {
 // Starts the caching process for bigquery
 function startCaching() {
   // Only run if on mainnet (the tokens page doesn't exist on devnet/testnet)
-  if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
-    // Initialize the cache
-    cacheTokensList();
-    // Cache every TIME_INTERVAL ms (only starts after one interval)
-    const intervalId = setInterval(() => cacheTokensList(), TIME_INTERVAL);
-    // Stop the auto-running of the caching in the previous line after TIME_TO_TEST ms
-    // Only do this if not in the prod env, so we don't have excessive BigQuery queries when we're
-    // not actually using what's in the dev and staging environments
-    // We don't want regular caching to stop in prod, though, because then a missed cache would
-    // result in a several-second delay while the query is re-run, and this is a poor UX
-    if (!IS_PROD_ENV) {
-      setTimeout(() => {
-        log.info('stopping caching tokens');
-        clearInterval(intervalId);
-      }, TIME_TO_TEST);
-    }
+  if (process.env.REACT_APP_ENVIRONMENT !== 'mainnet') {
+    return;
+  }
+  // Initialize the cache
+  cacheTokensList();
+  // Cache every TIME_INTERVAL ms (only starts after one interval)
+  const intervalId = setInterval(() => cacheTokensList(), TIME_INTERVAL);
+  // Stop the auto-running of the caching in the previous line after TIME_TO_TEST ms
+  // Only do this if not in the prod env, so we don't have excessive BigQuery queries when we're
+  // not actually using what's in the dev and staging environments
+  // We don't want regular caching to stop in prod, though, because then a missed cache would
+  // result in a several-second delay while the query is re-run, and this is a poor UX
+  if (!IS_PROD_ENV) {
+    setTimeout(() => {
+      log.info('stopping caching tokens');
+      clearInterval(intervalId);
+    }, TIME_TO_TEST);
   }
 }
 
