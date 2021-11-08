@@ -11,9 +11,9 @@ const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK?.includes('xrpl.org');
 // How long the auto-caching should run in dev and staging environments
 // We want to turn it off after some time so it doesn't run when we don't need it, which costs us
 // money per BigQuery query
-const TIME_TO_TEST = 1000 * 60 * 60 * 1; // 1 hour
+const TIME_TO_TEST = 1000 * 60 * 60 * 6; // 6 hours (2 tests)
 
-const TIME_INTERVAL = 1000 * 60 * 30; // 30 minutes
+const TIME_INTERVAL = 1000 * 60 * 60 * 3; // 3 hours
 
 const NUM_TOKENS_FETCH_ALL = 10;
 
