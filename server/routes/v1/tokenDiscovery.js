@@ -89,6 +89,7 @@ async function getTokensList() {
     promises.push(getAccountInfo(issuer, currency));
     promises.push(getExchangeRate(issuer, currency));
     try {
+      // eslint-disable-next-line no-await-in-loop -- okay here, helps run slower so we don't get rate limited
       const [accountInfo, exchangeRate] = await Promise.all(promises);
 
       const { domain, gravatar, obligations } = accountInfo;
@@ -103,7 +104,7 @@ async function getTokensList() {
       rankedTokens[i] = newInfo;
     } catch (error) {
       log.error(error);
-      return;
+      return undefined;
     }
   }
 
