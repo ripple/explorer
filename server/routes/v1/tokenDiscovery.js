@@ -83,39 +83,59 @@ async function getTokensList() {
   options = { query, location: 'US' };
   const [rankedTokens] = await bigQuery.query(options);
 
-  const promises = [];
   for (let i = 0; i <= NUM_TOKENS_FETCH_ALL; i += 1) {
     const { issuer, currency } = rankedTokens[i];
+    const promises = [];
     promises.push(getAccountInfo(issuer, currency));
     promises.push(getExchangeRate(issuer, currency));
+    try {
+      const [accountInfo, exchangeRate] = await Promise.all(promises);
+
+      const { domain, gravatar, obligations } = accountInfo;
+      const newInfo = {
+        ...rankedTokens[i],
+        domain,
+        gravatar,
+        obligations,
+        exchangeRate,
+      };
+      log.warn(newInfo);
+      rankedTokens[i] = newInfo;
+    } catch (error) {
+      log.error(error);
+      return;
+    }
   }
 
-  return Promise.all(promises)
-    .then(results => {
-      for (let i = 0; i < results.length; i += 2) {
-        const tokenIndex = i / 2;
-        const { domain, gravatar, obligations } = results[i];
-        const exchangeRate = results[i + 1];
-        const newInfo = {
-          ...rankedTokens[tokenIndex],
-          domain,
-          gravatar,
-          obligations,
-          exchangeRate,
-        };
-        rankedTokens[tokenIndex] = newInfo;
-      }
-      return rankedTokens;
-    })
-    .catch(error => {
-      log.error(error);
-    });
+  return rankedTokens;
+
+  // return Promise.all(promises)
+  //   .then(results => {
+  //     for (let i = 0; i < results.length; i += 2) {
+  //       const tokenIndex = i / 2;
+  //       const { domain, gravatar, obligations } = results[i];
+  //       const exchangeRate = results[i + 1];
+  //       const newInfo = {
+  //         ...rankedTokens[tokenIndex],
+  //         domain,
+  //         gravatar,
+  //         obligations,
+  //         exchangeRate,
+  //       };
+  //       rankedTokens[tokenIndex] = newInfo;
+  //     }
+  //     return rankedTokens;
+  //   })
+  //   .catch(error => {
+  //     log.error(error);
+  //   });
 }
 
 async function cacheTokensList() {
   try {
     log.info('caching tokens');
     const tokens = await getTokensList();
+    log.warn('returned', tokens);
     cachedTokensList.tokens = tokens;
     cachedTokensList.time = Date.now();
   } catch (error) {
