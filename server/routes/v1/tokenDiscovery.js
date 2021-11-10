@@ -108,27 +108,6 @@ async function getTokensList() {
   }
 
   return rankedTokens;
-
-  // return Promise.all(promises)
-  //   .then(results => {
-  //     for (let i = 0; i < results.length; i += 2) {
-  //       const tokenIndex = i / 2;
-  //       const { domain, gravatar, obligations } = results[i];
-  //       const exchangeRate = results[i + 1];
-  //       const newInfo = {
-  //         ...rankedTokens[tokenIndex],
-  //         domain,
-  //         gravatar,
-  //         obligations,
-  //         exchangeRate,
-  //       };
-  //       rankedTokens[tokenIndex] = newInfo;
-  //     }
-  //     return rankedTokens;
-  //   })
-  //   .catch(error => {
-  //     log.error(error);
-  //   });
 }
 
 async function cacheTokensList() {
