@@ -100,7 +100,6 @@ async function getTokensList() {
         obligations,
         exchangeRate,
       };
-      log.warn(newInfo);
       rankedTokens[i] = newInfo;
     } catch (error) {
       log.error(error);
@@ -136,7 +135,6 @@ async function cacheTokensList() {
   try {
     log.info('caching tokens');
     const tokens = await getTokensList();
-    log.warn('returned', tokens);
     cachedTokensList.tokens = tokens;
     cachedTokensList.time = Date.now();
   } catch (error) {
