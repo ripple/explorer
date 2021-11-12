@@ -83,33 +83,33 @@ async function getTokensList() {
   options = { query, location: 'US' };
   const [rankedTokens] = await bigQuery.query(options);
 
-  const promises = [];
+  // This is running in mostly series instead of aggressively parallel on purpose.
+  // It prevents the Explorer from getting caught by rate-limiting on the rippled node.
   for (let i = 0; i <= NUM_TOKENS_FETCH_ALL; i += 1) {
     const { issuer, currency } = rankedTokens[i];
+    const promises = [];
     promises.push(getAccountInfo(issuer, currency));
     promises.push(getExchangeRate(issuer, currency));
+    try {
+      // eslint-disable-next-line no-await-in-loop -- okay here, helps run slower so we don't get rate limited
+      const [accountInfo, exchangeRate] = await Promise.all(promises);
+
+      const { domain, gravatar, obligations } = accountInfo;
+      const newInfo = {
+        ...rankedTokens[i],
+        domain,
+        gravatar,
+        obligations,
+        exchangeRate,
+      };
+      rankedTokens[i] = newInfo;
+    } catch (error) {
+      log.error(error);
+      return undefined;
+    }
   }
 
-  return Promise.all(promises)
-    .then(results => {
-      for (let i = 0; i < results.length; i += 2) {
-        const tokenIndex = i / 2;
-        const { domain, gravatar, obligations } = results[i];
-        const exchangeRate = results[i + 1];
-        const newInfo = {
-          ...rankedTokens[tokenIndex],
-          domain,
-          gravatar,
-          obligations,
-          exchangeRate,
-        };
-        rankedTokens[tokenIndex] = newInfo;
-      }
-      return rankedTokens;
-    })
-    .catch(error => {
-      log.error(error);
-    });
+  return rankedTokens;
 }
 
 async function cacheTokensList() {
