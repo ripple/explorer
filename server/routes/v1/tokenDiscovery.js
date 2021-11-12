@@ -83,6 +83,8 @@ async function getTokensList() {
   options = { query, location: 'US' };
   const [rankedTokens] = await bigQuery.query(options);
 
+  // This is running in mostly series instead of aggressively parallel on purpose.
+  // It prevents the Explorer from getting caught by rate-limiting on the rippled node.
   for (let i = 0; i <= NUM_TOKENS_FETCH_ALL; i += 1) {
     const { issuer, currency } = rankedTokens[i];
     const promises = [];
