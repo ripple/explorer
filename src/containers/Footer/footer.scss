@@ -1,69 +1,64 @@
 @import '../shared/css/variables.scss';
 
 .footer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-top: 1px solid $black-80;
+  margin: 0 10%;
   background: $black;
-  .footer-content {
-    position: relative;
-    padding: 80px 64px;
-    padding-top: 0px;
-    border-top: 1px solid $black-80;
-    margin: 0 auto;
 
-    @include for-size(desktop-up) {
-      width: 80%;
-      padding: 20px 0px;
-      padding-top: 0px;
-      text-align: left;
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    @include for-size(tablet-landscape-up) {
+      flex-direction: row;
     }
+  }
 
-    .footer-links {
-      display: flex;
-      flex-direction: column;
-      @include for-size(tablet-landscape-up) {
-        flex-direction: row;
-        justify-content: space-around;
-      }
+  .footer-link-section {
+    padding-top: 40px;
+
+    @include for-size(tablet-landscape-up) {
+      padding-top: 104px;
     }
+  }
 
-    .footer-link-section {
-      padding-top: 40px;
-      @include for-size(tablet-landscape-up) {
-        padding-top: 104px;
-      }
-    }
+  .footer-section-header {
+    margin-bottom: 24px;
+    color: $white;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0em;
+    line-height: 20px;
+    text-align: left;
+  }
 
-    .footer-section-header {
-      margin-bottom: 24px;
+  .footer-link {
+    display: block;
+    color: $gray-400;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0em;
+    line-height: 21px;
+    text-align: left;
+    text-decoration: none;
+
+    &:hover {
       color: $white;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 700;
-      letter-spacing: 0em;
-      line-height: 20px;
-      text-align: left;
-    }
-
-    .footer-link {
-      display: block;
-      color: $gray-400;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      letter-spacing: 0em;
-      line-height: 21px;
-      text-align: left;
-      text-decoration: none;
-
-      &:hover {
-        color: $white;
-      }
     }
   }
 
   .footer-branding {
-    padding-top: 40px;
+    margin-top: 40px;
+
     @include for-size(tablet-landscape-up) {
-      padding-top: 104px;
+      margin-top: 104px;
     }
   }
 
@@ -77,12 +72,12 @@
       display: inline-block;
     }
 
-    div {
+    .text {
       display: inline-block;
       padding: 7px 0px;
     }
 
-    svg {
+    .image {
       width: 130px;
       margin: 0px 8px -1px 0px;
       vertical-align: bottom;
@@ -191,7 +186,7 @@
       text-align: right;
     }
 
-    a {
+    .link {
       color: inherit;
       text-decoration: none;
     }
