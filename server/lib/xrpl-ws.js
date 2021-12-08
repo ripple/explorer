@@ -17,7 +17,7 @@ if (process.env.RIPPLED_SECONDARY) {
     const rippled = d.split(':');
     RIPPLEDS.push({
       host: rippled[0],
-      port: rippled[1] || 443,
+      port: rippled[1] || 51233,
     });
   });
 }
