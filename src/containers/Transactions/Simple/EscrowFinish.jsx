@@ -84,6 +84,7 @@ EscrowFinish.propTypes = {
       amount: PropTypes.shape({
         amount: PropTypes.number,
         currency: PropTypes.string,
+        issuer: PropTypes.string,
       }),
       condition: PropTypes.string,
       fulfillment: PropTypes.string,

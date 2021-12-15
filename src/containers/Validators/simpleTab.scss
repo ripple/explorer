@@ -30,6 +30,10 @@
         padding: 24px;
       }
 
+      &.flex-wrap {
+        flex-wrap: wrap;
+      }
+
       .label {
         display: flex;
         flex-grow: 1;
