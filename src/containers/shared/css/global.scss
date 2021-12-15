@@ -270,6 +270,19 @@ div.react-stockchart div {
       background: $unlmodify;
     }
   }
+
+  &.NFTokenAcceptOffer,
+  &.NFTokenBurn,
+  &.NFTokenCancelOffer,
+  &.NFTokenCreateOffer,
+  &.NFTokenMint {
+    border-left-color: $nft;
+    color: $nft;
+
+    &.bg {
+      background: $nft;
+    }
+  }
 }
 
 .tx-result {
