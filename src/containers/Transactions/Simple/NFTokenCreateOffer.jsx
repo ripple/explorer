@@ -7,24 +7,32 @@ import Currency from '../../shared/components/Currency';
 const NFTokenCreateOffer = props => {
   const {
     data: {
-      instructions: { account, amount, tokenID, isSellOffer, owner },
+      instructions: { offerID, account, amount, tokenID, isSellOffer, owner },
     },
   } = props;
 
   return (
     <>
       <div className="row flex-wrap">
+        <div className="label">Offer ID</div>
+        <div className="value">
+          <div className="dt">{offerID}</div>
+        </div>
+      </div>
+      <div className="row flex-wrap">
         <div className="label">{isSellOffer ? 'Seller' : 'Buyer'}</div>
         <div className="value account">
           <Account account={account} />
         </div>
       </div>
-      <div className="row flex-wrap">
-        <div className="label">Owner</div>
-        <div className="value account">
-          {isSellOffer ? <Account account={account} /> : <Account account={owner} />}
+      {!isSellOffer && (
+        <div className="row flex-wrap">
+          <div className="label">Owner</div>
+          <div className="value account">
+            <Account account={owner} />
+          </div>
         </div>
-      </div>
+      )}
       <div className="row flex-wrap">
         <div className="label">Token ID</div>
         <div className="value">
@@ -54,6 +62,7 @@ NFTokenCreateOffer.propTypes = {
       tokenID: PropTypes.string,
       isSellOffer: PropTypes.bool,
       owner: PropTypes.string,
+      offerID: PropTypes.string,
     }),
   }).isRequired,
 };

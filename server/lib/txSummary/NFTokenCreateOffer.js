@@ -4,8 +4,11 @@ module.exports = (tx, meta) => {
   const account = tx.Account;
   const amount = formatAmount(tx.Amount);
   const tokenID = tx.TokenID;
-  const isSellOffer = tx.Flags & (1 !== 0);
+  const isSellOffer = (tx.Flags & 1) !== 0;
   const owner = tx.Owner;
+  const offerID = meta.AffectedNodes.find(
+    node => node?.CreatedNode?.LedgerEntryType === 'NFTokenOffer'
+  )?.CreatedNode?.LedgerIndex;
 
   return {
     account,
@@ -13,5 +16,6 @@ module.exports = (tx, meta) => {
     tokenID,
     isSellOffer,
     owner,
+    offerID,
   };
 };

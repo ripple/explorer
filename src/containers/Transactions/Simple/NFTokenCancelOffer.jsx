@@ -4,8 +4,14 @@ import PropTypes from 'prop-types';
 import Account from '../../shared/components/Account';
 import Currency from '../../shared/components/Currency';
 
-const renderCancelledOffer = ({ tokenID, amount, owner }) => (
+const renderCancelledOffer = ({ tokenID, amount, offerer, offerID }) => (
   <>
+    <div className="row flex-wrap">
+      <div className="label">Offer ID</div>
+      <div className="value">
+        <div className="dt">{offerID}</div>
+      </div>
+    </div>
     <div className="row flex-wrap">
       <div className="label">Token ID</div>
       <div className="value">
@@ -20,9 +26,9 @@ const renderCancelledOffer = ({ tokenID, amount, owner }) => (
       </div>
     </div>
     <div className="row">
-      <div className="label">Owner</div>
+      <div className="label">Offerer</div>
       <div className="value account">
-        <Account account={owner} />
+        <Account account={offerer} />
       </div>
     </div>
   </>
@@ -48,8 +54,9 @@ NFTokenCancelOffer.propTypes = {
             amount: PropTypes.number,
             issuer: PropTypes.string,
           }),
+          offerID: PropTypes.string,
           tokenID: PropTypes.string,
-          owner: PropTypes.string,
+          offerer: PropTypes.string,
         })
       ),
     }),

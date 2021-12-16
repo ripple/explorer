@@ -7,12 +7,20 @@ import Currency from '../../shared/components/Currency';
 const NFTokenAcceptOffer = props => {
   const {
     data: {
-      instructions: { amount, tokenID, seller, buyer },
+      instructions: { acceptedOfferIDs, amount, tokenID, seller, buyer },
     },
   } = props;
 
   return (
     <>
+      {acceptedOfferIDs.map(offer => (
+        <div className="row flex-wrap">
+          <div className="label">Offer ID</div>
+          <div className="value">
+            <div className="dt">{offer}</div>
+          </div>
+        </div>
+      ))}
       <div className="row flex-wrap">
         <div className="label">Seller</div>
         <div className="value account">
@@ -45,6 +53,7 @@ const NFTokenAcceptOffer = props => {
 NFTokenAcceptOffer.propTypes = {
   data: PropTypes.shape({
     instructions: PropTypes.shape({
+      acceptedOfferIDs: PropTypes.arrayOf(PropTypes.string),
       amount: PropTypes.shape({
         currency: PropTypes.string,
         amount: PropTypes.number,
