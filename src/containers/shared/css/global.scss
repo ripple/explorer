@@ -298,3 +298,26 @@ div.react-stockchart div {
 .label {
   margin-bottom: 8px;
 }
+
+.hidden {
+  display: none;
+}
+
+.flex-table {
+  display: flex;
+  flex-direction: column;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5px;
+
+    .value {
+      font-size: 14px;
+    }
+  }
+
+  .spacer {
+    margin-bottom: 15px;
+  }
+}
