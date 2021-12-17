@@ -16,6 +16,11 @@ const EnableAmendment = require('./EnableAmendment');
 const UNLModify = require('./UNLModify');
 const AccountDelete = require('./AccountDelete');
 const TicketCreate = require('./TicketCreate');
+const NFTokenAcceptOffer = require('./NFTokenAcceptOffer');
+const NFTokenBurn = require('./NFTokenBurn');
+const NFTokenCancelOffer = require('./NFTokenCancelOffer');
+const NFTokenCreateOffer = require('./NFTokenCreateOffer');
+const NFTokenMint = require('./NFTokenMint');
 
 const summarize = {
   OfferCreate,
@@ -36,6 +41,11 @@ const summarize = {
   UNLModify,
   AccountDelete,
   TicketCreate,
+  NFTokenAcceptOffer,
+  NFTokenBurn,
+  NFTokenCancelOffer,
+  NFTokenCreateOffer,
+  NFTokenMint,
 };
 
 const getInstructions = (tx, meta) =>
