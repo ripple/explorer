@@ -56,7 +56,7 @@ class App extends Component {
   render() {
     const { t, location } = this.props;
 
-    /* START: Map lagacy routes to new routes */
+    /* START: Map legacy routes to new routes */
     if (location.hash && location.pathname === '/') {
       if (location.hash.indexOf('#/transactions/') === 0) {
         const identifier = location.hash.split('#/transactions/')[1];
@@ -67,7 +67,7 @@ class App extends Component {
         return <Redirect to={`/accounts/${identifier}`} />;
       }
     }
-    /* END: Map lagacy routes to new routes */
+    /* END: Map legacy routes to new routes */
 
     if (location.pathname === '/explorer') {
       return <Redirect to="/" />;
@@ -76,6 +76,8 @@ class App extends Component {
     if (location.pathname === '/ledgers') {
       return <Redirect to="/" />;
     }
+
+    const urlPrefix = MODE === 'sidechain' ? '/:url' : '';
 
     return (
       <div className="app">
@@ -87,16 +89,24 @@ class App extends Component {
         <Header />
         <div className="content">
           <Switch>
-            <Route exact path="/" component={Ledgers} />
-            <Route exact path="/ledgers/:identifier" component={ledger} />
-            <Route exact path="/accounts/:id?" component={accounts} />
-            <Route exact path="/transactions/:identifier?" component={transactions} />
-            <Route exact path="/transactions/:identifier/:tab" component={transactions} />
-            <Route exact path="/network/:tab?" component={network} />
-            <Route exact path="/validators/:identifier?" component={validators} />
-            <Route exact path="/validators/:identifier?/:tab" component={validators} />
-            <Route exact path="/paystrings/:id?" component={paystrings} />
-            <Route exact path="/token/:currency.:id" component={token} />
+            <Route exact path={`${urlPrefix}/`} component={Ledgers} />
+            <Route exact path={`${urlPrefix}/ledgers/:identifier`} component={ledger} />
+            <Route exact path={`${urlPrefix}/accounts/:id?`} component={accounts} />
+            <Route exact path={`${urlPrefix}/transactions/:identifier?`} component={transactions} />
+            <Route
+              exact
+              path={`${urlPrefix}/transactions/:identifier/:tab`}
+              component={transactions}
+            />
+            <Route exact path={`${urlPrefix}/network/:tab?`} component={network} />
+            <Route exact path={`${urlPrefix}/validators/:identifier?`} component={validators} />
+            <Route
+              exact
+              path={`${urlPrefix}/validators/:identifier?/:tab`}
+              component={validators}
+            />
+            <Route exact path={`${urlPrefix}/paystrings/:id?`} component={paystrings} />
+            <Route exact path={`${urlPrefix}/token/:currency.:id`} component={token} />
             {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
             <Route component={noMatch} />
           </Switch>
