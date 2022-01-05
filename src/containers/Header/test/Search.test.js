@@ -44,19 +44,33 @@ describe('Header component', () => {
     const ledgerIndex = '123456789';
     const rippleAddress = 'rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX';
     const hash = '59239EA78084F6E2F288473F8AE02F3E6FC92F44BDE59668B5CAE361D3D32838';
+    const token1 = 'cny.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK';
+    const token2 = '534f4c4f00000000000000000000000000000000.rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz';
     const invalidString = '123invalid';
 
     input.simulate('keyDown', { key: 'a' });
     expect(window.location.pathname).toEqual('/');
+
     input.instance().value = ledgerIndex;
     input.simulate('keyDown', { key: 'Enter' });
     expect(window.location.pathname).toEqual(`/ledgers/${ledgerIndex}`);
+
     input.instance().value = rippleAddress;
     input.simulate('keyDown', { key: 'Enter' });
     expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`);
+
     input.instance().value = hash;
     input.simulate('keyDown', { key: 'Enter' });
     expect(window.location.pathname).toEqual(`/transactions/${hash}`);
+
+    input.instance().value = token1;
+    input.simulate('keyDown', { key: 'Enter' });
+    expect(window.location.pathname).toEqual(`/token/${token1}`);
+
+    input.instance().value = token2;
+    input.simulate('keyDown', { key: 'Enter' });
+    expect(window.location.pathname).toEqual(`/token/${token2}`);
+
     input.instance().value = invalidString;
     input.simulate('keyDown', { key: 'Enter' });
     expect(window.location.pathname).toEqual(`/search/${invalidString}`);
