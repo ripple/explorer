@@ -6,6 +6,11 @@ const utils = require('./utils');
 const HOSTNAME = os.hostname();
 const URL = `http://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`;
 const URL_HEALTH = `http://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_PEER_PORT}/health`;
+// If there is a separate peer to peer server for admin requests, use it. Otherwise use the default url for everything.
+const P2P_URL = process.env.P2P_RIPPLED_HOST
+  ? `http://${process.env.P2P_RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`
+  : URL;
+
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
 
 const formatEscrow = d => ({
@@ -37,15 +42,23 @@ const formatPaychannel = d => ({
   settleDelay: d.SettleDelay,
 });
 
-// generic RPC query
-const query = options => {
+function executeQuery(url, ...options) {
   const params = { ...options, headers: { 'X-User': HOSTNAME } };
-  return axios.post(URL, params).catch(error => {
+  axios.post(url, params).catch(error => {
     const message = error.response && error.response.data ? error.response.data : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
     throw new utils.Error(`URL: ${URL} - ${message}`, code);
   });
+}
+
+// generic RPC query
+const query = options => {
+  return executeQuery(URL, options);
 };
+
+function adminQuery(...options) {
+  return executeQuery(P2P_URL, options);
+}
 
 // get ledger
 module.exports.getLedger = parameters => {
@@ -212,7 +225,7 @@ module.exports.getAccountPaychannels = async (account, ledger_index = 'validated
 
 // get Token balance summary
 module.exports.getBalances = (account, ledger_index = 'validated') =>
-  query({
+  adminQuery({
     method: 'gateway_balances',
     params: [{ account, ledger_index }],
   })
