@@ -22,8 +22,9 @@ export const BAD_REQUEST = 400;
 
 export const DECIMAL_REGEX = /^\d+$/;
 export const RIPPLE_ADDRESS_REGEX = /^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/;
-export const HASH_REGEX = /[0-9A-F]{64}/i;
+export const HASH_REGEX = /[0-9A-Fa-f]{64}/i;
 export const CURRENCY_REGEX = /^[a-zA-Z]{3,}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/;
+export const FULL_CURRENCY_REGEX = /^[0-9A-Fa-f]{40}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/;
 
 export const UP_COLOR = '#2BCB96';
 export const DOWN_COLOR = '#F23548';

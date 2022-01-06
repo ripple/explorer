@@ -13,6 +13,7 @@ import {
   ANALYTIC_TYPES,
   CURRENCY_REGEX,
   DECIMAL_REGEX,
+  FULL_CURRENCY_REGEX,
   HASH_REGEX,
 } from '../shared/utils';
 import './search.css';
@@ -33,7 +34,10 @@ const getIdType = id => {
   if (isValidPayString(id) || isValidPayString(id.replace('@', '$'))) {
     return 'paystrings';
   }
-  if (CURRENCY_REGEX.test(id) && isValidClassicAddress(id.split('.')[1])) {
+  if (
+    (CURRENCY_REGEX.test(id) || FULL_CURRENCY_REGEX.test(id)) &&
+    isValidClassicAddress(id.split('.')[1])
+  ) {
     return 'token';
   }
 
