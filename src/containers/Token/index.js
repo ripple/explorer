@@ -11,8 +11,7 @@ import NoMatch from '../NoMatch';
 import './styles.css';
 import { analytics, ANALYTIC_TYPES, NOT_FOUND, BAD_REQUEST } from '../shared/utils';
 
-const MODE = process.env.REACT_APP_ENVIRONMENT;
-const IS_MAINNET = MODE === 'mainnet';
+const IS_MAINNET = process.env.REACT_APP_ENVIRONMENT === 'mainnet';
 
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
