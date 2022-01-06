@@ -42,22 +42,22 @@ const formatPaychannel = d => ({
   settleDelay: d.SettleDelay,
 });
 
-function executeQuery(url, ...options) {
+const executeQuery = (url, options) => {
   const params = { ...options, headers: { 'X-User': HOSTNAME } };
-  axios.post(url, params).catch(error => {
+  return axios.post(url, params).catch(error => {
     const message = error.response && error.response.data ? error.response.data : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
-    throw new utils.Error(`URL: ${URL} - ${message}`, code);
+    throw new utils.Error(`URL: ${url} - ${message}`, code);
   });
-}
-
-// generic RPC query
-const query = options => {
-  return executeQuery(URL, options);
 };
 
+// generic RPC query
+function query(...options) {
+  return executeQuery(URL, ...options);
+}
+
 function adminQuery(...options) {
-  return executeQuery(P2P_URL, options);
+  return executeQuery(P2P_URL, ...options);
 }
 
 // get ledger
