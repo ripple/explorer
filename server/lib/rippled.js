@@ -56,7 +56,7 @@ function query(...options) {
   return executeQuery(URL, ...options);
 }
 
-function adminQuery(...options) {
+function queryP2P(...options) {
   return executeQuery(P2P_URL, ...options);
 }
 
@@ -225,7 +225,7 @@ module.exports.getAccountPaychannels = async (account, ledger_index = 'validated
 
 // get Token balance summary
 module.exports.getBalances = (account, ledger_index = 'validated') =>
-  adminQuery({
+  queryP2P({
     method: 'gateway_balances',
     params: [{ account, ledger_index }],
   })
