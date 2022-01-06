@@ -14,7 +14,7 @@ interface Instructions {
   cancelAfter: string;
   condition: string;
   quorum: number;
-  max: any;
+  max: number;
   signers: any[];
   domain: string;
   // eslint-disable-next-line camelcase
@@ -22,9 +22,9 @@ interface Instructions {
   // eslint-disable-next-line camelcase
   message_key: string;
   // eslint-disable-next-line camelcase
-  set_flag: string;
+  set_flag: number;
   // eslint-disable-next-line camelcase
-  clear_flag: string;
+  clear_flag: number;
   key: string;
   limit: any;
   pair: string;
