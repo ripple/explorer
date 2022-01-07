@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -10,17 +11,19 @@ import MobileMenu from './MobileMenu';
 import Banner from './Banner';
 import Search from './Search';
 import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg';
-import arrowIcon from '../shared/images/down_arrow.svg';
-import checkIcon from '../shared/images/checkmark.svg';
+import { ReactComponent as ArrowIcon } from '../shared/images/down_arrow.svg';
+import { ReactComponent as CheckIcon } from '../shared/images/checkmark.svg';
 import './header.css';
 
-const MAINNET = 'mainnet';
-const TESTNET = 'testnet';
-const DEVNET = 'devnet';
 const MODE = process.env.REACT_APP_ENVIRONMENT;
-const MAINNET_LINK = process.env.REACT_APP_MAINNET_LINK;
-const TESTNET_LINK = process.env.REACT_APP_TESTNET_LINK;
-const DEVNET_LINK = process.env.REACT_APP_DEVNET_LINK;
+
+const ENV_LINK_MAP = {
+  mainnet: process.env.REACT_APP_MAINNET_LINK,
+  testnet: process.env.REACT_APP_TESTNET_LINK,
+  devnet: process.env.REACT_APP_DEVNET_LINK,
+  nft_sandbox: process.env.REACT_APP_NFTSANDBOX_LINK,
+};
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -38,38 +41,17 @@ class Header extends Component {
 
   handleClick = event => {
     const mode = event.currentTarget.getAttribute('value');
-    if (mode !== MODE) {
-      switch (mode) {
-        case MAINNET:
-          analytics(ANALYTIC_TYPES.event, {
-            eventCategory: 'mode switch',
-            eventAction: MAINNET_LINK,
-          });
-          window.location = MAINNET_LINK;
-          break;
-        case TESTNET:
-          analytics(ANALYTIC_TYPES.event, {
-            eventCategory: 'mode switch',
-            eventAction: TESTNET_LINK,
-          });
-          window.location = TESTNET_LINK;
-          break;
-        case DEVNET:
-          analytics(ANALYTIC_TYPES.event, {
-            eventCategory: 'mode switch',
-            eventAction: DEVNET_LINK,
-          });
-          window.location = DEVNET_LINK;
-          break;
-        default:
-          analytics(ANALYTIC_TYPES.event, {
-            eventCategory: 'mode switch',
-            eventAction: MAINNET_LINK,
-          });
-          window.location = MAINNET_LINK;
-          break;
-      }
+
+    if (mode === MODE) {
+      return;
     }
+
+    const desiredLink = ENV_LINK_MAP[mode] ?? process.env.REACT_APP_MAINNET_LINK;
+    analytics(ANALYTIC_TYPES.event, {
+      eventCategory: 'mode switch',
+      eventAction: desiredLink,
+    });
+    window.location = desiredLink;
   };
 
   ignore = event => {
@@ -80,8 +62,6 @@ class Header extends Component {
   render() {
     const { t, isScrolled, width } = this.props;
     const { expanded } = this.state;
-    const classNames = `dropdown ${expanded ? 'expanded' : ''}`;
-    const headerShadow = isScrolled ? 'header-shadow' : '';
     const menu =
       width >= BREAKPOINTS.landscape ? <Menu t={t} currentPath={this.getCurrentPath()} /> : null;
     const mobileMenu =
@@ -91,53 +71,44 @@ class Header extends Component {
 
     return (
       <>
-        <div className={`header ${headerShadow}`}>
+        <div className={classnames('header', { 'header-shadow': isScrolled })}>
           <div className={`network ${MODE}`}>
             <div
-              className={classNames}
+              className={classnames('dropdown', { expanded })}
               role="menubar"
               tabIndex={0}
               onClick={this.toggleExpand}
               onKeyUp={this.toggleExpand}
             >
               <div className="bg" />
-              <img className="arrow" src={arrowIcon} alt="" />
-              <div
-                key="mainnet"
-                className={MODE === MAINNET ? 'item selected' : 'item'}
-                role="menuitem"
-                value={MAINNET}
-                onClick={this.handleClick}
-                onKeyUp={this.handleClick}
-                tabIndex={0}
-              >
-                <span>{t('live_data')}</span>
-                <img className="check" src={checkIcon} alt={t('live_data')} />
-              </div>
-              <div
-                key="testnet"
-                className={MODE === TESTNET ? 'item selected' : 'item'}
-                role="menuitem"
-                value={TESTNET}
-                onClick={this.handleClick}
-                onKeyUp={this.handleClick}
-                tabIndex={0}
-              >
-                <span>{t('testnet_data')}</span>
-                <img className="check" src={checkIcon} alt={t('testnet_data')} />
-              </div>
-              <div
-                key="devnet"
-                className={MODE === DEVNET ? 'item selected' : 'item'}
-                role="menuitem"
-                value={DEVNET}
-                onClick={this.handleClick}
-                onKeyUp={this.handleClick}
-                tabIndex={0}
-              >
-                <span>{t('devnet_data')}</span>
-                <img className="check" src={checkIcon} alt={t('devnet_data')} />
-              </div>
+              {Object.keys(ENV_LINK_MAP).map(mode => (
+                <div
+                  key={mode}
+                  className={classnames('item', { selected: MODE === mode })}
+                  role="menuitem"
+                  value={mode}
+                  onClick={this.handleClick}
+                  onKeyUp={this.handleClick}
+                  tabIndex={0}
+                >
+                  <span>{t(`${mode}_data`)}</span>
+                  {/*
+                  Adding this space to provide width between name
+                  and selected checkmark
+                  */}
+                  &nbsp;
+                  <CheckIcon className="check" desc={t(`${mode}_data`)} />
+                </div>
+              ))}
+            </div>
+            <div
+              className="arrowContainer"
+              onClick={this.toggleExpand}
+              onKeyUp={this.toggleExpand}
+              role="menubar"
+              tabIndex={0}
+            >
+              <ArrowIcon className={classnames('arrow', { open: expanded })} />
             </div>
           </div>
           <Banner />
