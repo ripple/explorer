@@ -11,6 +11,8 @@ import NoMatch from '../NoMatch';
 import './styles.css';
 import { analytics, ANALYTIC_TYPES, NOT_FOUND, BAD_REQUEST } from '../shared/utils';
 
+const IS_MAINNET = process.env.REACT_APP_ENVIRONMENT === 'mainnet';
+
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'account_not_found',
@@ -72,7 +74,7 @@ class Token extends Component {
     ) : (
       <div className="token-page">
         {accountId && <TokenHeader accountId={accountId} currency={currency} t={t} />}
-        {accountId && <DEXPairs accountId={accountId} currency={currency} t={t} />}
+        {accountId && IS_MAINNET && <DEXPairs accountId={accountId} currency={currency} t={t} />}
         {accountId && <TokenTransactionsTable accountId={accountId} currency={currency} t={t} />}
         {!accountId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>
