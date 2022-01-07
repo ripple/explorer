@@ -390,7 +390,9 @@ const TxDetails = (props: Props) => {
     const { ticketCount } = instructions;
     return (
       <div className="ticketCreate">
-        <span className="label">{t('ticket_count')}:</span> <span>{ticketCount}</span>
+        <span className="label">{t('ticket_count')}:</span>
+        <span> </span>
+        <span>{ticketCount}</span>
       </div>
     );
   }
