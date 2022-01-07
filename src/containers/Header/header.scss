@@ -4,18 +4,37 @@
   position: fixed;
   z-index: 2;
   top: 0px;
+  display: flex;
   width: 100%;
+  flex-direction: column;
   background-color: $black;
 
   .network {
+    display: flex;
     height: 23px;
+
+    .arrowContainer {
+      display: flex;
+      width: 100%;
+
+      .arrow {
+        width: 10px;
+        color: $white;
+
+        &.open {
+          transform: rotate(180deg);
+        }
+      }
+    }
 
     .dropdown {
       position: relative;
       z-index: 10000;
-      display: inline-block;
-      overflow: hidden;
-      margin: 0px 20px;
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      flex-shrink: 0;
+      margin: 0 5px 0 20px;
       background: $black;
       color: $white;
       cursor: pointer;
@@ -24,10 +43,6 @@
       text-transform: capitalize;
       @include bold;
 
-      @include for-size(desktop-up) {
-        margin: 0px 40px;
-      }
-
       img {
         width: 12px;
         padding: 2px 2px 2px 10px;
@@ -35,20 +50,17 @@
         vertical-align: middle;
       }
 
-      .arrow {
-        position: absolute;
-        right: 8px;
-        color: $white;
-      }
-
       .item {
         display: none;
-        width: 115px;
         padding: 0px 8px;
+
+        &.selected {
+          display: flex;
+          justify-content: space-between;
+        }
 
         .check {
           display: none;
-          float: right;
         }
 
         span {
@@ -57,7 +69,7 @@
       }
 
       &.expanded {
-        border: 1px solid $gray-800;
+        border: 1px solid $black;
         border-radius: 5px;
 
         .bg {
@@ -69,26 +81,20 @@
           height: 100%;
           opacity: 0;
         }
-        .arrow {
-          display: none;
-        }
 
         .item {
-          display: block;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
 
           &.selected .check {
-            display: inline-block;
+            display: initial;
           }
 
           &:hover {
-            background: rgba(0, 0, 0, 0.2);
             color: $black-70;
           }
         }
-      }
-
-      .item.selected {
-        display: block;
       }
     }
 
@@ -96,9 +102,15 @@
       background: $testnet;
 
       .dropdown {
-        border-color: $gray-300;
+        border-color: $black;
         background: $testnet;
         color: $white;
+
+        /* stylelint-disable no-descending-specificity */
+        .item {
+          background: $testnet;
+        }
+        /* stylelint-enable no-descending-specificity */
       }
     }
 
@@ -106,9 +118,35 @@
       background: $devnet;
 
       .dropdown {
-        border-color: rgba(0, 0, 0, 0.3);
+        border-color: $black;
         background: $devnet;
         color: $white;
+
+        /* stylelint-disable no-descending-specificity */
+        .item {
+          background: $devnet;
+        }
+        /* stylelint-enable no-descending-specificity */
+      }
+    }
+
+    &.nft_sandbox {
+      background: $nft-sandbox;
+
+      .dropdown {
+        border-color: $black;
+        background: $nft-sandbox;
+        color: $white;
+
+        /* stylelint-disable no-descending-specificity */
+        .item {
+          background: $nft-sandbox;
+        }
+        /* stylelint-enable no-descending-specificity */
+      }
+
+      .check path {
+        fill: $white;
       }
     }
   }

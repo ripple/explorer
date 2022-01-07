@@ -1,7 +1,8 @@
 {
   "testnet_data": "testnet data",
-  "live_data": "live data",
+  "mainnet_data": "live data",
   "devnet_data": "devnet data",
+  "nft_sandbox_data": "NFT sandbox data",
   "devnet_explorer": "devnet explorer",
   "testnet_explorer": "testnet explorer",
   "mainnet_explorer": "mainnet explorer",
