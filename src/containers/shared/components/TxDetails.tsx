@@ -14,7 +14,7 @@ interface Instructions {
   cancelAfter: string;
   condition: string;
   quorum: number;
-  max: any;
+  max: number;
   signers: any[];
   domain: string;
   // eslint-disable-next-line camelcase
@@ -22,9 +22,9 @@ interface Instructions {
   // eslint-disable-next-line camelcase
   message_key: string;
   // eslint-disable-next-line camelcase
-  set_flag: string;
+  set_flag: number;
   // eslint-disable-next-line camelcase
-  clear_flag: string;
+  clear_flag: number;
   key: string;
   limit: any;
   pair: string;
@@ -45,6 +45,7 @@ interface Instructions {
   amount: any;
   destination: string;
   partial: boolean;
+  ticketCount: number;
 }
 
 interface Props {
@@ -384,6 +385,18 @@ const TxDetails = (props: Props) => {
     );
   }
 
+  function renderTicketCreate(): ReactElement {
+    const { t, instructions } = props;
+    const { ticketCount } = instructions;
+    return (
+      <div className="ticketCreate">
+        <span className="label">{t('ticket_count')}:</span>
+        <span> </span>
+        <span>{ticketCount}</span>
+      </div>
+    );
+  }
+
   const { type } = props;
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderEscrowFinish,
@@ -398,6 +411,7 @@ const TxDetails = (props: Props) => {
     renderPayment,
     renderPaymentChannelCreate,
     renderPaymentChannelClaim,
+    renderTicketCreate,
   };
   if (functionMap[`render${type}`]) {
     return functionMap[`render${type}`]();
@@ -416,13 +430,13 @@ TxDetails.propTypes = {
     cancelAfter: PropTypes.string,
     condition: PropTypes.string,
     quorum: PropTypes.number,
-    max: PropTypes.shape({}),
+    max: PropTypes.number,
     signers: PropTypes.arrayOf(PropTypes.shape({})),
     domain: PropTypes.string,
     email_hash: PropTypes.string,
     message_key: PropTypes.string,
-    set_flag: PropTypes.string,
-    clear_flag: PropTypes.string,
+    set_flag: PropTypes.number,
+    clear_flag: PropTypes.number,
     key: PropTypes.string,
     limit: PropTypes.shape({}),
     pair: PropTypes.string,
@@ -442,6 +456,7 @@ TxDetails.propTypes = {
     amount: PropTypes.shape({}),
     destination: PropTypes.string,
     partial: PropTypes.bool,
+    ticketCount: PropTypes.number,
   }),
   type: PropTypes.string,
   language: PropTypes.string.isRequired,

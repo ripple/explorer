@@ -302,9 +302,12 @@ AccountHeader.propTypes = {
       totalOut: PropTypes.number,
     }),
     signerList: PropTypes.shape({
-      signers: PropTypes.shape({
-        map: PropTypes.func,
-      }),
+      signers: PropTypes.arrayOf(
+        PropTypes.shape({
+          account: PropTypes.string.isRequired,
+          weight: PropTypes.number.isRequired,
+        })
+      ),
       quorum: PropTypes.number,
       max: PropTypes.number,
     }),
