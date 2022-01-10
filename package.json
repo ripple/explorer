@@ -48,7 +48,7 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.9.1",
     "redux-thunk": "^2.2.0",
-    "rewire": "^5.0.0",
+    "rewire": "^6.0.0",
     "ripple-address-codec": "^4.1.2",
     "topojson-client": "^3.0.0",
     "typeface-roboto": "0.0.54",
