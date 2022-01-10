@@ -78,7 +78,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "http-proxy-middleware": "^0.19.2",
-    "husky": "^0.14.3",
+    "husky": "^7.0.4",
     "jest-websocket-mock": "^1.1.1",
     "lint-staged": "^11.0.0",
     "mock-socket": "^9.0.8",
