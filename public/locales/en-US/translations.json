@@ -2,7 +2,7 @@
   "testnet_data": "testnet data",
   "mainnet_data": "live data",
   "devnet_data": "devnet data",
-  "nft_sandbox_data": "NFT sandbox data",
+  "nft_sandbox_data": "NFT-Devnet data",
   "devnet_explorer": "devnet explorer",
   "testnet_explorer": "testnet explorer",
   "mainnet_explorer": "mainnet explorer",
