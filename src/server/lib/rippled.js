@@ -38,30 +38,16 @@ const formatPaychannel = d => ({
 
 // generic RPC query
 const query = options => {
-  const params = {
-    ...options,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      // 'X-User': 'localhost',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      'Access-Control-Allow-Headers':
-        'append,delete,entries,foreach,get,has,keys,set,values,Authorization',
-      Origin: 'https://s2.ripple.com',
-    },
-  };
+  const params = { options, headers: { 'X-User': HOSTNAME } };
   console.log(params);
   // console.log(URL);
   // console.log(HOSTNAME);
-  return axios
-    .post(`https://cors-anywhere.herokuapp.com/${URL}`, params, { crossdomain: true })
-    .catch(error => {
-      console.log(error);
-      const message =
-        error.response && error.response.data ? error.response.data : error.toString();
-      const code = error.response && error.response.status ? error.response.status : 500;
-      throw new utils.Error(`URL: ${URL} - ${message}`, code);
-    });
+  return axios.post(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, params).catch(error => {
+    console.log(error);
+    const message = error.response && error.response.data ? error.response.data : error.toString();
+    const code = error.response && error.response.status ? error.response.status : 500;
+    throw new utils.Error(`URL: ${URL} - ${message}`, code);
+  });
 };
 
 // get ledger
