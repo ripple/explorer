@@ -23,23 +23,14 @@ const addLedger = data => {
   return ledgers[ledgerIndex];
 };
 
-// emit to clients
-const emit = (type, data) => {
-  sockets.forEach((ws, i) => {
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type, data }));
-    }
-  });
-};
-
 // fetch full ledger
 const fetchLedger = (ledger, attempts = 0) => {
-  rippled
+  return rippled
     .getLedger({ ledger_hash: ledger.ledger_hash })
     .then(utils.summarizeLedger)
     .then(summary => {
       Object.assign(ledger, summary);
-      emit('ledgerSummary', summary);
+      return summary;
     })
     .catch(error => {
       log.error(error.toString());
@@ -122,13 +113,13 @@ const updateMetrics = baseFee => {
     }
   });
 
-  emit('metric', {
+  return {
     base_fee: Number(baseFee.toPrecision(4)).toString(),
     txn_sec: time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
     txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
     ledger_interval: timeCount ? (time / timeCount / 1000).toFixed(3) : undefined,
     avg_fee: txCount ? (fees / txCount).toPrecision(4) : undefined,
-  });
+  };
 };
 
 // fetch current reserve
@@ -146,18 +137,22 @@ const handleLedger = data => {
   reserve.base = data.reserve_base / utils.XRP_BASE;
   reserve.inc = data.reserve_inc / utils.XRP_BASE;
 
-  emit('ledger', ledger);
-  updateMetrics(data.fee_base / 1000000);
-  fetchLedger(ledger);
+  const metrics = updateMetrics(data.fee_base / 1000000);
+  const ledgerSummary = fetchLedger(ledger);
+  return {
+    ledger,
+    metrics,
+    ledgerSummary,
+  };
 };
 
 // handle validation messages
-const handleValidation = data => {
+function handleValidation(data) {
   const { ledger_hash: ledgerHash, validation_public_key: pubkey } = data;
   const ledgerIndex = Number(data.ledger_index);
 
   if (!isValidatedChain(ledgerIndex)) {
-    return;
+    return undefined;
   }
 
   addLedger(data);
@@ -174,20 +169,22 @@ const handleValidation = data => {
     validators[pubkey].ledger_index = ledgerIndex;
     validators[pubkey].last = Date.now();
 
-    emit('validation', {
+    return {
       ledger_index: Number(ledgerIndex),
       ledger_hash: ledgerHash,
       pubkey,
       partial: !data.full,
       time: (data.signing_time + utils.EPOCH_OFFSET) * 1000,
-    });
+    };
   }
-};
+
+  return undefined;
+}
 
 // handle load fee messages
 const handleLoadFee = data => {
   const loadFee = (data.base_fee * data.load_factor) / data.load_factor_fee_reference / 1000000;
-  emit('metric', { load_fee: Number(loadFee.toPrecision(4)).toString() });
+  return { load_fee: Number(loadFee.toPrecision(4)).toString() };
 };
 
 setInterval(purge, PURGE_INTERVAL);
