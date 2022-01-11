@@ -2,7 +2,12 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Log from '../log';
 import { fetchNegativeUNL, fetchQuorum } from '../utils';
-import { handleValidation, handleLedger, handleLoadFee } from '../../../server/lib/streams';
+import {
+  handleValidation,
+  handleLedger,
+  handleLoadFee,
+  fetchLedger,
+} from '../../../server/lib/streams';
 
 const MAX_LEDGER_COUNT = 20;
 
@@ -155,7 +160,7 @@ class Streams extends Component {
     const { ledgers, maxLedger } = this.state;
     const newMax = Math.max(max, maxLedger);
     Object.keys(ledgers).forEach(key => {
-      if (newMax - key > MAX_LEDGER_COUNT - 1) {
+      if (newMax - key >= MAX_LEDGER_COUNT) {
         delete ledgers[key];
       }
     });
@@ -210,7 +215,6 @@ class Streams extends Component {
   }
 
   connect() {
-    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     this.ws = new WebSocket(
       `ws://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`
     );
@@ -251,11 +255,9 @@ class Streams extends Component {
             this.onvalidation(data);
           }
         } else if (streamResult.type === 'ledgerClosed') {
-          console.log(streamResult);
-          const { ledger, ledgerSummary, metrics } = handleLedger(streamResult);
-          console.log(ledger);
+          const { ledger, metrics } = handleLedger(streamResult);
           this.onledger(ledger);
-          this.onledgerSummary(ledgerSummary);
+          fetchLedger(ledger).then(ledgerSummary => this.onledgerSummary(ledgerSummary));
           this.onmetric(metrics);
         } else if (streamResult.type === 'serverStatus') {
           const data = handleLoadFee(streamResult);
