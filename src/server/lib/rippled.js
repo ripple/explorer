@@ -51,8 +51,8 @@ const query = options => {
     },
   };
   console.log(params);
-  console.log(URL);
-  console.log(HOSTNAME);
+  // console.log(URL);
+  // console.log(HOSTNAME);
   return axios
     .post(`https://cors-anywhere.herokuapp.com/${URL}`, params, { crossdomain: true })
     .catch(error => {
@@ -118,8 +118,6 @@ const getTransaction = txHash => {
       if (!resp.validated) {
         throw new utils.Error('transaction not validated', 500);
       }
-
-      console.log(resp);
       return resp;
     });
 };

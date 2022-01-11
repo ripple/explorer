@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { getAccountTransactions } from '../../../server/routes/v1';
 import { analytics, ANALYTIC_TYPES } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
@@ -10,13 +10,12 @@ export const loadAccountTransactions = (accountId, marker) => dispatch => {
   dispatch({
     type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS,
   });
-  return axios
-    .get(url)
+  return getAccountTransactions(accountId, undefined, marker, undefined)
     .then(response => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS });
       dispatch({
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
-        data: response.data,
+        data: response,
       });
     })
     .catch(error => {
