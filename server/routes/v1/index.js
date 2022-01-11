@@ -1,5 +1,5 @@
 const api = require('express').Router();
-const getAccountState = require('./accountState');
+// const getAccountState = require('./accountState');
 const getAccountTransactions = require('./accountTransactions');
 const ledger = require('./ledgers');
 // const getTransaction = require('./transactions');
@@ -14,7 +14,7 @@ const getNodes = require('./nodes');
 const getValidatorReport = require('./validatorReport');
 const getHealth = require('./health');
 
-api.use('/account_state/:id', getAccountState);
+// api.use('/account_state/:id', getAccountState);
 api.use('/account_transactions/:id/:currency?', getAccountTransactions);
 api.use('/ledgers/:id?', ledger);
 // api.use('/transactions/:id', getTransaction);

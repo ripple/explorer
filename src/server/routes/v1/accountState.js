@@ -34,9 +34,7 @@ const formatResults = (info, data) => {
 
   return balances;
 };
-const getAccountState = (req, res) => {
-  const { id: account } = req.params;
-
+const getAccountState = account => {
   // TODO: Retrieve balances for untagged X-address only? or display notice/warning
 
   let classicAddress;
@@ -67,11 +65,11 @@ const getAccountState = (req, res) => {
     }
   } catch (error) {
     log.error(error.toString());
-    res.status(error.code || 500).json({ message: error.message });
+    return { message: error.message };
   }
 
   log.info(`get balances: ${account} -> ${classicAddress}`);
-  rippled
+  return rippled
     .getAccountInfo(classicAddress)
     .then(info =>
       Promise.all([
@@ -81,7 +79,7 @@ const getAccountState = (req, res) => {
         rippled.getAccountEscrows(classicAddress, info.ledger_index),
         rippled.getAccountPaychannels(classicAddress, info.ledger_index),
       ]).then(data => {
-        res.send({
+        return {
           account: info.Account,
           ledger_index: info.ledger_index,
           info: utils.formatAccountInfo(info, streams.getReserve()),
@@ -92,7 +90,7 @@ const getAccountState = (req, res) => {
           escrows: data[1],
           paychannels: data[2],
           xAddress: decomposedAddress || undefined,
-        });
+        };
       })
     )
     .catch(error => {
@@ -100,7 +98,7 @@ const getAccountState = (req, res) => {
       //   error.toString(): CustomError: account not found
       //   error.code: 404
       log.error(error.toString());
-      res.status(error.code || 500).json({ message: error.message });
+      return { message: error.message };
     });
 };
 
