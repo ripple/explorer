@@ -2,6 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Log from '../log';
 import { fetchNegativeUNL, fetchQuorum } from '../utils';
+import { handleValidation, handleLedger, handleLoadFee } from '../../../server/lib/streams';
 
 const MAX_LEDGER_COUNT = 20;
 
@@ -210,7 +211,9 @@ class Streams extends Component {
 
   connect() {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    this.ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    this.ws = new WebSocket(
+      `ws://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`
+    );
     this.ws.last = Date.now();
     Log.info(`connecting...`);
 
@@ -227,6 +230,12 @@ class Streams extends Component {
     // subscribe and save new connections
     this.ws.onopen = () => {
       Log.info(`connected`);
+      this.ws.send(
+        JSON.stringify({
+          command: 'subscribe',
+          streams: ['ledger', 'validations', 'server'],
+        })
+      );
     };
 
     // handle messages
@@ -234,14 +243,23 @@ class Streams extends Component {
       this.ws.last = Date.now();
 
       try {
-        const data = JSON.parse(message.data);
-        const method = `on${data.type}`;
+        const streamResult = JSON.parse(message.data);
 
-        if (this[method]) {
-          this[method](data.data);
-        } else {
-          Log.warn(`invalid type: ${data.type}`);
-          Log.warn(data);
+        if (streamResult.type === 'validationReceived') {
+          const data = handleValidation(streamResult);
+          if (data) {
+            this.onvalidation(data);
+          }
+        } else if (streamResult.type === 'ledgerClosed') {
+          console.log(streamResult);
+          const { ledger, ledgerSummary, metrics } = handleLedger(streamResult);
+          console.log(ledger);
+          this.onledger(ledger);
+          this.onledgerSummary(ledgerSummary);
+          this.onmetric(metrics);
+        } else if (streamResult.type === 'serverStatus') {
+          const data = handleLoadFee(streamResult);
+          this.onmetric(data);
         }
       } catch (e) {
         Log.error('message parse error', message);
