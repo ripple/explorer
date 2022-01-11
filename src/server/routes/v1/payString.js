@@ -3,7 +3,7 @@
 const { resolvePayId } = require('payid-lib');
 const log = require('../../lib/logger')({ name: 'payString' });
 
-module.exports = (req, res) => {
+const getPayString = (req, res) => {
   log.info(`get paystring: ${req.params.id}`);
 
   return resolvePayId(req.params.id)
@@ -21,3 +21,5 @@ module.exports = (req, res) => {
       return res.status(500).json({ message: error.message });
     });
 };
+
+export default getPayString;

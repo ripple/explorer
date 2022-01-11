@@ -132,10 +132,10 @@ const updateMetrics = baseFee => {
 };
 
 // fetch current reserve
-module.exports.getReserve = () => ({ ...reserve });
+const getReserve = () => ({ ...reserve });
 
 // handle ledger messages
-module.exports.handleLedger = data => {
+const handleLedger = data => {
   const ledger = addLedger(data);
   const { ledger_hash: ledgerHash, ledger_index: ledgerIndex, txn_count: txnCount } = data;
 
@@ -152,7 +152,7 @@ module.exports.handleLedger = data => {
 };
 
 // handle validation messages
-module.exports.handleValidation = data => {
+const handleValidation = data => {
   const { ledger_hash: ledgerHash, validation_public_key: pubkey } = data;
   const ledgerIndex = Number(data.ledger_index);
 
@@ -185,7 +185,7 @@ module.exports.handleValidation = data => {
 };
 
 // handle load fee messages
-module.exports.handleLoadFee = data => {
+const handleLoadFee = data => {
   const loadFee = (data.base_fee * data.load_factor) / data.load_factor_fee_reference / 1000000;
   emit('metric', { load_fee: Number(loadFee.toPrecision(4)).toString() });
 };
@@ -193,6 +193,8 @@ module.exports.handleLoadFee = data => {
 setInterval(purge, PURGE_INTERVAL);
 
 // store new client
-module.exports.addWs = ws => {
+const addWs = ws => {
   sockets.push(ws);
 };
+
+export { getReserve, handleLedger, handleValidation, handleLoadFee, addWs };

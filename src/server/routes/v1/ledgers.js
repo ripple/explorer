@@ -2,7 +2,7 @@ const utils = require('../../lib/utils');
 const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'ledgers' });
 
-module.exports = (req, res) => {
+const getLedger = (req, res) => {
   const parameters = {};
   if (!isNaN(req.params.id)) {
     parameters.ledger_index = Number(req.params.id);
@@ -26,3 +26,5 @@ module.exports = (req, res) => {
       res.status(error.code || 500).json({ message: error.message });
     });
 };
+
+export default getLedger;

@@ -76,6 +76,7 @@ const formatAccountInfo = (info, reserve) => ({
 });
 
 const formatTransaction = tx => {
+  console.log(tx);
   const txn = tx.tx || tx;
   return {
     tx: {
@@ -105,15 +106,7 @@ function CustomError(message, code) {
 
 require('util').inherits(CustomError, Error);
 
-module.exports.EPOCH_OFFSET = EPOCH_OFFSET;
-module.exports.XRP_BASE = XRP_BASE;
-module.exports.Error = CustomError;
-module.exports.convertRippleDate = convertRippleDate;
-module.exports.formatTransaction = formatTransaction;
-module.exports.formatSignerList = formatSignerList;
-module.exports.formatAccountInfo = formatAccountInfo;
-
-module.exports.summarizeLedger = (ledger, txDetails = false) => {
+const summarizeLedger = (ledger, txDetails = false) => {
   const summary = {
     ledger_index: Number(ledger.ledger_index),
     ledger_hash: ledger.ledger_hash,
@@ -133,4 +126,15 @@ module.exports.summarizeLedger = (ledger, txDetails = false) => {
   summary.transactions.sort((a, b) => a.index - b.index);
   Object.assign(summary, { total_fees: summary.total_fees / 1000000 });
   return summary;
+};
+
+export {
+  EPOCH_OFFSET,
+  XRP_BASE,
+  CustomError as Error,
+  convertRippleDate,
+  formatTransaction,
+  formatSignerList,
+  formatAccountInfo,
+  summarizeLedger,
 };

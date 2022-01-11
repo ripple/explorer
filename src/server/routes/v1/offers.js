@@ -1,7 +1,7 @@
 const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'offers' });
 
-module.exports = async (req, res) => {
+const getBookOffers = async (req, res) => {
   const { currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress } = req.params;
   try {
     log.info('fetching book offers from rippled');
@@ -50,3 +50,5 @@ module.exports = async (req, res) => {
     return res.status(error.code || 500).json({ message: error.message });
   }
 };
+
+export default getBookOffers;

@@ -34,8 +34,7 @@ const formatResults = (info, data) => {
 
   return balances;
 };
-
-module.exports = (req, res) => {
+const getAccountState = (req, res) => {
   const { id: account } = req.params;
 
   // TODO: Retrieve balances for untagged X-address only? or display notice/warning
@@ -104,3 +103,5 @@ module.exports = (req, res) => {
       res.status(error.code || 500).json({ message: error.message });
     });
 };
+
+export default getAccountState;

@@ -2,7 +2,7 @@ const utils = require('../../lib/utils');
 const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'serverInfo' });
 
-module.exports = (req, res) => {
+const getQuorum = (req, res) => {
   log.info(`fetching server_info from rippled`);
 
   rippled
@@ -25,3 +25,5 @@ module.exports = (req, res) => {
       res.status(error.code || 500).json({ message: error.message });
     });
 };
+
+export default getQuorum;

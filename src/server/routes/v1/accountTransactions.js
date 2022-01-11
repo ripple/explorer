@@ -12,7 +12,7 @@ const rippled = require('../../lib/rippled');
 const summarize = require('../../lib/txSummary');
 const log = require('../../lib/logger')({ name: 'account transactions' });
 
-module.exports = (req, res) => {
+const getAccountTransactions = (req, res) => {
   const { id: account, currency } = req.params;
   const { limit, marker } = req.query;
 
@@ -74,3 +74,5 @@ module.exports = (req, res) => {
       res.status(error.code || 500).json({ message: error.message });
     });
 };
+
+export default getAccountTransactions;
