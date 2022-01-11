@@ -3,7 +3,7 @@ const rippled = require('../../lib/rippled');
 const { formatAccountInfo } = require('../../lib/utils');
 const log = require('../../lib/logger')({ name: 'iou' });
 
-module.exports = async (req, res) => {
+const getToken = async (req, res) => {
   const { currency: currencyCode, accountId: issuer } = req.params;
 
   try {
@@ -50,3 +50,5 @@ module.exports = async (req, res) => {
     return res.status(error.code || 500).json({ message: error.message });
   }
 };
+
+export default getToken;

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { getTransaction } from '../../server/routes/v1';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST, SERVER_ERROR, HASH_REGEX } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 
@@ -13,11 +13,10 @@ export const loadTransaction = identifier => dispatch => {
 
   dispatch({ type: actionTypes.START_LOADING_TRANSACTION, data: { id: identifier } });
   const url = `/api/v1/transactions/${identifier}`;
-  return axios
-    .get(url)
+  return getTransaction(identifier)
     .then(response => {
       dispatch({ type: actionTypes.FINISH_LOADING_TRANSACTION });
-      dispatch({ type: actionTypes.LOADING_TRANSACTION_SUCCESS, data: response.data });
+      dispatch({ type: actionTypes.LOADING_TRANSACTION_SUCCESS, data: response });
     })
     .catch(error => {
       const status = error.response && error.response.status ? error.response.status : SERVER_ERROR;

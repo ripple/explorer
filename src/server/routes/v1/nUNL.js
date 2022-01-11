@@ -2,7 +2,7 @@ const { encodeNodePublic } = require('ripple-address-codec');
 const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'nunl' });
 
-module.exports = (req, res) => {
+const getNegativeUNL = (req, res) => {
   log.info(`getting nUNL from rippled`);
 
   rippled
@@ -26,3 +26,5 @@ module.exports = (req, res) => {
       res.status(error.code || 500).json({ message: error.message });
     });
 };
+
+export default getNegativeUNL;

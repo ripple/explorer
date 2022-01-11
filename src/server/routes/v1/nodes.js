@@ -86,7 +86,7 @@ const cacheNodes = async () => {
 
 cacheNodes();
 
-module.exports = (req, res) => {
+const getNodes = (req, res) => {
   log.info('get nodes');
 
   if (Date.now() - (cache.time || 0) > 60 * 1000) {
@@ -94,3 +94,6 @@ module.exports = (req, res) => {
   }
   res.send(cache.nodes || []);
 };
+// TODO: figure out how to handle this caching
+
+export default getNodes;

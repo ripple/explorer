@@ -52,8 +52,9 @@ const cacheValidators = async () => {
 };
 
 cacheValidators();
+// TODO: figure out how to handle this cache
 
-module.exports = (req, res) => {
+const getValidators = (req, res) => {
   // refresh cache if older than 2.5 seconds
   if (Date.now() - (cache.time || 0) > 2500) {
     cacheValidators();
@@ -104,3 +105,5 @@ module.exports = (req, res) => {
 
   return res.send(validatorSummary);
 };
+
+export default getValidators;
