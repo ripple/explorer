@@ -138,11 +138,9 @@ const handleLedger = data => {
   reserve.inc = data.reserve_inc / utils.XRP_BASE;
 
   const metrics = updateMetrics(data.fee_base / 1000000);
-  const ledgerSummary = fetchLedger(ledger);
   return {
     ledger,
     metrics,
-    ledgerSummary,
   };
 };
 
@@ -194,4 +192,4 @@ const addWs = ws => {
   sockets.push(ws);
 };
 
-export { getReserve, handleLedger, handleValidation, handleLoadFee, addWs };
+export { getReserve, handleLedger, handleValidation, handleLoadFee, addWs, fetchLedger };

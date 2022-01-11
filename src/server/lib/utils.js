@@ -76,7 +76,6 @@ const formatAccountInfo = (info, reserve) => ({
 });
 
 const formatTransaction = tx => {
-  console.log(tx);
   const txn = tx.tx || tx;
   return {
     tx: {

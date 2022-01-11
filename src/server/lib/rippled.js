@@ -39,9 +39,6 @@ const formatPaychannel = d => ({
 // generic RPC query
 const query = options => {
   const params = { options, headers: { 'X-User': HOSTNAME } };
-  console.log(params);
-  // console.log(URL);
-  // console.log(HOSTNAME);
   return axios.post(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, params).catch(error => {
     console.log(error);
     const message = error.response && error.response.data ? error.response.data : error.toString();
