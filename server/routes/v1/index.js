@@ -17,7 +17,7 @@ const getCors = require('./cors');
 
 // api.use('/account_state/:id', getAccountState);
 // api.use('/account_transactions/:id/:currency?', getAccountTransactions);
-api.use('/cors/:url/:method', getCors);
+api.use('/cors/:url', getCors);
 api.use('/ledgers/:id?', ledger);
 // api.use('/transactions/:id', getTransaction);
 api.use('/paystrings/:id', getPayString);
