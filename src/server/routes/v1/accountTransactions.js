@@ -12,10 +12,7 @@ const rippled = require('../../lib/rippled');
 const summarize = require('../../lib/txSummary');
 const log = require('../../lib/logger')({ name: 'account transactions' });
 
-const getAccountTransactions = (req, res) => {
-  const { id: account, currency } = req.params;
-  const { limit, marker } = req.query;
-
+const getAccountTransactions = (account, currency, limit, marker) => {
   // TODO: Retrieve txs for untagged X-address only?
 
   let classicAddress;
@@ -46,11 +43,11 @@ const getAccountTransactions = (req, res) => {
     }
   } catch (error) {
     log.error(error.toString());
-    res.status(error.code || 500).json({ message: error.message });
+    return { message: error.message };
   }
 
   log.info(`get transactions: ${account} -> ${classicAddress}`);
-  rippled
+  return rippled
     .getAccountTransactions(classicAddress, limit, marker)
     .then(data => {
       const transactions = data.transactions
@@ -68,10 +65,12 @@ const getAccountTransactions = (req, res) => {
         marker: data.marker,
       };
     })
-    .then(d => res.send(d))
+    .then(d => {
+      return d;
+    })
     .catch(error => {
       log.error(error.toString());
-      res.status(error.code || 500).json({ message: error.message });
+      return { message: error.message };
     });
 };
 
