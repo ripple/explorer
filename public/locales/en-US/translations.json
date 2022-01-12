@@ -297,6 +297,7 @@
   "current_sequence": "current sequence",
   "escrows": "escrows",
   "nodes_found": "nodes found",
+  "unmapped": "unmapped",
   "validators_found": "validators found",
   "pause": "pause",
   "resume": "resume",
