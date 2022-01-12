@@ -19,7 +19,10 @@ export const loadAccountTransactions = (accountId, marker) => dispatch => {
       });
     })
     .catch(error => {
-      analytics(ANALYTIC_TYPES.exception, { exDescription: `${url} --- ${JSON.stringify(error)}` });
+      const errorLocation = `account transactions ${accountId} at ${marker}`;
+      analytics(ANALYTIC_TYPES.exception, {
+        exDescription: `${errorLocation} --- ${JSON.stringify(error)}`,
+      });
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS });
       dispatch({
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL,

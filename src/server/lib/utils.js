@@ -59,11 +59,13 @@ const formatSignerList = data => ({
   })),
 });
 
-const formatAccountInfo = (info, reserve) => ({
+const formatAccountInfo = (info, serverInfoValidated) => ({
   sequence: info.Sequence,
   ticketCount: info.TicketCount,
   ownerCount: info.OwnerCount,
-  reserve: reserve.base ? reserve.base + info.OwnerCount * reserve.inc : undefined,
+  reserve: serverInfoValidated.reserve_base_xrp
+    ? serverInfoValidated.reserve_base_xrp + info.OwnerCount * serverInfoValidated.reserve_inc_xrp
+    : undefined,
   tick: info.TickSize,
   rate: info.TransferRate ? (info.TransferRate - BILLION) / BILLION : undefined,
   domain: info.Domain ? Buffer.from(info.Domain, 'hex').toString() : undefined,

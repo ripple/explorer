@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { isValidClassicAddress, isValidXAddress } from 'ripple-address-codec';
+import { getToken } from '../../../server/routes/v1';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
@@ -18,13 +18,12 @@ export const loadTokenState = (currency, accountId) => dispatch => {
   dispatch({
     type: actionTypes.START_LOADING_ACCOUNT_STATE,
   });
-  return axios
-    .get(url)
-    .then(response => {
+  return getToken(currency, accountId)
+    .then(data => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE });
       dispatch({
         type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS,
-        data: response.data,
+        data,
       });
     })
     .catch(error => {
