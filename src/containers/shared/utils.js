@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getQuorum } from '../../server/routes/v1';
+import { getQuorum, getNegativeUNL } from '../../server/routes/v1';
 import Log from './log';
 
 const THOUSAND = 1000;
@@ -304,8 +304,7 @@ export const durationToHuman = (s, decimal = 2) => {
 };
 
 export const fetchNegativeUNL = async () => {
-  return axios
-    .get('/api/v1/nunl')
+  return getNegativeUNL()
     .then(resp => {
       if (resp === undefined || resp.data === undefined) throw new Error('undefined nUNL');
 
