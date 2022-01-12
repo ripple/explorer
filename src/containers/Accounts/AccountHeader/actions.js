@@ -17,11 +17,11 @@ export const loadAccountState = accountId => dispatch => {
     type: actionTypes.START_LOADING_ACCOUNT_STATE,
   });
   return getAccountState(accountId)
-    .then(response => {
+    .then(data => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE });
       dispatch({
         type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS,
-        data: response,
+        data,
       });
     })
     .catch(error => {
