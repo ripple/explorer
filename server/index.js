@@ -4,8 +4,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const expressWs = require('express-ws');
-const xrpl = require('./lib/xrpl-ws');
-const streams = require('./lib/streams');
 const routes = require('./routes/v1');
 
 const log = require('./lib/logger')({ name: 'server' });
@@ -25,7 +23,6 @@ app.use('*', (req, res, next) => {
 expressWs(app);
 app.use(bodyParser.json());
 app.use(files);
-app.ws('/ws', ws => streams.addWs(ws));
 app.use('/api/v1', routes);
 
 if (process.env.NODE_ENV === 'production') {
@@ -39,6 +36,5 @@ app.use('*', (req, res) => {
   res.status(404).send({ error: 'route not found' });
 });
 
-xrpl.start();
 app.listen(PORT, ADDR);
 log.info(`server listening on ${ADDR}:${PORT}`);
