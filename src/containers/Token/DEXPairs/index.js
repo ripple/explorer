@@ -11,13 +11,14 @@ import {
   analytics,
   ANALYTIC_TYPES,
 } from '../../shared/utils';
+import { getOffers } from '../../../server/routes/v1';
 import PairStats from './PairStats';
 
 // Hard Coded Pairs that we always check for
 const pairsHardCoded = [
-  'XRP',
-  'USD.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B', // Bitstamp USD
-  'BTC.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B', // Bitstamp BTC
+  { currency: 'XRP' },
+  { currency: 'USD', issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B' }, // Bitstamp USD
+  { currency: 'BTC', issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B' }, // Bitstamp BTC
 ];
 
 const DEXPairs = props => {
@@ -35,7 +36,9 @@ const DEXPairs = props => {
       .then(tokenRes => {
         let tokenList = tokenRes.data?.tokens;
         if (tokenList) {
-          tokenList = tokenList.map(element => `${element.currency}.${element.issuer}`);
+          tokenList = tokenList.map(element => {
+            return { currency: element.currency, issuer: element.issuer };
+          });
           // Limit to top 20 tokens so that page in reasonable amount of time.
           // TODO: add "Load more pairs feature"
           tokenList = tokenList.slice(0, 20);
@@ -45,18 +48,18 @@ const DEXPairs = props => {
 
         tokenList = tokenList.concat(pairsHardCoded);
 
-        const tokenSet = new Set(tokenList);
-        for (const token of tokenSet) {
-          if (token !== `${currency.toUpperCase()}.${accountId}`) {
+        for (const token of tokenList) {
+          if (
+            !(token.currency.toUpperCase() === currency.toUpperCase() && token.issuer === accountId)
+          ) {
             const url = `/api/v1/token/${currency}.${accountId}/offers/${token}`;
             promises.push(
-              axios
-                // currency.accountId = "taker gets" token = "taker pays" pairs are "taker pays"/ "taker gets"
-                .get(url)
-                .then(res => {
-                  if (res.data.offers && res.data.offers.length > 0) {
-                    let { averageExchangeRate, lowestExchangeRate, highestExchangeRate } = res.data;
-                    if (token === 'XRP') {
+              // currency.accountId = "taker gets" token = "taker pays" pairs are "taker pays"/ "taker gets"
+              getOffers(currency, accountId, token.currency, token.issuer)
+                .then(data => {
+                  if (data.offers && data.offers.length > 0) {
+                    let { averageExchangeRate, lowestExchangeRate, highestExchangeRate } = data;
+                    if (token.currency === 'XRP') {
                       averageExchangeRate /= 1000000;
                       lowestExchangeRate /= 1000000;
                       highestExchangeRate /= 1000000;
@@ -65,13 +68,12 @@ const DEXPairs = props => {
                     const low = formatLargeNumber(lowestExchangeRate, 6);
                     const high = formatLargeNumber(highestExchangeRate, 6);
                     const average = formatLargeNumber(averageExchangeRate, 6);
-                    const tokenSplit = token.split('.');
 
                     if (isMountedRef.current) {
                       setPairs(previousPairs => {
                         return previousPairs.concat({
-                          token: tokenSplit[0],
-                          issuer: tokenSplit[1],
+                          token: token.currency,
+                          issuer: token.issuer,
                           low,
                           high,
                           average,

@@ -1,10 +1,9 @@
 const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'offers' });
 
-const getBookOffers = async (req, res) => {
-  const { currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress } = req.params;
+const getBookOffers = async (currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
   try {
-    log.info('fetching book offers from rippled');
+    // log.info('fetching book offers from rippled');
     let orderBook = await rippled.getOffers(
       currencyCode,
       issuerAddress,
@@ -13,7 +12,7 @@ const getBookOffers = async (req, res) => {
     );
     const { offers } = orderBook;
     if (offers.length === 0) {
-      return res.send(orderBook);
+      return orderBook;
     }
     let rateSum = 0;
     let highestExchangeRate = 0;
@@ -44,10 +43,10 @@ const getBookOffers = async (req, res) => {
       offers,
     };
 
-    return res.send(orderBook);
+    return orderBook;
   } catch (error) {
     log.error(error.toString());
-    return res.status(error.code || 500).json({ message: error.message });
+    return { message: error.message };
   }
 };
 

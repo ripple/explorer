@@ -67,6 +67,7 @@ class Token extends Component {
     const currency = match.params.currency || '';
     const showError = accountId === prevId && error;
 
+    // TODO: title this so it includes the currency code somehow
     document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`;
 
     return showError ? (
