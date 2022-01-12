@@ -10,14 +10,14 @@ export const loadValidator = identifier => dispatch => {
     .get(url)
     .then(response => {
       if (!response.data.ledger_hash) {
-        getLedger(response.data.ledger_index).then(ledgerResp => {
+        getLedger(response.data.ledger_index).then(ledgerData => {
           dispatch({ type: actionTypes.FINISH_LOADING_VALIDATOR });
           dispatch({
             type: actionTypes.LOADING_VALIDATOR_SUCCESS,
             data: {
               ...response.data,
-              ledger_hash: ledgerResp.ledger_hash,
-              last_ledger_time: ledgerResp.close_time,
+              ledger_hash: ledgerData.ledger_hash,
+              last_ledger_time: ledgerData.close_time,
             },
           });
         });
