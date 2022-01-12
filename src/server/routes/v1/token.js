@@ -1,11 +1,8 @@
-const streams = require('../../lib/streams');
 const rippled = require('../../lib/rippled');
 const { formatAccountInfo } = require('../../lib/utils');
 const log = require('../../lib/logger')({ name: 'iou' });
 
-const getToken = async (req, res) => {
-  const { currency: currencyCode, accountId: issuer } = req.params;
-
+const getToken = async (currencyCode, issuer) => {
   try {
     log.info('fetching gateway_balances from rippled');
     const balances = await rippled.getBalances(issuer);
@@ -15,7 +12,8 @@ const getToken = async (req, res) => {
     }
 
     log.info('fetching account info from rippled');
-    const info = await rippled.getAccountInfo(issuer);
+    const accountInfo = await rippled.getAccountInfo(issuer);
+    const serverInfo = await rippled.getServerInfo();
 
     const {
       name,
@@ -29,9 +27,9 @@ const getToken = async (req, res) => {
       gravatar,
       previousTxn,
       previousLedger,
-    } = formatAccountInfo(info, streams.getReserve());
+    } = formatAccountInfo(accountInfo, serverInfo.info.validated_ledger);
 
-    return res.status(200).send({
+    return {
       name,
       reserve,
       sequence,
@@ -44,10 +42,10 @@ const getToken = async (req, res) => {
       obligations,
       previousTxn,
       previousLedger,
-    });
+    };
   } catch (error) {
     log.error(error.toString());
-    return res.status(error.code || 500).json({ message: error.message });
+    return { message: error.message };
   }
 };
 

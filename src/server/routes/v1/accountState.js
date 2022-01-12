@@ -5,7 +5,6 @@
  */
 
 const addressCodec = require('ripple-address-codec');
-const streams = require('../../lib/streams');
 const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'account balances' });
 const utils = require('../../lib/utils');
@@ -78,11 +77,12 @@ const getAccountState = account => {
           .then(data => formatResults(info, data)),
         rippled.getAccountEscrows(classicAddress, info.ledger_index),
         rippled.getAccountPaychannels(classicAddress, info.ledger_index),
+        rippled.getServerInfo(),
       ]).then(data => {
         return {
           account: info.Account,
           ledger_index: info.ledger_index,
-          info: utils.formatAccountInfo(info, streams.getReserve()),
+          info: utils.formatAccountInfo(info, data[3].info.validated_ledger),
           balances: data[0],
           signerList: info.signer_lists[0]
             ? utils.formatSignerList(info.signer_lists[0])
