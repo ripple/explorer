@@ -1,6 +1,6 @@
 import getAccountState from './accountState';
 import getAccountTransactions from './accountTransactions';
-import ledger from './ledgers';
+import getLedger from './ledgers';
 import getTransaction from './transactions';
 import getPayString from './payString';
 import getQuorum from './quorum';
@@ -14,7 +14,7 @@ import getValidatorReport from './validatorReport';
 export {
   getAccountState,
   getAccountTransactions,
-  ledger,
+  getLedger,
   getTransaction,
   getPayString,
   getQuorum,
