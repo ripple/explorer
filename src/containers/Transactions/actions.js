@@ -14,9 +14,9 @@ export const loadTransaction = identifier => dispatch => {
   dispatch({ type: actionTypes.START_LOADING_TRANSACTION, data: { id: identifier } });
   const url = `/api/v1/transactions/${identifier}`;
   return getTransaction(identifier)
-    .then(response => {
+    .then(data => {
       dispatch({ type: actionTypes.FINISH_LOADING_TRANSACTION });
-      dispatch({ type: actionTypes.LOADING_TRANSACTION_SUCCESS, data: response });
+      dispatch({ type: actionTypes.LOADING_TRANSACTION_SUCCESS, data });
     })
     .catch(error => {
       const status = error.response && error.response.status ? error.response.status : SERVER_ERROR;
