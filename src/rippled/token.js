@@ -1,6 +1,6 @@
-const rippled = require('../../lib/rippled');
-const { formatAccountInfo } = require('../../lib/utils');
-const log = require('../../lib/logger')({ name: 'iou' });
+const rippled = require('./lib/rippled');
+const { formatAccountInfo } = require('./lib/utils');
+const log = require('./lib/logger')({ name: 'iou' });
 
 const getToken = async (currencyCode, issuer) => {
   try {

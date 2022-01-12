@@ -1,5 +1,5 @@
 import { isValidClassicAddress, isValidXAddress } from 'ripple-address-codec';
-import { getToken } from '../../../rippled/routes/v1';
+import { getToken } from '../../../rippled';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 

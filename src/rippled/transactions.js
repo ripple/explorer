@@ -1,7 +1,7 @@
-const rippled = require('../../lib/rippled');
-const utils = require('../../lib/utils');
-const summarize = require('../../lib/txSummary');
-const log = require('../../lib/logger')({ name: 'transactions' });
+const rippled = require('./lib/rippled');
+const utils = require('./lib/utils');
+const summarize = require('./lib/txSummary');
+const log = require('./lib/logger')({ name: 'transactions' });
 
 const getTransaction = transactionId => {
   log.info(`get tx: ${transactionId}`);

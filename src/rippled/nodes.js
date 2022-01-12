@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const log = require('../../lib/logger')({ name: 'nodes' });
+const log = require('./lib/logger')({ name: 'nodes' });
 
 const DATA_URL = process.env.REACT_APP_DATA_URL;
 

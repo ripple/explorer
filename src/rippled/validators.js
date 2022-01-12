@@ -1,5 +1,5 @@
 const axios = require('axios');
-const log = require('../../lib/logger')({ name: 'validators' });
+const log = require('./lib/logger')({ name: 'validators' });
 
 const cache = {};
 
