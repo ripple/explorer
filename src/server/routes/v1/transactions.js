@@ -5,11 +5,9 @@ const log = require('../../lib/logger')({ name: 'transactions' });
 
 const getTransaction = transactionId => {
   log.info(`get tx: ${transactionId}`);
-  console.log(`TRYING TO GET TRANSACTION ${transactionId}`);
   return rippled
     .getTransaction(transactionId)
     .then(response => {
-      console.log(response);
       return utils.formatTransaction(response);
     })
     .then(data => ({
@@ -17,8 +15,6 @@ const getTransaction = transactionId => {
       raw: data,
     }))
     .then(data => {
-      console.log('oiufoisdfiouaie');
-      console.log(data);
       return data;
     })
     .catch(error => {

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { getQuorum, getNegativeUNL } from '../../server/routes/v1';
 import Log from './log';
 
