@@ -7,11 +7,11 @@ export const loadAccountTransactions = (accountId, marker) => dispatch => {
     type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS,
   });
   return getAccountTransactions(accountId, undefined, marker, undefined)
-    .then(response => {
+    .then(data => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS });
       dispatch({
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
-        data: response,
+        data,
       });
     })
     .catch(error => {
