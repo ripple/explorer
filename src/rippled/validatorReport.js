@@ -1,5 +1,5 @@
 const axios = require('axios');
-const log = require('../../lib/logger')({ name: 'validator-report' });
+const log = require('./lib/logger')({ name: 'validator-report' });
 
 const fetchValidatorReport = id =>
   axios

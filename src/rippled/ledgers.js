@@ -1,6 +1,6 @@
-const utils = require('../../lib/utils');
-const rippled = require('../../lib/rippled');
-const log = require('../../lib/logger')({ name: 'ledgers' });
+const utils = require('./lib/utils');
+const rippled = require('./lib/rippled');
+const log = require('./lib/logger')({ name: 'ledgers' });
 
 const getLedger = identifier => {
   const parameters = {};

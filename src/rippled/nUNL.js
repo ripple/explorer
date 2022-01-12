@@ -1,6 +1,6 @@
 const { encodeNodePublic } = require('ripple-address-codec');
-const rippled = require('../../lib/rippled');
-const log = require('../../lib/logger')({ name: 'nunl' });
+const rippled = require('./lib/rippled');
+const log = require('./lib/logger')({ name: 'nunl' });
 
 const getNegativeUNL = () => {
   log.info(`getting nUNL from rippled`);

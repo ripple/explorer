@@ -1,6 +1,6 @@
-const utils = require('../../lib/utils');
-const rippled = require('../../lib/rippled');
-const log = require('../../lib/logger')({ name: 'serverInfo' });
+const utils = require('./lib/utils');
+const rippled = require('./lib/rippled');
+const log = require('./lib/logger')({ name: 'serverInfo' });
 
 const getQuorum = () => {
   log.info(`fetching server_info from rippled`);

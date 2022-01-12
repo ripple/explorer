@@ -1,5 +1,5 @@
-const rippled = require('../../lib/rippled');
-const log = require('../../lib/logger')({ name: 'offers' });
+const rippled = require('./lib/rippled');
+const log = require('./lib/logger')({ name: 'offers' });
 
 const getBookOffers = async (currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
   try {

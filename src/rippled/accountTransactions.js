@@ -7,10 +7,10 @@
  */
 
 const addressCodec = require('ripple-address-codec');
-const utils = require('../../lib/utils');
-const rippled = require('../../lib/rippled');
-const summarize = require('../../lib/txSummary');
-const log = require('../../lib/logger')({ name: 'account transactions' });
+const utils = require('./lib/utils');
+const rippled = require('./lib/rippled');
+const summarize = require('./lib/txSummary');
+const log = require('./lib/logger')({ name: 'account transactions' });
 
 const getAccountTransactions = (account, currency, marker, limit) => {
   // TODO: Retrieve txs for untagged X-address only?
