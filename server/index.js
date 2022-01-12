@@ -3,7 +3,6 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const expressWs = require('express-ws');
 const routes = require('./routes/v1');
 
 const log = require('./lib/logger')({ name: 'server' });
@@ -20,7 +19,6 @@ app.use('*', (req, res, next) => {
 });
 */
 
-expressWs(app);
 app.use(bodyParser.json());
 app.use(files);
 app.use('/api/v1', routes);
