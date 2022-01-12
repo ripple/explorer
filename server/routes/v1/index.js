@@ -8,7 +8,7 @@ const getPayString = require('./payString');
 const nUNL = require('./nUNL');
 const getTokenDiscovery = require('./tokenDiscovery');
 // const getToken = require('./token');
-const getOffers = require('./offers');
+// const getOffers = require('./offers');
 const getValidators = require('./validators');
 const getNodes = require('./nodes');
 const getValidatorReport = require('./validatorReport');
@@ -26,10 +26,10 @@ api.use('/nunl', nUNL);
 if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
   api.use('/token/top', getTokenDiscovery);
 }
-api.use(
-  '/token/:currencyCode.:issuerAddress?/offers/:pairCurrencyCode.:pairIssuerAddress?',
-  getOffers
-);
+// api.use(
+//   '/token/:currencyCode.:issuerAddress?/offers/:pairCurrencyCode.:pairIssuerAddress?',
+//   getOffers
+// );
 // api.use('/token/:currency.:accountId', getToken);
 api.use('/healthz', (_req, res) => {
   res.status(200).send('success');
