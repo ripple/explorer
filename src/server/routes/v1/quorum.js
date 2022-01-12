@@ -2,10 +2,10 @@ const utils = require('../../lib/utils');
 const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'serverInfo' });
 
-const getQuorum = (req, res) => {
+const getQuorum = () => {
   log.info(`fetching server_info from rippled`);
 
-  rippled
+  return rippled
     .getServerInfo()
     .then(result => {
       if (result === undefined || result.info === undefined) {
@@ -19,10 +19,9 @@ const getQuorum = (req, res) => {
 
       return quorum;
     })
-    .then(quorum => res.send({ quorum }))
     .catch(error => {
       log.error(error.toString());
-      res.status(error.code || 500).json({ message: error.message });
+      return { message: error.message };
     });
 };
 
