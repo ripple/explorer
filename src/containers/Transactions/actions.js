@@ -1,4 +1,4 @@
-import { getTransaction } from '../../server/routes/v1';
+import { getTransaction } from '../../rippled/routes/v1';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST, SERVER_ERROR, HASH_REGEX } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 
