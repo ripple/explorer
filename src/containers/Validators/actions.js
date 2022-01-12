@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getLedger } from '../../server/routes/v1';
+import { getLedger } from '../../rippled/routes/v1';
 import { analytics, ANALYTIC_TYPES, SERVER_ERROR } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 

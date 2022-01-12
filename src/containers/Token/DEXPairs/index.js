@@ -11,7 +11,7 @@ import {
   analytics,
   ANALYTIC_TYPES,
 } from '../../shared/utils';
-import { getOffers } from '../../../server/routes/v1';
+import { getOffers } from '../../../rippled/routes/v1';
 import PairStats from './PairStats';
 
 // Hard Coded Pairs that we always check for

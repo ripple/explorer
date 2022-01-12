@@ -1,4 +1,4 @@
-import { getQuorum, getNegativeUNL } from '../../server/routes/v1';
+import { getQuorum, getNegativeUNL } from '../../rippled/routes/v1';
 import Log from './log';
 
 const THOUSAND = 1000;

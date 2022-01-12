@@ -7,7 +7,7 @@ import {
   handleLedger,
   handleLoadFee,
   fetchLedger,
-} from '../../../server/lib/streams';
+} from '../../../rippled/lib/streams';
 
 const MAX_LEDGER_COUNT = 20;
 
