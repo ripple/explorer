@@ -195,7 +195,7 @@ class Streams extends Component {
     fetchQuorum().then(quorum => {
       const { updateMetrics } = this.props;
       this.setState(prevState => {
-        const metrics = Object.assign(prevState.metrics, quorum);
+        const metrics = Object.assign(prevState.metrics, { quorum });
         updateMetrics(metrics);
         return { metrics };
       });

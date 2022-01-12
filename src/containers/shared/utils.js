@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getQuorum } from '../../server/routes/v1';
 import Log from './log';
 
 const THOUSAND = 1000;
@@ -314,11 +315,10 @@ export const fetchNegativeUNL = async () => {
 };
 
 export const fetchQuorum = async () => {
-  return axios
-    .get('/api/v1/quorum')
-    .then(resp => {
-      if (resp === undefined || resp.data === undefined) throw new Error('undefined quorum');
-      return resp.data;
+  return getQuorum()
+    .then(data => {
+      if (data === undefined) throw new Error('undefined quorum');
+      return data;
     })
     .catch(e => Log.error(e));
 };

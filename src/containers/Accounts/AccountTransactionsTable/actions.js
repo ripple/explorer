@@ -3,10 +3,6 @@ import { analytics, ANALYTIC_TYPES } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
 export const loadAccountTransactions = (accountId, marker) => dispatch => {
-  let url = `/api/v1/account_transactions/${accountId}`;
-  if (marker) {
-    url += `?marker=${marker}`;
-  }
   dispatch({
     type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS,
   });
