@@ -4,7 +4,7 @@ import getLedger from './ledgers';
 import getTransaction from './transactions';
 import getPayString from './payString';
 import getQuorum from './quorum';
-import nUNL from './nUNL';
+import getNegativeUNL from './nUNL';
 import getToken from './token';
 import getOffers from './offers';
 import getValidators from './validators';
@@ -18,7 +18,7 @@ export {
   getTransaction,
   getPayString,
   getQuorum,
-  nUNL,
+  getNegativeUNL,
   getToken,
   getOffers,
   getValidators,

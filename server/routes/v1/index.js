@@ -5,7 +5,7 @@ const api = require('express').Router();
 // const getTransaction = require('./transactions');
 const getPayString = require('./payString');
 // const getQuorum = require('./quorum');
-const nUNL = require('./nUNL');
+// const nUNL = require('./nUNL');
 const getTokenDiscovery = require('./tokenDiscovery');
 // const getToken = require('./token');
 // const getOffers = require('./offers');
@@ -21,7 +21,7 @@ api.use('/cors/:url', getCors);
 // api.use('/ledgers/:id?', ledger);
 // api.use('/transactions/:id', getTransaction);
 api.use('/paystrings/:id', getPayString);
-api.use('/nunl', nUNL);
+// api.use('/nunl', nUNL);
 // api.use('/quorum', getQuorum);
 if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
   api.use('/token/top', getTokenDiscovery);
