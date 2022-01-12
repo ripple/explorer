@@ -2,28 +2,30 @@ const utils = require('../../lib/utils');
 const rippled = require('../../lib/rippled');
 const log = require('../../lib/logger')({ name: 'ledgers' });
 
-const getLedger = (req, res) => {
+const getLedger = identifier => {
   const parameters = {};
-  if (!isNaN(req.params.id)) {
-    parameters.ledger_index = Number(req.params.id);
-  } else if (['validated', 'closed', 'current'].includes(req.params.id)) {
+  if (!isNaN(identifier)) {
+    parameters.ledger_index = Number(identifier);
+  } else if (['validated', 'closed', 'current'].includes(identifier)) {
     // TODO: (this is not reachable as id is validated prior to reaching here)
-    parameters.ledger_index = req.params.id;
-  } else if (!req.params.id) {
+    parameters.ledger_index = identifier;
+  } else if (!identifier) {
     parameters.ledger_index = 'validated';
   } else {
-    parameters.ledger_hash = req.params.id.toUpperCase();
+    parameters.ledger_hash = identifier.toUpperCase();
   }
 
   log.info(`get ledger: ${JSON.stringify(parameters)}`);
 
-  rippled
+  return rippled
     .getLedger(parameters)
     .then(ledger => utils.summarizeLedger(ledger, true))
-    .then(data => res.send(data))
+    .then(data => {
+      return data;
+    })
     .catch(error => {
       log.error(error.toString());
-      res.status(error.code || 500).json({ message: error.message });
+      return { message: error.message };
     });
 };
 

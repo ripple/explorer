@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getLedger } from '../../server/routes/v1';
 import { analytics, ANALYTIC_TYPES, SERVER_ERROR } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 
@@ -9,14 +10,14 @@ export const loadValidator = identifier => dispatch => {
     .get(url)
     .then(response => {
       if (!response.data.ledger_hash) {
-        axios.get(`/api/v1/ledgers/?id=${response.data.ledger_index}`).then(ledgerResp => {
+        getLedger(response.data.ledger_index).then(ledgerResp => {
           dispatch({ type: actionTypes.FINISH_LOADING_VALIDATOR });
           dispatch({
             type: actionTypes.LOADING_VALIDATOR_SUCCESS,
             data: {
               ...response.data,
-              ledger_hash: ledgerResp.data.ledger_hash,
-              last_ledger_time: ledgerResp.data.close_time,
+              ledger_hash: ledgerResp.ledger_hash,
+              last_ledger_time: ledgerResp.close_time,
             },
           });
         });

@@ -1,7 +1,7 @@
 const api = require('express').Router();
 // const getAccountState = require('./accountState');
 // const getAccountTransactions = require('./accountTransactions');
-const ledger = require('./ledgers');
+// const ledger = require('./ledgers');
 // const getTransaction = require('./transactions');
 const getPayString = require('./payString');
 const getQuorum = require('./quorum');
@@ -18,7 +18,7 @@ const getCors = require('./cors');
 // api.use('/account_state/:id', getAccountState);
 // api.use('/account_transactions/:id/:currency?', getAccountTransactions);
 api.use('/cors/:url', getCors);
-api.use('/ledgers/:id?', ledger);
+// api.use('/ledgers/:id?', ledger);
 // api.use('/transactions/:id', getTransaction);
 api.use('/paystrings/:id', getPayString);
 api.use('/nunl', nUNL);

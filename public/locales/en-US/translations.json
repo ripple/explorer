@@ -153,6 +153,7 @@
   "simple": "Simple",
   "detailed": "Detailed",
   "details": "Details",
+  "history": "History",
   "raw": "Raw",
   "simple_not_supported": "`Simple` view not yet supported for",
   "try_detailed_raw": "Try `Detailed` or `Raw` view",
