@@ -304,10 +304,10 @@ export const durationToHuman = (s, decimal = 2) => {
 
 export const fetchNegativeUNL = async () => {
   return getNegativeUNL()
-    .then(resp => {
-      if (resp === undefined || resp.data === undefined) throw new Error('undefined nUNL');
+    .then(data => {
+      if (data === undefined) throw new Error('undefined nUNL');
 
-      return resp.data;
+      return data;
     })
     .catch(e => Log.error(e));
 };

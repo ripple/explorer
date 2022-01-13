@@ -1,0 +1,63 @@
+{
+  "server_info": {
+    "result": {
+      "info": {
+        "load_factor": 1,
+        "pubkey_node": "n9McviCgS1MCatDQRmezqorM2ErYwyspAgx8Y8RBKSRPensyaZHp",
+        "published_ledger": "none",
+        "time": "2022-Jan-13 20:40:18.473782 UTC",
+        "uptime": 1820444,
+        "validated_ledger": {
+          "age": 6,
+          "base_fee_xrp": 0.00001,
+          "hash": "A5F887A191348B69129B168EDA5BC8EEE9EAC60E2599A8034742199471C70604",
+          "reserve_base_xrp": 10,
+          "reserve_inc_xrp": 2,
+          "seq": 68992561
+        },
+        "validation_quorum": 1
+      }
+    },
+    "status": "success",
+    "type": "response"
+  },
+  "ledger_entry": {
+    "result": {
+      "node": {
+        "DisabledValidators": [
+          {
+            "DisabledValidator": {
+              "FirstLedgerSequence": 1609728,
+              "PublicKey": "ED6629D456285AE3613B285F65BBFF168D695BA3921F309949AFCD2CA7AFEC16FE"
+            }
+          }
+        ],
+        "Flags": 0,
+        "LedgerEntryType": "NegativeUNL",
+        "index": "2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244"
+      }
+    }
+  },
+  "ledger": {
+    "result": {
+      "ledger": {
+        "closed": true,
+        "hash": "A5F887A191348B69129B168EDA5BC8EEE9EAC60E2599A8034742199471C70604",
+        "ledger_hash": "A5F887A191348B69129B168EDA5BC8EEE9EAC60E2599A8034742199471C70604",
+        "ledger_index": "68992561",
+        "parent_close_time": 410459110,
+        "parent_hash": "CDFD329A6E418591770695D0FB859113641AC20CB3A1F39AB3D721CEA2685EFE",
+        "seqNum": "68992561",
+        "totalCoins": "99999999999996310",
+        "total_coins": "99999999999996310",
+        "transaction_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "transactions": []
+      },
+      "validated": true,
+      "ledger_hash": "A5F887A191348B69129B168EDA5BC8EEE9EAC60E2599A8034742199471C70604",
+      "ledger_index": 68992561
+    },
+    "status": "success",
+    "type": "response"
+  }
+}
