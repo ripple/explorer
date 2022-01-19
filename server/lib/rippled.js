@@ -7,9 +7,11 @@ const HOSTNAME = os.hostname();
 const URL = `http://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`;
 const URL_HEALTH = `http://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_PEER_PORT}/health`;
 // If there is a separate peer to peer server for admin requests, use it. Otherwise use the default url for everything.
-const P2P_URL = process.env.P2P_RIPPLED_HOST
-  ? `http://${process.env.P2P_RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`
-  : URL;
+// 'unused' is a sentinel value in case you can't explicitly set a P2P_RIPPLED_HOST to empty/null in your deployment.
+const P2P_URL =
+  process.env.P2P_RIPPLED_HOST && process.env.P2P_RIPPLED_HOST !== 'unused'
+    ? `http://${process.env.P2P_RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`
+    : URL;
 
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
 
