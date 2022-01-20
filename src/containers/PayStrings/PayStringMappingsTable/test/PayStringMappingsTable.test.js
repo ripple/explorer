@@ -10,7 +10,7 @@ import i18n from '../../../../i18nTestConfig';
 import ConnectedTable, { PayStringAddressesTable } from '../index';
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json';
 
-const TEST_ACCOUNT_ID = 'givedirectly$paystring.charity';
+const TEST_ACCOUNT_ID = 'blunden$paystring.crypto.com';
 
 describe('PayStringMappingsTable container', () => {
   const middlewares = [thunk];
