@@ -1,11 +1,13 @@
 {
+  "payId": "blunden$paystring.crypto.com",
+  "version": "1.0",
   "addresses": [
     {
-      "paymentNetwork": "BTC",
+      "paymentNetwork": "CRO_NATIVE",
       "environment": "MAINNET",
       "addressDetailsType": "CryptoAddressDetails",
       "addressDetails": {
-        "address": "13jsn3XrQmE6o1ogECMYLSirEE2xS6SQAn"
+        "address": "cro1w2kvwrzp23aq54n3amwav4yy4a9ahq2kz2wtmj?memo=199039990"
       }
     },
     {
@@ -13,49 +15,26 @@
       "environment": "MAINNET",
       "addressDetailsType": "CryptoAddressDetails",
       "addressDetails": {
-        "address": "0x996217744587b24285A5abdB62d32a0b270a7942"
+        "address": "0xE5076f27e81A77aeF3d1859B47A4D038821e99cb"
       }
     },
     {
-      "paymentNetwork": "LTC",
+      "paymentNetwork": "BTC",
       "environment": "MAINNET",
       "addressDetailsType": "CryptoAddressDetails",
       "addressDetails": {
-        "address": "ltc1quefs488zpmkvwzuzxyqr7y9ezus7lzhu78dz5a"
-      }
-    },
-    {
-      "paymentNetwork": "BCH",
-      "environment": "MAINNET",
-      "addressDetailsType": "CryptoAddressDetails",
-      "addressDetails": {
-        "address": "bitcoincash:qpwnkn4ph5dt0lcdxcn4v80lcg89zhtmuujkyffhxm"
-      }
-    },
-    {
-      "paymentNetwork": "ZEC",
-      "environment": "MAINNET",
-      "addressDetailsType": "CryptoAddressDetails",
-      "addressDetails": {
-        "address": "t1Nxfw7Ubsz3TCXNp9StMt8bwMQg3YEFks2"
-      }
-    },
-    {
-      "paymentNetwork": "GUSD",
-      "environment": "MAINNET",
-      "addressDetailsType": "CryptoAddressDetails",
-      "addressDetails": {
-        "address": "0x996217744587b24285A5abdB62d32a0b270a7942"
+        "address": "39t3tg2D9PomRs7tYrmWSsPMyEK9XZXCsV"
       }
     },
     {
       "paymentNetwork": "XRPL",
-      "environment": "TESTNET",
+      "environment": "MAINNET",
       "addressDetailsType": "CryptoAddressDetails",
       "addressDetails": {
-        "address": "TVPWantCE8yF535YNRaojLpyEobaS3fKQLh8Gb6NSyptbMF"
+        "tag": "1888963938",
+        "address": "rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb"
       }
     }
   ],
-  "payId": "waterproject$paystring.tgbwidget.com"
+  "verifiedAddresses": []
 }
