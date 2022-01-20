@@ -13,7 +13,7 @@ import PayStringMappingsTable from '../PayStringMappingsTable';
 import mockPayStringData from './mockPayStringData.json';
 
 describe('PayString container', () => {
-  const TEST_PAY_ID = 'waterproject$paystring.tgbwidget.com';
+  const TEST_PAY_ID = 'blunden$paystring.crypto.com';
 
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);

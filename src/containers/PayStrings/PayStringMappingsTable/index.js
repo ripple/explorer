@@ -112,22 +112,15 @@ export class PayStringAddressesTable extends Component {
         // XRPL - TESTNET
         if (tag && tag !== INVALID) {
           // XRPL - with tag
-          // TODO: enable this when testnet.xrpl.org supports X-addresses
-          // try {
-          //   const xAddress = classicAddressToXAddress(address, tag, true); // true for TESTNET
-          //   addressLink = `https://testnet.xrpl.org/accounts/${xAddress}`;
-          //   title = `View ${xAddress}`;
-          // } catch (error) {
-          //   title = `Error: ${error.message}`;
-          // }
+          try {
+            const xAddress = classicAddressToXAddress(address, tag, true); // true for TESTNET
+            addressLink = `https://testnet.xrpl.org/accounts/${xAddress}`;
+            title = `View ${xAddress}`;
+          } catch (error) {
+            title = `Error: ${error.message}`;
+          }
         } else {
           // XRPL - no tag
-
-          // TODO: enable this when testnet.xrpl.org supports X-addresses
-
-          // addressLink = `https://testnet.xrpl.org/accounts/${address}`; // TODO: make configurable?
-          // title = `View ${address}`;
-
           addressLink = `https://testnet.xrpl.org/accounts/${address}`;
           title = `View ${address}`;
         }
