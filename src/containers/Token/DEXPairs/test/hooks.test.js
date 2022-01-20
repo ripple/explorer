@@ -10,6 +10,29 @@ import mockExchangeData from './mockExchangeData.json';
 const address = 'rHEQnRvqWccQALFfpG3YuoxxVyhDZnF4TS';
 const currency = 'USD';
 
+class MockResponse {
+  constructor(shouldRender) {
+    this.shouldRender = shouldRender;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get response() {
+    if (!this.shouldRender) {
+      return { message: 'Bad Request' };
+    }
+    const request = moxios.requests.mostRecent();
+    const postParams = JSON.parse(request.config.data);
+    const { taker_pays: takerPays } = postParams.options.params[0];
+    const token = `${takerPays.currency}.${takerPays.issuer}`;
+    const tokenName = takerPays.currency === 'XRP' ? 'XRP' : token;
+    return mockExchangeData[tokenName];
+  }
+
+  get status() {
+    return this.shouldRender ? 200 : 400;
+  }
+}
+
 describe('Testing hooks', () => {
   beforeEach(() => {
     moxios.install();
@@ -27,14 +50,10 @@ describe('Testing hooks', () => {
       response: shouldRender ? mockTopEndpoint : { message: 'Bad Request' },
     });
 
-    const keys = Object.keys(mockExchangeData);
-    for (const key of keys) {
-      const url = `/api/v1/token/${currency}.${address}/offers/${key}`;
-      moxios.stubRequest(url, {
-        status: shouldRender ? 200 : 400,
-        response: shouldRender ? mockExchangeData[key] : { message: 'Bad Request' },
-      });
-    }
+    moxios.stubRequest(
+      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
+      new MockResponse(shouldRender)
+    );
 
     const wrapper = mount(
       <I18nextProvider i18n={i18n}>
