@@ -15,10 +15,10 @@ const getPayString = payString => {
       if (error.code) {
         const codeNumber = Number(error.code); // fetch gives codes like 'ETIMEDOUT' which are NaN
         if (codeNumber > 0 && codeNumber < 999) {
-          return { message: error.message };
+          throw error;
         }
       }
-      return { message: error.message };
+      throw error;
     });
 };
 

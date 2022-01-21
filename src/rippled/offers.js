@@ -46,7 +46,7 @@ const getBookOffers = async (currencyCode, issuerAddress, pairCurrencyCode, pair
     return orderBook;
   } catch (error) {
     log.error(error.toString());
-    return { message: error.message };
+    throw error;
   }
 };
 

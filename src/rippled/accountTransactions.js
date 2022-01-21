@@ -43,7 +43,7 @@ const getAccountTransactions = (account, currency, marker, limit) => {
     }
   } catch (error) {
     log.error(error.toString());
-    return { message: error.message };
+    throw error;
   }
 
   log.info(`get transactions: ${account} -> ${classicAddress}`);
@@ -70,7 +70,7 @@ const getAccountTransactions = (account, currency, marker, limit) => {
     })
     .catch(error => {
       log.error(error.toString());
-      return { message: error.message };
+      throw error;
     });
 };
 
