@@ -23,7 +23,7 @@ import TrustSet from './mock_data/TrustSet.json';
 import UNLModify from './mock_data/UNLModify.json';
 import TicketCreate from './mock_data/TicketCreate.json';
 import SimpleTab from '../SimpleTab';
-import summarize from '../../../../server/lib/txSummary';
+import summarize from '../../../rippled/lib/txSummary';
 import i18n from '../../../i18nTestConfig';
 
 describe('SimpleTab container', () => {

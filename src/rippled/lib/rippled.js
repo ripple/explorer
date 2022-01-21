@@ -40,7 +40,6 @@ const formatPaychannel = d => ({
 const query = options => {
   const params = { options, headers: { 'X-User': HOSTNAME } };
   return axios.post(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, params).catch(error => {
-    console.log(error);
     const message = error.response && error.response.data ? error.response.data : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
     throw new utils.Error(`URL: ${URL} - ${message}`, code);
