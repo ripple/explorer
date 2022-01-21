@@ -64,7 +64,7 @@ const getAccountState = account => {
     }
   } catch (error) {
     log.error(error.toString());
-    return { message: error.message };
+    throw error;
   }
 
   log.info(`get balances: ${account} -> ${classicAddress}`);
@@ -98,7 +98,7 @@ const getAccountState = account => {
       //   error.toString(): CustomError: account not found
       //   error.code: 404
       log.error(error.toString());
-      return { message: error.message };
+      throw error;
     });
 };
 

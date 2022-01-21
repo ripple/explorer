@@ -19,7 +19,7 @@ const getTransaction = transactionId => {
     })
     .catch(error => {
       log.error(error.toString());
-      return { message: error.message };
+      throw error;
     });
 };
 
