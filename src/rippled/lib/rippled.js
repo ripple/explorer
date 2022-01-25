@@ -4,7 +4,6 @@ const moment = require('moment');
 const utils = require('./utils');
 
 const HOSTNAME = os.hostname();
-const URL = `https://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_RPC_PORT}`;
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
 
 const formatEscrow = d => ({
@@ -36,15 +35,28 @@ const formatPaychannel = d => ({
   settleDelay: d.SettleDelay,
 });
 
-// generic RPC query
-const query = options => {
+const executeQuery = (url, options) => {
   const params = { options, headers: { 'X-User': HOSTNAME } };
-  return axios.post(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, params).catch(error => {
+  return axios.post(`/api/v1/cors/${url}`, params).catch(error => {
     const message = error.response && error.response.data ? error.response.data : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
-    throw new utils.Error(`URL: ${URL} - ${message}`, code);
+    throw new utils.Error(`URL: ${url} - ${message}`, code);
   });
 };
+
+// generic RPC query
+function query(...options) {
+  return executeQuery(process.env.REACT_APP_RIPPLED_HOST, ...options);
+}
+
+// If there is a separate peer to peer (not reporting mode) server for admin requests, use it.
+// Otherwise use the default url for everything.
+function queryP2P(...options) {
+  return executeQuery(
+    process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST,
+    ...options
+  );
+}
 
 // get ledger
 const getLedger = parameters => {
@@ -210,7 +222,7 @@ const getAccountPaychannels = async (account, ledger_index = 'validated') => {
 
 // get Token balance summary
 const getBalances = (account, ledger_index = 'validated') =>
-  query({
+  queryP2P({
     method: 'gateway_balances',
     params: [{ account, ledger_index }],
   })
