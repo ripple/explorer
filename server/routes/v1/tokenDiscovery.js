@@ -190,6 +190,6 @@ module.exports = async (req, res) => {
     });
   } catch (error) {
     log.error(error);
-    res.send({ result: 'error', message: 'internal error' });
+    return res.status(error.code || 500).json({ message: error.message });
   }
 };
