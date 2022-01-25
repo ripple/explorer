@@ -183,7 +183,7 @@ module.exports = async (req, res) => {
       await sleep(1000);
     }
 
-    res.send({
+    return res.status(200).send({
       result: 'success',
       updated: cachedTokensList.time,
       tokens: cachedTokensList.tokens,
