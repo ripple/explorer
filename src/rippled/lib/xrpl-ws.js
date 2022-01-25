@@ -24,7 +24,7 @@ if (process.env.RIPPLED_SECONDARY) {
 
 const connect = rippled => {
   log.info(`${rippled.host}:${rippled.port} connecting...`);
-  const ws = new WebSocket(`ws://${rippled.host}:${rippled.port}`);
+  const ws = new WebSocket(`wss://${rippled.host}:${rippled.port}`);
   ws.rippled = rippled;
 
   // handle close

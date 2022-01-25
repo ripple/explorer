@@ -216,7 +216,7 @@ class Streams extends Component {
 
   connect() {
     this.ws = new WebSocket(
-      `ws://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`
+      `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`
     );
     this.ws.last = Date.now();
     Log.info(`connecting...`);
