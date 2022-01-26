@@ -1,4 +1,6 @@
-const { convertHexToString } = require('xrpl');
+function convertHexToString(hex, encoding = 'utf8') {
+  return Buffer.from(hex, 'hex').toString(encoding);
+}
 
 module.exports = (tx, meta) => {
   const affectedNode = meta.AffectedNodes.find(
