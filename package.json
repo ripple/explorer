@@ -49,8 +49,7 @@
     "topojson-client": "^3.0.0",
     "typeface-roboto": "0.0.54",
     "ws": "^7.4.2",
-    "xml2json": "^0.11.2",
-    "xrpl": "^2.0.4"
+    "xml2json": "^0.11.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
