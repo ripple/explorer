@@ -8,7 +8,7 @@ const log = logger({ name: 'nunl' });
 const getNegativeUNL = () => {
   log.info(`getting nUNL from rippled`);
 
-  return getRippledNegativeUNL
+  return getRippledNegativeUNL()
     .then(result => {
       if (result === undefined || result.length === 0) return [];
 
