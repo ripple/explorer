@@ -1,6 +1,8 @@
-const utils = require('./lib/utils');
-const rippled = require('./lib/rippled');
-const log = require('./lib/logger')({ name: 'ledgers' });
+import { summarizeLedger } from './lib/utils';
+import { getLedger as getRippledLedger } from './lib/rippled';
+import logger from './lib/logger';
+
+const log = logger({ name: 'ledgers' });
 
 const getLedger = identifier => {
   const parameters = {};
@@ -17,9 +19,8 @@ const getLedger = identifier => {
 
   log.info(`get ledger: ${JSON.stringify(parameters)}`);
 
-  return rippled
-    .getLedger(parameters)
-    .then(ledger => utils.summarizeLedger(ledger, true))
+  return getRippledLedger(parameters)
+    .then(ledger => summarizeLedger(ledger, true))
     .then(data => {
       return data;
     })
