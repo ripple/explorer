@@ -1,120 +1,97 @@
-import { post } from 'axios';
-import { hostname } from 'os';
-import { unix } from 'moment';
-import { Error, XRP_BASE, EPOCH_OFFSET } from './utils';
+import { XrplClient } from 'xrpl-client';
+import { Error, XRP_BASE, formatEscrow, formatPaychannel } from './utils';
 
-const HOSTNAME = hostname();
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
 
-const formatEscrow = d => ({
-  id: d.index,
-  account: d.Account,
-  destination: d.Destination,
-  amount: d.Amount / XRP_BASE,
-  condition: d.Condition,
-  cancelAfter: d.CancelAfter
-    ? unix(d.CancelAfter + EPOCH_OFFSET)
-        .utc()
-        .format()
-    : undefined,
-  finishAfter: d.FinishAfter
-    ? unix(d.FinishAfter + EPOCH_OFFSET)
-        .utc()
-        .format()
-    : undefined,
-});
+const CLIENT = new XrplClient([
+  `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+]);
 
-const formatPaychannel = d => ({
-  id: d.index,
-  account: d.Account,
-  destination: d.Destination,
-  amount: d.Amount / XRP_BASE,
-  balance: d.Balance / XRP_BASE,
-  settleDelay: d.SettleDelay,
-});
+CLIENT.on('online', () => console.log('DDSODFUAPOSDEPOASEFUIOAUSEFSE'));
+// TODO: add secondary clients for redundancy
 
-const executeQuery = (url, options) => {
-  const params = { options, headers: { 'X-User': HOSTNAME } };
-  return post(`/api/v1/cors/${url}`, params).catch(error => {
+// const P2P_CLIENT = new XrplClient([
+//   `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST}:${
+//     process.env.REACT_APP_RIPPLED_WS_PORT
+//   }`,
+// ]);
+
+const executeQuery = (client, options) => {
+  return client.send(options).catch(error => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
         : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
-    throw new Error(`URL: ${url} - ${message}`, code);
+    throw new Error(`URL: ${client.endpoint} - ${message}`, code);
   });
 };
 
 // generic RPC query
 function query(...options) {
-  return executeQuery(process.env.REACT_APP_RIPPLED_HOST, ...options);
+  return executeQuery(CLIENT, ...options);
 }
 
 // If there is a separate peer to peer (not reporting mode) server for admin requests, use it.
 // Otherwise use the default url for everything.
 function queryP2P(...options) {
-  return executeQuery(
-    process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST,
-    ...options
-  );
+  return executeQuery(CLIENT, ...options);
 }
 
 // get ledger
 const getLedger = parameters => {
   const request = {
-    method: 'ledger',
-    params: [{ ...parameters, transactions: true, expand: true }],
+    command: 'ledger',
+    ...parameters,
+    transactions: true,
+    expand: true,
   };
 
-  return query(request)
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error_message === 'ledgerNotFound') {
-        throw new Error('ledger not found', 404);
-      }
+  return query(request).then(resp => {
+    if (resp.error_message === 'ledgerNotFound') {
+      throw new Error('ledger not found', 404);
+    }
 
-      if (resp.error_message === 'ledgerIndexMalformed') {
-        throw new Error('invalid ledger index/hash', 400);
-      }
+    if (resp.error_message === 'ledgerIndexMalformed') {
+      throw new Error('invalid ledger index/hash', 400);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      if (!resp.validated) {
-        throw new Error('ledger not validated', 404);
-      }
-      return resp.ledger;
-    });
+    if (!resp.validated) {
+      throw new Error('ledger not validated', 404);
+    }
+    return resp.ledger;
+  });
 };
 
 // get transaction
 const getTransaction = txHash => {
   const params = {
-    method: 'tx',
-    params: [{ transaction: txHash }],
+    command: 'tx',
+    transaction: txHash,
   };
 
-  return query(params)
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'txnNotFound') {
-        throw new Error('transaction not found', 404);
-      }
+  return query(params).then(resp => {
+    if (resp.error === 'txnNotFound') {
+      throw new Error('transaction not found', 404);
+    }
 
-      if (resp.error === 'notImpl') {
-        throw new Error('invalid transaction hash', 400);
-      }
+    if (resp.error === 'notImpl') {
+      throw new Error('invalid transaction hash', 400);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      if (!resp.validated) {
-        throw new Error('transaction not validated', 500);
-      }
-      return resp;
-    });
+    if (!resp.validated) {
+      throw new Error('transaction not validated', 500);
+    }
+    return resp;
+  });
 };
 
 // get account info

@@ -49,6 +49,33 @@ const convertRippleDate = date =>
     .utc()
     .format();
 
+const formatEscrow = d => ({
+  id: d.index,
+  account: d.Account,
+  destination: d.Destination,
+  amount: d.Amount / XRP_BASE,
+  condition: d.Condition,
+  cancelAfter: d.CancelAfter
+    ? unix(d.CancelAfter + EPOCH_OFFSET)
+        .utc()
+        .format()
+    : undefined,
+  finishAfter: d.FinishAfter
+    ? unix(d.FinishAfter + EPOCH_OFFSET)
+        .utc()
+        .format()
+    : undefined,
+});
+
+const formatPaychannel = d => ({
+  id: d.index,
+  account: d.Account,
+  destination: d.Destination,
+  amount: d.Amount / XRP_BASE,
+  balance: d.Balance / XRP_BASE,
+  settleDelay: d.SettleDelay,
+});
+
 const formatSignerList = data => ({
   quorum: data.SignerQuorum,
   max: data.SignerEntries.reduce((total, d) => total + d.SignerEntry.SignerWeight, 0),
@@ -142,4 +169,6 @@ export {
   formatAccountInfo,
   summarizeLedger,
   convertHexToString,
+  formatEscrow,
+  formatPaychannel,
 };
