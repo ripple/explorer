@@ -1,5 +1,5 @@
-const moment = require('moment');
-const summarizeTransaction = require('./txSummary');
+import { unix } from 'moment';
+import summarizeTransaction from './txSummary';
 
 const EPOCH_OFFSET = 946684800;
 const XRP_BASE = 1000000;
@@ -45,8 +45,7 @@ const buildFlags = flags => {
 };
 
 const convertRippleDate = date =>
-  moment
-    .unix(date + EPOCH_OFFSET)
+  unix(date + EPOCH_OFFSET)
     .utc()
     .format();
 
@@ -98,14 +97,14 @@ const formatTransaction = tx => {
   };
 };
 
-function CustomError(message, code) {
+function RippledError(message, code) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.message = message;
   this.code = code;
 }
 
-require('util').inherits(CustomError, Error);
+require('util').inherits(RippledError, Error);
 
 const summarizeLedger = (ledger, txDetails = false) => {
   const summary = {
@@ -132,7 +131,7 @@ const summarizeLedger = (ledger, txDetails = false) => {
 export {
   EPOCH_OFFSET,
   XRP_BASE,
-  CustomError as Error,
+  RippledError as Error,
   convertRippleDate,
   formatTransaction,
   formatSignerList,

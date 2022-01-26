@@ -1,6 +1,6 @@
-const bunyan = require('bunyan');
+import bunyan from 'bunyan';
 
-module.exports = options => {
+const log = options => {
   const logger = bunyan.createLogger(options);
 
   return {
@@ -18,3 +18,5 @@ module.exports = options => {
     },
   };
 };
+
+export default log;

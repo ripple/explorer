@@ -1,6 +1,8 @@
-const WebSocket = require('ws');
-const streams = require('./streams');
-const log = require('./logger')({ name: 'xrpl ws' });
+import WebSocket from 'ws';
+import { handleLedger, handleLoadFee, handleValidation } from './streams';
+import logger from './logger';
+
+const log = logger({ name: 'xrpl ws' });
 
 const RIPPLEDS = [
   {
@@ -61,11 +63,11 @@ const connect = rippled => {
     }
 
     if (data.type === 'validationReceived') {
-      streams.handleValidation(data);
+      handleValidation(data);
     } else if (data.type === 'ledgerClosed') {
-      streams.handleLedger(data);
+      handleLedger(data);
     } else if (data.type === 'serverStatus') {
-      streams.handleLoadFee(data);
+      handleLoadFee(data);
     }
   });
 

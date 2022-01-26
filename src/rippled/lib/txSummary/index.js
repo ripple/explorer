@@ -69,4 +69,4 @@ const summarizeTransaction = (d, details = false) => ({
     : undefined,
 });
 
-module.exports = summarizeTransaction;
+export default summarizeTransaction;

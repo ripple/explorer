@@ -1,7 +1,7 @@
-// Note: `import` syntax is not supported here
+import { resolvePayId } from 'payid-lib';
+import logger from './lib/logger';
 
-const { resolvePayId } = require('payid-lib');
-const log = require('./lib/logger')({ name: 'payString' });
+const log = logger({ name: 'payString' });
 
 const getPayString = payString => {
   log.info(`get paystring: ${payString}`);

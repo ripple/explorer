@@ -1,10 +1,13 @@
-const rippled = require('./lib/rippled');
-const log = require('./lib/logger')({ name: 'offers' });
+import logger from './lib/logger';
+
+import { getOffers } from './lib/rippled';
+
+const log = logger({ name: 'offers' });
 
 const getBookOffers = async (currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
   try {
     // log.info('fetching book offers from rippled');
-    let orderBook = await rippled.getOffers(
+    let orderBook = await getOffers(
       currencyCode,
       issuerAddress,
       pairCurrencyCode,

@@ -1,7 +1,9 @@
-const WebSocket = require('ws');
-const rippled = require('./rippled');
-const utils = require('./utils');
-const log = require('./logger')({ name: 'streams' });
+import WebSocket from 'ws';
+import { getLedger } from './rippled';
+import { summarizeLedger, XRP_BASE, EPOCH_OFFSET } from './utils';
+import logger from './logger';
+
+const log = logger({ name: 'streams' });
 
 const PURGE_INTERVAL = 10 * 1000;
 const MAX_AGE = 120 * 1000;
@@ -25,9 +27,8 @@ const addLedger = data => {
 
 // fetch full ledger
 const fetchLedger = (ledger, attempts = 0) => {
-  return rippled
-    .getLedger({ ledger_hash: ledger.ledger_hash })
-    .then(utils.summarizeLedger)
+  return getLedger({ ledger_hash: ledger.ledger_hash })
+    .then(summarizeLedger)
     .then(summary => {
       Object.assign(ledger, summary);
       return summary;
@@ -133,9 +134,9 @@ const handleLedger = data => {
   log.info('new ledger', ledgerIndex);
   ledger.ledger_hash = ledgerHash;
   ledger.txn_count = txnCount;
-  ledger.close_time = (data.ledger_time + utils.EPOCH_OFFSET) * 1000;
-  reserve.base = data.reserve_base / utils.XRP_BASE;
-  reserve.inc = data.reserve_inc / utils.XRP_BASE;
+  ledger.close_time = (data.ledger_time + EPOCH_OFFSET) * 1000;
+  reserve.base = data.reserve_base / XRP_BASE;
+  reserve.inc = data.reserve_inc / XRP_BASE;
 
   const metrics = updateMetrics(data.fee_base / 1000000);
   return {
@@ -172,7 +173,7 @@ function handleValidation(data) {
       ledger_hash: ledgerHash,
       pubkey,
       partial: !data.full,
-      time: (data.signing_time + utils.EPOCH_OFFSET) * 1000,
+      time: (data.signing_time + EPOCH_OFFSET) * 1000,
     };
   }
 

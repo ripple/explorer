@@ -1,12 +1,14 @@
-const { encodeNodePublic } = require('ripple-address-codec');
-const rippled = require('./lib/rippled');
-const log = require('./lib/logger')({ name: 'nunl' });
+import { encodeNodePublic } from 'ripple-address-codec';
+
+import { getNegativeUNL as getRippledNegativeUNL } from './lib/rippled';
+import logger from './lib/logger';
+
+const log = logger({ name: 'nunl' });
 
 const getNegativeUNL = () => {
   log.info(`getting nUNL from rippled`);
 
-  return rippled
-    .getNegativeUNL()
+  return getRippledNegativeUNL
     .then(result => {
       if (result === undefined || result.length === 0) return [];
 

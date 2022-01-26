@@ -1,14 +1,15 @@
-const rippled = require('./lib/rippled');
-const utils = require('./lib/utils');
-const summarize = require('./lib/txSummary');
-const log = require('./lib/logger')({ name: 'transactions' });
+import logger from './lib/logger';
+import { formatTransaction } from './lib/utils';
+import { getTransaction as getRippledTransaction } from './lib/rippled';
+import summarize from './lib/txSummary';
+
+const log = logger({ name: 'transactions' });
 
 const getTransaction = transactionId => {
   log.info(`get tx: ${transactionId}`);
-  return rippled
-    .getTransaction(transactionId)
+  return getRippledTransaction(transactionId)
     .then(response => {
-      return utils.formatTransaction(response);
+      return formatTransaction(response);
     })
     .then(data => ({
       summary: summarize(data, true).details,
