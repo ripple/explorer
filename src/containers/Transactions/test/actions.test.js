@@ -5,7 +5,8 @@ import { BAD_REQUEST } from '../../shared/utils';
 import { initialState } from '../reducer';
 import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
-import OfferCreateData from './mock_data/OfferCreate.json';
+import OfferCreateData from './mock_data/rippledOfferCreate.json';
+import { formatTransaction } from '../../../rippled/lib/utils';
 
 describe('Transaction actions', () => {
   const middlewares = [thunk];
@@ -23,11 +24,11 @@ describe('Transaction actions', () => {
 
   it('should dispatch correct actions on success for loadTransaction', done => {
     const expectedActions = [
-      { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.hash } },
+      { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.result.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },
-      { type: actionTypes.LOADING_TRANSACTION_SUCCESS, data: OfferCreateData },
     ];
-    store.dispatch(actions.loadTransaction(OfferCreateData.hash));
+    const expectedData = formatTransaction(OfferCreateData.result);
+    store.dispatch(actions.loadTransaction(OfferCreateData.result.hash));
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request
@@ -36,7 +37,12 @@ describe('Transaction actions', () => {
           response: OfferCreateData,
         })
         .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
+          const receivedActions = store.getActions();
+          expect(receivedActions[0]).toEqual(expectedActions[0]);
+          expect(receivedActions[1]).toEqual(expectedActions[1]);
+          const actions2 = receivedActions[2];
+          expect(actions2.type).toEqual(actionTypes.LOADING_TRANSACTION_SUCCESS);
+          expect(actions2.data.raw).toEqual(expectedData);
           done();
         });
     });
@@ -44,15 +50,15 @@ describe('Transaction actions', () => {
 
   it('should dispatch correct actions on fail for loadTransaction', done => {
     const expectedActions = [
-      { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.hash } },
+      { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.result.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },
       {
         type: actionTypes.LOADING_TRANSACTION_FAIL,
-        data: { error: 500, id: OfferCreateData.hash },
+        data: { error: 500, id: OfferCreateData.result.hash },
         error: 'get_transaction_failed',
       },
     ];
-    store.dispatch(actions.loadTransaction(OfferCreateData.hash));
+    store.dispatch(actions.loadTransaction(OfferCreateData.result.hash));
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request

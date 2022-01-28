@@ -8,9 +8,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { initialState } from '../../../../rootReducer';
 import i18n from '../../../../i18nTestConfig';
 import ConnectedTable, { PayStringAddressesTable } from '../index';
-import TEST_TRANSACTIONS_DATA from './mockTransactions.json';
+import TEST_TRANSACTIONS_DATA from '../../test/mockPayStringData.json';
 
-const TEST_ACCOUNT_ID = 'givedirectly$paystring.charity';
+const TEST_ACCOUNT_ID = 'blunden$paystring.crypto.com';
 
 describe('PayStringMappingsTable container', () => {
   const middlewares = [thunk];
@@ -50,7 +50,7 @@ describe('PayStringMappingsTable container', () => {
   it('does not render loader if we have offline data', () => {
     const state = {
       ...initialState,
-      accountTransactions: {
+      payStringData: {
         loading: true,
         data: TEST_TRANSACTIONS_DATA,
       },
@@ -70,7 +70,7 @@ describe('PayStringMappingsTable container', () => {
         t={d => d}
         language="en-US"
         loading={false}
-        data={{}}
+        data={TEST_TRANSACTIONS_DATA}
         actions={actions}
         accountId="zzz"
       />

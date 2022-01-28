@@ -5,7 +5,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../../../i18nTestConfig';
 import ValidatorsTable from '../ValidatorsTable';
 import validators from './mockValidators.json';
-import metrics from '../../Ledgers/test/mock/metric.json';
+import metrics from './metrics.json';
 
 /* eslint-disable react/jsx-props-no-spreading */
 const createWrapper = (props = {}) =>

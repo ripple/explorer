@@ -25,7 +25,7 @@ export const loadAccountState = accountId => dispatch => {
       });
     })
     .catch(error => {
-      const status = error.response ? error.response.status : 500;
+      const status = error.code;
       analytics(ANALYTIC_TYPES.exception, {
         exDescription: `getAccountState ${accountId} --- ${JSON.stringify(error)}`,
       });

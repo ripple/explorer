@@ -36,7 +36,10 @@ const formatPaychannel = d => ({
 const executeQuery = (url, options) => {
   const params = { options, headers: { 'X-User': HOSTNAME } };
   return post(`/api/v1/cors/${url}`, params).catch(error => {
-    const message = error.response && error.response.data ? error.response.data : error.toString();
+    const message =
+      error.response && error.response.error_message
+        ? error.response.error_message
+        : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
     throw new Error(`URL: ${url} - ${message}`, code);
   });

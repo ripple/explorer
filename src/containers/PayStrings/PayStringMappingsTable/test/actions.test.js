@@ -6,9 +6,12 @@ import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
 import mockPayStringData from '../../test/mockPayStringData.json';
 
-const TEST_ADDRESS = 'rTEST_ADDRESS';
+const TEST_ADDRESS = 'blunden$paystring.crypto.com';
+const BAD_ADDRESS = 'garbage$paystring.crypto.com';
 
-describe('AccountTransactionsTable Actions', () => {
+// TODO: figure out how to mock external endpoints
+
+describe('PayStringMappingsTable Actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   beforeEach(() => {
@@ -20,17 +23,12 @@ describe('AccountTransactionsTable Actions', () => {
   });
 
   it('should dispatch correct actions on successful loadPayStringData', () => {
-    const data = mockPayStringData;
     const expectedActions = [
       { type: actionTypes.START_LOADING_PAYSTRING },
       { type: actionTypes.FINISHED_LOADING_PAYSTRING },
-      { type: actionTypes.PAYSTRING_LOAD_SUCCESS, data },
+      { type: actionTypes.PAYSTRING_LOAD_SUCCESS, data: mockPayStringData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/paystrings/${TEST_ADDRESS}`, {
-      status: 200,
-      response: data,
-    });
     return store.dispatch(actions.loadPayStringData(TEST_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
@@ -43,11 +41,7 @@ describe('AccountTransactionsTable Actions', () => {
       { type: actionTypes.RESOLVE_PAYSTRING_LOAD_FAIL, error: 'resolve_paystring_failed' },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/paystrings/${TEST_ADDRESS}`, {
-      status: 500,
-      response: null,
-    });
-    return store.dispatch(actions.loadPayStringData(TEST_ADDRESS)).then(() => {
+    return store.dispatch(actions.loadPayStringData(BAD_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
