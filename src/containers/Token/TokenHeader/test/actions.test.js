@@ -7,28 +7,10 @@ import { initialState } from '../reducer';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils';
 import moxiosData from './rippledResponses.json';
 import actNotFound from './actNotFound.json';
+import MockResponse from '../../../test/mockRippledResponse';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 const TEST_CURRENCY = 'abc';
-
-class MockResponse {
-  constructor() {
-    this.iterations = 0;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get response() {
-    const request = moxios.requests.mostRecent();
-    const postParams = JSON.parse(request.config.data);
-    const { method } = postParams.options;
-    return moxiosData[method];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get status() {
-    return 200;
-  }
-}
 
 describe('TokenHeader Actions', () => {
   const middlewares = [thunk];
@@ -62,7 +44,10 @@ describe('TokenHeader Actions', () => {
       { type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, new MockResponse());
+    moxios.stubRequest(
+      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
+      new MockResponse(moxiosData)
+    );
     return store.dispatch(actions.loadTokenState(TEST_CURRENCY, TEST_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });

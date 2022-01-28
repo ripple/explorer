@@ -6,28 +6,10 @@ import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils';
 import moxiosData from './rippledResponses.json';
+import MockResponse from '../../../test/mockRippledResponse';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 const TEST_X_ADDRESS = 'XV3oNHx95sqdCkTDCBCVsVeuBmvh2dz5fTZvfw8UCcMVsfe';
-
-class MockResponse {
-  constructor() {
-    this.iterations = 0;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get response() {
-    const request = moxios.requests.mostRecent();
-    const postParams = JSON.parse(request.config.data);
-    const { method } = postParams.options;
-    return moxiosData[method];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get status() {
-    return 200;
-  }
-}
 
 describe('AccountHeader Actions', () => {
   const middlewares = [thunk];
@@ -71,7 +53,10 @@ describe('AccountHeader Actions', () => {
       { type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, new MockResponse());
+    moxios.stubRequest(
+      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
+      new MockResponse(moxiosData)
+    );
     return store.dispatch(actions.loadAccountState(TEST_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
@@ -112,7 +97,10 @@ describe('AccountHeader Actions', () => {
       { type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, new MockResponse());
+    moxios.stubRequest(
+      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
+      new MockResponse(moxiosData)
+    );
     return store.dispatch(actions.loadAccountState(TEST_X_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });

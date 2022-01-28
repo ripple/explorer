@@ -14,25 +14,7 @@ import validationMessage from './mock/validation.json';
 import { initialState } from '../../../rootReducer';
 import prevLedgerMessage from './mock/prevLedger.json';
 import moxiosData from './mock/rippled.json';
-
-class MockResponse {
-  constructor() {
-    this.iterations = 0;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get response() {
-    const request = moxios.requests.mostRecent();
-    const postParams = JSON.parse(request.config.data);
-    const { method } = postParams.options;
-    return moxiosData[method];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get status() {
-    return 200;
-  }
-}
+import MockResponse from '../../test/mockRippledResponse';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -107,7 +89,10 @@ describe('Ledgers Page container', () => {
       ],
     });
 
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, new MockResponse());
+    moxios.stubRequest(
+      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
+      new MockResponse(moxiosData)
+    );
 
     expect(wrapper.find('.ledger').length).toBe(0);
     expect(wrapper.find('.validation').length).toBe(0);
