@@ -183,13 +183,13 @@ module.exports = async (req, res) => {
       await sleep(1000);
     }
 
-    res.send({
+    return res.status(200).send({
       result: 'success',
       updated: cachedTokensList.time,
       tokens: cachedTokensList.tokens,
     });
   } catch (error) {
     log.error(error);
-    res.send({ result: 'error', message: 'internal error' });
+    return res.status(error.code || 500).json({ message: error.message });
   }
 };
