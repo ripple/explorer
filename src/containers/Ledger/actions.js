@@ -1,11 +1,4 @@
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  BAD_REQUEST,
-  SERVER_ERROR,
-  DECIMAL_REGEX,
-  HASH_REGEX,
-} from '../shared/utils';
+import { analytics, ANALYTIC_TYPES, BAD_REQUEST, DECIMAL_REGEX, HASH_REGEX } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 import { getLedger } from '../../rippled';
 
@@ -15,7 +8,7 @@ export const loadLedger = identifier => dispatch => {
       type: actionTypes.LOADING_FULL_LEDGER_FAIL,
       data: { error: BAD_REQUEST },
     });
-    return Promise.resolve();
+    return undefined;
   }
 
   dispatch({
@@ -29,7 +22,7 @@ export const loadLedger = identifier => dispatch => {
       dispatch({ type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data });
     })
     .catch(error => {
-      const status = error.response && error.response.status ? error.response.status : SERVER_ERROR;
+      const status = error.code;
       analytics(ANALYTIC_TYPES.exception, {
         exDescription: `ledger ${identifier} --- ${JSON.stringify(error)}`,
       });

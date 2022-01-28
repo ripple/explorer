@@ -6,16 +6,16 @@ const log = logger({ name: 'iou' });
 
 const getToken = async (currencyCode, issuer) => {
   try {
-    log.info('fetching gateway_balances from rippled');
-    const balances = await getBalances(issuer);
-    const obligations = balances.obligations[currencyCode.toUpperCase()];
-    if (!obligations) {
-      throw new Error('Currency not issued by account');
-    }
-
     log.info('fetching account info from rippled');
     const accountInfo = await getAccountInfo(issuer);
     const serverInfo = await getServerInfo();
+
+    log.info('fetching gateway_balances from rippled');
+    const balances = await getBalances(issuer);
+    const obligations = balances?.obligations && balances.obligations[currencyCode.toUpperCase()];
+    if (!obligations) {
+      throw new Error('Currency not issued by account');
+    }
 
     const {
       name,

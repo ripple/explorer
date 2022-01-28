@@ -52,7 +52,6 @@ const DEXPairs = props => {
           if (
             !(token.currency.toUpperCase() === currency.toUpperCase() && token.issuer === accountId)
           ) {
-            const url = `/api/v1/token/${currency}.${accountId}/offers/${token}`;
             promises.push(
               // currency.accountId = "taker gets" token = "taker pays" pairs are "taker pays"/ "taker gets"
               getOffers(currency, accountId, token.currency, token.issuer)
@@ -85,7 +84,7 @@ const DEXPairs = props => {
                 .catch(err => {
                   Log.error(err);
                   analytics(ANALYTIC_TYPES.exception, {
-                    exDescription: `Error getting offers endpoint ${url}`,
+                    exDescription: `Error getting offers endpoint ${currency}.${accountId}/${token}`,
                   });
                 })
             );

@@ -25,7 +25,7 @@ export const loadTokenState = (currency, accountId) => dispatch => {
       });
     })
     .catch(error => {
-      const status = error.response ? error.response.status : 500;
+      const status = error.code;
       analytics(ANALYTIC_TYPES.exception, {
         exDescription: `token ${currency}.${accountId} --- ${JSON.stringify(error)}`,
       });

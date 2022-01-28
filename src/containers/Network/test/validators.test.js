@@ -44,7 +44,10 @@ describe('Nodes Page container', () => {
   });
 
   it('receives live validation', async () => {
-    const server = new WS(`ws://${window.location.host}/ws`, { jsonProtocol: true });
+    const server = new WS(
+      `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+      { jsonProtocol: true }
+    );
     const wrapper = createWrapper();
 
     moxios.stubRequest('/api/v1/validators?verbose=true', {

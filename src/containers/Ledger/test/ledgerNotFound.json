@@ -1,0 +1,16 @@
+{
+  "result": {
+    "error": "lgrNotFound",
+    "error_code": 21,
+    "error_message": "ledgerNotFound",
+    "request": {
+      "command": "ledger",
+      "expand": true,
+      "id": 14,
+      "ledger_index": 1234,
+      "transactions": true
+    }
+  },
+  "status": "error",
+  "type": "response"
+}

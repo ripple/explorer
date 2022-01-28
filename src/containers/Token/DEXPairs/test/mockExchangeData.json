@@ -1,56 +1,212 @@
 {
   "BTC.issuer1": {
-    "ledger_current_index": 63634230,
-    "offers": [1, 2, 3],
+    "result": {
+      "ledger_hash": "1C1D7A43CD68381590D92DE4B003AFEA70B7066706D85413E80C292E2B3AC2DD",
+      "ledger_index": 69145819,
+      "offers": [
+        {
+          "Account": "rfU3YWd1TnYryvryQTQ9xwyCSqzMTbnyW6",
+          "BookDirectory": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E1AFC16BB27BA04",
+          "BookNode": "0",
+          "Flags": 0,
+          "LedgerEntryType": "Offer",
+          "OwnerNode": "34",
+          "PreviousTxnID": "309BF878DE370CC0E9FBD89D50FDCC2AC7C6C5DD5AC9F43C6549877E6E4E4D3A",
+          "PreviousTxnLgrSeq": 69145819,
+          "Sequence": 1276804,
+          "TakerGets": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "TakerPays": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "index": "7F6D9BB9A278D72DA196C178283A46D2D6FC1B123B2A5D2617BE01E9B2F04D86",
+          "owner_funds": "43343268690",
+          "quality": "0.0000007595523953900036"
+        }
+      ],
+      "validated": true
+    },
     "status": "success",
-    "validated": false,
-    "averageExchangeRate": 34958984318.847374,
-    "highestExchangeRate": 1000000000000,
-    "lowestExchangeRate": 74990625.98172854
+    "type": "response"
   },
   "USD.issuer2": {
-    "ledger_current_index": 63634230,
-    "offers": [1, 2, 3],
+    "result": {
+      "ledger_hash": "1C1D7A43CD68381590D92DE4B003AFEA70B7066706D85413E80C292E2B3AC2DD",
+      "ledger_index": 69145819,
+      "offers": [
+        {
+          "Account": "rfU3YWd1TnYryvryQTQ9xwyCSqzMTbnyW6",
+          "BookDirectory": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E1AFC16BB27BA04",
+          "BookNode": "0",
+          "Flags": 0,
+          "LedgerEntryType": "Offer",
+          "OwnerNode": "34",
+          "PreviousTxnID": "309BF878DE370CC0E9FBD89D50FDCC2AC7C6C5DD5AC9F43C6549877E6E4E4D3A",
+          "PreviousTxnLgrSeq": 69145819,
+          "Sequence": 1276804,
+          "TakerGets": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "TakerPays": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "index": "7F6D9BB9A278D72DA196C178283A46D2D6FC1B123B2A5D2617BE01E9B2F04D86",
+          "owner_funds": "43343268690",
+          "quality": "0.0000007595523953900036"
+        }
+      ],
+      "validated": true
+    },
     "status": "success",
-    "validated": false,
-    "averageExchangeRate": 1162811490173012.8,
-    "highestExchangeRate": 100000000000000000,
-    "lowestExchangeRate": 2170277142.31102
+    "type": "response"
   },
   "ETH.issuer3": {
-    "ledger_current_index": 63634230,
-    "offers": [1, 2, 3],
+    "result": {
+      "ledger_hash": "1C1D7A43CD68381590D92DE4B003AFEA70B7066706D85413E80C292E2B3AC2DD",
+      "ledger_index": 69145819,
+      "offers": [
+        {
+          "Account": "rfU3YWd1TnYryvryQTQ9xwyCSqzMTbnyW6",
+          "BookDirectory": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E1AFC16BB27BA04",
+          "BookNode": "0",
+          "Flags": 0,
+          "LedgerEntryType": "Offer",
+          "OwnerNode": "34",
+          "PreviousTxnID": "309BF878DE370CC0E9FBD89D50FDCC2AC7C6C5DD5AC9F43C6549877E6E4E4D3A",
+          "PreviousTxnLgrSeq": 69145819,
+          "Sequence": 1276804,
+          "TakerGets": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "TakerPays": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "index": "7F6D9BB9A278D72DA196C178283A46D2D6FC1B123B2A5D2617BE01E9B2F04D86",
+          "owner_funds": "43343268690",
+          "quality": "0.0000007595523953900036"
+        }
+      ],
+      "validated": true
+    },
     "status": "success",
-    "validated": false,
-    "averageExchangeRate": 16807828636433.955,
-    "highestExchangeRate": 3333333333333333.5,
-    "lowestExchangeRate": 29328403498.70949
+    "type": "response"
   },
   "XRP": {
-    "ledger_current_index": 63634230,
-    "offers": [1, 2, 3],
+    "result": {
+      "ledger_hash": "1C1D7A43CD68381590D92DE4B003AFEA70B7066706D85413E80C292E2B3AC2DD",
+      "ledger_index": 69145819,
+      "offers": [
+        {
+          "Account": "rfU3YWd1TnYryvryQTQ9xwyCSqzMTbnyW6",
+          "BookDirectory": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E1AFC16BB27BA04",
+          "BookNode": "0",
+          "Flags": 0,
+          "LedgerEntryType": "Offer",
+          "OwnerNode": "34",
+          "PreviousTxnID": "309BF878DE370CC0E9FBD89D50FDCC2AC7C6C5DD5AC9F43C6549877E6E4E4D3A",
+          "PreviousTxnLgrSeq": 69145819,
+          "Sequence": 1276804,
+          "TakerGets": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "TakerPays": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "index": "7F6D9BB9A278D72DA196C178283A46D2D6FC1B123B2A5D2617BE01E9B2F04D86",
+          "owner_funds": "43343268690",
+          "quality": "0.0000007595523953900036"
+        }
+      ],
+      "validated": true
+    },
     "status": "success",
-    "validated": false,
-    "averageExchangeRate": 16807828636433.955,
-    "highestExchangeRate": 3333333333333333.5,
-    "lowestExchangeRate": 29328403498.70949
+    "type": "response"
   },
   "BTC.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B": {
-    "ledger_current_index": 63634230,
-    "offers": [1, 2, 3],
+    "result": {
+      "ledger_hash": "1C1D7A43CD68381590D92DE4B003AFEA70B7066706D85413E80C292E2B3AC2DD",
+      "ledger_index": 69145819,
+      "offers": [
+        {
+          "Account": "rfU3YWd1TnYryvryQTQ9xwyCSqzMTbnyW6",
+          "BookDirectory": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E1AFC16BB27BA04",
+          "BookNode": "0",
+          "Flags": 0,
+          "LedgerEntryType": "Offer",
+          "OwnerNode": "34",
+          "PreviousTxnID": "309BF878DE370CC0E9FBD89D50FDCC2AC7C6C5DD5AC9F43C6549877E6E4E4D3A",
+          "PreviousTxnLgrSeq": 69145819,
+          "Sequence": 1276804,
+          "TakerGets": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "TakerPays": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "index": "7F6D9BB9A278D72DA196C178283A46D2D6FC1B123B2A5D2617BE01E9B2F04D86",
+          "owner_funds": "43343268690",
+          "quality": "0.0000007595523953900036"
+        }
+      ],
+      "validated": true
+    },
     "status": "success",
-    "validated": false,
-    "averageExchangeRate": 16807828636433.955,
-    "highestExchangeRate": 3333333333333333.5,
-    "lowestExchangeRate": 29328403498.70949
+    "type": "response"
   },
   "USD.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B": {
-    "ledger_current_index": 63634230,
-    "offers": [1, 2, 3],
+    "result": {
+      "ledger_hash": "1C1D7A43CD68381590D92DE4B003AFEA70B7066706D85413E80C292E2B3AC2DD",
+      "ledger_index": 69145819,
+      "offers": [
+        {
+          "Account": "rfU3YWd1TnYryvryQTQ9xwyCSqzMTbnyW6",
+          "BookDirectory": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E1AFC16BB27BA04",
+          "BookNode": "0",
+          "Flags": 0,
+          "LedgerEntryType": "Offer",
+          "OwnerNode": "34",
+          "PreviousTxnID": "309BF878DE370CC0E9FBD89D50FDCC2AC7C6C5DD5AC9F43C6549877E6E4E4D3A",
+          "PreviousTxnLgrSeq": 69145819,
+          "Sequence": 1276804,
+          "TakerGets": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "TakerPays": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "value": "3797.761976950018"
+          },
+          "index": "7F6D9BB9A278D72DA196C178283A46D2D6FC1B123B2A5D2617BE01E9B2F04D86",
+          "owner_funds": "43343268690",
+          "quality": "0.0000007595523953900036"
+        }
+      ],
+      "validated": true
+    },
     "status": "success",
-    "validated": false,
-    "averageExchangeRate": 16807828636433.955,
-    "highestExchangeRate": 3333333333333333.5,
-    "lowestExchangeRate": 29328403498.70949
+    "type": "response"
   }
 }
