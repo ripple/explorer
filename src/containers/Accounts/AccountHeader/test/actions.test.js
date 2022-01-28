@@ -7,6 +7,7 @@ import { initialState } from '../reducer';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils';
 import moxiosData from './rippledResponses.json';
 import MockResponse from '../../../test/mockRippledResponse';
+import actNotFound from '../../../Token/TokenHeader/test/actNotFound.json';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 const TEST_X_ADDRESS = 'XV3oNHx95sqdCkTDCBCVsVeuBmvh2dz5fTZvfw8UCcMVsfe';
@@ -127,23 +128,6 @@ describe('AccountHeader Actions', () => {
   });
 
   it('should dispatch correct actions on ripple address not found', () => {
-    const response = {
-      account: 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv',
-      error: 'actNotFound',
-      error_code: 19,
-      error_message: 'Account not found.',
-      ledger_hash: '97992DBB4ED350B572B39D0026604943ACC84A3E5967454147253CB317551891',
-      ledger_index: 68989958,
-      request: {
-        account: 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv',
-        command: 'account_info',
-        ledger_index: 'validated',
-        queue: false,
-        signer_lists: false,
-        strict: false,
-      },
-      validated: true,
-    };
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_STATE },
       { type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE },
@@ -152,7 +136,7 @@ describe('AccountHeader Actions', () => {
     const store = mockStore({ news: initialState });
     moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
       status: 200,
-      response: { result: response },
+      response: { result: actNotFound },
     });
     return store.dispatch(actions.loadAccountState(TEST_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
