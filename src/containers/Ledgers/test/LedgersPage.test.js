@@ -118,7 +118,6 @@ describe('Ledgers Page container', () => {
     await sleep(260);
     server.send(validationMessage);
     server.send(ledgerMessage);
-    // server.send(metricMessage);
     server.send({ type: 'invalid' });
     server.send(null);
 

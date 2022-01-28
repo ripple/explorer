@@ -7,6 +7,7 @@ import { initialState } from '../reducer';
 import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { summarizeLedger } from '../../../rippled/lib/utils';
+import ledgerNotFound from './ledgerNotFound.json';
 
 describe('Ledger actions', () => {
   const middlewares = [thunk];
@@ -86,22 +87,6 @@ describe('Ledger actions', () => {
 
   it('should dispatch correct actions on fail for loadLedger 404', done => {
     const LEDGER_INDEX = 1234;
-    const ledgerNotFound = {
-      result: {
-        error: 'lgrNotFound',
-        error_code: 21,
-        error_message: 'ledgerNotFound',
-        request: {
-          command: 'ledger',
-          expand: true,
-          id: 14,
-          ledger_index: LEDGER_INDEX,
-          transactions: true,
-        },
-      },
-      status: 'error',
-      type: 'response',
-    };
     const expectedActions = [
       { type: actionTypes.START_LOADING_FULL_LEDGER, data: { id: LEDGER_INDEX } },
       { type: actionTypes.FINISH_LOADING_FULL_LEDGER },
