@@ -5,6 +5,7 @@ import { Error, XRP_BASE, EPOCH_OFFSET } from './utils';
 
 const HOSTNAME = hostname();
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
+const P2P_URL = process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST;
 
 const formatEscrow = d => ({
   id: d.index,
@@ -46,17 +47,14 @@ const executeQuery = (url, options) => {
 };
 
 // generic RPC query
-function query(...options) {
-  return executeQuery(process.env.REACT_APP_RIPPLED_HOST, ...options);
+function query(options, url = null) {
+  return executeQuery(url ?? process.env.REACT_APP_RIPPLED_HOST, options);
 }
 
 // If there is a separate peer to peer (not reporting mode) server for admin requests, use it.
 // Otherwise use the default url for everything.
-function queryP2P(...options) {
-  return executeQuery(
-    process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST,
-    ...options
-  );
+function queryP2P(options, url = null) {
+  return executeQuery(url ?? P2P_URL, options);
 }
 
 // get ledger
@@ -89,13 +87,13 @@ const getLedger = parameters => {
 };
 
 // get transaction
-const getTransaction = txHash => {
+const getTransaction = (txHash, url = null) => {
   const params = {
     method: 'tx',
     params: [{ transaction: txHash }],
   };
 
-  return query(params)
+  return query(params, url)
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error === 'txnNotFound') {
