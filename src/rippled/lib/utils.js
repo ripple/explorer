@@ -128,6 +128,10 @@ const summarizeLedger = (ledger, txDetails = false) => {
   return summary;
 };
 
+function convertHexToString(hex, encoding = 'utf8') {
+  return Buffer.from(hex, 'hex').toString(encoding);
+}
+
 export {
   EPOCH_OFFSET,
   XRP_BASE,
@@ -137,4 +141,5 @@ export {
   formatSignerList,
   formatAccountInfo,
   summarizeLedger,
+  convertHexToString,
 };
