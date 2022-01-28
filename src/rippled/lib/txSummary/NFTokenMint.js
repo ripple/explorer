@@ -1,6 +1,4 @@
-function convertHexToString(hex, encoding = 'utf8') {
-  return Buffer.from(hex, 'hex').toString(encoding);
-}
+const utils = require('../utils');
 
 module.exports = (tx, meta) => {
   const affectedNode = meta.AffectedNodes.find(
@@ -22,6 +20,6 @@ module.exports = (tx, meta) => {
   return {
     tokenID,
     tokenTaxon: tx.TokenTaxon,
-    uri: convertHexToString(tx.URI),
+    uri: utils.convertHexToString(tx.URI),
   };
 };
