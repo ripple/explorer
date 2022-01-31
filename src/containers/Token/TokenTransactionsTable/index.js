@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -13,6 +13,7 @@ import '../../Accounts/AccountTransactionsTable/styles.css'; // Reuse AccountTra
 import TxLabel from '../../shared/components/TxLabel';
 
 import { loadTokenTransactions } from './actions';
+import UrlContext from '../../shared/urlContext';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -29,6 +30,7 @@ const DATE_OPTIONS = {
 export const TokenTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
+  const { rippledUrl } = useContext(UrlContext);
 
   const { accountId, currency, actions, data, loading, t, loadingError } = props;
 
@@ -41,11 +43,11 @@ export const TokenTxTable = props => {
   }, [data]);
 
   useEffect(() => {
-    actions.loadTokenTransactions(accountId, currency);
-  }, [accountId, currency, actions]);
+    actions.loadTokenTransactions(accountId, currency, undefined, rippledUrl);
+  }, [accountId, currency, actions, rippledUrl]);
 
   const loadMoreTransactions = () => {
-    actions.loadTokenTransactions(accountId, marker);
+    actions.loadTokenTransactions(accountId, currency, marker);
   };
 
   const renderListItem = tx => {

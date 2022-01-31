@@ -30,6 +30,7 @@ class TokenHeader extends Component {
     const nextCurrency = prevProps.currency;
     const { accountId, currency, actions } = this.props;
     const { rippledUrl } = this.context;
+
     if (nextAccountId !== accountId || nextCurrency !== currency) {
       actions.loadTokenState(nextCurrency, nextAccountId, rippledUrl);
     }

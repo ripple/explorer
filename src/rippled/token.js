@@ -11,7 +11,7 @@ const getToken = async (currencyCode, issuer, url = null) => {
     const serverInfo = await getServerInfo(url);
 
     log.info('fetching gateway_balances from rippled');
-    const balances = await getBalances(issuer);
+    const balances = await getBalances(issuer, undefined, url);
     const obligations = balances?.obligations && balances.obligations[currencyCode.toUpperCase()];
     if (!obligations) {
       throw new Error('Currency not issued by account');
