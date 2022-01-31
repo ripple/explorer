@@ -4,11 +4,11 @@ import { getBalances, getAccountInfo, getServerInfo } from './lib/rippled';
 
 const log = logger({ name: 'iou' });
 
-const getToken = async (currencyCode, issuer) => {
+const getToken = async (currencyCode, issuer, url = null) => {
   try {
     log.info('fetching account info from rippled');
-    const accountInfo = await getAccountInfo(issuer);
-    const serverInfo = await getServerInfo();
+    const accountInfo = await getAccountInfo(issuer, url);
+    const serverInfo = await getServerInfo(url);
 
     log.info('fetching gateway_balances from rippled');
     const balances = await getBalances(issuer);
