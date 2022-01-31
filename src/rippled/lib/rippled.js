@@ -291,15 +291,18 @@ const getAccountTransactions = (account, limit = 20, marker = '', url = null) =>
     });
 };
 
-const getNegativeUNL = () =>
-  query({
-    method: 'ledger_entry',
-    params: [
-      {
-        index: N_UNL_INDEX,
-      },
-    ],
-  })
+const getNegativeUNL = (url = null) =>
+  query(
+    {
+      method: 'ledger_entry',
+      params: [
+        {
+          index: N_UNL_INDEX,
+        },
+      ],
+    },
+    url
+  )
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error === 'entryNotFound') {

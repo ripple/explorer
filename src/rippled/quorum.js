@@ -4,10 +4,10 @@ import { getServerInfo } from './lib/rippled';
 
 const log = logger({ name: 'serverInfo' });
 
-const getQuorum = () => {
+const getQuorum = (rippledUrl = null) => {
   log.info(`fetching server_info from rippled`);
 
-  return getServerInfo()
+  return getServerInfo(rippledUrl)
     .then(result => {
       if (result === undefined || result.info === undefined) {
         throw Error('Undefined result from getServerInfo()');

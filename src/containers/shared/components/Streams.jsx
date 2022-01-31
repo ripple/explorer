@@ -8,8 +8,11 @@ import {
   fetchLedger,
   fetchLoadFee,
 } from '../../../rippled/lib/streams';
+import UrlContext from '../urlContext';
 
 const MAX_LEDGER_COUNT = 20;
+
+const DEFAULT_WS_URL = `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
 
 const throttle = (func, limit) => {
   let inThrottle;
@@ -201,7 +204,8 @@ class Streams extends Component {
   }
 
   updateQuorum() {
-    fetchQuorum().then(quorum => {
+    const { rippledUrl } = this.context;
+    fetchQuorum(rippledUrl).then(quorum => {
       const { updateMetrics } = this.props;
       this.setState(prevState => {
         const metrics = Object.assign(prevState.metrics, { quorum });
@@ -213,7 +217,8 @@ class Streams extends Component {
 
   updateNegativeUNL() {
     this.updateQuorum();
-    fetchNegativeUNL().then(nUnl => {
+    const { rippledUrl } = this.context;
+    fetchNegativeUNL(rippledUrl).then(nUnl => {
       const { updateMetrics } = this.props;
       this.setState(prevState => {
         const metrics = Object.assign(prevState.metrics, { nUnl });
@@ -224,9 +229,9 @@ class Streams extends Component {
   }
 
   connect() {
-    this.ws = new WebSocket(
-      `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`
-    );
+    const { rippledUrl } = this.context;
+    const rippledWsUrl = `wss://${rippledUrl}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
+    this.ws = new WebSocket(rippledUrl == null ? DEFAULT_WS_URL : rippledWsUrl);
     this.ws.last = Date.now();
     Log.info(`connecting...`);
 
@@ -264,9 +269,9 @@ class Streams extends Component {
             this.onvalidation(data);
           }
         } else if (streamResult.type === 'ledgerClosed') {
-          const { ledger } = handleLedger(streamResult);
+          const { ledger, metrics } = handleLedger(streamResult);
           this.onledger(ledger);
-          fetchLedger(ledger)
+          fetchLedger(ledger, undefined, rippledUrl)
             .then(ledgerSummary => {
               this.onledgerSummary(ledgerSummary);
             })
@@ -283,10 +288,13 @@ class Streams extends Component {
               Log.error('Ledger fetch error', e.message);
               Log.error(e);
             });
-          // TODO: when sidechain routing is done, calculate sidechain metrics on the frontend
-          // using `this.onmetric(metrics);`
+          // calculate sidechain metrics on the frontend
           // because there is no backend server connection (since there is no one network)
-          this.updateMetrics();
+          if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
+            this.onmetric(metrics);
+          } else {
+            this.updateMetrics();
+          }
         }
       } catch (e) {
         Log.error('message parse error', message);
@@ -299,6 +307,8 @@ class Streams extends Component {
     return null;
   }
 }
+
+Streams.contextType = UrlContext;
 
 Streams.propTypes = {
   validators: PropTypes.shape({}),
