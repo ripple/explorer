@@ -58,13 +58,13 @@ function queryP2P(options, url = null) {
 }
 
 // get ledger
-const getLedger = parameters => {
+const getLedger = (parameters, url = null) => {
   const request = {
     method: 'ledger',
     params: [{ ...parameters, transactions: true, expand: true }],
   };
 
-  return query(request)
+  return query(request, url)
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error_message === 'ledgerNotFound') {
