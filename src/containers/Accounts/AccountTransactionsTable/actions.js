@@ -2,11 +2,11 @@ import { getAccountTransactions } from '../../../rippled';
 import { analytics, ANALYTIC_TYPES } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
-export const loadAccountTransactions = (accountId, marker) => dispatch => {
+export const loadAccountTransactions = (accountId, marker, url = null) => dispatch => {
   dispatch({
     type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS,
   });
-  return getAccountTransactions(accountId, undefined, marker, undefined)
+  return getAccountTransactions(accountId, undefined, marker, undefined, url)
     .then(data => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS });
       dispatch({

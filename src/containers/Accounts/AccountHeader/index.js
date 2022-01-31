@@ -11,6 +11,7 @@ import './balance-selector.css';
 import BalanceSelector from './BalanceSelector';
 import Account from '../../shared/components/Account';
 import { localizeNumber } from '../../shared/utils';
+import UrlContext from '../../shared/urlContext';
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -25,13 +26,20 @@ class AccountHeader extends Component {
     this.state = {
       showBalanceSelector: false,
     };
-    props.actions.loadAccountState(props.accountId);
+  }
+
+  componentDidMount() {
+    const { actions, accountId } = this.props;
+    const { rippledUrl } = this.context;
+    actions.loadAccountState(accountId, rippledUrl);
   }
 
   componentDidUpdate(prevProps) {
+    const { rippledUrl } = this.context;
     const { accountId, actions } = this.props;
+
     if (prevProps.accountId !== accountId) {
-      actions.loadAccountState(accountId);
+      actions.loadAccountState(accountId, rippledUrl);
     }
   }
 
@@ -279,6 +287,8 @@ class AccountHeader extends Component {
     );
   }
 }
+
+AccountHeader.contextType = UrlContext;
 
 AccountHeader.propTypes = {
   language: PropTypes.string.isRequired,

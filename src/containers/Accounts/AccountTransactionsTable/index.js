@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
 import './styles.css';
 import TxLabel from '../../shared/components/TxLabel';
+import UrlContext from '../../shared/urlContext';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -29,6 +30,7 @@ export const AccountTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
   const { accountId, actions, data, loadingError } = props;
+  const { rippledUrl } = useContext(UrlContext);
 
   useEffect(() => {
     if (data.transactions == null) return;
@@ -39,11 +41,11 @@ export const AccountTxTable = props => {
   }, [data]);
 
   useEffect(() => {
-    actions.loadAccountTransactions(accountId);
-  }, [accountId, actions]);
+    actions.loadAccountTransactions(accountId, undefined, rippledUrl);
+  }, [accountId, actions, rippledUrl]);
 
   const loadMoreTransactions = () => {
-    actions.loadAccountTransactions(accountId, marker);
+    actions.loadAccountTransactions(accountId, marker, rippledUrl);
   };
 
   const renderListItem = tx => {

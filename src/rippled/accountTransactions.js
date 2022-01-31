@@ -19,7 +19,7 @@ import logger from './lib/logger';
 
 const log = logger({ name: 'account transactions' });
 
-const getAccountTransactions = async (account, currency, marker, limit) => {
+const getAccountTransactions = async (account, currency, marker, limit, url = null) => {
   // TODO: Retrieve txs for untagged X-address only?
 
   let classicAddress;
@@ -54,7 +54,7 @@ const getAccountTransactions = async (account, currency, marker, limit) => {
   }
 
   log.info(`get transactions: ${account} -> ${classicAddress}`);
-  return getAccountTxs(classicAddress, limit, marker)
+  return getAccountTxs(classicAddress, limit, marker, url)
     .then(data => {
       const transactions = data.transactions
         .map(tx => {

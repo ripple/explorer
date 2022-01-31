@@ -3,7 +3,7 @@ import { getAccountState } from '../../../rippled';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
-export const loadAccountState = accountId => dispatch => {
+export const loadAccountState = (accountId, url = null) => dispatch => {
   if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
     dispatch({
       type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,
@@ -16,7 +16,7 @@ export const loadAccountState = accountId => dispatch => {
   dispatch({
     type: actionTypes.START_LOADING_ACCOUNT_STATE,
   });
-  return getAccountState(accountId)
+  return getAccountState(accountId, url)
     .then(data => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE });
       dispatch({

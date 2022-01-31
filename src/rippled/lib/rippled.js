@@ -116,11 +116,14 @@ const getTransaction = (txHash, url = null) => {
 };
 
 // get account info
-const getAccountInfo = (account, ledger_index = 'validated') =>
-  query({
-    method: 'account_info',
-    params: [{ account, ledger_index, signer_lists: true }],
-  })
+const getAccountInfo = (account, url = null) =>
+  query(
+    {
+      method: 'account_info',
+      params: [{ account, ledger_index: 'validated', signer_lists: true }],
+    },
+    url
+  )
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error === 'actNotFound') {
@@ -137,11 +140,14 @@ const getAccountInfo = (account, ledger_index = 'validated') =>
     });
 
 // get account escrows
-const getAccountEscrows = (account, ledger_index = 'validated') =>
-  query({
-    method: 'account_objects',
-    params: [{ account, ledger_index, type: 'escrow', limit: 400 }],
-  })
+const getAccountEscrows = (account, ledger_index = 'validated', url = null) =>
+  query(
+    {
+      method: 'account_objects',
+      params: [{ account, ledger_index, type: 'escrow', limit: 400 }],
+    },
+    url
+  )
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error === 'actNotFound') {
@@ -176,14 +182,17 @@ const getAccountEscrows = (account, ledger_index = 'validated') =>
     });
 
 // get account paychannels
-const getAccountPaychannels = async (account, ledger_index = 'validated') => {
+const getAccountPaychannels = async (account, ledger_index = 'validated', url = null) => {
   const list = [];
   let remaining = 0;
   const getChannels = marker =>
-    query({
-      method: 'account_objects',
-      params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }],
-    })
+    query(
+      {
+        method: 'account_objects',
+        params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }],
+      },
+      url
+    )
       .then(resp => resp.data.result)
       .then(resp => {
         if (resp.error === 'actNotFound') {
@@ -220,11 +229,14 @@ const getAccountPaychannels = async (account, ledger_index = 'validated') => {
 };
 
 // get Token balance summary
-const getBalances = (account, ledger_index = 'validated') =>
-  queryP2P({
-    method: 'gateway_balances',
-    params: [{ account, ledger_index }],
-  })
+const getBalances = (account, ledger_index = 'validated', url = null) =>
+  queryP2P(
+    {
+      method: 'gateway_balances',
+      params: [{ account, ledger_index }],
+    },
+    url
+  )
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error === 'actNotFound') {
@@ -239,27 +251,30 @@ const getBalances = (account, ledger_index = 'validated') =>
     });
 
 // get account transactions
-const getAccountTransactions = (account, limit = 20, marker = '') => {
+const getAccountTransactions = (account, limit = 20, marker = '', url = null) => {
   const markerComponents = marker.split('.');
   const ledger = parseInt(markerComponents[0], 10);
   const seq = parseInt(markerComponents[1], 10);
-  return query({
-    method: 'account_tx',
-    params: [
-      {
-        account,
-        limit,
-        ledger_index_max: -1,
-        ledger_index_min: -1,
-        marker: marker
-          ? {
-              ledger,
-              seq,
-            }
-          : undefined,
-      },
-    ],
-  })
+  return query(
+    {
+      method: 'account_tx',
+      params: [
+        {
+          account,
+          limit,
+          ledger_index_max: -1,
+          ledger_index_min: -1,
+          marker: marker
+            ? {
+                ledger,
+                seq,
+              }
+            : undefined,
+        },
+      ],
+    },
+    url
+  )
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error === 'actNotFound') {
@@ -298,10 +313,13 @@ const getNegativeUNL = () =>
       return resp;
     });
 
-const getServerInfo = () =>
-  query({
-    method: 'server_info',
-  })
+const getServerInfo = (url = null) =>
+  query(
+    {
+      method: 'server_info',
+    },
+    url
+  )
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error !== undefined || resp.error_message !== undefined) {
