@@ -2,7 +2,7 @@ import { getTransaction } from '../../rippled';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST, HASH_REGEX } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 
-export const loadTransaction = (identifier, url = null) => dispatch => {
+export const loadTransaction = (identifier, url) => dispatch => {
   if (!HASH_REGEX.test(identifier)) {
     dispatch({
       type: actionTypes.LOADING_TRANSACTION_FAIL,

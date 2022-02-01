@@ -4,7 +4,7 @@ import { getServerInfo } from './lib/rippled';
 
 const log = logger({ name: 'serverInfo' });
 
-const getQuorum = (rippledUrl = null) => {
+const getQuorum = rippledUrl => {
   log.info(`fetching server_info from rippled`);
 
   return getServerInfo(rippledUrl)

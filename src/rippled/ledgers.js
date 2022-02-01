@@ -4,7 +4,7 @@ import logger from './lib/logger';
 
 const log = logger({ name: 'ledgers' });
 
-const getLedger = (identifier, url = null) => {
+const getLedger = (identifier, url) => {
   const parameters = {};
   if (!isNaN(identifier)) {
     parameters.ledger_index = Number(identifier);

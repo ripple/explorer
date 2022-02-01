@@ -3,7 +3,7 @@ import { getToken } from '../../../rippled';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
-export const loadTokenState = (currency, accountId, url = null) => dispatch => {
+export const loadTokenState = (currency, accountId, url) => dispatch => {
   if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
     dispatch({
       type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,

@@ -5,7 +5,7 @@ import logger from './lib/logger';
 
 const log = logger({ name: 'nunl' });
 
-const getNegativeUNL = (url = null) => {
+const getNegativeUNL = url => {
   log.info(`getting nUNL from rippled`);
 
   return getRippledNegativeUNL(url)

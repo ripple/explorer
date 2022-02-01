@@ -45,7 +45,7 @@ const formatResults = (info, data) => {
 
   return balances;
 };
-const getAccountState = (account, url = null) => {
+const getAccountState = (account, url) => {
   // TODO: Retrieve balances for untagged X-address only? or display notice/warning
 
   let classicAddress;
