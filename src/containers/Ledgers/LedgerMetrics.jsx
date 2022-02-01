@@ -88,7 +88,12 @@ class LedgerMetrics extends Component {
           content = data[key].length;
           className = 'label nUnlMetric';
           return (
-            <a href="https://xrpl.org/negative-unl.html" target="_blank" rel="noopener noreferrer">
+            <a
+              key={`link ${key}`}
+              href="https://xrpl.org/negative-unl.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <div
                 role="link"
                 className="cell"
