@@ -28,7 +28,7 @@ const sleep = ms => {
 
 // fetch full ledger
 const fetchLedger = (ledger, rippledUrl, attempts = 0) => {
-  return getLedger({ ledger_hash: ledger.ledger_hash }, rippledUrl)
+  return getLedger(rippledUrl, { ledger_hash: ledger.ledger_hash })
     .then(summarizeLedger)
     .then(summary => {
       Object.assign(ledger, summary);
