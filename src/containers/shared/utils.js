@@ -303,7 +303,7 @@ export const durationToHuman = (s, decimal = 2) => {
   return `${d.num.toFixed(decimal)} ${d.unit}`;
 };
 
-export const fetchNegativeUNL = async (rippledUrl = null) => {
+export const fetchNegativeUNL = async rippledUrl => {
   return getNegativeUNL(rippledUrl)
     .then(data => {
       if (data === undefined) throw new Error('undefined nUNL');
@@ -313,7 +313,7 @@ export const fetchNegativeUNL = async (rippledUrl = null) => {
     .catch(e => Log.error(e));
 };
 
-export const fetchQuorum = async (rippledUrl = null) => {
+export const fetchQuorum = async rippledUrl => {
   return getQuorum(rippledUrl)
     .then(data => {
       if (data === undefined) throw new Error('undefined quorum');

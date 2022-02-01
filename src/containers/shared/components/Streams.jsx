@@ -271,7 +271,7 @@ class Streams extends Component {
         } else if (streamResult.type === 'ledgerClosed') {
           const { ledger, metrics } = handleLedger(streamResult);
           this.onledger(ledger);
-          fetchLedger(ledger, undefined, rippledUrl)
+          fetchLedger(ledger, rippledUrl)
             .then(ledgerSummary => {
               this.onledgerSummary(ledgerSummary);
             })
