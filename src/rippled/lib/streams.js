@@ -38,7 +38,7 @@ const fetchLedger = (ledger, rippledUrl, attempts = 0) => {
       log.error(error.toString());
       if (error.code === 404 && attempts < 5) {
         log.info(`retry ledger ${ledger.ledger_index} (attempt:${attempts + 1})`);
-        setTimeout(fetchLedger, 500, ledger, rippledUrl, attempts + 1);
+        return sleep(500).then(() => fetchLedger(ledger, rippledUrl, attempts + 1));
       }
       throw error;
     });
