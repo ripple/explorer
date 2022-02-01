@@ -80,12 +80,12 @@ const getAccountState = (account, url = null) => {
   }
 
   log.info(`get balances: ${account} -> ${classicAddress}`);
-  return getAccountInfo(classicAddress, url)
+  return getAccountInfo(url, classicAddress)
     .then(info =>
       Promise.all([
-        getBalances(classicAddress, info.ledger_index, url).then(data => formatResults(info, data)),
-        getAccountEscrows(classicAddress, info.ledger_index, url),
-        getAccountPaychannels(classicAddress, info.ledger_index, url),
+        getBalances(url, classicAddress, info.ledger_index).then(data => formatResults(info, data)),
+        getAccountEscrows(url, classicAddress, info.ledger_index),
+        getAccountPaychannels(url, classicAddress, info.ledger_index),
         getServerInfo(url),
       ]).then(data => {
         return {

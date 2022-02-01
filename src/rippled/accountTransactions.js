@@ -54,7 +54,7 @@ const getAccountTransactions = async (account, currency, marker, limit, url = nu
   }
 
   log.info(`get transactions: ${account} -> ${classicAddress}`);
-  return getAccountTxs(classicAddress, limit, marker, url)
+  return getAccountTxs(url, classicAddress, limit, marker)
     .then(data => {
       const transactions = data.transactions
         .map(tx => {

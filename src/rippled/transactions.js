@@ -7,7 +7,7 @@ const log = logger({ name: 'transactions' });
 
 const getTransaction = (transactionId, url = null) => {
   log.info(`get tx: ${transactionId}`);
-  return getRippledTransaction(transactionId, url)
+  return getRippledTransaction(url, transactionId)
     .then(response => {
       return formatTransaction(response);
     })

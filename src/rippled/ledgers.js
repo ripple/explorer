@@ -18,7 +18,7 @@ const getLedger = (identifier, url = null) => {
   }
 
   log.info(`get ledger: ${JSON.stringify(parameters)}`);
-  return getRippledLedger(parameters, url)
+  return getRippledLedger(url, parameters)
     .then(ledger => summarizeLedger(ledger, true))
     .then(data => {
       return data;
