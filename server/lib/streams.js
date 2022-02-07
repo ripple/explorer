@@ -9,6 +9,16 @@ const sockets = [];
 const ledgers = {};
 const reserve = {};
 
+const currentMetric = {
+  base_fee: undefined,
+  txn_sec: undefined,
+  txn_ledger: undefined,
+  ledger_interval: undefined,
+  avg_fee: undefined,
+};
+
+module.exports.getCurrentMetrics = () => currentMetric;
+
 // add the ledger to the cache
 const addLedger = data => {
   const { ledger_index: ledgerIndex } = data;
@@ -96,18 +106,16 @@ const updateMetrics = baseFee => {
 
     if (d.total_fees) {
       fees += d.total_fees;
-      txCount += d.txn_count;
+      txCount += d.txn_count ?? 0;
       ledgerCount += 1;
     }
   });
-
-  emit('metric', {
-    base_fee: Number(baseFee.toPrecision(4)).toString(),
-    txn_sec: time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
-    txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
-    ledger_interval: timeCount ? (time / timeCount / 1000).toFixed(3) : undefined,
-    avg_fee: txCount ? (fees / txCount).toPrecision(4) : undefined,
-  });
+  currentMetric.base_fee = Number(baseFee.toPrecision(4)).toString();
+  currentMetric.txn_sec = time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined;
+  currentMetric.txn_ledger = ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined;
+  currentMetric.ledger_interval = timeCount ? (time / timeCount / 1000).toFixed(3) : undefined;
+  currentMetric.avg_fee = txCount ? (fees / txCount).toPrecision(4) : undefined;
+  console.log(currentMetric);
 };
 
 // fetch current reserve
