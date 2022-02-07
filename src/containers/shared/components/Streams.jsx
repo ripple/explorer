@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import Log from '../log';
 import { fetchNegativeUNL, fetchQuorum } from '../utils';
 import {
@@ -73,11 +74,25 @@ class Streams extends Component {
     }, 100);
   }
 
+  getInitialState() {
+    const { updateMetrics } = this.props;
+    axios.get('/api/v1/metrics').then(result => {
+      console.log(result.data);
+      this.setState(prevState => {
+        const metrics = Object.assign(prevState.metrics, result.data);
+        updateMetrics(metrics);
+        return { metrics };
+      });
+      // TODO: add rest of ledger state to this
+    });
+  }
+
   componentDidMount() {
     this.connect();
     this.updateNegativeUNL();
     this.heartbeat = setInterval(this.checkHeartbeat, 2000);
     this.purge = setInterval(this.purge, 5000);
+    this.getInitialState();
   }
 
   componentWillUnmount() {
