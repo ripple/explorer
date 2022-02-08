@@ -76,7 +76,7 @@ class Streams extends Component {
   componentDidMount() {
     this.connect();
     this.updateNegativeUNL();
-    this.updateInitialState();
+    this.updateMetrics();
     this.heartbeat = setInterval(this.checkHeartbeat, 2000);
     this.purge = setInterval(this.purge, 5000);
   }
@@ -192,7 +192,7 @@ class Streams extends Component {
     }
   };
 
-  updateInitialState() {
+  updateMetrics() {
     fetchMetrics().then(metrics => this.onmetric(metrics));
   }
 
