@@ -1,17 +1,14 @@
-import WebSocket from 'ws';
 import axios from 'axios';
 import { getLedger } from './rippled';
-import { summarizeLedger, XRP_BASE, EPOCH_OFFSET } from './utils';
+import { summarizeLedger, EPOCH_OFFSET } from './utils';
 import logger from './logger';
 
 const log = logger({ name: 'streams' });
 
 const PURGE_INTERVAL = 10 * 1000;
 const MAX_AGE = 120 * 1000;
-const sockets = [];
 const ledgers = {};
 const validators = {};
-const reserve = {};
 
 // add the ledger to the cache
 const addLedger = data => {
@@ -48,6 +45,7 @@ const fetchLedger = (ledger, attempts = 0) => {
     });
 };
 
+// fetch current ledger metrics
 const fetchMetrics = () => {
   return axios.get('/api/v1/metrics').then(result => {
     return result.data;
@@ -89,17 +87,6 @@ const purge = () => {
       delete validators[key];
     }
   });
-
-  let index = sockets.length;
-  while (index) {
-    index -= 1;
-    if (sockets[index].readyState !== WebSocket.OPEN) {
-      sockets[index].terminate();
-      sockets.splice(index, 1);
-    }
-  }
-
-  log.info('#sockets', sockets.length);
 };
 
 // update rolling metrics
@@ -135,9 +122,6 @@ const updateMetrics = baseFee => {
   };
 };
 
-// fetch current reserve
-const getReserve = () => ({ ...reserve });
-
 // handle ledger messages
 const handleLedger = data => {
   const ledger = addLedger(data);
@@ -147,8 +131,6 @@ const handleLedger = data => {
   ledger.ledger_hash = ledgerHash;
   ledger.txn_count = txnCount;
   ledger.close_time = (data.ledger_time + EPOCH_OFFSET) * 1000;
-  reserve.base = data.reserve_base / XRP_BASE;
-  reserve.inc = data.reserve_inc / XRP_BASE;
 
   const metrics = updateMetrics(data.fee_base / 1000000);
   return {
@@ -200,17 +182,4 @@ const handleLoadFee = data => {
 
 setInterval(purge, PURGE_INTERVAL);
 
-// store new client
-const addWs = ws => {
-  sockets.push(ws);
-};
-
-export {
-  getReserve,
-  handleLedger,
-  handleValidation,
-  handleLoadFee,
-  addWs,
-  fetchLedger,
-  fetchMetrics,
-};
+export { handleLedger, handleValidation, handleLoadFee, fetchLedger, fetchMetrics };
