@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import Log from '../log';
 import { fetchNegativeUNL, fetchQuorum } from '../utils';
 import {
@@ -77,10 +76,9 @@ class Streams extends Component {
 
   getInitialState() {
     const { updateMetrics } = this.props;
-    axios.get('/api/v1/metrics').then(result => {
+    fetchMetrics().then(metrics => {
       this.setState(prevState => {
-        const metrics = Object.assign(prevState.metrics, result.data);
-        updateMetrics(metrics);
+        updateMetrics(Object.assign(prevState.metrics, metrics));
         return { metrics };
       });
       // TODO: add rest of ledger state to this
