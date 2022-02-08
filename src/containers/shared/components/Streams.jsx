@@ -1,13 +1,12 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Log from '../log';
-import { fetchNegativeUNL, fetchQuorum } from '../utils';
+import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils';
 import {
   handleValidation,
   handleLedger,
   handleLoadFee,
   fetchLedger,
-  fetchMetrics,
 } from '../../../rippled/lib/streams';
 
 const MAX_LEDGER_COUNT = 20;

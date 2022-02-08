@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { getLedger } from './rippled';
 import { summarizeLedger, EPOCH_OFFSET } from './utils';
 import logger from './logger';
@@ -43,13 +42,6 @@ const fetchLedger = (ledger, attempts = 0) => {
       }
       throw error;
     });
-};
-
-// fetch current ledger metrics
-const fetchMetrics = () => {
-  return axios.get('/api/v1/metrics').then(result => {
-    return result.data;
-  });
 };
 
 // determine if the ledger index
@@ -182,4 +174,4 @@ const handleLoadFee = data => {
 
 setInterval(purge, PURGE_INTERVAL);
 
-export { handleLedger, handleValidation, handleLoadFee, fetchLedger, fetchMetrics };
+export { handleLedger, handleValidation, handleLoadFee, fetchLedger };
