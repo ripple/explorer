@@ -115,8 +115,6 @@ const updateMetrics = baseFee => {
   currentMetric.txn_ledger = ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined;
   currentMetric.ledger_interval = timeCount ? (time / timeCount / 1000).toFixed(3) : undefined;
   currentMetric.avg_fee = txCount ? (fees / txCount).toPrecision(4) : undefined;
-  console.log(currentMetric);
-  console.log(Object.keys(ledgers).length);
 };
 
 // fetch current reserve
