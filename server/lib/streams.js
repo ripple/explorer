@@ -31,13 +31,22 @@ const addLedger = data => {
   return ledgers[ledgerIndex];
 };
 
+const getTotalFees = ledger => {
+  let totalFees = 0;
+
+  ledger.transactions.forEach(tx => {
+    totalFees += Number(tx.Fee);
+  });
+  return totalFees / utils.XRP_BASE;
+};
+
 // fetch full ledger
 const fetchLedger = (ledger, attempts = 0) => {
   rippled
     .getLedger({ ledger_hash: ledger.ledger_hash })
-    .then(utils.summarizeLedger)
-    .then(summary => {
-      Object.assign(ledger, summary);
+    .then(getTotalFees)
+    .then(totalFees => {
+      Object.assign(ledger, { total_fees: totalFees });
     })
     .catch(error => {
       log.error(error.toString());
@@ -102,7 +111,7 @@ module.exports.handleLedger = data => {
   log.info('new ledger', data.ledger_index);
   ledger.close_time = (data.ledger_time + utils.EPOCH_OFFSET) * 1000;
 
-  updateMetrics(data.fee_base / 1000000);
+  updateMetrics(data.fee_base / utils.XRP_BASE);
   fetchLedger(ledger);
 };
 
