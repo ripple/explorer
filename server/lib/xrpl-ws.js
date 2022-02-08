@@ -59,8 +59,9 @@ const connect = rippled => {
       log.error('message parse error', message);
       log.error(e);
     }
-
-    streams.handleLedger(data);
+    if (data.type === 'ledgerClosed') {
+      streams.handleLedger(data);
+    }
   });
 
   return ws;

@@ -17,6 +17,8 @@ const query = options => {
 };
 
 module.exports = async (req, res) => {
+  const rippledParams = JSON.stringify(req.body.options);
+  log.info(`sending cors request to ${req.params.url}, params ${rippledParams}`);
   return query({ url: req.params.url, options: req.body.options })
     .then(resp => {
       res.send(resp.data);

@@ -1,13 +1,10 @@
-const WebSocket = require('ws');
 const rippled = require('./rippled');
 const utils = require('./utils');
 const log = require('./logger')({ name: 'streams' });
 
 const PURGE_INTERVAL = 10 * 1000;
 const MAX_AGE = 120 * 1000;
-const sockets = [];
 const ledgers = {};
-const reserve = {};
 
 const currentMetric = {
   base_fee: undefined,
@@ -26,6 +23,8 @@ const addLedger = data => {
     ledgers[ledgerIndex] = {
       ledger_index: Number(ledgerIndex),
       seen: Date.now(),
+      ledger_hash: data.ledger_hash,
+      txn_count: Number(data.txn_count),
     };
   }
 
@@ -64,17 +63,6 @@ const purge = () => {
       delete ledgers[key];
     }
   });
-
-  let index = sockets.length;
-  while (index) {
-    index -= 1;
-    if (sockets[index].readyState !== WebSocket.OPEN) {
-      sockets[index].terminate();
-      sockets.splice(index, 1);
-    }
-  }
-
-  log.info('#sockets', sockets.length);
 };
 
 // update rolling metrics
@@ -107,28 +95,15 @@ const updateMetrics = baseFee => {
   currentMetric.avg_fee = txCount ? (fees / txCount).toPrecision(4) : undefined;
 };
 
-// fetch current reserve
-module.exports.getReserve = () => ({ ...reserve });
-
 // handle ledger messages
 module.exports.handleLedger = data => {
   const ledger = addLedger(data);
-  const { ledger_hash: ledgerHash, ledger_index: ledgerIndex, txn_count: txnCount } = data;
 
-  log.info('new ledger', ledgerIndex);
-  ledger.ledger_hash = ledgerHash;
-  ledger.txn_count = txnCount;
+  log.info('new ledger', data.ledger_index);
   ledger.close_time = (data.ledger_time + utils.EPOCH_OFFSET) * 1000;
-  reserve.base = data.reserve_base / utils.XRP_BASE;
-  reserve.inc = data.reserve_inc / utils.XRP_BASE;
 
   updateMetrics(data.fee_base / 1000000);
   fetchLedger(ledger);
 };
 
 setInterval(purge, PURGE_INTERVAL);
-
-// store new client
-module.exports.addWs = ws => {
-  sockets.push(ws);
-};
