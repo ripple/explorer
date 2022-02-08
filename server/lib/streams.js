@@ -1,6 +1,8 @@
 const WebSocket = require('ws');
-const utils = require('./utils');
 const log = require('./logger')({ name: 'streams' });
+
+const EPOCH_OFFSET = 946684800;
+const XRP_BASE = 1000000;
 
 const PURGE_INTERVAL = 10 * 1000;
 const MAX_AGE = 120 * 1000;
@@ -100,9 +102,9 @@ module.exports.handleLedger = data => {
   log.info('new ledger', ledgerIndex);
   ledger.ledger_hash = ledgerHash;
   ledger.txn_count = txnCount;
-  ledger.close_time = (data.ledger_time + utils.EPOCH_OFFSET) * 1000;
-  reserve.base = data.reserve_base / utils.XRP_BASE;
-  reserve.inc = data.reserve_inc / utils.XRP_BASE;
+  ledger.close_time = (data.ledger_time + EPOCH_OFFSET) * 1000;
+  reserve.base = data.reserve_base / XRP_BASE;
+  reserve.inc = data.reserve_inc / XRP_BASE;
 
   updateMetrics(data.fee_base / 1000000);
 };
