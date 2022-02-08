@@ -263,7 +263,14 @@ class Streams extends Component {
         } else if (streamResult.type === 'ledgerClosed') {
           const { ledger } = handleLedger(streamResult);
           this.onledger(ledger);
-          fetchLedger(ledger).then(ledgerSummary => this.onledgerSummary(ledgerSummary));
+          fetchLedger(ledger)
+            .then(ledgerSummary => {
+              this.onledgerSummary(ledgerSummary);
+            })
+            .catch(e => {
+              Log.error('Ledger fetch error', e.message);
+              Log.error(e);
+            });
           // TODO: when sidechain routing is done, calculate sidechain metrics on the frontend
           // using `this.onmetric(metrics);`
           // because there is no backend server connection (since there is no one network)
