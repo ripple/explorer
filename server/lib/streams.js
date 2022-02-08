@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-const rippled = require('./rippled');
 const utils = require('./utils');
 const log = require('./logger')({ name: 'streams' });
 
@@ -30,33 +29,6 @@ const addLedger = data => {
   }
 
   return ledgers[ledgerIndex];
-};
-
-// emit to clients
-const emit = (type, data) => {
-  sockets.forEach((ws, i) => {
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type, data }));
-    }
-  });
-};
-
-// fetch full ledger
-const fetchLedger = (ledger, attempts = 0) => {
-  rippled
-    .getLedger({ ledger_hash: ledger.ledger_hash })
-    .then(utils.summarizeLedger)
-    .then(summary => {
-      Object.assign(ledger, summary);
-      emit('ledgerSummary', summary);
-    })
-    .catch(error => {
-      log.error(error.toString());
-      if (error.code === 404 && attempts < 5) {
-        log.info(`retry ledger ${ledger.ledger_index} (attempt:${attempts + 1})`);
-        setTimeout(fetchLedger, 500, ledger, attempts + 1);
-      }
-    });
 };
 
 // convert to array and sort
@@ -133,7 +105,6 @@ module.exports.handleLedger = data => {
   reserve.inc = data.reserve_inc / utils.XRP_BASE;
 
   updateMetrics(data.fee_base / 1000000);
-  fetchLedger(ledger);
 };
 
 setInterval(purge, PURGE_INTERVAL);
