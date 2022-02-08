@@ -8,6 +8,7 @@ import {
   handleLedger,
   handleLoadFee,
   fetchLedger,
+  fetchMetrics,
 } from '../../../rippled/lib/streams';
 
 const MAX_LEDGER_COUNT = 20;
@@ -77,7 +78,6 @@ class Streams extends Component {
   getInitialState() {
     const { updateMetrics } = this.props;
     axios.get('/api/v1/metrics').then(result => {
-      console.log(result.data);
       this.setState(prevState => {
         const metrics = Object.assign(prevState.metrics, result.data);
         updateMetrics(metrics);
@@ -270,10 +270,11 @@ class Streams extends Component {
             this.onvalidation(data);
           }
         } else if (streamResult.type === 'ledgerClosed') {
-          const { ledger, metrics } = handleLedger(streamResult);
+          // TODO: when sidechain routing is done, calculate sidechain metrics on the frontend
+          const { ledger } = handleLedger(streamResult);
           this.onledger(ledger);
           fetchLedger(ledger).then(ledgerSummary => this.onledgerSummary(ledgerSummary));
-          this.onmetric(metrics);
+          fetchMetrics().then(backendMetrics => this.onmetric(backendMetrics));
         } else if (streamResult.type === 'serverStatus') {
           const data = handleLoadFee(streamResult);
           this.onmetric(data);

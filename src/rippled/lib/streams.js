@@ -1,4 +1,5 @@
 import WebSocket from 'ws';
+import axios from 'axios';
 import { getLedger } from './rippled';
 import { summarizeLedger, XRP_BASE, EPOCH_OFFSET } from './utils';
 import logger from './logger';
@@ -45,6 +46,12 @@ const fetchLedger = (ledger, attempts = 0) => {
       }
       return undefined;
     });
+};
+
+const fetchMetrics = () => {
+  return axios.get('/api/v1/metrics').then(result => {
+    return result.data;
+  });
 };
 
 // determine if the ledger index
@@ -198,4 +205,12 @@ const addWs = ws => {
   sockets.push(ws);
 };
 
-export { getReserve, handleLedger, handleValidation, handleLoadFee, addWs, fetchLedger };
+export {
+  getReserve,
+  handleLedger,
+  handleValidation,
+  handleLoadFee,
+  addWs,
+  fetchLedger,
+  fetchMetrics,
+};
