@@ -74,23 +74,12 @@ class Streams extends Component {
     }, 100);
   }
 
-  getInitialState() {
-    const { updateMetrics } = this.props;
-    fetchMetrics().then(metrics => {
-      this.setState(prevState => {
-        updateMetrics(Object.assign(prevState.metrics, metrics));
-        return { metrics };
-      });
-      // TODO: add rest of ledger state to this
-    });
-  }
-
   componentDidMount() {
     this.connect();
     this.updateNegativeUNL();
+    this.updateInitialState();
     this.heartbeat = setInterval(this.checkHeartbeat, 2000);
     this.purge = setInterval(this.purge, 5000);
-    this.getInitialState();
   }
 
   componentWillUnmount() {
@@ -204,6 +193,10 @@ class Streams extends Component {
     }
   };
 
+  updateInitialState() {
+    fetchMetrics().then(metrics => this.onmetric(metrics));
+  }
+
   updateQuorum() {
     fetchQuorum().then(quorum => {
       const { updateMetrics } = this.props;
@@ -268,11 +261,13 @@ class Streams extends Component {
             this.onvalidation(data);
           }
         } else if (streamResult.type === 'ledgerClosed') {
-          // TODO: when sidechain routing is done, calculate sidechain metrics on the frontend
           const { ledger } = handleLedger(streamResult);
           this.onledger(ledger);
           fetchLedger(ledger).then(ledgerSummary => this.onledgerSummary(ledgerSummary));
-          fetchMetrics().then(backendMetrics => this.onmetric(backendMetrics));
+          // TODO: when sidechain routing is done, calculate sidechain metrics on the frontend
+          // using `this.onmetric(metrics);`
+          // because there is no backend server connection (since there is no one network)
+          this.updateMetrics();
         } else if (streamResult.type === 'serverStatus') {
           const data = handleLoadFee(streamResult);
           this.onmetric(data);
