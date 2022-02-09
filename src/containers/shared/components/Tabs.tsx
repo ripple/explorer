@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import Link from '../InternalLink';
+import Link from './InternalLink';
 import '../css/tabs.css';
 
 interface Props {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import Link from '../shared/InternalLink';
+import Link from '../shared/components/InternalLink';
 import { BREAKPOINTS, ANALYTIC_TYPES, analytics } from '../shared/utils';
 import Menu from './Menu';
 import MobileMenu from './MobileMenu';

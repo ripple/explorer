@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Link from '../../shared/InternalLink';
+import Link from '../../shared/components/InternalLink';
 import { loadTokenState } from './actions';
 import Loader from '../../shared/components/Loader';
 import '../../shared/css/nested-menu.css';

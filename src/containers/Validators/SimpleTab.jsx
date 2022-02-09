@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Link from '../shared/InternalLink';
+import Link from '../shared/components/InternalLink';
 import { localizeDate, BREAKPOINTS } from '../shared/utils';
 import Simple from './Simple';
 import './simpleTab.css';

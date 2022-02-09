@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Link from '../shared/InternalLink';
+import Link from '../shared/components/InternalLink';
 import TransactionMeta from './Meta';
 import TransactionDescription from './Description';
 import Account from '../shared/components/Account';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Link from '../shared/InternalLink';
+import Link from '../shared/components/InternalLink';
 import { removeRoutes, analytics, ANALYTIC_TYPES, BREAKPOINTS } from '../shared/utils';
 import defaultRoutes from './routes';
 import Search from './Search';

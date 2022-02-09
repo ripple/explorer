@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from 'react-i18next';
-import Link from '../../shared/InternalLink';
+import Link from '../../shared/components/InternalLink';
 import { findNode, normalizeAmount } from '../../shared/transactionUtils';
 import Account from '../../shared/components/Account';
 

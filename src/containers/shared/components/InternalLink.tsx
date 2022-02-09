@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import UrlContext from './urlContext';
+import UrlContext from '../urlContext';
 
 interface Props {
   to: string;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import Link from '../../shared/InternalLink';
+import Link from '../../shared/components/InternalLink';
 import './styles.css';
 import Loader from '../../shared/components/Loader';
 import { formatLargeNumber, getLocalizedCurrencySymbol } from '../../shared/utils';
