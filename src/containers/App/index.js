@@ -109,23 +109,19 @@ class App extends Component {
         <Header />
         <div className="content">
           <Switch>
-            <Route exact path={`${urlPrefix}/`} component={Ledgers} />
+            {generateRoute(`${urlPrefix}/`, Ledgers)}
             {generateRoute(`${urlPrefix}/ledgers/:identifier`, ledger)}
-            <Route exact path={`${urlPrefix}/accounts/:id?`} component={accounts} />
+            {generateRoute(`${urlPrefix}/accounts/:id?`, accounts)}
             {generateRoute(`${urlPrefix}/transactions/:identifier/:tab?`, transactions)}
-            <Route
-              exact
-              path={`${urlPrefix}/network/:tab?`}
-              component={routerProps => renderComponent(routerProps, network)}
-            />
-            <Route exact path={`${urlPrefix}/validators/:identifier?`} component={validators} />
+            {generateRoute(`${urlPrefix}/network/:tab?`, network)}
+            {generateRoute(`${urlPrefix}/validators/:identifier?`, validators)}
             <Route
               exact
               path={`${urlPrefix}/validators/:identifier?/:tab`}
               component={validators}
             />
-            <Route exact path={`${urlPrefix}/paystrings/:id?`} component={paystrings} />
-            <Route exact path={`${urlPrefix}/token/:currency.:id`} component={token} />
+            {generateRoute(`${urlPrefix}/paystrings/:id?`, paystrings)}
+            {generateRoute(`${urlPrefix}/token/:currency.:id`, token)}
             {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
             <Route component={noMatch} />
           </Switch>

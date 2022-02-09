@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import Link from '../shared/InternalLink';
 import Loader from '../shared/components/Loader';
 import { durationToHuman } from '../shared/utils';
 import './css/nodesTable.css';
