@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Link from '../../shared/InternalLink';
 import Account from '../../shared/components/Account';
 import Currency from '../../shared/components/Currency';
 import { CURRENCY_OPTIONS } from '../../shared/transactionUtils';

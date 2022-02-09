@@ -37,6 +37,12 @@ function renderComponent(routerProps, page) {
   );
 }
 
+function generateRoute(path, component) {
+  return (
+    <Route exact path={path} component={routerProps => renderComponent(routerProps, component)} />
+  );
+}
+
 class App extends Component {
   static componentDidCatch(error, info) {
     analytics(ANALYTIC_TYPES.exception, {
@@ -106,12 +112,7 @@ class App extends Component {
             <Route exact path={`${urlPrefix}/`} component={Ledgers} />
             <Route exact path={`${urlPrefix}/ledgers/:identifier`} component={ledger} />
             <Route exact path={`${urlPrefix}/accounts/:id?`} component={accounts} />
-            <Route exact path={`${urlPrefix}/transactions/:identifier?`} component={transactions} />
-            <Route
-              exact
-              path={`${urlPrefix}/transactions/:identifier/:tab`}
-              component={transactions}
-            />
+            {generateRoute(`${urlPrefix}/transactions/:identifier/:tab?`, transactions)}
             <Route
               exact
               path={`${urlPrefix}/network/:tab?`}

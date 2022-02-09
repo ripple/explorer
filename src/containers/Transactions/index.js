@@ -79,9 +79,9 @@ class Transaction extends Component {
   renderTabs() {
     const { match } = this.props;
     const { tab = 'simple', identifier } = match.params;
-    const { path = '/' } = match;
     const tabs = ['simple', 'detailed', 'raw'];
-    return <Tabs tabs={tabs} selected={tab} path={`${path.split(':')[0]}${identifier}`} />;
+    const path = `/transactions/${identifier}`;
+    return <Tabs tabs={tabs} selected={tab} path={path} />;
   }
 
   renderTransaction() {

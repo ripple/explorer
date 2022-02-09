@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Link from '../shared/InternalLink';
 import { localizeDate, localizeNumber, BREAKPOINTS } from '../shared/utils';
 import Account from '../shared/components/Account';
 import Sequence from '../shared/components/Sequence';
