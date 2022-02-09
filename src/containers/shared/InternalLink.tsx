@@ -3,7 +3,18 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UrlContext from './urlContext';
 
-const InternalLink = props => {
+interface Props {
+  to: string;
+  className?: string;
+  onClick?: (e: any) => null;
+  title?: string;
+  style?: {
+    color?: string;
+  };
+  children: string;
+}
+
+const InternalLink = (props: Props) => {
   const { urlLink } = useContext(UrlContext);
 
   const { className, to, onClick, title, style, children } = props;
