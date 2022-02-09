@@ -110,7 +110,7 @@ class App extends Component {
         <div className="content">
           <Switch>
             <Route exact path={`${urlPrefix}/`} component={Ledgers} />
-            <Route exact path={`${urlPrefix}/ledgers/:identifier`} component={ledger} />
+            {generateRoute(`${urlPrefix}/ledgers/:identifier`, ledger)}
             <Route exact path={`${urlPrefix}/accounts/:id?`} component={accounts} />
             {generateRoute(`${urlPrefix}/transactions/:identifier/:tab?`, transactions)}
             <Route
