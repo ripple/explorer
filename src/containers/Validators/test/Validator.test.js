@@ -22,7 +22,10 @@ describe('Validator container', () => {
         <Provider store={store}>
           <Router>
             <Validator
-              match={{ params: { identifier: 'mock-validator-hash' }, path: '/' }}
+              match={{
+                params: { identifier: 'mock-validator-hash' },
+                path: '/validators/:identifier/:tab?',
+              }}
               updateContext={(rippledUrl, urlLink) => {}}
             />
           </Router>

@@ -24,7 +24,13 @@ describe('Transaction container', () => {
         <Provider store={store}>
           <Router>
             <Transaction
-              match={{ params: { identifier: mockTransaction.hash, tab }, path: '/' }}
+              match={{
+                params: {
+                  identifier: mockTransaction.hash,
+                  tab,
+                },
+                path: ':url/transactions/:identifier/:tab',
+              }}
               updateContext={(rippledUrl, urlLink) => {}}
             />
           </Router>
