@@ -1,14 +1,12 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import UrlContext from './urlContext';
 
 const InternalLink = props => {
   const { urlLink } = useContext(UrlContext);
 
-  // console.log('HIIIIIIIII IN INTERNALLINK');
-  // eslint-disable-next-line react/prop-types -- temporary
   const { className, to, onClick, title, style, children } = props;
-  // console.log(urlLink, to, `${urlLink}${to}`);
   return (
     <Link
       className={className}
@@ -22,10 +20,22 @@ const InternalLink = props => {
   );
 };
 
-// InternalLink.propTypes = {
-//   to: PropTypes.string.isRequired,
-//   className: PropTypes.string,
-//   parentPath: PropTypes.string.isRequired,
-// };
+InternalLink.propTypes = {
+  to: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  onClick: PropTypes.func,
+  title: PropTypes.string,
+  style: PropTypes.shape({
+    color: PropTypes.string,
+  }),
+  children: PropTypes.string.isRequired,
+};
+
+InternalLink.defaultProps = {
+  className: undefined,
+  onClick: undefined,
+  title: undefined,
+  style: {},
+};
 
 export default InternalLink;
