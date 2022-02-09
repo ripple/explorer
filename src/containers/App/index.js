@@ -114,12 +114,7 @@ class App extends Component {
             {generateRoute(`${urlPrefix}/accounts/:id?`, accounts)}
             {generateRoute(`${urlPrefix}/transactions/:identifier/:tab?`, transactions)}
             {generateRoute(`${urlPrefix}/network/:tab?`, network)}
-            {generateRoute(`${urlPrefix}/validators/:identifier?`, validators)}
-            <Route
-              exact
-              path={`${urlPrefix}/validators/:identifier?/:tab`}
-              component={validators}
-            />
+            {generateRoute(`${urlPrefix}/validators/:identifier/:tab?`, validators)}
             {generateRoute(`${urlPrefix}/paystrings/:id?`, paystrings)}
             {generateRoute(`${urlPrefix}/token/:currency.:id`, token)}
             {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}

@@ -30,11 +30,12 @@ class Network extends Component {
     const { match } = this.props;
     const { params, path } = match;
     const { tab = 'nodes' } = params;
-    const base = path.split('/:')[0];
     const mode = process.env.REACT_APP_ENVIRONMENT;
     if (mode === 'nft_sandbox' || mode === 'sidechain') {
       return this.renderUnderConstruction();
     }
+    // strips :url from the front and the tab info from the end
+    const base = `/${path.split(':')[1].split('/')[1]}`;
     return tab === 'nodes' ? <Nodes path={base} /> : <Validators path={base} />;
   }
 }
