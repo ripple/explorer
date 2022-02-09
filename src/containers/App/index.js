@@ -21,8 +21,22 @@ import paystrings from '../PayStrings';
 import token from '../Token';
 import tokens from '../Tokens';
 import noMatch from '../NoMatch';
+import UrlContext from '../shared/urlContext';
 
 const MODE = process.env.REACT_APP_ENVIRONMENT;
+
+function renderComponent(routerProps, page) {
+  const rippledUrl = routerProps.match.params.url;
+  const urlLink = rippledUrl ? `/${rippledUrl}` : '';
+  const PageComponent = page;
+  return (
+    <UrlContext.Provider value={{ rippledUrl, urlLink }}>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading -- needed for component */}
+      <PageComponent {...routerProps} />;
+    </UrlContext.Provider>
+  );
+}
+
 class App extends Component {
   static componentDidCatch(error, info) {
     analytics(ANALYTIC_TYPES.exception, {
@@ -98,7 +112,11 @@ class App extends Component {
               path={`${urlPrefix}/transactions/:identifier/:tab`}
               component={transactions}
             />
-            <Route exact path={`${urlPrefix}/network/:tab?`} component={network} />
+            <Route
+              exact
+              path={`${urlPrefix}/network/:tab?`}
+              component={routerProps => renderComponent(routerProps, network)}
+            />
             <Route exact path={`${urlPrefix}/validators/:identifier?`} component={validators} />
             <Route
               exact
