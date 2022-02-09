@@ -7,10 +7,16 @@ const InternalLink = props => {
 
   console.log('HIIIIIIIII IN INTERNALLINK');
   // eslint-disable-next-line react/prop-types -- temporary
-  const { className, to, onClick, title, children } = props;
+  const { className, to, onClick, title, style, children } = props;
   console.log(urlLink, to, `${urlLink}${to}`);
   return (
-    <Link className={className} to={`${urlLink}${to}`} onClick={onClick} title={title}>
+    <Link
+      className={className}
+      to={`${urlLink}${to}`}
+      onClick={onClick}
+      title={title}
+      style={style}
+    >
       {children}
     </Link>
   );

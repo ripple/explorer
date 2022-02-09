@@ -5,6 +5,7 @@ import axios from 'axios';
 import './styles.css';
 import Log from '../../shared/log';
 import Loader from '../../shared/components/Loader';
+import Link from '../../shared/InternalLink';
 import {
   formatLargeNumber,
   getLocalizedCurrencySymbol,
@@ -122,7 +123,7 @@ const DEXPairs = props => {
         </td>
         <td className="issuer-address">
           {pair.issuer !== undefined ? (
-            <a href={`/token/${pair.token}.${pair.issuer}`}>{pair.issuer}</a>
+            <Link href={`/token/${pair.token}.${pair.issuer}`}>{pair.issuer}</Link>
           ) : (
             getLocalizedCurrencySymbol('en-US', 'XRP')
           )}
