@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Validators from './Validators';
@@ -6,9 +6,11 @@ import Nodes from './Nodes';
 import { analytics, ANALYTIC_TYPES } from '../shared/utils';
 import './css/style.css';
 import NoMatch from '../NoMatch';
+import ExplorerPage from '../shared/components/ExplorerPage';
 
-class Network extends Component {
+class Network extends ExplorerPage {
   componentDidMount() {
+    this.mounted = true;
     const { t, match } = this.props;
     const { params } = match;
     document.title = `${t('xrpl_explorer')} | ${t('network')}`;
@@ -16,6 +18,10 @@ class Network extends Component {
       title: 'network',
       path: `/network/${params.tab || 'nodes'}`,
     });
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   renderUnderConstruction = () => {

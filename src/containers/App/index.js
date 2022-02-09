@@ -25,24 +25,6 @@ import UrlContext from '../shared/urlContext';
 
 const MODE = process.env.REACT_APP_ENVIRONMENT;
 
-function renderComponent(routerProps, page) {
-  const rippledUrl = routerProps.match.params.url;
-  const urlLink = rippledUrl ? `/${rippledUrl}` : '';
-  const PageComponent = page;
-  return (
-    <UrlContext.Provider value={{ rippledUrl, urlLink }}>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading -- needed for component */}
-      <PageComponent {...routerProps} />;
-    </UrlContext.Provider>
-  );
-}
-
-function generateRoute(path, component) {
-  return (
-    <Route exact path={path} component={routerProps => renderComponent(routerProps, component)} />
-  );
-}
-
 class App extends Component {
   static componentDidCatch(error, info) {
     analytics(ANALYTIC_TYPES.exception, {
@@ -58,6 +40,12 @@ class App extends Component {
       actions.updateLanguage(i18n.language);
     }
 
+    this.state = {
+      rippledUrl: undefined,
+      urlLink: '',
+    };
+    this.updateContext = this.updateContext.bind(this);
+
     props.actions.updateViewportDimensions();
   }
 
@@ -71,6 +59,33 @@ class App extends Component {
     const { actions } = this.props;
     window.removeEventListener('resize', actions.updateViewportDimensions);
     window.removeEventListener('scroll', actions.onScroll);
+  }
+
+  updateContext(rippledUrl, urlLink) {
+    const { rippledUrl: currentRippledUrl } = this.state;
+    if (rippledUrl !== currentRippledUrl) {
+      this.setState({
+        rippledUrl,
+        urlLink,
+      });
+    }
+  }
+
+  generateRoute(path, component) {
+    return (
+      <Route
+        exact
+        path={path}
+        component={routerProps => this.renderComponent(routerProps, component)}
+      />
+    );
+  }
+
+  renderComponent(routerProps, page) {
+    const PageComponent = page;
+
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return <PageComponent {...routerProps} updateContext={this.updateContext} />;
   }
 
   render() {
@@ -98,6 +113,7 @@ class App extends Component {
     }
 
     const urlPrefix = MODE === 'sidechain' ? '/:url' : '';
+    const { rippledUrl, urlLink } = this.state;
 
     return (
       <div className="app">
@@ -106,21 +122,23 @@ class App extends Component {
           <meta name="author" content={t('app.meta.author')} />
         </Helmet>
         <Banner />
-        <Header />
-        <div className="content">
-          <Switch>
-            {generateRoute(`${urlPrefix}/`, Ledgers)}
-            {generateRoute(`${urlPrefix}/ledgers/:identifier`, ledger)}
-            {generateRoute(`${urlPrefix}/accounts/:id?`, accounts)}
-            {generateRoute(`${urlPrefix}/transactions/:identifier/:tab?`, transactions)}
-            {generateRoute(`${urlPrefix}/network/:tab?`, network)}
-            {generateRoute(`${urlPrefix}/validators/:identifier/:tab?`, validators)}
-            {generateRoute(`${urlPrefix}/paystrings/:id?`, paystrings)}
-            {generateRoute(`${urlPrefix}/token/:currency.:id`, token)}
-            {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
-            <Route component={noMatch} />
-          </Switch>
-        </div>
+        <UrlContext.Provider value={{ rippledUrl, urlLink }}>
+          <Header baseUrl={urlLink} />
+          <div className="content">
+            <Switch>
+              {this.generateRoute(`${urlPrefix}/`, Ledgers)}
+              {this.generateRoute(`${urlPrefix}/ledgers/:identifier`, ledger)}
+              {this.generateRoute(`${urlPrefix}/accounts/:id?`, accounts)}
+              {this.generateRoute(`${urlPrefix}/transactions/:identifier/:tab?`, transactions)}
+              {this.generateRoute(`${urlPrefix}/network/:tab?`, network)}
+              {this.generateRoute(`${urlPrefix}/validators/:identifier/:tab?`, validators)}
+              {this.generateRoute(`${urlPrefix}/paystrings/:id?`, paystrings)}
+              {this.generateRoute(`${urlPrefix}/token/:currency.:id`, token)}
+              {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
+              <Route component={noMatch} />
+            </Switch>
+          </div>
+        </UrlContext.Provider>
         <Footer />
       </div>
     );

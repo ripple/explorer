@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Link from '../shared/InternalLink';
 import defaultRoutes from './routes';
 import arrowIcon from '../shared/images/down_arrow_black_50.png';
 import { removeRoutes } from '../shared/utils';

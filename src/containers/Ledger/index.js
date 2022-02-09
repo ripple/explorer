@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -23,6 +23,7 @@ import {
 } from '../shared/utils';
 import './ledger.css';
 import TxLabel from '../shared/components/TxLabel';
+import ExplorerPage from '../shared/components/ExplorerPage';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -52,7 +53,7 @@ ERROR_MESSAGES.default = {
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
 
-class Ledger extends Component {
+class Ledger extends ExplorerPage {
   componentDidMount() {
     const { t, actions, match, data } = this.props;
     const { identifier = '' } = match.params;

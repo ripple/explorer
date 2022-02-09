@@ -17,6 +17,7 @@ import {
   HASH_REGEX,
 } from '../shared/utils';
 import './search.css';
+import UrlContext from '../shared/urlContext';
 
 const getIdType = id => {
   if (DECIMAL_REGEX.test(id)) {
@@ -95,10 +96,14 @@ class Search extends Component {
       eventAction: type,
       eventLabel: id,
     });
+    const { urlLink } = this.context;
 
     this.setState(
       {
-        redirect: type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
+        redirect:
+          type === 'invalid'
+            ? `${urlLink}/search/${id}`
+            : `${urlLink}/${type}/${normalize(id, type)}`,
       },
       callback
     );
@@ -126,6 +131,7 @@ class Search extends Component {
     );
   }
 }
+Search.contextType = UrlContext;
 
 Search.propTypes = {
   t: PropTypes.func.isRequired,

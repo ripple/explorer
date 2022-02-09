@@ -5,10 +5,10 @@ import UrlContext from './urlContext';
 const InternalLink = props => {
   const { urlLink } = useContext(UrlContext);
 
-  console.log('HIIIIIIIII IN INTERNALLINK');
+  // console.log('HIIIIIIIII IN INTERNALLINK');
   // eslint-disable-next-line react/prop-types -- temporary
   const { className, to, onClick, title, style, children } = props;
-  console.log(urlLink, to, `${urlLink}${to}`);
+  // console.log(urlLink, to, `${urlLink}${to}`);
   return (
     <Link
       className={className}

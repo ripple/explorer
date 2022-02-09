@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -8,8 +8,9 @@ import { analytics, ANALYTIC_TYPES } from '../shared/utils';
 import Streams from '../shared/components/Streams';
 import LedgerMetrics from './LedgerMetrics';
 import Ledgers from './Ledgers';
+import ExplorerPage from '../shared/components/ExplorerPage';
 
-class LedgersPage extends Component {
+class LedgersPage extends ExplorerPage {
   constructor(props) {
     super(props);
     this.state = {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import NoMatch from '../NoMatch';
 
 import './styles.css';
 import { analytics, ANALYTIC_TYPES, NOT_FOUND, BAD_REQUEST } from '../shared/utils';
+import ExplorerPage from '../shared/components/ExplorerPage';
 
 const IS_MAINNET = process.env.REACT_APP_ENVIRONMENT === 'mainnet';
 
@@ -29,7 +30,7 @@ ERROR_MESSAGES.default = {
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
 
-class Token extends Component {
+class Token extends ExplorerPage {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { match } = nextProps;
     return {

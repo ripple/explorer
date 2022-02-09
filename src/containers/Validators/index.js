@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { translate } from 'react-i18next';
@@ -12,6 +12,7 @@ import { loadValidator } from './actions';
 import SimpleTab from './SimpleTab';
 import HistoryTab from './HistoryTab';
 import './validator.css';
+import ExplorerPage from '../shared/components/ExplorerPage';
 
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -25,7 +26,7 @@ ERROR_MESSAGES.default = {
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
 
-class Validator extends Component {
+class Validator extends ExplorerPage {
   constructor(props) {
     super(props);
     this.state = {};
