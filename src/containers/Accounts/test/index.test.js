@@ -23,7 +23,10 @@ describe('Account container', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <Account match={{ params: { id: TEST_ACCOUNT_ID } }} />
+            <Account
+              match={{ params: { id: TEST_ACCOUNT_ID } }}
+              updateContext={(rippledUrl, urlLink) => {}}
+            />
           </Router>
         </Provider>
       </I18nextProvider>

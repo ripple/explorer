@@ -21,7 +21,10 @@ describe('Validator container', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <Validator match={{ params: { identifier: 'mock-validator-hash' }, path: '/' }} />
+            <Validator
+              match={{ params: { identifier: 'mock-validator-hash' }, path: '/' }}
+              updateContext={(rippledUrl, urlLink) => {}}
+            />
           </Router>
         </Provider>
       </I18nextProvider>

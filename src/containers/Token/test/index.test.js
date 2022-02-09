@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { initialState } from '../../../rootReducer';
 import i18n from '../../../i18nTestConfig';
-import Account from '../index';
+import Token from '../index';
 import TokenHeader from '../TokenHeader';
 import TokenTransactionsTable from '../TokenTransactionsTable';
 import mockAccountState from '../../Accounts/test/mockAccountState.json';
@@ -23,7 +23,10 @@ describe('Token container', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <Account match={{ params: { id: TEST_ACCOUNT_ID } }} />
+            <Token
+              match={{ params: { id: TEST_ACCOUNT_ID } }}
+              updateContext={(rippledUrl, urlLink) => {}}
+            />
           </Router>
         </Provider>
       </I18nextProvider>

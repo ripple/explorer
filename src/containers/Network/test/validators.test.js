@@ -24,7 +24,11 @@ describe('Nodes Page container', () => {
       <Router>
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
-            <Network {...props} match={{ params: { tab: 'validators' }, path: '/' }} />
+            <Network
+              {...props}
+              match={{ params: { tab: 'validators' }, path: '/' }}
+              updateContext={(rippledUrl, urlLink) => {}}
+            />
           </Provider>
         </I18nextProvider>
       </Router>
