@@ -24,7 +24,7 @@ describe('Nodes Page container', () => {
           <Provider store={store}>
             <Network
               {...props}
-              match={{ params: { tab: 'nodes' }, path: ':url/network/:tab?' }}
+              match={{ params: { tab: 'nodes' }, path: '/' }}
               updateContext={(rippledUrl, urlLink) => {}}
             />
           </Provider>
