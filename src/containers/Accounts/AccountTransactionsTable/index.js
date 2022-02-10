@@ -30,7 +30,7 @@ export const AccountTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
   const { accountId, actions, data, loadingError } = props;
-  const { rippledUrl } = useContext(UrlContext);
+  const rippledUrl = useContext(UrlContext);
 
   useEffect(() => {
     if (data.transactions == null) return;

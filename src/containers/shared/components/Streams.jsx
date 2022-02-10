@@ -204,7 +204,7 @@ class Streams extends Component {
   }
 
   updateQuorum() {
-    const { rippledUrl } = this.context;
+    const rippledUrl = this.context;
     fetchQuorum(rippledUrl).then(quorum => {
       const { updateMetrics } = this.props;
       this.setState(prevState => {
@@ -217,7 +217,7 @@ class Streams extends Component {
 
   updateNegativeUNL() {
     this.updateQuorum();
-    const { rippledUrl } = this.context;
+    const rippledUrl = this.context;
     fetchNegativeUNL(rippledUrl).then(nUnl => {
       const { updateMetrics } = this.props;
       this.setState(prevState => {
@@ -229,7 +229,7 @@ class Streams extends Component {
   }
 
   connect() {
-    const { rippledUrl } = this.context;
+    const rippledUrl = this.context;
     const rippledWsUrl = `wss://${rippledUrl}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
     this.ws = new WebSocket(rippledUrl == null ? DEFAULT_WS_URL : rippledWsUrl);
     this.ws.last = Date.now();

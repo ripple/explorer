@@ -21,7 +21,7 @@ const CURRENCY_OPTIONS = {
 class TokenHeader extends Component {
   componentDidMount() {
     const { actions, accountId, currency } = this.props;
-    const { rippledUrl } = this.context;
+    const rippledUrl = this.context;
     actions.loadTokenState(currency, accountId, rippledUrl);
   }
 
@@ -29,7 +29,7 @@ class TokenHeader extends Component {
     const nextAccountId = prevProps.accountId;
     const nextCurrency = prevProps.currency;
     const { accountId, currency, actions } = this.props;
-    const { rippledUrl } = this.context;
+    const rippledUrl = this.context;
 
     if (nextAccountId !== accountId || nextCurrency !== currency) {
       actions.loadTokenState(nextCurrency, nextAccountId, rippledUrl);

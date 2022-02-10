@@ -38,7 +38,7 @@ class Transaction extends Component {
     const { t, actions, match, data } = this.props;
     const hash = data.raw ? data.raw.hash : undefined;
     const { identifier = '', tab = 'simple' } = match.params;
-    const { rippledUrl } = this.context;
+    const rippledUrl = this.context;
     const short = identifier.substr(0, 8);
 
     document.title = `${t('xrpl_explorer')} | ${t('transaction_short')} ${short}...`;
@@ -80,8 +80,8 @@ class Transaction extends Component {
 
   renderTabs() {
     const { match } = this.props;
-    const { tab = 'simple', identifier } = match.params;
-    const { path = '/' } = match;
+    const { path = '/', params } = match;
+    const { tab = 'simple', identifier } = params;
     const tabs = ['simple', 'detailed', 'raw'];
     // strips :url from the front and the identifier/tab info from the end
     const mainPath = `${path.split('/:')[0]}/${identifier}`;

@@ -56,7 +56,7 @@ const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 class Ledger extends Component {
   componentDidMount() {
     const { t, actions, match, data } = this.props;
-    const { rippledUrl } = this.context;
+    const rippledUrl = this.context;
     const { identifier = '' } = match.params;
     document.title = `${t('xrpl_explorer')} | ${t('ledger')} ${identifier}`;
     analytics(ANALYTIC_TYPES.pageview, { title: 'Ledger', path: '/ledgers/:id' });
@@ -68,7 +68,7 @@ class Ledger extends Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { actions, match } = nextProps;
-    const { rippledUrl } = this.context;
+    const rippledUrl = this.context;
     const { match: prevMatch } = this.props;
     const { identifier = '' } = match.params;
     const { identifier: prev } = prevMatch.params;

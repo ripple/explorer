@@ -30,7 +30,7 @@ const DATE_OPTIONS = {
 export const TokenTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
-  const { rippledUrl } = useContext(UrlContext);
+  const rippledUrl = useContext(UrlContext);
 
   const { accountId, currency, actions, data, loading, t, loadingError } = props;
 
