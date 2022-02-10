@@ -39,7 +39,8 @@ InternalLink.propTypes = {
   style: PropTypes.shape({
     color: PropTypes.string,
   }),
-  children: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types -- TODO: resolve types here
+  children: PropTypes.any.isRequired,
 };
 
 InternalLink.defaultProps = {

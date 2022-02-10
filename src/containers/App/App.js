@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -39,7 +39,6 @@ class App extends Component {
     if (i18n.language !== language) {
       actions.updateLanguage(i18n.language);
     }
-    this.updateContext = this.updateContext.bind(this);
 
     props.actions.updateViewportDimensions();
   }
@@ -56,30 +55,11 @@ class App extends Component {
     window.removeEventListener('scroll', actions.onScroll);
   }
 
-  updateContext(rippledUrl, urlLink) {
-    console.log(this.props);
-    return null;
-  }
-
-  generateRoute(path, component) {
-    return (
-      <Route
-        exact
-        path={path}
-        component={routerProps => this.renderComponent(routerProps, component)}
-      />
-    );
-  }
-
-  renderComponent(routerProps, page) {
-    const PageComponent = page;
-
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    return <PageComponent {...routerProps} updateContext={this.updateContext} />;
-  }
-
   render() {
-    const { t, location, rippledUrl = null } = this.props;
+    const { t, location, match } = this.props;
+    const {
+      params: { rippledUrl = null },
+    } = match;
     const urlLink = rippledUrl ? `/${rippledUrl}` : '';
 
     /* START: Map legacy routes to new routes */
@@ -95,15 +75,13 @@ class App extends Component {
     }
     /* END: Map legacy routes to new routes */
 
-    if (location.pathname === '/explorer') {
-      return <Redirect to="/" />;
+    if (location.pathname === `${urlLink}/explorer`) {
+      return <Redirect to={urlLink} />;
     }
 
-    if (location.pathname === '/ledgers') {
-      return <Redirect to="/" />;
+    if (location.pathname === `${urlLink}/ledgers`) {
+      return <Redirect to={urlLink} />;
     }
-
-    const urlPrefix = MODE === 'sidechain' ? '/:url' : '';
 
     return (
       <div className="app">
@@ -115,18 +93,22 @@ class App extends Component {
         <UrlContext.Provider value={{ rippledUrl, urlLink }}>
           <Header baseUrl={urlLink} />
           <div className="content">
-            <Switch>
-              {this.generateRoute(`${urlPrefix}/`, Ledgers)}
-              {this.generateRoute(`${urlPrefix}/ledgers/:identifier`, ledger)}
-              {this.generateRoute(`${urlPrefix}/accounts/:id?`, accounts)}
-              {this.generateRoute(`${urlPrefix}/transactions/:identifier/:tab?`, transactions)}
-              {this.generateRoute(`${urlPrefix}/network/:tab?`, network)}
-              {this.generateRoute(`${urlPrefix}/validators/:identifier/:tab?`, validators)}
-              {this.generateRoute(`${urlPrefix}/paystrings/:id?`, paystrings)}
-              {this.generateRoute(`${urlPrefix}/token/:currency.:id`, token)}
-              {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
-              <Route component={noMatch} />
-            </Switch>
+            <BrowserRouter basename={rippledUrl ?? ''}>
+              <Switch>
+                <Route exact path="/" component={Ledgers} />
+                <Route exact path="/ledgers/:identifier" component={ledger} />
+                <Route exact path="/accounts/:id?" component={accounts} />
+                <Route exact path="/transactions/:identifier?" component={transactions} />
+                <Route exact path="/transactions/:identifier/:tab" component={transactions} />
+                <Route exact path="/network/:tab?" component={network} />
+                <Route exact path="/validators/:identifier?" component={validators} />
+                <Route exact path="/validators/:identifier?/:tab" component={validators} />
+                <Route exact path="/paystrings/:id?" component={paystrings} />
+                <Route exact path="/token/:currency.:id" component={token} />
+                {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
+                <Route component={noMatch} />
+              </Switch>
+            </BrowserRouter>
           </div>
         </UrlContext.Provider>
         <Footer />
@@ -134,10 +116,6 @@ class App extends Component {
     );
   }
 }
-
-App.defaultProps = {
-  rippledUrl: null,
-};
 
 App.propTypes = {
   t: PropTypes.func.isRequired,
@@ -155,25 +133,27 @@ App.propTypes = {
     onScroll: PropTypes.func,
     updateLanguage: PropTypes.func,
   }).isRequired,
-  rippledUrl: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      rippledUrl: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
-export default withRouter(
-  translate()(
-    connect(
-      state => ({
-        language: state.app.language,
-      }),
-      dispatch => ({
-        actions: bindActionCreators(
-          {
-            updateViewportDimensions,
-            onScroll,
-            updateLanguage,
-          },
-          dispatch
-        ),
-      })
-    )(App)
-  )
+export default translate()(
+  connect(
+    state => ({
+      language: state.app.language,
+    }),
+    dispatch => ({
+      actions: bindActionCreators(
+        {
+          updateViewportDimensions,
+          onScroll,
+          updateLanguage,
+        },
+        dispatch
+      ),
+    })
+  )(App)
 );
