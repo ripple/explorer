@@ -20,10 +20,7 @@ describe('Ledger container', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <Ledger
-              match={{ params: { identifier: '38079857' } }}
-              updateContext={(rippledUrl, urlLink) => {}}
-            />
+            <Ledger match={{ params: { identifier: '38079857' } }} />
           </Router>
         </Provider>
       </I18nextProvider>

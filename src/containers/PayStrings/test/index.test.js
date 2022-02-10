@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { initialState } from '../../../rootReducer';
 import i18n from '../../../i18nTestConfig';
-import PayString from '../index';
+import Account from '../index';
 import PayStringHeader from '../PayStringHeader';
 import PayStringMappingsTable from '../PayStringMappingsTable';
 import mockPayStringData from './mockPayStringData.json';
@@ -23,10 +23,7 @@ describe('PayString container', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <PayString
-              match={{ params: { id: TEST_PAY_ID } }}
-              updateContext={(rippledUrl, urlLink) => {}}
-            />
+            <Account match={{ params: { id: TEST_PAY_ID } }} />
           </Router>
         </Provider>
       </I18nextProvider>
