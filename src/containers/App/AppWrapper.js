@@ -17,7 +17,7 @@ const AppWrapper = props => {
   const mode = process.env.REACT_APP_ENVIRONMENT;
   const path = mode === 'sidechain' ? '/:rippledUrl' : '/';
   return (
-    <div className="app">
+    <div className="app-wrapper">
       <Helmet>
         <meta name="description" content={t('app.meta.description')} />
         <meta name="author" content={t('app.meta.author')} />

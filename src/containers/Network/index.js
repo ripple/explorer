@@ -35,7 +35,7 @@ class Network extends Component {
       return this.renderUnderConstruction();
     }
     // strips :url from the front and the tab info from the end
-    const base = `/${path.split(':')[1].split('/')[1]}`;
+    const base = path.split('/:')[0];
     return tab === 'nodes' ? <Nodes path={base} /> : <Validators path={base} />;
   }
 }

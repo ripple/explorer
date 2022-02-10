@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,7 +9,6 @@ import { updateViewportDimensions, onScroll, updateLanguage } from './actions';
 import Ledgers from '../Ledgers';
 import Header from '../Header';
 import Footer from '../Footer';
-import Banner from '../Header/Banner'; // included here for spacing
 import './app.css';
 import ledger from '../Ledger';
 import accounts from '../Accounts';
@@ -56,7 +54,7 @@ class App extends Component {
   }
 
   render() {
-    const { t, location, match } = this.props;
+    const { location, match } = this.props;
     const {
       params: { rippledUrl = null },
     } = match;
@@ -85,15 +83,10 @@ class App extends Component {
 
     return (
       <div className="app">
-        <Helmet>
-          <meta name="description" content={t('app.meta.description')} />
-          <meta name="author" content={t('app.meta.author')} />
-        </Helmet>
-        <Banner />
         <UrlContext.Provider value={{ rippledUrl, urlLink }}>
-          <Header baseUrl={urlLink} />
-          <div className="content">
-            <BrowserRouter basename={rippledUrl ?? ''}>
+          <BrowserRouter basename={rippledUrl ?? ''}>
+            <Header baseUrl={urlLink} />
+            <div className="content">
               <Switch>
                 <Route exact path="/" component={Ledgers} />
                 <Route exact path="/ledgers/:identifier" component={ledger} />
@@ -108,8 +101,8 @@ class App extends Component {
                 {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
                 <Route component={noMatch} />
               </Switch>
-            </BrowserRouter>
-          </div>
+            </div>
+          </BrowserRouter>
         </UrlContext.Provider>
         <Footer />
       </div>
@@ -118,7 +111,6 @@ class App extends Component {
 }
 
 App.propTypes = {
-  t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   i18n: PropTypes.shape({
     language: PropTypes.string,

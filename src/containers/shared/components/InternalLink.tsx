@@ -16,8 +16,8 @@ interface Props {
 
 const InternalLink = (props: Props) => {
   const { urlLink } = useContext(UrlContext);
-
   const { className, to, onClick, title, style, children } = props;
+
   return (
     <Link
       className={className}
