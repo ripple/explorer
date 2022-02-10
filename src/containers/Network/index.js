@@ -10,7 +10,6 @@ import ExplorerPage from '../shared/components/ExplorerPage';
 
 class Network extends ExplorerPage {
   componentDidMount() {
-    this.mounted = true;
     const { t, match } = this.props;
     const { params } = match;
     document.title = `${t('xrpl_explorer')} | ${t('network')}`;
@@ -18,10 +17,6 @@ class Network extends ExplorerPage {
       title: 'network',
       path: `/network/${params.tab || 'nodes'}`,
     });
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
   }
 
   renderUnderConstruction = () => {
