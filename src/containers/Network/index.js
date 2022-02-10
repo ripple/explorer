@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Validators from './Validators';
@@ -6,9 +6,8 @@ import Nodes from './Nodes';
 import { analytics, ANALYTIC_TYPES } from '../shared/utils';
 import './css/style.css';
 import NoMatch from '../NoMatch';
-import ExplorerPage from '../shared/components/ExplorerPage';
 
-class Network extends ExplorerPage {
+class Network extends Component {
   componentDidMount() {
     const { t, match } = this.props;
     const { params } = match;

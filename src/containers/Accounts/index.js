@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -9,7 +9,6 @@ import NoMatch from '../NoMatch';
 
 import './styles.css';
 import { analytics, ANALYTIC_TYPES, NOT_FOUND, BAD_REQUEST } from '../shared/utils';
-import ExplorerPage from '../shared/components/ExplorerPage';
 
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -27,7 +26,7 @@ ERROR_MESSAGES.default = {
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
 
-class Accounts extends ExplorerPage {
+class Accounts extends Component {
   constructor(props) {
     super(props);
     this.state = {

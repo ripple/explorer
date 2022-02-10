@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -15,7 +15,6 @@ import { loadTransaction } from './actions';
 import SimpleTab from './SimpleTab';
 import DetailTab from './DetailTab';
 import './transaction.css';
-import ExplorerPage from '../shared/components/ExplorerPage';
 
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -33,7 +32,7 @@ ERROR_MESSAGES.default = {
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
 
-class Transaction extends ExplorerPage {
+class Transaction extends Component {
   componentDidMount() {
     const { t, actions, match, data } = this.props;
     const hash = data.raw ? data.raw.hash : undefined;
