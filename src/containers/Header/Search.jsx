@@ -17,7 +17,6 @@ import {
   HASH_REGEX,
 } from '../shared/utils';
 import './search.css';
-import UrlContext from '../shared/urlContext';
 
 const getIdType = id => {
   if (DECIMAL_REGEX.test(id)) {
@@ -127,7 +126,6 @@ class Search extends Component {
     );
   }
 }
-Search.contextType = UrlContext;
 
 Search.propTypes = {
   t: PropTypes.func.isRequired,
