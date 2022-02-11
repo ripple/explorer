@@ -26,6 +26,8 @@ const STATIC_ENV_LINKS = {
   // sidechain: process.env.REACT_APP_SIDECHAIN_LINK,
 };
 
+const SIDECHAIN_BASE_LINK = process.env.REACT_APP_SIDECHAIN_LINK;
+
 function isCustomNetwork(mode) {
   return !Object.keys(STATIC_ENV_LINKS).includes(mode);
 }
@@ -34,30 +36,6 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  onKeyDown(event) {
-    if (event.key === 'Enter') {
-      console.log('done entering');
-      const rippledUrl = event.currentTarget.value.trim();
-      console.log(rippledUrl);
-      // const { callback } = this.props;
-      // const currentRippledUrl = this.context;
-
-      // analytics(ANALYTIC_TYPES.event, {
-      //   eventCategory: 'globalSearch',
-      //   eventAction: type,
-      //   eventLabel: id,
-      // });
-
-      // this.setState(
-      //   {
-      //     redirect: type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
-      //   },
-      //   callback
-      // );
-    }
   }
 
   getCurrentPath() {
@@ -78,23 +56,48 @@ class Header extends Component {
 
   handleClick = event => {
     const mode = event.currentTarget.getAttribute('value');
-    // TODO: get link for new sidechain
 
     if (mode === MODE) {
       return;
     }
 
     const desiredLink = STATIC_ENV_LINKS[mode] ?? process.env.REACT_APP_MAINNET_LINK;
-    analytics(ANALYTIC_TYPES.event, {
-      eventCategory: 'mode switch',
-      eventAction: desiredLink,
-    });
-    // window.location = desiredLink;
+    this.switchMode(desiredLink);
+  };
+
+  handleCustomNetworkClick = event => {
+    const currentRippledUrl = this.context;
+    const newRippledUrl = event.currentTarget.getAttribute('value');
+
+    if (newRippledUrl.toLowerCase() === currentRippledUrl.toLowerCase()) {
+      return;
+    }
+
+    this.switchMode(`${SIDECHAIN_BASE_LINK}/${newRippledUrl}`);
   };
 
   ignore = event => {
     event.preventDefault();
     event.stopPropagation();
+  };
+
+  onCustomNetworkKeyDown = event => {
+    if (event.key === 'Enter') {
+      const currentRippledUrl = this.context;
+      const rippledUrl = event.currentTarget.value.trim();
+      if (rippledUrl.toLowerCase() === currentRippledUrl.toLowerCase()) {
+        return;
+      }
+      this.switchMode(`${SIDECHAIN_BASE_LINK}/${rippledUrl}`);
+    }
+  };
+
+  switchMode = desiredLink => {
+    analytics(ANALYTIC_TYPES.event, {
+      eventCategory: 'mode switch',
+      eventAction: desiredLink,
+    });
+    window.location = desiredLink;
   };
 
   renderDropdown(network) {
@@ -153,7 +156,11 @@ class Header extends Component {
         role="menuitem"
         tabIndex={0}
       >
-        <input type="text" placeholder="Add custom sidechain" onKeyDown={this.onKeyDown} />
+        <input
+          type="text"
+          placeholder="Add custom sidechain"
+          onKeyDown={this.onCustomNetworkKeyDown}
+        />
       </div>
     );
   }
