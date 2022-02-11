@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Log from '../log';
-import { fetchNegativeUNL, fetchQuorum } from '../utils';
+import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils';
 import {
   handleValidation,
   handleLedger,
@@ -76,6 +76,7 @@ class Streams extends Component {
   componentDidMount() {
     this.connect();
     this.updateNegativeUNL();
+    this.updateMetrics();
     this.heartbeat = setInterval(this.checkHeartbeat, 2000);
     this.purge = setInterval(this.purge, 5000);
   }
@@ -191,6 +192,10 @@ class Streams extends Component {
     }
   };
 
+  updateMetrics() {
+    fetchMetrics().then(metrics => this.onmetric(metrics));
+  }
+
   updateQuorum() {
     fetchQuorum().then(quorum => {
       const { updateMetrics } = this.props;
@@ -255,10 +260,20 @@ class Streams extends Component {
             this.onvalidation(data);
           }
         } else if (streamResult.type === 'ledgerClosed') {
-          const { ledger, metrics } = handleLedger(streamResult);
+          const { ledger } = handleLedger(streamResult);
           this.onledger(ledger);
-          fetchLedger(ledger).then(ledgerSummary => this.onledgerSummary(ledgerSummary));
-          this.onmetric(metrics);
+          fetchLedger(ledger)
+            .then(ledgerSummary => {
+              this.onledgerSummary(ledgerSummary);
+            })
+            .catch(e => {
+              Log.error('Ledger fetch error', e.message);
+              Log.error(e);
+            });
+          // TODO: when sidechain routing is done, calculate sidechain metrics on the frontend
+          // using `this.onmetric(metrics);`
+          // because there is no backend server connection (since there is no one network)
+          this.updateMetrics();
         } else if (streamResult.type === 'serverStatus') {
           const data = handleLoadFee(streamResult);
           this.onmetric(data);

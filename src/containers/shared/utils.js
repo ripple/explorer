@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { getQuorum, getNegativeUNL } from '../../rippled';
 import Log from './log';
 
@@ -317,6 +318,15 @@ export const fetchQuorum = async () => {
     .then(data => {
       if (data === undefined) throw new Error('undefined quorum');
       return data;
+    })
+    .catch(e => Log.error(e));
+};
+
+export const fetchMetrics = () => {
+  return axios
+    .get('/api/v1/metrics')
+    .then(result => {
+      return result.data;
     })
     .catch(e => Log.error(e));
 };

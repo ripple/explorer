@@ -105,3 +105,31 @@ module.exports.getHealth = async () => {
     }
   });
 };
+
+module.exports.getLedger = parameters => {
+  const request = {
+    method: 'ledger',
+    params: [{ ...parameters, transactions: true, expand: true }],
+  };
+
+  return query(request)
+    .then(resp => resp.data.result)
+    .then(resp => {
+      if (resp.error_message === 'ledgerNotFound') {
+        throw new utils.Error('ledger not found', 404);
+      }
+
+      if (resp.error_message === 'ledgerIndexMalformed') {
+        throw new utils.Error('invalid ledger index/hash', 400);
+      }
+
+      if (resp.error_message) {
+        throw new utils.Error(resp.error_message, 500);
+      }
+
+      if (!resp.validated) {
+        throw new utils.Error('ledger not validated', 404);
+      }
+      return resp.ledger;
+    });
+};
