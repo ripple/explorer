@@ -22,6 +22,7 @@ const ENV_LINK_MAP = {
   testnet: process.env.REACT_APP_TESTNET_LINK,
   devnet: process.env.REACT_APP_DEVNET_LINK,
   nft_sandbox: process.env.REACT_APP_NFTSANDBOX_LINK,
+  sidechain: process.env.REACT_APP_SIDECHAIN_LINK,
 };
 
 class Header extends Component {

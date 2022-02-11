@@ -150,6 +150,26 @@
         fill: $white;
       }
     }
+
+    &.sidechain {
+      background: $black;
+
+      .dropdown {
+        border-color: $sidechain;
+        background: $black;
+        color: $sidechain;
+
+        /* stylelint-disable no-descending-specificity */
+        .item {
+          background: $black;
+        }
+        /* stylelint-enable no-descending-specificity */
+      }
+
+      .check path {
+        fill: $white;
+      }
+    }
   }
 
   .topbar {
