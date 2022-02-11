@@ -154,6 +154,13 @@
     &.sidechain {
       background: $black;
 
+      .input {
+        border-color: $sidechain;
+        background-size: 12px;
+        color: $gray-500;
+        font-size: 14px;
+      }
+
       .dropdown {
         border-color: $sidechain;
         background: $black;

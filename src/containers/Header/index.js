@@ -14,16 +14,21 @@ import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg';
 import { ReactComponent as ArrowIcon } from '../shared/images/down_arrow.svg';
 import { ReactComponent as CheckIcon } from '../shared/images/checkmark.svg';
 import './header.css';
+import UrlContext from '../shared/urlContext';
 
 const MODE = process.env.REACT_APP_ENVIRONMENT;
 
-const ENV_LINK_MAP = {
+const STATIC_ENV_LINKS = {
   mainnet: process.env.REACT_APP_MAINNET_LINK,
   testnet: process.env.REACT_APP_TESTNET_LINK,
   devnet: process.env.REACT_APP_DEVNET_LINK,
   nft_sandbox: process.env.REACT_APP_NFTSANDBOX_LINK,
-  sidechain: process.env.REACT_APP_SIDECHAIN_LINK,
+  // sidechain: process.env.REACT_APP_SIDECHAIN_LINK,
 };
+
+function isCustomNetwork(mode) {
+  return !Object.keys(STATIC_ENV_LINKS).includes(mode);
+}
 
 class Header extends Component {
   constructor(props) {
@@ -31,28 +36,58 @@ class Header extends Component {
     this.state = {};
   }
 
+  onKeyDown(event) {
+    if (event.key === 'Enter') {
+      const rippledUrl = event.currentTarget.value.trim();
+      // const { callback } = this.props;
+      const currentRippledUrl = this.context;
+      console.log(currentRippledUrl, rippledUrl);
+
+      // analytics(ANALYTIC_TYPES.event, {
+      //   eventCategory: 'globalSearch',
+      //   eventAction: type,
+      //   eventLabel: id,
+      // });
+
+      // this.setState(
+      //   {
+      //     redirect: type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
+      //   },
+      //   callback
+      // );
+    }
+  }
+
   getCurrentPath() {
     const { location } = this.props;
     return location.pathname;
   }
 
-  toggleExpand = () => {
-    this.setState(prevState => ({ expanded: !prevState.expanded }));
+  toggleExpand = event => {
+    const value = event?.target?.getAttribute('value');
+    const type = event?.target?.getAttribute('type');
+    this.setState(prevState => {
+      if (!prevState.expanded || (value == null && type == null)) {
+        return { expanded: !prevState.expanded };
+      }
+      return prevState;
+    });
   };
 
   handleClick = event => {
     const mode = event.currentTarget.getAttribute('value');
+    // TODO: get link for new sidechain
 
     if (mode === MODE) {
       return;
     }
 
-    const desiredLink = ENV_LINK_MAP[mode] ?? process.env.REACT_APP_MAINNET_LINK;
+    const desiredLink = STATIC_ENV_LINKS[mode] ?? process.env.REACT_APP_MAINNET_LINK;
     analytics(ANALYTIC_TYPES.event, {
       eventCategory: 'mode switch',
       eventAction: desiredLink,
     });
-    window.location = desiredLink;
+    // window.location = desiredLink;
   };
 
   ignore = event => {
@@ -60,15 +95,84 @@ class Header extends Component {
     event.stopPropagation();
   };
 
+  renderDropdown(network) {
+    return (
+      <div
+        key={network}
+        className={classnames('item', { selected: MODE === network })}
+        role="menuitem"
+        value={network}
+        onClick={this.handleClick}
+        onKeyUp={this.handleClick}
+        tabIndex={0}
+        // eslint-disable-next-line no-return-assign
+        ref={node => (this.node = node)}
+      >
+        <span>{network}</span>
+        {/*
+        Adding this space to provide width between name
+        and selected checkmark
+        */}
+        &nbsp;
+        <CheckIcon className="check" desc={network} />
+      </div>
+    );
+  }
+
+  renderCustomNetworkDropdown(network) {
+    return (
+      <div
+        key={network}
+        className={classnames('item', { selected: MODE === 'sidechain' })}
+        role="menuitem"
+        value={network}
+        onClick={this.handleClick}
+        onKeyUp={this.handleClick}
+        tabIndex={0}
+      >
+        <span>{network}</span>
+        {/*
+        Adding this space to provide width between name
+        and selected checkmark
+        */}
+        &nbsp;
+        <CheckIcon className="check" desc={network} />
+      </div>
+    );
+  }
+
+  renderSidechainInput() {
+    return (
+      <div
+        key="new_sidechain"
+        className={classnames('item', { selected: false })}
+        value="new_sidechain"
+        role="menuitem"
+        // onClick={this.handleClick}
+        // onKeyUp={this.handleClick}
+        tabIndex={0}
+      >
+        <input type="text" placeholder="test" onKeyDown={this.onKeyDown} />
+      </div>
+    );
+  }
+
   render() {
     const { t, isScrolled, width } = this.props;
     const { expanded } = this.state;
+    const rippledUrl = this.context;
     const menu =
       width >= BREAKPOINTS.landscape ? <Menu t={t} currentPath={this.getCurrentPath()} /> : null;
     const mobileMenu =
       width < BREAKPOINTS.landscape ? (
         <MobileMenu t={t} currentPath={this.getCurrentPath()} />
       ) : null;
+
+    const ENV_LINK_MAP = {
+      ...STATIC_ENV_LINKS,
+      [rippledUrl]: `${process.env.REACT_APP_SIDECHAIN_LINK}${rippledUrl}`,
+      // TODO: store previous sidechains in cookies, add them here
+    };
 
     return (
       <>
@@ -80,27 +184,18 @@ class Header extends Component {
               tabIndex={0}
               onClick={this.toggleExpand}
               onKeyUp={this.toggleExpand}
+              // onBlur={e => {
+              //   console.log('onBlur');
+              //   this.toggleExpand(e);
+              // }}
             >
               <div className="bg" />
-              {Object.keys(ENV_LINK_MAP).map(mode => (
-                <div
-                  key={mode}
-                  className={classnames('item', { selected: MODE === mode })}
-                  role="menuitem"
-                  value={mode}
-                  onClick={this.handleClick}
-                  onKeyUp={this.handleClick}
-                  tabIndex={0}
-                >
-                  <span>{t(`${mode}_data`)}</span>
-                  {/*
-                  Adding this space to provide width between name
-                  and selected checkmark
-                  */}
-                  &nbsp;
-                  <CheckIcon className="check" desc={t(`${mode}_data`)} />
-                </div>
-              ))}
+              {Object.keys(ENV_LINK_MAP).map(network => {
+                return isCustomNetwork(network)
+                  ? this.renderCustomNetworkDropdown(network)
+                  : this.renderDropdown(network);
+              })}
+              {this.renderSidechainInput()}
             </div>
             <div
               className="arrowContainer"
@@ -108,6 +203,7 @@ class Header extends Component {
               onKeyUp={this.toggleExpand}
               role="menubar"
               tabIndex={0}
+              value="arrow"
             >
               <ArrowIcon className={classnames('arrow', { open: expanded })} />
             </div>
@@ -132,6 +228,7 @@ class Header extends Component {
     );
   }
 }
+Header.contextType = UrlContext;
 
 Header.propTypes = {
   t: PropTypes.func.isRequired,
