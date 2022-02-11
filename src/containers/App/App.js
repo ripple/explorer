@@ -83,9 +83,9 @@ class App extends Component {
 
     return (
       <div className="app">
-        <UrlContext.Provider value={{ rippledUrl, urlLink }}>
+        <UrlContext.Provider value={rippledUrl}>
           <BrowserRouter basename={rippledUrl ?? ''}>
-            <Header baseUrl={urlLink} />
+            <Header />
             <div className="content">
               <Switch>
                 <Route exact path="/" component={Ledgers} />

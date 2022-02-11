@@ -96,14 +96,10 @@ class Search extends Component {
       eventAction: type,
       eventLabel: id,
     });
-    const { urlLink } = this.context;
 
     this.setState(
       {
-        redirect:
-          type === 'invalid'
-            ? `${urlLink}/search/${id}`
-            : `${urlLink}/${type}/${normalize(id, type)}`,
+        redirect: type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
       },
       callback
     );

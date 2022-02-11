@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -13,7 +13,6 @@ import {
 } from '../../shared/utils';
 import { getOffers } from '../../../rippled';
 import PairStats from './PairStats';
-import UrlContext from '../../shared/urlContext';
 
 // Hard Coded Pairs that we always check for
 const pairsHardCoded = [
@@ -28,7 +27,6 @@ const DEXPairs = props => {
   const [isLoading, setIsLoading] = useState(true);
   const isMountedRef = useRef(null);
   const [isError, setIsError] = useState(false);
-  const { urlLink } = useContext(UrlContext);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -124,7 +122,7 @@ const DEXPairs = props => {
         </td>
         <td className="issuer-address">
           {pair.issuer !== undefined ? (
-            <a href={`${urlLink}/token/${pair.token}.${pair.issuer}`}>{pair.issuer}</a>
+            <a href={`/token/${pair.token}.${pair.issuer}`}>{pair.issuer}</a>
           ) : (
             getLocalizedCurrencySymbol('en-US', 'XRP')
           )}
