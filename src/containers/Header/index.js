@@ -23,7 +23,6 @@ const STATIC_ENV_LINKS = {
   testnet: process.env.REACT_APP_TESTNET_LINK,
   devnet: process.env.REACT_APP_DEVNET_LINK,
   nft_sandbox: process.env.REACT_APP_NFTSANDBOX_LINK,
-  // sidechain: process.env.REACT_APP_SIDECHAIN_LINK,
 };
 
 const SIDECHAIN_BASE_LINK = process.env.REACT_APP_SIDECHAIN_LINK;
@@ -35,7 +34,9 @@ function isCustomNetwork(mode) {
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      expanded: false,
+    };
   }
 
   getCurrentPath() {
@@ -48,6 +49,10 @@ class Header extends Component {
     const type = event?.target?.getAttribute('type');
     this.setState(prevState => {
       if (!prevState.expanded || (value == null && type == null)) {
+        // only expand if:
+        //  - dropdown is not already expanded OR
+        //  - click is outside the dropdown (represented by value == null && type == null)
+        // This is done so that the dropdown doesn't close when typing in a network
         return { expanded: !prevState.expanded };
       }
       return prevState;
@@ -66,7 +71,7 @@ class Header extends Component {
   };
 
   handleCustomNetworkClick = event => {
-    const currentRippledUrl = this.context;
+    const currentRippledUrl = this.context; // this is undefined if not in sidechain mode
     const newRippledUrl = event.currentTarget.getAttribute('value');
 
     if (newRippledUrl.toLowerCase() === currentRippledUrl.toLowerCase()) {
@@ -76,12 +81,7 @@ class Header extends Component {
     this.switchMode(`${SIDECHAIN_BASE_LINK}/${newRippledUrl}`);
   };
 
-  ignore = event => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-
-  onCustomNetworkKeyDown = event => {
+  onInputKeyDown = event => {
     if (event.key === 'Enter') {
       const currentRippledUrl = this.context;
       const rippledUrl = event.currentTarget.value.trim();
@@ -100,6 +100,11 @@ class Header extends Component {
     window.location = desiredLink;
   };
 
+  ignore = event => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
   renderDropdown(network) {
     return (
       <div
@@ -110,8 +115,6 @@ class Header extends Component {
         onClick={this.handleClick}
         onKeyUp={this.handleClick}
         tabIndex={0}
-        // eslint-disable-next-line no-return-assign
-        ref={node => (this.node = node)}
       >
         <span>{network}</span>
         {/*
@@ -129,11 +132,11 @@ class Header extends Component {
     return (
       <div
         key={network}
-        className={classnames('item', { selected: network === rippledUrl })}
+        className={classnames('item', 'custom', { selected: network === rippledUrl })}
         role="menuitem"
         value={network}
-        onClick={this.handleClick}
-        onKeyUp={this.handleClick}
+        onClick={this.handleCustomNetworkClick}
+        onKeyUp={this.handleCustomNetworkClick}
         tabIndex={0}
       >
         <span>{network}</span>
@@ -156,11 +159,7 @@ class Header extends Component {
         role="menuitem"
         tabIndex={0}
       >
-        <input
-          type="text"
-          placeholder="Add custom sidechain"
-          onKeyDown={this.onCustomNetworkKeyDown}
-        />
+        <input type="text" placeholder="Add custom sidechain" onKeyDown={this.onInputKeyDown} />
       </div>
     );
   }
@@ -176,7 +175,7 @@ class Header extends Component {
         <MobileMenu t={t} currentPath={this.getCurrentPath()} />
       ) : null;
 
-    const ENV_LINK_MAP = {
+    const urlLinkMap = {
       ...STATIC_ENV_LINKS,
       [rippledUrl]: `${process.env.REACT_APP_SIDECHAIN_LINK}${rippledUrl}`,
       // TODO: store previous sidechains in cookies, add them here
@@ -194,7 +193,7 @@ class Header extends Component {
               onKeyUp={this.toggleExpand}
             >
               <div className="bg" />
-              {Object.keys(ENV_LINK_MAP).map(network => {
+              {Object.keys(urlLinkMap).map(network => {
                 return isCustomNetwork(network)
                   ? this.renderCustomNetworkDropdown(network)
                   : this.renderDropdown(network);

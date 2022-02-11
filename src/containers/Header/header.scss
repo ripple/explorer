@@ -112,6 +112,10 @@
       }
     }
 
+    .custom {
+      text-transform: lowercase;
+    }
+
     &.testnet {
       background: $testnet;
 
