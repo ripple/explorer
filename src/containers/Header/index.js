@@ -36,12 +36,14 @@ class Header extends Component {
     this.state = {};
   }
 
+  // eslint-disable-next-line class-methods-use-this
   onKeyDown(event) {
     if (event.key === 'Enter') {
+      console.log('done entering');
       const rippledUrl = event.currentTarget.value.trim();
+      console.log(rippledUrl);
       // const { callback } = this.props;
-      const currentRippledUrl = this.context;
-      console.log(currentRippledUrl, rippledUrl);
+      // const currentRippledUrl = this.context;
 
       // analytics(ANALYTIC_TYPES.event, {
       //   eventCategory: 'globalSearch',
@@ -120,10 +122,11 @@ class Header extends Component {
   }
 
   renderCustomNetworkDropdown(network) {
+    const rippledUrl = this.context;
     return (
       <div
         key={network}
-        className={classnames('item', { selected: MODE === 'sidechain' })}
+        className={classnames('item', { selected: network === rippledUrl })}
         role="menuitem"
         value={network}
         onClick={this.handleClick}
@@ -148,11 +151,9 @@ class Header extends Component {
         className={classnames('item', { selected: false })}
         value="new_sidechain"
         role="menuitem"
-        // onClick={this.handleClick}
-        // onKeyUp={this.handleClick}
         tabIndex={0}
       >
-        <input type="text" placeholder="test" onKeyDown={this.onKeyDown} />
+        <input type="text" placeholder="Add custom sidechain" onKeyDown={this.onKeyDown} />
       </div>
     );
   }
@@ -184,10 +185,6 @@ class Header extends Component {
               tabIndex={0}
               onClick={this.toggleExpand}
               onKeyUp={this.toggleExpand}
-              // onBlur={e => {
-              //   console.log('onBlur');
-              //   this.toggleExpand(e);
-              // }}
             >
               <div className="bg" />
               {Object.keys(ENV_LINK_MAP).map(network => {
