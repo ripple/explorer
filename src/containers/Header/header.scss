@@ -116,6 +116,12 @@
       text-transform: lowercase;
     }
 
+    &.mainnet {
+      .check path {
+        fill: $white;
+      }
+    }
+
     &.testnet {
       background: $testnet;
 

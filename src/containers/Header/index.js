@@ -85,7 +85,10 @@ class Header extends Component {
     if (event.key === 'Enter') {
       const currentRippledUrl = this.context;
       const rippledUrl = event.currentTarget.value.trim();
-      if (rippledUrl.toLowerCase() === currentRippledUrl.toLowerCase()) {
+      if (
+        currentRippledUrl != null &&
+        rippledUrl.toLowerCase() === currentRippledUrl.toLowerCase()
+      ) {
         return;
       }
       this.switchMode(`${SIDECHAIN_BASE_LINK}/${rippledUrl}`);
@@ -177,9 +180,12 @@ class Header extends Component {
 
     const urlLinkMap = {
       ...STATIC_ENV_LINKS,
-      [rippledUrl]: `${process.env.REACT_APP_SIDECHAIN_LINK}${rippledUrl}`,
       // TODO: store previous sidechains in cookies, add them here
     };
+
+    if (rippledUrl != null) {
+      urlLinkMap[rippledUrl] = `${process.env.REACT_APP_SIDECHAIN_LINK}${rippledUrl}`;
+    }
 
     return (
       <>
