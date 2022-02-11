@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
-import Link from '../shared/components/InternalLink';
+import { Link } from 'react-router-dom';
 import { CURRENCY_OPTIONS } from '../shared/transactionUtils';
 import { localizeNumber } from '../shared/utils';
 import Tooltip from '../shared/components/Tooltip';

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Link from '../shared/components/InternalLink';
+import { Link } from 'react-router-dom';
 import NoMatch from '../NoMatch';
 import infoIcon from '../shared/images/info_orange.png';
 import Loader from '../shared/components/Loader';

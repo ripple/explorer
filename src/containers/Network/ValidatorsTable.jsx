@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import Link from '../shared/components/InternalLink';
+import { Link } from 'react-router-dom';
 import Loader from '../shared/components/Loader';
 import { ReactComponent as SuccessIcon } from '../shared/images/success.svg';
 import infoOrange from '../shared/images/info_orange.png';

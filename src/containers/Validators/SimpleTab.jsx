@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Link from '../shared/components/InternalLink';
+import { Link } from 'react-router-dom';
 import { localizeDate, BREAKPOINTS } from '../shared/utils';
 import Simple from './Simple';
 import './simpleTab.css';
