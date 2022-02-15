@@ -5,7 +5,6 @@ import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils';
 import {
   handleValidation,
   handleLedger,
-  handleLoadFee,
   fetchLedger,
   fetchServerInfo,
 } from '../../../rippled/lib/streams';
@@ -243,7 +242,7 @@ class Streams extends Component {
       this.ws.send(
         JSON.stringify({
           command: 'subscribe',
-          streams: ['ledger', 'validations', 'server'],
+          streams: ['ledger', 'validations'],
         })
       );
     };
@@ -273,8 +272,8 @@ class Streams extends Component {
             });
           // update the load fee
           fetchServerInfo()
-            .then(metrics => {
-              this.onmetric(metrics);
+            .then(loadFee => {
+              this.onmetric(loadFee);
             })
             .catch(e => {
               Log.error('Ledger fetch error', e.message);
@@ -284,9 +283,6 @@ class Streams extends Component {
           // using `this.onmetric(metrics);`
           // because there is no backend server connection (since there is no one network)
           this.updateMetrics();
-        } else if (streamResult.type === 'serverStatus') {
-          const data = handleLoadFee(streamResult);
-          this.onmetric(data);
         }
       } catch (e) {
         Log.error('message parse error', message);

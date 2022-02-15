@@ -44,12 +44,6 @@ const fetchLedger = (ledger, attempts = 0) => {
     });
 };
 
-// handle load fee messages
-const handleLoadFee = data => {
-  const loadFee = (data.base_fee * data.load_factor) / data.load_factor_fee_reference / 1000000;
-  return { load_fee: Number(loadFee.toPrecision(4)).toString() };
-};
-
 const fetchServerInfo = () => {
   return getServerInfo()
     .then(result => result.info)
@@ -184,4 +178,4 @@ function handleValidation(data) {
 
 setInterval(purge, PURGE_INTERVAL);
 
-export { handleLedger, handleValidation, handleLoadFee, fetchLedger, fetchServerInfo };
+export { handleLedger, handleValidation, fetchLedger, fetchServerInfo };
