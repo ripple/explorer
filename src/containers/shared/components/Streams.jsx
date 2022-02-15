@@ -6,7 +6,7 @@ import {
   handleValidation,
   handleLedger,
   fetchLedger,
-  fetchServerInfo,
+  fetchLoadFee,
 } from '../../../rippled/lib/streams';
 
 const MAX_LEDGER_COUNT = 20;
@@ -271,7 +271,7 @@ class Streams extends Component {
               Log.error(e);
             });
           // update the load fee
-          fetchServerInfo()
+          fetchLoadFee()
             .then(loadFee => {
               this.onmetric(loadFee);
             })

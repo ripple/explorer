@@ -44,7 +44,7 @@ const fetchLedger = (ledger, attempts = 0) => {
     });
 };
 
-const fetchServerInfo = () => {
+const fetchLoadFee = () => {
   return getServerInfo()
     .then(result => result.info)
     .then(info => {
@@ -178,4 +178,4 @@ function handleValidation(data) {
 
 setInterval(purge, PURGE_INTERVAL);
 
-export { handleLedger, handleValidation, fetchLedger, fetchServerInfo };
+export { handleLedger, handleValidation, fetchLedger, fetchLoadFee };
