@@ -28,4 +28,4 @@ jobs:
       env:
         REACT_APP_VALIDATOR: vl.ripple.com
         REACT_APP_RIPPLED_WS_PORT: 51233
-        REACT_APP_RIPPLED_HOST: fake.ripple.com
+        REACT_APP_RIPPLED_HOST: fake.rippled.example.com
