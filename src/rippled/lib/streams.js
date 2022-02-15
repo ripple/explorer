@@ -1,4 +1,4 @@
-import { getLedger } from './rippled';
+import { getLedger, getServerInfo } from './rippled';
 import { summarizeLedger, EPOCH_OFFSET } from './utils';
 import logger from './logger';
 
@@ -41,6 +41,16 @@ const fetchLedger = (ledger, attempts = 0) => {
         return sleep(500).then(() => fetchLedger(ledger, attempts + 1));
       }
       throw error;
+    });
+};
+
+const fetchLoadFee = () => {
+  return getServerInfo()
+    .then(result => result.info)
+    .then(info => {
+      const ledgerFeeInfo = info.validated_ledger;
+      const loadFee = ledgerFeeInfo.base_fee_xrp * (info.load_factor ?? 1);
+      return { load_fee: Number(loadFee.toPrecision(4)).toString() };
     });
 };
 
@@ -166,12 +176,6 @@ function handleValidation(data) {
   return undefined;
 }
 
-// handle load fee messages
-const handleLoadFee = data => {
-  const loadFee = (data.base_fee * data.load_factor) / data.load_factor_fee_reference / 1000000;
-  return { load_fee: Number(loadFee.toPrecision(4)).toString() };
-};
-
 setInterval(purge, PURGE_INTERVAL);
 
-export { handleLedger, handleValidation, handleLoadFee, fetchLedger };
+export { handleLedger, handleValidation, fetchLedger, fetchLoadFee };

@@ -5,8 +5,8 @@ import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils';
 import {
   handleValidation,
   handleLedger,
-  handleLoadFee,
   fetchLedger,
+  fetchLoadFee,
 } from '../../../rippled/lib/streams';
 
 const MAX_LEDGER_COUNT = 20;
@@ -242,7 +242,7 @@ class Streams extends Component {
       this.ws.send(
         JSON.stringify({
           command: 'subscribe',
-          streams: ['ledger', 'validations', 'server'],
+          streams: ['ledger', 'validations'],
         })
       );
     };
@@ -270,13 +270,19 @@ class Streams extends Component {
               Log.error('Ledger fetch error', e.message);
               Log.error(e);
             });
+          // update the load fee
+          fetchLoadFee()
+            .then(loadFee => {
+              this.onmetric(loadFee);
+            })
+            .catch(e => {
+              Log.error('Ledger fetch error', e.message);
+              Log.error(e);
+            });
           // TODO: when sidechain routing is done, calculate sidechain metrics on the frontend
           // using `this.onmetric(metrics);`
           // because there is no backend server connection (since there is no one network)
           this.updateMetrics();
-        } else if (streamResult.type === 'serverStatus') {
-          const data = handleLoadFee(streamResult);
-          this.onmetric(data);
         }
       } catch (e) {
         Log.error('message parse error', message);
