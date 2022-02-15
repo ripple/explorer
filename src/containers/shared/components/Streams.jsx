@@ -7,6 +7,7 @@ import {
   handleLedger,
   handleLoadFee,
   fetchLedger,
+  fetchServerInfo,
 } from '../../../rippled/lib/streams';
 
 const MAX_LEDGER_COUNT = 20;
@@ -265,6 +266,15 @@ class Streams extends Component {
           fetchLedger(ledger)
             .then(ledgerSummary => {
               this.onledgerSummary(ledgerSummary);
+            })
+            .catch(e => {
+              Log.error('Ledger fetch error', e.message);
+              Log.error(e);
+            });
+          // update the load fee
+          fetchServerInfo()
+            .then(metrics => {
+              this.onmetric(metrics);
             })
             .catch(e => {
               Log.error('Ledger fetch error', e.message);
