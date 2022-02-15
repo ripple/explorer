@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { analytics, ANALYTIC_TYPES, BAD_REQUEST, SERVER_ERROR, HASH_REGEX } from '../shared/utils';
+import { getTransaction } from '../../rippled';
+import { analytics, ANALYTIC_TYPES, BAD_REQUEST, HASH_REGEX } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 
 export const loadTransaction = identifier => dispatch => {
@@ -12,16 +12,16 @@ export const loadTransaction = identifier => dispatch => {
   }
 
   dispatch({ type: actionTypes.START_LOADING_TRANSACTION, data: { id: identifier } });
-  const url = `/api/v1/transactions/${identifier}`;
-  return axios
-    .get(url)
-    .then(response => {
+  return getTransaction(identifier)
+    .then(data => {
       dispatch({ type: actionTypes.FINISH_LOADING_TRANSACTION });
-      dispatch({ type: actionTypes.LOADING_TRANSACTION_SUCCESS, data: response.data });
+      dispatch({ type: actionTypes.LOADING_TRANSACTION_SUCCESS, data });
     })
     .catch(error => {
-      const status = error.response && error.response.status ? error.response.status : SERVER_ERROR;
-      analytics(ANALYTIC_TYPES.exception, { exDescription: `${url} --- ${JSON.stringify(error)}` });
+      const status = error.code;
+      analytics(ANALYTIC_TYPES.exception, {
+        exDescription: `transaction ${identifier} --- ${JSON.stringify(error.message)}`,
+      });
       dispatch({ type: actionTypes.FINISH_LOADING_TRANSACTION });
       dispatch({
         type: actionTypes.LOADING_TRANSACTION_FAIL,

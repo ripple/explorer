@@ -5,8 +5,12 @@ import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils';
+import moxiosData from './rippledResponses.json';
+import MockResponse from '../../../test/mockRippledResponse';
+import actNotFound from '../../../Token/TokenHeader/test/actNotFound.json';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
+const TEST_X_ADDRESS = 'XV3oNHx95sqdCkTDCBCVsVeuBmvh2dz5fTZvfw8UCcMVsfe';
 
 describe('AccountHeader Actions', () => {
   const middlewares = [thunk];
@@ -20,18 +24,85 @@ describe('AccountHeader Actions', () => {
   });
 
   it('should dispatch correct actions on successful loadAccountState', () => {
-    const data = [['XRP', 123.456]];
+    const expectedData = {
+      account: 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv',
+      ledger_index: 68990183,
+      info: {
+        sequence: 2148991,
+        ticketCount: undefined,
+        ownerCount: 0,
+        reserve: 10,
+        tick: undefined,
+        rate: undefined,
+        domain: undefined,
+        emailHash: undefined,
+        flags: [],
+        balance: '123456000',
+        gravatar: undefined,
+        previousTxn: '6B6F2CA1633A22247058E988372BA9EFFFC5BF10212230B67341CA32DC9D4A82',
+        previousLedger: 68990183,
+      },
+      balances: { XRP: 123.456 },
+      signerList: undefined,
+      escrows: undefined,
+      paychannels: null,
+      xAddress: undefined,
+    };
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_STATE },
       { type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE },
-      { type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS, data },
+      { type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/account_state/${TEST_ADDRESS}`, {
-      status: 200,
-      response: data,
-    });
+    moxios.stubRequest(
+      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
+      new MockResponse(moxiosData)
+    );
     return store.dispatch(actions.loadAccountState(TEST_ADDRESS)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('should dispatch correct actions on successful loadAccountState for X-Address', () => {
+    const expectedData = {
+      account: 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv',
+      ledger_index: 68990183,
+      info: {
+        sequence: 2148991,
+        ticketCount: undefined,
+        ownerCount: 0,
+        reserve: 10,
+        tick: undefined,
+        rate: undefined,
+        domain: undefined,
+        emailHash: undefined,
+        flags: [],
+        balance: '123456000',
+        gravatar: undefined,
+        previousTxn: '6B6F2CA1633A22247058E988372BA9EFFFC5BF10212230B67341CA32DC9D4A82',
+        previousLedger: 68990183,
+      },
+      balances: { XRP: 123.456 },
+      signerList: undefined,
+      escrows: undefined,
+      paychannels: null,
+      xAddress: {
+        classicAddress: 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv',
+        tag: 0,
+        test: false,
+      },
+    };
+    const expectedActions = [
+      { type: actionTypes.START_LOADING_ACCOUNT_STATE },
+      { type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE },
+      { type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS, data: expectedData },
+    ];
+    const store = mockStore({ news: initialState });
+    moxios.stubRequest(
+      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
+      new MockResponse(moxiosData)
+    );
+    return store.dispatch(actions.loadAccountState(TEST_X_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -47,7 +118,7 @@ describe('AccountHeader Actions', () => {
       },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/account_state/${TEST_ADDRESS}`, {
+    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
       status: SERVER_ERROR,
       response: null,
     });
@@ -63,9 +134,9 @@ describe('AccountHeader Actions', () => {
       { type: actionTypes.ACCOUNT_STATE_LOAD_FAIL, status: NOT_FOUND, error: '' },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/account_state/${TEST_ADDRESS}`, {
-      status: NOT_FOUND,
-      response: null,
+    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
+      status: 200,
+      response: { result: actNotFound },
     });
     return store.dispatch(actions.loadAccountState(TEST_ADDRESS)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);

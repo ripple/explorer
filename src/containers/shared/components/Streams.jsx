@@ -1,7 +1,13 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Log from '../log';
-import { fetchNegativeUNL, fetchQuorum } from '../utils';
+import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils';
+import {
+  handleValidation,
+  handleLedger,
+  fetchLedger,
+  fetchLoadFee,
+} from '../../../rippled/lib/streams';
 
 const MAX_LEDGER_COUNT = 20;
 
@@ -70,6 +76,7 @@ class Streams extends Component {
   componentDidMount() {
     this.connect();
     this.updateNegativeUNL();
+    this.updateMetrics();
     this.heartbeat = setInterval(this.checkHeartbeat, 2000);
     this.purge = setInterval(this.purge, 5000);
   }
@@ -154,7 +161,7 @@ class Streams extends Component {
     const { ledgers, maxLedger } = this.state;
     const newMax = Math.max(max, maxLedger);
     Object.keys(ledgers).forEach(key => {
-      if (newMax - key > MAX_LEDGER_COUNT - 1) {
+      if (newMax - key >= MAX_LEDGER_COUNT) {
         delete ledgers[key];
       }
     });
@@ -185,11 +192,15 @@ class Streams extends Component {
     }
   };
 
+  updateMetrics() {
+    fetchMetrics().then(metrics => this.onmetric(metrics));
+  }
+
   updateQuorum() {
     fetchQuorum().then(quorum => {
       const { updateMetrics } = this.props;
       this.setState(prevState => {
-        const metrics = Object.assign(prevState.metrics, quorum);
+        const metrics = Object.assign(prevState.metrics, { quorum });
         updateMetrics(metrics);
         return { metrics };
       });
@@ -209,8 +220,9 @@ class Streams extends Component {
   }
 
   connect() {
-    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    this.ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    this.ws = new WebSocket(
+      `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`
+    );
     this.ws.last = Date.now();
     Log.info(`connecting...`);
 
@@ -227,6 +239,12 @@ class Streams extends Component {
     // subscribe and save new connections
     this.ws.onopen = () => {
       Log.info(`connected`);
+      this.ws.send(
+        JSON.stringify({
+          command: 'subscribe',
+          streams: ['ledger', 'validations'],
+        })
+      );
     };
 
     // handle messages
@@ -234,14 +252,37 @@ class Streams extends Component {
       this.ws.last = Date.now();
 
       try {
-        const data = JSON.parse(message.data);
-        const method = `on${data.type}`;
+        const streamResult = JSON.parse(message.data);
 
-        if (this[method]) {
-          this[method](data.data);
-        } else {
-          Log.warn(`invalid type: ${data.type}`);
-          Log.warn(data);
+        if (streamResult.type === 'validationReceived') {
+          const data = handleValidation(streamResult);
+          if (data) {
+            this.onvalidation(data);
+          }
+        } else if (streamResult.type === 'ledgerClosed') {
+          const { ledger } = handleLedger(streamResult);
+          this.onledger(ledger);
+          fetchLedger(ledger)
+            .then(ledgerSummary => {
+              this.onledgerSummary(ledgerSummary);
+            })
+            .catch(e => {
+              Log.error('Ledger fetch error', e.message);
+              Log.error(e);
+            });
+          // update the load fee
+          fetchLoadFee()
+            .then(loadFee => {
+              this.onmetric(loadFee);
+            })
+            .catch(e => {
+              Log.error('Ledger fetch error', e.message);
+              Log.error(e);
+            });
+          // TODO: when sidechain routing is done, calculate sidechain metrics on the frontend
+          // using `this.onmetric(metrics);`
+          // because there is no backend server connection (since there is no one network)
+          this.updateMetrics();
         }
       } catch (e) {
         Log.error('message parse error', message);

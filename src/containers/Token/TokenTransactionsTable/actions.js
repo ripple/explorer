@@ -1,26 +1,24 @@
-import axios from 'axios';
+import { getAccountTransactions } from '../../../rippled';
 import { analytics, ANALYTIC_TYPES } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
 export const loadTokenTransactions = (accountId, currency, marker) => dispatch => {
-  let url = `/api/v1/account_transactions/${accountId}/${currency}`;
-  if (marker) {
-    url += `?marker=${marker}`;
-  }
   dispatch({
     type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS,
   });
-  return axios
-    .get(url)
-    .then(response => {
+  return getAccountTransactions(accountId, currency, marker, undefined)
+    .then(data => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS });
       dispatch({
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
-        data: response.data,
+        data,
       });
     })
     .catch(error => {
-      analytics(ANALYTIC_TYPES.exception, { exDescription: `${url} --- ${JSON.stringify(error)}` });
+      const errorLocation = `account transactions ${accountId}.${currency} at ${marker}`;
+      analytics(ANALYTIC_TYPES.exception, {
+        exDescription: `${errorLocation} --- ${JSON.stringify(error)}`,
+      });
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS });
       dispatch({
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL,

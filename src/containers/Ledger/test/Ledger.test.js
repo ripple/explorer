@@ -5,7 +5,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import mockLedger from './mockLedger.json';
+import mockLedger from './storedLedger.json';
 import i18n from '../../../i18nTestConfig';
 import { initialState } from '../../../rootReducer';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../shared/utils';

@@ -1,10 +1,12 @@
 {
-  "type": "ledger",
-  "data": {
-    "ledger_index": 44921927,
-    "ledger_hash": "A1689E0CDA6523C82D5D848202DAB2FD458D715EED9DB11A3B7088A56681D588",
-    "txn_count": 24,
-    "close_time": 1549400031000,
-    "seen": 1549400033239
-  }
+  "fee_base": 10,
+  "fee_ref": 10,
+  "ledger_hash": "A5F887A191348B69129B168EDA5BC8EEE9EAC60E2599A8034742199471C70604",
+  "ledger_index": 68992561,
+  "ledger_time": 695420130,
+  "reserve_base": 10000000,
+  "reserve_inc": 2000000,
+  "txn_count": 0,
+  "type": "ledgerClosed",
+  "validated_ledgers": "22865937-24405095"
 }

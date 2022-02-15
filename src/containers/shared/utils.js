@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getQuorum, getNegativeUNL } from '../../rippled';
 import Log from './log';
 
 const THOUSAND = 1000;
@@ -23,7 +24,7 @@ export const BAD_REQUEST = 400;
 export const DECIMAL_REGEX = /^\d+$/;
 export const RIPPLE_ADDRESS_REGEX = /^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/;
 export const HASH_REGEX = /[0-9A-Fa-f]{64}/i;
-export const CURRENCY_REGEX = /^[a-zA-Z]{3,}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/;
+export const CURRENCY_REGEX = /^[a-zA-Z0-9]{3,}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/;
 export const FULL_CURRENCY_REGEX = /^[0-9A-Fa-f]{40}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/;
 
 export const UP_COLOR = '#2BCB96';
@@ -303,22 +304,29 @@ export const durationToHuman = (s, decimal = 2) => {
 };
 
 export const fetchNegativeUNL = async () => {
-  return axios
-    .get('/api/v1/nunl')
-    .then(resp => {
-      if (resp === undefined || resp.data === undefined) throw new Error('undefined nUNL');
+  return getNegativeUNL()
+    .then(data => {
+      if (data === undefined) throw new Error('undefined nUNL');
 
-      return resp.data;
+      return data;
     })
     .catch(e => Log.error(e));
 };
 
 export const fetchQuorum = async () => {
+  return getQuorum()
+    .then(data => {
+      if (data === undefined) throw new Error('undefined quorum');
+      return data;
+    })
+    .catch(e => Log.error(e));
+};
+
+export const fetchMetrics = () => {
   return axios
-    .get('/api/v1/quorum')
-    .then(resp => {
-      if (resp === undefined || resp.data === undefined) throw new Error('undefined quorum');
-      return resp.data;
+    .get('/api/v1/metrics')
+    .then(result => {
+      return result.data;
     })
     .catch(e => Log.error(e));
 };

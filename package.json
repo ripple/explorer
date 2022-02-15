@@ -18,7 +18,6 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "es6-promise": "^4.2.4",
     "express": "^4.16.3",
-    "express-ws": "^4.0.0",
     "i18next": "^10.6.0",
     "i18next-browser-languagedetector": "^2.1.1",
     "i18next-xhr-backend": "^1.5.1",
@@ -30,7 +29,6 @@
     "node-sass-chokidar": "^1.5.0",
     "payid-lib": "^0.1.0",
     "prop-types": "^15.6.1",
-    "query-string": "^6.13.8",
     "raf": "^3.4.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -51,8 +49,7 @@
     "topojson-client": "^3.0.0",
     "typeface-roboto": "0.0.54",
     "ws": "^7.4.2",
-    "xml2json": "^0.11.2",
-    "xrpl": "^2.0.4"
+    "xml2json": "^0.11.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
@@ -146,7 +143,7 @@
     "start": "DISABLE_NEW_JSX_TRANSFORM=true run-p watch-css dev-server dev-client",
     "test": "DISABLE_NEW_JSX_TRANSFORM=true react-scripts test --env=jsdom ",
     "test:all": "DISABLE_NEW_JSX_TRANSFORM=true run-s lint:css build-css lint:js test:ci",
-    "test:ci": "react-scripts test --coverage --ci --color --env=jsdom --no-cache --runInBand",
+    "test:ci": "DISABLE_NEW_JSX_TRANSFORM=true react-scripts test --coverage --ci --color --env=jsdom --no-cache --runInBand",
     "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
     "test:coverage": "npm run test -- --coverage --watchAll=false",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive"

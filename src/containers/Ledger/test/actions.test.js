@@ -6,6 +6,8 @@ import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../shared/utils';
 import { initialState } from '../reducer';
 import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
+import { summarizeLedger } from '../../../rippled/lib/utils';
+import ledgerNotFound from './ledgerNotFound.json';
 
 describe('Ledger actions', () => {
   const middlewares = [thunk];
@@ -23,11 +25,17 @@ describe('Ledger actions', () => {
 
   it('should dispatch correct actions on success for loadLedger', done => {
     const expectedActions = [
-      { type: actionTypes.START_LOADING_FULL_LEDGER, data: { id: mockLedger.ledger_index } },
+      {
+        type: actionTypes.START_LOADING_FULL_LEDGER,
+        data: { id: mockLedger.result.ledger.ledger_index },
+      },
       { type: actionTypes.FINISH_LOADING_FULL_LEDGER },
-      { type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data: mockLedger },
+      {
+        type: actionTypes.LOADING_FULL_LEDGER_SUCCESS,
+        data: summarizeLedger(mockLedger.result.ledger, true),
+      },
     ];
-    store.dispatch(actions.loadLedger(mockLedger.ledger_index));
+    store.dispatch(actions.loadLedger(mockLedger.result.ledger.ledger_index));
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request
@@ -44,11 +52,17 @@ describe('Ledger actions', () => {
 
   it('should dispatch correct actions on success for loadLedger (ledger hash)', done => {
     const expectedActions = [
-      { type: actionTypes.START_LOADING_FULL_LEDGER, data: { id: mockLedger.ledger_hash } },
+      {
+        type: actionTypes.START_LOADING_FULL_LEDGER,
+        data: { id: mockLedger.result.ledger.ledger_hash },
+      },
       { type: actionTypes.FINISH_LOADING_FULL_LEDGER },
-      { type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data: mockLedger },
+      {
+        type: actionTypes.LOADING_FULL_LEDGER_SUCCESS,
+        data: summarizeLedger(mockLedger.result.ledger, true),
+      },
     ];
-    store.dispatch(actions.loadLedger(mockLedger.ledger_hash));
+    store.dispatch(actions.loadLedger(mockLedger.result.ledger.ledger_hash));
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request
@@ -90,8 +104,8 @@ describe('Ledger actions', () => {
       const request = moxios.requests.mostRecent();
       request
         .respondWith({
-          status: 404,
-          response: {},
+          status: 200,
+          response: ledgerNotFound,
         })
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);

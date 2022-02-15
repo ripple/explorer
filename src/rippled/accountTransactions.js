@@ -6,28 +6,32 @@
  * Part 2 of 2
  */
 
-const addressCodec = require('ripple-address-codec');
-const utils = require('../../lib/utils');
-const rippled = require('../../lib/rippled');
-const summarize = require('../../lib/txSummary');
-const log = require('../../lib/logger')({ name: 'account transactions' });
+import {
+  isValidClassicAddress,
+  isValidXAddress,
+  xAddressToClassicAddress,
+} from 'ripple-address-codec';
 
-module.exports = (req, res) => {
-  const { id: account, currency } = req.params;
-  const { limit, marker } = req.query;
+import { formatTransaction } from './lib/utils';
+import { getAccountTransactions as getAccountTxs } from './lib/rippled';
+import summarize from './lib/txSummary';
+import logger from './lib/logger';
 
+const log = logger({ name: 'account transactions' });
+
+const getAccountTransactions = async (account, currency, marker, limit) => {
   // TODO: Retrieve txs for untagged X-address only?
 
   let classicAddress;
   let decomposedAddress = null;
 
   try {
-    if (!addressCodec.isValidClassicAddress(account) && !addressCodec.isValidXAddress(account)) {
+    if (!isValidClassicAddress(account) && !isValidXAddress(account)) {
       throw new Error('Malformed address');
     }
 
-    if (addressCodec.isValidXAddress(account)) {
-      decomposedAddress = addressCodec.xAddressToClassicAddress(account);
+    if (isValidXAddress(account)) {
+      decomposedAddress = xAddressToClassicAddress(account);
       ({ classicAddress } = decomposedAddress);
       // TODO: Display tag, if present
       const isTestnet = decomposedAddress.test;
@@ -46,16 +50,15 @@ module.exports = (req, res) => {
     }
   } catch (error) {
     log.error(error.toString());
-    res.status(error.code || 500).json({ message: error.message });
+    throw error;
   }
 
   log.info(`get transactions: ${account} -> ${classicAddress}`);
-  rippled
-    .getAccountTransactions(classicAddress, limit, marker)
+  return getAccountTxs(classicAddress, limit, marker)
     .then(data => {
       const transactions = data.transactions
         .map(tx => {
-          const txn = utils.formatTransaction(tx);
+          const txn = formatTransaction(tx);
           return summarize(txn, true);
         })
         .filter(
@@ -68,9 +71,13 @@ module.exports = (req, res) => {
         marker: data.marker,
       };
     })
-    .then(d => res.send(d))
+    .then(d => {
+      return d;
+    })
     .catch(error => {
       log.error(error.toString());
-      res.status(error.code || 500).json({ message: error.message });
+      throw error;
     });
 };
+
+export default getAccountTransactions;

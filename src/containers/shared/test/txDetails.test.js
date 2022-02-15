@@ -19,7 +19,7 @@ import SignerListSet from '../../Transactions/test/mock_data/SignerListSet.json'
 import TrustSet from '../../Transactions/test/mock_data/TrustSet.json';
 import UNLModify from '../../Transactions/test/mock_data/UNLModify.json';
 import TxDetails from '../components/TxDetails';
-import summarize from '../../../../server/lib/txSummary';
+import summarize from '../../../rippled/lib/txSummary';
 
 describe('TxDetails', () => {
   const createWrapper = tx =>

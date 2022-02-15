@@ -4,11 +4,22 @@
  * part 1 of 2
  */
 
-const addressCodec = require('ripple-address-codec');
-const streams = require('../../lib/streams');
-const rippled = require('../../lib/rippled');
-const log = require('../../lib/logger')({ name: 'account balances' });
-const utils = require('../../lib/utils');
+import {
+  isValidClassicAddress,
+  isValidXAddress,
+  xAddressToClassicAddress,
+} from 'ripple-address-codec';
+import {
+  getAccountInfo,
+  getAccountEscrows,
+  getAccountPaychannels,
+  getBalances,
+  getServerInfo,
+} from './lib/rippled';
+import logger from './lib/logger';
+import { formatAccountInfo, formatSignerList } from './lib/utils';
+
+const log = logger({ name: 'account balances' });
 
 const formatResults = (info, data) => {
   const balances = { XRP: Number(info.Balance) / 1000000 };
@@ -34,22 +45,19 @@ const formatResults = (info, data) => {
 
   return balances;
 };
-
-module.exports = (req, res) => {
-  const { id: account } = req.params;
-
+const getAccountState = account => {
   // TODO: Retrieve balances for untagged X-address only? or display notice/warning
 
   let classicAddress;
   let decomposedAddress = null;
 
   try {
-    if (!addressCodec.isValidClassicAddress(account) && !addressCodec.isValidXAddress(account)) {
+    if (!isValidClassicAddress(account) && !isValidXAddress(account)) {
       throw new Error('Malformed address');
     }
 
-    if (addressCodec.isValidXAddress(account)) {
-      decomposedAddress = addressCodec.xAddressToClassicAddress(account);
+    if (isValidXAddress(account)) {
+      decomposedAddress = xAddressToClassicAddress(account);
       ({ classicAddress } = decomposedAddress);
       // TODO: Display tag, if present
       const isTestnet = decomposedAddress.test;
@@ -68,32 +76,28 @@ module.exports = (req, res) => {
     }
   } catch (error) {
     log.error(error.toString());
-    res.status(error.code || 500).json({ message: error.message });
+    throw error;
   }
 
   log.info(`get balances: ${account} -> ${classicAddress}`);
-  rippled
-    .getAccountInfo(classicAddress)
+  return getAccountInfo(classicAddress)
     .then(info =>
       Promise.all([
-        rippled
-          .getBalances(classicAddress, info.ledger_index)
-          .then(data => formatResults(info, data)),
-        rippled.getAccountEscrows(classicAddress, info.ledger_index),
-        rippled.getAccountPaychannels(classicAddress, info.ledger_index),
+        getBalances(classicAddress, info.ledger_index).then(data => formatResults(info, data)),
+        getAccountEscrows(classicAddress, info.ledger_index),
+        getAccountPaychannels(classicAddress, info.ledger_index),
+        getServerInfo(),
       ]).then(data => {
-        res.send({
+        return {
           account: info.Account,
           ledger_index: info.ledger_index,
-          info: utils.formatAccountInfo(info, streams.getReserve()),
+          info: formatAccountInfo(info, data[3].info.validated_ledger),
           balances: data[0],
-          signerList: info.signer_lists[0]
-            ? utils.formatSignerList(info.signer_lists[0])
-            : undefined,
+          signerList: info.signer_lists[0] ? formatSignerList(info.signer_lists[0]) : undefined,
           escrows: data[1],
           paychannels: data[2],
           xAddress: decomposedAddress || undefined,
-        });
+        };
       })
     )
     .catch(error => {
@@ -101,6 +105,8 @@ module.exports = (req, res) => {
       //   error.toString(): CustomError: account not found
       //   error.code: 404
       log.error(error.toString());
-      res.status(error.code || 500).json({ message: error.message });
+      throw error;
     });
 };
+
+export default getAccountState;

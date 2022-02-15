@@ -1,11 +1,9 @@
-import axios from 'axios';
 import { isValidClassicAddress, isValidXAddress } from 'ripple-address-codec';
+import { getToken } from '../../../rippled';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
 export const loadTokenState = (currency, accountId) => dispatch => {
-  const url = `/api/v1/token/${currency}.${accountId}`;
-
   if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
     dispatch({
       type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,
@@ -18,18 +16,19 @@ export const loadTokenState = (currency, accountId) => dispatch => {
   dispatch({
     type: actionTypes.START_LOADING_ACCOUNT_STATE,
   });
-  return axios
-    .get(url)
-    .then(response => {
+  return getToken(currency, accountId)
+    .then(data => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE });
       dispatch({
         type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS,
-        data: response.data,
+        data,
       });
     })
     .catch(error => {
-      const status = error.response ? error.response.status : 500;
-      analytics(ANALYTIC_TYPES.exception, { exDescription: `${url} --- ${JSON.stringify(error)}` });
+      const status = error.code;
+      analytics(ANALYTIC_TYPES.exception, {
+        exDescription: `token ${currency}.${accountId} --- ${JSON.stringify(error)}`,
+      });
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE });
       dispatch({
         type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,

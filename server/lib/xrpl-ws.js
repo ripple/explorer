@@ -44,7 +44,7 @@ const connect = rippled => {
     ws.send(
       JSON.stringify({
         command: 'subscribe',
-        streams: rippled.primary ? ['ledger', 'validations', 'server'] : ['validations'],
+        streams: rippled.primary ? ['ledger'] : [],
       })
     );
   });
@@ -59,13 +59,8 @@ const connect = rippled => {
       log.error('message parse error', message);
       log.error(e);
     }
-
-    if (data.type === 'validationReceived') {
-      streams.handleValidation(data);
-    } else if (data.type === 'ledgerClosed') {
+    if (data.type === 'ledgerClosed') {
       streams.handleLedger(data);
-    } else if (data.type === 'serverStatus') {
-      streams.handleLoadFee(data);
     }
   });
 

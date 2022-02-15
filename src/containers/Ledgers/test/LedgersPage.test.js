@@ -10,10 +10,15 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../../../i18nTestConfig';
 import Ledgers from '../index';
 import ledgerMessage from './mock/ledger.json';
-import ledgerSummaryMessage from './mock/ledgerSummary.json';
 import validationMessage from './mock/validation.json';
-import metricMessage from './mock/metric.json';
 import { initialState } from '../../../rootReducer';
+import prevLedgerMessage from './mock/prevLedger.json';
+import moxiosData from './mock/rippled.json';
+import MockResponse from '../../test/mockRippledResponse';
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 describe('Ledgers Page container', () => {
   const middlewares = [thunk];
@@ -45,13 +50,6 @@ describe('Ledgers Page container', () => {
     wrapper.unmount();
   });
 
-  it('renders metrics', () => {
-    metricMessage.forEach(msg => {
-      const wrapper = createWrapper({ msg });
-      wrapper.unmount();
-    });
-  });
-
   it('renders all parts', () => {
     moxios.stubRequest(`/api/v1/validators`, {
       status: 200,
@@ -64,7 +62,10 @@ describe('Ledgers Page container', () => {
   });
 
   test('receives messages from streams', async () => {
-    const server = new WS(`ws://${window.location.host}/ws`, { jsonProtocol: true });
+    const server = new WS(
+      `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+      { jsonProtocol: true }
+    );
     const wrapper = createWrapper();
 
     moxios.stubRequest(`/api/v1/validators`, {
@@ -88,19 +89,25 @@ describe('Ledgers Page container', () => {
       ],
     });
 
+    moxios.stubRequest(
+      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
+      new MockResponse(moxiosData)
+    );
+
     expect(wrapper.find('.ledger').length).toBe(0);
     expect(wrapper.find('.validation').length).toBe(0);
     expect(wrapper.find('.txn').length).toBe(0);
 
     await server.connected;
+    server.send(prevLedgerMessage);
+    await sleep(260);
     server.send(validationMessage);
     server.send(ledgerMessage);
-    server.send(metricMessage);
     server.send({ type: 'invalid' });
     server.send(null);
 
     wrapper.update();
-    expect(wrapper.find('.ledger').length).toBe(1);
+    expect(wrapper.find('.ledger').length).toBe(2);
     expect(wrapper.find('.selected-validator .pubkey').length).toBe(0);
     expect(wrapper.find('.tooltip').length).toBe(0);
 
@@ -115,7 +122,6 @@ describe('Ledgers Page container', () => {
     // async update ledger summary due
     // to throttle and purge/heartbeat delay
     setTimeout(() => {
-      server.send(ledgerSummaryMessage);
       wrapper.update();
 
       const validations = wrapper.find('div.validation');
