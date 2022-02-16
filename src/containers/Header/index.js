@@ -100,7 +100,8 @@ class Header extends Component {
       eventCategory: 'mode switch',
       eventAction: desiredLink,
     });
-    window.location = desiredLink;
+    console.log(desiredLink);
+    // window.location = desiredLink;
   };
 
   ignore = event => {
@@ -168,6 +169,7 @@ class Header extends Component {
   }
 
   render() {
+    console.log(process.env);
     const { t, isScrolled, width } = this.props;
     const { expanded } = this.state;
     const rippledUrl = this.context;
