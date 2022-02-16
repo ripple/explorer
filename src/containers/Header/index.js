@@ -109,6 +109,7 @@ class Header extends Component {
   };
 
   renderDropdown(network) {
+    const { t } = this.props;
     return (
       <div
         key={network}
@@ -119,7 +120,7 @@ class Header extends Component {
         onKeyUp={this.handleClick}
         tabIndex={0}
       >
-        <span>{network}</span>
+        <span>{t(`${network}_data`)}</span>
         {/*
         Adding this space to provide width between name
         and selected checkmark
@@ -131,6 +132,7 @@ class Header extends Component {
   }
 
   renderCustomNetworkDropdown(network) {
+    const { t } = this.props;
     const rippledUrl = this.context;
     return (
       <div
@@ -142,7 +144,9 @@ class Header extends Component {
         onKeyUp={this.handleCustomNetworkClick}
         tabIndex={0}
       >
-        <span>{network}</span>
+        <span>
+          {t('sidechain_data')}: {network.toLowerCase()}
+        </span>
         {/*
         Adding this space to provide width between name
         and selected checkmark
