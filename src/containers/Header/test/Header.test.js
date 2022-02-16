@@ -37,4 +37,30 @@ describe('Header component', () => {
     expect(wrapper.find('.mobile-menu').length).toEqual(1);
     wrapper.unmount();
   });
+
+  describe('Sidechain version', () => {
+    const OLD_ENV = process.env;
+
+    beforeEach(() => {
+      jest.resetModules();
+      process.env = { ...OLD_ENV, REACT_APP_ENVIRONMENT: 'sidechain' };
+    });
+
+    afterEach(() => {
+      process.env = OLD_ENV;
+    });
+
+    it('renders without crashing', () => {
+      const wrapper = createWrapper();
+      wrapper.unmount();
+    });
+
+    it('renders all parts', () => {
+      const wrapper = createWrapper();
+      expect(wrapper.find('.search').length).toEqual(2);
+      expect(wrapper.find('.logo').length).toEqual(2);
+      expect(wrapper.find('.mobile-menu').length).toEqual(1);
+      wrapper.unmount();
+    });
+  });
 });
