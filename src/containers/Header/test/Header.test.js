@@ -35,32 +35,39 @@ describe('Header component', () => {
     expect(wrapper.find('.search').length).toEqual(2);
     expect(wrapper.find('.logo').length).toEqual(2);
     expect(wrapper.find('.mobile-menu').length).toEqual(1);
+    expect(wrapper.find('.network').length).toEqual(1);
     wrapper.unmount();
   });
 
-  describe('Sidechain version', () => {
-    const OLD_ENV = process.env;
+  it('dropdown expands', () => {
+    const wrapper = createWrapper();
+    expect(wrapper.find('.dropdown').length).toEqual(1);
+    expect(wrapper.find('[className="dropdown expanded"]').length).toEqual(0);
 
-    beforeEach(() => {
-      jest.resetModules();
-      process.env = { ...OLD_ENV, REACT_APP_ENVIRONMENT: 'sidechain' };
-    });
+    wrapper.find('.dropdown').simulate('click');
+    expect(wrapper.find('[className="dropdown expanded"]').length).toEqual(1);
+    wrapper.unmount();
+  });
 
-    afterEach(() => {
-      process.env = OLD_ENV;
-    });
+  it('redirect works', () => {
+    const { location } = window;
+    delete window.location;
+    const mockedFunction = jest.fn();
+    window.location = { assign: mockedFunction };
 
-    it('renders without crashing', () => {
-      const wrapper = createWrapper();
-      wrapper.unmount();
-    });
+    const wrapper = createWrapper();
 
-    it('renders all parts', () => {
-      const wrapper = createWrapper();
-      expect(wrapper.find('.search').length).toEqual(2);
-      expect(wrapper.find('.logo').length).toEqual(2);
-      expect(wrapper.find('.mobile-menu').length).toEqual(1);
-      wrapper.unmount();
-    });
+    // expand dropdown
+    expect(wrapper.find('.dropdown').length).toEqual(1);
+    wrapper.find('.dropdown').simulate('click');
+    expect(wrapper.find('[value="mainnet"]').length).toEqual(1);
+
+    // test clicking on mainnet
+    wrapper.find('[value="mainnet"]').simulate('click');
+    expect(mockedFunction).toBeCalledWith(process.env.REACT_APP_MAINNET_LINK);
+
+    wrapper.unmount();
+
+    window.location = location;
   });
 });

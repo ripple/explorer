@@ -100,7 +100,7 @@ class Header extends Component {
       eventCategory: 'mode switch',
       eventAction: desiredLink,
     });
-    window.location = desiredLink;
+    window.location.assign(desiredLink);
   };
 
   ignore = event => {
