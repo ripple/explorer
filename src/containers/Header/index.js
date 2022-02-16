@@ -108,19 +108,18 @@ class Header extends Component {
     event.stopPropagation();
   };
 
-  renderDropdown(network) {
-    const { t } = this.props;
+  renderDropdown = (network, handleClick, classname, text) => {
     return (
       <div
         key={network}
-        className={classnames('item', { selected: MODE === network })}
+        className={classname}
         role="menuitem"
         value={network}
-        onClick={this.handleClick}
-        onKeyUp={this.handleClick}
+        onClick={handleClick}
+        onKeyUp={handleClick}
         tabIndex={0}
       >
-        <span>{t(`${network}_data`)}</span>
+        <span>{text}</span>
         {/*
         Adding this space to provide width between name
         and selected checkmark
@@ -129,33 +128,7 @@ class Header extends Component {
         <CheckIcon className="check" desc={network} />
       </div>
     );
-  }
-
-  renderCustomNetworkDropdown(network) {
-    const { t } = this.props;
-    const rippledUrl = this.context;
-    return (
-      <div
-        key={network}
-        className={classnames('item', 'custom', { selected: network === rippledUrl })}
-        role="menuitem"
-        value={network}
-        onClick={this.handleCustomNetworkClick}
-        onKeyUp={this.handleCustomNetworkClick}
-        tabIndex={0}
-      >
-        <span>
-          {t('sidechain_data')}: {network.toLowerCase()}
-        </span>
-        {/*
-        Adding this space to provide width between name
-        and selected checkmark
-        */}
-        &nbsp;
-        <CheckIcon className="check" desc={network} />
-      </div>
-    );
-  }
+  };
 
   renderSidechainInput() {
     return (
@@ -205,8 +178,18 @@ class Header extends Component {
               <div className="bg" />
               {Object.keys(urlLinkMap).map(network => {
                 return isCustomNetwork(network)
-                  ? this.renderCustomNetworkDropdown(network)
-                  : this.renderDropdown(network);
+                  ? this.renderDropdown(
+                      network,
+                      this.handleCustomNetworkClick,
+                      classnames('item', 'custom', { selected: network === rippledUrl }),
+                      `${t('sidechain_data')}: ${network.toLowerCase()}`
+                    )
+                  : this.renderDropdown(
+                      network,
+                      this.handleClick,
+                      classnames('item', { selected: MODE === network }),
+                      t(`${network}_data`)
+                    );
               })}
               {this.renderSidechainInput()}
             </div>
