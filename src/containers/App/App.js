@@ -8,7 +8,6 @@ import { analytics, ANALYTIC_TYPES } from '../shared/utils';
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions';
 import Ledgers from '../Ledgers';
 import Header from '../Header';
-import Footer from '../Footer';
 import './app.css';
 import ledger from '../Ledger';
 import accounts from '../Accounts';
@@ -104,7 +103,6 @@ class App extends Component {
             </div>
           </BrowserRouter>
         </UrlContext.Provider>
-        <Footer />
       </div>
     );
   }

@@ -9,6 +9,18 @@ import { initialState } from '../../../rootReducer';
 import i18n from '../../../i18nTestConfig';
 import App from '../index';
 
+jest.mock('react-router-dom', () => {
+  // Require the original module to not be mocked...
+  const originalModule = jest.requireActual('react-router-dom');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    // eslint-disable-next-line react/prop-types -- not really needed for tests
+    BrowserRouter: ({ children }) => <div>{children}</div>,
+  };
+});
+
 describe('App container', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
@@ -24,6 +36,10 @@ describe('App container', () => {
       </MemoryRouter>
     );
   };
+
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
 
   it('renders main parts', () => {
     const wrapper = createWrapper();
