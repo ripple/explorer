@@ -21,7 +21,7 @@ class Network extends Component {
   renderUnderConstruction = () => {
     return (
       <div className="network-page">
-        <NoMatch title="under_construction" hints={['come_back_later']} />
+        <NoMatch title="under_construction" hints={['come_back_later']} isError={false} />
       </div>
     );
   };
