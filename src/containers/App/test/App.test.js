@@ -37,10 +37,6 @@ describe('App container', () => {
     );
   };
 
-  afterAll(() => {
-    jest.clearAllMocks();
-  });
-
   it('renders main parts', () => {
     const wrapper = createWrapper();
     expect(wrapper.find('.header').length).toBe(1);
