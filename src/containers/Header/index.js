@@ -57,7 +57,7 @@ class Header extends Component {
   handleClick = event => {
     const mode = event.currentTarget.getAttribute('value');
 
-    if (mode === MODE) {
+    if (mode === process.env.REACT_APP_ENVIRONMENT) {
       return;
     }
 
@@ -154,6 +154,7 @@ class Header extends Component {
       width < BREAKPOINTS.landscape ? (
         <MobileMenu t={t} currentPath={this.getCurrentPath()} />
       ) : null;
+    const currentMode = process.env.REACT_APP_ENVIRONMENT;
 
     const urlLinkMap = {
       ...STATIC_ENV_LINKS,
@@ -167,7 +168,7 @@ class Header extends Component {
     return (
       <>
         <div className={classnames('header', { 'header-shadow': isScrolled })}>
-          <div className={`network ${MODE}`}>
+          <div className={`network ${currentMode}`}>
             <div
               className={classnames('dropdown', { expanded })}
               role="menubar"
@@ -187,7 +188,7 @@ class Header extends Component {
                   : this.renderDropdown(
                       network,
                       this.handleClick,
-                      classnames('item', { selected: MODE === network }),
+                      classnames('item', { selected: currentMode === network }),
                       t(`${network}_data`)
                     );
               })}

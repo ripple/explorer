@@ -52,14 +52,18 @@ describe('Header component', () => {
   describe('test redirects', () => {
     const { location } = window;
     const mockedFunction = jest.fn();
+    const oldEnvs = process.env;
+
     beforeEach(() => {
       delete window.location;
       // mockedFunction = jest.fn();
       window.location = { assign: mockedFunction };
+      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' };
     });
 
     afterEach(() => {
       window.location = location;
+      process.env = oldEnvs;
     });
 
     it('redirect works', () => {

@@ -32,4 +32,3 @@ jobs:
         REACT_APP_MAINNET_LINK: mainnet.example.com
         REACT_APP_TESTNET_LINK: testnet.example.com
         REACT_APP_SIDECHAIN_LINK: sidechain.example.com
-        REACT_APP_ENVIRONMENT: mainnet
