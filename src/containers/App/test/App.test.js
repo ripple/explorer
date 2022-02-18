@@ -9,6 +9,9 @@ import { initialState } from '../../../rootReducer';
 import i18n from '../../../i18nTestConfig';
 import App from '../index';
 
+// We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
+// get confused about being inside another Router (the `MemoryRouter` in the `mount`),
+// and the routing won't actually happen in the test
 jest.mock('react-router-dom', () => {
   // Require the original module to not be mocked...
   const originalModule = jest.requireActual('react-router-dom');
