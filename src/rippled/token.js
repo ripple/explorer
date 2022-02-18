@@ -4,14 +4,14 @@ import { getBalances, getAccountInfo, getServerInfo } from './lib/rippled';
 
 const log = logger({ name: 'iou' });
 
-const getToken = async (currencyCode, issuer) => {
+const getToken = async (currencyCode, issuer, url) => {
   try {
     log.info('fetching account info from rippled');
-    const accountInfo = await getAccountInfo(issuer);
-    const serverInfo = await getServerInfo();
+    const accountInfo = await getAccountInfo(url, issuer);
+    const serverInfo = await getServerInfo(url);
 
     log.info('fetching gateway_balances from rippled');
-    const balances = await getBalances(issuer);
+    const balances = await getBalances(url, issuer);
     const obligations = balances?.obligations && balances.obligations[currencyCode.toUpperCase()];
     if (!obligations) {
       throw new Error('Currency not issued by account');

@@ -45,7 +45,7 @@ const formatResults = (info, data) => {
 
   return balances;
 };
-const getAccountState = account => {
+const getAccountState = (account, url) => {
   // TODO: Retrieve balances for untagged X-address only? or display notice/warning
 
   let classicAddress;
@@ -80,13 +80,13 @@ const getAccountState = account => {
   }
 
   log.info(`get balances: ${account} -> ${classicAddress}`);
-  return getAccountInfo(classicAddress)
+  return getAccountInfo(url, classicAddress)
     .then(info =>
       Promise.all([
-        getBalances(classicAddress, info.ledger_index).then(data => formatResults(info, data)),
-        getAccountEscrows(classicAddress, info.ledger_index),
-        getAccountPaychannels(classicAddress, info.ledger_index),
-        getServerInfo(),
+        getBalances(url, classicAddress, info.ledger_index).then(data => formatResults(info, data)),
+        getAccountEscrows(url, classicAddress, info.ledger_index),
+        getAccountPaychannels(url, classicAddress, info.ledger_index),
+        getServerInfo(url),
       ]).then(data => {
         return {
           account: info.Account,
