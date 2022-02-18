@@ -45,18 +45,13 @@ class Header extends Component {
   }
 
   toggleExpand = event => {
-    const value = event?.target?.getAttribute('value');
-    const type = event?.target?.getAttribute('type');
-    this.setState(prevState => {
-      if (!prevState.expanded || (value == null && type == null)) {
-        // only expand if:
-        //  - dropdown is not already expanded OR
-        //  - click is outside the dropdown (represented by value == null && type == null)
-        // This is done so that the dropdown doesn't close when typing in a network
+    const className = event?.target?.getAttribute('class');
+    const { expanded } = this.state;
+    if (!(expanded && className === 'sidechain_input'))
+      // don't de-expand if clicking in the textbox
+      this.setState(prevState => {
         return { expanded: !prevState.expanded };
-      }
-      return prevState;
-    });
+      });
   };
 
   handleClick = event => {
@@ -134,12 +129,17 @@ class Header extends Component {
     return (
       <div
         key="new_sidechain"
-        className={classnames('item', { selected: false })}
+        className="item input"
         value="new_sidechain"
         role="menuitem"
         tabIndex={0}
       >
-        <input type="text" placeholder="Add custom sidechain" onKeyDown={this.onInputKeyDown} />
+        <input
+          className="sidechain_input"
+          type="text"
+          placeholder="Add custom sidechain"
+          onKeyDown={this.onInputKeyDown}
+        />
       </div>
     );
   }

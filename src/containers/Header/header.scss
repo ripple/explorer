@@ -28,9 +28,11 @@
     }
 
     input {
-      width: auto;
+      width: 100%;
+      padding: 2px 5px;
       border: none;
       background-color: $gray-900;
+      border-radius: 100px;
       color: $white;
       font-size: 12px;
       line-height: 18px;
@@ -66,6 +68,11 @@
       .item {
         display: none;
         padding: 0px 8px;
+
+        &.input {
+          padding: 0px 3px;
+          padding-bottom: 2px;
+        }
 
         &.selected {
           display: flex;
