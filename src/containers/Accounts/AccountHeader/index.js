@@ -11,7 +11,7 @@ import './balance-selector.css';
 import BalanceSelector from './BalanceSelector';
 import Account from '../../shared/components/Account';
 import { localizeNumber } from '../../shared/utils';
-import UrlContext from '../../shared/urlContext';
+import SocketContext from '../../shared/SocketContext';
 
 const CURRENCY_OPTIONS = {
   style: 'currency',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { translate } from 'react-i18next';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import {
 } from '../../shared/utils';
 import { getOffers } from '../../../rippled';
 import PairStats from './PairStats';
+import SocketContext from '../../shared/SocketContext';
 
 // Hard Coded Pairs that we always check for
 const pairsHardCoded = [
@@ -27,6 +28,7 @@ const DEXPairs = props => {
   const [isLoading, setIsLoading] = useState(true);
   const isMountedRef = useRef(null);
   const [isError, setIsError] = useState(false);
+  const rippledSocket = useContext(SocketContext);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -54,7 +56,7 @@ const DEXPairs = props => {
           ) {
             promises.push(
               // currency.accountId = "taker gets" token = "taker pays" pairs are "taker pays"/ "taker gets"
-              getOffers(currency, accountId, token.currency, token.issuer)
+              getOffers(currency, accountId, token.currency, token.issuer, rippledSocket)
                 .then(data => {
                   if (data.offers && data.offers.length > 0) {
                     let { averageExchangeRate, lowestExchangeRate, highestExchangeRate } = data;
@@ -109,7 +111,7 @@ const DEXPairs = props => {
     return () => {
       isMountedRef.current = false;
     };
-  }, [accountId, currency]);
+  }, [accountId, currency, rippledSocket]);
 
   function renderNoPairs() {
     return <div className="no-pairs-message">{t('no_pairs_message')}</div>;

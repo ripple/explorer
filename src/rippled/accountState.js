@@ -104,6 +104,7 @@ const getAccountState = (account, url) => {
       // X-address:
       //   error.toString(): CustomError: account not found
       //   error.code: 404
+      console.log(error.stack);
       log.error(error.toString());
       throw error;
     });

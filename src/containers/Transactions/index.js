@@ -15,7 +15,7 @@ import { loadTransaction } from './actions';
 import SimpleTab from './SimpleTab';
 import DetailTab from './DetailTab';
 import './transaction.css';
-import UrlContext from '../shared/urlContext';
+import SocketContext from '../shared/SocketContext';
 
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -157,7 +157,7 @@ class Transaction extends Component {
   }
 }
 
-Transaction.contextType = UrlContext;
+Transaction.contextType = SocketContext;
 
 Transaction.propTypes = {
   t: PropTypes.func.isRequired,

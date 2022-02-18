@@ -1,6 +1,8 @@
 import { post } from 'axios';
 import { hostname } from 'os';
 import { unix } from 'moment';
+import { XrplClient } from 'xrpl-client';
+import { object } from 'prop-types';
 import { Error, XRP_BASE, EPOCH_OFFSET } from './utils';
 
 const HOSTNAME = hostname();
@@ -36,7 +38,11 @@ const formatPaychannel = d => ({
 
 const executeQuery = async (url, options) => {
   // const params = { options, headers: { 'X-User': HOSTNAME } };
-  const params = { command: options.method, ...options.params[0] };
+  console.log(options);
+  const params = { command: options.method };
+  if (options.params != null) {
+    Object.assign(params, options.params[0]);
+  }
   return url.send(params).catch(error => {
     const message =
       error.response && error.response.error_message
@@ -55,7 +61,7 @@ function query(url, options) {
 // If there is a separate peer to peer (not reporting mode) server for admin requests, use it.
 // Otherwise use the default url for everything.
 function queryP2P(url, options) {
-  return executeQuery(url ?? P2P_URL, options);
+  return executeQuery(new XrplClient([`${P2P_URL}:51233`]) ?? url, options);
 }
 
 // get ledger
@@ -92,26 +98,24 @@ const getTransaction = (url, txHash) => {
     params: [{ transaction: txHash }],
   };
 
-  return query(url, params)
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'txnNotFound') {
-        throw new Error('transaction not found', 404);
-      }
+  return query(url, params).then(resp => {
+    if (resp.error === 'txnNotFound') {
+      throw new Error('transaction not found', 404);
+    }
 
-      if (resp.error === 'notImpl') {
-        throw new Error('invalid transaction hash', 400);
-      }
+    if (resp.error === 'notImpl') {
+      throw new Error('invalid transaction hash', 400);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      if (!resp.validated) {
-        throw new Error('transaction not validated', 500);
-      }
-      return resp;
-    });
+    if (!resp.validated) {
+      throw new Error('transaction not validated', 500);
+    }
+    return resp;
+  });
 };
 
 // get account info
@@ -119,30 +123,66 @@ const getAccountInfo = (url, account) =>
   query(url, {
     method: 'account_info',
     params: [{ account, ledger_index: 'validated', signer_lists: true }],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'actNotFound') {
-        throw new Error('account not found', 404);
-      }
+  }).then(resp => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      return Object.assign(resp.account_data, {
-        ledger_index: resp.ledger_index,
-      });
+    return Object.assign(resp.account_data, {
+      ledger_index: resp.ledger_index,
     });
+  });
 
 // get account escrows
 const getAccountEscrows = (url, account, ledger_index = 'validated') =>
   query(url, {
     method: 'account_objects',
     params: [{ account, ledger_index, type: 'escrow', limit: 400 }],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
+  }).then(resp => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404);
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
+
+    if (!resp.account_objects.length) {
+      return undefined;
+    }
+
+    const escrows = { in: [], out: [], total: 0, totalIn: 0, totalOut: 0 };
+    resp.account_objects.forEach(d => {
+      const amount = Number(d.Amount);
+      escrows.total += amount;
+      if (account === d.Destination) {
+        escrows.in.push(formatEscrow(d));
+        escrows.totalIn += amount;
+      } else {
+        escrows.out.push(formatEscrow(d));
+        escrows.totalOut += amount;
+      }
+    });
+
+    escrows.total /= XRP_BASE;
+    escrows.totalIn /= XRP_BASE;
+    escrows.totalOut /= XRP_BASE;
+    return escrows;
+  });
+
+// get account paychannels
+const getAccountPaychannels = async (url, account, ledger_index = 'validated') => {
+  const list = [];
+  let remaining = 0;
+  const getChannels = marker =>
+    query(url, {
+      method: 'account_objects',
+      params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }],
+    }).then(resp => {
       if (resp.error === 'actNotFound') {
         throw new Error('account not found', 404);
       }
@@ -155,55 +195,13 @@ const getAccountEscrows = (url, account, ledger_index = 'validated') =>
         return undefined;
       }
 
-      const escrows = { in: [], out: [], total: 0, totalIn: 0, totalOut: 0 };
-      resp.account_objects.forEach(d => {
-        const amount = Number(d.Amount);
-        escrows.total += amount;
-        if (account === d.Destination) {
-          escrows.in.push(formatEscrow(d));
-          escrows.totalIn += amount;
-        } else {
-          escrows.out.push(formatEscrow(d));
-          escrows.totalOut += amount;
-        }
-      });
+      list.push(...resp.account_objects);
+      if (resp.marker) {
+        return getChannels(resp.marker);
+      }
 
-      escrows.total /= XRP_BASE;
-      escrows.totalIn /= XRP_BASE;
-      escrows.totalOut /= XRP_BASE;
-      return escrows;
+      return null;
     });
-
-// get account paychannels
-const getAccountPaychannels = async (url, account, ledger_index = 'validated') => {
-  const list = [];
-  let remaining = 0;
-  const getChannels = marker =>
-    query(url, {
-      method: 'account_objects',
-      params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }],
-    })
-      .then(resp => resp.data.result)
-      .then(resp => {
-        if (resp.error === 'actNotFound') {
-          throw new Error('account not found', 404);
-        }
-
-        if (resp.error_message) {
-          throw new Error(resp.error_message, 500);
-        }
-
-        if (!resp.account_objects.length) {
-          return undefined;
-        }
-
-        list.push(...resp.account_objects);
-        if (resp.marker) {
-          return getChannels(resp.marker);
-        }
-
-        return null;
-      });
 
   await getChannels();
   const channels = list.map(c => {
@@ -223,19 +221,18 @@ const getBalances = (url, account, ledger_index = 'validated') =>
   queryP2P(url, {
     method: 'gateway_balances',
     params: [{ account, ledger_index }],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'actNotFound') {
-        throw new Error('account not found', 404);
-      }
+  }).then(resp => {
+    console.log(resp);
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 
 // get account transactions
 const getAccountTransactions = (url, account, limit = 20, marker = '') => {
@@ -258,21 +255,19 @@ const getAccountTransactions = (url, account, limit = 20, marker = '') => {
           : undefined,
       },
     ],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'actNotFound') {
-        throw new Error('account not found', 404);
-      }
+  }).then(resp => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
-      return {
-        transactions: resp.transactions,
-        marker: resp.marker ? `${resp.marker.ledger}.${resp.marker.seq}` : undefined,
-      };
-    });
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
+    return {
+      transactions: resp.transactions,
+      marker: resp.marker ? `${resp.marker.ledger}.${resp.marker.seq}` : undefined,
+    };
+  });
 };
 
 const getNegativeUNL = url =>
@@ -283,32 +278,28 @@ const getNegativeUNL = url =>
         index: N_UNL_INDEX,
       },
     ],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'entryNotFound') {
-        return [];
-      }
+  }).then(resp => {
+    if (resp.error === 'entryNotFound') {
+      return [];
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 
 const getServerInfo = url =>
   query(url, {
     method: 'server_info',
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error !== undefined || resp.error_message !== undefined) {
-        throw new Error(resp.error_message || resp.error, 500);
-      }
+  }).then(resp => {
+    if (resp.error !== undefined || resp.error_message !== undefined) {
+      throw new Error(resp.error_message || resp.error, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 
 const getOffers = (url, currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
   return query(url, {
@@ -325,15 +316,13 @@ const getOffers = (url, currencyCode, issuerAddress, pairCurrencyCode, pairIssue
         },
       },
     ],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error !== undefined || resp.error_message !== undefined) {
-        throw new Error(resp.error_message || resp.error, 500);
-      }
+  }).then(resp => {
+    if (resp.error !== undefined || resp.error_message !== undefined) {
+      throw new Error(resp.error_message || resp.error, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 };
 export {
   getLedger,

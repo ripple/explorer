@@ -9,7 +9,7 @@ import Loader from '../../shared/components/Loader';
 import '../../shared/css/nested-menu.css';
 import './styles.css';
 import { localizeNumber, formatLargeNumber } from '../../shared/utils';
-import UrlContext from '../../shared/urlContext';
+import SocketContext from '../../shared/SocketContext';
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -202,7 +202,7 @@ class TokenHeader extends Component {
   }
 }
 
-TokenHeader.contextType = UrlContext;
+TokenHeader.contextType = SocketContext;
 
 TokenHeader.propTypes = {
   language: PropTypes.string.isRequired,

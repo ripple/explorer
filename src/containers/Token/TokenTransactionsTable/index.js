@@ -13,7 +13,7 @@ import '../../Accounts/AccountTransactionsTable/styles.css'; // Reuse AccountTra
 import TxLabel from '../../shared/components/TxLabel';
 
 import { loadTokenTransactions } from './actions';
-import UrlContext from '../../shared/urlContext';
+import SocketContext from '../../shared/SocketContext';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -30,7 +30,7 @@ const DATE_OPTIONS = {
 export const TokenTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
-  const rippledUrl = useContext(UrlContext);
+  const rippledUrl = useContext(SocketContext);
 
   const { accountId, currency, actions, data, loading, t, loadingError } = props;
 
