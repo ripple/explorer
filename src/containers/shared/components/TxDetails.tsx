@@ -14,7 +14,11 @@ interface Instructions {
   cancelAfter: string;
   condition: string;
   quorum: number;
-  max: number;
+  max: {
+    amount: number;
+    currency: string;
+    issuer: string;
+  };
   signers: any[];
   domain: string;
   // eslint-disable-next-line camelcase
@@ -430,7 +434,11 @@ TxDetails.propTypes = {
     cancelAfter: PropTypes.string,
     condition: PropTypes.string,
     quorum: PropTypes.number,
-    max: PropTypes.number,
+    max: PropTypes.shape({
+      amount: PropTypes.number.isRequired,
+      currency: PropTypes.string.isRequired,
+      issuer: PropTypes.string.isRequired,
+    }),
     signers: PropTypes.arrayOf(PropTypes.shape({})),
     domain: PropTypes.string,
     email_hash: PropTypes.string,

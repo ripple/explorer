@@ -81,7 +81,9 @@ class Transaction extends Component {
     const { tab = 'simple', identifier } = match.params;
     const { path = '/' } = match;
     const tabs = ['simple', 'detailed', 'raw'];
-    return <Tabs tabs={tabs} selected={tab} path={`${path.split(':')[0]}${identifier}`} />;
+    // strips :url from the front and the identifier/tab info from the end
+    const mainPath = `${path.split('/:')[0]}/${identifier}`;
+    return <Tabs tabs={tabs} selected={tab} path={mainPath} />;
   }
 
   renderTransaction() {

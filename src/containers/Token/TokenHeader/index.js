@@ -60,17 +60,13 @@ class TokenHeader extends Component {
           <tr className="row">
             <td className="col1">{t('last_ledger')}</td>
             <td className="col2">
-              <a href={`/ledgers/${previousLedger}`} rel="noopener noreferrer">
-                {previousLedger}
-              </a>
+              <Link to={`/ledgers/${previousLedger}`}>{previousLedger}</Link>
             </td>
           </tr>
           <tr className="row">
             <td className="col1">Last affecting tx</td>
             <td className="col2">
-              <a href={`/transactions/${previousTxn}`} rel="noopener noreferrer">
-                {prevTxn}
-              </a>
+              <Link to={`/transactions/${previousTxn}`}>{prevTxn}</Link>
             </td>
           </tr>
           {emailHash && (

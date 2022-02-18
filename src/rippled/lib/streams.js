@@ -40,7 +40,7 @@ const fetchLedger = (ledger, attempts = 0) => {
         log.info(`retry ledger ${ledger.ledger_index} (attempt:${attempts + 1})`);
         return sleep(500).then(() => fetchLedger(ledger, attempts + 1));
       }
-      throw error;
+      return undefined;
     });
 };
 
