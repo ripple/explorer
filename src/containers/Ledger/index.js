@@ -23,7 +23,7 @@ import {
 } from '../shared/utils';
 import './ledger.css';
 import TxLabel from '../shared/components/TxLabel';
-import UrlContext from '../shared/urlContext';
+import SocketContext from '../shared/SocketContext';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -223,7 +223,7 @@ class Ledger extends Component {
   }
 }
 
-Ledger.contextType = UrlContext;
+Ledger.contextType = SocketContext;
 
 Ledger.propTypes = {
   t: PropTypes.func.isRequired,

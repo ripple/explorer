@@ -34,9 +34,10 @@ const formatPaychannel = d => ({
   settleDelay: d.SettleDelay,
 });
 
-const executeQuery = (url, options) => {
-  const params = { options, headers: { 'X-User': HOSTNAME } };
-  return post(`/api/v1/cors/${url}`, params).catch(error => {
+const executeQuery = async (url, options) => {
+  // const params = { options, headers: { 'X-User': HOSTNAME } };
+  const params = { command: options.method, ...options.params[0] };
+  return url.send(params).catch(error => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
@@ -64,26 +65,24 @@ const getLedger = (url, parameters) => {
     params: [{ ...parameters, transactions: true, expand: true }],
   };
 
-  return query(url, request)
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error_message === 'ledgerNotFound') {
-        throw new Error('ledger not found', 404);
-      }
+  return query(url, request).then(resp => {
+    if (resp.error_message === 'ledgerNotFound') {
+      throw new Error('ledger not found', 404);
+    }
 
-      if (resp.error_message === 'ledgerIndexMalformed') {
-        throw new Error('invalid ledger index/hash', 400);
-      }
+    if (resp.error_message === 'ledgerIndexMalformed') {
+      throw new Error('invalid ledger index/hash', 400);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      if (!resp.validated) {
-        throw new Error('ledger not validated', 404);
-      }
-      return resp.ledger;
-    });
+    if (!resp.validated) {
+      throw new Error('ledger not validated', 404);
+    }
+    return resp.ledger;
+  });
 };
 
 // get transaction

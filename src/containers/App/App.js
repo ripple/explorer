@@ -4,6 +4,7 @@ import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { XrplClient } from 'xrpl-client';
 import { analytics, ANALYTIC_TYPES } from '../shared/utils';
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions';
 import Ledgers from '../Ledgers';
@@ -18,7 +19,7 @@ import paystrings from '../PayStrings';
 import token from '../Token';
 import tokens from '../Tokens';
 import noMatch from '../NoMatch';
-import UrlContext from '../shared/urlContext';
+import SocketContext from '../shared/SocketContext';
 
 const MODE = process.env.REACT_APP_ENVIRONMENT;
 
@@ -38,18 +39,28 @@ class App extends Component {
     }
 
     props.actions.updateViewportDimensions();
+
+    const { match } = this.props;
+    const {
+      params: { rippledUrl = null },
+    } = match;
+    const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST;
+    this.socket = new XrplClient([`wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`]);
   }
 
   componentDidMount() {
     const { actions } = this.props;
     window.addEventListener('resize', actions.updateViewportDimensions);
     window.addEventListener('scroll', actions.onScroll);
+
+    this.socket.reinstate();
   }
 
   componentWillUnmount() {
     const { actions } = this.props;
     window.removeEventListener('resize', actions.updateViewportDimensions);
     window.removeEventListener('scroll', actions.onScroll);
+    this.socket.close();
   }
 
   render() {
@@ -58,6 +69,7 @@ class App extends Component {
       params: { rippledUrl = null },
     } = match;
     const urlLink = rippledUrl ? `/${rippledUrl}` : '';
+    console.log(this.socket);
 
     /* START: Map legacy routes to new routes */
     if (location.hash && location.pathname === '/') {
@@ -82,27 +94,27 @@ class App extends Component {
 
     return (
       <div className="app">
-        <UrlContext.Provider value={rippledUrl}>
+        <SocketContext.Provider value={this.socket}>
           <BrowserRouter basename={rippledUrl ?? ''}>
             <Header />
             <div className="content">
               <Switch>
-                <Route exact path="/" component={Ledgers} />
+                {/* <Route exact path="/" component={Ledgers} /> */}
                 <Route exact path="/ledgers/:identifier" component={ledger} />
-                <Route exact path="/accounts/:id?" component={accounts} />
-                <Route exact path="/transactions/:identifier?" component={transactions} />
+                {/* <Route exact path="/accounts/:id?" component={accounts} /> */}
+                {/* <Route exact path="/transactions/:identifier?" component={transactions} />
                 <Route exact path="/transactions/:identifier/:tab" component={transactions} />
                 <Route exact path="/network/:tab?" component={network} />
                 <Route exact path="/validators/:identifier?" component={validators} />
                 <Route exact path="/validators/:identifier?/:tab" component={validators} />
                 <Route exact path="/paystrings/:id?" component={paystrings} />
                 <Route exact path="/token/:currency.:id" component={token} />
-                {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
+                {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />} */}
                 <Route component={noMatch} />
               </Switch>
             </div>
           </BrowserRouter>
-        </UrlContext.Provider>
+        </SocketContext.Provider>
       </div>
     );
   }
