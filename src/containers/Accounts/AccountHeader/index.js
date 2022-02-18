@@ -22,7 +22,7 @@ const CURRENCY_OPTIONS = {
 
 const AccountHeader = props => {
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
-  const rippledUrl = useContext(UrlContext);
+  const rippledUrl = useContext(SocketContext);
 
   const {
     accountId,

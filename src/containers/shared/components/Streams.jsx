@@ -8,11 +8,9 @@ import {
   fetchLedger,
   fetchLoadFee,
 } from '../../../rippled/lib/streams';
-import UrlContext from '../urlContext';
+import SocketContext from '../SocketContext';
 
 const MAX_LEDGER_COUNT = 20;
-
-const DEFAULT_WS_URL = `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
 
 const throttle = (func, limit) => {
   let inThrottle;
@@ -81,25 +79,35 @@ class Streams extends Component {
     this.connect();
     this.updateNegativeUNL();
     this.updateMetrics();
-    this.heartbeat = setInterval(this.checkHeartbeat, 2000);
     this.purge = setInterval(this.purge, 5000);
+
+    const rippledSocket = this.context;
+    rippledSocket.send({
+      command: 'subscribe',
+      streams: ['ledger', 'validations'],
+    });
   }
 
   componentWillUnmount() {
+    const rippledSocket = this.context;
+    rippledSocket.send({
+      command: 'unsubscribe',
+      streams: ['ledger', 'validations'],
+    });
+
     this.mounted = false;
-    clearInterval(this.heartbeat);
     clearInterval(this.purge);
-    this.ws.close();
-    delete this.ws;
   }
 
   onmetric(data) {
     const { updateMetrics } = this.props;
-    this.setState(prevState => {
-      const metrics = Object.assign(prevState.metrics, data);
-      updateMetrics(metrics);
-      return { metrics };
-    });
+    if (this.mounted) {
+      this.setState(prevState => {
+        const metrics = Object.assign(prevState.metrics, data);
+        updateMetrics(metrics);
+        return { metrics };
+      });
+    }
   }
 
   onledgerSummary(data) {
@@ -117,51 +125,55 @@ class Streams extends Component {
 
   onledger(data) {
     const { ledger_index: ledgerIndex } = data;
-    this.setState(prevState => {
-      const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
-      ledgers[ledgerIndex] = Object.assign(ledgers[ledgerIndex] || { hashes: {} }, data);
-      this.updateLedgers(ledgers);
-      return { ledgers, maxLedger };
-    });
+    if (this.mounted) {
+      this.setState(prevState => {
+        const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
+        ledgers[ledgerIndex] = Object.assign(ledgers[ledgerIndex] || { hashes: {} }, data);
+        this.updateLedgers(ledgers);
+        return { ledgers, maxLedger };
+      });
+    }
   }
 
   onvalidation(data) {
     const { validators: vList } = this.props;
     const { ledger_index: ledgerIndex, ledger_hash: ledgerHash } = data;
 
-    this.setState(prevState => {
-      const { validators } = prevState;
-      const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
+    if (this.mounted) {
+      this.setState(prevState => {
+        const { validators } = prevState;
+        const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
 
-      if (maxLedger - ledgerIndex > MAX_LEDGER_COUNT) {
-        return undefined;
-      }
+        if (maxLedger - ledgerIndex > MAX_LEDGER_COUNT) {
+          return undefined;
+        }
 
-      if (!ledgers[ledgerIndex]) {
-        ledgers[ledgerIndex] = {
+        if (!ledgers[ledgerIndex]) {
+          ledgers[ledgerIndex] = {
+            ledger_index: ledgerIndex,
+            hashes: {},
+          };
+        }
+
+        if (!ledgers[ledgerIndex].hashes[ledgerHash]) {
+          ledgers[ledgerIndex].hashes[ledgerHash] = [];
+        }
+
+        ledgers[ledgerIndex].hashes[ledgerHash].push({
           ledger_index: ledgerIndex,
-          hashes: {},
-        };
-      }
+          ledger_hash: ledgerHash,
+          pubkey: data.pubkey,
+          partial: data.partial,
+          time: data.time,
+          unl: vList && vList[data.pubkey] && vList[data.pubkey].unl,
+        });
 
-      if (!ledgers[ledgerIndex].hashes[ledgerHash]) {
-        ledgers[ledgerIndex].hashes[ledgerHash] = [];
-      }
-
-      ledgers[ledgerIndex].hashes[ledgerHash].push({
-        ledger_index: ledgerIndex,
-        ledger_hash: ledgerHash,
-        pubkey: data.pubkey,
-        partial: data.partial,
-        time: data.time,
-        unl: vList && vList[data.pubkey] && vList[data.pubkey].unl,
+        validators[data.pubkey] = data;
+        this.updateLedgers(ledgers);
+        this.updateValidators(validators);
+        return { ledgers, validators, maxLedger };
       });
-
-      validators[data.pubkey] = data;
-      this.updateLedgers(ledgers);
-      this.updateValidators(validators);
-      return { ledgers, validators, maxLedger };
-    });
+    }
   }
 
   getTruncatedLedgers(max) {
@@ -192,13 +204,6 @@ class Streams extends Component {
     });
   };
 
-  checkHeartbeat = () => {
-    if (Date.now() - this.ws.last > 5000) {
-      this.ws.close();
-      this.connect();
-    }
-  };
-
   updateMetrics() {
     fetchMetrics().then(metrics => this.onmetric(metrics));
   }
@@ -207,11 +212,13 @@ class Streams extends Component {
     const rippledUrl = this.context;
     fetchQuorum(rippledUrl).then(quorum => {
       const { updateMetrics } = this.props;
-      this.setState(prevState => {
-        const metrics = Object.assign(prevState.metrics, { quorum });
-        updateMetrics(metrics);
-        return { metrics };
-      });
+      if (this.mounted) {
+        this.setState(prevState => {
+          const metrics = Object.assign(prevState.metrics, { quorum });
+          updateMetrics(metrics);
+          return { metrics };
+        });
+      }
     });
   }
 
@@ -220,87 +227,54 @@ class Streams extends Component {
     const rippledUrl = this.context;
     fetchNegativeUNL(rippledUrl).then(nUnl => {
       const { updateMetrics } = this.props;
-      this.setState(prevState => {
-        const metrics = Object.assign(prevState.metrics, { nUnl });
-        updateMetrics(metrics);
-        return { metrics };
-      });
+      if (this.mounted) {
+        this.setState(prevState => {
+          const metrics = Object.assign(prevState.metrics, { nUnl });
+          updateMetrics(metrics);
+          return { metrics };
+        });
+      }
     });
   }
 
   connect() {
-    const rippledUrl = this.context;
-    const rippledWsUrl = `wss://${rippledUrl}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
-    this.ws = new WebSocket(rippledUrl == null ? DEFAULT_WS_URL : rippledWsUrl);
-    this.ws.last = Date.now();
-    Log.info(`connecting...`);
+    const rippledSocket = this.context;
 
-    // handle error
-    this.ws.onclose = () => {
-      Log.warn(`ws closed`);
-    };
-
-    // handle error
-    this.ws.onerror = e => {
-      Log.error(e.toString());
-    };
-
-    // subscribe and save new connections
-    this.ws.onopen = () => {
-      Log.info(`connected`);
-      this.ws.send(
-        JSON.stringify({
-          command: 'subscribe',
-          streams: ['ledger', 'validations'],
+    rippledSocket.on('ledger', streamResult => {
+      const { ledger, metrics } = handleLedger(streamResult);
+      this.onledger(ledger);
+      fetchLedger(ledger, rippledSocket)
+        .then(ledgerSummary => {
+          this.onledgerSummary(ledgerSummary);
         })
-      );
-    };
-
-    // handle messages
-    this.ws.onmessage = message => {
-      this.ws.last = Date.now();
-
-      try {
-        const streamResult = JSON.parse(message.data);
-
-        if (streamResult.type === 'validationReceived') {
-          const data = handleValidation(streamResult);
-          if (data) {
-            this.onvalidation(data);
-          }
-        } else if (streamResult.type === 'ledgerClosed') {
-          const { ledger, metrics } = handleLedger(streamResult);
-          this.onledger(ledger);
-          fetchLedger(ledger, rippledUrl)
-            .then(ledgerSummary => {
-              this.onledgerSummary(ledgerSummary);
-            })
-            .catch(e => {
-              Log.error('Ledger fetch error', e.message);
-              Log.error(e);
-            });
-          // update the load fee
-          fetchLoadFee(rippledUrl)
-            .then(loadFee => {
-              this.onmetric(loadFee);
-            })
-            .catch(e => {
-              Log.error('Ledger fetch error', e.message);
-              Log.error(e);
-            });
-          // calculate sidechain metrics on the frontend
-          // because there is no backend server connection (since there is no one network)
-          if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
-            this.onmetric(metrics);
-          } else {
-            this.updateMetrics();
-          }
-        }
-      } catch (e) {
-        Log.error('message parse error', message);
-        Log.error(e);
+        .catch(e => {
+          Log.error('Ledger fetch error', e.message);
+          Log.error(e);
+        });
+      // update the load fee
+      fetchLoadFee()
+        .then(loadFee => {
+          this.onmetric(loadFee);
+        })
+        .catch(e => {
+          Log.error('Ledger fetch error', e.message);
+          Log.error(e);
+        });
+      // calculate sidechain metrics on the frontend
+      // because there is no backend server connection (since there is no one network)
+      if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
+        this.onmetric(metrics);
+      } else {
+        this.updateMetrics();
       }
-    };
+    });
+
+    rippledSocket.on('validation', streamResult => {
+      const data = handleValidation(streamResult);
+      if (data) {
+        this.onvalidation(data);
+      }
+    });
   }
 
   render() {
@@ -308,7 +282,7 @@ class Streams extends Component {
   }
 }
 
-Streams.contextType = UrlContext;
+Streams.contextType = SocketContext;
 
 Streams.propTypes = {
   validators: PropTypes.shape({}),

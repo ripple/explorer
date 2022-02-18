@@ -99,13 +99,12 @@ class App extends Component {
             <Header />
             <div className="content">
               <Switch>
-                {/* <Route exact path="/" component={Ledgers} /> */}
+                <Route exact path="/" component={Ledgers} />
                 <Route exact path="/ledgers/:identifier" component={ledger} />
                 <Route exact path="/accounts/:id" component={accounts} />
                 <Route exact path="/transactions/:identifier/:tab?" component={transactions} />
-                {/* <Route exact path="/network/:tab?" component={network} />
-                <Route exact path="/validators/:identifier?" component={validators} />
-                <Route exact path="/validators/:identifier?/:tab" component={validators} /> */}
+                <Route exact path="/network/:tab?" component={network} />
+                <Route exact path="/validators/:identifier/:tab?" component={validators} />
                 <Route exact path="/paystrings/:id?" component={paystrings} />
                 <Route exact path="/token/:currency.:id" component={token} />
                 {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}

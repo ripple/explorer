@@ -9,7 +9,7 @@ const getBookOffers = async (
   issuerAddress,
   pairCurrencyCode,
   pairIssuerAddress,
-  url = null
+  url
 ) => {
   try {
     // log.info('fetching book offers from rippled');
