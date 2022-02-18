@@ -49,25 +49,48 @@ describe('Header component', () => {
     wrapper.unmount();
   });
 
-  it('redirect works', () => {
+  describe('test redirects', () => {
     const { location } = window;
-    delete window.location;
     const mockedFunction = jest.fn();
-    window.location = { assign: mockedFunction };
+    beforeEach(() => {
+      delete window.location;
+      // mockedFunction = jest.fn();
+      window.location = { assign: mockedFunction };
+    });
 
-    const wrapper = createWrapper();
+    afterEach(() => {
+      window.location = location;
+    });
 
-    // expand dropdown
-    expect(wrapper.find('.dropdown').length).toEqual(1);
-    wrapper.find('.dropdown').simulate('click');
-    expect(wrapper.find('[value="mainnet"]').length).toEqual(1);
+    it('redirect works', () => {
+      const wrapper = createWrapper();
 
-    // test clicking on mainnet
-    wrapper.find('[value="mainnet"]').simulate('click');
-    expect(mockedFunction).toBeCalledWith(process.env.REACT_APP_MAINNET_LINK);
+      // expand dropdown
+      expect(wrapper.find('.dropdown').length).toEqual(1);
+      wrapper.find('.dropdown').simulate('click');
+      expect(wrapper.find('[value="mainnet"]').length).toEqual(1);
 
-    wrapper.unmount();
+      // test clicking on mainnet
+      wrapper.find('[value="mainnet"]').simulate('click');
+      expect(mockedFunction).not.toHaveBeenCalled();
 
-    window.location = location;
+      // test clicking on testnet
+      wrapper.find('[value="testnet"]').simulate('click');
+      expect(mockedFunction).toBeCalledWith(process.env.REACT_APP_TESTNET_LINK);
+
+      wrapper.unmount();
+    });
+
+    it('redirect on sidechain input works', () => {
+      const wrapper = createWrapper();
+
+      const sidechainInput = wrapper.find('[className="sidechain_input"]');
+      sidechainInput.prop('onKeyDown')({ key: 'Enter', currentTarget: { value: 'sidechain_url' } });
+      expect(mockedFunction).toBeCalledWith(
+        `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`
+      );
+
+      wrapper.unmount();
+    });
   });
 });
