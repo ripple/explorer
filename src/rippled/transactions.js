@@ -5,9 +5,9 @@ import summarize from './lib/txSummary';
 
 const log = logger({ name: 'transactions' });
 
-const getTransaction = transactionId => {
+const getTransaction = (transactionId, url) => {
   log.info(`get tx: ${transactionId}`);
-  return getRippledTransaction(transactionId)
+  return getRippledTransaction(url, transactionId)
     .then(response => {
       return formatTransaction(response);
     })
