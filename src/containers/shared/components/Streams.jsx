@@ -209,8 +209,8 @@ class Streams extends Component {
   }
 
   updateQuorum() {
-    const rippledUrl = this.context;
-    fetchQuorum(rippledUrl).then(quorum => {
+    const rippledSocket = this.context;
+    fetchQuorum(rippledSocket).then(quorum => {
       const { updateMetrics } = this.props;
       if (this.mounted) {
         this.setState(prevState => {
@@ -224,8 +224,8 @@ class Streams extends Component {
 
   updateNegativeUNL() {
     this.updateQuorum();
-    const rippledUrl = this.context;
-    fetchNegativeUNL(rippledUrl).then(nUnl => {
+    const rippledSocket = this.context;
+    fetchNegativeUNL(rippledSocket).then(nUnl => {
       const { updateMetrics } = this.props;
       if (this.mounted) {
         this.setState(prevState => {

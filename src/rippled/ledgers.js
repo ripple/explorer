@@ -4,7 +4,7 @@ import logger from './lib/logger';
 
 const log = logger({ name: 'ledgers' });
 
-const getLedger = (identifier, url) => {
+const getLedger = (identifier, rippledSocket) => {
   const parameters = {};
   if (!isNaN(identifier)) {
     parameters.ledger_index = Number(identifier);
@@ -18,7 +18,7 @@ const getLedger = (identifier, url) => {
   }
 
   log.info(`get ledger: ${JSON.stringify(parameters)}`);
-  return getRippledLedger(url, parameters)
+  return getRippledLedger(rippledSocket, parameters)
     .then(ledger => summarizeLedger(ledger, true))
     .then(data => {
       return data;

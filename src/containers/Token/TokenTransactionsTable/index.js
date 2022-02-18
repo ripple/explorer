@@ -30,7 +30,7 @@ const DATE_OPTIONS = {
 export const TokenTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
-  const rippledUrl = useContext(SocketContext);
+  const rippledSocket = useContext(SocketContext);
 
   const { accountId, currency, actions, data, loading, t, loadingError } = props;
 
@@ -43,8 +43,8 @@ export const TokenTxTable = props => {
   }, [data]);
 
   useEffect(() => {
-    actions.loadTokenTransactions(accountId, currency, undefined, rippledUrl);
-  }, [accountId, currency, actions, rippledUrl]);
+    actions.loadTokenTransactions(accountId, currency, undefined, rippledSocket);
+  }, [accountId, currency, actions, rippledSocket]);
 
   const loadMoreTransactions = () => {
     actions.loadTokenTransactions(accountId, currency, marker);

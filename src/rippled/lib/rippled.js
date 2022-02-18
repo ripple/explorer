@@ -32,40 +32,40 @@ const formatPaychannel = d => ({
   settleDelay: d.SettleDelay,
 });
 
-const executeQuery = async (url, options) => {
+const executeQuery = async (rippledSocket, options) => {
   const params = { command: options.method };
   if (options.params != null) {
     Object.assign(params, options.params[0]);
   }
-  return url.send(params).catch(error => {
+  return rippledSocket.send(params).catch(error => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
         : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
-    throw new Error(`URL: ${url} - ${message}`, code);
+    throw new Error(`URL: ${rippledSocket.endpoint} - ${message}`, code);
   });
 };
 
 // generic RPC query
-function query(url, options) {
-  return executeQuery(url ?? process.env.REACT_APP_RIPPLED_HOST, options);
+function query(rippledSocket, options) {
+  return executeQuery(rippledSocket ?? process.env.REACT_APP_RIPPLED_HOST, options);
 }
 
 // If there is a separate peer to peer (not reporting mode) server for admin requests, use it.
-// Otherwise use the default url for everything.
-function queryP2P(url, options) {
-  return executeQuery(new XrplClient([`${P2P_URL}:51233`]) ?? url, options);
+// Otherwise use the default rippledSocket for everything.
+function queryP2P(rippledSocket, options) {
+  return executeQuery(new XrplClient([`${P2P_URL}:51233`]) ?? rippledSocket, options);
 }
 
 // get ledger
-const getLedger = (url, parameters) => {
+const getLedger = (rippledSocket, parameters) => {
   const request = {
     method: 'ledger',
     params: [{ ...parameters, transactions: true, expand: true }],
   };
 
-  return query(url, request).then(resp => {
+  return query(rippledSocket, request).then(resp => {
     if (resp.error_message === 'ledgerNotFound') {
       throw new Error('ledger not found', 404);
     }
@@ -86,13 +86,13 @@ const getLedger = (url, parameters) => {
 };
 
 // get transaction
-const getTransaction = (url, txHash) => {
+const getTransaction = (rippledSocket, txHash) => {
   const params = {
     method: 'tx',
     params: [{ transaction: txHash }],
   };
 
-  return query(url, params).then(resp => {
+  return query(rippledSocket, params).then(resp => {
     if (resp.error === 'txnNotFound') {
       throw new Error('transaction not found', 404);
     }
@@ -113,8 +113,8 @@ const getTransaction = (url, txHash) => {
 };
 
 // get account info
-const getAccountInfo = (url, account) =>
-  query(url, {
+const getAccountInfo = (rippledSocket, account) =>
+  query(rippledSocket, {
     method: 'account_info',
     params: [{ account, ledger_index: 'validated', signer_lists: true }],
   }).then(resp => {
@@ -132,8 +132,8 @@ const getAccountInfo = (url, account) =>
   });
 
 // get account escrows
-const getAccountEscrows = (url, account, ledger_index = 'validated') =>
-  query(url, {
+const getAccountEscrows = (rippledSocket, account, ledger_index = 'validated') =>
+  query(rippledSocket, {
     method: 'account_objects',
     params: [{ account, ledger_index, type: 'escrow', limit: 400 }],
   }).then(resp => {
@@ -169,11 +169,11 @@ const getAccountEscrows = (url, account, ledger_index = 'validated') =>
   });
 
 // get account paychannels
-const getAccountPaychannels = async (url, account, ledger_index = 'validated') => {
+const getAccountPaychannels = async (rippledSocket, account, ledger_index = 'validated') => {
   const list = [];
   let remaining = 0;
   const getChannels = marker =>
-    query(url, {
+    query(rippledSocket, {
       method: 'account_objects',
       params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }],
     }).then(resp => {
@@ -211,8 +211,8 @@ const getAccountPaychannels = async (url, account, ledger_index = 'validated') =
 };
 
 // get Token balance summary
-const getBalances = (url, account, ledger_index = 'validated') =>
-  queryP2P(url, {
+const getBalances = (rippledSocket, account, ledger_index = 'validated') =>
+  queryP2P(rippledSocket, {
     method: 'gateway_balances',
     params: [{ account, ledger_index }],
   }).then(resp => {
@@ -228,11 +228,11 @@ const getBalances = (url, account, ledger_index = 'validated') =>
   });
 
 // get account transactions
-const getAccountTransactions = (url, account, limit = 20, marker = '') => {
+const getAccountTransactions = (rippledSocket, account, limit = 20, marker = '') => {
   const markerComponents = marker.split('.');
   const ledger = parseInt(markerComponents[0], 10);
   const seq = parseInt(markerComponents[1], 10);
-  return query(url, {
+  return query(rippledSocket, {
     method: 'account_tx',
     params: [
       {
@@ -263,8 +263,8 @@ const getAccountTransactions = (url, account, limit = 20, marker = '') => {
   });
 };
 
-const getNegativeUNL = url =>
-  query(url, {
+const getNegativeUNL = rippledSocket =>
+  query(rippledSocket, {
     method: 'ledger_entry',
     params: [
       {
@@ -283,8 +283,8 @@ const getNegativeUNL = url =>
     return resp;
   });
 
-const getServerInfo = url =>
-  query(url, {
+const getServerInfo = rippledSocket =>
+  query(rippledSocket, {
     method: 'server_info',
   }).then(resp => {
     if (resp.error !== undefined || resp.error_message !== undefined) {
@@ -294,8 +294,14 @@ const getServerInfo = url =>
     return resp;
   });
 
-const getOffers = (url, currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
-  return query(url, {
+const getOffers = (
+  rippledSocket,
+  currencyCode,
+  issuerAddress,
+  pairCurrencyCode,
+  pairIssuerAddress
+) => {
+  return query(rippledSocket, {
     method: 'book_offers',
     params: [
       {

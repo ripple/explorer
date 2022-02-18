@@ -9,12 +9,12 @@ const getBookOffers = async (
   issuerAddress,
   pairCurrencyCode,
   pairIssuerAddress,
-  url
+  rippledSocket
 ) => {
   try {
     // log.info('fetching book offers from rippled');
     let orderBook = await getOffers(
-      url,
+      rippledSocket,
       currencyCode,
       issuerAddress,
       pairCurrencyCode,

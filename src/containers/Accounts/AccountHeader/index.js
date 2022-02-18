@@ -22,7 +22,7 @@ const CURRENCY_OPTIONS = {
 
 const AccountHeader = props => {
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
-  const rippledUrl = useContext(SocketContext);
+  const rippledSocket = useContext(SocketContext);
 
   const {
     accountId,
@@ -36,8 +36,8 @@ const AccountHeader = props => {
   } = props;
 
   useEffect(() => {
-    actions.loadAccountState(accountId, rippledUrl);
-  }, [accountId, actions, rippledUrl]);
+    actions.loadAccountState(accountId, rippledSocket);
+  }, [accountId, actions, rippledSocket]);
 
   function toggleBalanceSelector(force) {
     setShowBalanceSelector(force !== undefined ? force : !showBalanceSelector);

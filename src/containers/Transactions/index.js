@@ -38,7 +38,7 @@ class Transaction extends Component {
     const { t, actions, match, data } = this.props;
     const hash = data.raw ? data.raw.hash : undefined;
     const { identifier = '', tab = 'simple' } = match.params;
-    const rippledUrl = this.context;
+    const rippledSocket = this.context;
     const short = identifier.substr(0, 8);
 
     document.title = `${t('xrpl_explorer')} | ${t('transaction_short')} ${short}...`;
@@ -48,7 +48,7 @@ class Transaction extends Component {
     });
 
     if (identifier && identifier !== hash) {
-      actions.loadTransaction(identifier, rippledUrl);
+      actions.loadTransaction(identifier, rippledSocket);
     }
   }
 
