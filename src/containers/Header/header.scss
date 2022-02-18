@@ -27,6 +27,21 @@
       }
     }
 
+    input {
+      width: 100%;
+      padding: 2px 5px;
+      border: none;
+      background-color: $gray-900;
+      border-radius: 100px;
+      color: $white;
+      font-size: 12px;
+      line-height: 18px;
+
+      &::placeholder {
+        color: $gray-400;
+      }
+    }
+
     .dropdown {
       position: relative;
       z-index: 10000;
@@ -53,6 +68,11 @@
       .item {
         display: none;
         padding: 0px 8px;
+
+        &.input {
+          padding: 0px 3px;
+          padding-bottom: 2px;
+        }
 
         &.selected {
           display: flex;
@@ -99,6 +119,16 @@
       }
     }
 
+    .custom {
+      text-transform: none;
+    }
+
+    &.mainnet {
+      .check path {
+        fill: $white;
+      }
+    }
+
     &.testnet {
       background: $testnet;
 
@@ -142,6 +172,26 @@
         /* stylelint-disable no-descending-specificity */
         .item {
           background: $nft-sandbox;
+        }
+        /* stylelint-enable no-descending-specificity */
+      }
+
+      .check path {
+        fill: $white;
+      }
+    }
+
+    &.sidechain {
+      background: $black;
+
+      .dropdown {
+        border-color: $sidechain;
+        background: $black;
+        color: $sidechain;
+
+        /* stylelint-disable no-descending-specificity */
+        .item {
+          background: $black;
         }
         /* stylelint-enable no-descending-specificity */
       }
