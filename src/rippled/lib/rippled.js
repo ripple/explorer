@@ -1,11 +1,7 @@
-import { post } from 'axios';
-import { hostname } from 'os';
 import { unix } from 'moment';
 import { XrplClient } from 'xrpl-client';
-import { object } from 'prop-types';
 import { Error, XRP_BASE, EPOCH_OFFSET } from './utils';
 
-const HOSTNAME = hostname();
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
 const P2P_URL = process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST;
 
@@ -37,8 +33,6 @@ const formatPaychannel = d => ({
 });
 
 const executeQuery = async (url, options) => {
-  // const params = { options, headers: { 'X-User': HOSTNAME } };
-  console.log(options);
   const params = { command: options.method };
   if (options.params != null) {
     Object.assign(params, options.params[0]);
@@ -222,7 +216,6 @@ const getBalances = (url, account, ledger_index = 'validated') =>
     method: 'gateway_balances',
     params: [{ account, ledger_index }],
   }).then(resp => {
-    console.log(resp);
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404);
     }

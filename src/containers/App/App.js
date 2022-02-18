@@ -69,7 +69,6 @@ class App extends Component {
       params: { rippledUrl = null },
     } = match;
     const urlLink = rippledUrl ? `/${rippledUrl}` : '';
-    console.log(this.socket);
 
     /* START: Map legacy routes to new routes */
     if (location.hash && location.pathname === '/') {
