@@ -33,6 +33,7 @@ const RecordItem = (t, language, record) => {
 };
 
 const HistoryTab = props => {
+  // TODO: add loading symbol when waiting on the reports
   const { t, reports, language } = props;
 
   return (

@@ -137,17 +137,17 @@ class Ledgers extends Component {
   };
 
   renderTransaction = tx => (
-    <a
+    <Link
       key={tx.hash}
       className={`txn tx-type bg ${tx.type} ${tx.result}`}
       onMouseOver={e => this.showTooltip('tx', e, tx)}
       onFocus={e => {}}
       onMouseLeave={this.hideTooltip}
-      href={`/transactions/${tx.hash}`}
-      rel="noopener noreferrer"
+      to={`/transactions/${tx.hash}`}
+      // rel="noopener noreferrer"
     >
       <span>{tx.hash}</span>
-    </a>
+    </Link>
   );
 
   renderHash = hash => {

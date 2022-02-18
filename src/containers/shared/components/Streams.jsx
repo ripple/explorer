@@ -74,6 +74,7 @@ class Streams extends Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
     this.connect();
     this.updateNegativeUNL();
     this.updateMetrics();
@@ -82,6 +83,7 @@ class Streams extends Component {
   }
 
   componentWillUnmount() {
+    this.mounted = false;
     clearInterval(this.heartbeat);
     clearInterval(this.purge);
     this.ws.close();
@@ -100,12 +102,14 @@ class Streams extends Component {
   onledgerSummary(data) {
     const { ledger_index: ledgerIndex } = data;
     if (ledgerIndex % 256 === 0) this.updateNegativeUNL();
-    this.setState(prevState => {
-      const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
-      ledgers[ledgerIndex] = Object.assign(ledgers[ledgerIndex] || { hashes: {} }, data);
-      this.updateLedgers(ledgers);
-      return { ledgers, maxLedger };
-    });
+    if (this.mounted) {
+      this.setState(prevState => {
+        const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
+        ledgers[ledgerIndex] = Object.assign(ledgers[ledgerIndex] || { hashes: {} }, data);
+        this.updateLedgers(ledgers);
+        return { ledgers, maxLedger };
+      });
+    }
   }
 
   onledger(data) {
