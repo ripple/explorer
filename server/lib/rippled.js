@@ -13,8 +13,6 @@ const P2P_URL = process.env.P2P_RIPPLED_HOST
 const executeQuery = (url, options) => {
   const params = { ...options, headers: { 'X-User': HOSTNAME } };
   return axios.post(url, params).catch(error => {
-    console.log(error);
-    console.log(params);
     const message = error.response && error.response.data ? error.response.data : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
     throw new utils.Error(`URL: ${url} - ${message}`, code);
