@@ -40,6 +40,16 @@ describe('App container', () => {
     );
   };
 
+  const oldEnvs = process.env;
+
+  beforeEach(() => {
+    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' };
+  });
+
+  afterEach(() => {
+    process.env = oldEnvs;
+  });
+
   it('renders main parts', () => {
     const wrapper = createWrapper();
     expect(wrapper.find('.header').length).toBe(1);
