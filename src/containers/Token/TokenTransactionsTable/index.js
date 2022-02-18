@@ -47,7 +47,7 @@ export const TokenTxTable = props => {
   }, [accountId, currency, actions, rippledSocket]);
 
   const loadMoreTransactions = () => {
-    actions.loadTokenTransactions(accountId, currency, marker);
+    actions.loadTokenTransactions(accountId, currency, marker, rippledSocket);
   };
 
   const renderListItem = tx => {

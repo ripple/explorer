@@ -32,11 +32,7 @@ const formatPaychannel = d => ({
   settleDelay: d.SettleDelay,
 });
 
-const executeQuery = async (rippledSocket, options) => {
-  const params = { command: options.method };
-  if (options.params != null) {
-    Object.assign(params, options.params[0]);
-  }
+const executeQuery = async (rippledSocket, params) => {
   return rippledSocket.send(params).catch(error => {
     const message =
       error.response && error.response.error_message
@@ -61,8 +57,10 @@ function queryP2P(rippledSocket, options) {
 // get ledger
 const getLedger = (rippledSocket, parameters) => {
   const request = {
-    method: 'ledger',
-    params: [{ ...parameters, transactions: true, expand: true }],
+    command: 'ledger',
+    ...parameters,
+    transactions: true,
+    expand: true,
   };
 
   return query(rippledSocket, request).then(resp => {
@@ -88,8 +86,8 @@ const getLedger = (rippledSocket, parameters) => {
 // get transaction
 const getTransaction = (rippledSocket, txHash) => {
   const params = {
-    method: 'tx',
-    params: [{ transaction: txHash }],
+    command: 'tx',
+    transaction: txHash,
   };
 
   return query(rippledSocket, params).then(resp => {
@@ -115,8 +113,10 @@ const getTransaction = (rippledSocket, txHash) => {
 // get account info
 const getAccountInfo = (rippledSocket, account) =>
   query(rippledSocket, {
-    method: 'account_info',
-    params: [{ account, ledger_index: 'validated', signer_lists: true }],
+    command: 'account_info',
+    account,
+    ledger_index: 'validated',
+    signer_lists: true,
   }).then(resp => {
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404);
@@ -134,8 +134,11 @@ const getAccountInfo = (rippledSocket, account) =>
 // get account escrows
 const getAccountEscrows = (rippledSocket, account, ledger_index = 'validated') =>
   query(rippledSocket, {
-    method: 'account_objects',
-    params: [{ account, ledger_index, type: 'escrow', limit: 400 }],
+    command: 'account_objects',
+    account,
+    ledger_index,
+    type: 'escrow',
+    limit: 400,
   }).then(resp => {
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404);
@@ -174,8 +177,12 @@ const getAccountPaychannels = async (rippledSocket, account, ledger_index = 'val
   let remaining = 0;
   const getChannels = marker =>
     query(rippledSocket, {
-      method: 'account_objects',
-      params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }],
+      command: 'account_objects',
+      marker,
+      account,
+      ledger_index,
+      type: 'payment_channel',
+      limit: 400,
     }).then(resp => {
       if (resp.error === 'actNotFound') {
         throw new Error('account not found', 404);
@@ -213,8 +220,9 @@ const getAccountPaychannels = async (rippledSocket, account, ledger_index = 'val
 // get Token balance summary
 const getBalances = (rippledSocket, account, ledger_index = 'validated') =>
   queryP2P(rippledSocket, {
-    method: 'gateway_balances',
-    params: [{ account, ledger_index }],
+    command: 'gateway_balances',
+    account,
+    ledger_index,
   }).then(resp => {
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404);
@@ -233,21 +241,17 @@ const getAccountTransactions = (rippledSocket, account, limit = 20, marker = '')
   const ledger = parseInt(markerComponents[0], 10);
   const seq = parseInt(markerComponents[1], 10);
   return query(rippledSocket, {
-    method: 'account_tx',
-    params: [
-      {
-        account,
-        limit,
-        ledger_index_max: -1,
-        ledger_index_min: -1,
-        marker: marker
-          ? {
-              ledger,
-              seq,
-            }
-          : undefined,
-      },
-    ],
+    command: 'account_tx',
+    account,
+    limit,
+    ledger_index_max: -1,
+    ledger_index_min: -1,
+    marker: marker
+      ? {
+          ledger,
+          seq,
+        }
+      : undefined,
   }).then(resp => {
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404);
@@ -265,12 +269,8 @@ const getAccountTransactions = (rippledSocket, account, limit = 20, marker = '')
 
 const getNegativeUNL = rippledSocket =>
   query(rippledSocket, {
-    method: 'ledger_entry',
-    params: [
-      {
-        index: N_UNL_INDEX,
-      },
-    ],
+    command: 'ledger_entry',
+    index: N_UNL_INDEX,
   }).then(resp => {
     if (resp.error === 'entryNotFound') {
       return [];
@@ -285,7 +285,7 @@ const getNegativeUNL = rippledSocket =>
 
 const getServerInfo = rippledSocket =>
   query(rippledSocket, {
-    method: 'server_info',
+    command: 'server_info',
   }).then(resp => {
     if (resp.error !== undefined || resp.error_message !== undefined) {
       throw new Error(resp.error_message || resp.error, 500);
@@ -302,19 +302,15 @@ const getOffers = (
   pairIssuerAddress
 ) => {
   return query(rippledSocket, {
-    method: 'book_offers',
-    params: [
-      {
-        taker_gets: {
-          currency: `${currencyCode.toUpperCase()}`,
-          issuer: currencyCode.toUpperCase() === 'XRP' ? undefined : `${issuerAddress}`,
-        },
-        taker_pays: {
-          currency: `${pairCurrencyCode.toUpperCase()}`,
-          issuer: pairCurrencyCode.toUpperCase() === 'XRP' ? undefined : `${pairIssuerAddress}`,
-        },
-      },
-    ],
+    command: 'book_offers',
+    taker_gets: {
+      currency: `${currencyCode.toUpperCase()}`,
+      issuer: currencyCode.toUpperCase() === 'XRP' ? undefined : `${issuerAddress}`,
+    },
+    taker_pays: {
+      currency: `${pairCurrencyCode.toUpperCase()}`,
+      issuer: pairCurrencyCode.toUpperCase() === 'XRP' ? undefined : `${pairIssuerAddress}`,
+    },
   }).then(resp => {
     if (resp.error !== undefined || resp.error_message !== undefined) {
       throw new Error(resp.error_message || resp.error, 500);
