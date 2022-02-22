@@ -16,8 +16,6 @@ import { ReactComponent as CheckIcon } from '../shared/images/checkmark.svg';
 import './header.css';
 import UrlContext from '../shared/urlContext';
 
-const MODE = process.env.REACT_APP_ENVIRONMENT;
-
 const STATIC_ENV_LINKS = {
   mainnet: process.env.REACT_APP_MAINNET_LINK,
   testnet: process.env.REACT_APP_TESTNET_LINK,
