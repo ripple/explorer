@@ -87,9 +87,14 @@ class Menu extends Component {
 
   render() {
     let { routes } = this.props;
+    const { inNetwork } = this.props;
 
     if (MODE !== 'mainnet') {
       routes = removeRoutes(routes, 'tokens');
+    }
+
+    if (!inNetwork) {
+      routes = removeRoutes(routes, 'explorer', 'network', 'tokens');
     }
 
     const menu = routes.map(route => {
@@ -111,6 +116,7 @@ Menu.propTypes = {
   t: PropTypes.func.isRequired,
   currentPath: PropTypes.string.isRequired,
   routes: PropTypes.arrayOf(PropTypes.shape({})),
+  inNetwork: PropTypes.bool.isRequired,
 };
 
 Menu.defaultProps = {

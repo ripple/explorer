@@ -90,6 +90,7 @@ class MobileMenu extends Component {
   render() {
     const { handleEvents } = this;
     let { routes } = this.props;
+    const { inNetwork } = this.props;
     const { isOpen } = this.state;
     const img = isOpen ? closeIcon : unionIcon;
     const style = { display: isOpen ? 'block' : 'none' };
@@ -97,6 +98,9 @@ class MobileMenu extends Component {
 
     if (MODE !== 'mainnet') {
       routes = removeRoutes(routes, 'tokens');
+    }
+    if (!inNetwork) {
+      routes = removeRoutes(routes, 'explorer', 'network', 'tokens');
     }
 
     routes.forEach(route => {
@@ -138,6 +142,7 @@ MobileMenu.propTypes = {
   currentPath: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   routes: PropTypes.arrayOf(PropTypes.shape({})),
+  inNetwork: PropTypes.bool.isRequired,
 };
 
 MobileMenu.defaultProps = {

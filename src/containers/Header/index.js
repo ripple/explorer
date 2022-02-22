@@ -145,14 +145,16 @@ class Header extends Component {
   }
 
   render() {
-    const { t, isScrolled, width } = this.props;
+    const { t, isScrolled, width, inNetwork } = this.props;
     const { expanded } = this.state;
     const rippledUrl = this.context;
     const menu =
-      width >= BREAKPOINTS.landscape ? <Menu t={t} currentPath={this.getCurrentPath()} /> : null;
+      width >= BREAKPOINTS.landscape ? (
+        <Menu t={t} currentPath={this.getCurrentPath()} inNetwork={inNetwork} />
+      ) : null;
     const mobileMenu =
       width < BREAKPOINTS.landscape ? (
-        <MobileMenu t={t} currentPath={this.getCurrentPath()} />
+        <MobileMenu t={t} currentPath={this.getCurrentPath()} inNetwork={inNetwork} />
       ) : null;
     const currentMode = process.env.REACT_APP_ENVIRONMENT;
 
@@ -212,10 +214,12 @@ class Header extends Component {
                 <Logo className="logo" alt={t('xrpl_explorer')} />
               </Link>
             </div>
-            <div className="element">
-              <Search />
-            </div>
-            <div className="element">{menu}</div>
+            {inNetwork && (
+              <div className="element">
+                <Search />
+              </div>
+            )}
+            <div className={classnames('element', { notInNetwork: !inNetwork })}>{menu}</div>
             {mobileMenu}
           </div>
 
@@ -227,6 +231,10 @@ class Header extends Component {
 }
 Header.contextType = UrlContext;
 
+Header.defaultProps = {
+  inNetwork: true,
+};
+
 Header.propTypes = {
   t: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
@@ -234,6 +242,7 @@ Header.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
+  inNetwork: PropTypes.bool,
 };
 
 export default withRouter(

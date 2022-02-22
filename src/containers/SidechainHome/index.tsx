@@ -5,6 +5,7 @@ import { translate } from 'react-i18next';
 // import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo.svg';
+import Header from '../Header';
 import './sidechainhome.css';
 
 interface Props {
@@ -31,24 +32,28 @@ const SidechainHome = (props: Props) => {
   }
 
   return (
-    <div className="sidechain-main-page">
-      <div className="content">
-        <SidechainLogo className="sidechain-logo" />
-        <div className="text box-header">Sidechain Custom Network</div>
-        <div className="text help">Enter sidechain node URL to access sidechain data.</div>
-        <input
-          type="text"
-          placeholder={t('header.search.placeholder')}
-          onKeyDown={sidechainOnKeyDown}
-        />
-        <div
-          tabIndex={0}
-          role="button"
-          className="button"
-          onClick={clickButton}
-          onKeyUp={clickButton}
-        >
-          <span>Go to network</span>
+    <div className="app">
+      {/* @ts-ignore -- I think this error is because Header isn't in TS */}
+      <Header inNetwork={false} />
+      <div className="sidechain-main-page">
+        <div className="content">
+          <SidechainLogo className="sidechain-logo" />
+          <div className="text box-header">Sidechain Custom Network</div>
+          <div className="text help">Enter sidechain node URL to access sidechain data.</div>
+          <input
+            type="text"
+            placeholder="Type in URL of sidechain node"
+            onKeyDown={sidechainOnKeyDown}
+          />
+          <div
+            tabIndex={0}
+            role="button"
+            className="button"
+            onClick={clickButton}
+            onKeyUp={clickButton}
+          >
+            <span>Go to network</span>
+          </div>
         </div>
       </div>
     </div>
