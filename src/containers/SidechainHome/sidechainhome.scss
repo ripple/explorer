@@ -32,7 +32,7 @@
       align-items: center;
       justify-content: center;
       padding: auto;
-      margin: 100px auto 0px;
+      margin: 100px auto 100px auto;
 
       .sidechain-logo {
         width: 400px;
@@ -128,6 +128,38 @@
       @include for-size(big-desktop-up) {
         width: 864px;
         padding: 0px 48px 0px 0px;
+      }
+    }
+    .custom-network-list {
+      display: flex;
+      flex-direction: column;
+      align-items: normal;
+      margin: 0% 10%;
+      margin-bottom: 70px;
+      color: $white;
+      font-size: 20px;
+      justify-items: right;
+      text-align: left;
+
+      .custom-network-header {
+        border-bottom: 1px solid $black-80;
+        @include bold;
+
+        @include for-size(tablet-landscape-up) {
+          font-size: 24px;
+        }
+      }
+
+      .custom-network-item {
+        border-bottom: 1px solid $black-80;
+        margin: 26px 16px;
+        font-size: 20px;
+
+        &:hover,
+        &:focus {
+          color: $sidechain;
+          cursor: pointer;
+        }
       }
     }
   }

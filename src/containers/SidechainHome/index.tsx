@@ -39,8 +39,18 @@ const SidechainHome = (props: Props) => {
   function clickButton(
     _event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLDivElement>
   ) {
-    switchMode(networkText.current?.value || '');
+    const sidechainUrl = networkText.current?.value;
+    if (sidechainUrl != null) {
+      switchMode(sidechainUrl);
+    }
   }
+
+  function renderCustomNetwork(network: string) {
+    return <div className="custom-network-item">{network}</div>;
+  }
+
+  // TODO: get previous networks from cookies
+  const existingNetworks: string[] = [];
 
   return (
     <div className="app">
@@ -63,6 +73,12 @@ const SidechainHome = (props: Props) => {
             </div>
           </div>
         </div>
+        {existingNetworks.length > 0 && (
+          <div className="custom-network-list">
+            <div className="custom-network-header">Custom Networks</div>
+            {existingNetworks.map(renderCustomNetwork)}
+          </div>
+        )}
       </div>
     </div>
   );
