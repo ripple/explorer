@@ -1,11 +1,12 @@
+import React, { KeyboardEvent, useRef } from 'react';
 import { connect } from 'react-redux';
-import React, { KeyboardEvent } from 'react';
 import { translate } from 'react-i18next';
 // import { withRouter } from 'react-router';
 // import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo.svg';
 import Header from '../Header';
+import { ANALYTIC_TYPES, analytics } from '../shared/utils';
 import './sidechainhome.css';
 
 interface Props {
@@ -13,22 +14,32 @@ interface Props {
 }
 
 const SidechainHome = (props: Props) => {
-  console.log(props);
   const { t } = props;
-  console.log(t);
+
+  const networkText = useRef<HTMLInputElement>(null);
+
+  function switchMode(desiredLink: string) {
+    const sidechainUrl = process.env.REACT_APP_SIDECHAIN_LINK;
+    const url = `${sidechainUrl}/${desiredLink}`;
+    analytics(ANALYTIC_TYPES.event, {
+      eventCategory: 'mode switch',
+      eventAction: url,
+    });
+    // TODO: do some validation on this??
+    window.location.assign(url);
+  }
 
   function sidechainOnKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter') {
       const sidechainUrl = event.currentTarget.value.trim();
-      console.log(sidechainUrl);
+      switchMode(sidechainUrl);
     }
   }
 
   function clickButton(
-    event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLDivElement>
+    _event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLDivElement>
   ) {
-    console.log(event.target);
-    console.log('button clicked');
+    switchMode(networkText.current?.value || '');
   }
 
   return (
@@ -42,17 +53,14 @@ const SidechainHome = (props: Props) => {
           <div className="text help">Enter sidechain node URL to access sidechain data.</div>
           <input
             type="text"
-            placeholder="Type in URL of sidechain node"
+            placeholder={t('sidechain_node_input')}
             onKeyDown={sidechainOnKeyDown}
+            ref={networkText}
           />
-          <div
-            tabIndex={0}
-            role="button"
-            className="button"
-            onClick={clickButton}
-            onKeyUp={clickButton}
-          >
-            <span>Go to network</span>
+          <div className="button">
+            <div tabIndex={0} role="button" onClick={clickButton} onKeyUp={clickButton}>
+              <span>Go to network</span>
+            </div>
           </div>
         </div>
       </div>

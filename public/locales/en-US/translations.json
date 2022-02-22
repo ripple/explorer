@@ -329,5 +329,6 @@
   "obligations_message": "Obligations are the total amounts of each token issued to addresses",
   "issuer":"Issuer",
   "pair":"Pair",
-  "offer_range":"Offer Range"
+  "offer_range":"Offer Range",
+  "sidechain_node_input": "Type in URL of sidechain node"
 }
