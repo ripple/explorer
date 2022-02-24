@@ -8,6 +8,7 @@ import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo
 import Header from '../Header';
 import { ANALYTIC_TYPES, analytics } from '../shared/utils';
 import './sidechainhome.css';
+import { ReactComponent as RightArrow } from '../shared/images/side_arrow_green.svg';
 
 interface Props {
   t: (arg: string) => string;
@@ -46,11 +47,18 @@ const SidechainHome = (props: Props) => {
   }
 
   function renderCustomNetwork(network: string) {
-    return <div className="custom-network-item">{network}</div>;
+    return (
+      <div key={network} className="custom-network-item">
+        <div key={network} className="custom-network-text">
+          {network}
+        </div>
+        <RightArrow className="custom-network-arrow" />
+      </div>
+    );
   }
 
   // TODO: get previous networks from cookies
-  const existingNetworks: string[] = [];
+  const existingNetworks: string[] = ['s1.ripple.com', 's2.ripple.com'];
 
   return (
     <div className="app">

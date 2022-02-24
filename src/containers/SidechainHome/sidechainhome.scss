@@ -2,29 +2,10 @@
 
 .app {
   position: relative;
+
   .sidechain-main-page {
     position: relative;
     min-height: 600px;
-
-    // .loader {
-    //   position: absolute;
-    //   z-index: 1;
-    //   top: 0px;
-    //   background: $black;
-    //   opacity: 0;
-    //   pointer-events: none;
-    //   transition: opacity 0.3s ease;
-
-    //   &.show {
-    //     opacity: 0.8;
-    //     transition: opacity 0.15s ease;
-    //   }
-    // }
-
-    // a {
-    //   color: inherit;
-    //   text-decoration: none;
-    // }
 
     .content {
       display: flex;
@@ -32,11 +13,15 @@
       align-items: center;
       justify-content: center;
       padding: auto;
-      margin: 100px auto 100px auto;
+      margin: 97px auto 80px;
 
       .sidechain-logo {
-        width: 400px;
+        width: auto;
         height: auto;
+
+        @include for-size(tablet-landscape-up) {
+          width: 400px;
+        }
       }
 
       .box-header {
@@ -64,9 +49,9 @@
       }
 
       input {
-        width: 437px;
+        width: auto;
         height: 40px;
-        padding: 8px 240px 8px 16px;
+        padding: 8px 25% 8px 16px;
         border: none;
         margin: 10px 16px;
         background-color: $gray-900;
@@ -78,23 +63,6 @@
 
         &::placeholder {
           color: $gray-400;
-        }
-
-        @include for-size(desktop-up) {
-          // width: 155px;
-          padding: 8px 40px 8px 25px;
-        }
-
-        @include for-size(big-desktop-up) {
-          // width: 222px;
-          padding: 8px 25px 8px 25px;
-        }
-
-        &:focus {
-          @include for-size(desktop-up) {
-            // width: 222px;
-            padding: 8px 25px 8px 25px;
-          }
         }
       }
 
@@ -130,6 +98,7 @@
         padding: 0px 48px 0px 0px;
       }
     }
+
     .custom-network-list {
       display: flex;
       flex-direction: column;
@@ -137,12 +106,14 @@
       margin: 0% 10%;
       margin-bottom: 70px;
       color: $white;
-      font-size: 20px;
-      justify-items: right;
+      font-size: 16px;
       text-align: left;
 
       .custom-network-header {
+        padding-bottom: 24px;
         border-bottom: 1px solid $black-80;
+        margin-bottom: 24px;
+        font-size: 20px;
         @include bold;
 
         @include for-size(tablet-landscape-up) {
@@ -151,14 +122,21 @@
       }
 
       .custom-network-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 24px 0px;
         border-bottom: 1px solid $black-80;
-        margin: 26px 16px;
-        font-size: 20px;
+        font-size: 16px;
 
         &:hover,
         &:focus {
           color: $sidechain;
           cursor: pointer;
+        }
+
+        .custom-network-arrow {
+          text-align: right;
         }
       }
     }
