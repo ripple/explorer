@@ -56,7 +56,7 @@ const SidechainHome = (props: Props) => {
   }
 
   // TODO: get previous networks from cookies
-  const existingNetworks: string[] = ['s1.ripple.com', 's2.ripple.com'];
+  const existingNetworks: string[] = [];
 
   return (
     <div className="app">
@@ -68,15 +68,20 @@ const SidechainHome = (props: Props) => {
           <div className="text box-header">Sidechain Custom Network</div>
           <div className="text help">Enter sidechain node URL to access sidechain data.</div>
           <input
+            className="sidechain-input"
             type="text"
             placeholder={t('sidechain_node_input')}
             onKeyDown={sidechainOnKeyDown}
             ref={networkText}
           />
-          <div className="button">
-            <div tabIndex={0} role="button" onClick={clickButton} onKeyUp={clickButton}>
-              <span>Go to network</span>
-            </div>
+          <div
+            className="button"
+            tabIndex={0}
+            role="button"
+            onClick={clickButton}
+            onKeyUp={clickButton}
+          >
+            <span>Go to network</span>
           </div>
         </div>
         {existingNetworks.length > 0 && (
