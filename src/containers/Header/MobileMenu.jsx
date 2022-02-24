@@ -129,7 +129,7 @@ class MobileMenu extends Component {
           <img src={img} alt="" />
         </div>
         <div className="mobile-menu-items" style={style}>
-          <Search mobile callback={this.closeMenu} />
+          {inNetwork && <Search mobile callback={this.closeMenu} />}
           {items}
         </div>
       </div>

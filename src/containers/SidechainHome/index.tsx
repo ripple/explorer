@@ -56,7 +56,7 @@ const SidechainHome = (props: Props) => {
   }
 
   // TODO: get previous networks from cookies
-  const existingNetworks: string[] = ['s1.ripple.com', 's2.ripple.com'];
+  const existingNetworks: string[] = [];
 
   return (
     <div className="app">
