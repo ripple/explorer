@@ -64,6 +64,10 @@ class Header extends Component {
   };
 
   handleCustomNetworkClick = event => {
+    const { expanded } = this.state;
+    if (!expanded) {
+      return;
+    }
     const currentRippledUrl = this.context; // this is undefined if not in sidechain mode
     const newRippledUrl = event.currentTarget.getAttribute('value');
 
