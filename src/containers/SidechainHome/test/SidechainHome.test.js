@@ -51,7 +51,6 @@ describe('SidechainHome page', () => {
 
     beforeEach(() => {
       delete window.location;
-      // mockedFunction = jest.fn();
       window.location = { assign: mockedFunction };
       process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' };
 
@@ -63,8 +62,7 @@ describe('SidechainHome page', () => {
       process.env = oldEnvs;
     });
 
-    it('redirect works when sidechain is entered', () => {
-      // expand dropdown
+    it('redirect works on `enter` in textbox', () => {
       expect(wrapper.find('.sidechain-input').length).toEqual(1);
       const sidechainInput = wrapper.find('.sidechain-input');
       sidechainInput.prop('onKeyDown')({ key: 'Enter', currentTarget: { value: 'sidechain_url' } });
