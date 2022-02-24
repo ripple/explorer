@@ -56,17 +56,17 @@ const SidechainHome = (props: Props) => {
   }
 
   // TODO: get previous networks from cookies
-  const existingNetworks: string[] = [];
+  const existingNetworks: string[] = ['s1.ripple.com', 's2.ripple.com'];
 
   return (
     <div className="app">
       {/* @ts-ignore -- I think this error is because Header isn't in TS */}
       <Header inNetwork={false} />
       <div className="sidechain-main-page">
-        <div className="content">
+        <div className="logo-content">
           <SidechainLogo className="sidechain-logo" />
-          <div className="text box-header">Sidechain Custom Network</div>
-          <div className="text help">Enter sidechain node URL to access sidechain data.</div>
+          <div className="page-header">Sidechain Custom Network</div>
+          <div className="input-help">Enter sidechain node URL to access sidechain data.</div>
           <input
             className="sidechain-input"
             type="text"
@@ -75,7 +75,7 @@ const SidechainHome = (props: Props) => {
             ref={networkText}
           />
           <div
-            className="button"
+            className="sidechain-input-button"
             tabIndex={0}
             role="button"
             onClick={clickButton}

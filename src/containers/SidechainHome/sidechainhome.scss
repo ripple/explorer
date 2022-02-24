@@ -6,18 +6,16 @@
   .sidechain-main-page {
     position: relative;
     min-height: 600px;
+    color: $white;
 
-    .content {
+    .logo-content {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: auto;
       margin: 97px auto 80px;
-
-      @include for-size(tablet-landscape-up) {
-        margin-bottom: 0px;
-      }
+      text-align: center;
 
       .sidechain-logo {
         width: auto;
@@ -28,7 +26,7 @@
         }
       }
 
-      .box-header {
+      .page-header {
         margin: 0px 24px;
         font-size: 20px;
         @include bold;
@@ -42,14 +40,9 @@
         }
       }
 
-      .help {
+      .input-help {
         margin: 16px 0px;
         font-size: 14px;
-      }
-
-      .text {
-        color: $white;
-        text-align: center;
       }
 
       input {
@@ -70,7 +63,7 @@
         }
       }
 
-      .button {
+      .sidechain-input-button {
         box-sizing: border-box;
         padding: 8px 16px;
         border: 1px solid $sidechain;
@@ -94,7 +87,6 @@
       align-items: normal;
       margin: 0% 10%;
       margin-bottom: 70px;
-      color: $white;
       font-size: 16px;
       text-align: left;
 
