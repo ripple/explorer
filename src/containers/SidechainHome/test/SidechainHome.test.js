@@ -78,7 +78,7 @@ describe('SidechainHome page', () => {
       const { ref } = sidechainInput.getElement();
       ref.current.value = 'sidechain_url';
 
-      const button = wrapper.find('.button');
+      const button = wrapper.find('.sidechain-input-button');
       expect(button.length).toEqual(1);
       button.simulate('click');
       expect(mockedFunction).toBeCalledWith(
