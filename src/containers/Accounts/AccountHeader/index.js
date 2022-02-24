@@ -29,21 +29,6 @@ const AccountHeader = props => {
     actions.loadAccountState(accountId);
   }, [accountId, actions]);
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     showBalanceSelector: false,
-  //   };
-  //   props.actions.loadAccountState(props.accountId);
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   const { accountId, actions } = this.props;
-  //   if (prevProps.accountId !== accountId) {
-  //     actions.loadAccountState(accountId);
-  //   }
-  // }
-
   function toggleBalanceSelector(force) {
     setShowBalanceSelector(force !== undefined ? force : !showBalanceSelector);
   }
