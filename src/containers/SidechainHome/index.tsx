@@ -1,9 +1,7 @@
 import React, { KeyboardEvent, useRef } from 'react';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-// import { withRouter } from 'react-router';
-// import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo.svg';
 import Header from '../Header';
 import { ANALYTIC_TYPES, analytics } from '../shared/utils';
@@ -48,12 +46,12 @@ const SidechainHome = (props: Props) => {
 
   function renderCustomNetwork(network: string) {
     return (
-      <div key={network} className="custom-network-item">
+      <Link key={network} className="custom-network-item" to={`/${network}`}>
         <div key={network} className="custom-network-text">
           {network}
         </div>
         <RightArrow className="custom-network-arrow" />
-      </div>
+      </Link>
     );
   }
 
