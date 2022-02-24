@@ -330,5 +330,6 @@
   "issuer":"Issuer",
   "pair":"Pair",
   "offer_range":"Offer Range",
-  "sidechain_node_input": "Type in URL of sidechain node"
+  "sidechain_node_input": "Type in URL of sidechain node",
+  "no_network_selected": "No Sidechain Network Selected"
 }

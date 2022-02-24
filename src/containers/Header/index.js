@@ -177,6 +177,14 @@ class Header extends Component {
               onKeyUp={this.toggleExpand}
             >
               <div className="bg" />
+              {!inNetwork &&
+                !expanded &&
+                this.renderDropdown(
+                  'no-network',
+                  this.handleCustomNetworkClick,
+                  classnames('item', 'custom', { selected: true }),
+                  t('no_network_selected')
+                )}
               {Object.keys(urlLinkMap).map(network => {
                 return isCustomNetwork(network)
                   ? this.renderDropdown(
