@@ -116,11 +116,12 @@ Menu.propTypes = {
   t: PropTypes.func.isRequired,
   currentPath: PropTypes.string.isRequired,
   routes: PropTypes.arrayOf(PropTypes.shape({})),
-  inNetwork: PropTypes.bool.isRequired,
+  inNetwork: PropTypes.bool,
 };
 
 Menu.defaultProps = {
   routes: defaultRoutes,
+  inNetwork: true,
 };
 
 export default Menu;

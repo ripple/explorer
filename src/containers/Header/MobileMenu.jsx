@@ -142,11 +142,12 @@ MobileMenu.propTypes = {
   currentPath: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   routes: PropTypes.arrayOf(PropTypes.shape({})),
-  inNetwork: PropTypes.bool.isRequired,
+  inNetwork: PropTypes.bool,
 };
 
 MobileMenu.defaultProps = {
   routes: defaultRoutes,
+  inNetwork: true,
 };
 
 export default connect(state => ({
