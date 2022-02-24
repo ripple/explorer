@@ -44,8 +44,8 @@ const fetchLedger = (ledger, rippledUrl, attempts = 0) => {
     });
 };
 
-const fetchLoadFee = () => {
-  return getServerInfo()
+const fetchLoadFee = rippledUrl => {
+  return getServerInfo(rippledUrl)
     .then(result => result.info)
     .then(info => {
       const ledgerFeeInfo = info.validated_ledger;
