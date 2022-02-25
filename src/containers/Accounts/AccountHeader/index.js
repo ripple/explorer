@@ -21,9 +21,16 @@ const CURRENCY_OPTIONS = {
 
 const AccountHeader = props => {
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
-  const { accountId, actions } = props;
-
-  const { t, data, language, onSetCurrencySelected, currencySelected, loading } = props;
+  const {
+    accountId,
+    actions,
+    t,
+    data,
+    language,
+    onSetCurrencySelected,
+    currencySelected,
+    loading,
+  } = props;
 
   useEffect(() => {
     actions.loadAccountState(accountId);
