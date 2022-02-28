@@ -59,6 +59,7 @@
         line-height: 24px;
 
         &::placeholder {
+          overflow: visible;
           color: $gray-400;
         }
       }

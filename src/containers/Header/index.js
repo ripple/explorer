@@ -151,11 +151,11 @@ class Header extends Component {
     const { expanded } = this.state;
     const rippledUrl = this.context;
     const menu =
-      width >= BREAKPOINTS.landscape ? (
+      width >= BREAKPOINTS.landscape || !inNetwork ? (
         <Menu t={t} currentPath={this.getCurrentPath()} inNetwork={inNetwork} />
       ) : null;
     const mobileMenu =
-      width < BREAKPOINTS.landscape ? (
+      width < BREAKPOINTS.landscape && inNetwork ? (
         <MobileMenu t={t} currentPath={this.getCurrentPath()} inNetwork={inNetwork} />
       ) : null;
     const currentMode = process.env.REACT_APP_ENVIRONMENT;
