@@ -65,12 +65,12 @@ const SidechainHome = (props: Props) => {
       <div className="sidechain-main-page">
         <div className="logo-content">
           <SidechainLogo className="sidechain-logo" />
-          <div className="page-header">Sidechain Custom Network</div>
-          <div className="input-help">Enter sidechain node URL to access sidechain data.</div>
+          <div className="page-header">{t('sidechain_custom_network')}</div>
+          <div className="input-help">{t('sidechain_network_input_help')}</div>
           <input
             className="sidechain-input"
             type="text"
-            placeholder={t('sidechain_node_input')}
+            placeholder={t('sidechain_network_input')}
             onKeyDown={sidechainOnKeyDown}
             ref={networkText}
           />
