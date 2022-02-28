@@ -14,7 +14,7 @@
       align-items: center;
       justify-content: center;
       padding: auto;
-      margin: 97px auto 80px;
+      margin: 97px auto 80px auto;
       text-align: center;
 
       .sidechain-logo {
@@ -27,7 +27,7 @@
       }
 
       .page-header {
-        margin: 0px 24px;
+        margin: 0 24px;
         font-size: 20px;
         @include bold;
 
@@ -41,7 +41,7 @@
       }
 
       .input-help {
-        margin: 16px 0px;
+        margin: 16px 0;
         font-size: 14px;
       }
 
@@ -106,7 +106,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 24px 0px;
+        padding: 24px 0;
         border-bottom: 1px solid $black-80;
         color: inherit;
         font-size: 16px;

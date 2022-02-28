@@ -1,12 +1,11 @@
 import React, { KeyboardEvent, useRef } from 'react';
-import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo.svg';
 import Header from '../Header';
 import { ANALYTIC_TYPES, analytics } from '../shared/utils';
-import './sidechainhome.css';
 import { ReactComponent as RightArrow } from '../shared/images/side_arrow_green.svg';
+import './index.css';
 
 interface Props {
   t: (arg: string) => string;
@@ -86,7 +85,7 @@ const SidechainHome = (props: Props) => {
         </div>
         {existingNetworks.length > 0 && (
           <div className="custom-network-list">
-            <div className="custom-network-header">Custom Networks</div>
+            <div className="custom-network-header">{t('sidechain_networks')}</div>
             {existingNetworks.map(renderCustomNetwork)}
           </div>
         )}
@@ -95,7 +94,4 @@ const SidechainHome = (props: Props) => {
   );
 };
 
-export default connect(state => ({
-  // @ts-ignore
-  language: state.app.language,
-}))(translate()(SidechainHome));
+export default translate()(SidechainHome);

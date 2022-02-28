@@ -333,5 +333,6 @@
   "sidechain_custom_network": "Sidechain Custom Network",
   "sidechain_network_input_help": "Enter sidechain network URL to access sidechain data.",
   "sidechain_network_input": "Type in URL of sidechain network",
+  "sidechain_networks": "Sidechain Networks",
   "no_network_selected": "No Sidechain Network Selected"
 }
