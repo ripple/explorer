@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useRef } from 'react';
+import React, { KeyboardEvent, useState } from 'react';
 import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo.svg';
@@ -14,7 +14,7 @@ interface Props {
 const SidechainHome = (props: Props) => {
   const { t } = props;
 
-  const networkText = useRef<HTMLInputElement>(null);
+  const [networkText, setNetworkText] = useState('');
 
   function switchMode(desiredLink: string) {
     const sidechainUrl = process.env.REACT_APP_SIDECHAIN_LINK;
@@ -28,18 +28,16 @@ const SidechainHome = (props: Props) => {
   }
 
   function sidechainOnKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key === 'Enter') {
-      const sidechainUrl = event.currentTarget.value.trim();
-      switchMode(sidechainUrl);
+    if (event.key === 'Enter' && networkText != null) {
+      switchMode(networkText);
     }
   }
 
   function clickButton(
     _event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLDivElement>
   ) {
-    const sidechainUrl = networkText.current?.value;
-    if (sidechainUrl != null) {
-      switchMode(sidechainUrl);
+    if (networkText != null) {
+      switchMode(networkText);
     }
   }
 
@@ -59,7 +57,7 @@ const SidechainHome = (props: Props) => {
 
   return (
     <div className="app">
-      {/* @ts-ignore -- I think this error is because Header isn't in TS */}
+      {/* @ts-ignore -- TODO: I think this error is because Header isn't in TS */}
       <Header inNetwork={false} />
       <div className="sidechain-main-page">
         <div className="logo-content">
@@ -71,7 +69,8 @@ const SidechainHome = (props: Props) => {
             type="text"
             placeholder={t('sidechain_network_input')}
             onKeyDown={sidechainOnKeyDown}
-            ref={networkText}
+            value={networkText}
+            onChange={event => setNetworkText(event.target.value)}
           />
           <div
             className="sidechain-input-button"
