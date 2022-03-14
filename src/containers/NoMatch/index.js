@@ -13,7 +13,7 @@ class NoMatch extends Component {
   }
 
   render() {
-    const { t, title, hints } = this.props;
+    const { t, title, hints, isError = true } = this.props;
     const notFound = title.includes('not_found');
     const hintMsg = hints.map(hint => (
       <div className="hint" key={hint}>
@@ -23,7 +23,7 @@ class NoMatch extends Component {
 
     return (
       <div className="no-match">
-        <div className="uh-oh">{t('404_uh_oh')}</div>
+        {isError && <div className="uh-oh">{t('404_uh_oh')}</div>}
         <div className="title">{t(title)}</div>
         {hintMsg}
         <div className="warning">
@@ -39,11 +39,13 @@ NoMatch.propTypes = {
   t: PropTypes.func.isRequired,
   title: PropTypes.string,
   hints: PropTypes.arrayOf(PropTypes.string),
+  isError: PropTypes.bool,
 };
 
 NoMatch.defaultProps = {
   title: '404_default_title',
   hints: ['404_check_url'],
+  isError: true,
 };
 
 export default translate()(NoMatch);
