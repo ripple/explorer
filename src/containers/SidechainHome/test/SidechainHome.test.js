@@ -64,8 +64,13 @@ describe('SidechainHome page', () => {
 
     it('redirect works on `enter` in textbox', () => {
       expect(wrapper.find('.sidechain-input').length).toEqual(1);
-      const sidechainInput = wrapper.find('.sidechain-input');
-      sidechainInput.prop('onKeyDown')({ key: 'Enter', currentTarget: { value: 'sidechain_url' } });
+      wrapper.find('.sidechain-input').simulate('change', { target: { value: 'sidechain_url' } });
+
+      wrapper.update();
+      wrapper.find('.sidechain-input').prop('onKeyDown')({
+        key: 'Enter',
+        currentTarget: { value: 'sidechain_url' },
+      });
       expect(mockedFunction).toBeCalledWith(
         `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`
       );
@@ -74,9 +79,7 @@ describe('SidechainHome page', () => {
     it('redirect works on button click', () => {
       const sidechainInput = wrapper.find('.sidechain-input');
       sidechainInput.simulate('change', { target: { value: 'sidechain_url' } });
-
-      const { ref } = sidechainInput.getElement();
-      ref.current.value = 'sidechain_url';
+      wrapper.update();
 
       const button = wrapper.find('.sidechain-input-button');
       expect(button.length).toEqual(1);
