@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -19,31 +19,28 @@ const CURRENCY_OPTIONS = {
   maximumFractionDigits: 6,
 };
 
-class AccountHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showBalanceSelector: false,
-    };
-    props.actions.loadAccountState(props.accountId);
+const AccountHeader = props => {
+  const [showBalanceSelector, setShowBalanceSelector] = useState(false);
+  const {
+    accountId,
+    actions,
+    t,
+    data,
+    language,
+    onSetCurrencySelected,
+    currencySelected,
+    loading,
+  } = props;
+
+  useEffect(() => {
+    actions.loadAccountState(accountId);
+  }, [accountId, actions]);
+
+  function toggleBalanceSelector(force) {
+    setShowBalanceSelector(force !== undefined ? force : !showBalanceSelector);
   }
 
-  componentDidUpdate(prevProps) {
-    const { accountId, actions } = this.props;
-    if (prevProps.accountId !== accountId) {
-      actions.loadAccountState(accountId);
-    }
-  }
-
-  toggleBalanceSelector(force) {
-    this.setState(prevState => ({
-      showBalanceSelector: force !== undefined ? force : !prevState.showBalanceSelector,
-    }));
-  }
-
-  renderBalancesSelector() {
-    const { t, data, language, onSetCurrencySelected, currencySelected } = this.props;
-    const { showBalanceSelector } = this.state;
+  function renderBalancesSelector() {
     const { balances = {} } = data;
 
     return (
@@ -54,8 +51,8 @@ class AccountHeader extends Component {
             text={`${Object.keys(balances).length - 1} ${t('accounts.other_balances')}`}
             expandMenu={showBalanceSelector}
             balances={balances}
-            onClick={() => this.toggleBalanceSelector()}
-            onMouseLeave={() => this.toggleBalanceSelector(false)}
+            onClick={() => toggleBalanceSelector()}
+            onMouseLeave={() => toggleBalanceSelector(false)}
             onSetCurrencySelected={currency => onSetCurrencySelected(currency)}
             currencySelected={currencySelected}
           />
@@ -64,8 +61,7 @@ class AccountHeader extends Component {
     );
   }
 
-  renderPaymentChannels() {
-    const { data, t, language } = this.props;
+  function renderPaymentChannels() {
     const { paychannels } = data;
     return (
       paychannels && (
@@ -84,8 +80,7 @@ class AccountHeader extends Component {
     );
   }
 
-  renderEscrows() {
-    const { data, t, language } = this.props;
+  function renderEscrows() {
     const { escrows } = data;
     return (
       escrows && (
@@ -106,8 +101,7 @@ class AccountHeader extends Component {
     );
   }
 
-  renderSignerList() {
-    const { data, t } = this.props;
+  function renderSignerList() {
     const { signerList } = data;
     return (
       signerList && (
@@ -137,8 +131,7 @@ class AccountHeader extends Component {
 
   // TODO: show X-address on 'classic' account pages
 
-  renderExtendedAddress() {
-    const { data /* , t */ } = this.props;
+  function renderExtendedAddress() {
     const { xAddress } = data; // undefined when page has not yet finished loading
 
     let messageAboutTag = '';
@@ -188,8 +181,7 @@ class AccountHeader extends Component {
     );
   }
 
-  renderInfo() {
-    const { data, t, language } = this.props;
+  function renderInfo() {
     const { info } = data;
     return (
       info && (
@@ -237,8 +229,7 @@ class AccountHeader extends Component {
     );
   }
 
-  renderHeaderContent() {
-    const { data, language, currencySelected } = this.props;
+  function renderHeaderContent() {
     const { balances = {} } = data;
     const balance = localizeNumber(balances[currencySelected] || 0.0, language, {
       style: 'currency',
@@ -249,36 +240,33 @@ class AccountHeader extends Component {
     return (
       <div className="section header-container">
         <div className="column first">
-          {this.renderExtendedAddress()}
+          {renderExtendedAddress()}
           <div className="secondary balance">
             <div className="title">{`${currencySelected} Balance`}</div>
             <div className="value">{balance}</div>
-            {this.renderBalancesSelector()}
+            {renderBalancesSelector()}
           </div>
-          {this.renderSignerList()}
+          {renderSignerList()}
         </div>
         <div className="column second">
-          {this.renderInfo()}
-          {this.renderEscrows()}
-          {this.renderPaymentChannels()}
+          {renderInfo()}
+          {renderEscrows()}
+          {renderPaymentChannels()}
         </div>
       </div>
     );
   }
 
-  render() {
-    const { accountId, loading, data } = this.props;
-    const { xAddress } = data;
-    return (
-      <div className="box account-header">
-        <div className="section box-header">
-          <h2 className={xAddress ? 'xAddress' : 'classic'}>{accountId}</h2>
-        </div>
-        <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
+  const { xAddress } = data;
+  return (
+    <div className="box account-header">
+      <div className="section box-header">
+        <h2 className={xAddress ? 'xAddress' : 'classic'}>{accountId}</h2>
       </div>
-    );
-  }
-}
+      <div className="box-content">{loading ? <Loader /> : renderHeaderContent()}</div>
+    </div>
+  );
+};
 
 AccountHeader.propTypes = {
   language: PropTypes.string.isRequired,
