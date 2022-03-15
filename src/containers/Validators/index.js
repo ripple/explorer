@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import NoMatch from '../NoMatch';
 import Loader from '../shared/components/Loader';
-import Tabs from './Tabs';
+import Tabs from '../shared/components/Tabs';
 import { analytics, ANALYTIC_TYPES, NOT_FOUND } from '../shared/utils';
 import { loadValidator } from './actions';
 import SimpleTab from './SimpleTab';
@@ -99,7 +99,9 @@ class Validator extends Component {
     const { tab = 'details', identifier } = match.params;
     const { path = '/' } = match;
     const tabs = ['details', 'history'];
-    return <Tabs tabs={tabs} selected={tab} path={`${path.split(':')[0]}${identifier}`} />;
+    // strips :url from the front and the identifier/tab info from the end
+    const mainPath = `${path.split('/:')[0]}/${identifier}`;
+    return <Tabs tabs={tabs} selected={tab} path={mainPath} />;
   }
 
   renderValidator() {
