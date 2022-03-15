@@ -236,6 +236,10 @@
       flex: 1;
       align-content: center;
       justify-content: center;
+
+      &.notInNetwork {
+        flex: none;
+      }
     }
   }
   .element:first-child {

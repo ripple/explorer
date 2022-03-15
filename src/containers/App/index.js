@@ -11,6 +11,7 @@ import Banner from '../Header/Banner'; // included here for spacing
 import './app.css';
 import App from './App';
 import NoMatch from '../NoMatch';
+import SidechainHome from '../SidechainHome';
 
 const AppWrapper = props => {
   const { t } = props;
@@ -25,6 +26,7 @@ const AppWrapper = props => {
       <Banner />
       <Switch>
         <Route path={path} component={App} />
+        {mode === 'sidechain' && <Route path="/" component={SidechainHome} />}
         <Route component={NoMatch} />
       </Switch>
       <Footer />

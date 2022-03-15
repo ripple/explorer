@@ -56,7 +56,6 @@ describe('Header component', () => {
 
     beforeEach(() => {
       delete window.location;
-      // mockedFunction = jest.fn();
       window.location = { assign: mockedFunction };
       process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' };
     });

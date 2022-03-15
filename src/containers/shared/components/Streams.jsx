@@ -280,7 +280,7 @@ class Streams extends Component {
               Log.error(e);
             });
           // update the load fee
-          fetchLoadFee()
+          fetchLoadFee(rippledUrl)
             .then(loadFee => {
               this.onmetric(loadFee);
             })

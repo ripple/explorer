@@ -16,8 +16,6 @@ import { ReactComponent as CheckIcon } from '../shared/images/checkmark.svg';
 import './header.css';
 import UrlContext from '../shared/urlContext';
 
-const MODE = process.env.REACT_APP_ENVIRONMENT;
-
 const STATIC_ENV_LINKS = {
   mainnet: process.env.REACT_APP_MAINNET_LINK,
   testnet: process.env.REACT_APP_TESTNET_LINK,
@@ -66,6 +64,10 @@ class Header extends Component {
   };
 
   handleCustomNetworkClick = event => {
+    const { expanded } = this.state;
+    if (!expanded) {
+      return;
+    }
     const currentRippledUrl = this.context; // this is undefined if not in sidechain mode
     const newRippledUrl = event.currentTarget.getAttribute('value');
 
@@ -145,14 +147,16 @@ class Header extends Component {
   }
 
   render() {
-    const { t, isScrolled, width } = this.props;
+    const { t, isScrolled, width, inNetwork } = this.props;
     const { expanded } = this.state;
     const rippledUrl = this.context;
     const menu =
-      width >= BREAKPOINTS.landscape ? <Menu t={t} currentPath={this.getCurrentPath()} /> : null;
+      width >= BREAKPOINTS.landscape || !inNetwork ? (
+        <Menu t={t} currentPath={this.getCurrentPath()} inNetwork={inNetwork} />
+      ) : null;
     const mobileMenu =
-      width < BREAKPOINTS.landscape ? (
-        <MobileMenu t={t} currentPath={this.getCurrentPath()} />
+      width < BREAKPOINTS.landscape && inNetwork ? (
+        <MobileMenu t={t} currentPath={this.getCurrentPath()} inNetwork={inNetwork} />
       ) : null;
     const currentMode = process.env.REACT_APP_ENVIRONMENT;
 
@@ -177,6 +181,14 @@ class Header extends Component {
               onKeyUp={this.toggleExpand}
             >
               <div className="bg" />
+              {!inNetwork &&
+                !expanded &&
+                this.renderDropdown(
+                  'no-network',
+                  this.handleCustomNetworkClick,
+                  classnames('item', 'custom', { selected: true }),
+                  t('no_network_selected')
+                )}
               {Object.keys(urlLinkMap).map(network => {
                 return isCustomNetwork(network)
                   ? this.renderDropdown(
@@ -212,10 +224,12 @@ class Header extends Component {
                 <Logo className="logo" alt={t('xrpl_explorer')} />
               </Link>
             </div>
-            <div className="element">
-              <Search />
-            </div>
-            <div className="element">{menu}</div>
+            {inNetwork && (
+              <div className="element">
+                <Search />
+              </div>
+            )}
+            <div className={classnames('element', { notInNetwork: !inNetwork })}>{menu}</div>
             {mobileMenu}
           </div>
 
@@ -227,6 +241,10 @@ class Header extends Component {
 }
 Header.contextType = UrlContext;
 
+Header.defaultProps = {
+  inNetwork: true,
+};
+
 Header.propTypes = {
   t: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
@@ -234,6 +252,7 @@ Header.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
+  inNetwork: PropTypes.bool,
 };
 
 export default withRouter(
