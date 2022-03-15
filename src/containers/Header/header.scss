@@ -182,22 +182,22 @@
     }
 
     &.sidechain {
-      background: $black;
+      background: $sidechain;
 
       .dropdown {
         border-color: $sidechain;
-        background: $black;
-        color: $sidechain;
+        background: $sidechain;
+        color: $black;
 
         /* stylelint-disable no-descending-specificity */
         .item {
-          background: $black;
+          background: $sidechain;
         }
         /* stylelint-enable no-descending-specificity */
       }
 
-      .check path {
-        fill: $white;
+      .arrow path {
+        fill: $black;
       }
     }
   }
