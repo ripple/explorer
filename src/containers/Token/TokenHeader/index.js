@@ -9,6 +9,7 @@ import Loader from '../../shared/components/Loader';
 import '../../shared/css/nested-menu.css';
 import './styles.css';
 import { localizeNumber, formatLargeNumber } from '../../shared/utils';
+import UrlContext from '../../shared/urlContext';
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -18,17 +19,20 @@ const CURRENCY_OPTIONS = {
 };
 
 class TokenHeader extends Component {
-  constructor(props) {
-    super(props);
-    props.actions.loadTokenState(props.currency, props.accountId);
+  componentDidMount() {
+    const { actions, accountId, currency } = this.props;
+    const rippledUrl = this.context;
+    actions.loadTokenState(currency, accountId, rippledUrl);
   }
 
   componentDidUpdate(prevProps) {
     const nextAccountId = prevProps.accountId;
     const nextCurrency = prevProps.currency;
     const { accountId, currency, actions } = this.props;
+    const rippledUrl = this.context;
+
     if (nextAccountId !== accountId || nextCurrency !== currency) {
-      actions.loadTokenState(nextCurrency, nextAccountId);
+      actions.loadTokenState(nextCurrency, nextAccountId, rippledUrl);
     }
   }
 
@@ -60,17 +64,13 @@ class TokenHeader extends Component {
           <tr className="row">
             <td className="col1">{t('last_ledger')}</td>
             <td className="col2">
-              <a href={`/ledgers/${previousLedger}`} rel="noopener noreferrer">
-                {previousLedger}
-              </a>
+              <Link to={`/ledgers/${previousLedger}`}>{previousLedger}</Link>
             </td>
           </tr>
           <tr className="row">
             <td className="col1">Last affecting tx</td>
             <td className="col2">
-              <a href={`/transactions/${previousTxn}`} rel="noopener noreferrer">
-                {prevTxn}
-              </a>
+              <Link to={`/transactions/${previousTxn}`}>{prevTxn}</Link>
             </td>
           </tr>
           {emailHash && (
@@ -201,6 +201,8 @@ class TokenHeader extends Component {
     );
   }
 }
+
+TokenHeader.contextType = UrlContext;
 
 TokenHeader.propTypes = {
   language: PropTypes.string.isRequired,
