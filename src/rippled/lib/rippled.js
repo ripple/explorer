@@ -5,6 +5,7 @@ import { Error, XRP_BASE, EPOCH_OFFSET } from './utils';
 
 const HOSTNAME = hostname();
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
+const P2P_URL = process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST;
 
 const formatEscrow = d => ({
   id: d.index,
@@ -46,27 +47,24 @@ const executeQuery = (url, options) => {
 };
 
 // generic RPC query
-function query(...options) {
-  return executeQuery(process.env.REACT_APP_RIPPLED_HOST, ...options);
+function query(url, options) {
+  return executeQuery(url ?? process.env.REACT_APP_RIPPLED_HOST, options);
 }
 
 // If there is a separate peer to peer (not reporting mode) server for admin requests, use it.
 // Otherwise use the default url for everything.
-function queryP2P(...options) {
-  return executeQuery(
-    process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST,
-    ...options
-  );
+function queryP2P(url, options) {
+  return executeQuery(url ?? P2P_URL, options);
 }
 
 // get ledger
-const getLedger = parameters => {
+const getLedger = (url, parameters) => {
   const request = {
     method: 'ledger',
     params: [{ ...parameters, transactions: true, expand: true }],
   };
 
-  return query(request)
+  return query(url, request)
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error_message === 'ledgerNotFound') {
@@ -89,13 +87,13 @@ const getLedger = parameters => {
 };
 
 // get transaction
-const getTransaction = txHash => {
+const getTransaction = (url, txHash) => {
   const params = {
     method: 'tx',
     params: [{ transaction: txHash }],
   };
 
-  return query(params)
+  return query(url, params)
     .then(resp => resp.data.result)
     .then(resp => {
       if (resp.error === 'txnNotFound') {
@@ -118,10 +116,10 @@ const getTransaction = txHash => {
 };
 
 // get account info
-const getAccountInfo = (account, ledger_index = 'validated') =>
-  query({
+const getAccountInfo = (url, account) =>
+  query(url, {
     method: 'account_info',
-    params: [{ account, ledger_index, signer_lists: true }],
+    params: [{ account, ledger_index: 'validated', signer_lists: true }],
   })
     .then(resp => resp.data.result)
     .then(resp => {
@@ -139,8 +137,8 @@ const getAccountInfo = (account, ledger_index = 'validated') =>
     });
 
 // get account escrows
-const getAccountEscrows = (account, ledger_index = 'validated') =>
-  query({
+const getAccountEscrows = (url, account, ledger_index = 'validated') =>
+  query(url, {
     method: 'account_objects',
     params: [{ account, ledger_index, type: 'escrow', limit: 400 }],
   })
@@ -178,11 +176,11 @@ const getAccountEscrows = (account, ledger_index = 'validated') =>
     });
 
 // get account paychannels
-const getAccountPaychannels = async (account, ledger_index = 'validated') => {
+const getAccountPaychannels = async (url, account, ledger_index = 'validated') => {
   const list = [];
   let remaining = 0;
   const getChannels = marker =>
-    query({
+    query(url, {
       method: 'account_objects',
       params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }],
     })
@@ -222,8 +220,8 @@ const getAccountPaychannels = async (account, ledger_index = 'validated') => {
 };
 
 // get Token balance summary
-const getBalances = (account, ledger_index = 'validated') =>
-  queryP2P({
+const getBalances = (url, account, ledger_index = 'validated') =>
+  queryP2P(url, {
     method: 'gateway_balances',
     params: [{ account, ledger_index }],
   })
@@ -241,11 +239,11 @@ const getBalances = (account, ledger_index = 'validated') =>
     });
 
 // get account transactions
-const getAccountTransactions = (account, limit = 20, marker = '') => {
+const getAccountTransactions = (url, account, limit = 20, marker = '') => {
   const markerComponents = marker.split('.');
   const ledger = parseInt(markerComponents[0], 10);
   const seq = parseInt(markerComponents[1], 10);
-  return query({
+  return query(url, {
     method: 'account_tx',
     params: [
       {
@@ -278,8 +276,8 @@ const getAccountTransactions = (account, limit = 20, marker = '') => {
     });
 };
 
-const getNegativeUNL = () =>
-  query({
+const getNegativeUNL = url =>
+  query(url, {
     method: 'ledger_entry',
     params: [
       {
@@ -300,8 +298,8 @@ const getNegativeUNL = () =>
       return resp;
     });
 
-const getServerInfo = () =>
-  query({
+const getServerInfo = url =>
+  query(url, {
     method: 'server_info',
   })
     .then(resp => resp.data.result)
@@ -313,8 +311,8 @@ const getServerInfo = () =>
       return resp;
     });
 
-const getOffers = (currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
-  return query({
+const getOffers = (url, currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
+  return query(url, {
     method: 'book_offers',
     params: [
       {
