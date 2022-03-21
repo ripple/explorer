@@ -204,8 +204,7 @@ class Header extends Component {
                       t(`${network}_data`)
                     );
               })}
-              {/* TODO: remove the boolean check below when deploy is successful */}
-              {currentMode === 'sidechain' && this.renderSidechainInput()}
+              {this.renderSidechainInput()}
             </div>
             <div
               className="arrowContainer"
