@@ -66,10 +66,15 @@ describe('Transaction actions', () => {
         error: 'get_transaction_failed',
       },
     ];
+    // this method sends a request to the server
     store.dispatch(actions.loadTransaction(OfferCreateData.result.hash, client));
     // console.log(server);
+
+    // when this is uncommented, it never resolves
     // await server.connected;
     console.log('connected');
+
+    // when this is uncommented, it never resolves
     // await expect(server).toReceiveMessage('hi');
     // await server.nextMessage;
     server.error({ status: 500, response: {} });
