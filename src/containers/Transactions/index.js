@@ -48,6 +48,7 @@ class Transaction extends Component {
     });
 
     if (identifier && identifier !== hash) {
+      console.log(rippledSocket);
       actions.loadTransaction(identifier, rippledSocket);
     }
   }

@@ -1,6 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+import WS from 'jest-websocket-mock';
+import { XrplClient } from 'xrpl-client';
 import { BAD_REQUEST } from '../../shared/utils';
 import { initialState } from '../reducer';
 import * as actions from '../actions';
@@ -9,6 +11,8 @@ import OfferCreateData from './mock_data/rippledOfferCreate.json';
 import { formatTransaction } from '../../../rippled/lib/utils';
 
 describe('Transaction actions', () => {
+  jest.setTimeout(20000);
+
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   let store;
@@ -48,7 +52,11 @@ describe('Transaction actions', () => {
     });
   });
 
-  it('should dispatch correct actions on fail for loadTransaction', done => {
+  it('should dispatch correct actions on fails for loadTransaction', async done => {
+    const wsUrl = `wss://localhost:1234`;
+    const server = new WS(wsUrl, { jsonProtocol: true });
+    const client = new XrplClient([wsUrl]);
+    console.log('test startingggg');
     const expectedActions = [
       { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.result.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },
@@ -58,26 +66,39 @@ describe('Transaction actions', () => {
         error: 'get_transaction_failed',
       },
     ];
-    store.dispatch(actions.loadTransaction(OfferCreateData.result.hash));
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent();
-      request
-        .respondWith({
-          status: 500,
-          response: {},
-        })
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-          done();
-        });
-    });
+    store.dispatch(actions.loadTransaction(OfferCreateData.result.hash, client));
+    // console.log(server);
+    // await server.connected;
+    console.log('connected');
+    // await expect(server).toReceiveMessage('hi');
+    // await server.nextMessage;
+    server.error({ status: 500, response: {} });
+
+    const result = store.getActions();
+    console.log(result);
+    client.close();
+    server.close();
+    done();
+    // moxios.wait(() => {
+    //   const request = moxios.requests.mostRecent();
+    //   request
+    //     .respondWith({
+    //       status: 500,
+    //       response: {},
+    //     })
+    //     .then(() => {
+    //       expect(store.getActions()).toEqual(expectedActions);
+    //       done();
+    //     });
+    // });
+    server.close();
   });
 
-  it('should dispatch correct actions on fail for loadTransaction with invalid hash', () => {
+  it('should dispatch correct actions on fail for loadTransaction with invalid hash', async () => {
     const expectedActions = [
       { type: actionTypes.LOADING_TRANSACTION_FAIL, data: { error: BAD_REQUEST } },
     ];
-    store.dispatch(actions.loadTransaction({ identifier: 'invalid_transaction_hash' }));
+    await store.dispatch(actions.loadTransaction('invalid_transaction_hash'));
     expect(store.getActions()).toEqual(expectedActions);
   });
 });
