@@ -231,18 +231,29 @@ class Streams extends Component {
   connect() {
     const rippledUrl = this.context;
     const rippledWsUrl = `wss://${rippledUrl}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
-    this.ws = new WebSocket(rippledUrl == null ? DEFAULT_WS_URL : rippledWsUrl);
+    this.startWs(rippledUrl == null ? DEFAULT_WS_URL : rippledWsUrl);
+  }
+
+  startWs(url) {
+    this.ws = new WebSocket(url);
     this.ws.last = Date.now();
     Log.info(`connecting...`);
 
     // handle error
-    this.ws.onclose = () => {
+    this.ws.onclose = e => {
       Log.warn(`ws closed`);
+      console.log(e);
+      if (!e.wasClean) {
+        console.log(url.replace('wss://', 'ws://'));
+        this.startWs(url.replace('wss://', 'ws://'));
+      }
     };
 
     // handle error
     this.ws.onerror = e => {
       Log.error(e.toString());
+      console.log(e.data);
+      console.log(e.toString().includes('Websocket connection to'));
     };
 
     // subscribe and save new connections
@@ -271,7 +282,7 @@ class Streams extends Component {
         } else if (streamResult.type === 'ledgerClosed') {
           const { ledger, metrics } = handleLedger(streamResult);
           this.onledger(ledger);
-          fetchLedger(ledger, rippledUrl)
+          fetchLedger(ledger, url)
             .then(ledgerSummary => {
               this.onledgerSummary(ledgerSummary);
             })
@@ -280,7 +291,7 @@ class Streams extends Component {
               Log.error(e);
             });
           // update the load fee
-          fetchLoadFee(rippledUrl)
+          fetchLoadFee(url)
             .then(loadFee => {
               this.onmetric(loadFee);
             })
