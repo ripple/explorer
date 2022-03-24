@@ -231,7 +231,6 @@ class Streams extends Component {
   connect() {
     const rippledUrl = this.context;
     const rippledWsUrl = `wss://${rippledUrl}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
-    console.log(rippledUrl);
     this.startWs(
       rippledUrl == null ? DEFAULT_WS_URL : rippledWsUrl,
       rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
@@ -246,9 +245,7 @@ class Streams extends Component {
     // handle error
     this.ws.onclose = e => {
       Log.warn(`ws closed`);
-      console.log(e);
       if (!e.wasClean) {
-        console.log(wsUrl.replace('wss://', 'ws://'));
         this.startWs(wsUrl.replace('wss://', 'ws://'), rippledUrl);
       }
     };
@@ -256,8 +253,6 @@ class Streams extends Component {
     // handle error
     this.ws.onerror = e => {
       Log.error(e.toString());
-      console.log(e.data);
-      console.log(e.toString().includes('Websocket connection to'));
     };
 
     // subscribe and save new connections
