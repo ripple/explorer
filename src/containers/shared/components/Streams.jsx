@@ -12,8 +12,6 @@ import UrlContext from '../urlContext';
 
 const MAX_LEDGER_COUNT = 20;
 
-const DEFAULT_WS_URL = `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
-
 const throttle = (func, limit) => {
   let inThrottle;
   return function throttled(...args) {
@@ -230,14 +228,12 @@ class Streams extends Component {
 
   connect() {
     const rippledUrl = this.context;
-    const rippledWsUrl = `wss://${rippledUrl}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
-    this.startWs(
-      rippledUrl == null ? DEFAULT_WS_URL : rippledWsUrl,
-      rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
-    );
+    this.startWs(rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST);
   }
 
-  startWs(wsUrl, rippledUrl) {
+  startWs(rippledUrl, wss = true) {
+    const connection = wss ? 'wss' : 'ws';
+    const wsUrl = `${connection}://${rippledUrl}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
     this.ws = new WebSocket(wsUrl);
     this.ws.last = Date.now();
     Log.info(`connecting...`);
@@ -245,8 +241,8 @@ class Streams extends Component {
     // handle error
     this.ws.onclose = e => {
       Log.warn(`ws closed`);
-      if (!e.wasClean) {
-        this.startWs(wsUrl.replace('wss://', 'ws://'), rippledUrl);
+      if (!e.wasClean && wss) {
+        this.startWs(rippledUrl, false);
       }
     };
 
