@@ -7,23 +7,7 @@ import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import OfferCreateData from './mock_data/rippledOfferCreate.json';
 import { formatTransaction } from '../../../rippled/lib/utils';
-
-class TestWsClient {
-  constructor() {
-    this.responses = [];
-    this.responseCounter = 0;
-  }
-
-  addResponse(response) {
-    this.responses.push(response);
-  }
-
-  async send(obj) {
-    const response = this.responses[this.responseCounter];
-    this.responseCounter += 1;
-    return response;
-  }
-}
+import TestWsClient from '../../test/testWsClient';
 
 describe('Transaction actions', () => {
   const middlewares = [thunk];
@@ -71,7 +55,7 @@ describe('Transaction actions', () => {
       },
     ];
 
-    client.addResponse({});
+    client.addResponse({}, true);
 
     await store.dispatch(actions.loadTransaction(OfferCreateData.result.hash, client));
 
