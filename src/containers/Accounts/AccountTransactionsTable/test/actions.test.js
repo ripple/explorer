@@ -5,6 +5,7 @@ import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
 import successfulAccountTx from './successfulAccountTx.json';
+import TestWsClient from '../../../test/testWsClient';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 
@@ -20,6 +21,7 @@ describe('AccountTransactionsTable Actions', () => {
   });
 
   it('should dispatch correct actions on successful loadAccountTransactions', () => {
+    const client = new TestWsClient();
     const expectedData = {
       marker: undefined,
       transactions: [
@@ -55,13 +57,13 @@ describe('AccountTransactionsTable Actions', () => {
       { type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
-      status: 200,
-      response: successfulAccountTx,
-    });
-    return store.dispatch(actions.loadAccountTransactions(TEST_ADDRESS)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    client.addResponse(successfulAccountTx.result);
+
+    return store
+      .dispatch(actions.loadAccountTransactions(TEST_ADDRESS, undefined, client))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
 
   it('should dispatch correct actions on none 2xx fail loadAccountTransactions', () => {
@@ -74,11 +76,7 @@ describe('AccountTransactionsTable Actions', () => {
       },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
-      status: 500,
-      response: null,
-    });
-    return store.dispatch(actions.loadAccountTransactions(TEST_ADDRESS)).then(() => {
+    return store.dispatch(actions.loadAccountTransactions(TEST_ADDRESS, null)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
