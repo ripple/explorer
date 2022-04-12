@@ -5,6 +5,7 @@ import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
 import successfulAccountTx from './successfulAccountTx.json';
+import TestWsClient from '../../../test/testWsClient';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 const TEST_CURRENCY = 'abc';
@@ -21,6 +22,7 @@ describe('TokenTransactionsTable Actions', () => {
   });
 
   it('should dispatch correct actions on successful loadTokenTransactions', () => {
+    const client = new TestWsClient();
     const expectedData = {
       marker: undefined,
       transactions: [
@@ -57,13 +59,12 @@ describe('TokenTransactionsTable Actions', () => {
       { type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
-      status: 200,
-      response: successfulAccountTx,
-    });
-    return store.dispatch(actions.loadTokenTransactions(TEST_ADDRESS, TEST_CURRENCY)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    client.addResponse(successfulAccountTx.result);
+    return store
+      .dispatch(actions.loadTokenTransactions(TEST_ADDRESS, TEST_CURRENCY, undefined, client))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
 
   it('should dispatch correct actions on none 2xx fail loadTokenTransactions', () => {
@@ -76,12 +77,10 @@ describe('TokenTransactionsTable Actions', () => {
       },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
-      status: 500,
-      response: null,
-    });
-    return store.dispatch(actions.loadTokenTransactions(TEST_ADDRESS, TEST_CURRENCY)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    return store
+      .dispatch(actions.loadTokenTransactions(TEST_ADDRESS, TEST_CURRENCY, undefined, null))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
 });
