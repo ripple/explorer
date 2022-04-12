@@ -8,10 +8,6 @@ import * as actionTypes from '../actionTypes';
 import OfferCreateData from './mock_data/rippledOfferCreate.json';
 import { formatTransaction } from '../../../rippled/lib/utils';
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 class TestWsClient {
   constructor() {
     this.responses = [];
@@ -30,8 +26,6 @@ class TestWsClient {
 }
 
 describe('Transaction actions', () => {
-  jest.setTimeout(5000);
-
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   let store;
@@ -55,9 +49,8 @@ describe('Transaction actions', () => {
 
     client.addResponse(OfferCreateData.result);
 
-    store.dispatch(actions.loadTransaction(OfferCreateData.result.hash, client));
+    await store.dispatch(actions.loadTransaction(OfferCreateData.result.hash, client));
 
-    await sleep(100);
     const receivedActions = store.getActions();
     expect(receivedActions[0]).toEqual(expectedActions[0]);
     expect(receivedActions[1]).toEqual(expectedActions[1]);
@@ -80,9 +73,8 @@ describe('Transaction actions', () => {
 
     client.addResponse({});
 
-    store.dispatch(actions.loadTransaction(OfferCreateData.result.hash, client));
+    await store.dispatch(actions.loadTransaction(OfferCreateData.result.hash, client));
 
-    await sleep(100);
     const receivedActions = store.getActions();
     expect(receivedActions).toEqual(expectedActions);
   });
