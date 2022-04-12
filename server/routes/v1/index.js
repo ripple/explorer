@@ -1,5 +1,4 @@
 const api = require('express').Router();
-const getCors = require('./cors');
 const getTokenDiscovery = require('./tokenDiscovery');
 const getValidators = require('./validators');
 const getNodes = require('./nodes');
@@ -7,7 +6,6 @@ const getValidatorReport = require('./validatorReport');
 const getHealth = require('./health');
 const getCurrentMetrics = require('./currentMetrics');
 
-api.use('/cors/:url', getCors);
 if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
   api.use('/token/top', getTokenDiscovery);
 }
