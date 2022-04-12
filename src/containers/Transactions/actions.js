@@ -10,7 +10,6 @@ export const loadTransaction = (identifier, rippledSocket) => dispatch => {
     });
     return Promise.resolve();
   }
-  console.log(identifier, rippledSocket, typeof rippledSocket);
 
   dispatch({ type: actionTypes.START_LOADING_TRANSACTION, data: { id: identifier } });
   return getTransaction(identifier, rippledSocket)
@@ -19,7 +18,6 @@ export const loadTransaction = (identifier, rippledSocket) => dispatch => {
       dispatch({ type: actionTypes.LOADING_TRANSACTION_SUCCESS, data });
     })
     .catch(error => {
-      console.log(error);
       const status = error.code;
       analytics(ANALYTIC_TYPES.exception, {
         exDescription: `transaction ${identifier} --- ${JSON.stringify(error.message)}`,

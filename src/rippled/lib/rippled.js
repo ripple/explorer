@@ -34,7 +34,6 @@ const formatPaychannel = d => ({
 
 const executeQuery = async (rippledSocket, params) => {
   return rippledSocket.send(params).catch(error => {
-    console.log(error);
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
