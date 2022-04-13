@@ -1,13 +1,12 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
 import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils';
 import moxiosData from './rippledResponses.json';
-import MockResponse from '../../../test/mockRippledResponse';
 import actNotFound from '../../../Token/TokenHeader/test/actNotFound.json';
+import TestStreamWsClient from '../../../test/testStreamWsClient';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 const TEST_X_ADDRESS = 'XV3oNHx95sqdCkTDCBCVsVeuBmvh2dz5fTZvfw8UCcMVsfe';
@@ -15,15 +14,17 @@ const TEST_X_ADDRESS = 'XV3oNHx95sqdCkTDCBCVsVeuBmvh2dz5fTZvfw8UCcMVsfe';
 describe('AccountHeader Actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
+  let client;
   beforeEach(() => {
-    moxios.install();
+    client = new TestStreamWsClient();
   });
 
   afterEach(() => {
-    moxios.uninstall();
+    client.close();
   });
 
   it('should dispatch correct actions on successful loadAccountState', () => {
+    client.addResponses(moxiosData);
     const expectedData = {
       account: 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv',
       ledger_index: 68990183,
@@ -54,16 +55,14 @@ describe('AccountHeader Actions', () => {
       { type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(
-      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
-      new MockResponse(moxiosData)
-    );
-    return store.dispatch(actions.loadAccountState(TEST_ADDRESS)).then(() => {
+
+    return store.dispatch(actions.loadAccountState(TEST_ADDRESS, client)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
   it('should dispatch correct actions on successful loadAccountState for X-Address', () => {
+    client.addResponses(moxiosData);
     const expectedData = {
       account: 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv',
       ledger_index: 68990183,
@@ -98,16 +97,13 @@ describe('AccountHeader Actions', () => {
       { type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(
-      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
-      new MockResponse(moxiosData)
-    );
-    return store.dispatch(actions.loadAccountState(TEST_X_ADDRESS)).then(() => {
+    return store.dispatch(actions.loadAccountState(TEST_X_ADDRESS, client)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
   it('should dispatch correct actions on server error', () => {
+    client.setReturnError();
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_STATE },
       { type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE },
@@ -118,11 +114,8 @@ describe('AccountHeader Actions', () => {
       },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
-      status: SERVER_ERROR,
-      response: null,
-    });
-    return store.dispatch(actions.loadAccountState(TEST_ADDRESS)).then(() => {
+
+    return store.dispatch(actions.loadAccountState(TEST_ADDRESS, client)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -133,12 +126,9 @@ describe('AccountHeader Actions', () => {
       { type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE },
       { type: actionTypes.ACCOUNT_STATE_LOAD_FAIL, status: NOT_FOUND, error: '' },
     ];
+    client.addResponse('account_info', { result: actNotFound });
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
-      status: 200,
-      response: { result: actNotFound },
-    });
-    return store.dispatch(actions.loadAccountState(TEST_ADDRESS)).then(() => {
+    return store.dispatch(actions.loadAccountState(TEST_ADDRESS, client)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -148,7 +138,7 @@ describe('AccountHeader Actions', () => {
       { type: actionTypes.ACCOUNT_STATE_LOAD_FAIL, status: BAD_REQUEST, error: '' },
     ];
     const store = mockStore({ news: initialState });
-    store.dispatch(actions.loadAccountState('ZZZ')).then(() => {
+    store.dispatch(actions.loadAccountState('ZZZ', client)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

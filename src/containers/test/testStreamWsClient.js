@@ -1,24 +1,33 @@
 class TestStreamWsClient {
-  constructor(wsUrl) {
-    this.ws = new WebSocket(wsUrl);
+  constructor(wsUrl = null) {
+    this.handlesStreams = wsUrl != null;
     this.handlers = {};
     this.responses = {};
-    this.connected = false;
+    this.returnError = false;
+    this.endpoint = 'wss:localhost:1234';
 
-    this.ws.onmessage = message => {
-      const streamResult = JSON.parse(message.data);
-      if (this.handlers[streamResult?.type] != null) {
-        const handler = this.handlers[streamResult.type];
-        handler(streamResult);
-      }
-    };
+    if (this.handlesStreams) {
+      this.ws = new WebSocket(wsUrl);
+      this.ws.onmessage = message => {
+        const streamResult = JSON.parse(message.data);
+        if (this.handlers[streamResult?.type] != null) {
+          const handler = this.handlers[streamResult.type];
+          handler(streamResult);
+        }
+      };
+    }
+  }
 
-    this.ws.onopen = () => {
-      this.connected = true;
-    };
+  close() {
+    if (this.ws) {
+      this.ws.close();
+    }
   }
 
   on(listenerType, fn) {
+    if (!this.handlesStreams) {
+      throw new Error('This TestWsClient is not set up to handle streams');
+    }
     let key;
     if (listenerType === 'ledger') {
       key = 'ledgerClosed';
@@ -30,6 +39,10 @@ class TestStreamWsClient {
     this.handlers[key] = fn;
   }
 
+  setReturnError(error = true) {
+    this.returnError = error;
+  }
+
   addResponse(command, response) {
     this.responses[command] = response;
   }
@@ -39,8 +52,8 @@ class TestStreamWsClient {
   }
 
   send(message) {
-    if (!this.connected) {
-      throw new Error('Not connected');
+    if (this.returnError) {
+      return Promise.reject(new Error({}));
     }
     const { command } = message;
     return Promise.resolve(this.responses[command]?.result);
