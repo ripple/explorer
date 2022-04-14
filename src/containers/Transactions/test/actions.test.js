@@ -4,7 +4,7 @@ import { BAD_REQUEST } from '../../shared/utils';
 import { initialState } from '../reducer';
 import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
-import OfferCreateData from './mock_data/rippledOfferCreate.json';
+import offerCreateData from './mock_data/rippledOfferCreate.json';
 import { formatTransaction } from '../../../rippled/lib/utils';
 import MockWsClient from '../../test/mockWsClient';
 
@@ -25,14 +25,14 @@ describe('Transaction actions', () => {
 
   it('should dispatch correct actions on success for loadTransaction', async () => {
     const expectedActions = [
-      { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.result.hash } },
+      { type: actionTypes.START_LOADING_TRANSACTION, data: { id: offerCreateData.result.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },
     ];
-    const expectedData = formatTransaction(OfferCreateData.result);
+    const expectedData = formatTransaction(offerCreateData.result);
 
-    client.addResponse(OfferCreateData.result);
+    client.addResponse('tx', offerCreateData);
 
-    await store.dispatch(actions.loadTransaction(OfferCreateData.result.hash, client));
+    await store.dispatch(actions.loadTransaction(offerCreateData.result.hash, client));
 
     const receivedActions = store.getActions();
     expect(receivedActions[0]).toEqual(expectedActions[0]);
@@ -44,18 +44,18 @@ describe('Transaction actions', () => {
 
   it('should dispatch correct actions on fails for loadTransaction', async () => {
     const expectedActions = [
-      { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.result.hash } },
+      { type: actionTypes.START_LOADING_TRANSACTION, data: { id: offerCreateData.result.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },
       {
         type: actionTypes.LOADING_TRANSACTION_FAIL,
-        data: { error: 500, id: OfferCreateData.result.hash },
+        data: { error: 500, id: offerCreateData.result.hash },
         error: 'get_transaction_failed',
       },
     ];
 
-    client.addResponse({}, true);
+    client.setReturnError();
 
-    await store.dispatch(actions.loadTransaction(OfferCreateData.result.hash, client));
+    await store.dispatch(actions.loadTransaction(offerCreateData.result.hash, client));
 
     const receivedActions = store.getActions();
     expect(receivedActions).toEqual(expectedActions);

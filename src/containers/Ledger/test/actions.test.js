@@ -36,7 +36,7 @@ describe('Ledger actions', () => {
         data: summarizeLedger(mockLedger.result.ledger, true),
       },
     ];
-    client.addResponse(mockLedger.result);
+    client.addResponse('ledger', mockLedger);
 
     await store.dispatch(actions.loadLedger(mockLedger.result.ledger.ledger_index, client));
     expect(store.getActions()).toEqual(expectedActions);
@@ -54,7 +54,7 @@ describe('Ledger actions', () => {
         data: summarizeLedger(mockLedger.result.ledger, true),
       },
     ];
-    client.addResponse(mockLedger.result);
+    client.addResponse('ledger', mockLedger);
 
     await store.dispatch(actions.loadLedger(mockLedger.result.ledger.ledger_hash, client));
     expect(store.getActions()).toEqual(expectedActions);
@@ -82,7 +82,7 @@ describe('Ledger actions', () => {
         error: '',
       },
     ];
-    client.addResponse(ledgerNotFound.result);
+    client.addResponse('ledger', ledgerNotFound);
 
     await store.dispatch(actions.loadLedger(LEDGER_INDEX, client));
     expect(store.getActions()).toEqual(expectedActions);
@@ -101,7 +101,7 @@ describe('Ledger actions', () => {
         },
       },
     ];
-    client.addResponse({}, true);
+    client.setReturnError();
     await store.dispatch(actions.loadLedger(1, client));
 
     const receivedActions = store.getActions();

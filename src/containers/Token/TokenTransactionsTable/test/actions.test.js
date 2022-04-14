@@ -58,7 +58,7 @@ describe('TokenTransactionsTable Actions', () => {
       { type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    client.addResponse(successfulAccountTx.result);
+    client.addResponse('account_tx', successfulAccountTx);
     return store
       .dispatch(actions.loadTokenTransactions(TEST_ADDRESS, TEST_CURRENCY, undefined, client))
       .then(() => {
