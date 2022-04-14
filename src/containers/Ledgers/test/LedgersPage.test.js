@@ -15,7 +15,7 @@ import { initialState } from '../../../rootReducer';
 import prevLedgerMessage from './mock/prevLedger.json';
 import rippledResponses from './mock/rippled.json';
 import SocketContext from '../../shared/SocketContext';
-import TestStreamWsClient from '../../test/testStreamWsClient';
+import TestStreamWsClient from '../../test/mockWsClient';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

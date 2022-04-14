@@ -6,7 +6,7 @@ import { initialState } from '../reducer';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils';
 import rippledResponses from './rippledResponses.json';
 import actNotFound from './actNotFound.json';
-import TestStreamWsClient from '../../../test/testStreamWsClient';
+import TestStreamWsClient from '../../../test/mockWsClient';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 const TEST_CURRENCY = 'abc';

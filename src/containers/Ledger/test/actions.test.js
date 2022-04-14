@@ -7,7 +7,7 @@ import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { summarizeLedger } from '../../../rippled/lib/utils';
 import ledgerNotFound from './ledgerNotFound.json';
-import TestWsClient from '../../test/testWsClient';
+import MockWsClient from '../../test/mockWsClient';
 
 describe('Ledger actions', () => {
   const middlewares = [thunk];
@@ -22,7 +22,7 @@ describe('Ledger actions', () => {
   });
 
   it('should dispatch correct actions on success for loadLedger', async () => {
-    const client = new TestWsClient();
+    const client = new MockWsClient();
     const expectedActions = [
       {
         type: actionTypes.START_LOADING_FULL_LEDGER,
@@ -41,7 +41,7 @@ describe('Ledger actions', () => {
   });
 
   it('should dispatch correct actions on success for loadLedger (ledger hash)', async () => {
-    const client = new TestWsClient();
+    const client = new MockWsClient();
     const expectedActions = [
       {
         type: actionTypes.START_LOADING_FULL_LEDGER,
@@ -68,7 +68,7 @@ describe('Ledger actions', () => {
   });
 
   it('should dispatch correct actions on fail for loadLedger 404', async () => {
-    const client = new TestWsClient();
+    const client = new MockWsClient();
     const LEDGER_INDEX = 1234;
     const expectedActions = [
       { type: actionTypes.START_LOADING_FULL_LEDGER, data: { id: LEDGER_INDEX } },
@@ -89,7 +89,7 @@ describe('Ledger actions', () => {
   });
 
   it('should dispatch correct actions on fail for loadLedger 500', async () => {
-    const client = new TestWsClient();
+    const client = new MockWsClient();
     const expectedActions = [
       { type: actionTypes.START_LOADING_FULL_LEDGER, data: { id: 1 } },
       { type: actionTypes.FINISH_LOADING_FULL_LEDGER },

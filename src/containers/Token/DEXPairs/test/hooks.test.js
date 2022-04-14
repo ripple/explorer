@@ -7,7 +7,7 @@ import DEXPairs from '../index';
 import mockTopEndpoint from './mockTopEndpoint.json';
 import mockExchangeData from './mockExchangeData.json';
 import SocketContext from '../../../shared/SocketContext';
-import BaseTestStreamWsClient from '../../../test/testStreamWsClient';
+import BaseTestStreamWsClient from '../../../test/mockWsClient';
 
 const address = 'rHEQnRvqWccQALFfpG3YuoxxVyhDZnF4TS';
 const currency = 'USD';

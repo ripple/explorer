@@ -13,7 +13,7 @@ import Network from '../index';
 import mockValidators from './mockValidators.json';
 import validationMessage from './mockValidation.json';
 import SocketContext from '../../shared/SocketContext';
-import TestStreamWsClient from '../../test/testStreamWsClient';
+import TestStreamWsClient from '../../test/mockWsClient';
 
 /* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk];

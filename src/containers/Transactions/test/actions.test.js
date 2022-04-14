@@ -6,7 +6,7 @@ import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import OfferCreateData from './mock_data/rippledOfferCreate.json';
 import { formatTransaction } from '../../../rippled/lib/utils';
-import TestWsClient from '../../test/testWsClient';
+import MockWsClient from '../../test/mockWsClient';
 
 describe('Transaction actions', () => {
   const middlewares = [thunk];
@@ -21,7 +21,7 @@ describe('Transaction actions', () => {
   });
 
   it('should dispatch correct actions on success for loadTransaction', async () => {
-    const client = new TestWsClient();
+    const client = new MockWsClient();
     const expectedActions = [
       { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.result.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },
@@ -41,7 +41,7 @@ describe('Transaction actions', () => {
   });
 
   it('should dispatch correct actions on fails for loadTransaction', async () => {
-    const client = new TestWsClient();
+    const client = new MockWsClient();
     const expectedActions = [
       { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.result.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },

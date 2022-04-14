@@ -4,7 +4,7 @@ import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
 import successfulAccountTx from './successfulAccountTx.json';
-import TestWsClient from '../../../test/testWsClient';
+import MockWsClient from '../../../test/mockWsClient';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 
@@ -13,7 +13,7 @@ describe('AccountTransactionsTable Actions', () => {
   const mockStore = configureMockStore(middlewares);
 
   it('should dispatch correct actions on successful loadAccountTransactions', () => {
-    const client = new TestWsClient();
+    const client = new MockWsClient();
     const expectedData = {
       marker: undefined,
       transactions: [
