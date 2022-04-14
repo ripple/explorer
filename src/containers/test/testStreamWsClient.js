@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 class TestStreamWsClient {
   constructor(wsUrl = null) {
     this.handlesStreams = wsUrl != null;
@@ -5,6 +6,7 @@ class TestStreamWsClient {
     this.responses = {};
     this.returnError = false;
     this.endpoint = 'wss:localhost:1234';
+    this.p2pSocket = this;
 
     if (this.handlesStreams) {
       this.ws = new WebSocket(wsUrl);
@@ -59,5 +61,13 @@ class TestStreamWsClient {
     return Promise.resolve(this.responses[command]?.result);
   }
 }
+
+// class TestWsClientContext {
+//   constructor(wsUrl = null) {
+//     this.socket = new TestStreamWsClient(wsUrl);
+//     this.p2pSocket = this.socket;
+//   }
+
+// }
 
 export default TestStreamWsClient;
