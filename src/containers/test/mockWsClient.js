@@ -1,5 +1,4 @@
-/* eslint-disable max-classes-per-file */
-class TestStreamWsClient {
+class MockWsClient {
   constructor(wsUrl = null) {
     this.handlesStreams = wsUrl != null;
     this.handlers = {};
@@ -62,4 +61,4 @@ class TestStreamWsClient {
   }
 }
 
-export default TestStreamWsClient;
+export default MockWsClient;

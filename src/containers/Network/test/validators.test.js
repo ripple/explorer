@@ -13,7 +13,7 @@ import Network from '../index';
 import mockValidators from './mockValidators.json';
 import validationMessage from './mockValidation.json';
 import SocketContext from '../../shared/SocketContext';
-import TestStreamWsClient from '../../test/mockWsClient';
+import MockWsClient from '../../test/mockWsClient';
 
 /* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk];
@@ -40,7 +40,7 @@ describe('Validators Tab container', () => {
 
   beforeEach(async () => {
     server = new WS(WS_URL, { jsonProtocol: true });
-    client = new TestStreamWsClient(WS_URL);
+    client = new MockWsClient(WS_URL);
     await server.connected;
     moxios.install();
   });
@@ -48,6 +48,7 @@ describe('Validators Tab container', () => {
   afterEach(() => {
     moxios.uninstall();
     server.close();
+    client.close();
     WS.clean();
   });
 

@@ -15,7 +15,7 @@ import { initialState } from '../../../rootReducer';
 import prevLedgerMessage from './mock/prevLedger.json';
 import rippledResponses from './mock/rippled.json';
 import SocketContext from '../../shared/SocketContext';
-import TestStreamWsClient from '../../test/mockWsClient';
+import MockWsClient from '../../test/mockWsClient';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -46,7 +46,7 @@ describe('Ledgers Page container', () => {
 
   beforeEach(async () => {
     server = new WS(WS_URL, { jsonProtocol: true });
-    client = new TestStreamWsClient(WS_URL);
+    client = new MockWsClient(WS_URL);
     await server.connected;
     moxios.install();
   });
@@ -54,6 +54,7 @@ describe('Ledgers Page container', () => {
   afterEach(() => {
     moxios.uninstall();
     server.close();
+    client.close();
     WS.clean();
   });
 

@@ -11,9 +11,16 @@ const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 describe('AccountTransactionsTable Actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
+  let client;
+  beforeEach(() => {
+    client = new MockWsClient();
+  });
+
+  afterEach(() => {
+    client.close();
+  });
 
   it('should dispatch correct actions on successful loadAccountTransactions', () => {
-    const client = new MockWsClient();
     const expectedData = {
       marker: undefined,
       transactions: [

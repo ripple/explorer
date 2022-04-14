@@ -7,12 +7,12 @@ import DEXPairs from '../index';
 import mockTopEndpoint from './mockTopEndpoint.json';
 import mockExchangeData from './mockExchangeData.json';
 import SocketContext from '../../../shared/SocketContext';
-import BaseTestStreamWsClient from '../../../test/mockWsClient';
+import BaseMockWsClient from '../../../test/mockWsClient';
 
 const address = 'rHEQnRvqWccQALFfpG3YuoxxVyhDZnF4TS';
 const currency = 'USD';
 
-class TestStreamWsClient extends BaseTestStreamWsClient {
+class MockWsClient extends BaseMockWsClient {
   send(message) {
     if (this.returnError) {
       return Promise.reject(new Error({}));
@@ -28,7 +28,7 @@ class TestStreamWsClient extends BaseTestStreamWsClient {
 describe('Testing hooks', () => {
   let client;
   beforeEach(() => {
-    client = new TestStreamWsClient();
+    client = new MockWsClient();
     moxios.install();
   });
 

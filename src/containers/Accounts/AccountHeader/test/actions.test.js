@@ -6,7 +6,7 @@ import { initialState } from '../reducer';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils';
 import rippledResponses from './rippledResponses.json';
 import actNotFound from '../../../Token/TokenHeader/test/actNotFound.json';
-import TestStreamWsClient from '../../../test/mockWsClient';
+import MockWsClient from '../../../test/mockWsClient';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 const TEST_X_ADDRESS = 'XV3oNHx95sqdCkTDCBCVsVeuBmvh2dz5fTZvfw8UCcMVsfe';
@@ -16,7 +16,7 @@ describe('AccountHeader Actions', () => {
   const mockStore = configureMockStore(middlewares);
   let client;
   beforeEach(() => {
-    client = new TestStreamWsClient();
+    client = new MockWsClient();
   });
 
   afterEach(() => {

@@ -12,9 +12,16 @@ const TEST_CURRENCY = 'abc';
 describe('TokenTransactionsTable Actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
+  let client;
+  beforeEach(() => {
+    client = new MockWsClient();
+  });
+
+  afterEach(() => {
+    client.close();
+  });
 
   it('should dispatch correct actions on successful loadTokenTransactions', () => {
-    const client = new MockWsClient();
     const expectedData = {
       marker: undefined,
       transactions: [

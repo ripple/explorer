@@ -12,16 +12,18 @@ describe('Transaction actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   let store;
+  let client;
   beforeEach(() => {
     store = mockStore({ transaction: initialState });
+    client = new MockWsClient();
   });
 
   afterEach(() => {
     store = null;
+    client.close();
   });
 
   it('should dispatch correct actions on success for loadTransaction', async () => {
-    const client = new MockWsClient();
     const expectedActions = [
       { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.result.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },
@@ -41,7 +43,6 @@ describe('Transaction actions', () => {
   });
 
   it('should dispatch correct actions on fails for loadTransaction', async () => {
-    const client = new MockWsClient();
     const expectedActions = [
       { type: actionTypes.START_LOADING_TRANSACTION, data: { id: OfferCreateData.result.hash } },
       { type: actionTypes.FINISH_LOADING_TRANSACTION },
