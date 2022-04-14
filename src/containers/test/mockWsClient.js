@@ -1,4 +1,14 @@
+/**
+ * This is a mock WS client for testing purposes.
+ */
+
 class MockWsClient {
+  /**
+   * Construct the MockWsClient object.
+   * @param wsUrl The URL for a WebSocket connection. If null, there is no
+   * stream support (you can't test anything stream-related). The default is
+   * null.
+   */
   constructor(wsUrl = null) {
     this.handlesStreams = wsUrl != null;
     this.handlers = {};
@@ -7,6 +17,7 @@ class MockWsClient {
     this.endpoint = 'wss://fakenode.ripple.com:51233';
     this.p2pSocket = this;
 
+    // set up the message handler for streams
     if (this.handlesStreams) {
       this.ws = new WebSocket(wsUrl);
       this.ws.onmessage = message => {
@@ -19,13 +30,22 @@ class MockWsClient {
     }
   }
 
+  /**
+   * Close the WS connection (if needed).
+   */
   close() {
     if (this.ws) {
       this.ws.close();
     }
   }
 
-  on(listenerType, fn) {
+  /**
+   * Mock the `on` method of XrplClient.
+   * @param listenerType The category of stream. Not all streams are supported
+   * here, because we don't use all the streams.
+   * @param callback The callback method for the stream result.
+   */
+  on(listenerType, callback) {
     if (!this.handlesStreams) {
       throw new Error('This TestWsClient is not set up to handle streams');
     }
@@ -37,21 +57,44 @@ class MockWsClient {
     } else {
       throw new Error(`listener type doesn't exist: ${listenerType}`);
     }
-    this.handlers[key] = fn;
+    this.handlers[key] = callback;
   }
 
-  setReturnError(error = true) {
-    this.returnError = error;
+  /**
+   * Set whether the `send` method should return an error.
+   * @param returnError Whether the send method should return an error.
+   */
+  setReturnError(returnError = true) {
+    this.returnError = returnError;
   }
 
+  /**
+   * Add a new response to the mocks.
+   * @param command The rippled command that the message will contain.
+   * @param response The mock response object.
+   */
   addResponse(command, response) {
     this.responses[command] = response;
   }
 
+  /**
+   * Add several new responses to the mocks.
+   *
+   * The object should be in the shape of {command: response} where `command`
+   * is the rippled command that the message will contain, and `response` is
+   * the mock response object.
+   * @param responseObj The responses to add to the mocks.
+   */
   addResponses(responseObj) {
     this.responses = Object.assign(this.responses, responseObj);
   }
 
+  /**
+   * Mocks the `send` method on XrplClient.
+   * @param message The message to rippled.
+   * @returns a Promise result. If `this.returnError` has been set to `true`,
+   * the promise will be rejected with an empty shape.
+   */
   send(message) {
     if (this.returnError) {
       return Promise.reject(new Error({}));
