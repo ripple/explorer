@@ -56,7 +56,7 @@ describe('AccountTransactionsTable Actions', () => {
       { type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    client.addResponse(successfulAccountTx.result);
+    client.addResponse('account_tx', successfulAccountTx);
 
     return store
       .dispatch(actions.loadAccountTransactions(TEST_ADDRESS, undefined, client))
@@ -75,8 +75,10 @@ describe('AccountTransactionsTable Actions', () => {
       },
     ];
     const store = mockStore({ news: initialState });
-    return store.dispatch(actions.loadAccountTransactions(TEST_ADDRESS, null)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    return store
+      .dispatch(actions.loadAccountTransactions(TEST_ADDRESS, undefined, client))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
 });
