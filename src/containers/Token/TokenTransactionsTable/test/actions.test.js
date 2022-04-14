@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
 import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
@@ -13,13 +12,6 @@ const TEST_CURRENCY = 'abc';
 describe('TokenTransactionsTable Actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
-  beforeEach(() => {
-    moxios.install();
-  });
-
-  afterEach(() => {
-    moxios.uninstall();
-  });
 
   it('should dispatch correct actions on successful loadTokenTransactions', () => {
     const client = new TestWsClient();

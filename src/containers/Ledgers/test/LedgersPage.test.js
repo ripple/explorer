@@ -13,7 +13,7 @@ import ledgerMessage from './mock/ledger.json';
 import validationMessage from './mock/validation.json';
 import { initialState } from '../../../rootReducer';
 import prevLedgerMessage from './mock/prevLedger.json';
-import moxiosData from './mock/rippled.json';
+import rippledResponses from './mock/rippled.json';
 import SocketContext from '../../shared/SocketContext';
 import TestStreamWsClient from '../../test/testStreamWsClient';
 
@@ -74,7 +74,7 @@ describe('Ledgers Page container', () => {
   });
 
   test('receives messages from streams', async () => {
-    client.addResponses(moxiosData);
+    client.addResponses(rippledResponses);
     const wrapper = createWrapper();
 
     moxios.stubRequest(`/api/v1/validators`, {

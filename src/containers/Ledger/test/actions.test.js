@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
 import mockLedger from './mockLedger.json';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../shared/utils';
 import { initialState } from '../reducer';
@@ -16,12 +15,10 @@ describe('Ledger actions', () => {
   let store;
   beforeEach(() => {
     store = mockStore({ ledger: initialState });
-    moxios.install();
   });
 
   afterEach(() => {
     store = null;
-    moxios.uninstall();
   });
 
   it('should dispatch correct actions on success for loadLedger', async () => {

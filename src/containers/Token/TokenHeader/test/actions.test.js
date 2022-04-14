@@ -4,7 +4,7 @@ import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils';
-import moxiosData from './rippledResponses.json';
+import rippledResponses from './rippledResponses.json';
 import actNotFound from './actNotFound.json';
 import TestStreamWsClient from '../../../test/testStreamWsClient';
 
@@ -26,7 +26,7 @@ describe('TokenHeader Actions', () => {
   });
 
   it('should dispatch correct actions on successful loadTokenState', () => {
-    client.addResponses(moxiosData);
+    client.addResponses(rippledResponses);
     const expectedData = {
       name: undefined,
       obligations: '100',

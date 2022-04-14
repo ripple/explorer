@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
 import { BAD_REQUEST } from '../../shared/utils';
 import { initialState } from '../reducer';
 import * as actions from '../actions';
@@ -15,12 +14,10 @@ describe('Transaction actions', () => {
   let store;
   beforeEach(() => {
     store = mockStore({ transaction: initialState });
-    moxios.install();
   });
 
   afterEach(() => {
     store = null;
-    moxios.uninstall();
   });
 
   it('should dispatch correct actions on success for loadTransaction', async () => {
