@@ -5,7 +5,7 @@ class TestStreamWsClient {
     this.handlers = {};
     this.responses = {};
     this.returnError = false;
-    this.endpoint = 'wss:localhost:1234';
+    this.endpoint = 'wss://fakenode.ripple.com:51233';
     this.p2pSocket = this;
 
     if (this.handlesStreams) {
@@ -61,13 +61,5 @@ class TestStreamWsClient {
     return Promise.resolve(this.responses[command]?.result);
   }
 }
-
-// class TestWsClientContext {
-//   constructor(wsUrl = null) {
-//     this.socket = new TestStreamWsClient(wsUrl);
-//     this.p2pSocket = this.socket;
-//   }
-
-// }
 
 export default TestStreamWsClient;
