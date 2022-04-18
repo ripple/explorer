@@ -8,18 +8,18 @@ module.exports = (tx, meta) => {
   );
   const nftNode = affectedNode.CreatedNode ?? affectedNode.ModifiedNode;
 
-  const previousTokenIds = nftNode?.PreviousFields?.NonFungibleTokens?.map(
-    token => token?.NonFungibleToken?.TokenID
+  const previousTokenIds = nftNode?.PreviousFields?.NFTokens?.map(
+    token => token?.NFToken?.NFTokenID
   );
   const previousTokenIdSet = new Set(previousTokenIds);
-  const finalTokenIds = (nftNode.FinalFields ?? nftNode.NewFields)?.NonFungibleTokens?.map(
-    token => token?.NonFungibleToken?.TokenID
+  const finalTokenIds = (nftNode.FinalFields ?? nftNode.NewFields)?.NFTokens?.map(
+    token => token?.NFToken?.NFTokenID
   );
   const tokenID = finalTokenIds.find(tid => !previousTokenIdSet.has(tid));
 
   return {
     tokenID,
-    tokenTaxon: tx.TokenTaxon,
+    tokenTaxon: tx.NFTokenTaxon,
     uri: utils.convertHexToString(tx.URI),
   };
 };

@@ -6,7 +6,7 @@ module.exports = (tx, meta) => {
   ).map(node => ({
     offerID: node.DeletedNode.LedgerIndex,
     amount: formatAmount(node.DeletedNode.FinalFields.Amount),
-    tokenID: node.DeletedNode.FinalFields.TokenID,
+    tokenID: node.DeletedNode.FinalFields.NFTokenID,
     offerer: node.DeletedNode.FinalFields.Owner,
   }));
 

@@ -1,5 +1,5 @@
 module.exports = (tx, meta) => {
   return {
-    tokenID: tx.TokenID,
+    tokenID: tx.NFTokenID,
   };
 };

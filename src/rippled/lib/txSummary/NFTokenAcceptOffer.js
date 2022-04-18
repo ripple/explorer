@@ -6,14 +6,14 @@ module.exports = (tx, meta) => {
   ).DeletedNode.FinalFields;
 
   const amount = formatAmount(acceptedOfferNode.Amount);
-  const tokenID = acceptedOfferNode.TokenID;
+  const tokenID = acceptedOfferNode.NFTokenID;
   const offerer = acceptedOfferNode.Owner;
   const accepter = tx.Account;
   const isSellOffer = (acceptedOfferNode.Flags & 1) !== 0;
   const seller = isSellOffer ? offerer : accepter;
   const buyer = isSellOffer ? accepter : offerer;
 
-  const acceptedOfferIDs = [tx.BuyOffer, tx.SellOffer].filter(offer => offer);
+  const acceptedOfferIDs = [tx.NFTokenBuyOffer, tx.NFTokenSellOffer].filter(offer => offer);
 
   return {
     amount,
