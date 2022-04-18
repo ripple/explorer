@@ -16,11 +16,11 @@ const cacheBustRegExp = new RegExp('\\.[0-9a-f]{20}\\.');
 const files = express.static(path.join(__dirname, '/../build'), {
   etag: true, // Just being explicit about the default.
   lastModified: true,  // Just being explicit about the default.
-  setHeaders: (res, path) => {
-    if (path.endsWith('.html')) {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
       // All the project's HTML files end in .html
       res.setHeader('Cache-Control', 'no-cache');
-    } else if (cacheBustRegExp.test(path)) {
+    } else if (cacheBustRegExp.test(filePath)) {
       // If the RegExp matched, then we have a versioned URL.
       res.setHeader('Cache-Control', 'max-age=31536000');
     }
