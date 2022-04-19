@@ -46,6 +46,12 @@ class App extends Component {
     } = match;
     const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST;
     this.socket = new XrplClient([`wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`]);
+    this.hasP2PSocket = process.env.REACT_APP_P2P_RIPPLED_HOST !== '';
+    this.socket.p2pSocket = this.hasP2PSocket
+      ? new XrplClient([
+          `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+        ])
+      : undefined;
   }
 
   componentDidMount() {
@@ -54,6 +60,9 @@ class App extends Component {
     window.addEventListener('scroll', actions.onScroll);
 
     this.socket.reinstate();
+    if (this.hasP2PSocket) {
+      this.socket.p2pSocket.reinstate();
+    }
   }
 
   componentWillUnmount() {
@@ -61,6 +70,9 @@ class App extends Component {
     window.removeEventListener('resize', actions.updateViewportDimensions);
     window.removeEventListener('scroll', actions.onScroll);
     this.socket.close();
+    if (this.hasP2PSocket) {
+      this.socket.p2pSocket.close();
+    }
   }
 
   render() {

@@ -1,9 +1,7 @@
 import { unix } from 'moment';
-import { XrplClient } from 'xrpl-client';
 import { Error, XRP_BASE, EPOCH_OFFSET } from './utils';
 
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
-const P2P_URL = process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST;
 
 const formatEscrow = d => ({
   id: d.index,
@@ -45,13 +43,13 @@ const executeQuery = async (rippledSocket, params) => {
 
 // generic RPC query
 function query(rippledSocket, options) {
-  return executeQuery(rippledSocket ?? process.env.REACT_APP_RIPPLED_HOST, options);
+  return executeQuery(rippledSocket, options);
 }
 
 // If there is a separate peer to peer (not reporting mode) server for admin requests, use it.
 // Otherwise use the default rippledSocket for everything.
 function queryP2P(rippledSocket, options) {
-  return executeQuery(new XrplClient([`${P2P_URL}:51233`]) ?? rippledSocket, options);
+  return executeQuery(rippledSocket.p2pSocket ?? rippledSocket, options);
 }
 
 // get ledger

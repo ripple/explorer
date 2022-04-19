@@ -1,22 +1,23 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
 import * as actions from '../actions';
 import * as actionTypes from '../actionTypes';
 import { initialState } from '../reducer';
 import successfulAccountTx from './successfulAccountTx.json';
+import MockWsClient from '../../../test/mockWsClient';
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
 
 describe('AccountTransactionsTable Actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
+  let client;
   beforeEach(() => {
-    moxios.install();
+    client = new MockWsClient();
   });
 
   afterEach(() => {
-    moxios.uninstall();
+    client.close();
   });
 
   it('should dispatch correct actions on successful loadAccountTransactions', () => {
@@ -55,13 +56,13 @@ describe('AccountTransactionsTable Actions', () => {
       { type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
-      status: 200,
-      response: successfulAccountTx,
-    });
-    return store.dispatch(actions.loadAccountTransactions(TEST_ADDRESS)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    client.addResponse('account_tx', successfulAccountTx);
+
+    return store
+      .dispatch(actions.loadAccountTransactions(TEST_ADDRESS, undefined, client))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
 
   it('should dispatch correct actions on none 2xx fail loadAccountTransactions', () => {
@@ -74,12 +75,10 @@ describe('AccountTransactionsTable Actions', () => {
       },
     ];
     const store = mockStore({ news: initialState });
-    moxios.stubRequest(`/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`, {
-      status: 500,
-      response: null,
-    });
-    return store.dispatch(actions.loadAccountTransactions(TEST_ADDRESS)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    return store
+      .dispatch(actions.loadAccountTransactions(TEST_ADDRESS, undefined, client))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
 });
