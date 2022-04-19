@@ -2,7 +2,7 @@ import { getTransaction } from '../../rippled';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST, HASH_REGEX } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 
-export const loadTransaction = (identifier, url) => dispatch => {
+export const loadTransaction = (identifier, rippledSocket) => dispatch => {
   if (!HASH_REGEX.test(identifier)) {
     dispatch({
       type: actionTypes.LOADING_TRANSACTION_FAIL,
@@ -12,7 +12,7 @@ export const loadTransaction = (identifier, url) => dispatch => {
   }
 
   dispatch({ type: actionTypes.START_LOADING_TRANSACTION, data: { id: identifier } });
-  return getTransaction(identifier, url)
+  return getTransaction(identifier, rippledSocket)
     .then(data => {
       dispatch({ type: actionTypes.FINISH_LOADING_TRANSACTION });
       dispatch({ type: actionTypes.LOADING_TRANSACTION_SUCCESS, data });

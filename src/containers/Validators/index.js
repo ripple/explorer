@@ -12,6 +12,7 @@ import { loadValidator } from './actions';
 import SimpleTab from './SimpleTab';
 import HistoryTab from './HistoryTab';
 import './validator.css';
+import SocketContext from '../shared/SocketContext';
 
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -51,8 +52,10 @@ class Validator extends Component {
       path: `/validators/:identifier/${tab}`,
     });
 
+    const rippledSocket = this.context;
+
     if (identifier && identifier !== data.master_key && identifier !== data.signing_key) {
-      actions.loadValidator(identifier);
+      actions.loadValidator(identifier, rippledSocket);
     }
   }
 
@@ -154,6 +157,7 @@ class Validator extends Component {
     );
   }
 }
+Validator.contextType = SocketContext;
 
 Validator.propTypes = {
   t: PropTypes.func.isRequired,

@@ -1,11 +1,7 @@
-import { post } from 'axios';
-import { hostname } from 'os';
 import { unix } from 'moment';
 import { Error, XRP_BASE, EPOCH_OFFSET } from './utils';
 
-const HOSTNAME = hostname();
 const N_UNL_INDEX = '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244';
-const P2P_URL = process.env.REACT_APP_P2P_RIPPLED_HOST ?? process.env.REACT_APP_RIPPLED_HOST;
 
 const formatEscrow = d => ({
   id: d.index,
@@ -34,116 +30,158 @@ const formatPaychannel = d => ({
   settleDelay: d.SettleDelay,
 });
 
-const executeQuery = (url, options) => {
-  const params = { options, headers: { 'X-User': HOSTNAME } };
-  return post(`/api/v1/cors/${url}`, params).catch(error => {
+const executeQuery = async (rippledSocket, params) => {
+  return rippledSocket.send(params).catch(error => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
         : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
-    throw new Error(`URL: ${url} - ${message}`, code);
+    throw new Error(`URL: ${rippledSocket.endpoint} - ${message}`, code);
   });
 };
 
 // generic RPC query
-function query(url, options) {
-  return executeQuery(url ?? process.env.REACT_APP_RIPPLED_HOST, options);
+function query(rippledSocket, options) {
+  return executeQuery(rippledSocket, options);
 }
 
 // If there is a separate peer to peer (not reporting mode) server for admin requests, use it.
-// Otherwise use the default url for everything.
-function queryP2P(url, options) {
-  return executeQuery(url ?? P2P_URL, options);
+// Otherwise use the default rippledSocket for everything.
+function queryP2P(rippledSocket, options) {
+  return executeQuery(rippledSocket.p2pSocket ?? rippledSocket, options);
 }
 
 // get ledger
-const getLedger = (url, parameters) => {
+const getLedger = (rippledSocket, parameters) => {
   const request = {
-    method: 'ledger',
-    params: [{ ...parameters, transactions: true, expand: true }],
+    command: 'ledger',
+    ...parameters,
+    transactions: true,
+    expand: true,
   };
 
-  return query(url, request)
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error_message === 'ledgerNotFound') {
-        throw new Error('ledger not found', 404);
-      }
+  return query(rippledSocket, request).then(resp => {
+    if (resp.error_message === 'ledgerNotFound') {
+      throw new Error('ledger not found', 404);
+    }
 
-      if (resp.error_message === 'ledgerIndexMalformed') {
-        throw new Error('invalid ledger index/hash', 400);
-      }
+    if (resp.error_message === 'ledgerIndexMalformed') {
+      throw new Error('invalid ledger index/hash', 400);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      if (!resp.validated) {
-        throw new Error('ledger not validated', 404);
-      }
-      return resp.ledger;
-    });
+    if (!resp.validated) {
+      throw new Error('ledger not validated', 404);
+    }
+    return resp.ledger;
+  });
 };
 
 // get transaction
-const getTransaction = (url, txHash) => {
+const getTransaction = (rippledSocket, txHash) => {
   const params = {
-    method: 'tx',
-    params: [{ transaction: txHash }],
+    command: 'tx',
+    transaction: txHash,
   };
 
-  return query(url, params)
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'txnNotFound') {
-        throw new Error('transaction not found', 404);
-      }
+  return query(rippledSocket, params).then(resp => {
+    if (resp.error === 'txnNotFound') {
+      throw new Error('transaction not found', 404);
+    }
 
-      if (resp.error === 'notImpl') {
-        throw new Error('invalid transaction hash', 400);
-      }
+    if (resp.error === 'notImpl') {
+      throw new Error('invalid transaction hash', 400);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      if (!resp.validated) {
-        throw new Error('transaction not validated', 500);
-      }
-      return resp;
-    });
+    if (!resp.validated) {
+      throw new Error('transaction not validated', 500);
+    }
+    return resp;
+  });
 };
 
 // get account info
-const getAccountInfo = (url, account) =>
-  query(url, {
-    method: 'account_info',
-    params: [{ account, ledger_index: 'validated', signer_lists: true }],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'actNotFound') {
-        throw new Error('account not found', 404);
-      }
+const getAccountInfo = (rippledSocket, account) =>
+  query(rippledSocket, {
+    command: 'account_info',
+    account,
+    ledger_index: 'validated',
+    signer_lists: true,
+  }).then(resp => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      return Object.assign(resp.account_data, {
-        ledger_index: resp.ledger_index,
-      });
+    return Object.assign(resp.account_data, {
+      ledger_index: resp.ledger_index,
     });
+  });
 
 // get account escrows
-const getAccountEscrows = (url, account, ledger_index = 'validated') =>
-  query(url, {
-    method: 'account_objects',
-    params: [{ account, ledger_index, type: 'escrow', limit: 400 }],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
+const getAccountEscrows = (rippledSocket, account, ledger_index = 'validated') =>
+  query(rippledSocket, {
+    command: 'account_objects',
+    account,
+    ledger_index,
+    type: 'escrow',
+    limit: 400,
+  }).then(resp => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404);
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
+
+    if (!resp.account_objects.length) {
+      return undefined;
+    }
+
+    const escrows = { in: [], out: [], total: 0, totalIn: 0, totalOut: 0 };
+    resp.account_objects.forEach(d => {
+      const amount = Number(d.Amount);
+      escrows.total += amount;
+      if (account === d.Destination) {
+        escrows.in.push(formatEscrow(d));
+        escrows.totalIn += amount;
+      } else {
+        escrows.out.push(formatEscrow(d));
+        escrows.totalOut += amount;
+      }
+    });
+
+    escrows.total /= XRP_BASE;
+    escrows.totalIn /= XRP_BASE;
+    escrows.totalOut /= XRP_BASE;
+    return escrows;
+  });
+
+// get account paychannels
+const getAccountPaychannels = async (rippledSocket, account, ledger_index = 'validated') => {
+  const list = [];
+  let remaining = 0;
+  const getChannels = marker =>
+    query(rippledSocket, {
+      command: 'account_objects',
+      marker,
+      account,
+      ledger_index,
+      type: 'payment_channel',
+      limit: 400,
+    }).then(resp => {
       if (resp.error === 'actNotFound') {
         throw new Error('account not found', 404);
       }
@@ -156,55 +194,13 @@ const getAccountEscrows = (url, account, ledger_index = 'validated') =>
         return undefined;
       }
 
-      const escrows = { in: [], out: [], total: 0, totalIn: 0, totalOut: 0 };
-      resp.account_objects.forEach(d => {
-        const amount = Number(d.Amount);
-        escrows.total += amount;
-        if (account === d.Destination) {
-          escrows.in.push(formatEscrow(d));
-          escrows.totalIn += amount;
-        } else {
-          escrows.out.push(formatEscrow(d));
-          escrows.totalOut += amount;
-        }
-      });
+      list.push(...resp.account_objects);
+      if (resp.marker) {
+        return getChannels(resp.marker);
+      }
 
-      escrows.total /= XRP_BASE;
-      escrows.totalIn /= XRP_BASE;
-      escrows.totalOut /= XRP_BASE;
-      return escrows;
+      return null;
     });
-
-// get account paychannels
-const getAccountPaychannels = async (url, account, ledger_index = 'validated') => {
-  const list = [];
-  let remaining = 0;
-  const getChannels = marker =>
-    query(url, {
-      method: 'account_objects',
-      params: [{ marker, account, ledger_index, type: 'payment_channel', limit: 400 }],
-    })
-      .then(resp => resp.data.result)
-      .then(resp => {
-        if (resp.error === 'actNotFound') {
-          throw new Error('account not found', 404);
-        }
-
-        if (resp.error_message) {
-          throw new Error(resp.error_message, 500);
-        }
-
-        if (!resp.account_objects.length) {
-          return undefined;
-        }
-
-        list.push(...resp.account_objects);
-        if (resp.marker) {
-          return getChannels(resp.marker);
-        }
-
-        return null;
-      });
 
   await getChannels();
   const channels = list.map(c => {
@@ -220,121 +216,106 @@ const getAccountPaychannels = async (url, account, ledger_index = 'validated') =
 };
 
 // get Token balance summary
-const getBalances = (url, account, ledger_index = 'validated') =>
-  queryP2P(url, {
-    method: 'gateway_balances',
-    params: [{ account, ledger_index }],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'actNotFound') {
-        throw new Error('account not found', 404);
-      }
+const getBalances = (rippledSocket, account, ledger_index = 'validated') =>
+  queryP2P(rippledSocket, {
+    command: 'gateway_balances',
+    account,
+    ledger_index,
+  }).then(resp => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 
 // get account transactions
-const getAccountTransactions = (url, account, limit = 20, marker = '') => {
+const getAccountTransactions = (rippledSocket, account, limit = 20, marker = '') => {
   const markerComponents = marker.split('.');
   const ledger = parseInt(markerComponents[0], 10);
   const seq = parseInt(markerComponents[1], 10);
-  return query(url, {
-    method: 'account_tx',
-    params: [
-      {
-        account,
-        limit,
-        ledger_index_max: -1,
-        ledger_index_min: -1,
-        marker: marker
-          ? {
-              ledger,
-              seq,
-            }
-          : undefined,
-      },
-    ],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'actNotFound') {
-        throw new Error('account not found', 404);
-      }
+  return query(rippledSocket, {
+    command: 'account_tx',
+    account,
+    limit,
+    ledger_index_max: -1,
+    ledger_index_min: -1,
+    marker: marker
+      ? {
+          ledger,
+          seq,
+        }
+      : undefined,
+  }).then(resp => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404);
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
-      return {
-        transactions: resp.transactions,
-        marker: resp.marker ? `${resp.marker.ledger}.${resp.marker.seq}` : undefined,
-      };
-    });
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
+    return {
+      transactions: resp.transactions,
+      marker: resp.marker ? `${resp.marker.ledger}.${resp.marker.seq}` : undefined,
+    };
+  });
 };
 
-const getNegativeUNL = url =>
-  query(url, {
-    method: 'ledger_entry',
-    params: [
-      {
-        index: N_UNL_INDEX,
-      },
-    ],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'entryNotFound') {
-        return [];
-      }
+const getNegativeUNL = rippledSocket =>
+  query(rippledSocket, {
+    command: 'ledger_entry',
+    index: N_UNL_INDEX,
+  }).then(resp => {
+    if (resp.error === 'entryNotFound') {
+      return [];
+    }
 
-      if (resp.error_message) {
-        throw new Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 
-const getServerInfo = url =>
-  query(url, {
-    method: 'server_info',
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error !== undefined || resp.error_message !== undefined) {
-        throw new Error(resp.error_message || resp.error, 500);
-      }
+const getServerInfo = rippledSocket =>
+  query(rippledSocket, {
+    command: 'server_info',
+  }).then(resp => {
+    if (resp.error !== undefined || resp.error_message !== undefined) {
+      throw new Error(resp.error_message || resp.error, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 
-const getOffers = (url, currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
-  return query(url, {
-    method: 'book_offers',
-    params: [
-      {
-        taker_gets: {
-          currency: `${currencyCode.toUpperCase()}`,
-          issuer: currencyCode.toUpperCase() === 'XRP' ? undefined : `${issuerAddress}`,
-        },
-        taker_pays: {
-          currency: `${pairCurrencyCode.toUpperCase()}`,
-          issuer: pairCurrencyCode.toUpperCase() === 'XRP' ? undefined : `${pairIssuerAddress}`,
-        },
-      },
-    ],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error !== undefined || resp.error_message !== undefined) {
-        throw new Error(resp.error_message || resp.error, 500);
-      }
+const getOffers = (
+  rippledSocket,
+  currencyCode,
+  issuerAddress,
+  pairCurrencyCode,
+  pairIssuerAddress
+) => {
+  return query(rippledSocket, {
+    command: 'book_offers',
+    taker_gets: {
+      currency: `${currencyCode.toUpperCase()}`,
+      issuer: currencyCode.toUpperCase() === 'XRP' ? undefined : `${issuerAddress}`,
+    },
+    taker_pays: {
+      currency: `${pairCurrencyCode.toUpperCase()}`,
+      issuer: pairCurrencyCode.toUpperCase() === 'XRP' ? undefined : `${pairIssuerAddress}`,
+    },
+  }).then(resp => {
+    if (resp.error !== undefined || resp.error_message !== undefined) {
+      throw new Error(resp.error_message || resp.error, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 };
 export {
   getLedger,

@@ -2,7 +2,7 @@ import { analytics, ANALYTIC_TYPES, BAD_REQUEST, DECIMAL_REGEX, HASH_REGEX } fro
 import * as actionTypes from './actionTypes';
 import { getLedger } from '../../rippled';
 
-export const loadLedger = (identifier, url) => dispatch => {
+export const loadLedger = (identifier, rippledSocket) => dispatch => {
   if (!DECIMAL_REGEX.test(identifier) && !HASH_REGEX.test(identifier)) {
     dispatch({
       type: actionTypes.LOADING_FULL_LEDGER_FAIL,
@@ -16,7 +16,7 @@ export const loadLedger = (identifier, url) => dispatch => {
     data: { id: identifier },
   });
 
-  return getLedger(identifier, url)
+  return getLedger(identifier, rippledSocket)
     .then(data => {
       dispatch({ type: actionTypes.FINISH_LOADING_FULL_LEDGER });
       dispatch({ type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data });

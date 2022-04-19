@@ -12,7 +12,7 @@ import Loader from '../../shared/components/Loader';
 import TxDetails from '../../shared/components/TxDetails';
 import './styles.css';
 import TxLabel from '../../shared/components/TxLabel';
-import UrlContext from '../../shared/urlContext';
+import SocketContext from '../../shared/SocketContext';
 
 const TIME_ZONE = 'UTC';
 const DATE_OPTIONS = {
@@ -30,7 +30,7 @@ export const AccountTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
   const { accountId, actions, data, loadingError } = props;
-  const rippledUrl = useContext(UrlContext);
+  const rippledSocket = useContext(SocketContext);
 
   useEffect(() => {
     if (data.transactions == null) return;
@@ -41,11 +41,11 @@ export const AccountTxTable = props => {
   }, [data]);
 
   useEffect(() => {
-    actions.loadAccountTransactions(accountId, undefined, rippledUrl);
-  }, [accountId, actions, rippledUrl]);
+    actions.loadAccountTransactions(accountId, undefined, rippledSocket);
+  }, [accountId, actions, rippledSocket]);
 
   const loadMoreTransactions = () => {
-    actions.loadAccountTransactions(accountId, marker, rippledUrl);
+    actions.loadAccountTransactions(accountId, marker, rippledSocket);
   };
 
   const renderListItem = tx => {

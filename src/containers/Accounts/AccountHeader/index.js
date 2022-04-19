@@ -11,7 +11,7 @@ import './balance-selector.css';
 import BalanceSelector from './BalanceSelector';
 import Account from '../../shared/components/Account';
 import { localizeNumber } from '../../shared/utils';
-import UrlContext from '../../shared/urlContext';
+import SocketContext from '../../shared/SocketContext';
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -22,7 +22,7 @@ const CURRENCY_OPTIONS = {
 
 const AccountHeader = props => {
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
-  const rippledUrl = useContext(UrlContext);
+  const rippledSocket = useContext(SocketContext);
 
   const {
     accountId,
@@ -36,8 +36,8 @@ const AccountHeader = props => {
   } = props;
 
   useEffect(() => {
-    actions.loadAccountState(accountId, rippledUrl);
-  }, [accountId, actions, rippledUrl]);
+    actions.loadAccountState(accountId, rippledSocket);
+  }, [accountId, actions, rippledSocket]);
 
   function toggleBalanceSelector(force) {
     setShowBalanceSelector(force !== undefined ? force : !showBalanceSelector);

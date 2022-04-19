@@ -12,42 +12,52 @@ import i18n from '../../../i18nTestConfig';
 import Network from '../index';
 import mockValidators from './mockValidators.json';
 import validationMessage from './mockValidation.json';
+import SocketContext from '../../shared/SocketContext';
+import MockWsClient from '../../test/mockWsClient';
 
 /* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const store = mockStore({ app: initialState });
 
-describe('Nodes Page container', () => {
+const WS_URL = 'ws://localhost:1234';
+
+describe('Validators Tab container', () => {
+  let server;
+  let client;
   const createWrapper = (props = {}) =>
     mount(
       <Router>
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
-            <Network {...props} match={{ params: { tab: 'validators' }, path: '/' }} />
+            <SocketContext.Provider value={client}>
+              <Network {...props} match={{ params: { tab: 'validators' }, path: '/' }} />
+            </SocketContext.Provider>
           </Provider>
         </I18nextProvider>
       </Router>
     );
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    server = new WS(WS_URL, { jsonProtocol: true });
+    client = new MockWsClient(WS_URL);
+    await server.connected;
     moxios.install();
   });
 
   afterEach(() => {
     moxios.uninstall();
+    server.close();
+    client.close();
+    WS.clean();
   });
 
-  it('renders without crashing', () => {
+  it('renders without crashing', async () => {
     const wrapper = createWrapper();
     wrapper.unmount();
   });
 
   it('receives live validation', async () => {
-    const server = new WS(
-      `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      { jsonProtocol: true }
-    );
     const wrapper = createWrapper();
 
     moxios.stubRequest('/api/v1/validators?verbose=true', {
@@ -59,7 +69,6 @@ describe('Nodes Page container', () => {
     expect(wrapper.find('.stat').html()).toBe('<div class="stat"></div>');
     expect(wrapper.find('.validators-table').length).toBe(1);
 
-    await server.connected;
     server.send(validationMessage);
 
     setTimeout(() => {

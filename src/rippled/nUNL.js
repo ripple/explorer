@@ -5,10 +5,10 @@ import logger from './lib/logger';
 
 const log = logger({ name: 'nunl' });
 
-const getNegativeUNL = url => {
+const getNegativeUNL = rippledSocket => {
   log.info(`getting nUNL from rippled`);
 
-  return getRippledNegativeUNL(url)
+  return getRippledNegativeUNL(rippledSocket)
     .then(result => {
       if (result === undefined || result.length === 0) return [];
 

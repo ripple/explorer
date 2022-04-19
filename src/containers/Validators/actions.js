@@ -3,14 +3,14 @@ import { getLedger } from '../../rippled';
 import { analytics, ANALYTIC_TYPES, SERVER_ERROR } from '../shared/utils';
 import * as actionTypes from './actionTypes';
 
-export const loadValidator = identifier => dispatch => {
+export const loadValidator = (identifier, socket) => dispatch => {
   dispatch({ type: actionTypes.START_LOADING_VALIDATOR, data: { id: identifier } });
   const url = `/api/v1/validators?verbose=true&key=${identifier}`;
   return axios
     .get(url)
     .then(response => {
       if (!response.data.ledger_hash) {
-        getLedger(response.data.ledger_index).then(ledgerData => {
+        getLedger(response.data.ledger_index, socket).then(ledgerData => {
           dispatch({ type: actionTypes.FINISH_LOADING_VALIDATOR });
           dispatch({
             type: actionTypes.LOADING_VALIDATOR_SUCCESS,

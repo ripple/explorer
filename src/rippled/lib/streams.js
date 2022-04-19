@@ -27,8 +27,8 @@ const sleep = ms => {
 };
 
 // fetch full ledger
-const fetchLedger = (ledger, rippledUrl, attempts = 0) => {
-  return getLedger(rippledUrl, { ledger_hash: ledger.ledger_hash })
+const fetchLedger = (ledger, rippledSocket, attempts = 0) => {
+  return getLedger(rippledSocket, { ledger_hash: ledger.ledger_hash })
     .then(summarizeLedger)
     .then(summary => {
       Object.assign(ledger, summary);
@@ -38,7 +38,7 @@ const fetchLedger = (ledger, rippledUrl, attempts = 0) => {
       log.error(error.toString());
       if (error.code === 404 && attempts < 5) {
         log.info(`retry ledger ${ledger.ledger_index} (attempt:${attempts + 1})`);
-        return sleep(500).then(() => fetchLedger(ledger, rippledUrl, attempts + 1));
+        return sleep(500).then(() => fetchLedger(ledger, rippledSocket, attempts + 1));
       }
       throw error;
     });

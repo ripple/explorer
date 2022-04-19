@@ -14,7 +14,7 @@ import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg';
 import { ReactComponent as ArrowIcon } from '../shared/images/down_arrow.svg';
 import { ReactComponent as CheckIcon } from '../shared/images/checkmark.svg';
 import './header.css';
-import UrlContext from '../shared/urlContext';
+import SocketContext from '../shared/SocketContext';
 
 const STATIC_ENV_LINKS = {
   mainnet: process.env.REACT_APP_MAINNET_LINK,
@@ -239,7 +239,7 @@ class Header extends Component {
     );
   }
 }
-Header.contextType = UrlContext;
+Header.contextType = SocketContext;
 
 Header.defaultProps = {
   inNetwork: true,

@@ -28,7 +28,6 @@ describe('The page', () => {
   });
 
   afterEach(() => {
-    // moxios.uninstall();
     wrapper.unmount();
   });
 

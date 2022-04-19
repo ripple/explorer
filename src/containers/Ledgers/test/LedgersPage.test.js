@@ -13,14 +13,19 @@ import ledgerMessage from './mock/ledger.json';
 import validationMessage from './mock/validation.json';
 import { initialState } from '../../../rootReducer';
 import prevLedgerMessage from './mock/prevLedger.json';
-import moxiosData from './mock/rippled.json';
-import MockResponse from '../../test/mockRippledResponse';
+import rippledResponses from './mock/rippled.json';
+import SocketContext from '../../shared/SocketContext';
+import MockWsClient from '../../test/mockWsClient';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const WS_URL = 'ws://localhost:1234';
+
 describe('Ledgers Page container', () => {
+  let server;
+  let client;
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   const createWrapper = (props = {}) => {
@@ -30,19 +35,27 @@ describe('Ledgers Page container', () => {
       <Router>
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
-            <Ledgers msg={props.msg} />
+            <SocketContext.Provider value={client}>
+              <Ledgers msg={props.msg} />
+            </SocketContext.Provider>
           </Provider>
         </I18nextProvider>
       </Router>
     );
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    server = new WS(WS_URL, { jsonProtocol: true });
+    client = new MockWsClient(WS_URL);
+    await server.connected;
     moxios.install();
   });
 
   afterEach(() => {
     moxios.uninstall();
+    server.close();
+    client.close();
+    WS.clean();
   });
 
   it('renders without crashing', () => {
@@ -62,10 +75,7 @@ describe('Ledgers Page container', () => {
   });
 
   test('receives messages from streams', async () => {
-    const server = new WS(
-      `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      { jsonProtocol: true }
-    );
+    client.addResponses(rippledResponses);
     const wrapper = createWrapper();
 
     moxios.stubRequest(`/api/v1/validators`, {
@@ -89,16 +99,10 @@ describe('Ledgers Page container', () => {
       ],
     });
 
-    moxios.stubRequest(
-      `/api/v1/cors/${process.env.REACT_APP_RIPPLED_HOST}`,
-      new MockResponse(moxiosData)
-    );
-
     expect(wrapper.find('.ledger').length).toBe(0);
     expect(wrapper.find('.validation').length).toBe(0);
     expect(wrapper.find('.txn').length).toBe(0);
 
-    await server.connected;
     server.send(prevLedgerMessage);
     await sleep(260);
     server.send(validationMessage);
