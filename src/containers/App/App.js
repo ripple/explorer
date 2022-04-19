@@ -45,7 +45,8 @@ class App extends Component {
       params: { rippledUrl = null },
     } = match;
     const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST;
-    this.socket = new XrplClient([`wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`]);
+    const rippledHostWithPort = `${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
+    this.socket = new XrplClient([`wss://${rippledHostWithPort}`, `ws://${rippledHostWithPort}`]);
     this.hasP2PSocket = process.env.REACT_APP_P2P_RIPPLED_HOST !== '';
     this.socket.p2pSocket = this.hasP2PSocket
       ? new XrplClient([
