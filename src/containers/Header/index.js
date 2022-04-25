@@ -68,7 +68,8 @@ class Header extends Component {
     if (!expanded) {
       return;
     }
-    const currentRippledUrl = this.context; // this is undefined if not in sidechain mode
+    const rippledSocket = this.context;
+    const currentRippledUrl = rippledSocket.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
     const newRippledUrl = event.currentTarget.getAttribute('value');
 
     if (newRippledUrl.toLowerCase() === currentRippledUrl.toLowerCase()) {
@@ -80,7 +81,8 @@ class Header extends Component {
 
   onInputKeyDown = event => {
     if (event.key === 'Enter') {
-      const currentRippledUrl = this.context;
+      const rippledSocket = this.context;
+      const currentRippledUrl = rippledSocket.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
       const rippledUrl = event.currentTarget.value.trim();
       if (
         currentRippledUrl != null &&
