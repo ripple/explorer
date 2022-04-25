@@ -8,8 +8,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { initialState } from '../../../rootReducer';
 import i18n from '../../../i18nTestConfig';
 import SidechainHome from '../index';
+import SocketContext from '../../shared/SocketContext';
+import MockWsClient from '../../test/mockWsClient';
 
 describe('SidechainHome page', () => {
+  let client;
   let wrapper;
 
   const middlewares = [thunk];
@@ -21,7 +24,9 @@ describe('SidechainHome page', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <SidechainHome />
+            <SocketContext.Provider value={client}>
+              <SidechainHome />
+            </SocketContext.Provider>
           </Router>
         </Provider>
       </I18nextProvider>
@@ -29,10 +34,12 @@ describe('SidechainHome page', () => {
   };
 
   beforeEach(async () => {
+    client = new MockWsClient();
     wrapper = createWrapper();
   });
 
   afterEach(() => {
+    client.close();
     wrapper.unmount();
   });
 
