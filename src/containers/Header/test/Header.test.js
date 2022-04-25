@@ -8,8 +8,11 @@ import { Provider } from 'react-redux';
 import { initialState } from '../../../rootReducer';
 import i18n from '../../../i18nTestConfig';
 import Header from '../index';
+import SocketContext from '../../shared/SocketContext';
+import MockWsClient from '../../test/mockWsClient';
 
 describe('Header component', () => {
+  let client;
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   const createWrapper = (state = {}) => {
@@ -18,12 +21,22 @@ describe('Header component', () => {
       <I18nextProvider i18n={i18n}>
         <Router>
           <Provider store={store}>
-            <Header />
+            <SocketContext.Provider value={client}>
+              <Header />
+            </SocketContext.Provider>
           </Provider>
         </Router>
       </I18nextProvider>
     );
   };
+
+  beforeEach(() => {
+    client = new MockWsClient();
+  });
+
+  afterEach(() => {
+    client.close();
+  });
 
   it('renders without crashing', () => {
     const wrapper = createWrapper();
