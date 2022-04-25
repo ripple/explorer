@@ -149,7 +149,7 @@ class Header extends Component {
   render() {
     const { t, isScrolled, width, inNetwork } = this.props;
     const { expanded } = this.state;
-    const rippledUrl = this.context;
+    const rippledSocket = this.context;
     const menu =
       width >= BREAKPOINTS.landscape || !inNetwork ? (
         <Menu t={t} currentPath={this.getCurrentPath()} inNetwork={inNetwork} />
@@ -165,7 +165,9 @@ class Header extends Component {
       // TODO: store previous sidechains in cookies, add them here
     };
 
-    if (rippledUrl != null) {
+    const rippledUrl = rippledSocket.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
+
+    if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
       urlLinkMap[rippledUrl] = `${process.env.REACT_APP_SIDECHAIN_LINK}${rippledUrl}`;
     }
 
@@ -194,7 +196,9 @@ class Header extends Component {
                   ? this.renderDropdown(
                       network,
                       this.handleCustomNetworkClick,
-                      classnames('item', 'custom', { selected: network === rippledUrl }),
+                      classnames('item', 'custom', {
+                        selected: network === rippledUrl,
+                      }),
                       `${t('sidechain_data')}: ${network.toLowerCase()}`
                     )
                   : this.renderDropdown(
