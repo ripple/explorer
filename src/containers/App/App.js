@@ -60,11 +60,6 @@ class App extends Component {
     const { actions } = this.props;
     window.addEventListener('resize', actions.updateViewportDimensions);
     window.addEventListener('scroll', actions.onScroll);
-
-    this.socket.reinstate();
-    if (this.hasP2PSocket) {
-      this.socket.p2pSocket.reinstate();
-    }
   }
 
   componentWillUnmount() {
