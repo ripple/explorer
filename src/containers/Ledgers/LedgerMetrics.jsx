@@ -74,11 +74,12 @@ class LedgerMetrics extends Component {
     delete data.base_fee;
     const items = Object.keys(data)
       .map(key => {
-        if (data[key] === undefined) return null;
-
         let content = null;
+
         let className = 'label';
-        if (key.includes('fee') && !isNaN(data[key])) {
+        if (data[key] === undefined && key !== 'nUnl') {
+          content = '--';
+        } else if (key.includes('fee') && !isNaN(data[key])) {
           content = renderXRP(data[key], language);
         } else if (key === 'ledger_interval' && data[key] !== '--') {
           content = `${data[key]} ${t('seconds_short')}`;

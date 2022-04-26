@@ -15,6 +15,7 @@ class LedgersPage extends Component {
     this.state = {
       validators: {},
       ledgers: [],
+      metrics: {},
       paused: false,
     };
   }
