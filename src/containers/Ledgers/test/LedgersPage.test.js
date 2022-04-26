@@ -127,6 +127,14 @@ describe('Ledgers Page container', () => {
       ],
     });
 
+    moxios.stubRequest('/api/v1/metrics', {
+      base_fee: '0.00001',
+      txn_sec: '12.19',
+      txn_ledger: '46.94',
+      ledger_interval: '3.850',
+      avg_fee: '0.001882',
+    });
+
     expect(wrapper.find('.ledger').length).toBe(0);
     expect(wrapper.find('.validation').length).toBe(0);
     expect(wrapper.find('.txn').length).toBe(0);
