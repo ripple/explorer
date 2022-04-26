@@ -119,7 +119,9 @@ class Streams extends Component {
     this.mounted = true;
     this.connect();
     this.updateNegativeUNL();
-    this.updateMetricsFromServer();
+    if (process.env.REACT_APP_ENVIRONMENT !== 'sidechain') {
+      this.updateMetricsFromServer();
+    }
     this.purge = setInterval(this.purge, 5000);
     this.purgeAll = setInterval(this.purgeAll, PURGE_INTERVAL);
 
@@ -152,10 +154,10 @@ class Streams extends Component {
     ledger.txn_count = txnCount;
     ledger.close_time = (data.ledger_time + EPOCH_OFFSET) * 1000;
 
-    const metrics = this.updateMetrics(data.fee_base / 1000000);
+    const baseFee = data.fee_base / 1000000;
     return {
       ledger,
-      metrics,
+      baseFee,
     };
   }
 
@@ -227,6 +229,9 @@ class Streams extends Component {
       this.setState(prevState => {
         const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
         ledgers[ledgerIndex] = Object.assign(ledgers[ledgerIndex] || { hashes: {} }, data);
+        if (ledgers[ledgerIndex].txn_count == null) {
+          ledgers[ledgerIndex].txn_count = data.transactions.length;
+        }
         this.updateLedgers(ledgers);
         return { ledgers, maxLedger };
       });
@@ -373,7 +378,7 @@ class Streams extends Component {
 
   // update rolling metrics
   updateMetrics(baseFee) {
-    const chain = this.organizeChain().slice(-100);
+    const ledgerChain = this.organizeChain().slice(-100);
 
     let time = 0;
     let fees = 0;
@@ -381,8 +386,8 @@ class Streams extends Component {
     let txCount = 0;
     let ledgerCount = 0;
 
-    chain.forEach((d, i) => {
-      const next = chain[i + 1];
+    ledgerChain.forEach((d, i) => {
+      const next = ledgerChain[i + 1];
       if (next && next.seen && d.seen) {
         time += next.seen - d.seen;
         timeCount += 1;
@@ -449,7 +454,10 @@ class Streams extends Component {
     const rippledSocket = this.context;
 
     rippledSocket.on('ledger', streamResult => {
-      const { ledger, metrics } = this.handleLedger(streamResult);
+      if (streamResult.type !== 'ledgerClosed') {
+        return;
+      }
+      const { ledger, baseFee } = this.handleLedger(streamResult);
       this.onledger(ledger);
       fetchLedger(ledger, rippledSocket)
         .then(ledgerSummary => {
@@ -471,7 +479,7 @@ class Streams extends Component {
       // calculate sidechain metrics on the frontend
       // because there is no backend server connection (since there is no one network)
       if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
-        this.onmetric(metrics);
+        this.onmetric(this.updateMetrics(baseFee));
       } else {
         this.updateMetricsFromServer();
       }
