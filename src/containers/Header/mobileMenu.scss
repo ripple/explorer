@@ -6,6 +6,8 @@
   float: right;
   font-family: 'Space Mono', monospace;
   font-size: 14px;
+  // account for regular menu right padding
+  margin-right: -20px;
   text-align: left;
   @include medium;
 
