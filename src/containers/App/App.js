@@ -46,9 +46,7 @@ class App extends Component {
     } = match;
     const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST;
     const wsUrls = [];
-    if (rippledHost.includes('wss')) {
-      wsUrls.push(rippledHost);
-    } else if (rippledHost.includes(':')) {
+    if (rippledHost.includes(':')) {
       wsUrls.push(`wss://${rippledHost}`);
     } else {
       wsUrls.push.apply(wsUrls, [
