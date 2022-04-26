@@ -108,7 +108,7 @@
       "!src/rootReducer.js",
       "!src/registerServiceWorker.js",
       "!src/containers/shared/images/*",
-      "!src/containers/test"
+      "!src/containers/test/*"
     ],
     "coverageThreshold": {
       "global": {
