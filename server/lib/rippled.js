@@ -15,10 +15,10 @@ const P2P_RIPPLED_CLIENT = HAS_P2P_SOCKET
     ])
   : undefined;
 
-const P2P_URL_BASE = process.env.P2P_RIPPLED_HOST
-  ? process.env.P2P_RIPPLED_HOST
-  : process.env.RIPPLED_HOST;
-const URL_HEALTH = `http://${P2P_URL_BASE}:${process.env.RIPPLED_PEER_PORT}/health`;
+const P2P_URL_BASE = process.env.REACT_APP_P2P_RIPPLED_HOST
+  ? process.env.REACT_APP_P2P_RIPPLED_HOST
+  : process.env.REACT_APP_RIPPLED_HOST;
+const URL_HEALTH = `http://${P2P_URL_BASE}:${process.env.REACT_APP_RIPPLED_PEER_PORT}/health`;
 
 const executeQuery = async (rippledSocket, params) => {
   return rippledSocket.send(params).catch(error => {
