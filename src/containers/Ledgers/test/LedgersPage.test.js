@@ -134,13 +134,20 @@ describe('Ledgers Page container', () => {
     server.send(prevLedgerMessage);
     await sleep(260);
     wrapper.update();
+    expect(wrapper.find('.ledger').length).toBe(1);
+
     server.send(validationMessage);
     wrapper.update();
+    expect(wrapper.find('.validation').length).toBe(1);
+
     server.send(ledgerMessage);
     await sleep(250);
     wrapper.update();
+    expect(wrapper.find('.ledger').length).toBe(2);
+
     server.send({ type: 'invalid' });
     wrapper.update();
+
     server.send(null);
     wrapper.update();
 
