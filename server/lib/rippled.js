@@ -4,11 +4,12 @@ const utils = require('./utils');
 
 const HOSTNAME = os.hostname();
 const URL = `http://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`;
-const URL_HEALTH = `http://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_PEER_PORT}/health`;
+const P2P_URL_BASE = process.env.P2P_RIPPLED_HOST
+  ? process.env.P2P_RIPPLED_HOST
+  : process.env.RIPPLED_HOST;
+const URL_HEALTH = `http://${P2P_URL_BASE}:${process.env.RIPPLED_PEER_PORT}/health`;
 // If there is a separate peer to peer server for admin requests, use it. Otherwise use the default url for everything.
-const P2P_URL = process.env.P2P_RIPPLED_HOST
-  ? `http://${process.env.P2P_RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`
-  : URL;
+const P2P_URL = `http://${P2P_URL_BASE}:${process.env.RIPPLED_RPC_PORT}`;
 
 const executeQuery = (url, options) => {
   const params = { ...options, headers: { 'X-User': HOSTNAME } };
