@@ -384,6 +384,7 @@ class Streams extends Component {
     let fees = 0;
     let timeCount = 0;
     let txCount = 0;
+    let txWithFeesCount = 0;
     let ledgerCount = 0;
 
     ledgerChain.forEach((d, i) => {
@@ -395,6 +396,9 @@ class Streams extends Component {
 
       if (d.total_fees) {
         fees += d.total_fees;
+        txWithFeesCount += d.txn_count;
+      }
+      if (d.txn_count) {
         txCount += d.txn_count;
         ledgerCount += 1;
       }
@@ -405,7 +409,7 @@ class Streams extends Component {
       txn_sec: time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
       txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
       ledger_interval: timeCount ? (time / timeCount / 1000).toFixed(3) : undefined,
-      avg_fee: txCount ? (fees / txCount).toPrecision(4) : undefined,
+      avg_fee: txWithFeesCount ? (fees / txWithFeesCount).toPrecision(4) : undefined,
     };
   }
 
@@ -462,6 +466,11 @@ class Streams extends Component {
       fetchLedger(ledger, rippledSocket)
         .then(ledgerSummary => {
           this.onledgerSummary(ledgerSummary);
+        })
+        .then(() => {
+          if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
+            this.onmetric(this.updateMetrics(baseFee));
+          }
         })
         .catch(e => {
           Log.error('Ledger fetch error', e.message);
