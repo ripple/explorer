@@ -107,7 +107,8 @@
       "!src/setupProxy.js",
       "!src/rootReducer.js",
       "!src/registerServiceWorker.js",
-      "!src/containers/shared/images/*"
+      "!src/containers/shared/images/*",
+      "!src/containers/test"
     ],
     "coverageThreshold": {
       "global": {
