@@ -79,10 +79,11 @@ describe('Ledgers Page container', () => {
     moxios.install();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     moxios.uninstall();
-    server.close();
     client.close();
+    server.close();
+    await server.closed;
     WS.clean();
   });
 
@@ -196,4 +197,116 @@ describe('Ledgers Page container', () => {
 
     wrapper.unmount();
   }, 8000);
+
+  describe('Sidechain tests', () => {
+    const oldEnvs = process.env;
+
+    beforeEach(() => {
+      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'sidechain' };
+    });
+
+    afterEach(() => {
+      process.env = oldEnvs;
+    });
+
+    it('receives messages from streams', async () => {
+      client.addResponses(rippledResponses);
+      const wrapper = createWrapper();
+
+      moxios.stubRequest(`/api/v1/validators`, {
+        status: 200,
+        response: [
+          {
+            signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
+            master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
+            unl: process.env.REACT_APP_VALIDATOR,
+          },
+          {
+            signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
+            master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
+            unl: process.env.REACT_APP_VALIDATOR,
+          },
+          {
+            signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
+            master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
+            unl: null,
+          },
+        ],
+      });
+
+      moxios.stubRequest('/api/v1/metrics', {
+        base_fee: '0.00001',
+        txn_sec: '12.19',
+        txn_ledger: '46.94',
+        ledger_interval: '3.850',
+        avg_fee: '0.001882',
+      });
+
+      expect(wrapper.find('.ledger').length).toBe(0);
+      expect(wrapper.find('.validation').length).toBe(0);
+      expect(wrapper.find('.txn').length).toBe(0);
+
+      server.send(prevLedgerMessage);
+      await sleep(260);
+      wrapper.update();
+      expect(wrapper.find('.ledger').length).toBe(1);
+
+      server.send(validationMessage);
+      wrapper.update();
+      expect(wrapper.find('.validation').length).toBe(1);
+
+      server.send(ledgerMessage);
+      wrapper.update();
+      expect(wrapper.find('.ledger').length).toBe(2);
+
+      server.send({ type: 'invalid' });
+      wrapper.update();
+
+      server.send(null);
+      wrapper.update();
+
+      expect(wrapper.find('.ledger').length).toBe(2);
+      expect(wrapper.find('.selected-validator .pubkey').length).toBe(0);
+      expect(wrapper.find('.tooltip').length).toBe(0);
+
+      const unlCounter = wrapper.find('.ledger .hash .missed');
+      expect(unlCounter.text()).toBe('unl:1/2');
+      unlCounter.simulate('mouseMove');
+      expect(wrapper.find('.tooltip').length).toBe(1);
+      expect(wrapper.find('.tooltip .pubkey').text()).toBe(
+        'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ'
+      );
+
+      // async update ledger summary due
+      // to throttle and purge/heartbeat delay
+      setTimeout(() => {
+        wrapper.update();
+
+        const validations = wrapper.find('div.validation');
+        const txn = wrapper.find('.txn');
+
+        // check ledger transactions
+        expect(txn.length).toBe(24);
+        txn.first().simulate('focus');
+        txn.first().simulate('mouseOver');
+
+        // check validations
+        expect(validations.length).toBe(1);
+        validations.first().simulate('mouseOver');
+        expect(wrapper.find('.tooltip').length).toBe(1);
+        validations.first().simulate('mouseLeave');
+        expect(wrapper.find('.tooltip').length).toBe(0);
+        validations.first().simulate('focus');
+        expect(wrapper.find('.selected-validator .pubkey').length).toBe(0);
+        validations.first().simulate('click'); // set selected
+        expect(wrapper.find('.selected-validator .pubkey').length).toBe(1);
+        validations.first().simulate('click'); // unset selected
+        expect(wrapper.find('.selected-validator .pubkey').length).toBe(0);
+
+        setTimeout(() => {
+          wrapper.unmount();
+        }, 6000);
+      }, 300);
+    }, 8000);
+  });
 });
