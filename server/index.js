@@ -15,7 +15,7 @@ const app = express();
 const cacheBustRegExp = new RegExp('\\.[0-9a-f]{20}\\.');
 const files = express.static(path.join(__dirname, '/../build'), {
   etag: true, // Just being explicit about the default.
-  lastModified: true,  // Just being explicit about the default.
+  lastModified: true, // Just being explicit about the default.
   setHeaders: (res, filePath) => {
     if (filePath.endsWith('.html')) {
       // All the project's HTML files end in .html
