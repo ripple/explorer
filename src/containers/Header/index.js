@@ -29,6 +29,10 @@ function isCustomNetwork(mode) {
   return !Object.keys(STATIC_ENV_LINKS).includes(mode);
 }
 
+function getSocketUrl(socket) {
+  return socket.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
+}
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -69,7 +73,7 @@ class Header extends Component {
       return;
     }
     const rippledSocket = this.context;
-    const currentRippledUrl = rippledSocket.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
+    const currentRippledUrl = getSocketUrl(rippledSocket);
     const newRippledUrl = event.currentTarget.getAttribute('value');
 
     if (newRippledUrl.toLowerCase() === currentRippledUrl.toLowerCase()) {
@@ -82,7 +86,7 @@ class Header extends Component {
   onInputKeyDown = event => {
     if (event.key === 'Enter') {
       const rippledSocket = this.context;
-      const currentRippledUrl = rippledSocket.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
+      const currentRippledUrl = getSocketUrl(rippledSocket);
       const rippledUrl = event.currentTarget.value.trim();
       if (
         currentRippledUrl != null &&
@@ -167,7 +171,7 @@ class Header extends Component {
       // TODO: store previous sidechains in cookies, add them here
     };
 
-    const rippledUrl = rippledSocket.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
+    const rippledUrl = getSocketUrl(rippledSocket);
 
     if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
       urlLinkMap[rippledUrl] = `${process.env.REACT_APP_SIDECHAIN_LINK}${rippledUrl}`;
