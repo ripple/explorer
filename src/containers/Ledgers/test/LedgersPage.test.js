@@ -79,11 +79,10 @@ describe('Ledgers Page container', () => {
     moxios.install();
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     moxios.uninstall();
     client.close();
     server.close();
-    await server.closed;
     WS.clean();
   });
 
@@ -149,19 +148,12 @@ describe('Ledgers Page container', () => {
     wrapper.update();
     expect(wrapper.find('.validation').length).toBe(1);
 
-    await sleep(300);
-    wrapper.update();
-
     server.send(ledgerMessage);
-
-    await sleep(1000);
-
+    await sleep(250);
     wrapper.update();
     expect(wrapper.find('.ledger').length).toBe(2);
 
     server.send({ type: 'invalid' });
-    wrapper.update();
-
     server.send(null);
     wrapper.update();
 
@@ -176,9 +168,6 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.tooltip .pubkey').text()).toBe(
       'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ'
     );
-
-    await sleep(260);
-    wrapper.update();
 
     const validations = wrapper.find('div.validation');
     const txn = wrapper.find('.txn');
@@ -253,19 +242,12 @@ describe('Ledgers Page container', () => {
       wrapper.update();
       expect(wrapper.find('.validation').length).toBe(1);
 
-      await sleep(300);
-      wrapper.update();
-
       server.send(ledgerMessage);
-
-      await sleep(1000);
-
+      await sleep(250);
       wrapper.update();
       expect(wrapper.find('.ledger').length).toBe(2);
 
       server.send({ type: 'invalid' });
-      wrapper.update();
-
       server.send(null);
       wrapper.update();
 
@@ -280,9 +262,6 @@ describe('Ledgers Page container', () => {
       expect(wrapper.find('.tooltip .pubkey').text()).toBe(
         'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ'
       );
-
-      await sleep(260);
-      wrapper.update();
 
       const validations = wrapper.find('div.validation');
       const txn = wrapper.find('.txn');
