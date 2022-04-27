@@ -16,6 +16,7 @@ class MockWsClient {
     this.returnError = false;
     this.endpoint = 'wss://fakenode.ripple.com:51233';
     this.p2pSocket = this;
+    this.debug = false;
 
     // set up the message handler for streams
     if (this.handlesStreams) {
@@ -28,6 +29,10 @@ class MockWsClient {
         }
       };
     }
+  }
+
+  setDebug(debug = true) {
+    this.debug = debug;
   }
 
   /**
@@ -96,6 +101,9 @@ class MockWsClient {
    * the promise will be rejected with an empty shape.
    */
   send(message) {
+    if (this.debug) {
+      console.log(message);
+    }
     if (this.returnError) {
       return Promise.reject(new Error({}));
     }
