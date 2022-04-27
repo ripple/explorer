@@ -1,4 +1,3 @@
-import { getServerInfo } from './rippled';
 import { EPOCH_OFFSET } from './utils';
 import logger from './logger';
 
@@ -20,16 +19,6 @@ const addLedger = data => {
   }
 
   return allLedgers[ledgerIndex];
-};
-
-const fetchLoadFee = rippledUrl => {
-  return getServerInfo(rippledUrl)
-    .then(result => result.info)
-    .then(info => {
-      const ledgerFeeInfo = info.validated_ledger;
-      const loadFee = ledgerFeeInfo.base_fee_xrp * (info.load_factor ?? 1);
-      return { load_fee: Number(loadFee.toPrecision(4)).toString() };
-    });
 };
 
 // determine if the ledger index
@@ -156,4 +145,4 @@ function handleValidation(data) {
 
 setInterval(purge, PURGE_INTERVAL);
 
-export { handleLedger, handleValidation, fetchLoadFee };
+export { handleLedger, handleValidation };

@@ -2,9 +2,9 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Log from '../log';
 import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils';
-import { handleValidation, handleLedger, fetchLoadFee } from '../../../rippled/lib/streams';
+import { handleValidation, handleLedger } from '../../../rippled/lib/streams';
 import SocketContext from '../SocketContext';
-import { getLedger } from '../../../rippled/lib/rippled';
+import { getLedger, getServerInfo } from '../../../rippled/lib/rippled';
 import { summarizeLedger } from '../../../rippled/lib/utils';
 
 const MAX_LEDGER_COUNT = 20;
@@ -42,6 +42,16 @@ const fetchLedger = (ledger, rippledSocket, attempts = 0) => {
         return sleep(500).then(() => fetchLedger(ledger, rippledSocket, attempts + 1));
       }
       throw error;
+    });
+};
+
+const fetchLoadFee = rippledUrl => {
+  return getServerInfo(rippledUrl)
+    .then(result => result.info)
+    .then(info => {
+      const ledgerFeeInfo = info.validated_ledger;
+      const loadFee = ledgerFeeInfo.base_fee_xrp * (info.load_factor ?? 1);
+      return { load_fee: Number(loadFee.toPrecision(4)).toString() };
     });
 };
 
