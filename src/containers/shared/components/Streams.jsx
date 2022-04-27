@@ -13,14 +13,22 @@ const MAX_AGE = 120 * 1000;
 
 const throttle = (func, limit) => {
   let inThrottle;
+  let queued = false;
   return function throttled(...args) {
     const context = this;
     if (!inThrottle) {
+      queued = false;
       func.apply(context, args);
       inThrottle = true;
       setTimeout(() => {
+        if (queued) {
+          func.apply(context, args);
+        }
         inThrottle = false;
+        queued = false;
       }, limit);
+    } else {
+      queued = true;
     }
   };
 };
