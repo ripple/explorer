@@ -2,7 +2,6 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Log from '../log';
 import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils';
-import { handleValidation } from '../../../rippled/lib/streams';
 import SocketContext from '../SocketContext';
 import { getLedger, getServerInfo } from '../../../rippled/lib/rippled';
 import { summarizeLedger, EPOCH_OFFSET } from '../../../rippled/lib/utils';
@@ -147,6 +146,56 @@ class Streams extends Component {
     };
   }
 
+  // handle validation messages
+  handleValidation(data) {
+    const { ledger_hash: ledgerHash, validation_public_key: pubkey } = data;
+    const ledgerIndex = Number(data.ledger_index);
+
+    if (!this.isValidatedChain(ledgerIndex)) {
+      return undefined;
+    }
+
+    this.addLedger(data);
+
+    this.setState(prevState => {
+      if (!prevState.allValidators[pubkey]) {
+        const allValidators = {
+          [pubkey]: { pubkey, ledger_index: 0 },
+        };
+        return { allValidators };
+      }
+      return {};
+    });
+
+    const { allValidators } = this.state;
+    if (
+      allValidators[pubkey].ledger_hash !== ledgerHash &&
+      ledgerIndex > allValidators[pubkey].ledger_index
+    ) {
+      this.setState(prevState => {
+        const newValidatorData = Object.assign(prevState.allValidators[pubkey], {
+          ledger_hash: ledgerHash,
+          ledger_index: ledgerIndex,
+          last: Date.now(),
+        });
+        const newAllValidators = Object.assign(prevState.allValidators, {
+          [pubkey]: newValidatorData,
+        });
+        return { allValidators: newAllValidators };
+      });
+
+      return {
+        ledger_index: Number(ledgerIndex),
+        ledger_hash: ledgerHash,
+        pubkey,
+        partial: !data.full,
+        time: (data.signing_time + EPOCH_OFFSET) * 1000,
+      };
+    }
+
+    return undefined;
+  }
+
   onmetric(data) {
     const { updateMetrics } = this.props;
     if (this.mounted) {
@@ -251,6 +300,21 @@ class Streams extends Component {
       return { validators };
     });
   };
+
+  // determine if the ledger index
+  // is on the validated ledger chain
+  isValidatedChain(ledgerIndex) {
+    const { allLedgers } = this.state;
+    let prev = ledgerIndex - 1;
+    while (allLedgers[prev]) {
+      if (allLedgers[prev].ledger_hash) {
+        return true;
+      }
+      prev -= 1;
+    }
+
+    return false;
+  }
 
   // add the ledger to the cache
   addLedger(data) {
@@ -380,7 +444,7 @@ class Streams extends Component {
     });
 
     rippledSocket.on('validation', streamResult => {
-      const data = handleValidation(streamResult);
+      const data = this.handleValidation(streamResult);
       if (data) {
         this.onvalidation(data);
       }
