@@ -8,6 +8,9 @@ import { summarizeLedger, EPOCH_OFFSET } from '../../../rippled/lib/utils';
 
 const MAX_LEDGER_COUNT = 20;
 
+const PURGE_INTERVAL = 10 * 1000;
+const MAX_AGE = 120 * 1000;
+
 const throttle = (func, limit) => {
   let inThrottle;
   return function throttled(...args) {
@@ -110,6 +113,7 @@ class Streams extends Component {
     this.updateNegativeUNL();
     this.updateMetricsFromServer();
     this.purge = setInterval(this.purge, 5000);
+    this.purgeAll = setInterval(this.purgeAll, PURGE_INTERVAL);
 
     const rippledSocket = this.context;
     rippledSocket.send({
@@ -127,6 +131,7 @@ class Streams extends Component {
 
     this.mounted = false;
     clearInterval(this.purge);
+    clearInterval(this.purgeAll);
   }
 
   // handle ledger messages
@@ -298,6 +303,27 @@ class Streams extends Component {
       });
 
       return { validators };
+    });
+  };
+
+  // purge old data
+  purgeAll = () => {
+    const now = Date.now();
+    this.setState(prevState => {
+      const allLedgers = { ...prevState.allLedgers };
+      Object.keys(allLedgers).forEach(key => {
+        if (now - allLedgers[key].seen > MAX_AGE) {
+          delete allLedgers[key];
+        }
+      });
+
+      const allValidators = { ...prevState.allValidators };
+      Object.keys(allValidators).forEach(key => {
+        if (now - allValidators[key].last > MAX_AGE) {
+          delete allValidators[key];
+        }
+      });
+      return { allLedgers, allValidators };
     });
   };
 
