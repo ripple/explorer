@@ -8,19 +8,6 @@ const MAX_AGE = 120 * 1000;
 const allLedgers = {};
 const allValidators = {};
 
-// add the ledger to the cache
-const addLedger = data => {
-  const { ledger_index: ledgerIndex } = data;
-  if (!allLedgers[ledgerIndex]) {
-    allLedgers[ledgerIndex] = {
-      ledger_index: Number(ledgerIndex),
-      seen: Date.now(),
-    };
-  }
-
-  return allLedgers[ledgerIndex];
-};
-
 // determine if the ledger index
 // is on the validated ledger chain
 const isValidatedChain = ledgerIndex => {
@@ -34,12 +21,6 @@ const isValidatedChain = ledgerIndex => {
 
   return false;
 };
-
-// convert to array and sort
-const organizeChain = () =>
-  Object.entries(allLedgers)
-    .map(d => d[1])
-    .sort((a, b) => a.ledger_index - b.ledger_index);
 
 // purge old data
 const purge = () => {
@@ -56,56 +37,6 @@ const purge = () => {
       delete allValidators[key];
     }
   });
-};
-
-// update rolling metrics
-const updateMetrics = baseFee => {
-  const chain = organizeChain().slice(-100);
-
-  let time = 0;
-  let fees = 0;
-  let timeCount = 0;
-  let txCount = 0;
-  let ledgerCount = 0;
-
-  chain.forEach((d, i) => {
-    const next = chain[i + 1];
-    if (next && next.seen && d.seen) {
-      time += next.seen - d.seen;
-      timeCount += 1;
-    }
-
-    if (d.total_fees) {
-      fees += d.total_fees;
-      txCount += d.txn_count;
-      ledgerCount += 1;
-    }
-  });
-
-  return {
-    base_fee: Number(baseFee.toPrecision(4)).toString(),
-    txn_sec: time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
-    txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
-    ledger_interval: timeCount ? (time / timeCount / 1000).toFixed(3) : undefined,
-    avg_fee: txCount ? (fees / txCount).toPrecision(4) : undefined,
-  };
-};
-
-// handle ledger messages
-const handleLedger = data => {
-  const ledger = addLedger(data);
-  const { ledger_hash: ledgerHash, ledger_index: ledgerIndex, txn_count: txnCount } = data;
-
-  log.info('new ledger', ledgerIndex);
-  ledger.ledger_hash = ledgerHash;
-  ledger.txn_count = txnCount;
-  ledger.close_time = (data.ledger_time + EPOCH_OFFSET) * 1000;
-
-  const metrics = updateMetrics(data.fee_base / 1000000);
-  return {
-    ledger,
-    metrics,
-  };
 };
 
 // handle validation messages
@@ -145,4 +76,5 @@ function handleValidation(data) {
 
 setInterval(purge, PURGE_INTERVAL);
 
-export { handleLedger, handleValidation };
+// eslint-disable-next-line import/prefer-default-export
+export { handleValidation };
