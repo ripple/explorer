@@ -102,7 +102,7 @@ describe('Ledgers Page container', () => {
     wrapper.unmount();
   });
 
-  test('receives messages from streams', async () => {
+  it('receives messages from streams', async () => {
     client.addResponses(rippledResponses);
     const wrapper = createWrapper();
 
