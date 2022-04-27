@@ -51,7 +51,98 @@
         "totalCoins": "99999999999996310",
         "total_coins": "99999999999996310",
         "transaction_hash": "0000000000000000000000000000000000000000000000000000000000000000",
-        "transactions": []
+        "transactions": [
+          {
+            "Account": "r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W",
+            "Fee": "10",
+            "Flags": 0,
+            "LastLedgerSequence": 71273384,
+            "OfferSequence": 54681324,
+            "Sequence": 54681459,
+            "SigningPubKey": "03C48299E57F5AE7C2BE1391B581D313F1967EA2301628C07AC412092FDC15BA22",
+            "TransactionType": "OfferCancel",
+            "TxnSignature": "30440220216DBEDCA747465AC638CA942FC0A15F4426F31342892D9481F8749BE72BB93B02201855A304190833ED94D52D40EA15F9C91728013373508F7C02F0AA87EB78139F",
+            "hash": "0A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0",
+            "metaData": {
+              "TransactionResult": "tesSUCCESS"
+            }
+          },
+          {
+            "Account": "r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W",
+            "Fee": "10",
+            "Flags": 0,
+            "LastLedgerSequence": 71273384,
+            "OfferSequence": 54681324,
+            "Sequence": 54681459,
+            "SigningPubKey": "03C48299E57F5AE7C2BE1391B581D313F1967EA2301628C07AC412092FDC15BA22",
+            "TransactionType": "OfferCancel",
+            "TxnSignature": "30440220216DBEDCA747465AC638CA942FC0A15F4426F31342892D9481F8749BE72BB93B02201855A304190833ED94D52D40EA15F9C91728013373508F7C02F0AA87EB78139F",
+            "hash": "1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0",
+            "metaData": {
+              "TransactionResult": "tesSUCCESS"
+            }
+          },
+          {
+            "Account": "r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W",
+            "Fee": "10",
+            "Flags": 0,
+            "LastLedgerSequence": 71273384,
+            "OfferSequence": 54681324,
+            "Sequence": 54681459,
+            "SigningPubKey": "03C48299E57F5AE7C2BE1391B581D313F1967EA2301628C07AC412092FDC15BA22",
+            "TransactionType": "OfferCancel",
+            "TxnSignature": "30440220216DBEDCA747465AC638CA942FC0A15F4426F31342892D9481F8749BE72BB93B02201855A304190833ED94D52D40EA15F9C91728013373508F7C02F0AA87EB78139F",
+            "hash": "2A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0",
+            "metaData": {
+              "TransactionResult": "tesSUCCESS"
+            }
+          },
+          {
+            "Account": "r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W",
+            "Fee": "10",
+            "Flags": 0,
+            "LastLedgerSequence": 71273384,
+            "OfferSequence": 54681324,
+            "Sequence": 54681459,
+            "SigningPubKey": "03C48299E57F5AE7C2BE1391B581D313F1967EA2301628C07AC412092FDC15BA22",
+            "TransactionType": "OfferCancel",
+            "TxnSignature": "30440220216DBEDCA747465AC638CA942FC0A15F4426F31342892D9481F8749BE72BB93B02201855A304190833ED94D52D40EA15F9C91728013373508F7C02F0AA87EB78139F",
+            "hash": "3A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0",
+            "metaData": {
+              "TransactionResult": "tesSUCCESS"
+            }
+          },
+          {
+            "Account": "r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W",
+            "Fee": "10",
+            "Flags": 0,
+            "LastLedgerSequence": 71273384,
+            "OfferSequence": 54681324,
+            "Sequence": 54681459,
+            "SigningPubKey": "03C48299E57F5AE7C2BE1391B581D313F1967EA2301628C07AC412092FDC15BA22",
+            "TransactionType": "OfferCancel",
+            "TxnSignature": "30440220216DBEDCA747465AC638CA942FC0A15F4426F31342892D9481F8749BE72BB93B02201855A304190833ED94D52D40EA15F9C91728013373508F7C02F0AA87EB78139F",
+            "hash": "4A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0",
+            "metaData": {
+              "TransactionResult": "tesSUCCESS"
+            }
+          },
+          {
+            "Account": "r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W",
+            "Fee": "10",
+            "Flags": 0,
+            "LastLedgerSequence": 71273384,
+            "OfferSequence": 54681324,
+            "Sequence": 54681459,
+            "SigningPubKey": "03C48299E57F5AE7C2BE1391B581D313F1967EA2301628C07AC412092FDC15BA22",
+            "TransactionType": "OfferCancel",
+            "TxnSignature": "30440220216DBEDCA747465AC638CA942FC0A15F4426F31342892D9481F8749BE72BB93B02201855A304190833ED94D52D40EA15F9C91728013373508F7C02F0AA87EB78139F",
+            "hash": "5A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0",
+            "metaData": {
+              "TransactionResult": "tesSUCCESS"
+            }
+          }
+        ]
       },
       "validated": true,
       "ledger_hash": "A5F887A191348B69129B168EDA5BC8EEE9EAC60E2599A8034742199471C70604",
