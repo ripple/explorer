@@ -1,97 +1,102 @@
-const os = require('os');
 const axios = require('axios');
+const { XrplClient } = require('xrpl-client');
 const utils = require('./utils');
 
-const HOSTNAME = os.hostname();
-const URL = `http://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`;
-const URL_HEALTH = `http://${process.env.RIPPLED_HOST}:${process.env.RIPPLED_PEER_PORT}/health`;
+const RIPPLED_CLIENT = new XrplClient([
+  `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+  `wss://${process.env.REACT_APP_RIPPLED_HOST}`,
+]);
 // If there is a separate peer to peer server for admin requests, use it. Otherwise use the default url for everything.
-const P2P_URL = process.env.P2P_RIPPLED_HOST
-  ? `http://${process.env.P2P_RIPPLED_HOST}:${process.env.RIPPLED_RPC_PORT}`
-  : URL;
+const HAS_P2P_SOCKET =
+  process.env.REACT_APP_P2P_RIPPLED_HOST != null && process.env.REACT_APP_P2P_RIPPLED_HOST !== '';
+const P2P_RIPPLED_CLIENT = HAS_P2P_SOCKET
+  ? new XrplClient([
+      `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+    ])
+  : undefined;
 
-const executeQuery = (url, options) => {
-  const params = { ...options, headers: { 'X-User': HOSTNAME } };
-  return axios.post(url, params).catch(error => {
-    const message = error.response && error.response.data ? error.response.data : error.toString();
+const P2P_URL_BASE = process.env.REACT_APP_P2P_RIPPLED_HOST
+  ? process.env.REACT_APP_P2P_RIPPLED_HOST
+  : process.env.REACT_APP_RIPPLED_HOST;
+const URL_HEALTH = `https://${P2P_URL_BASE}:${process.env.REACT_APP_RIPPLED_PEER_PORT}/health`;
+
+const executeQuery = async (rippledSocket, params) => {
+  return rippledSocket.send(params).catch(error => {
+    const message =
+      error.response && error.response.error_message
+        ? error.response.error_message
+        : error.toString();
     const code = error.response && error.response.status ? error.response.status : 500;
-    throw new utils.Error(`URL: ${url} - ${message}`, code);
+    throw new Error(`URL: ${rippledSocket.endpoint} - ${message}`, code);
   });
 };
 
 // generic RPC query
 function query(...options) {
-  return executeQuery(URL, ...options);
+  return executeQuery(RIPPLED_CLIENT, ...options);
 }
 
 function queryP2P(...options) {
-  return executeQuery(P2P_URL, ...options);
+  return executeQuery(P2P_RIPPLED_CLIENT ?? RIPPLED_CLIENT, ...options);
 }
 
 // get account info
 module.exports.getAccountInfo = (account, ledger_index = 'validated') =>
   query({
-    method: 'account_info',
-    params: [{ account, ledger_index, signer_lists: true }],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'actNotFound') {
-        throw new utils.Error('account not found', 404);
-      }
+    command: 'account_info',
+    account,
+    ledger_index,
+    signer_lists: true,
+  }).then(resp => {
+    if (resp.error === 'actNotFound') {
+      throw new utils.Error('account not found', 404);
+    }
 
-      if (resp.error_message) {
-        throw new utils.Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new utils.Error(resp.error_message, 500);
+    }
 
-      return Object.assign(resp.account_data, {
-        ledger_index: resp.ledger_index,
-      });
+    return Object.assign(resp.account_data, {
+      ledger_index: resp.ledger_index,
     });
+  });
 
 // get Token balance summary
 module.exports.getBalances = (account, ledger_index = 'validated') =>
   queryP2P({
-    method: 'gateway_balances',
-    params: [{ account, ledger_index }],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error === 'actNotFound') {
-        throw new utils.Error('account not found', 404);
-      }
+    command: 'gateway_balances',
+    account,
+    ledger_index,
+  }).then(resp => {
+    if (resp.error === 'actNotFound') {
+      throw new utils.Error('account not found', 404);
+    }
 
-      if (resp.error_message) {
-        throw new utils.Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new utils.Error(resp.error_message, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 
 module.exports.getOffers = (currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
   return query({
-    method: 'book_offers',
-    params: [
-      {
-        taker_gets: {
-          currency: `${currencyCode.toUpperCase()}`,
-          issuer: currencyCode.toUpperCase() === 'XRP' ? undefined : `${issuerAddress}`,
-        },
-        taker_pays: {
-          currency: `${pairCurrencyCode.toUpperCase()}`,
-          issuer: pairCurrencyCode.toUpperCase() === 'XRP' ? undefined : `${pairIssuerAddress}`,
-        },
-      },
-    ],
-  })
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error !== undefined || resp.error_message !== undefined) {
-        throw new utils.Error(resp.error_message || resp.error, 500);
-      }
+    command: 'book_offers',
+    taker_gets: {
+      currency: `${currencyCode.toUpperCase()}`,
+      issuer: currencyCode.toUpperCase() === 'XRP' ? undefined : `${issuerAddress}`,
+    },
+    taker_pays: {
+      currency: `${pairCurrencyCode.toUpperCase()}`,
+      issuer: pairCurrencyCode.toUpperCase() === 'XRP' ? undefined : `${pairIssuerAddress}`,
+    },
+  }).then(resp => {
+    if (resp.error !== undefined || resp.error_message !== undefined) {
+      throw new utils.Error(resp.error_message || resp.error, 500);
+    }
 
-      return resp;
-    });
+    return resp;
+  });
 };
 
 module.exports.getHealth = async () => {
@@ -108,28 +113,28 @@ module.exports.getHealth = async () => {
 
 module.exports.getLedger = parameters => {
   const request = {
-    method: 'ledger',
-    params: [{ ...parameters, transactions: true, expand: true }],
+    command: 'ledger',
+    ...parameters,
+    transactions: true,
+    expand: true,
   };
 
-  return query(request)
-    .then(resp => resp.data.result)
-    .then(resp => {
-      if (resp.error_message === 'ledgerNotFound') {
-        throw new utils.Error('ledger not found', 404);
-      }
+  return query(request).then(resp => {
+    if (resp.error_message === 'ledgerNotFound') {
+      throw new utils.Error('ledger not found', 404);
+    }
 
-      if (resp.error_message === 'ledgerIndexMalformed') {
-        throw new utils.Error('invalid ledger index/hash', 400);
-      }
+    if (resp.error_message === 'ledgerIndexMalformed') {
+      throw new utils.Error('invalid ledger index/hash', 400);
+    }
 
-      if (resp.error_message) {
-        throw new utils.Error(resp.error_message, 500);
-      }
+    if (resp.error_message) {
+      throw new utils.Error(resp.error_message, 500);
+    }
 
-      if (!resp.validated) {
-        throw new utils.Error('ledger not validated', 404);
-      }
-      return resp.ledger;
-    });
+    if (!resp.validated) {
+      throw new utils.Error('ledger not validated', 404);
+    }
+    return resp.ledger;
+  });
 };

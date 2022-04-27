@@ -4,16 +4,16 @@ const log = require('./logger')({ name: 'xrpl ws' });
 
 const RIPPLEDS = [
   {
-    host: process.env.RIPPLED_HOST,
-    port: process.env.RIPPLED_WS_PORT,
+    host: process.env.REACT_APP_RIPPLED_HOST,
+    port: process.env.REACT_APP_RIPPLED_WS_PORT,
     primary: true,
   },
 ];
 
 let connections = [];
 
-if (process.env.RIPPLED_SECONDARY) {
-  process.env.RIPPLED_SECONDARY.split(',').forEach(d => {
+if (process.env.REACT_APP_RIPPLED_SECONDARY) {
+  process.env.REACT_APP_RIPPLED_SECONDARY.split(',').forEach(d => {
     const rippled = d.split(':');
     RIPPLEDS.push({
       host: rippled[0],
