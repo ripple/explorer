@@ -1,47 +1,25 @@
-import { getLedger, getServerInfo } from './rippled';
-import { summarizeLedger, EPOCH_OFFSET } from './utils';
+import { getServerInfo } from './rippled';
+import { EPOCH_OFFSET } from './utils';
 import logger from './logger';
 
 const log = logger({ name: 'streams' });
 
 const PURGE_INTERVAL = 10 * 1000;
 const MAX_AGE = 120 * 1000;
-const ledgers = {};
-const validators = {};
+const allLedgers = {};
+const allValidators = {};
 
 // add the ledger to the cache
 const addLedger = data => {
   const { ledger_index: ledgerIndex } = data;
-  if (!ledgers[ledgerIndex]) {
-    ledgers[ledgerIndex] = {
+  if (!allLedgers[ledgerIndex]) {
+    allLedgers[ledgerIndex] = {
       ledger_index: Number(ledgerIndex),
       seen: Date.now(),
     };
   }
 
-  return ledgers[ledgerIndex];
-};
-
-const sleep = ms => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
-
-// fetch full ledger
-const fetchLedger = (ledger, rippledSocket, attempts = 0) => {
-  return getLedger(rippledSocket, { ledger_hash: ledger.ledger_hash })
-    .then(summarizeLedger)
-    .then(summary => {
-      Object.assign(ledger, summary);
-      return summary;
-    })
-    .catch(error => {
-      log.error(error.toString());
-      if (error.code === 404 && attempts < 5) {
-        log.info(`retry ledger ${ledger.ledger_index} (attempt:${attempts + 1})`);
-        return sleep(500).then(() => fetchLedger(ledger, rippledSocket, attempts + 1));
-      }
-      throw error;
-    });
+  return allLedgers[ledgerIndex];
 };
 
 const fetchLoadFee = rippledUrl => {
@@ -58,8 +36,8 @@ const fetchLoadFee = rippledUrl => {
 // is on the validated ledger chain
 const isValidatedChain = ledgerIndex => {
   let prev = ledgerIndex - 1;
-  while (ledgers[prev]) {
-    if (ledgers[prev].ledger_hash) {
+  while (allLedgers[prev]) {
+    if (allLedgers[prev].ledger_hash) {
       return true;
     }
     prev -= 1;
@@ -70,7 +48,7 @@ const isValidatedChain = ledgerIndex => {
 
 // convert to array and sort
 const organizeChain = () =>
-  Object.entries(ledgers)
+  Object.entries(allLedgers)
     .map(d => d[1])
     .sort((a, b) => a.ledger_index - b.ledger_index);
 
@@ -78,15 +56,15 @@ const organizeChain = () =>
 const purge = () => {
   const now = Date.now();
 
-  Object.keys(ledgers).forEach(key => {
-    if (now - ledgers[key].seen > MAX_AGE) {
-      delete ledgers[key];
+  Object.keys(allLedgers).forEach(key => {
+    if (now - allLedgers[key].seen > MAX_AGE) {
+      delete allLedgers[key];
     }
   });
 
-  Object.keys(validators).forEach(key => {
-    if (now - validators[key].last > MAX_AGE) {
-      delete validators[key];
+  Object.keys(allValidators).forEach(key => {
+    if (now - allValidators[key].last > MAX_AGE) {
+      delete allValidators[key];
     }
   });
 };
@@ -152,17 +130,17 @@ function handleValidation(data) {
 
   addLedger(data);
 
-  if (!validators[pubkey]) {
-    validators[pubkey] = { pubkey, ledger_index: 0 };
+  if (!allValidators[pubkey]) {
+    allValidators[pubkey] = { pubkey, ledger_index: 0 };
   }
 
   if (
-    validators[pubkey].ledger_hash !== ledgerHash &&
-    ledgerIndex > validators[pubkey].ledger_index
+    allValidators[pubkey].ledger_hash !== ledgerHash &&
+    ledgerIndex > allValidators[pubkey].ledger_index
   ) {
-    validators[pubkey].ledger_hash = ledgerHash;
-    validators[pubkey].ledger_index = ledgerIndex;
-    validators[pubkey].last = Date.now();
+    allValidators[pubkey].ledger_hash = ledgerHash;
+    allValidators[pubkey].ledger_index = ledgerIndex;
+    allValidators[pubkey].last = Date.now();
 
     return {
       ledger_index: Number(ledgerIndex),
@@ -178,4 +156,4 @@ function handleValidation(data) {
 
 setInterval(purge, PURGE_INTERVAL);
 
-export { handleLedger, handleValidation, fetchLedger, fetchLoadFee };
+export { handleLedger, handleValidation, fetchLoadFee };

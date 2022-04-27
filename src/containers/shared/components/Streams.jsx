@@ -2,13 +2,10 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Log from '../log';
 import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils';
-import {
-  handleValidation,
-  handleLedger,
-  fetchLedger,
-  fetchLoadFee,
-} from '../../../rippled/lib/streams';
+import { handleValidation, handleLedger, fetchLoadFee } from '../../../rippled/lib/streams';
 import SocketContext from '../SocketContext';
+import { getLedger } from '../../../rippled/lib/rippled';
+import { summarizeLedger } from '../../../rippled/lib/utils';
 
 const MAX_LEDGER_COUNT = 20;
 
@@ -24,6 +21,28 @@ const throttle = (func, limit) => {
       }, limit);
     }
   };
+};
+
+const sleep = ms => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+// fetch full ledger
+const fetchLedger = (ledger, rippledSocket, attempts = 0) => {
+  return getLedger(rippledSocket, { ledger_hash: ledger.ledger_hash })
+    .then(summarizeLedger)
+    .then(summary => {
+      Object.assign(ledger, summary);
+      return summary;
+    })
+    .catch(error => {
+      Log.error(error.toString());
+      if (error.code === 404 && attempts < 5) {
+        Log.info(`retry ledger ${ledger.ledger_index} (attempt:${attempts + 1})`);
+        return sleep(500).then(() => fetchLedger(ledger, rippledSocket, attempts + 1));
+      }
+      throw error;
+    });
 };
 
 const formatLedgers = data =>
@@ -63,6 +82,8 @@ class Streams extends Component {
       metrics: {}, // eslint-disable-line
       validators: {}, // eslint-disable-line
       maxLedger: 0,
+      // allLedgers: {},
+      // allValidators: {},
     };
 
     this.updateLedgers = throttle(ledgers => {
