@@ -30,7 +30,7 @@ function isCustomNetwork(mode) {
 }
 
 function getSocketUrl(socket) {
-  return socket.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
+  return socket?.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
 }
 
 class Header extends Component {

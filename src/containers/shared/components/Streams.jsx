@@ -55,8 +55,8 @@ const fetchLedger = (ledger, rippledSocket, attempts = 0) => {
     });
 };
 
-const fetchLoadFee = rippledUrl => {
-  return getServerInfo(rippledUrl)
+const fetchLoadFee = rippledSocket => {
+  return getServerInfo(rippledSocket)
     .then(result => result.info)
     .then(info => {
       const ledgerFeeInfo = info.validated_ledger;
@@ -460,7 +460,7 @@ class Streams extends Component {
           Log.error(e);
         });
       // update the load fee
-      fetchLoadFee()
+      fetchLoadFee(rippledSocket)
         .then(loadFee => {
           this.onmetric(loadFee);
         })
