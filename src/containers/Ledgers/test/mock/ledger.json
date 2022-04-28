@@ -6,7 +6,7 @@
   "ledger_time": 695420130,
   "reserve_base": 10000000,
   "reserve_inc": 2000000,
-  "txn_count": 0,
+  "txn_count": 6,
   "type": "ledgerClosed",
   "validated_ledgers": "22865937-24405095"
 }

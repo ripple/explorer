@@ -2,28 +2,67 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Log from '../log';
 import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils';
-import {
-  handleValidation,
-  handleLedger,
-  fetchLedger,
-  fetchLoadFee,
-} from '../../../rippled/lib/streams';
 import SocketContext from '../SocketContext';
+import { getLedger, getServerInfo } from '../../../rippled/lib/rippled';
+import { summarizeLedger, EPOCH_OFFSET } from '../../../rippled/lib/utils';
 
 const MAX_LEDGER_COUNT = 20;
 
+const PURGE_INTERVAL = 10 * 1000;
+const MAX_AGE = 120 * 1000;
+
 const throttle = (func, limit) => {
   let inThrottle;
+  let queued = false;
   return function throttled(...args) {
     const context = this;
     if (!inThrottle) {
+      queued = false;
       func.apply(context, args);
       inThrottle = true;
       setTimeout(() => {
+        if (queued) {
+          func.apply(context, args);
+        }
         inThrottle = false;
+        queued = false;
       }, limit);
+    } else {
+      queued = true;
     }
   };
+};
+
+const sleep = ms => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+// fetch full ledger
+const fetchLedger = (ledger, rippledSocket, attempts = 0) => {
+  return getLedger(rippledSocket, { ledger_hash: ledger.ledger_hash })
+    .then(summarizeLedger)
+    .then(summary => {
+      Object.assign(ledger, summary);
+      return summary;
+    })
+    .catch(error => {
+      Log.error(error.toString());
+      if (error.code === 404 && attempts < 5) {
+        Log.info(`retry ledger ${ledger.ledger_index} (attempt:${attempts + 1})`);
+        return sleep(500).then(() => fetchLedger(ledger, rippledSocket, attempts + 1));
+      }
+      throw error;
+    });
+};
+
+const fetchLoadFee = rippledSocket => {
+  return getServerInfo(rippledSocket)
+    .then(result => result.info)
+    .then(info => {
+      const ledgerFeeInfo = info.validated_ledger;
+      const loadFee = ledgerFeeInfo.base_fee_xrp * (info.load_factor ?? 1);
+      return { load_fee: Number(loadFee.toPrecision(4)).toString() };
+    });
 };
 
 const formatLedgers = data =>
@@ -63,6 +102,8 @@ class Streams extends Component {
       metrics: {}, // eslint-disable-line
       validators: {}, // eslint-disable-line
       maxLedger: 0,
+      allLedgers: {},
+      allValidators: {},
     };
 
     this.updateLedgers = throttle(ledgers => {
@@ -78,8 +119,9 @@ class Streams extends Component {
     this.mounted = true;
     this.connect();
     this.updateNegativeUNL();
-    this.updateMetrics();
+    this.updateMetricsFromServer();
     this.purge = setInterval(this.purge, 5000);
+    this.purgeAll = setInterval(this.purgeAll, PURGE_INTERVAL);
 
     const rippledSocket = this.context;
     rippledSocket.send({
@@ -97,6 +139,74 @@ class Streams extends Component {
 
     this.mounted = false;
     clearInterval(this.purge);
+    clearInterval(this.purgeAll);
+  }
+
+  // handle ledger messages
+  handleLedger(data) {
+    const ledger = this.addLedger(data);
+    const { ledger_hash: ledgerHash, ledger_index: ledgerIndex, txn_count: txnCount } = data;
+
+    Log.info('new ledger', ledgerIndex);
+    ledger.ledger_hash = ledgerHash;
+    ledger.txn_count = txnCount;
+    ledger.close_time = (data.ledger_time + EPOCH_OFFSET) * 1000;
+
+    const metrics = this.updateMetrics(data.fee_base / 1000000);
+    return {
+      ledger,
+      metrics,
+    };
+  }
+
+  // handle validation messages
+  handleValidation(data) {
+    const { ledger_hash: ledgerHash, validation_public_key: pubkey } = data;
+    const ledgerIndex = Number(data.ledger_index);
+
+    if (!this.isValidatedChain(ledgerIndex)) {
+      return undefined;
+    }
+
+    this.addLedger(data);
+
+    this.setState(prevState => {
+      if (!prevState.allValidators[pubkey]) {
+        const allValidators = {
+          [pubkey]: { pubkey, ledger_index: 0 },
+        };
+        return { allValidators };
+      }
+      return {};
+    });
+
+    const { allValidators } = this.state;
+    if (
+      allValidators[pubkey].ledger_hash !== ledgerHash &&
+      ledgerIndex > allValidators[pubkey].ledger_index
+    ) {
+      this.setState(prevState => {
+        const newValidatorData = Object.assign(prevState.allValidators[pubkey], {
+          ledger_hash: ledgerHash,
+          ledger_index: ledgerIndex,
+          last: Date.now(),
+        });
+        const newAllValidators = Object.assign(prevState.allValidators, {
+          [pubkey]: newValidatorData,
+        });
+        return { allValidators: newAllValidators };
+      });
+
+      return {
+        ledger_index: Number(ledgerIndex),
+        ledger_hash: ledgerHash,
+        pubkey,
+        partial: !data.full,
+        time: (data.signing_time + EPOCH_OFFSET) * 1000,
+      };
+    }
+
+    return undefined;
   }
 
   onmetric(data) {
@@ -204,7 +314,105 @@ class Streams extends Component {
     });
   };
 
-  updateMetrics() {
+  // purge old data
+  purgeAll = () => {
+    const now = Date.now();
+    this.setState(prevState => {
+      const allLedgers = { ...prevState.allLedgers };
+      Object.keys(allLedgers).forEach(key => {
+        if (now - allLedgers[key].seen > MAX_AGE) {
+          delete allLedgers[key];
+        }
+      });
+
+      const allValidators = { ...prevState.allValidators };
+      Object.keys(allValidators).forEach(key => {
+        if (now - allValidators[key].last > MAX_AGE) {
+          delete allValidators[key];
+        }
+      });
+      return { allLedgers, allValidators };
+    });
+  };
+
+  // determine if the ledger index
+  // is on the validated ledger chain
+  isValidatedChain(ledgerIndex) {
+    const { allLedgers } = this.state;
+    let prev = ledgerIndex - 1;
+    while (allLedgers[prev]) {
+      if (allLedgers[prev].ledger_hash) {
+        return true;
+      }
+      prev -= 1;
+    }
+
+    return false;
+  }
+
+  // add the ledger to the cache
+  addLedger(data) {
+    const { ledger_index: ledgerIndex } = data;
+
+    this.setState(prevState => {
+      if (!prevState.allLedgers[ledgerIndex]) {
+        const allLedgers = Object.assign(prevState.allLedgers, {
+          [ledgerIndex]: {
+            ledger_index: Number(ledgerIndex),
+            seen: Date.now(),
+          },
+        });
+        return { allLedgers };
+      }
+      return {};
+    });
+
+    const { allLedgers } = this.state;
+    return allLedgers[ledgerIndex];
+  }
+
+  // update rolling metrics
+  updateMetrics(baseFee) {
+    const chain = this.organizeChain().slice(-100);
+
+    let time = 0;
+    let fees = 0;
+    let timeCount = 0;
+    let txCount = 0;
+    let ledgerCount = 0;
+
+    chain.forEach((d, i) => {
+      const next = chain[i + 1];
+      if (next && next.seen && d.seen) {
+        time += next.seen - d.seen;
+        timeCount += 1;
+      }
+
+      if (d.total_fees) {
+        fees += d.total_fees;
+        txCount += d.txn_count;
+        ledgerCount += 1;
+      }
+    });
+
+    return {
+      base_fee: Number(baseFee.toPrecision(4)).toString(),
+      txn_sec: time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
+      txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
+      ledger_interval: timeCount ? (time / timeCount / 1000).toFixed(3) : undefined,
+      avg_fee: txCount ? (fees / txCount).toPrecision(4) : undefined,
+    };
+  }
+
+  // convert to array and sort
+  organizeChain() {
+    const { allLedgers } = this.state;
+    return Object.entries(allLedgers)
+      .map(d => d[1])
+      .sort((a, b) => a.ledger_index - b.ledger_index);
+  }
+
+  updateMetricsFromServer() {
     fetchMetrics().then(metrics => this.onmetric(metrics));
   }
 
@@ -241,7 +449,7 @@ class Streams extends Component {
     const rippledSocket = this.context;
 
     rippledSocket.on('ledger', streamResult => {
-      const { ledger, metrics } = handleLedger(streamResult);
+      const { ledger, metrics } = this.handleLedger(streamResult);
       this.onledger(ledger);
       fetchLedger(ledger, rippledSocket)
         .then(ledgerSummary => {
@@ -252,7 +460,7 @@ class Streams extends Component {
           Log.error(e);
         });
       // update the load fee
-      fetchLoadFee()
+      fetchLoadFee(rippledSocket)
         .then(loadFee => {
           this.onmetric(loadFee);
         })
@@ -265,12 +473,12 @@ class Streams extends Component {
       if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
         this.onmetric(metrics);
       } else {
-        this.updateMetrics();
+        this.updateMetricsFromServer();
       }
     });
 
     rippledSocket.on('validation', streamResult => {
-      const data = handleValidation(streamResult);
+      const data = this.handleValidation(streamResult);
       if (data) {
         this.onvalidation(data);
       }
