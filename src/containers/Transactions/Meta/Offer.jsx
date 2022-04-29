@@ -9,13 +9,13 @@ const normalize = (value, currency) => (currency === 'XRP' ? (value / XRP_BASE).
 const renderChanges = (t, language, node, index) => {
   const meta = [];
   const final = node.FinalFields;
-  const prev = node.PreviousFields;
+  const prev = node?.PreviousFields;
   const paysCurrency = final.TakerPays.currency || 'XRP';
   const getsCurrency = final.TakerGets.currency || 'XRP';
   const finalPays = final.TakerPays.value || final.TakerPays;
   const finalGets = final.TakerGets.value || final.TakerGets;
-  const prevPays = prev.TakerPays.value || prev.TakerPays;
-  const prevGets = prev.TakerGets.value || prev.TakerGets;
+  const prevPays = prev?.TakerPays?.value || prev?.TakerPays;
+  const prevGets = prev?.TakerGets?.value || prev?.TakerGets;
   const changePays = normalize(prevPays - finalPays, paysCurrency);
   const changeGets = normalize(prevGets - finalGets, getsCurrency);
 
