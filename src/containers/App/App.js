@@ -51,7 +51,7 @@ class App extends Component {
     } else {
       wsUrls.push.apply(wsUrls, [
         `wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-        `wss://${rippledHost}`,
+        `wss://${rippledHost}:443`,
       ]);
     }
     this.socket = new XrplClient(wsUrls);
