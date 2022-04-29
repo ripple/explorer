@@ -1,5 +1,14 @@
-import EventEmitter from "events";
+import EventEmitter from 'events';
 
+function wsEventToType(event) {
+  if (event === 'ledgerClosed') {
+    return 'ledger';
+  }
+  if (event === 'validationReceived') {
+    return 'validation';
+  }
+  return null;
+}
 /**
  * This is a mock WS client for testing purposes.
  */
@@ -25,7 +34,7 @@ class MockWsClient extends EventEmitter {
       this.ws = new WebSocket(wsUrl);
       this.ws.onmessage = message => {
         const streamResult = JSON.parse(message.data);
-        const type = this.wsEventToType(streamResult?.type)
+        const type = wsEventToType(streamResult?.type);
         if (type) {
           this.emit(type, streamResult);
         }
@@ -90,16 +99,6 @@ class MockWsClient extends EventEmitter {
     }
     const { command } = message;
     return Promise.resolve(this.responses[command]?.result);
-  }
-
-  wsEventToType(event) {
-    if (event === 'ledgerClosed') {
-      return 'ledger';
-    } else if (event === 'validationReceived') {
-      return 'validation';
-    } else {
-      return null;
-    }
   }
 }
 

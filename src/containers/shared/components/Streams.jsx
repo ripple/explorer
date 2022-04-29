@@ -490,12 +490,12 @@ class Streams extends Component {
 
     rippledSocket.on('ledger', this.onledgerWrapper);
 
-    this.onvalidationWrapper = (streamResult => {
+    this.onvalidationWrapper = streamResult => {
       const data = this.handleValidation(streamResult);
       if (data) {
         this.onvalidation(data);
       }
-    });
+    };
 
     rippledSocket.on('validation', this.onvalidationWrapper);
   }
