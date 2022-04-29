@@ -116,7 +116,6 @@ class Streams extends Component {
   }
 
   componentDidMount() {
-    this.mounted = true;
     this.connect();
     this.updateNegativeUNL();
     if (process.env.REACT_APP_ENVIRONMENT !== 'sidechain') {
@@ -139,7 +138,14 @@ class Streams extends Component {
       streams: ['ledger', 'validations'],
     });
 
-    this.mounted = false;
+    if (this.onledgerWrapper) {
+      rippledSocket.off('ledger', this.onledgerWrapper);
+    }
+
+    if (this.onvalidationWrapper) {
+      rippledSocket.off('validation', this.onvalidationWrapper);
+    }
+
     clearInterval(this.purge);
     clearInterval(this.purgeAll);
   }
@@ -213,82 +219,74 @@ class Streams extends Component {
 
   onmetric(data) {
     const { updateMetrics } = this.props;
-    if (this.mounted) {
-      this.setState(prevState => {
-        const metrics = Object.assign(prevState.metrics, data);
-        updateMetrics(metrics);
-        return { metrics };
-      });
-    }
+    this.setState(prevState => {
+      const metrics = Object.assign(prevState.metrics, data);
+      updateMetrics(metrics);
+      return { metrics };
+    });
   }
 
   onledgerSummary(data) {
     const { ledger_index: ledgerIndex } = data;
     if (ledgerIndex % 256 === 0) this.updateNegativeUNL();
-    if (this.mounted) {
-      this.setState(prevState => {
-        const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
-        ledgers[ledgerIndex] = Object.assign(ledgers[ledgerIndex] || { hashes: {} }, data);
-        if (ledgers[ledgerIndex].txn_count == null) {
-          ledgers[ledgerIndex].txn_count = data.transactions.length;
-        }
-        this.updateLedgers(ledgers);
-        return { ledgers, maxLedger };
-      });
-    }
+    this.setState(prevState => {
+      const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
+      ledgers[ledgerIndex] = Object.assign(ledgers[ledgerIndex] || { hashes: {} }, data);
+      if (ledgers[ledgerIndex].txn_count == null) {
+        ledgers[ledgerIndex].txn_count = data.transactions.length;
+      }
+      this.updateLedgers(ledgers);
+      return { ledgers, maxLedger };
+    });
   }
 
   onledger(data) {
     const { ledger_index: ledgerIndex } = data;
-    if (this.mounted) {
-      this.setState(prevState => {
-        const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
-        ledgers[ledgerIndex] = Object.assign(ledgers[ledgerIndex] || { hashes: {} }, data);
-        this.updateLedgers(ledgers);
-        return { ledgers, maxLedger };
-      });
-    }
+    this.setState(prevState => {
+      const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
+      ledgers[ledgerIndex] = Object.assign(ledgers[ledgerIndex] || { hashes: {} }, data);
+      this.updateLedgers(ledgers);
+      return { ledgers, maxLedger };
+    });
   }
 
   onvalidation(data) {
     const { validators: vList } = this.props;
     const { ledger_index: ledgerIndex, ledger_hash: ledgerHash } = data;
 
-    if (this.mounted) {
-      this.setState(prevState => {
-        const { validators } = prevState;
-        const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
+    this.setState(prevState => {
+      const { validators } = prevState;
+      const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex);
 
-        if (maxLedger - ledgerIndex > MAX_LEDGER_COUNT) {
-          return undefined;
-        }
+      if (maxLedger - ledgerIndex > MAX_LEDGER_COUNT) {
+        return undefined;
+      }
 
-        if (!ledgers[ledgerIndex]) {
-          ledgers[ledgerIndex] = {
-            ledger_index: ledgerIndex,
-            hashes: {},
-          };
-        }
-
-        if (!ledgers[ledgerIndex].hashes[ledgerHash]) {
-          ledgers[ledgerIndex].hashes[ledgerHash] = [];
-        }
-
-        ledgers[ledgerIndex].hashes[ledgerHash].push({
+      if (!ledgers[ledgerIndex]) {
+        ledgers[ledgerIndex] = {
           ledger_index: ledgerIndex,
-          ledger_hash: ledgerHash,
-          pubkey: data.pubkey,
-          partial: data.partial,
-          time: data.time,
-          unl: vList && vList[data.pubkey] && vList[data.pubkey].unl,
-        });
+          hashes: {},
+        };
+      }
 
-        validators[data.pubkey] = data;
-        this.updateLedgers(ledgers);
-        this.updateValidators(validators);
-        return { ledgers, validators, maxLedger };
+      if (!ledgers[ledgerIndex].hashes[ledgerHash]) {
+        ledgers[ledgerIndex].hashes[ledgerHash] = [];
+      }
+
+      ledgers[ledgerIndex].hashes[ledgerHash].push({
+        ledger_index: ledgerIndex,
+        ledger_hash: ledgerHash,
+        pubkey: data.pubkey,
+        partial: data.partial,
+        time: data.time,
+        unl: vList && vList[data.pubkey] && vList[data.pubkey].unl,
       });
-    }
+
+      validators[data.pubkey] = data;
+      this.updateLedgers(ledgers);
+      this.updateValidators(validators);
+      return { ledgers, validators, maxLedger };
+    });
   }
 
   getTruncatedLedgers(max) {
@@ -429,13 +427,11 @@ class Streams extends Component {
     const rippledSocket = this.context;
     fetchQuorum(rippledSocket).then(quorum => {
       const { updateMetrics } = this.props;
-      if (this.mounted) {
-        this.setState(prevState => {
-          const metrics = Object.assign(prevState.metrics, { quorum });
-          updateMetrics(metrics);
-          return { metrics };
-        });
-      }
+      this.setState(prevState => {
+        const metrics = Object.assign(prevState.metrics, { quorum });
+        updateMetrics(metrics);
+        return { metrics };
+      });
     });
   }
 
@@ -444,20 +440,18 @@ class Streams extends Component {
     const rippledSocket = this.context;
     fetchNegativeUNL(rippledSocket).then(nUnl => {
       const { updateMetrics } = this.props;
-      if (this.mounted) {
-        this.setState(prevState => {
-          const metrics = Object.assign(prevState.metrics, { nUnl });
-          updateMetrics(metrics);
-          return { metrics };
-        });
-      }
+      this.setState(prevState => {
+        const metrics = Object.assign(prevState.metrics, { nUnl });
+        updateMetrics(metrics);
+        return { metrics };
+      });
     });
   }
 
   connect() {
     const rippledSocket = this.context;
 
-    rippledSocket.on('ledger', streamResult => {
+    this.onledgerWrapper = streamResult => {
       if (streamResult.type !== 'ledgerClosed') {
         return;
       }
@@ -492,14 +486,18 @@ class Streams extends Component {
       } else {
         this.updateMetricsFromServer();
       }
-    });
+    };
 
-    rippledSocket.on('validation', streamResult => {
+    rippledSocket.on('ledger', this.onledgerWrapper);
+
+    this.onvalidationWrapper = streamResult => {
       const data = this.handleValidation(streamResult);
       if (data) {
         this.onvalidation(data);
       }
-    });
+    };
+
+    rippledSocket.on('validation', this.onvalidationWrapper);
   }
 
   render() {

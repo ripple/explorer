@@ -191,6 +191,9 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.selected-validator .pubkey').length).toBe(0);
 
     wrapper.unmount();
+
+    expect(client.listenerCount('ledger')).toBe(0);
+    expect(client.listenerCount('validation')).toBe(0);
   }, 8000);
 
   describe('Sidechain tests', () => {
