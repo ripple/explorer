@@ -24,7 +24,7 @@ const WS_URL = 'ws://localhost:1234';
 
 describe('Validators Tab container', () => {
   let server;
-  let client;
+  let client = new MockWsClient(WS_URL);
   const createWrapper = (props = {}) =>
     mount(
       <Router>

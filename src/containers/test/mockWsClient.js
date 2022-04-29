@@ -1,8 +1,9 @@
+import EventEmitter from "events";
+
 /**
  * This is a mock WS client for testing purposes.
  */
-
-class MockWsClient {
+class MockWsClient extends EventEmitter {
   /**
    * Construct the MockWsClient object.
    * @param wsUrl The URL for a WebSocket connection. If null, there is no
@@ -10,6 +11,7 @@ class MockWsClient {
    * null.
    */
   constructor(wsUrl = null) {
+    super();
     this.handlesStreams = wsUrl != null;
     this.handlers = {};
     this.responses = {};
@@ -23,9 +25,9 @@ class MockWsClient {
       this.ws = new WebSocket(wsUrl);
       this.ws.onmessage = message => {
         const streamResult = JSON.parse(message.data);
-        if (this.handlers[streamResult?.type] != null) {
-          const handler = this.handlers[streamResult.type];
-          handler(streamResult);
+        const type = this.wsEventToType(streamResult?.type)
+        if (type) {
+          this.emit(type, streamResult);
         }
       };
     }
@@ -42,27 +44,6 @@ class MockWsClient {
     if (this.ws) {
       this.ws.close();
     }
-  }
-
-  /**
-   * Mock the `on` method of XrplClient.
-   * @param listenerType The category of stream. Not all streams are supported
-   * here, because we don't use all the streams.
-   * @param callback The callback method for the stream result.
-   */
-  on(listenerType, callback) {
-    if (!this.handlesStreams) {
-      throw new Error('This TestWsClient is not set up to handle streams');
-    }
-    let key;
-    if (listenerType === 'ledger') {
-      key = 'ledgerClosed';
-    } else if (listenerType === 'validation') {
-      key = 'validationReceived';
-    } else {
-      throw new Error(`listener type doesn't exist: ${listenerType}`);
-    }
-    this.handlers[key] = callback;
   }
 
   /**
@@ -109,6 +90,16 @@ class MockWsClient {
     }
     const { command } = message;
     return Promise.resolve(this.responses[command]?.result);
+  }
+
+  wsEventToType(event) {
+    if (event === 'ledgerClosed') {
+      return 'ledger';
+    } else if (event === 'validationReceived') {
+      return 'validation';
+    } else {
+      return null;
+    }
   }
 }
 
