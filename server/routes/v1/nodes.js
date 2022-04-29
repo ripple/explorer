@@ -1,7 +1,12 @@
 const { default: axios } = require('axios');
 const log = require('../../lib/logger')({ name: 'nodes' });
 
-const DATA_URL = process.env.REACT_APP_DATA_URL;
+const ENV_NETWORK_MAP = {
+  mainnet: 'main',
+  testnet: 'test',
+  devnet: 'dev',
+  'nft-devnet': 'nft-dev',
+};
 
 const cache = {};
 
@@ -30,7 +35,10 @@ const ledgerCompare = (a = 0, b = 0) => {
 };
 
 const fetchNodes = () => {
-  return axios.get(`${DATA_URL}/topology/nodes`).then(resp => resp.data.nodes);
+  const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT];
+  return axios
+    .get(`${process.env.REACT_APP_DATA_URL}/topology/nodes/${network}`)
+    .then(resp => resp.data.nodes);
 };
 
 const cacheNodes = async () => {
@@ -39,7 +47,7 @@ const cacheNodes = async () => {
     try {
       const nodes = await fetchNodes();
 
-      const formattedNodes = nodes.map(node => ({
+      cache.nodes = nodes.map(node => ({
         host: node.ip,
         port: node.port,
         pubkey_node: node.node_public_key,
@@ -58,13 +66,6 @@ const cacheNodes = async () => {
         lat: node.lat,
         long: node.long,
       }));
-      cache.nodes = formattedNodes.filter(node => {
-        return (
-          (process.env.REACT_APP_ENVIRONMENT === 'mainnet' && node.networks.includes('main')) ||
-          (process.env.REACT_APP_ENVIRONMENT === 'testnet' && node.networks.includes('test')) ||
-          (process.env.REACT_APP_ENVIRONMENT === 'devnet' && node.networks.includes('dev'))
-        );
-      });
 
       cache.nodes.sort((a, b) => {
         if (a.server_state === b.server_state) {
