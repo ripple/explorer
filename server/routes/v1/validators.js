@@ -1,32 +1,27 @@
 const axios = require('axios');
 const log = require('../../lib/logger')({ name: 'validators' });
 
+const ENV_NETWORK_MAP = {
+  mainnet: 'main',
+  testnet: 'test',
+  devnet: 'dev',
+  'nft-devnet': 'nft-dev',
+};
+
 const cache = {};
 
-const fetchValidators = () =>
-  axios
-    .get(`${process.env.REACT_APP_DATA_URL}/validators`)
+const fetchValidators = () => {
+  const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT];
+  return axios
+    .get(`${process.env.REACT_APP_DATA_URL}/validators/${network}`)
     .then(response => response.data.validators);
+};
 
 const cacheValidators = async () => {
   if (!cache.pending) {
     cache.pending = true;
     try {
       cache.validators = await fetchValidators();
-      // Testnet/Devnet validators do not need a 30day score.
-      if (
-        process.env.REACT_APP_ENVIRONMENT === 'testnet' ||
-        process.env.REACT_APP_ENVIRONMENT === 'devnet'
-      ) {
-        cache.validators = cache.validators.filter(v => v.unl === process.env.REACT_APP_VALIDATOR);
-      } else {
-        cache.validators = cache.validators.filter(
-          v =>
-            v.agreement_30day &&
-            v.agreement_30day.score &&
-            (v.unl === process.env.REACT_APP_VALIDATOR || v.unl === false)
-        );
-      }
       cache.time = Date.now();
       cache.pending = false;
     } catch (e) {
