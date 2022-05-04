@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { geoPath, geoNaturalEarth1 } from 'd3-geo';
 import { scaleLinear } from 'd3-scale';
 import { hexbin } from 'd3-hexbin';
@@ -186,4 +186,4 @@ Map.defaultProps = {
   locations: null,
 };
 
-export default connect(state => ({ width: state.app.width }))(translate()(Map));
+export default connect(state => ({ width: state.app.width }))(withTranslation()(Map));

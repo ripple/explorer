@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import NoMatch from '../NoMatch';
@@ -200,4 +200,4 @@ export default connect(
       dispatch
     ),
   })
-)(translate()(Validator));
+)(withTranslation()(Validator));

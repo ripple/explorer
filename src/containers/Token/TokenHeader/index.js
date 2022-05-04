@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loadTokenState } from './actions';
@@ -264,4 +264,4 @@ export default connect(
       dispatch
     ),
   })
-)(translate()(TokenHeader));
+)(withTranslation()(TokenHeader));

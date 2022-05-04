@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { CURRENCY_OPTIONS } from '../shared/transactionUtils';
 import { localizeNumber } from '../shared/utils';
@@ -260,4 +260,4 @@ Ledgers.defaultProps = {
   paused: false,
 };
 
-export default translate()(Ledgers);
+export default withTranslation()(Ledgers);

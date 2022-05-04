@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { XrplClient } from 'xrpl-client';
@@ -158,7 +158,7 @@ App.propTypes = {
   }).isRequired,
 };
 
-export default translate()(
+export default withTranslation()(
   connect(
     state => ({
       language: state.app.language,
