@@ -127,7 +127,6 @@ export const TokenTxTable = props => {
 };
 
 TokenTxTable.propTypes = {
-  t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingError: PropTypes.string,

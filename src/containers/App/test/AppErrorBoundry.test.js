@@ -13,12 +13,15 @@ jest.mock('../../shared/utils', () => {
 
 const ProblemChild = () => {
   throw new Error('Error thrown from problem child');
-  return <div>Error</div>;
-}
+};
 
-describe('<AppErrorBoundary> component',()=> {
+describe('<AppErrorBoundary> component', () => {
   it('calls analytics with exception', () => {
-    mount(<AppErrorBoundry><ProblemChild /></AppErrorBoundry>);
+    mount(
+      <AppErrorBoundry>
+        <ProblemChild />
+      </AppErrorBoundry>
+    );
     expect(analytics).toBeCalledWith(ANALYTIC_TYPES.exception, expect.anything());
   });
-})
+});
