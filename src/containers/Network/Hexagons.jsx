@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { hexbin } from 'd3-hexbin';
 import Loader from '../shared/components/Loader';
 import Tooltip from '../shared/components/Tooltip';
@@ -147,4 +147,4 @@ Validators.defaultProps = {
 export default connect(state => ({
   language: state.app.language,
   width: state.app.width,
-}))(translate()(Validators));
+}))(withTranslation()(Validators));

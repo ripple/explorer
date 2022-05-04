@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import PayStringLogomark from '../../shared/images/PayString_Logomark.png';
 import { ReactComponent as QuestIcon } from '../../shared/images/hover_question.svg';
 import Tooltip from '../../shared/components/Tooltip';
@@ -45,4 +45,4 @@ PayStringHeader.propTypes = {
   language: PropTypes.string.isRequired,
 };
 
-export default translate()(PayStringHeader);
+export default withTranslation()(PayStringHeader);

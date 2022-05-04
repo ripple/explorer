@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { analytics, ANALYTIC_TYPES } from '../shared/utils';
 import infoIcon from '../shared/images/info_orange.png';
 import './nomatch.css';
@@ -48,4 +48,4 @@ NoMatch.defaultProps = {
   isError: true,
 };
 
-export default translate()(NoMatch);
+export default withTranslation()(NoMatch);

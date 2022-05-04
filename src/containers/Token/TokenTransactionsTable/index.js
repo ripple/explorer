@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
@@ -30,9 +30,10 @@ const DATE_OPTIONS = {
 export const TokenTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
+  const { t } = useTranslation();
   const rippledSocket = useContext(SocketContext);
 
-  const { accountId, currency, actions, data, loading, t, loadingError } = props;
+  const { accountId, currency, actions, data, loading, loadingError } = props;
 
   useEffect(() => {
     if (data.transactions == null) return;
@@ -69,7 +70,7 @@ export const TokenTxTable = props => {
               </div>
             </div>
             <div className={`col-type tx-type ${tx.type}`}>
-              <TxLabel type={tx.type} t={t} />
+              <TxLabel type={tx.type} />
             </div>
             <div className="col-status">
               <span title={tx.result} className={`tx-result ${success ? 'success' : 'fail'}`}>
@@ -171,4 +172,4 @@ export default connect(
       dispatch
     ),
   })
-)(translate()(TokenTxTable));
+)(TokenTxTable);

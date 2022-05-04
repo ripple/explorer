@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import './styles.css';
@@ -170,4 +170,4 @@ DEXPairs.propTypes = {
   currency: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
 };
-export default translate()(DEXPairs);
+export default withTranslation()(DEXPairs);

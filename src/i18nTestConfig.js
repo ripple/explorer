@@ -11,8 +11,8 @@ i18n.init({
 
   // react i18next special options (optional)
   react: {
-    wait: false,
     nsMode: 'fallback', // set it to fallback to let passed namespaces to translated hoc act as fallbacks
+    useSuspense: false
   },
 });
 

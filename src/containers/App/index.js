@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { translate } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions';
@@ -12,34 +12,32 @@ import './app.css';
 import App from './App';
 import NoMatch from '../NoMatch';
 import SidechainHome from '../SidechainHome';
+import AppErrorErrorBoundary from './AppErrorBoundry';
 
 const AppWrapper = props => {
-  const { t } = props;
+  const { t } = useTranslation();
   const mode = process.env.REACT_APP_ENVIRONMENT;
   const path = mode === 'sidechain' ? '/:rippledUrl' : '/';
   return (
     <div className="app-wrapper">
-      <Helmet>
-        <meta name="description" content={t('app.meta.description')} />
-        <meta name="author" content={t('app.meta.author')} />
-      </Helmet>
-      <Banner />
-      <Switch>
-        <Route path={path} component={App} />
-        {mode === 'sidechain' && <Route path="/" component={SidechainHome} />}
-        <Route component={NoMatch} />
-      </Switch>
-      <Footer />
+      <AppErrorErrorBoundary>
+        <Helmet>
+          <meta name="description" content={t('app.meta.description')} />
+          <meta name="author" content={t('app.meta.author')} />
+        </Helmet>
+        <Banner />
+        <Switch>
+          <Route path={path} component={App} />
+          {mode === 'sidechain' && <Route path="/" component={SidechainHome} />}
+          <Route component={NoMatch} />
+        </Switch>
+        <Footer />
+      </AppErrorErrorBoundary>
     </div>
   );
 };
 
 AppWrapper.propTypes = {
-  t: PropTypes.func.isRequired,
-  i18n: PropTypes.shape({
-    language: PropTypes.string,
-    changeLanguage: PropTypes.func.isRequired,
-  }).isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string,
     pathname: PropTypes.string,
@@ -57,21 +55,19 @@ AppWrapper.propTypes = {
 };
 
 export default withRouter(
-  translate()(
-    connect(
-      state => ({
-        language: state.app.language,
-      }),
-      dispatch => ({
-        actions: bindActionCreators(
-          {
-            updateViewportDimensions,
-            onScroll,
-            updateLanguage,
-          },
-          dispatch
-        ),
-      })
-    )(AppWrapper)
-  )
+  connect(
+    state => ({
+      language: state.app.language,
+    }),
+    dispatch => ({
+      actions: bindActionCreators(
+        {
+          updateViewportDimensions,
+          onScroll,
+          updateLanguage,
+        },
+        dispatch
+      ),
+    })
+  )(AppWrapper)
 );
