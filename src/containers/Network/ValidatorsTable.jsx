@@ -32,8 +32,8 @@ class ValidatorsTable extends Component {
       if (aUnl < bUnl) return -1;
       if (aDomain > bDomain) return 1;
       if (aDomain < bDomain) return -1;
-      if (aScore > bScore) return 1;
-      if (aScore < bScore) return -1;
+      if (aScore < bScore) return 1;
+      if (aScore > bScore) return -1;
       if (aPubkey > bPubkey) return 1;
       if (aPubkey < bPubkey) return -1;
 
