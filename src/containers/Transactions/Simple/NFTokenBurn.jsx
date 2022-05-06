@@ -12,7 +12,9 @@ const NFTokenBurn = props => {
     <div className="row flex-wrap">
       <div className="label">Token ID</div>
       <div className="value">
-        <div className="dt">{tokenID}</div>
+        <div className="dt" data-test="token-id">
+          {tokenID}
+        </div>
       </div>
     </div>
   );

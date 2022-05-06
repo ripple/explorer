@@ -3,7 +3,15 @@ const formatAmount = require('./formatAmount');
 module.exports = (tx, meta) => {
   const acceptedOfferNode = meta.AffectedNodes.find(
     node => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer'
-  ).DeletedNode.FinalFields;
+  )?.DeletedNode?.FinalFields;
+
+  const acceptedOfferIDs = [tx.NFTokenBuyOffer, tx.NFTokenSellOffer].filter(offer => offer);
+
+  if (!acceptedOfferNode) {
+    return {
+      acceptedOfferIDs,
+    };
+  }
 
   const amount = formatAmount(acceptedOfferNode.Amount);
   const tokenID = acceptedOfferNode.NFTokenID;
@@ -12,8 +20,6 @@ module.exports = (tx, meta) => {
   const isSellOffer = (acceptedOfferNode.Flags & 1) !== 0;
   const seller = isSellOffer ? offerer : accepter;
   const buyer = isSellOffer ? accepter : offerer;
-
-  const acceptedOfferIDs = [tx.NFTokenBuyOffer, tx.NFTokenSellOffer].filter(offer => offer);
 
   return {
     amount,
