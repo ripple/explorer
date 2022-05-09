@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from 'react-i18next';
-import { localizeDate } from '../../shared/utils';
+import { localizeDate, TIMEZONE } from '../../shared/utils';
 import {
-  DATE_OPTIONS,
   CURRENCY_ORDER,
   RIPPLE_EPOCH,
   XRP_BASE,
@@ -74,7 +73,7 @@ const OfferCreate = props => {
     const today = new Date();
     const transString =
       unixT - today.getTime() > 0 ? 'offer_will_expire_desc' : 'offer_did_expire_desc';
-    const date = `${localizeDate(unixT, language, DATE_OPTIONS)} ${DATE_OPTIONS.timeZone}`;
+    const date = `${localizeDate(unixT, language)} ${TIMEZONE}`;
 
     lines.push(
       <Trans key="line4" i18nKey={transString}>

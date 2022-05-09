@@ -9,16 +9,6 @@ import './simpleTab.css';
 
 const XRP_BASE = 1000000;
 const TIME_ZONE = 'UTC';
-const DATE_OPTIONS = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour12: true,
-  timeZone: TIME_ZONE,
-};
 const CURRENCY_OPTIONS = {
   style: 'currency',
   currency: '',
@@ -88,7 +78,7 @@ class SimpleTab extends Component {
     const { t, language, data, width } = this.props;
     const { raw } = data;
     const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' };
-    const time = localizeDate(new Date(raw.date), language, DATE_OPTIONS);
+    const time = localizeDate(new Date(raw.date), language);
     const ledgerIndex = raw.ledger_index;
     const fee = raw.tx.Fee
       ? localizeNumber(Number.parseFloat(raw.tx.Fee) / XRP_BASE, language, numberOptions)

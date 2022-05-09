@@ -13,16 +13,6 @@ const states = {
 };
 
 const TIME_ZONE = 'UTC';
-const DATE_OPTIONS = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour12: true,
-  timeZone: TIME_ZONE,
-};
 
 class EnableAmendment extends Component {
   static async fetchAmendmentNames() {
@@ -104,7 +94,7 @@ class EnableAmendment extends Component {
         break;
       case 65536:
         status = 'Got Majority';
-        expected = localizeDate(txDate.setDate(txDate.getDate() + 14), language, DATE_OPTIONS);
+        expected = localizeDate(txDate.setDate(txDate.getDate() + 14), language);
         break;
       case 131072:
         status = 'Lost Majority';

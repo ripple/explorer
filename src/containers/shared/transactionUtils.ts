@@ -79,17 +79,6 @@ export const CURRENCY_OPTIONS = {
   maximumFractionDigits: 8,
 };
 
-export const DATE_OPTIONS = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour12: true,
-  timeZone: 'UTC',
-};
-
 interface Node {
   DeletedNode?: any;
   ModifiedNode?: any;

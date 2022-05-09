@@ -1,26 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { localizeDate, localizeNumber } from '../../shared/utils';
-import {
-  DATE_OPTIONS,
-  RIPPLE_EPOCH,
-  normalizeAmount,
-  findNode,
-} from '../../shared/transactionUtils';
+import { localizeDate, localizeNumber, TIMEZONE } from '../../shared/utils';
+import { RIPPLE_EPOCH, normalizeAmount, findNode } from '../../shared/transactionUtils';
 import Account from '../../shared/components/Account';
 
 const PaymentChannelCreate = props => {
   const { t, language, data } = props;
-  const cancelAfter = localizeDate(
-    (data.tx.CancelAfter + RIPPLE_EPOCH) * 1000,
-    language,
-    DATE_OPTIONS
-  );
-  const expiration = localizeDate(
-    (data.tx.Experiation + RIPPLE_EPOCH) * 1000,
-    language,
-    DATE_OPTIONS
-  );
+  const cancelAfter = localizeDate((data.tx.CancelAfter + RIPPLE_EPOCH) * 1000, language);
+  const expiration = localizeDate((data.tx.Experiation + RIPPLE_EPOCH) * 1000, language);
 
   const node = findNode(data, 'CreatedNode', 'PayChannel');
   const lines = [];
@@ -82,7 +69,7 @@ const PaymentChannelCreate = props => {
     lines.push(
       <div key="line5">
         {t('describe_experiation')}
-        <span className="time">{` ${expiration} ${DATE_OPTIONS.timeZone}`}</span>
+        <span className="time">{` ${expiration} ${TIMEZONE}`}</span>
       </div>
     );
   }
@@ -91,7 +78,7 @@ const PaymentChannelCreate = props => {
     lines.push(
       <div key="line6">
         {t('describe_cancel_after')}
-        <span className="time">{` ${cancelAfter} ${DATE_OPTIONS.timeZone}`}</span>
+        <span className="time">{` ${cancelAfter} ${TIMEZONE}`}</span>
       </div>
     );
   }

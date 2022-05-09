@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CURRENCY_OPTIONS, DATE_OPTIONS } from '../../shared/transactionUtils';
-import { localizeNumber, localizeDate } from '../../shared/utils';
+import { CURRENCY_OPTIONS } from '../../shared/transactionUtils';
+import { localizeNumber, localizeDate, TIMEZONE } from '../../shared/utils';
 import Currency from '../../shared/components/Currency';
 import Account from '../../shared/components/Account';
 
@@ -10,8 +10,8 @@ const EscrowCreate = props => {
   const { amount, destination, condition, finishAfter, cancelAfter } = data.instructions;
   const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
   const amt = localizeNumber(amount.amount, language, options);
-  const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS);
-  const faDate = localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS);
+  const caDate = localizeDate(Date.parse(cancelAfter), language);
+  const faDate = localizeDate(Date.parse(finishAfter), language);
 
   return (
     <>
@@ -40,7 +40,7 @@ const EscrowCreate = props => {
         <div className="row">
           <div className="label">{t('cancel_after')}</div>
           <div className="value date">
-            {caDate} {DATE_OPTIONS.timeZone}
+            {caDate} {TIMEZONE}
           </div>
         </div>
       )}
@@ -48,7 +48,7 @@ const EscrowCreate = props => {
         <div className="row">
           <div className="label">{t('finish_after')}</div>
           <div className="value date">
-            {faDate} {DATE_OPTIONS.timeZone}
+            {faDate} {TIMEZONE}
           </div>
         </div>
       )}

@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import Currency from './Currency';
-import { CURRENCY_OPTIONS, DATE_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils';
+import { CURRENCY_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils';
 import { localizeNumber, localizeDate } from '../utils';
 
 interface Instructions {
@@ -144,13 +144,13 @@ const TxDetails = (props: Props) => {
         {finishAfter && (
           <div>
             <span className="label">{t('finish_after')}</span>
-            <span> {localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS)} UTC </span>
+            <span> {localizeDate(Date.parse(finishAfter), language)} UTC </span>
           </div>
         )}
         {cancelAfter && (
           <div>
             <span className="label">{t('cancel_after')}</span>
-            <span> {localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)} UTC </span>
+            <span> {localizeDate(Date.parse(cancelAfter), language)} UTC </span>
           </div>
         )}
       </div>

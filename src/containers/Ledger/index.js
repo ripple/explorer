@@ -20,22 +20,11 @@ import {
   BAD_REQUEST,
   analytics,
   ANALYTIC_TYPES,
+  TIMEZONE,
 } from '../shared/utils';
 import './ledger.css';
 import TxLabel from '../shared/components/TxLabel';
 import SocketContext from '../shared/SocketContext';
-
-const TIME_ZONE = 'UTC';
-const DATE_OPTIONS = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour12: true,
-  timeZone: TIME_ZONE,
-};
 
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -120,7 +109,7 @@ class Ledger extends Component {
           </div>
           <div className="ledger-hash">{LedgerHash}</div>
           <div className="closed-date">
-            {localizeDate(date, language, DATE_OPTIONS)} {TIME_ZONE}
+            {localizeDate(date, language)} {TIMEZONE}
           </div>
         </div>
       </div>

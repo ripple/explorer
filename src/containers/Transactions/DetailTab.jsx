@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom';
 import TransactionMeta from './Meta';
 import TransactionDescription from './Description';
 import Account from '../shared/components/Account';
-import { localizeDate, localizeNumber } from '../shared/utils';
+import { localizeDate, localizeNumber, TIMEZONE } from '../shared/utils';
 import {
-  DATE_OPTIONS,
   CURRENCY_OPTIONS,
   SUCCESSFULL_TRANSACTION,
   XRP_BASE,
@@ -19,7 +18,7 @@ class DetailTab extends Component {
   renderStatus() {
     const { t, language, data } = this.props;
     const { TransactionResult } = data.meta;
-    const time = localizeDate(new Date(data.date), language, DATE_OPTIONS);
+    const time = localizeDate(new Date(data.date), language);
     let line1;
 
     if (TransactionResult === SUCCESSFULL_TRANSACTION) {
@@ -42,7 +41,7 @@ class DetailTab extends Component {
           {data.ledger_index}
         </Link>
         {t('on')}
-        <span className="time">{`${time} ${DATE_OPTIONS.timeZone}`}</span>
+        <span className="time">{`${time} ${TIMEZONE}`}</span>
       </div>
     );
   }

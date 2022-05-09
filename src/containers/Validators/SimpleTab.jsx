@@ -7,16 +7,6 @@ import './simpleTab.css';
 import successIcon from '../shared/images/success.png';
 
 const TIME_ZONE = 'UTC';
-const DATE_OPTIONS = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour12: true,
-  timeZone: TIME_ZONE,
-};
 
 class SimpleTab extends Component {
   renderRowIndex({ last_ledger_time: lastLedgerTime, ledger_index: ledgerIndex, unl, updated }) {
@@ -79,9 +69,9 @@ class SimpleTab extends Component {
     const formattedData = {
       ...data,
       last_ledger_time: data.last_ledger_time
-        ? localizeDate(new Date(data.last_ledger_time), language, DATE_OPTIONS)
+        ? localizeDate(new Date(data.last_ledger_time), language)
         : '',
-      updated: data.updated ? localizeDate(new Date(data.updated), language, DATE_OPTIONS) : '',
+      updated: data.updated ? localizeDate(new Date(data.updated), language) : '',
     };
 
     let rowIndex;

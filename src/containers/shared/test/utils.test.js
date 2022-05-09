@@ -93,7 +93,7 @@ describe('utils', () => {
   it('localizeDate', () => {
     const d = new Date('Tue Mar 20 2018');
     expect(localizeDate()).toEqual(null);
-    expect(localizeDate(d)).toEqual('3/20/2018');
+    expect(localizeDate(d)).toEqual('March 20, 2018, 5:00:00 AM');
   });
 
   it('google analyitcs', () => {

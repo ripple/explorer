@@ -1,22 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from 'react-i18next';
-import { localizeDate } from '../../shared/utils';
-import { DATE_OPTIONS, RIPPLE_EPOCH, normalizeAmount } from '../../shared/transactionUtils';
+import { localizeDate, TIMEZONE } from '../../shared/utils';
+import { RIPPLE_EPOCH, normalizeAmount } from '../../shared/transactionUtils';
 import Account from '../../shared/components/Account';
 
 const EscrowCreate = props => {
   const { t, language, data } = props;
-  const cancelAfter = localizeDate(
-    (data.tx.CancelAfter + RIPPLE_EPOCH) * 1000,
-    language,
-    DATE_OPTIONS
-  );
-  const finishAfter = localizeDate(
-    (data.tx.FinishAfter + RIPPLE_EPOCH) * 1000,
-    language,
-    DATE_OPTIONS
-  );
+  const cancelAfter = localizeDate((data.tx.CancelAfter + RIPPLE_EPOCH) * 1000, language);
+  const finishAfter = localizeDate((data.tx.FinishAfter + RIPPLE_EPOCH) * 1000, language);
   const lines = [];
 
   if (data.tx.Destination !== data.tx.Account) {
@@ -62,7 +54,7 @@ const EscrowCreate = props => {
     lines.push(
       <div key="line5">
         {t('describe_cancel_after')}
-        <span className="time">{` ${cancelAfter} ${DATE_OPTIONS.timeZone}`}</span>
+        <span className="time">{` ${cancelAfter} ${TIMEZONE}`}</span>
       </div>
     );
   }
@@ -71,7 +63,7 @@ const EscrowCreate = props => {
     lines.push(
       <div key="line6">
         {t('describe_finish_after')}
-        <span className="time">{` ${finishAfter} ${DATE_OPTIONS.timeZone}`}</span>
+        <span className="time">{` ${finishAfter} ${TIMEZONE}`}</span>
       </div>
     );
   }

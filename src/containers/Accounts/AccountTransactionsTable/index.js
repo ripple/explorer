@@ -14,18 +14,6 @@ import './styles.css';
 import TxLabel from '../../shared/components/TxLabel';
 import SocketContext from '../../shared/SocketContext';
 
-const TIME_ZONE = 'UTC';
-const DATE_OPTIONS = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour12: true,
-  timeZone: TIME_ZONE,
-};
-
 export const AccountTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
@@ -51,7 +39,7 @@ export const AccountTxTable = props => {
   const renderListItem = tx => {
     const { language, t } = props;
     const success = tx.result === 'tesSUCCESS';
-    const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS);
+    const date = localizeDate(new Date(tx.date), language);
     const status = success ? 'Success' : `Fail - ${tx.result}`;
 
     return (

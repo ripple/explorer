@@ -7,12 +7,6 @@ import '../css/tooltip.css';
 import { ReactComponent as PayStringToolTip } from '../images/paystring_tooltip.svg';
 
 const PADDING_Y = 20;
-const DATE_OPTIONS = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  hour12: true,
-};
 
 class Tooltip extends Component {
   constructor(props) {
@@ -43,7 +37,7 @@ class Tooltip extends Component {
       <>
         <div className="domain">{v.domain}</div>
         <div className="pubkey">{key}</div>
-        <div className="time">{localizeDate(time, language, DATE_OPTIONS)}</div>
+        <div className="time">{localizeDate(time, language)}</div>
         {v.unl && (
           <div className="unl">
             {v.unl}

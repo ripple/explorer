@@ -58,6 +58,18 @@ const NUMBER_DEFAULT_OPTIONS = {
   useGrouping: true,
 };
 
+export const TIMEZONE = 'UTC';
+export const DATE_DEFAULT_OPTIONS = {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour12: true,
+  timeZone: TIMEZONE,
+};
+
 export const normalizeLanguage = lang => {
   if (!lang) {
     return undefined;
@@ -135,11 +147,12 @@ export function formatPrice(number, lang = 'en-US', currency = 'USD', decimals =
 
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
 export const localizeDate = (date, lang = 'en-US', options = {}) => {
-  // TODO: default config
+  const config = options ?? DATE_DEFAULT_OPTIONS;
+
   if (!date) {
     return null;
   }
-  return new Intl.DateTimeFormat(lang, options).format(date);
+  return new Intl.DateTimeFormat(lang, config).format(date);
 };
 
 /**
