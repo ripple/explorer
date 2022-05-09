@@ -146,7 +146,7 @@ export function formatPrice(number, lang = 'en-US', currency = 'USD', decimals =
 }
 
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
-export const localizeDate = (date, lang = 'en-US', options = {}) => {
+export const localizeDate = (date, lang = 'en-US', options) => {
   const config = options ?? DATE_DEFAULT_OPTIONS;
 
   if (!date) {
