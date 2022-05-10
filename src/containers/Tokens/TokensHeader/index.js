@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import Loader from '../../shared/components/Loader';
 import './styles.css';
 
 const TokensHeader = props => {
-  const { t, tokens, isLoading, isError } = props;
+  const { tokens, isLoading, isError } = props;
 
   const [totalIssuers, setTotalIssuers] = useState();
   const [totalTokens, setTotalTokens] = useState();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!isError) {
@@ -55,7 +56,6 @@ const TokensHeader = props => {
 
 TokensHeader.propTypes = {
   isLoading: PropTypes.bool.isRequired,
-  t: PropTypes.func.isRequired,
   tokens: PropTypes.arrayOf(
     PropTypes.shape({
       issuer: PropTypes.string.isRequired,
@@ -67,4 +67,4 @@ TokensHeader.propTypes = {
   isError: PropTypes.bool.isRequired,
 };
 
-export default translate()(TokensHeader);
+export default TokensHeader;

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loadAccountState } from './actions';
@@ -22,12 +22,12 @@ const CURRENCY_OPTIONS = {
 
 const AccountHeader = props => {
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
+  const { t } = useTranslation();
   const rippledSocket = useContext(SocketContext);
 
   const {
     accountId,
     actions,
-    t,
     data,
     language,
     onSetCurrencySelected,
@@ -273,7 +273,6 @@ const AccountHeader = props => {
 
 AccountHeader.propTypes = {
   language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired,
   onSetCurrencySelected: PropTypes.func.isRequired,
   currencySelected: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -335,4 +334,4 @@ export default connect(
       dispatch
     ),
   })
-)(translate()(AccountHeader));
+)(AccountHeader);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import './styles.css';
 import Loader from '../../shared/components/Loader';
@@ -25,8 +25,9 @@ function processBigNumber(number, language, currency = undefined) {
 const TokensTable = props => {
   const [tokens, setTokens] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const { allTokens, t, isError } = props;
+  const { i18n, t } = useTranslation();
+  const { allTokens, isError } = props;
+  const lng = i18n.resolvedLanguage;
 
   useEffect(() => {
     if (allTokens.length === 0) return;
@@ -48,7 +49,6 @@ const TokensTable = props => {
   }
 
   function renderRow(tokenInfo, rank) {
-    const { lng } = props;
     const tokenName = `${tokenInfo.currency}.${tokenInfo.issuer}`;
     const currencySymbol = getLocalizedCurrencySymbol(lng, tokenInfo.currency);
 
@@ -125,7 +125,6 @@ const TokensTable = props => {
 };
 
 TokensTable.propTypes = {
-  t: PropTypes.func.isRequired,
   allTokens: PropTypes.arrayOf(
     PropTypes.shape({
       issuer: PropTypes.string.isRequired,
@@ -138,8 +137,7 @@ TokensTable.propTypes = {
       exchangeRate: PropTypes.number,
     })
   ).isRequired,
-  lng: PropTypes.string.isRequired,
   isError: PropTypes.bool.isRequired,
 };
 
-export default translate()(TokensTable);
+export default TokensTable;
