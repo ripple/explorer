@@ -6,22 +6,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Basic requirements
 
-### xcode
-
-1.  Install xcode from app store
-1.  Open xcode and agree to license and finish the installation
-
 ### Install node.js and npm with [nvm](https://github.com/creationix/nvm)
 
 1.  `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash`
-1.  `nvm install node`
+1.  `nvm install node@14`
 1.  `nvm alias default node`
-
-### Global packages
-
-1.  `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-1.  `npm install -g create-react-app`
-1.  `brew install watchman`
 
 ### Google BigQuery Setup
 This setup is required for the Tokens page of the explorer to function:
