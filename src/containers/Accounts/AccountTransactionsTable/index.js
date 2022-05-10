@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
@@ -185,4 +185,4 @@ export default connect(
       dispatch
     ),
   })
-)(translate()(AccountTxTable));
+)(withTranslation()(AccountTxTable));

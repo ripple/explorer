@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -266,7 +266,7 @@ Header.propTypes = {
 };
 
 export default withRouter(
-  translate()(
+  withTranslation()(
     connect(state => ({
       width: state.app.width,
       isScrolled: state.app.isScrolled,

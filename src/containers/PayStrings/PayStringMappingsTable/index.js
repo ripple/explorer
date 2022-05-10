@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { classicAddressToXAddress } from 'ripple-address-codec';
@@ -246,4 +246,4 @@ export default connect(
       dispatch
     ),
   })
-)(translate()(PayStringAddressesTable));
+)(withTranslation()(PayStringAddressesTable));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import Tabs from '../shared/components/Tabs';
 import Streams from '../shared/components/Streams';
@@ -130,4 +130,4 @@ Validators.propTypes = {
 
 export default connect(state => ({
   language: state.app.language,
-}))(translate()(Validators));
+}))(withTranslation()(Validators));

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { analytics, ANALYTIC_TYPES } from '../shared/utils';
 import Log from '../shared/log';
@@ -81,4 +81,4 @@ Tokens.defaultProps = {
   error: null,
 };
 
-export default translate()(Tokens);
+export default withTranslation()(Tokens);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import TokenHeader from './TokenHeader';
@@ -105,4 +105,4 @@ Token.defaultProps = {
 export default connect(state => ({
   width: state.app.width,
   error: state.accountHeader.status,
-}))(translate()(Token));
+}))(withTranslation()(Token));

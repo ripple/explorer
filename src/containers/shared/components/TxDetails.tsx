@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Currency from './Currency';
 import { CURRENCY_OPTIONS, DATE_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils';
 import { localizeNumber, localizeDate } from '../utils';
@@ -476,4 +476,4 @@ TxDetails.defaultProps = {
   type: null,
 };
 
-export default translate()(TxDetails);
+export default withTranslation()(TxDetails);

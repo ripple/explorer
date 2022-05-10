@@ -2,7 +2,7 @@ import 'intl';
 import 'core-js/features/map';
 import 'core-js/features/set';
 import 'raf/polyfill';
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -14,11 +14,11 @@ import localForage from 'localforage';
 import { I18nextProvider } from 'react-i18next';
 import reduxLogger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import i18n from './i18n';
 import rootReducer from './rootReducer';
 import { unregister } from './registerServiceWorker';
 import './containers/shared/css/global.css';
 import App from './containers/App';
+import i18n from './i18n';
 
 require('typeface-roboto');
 
@@ -33,15 +33,17 @@ if (!Promise) {
 
 const renderApp = () => {
   ReactDOM.render(
-    <I18nextProvider i18n={i18n}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Router>
-            <App />
-          </Router>
-        </PersistGate>
-      </Provider>
-    </I18nextProvider>,
+    <Suspense fallback="Loading">
+      <I18nextProvider i18n={i18n}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Router>
+              <App />
+            </Router>
+          </PersistGate>
+        </Provider>
+      </I18nextProvider>
+    </Suspense>,
     document.getElementById('xrpl-explorer')
   );
 };

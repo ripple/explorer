@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Log from '../shared/log';
@@ -104,4 +104,4 @@ LedgersPage.propTypes = {
 
 export default connect(state => ({
   language: state.app.language,
-}))(translate()(LedgersPage));
+}))(withTranslation()(LedgersPage));
