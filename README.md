@@ -6,11 +6,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Basic requirements
 
-### Install node.js and npm with [nvm](https://github.com/creationix/nvm)
+### Install Node and NPM
 
-1.  `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash`
-1.  `nvm install node@14`
-1.  `nvm alias default node`
+The project requires node@14. Follow installation instructions on [nodejs.org](https://nodejs.org/en/).
 
 ### Google BigQuery Setup
 This setup is required for the Tokens page of the explorer to function:
