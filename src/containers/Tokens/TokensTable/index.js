@@ -27,6 +27,7 @@ const TokensTable = props => {
   const [isLoading, setIsLoading] = useState(true);
   const { i18n, t } = useTranslation();
   const { allTokens, isError } = props;
+  const lng = i18n.resolvedLanguage;
 
   useEffect(() => {
     if (allTokens.length === 0) return;
@@ -49,7 +50,7 @@ const TokensTable = props => {
 
   function renderRow(tokenInfo, rank) {
     const tokenName = `${tokenInfo.currency}.${tokenInfo.issuer}`;
-    const currencySymbol = getLocalizedCurrencySymbol(i18n, tokenInfo.currency);
+    const currencySymbol = getLocalizedCurrencySymbol(lng, tokenInfo.currency);
 
     return (
       <tr key={rank} className="tokens-table-row">
@@ -71,19 +72,15 @@ const TokensTable = props => {
           )}
         </td>
         <td className="obligations">
-          {tokenInfo.obligations
-            ? processBigNumber(tokenInfo.obligations, i18n.resolvedLanguage)
-            : 0}
+          {tokenInfo.obligations ? processBigNumber(tokenInfo.obligations, lng) : 0}
         </td>
-        <td className="volume">
-          {tokenInfo.volume ? processBigNumber(tokenInfo.volume, i18n.resolvedLanguage) : 0}
-        </td>
+        <td className="volume">{tokenInfo.volume ? processBigNumber(tokenInfo.volume, lng) : 0}</td>
         <td className="market-cap">
           {`${processBigNumber(
             tokenInfo.exchangeRate && tokenInfo.obligations
               ? tokenInfo.exchangeRate * tokenInfo.obligations
               : 0,
-            i18n.resolvedLanguage,
+            lng,
             'XRP'
           )}`}
         </td>
