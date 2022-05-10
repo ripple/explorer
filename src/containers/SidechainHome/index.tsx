@@ -1,5 +1,5 @@
 import React, { KeyboardEvent, useState } from 'react';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo.svg';
 import Header from '../Header';
@@ -93,4 +93,4 @@ const SidechainHome = (props: Props) => {
   );
 };
 
-export default translate()(SidechainHome);
+export default withTranslation()(SidechainHome);

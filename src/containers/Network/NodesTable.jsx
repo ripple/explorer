@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Loader from '../shared/components/Loader';
 import { durationToHuman } from '../shared/utils';
@@ -175,4 +175,4 @@ NodesTable.defaultProps = {
   nodes: null,
 };
 
-export default translate()(NodesTable);
+export default withTranslation()(NodesTable);

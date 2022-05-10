@@ -1,6 +1,6 @@
 import i18n from 'i18next';
-import XHR from 'i18next-xhr-backend';
-import languageDetector from './languageDetector';
+import Backend from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 const options = {
   debug: process.env.NODE_ENV === 'development',
@@ -13,7 +13,7 @@ const options = {
     formatSeparator: ',',
   },
   react: {
-    wait: true,
+    useSuspense: true,
   },
   backend: {
     loadPath: '/locales/{{lng}}/{{ns}}.json',
@@ -22,8 +22,8 @@ const options = {
 };
 
 i18n
-  .use(XHR)
-  .use(languageDetector)
+  .use(Backend)
+  .use(LanguageDetector)
   .init(options);
 
 export default i18n;

@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { ACCOUNT_ZERO } from '../transactionUtils';
 
 interface Props {
-  t: (s: string) => string;
   addContextHelp: boolean;
   sequence: number;
   ticketSequence: number;
@@ -12,7 +11,8 @@ interface Props {
 }
 
 const Sequence = (props: Props) => {
-  const { t, addContextHelp, sequence, ticketSequence, account } = props;
+  const { t } = useTranslation();
+  const { addContextHelp, sequence, ticketSequence, account } = props;
   const isPseudoTransaction = account === ACCOUNT_ZERO;
 
   return (
@@ -31,7 +31,6 @@ const Sequence = (props: Props) => {
 };
 
 Sequence.propTypes = {
-  t: PropTypes.func,
   sequence: PropTypes.number,
   ticketSequence: PropTypes.number,
   addContextHelp: PropTypes.bool,
@@ -39,11 +38,10 @@ Sequence.propTypes = {
 };
 
 Sequence.defaultProps = {
-  t: (d: string) => d,
   sequence: PropTypes.number,
   ticketSequence: 0,
   addContextHelp: false,
   account: '',
 };
 
-export default translate()(Sequence);
+export default Sequence;

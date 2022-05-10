@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Validators from './Validators';
 import Nodes from './Nodes';
@@ -51,4 +51,4 @@ Network.propTypes = {
   }).isRequired,
 };
 
-export default translate()(Network);
+export default withTranslation()(Network);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { Redirect } from 'react-router-dom';
 import {
   isValidClassicAddress,
@@ -138,4 +138,4 @@ Search.defaultProps = {
   callback: () => {},
 };
 
-export default translate()(Search);
+export default withTranslation()(Search);
