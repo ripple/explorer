@@ -1,0 +1,447 @@
+{
+  "tx": {
+    "Account": "r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g",
+    "Fee": "12",
+    "Flags": 0,
+    "LastLedgerSequence": 1799514,
+    "NFTokenBuyOffer": "8278760A246D4464EE701D503091B9DB0D9790DD2BBE9CAABCA45B04A1A25B6B",
+    "Sequence": 1166460,
+    "SigningPubKey": "ED475D1452031E8F9641AF1631519A58F7B8681E172E4838AA0E59408ADA1727DD",
+    "TransactionType": "NFTokenAcceptOffer",
+    "TxnSignature": "61E42CD0A4FF1D16ADBF57743BE0F6061DED3907C5E4AABF4387EDE08E298A9E694360AC381E2FBD7BB6AD5795E4AD303E0BB0D59EE25F0AF44BE5EA362C9D04",
+    "date": "2022-05-03T17:14:22Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh",
+            "Balance": "9999998276",
+            "Flags": 0,
+            "OwnerCount": 2,
+            "Sequence": 1166460
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "471307512702DC1933C63B795519B8BF08BC4EAD840D87BD84AA98A1EB90DDF6",
+          "PreviousFields": {
+            "Balance": "9999998376",
+            "OwnerCount": 3
+          },
+          "PreviousTxnID": "1F0ED931D656F31631BBD186E21DA735EDCDBDC7A68EBD9587C9C1EA5917C4C2",
+          "PreviousTxnLgrSeq": 1799495
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Flags": 1,
+            "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C29ABA6A90000000D",
+            "RootIndex": "4866AEDB883C1F063E54457B0BF5FD031CDE4868A1697C84229FA16BA3D2C198"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "4866AEDB883C1F063E54457B0BF5FD031CDE4868A1697C84229FA16BA3D2C198"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "NFTokens": [
+              {
+                "NFToken": {
+                  "NFTokenID": "00080000E7F5BAC19E99193969DAC1452B90558C1F9D5C6D0000099B00000000",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "00080000E7F5BAC19E99193969DAC1452B90558C1F9D5C6D16E5DA9C00000001",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "00080000E7F5BAC19E99193969DAC1452B90558C1F9D5C6D2DCBAB9D00000002",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "00080000E7F5BAC19E99193969DAC1452B90558C1F9D5C6D44B17C9E00000003",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C0000099B00000000",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C29ABA6A90000000D",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              }
+            ]
+          },
+          "LedgerEntryType": "NFTokenPage",
+          "LedgerIndex": "4AC8FAD7D35E374F513CA5A7D12AC2029CBB4944FFFFFFFFFFFFFFFFFFFFFFFF",
+          "PreviousFields": {
+            "NFTokens": [
+              {
+                "NFToken": {
+                  "NFTokenID": "00080000E7F5BAC19E99193969DAC1452B90558C1F9D5C6D0000099B00000000",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "00080000E7F5BAC19E99193969DAC1452B90558C1F9D5C6D16E5DA9C00000001",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "00080000E7F5BAC19E99193969DAC1452B90558C1F9D5C6D2DCBAB9D00000002",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "00080000E7F5BAC19E99193969DAC1452B90558C1F9D5C6D44B17C9E00000003",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C0000099B00000000",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              }
+            ]
+          },
+          "PreviousTxnID": "BF21798556EBC55C097A9255CB6C4286CEFEFED8BF09B4F8180921B2F9731FFA",
+          "PreviousTxnLgrSeq": 1799491
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "NFTokens": [
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C2DCBAB9D00000002",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C3C7172B500000019",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C409177A80000000E",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C44B17C9E00000003",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C577748AB0000000F",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C5B974D9F00000004",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C6E5D19AA00000010",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C727D1EA100000005",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C8542EAAD00000011",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C8962EFA000000006",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C9C28BBAC00000012",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CA048C0A300000007",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CB30E8CAF00000013",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CB72E91A200000008",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CC9F45DAE00000014",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CCE1462A500000009",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CE0DA2EB100000015",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CE4FA33A40000000A",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CF7BFFFB000000016",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CFBE004A70000000B",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              }
+            ]
+          },
+          "LedgerEntryType": "NFTokenPage",
+          "LedgerIndex": "6203F49C21D5D6E022CB16DE3538F248662FC73CFFFFFFFFFFFFFFFFFFFFFFFF",
+          "PreviousFields": {
+            "NFTokens": [
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C29ABA6A90000000D",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C2DCBAB9D00000002",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C3C7172B500000019",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C409177A80000000E",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C44B17C9E00000003",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C577748AB0000000F",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C5B974D9F00000004",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C6E5D19AA00000010",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C727D1EA100000005",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C8542EAAD00000011",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C8962EFA000000006",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C9C28BBAC00000012",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CA048C0A300000007",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CB30E8CAF00000013",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CB72E91A200000008",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CC9F45DAE00000014",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CCE1462A500000009",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CE0DA2EB100000015",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CE4FA33A40000000A",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CF7BFFFB000000016",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              },
+              {
+                "NFToken": {
+                  "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73CFBE004A70000000B",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              }
+            ]
+          },
+          "PreviousTxnID": "1CB12DE84CD9B989B06D5E062855DCE428A4308DA6762D63F7B78CC500A03024",
+          "PreviousTxnLgrSeq": 1799495
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Amount": "100",
+            "Flags": 0,
+            "NFTokenID": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C29ABA6A90000000D",
+            "NFTokenOfferNode": "0",
+            "Owner": "rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh",
+            "OwnerNode": "0",
+            "PreviousTxnID": "1F0ED931D656F31631BBD186E21DA735EDCDBDC7A68EBD9587C9C1EA5917C4C2",
+            "PreviousTxnLgrSeq": 1799495
+          },
+          "LedgerEntryType": "NFTokenOffer",
+          "LedgerIndex": "8278760A246D4464EE701D503091B9DB0D9790DD2BBE9CAABCA45B04A1A25B6B"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh",
+            "RootIndex": "9F6DDE1956BC72B44EFEA1BD742C97B3A63D3FBDBAE139D595D580690399C860"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "9F6DDE1956BC72B44EFEA1BD742C97B3A63D3FBDBAE139D595D580690399C860"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g",
+            "Balance": "10000000036",
+            "BurnedNFTokens": 4,
+            "Flags": 0,
+            "MintedNFTokens": 26,
+            "OwnerCount": 2,
+            "Sequence": 1166461
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "BE121B82D5812149D633F605EB07265A80B762A365CE94883089FEEE4B955701",
+          "PreviousFields": {
+            "Balance": "9999999948",
+            "Sequence": 1166460
+          },
+          "PreviousTxnID": "3659C5A411DE288820DC8D95F4DE5007BCA9B52D03D3ADD31BE37F0259CA670E",
+          "PreviousTxnLgrSeq": 1799495
+        }
+      }
+    ],
+    "TransactionIndex": 4,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "21C60F255B29D0034B9EBA2ED1F7523635C61DED1D6BDBCFFD67703C45F7072D",
+  "ledger_index": 1799495,
+  "date": "2022-05-03T17:14:22Z"
+}
