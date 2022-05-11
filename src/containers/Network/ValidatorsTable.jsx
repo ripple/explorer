@@ -28,16 +28,16 @@ class ValidatorsTable extends Component {
       const aPubkey = a.master_key || a.signing_key;
       const bPubkey = b.master_key || b.signing_key;
 
-      // 1. sort by whether the validator is on the UNL
+      // 1. Sort by whether the validator is on the UNL
       if (aUnl > bUnl) return 1;
       if (aUnl < bUnl) return -1;
-      // 2. sort by the 30 day score (descending)
+      // 2. Sort by the 30 day score (descending)
       if (aScore < bScore) return 1;
       if (aScore > bScore) return -1;
-      // 3. sort alphabetically by the domain
+      // 3. Sort alphabetically by the domain
       if (aDomain > bDomain) return 1;
       if (aDomain < bDomain) return -1;
-      // sort alphabetically by the public key
+      // 4. Sort alphabetically by the public key
       if (aPubkey > bPubkey) return 1;
       if (aPubkey < bPubkey) return -1;
 
