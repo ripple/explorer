@@ -1,0 +1,42 @@
+{
+  "tx": {
+    "Account": "rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh",
+    "Fee": "12",
+    "Flags": 0,
+    "LastLedgerSequence": 1888939,
+    "NFTokenSellOffer": "17AFFE8C8D94554EB3A31A517B05C16085777FAEA9ACEDDCDE9D7CFD7B988D01",
+    "Sequence": 1166473,
+    "SigningPubKey": "EDB9A1F05A7A91250ECB784754F3BEC3A76C3DAB34F28FAC570798EC0B0817407D",
+    "TransactionType": "NFTokenAcceptOffer",
+    "TxnSignature": "5274111A862BD1E61925DADC7F95DF5FEF0B7B79DFAFBB14B6DF72D01554EBC96150D2503A588AE274E20D965CA15C53181256B765A6A6957FE55404AA01E700",
+    "date": "2022-05-06T19:59:52Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh",
+            "Balance": "9999998008",
+            "Flags": 0,
+            "OwnerCount": 8,
+            "Sequence": 1166474
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "471307512702DC1933C63B795519B8BF08BC4EAD840D87BD84AA98A1EB90DDF6",
+          "PreviousFields": {
+            "Balance": "9999998020",
+            "Sequence": 1166473
+          },
+          "PreviousTxnID": "727181396636CDEFBB7D96CD7A86FCCF9F07390360EF1F2E8034384970C0B9DF",
+          "PreviousTxnLgrSeq": 1888920
+        }
+      }
+    ],
+    "TransactionIndex": 3,
+    "TransactionResult": "tecINSUFFICIENT_FUNDS"
+  },
+  "hash": "376D09D2D001116D690B47E5AD21DD2AD33896CD3A99C60D584A711E503652B7",
+  "ledger_index": 1888920,
+  "date": "2022-05-06T19:59:52Z"
+}
