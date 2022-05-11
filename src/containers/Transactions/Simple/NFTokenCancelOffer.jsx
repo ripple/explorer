@@ -18,26 +18,28 @@ const NFTokenCancelOffer = props => {
           <>
             <div className="row flex-wrap">
               <div className="label">Offer ID</div>
-              <div className="value">
+              <div className="value" data-test="offer-id">
                 <div className="dt">{offerID}</div>
               </div>
             </div>
             <div className="row flex-wrap">
               <div className="label">Token ID</div>
               <div className="value">
-                <div className="dt">{tokenID}</div>
+                <div className="dt" data-test="token-id">
+                  {tokenID}
+                </div>
               </div>
             </div>
             <div className="row">
               <div className="label">Amount</div>
-              <div className="value">
+              <div className="value" data-test="amount">
                 {amount}
                 <Currency currency={currency} issuer={issuer} />
               </div>
             </div>
             <div className="row">
               <div className="label">Offerer</div>
-              <div className="value account">
+              <div className="value account" data-test="offerer">
                 <Account account={offerer} />
               </div>
             </div>

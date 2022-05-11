@@ -13,16 +13,22 @@ const NFTokenMint = props => {
       <div className="row flex-wrap">
         <div className="label">Token ID</div>
         <div className="value">
-          <div className="dt">{tokenID}</div>
+          <div className="dt" data-test="token-id">
+            {tokenID}
+          </div>
         </div>
       </div>
       <div className="row">
         <div className="label">Token Taxon</div>
-        <div className="value">{tokenTaxon}</div>
+        <div className="value" data-test="token-taxon">
+          {tokenTaxon}
+        </div>
       </div>
       <div className="row">
         <div className="label">URI</div>
-        <div className="value">{uri}</div>
+        <div className="value" data-test="token-uri">
+          {uri}
+        </div>
       </div>
     </>
   );
