@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils';
-import AppErrorBoundry from '../AppErrorBoundry';
+import AppErrorBoundary from '../AppErrorBoundary';
 
 jest.mock('../../shared/utils', () => {
   return {
@@ -18,9 +18,9 @@ const ProblemChild = () => {
 describe('<AppErrorBoundary> component', () => {
   it('calls analytics with exception', () => {
     mount(
-      <AppErrorBoundry>
+      <AppErrorBoundary>
         <ProblemChild />
-      </AppErrorBoundry>
+      </AppErrorBoundary>
     );
     expect(analytics).toBeCalledWith(ANALYTIC_TYPES.exception, expect.anything());
   });

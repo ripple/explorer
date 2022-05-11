@@ -12,7 +12,7 @@ import './app.css';
 import App from './App';
 import NoMatch from '../NoMatch';
 import SidechainHome from '../SidechainHome';
-import AppErrorErrorBoundary from './AppErrorBoundry';
+import AppErrorBoundary from './AppErrorBoundary';
 
 const AppWrapper = props => {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ const AppWrapper = props => {
   const path = mode === 'sidechain' ? '/:rippledUrl' : '/';
   return (
     <div className="app-wrapper">
-      <AppErrorErrorBoundary>
+      <AppErrorBoundary>
         <Helmet>
           <meta name="description" content={t('app.meta.description')} />
           <meta name="author" content={t('app.meta.author')} />
@@ -32,7 +32,7 @@ const AppWrapper = props => {
           <Route component={NoMatch} />
         </Switch>
         <Footer />
-      </AppErrorErrorBoundary>
+      </AppErrorBoundary>
     </div>
   );
 };
