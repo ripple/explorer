@@ -16,36 +16,42 @@ const NFTokenAcceptOffer = props => {
       {acceptedOfferIDs.map(offer => (
         <div className="row flex-wrap">
           <div className="label">Offer ID</div>
-          <div className="value">
+          <div className="value" data-test="offer-id">
             <div className="dt">{offer}</div>
           </div>
         </div>
       ))}
-      <div className="row flex-wrap">
-        <div className="label">Seller</div>
-        <div className="value account">
-          <Account account={seller} />
-        </div>
-      </div>
-      <div className="row flex-wrap">
-        <div className="label">Buyer</div>
-        <div className="value account">
-          <Account account={buyer} />
-        </div>
-      </div>
-      <div className="row flex-wrap">
-        <div className="label">Token ID</div>
-        <div className="value">
-          <div className="dt">{tokenID}</div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="label">Amount</div>
-        <div className="value">
-          {amount.amount}
-          <Currency currency={amount.currency} issuer={amount.issuer} />
-        </div>
-      </div>
+      {tokenID && (
+        <>
+          <div className="row flex-wrap">
+            <div className="label">Seller</div>
+            <div className="value account" data-test="seller">
+              <Account account={seller} />
+            </div>
+          </div>
+          <div className="row flex-wrap">
+            <div className="label">Buyer</div>
+            <div className="value account" data-test="buyer">
+              <Account account={buyer} />
+            </div>
+          </div>
+          <div className="row flex-wrap">
+            <div className="label">Token ID</div>
+            <div className="value">
+              <div className="dt" data-test="token-id">
+                {tokenID}
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="label">Amount</div>
+            <div className="value" data-test="amount">
+              {amount.amount}
+              <Currency currency={amount.currency} issuer={amount.issuer} />
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
