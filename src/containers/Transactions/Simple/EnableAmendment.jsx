@@ -1,5 +1,5 @@
+import axios from 'axios';
 import React, { Component } from 'react';
-import fetch from 'node-fetch';
 import PropTypes from 'prop-types';
 import { createHash } from 'crypto';
 import { localizeDate } from '../../shared/utils';
@@ -26,10 +26,10 @@ const DATE_OPTIONS = {
 
 class EnableAmendment extends Component {
   static async fetchAmendmentNames() {
-    const response = await fetch(
+    const response = await axios.get(
       'https://raw.githubusercontent.com/ripple/rippled/develop/src/ripple/protocol/impl/Feature.cpp'
     );
-    const text = await response.text();
+    const text = response.data;
 
     const amendmentNames = [];
     text.split('\n').forEach(line => {
