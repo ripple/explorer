@@ -11,6 +11,7 @@ import Account from '../index';
 import AccountHeader from '../AccountHeader';
 import AccountTransactionsTable from '../AccountTransactionsTable';
 import mockAccountState from './mockAccountState.json';
+import { MemoryRouter, Route } from 'react-router';
 
 describe('Account container', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT';
@@ -22,9 +23,9 @@ describe('Account container', () => {
     return mount(
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
-          <Router>
-            <Account match={{ params: { id: TEST_ACCOUNT_ID } }} />
-          </Router>
+          <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
+            <Route path="accounts/:id" component={Account} />
+          </MemoryRouter>
         </Provider>
       </I18nextProvider>
     );

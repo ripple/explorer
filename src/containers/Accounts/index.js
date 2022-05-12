@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import AccountHeader from './AccountHeader';
@@ -26,23 +27,13 @@ ERROR_MESSAGES.default = {
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
 
-class Accounts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currencySelected: 'XRP',
-    };
-  }
+const Accounts = props => {
+  const { id } = useParams();
+  const { t } = useTranslation();
+  const [currencySelected, setCurrencySelected] = useState('XRP');
+  const { error } = props;
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { match } = nextProps;
-    return {
-      accountId: match.params.id,
-      prevId: prevState && prevState.accountId,
-    };
-  }
-
-  static renderError(error) {
+  function renderError() {
     const message = getErrorMessage(error);
     return (
       <div className="accounts-page">
@@ -51,66 +42,39 @@ class Accounts extends Component {
     );
   }
 
-  componentDidMount() {
+  useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' });
-  }
 
-  componentWillUnmount() {
-    window.scrollTo(0, 0);
-  }
+    return () => {
+      window.scrollTo(0, 0);
+    };
+  });
 
-  setCurrencySelected(currency) {
-    this.setState({
-      currencySelected: currency,
-    });
-  }
+  document.title = `${t('xrpl_explorer')} | ${id.substr(0, 12)}...`;
 
-  render() {
-    const { t, error, match } = this.props;
-    const { prevId } = this.state;
-    const accountId = match.params.id || '';
-    const showError = accountId === prevId && error;
-    const { currencySelected } = this.state;
-
-    document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`;
-
-    return showError ? (
-      Accounts.renderError(error)
-    ) : (
-      <div className="accounts-page">
-        {accountId && (
-          <AccountHeader
-            accountId={accountId}
-            t={t}
-            onSetCurrencySelected={currency => this.setCurrencySelected(currency)}
-            currencySelected={currencySelected}
-          />
-        )}
-        {accountId && (
-          <AccountTransactionsTable
-            accountId={accountId}
-            t={t}
-            currencySelected={currencySelected}
-          />
-        )}
-        {!accountId && (
-          <div style={{ textAlign: 'center', fontSize: '14px' }}>
-            <h2>Enter an account ID in the search box</h2>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+  return error ? (
+    renderError()
+  ) : (
+    <div className="accounts-page">
+      {id && (
+        <AccountHeader
+          accountId={id}
+          onSetCurrencySelected={currency => setCurrencySelected(currency)}
+          currencySelected={currencySelected}
+        />
+      )}
+      {id && <AccountTransactionsTable accountId={id} currencySelected={currencySelected} />}
+      {!id && (
+        <div style={{ textAlign: 'center', fontSize: '14px' }}>
+          <h2>Enter an account ID in the search box</h2>
+        </div>
+      )}
+    </div>
+  );
+};
 
 Accounts.propTypes = {
-  t: PropTypes.func.isRequired,
   error: PropTypes.number,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
 };
 
 Accounts.defaultProps = {
@@ -118,6 +82,5 @@ Accounts.defaultProps = {
 };
 
 export default connect(state => ({
-  width: state.app.width,
   error: state.accountHeader.status,
-}))(withTranslation()(Accounts));
+}))(Accounts);
