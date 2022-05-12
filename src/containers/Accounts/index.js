@@ -28,7 +28,7 @@ ERROR_MESSAGES.default = {
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
 
 const Accounts = props => {
-  const { id } = useParams();
+  const { id: accountId } = useParams();
   const { t } = useTranslation();
   const [currencySelected, setCurrencySelected] = useState('XRP');
   const { error } = props;
@@ -50,21 +50,23 @@ const Accounts = props => {
     };
   });
 
-  document.title = `${t('xrpl_explorer')} | ${id.substr(0, 12)}...`;
+  document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`;
 
   return error ? (
     renderError()
   ) : (
     <div className="accounts-page">
-      {id && (
+      {accountId && (
         <AccountHeader
-          accountId={id}
+          accountId={accountId}
           onSetCurrencySelected={currency => setCurrencySelected(currency)}
           currencySelected={currencySelected}
         />
       )}
-      {id && <AccountTransactionsTable accountId={id} currencySelected={currencySelected} />}
-      {!id && (
+      {accountId && (
+        <AccountTransactionsTable accountId={accountId} currencySelected={currencySelected} />
+      )}
+      {!accountId && (
         <div style={{ textAlign: 'center', fontSize: '14px' }}>
           <h2>Enter an account ID in the search box</h2>
         </div>
