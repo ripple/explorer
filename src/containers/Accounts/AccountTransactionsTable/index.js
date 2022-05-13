@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
@@ -29,6 +29,7 @@ const DATE_OPTIONS = {
 export const AccountTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
+  const { t } = useTranslation();
   const { accountId, actions, data, loadingError } = props;
   const rippledSocket = useContext(SocketContext);
 
@@ -49,7 +50,7 @@ export const AccountTxTable = props => {
   };
 
   const renderListItem = tx => {
-    const { language, t } = props;
+    const { language } = props;
     const success = tx.result === 'tesSUCCESS';
     const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS);
     const status = success ? 'Success' : `Fail - ${tx.result}`;
@@ -90,7 +91,6 @@ export const AccountTxTable = props => {
   };
 
   const renderLoadMoreButton = () => {
-    const { t } = props;
     return (
       marker && (
         <button type="button" className="load-more-btn" onClick={loadMoreTransactions}>
@@ -101,7 +101,7 @@ export const AccountTxTable = props => {
   };
 
   const renderListContents = () => {
-    const { t, loading, currencySelected } = props;
+    const { loading, currencySelected } = props;
     let processedTransactions = transactions;
     if (currencySelected !== 'XRP') {
       processedTransactions = transactions.filter(
@@ -120,7 +120,7 @@ export const AccountTxTable = props => {
     return processedTransactions.map(transaction => renderListItem(transaction));
   };
 
-  const { t, loading } = props;
+  const { loading } = props;
 
   return (
     <div className="section transactions-table">
@@ -140,7 +140,6 @@ export const AccountTxTable = props => {
 };
 
 AccountTxTable.propTypes = {
-  t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingError: PropTypes.string,
@@ -185,4 +184,4 @@ export default connect(
       dispatch
     ),
   })
-)(withTranslation()(AccountTxTable));
+)(AccountTxTable);
