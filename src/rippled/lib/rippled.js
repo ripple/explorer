@@ -272,7 +272,7 @@ const getNegativeUNL = rippledSocket =>
   }).then(resp => {
     if (
       resp.error === 'entryNotFound' ||
-      resp.error === 'lrgNotFound' ||
+      resp.error === 'lgrNotFound' ||
       resp.error === 'objectNotFound'
     ) {
       return [];
