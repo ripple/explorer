@@ -1,9 +1,11 @@
 import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import Currency from './Currency';
-import { CURRENCY_OPTIONS, DATE_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils';
-import { localizeNumber, localizeDate } from '../utils';
+import { useTranslation, withTranslation } from 'react-i18next';
+import { DATE_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils';
+import { localizeDate } from '../utils';
+import { Amount } from './Amount';
+import { transactionTypes } from './Transaction';
+import { useLanguage } from '../hooks';
 
 interface Instructions {
   owner: string;
@@ -54,28 +56,19 @@ interface Instructions {
 
 interface Props {
   instructions: Instructions;
-  type: string | null;
-  language: string;
-  t: (s: string) => string;
+  type: string;
 }
 
 const TxDetails = (props: Props) => {
-  function renderAmount(d: any): ReactElement {
-    const { language } = props;
-    const options = { ...CURRENCY_OPTIONS, currency: d.currency };
-    const amount = localizeNumber(d.amount, language, options);
-    const { issuer, currency } = d;
+  const language = useLanguage();
+  const { t } = useTranslation();
 
-    return (
-      <span className="amount">
-        {amount}
-        <Currency issuer={issuer} currency={currency} link={false} />
-      </span>
-    );
+  function renderAmount(d: any): ReactElement {
+    return <Amount value={d} />;
   }
 
   function renderEscrowFinish(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const { amount, owner, sequence, fulfillment, ticketSequence } = instructions;
     return (
       <div className="escrow">
@@ -103,7 +96,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderEscrowCancel(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const { owner, sequence, ticketSequence } = instructions;
     return (
       <div className="escrow">
@@ -119,7 +112,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderEscrowCreate(): ReactElement {
-    const { t, language, instructions } = props;
+    const { instructions } = props;
     const { amount, destination, finishAfter, cancelAfter, condition } = instructions;
     return (
       <div className="escrow">
@@ -158,7 +151,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderSignerListSet(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const { quorum, max, signers } = instructions;
     return (
       <div>
@@ -170,7 +163,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderAccountSet(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     return (
       <>
         {instructions.domain && (
@@ -215,7 +208,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderSetRegularKey(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const { key } = instructions;
     return key ? (
       <div className="setregularkey">
@@ -227,7 +220,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderTrustSet(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const { limit } = instructions;
     return (
       <div className="trustset">
@@ -237,38 +230,8 @@ const TxDetails = (props: Props) => {
     );
   }
 
-  function renderOfferCreate(): ReactElement | null {
-    const { t, instructions } = props;
-    const { gets, pays, price, pair, cancel } = instructions;
-
-    return pays && gets ? (
-      <div className="offercreate">
-        <div className="price">
-          <span className="label"> {t('price')}:</span>
-          <span className="amount">
-            {` ${Number(price)} `}
-            {pair}
-          </span>
-        </div>
-        <div className="amounts">
-          <span className="label">{t('buy')}</span>
-          {renderAmount(gets)}
-          <span className="label">{`- ${t('sell')}`}</span>
-          {renderAmount(pays)}
-        </div>
-        {cancel && (
-          <div className="cancel">
-            <span className="label">{t('cancel_offer')}</span>
-            {` #`}
-            <span className="sequence">{cancel}</span>
-          </div>
-        )}
-      </div>
-    ) : null;
-  }
-
   function renderOfferCancel(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const { cancel } = instructions;
     return (
       <div className="offercancel">
@@ -280,7 +243,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderPayment(): ReactElement | null {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const { convert, amount, destination, partial, sourceTag } = instructions;
 
     if (convert) {
@@ -314,7 +277,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderPaymentChannelCreate(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const { amount, source, destination } = instructions;
 
     return (
@@ -336,7 +299,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderPaymentChannelClaim(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const {
       source,
       destination,
@@ -390,7 +353,7 @@ const TxDetails = (props: Props) => {
   }
 
   function renderTicketCreate(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props;
     const { ticketCount } = instructions;
     return (
       <div className="ticketCreate">
@@ -401,7 +364,7 @@ const TxDetails = (props: Props) => {
     );
   }
 
-  const { type } = props;
+  const { type = '', instructions } = props;
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderEscrowFinish,
     renderEscrowCancel,
@@ -410,14 +373,17 @@ const TxDetails = (props: Props) => {
     renderAccountSet,
     renderSetRegularKey,
     renderTrustSet,
-    renderOfferCreate,
     renderOfferCancel,
     renderPayment,
     renderPaymentChannelCreate,
     renderPaymentChannelClaim,
     renderTicketCreate,
   };
-  if (functionMap[`render${type}`]) {
+
+  const DetailComponent = transactionTypes[type]?.TableDetail;
+  if (DetailComponent) {
+    return <DetailComponent instructions={instructions}></DetailComponent>;
+  } else if (functionMap[`render${type}`]) {
     return functionMap[`render${type}`]();
   }
 
@@ -467,8 +433,6 @@ TxDetails.propTypes = {
     ticketCount: PropTypes.number,
   }),
   type: PropTypes.string,
-  language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired,
 };
 
 TxDetails.defaultProps = {

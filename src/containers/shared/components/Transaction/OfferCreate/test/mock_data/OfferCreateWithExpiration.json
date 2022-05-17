@@ -1,0 +1,229 @@
+{
+  "tx": {
+    "Account": "rsG5iLf2gey9e1vVtLBb1R88XskVGWVAw1",
+    "Expiration": 737735327,
+    "Fee": "12",
+    "Flags": 2148007936,
+    "LastLedgerSequence": 71735709,
+    "Sequence": 71310941,
+    "SigningPubKey": "0328508E495AC91BEA0EA4EC65C7861661C57FF0C45287CB386F4100F1711E8D85",
+    "TakerGets": {
+      "currency": "BPM",
+      "issuer": "rDBMvpjV6DoWvr3LqMUG8JBgd4QbBoU1E2",
+      "value": "1"
+    },
+    "TakerPays": "71420000",
+    "TransactionType": "OfferCreate",
+    "TxnSignature": "3045022100A19A1039C367E871F301DDDA5A105201F7A322E293C2749EC34B471E7806356902204CE49171C40BE9279F1293DBDA21FEB1EC55E0ED1760C78F85D1A2EA9E152940",
+    "date": "2022-05-18T14:30:00Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rpwfJxJ9MrRPPstaBSEtuSCzLhDsmUYjaQ",
+            "RootIndex": "007B86804A6D6F78B3B095B9A00678245069593542D7C60A82EBCBE1D1A1AA85"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "007B86804A6D6F78B3B095B9A00678245069593542D7C60A82EBCBE1D1A1AA85"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rpwfJxJ9MrRPPstaBSEtuSCzLhDsmUYjaQ",
+            "BookDirectory": "AA9EB97185D32FE5CB61A2AD883F0AAA66507E77DCFE03384D04F94AE6AF8000",
+            "BookNode": "0",
+            "Flags": 131072,
+            "OwnerNode": "0",
+            "Sequence": 66239955,
+            "TakerGets": "147170905",
+            "TakerPays": {
+              "currency": "BPM",
+              "issuer": "rDBMvpjV6DoWvr3LqMUG8JBgd4QbBoU1E2",
+              "value": "2.060392678"
+            }
+          },
+          "LedgerEntryType": "Offer",
+          "LedgerIndex": "4C39E3771FFD78C03F4BD8F7AE111289DCB8C00BDB25181FBB73570EB7EFFA84",
+          "PreviousFields": {
+            "TakerGets": "208392400",
+            "TakerPays": {
+              "currency": "BPM",
+              "issuer": "rDBMvpjV6DoWvr3LqMUG8JBgd4QbBoU1E2",
+              "value": "2.9174936"
+            }
+          },
+          "PreviousTxnID": "AEB07E1D2BE2A2991C5A7951C3E98AF6A743E3D5E688A5BA23B099AEB4F0746A",
+          "PreviousTxnLgrSeq": 71735429
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rpwfJxJ9MrRPPstaBSEtuSCzLhDsmUYjaQ",
+            "Balance": "164963813",
+            "Flags": 0,
+            "OwnerCount": 9,
+            "Sequence": 66239956
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "8DFC879437AE0F7C59A44B0BEBA81AB04E1A42FB2BCEF0E15030A9399AF162DE",
+          "PreviousFields": {
+            "Balance": "236392385",
+            "OwnerCount": 10
+          },
+          "PreviousTxnID": "AEB07E1D2BE2A2991C5A7951C3E98AF6A743E3D5E688A5BA23B099AEB4F0746A",
+          "PreviousTxnLgrSeq": 71735429
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Balance": {
+              "currency": "BPM",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "5000099"
+            },
+            "Flags": 1114112,
+            "HighLimit": {
+              "currency": "BPM",
+              "issuer": "rDBMvpjV6DoWvr3LqMUG8JBgd4QbBoU1E2",
+              "value": "0"
+            },
+            "HighNode": "7",
+            "LowLimit": {
+              "currency": "BPM",
+              "issuer": "rsG5iLf2gey9e1vVtLBb1R88XskVGWVAw1",
+              "value": "10000000000"
+            },
+            "LowNode": "0"
+          },
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "A2571B11B6DD963EA3A0CFEC43E7C226A2DD621A960460338D95C07CEB73E3B0",
+          "PreviousFields": {
+            "Balance": {
+              "currency": "BPM",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "5000100"
+            }
+          },
+          "PreviousTxnID": "603978602C11C97206F58B81E0825EBCEEDFB753C9CE62496522B732DB3AD2A2",
+          "PreviousTxnLgrSeq": 71735541
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "ExchangeRate": "4d04f94ae6af8000",
+            "Flags": 0,
+            "RootIndex": "AA9EB97185D32FE5CB61A2AD883F0AAA66507E77DCFE03384D04F94AE6AF8000",
+            "TakerGetsCurrency": "0000000000000000000000000000000000000000",
+            "TakerGetsIssuer": "0000000000000000000000000000000000000000",
+            "TakerPaysCurrency": "00000000000000000000000042504D0000000000",
+            "TakerPaysIssuer": "8597209DD7A086DE4002A5BCF25D25FEB41DD6CD"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "AA9EB97185D32FE5CB61A2AD883F0AAA66507E77DCFE03384D04F94AE6AF8000"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Balance": {
+              "currency": "BPM",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "1"
+            },
+            "Flags": 1114112,
+            "HighLimit": {
+              "currency": "BPM",
+              "issuer": "rDBMvpjV6DoWvr3LqMUG8JBgd4QbBoU1E2",
+              "value": "0"
+            },
+            "HighNode": "31",
+            "LowLimit": {
+              "currency": "BPM",
+              "issuer": "rpwfJxJ9MrRPPstaBSEtuSCzLhDsmUYjaQ",
+              "value": "10000000000"
+            },
+            "LowNode": "0"
+          },
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "C2B353479AD0023E8E37F16E468565D6B36189043F3031AFE1409729DF31E0C6",
+          "PreviousFields": {
+            "Balance": {
+              "currency": "BPM",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "0"
+            }
+          },
+          "PreviousTxnID": "192446F3FACE5A644BCE9535643137DC3F0AF12C0D269E8987D4C4E6DF822336",
+          "PreviousTxnLgrSeq": 71735127
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Account": "rpwfJxJ9MrRPPstaBSEtuSCzLhDsmUYjaQ",
+            "BookDirectory": "AA9EB97185D32FE5CB61A2AD883F0AAA66507E77DCFE03384D04F94AE6AF8000",
+            "BookNode": "0",
+            "Flags": 131072,
+            "OwnerNode": "0",
+            "PreviousTxnID": "3CCF0FA2DD55D6AD65F6BAB659C1E3678C5A85856B8266F68B72C5119C6C9180",
+            "PreviousTxnLgrSeq": 71735213,
+            "Sequence": 66239953,
+            "TakerGets": "0",
+            "TakerPays": {
+              "currency": "BPM",
+              "issuer": "rDBMvpjV6DoWvr3LqMUG8JBgd4QbBoU1E2",
+              "value": "0"
+            }
+          },
+          "LedgerEntryType": "Offer",
+          "LedgerIndex": "E49A1AC62924EC4F29196985632D3C8F35E46F1C1547466E4CDC72861543B2B1",
+          "PreviousFields": {
+            "TakerGets": "10207077",
+            "TakerPays": {
+              "currency": "BPM",
+              "issuer": "rDBMvpjV6DoWvr3LqMUG8JBgd4QbBoU1E2",
+              "value": "0.142899078"
+            }
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rsG5iLf2gey9e1vVtLBb1R88XskVGWVAw1",
+            "Balance": "99428470",
+            "Flags": 0,
+            "OwnerCount": 2,
+            "Sequence": 71310942
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "F90B2824129799001E35CCBA4E8583038F9BCFE28B229A082055235594198D69",
+          "PreviousFields": {
+            "Balance": "27999910",
+            "Sequence": 71310941
+          },
+          "PreviousTxnID": "D8BF6CBD4F3C4101808C2401B569E613D30840330AAFE5FF4C1EF68ED7E7FC7A",
+          "PreviousTxnLgrSeq": 71578111
+        }
+      }
+    ],
+    "TransactionIndex": 19,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "42E717B9936C13DBA659E36AE8AC4D4C51D282AD851E0F068379B2F13E8BD73D",
+  "ledger_index": 71735683,
+  "date": "2022-05-18T14:30:00Z"
+}

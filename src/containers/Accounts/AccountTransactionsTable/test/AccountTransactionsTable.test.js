@@ -80,7 +80,7 @@ describe('AccountTransactionsTable container', () => {
     expect(component.find('.load-more-btn').length).toBe(1);
     expect(component.find('.account-transactions').length).toBe(1);
     expect(component.find('.transaction-li.transaction-li-header').length).toBe(1);
-    expect(component.find(Link).length).toBe(20);
+    expect(component.find(Link).length).toBe(40);
     done();
   });
 });

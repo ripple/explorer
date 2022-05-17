@@ -1,4 +1,4 @@
-const OfferCreate = require('./OfferCreate');
+import { offerCreateMapper } from '../../../containers/shared/components/Transaction/OfferCreate/offerCreateMapper';
 const OfferCancel = require('./OfferCancel');
 const Payment = require('./Payment');
 const EscrowCreate = require('./EscrowCreate');
@@ -23,7 +23,7 @@ const NFTokenCreateOffer = require('./NFTokenCreateOffer');
 const NFTokenMint = require('./NFTokenMint');
 
 const summarize = {
-  OfferCreate,
+  OfferCreate: offerCreateMapper,
   OfferCancel,
   Payment,
   EscrowCreate,
@@ -61,12 +61,9 @@ const summarizeTransaction = (d, details = false) => ({
   sequence: d.tx.Sequence,
   ticketSequence: d.tx.TicketSequence,
   date: d.date,
-  details: details
-    ? {
-        instructions: getInstructions(d.tx, d.meta),
-        effects: undefined,
-      }
-    : undefined,
+  details: {
+    instructions: getInstructions(d.tx, d.meta),
+  },
 });
 
 export default summarizeTransaction;

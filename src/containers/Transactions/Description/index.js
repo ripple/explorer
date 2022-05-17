@@ -1,9 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import TrustSet from './TrustSet';
 import Payment from './Payment';
 import OfferCancel from './OfferCancel';
-import OfferCreate from './OfferCreate';
 import EscrowCreate from './EscrowCreate';
 import EscrowCancel from './EscrowCancel';
 import EscrowFinish from './EscrowFinish';
@@ -15,16 +15,22 @@ import AccountSet from './AccountSet';
 import Sequence from '../../shared/components/Sequence';
 import SignerListSet from './SignerListSet';
 import DepositPreauth from './DepositPreauth';
+import { transactionTypes } from '../../shared/components/Transaction';
+import { useLanguage } from '../../shared/hooks';
 
 const TransactionDescription = props => {
-  const { t, data, language, instructions } = props;
+  const language = useLanguage();
+  const { t } = useTranslation();
+  const { data, instructions } = props;
   let body = null;
 
   if (!data || !data.tx) {
     return null;
   }
-  if (data.tx.TransactionType === 'OfferCreate') {
-    body = <OfferCreate t={t} language={language} data={data} />;
+  const DescriptionComponent = transactionTypes[data.tx.TransactionType]?.Description;
+
+  if (DescriptionComponent) {
+    body = <DescriptionComponent data={data} />;
   } else if (data.tx.TransactionType === 'OfferCancel') {
     body = <OfferCancel t={t} data={data} />;
   } else if (data.tx.TransactionType === 'Payment') {
@@ -74,8 +80,6 @@ const TransactionDescription = props => {
 };
 
 TransactionDescription.propTypes = {
-  t: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
   data: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number, PropTypes.array])
   ).isRequired,
