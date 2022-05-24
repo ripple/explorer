@@ -1,8 +1,8 @@
 import classnames from 'classnames';
-import React, { Component } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import { withRouter } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { BREAKPOINTS, ANALYTIC_TYPES, analytics } from '../shared/utils';
@@ -33,30 +33,34 @@ function getSocketUrl(socket) {
   return socket?.endpoint.replace('wss://', '').replace(/:[0-9]+/, '');
 }
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false,
-    };
+const Header = props => {
+  const rippledSocket = useContext(SocketContext);
+  const location = useLocation();
+  const [expanded, setExpanded] = useState(false);
+  const { t } = useTranslation();
+
+  function switchMode(desiredLink) {
+    analytics(ANALYTIC_TYPES.event, {
+      eventCategory: 'mode switch',
+      eventAction: desiredLink,
+    });
+    window.location.assign(desiredLink);
   }
 
-  getCurrentPath() {
-    const { location } = this.props;
+  function getCurrentPath() {
     return location.pathname;
   }
 
-  toggleExpand = event => {
+  function toggleExpand(event) {
     const className = event?.target?.getAttribute('class');
-    const { expanded } = this.state;
     if (!(expanded && className === 'sidechain_input'))
       // don't de-expand if clicking in the textbox
-      this.setState(prevState => {
-        return { expanded: !prevState.expanded };
+      setExpanded(prevExpanded => {
+        return !prevExpanded;
       });
-  };
+  }
 
-  handleClick = event => {
+  function handleClick(event) {
     const mode = event.currentTarget.getAttribute('value');
 
     if (mode === process.env.REACT_APP_ENVIRONMENT) {
@@ -64,15 +68,14 @@ class Header extends Component {
     }
 
     const desiredLink = STATIC_ENV_LINKS[mode] ?? process.env.REACT_APP_MAINNET_LINK;
-    this.switchMode(desiredLink);
-  };
+    switchMode(desiredLink);
+  }
 
-  handleCustomNetworkClick = event => {
-    const { expanded } = this.state;
+  function handleCustomNetworkClick(event) {
     if (!expanded) {
       return;
     }
-    const rippledSocket = this.context;
+
     const currentRippledUrl = getSocketUrl(rippledSocket);
     const newRippledUrl = event.currentTarget.getAttribute('value');
 
@@ -80,12 +83,11 @@ class Header extends Component {
       return;
     }
 
-    this.switchMode(`${SIDECHAIN_BASE_LINK}/${newRippledUrl}`);
-  };
+    switchMode(`${SIDECHAIN_BASE_LINK}/${newRippledUrl}`);
+  }
 
-  onInputKeyDown = event => {
+  function onInputKeyDown(event) {
     if (event.key === 'Enter') {
-      const rippledSocket = this.context;
       const currentRippledUrl = getSocketUrl(rippledSocket);
       const rippledUrl = event.currentTarget.value.trim();
       if (
@@ -94,32 +96,24 @@ class Header extends Component {
       ) {
         return;
       }
-      this.switchMode(`${SIDECHAIN_BASE_LINK}/${rippledUrl}`);
+      switchMode(`${SIDECHAIN_BASE_LINK}/${rippledUrl}`);
     }
-  };
+  }
 
-  switchMode = desiredLink => {
-    analytics(ANALYTIC_TYPES.event, {
-      eventCategory: 'mode switch',
-      eventAction: desiredLink,
-    });
-    window.location.assign(desiredLink);
-  };
-
-  ignore = event => {
+  function ignore(event) {
     event.preventDefault();
     event.stopPropagation();
-  };
+  }
 
-  renderDropdown = (network, handleClick, classname, text) => {
+  function renderDropdown(network, clickHandler, classname, text) {
     return (
       <div
         key={network}
         className={classname}
         role="menuitem"
         value={network}
-        onClick={handleClick}
-        onKeyUp={handleClick}
+        onClick={clickHandler}
+        onKeyUp={clickHandler}
         tabIndex={0}
       >
         <span>{text}</span>
@@ -131,9 +125,9 @@ class Header extends Component {
         <CheckIcon className="check" desc={network} />
       </div>
     );
-  };
+  }
 
-  renderSidechainInput() {
+  function renderSidechainInput() {
     return (
       <div
         key="new_sidechain"
@@ -146,130 +140,117 @@ class Header extends Component {
           className="sidechain_input"
           type="text"
           placeholder="Add custom sidechain"
-          onKeyDown={this.onInputKeyDown}
+          onKeyDown={onInputKeyDown}
         />
       </div>
     );
   }
 
-  render() {
-    const { t, isScrolled, width, inNetwork } = this.props;
-    const { expanded } = this.state;
-    const rippledSocket = this.context;
-    const menu =
-      width >= BREAKPOINTS.landscape || !inNetwork ? (
-        <Menu t={t} currentPath={this.getCurrentPath()} inNetwork={inNetwork} />
-      ) : null;
-    const mobileMenu =
-      width < BREAKPOINTS.landscape && inNetwork ? (
-        <MobileMenu t={t} currentPath={this.getCurrentPath()} inNetwork={inNetwork} />
-      ) : null;
-    const currentMode = process.env.REACT_APP_ENVIRONMENT;
+  const { isScrolled, width, inNetwork } = props;
+  const menu =
+    width >= BREAKPOINTS.landscape || !inNetwork ? (
+      <Menu t={t} currentPath={getCurrentPath()} inNetwork={inNetwork} />
+    ) : null;
+  const mobileMenu =
+    width < BREAKPOINTS.landscape && inNetwork ? (
+      <MobileMenu t={t} currentPath={getCurrentPath()} inNetwork={inNetwork} />
+    ) : null;
+  const currentMode = process.env.REACT_APP_ENVIRONMENT;
 
-    const urlLinkMap = {
-      ...STATIC_ENV_LINKS,
-      // TODO: store previous sidechains in cookies, add them here
-    };
+  const urlLinkMap = {
+    ...STATIC_ENV_LINKS,
+    // TODO: store previous sidechains in cookies, add them here
+  };
 
-    const rippledUrl = getSocketUrl(rippledSocket);
+  const rippledUrl = getSocketUrl(rippledSocket);
 
-    if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
-      urlLinkMap[rippledUrl] = `${process.env.REACT_APP_SIDECHAIN_LINK}${rippledUrl}`;
-    }
-
-    return (
-      <>
-        <div className={classnames('header', { 'header-shadow': isScrolled })}>
-          <div className={`network ${currentMode}`}>
-            <div
-              className={classnames('dropdown', { expanded })}
-              role="menubar"
-              tabIndex={0}
-              onClick={this.toggleExpand}
-              onKeyUp={this.toggleExpand}
-            >
-              <div className="bg" />
-              {!inNetwork &&
-                !expanded &&
-                this.renderDropdown(
-                  'no-network',
-                  this.handleCustomNetworkClick,
-                  classnames('item', 'custom', { selected: true }),
-                  t('no_network_selected')
-                )}
-              {Object.keys(urlLinkMap).map(network => {
-                return isCustomNetwork(network)
-                  ? this.renderDropdown(
-                      network,
-                      this.handleCustomNetworkClick,
-                      classnames('item', 'custom', {
-                        selected: network === rippledUrl,
-                      }),
-                      `${t('sidechain_data')}: ${network.toLowerCase()}`
-                    )
-                  : this.renderDropdown(
-                      network,
-                      this.handleClick,
-                      classnames('item', { selected: currentMode === network }),
-                      t(`${network}_data`)
-                    );
-              })}
-              {this.renderSidechainInput()}
-            </div>
-            <div
-              className="arrowContainer"
-              onClick={this.toggleExpand}
-              onKeyUp={this.toggleExpand}
-              role="menubar"
-              tabIndex={0}
-              value="arrow"
-            >
-              <ArrowIcon className={classnames('arrow', { open: expanded })} />
-            </div>
-          </div>
-          <Banner />
-          <div className="topbar">
-            <div className="element">
-              <Link to="/">
-                <Logo className="logo" alt={t('xrpl_explorer')} />
-              </Link>
-            </div>
-            {inNetwork && (
-              <div className="element">
-                <Search />
-              </div>
-            )}
-            <div className={classnames('element', { notInNetwork: !inNetwork })}>{menu}</div>
-            {mobileMenu}
-          </div>
-
-          <div className="clear" />
-        </div>
-      </>
-    );
+  if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
+    urlLinkMap[rippledUrl] = `${process.env.REACT_APP_SIDECHAIN_LINK}${rippledUrl}`;
   }
-}
-Header.contextType = SocketContext;
+
+  return (
+    <>
+      <div className={classnames('header', { 'header-shadow': isScrolled })}>
+        <div className={`network ${currentMode}`}>
+          <div
+            className={classnames('dropdown', { expanded })}
+            role="menubar"
+            tabIndex={0}
+            onClick={toggleExpand}
+            onKeyUp={toggleExpand}
+          >
+            <div className="bg" />
+            {!inNetwork &&
+              !expanded &&
+              renderDropdown(
+                'no-network',
+                handleCustomNetworkClick,
+                classnames('item', 'custom', { selected: true }),
+                t('no_network_selected')
+              )}
+            {Object.keys(urlLinkMap).map(network => {
+              return isCustomNetwork(network)
+                ? renderDropdown(
+                    network,
+                    handleCustomNetworkClick,
+                    classnames('item', 'custom', {
+                      selected: network === rippledUrl,
+                    }),
+                    `${t('sidechain_data')}: ${network.toLowerCase()}`
+                  )
+                : renderDropdown(
+                    network,
+                    handleClick,
+                    classnames('item', { selected: currentMode === network }),
+                    t(`${network}_data`)
+                  );
+            })}
+            {renderSidechainInput()}
+          </div>
+          <div
+            className="arrowContainer"
+            onClick={toggleExpand}
+            onKeyUp={toggleExpand}
+            role="menubar"
+            tabIndex={0}
+            value="arrow"
+          >
+            <ArrowIcon className={classnames('arrow', { open: expanded })} />
+          </div>
+        </div>
+        <Banner />
+        <div className="topbar">
+          <div className="element">
+            <Link to="/">
+              <Logo className="logo" alt={t('xrpl_explorer')} />
+            </Link>
+          </div>
+          {inNetwork && (
+            <div className="element">
+              <Search />
+            </div>
+          )}
+          <div className={classnames('element', { notInNetwork: !inNetwork })}>{menu}</div>
+          {mobileMenu}
+        </div>
+
+        <div className="clear" />
+      </div>
+    </>
+  );
+};
 
 Header.defaultProps = {
   inNetwork: true,
 };
 
 Header.propTypes = {
-  t: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
   isScrolled: PropTypes.bool.isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
   inNetwork: PropTypes.bool,
 };
 
-export default withRouter(
-  withTranslation()(
-    connect(state => ({
-      width: state.app.width,
-      isScrolled: state.app.isScrolled,
-    }))(Header)
-  )
-);
+export default connect(state => ({
+  width: state.app.width,
+  isScrolled: state.app.isScrolled,
+}))(Header);
