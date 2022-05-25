@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
-import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { XrplClient } from 'xrpl-client';
-import { analytics, ANALYTIC_TYPES } from '../shared/utils';
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions';
 import Ledgers from '../Ledgers';
 import Header from '../Header';
@@ -23,125 +21,96 @@ import SocketContext from '../shared/SocketContext';
 
 const MODE = process.env.REACT_APP_ENVIRONMENT;
 
-class App extends Component {
-  static componentDidCatch(error, info) {
-    analytics(ANALYTIC_TYPES.exception, {
-      exDescription: `${error.toString()} -------->>>>>  ${info.componentStack}`,
-    });
+const App = props => {
+  const { actions, location, match } = props;
+
+  const {
+    params: { rippledUrl = null },
+  } = match;
+  const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST;
+  const wsUrls = [];
+  if (rippledHost.includes(':')) {
+    wsUrls.push(`wss://${rippledHost}`);
+  } else {
+    wsUrls.push.apply(wsUrls, [
+      `wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+      `wss://${rippledHost}:443`,
+    ]);
   }
+  const socket = new XrplClient(wsUrls);
+  const hasP2PSocket =
+    process.env.REACT_APP_P2P_RIPPLED_HOST != null && process.env.REACT_APP_P2P_RIPPLED_HOST !== '';
+  socket.p2pSocket = hasP2PSocket
+    ? new XrplClient([
+        `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+      ])
+    : undefined;
 
-  constructor(props) {
-    super(props);
-    const { actions, i18n, language } = props;
-
-    if (i18n.language !== language) {
-      actions.updateLanguage(i18n.language);
-    }
-
-    props.actions.updateViewportDimensions();
-
-    const { match } = this.props;
-    const {
-      params: { rippledUrl = null },
-    } = match;
-    const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST;
-    const wsUrls = [];
-    if (rippledHost.includes(':')) {
-      wsUrls.push(`wss://${rippledHost}`);
-    } else {
-      wsUrls.push.apply(wsUrls, [
-        `wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-        `wss://${rippledHost}:443`,
-      ]);
-    }
-    this.socket = new XrplClient(wsUrls);
-    this.hasP2PSocket =
-      process.env.REACT_APP_P2P_RIPPLED_HOST != null &&
-      process.env.REACT_APP_P2P_RIPPLED_HOST !== '';
-    this.socket.p2pSocket = this.hasP2PSocket
-      ? new XrplClient([
-          `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-        ])
-      : undefined;
-  }
-
-  componentDidMount() {
-    const { actions } = this.props;
+  useEffect(() => {
+    actions.updateViewportDimensions();
     window.addEventListener('resize', actions.updateViewportDimensions);
     window.addEventListener('scroll', actions.onScroll);
-  }
 
-  componentWillUnmount() {
-    const { actions } = this.props;
-    window.removeEventListener('resize', actions.updateViewportDimensions);
-    window.removeEventListener('scroll', actions.onScroll);
+    return function cleanup() {
+      window.removeEventListener('resize', actions.updateViewportDimensions);
+      window.removeEventListener('scroll', actions.onScroll);
 
-    this.socket.close();
-    if (this.hasP2PSocket) {
-      this.socket.p2pSocket.close();
-    }
-  }
-
-  render() {
-    const { location, match } = this.props;
-    const {
-      params: { rippledUrl = null },
-    } = match;
-    const urlLink = rippledUrl ? `/${rippledUrl}` : '';
-
-    /* START: Map legacy routes to new routes */
-    if (location.hash && location.pathname === '/') {
-      if (location.hash.indexOf('#/transactions/') === 0) {
-        const identifier = location.hash.split('#/transactions/')[1];
-        return <Redirect to={`/transactions/${identifier}`} />;
+      socket.close();
+      if (hasP2PSocket) {
+        socket.p2pSocket.close();
       }
-      if (location.hash.indexOf('#/graph/') === 0) {
-        const identifier = location.hash.split('#/graph/')[1];
-        return <Redirect to={`/accounts/${identifier}`} />;
-      }
-    }
-    /* END: Map legacy routes to new routes */
+    };
+  });
 
-    if (location.pathname === `${urlLink}/explorer`) {
-      return <Redirect to={urlLink} />;
-    }
+  const urlLink = rippledUrl ? `/${rippledUrl}` : '';
 
-    if (location.pathname === `${urlLink}/ledgers`) {
-      return <Redirect to={urlLink} />;
+  /* START: Map legacy routes to new routes */
+  if (location.hash && location.pathname === '/') {
+    if (location.hash.indexOf('#/transactions/') === 0) {
+      const identifier = location.hash.split('#/transactions/')[1];
+      return <Redirect to={`/transactions/${identifier}`} />;
     }
-
-    return (
-      <div className="app">
-        <SocketContext.Provider value={this.socket}>
-          <BrowserRouter basename={rippledUrl ?? ''}>
-            <Header />
-            <div className="content">
-              <Switch>
-                <Route exact path="/" component={Ledgers} />
-                <Route exact path="/ledgers/:identifier" component={ledger} />
-                <Route exact path="/accounts/:id" component={accounts} />
-                <Route exact path="/transactions/:identifier/:tab?" component={transactions} />
-                <Route exact path="/network/:tab?" component={network} />
-                <Route exact path="/validators/:identifier/:tab?" component={validators} />
-                <Route exact path="/paystrings/:id?" component={paystrings} />
-                <Route exact path="/token/:currency.:id" component={token} />
-                {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
-                <Route component={noMatch} />
-              </Switch>
-            </div>
-          </BrowserRouter>
-        </SocketContext.Provider>
-      </div>
-    );
+    if (location.hash.indexOf('#/graph/') === 0) {
+      const identifier = location.hash.split('#/graph/')[1];
+      return <Redirect to={`/accounts/${identifier}`} />;
+    }
   }
-}
+  /* END: Map legacy routes to new routes */
+
+  if (location.pathname === `${urlLink}/explorer`) {
+    return <Redirect to={urlLink} />;
+  }
+
+  if (location.pathname === `${urlLink}/ledgers`) {
+    return <Redirect to={urlLink} />;
+  }
+
+  return (
+    <div className="app">
+      <SocketContext.Provider value={socket}>
+        <BrowserRouter basename={rippledUrl ?? ''}>
+          <Header />
+          <div className="content">
+            <Switch>
+              <Route exact path="/" component={Ledgers} />
+              <Route exact path="/ledgers/:identifier" component={ledger} />
+              <Route exact path="/accounts/:id" component={accounts} />
+              <Route exact path="/transactions/:identifier/:tab?" component={transactions} />
+              <Route exact path="/network/:tab?" component={network} />
+              <Route exact path="/validators/:identifier/:tab?" component={validators} />
+              <Route exact path="/paystrings/:id?" component={paystrings} />
+              <Route exact path="/token/:currency.:id" component={token} />
+              {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
+              <Route component={noMatch} />
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </SocketContext.Provider>
+    </div>
+  );
+};
 
 App.propTypes = {
-  language: PropTypes.string.isRequired,
-  i18n: PropTypes.shape({
-    language: PropTypes.string,
-    changeLanguage: PropTypes.func.isRequired,
-  }).isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string,
     pathname: PropTypes.string,
@@ -158,20 +127,18 @@ App.propTypes = {
   }).isRequired,
 };
 
-export default withTranslation()(
-  connect(
-    state => ({
-      language: state.app.language,
-    }),
-    dispatch => ({
-      actions: bindActionCreators(
-        {
-          updateViewportDimensions,
-          onScroll,
-          updateLanguage,
-        },
-        dispatch
-      ),
-    })
-  )(App)
-);
+export default connect(
+  state => ({
+    language: state.app.language,
+  }),
+  dispatch => ({
+    actions: bindActionCreators(
+      {
+        updateViewportDimensions,
+        onScroll,
+        updateLanguage,
+      },
+      dispatch
+    ),
+  })
+)(App);

@@ -270,7 +270,11 @@ const getNegativeUNL = rippledSocket =>
     command: 'ledger_entry',
     index: N_UNL_INDEX,
   }).then(resp => {
-    if (resp.error === 'entryNotFound') {
+    if (
+      resp.error === 'entryNotFound' ||
+      resp.error === 'lgrNotFound' ||
+      resp.error === 'objectNotFound'
+    ) {
       return [];
     }
 
