@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useParams, useRouteMatch } from 'react-router';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReactJson from 'react-json-view';
@@ -33,12 +34,15 @@ ERROR_MESSAGES.default = {
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
 
-class Transaction extends Component {
-  componentDidMount() {
-    const { t, actions, match, data } = this.props;
+const Transaction = props => {
+  const { identifier = '', tab = 'simple' } = useParams();
+  const match = useRouteMatch();
+  const { t } = useTranslation();
+  const { actions, data, loading } = props;
+  const rippledSocket = useContext(SocketContext);
+
+  useEffect(() => {
     const hash = data.raw ? data.raw.hash : undefined;
-    const { identifier = '', tab = 'simple' } = match.params;
-    const rippledSocket = this.context;
     const short = identifier.substr(0, 8);
 
     document.title = `${t('xrpl_explorer')} | ${t('transaction_short')} ${short}...`;
@@ -50,10 +54,9 @@ class Transaction extends Component {
     if (identifier && identifier !== hash) {
       actions.loadTransaction(identifier, rippledSocket);
     }
-  }
+  }, [identifier]);
 
-  renderSummary() {
-    const { t, data } = this.props;
+  function renderSummary() {
     const type = data.raw.tx.TransactionType;
     const status =
       data.raw.meta.TransactionResult === SUCCESSFULL_TRANSACTION ? (
@@ -78,19 +81,16 @@ class Transaction extends Component {
     );
   }
 
-  renderTabs() {
-    const { match } = this.props;
-    const { path = '/', params } = match;
-    const { tab = 'simple', identifier } = params;
+  function renderTabs() {
+    const { path = '/' } = match;
     const tabs = ['simple', 'detailed', 'raw'];
     // strips :url from the front and the identifier/tab info from the end
     const mainPath = `${path.split('/:')[0]}/${identifier}`;
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />;
   }
 
-  renderTransaction() {
-    const { t, language, data, width, match } = this.props;
-    const { tab = 'simple' } = match.params;
+  function renderTransaction() {
+    const { language, width } = props;
     let body;
 
     switch (tab) {
@@ -123,57 +123,46 @@ class Transaction extends Component {
     }
     return (
       <>
-        {this.renderSummary()}
-        {this.renderTabs()}
+        {renderSummary()}
+        {renderTabs()}
         <div className="tab-body">{body}</div>
       </>
     );
   }
 
-  render() {
-    const { loading, data } = this.props;
-    const loader = loading ? <Loader className="show" /> : <Loader />;
-    let body;
+  const loader = loading ? <Loader className="show" /> : <Loader />;
+  let body;
 
-    if (data.error) {
-      const message = getErrorMessage(data.error);
-      body = <NoMatch title={message.title} hints={message.hints} />;
-    } else if (data.raw && data.raw.hash) {
-      body = this.renderTransaction();
-    } else if (!loading) {
-      body = (
-        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-          <h2>Enter a transaction hash in the search box</h2>
-        </div>
-      );
-    }
-
-    return (
-      <div className="transaction">
-        {loader}
-        {body}
+  if (data.error) {
+    const message = getErrorMessage(data.error);
+    body = <NoMatch title={message.title} hints={message.hints} />;
+  } else if (data.raw && data.raw.hash) {
+    body = renderTransaction();
+  } else if (!loading) {
+    body = (
+      <div style={{ textAlign: 'center', fontSize: '14px' }}>
+        <h2>Enter a transaction hash in the search box</h2>
       </div>
     );
   }
-}
+
+  return (
+    <div className="transaction">
+      {loader}
+      {body}
+    </div>
+  );
+};
 
 Transaction.contextType = SocketContext;
 
 Transaction.propTypes = {
-  t: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   width: PropTypes.number.isRequired,
   language: PropTypes.string.isRequired,
   data: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number, PropTypes.array])
   ).isRequired,
-  match: PropTypes.shape({
-    path: PropTypes.string,
-    params: PropTypes.shape({
-      identifier: PropTypes.string,
-      tab: PropTypes.string,
-    }),
-  }).isRequired,
   actions: PropTypes.shape({
     loadTransaction: PropTypes.func,
   }).isRequired,
@@ -194,4 +183,4 @@ export default connect(
       dispatch
     ),
   })
-)(withTranslation()(Transaction));
+)(Transaction);
