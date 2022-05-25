@@ -4,7 +4,7 @@ import { I18nextProvider } from 'react-i18next';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter as Router, Route } from 'react-router-dom';
 import { BAD_REQUEST } from '../../shared/utils';
 import mockTransaction from './mock_data/Transaction.json';
 import mockTransactionSummary from './mock_data/TransactionSummary.json';
@@ -22,8 +22,8 @@ describe('Transaction container', () => {
     return mount(
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
-          <Router>
-            <Transaction match={{ params: { identifier: mockTransaction.hash, tab }, path: '/' }} />
+          <Router initialEntries={[`/transactions/${mockTransaction.hash}/${tab}`]}>
+            <Route path="/transactions/:identifier/:tab?" component={Transaction} />
           </Router>
         </Provider>
       </I18nextProvider>
