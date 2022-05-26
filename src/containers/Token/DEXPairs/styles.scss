@@ -28,12 +28,7 @@
         font-size: 18px;
         text-align: center;
       }
-      .pair-header {
-        padding-right: 8%;
-      }
-      .stats-header {
-        padding-left: 8%;
-      }
+
       td {
         width: 200px;
         padding: 2px 5px;
@@ -63,9 +58,8 @@
       }
 
       .pair-stats-container {
-        float: right;
         table {
-          width: 422px;
+          width: 100%;
         }
         td {
           border: none;
@@ -73,6 +67,7 @@
         .low {
           text-align: left;
         }
+
         .low-num {
           color: #19ff83;
         }
