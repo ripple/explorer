@@ -1,0 +1,21 @@
+@import './variables';
+
+label {
+  color: $gray-400;
+
+  &.selected {
+    color: $white;
+    font-weight: bold;
+  }
+}
+
+.radio-group {
+  label + label {
+    margin-left: 10px;
+  }
+}
+
+input[type="radio"] {
+  height: 16px;
+  accent-color: $green;
+}

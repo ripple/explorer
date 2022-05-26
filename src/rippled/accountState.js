@@ -21,9 +21,10 @@ import { formatAccountInfo, formatSignerList } from './lib/utils';
 
 const log = logger({ name: 'account balances' });
 
-const formatResults = (info, data) => {
+const formatBalances = (info, data) => {
   const balances = { XRP: Number(info.Balance) / 1000000 };
   const { assets = {}, obligations = {} } = data;
+  const tokens = [];
 
   Object.keys(obligations).forEach(currency => {
     if (!balances[currency]) {
@@ -40,10 +41,18 @@ const formatResults = (info, data) => {
       }
 
       balances[d.currency] += Number(d.value);
+      tokens.push({
+        amount: Number(d.value),
+        currency: d.currency,
+        issuer,
+      });
     });
   });
 
-  return balances;
+  return {
+    balances,
+    tokens,
+  };
 };
 const getAccountState = (account, rippledSocket) => {
   // TODO: Retrieve balances for untagged X-address only? or display notice/warning
@@ -84,7 +93,7 @@ const getAccountState = (account, rippledSocket) => {
     .then(info =>
       Promise.all([
         getBalances(rippledSocket, classicAddress, info.ledger_index).then(data =>
-          formatResults(info, data)
+          formatBalances(info, data)
         ),
         getAccountEscrows(rippledSocket, classicAddress, info.ledger_index),
         getAccountPaychannels(rippledSocket, classicAddress, info.ledger_index),
@@ -94,7 +103,8 @@ const getAccountState = (account, rippledSocket) => {
           account: info.Account,
           ledger_index: info.ledger_index,
           info: formatAccountInfo(info, data[3].info.validated_ledger),
-          balances: data[0],
+          balances: data[0].balances,
+          tokens: data[0].tokens,
           signerList: info.signer_lists[0] ? formatSignerList(info.signer_lists[0]) : undefined,
           escrows: data[1],
           paychannels: data[2],

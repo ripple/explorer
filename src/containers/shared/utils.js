@@ -164,6 +164,28 @@ export const concatTx = (a, b) => {
   return a.concat(b.slice(0, iterator));
 };
 
+/**
+ * extract new items from top of array b using iterator
+ * and merge it into the state array a.
+ * @param {any[]} a The nfts in state.
+ * @param {any[]} b The new nfts from props.
+ * @returns {any[]} Concatenated list.
+ */
+export const concatNFT = (a, b) => {
+  if (a.length === 0) return b;
+  if (b.length === 0) return a;
+  if (a[0].NFTokenID === b[0].NFTokenID) return a;
+
+  // joins if b has only old new nfts or has new ones on top of old ones.
+  let iterator = 0;
+  for (iterator = 0; iterator < b.length; iterator += 1) {
+    if (b[iterator].NFTokenID === a[0].NFTokenID) {
+      break;
+    }
+  }
+  return a.concat(b.slice(0, iterator));
+};
+
 export const getLocalizedCurrencySymbol = (lang = 'en-US', currency = 'USD') => {
   const options = {
     style: 'currency',

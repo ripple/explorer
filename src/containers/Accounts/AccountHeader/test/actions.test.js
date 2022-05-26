@@ -45,6 +45,7 @@ describe('AccountHeader Actions', () => {
       },
       balances: { XRP: 123.456 },
       signerList: undefined,
+      tokens: [],
       escrows: undefined,
       paychannels: null,
       xAddress: undefined,
@@ -83,6 +84,7 @@ describe('AccountHeader Actions', () => {
       },
       balances: { XRP: 123.456 },
       signerList: undefined,
+      tokens: [],
       escrows: undefined,
       paychannels: null,
       xAddress: {

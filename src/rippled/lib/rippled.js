@@ -265,6 +265,15 @@ const getAccountTransactions = (rippledSocket, account, limit = 20, marker = '')
   });
 };
 
+const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) => {
+  return query(rippledSocket, {
+    command: 'account_nfts',
+    account,
+    marker: marker || undefined,
+    limit,
+  });
+};
+
 const getNegativeUNL = rippledSocket =>
   query(rippledSocket, {
     command: 'ledger_entry',
@@ -327,6 +336,7 @@ export {
   getAccountInfo,
   getAccountEscrows,
   getAccountPaychannels,
+  getAccountNFTs,
   getBalances,
   getAccountTransactions,
   getNegativeUNL,
