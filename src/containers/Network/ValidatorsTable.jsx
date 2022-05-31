@@ -85,10 +85,10 @@ class ValidatorsTable extends Component {
 
     return (
       <tr key={pubkey}>
-        <td className="td-pubkey" title={pubkey}>
+        <td className="pubkey text-truncate" title={pubkey}>
           <Link to={`/validators/${pubkey}`}>{pubkey}</Link>
         </td>
-        <td className="td-domain">{ValidatorsTable.renderDomain(d.domain)}</td>
+        <td className="domain text-truncate">{ValidatorsTable.renderDomain(d.domain)}</td>
         <td className={`unl ${trusted}`}>{d.unl && <SuccessIcon title={d.unl} alt={d.unl} />}</td>
         <td className={`nUnl ${nUnl}`}>
           {onNegativeUnl && <img src={infoOrange} title={d.unl} alt={d.unl} />}
@@ -113,8 +113,8 @@ class ValidatorsTable extends Component {
     const { t } = this.props;
     const { validators } = this.state;
     const content = validators ? (
-      <table>
-        <tbody>
+      <table className="basic">
+        <thead>
           <tr>
             <th className="pubkey">{t('pubkey')}</th>
             <th className="domain">{t('domain')}</th>
@@ -126,7 +126,7 @@ class ValidatorsTable extends Component {
             <th className="fee">{t('fee')}</th>
             <th className="last-ledger">{t('ledger')}</th>
           </tr>
-        </tbody>
+        </thead>
         <tbody>{validators.map(this.renderValidator)}</tbody>
       </table>
     ) : (
