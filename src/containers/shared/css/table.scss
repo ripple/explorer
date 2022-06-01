@@ -6,8 +6,8 @@ table.basic {
   border-top: none;
   margin: auto;
   border-collapse: collapse;
-  color: $gray-400;
-  font-size: 13px;
+  color: $white;
+  font-size: 12px;
   letter-spacing: 0px;
   text-align: left;
 
@@ -38,8 +38,7 @@ table.basic {
 
   th {
     padding: 22px 5px;
-    color: $white;
-    font-size: 11px;
+    color: $gray-400;
     text-align: left;
     text-transform: uppercase;
   }
