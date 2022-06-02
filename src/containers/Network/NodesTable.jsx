@@ -107,10 +107,8 @@ class NodesTable extends Component {
     const { ledgerRange } = this.state;
     return (
       <tr key={node.pubkey_node}>
-        <td className="pubkey">
-          <div className="title">{node.pubkey_node}</div>
-        </td>
-        <td className="host">{node.host}</td>
+        <td className="pubkey text-truncate">{node.pubkey_node}</td>
+        <td className="host text-truncate">{node.host}</td>
         <td className="state center">
           <span className={node.server_state}>{node.server_state}</span>
         </td>
@@ -137,7 +135,7 @@ class NodesTable extends Component {
     const { t } = this.props;
     const { nodes } = this.state;
     const content = nodes ? (
-      <table>
+      <table className="basic">
         <thead>
           <tr>
             <th className="pubkey">{t('node_pubkey')}</th>

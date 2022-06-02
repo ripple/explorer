@@ -1,76 +1,33 @@
 @import '../../shared/css/variables.scss';
+@import '../../shared/css/table.scss';
 
 .nodes-table {
   position: relative;
   min-height: 150px;
 
   table {
-    overflow: hidden;
-    width: 100%;
-    border-top: none;
-    margin: auto;
-    border-collapse: collapse;
-    color: $gray-400;
-    font-size: 13px;
-    letter-spacing: 0px;
-    text-align: left;
-
-    tr {
-      border-bottom: 1px solid $gray-800;
-    }
-
-    th {
-      padding: 22px 5px;
-      color: $white;
-      font-size: 11px;
-      text-align: left;
-      text-transform: uppercase;
-    }
-
-    td {
-      padding: 15px 5px;
-    }
-
-    .right {
-      text-align: right;
-    }
-
-    .center {
-      text-align: center;
-    }
-
-    .pubkey div {
-      overflow: hidden;
-      width: 70px;
-      padding: 2px;
-      font-size: 11px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .pubkey {
+      max-width: 70px;
 
       @include for-size(tablet-portrait-up) {
-        width: 100px;
+        max-width: 100px;
       }
 
       @include for-size(big-desktop-up) {
-        width: 180px;
+        max-width: 180px;
       }
 
       @media (min-width: 1300px) {
-        width: 280px;
+        max-width: 280px;
       }
 
       @media (min-width: 1400px) {
-        width: 350px;
+        max-width: 350px;
       }
-    }
-
-    .host {
-      font-size: 11px;
     }
 
     .state {
       min-width: 60px;
-      font-size: 11px;
       text-transform: uppercase;
       @include semibold;
     }

@@ -61,7 +61,7 @@ const TokensTable = props => {
           {!tokenInfo.gravatar && currencySymbol && ' '}
           <Currency currency={tokenInfo.currency} />
         </td>
-        <td className="issuer">
+        <td className="issuer text-truncate">
           <Link className="token-issuer" title={tokenName} to={`/token/${tokenName}`}>
             {tokenInfo.domain ? tokenInfo.domain : tokenInfo.issuer}
           </Link>
@@ -92,7 +92,7 @@ const TokensTable = props => {
   return (
     <div className="tokens-table-container">
       <div className="tokens-table">
-        <table>
+        <table className="basic">
           <tbody>
             {!isLoading && (
               <tr className="tokens-table-header">

@@ -1,12 +1,6 @@
 @import '../shared/css/variables.scss';
 
 .token-discovery-page {
-  display: flex;
-  height: 100%;
-  min-height: $min-height;
-  flex-direction: column;
-  align-content: center;
-  justify-content: space-between;
   margin: 106px 10% 16px 10%;
 
   .loader {
