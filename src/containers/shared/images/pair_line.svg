@@ -1,10 +1,9 @@
-<svg width="422" height="7" viewBox="0 0 422 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="422" height="1" transform="matrix(-1 0 0 1 422 3)" fill="url(#paint0_linear)"/>
-<rect width="1.61809" height="7" transform="matrix(-1 0 0 1 221.809 0)" fill="white"/>
-<defs>
-<linearGradient id="paint0_linear" x1="52.5879" y1="0" x2="269.412" y2="0" gradientUnits="userSpaceOnUse">
-<stop stop-color="#FF6719"/>
-<stop offset="1" stop-color="#19FF83"/>
-</linearGradient>
-</defs>
+<svg height="7" width="100%" fill="none" viewBox="0 0 422 7" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <rect width="100%" height="1" transform="" fill="url(#paint0_linear)" y="3px"></rect>
+    <rect width="2" height="7" fill="white" x="50%" y="0"></rect>
+    <defs>
+        <linearGradient id="paint0_linear" x1="20%" y1="0" x2="80%" y2="0" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF6719"></stop><stop offset="1" stop-color="#19FF83"></stop>
+        </linearGradient>
+    </defs>
 </svg>

@@ -10,6 +10,7 @@ import '../../shared/css/nested-menu.css';
 import './styles.css';
 import { localizeNumber, formatLargeNumber } from '../../shared/utils';
 import SocketContext from '../../shared/SocketContext';
+import Currency from '../../shared/components/Currency';
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -193,7 +194,7 @@ class TokenHeader extends Component {
     return (
       <div className="box token-header">
         <div className="section box-header">
-          <span>{currency.toUpperCase()}</span>
+          <Currency currency={currency} />
           {gravatar && <img alt={`${currency} logo`} src={gravatar} />}
         </div>
         <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>

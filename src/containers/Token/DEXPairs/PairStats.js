@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as PairLine } from '../../shared/images/pair_line.svg';
+import Currency from '../../shared/components/Currency';
 
 const PairStats = props => {
   const { pair } = props;
@@ -20,15 +21,15 @@ const PairStats = props => {
               <span className="low-num">
                 {low.num}
                 {low.unit}
-              </span>
-              {` ${token}`}
+              </span>{' '}
+              <Currency currency={token} />
             </td>
             <td className="high">
               <span className="high-num">
                 {high.num}
                 {high.unit}
-              </span>
-              {` ${token}`}
+              </span>{' '}
+              <Currency currency={token} />
             </td>
           </tr>
           <tr>
