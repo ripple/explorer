@@ -44,8 +44,10 @@ export const TokenTxTable = props => {
   }, [data]);
 
   useEffect(() => {
+    setTransactions([]);
+    setMarker(null);
     actions.loadTokenTransactions(accountId, currency, undefined, rippledSocket);
-  }, [accountId, currency, actions, rippledSocket]);
+  }, [accountId, currency]);
 
   const loadMoreTransactions = () => {
     actions.loadTokenTransactions(accountId, currency, marker, rippledSocket);
