@@ -14,6 +14,7 @@ import {
 import { getOffers } from '../../../rippled';
 import PairStats from './PairStats';
 import SocketContext from '../../shared/SocketContext';
+import Currency from '../../shared/components/Currency';
 
 // Hard Coded Pairs that we always check for
 const pairsHardCoded = [
@@ -120,7 +121,8 @@ const DEXPairs = props => {
     return (
       <tr key={`${pair.token}.${pair.issuer}`}>
         <td className="pair">
-          {`${currency.toUpperCase()}/${pair.token} ${pair.average.num}${pair.average.unit}`}
+          <Currency currency={currency} />/<Currency currency={pair.token} /> {pair.average.num}{' '}
+          {pair.average.unit}
         </td>
         <td className="issuer-address">
           {pair.issuer !== undefined ? (
