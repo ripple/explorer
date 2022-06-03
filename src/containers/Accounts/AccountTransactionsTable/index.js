@@ -42,8 +42,10 @@ export const AccountTxTable = props => {
   }, [data]);
 
   useEffect(() => {
+    setTransactions([]);
+    setMarker(null);
     actions.loadAccountTransactions(accountId, undefined, rippledSocket);
-  }, [accountId, actions, rippledSocket]);
+  }, [accountId]);
 
   const loadMoreTransactions = () => {
     actions.loadAccountTransactions(accountId, marker, rippledSocket);
