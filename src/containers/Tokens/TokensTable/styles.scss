@@ -1,7 +1,5 @@
 @import '../../shared/css/variables.scss';
 .tokens-table-container {
-  display: flex;
-  width: 100%;
   margin-bottom: 40px;
   .loader {
     top: 1px;
@@ -20,35 +18,8 @@
   }
 
   .tokens-table {
-    position: relative;
-    display: flex;
-    width: 100%;
-    flex-flow: row wrap;
-
     table {
-      width: 100%;
-      border-top: none;
-      border-bottom: 1px solid $gray-800;
-      margin: auto;
-      border-collapse: collapse;
-      color: $gray-400;
-      font-size: 13px;
-      text-align: left;
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .tokens-table-header {
-        border-bottom: 1px solid $gray-800;
-      }
-
       th {
-        padding: 22px 10px;
-        color: $gray-400;
-        text-transform: uppercase;
-
         .q-tooltip:hover::after {
           font-weight: normal;
           text-transform: none;
@@ -76,13 +47,8 @@
         }
       }
 
-      .tokens-table-row {
-        border-top: 1px solid $gray-800;
-      }
-
-      td {
-        padding: 2px 5px;
-        color: $white;
+      .rank {
+        width: 55px;
       }
 
       img {
