@@ -64,7 +64,7 @@ class ValidatorsTable extends Component {
 
     return d ? (
       <td
-        className={`${className} score ${d.score < 1 ? 'td-missed' : ''}`}
+        className={`${className} score ${d.score < 1 ? 'missed' : ''}`}
         title={t('missed_validations', { count: d.missed })}
       >
         {Number.parseFloat(d.score).toFixed(5)}
