@@ -85,9 +85,9 @@ const AccountNFTTableDisconnected = (props: Props) => {
       <table className="basic">
         <thead>
           <tr className="transaction-li transaction-li-header">
-            <td className="col-token-id">{t('token_id')}</td>
-            <td className="col-issuer">{t('issuer')}</td>
-            <td className="col-taxon">{t('taxon')}</td>
+            <th className="col-token-id">{t('token_id')}</th>
+            <th className="col-issuer">{t('issuer')}</th>
+            <th className="col-taxon">{t('taxon')}</th>
           </tr>
         </thead>
         <tbody>{!loading && (nfts?.length ? nfts.map(renderRow) : renderNoResults())}</tbody>
