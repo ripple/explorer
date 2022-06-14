@@ -1,0 +1,219 @@
+{
+  "account_info": {
+    "result": {
+      "account_data": {
+        "Account": "rB5TihdPbKgMrkFqrqUC3yLdE8hhv4BdeY",
+        "Balance": "1172875760329",
+        "Flags": 0,
+        "LedgerEntryType": "AccountRoot",
+        "OwnerCount": 28,
+        "PreviousTxnID": "259A84CE4B3B09D5FBCAA133F62FC767CA2B57B3C64CF065F7546AA63D55E070",
+        "PreviousTxnLgrSeq": 67657581,
+        "Sequence": 1227,
+        "index": "9B242A0D59328CE964FFFBFF7D3BBF8B024F9CB1A212923727B42F24ADC93930",
+        "signer_lists": []
+      },
+      "ledger_hash": "5B60A4BE898B7ED490F5126D1CB5FF5DCA64B7974B6DB7DBA7D7F0EC0F8C6D75",
+      "ledger_index": 72338736,
+      "validated": true,
+      "warnings": [
+        {
+          "id": 1004,
+          "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+        }
+      ]
+    },
+    "status": "success",
+    "type": "response"
+  },
+  "account_objects": {
+    "result": {
+      "account": "rB5TihdPbKgMrkFqrqUC3yLdE8hhv4BdeY",
+      "account_objects": [],
+      "ledger_hash": "1BAA8681189844A207D3C6AAF6F1375663F434B2534A87E8D1821E5E8F670D36",
+      "ledger_index": 72338713,
+      "validated": true,
+      "warnings": [
+        {
+          "id": 1004,
+          "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+        }
+      ]
+    },
+    "status": "success",
+    "type": "response"
+  },
+  "gateway_balances": {
+    "result": {
+      "account": "rB5TihdPbKgMrkFqrqUC3yLdE8hhv4BdeY",
+      "assets": {
+        "rGwUWgN5BEg3QGNY3RX2HfYowjUTZdid3E": [
+          {
+            "currency": "DYM",
+            "value": "95.13258522535792"
+          }
+        ],
+        "rME7HanzUymzFvETpoLgAy5rvxGcKiLrYL": [
+          {
+            "currency": "USD",
+            "value": "20"
+          }
+        ],
+        "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q": [
+          {
+            "currency": "USD",
+            "value": "255.7836054268899"
+          },
+          {
+            "currency": "BTC",
+            "value": "1.075524263886059"
+          }
+        ],
+        "rnuF96W4SZoCJmbHYBFoJZpR8eCaxNvekK": [
+          {
+            "currency": "CNY",
+            "value": "12.328638002"
+          }
+        ],
+        "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67": [
+          {
+            "currency": "XAU",
+            "value": "3.419442510305086"
+          },
+          {
+            "currency": "0158415500000000C1F76FF6ECB0BAC600000000",
+            "value": "3.692385398244198"
+          }
+        ],
+        "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B": [
+          {
+            "currency": "CHF",
+            "value": "0.7519685210971255"
+          },
+          {
+            "currency": "GBP",
+            "value": "78.5098894970562"
+          },
+          {
+            "currency": "JPY",
+            "value": "4986.30908732758"
+          },
+          {
+            "currency": "EUR",
+            "value": "28.42638726317441"
+          }
+        ]
+      },
+      "ledger_hash": "A03F61C5E0A3E880BECFE05D2435CF370A0F962FEF574C09B024C3C9BD69C1A4",
+      "ledger_index": 72338588,
+      "obligations": {
+        "EUR": "25",
+        "GBP": "1.002",
+        "USD": "661.0453992689988"
+      },
+      "validated": true
+    },
+    "status": "success",
+    "type": "response"
+  },
+  "server_info": {
+    "result": {
+
+      "info": {
+        "build_version": "1.9.1",
+        "complete_ledgers": "32570-72338589",
+        "hostid": "HONE",
+        "initial_sync_duration_us": "15604",
+        "io_latency_ms": 1,
+        "last_close": {
+          "converge_time_s": 0,
+          "proposers": 0
+        },
+        "load_factor": 1,
+        "pubkey_node": "n9Ln87hHwcszpaGqr3L3zTD1psJrMgd6MaFQasXYsNBUhq9De6N8",
+        "published_ledger": "none",
+        "reporting": {
+          "etl_sources": [
+            {
+              "connected": true,
+              "grpc_port": "50051",
+              "ip": "172.16.3.21",
+              "last_message_arrival_time": "2022-Jun-14 17:28:07.976885 UTC",
+              "validated_ledgers_range": "70162870-72338589",
+              "websocket_port": "51233"
+            },
+            {
+              "connected": true,
+              "grpc_port": "50051",
+              "ip": "172.16.3.81",
+              "last_message_arrival_time": "2022-Jun-14 17:28:07.968027 UTC",
+              "validated_ledgers_range": "70151390-72338589",
+              "websocket_port": "51233"
+            },
+            {
+              "connected": true,
+              "grpc_port": "50051",
+              "ip": "172.16.3.89",
+              "last_message_arrival_time": "2022-Jun-14 17:28:07.969184 UTC",
+              "validated_ledgers_range": "71108293-72338589",
+              "websocket_port": "51233"
+            },
+            {
+              "connected": true,
+              "grpc_port": "50051",
+              "ip": "172.16.3.106",
+              "last_message_arrival_time": "2022-Jun-14 17:28:07.992218 UTC",
+              "validated_ledgers_range": "70161864-72338589",
+              "websocket_port": "51233"
+            }
+          ],
+          "is_writer": false,
+          "last_publish_time": "2022-Jun-14 17:28:04.981829 UTC"
+        },
+        "server_state": "full",
+        "server_state_duration_us": "1817931687725",
+        "state_accounting": {
+          "connected": {
+            "duration_us": "0",
+            "transitions": "0"
+          },
+          "disconnected": {
+            "duration_us": "15604",
+            "transitions": "1"
+          },
+          "full": {
+            "duration_us": "1817931687725",
+            "transitions": "1"
+          },
+          "syncing": {
+            "duration_us": "0",
+            "transitions": "0"
+          },
+          "tracking": {
+            "duration_us": "0",
+            "transitions": "0"
+          }
+        },
+        "time": "2022-Jun-14 17:28:07.993308 UTC",
+        "uptime": 1817935,
+        "validated_ledger": {
+          "age": 6,
+          "base_fee_xrp": 0.00001,
+          "hash": "35464A53AEDF0ADBBFD44D49EE58EF0B82D626B122F6338A36C99D395B594D4D",
+          "reserve_base_xrp": 10,
+          "reserve_inc_xrp": 2,
+          "seq": 72338589
+        },
+        "validation_quorum": 28
+      },
+      "warnings": [
+        {
+          "id": 1004,
+          "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+        }
+      ]
+    },
+    "status": "success",
+    "type": "response"
+  }
+}
