@@ -21,7 +21,8 @@ export const Amount = ({ displayIssuer = true, value }: AmountProps) => {
 
   return (
     <span className="amount">
-      {amount} <Currency issuer={displayIssuer ? issuer : ''} currency={currency} link />
+      <span className="amount-localized">{amount}</span>{' '}
+      <Currency issuer={displayIssuer ? issuer : ''} currency={currency} link />
     </span>
   );
 };
