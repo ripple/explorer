@@ -3,7 +3,7 @@
   "assets.nft_tab_title": "Non-Fungible Tokens",
   "assets.token_tab_title": "Issued Tokens",
   "assets.no_tokens_message": "No tokens found.",
-  "assets.no_nfts_message": "No NFTS found.",
+  "assets.no_nfts_message": "No NFTs found.",
   "testnet_data": "testnet data",
   "mainnet_data": "live data",
   "devnet_data": "devnet data",
