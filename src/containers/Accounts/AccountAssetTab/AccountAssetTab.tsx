@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { AccountTokenTable } from '../AccountTokenTable';
+import { AccountIssuedTokenTable } from '../AccountIssuedTokenTable';
 import { AccountNFTTable } from '../AccountNFTTable/AccountNFTTable';
 
 // TODO: Add state types or convert to react query
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const AccountAssetTabDisconnected = ({ account }: Props) => {
-  const assetTypes = ['token', 'nft'];
+  const assetTypes = ['issued', 'nft'];
   const { id: accountId, assetType = assetTypes[0] } = useParams<{
     id: string;
     assetType: string;
@@ -47,7 +47,9 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
         </div>
       )}
       <div className="tab-body">
-        {assetType === 'token' && <AccountTokenTable account={account}></AccountTokenTable>}
+        {assetType === 'issued' && (
+          <AccountIssuedTokenTable account={account}></AccountIssuedTokenTable>
+        )}
         {assetType === 'nft' && <AccountNFTTable />}
       </div>
     </>
