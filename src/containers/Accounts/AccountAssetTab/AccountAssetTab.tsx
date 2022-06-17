@@ -16,7 +16,9 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
     id: string;
     assetType: string;
   }>();
-  const supportsNFT = process.env.REACT_APP_ENVIRONMENT === 'nft_sandbox';
+  const supportsNFT = ['nft_sandbox', 'devnet'].includes(
+    process.env.REACT_APP_ENVIRONMENT as string
+  );
   const history = useHistory();
   const { t } = useTranslation();
 

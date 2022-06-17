@@ -17,7 +17,7 @@ export const AccountIssuedTokenTable = (props: Props) => {
     return (
       <tr>
         <td colSpan={3} className="empty-message">
-          {t('assets.no_tokens_message')}
+          {t('assets.no_issued_message')}
         </td>
       </tr>
     );
