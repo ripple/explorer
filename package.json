@@ -158,6 +158,7 @@
   ],
   "eslintConfig": {
     "extends": [
+      "airbnb",
       "react-app",
       "plugin:prettier/recommended",
       "plugin:jsx-a11y/recommended",
@@ -205,6 +206,7 @@
           "tsx": "never"
         }
       ],
+      "import/prefer-default-export": "off",
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": [
         "error"
