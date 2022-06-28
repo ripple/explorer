@@ -100,7 +100,17 @@ div.react-stockchart div {
   &.NFTokenMint {
     @include transaction-type-base($nft);
   }
+
+  &.SidechainCreate {
+    border-left-color: $sidechain;
+    color: $sidechain;
+
+    &.bg {
+      background: $sidechain;
+    }
+  }
   /* stylelint-enable selector-class-pattern */
+
 }
 
 .tx-result {
