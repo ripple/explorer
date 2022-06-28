@@ -1,19 +1,11 @@
 const axios = require('axios');
 const log = require('../../lib/logger')({ name: 'validators' });
 
-const ENV_NETWORK_MAP = {
-  mainnet: 'main',
-  testnet: 'test',
-  devnet: 'dev',
-  'nft-devnet': 'nft-dev',
-};
-
 const cache = {};
 
 const fetchValidators = () => {
-  const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT];
   return axios
-    .get(`${process.env.REACT_APP_DATA_URL}/validators/${network}`)
+    .get(`${process.env.REACT_APP_DATA_URL}/validators/${process.env.REACT_APP_VALIDATOR}`)
     .then(response => response.data.validators);
 };
 
