@@ -30,63 +30,63 @@ const Simple = props => {
   const SimpleComponent = transactionTypes[type]?.Simple;
   if (SimpleComponent) {
     return <SimpleComponent data={data} />;
-  } else {
-    switch (type) {
-      case 'OfferCancel':
-        return <OfferCancel t={t} data={data} />;
-      case 'Payment':
-        return <Payment t={t} language={language} data={data} />;
-      case 'PaymentChannelCreate':
-        return <PaymentChannelCreate t={t} language={language} data={data} />;
-      case 'PaymentChannelClaim':
-        return <PaymentChannelClaim t={t} language={language} data={data} />;
-      case 'PaymentChannelFund':
-        return <PaymentChannelFund t={t} language={language} data={data} />;
-      case 'EscrowCreate':
-        return <EscrowCreate t={t} language={language} data={data} />;
-      case 'EscrowCancel':
-        return <EscrowCancel t={t} language={language} data={data} />;
-      case 'EscrowFinish':
-        return <EscrowFinish t={t} language={language} data={data} />;
-      case 'TrustSet':
-        return <TrustSet t={t} language={language} data={data} />;
-      case 'SetRegularKey':
-        return <SetRegularKey t={t} language={language} data={data} />;
-      case 'AccountSet':
-        return <AccountSet t={t} language={language} data={data} />;
-      case 'SignerListSet':
-        return <SignerListSet t={t} language={language} data={data} />;
-      case 'DepositPreauth':
-        return <DepositPreauth t={t} language={language} data={data} />;
-      case 'EnableAmendment':
-        return <EnableAmendment t={t} language={language} data={data} />;
-      case 'UNLModify':
-        return <UNLModify t={t} language={language} data={data} />;
-      case 'AccountDelete':
-        return <AccountDelete t={t} language={language} data={data} />;
-      case 'TicketCreate':
-        return <TicketCreate t={t} language={language} data={data} />;
-      case 'NFTokenAcceptOffer':
-        return <NFTokenAcceptOffer t={t} language={language} data={data} />;
-      case 'NFTokenBurn':
-        return <NFTokenBurn t={t} language={language} data={data} />;
-      case 'NFTokenCancelOffer':
-        return <NFTokenCancelOffer t={t} language={language} data={data} />;
-      case 'NFTokenCreateOffer':
-        return <NFTokenCreateOffer t={t} language={language} data={data} />;
-      case 'NFTokenMint':
-        return <NFTokenMint t={t} language={language} data={data} />;
-      default:
-        return (
-          <div className="not-supported">
-            <div>
-              {t('simple_not_supported')}
-              <span className="type">{type}</span>
-            </div>
-            <div>{t('try_detailed_raw')}</div>
+  }
+
+  switch (type) {
+    case 'OfferCancel':
+      return <OfferCancel t={t} data={data} />;
+    case 'Payment':
+      return <Payment t={t} language={language} data={data} />;
+    case 'PaymentChannelCreate':
+      return <PaymentChannelCreate t={t} language={language} data={data} />;
+    case 'PaymentChannelClaim':
+      return <PaymentChannelClaim t={t} language={language} data={data} />;
+    case 'PaymentChannelFund':
+      return <PaymentChannelFund t={t} language={language} data={data} />;
+    case 'EscrowCreate':
+      return <EscrowCreate t={t} language={language} data={data} />;
+    case 'EscrowCancel':
+      return <EscrowCancel t={t} language={language} data={data} />;
+    case 'EscrowFinish':
+      return <EscrowFinish t={t} language={language} data={data} />;
+    case 'TrustSet':
+      return <TrustSet t={t} language={language} data={data} />;
+    case 'SetRegularKey':
+      return <SetRegularKey t={t} language={language} data={data} />;
+    case 'AccountSet':
+      return <AccountSet t={t} language={language} data={data} />;
+    case 'SignerListSet':
+      return <SignerListSet t={t} language={language} data={data} />;
+    case 'DepositPreauth':
+      return <DepositPreauth t={t} language={language} data={data} />;
+    case 'EnableAmendment':
+      return <EnableAmendment t={t} language={language} data={data} />;
+    case 'UNLModify':
+      return <UNLModify t={t} language={language} data={data} />;
+    case 'AccountDelete':
+      return <AccountDelete t={t} language={language} data={data} />;
+    case 'TicketCreate':
+      return <TicketCreate t={t} language={language} data={data} />;
+    case 'NFTokenAcceptOffer':
+      return <NFTokenAcceptOffer t={t} language={language} data={data} />;
+    case 'NFTokenBurn':
+      return <NFTokenBurn t={t} language={language} data={data} />;
+    case 'NFTokenCancelOffer':
+      return <NFTokenCancelOffer t={t} language={language} data={data} />;
+    case 'NFTokenCreateOffer':
+      return <NFTokenCreateOffer t={t} language={language} data={data} />;
+    case 'NFTokenMint':
+      return <NFTokenMint t={t} language={language} data={data} />;
+    default:
+      return (
+        <div className="not-supported">
+          <div>
+            {t('simple_not_supported')}
+            <span className="type">{type}</span>
           </div>
-        );
-    }
+          <div>{t('try_detailed_raw')}</div>
+        </div>
+      );
   }
 };
 

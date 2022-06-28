@@ -1,9 +1,9 @@
 import React from 'react';
-import { TransactionSimpleComponent } from '../types';
 import { useTranslation } from 'react-i18next';
 import { Amount } from '../../Amount';
+import { TransactionSimpleComponent, TransactionSimpleProps } from '../types';
 
-const OfferCreateSimple: TransactionSimpleComponent = props => {
+const OfferCreateSimple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation();
   const { data } = props;
   const { price, pair, pays, gets, cancel } = data.instructions;

@@ -383,7 +383,9 @@ const TxDetails = (props: Props) => {
   const DetailComponent = transactionTypes[type]?.TableDetail;
   if (DetailComponent) {
     return <DetailComponent instructions={instructions}></DetailComponent>;
-  } else if (functionMap[`render${type}`]) {
+  }
+
+  if (functionMap[`render${type}`]) {
     return functionMap[`render${type}`]();
   }
 

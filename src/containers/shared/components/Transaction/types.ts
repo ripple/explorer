@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React from 'react';
 
 export interface Instructions {
   owner: string;
@@ -50,21 +50,21 @@ export interface Instructions {
 export interface TransactionTableDetailProps {
   instructions: Instructions;
 }
-export type TransactionTableDetailComponent = FC<TransactionTableDetailProps>;
+export type TransactionTableDetailComponent = React.FC<TransactionTableDetailProps>;
 
 export interface TransactionDescriptionProps {
   data: {
     tx: any;
   };
 }
-export type TransactionDescriptionComponent = FC<TransactionDescriptionProps>;
+export type TransactionDescriptionComponent = React.FC<TransactionDescriptionProps>;
 
 export interface TransactionSimpleProps {
   data: {
     instructions?: any;
   };
 }
-export type TransactionSimpleComponent = FC<TransactionSimpleProps>;
+export type TransactionSimpleComponent = React.FC<TransactionSimpleProps>;
 
 export interface TransactionMapping {
   Description: TransactionDescriptionComponent;

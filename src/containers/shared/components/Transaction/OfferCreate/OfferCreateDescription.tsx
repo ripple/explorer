@@ -1,6 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Trans } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { localizeDate } from '../../../utils';
 import {
   DATE_OPTIONS,
@@ -10,11 +9,13 @@ import {
   normalizeAmount,
 } from '../../../transactionUtils';
 import Account from '../../Account';
-import { TransactionDescriptionComponent } from '../types';
+import { TransactionDescriptionComponent, TransactionDescriptionProps } from '../types';
 
 const normalize = (amount: any) => amount.value || amount / XRP_BASE;
 
-const OfferCreateDescription: TransactionDescriptionComponent = props => {
+const OfferCreateDescription: TransactionDescriptionComponent = (
+  props: TransactionDescriptionProps
+) => {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage;
   const { data } = props;

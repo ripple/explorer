@@ -1,4 +1,5 @@
 import { offerCreateMapper } from '../../../containers/shared/components/Transaction/OfferCreate/offerCreateMapper';
+
 const OfferCancel = require('./OfferCancel');
 const Payment = require('./Payment');
 const EscrowCreate = require('./EscrowCreate');

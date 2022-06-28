@@ -16,13 +16,13 @@ export const Amount = (props: AmountProps) => {
   const { value } = props;
   const { i18n } = useTranslation();
   const { issuer, currency } = value;
-  const options = { ...CURRENCY_OPTIONS, currency: currency };
+  const options = { ...CURRENCY_OPTIONS, currency };
   const amount = localizeNumber(value.amount, i18n.resolvedLanguage, options);
 
   return (
     <span className="amount">
       {amount}
-      <Currency issuer={issuer} currency={currency} link={true} />
+      <Currency issuer={issuer} currency={currency} link />
     </span>
   );
 };
