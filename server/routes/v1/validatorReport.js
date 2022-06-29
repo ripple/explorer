@@ -3,7 +3,7 @@ const log = require('../../lib/logger')({ name: 'validator-report' });
 
 const fetchValidatorReport = id =>
   axios
-    .get(`${process.env.REACT_APP_DATA_URL}/validators/${id}/reports`)
+    .get(`${process.env.REACT_APP_DATA_URL}/validator/${id}/reports`)
     .then(response => response.data.reports);
 
 module.exports = async (req, res) => {

@@ -3,47 +3,19 @@ const log = require('../../lib/logger')({ name: 'validators' });
 
 const cache = {};
 
-const fetchValidators = () =>
-  axios
-    .get(`${process.env.REACT_APP_DATA_URL}/validators`)
+const fetchValidators = () => {
+  return axios
+    .get(`${process.env.REACT_APP_DATA_URL}/validators/${process.env.REACT_APP_VALIDATOR}`)
     .then(response => response.data.validators);
-
-const fetchDomains = () =>
-  axios.get('https://data.ripple.com/v2/network/validators').then(response => {
-    response.data.validators.forEach(d => {
-      if (d.domain) {
-        const validator = cache.validators.find(v => v.master_key === d.validation_public_key);
-        if (validator) {
-          if (!(validator.domain && validator.domain_is_verified)) {
-            validator.domain = d.domain;
-          }
-        }
-      }
-    });
-  });
+};
 
 const cacheValidators = async () => {
   if (!cache.pending) {
     cache.pending = true;
     try {
       cache.validators = await fetchValidators();
-      // Testnet/Devnet validators do not need a 30day score.
-      if (
-        process.env.REACT_APP_ENVIRONMENT === 'testnet' ||
-        process.env.REACT_APP_ENVIRONMENT === 'devnet'
-      ) {
-        cache.validators = cache.validators.filter(v => v.unl === process.env.REACT_APP_VALIDATOR);
-      } else {
-        cache.validators = cache.validators.filter(
-          v =>
-            v.agreement_30day &&
-            v.agreement_30day.score &&
-            (v.unl === process.env.REACT_APP_VALIDATOR || v.unl === false)
-        );
-      }
       cache.time = Date.now();
       cache.pending = false;
-      await fetchDomains();
     } catch (e) {
       cache.pending = false;
       log.error(e.toString());
