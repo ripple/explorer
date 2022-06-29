@@ -53,4 +53,11 @@ table.basic {
       }
     }
   }
+
+  .empty-message {
+    padding: 16px;
+    color: $gray-400;
+    font-size: 16px;
+    text-align: center;
+  }
 }
