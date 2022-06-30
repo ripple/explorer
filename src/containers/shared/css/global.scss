@@ -286,7 +286,8 @@ div.react-stockchart div {
     }
   }
 
-  &.XChainCreateBridge {
+  &.XChainCreateBridge,
+  &.SidechainXChainSeqNumCreate {
     border-left-color: $sidechain;
     color: $sidechain;
 
