@@ -11,17 +11,17 @@ export const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps
 
   return (
     <>
-      <SimpleRow label={t('from account')}>
+      <SimpleRow label={t('from_account')}>
         <Account account={account} />
       </SimpleRow>
-      <SimpleRow label={t('source chain door')}>
+      <SimpleRow label={t('source_chain_door')}>
         <Account account={sourceDoor} />
       </SimpleRow>
-      <SimpleRow label={t('source chain issue')}>{sourceIssue}</SimpleRow>
-      <SimpleRow label={t('destination chain door')}>
+      <SimpleRow label={t('source_chain_issue')}>{sourceIssue}</SimpleRow>
+      <SimpleRow label={t('destination_chain_door')}>
         <Account account={destinationDoor} />
       </SimpleRow>
-      <SimpleRow label={t('destination chain issue')}>{destinationIssue}</SimpleRow>
+      <SimpleRow label={t('destination_chain_issue')}>{destinationIssue}</SimpleRow>
     </>
   );
 };
