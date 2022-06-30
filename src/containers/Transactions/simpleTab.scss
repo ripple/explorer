@@ -41,9 +41,9 @@
       .label {
         flex-grow: 1;
         color: $white;
-        font-size: 12px;
+        font-size: 14px;
         line-height: 20px;
-        text-transform: uppercase;
+        text-transform: capitalize;
         @include medium;
 
         &.unauthorize {
