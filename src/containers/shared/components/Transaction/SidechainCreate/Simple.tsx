@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Account from '../../Account';
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types';
+import SimpleRow from '../SimpleRow';
 
 export const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation();
@@ -10,32 +11,17 @@ export const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps
 
   return (
     <>
-      <div className="row">
-        <div className="label">{t('from account')}</div>
-        <div className="value">
-          <Account account={account} />
-        </div>
-      </div>
-      <div className="row">
-        <div className="label">{t('source chain door')}</div>
-        <div className="value">
-          <Account account={sourceDoor} />
-        </div>
-      </div>
-      <div className="row">
-        <div className="label">{t('source chain issue')}</div>
-        <div className="value">{sourceIssue}</div>
-      </div>
-      <div className="row">
-        <div className="label">{t('destination chain door')}</div>
-        <div className="value">
-          <Account account={destinationDoor} />
-        </div>
-      </div>
-      <div className="row">
-        <div className="label">{t('destination chain issue')}</div>
-        <div className="value">{destinationIssue}</div>
-      </div>
+      <SimpleRow label={t('from account')}>
+        <Account account={account} />
+      </SimpleRow>
+      <SimpleRow label={t('source chain door')}>
+        <Account account={sourceDoor} />
+      </SimpleRow>
+      <SimpleRow label={t('source chain issue')}>{sourceIssue}</SimpleRow>
+      <SimpleRow label={t('destination chain door')}>
+        <Account account={destinationDoor} />
+      </SimpleRow>
+      <SimpleRow label={t('destination chain issue')}>{destinationIssue}</SimpleRow>
     </>
   );
 };
