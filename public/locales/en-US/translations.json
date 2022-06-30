@@ -343,5 +343,10 @@
   "sidechain_network_input_help": "Enter sidechain network URL to access sidechain data.",
   "sidechain_network_input": "Type in URL of sidechain network",
   "sidechain_networks": "Sidechain Networks",
-  "no_network_selected": "No Sidechain Network Selected"
+  "no_network_selected": "No Sidechain Network Selected",
+  "from_account": "From Account",
+  "source_chain_door": "Source Chain Door",
+  "source_chain_issue": "Source Chain Issue",
+  "destination_chain_door": "Destination Chain Door",
+  "destination_chain_issue": "Destination Chain Issue"
 }
