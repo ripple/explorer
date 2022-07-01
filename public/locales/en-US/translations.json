@@ -138,6 +138,7 @@
   "transaction_PaymentChannelCreate": "Payment Channel Create",
   "transaction_PaymentChannelFund": "Payment Channel Fund",
   "transaction_SetRegularKey": "Set Regular Key",
+  "transaction_SidechainXChainTransfer": "Sidechain XChain Transfer",
   "transaction_SignerListSet": "Signer List Set",
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
