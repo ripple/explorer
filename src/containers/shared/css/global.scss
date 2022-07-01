@@ -284,7 +284,8 @@ div.react-stockchart div {
     }
   }
 
-  &.SidechainCreate {
+  &.SidechainCreate,
+  &.SidechainXChainClaim {
     border-left-color: $sidechain;
     color: $sidechain;
 
