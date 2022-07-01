@@ -351,5 +351,7 @@
   "issuing_chain_door": "Issuing Chain Door",
   "issuing_chain_issue": "Issuing Chain Issue",
   "signature_reward": "Signature Reward",
-  "min_account_create_amount": "Minimum Account Creation Amount"
+  "min_account_create_amount": "Minimum Account Creation Amount",
+  "cross-chain_amount": "Cross-Chain Amount",
+  "cross-chain_sequence": "Cross-Chain Sequence"
 }
