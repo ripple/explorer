@@ -101,6 +101,7 @@ div.react-stockchart div {
     @include transaction-type-base($nft);
   }
 
+  &.XChainClaim,
   &.XChainCommit,
   &.XChainCreateBridge,
   &.XChainCreateClaimID {
