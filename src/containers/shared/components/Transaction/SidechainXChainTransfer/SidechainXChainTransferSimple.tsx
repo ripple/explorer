@@ -5,7 +5,9 @@ import { Amount } from '../../Amount';
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types';
 import SimpleRow from '../SimpleRow';
 
-const SidechainCreateSimple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
+const SidechainXChainTransferSimple: TransactionSimpleComponent = (
+  props: TransactionSimpleProps
+) => {
   const { t } = useTranslation();
   const { data } = props;
   const {
@@ -34,4 +36,4 @@ const SidechainCreateSimple: TransactionSimpleComponent = (props: TransactionSim
     </>
   );
 };
-export default SidechainCreateSimple;
+export default SidechainXChainTransferSimple;
