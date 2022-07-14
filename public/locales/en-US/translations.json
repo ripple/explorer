@@ -138,7 +138,7 @@
   "transaction_PaymentChannelCreate": "Payment Channel Create",
   "transaction_PaymentChannelFund": "Payment Channel Fund",
   "transaction_SetRegularKey": "Set Regular Key",
-  "transaction_SidechainCreate": "Sidechain Create",
+  "transaction_XChainCreateBridge": "Sidechain Create",
   "transaction_SignerListSet": "Signer List Set",
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
@@ -345,8 +345,10 @@
   "sidechain_networks": "Sidechain Networks",
   "no_network_selected": "No Sidechain Network Selected",
   "from_account": "From Account",
-  "source_chain_door": "Source Chain Door",
-  "source_chain_issue": "Source Chain Issue",
-  "destination_chain_door": "Destination Chain Door",
-  "destination_chain_issue": "Destination Chain Issue"
+  "locking_chain_door": "Locking Chain Door",
+  "locking_chain_issue": "Locking Chain Issue",
+  "issuing_chain_door": "Issuing Chain Door",
+  "issuing_chain_issue": "Issuing Chain Issue",
+  "signature_reward": "Signature Reward",
+  "min_account_create_amount": "Minimum Account Creation Amount"
 }
