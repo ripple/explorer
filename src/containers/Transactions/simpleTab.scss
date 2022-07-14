@@ -49,7 +49,7 @@
         font-size: 14px;
         line-height: 21px;
         text-transform: none;
-        @include medium;
+        @include regular;
 
         &.unauthorize {
           color: #944;
