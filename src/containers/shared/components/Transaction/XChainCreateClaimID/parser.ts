@@ -6,5 +6,5 @@ export function parser(tx: any) {
     sourceIssue: tx.Sidechain?.src_chain_issue || 'fakeXRP',
     destinationDoor: tx.Sidechain?.dst_chain_door || 'rFakeAccount2',
     destinationIssue: tx.Sidechain?.dst_chain_issue || 'fakeXRP2',
-  };
+  }
 }
