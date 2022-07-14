@@ -1,10 +1,11 @@
 export function parser(tx: any) {
-  // TODO: update when Sidechain return bug is fixed
+  // TODO: update when Bridge return bug is fixed
   return {
-    account: tx.Account,
-    sourceDoor: tx.Sidechain?.src_chain_door || 'rFakeAccount',
-    sourceIssue: tx.Sidechain?.src_chain_issue || 'fakeXRP',
-    destinationDoor: tx.Sidechain?.dst_chain_door || 'rFakeAccount2',
-    destinationIssue: tx.Sidechain?.dst_chain_issue || 'fakeXRP2',
+    lockingDoor: tx.Bridge?.src_chain_door || 'rFakeAccount',
+    lockingIssue: tx.Bridge?.src_chain_issue || 'fakeXRP',
+    issuingDoor: tx.Bridge?.dst_chain_door || 'rFakeAccount2',
+    issuingIssue: tx.Bridge?.dst_chain_issue || 'fakeXRP2',
+    signatureReward: tx.SignatureReward,
+    otherChainAccount: tx.OtherChainAccount,
   }
 }

@@ -346,11 +346,11 @@
   "sidechain_network_input": "Type in URL of sidechain network",
   "sidechain_networks": "Sidechain Networks",
   "no_network_selected": "No Sidechain Network Selected",
-  "from_account": "From Account",
   "locking_chain_door": "Locking Chain Door",
   "locking_chain_issue": "Locking Chain Issue",
   "issuing_chain_door": "Issuing Chain Door",
   "issuing_chain_issue": "Issuing Chain Issue",
   "signature_reward": "Signature Reward",
-  "min_account_create_amount": "Minimum Account Creation Amount"
+  "min_account_create_amount": "Minimum Account Creation Amount",
+  "other_chain_account": "Other Chain Account"
 }

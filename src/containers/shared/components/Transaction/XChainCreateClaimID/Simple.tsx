@@ -11,29 +11,29 @@ export const Simple: TransactionSimpleComponent = (
   const {
     data: {
       instructions: {
-        account,
-        sourceDoor,
-        sourceIssue,
-        destinationDoor,
-        destinationIssue,
+        lockingDoor,
+        lockingIssue,
+        issuingDoor,
+        issuingIssue,
+        signatureReward,
+        otherChainAccount,
       },
     },
   } = props
 
   return (
     <>
-      <SimpleRow label={t('from_account')}>
-        <Account account={account} />
+      <SimpleRow label={t('locking_chain_door')}>
+        <Account account={lockingDoor} />
       </SimpleRow>
-      <SimpleRow label={t('source_chain_door')}>
-        <Account account={sourceDoor} />
+      <SimpleRow label={t('locking_chain_issue')}>{lockingIssue}</SimpleRow>
+      <SimpleRow label={t('issuing_chain_door')}>
+        <Account account={issuingDoor} />
       </SimpleRow>
-      <SimpleRow label={t('source_chain_issue')}>{sourceIssue}</SimpleRow>
-      <SimpleRow label={t('destination_chain_door')}>
-        <Account account={destinationDoor} />
-      </SimpleRow>
-      <SimpleRow label={t('destination_chain_issue')}>
-        {destinationIssue}
+      <SimpleRow label={t('issuing_chain_issue')}>{issuingIssue}</SimpleRow>
+      <SimpleRow label={t('signature_reward')}>{signatureReward}</SimpleRow>
+      <SimpleRow label={t('other_chain_account')}>
+        {otherChainAccount}
       </SimpleRow>
     </>
   )
