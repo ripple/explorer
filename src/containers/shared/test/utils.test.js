@@ -73,11 +73,20 @@ describe('utils', () => {
         maximumFractionDigits: 2,
       })
     ).toEqual('12.23');
+    expect(
+      localizeNumber(12.2334, 'en-US', {
+        style: 'currency',
+        currency: 'xrp',
+        minimumFractionDigits: 6,
+      })
+    ).toEqual('12.233400');
   });
 
   it('formatPrice', () => {
     expect(formatPrice(22.35)).toEqual('$22.35');
     expect(formatPrice(22.35, 'es-MX', 'BTC', 3)).toEqual('₿22.4');
+    expect(formatPrice(22.356, 'en-US', 'XRP', 4, 6)).toEqual('\uE90022.360000');
+    expect(formatPrice(222.05, 'en-US', 'XRP', 4, 6)).toEqual('\uE900222.100000');
   });
 
   it('getLocalizedCurrencySymbol', () => {

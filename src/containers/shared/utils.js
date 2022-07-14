@@ -124,11 +124,12 @@ export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   return new Intl.NumberFormat(lang, config).format(number);
 };
 
-export function formatPrice(number, lang = 'en-US', currency = 'USD', decimals = 4) {
+export function formatPrice(number, lang = 'en-US', currency = 'USD', decimals = 4, padding = 0) {
   return number
     ? localizeNumber(number.toPrecision(decimals), lang, {
         style: 'currency',
         currency,
+        minimumFractionDigits: padding,
       })
     : undefined;
 }
