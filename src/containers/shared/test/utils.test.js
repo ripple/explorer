@@ -89,6 +89,7 @@ describe('utils', () => {
     expect(formatPrice(222.05, 'en-US', 'XRP', 4, 6)).toEqual('\uE900222.100000');
     expect(formatPrice(2222.05, 'en-US', 'XRP', 4, 6)).toEqual('\uE9002,222');
     expect(formatPrice(2222.3, 'en-US', 'XRP', 4, 6)).toEqual('\uE9002,222');
+    expect(formatPrice(2222, 'en-US', 'XRP', 4, 6)).toEqual('\uE9002,222');
   });
 
   it('getLocalizedCurrencySymbol', () => {
