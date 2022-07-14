@@ -129,7 +129,7 @@ export function formatPrice(number, lang = 'en-US', currency = 'USD', decimals =
     ? localizeNumber(number.toPrecision(decimals), lang, {
         style: 'currency',
         currency,
-        minimumFractionDigits: padding,
+        minimumFractionDigits: number.toPrecision(decimals).includes('.') ? padding : 0,
       })
     : undefined;
 }

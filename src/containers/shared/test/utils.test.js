@@ -87,6 +87,8 @@ describe('utils', () => {
     expect(formatPrice(22.35, 'es-MX', 'BTC', 3)).toEqual('₿22.4');
     expect(formatPrice(22.356, 'en-US', 'XRP', 4, 6)).toEqual('\uE90022.360000');
     expect(formatPrice(222.05, 'en-US', 'XRP', 4, 6)).toEqual('\uE900222.100000');
+    expect(formatPrice(2222.05, 'en-US', 'XRP', 4, 6)).toEqual('\uE9002,222');
+    expect(formatPrice(2222.3, 'en-US', 'XRP', 4, 6)).toEqual('\uE9002,222');
   });
 
   it('getLocalizedCurrencySymbol', () => {
