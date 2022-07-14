@@ -45,7 +45,7 @@ describe('SimpleTab container', () => {
 
   it('renders simple tab information', () => {
     const wrapper = createWrapper();
-    expect(wrapper.find('.simple-body').length).toBe(1);
+    expect(wrapper.find('.simple-body-validator').length).toBe(1);
     expect(wrapper.find('a').length).toBe(2);
     const index = wrapper.find('.index');
     expect(index.length).toBe(1);
@@ -56,7 +56,7 @@ describe('SimpleTab container', () => {
 
   it('renders index row instead of index cart in width smaller than 900', () => {
     const wrapper = createWrapper(800);
-    expect(wrapper.find('.simple-body').length).toBe(1);
+    expect(wrapper.find('.simple-body-validator').length).toBe(1);
     const index = wrapper.find('.index');
     expect(index.length).toBe(0);
     wrapper.unmount();

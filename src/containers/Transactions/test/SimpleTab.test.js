@@ -144,7 +144,7 @@ describe('SimpleTab container', () => {
 
   it('renders simple tab information', () => {
     const wrapper = createWrapper(Payment);
-    expect(wrapper.find('.simple-body').length).toBe(1);
+    expect(wrapper.find('.simple-body-tx').length).toBe(1);
     expect(wrapper.find('a').length).toBe(3);
     const index = wrapper.find('.index');
     expect(index.length).toBe(1);
@@ -157,7 +157,7 @@ describe('SimpleTab container', () => {
 
   it('renders ticket count', () => {
     const wrapper = createWrapper(TicketCreate, 800);
-    expect(wrapper.find('.simple-body').length).toBe(1);
+    expect(wrapper.find('.simple-body-tx').length).toBe(1);
     const ticketCount = wrapper.find('.ticket-count');
     expect(ticketCount.length).toBe(1);
     wrapper.unmount();
