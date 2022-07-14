@@ -95,7 +95,7 @@ class SimpleTab extends Component {
     }
 
     return (
-      <div className="simple-body">
+      <div className="simple-body-validator">
         <div className="rows">
           <Simple t={t} language={language} data={data} />
           {rowIndex}

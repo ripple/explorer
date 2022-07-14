@@ -119,7 +119,7 @@ class SimpleTab extends Component {
     }
 
     return (
-      <div className="simple-body">
+      <div className="simple-body-tx">
         <div className="rows">
           <Simple t={t} language={language} type={raw.tx.TransactionType} data={data.summary} />
           {rowIndex}
