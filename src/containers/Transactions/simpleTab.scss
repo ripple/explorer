@@ -1,14 +1,15 @@
 @import '../shared/css/variables';
 
-.simple-body {
+.simple-body-tx {
   .rows {
     width: 100%;
     padding-right: 0px;
     padding-bottom: 40px;
+    padding-left: 16px;
     float: left;
 
     @include for-size(desktop-up) {
-      width: calc(100% - 276px - 32px);
+      width: calc(100% - 276px - 48px);
       padding-bottom: 60px;
       border-right: 1px solid $gray-800;
     }
@@ -31,19 +32,23 @@
     .row {
       display: flex;
       overflow: hidden;
-      padding: 20px 10px;
+      padding: 0px 15px;
+      padding-left: 0px;
       border-bottom: 1px solid $gray-800;
 
       @include for-size(tablet-portrait-up) {
-        padding: 24px;
+        padding: 15px;
+        padding-left: 0px;
       }
 
       .label {
+        display: flex;
         flex-grow: 1;
+        align-items: center;
         color: $white;
         font-size: 14px;
-        line-height: 20px;
-        text-transform: capitalize;
+        line-height: 21px;
+        text-transform: none;
         @include medium;
 
         &.unauthorize {
@@ -54,8 +59,8 @@
       .account {
         display: inline-block;
         overflow: hidden;
-        font-size: 12px;
-        line-height: 20px;
+        font-size: 14px;
+        line-height: 21px;
         text-overflow: ellipsis;
         vertical-align: middle;
         white-space: nowrap;
@@ -66,6 +71,8 @@
         padding-left: 5px;
         color: $white;
         float: right;
+        font-size: 14px;
+        line-height: 21px;
         text-align: right;
         vertical-align: middle;
         @include medium;
