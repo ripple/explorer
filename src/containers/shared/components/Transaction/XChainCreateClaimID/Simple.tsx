@@ -7,21 +7,27 @@ import { SimpleRow } from '../SimpleRow';
 export const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation();
   const { data } = props;
-  const { account, sourceDoor, sourceIssue, destinationDoor, destinationIssue } = data.instructions;
+  const {
+    lockingDoor,
+    lockingIssue,
+    issuingDoor,
+    issuingIssue,
+    signatureReward,
+    otherChainAccount,
+  } = data.instructions;
 
   return (
     <>
-      <SimpleRow label={t('from_account')}>
-        <Account account={account} />
+      <SimpleRow label={t('locking_chain_door')}>
+        <Account account={lockingDoor} />
       </SimpleRow>
-      <SimpleRow label={t('source_chain_door')}>
-        <Account account={sourceDoor} />
+      <SimpleRow label={t('locking_chain_issue')}>{lockingIssue}</SimpleRow>
+      <SimpleRow label={t('issuing_chain_door')}>
+        <Account account={issuingDoor} />
       </SimpleRow>
-      <SimpleRow label={t('source_chain_issue')}>{sourceIssue}</SimpleRow>
-      <SimpleRow label={t('destination_chain_door')}>
-        <Account account={destinationDoor} />
-      </SimpleRow>
-      <SimpleRow label={t('destination_chain_issue')}>{destinationIssue}</SimpleRow>
+      <SimpleRow label={t('issuing_chain_issue')}>{issuingIssue}</SimpleRow>
+      <SimpleRow label={t('signature_reward')}>{signatureReward}</SimpleRow>
+      <SimpleRow label={t('other_chain_account')}>{otherChainAccount}</SimpleRow>
     </>
   );
 };
