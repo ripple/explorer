@@ -87,23 +87,6 @@ GOOGLE_APP_CLIENT_EMAIL=your-client-email
 * [How to think in react](https://reactjs.org/docs/thinking-in-react.html) and break down components
 * [More details on packages and step by step tutorial](https://gitlab.ops.ripple.com/ui/ui_react_base)
 
-## Polyfills
-
-We load some polyfills conditionally because
-
-1.  React 16 depends on the collection types `Map` and `Set`, [Doc](https://reactjs.org/docs/javascript-environment-requirements.html)
-1.  React also depends on `requestAnimationFrame`, [Doc](https://reactjs.org/docs/javascript-environment-requirements.html)
-1.  We are using `Intl` to format our number and dates, [Doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl)
-
-The following polyfills has been loaded conditionally to support older browsers such as `< IE11`:
-
-1.  [es6-promise](https://github.com/stefanpenner/es6-promise)
-1.  [Intl.js](https://github.com/andyearnshaw/Intl.js)
-1.  [core-js](https://github.com/zloirock/core-js)
-1.  [raf](https://www.npmjs.com/package/raf)
-
-Using [require-ensure](https://webpack.js.org/api/module-methods/#require-ensure) Webpack will create different `chunk` for these polyfills and they get loaded if user borwser don't support the feature needed.
-
 [enable_api]: https://console.cloud.google.com/flows/enableapi?apiid=bigquery.googleapis.com
 [projects]: https://console.cloud.google.com/project
 [auth]: https://cloud.google.com/docs/authentication/getting-started
