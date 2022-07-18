@@ -58,7 +58,7 @@ const NUMBER_DEFAULT_OPTIONS = {
   useGrouping: true,
 };
 
-const FORMAT_PRICE_OPTIONS = {
+const FORMAT_PRICE_DEFAULT_OPTIONS = {
   lang: 'en-US',
   currency: 'USD',
   decimals: 4,
@@ -132,7 +132,7 @@ export const localizeNumber = (num, lang = 'en-US', options = {}) => {
 };
 
 export function formatPrice(number, options = {}) {
-  const { lang, currency, decimals, padding } = { ...FORMAT_PRICE_OPTIONS, ...options };
+  const { lang, currency, decimals, padding } = { ...FORMAT_PRICE_DEFAULT_OPTIONS, ...options };
   return number
     ? localizeNumber(number.toPrecision(decimals), lang, {
         style: 'currency',
