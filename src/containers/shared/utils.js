@@ -58,6 +58,13 @@ const NUMBER_DEFAULT_OPTIONS = {
   useGrouping: true,
 };
 
+const FORMAT_PRICE_OPTIONS = {
+  lang: 'en-US',
+  currency: 'USD',
+  decimals: 4,
+  padding: 0,
+};
+
 export const normalizeLanguage = lang => {
   if (!lang) {
     return undefined;
@@ -124,7 +131,8 @@ export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   return new Intl.NumberFormat(lang, config).format(number);
 };
 
-export function formatPrice(number, lang = 'en-US', currency = 'USD', decimals = 4, padding = 0) {
+export function formatPrice(number, options = {}) {
+  const { lang, currency, decimals, padding } = { ...FORMAT_PRICE_OPTIONS, ...options };
   return number
     ? localizeNumber(number.toPrecision(decimals), lang, {
         style: 'currency',

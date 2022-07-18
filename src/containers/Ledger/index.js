@@ -116,7 +116,9 @@ class Ledger extends Component {
               </div>
               <div className="ledger-col">
                 <div className="title">{t('total_fees')}</div>
-                <div className="value">{formatPrice(data.total_fees, language, 'XRP')}</div>
+                <div className="value">
+                  {formatPrice(data.total_fees, { lang: language, currency: 'XRP' })}
+                </div>
               </div>
             </div>
           </div>
@@ -174,7 +176,7 @@ class Ledger extends Component {
                 />
               </div>
               <div className="col col-fee">
-                {formatPrice(fee, language, 'XRP', undefined, TXN_COST_PADDING)}
+                {formatPrice(fee, { lang: language, currency: 'XRP', padding: TXN_COST_PADDING })}
               </div>
             </div>
             <div className="details">
