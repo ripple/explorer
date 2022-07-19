@@ -31,7 +31,7 @@ class Network extends Component {
     const { params, path } = match;
     const { tab = 'nodes' } = params;
     const mode = process.env.REACT_APP_ENVIRONMENT;
-    if (mode === 'nft_sandbox' || mode === 'sidechain') {
+    if (mode === 'sidechain') {
       return this.renderUnderConstruction();
     }
     // strips :url from the front and the tab info from the end
