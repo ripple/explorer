@@ -139,7 +139,7 @@
   "transaction_PaymentChannelFund": "Payment Channel Fund",
   "transaction_SetRegularKey": "Set Regular Key",
   "transaction_XChainCreateBridge": "XChain Create Bridge",
-  "transaction_XChainCreateClaimID": "Sidechain XChain Seq Num Create",
+  "transaction_XChainCreateClaimID": "XChain Create ClaimID",
   "transaction_SignerListSet": "Signer List Set",
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
