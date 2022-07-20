@@ -1,7 +1,3 @@
-import 'intl';
-import 'core-js/features/map';
-import 'core-js/features/set';
-import 'raf/polyfill';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -21,11 +17,6 @@ require('typeface-roboto');
 
 let enhancers;
 let store;
-
-// Check if polyfill required for Promise
-if (!Promise) {
-  require('es6-promise/auto'); // eslint-disable-line global-require
-}
 
 const renderApp = () => {
   ReactDOM.render(
