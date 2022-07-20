@@ -142,7 +142,7 @@
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
   "transaction_XChainCreateBridge": "XChain Create Bridge",
-  "transaction_XChainCreateClaimID": "Sidechain XChain Seq Num Create",
+  "transaction_XChainCreateClaimID": "XChain Create ClaimID",
   "transaction_EnableAmendment": "Enable Amendment",
   "transaction_SetFee": "Set Fee",
   "transaction_UNLModify": "UNL Modify",
