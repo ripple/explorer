@@ -24,9 +24,9 @@ describe('OfferCreateSimple', () => {
     const wrapper = createWrapper(mockOfferCreateWithCancel);
     expect(wrapper.find('[data-test="cancel-id"]')).toHaveText('#44866443');
     expect(wrapper.find('[data-test="amount-buy"]')).toHaveText(
-      `1,080,661.95882CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`
+      `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`
     );
-    expect(wrapper.find('[data-test="amount-sell"]')).toHaveText(`1,764.293151XRP`);
+    expect(wrapper.find('[data-test="amount-sell"]')).toHaveText(`1,764.293151 XRP`);
     wrapper.unmount();
   });
 
@@ -35,8 +35,8 @@ describe('OfferCreateSimple', () => {
 
     expect(wrapper.find('[data-test="offer-id"]')).not.toExist();
     expect(wrapper.find('[data-test="amount-buy"]')).toHaveText(
-      `51.41523894BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`
+      `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`
     );
-    expect(wrapper.find('[data-test="amount-sell"]')).toHaveText(`24,755.081083XRP`);
+    expect(wrapper.find('[data-test="amount-sell"]')).toHaveText(`24,755.081083 XRP`);
   });
 });
