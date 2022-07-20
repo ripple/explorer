@@ -17,6 +17,7 @@ import paystrings from '../PayStrings';
 import token from '../Token';
 import tokens from '../Tokens';
 import noMatch from '../NoMatch';
+import NFT from '../NFT';
 import SocketContext from '../shared/SocketContext';
 
 const MODE = process.env.REACT_APP_ENVIRONMENT;
@@ -101,6 +102,7 @@ const App = props => {
               <Route exact path="/paystrings/:id?" component={paystrings} />
               <Route exact path="/token/:currency.:id" component={token} />
               {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
+              <Route exact path="/NFT/:id" component={NFT} />
               <Route component={noMatch} />
             </Switch>
           </div>
