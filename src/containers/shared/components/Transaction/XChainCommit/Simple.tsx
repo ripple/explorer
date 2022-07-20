@@ -1,0 +1,36 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import Account from '../../Account';
+import { Amount } from '../../Amount';
+import { TransactionSimpleComponent, TransactionSimpleProps } from '../types';
+import { SimpleRow } from '../SimpleRow';
+
+export const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
+  const { t } = useTranslation();
+  const { data } = props;
+  const {
+    lockingDoor,
+    lockingIssue,
+    issuingDoor,
+    issuingIssue,
+    amount,
+    xchainClaimId,
+  } = data.instructions;
+
+  return (
+    <>
+      <SimpleRow label={t('send')}>
+        <Amount value={amount} />
+      </SimpleRow>
+      <SimpleRow label={t('locking_chain_door')}>
+        <Account account={lockingDoor} />
+      </SimpleRow>
+      <SimpleRow label={t('locking_chain_issue')}>{lockingIssue}</SimpleRow>
+      <SimpleRow label={t('issuing_chain_door')}>
+        <Account account={issuingDoor} />
+      </SimpleRow>
+      <SimpleRow label={t('issuing_chain_issue')}>{issuingIssue}</SimpleRow>
+      <SimpleRow label={t('xchain_claim_id')}>{xchainClaimId}</SimpleRow>
+    </>
+  );
+};
