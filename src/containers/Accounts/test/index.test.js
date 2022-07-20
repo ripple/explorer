@@ -4,14 +4,13 @@ import { I18nextProvider } from 'react-i18next';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router';
 import { initialState } from '../../../rootReducer';
 import i18n from '../../../i18nTestConfig';
 import Account from '../index';
 import AccountHeader from '../AccountHeader';
 import AccountTransactionsTable from '../AccountTransactionsTable';
 import mockAccountState from './mockAccountState.json';
-import { MemoryRouter, Route } from 'react-router';
 
 describe('Account container', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT';

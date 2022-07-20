@@ -58,6 +58,13 @@ const NUMBER_DEFAULT_OPTIONS = {
   useGrouping: true,
 };
 
+const FORMAT_PRICE_DEFAULT_OPTIONS = {
+  lang: 'en-US',
+  currency: 'USD',
+  decimals: 4,
+  padding: 0,
+};
+
 export const normalizeLanguage = lang => {
   if (!lang) {
     return undefined;
@@ -124,11 +131,13 @@ export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   return new Intl.NumberFormat(lang, config).format(number);
 };
 
-export function formatPrice(number, lang = 'en-US', currency = 'USD', decimals = 4) {
+export function formatPrice(number, options = {}) {
+  const { lang, currency, decimals, padding } = { ...FORMAT_PRICE_DEFAULT_OPTIONS, ...options };
   return number
     ? localizeNumber(number.toPrecision(decimals), lang, {
         style: 'currency',
         currency,
+        minimumFractionDigits: number.toPrecision(decimals).includes('.') ? padding : 0,
       })
     : undefined;
 }
@@ -158,6 +167,28 @@ export const concatTx = (a, b) => {
   let iterator = 0;
   for (iterator = 0; iterator < b.length; iterator += 1) {
     if (b[iterator].hash === a[0].hash) {
+      break;
+    }
+  }
+  return a.concat(b.slice(0, iterator));
+};
+
+/**
+ * extract new items from top of array b using iterator
+ * and merge it into the state array a.
+ * @param {any[]} a The nfts in state.
+ * @param {any[]} b The new nfts from props.
+ * @returns {any[]} Concatenated list.
+ */
+export const concatNFT = (a, b) => {
+  if (a.length === 0) return b;
+  if (b.length === 0) return a;
+  if (a[0].NFTokenID === b[0].NFTokenID) return a;
+
+  // joins if b has only old new nfts or has new ones on top of old ones.
+  let iterator = 0;
+  for (iterator = 0; iterator < b.length; iterator += 1) {
+    if (b[iterator].NFTokenID === a[0].NFTokenID) {
       break;
     }
   }

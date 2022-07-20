@@ -10,10 +10,10 @@ interface AmountProps {
     currency: string;
     amount: string;
   };
+  displayIssuer?: boolean; // eslint-disable-line react/require-default-props
 }
 
-export const Amount = (props: AmountProps) => {
-  const { value } = props;
+export const Amount = ({ displayIssuer = true, value }: AmountProps) => {
   const { i18n } = useTranslation();
   const { issuer, currency } = value;
   const options = { ...CURRENCY_OPTIONS, currency };
@@ -21,8 +21,8 @@ export const Amount = (props: AmountProps) => {
 
   return (
     <span className="amount">
-      {amount}
-      <Currency issuer={issuer} currency={currency} link />
+      <span className="amount-localized">{amount}</span>{' '}
+      <Currency issuer={displayIssuer ? issuer : ''} currency={currency} link />
     </span>
   );
 };

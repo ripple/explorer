@@ -37,6 +37,8 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 };
 
+const TXN_COST_PADDING = 6;
+
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'ledger_not_found',
@@ -114,7 +116,9 @@ class Ledger extends Component {
               </div>
               <div className="ledger-col">
                 <div className="title">{t('total_fees')}</div>
-                <div className="value">{formatPrice(data.total_fees, language, 'XRP')}</div>
+                <div className="value">
+                  {formatPrice(data.total_fees, { lang: language, currency: 'XRP' })}
+                </div>
               </div>
             </div>
           </div>
@@ -171,7 +175,9 @@ class Ledger extends Component {
                   account={account}
                 />
               </div>
-              <div className="col col-fee">{formatPrice(fee, language, 'XRP')}</div>
+              <div className="col col-fee">
+                {formatPrice(fee, { lang: language, currency: 'XRP', padding: TXN_COST_PADDING })}
+              </div>
             </div>
             <div className="details">
               <TxDetails language={language} instructions={details.instructions} type={type} />

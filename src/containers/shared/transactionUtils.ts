@@ -126,6 +126,16 @@ interface IssuedCurrencyAmount {
   value: string;
 }
 
+export interface AccountNFToken {
+  Flags: number;
+  Issuer: string;
+  NFTokenID: string;
+  NFTokenTaxon: number;
+  URI?: string;
+  // eslint-disable-next-line camelcase
+  nft_serial: number;
+}
+
 export function groupAffectedNodes(trans: Transaction) {
   const group: Record<string, Node[]> = {
     created: [],
