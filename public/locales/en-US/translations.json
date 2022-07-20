@@ -138,10 +138,10 @@
   "transaction_PaymentChannelCreate": "Payment Channel Create",
   "transaction_PaymentChannelFund": "Payment Channel Fund",
   "transaction_SetRegularKey": "Set Regular Key",
-  "transaction_SidechainXChainTransfer": "Sidechain XChain Transfer",
   "transaction_SignerListSet": "Signer List Set",
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
+  "transaction_XChainCommit": "XChain Commit",
   "transaction_XChainCreateBridge": "XChain Create Bridge",
   "transaction_XChainCreateClaimID": "XChain Create Claim ID",
   "transaction_EnableAmendment": "Enable Amendment",
@@ -354,6 +354,5 @@
   "signature_reward": "Signature Reward",
   "min_account_create_amount": "Minimum Account Creation Amount",
   "other_chain_account": "Other Chain Account",
-  "cross-chain_amount": "Cross-Chain Amount",
-  "cross-chain_sequence": "Cross-Chain Sequence"
+  "xchain_claim_id": "XChain ClaimID"
 }

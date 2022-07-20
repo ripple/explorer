@@ -101,7 +101,7 @@ div.react-stockchart div {
     @include transaction-type-base($nft);
   }
 
-  &.SidechainXChainTransfer,
+  &.XChainCommit,
   &.XChainCreateBridge,
   &.XChainCreateClaimID {
     @include transaction-type-base($sidechain);
