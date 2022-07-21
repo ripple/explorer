@@ -134,7 +134,7 @@ class NFTDetail extends Component {
             <div className="value">
               <Link className="value-content" to={`/accounts/${issuer}`}>
                 {abbrvIssuer}
-              </Link>{' '}
+              </Link>
               <Copy text={issuer} />
             </div>
           </div>
@@ -149,7 +149,10 @@ class NFTDetail extends Component {
             {this.renderSettings()}
           </div>
         </div>
-        <div className="footer">fdsfdsafdsafaa</div>
+        <div className="note-container">
+          <div className="note-left">Disclaimer Text</div>
+          <div className="note-right">some very long date</div>
+        </div>
       </div>
     );
   }
@@ -163,7 +166,7 @@ class NFTDetail extends Component {
       <div className="box token-header">
         <div className="section box-header">
           <span className="token-header box-header">
-            {abbrvtokenId}
+            {tokenId}
             <div className="token-type">
               <div className="subscript">NFT</div>
             </div>
