@@ -1,22 +1,5 @@
+import { CURRENCY_ORDER } from '../../../transactionUtils';
 import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount';
-
-const CURRENCY_ORDER = [
-  'CNY',
-  'JPY',
-  'CHF',
-  'CAD',
-  'NZD',
-  'AUD',
-  'GBP',
-  'USD',
-  'EUR',
-  'LTC',
-  'ETH',
-  'BTC',
-  'XAG',
-  'XAU',
-  'XRP',
-];
 
 export function offerCreateMapper(tx: any) {
   const gets = formatAmount(tx.TakerGets);
