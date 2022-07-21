@@ -3,7 +3,7 @@ import { getToken } from '../../../rippled';
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
-export const loadTokenState = (currency, tokenId, rippledSocket) => dispatch => {
+export const loadTokenState = (tokenId, rippledSocket) => dispatch => {
   dispatch({
     type: actionTypes.START_LOADING_NFT_STATE,
   });

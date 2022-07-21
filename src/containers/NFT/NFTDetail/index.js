@@ -10,31 +10,23 @@ import '../../shared/css/nested-menu.css';
 import './styles.css';
 import { localizeNumber, formatLargeNumber } from '../../shared/utils';
 import SocketContext from '../../shared/SocketContext';
-import Currency from '../../shared/components/Currency';
-import Copy from '../../shared/components/Copy';
 
-const CURRENCY_OPTIONS = {
-  style: 'currency',
-  currency: 'XRP',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 6,
-};
+import Copy from '../../shared/components/Copy';
 
 class NFTDetail extends Component {
   componentDidMount() {
-    const { actions, tokenId, currency } = this.props;
+    const { actions, tokenId } = this.props;
     const rippledSocket = this.context;
-    actions.loadTokenState(currency, tokenId, rippledSocket);
+    actions.loadTokenState(tokenId, rippledSocket);
   }
 
   componentDidUpdate(prevProps) {
     const nexttokenId = prevProps.tokenId;
-    const nextCurrency = prevProps.currency;
-    const { tokenId, currency, actions } = this.props;
+    const { tokenId, actions } = this.props;
     const rippledSocket = this.context;
 
-    if (nexttokenId !== tokenId || nextCurrency !== currency) {
-      actions.loadTokenState(nextCurrency, nexttokenId, rippledSocket);
+    if (nexttokenId !== tokenId) {
+      actions.loadTokenState(nexttokenId, rippledSocket);
     }
   }
 
@@ -76,7 +68,7 @@ class NFTDetail extends Component {
               <td className="col1">{t('email_hash')}</td>
               <td className="col2">
                 {abbrvEmail}
-                <Copy className="copy-value" text={emailHash} />
+                <Copy text={emailHash} />
               </td>
             </tr>
           )}
@@ -138,12 +130,10 @@ class NFTDetail extends Component {
         <div className="info-container">
           <div className="values">
             <div className="title">{t('issuer_address')}</div>
-            <div>
-              <Link className="value" to={`/accounts/${issuer}`}>
-                {issuer}
-              </Link>
-              <Copy className="copy-header" text={issuer} />
-            </div>
+
+            <Link className="value" to={`/accounts/${issuer}`}>
+              {issuer} <Copy text={issuer} />
+            </Link>
           </div>
         </div>
         <div className="bottom-container">
@@ -156,21 +146,26 @@ class NFTDetail extends Component {
             {this.renderSettings()}
           </div>
         </div>
-        <div className="footer">fdsa</div>
+        <div className="footer">fdsfdsafdsafaa</div>
       </div>
     );
   }
 
   render() {
-    const { currency, loading, data } = this.props;
+    const { loading, data } = this.props;
     const tokenId = data.nft_id;
     const abbrvtokenId = tokenId && tokenId.replace(/(.{30})..+/, '$1...');
     // const { gravatar } = data;
     return (
       <div className="box token-header">
         <div className="section box-header">
-          <span className="token-header box-header">{abbrvtokenId}</span>
-          <div className="token-type">NFT</div>
+          <span className="token-header box-header">
+            {abbrvtokenId}
+            <div className="token-type">
+              <div className="subscript">NFT</div>
+            </div>
+          </span>
+
           {/* {gravatar && <img alt={`${currency} logo`} src={gravatar} />} */}
         </div>
         <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
@@ -186,7 +181,6 @@ NFTDetail.propTypes = {
   t: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   tokenId: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
   data: PropTypes.shape({
     nft_id: PropTypes.string,
     ledger_index: PropTypes.number,

@@ -60,7 +60,6 @@ class NFT extends Component {
     const { t, error, match } = this.props;
     const { prevId } = this.state;
     const tokenId = match.params.id || '';
-    const currency = match.params.currency || '';
     const showError = tokenId === prevId && error;
 
     document.title = `${t('xrpl_explorer')} | ${tokenId.substr(0, 12)}...`;
@@ -69,7 +68,7 @@ class NFT extends Component {
       NFT.renderError(error)
     ) : (
       <div className="token-page">
-        {tokenId && <NFTDetail tokenId={tokenId} currency={currency} t={t} />}
+        {tokenId && <NFTDetail tokenId={tokenId} t={t} />}
         {!tokenId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>
             <h2>Enter an account ID in the search box</h2>
@@ -86,7 +85,6 @@ NFT.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
-      currency: PropTypes.string,
     }),
   }).isRequired,
 };

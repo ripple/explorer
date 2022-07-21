@@ -84,6 +84,17 @@
         line-height: 22.5px;
         text-decoration: none;
         @include bold;
+
+        input {
+          width: 24px;
+          height: 24px;
+
+          /* Inside auto layout */
+
+          flex: none;
+          order: 1;
+          flex-grow: 0;
+        }
       }
     }
   }
@@ -107,6 +118,13 @@ table {
     a {
       color: $green;
       text-decoration: none;
+    }
+
+    input {
+      position: absolute;
+      width: 17px;
+      height: 17px;
+      margin-left: 8.42px;
     }
   }
 }
@@ -148,6 +166,57 @@ table {
       height: 24px;
       margin-left: 16px;
       object-fit: contain;
+    }
+    .token-type {
+      width: 29px;
+      height: 18px;
+
+      /* xrpl/head/head1 */
+
+      font-family: 'Work Sans', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 125%;
+      /* identical to box height, or 18px */
+
+      /* Primary/White */
+
+      color: #ffffff;
+      /* Inside auto layout */
+
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+      box-sizing: border-box;
+
+      /* Auto layout */
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 2px 12px;
+
+      width: 53px;
+      height: 22px;
+
+      /* Secondary/Blue-Purple */
+
+      background: #791aff;
+      /* Blue-Purple/600 */
+
+      border: 1px solid #5f00e6;
+      box-shadow: 0px 1px 1px #5f00e5;
+      border-radius: 30px;
+
+      .subscript {
+        /* Inside auto layout */
+        margin: auto;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+      }
     }
   }
 
