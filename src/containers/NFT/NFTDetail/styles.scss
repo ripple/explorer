@@ -68,8 +68,8 @@ table {
       display: flex;
       font-family: 'Work Sans', sans-serif;
       font-size: 14px;
-      font-style: normal;
       align-items: end;
+      font-style: normal;
       color: #9ba2b0;
       font-weight: 400;
       line-height: 150%;
@@ -204,11 +204,11 @@ table {
       .token-type {
         display: flex;
         flex: none;
-        flex-direction: row;
         width: 53px;
         height: 22px;
-        flex-grow: 0;
+        flex-direction: row;
         box-sizing: border-box;
+        flex-grow: 0;
         align-items: center;
         justify-content: center;
         order: 0;
@@ -217,8 +217,8 @@ table {
         font-size: 14px;
         font-style: normal;
         font-weight: 700;
-        line-height: 125%;
         padding: 2px 12px;
+        line-height: 125%;
         border: 1px solid #5f00e6;
         background: #791aff;
         border-radius: 30px;
