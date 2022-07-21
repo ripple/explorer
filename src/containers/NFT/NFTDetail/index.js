@@ -130,7 +130,6 @@ class NFTDetail extends Component {
         <div className="info-container">
           <div className="values">
             <div className="title">{t('issuer_address')}</div>
-
             <div className="value">
               <Link className="value-content" to={`/accounts/${issuer}`}>
                 {abbrvIssuer}
@@ -161,7 +160,6 @@ class NFTDetail extends Component {
     const { loading, data } = this.props;
     const tokenId = data.nft_id;
     const abbrvtokenId = tokenId && tokenId.replace(/(.{30})..+/, '$1...');
-    // const { gravatar } = data;
     return (
       <div className="box token-header">
         <div className="section box-header">
@@ -171,8 +169,6 @@ class NFTDetail extends Component {
               <div className="subscript">NFT</div>
             </div>
           </span>
-
-          {/* {gravatar && <img alt={`${currency} logo`} src={gravatar} />} */}
         </div>
         <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
       </div>
