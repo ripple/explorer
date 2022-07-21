@@ -154,8 +154,6 @@ const Transaction = props => {
   );
 };
 
-Transaction.contextType = SocketContext;
-
 Transaction.propTypes = {
   loading: PropTypes.bool.isRequired,
   width: PropTypes.number.isRequired,

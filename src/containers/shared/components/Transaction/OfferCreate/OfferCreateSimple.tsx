@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Amount } from '../../Amount';
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types';
+import { SimpleRow } from '../SimpleRow';
 
 const OfferCreateSimple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation();
@@ -10,32 +11,20 @@ const OfferCreateSimple: TransactionSimpleComponent = (props: TransactionSimpleP
 
   return (
     <>
-      <div className="row">
-        <div className="label">{t('price')}</div>
-        <div className="value">
-          {`${Number(price)}`}
-          <span className="currency">{pair}</span>
-        </div>
-      </div>
-      <div className="row">
-        <div className="label">{t('buy')}</div>
-        <div className="value" data-test="amount-buy">
-          <Amount value={gets} />
-        </div>
-      </div>
-      <div className="row">
-        <div className="label">{t('sell')}</div>
-        <div className="value" data-test="amount-sell">
-          <Amount value={pays} />
-        </div>
-      </div>
+      <SimpleRow label={t('price')}>
+        {`${Number(price)}`}
+        <span className="currency">{pair}</span>
+      </SimpleRow>
+      <SimpleRow label={t('buy')} data-test="amount-buy">
+        <Amount value={gets} />
+      </SimpleRow>
+      <SimpleRow label={t('sell')} data-test="amount-sell">
+        <Amount value={pays} />
+      </SimpleRow>
       {cancel && (
-        <div className="row">
-          <div className="label">{t('cancel_offer')}</div>
-          <div className="value" data-test="cancel-id">
-            #{cancel}
-          </div>
-        </div>
+        <SimpleRow label={t('cancel_offer')} data-test="cancel-id">
+          #{cancel}
+        </SimpleRow>
       )}
     </>
   );

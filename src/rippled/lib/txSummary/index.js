@@ -1,4 +1,5 @@
-import { offerCreateMapper } from '../../../containers/shared/components/Transaction/OfferCreate/offerCreateMapper';
+import React from 'react';
+import { transactionTypes } from '../../../containers/shared/components/Transaction';
 
 const OfferCancel = require('./OfferCancel');
 const Payment = require('./Payment');
@@ -24,7 +25,6 @@ const NFTokenCreateOffer = require('./NFTokenCreateOffer');
 const NFTokenMint = require('./NFTokenMint');
 
 const summarize = {
-  OfferCreate: offerCreateMapper,
   OfferCancel,
   Payment,
   EscrowCreate,
@@ -49,8 +49,14 @@ const summarize = {
   NFTokenMint,
 };
 
-const getInstructions = (tx, meta) =>
-  summarize[tx.TransactionType] ? summarize[tx.TransactionType](tx, meta) : {};
+const getInstructions = (tx, meta) => {
+  const type = tx.TransactionType;
+  const mappingFn = transactionTypes[type]?.mapper
+    ? transactionTypes[type]?.mapper
+    : summarize[type];
+
+  return mappingFn ? mappingFn(tx, meta) : {};
+};
 
 const summarizeTransaction = (d, details = false) => ({
   hash: d.hash,
