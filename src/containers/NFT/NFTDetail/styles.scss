@@ -79,13 +79,30 @@
         @include semibold;
       }
       .value {
-        color: $white;
-        font-size: 18px;
-        line-height: 22.5px;
-        text-decoration: none;
-        @include bold;
+        display: flex;
 
+        .value-content {
+          /* xrpl/head/head3 */
+          margin: auto;
+          font-family: 'Work Sans', sans-serif;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 125%;
+          /* identical to box height, or 22px */
+          color: $white;
+          font-size: 18px;
+          line-height: 22.5px;
+          text-decoration: none;
+          @include bold;
+          text-align: right;
+
+          /* Primary/White */
+
+          color: #ffffff;
+        }
         input {
+          margin-left: 10px;
           width: 24px;
           height: 24px;
 

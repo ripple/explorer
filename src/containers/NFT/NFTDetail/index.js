@@ -124,16 +124,19 @@ class NFTDetail extends Component {
   renderHeaderContent() {
     const { t, data, language, tokenId } = this.props;
     const { issuer } = data;
-
+    const abbrvIssuer = issuer && issuer.replace(/(.{23})..+/, '$1...');
     return (
       <div className="section header-container">
         <div className="info-container">
           <div className="values">
             <div className="title">{t('issuer_address')}</div>
 
-            <Link className="value" to={`/accounts/${issuer}`}>
-              {issuer} <Copy text={issuer} />
-            </Link>
+            <div className="value">
+              <Link className="value-content" to={`/accounts/${issuer}`}>
+                {abbrvIssuer}
+              </Link>{' '}
+              <Copy text={issuer} />
+            </div>
           </div>
         </div>
         <div className="bottom-container">
