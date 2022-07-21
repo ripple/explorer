@@ -206,25 +206,23 @@ table {
         width: 53px;
         height: 22px;
         box-sizing: border-box;
-        padding: 2px 12px;
-        border: 1px solid #5f00e6;
         flex: none;
         flex-direction: row;
         flex-grow: 0;
         align-items: center;
         justify-content: center;
         order: 0;
+        padding: 2px 12px;
+        border: 1px solid #5f00e6;
+        background: #791aff;
+        border-radius: 30px;
+        box-shadow: 0px 1px 1px #5f00e5;
         color: #fff;
         font-family: 'Work Sans', sans-serif;
         font-size: 14px;
         font-style: normal;
         font-weight: 700;
-
         line-height: 125%;
-
-        background: #791aff;
-        border-radius: 30px;
-        box-shadow: 0px 1px 1px #5f00e5;
         .subscript {
           flex: none;
           flex-grow: 0;
