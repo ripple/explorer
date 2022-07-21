@@ -54,8 +54,8 @@ table {
     .note-left {
       display: flex;
       height: 15px;
-      color: #9ba2b0;
       align-items: end;
+      color: #9ba2b0;
       padding: 64px 0px 0px 5px;
       font-family: 'Work Sans', sans-serif;
       font-size: 14px;
@@ -66,13 +66,13 @@ table {
 
     .note-right {
       display: flex;
-      font-size: 14px;
       font-family: 'Work Sans', sans-serif;
+      font-size: 14px;
       font-style: normal;
-      font-weight: 400;
       align-items: end;
-      line-height: 150%;
+      font-weight: 400;
       color: #9ba2b0;
+      line-height: 150%;
       text-align: right;
     }
   }
@@ -157,11 +157,11 @@ table {
           @include bold;
         }
         input {
-          flex: none;
           width: 24px;
+          flex: none;
           height: 24px;
-          margin-left: 10px;
           flex-grow: 0;
+          margin-left: 10px;
           order: 1;
         }
       }
@@ -209,6 +209,7 @@ table {
         width: 53px;
         height: 22px;
         box-sizing: border-box;
+        align-items: center;
         order: 0;
         color: #fff;
         font-family: 'Work Sans', sans-serif;
@@ -216,7 +217,6 @@ table {
         font-style: normal;
         font-weight: 700;
         line-height: 125%;
-        align-items: center;
         justify-content: center;
         padding: 2px 12px;
         border: 1px solid #5f00e6;
