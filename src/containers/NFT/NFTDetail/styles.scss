@@ -12,47 +12,68 @@
   }
 }
 
+table {
+  margin-top: 24px;
+  font-size: 14px;
+
+  .col1 {
+    width: 180px;
+    padding-bottom: 8px;
+    color: $gray-400;
+    text-transform: uppercase;
+    @include semibold;
+  }
+  .col2 {
+    padding-bottom: 8px;
+    color: $white;
+
+    a {
+      color: $green;
+      text-decoration: none;
+    }
+
+    input {
+      position: absolute;
+      width: 17px;
+      height: 17px;
+      margin-left: 8.42px;
+    }
+  }
+}
+
 .header-container {
   .note-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     margin-bottom: 0px;
 
     @include for-size(desktop-up) {
       flex-direction: row;
     }
     .note-left {
-      // flex: 0 50px 50px;
+      display: flex;
       height: 15px;
       padding: 64px 0px 0px 5px;
       font-family: 'Work Sans', sans-serif;
       font-style: normal;
-      font-weight: 400;
       font-size: 14px;
-      line-height: 150%;
+      font-weight: 400;
       color: #9ba2b0;
-      display: flex;
+      line-height: 150%;
       align-items: end;
     }
 
     .note-right {
-      /* xrpl/small/small */
-
+      display: flex;
       font-family: 'Work Sans', sans-serif;
       font-style: normal;
       font-weight: 400;
       font-size: 14px;
       line-height: 150%;
-      /* identical to box height, or 21px */
-      display: flex;
       align-items: end;
-      text-align: right;
-
-      /* Gray/400 */
-
       color: #9ba2b0;
+      text-align: right;
     }
   }
   .bottom-container {
@@ -124,66 +145,28 @@
         display: flex;
 
         .value-content {
-          /* xrpl/head/head3 */
           margin: auto;
           font-family: 'Work Sans', sans-serif;
           font-style: normal;
-          font-weight: 700;
           font-size: 18px;
+          font-weight: 700;
+          color: #ffffff;
           line-height: 125%;
           /* identical to box height, or 22px */
           color: $white;
-          font-size: 18px;
-          line-height: 22.5px;
+          text-align: right;
           text-decoration: none;
           @include bold;
-          text-align: right;
-
-          /* Primary/White */
-
-          color: #ffffff;
         }
         input {
-          margin-left: 10px;
           width: 24px;
           height: 24px;
-
-          /* Inside auto layout */
-
+          margin-left: 10px;
           flex: none;
-          order: 1;
           flex-grow: 0;
+          order: 1;
         }
       }
-    }
-  }
-}
-
-table {
-  margin-top: 24px;
-  font-size: 14px;
-
-  .col1 {
-    width: 180px;
-    padding-bottom: 8px;
-    color: $gray-400;
-    text-transform: uppercase;
-    @include semibold;
-  }
-  .col2 {
-    padding-bottom: 8px;
-    color: $white;
-
-    a {
-      color: $green;
-      text-decoration: none;
-    }
-
-    input {
-      position: absolute;
-      width: 17px;
-      height: 17px;
-      margin-left: 8.42px;
     }
   }
 }
@@ -221,54 +204,32 @@ table {
         font-size: 42px;
       }
       .token-type {
-        width: 29px;
-        height: 18px;
-        display: inline;
-        /* xrpl/head/head1 */
-
+        display: flex;
         font-family: 'Work Sans', sans-serif;
         font-style: normal;
-        font-weight: 700;
         font-size: 14px;
+        font-weight: 700;
+        color: #fff;
         line-height: 125%;
-        /* identical to box height, or 18px */
-
-        /* Primary/White */
-
-        color: #ffffff;
-        /* Inside auto layout */
-
-        flex: none;
-        order: 0;
-        flex-grow: 0;
         box-sizing: border-box;
-
-        /* Auto layout */
-
-        display: flex;
+        flex: none;
+        flex-grow: 0;
+        order: 0;
         flex-direction: row;
-        justify-content: center;
         align-items: center;
-        padding: 2px 12px;
-
+        justify-content: center;
         width: 53px;
         height: 22px;
-
-        /* Secondary/Blue-Purple */
-
-        background: #791aff;
-        /* Blue-Purple/600 */
-
+        padding: 2px 12px;
         border: 1px solid #5f00e6;
-        box-shadow: 0px 1px 1px #5f00e5;
+        background: #791aff;
         border-radius: 30px;
-
+        box-shadow: 0px 1px 1px #5f00e5;
         .subscript {
-          /* Inside auto layout */
-          margin: auto;
           flex: none;
-          order: 0;
           flex-grow: 0;
+          order: 0;
+          margin: auto;
         }
       }
     }
