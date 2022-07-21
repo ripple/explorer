@@ -11,6 +11,7 @@ import './styles.css';
 import { localizeNumber, formatLargeNumber } from '../../shared/utils';
 import SocketContext from '../../shared/SocketContext';
 import Currency from '../../shared/components/Currency';
+import Copy from '../../shared/components/Copy';
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -73,7 +74,10 @@ class NFTDetail extends Component {
           {emailHash && (
             <tr className="row">
               <td className="col1">{t('email_hash')}</td>
-              <td className="col2">{abbrvEmail}</td>
+              <td className="col2">
+                {abbrvEmail}
+                <Copy className="copy-value" text={emailHash} />
+              </td>
             </tr>
           )}
           <tr className="row">
@@ -134,9 +138,12 @@ class NFTDetail extends Component {
         <div className="info-container">
           <div className="values">
             <div className="title">{t('issuer_address')}</div>
-            <Link className="value" to={`/accounts/${issuer}`}>
-              {issuer}
-            </Link>
+            <div>
+              <Link className="value" to={`/accounts/${issuer}`}>
+                {issuer}
+              </Link>
+              <Copy className="copy-header" text={issuer} />
+            </div>
           </div>
         </div>
         <div className="bottom-container">
@@ -149,17 +156,21 @@ class NFTDetail extends Component {
             {this.renderSettings()}
           </div>
         </div>
+        <div className="footer">fdsa</div>
       </div>
     );
   }
 
   render() {
     const { currency, loading, data } = this.props;
+    const tokenId = data.nft_id;
+    const abbrvtokenId = tokenId && tokenId.replace(/(.{30})..+/, '$1...');
     // const { gravatar } = data;
     return (
       <div className="box token-header">
         <div className="section box-header">
-          <Currency currency={currency} />
+          <span className="token-header box-header">{abbrvtokenId}</span>
+          <div className="token-type">NFT</div>
           {/* {gravatar && <img alt={`${currency} logo`} src={gravatar} />} */}
         </div>
         <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>

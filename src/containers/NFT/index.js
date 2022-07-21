@@ -49,7 +49,7 @@ class NFT extends Component {
   }
 
   componentDidMount() {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' });
+    analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/NFT/:id' });
   }
 
   componentWillUnmount() {
@@ -63,7 +63,6 @@ class NFT extends Component {
     const currency = match.params.currency || '';
     const showError = tokenId === prevId && error;
 
-    // TODO: title this so it includes the currency code somehow
     document.title = `${t('xrpl_explorer')} | ${tokenId.substr(0, 12)}...`;
 
     return showError ? (
