@@ -78,7 +78,10 @@ class NFTDetail extends Component {
           </tr>
           <tr className="row">
             <td className="col1">URI</td>
-            <td className="col2">{abbrvURI}</td>
+            <td className="col2">
+              {abbrvURI}
+              <Copy text={uri} />
+            </td>
           </tr>
           <tr className="row">
             <td className="col1">Transfer Fee</td>

@@ -66,11 +66,11 @@ table {
 
     .note-right {
       display: flex;
+      align-items: end;
+      color: #9ba2b0;
       font-family: 'Work Sans', sans-serif;
       font-size: 14px;
-      align-items: end;
       font-style: normal;
-      color: #9ba2b0;
       font-weight: 400;
       line-height: 150%;
       text-align: right;
@@ -203,11 +203,13 @@ table {
       }
       .token-type {
         display: flex;
-        flex: none;
         width: 53px;
         height: 22px;
-        flex-direction: row;
         box-sizing: border-box;
+        padding: 2px 12px;
+        border: 1px solid #5f00e6;
+        flex: none;
+        flex-direction: row;
         flex-grow: 0;
         align-items: center;
         justify-content: center;
@@ -217,9 +219,9 @@ table {
         font-size: 14px;
         font-style: normal;
         font-weight: 700;
-        padding: 2px 12px;
+
         line-height: 125%;
-        border: 1px solid #5f00e6;
+
         background: #791aff;
         border-radius: 30px;
         box-shadow: 0px 1px 1px #5f00e5;
