@@ -7,7 +7,7 @@ export const initialState = {
   status: null,
 };
 
-const NFTDetailReducer = (state = initialState, action) => {
+const NFTHeaderReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.START_LOADING_NFT_STATE:
       return { ...state, loading: true };
@@ -29,4 +29,4 @@ const NFTDetailReducer = (state = initialState, action) => {
   }
 };
 
-export default NFTDetailReducer;
+export default NFTHeaderReducer;

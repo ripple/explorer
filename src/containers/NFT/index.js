@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import NoMatch from '../NoMatch';
-import NFTDetail from './NFTDetail';
+import NFTHeader from './NFTHeader';
 import './styles.css';
 import { analytics, ANALYTIC_TYPES, NOT_FOUND, BAD_REQUEST } from '../shared/utils';
 
@@ -68,7 +68,7 @@ class NFT extends Component {
       NFT.renderError(error)
     ) : (
       <div className="token-page">
-        {tokenId && <NFTDetail tokenId={tokenId} t={t} />}
+        {tokenId && <NFTHeader tokenId={tokenId} t={t} />}
         {!tokenId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>
             <h2>Enter an account ID in the search box</h2>
@@ -95,5 +95,5 @@ NFT.defaultProps = {
 
 export default connect(state => ({
   width: state.app.width,
-  error: state.NFTDetail.error,
+  error: state.NFTHeader.error,
 }))(withTranslation()(NFT));

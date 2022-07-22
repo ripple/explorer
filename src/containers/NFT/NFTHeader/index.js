@@ -13,7 +13,7 @@ import SocketContext from '../../shared/SocketContext';
 
 import Copy from '../../shared/components/Copy';
 
-class NFTDetail extends Component {
+class NFTHeader extends Component {
   componentDidMount() {
     const { actions, tokenId } = this.props;
     const rippledSocket = this.context;
@@ -179,9 +179,9 @@ class NFTDetail extends Component {
   }
 }
 
-NFTDetail.contextType = SocketContext;
+NFTHeader.contextType = SocketContext;
 
-NFTDetail.propTypes = {
+NFTHeader.propTypes = {
   language: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -209,8 +209,8 @@ NFTDetail.propTypes = {
 export default connect(
   state => ({
     language: state.app.language,
-    loading: state.NFTDetail.loading,
-    data: state.NFTDetail.data,
+    loading: state.NFTHeader.loading,
+    data: state.NFTHeader.data,
   }),
   dispatch => ({
     actions: bindActionCreators(
@@ -220,4 +220,4 @@ export default connect(
       dispatch
     ),
   })
-)(withTranslation()(NFTDetail));
+)(withTranslation()(NFTHeader));
