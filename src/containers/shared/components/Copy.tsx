@@ -4,21 +4,30 @@ import copy from '../images/copy.png';
 
 interface Props {
   text: string;
+  styleName: string;
 }
 
 const Copy = (props: Props) => {
-  const { text } = props;
+  const { text, styleName } = props;
 
   return (
-    <input type="image" src={copy} alt="copy" onClick={() => navigator.clipboard.writeText(text)} />
+    <input
+      className={styleName}
+      type="image"
+      src={copy}
+      alt="Copy"
+      onClick={() => navigator.clipboard.writeText(text)}
+    />
   );
 };
 Copy.propTypes = {
   text: PropTypes.string,
+  styleName: PropTypes.string,
 };
 
 Copy.defaultProps = {
   text: '',
+  styleName: 'copy',
 };
 
 export default Copy;

@@ -32,7 +32,7 @@ table {
       text-decoration: none;
     }
 
-    input {
+    .copy {
       position: absolute;
       width: 17px;
       height: 17px;
@@ -156,7 +156,7 @@ table {
           text-decoration: none;
           @include bold;
         }
-        input {
+        .copy {
           width: 24px;
           height: 24px;
           flex: none;

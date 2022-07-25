@@ -49,7 +49,7 @@ class NFT extends Component {
   }
 
   componentDidMount() {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/NFT/:id' });
+    analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/token/:id' });
   }
 
   componentWillUnmount() {

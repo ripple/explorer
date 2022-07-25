@@ -68,7 +68,7 @@ class NFTHeader extends Component {
               <td className="col1">{t('email_hash')}</td>
               <td className="col2">
                 {abbrvEmail}
-                <Copy text={emailHash} />
+                <Copy styleName="copy" text={emailHash} />
               </td>
             </tr>
           )}
@@ -80,7 +80,7 @@ class NFTHeader extends Component {
             <td className="col1">URI</td>
             <td className="col2">
               {abbrvURI}
-              <Copy text={uri} />
+              <Copy styleName="copy" text={uri} />
             </td>
           </tr>
           <tr className="row">
@@ -137,7 +137,7 @@ class NFTHeader extends Component {
               <Link className="value-content" to={`/accounts/${issuer}`}>
                 {abbrvIssuer}
               </Link>
-              <Copy text={issuer} />
+              <Copy styleName="copy" text={issuer} />
             </div>
           </div>
         </div>
