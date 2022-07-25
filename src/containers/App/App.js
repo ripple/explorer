@@ -46,7 +46,7 @@ const App = props => {
         `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
     : undefined;
-
+  socket.clioSocket = new XrplClient('wss://s2-clio.ripple.com:51233');
   useEffect(() => {
     actions.updateViewportDimensions();
     window.addEventListener('resize', actions.updateViewportDimensions);

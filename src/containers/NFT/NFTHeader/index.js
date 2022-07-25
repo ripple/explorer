@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loadTokenState } from './actions';
+import { loadNFTState } from './actions';
 import Loader from '../../shared/components/Loader';
 import '../../shared/css/nested-menu.css';
 import './styles.css';
@@ -17,7 +17,7 @@ class NFTHeader extends Component {
   componentDidMount() {
     const { actions, tokenId } = this.props;
     const rippledSocket = this.context;
-    actions.loadTokenState(tokenId, rippledSocket);
+    actions.loadNFTState(tokenId, rippledSocket.clioSocket);
   }
 
   componentDidUpdate(prevProps) {
@@ -26,7 +26,7 @@ class NFTHeader extends Component {
     const rippledSocket = this.context;
 
     if (nexttokenId !== tokenId) {
-      actions.loadTokenState(nexttokenId, rippledSocket);
+      actions.loadNFTState(nexttokenId, rippledSocket);
     }
   }
 
@@ -198,7 +198,7 @@ NFTHeader.propTypes = {
     warnings: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   actions: PropTypes.shape({
-    loadTokenState: PropTypes.func.isRequired,
+    loadNFTState: PropTypes.func.isRequired,
   }).isRequired,
 };
 
@@ -211,7 +211,7 @@ export default connect(
   dispatch => ({
     actions: bindActionCreators(
       {
-        loadTokenState,
+        loadNFTState,
       },
       dispatch
     ),
