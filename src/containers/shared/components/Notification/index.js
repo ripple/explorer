@@ -30,7 +30,7 @@ class Notification extends React.Component {
     const { dismissed: propDismissed, message, action, usage, level, className } = this.props;
     const { dismissed: stateDismissed } = this.state;
     const dismissed = propDismissed !== undefined ? propDismissed : stateDismissed;
-    const classNames = ['notification', usage, `${level}-themes`, className].join(' ');
+    const classNames = ['notification', usage, `${level}-theme`, className].join(' ');
     return !dismissed ? (
       <div className={classNames}>
         <span>{message}</span>
