@@ -51,8 +51,8 @@ const summarize = {
 
 const getInstructions = (tx, meta) => {
   const type = tx.TransactionType;
-  const mappingFn = transactionTypes[type]?.mapper
-    ? transactionTypes[type]?.mapper
+  const mappingFn = transactionTypes[type]?.parser
+    ? transactionTypes[type]?.parser
     : summarize[type];
 
   return mappingFn ? mappingFn(tx, meta) : {};

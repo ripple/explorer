@@ -4,7 +4,7 @@ import { Amount } from '../../Amount';
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types';
 import { SimpleRow } from '../SimpleRow';
 
-const OfferCreateSimple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
+const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation();
   const { data } = props;
   const { price, pair, pays, gets, cancel } = data.instructions;
@@ -29,4 +29,4 @@ const OfferCreateSimple: TransactionSimpleComponent = (props: TransactionSimpleP
     </>
   );
 };
-export { OfferCreateSimple };
+export { Simple };

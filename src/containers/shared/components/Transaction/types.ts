@@ -70,5 +70,5 @@ export interface TransactionMapping {
   Description?: TransactionDescriptionComponent;
   Simple: TransactionSimpleComponent;
   TableDetail?: TransactionTableDetailComponent;
-  mapper: (tx: any, meta: any) => any;
+  parser: (tx: any, meta: any) => any;
 }

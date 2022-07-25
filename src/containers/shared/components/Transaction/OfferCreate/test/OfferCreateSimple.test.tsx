@@ -2,7 +2,7 @@ import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { BrowserRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
-import { OfferCreateSimple } from '../OfferCreateSimple';
+import { Simple } from '../Simple';
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json';
 import mockOfferCreate from './mock_data/OfferCreate.json';
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary';
@@ -13,7 +13,7 @@ function createWrapper(tx: any) {
   return mount(
     <I18nextProvider i18n={i18n}>
       <BrowserRouter>
-        <OfferCreateSimple data={data.details} />
+        <Simple data={data.details} />
       </BrowserRouter>
     </I18nextProvider>
   );

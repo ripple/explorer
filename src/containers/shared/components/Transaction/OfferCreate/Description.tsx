@@ -13,9 +13,7 @@ import { TransactionDescriptionComponent, TransactionDescriptionProps } from '..
 
 const normalize = (amount: any) => amount.value || amount / XRP_BASE;
 
-const OfferCreateDescription: TransactionDescriptionComponent = (
-  props: TransactionDescriptionProps
-) => {
+const Description: TransactionDescriptionComponent = (props: TransactionDescriptionProps) => {
   const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage;
   const { data } = props;
@@ -87,4 +85,4 @@ const OfferCreateDescription: TransactionDescriptionComponent = (
   );
 };
 
-export { OfferCreateDescription };
+export { Description };

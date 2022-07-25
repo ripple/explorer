@@ -1,4 +1,13 @@
-export { OfferCreateSimple as Simple } from './OfferCreateSimple';
-export { OfferCreateDescription as Description } from './OfferCreateDescription';
-export { offerCreateMapper as mapper } from './offerCreateMapper';
-export { OfferCreateTableDetail as TableDetail } from './OfferCreateTableDetail';
+import { TransactionMapping } from '../types';
+
+import { Simple } from './Simple';
+import { Description } from './Description';
+import { parser } from './parser';
+import { TableDetail } from './TableDetail';
+
+export const OfferCreateTransaction: TransactionMapping = {
+  Description,
+  Simple,
+  TableDetail,
+  parser,
+};

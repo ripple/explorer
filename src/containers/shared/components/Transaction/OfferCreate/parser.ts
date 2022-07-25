@@ -1,7 +1,7 @@
 import { CURRENCY_ORDER } from '../../../transactionUtils';
 import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount';
 
-export function offerCreateMapper(tx: any) {
+export function parser(tx: any) {
   const gets = formatAmount(tx.TakerGets);
   const base = tx.TakerGets.currency || 'XRP';
   const counter = tx.TakerPays.currency || 'XRP';

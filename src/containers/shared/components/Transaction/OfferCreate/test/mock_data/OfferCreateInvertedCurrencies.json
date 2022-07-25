@@ -1,0 +1,134 @@
+{
+  "tx": {
+    "Account": "rXTZ5g8X7mrAYEe7iFeM9fiS4ccueyurG",
+    "Fee": "20",
+    "Flags": 2148007936,
+    "LastLedgerSequence": 73246636,
+    "OfferSequence": 80543309,
+    "Sequence": 80543317,
+    "SigningPubKey": "02AC7FB83A5AC706F0613B3D93F1C361D84F6415D4E539E1A8BC66F2198F8CACE4",
+    "TakerGets": "17588363594",
+    "TakerPays": {
+      "currency": "USD",
+      "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+      "value": "6101.330339051342"
+    },
+    "TransactionType": "OfferCreate",
+    "TxnSignature": "3044022053255898628BD1FFE4BF4CE3EA3D1547740C4C01E87CCF25399574CCF5D5049C0220100028FD3556C78E09FDFD3037AE8842743BE22BB4C4DF820E845DD96A82A7DC",
+    "date": "2022-07-25T16:00:21Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rXTZ5g8X7mrAYEe7iFeM9fiS4ccueyurG",
+            "Balance": "18649363494",
+            "Flags": 0,
+            "OwnerCount": 10,
+            "Sequence": 80543318
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "07400FD4578F4DEFDEF1A5C3EB6F6F149ACADECE9963ACB8B71168F4DB7FE212",
+          "PreviousFields": {
+            "Balance": "18649363514",
+            "Sequence": 80543317
+          },
+          "PreviousTxnID": "DF5843F92F6C5D4A346BC157CDA7F66A3A80A2D8EC3EC322B16DC94E68440EC7",
+          "PreviousTxnLgrSeq": 73246635
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "Offer",
+          "LedgerIndex": "1CAE86BA73B8043E63726781443EF2EA32CD6A9489B1858D1FB78021428BE580",
+          "NewFields": {
+            "Account": "rXTZ5g8X7mrAYEe7iFeM9fiS4ccueyurG",
+            "BookDirectory": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E0C52FFD72214AE",
+            "Flags": 131072,
+            "Sequence": 80543317,
+            "TakerGets": "17588363594",
+            "TakerPays": {
+              "currency": "USD",
+              "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+              "value": "6101.330339051342"
+            }
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "IndexNext": "0",
+            "IndexPrevious": "0",
+            "Owner": "rXTZ5g8X7mrAYEe7iFeM9fiS4ccueyurG",
+            "RootIndex": "5F3DA35DF75B05413178A5945C63B06B9489F2EFACF65CF3053638B65B5B8777"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "5F3DA35DF75B05413178A5945C63B06B9489F2EFACF65CF3053638B65B5B8777"
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Account": "rXTZ5g8X7mrAYEe7iFeM9fiS4ccueyurG",
+            "BookDirectory": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E0C52FFD72214AD",
+            "BookNode": "0",
+            "Flags": 131072,
+            "OwnerNode": "0",
+            "PreviousTxnID": "A59445B441B2C2EBDE2EEA8FE7079A6D6631CFAB6A73FC8677DEA7AB48B393C7",
+            "PreviousTxnLgrSeq": 73246632,
+            "Sequence": 80543309,
+            "TakerGets": "17588363754",
+            "TakerPays": {
+              "currency": "USD",
+              "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+              "value": "6101.330394554676"
+            }
+          },
+          "LedgerEntryType": "Offer",
+          "LedgerIndex": "C665813A16DC6539C0F794479516D4DEFD85EDE677C0A5475475D87C443A2228"
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "ExchangeRate": "4e0c52ffd72214ad",
+            "Flags": 0,
+            "RootIndex": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E0C52FFD72214AD",
+            "TakerGetsCurrency": "0000000000000000000000000000000000000000",
+            "TakerGetsIssuer": "0000000000000000000000000000000000000000",
+            "TakerPaysCurrency": "0000000000000000000000005553440000000000",
+            "TakerPaysIssuer": "0A20B3C85F482532A9578DBB3950B85CA06594D1"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E0C52FFD72214AD"
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E0C52FFD72214AE",
+          "NewFields": {
+            "ExchangeRate": "4e0c52ffd72214ae",
+            "RootIndex": "DFA3B6DDAB58C7E8E5D944E736DA4B7046C30E4F460FD9DE4E0C52FFD72214AE",
+            "TakerPaysCurrency": "0000000000000000000000005553440000000000",
+            "TakerPaysIssuer": "0A20B3C85F482532A9578DBB3950B85CA06594D1"
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 39,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "75B818FCF3C74E4A7F0829AE899BDC927191C740E8D37D1451908907AA5C5078",
+  "ledger_index": 73246635,
+  "date": "2022-07-25T16:00:21Z"
+}
