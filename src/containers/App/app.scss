@@ -1,4 +1,4 @@
-@import '../shared/css/variables.scss';
+@import '../shared/css/variables';
 
 .app {
   position: relative;
@@ -9,7 +9,7 @@
     min-height: 100%;
     flex-direction: column;
     justify-content: center;
-    margin: 97px 0 50px 0;
+    margin: 97px 0 50px;
     background: $black;
 
     @include for-size(desktop-up) {

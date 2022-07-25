@@ -1,4 +1,4 @@
-@import '../../css/variables.scss';
+@import '../../css/variables';
 
 .notification {
   border: 1px solid;
@@ -55,7 +55,7 @@
     }
   }
 
-  &.secondaryThemes {
+  &.secondary-themes {
     &.default {
       border-color: $blue2;
       background: $white;
@@ -99,7 +99,7 @@
     }
   }
 
-  &.ghostThemes {
+  &.ghost-themes {
     &.default {
       border-color: transparent;
       background: transparent;

@@ -1,10 +1,11 @@
-@import './variables.scss';
+@import './variables';
 
 .tx-label {
   display: inline-block;
   padding: 2px 14px;
-  border: 1px solid currentColor;
+  border: 1px solid currentcolor;
   border-radius: 100px;
+
   div {
     color: $white;
     font-size: 14px;

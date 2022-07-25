@@ -208,7 +208,7 @@ const Header = props => {
             {renderSidechainInput()}
           </div>
           <div
-            className="arrowContainer"
+            className="arrow-container"
             onClick={toggleExpand}
             onKeyUp={toggleExpand}
             role="menubar"
@@ -230,7 +230,7 @@ const Header = props => {
               <Search />
             </div>
           )}
-          <div className={classnames('element', { notInNetwork: !inNetwork })}>{menu}</div>
+          <div className={classnames('element', { 'not-in-network': !inNetwork })}>{menu}</div>
           {mobileMenu}
         </div>
 

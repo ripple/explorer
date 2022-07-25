@@ -1,4 +1,4 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .section {
   margin: 0px 32px;
@@ -36,7 +36,7 @@
     }
 
     .title {
-      padding: 64px 0px 18px 0px;
+      padding: 64px 0px 18px;
       border-bottom: 1px $gray-800 solid;
       color: $white;
       font-size: 24px;
@@ -78,6 +78,7 @@
         text-transform: uppercase;
         @include semibold;
       }
+
       .value {
         color: $white;
         font-size: 18px;
@@ -100,6 +101,7 @@ table {
     text-transform: uppercase;
     @include semibold;
   }
+
   .col2 {
     padding-bottom: 8px;
     color: $white;
@@ -143,6 +145,7 @@ table {
         font-size: 42px;
       }
     }
+
     img {
       width: 24px;
       height: 24px;
@@ -229,7 +232,7 @@ table {
         }
       }
 
-      &.xAddress ul {
+      &.x-address ul {
         width: 100%;
 
         li {
@@ -239,14 +242,6 @@ table {
           @media (min-width: 450px) {
             display: block;
           }
-
-          // .account {
-          //   overflow: hidden;
-          //   width: 285px;
-          //   padding-right: 10px;
-          //   text-overflow: ellipsis;
-          //   white-space: nowrap;
-          // }
 
           .tag {
             font-weight: 500;
@@ -272,7 +267,7 @@ table {
         }
       }
 
-      &.signerList ul {
+      &.signer-list ul {
         width: 100%;
 
         li {

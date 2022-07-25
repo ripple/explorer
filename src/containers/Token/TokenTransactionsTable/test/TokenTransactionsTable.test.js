@@ -5,11 +5,11 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { applyMiddleware, createStore } from 'redux';
 import rootReducer, { initialState } from '../../../../rootReducer';
 import i18n from '../../../../i18nTestConfig';
 import ConnectedTable, { TokenTxTable } from '../index';
 import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionsTable/test/mockTransactions.json';
-import { applyMiddleware, createStore } from 'redux';
 import * as actionTypes from '../../../Accounts/AccountTransactionsTable/actionTypes';
 import { loadTokenTransactions } from '../actions';
 

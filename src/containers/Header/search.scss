@@ -1,4 +1,4 @@
-@import '../shared/css/variables.scss';
+@import '../shared/css/variables';
 
 .search {
   text-align: right;
@@ -53,14 +53,14 @@
 
       @include for-size(big-desktop-up) {
         width: 222px;
-        padding: 8px 25px 8px 25px;
+        padding: 8px 25px;
         background-position-x: 235px;
       }
 
       &:focus {
         @include for-size(desktop-up) {
           width: 222px;
-          padding: 8px 25px 8px 25px;
+          padding: 8px 25px;
           background-position-x: 235px;
         }
       }

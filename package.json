@@ -74,18 +74,18 @@
     "moxios": "^0.4.0",
     "nodemon": "^2.0.9",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.17.0",
+    "prettier": "^2.7.1",
     "react-test-renderer": "^16.14.0",
     "redux-mock-store": "^1.5.1",
     "sass": "^1.51.0",
     "source-map-explorer": "^2.5.2",
-    "stylelint": "^13.13.1",
+    "stylelint": "^14.9.1",
     "stylelint-config-idiomatic-order": "^8.1.0",
-    "stylelint-config-prettier": "^5.1.0",
-    "stylelint-config-recommended-scss": "^3.3.0",
-    "stylelint-config-standard": "^18.3.0",
-    "stylelint-prettier": "^1.0.6",
-    "stylelint-scss": "^3.6.0",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-recommended-scss": "^7.0.0",
+    "stylelint-config-standard": "^26.0.0",
+    "stylelint-prettier": "^2.0.0",
+    "stylelint-scss": "^4.3.0",
     "typescript": "^4.3.5"
   },
   "jest": {
@@ -133,7 +133,7 @@
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "eject": "react-scripts eject",
     "lint": "run-s lint:js lint:css",
-    "lint:css": "node_modules/.bin/stylelint src/**/*.scss --syntax scss",
+    "lint:css": "node_modules/.bin/stylelint src/**/*.scss",
     "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --ext=ts --ext=tsx --color . --fix",
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
@@ -222,6 +222,9 @@
     "singleQuote": true
   },
   "stylelint": {
+    "plugins": [
+      "stylelint-scss"
+    ],
     "extends": [
       "stylelint-config-standard",
       "stylelint-config-recommended-scss",

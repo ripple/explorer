@@ -1,4 +1,4 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .metrics {
   overflow: hidden;
@@ -64,7 +64,7 @@
       }
     }
 
-    .label.nUnlMetric {
+    .label.n-unl-metric {
       text-transform: none;
     }
 

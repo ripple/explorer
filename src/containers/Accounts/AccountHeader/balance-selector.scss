@@ -1,4 +1,4 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .balance-selector {
   position: relative;
@@ -13,7 +13,7 @@
     position: relative;
     display: block;
     width: 100%;
-    padding: 0px 0px 12px 0px;
+    padding: 0px 0px 12px;
     border: none;
     background: $black;
     color: $white;
@@ -36,6 +36,7 @@
     cursor: pointer;
     font-size: 14px;
     outline: none;
+
     &:hover {
       background-color: $gray-900;
       color: $green;
