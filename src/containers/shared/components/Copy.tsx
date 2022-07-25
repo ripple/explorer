@@ -4,15 +4,15 @@ import copy from '../images/copy.png';
 
 interface Props {
   text: string;
-  styleName: string;
+  className: string;
 }
 
 const Copy = (props: Props) => {
-  const { text, styleName } = props;
+  const { text, className } = props;
 
   return (
     <input
-      className={styleName}
+      className={className}
       type="image"
       src={copy}
       alt="Copy"
@@ -22,12 +22,12 @@ const Copy = (props: Props) => {
 };
 Copy.propTypes = {
   text: PropTypes.string,
-  styleName: PropTypes.string,
+  className: PropTypes.string,
 };
 
 Copy.defaultProps = {
   text: '',
-  styleName: 'copy',
+  className: '',
 };
 
 export default Copy;
