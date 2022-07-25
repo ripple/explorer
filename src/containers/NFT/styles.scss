@@ -2,7 +2,7 @@
 
 .token-page {
   width: 100%;
-  .note-container {
+  .disclaimer-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -19,7 +19,7 @@
     @include for-size(desktop-up) {
       flex-direction: row;
     }
-    .note-left {
+    .disclaimer-left {
       display: flex;
       height: 15px;
       align-items: end;
@@ -32,7 +32,7 @@
       line-height: 150%;
     }
 
-    .note-right {
+    .disclaimer-right {
       display: flex;
       align-items: end;
       color: #9ba2b0;
