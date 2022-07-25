@@ -1,6 +1,4 @@
-module.exports = tx => {
-  return {
+module.exports = tx => ({
     validator: tx.UNLModifyValidator,
     disabling: tx.UNLModifyDisabling,
-  };
-};
+  });

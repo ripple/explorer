@@ -55,9 +55,7 @@ const Header = props => {
     const className = event?.target?.getAttribute('class');
     if (!(expanded && className === 'sidechain_input'))
       // don't de-expand if clicking in the textbox
-      setExpanded(prevExpanded => {
-        return !prevExpanded;
-      });
+      setExpanded(prevExpanded => !prevExpanded);
   }
 
   function handleClick(event) {
@@ -188,8 +186,7 @@ const Header = props => {
                 classnames('item', 'custom', { selected: true }),
                 t('no_network_selected')
               )}
-            {Object.keys(urlLinkMap).map(network => {
-              return isCustomNetwork(network)
+            {Object.keys(urlLinkMap).map(network => isCustomNetwork(network)
                 ? renderDropdown(
                     network,
                     handleCustomNetworkClick,
@@ -203,8 +200,7 @@ const Header = props => {
                     handleClick,
                     classnames('item', { selected: currentMode === network }),
                     t(`${network}_data`)
-                  );
-            })}
+                  ))}
             {renderSidechainInput()}
           </div>
           <div

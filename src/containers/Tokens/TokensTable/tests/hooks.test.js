@@ -8,15 +8,13 @@ import TokensTable from '../index';
 import mockTopEndpoint from './mockTopEndpoint.json';
 import expectedOutputData from './expectedOutputData.json';
 
-const mountTable = (isError = false, allTokens = []) => {
-  return mount(
+const mountTable = (isError = false, allTokens = []) => mount(
     <I18nextProvider i18n={i18n}>
       <Router>
         <TokensTable isError={isError} allTokens={allTokens} />
       </Router>
     </I18nextProvider>
   );
-};
 
 describe('Testing hooks', () => {
   const setupPage = async (shouldRender = true) => {

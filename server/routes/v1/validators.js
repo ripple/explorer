@@ -3,11 +3,9 @@ const log = require('../../lib/logger')({ name: 'validators' });
 
 const cache = {};
 
-const fetchValidators = () => {
-  return axios
+const fetchValidators = () => axios
     .get(`${process.env.REACT_APP_DATA_URL}/validators/${process.env.REACT_APP_VALIDATOR}`)
     .then(response => response.data.validators);
-};
 
 const cacheValidators = async () => {
   if (!cache.pending) {
@@ -68,9 +66,7 @@ module.exports = (req, res) => {
 
   if (req.query.unl === process.env.REACT_APP_VALIDATOR) {
     return res.send(
-      validatorSummary.filter(val => {
-        return val.unl === req.query.unl;
-      })
+      validatorSummary.filter(val => val.unl === req.query.unl)
     );
   }
 

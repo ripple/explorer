@@ -58,12 +58,12 @@
     "canvas": "^2.9.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^4.2.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.8.2",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "http-proxy-middleware": "^0.19.2",
@@ -155,13 +155,13 @@
     "extends": [
       "airbnb",
       "react-app",
-      "plugin:prettier/recommended",
       "plugin:jsx-a11y/recommended",
-      "prettier/react",
-      "plugin:import/typescript"
+      "plugin:import/typescript",
+      "prettier"
     ],
     "plugins": [
-      "jsx-a11y"
+      "jsx-a11y",
+      "prettier"
     ],
     "env": {
       "browser": true,

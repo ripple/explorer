@@ -13,12 +13,10 @@ import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionsTable/t
 import * as actionTypes from '../../../Accounts/AccountTransactionsTable/actionTypes';
 import { loadTokenTransactions } from '../actions';
 
-jest.mock('../actions', () => {
-  return {
+jest.mock('../actions', () => ({
     __esModule: true,
     loadTokenTransactions: jest.fn(),
-  };
-});
+  }));
 
 const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT';
 const TEST_CURRENCY = 'abc';

@@ -39,9 +39,7 @@ export const AccountTxTable = props => {
   useEffect(() => {
     if (data.transactions == null) return;
     setMarker(data.marker);
-    setTransactions(oldTransactions => {
-      return concatTx(oldTransactions, data.transactions);
-    });
+    setTransactions(oldTransactions => concatTx(oldTransactions, data.transactions));
   }, [accountId, data]);
 
   useEffect(() => {
@@ -95,15 +93,12 @@ export const AccountTxTable = props => {
     );
   };
 
-  const renderLoadMoreButton = () => {
-    return (
-      marker && (
-        <button type="button" className="load-more-btn" onClick={loadMoreTransactions}>
-          {t('load_more_action')}
-        </button>
-      )
+  const renderLoadMoreButton = () =>
+    marker && (
+      <button type="button" className="load-more-btn" onClick={loadMoreTransactions}>
+        {t('load_more_action')}
+      </button>
     );
-  };
 
   const renderListContents = () => {
     const { loading, currencySelected } = props;

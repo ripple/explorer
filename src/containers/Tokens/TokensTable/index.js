@@ -112,9 +112,7 @@ const TokensTable = props => {
             )}
             {!isLoading &&
               !isError &&
-              tokens.map((token, index) => {
-                return renderRow(token, index + 1);
-              })}
+              tokens.map((token, index) => renderRow(token, index + 1))}
           </tbody>
         </table>
         {isLoading && <Loader />}

@@ -33,13 +33,10 @@ const throttle = (func, limit) => {
   };
 };
 
-const sleep = ms => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // fetch full ledger
-const fetchLedger = (ledger, rippledSocket, attempts = 0) => {
-  return getLedger(rippledSocket, { ledger_hash: ledger.ledger_hash })
+const fetchLedger = (ledger, rippledSocket, attempts = 0) => getLedger(rippledSocket, { ledger_hash: ledger.ledger_hash })
     .then(summarizeLedger)
     .then(summary => {
       Object.assign(ledger, summary);
@@ -53,17 +50,14 @@ const fetchLedger = (ledger, rippledSocket, attempts = 0) => {
       }
       throw error;
     });
-};
 
-const fetchLoadFee = rippledSocket => {
-  return getServerInfo(rippledSocket)
+const fetchLoadFee = rippledSocket => getServerInfo(rippledSocket)
     .then(result => result.info)
     .then(info => {
       const ledgerFeeInfo = info.validated_ledger;
       const loadFee = ledgerFeeInfo.base_fee_xrp * (info.load_factor ?? 1);
       return { load_fee: Number(loadFee.toPrecision(4)).toString() };
     });
-};
 
 const formatLedgers = data =>
   Object.entries(data)

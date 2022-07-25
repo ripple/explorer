@@ -41,9 +41,7 @@ const getBookOffers = async (
     }
     const averageExchangeRate = rateSum / offers.length;
 
-    offers.sort((offerA, offerB) => {
-      return offerA.PreviousTxnLgrSeq - offerB.PreviousTxnLgrSeq;
-    });
+    offers.sort((offerA, offerB) => offerA.PreviousTxnLgrSeq - offerB.PreviousTxnLgrSeq);
 
     orderBook = {
       ...orderBook,

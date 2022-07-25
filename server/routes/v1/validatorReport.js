@@ -11,8 +11,6 @@ module.exports = async (req, res) => {
 
   log.info('get validator report');
   const validatorReports = await fetchValidatorReport(validator);
-  const sortedValidatorReports = validatorReports.sort((a, b) => {
-    return a.date > b.date ? -1 : 1;
-  });
+  const sortedValidatorReports = validatorReports.sort((a, b) => a.date > b.date ? -1 : 1);
   return res.send(sortedValidatorReports);
 };

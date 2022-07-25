@@ -1,5 +1,3 @@
-module.exports = tx => {
-  return {
+module.exports = tx => ({
     account: tx.Account,
-  };
-};
+  });

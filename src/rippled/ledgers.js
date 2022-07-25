@@ -20,9 +20,7 @@ const getLedger = (identifier, rippledSocket) => {
   log.info(`get ledger: ${JSON.stringify(parameters)}`);
   return getRippledLedger(rippledSocket, parameters)
     .then(ledger => summarizeLedger(ledger, true))
-    .then(data => {
-      return data;
-    })
+    .then(data => data)
     .catch(error => {
       log.error(error.toString());
       throw error;
