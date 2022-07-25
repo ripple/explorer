@@ -17,4 +17,15 @@ describe('NFTHeaders reducers', () => {
       nextState
     );
   });
+
+  it('should handle NFT_STATE_LOAD_SUCCESS', () => {
+    const data = [['XRP', 123.456]];
+    const nextState = { ...initialState, data };
+    expect(
+      reducer(initialState, {
+        data,
+        type: actionTypes.NFT_STATE_LOAD_SUCCESS,
+      })
+    ).toEqual(nextState);
+  });
 });
