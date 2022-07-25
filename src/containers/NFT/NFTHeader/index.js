@@ -151,10 +151,6 @@ class NFTHeader extends Component {
             {this.renderSettings()}
           </div>
         </div>
-        <div className="note-container">
-          <div className="note-left">Disclaimer Text</div>
-          <div className="note-right">some very long date</div>
-        </div>
       </div>
     );
   }
