@@ -6,8 +6,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 0px;
     margin: 0px 32px;
+    margin-bottom: 0px;
     @include for-size(tablet-landscape-up) {
       width: 552px;
       margin: 0px auto;
