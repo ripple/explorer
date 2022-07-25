@@ -101,8 +101,8 @@ const App = props => {
               <Route exact path="/validators/:identifier/:tab?" component={validators} />
               <Route exact path="/paystrings/:id?" component={paystrings} />
               <Route exact path="/token/:currency.:id" component={token} />
+              <Route exact path="/token/:id" component={NFT} />
               {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
-              <Route exact path="/NFT/:id" component={NFT} />
               <Route component={noMatch} />
             </Switch>
           </div>

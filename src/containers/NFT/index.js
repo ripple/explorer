@@ -71,7 +71,7 @@ class NFT extends Component {
         {tokenId && <NFTHeader tokenId={tokenId} t={t} />}
         {!tokenId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>
-            <h2>Enter an account ID in the search box</h2>
+            <h2>Enter a NFT ID in the search box</h2>
           </div>
         )}
       </div>
