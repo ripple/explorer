@@ -4,6 +4,7 @@
   "assets.issued_tab_title": "Issued Tokens",
   "assets.no_issued_message": "No tokens found.",
   "assets.no_nfts_message": "No NFTs found.",
+  "check_nft_id": "Please check your NFT ID",
   "testnet_data": "testnet data",
   "mainnet_data": "live data",
   "devnet_data": "devnet data",

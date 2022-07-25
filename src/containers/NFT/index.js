@@ -11,12 +11,12 @@ const IS_MAINNET = process.env.REACT_APP_ENVIRONMENT === 'mainnet';
 
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
-  title: 'account_not_found',
-  hints: ['check_account_id'],
+  title: 'assets.no_nfts_message',
+  hints: ['check_nft_id'],
 };
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_xrpl_address',
-  hints: ['check_account_id'],
+  hints: ['check_nft_id'],
 };
 ERROR_MESSAGES.default = {
   title: 'generic_error',
