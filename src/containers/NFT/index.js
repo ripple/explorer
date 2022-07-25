@@ -69,10 +69,13 @@ class NFT extends Component {
     ) : (
       <div className="token-page">
         {tokenId && <NFTHeader tokenId={tokenId} t={t} />}
-        <div className="disclaimer-container">
-          <div className="disclaimer-left">Disclaimer Text</div>
-          <div className="disclaimer-right">some very long date</div>
-        </div>
+        {tokenId && (
+          <div className="disclaimer-container">
+            <div className="disclaimer-left">Disclaimer Text</div>
+            <div className="disclaimer-right">some very long date</div>
+          </div>
+        )}
+
         {!tokenId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>
             <h2>Enter a NFT ID in the search box</h2>
