@@ -9,9 +9,9 @@
     "bunyan": "^1.8.15",
     "classnames": "^2.3.1",
     "compression": "^1.7.4",
-    "d3-geo": "^1.11.3",
+    "d3-geo": "^3.0.1",
     "d3-hexbin": "^0.2.2",
-    "d3-scale": "^2.2.2",
+    "d3-scale": "^4.0.2",
     "debug": "^4.3.1",
     "dotenv": "^5.0.1",
     "enzyme": "3.11.0",
@@ -114,6 +114,9 @@
       "text",
       "text-summary",
       "html"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!d3-scale)"
     ]
   },
   "lint-staged": {
