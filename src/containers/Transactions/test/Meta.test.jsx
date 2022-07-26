@@ -5,8 +5,8 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../../../i18nTestConfig';
 import Transaction from './mock_data/Transaction.json';
 import OfferCancel from './mock_data/OfferCancel.json';
-import OfferCreate from './mock_data/OfferCreate.json';
-import OfferCreateWithMissingPreviousFields from './mock_data/OfferCreateWithMissingPreviousFields.json';
+import OfferCreate from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithExpirationAndCancel.json';
+import OfferCreateWithMissingPreviousFields from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithMissingPreviousFields.json';
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json';
 import Meta from '../Meta';
 
@@ -246,15 +246,6 @@ describe('TransactionMeta container', () => {
     expect(w.contains(<div>number_of_affected_node</div>)).toBe(true);
     expect(w.contains(<div className="meta-title">nodes_type</div>)).toBe(true);
     expect(w.find('li').length).toBe(6);
-  });
-
-  it('renders OfferCreate Meta', () => {
-    const w = createWrapper(OfferCreate);
-    expect(w.find('.title').length).toBe(1);
-    expect(w.find('.meta-section').length).toBe(3);
-    expect(w.contains(<div>number_of_affected_node</div>)).toBe(true);
-    expect(w.contains(<div className="meta-title">nodes_type</div>)).toBe(true);
-    expect(w.find('li').length).toBe(30);
   });
 
   it('renders OfferCreate Meta with missing PreviousFields', () => {

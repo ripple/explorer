@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import reducer, { initialState } from '../reducer';
-import mockTransaction from './mock_data/OfferCreate.json';
+import mockTransaction from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithExpirationAndCancel.json';
 import { BAD_REQUEST } from '../../shared/utils';
 
 describe.only('Transaction reducers', () => {

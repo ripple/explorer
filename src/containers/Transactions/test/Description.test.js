@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../../../i18nTestConfig';
 import Description from '../Description';
-import OfferCreate from './mock_data/OfferCreate.json';
 import OfferCancel from './mock_data/OfferCancel.json';
 import Payment from './mock_data/Payment.json';
 import TrustSet from './mock_data/TrustSet.json';
@@ -34,15 +33,6 @@ describe('Description container', () => {
 
   it('renders without crashing', () => {
     const wrapper = createWrapper();
-    wrapper.unmount();
-  });
-
-  it('renders description for OfferCreate', () => {
-    const wrapper = createWrapper(OfferCreate);
-
-    expect(wrapper.html()).toBe(
-      '<div class="section"><div class="title">description</div><div>transaction_sequence<b> <span>386316</span></b></div><div>The account<a class="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a>offered to pay<b>CN¥20,000.00<small>CNY</small></b>in order to receive<b>CN¥19,909.58<small>CNY</small></b></div><div>offer_create_desc_line_2<b><span> 1.0045</span><small>CNY/CNY</small></b></div><div>offer_create_desc_line_3<b> 386315</b></div>The offer exires<span class="time">December 29, 2015, 11:17:42 AM UTC</span>unless cancelled before</div>'
-    );
     wrapper.unmount();
   });
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import OfferCreate from './OfferCreate';
 import OfferCancel from './OfferCancel';
 import Payment from './Payment';
 import PaymentChannelCreate from './PaymentChannelCreate';
@@ -23,13 +22,17 @@ import NFTokenBurn from './NFTokenBurn';
 import NFTokenCancelOffer from './NFTokenCancelOffer';
 import NFTokenCreateOffer from './NFTokenCreateOffer';
 import NFTokenMint from './NFTokenMint';
+import { transactionTypes } from '../../shared/components/Transaction';
 
 const Simple = props => {
   const { t, data, language, type } = props;
 
+  const SimpleComponent = transactionTypes[type]?.Simple;
+  if (SimpleComponent) {
+    return <SimpleComponent data={data} />;
+  }
+
   switch (type) {
-    case 'OfferCreate':
-      return <OfferCreate t={t} language={language} data={data} />;
     case 'OfferCancel':
       return <OfferCancel t={t} data={data} />;
     case 'Payment':

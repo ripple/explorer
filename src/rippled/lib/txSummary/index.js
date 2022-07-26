@@ -1,4 +1,6 @@
-const OfferCreate = require('./OfferCreate');
+import React from 'react';
+import { transactionTypes } from '../../../containers/shared/components/Transaction';
+
 const OfferCancel = require('./OfferCancel');
 const Payment = require('./Payment');
 const EscrowCreate = require('./EscrowCreate');
@@ -23,7 +25,6 @@ const NFTokenCreateOffer = require('./NFTokenCreateOffer');
 const NFTokenMint = require('./NFTokenMint');
 
 const summarize = {
-  OfferCreate,
   OfferCancel,
   Payment,
   EscrowCreate,
@@ -48,8 +49,14 @@ const summarize = {
   NFTokenMint,
 };
 
-const getInstructions = (tx, meta) =>
-  summarize[tx.TransactionType] ? summarize[tx.TransactionType](tx, meta) : {};
+const getInstructions = (tx, meta) => {
+  const type = tx.TransactionType;
+  const mappingFn = transactionTypes[type]?.parser
+    ? transactionTypes[type]?.parser
+    : summarize[type];
+
+  return mappingFn ? mappingFn(tx, meta) : {};
+};
 
 const summarizeTransaction = (d, details = false) => ({
   hash: d.hash,
@@ -61,12 +68,9 @@ const summarizeTransaction = (d, details = false) => ({
   sequence: d.tx.Sequence,
   ticketSequence: d.tx.TicketSequence,
   date: d.date,
-  details: details
-    ? {
-        instructions: getInstructions(d.tx, d.meta),
-        effects: undefined,
-      }
-    : undefined,
+  details: {
+    instructions: getInstructions(d.tx, d.meta),
+  },
 });
 
 export default summarizeTransaction;

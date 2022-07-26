@@ -1,24 +1,7 @@
-const formatAmount = require('./formatAmount');
+import { CURRENCY_ORDER } from '../../../transactionUtils';
+import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount';
 
-const CURRENCY_ORDER = [
-  'CNY',
-  'JPY',
-  'CHF',
-  'CAD',
-  'NZD',
-  'AUD',
-  'GBP',
-  'USD',
-  'EUR',
-  'LTC',
-  'ETH',
-  'BTC',
-  'XAG',
-  'XAU',
-  'XRP',
-];
-
-module.exports = tx => {
+export function parser(tx: any) {
   const gets = formatAmount(tx.TakerGets);
   const base = tx.TakerGets.currency || 'XRP';
   const counter = tx.TakerPays.currency || 'XRP';
@@ -33,4 +16,4 @@ module.exports = tx => {
     pair: invert ? `${counter}/${base}` : `${base}/${counter}`,
     cancel: tx.OfferSequence,
   };
-};
+}

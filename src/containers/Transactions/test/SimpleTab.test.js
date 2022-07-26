@@ -11,7 +11,6 @@ import EnableAmendment from './mock_data/EnableAmendment.json';
 import EscrowCreate from './mock_data/EscrowCreate.json';
 import EscrowCancel from './mock_data/EscrowCancel.json';
 import EscrowFinish from './mock_data/EscrowFinish.json';
-import OfferCreate from './mock_data/OfferCreate.json';
 import OfferCancel from './mock_data/OfferCancel.json';
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json';
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json';
@@ -90,11 +89,6 @@ describe('SimpleTab container', () => {
 
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment);
-    wrapper.unmount();
-  });
-
-  it('renders OfferCreate without crashing', () => {
-    const wrapper = createWrapper(OfferCreate);
     wrapper.unmount();
   });
 

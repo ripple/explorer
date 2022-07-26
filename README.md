@@ -79,6 +79,9 @@ GOOGLE_APP_CLIENT_EMAIL=your-client-email
 1.  Mexican Spanish
 1.  Brazilian Portuguese
 
+## Additional Documentation
+* [How to define transactions](./src/containers/shared/components/Transactions/README.md)
+
 ## React Documentation
 
 * Most updated documentation for [create-react-app](https://github.com/facebook/create-react-app)
