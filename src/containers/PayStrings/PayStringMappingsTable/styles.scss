@@ -1,4 +1,4 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .paystring-explainer {
   padding: 10px 20px;
@@ -12,8 +12,10 @@
   p {
     margin-left: 49px;
     color: $white;
+
     a {
       color: $white;
+
       &:hover {
         background-color: $gray-400;
       }
@@ -60,17 +62,10 @@
       vertical-align: middle;
     }
 
-    // @include for-size(desktop-up) {
-    //   width: 135px;
-    // }
-
-    // @include for-size(big-desktop-up) {
-    //   width: 135px;
-    // }
-
     &.paystring-type {
       color: $gray-400;
 
+      /* stylelint-disable selector-class-pattern -- Currency comes from server  */
       &.XRPL {
         border-left-color: $gray-400;
         color: $gray-400;
@@ -85,6 +80,7 @@
         border-left-color: #5dabd5;
         color: #5dabd5;
       }
+      /* stylelint-enable selector-class-pattern */
     }
   }
 
@@ -103,6 +99,7 @@
       border-left-color: $gray-400;
       color: $gray-400;
 
+      /* stylelint-disable-next-line selector-class-pattern -- Name comes from server designation  */
       &.MAINNET {
         border-left-color: $gray-400;
         color: $gray-400;
@@ -154,8 +151,9 @@
   .transaction-li {
     position: relative;
     display: block;
-    padding: 20px 0px;
+    padding: 20px 0;
     border-bottom: 1px solid $gray-800;
+
     .tx-type > .tx-result {
       margin-left: 3px;
     }
@@ -189,10 +187,11 @@
 
       &.link img {
         width: 14px;
-        margin: 0px 4px 5px;
+        margin: 0 4px 5px;
         vertical-align: middle;
       }
     }
+
     &.fail {
       opacity: 0.4;
     }

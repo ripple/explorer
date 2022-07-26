@@ -3,13 +3,11 @@ import { mount } from 'enzyme';
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils';
 import AppErrorBoundary from '../AppErrorBoundary';
 
-jest.mock('../../shared/utils', () => {
-  return {
+jest.mock('../../shared/utils', () => ({
     __esModule: true,
     ...jest.requireActual('../../shared/utils'),
     analytics: jest.fn(),
-  };
-});
+  }));
 
 const ProblemChild = () => {
   throw new Error('Error thrown from problem child');

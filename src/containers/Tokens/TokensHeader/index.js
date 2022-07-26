@@ -18,9 +18,7 @@ const TokensHeader = props => {
        */
 
       // Get an array containing the 'issuers' only, without 'currency', 'obligations' and 'trustlines'
-      const allIssuers = tokens.map(token => {
-        return token.issuer;
-      });
+      const allIssuers = tokens.map(token => token.issuer);
 
       // Remove the duplicates from this 'allIssuers' array with a Set
       setTotalIssuers(new Set(allIssuers).size);

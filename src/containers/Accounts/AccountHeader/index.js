@@ -108,7 +108,7 @@ const AccountHeader = props => {
     const { signerList } = data;
     return (
       signerList && (
-        <div className="signerList secondary">
+        <div className="signer-list secondary">
           <div className="title">{t('signers')}</div>
           <ul>
             {signerList.signers.map(d => (
@@ -156,7 +156,7 @@ const AccountHeader = props => {
     // TODO: Translate everything e.g. {t('signers')}
     return (
       xAddress && (
-        <div className="xAddress secondary">
+        <div className="x-address secondary">
           <div className="title">Extended Address (X-address) Details</div>
           <p>
             {xAddress.classicAddress}
@@ -264,7 +264,7 @@ const AccountHeader = props => {
   return (
     <div className="box account-header">
       <div className="section box-header">
-        <h2 className={xAddress ? 'xAddress' : 'classic'}>{accountId}</h2>
+        <h2 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h2>
       </div>
       <div className="box-content">{loading ? <Loader /> : renderHeaderContent()}</div>
     </div>

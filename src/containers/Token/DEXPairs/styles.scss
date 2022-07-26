@@ -1,9 +1,10 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
+
 .dex-pairs-container {
   padding-bottom: 100px;
 
   .title {
-    padding: 64px 0px 18px 0px;
+    padding: 64px 0px 18px;
     border-bottom: 1px $gray-800 solid;
     color: $white;
     font-size: 24px;
@@ -13,13 +14,16 @@
       padding-top: 80px;
     }
   }
+
   .pairs-table {
     position: relative;
+
     table {
       width: 100%;
       margin: auto;
       border-collapse: collapse;
       font-size: 14px;
+
       th {
         @include bold;
 
@@ -40,6 +44,7 @@
           border-bottom: 1px solid $black;
         }
       }
+
       .pair {
         @include bold;
 
@@ -47,8 +52,10 @@
         font-size: 18px;
         text-align: left;
       }
+
       .issuer-address {
         text-align: center;
+
         a {
           color: white;
           font-size: 14px;
@@ -61,9 +68,11 @@
         table {
           width: 100%;
         }
+
         td {
           border: none;
         }
+
         .low {
           text-align: left;
         }
@@ -71,6 +80,7 @@
         .low-num {
           color: #19ff83;
         }
+
         .high-num {
           color: #ff6719;
         }
@@ -80,6 +90,7 @@
         }
       }
     }
+
     .no-pairs-message {
       padding: 16px;
       color: #9ba2b0;

@@ -35,9 +35,7 @@ const AccountNFTTableDisconnected = (props: Props) => {
   useEffect(() => {
     if (data.nfts === undefined) return;
     setMarker(data.marker);
-    setNfts((oldNfts: AccountNFToken[]): AccountNFToken[] => {
-      return concatNFT(oldNfts, data.nfts || []);
-    });
+    setNfts((oldNfts: AccountNFToken[]): AccountNFToken[] => concatNFT(oldNfts, data.nfts || []));
   }, [accountId, data]);
 
   useEffect(() => {
@@ -60,25 +58,21 @@ const AccountNFTTableDisconnected = (props: Props) => {
     );
   }
 
-  const renderRow = (nft: any) => {
-    return (
+  const renderRow = (nft: any) => (
       <tr key={nft.NFTokenID}>
         <td>{nft.NFTokenID}</td>
         <td>{nft.Issuer}</td>
         <td>{nft.NFTokenTaxon}</td>
       </tr>
     );
-  };
 
-  const renderLoadMoreButton = () => {
-    return (
+  const renderLoadMoreButton = () => (
       marker && (
         <button type="button" className="load-more-btn" onClick={loadMoreNfts}>
           {t('load_more_action')}
         </button>
       )
     );
-  };
 
   return (
     <div className="section nfts-table">

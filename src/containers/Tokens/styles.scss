@@ -1,7 +1,7 @@
-@import '../shared/css/variables.scss';
+@import '../shared/css/variables';
 
 .token-discovery-page {
-  margin: 106px 10% 16px 10%;
+  margin: 106px 10% 16px;
 
   .loader {
     min-height: 100px;
@@ -12,14 +12,14 @@
   }
 
   @include for-size(phone-only) {
-    margin: 50px 10% 4px 10%;
+    margin: 50px 10% 4px;
   }
 
   @include for-size(tablet-portrait-up) {
-    margin: 50px 10% 4px 10%;
+    margin: 50px 10% 4px;
   }
 
   @include for-size(tablet-landscape-up) {
-    margin: 102px 10% 8px 10%;
+    margin: 102px 10% 8px;
   }
 }

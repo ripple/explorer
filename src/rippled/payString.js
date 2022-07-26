@@ -7,9 +7,7 @@ const getPayString = payString => {
   log.info(`get paystring: ${payString}`);
 
   return resolvePayId(payString)
-    .then(result => {
-      return result;
-    })
+    .then(result => result)
     .catch(error => {
       log.error(error.toString());
       if (error.code) {
