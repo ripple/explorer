@@ -68,11 +68,7 @@ module.exports = (req, res) => {
   }));
 
   if (req.query.unl === process.env.REACT_APP_VALIDATOR) {
-    return res.send(
-      validatorSummary.filter(val => {
-        return val.unl === req.query.unl;
-      })
-    );
+    return res.send(validatorSummary.filter(val => val.unl === req.query.unl));
   }
 
   return res.send(validatorSummary);
