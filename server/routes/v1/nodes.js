@@ -5,7 +5,7 @@ const ENV_NETWORK_MAP = {
   mainnet: 'main',
   testnet: 'test',
   devnet: 'dev',
-  'nft-devnet': 'nft-dev',
+  nft_sandbox: 'nft-dev',
 };
 
 const cache = {};
