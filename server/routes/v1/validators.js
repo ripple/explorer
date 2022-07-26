@@ -3,9 +3,12 @@ const log = require('../../lib/logger')({ name: 'validators' });
 
 const cache = {};
 
-const fetchValidators = () => axios
-    .get(`${process.env.REACT_APP_DATA_URL}/validators/${process.env.REACT_APP_VALIDATOR}`)
+const fetchValidators = () => {
+  const validatorURI = encodeURIComponent(process.env.REACT_APP_VALIDATOR);
+  return axios
+    .get(`${process.env.REACT_APP_DATA_URL}/validators/${validatorURI}`)
     .then(response => response.data.validators);
+};
 
 const cacheValidators = async () => {
   if (!cache.pending) {
@@ -65,9 +68,7 @@ module.exports = (req, res) => {
   }));
 
   if (req.query.unl === process.env.REACT_APP_VALIDATOR) {
-    return res.send(
-      validatorSummary.filter(val => val.unl === req.query.unl)
-    );
+    return res.send(validatorSummary.filter(val => val.unl === req.query.unl));
   }
 
   return res.send(validatorSummary);
