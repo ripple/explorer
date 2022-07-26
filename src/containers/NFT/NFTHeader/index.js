@@ -37,9 +37,9 @@ class NFTHeader extends Component {
     const emailHash = 'Some hash';
     const minted = 'Some date';
     const domain = 'xrptoolkit.com';
-    const nftId = data.nft_id;
-    const taxonId = data.nft_taxon;
-    const transferFee = data.transfer_fee;
+    const nftId = data.NFTId;
+    const taxonId = data.NFTTaxon;
+    const { transferFee } = data;
     const { uri } = data;
 
     const abbrvEmail = emailHash && emailHash.replace(/(.{20})..+/, '$1...');
@@ -157,7 +157,7 @@ class NFTHeader extends Component {
 
   render() {
     const { loading, data } = this.props;
-    const tokenId = data.nft_id;
+    const tokenId = data.NFTId;
     const abbrvtokenId = tokenId && tokenId.replace(/(.{30})..+/, '$1...');
     return (
       <div className="box token-header">
@@ -183,15 +183,15 @@ NFTHeader.propTypes = {
   loading: PropTypes.bool.isRequired,
   tokenId: PropTypes.string.isRequired,
   data: PropTypes.shape({
-    nft_id: PropTypes.string,
-    ledger_index: PropTypes.number,
+    NFTId: PropTypes.string,
+    ledgerIndex: PropTypes.number,
     owner: PropTypes.string,
-    is_burned: PropTypes.bool,
+    isBurned: PropTypes.bool,
     flags: PropTypes.number,
-    transfer_fee: PropTypes.number,
+    transferFee: PropTypes.number,
     issuer: PropTypes.string,
-    nft_taxon: PropTypes.number,
-    nft_sequence: PropTypes.number,
+    NFTTaxon: PropTypes.number,
+    NFTSequence: PropTypes.number,
     uri: PropTypes.string,
     validated: PropTypes.bool,
     status: PropTypes.string,

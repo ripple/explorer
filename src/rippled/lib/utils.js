@@ -132,6 +132,22 @@ function convertHexToString(hex, encoding = 'utf8') {
   return Buffer.from(hex, 'hex').toString(encoding);
 }
 
+const formatNFTInfo = info => ({
+  NFTId: info.nft_id,
+  ledgerIndex: info.ledger_index,
+  owner: info.owner,
+  isBurned: info.is_burned,
+  flags: info.flags,
+  transferFee: info.transfer_fee,
+  issuer: info.issuer,
+  NFTTaxon: info.nft_taxon,
+  NFTSequence: info.nft_sequence,
+  uri: info.uri,
+  validated: info.validated,
+  status: info.status,
+  warnings: info.warnings,
+});
+
 export {
   EPOCH_OFFSET,
   XRP_BASE,
@@ -142,4 +158,5 @@ export {
   formatAccountInfo,
   summarizeLedger,
   convertHexToString,
+  formatNFTInfo,
 };

@@ -274,6 +274,13 @@ const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) => {
   });
 };
 
+const getNFTInfo = (rippledSocket, tokenId) => {
+  return query(rippledSocket, {
+    command: 'nft_info',
+    nft_id: tokenId,
+  });
+};
+
 const getNegativeUNL = rippledSocket =>
   query(rippledSocket, {
     command: 'ledger_entry',
@@ -342,4 +349,5 @@ export {
   getNegativeUNL,
   getServerInfo,
   getOffers,
+  getNFTInfo,
 };
