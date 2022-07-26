@@ -26,7 +26,7 @@ class NFTHeader extends Component {
     const rippledSocket = this.context;
 
     if (nexttokenId !== tokenId) {
-      actions.loadNFTState(nexttokenId, rippledSocket);
+      actions.loadNFTState(nexttokenId, rippledSocket.clioSocket);
     }
   }
 
