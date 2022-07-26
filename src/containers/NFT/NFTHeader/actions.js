@@ -22,7 +22,7 @@ export const loadNFTState = (tokenId, rippledSocket) => dispatch => {
       dispatch({ type: actionTypes.FINISHED_LOADING_NFT_STATE });
       dispatch({
         type: actionTypes.NFT_STATE_LOAD_FAIL,
-        error: status === 500 ? 'get_NFT_state_failed' : '',
+        error: status === 500 ? 'get_nft_state_failed' : '',
         status,
       });
     });
