@@ -87,7 +87,7 @@ class LedgerMetrics extends Component {
           return null;
         } else if (key === 'nUnl') {
           content = data[key].length;
-          className = 'label nUnlMetric';
+          className = 'label n-unl-metric';
           return (
             <a
               key={`link ${key}`}

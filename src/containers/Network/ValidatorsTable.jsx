@@ -90,7 +90,7 @@ class ValidatorsTable extends Component {
         </td>
         <td className="domain text-truncate">{ValidatorsTable.renderDomain(d.domain)}</td>
         <td className={`unl ${trusted}`}>{d.unl && <SuccessIcon title={d.unl} alt={d.unl} />}</td>
-        <td className={`nUnl ${nUnl}`}>
+        <td className={`n-unl ${nUnl}`}>
           {onNegativeUnl && <img src={infoOrange} title={d.unl} alt={d.unl} />}
         </td>
         {this.renderAgreement('h1', d.agreement_1hour)}
@@ -119,7 +119,7 @@ class ValidatorsTable extends Component {
             <th className="pubkey">{t('pubkey')}</th>
             <th className="domain">{t('domain')}</th>
             <th className="unl">{t('unl')}</th>
-            <th className="nUnl">{t('nUnlCol')}</th>
+            <th className="n-unl">{t('nUnlCol')}</th>
             <th className="score h1">{t('1H')}</th>
             <th className="score h24">{t('24H')}</th>
             <th className="score d30">{t('30D')}</th>

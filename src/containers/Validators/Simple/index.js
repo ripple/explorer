@@ -7,8 +7,7 @@ const Simple = props => {
 
   const color = data.ledger_hash ? `#${data.ledger_hash.substr(0, 6)}` : '';
 
-  const renderAgreement = (className, d, label) => {
-    return d ? (
+  const renderAgreement = (className, d, label) => d ? (
       <div className="row">
         <div className="label">{label}</div>
         <div
@@ -22,7 +21,6 @@ const Simple = props => {
     ) : (
       <div />
     );
-  };
 
   return (
     <>

@@ -1,4 +1,4 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .section {
   margin: 0px 32px;
@@ -37,8 +37,8 @@
     }
   }
 
-  .xAddress {
-    margin: 0px;
+  .x-address {
+    margin: 0;
     color: $white;
     font-size: 14px;
     @include bold;
@@ -51,6 +51,7 @@
       font-size: 36px;
     }
   }
+
   .box-content {
     min-height: 100px;
     padding-bottom: 20px;
@@ -128,7 +129,7 @@
         }
       }
 
-      &.xAddress ul {
+      &.x-address ul {
         width: 100%;
 
         li {
@@ -171,7 +172,7 @@
         }
       }
 
-      &.signerList ul {
+      &.signer-list ul {
         width: 100%;
 
         li {

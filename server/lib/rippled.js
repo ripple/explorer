@@ -20,8 +20,7 @@ const P2P_URL_BASE = process.env.REACT_APP_P2P_RIPPLED_HOST
   : process.env.REACT_APP_RIPPLED_HOST;
 const URL_HEALTH = `https://${P2P_URL_BASE}:${process.env.REACT_APP_RIPPLED_PEER_PORT}/health`;
 
-const executeQuery = async (rippledSocket, params) => {
-  return rippledSocket.send(params).catch(error => {
+const executeQuery = async (rippledSocket, params) => rippledSocket.send(params).catch(error => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
@@ -29,7 +28,6 @@ const executeQuery = async (rippledSocket, params) => {
     const code = error.response && error.response.status ? error.response.status : 500;
     throw new Error(`URL: ${rippledSocket.endpoint} - ${message}`, code);
   });
-};
 
 // generic RPC query
 function query(...options) {
@@ -79,8 +77,7 @@ module.exports.getBalances = (account, ledger_index = 'validated') =>
     return resp;
   });
 
-module.exports.getOffers = (currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => {
-  return query({
+module.exports.getOffers = (currencyCode, issuerAddress, pairCurrencyCode, pairIssuerAddress) => query({
     command: 'book_offers',
     taker_gets: {
       currency: `${currencyCode.toUpperCase()}`,
@@ -97,10 +94,8 @@ module.exports.getOffers = (currencyCode, issuerAddress, pairCurrencyCode, pairI
 
     return resp;
   });
-};
 
-module.exports.getHealth = async () => {
-  return axios.get(URL_HEALTH).catch(error => {
+module.exports.getHealth = async () => axios.get(URL_HEALTH).catch(error => {
     if (error.response) {
       throw new utils.Error(error.response.data, error.response.status);
     } else if (error.request) {
@@ -109,7 +104,6 @@ module.exports.getHealth = async () => {
       throw new utils.Error('rippled unreachable', 500);
     }
   });
-};
 
 module.exports.getLedger = parameters => {
   const request = {

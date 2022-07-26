@@ -1,6 +1,7 @@
 // ONLY GLOBAL CSS, KEEP IT TO MINIMAL
 // CSS SHOULD BE SCOPPED TO COMPONENT
-@import './variables.scss';
+@import './variables';
+@import './form';
 
 /* prettier-ignore */
 @font-face {
@@ -91,6 +92,7 @@ div.react-stockchart div {
     background: $black;
   }
 
+  /* stylelint-disable selector-class-pattern */
   &.SetRegularKey {
     border-left-color: $setregularkey;
     color: $setregularkey;
@@ -283,6 +285,7 @@ div.react-stockchart div {
       background: $nft;
     }
   }
+  /* stylelint-enable selector-class-pattern */
 }
 
 .tx-result {
@@ -321,5 +324,3 @@ div.react-stockchart div {
     margin-bottom: 15px;
   }
 }
-
-@import './form';

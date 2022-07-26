@@ -12,12 +12,10 @@ import TEST_TRANSACTIONS_DATA from './mockTransactions.json';
 import * as actionTypes from '../actionTypes';
 import { loadAccountTransactions } from '../actions';
 
-jest.mock('../actions', () => {
-  return {
+jest.mock('../actions', () => ({
     __esModule: true,
     loadAccountTransactions: jest.fn(),
-  };
-});
+  }));
 
 const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT';
 

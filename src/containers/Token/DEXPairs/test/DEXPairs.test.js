@@ -10,15 +10,13 @@ const currency = 'USD';
 describe('The page', () => {
   let wrapper;
 
-  const createWrapper = () => {
-    return mount(
+  const createWrapper = () => mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <DEXPairs accountId={address} currency={currency} />
         </Router>
       </I18nextProvider>
     );
-  };
 
   beforeEach(async () => {
     wrapper = createWrapper();

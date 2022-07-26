@@ -8,15 +8,13 @@ import TokensTable from '../index';
 describe('The page', () => {
   let wrapper;
 
-  const createWrapper = () => {
-    return mount(
+  const createWrapper = () => mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <TokensTable allTokens={[]} isError={false} />
         </Router>
       </I18nextProvider>
     );
-  };
 
   beforeEach(async () => {
     wrapper = createWrapper();

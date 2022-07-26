@@ -1,4 +1,4 @@
-@import '../shared/css/variables.scss';
+@import '../shared/css/variables';
 
 .ledger {
   position: relative;
@@ -345,7 +345,7 @@
       }
 
       .upper {
-        padding: 20px 0px 4px 0px;
+        padding: 20px 0px 4px;
         color: $white;
         font-size: 14px;
 

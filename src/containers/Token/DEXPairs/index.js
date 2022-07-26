@@ -39,9 +39,7 @@ const DEXPairs = props => {
       .then(tokenRes => {
         let tokenList = tokenRes.data?.tokens;
         if (tokenList) {
-          tokenList = tokenList.map(element => {
-            return { currency: element.currency, issuer: element.issuer };
-          });
+          tokenList = tokenList.map(element => ({ currency: element.currency, issuer: element.issuer }));
           // Limit to top 20 tokens so that page in reasonable amount of time.
           // TODO: add "Load more pairs feature"
           tokenList = tokenList.slice(0, 20);
@@ -72,15 +70,13 @@ const DEXPairs = props => {
                     const average = formatLargeNumber(averageExchangeRate, 6);
 
                     if (isMountedRef.current) {
-                      setPairs(previousPairs => {
-                        return previousPairs.concat({
+                      setPairs(previousPairs => previousPairs.concat({
                           token: token.currency,
                           issuer: token.issuer,
                           low,
                           high,
                           average,
-                        });
-                      });
+                        }));
                     }
                   }
                 })
@@ -117,8 +113,7 @@ const DEXPairs = props => {
   function renderNoPairs() {
     return <div className="no-pairs-message">{t('no_pairs_message')}</div>;
   }
-  const renderRow = pair => {
-    return (
+  const renderRow = pair => (
       <tr key={`${pair.token}.${pair.issuer}`}>
         <td className="pair">
           <Currency currency={currency} />/<Currency currency={pair.token} /> {pair.average.num}{' '}
@@ -136,7 +131,6 @@ const DEXPairs = props => {
         </td>
       </tr>
     );
-  };
 
   return (
     <div className="section dex-pairs-container">

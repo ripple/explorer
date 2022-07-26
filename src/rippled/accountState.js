@@ -98,8 +98,7 @@ const getAccountState = (account, rippledSocket) => {
         getAccountEscrows(rippledSocket, classicAddress, info.ledger_index),
         getAccountPaychannels(rippledSocket, classicAddress, info.ledger_index),
         getServerInfo(rippledSocket),
-      ]).then(data => {
-        return {
+      ]).then(data => ({
           account: info.Account,
           ledger_index: info.ledger_index,
           info: formatAccountInfo(info, data[3].info.validated_ledger),
@@ -109,8 +108,7 @@ const getAccountState = (account, rippledSocket) => {
           escrows: data[1],
           paychannels: data[2],
           xAddress: decomposedAddress || undefined,
-        };
-      })
+        }))
     )
     .catch(error => {
       // X-address:

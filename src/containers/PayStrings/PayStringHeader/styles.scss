@@ -1,4 +1,4 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .paystring-header {
   margin-top: 106px;
@@ -14,7 +14,7 @@
   .box-header {
     display: flex;
     align-content: center;
-    padding: 4px 8px 40px 8px;
+    padding: 4px 8px 40px;
     text-align: center;
 
     .paystring-logomark {

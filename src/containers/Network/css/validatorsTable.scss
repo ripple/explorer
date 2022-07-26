@@ -1,4 +1,4 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .validators-table {
   position: relative;
@@ -50,7 +50,7 @@
       @include bold;
     }
 
-    .unl, .nUnl {
+    .unl, .n-unl {
       max-width: 40px;
     }
 
@@ -62,7 +62,7 @@
       color: $green;
     }
 
-    .nUnl {
+    .n-unl {
       text-align: center;
       text-transform: none;
 
@@ -72,7 +72,7 @@
       }
     }
 
-    .nUnl.yes {
+    .n-unl.yes {
       color: #c97;
     }
 

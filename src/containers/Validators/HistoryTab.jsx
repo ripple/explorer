@@ -4,8 +4,7 @@ import Loader from '../shared/components/Loader';
 import { localizeDate } from '../shared/utils';
 import './historyTab.css';
 
-const RecordItem = (t, language, record) => {
-  return (
+const RecordItem = (t, language, record) => (
     <li key={record.date} className="history-li">
       <div className="col-date">
         <div className="full-date">
@@ -30,7 +29,6 @@ const RecordItem = (t, language, record) => {
       <div className={`col-missed ${record.missed > 0 ? 'td-missed' : ''}`}>{record.missed}</div>
     </li>
   );
-};
 
 const HistoryTab = props => {
   // TODO: add loading symbol when waiting on the reports
@@ -48,9 +46,7 @@ const HistoryTab = props => {
         </li>
 
         {reports ? (
-          reports.map(report => {
-            return RecordItem(t, language, report);
-          })
+          reports.map(report => RecordItem(t, language, report))
         ) : (
           <Loader />
         )}

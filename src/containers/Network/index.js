@@ -18,13 +18,11 @@ class Network extends Component {
     });
   }
 
-  renderUnderConstruction = () => {
-    return (
+  renderUnderConstruction = () => (
       <div className="network-page">
         <NoMatch title="under_construction" hints={['come_back_later']} isError={false} />
       </div>
     );
-  };
 
   render() {
     const { match } = this.props;

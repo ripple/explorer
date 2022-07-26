@@ -30,8 +30,7 @@ const formatPaychannel = d => ({
   settleDelay: d.SettleDelay,
 });
 
-const executeQuery = async (rippledSocket, params) => {
-  return rippledSocket.send(params).catch(error => {
+const executeQuery = async (rippledSocket, params) => rippledSocket.send(params).catch(error => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
@@ -39,7 +38,6 @@ const executeQuery = async (rippledSocket, params) => {
     const code = error.response && error.response.status ? error.response.status : 500;
     throw new Error(`URL: ${rippledSocket.endpoint} - ${message}`, code);
   });
-};
 
 // generic RPC query
 function query(rippledSocket, options) {
@@ -265,14 +263,12 @@ const getAccountTransactions = (rippledSocket, account, limit = 20, marker = '')
   });
 };
 
-const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) => {
-  return query(rippledSocket, {
+const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) => query(rippledSocket, {
     command: 'account_nfts',
     account,
     marker: marker || undefined,
     limit,
   });
-};
 
 const getNegativeUNL = rippledSocket =>
   query(rippledSocket, {
@@ -311,8 +307,7 @@ const getOffers = (
   issuerAddress,
   pairCurrencyCode,
   pairIssuerAddress
-) => {
-  return query(rippledSocket, {
+) => query(rippledSocket, {
     command: 'book_offers',
     taker_gets: {
       currency: `${currencyCode.toUpperCase()}`,
@@ -329,7 +324,6 @@ const getOffers = (
 
     return resp;
   });
-};
 export {
   getLedger,
   getTransaction,

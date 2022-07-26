@@ -8,16 +8,12 @@ const log = logger({ name: 'transactions' });
 const getTransaction = (transactionId, rippledSocket) => {
   log.info(`get tx: ${transactionId}`);
   return getRippledTransaction(rippledSocket, transactionId)
-    .then(response => {
-      return formatTransaction(response);
-    })
+    .then(response => formatTransaction(response))
     .then(data => ({
       summary: summarize(data, true).details,
       raw: data,
     }))
-    .then(data => {
-      return data;
-    })
+    .then(data => data)
     .catch(error => {
       log.error(error.toString());
       throw error;
