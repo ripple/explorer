@@ -6,8 +6,7 @@ import { act } from 'react-dom/test-utils';
 import i18n from '../../../../i18nTestConfig';
 import TokensHeader from '../index';
 
-const createWrapper = (isLoading = false, isError = false, tokens = []) => {
-  return mount(
+const createWrapper = (isLoading = false, isError = false, tokens = []) => mount(
     <I18nextProvider i18n={i18n}>
       <Router>
         <TokensHeader
@@ -18,7 +17,6 @@ const createWrapper = (isLoading = false, isError = false, tokens = []) => {
       </Router>
     </I18nextProvider>
   );
-};
 
 describe('The page', () => {
   let wrapper;

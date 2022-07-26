@@ -1,4 +1,4 @@
-@import '../shared/css/variables.scss';
+@import '../shared/css/variables';
 
 .app {
   position: relative;
@@ -14,7 +14,7 @@
       align-items: center;
       justify-content: center;
       padding: auto;
-      margin: 97px auto 80px auto;
+      margin: 97px auto 80px;
       text-align: center;
 
       .sidechain-logo {
@@ -68,7 +68,7 @@
         box-sizing: border-box;
         padding: 8px 16px;
         border: 1px solid $sidechain;
-        margin: 16px 16px;
+        margin: 16px;
         border-radius: 100px;
         color: $sidechain;
         font-size: 14px;

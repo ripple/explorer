@@ -1,4 +1,4 @@
-@import '../shared/css/variables.scss';
+@import '../shared/css/variables';
 
 .header {
   position: fixed;
@@ -13,7 +13,7 @@
     display: flex;
     height: 23px;
 
-    .arrowContainer {
+    .arrow-container {
       display: flex;
       width: 100%;
 
@@ -161,6 +161,7 @@
       }
     }
 
+    /* stylelint-disable-next-line selector-class-pattern -- Name comes from server designation  */
     &.nft_sandbox {
       background: $nft-sandbox;
 
@@ -215,7 +216,7 @@
   }
 
   &.header-shadow {
-    box-shadow: 0px 0px 5px rgba(35, 41, 47, 0.24);
+    box-shadow: 0px 0px 5px rgba(35 41 47 / 24%);
   }
 
   :focus {
@@ -237,16 +238,18 @@
       align-content: center;
       justify-content: center;
 
-      &.notInNetwork {
+      &.not-in-network {
         flex: none;
       }
     }
   }
+
   .element:first-child {
     display: flex;
     justify-content: left;
     margin-right: auto;
   }
+
   .element:last-child {
     margin-left: auto;
   }

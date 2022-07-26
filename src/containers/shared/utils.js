@@ -334,36 +334,24 @@ export const durationToHuman = (s, decimal = 2) => {
   return `${d.num.toFixed(decimal)} ${d.unit}`;
 };
 
-export const fetchNegativeUNL = async rippledSocket => {
-  return getNegativeUNL(rippledSocket)
+export const fetchNegativeUNL = async rippledSocket => getNegativeUNL(rippledSocket)
     .then(data => {
       if (data === undefined) throw new Error('undefined nUNL');
 
       return data;
     })
     .catch(e => Log.error(e));
-};
 
-export const fetchQuorum = async rippledSocket => {
-  return getQuorum(rippledSocket)
+export const fetchQuorum = async rippledSocket => getQuorum(rippledSocket)
     .then(data => {
       if (data === undefined) throw new Error('undefined quorum');
       return data;
     })
     .catch(e => Log.error(e));
-};
 
-export const fetchMetrics = () => {
-  return axios
+export const fetchMetrics = () => axios
     .get('/api/v1/metrics')
-    .then(result => {
-      return result.data;
-    })
+    .then(result => result.data)
     .catch(e => Log.error(e));
-};
 
-export const removeRoutes = (routes, ...routesToRemove) => {
-  return routes.filter(route => {
-    return !routesToRemove.includes(route.title);
-  });
-};
+export const removeRoutes = (routes, ...routesToRemove) => routes.filter(route => !routesToRemove.includes(route.title));

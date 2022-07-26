@@ -1,9 +1,9 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .network-page {
   // Needs additional bottom margin to break up table from the horizontal
   // rule that delineates the footer
-  margin: 0 0 50px 0;
+  margin: 0 0 50px;
 
   .loader {
     position: absolute;

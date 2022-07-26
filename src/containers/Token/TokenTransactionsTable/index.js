@@ -38,9 +38,7 @@ export const TokenTxTable = props => {
   useEffect(() => {
     if (data.transactions == null) return;
     setMarker(data.marker);
-    setTransactions(oldTransactions => {
-      return concatTx(oldTransactions, data.transactions);
-    });
+    setTransactions(oldTransactions => concatTx(oldTransactions, data.transactions));
   }, [data]);
 
   useEffect(() => {
@@ -94,15 +92,13 @@ export const TokenTxTable = props => {
     );
   };
 
-  const renderLoadMoreButton = () => {
-    return (
+  const renderLoadMoreButton = () => (
       marker && (
         <button className="load-more-btn" onClick={loadMoreTransactions} type="button">
           {t('load_more_action')}
         </button>
       )
     );
-  };
 
   const renderListContents = () => {
     if (!loading && transactions.length === 0 && !loadingError) {

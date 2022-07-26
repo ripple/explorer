@@ -71,9 +71,7 @@ const getAccountTransactions = async (account, currency, marker, limit, rippledS
         marker: data.marker,
       };
     })
-    .then(d => {
-      return d;
-    })
+    .then(d => d)
     .catch(error => {
       log.error(error.toString());
       throw error;

@@ -13,7 +13,7 @@ describe('Notification', () => {
       <Notification key="key" usage="danger" message="boo!" autoDismiss delay={100} />
     );
     expect(wrapper.html()).toBe(
-      '<div class="notification danger primary "><span>boo!</span></div>'
+      '<div class="notification danger primary-theme "><span>boo!</span></div>'
     );
 
     setTimeout(() => {

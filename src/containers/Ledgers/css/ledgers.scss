@@ -1,11 +1,11 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .ledgers-page {
   display: flex;
   width: 100%;
   flex-direction: column;
   justify-content: center;
-  margin: 1% 0 auto 0;
+  margin: 1% 0 auto;
 }
 
 .ledgers {
@@ -72,7 +72,7 @@
     z-index: 20;
     display: flex;
     padding: 0 0 40px 32px;
-    margin: -45px 16px 20px 16px;
+    margin: -45px 16px 20px;
     background-color: $black;
     overflow-x: auto;
   }
@@ -89,7 +89,7 @@
     display: table-cell;
     margin: 0 0 0 32px;
     animation-duration: 0.4s;
-    animation-name: lEnter;
+    animation-name: ledger-enter;
     white-space: normal;
 
     &:first-child {
@@ -97,7 +97,7 @@
     }
   }
 
-  @keyframes lEnter {
+  @keyframes ledger-enter {
     from {
       max-width: 0;
     }
@@ -176,7 +176,7 @@
       text-align: left;
     }
 
-    @keyframes txEnter {
+    @keyframes tx-enter {
       from {
         width: 0px;
         height: 0px;
@@ -195,7 +195,7 @@
       height: 8px;
       margin: 1px;
       animation-duration: 0.3s;
-      animation-name: txEnter;
+      animation-name: tx-enter;
       border-radius: 8px;
       color: $black-60;
       font-size: 26px;
@@ -211,12 +211,13 @@
       content: '/';
     }
 
+    /* stylelint-disable-next-line selector-class-pattern -- Name comes from server  */
     .txn.tesSUCCESS {
       opacity: 1;
-    }
 
-    .txn.tesSUCCESS::before {
-      content: '';
+      &::before {
+        content: '';
+      }
     }
   }
 
@@ -304,7 +305,7 @@
       vertical-align: middle;
     }
 
-    @keyframes vEnter {
+    @keyframes validation-enter {
       from {
         opacity: 0;
       }

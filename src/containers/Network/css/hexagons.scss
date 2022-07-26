@@ -1,4 +1,4 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
 
 .validators-container {
   .validators {
@@ -7,7 +7,6 @@
 
     svg {
       display: block;
-      -webkit-filter: drop-shadow(0px 0px 2px $gray-800);
       filter: drop-shadow(0px 0px 2px $gray-800);
     }
 
@@ -33,7 +32,7 @@
 
       .hexagon.updated path {
         animation-duration: 0.7s;
-        animation-name: hexUpdate;
+        animation-name: hex-update;
         animation-timing-function: ease-in-out;
       }
 
@@ -42,7 +41,7 @@
         stroke: black !important;
       }
 
-      @keyframes hexUpdate {
+      @keyframes hex-update {
         0% {
           transform: scale(1);
         }
