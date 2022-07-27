@@ -1,8 +1,16 @@
 import { getNFT } from '../../../rippled';
-import { analytics, ANALYTIC_TYPES, BAD_REQUEST } from '../../shared/utils';
+import { analytics, ANALYTIC_TYPES, BAD_REQUEST, HASH_REGEX } from '../../shared/utils';
 import * as actionTypes from './actionTypes';
 
 export const loadNFTState = (tokenId, rippledSocket) => dispatch => {
+  if (!HASH_REGEX.test(tokenId)) {
+    dispatch({
+      type: actionTypes.NFT_STATE_LOAD_FAIL,
+      status: BAD_REQUEST,
+      error: '',
+    });
+    return Promise.resolve();
+  }
   dispatch({
     type: actionTypes.START_LOADING_NFT_STATE,
   });
