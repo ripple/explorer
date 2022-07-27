@@ -66,6 +66,9 @@ const App = props => {
       if (hasP2PSocket) {
         socket.p2pSocket.close();
       }
+      if (socket.clioSocket) {
+        socket.clioSocket.close();
+      }
     };
   });
 

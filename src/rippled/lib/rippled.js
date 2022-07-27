@@ -278,6 +278,14 @@ const getNFTInfo = (rippledSocket, tokenId) => {
   return query(rippledSocket, {
     command: 'nft_info',
     nft_id: tokenId,
+  }).then(resp => {
+    if (resp.error === 'objectNotFound') {
+      throw new Error('NFT not found', 404);
+    }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500);
+    }
+    return resp;
   });
 };
 

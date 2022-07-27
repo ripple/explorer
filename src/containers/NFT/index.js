@@ -102,5 +102,5 @@ NFT.defaultProps = {
 
 export default connect(state => ({
   width: state.app.width,
-  error: state.NFTHeader.error,
+  error: state.NFTHeader.status,
 }))(withTranslation()(NFT));
