@@ -46,9 +46,12 @@ const App = props => {
         `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
     : undefined;
-  socket.clioSocket = process.env.REACT_APP_CLIO_HOST
-    ? new XrplClient(`ws://${process.env.REACT_APP_CLIO_HOST}:51233`)
-    : undefined;
+  socket.clioSocket =
+    process.env.REACT_APP_CLIO_HOST && process.env.REACT_APP_CLIO_WS_PORT
+      ? new XrplClient(
+          `ws://${process.env.REACT_APP_CLIO_HOST}:${process.env.REACT_APP_CLIO_WS_PORT}`
+        )
+      : undefined;
 
   useEffect(() => {
     actions.updateViewportDimensions();
