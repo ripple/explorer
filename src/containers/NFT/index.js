@@ -56,6 +56,15 @@ class NFT extends Component {
     window.scrollTo(0, 0);
   }
 
+  static renderDisclaimer() {
+    return (
+      <div className="disclaimer-container">
+        <div className="disclaimer-left">Disclaimer Text</div>
+        <div className="disclaimer-right">some very long date</div>
+      </div>
+    );
+  }
+
   render() {
     const { t, error, match } = this.props;
     const { prevId } = this.state;
@@ -69,13 +78,7 @@ class NFT extends Component {
     ) : (
       <div className="token-page">
         {tokenId && <NFTHeader tokenId={tokenId} t={t} />}
-        {tokenId && (
-          <div className="disclaimer-container">
-            <div className="disclaimer-left">Disclaimer Text</div>
-            <div className="disclaimer-right">some very long date</div>
-          </div>
-        )}
-
+        {tokenId && NFT.renderDisclaimer()}
         {!tokenId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>
             <h2>Enter a NFT ID in the search box</h2>
