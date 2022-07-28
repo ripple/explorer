@@ -31,16 +31,7 @@ class NFTHeader extends Component {
 
   renderDetails() {
     const { t, data } = this.props;
-
-    // hard coded variables
-    const emailHash = 'Some hash';
-    const minted = 'Some date';
-    const domain = 'xrptoolkit.com';
-    const nftId = data.NFTId;
-    const taxonId = data.NFTTaxon;
-    const { transferFee } = data;
-    const { uri } = data;
-
+    const { minted, domain, emailHash, NFTTaxon, uri, transferFee } = data;
     const abbrvEmail = emailHash && emailHash.replace(/(.{20})..+/, '$1...');
     const abbrvURI = uri && uri.replace(/(.{20})..+/, '$1...');
     return (
@@ -71,21 +62,27 @@ class NFTHeader extends Component {
               </td>
             </tr>
           )}
-          <tr className="row">
-            <td className="col1">Taxon ID</td>
-            <td className="col2">{taxonId}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">URI</td>
-            <td className="col2">
-              {abbrvURI}
-              <Copy className="copy" text={uri} />
-            </td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Transfer Fee</td>
-            <td className="col2">{transferFee}</td>
-          </tr>
+          {NFTTaxon !== undefined && (
+            <tr className="row">
+              <td className="col1">Taxon ID</td>
+              <td className="col2">{NFTTaxon}</td>
+            </tr>
+          )}
+          {uri && (
+            <tr className="row">
+              <td className="col1">URI</td>
+              <td className="col2">
+                {abbrvURI}
+                <Copy className="copy" text={uri} />
+              </td>
+            </tr>
+          )}
+          {transferFee !== undefined && (
+            <tr className="row">
+              <td className="col1">Transfer Fee</td>
+              <td className="col2">{transferFee}</td>
+            </tr>
+          )}
         </tbody>
       </table>
     );
@@ -200,6 +197,9 @@ NFTHeader.propTypes = {
     validated: PropTypes.bool,
     status: PropTypes.string,
     warnings: PropTypes.arrayOf(PropTypes.string),
+    minted: PropTypes.string,
+    domain: PropTypes.string,
+    emailHash: PropTypes.string,
   }).isRequired,
   actions: PropTypes.shape({
     loadNFTState: PropTypes.func.isRequired,
