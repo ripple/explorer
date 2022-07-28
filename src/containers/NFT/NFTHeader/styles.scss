@@ -152,20 +152,41 @@ table {
 
   .box-header {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     margin-top: 106px;
     text-align: left;
 
     span {
-      margin: 0px;
+      display: flex;
+      margin-top: 0px;
+      padding-top: 0px;
       color: $white;
-      font-size: 32px;
+      font-size: 24px;
+
       overflow-wrap: anywhere;
       @include bold;
+      // @include for-size(tablet-landscape-up) {
+      //   font-size: 42px;
+      // }
+      // .content {
+      //   flex: 1;
+      //   margin: 0px;
+      //   padding: 0px;
+      //   white-space: nowrap;
+      //   overflow: hidden;
+      //   text-overflow: ellipsis;
+      // }
+      .title {
+        display: flex;
+        flex-direction: row;
+        padding-bottom: 4px;
+        color: $gray-400;
+        font-size: 14px;
+        text-transform: uppercase;
+        align-items: center;
 
-      @include for-size(tablet-landscape-up) {
-        font-size: 42px;
+        @include semibold;
       }
       .token-type {
         display: flex;
@@ -189,6 +210,7 @@ table {
         font-style: normal;
         font-weight: 700;
         line-height: 125%;
+        margin-left: 8px;
         .subscript {
           flex: none;
           flex-grow: 0;

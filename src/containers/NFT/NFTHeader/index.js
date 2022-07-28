@@ -95,28 +95,28 @@ class NFTHeader extends Component {
     const { data } = this.props;
     const { flags } = data;
 
-    const flag1 = 'enabled';
-    const flag2 = 'enabled';
-    const flag3 = 'enabled';
-    const flag4 = 'enabled';
+    const burnable = flags && flags.includes('lsfBurnable') ? 'enabled' : 'disabled';
+    const onlyXRP = flags && flags.includes('lsfOnlyXRP') ? 'enabled' : 'disabled';
+    const trustLine = flags && flags.includes('lsfTrustLine') ? 'enabled' : 'disabled';
+    const transferable = flags && flags.includes('lsfTransferable') ? 'enabled' : 'disabled';
     return (
       <table>
         <tbody>
           <tr className="row">
-            <td className="col1">Flag 1</td>
-            <td className="col2">{flag1}</td>
+            <td className="col1">Burnable</td>
+            <td className="col2">{burnable}</td>
           </tr>
           <tr className="row">
-            <td className="col1">Flag 2</td>
-            <td className="col2">{flag2}</td>
+            <td className="col1">Only XRP</td>
+            <td className="col2">{onlyXRP}</td>
           </tr>
           <tr className="row">
-            <td className="col1">Flag 3</td>
-            <td className="col2">{flag3}</td>
+            <td className="col1">Trust Line</td>
+            <td className="col2">{trustLine}</td>
           </tr>
           <tr className="row">
-            <td className="col1">Flag 4</td>
-            <td className="col2">{flag4}</td>
+            <td className="col1">Transferable</td>
+            <td className="col2">{transferable}</td>
           </tr>
         </tbody>
       </table>
@@ -162,12 +162,15 @@ class NFTHeader extends Component {
       <div className="box token-header">
         <div className="section box-header">
           <span className="token-header box-header">
+            <div className="title">
+              NFT ID
+              {!loading && (
+                <div className="token-type">
+                  <div className="subscript">NFT</div>
+                </div>
+              )}
+            </div>
             {tokenId}
-            {!loading && (
-              <div className="token-type">
-                <div className="subscript">NFT</div>
-              </div>
-            )}
           </span>
         </div>
         <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
@@ -188,7 +191,7 @@ NFTHeader.propTypes = {
     ledgerIndex: PropTypes.number,
     owner: PropTypes.string,
     isBurned: PropTypes.bool,
-    flags: PropTypes.number,
+    flags: PropTypes.arrayOf(PropTypes.string),
     transferFee: PropTypes.number,
     issuer: PropTypes.string,
     NFTTaxon: PropTypes.number,

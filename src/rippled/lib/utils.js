@@ -16,7 +16,12 @@ const ACCOUNT_FLAGS = {
   0x00800000: 'lsfDefaultRipple',
   0x01000000: 'lsfDepositAuth',
 };
-
+const NFT_FLAGS = {
+  0x00000001: 'lsfBurnable',
+  0x00000002: 'lsfOnlyXRP',
+  0x00000004: 'lsfTrustLine',
+  0x00000008: 'lsfTransferable',
+};
 const hex32 = d => {
   const int = d & 0xffffffff;
   const hex = int.toString(16).toUpperCase();
@@ -40,6 +45,18 @@ const buildFlags = flags => {
       const bin = zeroPad(1, 32 - i, true);
       const int = parseInt(bin, 2);
       return value === '1' ? ACCOUNT_FLAGS[int] || hex32(int) : undefined;
+    })
+    .filter(d => Boolean(d));
+};
+
+const buildNFTFlags = flags => {
+  const bits = zeroPad((flags || 0).toString(2), 32).split('');
+
+  return bits
+    .map((value, i) => {
+      const bin = zeroPad(1, 32 - i, true);
+      const int = parseInt(bin, 2);
+      return value === '1' ? NFT_FLAGS[int] || hex32(int) : undefined;
     })
     .filter(d => Boolean(d));
 };
@@ -137,7 +154,7 @@ const formatNFTInfo = info => ({
   ledgerIndex: info.ledger_index,
   owner: info.owner,
   isBurned: info.is_burned,
-  flags: info.flags,
+  flags: buildNFTFlags(info.flags),
   transferFee: info.transfer_fee,
   issuer: info.issuer,
   NFTTaxon: info.nft_taxon,
