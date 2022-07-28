@@ -159,7 +159,7 @@ class NFTHeader extends Component {
       <div className="box token-header">
         <div className="section box-header">
           <span className="token-header box-header">
-            <div className="title">
+            <div className="token-title">
               NFT ID
               {!loading && (
                 <div className="token-type">

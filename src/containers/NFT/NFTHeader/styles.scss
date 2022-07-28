@@ -159,11 +159,10 @@ table {
 
     span {
       display: flex;
-      margin-top: 0px;
       padding-top: 0px;
+      margin-top: 0px;
       color: $white;
       font-size: 24px;
-
       overflow-wrap: anywhere;
       @include bold;
       // @include for-size(tablet-landscape-up) {
@@ -177,14 +176,14 @@ table {
       //   overflow: hidden;
       //   text-overflow: ellipsis;
       // }
-      .title {
+      .token-title {
         display: flex;
         flex-direction: row;
+        align-items: center;
         padding-bottom: 4px;
         color: $gray-400;
         font-size: 14px;
         text-transform: uppercase;
-        align-items: center;
 
         @include semibold;
       }
@@ -201,6 +200,7 @@ table {
         order: 0;
         padding: 2px 12px;
         border: 1px solid #5f00e6;
+        margin-left: 8px;
         background: #791aff;
         border-radius: 30px;
         box-shadow: 0px 1px 1px #5f00e5;
@@ -210,7 +210,6 @@ table {
         font-style: normal;
         font-weight: 700;
         line-height: 125%;
-        margin-left: 8px;
         .subscript {
           flex: none;
           flex-grow: 0;
