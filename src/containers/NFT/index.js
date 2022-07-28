@@ -7,8 +7,6 @@ import NFTHeader from './NFTHeader';
 import './styles.css';
 import { analytics, ANALYTIC_TYPES, NOT_FOUND, BAD_REQUEST } from '../shared/utils';
 
-const IS_MAINNET = process.env.REACT_APP_ENVIRONMENT === 'mainnet';
-
 const ERROR_MESSAGES = {};
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'assets.no_nfts_message',

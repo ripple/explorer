@@ -8,7 +8,6 @@ import { loadNFTState } from './actions';
 import Loader from '../../shared/components/Loader';
 import '../../shared/css/nested-menu.css';
 import './styles.css';
-import { localizeNumber, formatLargeNumber } from '../../shared/utils';
 import SocketContext from '../../shared/SocketContext';
 
 import Copy from '../../shared/components/Copy';
