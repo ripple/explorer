@@ -3,6 +3,7 @@
   "description": "XRPL Data Visualization",
   "version": "1.5.0",
   "dependencies": {
+    "@fontsource/roboto": "^4.5.7",
     "@google-cloud/bigquery": "^5.5.0",
     "axios": "^0.21.1",
     "body-parser": "^1.18.2",
@@ -40,7 +41,6 @@
     "rewire": "^6.0.0",
     "ripple-address-codec": "^4.1.2",
     "topojson-client": "^3.0.0",
-    "typeface-roboto": "0.0.54",
     "ws": "^7.4.2",
     "xrpl-client": "^1.9.4"
   },
@@ -202,7 +202,12 @@
           "tsx": "never"
         }
       ],
-      "import/no-cycle": [2, { "maxDepth": 5 }],
+      "import/no-cycle": [
+        2,
+        {
+          "maxDepth": 5
+        }
+      ],
       "import/prefer-default-export": "off",
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": [
