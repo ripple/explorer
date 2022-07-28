@@ -66,7 +66,7 @@ class NFT extends Component {
   }
 
   render() {
-    const { t, error, match } = this.props;
+    const { t, error, match, loading } = this.props;
     const { prevId } = this.state;
     const tokenId = match.params.id || '';
     const showError = tokenId === prevId && error;
@@ -78,7 +78,7 @@ class NFT extends Component {
     ) : (
       <div className="token-page">
         {tokenId && <NFTHeader tokenId={tokenId} t={t} />}
-        {tokenId && NFT.renderDisclaimer()}
+        {tokenId && !loading && NFT.renderDisclaimer()}
         {!tokenId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>
             <h2>Enter a NFT ID in the search box</h2>
@@ -92,6 +92,7 @@ class NFT extends Component {
 NFT.propTypes = {
   t: PropTypes.func.isRequired,
   error: PropTypes.number,
+  loading: PropTypes.bool.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
@@ -106,4 +107,5 @@ NFT.defaultProps = {
 export default connect(state => ({
   width: state.app.width,
   error: state.NFTHeader.status,
+  loading: state.NFTHeader.loading,
 }))(withTranslation()(NFT));

@@ -164,9 +164,11 @@ class NFTHeader extends Component {
         <div className="section box-header">
           <span className="token-header box-header">
             {tokenId}
-            <div className="token-type">
-              <div className="subscript">NFT</div>
-            </div>
+            {!loading && (
+              <div className="token-type">
+                <div className="subscript">NFT</div>
+              </div>
+            )}
           </span>
         </div>
         <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
