@@ -54,17 +54,17 @@ class NFT extends Component {
     window.scrollTo(0, 0);
   }
 
-  static renderDisclaimer() {
+  static renderDisclaimer(disclaimer) {
     return (
       <div className="disclaimer-container">
-        <div className="disclaimer-left">Disclaimer Text</div>
-        <div className="disclaimer-right">some very long date</div>
+        <div className="disclaimer-left">{disclaimer.content}</div>
+        <div className="disclaimer-right">{disclaimer.date}</div>
       </div>
     );
   }
 
   render() {
-    const { t, error, match, loading } = this.props;
+    const { t, error, match, loading, disclaimer } = this.props;
     const { prevId } = this.state;
     const tokenId = match.params.id || '';
     const showError = tokenId === prevId && error;
@@ -76,7 +76,7 @@ class NFT extends Component {
     ) : (
       <div className="token-page">
         {tokenId && <NFTHeader tokenId={tokenId} t={t} />}
-        {tokenId && !loading && NFT.renderDisclaimer()}
+        {tokenId && disclaimer && !loading && NFT.renderDisclaimer(disclaimer)}
         {!tokenId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>
             <h2>Enter a NFT ID in the search box</h2>
@@ -96,10 +96,15 @@ NFT.propTypes = {
       id: PropTypes.string,
     }),
   }).isRequired,
+  disclaimer: PropTypes.shape({
+    content: PropTypes.string,
+    date: PropTypes.string,
+  }),
 };
 
 NFT.defaultProps = {
   error: null,
+  disclaimer: null,
 };
 
 export default connect(state => ({
