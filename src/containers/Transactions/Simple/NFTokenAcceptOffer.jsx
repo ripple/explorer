@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import Account from '../../shared/components/Account';
-import Currency from '../../shared/components/Currency';
+import Account from '../../shared/components/Account'
+import Currency from '../../shared/components/Currency'
 
-const NFTokenAcceptOffer = props => {
+const NFTokenAcceptOffer = (props) => {
   const {
     data: {
       instructions: { acceptedOfferIDs, amount, tokenID, seller, buyer },
     },
-  } = props;
+  } = props
 
   return (
     <>
-      {acceptedOfferIDs.map(offer => (
+      {acceptedOfferIDs.map((offer) => (
         <div className="row flex-wrap">
           <div className="label">Offer ID</div>
           <div className="value" data-test="offer-id">
@@ -53,8 +53,8 @@ const NFTokenAcceptOffer = props => {
         </>
       )}
     </>
-  );
-};
+  )
+}
 
 NFTokenAcceptOffer.propTypes = {
   data: PropTypes.shape({
@@ -70,6 +70,6 @@ NFTokenAcceptOffer.propTypes = {
       buyer: PropTypes.string,
     }),
   }).isRequired,
-};
+}
 
-export default NFTokenAcceptOffer;
+export default NFTokenAcceptOffer

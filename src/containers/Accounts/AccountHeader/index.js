@@ -1,29 +1,29 @@
-import React, { useContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { loadAccountState } from './actions';
-import Loader from '../../shared/components/Loader';
-import '../../shared/css/nested-menu.css';
-import './styles.css';
-import './balance-selector.css';
-import BalanceSelector from './BalanceSelector';
-import Account from '../../shared/components/Account';
-import { localizeNumber } from '../../shared/utils';
-import SocketContext from '../../shared/SocketContext';
+import React, { useContext, useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { loadAccountState } from './actions'
+import Loader from '../../shared/components/Loader'
+import '../../shared/css/nested-menu.css'
+import './styles.css'
+import './balance-selector.css'
+import BalanceSelector from './BalanceSelector'
+import Account from '../../shared/components/Account'
+import { localizeNumber } from '../../shared/utils'
+import SocketContext from '../../shared/SocketContext'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
   currency: 'XRP',
   minimumFractionDigits: 2,
   maximumFractionDigits: 6,
-};
+}
 
-const AccountHeader = props => {
-  const [showBalanceSelector, setShowBalanceSelector] = useState(false);
-  const { t } = useTranslation();
-  const rippledSocket = useContext(SocketContext);
+const AccountHeader = (props) => {
+  const [showBalanceSelector, setShowBalanceSelector] = useState(false)
+  const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
 
   const {
     accountId,
@@ -33,46 +33,56 @@ const AccountHeader = props => {
     onSetCurrencySelected,
     currencySelected,
     loading,
-  } = props;
+  } = props
 
   useEffect(() => {
-    actions.loadAccountState(accountId, rippledSocket);
-  }, [accountId, actions, rippledSocket]);
+    actions.loadAccountState(accountId, rippledSocket)
+  }, [accountId, actions, rippledSocket])
 
   function toggleBalanceSelector(force) {
-    setShowBalanceSelector(force !== undefined ? force : !showBalanceSelector);
+    setShowBalanceSelector(force !== undefined ? force : !showBalanceSelector)
   }
 
   function renderBalancesSelector() {
-    const { balances = {} } = data;
+    const { balances = {} } = data
 
     return (
       Object.keys(balances).length > 1 && (
         <div className="balance-selector-container">
           <BalanceSelector
             language={language}
-            text={`${Object.keys(balances).length - 1} ${t('accounts.other_balances')}`}
+            text={`${Object.keys(balances).length - 1} ${t(
+              'accounts.other_balances',
+            )}`}
             expandMenu={showBalanceSelector}
             balances={balances}
             onClick={() => toggleBalanceSelector()}
             onMouseLeave={() => toggleBalanceSelector(false)}
-            onSetCurrencySelected={currency => onSetCurrencySelected(currency)}
+            onSetCurrencySelected={(currency) =>
+              onSetCurrencySelected(currency)
+            }
             currencySelected={currencySelected}
           />
         </div>
       )
-    );
+    )
   }
 
   function renderPaymentChannels() {
-    const { paychannels } = data;
+    const { paychannels } = data
     return (
       paychannels && (
         <div className="paychannels secondary">
           <div className="title">{t('payment_channels')}</div>
           <ul>
             <li>
-              <b>{localizeNumber(paychannels.total_available, language, CURRENCY_OPTIONS)}</b>
+              <b>
+                {localizeNumber(
+                  paychannels.total_available,
+                  language,
+                  CURRENCY_OPTIONS,
+                )}
+              </b>
               <span className="label"> {t('available_in')} </span>
               <b>{localizeNumber(paychannels.channels.length, language)}</b>
               <span className="label"> {t('channels')} </span>
@@ -80,11 +90,11 @@ const AccountHeader = props => {
           </ul>
         </div>
       )
-    );
+    )
   }
 
   function renderEscrows() {
-    const { escrows } = data;
+    const { escrows } = data
     return (
       escrows && (
         <div className="escrows secondary">
@@ -92,26 +102,30 @@ const AccountHeader = props => {
           <ul>
             <li>
               <span className="label">{t('inbound_total')}: </span>
-              <b>{localizeNumber(escrows.totalIn, language, CURRENCY_OPTIONS)}</b>
+              <b>
+                {localizeNumber(escrows.totalIn, language, CURRENCY_OPTIONS)}
+              </b>
             </li>
             <li>
               <span className="label">{t('outbound_total')}: </span>
-              <b>{localizeNumber(escrows.totalOut, language, CURRENCY_OPTIONS)}</b>
+              <b>
+                {localizeNumber(escrows.totalOut, language, CURRENCY_OPTIONS)}
+              </b>
             </li>
           </ul>
         </div>
       )
-    );
+    )
   }
 
   function renderSignerList() {
-    const { signerList } = data;
+    const { signerList } = data
     return (
       signerList && (
         <div className="signer-list secondary">
           <div className="title">{t('signers')}</div>
           <ul>
-            {signerList.signers.map(d => (
+            {signerList.signers.map((d) => (
               <li key={d.account}>
                 <Account account={d.account} />
                 <span className="weight">
@@ -129,15 +143,15 @@ const AccountHeader = props => {
           </ul>
         </div>
       )
-    );
+    )
   }
 
   // TODO: show X-address on 'classic' account pages
 
   function renderExtendedAddress() {
-    const { xAddress } = data; // undefined when page has not yet finished loading
+    const { xAddress } = data // undefined when page has not yet finished loading
 
-    let messageAboutTag = '';
+    let messageAboutTag = ''
     if (xAddress && xAddress.tag !== false) {
       messageAboutTag = (
         <li className="tag-info">
@@ -145,12 +159,12 @@ const AccountHeader = props => {
             <span role="img" aria-label="Caution">
               ⚠️
             </span>{' '}
-            This address contains a tag, indicating it may refer to a hosted wallet. The balance and
-            transactions below apply to the entire account. They are not filtered to the specified
-            destination tag.
+            This address contains a tag, indicating it may refer to a hosted
+            wallet. The balance and transactions below apply to the entire
+            account. They are not filtered to the specified destination tag.
           </span>
         </li>
-      );
+      )
     }
 
     // TODO: Translate everything e.g. {t('signers')}
@@ -166,26 +180,31 @@ const AccountHeader = props => {
             <li key={xAddress.classicAddress}>
               <span className="classicAddress">
                 <span className="label">Classic Address: </span>
-                <Account account={xAddress.classicAddress} /> {/* TODO: Add [copy] button */}
+                <Account account={xAddress.classicAddress} />{' '}
+                {/* TODO: Add [copy] button */}
               </span>
             </li>
             <li className="tag">
               <span className="label">Tag: </span>
-              <span className="tag">{xAddress.tag === false ? 'false' : xAddress.tag}</span>
+              <span className="tag">
+                {xAddress.tag === false ? 'false' : xAddress.tag}
+              </span>
             </li>
             <li className="network">
               <span className="label">Network: </span>
-              <span className="network">{xAddress.test ? 'Testnet' : 'Mainnet'}</span>
+              <span className="network">
+                {xAddress.test ? 'Testnet' : 'Mainnet'}
+              </span>
             </li>
             {messageAboutTag}
           </ul>
         </div>
       )
-    );
+    )
   }
 
   function renderInfo() {
-    const { info } = data;
+    const { info } = data
     return (
       info && (
         <div className="info secondary">
@@ -193,7 +212,13 @@ const AccountHeader = props => {
           <ul>
             <li>
               <span className="label"> {t('reserve')}: </span>
-              <b>{localizeNumber(info.reserve || 0.0, language, CURRENCY_OPTIONS)}</b>
+              <b>
+                {localizeNumber(
+                  info.reserve || 0.0,
+                  language,
+                  CURRENCY_OPTIONS,
+                )}
+              </b>
             </li>
             <li>
               <span className="label"> {t('current_sequence')}: </span>
@@ -220,7 +245,7 @@ const AccountHeader = props => {
             {info.flags.length ? (
               <li className="flags">
                 <ul>
-                  {info.flags.map(flag => (
+                  {info.flags.map((flag) => (
                     <li key={flag}>{flag}</li>
                   ))}
                 </ul>
@@ -229,17 +254,21 @@ const AccountHeader = props => {
           </ul>
         </div>
       )
-    );
+    )
   }
 
   function renderHeaderContent() {
-    const { balances = {} } = data;
-    const balance = localizeNumber(balances[currencySelected] || 0.0, language, {
-      style: 'currency',
-      currency: currencySelected,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    });
+    const { balances = {} } = data
+    const balance = localizeNumber(
+      balances[currencySelected] || 0.0,
+      language,
+      {
+        style: 'currency',
+        currency: currencySelected,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      },
+    )
     return (
       <div className="section header-container">
         <div className="column first">
@@ -257,19 +286,21 @@ const AccountHeader = props => {
           {renderPaymentChannels()}
         </div>
       </div>
-    );
+    )
   }
 
-  const { xAddress } = data;
+  const { xAddress } = data
   return (
     <div className="box account-header">
       <div className="section box-header">
         <h2 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h2>
       </div>
-      <div className="box-content">{loading ? <Loader /> : renderHeaderContent()}</div>
+      <div className="box-content">
+        {loading ? <Loader /> : renderHeaderContent()}
+      </div>
     </div>
-  );
-};
+  )
+}
 
 AccountHeader.propTypes = {
   language: PropTypes.string.isRequired,
@@ -296,7 +327,7 @@ AccountHeader.propTypes = {
         PropTypes.shape({
           account: PropTypes.string.isRequired,
           weight: PropTypes.number.isRequired,
-        })
+        }),
       ),
       quorum: PropTypes.number,
       max: PropTypes.number,
@@ -318,20 +349,20 @@ AccountHeader.propTypes = {
   actions: PropTypes.shape({
     loadAccountState: PropTypes.func.isRequired,
   }).isRequired,
-};
+}
 
 export default connect(
-  state => ({
+  (state) => ({
     language: state.app.language,
     loading: state.accountHeader.loading,
     data: state.accountHeader.data,
   }),
-  dispatch => ({
+  (dispatch) => ({
     actions: bindActionCreators(
       {
         loadAccountState,
       },
-      dispatch
+      dispatch,
     ),
-  })
-)(AccountHeader);
+  }),
+)(AccountHeader)

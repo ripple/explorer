@@ -1,17 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { CURRENCY_OPTIONS, DATE_OPTIONS } from '../../shared/transactionUtils';
-import { localizeNumber, localizeDate } from '../../shared/utils';
-import Currency from '../../shared/components/Currency';
-import Account from '../../shared/components/Account';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { CURRENCY_OPTIONS, DATE_OPTIONS } from '../../shared/transactionUtils'
+import { localizeNumber, localizeDate } from '../../shared/utils'
+import Currency from '../../shared/components/Currency'
+import Account from '../../shared/components/Account'
 
-const EscrowCreate = props => {
-  const { data, language, t } = props;
-  const { amount, destination, condition, finishAfter, cancelAfter } = data.instructions;
-  const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
-  const amt = localizeNumber(amount.amount, language, options);
-  const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS);
-  const faDate = localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS);
+const EscrowCreate = (props) => {
+  const { data, language, t } = props
+  const { amount, destination, condition, finishAfter, cancelAfter } =
+    data.instructions
+  const options = { ...CURRENCY_OPTIONS, currency: amount.currency }
+  const amt = localizeNumber(amount.amount, language, options)
+  const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)
+  const faDate = localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS)
 
   return (
     <>
@@ -53,8 +54,8 @@ const EscrowCreate = props => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 EscrowCreate.propTypes = {
   t: PropTypes.func.isRequired,
@@ -71,6 +72,6 @@ EscrowCreate.propTypes = {
     }),
   }).isRequired,
   language: PropTypes.string.isRequired,
-};
+}
 
-export default EscrowCreate;
+export default EscrowCreate

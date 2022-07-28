@@ -1,43 +1,45 @@
-import React, { KeyboardEvent, useState } from 'react';
-import { withTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo.svg';
-import Header from '../Header';
-import { ANALYTIC_TYPES, analytics } from '../shared/utils';
-import { ReactComponent as RightArrow } from '../shared/images/side_arrow_green.svg';
-import './index.css';
+import React, { KeyboardEvent, useState } from 'react'
+import { withTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo.svg'
+import Header from '../Header'
+import { ANALYTIC_TYPES, analytics } from '../shared/utils'
+import { ReactComponent as RightArrow } from '../shared/images/side_arrow_green.svg'
+import './index.css'
 
 interface Props {
-  t: (arg: string) => string;
+  t: (arg: string) => string
 }
 
 const SidechainHome = (props: Props) => {
-  const { t } = props;
+  const { t } = props
 
-  const [networkText, setNetworkText] = useState('');
+  const [networkText, setNetworkText] = useState('')
 
   function switchMode(desiredLink: string) {
-    const sidechainUrl = process.env.REACT_APP_SIDECHAIN_LINK;
-    const url = `${sidechainUrl}/${desiredLink}`;
+    const sidechainUrl = process.env.REACT_APP_SIDECHAIN_LINK
+    const url = `${sidechainUrl}/${desiredLink}`
     analytics(ANALYTIC_TYPES.event, {
       eventCategory: 'mode switch',
       eventAction: url,
-    });
+    })
     // TODO: do some validation on this??
-    window.location.assign(url);
+    window.location.assign(url)
   }
 
   function sidechainOnKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter' && networkText != null) {
-      switchMode(networkText);
+      switchMode(networkText)
     }
   }
 
   function clickButton(
-    _event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLDivElement>
+    _event:
+      | React.MouseEvent<HTMLDivElement, MouseEvent>
+      | React.KeyboardEvent<HTMLDivElement>,
   ) {
     if (networkText != null) {
-      switchMode(networkText);
+      switchMode(networkText)
     }
   }
 
@@ -49,11 +51,11 @@ const SidechainHome = (props: Props) => {
         </div>
         <RightArrow className="custom-network-arrow" />
       </Link>
-    );
+    )
   }
 
   // TODO: get previous networks from cookies
-  const existingNetworks: string[] = [];
+  const existingNetworks: string[] = []
 
   return (
     <div className="app">
@@ -70,7 +72,7 @@ const SidechainHome = (props: Props) => {
             placeholder={t('sidechain_network_input')}
             onKeyDown={sidechainOnKeyDown}
             value={networkText}
-            onChange={event => setNetworkText(event.target.value)}
+            onChange={(event) => setNetworkText(event.target.value)}
           />
           <div
             className="sidechain-input-button"
@@ -84,13 +86,15 @@ const SidechainHome = (props: Props) => {
         </div>
         {existingNetworks.length > 0 && (
           <div className="custom-network-list">
-            <div className="custom-network-header">{t('sidechain_networks')}</div>
+            <div className="custom-network-header">
+              {t('sidechain_networks')}
+            </div>
             {existingNetworks.map(renderCustomNetwork)}
           </div>
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default withTranslation()(SidechainHome);
+export default withTranslation()(SidechainHome)

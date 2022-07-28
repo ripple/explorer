@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { decodeHex, ACCOUNT_FLAGS } from '../../shared/transactionUtils';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { decodeHex, ACCOUNT_FLAGS } from '../../shared/transactionUtils'
 
-const AccountSet = props => {
-  const { t, data } = props;
-  const lines = [];
+const AccountSet = (props) => {
+  const { t, data } = props
+  const lines = []
 
   if (data.tx.Domain) {
     lines.push(
@@ -18,8 +18,8 @@ const AccountSet = props => {
         >
           {decodeHex(data.tx.Domain)}
         </a>
-      </div>
-    );
+      </div>,
+    )
   }
 
   if (data.tx.EmailHash) {
@@ -27,8 +27,8 @@ const AccountSet = props => {
       <div key="email">
         {t('set_email_description')}
         <span className="email"> {data.tx.EmailHash}</span>
-      </div>
-    );
+      </div>,
+    )
   }
 
   if (data.tx.MessageKey) {
@@ -36,30 +36,36 @@ const AccountSet = props => {
       <div key="message-key">
         {t('set_message_key_description')}
         <span className="message-key"> {data.tx.MessageKey}</span>
-      </div>
-    );
+      </div>,
+    )
   }
 
   if (data.tx.SetFlag) {
     lines.push(
       <div key="set-flag">
         {t('set_flag_description')}
-        <span className="flag"> {ACCOUNT_FLAGS[data.tx.SetFlag] || data.tx.SetFlag}</span>
-      </div>
-    );
+        <span className="flag">
+          {' '}
+          {ACCOUNT_FLAGS[data.tx.SetFlag] || data.tx.SetFlag}
+        </span>
+      </div>,
+    )
   }
 
   if (data.tx.ClearFlag) {
     lines.push(
       <div key="clear-flag">
         {t('clear_flag_description')}
-        <span className="flag"> {ACCOUNT_FLAGS[data.tx.ClearFlag] || data.tx.ClearFlag}</span>
-      </div>
-    );
+        <span className="flag">
+          {' '}
+          {ACCOUNT_FLAGS[data.tx.ClearFlag] || data.tx.ClearFlag}
+        </span>
+      </div>,
+    )
   }
 
-  return lines;
-};
+  return lines
+}
 
 AccountSet.propTypes = {
   t: PropTypes.func.isRequired,
@@ -68,6 +74,6 @@ AccountSet.propTypes = {
       Domain: PropTypes.string,
     }).isRequired,
   }).isRequired,
-};
+}
 
-export default AccountSet;
+export default AccountSet

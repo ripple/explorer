@@ -1,113 +1,113 @@
-import React from 'react';
-import { mount } from 'enzyme';
-import { I18nextProvider } from 'react-i18next';
-import moxios from 'moxios';
-import i18n from '../../../../i18nTestConfig';
-import DEXPairs from '../index';
-import mockTopEndpoint from './mockTopEndpoint.json';
-import mockExchangeData from './mockExchangeData.json';
-import SocketContext from '../../../shared/SocketContext';
-import BaseMockWsClient from '../../../test/mockWsClient';
+import React from 'react'
+import { mount } from 'enzyme'
+import { I18nextProvider } from 'react-i18next'
+import moxios from 'moxios'
+import i18n from '../../../../i18nTestConfig'
+import DEXPairs from '../index'
+import mockTopEndpoint from './mockTopEndpoint.json'
+import mockExchangeData from './mockExchangeData.json'
+import SocketContext from '../../../shared/SocketContext'
+import BaseMockWsClient from '../../../test/mockWsClient'
 
-const address = 'rHEQnRvqWccQALFfpG3YuoxxVyhDZnF4TS';
-const currency = 'USD';
+const address = 'rHEQnRvqWccQALFfpG3YuoxxVyhDZnF4TS'
+const currency = 'USD'
 
 class MockWsClient extends BaseMockWsClient {
   send(message) {
     if (this.returnError) {
-      return Promise.reject(new Error({}));
+      return Promise.reject(new Error({}))
     }
-    const { taker_pays: takerPays } = message;
-    const token = `${takerPays.currency}.${takerPays.issuer}`;
-    const tokenName = takerPays.currency === 'XRP' ? 'XRP' : token;
+    const { taker_pays: takerPays } = message
+    const token = `${takerPays.currency}.${takerPays.issuer}`
+    const tokenName = takerPays.currency === 'XRP' ? 'XRP' : token
 
-    return Promise.resolve(this.responses[tokenName]?.result);
+    return Promise.resolve(this.responses[tokenName]?.result)
   }
 }
 
 describe('Testing hooks', () => {
-  let client;
+  let client
   beforeEach(() => {
-    client = new MockWsClient();
-    moxios.install();
-  });
+    client = new MockWsClient()
+    moxios.install()
+  })
 
   afterEach(() => {
-    client.close();
-    moxios.uninstall();
-  });
+    client.close()
+    moxios.uninstall()
+  })
 
   const setupPage = async (shouldRender = true) => {
-    const topUrl = '/api/v1/token/top';
+    const topUrl = '/api/v1/token/top'
 
     moxios.stubRequest(topUrl, {
       status: shouldRender ? 200 : 400,
       response: shouldRender ? mockTopEndpoint : { message: 'Bad Request' },
-    });
+    })
 
-    client.addResponses(mockExchangeData);
-    client.setReturnError(!shouldRender);
+    client.addResponses(mockExchangeData)
+    client.setReturnError(!shouldRender)
 
     const wrapper = mount(
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
           <DEXPairs accountId={address} currency={currency} />
         </SocketContext.Provider>
-      </I18nextProvider>
-    );
+      </I18nextProvider>,
+    )
 
-    return wrapper;
-  };
+    return wrapper
+  }
 
   describe('renders DEXPairs table', () => {
-    let wrapper;
+    let wrapper
     beforeEach(async () => {
-      wrapper = await setupPage(true);
-    });
+      wrapper = await setupPage(true)
+    })
 
     afterEach(() => {
-      wrapper.unmount();
-    });
+      wrapper.unmount()
+    })
 
-    it('renders all pairs', done => {
+    it('renders all pairs', (done) => {
       setImmediate(() => {
-        wrapper.update();
-        const allPairs = wrapper.find('.pair');
+        wrapper.update()
+        const allPairs = wrapper.find('.pair')
         // 3 from the mockTopEndpoint and 3 from hardcoded pairs
-        expect(allPairs.length).toEqual(6);
-        done();
-      });
-    });
-    it('renders all PairStats components', done => {
+        expect(allPairs.length).toEqual(6)
+        done()
+      })
+    })
+    it('renders all PairStats components', (done) => {
       setImmediate(() => {
-        wrapper.update();
-        const allLows = wrapper.find('.low');
-        const allHighs = wrapper.find('.high');
-        expect(allLows.length).toEqual(12);
-        expect(allHighs.length).toEqual(12);
-        done();
-      });
-    });
-  });
+        wrapper.update()
+        const allLows = wrapper.find('.low')
+        const allHighs = wrapper.find('.high')
+        expect(allLows.length).toEqual(12)
+        expect(allHighs.length).toEqual(12)
+        done()
+      })
+    })
+  })
 
   describe('renders on top tokens endpoint failure', () => {
-    let wrapper;
+    let wrapper
     beforeEach(async () => {
-      wrapper = await setupPage(false);
-    });
+      wrapper = await setupPage(false)
+    })
 
     afterEach(() => {
-      wrapper.unmount();
-    });
+      wrapper.unmount()
+    })
 
-    it('renders on top tokens failure', done => {
+    it('renders on top tokens failure', (done) => {
       // setImmediate will execute the callback immediately after all queued promise callbacks are executed
       setImmediate(() => {
-        wrapper.update();
-        const noTokensNode = wrapper.find('.no-pairs-message');
-        expect(noTokensNode.length).toEqual(1);
-        done();
-      });
-    });
-  });
-});
+        wrapper.update()
+        const noTokensNode = wrapper.find('.no-pairs-message')
+        expect(noTokensNode.length).toEqual(1)
+        done()
+      })
+    })
+  })
+})

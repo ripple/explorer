@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { CURRENCY_OPTIONS, DATE_OPTIONS } from '../../shared/transactionUtils';
-import { localizeNumber, localizeDate } from '../../shared/utils';
-import Currency from '../../shared/components/Currency';
-import Account from '../../shared/components/Account';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { CURRENCY_OPTIONS, DATE_OPTIONS } from '../../shared/transactionUtils'
+import { localizeNumber, localizeDate } from '../../shared/utils'
+import Currency from '../../shared/components/Currency'
+import Account from '../../shared/components/Account'
 
-const PaymentChannelCreate = props => {
-  const { data, language, t } = props;
+const PaymentChannelCreate = (props) => {
+  const { data, language, t } = props
   const {
     amount,
     source,
@@ -15,13 +15,13 @@ const PaymentChannelCreate = props => {
     cancelAfter,
     expiration,
     channel,
-  } = data.instructions;
-  const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
-  const amt = localizeNumber(amount.amount, language, options);
-  const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS);
-  const exDate = localizeDate(Date.parse(expiration), language, DATE_OPTIONS);
-  const dParts = destination.split(':');
-  const sParts = source.split(':');
+  } = data.instructions
+  const options = { ...CURRENCY_OPTIONS, currency: amount.currency }
+  const amt = localizeNumber(amount.amount, language, options)
+  const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)
+  const exDate = localizeDate(Date.parse(expiration), language, DATE_OPTIONS)
+  const dParts = destination.split(':')
+  const sParts = source.split(':')
 
   return (
     <>
@@ -76,8 +76,8 @@ const PaymentChannelCreate = props => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 PaymentChannelCreate.propTypes = {
   t: PropTypes.func.isRequired,
@@ -100,6 +100,6 @@ PaymentChannelCreate.propTypes = {
     }),
   }).isRequired,
   language: PropTypes.string.isRequired,
-};
+}
 
-export default PaymentChannelCreate;
+export default PaymentChannelCreate

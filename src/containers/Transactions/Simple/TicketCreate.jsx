@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const OfferCreate = props => {
-  const { data, t } = props;
-  const { ticketCount } = data.instructions;
+const OfferCreate = (props) => {
+  const { data, t } = props
+  const { ticketCount } = data.instructions
 
   return (
     <>
@@ -12,8 +12,8 @@ const OfferCreate = props => {
         <div className="value">{ticketCount}</div>
       </div>
     </>
-  );
-};
+  )
+}
 
 OfferCreate.propTypes = {
   t: PropTypes.func.isRequired,
@@ -23,6 +23,6 @@ OfferCreate.propTypes = {
       ticketSequence: PropTypes.number,
     }),
   }).isRequired,
-};
+}
 
-export default OfferCreate;
+export default OfferCreate

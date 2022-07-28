@@ -1,3 +1,3 @@
 module.exports = (tx, meta) => ({
-    tokenID: tx.NFTokenID,
-  });
+  tokenID: tx.NFTokenID,
+})

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import Loader from '../../shared/components/Loader';
-import './styles.css';
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
+import Loader from '../../shared/components/Loader'
+import './styles.css'
 
-const TokensHeader = props => {
-  const { tokens, isLoading, isError } = props;
+const TokensHeader = (props) => {
+  const { tokens, isLoading, isError } = props
 
-  const [totalIssuers, setTotalIssuers] = useState();
-  const [totalTokens, setTotalTokens] = useState();
-  const { t } = useTranslation();
+  const [totalIssuers, setTotalIssuers] = useState()
+  const [totalTokens, setTotalTokens] = useState()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (!isError) {
@@ -18,21 +18,21 @@ const TokensHeader = props => {
        */
 
       // Get an array containing the 'issuers' only, without 'currency', 'obligations' and 'trustlines'
-      const allIssuers = tokens.map(token => token.issuer);
+      const allIssuers = tokens.map((token) => token.issuer)
 
       // Remove the duplicates from this 'allIssuers' array with a Set
-      setTotalIssuers(new Set(allIssuers).size);
+      setTotalIssuers(new Set(allIssuers).size)
 
       /**
        * Total Tokens
        */
 
-      setTotalTokens(tokens.length);
+      setTotalTokens(tokens.length)
     } else {
-      setTotalIssuers('N/A');
-      setTotalTokens('N/A');
+      setTotalIssuers('N/A')
+      setTotalTokens('N/A')
     }
-  }, [tokens, isError]);
+  }, [tokens, isError])
 
   return (
     <div className="tokens-header-container">
@@ -49,8 +49,8 @@ const TokensHeader = props => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 TokensHeader.propTypes = {
   isLoading: PropTypes.bool.isRequired,
@@ -60,9 +60,9 @@ TokensHeader.propTypes = {
       currency: PropTypes.string.isRequired,
       trustlines: PropTypes.number.isRequired,
       volume: PropTypes.number,
-    })
+    }),
   ).isRequired,
   isError: PropTypes.bool.isRequired,
-};
+}
 
-export default TokensHeader;
+export default TokensHeader

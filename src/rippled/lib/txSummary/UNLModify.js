@@ -1,4 +1,4 @@
-module.exports = tx => ({
-    validator: tx.UNLModifyValidator,
-    disabling: tx.UNLModifyDisabling,
-  });
+module.exports = (tx) => ({
+  validator: tx.UNLModifyValidator,
+  disabling: tx.UNLModifyDisabling,
+})

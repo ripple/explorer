@@ -1,20 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import Account from '../../shared/components/Account';
-import Currency from '../../shared/components/Currency';
+import Account from '../../shared/components/Account'
+import Currency from '../../shared/components/Currency'
 
-const NFTokenCancelOffer = props => {
+const NFTokenCancelOffer = (props) => {
   const {
     data: {
       instructions: { cancelledOffers },
     },
-  } = props;
+  } = props
 
   return (
     <>
       {cancelledOffers.map(
-        ({ amount: { amount, issuer, currency }, offerID, tokenID, offerer }) => (
+        ({
+          amount: { amount, issuer, currency },
+          offerID,
+          tokenID,
+          offerer,
+        }) => (
           <>
             <div className="row flex-wrap">
               <div className="label">Offer ID</div>
@@ -44,11 +49,11 @@ const NFTokenCancelOffer = props => {
               </div>
             </div>
           </>
-        )
+        ),
       )}
     </>
-  );
-};
+  )
+}
 
 NFTokenCancelOffer.propTypes = {
   data: PropTypes.shape({
@@ -63,10 +68,10 @@ NFTokenCancelOffer.propTypes = {
           offerID: PropTypes.string,
           tokenID: PropTypes.string,
           offerer: PropTypes.string,
-        })
+        }),
       ),
     }),
   }).isRequired,
-};
+}
 
-export default NFTokenCancelOffer;
+export default NFTokenCancelOffer

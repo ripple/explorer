@@ -1,16 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import Account from '../../shared/components/Account';
-import Currency from '../../shared/components/Currency';
-import { CURRENCY_OPTIONS } from '../../shared/transactionUtils';
-import { localizeNumber } from '../../shared/utils';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import Account from '../../shared/components/Account'
+import Currency from '../../shared/components/Currency'
+import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
+import { localizeNumber } from '../../shared/utils'
 
-const EscrowCancel = props => {
-  const { data, language, t } = props;
-  const { owner, sequence, tx, destination, amount = {}, condition } = data.instructions;
-  const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
-  const amt = localizeNumber(amount.amount, language, options);
+const EscrowCancel = (props) => {
+  const { data, language, t } = props
+  const {
+    owner,
+    sequence,
+    tx,
+    destination,
+    amount = {},
+    condition,
+  } = data.instructions
+  const options = { ...CURRENCY_OPTIONS, currency: amount.currency }
+  const amt = localizeNumber(amount.amount, language, options)
 
   return (
     <>
@@ -32,7 +39,11 @@ const EscrowCancel = props => {
           <div className="label">{t('escrow_amount')}</div>
           <div className="value">
             {amt}
-            <Currency currency={amount.currency} issuer={amount.issuer} link={amount.link} />
+            <Currency
+              currency={amount.currency}
+              issuer={amount.issuer}
+              link={amount.link}
+            />
           </div>
         </div>
       )}
@@ -55,8 +66,8 @@ const EscrowCancel = props => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 EscrowCancel.propTypes = {
   t: PropTypes.func.isRequired,
@@ -74,6 +85,6 @@ EscrowCancel.propTypes = {
       condition: PropTypes.string,
     }),
   }).isRequired,
-};
+}
 
-export default EscrowCancel;
+export default EscrowCancel

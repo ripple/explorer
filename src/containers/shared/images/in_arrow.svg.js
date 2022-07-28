@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export default (
   <svg viewBox="0 0 24 24" className="icon">
@@ -11,4 +11,4 @@ export default (
       />
     </g>
   </svg>
-);
+)

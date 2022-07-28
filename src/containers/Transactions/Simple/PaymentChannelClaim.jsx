@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { CURRENCY_OPTIONS } from '../../shared/transactionUtils';
-import { localizeNumber } from '../../shared/utils';
-import Currency from '../../shared/components/Currency';
-import Account from '../../shared/components/Account';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
+import { localizeNumber } from '../../shared/utils'
+import Currency from '../../shared/components/Currency'
+import Account from '../../shared/components/Account'
 
-const PaymentChannelClaim = props => {
-  const { data, language, t } = props;
+const PaymentChannelClaim = (props) => {
+  const { data, language, t } = props
   const {
     channel_amount: amount,
     claimed,
@@ -17,13 +17,17 @@ const PaymentChannelClaim = props => {
     renew,
     close,
     deleted,
-  } = data.instructions;
-  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' };
-  const amt = amount ? localizeNumber(amount.amount, language, options) : null;
-  const claimAmt = claimed ? localizeNumber(claimed.amount, language, options) : null;
-  const totalAmt = total ? localizeNumber(total.amount, language, options) : null;
-  const dParts = destination.split(':');
-  const sParts = source.split(':');
+  } = data.instructions
+  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
+  const amt = amount ? localizeNumber(amount.amount, language, options) : null
+  const claimAmt = claimed
+    ? localizeNumber(claimed.amount, language, options)
+    : null
+  const totalAmt = total
+    ? localizeNumber(total.amount, language, options)
+    : null
+  const dParts = destination.split(':')
+  const sParts = source.split(':')
 
   return (
     <>
@@ -97,8 +101,8 @@ const PaymentChannelClaim = props => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 PaymentChannelClaim.propTypes = {
   t: PropTypes.func.isRequired,
@@ -122,6 +126,6 @@ PaymentChannelClaim.propTypes = {
     }),
   }).isRequired,
   language: PropTypes.string.isRequired,
-};
+}
 
-export default PaymentChannelClaim;
+export default PaymentChannelClaim

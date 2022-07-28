@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { encodeNodePublic } from 'ripple-address-codec';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { encodeNodePublic } from 'ripple-address-codec'
 
-const UNLModify = props => {
-  const { data, t } = props;
-  const { validator, disabling } = data.instructions;
+const UNLModify = (props) => {
+  const { data, t } = props
+  const { validator, disabling } = data.instructions
 
-  const encoded = encodeNodePublic(Buffer.from(validator, 'hex'));
+  const encoded = encodeNodePublic(Buffer.from(validator, 'hex'))
 
   return (
     <>
@@ -21,8 +21,8 @@ const UNLModify = props => {
         <div className="value"> {disabling ? 'DISABLE' : 'ENABLE'}</div>
       </div>
     </>
-  );
-};
+  )
+}
 
 UNLModify.propTypes = {
   t: PropTypes.func.isRequired,
@@ -32,6 +32,6 @@ UNLModify.propTypes = {
       disabling: PropTypes.number,
     }),
   }).isRequired,
-};
+}
 
-export default UNLModify;
+export default UNLModify

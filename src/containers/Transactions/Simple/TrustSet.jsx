@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { CURRENCY_OPTIONS } from '../../shared/transactionUtils';
-import { localizeNumber } from '../../shared/utils';
-import Currency from '../../shared/components/Currency';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
+import { localizeNumber } from '../../shared/utils'
+import Currency from '../../shared/components/Currency'
 
-const TrustSet = props => {
-  const { data, t, language } = props;
-  const { limit } = data.instructions;
-  const options = { ...CURRENCY_OPTIONS, currency: limit.currency };
-  const amount = localizeNumber(limit.amount, language, options);
+const TrustSet = (props) => {
+  const { data, t, language } = props
+  const { limit } = data.instructions
+  const options = { ...CURRENCY_OPTIONS, currency: limit.currency }
+  const amount = localizeNumber(limit.amount, language, options)
 
   return (
     <>
@@ -20,8 +20,8 @@ const TrustSet = props => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
 TrustSet.propTypes = {
   t: PropTypes.func.isRequired,
@@ -34,6 +34,6 @@ TrustSet.propTypes = {
       }),
     }),
   }).isRequired,
-};
+}
 
-export default TrustSet;
+export default TrustSet

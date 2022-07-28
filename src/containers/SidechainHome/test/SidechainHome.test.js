@@ -1,25 +1,25 @@
-import React from 'react';
-import { mount } from 'enzyme';
-import { I18nextProvider } from 'react-i18next';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { initialState } from '../../../rootReducer';
-import i18n from '../../../i18nTestConfig';
-import SidechainHome from '../index';
-import SocketContext from '../../shared/SocketContext';
-import MockWsClient from '../../test/mockWsClient';
+import React from 'react'
+import { mount } from 'enzyme'
+import { I18nextProvider } from 'react-i18next'
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import { Provider } from 'react-redux'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { initialState } from '../../../rootReducer'
+import i18n from '../../../i18nTestConfig'
+import SidechainHome from '../index'
+import SocketContext from '../../shared/SocketContext'
+import MockWsClient from '../../test/mockWsClient'
 
 describe('SidechainHome page', () => {
-  let client;
-  let wrapper;
+  let client
+  let wrapper
 
-  const middlewares = [thunk];
-  const mockStore = configureMockStore(middlewares);
+  const middlewares = [thunk]
+  const mockStore = configureMockStore(middlewares)
 
   const createWrapper = (state = {}) => {
-    const store = mockStore({ ...initialState, ...state });
+    const store = mockStore({ ...initialState, ...state })
     return mount(
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
@@ -29,71 +29,73 @@ describe('SidechainHome page', () => {
             </SocketContext.Provider>
           </Router>
         </Provider>
-      </I18nextProvider>
-    );
-  };
+      </I18nextProvider>,
+    )
+  }
 
   beforeEach(async () => {
-    client = new MockWsClient();
-    wrapper = createWrapper();
-  });
+    client = new MockWsClient()
+    wrapper = createWrapper()
+  })
 
   afterEach(() => {
-    client.close();
-    wrapper.unmount();
-  });
+    client.close()
+    wrapper.unmount()
+  })
 
   it('renders without crashing', () => {
-    const appNode = wrapper.find('.app');
-    expect(appNode.length).toEqual(1);
+    const appNode = wrapper.find('.app')
+    expect(appNode.length).toEqual(1)
 
-    const pageNode = wrapper.find('.sidechain-main-page');
-    expect(pageNode.length).toEqual(1);
-  });
+    const pageNode = wrapper.find('.sidechain-main-page')
+    expect(pageNode.length).toEqual(1)
+  })
 
   describe('test redirects', () => {
-    const { location } = window;
-    const mockedFunction = jest.fn();
-    const oldEnvs = process.env;
+    const { location } = window
+    const mockedFunction = jest.fn()
+    const oldEnvs = process.env
 
     beforeEach(() => {
-      delete window.location;
-      window.location = { assign: mockedFunction };
-      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' };
+      delete window.location
+      window.location = { assign: mockedFunction }
+      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
 
-      wrapper = createWrapper();
-    });
+      wrapper = createWrapper()
+    })
 
     afterEach(() => {
-      window.location = location;
-      process.env = oldEnvs;
-    });
+      window.location = location
+      process.env = oldEnvs
+    })
 
     it('redirect works on `enter` in textbox', () => {
-      expect(wrapper.find('.sidechain-input').length).toEqual(1);
-      wrapper.find('.sidechain-input').simulate('change', { target: { value: 'sidechain_url' } });
+      expect(wrapper.find('.sidechain-input').length).toEqual(1)
+      wrapper
+        .find('.sidechain-input')
+        .simulate('change', { target: { value: 'sidechain_url' } })
 
-      wrapper.update();
+      wrapper.update()
       wrapper.find('.sidechain-input').prop('onKeyDown')({
         key: 'Enter',
         currentTarget: { value: 'sidechain_url' },
-      });
+      })
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`
-      );
-    });
+        `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`,
+      )
+    })
 
     it('redirect works on button click', () => {
-      const sidechainInput = wrapper.find('.sidechain-input');
-      sidechainInput.simulate('change', { target: { value: 'sidechain_url' } });
-      wrapper.update();
+      const sidechainInput = wrapper.find('.sidechain-input')
+      sidechainInput.simulate('change', { target: { value: 'sidechain_url' } })
+      wrapper.update()
 
-      const button = wrapper.find('.sidechain-input-button');
-      expect(button.length).toEqual(1);
-      button.simulate('click');
+      const button = wrapper.find('.sidechain-input-button')
+      expect(button.length).toEqual(1)
+      button.simulate('click')
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`
-      );
-    });
-  });
-});
+        `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`,
+      )
+    })
+  })
+})
