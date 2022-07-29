@@ -160,14 +160,14 @@ class NFTHeader extends Component {
         <div className="section box-header">
           <span className="token-header box-header">
             <div className="token-title">
-              NFT ID
+              {!loading && <>NFT ID</>}
               {!loading && (
                 <div className="token-type">
                   <div className="subscript">NFT</div>
                 </div>
               )}
             </div>
-            {tokenId}
+            <div className="title-content">{tokenId}</div>
           </span>
         </div>
         <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
