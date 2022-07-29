@@ -37,26 +37,14 @@ const zeroPad = (num, size, back = false) => {
   return s;
 };
 
-const buildFlags = flags => {
+const buildFlags = (flags, flagMap) => {
   const bits = zeroPad((flags || 0).toString(2), 32).split('');
 
   return bits
     .map((value, i) => {
       const bin = zeroPad(1, 32 - i, true);
       const int = parseInt(bin, 2);
-      return value === '1' ? ACCOUNT_FLAGS[int] || hex32(int) : undefined;
-    })
-    .filter(d => Boolean(d));
-};
-
-const buildNFTFlags = flags => {
-  const bits = zeroPad((flags || 0).toString(2), 32).split('');
-
-  return bits
-    .map((value, i) => {
-      const bin = zeroPad(1, 32 - i, true);
-      const int = parseInt(bin, 2);
-      return value === '1' ? NFT_FLAGS[int] || hex32(int) : undefined;
+      return value === '1' ? flagMap[int] || hex32(int) : undefined;
     })
     .filter(d => Boolean(d));
 };
@@ -86,7 +74,7 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
   rate: info.TransferRate ? (info.TransferRate - BILLION) / BILLION : undefined,
   domain: info.Domain ? Buffer.from(info.Domain, 'hex').toString() : undefined,
   emailHash: info.EmailHash,
-  flags: buildFlags(info.Flags),
+  flags: buildFlags(info.Flags, ACCOUNT_FLAGS),
   balance: info.Balance,
   gravatar: info.urlgravatar,
   previousTxn: info.PreviousTxnID,
@@ -154,7 +142,7 @@ const formatNFTInfo = info => ({
   ledgerIndex: info.ledger_index,
   owner: info.owner,
   isBurned: info.is_burned,
-  flags: buildNFTFlags(info.flags),
+  flags: buildFlags(info.flags, NFT_FLAGS),
   transferFee: info.transfer_fee,
   issuer: info.issuer,
   NFTTaxon: info.nft_taxon,

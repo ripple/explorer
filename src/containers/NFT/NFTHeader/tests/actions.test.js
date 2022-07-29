@@ -31,7 +31,7 @@ describe('NFTHeader Actions', () => {
       ledgerIndex: 2436210,
       owner: 'rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W',
       isBurned: false,
-      flags: [],
+      flags: ['lsfTransferable', 'lsfOnlyXRP'],
       transferFee: 0,
       issuer: 'rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W',
       NFTTaxon: 0,
