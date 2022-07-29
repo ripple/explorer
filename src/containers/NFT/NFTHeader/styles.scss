@@ -148,8 +148,8 @@ table {
 }
 
 .token-header {
-  margin-bottom: 16px;
   width: 100%;
+  margin-bottom: 16px;
   .box-header {
     display: flex;
     flex-direction: column;
@@ -158,17 +158,17 @@ table {
     text-align: left;
 
     .title-content {
+      overflow: hidden;
+      width: 100%;
       min-width: 0px;
       min-height: 0px;
-      margin-bottom: 0px;
       padding-top: 0px;
       margin-top: 0px;
+      margin-bottom: 0px;
       color: $white;
       font-size: 24px;
       text-overflow: ellipsis;
       white-space: nowrap;
-      overflow: hidden;
-      width: 100%;
       @include bold;
     }
     .token-title {
