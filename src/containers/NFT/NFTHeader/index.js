@@ -154,11 +154,10 @@ class NFTHeader extends Component {
   render() {
     const { loading, data } = this.props;
     const tokenId = data.NFTId;
-    const abbrvtokenId = tokenId && tokenId.replace(/(.{30})..+/, '$1...');
     return (
       <div className="box token-header">
         <div className="section box-header">
-          <span className="token-header box-header">
+          <div className="token-header box-header">
             <div className="token-title">
               {!loading && <>NFT ID</>}
               {!loading && (
@@ -168,7 +167,7 @@ class NFTHeader extends Component {
               )}
             </div>
             <div className="title-content">{tokenId}</div>
-          </span>
+          </div>
         </div>
         <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
       </div>
