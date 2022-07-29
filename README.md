@@ -80,7 +80,7 @@ GOOGLE_APP_CLIENT_EMAIL=your-client-email
 1.  Brazilian Portuguese
 
 ## Additional Documentation
-* [How to define transactions](./src/containers/shared/components/Transactions/README.md)
+* [How to define transactions](./src/containers/shared/components/Transaction/README.md)
 
 ## React Documentation
 
