@@ -9,10 +9,15 @@ import Loader from '../../shared/components/Loader';
 import '../../shared/css/nested-menu.css';
 import './styles.css';
 import SocketContext from '../../shared/SocketContext';
-
+import Tooltip from '../../shared/components/Tooltip';
 import Copy from '../../shared/components/Copy';
 
 class NFTHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   componentDidMount() {
     const { actions, tokenId } = this.props;
     const rippledSocket = this.context;
@@ -28,6 +33,16 @@ class NFTHeader extends Component {
       actions.loadNFTState(nexttokenId, rippledSocket.clioSocket);
     }
   }
+
+  showTooltip = (event, data) => {
+    this.setState({
+      tooltip: { ...data, mode: 'nftId', x: event.pageX, y: event.pageY },
+    });
+  };
+
+  hideTooltip = () => {
+    this.setState({ tooltip: null });
+  };
 
   renderDetails() {
     const { t, data } = this.props;
@@ -153,6 +168,7 @@ class NFTHeader extends Component {
 
   render() {
     const { loading, data } = this.props;
+    const { tooltip } = this.state;
     const tokenId = data.NFTId;
     return (
       <div className="token-header">
@@ -166,10 +182,18 @@ class NFTHeader extends Component {
                 </div>
               )}
             </div>
-            <div className="title-content">{tokenId}</div>
+            <div
+              className="title-content"
+              onMouseOver={e => this.showTooltip(e, { tokenId })}
+              onFocus={() => {}}
+              onMouseLeave={this.hideTooltip}
+            >
+              {tokenId}
+            </div>
           </div>
         </div>
         <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
+        <Tooltip data={tooltip} />
       </div>
     );
   }
