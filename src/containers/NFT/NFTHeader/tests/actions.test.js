@@ -45,7 +45,6 @@ describe('NFTHeader Actions', () => {
     };
     const expectedActions = [
       { type: actionTypes.START_LOADING_NFT_STATE },
-      { type: actionTypes.FINISHED_LOADING_NFT_STATE },
       { type: actionTypes.NFT_STATE_LOAD_SUCCESS, data: expectedData },
     ];
     const store = mockStore({ news: initialState });
@@ -58,7 +57,6 @@ describe('NFTHeader Actions', () => {
     client.setReturnError();
     const expectedActions = [
       { type: actionTypes.START_LOADING_NFT_STATE },
-      { type: actionTypes.FINISHED_LOADING_NFT_STATE },
       {
         type: actionTypes.NFT_STATE_LOAD_FAIL,
         status: SERVER_ERROR,
@@ -75,7 +73,6 @@ describe('NFTHeader Actions', () => {
     client.addResponse('nft_info', { result: objectNotFound });
     const expectedActions = [
       { type: actionTypes.START_LOADING_NFT_STATE },
-      { type: actionTypes.FINISHED_LOADING_NFT_STATE },
       { type: actionTypes.NFT_STATE_LOAD_FAIL, status: NOT_FOUND, error: '' },
     ];
     const store = mockStore({ news: initialState });

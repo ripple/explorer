@@ -9,28 +9,34 @@ describe('NFTHeaders reducers', () => {
     const nextState = { ...initialState, loading: true };
     expect(reducer(initialState, { type: actionTypes.START_LOADING_NFT_STATE })).toEqual(nextState);
   });
-  it('should handle FINISHED_LOADING_NFT_STATE', () => {
-    const nextState = { ...initialState, loading: false };
-    expect(reducer(initialState, { type: actionTypes.FINISHED_LOADING_NFT_STATE })).toEqual(
-      nextState
-    );
-  });
   it('should handle NFT_STATE_LOAD_SUCCESS', () => {
+    const loadingState = {
+      loading: true,
+      data: {},
+      error: '',
+      status: null,
+    };
     const data = [['XRP', 123.456]];
-    const nextState = { ...initialState, data };
+    const nextState = { ...loadingState, data, loading: false };
     expect(
-      reducer(initialState, {
+      reducer(loadingState, {
         data,
         type: actionTypes.NFT_STATE_LOAD_SUCCESS,
       })
     ).toEqual(nextState);
   });
   it('should handle NFT_STATE_LOAD_FAIL', () => {
+    const loadingState = {
+      loading: true,
+      data: {},
+      error: '',
+      status: null,
+    };
     const status = 500;
     const error = 'error';
-    const nextState = { ...initialState, status, error };
+    const nextState = { ...loadingState, status, error, loading: false };
     expect(
-      reducer(initialState, {
+      reducer(loadingState, {
         status,
         error,
         type: actionTypes.NFT_STATE_LOAD_FAIL,
@@ -38,11 +44,17 @@ describe('NFTHeaders reducers', () => {
     ).toEqual(nextState);
   });
   it('will not clear previous data on NFT_STATE_LOAD_FAIL', () => {
+    const loadingState = {
+      loading: true,
+      data: {},
+      error: '',
+      status: null,
+    };
     const data = [['XRP', 123.456]];
     const error = 'error';
     const status = 500;
-    const stateWithData = { ...initialState, data };
-    const nextState = { ...stateWithData, error, status };
+    const stateWithData = { ...loadingState, data };
+    const nextState = { ...stateWithData, error, status, loading: false };
     expect(
       reducer(stateWithData, {
         status,
