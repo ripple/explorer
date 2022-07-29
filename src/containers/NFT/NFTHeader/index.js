@@ -155,9 +155,9 @@ class NFTHeader extends Component {
     const { loading, data } = this.props;
     const tokenId = data.NFTId;
     return (
-      <div className="box token-header">
-        <div className="section box-header">
-          <div className="token-header box-header">
+      <div className="token-header">
+        <div className="section">
+          <div className="box-header">
             <div className="token-title">
               {!loading && <>NFT ID</>}
               {!loading && (
