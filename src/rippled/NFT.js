@@ -6,38 +6,7 @@ const log = logger({ name: 'iou' });
 const getNFT = async (tokenId, rippledSocket) => {
   try {
     const NFTInfo = await getNFTInfo(rippledSocket, tokenId);
-
-    const {
-      NFTId,
-      ledgerIndex,
-      owner,
-      isBurned,
-      flags,
-      transferFee,
-      issuer,
-      NFTTaxon,
-      NFTSequence,
-      uri,
-      validated,
-      status,
-      warnings,
-    } = formatNFTInfo(NFTInfo);
-
-    return {
-      NFTId,
-      ledgerIndex,
-      owner,
-      isBurned,
-      flags,
-      transferFee,
-      issuer,
-      NFTTaxon,
-      NFTSequence,
-      uri,
-      validated,
-      status,
-      warnings,
-    };
+    return formatNFTInfo(NFTInfo);
   } catch (error) {
     log.error(error.toString());
     throw error;

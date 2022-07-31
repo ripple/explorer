@@ -77,12 +77,10 @@ class NFTHeader extends Component {
               </td>
             </tr>
           )}
-          {NFTTaxon !== undefined && (
-            <tr className="row">
-              <td className="col1">Taxon ID</td>
-              <td className="col2">{NFTTaxon}</td>
-            </tr>
-          )}
+          <tr className="row">
+            <td className="col1">Taxon ID</td>
+            <td className="col2">{NFTTaxon}</td>
+          </tr>
           {uri && (
             <tr className="row">
               <td className="col1">URI</td>
@@ -92,12 +90,10 @@ class NFTHeader extends Component {
               </td>
             </tr>
           )}
-          {transferFee !== undefined && (
-            <tr className="row">
-              <td className="col1">Transfer Fee</td>
-              <td className="col2">{transferFee}</td>
-            </tr>
-          )}
+          <tr className="row">
+            <td className="col1">Transfer Fee</td>
+            <td className="col2">{transferFee}</td>
+          </tr>
         </tbody>
       </table>
     );
@@ -107,10 +103,10 @@ class NFTHeader extends Component {
     const { data } = this.props;
     const { flags } = data;
 
-    const burnable = flags && flags.includes('lsfBurnable') ? 'enabled' : 'disabled';
-    const onlyXRP = flags && flags.includes('lsfOnlyXRP') ? 'enabled' : 'disabled';
-    const trustLine = flags && flags.includes('lsfTrustLine') ? 'enabled' : 'disabled';
-    const transferable = flags && flags.includes('lsfTransferable') ? 'enabled' : 'disabled';
+    const burnable = flags?.includes('lsfBurnable') ? 'enabled' : 'disabled';
+    const onlyXRP = flags?.includes('lsfOnlyXRP') ? 'enabled' : 'disabled';
+    const trustLine = flags?.includes('lsfTrustLine') ? 'enabled' : 'disabled';
+    const transferable = flags?.includes('lsfTransferable') ? 'enabled' : 'disabled';
     return (
       <table>
         <tbody>
