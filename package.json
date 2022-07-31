@@ -41,7 +41,7 @@
     "rewire": "^6.0.0",
     "ripple-address-codec": "^4.1.2",
     "topojson-client": "^3.0.0",
-    "typeface-roboto": "0.0.54",
+    "typeface-roboto": "1.1.13",
     "ws": "^7.4.2",
     "xrpl-client": "^1.9.4"
   },
