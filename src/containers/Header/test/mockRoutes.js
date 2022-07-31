@@ -20,6 +20,6 @@ const routes = [
     path: '/nodes',
     title: 'network',
   },
-];
+]
 
-export default routes;
+export default routes

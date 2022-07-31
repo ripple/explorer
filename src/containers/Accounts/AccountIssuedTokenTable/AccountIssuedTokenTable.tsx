@@ -1,17 +1,17 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import Currency from '../../shared/components/Currency';
-import { Amount } from '../../shared/components/Amount';
-import Loader from '../../shared/components/Loader';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import Currency from '../../shared/components/Currency'
+import { Amount } from '../../shared/components/Amount'
+import Loader from '../../shared/components/Loader'
 
 interface Props {
-  account: any;
+  account: any
 }
 
 export const AccountIssuedTokenTable = (props: Props) => {
-  const { account } = props;
-  const { t } = useTranslation();
+  const { account } = props
+  const { t } = useTranslation()
 
   function renderNoResults() {
     return (
@@ -20,11 +20,11 @@ export const AccountIssuedTokenTable = (props: Props) => {
           {t('assets.no_issued_message')}
         </td>
       </tr>
-    );
+    )
   }
 
   function renderRow(token: any) {
-    const tokenName = `${token.currency}.${token.issuer}`;
+    const tokenName = `${token.currency}.${token.issuer}`
 
     return (
       <tr key={tokenName}>
@@ -32,7 +32,11 @@ export const AccountIssuedTokenTable = (props: Props) => {
           <Currency currency={token.currency} />
         </td>
         <td>
-          <Link className="token-issuer" title={tokenName} to={`/token/${tokenName}`}>
+          <Link
+            className="token-issuer"
+            title={tokenName}
+            to={`/token/${tokenName}`}
+          >
             {token.issuer}
           </Link>
         </td>
@@ -40,7 +44,7 @@ export const AccountIssuedTokenTable = (props: Props) => {
           <Amount value={token} displayIssuer={false} />
         </td>
       </tr>
-    );
+    )
   }
 
   return (
@@ -55,10 +59,12 @@ export const AccountIssuedTokenTable = (props: Props) => {
         </thead>
         <tbody>
           {account.tokens &&
-            (account?.tokens?.length ? account?.tokens.map(renderRow) : renderNoResults())}
+            (account?.tokens?.length
+              ? account?.tokens.map(renderRow)
+              : renderNoResults())}
         </tbody>
       </table>
       {!account.tokens && <Loader />}
     </div>
-  );
-};
+  )
+}

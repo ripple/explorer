@@ -1,17 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { findNode, normalizeAmount } from '../../shared/transactionUtils';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { findNode, normalizeAmount } from '../../shared/transactionUtils'
 
-const PaymentChannelFund = props => {
-  const { t, language, data } = props;
-  const lines = [];
-  const node = findNode(data, 'ModifiedNode', 'PayChannel');
+const PaymentChannelFund = (props) => {
+  const { t, language, data } = props
+  const lines = []
+  const node = findNode(data, 'ModifiedNode', 'PayChannel')
 
   lines.push(
     <div key="line2">
-      {t('update_payment_channel')} <span className="channel">{data.tx.Channel}</span>
-    </div>
-  );
+      {t('update_payment_channel')}{' '}
+      <span className="channel">{data.tx.Channel}</span>
+    </div>,
+  )
 
   if (data.tx.Amount) {
     lines.push(
@@ -36,17 +37,17 @@ const PaymentChannelFund = props => {
             </b>
           </span>
         )}
-      </div>
-    );
+      </div>,
+    )
   }
 
-  return lines;
-};
+  return lines
+}
 
 PaymentChannelFund.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   data: PropTypes.shape({}).isRequired,
-};
+}
 
-export default PaymentChannelFund;
+export default PaymentChannelFund

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import { Redirect } from 'react-router-dom';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withTranslation } from 'react-i18next'
+import { Redirect } from 'react-router-dom'
 import {
   isValidClassicAddress,
   isValidXAddress,
   classicAddressToXAddress,
-} from 'ripple-address-codec';
-import { isValidPayId as isValidPayString } from 'payid-lib';
+} from 'ripple-address-codec'
+import { isValidPayId as isValidPayString } from 'payid-lib'
 import {
   analytics,
   ANALYTIC_TYPES,
@@ -15,104 +15,109 @@ import {
   DECIMAL_REGEX,
   FULL_CURRENCY_REGEX,
   HASH_REGEX,
-} from '../shared/utils';
-import './search.css';
+} from '../shared/utils'
+import './search.css'
 
-const getIdType = id => {
+const getIdType = (id) => {
   if (DECIMAL_REGEX.test(id)) {
-    return 'ledgers';
+    return 'ledgers'
   }
   if (isValidClassicAddress(id)) {
-    return 'accounts';
+    return 'accounts'
   }
   if (HASH_REGEX.test(id)) {
-    return 'transactions';
+    return 'transactions'
   }
   if (isValidXAddress(id) || isValidClassicAddress(id.split(':')[0])) {
-    return 'accounts'; // TODO: Consider a new path/page specific to X-addresses
+    return 'accounts' // TODO: Consider a new path/page specific to X-addresses
   }
   if (isValidPayString(id) || isValidPayString(id.replace('@', '$'))) {
-    return 'paystrings';
+    return 'paystrings'
   }
   if (
     (CURRENCY_REGEX.test(id) || FULL_CURRENCY_REGEX.test(id)) &&
     isValidClassicAddress(id.split('.')[1])
   ) {
-    return 'token';
+    return 'token'
   }
 
-  return 'invalid';
-};
+  return 'invalid'
+}
 
 // normalize classicAddress:tag to X-address
 // TODO: Take network into account (!)
 const normalize = (id, type) => {
   if (type === 'transactions') {
-    return id.toUpperCase();
+    return id.toUpperCase()
   }
   if (type === 'accounts' && id.includes(':')) {
     // TODO: Test invalid classic address; "invalid" tag (?)
-    const components = id.split(':');
+    const components = id.split(':')
     try {
       const xAddress = classicAddressToXAddress(
         components[0],
-        components[1] === undefined || components[1] === 'false' ? false : components[1],
-        false
-      ); // TODO: Take network into account (!)
-      return xAddress;
+        components[1] === undefined || components[1] === 'false'
+          ? false
+          : components[1],
+        false,
+      ) // TODO: Take network into account (!)
+      return xAddress
     } catch (_) {
       /* version_invalid: version bytes do not match any of the provided version(s) */
     }
   } else if (type === 'paystrings') {
     if (!isValidPayString(id)) {
-      return id.replace('@', '$');
+      return id.replace('@', '$')
     }
   } else if (type === 'token') {
-    const components = id.split('.');
-    return `${components[0].toLowerCase()}.${components[1]}`;
+    const components = id.split('.')
+    return `${components[0].toLowerCase()}.${components[1]}`
   }
-  return id;
-};
+  return id
+}
 
 class Search extends Component {
   constructor(props) {
-    super(props);
-    this.state = { redirect: '' };
-    this.onKeyDown = this.onKeyDown.bind(this);
+    super(props)
+    this.state = { redirect: '' }
+    this.onKeyDown = this.onKeyDown.bind(this)
   }
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({ redirect: '' });
+    this.setState({ redirect: '' })
   }
 
   handleSearch(id) {
-    const { callback } = this.props;
-    const type = getIdType(id);
+    const { callback } = this.props
+    const type = getIdType(id)
 
     analytics(ANALYTIC_TYPES.event, {
       eventCategory: 'globalSearch',
       eventAction: type,
       eventLabel: id,
-    });
+    })
 
     this.setState(
       {
-        redirect: type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
+        redirect:
+          type === 'invalid'
+            ? `/search/${id}`
+            : `/${type}/${normalize(id, type)}`,
       },
-      callback
-    );
+      callback,
+    )
   }
 
   onKeyDown(event) {
     if (event.key === 'Enter') {
-      this.handleSearch(event.currentTarget.value.trim());
+      this.handleSearch(event.currentTarget.value.trim())
     }
   }
 
   render() {
-    const { t, mobile } = this.props;
-    const { redirect } = this.state;
+    const { t, mobile } = this.props
+    const { redirect } = this.state
     return redirect ? (
       <Redirect push to={redirect} />
     ) : (
@@ -123,7 +128,7 @@ class Search extends Component {
           onKeyDown={this.onKeyDown}
         />
       </div>
-    );
+    )
   }
 }
 
@@ -131,11 +136,11 @@ Search.propTypes = {
   t: PropTypes.func.isRequired,
   mobile: PropTypes.bool,
   callback: PropTypes.func,
-};
+}
 
 Search.defaultProps = {
   mobile: false,
   callback: () => {},
-};
+}
 
-export default withTranslation()(Search);
+export default withTranslation()(Search)

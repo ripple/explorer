@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Trans } from 'react-i18next';
-import { normalizeAmount } from '../../shared/transactionUtils';
-import Account from '../../shared/components/Account';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Trans } from 'react-i18next'
+import { normalizeAmount } from '../../shared/transactionUtils'
+import Account from '../../shared/components/Account'
 
-const Payment = props => {
-  const { t, language, data, partial } = props;
-  const lines = [];
+const Payment = (props) => {
+  const { t, language, data, partial } = props
+  const lines = []
 
   lines.push(
     <Trans key="payment_desc_line_1" i18nKey="payment_desc_line_1">
@@ -14,16 +14,16 @@ const Payment = props => {
       <Account account={data.tx.Account} />
       to
       <Account account={data.tx.Destination} />
-    </Trans>
-  );
+    </Trans>,
+  )
 
   if (data.tx.SourceTag !== undefined) {
     lines.push(
       <div key="payment_desc_line_2">
         {t('the_source_tag_is')}
         <b> {data.tx.SourceTag}</b>
-      </div>
-    );
+      </div>,
+    )
   }
 
   if (data.tx.DestinationTag !== undefined) {
@@ -31,8 +31,8 @@ const Payment = props => {
       <div key="payment_desc_line_3">
         {t('the_destination_tag_is')}
         <b> {data.tx.DestinationTag}</b>
-      </div>
-    );
+      </div>,
+    )
   }
 
   lines.push(
@@ -51,8 +51,8 @@ const Payment = props => {
           </b>
         </>
       )}
-    </div>
-  );
+    </div>,
+  )
 
   if (data.meta && data.meta.delivered_amount) {
     lines.push(
@@ -62,22 +62,22 @@ const Payment = props => {
           <span> {normalizeAmount(data.meta.delivered_amount, language)}</span>
           <small>{data.meta.delivered_amount.currency || 'XRP'}</small>
         </b>
-      </div>
-    );
+      </div>,
+    )
   }
 
-  return lines;
-};
+  return lines
+}
 
 Payment.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   data: PropTypes.shape({}).isRequired,
   partial: PropTypes.bool,
-};
+}
 
 Payment.defaultProps = {
   partial: false,
-};
+}
 
-export default Payment;
+export default Payment

@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const NFTokenBurn = props => {
+const NFTokenBurn = (props) => {
   const {
     data: {
       instructions: { tokenID },
     },
-  } = props;
+  } = props
 
   return (
     <div className="row flex-wrap">
@@ -17,8 +17,8 @@ const NFTokenBurn = props => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 NFTokenBurn.propTypes = {
   data: PropTypes.shape({
@@ -26,6 +26,6 @@ NFTokenBurn.propTypes = {
       tokenID: PropTypes.string,
     }),
   }).isRequired,
-};
+}
 
-export default NFTokenBurn;
+export default NFTokenBurn

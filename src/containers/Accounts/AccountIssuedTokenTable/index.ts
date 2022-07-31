@@ -1,1 +1,1 @@
-export { AccountIssuedTokenTable } from './AccountIssuedTokenTable';
+export { AccountIssuedTokenTable } from './AccountIssuedTokenTable'

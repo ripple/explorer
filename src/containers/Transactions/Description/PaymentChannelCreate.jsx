@@ -1,29 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { localizeDate, localizeNumber } from '../../shared/utils';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { localizeDate, localizeNumber } from '../../shared/utils'
 import {
   DATE_OPTIONS,
   RIPPLE_EPOCH,
   normalizeAmount,
   findNode,
-} from '../../shared/transactionUtils';
-import Account from '../../shared/components/Account';
+} from '../../shared/transactionUtils'
+import Account from '../../shared/components/Account'
 
-const PaymentChannelCreate = props => {
-  const { t, language, data } = props;
+const PaymentChannelCreate = (props) => {
+  const { t, language, data } = props
   const cancelAfter = localizeDate(
     (data.tx.CancelAfter + RIPPLE_EPOCH) * 1000,
     language,
-    DATE_OPTIONS
-  );
+    DATE_OPTIONS,
+  )
   const expiration = localizeDate(
     (data.tx.Experiation + RIPPLE_EPOCH) * 1000,
     language,
-    DATE_OPTIONS
-  );
+    DATE_OPTIONS,
+  )
 
-  const node = findNode(data, 'CreatedNode', 'PayChannel');
-  const lines = [];
+  const node = findNode(data, 'CreatedNode', 'PayChannel')
+  const lines = []
 
   lines.push(
     <div key="line1">
@@ -32,18 +32,20 @@ const PaymentChannelCreate = props => {
       {` ${t('create_payment_channel')} `}
       <Account account={data.tx.Destination} />
       {data.tx.DestinationTag && (
-        <span className="dt">{` (${t('destination_tag')}: ${data.tx.DestinationTag}) `}</span>
+        <span className="dt">{` (${t('destination_tag')}: ${
+          data.tx.DestinationTag
+        }) `}</span>
       )}
-    </div>
-  );
+    </div>,
+  )
 
   if (node) {
     lines.push(
       <div key="line_channel">
         {t('the_channel_id_is')}
         <span className="channel"> {node.LedgerIndex}</span>
-      </div>
-    );
+      </div>,
+    )
   }
 
   if (data.tx.SourceTag) {
@@ -51,8 +53,8 @@ const PaymentChannelCreate = props => {
       <div key="line_2">
         {t('the_source_tag_is')}
         <b> {data.tx.SourceTag}</b>
-      </div>
-    );
+      </div>,
+    )
   }
 
   lines.push(
@@ -63,8 +65,8 @@ const PaymentChannelCreate = props => {
         {normalizeAmount(data.tx.Amount, language)}
         <small>XRP</small>
       </b>
-    </div>
-  );
+    </div>,
+  )
 
   if (data.tx.SettleDelay) {
     lines.push(
@@ -74,8 +76,8 @@ const PaymentChannelCreate = props => {
           {' '}
           {localizeNumber(data.tx.SettleDelay, language)} {t('seconds')}
         </b>
-      </div>
-    );
+      </div>,
+    )
   }
 
   if (data.tx.Expiration) {
@@ -83,8 +85,8 @@ const PaymentChannelCreate = props => {
       <div key="line5">
         {t('describe_experiation')}
         <span className="time">{` ${expiration} ${DATE_OPTIONS.timeZone}`}</span>
-      </div>
-    );
+      </div>,
+    )
   }
 
   if (data.tx.CancelAfter) {
@@ -92,17 +94,17 @@ const PaymentChannelCreate = props => {
       <div key="line6">
         {t('describe_cancel_after')}
         <span className="time">{` ${cancelAfter} ${DATE_OPTIONS.timeZone}`}</span>
-      </div>
-    );
+      </div>,
+    )
   }
 
-  return lines;
-};
+  return lines
+}
 
 PaymentChannelCreate.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   data: PropTypes.shape({}).isRequired,
-};
+}
 
-export default PaymentChannelCreate;
+export default PaymentChannelCreate

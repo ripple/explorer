@@ -1,29 +1,31 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withTranslation } from 'react-i18next';
-import { geoPath, geoNaturalEarth1 } from 'd3-geo';
-import { scaleLinear } from 'd3-scale';
-import { hexbin } from 'd3-hexbin';
-import { feature } from 'topojson-client';
-import Loader from '../shared/components/Loader';
-import mapJSON from './countries.json';
-import './css/map.css';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { withTranslation } from 'react-i18next'
+import { geoPath, geoNaturalEarth1 } from 'd3-geo'
+import { scaleLinear } from 'd3-scale'
+import { hexbin } from 'd3-hexbin'
+import { feature } from 'topojson-client'
+import Loader from '../shared/components/Loader'
+import mapJSON from './countries.json'
+import './css/map.css'
 
-const MAX_WIDTH = 1200;
-const BAR_COUNT = 30;
-const HEX_RADIUS_FACTOR = 40;
+const MAX_WIDTH = 1200
+const BAR_COUNT = 30
+const HEX_RADIUS_FACTOR = 40
 
 class Map extends Component {
   constructor(props) {
-    super(props);
-    this.state = { countries: feature(mapJSON, mapJSON.objects.countries).features };
+    super(props)
+    this.state = {
+      countries: feature(mapJSON, mapJSON.objects.countries).features,
+    }
   }
 
   static getProjection = (width, height) =>
     geoNaturalEarth1()
       .scale(width / 4.8)
-      .translate([width / 2.2, height / 1.7]);
+      .translate([width / 2.2, height / 1.7])
 
   static getHexbin = (offset, width, height) =>
     hexbin()
@@ -31,50 +33,48 @@ class Map extends Component {
         [0, 0],
         [offset * 2 + width, height],
       ])
-      .radius(Math.sqrt(width / HEX_RADIUS_FACTOR));
+      .radius(Math.sqrt(width / HEX_RADIUS_FACTOR))
 
   getDimensions() {
-    const { width: pageWidth } = this.props;
-    const width = Math.min(pageWidth, MAX_WIDTH);
+    const { width: pageWidth } = this.props
+    const width = Math.min(pageWidth, MAX_WIDTH)
     return {
       width,
       height: width / 2,
-    };
+    }
   }
 
   renderMap(width, height) {
-    const { locations, t, width: propsWidth } = this.props;
-    const { countries, tooltip } = this.state;
-    const offset = (propsWidth - width) / 2;
-    const projection = Map.getProjection(width, height);
-    const hex = Map.getHexbin(offset, width, height);
-    const bins = hex(locations.map(node => projection([node.long, node.lat])));
-    const counts = bins.map(bin => bin.length);
-    const max = counts.length ? Math.max(...counts) : 0;
-    const color = scaleLinear()
-      .domain([1, max])
-      .range(['#FF6719', '#7919FF']);
-    const bars = [];
-    let i = 0;
-    const BAR_WIDTH = Math.ceil(width / (BAR_COUNT * 8));
-    const BAR_HEIGHT = BAR_WIDTH / 1.5;
-    const LEGEND_OFFSET_X = BAR_WIDTH * 2 + offset;
-    const LEGEND_OFFSET_Y = BAR_WIDTH * 2;
-    const tooltipText = tooltip ? `${tooltip.count} ${t('nodes')}` : '';
+    const { locations, t, width: propsWidth } = this.props
+    const { countries, tooltip } = this.state
+    const offset = (propsWidth - width) / 2
+    const projection = Map.getProjection(width, height)
+    const hex = Map.getHexbin(offset, width, height)
+    const bins = hex(locations.map((node) => projection([node.long, node.lat])))
+    const counts = bins.map((bin) => bin.length)
+    const max = counts.length ? Math.max(...counts) : 0
+    const color = scaleLinear().domain([1, max]).range(['#FF6719', '#7919FF'])
+    const bars = []
+    let i = 0
+    const BAR_WIDTH = Math.ceil(width / (BAR_COUNT * 8))
+    const BAR_HEIGHT = BAR_WIDTH / 1.5
+    const LEGEND_OFFSET_X = BAR_WIDTH * 2 + offset
+    const LEGEND_OFFSET_Y = BAR_WIDTH * 2
+    const tooltipText = tooltip ? `${tooltip.count} ${t('nodes')}` : ''
 
     while (i < BAR_COUNT) {
-      const increment = (max / BAR_COUNT) * i + 1;
+      const increment = (max / BAR_COUNT) * i + 1
       bars.push({
         index: i,
         color: color(increment),
-      });
-      i += 1;
+      })
+      i += 1
     }
 
     return (
       <>
         <g className="map">
-          {countries.map(d => (
+          {countries.map((d) => (
             <path
               key={`path-${d.id}-${d.geometry.coordinates[0].length}`}
               d={geoPath().projection(projection)(d)}
@@ -85,11 +85,17 @@ class Map extends Component {
           ))}
         </g>
         <g className="mesh">
-          <path d={hex.mesh()} stroke="black" strokeOpacity="0.2" strokeWidth="2" fillOpacity="0" />
+          <path
+            d={hex.mesh()}
+            stroke="black"
+            strokeOpacity="0.2"
+            strokeWidth="2"
+            fillOpacity="0"
+          />
         </g>
         {max && (
           <g className="legend">
-            {bars.map(bar => (
+            {bars.map((bar) => (
               <rect
                 key={`bar-${bar.index}`}
                 width={BAR_WIDTH}
@@ -118,7 +124,7 @@ class Map extends Component {
           </g>
         )}
         <g className="hexagons">
-          {bins.map(bin => (
+          {bins.map((bin) => (
             <path
               key={`hex-${bin.x}${bin.y}`}
               d={hex.hexagon(hex.radius() * 0.9)}
@@ -133,12 +139,12 @@ class Map extends Component {
                     x: bin.x,
                     y: bin.y,
                   },
-                });
+                })
               }}
-              onFocus={e => {}}
-              onKeyUp={e => {}}
+              onFocus={(e) => {}}
+              onKeyUp={(e) => {}}
               onMouseLeave={() => {
-                this.setState({ tooltip: null });
+                this.setState({ tooltip: null })
               }}
             />
           ))}
@@ -159,12 +165,12 @@ class Map extends Component {
           </g>
         )}
       </>
-    );
+    )
   }
 
   render() {
-    const { locations, width: propsWidth } = this.props;
-    const { width, height } = this.getDimensions();
+    const { locations, width: propsWidth } = this.props
+    const { width, height } = this.getDimensions()
     return (
       <div className="nodes-map" style={{ height }}>
         {!locations && <Loader />}
@@ -172,7 +178,7 @@ class Map extends Component {
           {locations && this.renderMap(width, height)}
         </svg>
       </div>
-    );
+    )
   }
 }
 
@@ -180,10 +186,12 @@ Map.propTypes = {
   locations: PropTypes.arrayOf(PropTypes.shape({})),
   width: PropTypes.number.isRequired,
   t: PropTypes.func.isRequired,
-};
+}
 
 Map.defaultProps = {
   locations: null,
-};
+}
 
-export default connect(state => ({ width: state.app.width }))(withTranslation()(Map));
+export default connect((state) => ({ width: state.app.width }))(
+  withTranslation()(Map),
+)

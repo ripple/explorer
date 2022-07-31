@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Account from '../../shared/components/Account';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Account from '../../shared/components/Account'
 
-const SetRegularKey = props => {
-  const { data, t } = props;
-  const { quorum, max, signers } = data.instructions;
+const SetRegularKey = (props) => {
+  const { data, t } = props
+  const { quorum, max, signers } = data.instructions
 
   return (
     <>
@@ -12,7 +12,7 @@ const SetRegularKey = props => {
         <div className="label">{t('signers')}</div>
         <div className="value">
           <ul className="signers">
-            {signers.map(d => (
+            {signers.map((d) => (
               <li key={d.account}>
                 <Account account={d.account} />
                 <span className="label">{` ${t('weight')}: `}</span>
@@ -31,8 +31,8 @@ const SetRegularKey = props => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
 SetRegularKey.propTypes = {
   t: PropTypes.func.isRequired,
@@ -45,6 +45,6 @@ SetRegularKey.propTypes = {
       }),
     }),
   }).isRequired,
-};
+}
 
-export default SetRegularKey;
+export default SetRegularKey
