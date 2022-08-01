@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useTranslation, withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import NoMatch from '../NoMatch';
 import NFTHeader from './NFTHeader';
@@ -22,80 +23,56 @@ ERROR_MESSAGES.default = {
 };
 
 const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
+const NFT = props => {
+  const { id: tokenId } = useParams();
+  const { t } = useTranslation();
+  const { error, loading, disclaimer } = props;
 
-class NFT extends Component {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { match } = nextProps;
-    return {
-      tokenId: match.params.id,
-      prevId: prevState && prevState.tokenId,
+  document.title = `${t('xrpl_explorer')} | ${tokenId.substr(0, 12)}...`;
+
+  useEffect(() => {
+    analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/token/:id' });
+    return () => {
+      window.scrollTo(0, 0);
     };
-  }
+  }, []);
 
-  static renderError(error) {
+  const renderError = () => {
     const message = getErrorMessage(error);
     return (
       <div className="token-page">
         <NoMatch title={message.title} hints={message.hints} />
       </div>
     );
-  }
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidMount() {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/token/:id' });
-  }
-
-  componentWillUnmount() {
-    window.scrollTo(0, 0);
-  }
-
-  static renderDisclaimer(disclaimer) {
+  const renderDisclaimer = () => {
     return (
       <div className="disclaimer-container">
         <div className="disclaimer-left">{disclaimer.content}</div>
         <div className="disclaimer-right">{disclaimer.date}</div>
       </div>
     );
-  }
+  };
 
-  render() {
-    const { t, error, match, loading, disclaimer } = this.props;
-    const { prevId } = this.state;
-    const tokenId = match.params.id || '';
-    const showError = tokenId === prevId && error;
-
-    document.title = `${t('xrpl_explorer')} | ${tokenId.substr(0, 12)}...`;
-
-    return showError ? (
-      NFT.renderError(error)
-    ) : (
-      <div className="token-page">
-        {tokenId && <NFTHeader tokenId={tokenId} />}
-        {tokenId && disclaimer && !loading && NFT.renderDisclaimer(disclaimer)}
-        {!tokenId && (
-          <div style={{ textAlign: 'center', fontSize: '14px' }}>
-            <h2>Enter a NFT ID in the search box</h2>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+  return error ? (
+    renderError()
+  ) : (
+    <div className="token-page">
+      {tokenId && <NFTHeader tokenId={tokenId} />}
+      {tokenId && disclaimer && !loading && renderDisclaimer()}
+      {!tokenId && (
+        <div style={{ textAlign: 'center', fontSize: '14px' }}>
+          <h2>Enter a NFT ID in the search box</h2>
+        </div>
+      )}
+    </div>
+  );
+};
 
 NFT.propTypes = {
-  t: PropTypes.func.isRequired,
   error: PropTypes.number,
   loading: PropTypes.bool.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
   disclaimer: PropTypes.shape({
     content: PropTypes.string,
     date: PropTypes.string,
