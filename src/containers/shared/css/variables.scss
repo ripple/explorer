@@ -114,14 +114,6 @@ $XRP_CAD: #ca3103;
 $XRP_OTHERS: #f52a79;
 
 // Font wights
-@mixin thin {
-  font-weight: 100;
-}
-
-@mixin light {
-  font-weight: 300;
-}
-
 @mixin regular {
   font-weight: 400;
 }
@@ -136,10 +128,6 @@ $XRP_OTHERS: #f52a79;
 
 @mixin bold {
   font-weight: 700;
-}
-
-@mixin black {
-  font-weight: 900;
 }
 
 // View bucket sizes

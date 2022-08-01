@@ -14,30 +14,7 @@
     url('../fonts/currency_symbols.ttf') format('truetype'),
     url('../fonts/currency_symbols.woff') format('woff'),
     url('../fonts/currency_symbols.svg') format('svg');
-}
-
-@font-face {
-  font-family: 'Space Mono';
-  src: url('../fonts/SpaceMono-Regular.ttf');
-}
-
-@font-face {
-  font-family: 'Space Mono';
-  font-style: italic;
-  src: url('../fonts/SpaceMono-Italic.ttf');
-}
-
-@font-face {
-  font-family: 'Space Mono';
-  font-weight: bold;
-  src: url('../fonts/SpaceMono-Bold.ttf');
-}
-
-@font-face {
-  font-family: 'Space Mono';
-  font-style: italic;
-  font-weight: bold;
-  src: url('../fonts/SpaceMono-BoldItalic.ttf');
+  unicode-range: u+e900-e901;
 }
 
 body,
@@ -54,8 +31,8 @@ input {
 body,
 input,
 button {
-  font-family: 'currency_symbols', system-ui, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
-    'Helvetica Neue', sans-serif;
+  font-family: 'currency_symbols', 'Work Sans', system-ui, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+    Cantarell, 'Helvetica Neue', sans-serif;
 }
 
 .clear {
