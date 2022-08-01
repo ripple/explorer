@@ -32,8 +32,8 @@ const NFTHeader = props => {
 
   const renderDetails = () => {
     const { minted, domain, emailHash, NFTTaxon, uri, transferFee } = data;
-    const abbrvEmail = emailHash?.replace(/(.{20})..+/, '$1...');
-    const abbrvURI = uri?.replace(/(.{20})..+/, '$1...');
+    const abbrvEmail = emailHash?.length > 20 ? emailHash?.slice(0, 20).concat('...') : emailHash;
+    const abbrvURI = uri?.length > 20 ? uri?.slice(0, 20).concat('...') : uri;
     return (
       <table>
         <tbody>
@@ -117,7 +117,7 @@ const NFTHeader = props => {
 
   const renderHeaderContent = () => {
     const { issuer } = data;
-    const abbrvIssuer = issuer?.replace(/(.{23})..+/, '$1...');
+    const abbrvIssuer = issuer?.length > 23 ? issuer?.slice(0, 23).concat('...') : issuer;
     return (
       <div className="section header-container">
         <div className="info-container">
