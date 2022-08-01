@@ -22,7 +22,7 @@ ERROR_MESSAGES.default = {
   hints: ['not_your_fault'],
 };
 
-const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default;
+const getErrorMessage = error => ERROR_MESSAGES[error] ?? ERROR_MESSAGES.default;
 const NFT = props => {
   const { id: tokenId } = useParams();
   const { t } = useTranslation();
