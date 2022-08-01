@@ -8,18 +8,19 @@ import NFTHeader from './NFTHeader';
 import './styles.css';
 import { analytics, ANALYTIC_TYPES, NOT_FOUND, BAD_REQUEST } from '../shared/utils';
 
-const ERROR_MESSAGES = {};
-ERROR_MESSAGES[NOT_FOUND] = {
-  title: 'assets.no_nfts_message',
-  hints: ['check_nft_id'],
-};
-ERROR_MESSAGES[BAD_REQUEST] = {
-  title: 'invalid_xrpl_address',
-  hints: ['check_nft_id'],
-};
-ERROR_MESSAGES.default = {
-  title: 'generic_error',
-  hints: ['not_your_fault'],
+const ERROR_MESSAGES = {
+  [NOT_FOUND]: {
+    title: 'assets.no_nfts_message',
+    hints: ['check_nft_id'],
+  },
+  [BAD_REQUEST]: {
+    title: 'invalid_xrpl_address',
+    hints: ['check_nft_id'],
+  },
+  default: {
+    title: 'generic_error',
+    hints: ['not_your_fault'],
+  },
 };
 
 const getErrorMessage = error => ERROR_MESSAGES[error] ?? ERROR_MESSAGES.default;
