@@ -7,7 +7,7 @@ interface Props {
   className?: string;
 }
 
-const Copy = ({ text, className }: Props) => {
+const CopyToClipboard = ({ text, className }: Props) => {
   return (
     <input
       className={className}
@@ -18,14 +18,14 @@ const Copy = ({ text, className }: Props) => {
     />
   );
 };
-Copy.propTypes = {
+CopyToClipboard.propTypes = {
   text: PropTypes.string,
   className: PropTypes.string,
 };
 
-Copy.defaultProps = {
+CopyToClipboard.defaultProps = {
   text: '',
   className: null,
 };
 
-export default Copy;
+export default CopyToClipboard;

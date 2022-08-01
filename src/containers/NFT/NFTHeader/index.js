@@ -10,7 +10,7 @@ import '../../shared/css/nested-menu.css';
 import './styles.css';
 import SocketContext from '../../shared/SocketContext';
 import Tooltip from '../../shared/components/Tooltip';
-import Copy from '../../shared/components/Copy';
+import CopyToClipboard from '../../shared/components/CopyToClipboard';
 
 const NFTHeader = props => {
   const { t } = useTranslation();
@@ -58,7 +58,7 @@ const NFTHeader = props => {
               <td className="col1">{t('email_hash')}</td>
               <td className="col2">
                 {abbrvEmail}
-                <Copy className="copy" text={emailHash} />
+                <CopyToClipboard className="copy" text={emailHash} />
               </td>
             </tr>
           )}
@@ -71,7 +71,7 @@ const NFTHeader = props => {
               <td className="col1">URI</td>
               <td className="col2">
                 {abbrvURI}
-                <Copy className="copy" text={uri} />
+                <CopyToClipboard className="copy" text={uri} />
               </td>
             </tr>
           )}
@@ -127,7 +127,7 @@ const NFTHeader = props => {
               <Link className="value-content" to={`/accounts/${issuer}`}>
                 {abbrvIssuer}
               </Link>
-              <Copy className="copy" text={issuer} />
+              <CopyToClipboard className="copy" text={issuer} />
             </div>
           </div>
         </div>
