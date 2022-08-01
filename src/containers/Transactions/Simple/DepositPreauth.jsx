@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const DepositPreauth = props => {
-  const { data, t } = props;
-  const { authorize, unauthorize } = data.instructions;
+const DepositPreauth = (props) => {
+  const { data, t } = props
+  const { authorize, unauthorize } = data.instructions
 
   return authorize ? (
     <div className="row">
@@ -15,8 +15,8 @@ const DepositPreauth = props => {
       <div className="label unauthorize">{t('unauthorize')}</div>
       <div className="value">{unauthorize}</div>
     </div>
-  );
-};
+  )
+}
 
 DepositPreauth.propTypes = {
   t: PropTypes.func.isRequired,
@@ -26,6 +26,6 @@ DepositPreauth.propTypes = {
       unauthorize: PropTypes.string,
     }),
   }).isRequired,
-};
+}
 
-export default DepositPreauth;
+export default DepositPreauth

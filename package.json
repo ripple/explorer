@@ -5,6 +5,7 @@
   "dependencies": {
     "@fontsource/roboto": "^4.5.7",
     "@google-cloud/bigquery": "^5.5.0",
+    "@xrplf/prettier-config": "^1.5.0",
     "axios": "^0.21.1",
     "body-parser": "^1.18.2",
     "bunyan": "^1.8.15",
@@ -119,7 +120,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,scss}": [
-      "prettier --single-quote --write",
+      "prettier --write",
       "git add"
     ]
   },
@@ -170,6 +171,7 @@
       "es6": true
     },
     "rules": {
+      "prettier/prettier": "error",
       "react/jsx-filename-extension": [
         1,
         {
@@ -222,12 +224,7 @@
       "ga": true
     }
   },
-  "prettier": {
-    "printWidth": 100,
-    "semi": true,
-    "trailingComma": "es5",
-    "singleQuote": true
-  },
+  "prettier": "@xrplf/prettier-config",
   "stylelint": {
     "plugins": [
       "stylelint-scss"

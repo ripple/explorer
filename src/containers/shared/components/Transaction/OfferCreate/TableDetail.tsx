@@ -1,11 +1,11 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Amount } from '../../Amount';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Amount } from '../../Amount'
 
 export const TableDetail = (props: any) => {
-  const { t } = useTranslation();
-  const { instructions } = props;
-  const { gets, pays, price, pair, cancel } = instructions;
+  const { t } = useTranslation()
+  const { instructions } = props
+  const { gets, pays, price, pair, cancel } = instructions
 
   return pays && gets ? (
     <div className="offercreate">
@@ -30,5 +30,5 @@ export const TableDetail = (props: any) => {
         </div>
       )}
     </div>
-  ) : null;
-};
+  ) : null
+}

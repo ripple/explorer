@@ -1,4 +1,4 @@
-module.exports = tx => ({
+module.exports = (tx) => ({
   domain: tx.Domain,
   email_hash: tx.EmailHash,
   message_key: tx.MessageKey,
@@ -6,4 +6,4 @@ module.exports = tx => ({
   clear_flag: tx.ClearFlag,
   tick: tx.TickSize,
   rate: tx.TransferRate,
-});
+})

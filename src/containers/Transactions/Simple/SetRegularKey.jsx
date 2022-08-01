@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const SetRegularKey = props => {
-  const { data, t } = props;
-  const { key } = data.instructions;
+const SetRegularKey = (props) => {
+  const { data, t } = props
+  const { key } = data.instructions
 
   return key ? (
     <div className="row">
@@ -15,8 +15,8 @@ const SetRegularKey = props => {
       <div className="label">{null}</div>
       <div className="value unset">{t('unset_regular_key')}</div>
     </div>
-  );
-};
+  )
+}
 
 SetRegularKey.propTypes = {
   t: PropTypes.func.isRequired,
@@ -25,6 +25,6 @@ SetRegularKey.propTypes = {
       key: PropTypes.string,
     }),
   }).isRequired,
-};
+}
 
-export default SetRegularKey;
+export default SetRegularKey

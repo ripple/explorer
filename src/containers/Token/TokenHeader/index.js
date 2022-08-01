@@ -1,48 +1,48 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { loadTokenState } from './actions';
-import Loader from '../../shared/components/Loader';
-import '../../shared/css/nested-menu.css';
-import './styles.css';
-import { localizeNumber, formatLargeNumber } from '../../shared/utils';
-import SocketContext from '../../shared/SocketContext';
-import Currency from '../../shared/components/Currency';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { loadTokenState } from './actions'
+import Loader from '../../shared/components/Loader'
+import '../../shared/css/nested-menu.css'
+import './styles.css'
+import { localizeNumber, formatLargeNumber } from '../../shared/utils'
+import SocketContext from '../../shared/SocketContext'
+import Currency from '../../shared/components/Currency'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
   currency: 'XRP',
   minimumFractionDigits: 2,
   maximumFractionDigits: 6,
-};
+}
 
 class TokenHeader extends Component {
   componentDidMount() {
-    const { actions, accountId, currency } = this.props;
-    const rippledSocket = this.context;
-    actions.loadTokenState(currency, accountId, rippledSocket);
+    const { actions, accountId, currency } = this.props
+    const rippledSocket = this.context
+    actions.loadTokenState(currency, accountId, rippledSocket)
   }
 
   componentDidUpdate(prevProps) {
-    const nextAccountId = prevProps.accountId;
-    const nextCurrency = prevProps.currency;
-    const { accountId, currency, actions } = this.props;
-    const rippledSocket = this.context;
+    const nextAccountId = prevProps.accountId
+    const nextCurrency = prevProps.currency
+    const { accountId, currency, actions } = this.props
+    const rippledSocket = this.context
 
     if (nextAccountId !== accountId || nextCurrency !== currency) {
-      actions.loadTokenState(nextCurrency, nextAccountId, rippledSocket);
+      actions.loadTokenState(nextCurrency, nextAccountId, rippledSocket)
     }
   }
 
   renderDetails() {
-    const { t, data } = this.props;
-    const { domain, rate, emailHash, previousLedger, previousTxn } = data;
+    const { t, data } = this.props
+    const { domain, rate, emailHash, previousLedger, previousTxn } = data
 
-    const prevTxn = previousTxn && previousTxn.replace(/(.{20})..+/, '$1...');
-    const abbrvEmail = emailHash && emailHash.replace(/(.{20})..+/, '$1...');
+    const prevTxn = previousTxn && previousTxn.replace(/(.{20})..+/, '$1...')
+    const abbrvEmail = emailHash && emailHash.replace(/(.{20})..+/, '$1...')
     return (
       <table>
         <tbody>
@@ -50,7 +50,11 @@ class TokenHeader extends Component {
             <tr className="row">
               <td className="col1">{t('domain')}</td>
               <td className="col2">
-                <a href={`https://${domain}`} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={`https://${domain}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {domain}
                 </a>
               </td>
@@ -82,21 +86,27 @@ class TokenHeader extends Component {
           )}
         </tbody>
       </table>
-    );
+    )
   }
 
   renderSettings() {
-    const { data } = this.props;
-    const { flags } = data;
+    const { data } = this.props
+    const { flags } = data
 
-    const rippling = flags && flags.includes('lsfDefaultRipple') ? 'enabled' : 'disabled';
-    const depositAuth = flags && flags.includes('lsfDepositAuth') ? 'enabled' : 'disabled';
-    const masterKey = flags && flags.includes('lsfDisableMaster') ? 'disabled' : 'enabled';
-    const receivingXRP = flags && flags.includes('lsfDisallowXRP') ? 'disabled' : 'enabled';
-    const frozen = flags && flags.includes('lsfGlobalFreeze') ? 'true' : 'false';
-    const noFreeze = flags && flags.includes('lsfNoFreeze') ? 'true' : 'false';
-    const requireAuth = flags && flags.includes('lsfRequireAuth') ? 'true' : 'false';
-    const requireDestTag = flags && flags.includes('lsfRequireDestTag') ? 'true' : 'false';
+    const rippling =
+      flags && flags.includes('lsfDefaultRipple') ? 'enabled' : 'disabled'
+    const depositAuth =
+      flags && flags.includes('lsfDepositAuth') ? 'enabled' : 'disabled'
+    const masterKey =
+      flags && flags.includes('lsfDisableMaster') ? 'disabled' : 'enabled'
+    const receivingXRP =
+      flags && flags.includes('lsfDisallowXRP') ? 'disabled' : 'enabled'
+    const frozen = flags && flags.includes('lsfGlobalFreeze') ? 'true' : 'false'
+    const noFreeze = flags && flags.includes('lsfNoFreeze') ? 'true' : 'false'
+    const requireAuth =
+      flags && flags.includes('lsfRequireAuth') ? 'true' : 'false'
+    const requireDestTag =
+      flags && flags.includes('lsfRequireDestTag') ? 'true' : 'false'
 
     return (
       <table>
@@ -135,15 +145,23 @@ class TokenHeader extends Component {
           </tr>
         </tbody>
       </table>
-    );
+    )
   }
 
   renderHeaderContent() {
-    const { t, data, language, accountId } = this.props;
-    const { balance, sequence, obligations, reserve } = data;
-    const currencyBalance = localizeNumber(balance / 1000000 || 0.0, language, CURRENCY_OPTIONS);
-    const reserveBalance = localizeNumber(reserve || 0.0, language, CURRENCY_OPTIONS);
-    const obligationsBalance = formatLargeNumber(Number.parseFloat(obligations));
+    const { t, data, language, accountId } = this.props
+    const { balance, sequence, obligations, reserve } = data
+    const currencyBalance = localizeNumber(
+      balance / 1000000 || 0.0,
+      language,
+      CURRENCY_OPTIONS,
+    )
+    const reserveBalance = localizeNumber(
+      reserve || 0.0,
+      language,
+      CURRENCY_OPTIONS,
+    )
+    const obligationsBalance = formatLargeNumber(Number.parseFloat(obligations))
 
     return (
       <div className="section header-container">
@@ -185,25 +203,27 @@ class TokenHeader extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   render() {
-    const { currency, loading, data } = this.props;
-    const { gravatar } = data;
+    const { currency, loading, data } = this.props
+    const { gravatar } = data
     return (
       <div className="box token-header">
         <div className="section box-header">
           <Currency currency={currency} />
           {gravatar && <img alt={`${currency} logo`} src={gravatar} />}
         </div>
-        <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
+        <div className="box-content">
+          {loading ? <Loader /> : this.renderHeaderContent()}
+        </div>
       </div>
-    );
+    )
   }
 }
 
-TokenHeader.contextType = SocketContext;
+TokenHeader.contextType = SocketContext
 
 TokenHeader.propTypes = {
   language: PropTypes.string.isRequired,
@@ -249,20 +269,20 @@ TokenHeader.propTypes = {
   actions: PropTypes.shape({
     loadTokenState: PropTypes.func.isRequired,
   }).isRequired,
-};
+}
 
 export default connect(
-  state => ({
+  (state) => ({
     language: state.app.language,
     loading: state.tokenHeader.loading,
     data: state.tokenHeader.data,
   }),
-  dispatch => ({
+  (dispatch) => ({
     actions: bindActionCreators(
       {
         loadTokenState,
       },
-      dispatch
+      dispatch,
     ),
-  })
-)(withTranslation()(TokenHeader));
+  }),
+)(withTranslation()(TokenHeader))

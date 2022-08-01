@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import TransactionMeta from './Meta';
-import TransactionDescription from './Description';
-import Account from '../shared/components/Account';
-import { localizeDate, localizeNumber } from '../shared/utils';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import TransactionMeta from './Meta'
+import TransactionDescription from './Description'
+import Account from '../shared/components/Account'
+import { localizeDate, localizeNumber } from '../shared/utils'
 import {
   DATE_OPTIONS,
   CURRENCY_OPTIONS,
@@ -12,25 +12,25 @@ import {
   XRP_BASE,
   buildFlags,
   buildMemos,
-} from '../shared/transactionUtils';
-import './detailTab.css';
+} from '../shared/transactionUtils'
+import './detailTab.css'
 
 class DetailTab extends Component {
   renderStatus() {
-    const { t, language, data } = this.props;
-    const { TransactionResult } = data.meta;
-    const time = localizeDate(new Date(data.date), language, DATE_OPTIONS);
-    let line1;
+    const { t, language, data } = this.props
+    const { TransactionResult } = data.meta
+    const time = localizeDate(new Date(data.date), language, DATE_OPTIONS)
+    let line1
 
     if (TransactionResult === SUCCESSFULL_TRANSACTION) {
-      line1 = t('successful_transaction');
+      line1 = t('successful_transaction')
     } else {
       line1 = (
         <>
           {t('fail_transaction')}
           <span className="tx-result fail">{TransactionResult}</span>
         </>
-      );
+      )
     }
 
     return (
@@ -44,31 +44,35 @@ class DetailTab extends Component {
         {t('on')}
         <span className="time">{`${time} ${DATE_OPTIONS.timeZone}`}</span>
       </div>
-    );
+    )
   }
 
   renderMemos() {
-    const { t, data } = this.props;
-    const memos = buildMemos(data);
+    const { t, data } = this.props
+    const memos = buildMemos(data)
     return memos.length ? (
       <div className="section">
         <div className="title">
           {t('memos')}
           <span>({t('decoded_hex')})</span>
         </div>
-        {memos.map(memo => (
+        {memos.map((memo) => (
           <div key={memo}>{memo}</div>
         ))}
       </div>
-    ) : null;
+    ) : null
   }
 
   renderFee() {
-    const { t, data, language } = this.props;
-    const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' };
+    const { t, data, language } = this.props
+    const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' }
     const totalCost = data.tx.Fee
-      ? localizeNumber(Number.parseFloat(data.tx.Fee) / XRP_BASE, language, numberOptions)
-      : null;
+      ? localizeNumber(
+          Number.parseFloat(data.tx.Fee) / XRP_BASE,
+          language,
+          numberOptions,
+        )
+      : null
     return (
       totalCost && (
         <div className="section">
@@ -82,26 +86,26 @@ class DetailTab extends Component {
           </div>
         </div>
       )
-    );
+    )
   }
 
   renderFlags() {
-    const { t, data } = this.props;
-    const flags = buildFlags(data);
+    const { t, data } = this.props
+    const flags = buildFlags(data)
     return flags.length ? (
       <div className="section">
         <div className="title">{t('flags')}</div>
         <div className="flags">
-          {flags.map(flag => (
+          {flags.map((flag) => (
             <div key={flag}>{flag}</div>
           ))}
         </div>
       </div>
-    ) : null;
+    ) : null
   }
 
   renderSigners() {
-    const { t, data } = this.props;
+    const { t, data } = this.props
     return data.tx.Signers ? (
       <div className="section">
         <div className="title">{t('signers')}</div>
@@ -113,22 +117,27 @@ class DetailTab extends Component {
           ))}
         </ul>
       </div>
-    ) : null;
+    ) : null
   }
 
   render() {
-    const { t, language, data, instructions } = this.props;
+    const { t, language, data, instructions } = this.props
     return (
       <div className="detail-body">
         {this.renderStatus()}
-        <TransactionDescription t={t} language={language} data={data} instructions={instructions} />
+        <TransactionDescription
+          t={t}
+          language={language}
+          data={data}
+          instructions={instructions}
+        />
         {this.renderSigners()}
         {this.renderFlags()}
         {this.renderFee()}
         {this.renderMemos()}
         <TransactionMeta t={t} language={language} data={data} />
       </div>
-    );
+    )
   }
 }
 
@@ -136,9 +145,14 @@ DetailTab.propTypes = {
   t: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   data: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number, PropTypes.array])
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+      PropTypes.number,
+      PropTypes.array,
+    ]),
   ).isRequired,
   instructions: PropTypes.shape({}).isRequired,
-};
+}
 
-export default DetailTab;
+export default DetailTab

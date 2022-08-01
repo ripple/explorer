@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Trans } from 'react-i18next';
-import Account from '../../shared/components/Account';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Trans } from 'react-i18next'
+import Account from '../../shared/components/Account'
 
-const DepositPreauth = props => {
-  const { data } = props;
-  const { tx } = data;
+const DepositPreauth = (props) => {
+  const { data } = props
+  const { tx } = data
   return tx.Authorize ? (
     <div>
       <Trans i18nKey="deposit_auth">
@@ -22,8 +22,8 @@ const DepositPreauth = props => {
         to send payments to the account
       </Trans>
     </div>
-  );
-};
+  )
+}
 
 DepositPreauth.propTypes = {
   data: PropTypes.shape({
@@ -32,6 +32,6 @@ DepositPreauth.propTypes = {
       Unauthorize: PropTypes.string,
     }).isRequired,
   }).isRequired,
-};
+}
 
-export default DepositPreauth;
+export default DepositPreauth

@@ -1,15 +1,15 @@
-import logger from './lib/logger';
+import logger from './lib/logger'
 
-import { getOffers } from './lib/rippled';
+import { getOffers } from './lib/rippled'
 
-const log = logger({ name: 'offers' });
+const log = logger({ name: 'offers' })
 
 const getBookOffers = async (
   currencyCode,
   issuerAddress,
   pairCurrencyCode,
   pairIssuerAddress,
-  rippledSocket
+  rippledSocket,
 ) => {
   try {
     // log.info('fetching book offers from rippled');
@@ -18,30 +18,32 @@ const getBookOffers = async (
       currencyCode,
       issuerAddress,
       pairCurrencyCode,
-      pairIssuerAddress
-    );
-    const { offers } = orderBook;
+      pairIssuerAddress,
+    )
+    const { offers } = orderBook
     if (offers.length === 0) {
-      return orderBook;
+      return orderBook
     }
-    let rateSum = 0;
-    let highestExchangeRate = 0;
-    let lowestExchangeRate = Number.MAX_VALUE;
+    let rateSum = 0
+    let highestExchangeRate = 0
+    let lowestExchangeRate = Number.MAX_VALUE
     for (const offer of offers) {
-      const takerPays = offer.TakerPays.value || offer.TakerPays;
-      const takerGets = offer.TakerGets.value || offer.TakerGets;
-      const rate = takerPays / takerGets;
+      const takerPays = offer.TakerPays.value || offer.TakerPays
+      const takerGets = offer.TakerGets.value || offer.TakerGets
+      const rate = takerPays / takerGets
       if (rate > highestExchangeRate) {
-        highestExchangeRate = rate;
+        highestExchangeRate = rate
       }
       if (rate < lowestExchangeRate) {
-        lowestExchangeRate = rate;
+        lowestExchangeRate = rate
       }
-      rateSum += rate;
+      rateSum += rate
     }
-    const averageExchangeRate = rateSum / offers.length;
+    const averageExchangeRate = rateSum / offers.length
 
-    offers.sort((offerA, offerB) => offerA.PreviousTxnLgrSeq - offerB.PreviousTxnLgrSeq);
+    offers.sort(
+      (offerA, offerB) => offerA.PreviousTxnLgrSeq - offerB.PreviousTxnLgrSeq,
+    )
 
     orderBook = {
       ...orderBook,
@@ -49,13 +51,13 @@ const getBookOffers = async (
       highestExchangeRate,
       lowestExchangeRate,
       offers,
-    };
+    }
 
-    return orderBook;
+    return orderBook
   } catch (error) {
-    log.error(error.toString());
-    throw error;
+    log.error(error.toString())
+    throw error
   }
-};
+}
 
-export default getBookOffers;
+export default getBookOffers

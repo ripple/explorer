@@ -1,4 +1,4 @@
-import i18n from 'i18next';
+import i18n from 'i18next'
 
 i18n.init({
   fallbackLng: 'cimode',
@@ -14,6 +14,6 @@ i18n.init({
     nsMode: 'fallback', // set it to fallback to let passed namespaces to translated hoc act as fallbacks
     useSuspense: false,
   },
-});
+})
 
-export default i18n;
+export default i18n

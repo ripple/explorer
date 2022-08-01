@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ReactComponent as PairLine } from '../../shared/images/pair_line.svg';
-import Currency from '../../shared/components/Currency';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { ReactComponent as PairLine } from '../../shared/images/pair_line.svg'
+import Currency from '../../shared/components/Currency'
 
-const PairStats = props => {
-  const { pair } = props;
-  const { low, high, token } = pair;
-  const { t } = props;
+const PairStats = (props) => {
+  const { pair } = props
+  const { low, high, token } = pair
+  const { t } = props
 
   return (
     <div className="pair-stats-container">
@@ -40,8 +40,8 @@ const PairStats = props => {
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
 PairStats.propTypes = {
   pair: PropTypes.shape({
@@ -60,6 +60,6 @@ PairStats.propTypes = {
     token: PropTypes.string.isRequired,
   }).isRequired,
   t: PropTypes.func.isRequired,
-};
+}
 
-export default PairStats;
+export default PairStats

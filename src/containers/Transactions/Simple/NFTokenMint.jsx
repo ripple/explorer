@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const NFTokenMint = props => {
+const NFTokenMint = (props) => {
   const {
     data: {
       instructions: { tokenID, tokenTaxon, uri },
     },
-  } = props;
+  } = props
 
   return (
     <>
@@ -31,8 +31,8 @@ const NFTokenMint = props => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
 NFTokenMint.propTypes = {
   data: PropTypes.shape({
@@ -42,6 +42,6 @@ NFTokenMint.propTypes = {
       uri: PropTypes.string,
     }),
   }).isRequired,
-};
+}
 
-export default NFTokenMint;
+export default NFTokenMint

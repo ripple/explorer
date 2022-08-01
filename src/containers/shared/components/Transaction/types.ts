@@ -1,74 +1,76 @@
-import React from 'react';
+import React from 'react'
 
 export interface Instructions {
-  owner: string;
-  sequence: number;
-  ticketSequence: number;
-  fulfillment: string;
-  finishAfter: string;
-  cancelAfter: string;
-  condition: string;
-  quorum: number;
+  owner: string
+  sequence: number
+  ticketSequence: number
+  fulfillment: string
+  finishAfter: string
+  cancelAfter: string
+  condition: string
+  quorum: number
   max: {
-    amount: number;
-    currency: string;
-    issuer: string;
-  };
-  signers: any[];
-  domain: string;
+    amount: number
+    currency: string
+    issuer: string
+  }
+  signers: any[]
+  domain: string
   // eslint-disable-next-line camelcase
-  email_hash: string;
+  email_hash: string
   // eslint-disable-next-line camelcase
-  message_key: string;
+  message_key: string
   // eslint-disable-next-line camelcase
-  set_flag: number;
+  set_flag: number
   // eslint-disable-next-line camelcase
-  clear_flag: number;
-  key: string;
-  limit: any;
-  pair: string;
-  sourceTag: number;
-  source: string;
-  claimed: any;
+  clear_flag: number
+  key: string
+  limit: any
+  pair: string
+  sourceTag: number
+  source: string
+  claimed: any
   // eslint-disable-next-line camelcase
-  channel_amount: number;
-  remaining: number;
-  renew: boolean;
-  close: boolean;
-  deleted: boolean;
-  gets: any;
-  pays: any;
-  price: string;
-  cancel: number;
-  convert: any;
-  amount: any;
-  destination: string;
-  partial: boolean;
-  ticketCount: number;
+  channel_amount: number
+  remaining: number
+  renew: boolean
+  close: boolean
+  deleted: boolean
+  gets: any
+  pays: any
+  price: string
+  cancel: number
+  convert: any
+  amount: any
+  destination: string
+  partial: boolean
+  ticketCount: number
 }
 
 export interface TransactionTableDetailProps {
-  instructions: Instructions;
+  instructions: Instructions
 }
-export type TransactionTableDetailComponent = React.FC<TransactionTableDetailProps>;
+export type TransactionTableDetailComponent =
+  React.FC<TransactionTableDetailProps>
 
 export interface TransactionDescriptionProps {
   data: {
-    tx: any;
-  };
+    tx: any
+  }
 }
-export type TransactionDescriptionComponent = React.FC<TransactionDescriptionProps>;
+export type TransactionDescriptionComponent =
+  React.FC<TransactionDescriptionProps>
 
 export interface TransactionSimpleProps {
   data: {
-    instructions?: any;
-  };
+    instructions?: any
+  }
 }
-export type TransactionSimpleComponent = React.FC<TransactionSimpleProps>;
+export type TransactionSimpleComponent = React.FC<TransactionSimpleProps>
 
 export interface TransactionMapping {
-  Description?: TransactionDescriptionComponent;
-  Simple: TransactionSimpleComponent;
-  TableDetail?: TransactionTableDetailComponent;
-  parser: (tx: any, meta: any) => any;
+  Description?: TransactionDescriptionComponent
+  Simple: TransactionSimpleComponent
+  TableDetail?: TransactionTableDetailComponent
+  parser: (tx: any, meta: any) => any
 }

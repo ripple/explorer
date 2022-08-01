@@ -1,13 +1,13 @@
-import EventEmitter from 'events';
+import EventEmitter from 'events'
 
 function wsEventToType(event) {
   if (event === 'ledgerClosed') {
-    return 'ledger';
+    return 'ledger'
   }
   if (event === 'validationReceived') {
-    return 'validation';
+    return 'validation'
   }
-  return null;
+  return null
 }
 /**
  * This is a mock WS client for testing purposes.
@@ -20,30 +20,30 @@ class MockWsClient extends EventEmitter {
    * null.
    */
   constructor(wsUrl = null) {
-    super();
-    this.handlesStreams = wsUrl != null;
-    this.handlers = {};
-    this.responses = {};
-    this.returnError = false;
-    this.endpoint = 'wss://fakenode.ripple.com:51233';
-    this.p2pSocket = this;
-    this.debug = false;
+    super()
+    this.handlesStreams = wsUrl != null
+    this.handlers = {}
+    this.responses = {}
+    this.returnError = false
+    this.endpoint = 'wss://fakenode.ripple.com:51233'
+    this.p2pSocket = this
+    this.debug = false
 
     // set up the message handler for streams
     if (this.handlesStreams) {
-      this.ws = new WebSocket(wsUrl);
-      this.ws.onmessage = message => {
-        const streamResult = JSON.parse(message.data);
-        const type = wsEventToType(streamResult?.type);
+      this.ws = new WebSocket(wsUrl)
+      this.ws.onmessage = (message) => {
+        const streamResult = JSON.parse(message.data)
+        const type = wsEventToType(streamResult?.type)
         if (type) {
-          this.emit(type, streamResult);
+          this.emit(type, streamResult)
         }
-      };
+      }
     }
   }
 
   setDebug(debug = true) {
-    this.debug = debug;
+    this.debug = debug
   }
 
   /**
@@ -51,7 +51,7 @@ class MockWsClient extends EventEmitter {
    */
   close() {
     if (this.ws) {
-      this.ws.close();
+      this.ws.close()
     }
   }
 
@@ -60,7 +60,7 @@ class MockWsClient extends EventEmitter {
    * @param returnError Whether the send method should return an error.
    */
   setReturnError(returnError = true) {
-    this.returnError = returnError;
+    this.returnError = returnError
   }
 
   /**
@@ -69,7 +69,7 @@ class MockWsClient extends EventEmitter {
    * @param response The mock response object.
    */
   addResponse(command, response) {
-    this.responses[command] = response;
+    this.responses[command] = response
   }
 
   /**
@@ -81,7 +81,7 @@ class MockWsClient extends EventEmitter {
    * @param responseObj The responses to add to the mocks.
    */
   addResponses(responseObj) {
-    this.responses = Object.assign(this.responses, responseObj);
+    this.responses = Object.assign(this.responses, responseObj)
   }
 
   /**
@@ -92,14 +92,14 @@ class MockWsClient extends EventEmitter {
    */
   send(message) {
     if (this.debug) {
-      console.log(message);
+      console.log(message)
     }
     if (this.returnError) {
-      return Promise.reject(new Error({}));
+      return Promise.reject(new Error({}))
     }
-    const { command } = message;
-    return Promise.resolve(this.responses[command]?.result);
+    const { command } = message
+    return Promise.resolve(this.responses[command]?.result)
   }
 }
 
-export default MockWsClient;
+export default MockWsClient

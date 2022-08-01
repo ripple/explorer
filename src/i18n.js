@@ -1,6 +1,6 @@
-import i18n from 'i18next';
-import Backend from 'i18next-http-backend';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18n from 'i18next'
+import Backend from 'i18next-http-backend'
+import LanguageDetector from 'i18next-browser-languagedetector'
 
 const options = {
   debug: process.env.NODE_ENV === 'development',
@@ -19,11 +19,8 @@ const options = {
     loadPath: '/locales/{{lng}}/{{ns}}.json',
   },
   load: 'currentOnly',
-};
+}
 
-i18n
-  .use(Backend)
-  .use(LanguageDetector)
-  .init(options);
+i18n.use(Backend).use(LanguageDetector).init(options)
 
-export default i18n;
+export default i18n

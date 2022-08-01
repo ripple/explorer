@@ -1,12 +1,12 @@
-import { withTranslation } from 'react-i18next';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Tooltip from '../shared/components/Tooltip';
-import { CURRENCY_OPTIONS } from '../shared/transactionUtils';
-import { localizeNumber } from '../shared/utils';
-import { ReactComponent as PauseIcon } from '../shared/images/ic_pause.svg';
-import { ReactComponent as ResumeIcon } from '../shared/images/ic_play.svg';
-import './css/ledgerMetrics.css';
+import { withTranslation } from 'react-i18next'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Tooltip from '../shared/components/Tooltip'
+import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
+import { localizeNumber } from '../shared/utils'
+import { ReactComponent as PauseIcon } from '../shared/images/ic_pause.svg'
+import { ReactComponent as ResumeIcon } from '../shared/images/ic_play.svg'
+import './css/ledgerMetrics.css'
 
 const DEFAULTS = {
   load_fee: '--',
@@ -16,27 +16,27 @@ const DEFAULTS = {
   avg_fee: '--',
   quorum: '--',
   nUnl: [],
-};
+}
 
 const renderXRP = (d, language) => {
-  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' };
-  return localizeNumber(d, language, options);
-};
+  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
+  return localizeNumber(d, language, options)
+}
 
 class LedgerMetrics extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       tooltip: null,
-    };
+    }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    return { ...prevState, ...nextProps };
+    return { ...prevState, ...nextProps }
   }
 
-  showTooltip = event => {
-    const { data, nUnl } = this.state;
+  showTooltip = (event) => {
+    const { data, nUnl } = this.state
     this.setState({
       tooltip: {
         nUnl: data.nUnl,
@@ -45,49 +45,55 @@ class LedgerMetrics extends Component {
         x: event.pageX,
         y: event.pageY,
       },
-    });
-  };
+    })
+  }
 
-  hideTooltip = () => this.setState({ tooltip: null });
+  hideTooltip = () => this.setState({ tooltip: null })
 
   renderPause() {
-    const { t, onPause, paused } = this.props;
-    const Icon = paused ? ResumeIcon : PauseIcon;
-    const text = paused ? 'resume' : 'pause';
+    const { t, onPause, paused } = this.props
+    const Icon = paused ? ResumeIcon : PauseIcon
+    const text = paused ? 'resume' : 'pause'
 
     return (
-      <div tabIndex={0} role="button" className="pause-resume" onClick={onPause} onKeyUp={onPause}>
+      <div
+        tabIndex={0}
+        role="button"
+        className="pause-resume"
+        onClick={onPause}
+        onKeyUp={onPause}
+      >
         <Icon className="icon" alt={t(text)} />
         <span>{t(text)}</span>
       </div>
-    );
+    )
   }
 
   render() {
-    const { language, t } = this.props;
-    const { data: stateData } = this.state;
-    const data = { ...DEFAULTS, ...stateData };
+    const { language, t } = this.props
+    const { data: stateData } = this.state
+    const data = { ...DEFAULTS, ...stateData }
 
     if (data.load_fee === '--') {
-      data.load_fee = data.base_fee || '--';
+      data.load_fee = data.base_fee || '--'
     }
-    delete data.base_fee;
+    delete data.base_fee
     const items = Object.keys(data)
-      .map(key => {
-        let content = null;
+      .map((key) => {
+        let content = null
 
-        let className = 'label';
+        let className = 'label'
         if (data[key] === undefined && key !== 'nUnl') {
-          content = '--';
+          content = '--'
         } else if (key.includes('fee') && !isNaN(data[key])) {
-          content = renderXRP(data[key], language);
+          content = renderXRP(data[key], language)
         } else if (key === 'ledger_interval' && data[key] !== '--') {
-          content = `${data[key]} ${t('seconds_short')}`;
+          content = `${data[key]} ${t('seconds_short')}`
         } else if (key === 'nUnl' && data[key].length === 0) {
-          return null;
+          return null
         } else if (key === 'nUnl') {
-          content = data[key].length;
-          className = 'label n-unl-metric';
+          content = data[key].length
+          className = 'label n-unl-metric'
           return (
             <a
               key={`link ${key}`}
@@ -100,7 +106,7 @@ class LedgerMetrics extends Component {
                 className="cell"
                 onFocus={() => {}}
                 onBlur={() => {}}
-                onMouseOver={e => this.showTooltip(e)}
+                onMouseOver={(e) => this.showTooltip(e)}
                 onMouseOut={this.hideTooltip}
                 tabIndex={0}
                 key={key}
@@ -109,9 +115,9 @@ class LedgerMetrics extends Component {
                 <span>{content}</span>
               </div>
             </a>
-          );
+          )
         } else {
-          content = data[key];
+          content = data[key]
         }
 
         return (
@@ -119,11 +125,11 @@ class LedgerMetrics extends Component {
             <div className={className}>{t(key)}</div>
             <span>{content}</span>
           </div>
-        );
+        )
       })
-      .reverse();
+      .reverse()
 
-    const { tooltip } = this.state;
+    const { tooltip } = this.state
 
     return (
       <div className="metrics-control">
@@ -131,7 +137,7 @@ class LedgerMetrics extends Component {
         <div className="metrics">{items}</div>
         <Tooltip t={t} language={language} data={tooltip} />
       </div>
-    );
+    )
   }
 }
 
@@ -141,10 +147,10 @@ LedgerMetrics.propTypes = {
   t: PropTypes.func.isRequired,
   onPause: PropTypes.func.isRequired,
   paused: PropTypes.bool.isRequired,
-};
+}
 
 LedgerMetrics.defaultProps = {
   data: {},
-};
+}
 
-export default withTranslation()(LedgerMetrics);
+export default withTranslation()(LedgerMetrics)
