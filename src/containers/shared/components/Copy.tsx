@@ -4,7 +4,7 @@ import copy from '../images/copy.png';
 
 interface Props {
   text: string;
-  className: string;
+  className?: string;
 }
 
 const Copy = ({ text, className }: Props) => {
@@ -25,7 +25,7 @@ Copy.propTypes = {
 
 Copy.defaultProps = {
   text: '',
-  className: '',
+  className: null,
 };
 
 export default Copy;
