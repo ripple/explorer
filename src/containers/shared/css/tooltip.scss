@@ -1,17 +1,5 @@
 @import './variables.scss';
 
-.nft {
-  position: absolute;
-  z-index: 1000;
-  padding: 16px 16px 16px 16px;
-  background: #a09f9f;
-  border-radius: 16px;
-  color: white;
-  font-size: 13px;
-  line-height: 16px;
-  @include medium;
-}
-
 .tooltip {
   position: absolute;
   z-index: 1000;
@@ -27,6 +15,10 @@
     height: 16px;
     margin: 0px 5px;
     vertical-align: middle;
+  }
+
+  .nft {
+    font-size: 13px;
   }
 
   .label {
