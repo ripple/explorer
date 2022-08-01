@@ -7,9 +7,7 @@ interface Props {
   className: string;
 }
 
-const Copy = (props: Props) => {
-  const { text, className } = props;
-
+const Copy = ({ text, className }: Props) => {
   return (
     <input
       className={className}
