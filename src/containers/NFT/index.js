@@ -26,7 +26,7 @@ const getErrorMessage = error => ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 const NFT = props => {
   const { id: tokenId } = useParams();
   const { t } = useTranslation();
-  const { error, loading, disclaimer } = props;
+  const { error, disclaimer } = props;
 
   document.title = `${t('xrpl_explorer')} | ${tokenId.substr(0, 12)}...`;
 
@@ -60,7 +60,7 @@ const NFT = props => {
   ) : (
     <div className="token-page">
       {tokenId && <NFTHeader tokenId={tokenId} />}
-      {tokenId && disclaimer && !loading && renderDisclaimer()}
+      {tokenId && disclaimer && renderDisclaimer()}
       {!tokenId && (
         <div style={{ textAlign: 'center', fontSize: '14px' }}>
           <h2>Enter a NFT ID in the search box</h2>
@@ -72,7 +72,6 @@ const NFT = props => {
 
 NFT.propTypes = {
   error: PropTypes.number,
-  loading: PropTypes.bool.isRequired,
   disclaimer: PropTypes.shape({
     content: PropTypes.string,
     date: PropTypes.string,
@@ -87,5 +86,4 @@ NFT.defaultProps = {
 export default connect(state => ({
   width: state.app.width,
   error: state.NFTHeader.status,
-  loading: state.NFTHeader.loading,
 }))(withTranslation()(NFT));
