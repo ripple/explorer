@@ -75,7 +75,7 @@ class NFT extends Component {
       NFT.renderError(error)
     ) : (
       <div className="token-page">
-        {tokenId && <NFTHeader tokenId={tokenId} t={t} />}
+        {tokenId && <NFTHeader tokenId={tokenId} />}
         {tokenId && disclaimer && !loading && NFT.renderDisclaimer(disclaimer)}
         {!tokenId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>

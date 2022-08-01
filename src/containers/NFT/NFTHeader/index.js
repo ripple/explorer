@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useContext, useState } from 'react';
+import { useTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loadNFTState } from './actions';
@@ -12,40 +12,25 @@ import SocketContext from '../../shared/SocketContext';
 import Tooltip from '../../shared/components/Tooltip';
 import Copy from '../../shared/components/Copy';
 
-class NFTHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const NFTHeader = props => {
+  const { t } = useTranslation();
+  const { actions, tokenId, data, loading, language } = props;
+  const rippledSocket = useContext(SocketContext);
+  const [tooltip, setTooltip] = useState(null);
 
-  componentDidMount() {
-    const { actions, tokenId } = this.props;
-    const rippledSocket = this.context;
+  useEffect(() => {
     actions.loadNFTState(tokenId, rippledSocket.clioSocket);
-  }
+  }, [tokenId]);
 
-  componentDidUpdate(prevProps) {
-    const nexttokenId = prevProps.tokenId;
-    const { tokenId, actions } = this.props;
-    const rippledSocket = this.context;
-
-    if (nexttokenId !== tokenId) {
-      actions.loadNFTState(nexttokenId, rippledSocket.clioSocket);
-    }
-  }
-
-  showTooltip = (event, data) => {
-    this.setState({
-      tooltip: { ...data, mode: 'nftId', x: event.pageX, y: event.pageY },
-    });
+  const showTooltip = (event, d) => {
+    setTooltip({ ...d, mode: 'nftId', x: event.pageX, y: event.pageY });
   };
 
-  hideTooltip = () => {
-    this.setState({ tooltip: null });
+  const hideTooltip = () => {
+    setTooltip(null);
   };
 
-  renderDetails() {
-    const { t, data } = this.props;
+  const renderDetails = () => {
     const { minted, domain, emailHash, NFTTaxon, uri, transferFee } = data;
     const abbrvEmail = emailHash && emailHash.replace(/(.{20})..+/, '$1...');
     const abbrvURI = uri && uri.replace(/(.{20})..+/, '$1...');
@@ -97,10 +82,9 @@ class NFTHeader extends Component {
         </tbody>
       </table>
     );
-  }
+  };
 
-  renderSettings() {
-    const { data } = this.props;
+  const renderSettings = () => {
     const { flags } = data;
 
     const burnable = flags?.includes('lsfBurnable') ? 'enabled' : 'disabled';
@@ -129,10 +113,9 @@ class NFTHeader extends Component {
         </tbody>
       </table>
     );
-  }
+  };
 
-  renderHeaderContent() {
-    const { t, data, language, tokenId } = this.props;
+  const renderHeaderContent = () => {
     const { issuer } = data;
     const abbrvIssuer = issuer && issuer.replace(/(.{23})..+/, '$1...');
     return (
@@ -151,55 +134,49 @@ class NFTHeader extends Component {
         <div className="bottom-container">
           <div className="details">
             <div className="title">{t('details')}</div>
-            {this.renderDetails()}
+            {renderDetails()}
           </div>
           <div className="settings">
             <div className="title">{t('settings')}</div>
-            {this.renderSettings()}
+            {renderSettings()}
           </div>
         </div>
       </div>
     );
-  }
+  };
 
-  render() {
-    const { loading, data } = this.props;
-    const { tooltip } = this.state;
-    const tokenId = data.NFTId;
-    return (
-      <div className="token-header">
-        <div className="section">
+  return (
+    <div className="token-header">
+      <div className="section">
+        {!loading && Object.keys(data).length !== 0 && (
           <div className="box-header">
             <div className="token-title">
-              {!loading && <>NFT ID</>}
-              {!loading && (
-                <div className="token-type">
-                  <div className="subscript">NFT</div>
-                </div>
-              )}
+              NFT ID
+              <div className="token-type">
+                <div className="subscript">NFT</div>
+              </div>
             </div>
             <div
               className="title-content"
-              onMouseOver={e => this.showTooltip(e, { tokenId })}
+              onMouseOver={e => showTooltip(e, { tokenId })}
               onFocus={() => {}}
-              onMouseLeave={this.hideTooltip}
+              onMouseLeave={hideTooltip}
             >
               {tokenId}
             </div>
           </div>
-        </div>
-        <div className="box-content">{loading ? <Loader /> : this.renderHeaderContent()}</div>
-        <Tooltip data={tooltip} />
+        )}
       </div>
-    );
-  }
-}
-
-NFTHeader.contextType = SocketContext;
+      <div className="box-content">
+        {loading || Object.keys(data).length === 0 ? <Loader /> : renderHeaderContent()}
+      </div>
+      <Tooltip data={tooltip} />
+    </div>
+  );
+};
 
 NFTHeader.propTypes = {
   language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   tokenId: PropTypes.string.isRequired,
   data: PropTypes.shape({
