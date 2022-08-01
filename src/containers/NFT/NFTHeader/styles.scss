@@ -117,7 +117,6 @@ table {
           font-family: 'Work Sans', sans-serif;
           font-size: 18px;
           font-style: normal;
-          font-weight: 700;
           line-height: 125%;
           text-align: right;
           text-decoration: none;
@@ -204,8 +203,8 @@ table {
       font-family: 'Work Sans', sans-serif;
       font-size: 14px;
       font-style: normal;
-      font-weight: 700;
       line-height: 125%;
+      @include bold;
       .subscript {
         flex: none;
         flex-grow: 0;
@@ -320,11 +319,11 @@ table {
           // }
 
           .tag {
-            font-weight: 500;
+            @include medium;
           }
 
           .network {
-            font-weight: 500;
+            @include medium;
           }
 
           // .weight {
