@@ -17,6 +17,7 @@ import paystrings from '../PayStrings';
 import token from '../Token';
 import tokens from '../Tokens';
 import noMatch from '../NoMatch';
+import NFT from '../NFT';
 import SocketContext from '../shared/SocketContext';
 
 const MODE = process.env.REACT_APP_ENVIRONMENT;
@@ -45,6 +46,12 @@ const App = props => {
         `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
     : undefined;
+  socket.clioSocket =
+    process.env.REACT_APP_CLIO_HOST && process.env.REACT_APP_CLIO_WS_PORT
+      ? new XrplClient(
+          `ws://${process.env.REACT_APP_CLIO_HOST}:${process.env.REACT_APP_CLIO_WS_PORT}`
+        )
+      : undefined;
 
   useEffect(() => {
     actions.updateViewportDimensions();
@@ -58,6 +65,9 @@ const App = props => {
       socket.close();
       if (hasP2PSocket) {
         socket.p2pSocket.close();
+      }
+      if (socket.clioSocket) {
+        socket.clioSocket.close();
       }
     };
   });
@@ -100,6 +110,7 @@ const App = props => {
               <Route exact path="/validators/:identifier/:tab?" component={validators} />
               <Route exact path="/paystrings/:id?" component={paystrings} />
               <Route exact path="/token/:currency.:id" component={token} />
+              <Route exact path="/token/:id" component={NFT} />
               {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
               <Route component={noMatch} />
             </Switch>

@@ -1,0 +1,55 @@
+@import '../shared/css/variables.scss';
+
+.token-page {
+  width: 100%;
+  .disclaimer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 32px;
+    @include for-size(tablet-landscape-up) {
+      width: 552px;
+      margin: 0 auto;
+    }
+    @include for-size(desktop-up) {
+      width: 1140px;
+    }
+    @include for-size(desktop-up) {
+      flex-direction: row;
+    }
+
+    .disclaimer-left {
+      display: flex;
+      height: 15px;
+      align-items: end;
+      padding: 64px 0 0 5px;
+      color: $gray-400;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      line-height: 150%;
+
+      @include regular;
+    }
+
+    .disclaimer-right {
+      display: flex;
+      align-items: end;
+      color: $gray-400;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      line-height: 150%;
+      text-align: right;
+
+      @include regular;
+    }
+  }
+  .loader {
+    min-height: 100px;
+    background: $black;
+    opacity: 0.8;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+}
