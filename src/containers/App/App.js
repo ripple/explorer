@@ -29,11 +29,11 @@ const App = (props) => {
   const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
   const wsUrls = []
   if (rippledHost.includes(':')) {
-    wsUrls.push(`ws://${rippledHost}`)
+    wsUrls.push(`wss://${rippledHost}`)
   } else {
     wsUrls.push.apply(wsUrls, [
-      `ws://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      `ws://${rippledHost}:443`,
+      `wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+      `wss://${rippledHost}:443`,
     ])
   }
   const socket = new XrplClient(wsUrls)
@@ -42,7 +42,7 @@ const App = (props) => {
     process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
   socket.p2pSocket = hasP2PSocket
     ? new XrplClient([
-        `ws://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+        `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
     : undefined
 
