@@ -36,7 +36,7 @@ export const Simple: TransactionSimpleComponent = (
         <Amount value={signatureReward} />
       </SimpleRow>
       <SimpleRow label={t('min_account_create_amount')}>
-        <Amount value={minAccountCreateAmount} />
+        <Amount value={minAccountCreateAmount ?? 'N/A'} />
       </SimpleRow>
     </>
   )

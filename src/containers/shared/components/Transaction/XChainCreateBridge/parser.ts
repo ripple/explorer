@@ -1,10 +1,10 @@
 export function parser(tx: any) {
   return {
-    lockingDoor: tx.XChainBridge?.LockingChainDoor,
-    lockingIssue: tx.XChainBridge?.LockingChainIssue,
-    issuingDoor: tx.XChainBridge?.IssuingChainDoor,
-    issuingIssue: tx.XChainBridge?.IssuingChainIssue,
+    lockingDoor: tx.XChainBridge.LockingChainDoor,
+    lockingIssue: tx.XChainBridge.LockingChainIssue,
+    issuingDoor: tx.XChainBridge.IssuingChainDoor,
+    issuingIssue: tx.XChainBridge.IssuingChainIssue,
     signatureReward: tx.SignatureReward,
-    minAccountCreateAmount: tx.MinAccountCreateAmount ?? 'N/A',
+    minAccountCreateAmount: tx.MinAccountCreateAmount,
   }
 }
