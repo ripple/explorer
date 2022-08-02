@@ -32,13 +32,13 @@
     .row {
       display: flex;
       overflow: hidden;
-      padding: 0px 15px;
-      padding-left: 0px;
+      padding: 0 15px;
+      padding-left: 0;
       border-bottom: 1px solid $gray-800;
 
       @include for-size(tablet-portrait-up) {
         padding: 15px;
-        padding-left: 0px;
+        padding-left: 0;
       }
 
       .label {
