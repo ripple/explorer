@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Account from '../../Account'
+import { Amount } from '../../Amount'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 
@@ -31,10 +32,11 @@ export const Simple: TransactionSimpleComponent = (
         <Account account={issuingDoor} />
       </SimpleRow>
       <SimpleRow label={t('issuing_chain_issue')}>{issuingIssue}</SimpleRow>
-      {/* TODO: use new Amount component for this */}
-      <SimpleRow label={t('signature_reward')}>{signatureReward}</SimpleRow>
+      <SimpleRow label={t('signature_reward')}>
+        <Amount value={signatureReward} />
+      </SimpleRow>
       <SimpleRow label={t('min_account_create_amount')}>
-        {minAccountCreateAmount}
+        <Amount value={minAccountCreateAmount} />
       </SimpleRow>
     </>
   )
