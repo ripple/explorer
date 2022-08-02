@@ -70,8 +70,9 @@ const NFTHeader = props => {
             <tr className="row">
               <td className="col1">URI</td>
               <td className="col2">
-                {abbrvURI}
-                <CopyToClipboard className="copy" text={uri} />
+                <a href={uri} target="_blank" rel="noopener noreferrer">
+                  {abbrvURI}
+                </a>
               </td>
             </tr>
           )}
