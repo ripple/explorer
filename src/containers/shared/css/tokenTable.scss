@@ -1,0 +1,32 @@
+@import './variables.scss';
+
+@mixin token-table {
+  table {
+    margin-top: 24px;
+    font-size: 14px;
+
+    .col1 {
+      width: 180px;
+      padding-bottom: 8px;
+      color: $gray-400;
+      text-transform: uppercase;
+      @include semibold;
+    }
+    .col2 {
+      padding-bottom: 8px;
+      color: $white;
+
+      a {
+        color: $green;
+        text-decoration: none;
+      }
+
+      .copy {
+        position: absolute;
+        width: 17px;
+        height: 17px;
+        margin-left: 8.42px;
+      }
+    }
+  }
+}
