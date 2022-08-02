@@ -1,12 +1,14 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import Account from '../../Account';
-import { TransactionSimpleComponent, TransactionSimpleProps } from '../types';
-import { SimpleRow } from '../SimpleRow';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import Account from '../../Account'
+import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
+import { SimpleRow } from '../SimpleRow'
 
-export const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
-  const { t } = useTranslation();
-  const { data } = props;
+export const Simple: TransactionSimpleComponent = (
+  props: TransactionSimpleProps,
+) => {
+  const { t } = useTranslation()
+  const { data } = props
   const {
     lockingDoor,
     lockingIssue,
@@ -14,7 +16,7 @@ export const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps
     issuingIssue,
     signatureReward,
     minAccountCreateAmount,
-  } = data.instructions;
+  } = data.instructions
 
   return (
     <>
@@ -28,7 +30,9 @@ export const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps
       <SimpleRow label={t('issuing_chain_issue')}>{issuingIssue}</SimpleRow>
       {/* TODO: use new Amount component for this */}
       <SimpleRow label={t('signature_reward')}>{signatureReward}</SimpleRow>
-      <SimpleRow label={t('min_account_create_amount')}>{minAccountCreateAmount}</SimpleRow>
+      <SimpleRow label={t('min_account_create_amount')}>
+        {minAccountCreateAmount}
+      </SimpleRow>
     </>
-  );
-};
+  )
+}
