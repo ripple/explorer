@@ -15,18 +15,18 @@ const ACCOUNT_FLAGS = {
   0x00400000: 'lsfGlobalFreeze',
   0x00800000: 'lsfDefaultRipple',
   0x01000000: 'lsfDepositAuth',
-};
+}
 const NFT_FLAGS = {
   0x00000001: 'lsfBurnable',
   0x00000002: 'lsfOnlyXRP',
   0x00000004: 'lsfTrustLine',
   0x00000008: 'lsfTransferable',
-};
-const hex32 = d => {
-  const int = d & 0xffffffff;
-  const hex = int.toString(16).toUpperCase();
-  return `0x${`00000000${hex}`.slice(-8)}`;
-};
+}
+const hex32 = (d) => {
+  const int = d & 0xffffffff
+  const hex = int.toString(16).toUpperCase()
+  return `0x${`00000000${hex}`.slice(-8)}`
+}
 
 const zeroPad = (num, size, back = false) => {
   let s = String(num)
@@ -38,13 +38,13 @@ const zeroPad = (num, size, back = false) => {
 }
 
 const buildFlags = (flags, flagMap) => {
-  const bits = zeroPad((flags || 0).toString(2), 32).split('');
+  const bits = zeroPad((flags || 0).toString(2), 32).split('')
 
   return bits
     .map((value, i) => {
-      const bin = zeroPad(1, 32 - i, true);
-      const int = parseInt(bin, 2);
-      return value === '1' ? flagMap[int] || hex32(int) : undefined;
+      const bin = zeroPad(1, 32 - i, true)
+      const int = parseInt(bin, 2)
+      return value === '1' ? flagMap[int] || hex32(int) : undefined
     })
     .filter((d) => Boolean(d))
 }
@@ -141,7 +141,7 @@ function convertHexToString(hex, encoding = 'utf8') {
   return Buffer.from(hex, 'hex').toString(encoding)
 }
 
-const formatNFTInfo = info => ({
+const formatNFTInfo = (info) => ({
   NFTId: info.nft_id,
   ledgerIndex: info.ledger_index,
   owner: info.owner,
@@ -155,7 +155,7 @@ const formatNFTInfo = info => ({
   validated: info.validated,
   status: info.status,
   warnings: info.warnings,
-});
+})
 
 export {
   EPOCH_OFFSET,
@@ -168,5 +168,4 @@ export {
   summarizeLedger,
   convertHexToString,
   formatNFTInfo,
-};
-
+}

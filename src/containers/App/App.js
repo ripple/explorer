@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { XrplClient } from 'xrpl-client';
-import { updateViewportDimensions, onScroll, updateLanguage } from './actions';
-import Ledgers from '../Ledgers';
-import Header from '../Header';
-import './app.css';
-import ledger from '../Ledger';
-import accounts from '../Accounts';
-import transactions from '../Transactions';
-import network from '../Network';
-import validators from '../Validators';
-import paystrings from '../PayStrings';
-import token from '../Token';
-import tokens from '../Tokens';
-import noMatch from '../NoMatch';
-import NFT from '../NFT';
-import SocketContext from '../shared/SocketContext';
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { XrplClient } from 'xrpl-client'
+import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
+import Ledgers from '../Ledgers'
+import Header from '../Header'
+import './app.css'
+import ledger from '../Ledger'
+import accounts from '../Accounts'
+import transactions from '../Transactions'
+import network from '../Network'
+import validators from '../Validators'
+import paystrings from '../PayStrings'
+import token from '../Token'
+import tokens from '../Tokens'
+import noMatch from '../NoMatch'
+import NFT from '../NFT'
+import SocketContext from '../shared/SocketContext'
 
 const MODE = process.env.REACT_APP_ENVIRONMENT
 
@@ -46,13 +46,13 @@ const App = (props) => {
     ? new XrplClient([
         `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
-    : undefined;
+    : undefined
   socket.clioSocket =
     process.env.REACT_APP_CLIO_HOST && process.env.REACT_APP_CLIO_WS_PORT
       ? new XrplClient(
-          `ws://${process.env.REACT_APP_CLIO_HOST}:${process.env.REACT_APP_CLIO_WS_PORT}`
+          `ws://${process.env.REACT_APP_CLIO_HOST}:${process.env.REACT_APP_CLIO_WS_PORT}`,
         )
-      : undefined;
+      : undefined
 
   useEffect(() => {
     actions.updateViewportDimensions()
@@ -68,11 +68,10 @@ const App = (props) => {
         socket.p2pSocket.close()
       }
       if (socket.clioSocket) {
-        socket.clioSocket.close();
+        socket.clioSocket.close()
       }
-    };
-  });
-
+    }
+  })
 
   const urlLink = rippledUrl ? `/${rippledUrl}` : ''
 
@@ -125,7 +124,9 @@ const App = (props) => {
               <Route exact path="/paystrings/:id?" component={paystrings} />
               <Route exact path="/token/:currency.:id" component={token} />
               <Route exact path="/token/:id" component={NFT} />
-              {MODE === 'mainnet' && <Route exact path="/tokens" component={tokens} />}
+              {MODE === 'mainnet' && (
+                <Route exact path="/tokens" component={tokens} />
+              )}
               <Route component={noMatch} />
             </Switch>
           </div>

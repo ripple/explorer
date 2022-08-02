@@ -289,22 +289,21 @@ const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) =>
     limit,
   })
 
-const getNFTInfo = (rippledSocket, tokenId) => {
-  return query(rippledSocket, {
+const getNFTInfo = (rippledSocket, tokenId) =>
+  query(rippledSocket, {
     command: 'nft_info',
     nft_id: tokenId,
-  }).then(resp => {
+  }).then((resp) => {
     if (resp.error === 'objectNotFound') {
-      throw new Error('NFT not found', 404);
+      throw new Error('NFT not found', 404)
     }
     if (resp.error_message) {
-      throw new Error(resp.error_message, 500);
+      throw new Error(resp.error_message, 500)
     }
-    return resp;
-  });
-};
+    return resp
+  })
 
-const getNegativeUNL = rippledSocket =>
+const getNegativeUNL = (rippledSocket) =>
   query(rippledSocket, {
     command: 'ledger_entry',
     index: N_UNL_INDEX,
@@ -376,5 +375,4 @@ export {
   getServerInfo,
   getOffers,
   getNFTInfo,
-};
-
+}

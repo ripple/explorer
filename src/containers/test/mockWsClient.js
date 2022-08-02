@@ -20,15 +20,15 @@ class MockWsClient extends EventEmitter {
    * null.
    */
   constructor(wsUrl = null) {
-    super();
-    this.handlesStreams = wsUrl != null;
-    this.handlers = {};
-    this.responses = {};
-    this.returnError = false;
-    this.endpoint = 'wss://fakenode.ripple.com:51233';
-    this.p2pSocket = this;
-    this.clioSocket = this;
-    this.debug = false;
+    super()
+    this.handlesStreams = wsUrl != null
+    this.handlers = {}
+    this.responses = {}
+    this.returnError = false
+    this.endpoint = 'wss://fakenode.ripple.com:51233'
+    this.p2pSocket = this
+    this.clioSocket = this
+    this.debug = false
 
     // set up the message handler for streams
     if (this.handlesStreams) {

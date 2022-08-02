@@ -23,11 +23,10 @@ import tokenHeaderReducer, {
 } from './containers/Token/TokenHeader/reducer'
 import accountNFTReducer, {
   initialState as accountNFTsState,
-} from './containers/Accounts/AccountNFTTable/reducer';
+} from './containers/Accounts/AccountNFTTable/reducer'
 import NFTHeaderReducer, {
   initialState as NFTHeaderState,
-} from './containers/NFT/NFTHeader/reducer';
-
+} from './containers/NFT/NFTHeader/reducer'
 
 export const initialState = {
   app: appState,
@@ -40,8 +39,7 @@ export const initialState = {
   payStringData: payStringState,
   tokenHeader: tokenHeaderState,
   NFTHeader: NFTHeaderState,
-};
-
+}
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -54,6 +52,6 @@ const rootReducer = combineReducers({
   payStringData: payStringReducer,
   tokenHeader: tokenHeaderReducer,
   NFTHeader: NFTHeaderReducer,
-});
+})
 
 export default rootReducer

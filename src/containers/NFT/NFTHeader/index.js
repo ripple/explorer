@@ -1,39 +1,40 @@
-import React, { Component, useEffect, useContext, useState } from 'react';
-import { useTranslation, withTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { loadNFTState } from './actions';
-import Loader from '../../shared/components/Loader';
-import '../../shared/css/nested-menu.css';
-import './styles.css';
-import SocketContext from '../../shared/SocketContext';
-import Tooltip from '../../shared/components/Tooltip';
-import CopyToClipboard from '../../shared/components/CopyToClipboard';
+import React, { Component, useEffect, useContext, useState } from 'react'
+import { useTranslation, withTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { loadNFTState } from './actions'
+import Loader from '../../shared/components/Loader'
+import '../../shared/css/nested-menu.css'
+import './styles.css'
+import SocketContext from '../../shared/SocketContext'
+import Tooltip from '../../shared/components/Tooltip'
+import CopyToClipboard from '../../shared/components/CopyToClipboard'
 
-const NFTHeader = props => {
-  const { t } = useTranslation();
-  const { actions, tokenId, data, loading, language } = props;
-  const rippledSocket = useContext(SocketContext);
-  const [tooltip, setTooltip] = useState(null);
+const NFTHeader = (props) => {
+  const { t } = useTranslation()
+  const { actions, tokenId, data, loading, language } = props
+  const rippledSocket = useContext(SocketContext)
+  const [tooltip, setTooltip] = useState(null)
 
   useEffect(() => {
-    actions.loadNFTState(tokenId, rippledSocket.clioSocket);
-  }, [tokenId]);
+    actions.loadNFTState(tokenId, rippledSocket.clioSocket)
+  }, [tokenId])
 
   const showTooltip = (event, d) => {
-    setTooltip({ ...d, mode: 'nftId', x: event.pageX, y: event.pageY });
-  };
+    setTooltip({ ...d, mode: 'nftId', x: event.pageX, y: event.pageY })
+  }
 
   const hideTooltip = () => {
-    setTooltip(null);
-  };
+    setTooltip(null)
+  }
 
   const renderDetails = () => {
-    const { minted, domain, emailHash, NFTTaxon, uri, transferFee } = data;
-    const abbrvEmail = emailHash?.length > 20 ? emailHash?.slice(0, 20).concat('...') : emailHash;
-    const abbrvURI = uri?.length > 20 ? uri?.slice(0, 20).concat('...') : uri;
+    const { minted, domain, emailHash, NFTTaxon, uri, transferFee } = data
+    const abbrvEmail =
+      emailHash?.length > 20 ? emailHash?.slice(0, 20).concat('...') : emailHash
+    const abbrvURI = uri?.length > 20 ? uri?.slice(0, 20).concat('...') : uri
     return (
       <table>
         <tbody>
@@ -47,7 +48,11 @@ const NFTHeader = props => {
             <tr className="row">
               <td className="col1">{t('domain')}</td>
               <td className="col2">
-                <a href={`https://${domain}`} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={`https://${domain}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {domain}
                 </a>
               </td>
@@ -82,16 +87,18 @@ const NFTHeader = props => {
           </tr>
         </tbody>
       </table>
-    );
-  };
+    )
+  }
 
   const renderSettings = () => {
-    const { flags } = data;
+    const { flags } = data
 
-    const burnable = flags?.includes('lsfBurnable') ? 'enabled' : 'disabled';
-    const onlyXRP = flags?.includes('lsfOnlyXRP') ? 'enabled' : 'disabled';
-    const trustLine = flags?.includes('lsfTrustLine') ? 'enabled' : 'disabled';
-    const transferable = flags?.includes('lsfTransferable') ? 'enabled' : 'disabled';
+    const burnable = flags?.includes('lsfBurnable') ? 'enabled' : 'disabled'
+    const onlyXRP = flags?.includes('lsfOnlyXRP') ? 'enabled' : 'disabled'
+    const trustLine = flags?.includes('lsfTrustLine') ? 'enabled' : 'disabled'
+    const transferable = flags?.includes('lsfTransferable')
+      ? 'enabled'
+      : 'disabled'
     return (
       <table>
         <tbody>
@@ -113,12 +120,13 @@ const NFTHeader = props => {
           </tr>
         </tbody>
       </table>
-    );
-  };
+    )
+  }
 
   const renderHeaderContent = () => {
-    const { issuer } = data;
-    const abbrvIssuer = issuer?.length > 23 ? issuer?.slice(0, 23).concat('...') : issuer;
+    const { issuer } = data
+    const abbrvIssuer =
+      issuer?.length > 23 ? issuer?.slice(0, 23).concat('...') : issuer
     return (
       <div className="section nft-header-container">
         <div className="nft-info-container">
@@ -143,8 +151,8 @@ const NFTHeader = props => {
           </div>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div className="nft-token-header">
@@ -159,7 +167,7 @@ const NFTHeader = props => {
             </div>
             <div
               className="title-content"
-              onMouseOver={e => showTooltip(e, { tokenId })}
+              onMouseOver={(e) => showTooltip(e, { tokenId })}
               onFocus={() => {}}
               onMouseLeave={hideTooltip}
             >
@@ -169,12 +177,16 @@ const NFTHeader = props => {
         )}
       </div>
       <div className="box-content">
-        {loading || Object.keys(data).length === 0 ? <Loader /> : renderHeaderContent()}
+        {loading || Object.keys(data).length === 0 ? (
+          <Loader />
+        ) : (
+          renderHeaderContent()
+        )}
       </div>
       <Tooltip data={tooltip} />
     </div>
-  );
-};
+  )
+}
 
 NFTHeader.propTypes = {
   language: PropTypes.string.isRequired,
@@ -201,20 +213,20 @@ NFTHeader.propTypes = {
   actions: PropTypes.shape({
     loadNFTState: PropTypes.func.isRequired,
   }).isRequired,
-};
+}
 
 export default connect(
-  state => ({
+  (state) => ({
     language: state.app.language,
     loading: state.NFTHeader.loading,
     data: state.NFTHeader.data,
   }),
-  dispatch => ({
+  (dispatch) => ({
     actions: bindActionCreators(
       {
         loadNFTState,
       },
-      dispatch
+      dispatch,
     ),
-  })
-)(withTranslation()(NFTHeader));
+  }),
+)(withTranslation()(NFTHeader))

@@ -1,31 +1,32 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import * as actions from '../actions';
-import * as actionTypes from '../actionTypes';
-import { initialState } from '../reducer';
-import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils';
-import rippledResponses from './clioResponse.json';
-import objectNotFound from './objectNotFound.json';
-import MockWsClient from '../../../test/mockWsClient';
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import * as actions from '../actions'
+import * as actionTypes from '../actionTypes'
+import { initialState } from '../reducer'
+import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils'
+import rippledResponses from './clioResponse.json'
+import objectNotFound from './objectNotFound.json'
+import MockWsClient from '../../../test/mockWsClient'
 
-const TEST_ID = '0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000C';
+const TEST_ID =
+  '0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000C'
 
 describe('NFTHeader Actions', () => {
-  jest.setTimeout(10000);
+  jest.setTimeout(10000)
 
-  const middlewares = [thunk];
-  const mockStore = configureMockStore(middlewares);
-  let client;
+  const middlewares = [thunk]
+  const mockStore = configureMockStore(middlewares)
+  let client
   beforeEach(() => {
-    client = new MockWsClient();
-  });
+    client = new MockWsClient()
+  })
 
   afterEach(() => {
-    client.close();
-  });
+    client.close()
+  })
 
   it('should dispatch correct actions on successful loadNFTState', () => {
-    client.addResponses(rippledResponses);
+    client.addResponses(rippledResponses)
     const expectedData = {
       NFTId: '0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000C',
       ledgerIndex: 2436210,
@@ -42,19 +43,19 @@ describe('NFTHeader Actions', () => {
       warnings: [
         "This is a clio server. clio only serves validated data. If you want to talk to rippled, include 'ledger_index':'current' in your request",
       ],
-    };
+    }
     const expectedActions = [
       { type: actionTypes.START_LOADING_NFT_STATE },
       { type: actionTypes.NFT_STATE_LOAD_SUCCESS, data: expectedData },
-    ];
-    const store = mockStore({ news: initialState });
+    ]
+    const store = mockStore({ news: initialState })
     return store.dispatch(actions.loadNFTState(TEST_ID, client)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
+      expect(store.getActions()).toEqual(expectedActions)
+    })
+  })
 
   it('should dispatch correct actions on server error', () => {
-    client.setReturnError();
+    client.setReturnError()
     const expectedActions = [
       { type: actionTypes.START_LOADING_NFT_STATE },
       {
@@ -62,32 +63,32 @@ describe('NFTHeader Actions', () => {
         status: SERVER_ERROR,
         error: 'get_nft_state_failed',
       },
-    ];
-    const store = mockStore({ news: initialState });
+    ]
+    const store = mockStore({ news: initialState })
     return store.dispatch(actions.loadNFTState(TEST_ID, client)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
+      expect(store.getActions()).toEqual(expectedActions)
+    })
+  })
 
   it('should dispatch correct actions on ripple address not found', () => {
-    client.addResponse('nft_info', { result: objectNotFound });
+    client.addResponse('nft_info', { result: objectNotFound })
     const expectedActions = [
       { type: actionTypes.START_LOADING_NFT_STATE },
       { type: actionTypes.NFT_STATE_LOAD_FAIL, status: NOT_FOUND, error: '' },
-    ];
-    const store = mockStore({ news: initialState });
+    ]
+    const store = mockStore({ news: initialState })
     return store.dispatch(actions.loadNFTState(TEST_ID, client)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
+      expect(store.getActions()).toEqual(expectedActions)
+    })
+  })
 
   it('should dispatch correct actions on invalid ripple address', () => {
     const expectedActions = [
       { type: actionTypes.NFT_STATE_LOAD_FAIL, status: BAD_REQUEST, error: '' },
-    ];
-    const store = mockStore({ news: initialState });
+    ]
+    const store = mockStore({ news: initialState })
     store.dispatch(actions.loadNFTState('ZZZ', client)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-});
+      expect(store.getActions()).toEqual(expectedActions)
+    })
+  })
+})
