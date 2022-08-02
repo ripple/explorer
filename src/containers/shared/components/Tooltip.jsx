@@ -87,8 +87,8 @@ class Tooltip extends Component {
   }
 
   renderNFTId() {
-    const { tokenId } = this.state;
-    return <div className="nft">{tokenId}</div>;
+    const { tokenId } = this.state
+    return <div className="nft">{tokenId}</div>
   }
 
   static renderPayStringToolTip() {
@@ -110,13 +110,13 @@ class Tooltip extends Component {
       style.background = 'rgba(120,0,0,.9)'
       content = this.renderMissingValidators()
     } else if (mode === 'paystring') {
-      style.top = y - 180;
-      style.left = x - 135;
-      style.background = 'rgba(0,0,0,0)';
-      className += ' paystring';
-      content = Tooltip.renderPayStringToolTip();
+      style.top = y - 180
+      style.left = x - 135
+      style.background = 'rgba(0,0,0,0)'
+      className += ' paystring'
+      content = Tooltip.renderPayStringToolTip()
     } else if (mode === 'nftId') {
-      content = this.renderNFTId();
+      content = this.renderNFTId()
     }
 
     return content ? (
