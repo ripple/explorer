@@ -10,13 +10,15 @@ export const Simple: TransactionSimpleComponent = (
   const { t } = useTranslation()
   const { data } = props
   const {
-    lockingDoor,
-    lockingIssue,
-    issuingDoor,
-    issuingIssue,
-    signatureReward,
-    minAccountCreateAmount,
-  } = data.instructions
+    instructions: {
+      lockingDoor,
+      lockingIssue,
+      issuingDoor,
+      issuingIssue,
+      signatureReward,
+      minAccountCreateAmount,
+    },
+  } = data
 
   return (
     <>
