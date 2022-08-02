@@ -417,7 +417,6 @@ const TxDetails = (props: Props) => {
 
   const DetailComponent = transactionTypes[type]?.TableDetail
   if (DetailComponent) {
-
     return <DetailComponent instructions={instructions} />
   }
 
