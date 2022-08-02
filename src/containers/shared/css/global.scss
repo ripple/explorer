@@ -285,7 +285,17 @@ div.react-stockchart div {
       background: $nft;
     }
   }
+
+  &.XChainCreateBridge {
+    border-left-color: $sidechain;
+    color: $sidechain;
+
+    &.bg {
+      background: $sidechain;
+    }
+  }
   /* stylelint-enable selector-class-pattern */
+
 }
 
 .tx-result {
