@@ -1,0 +1,17 @@
+{
+  "error": "objectNotFound",
+  "error_code": 92,
+  "error_message": "NFT not found",
+  "status": "error",
+  "type": "response",
+  "request": {
+      "command": "nft_info",
+      "nft_id": "0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000A",
+      "id": {
+          "_WsClient": 1
+      }
+  },
+  "warnings": [
+      "This is a clio server. clio only serves validated data. If you want to talk to rippled, include 'ledger_index':'current' in your request"
+  ]
+}
