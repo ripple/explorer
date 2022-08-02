@@ -15,8 +15,8 @@
   }
 }
 
-.header-container {
-  .bottom-container {
+.nft-header-container {
+  .nft-bottom-container {
     display: flex;
     flex-direction: column;
 
@@ -51,7 +51,7 @@
     }
   }
 
-  .info-container {
+  .nft-info-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -120,10 +120,10 @@
   color: $white;
 }
 
-.token-header {
+.nft-token-header {
   width: 100%;
   margin-bottom: 16px;
-  .box-header {
+  .nft-box-header {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

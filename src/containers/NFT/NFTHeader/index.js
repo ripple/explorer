@@ -120,8 +120,8 @@ const NFTHeader = props => {
     const { issuer } = data;
     const abbrvIssuer = issuer?.length > 23 ? issuer?.slice(0, 23).concat('...') : issuer;
     return (
-      <div className="section header-container">
-        <div className="info-container">
+      <div className="section nft-header-container">
+        <div className="nft-info-container">
           <div className="values">
             <div className="title">{t('issuer_address')}</div>
             <div className="value">
@@ -132,7 +132,7 @@ const NFTHeader = props => {
             </div>
           </div>
         </div>
-        <div className="bottom-container">
+        <div className="nft-bottom-container">
           <div className="details">
             <div className="title">{t('details')}</div>
             {renderDetails()}
@@ -147,10 +147,10 @@ const NFTHeader = props => {
   };
 
   return (
-    <div className="token-header">
+    <div className="nft-token-header">
       <div className="section">
         {!loading && Object.keys(data).length !== 0 && (
-          <div className="box-header">
+          <div className="nft-box-header">
             <div className="token-title">
               NFT ID
               <div className="token-type">
