@@ -1,22 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router';
+import React, { useContext, useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
+import { useParams } from 'react-router'
 
-import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
-import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
-import { localizeDate, concatTx } from '../../shared/utils';
-import { loadAccountTransactions } from './actions';
-import Loader from '../../shared/components/Loader';
-import TxDetails from '../../shared/components/TxDetails';
-import './styles.css';
-import TxLabel from '../../shared/components/TxLabel';
-import SocketContext from '../../shared/SocketContext';
+import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg'
+import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg'
+import { localizeDate, concatTx } from '../../shared/utils'
+import { loadAccountTransactions } from './actions'
+import Loader from '../../shared/components/Loader'
+import TxDetails from '../../shared/components/TxDetails'
+import './styles.css'
+import TxLabel from '../../shared/components/TxLabel'
+import SocketContext from '../../shared/SocketContext'
 
-const TIME_ZONE = 'UTC';
+const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
   hour: 'numeric',
   minute: 'numeric',
@@ -26,44 +26,46 @@ const DATE_OPTIONS = {
   day: 'numeric',
   hour12: true,
   timeZone: TIME_ZONE,
-};
+}
 
-export const AccountTxTable = props => {
-  const { actions, data, loadingError } = props;
-  const [transactions, setTransactions] = useState([]);
-  const [marker, setMarker] = useState(null);
-  const { id: accountId } = useParams();
-  const { t } = useTranslation();
-  const rippledSocket = useContext(SocketContext);
-
-  useEffect(() => {
-    if (data.transactions == null) return;
-    setMarker(data.marker);
-    setTransactions(oldTransactions => {
-      return concatTx(oldTransactions, data.transactions);
-    });
-  }, [accountId, data]);
+export const AccountTxTable = (props) => {
+  const { actions, data, loadingError } = props
+  const [transactions, setTransactions] = useState([])
+  const [marker, setMarker] = useState(null)
+  const { id: accountId } = useParams()
+  const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
 
   useEffect(() => {
-    setTransactions([]);
-    setMarker(null);
-    actions.loadAccountTransactions(accountId, undefined, rippledSocket);
-  }, [accountId]);
+    if (data.transactions == null) return
+    setMarker(data.marker)
+    setTransactions((oldTransactions) =>
+      concatTx(oldTransactions, data.transactions),
+    )
+  }, [accountId, data])
+
+  useEffect(() => {
+    setTransactions([])
+    setMarker(null)
+    actions.loadAccountTransactions(accountId, undefined, rippledSocket)
+  }, [accountId])
 
   const loadMoreTransactions = () => {
-    actions.loadAccountTransactions(accountId, marker, rippledSocket);
-  };
+    actions.loadAccountTransactions(accountId, marker, rippledSocket)
+  }
 
-  const renderListItem = tx => {
-    const { language } = props;
-    const success = tx.result === 'tesSUCCESS';
-    const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS);
-    const status = success ? 'Success' : `Fail - ${tx.result}`;
+  const renderListItem = (tx) => {
+    const { language } = props
+    const success = tx.result === 'tesSUCCESS'
+    const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
+    const status = success ? 'Success' : `Fail - ${tx.result}`
 
     return (
       <li
         key={tx.hash}
-        className={`transaction-li tx-type ${tx.type} ${success ? 'success' : 'fail'}`}
+        className={`transaction-li tx-type ${tx.type} ${
+          success ? 'success' : 'fail'
+        }`}
       >
         <Link to={`/transactions/${tx.hash}`}>
           <div className="upper">
@@ -76,7 +78,10 @@ export const AccountTxTable = props => {
               <TxLabel type={tx.type} t={t} />
             </div>
             <div className="col-status">
-              <span title={tx.result} className={`tx-result ${success ? 'success' : 'fail'}`}>
+              <span
+                title={tx.result}
+                className={`tx-result ${success ? 'success' : 'fail'}`}
+              >
                 {success ? (
                   <SuccessIcon className="successful" alt={t('success')} />
                 ) : (
@@ -88,44 +93,61 @@ export const AccountTxTable = props => {
             <div className="col-date">{date}</div>
           </div>
           <div className="details">
-            <TxDetails language={language} type={tx.type} instructions={tx.details.instructions} />
+            <TxDetails
+              language={language}
+              type={tx.type}
+              instructions={tx.details.instructions}
+            />
           </div>
         </Link>
       </li>
-    );
-  };
+    )
+  }
 
-  const renderLoadMoreButton = () => {
-    return (
-      marker && (
-        <button type="button" className="load-more-btn" onClick={loadMoreTransactions}>
-          {t('load_more_action')}
-        </button>
-      )
-    );
-  };
+  const renderLoadMoreButton = () =>
+    marker && (
+      <button
+        type="button"
+        className="load-more-btn"
+        onClick={loadMoreTransactions}
+      >
+        {t('load_more_action')}
+      </button>
+    )
 
   const renderListContents = () => {
-    const { loading, currencySelected } = props;
-    let processedTransactions = transactions;
+    const { loading, currencySelected } = props
+    let processedTransactions = transactions
     if (currencySelected !== 'XRP') {
       processedTransactions = transactions.filter(
-        tx =>
+        (tx) =>
           !currencySelected ||
           (currencySelected &&
-            JSON.stringify(tx).includes(`"currency":"${currencySelected.toUpperCase()}"`))
-      );
+            JSON.stringify(tx).includes(
+              `"currency":"${currencySelected.toUpperCase()}"`,
+            )),
+      )
       if (processedTransactions.length === 0) {
-        return <div className="empty-transactions-message">Try loading more transactions</div>;
+        return (
+          <div className="empty-transactions-message">
+            Try loading more transactions
+          </div>
+        )
       }
     }
     if (!loading && processedTransactions.length === 0 && !loadingError) {
-      return <div className="empty-transactions-message">{t('no_transactions_message')}</div>;
+      return (
+        <div className="empty-transactions-message">
+          {t('no_transactions_message')}
+        </div>
+      )
     }
-    return processedTransactions.map(transaction => renderListItem(transaction));
-  };
+    return processedTransactions.map((transaction) =>
+      renderListItem(transaction),
+    )
+  }
 
-  const { loading } = props;
+  const { loading } = props
 
   return (
     <div className="section transactions-table">
@@ -140,8 +162,8 @@ export const AccountTxTable = props => {
       </ol>
       {loading ? <Loader /> : renderLoadMoreButton()}
     </div>
-  );
-};
+  )
+}
 
 AccountTxTable.propTypes = {
   language: PropTypes.string.isRequired,
@@ -158,33 +180,33 @@ AccountTxTable.propTypes = {
         creator: PropTypes.string,
         image: PropTypes.string,
         speed: PropTypes.number,
-      })
+      }),
     ),
   }).isRequired,
   actions: PropTypes.shape({
     loadAccountTransactions: PropTypes.func,
   }).isRequired,
   currencySelected: PropTypes.string.isRequired,
-};
+}
 
 AccountTxTable.defaultProps = {
   loadingError: '',
-};
+}
 
 export default connect(
-  state => ({
+  (state) => ({
     language: state.app.language,
     width: state.app.width,
     loadingError: state.accountTransactions.error,
     loading: state.accountTransactions.loading,
     data: state.accountTransactions.data,
   }),
-  dispatch => ({
+  (dispatch) => ({
     actions: bindActionCreators(
       {
         loadAccountTransactions,
       },
-      dispatch
+      dispatch,
     ),
-  })
-)(AccountTxTable);
+  }),
+)(AccountTxTable)

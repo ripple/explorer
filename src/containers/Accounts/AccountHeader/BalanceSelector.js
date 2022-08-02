@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { localizeNumber } from '../../shared/utils';
-import { ReactComponent as IconDownArrow } from '../../shared/images/down_arrow.svg';
-import iconClose from '../../shared/images/close.png';
-import '../../shared/css/nested-menu.css';
-import './styles.css';
-import './balance-selector.css';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { localizeNumber } from '../../shared/utils'
+import { ReactComponent as IconDownArrow } from '../../shared/images/down_arrow.svg'
+import iconClose from '../../shared/images/close.png'
+import '../../shared/css/nested-menu.css'
+import './styles.css'
+import './balance-selector.css'
 
 const BalanceSelector = ({
   language,
@@ -19,7 +19,7 @@ const BalanceSelector = ({
 }) => {
   const balanceMenuItems = Object.entries(balances).map(([currency, value]) => {
     if (currency === currencySelected) {
-      return null;
+      return null
     }
     const formattedValue =
       localizeNumber(value, language, {
@@ -27,43 +27,53 @@ const BalanceSelector = ({
         currency,
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
-      }) || '0.00';
+      }) || '0.00'
     return (
       <button
         className="menu-item"
         type="button"
         onClick={() => {
-          onSetCurrencySelected(currency);
-          onClick();
+          onSetCurrencySelected(currency)
+          onClick()
         }}
         onKeyDown={() => {
-          onSetCurrencySelected(currency);
-          onClick();
+          onSetCurrencySelected(currency)
+          onClick()
         }}
         key={currency}
       >
         <div className="menu-item-currency">{currency}</div>
         <div className="menu-item-value">{formattedValue}</div>
       </button>
-    );
-  });
+    )
+  })
   return (
     <div
-      className={`balance-selector nested-menu ${expandMenu ? 'is-active' : ''}`}
+      className={`balance-selector nested-menu ${
+        expandMenu ? 'is-active' : ''
+      }`}
       onMouseLeave={() => setTimeout(onMouseLeave, 2000)}
     >
-      <button type="button" className="balance-selector-button" onClick={onClick}>
+      <button
+        type="button"
+        className="balance-selector-button"
+        onClick={onClick}
+      >
         <span className="selector-text">{text}</span>
         {expandMenu ? (
-          <img className="icon selector-icon selector-icon-close" src={iconClose} alt="" />
+          <img
+            className="icon selector-icon selector-icon-close"
+            src={iconClose}
+            alt=""
+          />
         ) : (
           <IconDownArrow className="icon selector-icon" alt="" />
         )}
       </button>
       {expandMenu && <div className="nested-items">{balanceMenuItems}</div>}
     </div>
-  );
-};
+  )
+}
 
 BalanceSelector.propTypes = {
   language: PropTypes.string.isRequired,
@@ -74,6 +84,6 @@ BalanceSelector.propTypes = {
   onMouseLeave: PropTypes.func.isRequired,
   onSetCurrencySelected: PropTypes.func.isRequired,
   currencySelected: PropTypes.string.isRequired,
-};
+}
 
-export default BalanceSelector;
+export default BalanceSelector

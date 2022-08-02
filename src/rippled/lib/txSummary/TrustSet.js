@@ -1,5 +1,5 @@
-const formatAmount = require('./formatAmount');
+const formatAmount = require('./formatAmount')
 
-module.exports = tx => ({
+module.exports = (tx) => ({
   limit: formatAmount(tx.LimitAmount),
-});
+})

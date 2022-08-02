@@ -1,3 +1,3 @@
-const utils = require('../utils');
+const utils = require('../utils')
 
-module.exports = tx => utils.formatSignerList(tx);
+module.exports = (tx) => utils.formatSignerList(tx)

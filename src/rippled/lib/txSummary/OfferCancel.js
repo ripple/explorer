@@ -1,3 +1,3 @@
-module.exports = tx => ({
+module.exports = (tx) => ({
   cancel: tx.OfferSequence,
-});
+})

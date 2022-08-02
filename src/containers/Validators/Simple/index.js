@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
-const Simple = props => {
-  const { t, data /* , language */ } = props;
+const Simple = (props) => {
+  const { t, data /* , language */ } = props
 
-  const color = data.ledger_hash ? `#${data.ledger_hash.substr(0, 6)}` : '';
+  const color = data.ledger_hash ? `#${data.ledger_hash.substr(0, 6)}` : ''
 
-  const renderAgreement = (className, d, label) => {
-    return d ? (
+  const renderAgreement = (className, d, label) =>
+    d ? (
       <div className="row">
         <div className="label">{label}</div>
         <div
@@ -21,8 +21,7 @@ const Simple = props => {
       </div>
     ) : (
       <div />
-    );
-  };
+    )
 
   return (
     <>
@@ -40,7 +39,11 @@ const Simple = props => {
       </div>
       <div className="row">
         <div className="label">Ledger</div>
-        <Link className="value account" style={{ color }} to={`/ledgers/${data.ledger_index}`}>
+        <Link
+          className="value account"
+          style={{ color }}
+          to={`/ledgers/${data.ledger_index}`}
+        >
           {data.ledger_hash || 'Unknown'}
         </Link>
       </div>
@@ -48,8 +51,8 @@ const Simple = props => {
       {renderAgreement('h24', data.agreement_24hour, 'Agreement (24 hours)')}
       {renderAgreement('d30', data.agreement_30day, 'Agreement (30 days)')}
     </>
-  );
-};
+  )
+}
 
 Simple.propTypes = {
   t: PropTypes.func.isRequired,
@@ -76,6 +79,6 @@ Simple.propTypes = {
       incomplete: PropTypes.bool,
     }),
   }).isRequired,
-};
+}
 
-export default Simple;
+export default Simple

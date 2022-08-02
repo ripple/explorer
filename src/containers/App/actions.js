@@ -1,11 +1,11 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from './actionTypes'
 
 export const updateViewportDimensions = () => {
-  let element = window;
-  let prefix = 'inner';
+  let element = window
+  let prefix = 'inner'
   if (!('innerWidth' in window)) {
-    prefix = 'client';
-    element = document.documentElement || document.body;
+    prefix = 'client'
+    element = document.documentElement || document.body
   }
 
   return {
@@ -15,14 +15,14 @@ export const updateViewportDimensions = () => {
       height: element[`${prefix}Height`],
       pixelRatio: window.devicePixelRatio || 1,
     },
-  };
-};
+  }
+}
 
-export const onScroll = event => dispatch => {
-  const value = event.target.scrollingElement.scrollTop || 0;
-  dispatch({ type: actionTypes.ON_SCROLL, data: value });
-};
+export const onScroll = (event) => (dispatch) => {
+  const value = event.target.scrollingElement.scrollTop || 0
+  dispatch({ type: actionTypes.ON_SCROLL, data: value })
+}
 
-export const updateLanguage = normalizedLang => dispatch => {
-  dispatch({ type: actionTypes.UPDATE_LANGUAGE, data: normalizedLang });
-};
+export const updateLanguage = (normalizedLang) => (dispatch) => {
+  dispatch({ type: actionTypes.UPDATE_LANGUAGE, data: normalizedLang })
+}

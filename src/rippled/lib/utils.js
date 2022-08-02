@@ -1,9 +1,9 @@
-import { unix } from 'moment';
-import summarizeTransaction from './txSummary';
+import { unix } from 'moment'
+import summarizeTransaction from './txSummary'
 
-const EPOCH_OFFSET = 946684800;
-const XRP_BASE = 1000000;
-const BILLION = 1000000000;
+const EPOCH_OFFSET = 946684800
+const XRP_BASE = 1000000
+const BILLION = 1000000000
 
 const ACCOUNT_FLAGS = {
   0x00010000: 'lsfPasswordSpent',
@@ -29,13 +29,13 @@ const hex32 = d => {
 };
 
 const zeroPad = (num, size, back = false) => {
-  let s = String(num);
+  let s = String(num)
   while (s.length < (size || 2)) {
-    s = back ? `${s}0` : `0${s}`;
+    s = back ? `${s}0` : `0${s}`
   }
 
-  return s;
-};
+  return s
+}
 
 const buildFlags = (flags, flagMap) => {
   const bits = zeroPad((flags || 0).toString(2), 32).split('');
@@ -46,29 +46,33 @@ const buildFlags = (flags, flagMap) => {
       const int = parseInt(bin, 2);
       return value === '1' ? flagMap[int] || hex32(int) : undefined;
     })
-    .filter(d => Boolean(d));
-};
+    .filter((d) => Boolean(d))
+}
 
-const convertRippleDate = date =>
+const convertRippleDate = (date) =>
   unix(date + EPOCH_OFFSET)
     .utc()
-    .format();
+    .format()
 
-const formatSignerList = data => ({
+const formatSignerList = (data) => ({
   quorum: data.SignerQuorum,
-  max: data.SignerEntries.reduce((total, d) => total + d.SignerEntry.SignerWeight, 0),
-  signers: data.SignerEntries.map(d => ({
+  max: data.SignerEntries.reduce(
+    (total, d) => total + d.SignerEntry.SignerWeight,
+    0,
+  ),
+  signers: data.SignerEntries.map((d) => ({
     account: d.SignerEntry.Account,
     weight: d.SignerEntry.SignerWeight,
   })),
-});
+})
 
 const formatAccountInfo = (info, serverInfoValidated) => ({
   sequence: info.Sequence,
   ticketCount: info.TicketCount,
   ownerCount: info.OwnerCount,
   reserve: serverInfoValidated.reserve_base_xrp
-    ? serverInfoValidated.reserve_base_xrp + info.OwnerCount * serverInfoValidated.reserve_inc_xrp
+    ? serverInfoValidated.reserve_base_xrp +
+      info.OwnerCount * serverInfoValidated.reserve_inc_xrp
     : undefined,
   tick: info.TickSize,
   rate: info.TransferRate ? (info.TransferRate - BILLION) / BILLION : undefined,
@@ -79,10 +83,10 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
   gravatar: info.urlgravatar,
   previousTxn: info.PreviousTxnID,
   previousLedger: info.PreviousTxnLgrSeq,
-});
+})
 
-const formatTransaction = tx => {
-  const txn = tx.tx || tx;
+const formatTransaction = (tx) => {
+  const txn = tx.tx || tx
   return {
     tx: {
       ...txn,
@@ -99,17 +103,17 @@ const formatTransaction = tx => {
     hash: txn.hash,
     ledger_index: txn.ledger_index,
     date: txn.date ? convertRippleDate(txn.date) : undefined,
-  };
-};
-
-function RippledError(message, code) {
-  Error.captureStackTrace(this, this.constructor);
-  this.name = this.constructor.name;
-  this.message = message;
-  this.code = code;
+  }
 }
 
-require('util').inherits(RippledError, Error);
+function RippledError(message, code) {
+  Error.captureStackTrace(this, this.constructor)
+  this.name = this.constructor.name
+  this.message = message
+  this.code = code
+}
+
+require('util').inherits(RippledError, Error)
 
 const summarizeLedger = (ledger, txDetails = false) => {
   const summary = {
@@ -120,21 +124,21 @@ const summarizeLedger = (ledger, txDetails = false) => {
     total_xrp: ledger.total_coins / 1000000,
     total_fees: 0,
     transactions: [],
-  };
+  }
 
-  ledger.transactions.forEach(tx => {
-    const d = formatTransaction(tx);
-    summary.total_fees += Number(tx.Fee);
-    summary.transactions.push(summarizeTransaction(d, txDetails));
-  });
+  ledger.transactions.forEach((tx) => {
+    const d = formatTransaction(tx)
+    summary.total_fees += Number(tx.Fee)
+    summary.transactions.push(summarizeTransaction(d, txDetails))
+  })
 
-  summary.transactions.sort((a, b) => a.index - b.index);
-  Object.assign(summary, { total_fees: summary.total_fees / 1000000 });
-  return summary;
-};
+  summary.transactions.sort((a, b) => a.index - b.index)
+  Object.assign(summary, { total_fees: summary.total_fees / 1000000 })
+  return summary
+}
 
 function convertHexToString(hex, encoding = 'utf8') {
-  return Buffer.from(hex, 'hex').toString(encoding);
+  return Buffer.from(hex, 'hex').toString(encoding)
 }
 
 const formatNFTInfo = info => ({
@@ -165,3 +169,4 @@ export {
   convertHexToString,
   formatNFTInfo,
 };
+

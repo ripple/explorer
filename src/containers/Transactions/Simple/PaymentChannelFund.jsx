@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { CURRENCY_OPTIONS } from '../../shared/transactionUtils';
-import { localizeNumber } from '../../shared/utils';
-import Currency from '../../shared/components/Currency';
-import Account from '../../shared/components/Account';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
+import { localizeNumber } from '../../shared/utils'
+import Currency from '../../shared/components/Currency'
+import Account from '../../shared/components/Account'
 
-const PaymentChannelFund = props => {
-  const { data, language, t } = props;
+const PaymentChannelFund = (props) => {
+  const { data, language, t } = props
   const {
     channel_amount: amount,
     increase,
@@ -14,14 +14,18 @@ const PaymentChannelFund = props => {
     source = '',
     destination = '',
     channel,
-  } = data.instructions;
+  } = data.instructions
 
-  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' };
-  const amt = amount ? localizeNumber(amount.amount, language, options) : null;
-  const increaseAmt = increase ? localizeNumber(increase.amount, language, options) : null;
-  const totalAmt = total ? localizeNumber(total.amount, language, options) : null;
-  const dParts = destination.split(':');
-  const sParts = source.split(':');
+  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
+  const amt = amount ? localizeNumber(amount.amount, language, options) : null
+  const increaseAmt = increase
+    ? localizeNumber(increase.amount, language, options)
+    : null
+  const totalAmt = total
+    ? localizeNumber(total.amount, language, options)
+    : null
+  const dParts = destination.split(':')
+  const sParts = source.split(':')
 
   return (
     <>
@@ -77,8 +81,8 @@ const PaymentChannelFund = props => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 PaymentChannelFund.propTypes = {
   t: PropTypes.func.isRequired,
@@ -99,6 +103,6 @@ PaymentChannelFund.propTypes = {
     }),
   }).isRequired,
   language: PropTypes.string.isRequired,
-};
+}
 
-export default PaymentChannelFund;
+export default PaymentChannelFund

@@ -1,6 +1,8 @@
-@import '../../shared/css/variables.scss';
+@import '../../shared/css/variables';
+
 .tokens-table-container {
   margin-bottom: 40px;
+
   .loader {
     top: 1px;
     min-height: 100px;

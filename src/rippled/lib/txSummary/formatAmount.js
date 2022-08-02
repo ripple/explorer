@@ -1,4 +1,4 @@
-module.exports = d =>
+module.exports = (d) =>
   d.value
     ? {
         currency: d.currency,
@@ -8,4 +8,4 @@ module.exports = d =>
     : {
         currency: 'XRP',
         amount: d / 1000000,
-      };
+      }

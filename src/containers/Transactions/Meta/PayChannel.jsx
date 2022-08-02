@@ -1,17 +1,17 @@
-import React from 'react';
-import { Trans } from 'react-i18next';
-import { CURRENCY_OPTIONS } from '../../shared/transactionUtils';
-import { localizeNumber } from '../../shared/utils';
-import Account from '../../shared/components/Account';
+import React from 'react'
+import { Trans } from 'react-i18next'
+import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
+import { localizeNumber } from '../../shared/utils'
+import Account from '../../shared/components/Account'
 
-const MILLION = 1000000;
+const MILLION = 1000000
 
 const render = (t, language, action, node, index) => {
-  const fields = node.FinalFields || node.NewFields;
-  const prev = node.PreviousFields;
-  const numberOption = { ...CURRENCY_OPTIONS, currency: 'XRP' };
-  const prevBalance = prev && prev.Balance ? prev.Balance : null;
-  const prevAmount = prev && prev.Amount ? prev.Amount : null;
+  const fields = node.FinalFields || node.NewFields
+  const prev = node.PreviousFields
+  const numberOption = { ...CURRENCY_OPTIONS, currency: 'XRP' }
+  const prevBalance = prev && prev.Balance ? prev.Balance : null
+  const prevAmount = prev && prev.Amount ? prev.Amount : null
 
   const line1 = (
     <Trans i18nKey="paychannel_node_line1">
@@ -20,14 +20,18 @@ const render = (t, language, action, node, index) => {
       to
       <Account account={fields.Destination} />
     </Trans>
-  );
+  )
 
   const line2 = prevBalance ? (
     <li>
       <Trans i18nKey="paychannel_balance_changed">
         Balance changed by
         <b>
-          {localizeNumber((fields.Balance - prevBalance) / MILLION, language, numberOption)}
+          {localizeNumber(
+            (fields.Balance - prevBalance) / MILLION,
+            language,
+            numberOption,
+          )}
           <small>XRP</small>
         </b>
         from
@@ -42,14 +46,18 @@ const render = (t, language, action, node, index) => {
         </b>
       </Trans>
     </li>
-  ) : null;
+  ) : null
 
   const line3 = prevAmount ? (
     <li>
       <Trans i18nKey="paychannel_amount_changed">
         Amount changed by
         <b>
-          {localizeNumber((fields.Amount - prevAmount) / MILLION, language, numberOption)}
+          {localizeNumber(
+            (fields.Amount - prevAmount) / MILLION,
+            language,
+            numberOption,
+          )}
           <small>XRP</small>
         </b>
         from
@@ -64,7 +72,7 @@ const render = (t, language, action, node, index) => {
         </b>
       </Trans>
     </li>
-  ) : null;
+  ) : null
 
   return (
     <li key={`paychannel_${action}_${index}`} className="meta-line">
@@ -76,7 +84,7 @@ const render = (t, language, action, node, index) => {
         </ul>
       ) : null}
     </li>
-  );
-};
+  )
+}
 
-export default render;
+export default render

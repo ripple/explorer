@@ -1,89 +1,86 @@
-import React, { ReactElement } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import Currency from './Currency';
-import { CURRENCY_OPTIONS, DATE_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils';
-import { localizeNumber, localizeDate } from '../utils';
+import React, { ReactElement } from 'react'
+import PropTypes from 'prop-types'
+import { useTranslation, withTranslation } from 'react-i18next'
+import { DATE_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils'
+import { localizeDate } from '../utils'
+import { Amount } from './Amount'
+import { transactionTypes } from './Transaction'
+import { useLanguage } from '../hooks'
 
 interface Instructions {
-  owner: string;
-  sequence: number;
-  ticketSequence: number;
-  fulfillment: string;
-  finishAfter: string;
-  cancelAfter: string;
-  condition: string;
-  quorum: number;
+  owner: string
+  sequence: number
+  ticketSequence: number
+  fulfillment: string
+  finishAfter: string
+  cancelAfter: string
+  condition: string
+  quorum: number
   max: {
-    amount: number;
-    currency: string;
-    issuer: string;
-  };
-  signers: any[];
-  domain: string;
+    amount: number
+    currency: string
+    issuer: string
+  }
+  signers: any[]
+  domain: string
   // eslint-disable-next-line camelcase
-  email_hash: string;
+  email_hash: string
   // eslint-disable-next-line camelcase
-  message_key: string;
+  message_key: string
   // eslint-disable-next-line camelcase
-  set_flag: number;
+  set_flag: number
   // eslint-disable-next-line camelcase
-  clear_flag: number;
-  key: string;
-  limit: any;
-  pair: string;
-  sourceTag: number;
-  source: string;
-  claimed: any;
+  clear_flag: number
+  key: string
+  limit: any
+  pair: string
+  sourceTag: number
+  source: string
+  claimed: any
   // eslint-disable-next-line camelcase
-  channel_amount: number;
-  remaining: number;
-  renew: boolean;
-  close: boolean;
-  deleted: boolean;
-  gets: any;
-  pays: any;
-  price: string;
-  cancel: number;
-  convert: any;
-  amount: any;
-  destination: string;
-  partial: boolean;
-  ticketCount: number;
+  channel_amount: number
+  remaining: number
+  renew: boolean
+  close: boolean
+  deleted: boolean
+  gets: any
+  pays: any
+  price: string
+  cancel: number
+  convert: any
+  amount: any
+  destination: string
+  partial: boolean
+  ticketCount: number
 }
 
 interface Props {
-  instructions: Instructions;
-  type: string | null;
-  language: string;
-  t: (s: string) => string;
+  instructions: Instructions
+  type: string
 }
 
 const TxDetails = (props: Props) => {
-  function renderAmount(d: any): ReactElement {
-    const { language } = props;
-    const options = { ...CURRENCY_OPTIONS, currency: d.currency };
-    const amount = localizeNumber(d.amount, language, options);
-    const { issuer, currency } = d;
+  const language = useLanguage()
+  const { t } = useTranslation()
 
-    return (
-      <span className="amount">
-        {amount}
-        <Currency issuer={issuer} currency={currency} link={false} />
-      </span>
-    );
+  function renderAmount(d: any): ReactElement {
+    return <Amount value={d} />
   }
 
   function renderEscrowFinish(): ReactElement {
-    const { t, instructions } = props;
-    const { amount, owner, sequence, fulfillment, ticketSequence } = instructions;
+    const { instructions } = props
+    const { amount, owner, sequence, fulfillment, ticketSequence } =
+      instructions
     return (
       <div className="escrow">
         {owner && (
           <div>
             <span className="label">{t('finish_escrow')}</span>
             <span className="account">{owner}</span>
-            <span> -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}</span>
+            <span>
+              {' '}
+              -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}
+            </span>
           </div>
         )}
         {amount && (
@@ -99,28 +96,32 @@ const TxDetails = (props: Props) => {
           </div>
         )}
       </div>
-    );
+    )
   }
 
   function renderEscrowCancel(): ReactElement {
-    const { t, instructions } = props;
-    const { owner, sequence, ticketSequence } = instructions;
+    const { instructions } = props
+    const { owner, sequence, ticketSequence } = instructions
     return (
       <div className="escrow">
         {owner && (
           <div>
             <span className="label">{t('cancel_escrow')}</span>
             <span className="account"> {owner} </span>
-            <span> -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}</span>
+            <span>
+              {' '}
+              -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}
+            </span>
           </div>
         )}
       </div>
-    );
+    )
   }
 
   function renderEscrowCreate(): ReactElement {
-    const { t, language, instructions } = props;
-    const { amount, destination, finishAfter, cancelAfter, condition } = instructions;
+    const { instructions } = props
+    const { amount, destination, finishAfter, cancelAfter, condition } =
+      instructions
     return (
       <div className="escrow">
         {amount && (
@@ -144,33 +145,51 @@ const TxDetails = (props: Props) => {
         {finishAfter && (
           <div>
             <span className="label">{t('finish_after')}</span>
-            <span> {localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS)} UTC </span>
+            <span>
+              {' '}
+              {localizeDate(
+                Date.parse(finishAfter),
+                language,
+                DATE_OPTIONS,
+              )}{' '}
+              UTC{' '}
+            </span>
           </div>
         )}
         {cancelAfter && (
           <div>
             <span className="label">{t('cancel_after')}</span>
-            <span> {localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)} UTC </span>
+            <span>
+              {' '}
+              {localizeDate(
+                Date.parse(cancelAfter),
+                language,
+                DATE_OPTIONS,
+              )}{' '}
+              UTC{' '}
+            </span>
           </div>
         )}
       </div>
-    );
+    )
   }
 
   function renderSignerListSet(): ReactElement {
-    const { t, instructions } = props;
-    const { quorum, max, signers } = instructions;
+    const { instructions } = props
+    const { quorum, max, signers } = instructions
     return (
       <div>
-        <span className="label">{t('signers')}:</span> <span>{signers.length}</span>
+        <span className="label">{t('signers')}:</span>{' '}
+        <span>{signers.length}</span>
         {' - '}
-        <span className="label">{t('quorum')}:</span> <span>{`${quorum}/${max}`}</span>
+        <span className="label">{t('quorum')}:</span>{' '}
+        <span>{`${quorum}/${max}`}</span>
       </div>
-    );
+    )
   }
 
   function renderAccountSet(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props
     return (
       <>
         {instructions.domain && (
@@ -195,7 +214,8 @@ const TxDetails = (props: Props) => {
           <div>
             <span className="label">{t('set_flag')}:</span>{' '}
             <span className="flag">
-              {ACCOUNT_FLAGS[Number(instructions.set_flag)] || instructions.set_flag}
+              {ACCOUNT_FLAGS[Number(instructions.set_flag)] ||
+                instructions.set_flag}
             </span>
           </div>
         )}
@@ -203,7 +223,8 @@ const TxDetails = (props: Props) => {
           <div>
             <span className="label">{t('clear_flag')}:</span>{' '}
             <span className="flag">
-              {ACCOUNT_FLAGS[Number(instructions.clear_flag)] || instructions.clear_flag}
+              {ACCOUNT_FLAGS[Number(instructions.clear_flag)] ||
+                instructions.clear_flag}
             </span>
           </div>
         )}
@@ -211,77 +232,48 @@ const TxDetails = (props: Props) => {
           <div className="empty">{t('no_account_settings')}</div>
         )}
       </>
-    );
+    )
   }
 
   function renderSetRegularKey(): ReactElement {
-    const { t, instructions } = props;
-    const { key } = instructions;
+    const { instructions } = props
+    const { key } = instructions
     return key ? (
       <div className="setregularkey">
-        <span className="label">{t('regular_key')}</span>:<span className="key">{key}</span>
+        <span className="label">{t('regular_key')}</span>:
+        <span className="key">{key}</span>
       </div>
     ) : (
       <div className="unsetregularkey">{t('unset_regular_key')}</div>
-    );
+    )
   }
 
   function renderTrustSet(): ReactElement {
-    const { t, instructions } = props;
-    const { limit } = instructions;
+    const { instructions } = props
+    const { limit } = instructions
     return (
       <div className="trustset">
         <span className="label">{t('set_limit')}</span>
         {renderAmount(limit)}
       </div>
-    );
-  }
-
-  function renderOfferCreate(): ReactElement | null {
-    const { t, instructions } = props;
-    const { gets, pays, price, pair, cancel } = instructions;
-
-    return pays && gets ? (
-      <div className="offercreate">
-        <div className="price">
-          <span className="label"> {t('price')}:</span>
-          <span className="amount">
-            {` ${Number(price)} `}
-            {pair}
-          </span>
-        </div>
-        <div className="amounts">
-          <span className="label">{t('buy')}</span>
-          {renderAmount(gets)}
-          <span className="label">{`- ${t('sell')}`}</span>
-          {renderAmount(pays)}
-        </div>
-        {cancel && (
-          <div className="cancel">
-            <span className="label">{t('cancel_offer')}</span>
-            {` #`}
-            <span className="sequence">{cancel}</span>
-          </div>
-        )}
-      </div>
-    ) : null;
+    )
   }
 
   function renderOfferCancel(): ReactElement {
-    const { t, instructions } = props;
-    const { cancel } = instructions;
+    const { instructions } = props
+    const { cancel } = instructions
     return (
       <div className="offercancel">
         <span className="label">{t('cancel_offer')}</span>
         {` #`}
         <span className="sequence">{cancel}</span>
       </div>
-    );
+    )
   }
 
   function renderPayment(): ReactElement | null {
-    const { t, instructions } = props;
-    const { convert, amount, destination, partial, sourceTag } = instructions;
+    const { instructions } = props
+    const { convert, amount, destination, partial, sourceTag } = instructions
 
     if (convert) {
       return (
@@ -290,9 +282,13 @@ const TxDetails = (props: Props) => {
           {renderAmount(convert)}
           <span>{t('to')}</span>
           {renderAmount(amount)}
-          {partial && <div className="partial-payment">{t('partial_payment_allowed')}</div>}
+          {partial && (
+            <div className="partial-payment">
+              {t('partial_payment_allowed')}
+            </div>
+          )}
         </div>
-      );
+      )
     }
 
     return amount ? (
@@ -308,14 +304,16 @@ const TxDetails = (props: Props) => {
             <span>{sourceTag}</span>
           </div>
         )}
-        {partial && <div className="partial-payment">{t('partial_payment_allowed')}</div>}
+        {partial && (
+          <div className="partial-payment">{t('partial_payment_allowed')}</div>
+        )}
       </div>
-    ) : null;
+    ) : null
   }
 
   function renderPaymentChannelCreate(): ReactElement {
-    const { t, instructions } = props;
-    const { amount, source, destination } = instructions;
+    const { instructions } = props
+    const { amount, source, destination } = instructions
 
     return (
       <div className="paymentChannelCreate">
@@ -332,11 +330,11 @@ const TxDetails = (props: Props) => {
           {renderAmount(amount)}
         </div>
       </div>
-    );
+    )
   }
 
   function renderPaymentChannelClaim(): ReactElement {
-    const { t, instructions } = props;
+    const { instructions } = props
     const {
       source,
       destination,
@@ -346,7 +344,7 @@ const TxDetails = (props: Props) => {
       renew,
       close,
       deleted,
-    } = instructions;
+    } = instructions
 
     return (
       <div className="paymentChannelClaim">
@@ -386,22 +384,22 @@ const TxDetails = (props: Props) => {
         {close && <div className="flag">{t('close_request')}</div>}
         {deleted && <div className="closed">{t('payment_channel_closed')}</div>}
       </div>
-    );
+    )
   }
 
   function renderTicketCreate(): ReactElement {
-    const { t, instructions } = props;
-    const { ticketCount } = instructions;
+    const { instructions } = props
+    const { ticketCount } = instructions
     return (
       <div className="ticketCreate">
         <span className="label">{t('ticket_count')}:</span>
         <span> </span>
         <span>{ticketCount}</span>
       </div>
-    );
+    )
   }
 
-  const { type } = props;
+  const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderEscrowFinish,
     renderEscrowCancel,
@@ -410,19 +408,24 @@ const TxDetails = (props: Props) => {
     renderAccountSet,
     renderSetRegularKey,
     renderTrustSet,
-    renderOfferCreate,
     renderOfferCancel,
     renderPayment,
     renderPaymentChannelCreate,
     renderPaymentChannelClaim,
     renderTicketCreate,
-  };
-  if (functionMap[`render${type}`]) {
-    return functionMap[`render${type}`]();
   }
 
-  return null;
-};
+  const DetailComponent = transactionTypes[type]?.TableDetail
+  if (DetailComponent) {
+    return <DetailComponent instructions={instructions} />
+  }
+
+  if (functionMap[`render${type}`]) {
+    return functionMap[`render${type}`]()
+  }
+
+  return null
+}
 
 TxDetails.propTypes = {
   instructions: PropTypes.shape({
@@ -467,13 +470,11 @@ TxDetails.propTypes = {
     ticketCount: PropTypes.number,
   }),
   type: PropTypes.string,
-  language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired,
-};
+}
 
 TxDetails.defaultProps = {
   instructions: {},
   type: null,
-};
+}
 
-export default withTranslation()(TxDetails);
+export default withTranslation()(TxDetails)

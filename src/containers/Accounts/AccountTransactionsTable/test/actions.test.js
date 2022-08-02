@@ -1,24 +1,24 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import * as actions from '../actions';
-import * as actionTypes from '../actionTypes';
-import { initialState } from '../reducer';
-import successfulAccountTx from './successfulAccountTx.json';
-import MockWsClient from '../../../test/mockWsClient';
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import * as actions from '../actions'
+import * as actionTypes from '../actionTypes'
+import { initialState } from '../reducer'
+import successfulAccountTx from './successfulAccountTx.json'
+import MockWsClient from '../../../test/mockWsClient'
 
-const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv';
+const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv'
 
 describe('AccountTransactionsTable Actions', () => {
-  const middlewares = [thunk];
-  const mockStore = configureMockStore(middlewares);
-  let client;
+  const middlewares = [thunk]
+  const mockStore = configureMockStore(middlewares)
+  let client
   beforeEach(() => {
-    client = new MockWsClient();
-  });
+    client = new MockWsClient()
+  })
 
   afterEach(() => {
-    client.close();
-  });
+    client.close()
+  })
 
   it('should dispatch correct actions on successful loadAccountTransactions', () => {
     const expectedData = {
@@ -49,21 +49,26 @@ describe('AccountTransactionsTable Actions', () => {
           type: 'Payment',
         },
       ],
-    };
+    }
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_TRANSACTIONS },
       { type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS },
-      { type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS, data: expectedData },
-    ];
-    const store = mockStore({ news: initialState });
-    client.addResponse('account_tx', successfulAccountTx);
+      {
+        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
+        data: expectedData,
+      },
+    ]
+    const store = mockStore({ news: initialState })
+    client.addResponse('account_tx', successfulAccountTx)
 
     return store
-      .dispatch(actions.loadAccountTransactions(TEST_ADDRESS, undefined, client))
+      .dispatch(
+        actions.loadAccountTransactions(TEST_ADDRESS, undefined, client),
+      )
       .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
-  });
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
 
   it('should dispatch correct actions on none 2xx fail loadAccountTransactions', () => {
     const expectedActions = [
@@ -73,12 +78,14 @@ describe('AccountTransactionsTable Actions', () => {
         type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_FAIL,
         error: 'get_account_transactions_failed',
       },
-    ];
-    const store = mockStore({ news: initialState });
+    ]
+    const store = mockStore({ news: initialState })
     return store
-      .dispatch(actions.loadAccountTransactions(TEST_ADDRESS, undefined, client))
+      .dispatch(
+        actions.loadAccountTransactions(TEST_ADDRESS, undefined, client),
+      )
       .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
-  });
-});
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+})

@@ -1,5 +1,3 @@
-module.exports = tx => {
-  return {
-    account: tx.Account,
-  };
-};
+module.exports = (tx) => ({
+  account: tx.Account,
+})

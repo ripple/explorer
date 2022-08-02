@@ -1,4 +1,4 @@
-@import '../shared/css/variables.scss';
+@import '../shared/css/variables';
 
 .history-reports {
   display: flex;
@@ -39,11 +39,13 @@
     @include for-size(big-desktop-up) {
       width: 390px;
     }
+
     .abbrev-date {
       @include for-size(tablet-landscape-up) {
         display: none;
       }
     }
+
     .full-date {
       display: none;
       @include for-size(tablet-landscape-up) {

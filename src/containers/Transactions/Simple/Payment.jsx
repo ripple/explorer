@@ -1,25 +1,33 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { CURRENCY_OPTIONS } from '../../shared/transactionUtils';
-import { localizeNumber } from '../../shared/utils';
-import Currency from '../../shared/components/Currency';
-import Account from '../../shared/components/Account';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
+import { localizeNumber } from '../../shared/utils'
+import Currency from '../../shared/components/Currency'
+import Account from '../../shared/components/Account'
 
 class Payment extends Component {
   renderPartial() {
-    const { t, data } = this.props;
-    const { partial } = data.instructions;
-    return partial ? <div className="partial-row">{t('partial_payment_allowed')}</div> : null;
+    const { t, data } = this.props
+    const { partial } = data.instructions
+    return partial ? (
+      <div className="partial-row">{t('partial_payment_allowed')}</div>
+    ) : null
   }
 
   renderPayment() {
-    const { data, t, language } = this.props;
-    const { amount, max = {}, destination, sourceTag, partial } = data.instructions;
-    const parts = destination.split(':');
-    const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
-    const amt = localizeNumber(amount.amount, language, options);
-    const maxOptions = { ...CURRENCY_OPTIONS, currency: max.currency };
-    const maxAmount = localizeNumber(max.amount, language, maxOptions);
+    const { data, t, language } = this.props
+    const {
+      amount,
+      max = {},
+      destination,
+      sourceTag,
+      partial,
+    } = data.instructions
+    const parts = destination.split(':')
+    const options = { ...CURRENCY_OPTIONS, currency: amount.currency }
+    const amt = localizeNumber(amount.amount, language, options)
+    const maxOptions = { ...CURRENCY_OPTIONS, currency: max.currency }
+    const maxAmount = localizeNumber(max.amount, language, maxOptions)
 
     return (
       <>
@@ -54,16 +62,20 @@ class Payment extends Component {
           </div>
         </div>
       </>
-    );
+    )
   }
 
   renderConversion() {
-    const { data, t, language } = this.props;
-    const { convert, amount } = data.instructions;
-    const options = { ...CURRENCY_OPTIONS, currency: amount.currency };
-    const amt = localizeNumber(amount.amount, language, options);
-    const convertOptions = { ...CURRENCY_OPTIONS, currency: convert.currency };
-    const convertAmount = localizeNumber(convert.amount, language, convertOptions);
+    const { data, t, language } = this.props
+    const { convert, amount } = data.instructions
+    const options = { ...CURRENCY_OPTIONS, currency: amount.currency }
+    const amt = localizeNumber(amount.amount, language, options)
+    const convertOptions = { ...CURRENCY_OPTIONS, currency: convert.currency }
+    const convertAmount = localizeNumber(
+      convert.amount,
+      language,
+      convertOptions,
+    )
 
     return (
       <>
@@ -83,13 +95,13 @@ class Payment extends Component {
         </div>
         {this.renderPartial()}
       </>
-    );
+    )
   }
 
   render() {
-    const { data } = this.props;
-    const { convert } = data.instructions;
-    return convert ? this.renderConversion() : this.renderPayment();
+    const { data } = this.props
+    const { convert } = data.instructions
+    return convert ? this.renderConversion() : this.renderPayment()
   }
 }
 
@@ -120,6 +132,6 @@ Payment.propTypes = {
       sourceTag: PropTypes.number,
     }),
   }).isRequired,
-};
+}
 
-export default Payment;
+export default Payment

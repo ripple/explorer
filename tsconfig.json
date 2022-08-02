@@ -29,6 +29,6 @@
   },
   "include": [
     "src",
-    "server",
+    "server"
   ]
 }

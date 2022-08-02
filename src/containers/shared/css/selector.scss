@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import './variables';
 
 .selector {
   background: $white-transparent;
@@ -27,7 +27,7 @@
   padding: 2px 24px 2px 2px;
   background: $white;
   border-radius: 4px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.24);
+  box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 24%);
   cursor: pointer;
   font-size: 16px;
   line-height: 24px;

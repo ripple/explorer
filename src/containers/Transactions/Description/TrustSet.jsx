@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Trans } from 'react-i18next';
-import Account from '../../shared/components/Account';
-import { normalizeAmount } from '../../shared/transactionUtils';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Trans } from 'react-i18next'
+import Account from '../../shared/components/Account'
+import { normalizeAmount } from '../../shared/transactionUtils'
 
-const TrustSet = props => {
-  const { language, data } = props;
-  const amount = normalizeAmount(data.tx.LimitAmount, language);
-  const { currency, issuer } = data.tx.LimitAmount;
+const TrustSet = (props) => {
+  const { language, data } = props
+  const amount = normalizeAmount(data.tx.LimitAmount, language)
+  const { currency, issuer } = data.tx.LimitAmount
 
   return (
     <div key="trust_set">
@@ -19,8 +19,8 @@ const TrustSet = props => {
         is willing to hold
       </Trans>
     </div>
-  );
-};
+  )
+}
 
 TrustSet.propTypes = {
   language: PropTypes.string.isRequired,
@@ -33,6 +33,6 @@ TrustSet.propTypes = {
       }),
     }),
   }).isRequired,
-};
+}
 
-export default TrustSet;
+export default TrustSet

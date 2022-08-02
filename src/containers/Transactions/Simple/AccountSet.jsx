@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { decodeHex, ACCOUNT_FLAGS } from '../../shared/transactionUtils';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { decodeHex, ACCOUNT_FLAGS } from '../../shared/transactionUtils'
 
-const AccountSet = props => {
-  const { data, t } = props;
+const AccountSet = (props) => {
+  const { data, t } = props
   const {
     domain,
     email_hash: email,
     message_key: messageKey,
     set_flag: setFlag,
     clear_flag: clearFlag,
-  } = data.instructions;
+  } = data.instructions
 
   return (
     <>
@@ -50,15 +50,17 @@ const AccountSet = props => {
       {clearFlag && (
         <div className="row">
           <div className="label">{t('clearFlag')}</div>
-          <div className="value flag">{ACCOUNT_FLAGS[clearFlag] || clearFlag}</div>
+          <div className="value flag">
+            {ACCOUNT_FLAGS[clearFlag] || clearFlag}
+          </div>
         </div>
       )}
       {Object.keys(data.instructions).length === 0 && (
         <div className="row empty">{t('no_account_settings')}</div>
       )}
     </>
-  );
-};
+  )
+}
 
 AccountSet.propTypes = {
   t: PropTypes.func.isRequired,
@@ -71,6 +73,6 @@ AccountSet.propTypes = {
       clear_flag: PropTypes.string,
     }),
   }).isRequired,
-};
+}
 
-export default AccountSet;
+export default AccountSet

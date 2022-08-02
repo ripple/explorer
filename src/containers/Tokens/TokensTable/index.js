@@ -1,43 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import './styles.css';
-import Loader from '../../shared/components/Loader';
-import { formatLargeNumber, getLocalizedCurrencySymbol } from '../../shared/utils';
-import Currency from '../../shared/components/Currency';
-import { ReactComponent as QuestIcon } from '../../shared/images/hover_question.svg';
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import './styles.css'
+import Loader from '../../shared/components/Loader'
+import {
+  formatLargeNumber,
+  getLocalizedCurrencySymbol,
+} from '../../shared/utils'
+import Currency from '../../shared/components/Currency'
+import { ReactComponent as QuestIcon } from '../../shared/images/hover_question.svg'
 
-const NUM_TOKENS_DISPLAYED = 10;
+const NUM_TOKENS_DISPLAYED = 10
 
 function processBigNumber(number, language, currency = undefined) {
-  const { num, unit } = formatLargeNumber(Number(number), 2);
-  let numberString = unit ? `${num} ${unit}` : `${num}`;
+  const { num, unit } = formatLargeNumber(Number(number), 2)
+  let numberString = unit ? `${num} ${unit}` : `${num}`
   if (number.toString().includes('e')) {
-    numberString = Number(number)
-      .toExponential(2)
-      .toString();
+    numberString = Number(number).toExponential(2).toString()
   }
-  if (currency) return `${getLocalizedCurrencySymbol(language, currency)} ${numberString}`;
-  return numberString;
+  if (currency)
+    return `${getLocalizedCurrencySymbol(language, currency)} ${numberString}`
+  return numberString
 }
 
-const TokensTable = props => {
-  const [tokens, setTokens] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { i18n, t } = useTranslation();
-  const { allTokens, isError } = props;
-  const lng = i18n.resolvedLanguage;
+const TokensTable = (props) => {
+  const [tokens, setTokens] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const { i18n, t } = useTranslation()
+  const { allTokens, isError } = props
+  const lng = i18n.resolvedLanguage
 
   useEffect(() => {
-    if (allTokens.length === 0) return;
-    const numTokensToDisplay = Math.min(NUM_TOKENS_DISPLAYED, allTokens.length);
-    setTokens(allTokens.slice(0, numTokensToDisplay));
-    setIsLoading(false);
-  }, [allTokens]);
+    if (allTokens.length === 0) return
+    const numTokensToDisplay = Math.min(NUM_TOKENS_DISPLAYED, allTokens.length)
+    setTokens(allTokens.slice(0, numTokensToDisplay))
+    setIsLoading(false)
+  }, [allTokens])
 
   function renderNoTokens() {
-    return <div className="empty-tokens-message">{t('no_tokens_message')}</div>;
+    return <div className="empty-tokens-message">{t('no_tokens_message')}</div>
   }
 
   function renderTooltip(tooltipText, altText) {
@@ -45,24 +47,30 @@ const TokensTable = props => {
       <span className="q-tooltip" data-tooltip={tooltipText}>
         <QuestIcon alt={altText} className="question" />
       </span>
-    );
+    )
   }
 
   function renderRow(tokenInfo, rank) {
-    const tokenName = `${tokenInfo.currency}.${tokenInfo.issuer}`;
-    const currencySymbol = getLocalizedCurrencySymbol(lng, tokenInfo.currency);
+    const tokenName = `${tokenInfo.currency}.${tokenInfo.issuer}`
+    const currencySymbol = getLocalizedCurrencySymbol(lng, tokenInfo.currency)
 
     return (
       <tr key={rank} className="tokens-table-row">
         <td className="rank">{rank}</td>
         <td className="token">
-          {tokenInfo.gravatar && <img alt={`${tokenName} logo`} src={tokenInfo.gravatar} />}
+          {tokenInfo.gravatar && (
+            <img alt={`${tokenName} logo`} src={tokenInfo.gravatar} />
+          )}
           {!tokenInfo.gravatar && currencySymbol}
           {!tokenInfo.gravatar && currencySymbol && ' '}
           <Currency currency={tokenInfo.currency} />
         </td>
         <td className="issuer text-truncate">
-          <Link className="token-issuer" title={tokenName} to={`/token/${tokenName}`}>
+          <Link
+            className="token-issuer"
+            title={tokenName}
+            to={`/token/${tokenName}`}
+          >
             {tokenInfo.domain ? tokenInfo.domain : tokenInfo.issuer}
           </Link>
           {tokenInfo.domain && (
@@ -72,20 +80,24 @@ const TokensTable = props => {
           )}
         </td>
         <td className="obligations">
-          {tokenInfo.obligations ? processBigNumber(tokenInfo.obligations, lng) : 0}
+          {tokenInfo.obligations
+            ? processBigNumber(tokenInfo.obligations, lng)
+            : 0}
         </td>
-        <td className="volume">{tokenInfo.volume ? processBigNumber(tokenInfo.volume, lng) : 0}</td>
+        <td className="volume">
+          {tokenInfo.volume ? processBigNumber(tokenInfo.volume, lng) : 0}
+        </td>
         <td className="market-cap">
           {`${processBigNumber(
             tokenInfo.exchangeRate && tokenInfo.obligations
               ? tokenInfo.exchangeRate * tokenInfo.obligations
               : 0,
             lng,
-            'XRP'
+            'XRP',
           )}`}
         </td>
       </tr>
-    );
+    )
   }
 
   // TODO: add "show more" button
@@ -112,17 +124,15 @@ const TokensTable = props => {
             )}
             {!isLoading &&
               !isError &&
-              tokens.map((token, index) => {
-                return renderRow(token, index + 1);
-              })}
+              tokens.map((token, index) => renderRow(token, index + 1))}
           </tbody>
         </table>
         {isLoading && <Loader />}
         {isError && renderNoTokens()}
       </div>
     </div>
-  );
-};
+  )
+}
 
 TokensTable.propTypes = {
   allTokens: PropTypes.arrayOf(
@@ -135,9 +145,9 @@ TokensTable.propTypes = {
       domain: PropTypes.string,
       obligations: PropTypes.string,
       exchangeRate: PropTypes.number,
-    })
+    }),
   ).isRequired,
   isError: PropTypes.bool.isRequired,
-};
+}
 
-export default TokensTable;
+export default TokensTable

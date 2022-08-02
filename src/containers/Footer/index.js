@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import classnames from 'classnames';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import classnames from 'classnames'
 
-import { analytics, ANALYTIC_TYPES } from '../shared/utils';
-import { updateLanguage } from '../App/actions';
+import { analytics, ANALYTIC_TYPES } from '../shared/utils'
+import { updateLanguage } from '../App/actions'
 
-import packageConfig from '../../../package.json';
-import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg';
-import iconDownArrow from '../shared/images/down_arrow.svg';
-import iconCheck from '../shared/images/checkmark_small_green.png';
-import flagUSA from '../shared/images/flag_usa.png';
-import flagChina from '../shared/images/flag_china.png';
-import flagJapan from '../shared/images/flag_japan.png';
-import flagKorea from '../shared/images/flag_korea.png';
-import flagBrazil from '../shared/images/flag_brazil.png';
-import flagMexico from '../shared/images/flag_mexico.png';
-import './footer.css';
+import packageConfig from '../../../package.json'
+import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg'
+import iconDownArrow from '../shared/images/down_arrow.svg'
+import iconCheck from '../shared/images/checkmark_small_green.png'
+import flagUSA from '../shared/images/flag_usa.png'
+import flagChina from '../shared/images/flag_china.png'
+import flagJapan from '../shared/images/flag_japan.png'
+import flagKorea from '../shared/images/flag_korea.png'
+import flagBrazil from '../shared/images/flag_brazil.png'
+import flagMexico from '../shared/images/flag_mexico.png'
+import './footer.css'
 
 const LANGUAGE_ORDER = [
   { title: 'English', flag: flagUSA, code: 'en-US' },
@@ -27,61 +27,62 @@ const LANGUAGE_ORDER = [
   { title: '한국어', flag: flagKorea, code: 'ko-KP' },
   { title: 'Español', flag: flagMexico, code: 'es-MX' },
   { title: 'Português', flag: flagBrazil, code: 'pt-BR' },
-];
+]
 
 const languageIcon = (langIsOpenAndSelected, isLangOpen) => {
   if (langIsOpenAndSelected) {
-    return <img src={iconCheck} alt="" className="check" />;
+    return <img src={iconCheck} alt="" className="check" />
   }
   if (!isLangOpen) {
-    return <img src={iconDownArrow} alt="" className="down" />;
+    return <img src={iconDownArrow} alt="" className="down" />
   }
-  return <></>;
-};
+  return <></>
+}
 
-const Footer = props => {
-  const [isLangOpen, setLangOpen] = useState(false);
-  const [t, i18n] = useTranslation();
+const Footer = (props) => {
+  const [isLangOpen, setLangOpen] = useState(false)
+  const [t, i18n] = useTranslation()
 
   function changeLanguage(event) {
-    const { language, actions } = props;
-    event.preventDefault();
-    event.stopPropagation();
-    const code = event.currentTarget.getAttribute('data-code');
-    const { key, type } = event;
+    const { language, actions } = props
+    event.preventDefault()
+    event.stopPropagation()
+    const code = event.currentTarget.getAttribute('data-code')
+    const { key, type } = event
 
-    const rightEvent = type === 'click' || (type === 'keydown' && key === 'Enter');
+    const rightEvent =
+      type === 'click' || (type === 'keydown' && key === 'Enter')
     if (rightEvent && language !== code) {
       analytics(ANALYTIC_TYPES.event, {
         eventCategory: 'LanguageSelector',
         eventAction: 'changeLanguage',
         eventLabel: code,
-      });
-      i18n.changeLanguage(code);
-      actions.updateLanguage(code);
+      })
+      i18n.changeLanguage(code)
+      actions.updateLanguage(code)
     }
 
-    setLangOpen(currentValue => !currentValue);
+    setLangOpen((currentValue) => !currentValue)
   }
 
   function languageEvents(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const { key, type } = event;
-    setLangOpen(currentIsLangOpen => {
-      let newIsLangOpen = !currentIsLangOpen;
+    event.preventDefault()
+    event.stopPropagation()
+    const { key, type } = event
+    setLangOpen((currentIsLangOpen) => {
+      let newIsLangOpen = !currentIsLangOpen
       if (type === 'mouseleave') {
-        newIsLangOpen = false;
+        newIsLangOpen = false
       } else if (key === 'Tab' && type === 'keyup') {
-        newIsLangOpen = true;
+        newIsLangOpen = true
       }
-      return newIsLangOpen;
-    });
+      return newIsLangOpen
+    })
   }
 
   function languageItem(config) {
-    const { language } = props;
-    const langIsOpenAndSelected = isLangOpen && language === config.code;
+    const { language } = props
+    const langIsOpenAndSelected = isLangOpen && language === config.code
 
     return (
       <div
@@ -101,14 +102,14 @@ const Footer = props => {
         <div className="title">{config.title}</div>
         {languageIcon(langIsOpenAndSelected, isLangOpen)}
       </div>
-    );
+    )
   }
 
   function renderLanguage() {
-    const { language } = props;
+    const { language } = props
     const langsToRender = isLangOpen
       ? LANGUAGE_ORDER
-      : LANGUAGE_ORDER.filter(({ code }) => code === language);
+      : LANGUAGE_ORDER.filter(({ code }) => code === language)
 
     return (
       <div className="language-container">
@@ -119,10 +120,10 @@ const Footer = props => {
           role="menubar"
           tabIndex="0"
         >
-          {langsToRender.map(langObj => languageItem(langObj))}
+          {langsToRender.map((langObj) => languageItem(langObj))}
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -142,7 +143,10 @@ const Footer = props => {
           <a href="https://xrpl.org/impact.html" className="footer-link">
             Impact
           </a>
-          <a href="https://xrpl.org/carbon-calculator.html" className="footer-link">
+          <a
+            href="https://xrpl.org/carbon-calculator.html"
+            className="footer-link"
+          >
             Carbon Calculator
           </a>
         </div>
@@ -187,7 +191,10 @@ const Footer = props => {
           <a href="https://xrpl.org/contribute.html" className="footer-link">
             How to Contribute
           </a>
-          <a href="https://github.com/ripple/xrpl-dev-portal" className="footer-link">
+          <a
+            href="https://github.com/ripple/xrpl-dev-portal"
+            className="footer-link"
+          >
             XRPL on GitHub
           </a>
         </div>
@@ -197,39 +204,47 @@ const Footer = props => {
           <Logo className="image" alt={t('xrpl_explorer')} />
           <span className="text">
             {t('explorer')}
-            <span className="version"> {t('version', { number: packageConfig.version })}</span>
+            <span className="version">
+              {' '}
+              {t('version', { number: packageConfig.version })}
+            </span>
           </span>
         </div>
         {renderLanguage()}
         <div className="copyright">
           <span>&#169;&nbsp;</span>
-          <a className="link" target="_blank" rel="noopener noreferrer" href="https://xrpl.org">
+          <a
+            className="link"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://xrpl.org"
+          >
             XRP Ledger Project
           </a>
           <span>&nbsp;2012-{new Date().getFullYear()}</span>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 Footer.propTypes = {
   language: PropTypes.string.isRequired,
   actions: PropTypes.shape({
     updateLanguage: PropTypes.func,
   }).isRequired,
-};
+}
 
 export default connect(
-  state => ({
+  (state) => ({
     language: state.app.language,
   }),
-  dispatch => ({
+  (dispatch) => ({
     actions: bindActionCreators(
       {
         updateLanguage,
       },
-      dispatch
+      dispatch,
     ),
-  })
-)(Footer);
+  }),
+)(Footer)

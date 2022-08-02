@@ -16,6 +16,6 @@ const routesConfig = [
     link: 'https://xrpl.org',
     title: 'xrpl_org',
   },
-];
+]
 
-export default routesConfig;
+export default routesConfig
