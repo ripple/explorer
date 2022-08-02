@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import './variables';
 
 @mixin token-table {
   table {
@@ -12,6 +12,7 @@
       text-transform: uppercase;
       @include semibold;
     }
+
     .col2 {
       padding-bottom: 8px;
       color: $white;

@@ -1,7 +1,8 @@
-@import '../shared/css/variables.scss';
+@import '../shared/css/variables';
 
 .token-page {
   width: 100%;
+
   .disclaimer-container {
     display: flex;
     flex-direction: column;
@@ -45,6 +46,7 @@
       @include regular;
     }
   }
+
   .loader {
     min-height: 100px;
     background: $black;
