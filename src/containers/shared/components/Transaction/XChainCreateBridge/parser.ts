@@ -5,6 +5,6 @@ export function parser(tx: any) {
     issuingDoor: tx.XChainBridge?.IssuingChainDoor,
     issuingIssue: tx.XChainBridge?.IssuingChainIssue,
     signatureReward: tx.SignatureReward,
-    minAccountCreateAmount: tx.MinAccountCreateAmount || 'N/A',
+    minAccountCreateAmount: tx.MinAccountCreateAmount ?? 'N/A',
   }
 }
