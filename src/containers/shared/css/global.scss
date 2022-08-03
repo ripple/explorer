@@ -54,8 +54,8 @@ input {
 body,
 input,
 button {
-  font-family: 'currency_symbols', system-ui, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
-    'Helvetica Neue', sans-serif;
+  font-family: 'currency_symbols', system-ui, 'Segoe UI', Roboto, Oxygen-Sans,
+    Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 }
 
 .clear {
@@ -323,4 +323,9 @@ div.react-stockchart div {
   .spacer {
     margin-bottom: 15px;
   }
+}
+
+a {
+  color: #80ffba;
+  text-decoration: none;
 }
