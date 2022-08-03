@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm ci
+        run: npm install
       - run: npm run test:all
         env:
           REACT_APP_VALIDATOR: vl.ripple.com
