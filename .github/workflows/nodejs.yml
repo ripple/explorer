@@ -24,7 +24,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm install
+    # - run: npm install
     - run: npm run test:all
       env:
         REACT_APP_VALIDATOR: vl.ripple.com
