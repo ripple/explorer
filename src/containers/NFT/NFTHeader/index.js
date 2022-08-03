@@ -36,7 +36,7 @@ const NFTHeader = (props) => {
       emailHash?.length > 20 ? emailHash?.slice(0, 20).concat('...') : emailHash
     const abbrvURI = uri?.length > 20 ? uri?.slice(0, 20).concat('...') : uri
     return (
-      <table>
+      <table className="token-table">
         <tbody>
           {minted && (
             <tr className="row">
@@ -100,7 +100,7 @@ const NFTHeader = (props) => {
       ? 'enabled'
       : 'disabled'
     return (
-      <table>
+      <table className="token-table">
         <tbody>
           <tr className="row">
             <td className="col1">Burnable</td>

@@ -1,8 +1,6 @@
 @import '../../shared/css/variables';
 @import '../../shared/css/token-table';
 
-@include token-table;
-
 .section {
   margin: 0 32px;
   @include for-size(tablet-landscape-up) {
