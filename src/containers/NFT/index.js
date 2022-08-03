@@ -33,7 +33,7 @@ const getErrorMessage = (error) =>
 const NFT = (props) => {
   const { id: tokenId } = useParams()
   const { t } = useTranslation()
-  const { error, disclaimer } = props
+  const { error } = props
 
   document.title = `${t('xrpl_explorer')} | ${tokenId.substr(0, 12)}...`
 
@@ -53,19 +53,11 @@ const NFT = (props) => {
     )
   }
 
-  const renderDisclaimer = () => (
-    <div className="disclaimer-container">
-      <div className="disclaimer-left">{disclaimer.content}</div>
-      <div className="disclaimer-right">{disclaimer.date}</div>
-    </div>
-  )
-
   return error ? (
     renderError()
   ) : (
     <div className="token-page">
       {tokenId && <NFTHeader tokenId={tokenId} />}
-      {tokenId && disclaimer && renderDisclaimer()}
       {!tokenId && (
         <div style={{ textAlign: 'center', fontSize: '14px' }}>
           <h2>Enter a NFT ID in the search box</h2>
@@ -77,15 +69,10 @@ const NFT = (props) => {
 
 NFT.propTypes = {
   error: PropTypes.number,
-  disclaimer: PropTypes.shape({
-    content: PropTypes.string,
-    date: PropTypes.string,
-  }),
 }
 
 NFT.defaultProps = {
   error: null,
-  disclaimer: null,
 }
 
 export default connect((state) => ({
