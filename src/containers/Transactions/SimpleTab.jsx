@@ -5,6 +5,7 @@ import { localizeDate, localizeNumber, BREAKPOINTS } from '../shared/utils'
 import Account from '../shared/components/Account'
 import Sequence from '../shared/components/Sequence'
 import Simple from './Simple'
+import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
 
 const XRP_BASE = 1000000

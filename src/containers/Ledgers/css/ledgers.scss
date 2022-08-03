@@ -1,5 +1,7 @@
 @import '../../shared/css/variables';
 
+$ledger-width: 168px;
+
 .ledgers-page {
   display: flex;
   width: 100%;
@@ -85,7 +87,8 @@
   }
 
   .ledger {
-    display: table-cell;
+    min-width: $ledger-width;
+    max-width: $ledger-width;
     margin: 0 0 0 32px;
     animation-duration: 0.4s;
     animation-name: ledger-enter;
@@ -107,7 +110,6 @@
   }
 
   .ledger-head {
-    width: 102px;
     min-height: 170px;
     padding: 32px;
     border: 1px solid $gray-800;
@@ -219,7 +221,6 @@
 
   .hash {
     overflow: hidden;
-    width: 102px;
     padding: 0px 32px 32px;
     border: 1px solid $gray-800;
     border-top: 0;
@@ -310,24 +311,18 @@
       }
     }
 
+    .validations {
+      display: grid;
+      gap: 4px 8px;
+      grid-template-columns: repeat(5, 1fr);
+    }
+
     .validation {
-      overflow: hidden;
-      width: 14px;
       height: 4px;
-      margin: 2px 4px;
       background: #ccc;
       border-radius: 4px;
       cursor: pointer;
-      float: left;
       opacity: 0.85;
-    }
-
-    .validation:nth-child(5n + 1) {
-      margin-left: 0;
-    }
-
-    .validation:nth-child(5n) {
-      margin-right: 0;
     }
 
     .validation:hover {
