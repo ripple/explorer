@@ -154,7 +154,7 @@ const NFTHeader = (props) => {
           <div className="values">
             <div className="title">{t('issuer_address')}</div>
             <div className="value">
-              <Link className="value-content" to={`/accounts/${issuer}`}>
+              <Link className="nft-issuer" to={`/accounts/${issuer}`}>
                 {abbrvIssuer}
               </Link>
               <CopyToClipboard className="copy" text={issuer} />
