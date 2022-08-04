@@ -7,7 +7,6 @@ import getQuorum from './quorum'
 import getNegativeUNL from './nUNL'
 import getToken from './token'
 import getOffers from './offers'
-import getNFT from './NFT'
 
 export {
   getAccountState,
@@ -19,5 +18,4 @@ export {
   getNegativeUNL,
   getToken,
   getOffers,
-  getNFT,
 }

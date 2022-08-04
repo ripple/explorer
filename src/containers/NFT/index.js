@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useTranslation, withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -30,10 +30,11 @@ const ERROR_MESSAGES = {
 
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] ?? ERROR_MESSAGES.default
+
 const NFT = (props) => {
   const { id: tokenId } = useParams()
   const { t } = useTranslation()
-  const { error } = props
+  const [error, setError] = useState(null)
 
   document.title = `${t('xrpl_explorer')} | ${tokenId.substr(0, 12)}...`
 
@@ -57,7 +58,7 @@ const NFT = (props) => {
     renderError()
   ) : (
     <div className="token-page">
-      {tokenId && <NFTHeader tokenId={tokenId} />}
+      {tokenId && <NFTHeader tokenId={tokenId} setError={setError} />}
       {!tokenId && (
         <div style={{ textAlign: 'center', fontSize: '14px' }}>
           <h2>Enter a NFT ID in the search box</h2>
@@ -67,15 +68,4 @@ const NFT = (props) => {
   )
 }
 
-NFT.propTypes = {
-  error: PropTypes.number,
-}
-
-NFT.defaultProps = {
-  error: null,
-}
-
-export default connect((state) => ({
-  width: state.app.width,
-  error: state.NFTHeader.status,
-}))(withTranslation()(NFT))
+export default NFT

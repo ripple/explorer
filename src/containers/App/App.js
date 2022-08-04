@@ -4,6 +4,7 @@ import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { XrplClient } from 'xrpl-client'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
 import Ledgers from '../Ledgers'
 import Header from '../Header'
@@ -87,43 +88,55 @@ const App = (props) => {
   if (location.pathname === `${urlLink}/ledgers`) {
     return <Redirect to={urlLink} />
   }
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchOnMount: false,
+        retry: false,
+      },
+    },
+  })
 
   return (
     <div className="app">
-      <SocketContext.Provider value={socket}>
-        <BrowserRouter basename={rippledUrl ?? ''}>
-          <Header />
-          <div className="content">
-            <Switch>
-              <Route exact path="/" component={Ledgers} />
-              <Route exact path="/ledgers/:identifier" component={ledger} />
-              <Route
-                exact
-                path="/accounts/:id?/:tab?/:assetType?"
-                component={accounts}
-              />
-              <Route
-                exact
-                path="/transactions/:identifier/:tab?"
-                component={transactions}
-              />
-              <Route exact path="/network/:tab?" component={network} />
-              <Route
-                exact
-                path="/validators/:identifier/:tab?"
-                component={validators}
-              />
-              <Route exact path="/paystrings/:id?" component={paystrings} />
-              <Route exact path="/token/:currency.:id" component={token} />
-              <Route exact path="/token/:id" component={NFT} />
-              {MODE === 'mainnet' && (
-                <Route exact path="/tokens" component={tokens} />
-              )}
-              <Route component={noMatch} />
-            </Switch>
-          </div>
-        </BrowserRouter>
-      </SocketContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <SocketContext.Provider value={socket}>
+          <BrowserRouter basename={rippledUrl ?? ''}>
+            <Header />
+            <div className="content">
+              <Switch>
+                <Route exact path="/" component={Ledgers} />
+                <Route exact path="/ledgers/:identifier" component={ledger} />
+                <Route
+                  exact
+                  path="/accounts/:id?/:tab?/:assetType?"
+                  component={accounts}
+                />
+                <Route
+                  exact
+                  path="/transactions/:identifier/:tab?"
+                  component={transactions}
+                />
+                <Route exact path="/network/:tab?" component={network} />
+                <Route
+                  exact
+                  path="/validators/:identifier/:tab?"
+                  component={validators}
+                />
+                <Route exact path="/paystrings/:id?" component={paystrings} />
+                <Route exact path="/token/:currency.:id" component={token} />
+                <Route exact path="/token/:id" component={NFT} />
+                {MODE === 'mainnet' && (
+                  <Route exact path="/tokens" component={tokens} />
+                )}
+                <Route component={noMatch} />
+              </Switch>
+            </div>
+          </BrowserRouter>
+        </SocketContext.Provider>
+      </QueryClientProvider>
     </div>
   )
 }

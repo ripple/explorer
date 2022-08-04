@@ -1,26 +1,48 @@
-import React, { Component, useEffect, useContext, useState } from 'react'
-import { useTranslation, withTranslation } from 'react-i18next'
+import React, { useEffect, useContext, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { loadNFTState } from './actions'
+import { useQuery } from 'react-query'
 import Loader from '../../shared/components/Loader'
 import '../../shared/css/nested-menu.css'
 import './styles.css'
 import SocketContext from '../../shared/SocketContext'
 import Tooltip from '../../shared/components/Tooltip'
 import CopyToClipboard from '../../shared/components/CopyToClipboard'
+import { getNFTInfo } from '../../../rippled/lib/rippled'
+import { formatNFTInfo } from '../../../rippled/lib/utils'
+import {
+  analytics,
+  ANALYTIC_TYPES,
+  BAD_REQUEST,
+  HASH_REGEX,
+} from '../../shared/utils'
 
 const NFTHeader = (props) => {
   const { t } = useTranslation()
-  const { actions, tokenId, data, loading, language } = props
+  const { tokenId, setError } = props
   const rippledSocket = useContext(SocketContext)
   const [tooltip, setTooltip] = useState(null)
+  const {
+    data: rawData,
+    isFetching: loading,
+    error,
+    isError,
+  } = useQuery(['getNFTInfo'], async () => getNFTInfo(rippledSocket, tokenId))
 
   useEffect(() => {
-    actions.loadNFTState(tokenId, rippledSocket)
-  }, [tokenId])
+    if (!HASH_REGEX.test(tokenId)) {
+      setError(BAD_REQUEST)
+    }
+    if (isError && error) {
+      analytics(ANALYTIC_TYPES.exception, {
+        exDescription: `NFT ${tokenId} --- ${JSON.stringify(error)}`,
+      })
+      setError(error.code)
+    }
+  }, [isError, error, tokenId])
+
+  const data = rawData && formatNFTInfo(rawData)
 
   const showTooltip = (event, d) => {
     setTooltip({ ...d, mode: 'nftId', x: event.pageX, y: event.pageY })
@@ -157,7 +179,7 @@ const NFTHeader = (props) => {
   return (
     <div className="nft-token-header">
       <div className="section">
-        {!loading && Object.keys(data).length !== 0 && (
+        {!loading && data && (
           <div className="nft-box-header">
             <div className="token-title">
               NFT ID
@@ -177,11 +199,7 @@ const NFTHeader = (props) => {
         )}
       </div>
       <div className="box-content">
-        {loading || Object.keys(data).length === 0 ? (
-          <Loader />
-        ) : (
-          renderHeaderContent()
-        )}
+        {loading || !data ? <Loader /> : renderHeaderContent()}
       </div>
       <Tooltip data={tooltip} />
     </div>
@@ -189,44 +207,8 @@ const NFTHeader = (props) => {
 }
 
 NFTHeader.propTypes = {
-  language: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
   tokenId: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    NFTId: PropTypes.string,
-    ledgerIndex: PropTypes.number,
-    owner: PropTypes.string,
-    isBurned: PropTypes.bool,
-    flags: PropTypes.arrayOf(PropTypes.string),
-    transferFee: PropTypes.number,
-    issuer: PropTypes.string,
-    NFTTaxon: PropTypes.number,
-    NFTSequence: PropTypes.number,
-    uri: PropTypes.string,
-    validated: PropTypes.bool,
-    status: PropTypes.string,
-    warnings: PropTypes.arrayOf(PropTypes.string),
-    minted: PropTypes.string,
-    domain: PropTypes.string,
-    emailHash: PropTypes.string,
-  }).isRequired,
-  actions: PropTypes.shape({
-    loadNFTState: PropTypes.func.isRequired,
-  }).isRequired,
+  setError: PropTypes.func.isRequired,
 }
 
-export default connect(
-  (state) => ({
-    language: state.app.language,
-    loading: state.NFTHeader.loading,
-    data: state.NFTHeader.data,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadNFTState,
-      },
-      dispatch,
-    ),
-  }),
-)(withTranslation()(NFTHeader))
+export default NFTHeader
