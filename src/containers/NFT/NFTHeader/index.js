@@ -115,10 +115,10 @@ const NFTHeader = (props) => {
   const renderSettings = () => {
     const { flags } = data
 
-    const burnable = flags?.includes('lsfBurnable') ? 'enabled' : 'disabled'
-    const onlyXRP = flags?.includes('lsfOnlyXRP') ? 'enabled' : 'disabled'
-    const trustLine = flags?.includes('lsfTrustLine') ? 'enabled' : 'disabled'
-    const transferable = flags?.includes('lsfTransferable')
+    const burnable = flags.includes('lsfBurnable') ? 'enabled' : 'disabled'
+    const onlyXRP = flags.includes('lsfOnlyXRP') ? 'enabled' : 'disabled'
+    const trustLine = flags.includes('lsfTrustLine') ? 'enabled' : 'disabled'
+    const transferable = flags.includes('lsfTransferable')
       ? 'enabled'
       : 'disabled'
     return (
@@ -147,8 +147,7 @@ const NFTHeader = (props) => {
 
   const renderHeaderContent = () => {
     const { issuer } = data
-    const abbrvIssuer =
-      issuer?.length > 23 ? issuer?.slice(0, 23).concat('...') : issuer
+    const abbrvIssuer = issuer.slice(0, 23).concat('...')
     return (
       <div className="section nft-header-container">
         <div className="nft-info-container">
@@ -179,7 +178,7 @@ const NFTHeader = (props) => {
   return (
     <div className="nft-token-header">
       <div className="section">
-        {!loading && data && (
+        {!loading && (
           <div className="nft-box-header">
             <div className="token-title">
               NFT ID
@@ -199,7 +198,7 @@ const NFTHeader = (props) => {
         )}
       </div>
       <div className="box-content">
-        {loading || !data ? <Loader /> : renderHeaderContent()}
+        {loading ? <Loader /> : renderHeaderContent()}
       </div>
       <Tooltip data={tooltip} />
     </div>
