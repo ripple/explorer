@@ -290,7 +290,7 @@ const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) =>
   })
 
 const getNFTInfo = (rippledSocket, tokenId) =>
-  query(rippledSocket, {
+  queryP2P(rippledSocket, {
     command: 'nft_info',
     nft_id: tokenId,
   }).then((resp) => {

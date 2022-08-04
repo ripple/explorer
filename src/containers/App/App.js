@@ -42,17 +42,12 @@ const App = (props) => {
   const hasP2PSocket =
     process.env.REACT_APP_P2P_RIPPLED_HOST != null &&
     process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
+  const p2pConnection = process.env.REACT_APP_P2P_UNENCRYPTED ?? 'wss'
   socket.p2pSocket = hasP2PSocket
     ? new XrplClient([
-        `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+        `${p2pConnection}://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
     : undefined
-  socket.clioSocket =
-    process.env.REACT_APP_CLIO_HOST && process.env.REACT_APP_CLIO_WS_PORT
-      ? new XrplClient(
-          `ws://${process.env.REACT_APP_CLIO_HOST}:${process.env.REACT_APP_CLIO_WS_PORT}`,
-        )
-      : undefined
 
   useEffect(() => {
     actions.updateViewportDimensions()

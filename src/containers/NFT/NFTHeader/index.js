@@ -19,7 +19,7 @@ const NFTHeader = (props) => {
   const [tooltip, setTooltip] = useState(null)
 
   useEffect(() => {
-    actions.loadNFTState(tokenId, rippledSocket.clioSocket)
+    actions.loadNFTState(tokenId, rippledSocket)
   }, [tokenId])
 
   const showTooltip = (event, d) => {
