@@ -5,7 +5,7 @@
   margin: 0 32px;
   @include for-size(tablet-landscape-up) {
     width: 552px;
-    margin: 0px auto;
+    margin: 0 auto;
   }
 
   @include for-size(desktop-up) {
