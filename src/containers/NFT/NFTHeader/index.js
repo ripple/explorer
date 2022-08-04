@@ -17,6 +17,8 @@ import {
   BAD_REQUEST,
   HASH_REGEX,
 } from '../../shared/utils'
+import Details from './Details'
+import Settings from './Settings'
 
 const NFTHeader = (props) => {
   const { t } = useTranslation()
@@ -52,99 +54,6 @@ const NFTHeader = (props) => {
     setTooltip(null)
   }
 
-  const renderDetails = () => {
-    const { minted, domain, emailHash, NFTTaxon, uri, transferFee } = data
-    const abbrvEmail =
-      emailHash?.length > 20 ? emailHash?.slice(0, 20).concat('...') : emailHash
-    const abbrvURI = uri?.length > 20 ? uri?.slice(0, 20).concat('...') : uri
-    return (
-      <table className="token-table">
-        <tbody>
-          {minted && (
-            <tr className="row">
-              <td className="col1">Minted</td>
-              <td className="col2">{minted}</td>
-            </tr>
-          )}
-          {domain && (
-            <tr className="row">
-              <td className="col1">{t('domain')}</td>
-              <td className="col2">
-                <a
-                  href={`https://${domain}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {domain}
-                </a>
-              </td>
-            </tr>
-          )}
-          {emailHash && (
-            <tr className="row">
-              <td className="col1">{t('email_hash')}</td>
-              <td className="col2">
-                {abbrvEmail}
-                <CopyToClipboard className="copy" text={emailHash} />
-              </td>
-            </tr>
-          )}
-          <tr className="row">
-            <td className="col1">Taxon ID</td>
-            <td className="col2">{NFTTaxon}</td>
-          </tr>
-          {uri && (
-            <tr className="row">
-              <td className="col1">URI</td>
-              <td className="col2">
-                <a href={uri} target="_blank" rel="noopener noreferrer">
-                  {abbrvURI}
-                </a>
-              </td>
-            </tr>
-          )}
-          <tr className="row">
-            <td className="col1">Transfer Fee</td>
-            <td className="col2">{transferFee}</td>
-          </tr>
-        </tbody>
-      </table>
-    )
-  }
-
-  const renderSettings = () => {
-    const { flags } = data
-
-    const burnable = flags.includes('lsfBurnable') ? 'enabled' : 'disabled'
-    const onlyXRP = flags.includes('lsfOnlyXRP') ? 'enabled' : 'disabled'
-    const trustLine = flags.includes('lsfTrustLine') ? 'enabled' : 'disabled'
-    const transferable = flags.includes('lsfTransferable')
-      ? 'enabled'
-      : 'disabled'
-    return (
-      <table className="token-table">
-        <tbody>
-          <tr className="row">
-            <td className="col1">Burnable</td>
-            <td className="col2">{burnable}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Only XRP</td>
-            <td className="col2">{onlyXRP}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Trust Line</td>
-            <td className="col2">{trustLine}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Transferable</td>
-            <td className="col2">{transferable}</td>
-          </tr>
-        </tbody>
-      </table>
-    )
-  }
-
   const renderHeaderContent = () => {
     const { issuer } = data
     const abbrvIssuer = issuer.slice(0, 23).concat('...')
@@ -164,11 +73,11 @@ const NFTHeader = (props) => {
         <div className="nft-bottom-container">
           <div className="details">
             <div className="title">{t('details')}</div>
-            {renderDetails()}
+            <Details data={data} />
           </div>
           <div className="settings">
             <div className="title">{t('settings')}</div>
-            {renderSettings()}
+            <Settings flags={data.flags} />
           </div>
         </div>
       </div>
