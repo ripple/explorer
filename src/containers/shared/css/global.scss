@@ -326,6 +326,10 @@ div.react-stockchart div {
 }
 
 a {
-  color: #80ffba;
+  color: $green-300;
   text-decoration: none;
+
+  &:hover {
+    color: $gray-400;
+  }
 }
