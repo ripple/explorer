@@ -27,7 +27,6 @@ class MockWsClient extends EventEmitter {
     this.returnError = false
     this.endpoint = 'wss://fakenode.ripple.com:51233'
     this.p2pSocket = this
-    this.clioSocket = this
     this.debug = false
 
     // set up the message handler for streams
