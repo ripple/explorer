@@ -4,9 +4,11 @@
 @import './form';
 
 /**
- * `currency_symbols` defines currencies fonts are missing, currently `u+e900` (XRP) and `u+e901` (BTC).
- * By using unicode-range we specify `currency_symbols` at the top level and any other characters will fall through to
- * the next font in the stack, in this case Work Sans.
+ * `current_symbols` is used for currency codes missing from other fonts, currently `u+e900` (XRP) and `u+e901` (BTC).
+ *
+ * By using unicode-range we specify which character points this font-family can be used for. When used in a style (and
+ * assuming this font family is first/takes precedent), only these characters will use this font-face. Anything else
+ * will fall through to the subsequent font-family.
  */
 @font-face {
   font-family: 'currency_symbols';
