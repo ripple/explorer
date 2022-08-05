@@ -3,41 +3,20 @@
 @import './variables';
 @import './form';
 
-/* prettier-ignore */
+/**
+ * `current_symbols` is used for currency codes missing from other fonts, currently `u+e900` (XRP) and `u+e901` (BTC).
+ *
+ * By using unicode-range we specify which character points this font-family can be used for. When used in a style (and
+ * assuming this font family is first/takes precedent), only these characters will use this font-face. Anything else
+ * will fall through to the subsequent font-family.
+ */
 @font-face {
   font-family: 'currency_symbols';
   font-style: normal;
   font-weight: normal;
-  src: url('../fonts/currency_symbols.eot');
-  src:
-    url('../fonts/currency_symbols.eot#iefix') format('embedded-opentype'),
-    url('../fonts/currency_symbols.ttf') format('truetype'),
-    url('../fonts/currency_symbols.woff') format('woff'),
-    url('../fonts/currency_symbols.svg') format('svg');
-}
-
-@font-face {
-  font-family: 'Space Mono';
-  src: url('../fonts/SpaceMono-Regular.ttf');
-}
-
-@font-face {
-  font-family: 'Space Mono';
-  font-style: italic;
-  src: url('../fonts/SpaceMono-Italic.ttf');
-}
-
-@font-face {
-  font-family: 'Space Mono';
-  font-weight: bold;
-  src: url('../fonts/SpaceMono-Bold.ttf');
-}
-
-@font-face {
-  font-family: 'Space Mono';
-  font-style: italic;
-  font-weight: bold;
-  src: url('../fonts/SpaceMono-BoldItalic.ttf');
+  src: url('../fonts/currency_symbols.ttf') format('truetype'),
+    url('../fonts/currency_symbols.woff') format('woff');
+  unicode-range: u+e900-e901;
 }
 
 body,
@@ -54,8 +33,8 @@ input {
 body,
 input,
 button {
-  font-family: 'currency_symbols', system-ui, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
-    'Helvetica Neue', sans-serif;
+  font-family: 'currency_symbols', 'Work Sans', system-ui, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 }
 
 .clear {

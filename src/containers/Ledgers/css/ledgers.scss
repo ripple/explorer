@@ -147,7 +147,6 @@
     .ledger-index {
       padding-bottom: 3px;
       color: $white;
-      font-family: 'Space Mono', monospace;
       font-size: 14px;
       font-weight: 700;
       line-height: 16px;
@@ -252,7 +251,6 @@
     .hash-concat {
       padding-top: 32px;
       color: $white;
-      font-family: 'Space Mono', monospace;
       font-size: 14px;
       @include bold;
     }
