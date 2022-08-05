@@ -11,6 +11,7 @@ import './styles.css'
 import { localizeNumber, formatLargeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
+import Account from '../../shared/components/Account'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -180,9 +181,9 @@ class TokenHeader extends Component {
           </div>
           <div className="values">
             <div className="title">{t('issuer_address')}</div>
-            <Link className="value" to={`/accounts/${accountId}`}>
-              {accountId}
-            </Link>
+            <div className="value">
+              <Account account={accountId} />
+            </div>
           </div>
           <div className="values">
             <div className="title">{t('obligations')}</div>
