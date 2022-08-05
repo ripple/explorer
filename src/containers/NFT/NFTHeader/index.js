@@ -24,24 +24,24 @@ const NFTHeader = (props) => {
   const { tokenId, setError } = props
   const rippledSocket = useContext(SocketContext)
   const [tooltip, setTooltip] = useState(null)
-  const {
-    data: rawData,
-    isFetching: loading,
-    error,
-    isError,
-  } = useQuery(['getNFTInfo'], async () => getNFTInfo(rippledSocket, tokenId))
+  const { data: rawData, isFetching: loading } = useQuery(
+    ['getNFTInfo'],
+    async () => getNFTInfo(rippledSocket, tokenId),
+    {
+      onError: (e) => {
+        analytics(ANALYTIC_TYPES.exception, {
+          exDescription: `NFT ${tokenId} --- ${JSON.stringify(e)}`,
+        })
+        setError(e.code)
+      },
+    },
+  )
 
   useEffect(() => {
     if (!HASH_REGEX.test(tokenId)) {
       setError(BAD_REQUEST)
     }
-    if (isError && error) {
-      analytics(ANALYTIC_TYPES.exception, {
-        exDescription: `NFT ${tokenId} --- ${JSON.stringify(error)}`,
-      })
-      setError(error.code)
-    }
-  }, [isError, error, tokenId])
+  }, [tokenId])
 
   const data = rawData && formatNFTInfo(rawData)
 
