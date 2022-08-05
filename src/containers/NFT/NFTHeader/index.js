@@ -8,7 +8,6 @@ import '../../shared/css/nested-menu.css'
 import './styles.css'
 import SocketContext from '../../shared/SocketContext'
 import Tooltip from '../../shared/components/Tooltip'
-import CopyToClipboard from '../../shared/components/CopyToClipboard'
 import { getNFTInfo } from '../../../rippled/lib/rippled'
 import { formatNFTInfo } from '../../../rippled/lib/utils'
 import {
@@ -56,7 +55,6 @@ const NFTHeader = (props) => {
 
   const renderHeaderContent = () => {
     const { issuer } = data
-    const abbrvIssuer = issuer.slice(0, 23).concat('...')
     return (
       <div className="section nft-header-container">
         <div className="nft-info-container">
@@ -64,9 +62,8 @@ const NFTHeader = (props) => {
             <div className="title">{t('issuer_address')}</div>
             <div className="value">
               <Link className="nft-issuer" to={`/accounts/${issuer}`}>
-                {abbrvIssuer}
+                {issuer}
               </Link>
-              <CopyToClipboard className="copy" text={issuer} />
             </div>
           </div>
         </div>
