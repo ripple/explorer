@@ -155,6 +155,21 @@ $XRP_OTHERS: #f52a79;
   }
 }
 
+@mixin transaction-type-base($color) {
+  border-left-color: $color;
+  color: $color;
+
+  &.bg {
+    background: $color;
+  }
+}
+
+@mixin transaction-type($transactionType, $color) {
+  &.#{$transactionType} {
+    @include transaction-type-base($color);
+  }
+}
+
 // KeyFrames
 @keyframes black-10-fade {
   from {
