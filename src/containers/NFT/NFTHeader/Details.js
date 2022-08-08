@@ -45,12 +45,12 @@ const Details = ({ data }) => {
           </tr>
         )}
         <tr className="row">
-          <td className="col1">Taxon ID</td>
+          <td className="col1">{t('taxon_id')}</td>
           <td className="col2">{NFTTaxon}</td>
         </tr>
         {uri && (
           <tr className="row">
-            <td className="col1">URI</td>
+            <td className="col1">{t('uri')}</td>
             <td className="col2">
               <a href={uri} target="_blank" rel="noopener noreferrer">
                 {abbrvURI}
@@ -59,7 +59,7 @@ const Details = ({ data }) => {
           </tr>
         )}
         <tr className="row">
-          <td className="col1">Transfer Fee</td>
+          <td className="col1">{t('transfer_fee')}</td>
           <td className="col2">{transferFee}</td>
         </tr>
       </tbody>
