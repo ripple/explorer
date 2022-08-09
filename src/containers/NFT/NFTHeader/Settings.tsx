@@ -1,9 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import './styles.css'
 import { useTranslation } from 'react-i18next'
 
-const Settings = ({ flags }) => {
+interface Props {
+  flags: string[]
+}
+
+const Settings = ({ flags }: Props) => {
   const { t } = useTranslation()
 
   const burnable = flags.includes('lsfBurnable') ? 'enabled' : 'disabled'
@@ -35,14 +38,6 @@ const Settings = ({ flags }) => {
       </tbody>
     </table>
   )
-}
-
-Settings.propTypes = {
-  flags: PropTypes.arrayOf(PropTypes.string),
-}
-
-Settings.defaultProps = {
-  flags: [],
 }
 
 export default Settings
