@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import CopyToClipboard from '../../shared/components/CopyToClipboard'
+import { CopyToClipboard } from '../../shared/components/CopyToClipboard'
 import './styles.css'
 
 const Details = ({ data }) => {

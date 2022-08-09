@@ -7,7 +7,7 @@ interface Props {
   className?: string
 }
 
-const CopyToClipboard = ({ text, className }: Props) => (
+export const CopyToClipboard = ({ text, className }: Props) => (
   <input
     className={className}
     type="image"
@@ -25,5 +25,3 @@ CopyToClipboard.defaultProps = {
   text: '',
   className: null,
 }
-
-export default CopyToClipboard
