@@ -4,7 +4,7 @@ import { useTranslation, withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import NoMatch from '../NoMatch'
-import NFTHeader from './NFTHeader'
+import NFTHeader from './NFTHeader/NFTHeader'
 import './styles.css'
 import {
   analytics,

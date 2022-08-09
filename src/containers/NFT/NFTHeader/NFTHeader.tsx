@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { useQuery } from 'react-query'
 import Loader from '../../shared/components/Loader'
 import '../../shared/css/nested-menu.css'
@@ -10,16 +9,16 @@ import SocketContext from '../../shared/SocketContext'
 import Tooltip from '../../shared/components/Tooltip'
 import { getNFTInfo } from '../../../rippled/lib/rippled'
 import { formatNFTInfo } from '../../../rippled/lib/utils'
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  BAD_REQUEST,
-  HASH_REGEX,
-} from '../../shared/utils'
+import { BAD_REQUEST, HASH_REGEX } from '../../shared/utils'
 import Details from './Details'
 import Settings from './Settings'
 
-const NFTHeader = (props) => {
+interface Props {
+  tokenId: string
+  setError: (error: number) => void
+}
+
+const NFTHeader = (props: Props) => {
   const { t } = useTranslation()
   const { tokenId, setError } = props
   const rippledSocket = useContext(SocketContext)
@@ -28,10 +27,7 @@ const NFTHeader = (props) => {
     ['getNFTInfo'],
     async () => getNFTInfo(rippledSocket, tokenId),
     {
-      onError: (e) => {
-        analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `NFT ${tokenId} --- ${JSON.stringify(e)}`,
-        })
+      onError: (e: any) => {
         setError(e.code)
       },
     },
@@ -45,7 +41,7 @@ const NFTHeader = (props) => {
 
   const data = rawData && formatNFTInfo(rawData)
 
-  const showTooltip = (event, d) => {
+  const showTooltip = (event: any, d: any) => {
     setTooltip({ ...d, mode: 'nftId', x: event.pageX, y: event.pageY })
   }
 
@@ -109,11 +105,6 @@ const NFTHeader = (props) => {
       <Tooltip data={tooltip} />
     </div>
   )
-}
-
-NFTHeader.propTypes = {
-  tokenId: PropTypes.string.isRequired,
-  setError: PropTypes.func.isRequired,
 }
 
 export default NFTHeader
