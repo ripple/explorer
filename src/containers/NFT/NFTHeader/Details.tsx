@@ -1,16 +1,38 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
 import { CopyToClipboard } from '../../shared/components/CopyToClipboard'
 import './styles.css'
 
-const Details = ({ data }) => {
+interface Props {
+  data: {
+    NFTId: string
+    ledgerIndex: number | undefined
+    owner: string
+    isBurned: boolean | undefined
+    flags: string[] | undefined
+    transferFee: number
+    issuer: string
+    NFTTaxon: number
+    NFTSequence: number | undefined
+    uri: string | undefined
+    validated: boolean | undefined
+    status: string | undefined
+    warnings: string[] | undefined
+    minted: string | undefined
+    domain: string | undefined
+    emailHash: string | undefined
+  }
+}
+
+const Details = ({ data }: Props) => {
   const { minted, domain, emailHash, NFTTaxon, uri, transferFee } = data
   const { t } = useTranslation()
 
   const abbrvEmail =
-    emailHash?.length > 20 ? emailHash?.slice(0, 20).concat('...') : emailHash
-  const abbrvURI = uri?.length > 20 ? uri?.slice(0, 20).concat('...') : uri
+    emailHash &&
+    (emailHash.length > 20 ? emailHash.slice(0, 20).concat('...') : emailHash)
+  const abbrvURI =
+    uri && (uri.length > 20 ? uri.slice(0, 20).concat('...') : uri)
 
   return (
     <table className="token-table">
@@ -65,31 +87,6 @@ const Details = ({ data }) => {
       </tbody>
     </table>
   )
-}
-
-Details.propTypes = {
-  data: PropTypes.shape({
-    NFTId: PropTypes.string,
-    ledgerIndex: PropTypes.number,
-    owner: PropTypes.string,
-    isBurned: PropTypes.bool,
-    flags: PropTypes.arrayOf(PropTypes.string),
-    transferFee: PropTypes.number,
-    issuer: PropTypes.string,
-    NFTTaxon: PropTypes.number,
-    NFTSequence: PropTypes.number,
-    uri: PropTypes.string,
-    validated: PropTypes.bool,
-    status: PropTypes.string,
-    warnings: PropTypes.arrayOf(PropTypes.string),
-    minted: PropTypes.string,
-    domain: PropTypes.string,
-    emailHash: PropTypes.string,
-  }),
-}
-
-Details.defaultProps = {
-  data: null,
 }
 
 export default Details
