@@ -19,9 +19,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: ${{ matrix.node-version }}
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -40,6 +41,7 @@ jobs:
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm install
+
       - run: npm run test:all
         env:
           REACT_APP_VALIDATOR: vl.ripple.com
