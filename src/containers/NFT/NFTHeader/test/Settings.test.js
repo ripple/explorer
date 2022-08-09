@@ -5,7 +5,7 @@ import { MemoryRouter as Router, Route } from 'react-router-dom'
 import Settings from '../Settings'
 import i18n from '../../../../i18nTestConfig'
 
-describe('NFTInfo container', () => {
+describe('NFT Setttings container', () => {
   const flags = ['lsfBurnable', 'lsfOnlyXRP']
 
   const createWrapper = () =>

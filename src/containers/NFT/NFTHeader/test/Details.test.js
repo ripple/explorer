@@ -5,7 +5,7 @@ import { MemoryRouter as Router, Route } from 'react-router-dom'
 import Details from '../Details'
 import i18n from '../../../../i18nTestConfig'
 
-describe('NFTInfo container', () => {
+describe('NFT Details container', () => {
   const data = {
     NFTId: '0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000C',
     ledgerIndex: 2436210,
