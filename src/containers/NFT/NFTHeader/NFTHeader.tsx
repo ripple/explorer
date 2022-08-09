@@ -9,7 +9,12 @@ import SocketContext from '../../shared/SocketContext'
 import Tooltip from '../../shared/components/Tooltip'
 import { getNFTInfo } from '../../../rippled/lib/rippled'
 import { formatNFTInfo } from '../../../rippled/lib/utils'
-import { BAD_REQUEST, HASH_REGEX } from '../../shared/utils'
+import {
+  analytics,
+  ANALYTIC_TYPES,
+  BAD_REQUEST,
+  HASH_REGEX,
+} from '../../shared/utils'
 import Details from './Details'
 import Settings from './Settings'
 
@@ -28,6 +33,10 @@ const NFTHeader = (props: Props) => {
     async () => getNFTInfo(rippledSocket, tokenId),
     {
       onError: (e: any) => {
+        /* @ts-ignore */
+        analytics(ANALYTIC_TYPES.exception, {
+          exDescription: `NFT ${tokenId} --- ${JSON.stringify(e)}`,
+        })
         setError(e.code)
       },
     },
