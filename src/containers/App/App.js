@@ -18,7 +18,7 @@ import paystrings from '../PayStrings'
 import token from '../Token'
 import tokens from '../Tokens'
 import noMatch from '../NoMatch'
-import NFT from '../NFT'
+import NFT from '../NFT/NFT'
 import SocketContext from '../shared/SocketContext'
 
 const MODE = process.env.REACT_APP_ENVIRONMENT

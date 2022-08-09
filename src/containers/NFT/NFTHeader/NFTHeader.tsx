@@ -15,7 +15,7 @@ import Settings from './Settings'
 
 interface Props {
   tokenId: string
-  setError: (error: number) => void
+  setError: (error: number | null) => void
 }
 
 const NFTHeader = (props: Props) => {

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { useTranslation, withTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import NoMatch from '../NoMatch'
 import NFTHeader from './NFTHeader/NFTHeader'
 import './styles.css'
@@ -13,7 +11,7 @@ import {
   BAD_REQUEST,
 } from '../shared/utils'
 
-const ERROR_MESSAGES = {
+const ERROR_MESSAGES: any = {
   [NOT_FOUND]: {
     title: 'assets.no_nfts_message',
     hints: ['check_nft_id'],
@@ -28,17 +26,18 @@ const ERROR_MESSAGES = {
   },
 }
 
-const getErrorMessage = (error) =>
+const getErrorMessage = (error: any) =>
   ERROR_MESSAGES[error] ?? ERROR_MESSAGES.default
 
-const NFT = (props) => {
-  const { id: tokenId } = useParams()
+const NFT = () => {
+  const { id: tokenId } = useParams<{ id: string }>()
   const { t } = useTranslation()
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<number | null>(null)
 
   document.title = `${t('xrpl_explorer')} | ${tokenId.substr(0, 12)}...`
 
   useEffect(() => {
+    /* @ts-ignore */
     analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/token/:id' })
     return () => {
       window.scrollTo(0, 0)
