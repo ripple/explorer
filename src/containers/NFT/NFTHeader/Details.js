@@ -17,7 +17,7 @@ const Details = ({ data }) => {
       <tbody>
         {minted && (
           <tr className="row">
-            <td className="col1">Minted</td>
+            <td className="col1">{t('minted')}</td>
             <td className="col2">{minted}</td>
           </tr>
         )}

@@ -6,6 +6,7 @@
   "assets.no_nfts_message": "No NFTs found.",
   "check_nft_id": "Please check your NFT ID",
   "get_nft_state_failed":"Unable to load NFT state",
+  "minted":"Minted",
   "taxon_id": "Taxon ID",
   "uri": "URI",
   "transfer_fee": "Transfer Fee",
