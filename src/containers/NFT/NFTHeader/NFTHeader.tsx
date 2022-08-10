@@ -1,6 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import Loader from '../../shared/components/Loader'
 import '../../shared/css/nested-menu.css'
@@ -17,6 +16,7 @@ import {
 } from '../../shared/utils'
 import Details from './Details'
 import Settings from './Settings'
+import Account from '../../shared/components/Account'
 
 interface Props {
   tokenId: string
@@ -66,9 +66,9 @@ const NFTHeader = (props: Props) => {
           <div className="values">
             <div className="title">{t('issuer_address')}</div>
             <div className="value">
-              <Link className="nft-issuer" to={`/accounts/${issuer}`}>
-                {issuer}
-              </Link>
+              <div className="nft-issuer">
+                <Account account={issuer} />
+              </div>
             </div>
           </div>
         </div>
