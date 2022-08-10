@@ -113,9 +113,9 @@ const App = (props) => {
               />
               <Route exact path="/paystrings/:id?" component={paystrings} />
               <Route exact path="/token/:currency.:id" component={token} />
-              {MODE === 'mainnet' && (
+              {/* {MODE === 'mainnet' && (
                 <Route exact path="/tokens" component={tokens} />
-              )}
+              )} */}
               <Route component={noMatch} />
             </Switch>
           </div>
