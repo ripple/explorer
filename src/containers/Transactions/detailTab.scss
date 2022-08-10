@@ -82,7 +82,6 @@
     }
 
     .ledger {
-      color: $gray-300;
       @include medium;
     }
 
@@ -126,7 +125,6 @@
     }
 
     .account {
-      color: $purple-grey;
       font-size: 11px;
       @include bold;
     }

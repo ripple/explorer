@@ -39,6 +39,8 @@ $dark-blue: #005dca;
 $navy: #0d294e;
 $green: #19ff83;
 $green2: #00e66a;
+$green-300: #80ffba;
+$green-primary: #19ff83;
 $orange: #f90;
 $orange2: #c60;
 $orange-600: #ff671a;
@@ -114,14 +116,6 @@ $XRP_CAD: #ca3103;
 $XRP_OTHERS: #f52a79;
 
 // Font wights
-@mixin thin {
-  font-weight: 100;
-}
-
-@mixin light {
-  font-weight: 300;
-}
-
 @mixin regular {
   font-weight: 400;
 }
@@ -136,10 +130,6 @@ $XRP_OTHERS: #f52a79;
 
 @mixin bold {
   font-weight: 700;
-}
-
-@mixin black {
-  font-weight: 900;
 }
 
 // View bucket sizes
@@ -164,6 +154,21 @@ $XRP_OTHERS: #f52a79;
     @media (min-width: $desktop-upper-boundary) {
       @content;
     }
+  }
+}
+
+@mixin transaction-type-base($color) {
+  border-left-color: $color;
+  color: $color;
+
+  &.bg {
+    background: $color;
+  }
+}
+
+@mixin transaction-type($transactionType, $color) {
+  &.#{$transactionType} {
+    @include transaction-type-base($color);
   }
 }
 
