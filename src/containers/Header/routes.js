@@ -9,10 +9,6 @@ const routesConfig = [
     title: 'network',
   },
   {
-    path: '/tokens',
-    title: 'tokens',
-  },
-  {
     link: 'https://xrpl.org',
     title: 'xrpl_org',
   },
