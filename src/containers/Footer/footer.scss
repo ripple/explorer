@@ -40,7 +40,6 @@
 
   .footer-link {
     display: block;
-    color: $gray-400;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -48,10 +47,6 @@
     line-height: 21px;
     text-align: left;
     text-decoration: none;
-
-    &:hover {
-      color: $white;
-    }
   }
 
   .footer-branding {
