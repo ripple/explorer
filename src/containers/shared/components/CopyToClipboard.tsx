@@ -1,5 +1,5 @@
 import React from 'react'
-import copy from '../images/copy.png'
+import copy from '../images/copy.svg'
 
 interface Props {
   text: string
