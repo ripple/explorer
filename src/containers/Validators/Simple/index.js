@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 const Simple = (props) => {
-  const { t, data /* , language */ } = props
-
-  const color = data.ledger_hash ? `#${data.ledger_hash.substr(0, 6)}` : ''
+  const { t, data } = props
 
   const renderAgreement = (className, d, label) =>
     d ? (
@@ -39,13 +37,11 @@ const Simple = (props) => {
       </div>
       <div className="row">
         <div className="label">Ledger</div>
-        <Link
-          className="value account"
-          style={{ color }}
-          to={`/ledgers/${data.ledger_index}`}
-        >
-          {data.ledger_hash || 'Unknown'}
-        </Link>
+        <div className="value">
+          <Link className="account" to={`/ledgers/${data.ledger_index}`}>
+            {data.ledger_hash || 'Unknown'}
+          </Link>
+        </div>
       </div>
       {renderAgreement('h1', data.agreement_1hour, 'Agreement (1 hour)')}
       {renderAgreement('h24', data.agreement_24hour, 'Agreement (24 hours)')}
@@ -56,7 +52,6 @@ const Simple = (props) => {
 
 Simple.propTypes = {
   t: PropTypes.func.isRequired,
-  // language: PropTypes.string.isRequired,
   data: PropTypes.shape({
     ledger_hash: PropTypes.string.isRequired,
     ledger_index: PropTypes.number.isRequired,
