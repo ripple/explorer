@@ -39,6 +39,8 @@ $dark-blue: #005dca;
 $navy: #0d294e;
 $green: #19ff83;
 $green2: #00e66a;
+$green-300: #80ffba;
+$green-primary: #19ff83;
 $orange: #f90;
 $orange2: #c60;
 $orange-600: #ff671a;
@@ -152,6 +154,21 @@ $XRP_OTHERS: #f52a79;
     @media (min-width: $desktop-upper-boundary) {
       @content;
     }
+  }
+}
+
+@mixin transaction-type-base($color) {
+  border-left-color: $color;
+  color: $color;
+
+  &.bg {
+    background: $color;
+  }
+}
+
+@mixin transaction-type($transactionType, $color) {
+  &.#{$transactionType} {
+    @include transaction-type-base($color);
   }
 }
 
