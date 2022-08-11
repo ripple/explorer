@@ -16,7 +16,6 @@ import network from '../Network'
 import validators from '../Validators'
 import paystrings from '../PayStrings'
 import token from '../Token'
-import tokens from '../Tokens'
 import noMatch from '../NoMatch'
 import NFT from '../NFT/NFT'
 import SocketContext from '../shared/SocketContext'
@@ -128,9 +127,6 @@ const App = (props) => {
                 <Route exact path="/paystrings/:id?" component={paystrings} />
                 <Route exact path="/token/:currency.:id" component={token} />
                 <Route exact path="/token/:id" component={NFT} />
-                {MODE === 'mainnet' && (
-                  <Route exact path="/tokens" component={tokens} />
-                )}
                 <Route component={noMatch} />
               </Switch>
             </div>
