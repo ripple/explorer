@@ -48,9 +48,16 @@
     .last-ledger {
       min-width: 55px;
       @include bold;
+
+      // When a validation comes in we update the color to use the ledgers hash. Until that occurs the table's default
+      // text color is used.
+      a {
+        color: inherit;
+      }
     }
 
-    .unl, .n-unl {
+    .unl,
+    .n-unl {
       max-width: 40px;
     }
 
