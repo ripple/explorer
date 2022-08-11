@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from '../../shared/components/CopyToClipboard'
 import './styles.css'
+import { formatPrice } from '../../shared/utils'
 
 interface Props {
   data: {
@@ -27,6 +28,15 @@ interface Props {
 const Details = ({ data }: Props) => {
   const { minted, domain, emailHash, NFTTaxon, uri, transferFee } = data
   const { t } = useTranslation()
+
+  const formattedFee =
+    transferFee === 0
+      ? `${transferFee}%`
+      : `${formatPrice(transferFee / 1000, {
+          currency: 'none',
+          decimals: 5,
+          padding: 3,
+        })}%`
 
   const abbrvEmail =
     emailHash &&
@@ -82,7 +92,7 @@ const Details = ({ data }: Props) => {
         )}
         <tr className="row">
           <td className="col1">{t('transfer_fee')}</td>
-          <td className="col2">{transferFee}</td>
+          <td className="col2">{formattedFee}</td>
         </tr>
       </tbody>
     </table>
