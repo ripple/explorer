@@ -105,8 +105,8 @@ class ValidatorsTable extends Component {
         </td>
         <td
           className="last-ledger"
-          style={{ color }}
           title={d.partial ? 'partial validation' : undefined}
+          style={{ color }}
         >
           <Link to={`/ledgers/${d.ledger_index}`}>{d.ledger_index}</Link>
           {d.partial && '*'}
