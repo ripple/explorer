@@ -125,7 +125,7 @@ const App = (props) => {
                 />
                 <Route exact path="/paystrings/:id?" component={paystrings} />
                 <Route exact path="/token/:currency.:id" component={token} />
-                <Route exact path="/token/:id/:tab?" component={NFT} />
+                <Route exact path="/token/:id" component={NFT} />
                 <Route component={noMatch} />
               </Switch>
             </div>
