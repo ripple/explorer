@@ -92,12 +92,8 @@ class Menu extends Component {
     let { routes } = this.props
     const { inNetwork } = this.props
 
-    if (MODE !== 'mainnet') {
-      routes = removeRoutes(routes, 'tokens')
-    }
-
     if (!inNetwork) {
-      routes = removeRoutes(routes, 'explorer', 'network', 'tokens')
+      routes = removeRoutes(routes, 'explorer', 'network')
     }
 
     const menu = routes.map((route) => {
