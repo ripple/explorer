@@ -42,10 +42,9 @@ const App = (props) => {
   const hasP2PSocket =
     process.env.REACT_APP_P2P_RIPPLED_HOST != null &&
     process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
-  const p2pConnection = process.env.REACT_APP_P2P_UNENCRYPTED ?? 'wss'
   socket.p2pSocket = hasP2PSocket
     ? new XrplClient([
-        `${p2pConnection}://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+        `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
     : undefined
 
@@ -126,7 +125,7 @@ const App = (props) => {
                 />
                 <Route exact path="/paystrings/:id?" component={paystrings} />
                 <Route exact path="/token/:currency.:id" component={token} />
-                <Route exact path="/token/:id" component={NFT} />
+                <Route exact path="/token/:id/:tab?" component={NFT} />
                 <Route component={noMatch} />
               </Switch>
             </div>
