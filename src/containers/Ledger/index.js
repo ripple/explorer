@@ -21,7 +21,7 @@ import {
   analytics,
   ANALYTIC_TYPES,
 } from '../shared/utils'
-import './ledger.css'
+import './ledger.scss'
 import TxLabel from '../shared/components/TxLabel'
 import SocketContext from '../shared/SocketContext'
 

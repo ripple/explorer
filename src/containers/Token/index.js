@@ -8,7 +8,7 @@ import TokenTransactionsTable from './TokenTransactionsTable'
 import DEXPairs from './DEXPairs'
 import NoMatch from '../NoMatch'
 
-import './styles.css'
+import './styles.scss'
 import {
   analytics,
   ANALYTIC_TYPES,
