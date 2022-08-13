@@ -46,7 +46,10 @@
     letter-spacing: 0em;
     line-height: 21px;
     text-align: left;
-    text-decoration: none;
+
+    &::after {
+      content: none;
+    }
   }
 
   .footer-branding {

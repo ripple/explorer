@@ -82,7 +82,6 @@ class Menu extends Component {
       <div className="menu-item link" key={route.link}>
         <a href={route.link} target="_blank" rel="noopener noreferrer">
           {title}
-          <img src={externalLinkIcon} alt={title} />
         </a>
       </div>
     )

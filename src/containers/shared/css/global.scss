@@ -152,4 +152,20 @@ a {
   &:hover {
     color: $green-primary;
   }
+
+  &[href^="http://"],
+  &[href^="https://"],
+  &.external {
+    &::after {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      margin-left: 4px;
+      background-image: url('../images/external_link.svg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      content: '';
+    }
+  }
 }

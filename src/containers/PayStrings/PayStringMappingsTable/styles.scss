@@ -1,233 +1,62 @@
 @import '../../shared/css/variables';
 
-.paystring-explainer {
-  padding: 10px 20px;
-  margin: 100px 0px;
-  vertical-align: text-bottom;
-
-  img {
-    height: 45px;
-  }
-
-  p {
-    margin-left: 49px;
-    color: $white;
-
-    a {
-      color: $white;
-
-      &:hover {
-        background-color: $gray-400;
-      }
-    }
-  }
-}
-
-.paystring-addresses {
-  width: 100%;
-  padding: 0px;
-  margin: 0px;
-  line-height: 24px;
-  list-style: none;
-  table-layout: fixed;
-
-  .icon-inactive {
-    opacity: 0;
-  }
-
+.paystring-table {
   .col-network,
   .col-environment,
   .col-address,
   .col-tag {
-    display: inline-block;
-    overflow: hidden;
-    padding: 4px 8px 4px 4px;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    white-space: nowrap;
+    @extend %truncate;
 
-    @include for-size(tablet-landscape-up) {
-      padding: 4px 8px;
-    }
+    vertical-align: middle;
   }
 
   .col-network {
-    width: 80px;
-    font-size: 12px;
-    letter-spacing: 0px;
     @include bold;
 
-    img {
-      height: 12px;
-      vertical-align: middle;
-    }
+    width: 80px;
 
     &.paystring-type {
       color: $gray-400;
 
       /* stylelint-disable selector-class-pattern -- Currency comes from server  */
       &.XRPL {
-        border-left-color: $gray-400;
         color: $gray-400;
       }
 
       &.BTC {
-        border-left-color: #f2a900;
         color: #f2a900;
       }
 
       &.ETH {
-        border-left-color: #5dabd5;
         color: #5dabd5;
+      }
+
+      a {
+        color: inherit;
       }
       /* stylelint-enable selector-class-pattern */
     }
   }
 
   .col-environment {
-    display: inline-block;
     width: 80px;
-    // display: none; // hide on small screens
-    font-size: 12px;
-    letter-spacing: 0px;
 
     @include for-size(desktop-up) {
       width: 135px; //calc(100% - 440px);
     }
-
-    &.paystring-environment {
-      border-left-color: $gray-400;
-      color: $gray-400;
-
-      /* stylelint-disable-next-line selector-class-pattern -- Name comes from server designation  */
-      &.MAINNET {
-        border-left-color: $gray-400;
-        color: $gray-400;
-      }
-    }
   }
 
   .col-address {
-    display: inline-block;
-    width: 150px;
-    color: $gray-400;
-    font-size: 12px;
     @include medium;
-
-    @include for-size(desktop-up) {
-      display: inline-block;
-      width: 700px;
-    }
-
-    // @include for-size(desktop-up) {
-    //   // width: 200px;
-    //   font-size: 14px;
-    // }
   }
 
   .col-tag {
-    display: inline-block;
     width: 40px;
-    color: $gray-400;
-    font-size: 12px;
     text-align: right;
     @include medium;
-
-    .transaction-address {
-      color: $gray-400;
-      @include medium;
-    }
-
-    // @include for-size(tablet-landscape-up) {
-    //   display: inline-block;
-    //   width: 135px;
-    // }
 
     @include for-size(desktop-up) {
       width: 135px;
     }
   }
-
-  .transaction-li {
-    position: relative;
-    display: block;
-    padding: 20px 0;
-    border-bottom: 1px solid $gray-800;
-
-    .tx-type > .tx-result {
-      margin-left: 3px;
-    }
-
-    .transaction-address {
-      overflow: hidden;
-      color: $gray-400;
-      text-overflow: ellipsis;
-    }
-
-    .address-link {
-      // display: inline-block;
-      // text-align: center; // right
-      // float: right;
-
-      :hover,
-      :focus {
-        // color: rgb(88, 88, 255);
-        // color: blue;
-        text-decoration: underline;
-        // @include bold;
-      }
-
-      a {
-        display: block;
-      }
-
-      &.link img {
-        width: 14px;
-        margin: 0 4px 5px;
-        vertical-align: middle;
-      }
-    }
-
-    &.fail {
-      opacity: 0.4;
-    }
-
-    &:hover {
-      background-color: $gray-900;
-    }
-  }
-
-  .transaction-li.transaction-li-header {
-    display: block;
-    padding-bottom: 20px;
-    border-bottom: 1px solid $gray-800;
-    border-left-color: transparent;
-    line-height: 20px;
-
-    &:hover {
-      background-color: inherit;
-    }
-
-    .col-network,
-    .col-environment,
-    .col-address,
-    .col-tag {
-      border: none;
-      color: $white;
-      font-size: 12px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      @include bold;
-    }
-
-    @include for-size(tablet-landscape-up) {
-      border-radius: 4px;
-    }
-  }
-}
-
-.empty-transactions-message {
-  padding: 16px;
-  font-size: 16px;
-  text-align: center;
 }
