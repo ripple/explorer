@@ -4,6 +4,8 @@ import { CURRENCY_OPTIONS } from '../transactionUtils'
 import { localizeNumber } from '../utils'
 import Currency from './Currency'
 
+const DROPS_PER_XRP = 1000000.0
+
 interface AmountProps {
   value:
     | string
@@ -19,7 +21,10 @@ export const Amount = ({ displayIssuer = true, value }: AmountProps) => {
   const { i18n } = useTranslation()
   const issuer = typeof value === 'string' ? undefined : value.issuer
   const currency = typeof value === 'string' ? 'XRP' : value.currency
-  const amount = typeof value === 'string' ? value : value.amount
+  const amount =
+    typeof value === 'string'
+      ? parseInt(value, 10) / DROPS_PER_XRP
+      : value.amount
 
   const options = { ...CURRENCY_OPTIONS, currency }
   const localizedAmount = localizeNumber(amount, i18n.resolvedLanguage, options)

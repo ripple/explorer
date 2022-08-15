@@ -102,15 +102,9 @@ div.react-stockchart div {
   }
 
   &.XChainCreateBridge {
-    border-left-color: $sidechain;
-    color: $sidechain;
-
-    &.bg {
-      background: $sidechain;
-    }
+    @include transaction-type-base($sidechain);
   }
   /* stylelint-enable selector-class-pattern */
-
 }
 
 .tx-result {
