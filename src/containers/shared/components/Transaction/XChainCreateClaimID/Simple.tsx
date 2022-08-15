@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import Account from '../../Account'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
+import { Amount } from '../../Amount'
 
 export const Simple: TransactionSimpleComponent = (
   props: TransactionSimpleProps,
@@ -31,9 +32,11 @@ export const Simple: TransactionSimpleComponent = (
         <Account account={issuingDoor} />
       </SimpleRow>
       <SimpleRow label={t('issuing_chain_issue')}>{issuingIssue}</SimpleRow>
-      <SimpleRow label={t('signature_reward')}>{signatureReward}</SimpleRow>
+      <SimpleRow label={t('signature_reward')}>
+        <Amount value={signatureReward} />
+      </SimpleRow>
       <SimpleRow label={t('other_chain_account')}>
-        {otherChainAccount}
+        <Account account={otherChainAccount} link={false} />
       </SimpleRow>
     </>
   )
