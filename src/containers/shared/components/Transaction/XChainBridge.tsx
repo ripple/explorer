@@ -9,7 +9,7 @@ interface XChainBridgeProps {
   lockingIssue: string
   issuingDoor: string
   issuingIssue: string
-  signatureReward: string | undefined
+  signatureReward?: string
   bridgeOwner: string
 }
 
@@ -41,4 +41,8 @@ export const XChainBridge = (props: XChainBridgeProps) => {
       )}
     </>
   )
+}
+
+XChainBridge.defaultProps = {
+  signatureReward: undefined,
 }
