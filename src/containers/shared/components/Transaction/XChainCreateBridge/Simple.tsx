@@ -18,6 +18,7 @@ export const Simple: TransactionSimpleComponent = (
         issuingIssue,
         signatureReward,
         minAccountCreateAmount,
+        bridgeOwner,
       },
     },
   } = props
@@ -25,11 +26,11 @@ export const Simple: TransactionSimpleComponent = (
   return (
     <>
       <SimpleRow label={t('locking_chain_door')}>
-        <Account account={lockingDoor} />
+        <Account account={lockingDoor} link={lockingDoor === bridgeOwner} />
       </SimpleRow>
       <SimpleRow label={t('locking_chain_issue')}>{lockingIssue}</SimpleRow>
       <SimpleRow label={t('issuing_chain_door')}>
-        <Account account={issuingDoor} />
+        <Account account={issuingDoor} link={issuingDoor === bridgeOwner} />
       </SimpleRow>
       <SimpleRow label={t('issuing_chain_issue')}>{issuingIssue}</SimpleRow>
       <SimpleRow label={t('signature_reward')}>
