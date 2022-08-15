@@ -40,9 +40,12 @@ SignerListSet.propTypes = {
     instructions: PropTypes.shape({
       quorum: PropTypes.number,
       maxSigners: PropTypes.number,
-      signers: PropTypes.shape({
-        map: PropTypes.func,
-      }),
+      signers: PropTypes.arrayOf(
+        PropTypes.shape({
+          account: PropTypes.string,
+          weight: PropTypes.number,
+        }),
+      ),
     }),
   }).isRequired,
 }
