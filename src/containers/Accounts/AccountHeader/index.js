@@ -137,7 +137,7 @@ const AccountHeader = (props) => {
             <li className="quorum">
               <b>{signerList.quorum}</b>
               <span className="label"> {t('out_of')} </span>
-              <b>{signerList.max}</b>
+              <b>{signerList.maxSigners}</b>
               <span className="label"> {t('required')}</span>
             </li>
           </ul>
@@ -330,7 +330,7 @@ AccountHeader.propTypes = {
         }),
       ),
       quorum: PropTypes.number,
-      max: PropTypes.number,
+      maxSigners: PropTypes.number,
     }),
     info: PropTypes.shape({
       reserve: PropTypes.number,
