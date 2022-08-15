@@ -100,6 +100,11 @@ div.react-stockchart div {
   &.NFTokenMint {
     @include transaction-type-base($nft);
   }
+
+  &.XChainCreateBridge,
+  &.XChainCreateClaimID {
+    @include transaction-type-base($sidechain);
+  }
   /* stylelint-enable selector-class-pattern */
 }
 
