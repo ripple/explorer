@@ -4,7 +4,7 @@ import Account from '../Account'
 import { Amount } from '../Amount'
 import { SimpleRow } from './SimpleRow'
 
-interface XChainBridgeProps {
+export interface XChainBridgeProps {
   lockingDoor: string
   lockingIssue: string
   issuingDoor: string
@@ -41,8 +41,4 @@ export const XChainBridge = (props: XChainBridgeProps) => {
       )}
     </>
   )
-}
-
-XChainBridge.defaultProps = {
-  signatureReward: undefined,
 }
