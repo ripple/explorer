@@ -21,7 +21,6 @@ class DetailTab extends Component {
     const { t, language, data } = this.props
     const { TransactionResult } = data.meta
     const time = localizeDate(new Date(data.date), language, DATE_OPTIONS)
-    const code = '' // Never directly used but <Trans> needs it
     let line1
 
     if (TransactionResult === SUCCESSFULL_TRANSACTION) {
@@ -29,7 +28,7 @@ class DetailTab extends Component {
     } else {
       line1 = (
         <Trans i18nKey="fail_transaction" values={{ code: TransactionResult }}>
-          <span className="tx-result fail">{{ code }}</span>
+          <span className="tx-result fail" />
         </Trans>
       )
     }
