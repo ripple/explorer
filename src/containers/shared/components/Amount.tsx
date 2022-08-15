@@ -1,10 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { XRP_BASE } from '../../../../server/lib/utils'
 import { CURRENCY_OPTIONS } from '../transactionUtils'
 import { localizeNumber } from '../utils'
 import Currency from './Currency'
-
-const DROPS_PER_XRP = 1000000.0
 
 interface AmountProps {
   value:
@@ -22,9 +21,7 @@ export const Amount = ({ displayIssuer = true, value }: AmountProps) => {
   const issuer = typeof value === 'string' ? undefined : value.issuer
   const currency = typeof value === 'string' ? 'XRP' : value.currency
   const amount =
-    typeof value === 'string'
-      ? parseInt(value, 10) / DROPS_PER_XRP
-      : value.amount
+    typeof value === 'string' ? parseInt(value, 10) / XRP_BASE : value.amount
 
   const options = { ...CURRENCY_OPTIONS, currency }
   const localizedAmount = localizeNumber(amount, i18n.resolvedLanguage, options)
