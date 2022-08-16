@@ -47,6 +47,7 @@
     line-height: 21px;
     text-align: left;
 
+    // Hide external link icon for footer
     &::after {
       content: none;
     }

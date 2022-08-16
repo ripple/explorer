@@ -154,8 +154,8 @@ a {
   }
 
   &[href^="http://"],
-  &[href^="https://"],
-  &.external {
+  &[href^="https://"]
+  {
     &::after {
       display: inline-block;
       width: 1em;

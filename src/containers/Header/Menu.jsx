@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import defaultRoutes from './routes'
 import arrowIcon from '../shared/images/down_arrow_black_50.png'
 import { removeRoutes } from '../shared/utils'
-import externalLinkIcon from '../shared/images/external_link.svg'
 import './menu.css'
 
 const MODE = process.env.REACT_APP_ENVIRONMENT
