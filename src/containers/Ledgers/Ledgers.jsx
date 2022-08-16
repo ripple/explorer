@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
 import { localizeNumber } from '../shared/utils'
 import Tooltip from '../shared/components/Tooltip'
-import './css/ledgers.css'
+import './css/ledgers.scss'
 import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
 
 class Ledgers extends Component {

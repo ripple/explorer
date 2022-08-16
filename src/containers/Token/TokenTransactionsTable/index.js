@@ -9,7 +9,7 @@ import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg'
 import { localizeDate, concatTx } from '../../shared/utils'
 import Loader from '../../shared/components/Loader'
 import TxDetails from '../../shared/components/TxDetails'
-import '../../Accounts/AccountTransactionsTable/styles.css' // Reuse AccountTransactionsTable styling
+import '../../Accounts/AccountTransactionsTable/styles.scss' // Reuse AccountTransactionsTable styling
 import TxLabel from '../../shared/components/TxLabel'
 
 import { loadTokenTransactions } from './actions'

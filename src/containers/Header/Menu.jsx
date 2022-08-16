@@ -5,7 +5,7 @@ import defaultRoutes from './routes'
 import arrowIcon from '../shared/images/down_arrow_black_50.png'
 import { removeRoutes } from '../shared/utils'
 import externalLinkIcon from '../shared/images/external_link.svg'
-import './menu.css'
+import './menu.scss'
 
 const MODE = process.env.REACT_APP_ENVIRONMENT
 class Menu extends Component {
@@ -92,12 +92,8 @@ class Menu extends Component {
     let { routes } = this.props
     const { inNetwork } = this.props
 
-    if (MODE !== 'mainnet') {
-      routes = removeRoutes(routes, 'tokens')
-    }
-
     if (!inNetwork) {
-      routes = removeRoutes(routes, 'explorer', 'network', 'tokens')
+      routes = removeRoutes(routes, 'explorer', 'network')
     }
 
     const menu = routes.map((route) => {

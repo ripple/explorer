@@ -5,7 +5,7 @@ import { ReactComponent as SidechainLogo } from '../shared/images/sidechain_logo
 import Header from '../Header'
 import { ANALYTIC_TYPES, analytics } from '../shared/utils'
 import { ReactComponent as RightArrow } from '../shared/images/side_arrow_green.svg'
-import './index.css'
+import './index.scss'
 
 interface Props {
   t: (arg: string) => string

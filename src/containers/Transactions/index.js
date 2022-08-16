@@ -20,7 +20,7 @@ import { SUCCESSFULL_TRANSACTION } from '../shared/transactionUtils'
 import { loadTransaction } from './actions'
 import SimpleTab from './SimpleTab'
 import DetailTab from './DetailTab'
-import './transaction.css'
+import './transaction.scss'
 import SocketContext from '../shared/SocketContext'
 
 const ERROR_MESSAGES = {}

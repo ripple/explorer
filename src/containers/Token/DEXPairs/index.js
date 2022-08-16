@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import './styles.css'
+import './styles.scss'
 import Log from '../../shared/log'
 import Loader from '../../shared/components/Loader'
 import {

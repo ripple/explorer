@@ -107,9 +107,20 @@ describe('Amount', () => {
         <Amount value={value} displayIssuer={false} />
       </BrowserRouter>,
     )
-    console.log(wrapper.find('.currency').text())
     expect(wrapper.find('.currency').text()).toEqual('XAUÁ÷oöì°ºÆ')
     expect(wrapper.find('.amount-localized').text()).toEqual('3.6923854')
+    wrapper.unmount()
+  })
+
+  it('handles XRP-style amounts', () => {
+    const value = '1000'
+    const wrapper = mount(
+      <BrowserRouter>
+        <Amount value={value} displayIssuer={false} />
+      </BrowserRouter>,
+    )
+    expect(wrapper.find('.currency').text()).toEqual('XRP')
+    expect(wrapper.find('.amount-localized').text()).toEqual('\uE9000.001')
     wrapper.unmount()
   })
 })

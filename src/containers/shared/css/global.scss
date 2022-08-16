@@ -100,6 +100,12 @@ div.react-stockchart div {
   &.NFTokenMint {
     @include transaction-type-base($nft);
   }
+
+  &.XChainCommit,
+  &.XChainCreateBridge,
+  &.XChainCreateClaimID {
+    @include transaction-type-base($sidechain);
+  }
   /* stylelint-enable selector-class-pattern */
 }
 
@@ -137,5 +143,14 @@ div.react-stockchart div {
 
   .spacer {
     margin-bottom: 15px;
+  }
+}
+
+a {
+  color: $green-300;
+  text-decoration: none;
+
+  &:hover {
+    color: $green-primary;
   }
 }
