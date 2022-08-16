@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboard } from '../../shared/components/CopyToClipboard'
-import './styles.css'
+import './styles.scss'
 import { formatPrice } from '../../shared/utils'
 
 interface Props {
