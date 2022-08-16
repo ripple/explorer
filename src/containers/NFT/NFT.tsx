@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import NoMatch from '../NoMatch'
 import NFTHeader from './NFTHeader/NFTHeader'
-import './styles.css'
+import './styles.scss'
 import {
   analytics,
   ANALYTIC_TYPES,
