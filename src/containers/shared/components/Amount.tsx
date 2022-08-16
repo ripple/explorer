@@ -1,11 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { XRP_BASE } from '../../../../server/lib/utils'
-import { CURRENCY_OPTIONS } from '../transactionUtils'
+import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
 import { localizeNumber } from '../utils'
 import Currency from './Currency'
 
-interface AmountProps {
+export interface AmountProps {
   value:
     | string
     | {
@@ -13,7 +12,7 @@ interface AmountProps {
         currency: string
         amount: string
       }
-  displayIssuer?: boolean // eslint-disable-line react/require-default-props
+  displayIssuer?: boolean
 }
 
 export const Amount = ({ displayIssuer = true, value }: AmountProps) => {
