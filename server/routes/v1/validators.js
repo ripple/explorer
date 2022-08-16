@@ -42,6 +42,7 @@ module.exports = (req, res) => {
       unl: v.unl,
       domain: v.domain,
       ledger_index: v.current_index,
+      server_version: v.server_version,
       agreement_1hour: v.agreement_1h,
       agreement_24hour: v.agreement_24h,
       agreement_30day: v.agreement_30day,
