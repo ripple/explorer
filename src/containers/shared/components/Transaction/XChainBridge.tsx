@@ -4,12 +4,12 @@ import Account from '../Account'
 import { Amount } from '../Amount'
 import { SimpleRow } from './SimpleRow'
 
-interface XChainBridgeProps {
+export interface XChainBridgeProps {
   lockingDoor: string
   lockingIssue: string
   issuingDoor: string
   issuingIssue: string
-  signatureReward: string | undefined
+  signatureReward?: string
   bridgeOwner: string
 }
 
