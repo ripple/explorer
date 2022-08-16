@@ -13,7 +13,7 @@ import Search from './Search'
 import arrowIcon from '../shared/images/down_arrow_black_50.png'
 import closeIcon from '../shared/images/close.png'
 import unionIcon from '../shared/images/union.png'
-import './mobileMenu.css'
+import './mobileMenu.scss'
 
 const MODE = process.env.REACT_APP_ENVIRONMENT
 class MobileMenu extends Component {

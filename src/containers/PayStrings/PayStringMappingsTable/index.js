@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { classicAddressToXAddress } from 'ripple-address-codec'
 import { loadPayStringData } from './actions'
 import Loader from '../../shared/components/Loader'
-import './styles.css'
+import './styles.scss'
 
 export class PayStringAddressesTable extends Component {
   constructor(props) {
@@ -95,7 +95,7 @@ export class PayStringAddressesTable extends Component {
       }
     }
 
-    let addressLink = ''
+    let addressLink = '#'
     let title = ''
     if (paymentNetwork === 'XRPL') {
       if (environment === 'MAINNET') {
@@ -131,6 +131,8 @@ export class PayStringAddressesTable extends Component {
         }
       }
     } else if (paymentNetwork === 'BTC') {
+      // addressLink = `https://www.blockchain.com/btc/address/${address}`;
+      // title = `Blockchain.com: ${address}`;
       addressLink = `https://live.blockcypher.com/btc/address/${address}/`
       title = `BlockCypher: ${address}`
     } else if (paymentNetwork === 'ETH') {
@@ -138,34 +140,43 @@ export class PayStringAddressesTable extends Component {
       title = `Etherscan: ${address}`
     }
 
+    let inactiveClass = ''
+    if (addressLink === '#') {
+      inactiveClass = 'icon-inactive'
+    }
+
     return (
-      <tr key={`${paymentNetwork}.${environment}.${address}.${tag}`}>
-        <td className={`col-network paystring-type ${paymentNetwork}`}>
-          {addressLink ? (
-            <a href={addressLink} title={title} className="address-link link">
-              {paymentNetwork}
-            </a>
-          ) : (
-            paymentNetwork
-          )}
-        </td>
-        <td
-          className={`col-environment paystring-environment ${environment}`}
-          title={environment}
-        >
-          {environment}
-        </td>
-        <td className="col-address">
-          {addressLink ? (
-            <a href={addressLink} title={title} className="address-link">
-              {address}
-            </a>
-          ) : (
-            address
-          )}
-        </td>
-        <td className="col-tag">{tag}</td>
-      </tr>
+      <li
+        key={`${paymentNetwork}.${environment}.${address}.${tag}`}
+        className="transaction-li"
+      >
+        <a href={addressLink} title={title}>
+          <div className="upper">
+            <div className={`col-network paystring-type ${paymentNetwork}`}>
+              <div className="address-link link">
+                {paymentNetwork}
+                <img
+                  src={externalLinkIcon}
+                  alt={title}
+                  className={inactiveClass}
+                />
+              </div>
+            </div>
+            <div
+              className={`col-environment paystring-environment ${environment}`}
+              title={environment}
+            >
+              {environment}
+            </div>
+            <div className="col-address">
+              <div className="transaction-address" title={address}>
+                {address}
+              </div>
+            </div>
+            <div className="col-tag">{tag}</div>
+          </div>
+        </a>
+      </li>
     )
   }
 
@@ -179,21 +190,13 @@ export class PayStringAddressesTable extends Component {
       !loadingError
     ) {
       return (
-        <tr>
-          <td colSpan={4} className="empty-message">
-            No PayString Mapping(s) Found
-          </td>
-        </tr>
+        <div className="empty-transactions-message">
+          No PayString Mapping(s) Found
+        </div>
       )
     }
     if (!data.addresses) {
-      return (
-        <tr>
-          <td colSpan={4} className="empty-message">
-            ...
-          </td>
-        </tr>
-      )
+      return <div className="empty-transactions-message">...</div>
     }
     return data.addresses.map((address) => this.renderListItem(address))
   }
@@ -202,32 +205,25 @@ export class PayStringAddressesTable extends Component {
     // TODO: translate e.g. {t('transaction_type')}
     const { loading } = this.props
     return (
-      <table className="basic paystring-table">
-        <thead>
-          <tr>
-            <th className="col-network">Network</th>
-            <th className="col-environment">Environment</th>
-            <th className="col-address">Address</th>
-            <th className="col-tag">Tag</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div className="transactions-table">
+        <ol className="paystring-addresses">
+          <li className="transaction-li transaction-li-header">
+            <div className="col-network">Network</div>
+            <div className="col-environment">Environment</div>
+            <div className="col-address">Address</div>
+            <div className="col-tag">Tag</div>
+          </li>
           {this.renderListContents()}
-          {loading && (
-            <tr>
-              <td colSpan={4}>
-                <Loader />
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+        </ol>
+        {loading && <Loader />}
+      </div>
     )
   }
 }
 
 PayStringAddressesTable.propTypes = {
   t: PropTypes.func.isRequired,
+  // language: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingError: PropTypes.string,
   accountId: PropTypes.string.isRequired,
@@ -256,6 +252,8 @@ PayStringAddressesTable.defaultProps = {
 
 export default connect(
   (state) => ({
+    language: state.app.language,
+    width: state.app.width,
     loadingError: state.payStringData.error,
     loading: state.payStringData.loading,
     data: state.payStringData.data,

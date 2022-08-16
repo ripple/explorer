@@ -18,7 +18,7 @@ import flagJapan from '../shared/images/flag_japan.png'
 import flagKorea from '../shared/images/flag_korea.png'
 import flagBrazil from '../shared/images/flag_brazil.png'
 import flagMexico from '../shared/images/flag_mexico.png'
-import './footer.css'
+import './footer.scss'
 
 const LANGUAGE_ORDER = [
   { title: 'English', flag: flagUSA, code: 'en-US' },

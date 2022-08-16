@@ -128,9 +128,7 @@
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
-    "build": "run-s build-css build-js",
-    "build-css": "sass -I ./node_modules src/:src/",
-    "build-js": "DISABLE_NEW_JSX_TRANSFORM=true node ./build-non-split.js",
+    "build": "DISABLE_NEW_JSX_TRANSFORM=true node ./build-non-split.js",
     "dev-client": "react-scripts start",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "eject": "react-scripts eject",
@@ -140,13 +138,12 @@
     "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --ext=ts --ext=tsx --color .",
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
-    "start": "DISABLE_NEW_JSX_TRANSFORM=true run-p watch-css dev-server dev-client",
+    "start": "DISABLE_NEW_JSX_TRANSFORM=true run-p dev-server dev-client",
     "test": "DISABLE_NEW_JSX_TRANSFORM=true react-scripts test --env=jsdom ",
-    "test:all": "DISABLE_NEW_JSX_TRANSFORM=true run-s lint:css build-css lint:js test:ci",
+    "test:all": "DISABLE_NEW_JSX_TRANSFORM=true run-s lint:ci test:ci",
     "test:ci": "DISABLE_NEW_JSX_TRANSFORM=true react-scripts test --coverage --ci --color --env=jsdom --no-cache --runInBand",
     "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
-    "test:coverage": "npm run test -- --coverage --watchAll=false",
-    "watch-css": "npm run build-css && sass -I ./node_modules src/:src/ --watch"
+    "test:coverage": "npm run test -- --coverage --watchAll=false"
   },
   "browserslist": [
     ">0.2%",

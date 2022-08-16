@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import infoIcon from '../shared/images/info_orange.png'
-import './nomatch.css'
+import './nomatch.scss'
 
 class NoMatch extends Component {
   componentDidMount() {
