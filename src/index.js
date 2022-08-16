@@ -9,7 +9,7 @@ import reduxLogger from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from './rootReducer'
 import { unregister } from './registerServiceWorker'
-import './containers/shared/css/global.css'
+import './containers/shared/css/global.scss'
 import App from './containers/App'
 import i18n from './i18n'
 

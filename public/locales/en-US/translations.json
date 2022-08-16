@@ -155,6 +155,7 @@
   "transaction_SignerListSet": "Signer List Set",
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
+  "transaction_XChainCommit": "XChain Commit",
   "transaction_XChainCreateBridge": "XChain Create Bridge",
   "transaction_XChainCreateClaimID": "XChain Create Claim ID",
   "transaction_EnableAmendment": "Enable Amendment",
@@ -366,5 +367,6 @@
   "issuing_chain_issue": "Issuing Chain Issue",
   "signature_reward": "Signature Reward",
   "min_account_create_amount": "Minimum Account Creation Amount",
-  "other_chain_account": "Other Chain Account"
+  "other_chain_account": "Other Chain Account",
+  "xchain_claim_id": "XChain Claim ID"
 }

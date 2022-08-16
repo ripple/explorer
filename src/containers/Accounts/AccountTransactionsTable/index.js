@@ -12,7 +12,7 @@ import { localizeDate, concatTx } from '../../shared/utils'
 import { loadAccountTransactions } from './actions'
 import Loader from '../../shared/components/Loader'
 import TxDetails from '../../shared/components/TxDetails'
-import './styles.css'
+import './styles.scss'
 import TxLabel from '../../shared/components/TxLabel'
 import SocketContext from '../../shared/SocketContext'
 

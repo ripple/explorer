@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Loader from '../shared/components/Loader'
 import { localizeDate } from '../shared/utils'
-import './historyTab.css'
+import './historyTab.scss'
 
 const RecordItem = (t, language, record) => (
   <li key={record.date} className="history-li">

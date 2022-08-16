@@ -7,7 +7,7 @@ import { classicAddressToXAddress } from 'ripple-address-codec'
 import { loadPayStringData } from './actions'
 import Loader from '../../shared/components/Loader'
 import externalLinkIcon from '../../shared/images/external_link.svg'
-import './styles.css'
+import './styles.scss'
 
 export class PayStringAddressesTable extends Component {
   constructor(props) {

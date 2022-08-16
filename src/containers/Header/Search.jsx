@@ -16,7 +16,7 @@ import {
   FULL_CURRENCY_REGEX,
   HASH_REGEX,
 } from '../shared/utils'
-import './search.css'
+import './search.scss'
 
 const getIdType = (id) => {
   if (DECIMAL_REGEX.test(id)) {

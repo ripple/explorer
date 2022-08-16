@@ -6,7 +6,7 @@ import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
 import { localizeNumber } from '../shared/utils'
 import { ReactComponent as PauseIcon } from '../shared/images/ic_pause.svg'
 import { ReactComponent as ResumeIcon } from '../shared/images/ic_play.svg'
-import './css/ledgerMetrics.css'
+import './css/ledgerMetrics.scss'
 
 const DEFAULTS = {
   load_fee: '--',
