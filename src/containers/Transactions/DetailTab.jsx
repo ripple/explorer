@@ -14,7 +14,7 @@ import {
   buildFlags,
   buildMemos,
 } from '../shared/transactionUtils'
-import './detailTab.css'
+import './detailTab.scss'
 
 class DetailTab extends Component {
   renderStatus() {

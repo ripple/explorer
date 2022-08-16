@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Loader from '../shared/components/Loader'
 import { durationToHuman } from '../shared/utils'
-import './css/nodesTable.css'
+import './css/nodesTable.scss'
 
 const renderLastLedger = (ledger) =>
   ledger ? (

@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next'
 import { hexbin } from 'd3-hexbin'
 import Loader from '../shared/components/Loader'
 import Tooltip from '../shared/components/Tooltip'
-import './css/hexagons.css'
+import './css/hexagons.scss'
 
 const MAX_WIDTH = 1200
 const getDimensions = (width) => ({
