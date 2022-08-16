@@ -11,7 +11,7 @@ import { analytics, ANALYTIC_TYPES, NOT_FOUND } from '../shared/utils'
 import { loadValidator } from './actions'
 import SimpleTab from './SimpleTab'
 import HistoryTab from './HistoryTab'
-import './validator.css'
+import './validator.scss'
 import SocketContext from '../shared/SocketContext'
 
 const ERROR_MESSAGES = {}

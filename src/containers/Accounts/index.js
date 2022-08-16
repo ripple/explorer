@@ -8,7 +8,7 @@ import AccountHeader from './AccountHeader'
 import AccountTransactionsTable from './AccountTransactionsTable'
 import NoMatch from '../NoMatch'
 
-import './styles.css'
+import './styles.scss'
 import {
   analytics,
   ANALYTIC_TYPES,

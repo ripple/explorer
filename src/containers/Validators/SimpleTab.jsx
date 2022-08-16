@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { localizeDate, BREAKPOINTS } from '../shared/utils'
 import Simple from './Simple'
-import './simpleTab.css'
+import './simpleTab.scss'
 import successIcon from '../shared/images/success.png'
 
 const TIME_ZONE = 'UTC'

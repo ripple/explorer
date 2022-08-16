@@ -8,7 +8,7 @@ import { hexbin } from 'd3-hexbin'
 import { feature } from 'topojson-client'
 import Loader from '../shared/components/Loader'
 import mapJSON from './countries.json'
-import './css/map.css'
+import './css/map.scss'
 
 const MAX_WIDTH = 1200
 const BAR_COUNT = 30

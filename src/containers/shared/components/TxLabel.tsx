@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import '../css/txlabel.css'
+import '../css/txlabel.scss'
 
 interface Props {
   type: string
