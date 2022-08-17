@@ -1,4 +1,5 @@
 export function parser(tx: any) {
+  console.log(tx)
   return {
     lockingDoor: tx.XChainBridge.LockingChainDoor,
     lockingIssue: tx.XChainBridge.LockingChainIssue,
