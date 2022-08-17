@@ -356,7 +356,7 @@
   "other_chain_account": "Other Chain Account",
   "xchain_claim_id": "XChain Claim ID",
   "check_nft_id": "Please check your NFT ID",
-  "get_nft_state_failed":"Unable to load NFT state",
+  "get_nft_state_failed":"Unable to load NFT",
   "minted":"Minted",
   "taxon_id": "Taxon ID",
   "uri": "URI",
