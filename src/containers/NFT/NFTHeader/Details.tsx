@@ -84,7 +84,12 @@ const Details = ({ data }: Props) => {
           <tr className="row">
             <td className="col1">{t('uri')}</td>
             <td className="col2">
-              <a href={uri} target="_blank" rel="noopener noreferrer">
+              <a
+                href={uri}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="external"
+              >
                 {abbrvURI}
               </a>
             </td>
