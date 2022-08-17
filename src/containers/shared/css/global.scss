@@ -163,11 +163,12 @@ a {
       width: 1em;
       height: 1em;
       margin-left: 4px;
-      background-image: url('../images/external_link.svg');
+      background-color: currentcolor;
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
       content: '';
+      mask: url('../images/external_link.svg') no-repeat 100% 100%;
       vertical-align: text-top;
     }
   }
