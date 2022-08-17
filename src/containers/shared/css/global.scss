@@ -153,4 +153,22 @@ a {
   &:hover {
     color: $green-primary;
   }
+
+  &.external, // Force the external icon. Useful for when the protocol is unknown like with NFTs.
+  &[href^="http://"],
+  &[href^="https://"]
+  {
+    &::after {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      margin-left: 4px;
+      background-image: url('../images/external_link.svg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      content: '';
+      vertical-align: text-top;
+    }
+  }
 }
