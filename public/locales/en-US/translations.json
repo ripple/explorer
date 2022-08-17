@@ -367,7 +367,7 @@
   "transferable":"Transferable",
   "buy_offers":"Buy Offers",
   "sell_offers":"Sell Offers",
-  "offer_index": "Offer Id",
+  "offer_index": "Offer ID",
   "owner": "Offerer's Account",
   "no_additional_info":"No additional information"
 }
