@@ -77,9 +77,9 @@ table.token-table {
     .abbrv {
       overflow: hidden;
       width: 230px;
+      float: left;
       text-overflow: ellipsis;
       white-space: nowrap;
-      float: left;
     }
 
     .copy {
