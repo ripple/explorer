@@ -38,10 +38,6 @@ const Details = ({ data }: Props) => {
       minimumFractionDigits: 3,
     })}%`
 
-  const abbrvEmail =
-    emailHash &&
-    (emailHash.length > 20 ? emailHash.slice(0, 20).concat('...') : emailHash)
-
   return (
     <table className="token-table">
       <tbody>
@@ -69,8 +65,10 @@ const Details = ({ data }: Props) => {
           <tr className="row">
             <td className="col1">{t('email_hash')}</td>
             <td className="col2">
-              {abbrvEmail}
-              <CopyToClipboard className="copy" text={emailHash} />
+              <div className="abbrv">
+                {emailHash}
+                <CopyToClipboard className="copy" text={emailHash} />
+              </div>
             </td>
           </tr>
         )}
