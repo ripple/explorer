@@ -8,21 +8,21 @@ import { localizeNumber } from '../../shared/utils'
 interface Props {
   data: {
     NFTId: string
-    ledgerIndex: number | undefined
-    owner: string
-    isBurned: boolean | undefined
-    flags: string[] | undefined
-    transferFee: number
-    issuer: string
-    NFTTaxon: number
-    NFTSequence: number | undefined
-    uri: string | undefined
-    validated: boolean | undefined
-    status: string | undefined
-    warnings: string[] | undefined
-    minted: string | undefined
-    domain: string | undefined
-    emailHash: string | undefined
+    ledgerIndex?: number
+    owner?: string
+    isBurned?: boolean
+    flags?: string[]
+    transferFee?: number
+    issuer?: string
+    NFTTaxon?: number
+    NFTSequence?: number
+    uri?: string
+    validated?: boolean
+    status?: string
+    warnings?: string[]
+    minted?: string
+    domain?: string
+    emailHash?: string
   }
 }
 
@@ -30,15 +30,13 @@ const Details = ({ data }: Props) => {
   const { minted, domain, emailHash, NFTTaxon, uri, transferFee } = data
   const { t } = useTranslation()
   const language = useLanguage()
-  const formattedFee = `${localizeNumber(
-    (transferFee / 1000).toPrecision(5),
-    language,
-    {
+  const formattedFee =
+    transferFee &&
+    `${localizeNumber((transferFee / 1000).toPrecision(5), language, {
       style: 'currency',
       currency: 'none',
       minimumFractionDigits: 3,
-    },
-  )}%`
+    })}%`
 
   const abbrvEmail =
     emailHash &&
