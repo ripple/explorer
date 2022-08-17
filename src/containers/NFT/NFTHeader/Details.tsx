@@ -41,8 +41,6 @@ const Details = ({ data }: Props) => {
   const abbrvEmail =
     emailHash &&
     (emailHash.length > 20 ? emailHash.slice(0, 20).concat('...') : emailHash)
-  const abbrvURI =
-    uri && (uri.length > 20 ? uri.slice(0, 20).concat('...') : uri)
 
   return (
     <table className="token-table">
@@ -84,14 +82,7 @@ const Details = ({ data }: Props) => {
           <tr className="row">
             <td className="col1">{t('uri')}</td>
             <td className="col2">
-              <a
-                href={uri}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="external"
-              >
-                {abbrvURI}
-              </a>
+              <div className="abbrv">{uri}</div>
             </td>
           </tr>
         )}
