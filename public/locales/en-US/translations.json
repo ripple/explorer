@@ -363,7 +363,7 @@
   "transfer_fee": "Transfer Fee",
   "burnable":"Burnable",
   "only_xrp":"Only XRP",
-  "trust_line":"Trust Line",
+  "trust_line":"Creates Trust Lines for Issuer",
   "transferable":"Transferable",
   "buy_offers":"Buy Offers",
   "sell_offers":"Sell Offers",
