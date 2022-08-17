@@ -75,11 +75,12 @@ table.token-table {
     color: $white;
 
     .abbrv {
-      width: 230px;
-      white-space: nowrap;
       overflow: hidden;
+      width: 230px;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
+
     .copy {
       position: absolute;
       width: 17px;
