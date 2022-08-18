@@ -71,7 +71,7 @@ describe('XChainAccountCreateSimple', () => {
     expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
     expectText(wrapper, 'issuing-chain-issue', 'XRP')
 
-    expectText(wrapper, 'send', '\uE90010.00 XRP')
+    expectText(wrapper, 'send', '\uE9001,000.00 XRP')
     expectText(wrapper, 'destination', 'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym')
     expect(wrapper.find(`[data-test="destination"] a`)).not.toExist()
   })
