@@ -51,13 +51,7 @@ const Details = ({ data }: Props) => {
           <tr className="row">
             <td className="col1">{t('domain')}</td>
             <td className="col2">
-              <a
-                href={`https://${domain}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {domain}
-              </a>
+              <div className="abbrv">{domain}</div>
             </td>
           </tr>
         )}
