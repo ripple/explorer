@@ -4,26 +4,14 @@ import { CopyToClipboard } from '../../shared/components/CopyToClipboard'
 import './styles.scss'
 import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
+import { NFTInfoProps, AccountInfoProps } from '../../shared/Interfaces'
+
+interface MintedProps {
+  minted?: string
+}
 
 interface Props {
-  data: {
-    NFTId: string
-    ledgerIndex?: number
-    owner?: string
-    isBurned?: boolean
-    flags?: string[]
-    transferFee?: number
-    issuer?: string
-    NFTTaxon?: number
-    NFTSequence?: number
-    uri?: string
-    validated?: boolean
-    status?: string
-    warnings?: string[]
-    minted?: string
-    domain?: string
-    emailHash?: string
-  }
+  data: NFTInfoProps & AccountInfoProps & MintedProps
 }
 
 const Details = ({ data }: Props) => {
