@@ -16,8 +16,9 @@ export function parser(tx: any, meta: any) {
     lockingIssue: tx.XChainBridge.LockingChainIssue,
     issuingDoor: tx.XChainBridge.IssuingChainDoor,
     issuingIssue: tx.XChainBridge.IssuingChainIssue,
+    bridgeOwner: bridgeOwnerNode?.ModifiedNode?.FinalFields?.Account,
     amount: formatAmount(tx.Amount),
     xchainClaimId: tx.XChainClaimID,
-    bridgeOwner: bridgeOwnerNode?.ModifiedNode?.FinalFields?.Account,
+    otherChainDestination: tx.OtherChainAccount,
   }
 }
