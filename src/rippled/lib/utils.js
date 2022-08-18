@@ -56,7 +56,7 @@ const convertRippleDate = (date) =>
 
 const formatSignerList = (data) => ({
   quorum: data.SignerQuorum,
-  max: data.SignerEntries.reduce(
+  maxSigners: data.SignerEntries.reduce(
     (total, d) => total + d.SignerEntry.SignerWeight,
     0,
   ),

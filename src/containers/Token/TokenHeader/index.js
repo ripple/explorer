@@ -258,7 +258,7 @@ TokenHeader.propTypes = {
         map: PropTypes.func,
       }),
       quorum: PropTypes.number,
-      max: PropTypes.number,
+      maxSigners: PropTypes.number,
     }),
     flags: PropTypes.arrayOf(PropTypes.string),
     xAddress: PropTypes.shape({
