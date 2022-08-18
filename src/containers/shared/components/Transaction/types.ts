@@ -14,6 +14,7 @@ export interface Instructions {
     currency: string
     issuer: string
   }
+  maxSigners: number
   signers: any[]
   domain: string
   // eslint-disable-next-line camelcase
