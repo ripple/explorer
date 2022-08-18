@@ -49,6 +49,7 @@ describe('XChainCommitSimple', () => {
 
     expectText(wrapper, 'send', '\uE90010.00 XRP')
     expectText(wrapper, 'claim-id', '4')
+    expect(wrapper.find(`[data-test="destination"]`)).not.toExist()
   })
 
   it('renders failed tx', () => {
@@ -72,5 +73,6 @@ describe('XChainCommitSimple', () => {
 
     expectText(wrapper, 'send', '\uE90010,000.00 XRP')
     expectText(wrapper, 'claim-id', '3')
+    expectText(wrapper, 'destination', 'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi')
   })
 })
