@@ -13,6 +13,6 @@ export function parser(tx: any, meta: any) {
     issuingIssue: tx.XChainBridge.IssuingChainIssue,
     amount: formatAmount(tx.Amount),
     otherChainDestination: tx.Destination,
-    bridgeOwner: bridgeMeta.ModifiedNode.FinalFields.Account,
+    bridgeOwner: bridgeMeta?.ModifiedNode?.FinalFields?.Account,
   }
 }
