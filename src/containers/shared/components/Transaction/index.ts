@@ -4,6 +4,7 @@ import { XChainClaimTransaction as XChainClaim } from './XChainClaim'
 import { XChainCommitTransaction as XChainCommit } from './XChainCommit'
 import { XChainCreateBridgeTransaction as XChainCreateBridge } from './XChainCreateBridge'
 import { XChainCreateClaimIDTransaction as XChainCreateClaimID } from './XChainCreateClaimID'
+import { XChainModifyBridgeTransaction as XChainModifyBridge } from './XChainModifyBridge'
 import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
@@ -13,4 +14,5 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   XChainCommit,
   XChainCreateBridge,
   XChainCreateClaimID,
+  XChainModifyBridge,
 }
