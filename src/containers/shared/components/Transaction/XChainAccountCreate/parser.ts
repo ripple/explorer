@@ -6,6 +6,8 @@ export function parser(tx: any, meta: any) {
     (node: any) =>
       node.ModifiedNode && node.ModifiedNode.LedgerEntryType === 'Bridge',
   )[0]
+  // TODO: somehow get the bridge owner via ledger_entry
+  // AffectedNodes won't contain the bridge owner if the transaction fails
   return {
     lockingDoor: tx.XChainBridge.LockingChainDoor,
     lockingIssue: tx.XChainBridge.LockingChainIssue,

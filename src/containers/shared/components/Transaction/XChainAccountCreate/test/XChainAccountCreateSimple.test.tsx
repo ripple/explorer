@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { mount, ReactWrapper } from 'enzyme'
 import { Simple } from '../Simple'
 import mockXChainAccountCreate from './mock_data/XChainAccountCreate.json'
+import mockXChainAccountCreateInsufficientFunds from './mock_data/XChainAccountCreateInsufficientFunds.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18nTestConfig'
 
@@ -29,6 +30,30 @@ function expectText(
 describe('XChainAccountCreateSimple', () => {
   it('renders', () => {
     const wrapper = createWrapper(mockXChainAccountCreate)
+
+    // check XChainBridge parts
+    expectText(
+      wrapper,
+      'locking-chain-door',
+      'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
+    )
+    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).toExist()
+    expectText(wrapper, 'locking-chain-issue', 'XRP')
+    expectText(
+      wrapper,
+      'issuing-chain-door',
+      'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
+    )
+    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expectText(wrapper, 'issuing-chain-issue', 'XRP')
+
+    expectText(wrapper, 'send', '\uE90010.00 XRP')
+    expectText(wrapper, 'destination', 'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym')
+    expect(wrapper.find(`[data-test="destination"] a`)).not.toExist()
+  })
+
+  it('renders failed transaction', () => {
+    const wrapper = createWrapper(mockXChainAccountCreateInsufficientFunds)
 
     // check XChainBridge parts
     expectText(
