@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Account from '../../shared/components/Account'
 
-const SetRegularKey = (props) => {
+const SignerListSet = (props) => {
   const { data, t } = props
-  const { quorum, max, signers } = data.instructions
+  const { quorum, maxSigners, signers } = data.instructions
 
   return (
     <>
@@ -27,24 +27,27 @@ const SetRegularKey = (props) => {
         <div className="value">
           {quorum}
           <span className="label"> {t('out_of')} </span>
-          {max}
+          {maxSigners}
         </div>
       </div>
     </>
   )
 }
 
-SetRegularKey.propTypes = {
+SignerListSet.propTypes = {
   t: PropTypes.func.isRequired,
   data: PropTypes.shape({
     instructions: PropTypes.shape({
       quorum: PropTypes.number,
-      max: PropTypes.number,
-      signers: PropTypes.shape({
-        map: PropTypes.func,
-      }),
+      maxSigners: PropTypes.number,
+      signers: PropTypes.arrayOf(
+        PropTypes.shape({
+          account: PropTypes.string,
+          weight: PropTypes.number,
+        }),
+      ),
     }),
   }).isRequired,
 }
 
-export default SetRegularKey
+export default SignerListSet
