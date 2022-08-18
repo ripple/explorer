@@ -105,7 +105,8 @@ div.react-stockchart div {
   &.XChainClaim,
   &.XChainCommit,
   &.XChainCreateBridge,
-  &.XChainCreateClaimID {
+  &.XChainCreateClaimID,
+  &.XChainModifyBridge {
     @include transaction-type-base($sidechain);
   }
   /* stylelint-enable selector-class-pattern */
