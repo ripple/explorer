@@ -29,3 +29,8 @@ export interface NFTInfoProps {
   status?: string
   warnings?: string[]
 }
+
+export interface ErrorMessage {
+  title: string
+  hints: string[]
+}

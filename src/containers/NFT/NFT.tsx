@@ -10,11 +10,7 @@ import {
   NOT_FOUND,
   BAD_REQUEST,
 } from '../shared/utils'
-
-interface ErrorMessage {
-  title: string
-  hints: string[]
-}
+import { ErrorMessage } from '../shared/Interfaces'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
   [NOT_FOUND]: {
