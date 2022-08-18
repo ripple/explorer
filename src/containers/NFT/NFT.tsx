@@ -11,7 +11,12 @@ import {
   BAD_REQUEST,
 } from '../shared/utils'
 
-const ERROR_MESSAGES: any = {
+interface ErrorMessage {
+  title: string
+  hints: string[]
+}
+
+const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
   [NOT_FOUND]: {
     title: 'assets.no_nfts_message',
     hints: ['check_nft_id'],
@@ -22,7 +27,7 @@ const ERROR_MESSAGES: any = {
   },
 }
 
-const DEFAULT_ERROR: any = {
+const DEFAULT_ERROR: ErrorMessage = {
   title: 'generic_error',
   hints: ['not_your_fault'],
 }
