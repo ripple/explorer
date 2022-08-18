@@ -36,12 +36,14 @@ describe('XChainClaimSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
+    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
     expectText(wrapper, 'locking-chain-issue', 'XRP')
     expectText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
+    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).toExist()
     expectText(wrapper, 'issuing-chain-issue', 'XRP')
 
     expectText(wrapper, 'amount', '\uE90010.00 XRP')
