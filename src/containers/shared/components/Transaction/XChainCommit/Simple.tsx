@@ -25,7 +25,7 @@ export const Simple: TransactionSimpleComponent = (
 
   return (
     <>
-      <SimpleRow label={t('send')}>
+      <SimpleRow label={t('send')} data-test="send">
         <Amount value={amount} />
       </SimpleRow>
       <XChainBridge
@@ -35,7 +35,9 @@ export const Simple: TransactionSimpleComponent = (
         issuingIssue={issuingIssue}
         bridgeOwner={bridgeOwner}
       />
-      <SimpleRow label={t('xchain_claim_id')}>{xchainClaimId}</SimpleRow>
+      <SimpleRow label={t('xchain_claim_id')} data-test="claim-id">
+        {xchainClaimId}
+      </SimpleRow>
     </>
   )
 }
