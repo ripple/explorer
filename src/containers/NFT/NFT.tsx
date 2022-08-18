@@ -59,7 +59,7 @@ const NFT = () => {
     <div className="token-page">
       {tokenId && <NFTHeader tokenId={tokenId} setError={setError} />}
       {!tokenId && (
-        <div style={{ textAlign: 'center', fontSize: '14px' }}>
+        <div className="nft-warning">
           <h2>Enter a NFT ID in the search box</h2>
         </div>
       )}
