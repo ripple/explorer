@@ -29,7 +29,7 @@ describe('OfferCreateSimple', () => {
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
     expect(wrapper.find('[data-test="amount-sell"] .value')).toHaveText(
-      `1,764.293151 XRP`,
+      `\uE9001,764.293151 XRP`,
     )
     wrapper.unmount()
   })
