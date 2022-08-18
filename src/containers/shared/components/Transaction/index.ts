@@ -1,5 +1,6 @@
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
+import { XChainAccountCreateTransaction as XChainAccountCreate } from './XChainAccountCreate'
 import { XChainClaimTransaction as XChainClaim } from './XChainClaim'
 import { XChainCommitTransaction as XChainCommit } from './XChainCommit'
 import { XChainCreateBridgeTransaction as XChainCreateBridge } from './XChainCreateBridge'
@@ -15,4 +16,5 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   XChainCreateBridge,
   XChainCreateClaimID,
   XChainModifyBridge,
+  SidechainXChainAccountCreate: XChainAccountCreate,
 }
