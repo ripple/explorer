@@ -1,0 +1,95 @@
+{
+  "tx": {
+    "Account": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+    "Amount": "10000000",
+    "Destination": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+    "Fee": "10",
+    "Flags": 0,
+    "Sequence": 8,
+    "SignatureReward": "100",
+    "SigningPubKey": "026BB09608B42B5CB03F142B1325F52CF3DF5EBC4B2D3DE656F105701C28C0762C",
+    "TransactionType": "SidechainXChainAccountCreate",
+    "TxnSignature": "3045022100A7E1180F1047C201EBF1BFB56A75BDE12B9668DD5093DFF4B3C4E97B1CB489F00220544ECF93FE65E0B33CD1C190DC471E33A529B27963A71104C3B16AEE0BD1C844",
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": "XRP",
+      "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+      "LockingChainIssue": "XRP"
+    },
+    "date": "2022-08-18T17:18:20Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+            "Balance": "979999870",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 9
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "1823595D6E1D18A9B18DF8C027F0FAA37283CA1EA7765FFB1BDC0445314EC412",
+          "PreviousFields": {
+            "Balance": "989999980",
+            "Sequence": 8
+          },
+          "PreviousTxnID": "1CBB9CAF7642E69C901BE990123AC4FC7309A3A2682E158F9D1A7046BDA8D787",
+          "PreviousTxnLgrSeq": 8
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+            "Balance": "1020000080",
+            "Flags": 0,
+            "OwnerCount": 2,
+            "Sequence": 5
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "E70AB073C5D41F35709E1A493F013D106443EA1FDEF9053312C5CEF131B776C6",
+          "PreviousFields": {
+            "Balance": "1009999980"
+          },
+          "PreviousTxnID": "A1BC2B8CF264364013083CA8E7B57C28A4E8C8FA5F4EC7E7459805283AB86CE8",
+          "PreviousTxnLgrSeq": 7
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+            "Balance": "0",
+            "Flags": 0,
+            "MinAccountCreateAmount": "10000000",
+            "OwnerNode": "0",
+            "SignatureReward": "100",
+            "XChainAccountClaimCount": "0",
+            "XChainAccountCreateCount": "1",
+            "XChainBridge": {
+              "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+              "IssuingChainIssue": "XRP",
+              "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+              "LockingChainIssue": "XRP"
+            },
+            "XChainClaimID": "0"
+          },
+          "LedgerEntryType": "Bridge",
+          "LedgerIndex": "EFFC3B47E68E9F74206D9C2F0E14279379E483A40A435AF7C7F729FCAD663DB1",
+          "PreviousFields": {
+            "XChainAccountCreateCount": "0"
+          },
+          "PreviousTxnID": "C048CF93B447AE8811FDB41A24E89605BABCA24582A7B70B47498D7EFDB9BD7B",
+          "PreviousTxnLgrSeq": 4
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "C7B048D4619600A79E2080B3474303350E8C0552DBC82B72045F72A2428A96D3",
+  "ledger_index": 9,
+  "date": "2022-08-18T17:18:20Z"
+}
