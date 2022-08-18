@@ -20,14 +20,14 @@ const ERROR_MESSAGES: any = {
     title: 'invalid_xrpl_address',
     hints: ['check_nft_id'],
   },
-  default: {
-    title: 'generic_error',
-    hints: ['not_your_fault'],
-  },
 }
 
-const getErrorMessage = (error: any) =>
-  ERROR_MESSAGES[error] ?? ERROR_MESSAGES.default
+const DEFAULT_ERROR: any = {
+  title: 'generic_error',
+  hints: ['not_your_fault'],
+}
+
+const getErrorMessage = (error: any) => ERROR_MESSAGES[error] ?? DEFAULT_ERROR
 
 const NFT = () => {
   const { id: tokenId } = useParams<{ id: string }>()
