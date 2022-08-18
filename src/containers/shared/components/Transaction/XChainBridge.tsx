@@ -26,14 +26,24 @@ export const XChainBridge = (props: XChainBridgeProps) => {
 
   return (
     <>
-      <SimpleRow label={t('locking_chain_door')}>
+      <SimpleRow label={t('locking_chain_door')} data-test="locking-chain-door">
         <Account account={lockingDoor} link={lockingDoor === bridgeOwner} />
       </SimpleRow>
-      <SimpleRow label={t('locking_chain_issue')}>{lockingIssue}</SimpleRow>
-      <SimpleRow label={t('issuing_chain_door')}>
+      <SimpleRow
+        label={t('locking_chain_issue')}
+        data-test="locking-chain-issue"
+      >
+        {lockingIssue}
+      </SimpleRow>
+      <SimpleRow label={t('issuing_chain_door')} data-test="issuing-chain-door">
         <Account account={issuingDoor} link={issuingDoor === bridgeOwner} />
       </SimpleRow>
-      <SimpleRow label={t('issuing_chain_issue')}>{issuingIssue}</SimpleRow>
+      <SimpleRow
+        label={t('issuing_chain_issue')}
+        data-test="issuing-chain-issue"
+      >
+        {issuingIssue}
+      </SimpleRow>
       {signatureReward && (
         <SimpleRow label={t('signature_reward')}>
           <Amount value={signatureReward} />

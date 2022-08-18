@@ -31,11 +31,13 @@ export const Simple: TransactionSimpleComponent = (
         issuingIssue={issuingIssue}
         bridgeOwner={bridgeOwner}
       />
-      <SimpleRow label={t('xchain_claim_id')}>{claimId}</SimpleRow>
-      <SimpleRow label={t('destination')}>
+      <SimpleRow label={t('xchain_claim_id')} data-test="claim-id">
+        {claimId}
+      </SimpleRow>
+      <SimpleRow label={t('destination')} data-test="destination">
         <Account account={destination} />
       </SimpleRow>
-      <SimpleRow label={t('amount')}>
+      <SimpleRow label={t('amount')} data-test="amount">
         <Amount value={amount} />
       </SimpleRow>
     </>
