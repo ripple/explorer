@@ -45,7 +45,7 @@ export const XChainBridge = (props: XChainBridgeProps) => {
         {issuingIssue}
       </SimpleRow>
       {signatureReward && (
-        <SimpleRow label={t('signature_reward')}>
+        <SimpleRow label={t('signature_reward')} data-test="signature-reward">
           <Amount value={signatureReward} />
         </SimpleRow>
       )}
