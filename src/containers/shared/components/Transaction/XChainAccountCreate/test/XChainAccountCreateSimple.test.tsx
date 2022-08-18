@@ -61,7 +61,7 @@ describe('XChainAccountCreateSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).toExist()
+    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
     expectText(wrapper, 'locking-chain-issue', 'XRP')
     expectText(
       wrapper,
