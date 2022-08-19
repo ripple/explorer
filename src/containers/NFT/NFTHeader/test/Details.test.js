@@ -40,8 +40,7 @@ describe('NFT Details container', () => {
 
   it('renders defined fields', () => {
     const wrapper = createWrapper()
-    expect(wrapper.find('.row').length).toEqual(4)
-    expect(wrapper.find('CopyToClipboard').length).toEqual(1)
+    expect(wrapper.find('.row').length).toEqual(3)
     wrapper.unmount()
   })
 })
