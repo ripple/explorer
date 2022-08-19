@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux'
 import { classicAddressToXAddress } from 'ripple-address-codec'
 import { loadPayStringData } from './actions'
 import Loader from '../../shared/components/Loader'
-import externalLinkIcon from '../../shared/images/external_link.svg'
 import './styles.scss'
 
 export class PayStringAddressesTable extends Component {
@@ -154,14 +153,7 @@ export class PayStringAddressesTable extends Component {
         <a href={addressLink} title={title}>
           <div className="upper">
             <div className={`col-network paystring-type ${paymentNetwork}`}>
-              <div className="address-link link">
-                {paymentNetwork}
-                <img
-                  src={externalLinkIcon}
-                  alt={title}
-                  className={inactiveClass}
-                />
-              </div>
+              <div className="address-link link">{paymentNetwork}</div>
             </div>
             <div
               className={`col-environment paystring-environment ${environment}`}
