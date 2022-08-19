@@ -34,7 +34,6 @@
         display: inline-block;
         overflow: hidden;
         margin: 1px 2px;
-        color: $black-60;
         line-height: 20px;
         text-overflow: ellipsis;
         vertical-align: top;
@@ -42,7 +41,6 @@
 
         &.domain {
           max-width: calc(70% - 5px);
-          color: $black-80;
           font-size: 14px;
           @include medium;
         }
