@@ -70,14 +70,16 @@ class Ledgers extends Component {
     const url = `/validators/${selected}`
     return (
       <div className="selected-validator">
-        <a
-          className="domain"
-          href={`https://${v.domain}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {v.domain}
-        </a>
+        {v.domain && (
+          <a
+            className="domain"
+            href={`https://${v.domain}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {v.domain}
+          </a>
+        )}
         <a className="pubkey" href={url}>
           {selected}
         </a>
