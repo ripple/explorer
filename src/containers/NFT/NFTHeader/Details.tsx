@@ -37,9 +37,7 @@ const Details = ({ data }: Props) => {
         {domain && (
           <tr className="row">
             <td className="col1">{t('domain')}</td>
-            <td className="col2">
-              <div className="abbrv">{domain}</div>
-            </td>
+            <td className="col2">{domain}</td>
           </tr>
         )}
         <tr className="row">
@@ -49,9 +47,7 @@ const Details = ({ data }: Props) => {
         {uri && (
           <tr className="row">
             <td className="col1">{t('uri')}</td>
-            <td className="col2">
-              <div className="abbrv">{uri}</div>
-            </td>
+            <td className="col2">{uri}</td>
           </tr>
         )}
         <tr className="row">
