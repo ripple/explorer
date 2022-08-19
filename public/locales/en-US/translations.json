@@ -182,7 +182,7 @@
   "flags": "Flags",
   "status": "Status",
   "successful_transaction": "This transaction was successful",
-  "fail_transaction": "This transaction failed with a status code of {{code}}",
+  "fail_transaction": "This transaction failed with a status code of <0>{{code}}</0>",
   "transaction_validated": ", and validated in ledger ",
   "on": " on ",
   "description": "Description",
