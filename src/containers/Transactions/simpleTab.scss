@@ -94,12 +94,16 @@ $subdued-color: $gray-400;
       background: rgba(34, 37, 43, 0.5);
 
       .claim-attestation-title {
+        flex-direction: row;
         color: $gray-400;
         text-transform: uppercase;
         font-size: 14px;
         font-weight: 600;
-        padding-left: 16px;
-        padding-top: 16px;
+        padding: 16px;
+      }
+
+      .row {
+        padding: 15px 44px 16px 12px;
       }
     }
   }
