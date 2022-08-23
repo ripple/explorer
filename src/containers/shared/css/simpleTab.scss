@@ -19,6 +19,7 @@ $index-width: 308px;
 
     .row {
       display: flex;
+      flex-wrap: wrap;
       overflow: hidden;
       padding: 20px 10px;
       border-bottom: 1px solid $gray-800;
@@ -34,7 +35,6 @@ $index-width: 308px;
       }
 
       .label {
-        flex-grow: 1;
         color: $white;
         font-size: 12px;
         line-height: 20px;
