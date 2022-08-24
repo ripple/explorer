@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
+    "@types/d3": "^7.4.0",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.184",
@@ -152,7 +153,7 @@
     "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --ext=ts --ext=tsx --color .",
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
-    "start": "DISABLE_NEW_JSX_TRANSFORM=true run-p dev-server dev-client",
+    "start": "DISABLE_NEW_JSX_TRANSFORM=true PORT=3006 run-p dev-server dev-client",
     "test": "DISABLE_NEW_JSX_TRANSFORM=true react-scripts test --env=jsdom ",
     "test:all": "DISABLE_NEW_JSX_TRANSFORM=true run-s lint:ci test:ci",
     "test:ci": "DISABLE_NEW_JSX_TRANSFORM=true react-scripts test --coverage --ci --color --env=jsdom --no-cache --runInBand",
