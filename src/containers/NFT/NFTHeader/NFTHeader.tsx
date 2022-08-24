@@ -30,7 +30,7 @@ const NFTHeader = (props: Props) => {
   const [tooltip, setTooltip] = useState(null)
   const { data: rawData, isFetching: loading } = useQuery(
     ['getNFTInfo'],
-    async () => getNFTInfo(rippledSocket, tokenId),
+    () => getNFTInfo(rippledSocket, tokenId),
     {
       onError: (e: any) => {
         /* @ts-ignore */
