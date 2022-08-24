@@ -1,5 +1,6 @@
 import * as d3 from 'd3'
 import React, { useEffect, useRef } from 'react'
+import '../css/barchart.css'
 
 interface Data {
   label: string
@@ -20,7 +21,7 @@ function AxisBottom({ scale, transform }: AxisBottomProps) {
 
   useEffect(() => {
     if (ref.current) {
-      d3.select(ref.current).call(d3.axisBottom(scale))
+      d3.select(ref.current).attr('class', 'yAxis').call(d3.axisBottom(scale))
     }
   }, [scale])
 
@@ -36,7 +37,14 @@ function AxisLeft({ scale }: AxisLeftProps) {
 
   useEffect(() => {
     if (ref.current) {
-      d3.select(ref.current).call(d3.axisLeft(scale))
+      d3.select(ref.current)
+        .attr('class', 'xAxis')
+        .call(d3.axisLeft(scale))
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('transform', 'rotate(-90)')
+        .attr('padding-right', '70px')
+        .text('Y Axis Label')
     }
   }, [scale])
 
@@ -69,8 +77,8 @@ function Bars({ data, height, scaleX, scaleY }: BarsProps) {
 
 function BarChart({ data }: BarChartProps) {
   const margin = { top: 10, right: 0, bottom: 20, left: 30 }
-  const width = 500 - margin.left - margin.right
-  const height = 300 - margin.top - margin.bottom
+  const width = 1075 - margin.left - margin.right
+  const height = 532 - margin.top - margin.bottom
 
   const scaleX = d3
     .scaleBand()
