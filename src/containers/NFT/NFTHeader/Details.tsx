@@ -46,7 +46,7 @@ const Details = ({ data }: Props) => {
         </tr>
         {uri && (
           <tr className="row">
-            <td className="col1">{t('uri')}</td>
+            <td className="col1">URI</td>
             <td className="col2">{uri}</td>
           </tr>
         )}

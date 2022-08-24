@@ -359,7 +359,6 @@
   "get_nft_state_failed":"Unable to load NFT",
   "minted":"Minted",
   "taxon_id": "Taxon ID",
-  "uri": "URI",
   "transfer_fee": "Transfer Fee",
   "burnable":"Burnable",
   "only_xrp":"Only XRP",
