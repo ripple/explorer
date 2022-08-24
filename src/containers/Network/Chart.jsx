@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import PropTypes from 'prop-types'
-// import BarChart from '../shared/components/BarChart'
+import BarChart from '../shared/components/BarChart'
 import Tabs from '../shared/components/Tabs'
 import Streams from '../shared/components/Streams'
 import Hexagons from './Hexagons'
@@ -74,10 +74,12 @@ class Chart extends Component {
       return res
     }, {})
 
-    return tempData.map((item) => ({
-      label: item.server_version,
-      value: (item.count * 100) / total,
-    }))
+    return tempData
+      .map((item) => ({
+        label: item.server_version,
+        value: (item.count * 100) / total,
+      }))
+      .sort((a, b) => (a.label > b.label ? 1 : -1))
   }
 
   fetchData = () => {
@@ -106,17 +108,8 @@ class Chart extends Component {
 
   render() {
     const { validators, vList, liveValidators, metrics } = this.state
-    console.log(validators)
     const { path } = this.props
     const tabs = ['nodes', 'validators', 'chart']
-    const data = {}
-    data.width = 500
-    data.height = 750
-    data.dataSet = this.aggregateData(validators)
-    data.margins = { top: 20, right: 10, bottom: 0, left: 10 }
-    data.yAxisLabel = 'Y VALUE'
-    data.ticks = 10
-    data.barClass = 'barChart'
     return (
       <div className="network-page">
         <div className="test">
@@ -129,9 +122,9 @@ class Chart extends Component {
         </div>
         <div className="wrap">
           <Tabs tabs={tabs} selected="chart" path={path} />
-          {/* <div className="chart" style={{ color: 'red' }}>
-            {validators && <BarChart data={data} />}
-          </div> */}
+          <div className="chart" style={{ color: 'red' }}>
+            {validators && <BarChart data={this.aggregateData(validators)} />}
+          </div>
         </div>
       </div>
     )
