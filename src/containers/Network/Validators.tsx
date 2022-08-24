@@ -16,6 +16,7 @@ export const Validators = () => {
   const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
+
   useEffect(() => {
     fetchData()
     const interval = setInterval(fetchData, 5000)
@@ -65,6 +66,7 @@ export const Validators = () => {
         updateValidators={updateValidators}
         updateMetrics={setMetrics}
       />
+
       {validatorCount && (
         // @ts-ignore
         <Hexagons data={validations} list={vList} />
