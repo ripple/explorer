@@ -3,14 +3,17 @@ import { useTranslation } from 'react-i18next'
 import './styles.scss'
 import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
-import { NFTInfoProps, AccountInfoProps } from '../../shared/Interfaces'
+import {
+  NFTInfoProps,
+  AccountFormattedInfoProps,
+} from '../../shared/Interfaces'
 
 interface MintedProps {
   minted?: string
 }
 
 interface Props {
-  data: NFTInfoProps & AccountInfoProps & MintedProps
+  data: NFTInfoProps & AccountFormattedInfoProps & MintedProps
 }
 
 const Details = ({ data }: Props) => {

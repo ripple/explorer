@@ -1,4 +1,4 @@
-export interface AccountInfoProps {
+export interface AccountFormattedInfoProps {
   sequence?: number
   ticketCount?: number
   ownerCount?: number
