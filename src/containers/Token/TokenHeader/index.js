@@ -45,7 +45,7 @@ class TokenHeader extends Component {
     const prevTxn = previousTxn && previousTxn.replace(/(.{20})..+/, '$1...')
     const abbrvEmail = emailHash && emailHash.replace(/(.{20})..+/, '$1...')
     return (
-      <table>
+      <table className="token-table">
         <tbody>
           {domain && (
             <tr className="row">
@@ -110,7 +110,7 @@ class TokenHeader extends Component {
       flags && flags.includes('lsfRequireDestTag') ? 'true' : 'false'
 
     return (
-      <table>
+      <table className="token-table">
         <tbody>
           <tr className="row">
             <td className="col1">Rippling</td>
