@@ -136,7 +136,7 @@ class SimpleTab extends Component {
     }
 
     return (
-      <div className="simple-body">
+      <div className="simple-body simple-body-tx">
         <div className="rows">
           <Simple
             t={t}
