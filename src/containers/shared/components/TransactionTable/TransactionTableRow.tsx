@@ -32,14 +32,6 @@ export const TransactionTableRow = ({ tx }: Props) => {
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
   const status = success ? 'Success' : `Fail - ${tx.result}`
 
-  const details = (
-    <TxDetails
-      language={i18n.resolvedLanguage}
-      type={tx.type}
-      instructions={tx.details.instructions}
-    />
-  )
-
   return (
     <li
       className={`transaction-li tx-type ${tx.type} ${
@@ -71,7 +63,15 @@ export const TransactionTableRow = ({ tx }: Props) => {
           </div>
           <div className="col-date">{date}</div>
         </div>
-        {tx.details && !details && <div className="details">{details}</div>}
+        {tx.details && (
+          <div className="details">
+            <TxDetails
+              language={i18n.resolvedLanguage}
+              type={tx.type}
+              instructions={tx.details.instructions}
+            />
+          </div>
+        )}
       </Link>
     </li>
   )
