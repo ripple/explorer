@@ -32,7 +32,7 @@ export const TransactionTableRow = ({ tx }: Props) => {
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
   const status = success ? 'Success' : `Fail - ${tx.result}`
 
-  const renderDetails = () => (
+  const details = (
     <TxDetails
       language={i18n.resolvedLanguage}
       type={tx.type}
@@ -71,9 +71,7 @@ export const TransactionTableRow = ({ tx }: Props) => {
           </div>
           <div className="col-date">{date}</div>
         </div>
-        {tx.details && !renderDetails() && (
-          <div className="details">{renderDetails()}</div>
-        )}
+        {tx.details && !details && <div className="details">{details}</div>}
       </Link>
     </li>
   )
