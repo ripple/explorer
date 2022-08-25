@@ -17,6 +17,7 @@ import validators from '../Validators'
 import paystrings from '../PayStrings'
 import token from '../Token'
 import noMatch from '../NoMatch'
+import NFT from '../NFT/NFT'
 import SocketContext from '../shared/SocketContext'
 
 const MODE = process.env.REACT_APP_ENVIRONMENT
@@ -85,6 +86,16 @@ const App = (props) => {
   if (location.pathname === `${urlLink}/ledgers`) {
     return <Redirect to={urlLink} />
   }
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchOnMount: false,
+        retry: false,
+      },
+    },
+  })
 
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -125,6 +136,7 @@ const App = (props) => {
                 />
                 <Route exact path="/paystrings/:id?" component={paystrings} />
                 <Route exact path="/token/:currency.:id" component={token} />
+                <Route exact path="/token/:id" component={NFT} />
                 <Route component={noMatch} />
               </Switch>
             </div>

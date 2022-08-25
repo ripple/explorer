@@ -16,7 +16,12 @@ const ACCOUNT_FLAGS = {
   0x00800000: 'lsfDefaultRipple',
   0x01000000: 'lsfDepositAuth',
 }
-
+const NFT_FLAGS = {
+  0x00000001: 'lsfBurnable',
+  0x00000002: 'lsfOnlyXRP',
+  0x00000004: 'lsfTrustLine',
+  0x00000008: 'lsfTransferable',
+}
 const hex32 = (d) => {
   const int = d & 0xffffffff
   const hex = int.toString(16).toUpperCase()
@@ -32,14 +37,14 @@ const zeroPad = (num, size, back = false) => {
   return s
 }
 
-const buildFlags = (flags) => {
+const buildFlags = (flags, flagMap) => {
   const bits = zeroPad((flags || 0).toString(2), 32).split('')
 
   return bits
     .map((value, i) => {
       const bin = zeroPad(1, 32 - i, true)
       const int = parseInt(bin, 2)
-      return value === '1' ? ACCOUNT_FLAGS[int] || hex32(int) : undefined
+      return value === '1' ? flagMap[int] || hex32(int) : undefined
     })
     .filter((d) => Boolean(d))
 }
@@ -51,7 +56,7 @@ const convertRippleDate = (date) =>
 
 const formatSignerList = (data) => ({
   quorum: data.SignerQuorum,
-  max: data.SignerEntries.reduce(
+  maxSigners: data.SignerEntries.reduce(
     (total, d) => total + d.SignerEntry.SignerWeight,
     0,
   ),
@@ -73,7 +78,7 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
   rate: info.TransferRate ? (info.TransferRate - BILLION) / BILLION : undefined,
   domain: info.Domain ? Buffer.from(info.Domain, 'hex').toString() : undefined,
   emailHash: info.EmailHash,
-  flags: buildFlags(info.Flags),
+  flags: buildFlags(info.Flags, ACCOUNT_FLAGS),
   balance: info.Balance,
   gravatar: info.urlgravatar,
   previousTxn: info.PreviousTxnID,
@@ -136,6 +141,22 @@ function convertHexToString(hex, encoding = 'utf8') {
   return Buffer.from(hex, 'hex').toString(encoding)
 }
 
+const formatNFTInfo = (info) => ({
+  NFTId: info.nft_id,
+  ledgerIndex: info.ledger_index,
+  owner: info.owner,
+  isBurned: info.is_burned,
+  flags: buildFlags(info.flags, NFT_FLAGS),
+  transferFee: info.transfer_fee,
+  issuer: info.issuer,
+  NFTTaxon: info.nft_taxon,
+  NFTSequence: info.nft_sequence,
+  uri: info.uri,
+  validated: info.validated,
+  status: info.status,
+  warnings: info.warnings,
+})
+
 export {
   EPOCH_OFFSET,
   XRP_BASE,
@@ -146,4 +167,5 @@ export {
   formatAccountInfo,
   summarizeLedger,
   convertHexToString,
+  formatNFTInfo,
 }
