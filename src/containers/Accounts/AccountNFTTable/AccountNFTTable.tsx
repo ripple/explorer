@@ -41,7 +41,7 @@ export const AccountNFTTable = () => {
   function renderNoResults() {
     return (
       <EmptyMessageTableRow colSpan={3}>
-        {t('assets.no_tokens_message')}
+        {t('assets.no_nfts_message')}
       </EmptyMessageTableRow>
     )
   }
