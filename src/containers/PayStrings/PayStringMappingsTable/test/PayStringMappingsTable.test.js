@@ -35,7 +35,7 @@ describe('PayStringMappingsTable container', () => {
 
   it('renders static parts', () => {
     const wrapper = creatWrapper()
-    expect(wrapper.find('.transactions-table').length).toBe(1)
+    expect(wrapper.find('.paystring-table').length).toBe(1)
     wrapper.unmount()
   })
 
@@ -81,9 +81,7 @@ describe('PayStringMappingsTable container', () => {
       data: TEST_TRANSACTIONS_DATA,
     })
 
-    expect(component.find('.paystring-addresses').length).toBe(1)
-    expect(component.find('.transaction-li.transaction-li-header').length).toBe(
-      1,
-    )
+    expect(component.find('.paystring-table').length).toBe(1)
+    expect(component.find('.paystring-table tbody tr').length).toBe(1)
   })
 })
