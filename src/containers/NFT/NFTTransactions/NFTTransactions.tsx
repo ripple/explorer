@@ -20,7 +20,7 @@ const NFTTransactions = (props: Props) => {
 
   function renderTabs() {
     const { path = '/' } = match
-    const tabs = ['transactions', 'buy_offers', 'sell_offers']
+    const tabs = ['transactions', 'buy-offers', 'sell-offers']
     // strips :url from the front and the identifier/tab info from the end
     const mainPath = `${path.split('/:')[0]}/${id}`
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
@@ -29,7 +29,7 @@ const NFTTransactions = (props: Props) => {
   function renderTransactions() {
     let body
     switch (tab) {
-      case 'sell_offers':
+      case 'sell-offers':
         body = (
           <Offers
             key="SellOffers"
@@ -39,7 +39,7 @@ const NFTTransactions = (props: Props) => {
           />
         )
         break
-      case 'buy_offers':
+      case 'buy-offers':
         body = (
           <Offers
             key="BuyOffers"

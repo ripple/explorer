@@ -42,8 +42,8 @@ describe('NFT Transactions tab container', () => {
     expect(wrapper.find('.tabs').length).toBe(1)
     expect(wrapper.find('a.tab').length).toBe(3)
     expect(wrapper.find('a.tab').at(0).props().title).toBe('transactions')
-    expect(wrapper.find('a.tab').at(1).props().title).toBe('buy_offers')
-    expect(wrapper.find('a.tab').at(2).props().title).toBe('sell_offers')
+    expect(wrapper.find('a.tab').at(1).props().title).toBe('buy-offers')
+    expect(wrapper.find('a.tab').at(2).props().title).toBe('sell-offers')
     expect(wrapper.find('a.tab.selected').text()).toEqual('transactions')
     wrapper.unmount()
   })
@@ -55,14 +55,14 @@ describe('NFT Transactions tab container', () => {
   })
 
   it('renders buy offers tab', () => {
-    const wrapper = createWrapper('buy_offers')
-    expect(wrapper.find('a.tab.selected').text()).toEqual('buy_offers')
+    const wrapper = createWrapper('buy-offers')
+    expect(wrapper.find('a.tab.selected').text()).toEqual('buy-offers')
     wrapper.unmount()
   })
 
   it('renders sell offers tab', () => {
-    const wrapper = createWrapper('sell_offers')
-    expect(wrapper.find('a.tab.selected').text()).toEqual('sell_offers')
+    const wrapper = createWrapper('sell-offers')
+    expect(wrapper.find('a.tab.selected').text()).toEqual('sell-offers')
     wrapper.unmount()
   })
 })
