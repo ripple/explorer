@@ -74,7 +74,7 @@ export const AccountNFTTable = () => {
     <div className="section nfts-table">
       <table className="basic">
         <thead>
-          <tr className="transaction-li transaction-li-header">
+          <tr>
             <th className="col-token-id">{t('token_id')}</th>
             <th className="col-issuer">{t('issuer')}</th>
             <th className="col-taxon">{t('taxon')}</th>
