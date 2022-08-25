@@ -23,15 +23,22 @@ const DATE_OPTIONS = {
 
 interface Props {
   tx: any
-  detailsEnabled: boolean
 }
 
-export const TransactionTableRow = ({ tx, detailsEnabled = true }: Props) => {
+export const TransactionTableRow = ({ tx }: Props) => {
   const language = useLanguage()
   const { t, i18n } = useTranslation()
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
   const status = success ? 'Success' : `Fail - ${tx.result}`
+
+  const renderDetails = () => (
+    <TxDetails
+      language={i18n.resolvedLanguage}
+      type={tx.type}
+      instructions={tx.details.instructions}
+    />
+  )
 
   return (
     <li
@@ -64,14 +71,8 @@ export const TransactionTableRow = ({ tx, detailsEnabled = true }: Props) => {
           </div>
           <div className="col-date">{date}</div>
         </div>
-        {detailsEnabled && (
-          <div className="details">
-            <TxDetails
-              language={i18n.resolvedLanguage}
-              type={tx.type}
-              instructions={tx.details.instructions}
-            />
-          </div>
+        {tx.details && !renderDetails() && (
+          <div className="details">{renderDetails()}</div>
         )}
       </Link>
     </li>

@@ -10,7 +10,6 @@ type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
   loading: boolean
   onLoadMore: MouseEventHandler
   hasAdditionalResults: boolean | undefined
-  detailsEnabled?: boolean
 }
 
 type TransactionTableComponent =
@@ -22,16 +21,11 @@ const TransactionTable: TransactionTableComponent = ({
   loading = false,
   onLoadMore,
   transactions = [],
-  detailsEnabled = true,
 }: TransactionTableProps) => {
   const { t } = useTranslation()
 
   const renderListItem = (tx: any) => (
-    <TransactionTableRow
-      tx={tx}
-      key={tx.hash}
-      detailsEnabled={detailsEnabled}
-    />
+    <TransactionTableRow tx={tx} key={tx.hash} />
   )
 
   const renderLoadMore = () =>
@@ -65,7 +59,6 @@ const TransactionTable: TransactionTableComponent = ({
 
 TransactionTable.defaultProps = {
   emptyMessage: undefined,
-  detailsEnabled: true,
 }
 
 export default TransactionTable

@@ -35,7 +35,6 @@ const Transactions = (props: Props) => {
         onLoadMore={() => fetchNextPage()}
         transactions={flatData}
         hasAdditionalResults={hasNextPage}
-        detailsEnabled={false}
       />
     )
   }
