@@ -14,7 +14,7 @@ const NFTokenAcceptOffer = (props) => {
   return (
     <>
       {acceptedOfferIDs.map((offer) => (
-        <div className="row flex-wrap">
+        <div className="row">
           <div className="label">Offer ID</div>
           <div className="value" data-test="offer-id">
             <div className="dt">{offer}</div>
@@ -23,19 +23,19 @@ const NFTokenAcceptOffer = (props) => {
       ))}
       {tokenID && (
         <>
-          <div className="row flex-wrap">
+          <div className="row">
             <div className="label">Seller</div>
             <div className="value account" data-test="seller">
               <Account account={seller} />
             </div>
           </div>
-          <div className="row flex-wrap">
+          <div className="row">
             <div className="label">Buyer</div>
             <div className="value account" data-test="buyer">
               <Account account={buyer} />
             </div>
           </div>
-          <div className="row flex-wrap">
+          <div className="row">
             <div className="label">Token ID</div>
             <div className="value">
               <div className="dt" data-test="token-id">

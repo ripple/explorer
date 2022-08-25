@@ -1,11 +1,14 @@
 @import '../shared/css/variables';
 
-.simple-body {
+$subdued-color: $gray-400;
+
+.simple-body-tx {
   .rows {
     .partial-row {
       display: flex;
       overflow: hidden;
       flex-grow: 1;
+      flex-wrap: wrap;
       padding-top: 20px;
       padding-left: 5px;
       color: #944;
@@ -22,7 +25,7 @@
         .currency {
           display: block;
           margin: -1px 0px -16px;
-          color: $gray-400;
+          color: $subdued-color;
           font-size: 11px;
           @include medium;
 
@@ -34,12 +37,11 @@
         }
 
         .dt {
-          display: inline-block;
-          color: $gray-400;
+          color: $subdued-color;
           font-size: 12px;
         }
 
-        .signers {
+        ul {
           margin: 0px;
           list-style: none;
         }
@@ -65,7 +67,7 @@
         &.tx,
         &.channel {
           width: calc(100% - 120px);
-          color: $gray-400;
+          color: $subdued-color;
           font-size: 14px;
           white-space: normal;
           word-break: break-all;
