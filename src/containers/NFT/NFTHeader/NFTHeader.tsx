@@ -66,6 +66,7 @@ const NFTHeader = (props: Props) => {
 
   const data = useMemo(() => rawData && formatNFTInfo(rawData), [rawData])
 
+  // fetch the oldest NFT transaction to get its minted data
   const { data: firstTransaction } = useQuery(
     ['getFirstTransaction', tokenId],
     () => getOldestNFTTransaction(rippledSocket, tokenId),
@@ -74,6 +75,7 @@ const NFTHeader = (props: Props) => {
     },
   )
 
+  // fetch account from issuer to get the domain
   const { data: rawAccountData } = useQuery(
     ['getAccountInfo'],
     () => getAccountInfo(rippledSocket, data.issuer),
