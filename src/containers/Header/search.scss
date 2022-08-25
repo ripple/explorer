@@ -4,10 +4,10 @@
   text-align: right;
 
   input {
-    width: calc(100% - 24px);
+    width: 100%;
     padding: 12px;
     border: 1px transparent;
-    background: url('../shared/images/search.svg') no-repeat right;
+    background: url('../shared/images/search.svg') no-repeat;
     background-color: $gray-900;
     background-position: right center;
     background-size: 12px;
@@ -46,20 +46,20 @@
       }
 
       @include for-size(desktop-up) {
-        width: 155px;
+        width: 220px;
         padding: 8px 40px 8px 25px;
         background-position-x: 185px;
       }
 
       @include for-size(big-desktop-up) {
-        width: 222px;
+        width: 272px;
         padding: 8px 25px;
         background-position-x: 235px;
       }
 
       &:focus {
         @include for-size(desktop-up) {
-          width: 222px;
+          width: 272px;
           padding: 8px 25px;
           background-position-x: 235px;
         }
