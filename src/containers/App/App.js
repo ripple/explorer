@@ -97,17 +97,6 @@ const App = (props) => {
     },
   })
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-        retry: false,
-      },
-    },
-  })
-
   return (
     <div className="app">
       <QueryClientProvider client={queryClient}>
