@@ -26,8 +26,10 @@ const NFTokenMint = (props) => {
       </div>
       <div className="row">
         <div className="label">URI</div>
-        <div className="value" data-test="token-uri">
-          {uri}
+        <div className="value">
+          <div className="dt" data-test="token-uri">
+            {uri}
+          </div>
         </div>
       </div>
     </>
