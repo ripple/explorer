@@ -59,23 +59,7 @@
       "index": 4,
       "fee": 0.000012,
       "sequence": 2068713,
-      "date": "2019-02-05T21:36:50Z",
-      "details": {
-        "instructions": {
-          "gets": {
-            "currency": "XRP",
-            "amount": 6262.879004
-          },
-          "pays": {
-            "currency": "USD",
-            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "amount": 1879.10009047646
-          },
-          "price": "0.300038",
-          "pair": "XRP/USD",
-          "cancel": 2068712
-        }
-      }
+      "date": "2019-02-05T21:36:50Z"
     }
   ]
 }

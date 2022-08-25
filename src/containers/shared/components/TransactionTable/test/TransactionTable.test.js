@@ -15,7 +15,6 @@ describe('Transaction Table container', () => {
     loading = false,
     onLoadMore,
     hasAdditionalResults = false,
-    detailsEnabled = true,
   ) =>
     mount(
       <I18nextProvider i18n={i18n}>
@@ -26,7 +25,6 @@ describe('Transaction Table container', () => {
             loading={loading}
             onLoadMore={onLoadMore}
             hasAdditionalResults={hasAdditionalResults}
-            detailsEnabled={detailsEnabled}
           />
         </BrowserRouter>
       </I18nextProvider>,
@@ -44,12 +42,11 @@ describe('Transaction Table container', () => {
       false,
       loadMore,
       false,
-      undefined,
     )
 
     expect(wrapper.find('.account-transactions').length).toBe(1)
     expect(wrapper.find('.upper').length).toBe(3)
-    expect(wrapper.find('.details').length).toBe(3)
+    expect(wrapper.find('.details').length).toBe(2)
     expect(wrapper.find('.load-more-btn').length).toEqual(0)
     wrapper.unmount()
   })
@@ -61,11 +58,10 @@ describe('Transaction Table container', () => {
       false,
       loadMore,
       true,
-      undefined,
     )
     expect(wrapper.find('.account-transactions').length).toBe(1)
     expect(wrapper.find('.upper').length).toBe(3)
-    expect(wrapper.find('.details').length).toBe(3)
+    expect(wrapper.find('.details').length).toBe(2)
     expect(wrapper.find('.load-more-btn').length).toEqual(1)
     wrapper.unmount()
   })
@@ -77,11 +73,10 @@ describe('Transaction Table container', () => {
       false,
       loadMore,
       true,
-      false,
     )
     expect(wrapper.find('.account-transactions').length).toBe(1)
     expect(wrapper.find('.upper').length).toBe(3)
-    expect(wrapper.find('.details').length).toBe(0)
+    expect(wrapper.find('.details').length).toBe(2)
     wrapper.unmount()
   })
 
@@ -92,21 +87,13 @@ describe('Transaction Table container', () => {
       true,
       loadMore,
       false,
-      undefined,
     )
     expect(wrapper.find('.loader').length).toBe(1)
     wrapper.unmount()
   })
 
   it('renders empty message', () => {
-    const wrapper = createWrapper(
-      [],
-      undefined,
-      false,
-      loadMore,
-      false,
-      undefined,
-    )
+    const wrapper = createWrapper([], undefined, false, loadMore, false)
     expect(wrapper.find('.empty-transactions-message').length).toBe(1)
     wrapper.unmount()
   })
