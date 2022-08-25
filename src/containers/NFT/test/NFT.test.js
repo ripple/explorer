@@ -40,14 +40,14 @@ describe('NFT container', () => {
   it('renders children', () => {
     const wrapper = createWrapper(nftId)
     expect(wrapper.find('NFTHeader').length).toBe(1)
-    expect(wrapper.find('NFTTransactions').length).toBe(1)
+    expect(wrapper.find('NFTTabs').length).toBe(1)
     wrapper.unmount()
   })
 
   it('does not render when no nft provided', () => {
     const wrapper = createWrapper()
     expect(wrapper.find('NFTHeader').length).toBe(0)
-    expect(wrapper.find('NFTTransactions').length).toBe(0)
+    expect(wrapper.find('NFTTabs').length).toBe(0)
     wrapper.unmount()
   })
 

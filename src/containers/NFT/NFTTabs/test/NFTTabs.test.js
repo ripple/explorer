@@ -3,7 +3,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import NFTTransactions from '../NFTTransactions'
+import NFTTabs from '../NFTTabs'
 import i18n from '../../../../i18nTestConfig'
 
 describe('NFT Transactions tab container', () => {
@@ -26,7 +26,7 @@ describe('NFT Transactions tab container', () => {
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
           <Router initialEntries={[`/tokens/${nftId}/${tab}`]}>
-            <Route path="/tokens/:id/:tab?" component={NFTTransactions} />
+            <Route path="/tokens/:id/:tab?" component={NFTTabs} />
           </Router>
         </I18nextProvider>
       </QueryClientProvider>,

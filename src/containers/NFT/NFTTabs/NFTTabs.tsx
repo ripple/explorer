@@ -10,7 +10,7 @@ interface Props {
   tokenId: string
 }
 
-const NFTTransactions = (props: Props) => {
+const NFTTabs = (props: Props) => {
   const { id = '', tab = 'transactions' } = useParams<{
     id: string
     tab: string
@@ -63,4 +63,4 @@ const NFTTransactions = (props: Props) => {
   )
 }
 
-export default NFTTransactions
+export default NFTTabs
