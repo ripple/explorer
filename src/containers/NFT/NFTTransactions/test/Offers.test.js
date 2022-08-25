@@ -68,7 +68,7 @@ describe('NFT Offers container', () => {
       </QueryClientProvider>,
     )
 
-  it('renders without crashing', async () => {
+  it('renders without crashing', () => {
     useInfiniteQuery.mockImplementation(() => ({
       data,
       isFetching: false,
@@ -78,7 +78,7 @@ describe('NFT Offers container', () => {
     wrapper.unmount()
   })
 
-  it('renders table content', async () => {
+  it('renders table content', () => {
     useInfiniteQuery.mockImplementation(() => ({
       data,
       isFetching: false,
@@ -117,7 +117,7 @@ describe('NFT Offers container', () => {
     wrapper.unmount()
   })
 
-  it('renders no information warning when there is no data', async () => {
+  it('renders no information warning when there is no data', () => {
     useInfiniteQuery.mockImplementation(() => ({
       data: undefined,
       isFetching: false,
@@ -128,7 +128,7 @@ describe('NFT Offers container', () => {
     wrapper.unmount()
   })
 
-  it('renders load more button', async () => {
+  it('renders load more button', () => {
     useInfiniteQuery.mockImplementation(() => ({
       data: undefined,
       isFetching: false,
