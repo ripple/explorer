@@ -44,7 +44,7 @@ describe('Transaction Table container', () => {
       false,
     )
 
-    expect(wrapper.find('.account-transactions').length).toBe(1)
+    expect(wrapper.find('.transaction-table').length).toBe(1)
     expect(wrapper.find('.upper').length).toBe(3)
     expect(wrapper.find('.details').length).toBe(2)
     expect(wrapper.find('.load-more-btn').length).toEqual(0)
@@ -59,7 +59,7 @@ describe('Transaction Table container', () => {
       loadMore,
       true,
     )
-    expect(wrapper.find('.account-transactions').length).toBe(1)
+    expect(wrapper.find('.transaction-table').length).toBe(1)
     expect(wrapper.find('.upper').length).toBe(3)
     expect(wrapper.find('.details').length).toBe(2)
     expect(wrapper.find('.load-more-btn').length).toEqual(1)
@@ -74,7 +74,7 @@ describe('Transaction Table container', () => {
       loadMore,
       true,
     )
-    expect(wrapper.find('.account-transactions').length).toBe(1)
+    expect(wrapper.find('.transaction-table').length).toBe(1)
     expect(wrapper.find('.upper').length).toBe(3)
     expect(wrapper.find('.details').length).toBe(2)
     wrapper.unmount()
