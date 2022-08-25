@@ -2,12 +2,14 @@ import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
 import { useParams } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 import Loader from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 import { getAccountNFTs } from '../../../rippled/lib/rippled'
+import Account from '../../shared/components/Account'
 
 export const AccountNFTTable = () => {
   const rippledSocket = useContext(SocketContext)
@@ -46,8 +48,12 @@ export const AccountNFTTable = () => {
 
   const renderRow = (nft: any) => (
     <tr key={nft.NFTokenID}>
-      <td>{nft.NFTokenID}</td>
-      <td>{nft.Issuer}</td>
+      <td>
+        <Link to={`/token/${nft.NFTokenID}`}>{nft.NFTokenID}</Link>
+      </td>
+      <td>
+        <Account account={nft.Issuer} />
+      </td>
       <td>{nft.NFTokenTaxon}</td>
     </tr>
   )
