@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import TransactionMeta from './Meta'
 import TransactionDescription from './Description'
@@ -26,15 +27,14 @@ class DetailTab extends Component {
       line1 = t('successful_transaction')
     } else {
       line1 = (
-        <>
-          {t('fail_transaction')}
-          <span className="tx-result fail">{TransactionResult}</span>
-        </>
+        <Trans i18nKey="fail_transaction" values={{ code: TransactionResult }}>
+          <span className="tx-result fail" />
+        </Trans>
       )
     }
 
     return (
-      <div className="section">
+      <div className="section" data-test="status">
         <div className="title">{t('status')}</div>
         {line1}
         {t('transaction_validated')}

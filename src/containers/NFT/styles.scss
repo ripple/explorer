@@ -1,0 +1,18 @@
+@import '../shared/css/variables';
+
+.token-page {
+  width: 100%;
+
+  .loader {
+    min-height: 100px;
+    background: $black;
+    opacity: 0.8;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+}
+
+.nft-warning {
+  font-size: '14px';
+  text-align: 'center';
+}

@@ -42,6 +42,7 @@ button {
 }
 
 * {
+  box-sizing: border-box;
   outline: none !important; // remove blue outline in click and focus
 }
 
@@ -152,5 +153,24 @@ a {
 
   &:hover {
     color: $green-primary;
+  }
+
+  &.external, // Force the external icon. Useful for when the protocol is unknown like with NFTs.
+  &[href^="http://"],
+  &[href^="https://"]
+  {
+    &::after {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      margin-left: 4px;
+      background-color: currentcolor;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      content: '';
+      mask: url('../images/external_link.svg') no-repeat 100% 100%;
+      vertical-align: text-top;
+    }
   }
 }
