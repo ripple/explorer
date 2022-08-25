@@ -13,27 +13,27 @@ const NFTokenCreateOffer = (props) => {
 
   return (
     <>
-      <div className="row flex-wrap">
+      <div className="row">
         <div className="label">Offer ID</div>
         <div className="value" data-test="offer-id">
           <div className="dt">{offerID}</div>
         </div>
       </div>
-      <div className="row flex-wrap" data-test="buyer-or-seller">
+      <div className="row" data-test="buyer-or-seller">
         <div className="label">{isSellOffer ? 'Seller' : 'Buyer'}</div>
         <div className="value account">
           <Account account={account} />
         </div>
       </div>
       {!isSellOffer && (
-        <div className="row flex-wrap">
+        <div className="row">
           <div className="label">Owner</div>
           <div className="value account" data-test="owner">
             <Account account={owner} />
           </div>
         </div>
       )}
-      <div className="row flex-wrap">
+      <div className="row">
         <div className="label">Token ID</div>
         <div className="value" data-test="token-id">
           <div className="dt">{tokenID}</div>
