@@ -23,17 +23,26 @@ const MODE = process.env.REACT_APP_ENVIRONMENT
 const App = (props) => {
   const { actions, location, match } = props
 
+  const isLocalEnviroment = () =>  {
+    if (process.env.REACT_APP_ENVIRONMENT === 'devnet' || process.env.REACT_APP_ENVIRONMENT === 'testnet'){
+      return true
+    }
+    return false
+  }
+  const wsConnectionType = isLocalEnviroment() ? 'ws' : 'wss'
+  const wsConnectionPort = isLocalEnviroment() ? '80' : '443'
+
   const {
     params: { rippledUrl = null },
   } = match
   const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
   const wsUrls = []
   if (rippledHost.includes(':')) {
-    wsUrls.push(`wss://${rippledHost}`)
+    wsUrls.push(`${wsConnectionType}://${rippledHost}`)
   } else {
     wsUrls.push.apply(wsUrls, [
-      `wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      `wss://${rippledHost}:443`,
+      `${wsConnectionType}://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+      `${wsConnectionType}://${rippledHost}:${wsConnectionPort}`,
     ])
   }
   const socket = new XrplClient(wsUrls)
@@ -42,7 +51,7 @@ const App = (props) => {
     process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
   socket.p2pSocket = hasP2PSocket
     ? new XrplClient([
-        `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+        `${wsConnectionType}://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
     : undefined
 
