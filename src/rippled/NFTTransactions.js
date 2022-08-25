@@ -23,6 +23,7 @@ export const getNFTTransactions = (rippledSocket, tokenId, limit, marker) =>
       throw error
     })
 
+// Get the oldest NFT tx by having the 'forward' param set to true
 export const getOldestNFTTransaction = (rippledSocket, tokenId) =>
   getNFTTxs(rippledSocket, tokenId, 1, '', true)
     .then((data) => {

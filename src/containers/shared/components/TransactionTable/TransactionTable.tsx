@@ -4,7 +4,7 @@ import { TransactionTableRow } from './TransactionTableRow'
 import Loader from '../Loader'
 import './styles.scss'
 
-type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
+export type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
   transactions: any[] | undefined
   emptyMessage?: string
   loading: boolean
@@ -55,10 +55,6 @@ const TransactionTable: TransactionTableComponent = ({
       {loading ? <Loader /> : renderLoadMore()}
     </div>
   )
-}
-
-TransactionTable.defaultProps = {
-  emptyMessage: undefined,
 }
 
 export default TransactionTable
