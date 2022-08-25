@@ -106,7 +106,7 @@ describe('NFT Offers container', () => {
     wrapper.unmount()
   })
 
-  it('renders loader', async () => {
+  it('renders loader', () => {
     useInfiniteQuery.mockImplementation(() => ({
       data,
       isFetching: true,

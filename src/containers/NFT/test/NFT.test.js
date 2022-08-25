@@ -32,7 +32,7 @@ describe('NFT container', () => {
       </QueryClientProvider>,
     )
 
-  it('renders without crashing', async () => {
+  it('renders without crashing', () => {
     const wrapper = createWrapper(nftId)
     wrapper.unmount()
   })
