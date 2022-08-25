@@ -1,0 +1,123 @@
+@import '../../shared/css/variables';
+@import '../../shared/css/table';
+
+.nft-transactions {
+  margin-top: 60px;
+
+  .tabs {
+    padding-bottom: 20px;
+    border-top: 1px solid $gray-800;
+    margin: 8px auto 0px;
+    font-size: 14px;
+    @include for-size(tablet-landscape-up) {
+      width: 552px;
+      margin: 0px auto;
+    }
+
+    @include for-size(desktop-up) {
+      width: 1140px;
+    }
+  }
+
+  .tab-body {
+    margin: 0px auto;
+
+    @include for-size(tablet-landscape-up) {
+      width: 552px;
+      margin: 0px auto;
+    }
+
+    @include for-size(desktop-up) {
+      width: 1140px;
+    }
+
+    .react-json-view {
+      overflow: hidden;
+      margin-bottom: 40px;
+      font-size: 12px;
+      letter-spacing: 0px;
+
+      .variable-row,
+      .object-key-val {
+        padding: 1px 5px 1px 15px !important;
+      }
+
+      .copy-icon svg {
+        height: 14px !important;
+      }
+    }
+  }
+}
+
+.offers-table {
+  position: relative;
+  min-height: 150px;
+
+  table {
+    .no-info-panel {
+      color: $gray-400;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 150%;
+      text-align: center;
+
+      .no-info-content {
+        display: flex;
+        flex-direction: column;
+
+        img {
+          max-width: 100%;
+          height: auto;
+          margin: 10px auto;
+        }
+      }
+    }
+
+    .offer-id {
+      display: none;
+    }
+
+    .offer-id {
+      width: 55%;
+      padding-left: 32px;
+
+      @include for-size(tablet-portrait-up) {
+        max-width: 140px;
+      }
+
+      @include for-size(big-desktop-up) {
+        max-width: 180px;
+      }
+    }
+
+    .amount {
+      display: table-cell;
+      width: 15%;
+      padding-right: 32px;
+      @include medium;
+
+      span.amount {
+        padding: 0;
+      }
+    }
+
+    .owner {
+      display: table-cell;
+      width: 30%;
+      min-width: 0;
+      @include for-size(tablet-portrait-up) {
+        max-width: 80px;
+      }
+
+      @include for-size(big-desktop-up) {
+        max-width: 120px;
+      }
+      @include medium;
+    }
+    @include for-size(tablet-landscape-up) {
+      .offer-id {
+        display: table-cell;
+      }
+    }
+  }
+}

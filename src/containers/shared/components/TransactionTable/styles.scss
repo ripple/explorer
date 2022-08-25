@@ -1,0 +1,277 @@
+@import '../../../shared/css/variables';
+
+.account-transactions {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  font-size: 12px;
+  line-height: 24px;
+  list-style: none;
+  table-layout: fixed;
+
+  @include for-size(desktop-up) {
+    font-size: 14px;
+  }
+
+  .title {
+    padding-bottom: 18px;
+    border-bottom: 1px $gray-900 solid;
+    color: $white;
+    font-size: 24px;
+    @include bold;
+  }
+
+  .upper {
+    padding: 12px 32px;
+    background: $gray-900;
+    color: $white;
+    font-size: 14px;
+  }
+
+  .col-type,
+  .col-account,
+  .col-status,
+  .col-date {
+    display: inline-block;
+    overflow: hidden;
+    // padding: 4px 8px 4px 4px;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .col-type {
+    width: 180px;
+    letter-spacing: 0px;
+    @include semibold;
+
+    @include for-size(desktop-up) {
+      width: 260px;
+    }
+  }
+
+  .col-status {
+    width: 50px;
+    letter-spacing: 0px;
+    @include regular;
+
+    .successful {
+      height: 16px;
+      margin-right: 12px;
+      vertical-align: middle;
+    }
+
+    .failed {
+      height: 16px;
+      margin-right: 12px;
+      vertical-align: middle;
+    }
+
+    .status {
+      display: none;
+      @include for-size(desktop-up) {
+        display: inline-block;
+      }
+    }
+
+    @include for-size(desktop-up) {
+      width: 270px;
+    }
+  }
+
+  .col-account {
+    display: none;
+    letter-spacing: 0px;
+
+    .transaction-address {
+      color: $gray-800;
+      @include medium;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      display: inline-block;
+      width: calc(100% - 675px);
+    }
+
+    @include for-size(desktop-up) {
+      width: calc(100% - 715px);
+    }
+
+    @include for-size(big-desktop-up) {
+      width: calc(100% - 715px);
+    }
+  }
+
+  .col-date {
+    width: calc(100% - 230px);
+    text-align: right;
+    @include medium;
+
+    @include for-size(tablet-landscape-up) {
+      display: inline-block;
+      width: calc(100% - 280px);
+    }
+
+    @include for-size(desktop-up) {
+      width: 185px;
+    }
+  }
+
+  .details {
+    min-height: 30px;
+    padding: 32px;
+    margin-bottom: 64px;
+    background: #22252b80;
+    color: $gray-400;
+    font-size: 10px;
+    line-height: 12px;
+    text-transform: uppercase;
+    @include regular;
+
+    @include for-size(tablet-landscape-up) {
+      margin-bottom: 72px;
+      font-size: 12px;
+    }
+
+    .currency,
+    .account {
+      text-transform: none;
+    }
+
+    .currency {
+      margin-left: 5px;
+    }
+
+    span {
+      display: inline-block;
+      margin-right: 5px;
+
+      span {
+        margin: 0px;
+      }
+    }
+
+    .label {
+      @include bold;
+    }
+
+    small {
+      margin-left: 5px;
+    }
+
+    .partial-payment,
+    .closed,
+    .flag,
+    .unsetregularkey,
+    .empty {
+      font-style: italic;
+      text-transform: none;
+    }
+
+    .key,
+    .domain,
+    .account,
+    .email-hash,
+    .message-key {
+      text-transform: none;
+    }
+
+    .partial-payment,
+    .closed {
+      color: #944;
+    }
+
+    .flag {
+      color: $blue-grey;
+    }
+
+    .condition,
+    .fulfillment {
+      word-break: break-all;
+    }
+  }
+
+  .transaction-li {
+    position: relative;
+    display: block;
+    border-left: 4px solid;
+    margin-bottom: 1px;
+    line-height: 20px;
+
+    .transaction-address {
+      overflow: hidden;
+      color: $white;
+      text-overflow: ellipsis;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      flex-direction: row;
+      padding: 0px;
+      border-width: 0px;
+      border-radius: 0px;
+    }
+
+    &.fail {
+      opacity: 0.8;
+    }
+
+    &:hover {
+      background-color: #383d4780;
+    }
+  }
+
+  .transaction-li.transaction-li-header {
+    display: block;
+    padding: 40px 32px 18px;
+    border-left-color: transparent;
+    font-size: 10px;
+    text-transform: uppercase;
+
+    @include for-size(desktop-up) {
+      border-left: 0px;
+    }
+
+    &:hover {
+      background-color: inherit;
+    }
+
+    .col-type,
+    .col-account,
+    .col-status,
+    .col-date {
+      border: none;
+      color: $gray-500;
+      letter-spacing: 0.5px;
+      @include bold;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      border-radius: 4px;
+    }
+  }
+}
+
+.empty-transactions-message {
+  padding: 16px;
+  color: $gray-400;
+  font-size: 16px;
+  text-align: center;
+}
+
+.load-more-btn {
+  display: block;
+  padding: 10px 20px;
+  border: 1px solid $gray-400;
+  margin: 10px auto;
+  background: $black;
+  border-radius: 100px;
+  color: $gray-400;
+  cursor: pointer;
+  font-size: 16px;
+  outline: inherit;
+  @include bold;
+
+  &:hover {
+    background: $gray-800;
+  }
+}

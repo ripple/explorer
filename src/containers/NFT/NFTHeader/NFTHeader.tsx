@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import Loader from '../../shared/components/Loader'
@@ -6,9 +6,10 @@ import '../../shared/css/nested-menu.scss'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'
 import Tooltip from '../../shared/components/Tooltip'
-import { getNFTInfo } from '../../../rippled/lib/rippled'
-import { formatNFTInfo } from '../../../rippled/lib/utils'
+import { getNFTInfo, getAccountInfo } from '../../../rippled/lib/rippled'
+import { formatNFTInfo, formatAccountInfo } from '../../../rippled/lib/utils'
 import {
+  localizeDate,
   analytics,
   ANALYTIC_TYPES,
   BAD_REQUEST,
@@ -17,6 +18,20 @@ import {
 import Details from './Details'
 import Settings from './Settings'
 import Account from '../../shared/components/Account'
+import { getOldestNFTTransaction } from '../../../rippled/NFTTransactions'
+import { useLanguage } from '../../shared/hooks'
+
+const TIME_ZONE = 'UTC'
+const DATE_OPTIONS = {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour12: true,
+  timeZone: TIME_ZONE,
+}
 
 interface Props {
   tokenId: string
@@ -25,6 +40,7 @@ interface Props {
 
 const NFTHeader = (props: Props) => {
   const { t } = useTranslation()
+  const language = useLanguage()
   const { tokenId, setError } = props
   const rippledSocket = useContext(SocketContext)
   const [tooltip, setTooltip] = useState(null)
@@ -48,7 +64,38 @@ const NFTHeader = (props: Props) => {
     }
   }, [tokenId])
 
-  const data = rawData && formatNFTInfo(rawData)
+  const data = useMemo(() => rawData && formatNFTInfo(rawData), [rawData])
+
+  const { data: firstTransaction } = useQuery(
+    ['getFirstTransaction', tokenId],
+    () => getOldestNFTTransaction(rippledSocket, tokenId),
+    {
+      enabled: !!data,
+    },
+  )
+
+  const { data: rawAccountData } = useQuery(
+    ['getAccountInfo'],
+    () => getAccountInfo(rippledSocket, data.issuer),
+    { enabled: !!data },
+  )
+
+  const mintedDate = useMemo(
+    () =>
+      firstTransaction &&
+      firstTransaction.transaction?.type === 'NFTokenMint' &&
+      `${localizeDate(
+        new Date(firstTransaction.transaction.date),
+        language,
+        DATE_OPTIONS,
+      )} ${TIME_ZONE}`,
+    [firstTransaction],
+  )
+
+  const accountData = useMemo(
+    () => rawAccountData && formatAccountInfo(rawAccountData, {}),
+    [rawAccountData],
+  )
 
   const showTooltip = (event: any, d: any) => {
     setTooltip({ ...d, mode: 'nftId', x: event.pageX, y: event.pageY })
@@ -75,7 +122,13 @@ const NFTHeader = (props: Props) => {
         <div className="nft-bottom-container">
           <div className="details">
             <div className="title">{t('details')}</div>
-            <Details data={data} />
+            <Details
+              data={{
+                ...data,
+                domain: accountData?.domain,
+                minted: mintedDate,
+              }}
+            />
           </div>
           <div className="settings">
             <div className="title">{t('settings')}</div>
