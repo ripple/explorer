@@ -133,6 +133,12 @@
       font-size: 12px;
     }
 
+    &:empty {
+      min-height: 0;
+      padding: 0;
+      margin-bottom: 0;
+    }
+
     .currency,
     .account {
       text-transform: none;
