@@ -21,13 +21,13 @@ const NFTokenCancelOffer = (props) => {
           offerer,
         }) => (
           <>
-            <div className="row flex-wrap">
+            <div className="row">
               <div className="label">Offer ID</div>
               <div className="value" data-test="offer-id">
                 <div className="dt">{offerID}</div>
               </div>
             </div>
-            <div className="row flex-wrap">
+            <div className="row">
               <div className="label">Token ID</div>
               <div className="value">
                 <div className="dt" data-test="token-id">
