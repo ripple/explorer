@@ -56,7 +56,7 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
         {assetType === 'issued' && (
           <AccountIssuedTokenTable account={account} />
         )}
-        {assetType === 'nft' && <AccountNFTTable />}
+        {assetType === 'nft' && <AccountNFTTable accountId={accountId} />}
       </div>
     </>
   )
