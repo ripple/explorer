@@ -6,7 +6,7 @@ interface Props {
   flags: string[]
 }
 
-const Settings = ({ flags }: Props) => {
+export const Settings = ({ flags }: Props) => {
   const { t } = useTranslation()
 
   const burnable = flags.includes('lsfBurnable') ? 'enabled' : 'disabled'
@@ -39,5 +39,3 @@ const Settings = ({ flags }: Props) => {
     </table>
   )
 }
-
-export default Settings

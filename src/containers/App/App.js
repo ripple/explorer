@@ -17,7 +17,7 @@ import validators from '../Validators'
 import paystrings from '../PayStrings'
 import token from '../Token'
 import noMatch from '../NoMatch'
-import NFT from '../NFT/NFT'
+import { NFT } from '../NFT/NFT'
 import SocketContext from '../shared/SocketContext'
 
 const MODE = process.env.REACT_APP_ENVIRONMENT

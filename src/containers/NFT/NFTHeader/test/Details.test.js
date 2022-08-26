@@ -2,7 +2,7 @@ import React from 'react'
 import Enzyme, { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
-import Details from '../Details'
+import { Details } from '../Details'
 import i18n from '../../../../i18nTestConfig'
 
 describe('NFT Details container', () => {

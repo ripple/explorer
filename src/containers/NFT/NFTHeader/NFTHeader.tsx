@@ -15,8 +15,8 @@ import {
   BAD_REQUEST,
   HASH_REGEX,
 } from '../../shared/utils'
-import Details from './Details'
-import Settings from './Settings'
+import { Details } from './Details'
+import { Settings } from './Settings'
 import Account from '../../shared/components/Account'
 import { getOldestNFTTransaction } from '../../../rippled/NFTTransactions'
 import { useLanguage } from '../../shared/hooks'
@@ -38,7 +38,7 @@ interface Props {
   setError: (error: number | null) => void
 }
 
-const NFTHeader = (props: Props) => {
+export const NFTHeader = (props: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const { tokenId, setError } = props
@@ -170,5 +170,3 @@ const NFTHeader = (props: Props) => {
     </div>
   )
 }
-
-export default NFTHeader
