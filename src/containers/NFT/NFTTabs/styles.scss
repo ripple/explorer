@@ -7,11 +7,11 @@
   .tabs {
     padding-bottom: 20px;
     border-top: 1px solid $gray-800;
-    margin: 8px auto 0px;
+    margin: 8px auto 0;
     font-size: 14px;
     @include for-size(tablet-landscape-up) {
       width: 552px;
-      margin: 0px auto;
+      margin: 0 auto;
     }
 
     @include for-size(desktop-up) {
@@ -20,11 +20,11 @@
   }
 
   .tab-body {
-    margin: 0px auto;
+    margin: 0 auto;
 
     @include for-size(tablet-landscape-up) {
       width: 552px;
-      margin: 0px auto;
+      margin: 0 auto;
     }
 
     @include for-size(desktop-up) {
