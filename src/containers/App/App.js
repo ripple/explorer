@@ -25,17 +25,21 @@ const MODE = process.env.REACT_APP_ENVIRONMENT
 const App = (props) => {
   const { actions, location, match } = props
 
+  const isSecureConnection = process.env.REACT_APP_RIPPLED_SECURE === 'true' || false
+  const wsConnectionProtocol = isSecureConnection ? 'wss' : 'ws'
+  const wsConnectionPort = isSecureConnection ? '443' : '80'
+
   const {
     params: { rippledUrl = null },
   } = match
   const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
   const wsUrls = []
   if (rippledHost.includes(':')) {
-    wsUrls.push(`wss://${rippledHost}`)
+    wsUrls.push(`${wsConnectionProtocol}://${rippledHost}`)
   } else {
     wsUrls.push.apply(wsUrls, [
-      `wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      `wss://${rippledHost}:443`,
+      `${wsConnectionProtocol}://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+      `${wsConnectionProtocol}://${rippledHost}:${wsConnectionPort}`,
     ])
   }
   const socket = new XrplClient(wsUrls)
@@ -44,7 +48,7 @@ const App = (props) => {
     process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
   socket.p2pSocket = hasP2PSocket
     ? new XrplClient([
-        `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+        `${wsConnectionProtocol}://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
     : undefined
 
