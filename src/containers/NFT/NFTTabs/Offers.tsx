@@ -23,7 +23,7 @@ interface Props {
   ) => Promise<any>
 }
 
-const Offers = (props: Props) => {
+export const Offers = (props: Props) => {
   const { t } = useTranslation()
   const { tokenId, fetchOffers, offerType } = props
   const rippledSocket = useContext(SocketContext)
@@ -107,5 +107,3 @@ const Offers = (props: Props) => {
 
   return <div>{loading ? <Loader /> : renderOffers()}</div>
 }
-
-export default Offers

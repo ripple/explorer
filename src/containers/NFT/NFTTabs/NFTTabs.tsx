@@ -3,14 +3,14 @@ import { useParams, useRouteMatch } from 'react-router'
 import './styles.scss'
 import Tabs from '../../shared/components/Tabs'
 import { getBuyNFToffers, getSellNFToffers } from '../../../rippled/lib/rippled'
-import Offers from './Offers'
-import Transactions from './Transactions'
+import { Offers } from './Offers'
+import { Transactions } from './Transactions'
 
 interface Props {
   tokenId: string
 }
 
-const NFTTabs = (props: Props) => {
+export const NFTTabs = (props: Props) => {
   const { id = '', tab = 'transactions' } = useParams<{
     id: string
     tab: string
@@ -62,5 +62,3 @@ const NFTTabs = (props: Props) => {
     </div>
   )
 }
-
-export default NFTTabs

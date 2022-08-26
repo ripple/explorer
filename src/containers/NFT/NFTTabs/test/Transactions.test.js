@@ -3,7 +3,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, useInfiniteQuery, QueryClientProvider } from 'react-query'
-import Transactions from '../Transactions'
+import { Transactions } from '../Transactions'
 import i18n from '../../../../i18nTestConfig'
 
 jest.mock('react-query', () => ({

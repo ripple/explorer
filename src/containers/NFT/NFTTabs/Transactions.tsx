@@ -3,13 +3,13 @@ import { useInfiniteQuery } from 'react-query'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'
 import { getNFTTransactions } from '../../../rippled/NFTTransactions'
-import TransactionTable from '../../shared/components/TransactionTable/TransactionTable'
+import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
 
 interface Props {
   tokenId: string
 }
 
-const Transactions = (props: Props) => {
+export const Transactions = (props: Props) => {
   const { tokenId } = props
   const rippledSocket = useContext(SocketContext)
 
@@ -41,5 +41,3 @@ const Transactions = (props: Props) => {
 
   return renderListContents()
 }
-
-export default Transactions

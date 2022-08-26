@@ -15,7 +15,7 @@ export type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
 type TransactionTableComponent =
   React.FunctionComponent<TransactionTableProps> & {}
 
-const TransactionTable: TransactionTableComponent = ({
+export const TransactionTable: TransactionTableComponent = ({
   hasAdditionalResults,
   emptyMessage,
   loading = false,
@@ -56,5 +56,3 @@ const TransactionTable: TransactionTableComponent = ({
     </div>
   )
 }
-
-export default TransactionTable

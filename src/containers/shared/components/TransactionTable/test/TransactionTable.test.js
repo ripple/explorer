@@ -2,7 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
-import TransactionTable from '../TransactionTable'
+import { TransactionTable } from '../TransactionTable'
 import i18n from '../../../../../i18nTestConfig'
 import mockTx from './mockTransactions.json'
 

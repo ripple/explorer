@@ -3,7 +3,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import NFTTabs from '../NFTTabs'
+import { NFTTabs } from '../NFTTabs'
 import i18n from '../../../../i18nTestConfig'
 
 describe('NFT Transactions tab container', () => {
