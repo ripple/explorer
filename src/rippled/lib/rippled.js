@@ -303,9 +303,15 @@ const getNFTInfo = (rippledSocket, tokenId) =>
     return resp
   })
 
-const getBuyNFToffers = (rippledSocket, tokenId, limit = 50, marker = '') =>
+const getNFToffers = (
+  offerCmd,
+  rippledSocket,
+  tokenId,
+  limit = 50,
+  marker = '',
+) =>
   queryP2P(rippledSocket, {
-    command: 'nft_buy_offers',
+    command: offerCmd,
     nft_id: tokenId,
     limit,
     marker: marker !== '' ? marker : undefined,
@@ -319,21 +325,11 @@ const getBuyNFToffers = (rippledSocket, tokenId, limit = 50, marker = '') =>
     return resp
   })
 
+const getBuyNFToffers = (rippledSocket, tokenId, limit = 50, marker = '') =>
+  getNFToffers('nft_buy_offers', rippledSocket, tokenId, limit, marker)
+
 const getSellNFToffers = (rippledSocket, tokenId, limit = 50, marker = '') =>
-  queryP2P(rippledSocket, {
-    command: 'nft_sell_offers',
-    nft_id: tokenId,
-    limit,
-    marker: marker !== '' ? marker : undefined,
-  }).then((resp) => {
-    if (resp.error === 'objectNotFound') {
-      throw new Error('NFT not found', 404)
-    }
-    if (resp.error_message) {
-      throw new Error(resp.error_message, 500)
-    }
-    return resp
-  })
+  getNFToffers('nft_sell_offers', rippledSocket, tokenId, limit, marker)
 
 const getNFTTransactions = (
   rippledSocket,
