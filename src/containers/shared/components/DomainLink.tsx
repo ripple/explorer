@@ -16,7 +16,7 @@ const DomainLink = (props: Props) => {
       className={className}
       rel="noopener noreferrer"
       target="_blank"
-      href={`http://${decode ? decodeHex(domain) : domain}`}
+      href={`http${decode ? '' : 's'}://${decode ? decodeHex(domain) : domain}`}
     >
       {decode ? decodeHex(domain) : domain}
     </a>
