@@ -51,14 +51,18 @@ const convertRippleDate = (date) =>
 
 const formatSignerList = (data) => ({
   quorum: data.SignerQuorum,
-  maxSigners: data.SignerEntries.reduce(
-    (total, d) => total + d.SignerEntry.SignerWeight,
-    0,
-  ),
-  signers: data.SignerEntries.map((d) => ({
-    account: d.SignerEntry.Account,
-    weight: d.SignerEntry.SignerWeight,
-  })),
+  maxSigners: data.SignerEntries
+    ? data.SignerEntries.reduce(
+        (total, d) => total + d.SignerEntry.SignerWeight,
+        0,
+      )
+    : 0,
+  signers: data.SignerEntries
+    ? data.SignerEntries.map((d) => ({
+        account: d.SignerEntry.Account,
+        weight: d.SignerEntry.SignerWeight,
+      }))
+    : [],
 })
 
 const formatAccountInfo = (info, serverInfoValidated) => ({
