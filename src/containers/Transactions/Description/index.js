@@ -68,7 +68,7 @@ const TransactionDescription = (props) => {
   }
 
   return (
-    <div className="section">
+    <div className="detail-section">
       <div className="title">{t('description')}</div>
       <div>
         {t('transaction_sequence')}
