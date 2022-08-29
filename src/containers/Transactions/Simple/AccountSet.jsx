@@ -19,7 +19,7 @@ const AccountSet = (props) => {
         <div className="row">
           <div className="label">{t('domain')}</div>
           <div className="value">
-            <DomainLink className="domain" domain={domain} />
+            <DomainLink className="domain" decode domain={domain} />
           </div>
         </div>
       )}

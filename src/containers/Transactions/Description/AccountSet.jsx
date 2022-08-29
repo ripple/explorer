@@ -11,7 +11,7 @@ const AccountSet = (props) => {
     lines.push(
       <div key="domain">
         {t('set_domain_description')}{' '}
-        <DomainLink className="domain" domain={data.tx.domain} />
+        <DomainLink className="domain" decode domain={data.tx.domain} />
       </div>,
     )
   }
