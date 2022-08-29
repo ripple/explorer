@@ -23,7 +23,7 @@ export const AccountNFTTable = ({ accountId }: AccountNFTTableProps) => {
     fetchNextPage,
   } = useInfiniteQuery(
     ['account_nfts', accountId],
-    async ({ pageParam = '' }) =>
+    ({ pageParam = '' }) =>
       getAccountNFTs(rippledSocket, accountId, pageParam).catch(
         (errorResponse) => {
           const errorLocation = `account NFTs ${accountId} at ${pageParam}`
