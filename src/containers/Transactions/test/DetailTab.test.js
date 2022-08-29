@@ -65,14 +65,14 @@ describe('DetailTab container', () => {
 
   it(`renders failed transaction`, () => {
     const wrapper = createWrapper(FailedTransaction)
-    expect(wrapper.find(`.section[data-test="status"]`).text()).toEqual(
+    expect(wrapper.find(`.detail-section[data-test="status"]`).text()).toEqual(
       expect.stringContaining(
         `This transaction failed with a status code of tecINSUFFICIENT_RESERVE, and validated in ledger 37375929 on`,
       ),
     )
-    expect(wrapper.find(`.section[data-test="status"] .fail`).text()).toEqual(
-      `tecINSUFFICIENT_RESERVE`,
-    )
+    expect(
+      wrapper.find(`.detail-section[data-test="status"] .fail`).text(),
+    ).toEqual(`tecINSUFFICIENT_RESERVE`)
     wrapper.unmount()
   })
 })
