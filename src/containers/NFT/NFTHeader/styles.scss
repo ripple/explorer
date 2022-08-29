@@ -1,18 +1,6 @@
 @import '../../shared/css/variables';
 @import '../../shared/css/table';
 
-.section {
-  margin: 0 32px;
-  @include for-size(tablet-landscape-up) {
-    width: 552px;
-    margin: 0 auto;
-  }
-
-  @include for-size(desktop-up) {
-    width: 1140px;
-  }
-}
-
 .nft-header-container {
   .nft-bottom-container {
     display: flex;
