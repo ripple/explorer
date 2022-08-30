@@ -120,7 +120,6 @@
   .details {
     min-height: 30px;
     padding: 32px;
-    margin-bottom: 64px;
     background: #22252b80;
     color: $gray-400;
     font-size: 10px;
@@ -129,7 +128,6 @@
     @include regular;
 
     @include for-size(tablet-landscape-up) {
-      margin-bottom: 72px;
       font-size: 12px;
     }
 
