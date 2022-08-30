@@ -7,7 +7,8 @@ export function parser(tx: any, meta: any) {
   const doorNode = modifiedAccountRoots.filter(
     (node: any) =>
       node.ModifiedNode.FinalFields.Balance <
-      node.ModifiedNode.PreviousFields.Balance,
+        node.ModifiedNode.PreviousFields.Balance &&
+      node.ModifiedNode.FinalFields.Account !== tx.Account,
   )[0]
   return {
     lockingDoor: tx.XChainBridge.LockingChainDoor,
