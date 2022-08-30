@@ -132,7 +132,7 @@ describe('Description container', () => {
   it('renders description for AccountSet', () => {
     const wrapper = createWrapper(AccountSet)
     expect(wrapper.html()).toBe(
-      '<div class="section"><div class="title">description</div><div>transaction_sequence<b> <span>274470</span></b></div><div>set_domain_description <a class="domain" rel="noopener noreferrer" target="_blank" href="http://weexchange.co">weexchange.co</a></div><div>set_email_description<span class="email"> 3A3C36EEB25EDD249CE94474035CB006</span></div><div>set_message_key_description<span class="message-key"> rQD4SqHJtDxn5DDL7xNnojNa3vxS1Jx5gv</span></div><div>set_flag_description<span class="flag"> asfDisableMaster</span></div><div>clear_flag_description<span class="flag"> asfDefaultRipple</span></div></div>',
+      '<div class="section"><div class="title">description</div><div>transaction_sequence<b> <span>274470</span></b></div><div>set_domain_description <a class="domain" rel="noopener noreferrer" target="_blank" href="https://weexchange.co">weexchange.co</a></div><div>set_email_description<span class="email"> 3A3C36EEB25EDD249CE94474035CB006</span></div><div>set_message_key_description<span class="message-key"> rQD4SqHJtDxn5DDL7xNnojNa3vxS1Jx5gv</span></div><div>set_flag_description<span class="flag"> asfDisableMaster</span></div><div>clear_flag_description<span class="flag"> asfDefaultRipple</span></div></div>',
     )
     wrapper.unmount()
   })
