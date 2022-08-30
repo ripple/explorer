@@ -10,7 +10,6 @@ import EscrowFinish from './EscrowFinish'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
-import SetRegularKey from './SetRegularKey'
 import AccountSet from './AccountSet'
 import Sequence from '../../shared/components/Sequence'
 import SignerListSet from './SignerListSet'
@@ -57,8 +56,6 @@ const TransactionDescription = (props) => {
     body = <PaymentChannelClaim t={t} language={language} data={data} />
   } else if (data.tx.TransactionType === 'PaymentChannelFund') {
     body = <PaymentChannelFund t={t} language={language} data={data} />
-  } else if (data.tx.TransactionType === 'SetRegularKey') {
-    body = <SetRegularKey t={t} language={language} data={data} />
   } else if (data.tx.TransactionType === 'AccountSet') {
     body = <AccountSet t={t} language={language} data={data} />
   } else if (data.tx.TransactionType === 'SignerListSet') {
