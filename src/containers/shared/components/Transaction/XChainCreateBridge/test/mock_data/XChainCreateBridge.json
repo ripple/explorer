@@ -1,0 +1,72 @@
+{
+  "tx": {
+    "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+    "Fee": "10",
+    "Flags": 0,
+    "Sequence": 1,
+    "SignatureReward": "100",
+    "SigningPubKey": "0330E7FC9D56BB25D6893BA3F317AE5BCF33B3291BD63DB32654A313222F7FD020",
+    "TransactionType": "XChainCreateBridge",
+    "TxnSignature": "3045022100E5B31CD70C9563521BA0F6EE3D039E9ECB76E01A11D293EF72CD521687D346DE02205815E290D062F4C0B94482D50F2EB9B512C20301854C2D1DE8C568AA2E5B2402",
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": "XRP",
+      "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+      "LockingChainIssue": "XRP"
+    },
+    "date": "2022-08-16T19:23:00Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Balance": "99999999999999990",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 2
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "2B6AC232AA4C4BE41BF49D2459FA4A0347E1B543A4C92FCEE0821C0201E2E9A8",
+          "PreviousFields": {
+            "Balance": "100000000000000000",
+            "OwnerCount": 0,
+            "Sequence": 1
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "D8120FC732737A2CF2E9968FDF3797A43B457F2A81AA06D2653171A1EA635204",
+          "NewFields": {
+            "Owner": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "RootIndex": "D8120FC732737A2CF2E9968FDF3797A43B457F2A81AA06D2653171A1EA635204"
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "Bridge",
+          "LedgerIndex": "EFFC3B47E68E9F74206D9C2F0E14279379E483A40A435AF7C7F729FCAD663DB1",
+          "NewFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "SignatureReward": "100",
+            "XChainBridge": {
+              "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+              "IssuingChainIssue": "XRP",
+              "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+              "LockingChainIssue": "XRP"
+            }
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "31BD5F2C0982752A20BB6A4205F7B6ED6576D08AB7927978BF282E8ABEF44467",
+  "ledger_index": 3,
+  "date": "2022-08-16T19:23:00Z"
+}
