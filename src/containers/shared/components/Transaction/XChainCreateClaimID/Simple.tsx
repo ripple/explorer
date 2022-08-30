@@ -17,7 +17,7 @@ export const Simple: TransactionSimpleComponent = (
         issuingDoor,
         issuingIssue,
         signatureReward,
-        otherChainAccount,
+        otherChainSource,
         bridgeOwner,
       },
     },
@@ -37,7 +37,7 @@ export const Simple: TransactionSimpleComponent = (
         label={t('other_chain_account')}
         data-test="other-chain-account"
       >
-        <Account account={otherChainAccount} link={false} />
+        <Account account={otherChainSource} link={false} />
       </SimpleRow>
     </>
   )

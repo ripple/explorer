@@ -12,7 +12,7 @@ export function parser(tx: any, meta: any) {
     issuingDoor: tx.XChainBridge.IssuingChainDoor,
     issuingIssue: tx.XChainBridge.IssuingChainIssue,
     signatureReward: formatAmount(tx.SignatureReward),
-    otherChainAccount: tx.OtherChainAccount,
+    otherChainSource: tx.OtherChainSource,
     bridgeOwner: bridgeMeta.ModifiedNode.FinalFields.Account,
   }
 }
