@@ -13,13 +13,8 @@ import EscrowCancel from './mock_data/EscrowCancel.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
-import SetRegularKey from '../../shared/components/Transaction/SetRegularKey/test/mock_data/SetRegularKey.json'
 import AccountSet from './mock_data/AccountSet.json'
-import SignerListSet from './mock_data/SignerListSet.json'
 import DepositPreauth from './mock_data/DepositPreauth.json'
-
-const RemoveRegularKey = JSON.parse(JSON.stringify(SetRegularKey))
-delete RemoveRegularKey.tx.RegularKey
 
 describe('Description container', () => {
   const createWrapper = (data = {}, instructions = {}) =>
@@ -113,26 +108,10 @@ describe('Description container', () => {
     wrapper.unmount()
   })
 
-  it('renders description for SetRegularKey', () => {
-    const wrapper = createWrapper(SetRegularKey)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>241</span></b></div><div>set_regular_key_description <span class="regular-key">rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp</span></div></div>',
-    )
-    wrapper.unmount()
-  })
-
   it('renders description for AccountSet', () => {
     const wrapper = createWrapper(AccountSet)
     expect(wrapper.html()).toBe(
       '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>274470</span></b></div><div>set_domain_description <a class="domain" rel="noopener noreferrer" target="_blank" href="http://weexchange.co">weexchange.co</a></div><div>set_email_description<span class="email"> 3A3C36EEB25EDD249CE94474035CB006</span></div><div>set_message_key_description<span class="message-key"> rQD4SqHJtDxn5DDL7xNnojNa3vxS1Jx5gv</span></div><div>set_flag_description<span class="flag"> asfDisableMaster</span></div><div>clear_flag_description<span class="flag"> asfDefaultRipple</span></div></div>',
-    )
-    wrapper.unmount()
-  })
-
-  it('renders description for SignerListSet', () => {
-    const wrapper = createWrapper(SignerListSet)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>251</span></b></div><div>set_signer_list_description:</div><ul class="signers"><li><a class="account" title="rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv" href="/accounts/rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv">rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv</a><span class="label"> - weight: </span><span>2</span></li><li><a class="account" title="rLoRH7XuBgz2kTP1ACkoyVYk9hsLggVvbP" href="/accounts/rLoRH7XuBgz2kTP1ACkoyVYk9hsLggVvbP">rLoRH7XuBgz2kTP1ACkoyVYk9hsLggVvbP</a><span class="label"> - weight: </span><span>1</span></li><li><a class="account" title="rL6SsrxyVp1JLNEZsX1hFWHcP2iJcZJ2dy" href="/accounts/rL6SsrxyVp1JLNEZsX1hFWHcP2iJcZJ2dy">rL6SsrxyVp1JLNEZsX1hFWHcP2iJcZJ2dy</a><span class="label"> - weight: </span><span>1</span></li></ul></div>',
     )
     wrapper.unmount()
   })
