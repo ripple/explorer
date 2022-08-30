@@ -13,7 +13,7 @@ import EscrowCancel from './mock_data/EscrowCancel.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
-import SetRegularKey from './mock_data/SetRegularKey.json'
+import SetRegularKey from '../../shared/components/Transaction/SetRegularKey/test/mock_data/SetRegularKey.json'
 import AccountSet from './mock_data/AccountSet.json'
 import SignerListSet from './mock_data/SignerListSet.json'
 import DepositPreauth from './mock_data/DepositPreauth.json'
@@ -117,14 +117,6 @@ describe('Description container', () => {
     const wrapper = createWrapper(SetRegularKey)
     expect(wrapper.html()).toBe(
       '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>241</span></b></div><div>set_regular_key_description <span class="regular-key">rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp</span></div></div>',
-    )
-    wrapper.unmount()
-  })
-
-  it('renders description for SetRegularKey (remove key)', () => {
-    const wrapper = createWrapper(RemoveRegularKey)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>241</span></b></div><div>unset_regular_key_description</div></div>',
     )
     wrapper.unmount()
   })
