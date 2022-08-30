@@ -355,5 +355,19 @@
   "signature_reward": "Signature Reward",
   "min_account_create_amount": "Minimum Account Creation Amount",
   "other_chain_account": "Other Chain Account",
-  "xchain_claim_id": "XChain Claim ID"
+  "xchain_claim_id": "XChain Claim ID",
+  "check_nft_id": "Please check your NFT ID",
+  "get_nft_state_failed":"Unable to load NFT",
+  "minted":"Minted",
+  "taxon_id": "Taxon ID",
+  "transfer_fee": "Transfer Fee",
+  "burnable":"Burnable",
+  "only_xrp":"Only XRP",
+  "trust_line":"Creates Trust Lines for Issuer",
+  "transferable":"Transferable",
+  "buy_offers":"Buy Offers",
+  "sell_offers":"Sell Offers",
+  "offer_index": "Offer ID",
+  "owner": "Owner's Account",
+  "no_additional_info":"No additional information"
 }

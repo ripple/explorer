@@ -1,0 +1,188 @@
+@import '../../shared/css/variables';
+@import '../../shared/css/table';
+
+.nft-header-container {
+  .nft-bottom-container {
+    display: flex;
+    flex-direction: column;
+
+    @include for-size(desktop-up) {
+      flex-direction: row;
+    }
+
+    .details {
+      width: 100%;
+      @include for-size(desktop-up) {
+        width: 490px;
+      }
+    }
+
+    .settings {
+      width: 100%;
+      @include for-size(desktop-up) {
+        width: 650px;
+      }
+    }
+
+    .title {
+      padding: 64px 0 18px;
+      border-bottom: 1px $gray-800 solid;
+      color: $white;
+      font-size: 24px;
+      @include bold;
+
+      @include for-size(desktop-up) {
+        padding-top: 80px;
+      }
+    }
+  }
+
+  .nft-info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 68px;
+
+    @include for-size(desktop-up) {
+      flex-direction: row;
+      margin-top: 80px;
+    }
+
+    .values {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      color: $white;
+
+      @include for-size(desktop-up) {
+        flex-direction: column;
+        margin-bottom: 0;
+      }
+
+      .title {
+        padding-bottom: 4px;
+        margin-bottom: 4.5px;
+        color: $gray-400;
+        font-size: 14px;
+        text-transform: uppercase;
+        @include semibold;
+      }
+
+      .value {
+        display: flex;
+
+        .nft-issuer {
+          margin: auto;
+          color: $white;
+          font-size: 18px;
+          font-style: normal;
+          line-height: 125%;
+          text-align: right;
+          text-decoration: none;
+          @include bold;
+        }
+
+        .copy {
+          width: 24px;
+          height: 24px;
+          flex: none;
+          flex-grow: 0;
+          order: 1;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}
+
+.bottom-label {
+  width: 144px;
+  padding-bottom: 4px;
+  color: $gray-400;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.bottom-value {
+  color: $white;
+}
+
+.nft-token-header {
+  width: 100%;
+  margin-bottom: 16px;
+
+  .nft-box-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0;
+    text-align: left;
+
+    .title-content {
+      overflow: hidden;
+      width: 100%;
+      min-width: 0;
+      min-height: 0;
+      padding-top: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      color: $white;
+      font-size: 24px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      @include bold;
+    }
+
+    .token-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-bottom: 4px;
+      color: $gray-400;
+      font-size: 14px;
+      text-transform: uppercase;
+
+      @include semibold;
+    }
+
+    .token-type {
+      display: flex;
+      width: 53px;
+      height: 22px;
+      flex: none;
+      flex-direction: row;
+      flex-grow: 0;
+      align-items: center;
+      justify-content: center;
+      order: 0;
+      padding: 2px 12px;
+      margin-left: 8px;
+      background: $nft;
+      border-radius: 30px;
+      color: $white;
+      font-size: 14px;
+      font-style: normal;
+      line-height: 125%;
+
+      .subscript {
+        margin: auto;
+        text-align: center;
+        vertical-align: middle;
+        @include bold;
+      }
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+      margin-left: 16px;
+      object-fit: contain;
+    }
+  }
+
+  .box-content {
+    min-height: 100px;
+    padding-bottom: 20px;
+  }
+}

@@ -97,6 +97,7 @@ class ValidatorsTable extends Component {
         <td className={`n-unl ${nUnl}`}>
           {onNegativeUnl && <img src={infoOrange} title={d.unl} alt={d.unl} />}
         </td>
+        <td className="version text-truncate">{d.server_version}</td>
         {this.renderAgreement('h1', d.agreement_1hour)}
         {this.renderAgreement('h24', d.agreement_24hour)}
         {this.renderAgreement('d30', d.agreement_30day)}
@@ -126,6 +127,7 @@ class ValidatorsTable extends Component {
             <th className="domain">{t('domain')}</th>
             <th className="unl">{t('unl')}</th>
             <th className="n-unl">{t('nUnlCol')}</th>
+            <th className="version">{t('Version')}</th>
             <th className="score h1">{t('1H')}</th>
             <th className="score h24">{t('24H')}</th>
             <th className="score d30">{t('30D')}</th>

@@ -9,7 +9,6 @@ import EscrowCreate from './EscrowCreate'
 import EscrowCancel from './EscrowCancel'
 import EscrowFinish from './EscrowFinish'
 import TrustSet from './TrustSet'
-import SetRegularKey from './SetRegularKey'
 import AccountSet from './AccountSet'
 import DepositPreauth from './DepositPreauth'
 import EnableAmendment from './EnableAmendment'
@@ -50,8 +49,6 @@ const Simple = (props) => {
       return <EscrowFinish t={t} language={language} data={data} />
     case 'TrustSet':
       return <TrustSet t={t} language={language} data={data} />
-    case 'SetRegularKey':
-      return <SetRegularKey t={t} language={language} data={data} />
     case 'AccountSet':
       return <AccountSet t={t} language={language} data={data} />
     case 'DepositPreauth':
