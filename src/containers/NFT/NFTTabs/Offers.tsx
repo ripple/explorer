@@ -60,7 +60,6 @@ export const Offers = (props: Props) => {
 
   const renderOffer = (d: any) => {
     const { amount, owner, nft_offer_index: offerIndex } = d
-    const formattedAmount = formatAmount(amount)
     return (
       <tr key={offerIndex}>
         <td className="offer-id text-truncate" title={offerIndex}>
@@ -70,12 +69,7 @@ export const Offers = (props: Props) => {
           <Link to={`/accounts/${owner}`}>{owner}</Link>
         </td>
         <td className="amount right">
-          <Amount
-            value={{
-              ...formattedAmount,
-              amount: formattedAmount.amount.toString(),
-            }}
-          />
+          <Amount value={formatAmount(amount)} />
         </td>
       </tr>
     )

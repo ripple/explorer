@@ -10,7 +10,7 @@ export interface AmountProps {
     | {
         issuer?: string
         currency: string
-        amount: string
+        amount: number
       }
   displayIssuer?: boolean
 }
