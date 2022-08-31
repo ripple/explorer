@@ -9,8 +9,7 @@ import SocketContext from '../../shared/SocketContext'
 import { Amount } from '../../shared/components/Amount'
 import { analytics, ANALYTIC_TYPES } from '../../shared/utils'
 import '../../shared/components/TransactionTable/styles.scss' // Reuse load-more-btn
-
-const formatAmount = require('../../../rippled/lib/txSummary/formatAmount')
+import formatAmount from '../../../rippled/lib/txSummary/formatAmount'
 
 interface Props {
   tokenId: string
@@ -61,6 +60,7 @@ export const Offers = (props: Props) => {
 
   const renderOffer = (d: any) => {
     const { amount, owner, nft_offer_index: offerIndex } = d
+    const formattedAmount = formatAmount(amount)
     return (
       <tr key={offerIndex}>
         <td className="offer-id text-truncate" title={offerIndex}>
@@ -70,7 +70,12 @@ export const Offers = (props: Props) => {
           <Link to={`/accounts/${owner}`}>{owner}</Link>
         </td>
         <td className="amount right">
-          <Amount value={formatAmount(amount)} />
+          <Amount
+            value={{
+              ...formattedAmount,
+              amount: formattedAmount.amount.toString(),
+            }}
+          />
         </td>
       </tr>
     )
