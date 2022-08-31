@@ -142,6 +142,7 @@
   "transaction_SignerListSet": "Signer List Set",
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
+  "transaction_XChainClaim": "XChain Claim",
   "transaction_XChainCommit": "XChain Commit",
   "transaction_XChainCreateBridge": "XChain Create Bridge",
   "transaction_XChainCreateClaimID": "XChain Create Claim ID",
