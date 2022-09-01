@@ -7,7 +7,7 @@
   .col-score,
   .col-missed,
   .col-total {
-    @extends %truncate;
+    @extend %truncate;
   }
 
   .col-date {
