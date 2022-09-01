@@ -18,7 +18,7 @@ export const Details = ({ data }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const formattedFee =
-    transferFee &&
+    transferFee !== undefined &&
     `${localizeNumber((transferFee / 1000).toPrecision(5), language, {
       style: 'currency',
       currency: 'none',
