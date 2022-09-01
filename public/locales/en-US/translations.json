@@ -365,8 +365,8 @@
   "only_xrp":"Only XRP",
   "trust_line":"Creates Trust Lines for Issuer",
   "transferable":"Transferable",
-  "buy-offers":"Buy Offers",
-  "sell-offers":"Sell Offers",
+  "buy_offers":"Buy Offers",
+  "sell_offers":"Sell Offers",
   "offer_index": "Offer ID",
   "owner": "Owner's Account",
   "no_additional_info":"No additional information"

@@ -56,13 +56,13 @@ describe('NFT Transactions tab container', () => {
 
   it('renders buy offers tab', () => {
     const wrapper = createWrapper('buy-offers')
-    expect(wrapper.find('a.tab.selected').text()).toEqual('buy-offers')
+    expect(wrapper.find('a.tab.selected').text()).toEqual('buy_offers')
     wrapper.unmount()
   })
 
   it('renders sell offers tab', () => {
     const wrapper = createWrapper('sell-offers')
-    expect(wrapper.find('a.tab.selected').text()).toEqual('sell-offers')
+    expect(wrapper.find('a.tab.selected').text()).toEqual('sell_offers')
     wrapper.unmount()
   })
 })
