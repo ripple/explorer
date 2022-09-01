@@ -27,10 +27,9 @@ export const NFTTabs = (props: Props) => {
   }
 
   function renderTransactions() {
-    let body
     switch (tab) {
       case 'sell-offers':
-        body = (
+        return (
           <Offers
             key="SellOffers"
             tokenId={tokenId}
@@ -38,9 +37,8 @@ export const NFTTabs = (props: Props) => {
             offerType="SellOffers"
           />
         )
-        break
       case 'buy-offers':
-        body = (
+        return (
           <Offers
             key="BuyOffers"
             tokenId={tokenId}
@@ -48,12 +46,9 @@ export const NFTTabs = (props: Props) => {
             offerType="BuyOffers"
           />
         )
-        break
       default:
-        body = <Transactions tokenId={tokenId} />
-        break
+        return <Transactions tokenId={tokenId} />
     }
-    return body
   }
 
   return (
