@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useMemo } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import Loader from '../../shared/components/Loader'
@@ -20,6 +20,7 @@ import { Settings } from './Settings'
 import Account from '../../shared/components/Account'
 import { getOldestNFTTransaction } from '../../../rippled/NFTTransactions'
 import { useLanguage } from '../../shared/hooks'
+import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -44,9 +45,12 @@ export const NFTHeader = (props: Props) => {
   const { tokenId, setError } = props
   const rippledSocket = useContext(SocketContext)
   const [tooltip, setTooltip] = useState(null)
-  const { data: rawData, isFetching: loading } = useQuery(
+  const { data, isFetching: loading } = useQuery<NFTFormattedInfo>(
     ['getNFTInfo'],
-    () => getNFTInfo(rippledSocket, tokenId),
+    async () => {
+      const info = await getNFTInfo(rippledSocket, tokenId)
+      return formatNFTInfo(info)
+    },
     {
       onError: (e: any) => {
         /* @ts-ignore */
@@ -64,8 +68,6 @@ export const NFTHeader = (props: Props) => {
     }
   }, [tokenId])
 
-  const data = useMemo(() => rawData && formatNFTInfo(rawData), [rawData])
-
   // fetch the oldest NFT transaction to get its minted data
   const { data: firstTransaction } = useQuery(
     ['getFirstTransaction', tokenId],
@@ -76,28 +78,23 @@ export const NFTHeader = (props: Props) => {
   )
 
   // fetch account from issuer to get the domain
-  const { data: rawAccountData } = useQuery(
+  const { data: accountData } = useQuery<AccountFormattedInfo>(
     ['getAccountInfo'],
-    () => getAccountInfo(rippledSocket, data.issuer),
+    async () => {
+      const info = await getAccountInfo(rippledSocket, data?.issuer)
+      return formatAccountInfo(info, {})
+    },
     { enabled: !!data },
   )
 
-  const mintedDate = useMemo(
-    () =>
-      firstTransaction &&
-      firstTransaction.transaction?.type === 'NFTokenMint' &&
-      `${localizeDate(
-        new Date(firstTransaction.transaction.date),
-        language,
-        DATE_OPTIONS,
-      )} ${TIME_ZONE}`,
-    [firstTransaction],
-  )
-
-  const accountData = useMemo(
-    () => rawAccountData && formatAccountInfo(rawAccountData, {}),
-    [rawAccountData],
-  )
+  const mintedDate =
+    firstTransaction && firstTransaction.transaction?.type === 'NFTokenMint'
+      ? `${localizeDate(
+          new Date(firstTransaction.transaction.date),
+          language,
+          DATE_OPTIONS,
+        )} ${TIME_ZONE}`
+      : undefined
 
   const showTooltip = (event: any, d: any) => {
     setTooltip({ ...d, mode: 'nftId', x: event.pageX, y: event.pageY })
@@ -108,7 +105,7 @@ export const NFTHeader = (props: Props) => {
   }
 
   const renderHeaderContent = () => {
-    const { issuer } = data
+    const { issuer } = data!
     return (
       <div className="section nft-header-container">
         <div className="nft-info-container">
@@ -116,7 +113,7 @@ export const NFTHeader = (props: Props) => {
             <div className="title">{t('issuer_address')}</div>
             <div className="value">
               <div className="nft-issuer">
-                <Account account={issuer} />
+                <Account account={issuer!} />
               </div>
             </div>
           </div>
@@ -134,7 +131,7 @@ export const NFTHeader = (props: Props) => {
           </div>
           <div className="settings">
             <div className="title">{t('settings')}</div>
-            <Settings flags={data.flags} />
+            <Settings flags={data?.flags ?? []} />
           </div>
         </div>
       </div>
