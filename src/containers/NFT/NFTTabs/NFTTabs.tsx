@@ -53,11 +53,12 @@ export const NFTTabs = (props: Props) => {
         body = <Transactions tokenId={tokenId} />
         break
     }
-    return <div>{body}</div>
+    return body
   }
+
   return (
     <div className="nft-tabs section">
-      <div>{renderTabs()}</div>
+      {renderTabs()}
       <div className="tab-body">{renderTransactions()}</div>
     </div>
   )
