@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch } from 'react-router'
+import axios from 'axios'
+import BarChartRenderer from '../shared/components/BarChart'
 import Tabs from '../shared/components/Tabs'
 import Streams from '../shared/components/Streams'
-import ValidatorsTable from './ValidatorsTable'
-import Log from '../shared/log'
+import Hexagons from './Hexagons'
 import { localizeNumber } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
-import Hexagons from './Hexagons'
+import Log from '../shared/log'
 
 const mergeLatest = (validators: any[] = [], live: any[] = []) => {
   const latest: any = {}
@@ -32,16 +32,43 @@ const mergeLatest = (validators: any[] = [], live: any[] = []) => {
     return Object.assign(d, updated)
   })
 }
-export const Validators = () => {
-  const language = useLanguage()
-  const { t } = useTranslation()
 
+const UpgradeStatus = () => {
   const [vList, setVList] = useState({})
   const [liveValidators, setLiveValidators] = useState([])
-  const [metrics, setMetrics] = useState({})
-  const [validators, setValidators] = useState([])
   const [unlCount, setUnlCount] = useState(0)
+  const [validators, setValidators] = useState([])
   const { path = '/' } = useRouteMatch()
+  const { t } = useTranslation()
+  const language = useLanguage()
+
+  const aggregateData = (v: any[]) => {
+    if (!v) {
+      return []
+    }
+    let total = 0
+    const tempData: any[] = []
+    v.reduce((res, val) => {
+      if (!res[val.server_version]) {
+        res[val.server_version] = {
+          server_version: val.server_version,
+          count: 0,
+        }
+        tempData.push(res[val.server_version])
+      }
+      res[val.server_version].count += 1
+      total += 1
+      return res
+    }, {})
+
+    return tempData
+      .map((item) => ({
+        label: item.server_version ? item.server_version : ' NA ',
+        value: (item.count * 100) / total,
+        count: item.count,
+      }))
+      .sort((a, b) => (a.label > b.label ? 1 : -1))
+  }
 
   liveValidators.slice(0, 1)
   useEffect(() => {
@@ -88,18 +115,14 @@ export const Validators = () => {
   }
 
   const tabs = ['nodes', 'validators', 'upgrade-status']
-
   return (
     <div className="network-page">
-      <Streams
-        validators={vList}
-        updateValidators={updateValidators}
-        updateMetrics={setMetrics}
-      />
+      <Streams validators={vList} updateValidators={updateValidators} />
       {
         // @ts-ignore
         validators.length && <Hexagons data={liveValidators} list={vList} />
       }
+
       <div className="stat">
         {validators && (
           <>
@@ -116,10 +139,15 @@ export const Validators = () => {
           </>
         )}
       </div>
+
       <div className="wrap">
-        <Tabs tabs={tabs} selected="validators" path={path.split('/:')[0]} />
-        <ValidatorsTable validators={validators} metrics={metrics} />
+        <Tabs tabs={tabs} selected="upgrade-status" path={path} />
+        <div className="upgrade-status">
+          {validators && <BarChartRenderer data={aggregateData(validators)} />}
+        </div>
       </div>
     </div>
   )
 }
+
+export default UpgradeStatus

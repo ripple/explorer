@@ -29,6 +29,7 @@
   "transaction_short": "TX",
   "nodes": "Nodes",
   "validators": "Validators",
+  "upgrade-status": "Upgrade Status",
   "version": "v{{number}}",
   "component_error": "Something bad happened!",
   "1H": "1H",
@@ -378,5 +379,7 @@
   "validator_history.date": "Date",
   "validator_history.missed": "Missed",
   "validator_history.score": "Score",
-  "other_chain_destination": "Other Chain Destination"
+  "other_chain_destination": "Other Chain Destination",
+  "% of total nodes":"% of Total Nodes",
+  "version_node_count": "# of Nodes: ${payload?.[0].payload.count}"
 }
