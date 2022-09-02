@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { Validators } from './Validators'
 import Nodes from './Nodes'
-import Chart from './Chart'
+import UpgradeStatus from './upgradeStatus'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
 import NoMatch from '../NoMatch'
@@ -39,13 +39,14 @@ class Network extends Component {
     }
     // strips :url from the front and the tab info from the end
     const base = path.split('/:')[0]
+    console.log(base)
     // eslint-disable-next-line no-nested-ternary
     return tab === 'nodes' ? (
       <Nodes path={base} />
     ) : tab === 'validators' ? (
       <Validators path={base} />
     ) : (
-      <Chart path={base} />
+      <UpgradeStatus path={base} />
     )
   }
 }
