@@ -102,6 +102,7 @@ div.react-stockchart div {
     @include transaction-type-base($nft);
   }
 
+  &.XChainClaim,
   &.XChainCommit,
   &.XChainCreateBridge,
   &.XChainCreateClaimID {
@@ -172,5 +173,17 @@ a {
       mask: url('../images/external_link.svg') no-repeat 100% 100%;
       vertical-align: text-top;
     }
+  }
+}
+
+.section {
+  margin: 0 32px;
+  @include for-size(tablet-landscape-up) {
+    width: 552px;
+    margin: 0 auto;
+  }
+
+  @include for-size(desktop-up) {
+    width: 1140px;
   }
 }

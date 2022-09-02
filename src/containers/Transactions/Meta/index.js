@@ -47,7 +47,7 @@ class TransactionMeta extends Component {
     const affectedNodes = groupAffectedNodes(data)
 
     return (
-      <div className="section">
+      <div className="detail-section">
         <div className="title">{t('meta')}</div>
         <div>
           {t('number_of_affected_node', {
