@@ -1,5 +1,19 @@
 @import '../shared/css/variables';
 
+@mixin dropdown-network-item($background, $border: $black, $color: $white) {
+  background: $background;
+
+  .dropdown {
+    border-color: $border;
+    background: $background;
+    color: $color;
+
+    .item {
+      background: $background;
+    }
+  }
+}
+
 .header {
   position: fixed;
   z-index: 2;
@@ -130,52 +144,20 @@
     }
 
     &.testnet {
-      background: $testnet;
-
-      .dropdown {
-        border-color: $black;
-        background: $testnet;
-        color: $white;
-
-        /* stylelint-disable no-descending-specificity */
-        .item {
-          background: $testnet;
-        }
-        /* stylelint-enable no-descending-specificity */
-      }
+      @include dropdown-network-item($testnet);
     }
 
     &.devnet {
-      background: $devnet;
+      @include dropdown-network-item($devnet);
+    }
 
-      .dropdown {
-        border-color: $black;
-        background: $devnet;
-        color: $white;
-
-        /* stylelint-disable no-descending-specificity */
-        .item {
-          background: $devnet;
-        }
-        /* stylelint-enable no-descending-specificity */
-      }
+    &.amm {
+      @include dropdown-network-item($amm);
     }
 
     /* stylelint-disable-next-line selector-class-pattern -- Name comes from server designation  */
     &.nft_sandbox {
-      background: $nft-sandbox;
-
-      .dropdown {
-        border-color: $black;
-        background: $nft-sandbox;
-        color: $white;
-
-        /* stylelint-disable no-descending-specificity */
-        .item {
-          background: $nft-sandbox;
-        }
-        /* stylelint-enable no-descending-specificity */
-      }
+      @include dropdown-network-item($nft-sandbox);
 
       .check path {
         fill: $white;
@@ -183,19 +165,7 @@
     }
 
     &.sidechain {
-      background: $sidechain;
-
-      .dropdown {
-        border-color: $sidechain;
-        background: $sidechain;
-        color: $black;
-
-        /* stylelint-disable no-descending-specificity */
-        .item {
-          background: $sidechain;
-        }
-        /* stylelint-enable no-descending-specificity */
-      }
+      @include dropdown-network-item($sidechain, $sidechain, $black);
 
       .arrow path {
         fill: $black;
