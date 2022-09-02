@@ -7,6 +7,7 @@ import { localizeNumber } from '../shared/utils'
 import Tooltip from '../shared/components/Tooltip'
 import './css/ledgers.scss'
 import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
+import DomainLink from '../shared/components/DomainLink'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -70,16 +71,7 @@ class Ledgers extends Component {
     const url = `/validators/${selected}`
     return (
       <div className="selected-validator">
-        {v.domain && (
-          <a
-            className="domain"
-            href={`https://${v.domain}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {v.domain}
-          </a>
-        )}
+        {v.domain && <DomainLink domain={v.domain} />}
         <a className="pubkey" href={url}>
           {selected}
         </a>
