@@ -71,7 +71,7 @@ class Ledgers extends Component {
     const url = `/validators/${selected}`
     return (
       <div className="selected-validator">
-        {v.domain && <DomainLink className="domain" domain={v.domain} />}
+        {v.domain && <DomainLink domain={v.domain} />}
         <a className="pubkey" href={url}>
           {selected}
         </a>

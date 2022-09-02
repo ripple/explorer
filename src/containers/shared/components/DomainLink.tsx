@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import { decodeHex } from '../transactionUtils'
 
 export interface Props {
@@ -8,10 +9,10 @@ export interface Props {
 }
 
 const DomainLink = (props: Props) => {
-  const { className = '', decode = false, domain } = props
+  const { className, decode = false, domain } = props
   return (
     <a
-      className={className}
+      className={clsx(`domain`, className)}
       rel="noopener noreferrer"
       target="_blank"
       href={`https://${decode ? decodeHex(domain) : domain}`}
