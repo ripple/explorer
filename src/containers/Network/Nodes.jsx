@@ -41,7 +41,7 @@ class NodesPage extends Component {
   render() {
     const { nodes, locations, unmapped } = this.state
     const { path, t, language } = this.props
-    const tabs = ['nodes', 'validators', 'chart']
+    const tabs = ['nodes', 'validators', 'upgrade-status']
 
     return (
       <div className="network-page">
