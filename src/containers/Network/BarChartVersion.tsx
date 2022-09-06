@@ -13,7 +13,7 @@ import {
   ValueType,
   NameType,
 } from 'recharts/src/component/DefaultTooltipContent'
-import '../css/barchart.css'
+import './css/barchart.css'
 
 interface Props {
   data: any[]
@@ -33,15 +33,17 @@ const CustomTooltip = ({
   if (active) {
     return (
       <div className="custom-tooltip">
-        <p className="label">Version: {label}</p>
-        <p className="value"># of Nodes: {payload?.[0].payload.count}</p>
+        <p className="label">{t('version_display', { version: label })}</p>
+        <p className="value">
+          {t('nodes_count', { count: payload?.[0].payload.count })}
+        </p>
       </div>
     )
   }
   return null
 }
 
-const BarChartRenderer = (props: Props) => {
+const BarChartVersion = (props: Props) => {
   const { data } = props
   const { t } = useTranslation()
   const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
@@ -57,6 +59,7 @@ const BarChartRenderer = (props: Props) => {
           dataKey="label"
           angle={-65}
           dy={30}
+          dx={-7}
           height={90}
           tickLine={false}
           stroke="#9BA2B0"
@@ -72,7 +75,7 @@ const BarChartRenderer = (props: Props) => {
             value={t('% of total nodes')}
             angle={-90}
             position="insideTop"
-            dx={55}
+            dx={45}
             dy={65}
           />
         </YAxis>
@@ -96,4 +99,4 @@ const BarChartRenderer = (props: Props) => {
   )
 }
 
-export default BarChartRenderer
+export default BarChartVersion

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch } from 'react-router'
-import Tabs from '../shared/components/Tabs'
+import NetworkTabs from './NetworkTab'
 import Streams from '../shared/components/Streams'
 import ValidatorsTable from './ValidatorsTable'
 import Log from '../shared/log'
@@ -87,8 +87,6 @@ export const Validators = () => {
     )
   }
 
-  const tabs = ['nodes', 'validators', 'upgrade-status']
-
   return (
     <div className="network-page">
       <Streams
@@ -117,7 +115,7 @@ export const Validators = () => {
         )}
       </div>
       <div className="wrap">
-        <Tabs tabs={tabs} selected="validators" path={path.split('/:')[0]} />
+        <NetworkTabs selected="validators" path={path} />
         <ValidatorsTable validators={validators} metrics={metrics} />
       </div>
     </div>

@@ -370,6 +370,7 @@
   "offer_index": "Offer ID",
   "owner": "Owner's Account",
   "no_additional_info":"No additional information",
-  "% of total nodes":"% of Total Nodes",
-  "version_node_count": "# of Nodes: ${payload?.[0].payload.count}"
+  "version_display": "Version: {{version}}",
+  "nodes_count": "# of Nodes: {{count}}",
+  "% of total nodes": "% of Total Nodes"
 }
