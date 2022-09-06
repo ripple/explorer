@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch } from 'react-router'
 import axios from 'axios'
-import BarChartRenderer from '../shared/components/BarChart'
-import Tabs from '../shared/components/Tabs'
+import BarChartVersion from './BarChartVersion'
+import NetworkTabs from './NetworkTab'
 import Streams from '../shared/components/Streams'
 import Hexagons from './Hexagons'
 import { localizeNumber } from '../shared/utils'
@@ -114,7 +114,6 @@ const UpgradeStatus = () => {
     )
   }
 
-  const tabs = ['nodes', 'validators', 'upgrade-status']
   return (
     <div className="network-page">
       <Streams validators={vList} updateValidators={updateValidators} />
@@ -141,9 +140,9 @@ const UpgradeStatus = () => {
       </div>
 
       <div className="wrap">
-        <Tabs tabs={tabs} selected="upgrade-status" path={path} />
+        <NetworkTabs selected="upgrade-status" path={path} />
         <div className="upgrade-status">
-          {validators && <BarChartRenderer data={aggregateData(validators)} />}
+          {validators && <BarChartVersion data={aggregateData(validators)} />}
         </div>
       </div>
     </div>
