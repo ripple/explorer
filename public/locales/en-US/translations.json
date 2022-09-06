@@ -381,5 +381,7 @@
   "validator_history.score": "Score",
   "other_chain_destination": "Other Chain Destination",
   "% of total nodes":"% of Total Nodes",
-  "version_node_count": "# of Nodes: ${payload?.[0].payload.count}"
+  "version_node_count": "# of Nodes: ${payload?.[0].payload.count}",
+  "version_display": "Version: {{version}}",
+  "nodes_count": "# of Nodes: {{count}}"
 }
