@@ -12,6 +12,7 @@ import { localizeNumber, formatLargeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
 import Account from '../../shared/components/Account'
+import DomainLink from '../../shared/components/DomainLink'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -51,13 +52,7 @@ class TokenHeader extends Component {
             <tr className="row">
               <td className="col1">{t('domain')}</td>
               <td className="col2">
-                <a
-                  href={`https://${domain}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {domain}
-                </a>
+                <DomainLink domain={domain} />
               </td>
             </tr>
           )}
