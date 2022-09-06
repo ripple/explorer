@@ -66,6 +66,10 @@ const summarizeTransaction = (d, details = false) => ({
   sequence: d.tx.Sequence,
   ticketSequence: d.tx.TicketSequence,
   date: d.date,
+  ledgerEntryType:
+    d.meta.AffectedNodes[0].ModifiedNode?.LedgerEntryType ||
+    d.meta.AffectedNodes[0].DeletedNode?.LedgerEntryType ||
+    d.meta.AffectedNodes[0].CreatedNode?.LedgerEntryType,
   details: {
     instructions: getInstructions(d.tx, d.meta),
   },

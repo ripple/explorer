@@ -90,34 +90,76 @@ class Ledger extends Component {
     const previousIndex = LedgerIndex - 1
     const nextIndex = LedgerIndex + 1
     const date = new Date(data.close_time)
+    const transactions = data.transactions || []
+    let successfulTxCount = 0
+    let failedTxCount = 0
+    const transactionTypes = {}
+    const ledgerObjTypes = {}
+
+    transactions.forEach((tx) => {
+      if (tx.result === 'tesSUCCESS') {
+        successfulTxCount += 1
+      } else {
+        failedTxCount += 1
+      }
+
+      if (transactionTypes[tx.type] === undefined) {
+        transactionTypes[tx.type] = 0
+      } else {
+        transactionTypes[tx.type] += 1
+      }
+
+      if (ledgerObjTypes[tx.ledgerEntryType] === undefined) {
+        ledgerObjTypes[tx.ledgerEntryType] = 0
+      } else {
+        ledgerObjTypes[tx.ledgerEntryType] = 1
+      }
+    })
+
     return (
       <div className="ledger-header">
         <div className="ledger-nav">
-          <Link to={`/ledgers/${previousIndex}`}>
-            <div className="previous">
-              <LeftArrow alt="previous ledger" />
-              {previousIndex}
-            </div>
-          </Link>
-          <Link to={`/ledgers/${nextIndex}`}>
-            <div className="next">
-              {nextIndex}
-              <RightArrow alt="next ledger" />
-            </div>
-          </Link>
+          <div className="link left">
+            <Link to={`/ledgers/${previousIndex}`}>
+              <div className="previous">
+                <LeftArrow alt="previous ledger" />
+                {previousIndex}
+              </div>
+            </Link>
+          </div>
+          <div className="ledger-index">
+            <div className="title">{t('ledger_index')}</div>
+            <div className="value">{LedgerIndex}</div>
+          </div>
+          <div className="link right">
+            <Link to={`/ledgers/${nextIndex}`}>
+              <div className="next">
+                {nextIndex}
+                <RightArrow alt="next ledger" />
+              </div>
+            </Link>
+          </div>
           <div className="clear" />
         </div>
         <div className="ledger-info">
           <div className="summary">
             <div className="ledger-cols">
-              <div className="ledger-col ledger-index">
-                <div className="title">{t('ledger_index')}</div>
-                <div className="value">{LedgerIndex}</div>
-              </div>
               <div className="ledger-col">
                 <div className="title">{t('total_transactions')}</div>
                 <div className="value">
                   {localizeNumber(data.transactions.length, language)}
+                </div>
+              </div>
+              <div className="ledger-col">
+                <div className="title">{t('successful_transactions')}</div>
+                <div className="value">
+                  {localizeNumber(successfulTxCount, language)}
+                </div>
+              </div>
+              <div className="ledger-col">
+                <div className="title">{t('failed_transactions')}</div>
+                <div className="value">
+                  {localizeNumber(failedTxCount, language)}
                 </div>
               </div>
               <div className="ledger-col">
@@ -129,6 +171,22 @@ class Ledger extends Component {
                   })}
                 </div>
               </div>
+              {Object.keys(ledgerObjTypes).map((type) => (
+                <div className="ledger-col">
+                  <div className="title">{t(`ledger_entry_type_${type}`)}</div>
+                  <div className="value">
+                    {localizeNumber(ledgerObjTypes[type], language)}
+                  </div>
+                </div>
+              ))}
+              {Object.keys(transactionTypes).map((type) => (
+                <div className="ledger-col">
+                  <div className="title">{t(`transaction_${type}`)}</div>
+                  <div className="value">
+                    {localizeNumber(transactionTypes[type], language)}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
           <div className="ledger-hash">{LedgerHash}</div>
