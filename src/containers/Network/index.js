@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import { { Validators } } from './Validators'
+import { Validators } from './Validators'
 import Nodes from './Nodes'
 import UpgradeStatus from './upgradeStatus'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
@@ -39,7 +39,6 @@ class Network extends Component {
     }
     // strips :url from the front and the tab info from the end
     const base = path.split('/:')[0]
-    console.log(base)
     // eslint-disable-next-line no-nested-ternary
     return tab === 'nodes' ? (
       <Nodes path={base} />
