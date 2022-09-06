@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import { Validators } from './Validators'
+import { { Validators } } from './Validators'
 import Nodes from './Nodes'
 import UpgradeStatus from './upgradeStatus'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
