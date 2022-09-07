@@ -116,7 +116,7 @@ class Ledgers extends Component {
 
   renderTxnCount = (count) => {
     const { t } = this.props
-    return count ? (
+    return count != undefined ? (
       <div className="txn-count">
         {t('txn_count')}:<b>{count.toLocaleString()}</b>
       </div>
@@ -127,7 +127,7 @@ class Ledgers extends Component {
     const { t, language } = this.props
     const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
     const amount = localizeNumber(d, language, options)
-    return d ? (
+    return d != undefined ? (
       <div className="fees">
         {t('fees')}:<b>{amount}</b>
       </div>
