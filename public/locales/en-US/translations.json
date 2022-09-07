@@ -369,5 +369,9 @@
   "sell_offers":"Sell Offers",
   "offer_index": "Offer ID",
   "owner": "Owner's Account",
-  "no_additional_info":"No additional information"
+  "no_additional_info":"No additional information",
+  "validator_history.chain": "Chain",
+  "validator_history.date": "Date",
+  "validator_history.missed": "Missed",
+  "validator_history.score": "Score"
 }
