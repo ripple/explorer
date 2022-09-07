@@ -1,4 +1,5 @@
 const rewire = require('rewire')
+const webpack = require('webpack')
 
 const defaults = rewire('react-scripts/scripts/build.js')
 // eslint-disable-next-line no-underscore-dangle
@@ -17,3 +18,25 @@ config.optimization.runtimeChunk = false
 config.output.filename = 'static/js/[name].[hash].js'
 // CSS. "5" is MiniCssPlugin
 config.plugins[5].options.filename = 'static/css/[name].[hash].css'
+
+// Manually dedupe bn.js@4.2.0 in the bundle
+const bnJsReplaces = [
+  'diffie-hellman',
+  'asn1.js',
+  'create-ecdh',
+  'miller-rabin',
+  'public-encrypt',
+  'elliptic',
+]
+
+config.plugins.push(
+  new webpack.NormalModuleReplacementPlugin(/^bn.js$/, (resource) => {
+    if (
+      bnJsReplaces.some((pkg) =>
+        resource.context.includes(`node_modules/${pkg}`),
+      )
+    ) {
+      resource.request = 'diffie-hellman/node_modules/bn.js'
+    }
+  }),
+)
