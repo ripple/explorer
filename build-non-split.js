@@ -1,4 +1,5 @@
 const rewire = require('rewire')
+// eslint-disable-next-line import/no-extraneous-dependencies -- webpack comes from create-react-app
 const webpack = require('webpack')
 
 const defaults = rewire('react-scripts/scripts/build.js')
@@ -36,6 +37,7 @@ config.plugins.push(
         resource.context.includes(`node_modules/${pkg}`),
       )
     ) {
+      // eslint-disable-next-line no-param-reassign -- Must reassign since api expects you to modify
       resource.request = 'diffie-hellman/node_modules/bn.js'
     }
   }),
