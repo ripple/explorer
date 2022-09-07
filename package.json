@@ -12,7 +12,6 @@
     "bunyan": "^1.8.15",
     "classnames": "^2.3.1",
     "compression": "^1.7.4",
-    "d3": "^7.6.1",
     "d3-geo": "^1.11.3",
     "d3-hexbin": "^0.2.2",
     "d3-scale": "^2.2.2",
@@ -51,7 +50,6 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
-    "@types/d3": "^7.4.0",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.184",
@@ -97,6 +95,9 @@
     "typescript": "^4.3.5"
   },
   "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!arc)/"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",

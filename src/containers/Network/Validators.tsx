@@ -10,40 +10,15 @@ import { localizeNumber } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
 
-const mergeLatest = (validators: any[] = [], live: any[] = []) => {
-  const latest: any = {}
-  live.forEach((d) => {
-    latest[d.pubkey] = {
-      ledger_index: d.ledger_index,
-      ledger_hash: d.ledger_hash,
-    }
-  })
-
-  return validators.map((d) => {
-    const updated: any = {}
-    if (
-      latest[d.signing_key] &&
-      latest[d.signing_key].ledger_index > d.ledger_index
-    ) {
-      updated.ledger_index = latest[d.signing_key].ledger_index
-      updated.ledger_hash = latest[d.signing_key].ledger_hash
-    }
-
-    return Object.assign(d, updated)
-  })
-}
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
-
-  const [vList, setVList] = useState({})
-  const [liveValidators, setLiveValidators] = useState([])
+  const [vList, setVList] = useState<any>([{}])
+  const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
-  const [validators, setValidators] = useState([])
   const [unlCount, setUnlCount] = useState(0)
   const { path = '/' } = useRouteMatch()
 
-  liveValidators.slice(0, 1)
   useEffect(() => {
     fetchData()
     const interval = setInterval(fetchData, 5000)
@@ -58,35 +33,34 @@ export const Validators = () => {
     axios
       .get(url)
       .then((resp) => {
-        const newVList: any = {}
+        const newValidatorList: any = {}
         resp.data.forEach((v: any) => {
-          newVList[v.signing_key] = {
-            signing_key: v.signing_key,
-            master_key: v.master_key,
-            unl: v.unl,
-            domain: v.domain,
-          }
+          newValidatorList[v.signing_key] = v
         })
 
-        setVList(newVList)
-        // @ts-ignore
-        setValidators((prevValidators: any[]) =>
-          mergeLatest(resp.data, prevValidators),
-        )
+        setVList(() => newValidatorList)
         setUnlCount(resp.data.filter((d: any) => Boolean(d.unl)).length)
       })
       .catch((e) => Log.error(e))
   }
 
-  const updateValidators = (newValidators: any[]) => {
+  const updateValidators = (newValidations: any[]) => {
     // @ts-ignore
-    setLiveValidators(newValidators)
-    // @ts-ignore
-    setValidators((prevValidators: any[]) =>
-      mergeLatest(prevValidators, newValidators),
-    )
+    setValidations(newValidations)
+    setVList((value: any) => {
+      const newValidatorsList: any = { ...value }
+      newValidations.forEach((validation: any) => {
+        newValidatorsList[validation.pubkey] = {
+          ...value[validation.pubkey],
+          ledger_index: validation.ledger_index,
+          ledger_hash: validation.ledger_hash,
+        }
+      })
+      return newValidatorsList
+    })
   }
 
+  const validatorCount = Object.keys(vList).length
   return (
     <div className="network-page">
       <Streams
@@ -94,16 +68,16 @@ export const Validators = () => {
         updateValidators={updateValidators}
         updateMetrics={setMetrics}
       />
-      {
+      {validatorCount && (
         // @ts-ignore
-        validators.length && <Hexagons data={liveValidators} list={vList} />
-      }
+        <Hexagons data={validations} list={vList} />
+      )}
       <div className="stat">
-        {validators && (
+        {validatorCount && (
           <>
             <span>{t('validators_found')}: </span>
             <span>
-              {localizeNumber(validators.length, language)}
+              {localizeNumber(validatorCount, language)}
               {unlCount !== 0 && (
                 <i>
                   {' '}
@@ -116,7 +90,7 @@ export const Validators = () => {
       </div>
       <div className="wrap">
         <NetworkTabs selected="validators" path={path} />
-        <ValidatorsTable validators={validators} metrics={metrics} />
+        <ValidatorsTable validators={vList} metrics={metrics} />
       </div>
     </div>
   )
