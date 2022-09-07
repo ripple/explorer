@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { XrplClient } from 'xrpl-client'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from 'react-query'
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
 import Ledgers from '../Ledgers'
 import Header from '../Header'
@@ -19,6 +19,7 @@ import token from '../Token'
 import noMatch from '../NoMatch'
 import { NFT } from '../NFT/NFT'
 import SocketContext from '../shared/SocketContext'
+import { queryClient } from '../shared/QueryClient'
 
 const MODE = process.env.REACT_APP_ENVIRONMENT
 
@@ -86,16 +87,6 @@ const App = (props) => {
   if (location.pathname === `${urlLink}/ledgers`) {
     return <Redirect to={urlLink} />
   }
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-        retry: false,
-      },
-    },
-  })
 
   return (
     <div className="app">

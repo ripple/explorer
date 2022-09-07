@@ -2,9 +2,10 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
-import { QueryClient, useInfiniteQuery, QueryClientProvider } from 'react-query'
+import { useInfiniteQuery, QueryClientProvider } from 'react-query'
 import { Offers } from '../Offers'
 import i18n from '../../../../i18nTestConfig'
+import { queryClient } from '../../../shared/QueryClient'
 
 const data = {
   pages: [
@@ -42,17 +43,6 @@ jest.mock('react-query', () => ({
 const fetchOffers = jest.fn()
 
 describe('NFT Offers container', () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-        retry: false,
-      },
-    },
-  })
-
   const createWrapper = () =>
     mount(
       <QueryClientProvider client={queryClient}>
