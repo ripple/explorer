@@ -13,7 +13,7 @@ import {
   ValueType,
   NameType,
 } from 'recharts/src/component/DefaultTooltipContent'
-import './css/barchart.css'
+import './css/barchart.scss'
 
 interface Props {
   data: any[]
