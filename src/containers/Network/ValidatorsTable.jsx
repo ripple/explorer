@@ -11,7 +11,9 @@ class ValidatorsTable extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     return nextProps.validators
       ? {
-          validators: ValidatorsTable.sortValidators(nextProps.validators),
+          validators: ValidatorsTable.sortValidators(
+            Object.values(nextProps.validators),
+          ),
           metrics: nextProps.metrics,
         }
       : null
