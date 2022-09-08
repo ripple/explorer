@@ -24,13 +24,13 @@ describe('NFTokenCreateOffer', () => {
     expect(wrapper.find('[data-test="owner"]')).toHaveText(
       'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
-    expect(wrapper.find('[data-test="amount"]')).toHaveText('0.0001XRP')
+    expect(wrapper.find('[data-test="amount"]')).toHaveText('0.0001 XRP')
     expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
       'Buyer',
     )
-    expect(
-      wrapper.find('[data-test="buyer-or-seller"] .account.value'),
-    ).toHaveText('rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh')
+    expect(wrapper.find('[data-test="buyer-or-seller-account"]')).toHaveText(
+      'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh',
+    )
     wrapper.unmount()
   })
 
@@ -50,14 +50,14 @@ describe('NFTokenCreateOffer', () => {
     )
     expect(wrapper.find('[data-test="owner"]')).not.toExist()
     expect(wrapper.find('[data-test="amount"]')).toHaveText(
-      '100USD.r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
+      '$100.00 USD.r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
     expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
       'Seller',
     )
-    expect(
-      wrapper.find('[data-test="buyer-or-seller"] .account.value'),
-    ).toHaveText('r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g')
+    expect(wrapper.find('[data-test="buyer-or-seller-account"]')).toHaveText(
+      'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
+    )
     wrapper.unmount()
   })
 })
