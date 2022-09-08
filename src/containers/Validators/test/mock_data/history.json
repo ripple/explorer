@@ -1,0 +1,74 @@
+[
+  {
+    "validation_public_key": "nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p",
+    "date": "2022-08-31T23:00:00.000Z",
+    "chain": "main",
+    "score": "1.00000",
+    "total": "21654",
+    "missed": "0",
+    "incomplete": false
+  },
+  {
+    "validation_public_key": "nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p",
+    "date": "2022-08-30T23:00:00.000Z",
+    "chain": "main",
+    "score": "1.00000",
+    "total": "21705",
+    "missed": "0",
+    "incomplete": false
+  },
+  {
+    "validation_public_key": "nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p",
+    "date": "2022-08-29T23:00:00.000Z",
+    "chain": "main",
+    "score": "1.00000",
+    "total": "21610",
+    "missed": "0",
+    "incomplete": false
+  },
+  {
+    "validation_public_key": "nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p",
+    "date": "2022-08-28T23:00:00.000Z",
+    "chain": "main",
+    "score": "0.99829",
+    "total": "21579",
+    "missed": "37",
+    "incomplete": false
+  },
+  {
+    "validation_public_key": "nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p",
+    "date": "2022-08-27T23:00:00.000Z",
+    "chain": "main",
+    "score": "1.00000",
+    "total": "21602",
+    "missed": "0",
+    "incomplete": false
+  },
+  {
+    "validation_public_key": "nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p",
+    "date": "2022-08-26T23:00:00.000Z",
+    "chain": "main",
+    "score": "1.00000",
+    "total": "21473",
+    "missed": "0",
+    "incomplete": false
+  },
+  {
+    "validation_public_key": "nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p",
+    "date": "2022-08-25T23:00:00.000Z",
+    "chain": "main",
+    "score": "1.00000",
+    "total": "21642",
+    "missed": "0",
+    "incomplete": false
+  },
+  {
+    "validation_public_key": "nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p",
+    "date": "2022-08-24T23:00:00.000Z",
+    "chain": "main",
+    "score": "0.99995",
+    "total": "21672",
+    "missed": "1",
+    "incomplete": true
+  }
+]
