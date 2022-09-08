@@ -21,6 +21,8 @@ config.output.filename = 'static/js/[name].[hash].js'
 config.plugins[5].options.filename = 'static/css/[name].[hash].css'
 
 // Manually dedupe bn.js@4.2.0 in the bundle
+// TODO: any package that is updated to use bn.js 5.x needs to be removed from `bnJsReplaces`
+// https://github.com/webpack/webpack/issues/5593#issuecomment-390356276
 const bnJsReplaces = [
   'diffie-hellman',
   'asn1.js',
