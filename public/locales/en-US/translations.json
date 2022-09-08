@@ -374,5 +374,7 @@
   "no_additional_info":"No additional information",
   "% of total nodes":"% of Total Nodes",
   "version_display":"Version: {{version}}",
-  "nodes_count":"# of Nodes: {{count}}"
+  "nodes_count":"# of Nodes: {{count}}",
+  "current_stable_version": "Current Stable Version",
+  "stable_version": "{{stableVersion}}"
 }

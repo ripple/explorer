@@ -9,6 +9,8 @@ import {
   TooltipProps,
   Label,
   ResponsiveContainer,
+  Legend,
+  Cell,
 } from 'recharts'
 import {
   ValueType,
@@ -18,6 +20,7 @@ import './css/barchart.scss'
 
 interface Props {
   data: any[]
+  stableVersion: string | null
 }
 
 interface BarCoordinates {
@@ -44,8 +47,21 @@ const CustomTooltip = ({
   return null
 }
 
+const renderLegend = (stableVersion: string | null, t: any) => (
+  // console.log(stableVersion)
+  <div className="legend">
+    <div className="legend-text">
+      <span>{t('current_stable_version')}:</span>
+      <span style={{ color: '#19FF83' }}>
+        {' '}
+        {t('stable_version', { stableVersion })}{' '}
+      </span>
+    </div>
+  </div>
+)
+
 const BarChartVersion = (props: Props) => {
-  const { data } = props
+  const { data, stableVersion } = props
   const { t } = useTranslation()
   const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
   const grey = '#9BA2B0'
@@ -86,11 +102,30 @@ const BarChartVersion = (props: Props) => {
           <Bar
             dataKey="value"
             barSize={30}
-            fill={purple}
+            fill="#8884d8"
             radius={[4, 4, 0, 0]}
             onMouseOver={(dataY) => {
               setposData({ x: dataY.x, y: dataY.y })
             }}
+          >
+            {stableVersion &&
+              data.map((_entry, index) => (
+                <Cell
+                  fill={
+                    // eslint-disable-next-line no-nested-ternary
+                    data[index].label === stableVersion
+                      ? '#19FF83'
+                      : data[index].label < stableVersion
+                      ? '#FF1A8B'
+                      : '#1AA4FF'
+                  }
+                />
+              ))}
+          </Bar>
+          <Legend
+            align="right"
+            verticalAlign="top"
+            content={renderLegend(stableVersion, t)}
           />
           <Tooltip
             content={<CustomTooltip />}
