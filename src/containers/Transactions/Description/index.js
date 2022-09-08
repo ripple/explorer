@@ -27,7 +27,7 @@ const TransactionDescription = (props) => {
     return null
   }
 
-  // Locate the component the description section of the detail tab that is unique per TransactionType.
+  // Locate the component description section of the detail tab that is unique per TransactionType.
   const DescriptionComponent =
     transactionTypes[data.tx.TransactionType]?.Description
 
