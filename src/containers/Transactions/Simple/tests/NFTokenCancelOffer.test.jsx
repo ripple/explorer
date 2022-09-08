@@ -21,7 +21,7 @@ describe('NFTokenCancelOffer', () => {
       '35F3D6D99548FA5F5315580FBF8BA6B15CAA2CAE93023D5CE4FDC130602BC5C3',
     )
     expect(wrapper.find('[data-test="amount"]')).toHaveText(
-      '100USD.r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
+      '$100.00 USD.r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
     expect(wrapper.find('[data-test="offerer"]')).toHaveText(
       'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
