@@ -1,20 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { SimpleRow } from '../../shared/components/Transaction/SimpleRow'
 
 export interface Props {
   data: {
     instructions: {
-      account: string
-      amount: { currency: string; amount: number; issuer: string }
       tokenID: string
-      isSellOffer: boolean
-      owner: string
-      offerID: string
+      tokenTaxon: number
+      uri: string
     }
   }
 }
 
-const NFTokenMint = (props) => {
+const NFTokenMint = (props: Props) => {
   const {
     data: {
       instructions: { tokenID, tokenTaxon, uri },
@@ -23,40 +20,23 @@ const NFTokenMint = (props) => {
 
   return (
     <>
-      <div className="row">
-        <div className="label">Token ID</div>
-        <div className="value">
-          <div className="dt" data-test="token-id">
-            {tokenID}
-          </div>
+      <SimpleRow label="Token ID">
+        <div className="dt" data-test="token-id">
+          {tokenID}
         </div>
-      </div>
-      <div className="row">
-        <div className="label">Token Taxon</div>
-        <div className="value" data-test="token-taxon">
+      </SimpleRow>
+      <SimpleRow label="Token Taxon">
+        <div className="dt" data-test="token-taxon">
           {tokenTaxon}
         </div>
-      </div>
-      <div className="row">
-        <div className="label">URI</div>
-        <div className="value">
-          <div className="dt" data-test="token-uri">
-            {uri}
-          </div>
+      </SimpleRow>
+      <SimpleRow label="URI">
+        <div className="dt" data-test="token-uri">
+          {uri}
         </div>
-      </div>
+      </SimpleRow>
     </>
   )
-}
-
-NFTokenMint.propTypes = {
-  data: PropTypes.shape({
-    instructions: PropTypes.shape({
-      tokenID: PropTypes.string,
-      tokenTaxon: PropTypes.number,
-      uri: PropTypes.string,
-    }),
-  }).isRequired,
 }
 
 export default NFTokenMint
