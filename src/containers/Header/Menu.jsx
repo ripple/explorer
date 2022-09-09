@@ -78,7 +78,12 @@ class Menu extends Component {
     const title = t(route.title)
     return (
       <div className="menu-item link" key={route.link}>
-        <a href={route.link} target="_blank" rel="noopener noreferrer">
+        <a
+          href={route.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-title={title}
+        >
           {title}
         </a>
       </div>

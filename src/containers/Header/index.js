@@ -100,11 +100,6 @@ const Header = (props) => {
     }
   }
 
-  function ignore(event) {
-    event.preventDefault()
-    event.stopPropagation()
-  }
-
   function renderDropdown(network, clickHandler, classname, text) {
     return (
       <div
