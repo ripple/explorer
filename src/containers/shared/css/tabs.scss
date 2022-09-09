@@ -1,8 +1,9 @@
 @import './variables';
 
 .tabs {
-  padding: 0 0 40px;
-  margin-bottom: -1px;
+  border-top: 1px solid $gray-800;
+  margin: 8px auto 40px;
+  font-size: 14px;
 
   a {
     color: inherit;
@@ -10,7 +11,7 @@
 
   .tab {
     display: inline-block;
-    padding: 8px 16px;
+    padding: 24px 24px 0;
     border-top: 2px solid transparent;
     color: $black-50;
     cursor: pointer;
