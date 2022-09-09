@@ -10,9 +10,8 @@ export const TableDetail = (props: any) => {
       {owner && (
         <div>
           <span className="label">{t('cancel_escrow')}</span>
-          <span className="account"> {owner} </span>
+          <span className="account">{owner}</span>
           <span>
-            {' '}
             -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}
           </span>
         </div>
