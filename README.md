@@ -10,6 +10,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 The project requires node@14. Follow installation instructions on [nodejs.org](https://nodejs.org/en/).
 
+(Recommended) Install using [nvm](https://github.com/nvm-sh/nvm).
+
+Make sure to use npm version 8+ by running `npm install -g npm@latest` after you install Node.
+
 ### Google BigQuery Setup
 This setup is required for the Tokens page of the explorer to function:
 
@@ -23,6 +27,10 @@ GOOGLE_APP_PROJECT_ID=your-project-id
 GOOGLE_APP_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n...
 GOOGLE_APP_CLIENT_EMAIL=your-client-email
 ```
+
+### Copy example env
+
+`cp .env.example .env`
 
 ## Install, compile, and run
 
