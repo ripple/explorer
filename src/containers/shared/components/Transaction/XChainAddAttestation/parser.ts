@@ -1,4 +1,6 @@
 export function parser(tx: any) {
+  // TODO: get bridge owner somehow
+  // it's not necessarily in the metadata
   const claimAttestations =
     tx.XChainAttestationBatch.XChainClaimAttestationBatch.map(
       (attestation: any) => ({
