@@ -4,7 +4,6 @@ $index-width: 324px;
 
 .simple-body {
   display: flex;
-  border-top: 1px solid $gray-800;
 
   .rows {
     width: 100%;
@@ -21,6 +20,10 @@ $index-width: 324px;
     }
 
     .row {
+      &:first-child {
+        padding-top: 0;
+      }
+
       display: flex;
       overflow: hidden;
       flex-wrap: wrap;
