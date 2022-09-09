@@ -43,4 +43,12 @@
     "css.validate": false,
     "scss.validate": false,
     "stylelint.validate": ["css", "scss"],
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/*.code-search": true,
+        "**/*.svg": true,
+        "**/test/mock_data": true,
+        "package-lock.json": true,
+        "**/test/*.json": true
+    }
   }

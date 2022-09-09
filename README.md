@@ -10,6 +10,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 The project requires node@14. Follow installation instructions on [nodejs.org](https://nodejs.org/en/).
 
+(Recommended) Install using [nvm](https://github.com/nvm-sh/nvm).
+
+Make sure to use npm version 8+ by running `npm install -g npm@latest` after you install Node.
+
 ### Google BigQuery Setup
 This setup is required for the Tokens page of the explorer to function:
 
