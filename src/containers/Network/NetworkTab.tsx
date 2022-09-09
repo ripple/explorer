@@ -1,13 +1,14 @@
 import React from 'react'
+import { useRouteMatch } from 'react-router'
 import Tabs from '../shared/components/Tabs'
 
 interface Props {
   selected: string
-  path: string
 }
 
 const NetworkTabs = (props: Props) => {
-  const { selected, path } = props
+  const { selected } = props
+  const { path = '/' } = useRouteMatch()
   const tabs = ['nodes', 'validators', 'upgrade-status']
   return <Tabs tabs={tabs} selected={selected} path={path.split('/:')[0]} />
 }

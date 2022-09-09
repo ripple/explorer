@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
-import { useRouteMatch } from 'react-router'
 import NetworkTabs from './NetworkTab'
 import Streams from '../shared/components/Streams'
 import ValidatorsTable from './ValidatorsTable'
@@ -17,7 +16,6 @@ export const Validators = () => {
   const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
-  const { path = '/' } = useRouteMatch()
 
   useEffect(() => {
     fetchData()
@@ -89,7 +87,7 @@ export const Validators = () => {
         )}
       </div>
       <div className="wrap">
-        <NetworkTabs selected="validators" path={path} />
+        <NetworkTabs selected="validators" />
         <ValidatorsTable validators={vList} metrics={metrics} />
       </div>
     </div>
