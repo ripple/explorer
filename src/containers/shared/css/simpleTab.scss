@@ -1,6 +1,6 @@
 @import './variables';
 
-$index-width: 308px;
+$index-width: 324px;
 
 .simple-body {
   display: flex;
@@ -9,6 +9,9 @@ $index-width: 308px;
     width: 100%;
     padding-right: 0px;
     padding-bottom: 40px;
+    padding-left: 16px;
+    font-size: 14px;
+    line-height: 21px;
 
     @include for-size(desktop-up) {
       width: calc(100% - $index-width);
@@ -24,11 +27,11 @@ $index-width: 308px;
       display: flex;
       overflow: hidden;
       flex-wrap: wrap;
-      padding: 20px 10px;
+      padding: 15px 0;
       border-bottom: 1px solid $gray-800;
 
       @include for-size(tablet-portrait-up) {
-        padding: 24px;
+        padding: 15px 15px 15px 0;
       }
 
       &.empty {
@@ -39,10 +42,7 @@ $index-width: 308px;
 
       .label {
         color: $white;
-        font-size: 12px;
-        line-height: 20px;
-        text-transform: uppercase;
-        @include medium;
+        text-transform: capitalize;
 
         &.unauthorize {
           color: #944;
@@ -52,8 +52,6 @@ $index-width: 308px;
       .account {
         display: inline-block;
         overflow: hidden;
-        font-size: 12px;
-        line-height: 20px;
         text-overflow: ellipsis;
         vertical-align: middle;
         white-space: nowrap;
