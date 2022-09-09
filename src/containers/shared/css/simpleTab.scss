@@ -24,8 +24,7 @@ $index-width: 324px;
       display: flex;
       overflow: hidden;
       flex-wrap: wrap;
-      padding: 0 15px;
-      padding-left: 0;
+      padding: 15px 0 15px 0;
       border-bottom: 1px solid $gray-800;
 
       @include for-size(tablet-portrait-up) {
