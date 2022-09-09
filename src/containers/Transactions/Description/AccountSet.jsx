@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { decodeHex, ACCOUNT_FLAGS } from '../../shared/transactionUtils'
+import { ACCOUNT_FLAGS } from '../../shared/transactionUtils'
+import DomainLink from '../../shared/components/DomainLink'
 
 const AccountSet = (props) => {
   const { t, data } = props
@@ -10,14 +11,7 @@ const AccountSet = (props) => {
     lines.push(
       <div key="domain">
         {t('set_domain_description')}{' '}
-        <a
-          className="domain"
-          rel="noopener noreferrer"
-          target="_blank"
-          href={`http://${decodeHex(data.tx.Domain)}`}
-        >
-          {decodeHex(data.tx.Domain)}
-        </a>
+        <DomainLink decode domain={data.tx.Domain} />
       </div>,
     )
   }

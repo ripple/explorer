@@ -58,6 +58,10 @@
       text-transform: capitalize;
       @include bold;
 
+      @include for-size(desktop-up) {
+        margin: 0px 5px 0 40px;
+      }
+
       img {
         width: 12px;
         padding: 2px 2px 2px 10px;
@@ -67,10 +71,8 @@
 
       .item {
         display: none;
-        padding: 0px 8px;
 
         &.input {
-          padding: 0px 3px;
           padding-bottom: 2px;
         }
 
@@ -106,7 +108,12 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
+          padding: 0 8px;
           background: $black;
+
+          &.input {
+            padding: 0 3px;
+          }
 
           &.selected .check {
             display: initial;

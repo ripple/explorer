@@ -4,6 +4,7 @@ import { withTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Loader from '../shared/components/Loader'
 import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
+import DomainLink from '../shared/components/DomainLink'
 import infoOrange from '../shared/images/info_orange.png'
 import './css/validatorsTable.scss'
 
@@ -52,12 +53,7 @@ class ValidatorsTable extends Component {
     this.state = {}
   }
 
-  static renderDomain = (domain) =>
-    domain && (
-      <a href={`https://${domain}`} target="_blank" rel="noopener noreferrer">
-        {domain}
-      </a>
-    )
+  static renderDomain = (domain) => domain && <DomainLink domain={domain} />
 
   renderAgreement = (className, d) => {
     const { t } = this.props
@@ -71,7 +67,7 @@ class ValidatorsTable extends Component {
         {d.incomplete && <span title={t('incomplete')}>*</span>}
       </td>
     ) : (
-      <td />
+      <td className={`${className} score`} />
     )
   }
 
