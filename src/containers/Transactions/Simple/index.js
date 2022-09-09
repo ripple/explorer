@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTransaction } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import OfferCancel from './OfferCancel'
 import Payment from './Payment'
@@ -28,7 +28,7 @@ import { useLanguage } from '../../shared/hooks'
 const Simple = (props) => {
   const { data, type } = props
   const language = useLanguage()
-  const { t } = useTransaction()
+  const { t } = useTranslation()
 
   // Locate the component for the left side of the simple tab that is unique per TransactionType.
   const SimpleComponent = transactionTypes[type]?.Simple
