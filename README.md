@@ -24,6 +24,10 @@ GOOGLE_APP_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n...
 GOOGLE_APP_CLIENT_EMAIL=your-client-email
 ```
 
+### Copy example env
+
+`cp .env.example .env`
+
 ## Install, compile, and run
 
 * `npm install` then

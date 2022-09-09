@@ -20,8 +20,6 @@ import noMatch from '../NoMatch'
 import NFT from '../NFT/NFT'
 import SocketContext from '../shared/SocketContext'
 
-const MODE = process.env.REACT_APP_ENVIRONMENT
-
 const App = (props) => {
   const { actions, location, match } = props
 
