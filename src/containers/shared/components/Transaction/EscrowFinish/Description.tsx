@@ -1,7 +1,12 @@
 import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { findNode, normalizeAmount } from '../../../transactionUtils'
+import {
+  DATE_OPTIONS,
+  RIPPLE_EPOCH,
+  normalizeAmount,
+  findNode,
+} from '../../../transactionUtils'
 import Account from '../../Account'
 import {
   TransactionDescriptionComponent,
@@ -15,26 +20,28 @@ const Description: TransactionDescriptionComponent = (
   const language = i18n.resolvedLanguage
   const { data } = props
   const deleted = findNode(data.tx, 'DeletedNode', 'Escrow').DeletedNode
+
   if (!deleted) {
     return null
   }
   return (
     <>
       <div key="line1">
-        {t('escrow_cancellation_desc')} <Account account={data.tx.Account} />
+        {t('escrow_completion_desc')} <Account account={data.tx.Account} />
       </div>
       <div key="line2">
-        <Trans i18nKey="escrow_cancellation_desc_2">
+        <Trans i18nKey="escrow_completion_desc_2">
           The escrowed amount of
           <b>
             {normalizeAmount(deleted.FinalFields.Amount, language)}
             <small>XRP</small>
           </b>
-          was returned to
-          <Account account={data.tx.Owner} />
+          was delivered to
+          <Account account={deleted.FinalFields.Destination} />
         </Trans>
-        {data.tx.Owner === data.tx.Account && (
+        {deleted.FinalFields.Destination === data.tx.Account && (
           <span>
+            {' '}
             (
             <b>
               {normalizeAmount(
@@ -42,7 +49,7 @@ const Description: TransactionDescriptionComponent = (
                 language,
               )}
               <small>XRP</small>
-            </b>
+            </b>{' '}
             {t('escrow_after_transaction_cost')})
           </span>
         )}
@@ -58,6 +65,12 @@ const Description: TransactionDescriptionComponent = (
           {`${deleted.FinalFields.PreviousTxnID.substr(0, 6)}...`}
         </Link>
       </Trans>
+      {data.tx.Fulfillment && (
+        <div key="line4">
+          {t('escrow_finish_fullfillment_desc')}
+          <span className="fulfillment"> {data.tx.Fulfillment}</span>
+        </div>
+      )}
     </>
   )
 }

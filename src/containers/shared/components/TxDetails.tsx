@@ -68,94 +68,6 @@ const TxDetails = (props: Props) => {
     return <Amount value={d} />
   }
 
-  function renderEscrowFinish(): ReactElement {
-    const { instructions } = props
-    const { amount, owner, sequence, fulfillment, ticketSequence } =
-      instructions
-    return (
-      <div className="escrow">
-        {owner && (
-          <div>
-            <span className="label">{t('finish_escrow')}</span>
-            <span className="account">{owner}</span>
-            <span>
-              {' '}
-              -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}
-            </span>
-          </div>
-        )}
-        {amount && (
-          <div>
-            <span className="label">{t('amount')}</span>
-            {renderAmount(amount)}
-          </div>
-        )}
-        {fulfillment && (
-          <div>
-            <span className="label">{t('fulfillment')}</span>
-            <span className="fulfillment"> {fulfillment} </span>
-          </div>
-        )}
-      </div>
-    )
-  }
-
-  function renderEscrowCreate(): ReactElement {
-    const { instructions } = props
-    const { amount, destination, finishAfter, cancelAfter, condition } =
-      instructions
-    return (
-      <div className="escrow">
-        {amount && (
-          <div>
-            <span className="label">{t('amount')}</span>
-            {renderAmount(amount)}
-          </div>
-        )}
-        {destination && (
-          <div>
-            <span className="label">{t('destination')}</span>
-            <span className="account"> {destination} </span>
-          </div>
-        )}
-        {condition && (
-          <div>
-            <span className="label">{t('condition')}</span>
-            <span className="condition"> {condition} </span>
-          </div>
-        )}
-        {finishAfter && (
-          <div>
-            <span className="label">{t('finish_after')}</span>
-            <span>
-              {' '}
-              {localizeDate(
-                Date.parse(finishAfter),
-                language,
-                DATE_OPTIONS,
-              )}{' '}
-              UTC{' '}
-            </span>
-          </div>
-        )}
-        {cancelAfter && (
-          <div>
-            <span className="label">{t('cancel_after')}</span>
-            <span>
-              {' '}
-              {localizeDate(
-                Date.parse(cancelAfter),
-                language,
-                DATE_OPTIONS,
-              )}{' '}
-              UTC{' '}
-            </span>
-          </div>
-        )}
-      </div>
-    )
-  }
-
   function renderSignerListSet(): ReactElement {
     const { instructions } = props
     const { quorum, maxSigners, signers } = instructions
@@ -383,9 +295,6 @@ const TxDetails = (props: Props) => {
 
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
-    renderEscrowFinish,
-    renderEscrowCancel,
-    renderEscrowCreate,
     renderSignerListSet,
     renderAccountSet,
     renderSetRegularKey,
