@@ -45,7 +45,7 @@ class Network extends Component {
     ) : tab === 'validators' ? (
       <Validators path={base} />
     ) : (
-      <UpgradeStatus path={base} />
+      <Nodes path={base} />
     )
   }
 }
