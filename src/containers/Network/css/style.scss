@@ -15,15 +15,6 @@
     transition: opacity 0.3s ease;
   }
 
-  .tabs {
-    padding-top: 20px;
-    text-align: left;
-
-    .tab {
-      margin-bottom: -1px;
-    }
-  }
-
   .stat {
     min-height: 15px;
     padding: 2px;
@@ -51,6 +42,5 @@
     width: 100%;
     max-width: 1500px;
     margin: auto;
-    text-align: center;
   }
 }
