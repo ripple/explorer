@@ -11,7 +11,6 @@ $index-width: 324px;
     padding-right: 0px;
     padding-bottom: 40px;
     padding-left: 16px;
-    float: left;
 
     @include for-size(desktop-up) {
       width: calc(100% - $index-width);
