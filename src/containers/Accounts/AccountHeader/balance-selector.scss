@@ -68,22 +68,19 @@
 
   .selector-icon {
     display: inline-block;
-    width: 14px;
-    height: 8px;
-    padding: 4px 0px 4px 4px;
+    width: 18px;
+    height: 16px;
     margin: 4px 0px;
     color: $gray-400;
     vertical-align: middle;
 
     @include for-size(desktop-up) {
-      padding: 4px 5px;
       float: right;
     }
 
     &.selector-icon-close {
-      width: 12px;
-      height: 12px;
-      margin: 2px 0px 2px 2px;
+      width: 14px;
+      height: 14px;
     }
   }
 
