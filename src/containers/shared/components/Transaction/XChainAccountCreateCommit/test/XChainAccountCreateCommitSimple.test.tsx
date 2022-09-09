@@ -3,8 +3,8 @@ import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { mount, ReactWrapper } from 'enzyme'
 import { Simple } from '../Simple'
-import mockXChainAccountCreate from './mock_data/XChainAccountCreate.json'
-import mockXChainAccountCreateInsufficientFunds from './mock_data/XChainAccountCreateInsufficientFunds.json'
+import mockXChainAccountCreateCommit from './mock_data/XChainAccountCreateCommit.json'
+import mockXChainAccountCreateCommitInsufficientFunds from './mock_data/XChainAccountCreateCommitInsufficientFunds.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18nTestConfig'
 
@@ -27,9 +27,9 @@ function expectText(
   expect(wrapper.find(`[data-test="${dataTest}"] .value`)).toHaveText(text)
 }
 
-describe('XChainAccountCreateSimple', () => {
+describe('XChainAccountCreateCommitSimple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockXChainAccountCreate)
+    const wrapper = createWrapper(mockXChainAccountCreateCommit)
 
     // check XChainBridge parts
     expectText(
@@ -53,7 +53,9 @@ describe('XChainAccountCreateSimple', () => {
   })
 
   it('renders failed transaction', () => {
-    const wrapper = createWrapper(mockXChainAccountCreateInsufficientFunds)
+    const wrapper = createWrapper(
+      mockXChainAccountCreateCommitInsufficientFunds,
+    )
 
     // check XChainBridge parts
     expectText(
