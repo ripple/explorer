@@ -67,7 +67,7 @@ class ValidatorsTable extends Component {
         {d.incomplete && <span title={t('incomplete')}>*</span>}
       </td>
     ) : (
-      <td />
+      <td className={`${className} score`} />
     )
   }
 
