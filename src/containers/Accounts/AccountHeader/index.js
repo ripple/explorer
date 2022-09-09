@@ -5,9 +5,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadAccountState } from './actions'
 import Loader from '../../shared/components/Loader'
-import '../../shared/css/nested-menu.css'
-import './styles.css'
-import './balance-selector.css'
+import '../../shared/css/nested-menu.scss'
+import './styles.scss'
+import './balance-selector.scss'
 import BalanceSelector from './BalanceSelector'
 import Account from '../../shared/components/Account'
 import { localizeNumber } from '../../shared/utils'
@@ -137,7 +137,7 @@ const AccountHeader = (props) => {
             <li className="quorum">
               <b>{signerList.quorum}</b>
               <span className="label"> {t('out_of')} </span>
-              <b>{signerList.max}</b>
+              <b>{signerList.maxSigners}</b>
               <span className="label"> {t('required')}</span>
             </li>
           </ul>
@@ -330,7 +330,7 @@ AccountHeader.propTypes = {
         }),
       ),
       quorum: PropTypes.number,
-      max: PropTypes.number,
+      maxSigners: PropTypes.number,
     }),
     info: PropTypes.shape({
       reserve: PropTypes.number,

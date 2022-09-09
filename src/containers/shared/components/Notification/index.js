@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
-import './styles.css'
+import './styles.scss'
 
 const PRIMARY = 'primary'
 const SECONDARY = 'secondary'

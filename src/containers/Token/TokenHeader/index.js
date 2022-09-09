@@ -6,12 +6,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadTokenState } from './actions'
 import Loader from '../../shared/components/Loader'
-import '../../shared/css/nested-menu.css'
-import './styles.css'
+import '../../shared/css/nested-menu.scss'
+import './styles.scss'
 import { localizeNumber, formatLargeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
 import Account from '../../shared/components/Account'
+import DomainLink from '../../shared/components/DomainLink'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -45,19 +46,13 @@ class TokenHeader extends Component {
     const prevTxn = previousTxn && previousTxn.replace(/(.{20})..+/, '$1...')
     const abbrvEmail = emailHash && emailHash.replace(/(.{20})..+/, '$1...')
     return (
-      <table>
+      <table className="token-table">
         <tbody>
           {domain && (
             <tr className="row">
               <td className="col1">{t('domain')}</td>
               <td className="col2">
-                <a
-                  href={`https://${domain}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {domain}
-                </a>
+                <DomainLink domain={domain} />
               </td>
             </tr>
           )}
@@ -110,7 +105,7 @@ class TokenHeader extends Component {
       flags && flags.includes('lsfRequireDestTag') ? 'true' : 'false'
 
     return (
-      <table>
+      <table className="token-table">
         <tbody>
           <tr className="row">
             <td className="col1">Rippling</td>
@@ -258,7 +253,7 @@ TokenHeader.propTypes = {
         map: PropTypes.func,
       }),
       quorum: PropTypes.number,
-      max: PropTypes.number,
+      maxSigners: PropTypes.number,
     }),
     flags: PropTypes.arrayOf(PropTypes.string),
     xAddress: PropTypes.shape({

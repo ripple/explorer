@@ -149,21 +149,5 @@
     @include for-size(big-desktop-up) {
       width: 1140px;
     }
-
-    .react-json-view {
-      overflow: scroll;
-      margin-bottom: 40px;
-      font-size: 12px;
-      letter-spacing: 0px;
-
-      .variable-row,
-      .object-key-val {
-        padding: 1px 5px 1px 15px !important;
-      }
-
-      .copy-icon svg {
-        height: 14px !important;
-      }
-    }
   }
 }

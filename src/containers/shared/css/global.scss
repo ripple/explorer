@@ -42,6 +42,7 @@ button {
 }
 
 * {
+  box-sizing: border-box;
   outline: none !important; // remove blue outline in click and focus
 }
 
@@ -100,6 +101,13 @@ div.react-stockchart div {
   &.NFTokenMint {
     @include transaction-type-base($nft);
   }
+
+  &.XChainClaim,
+  &.XChainCommit,
+  &.XChainCreateBridge,
+  &.XChainCreateClaimID {
+    @include transaction-type-base($sidechain);
+  }
   /* stylelint-enable selector-class-pattern */
 }
 
@@ -146,5 +154,36 @@ a {
 
   &:hover {
     color: $green-primary;
+  }
+
+  &.external, // Force the external icon. Useful for when the protocol is unknown like with NFTs.
+  &[href^="http://"],
+  &[href^="https://"]
+  {
+    &::after {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      margin-left: 4px;
+      background-color: currentcolor;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      content: '';
+      mask: url('../images/external_link.svg') no-repeat 100% 100%;
+      vertical-align: text-top;
+    }
+  }
+}
+
+.section {
+  margin: 0 32px;
+  @include for-size(tablet-landscape-up) {
+    width: 552px;
+    margin: 0 auto;
+  }
+
+  @include for-size(desktop-up) {
+    width: 1140px;
   }
 }

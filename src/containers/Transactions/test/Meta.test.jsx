@@ -34,27 +34,27 @@ describe('TransactionMeta container', () => {
     expect(w.find('li').length).toBe(23)
 
     expect(w.find('li').at(0).html()).toBe(
-      '<li class="meta-line">owned_account_root <a class="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a><ul class="meta-line"><li>Balance decreased by<b>-50.324316<small>XRP</small></b>from<b>2,910.704988<small>XRP</small></b>to<b>2,860.380672<small>XRP</small></b></li></ul></li>',
+      '<li class="meta-line">owned_account_root <a class="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a><ul class="meta-line"><li>Balance decreased by<b>-\uE90050.324316<small>XRP</small></b>from<b>\uE9002,910.704988<small>XRP</small></b>to<b>\uE9002,860.380672<small>XRP</small></b></li></ul></li>',
     )
 
     expect(w.find('li').at(1).html()).toBe(
-      '<li>Balance decreased by<b>-50.324316<small>XRP</small></b>from<b>2,910.704988<small>XRP</small></b>to<b>2,860.380672<small>XRP</small></b></li>',
+      '<li>Balance decreased by<b>-\uE90050.324316<small>XRP</small></b>from<b>\uE9002,910.704988<small>XRP</small></b>to<b>\uE9002,860.380672<small>XRP</small></b></li>',
     )
 
     expect(w.find('li').at(2).html()).toBe(
-      '<li class="meta-line">owned_account_root <a class="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a><ul class="meta-line"><li>Balance decreased by<b>-0.000012<small>XRP</small></b>from<b>98.595124<small>XRP</small></b>to<b>98.595112<small>XRP</small></b></li></ul></li>',
+      '<li class="meta-line">owned_account_root <a class="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a><ul class="meta-line"><li>Balance decreased by<b>-\uE9000.000012<small>XRP</small></b>from<b>\uE90098.595124<small>XRP</small></b>to<b>\uE90098.595112<small>XRP</small></b></li></ul></li>',
     )
 
     expect(w.find('li').at(3).html()).toBe(
-      '<li>Balance decreased by<b>-0.000012<small>XRP</small></b>from<b>98.595124<small>XRP</small></b>to<b>98.595112<small>XRP</small></b></li>',
+      '<li>Balance decreased by<b>-\uE9000.000012<small>XRP</small></b>from<b>\uE90098.595124<small>XRP</small></b>to<b>\uE90098.595112<small>XRP</small></b></li>',
     )
 
     expect(w.find('li').at(4).html()).toBe(
-      '<li class="meta-line">owned_account_root <a class="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a><ul class="meta-line"><li>Balance increased by<b>50.324316<small>XRP</small></b>from<b>5,703.912258<small>XRP</small></b>to<b>5,754.236574<small>XRP</small></b></li></ul></li>',
+      '<li class="meta-line">owned_account_root <a class="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a><ul class="meta-line"><li>Balance increased by<b>\uE90050.324316<small>XRP</small></b>from<b>\uE9005,703.912258<small>XRP</small></b>to<b>\uE9005,754.236574<small>XRP</small></b></li></ul></li>',
     )
 
     expect(w.find('li').at(5).html()).toBe(
-      '<li>Balance increased by<b>50.324316<small>XRP</small></b>from<b>5,703.912258<small>XRP</small></b>to<b>5,754.236574<small>XRP</small></b></li>',
+      '<li>Balance increased by<b>\uE90050.324316<small>XRP</small></b>from<b>\uE9005,703.912258<small>XRP</small></b>to<b>\uE9005,754.236574<small>XRP</small></b></li>',
     )
 
     expect(w.find('li').at(6).html()).toBe(
@@ -62,7 +62,7 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(7).html()).toBe(
-      '<li class="meta-line">It modified a <b>XRP/CNY</b>owned by<a class="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a>with sequence # <b>1181517</b><ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b>XRP</b> decreased by<b>50.324316</b>from<b>470.31823</b>to<b>419.993914</b></li><li class="meta-line"><span class="field">TakerGets </span><b>CNY</b>.<a class="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a> decreased by<b>CN¥224.7141103</b>from<b>CN¥2,100.12079671</b>to<b>CN¥1,875.40668641</b></li></ul></li>',
+      '<li class="meta-line">It modified a <b>XRP/CNY</b>owned by<a class="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a>with sequence # <b>1181517</b><ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE900470.31823</b>to<b>\uE900419.993914</b></li><li class="meta-line"><span class="field">TakerGets </span><b>CNY</b>.<a class="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a> decreased by<b>CN¥224.7141103</b>from<b>CN¥2,100.12079671</b>to<b>CN¥1,875.40668641</b></li></ul></li>',
     )
 
     expect(w.find('li').at(8).html()).toBe(
@@ -70,7 +70,7 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(9).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerPays </span><b>XRP</b> decreased by<b>50.324316</b>from<b>470.31823</b>to<b>419.993914</b></li>',
+      '<li class="meta-line"><span class="field">TakerPays </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE900470.31823</b>to<b>\uE900419.993914</b></li>',
     )
 
     expect(w.find('li').at(10).html()).toBe(
@@ -78,7 +78,7 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(11).html()).toBe(
-      '<li class="meta-line">It modified a <b>XRP/CNY</b>owned by<a class="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a>with sequence # <b>5804</b><ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b>CNY</b>.<a class="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a> decreased by<b>CN¥225.45293634</b>from<b>CN¥12,589.58241408</b>to<b>CN¥12,364.12947774</b></li><li class="meta-line"><span class="field">TakerGets </span><b>XRP</b> decreased by<b>50.324316</b>from<b>2,810.174646</b>to<b>2,759.85033</b></li></ul></li>',
+      '<li class="meta-line">It modified a <b>XRP/CNY</b>owned by<a class="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a>with sequence # <b>5804</b><ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b>CNY</b>.<a class="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a> decreased by<b>CN¥225.45293634</b>from<b>CN¥12,589.58241408</b>to<b>CN¥12,364.12947774</b></li><li class="meta-line"><span class="field">TakerGets </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE9002,810.174646</b>to<b>\uE9002,759.85033</b></li></ul></li>',
     )
 
     expect(w.find('li').at(12).html()).toBe(
@@ -90,7 +90,7 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(14).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerGets </span><b>XRP</b> decreased by<b>50.324316</b>from<b>2,810.174646</b>to<b>2,759.85033</b></li>',
+      '<li class="meta-line"><span class="field">TakerGets </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE9002,810.174646</b>to<b>\uE9002,759.85033</b></li>',
     )
 
     expect(w.find('li').at(15).html()).toBe(

@@ -13,7 +13,7 @@ import Search from './Search'
 import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg'
 import { ReactComponent as ArrowIcon } from '../shared/images/down_arrow.svg'
 import { ReactComponent as CheckIcon } from '../shared/images/checkmark.svg'
-import './header.css'
+import './header.scss'
 import SocketContext from '../shared/SocketContext'
 
 const STATIC_ENV_LINKS = {

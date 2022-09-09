@@ -21,6 +21,7 @@ interface Instructions {
     currency: string
     issuer: string
   }
+  maxSigners: number
   signers: any[]
   domain: string
   // eslint-disable-next-line camelcase
@@ -176,14 +177,14 @@ const TxDetails = (props: Props) => {
 
   function renderSignerListSet(): ReactElement {
     const { instructions } = props
-    const { quorum, max, signers } = instructions
+    const { quorum, maxSigners, signers } = instructions
     return (
       <div>
         <span className="label">{t('signers')}:</span>{' '}
         <span>{signers.length}</span>
         {' - '}
         <span className="label">{t('quorum')}:</span>{' '}
-        <span>{`${quorum}/${max}`}</span>
+        <span>{`${quorum}/${maxSigners}`}</span>
       </div>
     )
   }
@@ -232,19 +233,6 @@ const TxDetails = (props: Props) => {
           <div className="empty">{t('no_account_settings')}</div>
         )}
       </>
-    )
-  }
-
-  function renderSetRegularKey(): ReactElement {
-    const { instructions } = props
-    const { key } = instructions
-    return key ? (
-      <div className="setregularkey">
-        <span className="label">{t('regular_key')}</span>:
-        <span className="key">{key}</span>
-      </div>
-    ) : (
-      <div className="unsetregularkey">{t('unset_regular_key')}</div>
     )
   }
 
@@ -406,7 +394,6 @@ const TxDetails = (props: Props) => {
     renderEscrowCreate,
     renderSignerListSet,
     renderAccountSet,
-    renderSetRegularKey,
     renderTrustSet,
     renderOfferCancel,
     renderPayment,
@@ -442,6 +429,7 @@ TxDetails.propTypes = {
       currency: PropTypes.string.isRequired,
       issuer: PropTypes.string.isRequired,
     }),
+    maxSigners: PropTypes.number,
     signers: PropTypes.arrayOf(PropTypes.shape({})),
     domain: PropTypes.string,
     email_hash: PropTypes.string,

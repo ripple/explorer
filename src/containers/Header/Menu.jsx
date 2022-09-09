@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom'
 import defaultRoutes from './routes'
 import arrowIcon from '../shared/images/down_arrow_black_50.png'
 import { removeRoutes } from '../shared/utils'
-import externalLinkIcon from '../shared/images/external_link.svg'
-import './menu.css'
+import './menu.scss'
 
 const MODE = process.env.REACT_APP_ENVIRONMENT
 class Menu extends Component {
@@ -82,7 +81,6 @@ class Menu extends Component {
       <div className="menu-item link" key={route.link}>
         <a href={route.link} target="_blank" rel="noopener noreferrer">
           {title}
-          <img src={externalLinkIcon} alt={title} />
         </a>
       </div>
     )

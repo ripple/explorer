@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
 import Footer from '../Footer'
 import Banner from '../Header/Banner' // included here for spacing
-import './app.css'
+import './app.scss'
 import App from './App'
 import NoMatch from '../NoMatch'
 import SidechainHome from '../SidechainHome'

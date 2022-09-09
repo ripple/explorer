@@ -1,16 +1,5 @@
 @import '../../shared/css/variables';
-
-.section {
-  margin: 0px 32px;
-  @include for-size(tablet-landscape-up) {
-    width: 552px;
-    margin: 0px auto;
-  }
-
-  @include for-size(desktop-up) {
-    width: 1140px;
-  }
-}
+@import '../../shared/css/table';
 
 .header-container {
   .bottom-container {
@@ -88,36 +77,6 @@
       }
     }
   }
-}
-
-table {
-  margin-top: 24px;
-  font-size: 14px;
-
-  .col1 {
-    width: 180px;
-    padding-bottom: 8px;
-    color: $gray-400;
-    text-transform: uppercase;
-    @include semibold;
-  }
-
-  .col2 {
-    padding-bottom: 8px;
-    color: $white;
-  }
-}
-
-.bottom-label {
-  width: 144px;
-  padding-bottom: 4px;
-  color: $gray-400;
-  font-size: 14px;
-  text-transform: uppercase;
-}
-
-.bottom-value {
-  color: $white;
 }
 
 .token-header {

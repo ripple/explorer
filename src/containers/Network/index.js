@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Validators from './Validators'
 import Nodes from './Nodes'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
-import './css/style.css'
+import './css/style.scss'
 import NoMatch from '../NoMatch'
 
 class Network extends Component {

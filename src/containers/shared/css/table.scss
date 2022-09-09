@@ -1,4 +1,4 @@
-@import '../../shared/css/variables';
+@import './variables';
 
 table.basic {
   overflow: hidden;
@@ -26,9 +26,7 @@ table.basic {
     }
 
     &.text-truncate {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      @extend %truncate;
     }
   }
 
@@ -55,5 +53,28 @@ table.basic {
     color: $gray-400;
     font-size: 16px;
     text-align: center;
+  }
+}
+
+table.token-table {
+  margin-top: 24px;
+  font-size: 14px;
+
+  .col1 {
+    width: 180px;
+    padding-bottom: 8px;
+    color: $gray-400;
+    text-transform: uppercase;
+    @include semibold;
+  }
+
+  .col2 {
+    display: inline-block;
+    overflow: hidden;
+    width: 230px;
+    padding-bottom: 8px;
+    color: $white;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

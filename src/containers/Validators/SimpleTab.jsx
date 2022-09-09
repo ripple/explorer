@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { localizeDate, BREAKPOINTS } from '../shared/utils'
 import Simple from './Simple'
-import './simpleTab.css'
+import '../shared/css/simpleTab.scss'
+import './simpleTab.scss'
 import successIcon from '../shared/images/success.png'
 
 const TIME_ZONE = 'UTC'
@@ -115,7 +116,7 @@ class SimpleTab extends Component {
     }
 
     return (
-      <div className="simple-body-validator">
+      <div className="simple-body simple-body-validator">
         <div className="rows">
           <Simple t={t} language={language} data={data} />
           {rowIndex}

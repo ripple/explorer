@@ -40,11 +40,16 @@ describe('Header component', () => {
     wrapper.unmount()
   })
 
-  it('search ledger index', () => {
+  it('search values', () => {
     const wrapper = createWrapper()
     const input = wrapper.find('.search input')
     const ledgerIndex = '123456789'
     const rippleAddress = 'rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX'
+    const rippleXAddress = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
+    const rippleSplitAddress = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb:1888963938'
+    const paystring = 'blunden$paystring.crypto.com'
+    const paystringWithAt = 'blunden@paystring.crypto.com'
+
     const hash =
       '59239EA78084F6E2F288473F8AE02F3E6FC92F44BDE59668B5CAE361D3D32838'
     const token1 = 'cny.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
@@ -62,6 +67,24 @@ describe('Header component', () => {
     input.instance().value = rippleAddress
     input.simulate('keyDown', { key: 'Enter' })
     expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+
+    input.instance().value = rippleXAddress
+    input.simulate('keyDown', { key: 'Enter' })
+    expect(window.location.pathname).toEqual(`/accounts/${rippleXAddress}`)
+
+    // Normalize split address format to a X-Address
+    input.instance().value = rippleSplitAddress
+    input.simulate('keyDown', { key: 'Enter' })
+    expect(window.location.pathname).toEqual(`/accounts/${rippleXAddress}`)
+
+    input.instance().value = paystring
+    input.simulate('keyDown', { key: 'Enter' })
+    expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
+
+    // Normalize paystrings with @ to $
+    input.instance().value = paystringWithAt
+    input.simulate('keyDown', { key: 'Enter' })
+    expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
 
     input.instance().value = hash
     input.simulate('keyDown', { key: 'Enter' })

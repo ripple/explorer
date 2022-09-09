@@ -6,7 +6,7 @@ import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
 import { localizeNumber } from '../shared/utils'
 import { ReactComponent as PauseIcon } from '../shared/images/ic_pause.svg'
 import { ReactComponent as ResumeIcon } from '../shared/images/ic_play.svg'
-import './css/ledgerMetrics.css'
+import './css/ledgerMetrics.scss'
 
 const DEFAULTS = {
   load_fee: '--',
@@ -95,26 +95,27 @@ class LedgerMetrics extends Component {
           content = data[key].length
           className = 'label n-unl-metric'
           return (
-            <a
-              key={`link ${key}`}
-              href="https://xrpl.org/negative-unl.html"
-              target="_blank"
-              rel="noopener noreferrer"
+            <div
+              role="link"
+              className="cell"
+              onFocus={() => {}}
+              onBlur={() => {}}
+              onMouseOver={(e) => this.showTooltip(e)}
+              onMouseOut={this.hideTooltip}
+              tabIndex={0}
+              key={key}
             >
-              <div
-                role="link"
-                className="cell"
-                onFocus={() => {}}
-                onBlur={() => {}}
-                onMouseOver={(e) => this.showTooltip(e)}
-                onMouseOut={this.hideTooltip}
-                tabIndex={0}
-                key={key}
+              <a
+                key={`link ${key}`}
+                href="https://xrpl.org/negative-unl.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={className}
               >
-                <div className={className}>{t(key)}</div>
-                <span>{content}</span>
-              </div>
-            </a>
+                {t(key)}
+              </a>
+              <span>{content}</span>
+            </div>
           )
         } else {
           content = data[key]

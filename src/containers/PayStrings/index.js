@@ -7,7 +7,7 @@ import PayStringHeader from './PayStringHeader'
 import PayStringMappingsTable from './PayStringMappingsTable'
 import NoMatch from '../NoMatch'
 
-import './styles.css'
+import './styles.scss'
 import {
   analytics,
   ANALYTIC_TYPES,

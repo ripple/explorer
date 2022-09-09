@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import TransactionMeta from './Meta'
 import TransactionDescription from './Description'
@@ -13,7 +14,7 @@ import {
   buildFlags,
   buildMemos,
 } from '../shared/transactionUtils'
-import './detailTab.css'
+import './detailTab.scss'
 
 class DetailTab extends Component {
   renderStatus() {
@@ -26,15 +27,14 @@ class DetailTab extends Component {
       line1 = t('successful_transaction')
     } else {
       line1 = (
-        <>
-          {t('fail_transaction')}
-          <span className="tx-result fail">{TransactionResult}</span>
-        </>
+        <Trans i18nKey="fail_transaction" values={{ code: TransactionResult }}>
+          <span className="tx-result fail" />
+        </Trans>
       )
     }
 
     return (
-      <div className="section">
+      <div className="detail-section" data-test="status">
         <div className="title">{t('status')}</div>
         {line1}
         {t('transaction_validated')}
@@ -51,7 +51,7 @@ class DetailTab extends Component {
     const { t, data } = this.props
     const memos = buildMemos(data)
     return memos.length ? (
-      <div className="section">
+      <div className="detail-section">
         <div className="title">
           {t('memos')}
           <span>({t('decoded_hex')})</span>
@@ -75,7 +75,7 @@ class DetailTab extends Component {
       : null
     return (
       totalCost && (
-        <div className="section">
+        <div className="detail-section">
           <div className="title transaction-cost">{t('transaction_cost')}</div>
           <div>
             {t('transaction_consumed_fee')}
@@ -93,7 +93,7 @@ class DetailTab extends Component {
     const { t, data } = this.props
     const flags = buildFlags(data)
     return flags.length ? (
-      <div className="section">
+      <div className="detail-section">
         <div className="title">{t('flags')}</div>
         <div className="flags">
           {flags.map((flag) => (
@@ -107,7 +107,7 @@ class DetailTab extends Component {
   renderSigners() {
     const { t, data } = this.props
     return data.tx.Signers ? (
-      <div className="section">
+      <div className="detail-section">
         <div className="title">{t('signers')}</div>
         <ul className="signers">
           {data.tx.Signers.map((d, i) => (

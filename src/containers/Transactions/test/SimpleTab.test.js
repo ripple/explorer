@@ -15,7 +15,6 @@ import OfferCancel from './mock_data/OfferCancel.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
-import SetRegularKey from './mock_data/SetRegularKey.json'
 import SignerListSet from './mock_data/SignerListSet.json'
 import DepositPreauth from './mock_data/DepositPreauth.json'
 import TrustSet from './mock_data/TrustSet.json'
@@ -109,11 +108,6 @@ describe('SimpleTab container', () => {
 
   it('renders PaymentChannelFund without crashing', () => {
     const wrapper = createWrapper(PaymentChannelFund)
-    wrapper.unmount()
-  })
-
-  it('renders SetRegularKey without crashing', () => {
-    const wrapper = createWrapper(SetRegularKey)
     wrapper.unmount()
   })
 

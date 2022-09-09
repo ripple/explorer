@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import successIcon from '../images/success.png'
 import infoIcon from '../images/info_orange.png'
 import { localizeDate } from '../utils'
-import '../css/tooltip.css'
+import '../css/tooltip.scss'
 import { ReactComponent as PayStringToolTip } from '../images/paystring_tooltip.svg'
 
 const PADDING_Y = 20
@@ -86,6 +86,11 @@ class Tooltip extends Component {
     )
   }
 
+  renderNFTId() {
+    const { tokenId } = this.state
+    return <div className="nft">{tokenId}</div>
+  }
+
   static renderPayStringToolTip() {
     return <PayStringToolTip className="paystring" alt="" />
   }
@@ -110,6 +115,8 @@ class Tooltip extends Component {
       style.background = 'rgba(0,0,0,0)'
       className += ' paystring'
       content = Tooltip.renderPayStringToolTip()
+    } else if (mode === 'nftId') {
+      content = this.renderNFTId()
     }
 
     return content ? (

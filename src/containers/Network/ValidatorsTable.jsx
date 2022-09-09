@@ -4,8 +4,9 @@ import { withTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Loader from '../shared/components/Loader'
 import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
+import DomainLink from '../shared/components/DomainLink'
 import infoOrange from '../shared/images/info_orange.png'
-import './css/validatorsTable.css'
+import './css/validatorsTable.scss'
 
 class ValidatorsTable extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -52,12 +53,7 @@ class ValidatorsTable extends Component {
     this.state = {}
   }
 
-  static renderDomain = (domain) =>
-    domain && (
-      <a href={`https://${domain}`} target="_blank" rel="noopener noreferrer">
-        {domain}
-      </a>
-    )
+  static renderDomain = (domain) => domain && <DomainLink domain={domain} />
 
   renderAgreement = (className, d) => {
     const { t } = this.props
@@ -71,7 +67,7 @@ class ValidatorsTable extends Component {
         {d.incomplete && <span title={t('incomplete')}>*</span>}
       </td>
     ) : (
-      <td />
+      <td className={`${className} score`} />
     )
   }
 
@@ -97,6 +93,7 @@ class ValidatorsTable extends Component {
         <td className={`n-unl ${nUnl}`}>
           {onNegativeUnl && <img src={infoOrange} title={d.unl} alt={d.unl} />}
         </td>
+        <td className="version text-truncate">{d.server_version}</td>
         {this.renderAgreement('h1', d.agreement_1hour)}
         {this.renderAgreement('h24', d.agreement_24hour)}
         {this.renderAgreement('d30', d.agreement_30day)}
@@ -126,6 +123,7 @@ class ValidatorsTable extends Component {
             <th className="domain">{t('domain')}</th>
             <th className="unl">{t('unl')}</th>
             <th className="n-unl">{t('nUnlCol')}</th>
+            <th className="version">{t('Version')}</th>
             <th className="score h1">{t('1H')}</th>
             <th className="score h24">{t('24H')}</th>
             <th className="score d30">{t('30D')}</th>

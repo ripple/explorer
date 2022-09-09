@@ -5,7 +5,8 @@ import { localizeDate, localizeNumber, BREAKPOINTS } from '../shared/utils'
 import Account from '../shared/components/Account'
 import Sequence from '../shared/components/Sequence'
 import Simple from './Simple'
-import './simpleTab.css'
+import '../shared/css/simpleTab.scss'
+import './simpleTab.scss'
 
 const XRP_BASE = 1000000
 const TIME_ZONE = 'UTC'
@@ -135,7 +136,7 @@ class SimpleTab extends Component {
     }
 
     return (
-      <div className="simple-body-tx">
+      <div className="simple-body simple-body-tx">
         <div className="rows">
           <Simple
             t={t}

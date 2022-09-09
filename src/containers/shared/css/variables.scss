@@ -132,6 +132,12 @@ $XRP_OTHERS: #f52a79;
   font-weight: 700;
 }
 
+%truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 // View bucket sizes
 @mixin for-size($range) {
   @if $range == phone-only {

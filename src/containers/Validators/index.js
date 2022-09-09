@@ -10,8 +10,8 @@ import Tabs from '../shared/components/Tabs'
 import { analytics, ANALYTIC_TYPES, NOT_FOUND } from '../shared/utils'
 import { loadValidator } from './actions'
 import SimpleTab from './SimpleTab'
-import HistoryTab from './HistoryTab'
-import './validator.css'
+import { HistoryTab } from './HistoryTab'
+import './validator.scss'
 import SocketContext from '../shared/SocketContext'
 
 const ERROR_MESSAGES = {}
@@ -120,7 +120,7 @@ class Validator extends Component {
 
     switch (tab) {
       case 'history':
-        body = <HistoryTab t={t} language={language} reports={reports} />
+        body = <HistoryTab reports={reports} />
         break
       default:
         body = <SimpleTab t={t} language={language} data={data} width={width} />

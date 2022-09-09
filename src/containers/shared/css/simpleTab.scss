@@ -1,0 +1,114 @@
+@import './variables';
+
+$index-width: 324px;
+
+.simple-body {
+  display: flex;
+  border-top: 1px solid $gray-800;
+
+  .rows {
+    width: 100%;
+    padding-right: 0px;
+    padding-bottom: 40px;
+    padding-left: 16px;
+    float: left;
+
+    @include for-size(desktop-up) {
+      width: calc(100% - $index-width);
+      padding-bottom: 60px;
+      border-right: 1px solid $gray-800;
+    }
+
+    .row {
+      display: flex;
+      overflow: hidden;
+      flex-wrap: wrap;
+      padding: 0 15px;
+      padding-left: 0;
+      border-bottom: 1px solid $gray-800;
+
+      @include for-size(tablet-portrait-up) {
+        padding: 15px;
+        padding-left: 0;
+      }
+
+      &.empty {
+        color: $orange2;
+        font-style: italic;
+        text-align: center;
+      }
+
+      .label {
+        color: $white;
+        font-size: 14px;
+        line-height: 21px;
+        text-transform: capitalize;
+        @include regular;
+
+        &.unauthorize {
+          color: #944;
+        }
+      }
+
+      .account {
+        display: inline-block;
+        overflow: hidden;
+        font-size: 14px;
+        line-height: 21px;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+
+      .value {
+        @include medium;
+
+        flex-grow: 1;
+        padding-left: 5px;
+        color: $white;
+        float: right;
+        font-size: 14px;
+        line-height: 21px;
+        text-align: right;
+        vertical-align: middle;
+
+        &.date {
+          color: $black-60;
+          @include regular;
+        }
+      }
+    }
+  }
+
+  .index {
+    width: $index-width;
+    padding: 16px;
+    margin-left: -1px;
+
+    .title {
+      color: $gray-400;
+      font-size: 10px;
+      line-height: 14px;
+      text-transform: uppercase;
+    }
+
+    .val {
+      overflow: hidden;
+      margin-bottom: 32px;
+      color: $white;
+      font-size: 14px;
+      line-height: 16px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      @include medium;
+
+      &.account {
+        font-size: 12px;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0px;
+      }
+    }
+  }
+}

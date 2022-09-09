@@ -4,8 +4,8 @@ import { withTranslation } from 'react-i18next'
 import PayStringLogomark from '../../shared/images/PayString_Logomark.png'
 import { ReactComponent as QuestIcon } from '../../shared/images/hover_question.svg'
 import Tooltip from '../../shared/components/Tooltip'
-import '../../shared/css/nested-menu.css'
-import './styles.css'
+import '../../shared/css/nested-menu.scss'
+import './styles.scss'
 
 const PayStringHeader = (props) => {
   const [showToolTip, setShowToolTip] = useState(false)
