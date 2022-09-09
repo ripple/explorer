@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useRouteMatch } from 'react-router'
 import axios from 'axios'
 import BarChartVersion from './BarChartVersion'
 import NetworkTabs from './NetworkTab'
@@ -10,11 +9,10 @@ import { localizeNumber } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 
-const UpgradeStatus = () => {
+export const UpgradeStatus = () => {
   const [vList, setVList] = useState<any>([{}])
   const [validations, setValidations] = useState([])
   const [unlCount, setUnlCount] = useState(0)
-  const { path = '/' } = useRouteMatch()
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -115,7 +113,7 @@ const UpgradeStatus = () => {
       </div>
 
       <div className="wrap">
-        <NetworkTabs selected="upgrade-status" path={path} />
+        <NetworkTabs selected="upgrade-status" />
         <div className="upgrade-status">
           {vList && (
             <BarChartVersion data={aggregateData(Object.values(vList))} />
@@ -125,5 +123,3 @@ const UpgradeStatus = () => {
     </div>
   )
 }
-
-export default UpgradeStatus

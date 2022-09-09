@@ -8,6 +8,7 @@ import {
   Tooltip,
   TooltipProps,
   Label,
+  ResponsiveContainer,
 } from 'recharts'
 import {
   ValueType,
@@ -47,54 +48,56 @@ const BarChartVersion = (props: Props) => {
   const { data } = props
   const { t } = useTranslation()
   const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
+  const grey = '#9BA2B0'
+  const purple = '#8884d8'
   return (
     <div className="barchart">
-      <BarChart
-        data={data}
-        width={1075}
-        height={532}
-        margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-      >
-        <XAxis
-          dataKey="label"
-          angle={-65}
-          dy={30}
-          dx={-7}
-          height={90}
-          tickLine={false}
-          stroke="#9BA2B0"
-        />
-        <YAxis
-          className="yAxis"
-          tickLine={false}
-          tickFormatter={(tick) => `${tick}%`}
-          stroke="#9BA2B0"
+      <ResponsiveContainer height={532} width="95%">
+        <BarChart
+          data={data}
+          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
         >
-          <Label
-            className="yLabel"
-            value={t('% of total nodes')}
-            angle={-90}
-            position="insideTop"
-            dx={45}
-            dy={65}
+          <XAxis
+            dataKey="label"
+            angle={-65}
+            dy={30}
+            dx={-7}
+            height={90}
+            tickLine={false}
+            stroke={grey}
           />
-        </YAxis>
-        <Bar
-          dataKey="value"
-          barSize={30}
-          fill="#8884d8"
-          radius={[4, 4, 0, 0]}
-          onMouseOver={(dataY) => {
-            setposData({ x: dataY.x, y: dataY.y })
-          }}
-        />
-        <Tooltip
-          content={<CustomTooltip />}
-          cursor={false}
-          position={{ x: posData.x - 45, y: posData.y - 90 }}
-          offset={-10}
-        />
-      </BarChart>
+          <YAxis
+            className="yAxis"
+            tickLine={false}
+            tickFormatter={(tick) => `${tick}%`}
+            stroke={grey}
+          >
+            <Label
+              className="yLabel"
+              value={t('% of total nodes')}
+              angle={-90}
+              position="insideTop"
+              dx={45}
+              dy={65}
+            />
+          </YAxis>
+          <Bar
+            dataKey="value"
+            barSize={30}
+            fill={purple}
+            radius={[4, 4, 0, 0]}
+            onMouseOver={(dataY) => {
+              setposData({ x: dataY.x, y: dataY.y })
+            }}
+          />
+          <Tooltip
+            content={<CustomTooltip />}
+            cursor={false}
+            position={{ x: posData.x - 45, y: posData.y - 90 }}
+            offset={-10}
+          />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   )
 }
