@@ -103,7 +103,7 @@ describe('Transaction container', () => {
     expect(wrapper.find('a.tab').at(1).props().title).toBe('detailed')
     expect(wrapper.find('a.tab').at(2).props().title).toBe('raw')
     expect(wrapper.find('a.tab.selected').text()).toEqual('simple')
-    expect(wrapper.find('.simple-body-tx').length).toBe(1)
+    expect(wrapper.find('.simple-body').length).toBe(1)
   })
 
   it('renders detailed tab', () => {
