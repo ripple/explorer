@@ -5,14 +5,9 @@ import Account from '../../Account'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
-import Currency from '../../Currency'
-import { useLanguage } from '../../../hooks'
-import { localizeDate } from '../../../utils'
-import { DATE_OPTIONS } from '../../../transactionUtils'
 
 const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation()
-  const language = useLanguage()
   const { data } = props
   const {
     owner,
@@ -41,11 +36,6 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       {amount.amount && (
         <SimpleRow label={t('escrow_amount')}>
           <Amount value={amount} />
-          <Currency
-            currency={amount.currency}
-            issuer={amount.issuer}
-            link={amount.link}
-          />
         </SimpleRow>
       )}
       {destination && (

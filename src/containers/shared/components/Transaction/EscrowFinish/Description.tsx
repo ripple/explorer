@@ -1,12 +1,7 @@
 import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import {
-  DATE_OPTIONS,
-  RIPPLE_EPOCH,
-  normalizeAmount,
-  findNode,
-} from '../../../transactionUtils'
+import { normalizeAmount, findNode } from '../../../transactionUtils'
 import Account from '../../Account'
 import {
   TransactionDescriptionComponent,

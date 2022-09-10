@@ -4,7 +4,6 @@ import Account from '../../Account'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
-import Currency from '../../Currency'
 import { useLanguage } from '../../../hooks'
 import { localizeDate } from '../../../utils'
 import { DATE_OPTIONS } from '../../../transactionUtils'
@@ -22,7 +21,6 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
     <>
       <SimpleRow label={t('escrow')}>
         <Amount value={amount} />
-        <Currency currency={amount.currency} />
       </SimpleRow>
       {destination && (
         <SimpleRow label={t('destination')}>

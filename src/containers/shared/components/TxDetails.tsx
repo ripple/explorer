@@ -1,11 +1,9 @@
 import React, { ReactElement } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation, withTranslation } from 'react-i18next'
-import { DATE_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils'
-import { localizeDate } from '../utils'
+import { ACCOUNT_FLAGS, decodeHex } from '../transactionUtils'
 import { Amount } from './Amount'
 import { transactionTypes } from './Transaction'
-import { useLanguage } from '../hooks'
 
 interface Instructions {
   owner: string
@@ -61,7 +59,6 @@ interface Props {
 }
 
 const TxDetails = (props: Props) => {
-  const language = useLanguage()
   const { t } = useTranslation()
 
   function renderAmount(d: any): ReactElement {
