@@ -98,7 +98,7 @@ class SimpleTab extends Component {
   }
 
   render() {
-    const { t, language, data, width } = this.props
+    const { language, data, width } = this.props
     const { raw } = data
     const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' }
     const time = localizeDate(new Date(raw.date), language, DATE_OPTIONS)
@@ -138,12 +138,7 @@ class SimpleTab extends Component {
     return (
       <div className="simple-body simple-body-tx">
         <div className="rows">
-          <Simple
-            t={t}
-            language={language}
-            type={raw.tx.TransactionType}
-            data={data.summary}
-          />
+          <Simple type={raw.tx.TransactionType} data={data.summary} />
           {rowIndex}
         </div>
         {cartIndex}
