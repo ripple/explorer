@@ -125,12 +125,7 @@ class DetailTab extends Component {
     return (
       <div className="detail-body">
         {this.renderStatus()}
-        <TransactionDescription
-          t={t}
-          language={language}
-          data={data}
-          instructions={instructions}
-        />
+        <TransactionDescription data={data} instructions={instructions} />
         {this.renderSigners()}
         {this.renderFlags()}
         {this.renderFee()}

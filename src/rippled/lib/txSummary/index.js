@@ -49,6 +49,8 @@ const summarize = {
 
 const getInstructions = (tx, meta) => {
   const type = tx.TransactionType
+  // Locate the transaction parser which returns "instructions" to be used in transaction specific components
+  // TODO: Remove summarize[type] lookup once all transactions have been moved to the new definition style
   const mappingFn = transactionTypes[type]?.parser
     ? transactionTypes[type]?.parser
     : summarize[type]
