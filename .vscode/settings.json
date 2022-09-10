@@ -32,12 +32,23 @@
       },
     ],
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": true,
+        "source.fixAll.stylelint": true,
     },
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
-    "css.validate": false, // Make sure to install the recommended extensions for StyleLint
     "jestRunIt.jestPath": "./backend/node_modules/.bin/jest",
     "jestRunIt.jestConfigPath": "./backend/jest.config.js",
+    "css.validate": false,
+    "scss.validate": false,
+    "stylelint.validate": ["css", "scss"],
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/*.code-search": true,
+        "**/*.svg": true,
+        "**/test/mock_data": true,
+        "package-lock.json": true,
+        "**/test/*.json": true
+    }
   }

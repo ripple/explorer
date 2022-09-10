@@ -126,19 +126,6 @@ const TxDetails = (props: Props) => {
     )
   }
 
-  function renderSetRegularKey(): ReactElement {
-    const { instructions } = props
-    const { key } = instructions
-    return key ? (
-      <div className="setregularkey">
-        <span className="label">{t('regular_key')}</span>:
-        <span className="key">{key}</span>
-      </div>
-    ) : (
-      <div className="unsetregularkey">{t('unset_regular_key')}</div>
-    )
-  }
-
   function renderTrustSet(): ReactElement {
     const { instructions } = props
     const { limit } = instructions
@@ -294,7 +281,6 @@ const TxDetails = (props: Props) => {
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderSignerListSet,
     renderAccountSet,
-    renderSetRegularKey,
     renderTrustSet,
     renderOfferCancel,
     renderPayment,
@@ -303,11 +289,14 @@ const TxDetails = (props: Props) => {
     renderTicketCreate,
   }
 
-  const DetailComponent = transactionTypes[type]?.TableDetail
-  if (DetailComponent) {
-    return <DetailComponent instructions={instructions} />
+  // Locate the component for detail row that is unique per TransactionType.
+  const TableDetail = transactionTypes[type]?.TableDetail
+  if (TableDetail) {
+    return <TableDetail instructions={instructions} />
   }
 
+  // Locate the unique transaction component the old way
+  // TODO: Remove once all transactions have been moved to the new definition style
   if (functionMap[`render${type}`]) {
     return functionMap[`render${type}`]()
   }
