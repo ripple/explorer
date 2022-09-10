@@ -25,12 +25,17 @@ const TransactionDescription = (props) => {
   if (!data || !data.tx) {
     return null
   }
+
+  // Locate the component description section of the detail tab that is unique per TransactionType.
   const DescriptionComponent =
     transactionTypes[data.tx.TransactionType]?.Description
 
   if (DescriptionComponent) {
     body = <DescriptionComponent data={data} />
-  } else if (data.tx.TransactionType === 'OfferCancel') {
+  }
+  // Locate the unique transaction component the old way
+  // TODO: Remove once all transactions have been moved to the new definition style
+  else if (data.tx.TransactionType === 'OfferCancel') {
     body = <OfferCancel t={t} data={data} />
   } else if (data.tx.TransactionType === 'Payment') {
     body = (
