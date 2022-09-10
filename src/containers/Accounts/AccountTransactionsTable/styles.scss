@@ -16,8 +16,10 @@
   .title {
     padding-bottom: 18px;
     border-bottom: 1px $gray-900 solid;
+    margin-bottom: 40px;
     color: $white;
     font-size: 24px;
+
     @include bold;
   }
 
@@ -222,7 +224,7 @@
 
   .transaction-li.transaction-li-header {
     display: block;
-    padding: 40px 32px 18px;
+    padding: 0 32px 18px;
     border-left-color: transparent;
     font-size: 10px;
     text-transform: uppercase;
