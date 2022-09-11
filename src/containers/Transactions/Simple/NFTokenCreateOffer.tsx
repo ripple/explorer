@@ -52,14 +52,7 @@ const NFTokenCreateOffer = (props: Props) => {
       </SimpleRow>
       <SimpleRow label="Amount">
         <div data-test="amount">
-          <Amount
-            value={{
-              issuer: amount.issuer,
-              currency: amount.currency,
-              amount: amount.amount.toString(),
-            }}
-            displayIssuer
-          />
+          <Amount value={amount} displayIssuer />
         </div>
       </SimpleRow>
     </>

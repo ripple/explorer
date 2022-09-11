@@ -26,44 +26,30 @@ const NFTokenCancelOffer = (props: Props) => {
 
   return (
     <>
-      {cancelledOffers.map(
-        ({
-          amount: { amount, issuer, currency },
-          offerID,
-          tokenID,
-          offerer,
-        }) => (
-          <>
-            <SimpleRow label="Offer ID">
-              <div className="dt" data-test="offer-id">
-                {offerID}
-              </div>
-            </SimpleRow>
-            <SimpleRow label="Token ID">
-              <div className="dt" data-test="token-id">
-                {tokenID}
-              </div>
-            </SimpleRow>
-            <SimpleRow label="Amount">
-              <div data-test="amount">
-                <Amount
-                  value={{
-                    issuer,
-                    currency,
-                    amount: amount.toString(),
-                  }}
-                  displayIssuer
-                />
-              </div>
-            </SimpleRow>
-            <SimpleRow label="Offerer">
-              <div className="account" data-test="offerer">
-                <Account account={offerer} />
-              </div>
-            </SimpleRow>
-          </>
-        ),
-      )}
+      {cancelledOffers.map(({ amount, offerID, tokenID, offerer }) => (
+        <>
+          <SimpleRow label="Offer ID">
+            <div className="dt" data-test="offer-id">
+              {offerID}
+            </div>
+          </SimpleRow>
+          <SimpleRow label="Token ID">
+            <div className="dt" data-test="token-id">
+              {tokenID}
+            </div>
+          </SimpleRow>
+          <SimpleRow label="Amount">
+            <div data-test="amount">
+              <Amount value={amount} displayIssuer />
+            </div>
+          </SimpleRow>
+          <SimpleRow label="Offerer">
+            <div className="account" data-test="offerer">
+              <Account account={offerer} />
+            </div>
+          </SimpleRow>
+        </>
+      ))}
     </>
   )
 }
