@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { mount } from 'enzyme'
-import NFTokenCreateOffer from '../NFTokenCreateOffer'
+import { NFTokenCreateOffer } from '../NFTokenCreateOffer'
 import transactionBuy from '../../test/mock_data/NFTokenCreateOffer_Buy.json'
 import transactionSell from '../../test/mock_data/NFTokenCreateOffer_Sell.json'
 import summarizeTransaction from '../../../../rippled/lib/txSummary'
