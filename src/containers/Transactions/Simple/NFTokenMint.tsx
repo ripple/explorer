@@ -39,4 +39,4 @@ const NFTokenMint = (props: Props) => {
   )
 }
 
-export default NFTokenMint
+export { NFTokenMint }

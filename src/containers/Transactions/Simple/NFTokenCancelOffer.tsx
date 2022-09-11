@@ -68,4 +68,4 @@ const NFTokenCancelOffer = (props: Props) => {
   )
 }
 
-export default NFTokenCancelOffer
+export { NFTokenCancelOffer }

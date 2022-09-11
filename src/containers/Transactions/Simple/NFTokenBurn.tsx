@@ -21,4 +21,4 @@ const NFTokenBurn = (props: Props) => {
   )
 }
 
-export default NFTokenBurn
+export { NFTokenBurn }
