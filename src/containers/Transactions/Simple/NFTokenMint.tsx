@@ -20,20 +20,14 @@ const NFTokenMint = (props: Props) => {
 
   return (
     <>
-      <SimpleRow label="Token ID">
-        <div className="dt" data-test="token-id">
-          {tokenID}
-        </div>
+      <SimpleRow label="Token ID" className="dt" data-test="token-id">
+        {tokenID}
       </SimpleRow>
-      <SimpleRow label="Token Taxon">
-        <div className="dt" data-test="token-taxon">
-          {tokenTaxon}
-        </div>
+      <SimpleRow label="Token Taxon" className="dt" data-test="token-taxon">
+        {tokenTaxon}
       </SimpleRow>
-      <SimpleRow label="URI">
-        <div className="dt" data-test="token-uri">
-          {uri}
-        </div>
+      <SimpleRow label="URI" className="dt" data-test="token-uri">
+        {uri}
       </SimpleRow>
     </>
   )

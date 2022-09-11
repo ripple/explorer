@@ -9,7 +9,7 @@ describe('NFTokenBurn', () => {
     const wrapper = mount(
       <NFTokenBurn data={summarizeTransaction(transaction, true).details} />,
     )
-    expect(wrapper.find('[data-test="token-id"]')).toHaveText(
+    expect(wrapper.find('[data-test="token-id"] .value')).toHaveText(
       '000800006203F49C21D5D6E022CB16DE3538F248662FC73C29ABA6A90000000D',
     )
     wrapper.unmount()

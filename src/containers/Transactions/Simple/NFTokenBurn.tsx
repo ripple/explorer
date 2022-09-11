@@ -13,10 +13,8 @@ const NFTokenBurn = (props: Props) => {
   } = props
 
   return (
-    <SimpleRow label="Token ID">
-      <div className="dt" data-test="token-id">
-        {tokenID}
-      </div>
+    <SimpleRow label="Token ID" className="dt" data-test="token-id">
+      {tokenID}
     </SimpleRow>
   )
 }

@@ -9,11 +9,11 @@ describe('NFTokenMint', () => {
     const wrapper = mount(
       <NFTokenMint data={summarizeTransaction(transaction, true).details} />,
     )
-    expect(wrapper.find('[data-test="token-id"]')).toHaveText(
+    expect(wrapper.find('[data-test="token-id"] .value')).toHaveText(
       '000800006203F49C21D5D6E022CB16DE3538F248662FC73C535743B40000001A',
     )
-    expect(wrapper.find('[data-test="token-taxon"]')).toHaveText('1')
-    expect(wrapper.find('[data-test="token-uri"]')).toHaveText(
+    expect(wrapper.find('[data-test="token-taxon"] .value')).toHaveText('1')
+    expect(wrapper.find('[data-test="token-uri"] .value')).toHaveText(
       'https://gregweisbrod.com',
     )
     wrapper.unmount()
