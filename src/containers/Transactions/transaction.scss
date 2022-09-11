@@ -3,6 +3,17 @@
 .transaction {
   position: relative;
   min-height: 600px;
+  margin: 0 auto;
+
+  @include for-size(tablet-landscape-up) {
+    width: 584px;
+  }
+  @include for-size(desktop-up) {
+    width: 820px;
+  }
+  @include for-size(big-desktop-up) {
+    width: 912px;
+  }
 
   .loader {
     position: absolute;
@@ -19,48 +30,7 @@
     }
   }
 
-  .tabs {
-    padding: 0px 10px;
-    border-bottom: 1px solid $gray-800;
-    margin: 8px auto 0px;
-
-    @include for-size(tablet-landscape-up) {
-      width: 584px;
-      padding: 0px 32px 0px 0px;
-    }
-
-    @include for-size(desktop-up) {
-      width: 820px;
-      padding: 0px 48px 0px 0px;
-    }
-
-    @include for-size(big-desktop-up) {
-      width: 912px;
-      padding: 0px 48px 0px 0px;
-    }
-
-    .tab {
-      padding-top: 24px;
-      padding-bottom: 24px;
-      margin-bottom: -1px;
-    }
-  }
-
   .summary {
-    width: calc(100% - 32px);
-    padding: 30px 0px 20px;
-    margin: 0px auto;
-
-    @include for-size(tablet-landscape-up) {
-      width: 584px;
-    }
-    @include for-size(desktop-up) {
-      width: 820px;
-    }
-    @include for-size(big-desktop-up) {
-      width: 912px;
-    }
-
     .type {
       display: inline-block;
       padding-bottom: 24px;
@@ -148,18 +118,6 @@
   }
 
   .tab-body {
-    margin: 0px auto;
-
-    @include for-size(tablet-landscape-up) {
-      width: 584px;
-    }
-    @include for-size(desktop-up) {
-      width: 820px;
-    }
-    @include for-size(big-desktop-up) {
-      width: 912px;
-    }
-
     .react-json-view {
       overflow: hidden;
       margin-bottom: 40px;

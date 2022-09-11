@@ -402,11 +402,14 @@ const TxDetails = (props: Props) => {
     renderTicketCreate,
   }
 
-  const DetailComponent = transactionTypes[type]?.TableDetail
-  if (DetailComponent) {
-    return <DetailComponent instructions={instructions} />
+  // Locate the component for detail row that is unique per TransactionType.
+  const TableDetail = transactionTypes[type]?.TableDetail
+  if (TableDetail) {
+    return <TableDetail instructions={instructions} />
   }
 
+  // Locate the unique transaction component the old way
+  // TODO: Remove once all transactions have been moved to the new definition style
   if (functionMap[`render${type}`]) {
     return functionMap[`render${type}`]()
   }

@@ -1,5 +1,5 @@
 FROM node:14
-MAINTAINER Ripple Operations <ops@ripple.com>
+LABEL maintainer="Ripple Operations <ops@ripple.com>"
 
 RUN mkdir /explorer
 ADD . / explorer/
