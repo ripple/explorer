@@ -20,15 +20,15 @@ export const AccountCreateAttestation = (
   return (
     <div className="claim-attestation" key={signature}>
       <div className="claim-attestation-title">
-        XChain Claim Attestation Batch Element
+        XChain Create Account Attestation Batch Element
       </div>
-      <SimpleRow label={t('send')}>
+      <SimpleRow label={t('send')} data-test="send">
         <Amount value={send} />
       </SimpleRow>
-      <SimpleRow label={t('account')}>
+      <SimpleRow label={t('account')} data-test="account">
         <Account account={account} link={false} />
       </SimpleRow>
-      <SimpleRow label={t('destination')}>
+      <SimpleRow label={t('destination')} data-test="destination">
         <Account account={destination} />
       </SimpleRow>
     </div>

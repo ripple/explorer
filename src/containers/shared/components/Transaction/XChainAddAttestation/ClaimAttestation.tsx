@@ -21,16 +21,18 @@ export const ClaimAttestation = (props: ClaimAttestationProps) => {
       <div className="claim-attestation-title">
         XChain Claim Attestation Batch Element
       </div>
-      <SimpleRow label={t('send')}>
+      <SimpleRow label={t('send')} data-test="send">
         <Amount value={send} />
       </SimpleRow>
-      <SimpleRow label={t('account')}>
+      <SimpleRow label={t('account')} data-test="account">
         <Account account={account} link={false} />
       </SimpleRow>
-      <SimpleRow label={t('destination')}>
+      <SimpleRow label={t('destination')} data-test="destination">
         <Account account={destination} />
       </SimpleRow>
-      <SimpleRow label={t('xchain_claim_id')}>{claimId}</SimpleRow>
+      <SimpleRow label={t('xchain_claim_id')} data-test="claim-id">
+        {claimId}
+      </SimpleRow>
     </div>
   )
 }
