@@ -80,5 +80,7 @@ const checkHeartbeat = () => {
 setInterval(checkHeartbeat, 2000)
 
 module.exports.start = () => {
-  connections = RIPPLEDS.map(connect)
+  if (process.env.REACT_APP_ENVIRONMENT !== 'sidechain') {
+    connections = RIPPLEDS.map(connect)
+  }
 }
