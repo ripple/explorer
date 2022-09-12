@@ -23,6 +23,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Setup npm version 8
+        id: npm8
+        run: |
+          npm i -g npm@8 --registry=https://registry.npmjs.org
+          echo "::set-output name=npmlocation::$(which npm)"
+
+      - name: Cache npm 8 install
+        id: cache-npm
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-npm-8
+        with:
+          path: ${{ steps.npm8.outputs.npmlocation }}
+          key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles(steps.npm8.outputs.npmlocation) }}
+          restore-keys: |
+            ${{ runner.os }}-npm-${{ env.cache-name }}-
+            ${{ runner.os }}-npm-
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -36,7 +53,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
-            ${{ runner.os }}-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
