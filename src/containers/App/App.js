@@ -21,8 +21,6 @@ import { NFT } from '../NFT/NFT'
 import SocketContext from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
 
-const MODE = process.env.REACT_APP_ENVIRONMENT
-
 const App = (props) => {
   const { actions, location, match } = props
 
