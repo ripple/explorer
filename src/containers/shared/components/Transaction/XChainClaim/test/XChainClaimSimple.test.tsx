@@ -18,7 +18,7 @@ function createWrapper(tx: any) {
   )
 }
 
-function expectText(
+function expectSimpleRowText(
   wrapper: ReactWrapper<any, Readonly<{}>>,
   dataTest: string,
   text: string,
@@ -31,23 +31,27 @@ describe('XChainClaimSimple', () => {
     const wrapper = createWrapper(mockXChainClaim)
 
     // check XChainBridge parts
-    expectText(
+    expectSimpleRowText(
       wrapper,
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
     expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
-    expectText(wrapper, 'locking-chain-issue', 'XRP')
-    expectText(
+    expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
+    expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
     expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).toExist()
-    expectText(wrapper, 'issuing-chain-issue', 'XRP')
+    expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
 
-    expectText(wrapper, 'amount', '\uE90010.00 XRP')
-    expectText(wrapper, 'destination', 'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi')
-    expectText(wrapper, 'claim-id', '5')
+    expectSimpleRowText(wrapper, 'amount', '\uE90010.00 XRP')
+    expectSimpleRowText(
+      wrapper,
+      'destination',
+      'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi',
+    )
+    expectSimpleRowText(wrapper, 'claim-id', '5')
   })
 })
