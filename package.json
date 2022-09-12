@@ -48,7 +48,7 @@
     "xrpl-client": "^1.9.4"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.14.7",
+    "@babel/eslint-parser": "^7.18.9",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/node": "^17.0.8",
