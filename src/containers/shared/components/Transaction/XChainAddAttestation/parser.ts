@@ -8,6 +8,7 @@ export function parser(tx: any) {
         account: attestation.XChainClaimAttestationBatchElement.Account,
         destination: attestation.XChainClaimAttestationBatchElement.Destination,
         claimId: attestation.XChainClaimAttestationBatchElement.XChainClaimID,
+        signature: attestation.XChainClaimAttestationBatchElement.Signature,
       }),
     )
   return {

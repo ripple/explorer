@@ -9,17 +9,18 @@ export interface ClaimAttestationProps {
   account: string
   destination: string
   claimId: string
+  signature: string
 }
 
 export const ClaimAttestation = (props: ClaimAttestationProps) => {
   const { t } = useTranslation()
-  const { send, account, destination, claimId } = props
+  const { send, account, destination, claimId, signature } = props
 
   return (
-    <div className="claim-attestation">
-      <span className="claim-attestation-title">
+    <div className="claim-attestation" key={signature}>
+      <div className="claim-attestation-title">
         XChain Claim Attestation Batch Element
-      </span>
+      </div>
       <SimpleRow label={t('send')}>
         <Amount value={send} />
       </SimpleRow>
