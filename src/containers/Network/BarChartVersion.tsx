@@ -52,7 +52,7 @@ const BarChartVersion = (props: Props) => {
   const purple = '#8884d8'
   return (
     <div className="barchart">
-      <ResponsiveContainer height={532} width="95%">
+      <ResponsiveContainer height={532} width="100%">
         <BarChart
           data={data}
           margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
@@ -64,7 +64,9 @@ const BarChartVersion = (props: Props) => {
             dx={-7}
             height={90}
             tickLine={false}
+            minTickGap={-1}
             stroke={grey}
+            interval={0}
           />
           <YAxis
             className="yAxis"
