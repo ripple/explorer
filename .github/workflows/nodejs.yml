@@ -40,18 +40,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-${{ env.cache-name }}-
             ${{ runner.os }}-npm-
-
-      - name: Cache npm 8 install
-        id: cache-npm
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-npm-8
-        with:
-          path: /opt/hostedtoolcache/node/14.20.0/x64/bin/npm
-          key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles('/opt/hostedtoolcache/node/14.20.0/x64/bin/npm') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-${{ env.cache-name }}-
-            ${{ runner.os }}-npm-
       - name: Cache npx 8 install
         id: cache-npx
         uses: actions/cache@v2
