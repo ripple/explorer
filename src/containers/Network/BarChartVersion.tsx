@@ -21,6 +21,7 @@ import './css/barchart.scss'
 interface Props {
   data: any[]
   stableVersion: string | null
+  stableVersion: string | null
 }
 
 interface BarCoordinates {
@@ -60,8 +61,21 @@ const renderLegend = (stableVersion: string | null, t: any) => (
   </div>
 )
 
+const renderLegend = (stableVersion: string | null, t: any) => (
+  // console.log(stableVersion)
+  <div className="legend">
+    <div className="legend-text">
+      <span>{t('current_stable_version')}:</span>
+      <span style={{ color: '#19FF83' }}>
+        {' '}
+        {t('stable_version', { stableVersion })}{' '}
+      </span>
+    </div>
+  </div>
+)
+
 const BarChartVersion = (props: Props) => {
-  const { data, stableVersion } = props
+  const { data, stableVersion, stableVersion } = props
   const { t } = useTranslation()
   const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
   const grey = '#9BA2B0'

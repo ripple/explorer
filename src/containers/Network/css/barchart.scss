@@ -3,6 +3,14 @@
   line-height: 70%;
 }
 
+p {
+  @include text;
+}
+
+span {
+  @include text;
+}
+
 .yLabel {
   fill: #9BA2B0;
 }
