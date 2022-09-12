@@ -11,7 +11,6 @@ const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelClaim = require('./PaymentChannelClaim')
 const PaymentChannelFund = require('./PaymentChannelFund')
 const AccountSet = require('./AccountSet')
-const SetRegularKey = require('./SetRegularKey')
 const SignerListSet = require('./SignerListSet')
 const DepositPreauth = require('./DepositPreauth')
 const EnableAmendment = require('./EnableAmendment')
@@ -34,7 +33,6 @@ const summarize = {
   PaymentChannelCreate,
   PaymentChannelClaim,
   PaymentChannelFund,
-  SetRegularKey,
   AccountSet,
   SignerListSet,
   DepositPreauth,
@@ -51,6 +49,8 @@ const summarize = {
 
 const getInstructions = (tx, meta) => {
   const type = tx.TransactionType
+  // Locate the transaction parser which returns "instructions" to be used in transaction specific components
+  // TODO: Remove summarize[type] lookup once all transactions have been moved to the new definition style
   const mappingFn = transactionTypes[type]?.parser
     ? transactionTypes[type]?.parser
     : summarize[type]

@@ -7,6 +7,7 @@ import { localizeNumber } from '../shared/utils'
 import Tooltip from '../shared/components/Tooltip'
 import './css/ledgers.scss'
 import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
+import DomainLink from '../shared/components/DomainLink'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -56,8 +57,8 @@ class Ledgers extends Component {
         ...data,
         mode,
         v: mode === 'validator' && validators[data.pubkey],
-        x: event.pageX,
-        y: event.pageY,
+        x: event.currentTarget.offsetLeft,
+        y: event.currentTarget.offsetTop,
       },
     })
   }
@@ -70,16 +71,7 @@ class Ledgers extends Component {
     const url = `/validators/${selected}`
     return (
       <div className="selected-validator">
-        {v.domain && (
-          <a
-            className="domain"
-            href={`https://${v.domain}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {v.domain}
-          </a>
-        )}
+        {v.domain && <DomainLink domain={v.domain} />}
         <a className="pubkey" href={url}>
           {selected}
         </a>
@@ -124,7 +116,7 @@ class Ledgers extends Component {
 
   renderTxnCount = (count) => {
     const { t } = this.props
-    return count ? (
+    return count != undefined ? (
       <div className="txn-count">
         {t('txn_count')}:<b>{count.toLocaleString()}</b>
       </div>
@@ -135,7 +127,7 @@ class Ledgers extends Component {
     const { t, language } = this.props
     const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
     const amount = localizeNumber(d, language, options)
-    return d ? (
+    return d != undefined ? (
       <div className="fees">
         {t('fees')}:<b>{amount}</b>
       </div>
@@ -249,9 +241,11 @@ class Ledgers extends Component {
         <div className="ledgers">
           <div className="control">{selected && this.renderSelected()}</div>
           <div className="ledger-line" />
-          <div className="ledger-list">{ledgers.map(this.renderLedger)}</div>
+          <div className="ledger-list">
+            {ledgers.map(this.renderLedger)}{' '}
+            <Tooltip t={t} language={language} data={tooltip} />
+          </div>
         </div>
-        <Tooltip t={t} language={language} data={tooltip} />
       </>
     )
   }

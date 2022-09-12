@@ -67,14 +67,14 @@ class EnableAmendment extends Component {
 
   static async fetchMinRippledVersions() {
     const response = await fetch(
-      'https://raw.githubusercontent.com/ripple/xrpl-dev-portal/3b07e8295d0eebed07aeb0a5d40289ac91d2b5c9/content/concepts/consensus-network/amendments/known-amendments.md',
+      'https://raw.githubusercontent.com/XRPLF/xrpl-dev-portal/master/content/concepts/consensus-network/amendments/known-amendments.md',
     )
     const text = await response.text()
     const mapping = {}
 
     text.split('\n').forEach((line) => {
       const found = line.match(
-        /\| \[([a-zA-Z0-9]+)\][^\n]+\| (v[0-9]*.[0-9]*.[0-9]*|TBD) *\|/,
+        /\| \[([a-zA-Z0-9_]+)\][^\n]+\| (v[0-9]*.[0-9]*.[0-9]*|TBD) *\|/,
       )
       if (found) {
         // eslint-disable-next-line prefer-destructuring

@@ -17,6 +17,7 @@
   "explorer": "Explorer",
   "network": "Network",
   "xrpl_org": "XRPL.org",
+  "github": "GitHub",
   "header.search.placeholder": "Search by Address, Ledger or Txn",
   "xrp": "XRP",
   "xrpl_explorer": "XRPL Explorer",
@@ -141,9 +142,12 @@
   "transaction_SignerListSet": "Signer List Set",
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
+  "transaction_XChainAccountCreateCommit": "XChain Account Create Commit",
+  "transaction_XChainClaim": "XChain Claim",
   "transaction_XChainCommit": "XChain Commit",
   "transaction_XChainCreateBridge": "XChain Create Bridge",
   "transaction_XChainCreateClaimID": "XChain Create Claim ID",
+  "transaction_XChainModifyBridge": "XChain Modify Bridge",
   "transaction_EnableAmendment": "Enable Amendment",
   "transaction_SetFee": "Set Fee",
   "transaction_UNLModify": "UNL Modify",
@@ -368,5 +372,10 @@
   "sell_offers":"Sell Offers",
   "offer_index": "Offer ID",
   "owner": "Owner's Account",
-  "no_additional_info":"No additional information"
+  "no_additional_info":"No additional information",
+  "validator_history.chain": "Chain",
+  "validator_history.date": "Date",
+  "validator_history.missed": "Missed",
+  "validator_history.score": "Score",
+  "other_chain_destination": "Other Chain Destination"
 }

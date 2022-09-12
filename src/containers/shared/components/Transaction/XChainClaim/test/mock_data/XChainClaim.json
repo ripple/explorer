@@ -1,0 +1,161 @@
+{
+  "tx": {
+    "Account": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+    "Amount": "10000000",
+    "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+    "Fee": "10",
+    "Flags": 0,
+    "Sequence": 13,
+    "SigningPubKey": "03E2494BAB52A1D9C8A7BC67773AD7893B33DBF0F836A634D8B28DD6007B1537E3",
+    "TransactionType": "XChainClaim",
+    "TxnSignature": "3045022100E70D47DCBD4B4961C7D452E26983BB1B453D36A74F95419BAF717A82D475353502203B068A4B6EA042DCAFFD9948E3EA73E924169F2B0CAFC0ACAEF2322A0655B02E",
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": "XRP",
+      "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+      "LockingChainIssue": "XRP"
+    },
+    "XChainClaimID": "5",
+    "date": "2022-08-16T19:25:12Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Balance": "99999997979999960",
+            "Flags": 0,
+            "OwnerCount": 2,
+            "Sequence": 5
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "2B6AC232AA4C4BE41BF49D2459FA4A0347E1B543A4C92FCEE0821C0201E2E9A8",
+          "PreviousFields": {
+            "Balance": "99999997989999960"
+          },
+          "PreviousTxnID": "AB54F26CF04CC273B675C32306DEE3F3AD87C4486166F1A4FCE6874AF9CCE486",
+          "PreviousTxnLgrSeq": 14
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Account": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+            "Flags": 0,
+            "OtherChainSource": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+            "OwnerNode": "0",
+            "PreviousTxnID": "B0479E9F3586B35D8F4233ED8D99073D9787B1DD59CC354541E4A11683904CBA",
+            "PreviousTxnLgrSeq": 16,
+            "SignatureReward": "100",
+            "XChainBridge": {
+              "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+              "IssuingChainIssue": "XRP",
+              "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+              "LockingChainIssue": "XRP"
+            },
+            "XChainClaimAttestations": [
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rGcwshLFWRu3vXxGQagvKZDCSEH9rKcdZC",
+                  "AttestationSignerAccount": "rNiotmSbcp7ZvR63u18zBqGZGzCfcyEQbm",
+                  "WasLockingChainSend": 1
+                }
+              },
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rGcwshLFWRu3vXxGQagvKZDCSEH9rKcdZC",
+                  "AttestationSignerAccount": "rKMx7C1KULTnX7weCKwpq4rw6SmHqf5mv3",
+                  "WasLockingChainSend": 1
+                }
+              },
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rGcwshLFWRu3vXxGQagvKZDCSEH9rKcdZC",
+                  "AttestationSignerAccount": "rMbN6bHDzLEsbB8bqXqvnDu4YJmDJrvD3R",
+                  "WasLockingChainSend": 1
+                }
+              },
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rGcwshLFWRu3vXxGQagvKZDCSEH9rKcdZC",
+                  "AttestationSignerAccount": "rHtcoxJTxVQxuSgoTdfu6WvHsgkyxTgBnG",
+                  "WasLockingChainSend": 1
+                }
+              },
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rGcwshLFWRu3vXxGQagvKZDCSEH9rKcdZC",
+                  "AttestationSignerAccount": "rLt7bZfaBipZ1HB8QZwviqnP2GZTruY9W5",
+                  "WasLockingChainSend": 1
+                }
+              }
+            ],
+            "XChainClaimID": "5"
+          },
+          "LedgerEntryType": "XChainClaimID",
+          "LedgerIndex": "430067D905AAF69711BF28AF1023CADA982686854CC234ED6C9F47F1F1811FE0"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rGcwshLFWRu3vXxGQagvKZDCSEH9rKcdZC",
+            "Balance": "1000000200",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 6
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "680C8B6EEE25014D885D057A272F7405B63A7872243A9B627021FB4136730E1F",
+          "PreviousFields": {
+            "Balance": "1000000100"
+          },
+          "PreviousTxnID": "AB54F26CF04CC273B675C32306DEE3F3AD87C4486166F1A4FCE6874AF9CCE486",
+          "PreviousTxnLgrSeq": 14
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+            "RootIndex": "86213CF4452A2D17362C65C24C3EE190F0A9E60EBBE5BD5DFBF039696784E2BE"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "86213CF4452A2D17362C65C24C3EE190F0A9E60EBBE5BD5DFBF039696784E2BE"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+            "Balance": "1019999710",
+            "Flags": 0,
+            "OwnerCount": 3,
+            "Sequence": 14
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "B6AE0B6E0F7A38BDCA21F08466A85036DA3DA7558F44CC26FE457C3D2E8F2F87",
+          "PreviousFields": {
+            "Balance": "1009999820",
+            "OwnerCount": 4,
+            "Sequence": 13
+          },
+          "PreviousTxnID": "B0479E9F3586B35D8F4233ED8D99073D9787B1DD59CC354541E4A11683904CBA",
+          "PreviousTxnLgrSeq": 16
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "CC2D24F25E3D21B14B13DCFE8D8124915E0A912108F6E99F8B283A3661602C4D",
+  "ledger_index": 17,
+  "date": "2022-08-16T19:25:12Z"
+}

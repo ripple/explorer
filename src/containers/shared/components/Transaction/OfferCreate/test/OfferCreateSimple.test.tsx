@@ -29,7 +29,7 @@ describe('OfferCreateSimple', () => {
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
     expect(wrapper.find('[data-test="amount-sell"] .value')).toHaveText(
-      `1,764.293151 XRP`,
+      `\uE9001,764.293151 XRP`,
     )
     wrapper.unmount()
   })
@@ -42,7 +42,7 @@ describe('OfferCreateSimple', () => {
       `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
     )
     expect(wrapper.find('[data-test="amount-sell"] .value')).toHaveText(
-      `24,755.081083 XRP`,
+      `\uE90024,755.081083 XRP`,
     )
   })
 })

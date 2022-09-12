@@ -1,85 +1,82 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { useParams } from 'react-router'
-import { XrplClient } from 'xrpl-client'
+import { useInfiniteQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 
-import { concatNFT } from '../../shared/utils'
-import { loadAccountNFTs } from './actions'
+import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 import Loader from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
-import { AccountNFToken } from '../../shared/transactionUtils'
-import { AccountNFTState } from './reducer'
+import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
+import { getAccountNFTs } from '../../../rippled/lib/rippled'
+import Account from '../../shared/components/Account'
 
-interface Props {
-  loading: boolean
-  data: AccountNFTState['data']
-  actions: {
-    loadAccountNFTs: (
-      accountId: string,
-      marker: string | undefined,
-      socket: XrplClient | undefined,
-    ) => {}
-  }
+export interface AccountNFTTableProps {
+  accountId: string
 }
 
-const AccountNFTTableDisconnected = (props: Props) => {
-  const [nfts, setNfts] = useState<AccountNFToken[]>([])
-  const [marker, setMarker] = useState<string | undefined>(undefined)
-  const { t } = useTranslation()
-  const { id: accountId } = useParams<{ id: string }>()
-  const { actions, data, loading } = props
+export const AccountNFTTable = ({ accountId }: AccountNFTTableProps) => {
   const rippledSocket = useContext(SocketContext)
-
-  useEffect(() => {
-    if (data.nfts === undefined) return
-    setMarker(data.marker)
-    setNfts((oldNfts: AccountNFToken[]): AccountNFToken[] =>
-      concatNFT(oldNfts, data.nfts || []),
-    )
-  }, [accountId, data])
-
-  useEffect(() => {
-    setNfts([])
-    setMarker(undefined)
-    actions.loadAccountNFTs(accountId, undefined, rippledSocket)
-  }, [accountId])
-
-  const loadMoreNfts = () => {
-    actions.loadAccountNFTs(accountId, marker, rippledSocket)
-  }
+  const {
+    data: pages,
+    isFetching: loading,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery(
+    ['account_nfts', accountId],
+    ({ pageParam = '' }) =>
+      getAccountNFTs(rippledSocket, accountId, pageParam).catch(
+        (errorResponse) => {
+          const errorLocation = `account NFTs ${accountId} at ${pageParam}`
+          analytics(ANALYTIC_TYPES.exception, {
+            exDescription: `${errorLocation} --- ${JSON.stringify(
+              errorResponse,
+            )}`,
+          })
+        },
+      ),
+    {
+      getNextPageParam: (data) => data.marker,
+    },
+  )
+  const { t } = useTranslation()
 
   function renderNoResults() {
     return (
-      <tr>
-        <td colSpan={3} className="empty-message">
-          {t('assets.no_tokens_message')}
-        </td>
-      </tr>
+      <EmptyMessageTableRow colSpan={3}>
+        {t('assets.no_nfts_message')}
+      </EmptyMessageTableRow>
     )
   }
 
   const renderRow = (nft: any) => (
     <tr key={nft.NFTokenID}>
-      <td>{nft.NFTokenID}</td>
-      <td>{nft.Issuer}</td>
+      <td>
+        <Link to={`/token/${nft.NFTokenID}`}>{nft.NFTokenID}</Link>
+      </td>
+      <td>
+        <Account account={nft.Issuer} />
+      </td>
       <td>{nft.NFTokenTaxon}</td>
     </tr>
   )
 
   const renderLoadMoreButton = () =>
-    marker && (
-      <button type="button" className="load-more-btn" onClick={loadMoreNfts}>
+    hasNextPage && (
+      <button
+        type="button"
+        className="load-more-btn"
+        onClick={() => fetchNextPage()}
+      >
         {t('load_more_action')}
       </button>
     )
 
+  const nfts = pages?.pages.flatMap((page: any) => page.account_nfts)
   return (
     <div className="section nfts-table">
       <table className="basic">
         <thead>
-          <tr className="transaction-li transaction-li-header">
+          <tr>
             <th className="col-token-id">{t('token_id')}</th>
             <th className="col-issuer">{t('issuer')}</th>
             <th className="col-taxon">{t('taxon')}</th>
@@ -93,18 +90,3 @@ const AccountNFTTableDisconnected = (props: Props) => {
     </div>
   )
 }
-
-export const AccountNFTTable = connect(
-  (state: { accountNFTs: AccountNFTState }) => ({
-    loading: state.accountNFTs.loading,
-    data: state.accountNFTs.data,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadAccountNFTs,
-      },
-      dispatch,
-    ),
-  }),
-)(AccountNFTTableDisconnected)
