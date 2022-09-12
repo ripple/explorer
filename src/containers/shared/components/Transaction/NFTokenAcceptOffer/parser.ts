@@ -1,6 +1,12 @@
-const formatAmount = require('./formatAmount')
+import { NFTokenAcceptOfferInstructions } from './types'
+import { TransactionParser } from '../types'
 
-module.exports = (tx, meta) => {
+const formatAmount = require('../../../../../rippled/lib/txSummary/formatAmount')
+
+export const parser: TransactionParser<NFTokenAcceptOfferInstructions> = (
+  tx,
+  meta,
+) => {
   const acceptedOfferNode = meta.AffectedNodes.find(
     (node) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
   )?.DeletedNode?.FinalFields

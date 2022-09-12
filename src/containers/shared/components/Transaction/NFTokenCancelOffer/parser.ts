@@ -1,6 +1,12 @@
-const formatAmount = require('./formatAmount')
+import { NFTokenCancelOfferInstructions } from './types'
+import { TransactionParser } from '../types'
 
-module.exports = (tx, meta) => {
+const formatAmount = require('../../../../../rippled/lib/txSummary/formatAmount')
+
+export const parser: TransactionParser<NFTokenCancelOfferInstructions> = (
+  tx,
+  meta,
+) => {
   const cancelledOffers = meta.AffectedNodes.filter(
     (node) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
   ).map((node) => ({

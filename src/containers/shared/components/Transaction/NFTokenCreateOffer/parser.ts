@@ -1,6 +1,12 @@
-const formatAmount = require('./formatAmount')
+import { NFTokenCreateOfferInstructions } from './types'
+import { TransactionParser } from '../types'
 
-module.exports = (tx, meta) => {
+const formatAmount = require('../../../../../rippled/lib/txSummary/formatAmount')
+
+export const parser: TransactionParser<NFTokenCreateOfferInstructions> = (
+  tx,
+  meta,
+) => {
   const account = tx.Account
   const amount = formatAmount(tx.Amount)
   const tokenID = tx.NFTokenID

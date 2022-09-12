@@ -1,28 +1,14 @@
 import React from 'react'
 
-import Account from '../../shared/components/Account'
-import { SimpleRow } from '../../shared/components/Transaction/SimpleRow'
-import { Amount } from '../../shared/components/Amount'
+import Account from '../../Account'
+import { SimpleRow } from '../SimpleRow'
+import { Amount } from '../../Amount'
+import { NFTokenCancelOfferInstructions } from './types'
 
-export interface Props {
-  data: {
-    instructions: {
-      cancelledOffers: {
-        amount: { currency: string; amount: number; issuer: string }
-        offerID: string
-        tokenID: string
-        offerer: string
-      }[]
-    }
-  }
-}
-
-const NFTokenCancelOffer = (props: Props) => {
-  const {
-    data: {
-      instructions: { cancelledOffers },
-    },
-  } = props
+export const Simple = ({
+  data,
+}: TransactionSimpleProps<NFTokenCancelOfferInstructions>) => {
+  const { cancelledOffers } = data?.instructions
 
   return (
     <>
@@ -45,5 +31,3 @@ const NFTokenCancelOffer = (props: Props) => {
     </>
   )
 }
-
-export { NFTokenCancelOffer }

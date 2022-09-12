@@ -1,22 +1,12 @@
 import React from 'react'
-import { SimpleRow } from '../../shared/components/Transaction/SimpleRow'
+import { SimpleRow } from '../SimpleRow'
+import { TransactionSimpleProps } from '../types'
+import { NFTokenMintInstructions } from './types'
 
-export interface Props {
-  data: {
-    instructions: {
-      tokenID: string
-      tokenTaxon: number
-      uri: string
-    }
-  }
-}
-
-const NFTokenMint = (props: Props) => {
-  const {
-    data: {
-      instructions: { tokenID, tokenTaxon, uri },
-    },
-  } = props
+export const Simple = ({
+  data,
+}: TransactionSimpleProps<NFTokenMintInstructions>) => {
+  const { tokenID, tokenTaxon, uri } = data?.instructions
 
   return (
     <>
@@ -32,5 +22,3 @@ const NFTokenMint = (props: Props) => {
     </>
   )
 }
-
-export { NFTokenMint }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { NFTokenMint } from '../NFTokenMint'
-import transaction from '../../test/mock_data/NFTokenMint.json'
-import summarizeTransaction from '../../../../rippled/lib/txSummary'
+import { NFTokenMint } from '../Simple'
+import transaction from './mock_data/NFTokenMint.json'
+import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 
 describe('NFTokenMint', () => {
   it('handles NFTokenMint simple view ', () => {

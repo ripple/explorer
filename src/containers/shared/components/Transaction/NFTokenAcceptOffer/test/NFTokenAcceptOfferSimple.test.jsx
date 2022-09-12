@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { mount } from 'enzyme'
-import { NFTokenAcceptOffer } from '../NFTokenAcceptOffer'
-import transactionBuy from '../../test/mock_data/NFTokenAcceptOffer_Buy.json'
-import transactionSell from '../../test/mock_data/NFTokenAcceptOffer_Sell.json'
-import transactionFailure from '../../test/mock_data/NFTokenAcceptOffer_Failure.json'
-import summarizeTransaction from '../../../../rippled/lib/txSummary'
+import { NFTokenAcceptOffer } from '../Simple'
+import transactionBuy from './mock_data/NFTokenAcceptOffer_Buy.json'
+import transactionSell from './mock_data/NFTokenAcceptOffer_Sell.json'
+import transactionFailure from './mock_data/NFTokenAcceptOffer_Failure.json'
+import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 
 describe('NFTokenAcceptOffer', () => {
   it('handles NFTokenAcceptOffer Buy simple view ', () => {

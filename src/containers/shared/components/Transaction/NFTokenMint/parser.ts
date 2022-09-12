@@ -1,6 +1,12 @@
-const utils = require('../utils')
+import { NFTokenMintInstructions } from './types'
+import { TransactionParser } from '../types'
 
-module.exports = (tx, meta) => {
+const utils = require('../../../../../rippled/lib/utils')
+
+export const parser: TransactionParser<NFTokenMintInstructions> = (
+  tx,
+  meta,
+) => {
   const affectedNode = meta.AffectedNodes.find(
     (node) =>
       node?.CreatedNode?.LedgerEntryType === 'NFTokenPage' ||
