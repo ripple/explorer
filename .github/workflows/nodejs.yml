@@ -30,8 +30,8 @@ jobs:
         env:
           cache-name: cache-npm-8
         with:
-          path: ${{ steps.npm8.outputs.npmlocation }}
-          key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles(steps.npm8.outputs.npmlocation) }}
+          path: /opt/hostedtoolcache/node/14.20.0/x64/bin/npm
+          key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles('/opt/hostedtoolcache/node/14.20.0/x64/bin/npm') }}
           restore-keys: |
             ${{ runner.os }}-npm-${{ env.cache-name }}-
             ${{ runner.os }}-npm-
