@@ -57,8 +57,8 @@ class Ledgers extends Component {
         ...data,
         mode,
         v: mode === 'validator' && validators[data.pubkey],
-        x: event.pageX,
-        y: event.pageY,
+        x: event.currentTarget.offsetLeft,
+        y: event.currentTarget.offsetTop,
       },
     })
   }
@@ -241,9 +241,11 @@ class Ledgers extends Component {
         <div className="ledgers">
           <div className="control">{selected && this.renderSelected()}</div>
           <div className="ledger-line" />
-          <div className="ledger-list">{ledgers.map(this.renderLedger)}</div>
+          <div className="ledger-list">
+            {ledgers.map(this.renderLedger)}{' '}
+            <Tooltip t={t} language={language} data={tooltip} />
+          </div>
         </div>
-        <Tooltip t={t} language={language} data={tooltip} />
       </>
     )
   }

@@ -1,3 +1,5 @@
+import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+
 export function parser(tx: any, meta: any) {
   const affectedNodes = meta.AffectedNodes
   const modifiedAccountRoots = affectedNodes.filter(
@@ -18,6 +20,6 @@ export function parser(tx: any, meta: any) {
     bridgeOwner: doorNode.ModifiedNode.FinalFields.Account,
     claimId: tx.XChainClaimID,
     destination: tx.Destination,
-    amount: tx.Amount,
+    amount: formatAmount(tx.Amount),
   }
 }

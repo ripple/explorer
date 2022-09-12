@@ -17,7 +17,7 @@ function createWrapper(tx: any) {
   )
 }
 
-describe('SetRegularKeyDescription', () => {
+describe('SetRegularKey: Description', () => {
   it('renders description for transaction', () => {
     const wrapper = createWrapper(SetRegularKey)
 

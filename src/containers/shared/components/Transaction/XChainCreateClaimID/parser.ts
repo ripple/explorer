@@ -1,3 +1,5 @@
+import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+
 export function parser(tx: any, meta: any) {
   const affectedNodes = meta.AffectedNodes
   const bridgeMeta = affectedNodes.filter(
@@ -9,8 +11,8 @@ export function parser(tx: any, meta: any) {
     lockingIssue: tx.XChainBridge.LockingChainIssue,
     issuingDoor: tx.XChainBridge.IssuingChainDoor,
     issuingIssue: tx.XChainBridge.IssuingChainIssue,
-    signatureReward: tx.SignatureReward,
-    otherChainAccount: tx.OtherChainAccount,
+    signatureReward: formatAmount(tx.SignatureReward),
+    otherChainSource: tx.OtherChainSource,
     bridgeOwner: bridgeMeta.ModifiedNode.FinalFields.Account,
   }
 }
