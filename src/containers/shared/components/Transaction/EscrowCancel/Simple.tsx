@@ -13,7 +13,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
     data.instructions
   return (
     <>
-      <SimpleRow label={t('cancel_escrow')}>
+      <SimpleRow label={t('cancel_escrow')} data-test="escrow-cancel">
         <Account account={owner} />
         {` - ${sequence}`}
       </SimpleRow>
@@ -21,17 +21,20 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         <SimpleRow label={t('escrow_condition_short')}>{condition}</SimpleRow>
       )}
       {amount.amount && (
-        <SimpleRow label={t('escrow_amount')}>
+        <SimpleRow label={t('escrow_amount')} data-test="escrow-amount">
           <Amount value={amount} />
         </SimpleRow>
       )}
       {destination && (
-        <SimpleRow label={t('escrow_destination')}>
+        <SimpleRow
+          label={t('escrow_destination')}
+          data-test="escrow-destination"
+        >
           <Account account={destination} />
         </SimpleRow>
       )}
       {tx && (
-        <SimpleRow label={t('escrow_transaction')}>
+        <SimpleRow label={t('escrow_transaction')} data-test="escrow-tx">
           <Link className="hash" to={`/transactions/${tx}`}>
             {tx}
           </Link>

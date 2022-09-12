@@ -1,22 +1,11 @@
 import { unix } from 'moment'
+import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const EPOCH_OFFSET = 946684800
 const convertRippleDate = (date: any) =>
   unix(date + EPOCH_OFFSET)
     .utc()
     .format()
-
-const formatAmount = (d: any) =>
-  d.value
-    ? {
-        currency: d.currency,
-        issuer: d.issuer,
-        amount: Number(d.value),
-      }
-    : {
-        currency: 'XRP',
-        amount: d / 1000000,
-      }
 export function parser(tx: any) {
   return {
     amount: formatAmount(tx.Amount),

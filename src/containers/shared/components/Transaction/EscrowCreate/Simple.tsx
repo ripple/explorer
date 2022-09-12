@@ -19,15 +19,19 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
 
   return (
     <>
-      <SimpleRow label={t('escrow')}>
+      <SimpleRow label={t('escrow')} data-test="escrow-amount">
         <Amount value={amount} />
       </SimpleRow>
       {destination && (
-        <SimpleRow label={t('destination')}>
+        <SimpleRow label={t('destination')} data-test="escrow-destination">
           <Account account={destination} />
         </SimpleRow>
       )}
-      {condition && <SimpleRow label={t('condition')}>{condition}</SimpleRow>}
+      {condition && (
+        <SimpleRow label={t('condition')} data-test="escrow-condition">
+          {condition}
+        </SimpleRow>
+      )}
       {cancelAfter && (
         <SimpleRow label={t('cancel_after')}>
           {caDate} {DATE_OPTIONS.timeZone}

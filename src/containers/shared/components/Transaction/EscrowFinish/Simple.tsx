@@ -21,7 +21,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
 
   return (
     <>
-      <SimpleRow label={t('finish_escrow')}>
+      <SimpleRow label={t('finish_escrow')} data-test="escrow-finish">
         <Account account={owner} />
         {` - ${sequence}`}
       </SimpleRow>
@@ -31,7 +31,12 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         </SimpleRow>
       )}
       {fulfillment && (
-        <SimpleRow label={t('escrow_fulfillments')}>{fulfillment}</SimpleRow>
+        <SimpleRow
+          label={t('escrow_fulfillments')}
+          data-test="escrow-fullfillments"
+        >
+          {fulfillment}
+        </SimpleRow>
       )}
       {amount.amount && (
         <SimpleRow label={t('escrow_amount')}>
@@ -39,12 +44,15 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         </SimpleRow>
       )}
       {destination && (
-        <SimpleRow label={t('escrow_destination')}>
+        <SimpleRow
+          label={t('escrow_destination')}
+          data-test="escrow-destination"
+        >
           <Account account={destination} />
         </SimpleRow>
       )}
       {tx && (
-        <SimpleRow label={t('escrow_transaction')}>
+        <SimpleRow label={t('escrow_transaction')} data-test="escrow-tx">
           <Link className="hash" to={`/transactions/${tx}`}>
             {tx}
           </Link>
