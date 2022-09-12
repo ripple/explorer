@@ -17,8 +17,19 @@ import {
   HASH_REGEX,
 } from '../shared/utils'
 import './search.scss'
+import { getNFTInfo } from '../../rippled/lib/rippled'
+import SocketContext from '../shared/SocketContext'
 
-const getIdType = (id) => {
+const isNFTOrTransactions = async (id, rippledContext) => {
+  try {
+    await getNFTInfo(rippledContext, id)
+    return 'token'
+  } catch (e) {
+    return 'transactions'
+  }
+}
+
+const getIdType = async (id, rippledContext) => {
   if (DECIMAL_REGEX.test(id)) {
     return 'ledgers'
   }
@@ -26,7 +37,10 @@ const getIdType = (id) => {
     return 'accounts'
   }
   if (HASH_REGEX.test(id)) {
-    return 'transactions'
+    // Transactions and NFTs share the same syntax
+    // We must make an api call to ensure if it's one or the other
+    const idType = await isNFTOrTransactions(id, rippledContext)
+    return idType
   }
   if (isValidXAddress(id) || isValidClassicAddress(id.split(':')[0])) {
     return 'accounts' // TODO: Consider a new path/page specific to X-addresses
@@ -69,7 +83,7 @@ const normalize = (id, type) => {
     if (!isValidPayString(id)) {
       return id.replace('@', '$')
     }
-  } else if (type === 'token') {
+  } else if (type === 'token' && id.includes('.')) {
     const components = id.split('.')
     return `${components[0].toLowerCase()}.${components[1]}`
   }
@@ -88,9 +102,9 @@ class Search extends Component {
     this.setState({ redirect: '' })
   }
 
-  handleSearch(id) {
+  async handleSearch(id) {
     const { callback } = this.props
-    const type = getIdType(id)
+    const type = await getIdType(id, this.context)
 
     analytics(ANALYTIC_TYPES.event, {
       eventCategory: 'globalSearch',
@@ -131,6 +145,8 @@ class Search extends Component {
     )
   }
 }
+
+Search.contextType = SocketContext
 
 Search.propTypes = {
   t: PropTypes.func.isRequired,

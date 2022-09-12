@@ -40,7 +40,8 @@ describe('Header component', () => {
     wrapper.unmount()
   })
 
-  it('search values', () => {
+  it('search values', async () => {
+    const flushPromises = () => new Promise((resolve) => setImmediate(resolve))
     const wrapper = createWrapper()
     const input = wrapper.find('.search input')
     const ledgerIndex = '123456789'
@@ -62,54 +63,66 @@ describe('Header component', () => {
 
     input.instance().value = ledgerIndex
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/ledgers/${ledgerIndex}`)
 
     input.instance().value = rippleAddress
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
 
     input.instance().value = rippleXAddress
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/accounts/${rippleXAddress}`)
 
     // Normalize split address format to a X-Address
     input.instance().value = rippleSplitAddress
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/accounts/${rippleXAddress}`)
 
     input.instance().value = paystring
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
 
     // Normalize paystrings with @ to $
     input.instance().value = paystringWithAt
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
 
     input.instance().value = hash
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/transactions/${hash}`)
 
     input.instance().value = token1
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/token/${token1}`)
 
     input.instance().value = token2
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/token/${token2}`)
 
     input.instance().value = invalidString
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/search/${invalidString}`)
 
     // ensure strings are trimmed
     input.instance().value = ` ${hash} `
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/transactions/${hash}`)
 
     // handle lower case tx hash
     input.instance().value = hash.toLowerCase()
     input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
     expect(window.location.pathname).toEqual(`/transactions/${hash}`)
     wrapper.unmount()
   })
