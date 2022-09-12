@@ -17,7 +17,7 @@ function createWrapper(tx: any) {
   )
 }
 
-describe('OfferCreateDescription', () => {
+describe('OfferCreate: Description', () => {
   it('renders description for transaction with cancel and expiration', () => {
     const wrapper = createWrapper(OfferCreate)
 
