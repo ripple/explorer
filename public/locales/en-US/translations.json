@@ -371,5 +371,8 @@
   "sell_offers":"Sell Offers",
   "offer_index": "Offer ID",
   "owner": "Owner's Account",
-  "no_additional_info":"No additional information"
+  "no_additional_info":"No additional information",
+  "% of total nodes":"% of Total Nodes",
+  "version_display":"Version: {{version}}",
+  "nodes_count":"# of Nodes: {{count}}"
 }
