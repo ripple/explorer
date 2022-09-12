@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
 import Search from '../Search'
+import * as rippled from '../../../rippled/lib/rippled'
 
 describe('Header component', () => {
   const middlewares = [thunk]
@@ -56,7 +57,12 @@ describe('Header component', () => {
     const token1 = 'cny.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
     const token2 =
       '534f4c4f00000000000000000000000000000000.rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz'
+    const nftoken =
+      '000800011C7D8ED1D715A0017E41BF9499ECC17E7FB666320000099B00000000'
     const invalidString = '123invalid'
+
+    // mock getNFTInfo api to test transactions and nfts
+    const mockNFT = jest.spyOn(rippled, 'getNFTInfo')
 
     input.simulate('keyDown', { key: 'a' })
     expect(window.location.pathname).toEqual('/')
@@ -93,6 +99,9 @@ describe('Header component', () => {
     await flushPromises()
     expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
 
+    mockNFT.mockImplementation(() => {
+      throw new Error('NFT not found', 404)
+    })
     input.instance().value = hash
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
@@ -108,12 +117,24 @@ describe('Header component', () => {
     await flushPromises()
     expect(window.location.pathname).toEqual(`/token/${token2}`)
 
+    // Returns a response upon a valid nft_id, redirect to NFT
+    mockNFT.mockImplementation(() => {
+      '123'
+    })
+    input.instance().value = nftoken
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/token/${nftoken}`)
+
     input.instance().value = invalidString
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
     expect(window.location.pathname).toEqual(`/search/${invalidString}`)
 
     // ensure strings are trimmed
+    mockNFT.mockImplementation(() => {
+      throw new Error('NFT not found', 404)
+    })
     input.instance().value = ` ${hash} `
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
