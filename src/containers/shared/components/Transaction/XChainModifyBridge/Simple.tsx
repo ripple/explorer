@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import Account from '../../Account'
+import { Amount } from '../../Amount'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { XChainBridge } from '../XChainBridge'
@@ -17,7 +17,7 @@ export const Simple: TransactionSimpleComponent = (
         issuingDoor,
         issuingIssue,
         signatureReward,
-        otherChainSource,
+        minAccountCreateAmount,
         bridgeOwner,
       },
     },
@@ -33,12 +33,14 @@ export const Simple: TransactionSimpleComponent = (
         signatureReward={signatureReward}
         bridgeOwner={bridgeOwner}
       />
-      <SimpleRow
-        label={t('other_chain_account')}
-        data-test="other-chain-account"
-      >
-        <Account account={otherChainSource} link={false} />
-      </SimpleRow>
+      {minAccountCreateAmount && (
+        <SimpleRow
+          label={t('min_account_create_amount')}
+          data-test="min-account-create-amount"
+        >
+          <Amount value={minAccountCreateAmount} />
+        </SimpleRow>
+      )}
     </>
   )
 }

@@ -85,8 +85,8 @@ class Validators extends Component {
         ...data,
         mode: 'validator',
         v: list[data.pubkey],
-        x: event.pageX,
-        y: event.pageY,
+        x: event.nativeEvent.offsetX,
+        y: event.nativeEvent.offsetY,
       },
     })
   }
