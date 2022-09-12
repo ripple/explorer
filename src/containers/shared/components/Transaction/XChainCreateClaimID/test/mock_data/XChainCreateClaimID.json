@@ -3,7 +3,7 @@
     "Account": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
     "Fee": "10",
     "Flags": 0,
-    "OtherChainAccount": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+    "OtherChainSource": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
     "Sequence": 11,
     "SignatureReward": "100",
     "SigningPubKey": "03E2494BAB52A1D9C8A7BC67773AD7893B33DBF0F836A634D8B28DD6007B1537E3",

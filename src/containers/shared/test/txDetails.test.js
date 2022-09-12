@@ -15,7 +15,6 @@ import OfferCancel from '../../Transactions/test/mock_data/OfferCancel.json'
 import PaymentChannelClaim from '../../Transactions/test/mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from '../../Transactions/test/mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from '../../Transactions/test/mock_data/PaymentChannelFund.json'
-import SignerListSet from '../../Transactions/test/mock_data/SignerListSet.json'
 import TrustSet from '../../Transactions/test/mock_data/TrustSet.json'
 import UNLModify from '../../Transactions/test/mock_data/UNLModify.json'
 import TxDetails from '../components/TxDetails'
@@ -93,11 +92,6 @@ describe('TxDetails', () => {
 
   it('renders PaymentChannelClaim without crashing', () => {
     const wrapper = createWrapper(PaymentChannelClaim)
-    wrapper.unmount()
-  })
-
-  it('renders SignerListSet without crashing', () => {
-    const wrapper = createWrapper(SignerListSet)
     wrapper.unmount()
   })
 

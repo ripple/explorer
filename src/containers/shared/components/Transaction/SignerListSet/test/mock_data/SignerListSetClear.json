@@ -1,0 +1,96 @@
+{
+  "tx": {
+    "Account": "rfqdGwfvJa4aigQuUtSQ8w41Hwp3cNeaB5",
+    "Fee": "40",
+    "Flags": 0,
+    "Sequence": 30736717,
+    "SignerQuorum": 0,
+    "Signers": [
+      {
+        "Signer": {
+          "Account": "rfB488TCijrPy8bL61FcjEUFd85g4J71pn",
+          "SigningPubKey": "ED0615EDB8827E8EF390B74184F6EA457CB2F05D9A8282E9230AB7CB63601C0AF0",
+          "TxnSignature": "87844C2CBD75FB8C8B7776C2F0930EF3993011A079F499FFC2376CE7AADAAC11C76D1CD5DE3B5D669E077DB32AA561651E8EA0CB509824815334360D2941970A"
+        }
+      },
+      {
+        "Signer": {
+          "Account": "rPMiudFt7phyRFU1JguSjEjKj9iRCoYiSM",
+          "SigningPubKey": "EDB4B8DAF41E246A17AE204D98EDFB1CA649B05968D88459CD2808456608044CF3",
+          "TxnSignature": "07CA5BD5F4406CF654CD160093E008864C60B973C1346E12F8EB977B8062B151B53D357F666530AA2FA4A295548BA9423ABBBAF9BC5DF0CB6DFC6008123B330D"
+        }
+      }
+    ],
+    "SigningPubKey": "",
+    "TransactionType": "SignerListSet",
+    "date": "2022-08-29T19:19:03Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rfqdGwfvJa4aigQuUtSQ8w41Hwp3cNeaB5",
+            "Balance": "999999950",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 30736718
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "DD6EE44028F30E5557965EC805D022B3B1CAF36543A2B849BA283DDFC615175A",
+          "PreviousFields": {
+            "Balance": "999999990",
+            "OwnerCount": 1,
+            "Sequence": 30736717
+          },
+          "PreviousTxnID": "DD54ACD593E5D51CEF1852D75F64C0527DCCF953379D369EE9700BE97582383D",
+          "PreviousTxnLgrSeq": 30736725
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Flags": 65536,
+            "OwnerNode": "0",
+            "PreviousTxnID": "DD54ACD593E5D51CEF1852D75F64C0527DCCF953379D369EE9700BE97582383D",
+            "PreviousTxnLgrSeq": 30736725,
+            "SignerEntries": [
+              {
+                "SignerEntry": {
+                  "Account": "rfB488TCijrPy8bL61FcjEUFd85g4J71pn",
+                  "SignerWeight": 1
+                }
+              },
+              {
+                "SignerEntry": {
+                  "Account": "rPMiudFt7phyRFU1JguSjEjKj9iRCoYiSM",
+                  "SignerWeight": 1
+                }
+              }
+            ],
+            "SignerListID": 0,
+            "SignerQuorum": 2
+          },
+          "LedgerEntryType": "SignerList",
+          "LedgerIndex": "F20512913DEDE42B2A899648F6395D451D28A6F92399F7D7CFD8AE8A5265381E"
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rfqdGwfvJa4aigQuUtSQ8w41Hwp3cNeaB5",
+            "RootIndex": "FB4A6DC18FC438747FFDD0AFE9B3728D582F981C29D864D3F11E8C20577A40B0"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "FB4A6DC18FC438747FFDD0AFE9B3728D582F981C29D864D3F11E8C20577A40B0"
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "AB715572A238301FA8F29F06726290B6FE46C92C3E09083C0348D2393C908627",
+  "ledger_index": 30736727,
+  "date": "2022-08-29T19:19:03Z"
+}
