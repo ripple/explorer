@@ -24,7 +24,7 @@
   "ledgers": "Ledgers",
   "ledger": "Ledger",
   "taxon": "Taxon",
-  "token_id": "Token Id",
+  "token_id": "Token ID",
   "transactions": "Transactions",
   "transaction_short": "TX",
   "nodes": "Nodes",
@@ -374,5 +374,11 @@
   "validator_history.chain": "Chain",
   "validator_history.date": "Date",
   "validator_history.missed": "Missed",
-  "validator_history.score": "Score"
+  "validator_history.score": "Score",
+  "seller": "Seller",
+  "buyer": "Buyer",
+  "offerer": "Offerer",
+  "token_taxon": "Token Taxon",
+  "uri": "URI",
+  "owner_label": "Owner"
 }

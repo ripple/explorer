@@ -1,4 +1,6 @@
 import React from 'react'
+
+import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { NFTokenBurnInstructions } from './types'
 
@@ -6,9 +8,10 @@ export const Simple = ({
   data,
 }: TransactionSimpleProps<NFTokenBurnInstructions>) => {
   const { tokenID } = data?.instructions
+  const { t } = useTranslation()
 
   return (
-    <SimpleRow label="Token ID" className="dt" data-test="token-id">
+    <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
       {tokenID}
     </SimpleRow>
   )

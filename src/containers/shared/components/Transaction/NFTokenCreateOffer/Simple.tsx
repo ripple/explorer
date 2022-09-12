@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { useTranslation } from 'react-i18next'
 import Account from '../../Account'
 import { Amount } from '../../Amount'
 import { SimpleRow } from '../SimpleRow'
@@ -10,15 +11,16 @@ export const Simple = ({
 }: TransactionSimpleProps<NFTokenCreateOfferInstructions>) => {
   const { offerID, account, amount, tokenID, isSellOffer, owner } =
     data?.instructions
+  const { t } = useTranslation()
 
   return (
     <>
-      <SimpleRow label="Offer ID" className="dt" data-test="offer-id">
+      <SimpleRow label={t('offer_index')} className="dt" data-test="offer-id">
         {offerID}
       </SimpleRow>
       <div data-test="buyer-or-seller">
         <SimpleRow
-          label={isSellOffer ? 'Seller' : 'Buyer'}
+          label={isSellOffer ? t('seller') : t('buyer')}
           className="account"
           data-test="buyer-or-seller-account"
         >
@@ -26,14 +28,18 @@ export const Simple = ({
         </SimpleRow>
       </div>
       {!isSellOffer && (
-        <SimpleRow label="Owner" className="account" data-test="owner">
+        <SimpleRow
+          label={t('owner_label')}
+          className="account"
+          data-test="owner"
+        >
           <Account account={owner} />
         </SimpleRow>
       )}
-      <SimpleRow label="Token ID" className="dt" data-test="token-id">
+      <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
         {tokenID}
       </SimpleRow>
-      <SimpleRow label="Amount" data-test="amount">
+      <SimpleRow label={t('amount')} data-test="amount">
         <Amount value={amount} displayIssuer />
       </SimpleRow>
     </>
