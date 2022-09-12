@@ -39,8 +39,7 @@ const getIdType = async (id, rippledContext) => {
   if (HASH_REGEX.test(id)) {
     // Transactions and NFTs share the same syntax
     // We must make an api call to ensure if it's one or the other
-    const idType = await isNFTOrTransactions(id, rippledContext)
-    return idType
+    return isNFTOrTransactions(id, rippledContext)
   }
   if (isValidXAddress(id) || isValidClassicAddress(id.split(':')[0])) {
     return 'accounts' // TODO: Consider a new path/page specific to X-addresses
