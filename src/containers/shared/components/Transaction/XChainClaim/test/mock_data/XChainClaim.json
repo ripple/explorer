@@ -43,7 +43,7 @@
           "FinalFields": {
             "Account": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
             "Flags": 0,
-            "OtherChainAccount": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+            "OtherChainSource": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
             "OwnerNode": "0",
             "PreviousTxnID": "B0479E9F3586B35D8F4233ED8D99073D9787B1DD59CC354541E4A11683904CBA",
             "PreviousTxnLgrSeq": 16,

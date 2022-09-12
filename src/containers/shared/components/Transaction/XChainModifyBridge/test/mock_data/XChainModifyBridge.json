@@ -1,0 +1,75 @@
+{
+  "tx": {
+    "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+    "Fee": "10",
+    "Flags": 0,
+    "LastLedgerSequence": 23,
+    "Sequence": 2,
+    "SignatureReward": "10000",
+    "SigningPubKey": "0330E7FC9D56BB25D6893BA3F317AE5BCF33B3291BD63DB32654A313222F7FD020",
+    "TransactionType": "XChainModifyBridge",
+    "TxnSignature": "3045022100A63798DB1B2CD62D01E04C503623E5DFC601C1FEB94D57F080B94358F2F8FAEE022050E04955B6774B107374C556A60B6661D47C926F24B7B92D84D93546659DE29B",
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": "XRP",
+      "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+      "LockingChainIssue": "XRP"
+    },
+    "date": "2022-08-18T09:11:30Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Balance": "99999999999999980",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 3
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "2B6AC232AA4C4BE41BF49D2459FA4A0347E1B543A4C92FCEE0821C0201E2E9A8",
+          "PreviousFields": {
+            "Balance": "99999999999999990",
+            "Sequence": 2
+          },
+          "PreviousTxnID": "31BD5F2C0982752A20BB6A4205F7B6ED6576D08AB7927978BF282E8ABEF44467",
+          "PreviousTxnLgrSeq": 3
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Balance": "0",
+            "Flags": 0,
+            "OwnerNode": "0",
+            "SignatureReward": "10000",
+            "XChainAccountClaimCount": "0",
+            "XChainAccountCreateCount": "0",
+            "XChainBridge": {
+              "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+              "IssuingChainIssue": "XRP",
+              "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
+              "LockingChainIssue": "XRP"
+            },
+            "XChainClaimID": "0"
+          },
+          "LedgerEntryType": "Bridge",
+          "LedgerIndex": "EFFC3B47E68E9F74206D9C2F0E14279379E483A40A435AF7C7F729FCAD663DB1",
+          "PreviousFields": {
+            "SignatureReward": "100"
+          },
+          "PreviousTxnID": "31BD5F2C0982752A20BB6A4205F7B6ED6576D08AB7927978BF282E8ABEF44467",
+          "PreviousTxnLgrSeq": 3
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "ADBA23ED812B231559A1DFC76C9BCE566BB7BAEF7A737C3515911AE23050CDDA",
+  "ledger_index": 4,
+  "date": "2022-08-18T09:11:30Z"
+}
