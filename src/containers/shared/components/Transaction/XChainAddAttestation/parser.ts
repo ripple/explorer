@@ -11,11 +11,24 @@ export function parser(tx: any) {
         signature: attestation.XChainClaimAttestationBatchElement.Signature,
       }),
     )
+
+  const accountCreateAttestations =
+    tx.XChainAttestationBatch.XChainCreateAccountAttestationBatch.map(
+      (attestation: any) => ({
+        send: attestation.XChainCreateAccountAttestationBatchElement.Amount,
+        account: attestation.XChainCreateAccountAttestationBatchElement.Account,
+        destination:
+          attestation.XChainCreateAccountAttestationBatchElement.Destination,
+        signature:
+          attestation.XChainCreateAccountAttestationBatchElement.Signature,
+      }),
+    )
   return {
     lockingDoor: tx.XChainAttestationBatch.XChainBridge.LockingChainDoor,
     lockingIssue: tx.XChainAttestationBatch.XChainBridge.LockingChainIssue,
     issuingDoor: tx.XChainAttestationBatch.XChainBridge.IssuingChainDoor,
     issuingIssue: tx.XChainAttestationBatch.XChainBridge.IssuingChainIssue,
     claimAttestations,
+    accountCreateAttestations,
   }
 }

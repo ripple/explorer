@@ -1,14 +1,12 @@
 import React from 'react'
-// import { useTranslation } from 'react-i18next'
-// import { Amount } from '../../Amount'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { XChainBridge } from '../XChainBridge'
+import { AccountCreateAttestation } from './AccountCreateAttestation'
 import { ClaimAttestation } from './ClaimAttestation'
 
 export const Simple: TransactionSimpleComponent = (
   props: TransactionSimpleProps,
 ) => {
-  // const { t } = useTranslation()
   const {
     data: {
       instructions: {
@@ -16,6 +14,7 @@ export const Simple: TransactionSimpleComponent = (
         lockingIssue,
         issuingDoor,
         issuingIssue,
+        accountCreateAttestations,
         claimAttestations,
       },
     },
@@ -31,6 +30,7 @@ export const Simple: TransactionSimpleComponent = (
         bridgeOwner=""
       />
       {claimAttestations.map(ClaimAttestation)}
+      {accountCreateAttestations.map(AccountCreateAttestation)}
     </>
   )
 }
