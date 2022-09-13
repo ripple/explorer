@@ -14,7 +14,7 @@ const Description: TransactionDescriptionComponent = (
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage
   const { data } = props
-  const deleted = findNode(data, 'DeletedNode', 'Escrow').DeletedNode
+  const deleted: any = findNode(data, 'DeletedNode', 'Escrow')
   if (!deleted) {
     return null
   }
@@ -35,6 +35,7 @@ const Description: TransactionDescriptionComponent = (
         </Trans>
         {data.tx.Owner === data.tx.Account && (
           <span>
+            {' '}
             (
             <b>
               {normalizeAmount(
@@ -42,7 +43,7 @@ const Description: TransactionDescriptionComponent = (
                 language,
               )}
               <small>XRP</small>
-            </b>
+            </b>{' '}
             {t('escrow_after_transaction_cost')})
           </span>
         )}

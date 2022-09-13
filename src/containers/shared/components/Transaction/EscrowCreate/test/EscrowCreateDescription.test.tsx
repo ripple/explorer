@@ -20,7 +20,7 @@ describe('EscrowCreateDescription', () => {
   it('renders description for EscrowCreate', () => {
     const wrapper = createWrapper(EscrowCreate)
     expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>104</span></b></div>The escrow is from<a class="account" title="rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q" href="/accounts/rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q">rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q</a>to<a class="account" title="rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q" href="/accounts/rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q">rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q</a><div>escrow_condition<span class="condition"> A0258020886F982742772F414243855DC13B348FC78FB3D5119412C8A6480114E36A4451810120</span></div><div>escrowed_amount<b> \uE900997.50<small>XRP</small></b></div><div>describe_cancel_after<span class="time"> March 1, 2020, 8:54:20 AM UTC</span></div><div>describe_finish_after<span class="time"> March 1, 2020, 9:01:00 AM UTC</span></div></div>',
+      'The escrow is from<a class="account" title="rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q" href="/accounts/rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q">rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q</a>to<a class="account" title="rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q" href="/accounts/rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q">rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q</a><div>escrow_condition<span class="condition"> A0258020886F982742772F414243855DC13B348FC78FB3D5119412C8A6480114E36A4451810120</span></div><div>escrowed_amount<b> \uE900997.50<small>XRP</small></b></div><div>describe_cancel_after<span class="time"> March 1, 2020, 8:54:20 AM UTC</span></div><div>describe_finish_after<span class="time"> March 1, 2020, 9:01:00 AM UTC</span></div>',
     )
     wrapper.unmount()
   })

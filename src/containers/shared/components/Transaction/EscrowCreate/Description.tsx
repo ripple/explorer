@@ -57,6 +57,7 @@ const Description: TransactionDescriptionComponent = (
       <div key="line4">
         {t('escrowed_amount')}
         <b>
+          {' '}
           {normalizeAmount(data.tx.Amount, language)}
           <small>XRP</small>
         </b>

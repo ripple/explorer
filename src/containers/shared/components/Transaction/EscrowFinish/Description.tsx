@@ -14,7 +14,7 @@ const Description: TransactionDescriptionComponent = (
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage
   const { data } = props
-  const deleted = findNode(data, 'DeletedNode', 'Escrow').DeletedNode
+  const deleted: any = findNode(data, 'DeletedNode', 'Escrow')
 
   if (!deleted) {
     return null

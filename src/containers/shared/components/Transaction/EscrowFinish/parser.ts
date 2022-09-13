@@ -1,8 +1,14 @@
 import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
-import { findNode } from '../../../transactionUtils'
 
-export function parser(tx: any) {
-  const escrow = findNode(tx, 'DeletedNode', 'Escrow').DeletedNode
+const findNode = (meta: any) => {
+  const node = meta.AffectedNodes.filter(
+    (a: any) => a.DeletedNode && a.DeletedNode.LedgerEntryType === 'Escrow',
+  )[0]
+
+  return node ? node.DeletedNode.FinalFields : {}
+}
+export function parser(tx: any, meta: any) {
+  const escrow = findNode(meta)
   return {
     sequence: tx.OfferSequence,
     owner: tx.Owner,
