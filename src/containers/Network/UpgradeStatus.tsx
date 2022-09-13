@@ -47,7 +47,6 @@ export const UpgradeStatus = () => {
 
   useEffect(() => {
     fetchStableVersion()
-    fetchStableVersion()
     fetchData()
     const interval = setInterval(fetchData, 5000)
     return () => {
@@ -70,19 +69,6 @@ export const UpgradeStatus = () => {
         setUnlCount(resp.data.filter((d: any) => Boolean(d.unl)).length)
       })
       .catch((e) => Log.error(e))
-  }
-
-  const fetchStableVersion = () => {
-    const url = 'https://api.github.com/repos/XRPLF/rippled/releases'
-    axios.get(url).then((resp) => {
-      resp.data.every((release: any) => {
-        if (release.tag_name && !release.prerelease) {
-          setStableVersion(release.tag_name)
-          return false
-        }
-        return true
-      })
-    })
   }
 
   const fetchStableVersion = () => {
@@ -147,7 +133,6 @@ export const UpgradeStatus = () => {
           {vList && (
             <BarChartVersion
               data={aggregateData(Object.values(vList))}
-              stableVersion={stableVersion}
               stableVersion={stableVersion}
             />
           )}
