@@ -17,8 +17,8 @@ export const ClaimAttestation = (props: ClaimAttestationProps) => {
   const { send, account, destination, claimId, signature } = props
 
   return (
-    <div className="claim-attestation" key={signature}>
-      <div className="claim-attestation-title">
+    <div className="attestation" key={signature}>
+      <div className="attestation-title">
         XChain Claim Attestation Batch Element
       </div>
       <SimpleRow label={t('send')} data-test="send">
