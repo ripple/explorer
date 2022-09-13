@@ -49,12 +49,14 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         </SimpleRow>
       )}
       {previousTx && (
-        <SimpleRow label={t('escrow_transaction')} data-test="escrow-tx">
-          <div className="tx value">
-            <Link className="hash" to={`/transactions/${previousTx}`}>
-              {previousTx}
-            </Link>
-          </div>
+        <SimpleRow
+          label={t('escrow_transaction')}
+          className="tx"
+          data-test="escrow-tx"
+        >
+          <Link className="hash" to={`/transactions/${previousTx}`}>
+            {previousTx}
+          </Link>
         </SimpleRow>
       )}
     </>
