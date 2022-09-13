@@ -40,7 +40,7 @@ class Network extends Component {
     // strips :url from the front and the tab info from the end
     const base = path.split('/:')[0]
     // eslint-disable-next-line no-nested-ternary
-    return tab === 'upgrade-status' ? (
+    return tab === 'upgrade_status' ? (
       <UpgradeStatus path={base} />
     ) : tab === 'validators' ? (
       <Validators path={base} />

@@ -113,8 +113,8 @@ export const UpgradeStatus = () => {
       </div>
 
       <div className="wrap">
-        <NetworkTabs selected="upgrade-status" />
-        <div className="upgrade-status">
+        <NetworkTabs selected="upgrade_status" />
+        <div className="upgrade_status">
           {vList && (
             <BarChartVersion data={aggregateData(Object.values(vList))} />
           )}
