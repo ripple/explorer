@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [14.20.0]
 
     steps:
       - uses: actions/checkout@v3
@@ -23,6 +23,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Setup npm version 8
+        id: npm8
+        run: |
+          npm i -g npm@8 --registry=https://registry.npmjs.org
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -36,7 +41,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
-            ${{ runner.os }}-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'

@@ -21,7 +21,7 @@ function createWrapper(tx: any) {
   )
 }
 
-describe('SetRegularKeySimple', () => {
+describe('SetRegularKey: Simple', () => {
   it('renders Simple for transaction', () => {
     const wrapper = createWrapper(SetRegularKey)
     const keyRow = wrapper.find(SimpleRow)
@@ -38,7 +38,7 @@ describe('SetRegularKeySimple', () => {
     const keyRow = wrapper.find(SimpleRow)
 
     expect(keyRow.prop('label')).toBe(null)
-    expect(keyRow.find('.unset').text()).toBe(`unset_regular_key`)
+    expect(keyRow.find('.unset').hostNodes().text()).toBe(`unset_regular_key`)
     wrapper.unmount()
   })
 })

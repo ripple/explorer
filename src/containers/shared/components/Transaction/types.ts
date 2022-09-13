@@ -48,13 +48,13 @@ export interface Instructions {
   ticketCount: number
 }
 
-export interface TransactionTableDetailProps {
-  instructions: Instructions
+export interface TransactionTableDetailProps<I = any> {
+  instructions: I
 }
 export type TransactionTableDetailComponent =
   React.FC<TransactionTableDetailProps>
 
-export interface TransactionDescriptionProps {
+export interface TransactionDescriptionProps<T = any> {
   data: {
     tx: any
     meta: any
@@ -63,16 +63,17 @@ export interface TransactionDescriptionProps {
 export type TransactionDescriptionComponent =
   React.FC<TransactionDescriptionProps>
 
-export interface TransactionSimpleProps {
+export interface TransactionSimpleProps<I = any> {
   data: {
-    instructions?: any
+    instructions: I
   }
 }
 export type TransactionSimpleComponent = React.FC<TransactionSimpleProps>
+export type TransactionParser<T = any, I = any> = (tx: T, meta: any) => I
 
 export interface TransactionMapping {
   Description?: TransactionDescriptionComponent
   Simple: TransactionSimpleComponent
   TableDetail?: TransactionTableDetailComponent
-  parser: (tx: any, meta: any) => any
+  parser: TransactionParser
 }

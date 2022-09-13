@@ -19,7 +19,7 @@ function createWrapper(tx: any) {
   )
 }
 
-describe('OfferCreateSimple', () => {
+describe('OfferCreate: Simple', () => {
   it('renders with an expiration and offer', () => {
     const wrapper = createWrapper(mockOfferCreateWithCancel)
     expect(wrapper.find('[data-test="cancel-id"] .value')).toHaveText(
