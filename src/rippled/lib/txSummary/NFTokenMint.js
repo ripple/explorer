@@ -1,21 +1,31 @@
 const utils = require('../utils')
 
 module.exports = (tx, meta) => {
-  const affectedNode = meta.AffectedNodes.find(
+  const affectedNodes = meta.AffectedNodes.filter(
     (node) =>
       node?.CreatedNode?.LedgerEntryType === 'NFTokenPage' ||
       node?.ModifiedNode?.LedgerEntryType === 'NFTokenPage',
   )
-  const nftNode = affectedNode.CreatedNode ?? affectedNode.ModifiedNode
 
-  const previousTokenIds = nftNode?.PreviousFields?.NFTokens?.map(
-    (token) => token?.NFToken?.NFTokenID,
+  const previousTokenIDSet = new Set(
+    affectedNodes
+      .flatMap((node) =>
+        node?.ModifiedNode?.PreviousFields?.NFTokens?.map(
+          (token) => token.NFToken.NFTokenID,
+        ),
+      )
+      .filter((id) => id),
   )
-  const previousTokenIdSet = new Set(previousTokenIds)
-  const finalTokenIds = (
-    nftNode.FinalFields ?? nftNode.NewFields
-  )?.NFTokens?.map((token) => token?.NFToken?.NFTokenID)
-  const tokenID = finalTokenIds.find((tid) => !previousTokenIdSet.has(tid))
+
+  const finalTokenIDs = affectedNodes
+    .flatMap((node) =>
+      (
+        node.ModifiedNode?.FinalFields ?? node.CreatedNode?.NewFields
+      )?.NFTokens?.map((token) => token.NFToken.NFTokenID),
+    )
+    .filter((id) => id)
+
+  const tokenID = finalTokenIDs.find((tid) => !previousTokenIDSet.has(tid))
 
   return {
     tokenID,

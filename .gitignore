@@ -16,6 +16,7 @@ src/**/*.css.map
 .env.test.local
 .env.production.local
 .env
+.node-version
 
 # Logs
 npm-debug.log*
