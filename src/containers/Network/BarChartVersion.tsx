@@ -75,7 +75,7 @@ const BarChartVersion = (props: Props) => {
             stroke={grey}
           >
             <Label
-              className="yLabel"
+              className="y-label"
               value={t('% of total nodes')}
               angle={-90}
               position="insideTop"
