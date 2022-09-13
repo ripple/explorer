@@ -64,6 +64,10 @@ const BarChartVersion = (props: Props) => {
   const { t } = useTranslation()
   const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
   const grey = '#9BA2B0'
+  const purple = '#8884d8'
+  const blue = '#1AA4FF'
+  const red = '#FF1A8B'
+  const green = '#19FF83'
   return (
     <div className="barchart">
       <ResponsiveContainer height={532} width="100%">
@@ -100,7 +104,7 @@ const BarChartVersion = (props: Props) => {
           <Bar
             dataKey="value"
             barSize={30}
-            fill="#8884d8"
+            fill={purple}
             radius={[4, 4, 0, 0]}
             onMouseOver={(dataY) => {
               setposData({ x: dataY.x, y: dataY.y })
@@ -112,10 +116,10 @@ const BarChartVersion = (props: Props) => {
                   fill={
                     // eslint-disable-next-line no-nested-ternary
                     data[index].label === stableVersion
-                      ? '#19FF83'
+                      ? green
                       : data[index].label < stableVersion
-                      ? '#FF1A8B'
-                      : '#1AA4FF'
+                      ? red
+                      : blue
                   }
                 />
               ))}
