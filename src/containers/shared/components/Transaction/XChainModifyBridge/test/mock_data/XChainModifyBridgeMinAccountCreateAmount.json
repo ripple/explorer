@@ -1,0 +1,76 @@
+{
+  "tx": {
+    "Account": "rnBnyot2gCJywLxLzfHQX2dUJqZ6oghUFp",
+    "Fee": "10",
+    "Flags": 0,
+    "LastLedgerSequence": 38,
+    "MinAccountCreateAmount": "100000000",
+    "Sequence": 5,
+    "SigningPubKey": "032389AD44BF4CCE332D3A2333AFBA03CD2EA8EAB31A63F7EF5A608107BDFBFCD7",
+    "TransactionType": "XChainModifyBridge",
+    "TxnSignature": "3044022067C35109504B30AEA17D369DBFB681675E289F1D2CC1DCA1E7F117BB80DD84B002204F206366690DAF7C17CCC8957C3A20816410A5A148FE371C2369E0C0B407AAD1",
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": "XRP",
+      "LockingChainDoor": "rnBnyot2gCJywLxLzfHQX2dUJqZ6oghUFp",
+      "LockingChainIssue": "XRP"
+    },
+    "date": "2022-09-09T20:19:00Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rnBnyot2gCJywLxLzfHQX2dUJqZ6oghUFp",
+            "Balance": "0",
+            "Flags": 0,
+            "MinAccountCreateAmount": "100000000",
+            "OwnerNode": "0",
+            "SignatureReward": "100",
+            "XChainAccountClaimCount": "0",
+            "XChainAccountCreateCount": "1",
+            "XChainBridge": {
+              "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+              "IssuingChainIssue": "XRP",
+              "LockingChainDoor": "rnBnyot2gCJywLxLzfHQX2dUJqZ6oghUFp",
+              "LockingChainIssue": "XRP"
+            },
+            "XChainClaimID": "0"
+          },
+          "LedgerEntryType": "Bridge",
+          "LedgerIndex": "063F76476DC55CD4FC8A2B1FDD4D3AF2CAB72EB5A19C62DCB2F0CC08953B4093",
+          "PreviousFields": {
+            "MinAccountCreateAmount": "5000000"
+          },
+          "PreviousTxnID": "CB4C23D2CD36DFF66F10B38F29B7CDCE5C44622D470CC438EEEE223832B50717",
+          "PreviousTxnLgrSeq": 18
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rnBnyot2gCJywLxLzfHQX2dUJqZ6oghUFp",
+            "Balance": "1015000070",
+            "Flags": 0,
+            "OwnerCount": 2,
+            "Sequence": 6
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "8A4453D12949BE96BE6B1B63E77B165F61CDE7AE852237791F6A2D3726936E1E",
+          "PreviousFields": {
+            "Balance": "1015000080",
+            "Sequence": 5
+          },
+          "PreviousTxnID": "CB4C23D2CD36DFF66F10B38F29B7CDCE5C44622D470CC438EEEE223832B50717",
+          "PreviousTxnLgrSeq": 18
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "625C6B9481E449AEB1ED454E3643FA123B1573658187A067302F903A65911038",
+  "ledger_index": 19,
+  "date": "2022-09-09T20:19:00Z"
+}

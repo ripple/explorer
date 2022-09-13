@@ -1,5 +1,8 @@
-module.exports = (d) =>
-  d.value
+module.exports = (d) => {
+  if (d == null) {
+    return d
+  }
+  return d.value
     ? {
         currency: d.currency,
         issuer: d.issuer,
@@ -9,3 +12,4 @@ module.exports = (d) =>
         currency: 'XRP',
         amount: d / 1000000,
       }
+}

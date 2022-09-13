@@ -11,6 +11,6 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
       <span className="key">{key}</span>
     </div>
   ) : (
-    <div className="unsetregularkey">{t('unset_regular_key')}</div>
+    <div className="unset">{t('unset_regular_key')}</div>
   )
 }
