@@ -56,8 +56,8 @@ export type TransactionTableDetailComponent =
 
 export interface TransactionDescriptionProps<T = any> {
   data: {
-    tx: any
-    meta: any
+    tx: T
+    meta: T
   }
 }
 export type TransactionDescriptionComponent =

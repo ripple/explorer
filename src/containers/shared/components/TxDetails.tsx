@@ -65,20 +65,6 @@ const TxDetails = (props: Props) => {
     return <Amount value={d} />
   }
 
-  function renderSignerListSet(): ReactElement {
-    const { instructions } = props
-    const { quorum, maxSigners, signers } = instructions
-    return (
-      <div>
-        <span className="label">{t('signers')}:</span>{' '}
-        <span>{signers.length}</span>
-        {' - '}
-        <span className="label">{t('quorum')}:</span>{' '}
-        <span>{`${quorum}/${maxSigners}`}</span>
-      </div>
-    )
-  }
-
   function renderAccountSet(): ReactElement {
     const { instructions } = props
     return (
@@ -279,7 +265,6 @@ const TxDetails = (props: Props) => {
 
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
-    renderSignerListSet,
     renderAccountSet,
     renderTrustSet,
     renderOfferCancel,
