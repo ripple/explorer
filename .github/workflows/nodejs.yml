@@ -24,32 +24,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Cache npm 8 install
-        id: cache-npm
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-npm-8
-        with:
-          path: /opt/hostedtoolcache/node/14.20.0/x64/bin/npm
-          key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles('/opt/hostedtoolcache/node/14.20.0/x64/bin/npm') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-${{ env.cache-name }}-
-            ${{ runner.os }}-npm-
-      - name: Cache npx 8 install
-        id: cache-npx
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-npx-8
-        with:
-          path: /opt/hostedtoolcache/node/14.20.0/x64/bin/npx
-          key: ${{ runner.os }}-npx-${{ env.cache-name }}-${{ hashFiles('/opt/hostedtoolcache/node/14.20.0/x64/bin/npx') }}
-          restore-keys: |
-            ${{ runner.os }}-npx-${{ env.cache-name }}-
-            ${{ runner.os }}-npx-
-
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        continue-on-error: true
-        name: Setup npm version 8
+      - name: Setup npm version 8
         id: npm8
         run: |
           npm i -g npm@8 --registry=https://registry.npmjs.org
