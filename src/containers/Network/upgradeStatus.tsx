@@ -86,6 +86,7 @@ export const UpgradeStatus = () => {
   }
 
   const validatorCount = Object.keys(vList).length
+
   return (
     <div className="network-page">
       <Streams validators={vList} updateValidators={updateValidators} />
