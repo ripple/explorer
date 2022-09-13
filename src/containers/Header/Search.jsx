@@ -17,15 +17,15 @@ import {
   HASH_REGEX,
 } from '../shared/utils'
 import './search.scss'
-import { getNFTInfo } from '../../rippled/lib/rippled'
+import { getTransaction } from '../../rippled/lib/rippled'
 import SocketContext from '../shared/SocketContext'
 
 const isNFTOrTransactions = async (id, rippledContext) => {
   try {
-    await getNFTInfo(rippledContext, id)
-    return 'token'
-  } catch (e) {
+    await getTransaction(rippledContext, id)
     return 'transactions'
+  } catch (e) {
+    return 'token'
   }
 }
 

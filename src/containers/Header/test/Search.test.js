@@ -62,7 +62,7 @@ describe('Header component', () => {
     const invalidString = '123invalid'
 
     // mock getNFTInfo api to test transactions and nfts
-    const mockNFT = jest.spyOn(rippled, 'getNFTInfo')
+    const mockAPI = jest.spyOn(rippled, 'getTransaction')
 
     input.simulate('keyDown', { key: 'a' })
     expect(window.location.pathname).toEqual('/')
@@ -99,8 +99,8 @@ describe('Header component', () => {
     await flushPromises()
     expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
 
-    mockNFT.mockImplementation(() => {
-      throw new Error('NFT not found', 404)
+    mockAPI.mockImplementation(() => {
+      '123'
     })
     input.instance().value = hash
     input.simulate('keyDown', { key: 'Enter' })
@@ -118,8 +118,8 @@ describe('Header component', () => {
     expect(window.location.pathname).toEqual(`/token/${token2}`)
 
     // Returns a response upon a valid nft_id, redirect to NFT
-    mockNFT.mockImplementation(() => {
-      '123'
+    mockAPI.mockImplementation(() => {
+      throw new Error('Tx not found', 404)
     })
     input.instance().value = nftoken
     input.simulate('keyDown', { key: 'Enter' })
@@ -132,8 +132,8 @@ describe('Header component', () => {
     expect(window.location.pathname).toEqual(`/search/${invalidString}`)
 
     // ensure strings are trimmed
-    mockNFT.mockImplementation(() => {
-      throw new Error('NFT not found', 404)
+    mockAPI.mockImplementation(() => {
+      '123'
     })
     input.instance().value = ` ${hash} `
     input.simulate('keyDown', { key: 'Enter' })
