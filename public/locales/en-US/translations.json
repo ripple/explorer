@@ -29,7 +29,7 @@
   "transaction_short": "TX",
   "nodes": "Nodes",
   "validators": "Validators",
-  "upgrade-status": "Upgrade Status",
+  "upgrade_status": "Upgrade Status",
   "version": "v{{number}}",
   "component_error": "Something bad happened!",
   "1H": "1H",

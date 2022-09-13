@@ -9,7 +9,7 @@ interface Props {
 const NetworkTabs = (props: Props) => {
   const { selected } = props
   const { path = '/' } = useRouteMatch()
-  const tabs = ['nodes', 'validators', 'upgrade-status']
+  const tabs = ['nodes', 'validators', 'upgrade_status']
   return <Tabs tabs={tabs} selected={selected} path={path.split('/:')[0]} />
 }
 
