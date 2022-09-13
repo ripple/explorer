@@ -12,7 +12,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const {
     owner,
     sequence,
-    tx,
+    previousTx,
     destination,
     amount = {},
     condition,
@@ -48,11 +48,11 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
           <Account account={destination} />
         </SimpleRow>
       )}
-      {tx && (
-        <SimpleRow label={t('escrow_transaction')} data-test="escrow-finish-tx">
+      {previousTx && (
+        <SimpleRow label={t('escrow_transaction')} data-test="escrow-tx">
           <div className="tx value">
-            <Link className="hash" to={`/transactions/${tx}`}>
-              {tx}
+            <Link className="hash" to={`/transactions/${previousTx}`}>
+              {previousTx}
             </Link>
           </div>
         </SimpleRow>

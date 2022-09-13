@@ -16,15 +16,15 @@ const Description: TransactionDescriptionComponent = (
   const { data } = props
   const deleted: any = findNode(data, 'DeletedNode', 'Escrow')
 
-  if (!deleted) {
+  if (deleted == null) {
     return null
   }
   return (
     <>
-      <div key="line1">
+      <div>
         {t('escrow_completion_desc')} <Account account={data.tx.Account} />
       </div>
-      <div key="line2">
+      <div>
         <Trans i18nKey="escrow_completion_desc_2">
           The escrowed amount of
           <b>
@@ -49,7 +49,7 @@ const Description: TransactionDescriptionComponent = (
           </span>
         )}
       </div>
-      <Trans key="line3" i18nKey="escrow_created_by_desc">
+      <Trans i18nKey="escrow_created_by_desc">
         The escrow was created by
         <Account account={data.tx.Owner} />
         with transaction
@@ -61,7 +61,7 @@ const Description: TransactionDescriptionComponent = (
         </Link>
       </Trans>
       {data.tx.Fulfillment && (
-        <div key="line4">
+        <div>
           {t('escrow_finish_fullfillment_desc')}
           <span className="fulfillment"> {data.tx.Fulfillment}</span>
         </div>

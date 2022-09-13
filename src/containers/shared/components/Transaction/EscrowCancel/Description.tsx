@@ -15,15 +15,15 @@ const Description: TransactionDescriptionComponent = (
   const language = i18n.resolvedLanguage
   const { data } = props
   const deleted: any = findNode(data, 'DeletedNode', 'Escrow')
-  if (!deleted) {
+  if (deleted == null) {
     return null
   }
   return (
     <>
-      <div key="line1">
+      <div>
         {t('escrow_cancellation_desc')} <Account account={data.tx.Account} />
       </div>
-      <div key="line2">
+      <div>
         <Trans i18nKey="escrow_cancellation_desc_2">
           The escrowed amount of
           <b>
@@ -48,7 +48,7 @@ const Description: TransactionDescriptionComponent = (
           </span>
         )}
       </div>
-      <Trans key="line3" i18nKey="escrow_created_by_desc">
+      <Trans i18nKey="escrow_created_by_desc">
         The escrow was created by
         <Account account={data.tx.Owner} />
         with transaction

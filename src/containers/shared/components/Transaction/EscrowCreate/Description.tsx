@@ -32,7 +32,7 @@ const Description: TransactionDescriptionComponent = (
     <>
       {data.tx.Destination !== data.tx.Account ? (
         <>
-          <Trans key="line1" i18nKey="escrow_is_from">
+          <Trans i18nKey="escrow_is_from">
             The escrow is from
             <Account account={data.tx.Account} />
             to
@@ -41,7 +41,7 @@ const Description: TransactionDescriptionComponent = (
         </>
       ) : (
         <>
-          <Trans key="line2" i18nKey="escrow_is_created_by">
+          <Trans i18nKey="escrow_is_created_by">
             the escrow was created by
             <Account account={data.tx.Account} />
             and the funds will be returned to the same account
@@ -49,12 +49,12 @@ const Description: TransactionDescriptionComponent = (
         </>
       )}
       {data.tx.Condition && (
-        <div key="line3">
+        <div>
           {t('escrow_condition')}
           <span className="condition"> {data.tx.Condition}</span>
         </div>
       )}
-      <div key="line4">
+      <div>
         {t('escrowed_amount')}
         <b>
           {' '}
@@ -63,13 +63,13 @@ const Description: TransactionDescriptionComponent = (
         </b>
       </div>
       {data.tx.CancelAfter && (
-        <div key="line5">
+        <div>
           {t('describe_cancel_after')}
           <span className="time">{` ${cancelAfter} ${DATE_OPTIONS.timeZone}`}</span>
         </div>
       )}
       {data.tx.FinishAfter && (
-        <div key="line6">
+        <div>
           {t('describe_finish_after')}
           <span className="time">{` ${finishAfter} ${DATE_OPTIONS.timeZone}`}</span>
         </div>
