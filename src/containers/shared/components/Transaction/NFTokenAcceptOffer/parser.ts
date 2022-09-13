@@ -1,7 +1,6 @@
 import { NFTokenAcceptOfferInstructions } from './types'
 import { TransactionParser } from '../types'
-
-const formatAmount = require('../../../../../rippled/lib/txSummary/formatAmount')
+import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export const parser: TransactionParser<NFTokenAcceptOfferInstructions> = (
   tx,

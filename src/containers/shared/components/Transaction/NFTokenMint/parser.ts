@@ -1,7 +1,6 @@
 import { NFTokenMintInstructions } from './types'
 import { TransactionParser } from '../types'
-
-const utils = require('../../../../../rippled/lib/utils')
+import { convertHexToString } from '../../../../../rippled/lib/utils'
 
 export const parser: TransactionParser<NFTokenMintInstructions> = (
   tx,
@@ -26,6 +25,6 @@ export const parser: TransactionParser<NFTokenMintInstructions> = (
   return {
     tokenID,
     tokenTaxon: tx.NFTokenTaxon,
-    uri: utils.convertHexToString(tx.URI),
+    uri: convertHexToString(tx.URI),
   }
 }
