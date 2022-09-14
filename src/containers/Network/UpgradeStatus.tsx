@@ -17,28 +17,30 @@ export const UpgradeStatus = () => {
   const { t } = useTranslation()
   const language = useLanguage()
 
-  const aggregateData = (v: any[]) => {
-    if (!v) {
+  const aggregateData = (validators: any[]) => {
+    if (!validators) {
       return []
     }
     let total = 0
     const tempData: any[] = []
-    v.reduce((res, val) => {
-      if (!res[val.server_version]) {
-        res[val.server_version] = {
-          server_version: val.server_version,
+    validators.reduce((aggregate, current) => {
+      if (!aggregate[current.server_version]) {
+        // eslint-disable-next-line no-param-reassign
+        aggregate[current.server_version] = {
+          server_version: current.server_version,
           count: 0,
         }
-        tempData.push(res[val.server_version])
+        tempData.push(aggregate[current.server_version])
       }
-      res[val.server_version].count += 1
+      // eslint-disable-next-line no-param-reassign
+      aggregate[current.server_version].count += 1
       total += 1
-      return res
+      return aggregate
     }, {})
 
     return tempData
       .map((item) => ({
-        label: item.server_version ? item.server_version : ' NA ',
+        label: item.server_version ? item.server_version : ' N/A ',
         value: (item.count * 100) / total,
         count: item.count,
       }))
@@ -61,12 +63,14 @@ export const UpgradeStatus = () => {
       .get(url)
       .then((resp) => {
         const newValidatorList: any = {}
-        resp.data.forEach((v: any) => {
-          newValidatorList[v.signing_key] = v
+        resp.data.forEach((validator: any) => {
+          newValidatorList[validator.signing_key] = validator
         })
 
         setVList(() => newValidatorList)
-        setUnlCount(resp.data.filter((d: any) => Boolean(d.unl)).length)
+        setUnlCount(
+          resp.data.filter((validator: any) => Boolean(validator.unl)).length,
+        )
       })
       .catch((e) => Log.error(e))
   }

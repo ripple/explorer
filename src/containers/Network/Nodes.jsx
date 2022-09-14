@@ -3,7 +3,7 @@ import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import Tabs from '../shared/components/Tabs'
+import NetworkTabs from './NetworkTabs'
 import Map from './Map'
 import NodesTable from './NodesTable'
 import Log from '../shared/log'
@@ -41,7 +41,6 @@ class NodesPage extends Component {
   render() {
     const { nodes, locations, unmapped } = this.state
     const { path, t, language } = this.props
-    const tabs = ['nodes', 'validators', 'upgrade_status']
 
     return (
       <div className="network-page">
@@ -63,7 +62,7 @@ class NodesPage extends Component {
           )}
         </div>
         <div className="wrap">
-          <Tabs tabs={tabs} selected="nodes" path={path} />
+          <NetworkTabs selected="nodes" />
           <NodesTable nodes={nodes} />
         </div>
       </div>
