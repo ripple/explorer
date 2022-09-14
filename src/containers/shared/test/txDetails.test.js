@@ -70,11 +70,6 @@ describe('TxDetails', () => {
     wrapper.unmount()
   })
 
-  it('renders OfferCreate without crashing', () => {
-    const wrapper = createWrapper(OfferCreate)
-    wrapper.unmount()
-  })
-
   it('renders OfferCancel without crashing', () => {
     const wrapper = createWrapper(OfferCancel)
     wrapper.unmount()
