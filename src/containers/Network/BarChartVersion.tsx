@@ -16,7 +16,20 @@ import {
   ValueType,
   NameType,
 } from 'recharts/src/component/DefaultTooltipContent'
-import { GREY, BLUE, RED, GREEN, PURPLE } from '../shared/utils'
+import {
+  GREY,
+  BLUE,
+  RED,
+  GREEN,
+  PURPLE,
+  CHART_HEIGHT,
+  CHART_MARGIN,
+  CHART_YAXIS_LABEL,
+  BAR_SIZE,
+  BAR_RADIUS,
+  CHART_XAXIS,
+  BAR_TOOLTIPS,
+} from '../shared/utils'
 import './css/barchart.scss'
 
 interface Props {
@@ -72,21 +85,18 @@ const BarChartVersion = (props: Props) => {
   const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
   return (
     <div className="barchart">
-      <ResponsiveContainer height={532} width="95%">
-        <BarChart
-          data={data}
-          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-        >
+      <ResponsiveContainer height={CHART_HEIGHT} width="95%">
+        <BarChart data={data} margin={CHART_MARGIN}>
           <XAxis
             dataKey="label"
-            angle={-65}
-            dy={30}
-            dx={-7}
-            height={90}
-            tickLine={false}
-            minTickGap={-1}
+            angle={CHART_XAXIS.angle}
+            dy={CHART_XAXIS.dy}
+            dx={CHART_XAXIS.dx}
+            height={CHART_XAXIS.height}
+            tickLine={CHART_XAXIS.tickLine}
+            minTickGap={CHART_XAXIS.minTickGap}
             stroke={GREY}
-            interval={0}
+            interval={CHART_XAXIS.interval}
           />
           <YAxis
             className="yAxis"
@@ -97,17 +107,17 @@ const BarChartVersion = (props: Props) => {
             <Label
               className="y-label"
               value={t('% of total nodes')}
-              angle={-90}
-              position="insideTop"
-              dx={45}
-              dy={65}
+              angle={CHART_YAXIS_LABEL.angle}
+              position={CHART_YAXIS_LABEL.position as any}
+              dx={CHART_YAXIS_LABEL.dx}
+              dy={CHART_YAXIS_LABEL.dy}
             />
           </YAxis>
           <Bar
             dataKey="value"
-            barSize={30}
+            barSize={BAR_SIZE}
             fill={PURPLE}
-            radius={[4, 4, 0, 0]}
+            radius={BAR_RADIUS as any}
             onMouseOver={(barRegion) => {
               setposData({ x: barRegion.x, y: barRegion.y })
             }}
@@ -126,9 +136,12 @@ const BarChartVersion = (props: Props) => {
           />
           <Tooltip
             content={<CustomTooltip />}
-            cursor={false}
-            position={{ x: posData.x - 45, y: posData.y - 90 }}
-            offset={-10}
+            cursor={BAR_TOOLTIPS.cursor}
+            position={{
+              x: posData.x - BAR_TOOLTIPS.posX,
+              y: posData.y - BAR_TOOLTIPS.posY,
+            }}
+            offset={BAR_TOOLTIPS.offset}
           />
         </BarChart>
       </ResponsiveContainer>

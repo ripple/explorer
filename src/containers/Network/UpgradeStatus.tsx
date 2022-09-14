@@ -89,7 +89,7 @@ export const UpgradeStatus = () => {
   }
 
   const updateValidators = (newValidations: any[]) => {
-    // @ts-ignore
+    // @ts-ignore - Work around type assignment for complex validation data types
     setValidations(newValidations)
     setVList((value: any) => {
       const newValidatorsList: any = { ...value }
@@ -110,7 +110,7 @@ export const UpgradeStatus = () => {
     <div className="network-page">
       <Streams validators={vList} updateValidators={updateValidators} />
       {validatorCount && (
-        // @ts-ignore
+        // @ts-ignore - Work around for complex type assignment issues
         <Hexagons data={validations} list={vList} />
       )}
 
