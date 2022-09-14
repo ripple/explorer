@@ -16,6 +16,7 @@ import {
   ValueType,
   NameType,
 } from 'recharts/src/component/DefaultTooltipContent'
+import { GREY, BLUE, RED, GREEN, PURPLE } from '../shared/utils'
 import './css/barchart.scss'
 
 interface Props {
@@ -51,7 +52,7 @@ const renderLegend = (stableVersion: string | null, t: any) => (
   <div className="legend">
     <div className="legend-text">
       <span>{t('current_stable_version')}:</span>
-      <span style={{ color: '#19FF83' }}>
+      <span style={{ color: GREY }}>
         {' '}
         {t('stable_version', { stableVersion })}{' '}
       </span>
@@ -59,15 +60,16 @@ const renderLegend = (stableVersion: string | null, t: any) => (
   </div>
 )
 
+const stableColorCode = (dataLabel: string, stableVersion: string) => {
+  if (dataLabel === stableVersion) return GREEN
+  if (dataLabel < stableVersion) return RED
+  return BLUE
+}
+
 const BarChartVersion = (props: Props) => {
   const { data, stableVersion } = props
   const { t } = useTranslation()
   const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
-  const grey = '#9BA2B0'
-  const purple = '#8884d8'
-  const blue = '#1AA4FF'
-  const red = '#FF1A8B'
-  const green = '#19FF83'
   return (
     <div className="barchart">
       <ResponsiveContainer height={532} width="95%">
@@ -83,14 +85,14 @@ const BarChartVersion = (props: Props) => {
             height={90}
             tickLine={false}
             minTickGap={-1}
-            stroke={grey}
+            stroke={GREY}
             interval={0}
           />
           <YAxis
             className="yAxis"
             tickLine={false}
             tickFormatter={(tick) => `${tick}%`}
-            stroke={grey}
+            stroke={GREY}
           >
             <Label
               className="y-label"
@@ -104,7 +106,7 @@ const BarChartVersion = (props: Props) => {
           <Bar
             dataKey="value"
             barSize={30}
-            fill={purple}
+            fill={PURPLE}
             radius={[4, 4, 0, 0]}
             onMouseOver={(barRegion) => {
               setposData({ x: barRegion.x, y: barRegion.y })
@@ -113,14 +115,7 @@ const BarChartVersion = (props: Props) => {
             {stableVersion &&
               data.map((_entry, index) => (
                 <Cell
-                  fill={
-                    // eslint-disable-next-line no-nested-ternary
-                    data[index].label === stableVersion
-                      ? green
-                      : data[index].label < stableVersion
-                      ? red
-                      : blue
-                  }
+                  fill={stableColorCode(data[index].label, stableVersion)}
                 />
               ))}
           </Bar>

@@ -38,6 +38,12 @@ export const BLACK_30 = '#C9CDD1'
 export const BLACK_40 = '#B1B5BA'
 export const BLACK_60 = '#6B7075'
 export const WHITE = '#FFFFFF'
+export const GREY = '#9BA2B0'
+export const PURPLE = '#8884d8'
+export const BLUE = '#1AA4FF'
+export const RED = '#FF1A8B'
+export const GREEN = '#19FF83'
+export const FETCH_INTERVAL = 5000
 
 export const BREAKPOINTS = {
   desktop: 1200,
