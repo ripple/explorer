@@ -65,7 +65,7 @@ const renderLegend = (stableVersion: string | null, t: any) => (
   <div className="legend">
     <div className="legend-text">
       <span>{t('current_stable_version')}:</span>
-      <span style={{ color: GREY }}>
+      <span style={{ color: GREEN }}>
         {' '}
         {t('stable_version', { stableVersion })}{' '}
       </span>
