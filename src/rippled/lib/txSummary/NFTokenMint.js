@@ -3,14 +3,14 @@ const utils = require('../utils')
 module.exports = (tx, meta) => {
   const affectedNodes = meta.AffectedNodes.filter(
     (node) =>
-      node?.CreatedNode?.LedgerEntryType === 'NFTokenPage' ||
-      node?.ModifiedNode?.LedgerEntryType === 'NFTokenPage',
+      node.CreatedNode?.LedgerEntryType === 'NFTokenPage' ||
+      node.ModifiedNode?.LedgerEntryType === 'NFTokenPage',
   )
 
   const previousTokenIDSet = new Set(
     affectedNodes
       .flatMap((node) =>
-        node?.ModifiedNode?.PreviousFields?.NFTokens?.map(
+        node.ModifiedNode?.PreviousFields?.NFTokens?.map(
           (token) => token.NFToken.NFTokenID,
         ),
       )
