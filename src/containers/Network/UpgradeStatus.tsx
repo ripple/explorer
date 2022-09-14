@@ -16,13 +16,13 @@ export const UpgradeStatus = () => {
   const { t } = useTranslation()
   const language = useLanguage()
 
-  const aggregateData = (v: any[]) => {
-    if (!v) {
+  const aggregateData = (validators: any[]) => {
+    if (!validators) {
       return []
     }
     let total = 0
     const tempData: any[] = []
-    v.reduce((res, val) => {
+    validators.reduce((res, val) => {
       if (!res[val.server_version]) {
         res[val.server_version] = {
           server_version: val.server_version,
@@ -37,7 +37,7 @@ export const UpgradeStatus = () => {
 
     return tempData
       .map((item) => ({
-        label: item.server_version ? item.server_version : ' NA ',
+        label: item.server_version ? item.server_version : ' N/A ',
         value: (item.count * 100) / total,
         count: item.count,
       }))
@@ -59,12 +59,14 @@ export const UpgradeStatus = () => {
       .get(url)
       .then((resp) => {
         const newValidatorList: any = {}
-        resp.data.forEach((v: any) => {
-          newValidatorList[v.signing_key] = v
+        resp.data.forEach((validator: any) => {
+          newValidatorList[validator.signing_key] = validator
         })
 
         setVList(() => newValidatorList)
-        setUnlCount(resp.data.filter((d: any) => Boolean(d.unl)).length)
+        setUnlCount(
+          resp.data.filter((validator: any) => Boolean(validator.unl)).length,
+        )
       })
       .catch((e) => Log.error(e))
   }

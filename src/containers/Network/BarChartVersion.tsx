@@ -36,7 +36,7 @@ const CustomTooltip = ({
       <div className="custom-tooltip">
         <p className="label">{t('version_display', { version: label })}</p>
         <p className="value">
-          {t('nodes_count', { count: payload?.[0].payload.count })}
+          {t('nodes_count', { count: payload ? payload[0].payload.count : 0 })}
         </p>
       </div>
     )
@@ -88,8 +88,8 @@ const BarChartVersion = (props: Props) => {
             barSize={30}
             fill={purple}
             radius={[4, 4, 0, 0]}
-            onMouseOver={(dataY) => {
-              setposData({ x: dataY.x, y: dataY.y })
+            onMouseOver={(barRegion) => {
+              setposData({ x: barRegion.x, y: barRegion.y })
             }}
           />
           <Tooltip
