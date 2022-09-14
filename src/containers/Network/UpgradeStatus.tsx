@@ -22,17 +22,19 @@ export const UpgradeStatus = () => {
     }
     let total = 0
     const tempData: any[] = []
-    validators.reduce((res, val) => {
-      if (!res[val.server_version]) {
-        res[val.server_version] = {
-          server_version: val.server_version,
+    validators.reduce((aggregate, current) => {
+      if (!aggregate[current.server_version]) {
+        // eslint-disable-next-line no-param-reassign
+        aggregate[current.server_version] = {
+          server_version: current.server_version,
           count: 0,
         }
-        tempData.push(res[val.server_version])
+        tempData.push(aggregate[current.server_version])
       }
-      res[val.server_version].count += 1
+      // eslint-disable-next-line no-param-reassign
+      aggregate[current.server_version].count += 1
       total += 1
-      return res
+      return aggregate
     }, {})
 
     return tempData
