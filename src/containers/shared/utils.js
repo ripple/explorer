@@ -21,6 +21,29 @@ export const NOT_FOUND = 404
 export const SERVER_ERROR = 500
 export const BAD_REQUEST = 400
 
+export const FETCH_INTERVAL = 5000
+
+export const CHART_HEIGHT = 532
+export const CHART_MARGIN = { top: 5, right: 20, bottom: 5, left: 0 }
+export const CHART_YAXIS_LABEL = {
+  angle: -90,
+  position: 'insideTop',
+  dx: 45,
+  dy: 65,
+}
+export const CHART_XAXIS = {
+  angle: -65,
+  dy: 30,
+  dx: -7,
+  height: 90,
+  tickLine: false,
+  minTickGap: -1,
+  interval: 0,
+}
+export const BAR_SIZE = 30
+export const BAR_RADIUS = [4, 4, 0, 0]
+export const BAR_TOOLTIPS = { cursor: false, posX: 45, posY: 90, offset: -10 }
+
 export const DECIMAL_REGEX = /^\d+$/
 export const RIPPLE_ADDRESS_REGEX =
   /^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
@@ -38,6 +61,8 @@ export const BLACK_30 = '#C9CDD1'
 export const BLACK_40 = '#B1B5BA'
 export const BLACK_60 = '#6B7075'
 export const WHITE = '#FFFFFF'
+export const GREY = '#9BA2B0'
+export const PURPLE = '#8884d8'
 
 export const BREAKPOINTS = {
   desktop: 1200,

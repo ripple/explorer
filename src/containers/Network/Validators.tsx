@@ -43,7 +43,7 @@ export const Validators = () => {
   }
 
   const updateValidators = (newValidations: any[]) => {
-    // @ts-ignore
+    // @ts-ignore - Work around type assignment for complex validation data types
     setValidations(newValidations)
     setVList((value: any) => {
       const newValidatorsList: any = { ...value }
@@ -68,7 +68,7 @@ export const Validators = () => {
       />
 
       {validatorCount && (
-        // @ts-ignore
+        // @ts-ignore - Work around for complex type assignment issues
         <Hexagons data={validations} list={vList} />
       )}
       <div className="stat">
