@@ -17,7 +17,7 @@ export const Description = ({
         {t('set_signer_list_description', { quorum: tx.SignerQuorum })}:
       </div>
       <ul className="signers">
-        {tx.SignerEntries?.map((d: any) => (
+        {tx.SignerEntries?.map((d) => (
           <li key={d.SignerEntry.Account}>
             <Account account={d.SignerEntry.Account} />
             <span className="label">{` - ${t('weight')}: `}</span>
