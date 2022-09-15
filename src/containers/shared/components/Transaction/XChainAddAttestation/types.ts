@@ -18,73 +18,61 @@ export interface XChainBridge {
 
 export interface XChainAddAttestation {
   TransactionType: 'XChainAddAttestation'
-
   XChainAttestationBatch: {
     XChainBridge: XChainBridge
-
     XChainClaimAttestationBatch: Array<{
       XChainClaimAttestationBatchElement: {
         Account: string
-
         Amount: Amount
-
         AttestationRewardAccount: string
-
         Destination: string
-
         PublicKey: string
-
         Signature: string
-
         WasLockingChainSend: 0 | 1
-
         XChainClaimID: string
       }
     }>
-
     XChainCreateAccountAttestationBatch: Array<{
       XChainCreateAccountAttestationBatchElement: {
         Account: string
-
         Amount: Amount
-
         AttestationRewardAccount: string
-
         Destination: string
-
         PublicKey: string
-
         Signature: string
-
         WasLockingChainSend: 0 | 1
-
         XChainAccountCreateCount: string
       }
     }>
   }
 }
 
+type ExplorerAmount =
+  | string
+  | {
+      issuer?: string
+      currency: string
+      amount: number
+    }
+
+export interface ClaimAttestationInstructions {
+  send: ExplorerAmount
+  account: string
+  destination: string
+  claimId: string
+}
+
+export interface AccountCreateAttestationInstructions {
+  send: ExplorerAmount
+  account: string
+  destination: string
+}
+
 export interface XChainAddAttestationInstructions {
   lockingDoor: string
-
   lockingIssue: 'XRP' | IssuedCurrency
-
   issuingDoor: string
-
   issuingIssue: 'XRP' | IssuedCurrency
-
-  claimAttestations: {
-    send: Amount
-    account: string
-    destination: string
-    claimId: string
-    signature: string
-  }[]
-
-  accountCreateAttestations: {
-    send: Amount
-    account: string
-    destination: string
-    signature: string
-  }[]
+  claimAttestations: ClaimAttestationInstructions[]
+  accountCreateAttestations: AccountCreateAttestationInstructions[]
 }

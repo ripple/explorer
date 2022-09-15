@@ -3,24 +3,19 @@ import { useTranslation } from 'react-i18next'
 import Account from '../../Account'
 import { Amount } from '../../Amount'
 import { SimpleRow } from '../SimpleRow'
-
-export interface AccountCreateAttestationProps {
-  send: string
-  account: string
-  destination: string
-  signature: string
-}
+import { AccountCreateAttestationInstructions } from './types'
 
 export const AccountCreateAttestation = (
-  props: AccountCreateAttestationProps,
+  props: AccountCreateAttestationInstructions,
+  index: number,
 ) => {
   const { t } = useTranslation()
-  const { send, account, destination, signature } = props
+  const { send, account, destination } = props
 
   return (
-    <div className="attestation" key={signature}>
+    <div className="attestation" key={index}>
       <div className="attestation-title">
-        XChain Create Account Attestation Batch Element
+        {t('xchain_create_account_attestation')}
       </div>
       <SimpleRow label={t('send')} data-test="send">
         <Amount value={send} />

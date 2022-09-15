@@ -1,3 +1,4 @@
+import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
 import { TransactionParser } from '../types'
 import { XChainAddAttestation, XChainAddAttestationInstructions } from './types'
 
@@ -10,23 +11,24 @@ export const parser: TransactionParser<
   const claimAttestations =
     tx.XChainAttestationBatch.XChainClaimAttestationBatch.map(
       (attestation) => ({
-        send: attestation.XChainClaimAttestationBatchElement.Amount,
+        send: formatAmount(
+          attestation.XChainClaimAttestationBatchElement.Amount,
+        ),
         account: attestation.XChainClaimAttestationBatchElement.Account,
         destination: attestation.XChainClaimAttestationBatchElement.Destination,
         claimId: attestation.XChainClaimAttestationBatchElement.XChainClaimID,
-        signature: attestation.XChainClaimAttestationBatchElement.Signature,
       }),
     )
 
   const accountCreateAttestations =
     tx.XChainAttestationBatch.XChainCreateAccountAttestationBatch.map(
       (attestation) => ({
-        send: attestation.XChainCreateAccountAttestationBatchElement.Amount,
+        send: formatAmount(
+          attestation.XChainCreateAccountAttestationBatchElement.Amount,
+        ),
         account: attestation.XChainCreateAccountAttestationBatchElement.Account,
         destination:
           attestation.XChainCreateAccountAttestationBatchElement.Destination,
-        signature:
-          attestation.XChainCreateAccountAttestationBatchElement.Signature,
       }),
     )
   return {

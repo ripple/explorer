@@ -385,5 +385,7 @@
   "validator_history.date": "Date",
   "validator_history.missed": "Missed",
   "validator_history.score": "Score",
-  "other_chain_destination": "Other Chain Destination"
+  "other_chain_destination": "Other Chain Destination",
+  "xchain_claim_attestation": "Claim Attestation",
+  "xchain_create_account_attestation": "Create Account Attestation"
 }
