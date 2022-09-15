@@ -5,7 +5,7 @@ import BarChartVersion from './BarChartVersion'
 import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
 import Hexagons from './Hexagons'
-import { localizeNumber, FETCH_INTERVAL } from '../shared/utils'
+import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 
@@ -48,7 +48,7 @@ export const UpgradeStatus = () => {
 
   useEffect(() => {
     fetchData()
-    const interval = setInterval(fetchData, FETCH_INTERVAL)
+    const interval = setInterval(fetchData, FETCH_INTERVAL_MILLIS)
     return () => {
       clearInterval(interval)
     }
