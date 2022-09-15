@@ -106,7 +106,7 @@ const BarChartVersion = (props: Props) => {
           >
             <Label
               className="y-label"
-              value={t('% of total nodes')}
+              value={t('%_of_total_nodes')}
               angle={CHART_YAXIS_LABEL.angle}
               position={CHART_YAXIS_LABEL.position as any}
               dx={CHART_YAXIS_LABEL.dx}
