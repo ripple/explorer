@@ -11,7 +11,6 @@ import EscrowCancel from './EscrowCancel'
 import EscrowFinish from './EscrowFinish'
 import TrustSet from './TrustSet'
 import AccountSet from './AccountSet'
-import SignerListSet from './SignerListSet'
 import DepositPreauth from './DepositPreauth'
 import EnableAmendment from './EnableAmendment'
 import UNLModify from './UNLModify'
@@ -54,8 +53,6 @@ const Simple = (props) => {
       return <TrustSet t={t} language={language} data={data} />
     case 'AccountSet':
       return <AccountSet t={t} language={language} data={data} />
-    case 'SignerListSet':
-      return <SignerListSet t={t} language={language} data={data} />
     case 'DepositPreauth':
       return <DepositPreauth t={t} language={language} data={data} />
     case 'EnableAmendment':

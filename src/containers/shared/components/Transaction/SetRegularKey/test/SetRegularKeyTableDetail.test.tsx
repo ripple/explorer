@@ -20,7 +20,7 @@ function createWrapper(tx: any) {
   )
 }
 
-describe('SetRegularKeyTableDetail', () => {
+describe('SetRegularKeyTable: Detail', () => {
   it('renders Simple for transaction', () => {
     const wrapper = createWrapper(SetRegularKey)
 
@@ -35,7 +35,7 @@ describe('SetRegularKeyTableDetail', () => {
   it('renders Simple for transaction that unsets key', () => {
     const wrapper = createWrapper(SetRegularKeyUnset)
 
-    expect(wrapper.find('.unsetregularkey')).toExist()
+    expect(wrapper.find('.unset')).toExist()
     expect(wrapper.text()).toBe(`unset_regular_key`)
     wrapper.unmount()
   })

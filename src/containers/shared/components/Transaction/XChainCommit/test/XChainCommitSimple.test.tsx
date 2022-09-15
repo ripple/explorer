@@ -19,7 +19,7 @@ function createWrapper(tx: any) {
   )
 }
 
-function expectText(
+function expectSimpleRowText(
   wrapper: ReactWrapper<any, Readonly<{}>>,
   dataTest: string,
   text: string,
@@ -32,23 +32,23 @@ describe('XChainCommitSimple', () => {
     const wrapper = createWrapper(mockXChainCommit)
 
     // check XChainBridge parts
-    expectText(
+    expectSimpleRowText(
       wrapper,
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
     expect(wrapper.find(`[data-test="locking-chain-door"] a`)).toExist()
-    expectText(wrapper, 'locking-chain-issue', 'XRP')
-    expectText(
+    expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
+    expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
     expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
-    expectText(wrapper, 'issuing-chain-issue', 'XRP')
+    expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
 
-    expectText(wrapper, 'send', '\uE90010.00 XRP')
-    expectText(wrapper, 'claim-id', '4')
+    expectSimpleRowText(wrapper, 'send', '\uE90010.00 XRP')
+    expectSimpleRowText(wrapper, 'claim-id', '4')
     expect(wrapper.find(`[data-test="destination"]`)).not.toExist()
   })
 
@@ -56,23 +56,27 @@ describe('XChainCommitSimple', () => {
     const wrapper = createWrapper(mockXChainCommitInsufficientFunds)
 
     // check XChainBridge parts
-    expectText(
+    expectSimpleRowText(
       wrapper,
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
     expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
-    expectText(wrapper, 'locking-chain-issue', 'XRP')
-    expectText(
+    expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
+    expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
     expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
-    expectText(wrapper, 'issuing-chain-issue', 'XRP')
+    expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
 
-    expectText(wrapper, 'send', '\uE90010,000.00 XRP')
-    expectText(wrapper, 'claim-id', '3')
-    expectText(wrapper, 'destination', 'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi')
+    expectSimpleRowText(wrapper, 'send', '\uE90010,000.00 XRP')
+    expectSimpleRowText(wrapper, 'claim-id', '3')
+    expectSimpleRowText(
+      wrapper,
+      'destination',
+      'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi',
+    )
   })
 })
