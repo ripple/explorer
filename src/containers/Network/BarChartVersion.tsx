@@ -83,6 +83,7 @@ const BarChartVersion = (props: Props) => {
   const { data, stableVersion } = props
   const { t } = useTranslation()
   const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
+  const [showTooltip, setShowTooltip] = useState(false)
   return (
     <div className="barchart">
       <ResponsiveContainer height={CHART_HEIGHT} width="95%">
@@ -121,6 +122,12 @@ const BarChartVersion = (props: Props) => {
             onMouseOver={(barRegion) => {
               setposData({ x: barRegion.x, y: barRegion.y })
             }}
+            onMouseEnter={() => {
+              setShowTooltip(true)
+            }}
+            onMouseLeave={() => {
+              setShowTooltip(false)
+            }}
           >
             {stableVersion &&
               data.map((_entry, index) => (
@@ -141,8 +148,18 @@ const BarChartVersion = (props: Props) => {
               x: posData.x - BAR_TOOLTIPS.posX,
               y: posData.y - BAR_TOOLTIPS.posY,
             }}
-            offset={BAR_TOOLTIPS.offset}
           />
+          {showTooltip ? (
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={BAR_TOOLTIPS.cursor}
+              position={{
+                x: posData.x - BAR_TOOLTIPS.posX,
+                y: posData.y - BAR_TOOLTIPS.posY,
+              }}
+              offset={BAR_TOOLTIPS.offset}
+            />
+          ) : null}
         </BarChart>
       </ResponsiveContainer>
     </div>
