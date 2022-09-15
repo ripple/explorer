@@ -141,14 +141,6 @@ const BarChartVersion = (props: Props) => {
             verticalAlign="top"
             content={renderLegend(stableVersion, t)}
           />
-          <Tooltip
-            content={<CustomTooltip />}
-            cursor={BAR_TOOLTIPS.cursor}
-            position={{
-              x: posData.x - BAR_TOOLTIPS.posX,
-              y: posData.y - BAR_TOOLTIPS.posY,
-            }}
-          />
           {showTooltip ? (
             <Tooltip
               content={<CustomTooltip />}
