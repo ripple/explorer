@@ -5,7 +5,7 @@ import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
 import ValidatorsTable from './ValidatorsTable'
 import Log from '../shared/log'
-import { localizeNumber, FETCH_INTERVAL } from '../shared/utils'
+import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
 
@@ -19,7 +19,7 @@ export const Validators = () => {
 
   useEffect(() => {
     fetchData()
-    const interval = setInterval(fetchData, FETCH_INTERVAL)
+    const interval = setInterval(fetchData, FETCH_INTERVAL_MILLIS)
     return () => {
       clearInterval(interval)
     }
