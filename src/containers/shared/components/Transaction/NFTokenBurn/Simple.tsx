@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
+import { TransactionSimpleProps } from '../types'
 import { NFTokenBurnInstructions } from './types'
 
 export const Simple = ({

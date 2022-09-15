@@ -5,6 +5,7 @@ import Account from '../../Account'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { NFTokenAcceptOfferInstructions } from './types'
+import { TransactionSimpleProps } from '../types'
 
 export const Simple = ({
   data,
