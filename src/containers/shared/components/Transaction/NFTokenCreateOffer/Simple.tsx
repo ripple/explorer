@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Account from '../../Account'
 import { Amount } from '../../Amount'
 import { SimpleRow } from '../SimpleRow'
+import { TransactionSimpleProps } from '../types'
 import { NFTokenCreateOfferInstructions } from './types'
 
 export const Simple = ({
