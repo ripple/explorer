@@ -42,7 +42,7 @@ export const CHART_XAXIS = {
 }
 export const BAR_SIZE = 30
 export const BAR_RADIUS = [4, 4, 0, 0]
-export const BAR_TOOLTIPS = { cursor: false, posX: 45, posY: 90, offset: -10 }
+export const BAR_TOOLTIPS = { cursor: false, posX: 45, posY: 70, offset: -10 }
 
 export const DECIMAL_REGEX = /^\d+$/
 export const RIPPLE_ADDRESS_REGEX =
