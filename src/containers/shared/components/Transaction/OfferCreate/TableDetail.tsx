@@ -9,8 +9,8 @@ export const TableDetail = (props: any) => {
 
   return pays && gets ? (
     <div className="offercreate">
-      <div className="price">
-        <span className="label"> {t('price')}:</span>
+      <div className="price" data-test="pair">
+        <span className="label">{t('price')}:</span>
         <span className="amount">
           {` ${Number(price)} `}
           {pair}
@@ -18,12 +18,12 @@ export const TableDetail = (props: any) => {
       </div>
       <div className="amounts">
         <span className="label">{t('buy')}</span>
-        <Amount value={gets} />
+        <Amount value={gets} data-test="amount-buy" />
         <span className="label">{`- ${t('sell')}`}</span>
-        <Amount value={pays} />
+        <Amount value={pays} data-test="amount-sell" />
       </div>
       {cancel && (
-        <div className="cancel">
+        <div className="cancel" data-test="cancel-id">
           <span className="label">{t('cancel_offer')}</span>
           {` #`}
           <span className="sequence">{cancel}</span>
