@@ -1,10 +1,13 @@
 import { summarizeLedger } from './lib/utils'
-import { getLedger as getRippledLedger } from './lib/rippled'
+import {
+  getLedger as getRippledLedger,
+  getLedgerData as getRippledLedgerData,
+} from './lib/rippled'
 import logger from './lib/logger'
 
 const log = logger({ name: 'ledgers' })
 
-const getLedger = (identifier, rippledSocket) => {
+function getParameters(identifier) {
   const parameters = {}
   if (!isNaN(identifier)) {
     parameters.ledger_index = Number(identifier)
@@ -17,6 +20,12 @@ const getLedger = (identifier, rippledSocket) => {
     parameters.ledger_hash = identifier.toUpperCase()
   }
 
+  return parameters
+}
+
+const getLedger = (identifier, rippledSocket) => {
+  const parameters = getParameters(identifier)
+
   log.info(`get ledger: ${JSON.stringify(parameters)}`)
   return getRippledLedger(rippledSocket, parameters)
     .then((ledger) => summarizeLedger(ledger, true))
@@ -27,4 +36,16 @@ const getLedger = (identifier, rippledSocket) => {
     })
 }
 
-export default getLedger
+const getLedgerData = (identifier, rippledSocket) => {
+  const parameters = getParameters(identifier)
+
+  log.info(`get ledger data: ${JSON.stringify(parameters)}`)
+  return getRippledLedgerData(rippledSocket, parameters)
+    .then((data) => data)
+    .catch((error) => {
+      log.error(error.toString())
+      throw error
+    })
+}
+
+export { getLedger, getLedgerData }

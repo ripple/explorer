@@ -1,6 +1,6 @@
 @import '../shared/css/variables';
 
-.ledger-page {
+.ledger {
   position: relative;
   min-height: 600px;
 
@@ -20,6 +20,8 @@
   }
 
   .ledger-nav {
+    display: flex;
+    align-items: center;
     padding: 8px 4px;
     margin-top: 40px;
     margin-bottom: 60px;
@@ -28,41 +30,75 @@
     letter-spacing: 0px;
     line-height: 15px;
 
+    .ledger-index{
+      text-align: center;
+
+      .title{
+          color: $gray-400;
+          font-size: 10px;
+          letter-spacing: 0px;
+          line-height: 20px;
+          text-transform: uppercase;
+          @include medium;
+
+          @include for-size(desktop-up) {
+            font-size: 10px;
+          }
+      }
+
+      .value{
+        color: $white;
+        font-size: 18px;
+        line-height: 20px;
+        @include bold;
+      }
+    }
+
     svg {
       position: relative;
       height: 8px;
       color: $gray-400;
     }
 
-    .previous {
-      padding: 6px 16px;
-      border: 1px solid $gray-400;
-      border-radius: 100px;
-      float: left;
-
-      svg {
-        margin-right: 16px;
+    .link {
+      &.left {
+        margin-right: auto;
       }
 
-      &:focus,
-      &:hover {
-        background-color: $gray-800;
-      }
-    }
-
-    .next {
-      padding: 6px 16px;
-      border: 1px solid $gray-400;
-      border-radius: 100px;
-      float: right;
-
-      svg {
-        margin-left: 16px;
+      &.right {
+        margin-left: auto;
       }
 
-      &:focus,
-      &:hover {
-        background-color: $gray-800;
+      .previous {
+        padding: 6px 16px;
+        border: 1px solid $gray-400;
+        border-radius: 100px;
+        float: left;
+
+        svg {
+          margin-right: 16px;
+        }
+
+        &:focus,
+        &:hover {
+          background-color: $gray-800;
+        }
+      }
+
+      .next {
+        padding: 6px 16px;
+        border: 1px solid $gray-400;
+        border-radius: 100px;
+        float: right;
+
+        svg {
+          margin-left: 16px;
+        }
+
+        &:focus,
+        &:hover {
+          background-color: $gray-800;
+        }
       }
     }
   }
@@ -144,17 +180,19 @@
         }
 
         .ledger-cols {
-          display: table;
+          display: grid;
           width: 100%;
           margin-bottom: 20px;
-          text-align: right;
+          gap: 25px;
+          grid-template-columns: 1fr 1fr;
+          text-align: center;
+
+          @include for-size(desktop-up){
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+          }
 
           .ledger-col {
             display: table-cell;
-
-            &:first-child {
-              text-align: left;
-            }
 
             @include for-size(desktop-up) {
               width: auto;

@@ -6,7 +6,7 @@ import {
   HASH_REGEX,
 } from '../shared/utils'
 import * as actionTypes from './actionTypes'
-import { getLedger } from '../../rippled'
+import { getLedger, getLedgerData } from '../../rippled'
 
 export const loadLedger = (identifier, rippledSocket) => (dispatch) => {
   if (!DECIMAL_REGEX.test(identifier) && !HASH_REGEX.test(identifier)) {
@@ -23,10 +23,26 @@ export const loadLedger = (identifier, rippledSocket) => (dispatch) => {
   })
 
   return getLedger(identifier, rippledSocket)
-    .then((data) => {
-      dispatch({ type: actionTypes.FINISH_LOADING_FULL_LEDGER })
-      dispatch({ type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data })
-    })
+    .then((data) =>
+      getLedgerData(identifier, rippledSocket)
+        .then((ledgerData) => {
+          dispatch({ type: actionTypes.FINISH_LOADING_FULL_LEDGER })
+          dispatch({
+            type: actionTypes.LOADING_FULL_LEDGER_SUCCESS,
+            data,
+            ledgerData,
+          })
+        })
+        .catch((error) => {
+          dispatch({ type: actionTypes.FINISH_LOADING_FULL_LEDGER })
+          analytics(ANALYTIC_TYPES.exception, {
+            exDescription: `ledger data ${identifier} --- ${JSON.stringify(
+              error,
+            )}`,
+          })
+          dispatch({ type: actionTypes.LOADING_FULL_LEDGER_SUCCESS, data })
+        }),
+    )
     .catch((error) => {
       const status = error.code
       analytics(ANALYTIC_TYPES.exception, {

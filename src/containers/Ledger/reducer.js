@@ -20,7 +20,12 @@ const ledgerReducer = (state = initialState, action) => {
     case actionTypes.FINISH_LOADING_FULL_LEDGER:
       return { ...state, loading: false }
     case actionTypes.LOADING_FULL_LEDGER_SUCCESS:
-      return { ...state, error: '', data: action.data }
+      return {
+        ...state,
+        error: '',
+        data: action.data,
+        ledgerData: action.ledgerData,
+      }
     case actionTypes.LOADING_FULL_LEDGER_FAIL:
       return { ...state, data: action.data, error: action.error }
     case 'persist/REHYDRATE':

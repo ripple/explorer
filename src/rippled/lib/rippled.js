@@ -53,6 +53,33 @@ function queryP2P(rippledSocket, options) {
   return executeQuery(rippledSocket.p2pSocket ?? rippledSocket, options)
 }
 
+const getLedgerData = (rippledSocket, parameters) => {
+  const request = {
+    command: 'ledger_data',
+    ...parameters,
+  }
+
+  return query(rippledSocket, request).then((resp) => {
+    if (resp.error_message === 'ledgerNotFound') {
+      throw new Error('ledger not found', 404)
+    }
+
+    if (resp.error_message === 'ledgerIndexMalformed') {
+      throw new Error('invalid ledger index/hash', 400)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    if (!resp.validated) {
+      throw new Error('ledger not validated', 404)
+    }
+
+    return resp
+  })
+}
+
 // get ledger
 const getLedger = (rippledSocket, parameters) => {
   const request = {
@@ -364,6 +391,7 @@ const getOffers = (
   })
 export {
   getLedger,
+  getLedgerData,
   getTransaction,
   getAccountInfo,
   getAccountEscrows,

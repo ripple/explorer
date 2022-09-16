@@ -37,6 +37,42 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
+const TransactionCategories = {
+  DEX: 'DEX',
+  PAYMENTS: 'PAYMENTS',
+  ACCOUNT: 'ACCOUNT',
+  NFT: 'NFT',
+}
+
+const mapTransactionTypesToCategory = {
+  NFTokenAcceptOffer: TransactionCategories.NFT,
+  NFTokenBurn: TransactionCategories.NFT,
+  NFTokenCancelOffer: TransactionCategories.NFT,
+  NFTokenCreateOffer: TransactionCategories.NFT,
+  NFTokenMint: TransactionCategories.NFT,
+
+  OfferCancel: TransactionCategories.DEX,
+  OfferCreate: TransactionCategories.DEX,
+
+  CheckCancel: TransactionCategories.PAYMENTS,
+  CheckCash: TransactionCategories.PAYMENTS,
+  CheckCreate: TransactionCategories.PAYMENTS,
+  EscrowCancel: TransactionCategories.PAYMENTS,
+  EscrowCreate: TransactionCategories.PAYMENTS,
+  EscrowFinish: TransactionCategories.PAYMENTS,
+  Payment: TransactionCategories.PAYMENTS,
+  PaymentChannelClaim: TransactionCategories.PAYMENTS,
+  PaymentChannelCreate: TransactionCategories.PAYMENTS,
+  PaymentChannelFund: TransactionCategories.PAYMENTS,
+
+  AccountSet: TransactionCategories.ACCOUNT,
+  AccountDelete: TransactionCategories.ACCOUNT,
+  DepositPreauth: TransactionCategories.ACCOUNT,
+  SetRegularKey: TransactionCategories.ACCOUNT,
+  SignerListSet: TransactionCategories.ACCOUNT,
+  TrustSet: TransactionCategories.ACCOUNT,
+}
+
 const TXN_COST_PADDING = 6
 
 const ERROR_MESSAGES = {}
@@ -85,39 +121,84 @@ class Ledger extends Component {
   }
 
   renderNav() {
-    const { t, language, data } = this.props
+    const { t, language, data, ledgerData } = this.props
     const { ledger_index: LedgerIndex, ledger_hash: LedgerHash } = data
     const previousIndex = LedgerIndex - 1
     const nextIndex = LedgerIndex + 1
     const date = new Date(data.close_time)
+    const transactions = data.transactions || []
+
+    const ledgerObjectsByType = {}
+    const transactionsByCategory = {
+      [TransactionCategories.ACCOUNT]: 0,
+      [TransactionCategories.DEX]: 0,
+      [TransactionCategories.NFT]: 0,
+      [TransactionCategories.PAYMENTS]: 0,
+    }
+
+    let numberOfSuccessfulTransactions = 0
+    for (const tx of transactions) {
+      if (tx.result === 'tesSUCCESS') {
+        numberOfSuccessfulTransactions += 1
+      }
+
+      transactionsByCategory[mapTransactionTypesToCategory[tx.type]] += 1
+    }
+
+    const numberOfFailedTransactions =
+      transactions.length - numberOfSuccessfulTransactions
+
+    for (const stateObj of ledgerData.state) {
+      if (!ledgerObjectsByType[stateObj.LedgerEntryType]) {
+        ledgerObjectsByType[stateObj.LedgerEntryType] = 0
+      }
+      ledgerObjectsByType[stateObj.LedgerEntryType] += 1
+    }
+
     return (
       <div className="ledger-header">
         <div className="ledger-nav">
-          <Link to={`/ledgers/${previousIndex}`}>
-            <div className="previous">
-              <LeftArrow alt="previous ledger" />
-              {previousIndex}
-            </div>
-          </Link>
-          <Link to={`/ledgers/${nextIndex}`}>
-            <div className="next">
-              {nextIndex}
-              <RightArrow alt="next ledger" />
-            </div>
-          </Link>
+          <div className="link left">
+            <Link to={`/ledgers/${previousIndex}`}>
+              <div className="previous">
+                <LeftArrow alt="previous ledger" />
+                {previousIndex}
+              </div>
+            </Link>
+          </div>
+          <div className="ledger-index">
+            <div className="title">{t('ledger_index')}</div>
+            <div className="value">{LedgerIndex}</div>
+          </div>
+          <div className="link right">
+            <Link to={`/ledgers/${nextIndex}`}>
+              <div className="next">
+                {nextIndex}
+                <RightArrow alt="next ledger" />
+              </div>
+            </Link>
+          </div>
           <div className="clear" />
         </div>
         <div className="ledger-info">
           <div className="summary">
             <div className="ledger-cols">
-              <div className="ledger-col ledger-index">
-                <div className="title">{t('ledger_index')}</div>
-                <div className="value">{LedgerIndex}</div>
-              </div>
               <div className="ledger-col">
                 <div className="title">{t('total_transactions')}</div>
                 <div className="value">
                   {localizeNumber(data.transactions.length, language)}
+                </div>
+              </div>
+              <div className="ledger-col">
+                <div className="title">{t('successful_transactions')}</div>
+                <div className="value">
+                  {localizeNumber(numberOfSuccessfulTransactions, language)}
+                </div>
+              </div>
+              <div className="ledger-col">
+                <div className="title">{t('failed_transactions')}</div>
+                <div className="value">
+                  {localizeNumber(numberOfFailedTransactions, language)}
                 </div>
               </div>
               <div className="ledger-col">
@@ -129,6 +210,26 @@ class Ledger extends Component {
                   })}
                 </div>
               </div>
+              {Object.keys(ledgerObjectsByType).map((type) => (
+                <div className="ledger-col">
+                  <div className="title">
+                    {t(`number_of_${type.toLowerCase()}_objects`)}
+                  </div>
+                  <div className="value">
+                    {localizeNumber(ledgerObjectsByType[type], language)}
+                  </div>
+                </div>
+              ))}
+              {Object.keys(transactionsByCategory).map((type) => (
+                <div className="ledger-col">
+                  <div className="title">
+                    {t(`number_of_${type.toLowerCase()}_transactions`)}
+                  </div>
+                  <div className="value">
+                    {localizeNumber(transactionsByCategory[type], language)}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
           <div className="ledger-hash">{LedgerHash}</div>
@@ -248,7 +349,7 @@ class Ledger extends Component {
     const loader = loading ? <Loader className="show" /> : <Loader />
 
     return (
-      <div className="ledger-page">
+      <div className="ledger">
         {loader}
         {this.renderLedger()}
         {this.renderError()}
@@ -271,6 +372,14 @@ Ledger.propTypes = {
       PropTypes.array,
     ]),
   ).isRequired,
+  ledgerData: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+      PropTypes.number,
+      PropTypes.array,
+    ]),
+  ).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       identifier: PropTypes.string,
@@ -285,6 +394,7 @@ export default connect(
   (state) => ({
     loading: state.ledger.loading,
     data: state.ledger.data,
+    ledgerData: state.ledger.ledgerData,
     language: state.app.language,
   }),
   (dispatch) => ({
