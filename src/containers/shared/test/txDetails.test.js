@@ -10,7 +10,6 @@ import EnableAmendment from '../../Transactions/test/mock_data/EnableAmendment.j
 import EscrowCreate from '../../Transactions/test/mock_data/EscrowCreate.json'
 import EscrowCancel from '../../Transactions/test/mock_data/EscrowCancel.json'
 import EscrowFinish from '../../Transactions/test/mock_data/EscrowFinish.json'
-import OfferCreate from '../components/Transaction/OfferCreate/test/mock_data/OfferCreateWithExpirationAndCancel.json'
 import OfferCancel from '../../Transactions/test/mock_data/OfferCancel.json'
 import PaymentChannelClaim from '../../Transactions/test/mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from '../../Transactions/test/mock_data/PaymentChannelCreate.json'
@@ -67,11 +66,6 @@ describe('TxDetails', () => {
 
   it('renders EscrowFinish without crashing', () => {
     const wrapper = createWrapper(EscrowFinish)
-    wrapper.unmount()
-  })
-
-  it('renders OfferCreate without crashing', () => {
-    const wrapper = createWrapper(OfferCreate)
     wrapper.unmount()
   })
 
