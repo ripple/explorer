@@ -1,5 +1,6 @@
 import { unix } from 'moment'
 import summarizeTransaction from './txSummary'
+import { formatSignerList } from './formatSignerList'
 
 const EPOCH_OFFSET = 946684800
 const XRP_BASE = 1000000
@@ -53,18 +54,6 @@ const convertRippleDate = (date) =>
   unix(date + EPOCH_OFFSET)
     .utc()
     .format()
-
-const formatSignerList = (data) => ({
-  quorum: data.SignerQuorum,
-  maxSigners: data.SignerEntries.reduce(
-    (total, d) => total + d.SignerEntry.SignerWeight,
-    0,
-  ),
-  signers: data.SignerEntries.map((d) => ({
-    account: d.SignerEntry.Account,
-    weight: d.SignerEntry.SignerWeight,
-  })),
-})
 
 const formatAccountInfo = (info, serverInfoValidated) => ({
   sequence: info.Sequence,
