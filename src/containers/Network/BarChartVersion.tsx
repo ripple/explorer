@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   BarChart,
@@ -22,11 +22,6 @@ import './css/barchart.scss'
 interface Props {
   data: any[]
   stableVersion: string | null
-}
-
-interface BarCoordinates {
-  x: number
-  y: number
 }
 
 const CustomTooltip = ({
@@ -69,8 +64,6 @@ const stableColorCode = (dataLabel: string, stableVersion: string) => {
 const BarChartVersion = (props: Props) => {
   const { data, stableVersion } = props
   const { t } = useTranslation()
-  const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
-  const [showTooltip, setShowTooltip] = useState(false)
   return (
     <div className="barchart">
       <ResponsiveContainer height={532} width="95%">
@@ -104,21 +97,7 @@ const BarChartVersion = (props: Props) => {
               dy={65}
             />
           </YAxis>
-          <Bar
-            dataKey="value"
-            barSize={30}
-            fill={PURPLE}
-            radius={[4, 4, 0, 0]}
-            onMouseOver={(barRegion) => {
-              setposData({ x: barRegion.x, y: barRegion.y })
-            }}
-            onMouseEnter={() => {
-              setShowTooltip(true)
-            }}
-            onMouseLeave={() => {
-              setShowTooltip(false)
-            }}
-          >
+          <Bar dataKey="value" barSize={30} fill={PURPLE} radius={[4, 4, 0, 0]}>
             {stableVersion &&
               data.map((_entry, index) => (
                 <Cell
@@ -131,17 +110,12 @@ const BarChartVersion = (props: Props) => {
             verticalAlign="top"
             content={renderLegend(stableVersion, t)}
           />
-          {showTooltip ? (
-            <Tooltip
-              content={<CustomTooltip />}
-              cursor={false}
-              position={{
-                x: posData.x - 40,
-                y: posData.y - 70,
-              }}
-              offset={-10}
-            />
-          ) : null}
+          <Tooltip
+            content={<CustomTooltip />}
+            cursor={false}
+            offset={-10}
+            wrapperStyle={{ backgroundColor: 'white', borderRadius: 8 }}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>
