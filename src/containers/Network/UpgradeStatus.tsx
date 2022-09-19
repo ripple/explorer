@@ -23,18 +23,17 @@ export const UpgradeStatus = () => {
     let total = 0
     const tempData: any[] = []
     validators.reduce((aggregate, current) => {
-      if (!aggregate[current.server_version]) {
-        // eslint-disable-next-line no-param-reassign
-        aggregate[current.server_version] = {
+      const aggregation = { ...aggregate }
+      if (!aggregation[current.server_version]) {
+        aggregation[current.server_version] = {
           server_version: current.server_version,
           count: 0,
         }
-        tempData.push(aggregate[current.server_version])
+        tempData.push(aggregation[current.server_version])
       }
-      // eslint-disable-next-line no-param-reassign
-      aggregate[current.server_version].count += 1
+      aggregation[current.server_version].count += 1
       total += 1
-      return aggregate
+      return aggregation
     }, {})
 
     return tempData
@@ -76,11 +75,11 @@ export const UpgradeStatus = () => {
   const updateValidators = (newValidations: any[]) => {
     // @ts-ignore - Work around type assignment for complex validation data types
     setValidations(newValidations)
-    setVList((value: any) => {
-      const newValidatorsList: any = { ...value }
+    setVList((validatorList: any) => {
+      const newValidatorsList: any = { ...validatorList }
       newValidations.forEach((validation: any) => {
         newValidatorsList[validation.pubkey] = {
-          ...value[validation.pubkey],
+          ...validatorList[validation.pubkey],
           ledger_index: validation.ledger_index,
           ledger_hash: validation.ledger_hash,
         }
