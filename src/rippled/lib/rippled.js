@@ -342,7 +342,7 @@ const getNFTTransactions = (
   const ledger = parseInt(markerComponents[0], 10)
   const seq = parseInt(markerComponents[1], 10)
   return queryP2P(rippledSocket, {
-    command: 'nft_tx',
+    command: 'nft_history',
     nft_id: tokenId,
     limit,
     ledger_index_max: -1,
