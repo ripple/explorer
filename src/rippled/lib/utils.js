@@ -1,8 +1,8 @@
 import { unix } from 'moment'
 import summarizeTransaction from './txSummary'
 import { formatSignerList } from './formatSignerList'
+import { convertRippleDate, EPOCH_OFFSET } from './convertRippleDate'
 
-const EPOCH_OFFSET = 946684800
 const XRP_BASE = 1000000
 const BILLION = 1000000000
 
@@ -49,11 +49,6 @@ const buildFlags = (flags, flagMap) => {
     })
     .filter((d) => Boolean(d))
 }
-
-const convertRippleDate = (date) =>
-  unix(date + EPOCH_OFFSET)
-    .utc()
-    .format()
 
 const formatAccountInfo = (info, serverInfoValidated) => ({
   sequence: info.Sequence,

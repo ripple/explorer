@@ -1,5 +1,6 @@
 import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
-import { convertRippleDate } from '../../../../../rippled/lib/utils'
+import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
+
 export function parser(tx: any) {
   return {
     amount: formatAmount(tx.Amount),
