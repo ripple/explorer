@@ -110,6 +110,14 @@ div.react-stockchart div {
   &.XChainModifyBridge {
     @include transaction-type-base($sidechain);
   }
+
+  &.AMMInstanceCreate,
+  &.AMMDeposit,
+  &.AMMWithdraw,
+  &.AMMVote,
+  &.AMMBid {
+    @include transaction-type-base($amm);
+  }
   /* stylelint-enable selector-class-pattern */
 }
 
