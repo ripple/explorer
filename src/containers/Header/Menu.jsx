@@ -6,7 +6,6 @@ import arrowIcon from '../shared/images/down_arrow_black_50.png'
 import { removeRoutes } from '../shared/utils'
 import './menu.scss'
 
-const MODE = process.env.REACT_APP_ENVIRONMENT
 class Menu extends Component {
   constructor(props) {
     super(props)
