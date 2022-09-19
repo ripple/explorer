@@ -2,6 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
@@ -17,18 +18,31 @@ const mockStore = configureMockStore(middlewares)
 const store = mockStore({ app: initialState })
 
 describe('Nodes Page container', () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        cacheTime: 0,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchOnMount: false,
+        retry: false,
+      },
+    },
+  })
   const createWrapper = (props = {}) =>
     mount(
-      <Router>
-        <I18nextProvider i18n={i18n}>
-          <Provider store={store}>
-            <Network
-              {...props}
-              match={{ params: { tab: 'nodes' }, path: '/' }}
-            />
-          </Provider>
-        </I18nextProvider>
-      </Router>,
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <I18nextProvider i18n={i18n}>
+            <Provider store={store}>
+              <Network
+                {...props}
+                match={{ params: { tab: 'nodes' }, path: '/' }}
+              />
+            </Provider>
+          </I18nextProvider>
+        </Router>
+      </QueryClientProvider>,
     )
 
   beforeEach(() => {

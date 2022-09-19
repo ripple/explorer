@@ -16,7 +16,7 @@ export const Nodes = () => {
   const [locations, setLocations] = useState([])
   const [unmapped, setUnmapped] = useState(0)
 
-  useQuery('fetchNodesData', async () => fetchData(), {
+  useQuery(['fetchData'], async () => fetchData(), {
     refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
   })
 
