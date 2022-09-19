@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import NetworkTabs from './NetworkTabs'
 import Map from './Map'
 import NodesTable from './NodesTable'
 import Log from '../shared/log'
-import { localizeNumber } from '../shared/utils'
+import { FETCH_INTERVAL_NODES_MILLIS, localizeNumber } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 
 export const Nodes = () => {
@@ -14,14 +15,9 @@ export const Nodes = () => {
   const [nodes, setNodes] = useState<any>([{}])
   const [locations, setLocations] = useState([])
   const [unmapped, setUnmapped] = useState(0)
-
-  useEffect(() => {
-    fetchData()
-    const interval = setInterval(fetchData, 60000)
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
+  useQuery('fetchNodesData', async () => fetchData(), {
+    refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
+  })
 
   const fetchData = () => {
     axios
