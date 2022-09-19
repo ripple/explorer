@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   BarChart,
@@ -19,11 +19,6 @@ import './css/barchart.scss'
 
 interface Props {
   data: any[]
-}
-
-interface BarCoordinates {
-  x: number
-  y: number
 }
 
 const CustomTooltip = ({
@@ -48,8 +43,6 @@ const CustomTooltip = ({
 const BarChartVersion = (props: Props) => {
   const { data } = props
   const { t } = useTranslation()
-  const [posData, setposData] = useState<BarCoordinates>({ x: 0, y: 0 })
-  const [showTooltip, setShowTooltip] = useState(false)
   return (
     <div className="barchart">
       <ResponsiveContainer height={532} width="95%">
@@ -88,27 +81,13 @@ const BarChartVersion = (props: Props) => {
             barSize={30}
             fill={PURPLE}
             radius={[4, 4, 0, 0]}
-            onMouseOver={(barRegion) => {
-              setposData({ x: barRegion.x, y: barRegion.y })
-            }}
-            onMouseEnter={() => {
-              setShowTooltip(true)
-            }}
-            onMouseLeave={() => {
-              setShowTooltip(false)
-            }}
           />
-          {showTooltip ? (
-            <Tooltip
-              content={<CustomTooltip />}
-              cursor={false}
-              position={{
-                x: posData.x - 40,
-                y: posData.y - 70,
-              }}
-              offset={-10}
-            />
-          ) : null}
+          <Tooltip
+            content={<CustomTooltip />}
+            cursor={false}
+            offset={-10}
+            wrapperStyle={{ backgroundColor: 'white', borderRadius: 8 }}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>
