@@ -1,13 +1,13 @@
 import { mount } from 'enzyme'
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
-
 import { getAccountNFTs } from '../../../../rippled/lib/rippled'
 import { AccountNFTTable } from '../AccountNFTTable'
 import i18n from '../../../../i18nTestConfig'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
+import { queryClient } from '../../../shared/utils'
 
 jest.mock('../../../../rippled/lib/rippled', () => ({
   __esModule: true,
@@ -38,17 +38,6 @@ const data = {
 
 describe('AccountNFTTable component', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        cacheTime: 0,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-        retry: false,
-      },
-    },
-  })
 
   const createWrapper = () =>
     mount(
