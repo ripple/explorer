@@ -67,9 +67,7 @@ describe('Nodes Page container', () => {
     })
 
     expect(wrapper.find('.nodes-map').length).toBe(1)
-    expect(wrapper.find('.stat').html()).toBe(
-      '<div class="stat"><span>nodes_found: </span><span>1</span></div>',
-    )
+    expect(wrapper.find('.stat').html()).toBe('<div class="stat"></div>')
     expect(wrapper.find('.nodes-table').length).toBe(1)
     setTimeout(() => {
       wrapper.update()
