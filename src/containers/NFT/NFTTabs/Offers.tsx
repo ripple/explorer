@@ -10,6 +10,7 @@ import { Amount } from '../../shared/components/Amount'
 import { analytics, ANALYTIC_TYPES } from '../../shared/utils'
 import '../../shared/components/TransactionTable/styles.scss' // Reuse load-more-btn
 import formatAmount from '../../../rippled/lib/txSummary/formatAmount'
+import { LoadMoreButton } from '../../shared/LoadMoreButton'
 
 interface Props {
   tokenId: string
@@ -48,15 +49,7 @@ export const Offers = (props: Props) => {
   )
 
   const renderLoadMoreButton = () =>
-    hasNextPage && (
-      <button
-        type="button"
-        className="load-more-btn"
-        onClick={() => fetchNextPage()}
-      >
-        {t('load_more_action')}
-      </button>
-    )
+    hasNextPage && <LoadMoreButton onClick={() => fetchNextPage()} />
 
   const renderOffer = (d: any) => {
     const { amount, owner, nft_offer_index: offerIndex } = d

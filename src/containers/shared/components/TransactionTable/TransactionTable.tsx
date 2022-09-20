@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TransactionTableRow } from './TransactionTableRow'
 import Loader from '../Loader'
+import { LoadMoreButton } from '../../LoadMoreButton'
 import './styles.scss'
 
 export type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
@@ -29,11 +30,7 @@ export const TransactionTable: TransactionTableComponent = ({
   )
 
   const renderLoadMore = () =>
-    hasAdditionalResults && (
-      <button type="button" className="load-more-btn" onClick={onLoadMore}>
-        {t('load_more_action')}
-      </button>
-    )
+    hasAdditionalResults && <LoadMoreButton onClick={onLoadMore} />
 
   return (
     <div className="section">
