@@ -38,39 +38,54 @@ const DATE_OPTIONS = {
 }
 
 const TransactionCategories = {
-  DEX: 'DEX',
-  PAYMENTS: 'PAYMENTS',
-  ACCOUNT: 'ACCOUNT',
   NFT: 'NFT',
+  DEX: 'DEX',
+  PSEUDO: 'PSEUDO',
+  XCHAIN: 'XCHAIN',
+  ACCOUNT: 'ACCOUNT',
+  PAYMENTS: 'PAYMENTS',
 }
 
 const mapTransactionTypesToCategory = {
-  NFTokenAcceptOffer: TransactionCategories.NFT,
   NFTokenBurn: TransactionCategories.NFT,
+  NFTokenMint: TransactionCategories.NFT,
+  NFTokenAcceptOffer: TransactionCategories.NFT,
   NFTokenCancelOffer: TransactionCategories.NFT,
   NFTokenCreateOffer: TransactionCategories.NFT,
-  NFTokenMint: TransactionCategories.NFT,
 
   OfferCancel: TransactionCategories.DEX,
   OfferCreate: TransactionCategories.DEX,
 
-  CheckCancel: TransactionCategories.PAYMENTS,
   CheckCash: TransactionCategories.PAYMENTS,
+  CheckCancel: TransactionCategories.PAYMENTS,
   CheckCreate: TransactionCategories.PAYMENTS,
   EscrowCancel: TransactionCategories.PAYMENTS,
   EscrowCreate: TransactionCategories.PAYMENTS,
   EscrowFinish: TransactionCategories.PAYMENTS,
+
   Payment: TransactionCategories.PAYMENTS,
+  PaymentChannelFund: TransactionCategories.PAYMENTS,
   PaymentChannelClaim: TransactionCategories.PAYMENTS,
   PaymentChannelCreate: TransactionCategories.PAYMENTS,
-  PaymentChannelFund: TransactionCategories.PAYMENTS,
 
+  TrustSet: TransactionCategories.ACCOUNT,
   AccountSet: TransactionCategories.ACCOUNT,
   AccountDelete: TransactionCategories.ACCOUNT,
-  DepositPreauth: TransactionCategories.ACCOUNT,
   SetRegularKey: TransactionCategories.ACCOUNT,
   SignerListSet: TransactionCategories.ACCOUNT,
-  TrustSet: TransactionCategories.ACCOUNT,
+  DepositPreauth: TransactionCategories.ACCOUNT,
+
+  SetFee: TransactionCategories.PSEUDO,
+  UNLModify: TransactionCategories.PSEUDO,
+  EnableAmendment: TransactionCategories.PSEUDO,
+
+  XChainClaim: TransactionCategories.XCHAIN,
+  XChainCommit: TransactionCategories.XCHAIN,
+  XChainModifyBridge: TransactionCategories.XCHAIN,
+  XChainCreateBridge: TransactionCategories.XCHAIN,
+  XChainCreateClaimID: TransactionCategories.XCHAIN,
+  XChainAddAttestation: TransactionCategories.XCHAIN,
+  SidechainXChainAccountCreate: TransactionCategories.XCHAIN,
 }
 
 const TXN_COST_PADDING = 6
@@ -121,18 +136,19 @@ class Ledger extends Component {
   }
 
   renderNav() {
-    const { t, language, data, ledgerData } = this.props
+    const { t, language, data } = this.props
     const { ledger_index: LedgerIndex, ledger_hash: LedgerHash } = data
     const previousIndex = LedgerIndex - 1
     const nextIndex = LedgerIndex + 1
     const date = new Date(data.close_time)
     const transactions = data.transactions || []
 
-    const ledgerObjectsByType = {}
     const transactionsByCategory = {
-      [TransactionCategories.ACCOUNT]: 0,
       [TransactionCategories.DEX]: 0,
       [TransactionCategories.NFT]: 0,
+      [TransactionCategories.PSEUDO]: 0,
+      [TransactionCategories.XCHAIN]: 0,
+      [TransactionCategories.ACCOUNT]: 0,
       [TransactionCategories.PAYMENTS]: 0,
     }
 
@@ -147,13 +163,6 @@ class Ledger extends Component {
 
     const numberOfFailedTransactions =
       transactions.length - numberOfSuccessfulTransactions
-
-    for (const stateObj of ledgerData.state) {
-      if (!ledgerObjectsByType[stateObj.LedgerEntryType]) {
-        ledgerObjectsByType[stateObj.LedgerEntryType] = 0
-      }
-      ledgerObjectsByType[stateObj.LedgerEntryType] += 1
-    }
 
     return (
       <div className="ledger-header">
@@ -210,16 +219,6 @@ class Ledger extends Component {
                   })}
                 </div>
               </div>
-              {Object.keys(ledgerObjectsByType).map((type) => (
-                <div className="ledger-col">
-                  <div className="title">
-                    {t(`number_of_${type.toLowerCase()}_objects`)}
-                  </div>
-                  <div className="value">
-                    {localizeNumber(ledgerObjectsByType[type], language)}
-                  </div>
-                </div>
-              ))}
               {Object.keys(transactionsByCategory).map((type) => (
                 <div className="ledger-col">
                   <div className="title">
@@ -372,14 +371,6 @@ Ledger.propTypes = {
       PropTypes.array,
     ]),
   ).isRequired,
-  ledgerData: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-    ]),
-  ).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       identifier: PropTypes.string,
@@ -394,7 +385,6 @@ export default connect(
   (state) => ({
     loading: state.ledger.loading,
     data: state.ledger.data,
-    ledgerData: state.ledger.ledgerData,
     language: state.app.language,
   }),
   (dispatch) => ({

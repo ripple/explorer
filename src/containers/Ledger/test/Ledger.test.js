@@ -6,7 +6,6 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import mockLedger from './storedLedger.json'
-import mockLedgerData from './storedLedgerData.json'
 import i18n from '../../../i18nTestConfig'
 import { initialState } from '../../../rootReducer'
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../shared/utils'
@@ -45,7 +44,6 @@ describe('Ledger container', () => {
   it('renders ledger navbar', () => {
     const state = { ...initialState }
     state.ledger.data = mockLedger
-    state.ledger.ledgerData = mockLedgerData
     state.ledger.loading = false
     state.ledger.error = false
     const wrapper = createWrapper(state)
@@ -72,11 +70,6 @@ describe('Ledger container', () => {
     const wrapper = createWrapper(state)
     const summary = wrapper.find('.ledger-header .ledger-info')
 
-    // get distinct number of ledger object types
-    const distinctLedgerStateObjects = mockLedgerData.state.filter(
-      (value, index, self) => self.indexOf(value.LedgerEntryType) === index,
-    )
-
     expect(summary.length).toBe(1)
     expect(summary.find('.ledger-cols').length).toBe(1)
     expect(summary.find('.closed-date').length).toBe(1)
@@ -84,9 +77,8 @@ describe('Ledger container', () => {
 
     // this is calculated for this specific ledger data
     // 4 general cols (# of txns, # of successful txns, # of failed txns)
-    // 4 transaction cols (# of account txns, # of dex txns, # of nft txns, # of payment txns)
-    // 4 distinct state objects (AccountRoot, Offer, RippleState, DirectoryNode)
-    expect(summary.find('.ledger-col').length).toBe(12)
+    // 6 transaction cols (# of account txns, # of dex txns, # of nft txns, # of payment txns, # of xchain txs, # of pseudo txns)
+    expect(summary.find('.ledger-col').length).toBe(10)
 
     wrapper.unmount()
   })

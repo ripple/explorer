@@ -1,7 +1,6 @@
 import * as actionTypes from '../actionTypes'
 import reducer, { initialState } from '../reducer'
 import mockLedger from './mockLedger.json'
-import mockLedgerData from './mockLedgerData.json'
 
 describe.only('Ledger reducers', () => {
   it('should return the initial state', () => {
@@ -31,21 +30,6 @@ describe.only('Ledger reducers', () => {
       reducer(initialState, {
         type: actionTypes.LOADING_FULL_LEDGER_SUCCESS,
         data: mockLedger,
-      }),
-    ).toEqual(nextState)
-  })
-
-  it('should handle LOADING_FULL_LEDGER_SUCCESS with ledgerData', () => {
-    const nextState = {
-      ...initialState,
-      data: mockLedger,
-      ledgerData: mockLedgerData,
-    }
-    expect(
-      reducer(initialState, {
-        type: actionTypes.LOADING_FULL_LEDGER_SUCCESS,
-        data: mockLedger,
-        ledgerData: mockLedgerData,
       }),
     ).toEqual(nextState)
   })
