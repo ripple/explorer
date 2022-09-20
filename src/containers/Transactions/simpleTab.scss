@@ -90,9 +90,8 @@ $subdued-color: $gray-400;
 
     .attestation {
       margin: 16px 0px;
-      background: $gray-900;
+      background: rgba($gray-900, 0.5);
       gap: 15px;
-      opacity: 0.5;
 
       .attestation-title {
         display: block;
