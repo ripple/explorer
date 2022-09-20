@@ -85,7 +85,7 @@ const mapTransactionTypesToCategory = {
   XChainCreateBridge: TransactionCategories.XCHAIN,
   XChainCreateClaimID: TransactionCategories.XCHAIN,
   XChainAddAttestation: TransactionCategories.XCHAIN,
-  SidechainXChainAccountCreate: TransactionCategories.XCHAIN,
+  XChainAccountCreateCommit: TransactionCategories.XCHAIN,
 }
 
 const TXN_COST_PADDING = 6
