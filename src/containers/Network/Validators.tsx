@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
 import ValidatorsTable from './ValidatorsTable'
@@ -17,13 +18,9 @@ export const Validators = () => {
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
 
-  useEffect(() => {
-    fetchData()
-    const interval = setInterval(fetchData, FETCH_INTERVAL_MILLIS)
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
+  useQuery(['fetchValidatorsData'], () => fetchData(), {
+    refetchInterval: FETCH_INTERVAL_MILLIS,
+  })
 
   const fetchData = () => {
     const url = '/api/v1/validators?verbose=true'
