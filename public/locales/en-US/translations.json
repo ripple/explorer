@@ -151,6 +151,7 @@
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
   "transaction_XChainAccountCreateCommit": "XChain Account Create Commit",
+  "transaction_XChainAddAttestation": "XChain Add Attestation",
   "transaction_XChainClaim": "XChain Claim",
   "transaction_XChainCommit": "XChain Commit",
   "transaction_XChainCreateBridge": "XChain Create Bridge",
@@ -390,4 +391,6 @@
   "version_node_count": "# of Nodes: ${payload?.[0].payload.count}",
   "version_display": "Version: {{version}}",
   "nodes_count": "# of Nodes: {{count}}"
+  "xchain_claim_attestation": "Claim Attestation",
+  "xchain_create_account_attestation": "Create Account Attestation"
 }
