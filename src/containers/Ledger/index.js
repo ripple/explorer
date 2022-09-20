@@ -91,16 +91,13 @@ class Ledger extends Component {
     const nextIndex = LedgerIndex + 1
     const date = new Date(data.close_time)
     const transactions = data.transactions || []
-    let successfulTxCount = 0
-    let failedTxCount = 0
     const transactionTypes = {}
     const ledgerObjTypes = {}
+    let successfulTxCount = 0
 
     transactions.forEach((tx) => {
       if (tx.result === 'tesSUCCESS') {
         successfulTxCount += 1
-      } else {
-        failedTxCount += 1
       }
 
       if (transactionTypes[tx.type] === undefined) {
@@ -159,7 +156,10 @@ class Ledger extends Component {
               <div className="ledger-col">
                 <div className="title">{t('failed_transactions')}</div>
                 <div className="value">
-                  {localizeNumber(failedTxCount, language)}
+                  {localizeNumber(
+                    data.transactions.length - successfulTxCount,
+                    language,
+                  )}
                 </div>
               </div>
               <div className="ledger-col">

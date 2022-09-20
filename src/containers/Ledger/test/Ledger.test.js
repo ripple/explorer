@@ -60,7 +60,7 @@ describe('Ledger container', () => {
     state.ledger.loading = false
     state.ledger.error = false
     const wrapper = createWrapper(state)
-    const summary = wrapper.find('.ledger-header .ledger-info')
+    const summary = wrapper.find('.ledger-header')
 
     expect(summary.length).toBe(1)
     expect(summary.find('.ledger-cols').length).toBe(1)
