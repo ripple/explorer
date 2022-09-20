@@ -12,33 +12,33 @@ import { useLanguage } from '../shared/hooks'
 export const Nodes = () => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const [nodes, setNodes] = useState<any>([{}])
   const [locations, setLocations] = useState([])
   const [unmapped, setUnmapped] = useState(0)
 
-  useQuery(['fetchData'], async () => fetchData(), {
+  const { data: nodes } = useQuery(['fetchData'], async () => fetchData(), {
     refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
   })
 
   const fetchData = () => {
-    axios
+    const fetchedData = axios
       .get('/api/v1/nodes')
       .then((resp) => {
         const nodesWithLocations = resp.data.filter(
           (node: any) => 'lat' in node,
         )
-        setNodes(resp.data)
         setUnmapped(resp.data.length - nodesWithLocations.length)
         setLocations(nodesWithLocations)
+        return resp.data
       })
       .catch((e) => Log.error(e))
+    return fetchedData
   }
 
   return (
     <div className="network-page">
       {
         // @ts-ignore - Work around for complex type assignment issues
-        <Map nodes={nodes} locations={locations} />
+        <Map locations={locations} />
       }
       <div className="stat">
         {nodes && (
