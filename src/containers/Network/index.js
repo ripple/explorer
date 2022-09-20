@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import Validators from './Validators'
+import { Validators } from './Validators'
+import { UpgradeStatus } from './UpgradeStatus'
 import Nodes from './Nodes'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
@@ -38,7 +39,14 @@ class Network extends Component {
     }
     // strips :url from the front and the tab info from the end
     const base = path.split('/:')[0]
-    return tab === 'nodes' ? <Nodes path={base} /> : <Validators path={base} />
+
+    if (tab === 'upgrade_status') {
+      return <UpgradeStatus path={base} />
+    }
+    if (tab === 'validators') {
+      return <Validators path={base} />
+    }
+    return <Nodes path={base} />
   }
 }
 
