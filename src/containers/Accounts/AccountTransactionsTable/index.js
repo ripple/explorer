@@ -15,6 +15,7 @@ import TxDetails from '../../shared/components/TxDetails'
 import './styles.scss'
 import TxLabel from '../../shared/components/TxLabel'
 import SocketContext from '../../shared/SocketContext'
+import { LoadMoreButton } from '../../shared/LoadMoreButton'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -105,15 +106,7 @@ export const AccountTxTable = (props) => {
   }
 
   const renderLoadMoreButton = () =>
-    marker && (
-      <button
-        type="button"
-        className="load-more-btn"
-        onClick={loadMoreTransactions}
-      >
-        {t('load_more_action')}
-      </button>
-    )
+    marker && <LoadMoreButton onClick={() => loadMoreTransactions()} />
 
   const renderListContents = () => {
     const { loading, currencySelected } = props
