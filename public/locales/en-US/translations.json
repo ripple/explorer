@@ -37,7 +37,7 @@
   "24H": "24H",
   "30D": "30D",
   "total_transactions": "# of Txns",
-  "successful_transactions": "# of Sucessful txns",
+  "successful_transactions": "# of Successful txns",
   "failed_transactions": "# of Failed txns",
   "total_fees": "Total Fees",
   "number_of_account_transactions": "# of Account Txns",
