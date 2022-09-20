@@ -14,7 +14,6 @@ import TxLabel from '../../shared/components/TxLabel'
 
 import { loadTokenTransactions } from './actions'
 import SocketContext from '../../shared/SocketContext'
-import { LoadMoreButton } from '../../shared/LoadMoreButton'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -105,7 +104,15 @@ export const TokenTxTable = (props) => {
   }
 
   const renderLoadMoreButton = () =>
-    marker && <LoadMoreButton onClick={() => loadMoreTransactions()} />
+    marker && (
+      <button
+        className="load-more-btn"
+        onClick={loadMoreTransactions}
+        type="button"
+      >
+        {t('load_more_action')}
+      </button>
+    )
 
   const renderListContents = () => {
     if (!loading && transactions.length === 0 && !loadingError) {
