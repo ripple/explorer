@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
+import { useQuery } from 'react-query'
 import BarChartVersion from './BarChartVersion'
 import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
@@ -46,14 +47,16 @@ export const UpgradeStatus = () => {
       .sort((a, b) => (a.label > b.label ? 1 : -1))
   }
 
-  useEffect(() => {
-    fetchStableVersion()
-    fetchData()
-    const interval = setInterval(fetchData, FETCH_INTERVAL_MILLIS)
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
+  useQuery(
+    ['fetchUpgradeStatusData'],
+    () => {
+      fetchData()
+      fetchStableVersion()
+    },
+    {
+      refetchInterval: FETCH_INTERVAL_MILLIS,
+    },
+  )
 
   const fetchData = () => {
     const url = '/api/v1/validators?verbose=true'
