@@ -14,6 +14,7 @@ export const UpgradeStatus = () => {
   const [vList, setVList] = useState<any>([{}])
   const [validations, setValidations] = useState([])
   const [unlCount, setUnlCount] = useState(0)
+  const [stableVersion, setStableVersion] = useState<string | null>(null)
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -46,9 +47,16 @@ export const UpgradeStatus = () => {
       .sort((a, b) => (a.label > b.label ? 1 : -1))
   }
 
-  useQuery(['fetchUpgradeStatusData'], () => fetchData(), {
-    refetchInterval: FETCH_INTERVAL_MILLIS,
-  })
+  useQuery(
+    ['fetchUpgradeStatusData'],
+    () => {
+      fetchData()
+      fetchStableVersion()
+    },
+    {
+      refetchInterval: FETCH_INTERVAL_MILLIS,
+    },
+  )
 
   const fetchData = () => {
     const url = '/api/v1/validators?verbose=true'
@@ -67,6 +75,19 @@ export const UpgradeStatus = () => {
         )
       })
       .catch((e) => Log.error(e))
+  }
+
+  const fetchStableVersion = () => {
+    const url = 'https://api.github.com/repos/XRPLF/rippled/releases'
+    axios.get(url).then((resp) => {
+      resp.data.every((release: any) => {
+        if (release.tag_name && !release.prerelease) {
+          setStableVersion(release.tag_name)
+          return false
+        }
+        return true
+      })
+    })
   }
 
   const updateValidators = (newValidations: any[]) => {
@@ -116,7 +137,10 @@ export const UpgradeStatus = () => {
         <NetworkTabs selected="upgrade_status" />
         <div className="upgrade_status">
           {vList && (
-            <BarChartVersion data={aggregateData(Object.values(vList))} />
+            <BarChartVersion
+              data={aggregateData(Object.values(vList))}
+              stableVersion={stableVersion}
+            />
           )}
         </div>
       </div>

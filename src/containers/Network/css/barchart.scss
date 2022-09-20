@@ -1,3 +1,7 @@
+@mixin text {
+  color: #9BA2B0;
+  line-height: 70%;
+}
 
 .y-label {
   fill: #9BA2B0;
@@ -9,8 +13,11 @@
   height: 100%;
 
   p {
-    color: #9BA2B0;
-    line-height: 70%;
+    @include text;
+  }
+
+  span {
+    @include text;
   }
 }
 

@@ -388,9 +388,10 @@
   "validator_history.score": "Score",
   "other_chain_destination": "Other Chain Destination",
   "%_of_total_nodes":"% of Total Nodes",
-  "version_node_count": "# of Nodes: ${payload?.[0].payload.count}",
-  "version_display": "Version: {{version}}",
-  "nodes_count": "# of Nodes: {{count}}"
+  "version_display":"Version: {{version}}",
+  "nodes_count":"# of Nodes: {{count}}",
+  "current_stable_version": "Current Stable Version",
+  "stable_version": "{{stableVersion}}",
   "xchain_claim_attestation": "Claim Attestation",
   "xchain_create_account_attestation": "Create Account Attestation"
 }
