@@ -6,12 +6,11 @@
 
   @include for-size(tablet-landscape-up) {
     width: 552px;
+    margin: auto;
   }
-
   @include for-size(desktop-up) {
     width: 772px;
   }
-
   @include for-size(big-desktop-up) {
     width: 1140px;
   }
@@ -19,7 +18,7 @@
   .loader {
     position: absolute;
     z-index: 1;
-    top: 0px;
+    top: 0;
     background: $black;
     opacity: 0;
     pointer-events: none;
@@ -33,8 +32,7 @@
 
   .summary {
     width: calc(100% - 32px);
-    padding: 30px 0px 20px;
-    margin: 0px auto;
+    padding: 30px 16px 20px;
 
     .type {
       display: inline-block;
@@ -124,15 +122,5 @@
 
   .tab-body {
     margin: 0px auto;
-
-    @include for-size(tablet-landscape-up) {
-      width: 552px;
-    }
-    @include for-size(desktop-up) {
-      width: 772px;
-    }
-    @include for-size(big-desktop-up) {
-      width: 1140px;
-    }
   }
 }
