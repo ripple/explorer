@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { QueryClient } from 'react-query'
 import { getQuorum, getNegativeUNL } from '../../rippled'
 import Log from './log'
 
@@ -21,6 +22,8 @@ export const NOT_FOUND = 404
 export const SERVER_ERROR = 500
 export const BAD_REQUEST = 400
 
+export const FETCH_INTERVAL_MILLIS = 5000
+
 export const DECIMAL_REGEX = /^\d+$/
 export const RIPPLE_ADDRESS_REGEX =
   /^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
@@ -38,6 +41,11 @@ export const BLACK_30 = '#C9CDD1'
 export const BLACK_40 = '#B1B5BA'
 export const BLACK_60 = '#6B7075'
 export const WHITE = '#FFFFFF'
+export const GREY = '#9BA2B0'
+export const PURPLE = '#8884d8'
+export const BLUE = '#1AA4FF'
+export const RED = '#FF1A8B'
+export const GREEN = '#19FF83'
 
 export const BREAKPOINTS = {
   desktop: 1200,
@@ -112,6 +120,18 @@ export const normalizeLanguage = (lang) => {
 
   return undefined
 }
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 0,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+      retry: false,
+    },
+  },
+})
 
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 export const localizeNumber = (num, lang = 'en-US', options = {}) => {

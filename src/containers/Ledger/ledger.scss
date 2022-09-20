@@ -1,6 +1,6 @@
 @import '../shared/css/variables';
 
-.ledger {
+.ledger-page {
   position: relative;
   min-height: 600px;
 
@@ -453,7 +453,7 @@
         .partial-payment,
         .closed,
         .flag,
-        .unsetregularkey,
+        .unset,
         .empty {
           font-style: italic;
           text-transform: none;

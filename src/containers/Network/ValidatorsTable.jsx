@@ -12,7 +12,9 @@ class ValidatorsTable extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     return nextProps.validators
       ? {
-          validators: ValidatorsTable.sortValidators(nextProps.validators),
+          validators: ValidatorsTable.sortValidators(
+            Object.values(nextProps.validators),
+          ),
           metrics: nextProps.metrics,
         }
       : null
@@ -67,7 +69,7 @@ class ValidatorsTable extends Component {
         {d.incomplete && <span title={t('incomplete')}>*</span>}
       </td>
     ) : (
-      <td />
+      <td className={`${className} score`} />
     )
   }
 

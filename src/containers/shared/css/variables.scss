@@ -47,6 +47,7 @@ $orange-600: #ff671a;
 $red: #f23548;
 $dark-red: #a22;
 $magenta: #f52a79;
+$magenta-600: #e50071;
 $violet: #be05d8;
 $purple: #691fdd;
 $purple-grey: #7e7ca5;
@@ -56,7 +57,8 @@ $white-transparent: rgb(255 255 255 / 75%);
 $testnet: #e54d00;
 $devnet: #008ae5;
 $nft-sandbox: #791aff;
-$sidechain: #19ff83;
+$sidechain: #faff1a;
+$amm: $magenta-600;
 
 // TX type colors
 // @see global.scss

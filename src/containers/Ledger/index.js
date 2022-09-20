@@ -306,7 +306,7 @@ class Ledger extends Component {
     const loader = loading ? <Loader className="show" /> : <Loader />
 
     return (
-      <div className="ledger">
+      <div className="ledger-page">
         {loader}
         {this.renderLedger()}
         {this.renderError()}

@@ -102,11 +102,22 @@ div.react-stockchart div {
     @include transaction-type-base($nft);
   }
 
+  &.XChainAccountCreateCommit,
+  &.XChainAddAttestation,
   &.XChainClaim,
   &.XChainCommit,
   &.XChainCreateBridge,
-  &.XChainCreateClaimID {
+  &.XChainCreateClaimID,
+  &.XChainModifyBridge {
     @include transaction-type-base($sidechain);
+  }
+
+  &.AMMInstanceCreate,
+  &.AMMDeposit,
+  &.AMMWithdraw,
+  &.AMMVote,
+  &.AMMBid {
+    @include transaction-type-base($amm);
   }
   /* stylelint-enable selector-class-pattern */
 }
@@ -172,6 +183,22 @@ a {
       content: '';
       mask: url('../images/external_link.svg') no-repeat 100% 100%;
       vertical-align: text-top;
+    }
+
+    &[data-title^='GitHub'] {
+      &::before {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        margin-right: 4px;
+        background-color: currentcolor;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        content: '';
+        mask: url('../images/github.svg') no-repeat 100% 100%;
+        vertical-align: text-top;
+      }
     }
   }
 }

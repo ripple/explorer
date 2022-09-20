@@ -68,16 +68,15 @@ $ledger-width: 168px;
   }
 
   .ledger-list {
+    position: relative;
     z-index: 20;
     display: flex;
     padding: 0 0 40px 32px;
     margin: -45px 16px 20px;
-    background-color: $black;
     overflow-x: auto;
   }
 
   .ledger-line {
-    position: relative;
     z-index: 0;
     width: 100%;
     height: 45px;

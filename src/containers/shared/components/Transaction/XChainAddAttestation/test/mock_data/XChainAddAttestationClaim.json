@@ -1,0 +1,117 @@
+{
+  "tx": {
+    "Account": "rPBcD4VU7nMNRTPckspmC9xa7ubTMS7FbJ",
+    "Fee": "100",
+    "Sequence": 6,
+    "SigningPubKey": "ED3EBC96D5A4BAB7599C1327F41A1577B62F8DBDC8D7972F3E801F9E0E06971097",
+    "TransactionType": "XChainAddAttestation",
+    "TxnSignature": "9E5478DF4D945EAF1E7D6B96553BAA37CF5554BCB642995206DC0F4317E3F9BBE3DBA3795D5AB0EE0DABE41F9E02D97688CFCA4B1D4E3DD289526CB7E04EBF08",
+    "XChainAttestationBatch": {
+      "XChainBridge": {
+        "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+        "IssuingChainIssue": "XRP",
+        "LockingChainDoor": "rJ34iQkLYzuVQJFYdgXR3XjfhCQmTiyK6S",
+        "LockingChainIssue": "XRP"
+      },
+      "XChainClaimAttestationBatch": [
+        {
+          "XChainClaimAttestationBatchElement": {
+            "Account": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+            "Amount": "10000000",
+            "AttestationRewardAccount": "rPBcD4VU7nMNRTPckspmC9xa7ubTMS7FbJ",
+            "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+            "PublicKey": "ED27C887618EFD2D2AABB9247E6694F5CA05DA9816F76547CA7DF2286D67C821D4",
+            "Signature": "F9DA5AEF4E1BD2ED8F625ABF5314B169F12365307AD294C0E61923E12F3C0A616C21EF90465B0DB2A58E172FDA88DCC2236BBBD549F4AF972EA8DB60847A1409",
+            "WasLockingChainSend": 1,
+            "XChainClaimID": "1"
+          }
+        }
+      ],
+      "XChainCreateAccountAttestationBatch": []
+    },
+    "date": "2022-09-12T22:31:06Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rPBcD4VU7nMNRTPckspmC9xa7ubTMS7FbJ",
+            "Balance": "1999999900",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 7
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "08E05727C67011D2AC3B862B6CDCC1D8B86FCE95C02AD802C14AD55E7761CE86",
+          "PreviousFields": {
+            "Balance": "2000000000",
+            "Sequence": 6
+          },
+          "PreviousTxnID": "B4E54F17251BC8A8574E4EDEC9EC3B12AE2E8017EAED84B132CE44A569448CD8",
+          "PreviousTxnLgrSeq": 13
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+            "Flags": 0,
+            "OtherChainSource": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+            "OwnerNode": "0",
+            "SignatureReward": "100",
+            "XChainBridge": {
+              "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+              "IssuingChainIssue": "XRP",
+              "LockingChainDoor": "rJ34iQkLYzuVQJFYdgXR3XjfhCQmTiyK6S",
+              "LockingChainIssue": "XRP"
+            },
+            "XChainClaimAttestations": [
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rwituGpyEoWqCgudQ9DTrjtTWhHSXYn4XX",
+                  "AttestationSignerAccount": "r9F12FYPTTiL8raK4VmaKdE1XXRWYALKvF",
+                  "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+                  "WasLockingChainSend": 1
+                }
+              },
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rPBcD4VU7nMNRTPckspmC9xa7ubTMS7FbJ",
+                  "AttestationSignerAccount": "rMSdT9pZVh1ZLCoYyYKJsqQhteyZewCWFg",
+                  "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+                  "WasLockingChainSend": 1
+                }
+              }
+            ],
+            "XChainClaimID": "1"
+          },
+          "LedgerEntryType": "XChainClaimID",
+          "LedgerIndex": "A376E44AE473FC63A37E0853D3FDADF9908F51A33DC9C832339ED36FB8FCCA07",
+          "PreviousFields": {
+            "XChainClaimAttestations": [
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rwituGpyEoWqCgudQ9DTrjtTWhHSXYn4XX",
+                  "AttestationSignerAccount": "r9F12FYPTTiL8raK4VmaKdE1XXRWYALKvF",
+                  "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+                  "WasLockingChainSend": 1
+                }
+              }
+            ]
+          },
+          "PreviousTxnID": "8CE1BB20C50A0EFA6A8E6267FBC6DEFF7E887E47D08275DD01F723E509760DD8",
+          "PreviousTxnLgrSeq": 18
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "492EB3602814C9E54FD8B38F77A909E37C21147839499C50B2D8A5FBD9FF7C07",
+  "ledger_index": 19,
+  "date": "2022-09-12T22:31:06Z"
+}

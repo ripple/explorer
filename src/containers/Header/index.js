@@ -20,6 +20,7 @@ const STATIC_ENV_LINKS = {
   mainnet: process.env.REACT_APP_MAINNET_LINK,
   testnet: process.env.REACT_APP_TESTNET_LINK,
   devnet: process.env.REACT_APP_DEVNET_LINK,
+  amm: process.env.REACT_APP_AMM_LINK,
   nft_sandbox: process.env.REACT_APP_NFTSANDBOX_LINK,
 }
 
@@ -97,11 +98,6 @@ const Header = (props) => {
       }
       switchMode(`${SIDECHAIN_BASE_LINK}/${rippledUrl}`)
     }
-  }
-
-  function ignore(event) {
-    event.preventDefault()
-    event.stopPropagation()
   }
 
   function renderDropdown(network, clickHandler, classname, text) {
