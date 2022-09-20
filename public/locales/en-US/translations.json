@@ -150,6 +150,7 @@
   "transaction_TicketCreate": "Ticket Create",
   "transaction_TrustSet": "Trust Set",
   "transaction_XChainAccountCreateCommit": "XChain Account Create Commit",
+  "transaction_XChainAddAttestation": "XChain Add Attestation",
   "transaction_XChainClaim": "XChain Claim",
   "transaction_XChainCommit": "XChain Commit",
   "transaction_XChainCreateBridge": "XChain Create Bridge",
@@ -384,5 +385,7 @@
   "validator_history.date": "Date",
   "validator_history.missed": "Missed",
   "validator_history.score": "Score",
-  "other_chain_destination": "Other Chain Destination"
+  "other_chain_destination": "Other Chain Destination",
+  "xchain_claim_attestation": "Claim Attestation",
+  "xchain_create_account_attestation": "Create Account Attestation"
 }

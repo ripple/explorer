@@ -1,0 +1,188 @@
+{
+  "tx": {
+    "Account": "rX5kmm2CBgb88NnFNWau9mzsFPafbPYTf",
+    "Fee": "100",
+    "Sequence": 8,
+    "SigningPubKey": "ED0608A4BDC0E8845F0593ABE49F405D5D1F255537F53950DB3B69E739A1FBFAA0",
+    "TransactionType": "XChainAddAttestation",
+    "TxnSignature": "729D156A5F779EC0794A3EC95CAA2765E219B17D8FE4AC3C225D79C70E037A8882EE6D395C2B5F72BD087E6817165E632FC29B122ADD199FD26ED3BB2ADC3704",
+    "XChainAttestationBatch": {
+      "XChainBridge": {
+        "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+        "IssuingChainIssue": "XRP",
+        "LockingChainDoor": "rJ34iQkLYzuVQJFYdgXR3XjfhCQmTiyK6S",
+        "LockingChainIssue": "XRP"
+      },
+      "XChainClaimAttestationBatch": [],
+      "XChainCreateAccountAttestationBatch": [
+        {
+          "XChainCreateAccountAttestationBatchElement": {
+            "Account": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+            "Amount": "5000000",
+            "AttestationRewardAccount": "rX5kmm2CBgb88NnFNWau9mzsFPafbPYTf",
+            "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+            "PublicKey": "ED2102E72BA8A79024E36941FD4A21EC6951ADD6D2066C3664471DEBC86F2D4937",
+            "Signature": "1630223C63852C4F8998A63EDDAB6DA9A40036F33D8EFB43FFAFEB7165E9258A810AF6527009F7C1F9B90CC44828F1BF4326ABABEBA6D711156E1F3FFE638806",
+            "SignatureReward": "100",
+            "WasLockingChainSend": 1,
+            "XChainAccountCreateCount": "3"
+          }
+        }
+      ]
+    },
+    "date": "2022-09-12T22:31:20Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rX5kmm2CBgb88NnFNWau9mzsFPafbPYTf",
+            "Balance": "1999999825",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 9
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "3FB0D96DD0F53A735227E67397581F38E44B1105BB8933D144F9918535C26592",
+          "PreviousFields": {
+            "Balance": "1999999925",
+            "Sequence": 8
+          },
+          "PreviousTxnID": "6BB5F5467748B848A61FCDB2041D11BF173F39A964FBFF7B853DF8D9A684B5D4",
+          "PreviousTxnLgrSeq": 20
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Flags": 0,
+            "OwnerNode": "0",
+            "XChainAccountCreateCount": "3",
+            "XChainBridge": {
+              "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+              "IssuingChainIssue": "XRP",
+              "LockingChainDoor": "rJ34iQkLYzuVQJFYdgXR3XjfhCQmTiyK6S",
+              "LockingChainIssue": "XRP"
+            },
+            "XChainCreateAccountAttestations": [
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "5000000",
+                  "AttestationRewardAccount": "rw28wCwej85TPbb8FpZkdoYtGgcewj6X2x",
+                  "AttestationSignerAccount": "rGQtHUyTTBeZyiuWjq1NuG9bDmbgyUS1Xv",
+                  "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1,
+                  "XChainAccountCreateCount": "3"
+                }
+              },
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "5000000",
+                  "AttestationRewardAccount": "rwituGpyEoWqCgudQ9DTrjtTWhHSXYn4XX",
+                  "AttestationSignerAccount": "r9F12FYPTTiL8raK4VmaKdE1XXRWYALKvF",
+                  "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1,
+                  "XChainAccountCreateCount": "3"
+                }
+              },
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "5000000",
+                  "AttestationRewardAccount": "rPBcD4VU7nMNRTPckspmC9xa7ubTMS7FbJ",
+                  "AttestationSignerAccount": "rMSdT9pZVh1ZLCoYyYKJsqQhteyZewCWFg",
+                  "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1,
+                  "XChainAccountCreateCount": "3"
+                }
+              },
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "5000000",
+                  "AttestationRewardAccount": "r9kuSfPXbA51JFsE86nTNpno3KsBHeNhvy",
+                  "AttestationSignerAccount": "r9dLP62SJABHFFC8SiRG5M9A4qUCjJJcY6",
+                  "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1,
+                  "XChainAccountCreateCount": "3"
+                }
+              },
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "5000000",
+                  "AttestationRewardAccount": "rX5kmm2CBgb88NnFNWau9mzsFPafbPYTf",
+                  "AttestationSignerAccount": "rnyc4fMQyZCfydrWFXvJgDaD86m5d7bKAz",
+                  "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1,
+                  "XChainAccountCreateCount": "3"
+                }
+              }
+            ]
+          },
+          "LedgerEntryType": "XChainCreateAccountClaimID",
+          "LedgerIndex": "58CA22C7084A6EF3A3DF7EC76E61C33B24F3181F219A1E78E4BD8F6B276FCF72",
+          "PreviousFields": {
+            "XChainCreateAccountAttestations": [
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "5000000",
+                  "AttestationRewardAccount": "rw28wCwej85TPbb8FpZkdoYtGgcewj6X2x",
+                  "AttestationSignerAccount": "rGQtHUyTTBeZyiuWjq1NuG9bDmbgyUS1Xv",
+                  "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1,
+                  "XChainAccountCreateCount": "3"
+                }
+              },
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "5000000",
+                  "AttestationRewardAccount": "rwituGpyEoWqCgudQ9DTrjtTWhHSXYn4XX",
+                  "AttestationSignerAccount": "r9F12FYPTTiL8raK4VmaKdE1XXRWYALKvF",
+                  "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1,
+                  "XChainAccountCreateCount": "3"
+                }
+              },
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "5000000",
+                  "AttestationRewardAccount": "rPBcD4VU7nMNRTPckspmC9xa7ubTMS7FbJ",
+                  "AttestationSignerAccount": "rMSdT9pZVh1ZLCoYyYKJsqQhteyZewCWFg",
+                  "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1,
+                  "XChainAccountCreateCount": "3"
+                }
+              },
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "5000000",
+                  "AttestationRewardAccount": "r9kuSfPXbA51JFsE86nTNpno3KsBHeNhvy",
+                  "AttestationSignerAccount": "r9dLP62SJABHFFC8SiRG5M9A4qUCjJJcY6",
+                  "Destination": "rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1,
+                  "XChainAccountCreateCount": "3"
+                }
+              }
+            ]
+          },
+          "PreviousTxnID": "60173DB4CC5085E09769DE1D6BD549DD2A73AD506E23A1116F74F74597EE0026",
+          "PreviousTxnLgrSeq": 24
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "A5B20DEFBE2F9185FEACB988E5B72009437E7C8A50CF6FB9B25BBCE346C8EE73",
+  "ledger_index": 25,
+  "date": "2022-09-12T22:31:20Z"
+}
