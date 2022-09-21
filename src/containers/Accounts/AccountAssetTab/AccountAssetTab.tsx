@@ -52,12 +52,16 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
           })}
         </div>
       )}
-      <div className="tab-body">
-        {assetType === 'issued' && (
-          <AccountIssuedTokenTable account={account} />
-        )}
-        {assetType === 'nft' && <AccountNFTTable accountId={accountId} />}
-      </div>
+      {account.deleted ? (
+        <></>
+      ) : (
+        <div className="tab-body">
+          {assetType === 'issued' && (
+            <AccountIssuedTokenTable account={account} />
+          )}
+          {assetType === 'nft' && <AccountNFTTable accountId={accountId} />}
+        </div>
+      )}
     </>
   )
 }
