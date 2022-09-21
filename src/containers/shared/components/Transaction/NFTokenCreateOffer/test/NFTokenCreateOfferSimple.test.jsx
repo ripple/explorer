@@ -32,7 +32,7 @@ describe('NFTokenCreateOffer', () => {
       '0.0001 XRP',
     )
     expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
-      'Buyer',
+      'buyer',
     )
     expect(
       wrapper.find('[data-test="buyer-or-seller-account"] .value'),
@@ -61,7 +61,7 @@ describe('NFTokenCreateOffer', () => {
       '$100.00 USD.r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
     expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
-      'Seller',
+      'seller',
     )
     expect(
       wrapper.find('[data-test="buyer-or-seller-account"] .value'),

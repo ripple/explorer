@@ -1,5 +1,4 @@
 import React from 'react'
-import { StringIfPlural } from 'react-i18next'
 
 export interface Instructions {
   owner: string

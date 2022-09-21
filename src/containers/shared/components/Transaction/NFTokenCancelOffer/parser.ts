@@ -1,11 +1,11 @@
-import { NFTokenCancelOfferInstructions } from './types'
+import { NFTokenCancelOffer, NFTokenCancelOfferInstructions } from './types'
 import { TransactionParser } from '../types'
 import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
 
-export const parser: TransactionParser<NFTokenCancelOfferInstructions> = (
-  tx,
-  meta,
-) => {
+export const parser: TransactionParser<
+  NFTokenCancelOffer,
+  NFTokenCancelOfferInstructions
+> = (_, meta) => {
   const cancelledOffers = meta.AffectedNodes.filter(
     (node: any) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
   ).map((node: any) => ({

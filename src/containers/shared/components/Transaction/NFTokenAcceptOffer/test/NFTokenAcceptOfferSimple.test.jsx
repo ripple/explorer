@@ -54,7 +54,6 @@ describe('NFTokenAcceptOffer', () => {
     expect(wrapper.find('[data-test="offer-id"] .value')).toHaveText(
       '505E7F1E1EA989C0B0196AB7F503ACACAC7A9640C27B58A5E3C9DD31E88848D4',
     )
-    expect(wrapper.find('[data-test="offer-id"] .label')).toHaveText('Offer ID')
     expect(wrapper.find('[data-test="amount"] .value')).toHaveText(
       '0.000102 XRP',
     )
