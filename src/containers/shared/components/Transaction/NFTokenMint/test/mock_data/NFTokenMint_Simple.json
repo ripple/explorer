@@ -1,0 +1,61 @@
+{
+  "tx": {
+    "Account": "rDUbAKGzBRs3ztKpfMiWUAB5nwtcmrnRVe",
+    "Fee": "12",
+    "Flags": 8,
+    "LastLedgerSequence": 5605248,
+    "NFTokenTaxon": 1,
+    "Sequence": 5605209,
+    "SigningPubKey": "022DAC45B8CC7B217C47A04957A6DF7FE2C8E4BA485808FCBBFC82E115260E1C32",
+    "TransactionType": "NFTokenMint",
+    "TxnSignature": "3045022100CF7620E25E4763FDC8746CEFAB250C2A6DB67FA581B58CAC928331A92C7661BB0220640A34137AC525CDA0D28A0E2B2832A418516C8B9CF1CFE36A8FC3AA966A66F1",
+    "URI": "68747470733A2F2F677265677765697362726F642E636F6D",
+    "date": "2022-09-13T20:44:40Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rDUbAKGzBRs3ztKpfMiWUAB5nwtcmrnRVe",
+            "Balance": "9999999988",
+            "Flags": 0,
+            "MintedNFTokens": 1,
+            "OwnerCount": 1,
+            "Sequence": 5605210
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "433D9E7BE08CC6D929AE1AE85150F8FADCE098529C41BD134A47DEA255D0DAAC",
+          "PreviousFields": {
+            "Balance": "10000000000",
+            "OwnerCount": 0,
+            "Sequence": 5605209
+          },
+          "PreviousTxnID": "EBCF09070D88E39E9C830355AEDA0F412E14345F08F29ED15EBFF2F4CA4500C2",
+          "PreviousTxnLgrSeq": 5605209
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "NFTokenPage",
+          "LedgerIndex": "85D33F9C5481D3515029C9904D16F0109414D3A0FFFFFFFFFFFFFFFFFFFFFFFF",
+          "NewFields": {
+            "NFTokens": [
+              {
+                "NFToken": {
+                  "NFTokenID": "0008000085D33F9C5481D3515029C9904D16F0109414D3A00000099A00000000",
+                  "URI": "68747470733A2F2F677265677765697362726F642E636F6D"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 1,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "B0AAA46053F2570200CA1E12978EFFBB124374276669CC3F68602A6788182172",
+  "ledger_index": 5605230,
+  "date": "2022-09-13T20:44:40Z"
+}
