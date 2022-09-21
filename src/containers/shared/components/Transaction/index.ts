@@ -8,6 +8,7 @@ import { XChainCommitTransaction as XChainCommit } from './XChainCommit'
 import { XChainCreateBridgeTransaction as XChainCreateBridge } from './XChainCreateBridge'
 import { XChainCreateClaimIDTransaction as XChainCreateClaimID } from './XChainCreateClaimID'
 import { XChainModifyBridgeTransaction as XChainModifyBridge } from './XChainModifyBridge'
+import { EscrowCreateTransaction as EscrowCreate } from './EscrowCreate'
 import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
@@ -21,4 +22,5 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   XChainCreateBridge,
   XChainCreateClaimID,
   XChainModifyBridge,
+  EscrowCreate,
 }
