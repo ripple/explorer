@@ -9,7 +9,6 @@ import AccountDelete from './mock_data/AccountDelete.json'
 import AccountSet from './mock_data/AccountSet.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import EscrowCreate from './mock_data/EscrowCreate.json'
-import EscrowCancel from './mock_data/EscrowCancel.json'
 import EscrowFinish from './mock_data/EscrowFinish.json'
 import OfferCancel from './mock_data/OfferCancel.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
@@ -72,11 +71,6 @@ describe('SimpleTab container', () => {
 
   it('renders EscrowCreate without crashing', () => {
     const wrapper = createWrapper(EscrowCreate)
-    wrapper.unmount()
-  })
-
-  it('renders EscrowCancel without crashing', () => {
-    const wrapper = createWrapper(EscrowCancel)
     wrapper.unmount()
   })
 

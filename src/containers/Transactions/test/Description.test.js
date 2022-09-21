@@ -9,7 +9,6 @@ import Payment from './mock_data/Payment.json'
 import TrustSet from './mock_data/TrustSet.json'
 import EscrowCreate from './mock_data/EscrowCreate.json'
 import EscrowFinish from './mock_data/EscrowFinish.json'
-import EscrowCancel from './mock_data/EscrowCancel.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
@@ -72,14 +71,6 @@ describe('Description container', () => {
     const wrapper = createWrapper(EscrowFinish)
     expect(wrapper.html()).toBe(
       '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>31</span></b></div><div>escrow_completion_desc <a class="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a></div><div>The escrowed amount of<b>\uE9000.0154<small>XRP</small></b>was delivered to<a class="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a><span> (<b>\uE9000.015388<small>XRP</small></b> escrow_after_transaction_cost)</span></div>The escrow was created by<a class="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a>with transaction<a class="hash" href="/transactions/3E2E755FA75FF1020C39E2ECC407E9F1C0E49A7229EDD15FF93B9F869878F1CC">3E2E75...</a><div>escrow_finish_fullfillment_desc<span class="fulfillment"> Fulfillment</span></div></div>',
-    )
-    wrapper.unmount()
-  })
-
-  it('renders description for EscrowCancel', () => {
-    const wrapper = createWrapper(EscrowCancel)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>14</span></b></div><div>escrow_cancellation_desc <a class="account" title="rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56" href="/accounts/rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56">rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56</a></div><div>The escrowed amount of<b>\uE900135.79<small>XRP</small></b>was returned to<a class="account" title="rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56" href="/accounts/rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56">rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56</a><span> (<b>\uE900135.78999<small>XRP</small></b> escrow_after_transaction_cost)</span></div>The escrow was created by<a class="account" title="rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56" href="/accounts/rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56">rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56</a>with transaction<a class="hash" href="/transactions/A979AD5C6A6C844913DA51D71BF5F0B8E254D9A211FA837C4B322C4A8FD358E6">A979AD...</a></div>',
     )
     wrapper.unmount()
   })
