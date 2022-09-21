@@ -7,8 +7,8 @@ export const parser: TransactionParser<NFTokenCancelOfferInstructions> = (
   meta,
 ) => {
   const cancelledOffers = meta.AffectedNodes.filter(
-    (node) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
-  ).map((node) => ({
+    (node: any) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
+  ).map((node: any) => ({
     offerID: node.DeletedNode.LedgerIndex,
     amount: formatAmount(node.DeletedNode.FinalFields.Amount),
     tokenID: node.DeletedNode.FinalFields.NFTokenID,

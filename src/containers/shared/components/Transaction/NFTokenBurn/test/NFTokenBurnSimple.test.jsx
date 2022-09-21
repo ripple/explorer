@@ -1,6 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { NFTokenBurn } from '../Simple'
+import { Simple as NFTokenBurn } from '../Simple'
 import transaction from './mock_data/NFTokenBurn.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 

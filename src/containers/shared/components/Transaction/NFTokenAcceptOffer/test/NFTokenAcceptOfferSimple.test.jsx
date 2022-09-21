@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { mount } from 'enzyme'
-import { NFTokenAcceptOffer } from '../Simple'
+import { Simple as NFTokenAcceptOffer } from '../Simple'
 import transactionBuy from './mock_data/NFTokenAcceptOffer_Buy.json'
 import transactionSell from './mock_data/NFTokenAcceptOffer_Sell.json'
 import transactionFailure from './mock_data/NFTokenAcceptOffer_Failure.json'

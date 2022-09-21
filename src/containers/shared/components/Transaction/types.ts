@@ -1,4 +1,5 @@
 import React from 'react'
+import { StringIfPlural } from 'react-i18next'
 
 export interface Instructions {
   owner: string
@@ -75,4 +76,20 @@ export interface TransactionMapping {
   Simple: TransactionSimpleComponent
   TableDetail?: TransactionTableDetailComponent
   parser: TransactionParser
+}
+
+export interface TransactionCommonFields {
+  Account: string
+  TransactionType: string
+  Fee: string
+  Sequence: number
+  AccountTxnID?: string
+  Flags?: number
+  LastLedgerSequence?: number
+  Memos?: object[]
+  Signers?: object[]
+  SourceTag?: number
+  SignerPubKey?: string
+  TicketSequence?: number
+  TxnSignature?: string
 }

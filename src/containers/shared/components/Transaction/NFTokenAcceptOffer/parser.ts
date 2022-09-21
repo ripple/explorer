@@ -1,18 +1,22 @@
-import { NFTokenAcceptOfferInstructions } from './types'
+import { NFTokenAcceptOffer, NFTokenAcceptOfferInstructions } from './types'
 import { TransactionParser } from '../types'
 import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
 
-export const parser: TransactionParser<NFTokenAcceptOfferInstructions> = (
-  tx,
-  meta,
-) => {
+export const parser: TransactionParser<
+  NFTokenAcceptOffer,
+  NFTokenAcceptOfferInstructions
+> = (tx, meta) => {
   const acceptedOfferNode = meta.AffectedNodes.find(
-    (node) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
+    (node: any) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
   )?.DeletedNode?.FinalFields
 
-  const acceptedOfferIDs = [tx.NFTokenBuyOffer, tx.NFTokenSellOffer].filter(
-    (offer) => offer,
-  )
+  const acceptedOfferIDs = []
+  if (tx.NFTokenBuyOffer) {
+    acceptedOfferIDs.push(tx.NFTokenBuyOffer)
+  }
+  if (tx.NFTokenSellOffer) {
+    acceptedOfferIDs.push(tx.NFTokenSellOffer)
+  }
 
   if (!acceptedOfferNode) {
     return {

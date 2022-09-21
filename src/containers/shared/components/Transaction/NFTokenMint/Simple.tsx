@@ -2,10 +2,10 @@ import React from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
-import { TransactionSimpleProps } from '../types'
+import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { NFTokenMintInstructions } from './types'
 
-export const Simple = ({
+export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<NFTokenMintInstructions>) => {
   const { tokenID, tokenTaxon, uri } = data?.instructions

@@ -1,30 +1,41 @@
-import { NFTokenMintInstructions } from './types'
+import { NFTokenMint, NFTokenMintInstructions } from './types'
 import { TransactionParser } from '../types'
-import { convertHexToString } from '../../../../../rippled/lib/utils'
 
-export const parser: TransactionParser<NFTokenMintInstructions> = (
+const utils = require('../../../../../rippled/lib/utils')
+
+export const parser: TransactionParser<NFTokenMint, NFTokenMintInstructions> = (
   tx,
   meta,
 ) => {
-  const affectedNode = meta.AffectedNodes.find(
-    (node) =>
-      node?.CreatedNode?.LedgerEntryType === 'NFTokenPage' ||
-      node?.ModifiedNode?.LedgerEntryType === 'NFTokenPage',
+  const affectedNodes = meta.AffectedNodes.filter(
+    (node: any) =>
+      node.CreatedNode?.LedgerEntryType === 'NFTokenPage' ||
+      node.ModifiedNode?.LedgerEntryType === 'NFTokenPage',
   )
-  const nftNode = affectedNode.CreatedNode ?? affectedNode.ModifiedNode
 
-  const previousTokenIds = nftNode?.PreviousFields?.NFTokens?.map(
-    (token) => token?.NFToken?.NFTokenID,
+  const previousTokenIDSet = new Set(
+    affectedNodes
+      .flatMap((node: any) =>
+        node.ModifiedNode?.PreviousFields?.NFTokens?.map(
+          (token: any) => token.NFToken.NFTokenID,
+        ),
+      )
+      .filter((id: any) => id),
   )
-  const previousTokenIdSet = new Set(previousTokenIds)
-  const finalTokenIds = (
-    nftNode.FinalFields ?? nftNode.NewFields
-  )?.NFTokens?.map((token) => token?.NFToken?.NFTokenID)
-  const tokenID = finalTokenIds.find((tid) => !previousTokenIdSet.has(tid))
+
+  const finalTokenIDs = affectedNodes
+    .flatMap((node: any) =>
+      (
+        node.ModifiedNode?.FinalFields ?? node.CreatedNode?.NewFields
+      )?.NFTokens?.map((token: any) => token.NFToken.NFTokenID),
+    )
+    .filter((id: any) => id)
+
+  const tokenID = finalTokenIDs.find((tid: any) => !previousTokenIDSet.has(tid))
 
   return {
     tokenID,
     tokenTaxon: tx.NFTokenTaxon,
-    uri: convertHexToString(tx.URI),
+    uri: utils.convertHexToString(tx.URI),
   }
 }

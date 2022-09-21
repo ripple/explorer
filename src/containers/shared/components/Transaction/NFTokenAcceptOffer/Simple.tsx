@@ -5,9 +5,9 @@ import Account from '../../Account'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { NFTokenAcceptOfferInstructions } from './types'
-import { TransactionSimpleProps } from '../types'
+import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 
-export const Simple = ({
+export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<NFTokenAcceptOfferInstructions>) => {
   const { acceptedOfferIDs, amount, tokenID, seller, buyer } =
@@ -21,7 +21,7 @@ export const Simple = ({
           {offer}
         </SimpleRow>
       ))}
-      {tokenID && (
+      {amount && seller && buyer && tokenID && (
         <>
           <SimpleRow label={t('seller')} className="account" data-test="seller">
             <Account account={seller} />
