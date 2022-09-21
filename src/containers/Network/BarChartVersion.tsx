@@ -16,7 +16,15 @@ import {
   ValueType,
   NameType,
 } from 'recharts/src/component/DefaultTooltipContent'
-import { GREY, BLUE, RED, GREEN, PURPLE, GREY_600 } from '../shared/utils'
+import {
+  GREY,
+  BLUE,
+  RED,
+  GREEN,
+  PURPLE,
+  GREY_600,
+  GREY_800,
+} from '../shared/utils'
 import './css/barchart.scss'
 
 interface Props {
@@ -117,7 +125,7 @@ const BarChartVersion = (props: Props) => {
             wrapperStyle={{
               backgroundColor: GREY_600,
               borderRadius: 8,
-              border: '1px solid #383D47',
+              border: ['1px solid', GREY_800].join(' '),
             }}
           />
         </BarChart>
