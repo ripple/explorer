@@ -11,10 +11,11 @@ import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 
 export const UpgradeStatus = () => {
-  const [vList, setVList] = useState<any>([{}])
+  const [vList, setVList] = useState<any>([])
   const [validations, setValidations] = useState([])
   const [unlCount, setUnlCount] = useState(0)
   const [stableVersion, setStableVersion] = useState<string | null>(null)
+  const [colorLoaded, setColorLoaded] = useState(false)
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -83,6 +84,7 @@ export const UpgradeStatus = () => {
       resp.data.every((release: any) => {
         if (release.tag_name && !release.prerelease) {
           setStableVersion(release.tag_name)
+          setColorLoaded(true)
           return false
         }
         return true
@@ -136,7 +138,7 @@ export const UpgradeStatus = () => {
       <div className="wrap">
         <NetworkTabs selected="upgrade_status" />
         <div className="upgrade_status">
-          {vList && (
+          {validatorCount && colorLoaded && (
             <BarChartVersion
               data={aggregateData(Object.values(vList))}
               stableVersion={stableVersion}
