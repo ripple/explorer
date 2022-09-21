@@ -111,28 +111,24 @@ export const UpgradeStatus = () => {
   return (
     <div className="network-page">
       <Streams validators={vList} updateValidators={updateValidators} />
-      {validatorCount && (
+      {
         // @ts-ignore - Work around for complex type assignment issues
         <Hexagons data={validations} list={vList} />
-      )}
-
+      }
       <div className="stat">
-        {validatorCount && (
-          <>
-            <span>{t('validators_found')}: </span>
-            <span>
-              {localizeNumber(validatorCount, language)}
-              {unlCount !== 0 && (
-                <i>
-                  {' '}
-                  ({t('unl')}: {unlCount})
-                </i>
-              )}
-            </span>
-          </>
-        )}
+        <>
+          <span>{t('validators_found')}: </span>
+          <span>
+            {localizeNumber(validatorCount, language)}
+            {unlCount !== 0 && (
+              <i>
+                {' '}
+                ({t('unl')}: {unlCount})
+              </i>
+            )}
+          </span>
+        </>
       </div>
-
       <div className="wrap">
         <NetworkTabs selected="upgrade_status" />
         <div className="upgrade_status">
