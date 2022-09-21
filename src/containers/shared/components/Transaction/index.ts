@@ -1,3 +1,8 @@
+import { AMMInstanceCreate } from 'containers/shared/components/Transaction/AMMInstanceCreate'
+import { AMMDeposit } from 'containers/shared/components/Transaction/AMMDeposit'
+import { AMMWithdraw } from 'containers/shared/components/Transaction/AMMWithdraw'
+import { AMMBid } from 'containers/shared/components/Transaction/AMMBid'
+import { AMMVote } from 'containers/shared/components/Transaction/AMMVote'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
 import { NFTokenCancelOfferTransaction as NFTokenCancelOffer } from './NFTokenCancelOffer'
 import { NFTokenBurnTransaction as NFTokenBurn } from './NFTokenBurn'
@@ -43,4 +48,9 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   EscrowFinish,
   EscrowCancel,
   TicketCreate,
+  AMMInstanceCreate,
+  AMMWithdraw,
+  AMMDeposit,
+  AMMBid,
+  AMMVote,
 }

@@ -3,13 +3,17 @@ import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { QueryClientProvider } from 'react-query'
+import {
+  QueryClientProvider,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+import AccountsRouter from 'containers/Accounts/accountsRouter'
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
 import Ledgers from '../Ledgers'
 import Header from '../Header'
 import './app.scss'
 import ledger from '../Ledger'
-import accounts from '../Accounts'
 import transactions from '../Transactions'
 import network from '../Network'
 import validators from '../Validators'
@@ -85,7 +89,7 @@ const App = (props) => {
                 <Route
                   exact
                   path="/accounts/:id?/:tab?/:assetType?"
-                  component={accounts}
+                  component={AccountsRouter}
                 />
                 <Route
                   exact

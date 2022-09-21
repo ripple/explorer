@@ -45,6 +45,47 @@
     padding-bottom: 20px;
   }
 
+  .info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 68px;
+
+    @include for-size(desktop-up) {
+      flex-direction: row;
+      margin-top: 80px;
+    }
+
+    .values {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      color: $white;
+
+      @include for-size(desktop-up) {
+        flex-direction: column;
+        margin-bottom: 0px;
+      }
+
+      .title {
+        padding-bottom: 4px;
+        color: $gray-400;
+        font-size: 14px;
+        text-transform: uppercase;
+        @include semibold;
+      }
+
+      .value {
+        color: $white;
+        font-size: 18px;
+        line-height: 22.5px;
+        text-decoration: none;
+        @include bold;
+      }
+    }
+  }
+
   .column {
     display: inline-block;
     width: 100%;

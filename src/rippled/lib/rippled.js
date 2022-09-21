@@ -248,6 +248,7 @@ const getAccountTransactions = (
   account,
   limit = 20,
   marker = '',
+  reverseOrder = false,
 ) => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
@@ -256,6 +257,7 @@ const getAccountTransactions = (
     command: 'account_tx',
     account,
     limit,
+    forward: reverseOrder,
     ledger_index_max: -1,
     ledger_index_min: -1,
     marker: marker
@@ -426,6 +428,25 @@ const getOffers = (
 
     return resp
   })
+
+// AMM Additions
+
+const getAMMInfo = (rippledSocket, ammID) => {
+  const request = {
+    command: 'amm_info',
+    amm_id: ammID,
+    ledger_index: 'validated',
+  }
+
+  return query(rippledSocket, request).then((resp) => {
+    if (!resp.error_message || !resp.validated) {
+      throw new Error('meep meep', 404)
+    }
+
+    return resp.ledger
+  })
+}
+
 export {
   getLedger,
   getTransaction,
@@ -442,4 +463,5 @@ export {
   getBuyNFToffers,
   getSellNFToffers,
   getNFTTransactions,
+  getAMMInfo,
 }

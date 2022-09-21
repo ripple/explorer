@@ -386,5 +386,10 @@
   "current_stable_version": "Current Stable Version",
   "stable_version": "{{stableVersion}}",
   "xchain_claim_attestation": "Claim Attestation",
-  "xchain_create_account_attestation": "Create Account Attestation"
+  "xchain_create_account_attestation": "Create Account Attestation",
+  "amm_lp_token_balance": "LP Token Balance",
+  "amm_token_balance": "Token Balance",
+  "amm_trading_fee": "Trading Fee",
+  "amm_tvl": "TVL",
+  "amm_account_address": "Account Address"
 }
