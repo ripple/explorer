@@ -34,7 +34,7 @@ const AccountHeader = (props) => {
     currencySelected,
     loading,
   } = props
-
+  const { deleted } = data
   useEffect(() => {
     actions.loadAccountState(accountId, rippledSocket)
   }, [accountId, actions, rippledSocket])
@@ -45,7 +45,6 @@ const AccountHeader = (props) => {
 
   function renderBalancesSelector() {
     const { balances = {} } = data
-
     return (
       Object.keys(balances).length > 1 && (
         <div className="balance-selector-container">
@@ -274,8 +273,14 @@ const AccountHeader = (props) => {
         <div className="column first">
           {renderExtendedAddress()}
           <div className="secondary balance">
-            <div className="title">{`${currencySelected} Balance`}</div>
-            <div className="value">{balance}</div>
+            {deleted ? (
+              <h2>Account Deleted</h2>
+            ) : (
+              <>
+                <div className="title">{`${currencySelected} Balance`}</div>
+                <div className="value">{balance}</div>
+              </>
+            )}
             {renderBalancesSelector()}
           </div>
           {renderSignerList()}
@@ -345,6 +350,7 @@ AccountHeader.propTypes = {
       tag: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
       test: PropTypes.bool,
     }),
+    deleted: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
     loadAccountState: PropTypes.func.isRequired,
