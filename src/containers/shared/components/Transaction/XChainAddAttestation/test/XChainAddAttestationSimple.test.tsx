@@ -3,8 +3,8 @@ import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { mount, ReactWrapper } from 'enzyme'
 import { Simple } from '../Simple'
-import mockXChainAccountCreateCommit from './mock_data/XChainAccountCreateCommit.json'
-import mockXChainAccountCreateCommitInsufficientFunds from './mock_data/XChainAccountCreateCommitInsufficientFunds.json'
+import mockXChainAddAttestationAccountCreate from './mock_data/XChainAddAttestationAccountCreate.json'
+import mockXChainAddAttestationClaim from './mock_data/XChainAddAttestationClaim.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18nTestConfig'
 
@@ -27,17 +27,49 @@ function expectSimpleRowText(
   expect(wrapper.find(`[data-test="${dataTest}"] .value`)).toHaveText(text)
 }
 
-describe('XChainAccountCreateCommitSimple', () => {
-  it('renders', () => {
-    const wrapper = createWrapper(mockXChainAccountCreateCommit)
+describe('XChainAddAttestationSimple', () => {
+  it('renders AccountCreate element', () => {
+    const wrapper = createWrapper(mockXChainAddAttestationAccountCreate)
 
     // check XChainBridge parts
     expectSimpleRowText(
       wrapper,
       'locking-chain-door',
-      'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
+      'rJ34iQkLYzuVQJFYdgXR3XjfhCQmTiyK6S',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).toExist()
+    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
+    expectSimpleRowText(
+      wrapper,
+      'issuing-chain-door',
+      'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
+    )
+    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
+
+    expectSimpleRowText(wrapper, 'send', '\uE9005.00 XRP')
+    expectSimpleRowText(
+      wrapper,
+      'account',
+      'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
+    )
+    expectSimpleRowText(
+      wrapper,
+      'destination',
+      'rfTi2cbUVbt3xputSqyhgKc1nXFvi7cnvu',
+    )
+  })
+
+  it('renders Claim element', () => {
+    const wrapper = createWrapper(mockXChainAddAttestationClaim)
+
+    // check XChainBridge parts
+    expectSimpleRowText(
+      wrapper,
+      'locking-chain-door',
+      'rJ34iQkLYzuVQJFYdgXR3XjfhCQmTiyK6S',
+    )
+    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
     expectSimpleRowText(
       wrapper,
@@ -50,39 +82,14 @@ describe('XChainAccountCreateCommitSimple', () => {
     expectSimpleRowText(wrapper, 'send', '\uE90010.00 XRP')
     expectSimpleRowText(
       wrapper,
-      'destination',
+      'account',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
-    expect(wrapper.find(`[data-test="destination"] a`)).not.toExist()
-  })
-
-  it('renders failed transaction', () => {
-    const wrapper = createWrapper(
-      mockXChainAccountCreateCommitInsufficientFunds,
-    )
-
-    // check XChainBridge parts
-    expectSimpleRowText(
-      wrapper,
-      'locking-chain-door',
-      'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
-    )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
-    expectSimpleRowText(
-      wrapper,
-      'issuing-chain-door',
-      'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
-    )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
-
-    expectSimpleRowText(wrapper, 'send', '\uE9001,000.00 XRP')
     expectSimpleRowText(
       wrapper,
       'destination',
-      'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
+      'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi',
     )
-    expect(wrapper.find(`[data-test="destination"] a`)).not.toExist()
+    expectSimpleRowText(wrapper, 'claim-id', '1')
   })
 })

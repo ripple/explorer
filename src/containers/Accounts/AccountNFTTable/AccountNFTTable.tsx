@@ -9,6 +9,7 @@ import SocketContext from '../../shared/SocketContext'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 import { getAccountNFTs } from '../../../rippled/lib/rippled'
 import Account from '../../shared/components/Account'
+import { LoadMoreButton } from '../../shared/LoadMoreButton'
 
 export interface AccountNFTTableProps {
   accountId: string
@@ -61,15 +62,7 @@ export const AccountNFTTable = ({ accountId }: AccountNFTTableProps) => {
   )
 
   const renderLoadMoreButton = () =>
-    hasNextPage && (
-      <button
-        type="button"
-        className="load-more-btn"
-        onClick={() => fetchNextPage()}
-      >
-        {t('load_more_action')}
-      </button>
-    )
+    hasNextPage && <LoadMoreButton onClick={() => fetchNextPage()} />
 
   const nfts = pages?.pages.flatMap((page: any) => page.account_nfts)
   return (

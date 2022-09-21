@@ -103,12 +103,21 @@ div.react-stockchart div {
   }
 
   &.XChainAccountCreateCommit,
+  &.XChainAddAttestation,
   &.XChainClaim,
   &.XChainCommit,
   &.XChainCreateBridge,
   &.XChainCreateClaimID,
   &.XChainModifyBridge {
     @include transaction-type-base($sidechain);
+  }
+
+  &.AMMInstanceCreate,
+  &.AMMDeposit,
+  &.AMMWithdraw,
+  &.AMMVote,
+  &.AMMBid {
+    @include transaction-type-base($amm);
   }
   /* stylelint-enable selector-class-pattern */
 }
