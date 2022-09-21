@@ -1,7 +1,3 @@
-import { NFTokenAcceptOfferTransaction as NFTokenAcceptOffer } from './NFTokenAcceptOffer'
-import { NFTokenBurnTransaction as NFTokenBurn } from './NFTokenBurn'
-import { NFTokenCancelOfferTransaction as NFTokenCancelOffer } from './NFTokenCancelOffer'
-import { NFTokenCreateOfferTransaction as NFTokenCreateOffer } from './NFTokenCreateOffer'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
@@ -16,10 +12,6 @@ import { XChainModifyBridgeTransaction as XChainModifyBridge } from './XChainMod
 import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
-  NFTokenAcceptOffer,
-  NFTokenBurn,
-  NFTokenCancelOffer,
-  NFTokenCreateOffer,
   NFTokenMint,
   OfferCreate,
   SetRegularKey,
