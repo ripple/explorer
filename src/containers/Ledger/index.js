@@ -91,26 +91,49 @@ class Ledger extends Component {
     const nextIndex = LedgerIndex + 1
     const date = new Date(data.close_time)
     const transactions = data.transactions || []
-    const transactionTypes = {}
-    const ledgerObjTypes = {}
+    const transactionTypes = {
+      EnableAmendment: 'pseudo',
+      SetFee: 'pseudo',
+      UNLModify: 'pseudo',
+      OfferCancel: 'dex',
+      OfferCreate: 'dex',
+      AccountSet: 'account',
+      AccountDelete: 'account',
+      DepositPreauth: 'account',
+      SetRegularKey: 'account',
+      SignerListSet: 'account',
+      TicketCreate: 'account',
+      TrustSet: 'account',
+      PaymentChannelFund: 'payment',
+      PaymentChannelCreate: 'payment',
+      PaymentChannelClaim: 'payment',
+      Payment: 'payment',
+      EscrowFinish: 'payment',
+      EscrowCreate: 'payment',
+      EscrowCancel: 'payment',
+      CheckCreate: 'payment',
+      CheckCash: 'payment',
+      CheckCancel: 'payment',
+      NFTokenMint: 'nft',
+      NFTokenCreateOffer: 'nft',
+      NFTokenCancelOffer: 'nft',
+      NFTokenBurn: 'nft',
+      NFTokenAcceptOffer: 'nft',
+    }
+    const transactionTypesCount = {
+      account: 0,
+      dex: 0,
+      nft: 0,
+      pseudo: 0,
+      payment: 0,
+    }
     let successfulTxCount = 0
 
     transactions.forEach((tx) => {
       if (tx.result === 'tesSUCCESS') {
         successfulTxCount += 1
       }
-
-      if (transactionTypes[tx.type] === undefined) {
-        transactionTypes[tx.type] = 0
-      } else {
-        transactionTypes[tx.type] += 1
-      }
-
-      if (ledgerObjTypes[tx.ledgerEntryType] === undefined) {
-        ledgerObjTypes[tx.ledgerEntryType] = 0
-      } else {
-        ledgerObjTypes[tx.ledgerEntryType] = 1
-      }
+      transactionTypesCount[transactionTypes[tx.type]] += 1
     })
 
     return (
@@ -162,6 +185,14 @@ class Ledger extends Component {
                   )}
                 </div>
               </div>
+              {Object.keys(transactionTypesCount).map((type) => (
+                <div className="ledger-col">
+                  <div className="title">{t(`${type}_transaction`)}</div>
+                  <div className="value">
+                    {localizeNumber(transactionTypesCount[type], language)}
+                  </div>
+                </div>
+              ))}
               <div className="ledger-col">
                 <div className="title">{t('total_fees')}</div>
                 <div className="value">
@@ -171,22 +202,6 @@ class Ledger extends Component {
                   })}
                 </div>
               </div>
-              {Object.keys(ledgerObjTypes).map((type) => (
-                <div className="ledger-col">
-                  <div className="title">{t(`ledger_entry_type_${type}`)}</div>
-                  <div className="value">
-                    {localizeNumber(ledgerObjTypes[type], language)}
-                  </div>
-                </div>
-              ))}
-              {Object.keys(transactionTypes).map((type) => (
-                <div className="ledger-col">
-                  <div className="title">{t(`transaction_${type}`)}</div>
-                  <div className="value">
-                    {localizeNumber(transactionTypes[type], language)}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
           <div className="ledger-hash">{LedgerHash}</div>
