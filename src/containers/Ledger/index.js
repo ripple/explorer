@@ -187,7 +187,7 @@ class Ledger extends Component {
               </div>
               {Object.keys(transactionTypesCount).map((type) => (
                 <div className="ledger-col">
-                  <div className="title">{t(`${type}_transaction`)}</div>
+                  <div className="title">{t(`${type}_transactions`)}</div>
                   <div className="value">
                     {localizeNumber(transactionTypesCount[type], language)}
                   </div>
