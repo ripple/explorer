@@ -9,7 +9,7 @@ export const TableDetail = (props: any) => {
   return (
     <div className="escrow">
       {owner && (
-        <div>
+        <div data-test="escrow-account">
           <span className="label">{t('finish_escrow')}</span>
           <span className="account">{owner}</span>
           <span>
@@ -21,11 +21,11 @@ export const TableDetail = (props: any) => {
       {amount && (
         <div>
           <span className="label">{t('amount')}</span>
-          <Amount value={amount} />
+          <Amount value={amount} data-test="escrow-amount" />
         </div>
       )}
       {fulfillment && (
-        <div>
+        <div data-test="escrow-fullfillment">
           <span className="label">{t('fulfillment')}</span>
           <span className="fulfillment"> {fulfillment} </span>
         </div>

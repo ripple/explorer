@@ -54,10 +54,10 @@ export interface TransactionTableDetailProps<I = any> {
 export type TransactionTableDetailComponent =
   React.FC<TransactionTableDetailProps>
 
-export interface TransactionDescriptionProps<T = any> {
+export interface TransactionDescriptionProps<T = any, M = any> {
   data: {
     tx: T
-    meta: T
+    meta: M
   }
 }
 export type TransactionDescriptionComponent =
