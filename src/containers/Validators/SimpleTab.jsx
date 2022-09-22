@@ -6,6 +6,7 @@ import Simple from './Simple'
 import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
 import successIcon from '../shared/images/success.png'
+import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -28,34 +29,26 @@ class SimpleTab extends Component {
   }) {
     const { t } = this.props
     const unlRow = unl && (
-      <div className="row">
-        <div className="label">UNL</div>
-        <div className="value unl yes">
-          <img src={successIcon} title={unl} alt={unl} /> {unl}
-        </div>
-      </div>
+      <SimpleRow label="UNL" className="unl yes">
+        <img src={successIcon} title={unl} alt={unl} /> {unl}
+      </SimpleRow>
     )
     return (
       <>
-        <div className="row">
-          <div className="label">
-            Last Ledger {t('formatted_date', { timeZone: TIME_ZONE })}
-          </div>
-          <div className="value">{lastLedgerTime}</div>
-        </div>
-        <div className="row">
-          <div className="label">Last {t('ledger_index')}</div>
-          <div className="value">
-            <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
-          </div>
-        </div>
+        <SimpleRow
+          label={`Last Ledger ${t('formatted_date', { timeZone: TIME_ZONE })}`}
+        >
+          {lastLedgerTime}
+        </SimpleRow>
+        <SimpleRow label={`Last ${t('ledger_index')}`}>
+          <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
+        </SimpleRow>
         {unlRow}
-        <div className="row">
-          <div className="label">
-            Updated {t('formatted_date', { timeZone: TIME_ZONE })}
-          </div>
-          <div className="value">{updated}</div>
-        </div>
+        <SimpleRow
+          label={`Updated ${t('formatted_date', { timeZone: TIME_ZONE })}`}
+        >
+          {updated}
+        </SimpleRow>
       </>
     )
   }
