@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   BarChart,
@@ -75,6 +75,7 @@ const stableColorCode = (dataLabel: string, stableVersion: string) => {
 const BarChartVersion = (props: Props) => {
   const { data, stableVersion } = props
   const { t } = useTranslation()
+  const [showTooltips, setShowTooltips] = useState(false)
   return (
     <div className="barchart">
       <ResponsiveContainer height={532} width="95%">
@@ -108,7 +109,14 @@ const BarChartVersion = (props: Props) => {
               dy={80}
             />
           </YAxis>
-          <Bar dataKey="value" barSize={30} fill={PURPLE} radius={[4, 4, 0, 0]}>
+          <Bar
+            dataKey="value"
+            barSize={30}
+            fill={PURPLE}
+            radius={[4, 4, 0, 0]}
+            onMouseOver={() => setShowTooltips(true)}
+            onMouseLeave={() => setShowTooltips(false)}
+          >
             {stableVersion &&
               data.map((_entry, index) => (
                 <Cell
@@ -129,6 +137,7 @@ const BarChartVersion = (props: Props) => {
               backgroundColor: GREY_600,
               borderRadius: 8,
               border: ['1px solid', GREY_800].join(' '),
+              opacity: showTooltips ? '100%' : '0',
             }}
           />
         </BarChart>
