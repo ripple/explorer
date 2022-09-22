@@ -277,7 +277,7 @@ const AccountHeader = (props) => {
             {deleted ? (
               <div className="warning">
                 <img src={infoIcon} alt="Account Deleted" />
-                <span>Account Deleted</span>
+                <span className="account-deleted-text">Account Deleted</span>
               </div>
             ) : (
               <>
