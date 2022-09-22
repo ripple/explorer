@@ -16,7 +16,15 @@ import {
   ValueType,
   NameType,
 } from 'recharts/src/component/DefaultTooltipContent'
-import { GREY, BLUE, RED, GREEN, PURPLE } from '../shared/utils'
+import {
+  GREY,
+  BLUE,
+  RED,
+  GREEN,
+  PURPLE,
+  GREY_600,
+  GREY_800,
+} from '../shared/utils'
 import './css/barchart.scss'
 
 interface Props {
@@ -116,7 +124,11 @@ const BarChartVersion = (props: Props) => {
             content={<CustomTooltip />}
             cursor={false}
             offset={-10}
-            wrapperStyle={{ backgroundColor: 'white', borderRadius: 8 }}
+            wrapperStyle={{
+              backgroundColor: GREY_600,
+              borderRadius: 8,
+              border: ['1px solid', GREY_800].join(' '),
+            }}
           />
         </BarChart>
       </ResponsiveContainer>
