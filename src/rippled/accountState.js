@@ -88,30 +88,6 @@ const getAccountState = (account, rippledSocket) => {
     log.error(error.toString())
     throw error
   }
-  // Check if the account is deleted
-  const deletedAccount = getAccountTransactions(
-    rippledSocket,
-    classicAddress,
-    20,
-    '',
-  )
-    .then((info) => {
-      if (info.transactions[0].tx.TransactionType === 'AccountDelete') {
-        return {
-          account: classicAddress,
-          deleted: true,
-        }
-      }
-      return ''
-    })
-    .catch((error) => {
-      // X-address:
-      //   error.toString(): CustomError: account not found
-      //   error.code: 404
-      log.error(error.toString())
-      throw error
-    })
-  if (deletedAccount) return deletedAccount
 
   log.info(`get balances: ${account} -> ${classicAddress}`)
   return getAccountInfo(rippledSocket, classicAddress)
@@ -142,7 +118,23 @@ const getAccountState = (account, rippledSocket) => {
       // X-address:
       //   error.toString(): CustomError: account not found
       //   error.code: 404
-      log.error(error.toString())
+      log.error(error)
+      if (error.message === 'account not found') {
+        return getAccountTransactions(
+          rippledSocket,
+          classicAddress,
+          1,
+          '',
+        ).then((info) => {
+          if (info.transactions[0].tx.TransactionType === 'AccountDelete') {
+            return {
+              account: classicAddress,
+              deleted: true,
+            }
+          }
+          return error
+        })
+      }
       throw error
     })
 }

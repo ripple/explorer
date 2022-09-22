@@ -12,6 +12,7 @@ import BalanceSelector from './BalanceSelector'
 import Account from '../../shared/components/Account'
 import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
+import infoIcon from '../../shared/images/info_orange.png'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -274,7 +275,10 @@ const AccountHeader = (props) => {
           {renderExtendedAddress()}
           <div className="secondary balance">
             {deleted ? (
-              <h2>Account Deleted</h2>
+              <div className="warning">
+                <img src={infoIcon} alt="Account Deleted" />
+                <span>Account Deleted</span>
+              </div>
             ) : (
               <>
                 <div className="title">{`${currencySelected} Balance`}</div>

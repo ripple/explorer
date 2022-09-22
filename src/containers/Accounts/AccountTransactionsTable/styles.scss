@@ -277,3 +277,20 @@
     background: $gray-800;
   }
 }
+
+.warning {
+  color: $orange;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase;
+  @include bold;
+
+  img {
+    transform: scale(0.5);
+  }
+
+  span {
+    position: relative;
+    top: -12px;
+  }
+}
