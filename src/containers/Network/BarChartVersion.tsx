@@ -16,6 +16,7 @@ import {
   ValueType,
   NameType,
 } from 'recharts/src/component/DefaultTooltipContent'
+import Loader from '../shared/components/Loader'
 import {
   GREY,
   BLUE,
@@ -132,6 +133,7 @@ const BarChartVersion = (props: Props) => {
           />
         </BarChart>
       </ResponsiveContainer>
+      {!(data !== null && data.length > 0 && stableVersion) && <Loader />}
     </div>
   )
 }
