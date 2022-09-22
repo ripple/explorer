@@ -38,6 +38,10 @@ export const UpgradeStatus = () => {
       return aggregation
     }, {})
 
+    if (tempData.length === 1 && !tempData[0].server_version) {
+      return []
+    }
+
     return tempData
       .map((item) => ({
         label: item.server_version ? item.server_version : ' N/A ',
@@ -69,7 +73,7 @@ export const UpgradeStatus = () => {
           newValidatorList[validator.signing_key] = validator
         })
 
-        setVList(() => newValidatorList)
+        setVList(newValidatorList)
         setUnlCount(
           resp.data.filter((validator: any) => Boolean(validator.unl)).length,
         )
@@ -132,12 +136,10 @@ export const UpgradeStatus = () => {
       <div className="wrap">
         <NetworkTabs selected="upgrade_status" />
         <div className="upgrade_status">
-          {validatorCount && stableVersion && (
-            <BarChartVersion
-              data={aggregateData(Object.values(vList))}
-              stableVersion={stableVersion}
-            />
-          )}
+          <BarChartVersion
+            data={aggregateData(Object.values(vList))}
+            stableVersion={stableVersion}
+          />
         </div>
       </div>
     </div>

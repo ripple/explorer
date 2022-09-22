@@ -16,6 +16,7 @@ import {
   ValueType,
   NameType,
 } from 'recharts/src/component/DefaultTooltipContent'
+import Loader from '../shared/components/Loader'
 import { GREY, BLUE, RED, GREEN, PURPLE } from '../shared/utils'
 import './css/barchart.scss'
 
@@ -66,7 +67,7 @@ const BarChartVersion = (props: Props) => {
   const { t } = useTranslation()
   return (
     <div className="barchart">
-      <ResponsiveContainer height={532} width="95%">
+      <ResponsiveContainer className="bar-area" height={532} width="95%">
         <BarChart
           data={data}
           margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
@@ -118,6 +119,7 @@ const BarChartVersion = (props: Props) => {
           />
         </BarChart>
       </ResponsiveContainer>
+      {!(data !== null && data.length > 0 && stableVersion) && <Loader />}
     </div>
   )
 }
