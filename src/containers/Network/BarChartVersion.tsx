@@ -67,7 +67,7 @@ const BarChartVersion = (props: Props) => {
   const { t } = useTranslation()
   return (
     <div className="barchart">
-      <ResponsiveContainer className="bar-area" height={532} width="95%">
+      <ResponsiveContainer height={532} width="95%">
         <BarChart
           data={data}
           margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
