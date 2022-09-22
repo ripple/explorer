@@ -21,11 +21,10 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
   )
   const history = useHistory()
   const { t } = useTranslation()
-  console.log(account, 'HEREERE')
   function switchAsset(event: ChangeEvent<HTMLInputElement>) {
     return history.push(`/accounts/${accountId}/assets/${event.target.value}`)
   }
-
+  if (account.deleted) return <></>
   return (
     <>
       {supportsNFT && (
@@ -52,16 +51,14 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
           })}
         </div>
       )}
-      {account.deleted ? (
-        <></>
-      ) : (
-        <div className="tab-body">
-          {assetType === 'issued' && (
-            <AccountIssuedTokenTable account={account} />
-          )}
-          {assetType === 'nft' && <AccountNFTTable accountId={accountId} />}
-        </div>
-      )}
+      (
+      <div className="tab-body">
+        {assetType === 'issued' && (
+          <AccountIssuedTokenTable account={account} />
+        )}
+        {assetType === 'nft' && <AccountNFTTable accountId={accountId} />}
+      </div>
+      )
     </>
   )
 }
