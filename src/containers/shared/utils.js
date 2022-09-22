@@ -78,6 +78,54 @@ const FORMAT_PRICE_DEFAULT_OPTIONS = {
   padding: 0,
 }
 
+export const isLaterVersion = (source, target) => {
+  if (source === ' N/A ') return false
+  if (target === ' N/A ') return true
+  const sourceDecomp = source.split('.')
+  const targetDecomp = target.split('.')
+  // Compare major version
+  if (parseInt(sourceDecomp[0], 10) > parseInt(targetDecomp[0], 10)) return true
+  // Compare minor version
+  if (
+    parseInt(sourceDecomp[0], 10) === parseInt(targetDecomp[0], 10) &&
+    parseInt(sourceDecomp[1], 10) > parseInt(targetDecomp[1], 10)
+  )
+    return true
+  const sourcePatch = sourceDecomp[2].split('-')
+  const targetPatch = targetDecomp[2].split('-')
+  // Compare patch version
+  if (
+    parseInt(sourceDecomp[0], 10) === parseInt(targetDecomp[0], 10) &&
+    parseInt(sourceDecomp[1], 10) === parseInt(targetDecomp[1], 10)
+  ) {
+    if (parseInt(sourcePatch[0], 10) > parseInt(targetPatch[0], 10)) return true
+    if (
+      parseInt(sourcePatch[0], 10) === parseInt(targetPatch[0], 10) &&
+      sourcePatch.length > 1
+    ) {
+      if (targetPatch.length <= 1) return true
+      if (
+        sourcePatch[1].slice(0, 1) === 'b' &&
+        targetPatch[1].slice(0, 1) === 'b'
+      ) {
+        return (
+          parseInt(sourcePatch[1].slice(1), 10) >
+          parseInt(targetPatch[1].slice(1), 10)
+        )
+      }
+      if (sourcePatch[1].slice(0, 2) === 'rc') {
+        if (targetPatch[1].slice(0, 1) === 'b') return true
+        return (
+          parseInt(sourcePatch[1].slice(2), 10) >
+          parseInt(targetPatch[1].slice(2), 10)
+        )
+      }
+    }
+  }
+
+  return false
+}
+
 export const normalizeLanguage = (lang) => {
   if (!lang) {
     return undefined

@@ -6,7 +6,11 @@ import BarChartVersion from './BarChartVersion'
 import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
 import Hexagons from './Hexagons'
-import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
+import {
+  localizeNumber,
+  FETCH_INTERVAL_MILLIS,
+  isLaterVersion,
+} from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 
@@ -44,11 +48,11 @@ export const UpgradeStatus = () => {
 
     return tempData
       .map((item) => ({
-        label: item.server_version ? item.server_version : ' N/A ',
+        label: item.server_version ? item.server_version.trim() : ' N/A ',
         value: (item.count * 100) / total,
         count: item.count,
       }))
-      .sort((a, b) => (a.label > b.label ? 1 : -1))
+      .sort((a, b) => (isLaterVersion(a.label, b.label) ? 1 : -1))
   }
 
   useQuery(
