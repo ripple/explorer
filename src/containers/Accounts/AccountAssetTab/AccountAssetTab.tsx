@@ -21,7 +21,7 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
   )
   const history = useHistory()
   const { t } = useTranslation()
-
+  console.log(account, 'HEREERE')
   function switchAsset(event: ChangeEvent<HTMLInputElement>) {
     return history.push(`/accounts/${accountId}/assets/${event.target.value}`)
   }

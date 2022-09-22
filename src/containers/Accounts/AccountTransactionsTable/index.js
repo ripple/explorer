@@ -60,6 +60,7 @@ export const AccountTxTable = (props) => {
     const success = tx.result === 'tesSUCCESS'
     const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
     const status = success ? 'Success' : `Fail - ${tx.result}`
+    console.log(tx.type)
 
     return (
       <li

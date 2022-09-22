@@ -88,6 +88,7 @@ const getAccountState = (account, rippledSocket) => {
     log.error(error.toString())
     throw error
   }
+  // Check if the account is deleted
   const deletedAccount = getAccountTransactions(
     rippledSocket,
     classicAddress,
@@ -110,8 +111,8 @@ const getAccountState = (account, rippledSocket) => {
       log.error(error.toString())
       throw error
     })
-
   if (deletedAccount) return deletedAccount
+
   log.info(`get balances: ${account} -> ${classicAddress}`)
   return getAccountInfo(rippledSocket, classicAddress)
     .then((info) =>

@@ -92,6 +92,7 @@ div.react-stockchart div {
   @include transaction-type(SignerListSet, $signerlistset);
   @include transaction-type(TrustSet, $trustset);
   @include transaction-type(UNLModify, $unlmodify);
+  @include transaction-type(AccountDelete, $accountdelete);
 
   /* stylelint-disable selector-class-pattern -- Name of class is TransactionType */
   &.NFTokenAcceptOffer,
