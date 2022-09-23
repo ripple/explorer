@@ -7,6 +7,7 @@ import Sequence from '../shared/components/Sequence'
 import Simple from './Simple'
 import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
+import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 
 const XRP_BASE = 1000000
 const TIME_ZONE = 'UTC'
@@ -31,38 +32,23 @@ class SimpleTab extends Component {
     const { t } = this.props
     return (
       <>
-        <div className="row">
-          <div className="label">
-            {t('formatted_date', { timeZone: TIME_ZONE })}
-          </div>
-          <div className="value">{time}</div>
-        </div>
-        <div className="row">
-          <div className="label">{t('ledger_index')}</div>
-          <div className="value">
-            <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
-          </div>
-        </div>
-        <div className="row">
-          <div className="label">{t('account')}</div>
-          <div className="value account">
-            <Account account={account} />
-          </div>
-        </div>
-        <div className="row">
-          <div className="label">{t('sequence_number')}</div>
-          <div className="value">
-            <Sequence
-              sequence={sequence}
-              ticketSequence={ticketSequence}
-              account={account}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="label">{t('transaction_cost')}</div>
-          <div className="value">{fee}</div>
-        </div>
+        <SimpleRow label={t('formatted_date', { timeZone: TIME_ZONE })}>
+          {time}
+        </SimpleRow>
+        <SimpleRow label={t('ledger_index')}>
+          <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
+        </SimpleRow>
+        <SimpleRow label={t('account')}>
+          <Account account={account} />
+        </SimpleRow>
+        <SimpleRow label={t('sequence_number')}>
+          <Sequence
+            sequence={sequence}
+            ticketSequence={ticketSequence}
+            account={account}
+          />
+        </SimpleRow>
+        <SimpleRow label={t('transaction_cost')}>{fee}</SimpleRow>
       </>
     )
   }
