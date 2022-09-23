@@ -16,25 +16,31 @@ export const TableDetail = (props: any) => {
       {amount && (
         <div>
           <span className="label">{t('amount')}</span>
-          <Amount value={amount} />
+          <Amount value={amount} data-test="amount" />
         </div>
       )}
       {destination && (
         <div>
           <span className="label">{t('destination')}</span>
-          <span className="account"> {destination} </span>
+          <span className="account" data-test="account">
+            {' '}
+            {destination}{' '}
+          </span>
         </div>
       )}
       {condition && (
         <div>
           <span className="label">{t('condition')}</span>
-          <span className="condition"> {condition} </span>
+          <span className="condition" data-test="condition">
+            {' '}
+            {condition}{' '}
+          </span>
         </div>
       )}
       {finishAfter && (
         <div>
           <span className="label">{t('finish_after')}</span>
-          <span>
+          <span data-test="finish_after">
             {localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS)} UTC
           </span>
         </div>
@@ -42,7 +48,7 @@ export const TableDetail = (props: any) => {
       {cancelAfter && (
         <div>
           <span className="label">{t('cancel_after')}</span>
-          <span>
+          <span data-test="cancel_after">
             {localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)} UTC
           </span>
         </div>
