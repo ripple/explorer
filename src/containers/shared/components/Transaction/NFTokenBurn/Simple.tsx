@@ -8,7 +8,7 @@ import { NFTokenBurnInstructions } from './types'
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<NFTokenBurnInstructions>) => {
-  const { tokenID } = data?.instructions
+  const { tokenID } = data.instructions
   const { t } = useTranslation()
 
   return (
