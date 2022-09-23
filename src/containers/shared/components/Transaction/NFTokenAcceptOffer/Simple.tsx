@@ -10,8 +10,7 @@ import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<NFTokenAcceptOfferInstructions>) => {
-  const { acceptedOfferIDs, amount, tokenID, seller, buyer } =
-    data?.instructions
+  const { acceptedOfferIDs, amount, tokenID, seller, buyer } = data.instructions
   const { t } = useTranslation()
 
   return (
