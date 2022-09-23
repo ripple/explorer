@@ -11,7 +11,7 @@ export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<NFTokenCreateOfferInstructions>) => {
   const { offerID, account, amount, tokenID, isSellOffer, owner } =
-    data?.instructions
+    data.instructions
   const { t } = useTranslation()
 
   return (
