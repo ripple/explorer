@@ -5,7 +5,6 @@ const OfferCancel = require('./OfferCancel')
 const Payment = require('./Payment')
 const EscrowCreate = require('./EscrowCreate')
 const EscrowCancel = require('./EscrowCancel')
-const EscrowFinish = require('./EscrowFinish')
 const TrustSet = require('./TrustSet')
 const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelClaim = require('./PaymentChannelClaim')
@@ -27,7 +26,6 @@ const summarize = {
   Payment,
   EscrowCreate,
   EscrowCancel,
-  EscrowFinish,
   TrustSet,
   PaymentChannelCreate,
   PaymentChannelClaim,
