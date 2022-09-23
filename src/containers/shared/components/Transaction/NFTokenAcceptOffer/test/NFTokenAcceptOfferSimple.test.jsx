@@ -27,7 +27,7 @@ describe('NFTokenAcceptOffer', () => {
       '8278760A246D4464EE701D503091B9DB0D9790DD2BBE9CAABCA45B04A1A25B6B',
     )
     expect(wrapper.find('[data-test="amount"] .value')).toHaveText(
-      '0.0001 XRP',
+      '\uE9000.0001 XRP',
     )
     expect(wrapper.find('[data-test="buyer"] .value')).toHaveText(
       'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh',
@@ -55,7 +55,7 @@ describe('NFTokenAcceptOffer', () => {
       '505E7F1E1EA989C0B0196AB7F503ACACAC7A9640C27B58A5E3C9DD31E88848D4',
     )
     expect(wrapper.find('[data-test="amount"] .value')).toHaveText(
-      '0.000102 XRP',
+      '\uE9000.000102 XRP',
     )
     expect(wrapper.find('[data-test="buyer"] .value')).toHaveText(
       'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh',
