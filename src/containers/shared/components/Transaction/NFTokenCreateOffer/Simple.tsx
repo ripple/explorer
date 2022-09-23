@@ -19,21 +19,14 @@ export const Simple: TransactionSimpleComponent = ({
       <SimpleRow label={t('offer_index')} className="dt" data-test="offer-id">
         {offerID}
       </SimpleRow>
-      <div data-test="buyer-or-seller">
-        <SimpleRow
-          label={isSellOffer ? t('seller') : t('buyer')}
-          className="account"
-          data-test="buyer-or-seller-account"
-        >
-          <Account account={account} />
-        </SimpleRow>
-      </div>
+      <SimpleRow
+        label={isSellOffer ? t('seller') : t('buyer')}
+        data-test="buyer-or-seller"
+      >
+        <Account account={account} />
+      </SimpleRow>
       {!isSellOffer && owner && (
-        <SimpleRow
-          label={t('owner_label')}
-          className="account"
-          data-test="owner"
-        >
+        <SimpleRow label={t('owner_label')} data-test="owner">
           <Account account={owner} />
         </SimpleRow>
       )}

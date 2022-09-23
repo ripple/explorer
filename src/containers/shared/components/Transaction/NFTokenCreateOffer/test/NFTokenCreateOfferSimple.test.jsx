@@ -34,9 +34,9 @@ describe('NFTokenCreateOffer', () => {
     expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
       'buyer',
     )
-    expect(
-      wrapper.find('[data-test="buyer-or-seller-account"] .value'),
-    ).toHaveText('rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh')
+    expect(wrapper.find('[data-test="buyer-or-seller"] .value')).toHaveText(
+      'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh',
+    )
     wrapper.unmount()
   })
 
@@ -63,9 +63,9 @@ describe('NFTokenCreateOffer', () => {
     expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
       'seller',
     )
-    expect(
-      wrapper.find('[data-test="buyer-or-seller-account"] .value'),
-    ).toHaveText('r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g')
+    expect(wrapper.find('[data-test="buyer-or-seller"] .value')).toHaveText(
+      'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
+    )
     wrapper.unmount()
   })
 })
