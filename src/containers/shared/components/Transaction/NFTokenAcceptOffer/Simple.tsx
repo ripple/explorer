@@ -22,10 +22,10 @@ export const Simple: TransactionSimpleComponent = ({
       ))}
       {amount && seller && buyer && tokenID && (
         <>
-          <SimpleRow label={t('seller')} className="account" data-test="seller">
+          <SimpleRow label={t('seller')} data-test="seller">
             <Account account={seller} />
           </SimpleRow>
-          <SimpleRow label={t('buyer')} className="account" data-test="buyer">
+          <SimpleRow label={t('buyer')} data-test="buyer">
             <Account account={buyer} />
           </SimpleRow>
           <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
