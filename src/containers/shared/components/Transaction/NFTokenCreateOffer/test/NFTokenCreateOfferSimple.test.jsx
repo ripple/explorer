@@ -29,7 +29,7 @@ describe('NFTokenCreateOffer', () => {
       'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
     expect(wrapper.find('[data-test="amount"] .value')).toHaveText(
-      '0.0001 XRP',
+      '\uE9000.0001 XRP',
     )
     expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
       'buyer',
