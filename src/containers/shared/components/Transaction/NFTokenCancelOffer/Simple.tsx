@@ -30,11 +30,7 @@ export const Simple: TransactionSimpleComponent = ({
           <SimpleRow label={t('amount')} data-test="amount">
             <Amount value={amount} displayIssuer />
           </SimpleRow>
-          <SimpleRow
-            label={t('offerer')}
-            className="account"
-            data-test="offerer"
-          >
+          <SimpleRow label={t('offerer')} data-test="offerer">
             <Account account={offerer} />
           </SimpleRow>
         </>
