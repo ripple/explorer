@@ -49,6 +49,8 @@ export const GREEN = '#19FF83'
 export const GREY_600 = '#656E81'
 export const GREY_800 = '#383D47'
 
+export const TOOLTIPS_BORDER = ['1px solid', GREY_800].join(' ')
+
 export const BREAKPOINTS = {
   desktop: 1200,
   landscape: 900,

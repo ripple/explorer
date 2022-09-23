@@ -25,6 +25,7 @@ import {
   PURPLE,
   GREY_600,
   GREY_800,
+  TOOLTIPS_BORDER,
 } from '../shared/utils'
 import './css/barchart.scss'
 
