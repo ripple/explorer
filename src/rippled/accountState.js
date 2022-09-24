@@ -118,7 +118,6 @@ const getAccountState = (account, rippledSocket) => {
       // X-address:
       //   error.toString(): CustomError: account not found
       //   error.code: 404
-      log.error(error.toString())
       if (error.code === 404) {
         return getAccountTransactions(rippledSocket, classicAddress, 1).then(
           (info) => {
@@ -128,6 +127,7 @@ const getAccountState = (account, rippledSocket) => {
                 deleted: true,
               }
             }
+            log.error(error.toString())
             throw error
           },
         )
