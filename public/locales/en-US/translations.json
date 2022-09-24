@@ -7,7 +7,7 @@
   "testnet_data": "testnet data",
   "mainnet_data": "live data",
   "devnet_data": "devnet data",
-  "amm_data": "AMM Data",
+  "amm_data": "AMM-Devnet Data",
   "nft_sandbox_data": "NFT-Devnet data",
   "sidechain_data": "Sidechain Data",
   "devnet_explorer": "devnet explorer",
