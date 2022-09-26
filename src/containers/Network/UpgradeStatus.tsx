@@ -26,14 +26,17 @@ export const UpgradeStatus = () => {
     const tempData: any[] = []
     validators.reduce((aggregate, current) => {
       const aggregation = { ...aggregate }
-      if (!aggregation[current.server_version]) {
-        aggregation[current.server_version] = {
-          server_version: current.server_version,
+      const currentVersion = current.server_version
+        ? current.server_version
+        : null
+      if (!aggregation[currentVersion]) {
+        aggregation[currentVersion] = {
+          server_version: currentVersion,
           count: 0,
         }
-        tempData.push(aggregation[current.server_version])
+        tempData.push(aggregation[currentVersion])
       }
-      aggregation[current.server_version].count += 1
+      aggregation[currentVersion].count += 1
       total += 1
       return aggregation
     }, {})
@@ -111,6 +114,11 @@ export const UpgradeStatus = () => {
   }
 
   const validatorCount = Object.keys(vList).length
+  Object.values(vList).forEach((v: any) => {
+    if (v.signing_key === undefined) {
+      console.log(v)
+    }
+  })
 
   return (
     <div className="network-page">
