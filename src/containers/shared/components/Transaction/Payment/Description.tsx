@@ -1,15 +1,13 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Instructions, TransactionDescriptionProps } from '../types'
 import { normalizeAmount } from '../../../transactionUtils'
 import Account from '../../Account'
+import { PaymentDescriptionProps } from './types'
 
-const Payment = ({
-  data,
-  partial,
-}: TransactionDescriptionProps & Instructions) => {
+export const Description = (props: PaymentDescriptionProps) => {
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage
+  const { data, partial } = props
   const lines = []
 
   lines.push(
@@ -72,5 +70,3 @@ const Payment = ({
 
   return lines
 }
-
-export default Payment
