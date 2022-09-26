@@ -1,16 +1,17 @@
 import { TransactionCommonFields } from '../types'
+import { IssuedCurrencyAmount, Amount } from '../XChainAddAttestation/types'
 
 export interface NFTokenCreateOffer extends TransactionCommonFields {
   Owner?: string
   NFTokenID: string
-  Amount: string | { currency: string; value: string; issuer: string }
+  Amount: Amount
   Expiration?: number
   Destination?: string
 }
 
 export interface NFTokenCreateOfferInstructions {
   account: string
-  amount: { currency: string; amount: number; issuer: string }
+  amount: IssuedCurrencyAmount
   tokenID: string
   isSellOffer: boolean
   owner?: string
