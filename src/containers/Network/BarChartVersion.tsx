@@ -108,7 +108,13 @@ const BarChartVersion = (props: Props) => {
               dy={80}
             />
           </YAxis>
-          <Bar dataKey="value" barSize={30} fill={PURPLE} radius={[4, 4, 0, 0]}>
+          <Bar
+            dataKey="value"
+            barSize={30}
+            fill={PURPLE}
+            radius={[4, 4, 0, 0]}
+            isAnimationActive={false}
+          >
             {stableVersion &&
               data.map((_entry, index) => (
                 <Cell
