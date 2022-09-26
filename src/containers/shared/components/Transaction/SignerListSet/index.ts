@@ -9,5 +9,6 @@ export const SignerListSetTransaction: TransactionMapping = {
   Description,
   Simple,
   TableDetail,
+  TransactionCategory: 'Account',
   parser,
 }

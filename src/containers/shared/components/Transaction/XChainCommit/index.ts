@@ -5,5 +5,6 @@ import { parser } from './parser'
 
 export const XChainCommitTransaction: TransactionMapping = {
   Simple,
+  TransactionCategory: 'XChain',
   parser,
 }

@@ -24,6 +24,7 @@ import {
 import './ledger.scss'
 import TxLabel from '../shared/components/TxLabel'
 import SocketContext from '../shared/SocketContext'
+import { transactionTypes } from '../shared/components/Transaction'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -91,41 +92,13 @@ class Ledger extends Component {
     const nextIndex = LedgerIndex + 1
     const date = new Date(data.close_time)
     const transactions = data.transactions || []
-    const transactionTypes = {
-      EnableAmendment: 'pseudo',
-      SetFee: 'pseudo',
-      UNLModify: 'pseudo',
-      OfferCancel: 'dex',
-      OfferCreate: 'dex',
-      AccountSet: 'account',
-      AccountDelete: 'account',
-      DepositPreauth: 'account',
-      SetRegularKey: 'account',
-      SignerListSet: 'account',
-      TicketCreate: 'account',
-      TrustSet: 'account',
-      PaymentChannelFund: 'payment',
-      PaymentChannelCreate: 'payment',
-      PaymentChannelClaim: 'payment',
-      Payment: 'payment',
-      EscrowFinish: 'payment',
-      EscrowCreate: 'payment',
-      EscrowCancel: 'payment',
-      CheckCreate: 'payment',
-      CheckCash: 'payment',
-      CheckCancel: 'payment',
-      NFTokenMint: 'nft',
-      NFTokenCreateOffer: 'nft',
-      NFTokenCancelOffer: 'nft',
-      NFTokenBurn: 'nft',
-      NFTokenAcceptOffer: 'nft',
-    }
     const transactionTypesCount = {
-      account: 0,
-      dex: 0,
-      nft: 0,
-      pseudo: 0,
-      payment: 0,
+      Account: 0,
+      Dex: 0,
+      Nft: 0,
+      Pseudo: 0,
+      Payment: 0,
+      XChain: 0,
     }
     let successfulTxCount = 0
 
@@ -133,7 +106,7 @@ class Ledger extends Component {
       if (tx.result === 'tesSUCCESS') {
         successfulTxCount += 1
       }
-      transactionTypesCount[transactionTypes[tx.type]] += 1
+      transactionTypesCount[transactionTypes[tx.type].TransactionCategory] += 1
     })
 
     return (
@@ -187,7 +160,9 @@ class Ledger extends Component {
               </div>
               {Object.keys(transactionTypesCount).map((type) => (
                 <div className="ledger-col">
-                  <div className="title">{t(`${type}_transactions`)}</div>
+                  <div className="title">
+                    {t(`${type.toLowerCase()}_transactions`)}
+                  </div>
                   <div className="value">
                     {localizeNumber(transactionTypesCount[type], language)}
                   </div>

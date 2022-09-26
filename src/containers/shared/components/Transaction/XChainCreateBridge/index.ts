@@ -5,5 +5,6 @@ import { parser } from './parser'
 
 export const XChainCreateBridgeTransaction: TransactionMapping = {
   Simple,
+  TransactionCategory: 'XChain',
   parser,
 }

@@ -64,7 +64,7 @@ describe('Ledger container', () => {
 
     expect(summary.length).toBe(1)
     expect(summary.find('.ledger-cols').length).toBe(1)
-    expect(summary.find('.ledger-col').length).toBeGreaterThanOrEqual(4)
+    expect(summary.find('.ledger-col').length).toBe(10)
     expect(summary.find('.ledger-index').length).toBe(1)
     expect(summary.find('.closed-date').length).toBe(1)
     expect(summary.find('.ledger-hash').length).toBe(1)

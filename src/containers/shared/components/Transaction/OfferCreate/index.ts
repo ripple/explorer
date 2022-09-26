@@ -9,5 +9,6 @@ export const OfferCreateTransaction: TransactionMapping = {
   Description,
   Simple,
   TableDetail,
+  TransactionCategory: 'Dex',
   parser,
 }

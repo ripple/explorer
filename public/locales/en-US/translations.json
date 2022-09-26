@@ -54,6 +54,7 @@
   "dex_transactions": "Dex Transactions",
   "payment_transactions": "Payment Transactions",
   "nft_transactions": "NFT Transactions",
+  "xchain_transactions":"XChain Transactions",
   "transaction_type": "Transaction Type",
   "transactions.date_header": "Date/time (UTC)",
   "no_transactions_message": "No transactions found.",

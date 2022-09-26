@@ -9,5 +9,6 @@ export const SetRegularKeyTransaction: TransactionMapping = {
   Description,
   Simple,
   TableDetail,
+  TransactionCategory: 'Account',
   parser,
 }
