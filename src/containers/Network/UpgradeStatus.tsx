@@ -11,7 +11,7 @@ import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 
 export const UpgradeStatus = () => {
-  const [vList, setVList] = useState<any>([{}])
+  const [vList, setVList] = useState<any>([])
   const [validations, setValidations] = useState([])
   const [unlCount, setUnlCount] = useState(0)
   const [stableVersion, setStableVersion] = useState<string | null>(null)
@@ -37,6 +37,10 @@ export const UpgradeStatus = () => {
       total += 1
       return aggregation
     }, {})
+
+    if (tempData.length === 1 && !tempData[0].server_version) {
+      return []
+    }
 
     return tempData
       .map((item) => ({
@@ -69,7 +73,7 @@ export const UpgradeStatus = () => {
           newValidatorList[validator.signing_key] = validator
         })
 
-        setVList(() => newValidatorList)
+        setVList(newValidatorList)
         setUnlCount(
           resp.data.filter((validator: any) => Boolean(validator.unl)).length,
         )
@@ -111,37 +115,31 @@ export const UpgradeStatus = () => {
   return (
     <div className="network-page">
       <Streams validators={vList} updateValidators={updateValidators} />
-      {validatorCount && (
+      {
         // @ts-ignore - Work around for complex type assignment issues
         <Hexagons data={validations} list={vList} />
-      )}
-
+      }
       <div className="stat">
-        {validatorCount && (
-          <>
-            <span>{t('validators_found')}: </span>
-            <span>
-              {localizeNumber(validatorCount, language)}
-              {unlCount !== 0 && (
-                <i>
-                  {' '}
-                  ({t('unl')}: {unlCount})
-                </i>
-              )}
-            </span>
-          </>
-        )}
+        <>
+          <span>{t('validators_found')}: </span>
+          <span>
+            {localizeNumber(validatorCount, language)}
+            {unlCount !== 0 && (
+              <i>
+                {' '}
+                ({t('unl')}: {unlCount})
+              </i>
+            )}
+          </span>
+        </>
       </div>
-
       <div className="wrap">
         <NetworkTabs selected="upgrade_status" />
         <div className="upgrade_status">
-          {vList && (
-            <BarChartVersion
-              data={aggregateData(Object.values(vList))}
-              stableVersion={stableVersion}
-            />
-          )}
+          <BarChartVersion
+            data={aggregateData(Object.values(vList))}
+            stableVersion={stableVersion}
+          />
         </div>
       </div>
     </div>
