@@ -26,7 +26,7 @@ export const Simple: TransactionSimpleComponent = ({
         <Account account={account} />
       </SimpleRow>
       {!isSellOffer && owner && (
-        <SimpleRow label={t('owner_label')} data-test="owner">
+        <SimpleRow label={t('owner')} data-test="owner">
           <Account account={owner} />
         </SimpleRow>
       )}
