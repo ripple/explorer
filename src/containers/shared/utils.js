@@ -79,8 +79,8 @@ const FORMAT_PRICE_DEFAULT_OPTIONS = {
 }
 
 export const isLaterVersion = (source, target) => {
-  if (source === ' N/A ') return false
-  if (target === ' N/A ') return true
+  if (source === 'N/A') return false
+  if (target === 'N/A') return true
   const sourceDecomp = source.split('.')
   const targetDecomp = target.split('.')
   const sourceMajor = parseInt(sourceDecomp[0], 10)

@@ -48,7 +48,7 @@ export const UpgradeStatus = () => {
 
     return tempData
       .map((item) => ({
-        label: item.server_version ? item.server_version.trim() : ' N/A ',
+        label: item.server_version ? item.server_version.trim() : 'N/A',
         value: (item.count * 100) / total,
         count: item.count,
       }))
