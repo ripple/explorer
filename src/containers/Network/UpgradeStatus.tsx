@@ -18,16 +18,18 @@ export const aggregateData = (validators: any[]) => {
   const tempData: any[] = []
   validators.reduce((aggregate, current) => {
     const aggregation = { ...aggregate }
-    const currentVersion = current.server_version ?? null
-    if (!aggregation[currentVersion]) {
-      aggregation[currentVersion] = {
-        server_version: currentVersion,
-        count: 0,
+    if (current.signing_key) {
+      const currentVersion = current.server_version ?? null
+      if (!aggregation[currentVersion]) {
+        aggregation[currentVersion] = {
+          server_version: currentVersion,
+          count: 0,
+        }
+        tempData.push(aggregation[currentVersion])
       }
-      tempData.push(aggregation[currentVersion])
+      aggregation[currentVersion].count += 1
+      total += 1
     }
-    aggregation[currentVersion].count += 1
-    total += 1
     return aggregation
   }, {})
 
