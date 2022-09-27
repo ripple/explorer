@@ -1,7 +1,7 @@
 import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
 import formatFailedPartialAmount from '../../../../../rippled/lib/txSummary/formatFailedPartialAmount'
 
-const isPartialPayment = (flags: any) => 0x00020000 & flags
+export const isPartialPayment = (flags: any) => 0x00020000 & flags
 
 export const parser = (tx: any, meta: any) => {
   const max = tx.SendMax ? formatAmount(tx.SendMax) : undefined
