@@ -10,6 +10,40 @@ import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 
+export const aggregateData = (validators: any[]) => {
+  if (!validators) {
+    return []
+  }
+  let total = 0
+  const tempData: any[] = []
+  validators.reduce((aggregate, current) => {
+    const aggregation = { ...aggregate }
+    const currentVersion = current.server_version ?? null
+    if (!aggregation[currentVersion]) {
+      aggregation[currentVersion] = {
+        server_version: currentVersion,
+        count: 0,
+      }
+      tempData.push(aggregation[currentVersion])
+    }
+    aggregation[currentVersion].count += 1
+    total += 1
+    return aggregation
+  }, {})
+
+  if (tempData.length === 1 && !tempData[0].server_version) {
+    return []
+  }
+
+  return tempData
+    .map((item) => ({
+      label: item.server_version ? item.server_version : ' N/A ',
+      value: (item.count * 100) / total,
+      count: item.count,
+    }))
+    .sort((a, b) => (a.label > b.label ? 1 : -1))
+}
+
 export const UpgradeStatus = () => {
   const [vList, setVList] = useState<any>([])
   const [validations, setValidations] = useState([])
@@ -17,42 +51,6 @@ export const UpgradeStatus = () => {
   const [stableVersion, setStableVersion] = useState<string | null>(null)
   const { t } = useTranslation()
   const language = useLanguage()
-
-  const aggregateData = (validators: any[]) => {
-    if (!validators) {
-      return []
-    }
-    let total = 0
-    const tempData: any[] = []
-    validators.reduce((aggregate, current) => {
-      const aggregation = { ...aggregate }
-      const currentVersion = current.server_version
-        ? current.server_version
-        : null
-      if (!aggregation[currentVersion]) {
-        aggregation[currentVersion] = {
-          server_version: currentVersion,
-          count: 0,
-        }
-        tempData.push(aggregation[currentVersion])
-      }
-      aggregation[currentVersion].count += 1
-      total += 1
-      return aggregation
-    }, {})
-
-    if (tempData.length === 1 && !tempData[0].server_version) {
-      return []
-    }
-
-    return tempData
-      .map((item) => ({
-        label: item.server_version ? item.server_version : ' N/A ',
-        value: (item.count * 100) / total,
-        count: item.count,
-      }))
-      .sort((a, b) => (a.label > b.label ? 1 : -1))
-  }
 
   useQuery(
     ['fetchUpgradeStatusData'],
@@ -114,11 +112,6 @@ export const UpgradeStatus = () => {
   }
 
   const validatorCount = Object.keys(vList).length
-  Object.values(vList).forEach((v: any) => {
-    if (v.signing_key === undefined) {
-      console.log(v)
-    }
-  })
 
   return (
     <div className="network-page">
