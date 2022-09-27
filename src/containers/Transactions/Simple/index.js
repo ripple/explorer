@@ -6,7 +6,6 @@ import Payment from './Payment'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
-import EscrowCreate from './EscrowCreate'
 import EscrowCancel from './EscrowCancel'
 import TrustSet from './TrustSet'
 import AccountSet from './AccountSet'
@@ -45,8 +44,6 @@ const Simple = (props) => {
       return <PaymentChannelClaim t={t} language={language} data={data} />
     case 'PaymentChannelFund':
       return <PaymentChannelFund t={t} language={language} data={data} />
-    case 'EscrowCreate':
-      return <EscrowCreate t={t} language={language} data={data} />
     case 'EscrowCancel':
       return <EscrowCancel t={t} language={language} data={data} />
     case 'TrustSet':
