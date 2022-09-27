@@ -15,7 +15,6 @@ import EnableAmendment from './EnableAmendment'
 import UNLModify from './UNLModify'
 import AccountDelete from './AccountDelete'
 import TicketCreate from './TicketCreate'
-import NFTokenAcceptOffer from './NFTokenAcceptOffer'
 import NFTokenBurn from './NFTokenBurn'
 import NFTokenCancelOffer from './NFTokenCancelOffer'
 import NFTokenMint from './NFTokenMint'
@@ -64,8 +63,6 @@ const Simple = (props) => {
       return <AccountDelete t={t} language={language} data={data} />
     case 'TicketCreate':
       return <TicketCreate t={t} language={language} data={data} />
-    case 'NFTokenAcceptOffer':
-      return <NFTokenAcceptOffer t={t} language={language} data={data} />
     case 'NFTokenBurn':
       return <NFTokenBurn t={t} language={language} data={data} />
     case 'NFTokenCancelOffer':
