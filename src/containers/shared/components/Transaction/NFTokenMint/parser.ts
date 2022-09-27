@@ -31,7 +31,7 @@ export const parser: TransactionParser<NFTokenMint, NFTokenMintInstructions> = (
     )
     .filter((id: any) => id)
 
-  const tokenID = finalTokenIDs.find((tid: any) => !previousTokenIDSet.has(tid))
+  const tokenID = finalTokenIDs.find((id: any) => !previousTokenIDSet.has(id))
 
   return {
     tokenID,
