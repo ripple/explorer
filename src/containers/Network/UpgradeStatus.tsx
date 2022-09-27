@@ -19,6 +19,7 @@ export const UpgradeStatus = () => {
   const [validations, setValidations] = useState([])
   const [unlCount, setUnlCount] = useState(0)
   const [stableVersion, setStableVersion] = useState<string | null>(null)
+  const [aggregated, setAggregated] = useState<any>([])
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -81,6 +82,7 @@ export const UpgradeStatus = () => {
         setUnlCount(
           resp.data.filter((validator: any) => Boolean(validator.unl)).length,
         )
+        setAggregated(aggregateData(Object.values(vList)))
       })
       .catch((e) => Log.error(e))
   }
@@ -140,10 +142,7 @@ export const UpgradeStatus = () => {
       <div className="wrap">
         <NetworkTabs selected="upgrade_status" />
         <div className="upgrade_status">
-          <BarChartVersion
-            data={aggregateData(Object.values(vList))}
-            stableVersion={stableVersion}
-          />
+          <BarChartVersion data={aggregated} stableVersion={stableVersion} />
         </div>
       </div>
     </div>
