@@ -68,38 +68,6 @@ const TxDetails = (props: Props) => {
     return <Amount value={d} />
   }
 
-  function renderEscrowFinish(): ReactElement {
-    const { instructions } = props
-    const { amount, owner, sequence, fulfillment, ticketSequence } =
-      instructions
-    return (
-      <div className="escrow">
-        {owner && (
-          <div>
-            <span className="label">{t('finish_escrow')}</span>
-            <span className="account">{owner}</span>
-            <span>
-              {' '}
-              -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}
-            </span>
-          </div>
-        )}
-        {amount && (
-          <div>
-            <span className="label">{t('amount')}</span>
-            {renderAmount(amount)}
-          </div>
-        )}
-        {fulfillment && (
-          <div>
-            <span className="label">{t('fulfillment')}</span>
-            <span className="fulfillment"> {fulfillment} </span>
-          </div>
-        )}
-      </div>
-    )
-  }
-
   function renderEscrowCancel(): ReactElement {
     const { instructions } = props
     const { owner, sequence, ticketSequence } = instructions
@@ -375,7 +343,6 @@ const TxDetails = (props: Props) => {
 
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
-    renderEscrowFinish,
     renderEscrowCancel,
     renderEscrowCreate,
     renderAccountSet,

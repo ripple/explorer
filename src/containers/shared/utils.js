@@ -23,6 +23,7 @@ export const SERVER_ERROR = 500
 export const BAD_REQUEST = 400
 
 export const FETCH_INTERVAL_MILLIS = 5000
+export const FETCH_INTERVAL_NODES_MILLIS = 60000
 
 export const DECIMAL_REGEX = /^\d+$/
 export const RIPPLE_ADDRESS_REGEX =
@@ -46,6 +47,8 @@ export const PURPLE = '#8884d8'
 export const BLUE = '#1AA4FF'
 export const RED = '#FF1A8B'
 export const GREEN = '#19FF83'
+export const GREY_600 = '#656E81'
+export const GREY_800 = '#383D47'
 
 export const BREAKPOINTS = {
   desktop: 1200,

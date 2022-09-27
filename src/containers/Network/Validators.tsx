@@ -13,7 +13,7 @@ import Hexagons from './Hexagons'
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const [vList, setVList] = useState<any>([{}])
+  const [vList, setVList] = useState<any>([])
   const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
@@ -64,25 +64,23 @@ export const Validators = () => {
         updateMetrics={setMetrics}
       />
 
-      {validatorCount && (
+      {
         // @ts-ignore - Work around for complex type assignment issues
         <Hexagons data={validations} list={vList} />
-      )}
+      }
       <div className="stat">
-        {validatorCount && (
-          <>
-            <span>{t('validators_found')}: </span>
-            <span>
-              {localizeNumber(validatorCount, language)}
-              {unlCount !== 0 && (
-                <i>
-                  {' '}
-                  ({t('unl')}: {unlCount})
-                </i>
-              )}
-            </span>
-          </>
-        )}
+        <>
+          <span>{t('validators_found')}: </span>
+          <span>
+            {localizeNumber(validatorCount, language)}
+            {unlCount !== 0 && (
+              <i>
+                {' '}
+                ({t('unl')}: {unlCount})
+              </i>
+            )}
+          </span>
+        </>
       </div>
       <div className="wrap">
         <NetworkTabs selected="validators" />
