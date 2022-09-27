@@ -9,7 +9,7 @@ import Hexagons from './Hexagons'
 import {
   localizeNumber,
   FETCH_INTERVAL_MILLIS,
-  isLaterVersion,
+  isEarlierVersion,
 } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
@@ -53,7 +53,7 @@ export const UpgradeStatus = () => {
         value: (item.count * 100) / total,
         count: item.count,
       }))
-      .sort((a, b) => (isLaterVersion(a.label, b.label) ? 1 : -1))
+      .sort((a, b) => (isEarlierVersion(a.label, b.label) ? -1 : 1))
   }
 
   useQuery(

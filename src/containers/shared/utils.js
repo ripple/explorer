@@ -78,9 +78,10 @@ const FORMAT_PRICE_DEFAULT_OPTIONS = {
   padding: 0,
 }
 
-export const isLaterVersion = (source, target) => {
-  if (source === 'N/A') return false
-  if (target === 'N/A') return true
+export const isEarlierVersion = (source, target) => {
+  if (source === target) return false
+  if (source === 'N/A') return true
+  if (target === 'N/A') return false
   const sourceDecomp = source.split('.')
   const targetDecomp = target.split('.')
   const sourceMajor = parseInt(sourceDecomp[0], 10)
@@ -89,11 +90,11 @@ export const isLaterVersion = (source, target) => {
   const targetMinor = parseInt(targetDecomp[1], 10)
   // Compare major version
   if (sourceMajor !== targetMajor) {
-    return sourceMajor > targetMajor
+    return sourceMajor < targetMajor
   }
   // Compare minor version
   if (sourceMinor !== targetMinor) {
-    return sourceMinor > targetMinor
+    return sourceMinor < targetMinor
   }
   const sourcePatch = sourceDecomp[2].split('-')
   const targetPatch = targetDecomp[2].split('-')
@@ -103,29 +104,29 @@ export const isLaterVersion = (source, target) => {
 
   // Compare patch version
   if (sourcePatchVersion !== targetPatchVersion) {
-    return sourcePatchVersion > targetPatchVersion
+    return sourcePatchVersion < targetPatchVersion
   }
 
   // Compare release version
   if (sourcePatch.length !== targetPatch.length) {
-    return sourcePatch.length > targetPatch.length
+    return sourcePatch.length < targetPatch.length
   }
 
   if (sourcePatch.length === 2) {
     // Compare different release types
     if (sourcePatch[1][0] !== targetPatch[1][0]) {
-      return sourcePatch[1] > targetPatch[1]
+      return sourcePatch[1] < targetPatch[1]
     }
     // Compare beta version
     if (sourcePatch[1][0] === 'b') {
       return (
-        parseInt(sourcePatch[1].slice(1), 10) >
+        parseInt(sourcePatch[1].slice(1), 10) <
         parseInt(targetPatch[1].slice(1), 10)
       )
     }
     // Compare rc version
     return (
-      parseInt(sourcePatch[1].slice(2), 10) >
+      parseInt(sourcePatch[1].slice(2), 10) <
       parseInt(targetPatch[1].slice(2), 10)
     )
   }
