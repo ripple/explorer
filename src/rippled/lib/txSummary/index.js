@@ -3,7 +3,6 @@ import { transactionTypes } from '../../../containers/shared/components/Transact
 
 const OfferCancel = require('./OfferCancel')
 const Payment = require('./Payment')
-const EscrowCancel = require('./EscrowCancel')
 const TrustSet = require('./TrustSet')
 const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelClaim = require('./PaymentChannelClaim')
@@ -21,7 +20,6 @@ const NFTokenMint = require('./NFTokenMint')
 const summarize = {
   OfferCancel,
   Payment,
-  EscrowCancel,
   TrustSet,
   PaymentChannelCreate,
   PaymentChannelClaim,

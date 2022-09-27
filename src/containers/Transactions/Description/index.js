@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import TrustSet from './TrustSet'
 import Payment from './Payment'
 import OfferCancel from './OfferCancel'
-import EscrowCancel from './EscrowCancel'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
@@ -46,8 +45,6 @@ const TransactionDescription = (props) => {
     )
   } else if (data.tx.TransactionType === 'TrustSet') {
     body = <TrustSet t={t} language={language} data={data} />
-  } else if (data.tx.TransactionType === 'EscrowCancel') {
-    body = <EscrowCancel t={t} language={language} data={data} />
   } else if (data.tx.TransactionType === 'PaymentChannelCreate') {
     body = <PaymentChannelCreate t={t} language={language} data={data} />
   } else if (data.tx.TransactionType === 'PaymentChannelClaim') {

@@ -7,7 +7,6 @@ import Description from '../Description'
 import OfferCancel from './mock_data/OfferCancel.json'
 import Payment from './mock_data/Payment.json'
 import TrustSet from './mock_data/TrustSet.json'
-import EscrowCancel from './mock_data/EscrowCancel.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
@@ -54,14 +53,6 @@ describe('Description container', () => {
     const wrapper = createWrapper(TrustSet)
     expect(wrapper.html()).toBe(
       '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>261</span></b></div><div>It establishes <b>CN¥1,000,000,000.00</b>as the maximum amount of <b>CNY</b>from <a class="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a>that <a class="account" title="rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc" href="/accounts/rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc">rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc</a>is willing to hold</div></div>',
-    )
-    wrapper.unmount()
-  })
-
-  it('renders description for EscrowCancel', () => {
-    const wrapper = createWrapper(EscrowCancel)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>14</span></b></div><div>escrow_cancellation_desc <a class="account" title="rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56" href="/accounts/rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56">rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56</a></div><div>The escrowed amount of<b>\uE900135.79<small>XRP</small></b>was returned to<a class="account" title="rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56" href="/accounts/rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56">rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56</a><span> (<b>\uE900135.78999<small>XRP</small></b> escrow_after_transaction_cost)</span></div>The escrow was created by<a class="account" title="rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56" href="/accounts/rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56">rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56</a>with transaction<a class="hash" href="/transactions/A979AD5C6A6C844913DA51D71BF5F0B8E254D9A211FA837C4B322C4A8FD358E6">A979AD...</a></div>',
     )
     wrapper.unmount()
   })
