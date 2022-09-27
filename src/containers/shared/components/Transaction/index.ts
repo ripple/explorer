@@ -1,3 +1,5 @@
+import { NFTokenCreateOfferTransaction as NFTokenCreateOffer } from './NFTokenCreateOffer'
+import { NFTokenAcceptOfferTransaction as NFTokenAcceptOffer } from './NFTokenAcceptOffer'
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
@@ -12,6 +14,8 @@ import { EscrowFinishTransaction as EscrowFinish } from './EscrowFinish'
 import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
+  NFTokenCreateOffer,
+  NFTokenAcceptOffer,
   OfferCreate,
   SetRegularKey,
   SignerListSet,
