@@ -17,7 +17,6 @@ const AccountDelete = require('./AccountDelete')
 const TicketCreate = require('./TicketCreate')
 const NFTokenBurn = require('./NFTokenBurn')
 const NFTokenCancelOffer = require('./NFTokenCancelOffer')
-const NFTokenCreateOffer = require('./NFTokenCreateOffer')
 const NFTokenMint = require('./NFTokenMint')
 
 const summarize = {
@@ -37,7 +36,6 @@ const summarize = {
   TicketCreate,
   NFTokenBurn,
   NFTokenCancelOffer,
-  NFTokenCreateOffer,
   NFTokenMint,
 }
 

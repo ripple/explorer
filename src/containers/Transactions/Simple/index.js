@@ -17,7 +17,6 @@ import AccountDelete from './AccountDelete'
 import TicketCreate from './TicketCreate'
 import NFTokenBurn from './NFTokenBurn'
 import NFTokenCancelOffer from './NFTokenCancelOffer'
-import NFTokenCreateOffer from './NFTokenCreateOffer'
 import NFTokenMint from './NFTokenMint'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
@@ -68,8 +67,6 @@ const Simple = (props) => {
       return <NFTokenBurn t={t} language={language} data={data} />
     case 'NFTokenCancelOffer':
       return <NFTokenCancelOffer t={t} language={language} data={data} />
-    case 'NFTokenCreateOffer':
-      return <NFTokenCreateOffer t={t} language={language} data={data} />
     case 'NFTokenMint':
       return <NFTokenMint t={t} language={language} data={data} />
     default:
