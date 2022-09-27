@@ -25,7 +25,6 @@ import {
   PURPLE,
   GREY_600,
   GREY_800,
-  TOOLTIPS_BORDER,
 } from '../shared/utils'
 import './css/barchart.scss'
 
@@ -137,7 +136,7 @@ const BarChartVersion = (props: Props) => {
             wrapperStyle={{
               backgroundColor: GREY_600,
               borderRadius: 8,
-              border: ['1px solid', GREY_800].join(' '),
+              border: `1px solid ${GREY_800}`,
               opacity: showTooltips ? '100%' : '0',
             }}
           />
