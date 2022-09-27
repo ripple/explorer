@@ -2,6 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
@@ -10,6 +11,7 @@ import { initialState } from '../../App/reducer'
 import i18n from '../../../i18nTestConfig'
 import Network from '../index'
 import mockNodes from './mockNodes.json'
+import { queryClient } from '../../shared/utils'
 
 /* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk]
@@ -19,16 +21,18 @@ const store = mockStore({ app: initialState })
 describe('Nodes Page container', () => {
   const createWrapper = (props = {}) =>
     mount(
-      <Router>
-        <I18nextProvider i18n={i18n}>
-          <Provider store={store}>
-            <Network
-              {...props}
-              match={{ params: { tab: 'nodes' }, path: '/' }}
-            />
-          </Provider>
-        </I18nextProvider>
-      </Router>,
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <I18nextProvider i18n={i18n}>
+            <Provider store={store}>
+              <Network
+                {...props}
+                match={{ params: { tab: 'nodes' }, path: '/' }}
+              />
+            </Provider>
+          </I18nextProvider>
+        </Router>
+      </QueryClientProvider>,
     )
 
   beforeEach(() => {
