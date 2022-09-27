@@ -7,7 +7,6 @@ import Description from '../Description'
 import OfferCancel from './mock_data/OfferCancel.json'
 import Payment from './mock_data/Payment.json'
 import TrustSet from './mock_data/TrustSet.json'
-import EscrowFinish from './mock_data/EscrowFinish.json'
 import EscrowCancel from './mock_data/EscrowCancel.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
@@ -55,14 +54,6 @@ describe('Description container', () => {
     const wrapper = createWrapper(TrustSet)
     expect(wrapper.html()).toBe(
       '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>261</span></b></div><div>It establishes <b>CN¥1,000,000,000.00</b>as the maximum amount of <b>CNY</b>from <a class="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a>that <a class="account" title="rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc" href="/accounts/rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc">rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc</a>is willing to hold</div></div>',
-    )
-    wrapper.unmount()
-  })
-
-  it('renders description for EscrowFinish', () => {
-    const wrapper = createWrapper(EscrowFinish)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>31</span></b></div><div>escrow_completion_desc <a class="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a></div><div>The escrowed amount of<b>\uE9000.0154<small>XRP</small></b>was delivered to<a class="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a><span> (<b>\uE9000.015388<small>XRP</small></b> escrow_after_transaction_cost)</span></div>The escrow was created by<a class="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a>with transaction<a class="hash" href="/transactions/3E2E755FA75FF1020C39E2ECC407E9F1C0E49A7229EDD15FF93B9F869878F1CC">3E2E75...</a><div>escrow_finish_fullfillment_desc<span class="fulfillment"> Fulfillment</span></div></div>',
     )
     wrapper.unmount()
   })
