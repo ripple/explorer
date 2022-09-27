@@ -1,14 +1,14 @@
-const formatAmount = require('./formatAmount')
+import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
 
-const findNode = (meta) => {
+const findNode = (meta: any) => {
   const node = meta.AffectedNodes.filter(
-    (a) => a.DeletedNode && a.DeletedNode.LedgerEntryType === 'Escrow',
+    (a: any) => a.DeletedNode && a.DeletedNode.LedgerEntryType === 'Escrow',
   )[0]
 
   return node ? node.DeletedNode.FinalFields : {}
 }
 
-module.exports = (tx, meta) => {
+export function parser(tx: any, meta: any) {
   const escrow = findNode(meta)
 
   return {
