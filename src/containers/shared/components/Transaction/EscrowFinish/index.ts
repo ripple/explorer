@@ -1,9 +1,13 @@
 import { TransactionMapping } from '../types'
-import { parser } from './parser'
 import { Simple } from './Simple'
+import { Description } from './Description'
+import { parser } from './parser'
+import { TableDetail } from './TableDetail'
 
 export const EscrowFinishTransaction: TransactionMapping = {
-  Simple,
+  Description,
   TransactionCategory: 'Payment',
+  Simple,
+  TableDetail,
   parser,
 }

@@ -2,15 +2,18 @@
 
 .transaction {
   position: relative;
+  max-width: 912px;
   min-height: 600px;
-  margin: 0 auto;
 
   @include for-size(tablet-landscape-up) {
     width: 584px;
+    margin: 0 auto;
   }
+
   @include for-size(desktop-up) {
     width: 820px;
   }
+
   @include for-size(big-desktop-up) {
     width: 912px;
   }
@@ -31,6 +34,8 @@
   }
 
   .summary {
+    padding: 0 16px;
+
     .type {
       display: inline-block;
       padding-bottom: 24px;

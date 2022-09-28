@@ -1,6 +1,6 @@
 import { TransactionMapping } from '../types'
-import { parser } from './parser'
 import { Simple } from './Simple'
+import { parser } from './parser'
 
 export const NFTokenAcceptOfferTransaction: TransactionMapping = {
   Simple,
