@@ -114,6 +114,7 @@ const BarChartVersion = (props: Props) => {
             barSize={30}
             fill={PURPLE}
             radius={[4, 4, 0, 0]}
+            isAnimationActive={false}
             onMouseOver={() => setShowTooltips(true)}
             onMouseLeave={() => setShowTooltips(false)}
           >
