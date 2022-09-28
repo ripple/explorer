@@ -102,11 +102,55 @@ class Ledger extends Component {
     }
     let successfulTxCount = 0
 
+    // TODO: Remove these cases when the transactions are moved to the new format.
+    const getTransactionType = (transactionType) => {
+      switch (transactionType) {
+        case 'OfferCancel':
+          return 'Dex'
+        case 'Payment':
+          return 'Payment'
+        case 'PaymentChannelCreate':
+          return 'Payment'
+        case 'PaymentChannelClaim':
+          return 'Payment'
+        case 'PaymentChannelFund':
+          return 'Payment'
+        case 'TrustSet':
+          return 'Account'
+        case 'AccountSet':
+          return 'Account'
+        case 'DepositPreauth':
+          return 'Account'
+        case 'EnableAmendment':
+          return 'Pseudo'
+        case 'UNLModify':
+          return 'Pseudo'
+        case 'AccountDelete':
+          return 'Account'
+        case 'TicketCreate':
+          return 'Account'
+        case 'NFTokenCancelOffer':
+          return 'Nft'
+        case 'NFTokenMint':
+          return 'Nft'
+        case 'CheckCancel':
+          return 'Payment'
+        case 'CheckCash':
+          return 'Payment'
+        case 'CheckCreate':
+          return 'Payment'
+        case 'SetFee':
+          return 'Pseudo'
+        default:
+          return transactionTypes[transactionType].TransactionCategory
+      }
+    }
+
     transactions.forEach((tx) => {
       if (tx.result === 'tesSUCCESS') {
         successfulTxCount += 1
       }
-      transactionTypesCount[transactionTypes[tx.type].TransactionCategory] += 1
+      transactionTypesCount[getTransactionType(tx.type)] += 1
     })
 
     return (
