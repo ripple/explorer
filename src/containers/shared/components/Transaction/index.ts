@@ -1,3 +1,4 @@
+import { NFTokenBurnTransaction as NFTokenBurn } from './NFTokenBurn'
 import { NFTokenCreateOfferTransaction as NFTokenCreateOffer } from './NFTokenCreateOffer'
 import { NFTokenAcceptOfferTransaction as NFTokenAcceptOffer } from './NFTokenAcceptOffer'
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
@@ -16,6 +17,7 @@ import { EscrowCancelTransaction as EscrowCancel } from './EscrowCancel'
 import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
+  NFTokenBurn,
   NFTokenCreateOffer,
   NFTokenAcceptOffer,
   OfferCreate,
