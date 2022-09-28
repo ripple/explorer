@@ -25,6 +25,7 @@ import {
   PURPLE,
   GREY_600,
   GREY_800,
+  isEarlierVersion,
 } from '../shared/utils'
 import './css/barchart.scss'
 
@@ -68,7 +69,7 @@ const renderLegend = (stableVersion: string | null, t: any) => (
 
 const stableColorCode = (dataLabel: string, stableVersion: string) => {
   if (dataLabel === stableVersion) return GREEN
-  if (dataLabel < stableVersion) return RED
+  if (isEarlierVersion(dataLabel, stableVersion)) return RED
   return BLUE
 }
 
