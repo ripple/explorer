@@ -25,18 +25,23 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
     return (
       <>
         {max && (
-          <SimpleRow label={t('using_at_most')}>
+          <SimpleRow label={t('using_at_most')} data-test="max">
             <Amount value={max} />
           </SimpleRow>
         )}
-        <SimpleRow label={partial ? t('delivered') : t('send')}>
+        <SimpleRow
+          label={partial ? t('delivered') : t('send')}
+          data-test="amount"
+        >
           <Amount value={amount} />
+          {renderPartial()}
         </SimpleRow>
-        {renderPartial()}
         {sourceTag !== undefined && (
-          <SimpleRow label={t('source_tag')}>{sourceTag}</SimpleRow>
+          <SimpleRow label={t('source_tag')} data-test="source-tag">
+            {sourceTag}
+          </SimpleRow>
         )}
-        <SimpleRow label={t('destination')}>
+        <SimpleRow label={t('destination')} data-test="destination">
           <Account account={parts[0]} />
           {parts[1] && <span className="dt">:{parts[1]}</span>}
         </SimpleRow>
@@ -46,13 +51,13 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
 
   const renderConversion = () => (
     <>
-      <SimpleRow label={t('using_at_most')}>
+      <SimpleRow label={t('convert_maximum')} data-test="max">
         <Amount value={convert} />
       </SimpleRow>
-      <SimpleRow label={t('convert_to')}>
+      <SimpleRow label={t('convert_to')} data-test="amount">
         <Amount value={amount} />
+        {renderPartial()}
       </SimpleRow>
-      {renderPartial()}
     </>
   )
 

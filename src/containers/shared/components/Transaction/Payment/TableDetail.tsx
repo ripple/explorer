@@ -7,18 +7,18 @@ export const TableDetail = (props: any) => {
   const { instructions } = props
   const { convert, amount, destination, partial, sourceTag } = instructions
 
-  const renderAmount = (d: any) => <Amount value={d} />
+  const renderPartial = () => (
+    <div className="partial-payment">{t('partial_payment_allowed')}</div>
+  )
 
   if (convert) {
     return (
       <div className="payment conversion">
         <span className="label">{t('convert_maximum')}</span>
-        {renderAmount(convert)}
+        <Amount value={convert} />
         <span>{t('to')}</span>
-        {renderAmount(amount)}
-        {partial && (
-          <div className="partial-payment">{t('partial_payment_allowed')}</div>
-        )}
+        <Amount value={amount} />
+        {partial && renderPartial()}
       </div>
     )
   }
@@ -26,7 +26,7 @@ export const TableDetail = (props: any) => {
   return amount ? (
     <div className="payment">
       <span className="label">{t('send')}</span>
-      {renderAmount(amount)}
+      <Amount value={amount} />
       <span>{t('to')}</span>
       <span className="account"> {destination} </span>
       {sourceTag !== undefined && (
@@ -36,9 +36,7 @@ export const TableDetail = (props: any) => {
           <span>{sourceTag}</span>
         </div>
       )}
-      {partial && (
-        <div className="partial-payment">{t('partial_payment_allowed')}</div>
-      )}
+      {partial && renderPartial()}
     </div>
   ) : null
 }
