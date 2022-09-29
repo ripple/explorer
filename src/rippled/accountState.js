@@ -19,6 +19,7 @@ import {
 } from './lib/rippled'
 import logger from './lib/logger'
 import { formatAccountInfo, formatSignerList } from './lib/utils'
+import { LOADING_FULL_LEDGER_FAIL } from '../containers/Ledger/actionTypes'
 
 const log = logger({ name: 'account balances' })
 
@@ -55,7 +56,7 @@ const formatBalances = (info, data) => {
     tokens,
   }
 }
-const getAccountState = (account, rippledSocket) => {
+const getAccountState = async (account, rippledSocket) => {
   // TODO: Retrieve balances for untagged X-address only? or display notice/warning
 
   let classicAddress
@@ -69,11 +70,8 @@ const getAccountState = (account, rippledSocket) => {
     if (isValidXAddress(account)) {
       decomposedAddress = xAddressToClassicAddress(account)
       ;({ classicAddress } = decomposedAddress)
-      log.info('EREREREREREERERERERER')
       // TODO: Display tag, if present
       const isTestnet = decomposedAddress.test
-
-      log.info(isTestnet, 'BLUEEERERE')
 
       // TODO: Display tag, if present
       if (
@@ -90,6 +88,18 @@ const getAccountState = (account, rippledSocket) => {
   } catch (error) {
     log.error(error.toString())
     throw error
+  }
+  const deletedAccount = await getAccountTransactions(
+    rippledSocket,
+    classicAddress,
+    1,
+  )
+  if (deletedAccount.transactions[0]?.tx.TransactionType === 'AccountDelete') {
+    return {
+      account: classicAddress,
+      deleted: true,
+      xAddress: decomposedAddress || undefined,
+    }
   }
 
   log.info(`get balances: ${account} -> ${classicAddress}`)
@@ -114,28 +124,13 @@ const getAccountState = (account, rippledSocket) => {
         escrows: data[1],
         paychannels: data[2],
         xAddress: decomposedAddress || undefined,
-        deleted: false,
       })),
     )
     .catch((error) => {
       // X-address:
       //   error.toString(): CustomError: account not found
       //   error.code: 404
-      if (error.code === 404) {
-        return getAccountTransactions(rippledSocket, classicAddress, 1).then(
-          (info) => {
-            if (info.transactions[0].tx.TransactionType === 'AccountDelete') {
-              return {
-                account: classicAddress,
-                deleted: true,
-                xAddress: decomposedAddress || undefined,
-              }
-            }
-            log.error(error.toString())
-            throw error
-          },
-        )
-      }
+      log.error(error.toString())
       throw error
     })
 }
