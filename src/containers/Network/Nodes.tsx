@@ -39,7 +39,7 @@ export const Nodes = () => {
     <div className="network-page">
       {
         // @ts-ignore - Work around for complex type assignment issues
-        <Map nodes={nodes} locations={locations} />
+        <Map locations={locations} />
       }
       <div className="stat">
         {nodes && (
