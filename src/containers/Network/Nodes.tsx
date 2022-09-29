@@ -24,8 +24,6 @@ export const Nodes = () => {
         const nodesWithLocations = resp.data.filter(
           (node: any) => 'lat' in node,
         )
-        // setUnmapped(resp.data.length - nodesWithLocations.length)
-        // setLocations(nodesWithLocations)
         return {
           nodes: resp.data,
           unmapped: resp.data.length - nodesWithLocations.length,
