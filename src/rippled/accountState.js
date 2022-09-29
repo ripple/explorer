@@ -89,19 +89,6 @@ const getAccountState = (account, rippledSocket) => {
     log.error(error.toString())
     throw error
   }
-  // const deletedAccount = await getAccountTransactions(
-  //   rippledSocket,
-  //   classicAddress,
-  //   1,
-  // )
-  // if (deletedAccount.transactions[0]?.tx.TransactionType === 'AccountDelete') {
-  //   return {
-  //     account: classicAddress,
-  //     deleted: true,
-  //     xAddress: decomposedAddress || undefined,
-  //   }
-  // }
-
   log.info(`get balances: ${account} -> ${classicAddress}`)
   return getAccountInfo(rippledSocket, classicAddress)
     .then((info) =>
@@ -132,7 +119,6 @@ const getAccountState = (account, rippledSocket) => {
       //   error.toString(): CustomError: account not found
       //   error.code: 404
       if (error.code === 404) {
-        log.info('HERERER')
         return getAccountTransactions(rippledSocket, classicAddress, 1).then(
           (data) => {
             if (data.transactions[0]?.tx.TransactionType === 'AccountDelete') {

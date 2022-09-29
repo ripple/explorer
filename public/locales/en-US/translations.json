@@ -157,6 +157,7 @@
   "transaction_EnableAmendment": "Enable Amendment",
   "transaction_SetFee": "Set Fee",
   "transaction_UNLModify": "UNL Modify",
+  "transaction_AccountDelete": "Account Delete",
   "generic_error": "Something bad happened",
   "not_your_fault": "It's probably not your fault",
   "under_construction": "This page doesn't exist right now",
@@ -366,7 +367,7 @@
   "buy_offers": "Buy Offers",
   "sell_offers": "Sell Offers",
   "offer_index": "Offer ID",
-  "no_additional_info":"No additional information",
+  "no_additional_info": "No additional information",
   "validator_history.chain": "Chain",
   "validator_history.date": "Date",
   "validator_history.missed": "Missed",
@@ -384,6 +385,5 @@
   "current_stable_version": "Current Stable Version",
   "stable_version": "{{stableVersion}}",
   "xchain_claim_attestation": "Claim Attestation",
-  "xchain_create_account_attestation": "Create Account Attestation",
-  "transaction_AccountDelete": "Account Delete"
+  "xchain_create_account_attestation": "Create Account Attestation"
 }
