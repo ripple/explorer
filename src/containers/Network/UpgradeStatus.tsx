@@ -6,49 +6,69 @@ import BarChartVersion from './BarChartVersion'
 import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
 import Hexagons from './Hexagons'
-import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
+import {
+  localizeNumber,
+  FETCH_INTERVAL_MILLIS,
+  isEarlierVersion,
+} from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 
+export const aggregateData = (validators: any[]) => {
+  if (!validators) {
+    return []
+  }
+  let total = 0
+  const tempData: any[] = []
+  validators.reduce((aggregate, current) => {
+    const aggregation = { ...aggregate }
+    if (current.signing_key) {
+      const currentVersion = current.server_version ?? null
+      if (!aggregation[currentVersion]) {
+        aggregation[currentVersion] = {
+          server_version: currentVersion,
+          count: 0,
+        }
+        tempData.push(aggregation[currentVersion])
+      }
+      aggregation[currentVersion].count += 1
+      total += 1
+    }
+    return aggregation
+  }, {})
+
+  if (tempData.length === 1 && !tempData[0].server_version) {
+    return []
+  }
+
+  return tempData
+    .map((item) => ({
+      label: item.server_version ? item.server_version.trim() : 'N/A',
+      value: (item.count * 100) / total,
+      count: item.count,
+    }))
+    .sort((a, b) => (isEarlierVersion(a.label, b.label) ? -1 : 1))
+}
+
 export const UpgradeStatus = () => {
-  const [vList, setVList] = useState<any>([{}])
+  const [vList, setVList] = useState<any>([])
   const [validations, setValidations] = useState([])
   const [unlCount, setUnlCount] = useState(0)
+  const [stableVersion, setStableVersion] = useState<string | null>(null)
+  const [aggregated, setAggregated] = useState<any>([])
   const { t } = useTranslation()
   const language = useLanguage()
 
-  const aggregateData = (validators: any[]) => {
-    if (!validators) {
-      return []
-    }
-    let total = 0
-    const tempData: any[] = []
-    validators.reduce((aggregate, current) => {
-      const aggregation = { ...aggregate }
-      if (!aggregation[current.server_version]) {
-        aggregation[current.server_version] = {
-          server_version: current.server_version,
-          count: 0,
-        }
-        tempData.push(aggregation[current.server_version])
-      }
-      aggregation[current.server_version].count += 1
-      total += 1
-      return aggregation
-    }, {})
-
-    return tempData
-      .map((item) => ({
-        label: item.server_version ? item.server_version : ' N/A ',
-        value: (item.count * 100) / total,
-        count: item.count,
-      }))
-      .sort((a, b) => (a.label > b.label ? 1 : -1))
-  }
-
-  useQuery(['fetchUpgradeStatusData'], () => fetchData(), {
-    refetchInterval: FETCH_INTERVAL_MILLIS,
-  })
+  useQuery(
+    ['fetchUpgradeStatusData'],
+    () => {
+      fetchData()
+      fetchStableVersion()
+    },
+    {
+      refetchInterval: FETCH_INTERVAL_MILLIS,
+    },
+  )
 
   const fetchData = () => {
     const url = '/api/v1/validators?verbose=true'
@@ -61,12 +81,26 @@ export const UpgradeStatus = () => {
           newValidatorList[validator.signing_key] = validator
         })
 
-        setVList(() => newValidatorList)
+        setVList(newValidatorList)
         setUnlCount(
           resp.data.filter((validator: any) => Boolean(validator.unl)).length,
         )
+        setAggregated(aggregateData(Object.values(vList)))
       })
       .catch((e) => Log.error(e))
+  }
+
+  const fetchStableVersion = () => {
+    const url = 'https://api.github.com/repos/XRPLF/rippled/releases'
+    axios.get(url).then((resp) => {
+      resp.data.every((release: any) => {
+        if (release.tag_name && !release.prerelease) {
+          setStableVersion(release.tag_name)
+          return false
+        }
+        return true
+      })
+    })
   }
 
   const updateValidators = (newValidations: any[]) => {
@@ -90,34 +124,28 @@ export const UpgradeStatus = () => {
   return (
     <div className="network-page">
       <Streams validators={vList} updateValidators={updateValidators} />
-      {validatorCount && (
+      {
         // @ts-ignore - Work around for complex type assignment issues
         <Hexagons data={validations} list={vList} />
-      )}
-
+      }
       <div className="stat">
-        {validatorCount && (
-          <>
-            <span>{t('validators_found')}: </span>
-            <span>
-              {localizeNumber(validatorCount, language)}
-              {unlCount !== 0 && (
-                <i>
-                  {' '}
-                  ({t('unl')}: {unlCount})
-                </i>
-              )}
-            </span>
-          </>
-        )}
+        <>
+          <span>{t('validators_found')}: </span>
+          <span>
+            {localizeNumber(validatorCount, language)}
+            {unlCount !== 0 && (
+              <i>
+                {' '}
+                ({t('unl')}: {unlCount})
+              </i>
+            )}
+          </span>
+        </>
       </div>
-
       <div className="wrap">
         <NetworkTabs selected="upgrade_status" />
         <div className="upgrade_status">
-          {vList && (
-            <BarChartVersion data={aggregateData(Object.values(vList))} />
-          )}
+          <BarChartVersion data={aggregated} stableVersion={stableVersion} />
         </div>
       </div>
     </div>

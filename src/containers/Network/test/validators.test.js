@@ -74,7 +74,7 @@ describe('Validators Tab container', () => {
 
     expect(wrapper.find('.validators').length).toBe(1)
     expect(wrapper.find('.stat').html()).toBe(
-      '<div class="stat"><span>validators_found: </span><span>1</span></div>',
+      '<div class="stat"><span>validators_found: </span><span>0</span></div>',
     )
     expect(wrapper.find('.validators-table').length).toBe(1)
 

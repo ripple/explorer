@@ -1,11 +1,9 @@
 import React, { ReactElement } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation, withTranslation } from 'react-i18next'
-import { DATE_OPTIONS, ACCOUNT_FLAGS, decodeHex } from '../transactionUtils'
-import { localizeDate } from '../utils'
+import { ACCOUNT_FLAGS, decodeHex } from '../transactionUtils'
 import { Amount } from './Amount'
 import { transactionTypes } from './Transaction'
-import { useLanguage } from '../hooks'
 
 interface Instructions {
   owner: string
@@ -61,118 +59,10 @@ interface Props {
 }
 
 const TxDetails = (props: Props) => {
-  const language = useLanguage()
   const { t } = useTranslation()
 
   function renderAmount(d: any): ReactElement {
     return <Amount value={d} />
-  }
-
-  function renderEscrowFinish(): ReactElement {
-    const { instructions } = props
-    const { amount, owner, sequence, fulfillment, ticketSequence } =
-      instructions
-    return (
-      <div className="escrow">
-        {owner && (
-          <div>
-            <span className="label">{t('finish_escrow')}</span>
-            <span className="account">{owner}</span>
-            <span>
-              {' '}
-              -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}
-            </span>
-          </div>
-        )}
-        {amount && (
-          <div>
-            <span className="label">{t('amount')}</span>
-            {renderAmount(amount)}
-          </div>
-        )}
-        {fulfillment && (
-          <div>
-            <span className="label">{t('fulfillment')}</span>
-            <span className="fulfillment"> {fulfillment} </span>
-          </div>
-        )}
-      </div>
-    )
-  }
-
-  function renderEscrowCancel(): ReactElement {
-    const { instructions } = props
-    const { owner, sequence, ticketSequence } = instructions
-    return (
-      <div className="escrow">
-        {owner && (
-          <div>
-            <span className="label">{t('cancel_escrow')}</span>
-            <span className="account"> {owner} </span>
-            <span>
-              {' '}
-              -{sequence !== 0 ? sequence : `${ticketSequence} (Ticket)`}
-            </span>
-          </div>
-        )}
-      </div>
-    )
-  }
-
-  function renderEscrowCreate(): ReactElement {
-    const { instructions } = props
-    const { amount, destination, finishAfter, cancelAfter, condition } =
-      instructions
-    return (
-      <div className="escrow">
-        {amount && (
-          <div>
-            <span className="label">{t('amount')}</span>
-            {renderAmount(amount)}
-          </div>
-        )}
-        {destination && (
-          <div>
-            <span className="label">{t('destination')}</span>
-            <span className="account"> {destination} </span>
-          </div>
-        )}
-        {condition && (
-          <div>
-            <span className="label">{t('condition')}</span>
-            <span className="condition"> {condition} </span>
-          </div>
-        )}
-        {finishAfter && (
-          <div>
-            <span className="label">{t('finish_after')}</span>
-            <span>
-              {' '}
-              {localizeDate(
-                Date.parse(finishAfter),
-                language,
-                DATE_OPTIONS,
-              )}{' '}
-              UTC{' '}
-            </span>
-          </div>
-        )}
-        {cancelAfter && (
-          <div>
-            <span className="label">{t('cancel_after')}</span>
-            <span>
-              {' '}
-              {localizeDate(
-                Date.parse(cancelAfter),
-                language,
-                DATE_OPTIONS,
-              )}{' '}
-              UTC{' '}
-            </span>
-          </div>
-        )}
-      </div>
-    )
   }
 
   function renderAccountSet(): ReactElement {
@@ -375,9 +265,6 @@ const TxDetails = (props: Props) => {
 
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
-    renderEscrowFinish,
-    renderEscrowCancel,
-    renderEscrowCreate,
     renderAccountSet,
     renderTrustSet,
     renderOfferCancel,
