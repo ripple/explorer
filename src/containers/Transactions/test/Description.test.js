@@ -5,7 +5,6 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18nTestConfig'
 import Description from '../Description'
 import OfferCancel from './mock_data/OfferCancel.json'
-import Payment from './mock_data/Payment.json'
 import TrustSet from './mock_data/TrustSet.json'
 import EscrowCreate from './mock_data/EscrowCreate.json'
 import EscrowCancel from './mock_data/EscrowCancel.json'
@@ -39,14 +38,6 @@ describe('Description container', () => {
     const wrapper = createWrapper(OfferCancel)
     expect(wrapper.html()).toBe(
       '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>15239390</span></b></div><div>offer_cancel_description<b> 15239384</b></div></div>',
-    )
-    wrapper.unmount()
-  })
-
-  it('renders description for Payment', () => {
-    const wrapper = createWrapper(Payment)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>31030</span></b></div>The payment is from<a class="account" title="rNQEMJA4PsoSrZRn9J6RajAYhcDzzhf8ok" href="/accounts/rNQEMJA4PsoSrZRn9J6RajAYhcDzzhf8ok">rNQEMJA4PsoSrZRn9J6RajAYhcDzzhf8ok</a>to<a class="account" title="rHoPwMC75KVUhBMeV3uDMybKG5JND74teh" href="/accounts/rHoPwMC75KVUhBMeV3uDMybKG5JND74teh">rHoPwMC75KVUhBMeV3uDMybKG5JND74teh</a><div>the_source_tag_is<b> SourceTag</b></div><div>the_destination_tag_is<b> DestinationTag</b></div><div>payment_desc_line_4<b><span> \uE9002,421.8268</span><small>XRP</small></b></div><div>payment_desc_line_6<b><span> \uE9002,421.8268</span><small>XRP</small></b></div></div>',
     )
     wrapper.unmount()
   })

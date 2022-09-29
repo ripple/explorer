@@ -1,60 +1,56 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { normalizeAmount } from '../../../transactionUtils'
 import Account from '../../Account'
 import { TransactionDescriptionProps } from '../types'
 import { isPartialPayment } from './parser'
+import { Amount } from '../../Amount'
+import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export const Description = ({ data }: TransactionDescriptionProps) => {
-  const { t, i18n } = useTranslation()
-  const language = i18n.resolvedLanguage
-  const partial = isPartialPayment(data.tx)
+  const { t } = useTranslation()
+  const partial = isPartialPayment(data.tx.Flags)
 
   return (
     <>
-      <Trans key="payment_desc_line_1" i18nKey="payment_desc_line_1">
-        The payment is from
-        <Account account={data.tx.Account} />
-        to
-        <Account account={data.tx.Destination} />
-      </Trans>
-      {data.tx.SourceTag !== undefined && (
-        <div key="payment_desc_line_2">
+      <div data-test="from-to-line">
+        <Trans
+          i18nKey="payment_desc_line_1"
+          components={{
+            source: <Account account={data.tx.Account} />,
+            destination: <Account account={data.tx.Destination} />,
+          }}
+        />
+      </div>
+      {data.tx.SourceTag != undefined && (
+        <div data-test="source-tag-line">
           {t('the_source_tag_is')}
-          <b> {data.tx.SourceTag}</b>
+          <b>{data.tx.SourceTag}</b>
         </div>
       )}
-      {data.tx.DestinationTag !== undefined && (
-        <div key="payment_desc_line_3">
-          {t('the_destination_tag_is')}
-          <b> {data.tx.DestinationTag}</b>
+      {data.tx.DestinationTag != undefined && (
+        <div data-test="destination-tag-line">
+          {t('the_destination_tag_is')} <b>{data.tx.DestinationTag}</b>
         </div>
       )}
-      <div key="payment_desc_line_4">
-        {`${t('payment_desc_line_4')}${partial ? ' up to' : ''}`}
+      <div data-test="amount-line">
+        {`${t('payment_desc_line_4')}${partial ? ' up to' : ''}`}{' '}
         <b>
-          <span> {normalizeAmount(data.tx.Amount, language)}</span>
-          <small>{data.tx.Amount.currency || 'XRP'}</small>
+          <Amount value={formatAmount(data.tx.Amount)} />
         </b>
         {data.tx.SendMax && (
           <>
-            <span> {t('payment_desc_line_5')}</span>
+            <span> {t('payment_desc_line_5')}</span>{' '}
             <b>
-              <span> {normalizeAmount(data.tx.SendMax, language)}</span>
-              <small>{data.tx.SendMax.currency || 'XRP'}</small>
+              <Amount value={formatAmount(data.tx.SendMax)} />
             </b>
           </>
         )}
       </div>
-      {data.meta && data.meta.delivered_amount && (
-        <div key="payment_desc_line_6">
-          {t('payment_desc_line_6')}
+      {data?.meta?.delivered_amount && (
+        <div data-test="delivered-line">
+          {t('payment_desc_line_6')}{' '}
           <b>
-            <span>
-              {' '}
-              {normalizeAmount(data.meta.delivered_amount, language)}
-            </span>
-            <small>{data.meta.delivered_amount.currency || 'XRP'}</small>
+            <Amount value={formatAmount(data.meta.delivered_amount)} />
           </b>
         </div>
       )}

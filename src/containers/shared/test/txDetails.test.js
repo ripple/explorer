@@ -3,8 +3,6 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../i18nTestConfig'
-import Payment from '../../Transactions/test/mock_data/Payment.json'
-import ConvertPayment from '../../Transactions/test/mock_data/Payment-convert.json'
 import AccountSet from '../../Transactions/test/mock_data/AccountSet.json'
 import EnableAmendment from '../../Transactions/test/mock_data/EnableAmendment.json'
 import EscrowCreate from '../../Transactions/test/mock_data/EscrowCreate.json'
@@ -32,16 +30,6 @@ describe('TxDetails', () => {
         </I18nextProvider>
       </Router>,
     )
-
-  it('renders Payment without crashing', () => {
-    const wrapper = createWrapper(Payment)
-    wrapper.unmount()
-  })
-
-  it('renders Payment (convert) without crashing', () => {
-    const wrapper = createWrapper(ConvertPayment)
-    wrapper.unmount()
-  })
 
   it('renders AccountSet without crashing', () => {
     const wrapper = createWrapper(AccountSet)

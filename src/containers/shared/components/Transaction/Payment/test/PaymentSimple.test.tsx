@@ -77,21 +77,6 @@ describe('Payment Simple', () => {
     wrapper.unmount()
   })
 
-  it('renders with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentDestinationTag)
-
-    expectSimpleRowText(wrapper, 'amount', `17,366,599.150289 XRP`)
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
-
-    expectSimpleRowText(
-      wrapper,
-      'destination',
-      `rprcTynT68nYdKzDTefAZG9HjSHiYcnP4b:0`,
-    )
-
-    wrapper.unmount()
-  })
-
   it('renders with send max', () => {
     const wrapper = createWrapper(mockPaymentSendMax)
 

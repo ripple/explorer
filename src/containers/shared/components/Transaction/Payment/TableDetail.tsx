@@ -1,10 +1,13 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Amount } from '../../Amount'
+import { TransactionTableDetailProps } from '../types'
+import { PaymentInstructions } from './types'
 
-export const TableDetail = (props: any) => {
+export const TableDetail = ({
+  instructions,
+}: TransactionTableDetailProps<PaymentInstructions>) => {
   const { t } = useTranslation()
-  const { instructions } = props
   const { convert, amount, destination, partial, sourceTag } = instructions
 
   const renderPartial = () => (
@@ -23,12 +26,12 @@ export const TableDetail = (props: any) => {
     )
   }
 
-  return amount ? (
+  return (
     <div className="payment">
       <span className="label">{t('send')}</span>
       <Amount value={amount} />
       <span>{t('to')}</span>
-      <span className="account"> {destination} </span>
+      <span className="account">{destination}</span>
       {sourceTag !== undefined && (
         <div className="st">
           {t('source_tag')}
@@ -38,5 +41,5 @@ export const TableDetail = (props: any) => {
       )}
       {partial && renderPartial()}
     </div>
-  ) : null
+  )
 }
