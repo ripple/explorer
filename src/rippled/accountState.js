@@ -56,7 +56,7 @@ const formatBalances = (info, data) => {
     tokens,
   }
 }
-const getAccountState = async (account, rippledSocket) => {
+const getAccountState = (account, rippledSocket) => {
   // TODO: Retrieve balances for untagged X-address only? or display notice/warning
 
   let classicAddress
@@ -89,18 +89,18 @@ const getAccountState = async (account, rippledSocket) => {
     log.error(error.toString())
     throw error
   }
-  const deletedAccount = await getAccountTransactions(
-    rippledSocket,
-    classicAddress,
-    1,
-  )
-  if (deletedAccount.transactions[0]?.tx.TransactionType === 'AccountDelete') {
-    return {
-      account: classicAddress,
-      deleted: true,
-      xAddress: decomposedAddress || undefined,
-    }
-  }
+  // const deletedAccount = await getAccountTransactions(
+  //   rippledSocket,
+  //   classicAddress,
+  //   1,
+  // )
+  // if (deletedAccount.transactions[0]?.tx.TransactionType === 'AccountDelete') {
+  //   return {
+  //     account: classicAddress,
+  //     deleted: true,
+  //     xAddress: decomposedAddress || undefined,
+  //   }
+  // }
 
   log.info(`get balances: ${account} -> ${classicAddress}`)
   return getAccountInfo(rippledSocket, classicAddress)
@@ -124,12 +124,28 @@ const getAccountState = async (account, rippledSocket) => {
         escrows: data[1],
         paychannels: data[2],
         xAddress: decomposedAddress || undefined,
+        deleted: false,
       })),
     )
     .catch((error) => {
       // X-address:
       //   error.toString(): CustomError: account not found
       //   error.code: 404
+      if (error.code === 404) {
+        log.info('HERERER')
+        return getAccountTransactions(rippledSocket, classicAddress, 1).then(
+          (data) => {
+            if (data.transactions[0]?.tx.TransactionType === 'AccountDelete') {
+              return {
+                account: classicAddress,
+                deleted: true,
+                xAddress: decomposedAddress || undefined,
+              }
+            }
+            throw error
+          },
+        )
+      }
       log.error(error.toString())
       throw error
     })
