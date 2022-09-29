@@ -17,6 +17,7 @@ export const Nodes = () => {
 
   const { data: nodes } = useQuery(['fetchData'], async () => fetchData(), {
     refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
+    refetchOnMount: true,
   })
 
   const fetchData = () => {
@@ -38,7 +39,7 @@ export const Nodes = () => {
     <div className="network-page">
       {
         // @ts-ignore - Work around for complex type assignment issues
-        <Map locations={locations} />
+        <Map nodes={nodes} locations={locations} />
       }
       <div className="stat">
         {nodes && (
