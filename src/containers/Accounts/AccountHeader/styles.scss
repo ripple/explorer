@@ -213,22 +213,4 @@
       }
     }
   }
-
-  .warning {
-    color: $orange;
-    font-size: 12px;
-    line-height: 20px;
-    text-transform: uppercase;
-    @include bold;
-
-    img {
-      transform: scale(0.5);
-    }
-
-    .account-deleted-text {
-      position: relative;
-      top: -12px;
-      color: $orange !important;
-    }
-  }
 }

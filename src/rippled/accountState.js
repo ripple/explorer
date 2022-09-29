@@ -69,8 +69,11 @@ const getAccountState = (account, rippledSocket) => {
     if (isValidXAddress(account)) {
       decomposedAddress = xAddressToClassicAddress(account)
       ;({ classicAddress } = decomposedAddress)
+      log.info('EREREREREREERERERERER')
       // TODO: Display tag, if present
       const isTestnet = decomposedAddress.test
+
+      log.info(isTestnet, 'BLUEEERERE')
 
       // TODO: Display tag, if present
       if (
@@ -125,6 +128,7 @@ const getAccountState = (account, rippledSocket) => {
               return {
                 account: classicAddress,
                 deleted: true,
+                xAddress: decomposedAddress || undefined,
               }
             }
             log.error(error.toString())

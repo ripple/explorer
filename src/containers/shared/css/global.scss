@@ -215,3 +215,17 @@ a {
     width: 1140px;
   }
 }
+
+.warning {
+  display: flex;
+  align-items: center;
+  color: $orange;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase;
+  @include bold;
+
+  img {
+    transform: scale(0.5);
+  }
+}
