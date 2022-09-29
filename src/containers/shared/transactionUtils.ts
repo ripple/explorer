@@ -115,7 +115,7 @@ interface Tx {
   Flags: number
 }
 
-interface Transaction {
+export interface Transaction {
   meta: Meta
   tx: Tx
 }

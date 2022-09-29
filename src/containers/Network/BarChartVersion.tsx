@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   BarChart,
@@ -25,6 +25,7 @@ import {
   PURPLE,
   GREY_600,
   GREY_800,
+  isEarlierVersion,
 } from '../shared/utils'
 import './css/barchart.scss'
 
@@ -68,13 +69,14 @@ const renderLegend = (stableVersion: string | null, t: any) => (
 
 const stableColorCode = (dataLabel: string, stableVersion: string) => {
   if (dataLabel === stableVersion) return GREEN
-  if (dataLabel < stableVersion) return RED
+  if (isEarlierVersion(dataLabel, stableVersion)) return RED
   return BLUE
 }
 
 const BarChartVersion = (props: Props) => {
   const { data, stableVersion } = props
   const { t } = useTranslation()
+  const [showTooltips, setShowTooltips] = useState(false)
   return (
     <div className="barchart">
       <ResponsiveContainer height={532} width="95%">
@@ -108,7 +110,15 @@ const BarChartVersion = (props: Props) => {
               dy={80}
             />
           </YAxis>
-          <Bar dataKey="value" barSize={30} fill={PURPLE} radius={[4, 4, 0, 0]}>
+          <Bar
+            dataKey="value"
+            barSize={30}
+            fill={PURPLE}
+            radius={[4, 4, 0, 0]}
+            isAnimationActive={false}
+            onMouseOver={() => setShowTooltips(true)}
+            onMouseLeave={() => setShowTooltips(false)}
+          >
             {stableVersion &&
               data.map((_entry, index) => (
                 <Cell
@@ -128,7 +138,8 @@ const BarChartVersion = (props: Props) => {
             wrapperStyle={{
               backgroundColor: GREY_600,
               borderRadius: 8,
-              border: ['1px solid', GREY_800].join(' '),
+              border: `1px solid ${GREY_800}`,
+              opacity: showTooltips ? '100%' : '0',
             }}
           />
         </BarChart>
