@@ -15,9 +15,11 @@ import {
   getAccountPaychannels,
   getBalances,
   getServerInfo,
+  getAccountTransactions,
 } from './lib/rippled'
 import logger from './lib/logger'
 import { formatAccountInfo, formatSignerList } from './lib/utils'
+import { LOADING_FULL_LEDGER_FAIL } from '../containers/Ledger/actionTypes'
 
 const log = logger({ name: 'account balances' })
 
@@ -87,7 +89,6 @@ const getAccountState = (account, rippledSocket) => {
     log.error(error.toString())
     throw error
   }
-
   log.info(`get balances: ${account} -> ${classicAddress}`)
   return getAccountInfo(rippledSocket, classicAddress)
     .then((info) =>
@@ -110,12 +111,27 @@ const getAccountState = (account, rippledSocket) => {
         escrows: data[1],
         paychannels: data[2],
         xAddress: decomposedAddress || undefined,
+        deleted: false,
       })),
     )
     .catch((error) => {
       // X-address:
       //   error.toString(): CustomError: account not found
       //   error.code: 404
+      if (error.code === 404) {
+        return getAccountTransactions(rippledSocket, classicAddress, 1).then(
+          (data) => {
+            if (data.transactions[0]?.tx.TransactionType === 'AccountDelete') {
+              return {
+                account: classicAddress,
+                deleted: true,
+                xAddress: decomposedAddress || undefined,
+              }
+            }
+            throw error
+          },
+        )
+      }
       log.error(error.toString())
       throw error
     })
