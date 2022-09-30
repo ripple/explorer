@@ -131,7 +131,7 @@ export const NFTHeader = (props: Props) => {
           </div>
           <div className="settings">
             <div className="title">{t('settings')}</div>
-            <Settings flags={data?.flags ?? []} />
+            <Settings flags={data!.flags!} />
           </div>
         </div>
       </div>
