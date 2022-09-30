@@ -10,14 +10,14 @@ export type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
   emptyMessage?: string
   loading: boolean
   onLoadMore: MouseEventHandler
-  hasAdditionalResults: boolean | undefined
+  hasAdditionalResults?: boolean
 }
 
 type TransactionTableComponent =
   React.FunctionComponent<TransactionTableProps> & {}
 
 export const TransactionTable: TransactionTableComponent = ({
-  hasAdditionalResults,
+  hasAdditionalResults = false,
   emptyMessage,
   loading = false,
   onLoadMore,
