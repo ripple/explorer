@@ -67,6 +67,7 @@ export const UpgradeStatus = () => {
     },
     {
       refetchInterval: FETCH_INTERVAL_MILLIS,
+      refetchOnMount: true,
     },
   )
 

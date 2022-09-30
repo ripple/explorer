@@ -12,6 +12,7 @@ import BalanceSelector from './BalanceSelector'
 import Account from '../../shared/components/Account'
 import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
+import infoIcon from '../../shared/images/info_orange.png'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -34,7 +35,7 @@ const AccountHeader = (props) => {
     currencySelected,
     loading,
   } = props
-
+  const { deleted } = data
   useEffect(() => {
     actions.loadAccountState(accountId, rippledSocket)
   }, [accountId, actions, rippledSocket])
@@ -45,7 +46,6 @@ const AccountHeader = (props) => {
 
   function renderBalancesSelector() {
     const { balances = {} } = data
-
     return (
       Object.keys(balances).length > 1 && (
         <div className="balance-selector-container">
@@ -274,8 +274,17 @@ const AccountHeader = (props) => {
         <div className="column first">
           {renderExtendedAddress()}
           <div className="secondary balance">
-            <div className="title">{`${currencySelected} Balance`}</div>
-            <div className="value">{balance}</div>
+            {deleted ? (
+              <div className="warning">
+                <img src={infoIcon} alt="Account Deleted" />
+                <span className="account-deleted-text">Account Deleted</span>
+              </div>
+            ) : (
+              <>
+                <div className="title">{`${currencySelected} Balance`}</div>
+                <div className="value">{balance}</div>
+              </>
+            )}
             {renderBalancesSelector()}
           </div>
           {renderSignerList()}
@@ -345,6 +354,7 @@ AccountHeader.propTypes = {
       tag: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
       test: PropTypes.bool,
     }),
+    deleted: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
     loadAccountState: PropTypes.func.isRequired,

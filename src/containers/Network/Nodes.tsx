@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -12,44 +12,42 @@ import { useLanguage } from '../shared/hooks'
 export const Nodes = () => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const [locations, setLocations] = useState([])
-  const [unmapped, setUnmapped] = useState(0)
 
-  const { data: nodes } = useQuery(['fetchData'], async () => fetchData(), {
+  const { data } = useQuery(['fetchNodesData'], async () => fetchData(), {
     refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
   })
 
-  const fetchData = () => {
-    const fetchedData = axios
+  const fetchData = () =>
+    axios
       .get('/api/v1/nodes')
       .then((resp) => {
         const nodesWithLocations = resp.data.filter(
           (node: any) => 'lat' in node,
         )
-        setUnmapped(resp.data.length - nodesWithLocations.length)
-        setLocations(nodesWithLocations)
-        return resp.data
+        return {
+          nodes: resp.data,
+          unmapped: resp.data.length - nodesWithLocations.length,
+          locations: nodesWithLocations,
+        }
       })
       .catch((e) => Log.error(e))
-    return fetchedData
-  }
 
   return (
     <div className="network-page">
       {
         // @ts-ignore - Work around for complex type assignment issues
-        <Map locations={locations} />
+        <Map locations={data?.locations} />
       }
       <div className="stat">
-        {nodes && (
+        {data?.nodes && (
           <>
             <span>{t('nodes_found')}: </span>
             <span>
-              {localizeNumber(nodes.length, language)}
-              {unmapped ? (
+              {localizeNumber(data?.nodes.length, language)}
+              {data?.unmapped ? (
                 <i>
                   {' '}
-                  ({unmapped} {t('unmapped')})
+                  ({data?.unmapped} {t('unmapped')})
                 </i>
               ) : null}
             </span>
@@ -58,7 +56,7 @@ export const Nodes = () => {
       </div>
       <div className="wrap">
         <NetworkTabs selected="nodes" />
-        <NodesTable nodes={nodes} />
+        <NodesTable nodes={data?.nodes} />
       </div>
     </div>
   )
