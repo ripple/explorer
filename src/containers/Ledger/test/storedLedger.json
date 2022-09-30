@@ -7,18 +7,6 @@
   "total_fees": 0.000171,
   "transactions": [
     {
-      "hash": "EC98994A3AD5C850E10A7DD4ABF6B64A2CC42AB4E80908EDFCFE9E4C2DF6C1EF",
-      "type": "OfferCancel",
-      "result": "tesSUCCESS",
-      "account": "rhS2H7ETM3wBkFETvYycoUm9FEDYi44Pg4",
-      "index": 14,
-      "fee": 0.01,
-      "sequence": 25648148,
-      "details": {
-        "cancel": 25648147
-      }
-    },
-    {
       "hash": "FBB147825AE38DD4AA47761E7B5B2C9F912D46D07FF60E65D227F2677679471B",
       "type": "OfferCreate",
       "result": "tesSUCCESS",
@@ -27,16 +15,20 @@
       "fee": 0.000012,
       "sequence": 434837,
       "details": {
-        "gets": {
-          "currency": "XRP",
-          "amount": 1826.283419
-        },
-        "pays": {
-          "currency": "CNY.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK",
-          "amount": 3780.406678065401
-        },
-        "price": "0.483092",
-        "cancel": 434833
+        "instructions": {
+          "gets": {
+            "currency": "XRP",
+            "amount": 1826.283419
+          },
+          "pays": {
+            "currency": "CNY",
+            "issuer": "rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK",
+            "amount": 3780.406678065401
+          },
+          "price": "2.07000",
+          "pair": "XRP/CNY",
+          "cancel": 434833
+        }
       }
     },
     {
@@ -48,16 +40,20 @@
       "fee": 0.000012,
       "sequence": 434838,
       "details": {
-        "gets": {
-          "currency": "XRP",
-          "amount": 387.901997
-        },
-        "pays": {
-          "currency": "CNY.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK",
-          "amount": 814.3575749822622
-        },
-        "price": "0.476329",
-        "cancel": 434834
+        "instructions": {
+          "gets": {
+            "currency": "XRP",
+            "amount": 387.901997
+          },
+          "pays": {
+            "currency": "CNY",
+            "issuer": "rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK",
+            "amount": 814.3575749822622
+          },
+          "price": "2.09939",
+          "pair": "XRP/CNY",
+          "cancel": 434834
+        }
       }
     },
     {
@@ -69,16 +65,20 @@
       "fee": 0.000012,
       "sequence": 434839,
       "details": {
-        "gets": {
-          "currency": "XRP",
-          "amount": 1383.168304
-        },
-        "pays": {
-          "currency": "CNY.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK",
-          "amount": 2921.251458458587
-        },
-        "price": "0.473485",
-        "cancel": 434835
+        "instructions": {
+          "gets": {
+            "currency": "XRP",
+            "amount": 1383.168304
+          },
+          "pays": {
+            "currency": "CNY",
+            "issuer": "rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK",
+            "amount": 2921.251458458587
+          },
+          "price": "2.11200",
+          "pair": "XRP/CNY",
+          "cancel": 434835
+        }
       }
     },
     {
@@ -90,16 +90,20 @@
       "fee": 0.000012,
       "sequence": 434840,
       "details": {
-        "gets": {
-          "currency": "XRP",
-          "amount": 1890.602253
-        },
-        "pays": {
-          "currency": "CNY.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK",
-          "amount": 4026.982799610241
-        },
-        "price": "0.469484",
-        "cancel": 434836
+        "instructions": {
+          "gets": {
+            "currency": "XRP",
+            "amount": 1890.602253
+          },
+          "pays": {
+            "currency": "CNY",
+            "issuer": "rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK",
+            "amount": 4026.982799610241
+          },
+          "price": "2.13000",
+          "pair": "XRP/CNY",
+          "cancel": 434836
+        }
       }
     },
     {
@@ -111,16 +115,21 @@
       "fee": 0.000012,
       "sequence": 175251,
       "details": {
-        "gets": {
-          "currency": "ETH.rLAKy3kN7um61z27iYgUiEnhM29FxXMq1F",
-          "amount": 1
-        },
-        "pays": {
-          "currency": "EUR.rhqZLBimNU78SGmA9WzcEdtn9ZaG8sqV5x",
-          "amount": 117.183
-        },
-        "price": "0.00853366",
-        "cancel": 175236
+        "instructions": {
+          "gets": {
+            "currency": "ETH",
+            "issuer": "rLAKy3kN7um61z27iYgUiEnhM29FxXMq1F",
+            "amount": 1
+          },
+          "pays": {
+            "currency": "EUR",
+            "issuer": "rhqZLBimNU78SGmA9WzcEdtn9ZaG8sqV5x",
+            "amount": 117.183
+          },
+          "price": "117.183",
+          "pair": "ETH/EUR",
+          "cancel": 175236
+        }
       }
     },
     {
@@ -131,7 +140,29 @@
       "index": 5,
       "fee": 0.000012,
       "sequence": 4222,
-      "details": {}
+      "details": {
+        "instructions": {
+          "channel": "931CF90A156E4337641451A7B6BF918419E671B6A53B4FECABE91B6F82667FE6",
+          "total_claimed": {
+            "currency": "XRP",
+            "amount": 69.211506
+          },
+          "source": "rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN:1781470388",
+          "destination": "rnwe9kEcneb8DaXWtDWxctz7AChk6CAYnD",
+          "channel_amount": {
+            "currency": "XRP",
+            "amount": 70
+          },
+          "claimed": {
+            "currency": "XRP",
+            "amount": 0.17926
+          },
+          "remaining": {
+            "currency": "XRP",
+            "amount": 0.788494
+          }
+        }
+      }
     },
     {
       "hash": "AED69E8A9B978C30B53CB710A5B7D5FFDD05425351835B7C118897114CF17F4A",
@@ -142,16 +173,20 @@
       "fee": 0.000021,
       "sequence": 2500103,
       "details": {
-        "gets": {
-          "currency": "XRP",
-          "amount": 2032.42931
-        },
-        "pays": {
-          "currency": "USD.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
-          "amount": 620.1885165967301
-        },
-        "price": "3.27712",
-        "cancel": 2500102
+        "instructions": {
+          "gets": {
+            "currency": "XRP",
+            "amount": 2032.42931
+          },
+          "pays": {
+            "currency": "USD",
+            "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+            "amount": 620.1885165967301
+          },
+          "price": "0.305146",
+          "pair": "XRP/USD",
+          "cancel": 2500102
+        }
       }
     },
     {
@@ -163,16 +198,21 @@
       "fee": 0.000012,
       "sequence": 175156,
       "details": {
-        "gets": {
-          "currency": "EUR.rhqZLBimNU78SGmA9WzcEdtn9ZaG8sqV5x",
-          "amount": 95.679
-        },
-        "pays": {
-          "currency": "ETH.rLAKy3kN7um61z27iYgUiEnhM29FxXMq1F",
-          "amount": 1
-        },
-        "price": "95.6790",
-        "cancel": 175141
+        "instructions": {
+          "gets": {
+            "currency": "EUR",
+            "issuer": "rhqZLBimNU78SGmA9WzcEdtn9ZaG8sqV5x",
+            "amount": 95.679
+          },
+          "pays": {
+            "currency": "ETH",
+            "issuer": "rLAKy3kN7um61z27iYgUiEnhM29FxXMq1F",
+            "amount": 1
+          },
+          "price": "95.6790",
+          "pair": "ETH/EUR",
+          "cancel": 175141
+        }
       }
     },
     {
@@ -184,13 +224,17 @@
       "fee": 0.000011,
       "sequence": 1180046,
       "details": {
-        "amount": {
-          "currency": "XCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
-          "amount": 4900
-        },
-        "convert": {
-          "currency": "XRP",
-          "amount": 4900
+        "instructions": {
+          "amount": {
+            "currency": "XCN",
+            "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+            "amount": 0
+          },
+          "convert": {
+            "currency": "XRP",
+            "amount": 4900
+          },
+          "partial": true
         }
       }
     },
@@ -203,13 +247,17 @@
       "fee": 0.000011,
       "sequence": 1305546,
       "details": {
-        "amount": {
-          "currency": "XCN.rPFLkxQk6xUGdGYEykqe7PR25Gr7mLHDc8",
-          "amount": 10000
-        },
-        "convert": {
-          "currency": "XRP",
-          "amount": 10000
+        "instructions": {
+          "amount": {
+            "currency": "XCN",
+            "issuer": "rPFLkxQk6xUGdGYEykqe7PR25Gr7mLHDc8",
+            "amount": 0
+          },
+          "convert": {
+            "currency": "XRP",
+            "amount": 10000
+          },
+          "partial": true
         }
       }
     },
@@ -222,13 +270,17 @@
       "fee": 0.000011,
       "sequence": 813427,
       "details": {
-        "amount": {
-          "currency": "WCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
-          "amount": 1025
-        },
-        "convert": {
-          "currency": "XRP",
-          "amount": 1025
+        "instructions": {
+          "amount": {
+            "currency": "WCN",
+            "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+            "amount": 0
+          },
+          "convert": {
+            "currency": "XRP",
+            "amount": 1025
+          },
+          "partial": true
         }
       }
     },
@@ -241,12 +293,18 @@
       "fee": 0.000011,
       "sequence": 815442,
       "details": {
-        "amount": {
-          "currency": "YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
-          "amount": 2140
-        },
-        "destination": "rPFLkxQk6xUGdGYEykqe7PR25Gr7mLHDc8",
-        "partial": true
+        "instructions": {
+          "amount": {
+            "currency": "YCN",
+            "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+            "amount": 0
+          },
+          "convert": {
+            "currency": "XRP",
+            "amount": 2140
+          },
+          "partial": true
+        }
       }
     },
     {
@@ -258,13 +316,17 @@
       "fee": 0.000011,
       "sequence": 983802,
       "details": {
-        "amount": {
-          "currency": "CNT.rPFLkxQk6xUGdGYEykqe7PR25Gr7mLHDc8",
-          "amount": 10000
-        },
-        "convert": {
-          "currency": "XRP",
-          "amount": 10000
+        "instructions": {
+          "amount": {
+            "currency": "CNT",
+            "issuer": "rPFLkxQk6xUGdGYEykqe7PR25Gr7mLHDc8",
+            "amount": 0
+          },
+          "convert": {
+            "currency": "XRP",
+            "amount": 10000
+          },
+          "partial": true
         }
       }
     },
@@ -277,13 +339,17 @@
       "fee": 0.000011,
       "sequence": 850699,
       "details": {
-        "amount": {
-          "currency": "ZCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
-          "amount": 2870
-        },
-        "convert": {
-          "currency": "XRP",
-          "amount": 2870
+        "instructions": {
+          "amount": {
+            "currency": "ZCN",
+            "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+            "amount": 0
+          },
+          "convert": {
+            "currency": "XRP",
+            "amount": 2870
+          },
+          "partial": true
         }
       }
     }
