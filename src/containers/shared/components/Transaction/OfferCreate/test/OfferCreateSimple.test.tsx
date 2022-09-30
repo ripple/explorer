@@ -1,23 +1,9 @@
-import React from 'react'
-import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
-import { mount } from 'enzyme'
 import { Simple } from '../Simple'
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import mockOfferCreate from './mock_data/OfferCreate.json'
-import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
-import i18n from '../../../../../../i18nTestConfig'
+import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 
-function createWrapper(tx: any) {
-  const data = summarizeTransaction(tx, true)
-  return mount(
-    <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <Simple data={data.details} />
-      </BrowserRouter>
-    </I18nextProvider>,
-  )
-}
+const createWrapper = createSimpleWrapperFactory(Simple)
 
 describe('OfferCreate: Simple', () => {
   it('renders with an expiration and offer', () => {
