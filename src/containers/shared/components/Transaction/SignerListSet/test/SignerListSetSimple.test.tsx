@@ -1,4 +1,3 @@
-import React from 'react'
 import { Simple } from '../Simple'
 import mockSignerListSetClear from './mock_data/SignerListSetClear.json'
 import mockSignerListSet from './mock_data/SignerListSet.json'

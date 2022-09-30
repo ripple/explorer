@@ -1,11 +1,5 @@
-import React from 'react'
-import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
-import { mount, ReactWrapper } from 'enzyme'
 import { Simple } from '../Simple'
 import mockXChainCreateBridge from './mock_data/XChainCreateBridge.json'
-import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
-import i18n from '../../../../../../i18nTestConfig'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 
 const createWrapper = createSimpleWrapperFactory(Simple)

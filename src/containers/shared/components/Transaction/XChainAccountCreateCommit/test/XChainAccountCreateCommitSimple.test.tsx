@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockXChainAccountCreateCommit from './mock_data/XChainAccountCreateCommit.json'

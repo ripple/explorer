@@ -1,5 +1,3 @@
-import React from 'react'
-
 import EscrowCreate from './mock_data/EscrowCreate.json'
 import { Description } from '../Description'
 import { createDescriptionWrapperFactory } from '../../test'

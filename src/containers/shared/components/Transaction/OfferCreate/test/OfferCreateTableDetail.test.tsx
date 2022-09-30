@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { TableDetail } from '../TableDetail'
 import mockOfferCreateInvertedCurrencies from './mock_data/OfferCreateInvertedCurrencies.json'
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'

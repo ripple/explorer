@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { TableDetail } from '../TableDetail'
 import mockSignerListSetClear from './mock_data/SignerListSetClear.json'
 import mockSignerListSet from './mock_data/SignerListSet.json'

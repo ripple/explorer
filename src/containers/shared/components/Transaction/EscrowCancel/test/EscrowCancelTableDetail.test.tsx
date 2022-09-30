@@ -1,4 +1,3 @@
-import React from 'react'
 import { TableDetail } from '../TableDetail'
 import mockEscrowCancel from './mock_data/EscrowCancel.json'
 import { createTableDetailWrapperFactory } from '../../test'

@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import mockXChainModifyBridge from './mock_data/XChainModifyBridge.json'
