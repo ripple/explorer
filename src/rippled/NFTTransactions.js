@@ -32,8 +32,7 @@ export const getOldestNFTTransaction = (rippledSocket, tokenId) =>
         return summarize(txn, true)
       })
       return {
-        transaction:
-          transactions && transactions.length > 0 ? transactions[0] : undefined,
+        transaction: transactions?.length > 0 ? transactions[0] : undefined,
       }
     })
     .then((d) => d)
