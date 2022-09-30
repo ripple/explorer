@@ -88,7 +88,7 @@ export const NFTHeader = (props: Props) => {
   )
 
   const mintedDate =
-    firstTransaction && firstTransaction.transaction?.type === 'NFTokenMint'
+    firstTransaction?.transaction?.type === 'NFTokenMint'
       ? `${localizeDate(
           new Date(firstTransaction.transaction.date),
           language,
