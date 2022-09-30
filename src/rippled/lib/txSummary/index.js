@@ -1,7 +1,6 @@
 import React from 'react'
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
-const OfferCancel = require('./OfferCancel')
 const Payment = require('./Payment')
 const TrustSet = require('./TrustSet')
 const PaymentChannelCreate = require('./PaymentChannelCreate')
@@ -17,7 +16,6 @@ const NFTokenCancelOffer = require('./NFTokenCancelOffer')
 const NFTokenMint = require('./NFTokenMint')
 
 const summarize = {
-  OfferCancel,
   Payment,
   TrustSet,
   PaymentChannelCreate,
