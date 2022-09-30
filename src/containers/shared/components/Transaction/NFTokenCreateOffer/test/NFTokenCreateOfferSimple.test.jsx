@@ -1,24 +1,14 @@
-import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
-import { Simple as NFTokenCreateOffer } from '../Simple'
+import { createSimpleWrapperFactory } from '../../test'
+import { Simple } from '../Simple'
 import transactionBuy from './mock_data/NFTokenCreateOffer_Buy.json'
 import transactionSell from './mock_data/NFTokenCreateOffer_Sell.json'
-import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
-import i18n from '../../../../../../i18nTestConfig'
+
+const createWrapper = createSimpleWrapperFactory(Simple)
 
 describe('NFTokenCreateOffer', () => {
   it('handles NFTokenCreateOffer buy simple view ', () => {
-    const wrapper = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenCreateOffer
-            data={summarizeTransaction(transactionBuy, true).details}
-          />
-        </Router>
-      </I18nextProvider>,
-    )
+    const wrapper = createWrapper(transactionBuy)
+
     expect(wrapper.find('[data-test="token-id"] .value')).toHaveText(
       '000800006203F49C21D5D6E022CB16DE3538F248662FC73C2DCBAB9D00000002',
     )
@@ -41,15 +31,8 @@ describe('NFTokenCreateOffer', () => {
   })
 
   it('handles NFTokenCreateOffer sell simple view ', () => {
-    const wrapper = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenCreateOffer
-            data={summarizeTransaction(transactionSell, true).details}
-          />
-        </Router>
-      </I18nextProvider>,
-    )
+    const wrapper = createWrapper(transactionSell)
+
     expect(wrapper.find('[data-test="token-id"] .value')).toHaveText(
       '000800006203F49C21D5D6E022CB16DE3538F248662FC73C29ABA6A90000000D',
     )
