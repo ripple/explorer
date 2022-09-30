@@ -6,7 +6,7 @@ import { LoadMoreButton } from '../../LoadMoreButton'
 import './styles.scss'
 
 export type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
-  transactions: any[] | undefined
+  transactions?: any[]
   emptyMessage?: string
   loading: boolean
   onLoadMore: MouseEventHandler
