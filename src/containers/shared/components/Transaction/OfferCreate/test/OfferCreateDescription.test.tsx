@@ -1,21 +1,11 @@
 import React from 'react'
-import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
-import { mount } from 'enzyme'
-import i18n from '../../../../../../i18nTestConfig'
+
 import OfferCreate from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import OfferCreateInvertedCurrencies from './mock_data/OfferCreateInvertedCurrencies.json'
 import { Description } from '../Description'
+import { createDescriptionWrapperFactory } from '../../test'
 
-function createWrapper(tx: any) {
-  return mount(
-    <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <Description data={tx} />
-      </BrowserRouter>
-    </I18nextProvider>,
-  )
-}
+const createWrapper = createDescriptionWrapperFactory(Description)
 
 describe('OfferCreate: Description', () => {
   it('renders description for transaction with cancel and expiration', () => {

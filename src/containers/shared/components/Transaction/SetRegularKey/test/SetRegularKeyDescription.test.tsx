@@ -1,21 +1,11 @@
 import React from 'react'
-import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
-import { mount } from 'enzyme'
-import i18n from '../../../../../../i18nTestConfig'
+
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { Description } from '../Description'
+import { createDescriptionWrapperFactory } from '../../test'
 
-function createWrapper(tx: any) {
-  return mount(
-    <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <Description data={tx} />
-      </BrowserRouter>
-    </I18nextProvider>,
-  )
-}
+const createWrapper = createDescriptionWrapperFactory(Description)
 
 describe('SetRegularKey: Description', () => {
   it('renders description for transaction', () => {

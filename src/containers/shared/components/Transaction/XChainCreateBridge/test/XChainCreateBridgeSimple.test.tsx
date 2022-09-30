@@ -6,25 +6,9 @@ import { Simple } from '../Simple'
 import mockXChainCreateBridge from './mock_data/XChainCreateBridge.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18nTestConfig'
+import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 
-function createWrapper(tx: any) {
-  const data = summarizeTransaction(tx, true)
-  return mount(
-    <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <Simple data={data.details} />
-      </BrowserRouter>
-    </I18nextProvider>,
-  )
-}
-
-function expectSimpleRowText(
-  wrapper: ReactWrapper<any, Readonly<{}>>,
-  dataTest: string,
-  text: string,
-) {
-  expect(wrapper.find(`[data-test="${dataTest}"] .value`)).toHaveText(text)
-}
+const createWrapper = createSimpleWrapperFactory(Simple)
 
 describe('XChainCreateBridgeSimple', () => {
   it('renders', () => {
