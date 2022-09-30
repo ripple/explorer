@@ -22,7 +22,7 @@ export const NFTTabs = (props: Props) => {
     const { path = '/' } = match
     const tabs = ['transactions', 'buy-offers', 'sell-offers']
     // strips :url from the front and the identifier/tab info from the end
-    const mainPath = `${path.split('/:')[0]}/${id}`
+    const mainPath = [path.split('/:')[0], id].join('/')
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 
