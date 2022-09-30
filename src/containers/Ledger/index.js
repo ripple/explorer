@@ -102,8 +102,8 @@ class Ledger extends Component {
     }
     let successfulTxCount = 0
 
-    // TODO: Remove these cases when the transactions are moved to the new format.
-    const getTransactionType = (transactionType) => {
+    // TODO: Remove these cases when these transactions are moved to the new format.
+    const getTransactionCategory = (transactionType) => {
       switch (transactionType) {
         case 'OfferCancel':
           return 'Dex'
@@ -150,7 +150,7 @@ class Ledger extends Component {
       if (tx.result === 'tesSUCCESS') {
         successfulTxCount += 1
       }
-      transactionTypesCount[getTransactionType(tx.type)] += 1
+      transactionTypesCount[getTransactionCategory(tx.type)] += 1
     })
 
     return (
