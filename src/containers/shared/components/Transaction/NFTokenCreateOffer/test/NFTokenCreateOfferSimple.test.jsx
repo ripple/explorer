@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { createSimpleWrapperFactory } from '../../test'
 import { Simple } from '../Simple'
 import transactionBuy from './mock_data/NFTokenCreateOffer_Buy.json'

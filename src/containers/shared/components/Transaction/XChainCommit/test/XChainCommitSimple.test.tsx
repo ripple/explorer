@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Simple } from '../Simple'
 import mockXChainCommit from './mock_data/XChainCommit.json'
 import mockXChainCommitInsufficientFunds from './mock_data/XChainCommitInsufficientFunds.json'

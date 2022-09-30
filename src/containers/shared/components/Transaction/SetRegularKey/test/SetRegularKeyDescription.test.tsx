@@ -1,5 +1,3 @@
-import React from 'react'
-
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { Description } from '../Description'

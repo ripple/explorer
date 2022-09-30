@@ -1,4 +1,3 @@
-import React from 'react'
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
 const Payment = require('./Payment')
