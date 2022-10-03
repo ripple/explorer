@@ -4,13 +4,12 @@ import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg'
-import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg'
 import { localizeDate, concatTx } from '../../shared/utils'
 import Loader from '../../shared/components/Loader'
 import TxDetails from '../../shared/components/TxDetails'
 import '../../Accounts/AccountTransactionsTable/styles.scss' // Reuse AccountTransactionsTable styling
 import TxLabel from '../../shared/components/TxLabel'
+import { TxStatus } from '../../shared/components/TxStatus'
 
 import { loadTokenTransactions } from './actions'
 import SocketContext from '../../shared/SocketContext'
@@ -58,7 +57,6 @@ export const TokenTxTable = (props) => {
     const { language } = props
     const success = tx.result === 'tesSUCCESS'
     const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
-    const status = success ? 'Success' : `Fail - ${tx.result}`
 
     return (
       <li
@@ -78,17 +76,7 @@ export const TokenTxTable = (props) => {
               <TxLabel type={tx.type} />
             </div>
             <div className="col-status">
-              <span
-                title={tx.result}
-                className={`tx-result ${success ? 'success' : 'fail'}`}
-              >
-                {success ? (
-                  <SuccessIcon className="successful" alt={t('success')} />
-                ) : (
-                  <FailIcon className="failed" alt={t('fail')} />
-                )}
-                <span className="status">{status}</span>
-              </span>
+              <TxStatus status={tx.result} />
             </div>
             <div className="col-date">{date}</div>
           </div>

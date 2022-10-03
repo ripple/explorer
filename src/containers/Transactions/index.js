@@ -7,8 +7,6 @@ import { bindActionCreators } from 'redux'
 import ReactJson from 'react-json-view'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
-import successIcon from '../shared/images/success.png'
-import infoIcon from '../shared/images/info_orange.png'
 import Tabs from '../shared/components/Tabs'
 import {
   analytics,
@@ -16,12 +14,12 @@ import {
   NOT_FOUND,
   BAD_REQUEST,
 } from '../shared/utils'
-import { SUCCESSFULL_TRANSACTION } from '../shared/transactionUtils'
 import { loadTransaction } from './actions'
 import SimpleTab from './SimpleTab'
 import DetailTab from './DetailTab'
 import './transaction.scss'
 import SocketContext from '../shared/SocketContext'
+import { TxStatus } from '../shared/components/TxStatus'
 
 const ERROR_MESSAGES = {}
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -66,22 +64,10 @@ const Transaction = (props) => {
 
   function renderSummary() {
     const type = data.raw.tx.TransactionType
-    const status =
-      data.raw.meta.TransactionResult === SUCCESSFULL_TRANSACTION ? (
-        <div className="status success">
-          <img src={successIcon} alt="success" />
-          {t('success')}
-        </div>
-      ) : (
-        <div className="status fail">
-          <img src={infoIcon} alt="fail" />
-          {t('fail')} -<span>{data.raw.meta.TransactionResult}</span>
-        </div>
-      )
     return (
       <div className="summary">
         <div className="type">{type}</div>
-        {status}
+        <TxStatus status={data.raw.meta.TransactionResult} />
         <div className="hash" title={data.raw.hash}>
           {data.raw.hash}
         </div>

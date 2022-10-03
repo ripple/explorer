@@ -6,8 +6,6 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router'
 
-import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg'
-import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg'
 import { localizeDate, concatTx } from '../../shared/utils'
 import { loadAccountTransactions } from './actions'
 import Loader from '../../shared/components/Loader'
@@ -16,6 +14,7 @@ import './styles.scss'
 import TxLabel from '../../shared/components/TxLabel'
 import SocketContext from '../../shared/SocketContext'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
+import { TxStatus } from '../../shared/components/TxStatus'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -59,7 +58,6 @@ export const AccountTxTable = (props) => {
     const { language } = props
     const success = tx.result === 'tesSUCCESS'
     const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
-    const status = success ? 'Success' : `Fail - ${tx.result}`
 
     return (
       <li
@@ -79,17 +77,7 @@ export const AccountTxTable = (props) => {
               <TxLabel type={tx.type} t={t} />
             </div>
             <div className="col-status">
-              <span
-                title={tx.result}
-                className={`tx-result ${success ? 'success' : 'fail'}`}
-              >
-                {success ? (
-                  <SuccessIcon className="successful" alt={t('success')} />
-                ) : (
-                  <FailIcon className="failed" alt={t('fail')} />
-                )}
-                <span className="status">{status}</span>
-              </span>
+              <TxStatus status={tx.result} />
             </div>
             <div className="col-date">{date}</div>
           </div>
