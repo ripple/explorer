@@ -1,4 +1,5 @@
 import {
+  isEarlierVersion,
   formatLargeNumber,
   normalizeLanguage,
   localizeNumber,
@@ -11,6 +12,27 @@ import {
 } from '../utils'
 
 describe('utils', () => {
+  it('isEarlierVersion compare versions correctly', () => {
+    expect(isEarlierVersion('1.6.2', 'N/A')).toEqual(false)
+    expect(isEarlierVersion('N/A', '0.9.4')).toEqual(true)
+    expect(isEarlierVersion('N/A', 'N/A')).toEqual(false)
+    expect(isEarlierVersion('1.9.4', '1.9.4')).toEqual(false)
+    expect(isEarlierVersion('0.9.2', '1.8.4')).toEqual(true)
+    expect(isEarlierVersion('1.8.2', '1.9.4')).toEqual(true)
+    expect(isEarlierVersion('1.9.2', '1.9.4')).toEqual(true)
+    expect(isEarlierVersion('1.9.2', '1.9.2-b1')).toEqual(true)
+    expect(isEarlierVersion('1.9.4-b2', '1.9.4-rc1')).toEqual(true)
+    expect(isEarlierVersion('1.9.4-b1', '1.9.4-b2')).toEqual(true)
+    expect(isEarlierVersion('1.9.4-rc1', '1.9.4-rc2')).toEqual(true)
+    expect(isEarlierVersion('1.6.2', '0.9.4')).toEqual(false)
+    expect(isEarlierVersion('1.9.4', '1.8.6')).toEqual(false)
+    expect(isEarlierVersion('1.9.4', '1.9.2-rc5')).toEqual(false)
+    expect(isEarlierVersion('1.8.0-rc1', '1.8.0')).toEqual(false)
+    expect(isEarlierVersion('1.9.4-rc1', '1.9.4-b3')).toEqual(false)
+    expect(isEarlierVersion('1.9.4-b2', '1.9.4-b1')).toEqual(false)
+    expect(isEarlierVersion('1.9.4-rc2', '1.9.4-rc1')).toEqual(false)
+  })
+
   it('formatLargeNumber format numbers correctly', () => {
     expect(formatLargeNumber()).toEqual({ num: '0.0000', unit: '' })
     expect(formatLargeNumber(2000000000000)).toEqual({
