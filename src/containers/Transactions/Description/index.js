@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import TrustSet from './TrustSet'
 import OfferCancel from './OfferCancel'
-import EscrowCreate from './EscrowCreate'
-import EscrowCancel from './EscrowCancel'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
@@ -37,10 +35,6 @@ const TransactionDescription = (props) => {
     body = <OfferCancel t={t} data={data} />
   } else if (data.tx.TransactionType === 'TrustSet') {
     body = <TrustSet t={t} language={language} data={data} />
-  } else if (data.tx.TransactionType === 'EscrowCreate') {
-    body = <EscrowCreate t={t} language={language} data={data} />
-  } else if (data.tx.TransactionType === 'EscrowCancel') {
-    body = <EscrowCancel t={t} language={language} data={data} />
   } else if (data.tx.TransactionType === 'PaymentChannelCreate') {
     body = <PaymentChannelCreate t={t} language={language} data={data} />
   } else if (data.tx.TransactionType === 'PaymentChannelClaim') {

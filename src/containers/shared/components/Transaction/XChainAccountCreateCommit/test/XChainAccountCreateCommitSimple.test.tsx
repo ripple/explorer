@@ -1,31 +1,10 @@
-import React from 'react'
-import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
-import { mount, ReactWrapper } from 'enzyme'
+import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockXChainAccountCreateCommit from './mock_data/XChainAccountCreateCommit.json'
 import mockXChainAccountCreateCommitInsufficientFunds from './mock_data/XChainAccountCreateCommitInsufficientFunds.json'
-import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
-import i18n from '../../../../../../i18nTestConfig'
+import { expectSimpleRowText } from '../../test/expectations'
 
-function createWrapper(tx: any) {
-  const data = summarizeTransaction(tx, true)
-  return mount(
-    <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <Simple data={data.details} />
-      </BrowserRouter>
-    </I18nextProvider>,
-  )
-}
-
-function expectSimpleRowText(
-  wrapper: ReactWrapper<any, Readonly<{}>>,
-  dataTest: string,
-  text: string,
-) {
-  expect(wrapper.find(`[data-test="${dataTest}"] .value`)).toHaveText(text)
-}
+const createWrapper = createSimpleWrapperFactory(Simple)
 
 describe('XChainAccountCreateCommitSimple', () => {
   it('renders', () => {

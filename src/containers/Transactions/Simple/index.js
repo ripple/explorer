@@ -5,8 +5,6 @@ import OfferCancel from './OfferCancel'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
-import EscrowCreate from './EscrowCreate'
-import EscrowCancel from './EscrowCancel'
 import TrustSet from './TrustSet'
 import AccountSet from './AccountSet'
 import DepositPreauth from './DepositPreauth'
@@ -14,8 +12,6 @@ import EnableAmendment from './EnableAmendment'
 import UNLModify from './UNLModify'
 import AccountDelete from './AccountDelete'
 import TicketCreate from './TicketCreate'
-import NFTokenBurn from './NFTokenBurn'
-import NFTokenCancelOffer from './NFTokenCancelOffer'
 import NFTokenMint from './NFTokenMint'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
@@ -42,10 +38,6 @@ const Simple = (props) => {
       return <PaymentChannelClaim t={t} language={language} data={data} />
     case 'PaymentChannelFund':
       return <PaymentChannelFund t={t} language={language} data={data} />
-    case 'EscrowCreate':
-      return <EscrowCreate t={t} language={language} data={data} />
-    case 'EscrowCancel':
-      return <EscrowCancel t={t} language={language} data={data} />
     case 'TrustSet':
       return <TrustSet t={t} language={language} data={data} />
     case 'AccountSet':
@@ -60,10 +52,6 @@ const Simple = (props) => {
       return <AccountDelete t={t} language={language} data={data} />
     case 'TicketCreate':
       return <TicketCreate t={t} language={language} data={data} />
-    case 'NFTokenBurn':
-      return <NFTokenBurn t={t} language={language} data={data} />
-    case 'NFTokenCancelOffer':
-      return <NFTokenCancelOffer t={t} language={language} data={data} />
     case 'NFTokenMint':
       return <NFTokenMint t={t} language={language} data={data} />
     default:

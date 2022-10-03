@@ -20,6 +20,7 @@ export const Validators = () => {
 
   const { isFetching } = useQuery(['fetchValidatorsData'], () => fetchData(), {
     refetchInterval: FETCH_INTERVAL_MILLIS,
+    refetchOnMount: true,
   })
 
   console.log(isFetching)
