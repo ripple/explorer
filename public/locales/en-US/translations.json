@@ -367,7 +367,7 @@
   "buy_offers": "Buy Offers",
   "sell_offers": "Sell Offers",
   "offer_index": "Offer ID",
-  "no_additional_info": "No additional information",
+  "no_additional_info":"No additional information",
   "validator_history.chain": "Chain",
   "validator_history.date": "Date",
   "validator_history.missed": "Missed",

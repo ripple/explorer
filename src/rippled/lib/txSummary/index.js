@@ -12,7 +12,6 @@ const EnableAmendment = require('./EnableAmendment')
 const UNLModify = require('./UNLModify')
 const AccountDelete = require('./AccountDelete')
 const TicketCreate = require('./TicketCreate')
-const NFTokenCancelOffer = require('./NFTokenCancelOffer')
 const NFTokenMint = require('./NFTokenMint')
 
 const summarize = {
@@ -28,7 +27,6 @@ const summarize = {
   UNLModify,
   AccountDelete,
   TicketCreate,
-  NFTokenCancelOffer,
   NFTokenMint,
 }
 
