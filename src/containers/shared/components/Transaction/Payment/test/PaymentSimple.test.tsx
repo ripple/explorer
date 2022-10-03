@@ -1,10 +1,9 @@
-import React from 'react'
-import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
-import { mount } from 'enzyme'
+import {
+  createSimpleWrapperFactory,
+  expectSimpleRowLabel,
+  expectSimpleRowText,
+} from '../../test'
 import { Simple } from '../Simple'
-import i18n from '../../../../../../i18nTestConfig'
-import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import mockPayment from './mock_data/Payment.json'
 import mockPaymentConvert from './mock_data/PaymentWithConvert.json'
 import mockPaymentDestinationTag from './mock_data/PaymentWithDestinationTag.json'
@@ -12,23 +11,9 @@ import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 
-import {
-  expectSimpleRowLabel,
-  expectSimpleRowText,
-} from '../../../../../../testHelpers'
+const createWrapper = createSimpleWrapperFactory(Simple)
 
-function createWrapper(tx: any) {
-  const data = summarizeTransaction(tx, true)
-  return mount(
-    <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <Simple data={data.details} />
-      </BrowserRouter>
-    </I18nextProvider>,
-  )
-}
-
-describe('Payment Simple', () => {
+describe('Payment: Simple', () => {
   it('renders', () => {
     const wrapper = createWrapper(mockPayment)
 
