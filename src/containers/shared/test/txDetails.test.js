@@ -7,7 +7,6 @@ import Payment from '../../Transactions/test/mock_data/Payment.json'
 import ConvertPayment from '../../Transactions/test/mock_data/Payment-convert.json'
 import AccountSet from '../../Transactions/test/mock_data/AccountSet.json'
 import EnableAmendment from '../../Transactions/test/mock_data/EnableAmendment.json'
-import OfferCancel from '../../Transactions/test/mock_data/OfferCancel.json'
 import PaymentChannelClaim from '../../Transactions/test/mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from '../../Transactions/test/mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from '../../Transactions/test/mock_data/PaymentChannelFund.json'
@@ -48,11 +47,6 @@ describe('TxDetails', () => {
 
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
-  })
-
-  it('renders OfferCancel without crashing', () => {
-    const wrapper = createWrapper(OfferCancel)
     wrapper.unmount()
   })
 

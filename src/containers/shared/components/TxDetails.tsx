@@ -123,18 +123,6 @@ const TxDetails = (props: Props) => {
     )
   }
 
-  function renderOfferCancel(): ReactElement {
-    const { instructions } = props
-    const { cancel } = instructions
-    return (
-      <div className="offercancel">
-        <span className="label">{t('cancel_offer')}</span>
-        {` #`}
-        <span className="sequence">{cancel}</span>
-      </div>
-    )
-  }
-
   function renderPayment(): ReactElement | null {
     const { instructions } = props
     const { convert, amount, destination, partial, sourceTag } = instructions
@@ -267,7 +255,6 @@ const TxDetails = (props: Props) => {
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderAccountSet,
     renderTrustSet,
-    renderOfferCancel,
     renderPayment,
     renderPaymentChannelCreate,
     renderPaymentChannelClaim,
