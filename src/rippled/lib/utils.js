@@ -1,5 +1,5 @@
 import { convertRippleDate, EPOCH_OFFSET } from './convertRippleDate'
-import summarizeTransaction from './txSummary'
+import { summarizeTransaction } from './txSummary'
 import { formatSignerList } from './formatSignerList'
 
 const XRP_BASE = 1000000

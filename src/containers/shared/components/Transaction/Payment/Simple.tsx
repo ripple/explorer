@@ -49,7 +49,7 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
     )
   }
 
-  const renderConversion = () => (
+  return convert ? (
     <>
       <SimpleRow label={t('convert_maximum')} data-test="max">
         <Amount value={convert} />
@@ -59,7 +59,7 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
         {renderPartial()}
       </SimpleRow>
     </>
+  ) : (
+    renderPayment()
   )
-
-  return convert ? renderConversion() : renderPayment()
 }

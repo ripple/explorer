@@ -37,7 +37,7 @@ const getInstructions = (tx, meta) => {
   return mappingFn ? mappingFn(tx, meta) : {}
 }
 
-const summarizeTransaction = (d, details = false) => ({
+export const summarizeTransaction = (d, details = false) => ({
   hash: d.hash,
   type: d.tx.TransactionType,
   result: d.meta.TransactionResult,
