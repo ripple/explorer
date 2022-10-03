@@ -161,6 +161,7 @@ describe('AccountHeader Actions', () => {
       escrows: undefined,
       paychannels: null,
       xAddress: undefined,
+      deleted: false,
     }
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_STATE },

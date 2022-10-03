@@ -20,6 +20,7 @@ export const Validators = () => {
 
   useQuery(['fetchValidatorsData'], () => fetchData(), {
     refetchInterval: FETCH_INTERVAL_MILLIS,
+    refetchOnMount: true,
   })
 
   const fetchData = () => {
