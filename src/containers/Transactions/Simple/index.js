@@ -12,7 +12,6 @@ import EnableAmendment from './EnableAmendment'
 import UNLModify from './UNLModify'
 import AccountDelete from './AccountDelete'
 import TicketCreate from './TicketCreate'
-import NFTokenMint from './NFTokenMint'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
 
@@ -52,8 +51,6 @@ const Simple = (props) => {
       return <AccountDelete t={t} language={language} data={data} />
     case 'TicketCreate':
       return <TicketCreate t={t} language={language} data={data} />
-    case 'NFTokenMint':
-      return <NFTokenMint t={t} language={language} data={data} />
     default:
       // Some transactions do not have simple views.
       return (
