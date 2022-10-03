@@ -18,12 +18,10 @@ export const Validators = () => {
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
 
-  const { isFetching } = useQuery(['fetchValidatorsData'], () => fetchData(), {
+  useQuery(['fetchValidatorsData'], () => fetchData(), {
     refetchInterval: FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
   })
-
-  console.log(isFetching)
 
   const fetchData = () => {
     const url = '/api/v1/validators?verbose=true'
