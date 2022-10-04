@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Trans } from 'react-i18next'
 import { normalizeAmount } from '../../shared/transactionUtils'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 
 const Payment = (props) => {
   const { t, language, data, partial } = props

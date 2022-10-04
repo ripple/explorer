@@ -13,7 +13,7 @@ import { loadAccountTransactions } from './actions'
 import Loader from '../../shared/components/Loader'
 import TxDetails from '../../shared/components/TxDetails'
 import './styles.scss'
-import TxLabel from '../../shared/components/TxLabel'
+import { TxLabel } from '../../shared/components/TxLabel'
 import SocketContext from '../../shared/SocketContext'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
 
@@ -76,7 +76,7 @@ export const AccountTxTable = (props) => {
               </div>
             </div>
             <div className={`col-type tx-type ${tx.type}`}>
-              <TxLabel type={tx.type} t={t} />
+              <TxLabel type={tx.type} />
             </div>
             <div className="col-status">
               <span

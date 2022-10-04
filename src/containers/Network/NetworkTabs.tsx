@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRouteMatch } from 'react-router'
-import Tabs from '../shared/components/Tabs'
+import { Tabs } from '../shared/components/Tabs'
 
 interface Props {
   selected: string

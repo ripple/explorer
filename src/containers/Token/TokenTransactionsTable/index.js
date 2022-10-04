@@ -10,7 +10,7 @@ import { localizeDate, concatTx } from '../../shared/utils'
 import Loader from '../../shared/components/Loader'
 import TxDetails from '../../shared/components/TxDetails'
 import '../../Accounts/AccountTransactionsTable/styles.scss' // Reuse AccountTransactionsTable styling
-import TxLabel from '../../shared/components/TxLabel'
+import { TxLabel } from '../../shared/components/TxLabel'
 
 import { loadTokenTransactions } from './actions'
 import SocketContext from '../../shared/SocketContext'

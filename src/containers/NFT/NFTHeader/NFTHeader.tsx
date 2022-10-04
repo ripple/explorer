@@ -16,7 +16,7 @@ import {
 } from '../../shared/utils'
 import Details from './Details'
 import Settings from './Settings'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 
 interface Props {
   tokenId: string

@@ -8,7 +8,7 @@ import {
   XRP_BASE,
   normalizeAmount,
 } from '../../../transactionUtils'
-import Account from '../../Account'
+import { Account } from '../../Account'
 import {
   TransactionDescriptionComponent,
   TransactionDescriptionProps,
