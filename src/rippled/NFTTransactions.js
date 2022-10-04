@@ -17,7 +17,6 @@ export const getNFTTransactions = (rippledSocket, tokenId, limit, marker) =>
         marker: data.marker,
       }
     })
-    .then((d) => d)
     .catch((error) => {
       log.error(error.toString())
       throw error
@@ -35,7 +34,6 @@ export const getOldestNFTTransaction = (rippledSocket, tokenId) =>
         transaction: transactions?.length > 0 ? transactions[0] : undefined,
       }
     })
-    .then((d) => d)
     .catch((error) => {
       log.error(error.toString())
       throw error
