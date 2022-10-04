@@ -1,14 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
 
-interface Props {
+export interface Props {
   issuer?: string
   currency: string
-  link: boolean
+  link?: boolean
 }
 
 const Currency = (props: Props) => {
