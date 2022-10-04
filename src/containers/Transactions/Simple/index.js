@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import OfferCancel from './OfferCancel'
 import Payment from './Payment'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
@@ -30,8 +29,6 @@ const Simple = (props) => {
   // Locate the unique transaction component the old way
   // TODO: Remove once all transactions have been moved to the new definition style
   switch (type) {
-    case 'OfferCancel':
-      return <OfferCancel t={t} data={data} />
     case 'Payment':
       return <Payment t={t} language={language} data={data} />
     case 'PaymentChannelCreate':
