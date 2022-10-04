@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18nTestConfig'
 import Description from '../Description'
-import OfferCancel from './mock_data/OfferCancel.json'
 import TrustSet from './mock_data/TrustSet.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
@@ -29,14 +28,6 @@ describe('Description container', () => {
 
   it('renders without crashing', () => {
     const wrapper = createWrapper()
-    wrapper.unmount()
-  })
-
-  it('renders description for OfferCancel', () => {
-    const wrapper = createWrapper(OfferCancel)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>15239390</span></b></div><div>offer_cancel_description<b> 15239384</b></div></div>',
-    )
     wrapper.unmount()
   })
 

@@ -6,7 +6,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import AccountDelete from './mock_data/AccountDelete.json'
 import AccountSet from './mock_data/AccountSet.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
-import OfferCancel from './mock_data/OfferCancel.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
@@ -58,11 +57,6 @@ describe('SimpleTab container', () => {
 
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
-  })
-
-  it('renders OfferCancel without crashing', () => {
-    const wrapper = createWrapper(OfferCancel)
     wrapper.unmount()
   })
 

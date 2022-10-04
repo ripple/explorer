@@ -3,6 +3,7 @@ import { NFTokenCancelOfferTransaction as NFTokenCancelOffer } from './NFTokenCa
 import { NFTokenBurnTransaction as NFTokenBurn } from './NFTokenBurn'
 import { NFTokenCreateOfferTransaction as NFTokenCreateOffer } from './NFTokenCreateOffer'
 import { NFTokenAcceptOfferTransaction as NFTokenAcceptOffer } from './NFTokenAcceptOffer'
+import { OfferCancelTransaction as OfferCancel } from './OfferCancel'
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
 import { PaymentTransaction as Payment } from './Payment'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
@@ -25,6 +26,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   NFTokenBurn,
   NFTokenCreateOffer,
   NFTokenAcceptOffer,
+  OfferCancel,
   OfferCreate,
   Payment,
   SetRegularKey,

@@ -1,6 +1,5 @@
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
-const OfferCancel = require('./OfferCancel')
 const TrustSet = require('./TrustSet')
 const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelClaim = require('./PaymentChannelClaim')
@@ -13,7 +12,6 @@ const AccountDelete = require('./AccountDelete')
 const TicketCreate = require('./TicketCreate')
 
 const summarize = {
-  OfferCancel,
   TrustSet,
   PaymentChannelCreate,
   PaymentChannelClaim,
