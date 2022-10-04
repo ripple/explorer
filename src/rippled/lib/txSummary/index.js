@@ -1,7 +1,5 @@
-import React from 'react'
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
-const OfferCancel = require('./OfferCancel')
 const Payment = require('./Payment')
 const TrustSet = require('./TrustSet')
 const PaymentChannelCreate = require('./PaymentChannelCreate')
@@ -13,11 +11,8 @@ const EnableAmendment = require('./EnableAmendment')
 const UNLModify = require('./UNLModify')
 const AccountDelete = require('./AccountDelete')
 const TicketCreate = require('./TicketCreate')
-const NFTokenCancelOffer = require('./NFTokenCancelOffer')
-const NFTokenMint = require('./NFTokenMint')
 
 const summarize = {
-  OfferCancel,
   Payment,
   TrustSet,
   PaymentChannelCreate,
@@ -29,8 +24,6 @@ const summarize = {
   UNLModify,
   AccountDelete,
   TicketCreate,
-  NFTokenCancelOffer,
-  NFTokenMint,
 }
 
 const getInstructions = (tx, meta) => {

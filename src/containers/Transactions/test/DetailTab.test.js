@@ -5,33 +5,17 @@ import { I18nextProvider } from 'react-i18next'
 import Transaction from '../../shared/components/Transaction/EscrowCreate/test/mock_data/EscrowCreate.json'
 import FailedTransaction from '../../shared/components/Transaction/SignerListSet/test/mock_data/SignerListSet.json'
 import DetailTab from '../DetailTab'
-import i18n from '../../../i18nTestConfig'
+import i18n from '../../../i18nTestConfig.en-US'
 
 describe('DetailTab container', () => {
-  const createWrapper = (transaction = Transaction) => {
-    i18n.init({
-      lng: 'en-US',
-      resources: {
-        'en-US': {
-          translation: {
-            successful_transaction: 'This transaction was successful',
-            fail_transaction:
-              'This transaction failed with a status code of <0>{{code}}</0>',
-            transaction_validated: ', and validated in ledger ',
-            on: ' on ',
-          },
-        },
-      },
-    })
-
-    return mount(
+  const createWrapper = (transaction = Transaction) =>
+    mount(
       <Router>
         <I18nextProvider i18n={i18n}>
           <DetailTab t={i18n.t} language="en-US" data={transaction} />
         </I18nextProvider>
       </Router>,
     )
-  }
 
   it('renders without crashing', () => {
     const wrapper = createWrapper()
@@ -41,25 +25,25 @@ describe('DetailTab container', () => {
   it('renders all parts', () => {
     const wrapper = createWrapper()
     expect(wrapper.find('.detail-body').length).toBe(1)
-    expect(wrapper.contains(<div className="title">status</div>)).toBe(true)
-    expect(wrapper.contains(<div className="title">description</div>)).toBe(
+    expect(wrapper.contains(<div className="title">Status</div>)).toBe(true)
+    expect(wrapper.contains(<div className="title">Description</div>)).toBe(
       true,
     )
     expect(
       wrapper.contains(
         <div className="title">
-          memos
-          <span>(decoded_hex)</span>
+          Memos
+          <span>(decoded hex)</span>
         </div>,
       ),
     ).toBe(true)
     expect(
       wrapper.contains(
-        <div className="title transaction-cost">transaction_cost</div>,
+        <div className="title transaction-cost">Transaction Cost</div>,
       ),
     ).toBe(true)
-    expect(wrapper.contains(<div className="title">flags</div>)).toBe(true)
-    expect(wrapper.contains(<div className="title">meta</div>)).toBe(true)
+    expect(wrapper.contains(<div className="title">Flags</div>)).toBe(true)
+    expect(wrapper.contains(<div className="title">Meta</div>)).toBe(true)
     wrapper.unmount()
   })
 

@@ -1,21 +1,9 @@
-import React from 'react'
-import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
-import { mount } from 'enzyme'
-import i18n from '../../../../../../i18nTestConfig'
 import mockSignerListSetClear from './mock_data/SignerListSetClear.json'
 import mockSignerListSet from './mock_data/SignerListSet.json'
 import { Description } from '../Description'
+import { createDescriptionWrapperFactory } from '../../test'
 
-function createWrapper(tx: any) {
-  return mount(
-    <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <Description data={tx} />
-      </BrowserRouter>
-    </I18nextProvider>,
-  )
-}
+const createWrapper = createDescriptionWrapperFactory(Description)
 
 describe('SignerListSet: Description', () => {
   it('renders', () => {
