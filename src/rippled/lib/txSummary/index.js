@@ -45,9 +45,11 @@ const summarizeTransaction = (d, details = false) => ({
   sequence: d.tx.Sequence,
   ticketSequence: d.tx.TicketSequence,
   date: d.date,
-  details: {
-    instructions: getInstructions(d.tx, d.meta),
-  },
+  details: details
+    ? {
+        instructions: getInstructions(d.tx, d.meta),
+      }
+    : undefined,
 })
 
 export default summarizeTransaction
