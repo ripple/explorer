@@ -7,11 +7,6 @@ import Payment from '../../Transactions/test/mock_data/Payment.json'
 import ConvertPayment from '../../Transactions/test/mock_data/Payment-convert.json'
 import AccountSet from '../../Transactions/test/mock_data/AccountSet.json'
 import EnableAmendment from '../../Transactions/test/mock_data/EnableAmendment.json'
-import EscrowCreate from '../../Transactions/test/mock_data/EscrowCreate.json'
-import EscrowCancel from '../../Transactions/test/mock_data/EscrowCancel.json'
-import EscrowFinish from '../../Transactions/test/mock_data/EscrowFinish.json'
-import OfferCreate from '../components/Transaction/OfferCreate/test/mock_data/OfferCreateWithExpirationAndCancel.json'
-import OfferCancel from '../../Transactions/test/mock_data/OfferCancel.json'
 import PaymentChannelClaim from '../../Transactions/test/mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from '../../Transactions/test/mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from '../../Transactions/test/mock_data/PaymentChannelFund.json'
@@ -52,31 +47,6 @@ describe('TxDetails', () => {
 
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
-  })
-
-  it('renders EscrowCreate without crashing', () => {
-    const wrapper = createWrapper(EscrowCreate)
-    wrapper.unmount()
-  })
-
-  it('renders EscrowCancel without crashing', () => {
-    const wrapper = createWrapper(EscrowCancel)
-    wrapper.unmount()
-  })
-
-  it('renders EscrowFinish without crashing', () => {
-    const wrapper = createWrapper(EscrowFinish)
-    wrapper.unmount()
-  })
-
-  it('renders OfferCreate without crashing', () => {
-    const wrapper = createWrapper(OfferCreate)
-    wrapper.unmount()
-  })
-
-  it('renders OfferCancel without crashing', () => {
-    const wrapper = createWrapper(OfferCancel)
     wrapper.unmount()
   })
 

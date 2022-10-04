@@ -5,6 +5,7 @@ import WS from 'jest-websocket-mock'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { Provider } from 'react-redux'
+import { QueryClientProvider } from 'react-query'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { initialState } from '../../App/reducer'
@@ -14,6 +15,7 @@ import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
+import { queryClient } from '../../shared/utils'
 
 /* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk]
@@ -27,18 +29,20 @@ describe('Validators Tab container', () => {
   let client
   const createWrapper = (props = {}) =>
     mount(
-      <Router>
-        <I18nextProvider i18n={i18n}>
-          <Provider store={store}>
-            <SocketContext.Provider value={client}>
-              <Network
-                {...props}
-                match={{ params: { tab: 'validators' }, path: '/' }}
-              />
-            </SocketContext.Provider>
-          </Provider>
-        </I18nextProvider>
-      </Router>,
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <I18nextProvider i18n={i18n}>
+            <Provider store={store}>
+              <SocketContext.Provider value={client}>
+                <Network
+                  {...props}
+                  match={{ params: { tab: 'validators' }, path: '/' }}
+                />
+              </SocketContext.Provider>
+            </Provider>
+          </I18nextProvider>
+        </Router>
+      </QueryClientProvider>,
     )
 
   beforeEach(async () => {
@@ -69,7 +73,9 @@ describe('Validators Tab container', () => {
     })
 
     expect(wrapper.find('.validators').length).toBe(1)
-    expect(wrapper.find('.stat').html()).toBe('<div class="stat"></div>')
+    expect(wrapper.find('.stat').html()).toBe(
+      '<div class="stat"><span>validators_found: </span><span>0</span></div>',
+    )
     expect(wrapper.find('.validators-table').length).toBe(1)
 
     server.send(validationMessage)

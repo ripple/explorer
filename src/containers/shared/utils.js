@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { QueryClient } from 'react-query'
 import { getQuorum, getNegativeUNL } from '../../rippled'
 import Log from './log'
 
@@ -21,6 +22,9 @@ export const NOT_FOUND = 404
 export const SERVER_ERROR = 500
 export const BAD_REQUEST = 400
 
+export const FETCH_INTERVAL_MILLIS = 5000
+export const FETCH_INTERVAL_NODES_MILLIS = 60000
+
 export const DECIMAL_REGEX = /^\d+$/
 export const RIPPLE_ADDRESS_REGEX =
   /^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
@@ -38,6 +42,13 @@ export const BLACK_30 = '#C9CDD1'
 export const BLACK_40 = '#B1B5BA'
 export const BLACK_60 = '#6B7075'
 export const WHITE = '#FFFFFF'
+export const GREY = '#9BA2B0'
+export const PURPLE = '#8884d8'
+export const BLUE = '#1AA4FF'
+export const RED = '#FF1A8B'
+export const GREEN = '#19FF83'
+export const GREY_600 = '#656E81'
+export const GREY_800 = '#383D47'
 
 export const BREAKPOINTS = {
   desktop: 1200,
@@ -66,6 +77,62 @@ const FORMAT_PRICE_DEFAULT_OPTIONS = {
   currency: 'USD',
   decimals: 4,
   padding: 0,
+}
+
+export const isEarlierVersion = (source, target) => {
+  if (source === target) return false
+  if (source === 'N/A') return true
+  if (target === 'N/A') return false
+  const sourceDecomp = source.split('.')
+  const targetDecomp = target.split('.')
+  const sourceMajor = parseInt(sourceDecomp[0], 10)
+  const sourceMinor = parseInt(sourceDecomp[1], 10)
+  const targetMajor = parseInt(targetDecomp[0], 10)
+  const targetMinor = parseInt(targetDecomp[1], 10)
+  // Compare major version
+  if (sourceMajor !== targetMajor) {
+    return sourceMajor < targetMajor
+  }
+  // Compare minor version
+  if (sourceMinor !== targetMinor) {
+    return sourceMinor < targetMinor
+  }
+  const sourcePatch = sourceDecomp[2].split('-')
+  const targetPatch = targetDecomp[2].split('-')
+
+  const sourcePatchVersion = parseInt(sourcePatch[0], 10)
+  const targetPatchVersion = parseInt(targetPatch[0], 10)
+
+  // Compare patch version
+  if (sourcePatchVersion !== targetPatchVersion) {
+    return sourcePatchVersion < targetPatchVersion
+  }
+
+  // Compare release version
+  if (sourcePatch.length !== targetPatch.length) {
+    return sourcePatch.length < targetPatch.length
+  }
+
+  if (sourcePatch.length === 2) {
+    // Compare different release types
+    if (sourcePatch[1][0] !== targetPatch[1][0]) {
+      return sourcePatch[1] < targetPatch[1]
+    }
+    // Compare beta version
+    if (sourcePatch[1][0] === 'b') {
+      return (
+        parseInt(sourcePatch[1].slice(1), 10) <
+        parseInt(targetPatch[1].slice(1), 10)
+      )
+    }
+    // Compare rc version
+    return (
+      parseInt(sourcePatch[1].slice(2), 10) <
+      parseInt(targetPatch[1].slice(2), 10)
+    )
+  }
+
+  return false
 }
 
 export const normalizeLanguage = (lang) => {
@@ -112,6 +179,18 @@ export const normalizeLanguage = (lang) => {
 
   return undefined
 }
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 0,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+      retry: false,
+    },
+  },
+})
 
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 export const localizeNumber = (num, lang = 'en-US', options = {}) => {

@@ -1,9 +1,8 @@
 import { SignerListSet, SignerListSetInstructions } from './types'
 import { TransactionParser } from '../types'
-
-const utils = require('../../../../../rippled/lib/utils')
+import { formatSignerList } from '../../../../../rippled/lib/formatSignerList'
 
 export const parser: TransactionParser<
   SignerListSet,
   SignerListSetInstructions
-> = (tx) => utils.formatSignerList(tx)
+> = (tx) => formatSignerList(tx)

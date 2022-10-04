@@ -8,10 +8,6 @@ import PaymentConvert from './mock_data/Payment-convert.json'
 import AccountDelete from './mock_data/AccountDelete.json'
 import AccountSet from './mock_data/AccountSet.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
-import EscrowCreate from './mock_data/EscrowCreate.json'
-import EscrowCancel from './mock_data/EscrowCancel.json'
-import EscrowFinish from './mock_data/EscrowFinish.json'
-import OfferCancel from './mock_data/OfferCancel.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
@@ -70,28 +66,8 @@ describe('SimpleTab container', () => {
     wrapper.unmount()
   })
 
-  it('renders EscrowCreate without crashing', () => {
-    const wrapper = createWrapper(EscrowCreate)
-    wrapper.unmount()
-  })
-
-  it('renders EscrowCancel without crashing', () => {
-    const wrapper = createWrapper(EscrowCancel)
-    wrapper.unmount()
-  })
-
-  it('renders EscrowFinish without crashing', () => {
-    const wrapper = createWrapper(EscrowFinish)
-    wrapper.unmount()
-  })
-
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
-  })
-
-  it('renders OfferCancel without crashing', () => {
-    const wrapper = createWrapper(OfferCancel)
     wrapper.unmount()
   })
 
