@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Account from './Account'
+import { Link } from 'react-router-dom'
 
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
@@ -12,34 +12,21 @@ interface Props {
 }
 
 const Currency = (props: Props) => {
-  const { issuer, currency, link } = props
+  const { issuer, currency, link = true } = props
   const currencyCode =
     currency?.length === NON_STANDARD_CODE_LENGTH
       ? hexToString(currency)
       : currency
 
-  const content = issuer ? (
-    <>
-      {currencyCode}
-      .
-      <Account account={issuer} link={link} />
-    </>
-  ) : (
-    currencyCode
-  )
+  const display = issuer ? `${currencyCode}.${issuer}` : currencyCode
+  const content =
+    link && issuer ? (
+      <Link to={`/token/${currency}.${issuer}`}>{display}</Link>
+    ) : (
+      display
+    )
 
   return <span className="currency">{content}</span>
-}
-
-Currency.defaultProps = {
-  issuer: null,
-  link: true,
-}
-
-Currency.propTypes = {
-  currency: PropTypes.string.isRequired,
-  issuer: PropTypes.string,
-  link: PropTypes.bool,
 }
 
 export const hexToString = (hex: string) => {
