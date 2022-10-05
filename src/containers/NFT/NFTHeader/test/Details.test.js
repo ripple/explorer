@@ -43,15 +43,13 @@ describe('NFT Details container', () => {
   it('renders defined fields', () => {
     const wrapper = createWrapper()
     expect(wrapper.find('.row').length).toEqual(4)
-    expect(
-      wrapper
-        .text()
-        .includes(
-          'bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
-        ),
-    ).toBe(true)
-    expect(wrapper.text().includes('rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W')).toBe(
-      true,
+    expect(wrapper.text()).toEqual(
+      expect.stringContaining(
+        'bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
+      ),
+    )
+    expect(wrapper.text()).toEqual(
+      expect.stringContaining('rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W'),
     )
     wrapper.unmount()
   })
