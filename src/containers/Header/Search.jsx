@@ -20,7 +20,7 @@ import './search.scss'
 import { getTransaction } from '../../rippled/lib/rippled'
 import SocketContext from '../shared/SocketContext'
 
-const isNFTOrTransactions = async (id, rippledContext) => {
+const determineHashType = async (id, rippledContext) => {
   try {
     await getTransaction(rippledContext, id)
     return 'transactions'
@@ -39,7 +39,7 @@ const getIdType = async (id, rippledContext) => {
   if (HASH_REGEX.test(id)) {
     // Transactions and NFTs share the same syntax
     // We must make an api call to ensure if it's one or the other
-    return isNFTOrTransactions(id, rippledContext)
+    return determineHashType(id, rippledContext)
   }
   if (isValidXAddress(id) || isValidClassicAddress(id.split(':')[0])) {
     return 'accounts' // TODO: Consider a new path/page specific to X-addresses
