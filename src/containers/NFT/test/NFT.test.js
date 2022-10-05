@@ -15,8 +15,8 @@ describe('NFT container', () => {
     mount(
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
-          <Router initialEntries={[`/tokens/${nft}`]}>
-            <Route path="/tokens/:id" component={NFT} />
+          <Router initialEntries={[`/nft/${nft}`]}>
+            <Route path="/nft/:id" component={NFT} />
           </Router>
         </I18nextProvider>
       </QueryClientProvider>,
