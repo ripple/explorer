@@ -92,6 +92,7 @@ div.react-stockchart div {
   @include transaction-type(SignerListSet, $signerlistset);
   @include transaction-type(TrustSet, $trustset);
   @include transaction-type(UNLModify, $unlmodify);
+  @include transaction-type(AccountDelete, $accountdelete);
 
   /* stylelint-disable selector-class-pattern -- Name of class is TransactionType */
   &.NFTokenAcceptOffer,
@@ -103,6 +104,7 @@ div.react-stockchart div {
   }
 
   &.XChainAccountCreateCommit,
+  &.XChainAddAttestation,
   &.XChainClaim,
   &.XChainCommit,
   &.XChainCreateBridge,
@@ -211,5 +213,19 @@ a {
 
   @include for-size(desktop-up) {
     width: 1140px;
+  }
+}
+
+.warning {
+  display: flex;
+  align-items: center;
+  color: $orange;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase;
+  @include bold;
+
+  img {
+    transform: scale(0.5);
   }
 }

@@ -1,0 +1,31 @@
+@mixin text {
+  color: #9BA2B0;
+  line-height: 70%;
+}
+
+.y-label {
+  fill: #9BA2B0;
+}
+
+.barchart {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+
+  p {
+    @include text;
+  }
+
+  span {
+    @include text;
+  }
+}
+
+.custom-tooltip {
+  margin: 10px;
+
+  p {
+    color: #FFF;
+  }
+}
