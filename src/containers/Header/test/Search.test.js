@@ -124,7 +124,7 @@ describe('Header component', () => {
     input.instance().value = nftoken
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
-    expect(window.location.pathname).toEqual(`/token/${nftoken}`)
+    expect(window.location.pathname).toEqual(`/nft/${nftoken}`)
 
     input.instance().value = invalidString
     input.simulate('keyDown', { key: 'Enter' })

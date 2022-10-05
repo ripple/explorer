@@ -25,7 +25,7 @@ const determineHashType = async (id, rippledContext) => {
     await getTransaction(rippledContext, id)
     return 'transactions'
   } catch (e) {
-    return 'token'
+    return 'nft'
   }
 }
 
@@ -82,7 +82,7 @@ const normalize = (id, type) => {
     if (!isValidPayString(id)) {
       return id.replace('@', '$')
     }
-  } else if (type === 'token' && id.includes('.')) {
+  } else if (type === 'token') {
     const components = id.split('.')
     return `${components[0].toLowerCase()}.${components[1]}`
   }
