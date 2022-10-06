@@ -84,6 +84,11 @@ const App = (props) => {
   if (location.pathname === `${urlLink}/ledgers`) {
     return <Redirect to={urlLink} />
   }
+
+  if (location.pathname === `/network/upgrade_status`) {
+    return <Redirect to="/network/upgrade-status" />
+  }
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
