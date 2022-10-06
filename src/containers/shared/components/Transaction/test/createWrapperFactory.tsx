@@ -43,7 +43,7 @@ export function createSimpleWrapperFactory(
 ): (tx: any) => ReactWrapper {
   return function createSimpleWrapper(tx: any) {
     const data = summarizeTransaction(tx, true)
-    return createWrapper(<Simple data={data.details} />, i18nConfig)
+    return createWrapper(<Simple data={data.details!} />, i18nConfig)
   }
 }
 
@@ -55,7 +55,7 @@ export function createTableDetailWrapperFactory(
     const data = summarizeTransaction(tx, true)
 
     return createWrapper(
-      <TableDetail instructions={data.details.instructions} />,
+      <TableDetail instructions={data.details!.instructions} />,
       i18nConfig,
     )
   }
