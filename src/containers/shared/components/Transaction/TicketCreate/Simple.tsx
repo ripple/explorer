@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
+import { SimpleRow } from '../SimpleRow'
 
 const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation()
@@ -9,10 +10,9 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
 
   return (
     <>
-      <div className="row">
-        <div className="label ticket-count">{t('ticket_count')}</div>
-        <div className="value">{ticketCount}</div>
-      </div>
+      <SimpleRow label={t('ticket_count')} data-test="ticket-count">
+        {ticketCount}
+      </SimpleRow>
     </>
   )
 }
