@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { XrplClient } from 'xrpl-client'
 import { QueryClientProvider } from 'react-query'
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
 import Ledgers from '../Ledgers'
@@ -18,18 +17,8 @@ import paystrings from '../PayStrings'
 import token from '../Token'
 import noMatch from '../NoMatch'
 import { NFT } from '../NFT/NFT'
-import SocketContext from '../shared/SocketContext'
+import SocketContext, { getSocket } from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
-
-const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
-
-function isInsecureWs(rippledHost) {
-  return (
-    process.env.REACT_APP_INSECURE_WS ||
-    LOCALHOST_URLS.some((url) => rippledHost.includes(url)) ||
-    rippledHost === ''
-  )
-}
 
 const App = (props) => {
   const { actions, location, match } = props
@@ -37,26 +26,8 @@ const App = (props) => {
   const {
     params: { rippledUrl = null },
   } = match
-  const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
-  const prefix = isInsecureWs(rippledHost) ? 'ws' : 'wss'
-  const wsUrls = []
-  if (rippledHost.includes(':')) {
-    wsUrls.push(`${prefix}://${rippledHost}`)
-  } else {
-    wsUrls.push.apply(wsUrls, [
-      `${prefix}://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      `${prefix}://${rippledHost}:443`,
-    ])
-  }
-  const socket = new XrplClient(wsUrls)
-  const hasP2PSocket =
-    process.env.REACT_APP_P2P_RIPPLED_HOST != null &&
-    process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
-  socket.p2pSocket = hasP2PSocket
-    ? new XrplClient([
-        `${prefix}://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      ])
-    : undefined
+
+  const socket = getSocket(rippledUrl)
 
   useEffect(() => {
     actions.updateViewportDimensions()
@@ -68,7 +39,7 @@ const App = (props) => {
       window.removeEventListener('scroll', actions.onScroll)
 
       socket.close()
-      if (hasP2PSocket) {
+      if (socket.p2pSocket !== undefined) {
         socket.p2pSocket.close()
       }
     }
