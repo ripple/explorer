@@ -6,31 +6,51 @@ import '../../shared/css/nested-menu.scss'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'
 import Tooltip from '../../shared/components/Tooltip'
-import { getNFTInfo } from '../../../rippled/lib/rippled'
-import { formatNFTInfo } from '../../../rippled/lib/utils'
+import { getNFTInfo, getAccountInfo } from '../../../rippled/lib/rippled'
+import { formatNFTInfo, formatAccountInfo } from '../../../rippled/lib/utils'
 import {
+  localizeDate,
   analytics,
   ANALYTIC_TYPES,
   BAD_REQUEST,
   HASH_REGEX,
 } from '../../shared/utils'
-import Details from './Details'
-import Settings from './Settings'
+import { Details } from './Details'
+import { Settings } from './Settings'
 import Account from '../../shared/components/Account'
+import { getOldestNFTTransaction } from '../../../rippled/NFTTransactions'
+import { useLanguage } from '../../shared/hooks'
+import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
+
+const TIME_ZONE = 'UTC'
+const DATE_OPTIONS = {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour12: true,
+  timeZone: TIME_ZONE,
+}
 
 interface Props {
   tokenId: string
   setError: (error: number | null) => void
 }
 
-const NFTHeader = (props: Props) => {
+export const NFTHeader = (props: Props) => {
   const { t } = useTranslation()
+  const language = useLanguage()
   const { tokenId, setError } = props
   const rippledSocket = useContext(SocketContext)
   const [tooltip, setTooltip] = useState(null)
-  const { data: rawData, isFetching: loading } = useQuery(
+  const { data, isFetching: loading } = useQuery<NFTFormattedInfo>(
     ['getNFTInfo'],
-    () => getNFTInfo(rippledSocket, tokenId),
+    async () => {
+      const info = await getNFTInfo(rippledSocket, tokenId)
+      return formatNFTInfo(info)
+    },
     {
       onError: (e: any) => {
         /* @ts-ignore */
@@ -48,7 +68,33 @@ const NFTHeader = (props: Props) => {
     }
   }, [tokenId])
 
-  const data = rawData && formatNFTInfo(rawData)
+  // fetch the oldest NFT transaction to get its minted data
+  const { data: firstTransaction } = useQuery(
+    ['getFirstTransaction', tokenId],
+    () => getOldestNFTTransaction(rippledSocket, tokenId),
+    {
+      enabled: !!data,
+    },
+  )
+
+  // fetch account from issuer to get the domain
+  const { data: accountData } = useQuery<AccountFormattedInfo>(
+    ['getAccountInfo'],
+    async () => {
+      const info = await getAccountInfo(rippledSocket, data?.issuer)
+      return formatAccountInfo(info, {})
+    },
+    { enabled: !!data },
+  )
+
+  const mintedDate =
+    firstTransaction?.transaction?.type === 'NFTokenMint'
+      ? `${localizeDate(
+          new Date(firstTransaction.transaction.date),
+          language,
+          DATE_OPTIONS,
+        )} ${TIME_ZONE}`
+      : undefined
 
   const showTooltip = (event: any, d: any) => {
     setTooltip({ ...d, mode: 'nftId', x: event.pageX, y: event.pageY })
@@ -59,7 +105,7 @@ const NFTHeader = (props: Props) => {
   }
 
   const renderHeaderContent = () => {
-    const { issuer } = data
+    const { issuer } = data!
     return (
       <div className="section nft-header-container">
         <div className="nft-info-container">
@@ -67,7 +113,7 @@ const NFTHeader = (props: Props) => {
             <div className="title">{t('issuer_address')}</div>
             <div className="value">
               <div className="nft-issuer">
-                <Account account={issuer} />
+                <Account account={issuer!} />
               </div>
             </div>
           </div>
@@ -75,11 +121,17 @@ const NFTHeader = (props: Props) => {
         <div className="nft-bottom-container">
           <div className="details">
             <div className="title">{t('details')}</div>
-            <Details data={data} />
+            <Details
+              data={{
+                ...data,
+                domain: accountData?.domain,
+                minted: mintedDate,
+              }}
+            />
           </div>
           <div className="settings">
             <div className="title">{t('settings')}</div>
-            <Settings flags={data.flags} />
+            <Settings flags={data!.flags!} />
           </div>
         </div>
       </div>
@@ -115,5 +167,3 @@ const NFTHeader = (props: Props) => {
     </div>
   )
 }
-
-export default NFTHeader

@@ -303,6 +303,70 @@ const getNFTInfo = (rippledSocket, tokenId) =>
     return resp
   })
 
+const getNFToffers = (
+  offerCmd,
+  rippledSocket,
+  tokenId,
+  limit = 50,
+  marker = '',
+) =>
+  queryP2P(rippledSocket, {
+    command: offerCmd,
+    nft_id: tokenId,
+    limit,
+    marker: marker !== '' ? marker : undefined,
+  }).then((resp) => {
+    if (resp.error === 'objectNotFound') {
+      throw new Error('NFT not found', 404)
+    }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+    return resp
+  })
+
+const getBuyNFToffers = (rippledSocket, tokenId, limit = 50, marker = '') =>
+  getNFToffers('nft_buy_offers', rippledSocket, tokenId, limit, marker)
+
+const getSellNFToffers = (rippledSocket, tokenId, limit = 50, marker = '') =>
+  getNFToffers('nft_sell_offers', rippledSocket, tokenId, limit, marker)
+
+const getNFTTransactions = (
+  rippledSocket,
+  tokenId,
+  limit = 20,
+  marker = '',
+  forward = false,
+) => {
+  const markerComponents = marker.split('.')
+  const ledger = parseInt(markerComponents[0], 10)
+  const seq = parseInt(markerComponents[1], 10)
+  return queryP2P(rippledSocket, {
+    command: 'nft_history',
+    nft_id: tokenId,
+    limit,
+    ledger_index_max: -1,
+    ledger_index_min: -1,
+    marker: marker
+      ? {
+          ledger,
+          seq,
+        }
+      : undefined,
+    forward,
+  }).then((resp) => {
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+    return {
+      transactions: resp.transactions,
+      marker: resp.marker
+        ? `${resp.marker.ledger}.${resp.marker.seq}`
+        : undefined,
+    }
+  })
+}
+
 const getNegativeUNL = (rippledSocket) =>
   query(rippledSocket, {
     command: 'ledger_entry',
@@ -375,4 +439,7 @@ export {
   getServerInfo,
   getOffers,
   getNFTInfo,
+  getBuyNFToffers,
+  getSellNFToffers,
+  getNFTTransactions,
 }
