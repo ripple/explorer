@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { NFTokenMintInstructions } from './types'
+import Account from '../../Account'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<NFTokenMintInstructions>) => {
-  const { tokenID, tokenTaxon, uri } = data.instructions
+  const { tokenID, tokenTaxon, uri, issuer } = data.instructions
   const { t } = useTranslation()
 
   return (
@@ -26,6 +27,11 @@ export const Simple: TransactionSimpleComponent = ({
       <SimpleRow label={t('uri')} className="dt" data-test="token-uri">
         {uri}
       </SimpleRow>
+      {issuer && (
+        <SimpleRow label={t('issuer')} className="dt" data-test="token-issuer">
+          <Account account={issuer} />
+        </SimpleRow>
+      )}
     </>
   )
 }
