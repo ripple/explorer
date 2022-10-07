@@ -21,10 +21,13 @@ import { NFT } from '../NFT/NFT'
 import SocketContext from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
 
-const LOCALHOST_URLS = ['localhost', '127.0.0.1', '', '0.0.0.0']
+const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 function isLocalRippled(rippledHost) {
-  return LOCALHOST_URLS.some((url) => rippledHost.includes(url))
+  return (
+    LOCALHOST_URLS.some((url) => rippledHost.includes(url)) ||
+    rippledHost === ''
+  )
 }
 
 const App = (props) => {
