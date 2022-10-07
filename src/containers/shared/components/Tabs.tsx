@@ -22,7 +22,7 @@ const Tabs = (props: Props) => {
         key={title}
         to={`${path}/${title}`}
       >
-        {t(title)}
+        {t(title.replace('-', '_'))}
       </Link>
     )
   })

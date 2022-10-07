@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import NoMatch from '../NoMatch'
-import NFTHeader from './NFTHeader/NFTHeader'
+import { NFTHeader } from './NFTHeader/NFTHeader'
+import { NFTTabs } from './NFTTabs/NFTTabs'
 import './styles.scss'
 import {
   analytics,
@@ -30,7 +31,7 @@ const DEFAULT_ERROR: ErrorMessage = {
 
 const getErrorMessage = (error: any) => ERROR_MESSAGES[error] ?? DEFAULT_ERROR
 
-const NFT = () => {
+export const NFT = () => {
   const { id: tokenId } = useParams<{ id: string }>()
   const { t } = useTranslation()
   const [error, setError] = useState<number | null>(null)
@@ -59,6 +60,7 @@ const NFT = () => {
   ) : (
     <div className="token-page">
       {tokenId && <NFTHeader tokenId={tokenId} setError={setError} />}
+      {tokenId && <NFTTabs tokenId={tokenId} />}
       {!tokenId && (
         <div className="nft-warning">
           <h2>Enter a NFT ID in the search box</h2>
@@ -67,5 +69,3 @@ const NFT = () => {
     </div>
   )
 }
-
-export default NFT
