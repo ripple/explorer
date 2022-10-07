@@ -21,6 +21,12 @@ import { NFT } from '../NFT/NFT'
 import SocketContext from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
 
+const LOCALHOST_URLS = ['localhost', '127.0.0.1', '', '0.0.0.0']
+
+function isLocalRippled(rippledHost) {
+  return LOCALHOST_URLS.some((url) => rippledHost.includes(url))
+}
+
 const App = (props) => {
   const { actions, location, match } = props
 
@@ -28,13 +34,14 @@ const App = (props) => {
     params: { rippledUrl = null },
   } = match
   const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
+  const prefix = isLocalRippled(rippledUrl) ? 'ws' : 'wss'
   const wsUrls = []
   if (rippledHost.includes(':')) {
-    wsUrls.push(`ws://${rippledHost}`)
+    wsUrls.push(`${prefix}://${rippledHost}`)
   } else {
     wsUrls.push.apply(wsUrls, [
-      `ws://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      `ws://${rippledHost}:443`,
+      `${prefix}://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+      `${prefix}://${rippledHost}:443`,
     ])
   }
   const socket = new XrplClient(wsUrls)
@@ -43,7 +50,7 @@ const App = (props) => {
     process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
   socket.p2pSocket = hasP2PSocket
     ? new XrplClient([
-        `ws://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+        `${prefix}://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
       ])
     : undefined
 
