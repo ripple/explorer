@@ -40,7 +40,7 @@ export const NFT = () => {
 
   useEffect(() => {
     /* @ts-ignore */
-    analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/token/:id' })
+    analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/nft/:id' })
     return () => {
       window.scrollTo(0, 0)
     }
