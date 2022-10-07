@@ -10,7 +10,6 @@ const DepositPreauth = require('./DepositPreauth')
 const EnableAmendment = require('./EnableAmendment')
 const UNLModify = require('./UNLModify')
 const AccountDelete = require('./AccountDelete')
-const TicketCreate = require('./TicketCreate')
 
 const summarize = {
   Payment,
@@ -23,7 +22,6 @@ const summarize = {
   EnableAmendment,
   UNLModify,
   AccountDelete,
-  TicketCreate,
 }
 
 const getInstructions = (tx, meta) => {
