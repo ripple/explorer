@@ -17,8 +17,19 @@ import {
   HASH_REGEX,
 } from '../shared/utils'
 import './search.scss'
+import { getTransaction } from '../../rippled/lib/rippled'
+import SocketContext from '../shared/SocketContext'
 
-const getIdType = (id) => {
+const determineHashType = async (id, rippledContext) => {
+  try {
+    await getTransaction(rippledContext, id)
+    return 'transactions'
+  } catch (e) {
+    return 'nft'
+  }
+}
+
+const getIdType = async (id, rippledContext) => {
   if (DECIMAL_REGEX.test(id)) {
     return 'ledgers'
   }
@@ -26,7 +37,9 @@ const getIdType = (id) => {
     return 'accounts'
   }
   if (HASH_REGEX.test(id)) {
-    return 'transactions'
+    // Transactions and NFTs share the same syntax
+    // We must make an api call to ensure if it's one or the other
+    return determineHashType(id, rippledContext)
   }
   if (isValidXAddress(id) || isValidClassicAddress(id.split(':')[0])) {
     return 'accounts' // TODO: Consider a new path/page specific to X-addresses
@@ -88,9 +101,9 @@ class Search extends Component {
     this.setState({ redirect: '' })
   }
 
-  handleSearch(id) {
+  async handleSearch(id) {
     const { callback } = this.props
-    const type = getIdType(id)
+    const type = await getIdType(id, this.context)
 
     analytics(ANALYTIC_TYPES.event, {
       eventCategory: 'globalSearch',
@@ -131,6 +144,8 @@ class Search extends Component {
     )
   }
 }
+
+Search.contextType = SocketContext
 
 Search.propTypes = {
   t: PropTypes.func.isRequired,

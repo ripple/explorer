@@ -67,5 +67,3 @@ const Details = ({ data }: Props) => {
     </table>
   )
 }
-
-export default Details

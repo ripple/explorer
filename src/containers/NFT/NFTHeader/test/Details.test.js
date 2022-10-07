@@ -23,9 +23,9 @@ describe('NFT Details container', () => {
       "This is a clio server. clio only serves validated data. If you want to talk to rippled, include 'ledger_index':'current' in your request",
     ],
     minted: undefined,
-    domain: undefined,
-    emailHash: '123456789',
+    domain: '123456',
   }
+
   const createWrapper = () =>
     mount(
       <I18nextProvider i18n={i18n}>
