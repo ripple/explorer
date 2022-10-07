@@ -23,8 +23,9 @@ import { queryClient } from '../shared/QueryClient'
 
 const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
 
-function isLocalRippled(rippledHost) {
+function isInsecureWs(rippledHost) {
   return (
+    process.env.REACT_APP_INSECURE_WS ||
     LOCALHOST_URLS.some((url) => rippledHost.includes(url)) ||
     rippledHost === ''
   )
@@ -37,7 +38,7 @@ const App = (props) => {
     params: { rippledUrl = null },
   } = match
   const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
-  const prefix = isLocalRippled(rippledHost) ? 'ws' : 'wss'
+  const prefix = isInsecureWs(rippledHost) ? 'ws' : 'wss'
   const wsUrls = []
   if (rippledHost.includes(':')) {
     wsUrls.push(`${prefix}://${rippledHost}`)
