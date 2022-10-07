@@ -63,43 +63,42 @@ export const TokenTxTable = (props) => {
     return (
       <li
         key={tx.hash}
-        className={`transaction-li tx-type ${tx.type} ${
+        className={`transaction-li anchor-mask tx-type ${tx.type} ${
           success ? 'success' : 'fail'
         }`}
       >
-        <Link to={`/transactions/${tx.hash}`}>
-          <div className="upper">
-            <div className="col-account">
-              <div className="transaction-address" title={tx.account}>
-                {tx.account}
-              </div>
+        <Link to={`/transactions/${tx.hash}`} className="mask-overlay" />
+        <div className="upper">
+          <div className="col-account">
+            <div className="transaction-address" title={tx.account}>
+              {tx.account}
             </div>
-            <div className={`col-type tx-type ${tx.type}`}>
-              <TxLabel type={tx.type} />
-            </div>
-            <div className="col-status">
-              <span
-                title={tx.result}
-                className={`tx-result ${success ? 'success' : 'fail'}`}
-              >
-                {success ? (
-                  <SuccessIcon className="successful" alt={t('success')} />
-                ) : (
-                  <FailIcon className="failed" alt={t('fail')} />
-                )}
-                <span className="status">{status}</span>
-              </span>
-            </div>
-            <div className="col-date">{date}</div>
           </div>
-          <div className="details">
-            <TxDetails
-              language={language}
-              type={tx.type}
-              instructions={tx.details.instructions}
-            />
+          <div className={`col-type tx-type ${tx.type}`}>
+            <TxLabel type={tx.type} />
           </div>
-        </Link>
+          <div className="col-status">
+            <span
+              title={tx.result}
+              className={`tx-result ${success ? 'success' : 'fail'}`}
+            >
+              {success ? (
+                <SuccessIcon className="successful" alt={t('success')} />
+              ) : (
+                <FailIcon className="failed" alt={t('fail')} />
+              )}
+              <span className="status">{status}</span>
+            </span>
+          </div>
+          <div className="col-date">{date}</div>
+        </div>
+        <div className="details">
+          <TxDetails
+            language={language}
+            type={tx.type}
+            instructions={tx.details.instructions}
+          />
+        </div>
       </li>
     )
   }
