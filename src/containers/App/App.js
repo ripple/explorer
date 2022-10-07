@@ -37,7 +37,7 @@ const App = (props) => {
     params: { rippledUrl = null },
   } = match
   const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
-  const prefix = isLocalRippled(rippledUrl) ? 'ws' : 'wss'
+  const prefix = isLocalRippled(rippledHost) ? 'ws' : 'wss'
   const wsUrls = []
   if (rippledHost.includes(':')) {
     wsUrls.push(`${prefix}://${rippledHost}`)
