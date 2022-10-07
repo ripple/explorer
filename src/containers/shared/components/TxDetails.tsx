@@ -198,26 +198,12 @@ const TxDetails = (props: Props) => {
       </div>
     )
   }
-
-  function renderTicketCreate(): ReactElement {
-    const { instructions } = props
-    const { ticketCount } = instructions
-    return (
-      <div className="ticketCreate">
-        <span className="label">{t('ticket_count')}:</span>
-        <span> </span>
-        <span>{ticketCount}</span>
-      </div>
-    )
-  }
-
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderAccountSet,
     renderTrustSet,
     renderPaymentChannelCreate,
     renderPaymentChannelClaim,
-    renderTicketCreate,
   }
 
   // Locate the component for detail row that is unique per TransactionType.

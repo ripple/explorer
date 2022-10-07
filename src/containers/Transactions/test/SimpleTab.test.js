@@ -13,7 +13,6 @@ import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import DepositPreauth from './mock_data/DepositPreauth.json'
 import TrustSet from './mock_data/TrustSet.json'
 import UNLModify from './mock_data/UNLModify.json'
-import TicketCreate from './mock_data/TicketCreate.json'
 import SimpleTab from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18nTestConfig'
@@ -90,11 +89,6 @@ describe('SimpleTab container', () => {
     wrapper.unmount()
   })
 
-  it('renders TicketCreate without crashing', () => {
-    const wrapper = createWrapper(TicketCreate)
-    wrapper.unmount()
-  })
-
   it('renders simple tab information', () => {
     const wrapper = createWrapper(Payment)
     expect(wrapper.find('.simple-body').length).toBe(1)
@@ -111,14 +105,6 @@ describe('SimpleTab container', () => {
     expect(index.contains(<div className="title">sequence_number</div>)).toBe(
       true,
     )
-    wrapper.unmount()
-  })
-
-  it('renders ticket count', () => {
-    const wrapper = createWrapper(TicketCreate, 800)
-    expect(wrapper.find('.simple-body').length).toBe(1)
-    const ticketCount = wrapper.find('.ticket-count')
-    expect(ticketCount.length).toBe(1)
     wrapper.unmount()
   })
 })
