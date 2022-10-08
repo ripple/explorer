@@ -120,7 +120,6 @@ export const TokenTxTable = (props) => {
   return (
     <div className="section transactions-table">
       <ol className="account-transactions">
-        <div className="title">Token Transactions</div>
         <li className="transaction-li transaction-li-header">
           <div className="col-account">{t('account')}</div>
           <div className="col-type">{t('transaction_type')}</div>

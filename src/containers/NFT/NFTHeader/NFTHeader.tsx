@@ -120,7 +120,7 @@ export const NFTHeader = (props: Props) => {
         </div>
         <div className="nft-bottom-container">
           <div className="details">
-            <div className="title">{t('details')}</div>
+            <h2>{t('details')}</h2>
             <Details
               data={{
                 ...data,
@@ -130,7 +130,7 @@ export const NFTHeader = (props: Props) => {
             />
           </div>
           <div className="settings">
-            <div className="title">{t('settings')}</div>
+            <h2 className="title">{t('settings')}</h2>
             <Settings flags={data!.flags!} />
           </div>
         </div>
