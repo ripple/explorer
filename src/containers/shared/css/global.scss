@@ -224,6 +224,8 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
 */
 
 .anchor-mask {
+  position: relative;
+
   a {
     position: relative;
     z-index: 10;
