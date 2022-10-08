@@ -13,7 +13,7 @@ interface Props {
   data: NFTFormattedInfo & AccountFormattedInfo & MintedProps
 }
 
-const Details = ({ data }: Props) => {
+export const Details = ({ data }: Props) => {
   const { minted, domain, NFTTaxon, uri, transferFee } = data
   const { t } = useTranslation()
   const language = useLanguage()
@@ -58,5 +58,3 @@ const Details = ({ data }: Props) => {
     </table>
   )
 }
-
-export default Details

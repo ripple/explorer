@@ -52,7 +52,7 @@ export const AccountNFTTable = ({ accountId }: AccountNFTTableProps) => {
   const renderRow = (nft: any) => (
     <tr key={nft.NFTokenID}>
       <td>
-        <Link to={`/token/${nft.NFTokenID}`}>{nft.NFTokenID}</Link>
+        <Link to={`/nft/${nft.NFTokenID}`}>{nft.NFTokenID}</Link>
       </td>
       <td>
         <Account account={nft.Issuer} />
