@@ -26,8 +26,10 @@ $index-width: 324px;
       display: flex;
       overflow: hidden;
       flex-wrap: wrap;
+      justify-content: space-between;
       padding: 15px 0;
       border-bottom: 1px solid $gray-800;
+      gap: 0 5px;
 
       @include for-size(tablet-portrait-up) {
         padding: 15px 15px 15px 0;
@@ -59,11 +61,9 @@ $index-width: 324px;
       .value {
         @include medium;
 
-        flex-grow: 1;
-        padding-left: 5px;
         color: $white;
-        text-align: right;
         vertical-align: middle;
+        word-break: break-all;
 
         &.date {
           color: $black-60;
