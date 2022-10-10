@@ -1,0 +1,69 @@
+{
+  "tx": {
+    "Account": "rDAE53VfMvftPB4ogpWGWvzkQxfht6JPxr",
+    "Amount": "1531267000",
+    "Destination": "rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt",
+    "DestinationTag": 381702,
+    "Fee": "3000",
+    "Flags": 0,
+    "LastLedgerSequence": 74682640,
+    "Sequence": 69408381,
+    "SigningPubKey": "036085B9E6A6C3628E94FB87914AD5CBABB1DD5FA510D50D742919DC5684A43900",
+    "TransactionType": "Payment",
+    "TxnSignature": "304402207B3A985AF751A7AE4867721C5769C995EDC375A63A72DF079B9C9CC6C3410E1102200270DB15C2260EB7A1005DD736C6526FE4E41C138455F70DB0E97834685ACD56",
+    "date": "2022-09-27T19:03:12Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt",
+            "Balance": "15510910711950",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 506441
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "61DD66AC4A3CAEBEA666DA86741503C5A9C0A68F54EEFFC8E32A123814B414B5",
+          "PreviousFields": {
+            "Balance": "15509379444950"
+          },
+          "PreviousTxnID": "18A1718BFE41D672ED6FD4575FAA0EDC4D6B0F0A6957146498E8142A716EBD1D",
+          "PreviousTxnLgrSeq": 74682577
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rDAE53VfMvftPB4ogpWGWvzkQxfht6JPxr",
+            "Balance": "242300673818330",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 69408382
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "9840CEB0F4EC2594DD96CC4CE410D5F3F73B674EFF6D286CA25B47CF2975E886",
+          "PreviousFields": {
+            "Balance": "242302205088330",
+            "Sequence": 69408381
+          },
+          "PreviousTxnID": "012B564766F874CD627FE50F5A82EE4899D33FECC8FF27D0BC2C10DA06EC9930",
+          "PreviousTxnLgrSeq": 74682623
+        }
+      }
+    ],
+    "TransactionIndex": 16,
+    "TransactionResult": "tesSUCCESS",
+    "delivered_amount": "1531267000"
+  },
+  "hash": "589640406AC52E6092623A3124900877F7B63AB250E2ED97888B8CA364C3AD8D",
+  "ledger_index": 74682627,
+  "date": "2022-09-27T19:03:12Z"
+}

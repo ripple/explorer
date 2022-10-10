@@ -1,0 +1,134 @@
+{
+  "tx": {
+    "Account": "r3RaNVLvWjqqtFAawC6jbRhgKyFH7HvRS8",
+    "Amount": {
+      "currency": "5852646F67650000000000000000000000000000",
+      "issuer": "rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA",
+      "value": "17366599.150289"
+    },
+    "Destination": "rprcTynT68nYdKzDTefAZG9HjSHiYcnP4b",
+    "DestinationTag": 0,
+    "Fee": "40000",
+    "Flags": 2147483648,
+    "LastLedgerSequence": 74682649,
+    "SendMax": {
+      "currency": "5852646F67650000000000000000000000000000",
+      "issuer": "rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA",
+      "value": "17366599.150289"
+    },
+    "Sequence": 63622107,
+    "SigningPubKey": "EDEBA43507DFB9789CB377D547561967AE9E6B393C011F0A5A45D2CD6D644CDC3C",
+    "TransactionType": "Payment",
+    "TxnSignature": "B938F6BE36F988D5CA634A6180ED25114640F9AABEE6E267A232B7DB8D1C3C1202C13D02190DA5FC1B4B41AA64C357819C1A9B9017D3481A841EABFAAA52BF0C",
+    "date": "2022-09-27T19:03:30Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "r3RaNVLvWjqqtFAawC6jbRhgKyFH7HvRS8",
+            "Balance": "10107960000",
+            "Flags": 655360,
+            "OwnerCount": 49,
+            "Sequence": 63622108
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "32B7CD6E9A603D127BE7EB6946441BA098C44E4CF29243DDD6DC5465D7FAA1C4",
+          "PreviousFields": {
+            "Balance": "10108000000",
+            "Sequence": 63622107
+          },
+          "PreviousTxnID": "065F6D748CDC7D7552E3BC3AE704E16F5F40B3B85FE8212E1EB04A92942511F9",
+          "PreviousTxnLgrSeq": 74682551
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Balance": {
+              "currency": "5852646F67650000000000000000000000000000",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "17366599.150289"
+            },
+            "Flags": 1114112,
+            "HighLimit": {
+              "currency": "5852646F67650000000000000000000000000000",
+              "issuer": "rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA",
+              "value": "0"
+            },
+            "HighNode": "956",
+            "LowLimit": {
+              "currency": "5852646F67650000000000000000000000000000",
+              "issuer": "rprcTynT68nYdKzDTefAZG9HjSHiYcnP4b",
+              "value": "99594110060.12813"
+            },
+            "LowNode": "0"
+          },
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "8A176A04AB432E61FC9619A0F6705A1139F167C11193CE4E9243EBFAB6974B46",
+          "PreviousFields": {
+            "Balance": {
+              "currency": "5852646F67650000000000000000000000000000",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "0"
+            }
+          },
+          "PreviousTxnID": "95801B9E6A733C8CB7F1E23D7BA53D87D4E12195448B0933B29FB734938CD001",
+          "PreviousTxnLgrSeq": 74682072
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Balance": {
+              "currency": "5852646F67650000000000000000000000000000",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "18159637014.6892"
+            },
+            "Flags": 1114112,
+            "HighLimit": {
+              "currency": "5852646F67650000000000000000000000000000",
+              "issuer": "rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA",
+              "value": "0"
+            },
+            "HighNode": "539",
+            "LowLimit": {
+              "currency": "5852646F67650000000000000000000000000000",
+              "issuer": "r3RaNVLvWjqqtFAawC6jbRhgKyFH7HvRS8",
+              "value": "99999950000"
+            },
+            "LowNode": "0"
+          },
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "CF9289B3AA47DAE4400EFBCF511284C3A3899F26F61D385DBCC69BBBFA0D2DCE",
+          "PreviousFields": {
+            "Balance": {
+              "currency": "5852646F67650000000000000000000000000000",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "18177003613.83948"
+            }
+          },
+          "PreviousTxnID": "AFD4338B87609F444367B82F188C6D9ED5E65D1245140F61250CE67CB01F50E2",
+          "PreviousTxnLgrSeq": 74682083
+        }
+      }
+    ],
+    "TransactionIndex": 31,
+    "TransactionResult": "tesSUCCESS",
+    "delivered_amount": {
+      "currency": "5852646F67650000000000000000000000000000",
+      "issuer": "rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA",
+      "value": "17366599.150289"
+    }
+  },
+  "hash": "AABF5991C4540CB1DF7D4F5DC8FEA8AC1F2DB4ECB7BFEBC96B8752CECF482325",
+  "ledger_index": 74682631,
+  "date": "2022-09-27T19:03:30Z"
+}

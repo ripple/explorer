@@ -5,6 +5,7 @@ import { NFTokenCreateOfferTransaction as NFTokenCreateOffer } from './NFTokenCr
 import { NFTokenAcceptOfferTransaction as NFTokenAcceptOffer } from './NFTokenAcceptOffer'
 import { OfferCancelTransaction as OfferCancel } from './OfferCancel'
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
+import { PaymentTransaction as Payment } from './Payment'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
 import { XChainAccountCreateCommitTransaction as XChainAccountCreateCommit } from './XChainAccountCreateCommit'
@@ -28,6 +29,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   NFTokenAcceptOffer,
   OfferCancel,
   OfferCreate,
+  Payment,
   SetRegularKey,
   SignerListSet,
   XChainAccountCreateCommit,
