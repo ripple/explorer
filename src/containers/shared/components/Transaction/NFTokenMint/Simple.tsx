@@ -5,12 +5,22 @@ import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { NFTokenMintInstructions } from './types'
 import Account from '../../Account'
+import { useLanguage } from '../../../hooks'
+import { localizeNumber } from '../../../utils'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<NFTokenMintInstructions>) => {
-  const { tokenID, tokenTaxon, uri, issuer } = data.instructions
+  const { tokenID, tokenTaxon, uri, transferFee, issuer } = data.instructions
   const { t } = useTranslation()
+  const language = useLanguage()
+  const formattedFee =
+    transferFee &&
+    `${localizeNumber((transferFee / 1000).toPrecision(5), language, {
+      style: 'currency',
+      currency: 'none',
+      minimumFractionDigits: 3,
+    })}%`
 
   return (
     <>
@@ -27,6 +37,15 @@ export const Simple: TransactionSimpleComponent = ({
       <SimpleRow label={t('uri')} className="dt" data-test="token-uri">
         {uri}
       </SimpleRow>
+      {transferFee && (
+        <SimpleRow
+          label={t('transfer_fee')}
+          className="dt"
+          data-test="token-fee"
+        >
+          {formattedFee}
+        </SimpleRow>
+      )}
       {issuer && (
         <SimpleRow label={t('issuer')} className="dt" data-test="token-issuer">
           <Account account={issuer} />

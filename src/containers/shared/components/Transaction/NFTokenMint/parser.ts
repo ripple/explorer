@@ -37,6 +37,7 @@ export const parser: TransactionParser<NFTokenMint, NFTokenMintInstructions> = (
     tokenID,
     tokenTaxon: tx.NFTokenTaxon,
     uri: utils.convertHexToString(tx.URI),
+    transferFee: tx.TransferFee,
     issuer: tx.Issuer,
   }
 }

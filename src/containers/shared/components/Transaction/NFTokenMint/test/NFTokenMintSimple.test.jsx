@@ -28,6 +28,7 @@ describe('NFTokenMint', () => {
     expect(wrapper.find('[data-test="token-uri"] .value')).toHaveText(
       'https://gregweisbrod.com',
     )
+    expect(wrapper.find('[data-test="token-fee"] .value').exists()).toBe(false)
     expect(wrapper.find('[data-test="token-issuer"] .value').exists()).toBe(
       false,
     )
@@ -53,6 +54,7 @@ describe('NFTokenMint', () => {
     expect(wrapper.find('[data-test="token-uri"] .value')).toHaveText(
       'https://gregweisbrod.com',
     )
+    expect(wrapper.find('[data-test="token-fee"] .value').exists()).toBe(false)
     expect(wrapper.find('[data-test="token-issuer"] .value').exists()).toBe(
       false,
     )
@@ -78,6 +80,7 @@ describe('NFTokenMint', () => {
     expect(wrapper.find('[data-test="token-uri"] .value')).toHaveText(
       'https://gregweisbrod.com',
     )
+    expect(wrapper.find('[data-test="token-fee"] .value').exists()).toBe(false)
     expect(wrapper.find('[data-test="token-issuer"] .value').exists()).toBe(
       false,
     )
@@ -104,6 +107,7 @@ describe('NFTokenMint', () => {
     expect(wrapper.find('[data-test="token-uri"] .value')).toHaveText(
       'ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
     )
+    expect(wrapper.find('[data-test="token-fee"] .value')).toHaveText('25.000%')
     expect(wrapper.find('[data-test="token-issuer"] .value')).toHaveText(
       'rGToUZ1JjRUdv1wXNXKMFn2o4wTM2DLkpg',
     )
