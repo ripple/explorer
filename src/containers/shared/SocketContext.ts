@@ -5,7 +5,7 @@ const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 function isInsecureWs(rippledHost: string | null): boolean {
   return (
-    Boolean(process.env.REACT_APP_INSECURE_WS) ||
+    !!Number(process.env.REACT_APP_INSECURE_WS) ||
     LOCALHOST_URLS.some((url) => rippledHost?.includes(url)) ||
     rippledHost === ''
   )
