@@ -1,6 +1,5 @@
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
-const Payment = require('./Payment')
 const TrustSet = require('./TrustSet')
 const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelClaim = require('./PaymentChannelClaim')
@@ -12,7 +11,6 @@ const UNLModify = require('./UNLModify')
 const AccountDelete = require('./AccountDelete')
 
 const summarize = {
-  Payment,
   TrustSet,
   PaymentChannelCreate,
   PaymentChannelClaim,
