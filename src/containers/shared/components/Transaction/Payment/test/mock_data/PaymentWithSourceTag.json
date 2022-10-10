@@ -1,0 +1,65 @@
+{
+  "tx": {
+    "Account": "rAPERVgXZavGgiGv6xBgtiZurirW2yAmY",
+    "Amount": "7022",
+    "Destination": "rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh",
+    "DestinationTag": 412453880,
+    "Fee": "12",
+    "Flags": 2147483648,
+    "LastLedgerSequence": 74707042,
+    "Sequence": 6902959,
+    "SigningPubKey": "03D0F8AD5451AF33C55C20FED9A9C70E887958CA9A224CEB3413FED4FF5280DE3D",
+    "SourceTag": 20648,
+    "TransactionType": "Payment",
+    "TxnSignature": "30440220613E6F791432AE3F770B329B095D012A3803B8B1A863F9BBF26667AB6F528BCE02202ADA66E48C5406910EAE8FD69BC0D0DD99445B90491CC10D00570D79DF156122",
+    "date": "2022-09-28T21:09:21Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rAPERVgXZavGgiGv6xBgtiZurirW2yAmY",
+            "Balance": "200406835",
+            "Flags": 0,
+            "MessageKey": "020000000000000000000000004A68BF6B449628C7307522C4ED724B54892EAF6B",
+            "OwnerCount": 0,
+            "Sequence": 6902960
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "13BB764C1AF64C2C906232D832B7D5943BFCB2935AE40BAFAD91A1722FD74839",
+          "PreviousFields": {
+            "Balance": "200413869",
+            "Sequence": 6902959
+          },
+          "PreviousTxnID": "5381FDC5BDD3BCD0E7A5308935FB17C445C89698E4EE7A5F6FF2206FD3B0911E",
+          "PreviousTxnLgrSeq": 74707022
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh",
+            "Balance": "2141312206",
+            "Flags": 131072,
+            "OwnerCount": 0,
+            "Sequence": 460789
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "E50C9EE857E177CE38071B8930F66053C9C86DF9B8ADEDA632CB9DFF50EC0033",
+          "PreviousFields": {
+            "Balance": "2141305184"
+          },
+          "PreviousTxnID": "D06049F6D65CB38E96D7592AF33313C03BB50B9DF43E7E206C488D87DBA83F68",
+          "PreviousTxnLgrSeq": 74707038
+        }
+      }
+    ],
+    "TransactionIndex": 40,
+    "TransactionResult": "tesSUCCESS",
+    "delivered_amount": "7022"
+  },
+  "hash": "6E0EC20AE77ED25731B21B5B0B8FF7EA36605CBAA9C7D77725B6EC4D43E5C009",
+  "ledger_index": 74707040,
+  "date": "2022-09-28T21:09:21Z"
+}

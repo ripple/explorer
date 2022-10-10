@@ -4,8 +4,6 @@
   "date": "2018-03-23T13:34:51+00:00",
   "tx": {
     "TransactionType": "Payment",
-    "SourceTag": "SourceTag",
-    "DestinationTag": "DestinationTag",
     "Flags": 2147483648,
     "Sequence": 31030,
     "Amount": "2421826800",
