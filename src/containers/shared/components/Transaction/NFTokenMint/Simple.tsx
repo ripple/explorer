@@ -34,15 +34,11 @@ export const Simple: TransactionSimpleComponent = ({
       >
         {tokenTaxon}
       </SimpleRow>
-      <SimpleRow label={t('uri')} className="dt" data-test="token-uri">
+      <SimpleRow label={t('uri')} data-test="token-uri">
         {uri}
       </SimpleRow>
       {transferFee && (
-        <SimpleRow
-          label={t('transfer_fee')}
-          className="dt"
-          data-test="token-fee"
-        >
+        <SimpleRow label={t('transfer_fee')} data-test="token-fee">
           {formattedFee}
         </SimpleRow>
       )}
