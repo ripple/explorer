@@ -54,7 +54,7 @@ const Header = (props) => {
 
   function toggleExpand(event) {
     const className = event?.target?.getAttribute('class')
-    if (!(expanded && className === 'custom_input'))
+    if (!(expanded && className === 'custom_network_input'))
       // don't de-expand if clicking in the textbox
       setExpanded((prevExpanded) => !prevExpanded)
   }
@@ -132,7 +132,7 @@ const Header = (props) => {
         tabIndex={0}
       >
         <input
-          className="custom_input"
+          className="custom_network_input"
           type="text"
           placeholder="Add custom network"
           onKeyDown={onInputKeyDown}
@@ -193,7 +193,7 @@ const Header = (props) => {
                     classnames('item', 'custom', {
                       selected: network === rippledUrl,
                     }),
-                    `${t('custom_data')}: ${network.toLowerCase()}`,
+                    `${t('custom_network_data')}: ${network.toLowerCase()}`,
                   )
                 : renderDropdown(
                     network,

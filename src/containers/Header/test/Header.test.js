@@ -100,7 +100,7 @@ describe('Header component', () => {
     it('redirect on custom network input works', () => {
       const wrapper = createWrapper()
 
-      const customInput = wrapper.find('[className="custom_input"]')
+      const customInput = wrapper.find('[className="custom_network_input"]')
       customInput.prop('onKeyDown')({
         key: 'Enter',
         currentTarget: { value: 'custom_url' },
