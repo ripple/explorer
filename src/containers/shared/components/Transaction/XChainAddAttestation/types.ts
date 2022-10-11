@@ -1,13 +1,4 @@
-export interface IssuedCurrency {
-  currency: string
-  issuer: string
-}
-
-export interface IssuedCurrencyAmount extends IssuedCurrency {
-  value: string
-}
-
-export type Amount = IssuedCurrencyAmount | string
+import { Amount, ExplorerAmount, IssuedCurrency } from '../../../types'
 
 export interface XChainBridge {
   LockingChainDoor: string
@@ -46,14 +37,6 @@ export interface XChainAddAttestation {
     }>
   }
 }
-
-type ExplorerAmount =
-  | string
-  | {
-      issuer?: string
-      currency: string
-      amount: number
-    }
 
 export interface ClaimAttestationInstructions {
   send: ExplorerAmount

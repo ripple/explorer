@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import Payment from './Payment'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
@@ -11,7 +10,6 @@ import DepositPreauth from './DepositPreauth'
 import EnableAmendment from './EnableAmendment'
 import UNLModify from './UNLModify'
 import AccountDelete from './AccountDelete'
-import TicketCreate from './TicketCreate'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
 
@@ -29,8 +27,6 @@ const Simple = (props) => {
   // Locate the unique transaction component the old way
   // TODO: Remove once all transactions have been moved to the new definition style
   switch (type) {
-    case 'Payment':
-      return <Payment t={t} language={language} data={data} />
     case 'PaymentChannelCreate':
       return <PaymentChannelCreate t={t} language={language} data={data} />
     case 'PaymentChannelClaim':
@@ -49,8 +45,6 @@ const Simple = (props) => {
       return <UNLModify t={t} language={language} data={data} />
     case 'AccountDelete':
       return <AccountDelete t={t} language={language} data={data} />
-    case 'TicketCreate':
-      return <TicketCreate t={t} language={language} data={data} />
     default:
       // Some transactions do not have simple views.
       return (
