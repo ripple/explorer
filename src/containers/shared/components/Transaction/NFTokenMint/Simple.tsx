@@ -17,8 +17,6 @@ export const Simple: TransactionSimpleComponent = ({
   const formattedFee =
     transferFee &&
     `${localizeNumber((transferFee / 1000).toPrecision(5), language, {
-      style: 'currency',
-      currency: 'none',
       minimumFractionDigits: 3,
     })}%`
 
