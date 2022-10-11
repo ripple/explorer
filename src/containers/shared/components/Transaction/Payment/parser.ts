@@ -1,9 +1,10 @@
-const formatAmount = require('./formatAmount')
-const formatFailedPartialAmount = require('./formatFailedPartialAmount')
+import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import formatFailedPartialAmount from '../../../../../rippled/lib/txSummary/formatFailedPartialAmount'
+import { Payment, PaymentInstructions } from './types'
 
-const isPartialPayment = (flags) => 0x00020000 & flags
+export const isPartialPayment = (flags: any) => 0x00020000 & flags
 
-module.exports = (tx, meta) => {
+export const parser = (tx: Payment, meta: any): PaymentInstructions => {
   const max = tx.SendMax ? formatAmount(tx.SendMax) : undefined
   const partial = !!isPartialPayment(tx.Flags)
   const failedPartial = partial && meta.TransactionResult !== 'tesSUCCESS'
@@ -11,11 +12,13 @@ module.exports = (tx, meta) => {
     ? formatFailedPartialAmount(tx.Amount)
     : formatAmount(partial ? meta.delivered_amount : tx.Amount)
   const dt = tx.DestinationTag !== undefined ? `:${tx.DestinationTag}` : ''
+  const destination = `${tx.Destination}${dt}`
 
   if (tx.Account === tx.Destination) {
     return {
       amount,
       convert: max,
+      destination,
       partial,
     }
   }

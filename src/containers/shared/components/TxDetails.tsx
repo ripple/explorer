@@ -123,46 +123,6 @@ const TxDetails = (props: Props) => {
     )
   }
 
-  function renderPayment(): ReactElement | null {
-    const { instructions } = props
-    const { convert, amount, destination, partial, sourceTag } = instructions
-
-    if (convert) {
-      return (
-        <div className="payment conversion">
-          <span className="label">{t('convert_maximum')}</span>
-          {renderAmount(convert)}
-          <span>{t('to')}</span>
-          {renderAmount(amount)}
-          {partial && (
-            <div className="partial-payment">
-              {t('partial_payment_allowed')}
-            </div>
-          )}
-        </div>
-      )
-    }
-
-    return amount ? (
-      <div className="payment">
-        <span className="label">{t('send')}</span>
-        {renderAmount(amount)}
-        <span>{t('to')}</span>
-        <span className="account"> {destination} </span>
-        {sourceTag !== undefined && (
-          <div className="st">
-            {t('source_tag')}
-            {': '}
-            <span>{sourceTag}</span>
-          </div>
-        )}
-        {partial && (
-          <div className="partial-payment">{t('partial_payment_allowed')}</div>
-        )}
-      </div>
-    ) : null
-  }
-
   function renderPaymentChannelCreate(): ReactElement {
     const { instructions } = props
     const { amount, source, destination } = instructions
@@ -242,7 +202,6 @@ const TxDetails = (props: Props) => {
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderAccountSet,
     renderTrustSet,
-    renderPayment,
     renderPaymentChannelCreate,
     renderPaymentChannelClaim,
   }
