@@ -1,7 +1,7 @@
 .tx-status {
   display: inline-flex;
-  align-items: center;
   max-width: 100%;
+  align-items: center;
 
   svg {
     height: 1em;
@@ -12,8 +12,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: capitalize;
-
-    //vertical-align: middle;
     white-space: nowrap;
 
     &::before {
