@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import rootReducer, { initialState } from '../../../../rootReducer'
 import i18n from '../../../../i18nTestConfig'
-import ConnectedTable from '../index'
+import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
 import * as actionTypes from '../actionTypes'
 import { loadAccountTransactions } from '../actions'
@@ -30,7 +30,7 @@ describe('AccountTransactionsTable container', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <ConnectedTable accountId={TEST_ACCOUNT_ID} />
+            <AccountTransactionTable accountId={TEST_ACCOUNT_ID} />
           </Router>
         </Provider>
       </I18nextProvider>,

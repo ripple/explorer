@@ -1,16 +1,15 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
-import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { applyMiddleware, createStore } from 'redux'
 import rootReducer, { initialState } from '../../../../rootReducer'
 import i18n from '../../../../i18nTestConfig'
-import ConnectedTable, { TokenTxTable } from '../index'
-import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionsTable/test/mockTransactions.json'
-import * as actionTypes from '../../../Accounts/AccountTransactionsTable/actionTypes'
+import { TokenTransactionTable } from '../index'
+import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionTable/test/mockTransactions.json'
+import * as actionTypes from '../../../Accounts/AccountTransactionTable/actionTypes'
 import { loadTokenTransactions } from '../actions'
 
 jest.mock('../actions', () => ({
@@ -32,7 +31,7 @@ describe('TokenTransactionsTable container', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <ConnectedTable
+            <TokenTransactionTable
               accountId={TEST_ACCOUNT_ID}
               currency={TEST_CURRENCY}
             />

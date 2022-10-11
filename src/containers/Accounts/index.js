@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import AccountHeader from './AccountHeader'
-import AccountTransactionsTable from './AccountTransactionsTable'
+import { AccountTransactionTable } from './AccountTransactionTable'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
@@ -77,7 +77,7 @@ const Accounts = (props) => {
           />
           <Tabs tabs={tabs} selected={tab} path={mainPath} />
           {tab === 'transactions' && (
-            <AccountTransactionsTable
+            <AccountTransactionTable
               accountId={accountId}
               currencySelected={currencySelected}
             />

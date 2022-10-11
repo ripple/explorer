@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import AccountTransactionsTable from '../../Accounts/AccountTransactionsTable'
 
 const AccountDelete = (props) => {
   const { t, data } = props
