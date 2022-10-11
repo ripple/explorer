@@ -2,8 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import TrustSet from './TrustSet'
-import Payment from './Payment'
-import OfferCancel from './OfferCancel'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
@@ -16,7 +14,7 @@ import { useLanguage } from '../../shared/hooks'
 const TransactionDescription = (props) => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const { data, instructions } = props
+  const { data } = props
   let body = null
 
   if (!data || !data.tx) {
@@ -32,18 +30,7 @@ const TransactionDescription = (props) => {
   }
   // Locate the unique transaction component the old way
   // TODO: Remove once all transactions have been moved to the new definition style
-  else if (data.tx.TransactionType === 'OfferCancel') {
-    body = <OfferCancel t={t} data={data} />
-  } else if (data.tx.TransactionType === 'Payment') {
-    body = (
-      <Payment
-        t={t}
-        language={language}
-        data={data}
-        partial={instructions.partial}
-      />
-    )
-  } else if (data.tx.TransactionType === 'TrustSet') {
+  else if (data.tx.TransactionType === 'TrustSet') {
     body = <TrustSet t={t} language={language} data={data} />
   } else if (data.tx.TransactionType === 'PaymentChannelCreate') {
     body = <PaymentChannelCreate t={t} language={language} data={data} />
@@ -86,7 +73,6 @@ TransactionDescription.propTypes = {
       PropTypes.array,
     ]),
   ).isRequired,
-  instructions: PropTypes.shape({ partial: PropTypes.bool }).isRequired,
 }
 
 export default TransactionDescription

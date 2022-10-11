@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { XrplClient } from 'xrpl-client'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from 'react-query'
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
 import Ledgers from '../Ledgers'
 import Header from '../Header'
@@ -17,8 +16,9 @@ import validators from '../Validators'
 import paystrings from '../PayStrings'
 import token from '../Token'
 import noMatch from '../NoMatch'
-import NFT from '../NFT/NFT'
-import SocketContext from '../shared/SocketContext'
+import { NFT } from '../NFT/NFT'
+import SocketContext, { getSocket } from '../shared/SocketContext'
+import { queryClient } from '../shared/QueryClient'
 
 const App = (props) => {
   const { actions, location, match } = props
@@ -26,25 +26,8 @@ const App = (props) => {
   const {
     params: { rippledUrl = null },
   } = match
-  const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
-  const wsUrls = []
-  if (rippledHost.includes(':')) {
-    wsUrls.push(`wss://${rippledHost}`)
-  } else {
-    wsUrls.push.apply(wsUrls, [
-      `wss://${rippledHost}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      `wss://${rippledHost}:443`,
-    ])
-  }
-  const socket = new XrplClient(wsUrls)
-  const hasP2PSocket =
-    process.env.REACT_APP_P2P_RIPPLED_HOST != null &&
-    process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
-  socket.p2pSocket = hasP2PSocket
-    ? new XrplClient([
-        `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-      ])
-    : undefined
+
+  const socket = getSocket(rippledUrl)
 
   useEffect(() => {
     actions.updateViewportDimensions()
@@ -56,7 +39,7 @@ const App = (props) => {
       window.removeEventListener('scroll', actions.onScroll)
 
       socket.close()
-      if (hasP2PSocket) {
+      if (socket.p2pSocket !== undefined) {
         socket.p2pSocket.close()
       }
     }
@@ -84,16 +67,6 @@ const App = (props) => {
   if (location.pathname === `${urlLink}/ledgers`) {
     return <Redirect to={urlLink} />
   }
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-        retry: false,
-      },
-    },
-  })
 
   return (
     <div className="app">
@@ -123,7 +96,7 @@ const App = (props) => {
                 />
                 <Route exact path="/paystrings/:id?" component={paystrings} />
                 <Route exact path="/token/:currency.:id" component={token} />
-                <Route exact path="/token/:id" component={NFT} />
+                <Route exact path="/nft/:id/:tab?" component={NFT} />
                 <Route component={noMatch} />
               </Switch>
             </div>

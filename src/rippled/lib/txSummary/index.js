@@ -1,7 +1,5 @@
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
-const OfferCancel = require('./OfferCancel')
-const Payment = require('./Payment')
 const TrustSet = require('./TrustSet')
 const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelClaim = require('./PaymentChannelClaim')
@@ -11,11 +9,8 @@ const DepositPreauth = require('./DepositPreauth')
 const EnableAmendment = require('./EnableAmendment')
 const UNLModify = require('./UNLModify')
 const AccountDelete = require('./AccountDelete')
-const TicketCreate = require('./TicketCreate')
 
 const summarize = {
-  OfferCancel,
-  Payment,
   TrustSet,
   PaymentChannelCreate,
   PaymentChannelClaim,
@@ -25,7 +20,6 @@ const summarize = {
   EnableAmendment,
   UNLModify,
   AccountDelete,
-  TicketCreate,
 }
 
 const getInstructions = (tx, meta) => {
@@ -49,9 +43,11 @@ const summarizeTransaction = (d, details = false) => ({
   sequence: d.tx.Sequence,
   ticketSequence: d.tx.TicketSequence,
   date: d.date,
-  details: {
-    instructions: getInstructions(d.tx, d.meta),
-  },
+  details: details
+    ? {
+        instructions: getInstructions(d.tx, d.meta),
+      }
+    : undefined,
 })
 
 export default summarizeTransaction

@@ -205,6 +205,33 @@ a {
   }
 }
 
+/**
+Workaround to have the effect nested anchor tags (invalid html).
+
+1. Add the class `anchor-mask` to the container you would normally wrap in an <a> tag.
+2. Add the class `mask-overlay` to to the anchor.
+
+This makes the `mask-overlay` sit on top of the `anchor-mask` and then places any other "nested" anchors on top of the overlay
+*/
+
+.anchor-mask {
+  position: relative;
+
+  a {
+    position: relative;
+    z-index: 10;
+  }
+
+  a.mask-overlay {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
 .section {
   margin: 0 32px;
   @include for-size(tablet-landscape-up) {
