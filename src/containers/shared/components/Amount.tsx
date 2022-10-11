@@ -3,15 +3,10 @@ import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
 import { useLanguage } from '../hooks'
 import { localizeNumber } from '../utils'
 import Currency from './Currency'
+import { ExplorerAmount } from '../types'
 
 export interface AmountProps {
-  value:
-    | string
-    | {
-        issuer?: string
-        currency: string
-        amount: number
-      }
+  value: ExplorerAmount
   displayIssuer?: boolean
 }
 

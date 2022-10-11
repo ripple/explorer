@@ -29,16 +29,16 @@ const Simple = (props) => {
       </div>
       <div className="row">
         <div className="label">Master Key</div>
-        <div className="value account">{data.master_key || 'Unknown'}</div>
+        <div className="value">{data.master_key || 'Unknown'}</div>
       </div>
       <div className="row">
         <div className="label">Signing Key</div>
-        <div className="value account">{data.signing_key || 'Unknown'}</div>
+        <div className="value">{data.signing_key || 'Unknown'}</div>
       </div>
       <div className="row">
         <div className="label">Ledger</div>
         <div className="value">
-          <Link className="account" to={`/ledgers/${data.ledger_index}`}>
+          <Link to={`/ledgers/${data.ledger_index}`}>
             {data.ledger_hash || 'Unknown'}
           </Link>
         </div>
