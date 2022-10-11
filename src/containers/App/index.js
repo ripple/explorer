@@ -17,7 +17,7 @@ import AppErrorBoundary from './AppErrorBoundary'
 const AppWrapper = (props) => {
   const { t } = useTranslation()
   const mode = process.env.REACT_APP_ENVIRONMENT
-  const path = mode === 'sidechain' ? '/:rippledUrl' : '/'
+  const path = mode === 'custom' ? '/:rippledUrl' : '/'
   return (
     <div className="app-wrapper">
       <AppErrorBoundary>
@@ -28,7 +28,7 @@ const AppWrapper = (props) => {
         <Banner />
         <Switch>
           <Route path={path} component={App} />
-          {mode === 'sidechain' && <Route path="/" component={SidechainHome} />}
+          {mode === 'custom' && <Route path="/" component={SidechainHome} />}
           <Route component={NoMatch} />
         </Switch>
         <Footer />
