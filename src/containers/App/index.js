@@ -11,7 +11,7 @@ import Banner from '../Header/Banner' // included here for spacing
 import './app.scss'
 import App from './App'
 import NoMatch from '../NoMatch'
-import SidechainHome from '../SidechainHome'
+import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'
 
 const AppWrapper = (props) => {
@@ -28,7 +28,9 @@ const AppWrapper = (props) => {
         <Banner />
         <Switch>
           <Route path={path} component={App} />
-          {mode === 'custom' && <Route path="/" component={SidechainHome} />}
+          {mode === 'custom' && (
+            <Route path="/" component={CustomNetworkHome} />
+          )}
           <Route component={NoMatch} />
         </Switch>
         <Footer />
