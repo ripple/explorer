@@ -302,7 +302,7 @@ const AccountHeader = (props) => {
   return (
     <div className="box account-header">
       <div className="section box-header">
-        <h2 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h2>
+        <h1 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h1>
       </div>
       <div className="box-content">
         {loading ? <Loader /> : renderHeaderContent()}

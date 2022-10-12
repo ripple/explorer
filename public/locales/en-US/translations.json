@@ -26,6 +26,7 @@
   "ledger": "Ledger",
   "taxon": "Taxon",
   "token_id": "Token ID",
+  "token_transactions": "Token Transactions",
   "transactions": "Transactions",
   "transaction_short": "TX",
   "nodes": "Nodes",

@@ -46,6 +46,16 @@ button {
   outline: none !important; // remove blue outline in click and focus
 }
 
+h2 {
+  padding-bottom: 18px;
+  border-bottom: 1px $gray-800 solid;
+  margin-top: 0;
+  color: $white;
+  font-size: 24px;
+
+  @include bold;
+}
+
 svg.react-stockchart {
   z-index: auto !important;
   left: 0px;

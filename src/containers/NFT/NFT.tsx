@@ -58,7 +58,7 @@ export const NFT = () => {
   return error ? (
     renderError()
   ) : (
-    <div className="token-page">
+    <div className="nft-page">
       {tokenId && <NFTHeader tokenId={tokenId} setError={setError} />}
       {/* {tokenId && <NFTTabs tokenId={tokenId} />} */}
       {!tokenId && (
