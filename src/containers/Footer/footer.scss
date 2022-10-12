@@ -21,10 +21,6 @@
 
   .footer-link-section {
     padding-top: 40px;
-
-    @include for-size(tablet-landscape-up) {
-      padding-top: 104px;
-    }
   }
 
   .footer-section-header {
@@ -56,10 +52,6 @@
 
   .footer-branding {
     margin-top: 40px;
-
-    @include for-size(tablet-landscape-up) {
-      margin-top: 104px;
-    }
   }
 
   .logo {
