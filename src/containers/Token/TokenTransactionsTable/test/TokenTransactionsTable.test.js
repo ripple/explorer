@@ -49,7 +49,7 @@ describe('TokenTransactionsTable container', () => {
 
   it('renders static parts', () => {
     const wrapper = createWrapper()
-    expect(wrapper.find('.transactions-table').length).toBe(1)
+    expect(wrapper.find('.transaction-table').length).toBe(1)
     wrapper.unmount()
   })
 
@@ -84,7 +84,7 @@ describe('TokenTransactionsTable container', () => {
     })
 
     expect(component.find('.load-more-btn').length).toBe(1)
-    expect(component.find('.account-transactions').length).toBe(1)
+    expect(component.find('.transaction-table').length).toBe(1)
     expect(component.find('.transaction-li.transaction-li-header').length).toBe(
       1,
     )
