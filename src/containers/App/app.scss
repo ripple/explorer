@@ -15,9 +15,6 @@
     @include for-size(desktop-up) {
       min-height: $min-height;
     }
-    @include for-size(big-desktop-up) {
-      min-height: $min-height;
-    }
   }
 
   .content,
