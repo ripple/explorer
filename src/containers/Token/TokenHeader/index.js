@@ -190,11 +190,11 @@ class TokenHeader extends Component {
         </div>
         <div className="bottom-container">
           <div className="details">
-            <div className="title">{t('details')}</div>
+            <h2>{t('details')}</h2>
             {this.renderDetails()}
           </div>
           <div className="settings">
-            <div className="title">{t('settings')}</div>
+            <h2 className="title">{t('settings')}</h2>
             {this.renderSettings()}
           </div>
         </div>

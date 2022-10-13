@@ -94,9 +94,7 @@ describe('Ledger container', () => {
     const wrapper = createWrapper(state)
     const table = wrapper.find('.trans-table')
     expect(table.length).toBe(1)
-    expect(table.find('a.trans-row').length).toBe(
-      mockLedger.transactions.length,
-    )
+    expect(table.find('.trans-row').length).toBe(mockLedger.transactions.length)
     wrapper.unmount()
   })
 

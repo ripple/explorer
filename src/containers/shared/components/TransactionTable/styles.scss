@@ -1,9 +1,9 @@
-@import '../../shared/css/variables';
+@import '../../../shared/css/variables';
 
-.account-transactions {
+.transaction-table {
   width: 100%;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   font-size: 12px;
   line-height: 24px;
   list-style: none;
@@ -11,16 +11,6 @@
 
   @include for-size(desktop-up) {
     font-size: 14px;
-  }
-
-  .title {
-    padding-bottom: 18px;
-    border-bottom: 1px $gray-900 solid;
-    margin-bottom: 40px;
-    color: $white;
-    font-size: 24px;
-
-    @include bold;
   }
 
   .upper {
@@ -36,7 +26,6 @@
   .col-date {
     display: inline-block;
     overflow: hidden;
-    // padding: 4px 8px 4px 4px;
     text-overflow: ellipsis;
     vertical-align: middle;
     white-space: nowrap;
@@ -44,7 +33,7 @@
 
   .col-type {
     width: 180px;
-    letter-spacing: 0px;
+    letter-spacing: 0;
     @include semibold;
 
     @include for-size(desktop-up) {
@@ -54,7 +43,7 @@
 
   .col-status {
     width: 50px;
-    letter-spacing: 0px;
+    letter-spacing: 0;
     @include regular;
 
     .successful {
@@ -83,7 +72,7 @@
 
   .col-account {
     display: none;
-    letter-spacing: 0px;
+    letter-spacing: 0;
 
     .transaction-address {
       color: $gray-800;
@@ -122,7 +111,6 @@
   .details {
     min-height: 30px;
     padding: 32px;
-    margin-bottom: 64px;
     background: #22252b80;
     color: $gray-400;
     font-size: 10px;
@@ -131,8 +119,13 @@
     @include regular;
 
     @include for-size(tablet-landscape-up) {
-      margin-bottom: 72px;
       font-size: 12px;
+    }
+
+    &:empty {
+      min-height: 0;
+      padding: 0;
+      margin-bottom: 0;
     }
 
     .currency,
@@ -149,7 +142,7 @@
       margin-right: 5px;
 
       span {
-        margin: 0px;
+        margin: 0;
       }
     }
 
@@ -164,7 +157,7 @@
     .partial-payment,
     .closed,
     .flag,
-    .unset,
+    .unsetregularkey,
     .empty {
       font-style: italic;
       text-transform: none;
@@ -208,9 +201,9 @@
 
     @include for-size(tablet-landscape-up) {
       flex-direction: row;
-      padding: 0px;
-      border-width: 0px;
-      border-radius: 0px;
+      padding: 0;
+      border-width: 0;
+      border-radius: 0;
     }
 
     &.fail {
@@ -230,7 +223,7 @@
     text-transform: uppercase;
 
     @include for-size(desktop-up) {
-      border-left: 0px;
+      border-left: 0;
     }
 
     &:hover {

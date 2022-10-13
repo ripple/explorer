@@ -22,11 +22,20 @@ $subdued-color: $gray-400;
 
     .row {
       .value {
+        .amount {
+          text-align: right;
+
+          .amount-localized {
+            display: block;
+          }
+        }
+
         .currency {
           display: block;
           margin: -1px 0px -16px;
           color: $subdued-color;
           font-size: 11px;
+          text-align: right;
           @include medium;
 
           .account {

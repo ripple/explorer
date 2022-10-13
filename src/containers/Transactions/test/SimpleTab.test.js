@@ -3,18 +3,16 @@ import { mount, shallow } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 
 import { BrowserRouter as Router } from 'react-router-dom'
-import Payment from './mock_data/Payment.json'
-import PaymentConvert from './mock_data/Payment-convert.json'
 import AccountDelete from './mock_data/AccountDelete.json'
 import AccountSet from './mock_data/AccountSet.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
+import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import DepositPreauth from './mock_data/DepositPreauth.json'
 import TrustSet from './mock_data/TrustSet.json'
 import UNLModify from './mock_data/UNLModify.json'
-import TicketCreate from './mock_data/TicketCreate.json'
 import SimpleTab from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18nTestConfig'
@@ -45,16 +43,6 @@ describe('SimpleTab container', () => {
         />
       </Router>,
     )
-
-  it('renders Payment without crashing', () => {
-    const wrapper = createWrapper(Payment)
-    wrapper.unmount()
-  })
-
-  it('renders Payment (convert) without crashing', () => {
-    const wrapper = createWrapper(PaymentConvert)
-    wrapper.unmount()
-  })
 
   it('renders AccountDelete without crashing', () => {
     const wrapper = createShallowWrapper(AccountDelete)
@@ -101,11 +89,6 @@ describe('SimpleTab container', () => {
     wrapper.unmount()
   })
 
-  it('renders TicketCreate without crashing', () => {
-    const wrapper = createWrapper(TicketCreate)
-    wrapper.unmount()
-  })
-
   it('renders simple tab information', () => {
     const wrapper = createWrapper(Payment)
     expect(wrapper.find('.simple-body').length).toBe(1)
@@ -122,14 +105,6 @@ describe('SimpleTab container', () => {
     expect(index.contains(<div className="title">sequence_number</div>)).toBe(
       true,
     )
-    wrapper.unmount()
-  })
-
-  it('renders ticket count', () => {
-    const wrapper = createWrapper(TicketCreate, 800)
-    expect(wrapper.find('.simple-body').length).toBe(1)
-    const ticketCount = wrapper.find('.ticket-count')
-    expect(ticketCount.length).toBe(1)
     wrapper.unmount()
   })
 })

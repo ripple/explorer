@@ -35,10 +35,26 @@ describe('Currency', () => {
           issuer="r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB"
           amount={5.001}
         />
+        <Currency
+          currency="USD"
+          issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq"
+          amount={15.01}
+        />
       </BrowserRouter>,
     )
-    expect(wrapper.find('.currency').text()).toEqual(
-      'XMETA.r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB',
+    const meta = wrapper.find('.currency').at(0)
+    const usd = wrapper.find('.currency').at(1)
+
+    expect(meta).toHaveText('XMETA.r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB')
+    expect(meta.find('a')).toHaveProp(
+      'href',
+      '/token/584D455441000000000000000000000000000000.r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB',
+    )
+
+    expect(usd).toHaveText('USD.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq')
+    expect(usd.find('a')).toHaveProp(
+      'href',
+      '/token/USD.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
     )
     wrapper.unmount()
   })

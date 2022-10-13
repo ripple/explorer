@@ -172,13 +172,13 @@ class Ledger extends Component {
         } = trans
         const success = result === 'tesSUCCESS'
         return (
-          <Link
-            to={`/transactions/${hash}`}
+          <div
             key={hash}
-            className={`trans-row ${
+            className={`trans-row anchor-mask ${
               success ? 'success' : 'fail'
             } tx-type ${type}`}
           >
+            <Link to={`/transactions/${hash}`} className="mask-overlay" />
             <div className="upper">
               <div className={`col col-type tx-type ${type}`}>
                 <TxLabel type={type} />
@@ -210,7 +210,7 @@ class Ledger extends Component {
                 type={type}
               />
             </div>
-          </Link>
+          </div>
         )
       })
     }

@@ -1,6 +1,5 @@
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
-const Payment = require('./Payment')
 const TrustSet = require('./TrustSet')
 const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelClaim = require('./PaymentChannelClaim')
@@ -10,10 +9,8 @@ const DepositPreauth = require('./DepositPreauth')
 const EnableAmendment = require('./EnableAmendment')
 const UNLModify = require('./UNLModify')
 const AccountDelete = require('./AccountDelete')
-const TicketCreate = require('./TicketCreate')
 
 const summarize = {
-  Payment,
   TrustSet,
   PaymentChannelCreate,
   PaymentChannelClaim,
@@ -23,7 +20,6 @@ const summarize = {
   EnableAmendment,
   UNLModify,
   AccountDelete,
-  TicketCreate,
 }
 
 const getInstructions = (tx, meta) => {
