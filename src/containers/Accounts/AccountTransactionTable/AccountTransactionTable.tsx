@@ -20,8 +20,8 @@ export const AccountTransactionTable = ({
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const {
-    error,
     data,
+    error,
     isFetching: loading,
     fetchNextPage,
     hasNextPage,
