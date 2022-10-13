@@ -19,6 +19,24 @@
   unicode-range: u+e900-e901;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+.xrpl-explorer {
+  height: 100%;
+}
+
+.app-wrapper {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
 body,
 input {
   padding: 0px;
