@@ -1,21 +1,29 @@
+@import './variables';
+
 .tx-status {
   display: inline-flex;
   max-width: 100%;
   align-items: center;
 
   svg {
+    width: auto;
     height: 1em;
   }
 
   .status {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: capitalize;
-    white-space: nowrap;
+    @extend %truncate;
 
+    display: inline-block;
+    text-transform: capitalize;
+  }
+
+  .status-message {
     &::before {
       content: '\00a0';
+    }
+
+    + .status-code::before {
+      content: '\00a0-\00a0';
     }
   }
 

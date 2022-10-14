@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import NoMatch from '../NoMatch'
-import infoIcon from '../shared/images/info_orange.png'
 import Loader from '../shared/components/Loader'
 import TxDetails from '../shared/components/TxDetails'
 import Sequence from '../shared/components/Sequence'
@@ -23,6 +22,7 @@ import {
 } from '../shared/utils'
 import './ledger.scss'
 import TxLabel from '../shared/components/TxLabel'
+import { TxStatus } from '../shared/components/TxStatus'
 import SocketContext from '../shared/SocketContext'
 
 const TIME_ZONE = 'UTC'
@@ -182,9 +182,6 @@ class Ledger extends Component {
             <div className="upper">
               <div className={`col col-type tx-type ${type}`}>
                 <TxLabel type={type} t={t} />
-                <span title={result} className="tx-result">
-                  {success ? null : <img src={infoIcon} alt={t('fail')} />}
-                </span>
               </div>
               <div className="col col-account">{account}</div>
               <div className="col col-sequence">
@@ -204,6 +201,7 @@ class Ledger extends Component {
               </div>
             </div>
             <div className="details">
+              {success ? null : <TxStatus status={result} />}
               <TxDetails
                 language={language}
                 instructions={details.instructions}

@@ -5,6 +5,7 @@ import infoIcon from '../images/info_orange.png'
 import { localizeDate } from '../utils'
 import '../css/tooltip.scss'
 import { ReactComponent as PayStringToolTip } from '../images/paystring_tooltip.svg'
+import { TxStatus } from './TxStatus'
 
 const PADDING_Y = 20
 const DATE_OPTIONS = {
@@ -56,13 +57,11 @@ class Tooltip extends Component {
 
   renderTxTooltip() {
     const { type, result, account } = this.state
-    const success = result === 'tesSUCCESS'
     return (
       <>
         <div className={`tx-type ${type}`}>
           {type}
-          <img src={success ? successIcon : infoIcon} alt={result} />
-          <span className={`result ${result}`}>{success ? '' : result}</span>
+          <TxStatus status={result} shorthand />
         </div>
         <div className="account">{account}</div>
       </>
