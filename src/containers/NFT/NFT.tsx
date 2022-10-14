@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import NoMatch from '../NoMatch'
 import { NFTHeader } from './NFTHeader/NFTHeader'
-import { NFTTabs } from './NFTTabs/NFTTabs'
+// import { NFTTabs } from './NFTTabs/NFTTabs'
 import './styles.scss'
 import {
   analytics,
@@ -58,9 +58,9 @@ export const NFT = () => {
   return error ? (
     renderError()
   ) : (
-    <div className="token-page">
+    <div className="nft-page">
       {tokenId && <NFTHeader tokenId={tokenId} setError={setError} />}
-      {tokenId && <NFTTabs tokenId={tokenId} />}
+      {/* {tokenId && <NFTTabs tokenId={tokenId} />} */}
       {!tokenId && (
         <div className="nft-warning">
           <h2>Enter a NFT ID in the search box</h2>

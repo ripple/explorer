@@ -152,7 +152,7 @@ const DEXPairs = (props) => {
 
   return (
     <div className="section dex-pairs-container">
-      <div className="title"> {t('top_trading_pairs')}</div>
+      <h2>{t('top_trading_pairs')}</h2>
       <div className="pairs-table">
         <table>
           <thead>

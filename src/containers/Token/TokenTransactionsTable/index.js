@@ -1,36 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { localizeDate, concatTx } from '../../shared/utils'
-import Loader from '../../shared/components/Loader'
-import TxDetails from '../../shared/components/TxDetails'
-import '../../Accounts/AccountTransactionsTable/styles.scss' // Reuse AccountTransactionsTable styling
-import TxLabel from '../../shared/components/TxLabel'
-import { TxStatus } from '../../shared/components/TxStatus'
+import { concatTx } from '../../shared/utils'
 
 import { loadTokenTransactions } from './actions'
 import SocketContext from '../../shared/SocketContext'
-import { LoadMoreButton } from '../../shared/LoadMoreButton'
-
-const TIME_ZONE = 'UTC'
-const DATE_OPTIONS = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour12: true,
-  timeZone: TIME_ZONE,
-}
+import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
 
 export const TokenTxTable = (props) => {
   const [transactions, setTransactions] = useState([])
   const [marker, setMarker] = useState(null)
-  const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
 
   const { accountId, currency, actions, data, loading, loadingError } = props
@@ -53,77 +33,17 @@ export const TokenTxTable = (props) => {
     actions.loadTokenTransactions(accountId, currency, marker, rippledSocket)
   }
 
-  const renderListItem = (tx) => {
-    const { language } = props
-    const success = tx.result === 'tesSUCCESS'
-    const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
-
-    return (
-      <li
-        key={tx.hash}
-        className={`transaction-li anchor-mask tx-type ${tx.type} ${
-          success ? 'success' : 'fail'
-        }`}
-      >
-        <Link to={`/transactions/${tx.hash}`} className="mask-overlay" />
-        <div className="upper">
-          <div className="col-account">
-            <div className="transaction-address" title={tx.account}>
-              {tx.account}
-            </div>
-          </div>
-          <div className={`col-type tx-type ${tx.type}`}>
-            <TxLabel type={tx.type} />
-          </div>
-          <div className="col-status">
-            <TxStatus status={tx.result} />
-          </div>
-          <div className="col-date">{date}</div>
-        </div>
-        <div className="details">
-          <TxDetails
-            language={language}
-            type={tx.type}
-            instructions={tx.details.instructions}
-          />
-        </div>
-      </li>
-    )
-  }
-
-  const renderLoadMoreButton = () =>
-    marker && <LoadMoreButton onClick={() => loadMoreTransactions()} />
-
-  const renderListContents = () => {
-    if (!loading && transactions.length === 0 && !loadingError) {
-      return (
-        <div className="empty-transactions-message">
-          {t('no_transactions_message')}
-        </div>
-      )
-    }
-    return transactions.map((transaction) => renderListItem(transaction))
-  }
-
   return (
-    <div className="section transactions-table">
-      <ol className="account-transactions">
-        <div className="title">Token Transactions</div>
-        <li className="transaction-li transaction-li-header">
-          <div className="col-account">{t('account')}</div>
-          <div className="col-type">{t('transaction_type')}</div>
-          <div className="col-status">{t('status')}</div>
-          <div className="col-date">{t('transactions.date_header')}</div>
-        </li>
-        {renderListContents()}
-      </ol>
-      {loading ? <Loader /> : renderLoadMoreButton()}
-    </div>
+    <TransactionTable
+      transactions={transactions}
+      loading={loading}
+      onLoadMore={loadMoreTransactions}
+      hasAdditionalResults={!!marker}
+    />
   )
 }
 
 TokenTxTable.propTypes = {
-  language: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingError: PropTypes.string,
   accountId: PropTypes.string.isRequired,
@@ -153,8 +73,6 @@ TokenTxTable.defaultProps = {
 
 export default connect(
   (state) => ({
-    language: state.app.language,
-    width: state.app.width,
     loadingError: state.accountTransactions.error,
     loading: state.accountTransactions.loading,
     data: state.accountTransactions.data,

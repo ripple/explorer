@@ -4,6 +4,7 @@ import './styles.scss'
 import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
 import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
+import Account from '../../shared/components/Account'
 
 interface MintedProps {
   minted?: string
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export const Details = ({ data }: Props) => {
-  const { minted, domain, NFTTaxon, uri, transferFee } = data
+  const { minted, domain, NFTTaxon, uri, transferFee, owner } = data
   const { t } = useTranslation()
   const language = useLanguage()
   const formattedFee =
@@ -54,6 +55,14 @@ export const Details = ({ data }: Props) => {
           <td className="col1">{t('transfer_fee')}</td>
           <td className="col2">{formattedFee}</td>
         </tr>
+        {owner && (
+          <tr className="row">
+            <td className="col1">{t('owner')}</td>
+            <td className="col2">
+              <Account account={owner} />
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   )

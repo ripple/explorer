@@ -33,7 +33,7 @@ export const TransactionTable: TransactionTableComponent = ({
     hasAdditionalResults && <LoadMoreButton onClick={onLoadMore} />
 
   return (
-    <div className="section">
+    <>
       <ol className="transaction-table">
         <li className="transaction-li transaction-li-header">
           <div className="col-account">{t('account')}</div>
@@ -50,6 +50,6 @@ export const TransactionTable: TransactionTableComponent = ({
         )}
       </ol>
       {loading ? <Loader /> : renderLoadMore()}
-    </div>
+    </>
   )
 }
