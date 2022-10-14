@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import TxLabel from '../TxLabel'
 import TxDetails from '../TxDetails'
@@ -26,10 +25,8 @@ interface Props {
 
 export const TransactionTableRow = ({ tx }: Props) => {
   const language = useLanguage()
-  const { t, i18n } = useTranslation()
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
-  const status = success ? 'Success' : `Fail - ${tx.result}`
 
   return (
     <li
@@ -55,7 +52,7 @@ export const TransactionTableRow = ({ tx }: Props) => {
       {tx.details && (
         <div className="details">
           <TxDetails
-            language={i18n.resolvedLanguage}
+            language={language}
             type={tx.type}
             instructions={tx.details.instructions}
           />
