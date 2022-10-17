@@ -4,7 +4,7 @@ import './styles.scss'
 import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
 import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 
 interface MintedProps {
   minted?: string

@@ -8,7 +8,7 @@ import Loader from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 import { getAccountNFTs } from '../../../rippled/lib/rippled'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
 
 export interface AccountNFTTableProps {

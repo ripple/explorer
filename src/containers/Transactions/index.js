@@ -9,7 +9,7 @@ import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import successIcon from '../shared/images/success.png'
 import infoIcon from '../shared/images/info_orange.png'
-import Tabs from '../shared/components/Tabs'
+import { Tabs } from '../shared/components/Tabs'
 import {
   analytics,
   ANALYTIC_TYPES,

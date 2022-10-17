@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { CURRENCY_OPTIONS, DATE_OPTIONS } from '../../shared/transactionUtils'
 import { localizeNumber, localizeDate } from '../../shared/utils'
 import Currency from '../../shared/components/Currency'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 
 const PaymentChannelCreate = (props) => {
   const { data, language, t } = props

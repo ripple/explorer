@@ -4,7 +4,7 @@ import { Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import TransactionMeta from './Meta'
 import TransactionDescription from './Description'
-import Account from '../shared/components/Account'
+import { Account } from '../shared/components/Account'
 import { localizeDate, localizeNumber } from '../shared/utils'
 import {
   DATE_OPTIONS,

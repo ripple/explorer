@@ -5,7 +5,7 @@ import {
   RIPPLE_EPOCH,
   normalizeAmount,
 } from '../../../transactionUtils'
-import Account from '../../Account'
+import { Account } from '../../Account'
 import { localizeDate } from '../../../utils'
 import {
   TransactionDescriptionComponent,
