@@ -6,7 +6,7 @@ import {
   XRP_BASE,
 } from '../../shared/transactionUtils'
 import { localizeNumber } from '../../shared/utils'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 
 const normalize = (value, currency) =>
   currency === 'XRP' ? (value / XRP_BASE).toString() : value

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import './styles.scss'
-import Tabs from '../../shared/components/Tabs'
+import { Tabs } from '../../shared/components/Tabs'
 import { getBuyNFToffers, getSellNFToffers } from '../../../rippled/lib/rippled'
 import { Offers } from './Offers'
 import { Transactions } from './Transactions'

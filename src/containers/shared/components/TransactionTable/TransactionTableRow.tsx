@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import TxLabel from '../TxLabel'
+import { TxLabel } from '../TxLabel'
 import { ReactComponent as SuccessIcon } from '../../images/success.svg'
 import { ReactComponent as FailIcon } from '../../images/ic_fail.svg'
 import TxDetails from '../TxDetails'

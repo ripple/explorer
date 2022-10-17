@@ -1,6 +1,6 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import Account from '../../Account'
+import { Account } from '../../Account'
 import { TransactionDescriptionProps } from '../types'
 import { isPartialPayment } from './parser'
 import { Amount } from '../../Amount'

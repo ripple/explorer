@@ -11,7 +11,7 @@ import './styles.scss'
 import { localizeNumber, formatLargeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 import DomainLink from '../../shared/components/DomainLink'
 
 const CURRENCY_OPTIONS = {

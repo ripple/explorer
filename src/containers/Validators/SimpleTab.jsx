@@ -111,7 +111,7 @@ class SimpleTab extends Component {
     return (
       <div className="simple-body simple-body-validator">
         <div className="rows">
-          <Simple t={t} language={language} data={data} />
+          <Simple language={language} data={data} />
           {rowIndex}
         </div>
         {cartIndex}
