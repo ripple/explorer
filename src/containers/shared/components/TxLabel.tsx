@@ -1,13 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
 import '../css/txlabel.scss'
 
 interface Props {
   type: string
 }
 
-const TxLabel = (props: Props) => {
+export const TxLabel = (props: Props) => {
   const { t } = useTranslation()
   const { type } = props
   return (
@@ -16,9 +15,3 @@ const TxLabel = (props: Props) => {
     </div>
   )
 }
-
-TxLabel.propTypes = {
-  type: PropTypes.string.isRequired,
-}
-
-export default TxLabel

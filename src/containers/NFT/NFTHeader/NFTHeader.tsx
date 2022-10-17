@@ -17,7 +17,7 @@ import {
 } from '../../shared/utils'
 import { Details } from './Details'
 import { Settings } from './Settings'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 import { getOldestNFTTransaction } from '../../../rippled/NFTTransactions'
 import { useLanguage } from '../../shared/hooks'
 import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'

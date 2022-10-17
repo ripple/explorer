@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Trans } from 'react-i18next'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 
 const DepositPreauth = (props) => {
   const { data } = props

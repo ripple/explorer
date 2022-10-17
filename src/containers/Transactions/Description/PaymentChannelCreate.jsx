@@ -7,7 +7,7 @@ import {
   normalizeAmount,
   findNode,
 } from '../../shared/transactionUtils'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 
 const PaymentChannelCreate = (props) => {
   const { t, language, data } = props
