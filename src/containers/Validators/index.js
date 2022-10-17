@@ -114,7 +114,7 @@ class Validator extends Component {
 
   renderValidator() {
     const { reports } = this.state
-    const { t, language, data, width, match } = this.props
+    const { t, data, width, match } = this.props
     const { tab = 'details' } = match.params
     let body
 
@@ -123,7 +123,7 @@ class Validator extends Component {
         body = <HistoryTab reports={reports} />
         break
       default:
-        body = <SimpleTab t={t} language={language} data={data} width={width} />
+        body = <SimpleTab t={t} data={data} width={width} />
         break
     }
 
@@ -168,7 +168,6 @@ Validator.propTypes = {
   t: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   width: PropTypes.number.isRequired,
-  language: PropTypes.string.isRequired,
   data: PropTypes.objectOf(
     PropTypes.oneOfType([
       PropTypes.string,
@@ -195,7 +194,6 @@ export default connect(
     loading: state.validator.loading, // refers to state object in rootReducer.js
     data: state.validator.data,
     width: state.app.width,
-    language: state.app.language,
   }),
   (dispatch) => ({
     actions: bindActionCreators(
