@@ -1,5 +1,5 @@
 import React, { KeyboardEvent, useState } from 'react'
-import { withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { ReactComponent as CustomNetworkLogo } from '../shared/images/custom_network_logo.svg'
 import Header from '../Header'
@@ -7,12 +7,8 @@ import { ANALYTIC_TYPES, analytics } from '../shared/utils'
 import { ReactComponent as RightArrow } from '../shared/images/side_arrow_green.svg'
 import './index.scss'
 
-interface Props {
-  t: (arg: string) => string
-}
-
-const SidechainHome = (props: Props) => {
-  const { t } = props
+const SidechainHome = () => {
+  const { t } = useTranslation()
 
   const [networkText, setNetworkText] = useState('')
 
@@ -95,4 +91,4 @@ const SidechainHome = (props: Props) => {
   )
 }
 
-export default withTranslation()(SidechainHome)
+export default SidechainHome
