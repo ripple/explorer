@@ -13,11 +13,6 @@
     margin: auto;
   }
 
-  @include for-size(desktop-up) {
-    display: block;
-    max-width: inherit;
-  }
-
   .cell {
     display: inline-block;
     width: 100%;
