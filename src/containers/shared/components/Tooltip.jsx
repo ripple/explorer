@@ -60,8 +60,7 @@ class Tooltip extends Component {
     return (
       <>
         <div className={`tx-type ${type}`}>
-          {type}
-          <TxStatus status={result} shorthand />
+          {type} <TxStatus status={result} shorthand />
         </div>
         <div className="account">{account}</div>
       </>

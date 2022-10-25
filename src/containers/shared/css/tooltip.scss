@@ -59,10 +59,12 @@
     font-size: 10px;
   }
 
-  /* stylelint-disable-next-line selector-class-pattern -- Name comes from server designation  */
-  .result.tesSUCCESS {
-    color: #ccc;
-    font-size: 10px;
+  .tx-type {
+    display: flex;
+  }
+
+  .tx-status::before {
+    content: '\00a0';
   }
 
   .account {
