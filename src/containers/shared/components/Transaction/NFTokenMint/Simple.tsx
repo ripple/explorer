@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { NFTokenMintInstructions } from './types'
-import Account from '../../Account'
+import { Account } from '../../Account'
 import { useLanguage } from '../../../hooks'
 import { localizeNumber } from '../../../utils'
 
