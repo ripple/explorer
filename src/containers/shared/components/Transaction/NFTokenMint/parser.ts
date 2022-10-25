@@ -10,7 +10,8 @@ export const parser: TransactionParser<NFTokenMint, NFTokenMintInstructions> = (
   const affectedNodes = meta.AffectedNodes.filter(
     (node: any) =>
       node.CreatedNode?.LedgerEntryType === 'NFTokenPage' ||
-      node.ModifiedNode?.LedgerEntryType === 'NFTokenPage',
+      (node.ModifiedNode?.LedgerEntryType === 'NFTokenPage' &&
+        !!node.ModifiedNode?.PreviousFields.NFTokens),
   )
 
   const previousTokenIDSet = new Set(
