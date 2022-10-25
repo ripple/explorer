@@ -9,6 +9,7 @@ import transactionModified2Created1 from './mock_data/NFTokenMintMostModified2Cr
 import transactionModified3 from './mock_data/NFTokenMintModified4Created1.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18nTestConfig'
+import { convertHexToString } from '../../../../../../rippled/lib/utils'
 
 describe('NFTokenMint', () => {
   it('handles NFTokenMint that modified 2 nodes', () => {
@@ -90,7 +91,9 @@ describe('NFTokenMint', () => {
     )
     expect(wrapper.find('[data-test="token-taxon"] .value')).toHaveText('1')
     expect(wrapper.find('[data-test="token-uri"] .value')).toHaveText(
-      'QmPqAk6wwuwyjqeLGodfRS7QVwFw9CFsjm63uHVaUd88tc',
+      convertHexToString(
+        '516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463',
+      ),
     )
     wrapper.unmount()
   })
