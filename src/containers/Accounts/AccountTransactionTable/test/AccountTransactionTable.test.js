@@ -1,41 +1,36 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
-import configureMockStore from 'redux-mock-store'
+import { applyMiddleware, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
-import { applyMiddleware, createStore } from 'redux'
 import rootReducer, { initialState } from '../../../../rootReducer'
 import i18n from '../../../../i18nTestConfig'
-import ConnectedTable, { TokenTxTable } from '../index'
-import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionsTable/test/mockTransactions.json'
-import * as actionTypes from '../../../Accounts/AccountTransactionsTable/actionTypes'
-import { loadTokenTransactions } from '../actions'
+import { AccountTransactionTable } from '../index'
+import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
+import * as actionTypes from '../actionTypes'
+import { loadAccountTransactions } from '../actions'
 
 jest.mock('../actions', () => ({
   __esModule: true,
-  loadTokenTransactions: jest.fn(),
+  loadAccountTransactions: jest.fn(),
 }))
 
 const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
-const TEST_CURRENCY = 'abc'
 
-describe('TokenTransactionsTable container', () => {
+describe('AccountTransactionTable', () => {
   const createWrapper = (
     state = {},
-    loadTokenTransactionsImpl = () => () => {},
+    loadAccountTransactionsImpl = () => () => {},
   ) => {
-    loadTokenTransactions.mockImplementation(loadTokenTransactionsImpl)
+    loadAccountTransactions.mockImplementation(loadAccountTransactionsImpl)
     const store = createStore(rootReducer, applyMiddleware(thunk))
     return mount(
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <ConnectedTable
-              accountId={TEST_ACCOUNT_ID}
-              currency={TEST_CURRENCY}
-            />
+            <AccountTransactionTable accountId={TEST_ACCOUNT_ID} />
           </Router>
         </Provider>
       </I18nextProvider>,
@@ -74,7 +69,7 @@ describe('TokenTransactionsTable container', () => {
     wrapper.unmount()
   })
 
-  it('renders dynamic content with transaction data', () => {
+  it('renders dynamic content with transaction data', (done) => {
     const component = createWrapper({}, () => (dispatch) => {
       dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS })
       dispatch({
@@ -89,5 +84,6 @@ describe('TokenTransactionsTable container', () => {
       1,
     )
     expect(component.find(Link).length).toBe(40)
+    done()
   })
 })
