@@ -8,7 +8,7 @@ import accountHeaderReducer, {
 } from './containers/Accounts/AccountHeader/reducer'
 import accountTransactionsReducer, {
   initialState as accountTransactionsState,
-} from './containers/Accounts/AccountTransactionsTable/reducer'
+} from './containers/Accounts/AccountTransactionTable/reducer'
 import transactionReducer, {
   initialState as transactionState,
 } from './containers/Transactions/reducer'

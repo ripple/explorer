@@ -2,18 +2,21 @@ import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { useTranslation } from 'react-i18next'
 import { concatTx } from '../../shared/utils'
 
 import { loadTokenTransactions } from './actions'
 import SocketContext from '../../shared/SocketContext'
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
 
-export const TokenTxTable = (props) => {
+// There will be fewer props in the next PR when react-query is used instead of redux.
+// It's `any` for now
+const TokenTransactionTable = (props: any) => {
+  const { accountId, currency, actions, data, loading, loadingError } = props
   const [transactions, setTransactions] = useState([])
   const [marker, setMarker] = useState(null)
+  const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-
-  const { accountId, currency, actions, data, loading, loadingError } = props
 
   useEffect(() => {
     if (data.transactions == null) return
@@ -37,13 +40,14 @@ export const TokenTxTable = (props) => {
     <TransactionTable
       transactions={transactions}
       loading={loading}
+      emptyMessage={t(loadingError)}
       onLoadMore={loadMoreTransactions}
       hasAdditionalResults={!!marker}
     />
   )
 }
 
-TokenTxTable.propTypes = {
+TokenTransactionTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   loadingError: PropTypes.string,
   accountId: PropTypes.string.isRequired,
@@ -67,12 +71,13 @@ TokenTxTable.propTypes = {
   }).isRequired,
 }
 
-TokenTxTable.defaultProps = {
+TokenTransactionTable.defaultProps = {
   loadingError: '',
 }
 
 export default connect(
-  (state) => ({
+  // This will be removed in the next PR
+  (state: any) => ({
     loadingError: state.accountTransactions.error,
     loading: state.accountTransactions.loading,
     data: state.accountTransactions.data,
@@ -85,4 +90,4 @@ export default connect(
       dispatch,
     ),
   }),
-)(TokenTxTable)
+)(TokenTransactionTable)
