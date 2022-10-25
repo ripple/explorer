@@ -5,9 +5,11 @@
   .bottom-container {
     display: flex;
     flex-direction: column;
+    padding-top: 64px;
 
     @include for-size(desktop-up) {
       flex-direction: row;
+      padding-top: 80px;
     }
 
     .details {
@@ -21,18 +23,6 @@
       width: 100%;
       @include for-size(desktop-up) {
         width: 650px;
-      }
-    }
-
-    .title {
-      padding: 64px 0px 18px;
-      border-bottom: 1px $gray-800 solid;
-      color: $white;
-      font-size: 24px;
-      @include bold;
-
-      @include for-size(desktop-up) {
-        padding-top: 80px;
       }
     }
   }

@@ -22,7 +22,7 @@ import {
   ANALYTIC_TYPES,
 } from '../shared/utils'
 import './ledger.scss'
-import TxLabel from '../shared/components/TxLabel'
+import { TxLabel } from '../shared/components/TxLabel'
 import SocketContext from '../shared/SocketContext'
 
 const TIME_ZONE = 'UTC'
@@ -181,7 +181,7 @@ class Ledger extends Component {
             <Link to={`/transactions/${hash}`} className="mask-overlay" />
             <div className="upper">
               <div className={`col col-type tx-type ${type}`}>
-                <TxLabel type={type} t={t} />
+                <TxLabel type={type} />
                 <span title={result} className="tx-result">
                   {success ? null : <img src={infoIcon} alt={t('fail')} />}
                 </span>

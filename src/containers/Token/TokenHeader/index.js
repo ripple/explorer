@@ -11,7 +11,7 @@ import './styles.scss'
 import { localizeNumber, formatLargeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 import DomainLink from '../../shared/components/DomainLink'
 
 const CURRENCY_OPTIONS = {
@@ -190,11 +190,11 @@ class TokenHeader extends Component {
         </div>
         <div className="bottom-container">
           <div className="details">
-            <div className="title">{t('details')}</div>
+            <h2>{t('details')}</h2>
             {this.renderDetails()}
           </div>
           <div className="settings">
-            <div className="title">{t('settings')}</div>
+            <h2 className="title">{t('settings')}</h2>
             {this.renderSettings()}
           </div>
         </div>

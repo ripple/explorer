@@ -1,18 +1,10 @@
 @import '../../shared/css/variables';
 
 .dex-pairs-container {
-  padding-bottom: 100px;
+  padding: 64px 0 100px;
 
-  .title {
-    padding: 64px 0px 18px;
-    border-bottom: 1px $gray-800 solid;
-    color: $white;
-    font-size: 24px;
-    @include bold;
-
-    @include for-size(desktop-up) {
-      padding-top: 80px;
-    }
+  @include for-size(desktop-up) {
+    padding-top: 80px;
   }
 
   .pairs-table {

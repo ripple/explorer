@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import '../css/tabs.scss'
@@ -10,34 +9,16 @@ interface Props {
   tabs: string[]
 }
 
-const Tabs = (props: Props) => {
+export const Tabs = ({ tabs, selected, path }: Props) => {
   const { t } = useTranslation()
-  const { tabs, selected, path } = props
-  const items = tabs.map((title) => {
-    const className = selected === title ? 'tab selected' : 'tab'
+  const items = tabs.map((key) => {
+    const className = selected === key ? 'tab selected' : 'tab'
+    const title = t(key.replace('-', '_'))
     return (
-      <Link
-        className={className}
-        title={t(title)}
-        key={title}
-        to={`${path}/${title}`}
-      >
-        {t(title.replace('-', '_'))}
+      <Link className={className} title={title} key={key} to={`${path}/${key}`}>
+        {title}
       </Link>
     )
   })
   return <div className="tabs">{items}</div>
 }
-
-Tabs.propTypes = {
-  selected: PropTypes.string,
-  tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
-  path: PropTypes.string,
-}
-
-Tabs.defaultProps = {
-  selected: null,
-  path: '',
-}
-
-export default Tabs

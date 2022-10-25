@@ -9,7 +9,7 @@ import '../../shared/css/nested-menu.scss'
 import './styles.scss'
 import './balance-selector.scss'
 import BalanceSelector from './BalanceSelector'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import infoIcon from '../../shared/images/info_orange.png'
@@ -302,7 +302,7 @@ const AccountHeader = (props) => {
   return (
     <div className="box account-header">
       <div className="section box-header">
-        <h2 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h2>
+        <h1 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h1>
       </div>
       <div className="box-content">
         {loading ? <Loader /> : renderHeaderContent()}

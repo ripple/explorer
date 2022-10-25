@@ -19,6 +19,24 @@
   unicode-range: u+e900-e901;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+.xrpl-explorer {
+  height: 100%;
+}
+
+.app-wrapper {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
 body,
 input {
   padding: 0px;
@@ -44,6 +62,16 @@ button {
 * {
   box-sizing: border-box;
   outline: none !important; // remove blue outline in click and focus
+}
+
+h2 {
+  padding-bottom: 18px;
+  border-bottom: 1px $gray-800 solid;
+  margin-top: 0;
+  color: $white;
+  font-size: 24px;
+
+  @include bold;
 }
 
 svg.react-stockchart {
@@ -113,7 +141,7 @@ div.react-stockchart div {
     @include transaction-type-base($sidechain);
   }
 
-  &.AMMInstanceCreate,
+  &.AMMCreate,
   &.AMMDeposit,
   &.AMMWithdraw,
   &.AMMVote,

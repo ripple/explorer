@@ -22,6 +22,14 @@ $subdued-color: $gray-400;
 
     .row {
       .value {
+        .amount {
+          text-align: right;
+
+          .amount-localized {
+            display: block;
+          }
+        }
+
         .currency {
           display: block;
           margin: -1px 0px -16px;
@@ -43,7 +51,8 @@ $subdued-color: $gray-400;
         }
 
         ul {
-          margin: 0px;
+          padding: 0;
+          margin: 0;
           list-style: none;
         }
 

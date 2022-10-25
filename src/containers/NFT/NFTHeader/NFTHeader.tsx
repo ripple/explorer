@@ -17,7 +17,7 @@ import {
 } from '../../shared/utils'
 import { Details } from './Details'
 import { Settings } from './Settings'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 import { getOldestNFTTransaction } from '../../../rippled/NFTTransactions'
 import { useLanguage } from '../../shared/hooks'
 import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
@@ -120,7 +120,7 @@ export const NFTHeader = (props: Props) => {
         </div>
         <div className="nft-bottom-container">
           <div className="details">
-            <div className="title">{t('details')}</div>
+            <h2>{t('details')}</h2>
             <Details
               data={{
                 ...data,
@@ -130,7 +130,7 @@ export const NFTHeader = (props: Props) => {
             />
           </div>
           <div className="settings">
-            <div className="title">{t('settings')}</div>
+            <h2 className="title">{t('settings')}</h2>
             <Settings flags={data!.flags!} />
           </div>
         </div>

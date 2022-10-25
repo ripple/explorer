@@ -2,6 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import SimpleTab from '../SimpleTab'
+import { expectSimpleRowText } from '../../shared/components/Transaction/test'
 
 describe('SimpleTab container', () => {
   const createWrapper = (width = 1200) =>
@@ -21,6 +22,7 @@ describe('SimpleTab container', () => {
             chain: null,
             unl: 'vl.ripple.com',
             last_ledger_time: '2020-05-28T09:21:19.000Z',
+            server_version: '1.9.4',
             agreement_1hour: {
               score: 1,
               missed: 0,
@@ -48,6 +50,7 @@ describe('SimpleTab container', () => {
     const wrapper = createWrapper()
     expect(wrapper.find('.simple-body').length).toBe(1)
     expect(wrapper.find('a').length).toBe(2)
+    expectSimpleRowText(wrapper, 'version', '1.9.4')
     const index = wrapper.find('.index')
     expect(index.length).toBe(1)
     expect(

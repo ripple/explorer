@@ -87,11 +87,14 @@ class Token extends Component {
           <DEXPairs accountId={accountId} currency={currency} t={t} />
         )}
         {accountId && (
-          <TokenTransactionsTable
-            accountId={accountId}
-            currency={currency}
-            t={t}
-          />
+          <div className="section">
+            <h2>{t('token_transactions')}</h2>
+            <TokenTransactionsTable
+              accountId={accountId}
+              currency={currency}
+              t={t}
+            />
+          </div>
         )}
         {!accountId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>
