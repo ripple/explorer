@@ -6,7 +6,7 @@ import { Simple as NFTokenMint } from '../Simple'
 import transactionModified2 from './mock_data/NFTokenMintModified2.json'
 import transactionModified1Created1 from './mock_data/NFTokenMintModified1Created1.json'
 import transactionModified2Created1 from './mock_data/NFTokenMintMostModified2Created1.json'
-import transactionModified3 from './mock_data/NFTokenMintModified4Created1.json'
+import transactionModified4Created1 from './mock_data/NFTokenMintModified4Created1.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18nTestConfig'
 import { convertHexToString } from '../../../../../../rippled/lib/utils'
@@ -81,7 +81,9 @@ describe('NFTokenMint', () => {
       <I18nextProvider i18n={i18n}>
         <Router>
           <NFTokenMint
-            data={summarizeTransaction(transactionModified3, true).details}
+            data={
+              summarizeTransaction(transactionModified4Created1, true).details
+            }
           />
         </Router>
       </I18nextProvider>,
