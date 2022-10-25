@@ -9,12 +9,10 @@ export interface NFTokenLinkProps {
 export const NFTokenLink = (props: NFTokenLinkProps) => {
   const { link = true, tokenID } = props
   return link ? (
-    <Link className="nft-link" title={tokenID} to={`/nft/${tokenID}`}>
+    <Link title={tokenID} to={`/nft/${tokenID}`}>
       {tokenID}
     </Link>
   ) : (
-    <span className="nft-link" title={tokenID}>
-      {tokenID}
-    </span>
+    <span title={tokenID}>{tokenID}</span>
   )
 }
