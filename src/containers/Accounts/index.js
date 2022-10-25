@@ -15,7 +15,7 @@ import {
   NOT_FOUND,
   BAD_REQUEST,
 } from '../shared/utils'
-import Tabs from '../shared/components/Tabs'
+import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
 
 const ERROR_MESSAGES = {}

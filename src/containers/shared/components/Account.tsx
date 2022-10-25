@@ -1,14 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-interface Props {
+export interface AccountProps {
   link?: boolean
   account: string
 }
 
-const Account = (props: Props) => {
-  const { link, account } = props
+export const Account = (props: AccountProps) => {
+  const { link = true, account } = props
   return link ? (
     <Link className="account" title={account} to={`/accounts/${account}`}>
       {account}
@@ -19,14 +18,3 @@ const Account = (props: Props) => {
     </span>
   )
 }
-
-Account.defaultProps = {
-  link: true,
-}
-
-Account.propTypes = {
-  account: PropTypes.string.isRequired,
-  link: PropTypes.bool,
-}
-
-export default Account
