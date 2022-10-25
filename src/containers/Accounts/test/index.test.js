@@ -9,7 +9,7 @@ import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
 import Account from '../index'
 import AccountHeader from '../AccountHeader'
-import AccountTransactionsTable from '../AccountTransactionsTable'
+import { AccountTransactionTable } from '../AccountTransactionTable'
 import mockAccountState from './mockAccountState.json'
 
 describe('Account container', () => {
@@ -47,7 +47,7 @@ describe('Account container', () => {
 
     const wrapper = creatWrapper(state)
     expect(wrapper.find(AccountHeader).length).toBe(1)
-    expect(wrapper.find(AccountTransactionsTable).length).toBe(1)
+    expect(wrapper.find(AccountTransactionTable).length).toBe(1)
     wrapper.find('.balance-selector-button').simulate('click')
     wrapper.unmount()
   })
