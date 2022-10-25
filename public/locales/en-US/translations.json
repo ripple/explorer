@@ -120,7 +120,7 @@
   "paychannel_amount_changed": "Amount changed by <1><0>{{difference}}</0><1><0>{{currency}}</0></1></1> from <3><0>{{previous}}</0><1><0>{{currency}}</0></1></3> to <5><0>{{final}}</0><1><0>{{currency}}</0></1></5>",
   "paychannel_balance_changed": "Balance changed by <1><0>{{difference}}</0><1><0>{{currency}}</0></1></1> from <3><0>{{previous}}</0><1><0>{{currency}}</0></1></3> to <5><0>{{final}}</0><1><0>{{currency}}</0></1></5>",
   "formatted_date": "Date/Time ({{timeZone}})",
-  "transaction_AMMInstanceCreate": "AMM Instance Create",
+  "transaction_AMMCreate": "AMM Create",
   "transaction_AMMDeposit": "AMM Deposit",
   "transaction_AMMWithdraw": "AMM Withdraw",
   "transaction_AMMVote": "AMM Vote",

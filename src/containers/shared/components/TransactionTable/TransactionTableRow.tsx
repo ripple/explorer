@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import TxLabel from '../TxLabel'
+import { TxLabel } from '../TxLabel'
+import { TxStatus } from '../TxStatus'
 import TxDetails from '../TxDetails'
 import { localizeDate } from '../../utils'
 import './styles.scss'
 import { useLanguage } from '../../hooks'
-import { TxStatus } from '../TxStatus'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {

@@ -68,6 +68,10 @@ const App = (props) => {
     return <Redirect to={urlLink} />
   }
 
+  if (location.pathname === `/network/upgrade_status`) {
+    return <Redirect to="/network/upgrade-status" />
+  }
+
   return (
     <div className="app">
       <QueryClientProvider client={queryClient}>

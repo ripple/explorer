@@ -141,7 +141,7 @@ div.react-stockchart div {
     @include transaction-type-base($sidechain);
   }
 
-  &.AMMInstanceCreate,
+  &.AMMCreate,
   &.AMMDeposit,
   &.AMMWithdraw,
   &.AMMVote,

@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import ReactJson from 'react-json-view'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
-import Tabs from '../shared/components/Tabs'
+import { Tabs } from '../shared/components/Tabs'
 import {
   analytics,
   ANALYTIC_TYPES,
