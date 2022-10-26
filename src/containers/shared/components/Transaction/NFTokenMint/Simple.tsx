@@ -7,6 +7,7 @@ import { NFTokenMintInstructions } from './types'
 import { Account } from '../../Account'
 import { useLanguage } from '../../../hooks'
 import { localizeNumber } from '../../../utils'
+import { NFTokenLink } from '../../NFTokenLink'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -23,7 +24,7 @@ export const Simple: TransactionSimpleComponent = ({
   return (
     <>
       <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
-        {tokenID}
+        <NFTokenLink tokenID={tokenID} />
       </SimpleRow>
       <SimpleRow
         label={t('token_taxon')}
