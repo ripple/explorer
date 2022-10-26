@@ -11,11 +11,13 @@ import { concatTx } from '../../shared/utils'
 
 import { loadAccountTransactions } from './actions'
 
-export const AccountTxTable = (props) => {
+// There will be fewer props in the next PR when react-query is used instead of redux.
+// It's `any` for now
+const AccountTransactionTable = (props: any) => {
   const { actions, data, loadingError } = props
   const [transactions, setTransactions] = useState([])
   const [marker, setMarker] = useState(null)
-  const { id: accountId } = useParams()
+  const { id: accountId } = useParams<{ id: string }>()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
 
@@ -66,7 +68,7 @@ export const AccountTxTable = (props) => {
   )
 }
 
-AccountTxTable.propTypes = {
+AccountTransactionTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   loadingError: PropTypes.string,
   data: PropTypes.shape({
@@ -89,12 +91,13 @@ AccountTxTable.propTypes = {
   currencySelected: PropTypes.string.isRequired,
 }
 
-AccountTxTable.defaultProps = {
+AccountTransactionTable.defaultProps = {
   loadingError: '',
 }
 
 export default connect(
-  (state) => ({
+  // This will be removed in the next PR
+  (state: any) => ({
     loadingError: state.accountTransactions.error,
     loading: state.accountTransactions.loading,
     data: state.accountTransactions.data,
@@ -107,4 +110,4 @@ export default connect(
       dispatch,
     ),
   }),
-)(AccountTxTable)
+)(AccountTransactionTable)

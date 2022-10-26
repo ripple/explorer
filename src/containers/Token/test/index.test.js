@@ -9,7 +9,7 @@ import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
 import Account from '../index'
 import TokenHeader from '../TokenHeader'
-import TokenTransactionsTable from '../TokenTransactionsTable'
+import { TokenTransactionTable } from '../TokenTransactionTable'
 import mockAccountState from '../../Accounts/test/mockAccountState.json'
 
 describe('Token container', () => {
@@ -47,7 +47,7 @@ describe('Token container', () => {
 
     const wrapper = creatWrapper(state)
     expect(wrapper.find(TokenHeader).length).toBe(1)
-    expect(wrapper.find(TokenTransactionsTable).length).toBe(1)
+    expect(wrapper.find(TokenTransactionTable).length).toBe(1)
     wrapper.unmount()
   })
 })

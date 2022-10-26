@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
-import { Link } from 'react-router-dom'
 
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 import Loader from '../../shared/components/Loader'
@@ -10,6 +9,7 @@ import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 import { getAccountNFTs } from '../../../rippled/lib/rippled'
 import { Account } from '../../shared/components/Account'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
+import { NFTokenLink } from '../../shared/components/NFTokenLink'
 
 export interface AccountNFTTableProps {
   accountId: string
@@ -52,7 +52,7 @@ export const AccountNFTTable = ({ accountId }: AccountNFTTableProps) => {
   const renderRow = (nft: any) => (
     <tr key={nft.NFTokenID}>
       <td>
-        <Link to={`/nft/${nft.NFTokenID}`}>{nft.NFTokenID}</Link>
+        <NFTokenLink tokenID={nft.NFTokenID} />
       </td>
       <td>
         <Account account={nft.Issuer} />

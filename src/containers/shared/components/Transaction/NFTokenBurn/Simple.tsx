@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { NFTokenBurnInstructions } from './types'
+import { NFTokenLink } from '../../NFTokenLink'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -13,7 +14,7 @@ export const Simple: TransactionSimpleComponent = ({
 
   return (
     <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
-      {tokenID}
+      <NFTokenLink tokenID={tokenID} />
     </SimpleRow>
   )
 }
