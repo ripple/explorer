@@ -22,9 +22,9 @@ describe('NFT Setttings container', () => {
 
   it('renders defined fields', () => {
     const wrapper = createWrapper()
-    expect(wrapper.find('.row').length).toEqual(4)
+    expect(wrapper.find('.row').length).toEqual(3)
     expect((wrapper.text().match(/enabled/g) || []).length).toEqual(2)
-    expect((wrapper.text().match(/disabled/g) || []).length).toEqual(2)
+    expect((wrapper.text().match(/disabled/g) || []).length).toEqual(1)
     wrapper.unmount()
   })
 })

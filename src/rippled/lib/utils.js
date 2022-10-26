@@ -19,7 +19,6 @@ const ACCOUNT_FLAGS = {
 const NFT_FLAGS = {
   0x00000001: 'lsfBurnable',
   0x00000002: 'lsfOnlyXRP',
-  0x00000004: 'lsfTrustLine',
   0x00000008: 'lsfTransferable',
 }
 const hex32 = (d) => {

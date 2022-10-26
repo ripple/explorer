@@ -11,7 +11,6 @@ export const Settings = ({ flags }: Props) => {
 
   const burnable = flags.includes('lsfBurnable') ? 'enabled' : 'disabled'
   const onlyXRP = flags.includes('lsfOnlyXRP') ? 'enabled' : 'disabled'
-  const trustLine = flags.includes('lsfTrustLine') ? 'enabled' : 'disabled'
   const transferable = flags.includes('lsfTransferable')
     ? 'enabled'
     : 'disabled'
@@ -26,10 +25,6 @@ export const Settings = ({ flags }: Props) => {
         <tr className="row">
           <td className="col1">{t('only_xrp')}</td>
           <td className="col2">{onlyXRP}</td>
-        </tr>
-        <tr className="row">
-          <td className="col1">{t('trust_line')}</td>
-          <td className="col2">{trustLine}</td>
         </tr>
         <tr className="row">
           <td className="col1">{t('transferable')}</td>
