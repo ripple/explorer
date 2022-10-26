@@ -6,9 +6,11 @@
   background: $black;
   text-align: center;
 
-  @include for-size(desktop-up) {
-    display: block;
-    max-width: inherit;
+  @include for-size(tablet-landscape-up) {
+    width: calc(100% - 124px);
+    justify-content: space-between;
+    padding: 0px 12px;
+    margin: auto;
   }
 
   .cell {
