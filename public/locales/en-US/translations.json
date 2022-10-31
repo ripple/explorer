@@ -386,5 +386,6 @@
   "stable_version": "{{stableVersion}}",
   "xchain_claim_attestation": "Claim Attestation",
   "xchain_create_account_attestation": "Create Account Attestation",
-  "nftoken_minter": "NFT Minter"
+  "nftoken_minter": "NFT Minter",
+  "is_burned": "Burned"
 }

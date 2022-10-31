@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const Details = ({ data }: Props) => {
-  const { minted, domain, NFTTaxon, uri, transferFee, owner } = data
+  const { minted, domain, NFTTaxon, uri, transferFee, owner, isBurned } = data
   const { t } = useTranslation()
   const language = useLanguage()
   const formattedFee =
@@ -55,6 +55,12 @@ export const Details = ({ data }: Props) => {
           <td className="col1">{t('transfer_fee')}</td>
           <td className="col2">{formattedFee}</td>
         </tr>
+        {isBurned && (
+          <tr className="row">
+            <td className="col1">{t('is_burned')}</td>
+            <td className="col2">true</td>
+          </tr>
+        )}
         {owner && (
           <tr className="row">
             <td className="col1">{t('owner')}</td>
