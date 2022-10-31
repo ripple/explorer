@@ -12,7 +12,7 @@ const AccountSet = (props) => {
     message_key: messageKey,
     set_flag: setFlag,
     clear_flag: clearFlag,
-    nftoken_minter: NFTokenMinter,
+    nftoken_minter: nftokenMinter,
   } = data.instructions
 
   return (
@@ -51,11 +51,11 @@ const AccountSet = (props) => {
           </div>
         </div>
       )}
-      {NFTokenMinter && (
+      {nftokenMinter && (
         <div className="row">
           <div className="label">{t('nftoken_minter')}</div>
           <div className="value">
-            <Account account={NFTokenMinter} />
+            <Account account={nftokenMinter} />
           </div>
         </div>
       )}
