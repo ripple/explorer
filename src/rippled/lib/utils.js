@@ -120,7 +120,7 @@ const summarizeLedger = (ledger, txDetails = false) => {
 }
 
 function convertHexToString(hex, encoding = 'utf8') {
-  return Buffer.from(hex, 'hex').toString(encoding)
+  return hex ? Buffer.from(hex, 'hex').toString(encoding) : undefined
 }
 
 const formatNFTInfo = (info) => ({
