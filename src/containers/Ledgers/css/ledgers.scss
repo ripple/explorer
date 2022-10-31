@@ -75,7 +75,7 @@ $ledger-width: 168px;
     display: flex;
     padding: 0 0 40px 32px;
     margin: -45px 16px 20px;
-    overflow-x: auto;
+    overflow-x: hidden;
   }
 
   .ledger-line {
