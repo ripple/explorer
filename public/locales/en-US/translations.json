@@ -385,5 +385,6 @@
   "current_stable_version": "Current Stable Version",
   "stable_version": "{{stableVersion}}",
   "xchain_claim_attestation": "Claim Attestation",
-  "xchain_create_account_attestation": "Create Account Attestation"
+  "xchain_create_account_attestation": "Create Account Attestation",
+  "nftoken_minter": "NFToken Minter"
 }
