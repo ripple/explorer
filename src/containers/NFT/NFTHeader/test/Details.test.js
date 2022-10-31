@@ -42,7 +42,7 @@ describe('NFT Details container', () => {
 
   it('renders defined fields', () => {
     const wrapper = createWrapper()
-    expect(wrapper.find('.row').length).toEqual(6)
+    expect(wrapper.find('.row').length).toEqual(5)
     expect(wrapper.text()).toEqual(
       expect.stringContaining(
         'bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',

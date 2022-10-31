@@ -55,10 +55,12 @@ export const Details = ({ data }: Props) => {
           <td className="col1">{t('transfer_fee')}</td>
           <td className="col2">{formattedFee}</td>
         </tr>
-        <tr className="row">
-          <td className="col1">{t('is_burned')}</td>
-          <td className="col2">{isBurned ? 'true' : 'false'}</td>
-        </tr>
+        {isBurned && (
+          <tr className="row">
+            <td className="col1">{t('is_burned')}</td>
+            <td className="col2">true</td>
+          </tr>
+        )}
         {owner && (
           <tr className="row">
             <td className="col1">{t('owner')}</td>
