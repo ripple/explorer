@@ -4,6 +4,7 @@ import { useTranslation, withTranslation } from 'react-i18next'
 import { ACCOUNT_FLAGS, decodeHex } from '../transactionUtils'
 import { Amount } from './Amount'
 import { transactionTypes } from './Transaction'
+import { Account } from './Account'
 
 interface Instructions {
   owner: string
@@ -51,6 +52,8 @@ interface Instructions {
   destination: string
   partial: boolean
   ticketCount: number
+  // eslint-disable-next-line camelcase
+  nftoken_minter: string
 }
 
 interface Props {
@@ -102,6 +105,14 @@ const TxDetails = (props: Props) => {
             <span className="flag">
               {ACCOUNT_FLAGS[Number(instructions.clear_flag)] ||
                 instructions.clear_flag}
+            </span>
+          </div>
+        )}
+        {instructions.nftoken_minter && (
+          <div>
+            <span className="label">{t('nftoken_minter')}:</span>{' '}
+            <span className="domain">
+              <Account account={instructions.nftoken_minter} />
             </span>
           </div>
         )}
@@ -263,6 +274,7 @@ TxDetails.propTypes = {
     destination: PropTypes.string,
     partial: PropTypes.bool,
     ticketCount: PropTypes.number,
+    nftoken_minter: PropTypes.string,
   }),
   type: PropTypes.string,
 }
