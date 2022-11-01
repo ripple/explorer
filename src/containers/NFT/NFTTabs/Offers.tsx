@@ -34,7 +34,7 @@ export const Offers = (props: Props) => {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    [offerType],
+    [offerType, tokenId],
     ({ pageParam = '' }) =>
       fetchOffers(rippledSocket, tokenId, undefined, pageParam),
     {
