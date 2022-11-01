@@ -6,4 +6,5 @@ module.exports = (tx) => ({
   clear_flag: tx.ClearFlag,
   tick: tx.TickSize,
   rate: tx.TransferRate,
+  nftoken_minter: tx.NFTokenMinter,
 })

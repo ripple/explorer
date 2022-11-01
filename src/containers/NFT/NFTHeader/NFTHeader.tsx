@@ -46,7 +46,7 @@ export const NFTHeader = (props: Props) => {
   const rippledSocket = useContext(SocketContext)
   const [tooltip, setTooltip] = useState(null)
   const { data, isFetching: loading } = useQuery<NFTFormattedInfo>(
-    ['getNFTInfo'],
+    ['getNFTInfo', tokenId],
     async () => {
       const info = await getNFTInfo(rippledSocket, tokenId)
       return formatNFTInfo(info)

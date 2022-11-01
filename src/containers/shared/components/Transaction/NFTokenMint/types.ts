@@ -10,5 +10,5 @@ export interface NFTokenMint extends TransactionCommonFields {
 export interface NFTokenMintInstructions {
   tokenID: string
   tokenTaxon: number
-  uri: string
+  uri?: string
 }
