@@ -54,6 +54,10 @@ export const Details = ({ data }: Props) => {
           <td className="col1">{t('taxon_id')}</td>
           <td className="col2">{NFTTaxon}</td>
         </tr>
+        <tr className="row">
+          <td className="col1">{t('sequence_number_short')}</td>
+          <td className="col2">{NFTSequence}</td>
+        </tr>
         {uri && (
           <tr className="row">
             <td className="col1">URI</td>
@@ -63,10 +67,6 @@ export const Details = ({ data }: Props) => {
         <tr className="row">
           <td className="col1">{t('transfer_fee')}</td>
           <td className="col2">{formattedFee}</td>
-        </tr>
-        <tr className="row">
-          <td className="col1">{t('sequence_number_short')}</td>
-          <td className="col2">{NFTSequence}</td>
         </tr>
         {isBurned && (
           <tr className="row">
