@@ -13,7 +13,7 @@ export interface TxStatusProps {
 
 export const TxStatus = ({ shorthand = false, status }: TxStatusProps) => {
   const { t } = useTranslation()
-  const success = status === SUCCESSFULL_TRANSACTION
+  const success = status === SUCCESSFUL_TRANSACTION
   const className = success ? 'success' : 'fail'
   const wrapperClassName = `tx-status tx-result ${className}`
 
