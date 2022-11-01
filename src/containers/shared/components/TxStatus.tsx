@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as SuccessIcon } from '../images/success.svg'
 import { ReactComponent as FailIcon } from '../images/ic_fail.svg'
-import { SUCCESSFULL_TRANSACTION } from '../transactionUtils'
+import { SUCCESSFUL_TRANSACTION } from '../transactionUtils'
 
 import '../css/txstatus.scss'
 
