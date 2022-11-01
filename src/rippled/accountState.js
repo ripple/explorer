@@ -93,8 +93,8 @@ const getAccountState = (account, rippledSocket) => {
   return getAccountInfo(rippledSocket, classicAddress)
     .then((info) =>
       Promise.all([
-        getBalances(rippledSocket, classicAddress, info.ledger_index).then(
-          (data) => formatBalances(info, data),
+        getBalances(rippledSocket, classicAddress).then((data) =>
+          formatBalances(info, data),
         ),
         getAccountEscrows(rippledSocket, classicAddress, info.ledger_index),
         getAccountPaychannels(rippledSocket, classicAddress, info.ledger_index),
