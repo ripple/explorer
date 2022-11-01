@@ -1,0 +1,64 @@
+{
+  "tx": {
+    "Account": "rsbHDfMAdxv1EyAURp8F5txgFesepmCYRY",
+    "Fee": "250000",
+    "Flags": 8,
+    "NFTokenTaxon": 0,
+    "Sequence": 75420256,
+    "SigningPubKey": "03D3969BCE7722E4F85DA427C8674D50037A91715B16645ACDCF60BFF478D7B239",
+    "TransactionType": "NFTokenMint",
+    "TxnSignature": "3045022100F8E5F9216353EE5E13D7BD894B1F0C982865798F4CBCCFFBCF9855645C42CF3902201863046780FCB1A4355AF55C4D494E176A2C6849312B7BC70406B041D4792A59",
+    "date": "2022-10-31T20:50:52Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "NFTokenPage",
+          "LedgerIndex": "1C6BECB802DFC006F025A13EA940ECBF9FD4909EFFFFFFFFFFFFFFFFFFFFFFFF",
+          "NewFields": {
+            "NFTokens": [
+              {
+                "NFToken": {
+                  "NFTokenID": "000800001C6BECB802DFC006F025A13EA940ECBF9FD4909E0000099B00000000"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rsbHDfMAdxv1EyAURp8F5txgFesepmCYRY",
+            "Balance": "14750000",
+            "Flags": 0,
+            "MintedNFTokens": 1,
+            "OwnerCount": 1,
+            "Sequence": 75420257
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "57BCBCEF2CB5956ABB814B26E791899B33716929B3CFA1F77B328659CB65BA17",
+          "PreviousFields": {
+            "Balance": "15000000",
+            "OwnerCount": 0,
+            "Sequence": 75420256
+          },
+          "PreviousTxnID": "E1F96EA699BCE5BF881AF10E5452380F2EFE1989948A2207D28DD4CD75D979A5",
+          "PreviousTxnLgrSeq": 75420256
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "465A6EAC412E32CDD6C3D21537AD1C5919987EE162D606480133E1E43FBD14A7",
+  "ledger_index": 75443459,
+  "date": "2022-10-31T20:50:52Z"
+}
