@@ -9,12 +9,19 @@ import { NFTokenLink } from '../../NFTokenLink'
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<NFTokenBurnInstructions>) => {
-  const { tokenID } = data.instructions
+  const { tokenID, owner } = data.instructions
   const { t } = useTranslation()
 
   return (
-    <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
-      <NFTokenLink tokenID={tokenID} />
-    </SimpleRow>
+    <>
+      <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
+        <NFTokenLink tokenID={tokenID} />
+      </SimpleRow>
+      {owner && (
+        <SimpleRow label={t('owner')} className="dt" data-test="owner">
+          {owner}
+        </SimpleRow>
+      )}
+    </>
   )
 }

@@ -7,4 +7,5 @@ export interface NFTokenBurn extends TransactionCommonFields {
 
 export interface NFTokenBurnInstructions {
   tokenID: string
+  owner?: string
 }
