@@ -310,7 +310,7 @@ const getNFToffers = (
   limit = 50,
   marker = '',
 ) =>
-  queryP2P(rippledSocket, {
+  query(rippledSocket, {
     command: offerCmd,
     nft_id: tokenId,
     limit,
