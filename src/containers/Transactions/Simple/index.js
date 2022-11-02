@@ -6,7 +6,6 @@ import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
 import TrustSet from './TrustSet'
 import AccountSet from './AccountSet'
-import DepositPreauth from './DepositPreauth'
 import EnableAmendment from './EnableAmendment'
 import UNLModify from './UNLModify'
 import AccountDelete from './AccountDelete'
@@ -37,8 +36,6 @@ const Simple = (props) => {
       return <TrustSet t={t} language={language} data={data} />
     case 'AccountSet':
       return <AccountSet t={t} language={language} data={data} />
-    case 'DepositPreauth':
-      return <DepositPreauth t={t} language={language} data={data} />
     case 'EnableAmendment':
       return <EnableAmendment t={t} language={language} data={data} />
     case 'UNLModify':

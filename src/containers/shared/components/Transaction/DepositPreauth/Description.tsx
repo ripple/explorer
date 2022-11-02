@@ -1,10 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Trans } from 'react-i18next'
-import { Account } from '../../shared/components/Account'
+import { Account } from '../../Account'
+import { TransactionDescriptionProps } from '../types'
+import { DepositPreauth } from './types'
 
-const DepositPreauth = (props) => {
-  const { data } = props
+export const Description = ({
+  data,
+}: TransactionDescriptionProps<DepositPreauth>) => {
   const { tx } = data
   return tx.Authorize ? (
     <div>
@@ -24,14 +26,3 @@ const DepositPreauth = (props) => {
     </div>
   )
 }
-
-DepositPreauth.propTypes = {
-  data: PropTypes.shape({
-    tx: PropTypes.shape({
-      Authorize: PropTypes.string,
-      Unauthorize: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-}
-
-export default DepositPreauth
