@@ -129,6 +129,7 @@
   "transaction_CheckCancel": "Check Cancel",
   "transaction_CheckCash": "Check Cash",
   "transaction_CheckCreate": "Check Create",
+  "transaction_DepositPreauth": "Deposit Preauth",
   "transaction_Error_Cases": "Error Cases",
   "transaction_EscrowCancel": "Escrow Cancel",
   "transaction_EscrowCreate": "Escrow Create",

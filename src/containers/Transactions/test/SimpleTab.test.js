@@ -10,7 +10,6 @@ import Payment from '../../shared/components/Transaction/Payment/test/mock_data/
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
-import DepositPreauth from './mock_data/DepositPreauth.json'
 import TrustSet from './mock_data/TrustSet.json'
 import UNLModify from './mock_data/UNLModify.json'
 import SimpleTab from '../SimpleTab'
@@ -71,11 +70,6 @@ describe('SimpleTab container', () => {
 
   it('renders PaymentChannelFund without crashing', () => {
     const wrapper = createWrapper(PaymentChannelFund)
-    wrapper.unmount()
-  })
-
-  it('renders DepositPreauth without crashing', () => {
-    const wrapper = createWrapper(DepositPreauth)
     wrapper.unmount()
   })
 
