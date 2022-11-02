@@ -18,7 +18,7 @@ export const Simple: TransactionSimpleComponent = ({
   return (
     <>
       {offerID && (
-        <SimpleRow label={t('offer_index')} className="dt" data-test="offer-id">
+        <SimpleRow label={t('offer_index')} data-test="offer-id">
           {offerID}
         </SimpleRow>
       )}
