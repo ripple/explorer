@@ -7,8 +7,11 @@ import transactionModified2 from './mock_data/NFTokenMintModified2.json'
 import transactionModified1Created1 from './mock_data/NFTokenMintModified1Created1.json'
 import transactionModified2Created1 from './mock_data/NFTokenMintMostModified2Created1.json'
 import transactionWithIssuer from './mock_data/NFTokenMintWithIssuer.json'
+import transactionModified4Created1 from './mock_data/NFTokenMintModified4Created1.json'
+import transactionNullURI from './mock_data/NFTokenMintNullURI.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18nTestConfig'
+import { convertHexToString } from '../../../../../../rippled/lib/utils'
 
 describe('NFTokenMint', () => {
   it('handles NFTokenMint that modified 2 nodes', () => {
@@ -111,6 +114,45 @@ describe('NFTokenMint', () => {
     expect(wrapper.find('[data-test="token-issuer"] .value')).toHaveText(
       'rGToUZ1JjRUdv1wXNXKMFn2o4wTM2DLkpg',
     )
+    wrapper.unmount()
+  })
+
+  it('handles NFTokenMint that modified 3 nodes', () => {
+    const wrapper = mount(
+      <I18nextProvider i18n={i18n}>
+        <Router>
+          <NFTokenMint
+            data={
+              summarizeTransaction(transactionModified4Created1, true).details
+            }
+          />
+        </Router>
+      </I18nextProvider>,
+    )
+    expect(wrapper.find('[data-test="token-id"] .value')).toHaveText(
+      '000D0000B9BD7D214128A91ECECE5FCFF9BDB0D043567C51CFBEC443000063A7',
+    )
+    expect(wrapper.find('[data-test="token-taxon"] .value')).toHaveText('1')
+    expect(wrapper.find('[data-test="token-uri"] .value')).toHaveText(
+      convertHexToString(
+        '516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463',
+      ),
+    )
+    wrapper.unmount()
+  })
+
+  it('handles NFTokenMint that has null URI', () => {
+    const wrapper = mount(
+      <I18nextProvider i18n={i18n}>
+        <Router>
+          <NFTokenMint
+            data={summarizeTransaction(transactionNullURI, true).details}
+          />
+        </Router>
+      </I18nextProvider>,
+    )
+
+    expect(wrapper.find('[data-test="token-uri"] .value')).not.toExist()
     wrapper.unmount()
   })
 })

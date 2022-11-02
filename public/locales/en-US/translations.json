@@ -363,7 +363,6 @@
   "transfer_fee": "Transfer Fee",
   "burnable": "Burnable",
   "only_xrp": "Only XRP",
-  "trust_line": "Creates Trust Lines for Issuer",
   "transferable": "Transferable",
   "buy_offers": "Buy Offers",
   "sell_offers": "Sell Offers",
@@ -386,5 +385,7 @@
   "current_stable_version": "Current Stable Version",
   "stable_version": "{{stableVersion}}",
   "xchain_claim_attestation": "Claim Attestation",
-  "xchain_create_account_attestation": "Create Account Attestation"
+  "xchain_create_account_attestation": "Create Account Attestation",
+  "nftoken_minter": "NFT Minter",
+  "is_burned": "Burned"
 }

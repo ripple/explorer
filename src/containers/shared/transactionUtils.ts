@@ -43,6 +43,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
 }
 
 export const ACCOUNT_FLAGS: Record<number, string> = {
+  10: 'asfAuthorizedNFTokenMinter',
   9: 'asfDepositAuth',
   8: 'asfDefaultRipple',
   7: 'asfGlobalFreeze',

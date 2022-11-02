@@ -17,9 +17,11 @@ export const Simple: TransactionSimpleComponent = ({
 
   return (
     <>
-      <SimpleRow label={t('offer_index')} className="dt" data-test="offer-id">
-        {offerID}
-      </SimpleRow>
+      {offerID && (
+        <SimpleRow label={t('offer_index')} data-test="offer-id">
+          {offerID}
+        </SimpleRow>
+      )}
       <SimpleRow
         label={isSellOffer ? t('seller') : t('buyer')}
         data-test="buyer-or-seller"

@@ -46,6 +46,8 @@ export interface Instructions {
   destination: string
   partial: boolean
   ticketCount: number
+  // eslint-disable-next-line camelcase
+  nftoken_minter: string
 }
 
 export interface TransactionTableDetailProps<I = any> {
