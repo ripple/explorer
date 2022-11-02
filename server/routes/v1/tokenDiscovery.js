@@ -133,13 +133,10 @@ async function cacheTokensList() {
 // Starts the caching process for bigquery
 function startCaching() {
   // Only run if on mainnet (the tokens page doesn't exist on devnet/testnet)
-  // TODO: uncomment below code when token discovery is used again
-  // if (process.env.REACT_APP_ENVIRONMENT !== 'mainnet') {
-  //   return
-  // }
-  return
+  if (process.env.REACT_APP_ENVIRONMENT !== 'mainnet') {
+    return
+  }
   // Initialize the cache
-  // eslint-disable-next-line no-unreachable -- unused code for now
   cacheTokensList()
   // Cache every TIME_INTERVAL ms (only starts after one interval)
   const intervalId = setInterval(() => cacheTokensList(), TIME_INTERVAL)
