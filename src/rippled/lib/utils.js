@@ -65,6 +65,7 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
   gravatar: info.urlgravatar,
   previousTxn: info.PreviousTxnID,
   previousLedger: info.PreviousTxnLgrSeq,
+  nftMinter: info.NFTokenMinter,
 })
 
 const formatTransaction = (tx) => {
