@@ -11,7 +11,7 @@ import { NFTokenLink } from '../../NFTokenLink'
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<NFTokenCreateOfferInstructions>) => {
-  const { offerID, account, amount, tokenID, isSellOffer, owner } =
+  const { offerID, account, amount, tokenID, isSellOffer, owner, destination } =
     data.instructions
   const { t } = useTranslation()
 
@@ -28,6 +28,11 @@ export const Simple: TransactionSimpleComponent = ({
       >
         <Account account={account} />
       </SimpleRow>
+      {destination && (
+        <SimpleRow label={t('destination')} data-test="destination">
+          <Account account={destination} />
+        </SimpleRow>
+      )}
       {!isSellOffer && owner && (
         <SimpleRow label={t('owner')} data-test="owner">
           <Account account={owner} />
