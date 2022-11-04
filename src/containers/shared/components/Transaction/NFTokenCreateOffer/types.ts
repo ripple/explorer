@@ -16,4 +16,5 @@ export interface NFTokenCreateOfferInstructions {
   isSellOffer: boolean
   owner?: string
   offerID: string
+  destination?: string
 }

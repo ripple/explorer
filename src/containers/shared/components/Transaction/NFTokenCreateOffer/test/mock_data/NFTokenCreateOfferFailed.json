@@ -1,0 +1,60 @@
+{
+  "tx": {
+    "Account": "rG5qYqxdmDmLkVnPrLcWKE6LYTMeFGhYy9",
+    "Amount": "500000000",
+    "Destination": "rpZqTPC8GvrSvEfFsUuHkmPCg29GdQuXhC",
+    "Fee": "3200",
+    "Flags": 1,
+    "LastLedgerSequence": 75482570,
+    "NFTokenID": "00080000AC7377C74DD53E77C8161537F5EBF56B0CE8FD3BD392C2B800001702",
+    "Sequence": 74319468,
+    "Signers": [
+      {
+        "Signer": {
+          "Account": "rpZqTPC8GvrSvEfFsUuHkmPCg29GdQuXhC",
+          "SigningPubKey": "EDFC78FE5C5F474985678DD821FCDD7F65F2F7CC5029E3D0BEB46C9B0D90C622FF",
+          "TxnSignature": "C193905FA6F5731C090147B8E2EB6D96A4B83BCDCEB5845A0D467D351254140C64F5158B7FF87F295FDFC816DB6019351233A26F0042539D908BC9D651274E03"
+        }
+      }
+    ],
+    "SigningPubKey": "",
+    "TransactionType": "NFTokenCreateOffer",
+    "date": "2022-11-02T14:57:11Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rG5qYqxdmDmLkVnPrLcWKE6LYTMeFGhYy9",
+            "Balance": "218159358161",
+            "Domain": "68747470733A2F2F6D61726B6574706C6163652D6170692E6F6E7872702E636F6D2F6170692F6D657461646174612F",
+            "Flags": 0,
+            "MintedNFTokens": 6443,
+            "OwnerCount": 745,
+            "Sequence": 74319469
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "5707571AF2319C0203A9D25CF498F5672EACB4F38AE02327C3E3608175D91CA6",
+          "PreviousFields": {
+            "Balance": "218159361361",
+            "Sequence": 74319468
+          },
+          "PreviousTxnID": "BE9714F3CB7A97E901953FB850BB58A0A5D2C39B71F30CF6C80DF86C87327283",
+          "PreviousTxnLgrSeq": 75482561
+        }
+      }
+    ],
+    "TransactionIndex": 59,
+    "TransactionResult": "tecNO_ENTRY"
+  },
+  "hash": "2C476AF454BA8D519675B01749A1B76D9E52E2CA6DD7CAA4BD3DBA02E415D528",
+  "ledger_index": 75482561,
+  "date": "2022-11-02T14:57:11Z"
+}
