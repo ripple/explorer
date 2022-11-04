@@ -5,6 +5,7 @@ import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
 import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
 import { Account } from '../../shared/components/Account'
+import { TokenTableRow } from '../../shared/components/TokenTableRow'
 
 interface MintedProps {
   minted?: string
@@ -38,50 +39,30 @@ export const Details = ({ data }: Props) => {
   return (
     <table className="token-table">
       <tbody>
-        {minted && (
-          <tr className="row">
-            <td className="col1">{t('minted')}</td>
-            <td className="col2">{minted}</td>
-          </tr>
-        )}
-        {domain && (
-          <tr className="row">
-            <td className="col1">{t('domain')}</td>
-            <td className="col2">{domain}</td>
-          </tr>
-        )}
-        <tr className="row">
-          <td className="col1">{t('taxon_id')}</td>
-          <td className="col2">{nftTaxon}</td>
-        </tr>
-        <tr className="row">
-          <td className="col1">{t('sequence_number_short')}</td>
-          <td className="col2">{nftSequence}</td>
-        </tr>
-        {uri && (
-          <tr className="row">
-            <td className="col1">URI</td>
-            <td className="col2">{uri}</td>
-          </tr>
-        )}
-        <tr className="row">
-          <td className="col1">{t('transfer_fee')}</td>
-          <td className="col2">{formattedFee}</td>
-        </tr>
-        {isBurned && (
-          <tr className="row">
-            <td className="col1">{t('is_burned')}</td>
-            <td className="col2">true</td>
-          </tr>
-        )}
-        {owner && (
-          <tr className="row">
-            <td className="col1">{t('owner')}</td>
-            <td className="col2">
-              <Account account={owner} />
-            </td>
-          </tr>
-        )}
+        <TokenTableRow
+          shouldDisplay={!!minted}
+          label={t('minted')}
+          value={minted}
+        />
+        <TokenTableRow
+          shouldDisplay={!!domain}
+          label={t('domain')}
+          value={domain}
+        />
+        <TokenTableRow label={t('taxon_id')} value={nftTaxon} />
+        <TokenTableRow label={t('sequence_number_short')} value={nftSequence} />
+        <TokenTableRow shouldDisplay={!!uri} label="URI" value={uri} />
+        <TokenTableRow label={t('transfer_fee')} value={formattedFee} />
+        <TokenTableRow
+          shouldDisplay={!!isBurned}
+          label={t('is_burned')}
+          value="true"
+        />
+        <TokenTableRow
+          shouldDisplay={!!owner}
+          label={t('owner')}
+          value={<Account account={owner!} />}
+        />
       </tbody>
     </table>
   )
