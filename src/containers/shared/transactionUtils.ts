@@ -10,6 +10,15 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
   },
+  NFTokenMint: {
+    0x00000001: 'tfBurnable',
+    0x00000002: 'tfOnlyXRP',
+    0x00000004: 'tfTrustLine',
+    0x00000008: 'tfTransferable',
+  },
+  NFTokenOfferCreate: {
+    0x00000001: 'tfSellNFToken',
+  },
   Payment: {
     0x00010000: 'tfNoDirectRipple',
     0x00020000: 'tfPartialPayment',
