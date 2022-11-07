@@ -24,7 +24,7 @@ const STATIC_ENV_LINKS = {
   nft_sandbox: process.env.REACT_APP_NFTSANDBOX_LINK,
 }
 
-const SIDECHAIN_BASE_LINK = process.env.REACT_APP_SIDECHAIN_LINK
+const CUSTOM_NETWORK_BASE_LINK = process.env.REACT_APP_CUSTOMNETWORK_LINK
 
 function isCustomNetwork(mode) {
   return !Object.keys(STATIC_ENV_LINKS).includes(mode)
@@ -54,7 +54,7 @@ const Header = (props) => {
 
   function toggleExpand(event) {
     const className = event?.target?.getAttribute('class')
-    if (!(expanded && className === 'sidechain_input'))
+    if (!(expanded && className === 'custom_network_input'))
       // don't de-expand if clicking in the textbox
       setExpanded((prevExpanded) => !prevExpanded)
   }
@@ -83,7 +83,7 @@ const Header = (props) => {
       return
     }
 
-    switchMode(`${SIDECHAIN_BASE_LINK}/${newRippledUrl}`)
+    switchMode(`${CUSTOM_NETWORK_BASE_LINK}/${newRippledUrl}`)
   }
 
   function onInputKeyDown(event) {
@@ -96,7 +96,7 @@ const Header = (props) => {
       ) {
         return
       }
-      switchMode(`${SIDECHAIN_BASE_LINK}/${rippledUrl}`)
+      switchMode(`${CUSTOM_NETWORK_BASE_LINK}/${rippledUrl}`)
     }
   }
 
@@ -122,19 +122,19 @@ const Header = (props) => {
     )
   }
 
-  function renderSidechainInput() {
+  function renderCustomNetworkInput() {
     return (
       <div
-        key="new_sidechain"
+        key="new_network"
         className="item input"
-        value="new_sidechain"
+        value="new_network"
         role="menuitem"
         tabIndex={0}
       >
         <input
-          className="sidechain_input"
+          className="custom_network_input"
           type="text"
-          placeholder="Add custom sidechain"
+          placeholder="Add custom network"
           onKeyDown={onInputKeyDown}
         />
       </div>
@@ -154,15 +154,15 @@ const Header = (props) => {
 
   const urlLinkMap = {
     ...STATIC_ENV_LINKS,
-    // TODO: store previous sidechains in cookies, add them here
+    // TODO: store previous custom networks in cookies, add them here
   }
 
   const rippledUrl = getSocketUrl(rippledSocket)
 
-  if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
+  if (process.env.REACT_APP_ENVIRONMENT === 'custom') {
     urlLinkMap[
       rippledUrl
-    ] = `${process.env.REACT_APP_SIDECHAIN_LINK}${rippledUrl}`
+    ] = `${process.env.REACT_APP_CUSTOMNETWORK_LINK}${rippledUrl}`
   }
 
   return (
@@ -193,7 +193,7 @@ const Header = (props) => {
                     classnames('item', 'custom', {
                       selected: network === rippledUrl,
                     }),
-                    `${t('sidechain_data')}: ${network.toLowerCase()}`,
+                    `${t('custom_network_data')}: ${network.toLowerCase()}`,
                   )
                 : renderDropdown(
                     network,
@@ -202,7 +202,7 @@ const Header = (props) => {
                     t(`${network}_data`),
                   ),
             )}
-            {renderSidechainInput()}
+            {renderCustomNetworkInput()}
           </div>
           <div
             className="arrow-container"
