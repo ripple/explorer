@@ -55,7 +55,9 @@ class TokenHeader extends Component {
               value={<DomainLink domain={domain} />}
             />
           )}
-          {rate && <TokenTableRow label="Fee Rate" value={`${rate * 100}%`} />}
+          {rate && (
+            <TokenTableRow label={t('fee_rate')} value={`${rate * 100}%`} />
+          )}
           <TokenTableRow
             label={t('last_ledger')}
             value={
@@ -63,7 +65,7 @@ class TokenHeader extends Component {
             }
           />
           <TokenTableRow
-            label="Last affecting tx"
+            label={t('last_affecting_transaction')}
             value={<Link to={`/transactions/${previousTxn}`}>{prevTxn}</Link>}
           />
           {emailHash && (
