@@ -1,0 +1,115 @@
+{
+  "tx": {
+    "Account": "rpbjkoncKiv1LkPWShzZksqYPzKXmUhTW7",
+    "Amount": {
+      "currency": "5850554E4B000000000000000000000000000000",
+      "issuer": "rHEL3bM4RFsvF8kbQj3cya8YiDvjoEmxLq",
+      "value": "0.5"
+    },
+    "Destination": "rpdUbED32X3YXRPBGzSv8gMTJE66t3sji9",
+    "Fee": "3200",
+    "Flags": 1,
+    "LastLedgerSequence": 75503875,
+    "NFTokenID": "00081B581189F5687DBB7516339D6CCB5593D96622AD82DF0E4C932400000475",
+    "Sequence": 75438831,
+    "Signers": [
+      {
+        "Signer": {
+          "Account": "rpZqTPC8GvrSvEfFsUuHkmPCg29GdQuXhC",
+          "SigningPubKey": "EDFC78FE5C5F474985678DD821FCDD7F65F2F7CC5029E3D0BEB46C9B0D90C622FF",
+          "TxnSignature": "83DFD46E7BCC1ECCA7B90790CA20F1679D01515CD550DC0DB35D2CB58E944FAB7BDF094C3FD97AC96D427938C01548324CB6AB9B7DDA7010710410C2858E8304"
+        }
+      }
+    ],
+    "SigningPubKey": "",
+    "TransactionType": "NFTokenCreateOffer",
+    "date": "2022-11-03T13:52:11Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "IndexNext": "0",
+            "IndexPrevious": "49",
+            "Owner": "rpbjkoncKiv1LkPWShzZksqYPzKXmUhTW7",
+            "RootIndex": "DF6BE9CA7E98626513B669C0E8A916F5D828A55AF48DEAFE13A2AF7616C1CCAC"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "667B9C412FB987C3C539DD4A5EE74D461A163C9CBF389F8CA2A11DACDAFA2EC8"
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "NFTokenOffer",
+          "LedgerIndex": "9B815A559A5CE9B7BD974F2465E12DACC2FB8CC073D1E7E1529DE84ADAB2CB3C",
+          "NewFields": {
+            "Amount": {
+              "currency": "5850554E4B000000000000000000000000000000",
+              "issuer": "rHEL3bM4RFsvF8kbQj3cya8YiDvjoEmxLq",
+              "value": "0.5"
+            },
+            "Destination": "rpdUbED32X3YXRPBGzSv8gMTJE66t3sji9",
+            "Flags": 1,
+            "NFTokenID": "00081B581189F5687DBB7516339D6CCB5593D96622AD82DF0E4C932400000475",
+            "Owner": "rpbjkoncKiv1LkPWShzZksqYPzKXmUhTW7",
+            "OwnerNode": "4a"
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "F2DB05119B3C0256D30618BEB899023E9CFBFFF092F839E564B00B853B4F231A",
+          "NewFields": {
+            "Flags": 2,
+            "NFTokenID": "00081B581189F5687DBB7516339D6CCB5593D96622AD82DF0E4C932400000475",
+            "RootIndex": "F2DB05119B3C0256D30618BEB899023E9CFBFFF092F839E564B00B853B4F231A"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rpbjkoncKiv1LkPWShzZksqYPzKXmUhTW7",
+            "Balance": "24682484324",
+            "Domain": "68747470733A2F2F6D61726B6574706C6163652D6170692E6F6E7872702E636F6D2F6170692F6D657461646174612F",
+            "Flags": 0,
+            "MintedNFTokens": 4567,
+            "OwnerCount": 2155,
+            "Sequence": 75438832
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "F67A0D5CA164FD7BF50CA0896B50C1C99A0E50EAFF996A4C3BC491FDED8AA296",
+          "PreviousFields": {
+            "Balance": "24682487524",
+            "OwnerCount": 2154,
+            "Sequence": 75438831
+          },
+          "PreviousTxnID": "E28BE8A4BF9E7F8C3E0492A1560CE98C228C3F2F496FAC94CD1E66BFF46CF5D5",
+          "PreviousTxnLgrSeq": 75503864
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "FE217FC0DEF05A99601DDD35F61832DFB299EC845D6BD74EAEDCB82A804DEEB2",
+          "PreviousTxnID": "BE2ACA9B3CC2D5EF3D826E79690F28C1F8A90ACF6A0F262FD859F154ABE457BF",
+          "PreviousTxnLgrSeq": 75503861
+        }
+      }
+    ],
+    "TransactionIndex": 3,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "C641C7D195330115AE973F309129F263AF1898F6F98449CAEA0F3E0C07449B33",
+  "ledger_index": 75503866,
+  "date": "2022-11-03T13:52:11Z"
+}
