@@ -1,7 +1,7 @@
 import { localizeNumber } from './utils'
 
 export const RIPPLE_EPOCH = 946684800
-export const SUCCESSFULL_TRANSACTION = 'tesSUCCESS'
+export const SUCCESSFUL_TRANSACTION = 'tesSUCCESS'
 export const XRP_BASE = 1000000
 export const hexMatch = new RegExp('^(0x)?[0-9A-Fa-f]+$')
 export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp'
