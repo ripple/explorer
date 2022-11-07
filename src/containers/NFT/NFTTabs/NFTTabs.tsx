@@ -4,14 +4,13 @@ import './styles.scss'
 import { Tabs } from '../../shared/components/Tabs'
 import { getBuyNFToffers, getSellNFToffers } from '../../../rippled/lib/rippled'
 import { Offers } from './Offers'
-import { Transactions } from './Transactions'
 
 interface Props {
   tokenId: string
 }
 
 export const NFTTabs = (props: Props) => {
-  const { id = '', tab = 'transactions' } = useParams<{
+  const { id = '', tab = 'buy-offers' } = useParams<{
     id: string
     tab: string
   }>()
@@ -20,7 +19,7 @@ export const NFTTabs = (props: Props) => {
 
   function renderTabs() {
     const { path = '/' } = match
-    const tabs = ['transactions', 'buy-offers', 'sell-offers']
+    const tabs = ['buy-offers', 'sell-offers']
     // strips :url from the front and the identifier/tab info from the end
     const mainPath = [path.split('/:')[0], id].join('/')
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
@@ -37,7 +36,7 @@ export const NFTTabs = (props: Props) => {
             offerType="SellOffers"
           />
         )
-      case 'buy-offers':
+      default:
         return (
           <Offers
             key="BuyOffers"
@@ -46,8 +45,6 @@ export const NFTTabs = (props: Props) => {
             offerType="BuyOffers"
           />
         )
-      default:
-        return <Transactions tokenId={tokenId} />
     }
   }
 

@@ -242,6 +242,12 @@ const AccountHeader = (props) => {
                 <b>{info.email_hash}</b>
               </li>
             )}
+            {info.nftMinter && (
+              <li>
+                <span className="label"> {t('nftoken_minter')}: </span>
+                <Account account={info.nftMinter} />
+              </li>
+            )}
             {info.flags.length ? (
               <li className="flags">
                 <ul>
@@ -348,6 +354,7 @@ AccountHeader.propTypes = {
       domain: PropTypes.string,
       email_hash: PropTypes.string,
       flags: PropTypes.arrayOf(PropTypes.string),
+      nftMinter: PropTypes.string,
     }),
     xAddress: PropTypes.shape({
       classicAddress: PropTypes.string,
