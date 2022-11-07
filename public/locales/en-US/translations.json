@@ -264,6 +264,7 @@
   "get_validator_failed": "Unable to load validator",
   "get_account_state_failed": "Unable to load account state",
   "get_account_transactions_failed": "Unable to load account transactions",
+  "get_account_transactions_try": "Try loading more transactions",
   "resolve_paystring_failed": "Unable to resolve PayString",
   "paystring_address_invalid": "(Invalid)",
   "paystring_explainer_blurb": "is the universal ID for payments that uses a simple, open standard to help people easily send and receive money - across any payment network - using a single ID.",
