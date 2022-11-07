@@ -44,7 +44,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "rewire": "^6.0.0",
-    "ripple-address-codec": "^4.1.2",
+    "ripple-address-codec": "^4.2.4",
     "topojson-client": "^3.0.0",
     "ws": "^7.4.2",
     "xrpl-client": "^1.9.4"
