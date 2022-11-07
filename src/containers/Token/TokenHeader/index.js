@@ -49,16 +49,13 @@ class TokenHeader extends Component {
     return (
       <table className="token-table">
         <tbody>
-          <TokenTableRow
-            shouldDisplay={!!domain}
-            label={t('domain')}
-            value={<DomainLink domain={domain} />}
-          />
-          <TokenTableRow
-            shouldDisplay={!!rate}
-            label="Fee Rate"
-            value={`${rate * 100}%`}
-          />
+          {domain && (
+            <TokenTableRow
+              label={t('domain')}
+              value={<DomainLink domain={domain} />}
+            />
+          )}
+          {rate && <TokenTableRow label="Fee Rate" value={`${rate * 100}%`} />}
           <TokenTableRow
             label={t('last_ledger')}
             value={
@@ -69,11 +66,9 @@ class TokenHeader extends Component {
             label="Last affecting tx"
             value={<Link to={`/transactions/${previousTxn}`}>{prevTxn}</Link>}
           />
-          <TokenTableRow
-            shouldDisplay={!!emailHash}
-            label={t('email_hash')}
-            value={abbrvEmail}
-          />
+          {emailHash && (
+            <TokenTableRow label={t('email_hash')} value={abbrvEmail} />
+          )}
         </tbody>
       </table>
     )

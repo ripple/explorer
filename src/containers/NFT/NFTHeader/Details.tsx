@@ -39,30 +39,19 @@ export const Details = ({ data }: Props) => {
   return (
     <table className="token-table">
       <tbody>
-        <TokenTableRow
-          shouldDisplay={!!minted}
-          label={t('minted')}
-          value={minted}
-        />
-        <TokenTableRow
-          shouldDisplay={!!domain}
-          label={t('domain')}
-          value={domain}
-        />
+        {minted && <TokenTableRow label={t('minted')} value={minted} />}
+        {domain && <TokenTableRow label={t('domain')} value={domain} />}
         <TokenTableRow label={t('taxon_id')} value={nftTaxon} />
         <TokenTableRow label={t('sequence_number_short')} value={nftSequence} />
-        <TokenTableRow shouldDisplay={!!uri} label="URI" value={uri} />
+        {uri && <TokenTableRow label="URI" value={uri} />}
         <TokenTableRow label={t('transfer_fee')} value={formattedFee} />
-        <TokenTableRow
-          shouldDisplay={!!isBurned}
-          label={t('is_burned')}
-          value="true"
-        />
-        <TokenTableRow
-          shouldDisplay={!!owner}
-          label={t('owner')}
-          value={<Account account={owner!} />}
-        />
+        {isBurned && <TokenTableRow label={t('is_burned')} value="true" />}
+        {owner && (
+          <TokenTableRow
+            label={t('owner')}
+            value={<Account account={owner!} />}
+          />
+        )}
       </tbody>
     </table>
   )
