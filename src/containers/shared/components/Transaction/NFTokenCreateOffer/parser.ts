@@ -14,6 +14,7 @@ export const parser: TransactionParser<
   const offerID = meta.AffectedNodes.find(
     (node: any) => node?.CreatedNode?.LedgerEntryType === 'NFTokenOffer',
   )?.CreatedNode?.LedgerIndex
+  const destination = tx.Destination
 
   return {
     account,
@@ -22,5 +23,6 @@ export const parser: TransactionParser<
     isSellOffer,
     owner,
     offerID,
+    destination,
   }
 }

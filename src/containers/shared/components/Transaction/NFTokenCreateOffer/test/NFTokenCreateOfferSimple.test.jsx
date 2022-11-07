@@ -3,6 +3,7 @@ import { Simple } from '../Simple'
 import transactionBuy from './mock_data/NFTokenCreateOffer_Buy.json'
 import transactionSell from './mock_data/NFTokenCreateOffer_Sell.json'
 import transactionFailed from './mock_data/NFTokenCreateOfferFailed.json'
+import transactionDestination from './mock_data/NFTokenCreateOfferDestination.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
@@ -21,7 +22,6 @@ describe('NFTokenCreateOffer', () => {
     )
     expectSimpleRowText(wrapper, 'owner', 'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g')
     expectSimpleRowText(wrapper, 'amount', '\uE9000.0001 XRP')
-
     expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
       'buyer',
     )
@@ -30,6 +30,7 @@ describe('NFTokenCreateOffer', () => {
       'buyer-or-seller',
       'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh',
     )
+    expect(wrapper.find('[data-test="destination"] .value')).not.toExist()
     wrapper.unmount()
   })
 
@@ -59,6 +60,7 @@ describe('NFTokenCreateOffer', () => {
       'buyer-or-seller',
       'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
+    expect(wrapper.find('[data-test="destination"] .value')).not.toExist()
     wrapper.unmount()
   })
 
@@ -72,6 +74,16 @@ describe('NFTokenCreateOffer', () => {
     expect(wrapper.find('[data-test="offer-id"] .value')).not.toExist()
     expect(wrapper.find('[data-test="owner"] .value')).not.toExist()
     expectSimpleRowText(wrapper, 'amount', '\uE900500.00 XRP')
+    wrapper.unmount()
+  })
+
+  it('handles NFTokenCreateOffer with destination', () => {
+    const wrapper = createWrapper(transactionDestination)
+    expectSimpleRowText(
+      wrapper,
+      'destination',
+      'rpdUbED32X3YXRPBGzSv8gMTJE66t3sji9',
+    )
     wrapper.unmount()
   })
 })

@@ -46,27 +46,16 @@
     letter-spacing: 0;
     @include regular;
 
-    .successful {
-      height: 16px;
-      margin-right: 12px;
-      vertical-align: middle;
-    }
-
-    .failed {
-      height: 16px;
-      margin-right: 12px;
-      vertical-align: middle;
-    }
-
     .status {
       display: none;
-      @include for-size(desktop-up) {
-        display: inline-block;
-      }
     }
 
     @include for-size(desktop-up) {
       width: 270px;
+
+      .status {
+        display: initial;
+      }
     }
   }
 
