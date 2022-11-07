@@ -1,93 +1,61 @@
-import React, { useContext, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { concatTx } from '../../shared/utils'
+import { useInfiniteQuery } from 'react-query'
+import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 
-import { loadTokenTransactions } from './actions'
 import SocketContext from '../../shared/SocketContext'
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
+import { getAccountTransactions } from '../../../rippled'
 
-// There will be fewer props in the next PR when react-query is used instead of redux.
-// It's `any` for now
-const TokenTransactionTable = (props: any) => {
-  const { accountId, currency, actions, data, loading, loadingError } = props
-  const [transactions, setTransactions] = useState([])
-  const [marker, setMarker] = useState(null)
-  const { t } = useTranslation()
+export interface TokenTransactionsTableProps {
+  accountId: string
+  currency: string
+}
+
+export const TokenTransactionTable = ({
+  accountId,
+  currency,
+}: TokenTransactionsTableProps) => {
   const rippledSocket = useContext(SocketContext)
+  const { t } = useTranslation()
 
-  useEffect(() => {
-    if (data.transactions == null) return
-    setMarker(data.marker)
-    setTransactions((oldTransactions) =>
-      concatTx(oldTransactions, data.transactions),
-    )
-  }, [data])
+  const {
+    data,
+    error,
+    isFetching: loading,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery<any, Error>(
+    ['fetchTransactions', accountId, currency],
+    ({ pageParam = '' }) =>
+      getAccountTransactions(
+        accountId,
+        currency,
+        pageParam,
+        undefined,
+        rippledSocket,
+      ).catch((errorResponse) => {
+        const errorLocation = `token transactions ${accountId}.${currency} at ${pageParam}`
+        analytics(ANALYTIC_TYPES.exception, {
+          exDescription: `${errorLocation} --- ${JSON.stringify(
+            errorResponse,
+          )}`,
+        })
 
-  useEffect(() => {
-    setTransactions([])
-    setMarker(null)
-    actions.loadTokenTransactions(accountId, currency, undefined, rippledSocket)
-  }, [accountId, currency])
-
-  const loadMoreTransactions = () => {
-    actions.loadTokenTransactions(accountId, currency, marker, rippledSocket)
-  }
+        throw new Error('get_account_transactions_failed')
+      }),
+    {
+      getNextPageParam: (lastPage) => lastPage.marker,
+    },
+  )
 
   return (
     <TransactionTable
-      transactions={transactions}
+      transactions={data?.pages?.map((page: any) => page.transactions).flat()}
       loading={loading}
-      emptyMessage={t(loadingError)}
-      onLoadMore={loadMoreTransactions}
-      hasAdditionalResults={!!marker}
+      emptyMessage={t(error?.message)}
+      onLoadMore={() => fetchNextPage()}
+      hasAdditionalResults={hasNextPage}
     />
   )
 }
-
-TokenTransactionTable.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  loadingError: PropTypes.string,
-  accountId: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    marker: PropTypes.string,
-    transactions: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        title: PropTypes.string,
-        link: PropTypes.string,
-        date: PropTypes.string,
-        creator: PropTypes.string,
-        image: PropTypes.string,
-        speed: PropTypes.number,
-      }),
-    ),
-  }).isRequired,
-  actions: PropTypes.shape({
-    loadTokenTransactions: PropTypes.func,
-  }).isRequired,
-}
-
-TokenTransactionTable.defaultProps = {
-  loadingError: '',
-}
-
-export default connect(
-  // This will be removed in the next PR
-  (state: any) => ({
-    loadingError: state.accountTransactions.error,
-    loading: state.accountTransactions.loading,
-    data: state.accountTransactions.data,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadTokenTransactions,
-      },
-      dispatch,
-    ),
-  }),
-)(TokenTransactionTable)
