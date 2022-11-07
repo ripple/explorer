@@ -51,15 +51,17 @@ module.exports = (req, res) => {
     }))
 
     if (req.query.key) {
-      return res.json(
-        validatorsFormatted.find(
-          (v) =>
-            v.master_key === req.query.key || v.signing_key === req.query.key,
-        ),
-      )
+      return res
+        .status(200)
+        .json(
+          validatorsFormatted.find(
+            (v) =>
+              v.master_key === req.query.key || v.signing_key === req.query.key,
+          ),
+        )
     }
 
-    return res.send(validatorsFormatted)
+    return res.status(200).json(validatorsFormatted)
   }
 
   const validatorSummary = validators.map((v) => ({
@@ -70,8 +72,10 @@ module.exports = (req, res) => {
   }))
 
   if (req.query.unl === process.env.REACT_APP_VALIDATOR) {
-    return res.send(validatorSummary.filter((val) => val.unl === req.query.unl))
+    return res
+      .status(200)
+      .json(validatorSummary.filter((val) => val.unl === req.query.unl))
   }
 
-  return res.send(validatorSummary)
+  return res.status(200).json(validatorSummary)
 }

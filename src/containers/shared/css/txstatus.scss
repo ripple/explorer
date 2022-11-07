@@ -1,0 +1,39 @@
+@import './variables';
+
+.tx-status {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+
+  svg {
+    width: auto;
+    height: 1em;
+  }
+
+  .status {
+    @extend %truncate;
+
+    display: inline-block;
+    text-transform: capitalize;
+
+    &::before {
+      content: '\00a0';
+    }
+  }
+
+  .status-message {
+    + .status-code::before {
+      content: '\00a0-\00a0';
+    }
+  }
+
+  .status-code {
+    color: inherit;
+  }
+
+  &.success {
+    .status-code {
+      display: none;
+    }
+  }
+}
