@@ -431,19 +431,20 @@ const getOffers = (
 
 // AMM Additions
 
-const getAMMInfo = (rippledSocket, ammID) => {
+const getAMMInfo = (rippledSocket, asset1, asset2) => {
   const request = {
     command: 'amm_info',
-    amm_id: ammID,
+    asset1,
+    asset2,
     ledger_index: 'validated',
   }
 
   return query(rippledSocket, request).then((resp) => {
-    if (!resp.error_message || !resp.validated) {
+    if (resp.error_message || !resp.validated) {
       throw new Error('meep meep', 404)
     }
 
-    return resp.ledger
+    return resp
   })
 }
 

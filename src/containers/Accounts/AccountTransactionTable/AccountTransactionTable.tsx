@@ -14,7 +14,7 @@ import { loadAccountTransactions } from './actions'
 // There will be fewer props in the next PR when react-query is used instead of redux.
 // It's `any` for now
 const AccountTransactionTable = (props: any) => {
-  const { actions, data, loadingError } = props
+  const { actions, data, loadingError, hasTokensColumn } = props
   const [transactions, setTransactions] = useState([])
   const [marker, setMarker] = useState(null)
   const { id: accountId } = useParams<{ id: string }>()
@@ -64,6 +64,7 @@ const AccountTransactionTable = (props: any) => {
       emptyMessage={t(loadingError)}
       onLoadMore={loadMoreTransactions}
       hasAdditionalResults={!!marker}
+      hasTokensColumn={hasTokensColumn}
     />
   )
 }

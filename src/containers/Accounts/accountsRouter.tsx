@@ -1,5 +1,6 @@
 import { useParams } from 'react-router'
 import React, { useContext, useEffect, useState } from 'react'
+import { isValidClassicAddress } from 'ripple-address-codec'
 import AMMAccounts from 'containers/Accounts/AMM/AMMAccounts/index'
 import { connect } from 'react-redux'
 import SocketContext from '../shared/SocketContext'
@@ -27,7 +28,7 @@ const getErrorMessage = (error: any) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
 function renderError(error: any) {
-  const message = getErrorMessage(error)
+  const message = getErrorMessage(error.code)
   return (
     <div className="accounts-page">
       <NoMatch title={message.title} hints={message.hints} />
@@ -35,18 +36,29 @@ function renderError(error: any) {
   )
 }
 
-const AccountsRouter = (props: any) => {
+const AccountsRouter = () => {
   const { id: accountId } = useParams<{ id: string }>()
-  const { error } = props
   const rippledSocket = useContext(SocketContext)
   const [info, setInfo] = useState<{ Flags: number }>({ Flags: 0 })
+  const [error, setError] = useState<any>()
   useEffect(() => {
-    getAccountInfo(rippledSocket, accountId).then((data: any) => {
-      setInfo(data)
-    })
+    if (isValidClassicAddress(accountId)) {
+      getAccountInfo(rippledSocket, accountId)
+        .then((data: any) => {
+          setInfo(data)
+        })
+        .catch((e) => {
+          if (e.code === 404) {
+            setError(e)
+          }
+        })
+    }
   }, [accountId, rippledSocket])
-  if (error) {
-    renderError(error)
+
+  if (error !== undefined) {
+    if (error.code === 404) {
+      return renderError(error)
+    }
   }
 
   if (info.Flags & flags.accountInfo.lsfAMM) {

@@ -3,11 +3,7 @@ import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {
-  QueryClientProvider,
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query'
+import { QueryClientProvider } from 'react-query'
 import AccountsRouter from 'containers/Accounts/accountsRouter'
 import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
 import Ledgers from '../Ledgers'

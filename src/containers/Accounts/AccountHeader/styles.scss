@@ -4,7 +4,6 @@
   margin-bottom: 16px;
 
   .box-header {
-    padding: 4px 8px;
     margin-top: 106px;
     margin-bottom: 80px;
     text-align: left;
@@ -21,6 +20,53 @@
 
       @include for-size(desktop-up) {
         font-size: 42px;
+      }
+    }
+
+    .amm-title {
+      padding-bottom: 4px;
+      color: $gray-400;
+      font-size: 14px;
+      text-transform: uppercase;
+
+      @include semibold;
+    }
+
+    .currency-pair {
+      margin: 0px;
+      padding: 5px;
+      color: $white;
+      font-size: 16px;
+      display: inline-block;
+      border-width: thin;
+      border-style: solid;
+      border-color: $grayTranslucent-400;
+      @include semibold;
+
+      @include for-size(tablet-landscape-up) {
+        font-size: 10px;
+      }
+
+      @include for-size(desktop-up) {
+        font-size: 20px;
+      }
+    }
+
+    .amm {
+      margin: 0px;
+      color: $white;
+      font-size: 20px;
+      padding-right: 10px;
+      display: inline-block;
+      border-bottom: none;
+      @include bold;
+
+      @include for-size(tablet-landscape-up) {
+        font-size: 12px;
+      }
+
+      @include for-size(desktop-up) {
+        font-size: 25px;
       }
     }
   }

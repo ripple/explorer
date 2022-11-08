@@ -8,6 +8,7 @@ import TxDetails from '../TxDetails'
 import { localizeDate } from '../../utils'
 import './styles.scss'
 import { useLanguage } from '../../hooks'
+import TxToken from '../TxToken'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -23,9 +24,10 @@ const DATE_OPTIONS = {
 
 interface Props {
   tx: any
+  hasTokensColumn?: boolean
 }
 
-export const TransactionTableRow = ({ tx }: Props) => {
+export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
   const language = useLanguage()
   const { t, i18n } = useTranslation()
   const success = tx.result === 'tesSUCCESS'
@@ -40,6 +42,11 @@ export const TransactionTableRow = ({ tx }: Props) => {
     >
       <Link to={`/transactions/${tx.hash}`} className="mask-overlay" />
       <div className="upper">
+        {hasTokensColumn && (
+          <div className="col-token">
+            <TxToken tx={tx} />
+          </div>
+        )}
         <div className="col-account">
           <div className="transaction-address" title={tx.account}>
             {tx.account}
@@ -74,4 +81,8 @@ export const TransactionTableRow = ({ tx }: Props) => {
       )}
     </li>
   )
+}
+
+TransactionTableRow.defaultProps = {
+  hasTokensColumn: false,
 }
