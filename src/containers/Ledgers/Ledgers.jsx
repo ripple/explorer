@@ -8,6 +8,8 @@ import Tooltip from '../shared/components/Tooltip'
 import './css/ledgers.scss'
 import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
+import Loader from '../shared/components/Loader'
+import SocketContext from '../shared/SocketContext'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -236,20 +238,28 @@ class Ledgers extends Component {
   render() {
     const { ledgers, selected, tooltip } = this.state
     const { t, language } = this.props
+    // eslint-disable-next-line react/destructuring-assignment
+    const isOnline = this.context.getState().online
     return (
       <>
-        <div className="ledgers">
-          <div className="control">{selected && this.renderSelected()}</div>
-          <div className="ledger-line" />
-          <div className="ledger-list">
-            {ledgers.map(this.renderLedger)}{' '}
-            <Tooltip t={t} language={language} data={tooltip} />
+        {isOnline ? (
+          <div className="ledgers">
+            <div className="control">{selected && this.renderSelected()}</div>
+            <div className="ledger-line" />
+            <div className="ledger-list">
+              {ledgers.map(this.renderLedger)}{' '}
+              <Tooltip t={t} language={language} data={tooltip} />
+            </div>
           </div>
-        </div>
+        ) : (
+          <Loader />
+        )}
       </>
     )
   }
 }
+
+Ledgers.contextType = SocketContext
 
 Ledgers.propTypes = {
   ledgers: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
