@@ -241,20 +241,20 @@ class Ledgers extends Component {
     // eslint-disable-next-line react/destructuring-assignment
     const isOnline = this.context.getState().online
     return (
-      <>
+      <div className="ledgers">
         {isOnline ? (
-          <div className="ledgers">
+          <>
             <div className="control">{selected && this.renderSelected()}</div>
             <div className="ledger-line" />
             <div className="ledger-list">
               {ledgers.map(this.renderLedger)}{' '}
               <Tooltip t={t} language={language} data={tooltip} />
-            </div>
-          </div>
+            </div>{' '}
+          </>
         ) : (
           <Loader />
         )}
-      </>
+      </div>
     )
   }
 }
