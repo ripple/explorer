@@ -47,7 +47,7 @@
     "ripple-address-codec": "^4.2.4",
     "topojson-client": "^3.0.0",
     "ws": "^7.4.2",
-    "xrpl-client": "^1.9.4"
+    "xrpl-client": "^2.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",

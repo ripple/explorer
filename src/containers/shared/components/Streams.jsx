@@ -411,14 +411,13 @@ class Streams extends Component {
       }
       if (d.txn_count) {
         txCount += d.txn_count
-        ledgerCount += 1
       }
+      ledgerCount += 1
     })
 
     return {
       base_fee: Number(baseFee.toPrecision(4)).toString(),
-      txn_sec:
-        time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
+      txn_sec: time ? ((txCount / time) * 1000).toFixed(2) : undefined,
       txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
       ledger_interval: timeCount
         ? (time / timeCount / 1000).toFixed(3)
