@@ -78,47 +78,8 @@
       @include medium;
     }
 
-    .status {
-      display: inline-block;
-      padding: 0px 15px 20px;
-      font-size: 10px;
-      line-height: 18px;
-      text-transform: uppercase;
-      vertical-align: middle;
-      @include bold;
-
-      @include for-size(tablet-landscape-up) {
-        font-size: 12px;
-        line-height: 20px;
-      }
-      @include for-size(desktop-up) {
-        font-size: 12px;
-        line-height: 20px;
-      }
-      @include for-size(big-desktop-up) {
-        font-size: 12px;
-        line-height: 20px;
-      }
-
-      &.success {
-        color: $green;
-      }
-
-      &.fail {
-        color: $orange-600;
-
-        span {
-          text-transform: none;
-        }
-      }
-
-      img {
-        position: relative;
-        top: 4px;
-        width: 16px;
-        height: 16px;
-        margin-right: 4px;
-      }
+    .tx-status {
+      margin-left: 15px;
     }
   }
 

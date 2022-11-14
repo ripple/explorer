@@ -171,8 +171,8 @@
       }
     }
 
-    &.sidechain {
-      @include dropdown-network-item($sidechain, $sidechain, $black);
+    &.custom {
+      @include dropdown-network-item($custom, $custom, $black);
 
       .arrow path {
         fill: $black;

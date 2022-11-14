@@ -118,7 +118,7 @@ class Streams extends Component {
   componentDidMount() {
     this.connect()
     this.updateNegativeUNL()
-    if (process.env.REACT_APP_ENVIRONMENT !== 'sidechain') {
+    if (process.env.REACT_APP_ENVIRONMENT !== 'custom') {
       this.updateMetricsFromServer()
     }
     this.purge = setInterval(this.purge, 5000)
@@ -411,14 +411,13 @@ class Streams extends Component {
       }
       if (d.txn_count) {
         txCount += d.txn_count
-        ledgerCount += 1
       }
+      ledgerCount += 1
     })
 
     return {
       base_fee: Number(baseFee.toPrecision(4)).toString(),
-      txn_sec:
-        time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined,
+      txn_sec: time ? ((txCount / time) * 1000).toFixed(2) : undefined,
       txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
       ledger_interval: timeCount
         ? (time / timeCount / 1000).toFixed(3)
@@ -480,7 +479,7 @@ class Streams extends Component {
           this.onledgerSummary(ledgerSummary)
         })
         .then(() => {
-          if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
+          if (process.env.REACT_APP_ENVIRONMENT === 'custom') {
             this.onmetric(this.updateMetrics(baseFee))
           }
         })
@@ -497,9 +496,9 @@ class Streams extends Component {
           Log.error('Ledger fetch error', e.message)
           Log.error(e)
         })
-      // calculate sidechain metrics on the frontend
+      // calculate custom network metrics on the frontend
       // because there is no backend server connection (since there is no one network)
-      if (process.env.REACT_APP_ENVIRONMENT === 'sidechain') {
+      if (process.env.REACT_APP_ENVIRONMENT === 'custom') {
         this.onmetric(this.updateMetrics(baseFee))
       } else {
         this.updateMetricsFromServer()

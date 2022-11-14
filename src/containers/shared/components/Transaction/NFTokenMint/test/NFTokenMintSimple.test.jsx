@@ -8,6 +8,7 @@ import transactionModified1Created1 from './mock_data/NFTokenMintModified1Create
 import transactionModified2Created1 from './mock_data/NFTokenMintMostModified2Created1.json'
 import transactionModified4Created1 from './mock_data/NFTokenMintModified4Created1.json'
 import transactionNullURI from './mock_data/NFTokenMintNullURI.json'
+import transactionFailed from './mock_data/NFTokenMintFailed.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18nTestConfig'
 import { convertHexToString } from '../../../../../../rippled/lib/utils'
@@ -113,6 +114,27 @@ describe('NFTokenMint', () => {
     )
 
     expect(wrapper.find('[data-test="token-uri"] .value')).not.toExist()
+    wrapper.unmount()
+  })
+
+  it('handles NFTokenMint that failed', () => {
+    const wrapper = mount(
+      <I18nextProvider i18n={i18n}>
+        <Router>
+          <NFTokenMint
+            data={summarizeTransaction(transactionFailed, true).details}
+          />
+        </Router>
+      </I18nextProvider>,
+    )
+
+    expect(wrapper.find('[data-test="token-id"] .value')).not.toExist()
+    expect(wrapper.find('[data-test="token-taxon"] .value')).toHaveText('19')
+    expect(wrapper.find('[data-test="token-uri"] .value')).toHaveText(
+      convertHexToString(
+        '516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463',
+      ),
+    )
     wrapper.unmount()
   })
 })

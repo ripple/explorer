@@ -96,12 +96,13 @@ const updateMetrics = (baseFee) => {
     if (d.total_fees) {
       fees += d.total_fees
       txCount += d.txn_count ?? 0
-      ledgerCount += 1
     }
+    ledgerCount += 1
   })
   currentMetric.base_fee = Number(baseFee.toPrecision(4)).toString()
-  currentMetric.txn_sec =
-    time && txCount ? ((txCount / time) * 1000).toFixed(2) : undefined
+  currentMetric.txn_sec = time
+    ? ((txCount / time) * 1000).toFixed(2)
+    : undefined
   currentMetric.txn_ledger = ledgerCount
     ? (txCount / ledgerCount).toFixed(2)
     : undefined
