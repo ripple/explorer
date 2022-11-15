@@ -2,7 +2,28 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Account } from '../Account'
 import { Amount } from '../Amount'
+import Currency from '../Currency'
 import { SimpleRow } from './SimpleRow'
+
+const XChainIssue = (props: any) => {
+  const { issue, isThisChain } = props
+
+  return (
+    <>
+      {typeof issue === 'string' ? (
+        issue
+      ) : (
+        <Currency
+          // @ts-ignore
+          issuer={issue.issuer}
+          // @ts-ignore
+          currency={issue.currency}
+          link={isThisChain}
+        />
+      )}
+    </>
+  )
+}
 
 export interface XChainBridgeProps {
   lockingDoor: string
@@ -33,7 +54,10 @@ export const XChainBridge = (props: XChainBridgeProps) => {
         label={t('locking_chain_issue')}
         data-test="locking-chain-issue"
       >
-        {lockingIssue}
+        <XChainIssue
+          issue={lockingIssue}
+          isThisChain={lockingDoor === bridgeOwner}
+        />
       </SimpleRow>
       <SimpleRow label={t('issuing_chain_door')} data-test="issuing-chain-door">
         <Account account={issuingDoor} link={issuingDoor === bridgeOwner} />
@@ -42,7 +66,10 @@ export const XChainBridge = (props: XChainBridgeProps) => {
         label={t('issuing_chain_issue')}
         data-test="issuing-chain-issue"
       >
-        {issuingIssue}
+        <XChainIssue
+          issue={issuingIssue}
+          isThisChain={issuingDoor === bridgeOwner}
+        />
       </SimpleRow>
       {signatureReward && (
         <SimpleRow label={t('signature_reward')} data-test="signature-reward">
