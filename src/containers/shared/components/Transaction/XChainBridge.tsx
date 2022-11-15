@@ -1,11 +1,17 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { IssuedCurrency } from '../../types'
 import { Account } from '../Account'
 import { Amount } from '../Amount'
 import Currency from '../Currency'
 import { SimpleRow } from './SimpleRow'
 
-const XChainIssue = (props: any) => {
+interface XChainIssueProps {
+  issue: string | IssuedCurrency
+  isThisChain: boolean
+}
+
+const XChainIssue = (props: XChainIssueProps) => {
   const { issue, isThisChain } = props
 
   return (
@@ -14,9 +20,7 @@ const XChainIssue = (props: any) => {
         issue
       ) : (
         <Currency
-          // @ts-ignore
           issuer={issue.issuer}
-          // @ts-ignore
           currency={issue.currency}
           link={isThisChain}
         />
