@@ -46,10 +46,12 @@ export const Validators = () => {
     setVList((value: any) => {
       const newValidatorsList: any = { ...value }
       newValidations.forEach((validation: any) => {
-        newValidatorsList[validation.pubkey] = {
-          ...value[validation.pubkey],
-          ledger_index: validation.ledger_index,
-          ledger_hash: validation.ledger_hash,
+        if (value[validation.pubkey]) {
+          newValidatorsList[validation.pubkey] = {
+            ...value[validation.pubkey],
+            ledger_index: validation.ledger_index,
+            ledger_hash: validation.ledger_hash,
+          }
         }
       })
       return newValidatorsList
