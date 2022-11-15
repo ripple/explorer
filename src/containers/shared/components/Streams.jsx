@@ -295,9 +295,11 @@ class Streams extends Component {
         unl: vList && vList[data.pubkey] && vList[data.pubkey].unl,
       })
 
-      validators[data.pubkey] = data
-      this.updateLedgers(ledgers)
-      this.updateValidators(validators)
+      if (vList[data.pubkey]) {
+        validators[data.pubkey] = data
+        this.updateLedgers(ledgers)
+        this.updateValidators(validators)
+      }
       return { ledgers, validators, maxLedger }
     })
   }
