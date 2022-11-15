@@ -204,11 +204,11 @@ describe('Ledgers Page container', () => {
     expect(client.listenerCount('validation')).toBe(0)
   }, 8000)
 
-  describe('Sidechain tests', () => {
+  describe('Custom network tests', () => {
     const oldEnvs = process.env
 
     beforeEach(() => {
-      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'sidechain' }
+      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'custom' }
     })
 
     afterEach(() => {

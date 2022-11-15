@@ -122,6 +122,7 @@ const BarChartVersion = (props: Props) => {
             {stableVersion &&
               data.map((_entry, index) => (
                 <Cell
+                  key={data[index].label}
                   fill={stableColorCode(data[index].label, stableVersion)}
                 />
               ))}

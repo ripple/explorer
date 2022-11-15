@@ -15,7 +15,7 @@ api.use('/healthz', (_req, res) => {
 api.use('/validators', getValidators)
 api.use('/validator_report/:id', getValidatorReport)
 api.use('/nodes', getNodes)
-if (process.env.REACT_APP_ENVIRONMENT !== 'sidechain') {
+if (process.env.REACT_APP_ENVIRONMENT !== 'custom') {
   // these require a single hardcoded rippled node to connect to
   api.use('/health', getHealth)
   api.use('/metrics', getCurrentMetrics)

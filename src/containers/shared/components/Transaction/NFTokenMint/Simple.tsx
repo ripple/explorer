@@ -23,9 +23,11 @@ export const Simple: TransactionSimpleComponent = ({
 
   return (
     <>
-      <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
-        <NFTokenLink tokenID={tokenID} />
-      </SimpleRow>
+      {tokenID && (
+        <SimpleRow label={t('token_id')} data-test="token-id">
+          <NFTokenLink tokenID={tokenID} />
+        </SimpleRow>
+      )}
       <SimpleRow
         label={t('token_taxon')}
         className="dt"

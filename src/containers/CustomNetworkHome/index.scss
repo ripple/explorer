@@ -3,7 +3,7 @@
 .app {
   position: relative;
 
-  .sidechain-main-page {
+  .custom-network-main-page {
     position: relative;
     min-height: 600px;
     color: $white;
@@ -17,7 +17,7 @@
       margin: 97px auto 80px;
       text-align: center;
 
-      .sidechain-logo {
+      .custom-network-logo {
         width: auto;
         height: auto;
 
@@ -64,13 +64,13 @@
         }
       }
 
-      .sidechain-input-button {
+      .custom-network-input-button {
         box-sizing: border-box;
         padding: 8px 16px;
-        border: 1px solid $sidechain;
+        border: 1px solid $custom;
         margin: 16px;
         border-radius: 100px;
-        color: $sidechain;
+        color: $custom;
         font-size: 14px;
 
         &:hover,
@@ -114,7 +114,7 @@
 
         &:hover,
         &:focus {
-          color: $sidechain;
+          color: $custom;
           cursor: pointer;
         }
 
