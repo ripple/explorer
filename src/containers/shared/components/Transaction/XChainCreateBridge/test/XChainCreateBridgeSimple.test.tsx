@@ -1,5 +1,6 @@
 import { Simple } from '../Simple'
 import mockXChainCreateBridge from './mock_data/XChainCreateBridge.json'
+import mockXChainCreateBridgeIOU from './mock_data/XChainCreateBridgeIOU.json'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
@@ -25,5 +26,36 @@ describe('XChainCreateBridgeSimple', () => {
     expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
 
     expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
+  })
+
+  it('renders IOU bridge', () => {
+    const wrapper = createWrapper(mockXChainCreateBridgeIOU)
+
+    // check XChainBridge parts
+    expectSimpleRowText(
+      wrapper,
+      'locking-chain-door',
+      'ratAutb3katzezbXX3LsX4sk4vmvhNucac',
+    )
+    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(
+      wrapper,
+      'locking-chain-issue',
+      'USD.rNhm2aTLEnSdcWQ7d6PZ5F7TX5skM7wkAS',
+    )
+    expectSimpleRowText(
+      wrapper,
+      'issuing-chain-door',
+      'rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq',
+    )
+    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).toExist()
+    expectSimpleRowText(
+      wrapper,
+      'issuing-chain-issue',
+      'USD.rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq',
+    )
+
+    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
+    expectSimpleRowText(wrapper, 'min-account-create-amount', '\uE9005.00 XRP')
   })
 })
