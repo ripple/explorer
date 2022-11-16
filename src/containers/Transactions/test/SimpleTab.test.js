@@ -4,7 +4,6 @@ import { I18nextProvider } from 'react-i18next'
 
 import { BrowserRouter as Router } from 'react-router-dom'
 import AccountDelete from './mock_data/AccountDelete.json'
-import AccountSet from './mock_data/AccountSet.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
@@ -45,11 +44,6 @@ describe('SimpleTab container', () => {
 
   it('renders AccountDelete without crashing', () => {
     const wrapper = createShallowWrapper(AccountDelete)
-    wrapper.unmount()
-  })
-
-  it('renders AccountSet without crashing', () => {
-    const wrapper = createWrapper(AccountSet)
     wrapper.unmount()
   })
 

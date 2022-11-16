@@ -1,0 +1,43 @@
+{
+  "tx": {
+    "Account": "rUBZRgMztpzMUVz4Ne67pAUisBtvqU6Coc",
+    "Fee": "225",
+    "LastLedgerSequence": 75444767,
+    "NFTokenMinter": "rXMART8usFd5kABXCayoP6ZfB35b4v43t",
+    "Sequence": 75425977,
+    "SetFlag": 10,
+    "SigningPubKey": "EDADF95E0375381F32BDEB63A980E5378AECE1F59FD255977D7800C40E9A3618DF",
+    "TransactionType": "AccountSet",
+    "TxnSignature": "73DFC88CB11471707BE18F4D985866C65ECB7F186A41216ADA2545D72CCFEBD438B17415E199F7EE1C24540BA8C948E297595ACB7D5007584A921BEC5685FB01",
+    "date": "2022-10-31T22:14:31Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rUBZRgMztpzMUVz4Ne67pAUisBtvqU6Coc",
+            "Balance": "19999715",
+            "Flags": 0,
+            "NFTokenMinter": "rXMART8usFd5kABXCayoP6ZfB35b4v43t",
+            "OwnerCount": 1,
+            "Sequence": 75425978
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "EA67F0BBF06894FBAA495C20B960D5D649C218F3FD167BF6866AF52E102C4CAB",
+          "PreviousFields": {
+            "Balance": "19999940",
+            "Sequence": 75425977
+          },
+          "PreviousTxnID": "95382C7B8C71D8CBF77B6A65FEA37FDD6C1FDBBD1AC8C35DF9F2E6ADEB7F75F4",
+          "PreviousTxnLgrSeq": 75444695
+        }
+      }
+    ],
+    "TransactionIndex": 16,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "180F2A55E2E06396D835A49B834595D2A9E5842E2C0E95AE3F85716926BFDAA1",
+  "ledger_index": 75444759,
+  "date": "2022-10-31T22:14:31Z"
+}
