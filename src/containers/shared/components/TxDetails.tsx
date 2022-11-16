@@ -123,17 +123,6 @@ const TxDetails = (props: Props) => {
     )
   }
 
-  function renderTrustSet(): ReactElement {
-    const { instructions } = props
-    const { limit } = instructions
-    return (
-      <div className="trustset">
-        <span className="label">{t('set_limit')}</span>
-        {renderAmount(limit)}
-      </div>
-    )
-  }
-
   function renderPaymentChannelCreate(): ReactElement {
     const { instructions } = props
     const { amount, source, destination } = instructions
@@ -212,7 +201,6 @@ const TxDetails = (props: Props) => {
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderAccountSet,
-    renderTrustSet,
     renderPaymentChannelCreate,
     renderPaymentChannelClaim,
   }
