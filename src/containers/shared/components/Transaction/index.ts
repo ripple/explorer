@@ -21,6 +21,7 @@ import { EscrowCreateTransaction as EscrowCreate } from './EscrowCreate'
 import { EscrowFinishTransaction as EscrowFinish } from './EscrowFinish'
 import { EscrowCancelTransaction as EscrowCancel } from './EscrowCancel'
 import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
+import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
@@ -47,4 +48,5 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   EscrowFinish,
   EscrowCancel,
   TicketCreate,
+  TrustSet,
 }

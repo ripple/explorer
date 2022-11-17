@@ -7,7 +7,6 @@ import EnableAmendment from '../../Transactions/test/mock_data/EnableAmendment.j
 import PaymentChannelClaim from '../../Transactions/test/mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from '../../Transactions/test/mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from '../../Transactions/test/mock_data/PaymentChannelFund.json'
-import TrustSet from '../../Transactions/test/mock_data/TrustSet.json'
 import UNLModify from '../../Transactions/test/mock_data/UNLModify.json'
 import TxDetails from '../components/TxDetails'
 import summarize from '../../../rippled/lib/txSummary'
@@ -44,11 +43,6 @@ describe('TxDetails', () => {
 
   it('renders PaymentChannelClaim without crashing', () => {
     const wrapper = createWrapper(PaymentChannelClaim)
-    wrapper.unmount()
-  })
-
-  it('renders TrustSet without crashing', () => {
-    const wrapper = createWrapper(TrustSet)
     wrapper.unmount()
   })
 
