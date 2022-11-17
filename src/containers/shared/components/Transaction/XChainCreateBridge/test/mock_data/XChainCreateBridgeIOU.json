@@ -1,0 +1,89 @@
+{
+  "tx": {
+    "Account": "rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq",
+    "Fee": "10",
+    "Flags": 0,
+    "LastLedgerSequence": 44,
+    "MinAccountCreateAmount": "5000000",
+    "Sequence": 10,
+    "SignatureReward": "100",
+    "SigningPubKey": "ED04ACCCE0980432CAD6AE4C98E29E3227E763F716D273EC6C7002308ADF1CBF24",
+    "TransactionType": "XChainCreateBridge",
+    "TxnSignature": "081EE14993C48F6F5351E44EE738244516F75510266C806FC48DDBA138064B8F6CFA26D4B8D2847C763BA00437D1F3B04045911289D3D56A8A04C55ECA53D303",
+    "XChainBridge": {
+      "IssuingChainDoor": "rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq",
+      "IssuingChainIssue": {
+        "currency": "USD",
+        "issuer": "rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq"
+      },
+      "LockingChainDoor": "ratAutb3katzezbXX3LsX4sk4vmvhNucac",
+      "LockingChainIssue": {
+        "currency": "USD",
+        "issuer": "rNhm2aTLEnSdcWQ7d6PZ5F7TX5skM7wkAS"
+      }
+    },
+    "date": "2022-11-15T22:08:50Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "7821DED04B3BCB56A2DA2A974BB4D273C16CDD872F327145E8AD5FF23FD46EB9",
+          "NewFields": {
+            "Owner": "rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq",
+            "RootIndex": "7821DED04B3BCB56A2DA2A974BB4D273C16CDD872F327145E8AD5FF23FD46EB9"
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "Bridge",
+          "LedgerIndex": "B0B9C012173875D83723A22BE530E227E7923A6272CD1ABCEE62644C444DA542",
+          "NewFields": {
+            "Account": "rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq",
+            "MinAccountCreateAmount": "5000000",
+            "SignatureReward": "100",
+            "XChainBridge": {
+              "IssuingChainDoor": "rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq",
+              "IssuingChainIssue": {
+                "currency": "USD",
+                "issuer": "rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq"
+              },
+              "LockingChainDoor": "ratAutb3katzezbXX3LsX4sk4vmvhNucac",
+              "LockingChainIssue": {
+                "currency": "USD",
+                "issuer": "rNhm2aTLEnSdcWQ7d6PZ5F7TX5skM7wkAS"
+              }
+            }
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq",
+            "Balance": "49999990",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 11
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "CB0BD9623A9B2E3337D108FB089262D9AD0B58F5FF1D1D52CEC4FEC412862588",
+          "PreviousFields": {
+            "Balance": "50000000",
+            "OwnerCount": 0,
+            "Sequence": 10
+          },
+          "PreviousTxnID": "17624BFD6A71CDA94210887BA3B4F38B3630A6B416D9F81780058A12704E0C7E",
+          "PreviousTxnLgrSeq": 10
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "81738C64A5E30F50C3A46EFC22AC677DCEFC1D0FC0BDFC896E747594EC4874DE",
+  "ledger_index": 25,
+  "date": "2022-11-15T22:08:50Z"
+}
