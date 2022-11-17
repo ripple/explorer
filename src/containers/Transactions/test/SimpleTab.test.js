@@ -10,7 +10,6 @@ import Payment from '../../shared/components/Transaction/Payment/test/mock_data/
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
-import UNLModify from './mock_data/UNLModify.json'
 import SimpleTab from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18nTestConfig'
@@ -69,11 +68,6 @@ describe('SimpleTab container', () => {
 
   it('renders PaymentChannelFund without crashing', () => {
     const wrapper = createWrapper(PaymentChannelFund)
-    wrapper.unmount()
-  })
-
-  it('renders UNLModify without crashing', () => {
-    const wrapper = createWrapper(UNLModify)
     wrapper.unmount()
   })
 

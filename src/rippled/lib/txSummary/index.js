@@ -5,7 +5,6 @@ const PaymentChannelClaim = require('./PaymentChannelClaim')
 const PaymentChannelFund = require('./PaymentChannelFund')
 const AccountSet = require('./AccountSet')
 const EnableAmendment = require('./EnableAmendment')
-const UNLModify = require('./UNLModify')
 const AccountDelete = require('./AccountDelete')
 
 const summarize = {
@@ -14,7 +13,6 @@ const summarize = {
   PaymentChannelFund,
   AccountSet,
   EnableAmendment,
-  UNLModify,
   AccountDelete,
 }
 
