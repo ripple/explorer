@@ -7,7 +7,6 @@ import PaymentChannelFund from './PaymentChannelFund'
 import AccountSet from './AccountSet'
 import EnableAmendment from './EnableAmendment'
 import UNLModify from './UNLModify'
-import AccountDelete from './AccountDelete'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
 
@@ -37,8 +36,6 @@ const Simple = (props) => {
       return <EnableAmendment t={t} language={language} data={data} />
     case 'UNLModify':
       return <UNLModify t={t} language={language} data={data} />
-    case 'AccountDelete':
-      return <AccountDelete t={t} language={language} data={data} />
     default:
       // Some transactions do not have simple views.
       return (

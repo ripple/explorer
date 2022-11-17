@@ -6,7 +6,6 @@ const PaymentChannelFund = require('./PaymentChannelFund')
 const AccountSet = require('./AccountSet')
 const EnableAmendment = require('./EnableAmendment')
 const UNLModify = require('./UNLModify')
-const AccountDelete = require('./AccountDelete')
 
 const summarize = {
   PaymentChannelCreate,
@@ -15,7 +14,6 @@ const summarize = {
   AccountSet,
   EnableAmendment,
   UNLModify,
-  AccountDelete,
 }
 
 const getInstructions = (tx, meta) => {
