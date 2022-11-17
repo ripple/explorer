@@ -23,6 +23,18 @@ export const Validators = () => {
     refetchOnMount: true,
   })
 
+  const mergeLatest = (validators: any = {}, live: any = {}) => {
+    const updated: any = {}
+    Object.keys(validators).forEach((d: string) => {
+      updated[d] = validators[d]
+      if (live[d] && live[d].ledger_index > updated[d].ledger_index) {
+        updated[d].ledger_index = live[d].ledger_index
+        updated[d].ledger_hash = live[d].ledger_hash
+      }
+    })
+    return updated
+  }
+
   const fetchData = () => {
     const url = '/api/v1/validators?verbose=true'
 
@@ -34,7 +46,7 @@ export const Validators = () => {
           newValidatorList[v.signing_key] = v
         })
 
-        setVList(() => newValidatorList)
+        setVList(() => mergeLatest(newValidatorList, vList))
         setUnlCount(resp.data.filter((d: any) => Boolean(d.unl)).length)
       })
       .catch((e) => Log.error(e))
