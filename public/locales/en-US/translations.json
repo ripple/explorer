@@ -129,6 +129,7 @@
   "transaction_CheckCancel": "Check Cancel",
   "transaction_CheckCash": "Check Cash",
   "transaction_CheckCreate": "Check Create",
+  "transaction_DepositPreauth": "Deposit Preauth",
   "transaction_Error_Cases": "Error Cases",
   "transaction_EscrowCancel": "Escrow Cancel",
   "transaction_EscrowCreate": "Escrow Create",
@@ -389,5 +390,7 @@
   "xchain_claim_attestation": "Claim Attestation",
   "xchain_create_account_attestation": "Create Account Attestation",
   "nftoken_minter": "NFT Minter",
-  "is_burned": "Burned"
+  "is_burned": "Burned",
+  "fee_rate": "Fee Rate",
+  "last_affecting_transaction": "Last affecting tx"
 }

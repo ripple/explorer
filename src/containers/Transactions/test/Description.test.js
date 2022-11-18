@@ -4,12 +4,10 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18nTestConfig'
 import Description from '../Description'
-import TrustSet from './mock_data/TrustSet.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import AccountSet from './mock_data/AccountSet.json'
-import DepositPreauth from './mock_data/DepositPreauth.json'
 
 describe('Description container', () => {
   const createWrapper = (data = {}, instructions = {}) =>
@@ -28,14 +26,6 @@ describe('Description container', () => {
 
   it('renders without crashing', () => {
     const wrapper = createWrapper()
-    wrapper.unmount()
-  })
-
-  it('renders description for TrustSet', () => {
-    const wrapper = createWrapper(TrustSet)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>261</span></b></div><div>It establishes <b>CN¥1,000,000,000.00</b>as the maximum amount of <b>CNY</b>from <a class="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a>that <a class="account" title="rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc" href="/accounts/rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc">rhr8s3nSVJUFwkApgLP32XyYQXZ28Xphfc</a>is willing to hold</div></div>',
-    )
     wrapper.unmount()
   })
 
@@ -67,14 +57,6 @@ describe('Description container', () => {
     const wrapper = createWrapper(AccountSet)
     expect(wrapper.html()).toBe(
       '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>274470</span></b></div><div>set_domain_description <a class="domain" rel="noopener noreferrer" target="_blank" href="https://weexchange.co">weexchange.co</a></div><div>set_email_description<span class="email"> 3A3C36EEB25EDD249CE94474035CB006</span></div><div>set_message_key_description<span class="message-key"> rQD4SqHJtDxn5DDL7xNnojNa3vxS1Jx5gv</span></div><div>set_flag_description<span class="flag"> asfDisableMaster</span></div><div>clear_flag_description<span class="flag"> asfDefaultRipple</span></div></div>',
-    )
-    wrapper.unmount()
-  })
-
-  it('renders description for DepositPreauth', () => {
-    const wrapper = createWrapper(DepositPreauth)
-    expect(wrapper.html()).toBe(
-      '<div class="detail-section"><div class="title">description</div><div>transaction_sequence<b> <span>65</span></b></div><div>It Authorizes<a class="account" title="rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM" href="/accounts/rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM">rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM</a>to send payments to the account</div></div>',
     )
     wrapper.unmount()
   })
