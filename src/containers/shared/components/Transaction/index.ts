@@ -1,4 +1,5 @@
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
+import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
 import { NFTokenCancelOfferTransaction as NFTokenCancelOffer } from './NFTokenCancelOffer'
 import { NFTokenBurnTransaction as NFTokenBurn } from './NFTokenBurn'
@@ -25,6 +26,7 @@ import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
   DepositPreauth,
+  EnableAmendment,
   NFTokenMint,
   NFTokenCancelOffer,
   NFTokenBurn,
