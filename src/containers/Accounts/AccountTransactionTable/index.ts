@@ -1,3 +1,1 @@
-import AccountTransactionTable from './AccountTransactionTable'
-
-export { AccountTransactionTable }
+export * from './AccountTransactionTable'

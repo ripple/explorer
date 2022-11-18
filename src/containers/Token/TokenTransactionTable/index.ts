@@ -1,3 +1,1 @@
-import TokenTransactionTable from './TokenTransactionTable'
-
-export { TokenTransactionTable }
+export * from './TokenTransactionTable'

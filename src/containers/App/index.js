@@ -11,13 +11,13 @@ import Banner from '../Header/Banner' // included here for spacing
 import './app.scss'
 import App from './App'
 import NoMatch from '../NoMatch'
-import SidechainHome from '../SidechainHome'
+import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'
 
 const AppWrapper = (props) => {
   const { t } = useTranslation()
   const mode = process.env.REACT_APP_ENVIRONMENT
-  const path = mode === 'sidechain' ? '/:rippledUrl' : '/'
+  const path = mode === 'custom' ? '/:rippledUrl' : '/'
   return (
     <div className="app-wrapper">
       <AppErrorBoundary>
@@ -28,7 +28,9 @@ const AppWrapper = (props) => {
         <Banner />
         <Switch>
           <Route path={path} component={App} />
-          {mode === 'sidechain' && <Route path="/" component={SidechainHome} />}
+          {mode === 'custom' && (
+            <Route path="/" component={CustomNetworkHome} />
+          )}
           <Route component={NoMatch} />
         </Switch>
         <Footer />

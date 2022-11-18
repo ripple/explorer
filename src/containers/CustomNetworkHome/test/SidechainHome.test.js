@@ -47,7 +47,7 @@ describe('SidechainHome page', () => {
     const appNode = wrapper.find('.app')
     expect(appNode.length).toEqual(1)
 
-    const pageNode = wrapper.find('.sidechain-main-page')
+    const pageNode = wrapper.find('.custom-network-main-page')
     expect(pageNode.length).toEqual(1)
   })
 
@@ -70,31 +70,31 @@ describe('SidechainHome page', () => {
     })
 
     it('redirect works on `enter` in textbox', () => {
-      expect(wrapper.find('.sidechain-input').length).toEqual(1)
+      expect(wrapper.find('.custom-network-input').length).toEqual(1)
       wrapper
-        .find('.sidechain-input')
-        .simulate('change', { target: { value: 'sidechain_url' } })
+        .find('.custom-network-input')
+        .simulate('change', { target: { value: 'custom_url' } })
 
       wrapper.update()
-      wrapper.find('.sidechain-input').prop('onKeyDown')({
+      wrapper.find('.custom-network-input').prop('onKeyDown')({
         key: 'Enter',
-        currentTarget: { value: 'sidechain_url' },
+        currentTarget: { value: 'custom_url' },
       })
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`,
+        `${process.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
       )
     })
 
     it('redirect works on button click', () => {
-      const sidechainInput = wrapper.find('.sidechain-input')
-      sidechainInput.simulate('change', { target: { value: 'sidechain_url' } })
+      const customNetworkInput = wrapper.find('.custom-network-input')
+      customNetworkInput.simulate('change', { target: { value: 'custom_url' } })
       wrapper.update()
 
-      const button = wrapper.find('.sidechain-input-button')
+      const button = wrapper.find('.custom-network-input-button')
       expect(button.length).toEqual(1)
       button.simulate('click')
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`,
+        `${process.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
       )
     })
   })
