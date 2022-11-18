@@ -391,5 +391,7 @@
   "xchain_claim_attestation": "Claim Attestation",
   "xchain_create_account_attestation": "Create Account Attestation",
   "nftoken_minter": "NFT Minter",
-  "is_burned": "Burned"
+  "is_burned": "Burned",
+  "fee_rate": "Fee Rate",
+  "last_affecting_transaction": "Last affecting tx"
 }
