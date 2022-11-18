@@ -13,6 +13,7 @@ import Hexagons from './Hexagons'
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
+  const [extras, setExtras] = useState<Set<string>>(new Set())
   const [vList, setVList] = useState<any>([])
   const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
@@ -34,7 +35,24 @@ export const Validators = () => {
           newValidatorList[v.signing_key] = v
         })
 
-        setVList(() => newValidatorList)
+        setVList(() => {
+          const newVList: any = {}
+          Object.keys(newValidatorList).forEach((key: string) => {
+            newVList[key] = newValidatorList[key]
+          })
+          // Add back the empty validators, remove from extras if VHS refelected
+          Array.from(extras).forEach((key: string) => {
+            if (newVList[key] === undefined) {
+              newVList[key] = vList[key]
+            } else {
+              setExtras(() => {
+                extras.delete(key)
+                return extras
+              })
+            }
+          })
+          return newVList
+        })
         setUnlCount(resp.data.filter((d: any) => Boolean(d.unl)).length)
       })
       .catch((e) => Log.error(e))
@@ -46,10 +64,32 @@ export const Validators = () => {
     setVList((value: any) => {
       const newValidatorsList: any = { ...value }
       newValidations.forEach((validation: any) => {
-        newValidatorsList[validation.pubkey] = {
-          ...value[validation.pubkey],
-          ledger_index: validation.ledger_index,
-          ledger_hash: validation.ledger_hash,
+        if (value[validation.pubkey] === undefined) {
+          setExtras(() => {
+            extras.add(validation.pubkey)
+            return extras
+          })
+
+          newValidatorsList[validation.pubkey] = {
+            signing_key: validation.pubkey,
+          }
+        } else {
+          newValidatorsList[validation.pubkey] = {
+            ...value[validation.pubkey],
+          }
+        }
+        newValidatorsList[validation.pubkey].ledger_index =
+          validation.ledger_index
+        newValidatorsList[validation.pubkey].ledger_hash =
+          validation.ledger_hash
+      })
+      // Remove the empty ones if they are not reflected in current stream.
+      Array.from(extras).forEach((key) => {
+        if (newValidatorsList[key] === undefined) {
+          setExtras(() => {
+            extras.delete(key)
+            return extras
+          })
         }
       })
       return newValidatorsList

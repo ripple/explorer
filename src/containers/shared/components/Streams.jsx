@@ -295,11 +295,9 @@ class Streams extends Component {
         unl: vList && vList[data.pubkey] && vList[data.pubkey].unl,
       })
 
-      if (vList[data.pubkey] !== undefined) {
-        validators[data.pubkey] = data
-        this.updateLedgers(ledgers)
-        this.updateValidators(validators)
-      }
+      validators[data.pubkey] = data
+      this.updateLedgers(ledgers)
+      this.updateValidators(validators)
       return { ledgers, validators, maxLedger }
     })
   }
