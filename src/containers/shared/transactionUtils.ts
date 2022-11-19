@@ -1,7 +1,7 @@
 import { localizeNumber } from './utils'
 
 export const RIPPLE_EPOCH = 946684800
-export const SUCCESSFULL_TRANSACTION = 'tesSUCCESS'
+export const SUCCESSFUL_TRANSACTION = 'tesSUCCESS'
 export const XRP_BASE = 1000000
 export const hexMatch = new RegExp('^(0x)?[0-9A-Fa-f]+$')
 export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp'
@@ -9,6 +9,15 @@ export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp'
 export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
+  },
+  NFTokenMint: {
+    0x00000001: 'tfBurnable',
+    0x00000002: 'tfOnlyXRP',
+    0x00000004: 'tfTrustLine',
+    0x00000008: 'tfTransferable',
+  },
+  NFTokenOfferCreate: {
+    0x00000001: 'tfSellNFToken',
   },
   Payment: {
     0x00010000: 'tfNoDirectRipple',
@@ -43,6 +52,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
 }
 
 export const ACCOUNT_FLAGS: Record<number, string> = {
+  10: 'asfAuthorizedNFTokenMinter',
   9: 'asfDepositAuth',
   8: 'asfDefaultRipple',
   7: 'asfGlobalFreeze',

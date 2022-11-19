@@ -19,6 +19,24 @@
   unicode-range: u+e900-e901;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+.xrpl-explorer {
+  height: 100%;
+}
+
+.app-wrapper {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
 body,
 input {
   padding: 0px;
@@ -44,6 +62,16 @@ button {
 * {
   box-sizing: border-box;
   outline: none !important; // remove blue outline in click and focus
+}
+
+h2 {
+  padding-bottom: 18px;
+  border-bottom: 1px $gray-800 solid;
+  margin-top: 0;
+  color: $white;
+  font-size: 24px;
+
+  @include bold;
 }
 
 svg.react-stockchart {
@@ -113,7 +141,7 @@ div.react-stockchart div {
     @include transaction-type-base($sidechain);
   }
 
-  &.AMMInstanceCreate,
+  &.AMMCreate,
   &.AMMDeposit,
   &.AMMWithdraw,
   &.AMMVote,
@@ -175,6 +203,7 @@ a {
     &::after {
       display: inline-block;
       width: 1em;
+      min-width: 1em;
       height: 1em;
       margin-left: 4px;
       background-color: currentcolor;
@@ -201,6 +230,33 @@ a {
         vertical-align: text-top;
       }
     }
+  }
+}
+
+/**
+Workaround to have the effect nested anchor tags (invalid html).
+
+1. Add the class `anchor-mask` to the container you would normally wrap in an <a> tag.
+2. Add the class `mask-overlay` to to the anchor.
+
+This makes the `mask-overlay` sit on top of the `anchor-mask` and then places any other "nested" anchors on top of the overlay
+*/
+
+.anchor-mask {
+  position: relative;
+
+  a {
+    position: relative;
+    z-index: 10;
+  }
+
+  a.mask-overlay {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 }
 

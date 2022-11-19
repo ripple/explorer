@@ -4,7 +4,7 @@ import { Amount } from '../../Amount'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { XChainBridge } from '../XChainBridge'
-import Account from '../../Account'
+import { Account } from '../../Account'
 
 export const Simple: TransactionSimpleComponent = (
   props: TransactionSimpleProps,

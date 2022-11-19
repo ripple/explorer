@@ -34,7 +34,10 @@ export const Simple: TransactionSimpleComponent = (
         bridgeOwner={bridgeOwner}
       />
       {minAccountCreateAmount && (
-        <SimpleRow label={t('min_account_create_amount')}>
+        <SimpleRow
+          label={t('min_account_create_amount')}
+          data-test="min-account-create-amount"
+        >
           <Amount value={minAccountCreateAmount} />
         </SimpleRow>
       )}

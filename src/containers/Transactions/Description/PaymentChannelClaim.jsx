@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { findNode, normalizeAmount } from '../../shared/transactionUtils'
-import Account from '../../shared/components/Account'
+import { Account } from '../../shared/components/Account'
 
 const PaymentChannelClaim = (props) => {
   const { t, language, data } = props

@@ -4,6 +4,7 @@ import { useTranslation, withTranslation } from 'react-i18next'
 import { ACCOUNT_FLAGS, decodeHex } from '../transactionUtils'
 import { Amount } from './Amount'
 import { transactionTypes } from './Transaction'
+import { Account } from './Account'
 
 interface Instructions {
   owner: string
@@ -51,6 +52,8 @@ interface Instructions {
   destination: string
   partial: boolean
   ticketCount: number
+  // eslint-disable-next-line camelcase
+  nftoken_minter: string
 }
 
 interface Props {
@@ -105,62 +108,19 @@ const TxDetails = (props: Props) => {
             </span>
           </div>
         )}
+        {instructions.nftoken_minter && (
+          <div>
+            <span className="label">{t('nftoken_minter')}:</span>{' '}
+            <span className="domain">
+              <Account account={instructions.nftoken_minter} />
+            </span>
+          </div>
+        )}
         {Object.keys(instructions).length === 0 && (
           <div className="empty">{t('no_account_settings')}</div>
         )}
       </>
     )
-  }
-
-  function renderTrustSet(): ReactElement {
-    const { instructions } = props
-    const { limit } = instructions
-    return (
-      <div className="trustset">
-        <span className="label">{t('set_limit')}</span>
-        {renderAmount(limit)}
-      </div>
-    )
-  }
-
-  function renderPayment(): ReactElement | null {
-    const { instructions } = props
-    const { convert, amount, destination, partial, sourceTag } = instructions
-
-    if (convert) {
-      return (
-        <div className="payment conversion">
-          <span className="label">{t('convert_maximum')}</span>
-          {renderAmount(convert)}
-          <span>{t('to')}</span>
-          {renderAmount(amount)}
-          {partial && (
-            <div className="partial-payment">
-              {t('partial_payment_allowed')}
-            </div>
-          )}
-        </div>
-      )
-    }
-
-    return amount ? (
-      <div className="payment">
-        <span className="label">{t('send')}</span>
-        {renderAmount(amount)}
-        <span>{t('to')}</span>
-        <span className="account"> {destination} </span>
-        {sourceTag !== undefined && (
-          <div className="st">
-            {t('source_tag')}
-            {': '}
-            <span>{sourceTag}</span>
-          </div>
-        )}
-        {partial && (
-          <div className="partial-payment">{t('partial_payment_allowed')}</div>
-        )}
-      </div>
-    ) : null
   }
 
   function renderPaymentChannelCreate(): ReactElement {
@@ -238,27 +198,11 @@ const TxDetails = (props: Props) => {
       </div>
     )
   }
-
-  function renderTicketCreate(): ReactElement {
-    const { instructions } = props
-    const { ticketCount } = instructions
-    return (
-      <div className="ticketCreate">
-        <span className="label">{t('ticket_count')}:</span>
-        <span> </span>
-        <span>{ticketCount}</span>
-      </div>
-    )
-  }
-
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderAccountSet,
-    renderTrustSet,
-    renderPayment,
     renderPaymentChannelCreate,
     renderPaymentChannelClaim,
-    renderTicketCreate,
   }
 
   // Locate the component for detail row that is unique per TransactionType.
@@ -318,6 +262,7 @@ TxDetails.propTypes = {
     destination: PropTypes.string,
     partial: PropTypes.bool,
     ticketCount: PropTypes.number,
+    nftoken_minter: PropTypes.string,
   }),
   type: PropTypes.string,
 }

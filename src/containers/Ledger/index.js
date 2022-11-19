@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import NoMatch from '../NoMatch'
-import infoIcon from '../shared/images/info_orange.png'
 import Loader from '../shared/components/Loader'
 import TxDetails from '../shared/components/TxDetails'
 import Sequence from '../shared/components/Sequence'
@@ -22,7 +21,8 @@ import {
   ANALYTIC_TYPES,
 } from '../shared/utils'
 import './ledger.scss'
-import TxLabel from '../shared/components/TxLabel'
+import { TxLabel } from '../shared/components/TxLabel'
+import { TxStatus } from '../shared/components/TxStatus'
 import SocketContext from '../shared/SocketContext'
 
 const TIME_ZONE = 'UTC'
@@ -172,19 +172,16 @@ class Ledger extends Component {
         } = trans
         const success = result === 'tesSUCCESS'
         return (
-          <Link
-            to={`/transactions/${hash}`}
+          <div
             key={hash}
-            className={`trans-row ${
+            className={`trans-row anchor-mask ${
               success ? 'success' : 'fail'
             } tx-type ${type}`}
           >
+            <Link to={`/transactions/${hash}`} className="mask-overlay" />
             <div className="upper">
               <div className={`col col-type tx-type ${type}`}>
-                <TxLabel type={type} t={t} />
-                <span title={result} className="tx-result">
-                  {success ? null : <img src={infoIcon} alt={t('fail')} />}
-                </span>
+                <TxLabel type={type} />
               </div>
               <div className="col col-account">{account}</div>
               <div className="col col-sequence">
@@ -204,13 +201,14 @@ class Ledger extends Component {
               </div>
             </div>
             <div className="details">
+              {success ? null : <TxStatus status={result} />}
               <TxDetails
                 language={language}
                 instructions={details.instructions}
                 type={type}
               />
             </div>
-          </Link>
+          </div>
         )
       })
     }

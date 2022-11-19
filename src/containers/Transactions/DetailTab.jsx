@@ -4,12 +4,12 @@ import { Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import TransactionMeta from './Meta'
 import TransactionDescription from './Description'
-import Account from '../shared/components/Account'
+import { Account } from '../shared/components/Account'
 import { localizeDate, localizeNumber } from '../shared/utils'
 import {
   DATE_OPTIONS,
   CURRENCY_OPTIONS,
-  SUCCESSFULL_TRANSACTION,
+  SUCCESSFUL_TRANSACTION,
   XRP_BASE,
   buildFlags,
   buildMemos,
@@ -23,7 +23,7 @@ class DetailTab extends Component {
     const time = localizeDate(new Date(data.date), language, DATE_OPTIONS)
     let line1
 
-    if (TransactionResult === SUCCESSFULL_TRANSACTION) {
+    if (TransactionResult === SUCCESSFUL_TRANSACTION) {
       line1 = t('successful_transaction')
     } else {
       line1 = (

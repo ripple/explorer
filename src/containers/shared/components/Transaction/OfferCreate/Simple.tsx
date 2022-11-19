@@ -12,8 +12,10 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   return (
     <>
       <SimpleRow label={t('price')}>
-        {`${Number(price)}`}
-        <span className="currency">{pair}</span>
+        <div className="amount">
+          {`${Number(price)}`}
+          <span className="currency">{pair}</span>
+        </div>
       </SimpleRow>
       <SimpleRow label={t('buy')} data-test="amount-buy">
         <Amount value={gets} />

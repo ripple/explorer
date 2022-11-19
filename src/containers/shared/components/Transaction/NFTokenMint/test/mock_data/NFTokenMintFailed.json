@@ -1,0 +1,61 @@
+{
+  "tx": {
+    "Account": "rXMART8usFd5kABXCayoP6ZfB35b4v43t",
+    "Fee": "12",
+    "Flags": 8,
+    "Issuer": "rnth4aXUdfZiMtkctrb1Xu5f6k67yE8FX6",
+    "LastLedgerSequence": 75483624,
+    "Memos": [
+      {
+        "Memo": {
+          "MemoData": "686474207073616F2F2F206D6E6172742E61722F202F6676696F776D2D6E5374702F622F6E6135656172393366316F393463666533363030696438366E62633230203564463972663662643A316C367037313720343835666F36743239",
+          "MemoType": "465474746D74696E74"
+        }
+      }
+    ],
+    "NFTokenTaxon": 19,
+    "Sequence": 71996319,
+    "SigningPubKey": "ED8BB649713ED492AE35B4B5CA745CCA55ADF8EF4CEDB2CC8BA4E28557E993AD2F",
+    "TransactionType": "NFTokenMint",
+    "TransferFee": 5000,
+    "TxnSignature": "F73CD6E691ADF5DFA04D736D64D080811320609E22534BDE29EF4A53F48C74F79F999A348AA88EDF5F95FF124A5F51D51EF541C60BBE083662FC21C4D2B6F60E",
+    "URI": "516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463",
+    "date": "2022-11-02T16:05:10Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rXMART8usFd5kABXCayoP6ZfB35b4v43t",
+            "Balance": "10529594769",
+            "Domain": "786D6172742E617274",
+            "EmailHash": "D48190C85BE485DEA4CF4A56A8E93772",
+            "Flags": 0,
+            "OwnerCount": 4904,
+            "Sequence": 71996320
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "141E89D379C6949CA34BCB244DCBB7A6B2889781B157119CCC05ED19DFB676B0",
+          "PreviousFields": {
+            "Balance": "10529594781",
+            "Sequence": 71996319
+          },
+          "PreviousTxnID": "EAA312672DEB6BFE65B07C50F857E892F16A2E25EC6DC3AC73ECED91F9B6E440",
+          "PreviousTxnLgrSeq": 75483606
+        }
+      }
+    ],
+    "TransactionIndex": 65,
+    "TransactionResult": "tecNO_PERMISSION"
+  },
+  "hash": "04708041CF404E122D76D009CA8F8D0BF5FD47D6784376CDA8FBE89FF59279E4",
+  "ledger_index": 75483606,
+  "date": "2022-11-02T16:05:10Z"
+}

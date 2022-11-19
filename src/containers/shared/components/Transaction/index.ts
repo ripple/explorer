@@ -1,3 +1,4 @@
+import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
 import { NFTokenCancelOfferTransaction as NFTokenCancelOffer } from './NFTokenCancelOffer'
 import { NFTokenBurnTransaction as NFTokenBurn } from './NFTokenBurn'
@@ -5,6 +6,7 @@ import { NFTokenCreateOfferTransaction as NFTokenCreateOffer } from './NFTokenCr
 import { NFTokenAcceptOfferTransaction as NFTokenAcceptOffer } from './NFTokenAcceptOffer'
 import { OfferCancelTransaction as OfferCancel } from './OfferCancel'
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
+import { PaymentTransaction as Payment } from './Payment'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
 import { XChainAccountCreateCommitTransaction as XChainAccountCreateCommit } from './XChainAccountCreateCommit'
@@ -17,9 +19,12 @@ import { XChainModifyBridgeTransaction as XChainModifyBridge } from './XChainMod
 import { EscrowCreateTransaction as EscrowCreate } from './EscrowCreate'
 import { EscrowFinishTransaction as EscrowFinish } from './EscrowFinish'
 import { EscrowCancelTransaction as EscrowCancel } from './EscrowCancel'
+import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
+import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
+  DepositPreauth,
   NFTokenMint,
   NFTokenCancelOffer,
   NFTokenBurn,
@@ -27,6 +32,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   NFTokenAcceptOffer,
   OfferCancel,
   OfferCreate,
+  Payment,
   SetRegularKey,
   SignerListSet,
   XChainAccountCreateCommit,
@@ -39,4 +45,6 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   EscrowCreate,
   EscrowFinish,
   EscrowCancel,
+  TicketCreate,
+  TrustSet,
 }

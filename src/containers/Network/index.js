@@ -34,13 +34,14 @@ class Network extends Component {
     const { params, path } = match
     const { tab = 'nodes' } = params
     const mode = process.env.REACT_APP_ENVIRONMENT
-    if (mode === 'sidechain') {
+
+    if (mode === 'custom') {
       return this.renderUnderConstruction()
     }
     // strips :url from the front and the tab info from the end
     const base = path.split('/:')[0]
 
-    if (tab === 'upgrade_status') {
+    if (tab === 'upgrade-status') {
       return <UpgradeStatus path={base} />
     }
     if (tab === 'validators') {

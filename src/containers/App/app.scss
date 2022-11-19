@@ -1,7 +1,7 @@
 @import '../shared/css/variables';
 
 .app {
-  position: relative;
+  flex-grow: 1;
 
   .content {
     display: flex;
@@ -13,9 +13,6 @@
     background: $black;
 
     @include for-size(desktop-up) {
-      min-height: $min-height;
-    }
-    @include for-size(big-desktop-up) {
       min-height: $min-height;
     }
   }

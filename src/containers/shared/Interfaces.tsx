@@ -15,13 +15,14 @@ export interface AccountFormattedInfo {
   gravatar?: any
   previousTxn?: string
   previousLedger?: number
+  nftMinter?: string
 }
 
 /**
  * Values returned by 'formatNFTInfo' from /src/rippled/lib/utils.js
  */
 export interface NFTFormattedInfo {
-  NFTId: string
+  NFTId?: string
   ledgerIndex?: number
   owner?: string
   isBurned?: boolean

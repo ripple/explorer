@@ -6,9 +6,6 @@ import ledgerReducer, {
 import accountHeaderReducer, {
   initialState as accountHeaderState,
 } from './containers/Accounts/AccountHeader/reducer'
-import accountTransactionsReducer, {
-  initialState as accountTransactionsState,
-} from './containers/Accounts/AccountTransactionsTable/reducer'
 import transactionReducer, {
   initialState as transactionState,
 } from './containers/Transactions/reducer'
@@ -25,7 +22,6 @@ import tokenHeaderReducer, {
 export const initialState = {
   app: appState,
   accountHeader: accountHeaderState,
-  accountTransactions: accountTransactionsState,
   ledger: ledgerState,
   transaction: transactionState,
   validator: validatorState,
@@ -36,7 +32,6 @@ export const initialState = {
 const rootReducer = combineReducers({
   app: appReducer,
   accountHeader: accountHeaderReducer,
-  accountTransactions: accountTransactionsReducer,
   ledger: ledgerReducer,
   transaction: transactionReducer,
   validator: validatorReducer,

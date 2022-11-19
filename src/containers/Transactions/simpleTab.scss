@@ -22,17 +22,26 @@ $subdued-color: $gray-400;
 
     .row {
       .value {
-        .currency {
-          display: block;
-          margin: -1px 0px -16px;
-          color: $subdued-color;
-          font-size: 11px;
-          @include medium;
+        .amount {
+          text-align: right;
 
-          .account {
-            font-size: inherit;
-            line-height: inherit;
-            vertical-align: bottom;
+          .amount-localized {
+            display: block;
+          }
+
+          .currency {
+            display: block;
+            margin: -1px 0px -16px;
+            color: $subdued-color;
+            font-size: 11px;
+            text-align: right;
+            @include medium;
+
+            .account {
+              font-size: inherit;
+              line-height: inherit;
+              vertical-align: bottom;
+            }
           }
         }
 
@@ -42,7 +51,8 @@ $subdued-color: $gray-400;
         }
 
         ul {
-          margin: 0px;
+          padding: 0;
+          margin: 0;
           list-style: none;
         }
 

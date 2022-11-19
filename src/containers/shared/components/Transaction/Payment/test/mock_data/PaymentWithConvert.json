@@ -1,0 +1,199 @@
+{
+  "tx": {
+    "Account": "r9x5PHDiwuvbpYB3uvGAqEUVV5wxHayQEx",
+    "Amount": {
+      "currency": "YCN",
+      "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+      "value": "1140"
+    },
+    "Destination": "r9x5PHDiwuvbpYB3uvGAqEUVV5wxHayQEx",
+    "Fee": "11",
+    "Flags": 2147942400,
+    "LastLedgerSequence": 44987082,
+    "Paths": [
+      [
+        {
+          "currency": "EUR",
+          "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "CNY",
+          "issuer": "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "XRP",
+          "type": 16,
+          "type_hex": "0000000000000010"
+        },
+        {
+          "currency": "YCN",
+          "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        }
+      ],
+      [
+        {
+          "currency": "CNY",
+          "issuer": "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "EUR",
+          "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "XRP",
+          "type": 16,
+          "type_hex": "0000000000000010"
+        },
+        {
+          "currency": "YCN",
+          "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        }
+      ],
+      [
+        {
+          "currency": "BTC",
+          "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "BTC",
+          "issuer": "rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "XRP",
+          "type": 16,
+          "type_hex": "0000000000000010"
+        },
+        {
+          "currency": "YCN",
+          "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        }
+      ],
+      [
+        {
+          "currency": "BTC",
+          "issuer": "rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "BTC",
+          "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "XRP",
+          "type": 16,
+          "type_hex": "0000000000000010"
+        },
+        {
+          "currency": "YCN",
+          "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        }
+      ],
+      [
+        {
+          "currency": "CNY",
+          "issuer": "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "USD",
+          "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "XRP",
+          "type": 16,
+          "type_hex": "0000000000000010"
+        },
+        {
+          "currency": "YCN",
+          "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        }
+      ],
+      [
+        {
+          "currency": "USD",
+          "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "CNY",
+          "issuer": "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        },
+        {
+          "currency": "XRP",
+          "type": 16,
+          "type_hex": "0000000000000010"
+        },
+        {
+          "currency": "YCN",
+          "issuer": "r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr",
+          "type": 48,
+          "type_hex": "0000000000000030"
+        }
+      ]
+    ],
+    "SendMax": "1140000000",
+    "Sequence": 671728,
+    "SigningPubKey": "038C165E0B29398F710353498F310ACB81AE338A8C7A76433CDD0B0DA3263A32BF",
+    "TransactionType": "Payment",
+    "TxnSignature": "3045022100A51940B612A8EEDCBB35215CC43E44CFC0B006B09FF747A2C1605F491CE0228602202A92AE92DB31028E96F107352AC6E847866BDB62C1BFF079BBE0FC461A2CB090"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "r9x5PHDiwuvbpYB3uvGAqEUVV5wxHayQEx",
+            "Balance": "1146735992",
+            "Flags": 0,
+            "OwnerCount": 2,
+            "Sequence": 671729
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "A5A15466F20EFCB711175AF99121BF5B9FE450B02E630C9B73800036A537404C",
+          "PreviousFields": {
+            "Balance": "1146736003",
+            "Sequence": 671728
+          },
+          "PreviousTxnID": "EAF0DE120A76A0D389122B0AF554F02613319C12465E915109B5B561CAB178E0",
+          "PreviousTxnLgrSeq": 44987079
+        }
+      }
+    ],
+    "TransactionIndex": 26,
+    "TransactionResult": "tecPATH_DRY"
+  },
+  "hash": "DA9E41A957D5683DA87B830057E98C755BCFDD247892A7E96603A68C6ED416BA",
+  "ledger_index": 44987080,
+  "date": "2019-02-08T15:42:11Z"
+}

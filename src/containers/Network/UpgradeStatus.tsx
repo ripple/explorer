@@ -86,7 +86,7 @@ export const UpgradeStatus = () => {
         setUnlCount(
           resp.data.filter((validator: any) => Boolean(validator.unl)).length,
         )
-        setAggregated(aggregateData(Object.values(vList)))
+        setAggregated(aggregateData(Object.values(newValidatorList)))
       })
       .catch((e) => Log.error(e))
   }

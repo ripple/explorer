@@ -14,5 +14,5 @@ module.exports = async (req, res) => {
   const sortedValidatorReports = validatorReports.sort((a, b) =>
     a.date > b.date ? -1 : 1,
   )
-  return res.send(sortedValidatorReports)
+  return res.status(200).json(sortedValidatorReports)
 }

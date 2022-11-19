@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 
 import TokenHeader from './TokenHeader'
-import TokenTransactionsTable from './TokenTransactionsTable'
+import { TokenTransactionTable } from './TokenTransactionTable'
 import DEXPairs from './DEXPairs'
 import NoMatch from '../NoMatch'
 
@@ -87,11 +87,10 @@ class Token extends Component {
           <DEXPairs accountId={accountId} currency={currency} t={t} />
         )}
         {accountId && (
-          <TokenTransactionsTable
-            accountId={accountId}
-            currency={currency}
-            t={t}
-          />
+          <div className="section">
+            <h2>{t('token_transactions')}</h2>
+            <TokenTransactionTable accountId={accountId} currency={currency} />
+          </div>
         )}
         {!accountId && (
           <div style={{ textAlign: 'center', fontSize: '14px' }}>

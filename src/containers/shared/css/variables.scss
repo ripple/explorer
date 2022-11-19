@@ -7,7 +7,7 @@ $tablet-landscape-upper-boundary: 900px;
 $desktop-upper-boundary: 1200px;
 
 // Minimum height and width
-$min-height: 667px;
+$min-height: 500px;
 $min-width: 375px;
 
 // Colors
@@ -57,6 +57,7 @@ $white-transparent: rgb(255 255 255 / 75%);
 $testnet: #e54d00;
 $devnet: #008ae5;
 $nft-sandbox: #791aff;
+$custom: #faff1a;
 $sidechain: #faff1a;
 $amm: $magenta-600;
 

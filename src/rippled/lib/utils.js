@@ -19,7 +19,6 @@ const ACCOUNT_FLAGS = {
 const NFT_FLAGS = {
   0x00000001: 'lsfBurnable',
   0x00000002: 'lsfOnlyXRP',
-  0x00000004: 'lsfTrustLine',
   0x00000008: 'lsfTransferable',
 }
 const hex32 = (d) => {
@@ -66,6 +65,7 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
   gravatar: info.urlgravatar,
   previousTxn: info.PreviousTxnID,
   previousLedger: info.PreviousTxnLgrSeq,
+  nftMinter: info.NFTokenMinter,
 })
 
 const formatTransaction = (tx) => {
@@ -121,7 +121,7 @@ const summarizeLedger = (ledger, txDetails = false) => {
 }
 
 function convertHexToString(hex, encoding = 'utf8') {
-  return Buffer.from(hex, 'hex').toString(encoding)
+  return hex ? Buffer.from(hex, 'hex').toString(encoding) : undefined
 }
 
 const formatNFTInfo = (info) => ({

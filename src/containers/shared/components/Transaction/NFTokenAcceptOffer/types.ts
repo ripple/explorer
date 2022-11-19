@@ -1,5 +1,5 @@
 import { TransactionCommonFields } from '../types'
-import { Amount } from '../XChainAddAttestation/types'
+import { Amount } from '../../../types'
 
 export interface NFTokenAcceptOffer extends TransactionCommonFields {
   NFTokenSellOffer?: string
