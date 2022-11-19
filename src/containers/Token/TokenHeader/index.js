@@ -13,6 +13,7 @@ import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
 import { Account } from '../../shared/components/Account'
 import DomainLink from '../../shared/components/DomainLink'
+import { TokenTableRow } from '../../shared/components/TokenTableRow'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -49,36 +50,26 @@ class TokenHeader extends Component {
       <table className="token-table">
         <tbody>
           {domain && (
-            <tr className="row">
-              <td className="col1">{t('domain')}</td>
-              <td className="col2">
-                <DomainLink domain={domain} />
-              </td>
-            </tr>
+            <TokenTableRow
+              label={t('domain')}
+              value={<DomainLink domain={domain} />}
+            />
           )}
           {rate && (
-            <tr className="row">
-              <td className="col1">Fee Rate</td>
-              <td className="col2">{rate * 100}%</td>
-            </tr>
+            <TokenTableRow label={t('fee_rate')} value={`${rate * 100}%`} />
           )}
-          <tr className="row">
-            <td className="col1">{t('last_ledger')}</td>
-            <td className="col2">
+          <TokenTableRow
+            label={t('last_ledger')}
+            value={
               <Link to={`/ledgers/${previousLedger}`}>{previousLedger}</Link>
-            </td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Last affecting tx</td>
-            <td className="col2">
-              <Link to={`/transactions/${previousTxn}`}>{prevTxn}</Link>
-            </td>
-          </tr>
+            }
+          />
+          <TokenTableRow
+            label={t('last_affecting_transaction')}
+            value={<Link to={`/transactions/${previousTxn}`}>{prevTxn}</Link>}
+          />
           {emailHash && (
-            <tr className="row">
-              <td className="col1">{t('email_hash')}</td>
-              <td className="col2">{abbrvEmail}</td>
-            </tr>
+            <TokenTableRow label={t('email_hash')} value={abbrvEmail} />
           )}
         </tbody>
       </table>
@@ -107,38 +98,14 @@ class TokenHeader extends Component {
     return (
       <table className="token-table">
         <tbody>
-          <tr className="row">
-            <td className="col1">Rippling</td>
-            <td className="col2">{rippling}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Deposit Auth</td>
-            <td className="col2">{depositAuth}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Master Key</td>
-            <td className="col2">{masterKey}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Receiving XRP</td>
-            <td className="col2">{receivingXRP}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Frozen</td>
-            <td className="col2">{frozen}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">No freeze</td>
-            <td className="col2">{noFreeze}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Require Auth</td>
-            <td className="col2">{requireAuth}</td>
-          </tr>
-          <tr className="row">
-            <td className="col1">Require Dest Tag</td>
-            <td className="col2">{requireDestTag}</td>
-          </tr>
+          <TokenTableRow label="Rippling" value={rippling} />
+          <TokenTableRow label="Deposit Auth" value={depositAuth} />
+          <TokenTableRow label="Master Key" value={masterKey} />
+          <TokenTableRow label="Receiving XRP" value={receivingXRP} />
+          <TokenTableRow label="Frozen" value={frozen} />
+          <TokenTableRow label="No freeze" value={noFreeze} />
+          <TokenTableRow label="Require Auth" value={requireAuth} />
+          <TokenTableRow label="Require Dest Tag" value={requireDestTag} />
         </tbody>
       </table>
     )
