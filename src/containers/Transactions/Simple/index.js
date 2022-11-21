@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import PaymentChannelCreate from './PaymentChannelCreate'
-import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
 import AccountSet from './AccountSet'
 import EnableAmendment from './EnableAmendment'
@@ -27,8 +26,6 @@ const Simple = (props) => {
   switch (type) {
     case 'PaymentChannelCreate':
       return <PaymentChannelCreate t={t} language={language} data={data} />
-    case 'PaymentChannelClaim':
-      return <PaymentChannelClaim t={t} language={language} data={data} />
     case 'PaymentChannelFund':
       return <PaymentChannelFund t={t} language={language} data={data} />
     case 'AccountSet':

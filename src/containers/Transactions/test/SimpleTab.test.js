@@ -7,7 +7,6 @@ import AccountDelete from './mock_data/AccountDelete.json'
 import AccountSet from './mock_data/AccountSet.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
-import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import UNLModify from './mock_data/UNLModify.json'
@@ -54,11 +53,6 @@ describe('SimpleTab container', () => {
 
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
-  })
-
-  it('renders PaymentChannelClaim without crashing', () => {
-    const wrapper = createWrapper(PaymentChannelClaim)
     wrapper.unmount()
   })
 

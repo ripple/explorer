@@ -1,16 +1,20 @@
-const formatAmount = require('./formatAmount')
+import { Meta } from '../../../transactionUtils'
+import { PaymentChannelClaim, PaymentChannelClaimInstructions } from './types'
 
-const hasRenew = (flags) => 0x00010000 & flags
-const hasClose = (flags) => 0x00020000 & flags
+const formatAmount = require('../../../../../rippled/lib/txSummary/formatAmount')
 
-const findNode = (meta, nodeType) => {
+const hasRenew = (flags: number): boolean => !!(0x00010000 & flags)
+const hasClose = (flags: number) => !!(0x00020000 & flags)
+
+const findNode = (meta: Meta, nodeType: 'DeletedNode' | 'ModifiedNode') => {
   const metaNode = meta.AffectedNodes.find(
-    (node) => node[nodeType] && node[nodeType].LedgerEntryType === 'PayChannel',
+    (node: any) =>
+      node[nodeType] && node[nodeType].LedgerEntryType === 'PayChannel',
   )
   return metaNode ? metaNode[nodeType] : null
 }
 
-const getDetails = (node) => {
+const getDetails = (node: any) => {
   const st = node.FinalFields.SourceTag ? `:${node.FinalFields.SourceTag}` : ''
   const dt = node.FinalFields.DestinationTag
     ? `:${node.FinalFields.DestinationTag}`
@@ -22,13 +26,16 @@ const getDetails = (node) => {
   }
 }
 
-module.exports = (tx, meta) => {
+export const parser = (
+  tx: PaymentChannelClaim,
+  meta: Meta,
+): PaymentChannelClaimInstructions => {
   let node = findNode(meta, 'ModifiedNode')
-  const data = {
+  const data: PaymentChannelClaimInstructions = {
     channel: tx.Channel,
-    total_claimed: tx.Balance ? formatAmount(tx.Balance) : undefined,
-    renew: hasRenew(tx.Flags) || undefined,
-    close: hasClose(tx.Flags) || undefined,
+    totalClaimed: tx.Balance ? formatAmount(tx.Balance) : undefined,
+    renew: hasRenew(tx.Flags || 0) || undefined,
+    close: hasClose(tx.Flags || 0) || undefined,
   }
 
   if (node) {
@@ -41,7 +48,7 @@ module.exports = (tx, meta) => {
     const remaining = amount - total
 
     return Object.assign(data, details, {
-      channel_amount: formatAmount(amount),
+      channelAmount: formatAmount(amount),
       claimed: claimed ? formatAmount(claimed) : undefined,
       remaining: formatAmount(remaining),
     })
@@ -53,8 +60,8 @@ module.exports = (tx, meta) => {
     const returned = node.FinalFields.Amount - node.FinalFields.Balance
 
     return Object.assign(data, details, {
-      channel_amount: formatAmount(node.FinalFields.Amount),
-      total_claimed: formatAmount(node.FinalFields.Balance),
+      channelAmount: formatAmount(node.FinalFields.Amount),
+      totalClaimed: formatAmount(node.FinalFields.Balance),
       returned: returned ? formatAmount(returned) : undefined,
       deleted: true,
     })

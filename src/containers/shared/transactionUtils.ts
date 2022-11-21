@@ -100,18 +100,18 @@ export const DATE_OPTIONS = {
   timeZone: 'UTC',
 }
 
-interface Node {
+export interface Node {
   DeletedNode?: any
   ModifiedNode?: any
   CreatedNode?: any
   LedgerEntryType: string
 }
 
-interface Meta {
+export interface Meta {
   AffectedNodes: Node[]
 }
 
-interface Memo {
+export interface Memo {
   Memo: {
     MemoType: string
     MemoData: string
@@ -120,9 +120,9 @@ interface Memo {
 }
 
 interface Tx {
-  Memos: Memo[]
+  Memos?: Memo[]
   TransactionType: string
-  Flags: number
+  Flags?: number
 }
 
 export interface Transaction {
@@ -227,11 +227,12 @@ function zeroPad(num: string | number, size: number, back = false): string {
 }
 
 export function normalizeAmount(
-  amount: IssuedCurrencyAmount | number,
+  amount: IssuedCurrencyAmount | number | string,
   language = 'en-US',
 ): string | null {
   const currency = typeof amount === 'object' ? amount.currency : 'XRP'
-  const value = typeof amount === 'object' ? amount.value : amount / XRP_BASE
+  const value =
+    typeof amount === 'object' ? amount.value : Number(amount) / XRP_BASE
   const numberOption = { ...CURRENCY_OPTIONS, currency }
   return localizeNumber(value, language, numberOption)
 }
@@ -240,7 +241,7 @@ export function findNode(
   transaction: Transaction,
   nodeType: keyof Node,
   entryType: string,
-): Node {
+): any {
   const metaNode = transaction.meta.AffectedNodes.find(
     (node) => node[nodeType] && node[nodeType].LedgerEntryType === entryType,
   )
