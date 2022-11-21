@@ -59,15 +59,12 @@ export const Validators = () => {
     setVList((value: any) => {
       const newValidatorsList: any = { ...value }
       newValidations.forEach((validation: any) => {
-        if (value[validation.pubkey] === undefined) {
-          newValidatorsList[validation.pubkey] = {
-            signing_key: validation.pubkey,
-          }
+        newValidatorsList[validation.pubkey] = {
+          ...value[validation.pubkey],
+          signing_key: validation.pubkey,
+          ledger_index: validation.ledger_index,
+          ledger_hash: validation.ledger_hash,
         }
-        newValidatorsList[validation.pubkey].ledger_index =
-          validation.ledger_index
-        newValidatorsList[validation.pubkey].ledger_hash =
-          validation.ledger_hash
       })
       return mergeLatest(newValidatorsList, vList)
     })
