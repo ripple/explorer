@@ -7,7 +7,9 @@ import AccountDelete from './mock_data/AccountDelete.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
-import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
+import PaymentChannelCreate from '../../shared/components/Transaction/PaymentChannelCreate/test/mock_data/PaymentChannelCreate.json'
+import PaymentChannelCreateFailed from '../../shared/components/Transaction/PaymentChannelCreate/test/mock_data/PaymentChannelCreateFailed.json'
+import PaymentChannelCreateWithDestinationTag from '../../shared/components/Transaction/PaymentChannelCreate/test/mock_data/PaymentChannelCreateWithDestinationTag.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import SimpleTab from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
@@ -56,7 +58,11 @@ describe('SimpleTab container', () => {
   })
 
   it('renders PaymentChannelCreate without crashing', () => {
-    const wrapper = createWrapper(PaymentChannelCreate)
+    let wrapper = createWrapper(PaymentChannelCreate)
+    wrapper.unmount()
+    wrapper = createWrapper(PaymentChannelCreateFailed)
+    wrapper.unmount()
+    wrapper = createWrapper(PaymentChannelCreateWithDestinationTag)
     wrapper.unmount()
   })
 
