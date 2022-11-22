@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
-import { useTranslation, withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import Log from '../shared/log'
@@ -97,6 +96,4 @@ const LedgersPage = () => {
   )
 }
 
-export default connect((state) => ({
-  language: state.app.language,
-}))(withTranslation()(LedgersPage))
+export default LedgersPage
