@@ -52,6 +52,7 @@
         "**/test/*.json": true
     },
     "cSpell.words": [
+        "MILLIS",
         "pageview"
     ]
   }

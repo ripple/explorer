@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { useTranslation, withTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import axios from 'axios'
 import Log from '../shared/log'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import Streams from '../shared/components/Streams'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
+
+const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
 const LedgersPage = () => {
   const [validators, setValidators] = useState({})
@@ -47,11 +50,9 @@ const LedgersPage = () => {
       .catch((e) => Log.error(e))
   }
 
-  useEffect(() => {
-    const interval = setInterval(fetchValidators, 5 * 60 * 1000)
-    return function cleanup() {
-      clearInterval(interval)
-    }
+  useQuery(['fetchValidatorData'], async () => fetchValidators(), {
+    refetchInterval: FETCH_INTERVAL_MILLIS,
+    refreshOnMount: true,
   })
 
   const updateSelected = (pubkey) => {
