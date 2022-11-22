@@ -46,9 +46,10 @@
       }
 
       input {
-        width: auto;
+        width: 50%;
+        min-width: 300px;
         height: 40px;
-        padding: 8px 25% 8px 16px;
+        padding: 8px 16px;
         border: none;
         margin: 10px 16px;
         background-color: $gray-900;
