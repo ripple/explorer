@@ -49,10 +49,15 @@ const App = (props) => {
   })
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_DATA_URL}/get_network/${rippledUrl}`)
-      .then((resp) => resp.data)
-      .then((data) => setNetworkName(data.network))
+    const staticNetworkName = getNetworkName()
+    if (staticNetworkName != null) {
+      setNetworkName(staticNetworkName)
+    } else {
+      axios
+        .get(`${process.env.REACT_APP_DATA_URL}/get_network/${rippledUrl}`)
+        .then((resp) => resp.data)
+        .then((data) => setNetworkName(data.network))
+    }
   }, [rippledUrl])
 
   const urlLink = rippledUrl ? `/${rippledUrl}` : ''

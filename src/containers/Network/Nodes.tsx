@@ -6,7 +6,11 @@ import NetworkTabs from './NetworkTabs'
 import Map from './Map'
 import NodesTable from './NodesTable'
 import Log from '../shared/log'
-import { localizeNumber } from '../shared/utils'
+import {
+  FETCH_INTERVAL_ERROR_MILLIS,
+  FETCH_INTERVAL_NODES_MILLIS,
+  localizeNumber,
+} from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import { NodeData, NodeResponse } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
@@ -59,7 +63,10 @@ export const Nodes = () => {
   console.log(network)
 
   const { data } = useQuery(['fetchNodesData'], async () => fetchData(), {
-    refetchInterval: 1000,
+    refetchInterval: (returnedData, _) =>
+      returnedData == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_NODES_MILLIS,
   })
 
   const fetchData = async () =>
