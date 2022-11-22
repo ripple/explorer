@@ -2,17 +2,13 @@ import { transactionTypes } from '../../../containers/shared/components/Transact
 
 const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelFund = require('./PaymentChannelFund')
-const AccountSet = require('./AccountSet')
 const EnableAmendment = require('./EnableAmendment')
-const UNLModify = require('./UNLModify')
 const AccountDelete = require('./AccountDelete')
 
 const summarize = {
   PaymentChannelCreate,
   PaymentChannelFund,
-  AccountSet,
   EnableAmendment,
-  UNLModify,
   AccountDelete,
 }
 

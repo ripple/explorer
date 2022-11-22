@@ -18,14 +18,6 @@ export interface Instructions {
   maxSigners: number
   signers: any[]
   domain: string
-  // eslint-disable-next-line camelcase
-  email_hash: string
-  // eslint-disable-next-line camelcase
-  message_key: string
-  // eslint-disable-next-line camelcase
-  set_flag: number
-  // eslint-disable-next-line camelcase
-  clear_flag: number
   key: string
   limit: any
   pair: string
@@ -47,8 +39,6 @@ export interface Instructions {
   destination: string
   partial: boolean
   ticketCount: number
-  // eslint-disable-next-line camelcase
-  nftoken_minter: string
 }
 
 export interface TransactionTableDetailProps<I = any> {

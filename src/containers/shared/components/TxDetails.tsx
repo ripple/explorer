@@ -1,10 +1,8 @@
 import React, { ReactElement } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation, withTranslation } from 'react-i18next'
-import { ACCOUNT_FLAGS, decodeHex } from '../transactionUtils'
 import { Amount } from './Amount'
 import { transactionTypes } from './Transaction'
-import { Account } from './Account'
 
 interface Instructions {
   owner: string
@@ -23,14 +21,6 @@ interface Instructions {
   maxSigners: number
   signers: any[]
   domain: string
-  // eslint-disable-next-line camelcase
-  email_hash: string
-  // eslint-disable-next-line camelcase
-  message_key: string
-  // eslint-disable-next-line camelcase
-  set_flag: number
-  // eslint-disable-next-line camelcase
-  clear_flag: number
   key: string
   limit: any
   pair: string
@@ -52,8 +42,6 @@ interface Instructions {
   destination: string
   partial: boolean
   ticketCount: number
-  // eslint-disable-next-line camelcase
-  nftoken_minter: string
 }
 
 interface Props {
@@ -66,61 +54,6 @@ const TxDetails = (props: Props) => {
 
   function renderAmount(d: any): ReactElement {
     return <Amount value={d} />
-  }
-
-  function renderAccountSet(): ReactElement {
-    const { instructions } = props
-    return (
-      <>
-        {instructions.domain && (
-          <div>
-            <span className="label">{t('domain')}:</span>{' '}
-            <span className="domain">{decodeHex(instructions.domain)}</span>
-          </div>
-        )}
-        {instructions.email_hash && (
-          <div>
-            <span className="label">{t('email_hash')}:</span>{' '}
-            <span className="email-hash">{instructions.email_hash}</span>
-          </div>
-        )}
-        {instructions.message_key && (
-          <div>
-            <span className="label">{t('message_key')}:</span>{' '}
-            <span className="message-key">{instructions.message_key}</span>
-          </div>
-        )}
-        {instructions.set_flag && (
-          <div>
-            <span className="label">{t('set_flag')}:</span>{' '}
-            <span className="flag">
-              {ACCOUNT_FLAGS[Number(instructions.set_flag)] ||
-                instructions.set_flag}
-            </span>
-          </div>
-        )}
-        {instructions.clear_flag && (
-          <div>
-            <span className="label">{t('clear_flag')}:</span>{' '}
-            <span className="flag">
-              {ACCOUNT_FLAGS[Number(instructions.clear_flag)] ||
-                instructions.clear_flag}
-            </span>
-          </div>
-        )}
-        {instructions.nftoken_minter && (
-          <div>
-            <span className="label">{t('nftoken_minter')}:</span>{' '}
-            <span className="domain">
-              <Account account={instructions.nftoken_minter} />
-            </span>
-          </div>
-        )}
-        {Object.keys(instructions).length === 0 && (
-          <div className="empty">{t('no_account_settings')}</div>
-        )}
-      </>
-    )
   }
 
   function renderPaymentChannelCreate(): ReactElement {
@@ -147,7 +80,6 @@ const TxDetails = (props: Props) => {
 
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
-    renderAccountSet,
     renderPaymentChannelCreate,
   }
 
@@ -184,10 +116,6 @@ TxDetails.propTypes = {
     maxSigners: PropTypes.number,
     signers: PropTypes.arrayOf(PropTypes.shape({})),
     domain: PropTypes.string,
-    email_hash: PropTypes.string,
-    message_key: PropTypes.string,
-    set_flag: PropTypes.number,
-    clear_flag: PropTypes.number,
     key: PropTypes.string,
     limit: PropTypes.shape({}),
     pair: PropTypes.string,
@@ -208,7 +136,6 @@ TxDetails.propTypes = {
     destination: PropTypes.string,
     partial: PropTypes.bool,
     ticketCount: PropTypes.number,
-    nftoken_minter: PropTypes.string,
   }),
   type: PropTypes.string,
 }

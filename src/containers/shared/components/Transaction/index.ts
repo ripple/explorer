@@ -1,3 +1,4 @@
+import { AccountSetTransaction as AccountSet } from './AccountSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
 import { NFTokenCancelOfferTransaction as NFTokenCancelOffer } from './NFTokenCancelOffer'
@@ -22,9 +23,12 @@ import { EscrowFinishTransaction as EscrowFinish } from './EscrowFinish'
 import { EscrowCancelTransaction as EscrowCancel } from './EscrowCancel'
 import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
 import { TrustSetTransaction as TrustSet } from './TrustSet'
+import { UNLModifyTransaction as UNLModify } from './UNLModify'
+
 import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
+  AccountSet,
   DepositPreauth,
   NFTokenMint,
   NFTokenCancelOffer,
@@ -49,4 +53,5 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   EscrowCancel,
   TicketCreate,
   TrustSet,
+  UNLModify,
 }
