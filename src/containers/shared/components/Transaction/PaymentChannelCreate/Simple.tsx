@@ -17,29 +17,30 @@ export const Simple = ({
   const { amount, source, destination, delay, cancelAfter, channel } =
     data.instructions
   const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)
-  const sParts = source.split(':')
 
   return (
     <>
-      <SimpleRow label={t('amount')}>
+      <SimpleRow label={t('amount')} data-test="amount">
         <Amount value={amount} />
       </SimpleRow>
-      {sParts[1] && <SimpleRow label={t('source_tag')}>{sParts[1]}</SimpleRow>}
-      <SimpleRow label={t('destination')}>
+      <SimpleRow label={t('source')} data-test="source">
+        <Account account={source} />
+      </SimpleRow>
+      <SimpleRow label={t('destination')} data-test="destination">
         <Account account={destination} />
       </SimpleRow>
       {delay && (
-        <SimpleRow label={t('settle_delay')}>
+        <SimpleRow label={t('settle_delay')} data-test="delay">
           {localizeNumber(delay, language)} {t('seconds_short')}
         </SimpleRow>
       )}
       {cancelAfter && (
-        <SimpleRow label={t('cancel_after')}>
+        <SimpleRow label={t('cancel_after')} data-test="cancel-after">
           {caDate} {DATE_OPTIONS.timeZone}
         </SimpleRow>
       )}
       {channel && (
-        <SimpleRow label={t('channel_id')} className=".channel">
+        <SimpleRow label={t('channel_id')} className="channel">
           {channel}
         </SimpleRow>
       )}
