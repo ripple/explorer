@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Amount } from '../../Amount'
 import { TransactionTableDetailProps } from '../types'
 import { PaymentInstructions } from './types'
+import { Account } from '../../Account'
 
 export const TableDetail = ({
   instructions,
@@ -31,7 +32,7 @@ export const TableDetail = ({
       <span className="label">{t('send')}</span>
       <Amount value={amount} />
       <span>{t('to')}</span>
-      <span className="account">{destination}</span>
+      <Account account={destination} />
       {sourceTag !== undefined && (
         <div className="st">
           {t('source_tag')}
