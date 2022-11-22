@@ -60,8 +60,6 @@ export const Nodes = () => {
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
 
-  console.log(network)
-
   const { data } = useQuery(['fetchNodesData'], async () => fetchData(), {
     refetchInterval: (returnedData, _) =>
       returnedData == null

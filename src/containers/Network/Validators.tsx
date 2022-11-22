@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -10,7 +10,7 @@ import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
 import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
-import { getNetworkFromEnv } from '../shared/vhsUtils'
+import NetworkContext from '../shared/NetworkContext'
 
 export const Validators = () => {
   const language = useLanguage()
@@ -19,6 +19,7 @@ export const Validators = () => {
   const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
+  const network = useContext(NetworkContext)
 
   useQuery(['fetchValidatorsData'], () => fetchData(), {
     refetchInterval: FETCH_INTERVAL_MILLIS,
@@ -46,7 +47,6 @@ export const Validators = () => {
   }
 
   function fetchData(): void {
-    const network = getNetworkFromEnv()
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios

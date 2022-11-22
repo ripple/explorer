@@ -388,6 +388,7 @@
   "validators_count": "# of Validators: {{count}}",
   "current_stable_version": "Current Stable Version",
   "stable_version": "{{stableVersion}}",
+  "Version": "version",
   "xchain_claim_attestation": "Claim Attestation",
   "xchain_create_account_attestation": "Create Account Attestation",
   "nftoken_minter": "NFT Minter",
