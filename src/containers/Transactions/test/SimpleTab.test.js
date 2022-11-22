@@ -3,7 +3,6 @@ import { mount, shallow } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 
 import { BrowserRouter as Router } from 'react-router-dom'
-import AccountDelete from './mock_data/AccountDelete.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
@@ -26,23 +25,6 @@ describe('SimpleTab container', () => {
         </I18nextProvider>
       </Router>,
     )
-
-  const createShallowWrapper = (tx, width = 1200) =>
-    shallow(
-      <Router>
-        <SimpleTab
-          t={(s) => s}
-          language="en-US"
-          data={{ raw: tx, summary: summarize(tx, true).details }}
-          width={width}
-        />
-      </Router>,
-    )
-
-  it('renders AccountDelete without crashing', () => {
-    const wrapper = createShallowWrapper(AccountDelete)
-    wrapper.unmount()
-  })
 
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
