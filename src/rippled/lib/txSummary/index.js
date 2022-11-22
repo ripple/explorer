@@ -3,13 +3,11 @@ import { transactionTypes } from '../../../containers/shared/components/Transact
 const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelClaim = require('./PaymentChannelClaim')
 const PaymentChannelFund = require('./PaymentChannelFund')
-const AccountDelete = require('./AccountDelete')
 
 const summarize = {
   PaymentChannelCreate,
   PaymentChannelClaim,
   PaymentChannelFund,
-  AccountDelete,
 }
 
 const getInstructions = (tx, meta) => {

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
-import AccountDelete from './AccountDelete'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
 
@@ -28,8 +27,6 @@ const Simple = (props) => {
       return <PaymentChannelClaim t={t} language={language} data={data} />
     case 'PaymentChannelFund':
       return <PaymentChannelFund t={t} language={language} data={data} />
-    case 'AccountDelete':
-      return <AccountDelete t={t} language={language} data={data} />
     default:
       // Some transactions do not have simple views.
       return (
