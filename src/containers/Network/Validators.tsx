@@ -6,7 +6,11 @@ import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
 import ValidatorsTable from './ValidatorsTable'
 import Log from '../shared/log'
-import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
+import {
+  localizeNumber,
+  FETCH_INTERVAL_MILLIS,
+  FETCH_INTERVAL_ERROR_MILLIS,
+} from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
 import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
@@ -22,7 +26,10 @@ export const Validators = () => {
   const network = useContext(NetworkContext)
 
   useQuery(['fetchValidatorsData'], () => fetchData(), {
-    refetchInterval: FETCH_INTERVAL_MILLIS,
+    refetchInterval: (returnedData, _) =>
+      returnedData == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
   })
 
@@ -46,10 +53,10 @@ export const Validators = () => {
     return updated
   }
 
-  function fetchData(): void {
+  function fetchData() {
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
-    axios
+    return axios
       .get(url)
       .then((resp) => resp.data.validators)
       .then((validators) => {
@@ -60,6 +67,7 @@ export const Validators = () => {
 
         setVList(() => mergeLatest(newValidatorList, vList))
         setUnlCount(validators.filter((d: any) => Boolean(d.unl)).length)
+        return true // indicating success in getting the data
       })
       .catch((e) => Log.error(e))
   }
