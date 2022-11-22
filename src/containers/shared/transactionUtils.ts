@@ -100,18 +100,18 @@ export const DATE_OPTIONS = {
   timeZone: 'UTC',
 }
 
-interface Node {
+export interface Node {
   DeletedNode?: any
   ModifiedNode?: any
   CreatedNode?: any
   LedgerEntryType: string
 }
 
-interface Meta {
+export interface Meta {
   AffectedNodes: Node[]
 }
 
-interface Memo {
+export interface Memo {
   Memo: {
     MemoType: string
     MemoData: string
@@ -119,10 +119,10 @@ interface Memo {
   }
 }
 
-interface Tx {
-  Memos: Memo[]
+export interface Tx {
+  Memos?: Memo[]
   TransactionType: string
-  Flags: number
+  Flags?: number
 }
 
 export interface Transaction {
@@ -240,7 +240,7 @@ export function findNode(
   transaction: Transaction,
   nodeType: keyof Node,
   entryType: string,
-): Node {
+): any {
   const metaNode = transaction.meta.AffectedNodes.find(
     (node) => node[nodeType] && node[nodeType].LedgerEntryType === entryType,
   )
