@@ -53,6 +53,9 @@
     },
     "cSpell.words": [
         "MILLIS",
-        "pageview"
+        "middlewares",
+        "moxios",
+        "pageview",
+        "paystrings"
     ]
   }
