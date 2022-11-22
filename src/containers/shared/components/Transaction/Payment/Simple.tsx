@@ -20,7 +20,6 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
 
   const renderPayment = () => {
     const { max, destination, sourceTag, partial } = data.instructions
-    const parts = destination.split(':')
 
     return (
       <>
@@ -42,8 +41,7 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
           </SimpleRow>
         )}
         <SimpleRow label={t('destination')} data-test="destination">
-          <Account account={parts[0]} />
-          {parts[1] && <span className="dt">:{parts[1]}</span>}
+          <Account account={destination} />
         </SimpleRow>
       </>
     )

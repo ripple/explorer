@@ -8,13 +8,20 @@ export interface AccountProps {
 
 export const Account = (props: AccountProps) => {
   const { link = true, account } = props
-  return link ? (
-    <Link className="account" title={account} to={`/accounts/${account}`}>
-      {account}
-    </Link>
-  ) : (
-    <span className="account" title={account}>
-      {account}
-    </span>
+  const parts = account.split(':')
+
+  return (
+    <>
+      {link ? (
+        <Link className="account" title={parts[0]} to={`/accounts/${parts[0]}`}>
+          {parts[0]}
+        </Link>
+      ) : (
+        <span className="account" title={parts[0]}>
+          {parts[0]}
+        </span>
+      )}
+      {parts[1] && <span className="dt">:{parts[1]}</span>}
+    </>
   )
 }
