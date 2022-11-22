@@ -1,0 +1,45 @@
+{
+  "tx": {
+    "Account": "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+    "Fee": "12",
+    "Flags": 2147483648,
+    "LastLedgerSequence": 60069268,
+    "MessageKey": "020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA",
+    "Sequence": 35,
+    "SigningPubKey": "ED9F3F4ECF8F66D7727847B569EC055F637FA059A08623E63EFE78DFC9F42C1299",
+    "TransactionType": "AccountSet",
+    "TxnSignature": "653F6BE81D8BDA15FA4DAACAA3968A286CDD59484933046C66B2163543DF7A81996EFE2EA29BB5713FA276F59355811342008D6E9AB1C212D12010A396E0B500",
+    "date": "2020-12-08T02:05:40Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+            "Balance": "79723222395",
+            "Domain": "6D64756F31332E636F6D",
+            "Flags": 65536,
+            "MessageKey": "020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA",
+            "OwnerCount": 2,
+            "RegularKey": "rUnMgNT74LreSH8i23FbonW8iYfADyq5tR",
+            "Sequence": 36
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "43EA78783A089B137D5E87610DF3BD4129F989EDD02EFAF6C265924D3A0EF8CE",
+          "PreviousFields": {
+            "Balance": "79723222407",
+            "Sequence": 35
+          },
+          "PreviousTxnID": "EEA6B31F6E49D4F59103F20E51BCB44919ACFDC51861616F397B8FA66E2F8861",
+          "PreviousTxnLgrSeq": 60069210
+        }
+      }
+    ],
+    "TransactionIndex": 12,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "79050F3835F7D1B806206E5F9E43939C5B624EC0D246264D6761110BF5818C62",
+  "ledger_index": 60069265,
+  "date": "2020-12-08T02:05:40Z"
+}
