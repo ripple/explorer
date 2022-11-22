@@ -1,3 +1,4 @@
+import { AccountSetTransaction as AccountSet } from './AccountSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
 import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
@@ -25,6 +26,7 @@ import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { TransactionMapping } from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
+  AccountSet,
   DepositPreauth,
   EnableAmendment,
   NFTokenMint,

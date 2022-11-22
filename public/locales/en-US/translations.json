@@ -256,6 +256,7 @@
   "set_domain_description": "It sets the account domain as",
   "set_email_description": "It sets the account email hash as",
   "set_message_key_description": "It sets the account message key as",
+  "set_nftoken_minter_description": "It sets <0>{{account}}</0> as the authorized minter for this account",
   "deposit_auth": "It authorizes <1><0>{{account}}</0></1> to send payments to this account",
   "deposit_unauth": "It removes the authorization for <1><0>{{account}}</0></1> to send payments to this account",
   "invalid_xrpl_address": "Invalid XRPL address",
