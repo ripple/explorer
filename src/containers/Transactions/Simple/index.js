@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
-import AccountSet from './AccountSet'
 import EnableAmendment from './EnableAmendment'
 import UNLModify from './UNLModify'
 import { transactionTypes } from '../../shared/components/Transaction'
@@ -30,8 +29,6 @@ const Simple = (props) => {
       return <PaymentChannelClaim t={t} language={language} data={data} />
     case 'PaymentChannelFund':
       return <PaymentChannelFund t={t} language={language} data={data} />
-    case 'AccountSet':
-      return <AccountSet t={t} language={language} data={data} />
     case 'EnableAmendment':
       return <EnableAmendment t={t} language={language} data={data} />
     case 'UNLModify':
