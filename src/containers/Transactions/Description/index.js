@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
-import AccountSet from './AccountSet'
 import Sequence from '../../shared/components/Sequence'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
@@ -34,8 +33,6 @@ const TransactionDescription = (props) => {
     body = <PaymentChannelClaim t={t} language={language} data={data} />
   } else if (data.tx.TransactionType === 'PaymentChannelFund') {
     body = <PaymentChannelFund t={t} language={language} data={data} />
-  } else if (data.tx.TransactionType === 'AccountSet') {
-    body = <AccountSet t={t} language={language} data={data} />
   }
 
   return (

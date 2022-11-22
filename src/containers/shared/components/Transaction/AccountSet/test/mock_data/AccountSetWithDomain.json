@@ -1,0 +1,44 @@
+{
+  "tx": {
+    "Account": "rsA2LpzuawewSBQXkiju3YQTMzW13pAAdW",
+    "Domain": "6D64756F31332E636F6D",
+    "Fee": "12",
+    "Flags": 0,
+    "LastLedgerSequence": 69173351,
+    "Sequence": 16,
+    "SigningPubKey": "02B3EC4E5DD96029A647CFA20DA07FE1F85296505552CCAC114087E66B46BD77DF",
+    "TransactionType": "AccountSet",
+    "TxnSignature": "3044022012424CC922880F7196DF03C9D14C71631527A36FF10FB460CC45B5B406675E8F02205A1BB0F42CCABBE252C82F4F94B21307D8B0A4341E85D5F7DEC3AAF18CB8EE24",
+    "date": "2022-01-22T02:27:41Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rsA2LpzuawewSBQXkiju3YQTMzW13pAAdW",
+            "Balance": "20323989",
+            "Domain": "6D64756F31332E636F6D",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 17,
+            "TransferRate": 1005000000
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "F0D5C006F9DD3227B13516AA3DC8CC14909954496F1876051D646639ACB34C02",
+          "PreviousFields": {
+            "Balance": "20324001",
+            "Sequence": 16
+          },
+          "PreviousTxnID": "BDF144FA668838F8485B4FF677291F7039137A5247D616519D0BB8BC234952F7",
+          "PreviousTxnLgrSeq": 67118406
+        }
+      }
+    ],
+    "TransactionIndex": 25,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "09F5E55AD8309310A536852A1321A7B8FDEBF5F7F8DDE8D78A6C70DACCBEC707",
+  "ledger_index": 69173333,
+  "date": "2022-01-22T02:27:41Z"
+}
