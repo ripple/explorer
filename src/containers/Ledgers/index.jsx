@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { useTranslation, withTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
 import axios from 'axios'
 import Log from '../shared/log'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
@@ -69,7 +68,7 @@ const LedgersPage = () => {
 
   const pause = () => setPaused(!paused)
 
-  const language = 'en-US'
+  const { language } = i18n
 
   return (
     <div className="ledgers-page">
