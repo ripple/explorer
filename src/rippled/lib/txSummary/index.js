@@ -4,14 +4,12 @@ const PaymentChannelCreate = require('./PaymentChannelCreate')
 const PaymentChannelClaim = require('./PaymentChannelClaim')
 const PaymentChannelFund = require('./PaymentChannelFund')
 const EnableAmendment = require('./EnableAmendment')
-const UNLModify = require('./UNLModify')
 
 const summarize = {
   PaymentChannelCreate,
   PaymentChannelClaim,
   PaymentChannelFund,
   EnableAmendment,
-  UNLModify,
 }
 
 const getInstructions = (tx, meta) => {

@@ -5,7 +5,6 @@ import PaymentChannelCreate from './PaymentChannelCreate'
 import PaymentChannelClaim from './PaymentChannelClaim'
 import PaymentChannelFund from './PaymentChannelFund'
 import EnableAmendment from './EnableAmendment'
-import UNLModify from './UNLModify'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
 
@@ -31,8 +30,6 @@ const Simple = (props) => {
       return <PaymentChannelFund t={t} language={language} data={data} />
     case 'EnableAmendment':
       return <EnableAmendment t={t} language={language} data={data} />
-    case 'UNLModify':
-      return <UNLModify t={t} language={language} data={data} />
     default:
       // Some transactions do not have simple views.
       return (
