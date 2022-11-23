@@ -63,15 +63,17 @@ const Validator = (props: Props) => {
   const { identifier = '', tab = 'details' } = match.params
   const { language } = i18n
 
-  let short = ''
-  if (data.domain) {
-    short = data.domain
-  } else if (data.master_key) {
-    short = `${data.master_key.substr(0, 8)}...`
-  } else if (data.signing_key) {
-    short = `${data.signing_key.substr(0, 8)}...`
-  }
-  document.title = `Validator ${short} | ${t('xrpl_explorer')}`
+  useEffect(() => {
+    let short = ''
+    if (data.domain) {
+      short = data.domain
+    } else if (data.master_key) {
+      short = `${data.master_key.substr(0, 8)}...`
+    } else if (data.signing_key) {
+      short = `${data.signing_key.substr(0, 8)}...`
+    }
+    document.title = `Validator ${short} | ${t('xrpl_explorer')}`
+  }, [data.master_key, data.signing_key, data.domain, t])
 
   useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, {
