@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
@@ -35,10 +36,11 @@ const Validator = (props) => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [data, setData] = useState({})
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { match } = props
   const { identifier = '', tab = 'details' } = match.params
+  const { language } = i18n
 
   let short = ''
   if (data.domain) {
@@ -153,7 +155,7 @@ const Validator = (props) => {
         body = <HistoryTab reports={reports} />
         break
       default:
-        body = <SimpleTab t={t} data={data} width={width} />
+        body = <SimpleTab language={language} t={t} data={data} width={width} />
         break
     }
 
@@ -201,4 +203,6 @@ Validator.propTypes = {
   }).isRequired,
 }
 
-export default Validator
+export default connect((state) => ({
+  width: state.app.width,
+}))(Validator)
