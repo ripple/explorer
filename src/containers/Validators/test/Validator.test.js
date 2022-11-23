@@ -82,6 +82,7 @@ describe('Validator container', () => {
         status: 200,
         response: {
           domain: 'example.com',
+          ledger_hash: 'sample-ledger-hash',
         },
       },
     )
@@ -98,6 +99,7 @@ describe('Validator container', () => {
         status: 200,
         response: {
           master_key: 'foo',
+          ledger_hash: 'sample-ledger-hash',
         },
       },
     )
@@ -114,6 +116,7 @@ describe('Validator container', () => {
         status: 200,
         response: {
           signing_key: 'bar',
+          ledger_hash: 'sample-ledger-hash',
         },
       },
     )
@@ -133,6 +136,7 @@ describe('Validator container', () => {
     )
     const wrapper = createWrapper()
     await flushPromises()
+    wrapper.update()
     expect(wrapper.find('.no-match').length).toBe(1)
     wrapper.unmount()
   })
