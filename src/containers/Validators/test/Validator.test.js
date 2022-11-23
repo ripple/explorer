@@ -126,6 +126,32 @@ describe('Validator container', () => {
     wrapper.unmount()
   })
 
+  it('fetches ledger hash if not provided', async () => {
+    moxios.stubRequest(
+      `/api/v1/validators?verbose=true&key=${MOCK_IDENTIFIER}`,
+      {
+        status: 200,
+        response: {
+          domain: 'test.example.com',
+          ledger_index: '12345',
+        },
+      },
+    )
+    const ledger = {
+      status: 200,
+      response: {
+        ledger_hash: 'sample-ledger-hash',
+        last_ledger_time: 123456789,
+      },
+    }
+    const wrapper = createWrapper(() => Promise.resolve(ledger))
+    await flushPromises()
+    expect(getLedger).toBeCalledTimes(1)
+    expect(getLedger).toHaveBeenCalledWith('12345', undefined)
+    expect(document.title).toBe('Validator test.example.com | xrpl_explorer')
+    wrapper.unmount()
+  })
+
   it('renders 404 page on no match', async () => {
     moxios.stubRequest(
       `/api/v1/validators?verbose=true&key=${MOCK_IDENTIFIER}`,
