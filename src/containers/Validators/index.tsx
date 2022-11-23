@@ -136,6 +136,7 @@ const Validator = (props: Props) => {
             exDescription: `${url} --- ${JSON.stringify(axiosError)}`,
           })
           setError(status)
+          setIsLoading(false)
         })
     }
   }
