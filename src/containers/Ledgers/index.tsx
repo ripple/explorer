@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import Log from '../shared/log'
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
+import {
+  analytics,
+  ANALYTIC_TYPES,
+  FETCH_INTERVAL_ERROR_MILLIS,
+} from '../shared/utils'
 import Streams from '../shared/components/Streams'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
 import { Ledger, ValidatorResponse } from './types'
-import { getNetworkFromEnv } from '../shared/vhsUtils'
+import NetworkContext from '../shared/NetworkContext'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
@@ -22,6 +26,7 @@ const LedgersPage = () => {
   const [metrics, setMetrics] = useState(undefined)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
   const { t, i18n } = useTranslation()
+  const network = useContext(NetworkContext)
 
   document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
 
@@ -33,10 +38,9 @@ const LedgersPage = () => {
   }, [])
 
   const fetchValidators = () => {
-    const network = getNetworkFromEnv()
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
-    axios
+    return axios
       .get(url)
       .then((resp) => resp.data.validators)
       .then((validatorResponse) => {
@@ -52,12 +56,16 @@ const LedgersPage = () => {
 
         setValidators(newValidators)
         setUnlCount(newUnlCount)
+        return true
       })
       .catch((e) => Log.error(e))
   }
 
   useQuery(['fetchValidatorData'], async () => fetchValidators(), {
-    refetchInterval: FETCH_INTERVAL_MILLIS,
+    refetchInterval: (returnedData, _) =>
+      returnedData == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
   })
 
@@ -71,11 +79,13 @@ const LedgersPage = () => {
 
   return (
     <div className="ledgers-page">
-      <Streams
-        validators={validators}
-        updateLedgers={setLedgers}
-        updateMetrics={setMetrics}
-      />
+      {network && (
+        <Streams
+          validators={validators}
+          updateLedgers={setLedgers}
+          updateMetrics={setMetrics}
+        />
+      )}
       <LedgerMetrics
         language={language}
         data={metrics}
