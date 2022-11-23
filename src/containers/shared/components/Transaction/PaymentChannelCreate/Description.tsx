@@ -1,7 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { localizeDate, localizeNumber } from '../../../utils'
-import { DATE_OPTIONS, RIPPLE_EPOCH, findNode } from '../../../transactionUtils'
+import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
+import { DATE_OPTIONS, findNode } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import { useLanguage } from '../../../hooks'
 import { TransactionDescriptionProps } from '../types'
@@ -16,71 +17,44 @@ export const Description = ({
   const { tx } = data
   const cancelAfter =
     tx.CancelAfter &&
-    localizeDate((tx.CancelAfter + RIPPLE_EPOCH) * 1000, language, DATE_OPTIONS)
+    localizeDate(convertRippleDate(tx.CancelAfter), language, DATE_OPTIONS)
 
   const node = findNode(data, 'CreatedNode', 'PayChannel')
-  const lines = []
 
-  lines.push(
-    <div key="line1">
-      {`${t('the_account')} `}
-      <Account account={tx.Account} />
-      {` ${t('create_payment_channel')} `}
-      <Account account={tx.Destination} />
-      {tx.DestinationTag && (
-        <span className="dt">{` (${t('destination_tag')}: ${
-          tx.DestinationTag
-        }) `}</span>
+  return (
+    <>
+      <div data-test="accounts-line">
+        {`${t('the_account')} `}
+        <Account account={tx.Account} tag={tx.SourceTag} />
+        {` ${t('create_payment_channel')} `}
+        <Account account={tx.Destination} tag={tx.DestinationTag} />
+      </div>
+      {node && (
+        <div data-test="channel-line">
+          {t('the_channel_id_is')}
+          <span className="channel"> {node.LedgerIndex}</span>
+        </div>
       )}
-    </div>,
-  )
-
-  if (node) {
-    lines.push(
-      <div key="line_channel">
-        {t('the_channel_id_is')}
-        <span className="channel"> {node.LedgerIndex}</span>
-      </div>,
-    )
-  }
-
-  if (tx.SourceTag) {
-    lines.push(
-      <div key="line_2">
-        {t('the_source_tag_is')}
-        <b> {tx.SourceTag}</b>
-      </div>,
-    )
-  }
-
-  lines.push(
-    <div key="line3">
-      {t('the_channel_amount_is')}{' '}
-      <b>
-        <Amount value={tx.Amount} />
-      </b>
-    </div>,
-  )
-
-  if (tx.SettleDelay) {
-    lines.push(
-      <div key="line4">
-        {t('channel_settle_delay')}{' '}
+      <div data-test="amount-line">
+        {t('the_channel_amount_is')}{' '}
         <b>
-          {localizeNumber(tx.SettleDelay, language)} {t('seconds')}
+          <Amount value={tx.Amount} />
         </b>
-      </div>,
-    )
-  }
-
-  if (tx.CancelAfter) {
-    lines.push(
-      <div key="line6">
-        {t('describe_cancel_after')}
-        <span className="time">{` ${cancelAfter} ${DATE_OPTIONS.timeZone}`}</span>
-      </div>,
-    )
-  }
-
-  return <>{lines}</>
+      </div>
+      {tx.SettleDelay && (
+        <div data-test="delay-line">
+          {t('channel_settle_delay')}{' '}
+          <b>
+            {localizeNumber(tx.SettleDelay, language)} {t('seconds')}
+          </b>
+        </div>
+      )}
+      {tx.CancelAfter && (
+        <div data-test="cancel-line">
+          {t('describe_cancel_after')}
+          <span className="time">{` ${cancelAfter} ${DATE_OPTIONS.timeZone}`}</span>
+        </div>
+      )}
+    </>
+  )
 }
