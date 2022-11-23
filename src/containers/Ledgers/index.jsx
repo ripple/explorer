@@ -58,14 +58,6 @@ const LedgersPage = () => {
     setSelected(selected === pubkey ? null : pubkey)
   }
 
-  const updateLedgers = (newLedgers) => {
-    setLedgers(newLedgers)
-  }
-
-  const updateMetrics = (newMetrics) => {
-    setMetrics(newMetrics)
-  }
-
   const pause = () => setPaused(!paused)
 
   const { language } = i18n
@@ -74,8 +66,8 @@ const LedgersPage = () => {
     <div className="ledgers-page">
       <Streams
         validators={validators}
-        updateLedgers={updateLedgers}
-        updateMetrics={updateMetrics}
+        updateLedgers={setLedgers}
+        updateMetrics={setMetrics}
       />
       <LedgerMetrics
         language={language}
