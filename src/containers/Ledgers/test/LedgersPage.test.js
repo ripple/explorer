@@ -12,6 +12,7 @@ import i18n from '../../../i18nTestConfig'
 import Ledgers from '../index'
 import { initialState } from '../../../rootReducer'
 import SocketContext from '../../shared/SocketContext'
+import NetworkContext from '../../shared/NetworkContext'
 import BaseMockWsClient from '../../test/mockWsClient'
 import prevLedgerMessage from './mock/prevLedger.json'
 import ledgerMessage from './mock/ledger.json'
@@ -75,7 +76,9 @@ describe('Ledgers Page container', () => {
           <I18nextProvider i18n={i18n}>
             <Provider store={store}>
               <SocketContext.Provider value={client}>
-                <Ledgers msg={props.msg} />
+                <NetworkContext.Provider value="main">
+                  <Ledgers msg={props.msg} />
+                </NetworkContext.Provider>
               </SocketContext.Provider>
             </Provider>
           </I18nextProvider>
