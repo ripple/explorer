@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
@@ -18,24 +17,44 @@ import { HistoryTab } from './HistoryTab'
 import './validator.scss'
 import SocketContext from '../shared/SocketContext'
 
-const ERROR_MESSAGES = {}
-ERROR_MESSAGES[NOT_FOUND] = {
-  title: 'validator_not_found',
-  hints: ['check_validator_key'],
-}
-ERROR_MESSAGES.default = {
-  title: 'generic_error',
-  hints: ['not_your_fault'],
+const ERROR_MESSAGES = {
+  [NOT_FOUND]: {
+    title: 'validator_not_found',
+    hints: ['check_validator_key'],
+  },
+  default: {
+    title: 'generic_error',
+    hints: ['not_your_fault'],
+  },
 }
 
-const getErrorMessage = (error) =>
-  ERROR_MESSAGES[error] || ERROR_MESSAGES.default
+const getErrorMessage = (error: keyof typeof ERROR_MESSAGES | null) =>
+  (error && ERROR_MESSAGES[error]) || ERROR_MESSAGES.default
 
-const Validator = (props) => {
-  const [reports, setReports] = useState({})
+interface Props {
+  match: {
+    path?: string
+    params: {
+      identifier?: string
+      tab?: string
+    }
+  }
+  width: number
+}
+
+interface ValidatorData {
+  domain?: string
+  // eslint-disable-next-line camelcase -- from VHS
+  master_key?: string
+  // eslint-disable-next-line camelcase -- from VHS
+  signing_key?: string
+}
+
+const Validator = (props: Props) => {
+  const [reports, setReports] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [data, setData] = useState({})
+  const [data, setData] = useState<ValidatorData>({})
   const { t, i18n } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { match } = props
@@ -192,17 +211,6 @@ const Validator = (props) => {
   )
 }
 
-Validator.propTypes = {
-  width: PropTypes.number.isRequired,
-  match: PropTypes.shape({
-    path: PropTypes.string,
-    params: PropTypes.shape({
-      identifier: PropTypes.string,
-      tab: PropTypes.string,
-    }),
-  }).isRequired,
-}
-
-export default connect((state) => ({
+export default connect((state: any) => ({
   width: state.app.width,
 }))(Validator)
