@@ -31,8 +31,9 @@ const Validator = (props) => {
   const [reports, setReports] = useState({})
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
+  const { actions, match, data } = props
+  const { identifier = '', tab = 'details' } = match.params
 
-  const { data } = props
   let short = ''
   if (data.domain) {
     short = data.domain
@@ -44,9 +45,13 @@ const Validator = (props) => {
   document.title = `Validator ${short} | ${t('xrpl_explorer')}`
 
   useEffect(() => {
-    const { actions, match } = props
-    const { identifier = '', tab = 'details' } = match.params
+    analytics(ANALYTIC_TYPES.pageview, {
+      title: 'Validator',
+      path: `/validators/:identifier/${tab}`,
+    })
+  }, [tab])
 
+  useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_DATA_URL}/validator/${identifier}/reports`)
       .then((resp) => resp.data.reports)
@@ -56,12 +61,9 @@ const Validator = (props) => {
         )
         setReports(sortedValidatorReports)
       })
+  }, [identifier])
 
-    analytics(ANALYTIC_TYPES.pageview, {
-      title: 'Validator',
-      path: `/validators/:identifier/${tab}`,
-    })
-
+  useEffect(() => {
     if (
       identifier &&
       identifier !== data.master_key &&
@@ -69,7 +71,7 @@ const Validator = (props) => {
     ) {
       actions.loadValidator(identifier, rippledSocket)
     }
-  }, [data, props, rippledSocket])
+  }, [actions, data.master_key, data.signing_key, identifier, rippledSocket])
 
   function renderSummary() {
     let name = 'Unknown Validator'
@@ -99,8 +101,6 @@ const Validator = (props) => {
   }
 
   function renderTabs() {
-    const { match } = props
-    const { tab = 'details', identifier } = match.params
     const { path = '/' } = match
     const tabs = ['details', 'history']
     // strips :url from the front and the identifier/tab info from the end
@@ -109,8 +109,7 @@ const Validator = (props) => {
   }
 
   function renderValidator() {
-    const { width, match } = props
-    const { tab = 'details' } = match.params
+    const { width } = props
     let body
 
     switch (tab) {
