@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { withTranslation } from 'react-i18next'
+import { withTranslation, useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import NoMatch from '../NoMatch'
@@ -27,33 +27,40 @@ ERROR_MESSAGES.default = {
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-class Validator extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
+const Validator = (props) => {
+  const [reports, setReports] = useState({})
+  const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
+
+  const { data } = props
+  let short = ''
+  if (data.domain) {
+    short = data.domain
+  } else if (data.master_key) {
+    short = `${data.master_key.substr(0, 8)}...`
+  } else if (data.signing_key) {
+    short = `${data.signing_key.substr(0, 8)}...`
   }
+  document.title = `Validator ${short} | ${t('xrpl_explorer')}`
 
-  componentDidMount() {
-    const { t, actions, match, data } = this.props
+  useEffect(() => {
+    const { actions, match } = props
     const { identifier = '', tab = 'details' } = match.params
-    let short = ''
-    if (data.domain) {
-      short = data.domain
-    } else if (data.master_key) {
-      short = `${data.master_key.substr(0, 8)}...`
-    } else if (data.signing_key) {
-      short = `${data.signing_key.substr(0, 8)}...`
-    }
-    this.fetchData()
 
-    document.title = `Validator ${short} | ${t('xrpl_explorer')}`
+    axios
+      .get(`${process.env.REACT_APP_DATA_URL}/validator/${identifier}/reports`)
+      .then((resp) => resp.data.reports)
+      .then((vhsReports) => {
+        const sortedValidatorReports = vhsReports.sort((a, b) =>
+          a.date > b.date ? -1 : 1,
+        )
+        setReports(sortedValidatorReports)
+      })
 
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'Validator',
       path: `/validators/:identifier/${tab}`,
     })
-
-    const rippledSocket = this.context
 
     if (
       identifier &&
@@ -62,26 +69,9 @@ class Validator extends Component {
     ) {
       actions.loadValidator(identifier, rippledSocket)
     }
-  }
+  }, [data, props, rippledSocket])
 
-  fetchData = () => {
-    const { match } = this.props
-    const { identifier = '' } = match.params
-    axios
-      .get(`${process.env.REACT_APP_DATA_URL}/validator/${identifier}/reports`)
-      .then((resp) => resp.data.reports)
-      .then((reports) => {
-        const sortedValidatorReports = reports.sort((a, b) =>
-          a.date > b.date ? -1 : 1,
-        )
-        this.setState({ reports: sortedValidatorReports })
-      })
-  }
-
-  renderSummary() {
-    const { /* t, */ data } = this.props
-    // TODO: translate
-
+  function renderSummary() {
     let name = 'Unknown Validator'
     if (data.domain) {
       name = `Validator / Domain: ${data.domain}`
@@ -108,8 +98,8 @@ class Validator extends Component {
     )
   }
 
-  renderTabs() {
-    const { match } = this.props
+  function renderTabs() {
+    const { match } = props
     const { tab = 'details', identifier } = match.params
     const { path = '/' } = match
     const tabs = ['details', 'history']
@@ -118,9 +108,8 @@ class Validator extends Component {
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 
-  renderValidator() {
-    const { reports } = this.state
-    const { t, data, width, match, language } = this.props
+  function renderValidator() {
+    const { width, match } = props
     const { tab = 'details' } = match.params
     let body
 
@@ -129,50 +118,47 @@ class Validator extends Component {
         body = <HistoryTab reports={reports} />
         break
       default:
-        body = <SimpleTab t={t} language={language} data={data} width={width} />
+        body = <SimpleTab t={t} data={data} width={width} />
         break
     }
 
     return (
       <>
-        {this.renderSummary()}
-        {this.renderTabs()}
+        {renderSummary()}
+        {renderTabs()}
         <div className="tab-body">{body}</div>
       </>
     )
   }
 
-  render() {
-    const { loading, data } = this.props
-    const loader = loading ? <Loader className="show" /> : <Loader />
-    let body
+  const { loading } = props
+  const loader = loading ? <Loader className="show" /> : <Loader />
+  let body
 
-    if (data.error) {
-      const message = getErrorMessage(data.error)
-      body = <NoMatch title={message.title} hints={message.hints} />
-    } else if (data.master_key || data.signing_key) {
-      body = this.renderValidator()
-    } else if (!loading) {
-      body = (
-        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-          <h2>Could not load validator</h2>
-        </div>
-      )
-    }
-
-    return (
-      <div className="validator">
-        {loader}
-        {body}
+  if (data.error) {
+    const message = getErrorMessage(data.error)
+    body = <NoMatch title={message.title} hints={message.hints} />
+  } else if (data.master_key || data.signing_key) {
+    body = renderValidator()
+  } else if (!loading) {
+    body = (
+      <div style={{ textAlign: 'center', fontSize: '14px' }}>
+        <h2>Could not load validator</h2>
       </div>
     )
   }
+
+  return (
+    <div className="validator">
+      {loader}
+      {body}
+    </div>
+  )
 }
+
 Validator.contextType = SocketContext
 
 Validator.propTypes = {
-  t: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   width: PropTypes.number.isRequired,
   data: PropTypes.objectOf(
