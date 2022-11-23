@@ -92,12 +92,13 @@ export const Validators = () => {
   const validatorCount = Object.keys(vList).length
   return (
     <div className="network-page">
-      <Streams
-        validators={vList}
-        updateValidators={updateValidators}
-        updateMetrics={setMetrics}
-      />
-
+      {network && (
+        <Streams
+          validators={vList}
+          updateValidators={updateValidators}
+          updateMetrics={setMetrics}
+        />
+      )}
       {
         // @ts-ignore - Work around for complex type assignment issues
         <Hexagons data={validations} list={vList} />
