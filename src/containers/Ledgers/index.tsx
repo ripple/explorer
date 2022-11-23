@@ -10,13 +10,24 @@ import Ledgers from './Ledgers'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
+interface ValidatorResponse {
+  // eslint-disable-next-line camelcase -- from VHS
+  signing_key: string
+  // eslint-disable-next-line camelcase -- from VHS
+  master_key: string
+  unl: string
+  domain: string | null
+}
+
 const LedgersPage = () => {
-  const [validators, setValidators] = useState({})
+  const [validators, setValidators] = useState<
+    Record<string, ValidatorResponse>
+  >({})
   const [ledgers, setLedgers] = useState([])
   const [paused, setPaused] = useState(false)
-  const [selected, setSelected] = useState(undefined)
+  const [selected, setSelected] = useState<string | null>(null)
   const [metrics, setMetrics] = useState(undefined)
-  const [unlCount, setUnlCount] = useState(undefined)
+  const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
   const { t, i18n } = useTranslation()
 
   document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
@@ -35,10 +46,10 @@ const LedgersPage = () => {
     axios
       .get(url)
       .then((resp) => {
-        const newValidators = {}
+        const newValidators: Record<string, ValidatorResponse> = {}
         let newUnlCount = 0
 
-        resp.data.forEach((v) => {
+        resp.data.forEach((v: ValidatorResponse) => {
           newUnlCount += v.unl === process.env.REACT_APP_VALIDATOR ? 1 : 0
           newValidators[v.signing_key] = v
         })
@@ -51,10 +62,10 @@ const LedgersPage = () => {
 
   useQuery(['fetchValidatorData'], async () => fetchValidators(), {
     refetchInterval: FETCH_INTERVAL_MILLIS,
-    refreshOnMount: true,
+    refetchOnMount: true,
   })
 
-  const updateSelected = (pubkey) => {
+  const updateSelected = (pubkey: string) => {
     setSelected(selected === pubkey ? null : pubkey)
   }
 
