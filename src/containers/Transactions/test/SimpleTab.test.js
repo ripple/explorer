@@ -3,14 +3,11 @@ import { mount, shallow } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 
 import { BrowserRouter as Router } from 'react-router-dom'
-import AccountDelete from './mock_data/AccountDelete.json'
-import AccountSet from './mock_data/AccountSet.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
-import UNLModify from './mock_data/UNLModify.json'
 import SimpleTab from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18nTestConfig'
@@ -30,28 +27,6 @@ describe('SimpleTab container', () => {
       </Router>,
     )
 
-  const createShallowWrapper = (tx, width = 1200) =>
-    shallow(
-      <Router>
-        <SimpleTab
-          t={(s) => s}
-          language="en-US"
-          data={{ raw: tx, summary: summarize(tx, true).details }}
-          width={width}
-        />
-      </Router>,
-    )
-
-  it('renders AccountDelete without crashing', () => {
-    const wrapper = createShallowWrapper(AccountDelete)
-    wrapper.unmount()
-  })
-
-  it('renders AccountSet without crashing', () => {
-    const wrapper = createWrapper(AccountSet)
-    wrapper.unmount()
-  })
-
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
     wrapper.unmount()
@@ -69,11 +44,6 @@ describe('SimpleTab container', () => {
 
   it('renders PaymentChannelFund without crashing', () => {
     const wrapper = createWrapper(PaymentChannelFund)
-    wrapper.unmount()
-  })
-
-  it('renders UNLModify without crashing', () => {
-    const wrapper = createWrapper(UNLModify)
     wrapper.unmount()
   })
 

@@ -50,5 +50,13 @@
         "**/test/mock_data": true,
         "package-lock.json": true,
         "**/test/*.json": true
-    }
+    },
+    "cSpell.words": [
+        "MILLIS",
+        "camelcase",
+        "middlewares",
+        "moxios",
+        "pageview",
+        "paystrings"
+    ]
   }
