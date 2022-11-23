@@ -33,6 +33,7 @@ const getErrorMessage = (error) =>
 const Validator = (props) => {
   const [reports, setReports] = useState({})
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [data, setData] = useState({})
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
@@ -95,17 +96,15 @@ const Validator = (props) => {
             setIsLoading(false)
           }
         })
-        .catch((error) => {
+        .catch((axiosError) => {
           const status =
-            error.response && error.response.status
-              ? error.response.status
+            axiosError.response && axiosError.response.status
+              ? axiosError.response.status
               : SERVER_ERROR
           analytics(ANALYTIC_TYPES.exception, {
-            exDescription: `${url} --- ${JSON.stringify(error)}`,
+            exDescription: `${url} --- ${JSON.stringify(axiosError)}`,
           })
-          setData({ error: status, id: identifier })
-          //   error: status === 500 ? 'get_validator_failed' : '',
-          // })
+          setError(status)
         })
     }
   }, [data.master_key, data.signing_key, identifier, rippledSocket])
@@ -170,8 +169,8 @@ const Validator = (props) => {
   const loader = isLoading ? <Loader className="show" /> : <Loader />
   let body
 
-  if (data.error) {
-    const message = getErrorMessage(data.error)
+  if (error) {
+    const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
   } else if (data.master_key || data.signing_key) {
     body = renderValidator()
