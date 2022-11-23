@@ -23,6 +23,7 @@ export const SERVER_ERROR = 500
 export const BAD_REQUEST = 400
 
 export const FETCH_INTERVAL_MILLIS = 5000
+export const FETCH_INTERVAL_VHS_MILLIS = 60 * 1000 // 1 minute
 export const FETCH_INTERVAL_NODES_MILLIS = 60000
 
 export const DECIMAL_REGEX = /^\d+$/

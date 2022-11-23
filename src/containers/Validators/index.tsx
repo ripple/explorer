@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
+import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
 import {
   analytics,
   ANALYTIC_TYPES,
+  FETCH_INTERVAL_VHS_MILLIS,
   NOT_FOUND,
   SERVER_ERROR,
 } from '../shared/utils'
@@ -78,19 +80,19 @@ const Validator = (props: Props) => {
     })
   }, [tab])
 
-  useEffect(() => {
+  function fetchValidatorReport() {
     axios
       .get(`${process.env.REACT_APP_DATA_URL}/validator/${identifier}/reports`)
       .then((resp) => resp.data.reports)
       .then((vhsReports) => {
-        const sortedValidatorReports = vhsReports.sort((a, b) =>
+        const sortedValidatorReports = vhsReports.sort((a: any, b: any) =>
           a.date > b.date ? -1 : 1,
         )
         setReports(sortedValidatorReports)
       })
-  }, [identifier])
+  }
 
-  useEffect(() => {
+  function fetchValidatorData() {
     if (
       identifier &&
       identifier !== data.master_key &&
@@ -128,7 +130,17 @@ const Validator = (props: Props) => {
           setError(status)
         })
     }
-  }, [data.master_key, data.signing_key, identifier, rippledSocket])
+  }
+
+  useQuery(['fetchValidatorData'], async () => fetchValidatorData(), {
+    refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+    refetchOnMount: true,
+  })
+
+  useQuery(['fetchValidatorReport'], async () => fetchValidatorReport(), {
+    refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+    refetchOnMount: true,
+  })
 
   function renderSummary() {
     let name = 'Unknown Validator'
