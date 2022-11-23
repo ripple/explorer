@@ -1,14 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { withTranslation, useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useTranslation } from 'react-i18next'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
-import { analytics, ANALYTIC_TYPES, NOT_FOUND } from '../shared/utils'
-import { loadValidator } from './actions'
+import {
+  analytics,
+  ANALYTIC_TYPES,
+  NOT_FOUND,
+  SERVER_ERROR,
+} from '../shared/utils'
+import { getLedger } from '../../rippled'
 import SimpleTab from './SimpleTab'
 import { HistoryTab } from './HistoryTab'
 import './validator.scss'
@@ -29,9 +32,11 @@ const getErrorMessage = (error) =>
 
 const Validator = (props) => {
   const [reports, setReports] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
+  const [data, setData] = useState({})
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-  const { actions, match, data } = props
+  const { match } = props
   const { identifier = '', tab = 'details' } = match.params
 
   let short = ''
@@ -69,9 +74,41 @@ const Validator = (props) => {
       identifier !== data.master_key &&
       identifier !== data.signing_key
     ) {
-      actions.loadValidator(identifier, rippledSocket)
+      const url = `${process.env.REACT_APP_DATA_URL}/validator/${identifier}`
+      axios
+        .get(url)
+        .then((resp) => resp.data)
+        .then((response) => {
+          if (!response.ledger_hash) {
+            getLedger(response.current_index, rippledSocket).then(
+              (ledgerData) => {
+                setData({
+                  ...response,
+                  ledger_hash: ledgerData.ledger_hash,
+                  last_ledger_time: ledgerData.close_time,
+                })
+                setIsLoading(false)
+              },
+            )
+          } else {
+            setData(response)
+            setIsLoading(false)
+          }
+        })
+        .catch((error) => {
+          const status =
+            error.response && error.response.status
+              ? error.response.status
+              : SERVER_ERROR
+          analytics(ANALYTIC_TYPES.exception, {
+            exDescription: `${url} --- ${JSON.stringify(error)}`,
+          })
+          setData({ error: status, id: identifier })
+          //   error: status === 500 ? 'get_validator_failed' : '',
+          // })
+        })
     }
-  }, [actions, data.master_key, data.signing_key, identifier, rippledSocket])
+  }, [data.master_key, data.signing_key, identifier, rippledSocket])
 
   function renderSummary() {
     let name = 'Unknown Validator'
@@ -130,8 +167,7 @@ const Validator = (props) => {
     )
   }
 
-  const { loading } = props
-  const loader = loading ? <Loader className="show" /> : <Loader />
+  const loader = isLoading ? <Loader className="show" /> : <Loader />
   let body
 
   if (data.error) {
@@ -139,7 +175,7 @@ const Validator = (props) => {
     body = <NoMatch title={message.title} hints={message.hints} />
   } else if (data.master_key || data.signing_key) {
     body = renderValidator()
-  } else if (!loading) {
+  } else if (!isLoading) {
     body = (
       <div style={{ textAlign: 'center', fontSize: '14px' }}>
         <h2>Could not load validator</h2>
@@ -155,20 +191,8 @@ const Validator = (props) => {
   )
 }
 
-Validator.contextType = SocketContext
-
 Validator.propTypes = {
-  loading: PropTypes.bool.isRequired,
   width: PropTypes.number.isRequired,
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-      PropTypes.bool,
-    ]),
-  ).isRequired,
   match: PropTypes.shape({
     path: PropTypes.string,
     params: PropTypes.shape({
@@ -176,24 +200,6 @@ Validator.propTypes = {
       tab: PropTypes.string,
     }),
   }).isRequired,
-  actions: PropTypes.shape({
-    loadValidator: PropTypes.func,
-  }).isRequired,
 }
 
-export default connect(
-  (state) => ({
-    loading: state.validator.loading, // refers to state object in rootReducer.js
-    language: state.app.language,
-    data: state.validator.data,
-    width: state.app.width,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadValidator,
-      },
-      dispatch,
-    ),
-  }),
-)(withTranslation()(Validator))
+export default Validator
