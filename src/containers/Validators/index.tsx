@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
 import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
@@ -41,7 +40,6 @@ interface Props {
       tab?: string
     }
   }
-  width: number
 }
 
 interface ValidatorData {
@@ -57,6 +55,8 @@ const Validator = (props: Props) => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [data, setData] = useState<ValidatorData>({})
+  const [width, setWidth] = useState(0)
+  const ref = useRef<any>(null)
   const { t, i18n } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { match } = props
@@ -79,6 +79,12 @@ const Validator = (props: Props) => {
       path: `/validators/:identifier/${tab}`,
     })
   }, [tab])
+
+  // TODO: move width calculation to SimpleTab once that's using hooks
+  useEffect(() => {
+    setWidth(ref.current ? ref.current.offsetWidth : 0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- actually needed here, not sure why it's complaining
+  }, [ref.current])
 
   function fetchValidatorReport() {
     axios
@@ -178,7 +184,6 @@ const Validator = (props: Props) => {
   }
 
   function renderValidator() {
-    const { width } = props
     let body
 
     switch (tab) {
@@ -194,7 +199,9 @@ const Validator = (props: Props) => {
       <>
         {renderSummary()}
         {renderTabs()}
-        <div className="tab-body">{body}</div>
+        <div ref={ref} className="tab-body">
+          {body}
+        </div>
       </>
     )
   }
@@ -223,6 +230,4 @@ const Validator = (props: Props) => {
   )
 }
 
-export default connect((state: any) => ({
-  width: state.app.width,
-}))(Validator)
+export default Validator
