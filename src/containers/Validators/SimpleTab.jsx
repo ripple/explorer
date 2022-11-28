@@ -25,7 +25,6 @@ class SimpleTab extends Component {
     last_ledger_time: lastLedgerTime,
     ledger_index: ledgerIndex,
     unl,
-    updated,
   }) {
     const { t } = this.props
     const unlRow = unl && (
@@ -37,84 +36,39 @@ class SimpleTab extends Component {
       <>
         <SimpleRow
           label={`Last Ledger ${t('formatted_date', { timeZone: TIME_ZONE })}`}
+          data-test="ledger-time"
         >
           {lastLedgerTime}
         </SimpleRow>
-        <SimpleRow label={`Last ${t('ledger_index')}`}>
+        <SimpleRow label={`Last ${t('ledger_index')}`} data-test="ledger-index">
           <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
         </SimpleRow>
         {unlRow}
-        <SimpleRow
-          label={`Updated ${t('formatted_date', { timeZone: TIME_ZONE })}`}
-        >
-          {updated}
-        </SimpleRow>
       </>
     )
   }
 
-  renderCartIndex({
-    last_ledger_time: lastLedgerTime,
-    ledger_index: ledgerIndex,
-    unl,
-    updated,
-  }) {
-    const { t } = this.props
-    const unlRow = unl && (
-      <div className="val">
-        <div className="title">UNL</div>
-        <div className="val unl yes">
-          <img src={successIcon} title={unl} alt={unl} /> {unl}
-        </div>
-      </div>
-    )
-    return (
-      <div className="index">
-        <div className="title">
-          Last Ledger {t('formatted_date', { timeZone: TIME_ZONE })}
-        </div>
-        <div className="val">{lastLedgerTime}</div>
-        <div className="title">Last {t('ledger_index')}</div>
-        <div className="val">
-          <Link to={`/ledgers/${ledgerIndex}`}>
-            {ledgerIndex.toLocaleString()}
-          </Link>
-        </div>
-        {unlRow}
-      </div>
-    )
-  }
-
   render() {
-    const { t, language, data, width } = this.props
+    const { language, data, width } = this.props
 
     const formattedData = {
       ...data,
       last_ledger_time: data.last_ledger_time
         ? localizeDate(new Date(data.last_ledger_time), language, DATE_OPTIONS)
         : '',
-      updated: data.updated
-        ? localizeDate(new Date(data.updated), language, DATE_OPTIONS)
-        : '',
     }
 
-    let rowIndex
-    let cartIndex
-    if (width >= BREAKPOINTS.landscape) {
-      rowIndex = null
-      cartIndex = this.renderCartIndex(formattedData)
-    } else {
-      cartIndex = null
-      rowIndex = this.renderRowIndex(formattedData)
-    }
+    const rowIndex = this.renderRowIndex(formattedData)
 
     return (
       <div className="simple-body simple-body-validator">
         <div className="rows">
           <Simple language={language} data={data} />
-          {rowIndex}
+          {width < BREAKPOINTS.landscape && rowIndex}
         </div>
-        {cartIndex}
+        {width >= BREAKPOINTS.landscape && (
+          <div className="index">{rowIndex}</div>
+        )}
         <div className="clear" />
       </div>
     )
