@@ -6,7 +6,7 @@ import i18n from '../../../i18nTestConfig'
 import Description from '../Description'
 import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
-import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
+import PaymentChannelFund from '../../shared/components/Transaction/PaymentChannelFund/test/mock_data/PaymentChannelFund.json'
 
 describe('Description container', () => {
   const createWrapper = (data = {}, instructions = {}) =>

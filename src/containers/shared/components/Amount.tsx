@@ -8,9 +8,14 @@ import { ExplorerAmount } from '../types'
 export interface AmountProps {
   value: ExplorerAmount
   displayIssuer?: boolean
+  modifier?: string
 }
 
-export const Amount = ({ displayIssuer = true, value }: AmountProps) => {
+export const Amount = ({
+  displayIssuer = true,
+  modifier,
+  value,
+}: AmountProps) => {
   const language = useLanguage()
   const issuer = typeof value === 'string' ? undefined : value.issuer
   const currency = typeof value === 'string' ? 'XRP' : value.currency
@@ -22,7 +27,10 @@ export const Amount = ({ displayIssuer = true, value }: AmountProps) => {
 
   return (
     <span className="amount">
-      <span className="amount-localized">{localizedAmount}</span>{' '}
+      <span className="amount-localized">
+        {modifier && <span className="amount-modifier">{modifier}</span>}
+        {localizedAmount}
+      </span>{' '}
       <Currency issuer={displayIssuer ? issuer : ''} currency={currency} link />
     </span>
   )
