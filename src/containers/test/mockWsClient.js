@@ -92,6 +92,7 @@ class MockWsClient extends EventEmitter {
    */
   send(message) {
     if (this.debug) {
+      // eslint-disable-next-line no-console -- For testing purposes
       console.log(message)
     }
     if (this.returnError) {
