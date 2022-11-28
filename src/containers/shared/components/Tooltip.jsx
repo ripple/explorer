@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import successIcon from '../images/success.png'
-import infoIcon from '../images/info_orange.png'
 import { localizeDate } from '../utils'
 import '../css/tooltip.scss'
 import { ReactComponent as PayStringToolTip } from '../images/paystring_tooltip.svg'
