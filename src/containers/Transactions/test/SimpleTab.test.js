@@ -1,14 +1,11 @@
 import React from 'react'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 
 import { BrowserRouter as Router } from 'react-router-dom'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
-import PaymentChannelCreate from '../../shared/components/Transaction/PaymentChannelCreate/test/mock_data/PaymentChannelCreate.json'
-import PaymentChannelCreateFailed from '../../shared/components/Transaction/PaymentChannelCreate/test/mock_data/PaymentChannelCreateFailed.json'
-import PaymentChannelCreateWithDestinationTag from '../../shared/components/Transaction/PaymentChannelCreate/test/mock_data/PaymentChannelCreateWithDestinationTag.json'
 import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import SimpleTab from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
@@ -36,15 +33,6 @@ describe('SimpleTab container', () => {
 
   it('renders PaymentChannelClaim without crashing', () => {
     const wrapper = createWrapper(PaymentChannelClaim)
-    wrapper.unmount()
-  })
-
-  it('renders PaymentChannelCreate without crashing', () => {
-    let wrapper = createWrapper(PaymentChannelCreate)
-    wrapper.unmount()
-    wrapper = createWrapper(PaymentChannelCreateFailed)
-    wrapper.unmount()
-    wrapper = createWrapper(PaymentChannelCreateWithDestinationTag)
     wrapper.unmount()
   })
 
