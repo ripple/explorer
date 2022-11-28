@@ -86,7 +86,7 @@ class SimpleTab extends Component {
   }
 
   render() {
-    const { t, language, data, width } = this.props
+    const { language, data, width } = this.props
 
     const formattedData = {
       ...data,

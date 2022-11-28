@@ -19,7 +19,6 @@ import {
 } from './lib/rippled'
 import logger from './lib/logger'
 import { formatAccountInfo, formatSignerList } from './lib/utils'
-import { LOADING_FULL_LEDGER_FAIL } from '../containers/Ledger/actionTypes'
 
 const log = logger({ name: 'account balances' })
 
