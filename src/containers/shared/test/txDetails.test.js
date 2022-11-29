@@ -5,7 +5,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../i18nTestConfig'
 import EnableAmendment from '../../Transactions/test/mock_data/EnableAmendment.json'
 import PaymentChannelClaim from '../../Transactions/test/mock_data/PaymentChannelClaim.json'
-import PaymentChannelFund from '../../Transactions/test/mock_data/PaymentChannelFund.json'
 import TxDetails from '../components/TxDetails'
 import summarize from '../../../rippled/lib/txSummary'
 
@@ -26,11 +25,6 @@ describe('TxDetails', () => {
 
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
-  })
-
-  it('renders PaymentChannelFund without crashing', () => {
-    const wrapper = createWrapper(PaymentChannelFund)
     wrapper.unmount()
   })
 

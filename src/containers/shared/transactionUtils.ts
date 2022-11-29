@@ -227,11 +227,12 @@ function zeroPad(num: string | number, size: number, back = false): string {
 }
 
 export function normalizeAmount(
-  amount: IssuedCurrencyAmount | number,
+  amount: IssuedCurrencyAmount | number | string,
   language = 'en-US',
 ): string | null {
   const currency = typeof amount === 'object' ? amount.currency : 'XRP'
-  const value = typeof amount === 'object' ? amount.value : amount / XRP_BASE
+  const value =
+    typeof amount === 'object' ? amount.value : Number(amount) / XRP_BASE
   const numberOption = { ...CURRENCY_OPTIONS, currency }
   return localizeNumber(value, language, numberOption)
 }

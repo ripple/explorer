@@ -6,7 +6,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
-import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import SimpleTab from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18nTestConfig'
@@ -33,11 +32,6 @@ describe('SimpleTab container', () => {
 
   it('renders PaymentChannelClaim without crashing', () => {
     const wrapper = createWrapper(PaymentChannelClaim)
-    wrapper.unmount()
-  })
-
-  it('renders PaymentChannelFund without crashing', () => {
-    const wrapper = createWrapper(PaymentChannelFund)
     wrapper.unmount()
   })
 
