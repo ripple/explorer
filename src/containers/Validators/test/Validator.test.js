@@ -58,12 +58,16 @@ describe('Validator container', () => {
     )
   }
 
+  const oldEnvs = process.env
+
   beforeEach(async () => {
+    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'main' }
     moxios.install()
   })
 
   afterEach(() => {
     moxios.uninstall()
+    process.env = oldEnvs
   })
 
   it('renders without crashing', () => {
