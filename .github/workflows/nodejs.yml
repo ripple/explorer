@@ -76,6 +76,7 @@ jobs:
 
       - run: npm run test:ci
         env:
+          REACT_APP_ENVIRONMENT: mainnet
           REACT_APP_VALIDATOR: vl.ripple.com
           REACT_APP_RIPPLED_WS_PORT: 51233
           REACT_APP_RIPPLED_HOST: fake.rippled.example.com
