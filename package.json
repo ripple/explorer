@@ -22,7 +22,7 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "express": "^4.18.1",
     "i18next": "^21.6.16",
-    "i18next-browser-languagedetector": "^6.1.4",
+    "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^1.4.0",
     "jest-enzyme": "^7.1.0",
     "moment": "^2.29.4",
