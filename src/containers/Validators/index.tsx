@@ -10,6 +10,7 @@ import { Tabs } from '../shared/components/Tabs'
 import {
   analytics,
   ANALYTIC_TYPES,
+  FETCH_INTERVAL_ERROR_MILLIS,
   FETCH_INTERVAL_VHS_MILLIS,
   NOT_FOUND,
   SERVER_ERROR,
@@ -20,6 +21,7 @@ import { HistoryTab } from './HistoryTab'
 import './validator.scss'
 import SocketContext from '../shared/SocketContext'
 import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
+import NetworkContext from '../shared/NetworkContext'
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -46,6 +48,7 @@ const Validator = ({ width }: { width: number }) => {
 
   const { path = '/' } = useRouteMatch()
   const { identifier = '', tab = 'details' } = useParams<Params>()
+  const network = useContext(NetworkContext)
 
   const {
     data,
@@ -55,8 +58,12 @@ const Validator = ({ width }: { width: number }) => {
     ['fetchValidatorData', identifier],
     async () => fetchValidatorData(),
     {
-      refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+      refetchInterval: (returnedData, _) =>
+        returnedData == null
+          ? FETCH_INTERVAL_ERROR_MILLIS
+          : FETCH_INTERVAL_VHS_MILLIS,
       refetchOnMount: true,
+      enabled: !!network,
     },
   )
 
