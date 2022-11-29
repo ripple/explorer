@@ -67,7 +67,7 @@ describe('Ledgers Page container', () => {
   let client
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-  const createWrapper = (props = {}) => {
+  const createWrapper = (props = { network: 'main' }) => {
     const store = mockStore({ ...initialState })
 
     return mount(
@@ -76,7 +76,7 @@ describe('Ledgers Page container', () => {
           <I18nextProvider i18n={i18n}>
             <Provider store={store}>
               <SocketContext.Provider value={client}>
-                <NetworkContext.Provider value="main">
+                <NetworkContext.Provider value={props.network}>
                   <Ledgers msg={props.msg} />
                 </NetworkContext.Provider>
               </SocketContext.Provider>
@@ -228,7 +228,8 @@ describe('Ledgers Page container', () => {
 
     it('receives messages from streams', async () => {
       client.addResponses(rippledResponses)
-      const wrapper = createWrapper()
+      const customNetwork = 'custom_network'
+      const wrapper = createWrapper({ network: customNetwork })
 
       moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/`, {
         status: 200,
