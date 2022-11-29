@@ -1,0 +1,49 @@
+{
+  "tx": {
+    "Account": "rnNzy3iPc7gPEAJbAdXwxY1UTBamBqTYhR",
+    "Amount": "20000000",
+    "Channel": "933F93F7113A2F94B7838D64D0D2A244C57EFD6411C16FFF5FA293D200EF5876",
+    "Fee": "12",
+    "Flags": 2147483648,
+    "LastLedgerSequence": 29704605,
+    "Sequence": 13,
+    "SigningPubKey": "0389AFC598BDF777F2EDEF5C4140689819AC50C59D030B48C84EDA0F50D633E68B",
+    "TransactionType": "PaymentChannelFund",
+    "TxnSignature": "30440220176BCD35897E3928F533FB54044EBC82AEFB9B1EB64EE4AEC601D089A133B3F5022037D660874C6EC440DB499221EA5E21BE77F338D2F93D33288BA6988286E1471B",
+    "date": "2017-05-12T09:29:41Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rnNzy3iPc7gPEAJbAdXwxY1UTBamBqTYhR",
+            "Balance": "13886332216",
+            "Flags": 0,
+            "OwnerCount": 6,
+            "Sequence": 14
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "C2DC646AA232F1F1D8F7901A56A10BE277D44FEA77C501C1BB15125FDF5F7128",
+          "PreviousFields": {
+            "Balance": "13886332228",
+            "Sequence": 13
+          },
+          "PreviousTxnID": "8C271FA6F9FFEE3EE738836234DBA8109AAD4B40B826A8AD973339F699631A73",
+          "PreviousTxnLgrSeq": 29689286
+        }
+      }
+    ],
+    "TransactionIndex": 50,
+    "TransactionResult": "tecNO_ENTRY"
+  },
+  "hash": "0038436F4891822B2518501F22E34277E3BADEA8FD70DF00651AA76A4F65AF27",
+  "ledger_index": 29704603,
+  "date": "2017-05-12T09:29:41Z"
+}

@@ -6,7 +6,7 @@ import i18n from '../../../i18nTestConfig'
 import EnableAmendment from '../../Transactions/test/mock_data/EnableAmendment.json'
 import PaymentChannelClaim from '../../Transactions/test/mock_data/PaymentChannelClaim.json'
 import PaymentChannelCreate from '../../Transactions/test/mock_data/PaymentChannelCreate.json'
-import PaymentChannelFund from '../../Transactions/test/mock_data/PaymentChannelFund.json'
+import PaymentChannelFund from '../components/Transaction/PaymentChannelFund/test/mock_data/PaymentChannelFund.json'
 import TxDetails from '../components/TxDetails'
 import summarize from '../../../rippled/lib/txSummary'
 
