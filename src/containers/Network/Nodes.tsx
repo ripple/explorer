@@ -45,9 +45,6 @@ const ledgerCompare = (a = 0, b = 0) => {
     : bLedger - aLedger
 }
 
-// @ts-ignore
-const NETWORK = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT]
-
 export const Nodes = () => {
   const language = useLanguage()
   const { t } = useTranslation()
@@ -56,9 +53,11 @@ export const Nodes = () => {
     refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
   })
 
-  const fetchData = () =>
-    axios
-      .get(`${process.env.REACT_APP_DATA_URL}/topology/nodes/${NETWORK}`)
+  const fetchData = async () => {
+    // @ts-ignore
+    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT]
+    return axios
+      .get(`${process.env.REACT_APP_DATA_URL}/topology/nodes/${network}`)
       .then((resp) => resp.data.nodes)
       .then((allNodes) => {
         const nodes = allNodes.map((node: any) => ({
@@ -95,6 +94,7 @@ export const Nodes = () => {
         }
       })
       .catch((e) => Log.error(e))
+  }
 
   return (
     <div className="network-page">

@@ -18,15 +18,6 @@ const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 const store = mockStore({ app: initialState })
 
-const ENV_NETWORK_MAP = {
-  mainnet: 'main',
-  testnet: 'test',
-  devnet: 'dev',
-  nft_sandbox: 'nft-dev',
-}
-
-const NETWORK = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT]
-
 describe('Nodes Page container', () => {
   const createWrapper = (props = {}) =>
     mount(
@@ -44,12 +35,16 @@ describe('Nodes Page container', () => {
       </QueryClientProvider>,
     )
 
+  const oldEnvs = process.env
+
   beforeEach(() => {
     moxios.install()
+    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
   })
 
   afterEach(() => {
     moxios.uninstall()
+    process.env = oldEnvs
   })
 
   it('renders without crashing', () => {
@@ -61,7 +56,7 @@ describe('Nodes Page container', () => {
     const wrapper = createWrapper()
 
     moxios.stubRequest(
-      `${process.env.REACT_APP_DATA_URL}/topology/nodes/${NETWORK}`,
+      `${process.env.REACT_APP_DATA_URL}/topology/nodes/main`,
       {
         status: 200,
         response: mockNodes,
