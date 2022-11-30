@@ -96,18 +96,15 @@ class ValidatorsTable extends Component {
           {onNegativeUnl && <img src={infoOrange} title={d.unl} alt={d.unl} />}
         </td>
         <td className="version text-truncate">{d.server_version}</td>
-        {this.renderAgreement('h1', d.agreement_1hour)}
-        {this.renderAgreement('h24', d.agreement_24hour)}
+        {this.renderAgreement('h1', d.agreement_1h)}
+        {this.renderAgreement('h24', d.agreement_24h)}
         {this.renderAgreement('d30', d.agreement_30day)}
-        <td className="fee">
-          {d.load_fee ? `x${(d.load_fee / 256).toFixed(3)}` : ''}
-        </td>
         <td
           className="last-ledger"
           style={{ color }}
           title={d.partial ? 'partial validation' : undefined}
         >
-          <Link to={`/ledgers/${d.ledger_index}`}>{d.ledger_index}</Link>
+          <Link to={`/ledgers/${d.current_index}`}>{d.current_index}</Link>
           {d.partial && '*'}
         </td>
       </tr>
@@ -129,7 +126,6 @@ class ValidatorsTable extends Component {
             <th className="score h1">{t('1H')}</th>
             <th className="score h24">{t('24H')}</th>
             <th className="score d30">{t('30D')}</th>
-            <th className="fee">{t('fee')}</th>
             <th className="last-ledger">{t('ledger')}</th>
           </tr>
         </thead>

@@ -10,6 +10,13 @@ import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
 
+const ENV_NETWORK_MAP: Record<string, string> = {
+  mainnet: 'main',
+  testnet: 'test',
+  devnet: 'dev',
+  nft_sandbox: 'nft-dev',
+}
+
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
@@ -37,18 +44,20 @@ export const Validators = () => {
   }
 
   const fetchData = () => {
-    const url = '/api/v1/validators?verbose=true'
+    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT as string]
+    const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios
       .get(url)
-      .then((resp) => {
+      .then((resp) => resp.data.validators)
+      .then((validators) => {
         const newValidatorList: any = {}
-        resp.data.forEach((v: any) => {
+        validators.forEach((v: any) => {
           newValidatorList[v.signing_key] = v
         })
 
         setVList(() => mergeLatest(newValidatorList, vList))
-        setUnlCount(resp.data.filter((d: any) => Boolean(d.unl)).length)
+        setUnlCount(validators.filter((d: any) => Boolean(d.unl)).length)
       })
       .catch((e) => Log.error(e))
   }
