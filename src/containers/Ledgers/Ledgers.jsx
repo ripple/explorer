@@ -239,7 +239,8 @@ class Ledgers extends Component {
     const { ledgers, selected, tooltip } = this.state
     const { t, language } = this.props
     // eslint-disable-next-line react/destructuring-assignment
-    const isOnline = this.context.getState().online
+    const { online: isOnline } = this.context.getState()
+    console.log(isOnline)
     return (
       <div className="ledgers">
         {isOnline ? (

@@ -13,6 +13,7 @@ import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
 import { Ledger, ValidatorResponse } from './types'
 import NetworkContext from '../shared/NetworkContext'
+import SocketContext from '../shared/SocketContext'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
@@ -25,12 +26,30 @@ const LedgersPage = () => {
   const [selected, setSelected] = useState<string | null>(null)
   const [metrics, setMetrics] = useState(undefined)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
+  const [isReady, setIsReady] = useState(false)
   const { t, i18n } = useTranslation()
   const network = useContext(NetworkContext)
+  const rippledSocket = useContext(SocketContext)
 
   document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
 
   useEffect(() => {
+    // @ts-ignore
+    rippledSocket.ready().then(() => {
+      setIsReady(true)
+      // @ts-ignore
+      rippledSocket.on('online', () => {
+        setIsReady(true)
+      })
+      // @ts-ignore
+      rippledSocket.on('offline', () => {
+        setIsReady(false)
+      })
+    })
+  })
+
+  useEffect(() => {
+    /* @ts-ignore */
     analytics(ANALYTIC_TYPES.pageview, { title: 'Ledgers', path: '/' })
     return () => {
       window.scrollTo(0, 0)
@@ -77,10 +96,13 @@ const LedgersPage = () => {
   const pause = () => setPaused(!paused)
 
   const { language } = i18n
+  // // @ts-ignore
+  // console.log(rippledSocket.getState().online)
 
   return (
     <div className="ledgers-page">
-      {network && (
+      {/* @ts-ignore */}
+      {isReady && (
         <Streams
           validators={validators}
           updateLedgers={setLedgers}
