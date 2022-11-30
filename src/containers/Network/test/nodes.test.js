@@ -59,7 +59,7 @@ describe('Nodes Page container', () => {
       `${process.env.REACT_APP_DATA_URL}/topology/nodes/main`,
       {
         status: 200,
-        response: mockNodes,
+        response: { nodes: mockNodes },
       },
     )
 
