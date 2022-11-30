@@ -10,6 +10,7 @@ import { OfferCancelTransaction as OfferCancel } from './OfferCancel'
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
 import { PaymentTransaction as Payment } from './Payment'
 import { PaymentChannelClaimTransaction as PaymentChannelClaim } from './PaymentChannelClaim'
+import { PaymentChannelFundTransaction as PaymentChannelFund } from './PaymentChannelFund'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
 import { XChainAccountCreateCommitTransaction as XChainAccountCreateCommit } from './XChainAccountCreateCommit'
@@ -41,6 +42,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   OfferCreate,
   Payment,
   PaymentChannelClaim,
+  PaymentChannelFund,
   SetRegularKey,
   SignerListSet,
   XChainAccountCreateCommit,
