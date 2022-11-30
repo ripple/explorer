@@ -1,110 +1,112 @@
-[
-  {
-    "host": "169.44.60.105",
-    "in": 21,
-    "out": 50,
-    "pubkey_node": "n9KDJqdL5pebR35tkE4pRuZ7MhTvQGid8YqwjJajwrZUN5fEDxsZ",
-    "hostid": "LILY",
-    "server_state": "full",
-    "last_close": {
-      "converge_time_s": 3.002,
-      "proposers": 26
+{
+  "nodes": [
+    {
+      "ip": "169.44.60.105",
+      "inbound_count": 21,
+      "outbound_count": 50,
+      "node_public_key": "n9KDJqdL5pebR35tkE4pRuZ7MhTvQGid8YqwjJajwrZUN5fEDxsZ",
+      "hostid": "LILY",
+      "server_state": "full",
+      "last_close": {
+        "converge_time_s": 3.002,
+        "proposers": 26
+      },
+      "state_accounting": {
+        "connected": {
+          "duration": 382.5318,
+          "transitions": 1
+        },
+        "disconnected": {
+          "duration": 1.132517,
+          "transitions": 1
+        },
+        "full": {
+          "duration": 4964702.486372,
+          "transitions": 1
+        },
+        "syncing": {
+          "duration": 3.070643,
+          "transitions": 1
+        },
+        "tracking": {
+          "duration": 0.000009,
+          "transitions": 1
+        }
+      },
+      "complete_ledgers": "32570-44989400",
+      "io_latency_ms": 1,
+      "load_factor_server": 1,
+      "peers": 71,
+      "peer_disconnects": 280,
+      "peer_disconnects_resources": 55,
+      "validated_ledger": {
+        "ledger_index": 44989400,
+        "ledger_hash": "F316CE01C93F763C9A831A0708E107C367D82DC9D93DF71619571D826EF6EDB5",
+        "age": 5
+      },
+      "quorum": 21,
+      "version": "1.1.2",
+      "uptime": 4965089,
+      "lat": "42.36",
+      "long": "-71.10"
     },
-    "state_accounting": {
-      "connected": {
-        "duration": 382.5318,
-        "transitions": 1
-      },
-      "disconnected": {
-        "duration": 1.132517,
-        "transitions": 1
-      },
-      "full": {
-        "duration": 4964702.486372,
-        "transitions": 1
-      },
-      "syncing": {
-        "duration": 3.070643,
-        "transitions": 1
-      },
-      "tracking": {
-        "duration": 0.000009,
-        "transitions": 1
-      }
+    {
+      "node_public_key": "n9LkwyXNWRjYv7sR1Ks9D8XbEhabeNPH9nCNViYmV7ouFCj1mdAd",
+      "version": "1.2.0-rc2",
+      "uptime": 318727,
+      "inbound_count": 47,
+      "outbound_count": 8,
+      "lat": "42.27",
+      "long": "-83.71"
     },
-    "ledgers": "32570-44989400",
-    "latency": 1,
-    "load_factor": 1,
-    "peers": 71,
-    "peer_disconnects": 280,
-    "peer_disconnects_resources": 55,
-    "validated_ledger": {
-      "ledger_index": 44989400,
-      "ledger_hash": "F316CE01C93F763C9A831A0708E107C367D82DC9D93DF71619571D826EF6EDB5",
-      "age": 5
-    },
-    "quorum": 21,
-    "version": "1.1.2",
-    "uptime": 4965089,
-    "lat": "42.36",
-    "long": "-71.10"
-  },
-  {
-    "pubkey_node": "n9LkwyXNWRjYv7sR1Ks9D8XbEhabeNPH9nCNViYmV7ouFCj1mdAd",
-    "version": "1.2.0-rc2",
-    "uptime": 318727,
-    "in": 47,
-    "out": 8,
-    "lat": "42.27",
-    "long": "-83.71"
-  },
-  {
-    "host": "54.218.232.1",
-    "port": 51235,
-    "pubkey_node": "n9Kt2gdtxsYV6h4SAfHkRFUMU8gB6rDQ3MktiB3MMEDS9s9obu9b",
-    "version": "1.2.0-rc2",
-    "uptime": 322409,
-    "in": 106,
-    "out": 88,
-    "hostid": "ABUT",
-    "server_state": "full",
-    "last_close": {
-      "converge_time_s": 3.002,
-      "proposers": 26
-    },
-    "state_accounting": {
-      "connected": {
-        "duration": 189.370719,
-        "transitions": 1
+    {
+      "ip": "54.218.232.1",
+      "port": 51235,
+      "node_public_key": "n9Kt2gdtxsYV6h4SAfHkRFUMU8gB6rDQ3MktiB3MMEDS9s9obu9b",
+      "version": "rippled-1.2.0-rc2",
+      "uptime": 322409,
+      "inbound_count": 106,
+      "outbound_count": 88,
+      "hostid": "ABUT",
+      "server_state": "full",
+      "last_close": {
+        "converge_time_s": 3.002,
+        "proposers": 26
       },
-      "disconnected": {
-        "duration": 1.095056,
-        "transitions": 1
+      "state_accounting": {
+        "connected": {
+          "duration": 189.370719,
+          "transitions": 1
+        },
+        "disconnected": {
+          "duration": 1.095056,
+          "transitions": 1
+        },
+        "full": {
+          "duration": 322216.468535,
+          "transitions": 1
+        },
+        "syncing": {
+          "duration": 2.139793,
+          "transitions": 1
+        },
+        "tracking": {
+          "duration": 0.002662,
+          "transitions": 1
+        }
       },
-      "full": {
-        "duration": 322216.468535,
-        "transitions": 1
+      "complete_ledgers": "44110988-44989400",
+      "latency": 1,
+      "load_factor": 1,
+      "peers": 195,
+      "peer_disconnects": 33855,
+      "peer_disconnects_resources": 73,
+      "validated_ledger": {
+        "ledger_index": 44989400,
+        "ledger_hash": "F316CE01C93F763C9A831A0708E107C367D82DC9D93DF71619571D826EF6EDB5",
+        "age": 6
       },
-      "syncing": {
-        "duration": 2.139793,
-        "transitions": 1
-      },
-      "tracking": {
-        "duration": 0.002662,
-        "transitions": 1
-      }
-    },
-    "ledgers": "44110988-44989400",
-    "latency": 1,
-    "load_factor": 1,
-    "peers": 195,
-    "peer_disconnects": 33855,
-    "peer_disconnects_resources": 73,
-    "validated_ledger": {
-      "ledger_index": 44989400,
-      "ledger_hash": "F316CE01C93F763C9A831A0708E107C367D82DC9D93DF71619571D826EF6EDB5",
-      "age": 6
-    },
-    "quorum": 21
-  }
-]
+      "quorum": 21
+    }
+  ]
+}
