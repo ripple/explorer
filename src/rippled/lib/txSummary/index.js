@@ -1,10 +1,8 @@
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
-const PaymentChannelCreate = require('./PaymentChannelCreate')
 const EnableAmendment = require('./EnableAmendment')
 
 const summarize = {
-  PaymentChannelCreate,
   EnableAmendment,
 }
 
