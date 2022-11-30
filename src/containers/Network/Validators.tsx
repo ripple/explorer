@@ -13,7 +13,7 @@ import Hexagons from './Hexagons'
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const [vList, setVList] = useState<any>([])
+  const [vList, setVList] = useState<any>({})
   const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
@@ -99,7 +99,7 @@ export const Validators = () => {
       </div>
       <div className="wrap">
         <NetworkTabs selected="validators" />
-        <ValidatorsTable validators={vList} metrics={metrics} />
+        <ValidatorsTable validators={Object.values(vList)} metrics={metrics} />
       </div>
     </div>
   )
