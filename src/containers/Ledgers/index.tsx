@@ -34,19 +34,23 @@ const LedgersPage = () => {
   document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
 
   useEffect(() => {
+    const setIsReadyTrue = () => setIsReady(true)
+    const setIsReadyFalse = () => setIsReady(false)
     // @ts-ignore
     rippledSocket.ready().then(() => {
-      setIsReady(true)
+      setIsReadyTrue()
       // @ts-ignore
-      rippledSocket.on('online', () => {
-        setIsReady(true)
-      })
+      rippledSocket.on('online', setIsReadyTrue)
       // @ts-ignore
-      rippledSocket.on('offline', () => {
-        setIsReady(false)
-      })
+      rippledSocket.on('offline', setIsReadyFalse)
     })
-  })
+    return () => {
+      // @ts-ignore
+      rippledSocket.off('online', setIsReadyTrue)
+      // @ts-ignore
+      rippledSocket.off('offline', setIsReadyFalse)
+    }
+  }, [rippledSocket])
 
   useEffect(() => {
     /* @ts-ignore */
@@ -123,6 +127,7 @@ const LedgersPage = () => {
         selected={selected}
         setSelected={updateSelected}
         paused={paused}
+        isOnline={isReady}
       />
     </div>
   )
