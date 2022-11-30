@@ -67,6 +67,7 @@ const LedgersPage = () => {
         ? FETCH_INTERVAL_ERROR_MILLIS
         : FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
+    enabled: !!network,
   })
 
   const updateSelected = (pubkey: string) => {
