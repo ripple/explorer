@@ -14,7 +14,62 @@ import {
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 
-export const aggregateData = (validators: any[]) => {
+const ENV_NETWORK_MAP: Record<string, string> = {
+  mainnet: 'main',
+  testnet: 'test',
+  devnet: 'dev',
+  nft_sandbox: 'nft-dev',
+}
+
+interface ValidatorResponse {
+  // eslint-disable-next-line camelcase -- from VHS
+  validation_public_key: string
+  // eslint-disable-next-line camelcase -- from VHS
+  signing_key: string
+  // eslint-disable-next-line camelcase -- from VHS
+  master_key?: string
+  revoked?: boolean
+  domain: string
+  chain: string
+  networks?: string
+  // eslint-disable-next-line camelcase -- from VHS
+  current_index: number
+  // eslint-disable-next-line camelcase -- from VHS
+  server_version?: string
+  // eslint-disable-next-line camelcase -- from VHS
+  agreement_1h: {
+    missed: number
+    total: number
+    score: string
+    incomplete: boolean
+  } | null
+  // eslint-disable-next-line camelcase -- from VHS
+  agreement_24h: {
+    missed: number
+    total: number
+    score: string
+    incomplete: boolean
+  } | null
+  // eslint-disable-next-line camelcase -- from VHS
+  agreement_30day: {
+    missed: number
+    total: number
+    score: string
+    incomplete: boolean
+  } | null
+  partial: boolean
+  unl: boolean
+}
+
+interface DataAggregation {
+  label: string
+  value: number
+  count: number
+}
+
+export const aggregateData = (
+  validators: ValidatorResponse[],
+): DataAggregation[] => {
   if (!validators) {
     return []
   }
@@ -23,14 +78,18 @@ export const aggregateData = (validators: any[]) => {
   validators.reduce((aggregate, current) => {
     const aggregation = { ...aggregate }
     if (current.signing_key) {
-      const currentVersion = current.server_version ?? null
-      if (!aggregation[currentVersion]) {
+      const currentVersion = current.server_version
+      // @ts-ignore
+      if (currentVersion && !aggregation[currentVersion]) {
+        // @ts-ignore
         aggregation[currentVersion] = {
           server_version: currentVersion,
           count: 0,
         }
+        // @ts-ignore
         tempData.push(aggregation[currentVersion])
       }
+      // @ts-ignore
       aggregation[currentVersion].count += 1
       total += 1
     }
@@ -51,11 +110,11 @@ export const aggregateData = (validators: any[]) => {
 }
 
 export const UpgradeStatus = () => {
-  const [vList, setVList] = useState<any>({})
-  const [validations, setValidations] = useState([])
+  const [vList, setVList] = useState<Record<string, ValidatorResponse>>({})
+  const [validations, setValidations] = useState<ValidatorResponse[]>([])
   const [unlCount, setUnlCount] = useState(0)
   const [stableVersion, setStableVersion] = useState<string | null>(null)
-  const [aggregated, setAggregated] = useState<any>([])
+  const [aggregated, setAggregated] = useState<DataAggregation[]>([])
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -72,19 +131,21 @@ export const UpgradeStatus = () => {
   )
 
   const fetchData = () => {
-    const url = '/api/v1/validators?verbose=true'
+    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT as string]
+    const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios
       .get(url)
-      .then((resp) => {
-        const newValidatorList: any = {}
-        resp.data.forEach((validator: any) => {
+      .then((resp) => resp.data.validators)
+      .then((validators) => {
+        const newValidatorList: Record<string, ValidatorResponse> = {}
+        validators.forEach((validator: ValidatorResponse) => {
           newValidatorList[validator.signing_key] = validator
         })
 
         setVList(newValidatorList)
         setUnlCount(
-          resp.data.filter((validator: any) => Boolean(validator.unl)).length,
+          validators.filter((validator: any) => Boolean(validator.unl)).length,
         )
         setAggregated(aggregateData(Object.values(newValidatorList)))
       })
