@@ -16,7 +16,11 @@ export const Simple = ({
   const { t } = useTranslation()
   const { amount, source, destination, delay, cancelAfter, channel } =
     data.instructions
-  const cancelAfterDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)
+  const cancelAfterDate = localizeDate(
+    Date.parse(cancelAfter),
+    language,
+    DATE_OPTIONS,
+  )
 
   return (
     <>
@@ -36,7 +40,7 @@ export const Simple = ({
       )}
       {cancelAfter && (
         <SimpleRow label={t('cancel_after')} data-test="cancel-after">
-          {caDate} {DATE_OPTIONS.timeZone}
+          {cancelAfterDate} {DATE_OPTIONS.timeZone}
         </SimpleRow>
       )}
       {channel && (
