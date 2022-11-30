@@ -5,7 +5,6 @@ import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
-import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import SimpleTab from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18nTestConfig'
@@ -28,11 +27,6 @@ describe('SimpleTab container', () => {
 
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
-  })
-
-  it('renders PaymentChannelClaim without crashing', () => {
-    const wrapper = createWrapper(PaymentChannelClaim)
     wrapper.unmount()
   })
 
