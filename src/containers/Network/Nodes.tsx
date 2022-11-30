@@ -9,6 +9,47 @@ import Log from '../shared/log'
 import { FETCH_INTERVAL_NODES_MILLIS, localizeNumber } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 
+const ENV_NETWORK_MAP = {
+  mainnet: 'main',
+  testnet: 'test',
+  devnet: 'dev',
+  nft_sandbox: 'nft-dev',
+}
+
+const semverCompare = (a = '', b = '') => {
+  const chopa = a.split('+')[0]
+  const chopb = b.split('+')[0]
+  const pa = chopa.split('.')
+  const pb = chopb.split('.')
+
+  for (let i = 0; i < 3; i += 1) {
+    const na = Number(pa[i])
+    const nb = Number(pb[i])
+    if (na > nb) return 1
+    if (nb > na) return -1
+    if (!isNaN(na) && isNaN(nb)) return 1
+    if (isNaN(na) && !isNaN(nb)) return -1
+  }
+
+  return 0
+}
+
+const ledgerCompare = (a = 0, b = 0) => {
+  // @ts-ignore
+  const aLedger = a.validated_ledger ? a.validated_ledger.ledger_index : 0
+  // @ts-ignore
+  const bLedger = b.validated_ledger ? b.validated_ledger.ledger_index : 0
+  return bLedger === aLedger
+    ? // @ts-ignore
+      semverCompare(b.version, a.version)
+    : bLedger - aLedger
+}
+
+// @ts-ignore
+const NETWORK = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT]
+console.log(process.env.REACT_APP_ENVIRONMENT)
+console.log(NETWORK)
+
 export const Nodes = () => {
   const language = useLanguage()
   const { t } = useTranslation()
@@ -19,14 +60,51 @@ export const Nodes = () => {
 
   const fetchData = () =>
     axios
-      .get('/api/v1/nodes')
+      .get(`${process.env.REACT_APP_DATA_URL}/topology/nodes/${NETWORK}`)
       .then((resp) => {
-        const nodesWithLocations = resp.data.filter(
-          (node: any) => 'lat' in node,
-        )
+        console.log(resp.data)
+        return resp.data.nodes
+      })
+      .then((allNodes) => {
+        console.log(allNodes)
+        const nodes = allNodes.map((node: any) => ({
+          host: node.ip,
+          port: node.port,
+          pubkey_node: node.node_public_key,
+          version: node.version.startsWith('rippled')
+            ? node.version.split('-')[1]
+            : node.version,
+          ledgers: node.complete_ledgers,
+          uptime: node.uptime,
+          networks: node.networks,
+          validated_ledger: {
+            ledger_index: node.complete_ledgers
+              ? Number(node.complete_ledgers.split('-')[1])
+              : 0,
+          },
+          in: node.inbound_count,
+          out: node.outbound_count,
+          server_state: node.server_state,
+          latency: node.io_latency_ms,
+          load_factor: Number(node.load_factor_server),
+          lat: node.lat,
+          long: node.long,
+        }))
+
+        nodes.sort((a: any, b: any) => {
+          if (a.server_state === b.server_state) {
+            return ledgerCompare(a, b)
+          }
+          if (a.server_state && !b.server_state) {
+            return -1
+          }
+          return 1
+        })
+        console.log(nodes)
+        const nodesWithLocations = nodes.filter((node: any) => 'lat' in node)
         return {
-          nodes: resp.data,
-          unmapped: resp.data.length - nodesWithLocations.length,
+          nodes,
+          unmapped: nodes.length - nodesWithLocations.length,
           locations: nodesWithLocations,
         }
       })
