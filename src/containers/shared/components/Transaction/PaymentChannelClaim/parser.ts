@@ -1,4 +1,4 @@
-import { Meta } from '../../../transactionUtils'
+import type { Meta } from '../../../transactionUtils'
 import { PaymentChannelClaim, PaymentChannelClaimInstructions } from './types'
 
 const formatAmount = require('../../../../../rippled/lib/txSummary/formatAmount')

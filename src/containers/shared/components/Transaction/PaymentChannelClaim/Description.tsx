@@ -29,7 +29,7 @@ export const Description = ({
         <span className="channel">{data.tx.Channel}</span>
       </div>
       {data.tx.Balance && (
-        <div key="line3" data-test="balance-line">
+        <div data-test="balance-line">
           {t('the_channel_balance_is')}
           <b>
             {' '}

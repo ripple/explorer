@@ -19,7 +19,7 @@ describe('PaymentChannelClaim: Description', () => {
       `It will update the payment channel 50107651E7163E294CE0EAD8A20BF7CC046304480FCC9C74A49FFAB3F46FB98E`,
     )
     expect(wrapper.find('[data-test="balance-line"]')).toHaveText(
-      `The channel balance claimed is \uE90049.65716XRP (increased_by \uE9000.01XRP)`,
+      `The channel balance claimed is \uE90049.65716XRP (increased by \uE9000.01XRP)`,
     )
     expect(wrapper.find('[data-test="closed-line"]')).not.toExist()
     wrapper.unmount()
@@ -62,7 +62,7 @@ describe('PaymentChannelClaim: Description', () => {
       `It will update the payment channel 5DB01B7FFED6B67E6B0414DED11E051D2EE2B7619CE0EAA6286D67A3A4D5BDB3`,
     )
     expect(wrapper.find('[data-test="balance-line"]')).toHaveText(
-      `The channel balance claimed is \uE9001.00XRP (increased_by \uE9001.00XRP)`,
+      `The channel balance claimed is \uE9001.00XRP (increased by \uE9001.00XRP)`,
     )
     expect(wrapper.find('[data-test="closed-line"]')).not.toExist()
     wrapper.unmount()
