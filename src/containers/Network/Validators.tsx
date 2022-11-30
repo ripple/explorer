@@ -31,6 +31,7 @@ export const Validators = () => {
         ? FETCH_INTERVAL_ERROR_MILLIS
         : FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
+    enabled: process.env.REACT_APP_ENVIRONMENT !== 'custom' || !!network,
   })
 
   function mergeLatest(
