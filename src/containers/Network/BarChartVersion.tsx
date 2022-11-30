@@ -130,7 +130,7 @@ const BarChartVersion = (props: Props) => {
           <Legend
             align="right"
             verticalAlign="top"
-            content={renderLegend(stableVersion, t)}
+            content={() => renderLegend(stableVersion, t)}
           />
           <Tooltip
             content={<CustomTooltip />}
