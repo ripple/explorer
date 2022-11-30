@@ -16,7 +16,7 @@ export const Simple = ({
   const { t } = useTranslation()
   const { amount, source, destination, delay, cancelAfter, channel } =
     data.instructions
-  const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)
+  const cancelAfterDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)
 
   return (
     <>
