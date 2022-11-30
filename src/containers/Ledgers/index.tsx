@@ -10,6 +10,13 @@ import Ledgers from './Ledgers'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
+const ENV_NETWORK_MAP = {
+  mainnet: 'main',
+  testnet: 'test',
+  devnet: 'dev',
+  nft_sandbox: 'nft-dev',
+}
+
 interface ValidatorResponse {
   // eslint-disable-next-line camelcase -- from VHS
   signing_key: string
@@ -41,7 +48,9 @@ const LedgersPage = () => {
   }, [])
 
   const fetchValidators = () => {
-    const url = `/api/v1/validators`
+    // @ts-ignore
+    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT]
+    const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios
       .get(url)
