@@ -7,8 +7,6 @@
     "Flags": 2147483648,
     "SourceTag": 2460331042,
     "Sequence": 21,
-    "CancelAfter": 12345,
-    "Expiration": 12345,
     "LastLedgerSequence": 35982313,
     "SettleDelay": 3600,
     "Amount": "1000000",
