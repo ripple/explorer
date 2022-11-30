@@ -56,8 +56,8 @@ const renderLedgerHistory = (ledgers, range) => {
 
 const formatLedgerHistory = (nodes) =>
   nodes.map((d) => {
-    if (d.ledgers && typeof d.ledgers === 'string') {
-      const ranges = d.ledgers.split(',')
+    if (d.complete_ledgers && typeof d.complete_ledgers === 'string') {
+      const ranges = d.complete_ledgers.split(',')
       const ledgers = ranges
         .map((l) => {
           const local = l.split('-')
@@ -117,9 +117,9 @@ class NodesTable extends Component {
   renderNode = (node) => {
     const { ledgerRange } = this.state
     return (
-      <tr key={node.pubkey_node}>
-        <td className="pubkey text-truncate">{node.pubkey_node}</td>
-        <td className="host text-truncate">{node.host}</td>
+      <tr key={node.node_public_key}>
+        <td className="pubkey text-truncate">{node.node_public_key}</td>
+        <td className="ip text-truncate">{node.ip}</td>
         <td className="state center">
           <span className={node.server_state}>{node.server_state}</span>
         </td>
@@ -128,10 +128,12 @@ class NodesTable extends Component {
           {renderLastLedger(node.validated_ledger)}
         </td>
         <td className="uptime">{durationToHuman(node.uptime)}</td>
-        <td className="peers right">{node.in + node.out}</td>
+        <td className="peers right">
+          {node.inbound_count + node.outbound_count}
+        </td>
         <td className="in-out">
           <small>
-            ({node.in}:{node.out})
+            ({node.inbound_count}:{node.outbound_count})
           </small>
         </td>
         <td className="ledgers">
@@ -143,7 +145,9 @@ class NodesTable extends Component {
             ? node.load_factor.toFixed(2)
             : ''}
         </td>
-        <td className="latency right">{node.latency && node.latency > 1}</td>
+        <td className="latency right">
+          {node.io_latency_ms && node.io_latency_ms > 1}
+        </td>
       </tr>
     )
   }

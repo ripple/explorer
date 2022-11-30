@@ -47,8 +47,6 @@ const ledgerCompare = (a = 0, b = 0) => {
 
 // @ts-ignore
 const NETWORK = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT]
-console.log(process.env.REACT_APP_ENVIRONMENT)
-console.log(NETWORK)
 
 export const Nodes = () => {
   const language = useLanguage()
@@ -61,34 +59,21 @@ export const Nodes = () => {
   const fetchData = () =>
     axios
       .get(`${process.env.REACT_APP_DATA_URL}/topology/nodes/${NETWORK}`)
-      .then((resp) => {
-        console.log(resp.data)
-        return resp.data.nodes
-      })
+      .then((resp) => resp.data.nodes)
       .then((allNodes) => {
-        console.log(allNodes)
         const nodes = allNodes.map((node: any) => ({
-          host: node.ip,
-          port: node.port,
-          pubkey_node: node.node_public_key,
+          ...node,
           version: node.version.startsWith('rippled')
             ? node.version.split('-')[1]
             : node.version,
-          ledgers: node.complete_ledgers,
-          uptime: node.uptime,
-          networks: node.networks,
           validated_ledger: {
             ledger_index: node.complete_ledgers
               ? Number(node.complete_ledgers.split('-')[1])
               : 0,
           },
-          in: node.inbound_count,
-          out: node.outbound_count,
-          server_state: node.server_state,
-          latency: node.io_latency_ms,
-          load_factor: Number(node.load_factor_server),
-          lat: node.lat,
-          long: node.long,
+          load_factor: node.load_factor_server
+            ? Number(node.load_factor_server)
+            : null,
         }))
 
         nodes.sort((a: any, b: any) => {
@@ -100,8 +85,9 @@ export const Nodes = () => {
           }
           return 1
         })
-        console.log(nodes)
-        const nodesWithLocations = nodes.filter((node: any) => 'lat' in node)
+        const nodesWithLocations = nodes.filter(
+          (node: any) => 'lat' in node && 'long' in node,
+        )
         return {
           nodes,
           unmapped: nodes.length - nodesWithLocations.length,
