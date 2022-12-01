@@ -128,9 +128,11 @@ const BarChartVersion = (props: Props) => {
               ))}
           </Bar>
           <Legend
-            align="right"
             verticalAlign="top"
-            content={renderLegend(stableVersion, t)}
+            content={() => renderLegend(stableVersion, t)}
+            wrapperStyle={{
+              textAlign: 'right',
+            }}
           />
           <Tooltip
             content={<CustomTooltip />}
