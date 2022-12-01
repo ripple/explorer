@@ -1,10 +1,6 @@
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
-const EnableAmendment = require('./EnableAmendment')
-
-const summarize = {
-  EnableAmendment,
-}
+const summarize = {}
 
 const getInstructions = (tx, meta) => {
   const type = tx.TransactionType

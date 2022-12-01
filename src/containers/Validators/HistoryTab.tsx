@@ -63,16 +63,20 @@ export const HistoryTab = ({ reports }: HistoryTabProps) => {
 
   return (
     <table className="history-table basic">
-      <tr>
-        <th className="col-date">{t('validator_history.date')}</th>
-        <th className="col-chain">{t('validator_history.chain')}</th>
-        <th className="col-score">{t('validator_history.score')}</th>
-        <th className="col-total">{t('total')}</th>
-        <th className="col-missed">{t('validator_history.missed')}</th>
-      </tr>
+      <thead>
+        <tr>
+          <th className="col-date">{t('validator_history.date')}</th>
+          <th className="col-chain">{t('validator_history.chain')}</th>
+          <th className="col-score">{t('validator_history.score')}</th>
+          <th className="col-total">{t('total')}</th>
+          <th className="col-missed">{t('validator_history.missed')}</th>
+        </tr>
+      </thead>
       <tbody>
         {reports ? (
-          reports.map((report) => <ReportRow report={report} />)
+          reports.map((report) => (
+            <ReportRow report={report} key={report.date} />
+          ))
         ) : (
           <tr>
             <td colSpan={5}>
