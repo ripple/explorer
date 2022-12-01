@@ -72,6 +72,7 @@ export interface TransactionMapping {
 }
 
 export interface TransactionCommonFields {
+  date: string
   Account: string
   TransactionType: string
   Fee: string
