@@ -5,6 +5,8 @@ import { localizeDate } from './utils'
 const cachedAmendmentIDs: any = {}
 let cachedRippledVersions: any = {}
 
+const ACTIVE_AMENDMENT_REGEX = /^\s*REGISTER_F[A-Z]+\s*\((\S+),\s*.*$/
+const RETIRED_AMENDMENT_REGEX = /^ .*retireFeature\("(\S+)"\)[,;].*$/
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
   hour: 'numeric',
@@ -35,13 +37,12 @@ async function fetchAmendmentNames() {
 
   const amendmentNames: string[] = []
   text.split('\n').forEach((line: string) => {
-    const name = line.match(/^\s*REGISTER_F[A-Z]+\s*\((\S+),\s*.*$/)
+    const name = line.match(ACTIVE_AMENDMENT_REGEX)
     if (name) {
       amendmentNames.push(name[1])
-    }
-    const name2 = line.match(/^ .*retireFeature\("(\S+)"\)[,;].*$/)
-    if (name2) {
-      amendmentNames.push(name2[1])
+    } else {
+      const name2 = line.match(RETIRED_AMENDMENT_REGEX)
+      name2 && amendmentNames.push(name2[1])
     }
   })
   return amendmentNames
