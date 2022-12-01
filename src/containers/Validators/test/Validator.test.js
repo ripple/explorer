@@ -3,7 +3,7 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, useParams } from 'react-router-dom'
 import { BAD_REQUEST } from '../../shared/utils'
 import i18n from '../../../i18nTestConfig'
 import Validator from '../index'
@@ -17,6 +17,11 @@ const MOCK_IDENTIFIER = 'mock-validator-hash'
 jest.mock('../../../rippled', () => ({
   __esModule: true,
   getLedger: jest.fn(),
+}))
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: jest.fn(),
 }))
 
 function flushPromises() {
@@ -38,17 +43,13 @@ describe('Validator container', () => {
         () => {},
       ),
   ) => {
+    useParams.mockImplementation(() => ({ identifier: MOCK_IDENTIFIER }))
     getLedger.mockImplementation(getLedgerImpl)
     return mount(
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
           <Router>
-            <Validator
-              match={{
-                params: { identifier: MOCK_IDENTIFIER },
-                path: '/',
-              }}
-            />
+            <Validator />
           </Router>
         </I18nextProvider>
       </QueryClientProvider>,

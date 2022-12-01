@@ -52,6 +52,7 @@
         "**/test/*.json": true
     },
     "cSpell.words": [
+        "CUSTOMNETWORK",
         "Decomp",
         "Hant",
         "CUSTOMNETWORK",
@@ -60,6 +61,7 @@
         "camelcase",
         "chopa",
         "chopb",
+        "cimode",
         "fakenode",
         "healthz",
         "hexbin",

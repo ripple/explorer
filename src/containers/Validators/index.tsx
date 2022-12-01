@@ -55,7 +55,7 @@ const Validator = () => {
   const [width, setWidth] = useState(0)
   const ref = useRef<any>(null)
   const { t } = useTranslation()
-  const { language } = useLanguage()
+  const language = useLanguage()
   const rippledSocket = useContext(SocketContext)
 
   const { path = '/' } = useRouteMatch()
