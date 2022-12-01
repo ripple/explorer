@@ -95,7 +95,7 @@ const getLedgerRange = (data) => {
 
 const getVersion = (version) => {
   if (version && version.includes('+')) {
-    return version.split('+')
+    return version.split('+')[0]
   }
   return version
 }
