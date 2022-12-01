@@ -139,15 +139,23 @@ const Validator = () => {
     }
   }
 
-  useQuery(['fetchValidatorData'], async () => fetchValidatorData(), {
-    refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
-    refetchOnMount: true,
-  })
+  useQuery(
+    ['fetchValidatorData', identifier],
+    async () => fetchValidatorData(),
+    {
+      refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+      refetchOnMount: true,
+    },
+  )
 
-  useQuery(['fetchValidatorReport'], async () => fetchValidatorReport(), {
-    refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
-    refetchOnMount: true,
-  })
+  useQuery(
+    ['fetchValidatorReport', identifier],
+    async () => fetchValidatorReport(),
+    {
+      refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+      refetchOnMount: true,
+    },
+  )
 
   function renderSummary() {
     let name = 'Unknown Validator'
