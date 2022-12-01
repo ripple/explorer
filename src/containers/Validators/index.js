@@ -67,9 +67,15 @@ class Validator extends Component {
   fetchData = () => {
     const { match } = this.props
     const { identifier = '' } = match.params
-    axios.get(`/api/v1/validator_report/${identifier}`).then((resp) => {
-      this.setState({ reports: resp.data })
-    })
+    axios
+      .get(`${process.env.REACT_APP_DATA_URL}/validator/${identifier}/reports`)
+      .then((resp) => resp.data.reports)
+      .then((reports) => {
+        const sortedValidatorReports = reports.sort((a, b) =>
+          a.date > b.date ? -1 : 1,
+        )
+        this.setState({ reports: sortedValidatorReports })
+      })
   }
 
   renderSummary() {
@@ -114,7 +120,7 @@ class Validator extends Component {
 
   renderValidator() {
     const { reports } = this.state
-    const { t, data, width, match } = this.props
+    const { t, data, width, match, language } = this.props
     const { tab = 'details' } = match.params
     let body
 
@@ -123,7 +129,7 @@ class Validator extends Component {
         body = <HistoryTab reports={reports} />
         break
       default:
-        body = <SimpleTab t={t} data={data} width={width} />
+        body = <SimpleTab t={t} language={language} data={data} width={width} />
         break
     }
 
@@ -166,6 +172,7 @@ Validator.contextType = SocketContext
 
 Validator.propTypes = {
   t: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   width: PropTypes.number.isRequired,
   data: PropTypes.objectOf(
@@ -192,6 +199,7 @@ Validator.propTypes = {
 export default connect(
   (state) => ({
     loading: state.validator.loading, // refers to state object in rootReducer.js
+    language: state.app.language,
     data: state.validator.data,
     width: state.app.width,
   }),

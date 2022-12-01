@@ -393,5 +393,6 @@
   "nftoken_minter": "NFT Minter",
   "is_burned": "Burned",
   "fee_rate": "Fee Rate",
-  "last_affecting_transaction": "Last affecting tx"
+  "last_affecting_transaction": "Last affecting tx",
+  "increased_by": "increased by"
 }
