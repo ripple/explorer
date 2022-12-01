@@ -332,7 +332,7 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
 
 // Document: https://developers.google.com/analytics/devguides/collection/analyticsjs/
 export const analytics = (type = null, fields = {}) => {
-  // Chek if GoogleAnalytics is set, type and fields are not empty, type is valid
+  // Check if GoogleAnalytics is set, type and fields are not empty, type is valid
   if (
     !window.gtag ||
     !type ||

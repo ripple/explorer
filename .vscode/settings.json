@@ -52,6 +52,8 @@
         "**/test/*.json": true
     },
     "cSpell.words": [
+        "Decomp",
+        "Hant",
         "CUSTOMNETWORK",
         "MILLIS",
         "NFTSANDBOX",

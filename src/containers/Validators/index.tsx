@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
+import { useRouteMatch, useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
@@ -32,14 +33,9 @@ const ERROR_MESSAGES = {
 const getErrorMessage = (error: keyof typeof ERROR_MESSAGES | null) =>
   (error && ERROR_MESSAGES[error]) || ERROR_MESSAGES.default
 
-interface Props {
-  match: {
-    path?: string
-    params: {
-      identifier?: string
-      tab?: string
-    }
-  }
+interface Params {
+  identifier?: string
+  tab?: string
 }
 
 interface ValidatorData {
@@ -50,7 +46,7 @@ interface ValidatorData {
   signing_key?: string
 }
 
-const Validator = (props: Props) => {
+const Validator = () => {
   const [reports, setReports] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -58,10 +54,11 @@ const Validator = (props: Props) => {
   const [width, setWidth] = useState(0)
   const ref = useRef<any>(null)
   const { t, i18n } = useTranslation()
-  const rippledSocket = useContext(SocketContext)
-  const { match } = props
-  const { identifier = '', tab = 'details' } = match.params
   const { language } = i18n
+  const rippledSocket = useContext(SocketContext)
+
+  const { path = '/' } = useRouteMatch()
+  const { identifier = '', tab = 'details' } = useParams<Params>()
 
   useEffect(() => {
     let short = ''
@@ -179,7 +176,6 @@ const Validator = (props: Props) => {
   }
 
   function renderTabs() {
-    const { path = '/' } = match
     const tabs = ['details', 'history']
     // strips :url from the front and the identifier/tab info from the end
     const mainPath = `${path.split('/:')[0]}/${identifier}`
