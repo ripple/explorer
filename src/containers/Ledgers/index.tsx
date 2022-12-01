@@ -49,7 +49,7 @@ const LedgersPage = () => {
 
   const fetchValidators = () => {
     // @ts-ignore
-    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT]
+    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT] ?? ''
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios

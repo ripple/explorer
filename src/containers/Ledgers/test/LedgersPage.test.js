@@ -124,23 +124,25 @@ describe('Ledgers Page container', () => {
 
     moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/main`, {
       status: 200,
-      response: [
-        {
-          signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
-          master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-          unl: process.env.REACT_APP_VALIDATOR,
-        },
-        {
-          signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-          master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-          unl: process.env.REACT_APP_VALIDATOR,
-        },
-        {
-          signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
-          master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-          unl: null,
-        },
-      ],
+      response: {
+        validators: [
+          {
+            signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
+            master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
+            unl: process.env.REACT_APP_VALIDATOR,
+          },
+          {
+            signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
+            master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
+            unl: process.env.REACT_APP_VALIDATOR,
+          },
+          {
+            signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
+            master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
+            unl: null,
+          },
+        ],
+      },
     })
 
     moxios.stubRequest('/api/v1/metrics', {
@@ -225,25 +227,33 @@ describe('Ledgers Page container', () => {
       client.addResponses(rippledResponses)
       const wrapper = createWrapper()
 
-      moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/main`, {
+      moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/`, {
         status: 200,
-        response: [
-          {
-            signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
-            master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-            unl: process.env.REACT_APP_VALIDATOR,
-          },
-          {
-            signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-            master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-            unl: process.env.REACT_APP_VALIDATOR,
-          },
-          {
-            signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
-            master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-            unl: null,
-          },
-        ],
+        response: {
+          validators: [
+            {
+              signing_key:
+                'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
+              master_key:
+                'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
+              unl: process.env.REACT_APP_VALIDATOR,
+            },
+            {
+              signing_key:
+                'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
+              master_key:
+                'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
+              unl: process.env.REACT_APP_VALIDATOR,
+            },
+            {
+              signing_key:
+                'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
+              master_key:
+                'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
+              unl: null,
+            },
+          ],
+        },
       })
 
       expect(wrapper.find('.ledger').length).toBe(0)
