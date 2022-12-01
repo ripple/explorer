@@ -78,63 +78,9 @@ const TxDetails = (props: Props) => {
     )
   }
 
-  function renderPaymentChannelClaim(): ReactElement {
-    const { instructions } = props
-    const {
-      source,
-      destination,
-      claimed,
-      channel_amount: amount,
-      remaining,
-      renew,
-      close,
-      deleted,
-    } = instructions
-
-    return (
-      <div className="paymentChannelClaim">
-        {source && (
-          <div>
-            <span className="label">{t('source')}</span>
-            <span className="account"> {source} </span>
-          </div>
-        )}
-        {destination && (
-          <div>
-            <span className="label">{t('destination')}</span>
-            <span className="account"> {destination} </span>
-          </div>
-        )}
-        {claimed && (
-          <div>
-            <span className="label">{t('claimed')}</span>
-            {renderAmount(claimed)}
-            {remaining && amount && (
-              <span>
-                ({renderAmount(remaining)}
-                <span>{t('out_of')}</span>
-                {renderAmount(amount)}
-                {t('remaining')})
-              </span>
-            )}
-          </div>
-        )}
-        {amount && !claimed && (
-          <div>
-            <span className="label">{t('channel_amount')}</span>
-            {renderAmount(amount)}
-          </div>
-        )}
-        {renew && <div className="flag">{t('renew_channel')}</div>}
-        {close && <div className="flag">{t('close_request')}</div>}
-        {deleted && <div className="closed">{t('payment_channel_closed')}</div>}
-      </div>
-    )
-  }
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
     renderPaymentChannelCreate,
-    renderPaymentChannelClaim,
   }
 
   // Locate the component for detail row that is unique per TransactionType.
