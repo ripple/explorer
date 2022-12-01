@@ -1,0 +1,52 @@
+{
+  "tx": {
+    "Account": "rMphibGfHpLDU4DzVCspzLYVuMNpmzN6n8",
+    "Amount": "10000000",
+    "Destination": "rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN",
+    "Fee": "12",
+    "Flags": 2147483648,
+    "LastLedgerSequence": 41685537,
+    "PublicKey": "EDD1A0776D0ED2DB7D5D902EAD9FA5DA5F48C2617ECF96B1FC50BC77C0AF9CFCCB",
+    "Sequence": 2,
+    "SettleDelay": 3600,
+    "SigningPubKey": "0317F3AFB6C18B774ABEB358AE60E670921BF2B0D5791A581B9D4B0AF2CDA2929F",
+    "SourceTag": 2810223114,
+    "TransactionType": "PaymentChannelCreate",
+    "TxnSignature": "3045022100E779A52BE51B601A3B4E10ED82FA5ED18D1C85F1CAA16366ED2BF6DB13B328E502205866DE995B49180D2952AE3A365CE2A104D21C43CA730541161629BD80A9D95E",
+    "date": "2018-09-21T11:43:02Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rMphibGfHpLDU4DzVCspzLYVuMNpmzN6n8",
+            "Balance": "39999976",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 3
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "71EBC5CDFFE25A80A8D04D9DEAFFEF0127CD6EF940311E20BEC0679C16AB32F9",
+          "PreviousFields": {
+            "Balance": "39999988",
+            "Sequence": 2
+          },
+          "PreviousTxnID": "B24450EF9CE1D8A2AF18DA5625152EC72D93959BC6473E8D9C34D5051CACFFB1",
+          "PreviousTxnLgrSeq": 41685413
+        }
+      }
+    ],
+    "TransactionIndex": 40,
+    "TransactionResult": "tecUNFUNDED"
+  },
+  "hash": "689E7B2030D8E8C23CB0D2C6F86F8A46C0DFE018A2F0FCD773347590CAD8632F",
+  "ledger_index": 41685536,
+  "date": "2018-09-21T11:43:02Z"
+}

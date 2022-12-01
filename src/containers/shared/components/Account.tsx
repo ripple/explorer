@@ -2,13 +2,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export interface AccountProps {
-  link?: boolean
   account: string
+  link?: boolean
+  tag?: number
 }
 
 export const Account = (props: AccountProps) => {
-  const { link = true, account } = props
+  const { account, link = true, tag } = props
   const parts = account.split(':')
+  const computedTag = tag || parts[1]
 
   return (
     <>
@@ -21,7 +23,7 @@ export const Account = (props: AccountProps) => {
           {parts[0]}
         </span>
       )}
-      {parts[1] && <span className="dt">:{parts[1]}</span>}
+      {computedTag && <span className="dt">:{computedTag}</span>}
     </>
   )
 }

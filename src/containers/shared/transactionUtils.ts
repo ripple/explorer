@@ -119,7 +119,7 @@ export interface Memo {
   }
 }
 
-interface Tx {
+export interface Tx {
   Memos?: Memo[]
   TransactionType: string
   Flags?: number
