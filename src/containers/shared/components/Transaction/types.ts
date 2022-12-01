@@ -1,4 +1,5 @@
 import React from 'react'
+import { Memo } from '../../transactionUtils'
 
 export interface Instructions {
   owner: string
@@ -78,7 +79,7 @@ export interface TransactionCommonFields {
   AccountTxnID?: string
   Flags?: number
   LastLedgerSequence?: number
-  Memos?: object[]
+  Memos?: Memo[]
   Signers?: object[]
   SourceTag?: number
   SignerPubKey?: string
