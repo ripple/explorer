@@ -1,6 +1,7 @@
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
+import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
 import { NFTokenCancelOfferTransaction as NFTokenCancelOffer } from './NFTokenCancelOffer'
 import { NFTokenBurnTransaction as NFTokenBurn } from './NFTokenBurn'
@@ -34,6 +35,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
   AccountSet,
   DepositPreauth,
+  EnableAmendment,
   NFTokenMint,
   NFTokenCancelOffer,
   NFTokenBurn,

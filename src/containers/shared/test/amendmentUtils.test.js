@@ -1,6 +1,10 @@
-import EnableAmendment from '../Simple/EnableAmendment'
+import { getRippledVersion, nameOfAmendmentID } from '../amendmentUtils'
 
 const nameTable = [
+  [
+    '32A122F1352A4C7B3A6D790362CC34749C5E57FCE896377BFDC6CCD14F6CD627',
+    'NonFungibleTokensV1_1',
+  ],
   [
     '4C97EBA926031A7CF7D7B36FDE3ED66DDA5421192D63DE53FFB46E43B9DC8373',
     'MultiSign',
@@ -152,12 +156,18 @@ const nameTable = [
   ],
 ]
 
-it.each(nameTable)('Check all known amendment names', async (id, name) => {
-  const retrievedName = await EnableAmendment.nameOfAmendmentID(id)
-  return expect(retrievedName).toEqual(name)
+describe('nameOfAmendmentID: ', () => {
+  it.each(nameTable)(
+    `should resolve amendment id "%s" to "%s"`,
+    async (id, name) => {
+      const retrievedName = await nameOfAmendmentID(id)
+      return expect(retrievedName).toEqual(name)
+    },
+  )
 })
 
 const versionTable = [
+  ['NonFungibleTokensV1_1', 'v1.9.2'],
   ['fixAmendmentMajorityCalc', 'v1.6.0'],
   ['HardenedValidations', 'v1.6.0'],
   ['fix1781', 'v1.6.0'],
@@ -200,10 +210,12 @@ const versionTable = [
   ['SusPay', 'v0.31.0'],
 ]
 
-it.each(versionTable)(
-  'Check all known rippled versions',
-  async (name, expectedVersion) => {
-    const retrievedVersion = await EnableAmendment.getRippledVersion(name)
-    return expect(retrievedVersion).toEqual(expectedVersion)
-  },
-)
+describe('getRippledVersion:', () => {
+  it.each(versionTable)(
+    `should for amendment "%s" return the version "%s"`,
+    async (name, expectedVersion) => {
+      const retrievedVersion = await getRippledVersion(name)
+      return expect(retrievedVersion).toEqual(expectedVersion)
+    },
+  )
+})
