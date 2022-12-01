@@ -1,8 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import PaymentChannelCreate from './PaymentChannelCreate'
-import PaymentChannelClaim from './PaymentChannelClaim'
 import Sequence from '../../shared/components/Sequence'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
@@ -23,13 +21,6 @@ const TransactionDescription = (props) => {
 
   if (DescriptionComponent) {
     body = <DescriptionComponent data={data} />
-  }
-  // Locate the unique transaction component the old way
-  // TODO: Remove once all transactions have been moved to the new definition style
-  else if (data.tx.TransactionType === 'PaymentChannelCreate') {
-    body = <PaymentChannelCreate t={t} language={language} data={data} />
-  } else if (data.tx.TransactionType === 'PaymentChannelClaim') {
-    body = <PaymentChannelClaim t={t} language={language} data={data} />
   }
 
   return (
