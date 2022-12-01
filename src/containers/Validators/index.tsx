@@ -17,6 +17,7 @@ import { getLedger } from '../../rippled'
 import SimpleTab from './SimpleTab'
 import { HistoryTab } from './HistoryTab'
 import './validator.scss'
+import { useLanguage } from '../shared/hooks'
 import SocketContext from '../shared/SocketContext'
 
 const ERROR_MESSAGES = {
@@ -53,8 +54,8 @@ const Validator = () => {
   const [data, setData] = useState<ValidatorData>({})
   const [width, setWidth] = useState(0)
   const ref = useRef<any>(null)
-  const { t, i18n } = useTranslation()
-  const { language } = i18n
+  const { t } = useTranslation()
+  const { language } = useLanguage()
   const rippledSocket = useContext(SocketContext)
 
   const { path = '/' } = useRouteMatch()
