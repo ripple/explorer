@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import EnableAmendment from './EnableAmendment'
 import { transactionTypes } from '../../shared/components/Transaction'
 import { useLanguage } from '../../shared/hooks'
 
@@ -19,8 +18,6 @@ const Simple = (props) => {
   // Locate the unique transaction component the old way
   // TODO: Remove once all transactions have been moved to the new definition style
   switch (type) {
-    case 'EnableAmendment':
-      return <EnableAmendment t={t} language={language} data={data} />
     default:
       // Some transactions do not have simple views.
       return (
