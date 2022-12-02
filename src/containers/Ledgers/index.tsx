@@ -14,6 +14,7 @@ import Ledgers from './Ledgers'
 import { Ledger, ValidatorResponse } from './types'
 import NetworkContext from '../shared/NetworkContext'
 import SocketContext from '../shared/SocketContext'
+import { useLanguage } from '../shared/hooks'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
@@ -27,9 +28,10 @@ const LedgersPage = () => {
   const [metrics, setMetrics] = useState(undefined)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
   const [isReady, setIsReady] = useState(false)
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const network = useContext(NetworkContext)
   const rippledSocket = useContext(SocketContext)
+  const language = useLanguage()
 
   document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
 
@@ -98,10 +100,6 @@ const LedgersPage = () => {
   }
 
   const pause = () => setPaused(!paused)
-
-  const { language } = i18n
-  // // @ts-ignore
-  // console.log(rippledSocket.getState().online)
 
   return (
     <div className="ledgers-page">
