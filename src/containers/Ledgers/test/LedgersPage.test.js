@@ -160,6 +160,7 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.validation').length).toBe(0)
     expect(wrapper.find('.txn').length).toBe(0)
 
+    await sleep(250)
     server.send(prevLedgerMessage)
     await sleep(260)
     wrapper.update()
@@ -264,6 +265,7 @@ describe('Ledgers Page container', () => {
       expect(wrapper.find('.validation').length).toBe(0)
       expect(wrapper.find('.txn').length).toBe(0)
 
+      await sleep(260)
       server.send(prevLedgerMessage)
       await sleep(260)
       wrapper.update()
