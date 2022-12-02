@@ -13,7 +13,7 @@ import transactionFailed from './mock_data/NFTokenMintFailed.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18nTestConfig'
 import { convertHexToString } from '../../../../../../rippled/lib/utils'
-import { expectSimpleRowText } from '../../test'
+import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
 
 describe('NFTokenMint', () => {
   it('handles NFTokenMint that modified 2 nodes', () => {
@@ -34,10 +34,8 @@ describe('NFTokenMint', () => {
     )
     expectSimpleRowText(wrapper, 'token-taxon', '1')
     expectSimpleRowText(wrapper, 'token-uri', 'https://gregweisbrod.com')
-    expect(wrapper.find('[data-test="token-fee"] .value')).not.toExist()
-    expect(wrapper.find('[data-test="token-issuer"] .value').exists()).toBe(
-      false,
-    )
+    expectSimpleRowNotToExist(wrapper, 'token-fee')
+    expectSimpleRowNotToExist(wrapper, 'token-issuer')
     wrapper.unmount()
   })
 
@@ -61,10 +59,8 @@ describe('NFTokenMint', () => {
     )
     expectSimpleRowText(wrapper, 'token-taxon', '1')
     expectSimpleRowText(wrapper, 'token-uri', 'https://gregweisbrod.com')
-    expect(wrapper.find('[data-test="token-fee"] .value')).not.toExist()
-    expect(wrapper.find('[data-test="token-issuer"] .value').exists()).toBe(
-      false,
-    )
+    expectSimpleRowNotToExist(wrapper, 'token-fee')
+    expectSimpleRowNotToExist(wrapper, 'token-issuer')
     wrapper.unmount()
   })
 
@@ -88,10 +84,8 @@ describe('NFTokenMint', () => {
     )
     expectSimpleRowText(wrapper, 'token-taxon', '1')
     expectSimpleRowText(wrapper, 'token-uri', 'https://gregweisbrod.com')
-    expect(wrapper.find('[data-test="token-fee"] .value')).not.toExist()
-    expect(wrapper.find('[data-test="token-issuer"] .value').exists()).toBe(
-      false,
-    )
+    expectSimpleRowNotToExist(wrapper, 'token-fee')
+    expectSimpleRowNotToExist(wrapper, 'token-issuer')
     wrapper.unmount()
   })
 
@@ -106,9 +100,7 @@ describe('NFTokenMint', () => {
       </I18nextProvider>,
     )
 
-    expect(wrapper.find('[data-test="token-issuer"] .value').exists()).toBe(
-      true,
-    )
+    expect(wrapper.find('[data-test="token-issuer"] .value')).toExist()
     expectSimpleRowText(
       wrapper,
       'token-id',
@@ -169,7 +161,7 @@ describe('NFTokenMint', () => {
       </I18nextProvider>,
     )
 
-    expect(wrapper.find('[data-test="token-uri"] .value')).not.toExist()
+    expectSimpleRowNotToExist(wrapper, 'token-uri')
     wrapper.unmount()
   })
 
@@ -184,7 +176,7 @@ describe('NFTokenMint', () => {
       </I18nextProvider>,
     )
 
-    expect(wrapper.find('[data-test="token-id"] .value')).not.toExist()
+    expectSimpleRowNotToExist(wrapper, 'token-id')
     expectSimpleRowText(wrapper, 'token-taxon', '19')
     expectSimpleRowText(
       wrapper,
