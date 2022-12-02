@@ -51,7 +51,7 @@ export const aggregateData = (validators: any[]) => {
 }
 
 export const UpgradeStatus = () => {
-  const [vList, setVList] = useState<any>([])
+  const [vList, setVList] = useState<any>({})
   const [validations, setValidations] = useState([])
   const [unlCount, setUnlCount] = useState(0)
   const [stableVersion, setStableVersion] = useState<string | null>(null)

@@ -1,6 +1,7 @@
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
+import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
 import { NFTokenCancelOfferTransaction as NFTokenCancelOffer } from './NFTokenCancelOffer'
 import { NFTokenBurnTransaction as NFTokenBurn } from './NFTokenBurn'
@@ -9,6 +10,9 @@ import { NFTokenAcceptOfferTransaction as NFTokenAcceptOffer } from './NFTokenAc
 import { OfferCancelTransaction as OfferCancel } from './OfferCancel'
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
 import { PaymentTransaction as Payment } from './Payment'
+import { PaymentChannelClaimTransaction as PaymentChannelClaim } from './PaymentChannelClaim'
+import { PaymentChannelCreateTransaction as PaymentChannelCreate } from './PaymentChannelCreate'
+import { PaymentChannelFundTransaction as PaymentChannelFund } from './PaymentChannelFund'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
 import { XChainAccountCreateCommitTransaction as XChainAccountCreateCommit } from './XChainAccountCreateCommit'
@@ -31,6 +35,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
   AccountSet,
   DepositPreauth,
+  EnableAmendment,
   NFTokenMint,
   NFTokenCancelOffer,
   NFTokenBurn,
@@ -39,6 +44,9 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   OfferCancel,
   OfferCreate,
   Payment,
+  PaymentChannelCreate,
+  PaymentChannelClaim,
+  PaymentChannelFund,
   SetRegularKey,
   SignerListSet,
   XChainAccountCreateCommit,
