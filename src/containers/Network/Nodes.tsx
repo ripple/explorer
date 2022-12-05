@@ -24,24 +24,24 @@ const semverCompare = (a: string | undefined, b: string | undefined) => {
   if (b == null) {
     return 1
   }
-  const chopa = a.split('+')[0]
-  const chopb = b.split('+')[0]
-  const pa = chopa.split('.')
-  const pb = chopb.split('.')
+  const aWithoutCommitHash = a.split('+')[0]
+  const bWithoutCommitHash = b.split('+')[0]
+  const aVersionSplit = aWithoutCommitHash.split('.')
+  const bVersionSplit = bWithoutCommitHash.split('.')
 
   for (let i = 0; i < 3; i += 1) {
-    const na = Number(pa[i])
-    const nb = Number(pb[i])
-    if (na > nb) {
+    const aNumber = Number(aVersionSplit[i])
+    const bNumber = Number(bVersionSplit[i])
+    if (aNumber > bNumber) {
       return 1
     }
-    if (nb > na) {
+    if (bNumber > aNumber) {
       return -1
     }
-    if (!isNaN(na) && isNaN(nb)) {
+    if (!isNaN(aNumber) && isNaN(bNumber)) {
       return 1
     }
-    if (isNaN(na) && !isNaN(nb)) {
+    if (isNaN(aNumber) && !isNaN(bNumber)) {
       return -1
     }
   }
