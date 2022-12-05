@@ -19,6 +19,7 @@ import { HistoryTab } from './HistoryTab'
 import './validator.scss'
 import { useLanguage } from '../shared/hooks'
 import SocketContext from '../shared/SocketContext'
+import { ValidatorReport } from './types'
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -45,10 +46,14 @@ interface ValidatorData {
   master_key?: string
   // eslint-disable-next-line camelcase -- from VHS
   signing_key?: string
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  ledger_index?: string
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  ledger_hash?: string
 }
 
 const Validator = () => {
-  const [reports, setReports] = useState([])
+  const [reports, setReports] = useState<ValidatorReport[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [data, setData] = useState<ValidatorData>({})
@@ -90,8 +95,8 @@ const Validator = () => {
     axios
       .get(`${process.env.REACT_APP_DATA_URL}/validator/${identifier}/reports`)
       .then((resp) => resp.data.reports)
-      .then((vhsReports) => {
-        const sortedValidatorReports = vhsReports.sort((a: any, b: any) =>
+      .then((vhsReports: ValidatorReport[]) => {
+        const sortedValidatorReports = vhsReports.sort((a, b) =>
           a.date > b.date ? -1 : 1,
         )
         setReports(sortedValidatorReports)
