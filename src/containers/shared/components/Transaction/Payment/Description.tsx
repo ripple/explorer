@@ -21,13 +21,13 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
           }}
         />
       </div>
-      {data.tx.SourceTag != undefined && (
+      {data.tx.SourceTag != null && (
         <div data-test="source-tag-line">
           {t('the_source_tag_is')}
           <b>{data.tx.SourceTag}</b>
         </div>
       )}
-      {data.tx.DestinationTag != undefined && (
+      {data.tx.DestinationTag != null && (
         <div data-test="destination-tag-line">
           {t('the_destination_tag_is')} <b>{data.tx.DestinationTag}</b>
         </div>

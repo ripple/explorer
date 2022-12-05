@@ -1,37 +1,11 @@
 @import '../shared/css/variables';
 
 .simple-body-validator {
-  .rows {
-    .row {
-      .value {
-        img {
-          height: 16px;
-        }
-      }
-    }
-
-    .not-supported {
-      padding: 50px;
-      color: #c97;
-      font-size: 14px;
-      text-align: center;
-
-      .type {
-        margin: 0 5px;
-        @include bold;
-      }
-    }
-  }
-
-  .index {
-    .val {
-      .unl.yes {
-        color: #292;
-
-        img {
-          height: 16px;
-          padding-top: 2px;
-        }
+  .row {
+    .unl {
+      img {
+        height: 16px;
+        padding-top: 2px;
       }
     }
   }
