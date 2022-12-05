@@ -77,7 +77,7 @@ describe('NFTokenAcceptOffer', () => {
       'rNYKGnHrjSnKXQGgACciyCLg4xRcwWZixN',
     )
     expect(wrapper.find('[data-test="seller"] .value')).toHaveText(
-      'rpZqTPC8GvrSvEfFsUuHkmPCg29GdQuXhC',
+      'rnp9DA6H2tLH7YFkgpjoVREB2yccYv56Sg',
     )
     wrapper.unmount()
   })
