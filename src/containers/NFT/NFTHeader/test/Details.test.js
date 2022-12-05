@@ -1,5 +1,5 @@
 import React from 'react'
-import Enzyme, { mount } from 'enzyme'
+import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { Details } from '../Details'
@@ -10,7 +10,7 @@ describe('NFT Details container', () => {
     NFTId: '0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000C',
     ledgerIndex: 2436210,
     owner: 'rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W',
-    isBurned: false,
+    isBurned: true,
     flags: ['lsfBurnable', 'lsfOnlyXRP'],
     transferFee: 0,
     issuer: 'rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W',
@@ -42,7 +42,7 @@ describe('NFT Details container', () => {
 
   it('renders defined fields', () => {
     const wrapper = createWrapper()
-    expect(wrapper.find('.row').length).toEqual(5)
+    expect(wrapper.find('.row').length).toEqual(7)
     expect(wrapper.text()).toEqual(
       expect.stringContaining(
         'bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',

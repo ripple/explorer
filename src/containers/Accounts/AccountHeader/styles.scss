@@ -55,18 +55,18 @@
     .amm {
       margin: 0px;
       color: $white;
-      font-size: 20px;
+      font-size: 18px;
       padding-right: 10px;
       display: inline-block;
       border-bottom: none;
       @include bold;
 
       @include for-size(tablet-landscape-up) {
-        font-size: 12px;
+        font-size: 10px;
       }
 
       @include for-size(desktop-up) {
-        font-size: 25px;
+        font-size: 23px;
       }
     }
   }

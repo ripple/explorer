@@ -15,6 +15,7 @@ export interface AccountFormattedInfo {
   gravatar?: any
   previousTxn?: string
   previousLedger?: number
+  nftMinter?: string
 }
 
 /**

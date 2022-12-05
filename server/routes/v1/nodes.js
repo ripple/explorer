@@ -99,5 +99,5 @@ module.exports = (req, res) => {
   if (Date.now() - (cache.time || 0) > 60 * 1000) {
     cacheNodes()
   }
-  res.send(cache.nodes || [])
+  res.status(200).json(cache.nodes || [])
 }

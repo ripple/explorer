@@ -8,6 +8,8 @@ import Tooltip from '../shared/components/Tooltip'
 import './css/ledgers.scss'
 import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
+import Loader from '../shared/components/Loader'
+import SocketContext from '../shared/SocketContext'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -116,7 +118,7 @@ class Ledgers extends Component {
 
   renderTxnCount = (count) => {
     const { t } = this.props
-    return count != undefined ? (
+    return count !== undefined ? (
       <div className="txn-count">
         {t('txn_count')}:<b>{count.toLocaleString()}</b>
       </div>
@@ -127,7 +129,7 @@ class Ledgers extends Component {
     const { t, language } = this.props
     const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
     const amount = localizeNumber(d, language, options)
-    return d != undefined ? (
+    return d !== undefined ? (
       <div className="fees">
         {t('fees')}:<b>{amount}</b>
       </div>
@@ -236,20 +238,28 @@ class Ledgers extends Component {
   render() {
     const { ledgers, selected, tooltip } = this.state
     const { t, language } = this.props
+    // eslint-disable-next-line react/destructuring-assignment
+    const isOnline = this.context.getState().online
     return (
-      <>
-        <div className="ledgers">
-          <div className="control">{selected && this.renderSelected()}</div>
-          <div className="ledger-line" />
-          <div className="ledger-list">
-            {ledgers.map(this.renderLedger)}{' '}
-            <Tooltip t={t} language={language} data={tooltip} />
-          </div>
-        </div>
-      </>
+      <div className="ledgers">
+        {isOnline ? (
+          <>
+            <div className="control">{selected && this.renderSelected()}</div>
+            <div className="ledger-line" />
+            <div className="ledger-list">
+              {ledgers.map(this.renderLedger)}{' '}
+              <Tooltip t={t} language={language} data={tooltip} />
+            </div>{' '}
+          </>
+        ) : (
+          <Loader />
+        )}
+      </div>
     )
   }
 }
+
+Ledgers.contextType = SocketContext
 
 Ledgers.propTypes = {
   ledgers: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line

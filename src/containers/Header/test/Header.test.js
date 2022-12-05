@@ -97,16 +97,16 @@ describe('Header component', () => {
       wrapper.unmount()
     })
 
-    it('redirect on sidechain input works', () => {
+    it('redirect on custom network input works', () => {
       const wrapper = createWrapper()
 
-      const sidechainInput = wrapper.find('[className="sidechain_input"]')
-      sidechainInput.prop('onKeyDown')({
+      const customInput = wrapper.find('[className="custom_network_input"]')
+      customInput.prop('onKeyDown')({
         key: 'Enter',
-        currentTarget: { value: 'sidechain_url' },
+        currentTarget: { value: 'custom_url' },
       })
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`,
+        `${process.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
       )
 
       wrapper.unmount()

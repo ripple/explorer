@@ -4,29 +4,8 @@ import 'containers/shared/css/nested-menu.scss'
 import 'containers/Accounts/AccountHeader/styles.scss'
 import 'containers/Accounts/AccountHeader/balance-selector.scss'
 import { AmmDataType } from '../index'
-import { localizeNumber } from '../../../../shared/utils'
-
-const localizeBalance = (
-  balance: { currency: string; amount: number },
-  language: string,
-) => {
-  let b = localizeNumber(balance.amount || 0.0, language, {
-    style: 'currency',
-    currency: balance.currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  })
-
-  if (
-    balance.currency !== 'XRP' &&
-    balance.currency !== 'BTC' &&
-    balance.currency !== 'ETH'
-  ) {
-    b = `${balance.currency} ${b}`
-  }
-
-  return b
-}
+import { localizeNumber, localizeBalance } from '../../../../shared/utils'
+import Currency from '../../../../shared/components/Currency'
 
 const AMMAccountHeader = (props: AmmDataType) => {
   const {
@@ -37,17 +16,22 @@ const AMMAccountHeader = (props: AmmDataType) => {
     lpBalance,
     accountId,
     language,
+    tvl,
   } = props
   const { t } = useTranslation()
-
   const b1 = localizeBalance(balance, language)
   const b2 = localizeBalance(balance2, language)
-
+  const tradingFeeTotal = 1000
+  const localizedTVL = tvl
+    ? localizeBalance({ currency: 'USD', amount: tvl }, language)
+    : undefined
   const lp = localizeNumber(lpBalance, language, {
-    style: 'currency',
-    currency: '',
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
+  })
+  const tf = localizeNumber(tradingFee / tradingFeeTotal, language, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 3,
   })
 
   function renderHeaderContent() {
@@ -67,9 +51,15 @@ const AMMAccountHeader = (props: AmmDataType) => {
             <div className="value">{b2}</div>
           </div>
           <div className="values">
-            <div className="title">{t('amm_trading_fee')}</div>
-            <div className="value">{tradingFee}</div>
+            <div className="title">{t('trading_fee')}</div>
+            <div className="value">%{tf}</div>
           </div>
+          {localizedTVL && (
+            <div className="values">
+              <div className="title">{t('amm_tvl')}</div>
+              <div className="value">{localizedTVL}</div>
+            </div>
+          )}
           <div className="values">
             <div className="title">{t('amm_account_address')}</div>
             <div className="value">{accountId}</div>
@@ -85,7 +75,8 @@ const AMMAccountHeader = (props: AmmDataType) => {
         <div className="amm-title">AMMID</div>
         <h2 className="amm">{ammId}</h2>
         <div className="currency-pair">
-          {balance.currency}/{balance2.currency}
+          <Currency {...balance} showIssuer={false} />/
+          <Currency {...balance2} showIssuer={false} />
         </div>
       </div>
       <div className="box-content">{renderHeaderContent()}</div>

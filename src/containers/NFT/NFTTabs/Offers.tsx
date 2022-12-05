@@ -34,7 +34,7 @@ export const Offers = (props: Props) => {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    [offerType],
+    [offerType, tokenId],
     ({ pageParam = '' }) =>
       fetchOffers(rippledSocket, tokenId, undefined, pageParam),
     {
@@ -85,7 +85,9 @@ export const Offers = (props: Props) => {
             <tr key="noInfo" className="no-info-panel">
               <td colSpan={3}>
                 <div className="no-info-content">
-                  {t('no_additional_info')}
+                  {offerType === 'BuyOffers'
+                    ? t('no_buy_offers')
+                    : t('no_sell_offers')}
                   <img src={noInfo} alt="noInfo" />
                 </div>
               </td>

@@ -51,7 +51,7 @@ export const aggregateData = (validators: any[]) => {
 }
 
 export const UpgradeStatus = () => {
-  const [vList, setVList] = useState<any>([])
+  const [vList, setVList] = useState<any>({})
   const [validations, setValidations] = useState([])
   const [unlCount, setUnlCount] = useState(0)
   const [stableVersion, setStableVersion] = useState<string | null>(null)
@@ -86,7 +86,7 @@ export const UpgradeStatus = () => {
         setUnlCount(
           resp.data.filter((validator: any) => Boolean(validator.unl)).length,
         )
-        setAggregated(aggregateData(Object.values(vList)))
+        setAggregated(aggregateData(Object.values(newValidatorList)))
       })
       .catch((e) => Log.error(e))
   }

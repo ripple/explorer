@@ -8,16 +8,18 @@ export interface Props {
   issuer?: string
   currency: string
   link?: boolean
+  showIssuer?: boolean
 }
 
 const Currency = (props: Props) => {
-  const { issuer, currency, link = true } = props
+  const { issuer, currency, link = true, showIssuer = true } = props
   const currencyCode =
     currency?.length === NON_STANDARD_CODE_LENGTH
       ? hexToString(currency)
       : currency
 
-  const display = issuer ? `${currencyCode}.${issuer}` : currencyCode
+  const display =
+    issuer && showIssuer ? `${currencyCode}.${issuer}` : currencyCode
   const content =
     link && issuer ? (
       <Link to={`/token/${currency}.${issuer}`}>{display}</Link>

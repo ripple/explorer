@@ -1,4 +1,5 @@
 import React from 'react'
+import { Memo } from '../../transactionUtils'
 
 export interface Instructions {
   owner: string
@@ -17,14 +18,6 @@ export interface Instructions {
   maxSigners: number
   signers: any[]
   domain: string
-  // eslint-disable-next-line camelcase
-  email_hash: string
-  // eslint-disable-next-line camelcase
-  message_key: string
-  // eslint-disable-next-line camelcase
-  set_flag: number
-  // eslint-disable-next-line camelcase
-  clear_flag: number
   key: string
   limit: any
   pair: string
@@ -79,6 +72,7 @@ export interface TransactionMapping {
 }
 
 export interface TransactionCommonFields {
+  date: string
   Account: string
   TransactionType: string
   Fee: string
@@ -86,7 +80,7 @@ export interface TransactionCommonFields {
   AccountTxnID?: string
   Flags?: number
   LastLedgerSequence?: number
-  Memos?: object[]
+  Memos?: Memo[]
   Signers?: object[]
   SourceTag?: number
   SignerPubKey?: string

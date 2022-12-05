@@ -92,6 +92,7 @@ class MockWsClient extends EventEmitter {
    */
   send(message) {
     if (this.debug) {
+      // eslint-disable-next-line no-console -- For testing purposes
       console.log(message)
     }
     if (this.returnError) {
@@ -99,6 +100,17 @@ class MockWsClient extends EventEmitter {
     }
     const { command } = message
     return Promise.resolve(this.responses[command]?.result)
+  }
+
+  /**
+   * Mocks the `send` method on XrplClient.
+   * @param message The message to rippled.
+   * @returns a Promise result. If `this.returnError` has been set to `true`,
+   * the promise will be rejected with an empty shape.
+   */
+  // eslint-disable-next-line class-methods-use-this -- not needed for a mock
+  getState() {
+    return { online: true }
   }
 }
 

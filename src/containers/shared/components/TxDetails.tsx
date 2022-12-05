@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation, withTranslation } from 'react-i18next'
-import { ACCOUNT_FLAGS, decodeHex } from '../transactionUtils'
 import { Amount } from './Amount'
 import { transactionTypes } from './Transaction'
 
@@ -22,14 +21,6 @@ interface Instructions {
   maxSigners: number
   signers: any[]
   domain: string
-  // eslint-disable-next-line camelcase
-  email_hash: string
-  // eslint-disable-next-line camelcase
-  message_key: string
-  // eslint-disable-next-line camelcase
-  set_flag: number
-  // eslint-disable-next-line camelcase
-  clear_flag: number
   key: string
   limit: any
   pair: string
@@ -65,64 +56,6 @@ const TxDetails = (props: Props) => {
     return <Amount value={d} />
   }
 
-  function renderAccountSet(): ReactElement {
-    const { instructions } = props
-    return (
-      <>
-        {instructions.domain && (
-          <div>
-            <span className="label">{t('domain')}:</span>{' '}
-            <span className="domain">{decodeHex(instructions.domain)}</span>
-          </div>
-        )}
-        {instructions.email_hash && (
-          <div>
-            <span className="label">{t('email_hash')}:</span>{' '}
-            <span className="email-hash">{instructions.email_hash}</span>
-          </div>
-        )}
-        {instructions.message_key && (
-          <div>
-            <span className="label">{t('message_key')}:</span>{' '}
-            <span className="message-key">{instructions.message_key}</span>
-          </div>
-        )}
-        {instructions.set_flag && (
-          <div>
-            <span className="label">{t('set_flag')}:</span>{' '}
-            <span className="flag">
-              {ACCOUNT_FLAGS[Number(instructions.set_flag)] ||
-                instructions.set_flag}
-            </span>
-          </div>
-        )}
-        {instructions.clear_flag && (
-          <div>
-            <span className="label">{t('clear_flag')}:</span>{' '}
-            <span className="flag">
-              {ACCOUNT_FLAGS[Number(instructions.clear_flag)] ||
-                instructions.clear_flag}
-            </span>
-          </div>
-        )}
-        {Object.keys(instructions).length === 0 && (
-          <div className="empty">{t('no_account_settings')}</div>
-        )}
-      </>
-    )
-  }
-
-  function renderTrustSet(): ReactElement {
-    const { instructions } = props
-    const { limit } = instructions
-    return (
-      <div className="trustset">
-        <span className="label">{t('set_limit')}</span>
-        {renderAmount(limit)}
-      </div>
-    )
-  }
-
   function renderPaymentChannelCreate(): ReactElement {
     const { instructions } = props
     const { amount, source, destination } = instructions
@@ -145,65 +78,9 @@ const TxDetails = (props: Props) => {
     )
   }
 
-  function renderPaymentChannelClaim(): ReactElement {
-    const { instructions } = props
-    const {
-      source,
-      destination,
-      claimed,
-      channel_amount: amount,
-      remaining,
-      renew,
-      close,
-      deleted,
-    } = instructions
-
-    return (
-      <div className="paymentChannelClaim">
-        {source && (
-          <div>
-            <span className="label">{t('source')}</span>
-            <span className="account"> {source} </span>
-          </div>
-        )}
-        {destination && (
-          <div>
-            <span className="label">{t('destination')}</span>
-            <span className="account"> {destination} </span>
-          </div>
-        )}
-        {claimed && (
-          <div>
-            <span className="label">{t('claimed')}</span>
-            {renderAmount(claimed)}
-            {remaining && amount && (
-              <span>
-                ({renderAmount(remaining)}
-                <span>{t('out_of')}</span>
-                {renderAmount(amount)}
-                {t('remaining')})
-              </span>
-            )}
-          </div>
-        )}
-        {amount && !claimed && (
-          <div>
-            <span className="label">{t('channel_amount')}</span>
-            {renderAmount(amount)}
-          </div>
-        )}
-        {renew && <div className="flag">{t('renew_channel')}</div>}
-        {close && <div className="flag">{t('close_request')}</div>}
-        {deleted && <div className="closed">{t('payment_channel_closed')}</div>}
-      </div>
-    )
-  }
   const { type = '', instructions } = props
   const functionMap: { [key: string]: () => ReactElement | null } = {
-    renderAccountSet,
-    renderTrustSet,
     renderPaymentChannelCreate,
-    renderPaymentChannelClaim,
   }
 
   // Locate the component for detail row that is unique per TransactionType.
@@ -239,10 +116,6 @@ TxDetails.propTypes = {
     maxSigners: PropTypes.number,
     signers: PropTypes.arrayOf(PropTypes.shape({})),
     domain: PropTypes.string,
-    email_hash: PropTypes.string,
-    message_key: PropTypes.string,
-    set_flag: PropTypes.number,
-    clear_flag: PropTypes.number,
     key: PropTypes.string,
     limit: PropTypes.shape({}),
     pair: PropTypes.string,

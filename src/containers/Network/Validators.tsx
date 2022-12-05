@@ -13,7 +13,7 @@ import Hexagons from './Hexagons'
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const [vList, setVList] = useState<any>([])
+  const [vList, setVList] = useState<any>({})
   const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
@@ -22,6 +22,19 @@ export const Validators = () => {
     refetchInterval: FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
   })
+
+  const mergeLatest = (validators: any = {}, live: any = {}) => {
+    const updated: any = {}
+    const keys = new Set(Object.keys(validators).concat(Object.keys(live)))
+    keys.forEach((d: string) => {
+      updated[d] = validators[d] || live[d]
+      if (live[d] && live[d].ledger_index > updated[d].ledger_index) {
+        updated[d].ledger_index = live[d].ledger_index
+        updated[d].ledger_hash = live[d].ledger_hash
+      }
+    })
+    return updated
+  }
 
   const fetchData = () => {
     const url = '/api/v1/validators?verbose=true'
@@ -34,7 +47,7 @@ export const Validators = () => {
           newValidatorList[v.signing_key] = v
         })
 
-        setVList(() => newValidatorList)
+        setVList(() => mergeLatest(newValidatorList, vList))
         setUnlCount(resp.data.filter((d: any) => Boolean(d.unl)).length)
       })
       .catch((e) => Log.error(e))
@@ -48,11 +61,12 @@ export const Validators = () => {
       newValidations.forEach((validation: any) => {
         newValidatorsList[validation.pubkey] = {
           ...value[validation.pubkey],
+          signing_key: validation.pubkey,
           ledger_index: validation.ledger_index,
           ledger_hash: validation.ledger_hash,
         }
       })
-      return newValidatorsList
+      return mergeLatest(newValidatorsList, vList)
     })
   }
 
@@ -85,7 +99,7 @@ export const Validators = () => {
       </div>
       <div className="wrap">
         <NetworkTabs selected="validators" />
-        <ValidatorsTable validators={vList} metrics={metrics} />
+        <ValidatorsTable validators={Object.values(vList)} metrics={metrics} />
       </div>
     </div>
   )

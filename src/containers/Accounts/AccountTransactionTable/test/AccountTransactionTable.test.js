@@ -1,46 +1,56 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
-import { applyMiddleware, createStore } from 'redux'
-import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
+import { QueryClientProvider } from 'react-query'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
-import rootReducer, { initialState } from '../../../../rootReducer'
 import i18n from '../../../../i18nTestConfig'
 import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
-import * as actionTypes from '../actionTypes'
-import { loadAccountTransactions } from '../actions'
+import { getAccountTransactions } from '../../../../rippled'
+import { queryClient } from '../../../shared/QueryClient'
 
-jest.mock('../actions', () => ({
+jest.mock('../../../../rippled', () => ({
   __esModule: true,
-  loadAccountTransactions: jest.fn(),
+  getAccountTransactions: jest.fn(),
 }))
 
 const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 
-describe('AccountTransactionTable', () => {
+function flushPromises() {
+  return new Promise((resolve) => setImmediate(resolve))
+}
+
+queryClient.setDefaultOptions({
+  queries: {
+    ...queryClient.defaultQueryOptions(),
+    cacheTime: 0,
+  },
+})
+
+describe('AccountTransactionsTable container', () => {
   const createWrapper = (
-    state = {},
-    loadAccountTransactionsImpl = () => () => {},
+    getAccountTransactionsImpl = () =>
+      new Promise(
+        () => {},
+        () => {},
+      ),
+    currencySelected = null,
   ) => {
-    loadAccountTransactions.mockImplementation(loadAccountTransactionsImpl)
-    const store = createStore(rootReducer, applyMiddleware(thunk))
+    getAccountTransactions.mockImplementation(getAccountTransactionsImpl)
     return mount(
-      <I18nextProvider i18n={i18n}>
-        <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18n}>
           <Router>
-            <AccountTransactionTable accountId={TEST_ACCOUNT_ID} />
+            <AccountTransactionTable
+              accountId={TEST_ACCOUNT_ID}
+              hasTokensColumn={state.hasToken}
+              currencySelected={currencySelected}
+            />
           </Router>
-        </Provider>
-      </I18nextProvider>,
+        </I18nextProvider>
+      </QueryClientProvider>,
     )
   }
-
-  it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
-  })
 
   it('renders static parts', () => {
     const wrapper = createWrapper()
@@ -49,35 +59,20 @@ describe('AccountTransactionTable', () => {
   })
 
   it('renders loader when fetching data', () => {
-    const state = { ...initialState }
-    state.accountTransactions.loading = true
-    const wrapper = createWrapper(state)
+    const wrapper = createWrapper()
     expect(wrapper.find('.loader').length).toBe(1)
     wrapper.unmount()
   })
 
-  it('does not render loader if we have offline data', () => {
-    const state = {
-      ...initialState,
-      accountTransactions: {
-        loading: true,
-        data: TEST_TRANSACTIONS_DATA,
-      },
-    }
-    const wrapper = createWrapper(state)
-    expect(wrapper.find('.loader').length).toBe(1)
-    wrapper.unmount()
-  })
+  it('renders dynamic content with transaction data', async () => {
+    const component = createWrapper(() =>
+      Promise.resolve(TEST_TRANSACTIONS_DATA),
+    )
 
-  it('renders dynamic content with transaction data', (done) => {
-    const component = createWrapper({}, () => (dispatch) => {
-      dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS })
-      dispatch({
-        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
-        data: TEST_TRANSACTIONS_DATA,
-      })
-    })
+    await flushPromises()
+    component.update()
 
+    expect(component.find('.col-token').length).toBe(0)
     expect(component.find('.load-more-btn').length).toBe(1)
     expect(component.find('.transaction-table').length).toBe(1)
     expect(component.find('.transaction-li.transaction-li-header').length).toBe(
@@ -85,5 +80,67 @@ describe('AccountTransactionTable', () => {
     )
     expect(component.find(Link).length).toBe(40)
     done()
+  })
+
+  it('renders dynamic content with transaction data and token column', (done) => {
+    const component = createWrapper({ hasToken: true }, () => (dispatch) => {
+      dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS })
+      dispatch({
+        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
+        data: TEST_TRANSACTIONS_DATA,
+      })
+    })
+
+    expect(component.find('.col-token').length).toBeGreaterThan(0)
+    expect(component.find('.load-more-btn').length).toBe(1)
+    expect(component.find('.transaction-table').length).toBe(1)
+    expect(component.find('.transaction-li.transaction-li-header').length).toBe(
+      1,
+    )
+    expect(component.find(Link).length).toBe(40)
+
+    component.find('.load-more-btn').simulate('click')
+    expect(getAccountTransactions).toHaveBeenCalledWith(
+      TEST_ACCOUNT_ID,
+      undefined,
+      '44922483.5',
+      undefined,
+      undefined,
+    )
+
+    component.unmount()
+  })
+
+  it('renders error message when request fails', async () => {
+    const component = createWrapper(() => Promise.reject())
+
+    await flushPromises()
+    component.update()
+
+    expect(component.find('.load-more-btn')).not.toExist()
+    expect(component.find('.transaction-table')).toExist()
+    expect(component.find('.empty-transactions-message')).toHaveText(
+      'get_account_transactions_failed',
+    )
+    expect(component.find(Link).length).toBe(0)
+    component.unmount()
+  })
+
+  it('renders try loading more message when no filtered results show but there is a marker', async () => {
+    const component = createWrapper(
+      () => Promise.resolve(TEST_TRANSACTIONS_DATA),
+      'EUR',
+    )
+
+    await flushPromises()
+    component.update()
+
+    expect(component.find('.load-more-btn')).toExist()
+    expect(component.find('.transaction-table')).toExist()
+    expect(component.find('.empty-transactions-message')).toHaveText(
+      'get_account_transactions_try',
+    )
+    expect(component.find(Link).length).toBe(0)
+    component.unmount()
   })
 })

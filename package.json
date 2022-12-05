@@ -16,13 +16,13 @@
     "d3-geo": "^1.11.3",
     "d3-hexbin": "^0.2.2",
     "d3-scale": "^2.2.2",
-    "debug": "^4.3.4",
-    "dotenv": "^5.0.1",
+    "debug": "^4.3.1",
+    "dotenv": "^16.0.3",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
+    "enzyme-adapter-react-16": "^1.15.7",
     "express": "^4.18.1",
-    "i18next": "^21.6.16",
-    "i18next-browser-languagedetector": "^6.1.4",
+    "i18next": "^22.0.6",
+    "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^1.4.0",
     "jest-enzyme": "^7.1.0",
     "moment": "^2.29.4",
@@ -44,13 +44,14 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "rewire": "^6.0.0",
-    "ripple-address-codec": "^4.1.2",
+    "ripple-address-codec": "^4.2.4",
     "topojson-client": "^3.0.0",
     "ws": "^7.4.2",
-    "xrpl-client": "^1.9.4"
+    "xrpl-client": "^2.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
+    "@testing-library/react": "^12.1.2",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.186",
@@ -182,6 +183,12 @@
     },
     "rules": {
       "import/no-unresolved": 0,
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ],
       "prettier/prettier": [
         "error",
         {

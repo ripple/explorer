@@ -122,14 +122,17 @@ const BarChartVersion = (props: Props) => {
             {stableVersion &&
               data.map((_entry, index) => (
                 <Cell
+                  key={data[index].label}
                   fill={stableColorCode(data[index].label, stableVersion)}
                 />
               ))}
           </Bar>
           <Legend
-            align="right"
             verticalAlign="top"
-            content={renderLegend(stableVersion, t)}
+            content={() => renderLegend(stableVersion, t)}
+            wrapperStyle={{
+              textAlign: 'right',
+            }}
           />
           <Tooltip
             content={<CustomTooltip />}

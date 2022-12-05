@@ -312,7 +312,7 @@ const getNFToffers = (
   limit = 50,
   marker = '',
 ) =>
-  queryP2P(rippledSocket, {
+  query(rippledSocket, {
     command: offerCmd,
     nft_id: tokenId,
     limit,
@@ -431,16 +431,16 @@ const getOffers = (
 
 // AMM Additions
 
-const getAMMInfo = (rippledSocket, asset1, asset2) => {
+const getAMMInfo = (rippledSocket, asset, asset2) => {
   const request = {
     command: 'amm_info',
-    asset1,
+    asset,
     asset2,
     ledger_index: 'validated',
   }
 
   return query(rippledSocket, request).then((resp) => {
-    if (resp.error_message || !resp.validated) {
+    if (resp.error_message || !resp.amm.validated) {
       throw new Error('meep meep', 404)
     }
 

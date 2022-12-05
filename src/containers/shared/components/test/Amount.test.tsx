@@ -112,4 +112,14 @@ describe('Amount', () => {
     expect(wrapper.find('.amount-localized').text()).toEqual('\uE9000.001')
     wrapper.unmount()
   })
+
+  it('handles modifier', () => {
+    const value = '9000'
+    const wrapper = createWrapper(
+      <Amount value={value} displayIssuer={false} modifier="+" />,
+    )
+    expect(wrapper.find('.currency').text()).toEqual('XRP')
+    expect(wrapper.find('.amount-localized').text()).toEqual('+\uE9000.009')
+    wrapper.unmount()
+  })
 })

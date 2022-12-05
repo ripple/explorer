@@ -8,6 +8,10 @@ $ledger-width: 168px;
   flex-direction: column;
   justify-content: center;
   margin: 1% 0 auto;
+
+  .loader {
+    position: inherit;
+  }
 }
 
 .ledgers {
@@ -71,7 +75,7 @@ $ledger-width: 168px;
     display: flex;
     padding: 0 0 40px 32px;
     margin: -45px 16px 20px;
-    overflow-x: auto;
+    overflow-x: hidden;
   }
 
   .ledger-line {
@@ -81,25 +85,34 @@ $ledger-width: 168px;
   }
 
   .ledger {
-    min-width: $ledger-width;
-    max-width: $ledger-width;
-    margin: 0 0 0 32px;
+    overflow: visible;
+    width: $ledger-width;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-left: 32px;
     animation-duration: 0.4s;
     animation-name: ledger-enter;
     white-space: normal;
 
     &:first-child {
-      margin: 0;
+      margin-left: 0;
+    }
+
+    > * {
+      min-width: $ledger-width;
+      float: right;
     }
   }
 
   @keyframes ledger-enter {
     from {
-      max-width: 0;
+      width: 0;
+      margin-left: -32px;
     }
 
     to {
-      max-width: 168px;
+      width: $ledger-width;
+      margin-left: 0;
     }
   }
 
