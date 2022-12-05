@@ -53,7 +53,6 @@ interface ValidatorData {
 }
 
 const Validator = () => {
-  const [reports, setReports] = useState<ValidatorReport[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [data, setData] = useState<ValidatorData>({})
@@ -91,61 +90,59 @@ const Validator = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- actually needed here, not sure why it's complaining
   }, [ref.current])
 
-  function fetchValidatorReport() {
-    axios
+  function fetchValidatorReport(): Promise<ValidatorReport[]> {
+    return axios
       .get(`${process.env.REACT_APP_DATA_URL}/validator/${identifier}/reports`)
       .then((resp) => resp.data.reports)
       .then((vhsReports: ValidatorReport[]) => {
         const sortedValidatorReports = vhsReports.sort((a, b) =>
           a.date > b.date ? -1 : 1,
         )
-        setReports(sortedValidatorReports)
+        return sortedValidatorReports
       })
   }
 
   function fetchValidatorData() {
-    if (
-      identifier &&
-      identifier !== data.master_key &&
-      identifier !== data.signing_key
-    ) {
-      const url = `${process.env.REACT_APP_DATA_URL}/validator/${identifier}`
-      axios
-        .get(url)
-        .then((resp) => resp.data)
-        .then((response) => {
-          if (!response.ledger_hash) {
-            getLedger(response.current_index, rippledSocket).then(
-              (ledgerData) => {
-                setData({
-                  ...response,
-                  ledger_hash: ledgerData.ledger_hash,
-                  last_ledger_time: ledgerData.close_time,
-                })
-                setIsLoading(false)
-              },
-            )
-          } else {
-            setData(response)
-            setIsLoading(false)
-          }
-        })
-        .catch((axiosError) => {
-          const status =
-            axiosError.response && axiosError.response.status
-              ? axiosError.response.status
-              : SERVER_ERROR
-          analytics(ANALYTIC_TYPES.exception, {
-            exDescription: `${url} --- ${JSON.stringify(axiosError)}`,
-          })
-          setError(status)
+    const url = `${process.env.REACT_APP_DATA_URL}/validator/${identifier}`
+    axios
+      .get(url)
+      .then((resp) => resp.data)
+      .then((response) => {
+        if (!response.ledger_hash) {
+          getLedger(response.current_index, rippledSocket).then(
+            (ledgerData) => {
+              setData({
+                ...response,
+                ledger_hash: ledgerData.ledger_hash,
+                last_ledger_time: ledgerData.close_time,
+              })
+              setIsLoading(false)
+            },
+          )
+        } else {
+          setData(response)
           setIsLoading(false)
+        }
+      })
+      .catch((axiosError) => {
+        const status =
+          axiosError.response && axiosError.response.status
+            ? axiosError.response.status
+            : SERVER_ERROR
+        analytics(ANALYTIC_TYPES.exception, {
+          exDescription: `${url} --- ${JSON.stringify(axiosError)}`,
         })
-    }
+        setError(status)
+        setIsLoading(false)
+      })
   }
 
   useQuery(
-    ['fetchValidatorData', identifier],
+    [
+      'fetchValidatorData',
+      identifier,
+      identifier === data.master_key || identifier === data.signing_key,
+    ],
     async () => fetchValidatorData(),
     {
       refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
@@ -153,8 +150,12 @@ const Validator = () => {
     },
   )
 
-  useQuery(
-    ['fetchValidatorReport', identifier],
+  const { data: reports } = useQuery(
+    [
+      'fetchValidatorReport',
+      identifier,
+      identifier === data.master_key || identifier === data.signing_key,
+    ],
     async () => fetchValidatorReport(),
     {
       refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
@@ -201,7 +202,7 @@ const Validator = () => {
 
     switch (tab) {
       case 'history':
-        body = <HistoryTab reports={reports} />
+        body = <HistoryTab reports={reports ?? []} />
         break
       default:
         body = <SimpleTab language={language} t={t} data={data} width={width} />
