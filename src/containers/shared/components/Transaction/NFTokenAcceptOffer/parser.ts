@@ -26,11 +26,11 @@ export const parser: TransactionParser<
     // If in brokered mode, we must fetch both of the NFTokenOffer nodes
     // in order to fetch the seller and buyer from each
     const buyOfferNode = acceptedOfferNodes.find(
-      (node: any) => !node.DeletedNode?.FinalFields?.Destination,
+      (node: any) => node.DeletedNode?.FinalFields?.Flags === 0,
     )?.DeletedNode?.FinalFields
 
     const sellOfferNode = acceptedOfferNodes.find(
-      (node: any) => node.DeletedNode?.FinalFields?.Destination,
+      (node: any) => node.DeletedNode?.FinalFields?.Flags === 1,
     )?.DeletedNode?.FinalFields
 
     return {
