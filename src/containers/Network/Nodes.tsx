@@ -50,8 +50,8 @@ const semverCompare = (a: string | undefined, b: string | undefined) => {
 }
 
 const ledgerCompare = (a: NodeData, b: NodeData) => {
-  const aLedger = a.validated_ledger ? a.validated_ledger.ledger_index : 0
-  const bLedger = b.validated_ledger ? b.validated_ledger.ledger_index : 0
+  const aLedger = a.validated_ledger.ledger_index
+  const bLedger = b.validated_ledger.ledger_index
   return bLedger === aLedger
     ? semverCompare(b.version, a.version)
     : bLedger - aLedger
