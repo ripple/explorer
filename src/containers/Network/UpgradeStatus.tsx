@@ -117,13 +117,17 @@ export const UpgradeStatus = () => {
 
   const updateValidators = (newValidations: StreamValidator[]) => {
     setValidations(newValidations)
-    setVList((validatorList: any) => {
-      const newValidatorsList: any = { ...validatorList }
-      newValidations.forEach((validation: any) => {
-        newValidatorsList[validation.pubkey] = {
-          ...validatorList[validation.pubkey],
-          ledger_index: validation.ledger_index,
-          ledger_hash: validation.ledger_hash,
+    setVList((validatorList) => {
+      const newValidatorsList: Record<string, StreamValidator> = {
+        ...validatorList,
+      }
+      newValidations.forEach((validation) => {
+        if (validation.pubkey) {
+          newValidatorsList[validation.pubkey] = {
+            ...validatorList[validation.pubkey],
+            ledger_index: validation.ledger_index,
+            ledger_hash: validation.ledger_hash,
+          }
         }
       })
       return newValidatorsList
