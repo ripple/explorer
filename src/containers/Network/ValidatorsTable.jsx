@@ -80,6 +80,7 @@ class ValidatorsTable extends Component {
     const pubkey = d.master_key || d.signing_key
     const onNegativeUnl = metrics.nUnl && metrics.nUnl.includes(pubkey)
     const nUnl = onNegativeUnl ? 'yes' : 'no'
+    const ledgerIndex = d.ledger_index ?? d.current_index
 
     return (
       <tr key={pubkey}>
@@ -104,7 +105,7 @@ class ValidatorsTable extends Component {
           style={{ color }}
           title={d.partial ? 'partial validation' : undefined}
         >
-          <Link to={`/ledgers/${d.current_index}`}>{d.current_index}</Link>
+          <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
           {d.partial && '*'}
         </td>
       </tr>

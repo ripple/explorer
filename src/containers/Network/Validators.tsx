@@ -35,7 +35,10 @@ export const Validators = () => {
     const keys = new Set(Object.keys(validators).concat(Object.keys(live)))
     keys.forEach((d: string) => {
       updated[d] = validators[d] || live[d]
-      if (live[d] && live[d].ledger_index > updated[d].ledger_index) {
+      if (updated[d].ledger_index == null && live[d] && live[d].ledger_index) {
+        // VHS uses `current_index` instead of `ledger_index`
+        // If `ledger_index` isn't defined, then we're still using the VHS data,
+        // instead of the Streams data
         updated[d].ledger_index = live[d].ledger_index
         updated[d].ledger_hash = live[d].ledger_hash
       }
