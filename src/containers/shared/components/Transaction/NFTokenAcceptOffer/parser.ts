@@ -6,9 +6,18 @@ export const parser: TransactionParser<
   NFTokenAcceptOffer,
   NFTokenAcceptOfferInstructions
 > = (tx, meta) => {
-  const acceptedOfferNode = meta.AffectedNodes.find(
+  let acceptedOfferNode
+  const acceptedOfferNodes = meta.AffectedNodes.filter(
     (node: any) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
-  )?.DeletedNode?.FinalFields
+  )
+
+  if (acceptedOfferNodes.length === 1) {
+    acceptedOfferNode = acceptedOfferNodes[0].DeletedNode?.FinalFields
+  } else {
+    acceptedOfferNode = acceptedOfferNodes.find(
+      (node: any) => !node.DeletedNode?.FinalFields?.Destination,
+    )?.DeletedNode?.FinalFields
+  }
 
   const acceptedOfferIDs = []
   if (tx.NFTokenBuyOffer) {

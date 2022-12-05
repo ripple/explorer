@@ -3,6 +3,7 @@ import { Simple } from '../Simple'
 import transactionBuy from './mock_data/NFTokenAcceptOffer_Buy.json'
 import transactionSell from './mock_data/NFTokenAcceptOffer_Sell.json'
 import transactionFailure from './mock_data/NFTokenAcceptOffer_Failure.json'
+import transactionBroker from './mock_data/NFTokenAcceptOffer_Broker.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
@@ -59,6 +60,25 @@ describe('NFTokenAcceptOffer', () => {
     expect(wrapper.find('[data-test="amount"]')).not.toExist()
     expect(wrapper.find('[data-test="buyer"]')).not.toExist()
     expect(wrapper.find('[data-test="seller"]')).not.toExist()
+    wrapper.unmount()
+  })
+
+  it('handles NFTokenAcceptOffer from Broker simple view ', () => {
+    const wrapper = createWrapper(transactionBroker)
+
+    expect(wrapper.find('[data-test="token-id"] .value')).toHaveText(
+      '00081B581189F5687DBB7516339D6CCB5593D96622AD82DF08CFDA8600000A17',
+    )
+    expect(wrapper.find('[data-test="offer-id"] .value').length).toBe(2)
+    expect(wrapper.find('[data-test="amount"] .value')).toHaveText(
+      '\uE9002,500.00 XRP',
+    )
+    expect(wrapper.find('[data-test="buyer"] .value')).toHaveText(
+      'rNYKGnHrjSnKXQGgACciyCLg4xRcwWZixN',
+    )
+    expect(wrapper.find('[data-test="seller"] .value')).toHaveText(
+      'rpZqTPC8GvrSvEfFsUuHkmPCg29GdQuXhC',
+    )
     wrapper.unmount()
   })
 })
