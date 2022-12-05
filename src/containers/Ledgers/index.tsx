@@ -7,30 +7,22 @@ import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import Streams from '../shared/components/Streams'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
+import { Ledger, ValidatorResponse } from './types'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
-const ENV_NETWORK_MAP = {
+const ENV_NETWORK_MAP: Record<string, string> = {
   mainnet: 'main',
   testnet: 'test',
   devnet: 'dev',
   nft_sandbox: 'nft-dev',
 }
 
-interface ValidatorResponse {
-  // eslint-disable-next-line camelcase -- from VHS
-  signing_key: string
-  // eslint-disable-next-line camelcase -- from VHS
-  master_key: string
-  unl: string
-  domain: string | null
-}
-
 const LedgersPage = () => {
   const [validators, setValidators] = useState<
     Record<string, ValidatorResponse>
   >({})
-  const [ledgers, setLedgers] = useState([])
+  const [ledgers, setLedgers] = useState<Ledger[]>([])
   const [paused, setPaused] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
   const [metrics, setMetrics] = useState(undefined)
@@ -40,7 +32,6 @@ const LedgersPage = () => {
   document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
 
   useEffect(() => {
-    /* @ts-ignore */
     analytics(ANALYTIC_TYPES.pageview, { title: 'Ledgers', path: '/' })
     return () => {
       window.scrollTo(0, 0)
@@ -48,8 +39,8 @@ const LedgersPage = () => {
   }, [])
 
   const fetchValidators = () => {
-    // @ts-ignore
-    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT] ?? ''
+    const network =
+      ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT ?? ''] ?? ''
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios
