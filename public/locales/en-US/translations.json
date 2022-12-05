@@ -394,5 +394,6 @@
   "is_burned": "Burned",
   "fee_rate": "Fee Rate",
   "last_affecting_transaction": "Last affecting tx",
-  "increased_by": "increased by"
+  "increased_by": "increased by",
+  "Version": "Version"
 }

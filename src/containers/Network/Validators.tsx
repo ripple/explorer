@@ -9,6 +9,7 @@ import Log from '../shared/log'
 import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
+import { ValidatorResponse } from './types'
 
 const ENV_NETWORK_MAP: Record<string, string> = {
   mainnet: 'main',
@@ -17,10 +18,19 @@ const ENV_NETWORK_MAP: Record<string, string> = {
   nft_sandbox: 'nft-dev',
 }
 
+interface StreamValidator extends ValidatorResponse {
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  ledger_index?: number
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  ledger_hash?: string
+  pubkey?: string
+  time?: string
+}
+
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const [vList, setVList] = useState<any>({})
+  const [vList, setVList] = useState<Record<string, StreamValidator>>({})
   const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
@@ -30,23 +40,27 @@ export const Validators = () => {
     refetchOnMount: true,
   })
 
-  const mergeLatest = (validators: any = {}, live: any = {}) => {
-    const updated: any = {}
+  function mergeLatest(
+    validators: Record<string, ValidatorResponse>,
+    live: Record<string, StreamValidator>,
+  ): Record<string, StreamValidator> {
+    const updated: Record<string, StreamValidator> = {}
     const keys = new Set(Object.keys(validators).concat(Object.keys(live)))
     keys.forEach((d: string) => {
-      updated[d] = validators[d] || live[d]
-      if (updated[d].ledger_index == null && live[d] && live[d].ledger_index) {
+      const newData: StreamValidator = validators[d] || live[d]
+      if (newData.ledger_index == null && live[d] && live[d].ledger_index) {
         // VHS uses `current_index` instead of `ledger_index`
         // If `ledger_index` isn't defined, then we're still using the VHS data,
         // instead of the Streams data
-        updated[d].ledger_index = live[d].ledger_index
-        updated[d].ledger_hash = live[d].ledger_hash
+        newData.ledger_index = live[d].ledger_index
+        newData.ledger_hash = live[d].ledger_hash
       }
+      updated[d] = newData
     })
     return updated
   }
 
-  const fetchData = () => {
+  function fetchData(): void {
     const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT as string]
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
@@ -54,8 +68,8 @@ export const Validators = () => {
       .get(url)
       .then((resp) => resp.data.validators)
       .then((validators) => {
-        const newValidatorList: any = {}
-        validators.forEach((v: any) => {
+        const newValidatorList: Record<string, ValidatorResponse> = {}
+        validators.forEach((v: ValidatorResponse) => {
           newValidatorList[v.signing_key] = v
         })
 
@@ -65,11 +79,11 @@ export const Validators = () => {
       .catch((e) => Log.error(e))
   }
 
-  const updateValidators = (newValidations: any[]) => {
+  function updateValidators(newValidations: StreamValidator[]): void {
     // @ts-ignore - Work around type assignment for complex validation data types
     setValidations(newValidations)
-    setVList((value: any) => {
-      const newValidatorsList: any = { ...value }
+    setVList((value) => {
+      const newValidatorsList: Record<string, StreamValidator> = { ...value }
       newValidations.forEach((validation: any) => {
         newValidatorsList[validation.pubkey] = {
           ...value[validation.pubkey],
@@ -78,7 +92,7 @@ export const Validators = () => {
           ledger_hash: validation.ledger_hash,
         }
       })
-      return mergeLatest(newValidatorsList, vList)
+      return mergeLatest(newValidatorsList, value)
     })
   }
 

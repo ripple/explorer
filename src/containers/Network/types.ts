@@ -39,3 +39,43 @@ export interface NodeData extends NodeResponse {
   // eslint-disable-next-line camelcase -- mimicking rippled
   load_factor: number | null
 }
+
+export interface ValidatorResponse {
+  // eslint-disable-next-line camelcase -- from VHS
+  validation_public_key: string
+  // eslint-disable-next-line camelcase -- from VHS
+  signing_key: string
+  // eslint-disable-next-line camelcase -- from VHS
+  master_key?: string
+  revoked?: boolean
+  domain: string
+  chain: string
+  networks?: string
+  // eslint-disable-next-line camelcase -- from VHS
+  current_index: number
+  // eslint-disable-next-line camelcase -- from VHS
+  server_version?: string
+  // eslint-disable-next-line camelcase -- from VHS
+  agreement_1h: {
+    missed: number
+    total: number
+    score: string
+    incomplete: boolean
+  } | null
+  // eslint-disable-next-line camelcase -- from VHS
+  agreement_24h: {
+    missed: number
+    total: number
+    score: string
+    incomplete: boolean
+  } | null
+  // eslint-disable-next-line camelcase -- from VHS
+  agreement_30day: {
+    missed: number
+    total: number
+    score: string
+    incomplete: boolean
+  } | null
+  partial: boolean
+  unl: boolean
+}
