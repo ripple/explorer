@@ -9,22 +9,13 @@ import Log from '../shared/log'
 import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
-import { ValidatorResponse } from './types'
+import { StreamValidator, ValidatorResponse } from './types'
 
 const ENV_NETWORK_MAP: Record<string, string> = {
   mainnet: 'main',
   testnet: 'test',
   devnet: 'dev',
   nft_sandbox: 'nft-dev',
-}
-
-interface StreamValidator extends ValidatorResponse {
-  // eslint-disable-next-line camelcase -- mimicking rippled
-  ledger_index?: number
-  // eslint-disable-next-line camelcase -- mimicking rippled
-  ledger_hash?: string
-  pubkey?: string
-  time?: string
 }
 
 export const Validators = () => {

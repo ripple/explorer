@@ -79,3 +79,12 @@ export interface ValidatorResponse {
   partial: boolean
   unl: boolean
 }
+
+export interface StreamValidator extends ValidatorResponse {
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  ledger_index?: number
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  ledger_hash?: string
+  pubkey?: string
+  time?: string
+}
