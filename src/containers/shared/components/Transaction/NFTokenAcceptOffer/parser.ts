@@ -27,7 +27,9 @@ export const parser: TransactionParser<
   const amount = formatAmount(acceptedOfferNode.Amount)
   const tokenID = acceptedOfferNode.NFTokenID
   const offerer = acceptedOfferNode.Owner
-  const accepter = tx.Account
+  const accepter = acceptedOfferNode.Destination
+    ? acceptedOfferNode.Destination
+    : tx.Account
   const isSellOffer = (acceptedOfferNode.Flags & 1) !== 0
   const seller = isSellOffer ? offerer : accepter
   const buyer = isSellOffer ? accepter : offerer
