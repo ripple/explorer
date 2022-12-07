@@ -35,6 +35,9 @@ describe('AccountTransactionsTable container', () => {
         () => {},
       ),
     currencySelected = null,
+    state = {
+      hasToken: false,
+    },
   ) => {
     getAccountTransactions.mockImplementation(getAccountTransactionsImpl)
     return mount(
@@ -43,8 +46,8 @@ describe('AccountTransactionsTable container', () => {
           <Router>
             <AccountTransactionTable
               accountId={TEST_ACCOUNT_ID}
-              hasTokensColumn={state.hasToken}
               currencySelected={currencySelected}
+              hasTokensColumn={state.hasToken}
             />
           </Router>
         </I18nextProvider>
@@ -72,24 +75,35 @@ describe('AccountTransactionsTable container', () => {
     await flushPromises()
     component.update()
 
-    expect(component.find('.col-token').length).toBe(0)
     expect(component.find('.load-more-btn').length).toBe(1)
     expect(component.find('.transaction-table').length).toBe(1)
     expect(component.find('.transaction-li.transaction-li-header').length).toBe(
       1,
     )
     expect(component.find(Link).length).toBe(40)
-    done()
+    component.find('.load-more-btn').simulate('click')
+    expect(getAccountTransactions).toHaveBeenCalledWith(
+      TEST_ACCOUNT_ID,
+      undefined,
+      '44922483.5',
+      undefined,
+      undefined,
+    )
+
+    component.unmount()
   })
 
-  it('renders dynamic content with transaction data and token column', (done) => {
-    const component = createWrapper({ hasToken: true }, () => (dispatch) => {
-      dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS })
-      dispatch({
-        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
-        data: TEST_TRANSACTIONS_DATA,
-      })
-    })
+  it('renders dynamic content with transaction data and token column', async () => {
+    const component = createWrapper(
+      () => Promise.resolve(TEST_TRANSACTIONS_DATA),
+      undefined,
+      { hasToken: true },
+    )
+
+    await flushPromises()
+    component.update()
+
+    console.log(component.debug())
 
     expect(component.find('.col-token').length).toBeGreaterThan(0)
     expect(component.find('.load-more-btn').length).toBe(1)
@@ -100,13 +114,6 @@ describe('AccountTransactionsTable container', () => {
     expect(component.find(Link).length).toBe(40)
 
     component.find('.load-more-btn').simulate('click')
-    expect(getAccountTransactions).toHaveBeenCalledWith(
-      TEST_ACCOUNT_ID,
-      undefined,
-      '44922483.5',
-      undefined,
-      undefined,
-    )
 
     component.unmount()
   })

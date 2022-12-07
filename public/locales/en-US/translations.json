@@ -400,7 +400,7 @@
   "effective_price": "Effective Price",
   "account_id": "Account ID",
   "lp_tokens": "LP Tokens",
-  "min_slot_price": "Minimum Slot Price"
+  "min_slot_price": "Minimum Slot Price",
   "nftoken_minter": "NFT Minter",
   "is_burned": "Burned",
   "fee_rate": "Fee Rate",
