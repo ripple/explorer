@@ -60,7 +60,7 @@ describe('SimpleTab container', () => {
     expect(wrapper.find('a').length).toBe(2)
     expectSimpleRowText(wrapper, 'version', '1.9.4')
     expectSimpleRowLabel(wrapper, 'ledger-time', 'Last Ledger Date/Time (UTC)')
-    expectSimpleRowText(wrapper, 'ledger-time', '5/28/2020 at 9:21:19 AM')
+    expectSimpleRowText(wrapper, 'ledger-time', '5/28/2020, 9:21:19 AM')
     expectSimpleRowLabel(wrapper, 'ledger-index', 'Last Ledger Index')
     expectSimpleRowText(wrapper, 'ledger-index', '55764842')
     expectSimpleRowLabel(wrapper, '.unl', 'UNL')
