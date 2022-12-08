@@ -65,7 +65,7 @@ describe('EnableAmendment: Simple', () => {
     expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
     expectSimpleRowText(wrapper, 'version', 'Loading')
     expectSimpleRowLabel(wrapper, 'date', 'Expected Date')
-    expectSimpleRowText(wrapper, 'date', '10/13/2022, 3:28:31 PM')
+    expectSimpleRowText(wrapper, 'date', '10/13/2022 at 3:28:31 PM')
 
     await flushPromises()
     wrapper.update()
