@@ -8,8 +8,6 @@ export const parser: TransactionParser<
   NFTokenAcceptOffer,
   NFTokenAcceptOfferInstructions
 > = (tx, meta) => {
-  let acceptedOfferNode
-
   const acceptedOfferNodes = meta.AffectedNodes.filter(
     (node: any) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
   )
@@ -22,11 +20,9 @@ export const parser: TransactionParser<
     acceptedOfferIDs.push(tx.NFTokenSellOffer)
   }
 
-  if (acceptedOfferNodes.length === 1) {
-    acceptedOfferNode = acceptedOfferNodes[0].DeletedNode?.FinalFields
-  } else if (acceptedOfferNodes.length > 1) {
-    // If in brokered mode, we must fetch both of the NFTokenOffer nodes
-    // in order to fetch the seller and buyer from each
+  // If in brokered mode, we must fetch both of the NFTokenOffer nodes
+  // in order to fetch the seller and buyer from each
+  if (acceptedOfferNodes.length > 1) {
     const buyOfferNode = acceptedOfferNodes.find(
       (node: any) =>
         !determineIsSellOffer(node.DeletedNode?.FinalFields?.Flags),
@@ -44,6 +40,8 @@ export const parser: TransactionParser<
       acceptedOfferIDs,
     }
   }
+
+  const acceptedOfferNode = acceptedOfferNodes[0]?.DeletedNode?.FinalFields
 
   if (!acceptedOfferNode) {
     return {
