@@ -1,3 +1,4 @@
+import { setImmediate } from 'timers'
 import i18n from '../../../../../../i18nTestConfig.en-US'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
