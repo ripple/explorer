@@ -3,7 +3,7 @@ import { XrplClient } from 'xrpl-client'
 
 const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
 
-function isInsecureWs(rippledHost: string | null): boolean {
+function isInsecureWs(rippledHost: string | undefined): boolean {
   return (
     !!Number(process.env.REACT_APP_INSECURE_WS) ||
     LOCALHOST_URLS.some((url) => rippledHost?.includes(url)) ||
@@ -11,11 +11,11 @@ function isInsecureWs(rippledHost: string | null): boolean {
   )
 }
 
-function getSocket(rippledUrl: string): XrplClient {
+function getSocket(rippledUrl?: string): XrplClient {
   const rippledHost = rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST
   const prefix = isInsecureWs(rippledHost) ? 'ws' : 'wss'
   const wsUrls: string[] = []
-  if (rippledHost.includes(':')) {
+  if (rippledHost?.includes(':')) {
     wsUrls.push(`${prefix}://${rippledHost}`)
   } else {
     wsUrls.push.apply(wsUrls, [
