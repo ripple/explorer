@@ -222,6 +222,7 @@
       ],
       "no-bitwise": "off",
       "react/jsx-props-no-spreading": "warn",
+      "react/require-default-props": "off",
       "import/extensions": [
         "error",
         "ignorePackages",
