@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase -- from rippled */
 import { unix } from 'moment'
 import { Error, XRP_BASE, EPOCH_OFFSET } from './utils'
 
