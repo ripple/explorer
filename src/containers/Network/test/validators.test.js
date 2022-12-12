@@ -15,7 +15,7 @@ import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
-import { queryClient } from '../../shared/utils'
+import { testQueryClient } from '../../test/QueryClient'
 
 /* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk]
@@ -29,7 +29,7 @@ describe('Validators Tab container', () => {
   let client
   const createWrapper = (props = {}) =>
     mount(
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={testQueryClient}>
         <Router>
           <I18nextProvider i18n={i18n}>
             <Provider store={store}>

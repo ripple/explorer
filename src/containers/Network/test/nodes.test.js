@@ -11,7 +11,7 @@ import { initialState } from '../../App/reducer'
 import i18n from '../../../i18nTestConfig'
 import Network from '../index'
 import mockNodes from './mockNodes.json'
-import { queryClient } from '../../shared/utils'
+import { testQueryClient } from '../../test/QueryClient'
 
 /* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk]
@@ -21,7 +21,7 @@ const store = mockStore({ app: initialState })
 describe('Nodes Page container', () => {
   const createWrapper = (props = {}) =>
     mount(
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={testQueryClient}>
         <Router>
           <I18nextProvider i18n={i18n}>
             <Provider store={store}>
