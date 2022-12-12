@@ -427,3 +427,41 @@ export const fetchMetrics = () =>
 
 export const removeRoutes = (routes, ...routesToRemove) =>
   routes.filter((route) => !routesToRemove.includes(route.title))
+
+export const formatAsset = (asset) =>
+  typeof asset === 'string'
+    ? { currency: 'XRP' }
+    : {
+        currency: asset.currency,
+        issuer: asset.issuer,
+      }
+
+export const formatBalance = (asset) => {
+  const drop = 1000000
+  return typeof asset === 'string'
+    ? { currency: 'XRP', amount: Number(asset) / drop }
+    : {
+        currency: asset.currency,
+        amount: Number(asset.value),
+        issuer: asset.issuer,
+      }
+}
+
+export const localizeBalance = (balance, language) => {
+  let b = localizeNumber(balance.amount || 0.0, language, {
+    style: 'currency',
+    currency: balance.currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  })
+
+  if (
+    balance.currency !== 'XRP' &&
+    balance.currency !== 'BTC' &&
+    balance.currency !== 'ETH'
+  ) {
+    b = `${balance.currency} ${b}`
+  }
+
+  return b
+}

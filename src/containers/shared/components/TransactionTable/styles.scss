@@ -23,6 +23,7 @@
   .col-type,
   .col-account,
   .col-status,
+  .col-token,
   .col-date {
     display: inline-block;
     overflow: hidden;
@@ -37,7 +38,15 @@
     @include semibold;
 
     @include for-size(desktop-up) {
-      width: 260px;
+      width: 230px;
+    }
+  }
+  .col-token {
+    width: 50px;
+    letter-spacing: 0px;
+
+    @include for-size(desktop-up) {
+      width: calc(100% - 915px);
     }
   }
 
@@ -51,7 +60,11 @@
     }
 
     @include for-size(desktop-up) {
-      width: 270px;
+
+      .status {
+        display: initial;
+      }
+      width: 130px;
 
       .status {
         display: initial;
@@ -222,6 +235,7 @@
     .col-type,
     .col-account,
     .col-status,
+    .col-token,
     .col-date {
       border: none;
       color: $gray-500;

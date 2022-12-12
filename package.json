@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
+    "@testing-library/react": "^12.1.2",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.186",
@@ -93,8 +94,10 @@
     "stylelint-config-standard": "^26.0.0",
     "stylelint-prettier": "^2.0.0",
     "stylelint-scss": "^4.3.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "react-error-overlay": "6.0.9"
   },
+  "resolutions": { "react-error-overlay": "6.0.9" },
   "jest": {
     "transformIgnorePatterns": [
       "node_modules/(?!arc)/(?!d3)"
@@ -177,11 +180,24 @@
     ],
     "env": {
       "browser": true,
+      "node": true,
       "jest": true,
       "es6": true
     },
     "rules": {
-      "prettier/prettier": "error",
+      "import/no-unresolved": 0,
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ],
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ],
       "react/jsx-filename-extension": [
         1,
         {
@@ -204,6 +220,7 @@
       ],
       "no-bitwise": "off",
       "react/jsx-props-no-spreading": "warn",
+      "react/require-default-props": "off",
       "import/extensions": [
         "error",
         "ignorePackages",

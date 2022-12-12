@@ -14,6 +14,7 @@ const ACCOUNT_FLAGS = {
   0x00400000: 'lsfGlobalFreeze',
   0x00800000: 'lsfDefaultRipple',
   0x01000000: 'lsfDepositAuth',
+  0x02000000: 'lsfAMM',
 }
 const NFT_FLAGS = {
   0x00000001: 'lsfBurnable',

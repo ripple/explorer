@@ -9,6 +9,9 @@ import {
   analytics,
   ANALYTIC_TYPES,
   durationToHuman,
+  formatAsset,
+  formatBalance,
+  localizeBalance,
 } from '../utils'
 
 describe('utils', () => {
@@ -203,5 +206,53 @@ describe('utils', () => {
     expect(durationToHuman(300000)).toBe('3.47 d.')
     expect(durationToHuman(30000000)).toBe('11.38 mo.')
     expect(durationToHuman(300000000)).toBe('9.51 yr.')
+  })
+})
+
+describe('AMM utils format asset', () => {
+  it('formats XRP asset', () => {
+    const asset = '10000000000'
+    const formatted = formatAsset(asset)
+
+    expect(formatted).toEqual({ currency: 'XRP' })
+  })
+
+  it('formats non XRP asset', () => {
+    const asset = { currency: 'USD', amount: '100000', issuer: 'your mom' }
+    const formatted = formatAsset(asset)
+
+    expect(formatted).toEqual({ currency: 'USD', issuer: 'your mom' })
+  })
+})
+
+describe('AMM utils format balance', () => {
+  it('formats XRP asset', () => {
+    const asset = '10000000000'
+    const formatted = formatBalance(asset)
+
+    expect(formatted).toEqual({ currency: 'XRP', amount: 10000 })
+  })
+
+  it('formats non XRP asset', () => {
+    const asset = { currency: 'USD', value: '100000' }
+    const formatted = formatBalance(asset)
+
+    expect(formatted).toEqual({ currency: 'USD', amount: 100000 })
+  })
+})
+
+describe('AMM utils localize balance', () => {
+  it('formats XRP balance', () => {
+    const balance = { currency: 'XRP', amount: 9000000 }
+    const formatted = localizeBalance(balance, 'en-US')
+
+    expect(formatted).toEqual('9,000,000')
+  })
+
+  it('formats non XRP balance', () => {
+    const balance = { currency: 'USD', amount: 9000000 }
+    const formatted = localizeBalance(balance, 'en-US')
+
+    expect(formatted).toEqual('USD $9,000,000')
   })
 })
