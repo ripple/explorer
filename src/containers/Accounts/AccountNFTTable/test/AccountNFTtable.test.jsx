@@ -7,7 +7,7 @@ import { getAccountNFTs } from '../../../../rippled/lib/rippled'
 import { AccountNFTTable } from '../AccountNFTTable'
 import i18n from '../../../../i18nTestConfig'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
-import { queryClient } from '../../../shared/utils'
+import { testQueryClient } from '../../../test/QueryClient'
 
 jest.mock('../../../../rippled/lib/rippled', () => ({
   __esModule: true,
@@ -41,7 +41,7 @@ describe('AccountNFTTable component', () => {
 
   const createWrapper = () =>
     mount(
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={testQueryClient}>
         <BrowserRouter>
           <I18nextProvider i18n={i18n}>
             <AccountNFTTable accountId={TEST_ACCOUNT_ID} />

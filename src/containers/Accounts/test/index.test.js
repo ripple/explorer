@@ -12,7 +12,7 @@ import Account from '../index'
 import AccountHeader from '../AccountHeader'
 import { AccountTransactionTable } from '../AccountTransactionTable'
 import mockAccountState from './mockAccountState.json'
-import { queryClient } from '../../shared/utils'
+import { testQueryClient } from '../../test/QueryClient'
 
 describe('Account container', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
@@ -22,7 +22,7 @@ describe('Account container', () => {
   const createWrapper = (state = {}) => {
     const store = mockStore({ ...initialState, ...state })
     return mount(
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
             <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>

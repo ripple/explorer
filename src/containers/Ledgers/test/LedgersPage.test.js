@@ -13,11 +13,11 @@ import Ledgers from '../index'
 import { initialState } from '../../../rootReducer'
 import SocketContext from '../../shared/SocketContext'
 import BaseMockWsClient from '../../test/mockWsClient'
-import { queryClient } from '../../shared/utils'
 import prevLedgerMessage from './mock/prevLedger.json'
 import ledgerMessage from './mock/ledger.json'
 import validationMessage from './mock/validation.json'
 import rippledResponses from './mock/rippled.json'
+import { testQueryClient } from '../../test/QueryClient'
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -70,7 +70,7 @@ describe('Ledgers Page container', () => {
     const store = mockStore({ ...initialState })
 
     return mount(
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={testQueryClient}>
         <Router>
           <I18nextProvider i18n={i18n}>
             <Provider store={store}>
