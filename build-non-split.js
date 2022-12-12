@@ -84,4 +84,3 @@ config.resolve.fallback = {
   util: 'util',
   zlib: 'browserify-zlib',
 }
-console.log(config)

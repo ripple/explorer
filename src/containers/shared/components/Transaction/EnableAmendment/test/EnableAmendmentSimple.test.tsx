@@ -24,14 +24,17 @@ jest.mock('../../../../amendmentUtils', () => {
   }
 })
 
+const getRippledVersionMock = getRippledVersion as jest.Mock
+const nameOfAmendmentIDMock = nameOfAmendmentID as jest.Mock
+
 function flushPromises() {
   return new Promise((resolve) => setImmediate(resolve))
 }
 
 describe('EnableAmendment: Simple', () => {
   it('renders tx that causes an amendment to loose majority', async () => {
-    getRippledVersion.mockImplementation(() => Promise.resolve('v1.9.1'))
-    nameOfAmendmentID.mockImplementation(() =>
+    getRippledVersionMock.mockImplementation(() => Promise.resolve('v1.9.1'))
+    nameOfAmendmentIDMock.mockImplementation(() =>
       Promise.resolve('ExpandedSignerList'),
     )
     const wrapper = createWrapper(mockEnableAmendmentWithMinority)
@@ -53,8 +56,8 @@ describe('EnableAmendment: Simple', () => {
   })
 
   it('renders tx that causes an amendment to gain majority', async () => {
-    getRippledVersion.mockImplementation(() => Promise.resolve('v1.9.1'))
-    nameOfAmendmentID.mockImplementation(() =>
+    getRippledVersionMock.mockImplementation(() => Promise.resolve('v1.9.1'))
+    nameOfAmendmentIDMock.mockImplementation(() =>
       Promise.resolve('ExpandedSignerList'),
     )
     const wrapper = createWrapper(mockEnableAmendmentWithMajority)
@@ -77,8 +80,10 @@ describe('EnableAmendment: Simple', () => {
   })
 
   it('renders tx that enables an amendment', async () => {
-    getRippledVersion.mockImplementation(() => Promise.resolve('v1.7.3'))
-    nameOfAmendmentID.mockImplementation(() => Promise.resolve('NegativeUNL'))
+    getRippledVersionMock.mockImplementation(() => Promise.resolve('v1.7.3'))
+    nameOfAmendmentIDMock.mockImplementation(() =>
+      Promise.resolve('NegativeUNL'),
+    )
     const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
@@ -97,8 +102,8 @@ describe('EnableAmendment: Simple', () => {
   })
 
   it('renders tx that cannot determine version or name', async () => {
-    getRippledVersion.mockImplementation(() => Promise.resolve(''))
-    nameOfAmendmentID.mockImplementation(() => Promise.resolve(''))
+    getRippledVersionMock.mockImplementation(() => Promise.resolve(''))
+    nameOfAmendmentIDMock.mockImplementation(() => Promise.resolve(''))
     const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
@@ -113,8 +118,10 @@ describe('EnableAmendment: Simple', () => {
   })
 
   it('renders tx that cannot determine version', async () => {
-    getRippledVersion.mockImplementation(() => Promise.resolve(''))
-    nameOfAmendmentID.mockImplementation(() => Promise.resolve('NegativeUNL'))
+    getRippledVersionMock.mockImplementation(() => Promise.resolve(''))
+    nameOfAmendmentIDMock.mockImplementation(() =>
+      Promise.resolve('NegativeUNL'),
+    )
     const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
@@ -129,8 +136,8 @@ describe('EnableAmendment: Simple', () => {
   })
 
   it('renders tx that cannot determine name', async () => {
-    getRippledVersion.mockImplementation(() => Promise.resolve('v1.7.3'))
-    nameOfAmendmentID.mockImplementation(() => Promise.resolve(''))
+    getRippledVersionMock.mockImplementation(() => Promise.resolve('v1.7.3'))
+    nameOfAmendmentIDMock.mockImplementation(() => Promise.resolve(''))
     const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')

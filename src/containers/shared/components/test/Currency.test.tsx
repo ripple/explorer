@@ -30,13 +30,8 @@ describe('Currency', () => {
         <Currency
           currency="584D455441000000000000000000000000000000"
           issuer="r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB"
-          amount={5.001}
         />
-        <Currency
-          currency="USD"
-          issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq"
-          amount={15.01}
-        />
+        <Currency currency="USD" issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" />
       </BrowserRouter>,
     )
     const meta = wrapper.find('.currency').at(0)
