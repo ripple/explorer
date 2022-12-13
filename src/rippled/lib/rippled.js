@@ -1,4 +1,4 @@
-import { unix } from 'moment'
+import moment from 'moment'
 import { Error, XRP_BASE, EPOCH_OFFSET } from './utils'
 
 const N_UNL_INDEX =
@@ -11,12 +11,12 @@ const formatEscrow = (d) => ({
   amount: d.Amount / XRP_BASE,
   condition: d.Condition,
   cancelAfter: d.CancelAfter
-    ? unix(d.CancelAfter + EPOCH_OFFSET)
+    ? moment(d.CancelAfter + EPOCH_OFFSET)
         .utc()
         .format()
     : undefined,
   finishAfter: d.FinishAfter
-    ? unix(d.FinishAfter + EPOCH_OFFSET)
+    ? moment(d.FinishAfter + EPOCH_OFFSET)
         .utc()
         .format()
     : undefined,

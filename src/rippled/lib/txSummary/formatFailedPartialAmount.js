@@ -1,4 +1,4 @@
-module.exports = (d) =>
+const formatFailedPartialAmount = (d) =>
   d.value
     ? {
         currency: d.currency,
@@ -9,3 +9,6 @@ module.exports = (d) =>
         currency: 'XRP',
         amount: 0,
       }
+
+export default formatFailedPartialAmount
+export { formatFailedPartialAmount }

@@ -1,4 +1,4 @@
-module.exports = (d) => {
+const formatAmount = (d) => {
   if (d == null) {
     return d
   }
@@ -13,3 +13,6 @@ module.exports = (d) => {
         amount: d / 1000000,
       }
 }
+
+export default formatAmount
+export { formatAmount }

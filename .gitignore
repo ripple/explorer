@@ -8,6 +8,7 @@ node_modules/
 /build
 src/**/*.css
 src/**/*.css.map
+/dist
 
 # misc
 .DS_Store
