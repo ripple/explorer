@@ -5,8 +5,8 @@
   "dependencies": {
     "@fontsource/roboto": "^4.5.7",
     "@google-cloud/bigquery": "^5.5.0",
-    "@xrplf/prettier-config": "^1.5.0",
     "@vitejs/plugin-react": "^3.0.0",
+    "@xrplf/prettier-config": "^1.5.0",
     "axios": "^0.21.1",
     "body-parser": "^1.18.2",
     "bunyan": "^1.8.15",
@@ -46,11 +46,12 @@
     "rewire": "^6.0.0",
     "ripple-address-codec": "^4.2.4",
     "topojson-client": "^3.0.0",
-    "ws": "^7.4.2",
-    "xrpl-client": "^2.0.1",
     "vite": "^4.0.1",
+    "vite-plugin-html": "^3.2.0",
     "vite-plugin-svgr": "^2.4.0",
-    "vite-tsconfig-paths": "^4.0.2"
+    "vite-tsconfig-paths": "^4.0.2",
+    "ws": "^7.4.2",
+    "xrpl-client": "^2.0.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
@@ -144,7 +145,7 @@
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
     "build": "DISABLE_NEW_JSX_TRANSFORM=true node ./build-non-split.js",
-    "dev-client": "vite serve src",
+    "dev-client": "vite src",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "eject": "react-scripts eject",
     "lint": "run-s \"lint:js -- --fix\" \"lint:css -- --fix\"",
