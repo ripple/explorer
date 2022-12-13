@@ -10,7 +10,7 @@ describe('OfferCreate: Description', () => {
     const wrapper = createWrapper(OfferCreate)
 
     expect(wrapper.html()).toBe(
-      '<div>The account<a class="account" title="rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe" href="/accounts/rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe">rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe</a>offered to pay<b>1,080,661.95882<small>CSC</small></b>in order to receive<b>\uE9001,764.293151<small>XRP</small></b></div><div>offer_create_desc_line_2<b><span> 612.52</span><small>XRP/CSC</small></b></div><div>offer_create_desc_line_3<b> 44866443</b></div>The offer expires<span class="time">May 18, 2022, 5:28:16 PM UTC</span>unless cancelled before',
+      '<div>The account<a class="account" title="rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe" href="/accounts/rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe">rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe</a>offered to pay<b>1,080,661.95882<small>CSC</small></b>in order to receive<b>\uE9001,764.293151<small>XRP</small></b></div><div>offer_create_desc_line_2<b><span> 612.52</span><small>XRP/CSC</small></b></div><div>offer_create_desc_line_3<b> 44866443</b></div>The offer expires<span class="time">May 18, 2022 at 5:28:16 PM UTC</span>unless cancelled before',
     )
     wrapper.unmount()
   })
