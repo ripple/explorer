@@ -7,7 +7,7 @@ import i18n from '../../../../i18nTestConfig'
 import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
 import { getAccountTransactions } from '../../../../rippled'
-import { queryClient } from '../../../shared/QueryClient'
+import { testQueryClient } from '../../../test/QueryClient'
 
 jest.mock('../../../../rippled', () => ({
   __esModule: true,
@@ -20,13 +20,6 @@ function flushPromises() {
   return new Promise((resolve) => setImmediate(resolve))
 }
 
-queryClient.setDefaultOptions({
-  queries: {
-    ...queryClient.defaultQueryOptions(),
-    cacheTime: 0,
-  },
-})
-
 describe('AccountTransactionsTable container', () => {
   const createWrapper = (
     getAccountTransactionsImpl = () =>
@@ -38,7 +31,7 @@ describe('AccountTransactionsTable container', () => {
   ) => {
     getAccountTransactions.mockImplementation(getAccountTransactionsImpl)
     return mount(
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
           <Router>
             <AccountTransactionTable

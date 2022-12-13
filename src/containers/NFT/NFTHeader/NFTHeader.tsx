@@ -66,7 +66,7 @@ export const NFTHeader = (props: Props) => {
     if (!HASH_REGEX.test(tokenId)) {
       setError(BAD_REQUEST)
     }
-  }, [tokenId])
+  }, [setError, tokenId])
 
   // fetch the oldest NFT transaction to get its minted data
   const { data: firstTransaction } = useQuery(

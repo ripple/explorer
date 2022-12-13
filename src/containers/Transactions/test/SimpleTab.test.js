@@ -1,19 +1,14 @@
 import React from 'react'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 
 import { BrowserRouter as Router } from 'react-router-dom'
-import AccountDelete from './mock_data/AccountDelete.json'
-import AccountSet from './mock_data/AccountSet.json'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
-import PaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
-import PaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
-import PaymentChannelFund from './mock_data/PaymentChannelFund.json'
-import UNLModify from './mock_data/UNLModify.json'
 import SimpleTab from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18nTestConfig'
+import { expectSimpleRowText } from '../../shared/components/Transaction/test'
 
 describe('SimpleTab container', () => {
   const createWrapper = (tx, width = 1200) =>
@@ -30,50 +25,8 @@ describe('SimpleTab container', () => {
       </Router>,
     )
 
-  const createShallowWrapper = (tx, width = 1200) =>
-    shallow(
-      <Router>
-        <SimpleTab
-          t={(s) => s}
-          language="en-US"
-          data={{ raw: tx, summary: summarize(tx, true).details }}
-          width={width}
-        />
-      </Router>,
-    )
-
-  it('renders AccountDelete without crashing', () => {
-    const wrapper = createShallowWrapper(AccountDelete)
-    wrapper.unmount()
-  })
-
-  it('renders AccountSet without crashing', () => {
-    const wrapper = createWrapper(AccountSet)
-    wrapper.unmount()
-  })
-
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
-  })
-
-  it('renders PaymentChannelClaim without crashing', () => {
-    const wrapper = createWrapper(PaymentChannelClaim)
-    wrapper.unmount()
-  })
-
-  it('renders PaymentChannelCreate without crashing', () => {
-    const wrapper = createWrapper(PaymentChannelCreate)
-    wrapper.unmount()
-  })
-
-  it('renders PaymentChannelFund without crashing', () => {
-    const wrapper = createWrapper(PaymentChannelFund)
-    wrapper.unmount()
-  })
-
-  it('renders UNLModify without crashing', () => {
-    const wrapper = createWrapper(UNLModify)
     wrapper.unmount()
   })
 
@@ -81,18 +34,15 @@ describe('SimpleTab container', () => {
     const wrapper = createWrapper(Payment)
     expect(wrapper.find('.simple-body').length).toBe(1)
     expect(wrapper.find('a').length).toBe(3)
-    const index = wrapper.find('.index')
-    expect(index.length).toBe(1)
-    expect(index.contains(<div className="title">formatted_date</div>)).toBe(
-      true,
+    expectSimpleRowText(wrapper, 'tx-date', '3/23/2018, 1:34:51 PM')
+    expectSimpleRowText(wrapper, 'ledger-index', '37432866')
+    expectSimpleRowText(
+      wrapper,
+      'account',
+      'rNQEMJA4PsoSrZRn9J6RajAYhcDzzhf8ok',
     )
-    expect(index.contains(<div className="title">ledger_index</div>)).toBe(true)
-    expect(index.contains(<div className="title">transaction_cost</div>)).toBe(
-      true,
-    )
-    expect(index.contains(<div className="title">sequence_number</div>)).toBe(
-      true,
-    )
+    expectSimpleRowText(wrapper, 'sequence', '31030')
+    expectSimpleRowText(wrapper, 'tx-cost', '\uE9000.15')
     wrapper.unmount()
   })
 })

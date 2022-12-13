@@ -7,7 +7,7 @@ import { durationToHuman } from '../shared/utils'
 import './css/nodesTable.scss'
 
 const renderLastLedger = (ledger) =>
-  ledger ? (
+  ledger && ledger.ledger_index ? (
     <Link
       style={{
         color: `#${
@@ -93,6 +93,13 @@ const getLedgerRange = (data) => {
   return [min, max]
 }
 
+const getVersion = (version) => {
+  if (version && version.includes('+')) {
+    return `${version.split('+')[0]}*`
+  }
+  return version
+}
+
 class NodesTable extends Component {
   constructor(props) {
     super(props)
@@ -116,7 +123,7 @@ class NodesTable extends Component {
         <td className="state center">
           <span className={node.server_state}>{node.server_state}</span>
         </td>
-        <td className="version">{node.version}</td>
+        <td className="version">{getVersion(node.version)}</td>
         <td className="last-ledger">
           {renderLastLedger(node.validated_ledger)}
         </td>

@@ -7,6 +7,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { I18nextProvider } from 'react-i18next'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18nTestConfig'
 import Ledgers from '../index'
 import { initialState } from '../../../rootReducer'
@@ -16,6 +17,7 @@ import prevLedgerMessage from './mock/prevLedger.json'
 import ledgerMessage from './mock/ledger.json'
 import validationMessage from './mock/validation.json'
 import rippledResponses from './mock/rippled.json'
+import { testQueryClient } from '../../test/QueryClient'
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -68,15 +70,17 @@ describe('Ledgers Page container', () => {
     const store = mockStore({ ...initialState })
 
     return mount(
-      <Router>
-        <I18nextProvider i18n={i18n}>
-          <Provider store={store}>
-            <SocketContext.Provider value={client}>
-              <Ledgers msg={props.msg} />
-            </SocketContext.Provider>
-          </Provider>
-        </I18nextProvider>
-      </Router>,
+      <QueryClientProvider client={testQueryClient}>
+        <Router>
+          <I18nextProvider i18n={i18n}>
+            <Provider store={store}>
+              <SocketContext.Provider value={client}>
+                <Ledgers msg={props.msg} />
+              </SocketContext.Provider>
+            </Provider>
+          </I18nextProvider>
+        </Router>
+      </QueryClientProvider>,
     )
   }
 

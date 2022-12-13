@@ -1,0 +1,37 @@
+{
+  "tx": {
+    "Account": "",
+    "Fee": "0",
+    "LedgerSequence": 68485120,
+    "Sequence": 0,
+    "SigningPubKey": "",
+    "TransactionType": "UNLModify",
+    "UNLModifyDisabling": 1,
+    "UNLModifyValidator": "ED9AE4F5887BA029EB7C0884486D23CF281975F773F44BD213054219882C411CC7",
+    "date": "2021-12-21T17:24:51Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "NegativeUNL",
+          "LedgerIndex": "2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244",
+          "NewFields": {
+            "ValidatorToDisable": "ED9AE4F5887BA029EB7C0884486D23CF281975F773F44BD213054219882C411CC7"
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 23,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "0746806B2E9C0ED3FC279C6D773EF72F255EACEEE1975FE1F02D1FF704B15455",
+  "ledger_index": 68485120,
+  "date": "2021-12-21T17:24:51Z"
+}

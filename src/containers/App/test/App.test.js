@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
 import App from '../index'
+import MockWsClient from '../../test/mockWsClient'
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
@@ -21,6 +22,16 @@ jest.mock('react-router-dom', () => {
     ...originalModule,
     // eslint-disable-next-line react/prop-types -- not really needed for tests
     BrowserRouter: ({ children }) => <div>{children}</div>,
+  }
+})
+
+jest.mock('../../shared/SocketContext', () => {
+  const originalModule = jest.requireActual('../../shared/SocketContext')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    getSocket: () => new MockWsClient(),
   }
 })
 
