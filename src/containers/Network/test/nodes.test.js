@@ -35,16 +35,16 @@ describe('Nodes Page container', () => {
       </QueryClientProvider>,
     )
 
-  const oldEnvs = process.env
+  const oldEnvs = import.meta.env
 
   beforeEach(() => {
     moxios.install()
-    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+    import.meta.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
   })
 
   afterEach(() => {
     moxios.uninstall()
-    process.env = oldEnvs
+    import.meta.env = oldEnvs
   })
 
   it('renders without crashing', () => {
@@ -56,7 +56,7 @@ describe('Nodes Page container', () => {
     const wrapper = createWrapper()
 
     moxios.stubRequest(
-      `${process.env.REACT_APP_DATA_URL}/topology/nodes/main`,
+      `${import.meta.env.REACT_APP_DATA_URL}/topology/nodes/main`,
       {
         status: 200,
         response: { nodes: mockNodes },

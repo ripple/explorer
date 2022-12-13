@@ -119,7 +119,7 @@ class Streams extends Component {
   componentDidMount() {
     this.connect()
     this.updateNegativeUNL()
-    if (process.env.REACT_APP_ENVIRONMENT !== 'custom') {
+    if (import.meta.env.REACT_APP_ENVIRONMENT !== 'custom') {
       this.updateMetricsFromServer()
     }
     this.purge = setInterval(this.purge, 5000)
@@ -480,7 +480,7 @@ class Streams extends Component {
           this.onLedgerSummary(ledgerSummary)
         })
         .then(() => {
-          if (process.env.REACT_APP_ENVIRONMENT === 'custom') {
+          if (import.meta.env.REACT_APP_ENVIRONMENT === 'custom') {
             this.onMetric(this.updateMetrics(baseFee))
           }
         })
@@ -499,7 +499,7 @@ class Streams extends Component {
         })
       // calculate custom network metrics on the frontend
       // because there is no backend server connection (since there is no one network)
-      if (process.env.REACT_APP_ENVIRONMENT === 'custom') {
+      if (import.meta.env.REACT_APP_ENVIRONMENT === 'custom') {
         this.onMetric(this.updateMetrics(baseFee))
       } else {
         this.updateMetricsFromServer()

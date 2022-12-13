@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { localizeNumber } from '../../shared/utils'
-import { ReactComponent as IconDownArrow } from '../../shared/images/down_arrow.svg'
+import IconDownArrow from '../../shared/images/down_arrow.svg'
 import iconClose from '../../shared/images/close.png'
 import '../../shared/css/nested-menu.scss'
 import './styles.scss'

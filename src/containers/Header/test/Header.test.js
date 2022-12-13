@@ -65,17 +65,17 @@ describe('Header component', () => {
   describe('test redirects', () => {
     const { location } = window
     const mockedFunction = jest.fn()
-    const oldEnvs = process.env
+    const oldEnvs = import.meta.env
 
     beforeEach(() => {
       delete window.location
       window.location = { assign: mockedFunction }
-      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+      import.meta.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
     })
 
     afterEach(() => {
       window.location = location
-      process.env = oldEnvs
+      import.meta.env = oldEnvs
     })
 
     it('redirect works', () => {
@@ -92,7 +92,9 @@ describe('Header component', () => {
 
       // test clicking on testnet
       wrapper.find('[value="testnet"]').simulate('click')
-      expect(mockedFunction).toBeCalledWith(process.env.REACT_APP_TESTNET_LINK)
+      expect(mockedFunction).toBeCalledWith(
+        import.meta.env.REACT_APP_TESTNET_LINK,
+      )
 
       wrapper.unmount()
     })
@@ -106,7 +108,7 @@ describe('Header component', () => {
         currentTarget: { value: 'custom_url' },
       })
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
+        `${import.meta.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
       )
 
       wrapper.unmount()

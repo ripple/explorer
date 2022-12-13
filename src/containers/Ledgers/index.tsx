@@ -44,7 +44,7 @@ const LedgersPage = () => {
         let newUnlCount = 0
 
         validatorResponse.forEach((v: ValidatorResponse) => {
-          if (v.unl === process.env.REACT_APP_VALIDATOR) {
+          if (v.unl === import.meta.env.REACT_APP_VALIDATOR) {
             newUnlCount += 1
           }
           newValidators[v.signing_key] = v

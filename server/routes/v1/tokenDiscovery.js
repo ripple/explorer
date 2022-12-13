@@ -7,7 +7,7 @@ const log = require('../../lib/logger')({ name: 'token discovery' })
 // For the purpose of running locally, this equals false if the env var doesn't exist
 // DO NOT SET TO TRUE UNLESS YOU'RE SURE ABOUT BIGQUERY USAGE
 // aka don't let the site run after you're done using it, because it'll cost $$
-const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK?.includes('xrpl.org')
+const IS_PROD_ENV = import.meta.env.REACT_APP_MAINNET_LINK?.includes('xrpl.org')
 // How long the auto-caching should run in dev and staging environments
 // We want to turn it off after some time so it doesn't run when we don't need it, which costs us
 // money per BigQuery query
@@ -20,10 +20,10 @@ const NUM_TOKENS_FETCH_ALL = 10
 const cachedTokensList = { tokens: [], time: null }
 
 let options = {
-  projectId: process.env.GOOGLE_APP_PROJECT_ID,
+  projectId: import.meta.env.GOOGLE_APP_PROJECT_ID,
   credentials: {
-    client_email: process.env.GOOGLE_APP_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_APP_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    client_email: import.meta.env.GOOGLE_APP_CLIENT_EMAIL,
+    private_key: import.meta.env.GOOGLE_APP_PRIVATE_KEY.replace(/\\n/g, '\n'),
   },
 }
 
@@ -133,7 +133,7 @@ async function cacheTokensList() {
 // Starts the caching process for bigquery
 function startCaching() {
   // Only run if on mainnet (the tokens page doesn't exist on devnet/testnet)
-  if (process.env.REACT_APP_ENVIRONMENT !== 'mainnet') {
+  if (import.meta.env.REACT_APP_ENVIRONMENT !== 'mainnet') {
     return
   }
   // Initialize the cache

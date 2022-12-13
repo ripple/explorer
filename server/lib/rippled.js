@@ -3,23 +3,29 @@ const { XrplClient } = require('xrpl-client')
 const utils = require('./utils')
 
 const RIPPLED_CLIENT = new XrplClient([
-  `wss://${process.env.REACT_APP_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
-  `wss://${process.env.REACT_APP_RIPPLED_HOST}`,
+  `wss://${import.meta.env.REACT_APP_RIPPLED_HOST}:${
+    import.meta.env.REACT_APP_RIPPLED_WS_PORT
+  }`,
+  `wss://${import.meta.env.REACT_APP_RIPPLED_HOST}`,
 ])
 // If there is a separate peer to peer server for admin requests, use it. Otherwise use the default url for everything.
 const HAS_P2P_SOCKET =
-  process.env.REACT_APP_P2P_RIPPLED_HOST != null &&
-  process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
+  import.meta.env.REACT_APP_P2P_RIPPLED_HOST != null &&
+  import.meta.env.REACT_APP_P2P_RIPPLED_HOST !== ''
 const P2P_RIPPLED_CLIENT = HAS_P2P_SOCKET
   ? new XrplClient([
-      `wss://${process.env.REACT_APP_P2P_RIPPLED_HOST}:${process.env.REACT_APP_RIPPLED_WS_PORT}`,
+      `wss://${import.meta.env.REACT_APP_P2P_RIPPLED_HOST}:${
+        import.meta.env.REACT_APP_RIPPLED_WS_PORT
+      }`,
     ])
   : undefined
 
-const P2P_URL_BASE = process.env.REACT_APP_P2P_RIPPLED_HOST
-  ? process.env.REACT_APP_P2P_RIPPLED_HOST
-  : process.env.REACT_APP_RIPPLED_HOST
-const URL_HEALTH = `https://${P2P_URL_BASE}:${process.env.REACT_APP_RIPPLED_PEER_PORT}/health`
+const P2P_URL_BASE = import.meta.env.REACT_APP_P2P_RIPPLED_HOST
+  ? import.meta.env.REACT_APP_P2P_RIPPLED_HOST
+  : import.meta.env.REACT_APP_RIPPLED_HOST
+const URL_HEALTH = `https://${P2P_URL_BASE}:${
+  import.meta.env.REACT_APP_RIPPLED_PEER_PORT
+}/health`
 
 const executeQuery = async (rippledSocket, params) =>
   rippledSocket.send(params).catch((error) => {

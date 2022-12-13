@@ -33,7 +33,7 @@ class Network extends Component {
     const { match } = this.props
     const { params, path } = match
     const { tab = 'nodes' } = params
-    const mode = process.env.REACT_APP_ENVIRONMENT
+    const mode = import.meta.env.REACT_APP_ENVIRONMENT
 
     if (mode === 'custom') {
       return this.renderUnderConstruction()

@@ -51,14 +51,14 @@ describe('App container', () => {
     )
   }
 
-  const oldEnvs = process.env
+  const oldEnvs = import.meta.env
 
   beforeEach(() => {
-    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+    import.meta.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
   })
 
   afterEach(() => {
-    process.env = oldEnvs
+    import.meta.env = oldEnvs
   })
 
   it('renders main parts', () => {

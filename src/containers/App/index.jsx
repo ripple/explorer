@@ -16,7 +16,7 @@ import AppErrorBoundary from './AppErrorBoundary'
 
 const AppWrapper = (props) => {
   const { t } = useTranslation()
-  const mode = process.env.REACT_APP_ENVIRONMENT
+  const mode = import.meta.env.REACT_APP_ENVIRONMENT
   const path = mode === 'custom' ? '/:rippledUrl' : '/'
   return (
     <div className="app-wrapper">

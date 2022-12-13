@@ -9,7 +9,7 @@ import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { updateLanguage } from '../App/actions'
 
 import packageConfig from '../../../package.json'
-import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg'
+import Logo from '../shared/images/XRPLedger.svg'
 import iconDownArrow from '../shared/images/down_arrow.svg'
 import iconCheck from '../shared/images/checkmark_small_green.png'
 import flagUSA from '../shared/images/flag_usa.png'

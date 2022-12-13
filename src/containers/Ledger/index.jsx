@@ -8,8 +8,8 @@ import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import { TxDetails } from '../shared/components/TxDetails'
 import Sequence from '../shared/components/Sequence'
-import { ReactComponent as LeftArrow } from '../shared/images/ic_left_arrow.svg'
-import { ReactComponent as RightArrow } from '../shared/images/ic_right_arrow.svg'
+import LeftArrow from '../shared/images/ic_left_arrow.svg'
+import RightArrow from '../shared/images/ic_right_arrow.svg'
 import { loadLedger } from './actions'
 import {
   localizeDate,

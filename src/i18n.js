@@ -3,7 +3,7 @@ import Backend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
 const options = {
-  debug: process.env.NODE_ENV === 'development',
+  debug: import.meta.env.NODE_ENV === 'development',
   fallbackLng: 'en-US',
   ns: ['translations'], // have a common namespace used around the full app
   defaultNS: 'translations',
