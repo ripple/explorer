@@ -3,7 +3,7 @@ const getTokenDiscovery = require('./tokenDiscovery')
 const getHealth = require('./health')
 const getCurrentMetrics = require('./currentMetrics')
 
-if (import.meta.env.REACT_APP_ENVIRONMENT === 'mainnet') {
+if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
   api.use('/token/top', getTokenDiscovery)
 }
 api.use('/healthz', (_req, res) => {

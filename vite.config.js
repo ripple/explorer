@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
 import svgrPlugin from 'vite-plugin-svgr'
 import { createHtmlPlugin } from 'vite-plugin-html'
+import replace from '@rollup/plugin-replace'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +15,15 @@ export default defineConfig({
     outDir: '../dist',
   },
   publicDir: '../public',
+  define: { 'process.env.NODE_DEBUG': '"false"' },
+  resolve: {
+    alias: {
+      process: 'process/browser',
+      stream: 'stream-browserify',
+      zlib: 'browserify-zlib',
+      util: 'util',
+    },
+  },
   plugins: [
     svgrPlugin({
       exportAsDefault: true,
@@ -27,10 +37,14 @@ export default defineConfig({
         data: {
           REACT_APP_GA_ID: import.meta.env.REACT_APP_GA_ID,
           REACT_APP_ZENDESK_KEY: import.meta.env.REACT_APP_ZENDESK_KEY,
+          process: import.meta,
         },
       },
     }),
     viteTsconfigPaths(),
+    // replace({
+    //   'process.env': 'import.meta.env',
+    // }),
   ],
   server: {
     open: true,

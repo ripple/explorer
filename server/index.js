@@ -9,8 +9,8 @@ const routes = require('./routes/v1')
 
 const log = require('./lib/logger')({ name: 'server' })
 
-const PORT = import.meta.env.PORT || 5001
-const ADDR = import.meta.env.ADDR || 'localhost'
+const PORT = process.env.PORT || 5001
+const ADDR = process.env.ADDR || 'localhost'
 const app = express()
 const cacheBustRegExp = new RegExp('\\.[0-9a-f]{20}\\.')
 const files = express.static(path.join(__dirname, '/../build'), {
@@ -32,7 +32,7 @@ app.use(bodyParser.json())
 app.use(files)
 app.use('/api/v1', routes)
 
-if (import.meta.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.get('*', (_req, res) => {
     res.sendFile(path.join(__dirname, '/../build/index.html'))
   })

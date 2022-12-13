@@ -4,16 +4,16 @@ const log = require('./logger')({ name: 'xrpl ws' })
 
 const RIPPLEDS = [
   {
-    host: import.meta.env.REACT_APP_RIPPLED_HOST,
-    port: import.meta.env.REACT_APP_RIPPLED_WS_PORT,
+    host: process.env.REACT_APP_RIPPLED_HOST,
+    port: process.env.REACT_APP_RIPPLED_WS_PORT,
     primary: true,
   },
 ]
 
 let connections = []
 
-if (import.meta.env.REACT_APP_RIPPLED_SECONDARY) {
-  import.meta.env.REACT_APP_RIPPLED_SECONDARY.split(',').forEach((d) => {
+if (process.env.REACT_APP_RIPPLED_SECONDARY) {
+  process.env.REACT_APP_RIPPLED_SECONDARY.split(',').forEach((d) => {
     const rippled = d.split(':')
     RIPPLEDS.push({
       host: rippled[0],
@@ -80,7 +80,7 @@ const checkHeartbeat = () => {
 setInterval(checkHeartbeat, 2000)
 
 module.exports.start = () => {
-  if (import.meta.env.REACT_APP_ENVIRONMENT !== 'custom') {
+  if (process.env.REACT_APP_ENVIRONMENT !== 'custom') {
     connections = RIPPLEDS.map(connect)
   }
 }
