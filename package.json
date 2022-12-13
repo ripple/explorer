@@ -67,7 +67,6 @@
     "@types/node": "^17.0.8",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.9",
-    "@types/react-i18next": "^8.1.0",
     "@types/react-redux": "^7.1.22",
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -235,7 +234,7 @@
       "@typescript-eslint/no-use-before-define": [
         "error"
       ],
-      "react/require-default-props": "off"
+      "react/require-default-props": "warn"
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
