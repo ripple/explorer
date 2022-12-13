@@ -5,6 +5,7 @@ const ENV_NETWORK_MAP = {
   mainnet: 'main',
   testnet: 'test',
   devnet: 'dev',
+  amm: 'amm-dev',
   nft_sandbox: 'nft-dev',
 }
 
