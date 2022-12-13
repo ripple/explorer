@@ -62,7 +62,7 @@
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "canvas": "^2.9.0",
+    "canvas": "^2.10.2",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.5.0",
