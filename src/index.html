@@ -27,6 +27,21 @@
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
+  <script>
+    /**
+     * this is a hack
+     * error: global is not defined
+     */
+    var global = global || window
+  </script>
+  <script type="module">
+    import process from "process";
+    import EventEmitter from "events";
+    import { Buffer } from "buffer";
+    window.Buffer = Buffer;
+    window.process = process;
+    window.EventEmitter = EventEmitter;
+  </script>
   <div class="xrpl-explorer" id="xrpl-explorer"></div>
   <script type="module" src="./index.jsx"></script>
   <!--
