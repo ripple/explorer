@@ -53,22 +53,22 @@
     },
     "cSpell.words": [
         "CUSTOMNETWORK",
-        "Decomp",
-        "Hant",
-        "CUSTOMNETWORK",
-        "MILLIS",
-        "NFTSANDBOX",
         "camelcase",
         "chopa",
         "chopb",
         "cimode",
+        "Decomp",
         "fakenode",
+        "Hant",
         "healthz",
         "hexbin",
         "middlewares",
+        "MILLIS",
+        "NFTSANDBOX",
         "moxios",
         "pageview",
         "paystrings",
-        "topojson"
+        "topojson",
+        "VITE"
     ]
   }
