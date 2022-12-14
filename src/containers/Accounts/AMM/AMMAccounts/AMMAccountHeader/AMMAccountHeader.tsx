@@ -16,15 +16,11 @@ export const AMMAccountHeader = (props: AmmDataType) => {
     lpBalance,
     accountId,
     language,
-    tvl,
   } = props
   const { t } = useTranslation()
   const b1 = localizeBalance(balance, language)
   const b2 = localizeBalance(balance2, language)
   const tradingFeeTotal = 1000
-  const localizedTVL = tvl
-    ? localizeBalance({ currency: 'USD', amount: tvl }, language)
-    : undefined
   const lp = localizeNumber(lpBalance, language, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
@@ -54,12 +50,6 @@ export const AMMAccountHeader = (props: AmmDataType) => {
             <div className="title">{t('trading_fee')}</div>
             <div className="value">%{tf}</div>
           </div>
-          {localizedTVL && (
-            <div className="values">
-              <div className="title">{t('amm_tvl')}</div>
-              <div className="value">{localizedTVL}</div>
-            </div>
-          )}
           <div className="values">
             <div className="title">{t('amm_account_address')}</div>
             <div className="value">{accountId}</div>

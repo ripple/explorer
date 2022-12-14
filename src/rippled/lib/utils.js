@@ -4,7 +4,7 @@ import { formatSignerList } from './formatSignerList'
 const XRP_BASE = 1000000
 const BILLION = 1000000000
 
-const ACCOUNT_FLAGS = {
+export const ACCOUNT_FLAGS = {
   0x00010000: 'lsfPasswordSpent',
   0x00020000: 'lsfRequireDestTag',
   0x00040000: 'lsfRequireAuth',

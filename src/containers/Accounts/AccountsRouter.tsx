@@ -4,11 +4,11 @@ import AMMAccounts from 'containers/Accounts/AMM/AMMAccounts/index'
 import { connect } from 'react-redux'
 import SocketContext from '../shared/SocketContext'
 import { getAccountInfo } from '../../rippled/lib/rippled'
-import flags from '../shared/flags'
 import NoMatch from '../NoMatch'
 import Accounts from './index'
 import { ERROR_MESSAGES } from './Errors'
 import Loader from '../shared/components/Loader'
+import { ACCOUNT_FLAGS } from '../../rippled/lib/utils'
 
 const getErrorMessage = (error: any) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -27,10 +27,15 @@ const AccountsRouter = () => {
   const rippledSocket = useContext(SocketContext)
   const [error, setError] = useState<any>()
   const [comp, setComp] = useState<any>()
+  const flags: any = Object.entries(ACCOUNT_FLAGS).reduce(
+    (all, [key, value]) => ({ ...all, [value]: key }),
+    {},
+  )
+
   useEffect(() => {
     getAccountInfo(rippledSocket, accountId)
       .then((data: any) => {
-        if (data.Flags & flags.accountInfo.lsfAMM) {
+        if (data.Flags & flags.lsfAMM) {
           setComp(<AMMAccounts />)
         } else {
           setComp(<Accounts />)

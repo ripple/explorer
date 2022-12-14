@@ -22,7 +22,7 @@ const DATE_OPTIONS = {
 
 export interface Props {
   tx: any
-  hasTokensColumn?: boolean
+  hasTokensColumn?: false
 }
 
 export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
@@ -63,8 +63,4 @@ export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
       )}
     </li>
   )
-}
-
-TransactionTableRow.defaultProps = {
-  hasTokensColumn: false,
 }

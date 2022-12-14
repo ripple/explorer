@@ -13,7 +13,6 @@ import { getAccountTransactions, getAMMInfo } from 'rippled/lib/rippled'
 import formatBalance from 'rippled/lib/txSummary/formatAmount'
 import SocketContext from '../../../shared/SocketContext'
 import { ERROR_MESSAGES } from '../../Errors'
-import { getTokenPairData } from '../../../../apis/OnTheDex'
 
 export interface AmmDataType {
   balance: { currency: string; amount: number; issuer: string }
@@ -23,16 +22,10 @@ export interface AmmDataType {
   tradingFee: number
   accountId: string
   language: string
-  tvl?: number
 }
 
 const getErrorMessage = (error: string) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
-
-const USDGatehub = {
-  currency: 'USD',
-  issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
-}
 
 const AMMAccounts = (props: any) => {
   const { id: accountId, tab = 'transactions' } = useParams<{
@@ -45,19 +38,12 @@ const AMMAccounts = (props: any) => {
   const rippledSocket = useContext(SocketContext)
   const [data, setData] = useState<AmmDataType>()
   const [error, setError] = useState<any>()
-  const [tvl, setTVL] = useState<any>()
   const { language } = props
 
   useEffect(() => {
     let asset1: { currency: string; issuer?: string }
     let asset2: { currency: string; issuer?: string }
-    let volumeAsset1: number
-    let volumeAsset2: number
-    let assetXrpValue: number
-    let asset2XrpValue: number
     let ammData: any
-    let balance: any
-    let balance2: any
 
     /*
     Get the first account transaction which in this case should be AMMInstanceCreate. From this we get
@@ -84,10 +70,8 @@ const AMMAccounts = (props: any) => {
       */
       .then((ammDataWrapper) => {
         ammData = ammDataWrapper.amm
-        balance = formatBalance(ammData.Amount)
-        balance2 = formatBalance(ammData.Amount2)
-        volumeAsset1 = balance.amount
-        volumeAsset2 = balance2.amount
+        const balance = formatBalance(ammData.Amount)
+        const balance2 = formatBalance(ammData.Amount2)
 
         const ammInfo: AmmDataType = {
           ammId: ammData.AMMID,
@@ -97,68 +81,9 @@ const AMMAccounts = (props: any) => {
           lpBalance: ammData.LPToken.value,
           accountId,
           language,
-          tvl: undefined,
         }
 
         setData(ammInfo)
-
-        // TODO: need to unhardcode when pushing PR
-        return getTokenPairData(asset1, { currency: 'XRP' })
-      })
-
-      /*
-      Get the pricing data for Asset 1 using the OnTheDex API. Each call gets a XRP quote
-      */
-      .then((asset1PriceDataResponse) => {
-        if (
-          asset1PriceDataResponse.error ||
-          asset1PriceDataResponse.pairs?.length < 1
-        ) {
-          throw new Error('onthedex failure')
-        }
-        const asset1PriceData = asset1PriceDataResponse.pairs[0]
-        assetXrpValue = asset1PriceData.price_mid
-
-        /*
-        Earlier we've guaranteed that if one of the assets is XRP, then it will be asset 2.
-        If the asset2 is XRP - we don't need a third pricing call. We just need the value of XRP to USD. Set the
-        asset2XRPValue to 1 since 1XRP = 1XRP
-
-        If the asset2 is NOT XRP - make a pricing call to get the amount in XRP.
-
-        The reason we do this is to avoid making the third call if one of the assets was XRP.
-         */
-        if (asset2.currency !== 'XRP') {
-          return getTokenPairData(asset2, { currency: 'XRP' }).then(
-            (asset2PriceData) => {
-              if (
-                asset2PriceData.error ||
-                asset1PriceDataResponse.pairs?.length < 1
-              ) {
-                throw new Error('onthedex failure')
-              }
-
-              asset2XrpValue = asset2PriceData.pairs[0].price_mid
-
-              return getTokenPairData({ currency: 'XRP' }, USDGatehub)
-            },
-          )
-        }
-
-        asset2XrpValue = 1
-        return getTokenPairData(asset2, USDGatehub)
-      })
-
-      /*
-      Calculate TVL with the obtained values
-      */
-      .then((xrpPriceData) => {
-        if (!xrpPriceData.error || xrpPriceData.pairs?.length < 1) {
-          const xrpPrice = xrpPriceData.pairs[0].price_mid
-          const xrpPriceAsset = assetXrpValue * xrpPrice
-          const xrpPriceAsset2 = asset2XrpValue * xrpPrice
-          setTVL(xrpPriceAsset * volumeAsset1 + xrpPriceAsset2 * volumeAsset2)
-        }
       })
       .catch((e) => {
         analytics(ANALYTIC_TYPES.exception, {
@@ -202,7 +127,7 @@ const AMMAccounts = (props: any) => {
     <div className="accounts-page section">
       {data && (
         <>
-          <AMMAccountHeader {...data!} tvl={tvl} />
+          <AMMAccountHeader {...data!} />
           <Tabs tabs={tabs} selected={tab} path={mainPath} />
           {tab === 'transactions' && <AccountTransactionTable {...txProps} />}
           {tab === 'assets' && <AccountAssetTab />}
