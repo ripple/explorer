@@ -15,6 +15,7 @@ const ENV_NETWORK_MAP: Record<string, string> = {
   testnet: 'test',
   devnet: 'dev',
   nft_sandbox: 'nft-dev',
+  amm: 'amm-dev',
 }
 
 const semverCompare = (a: string | undefined, b: string | undefined) => {
