@@ -8,7 +8,7 @@ This project uses [Vite](https://vitejs.dev/). You can find information about ho
 
 ### Install Node and NPM
 
-The project requires node@16. Follow installation instructions on [nodejs.org](https://nodejs.org/en/).
+The project requires node@18. Follow installation instructions on [nodejs.org](https://nodejs.org/en/).
 
 (Recommended) Install using [nvm](https://github.com/nvm-sh/nvm).
 
