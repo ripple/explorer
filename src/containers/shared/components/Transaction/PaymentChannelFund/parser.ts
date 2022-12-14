@@ -1,7 +1,7 @@
 import { PaymentChannelFund, PaymentChannelFundInstructions } from './types'
 import { Meta } from '../../../transactionUtils'
 
-const formatAmount = require('../../../../../rippled/lib/txSummary/formatAmount')
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const findNode = (meta: Meta, nodeType: 'DeletedNode' | 'ModifiedNode') => {
   const metaNode = meta.AffectedNodes.find(
