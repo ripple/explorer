@@ -5,7 +5,7 @@ import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils'
 import SocketContext from '../SocketContext'
 import { getLedger, getServerInfo } from '../../../rippled/lib/rippled'
 import { EPOCH_OFFSET } from '../../../rippled/lib/utils'
-import summarizeLedger from '../../../rippled/lib/summarizeLedger'
+import { summarizeLedger } from '../../../rippled/lib/summarizeLedger'
 
 const MAX_LEDGER_COUNT = 20
 

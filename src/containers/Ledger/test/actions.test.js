@@ -5,7 +5,7 @@ import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../shared/utils'
 import { initialState } from '../reducer'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
-import summarizeLedger from '../../../rippled/lib/summarizeLedger'
+import { summarizeLedger } from '../../../rippled/lib/summarizeLedger'
 import ledgerNotFound from './ledgerNotFound.json'
 import MockWsClient from '../../test/mockWsClient'
 

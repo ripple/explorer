@@ -1,6 +1,6 @@
 import summarizeTransaction from './txSummary'
 import { convertRippleDate } from './convertRippleDate'
-import { formatTransaction } from './utils'
+import { formatTransaction, XRP_BASE } from './utils'
 
 const summarizeLedger = (ledger, txDetails = false) => {
   const summary = {
@@ -8,7 +8,7 @@ const summarizeLedger = (ledger, txDetails = false) => {
     ledger_hash: ledger.ledger_hash,
     parent_hash: ledger.parent_hash,
     close_time: convertRippleDate(ledger.close_time),
-    total_xrp: ledger.total_coins / 1000000,
+    total_xrp: ledger.total_coins / XRP_BASE,
     total_fees: 0,
     transactions: [],
   }
@@ -20,8 +20,8 @@ const summarizeLedger = (ledger, txDetails = false) => {
   })
 
   summary.transactions.sort((a, b) => a.index - b.index)
-  Object.assign(summary, { total_fees: summary.total_fees / 1000000 })
+  Object.assign(summary, { total_fees: summary.total_fees / XRP_BASE })
   return summary
 }
 
-export default summarizeLedger
+export { summarizeLedger }

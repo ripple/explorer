@@ -1,4 +1,4 @@
-import summarizeLedger from './lib/summarizeLedger'
+import { summarizeLedger } from './lib/summarizeLedger'
 import { getLedger as getRippledLedger } from './lib/rippled'
 import logger from './lib/logger'
 
