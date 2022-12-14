@@ -436,17 +436,6 @@ export const formatAsset = (asset) =>
         issuer: asset.issuer,
       }
 
-export const formatBalance = (asset) => {
-  const drop = 1000000
-  return typeof asset === 'string'
-    ? { currency: 'XRP', amount: Number(asset) / drop }
-    : {
-        currency: asset.currency,
-        amount: Number(asset.value),
-        issuer: asset.issuer,
-      }
-}
-
 export const localizeBalance = (balance, language) => {
   let b = localizeNumber(balance.amount || 0.0, language, {
     style: 'currency',

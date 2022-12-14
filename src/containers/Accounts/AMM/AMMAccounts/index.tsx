@@ -2,19 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import AMMAccountHeader from 'containers/Accounts/AMM/AMMAccounts/AMMAccountHeader/AMMAccountHeader'
+import { AMMAccountHeader } from 'containers/Accounts/AMM/AMMAccounts/AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from 'containers/Accounts/AccountTransactionTable/index'
 import NoMatch from 'containers/NoMatch'
 import 'containers/Accounts/styles.scss'
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  formatAsset,
-  formatBalance,
-} from 'containers/shared/utils'
+import { analytics, ANALYTIC_TYPES, formatAsset } from 'containers/shared/utils'
 import { Tabs } from 'containers/shared/components/Tabs'
 import { AccountAssetTab } from 'containers/Accounts/AccountAssetTab/AccountAssetTab'
 import { getAccountTransactions, getAMMInfo } from 'rippled/lib/rippled'
+import formatBalance from 'rippled/lib/txSummary/formatAmount'
 import SocketContext from '../../../shared/SocketContext'
 import { ERROR_MESSAGES } from '../../Errors'
 import { getTokenPairData } from '../../../../apis/OnTheDex'
@@ -46,7 +42,6 @@ const AMMAccounts = (props: any) => {
   const { path = '/' } = useRouteMatch()
   const { t } = useTranslation()
   const mainPath = `${path.split('/:')[0]}/${accountId}`
-  const [currencySelected] = useState('XRP')
   const rippledSocket = useContext(SocketContext)
   const [data, setData] = useState<AmmDataType>()
   const [error, setError] = useState<any>()
@@ -198,7 +193,7 @@ const AMMAccounts = (props: any) => {
   const tabs = ['transactions', 'assets']
   const txProps = {
     accountId,
-    currencySelected,
+    currencySelected: 'XRP',
     hasTokensColumn: true,
   }
   return error ? (

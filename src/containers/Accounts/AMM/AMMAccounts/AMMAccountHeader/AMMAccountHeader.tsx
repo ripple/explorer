@@ -7,7 +7,7 @@ import { AmmDataType } from '../index'
 import { localizeNumber, localizeBalance } from '../../../../shared/utils'
 import Currency from '../../../../shared/components/Currency'
 
-const AMMAccountHeader = (props: AmmDataType) => {
+export const AMMAccountHeader = (props: AmmDataType) => {
   const {
     ammId,
     balance,
@@ -83,5 +83,3 @@ const AMMAccountHeader = (props: AmmDataType) => {
     </div>
   )
 }
-
-export default AMMAccountHeader

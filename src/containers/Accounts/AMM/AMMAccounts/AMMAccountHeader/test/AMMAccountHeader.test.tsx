@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router'
 import { initialState } from 'rootReducer'
 import i18n from 'i18nTestConfig'
-import AMMAccountHeader from 'containers/Accounts/AMM/AMMAccounts/AMMAccountHeader/AMMAccountHeader'
+import { AMMAccountHeader } from 'containers/Accounts/AMM/AMMAccounts/AMMAccountHeader/AMMAccountHeader'
 import { AmmDataType } from '../../index'
 
 const configureMockStore = require('redux-mock-store').default

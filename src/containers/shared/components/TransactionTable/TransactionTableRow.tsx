@@ -20,7 +20,7 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
-interface Props {
+export interface Props {
   tx: any
   hasTokensColumn?: boolean
 }
