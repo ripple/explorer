@@ -9,14 +9,7 @@ import Log from '../shared/log'
 import { FETCH_INTERVAL_NODES_MILLIS, localizeNumber } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import { NodeData, NodeResponse } from './types'
-
-const ENV_NETWORK_MAP: Record<string, string> = {
-  mainnet: 'main',
-  testnet: 'test',
-  devnet: 'dev',
-  nft_sandbox: 'nft-dev',
-  amm: 'amm-dev',
-}
+import { getNetworkFromEnv } from '../shared/vhsUtils'
 
 const semverCompare = (a: string | undefined, b: string | undefined) => {
   if (a == null) {
@@ -67,7 +60,7 @@ export const Nodes = () => {
   })
 
   const fetchData = async () => {
-    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT ?? '']
+    const network = getNetworkFromEnv()
     return axios
       .get(`${process.env.REACT_APP_DATA_URL}/topology/nodes/${network}`)
       .then((resp) => resp.data.nodes)
