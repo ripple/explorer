@@ -34,14 +34,6 @@
      */
     var global = global || window
   </script>
-  <script type="module">
-    import process from "process";
-    import EventEmitter from "events";
-    import { Buffer } from "buffer";
-    window.Buffer = Buffer;
-    window.process = process;
-    window.EventEmitter = EventEmitter;
-  </script>
   <div class="xrpl-explorer" id="xrpl-explorer"></div>
   <script type="module" src="./index.jsx"></script>
   <!--

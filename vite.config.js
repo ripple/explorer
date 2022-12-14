@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 // import reactRefresh from '@vitejs/plugin-react-refresh'
 
 import react from '@vitejs/plugin-react'
-// import viteTsconfigPaths from 'vite-tsconfig-paths'
+import viteTsconfigPaths from 'vite-tsconfig-paths'
 import svgrPlugin from 'vite-plugin-svgr'
 import { createHtmlPlugin } from 'vite-plugin-html'
 // import replace from '@rollup/plugin-replace'
@@ -11,7 +11,7 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  root: 'src',
+  root: './src',
   build: {
     // relative to the root
     outDir: '../dist',
@@ -30,6 +30,7 @@ export default defineConfig({
     esbuildOptions: {
       // Node.js global to browser globalThis
       define: {
+        process: process.env,
         global: 'globalThis',
       },
     },
@@ -45,9 +46,8 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          REACT_APP_GA_ID: import.meta.env.REACT_APP_GA_ID,
-          REACT_APP_ZENDESK_KEY: import.meta.env.REACT_APP_ZENDESK_KEY,
-          process: import.meta,
+          REACT_APP_GA_ID: process.env.REACT_APP_GA_ID,
+          REACT_APP_ZENDESK_KEY: process.env.REACT_APP_ZENDESK_KEY,
         },
       },
     }),
@@ -56,7 +56,7 @@ export default defineConfig({
       buffer: true,
       process: true,
     }),
-    // viteTsconfigPaths(),
+    viteTsconfigPaths(),
     // replace({
     //   'process.env': 'import.meta.env',
     // }),
