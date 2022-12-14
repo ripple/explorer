@@ -17,10 +17,11 @@ export default defineConfig({
     outDir: '../dist',
   },
   publicDir: '../public',
-  define: { global: {} },
+  define: { 'process.env': {} },
   resolve: {
     alias: {
-      process: 'process/browser',
+      // process: 'process/browser',
+      events: 'events',
       stream: 'stream-browserify',
       zlib: 'browserify-zlib',
       'util/': 'util',
@@ -30,9 +31,15 @@ export default defineConfig({
     esbuildOptions: {
       // Node.js global to browser globalThis
       define: {
-        process: process.env,
+        // process: process.env,
         global: 'globalThis',
       },
+      // Enable esbuild polyfill plugins
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          buffer: true,
+        }),
+      ],
     },
   },
   plugins: [
@@ -46,8 +53,8 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          REACT_APP_GA_ID: process.env.REACT_APP_GA_ID,
-          REACT_APP_ZENDESK_KEY: process.env.REACT_APP_ZENDESK_KEY,
+          REACT_APP_GA_ID: '',
+          REACT_APP_ZENDESK_KEY: '',
         },
       },
     }),
@@ -57,9 +64,6 @@ export default defineConfig({
       process: true,
     }),
     viteTsconfigPaths(),
-    // replace({
-    //   'process.env': 'import.meta.env',
-    // }),
   ],
   server: {
     open: true,
