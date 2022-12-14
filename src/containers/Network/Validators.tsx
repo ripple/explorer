@@ -10,13 +10,7 @@ import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
 import { StreamValidator, ValidatorResponse } from './types'
-
-const ENV_NETWORK_MAP: Record<string, string> = {
-  mainnet: 'main',
-  testnet: 'test',
-  devnet: 'dev',
-  nft_sandbox: 'nft-dev',
-}
+import { getNetworkFromEnv } from '../shared/vhsUtils'
 
 export const Validators = () => {
   const language = useLanguage()
@@ -52,7 +46,7 @@ export const Validators = () => {
   }
 
   function fetchData(): void {
-    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT as string]
+    const network = getNetworkFromEnv()
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios
