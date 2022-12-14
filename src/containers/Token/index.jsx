@@ -16,7 +16,7 @@ import {
   BAD_REQUEST,
 } from '../shared/utils'
 
-const IS_MAINNET = import.meta.env.REACT_APP_ENVIRONMENT === 'mainnet'
+const IS_MAINNET = import.meta.env.VITE_ENVIRONMENT === 'mainnet'
 
 const ERROR_MESSAGES = {}
 ERROR_MESSAGES[NOT_FOUND] = {

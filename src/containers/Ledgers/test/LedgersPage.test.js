@@ -108,13 +108,10 @@ describe('Ledgers Page container', () => {
   })
 
   it('renders all parts', () => {
-    moxios.stubRequest(
-      `${import.meta.env.REACT_APP_DATA_URL}/validators/main`,
-      {
-        status: 200,
-        response: [],
-      },
-    )
+    moxios.stubRequest(`${import.meta.env.VITE_DATA_URL}/validators/main`, {
+      status: 200,
+      response: [],
+    })
 
     const wrapper = createWrapper()
     expect(wrapper.find('.ledgers').length).toBe(1)
@@ -125,37 +122,28 @@ describe('Ledgers Page container', () => {
     client.addResponses(rippledResponses)
     const wrapper = createWrapper()
 
-    moxios.stubRequest(
-      `${import.meta.env.REACT_APP_DATA_URL}/validators/main`,
-      {
-        status: 200,
-        response: {
-          validators: [
-            {
-              signing_key:
-                'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
-              master_key:
-                'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-              unl: import.meta.env.REACT_APP_VALIDATOR,
-            },
-            {
-              signing_key:
-                'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-              master_key:
-                'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-              unl: import.meta.env.REACT_APP_VALIDATOR,
-            },
-            {
-              signing_key:
-                'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
-              master_key:
-                'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-              unl: null,
-            },
-          ],
-        },
+    moxios.stubRequest(`${import.meta.env.VITE_DATA_URL}/validators/main`, {
+      status: 200,
+      response: {
+        validators: [
+          {
+            signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
+            master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
+            unl: import.meta.env.VITE_VALIDATOR,
+          },
+          {
+            signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
+            master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
+            unl: import.meta.env.VITE_VALIDATOR,
+          },
+          {
+            signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
+            master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
+            unl: null,
+          },
+        ],
       },
-    )
+    })
 
     moxios.stubRequest('/api/v1/metrics', {
       base_fee: '0.00001',
@@ -239,7 +227,7 @@ describe('Ledgers Page container', () => {
       client.addResponses(rippledResponses)
       const wrapper = createWrapper()
 
-      moxios.stubRequest(`${import.meta.env.REACT_APP_DATA_URL}/validators/`, {
+      moxios.stubRequest(`${import.meta.env.VITE_DATA_URL}/validators/`, {
         status: 200,
         response: {
           validators: [
@@ -248,14 +236,14 @@ describe('Ledgers Page container', () => {
                 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
               master_key:
                 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-              unl: import.meta.env.REACT_APP_VALIDATOR,
+              unl: import.meta.env.VITE_VALIDATOR,
             },
             {
               signing_key:
                 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
               master_key:
                 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-              unl: import.meta.env.REACT_APP_VALIDATOR,
+              unl: import.meta.env.VITE_VALIDATOR,
             },
             {
               signing_key:

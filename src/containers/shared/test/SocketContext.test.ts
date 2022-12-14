@@ -19,8 +19,8 @@ describe('getSocket', () => {
 
   describe('server defined entrypoint', () => {
     beforeEach(() => {
-      import.meta.env.REACT_APP_RIPPLED_HOST = 'somewhere.com'
-      import.meta.env.REACT_APP_P2P_RIPPLED_HOST = 'cli-somewhere.com'
+      import.meta.env.VITE_RIPPLED_HOST = 'somewhere.com'
+      import.meta.env.VITE_P2P_RIPPLED_HOST = 'cli-somewhere.com'
     })
 
     it('should instantiate with environment variables', () => {
@@ -39,7 +39,7 @@ describe('getSocket', () => {
     })
 
     it('should use REACT_APP_INSECURE_WS variable to use ws', () => {
-      import.meta.env.REACT_APP_INSECURE_WS = '1'
+      import.meta.env.VITE_INSECURE_WS = '1'
 
       const client = getSocket()
       expect(XrplClient).toHaveBeenNthCalledWith(
@@ -56,7 +56,7 @@ describe('getSocket', () => {
     })
 
     it('should not create p2pSocket when REACT_APP_P2P_RIPPLED_HOST is not set', () => {
-      delete import.meta.env.REACT_APP_P2P_RIPPLED_HOST
+      delete import.meta.env.VITE_P2P_RIPPLED_HOST
 
       const client = getSocket()
       expect((client as any).p2pSocket).not.toBeDefined()
@@ -65,8 +65,8 @@ describe('getSocket', () => {
 
   describe('user defined entrypoint', () => {
     beforeEach(() => {
-      delete import.meta.env.REACT_APP_RIPPLED_HOST
-      delete import.meta.env.REACT_APP_P2P_RIPPLED_HOST
+      delete import.meta.env.VITE_RIPPLED_HOST
+      delete import.meta.env.VITE_P2P_RIPPLED_HOST
     })
 
     it('should use ignore REACT_APP_RIPPLED_WS_PORT when supplied entry point has a port', () => {
@@ -78,7 +78,7 @@ describe('getSocket', () => {
       expect((client as any).p2pSocket).not.toBeDefined()
     })
     it('should use ws REACT_APP_INSECURE_WS variable is true', () => {
-      import.meta.env.REACT_APP_INSECURE_WS = '1'
+      import.meta.env.VITE_INSECURE_WS = '1'
 
       const client = getSocket('hello.com:4444')
       expect(XrplClient).toHaveBeenNthCalledWith(1, ['ws://hello.com:4444'], {

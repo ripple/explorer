@@ -17,14 +17,14 @@ import './header.scss'
 import SocketContext from '../shared/SocketContext'
 
 const STATIC_ENV_LINKS = {
-  mainnet: import.meta.env.REACT_APP_MAINNET_LINK,
-  testnet: import.meta.env.REACT_APP_TESTNET_LINK,
-  devnet: import.meta.env.REACT_APP_DEVNET_LINK,
-  amm: import.meta.env.REACT_APP_AMM_LINK,
-  nft_sandbox: import.meta.env.REACT_APP_NFTSANDBOX_LINK,
+  mainnet: import.meta.env.VITE_MAINNET_LINK,
+  testnet: import.meta.env.VITE_TESTNET_LINK,
+  devnet: import.meta.env.VITE_DEVNET_LINK,
+  amm: import.meta.env.VITE_AMM_LINK,
+  nft_sandbox: import.meta.env.VITE_NFTSANDBOX_LINK,
 }
 
-const CUSTOM_NETWORK_BASE_LINK = import.meta.env.REACT_APP_CUSTOMNETWORK_LINK
+const CUSTOM_NETWORK_BASE_LINK = import.meta.env.VITE_CUSTOMNETWORK_LINK
 
 function isCustomNetwork(mode) {
   return !Object.keys(STATIC_ENV_LINKS).includes(mode)
@@ -62,12 +62,12 @@ const Header = (props) => {
   function handleClick(event) {
     const mode = event.currentTarget.getAttribute('value')
 
-    if (mode === import.meta.env.REACT_APP_ENVIRONMENT) {
+    if (mode === import.meta.env.VITE_ENVIRONMENT) {
       return
     }
 
     const desiredLink =
-      STATIC_ENV_LINKS[mode] ?? import.meta.env.REACT_APP_MAINNET_LINK
+      STATIC_ENV_LINKS[mode] ?? import.meta.env.VITE_MAINNET_LINK
     switchMode(desiredLink)
   }
 
@@ -150,7 +150,7 @@ const Header = (props) => {
     width < BREAKPOINTS.landscape && inNetwork ? (
       <MobileMenu t={t} currentPath={getCurrentPath()} inNetwork={inNetwork} />
     ) : null
-  const currentMode = import.meta.env.REACT_APP_ENVIRONMENT
+  const currentMode = import.meta.env.VITE_ENVIRONMENT
 
   const urlLinkMap = {
     ...STATIC_ENV_LINKS,
@@ -159,9 +159,9 @@ const Header = (props) => {
 
   const rippledUrl = getSocketUrl(rippledSocket)
 
-  if (import.meta.env.REACT_APP_ENVIRONMENT === 'custom') {
+  if (import.meta.env.VITE_ENVIRONMENT === 'custom') {
     urlLinkMap[rippledUrl] = `${
-      import.meta.env.REACT_APP_CUSTOMNETWORK_LINK
+      import.meta.env.VITE_CUSTOMNETWORK_LINK
     }${rippledUrl}`
   }
 

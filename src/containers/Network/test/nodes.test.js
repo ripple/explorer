@@ -55,13 +55,10 @@ describe('Nodes Page container', () => {
   it('renders all parts', (done) => {
     const wrapper = createWrapper()
 
-    moxios.stubRequest(
-      `${import.meta.env.REACT_APP_DATA_URL}/topology/nodes/main`,
-      {
-        status: 200,
-        response: { nodes: mockNodes },
-      },
-    )
+    moxios.stubRequest(`${import.meta.env.VITE_DATA_URL}/topology/nodes/main`, {
+      status: 200,
+      response: { nodes: mockNodes },
+    })
 
     expect(wrapper.find('.nodes-map').length).toBe(1)
     expect(wrapper.find('.stat').html()).toBe('<div class="stat"></div>')

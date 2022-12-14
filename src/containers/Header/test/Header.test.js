@@ -92,9 +92,7 @@ describe('Header component', () => {
 
       // test clicking on testnet
       wrapper.find('[value="testnet"]').simulate('click')
-      expect(mockedFunction).toBeCalledWith(
-        import.meta.env.REACT_APP_TESTNET_LINK,
-      )
+      expect(mockedFunction).toBeCalledWith(import.meta.env.VITE_TESTNET_LINK)
 
       wrapper.unmount()
     })
@@ -108,7 +106,7 @@ describe('Header component', () => {
         currentTarget: { value: 'custom_url' },
       })
       expect(mockedFunction).toBeCalledWith(
-        `${import.meta.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
+        `${import.meta.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
 
       wrapper.unmount()

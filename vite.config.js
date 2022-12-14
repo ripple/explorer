@@ -12,15 +12,16 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 // https://vitejs.dev/config/
 export default defineConfig({
   root: './src',
+  envDir: '..',
   build: {
     // relative to the root
     outDir: '../dist',
   },
+  // relative to the root
   publicDir: '../public',
   define: { 'process.env': {} },
   resolve: {
     alias: {
-      // process: 'process/browser',
       events: 'events',
       stream: 'stream-browserify',
       zlib: 'browserify-zlib',
@@ -29,9 +30,8 @@ export default defineConfig({
   },
   optimizeDeps: {
     esbuildOptions: {
-      // Node.js global to browser globalThis
       define: {
-        // process: process.env,
+        // Node.js global to browser globalThis
         global: 'globalThis',
       },
       // Enable esbuild polyfill plugins

@@ -74,10 +74,10 @@ const getAccountState = (account, rippledSocket) => {
 
       // TODO: Display tag, if present
       if (
-        (isTestnet && import.meta.env.REACT_APP_ENVIRONMENT === 'mainnet') ||
+        (isTestnet && import.meta.env.VITE_ENVIRONMENT === 'mainnet') ||
         (!isTestnet &&
-          (import.meta.env.REACT_APP_ENVIRONMENT === 'testnet' ||
-            import.meta.env.REACT_APP_ENVIRONMENT === 'devnet'))
+          (import.meta.env.VITE_ENVIRONMENT === 'testnet' ||
+            import.meta.env.VITE_ENVIRONMENT === 'devnet'))
       ) {
         throw Error('Address on wrong network.')
       }

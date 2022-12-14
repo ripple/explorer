@@ -81,7 +81,7 @@ describe('SidechainHome page', () => {
         currentTarget: { value: 'custom_url' },
       })
       expect(mockedFunction).toBeCalledWith(
-        `${import.meta.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
+        `${import.meta.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
     })
 
@@ -94,7 +94,7 @@ describe('SidechainHome page', () => {
       expect(button.length).toEqual(1)
       button.simulate('click')
       expect(mockedFunction).toBeCalledWith(
-        `${import.meta.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
+        `${import.meta.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
     })
   })

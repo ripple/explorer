@@ -62,7 +62,7 @@ export const Nodes = () => {
   const fetchData = async () => {
     const network = getNetworkFromEnv()
     return axios
-      .get(`${process.env.REACT_APP_DATA_URL}/topology/nodes/${network}`)
+      .get(`${import.meta.env.env.VITE_DATA_URL}/topology/nodes/${network}`)
       .then((resp) => resp.data.nodes)
       .then((allNodes) => {
         const nodes: NodeData[] = allNodes.map((node: NodeResponse) => ({
