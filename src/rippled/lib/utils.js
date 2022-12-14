@@ -95,8 +95,6 @@ function RippledError(message, code) {
   this.code = code
 }
 
-require('util').inherits(RippledError, Error)
-
 function convertHexToString(hex, encoding = 'utf8') {
   return hex ? Buffer.from(hex, 'hex').toString(encoding) : undefined
 }
