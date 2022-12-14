@@ -14,5 +14,4 @@ const formatAmount = (d) => {
       }
 }
 
-export default formatAmount
 export { formatAmount }

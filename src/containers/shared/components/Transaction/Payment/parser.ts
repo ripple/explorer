@@ -1,4 +1,4 @@
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { formatFailedPartialAmount } from '../../../../../rippled/lib/txSummary/formatFailedPartialAmount'
 import { Payment, PaymentInstructions } from './types'
 
