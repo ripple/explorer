@@ -13,7 +13,7 @@ export default defineConfig({
   envDir: '..',
   build: {
     // relative to the root
-    outDir: '../dist',
+    outDir: '../build',
   },
   // relative to the root
   publicDir: '../public',
