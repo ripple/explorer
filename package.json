@@ -148,7 +148,7 @@
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
-    "build": "DISABLE_NEW_JSX_TRANSFORM=true node ./build-non-split.js",
+    "build": "DISABLE_NEW_JSX_TRANSFORM=true vite build --emptyOutDir",
     "dev-client": "vite serve",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "eject": "react-scripts eject",
