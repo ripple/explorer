@@ -19,6 +19,13 @@ export default defineConfig({
   },
   // relative to the root
   publicDir: '../public',
+  server: {
+    open: true,
+    port: 3000,
+    proxy: {
+      '/api': 'http://localhost:5001',
+    },
+  },
   define: { 'process.env': {} },
   resolve: {
     alias: {
@@ -65,8 +72,4 @@ export default defineConfig({
     }),
     viteTsconfigPaths(),
   ],
-  server: {
-    open: true,
-    port: 3000,
-  },
 })
