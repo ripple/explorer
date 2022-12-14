@@ -1,6 +1,17 @@
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
-import { formatFailedPartialAmount } from '../../../../../rippled/lib/txSummary/formatFailedPartialAmount'
 import { Payment, PaymentInstructions } from './types'
+
+const formatFailedPartialAmount = (d: any) =>
+  d && d.value
+    ? {
+        currency: d.currency,
+        issuer: d.issuer,
+        amount: 0,
+      }
+    : {
+        currency: 'XRP',
+        amount: 0,
+      }
 
 export const isPartialPayment = (flags: any) => 0x00020000 & flags
 
