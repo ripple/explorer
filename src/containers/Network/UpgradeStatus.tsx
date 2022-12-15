@@ -14,13 +14,7 @@ import {
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 import { StreamValidator, ValidatorResponse } from './types'
-
-const ENV_NETWORK_MAP: Record<string, string> = {
-  mainnet: 'main',
-  testnet: 'test',
-  devnet: 'dev',
-  nft_sandbox: 'nft-dev',
-}
+import { getNetworkFromEnv } from '../shared/vhsUtils'
 
 interface DataAggregation {
   label: string
@@ -81,7 +75,7 @@ export const UpgradeStatus = () => {
   )
 
   const fetchData = () => {
-    const network = ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT as string]
+    const network = getNetworkFromEnv()
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios
