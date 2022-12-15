@@ -108,7 +108,7 @@ const Validator = () => {
       .get(url)
       .then((resp) => resp.data)
       .then((response) => {
-        if (!response.ledger_hash) {
+        if (response.ledger_hash == null) {
           getLedger(response.current_index, rippledSocket).then(
             (ledgerData) => {
               setData({
