@@ -12,6 +12,7 @@ import i18n from '../../../i18nTestConfig'
 import Network from '../index'
 import mockNodes from './mockNodes.json'
 import { testQueryClient } from '../../test/QueryClient'
+import NetworkContext from '../../shared/NetworkContext'
 
 /* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk]
@@ -25,10 +26,12 @@ describe('Nodes Page container', () => {
         <Router>
           <I18nextProvider i18n={i18n}>
             <Provider store={store}>
-              <Network
-                {...props}
-                match={{ params: { tab: 'nodes' }, path: '/' }}
-              />
+              <NetworkContext.Provider value="main">
+                <Network
+                  {...props}
+                  match={{ params: { tab: 'nodes' }, path: '/' }}
+                />
+              </NetworkContext.Provider>
             </Provider>
           </I18nextProvider>
         </Router>

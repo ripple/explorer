@@ -65,7 +65,7 @@ export const Nodes = () => {
       returnedData == null
         ? FETCH_INTERVAL_ERROR_MILLIS
         : FETCH_INTERVAL_NODES_MILLIS,
-    enabled: process.env.REACT_APP_ENVIRONMENT !== 'custom' || !!network,
+    enabled: !!network,
   })
 
   const fetchData = async () =>
