@@ -40,6 +40,13 @@ export interface NodeData extends NodeResponse {
   load_factor: number | null
 }
 
+interface ValidatorScore {
+  missed: number
+  total: number
+  score: string
+  incomplete: boolean
+}
+
 export interface ValidatorResponse {
   // eslint-disable-next-line camelcase -- from VHS
   validation_public_key: string
@@ -56,26 +63,11 @@ export interface ValidatorResponse {
   // eslint-disable-next-line camelcase -- from VHS
   server_version?: string
   // eslint-disable-next-line camelcase -- from VHS
-  agreement_1h: {
-    missed: number
-    total: number
-    score: string
-    incomplete: boolean
-  } | null
+  agreement_1h: ValidatorScore | null
   // eslint-disable-next-line camelcase -- from VHS
-  agreement_24h: {
-    missed: number
-    total: number
-    score: string
-    incomplete: boolean
-  } | null
+  agreement_24h: ValidatorScore | null
   // eslint-disable-next-line camelcase -- from VHS
-  agreement_30day: {
-    missed: number
-    total: number
-    score: string
-    incomplete: boolean
-  } | null
+  agreement_30day: ValidatorScore | null
   partial: boolean
   unl: boolean
 }
