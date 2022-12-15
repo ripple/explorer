@@ -84,7 +84,10 @@ describe('Ledgers Page container', () => {
     )
   }
 
+  const oldEnvs = process.env
+
   beforeEach(async () => {
+    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
     server = new WS(WS_URL, { jsonProtocol: true })
     client = new MockWsClient(WS_URL)
     await server.connected
@@ -92,6 +95,7 @@ describe('Ledgers Page container', () => {
   })
 
   afterEach(() => {
+    process.env = oldEnvs
     moxios.uninstall()
     client.close()
     server.close()
@@ -104,7 +108,7 @@ describe('Ledgers Page container', () => {
   })
 
   it('renders all parts', () => {
-    moxios.stubRequest(`/api/v1/validators`, {
+    moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/main`, {
       status: 200,
       response: [],
     })
@@ -118,25 +122,27 @@ describe('Ledgers Page container', () => {
     client.addResponses(rippledResponses)
     const wrapper = createWrapper()
 
-    moxios.stubRequest(`/api/v1/validators`, {
+    moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/main`, {
       status: 200,
-      response: [
-        {
-          signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
-          master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-          unl: process.env.REACT_APP_VALIDATOR,
-        },
-        {
-          signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-          master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-          unl: process.env.REACT_APP_VALIDATOR,
-        },
-        {
-          signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
-          master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-          unl: null,
-        },
-      ],
+      response: {
+        validators: [
+          {
+            signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
+            master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
+            unl: process.env.REACT_APP_VALIDATOR,
+          },
+          {
+            signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
+            master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
+            unl: process.env.REACT_APP_VALIDATOR,
+          },
+          {
+            signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
+            master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
+            unl: null,
+          },
+        ],
+      },
     })
 
     moxios.stubRequest('/api/v1/metrics', {
@@ -209,8 +215,6 @@ describe('Ledgers Page container', () => {
   }, 8000)
 
   describe('Custom network tests', () => {
-    const oldEnvs = process.env
-
     beforeEach(() => {
       process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'custom' }
     })
@@ -223,25 +227,33 @@ describe('Ledgers Page container', () => {
       client.addResponses(rippledResponses)
       const wrapper = createWrapper()
 
-      moxios.stubRequest(`/api/v1/validators`, {
+      moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/`, {
         status: 200,
-        response: [
-          {
-            signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
-            master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-            unl: process.env.REACT_APP_VALIDATOR,
-          },
-          {
-            signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-            master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-            unl: process.env.REACT_APP_VALIDATOR,
-          },
-          {
-            signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
-            master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-            unl: null,
-          },
-        ],
+        response: {
+          validators: [
+            {
+              signing_key:
+                'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
+              master_key:
+                'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
+              unl: process.env.REACT_APP_VALIDATOR,
+            },
+            {
+              signing_key:
+                'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
+              master_key:
+                'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
+              unl: process.env.REACT_APP_VALIDATOR,
+            },
+            {
+              signing_key:
+                'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
+              master_key:
+                'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
+              unl: null,
+            },
+          ],
+        },
       })
 
       expect(wrapper.find('.ledger').length).toBe(0)

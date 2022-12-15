@@ -8,17 +8,18 @@ export const loadValidator = (identifier, socket) => (dispatch) => {
     type: actionTypes.START_LOADING_VALIDATOR,
     data: { id: identifier },
   })
-  const url = `/api/v1/validators?verbose=true&key=${identifier}`
+  const url = `${process.env.REACT_APP_DATA_URL}/validator/${identifier}`
   return axios
     .get(url)
+    .then((resp) => resp.data)
     .then((response) => {
-      if (!response.data.ledger_hash) {
-        getLedger(response.data.ledger_index, socket).then((ledgerData) => {
+      if (!response.ledger_hash) {
+        getLedger(response.current_index, socket).then((ledgerData) => {
           dispatch({ type: actionTypes.FINISH_LOADING_VALIDATOR })
           dispatch({
             type: actionTypes.LOADING_VALIDATOR_SUCCESS,
             data: {
-              ...response.data,
+              ...response,
               ledger_hash: ledgerData.ledger_hash,
               last_ledger_time: ledgerData.close_time,
             },
@@ -28,7 +29,7 @@ export const loadValidator = (identifier, socket) => (dispatch) => {
         dispatch({ type: actionTypes.FINISH_LOADING_VALIDATOR })
         dispatch({
           type: actionTypes.LOADING_VALIDATOR_SUCCESS,
-          data: response.data,
+          data: response,
         })
       }
     })

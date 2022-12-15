@@ -13,49 +13,52 @@ import {
 } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
+import { StreamValidator, ValidatorResponse } from './types'
+import { getNetworkFromEnv } from '../shared/vhsUtils'
 
-export const aggregateData = (validators: any[]) => {
+interface DataAggregation {
+  label: string
+  value: number
+  count: number
+}
+
+export const aggregateData = (
+  validators: ValidatorResponse[],
+): DataAggregation[] => {
   if (!validators) {
     return []
   }
   let total = 0
-  const tempData: any[] = []
-  validators.reduce((aggregate, current) => {
-    const aggregation = { ...aggregate }
-    if (current.signing_key) {
-      const currentVersion = current.server_version ?? null
-      if (!aggregation[currentVersion]) {
-        aggregation[currentVersion] = {
-          server_version: currentVersion,
-          count: 0,
-        }
-        tempData.push(aggregation[currentVersion])
-      }
-      aggregation[currentVersion].count += 1
+  const aggregation: Record<string, number> = {}
+  validators.forEach((validator) => {
+    if (validator.signing_key) {
       total += 1
+      const version = validator.server_version
+      if (version) {
+        if (!aggregation[version]) {
+          aggregation[version] = 1
+        } else {
+          aggregation[version] += 1
+        }
+      }
     }
-    return aggregation
-  }, {})
+  })
 
-  if (tempData.length === 1 && !tempData[0].server_version) {
-    return []
-  }
-
-  return tempData
-    .map((item) => ({
-      label: item.server_version ? item.server_version.trim() : 'N/A',
-      value: (item.count * 100) / total,
-      count: item.count,
+  return Object.entries(aggregation)
+    .map(([version, count]) => ({
+      label: version ? version.trim() : 'N/A',
+      value: total > 0 ? (count * 100) / total : 0,
+      count,
     }))
     .sort((a, b) => (isEarlierVersion(a.label, b.label) ? -1 : 1))
 }
 
 export const UpgradeStatus = () => {
-  const [vList, setVList] = useState<any>({})
-  const [validations, setValidations] = useState([])
+  const [vList, setVList] = useState<Record<string, ValidatorResponse>>({})
+  const [validations, setValidations] = useState<ValidatorResponse[]>([])
   const [unlCount, setUnlCount] = useState(0)
   const [stableVersion, setStableVersion] = useState<string | null>(null)
-  const [aggregated, setAggregated] = useState<any>([])
+  const [aggregated, setAggregated] = useState<DataAggregation[]>([])
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -72,19 +75,21 @@ export const UpgradeStatus = () => {
   )
 
   const fetchData = () => {
-    const url = '/api/v1/validators?verbose=true'
+    const network = getNetworkFromEnv()
+    const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios
       .get(url)
-      .then((resp) => {
-        const newValidatorList: any = {}
-        resp.data.forEach((validator: any) => {
+      .then((resp) => resp.data.validators)
+      .then((validators: ValidatorResponse[]) => {
+        const newValidatorList: Record<string, ValidatorResponse> = {}
+        validators.forEach((validator) => {
           newValidatorList[validator.signing_key] = validator
         })
 
         setVList(newValidatorList)
         setUnlCount(
-          resp.data.filter((validator: any) => Boolean(validator.unl)).length,
+          validators.filter((validator) => Boolean(validator.unl)).length,
         )
         setAggregated(aggregateData(Object.values(newValidatorList)))
       })
@@ -104,16 +109,19 @@ export const UpgradeStatus = () => {
     })
   }
 
-  const updateValidators = (newValidations: any[]) => {
-    // @ts-ignore - Work around type assignment for complex validation data types
+  const updateValidators = (newValidations: StreamValidator[]) => {
     setValidations(newValidations)
-    setVList((validatorList: any) => {
-      const newValidatorsList: any = { ...validatorList }
-      newValidations.forEach((validation: any) => {
-        newValidatorsList[validation.pubkey] = {
-          ...validatorList[validation.pubkey],
-          ledger_index: validation.ledger_index,
-          ledger_hash: validation.ledger_hash,
+    setVList((validatorList) => {
+      const newValidatorsList: Record<string, StreamValidator> = {
+        ...validatorList,
+      }
+      newValidations.forEach((validation) => {
+        if (validation.pubkey) {
+          newValidatorsList[validation.pubkey] = {
+            ...validatorList[validation.pubkey],
+            ledger_index: validation.ledger_index,
+            ledger_hash: validation.ledger_hash,
+          }
         }
       })
       return newValidatorsList

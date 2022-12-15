@@ -67,7 +67,7 @@ describe('Validators Tab container', () => {
   it('receives live validation', async () => {
     const wrapper = createWrapper()
 
-    moxios.stubRequest('/api/v1/validators?verbose=true', {
+    moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/main`, {
       status: 200,
       response: mockValidators,
     })

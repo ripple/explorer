@@ -1,5 +1,4 @@
 import { convertRippleDate, EPOCH_OFFSET } from './convertRippleDate'
-import summarizeTransaction from './txSummary'
 import { formatSignerList } from './formatSignerList'
 
 const XRP_BASE = 1000000
@@ -98,28 +97,6 @@ function RippledError(message, code) {
 
 require('util').inherits(RippledError, Error)
 
-const summarizeLedger = (ledger, txDetails = false) => {
-  const summary = {
-    ledger_index: Number(ledger.ledger_index),
-    ledger_hash: ledger.ledger_hash,
-    parent_hash: ledger.parent_hash,
-    close_time: convertRippleDate(ledger.close_time),
-    total_xrp: ledger.total_coins / 1000000,
-    total_fees: 0,
-    transactions: [],
-  }
-
-  ledger.transactions.forEach((tx) => {
-    const d = formatTransaction(tx)
-    summary.total_fees += Number(tx.Fee)
-    summary.transactions.push(summarizeTransaction(d, txDetails))
-  })
-
-  summary.transactions.sort((a, b) => a.index - b.index)
-  Object.assign(summary, { total_fees: summary.total_fees / 1000000 })
-  return summary
-}
-
 function convertHexToString(hex, encoding = 'utf8') {
   return hex ? Buffer.from(hex, 'hex').toString(encoding) : undefined
 }
@@ -147,7 +124,6 @@ export {
   formatTransaction,
   formatSignerList,
   formatAccountInfo,
-  summarizeLedger,
   convertHexToString,
   formatNFTInfo,
   EPOCH_OFFSET,

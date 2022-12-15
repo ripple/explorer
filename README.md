@@ -8,7 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Install Node and NPM
 
-The project requires node@14. Follow installation instructions on [nodejs.org](https://nodejs.org/en/).
+The project requires node@16. Follow installation instructions on [nodejs.org](https://nodejs.org/en/).
 
 (Recommended) Install using [nvm](https://github.com/nvm-sh/nvm).
 

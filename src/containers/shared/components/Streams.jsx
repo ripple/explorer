@@ -4,7 +4,8 @@ import Log from '../log'
 import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils'
 import SocketContext from '../SocketContext'
 import { getLedger, getServerInfo } from '../../../rippled/lib/rippled'
-import { summarizeLedger, EPOCH_OFFSET } from '../../../rippled/lib/utils'
+import { EPOCH_OFFSET } from '../../../rippled/lib/utils'
+import { summarizeLedger } from '../../../rippled/lib/summarizeLedger'
 
 const MAX_LEDGER_COUNT = 20
 
@@ -67,9 +68,9 @@ const fetchLoadFee = (rippledSocket) =>
 
 const formatLedgers = (data) =>
   Object.entries(data)
-    .map((l) => {
-      const hashes = Object.entries(l[1].hashes || {}).map((h) => {
-        const validated = h[0] === l[1].ledger_hash
+    .map(([_index, ledger]) => {
+      const hashes = Object.entries(ledger.hashes || {}).map((h) => {
+        const validated = h[0] === ledger.ledger_hash
 
         h[1].sort((a, b) => {
           if (a.time === b.time) {
@@ -85,11 +86,11 @@ const formatLedgers = (data) =>
           hash: h[0],
           trusted_count: h[1].filter((d) => d.unl).length,
           validations: h[1],
-          unselected: !validated && Boolean(l[1].ledger_hash),
+          unselected: !validated && Boolean(ledger.ledger_hash),
           validated,
         }
       })
-      return { ...l[1], hashes }
+      return { ...ledger, hashes }
     })
     .sort((a, b) => b.ledger_index - a.ledger_index)
 
@@ -138,12 +139,12 @@ class Streams extends Component {
       streams: ['ledger', 'validations'],
     })
 
-    if (this.onledgerWrapper) {
-      rippledSocket.off('ledger', this.onledgerWrapper)
+    if (this.onLedgerWrapper) {
+      rippledSocket.off('ledger', this.onLedgerWrapper)
     }
 
-    if (this.onvalidationWrapper) {
-      rippledSocket.off('validation', this.onvalidationWrapper)
+    if (this.onValidationWrapper) {
+      rippledSocket.off('validation', this.onValidationWrapper)
     }
 
     clearInterval(this.purge)
@@ -224,7 +225,7 @@ class Streams extends Component {
     return undefined
   }
 
-  onmetric(data) {
+  onMetric(data) {
     const { updateMetrics } = this.props
     this.setState((prevState) => {
       const metrics = Object.assign(prevState.metrics, data)
@@ -233,7 +234,7 @@ class Streams extends Component {
     })
   }
 
-  onledgerSummary(data) {
+  onLedgerSummary(data) {
     const { ledger_index: ledgerIndex } = data
     if (ledgerIndex % 256 === 0) this.updateNegativeUNL()
     this.setState((prevState) => {
@@ -250,7 +251,7 @@ class Streams extends Component {
     })
   }
 
-  onledger(data) {
+  onLedger(data) {
     const { ledger_index: ledgerIndex } = data
     this.setState((prevState) => {
       const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex)
@@ -263,7 +264,7 @@ class Streams extends Component {
     })
   }
 
-  onvalidation(data) {
+  onValidation(data) {
     const { validators: vList } = this.props
     const { ledger_index: ledgerIndex, ledger_hash: ledgerHash } = data
 
@@ -437,7 +438,7 @@ class Streams extends Component {
   }
 
   updateMetricsFromServer() {
-    fetchMetrics().then((metrics) => this.onmetric(metrics))
+    fetchMetrics().then((metrics) => this.onMetric(metrics))
   }
 
   updateQuorum() {
@@ -468,19 +469,19 @@ class Streams extends Component {
   connect() {
     const rippledSocket = this.context
 
-    this.onledgerWrapper = (streamResult) => {
+    this.onLedgerWrapper = (streamResult) => {
       if (streamResult.type !== 'ledgerClosed') {
         return
       }
       const { ledger, baseFee } = this.handleLedger(streamResult)
-      this.onledger(ledger)
+      this.onLedger(ledger)
       fetchLedger(ledger, rippledSocket)
         .then((ledgerSummary) => {
-          this.onledgerSummary(ledgerSummary)
+          this.onLedgerSummary(ledgerSummary)
         })
         .then(() => {
           if (process.env.REACT_APP_ENVIRONMENT === 'custom') {
-            this.onmetric(this.updateMetrics(baseFee))
+            this.onMetric(this.updateMetrics(baseFee))
           }
         })
         .catch((e) => {
@@ -490,7 +491,7 @@ class Streams extends Component {
       // update the load fee
       fetchLoadFee(rippledSocket)
         .then((loadFee) => {
-          this.onmetric(loadFee)
+          this.onMetric(loadFee)
         })
         .catch((e) => {
           Log.error('Ledger fetch error', e.message)
@@ -499,22 +500,22 @@ class Streams extends Component {
       // calculate custom network metrics on the frontend
       // because there is no backend server connection (since there is no one network)
       if (process.env.REACT_APP_ENVIRONMENT === 'custom') {
-        this.onmetric(this.updateMetrics(baseFee))
+        this.onMetric(this.updateMetrics(baseFee))
       } else {
         this.updateMetricsFromServer()
       }
     }
 
-    rippledSocket.on('ledger', this.onledgerWrapper)
+    rippledSocket.on('ledger', this.onLedgerWrapper)
 
-    this.onvalidationWrapper = (streamResult) => {
+    this.onValidationWrapper = (streamResult) => {
       const data = this.handleValidation(streamResult)
       if (data) {
-        this.onvalidation(data)
+        this.onValidation(data)
       }
     }
 
-    rippledSocket.on('validation', this.onvalidationWrapper)
+    rippledSocket.on('validation', this.onValidationWrapper)
   }
 
   render() {
