@@ -35,6 +35,24 @@ const LEDGER_HASH_MAP = new Map([
   ],
 ])
 
+const MOCK_VALIDATORS = [
+  {
+    signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
+    master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
+    unl: process.env.REACT_APP_VALIDATOR,
+  },
+  {
+    signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
+    master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
+    unl: process.env.REACT_APP_VALIDATOR,
+  },
+  {
+    signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
+    master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
+    unl: null,
+  },
+]
+
 class MockWsClient extends BaseMockWsClient {
   send(message) {
     if (this.debug) {
@@ -128,23 +146,7 @@ describe('Ledgers Page container', () => {
     moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/main`, {
       status: 200,
       response: {
-        validators: [
-          {
-            signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
-            master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-            unl: process.env.REACT_APP_VALIDATOR,
-          },
-          {
-            signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-            master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-            unl: process.env.REACT_APP_VALIDATOR,
-          },
-          {
-            signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
-            master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-            unl: null,
-          },
-        ],
+        validators: MOCK_VALIDATORS,
       },
     })
 
@@ -232,34 +234,15 @@ describe('Ledgers Page container', () => {
       const customNetwork = 'custom_network'
       const wrapper = createWrapper({ network: customNetwork })
 
-      moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/`, {
-        status: 200,
-        response: {
-          validators: [
-            {
-              signing_key:
-                'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
-              master_key:
-                'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-              unl: process.env.REACT_APP_VALIDATOR,
-            },
-            {
-              signing_key:
-                'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-              master_key:
-                'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-              unl: process.env.REACT_APP_VALIDATOR,
-            },
-            {
-              signing_key:
-                'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
-              master_key:
-                'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-              unl: null,
-            },
-          ],
+      moxios.stubRequest(
+        `${process.env.REACT_APP_DATA_URL}/validators/${customNetwork}`,
+        {
+          status: 200,
+          response: {
+            validators: MOCK_VALIDATORS,
+          },
         },
-      })
+      )
 
       expect(wrapper.find('.ledger').length).toBe(0)
       expect(wrapper.find('.validation').length).toBe(0)
