@@ -58,6 +58,8 @@
         "camelcase",
         "chopa",
         "chopb",
+        "fakenode",
+        "healthz",
         "hexbin",
         "middlewares",
         "moxios",

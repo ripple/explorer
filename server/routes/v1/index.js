@@ -1,6 +1,5 @@
 const api = require('express').Router()
 const getTokenDiscovery = require('./tokenDiscovery')
-const getValidators = require('./validators')
 const getHealth = require('./health')
 const getCurrentMetrics = require('./currentMetrics')
 
@@ -10,7 +9,6 @@ if (process.env.REACT_APP_ENVIRONMENT === 'mainnet') {
 api.use('/healthz', (_req, res) => {
   res.status(200).send('success')
 })
-api.use('/validators', getValidators)
 if (process.env.REACT_APP_ENVIRONMENT !== 'custom') {
   // these require a single hardcoded rippled node to connect to
   api.use('/health', getHealth)

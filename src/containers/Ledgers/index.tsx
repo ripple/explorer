@@ -7,23 +7,16 @@ import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import Streams from '../shared/components/Streams'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
+import { Ledger, ValidatorResponse } from './types'
+import { getNetworkFromEnv } from '../shared/vhsUtils'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
-
-interface ValidatorResponse {
-  // eslint-disable-next-line camelcase -- from VHS
-  signing_key: string
-  // eslint-disable-next-line camelcase -- from VHS
-  master_key: string
-  unl: string
-  domain: string | null
-}
 
 const LedgersPage = () => {
   const [validators, setValidators] = useState<
     Record<string, ValidatorResponse>
   >({})
-  const [ledgers, setLedgers] = useState([])
+  const [ledgers, setLedgers] = useState<Ledger[]>([])
   const [paused, setPaused] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
   const [metrics, setMetrics] = useState(undefined)
@@ -33,7 +26,6 @@ const LedgersPage = () => {
   document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
 
   useEffect(() => {
-    /* @ts-ignore */
     analytics(ANALYTIC_TYPES.pageview, { title: 'Ledgers', path: '/' })
     return () => {
       window.scrollTo(0, 0)
@@ -41,15 +33,17 @@ const LedgersPage = () => {
   }, [])
 
   const fetchValidators = () => {
-    const url = `/api/v1/validators`
+    const network = getNetworkFromEnv()
+    const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios
       .get(url)
-      .then((resp) => {
+      .then((resp) => resp.data.validators)
+      .then((validatorResponse) => {
         const newValidators: Record<string, ValidatorResponse> = {}
         let newUnlCount = 0
 
-        resp.data.forEach((v: ValidatorResponse) => {
+        validatorResponse.forEach((v: ValidatorResponse) => {
           if (v.unl === process.env.REACT_APP_VALIDATOR) {
             newUnlCount += 1
           }
