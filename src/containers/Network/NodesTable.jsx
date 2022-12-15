@@ -56,7 +56,7 @@ const renderLedgerHistory = (ledgers, range) => {
 
 const formatLedgerHistory = (nodes) =>
   nodes.map((d) => {
-    if (d.complete_ledgers && typeof d.complete_ledgers === 'string') {
+    if (d.complete_ledgers != null && typeof d.complete_ledgers === 'string') {
       const ranges = d.complete_ledgers.split(',')
       const ledgers = ranges
         .map((l) => {
