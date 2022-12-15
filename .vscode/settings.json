@@ -52,11 +52,17 @@
         "**/test/*.json": true
     },
     "cSpell.words": [
+        "CUSTOMNETWORK",
         "MILLIS",
+        "NFTSANDBOX",
         "camelcase",
+        "chopa",
+        "chopb",
+        "hexbin",
         "middlewares",
         "moxios",
         "pageview",
-        "paystrings"
+        "paystrings",
+        "topojson"
     ]
   }
