@@ -53,9 +53,6 @@ interface ValidatorData {
 }
 
 const Validator = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [data, setData] = useState<ValidatorData>({})
   const [width, setWidth] = useState(0)
   const ref = useRef<any>(null)
   const { t } = useTranslation()
@@ -65,17 +62,31 @@ const Validator = () => {
   const { path = '/' } = useRouteMatch()
   const { identifier = '', tab = 'details' } = useParams<Params>()
 
+  const {
+    data,
+    error,
+    isFetching: isLoading,
+  } = useQuery<ValidatorData, keyof typeof ERROR_MESSAGES | null>(
+    ['fetchValidatorData', identifier],
+    async () => fetchValidatorData(),
+    {
+      placeholderData: {},
+      refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+      refetchOnMount: true,
+    },
+  )
+
   useEffect(() => {
     let short = ''
-    if (data.domain) {
+    if (data?.domain) {
       short = data.domain
-    } else if (data.master_key) {
-      short = `${data.master_key.substr(0, 8)}...`
-    } else if (data.signing_key) {
+    } else if (data?.master_key) {
+      short = `${data?.master_key.substr(0, 8)}...`
+    } else if (data?.signing_key) {
       short = `${data.signing_key.substr(0, 8)}...`
     }
     document.title = `Validator ${short} | ${t('xrpl_explorer')}`
-  }, [data.master_key, data.signing_key, data.domain, t])
+  }, [data, t])
 
   useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, {
@@ -104,25 +115,20 @@ const Validator = () => {
 
   function fetchValidatorData() {
     const url = `${process.env.REACT_APP_DATA_URL}/validator/${identifier}`
-    axios
+    return axios
       .get(url)
       .then((resp) => resp.data)
       .then((response) => {
         if (response.ledger_hash == null) {
-          getLedger(response.current_index, rippledSocket).then(
-            (ledgerData) => {
-              setData({
-                ...response,
-                ledger_hash: ledgerData.ledger_hash,
-                last_ledger_time: ledgerData.close_time,
-              })
-              setIsLoading(false)
-            },
+          return getLedger(response.current_index, rippledSocket).then(
+            (ledgerData) => ({
+              ...response,
+              ledger_hash: ledgerData.ledger_hash,
+              last_ledger_time: ledgerData.close_time,
+            }),
           )
-        } else {
-          setData(response)
-          setIsLoading(false)
         }
+        return response
       })
       .catch((axiosError) => {
         const status =
@@ -132,30 +138,12 @@ const Validator = () => {
         analytics(ANALYTIC_TYPES.exception, {
           exDescription: `${url} --- ${JSON.stringify(axiosError)}`,
         })
-        setError(status)
-        setIsLoading(false)
+        return Promise.reject(status)
       })
   }
 
-  useQuery(
-    [
-      'fetchValidatorData',
-      identifier,
-      identifier === data.master_key || identifier === data.signing_key,
-    ],
-    async () => fetchValidatorData(),
-    {
-      refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
-      refetchOnMount: true,
-    },
-  )
-
   const { data: reports } = useQuery(
-    [
-      'fetchValidatorReport',
-      identifier,
-      identifier === data.master_key || identifier === data.signing_key,
-    ],
+    ['fetchValidatorReport', identifier],
     async () => fetchValidatorReport(),
     {
       refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
@@ -165,18 +153,18 @@ const Validator = () => {
 
   function renderSummary() {
     let name = 'Unknown Validator'
-    if (data.domain) {
+    if (data?.domain) {
       name = `Validator / Domain: ${data.domain}`
-    } else if (data.master_key) {
+    } else if (data?.master_key) {
       name = `Validator / Public Key: ${data.master_key.substr(0, 8)}...`
-    } else if (data.signing_key) {
+    } else if (data?.signing_key) {
       name = `Validator / Ephemeral Key: ${data.signing_key.substr(0, 8)}...`
     }
 
     let subtitle = 'UNKNOWN KEY'
-    if (data.master_key) {
+    if (data?.master_key) {
       subtitle = `MASTER KEY: ${data.master_key}`
-    } else if (data.signing_key) {
+    } else if (data?.signing_key) {
       subtitle = `SIGNING KEY: ${data.signing_key}`
     }
 
@@ -220,13 +208,12 @@ const Validator = () => {
     )
   }
 
-  const loader = isLoading ? <Loader className="show" /> : <Loader />
   let body
 
   if (error) {
     const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
-  } else if (data.master_key || data.signing_key) {
+  } else if (data?.master_key || data?.signing_key) {
     body = renderValidator()
   } else if (!isLoading) {
     body = (
@@ -238,7 +225,7 @@ const Validator = () => {
 
   return (
     <div className="validator">
-      {loader}
+      {isLoading && <Loader />}
       {body}
     </div>
   )
