@@ -5,6 +5,7 @@ const ENV_NETWORK_MAP: Record<string, string> = {
   testnet: 'test',
   devnet: 'dev',
   nft_sandbox: 'nft-dev',
+  amm: 'amm-dev',
 }
 
 function getNetworkName() {
