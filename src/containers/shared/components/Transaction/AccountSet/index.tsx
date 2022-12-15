@@ -1,4 +1,8 @@
-import { TransactionMapping } from '../types'
+import {
+  TransactionAction,
+  TransactionCategory,
+  TransactionMapping,
+} from '../types'
 
 import { Description } from './Description'
 import { parser } from './parser'
@@ -9,5 +13,7 @@ export const AccountSetTransaction: TransactionMapping = {
   Description,
   Simple,
   TableDetail,
+  action: TransactionAction.MODIFY,
+  category: TransactionCategory.ACCOUNT,
   parser,
 }

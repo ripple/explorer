@@ -10,6 +10,8 @@ import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
 import Loader from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
+import { transactionTypes } from '../shared/components/Transaction'
+import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -139,13 +141,16 @@ class Ledgers extends Component {
   renderTransaction = (tx) => (
     <Link
       key={tx.hash}
-      className={`txn tx-type bg ${tx.type} ${tx.result}`}
+      className={`txn tx-type tx-dot bg tx-category-${
+        transactionTypes[tx.type].category
+      } tx-action-${transactionTypes[tx.type].action} ${tx.result}`}
       onMouseOver={(e) => this.showTooltip('tx', e, tx)}
       onFocus={(e) => {}}
       onMouseLeave={this.hideTooltip}
       to={`/transactions/${tx.hash}`}
       // rel="noopener noreferrer"
     >
+      <TransactionActionIcon type={tx.type} />
       <span>{tx.hash}</span>
     </Link>
   )

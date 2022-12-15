@@ -185,15 +185,11 @@ $ledger-width: 168px;
     .txn {
       display: inline-block;
       overflow: hidden;
-      width: 8px;
-      height: 8px;
+      width: 11px;
+      height: 11px;
       margin: 1px;
       animation-duration: 0.3s;
       animation-name: tx-enter;
-      border-radius: 8px;
-      color: $black-60;
-      font-size: 26px;
-      line-height: 12px;
       opacity: 0.35;
     }
 
@@ -202,16 +198,12 @@ $ledger-width: 168px;
     }
 
     .txn::before {
-      content: '/';
+      opacity: 0.3;
     }
 
     /* stylelint-disable-next-line selector-class-pattern -- Name comes from server  */
     .txn.tesSUCCESS {
       opacity: 1;
-
-      &::before {
-        content: '';
-      }
     }
   }
 

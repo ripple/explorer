@@ -101,6 +101,36 @@ div.react-stockchart div {
     background: $black;
   }
 
+  /* stylelint-disable selector-class-pattern -- Name of class is TransactionType */
+  &.tx-category-ACCOUNT {
+    color: #ff1a8b;
+  }
+
+  &.tx-category-DEX {
+    color: #1aa4ff;
+  }
+
+  &.tx-category-PAYMENT {
+    color: #19ff83;
+  }
+
+  &.tx-category-NFT {
+    color: #791aff;
+  }
+
+  &.tx-category-XCHAIN {
+    color: #faff1a;
+  }
+
+  &.tx-category-PSUEDO {
+    color: #fff;
+  }
+
+  &.tx-category-UNKNOWN {
+    color: #838386;
+  }
+  /* stylelint-enable selector-class-pattern */
+
   @include transaction-type(AccountSet, $accountset);
   @include transaction-type(CheckCancel, $checkcancel);
   @include transaction-type(CheckCash, $checkcash);
