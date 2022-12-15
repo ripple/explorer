@@ -8,15 +8,9 @@ import Streams from '../shared/components/Streams'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
 import { Ledger, ValidatorResponse } from './types'
+import { getNetworkFromEnv } from '../shared/vhsUtils'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
-
-const ENV_NETWORK_MAP: Record<string, string> = {
-  mainnet: 'main',
-  testnet: 'test',
-  devnet: 'dev',
-  nft_sandbox: 'nft-dev',
-}
 
 const LedgersPage = () => {
   const [validators, setValidators] = useState<
@@ -39,8 +33,7 @@ const LedgersPage = () => {
   }, [])
 
   const fetchValidators = () => {
-    const network =
-      ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT ?? ''] ?? ''
+    const network = getNetworkFromEnv()
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
     axios
