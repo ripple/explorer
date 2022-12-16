@@ -81,7 +81,7 @@ const Validator = ({ width }: { width: number }) => {
     if (data?.domain) {
       short = data.domain
     } else if (data?.master_key) {
-      short = `${data?.master_key.substr(0, 8)}...`
+      short = `${data.master_key.substr(0, 8)}...`
     } else if (data?.signing_key) {
       short = `${data.signing_key.substr(0, 8)}...`
     }
@@ -93,7 +93,7 @@ const Validator = ({ width }: { width: number }) => {
       title: 'Validator',
       path: `/validators/:identifier/${tab}`,
     })
-  }, [tab])
+  }, [tab, data])
 
   function fetchValidatorReport(): Promise<ValidatorReport[]> {
     return axios
