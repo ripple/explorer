@@ -65,12 +65,21 @@ const Validator = () => {
   const {
     data,
     error,
-    isFetching: isLoading,
+    isFetching: dataIsLoading,
   } = useQuery<ValidatorData, keyof typeof ERROR_MESSAGES | null>(
     ['fetchValidatorData', identifier],
     async () => fetchValidatorData(),
     {
       placeholderData: {},
+      refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+      refetchOnMount: true,
+    },
+  )
+
+  const { data: reports, isFetching: reportIsLoading } = useQuery(
+    ['fetchValidatorReport', identifier],
+    async () => fetchValidatorReport(),
+    {
       refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
       refetchOnMount: true,
     },
@@ -142,15 +151,6 @@ const Validator = () => {
       })
   }
 
-  const { data: reports } = useQuery(
-    ['fetchValidatorReport', identifier],
-    async () => fetchValidatorReport(),
-    {
-      refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
-      refetchOnMount: true,
-    },
-  )
-
   function renderSummary() {
     let name = 'Unknown Validator'
     if (data?.domain) {
@@ -208,6 +208,7 @@ const Validator = () => {
     )
   }
 
+  const isLoading = dataIsLoading || reportIsLoading
   let body
 
   if (error) {
