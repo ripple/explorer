@@ -93,94 +93,59 @@ div.react-stockchart div {
   @include bold;
 }
 
-.tx-type {
-  border-left-color: $black;
-  color: $black;
+/* stylelint-disable selector-class-pattern -- Name of class is TransactionType */
+.tx-category-ACCOUNT {
+  color: $red-purple;
 
-  &.bg {
-    background: $black;
+  &:hover {
+    color: $red-purple;
   }
-
-  /* stylelint-disable selector-class-pattern -- Name of class is TransactionType */
-  &.tx-category-ACCOUNT {
-    color: #ff1a8b;
-  }
-
-  &.tx-category-DEX {
-    color: #1aa4ff;
-  }
-
-  &.tx-category-PAYMENT {
-    color: #19ff83;
-  }
-
-  &.tx-category-NFT {
-    color: #791aff;
-  }
-
-  &.tx-category-XCHAIN {
-    color: #faff1a;
-  }
-
-  &.tx-category-PSUEDO {
-    color: #fff;
-  }
-
-  &.tx-category-UNKNOWN {
-    color: #838386;
-  }
-  /* stylelint-enable selector-class-pattern */
-
-  @include transaction-type(AccountSet, $accountset);
-  @include transaction-type(CheckCancel, $checkcancel);
-  @include transaction-type(CheckCash, $checkcash);
-  @include transaction-type(CheckCreate, $checkcreate);
-  @include transaction-type(EscrowCancel, $escrowcancel);
-  @include transaction-type(EscrowCreate, $escrowcreate);
-  @include transaction-type(EscrowFinish, $escrowfinish);
-  @include transaction-type(OfferCancel, $offercancel);
-  @include transaction-type(OfferCreate, $offercreate);
-  @include transaction-type(TicketCreate, $ticketcreate);
-  @include transaction-type(Payment, $payment);
-  @include transaction-type(PaymentChannelClaim, $paymentchannelclaim);
-  @include transaction-type(PaymentChannelCreate, $paymentchannelcreate);
-  @include transaction-type(PaymentChannelFund, $paymentchannelfund);
-  @include transaction-type(EnableAmendment, $enableamendment);
-  @include transaction-type(SetFee, $setfee);
-  @include transaction-type(SetRegularKey, $setregularkey);
-  @include transaction-type(SignerListSet, $signerlistset);
-  @include transaction-type(TrustSet, $trustset);
-  @include transaction-type(UNLModify, $unlmodify);
-  @include transaction-type(AccountDelete, $accountdelete);
-
-  /* stylelint-disable selector-class-pattern -- Name of class is TransactionType */
-  &.NFTokenAcceptOffer,
-  &.NFTokenBurn,
-  &.NFTokenCancelOffer,
-  &.NFTokenCreateOffer,
-  &.NFTokenMint {
-    @include transaction-type-base($nft);
-  }
-
-  &.XChainAccountCreateCommit,
-  &.XChainAddAttestation,
-  &.XChainClaim,
-  &.XChainCommit,
-  &.XChainCreateBridge,
-  &.XChainCreateClaimID,
-  &.XChainModifyBridge {
-    @include transaction-type-base($sidechain);
-  }
-
-  &.AMMCreate,
-  &.AMMDeposit,
-  &.AMMWithdraw,
-  &.AMMVote,
-  &.AMMBid {
-    @include transaction-type-base($amm);
-  }
-  /* stylelint-enable selector-class-pattern */
 }
+
+.tx-category-DEX {
+  color: $blue;
+
+  &:hover {
+    color: $blue-30;
+  }
+}
+
+.tx-category-PAYMENT {
+  color: $green;
+
+  &:hover {
+    color: $green-30;
+  }
+}
+
+.tx-category-NFT {
+  color: $blue-purple;
+
+  &:hover {
+    color: $blue-purple-30;
+  }
+}
+
+.tx-category-XCHAIN {
+  color: $yellow;
+
+  &:hover {
+    color: $yellow-30;
+  }
+}
+
+.tx-category-PSUEDO {
+  color: $white;
+}
+
+.tx-category-UNKNOWN {
+  color: $black-50;
+
+  &:hover {
+    color: $black-30;
+  }
+}
+/* stylelint-enable selector-class-pattern */
 
 .tx-result {
   &.success {
@@ -219,7 +184,17 @@ div.react-stockchart div {
   }
 }
 
-a {
+.btn {
+  border: none;
+  background: transparent;
+  color: $white;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+a,
+.btn-link {
   color: $green-30;
   text-decoration: none;
 

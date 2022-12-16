@@ -12,6 +12,7 @@ import Loader from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
 import { transactionTypes } from '../shared/components/Transaction'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
+import { Legend } from './Legend'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -249,6 +250,7 @@ class Ledgers extends Component {
       <div className="ledgers">
         {isOnline ? (
           <>
+            <Legend />
             <div className="control">{selected && this.renderSelected()}</div>
             <div className="ledger-list">
               {ledgers.map(this.renderLedger)}{' '}

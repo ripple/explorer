@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import '../shared/css/variables';
 
 .ledger-page {
@@ -237,11 +238,6 @@
       }
     }
 
-    .col-type img {
-      height: 12px;
-      vertical-align: middle;
-    }
-
     .col-account {
       width: calc(100% - 199px);
       text-align: right;
@@ -353,10 +349,6 @@
 
         @include for-size(desktop-up) {
           letter-spacing: 0.5px;
-        }
-
-        span {
-          margin-left: 3px;
         }
       }
 

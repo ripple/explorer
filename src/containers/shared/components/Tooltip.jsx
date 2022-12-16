@@ -5,6 +5,7 @@ import { localizeDate } from '../utils'
 import '../css/tooltip.scss'
 import { ReactComponent as PayStringToolTip } from '../images/paystring_tooltip.svg'
 import { TxStatus } from './TxStatus'
+import { TxLabel } from './TxLabel'
 
 const PADDING_Y = 20
 const DATE_OPTIONS = {
@@ -59,7 +60,7 @@ class Tooltip extends Component {
     return (
       <>
         <div className={`tx-type ${type}`}>
-          {type} <TxStatus status={result} shorthand />
+          <TxLabel type={type} /> <TxStatus status={result} shorthand />
         </div>
         <div className="account">{account}</div>
       </>

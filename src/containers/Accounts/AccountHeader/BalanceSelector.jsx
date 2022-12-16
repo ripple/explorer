@@ -56,7 +56,7 @@ const BalanceSelector = ({
     >
       <button
         type="button"
-        className="balance-selector-button"
+        className="btn balance-selector-button"
         onClick={onClick}
       >
         <span className="selector-text">{text}</span>

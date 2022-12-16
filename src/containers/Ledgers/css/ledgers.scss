@@ -1,8 +1,9 @@
 @use 'sass:color';
 @import '../../shared/css/variables';
 
+$ledgers-margin-large: 32px;
 $ledgers-border: 1px solid $black-70;
-$ledger-width: 168px;
+$ledger-width: 196px;
 
 .ledgers-page {
   display: flex;
@@ -17,6 +18,7 @@ $ledger-width: 168px;
 }
 
 .ledgers {
+  margin-top: $ledgers-margin-large;
   justify-self: space-between;
 
   .control {
@@ -71,11 +73,15 @@ $ledger-width: 168px;
     }
   }
 
+  .legend {
+    padding: 16px 24px;
+    border: $ledgers-border;
+    margin: 0 $ledgers-margin-large;
+  }
+
   .ledger-list {
-    position: relative;
     display: flex;
-    padding: 0 0 40px 32px;
-    margin: 0 16px 20px;
+    padding: 0 0 40px $ledgers-margin-large;
     overflow-x: hidden;
   }
 
@@ -84,7 +90,7 @@ $ledger-width: 168px;
     width: $ledger-width;
     flex-grow: 0;
     flex-shrink: 0;
-    margin-left: 32px;
+    margin-left: $ledgers-margin-large;
     animation-duration: 0.4s;
     animation-name: ledger-enter;
     white-space: normal;
@@ -97,7 +103,7 @@ $ledger-width: 168px;
   @keyframes ledger-enter {
     from {
       width: 0;
-      margin-left: -32px;
+      margin-left: -$ledgers-margin-large;
     }
 
     to {
@@ -108,7 +114,7 @@ $ledger-width: 168px;
 
   .ledger-head {
     min-height: 170px;
-    padding: 32px;
+    padding: $ledgers-margin-large;
     border: $ledgers-border;
     border-bottom: 0;
     color: $black-40;
@@ -166,44 +172,45 @@ $ledger-width: 168px;
     }
 
     .transactions {
-      padding-top: 32px;
-      text-align: left;
+      display: grid;
+      padding-top: $ledgers-margin-large;
+      gap: 4px 6px;
+      grid-template-columns: repeat(8, 1fr);
     }
 
     @keyframes tx-enter {
       from {
-        width: 0px;
-        height: 0px;
+        width: 0;
+        height: 0;
       }
 
       to {
-        width: 7px;
-        height: 7px;
+        width: 11px;
+        height: 11px;
       }
     }
 
     .txn {
       display: inline-block;
-      overflow: hidden;
       width: 11px;
       height: 11px;
-      margin: 1px;
-      animation-duration: 0.3s;
-      animation-name: tx-enter;
+      align-content: center;
+      align-items: center;
       opacity: 0.35;
-    }
 
-    .txn span {
-      display: none;
-    }
+      /* stylelint-disable-next-line selector-class-pattern -- Name comes from server  */
+      &.tesSUCCESS {
+        opacity: 1;
+      }
 
-    .txn::before {
-      opacity: 0.3;
-    }
+      span {
+        display: none;
+      }
 
-    /* stylelint-disable-next-line selector-class-pattern -- Name comes from server  */
-    .txn.tesSUCCESS {
-      opacity: 1;
+      svg {
+        animation-duration: 0.3s;
+        animation-name: tx-enter;
+      }
     }
   }
 

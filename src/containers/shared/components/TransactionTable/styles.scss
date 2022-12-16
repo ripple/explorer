@@ -34,8 +34,6 @@
 
   .col-type {
     width: 180px;
-    letter-spacing: 0;
-    @include semibold;
 
     @include for-size(desktop-up) {
       width: 230px;
@@ -258,7 +256,6 @@
   padding: 10px 20px;
   border: 1px solid $black-40;
   margin: 10px auto;
-  background: $black;
   border-radius: 100px;
   color: $black-40;
   cursor: pointer;
