@@ -115,7 +115,7 @@ const AMMAccounts = (props: any) => {
 
   document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`
 
-  const tabs = ['transactions', 'assets']
+  const tabs = ['transactions']
   const txProps = {
     accountId,
     currencySelected: 'XRP',
@@ -130,7 +130,6 @@ const AMMAccounts = (props: any) => {
           <AMMAccountHeader {...data!} />
           <Tabs tabs={tabs} selected={tab} path={mainPath} />
           {tab === 'transactions' && <AccountTransactionTable {...txProps} />}
-          {tab === 'assets' && <AccountAssetTab />}
         </>
       )}
     </div>

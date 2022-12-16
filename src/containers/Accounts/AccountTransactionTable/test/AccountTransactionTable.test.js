@@ -28,6 +28,7 @@ describe('AccountTransactionsTable container', () => {
         () => {},
       ),
     currencySelected = null,
+    state = { hasToken: false },
   ) => {
     getAccountTransactions.mockImplementation(getAccountTransactionsImpl)
     return mount(
@@ -118,14 +119,15 @@ describe('AccountTransactionsTable container', () => {
     component.unmount()
   })
 
-  it('renders dynamic content with transaction data and token column', (done) => {
-    const component = createWrapper({ hasToken: true }, () => (dispatch) => {
-      dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS })
-      dispatch({
-        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
-        data: TEST_TRANSACTIONS_DATA,
-      })
-    })
+  it('renders dynamic content with transaction data and token column', async () => {
+    const component = createWrapper(
+      () => Promise.resolve(TEST_TRANSACTIONS_DATA),
+      null,
+      { hasToken: true },
+    )
+
+    await flushPromises()
+    component.update()
 
     expect(component.find('.col-token').length).toBeGreaterThan(0)
     expect(component.find('.load-more-btn').length).toBe(1)
