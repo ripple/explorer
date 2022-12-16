@@ -24,12 +24,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Setup npm version 8
-        id: npm8
-        run: |
-          npm --version
-          npm i -g npm@8 --registry=https://registry.npmjs.org
-
       - name: Cache node modules
         id: cache-nodemodules
         uses: actions/cache@v2
@@ -62,12 +56,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Setup npm version 8
-        id: npm8
-        run: |
-          npm --version
-          npm i -g npm@8 --registry=https://registry.npmjs.org
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -108,12 +96,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Setup npm version 8
-        id: npm8
-        run: |
-          npm --version
-          npm i -g npm@8 --registry=https://registry.npmjs.org
 
       - name: Cache node modules
         id: cache-nodemodules
