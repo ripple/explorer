@@ -13,7 +13,7 @@ import {
 } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
-import { StreamValidator, ValidatorResponse } from './types'
+import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
 import { getNetworkFromEnv } from '../shared/vhsUtils'
 
 interface DataAggregation {

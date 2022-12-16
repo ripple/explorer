@@ -19,7 +19,7 @@ import { HistoryTab } from './HistoryTab'
 import './validator.scss'
 import { useLanguage } from '../shared/hooks'
 import SocketContext from '../shared/SocketContext'
-import { ValidatorReport } from './types'
+import { ValidatorReport } from '../shared/vhsTypes'
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {

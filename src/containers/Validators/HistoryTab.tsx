@@ -4,17 +4,9 @@ import Loader from '../shared/components/Loader'
 import { localizeDate } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import './historyTab.scss'
+import { ValidatorReport } from '../shared/vhsTypes'
 
-export interface Report {
-  date: string
-  chain: string
-  score: string
-  total: string
-  missed: string
-  incomplete: boolean
-}
-
-const ReportRow = ({ report }: { report: Report }) => {
+const ReportRow = ({ report }: { report: ValidatorReport }) => {
   const language = useLanguage()
 
   return (
@@ -55,7 +47,7 @@ const ReportRow = ({ report }: { report: Report }) => {
 }
 
 export interface HistoryTabProps {
-  reports?: Report[]
+  reports?: ValidatorReport[]
 }
 
 export const HistoryTab = ({ reports }: HistoryTabProps) => {
