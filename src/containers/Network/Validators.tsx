@@ -86,6 +86,7 @@ export const Validators = () => {
     <div className="network-page">
       <Streams
         validators={vList}
+        // eslint-disable-next-line react/jsx-no-bind
         updateValidators={updateValidators}
         updateMetrics={setMetrics}
       />
