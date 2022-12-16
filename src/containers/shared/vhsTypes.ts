@@ -47,7 +47,11 @@ interface ValidatorScore {
   incomplete: boolean
 }
 
-export interface ValidatorReport extends ValidatorScore {
+export interface ValidatorReport {
+  missed: string
+  total: string
+  score: string
+  incomplete: boolean
   chain: string
   date: string
   // eslint-disable-next-line camelcase -- mimicking rippled
