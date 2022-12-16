@@ -9,7 +9,7 @@ import Log from '../shared/log'
 import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
-import { StreamValidator, ValidatorResponse } from './types'
+import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
 import { getNetworkFromEnv } from '../shared/vhsUtils'
 
 export const Validators = () => {

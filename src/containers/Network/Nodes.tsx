@@ -8,7 +8,7 @@ import NodesTable from './NodesTable'
 import Log from '../shared/log'
 import { FETCH_INTERVAL_NODES_MILLIS, localizeNumber } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
-import { NodeData, NodeResponse } from './types'
+import { NodeData, NodeResponse } from '../shared/vhsTypes'
 import { getNetworkFromEnv } from '../shared/vhsUtils'
 
 const semverCompare = (a: string | undefined, b: string | undefined) => {
