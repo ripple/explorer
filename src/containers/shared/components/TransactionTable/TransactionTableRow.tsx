@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { TxLabel } from '../TxLabel'
 import { TxStatus } from '../TxStatus'
-import TxDetails from '../TxDetails'
+import { TxDetails } from '../TxDetails'
 import { localizeDate } from '../../utils'
 import './styles.scss'
 import { useLanguage } from '../../hooks'
@@ -51,11 +51,7 @@ export const TransactionTableRow = ({ tx }: Props) => {
       </div>
       {tx.details && (
         <div className="details">
-          <TxDetails
-            language={language}
-            type={tx.type}
-            instructions={tx.details.instructions}
-          />
+          <TxDetails type={tx.type} instructions={tx.details.instructions} />
         </div>
       )}
     </li>
