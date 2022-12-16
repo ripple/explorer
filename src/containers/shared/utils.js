@@ -23,6 +23,7 @@ export const SERVER_ERROR = 500
 export const BAD_REQUEST = 400
 
 export const FETCH_INTERVAL_MILLIS = 5000
+export const FETCH_INTERVAL_VHS_MILLIS = 60 * 1000 // 1 minute
 export const FETCH_INTERVAL_NODES_MILLIS = 60000
 
 export const DECIMAL_REGEX = /^\d+$/
@@ -331,7 +332,7 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
 
 // Document: https://developers.google.com/analytics/devguides/collection/analyticsjs/
 export const analytics = (type = null, fields = {}) => {
-  // Chek if GoogleAnalytics is set, type and fields are not empty, type is valid
+  // Check if GoogleAnalytics is set, type and fields are not empty, type is valid
   if (
     !window.gtag ||
     !type ||
