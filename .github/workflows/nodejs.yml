@@ -114,4 +114,4 @@ jobs:
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm install
 
-      - run: npm run build
+      - run: CI=false npm run build
