@@ -152,7 +152,7 @@ export const UpgradeStatus = () => {
         </>
       </div>
       <div className="wrap">
-        <NetworkTabs selected="upgrade_status" />
+        <NetworkTabs selected="upgrade-status" />
         <div className="upgrade_status">
           <BarChartVersion data={aggregated} stableVersion={stableVersion} />
         </div>
