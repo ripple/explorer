@@ -114,5 +114,4 @@ jobs:
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm install
 
-        # TODO: remove `CI=false` once all the warnings are fixed
-      - run: CI=false npm run build
+      - run: npm run build

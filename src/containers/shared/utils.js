@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { QueryClient } from 'react-query'
 import { getQuorum, getNegativeUNL } from '../../rippled'
 import Log from './log'
 
