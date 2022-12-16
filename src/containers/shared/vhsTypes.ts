@@ -47,6 +47,13 @@ interface ValidatorScore {
   incomplete: boolean
 }
 
+export interface ValidatorReport extends ValidatorScore {
+  chain: string
+  date: string
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  validation_public_key: string
+}
+
 export interface ValidatorResponse {
   // eslint-disable-next-line camelcase -- from VHS
   validation_public_key: string
