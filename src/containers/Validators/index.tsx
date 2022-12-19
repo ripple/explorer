@@ -18,7 +18,6 @@ import { getLedger } from '../../rippled'
 import SimpleTab from './SimpleTab'
 import { HistoryTab } from './HistoryTab'
 import './validator.scss'
-import { useLanguage } from '../shared/hooks'
 import SocketContext from '../shared/SocketContext'
 import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
 
