@@ -44,23 +44,24 @@ const Transaction = (props) => {
   const { t } = useTranslation()
   const { actions, data, loading } = props
   const rippledSocket = useContext(SocketContext)
+  const hash = data.raw ? data.raw.hash : undefined
+  const short = identifier.substr(0, 8)
+  document.title = `${t('xrpl_explorer')} | ${t(
+    'transaction_short',
+  )} ${short}...`
 
   useEffect(() => {
-    const hash = data.raw ? data.raw.hash : undefined
-    const short = identifier.substr(0, 8)
-
-    document.title = `${t('xrpl_explorer')} | ${t(
-      'transaction_short',
-    )} ${short}...`
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'Transaction',
       path: `/transactions/:hash/${tab}`,
     })
+  }, [identifier, data, tab])
 
+  useEffect(() => {
     if (identifier && identifier !== hash) {
       actions.loadTransaction(identifier, rippledSocket)
     }
-  }, [identifier])
+  }, [hash, identifier, actions, rippledSocket])
 
   function renderSummary() {
     const type = data.raw.tx.TransactionType
