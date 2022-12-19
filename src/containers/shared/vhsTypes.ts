@@ -83,6 +83,13 @@ export interface ValidatorResponse {
   unl: boolean
 }
 
+export interface ValidatorSupplemented extends ValidatorResponse {
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  ledger_hash: string
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  last_ledger_time: number
+}
+
 export interface StreamValidator extends ValidatorResponse {
   // eslint-disable-next-line camelcase -- mimicking rippled
   ledger_index?: number

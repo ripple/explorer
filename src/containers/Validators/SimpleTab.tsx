@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { localizeDate, BREAKPOINTS } from '../shared/utils'
@@ -7,6 +8,8 @@ import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
 import successIcon from '../shared/images/success.png'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
+import { useLanguage } from '../shared/hooks'
+import { ValidatorSupplemented } from '../shared/vhsTypes'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -20,26 +23,37 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
-class SimpleTab extends Component {
-  renderRowIndex({
+export interface SimpleTabProps {
+  data: ValidatorSupplemented
+  width: number
+}
+
+const SimpleTab = ({ data, width }: SimpleTabProps) => {
+  const language = useLanguage()
+  const { t } = useTranslation()
+
+  const renderRowIndex = ({
     last_ledger_time: lastLedgerTime,
     current_index: ledgerIndex,
     unl,
-  }) {
-    const { t } = this.props
+  }: ValidatorSupplemented) => {
     const unlRow = unl && (
       <SimpleRow label="UNL" className="unl yes">
-        <img src={successIcon} title={unl} alt={unl} /> {unl}
+        <img src={successIcon} alt={unl.toString()} /> {unl}
       </SimpleRow>
     )
     return (
       <>
-        <SimpleRow
-          label={`Last Ledger ${t('formatted_date', { timeZone: TIME_ZONE })}`}
-          data-test="ledger-time"
-        >
-          {lastLedgerTime}
-        </SimpleRow>
+        {lastLedgerTime && (
+          <SimpleRow
+            label={`Last Ledger ${t('formatted_date', {
+              timeZone: TIME_ZONE,
+            })}`}
+            data-test="ledger-time"
+          >
+            {localizeDate(new Date(lastLedgerTime), language, DATE_OPTIONS)}
+          </SimpleRow>
+        )}
         <SimpleRow label={`Last ${t('ledger_index')}`} data-test="ledger-index">
           <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
         </SimpleRow>
@@ -48,36 +62,24 @@ class SimpleTab extends Component {
     )
   }
 
-  render() {
-    const { language, data, width } = this.props
+  const rowIndex = renderRowIndex(data)
 
-    const formattedData = {
-      ...data,
-      last_ledger_time: data.last_ledger_time
-        ? localizeDate(new Date(data.last_ledger_time), language, DATE_OPTIONS)
-        : '',
-    }
-
-    const rowIndex = this.renderRowIndex(formattedData)
-
-    return (
-      <div className="simple-body simple-body-validator">
-        <div className="rows">
-          <Simple language={language} data={data} />
-          {width < BREAKPOINTS.landscape && rowIndex}
-        </div>
-        {width >= BREAKPOINTS.landscape && (
-          <div className="index">{rowIndex}</div>
-        )}
-        <div className="clear" />
+  return (
+    <div className="simple-body simple-body-validator">
+      <div className="rows">
+        <Simple data={data} />
+        {width < BREAKPOINTS.landscape && rowIndex}
       </div>
-    )
-  }
+      {width >= BREAKPOINTS.landscape && (
+        <div className="index">{rowIndex}</div>
+      )}
+      <div className="clear" />
+    </div>
+  )
 }
 
+// TODO: Remove in the next PR
 SimpleTab.propTypes = {
-  t: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   data: PropTypes.objectOf(
     PropTypes.oneOfType([

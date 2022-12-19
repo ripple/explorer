@@ -2,10 +2,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { SimpleRow } from '../../shared/components/Transaction/SimpleRow'
-import { StreamValidator, ValidatorScore } from '../../shared/vhsTypes'
+import { ValidatorScore, ValidatorSupplemented } from '../../shared/vhsTypes'
 
 export interface SimpleProps {
-  data: StreamValidator
+  data: ValidatorSupplemented
 }
 
 const Simple = ({ data }: SimpleProps) => {

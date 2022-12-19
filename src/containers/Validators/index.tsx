@@ -20,7 +20,7 @@ import { HistoryTab } from './HistoryTab'
 import './validator.scss'
 import { useLanguage } from '../shared/hooks'
 import SocketContext from '../shared/SocketContext'
-import { ValidatorReport } from '../shared/vhsTypes'
+import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -41,21 +41,8 @@ interface Params {
   tab?: string
 }
 
-interface ValidatorData {
-  domain?: string
-  // eslint-disable-next-line camelcase -- from VHS
-  master_key?: string
-  // eslint-disable-next-line camelcase -- from VHS
-  signing_key?: string
-  // eslint-disable-next-line camelcase -- mimicking rippled
-  ledger_index?: string
-  // eslint-disable-next-line camelcase -- mimicking rippled
-  ledger_hash?: string
-}
-
 const Validator = ({ width }: { width: number }) => {
   const { t } = useTranslation()
-  const language = useLanguage()
   const rippledSocket = useContext(SocketContext)
 
   const { path = '/' } = useRouteMatch()
@@ -65,11 +52,10 @@ const Validator = ({ width }: { width: number }) => {
     data,
     error,
     isFetching: dataIsLoading,
-  } = useQuery<ValidatorData, keyof typeof ERROR_MESSAGES | null>(
+  } = useQuery<ValidatorSupplemented, keyof typeof ERROR_MESSAGES | null>(
     ['fetchValidatorData', identifier],
     async () => fetchValidatorData(),
     {
-      placeholderData: {},
       refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
       refetchOnMount: true,
     },
@@ -186,7 +172,7 @@ const Validator = ({ width }: { width: number }) => {
         body = <HistoryTab reports={reports ?? []} />
         break
       default:
-        body = <SimpleTab language={language} t={t} data={data} width={width} />
+        body = data && <SimpleTab data={data} width={width} />
         break
     }
 
