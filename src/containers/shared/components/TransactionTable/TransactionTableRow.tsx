@@ -22,10 +22,10 @@ const DATE_OPTIONS = {
 
 export interface Props {
   tx: any
-  hasTokensColumn?: false
+  hasTokensColumn?: boolean
 }
 
-export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
+export const TransactionTableRow = ({ tx, hasTokensColumn = false }: Props) => {
   const language = useLanguage()
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)

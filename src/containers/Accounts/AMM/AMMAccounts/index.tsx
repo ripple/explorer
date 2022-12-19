@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
 import { AMMAccountHeader } from 'containers/Accounts/AMM/AMMAccounts/AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from 'containers/Accounts/AccountTransactionTable/index'
 import NoMatch from 'containers/NoMatch'
 import 'containers/Accounts/styles.scss'
 import { analytics, ANALYTIC_TYPES, formatAsset } from 'containers/shared/utils'
 import { Tabs } from 'containers/shared/components/Tabs'
-import { AccountAssetTab } from 'containers/Accounts/AccountAssetTab/AccountAssetTab'
 import { getAccountTransactions, getAMMInfo } from 'rippled/lib/rippled'
 import formatBalance from 'rippled/lib/txSummary/formatAmount'
 import SocketContext from '../../../shared/SocketContext'
@@ -27,7 +25,7 @@ export interface AmmDataType {
 const getErrorMessage = (error: string) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-const AMMAccounts = (props: any) => {
+export const AMMAccounts = (props: any) => {
   const { id: accountId, tab = 'transactions' } = useParams<{
     id: string
     tab: string
@@ -46,7 +44,7 @@ const AMMAccounts = (props: any) => {
     let ammData: any
 
     /*
-    Get the first account transaction which in this case should be AMMInstanceCreate. From this we get
+    Get the first account transaction which in this case should be AMMCreate. From this we get
     the two assets in the asset pool.
     */
     getAccountTransactions(rippledSocket, accountId, 1, undefined, true)
@@ -116,11 +114,7 @@ const AMMAccounts = (props: any) => {
   document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`
 
   const tabs = ['transactions']
-  const txProps = {
-    accountId,
-    currencySelected: 'XRP',
-    hasTokensColumn: true,
-  }
+
   return error ? (
     renderError()
   ) : (
@@ -129,11 +123,11 @@ const AMMAccounts = (props: any) => {
         <>
           <AMMAccountHeader {...data!} />
           <Tabs tabs={tabs} selected={tab} path={mainPath} />
-          {tab === 'transactions' && <AccountTransactionTable {...txProps} />}
+          {tab === 'transactions' && (
+            <AccountTransactionTable accountId={accountId} hasTokensColumn />
+          )}
         </>
       )}
     </div>
   )
 }
-
-export default connect(() => ({}))(AMMAccounts)

@@ -16,6 +16,12 @@ describe('Currency', () => {
     wrapper.unmount()
   })
 
+  it('handles currency codes that are 4 characters and include issuer ', () => {
+    const wrapper = mount(<Currency currency="USD" issuer="david" showIssuer />)
+    expect(wrapper.find('.currency').text()).toEqual('USD.david')
+    wrapper.unmount()
+  })
+
   it('handles currency codes that are 40 characters ', () => {
     const wrapper = mount(
       <Currency currency="584D455441000000000000000000000000000000" />,
@@ -30,13 +36,8 @@ describe('Currency', () => {
         <Currency
           currency="584D455441000000000000000000000000000000"
           issuer="r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB"
-          amount={5.001}
         />
-        <Currency
-          currency="USD"
-          issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq"
-          amount={15.01}
-        />
+        <Currency currency="USD" issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" />
       </BrowserRouter>,
     )
     const meta = wrapper.find('.currency').at(0)

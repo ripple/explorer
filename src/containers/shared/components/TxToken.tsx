@@ -12,20 +12,25 @@ function getTokenPair(
   amount: { currency: string; amount: number },
   amount2: { currency: string; amount: number },
 ) {
-  if (type === 'AMMBid' || type === 'AMMVote') {
-    return 'LP'
+  if (
+    type === 'AMMWithdraw' ||
+    type === 'AMMDeposit' ||
+    type === 'AMMCreate' ||
+    type === 'Payment'
+  ) {
+    const first =
+      amount?.amount && amount.amount !== fee ? amount.currency : undefined
+    const second =
+      amount2?.amount && amount2.amount !== fee ? amount2.currency : undefined
+
+    if (first && second) {
+      return first + (type === 'Payment' ? ' for ' : ' and ') + second
+    }
+
+    return first || second
   }
 
-  const first =
-    amount?.amount && amount.amount !== fee ? amount.currency : undefined
-  const second =
-    amount2?.amount && amount2.amount !== fee ? amount2.currency : undefined
-
-  if (first && second) {
-    return first + (type === 'Payment' ? ' for ' : ' and ') + second
-  }
-
-  return first || second
+  return 'LP'
 }
 
 const TxToken = (props: Props) => {

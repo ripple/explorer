@@ -10,13 +10,13 @@ import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 
 export interface AccountTransactionsTableProps {
   accountId: string
-  currencySelected: string
+  currencySelected?: string
   hasTokensColumn: boolean
 }
 
 export const AccountTransactionTable = ({
   accountId,
-  currencySelected,
+  currencySelected = 'XRP',
   hasTokensColumn,
 }: AccountTransactionsTableProps) => {
   const { t } = useTranslation()

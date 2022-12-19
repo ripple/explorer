@@ -51,7 +51,6 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
-    "@testing-library/react": "^12.1.2",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.186",
@@ -83,6 +82,7 @@
     "nodemon": "^2.0.9",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
+    "react-error-overlay": "6.0.9",
     "react-test-renderer": "^16.14.0",
     "redux-mock-store": "^1.5.1",
     "sass": "^1.51.0",
@@ -94,10 +94,11 @@
     "stylelint-config-standard": "^26.0.0",
     "stylelint-prettier": "^2.0.0",
     "stylelint-scss": "^4.3.0",
-    "typescript": "^4.3.5",
+    "typescript": "^4.3.5"
+  },
+  "resolutions": {
     "react-error-overlay": "6.0.9"
   },
-  "resolutions": { "react-error-overlay": "6.0.9" },
   "jest": {
     "transformIgnorePatterns": [
       "node_modules/(?!arc)/(?!d3)"
@@ -220,7 +221,6 @@
       ],
       "no-bitwise": "off",
       "react/jsx-props-no-spreading": "warn",
-      "react/require-default-props": "off",
       "import/extensions": [
         "error",
         "ignorePackages",

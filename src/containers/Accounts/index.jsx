@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-
 import AccountHeader from './AccountHeader'
 import { AccountTransactionTable } from './AccountTransactionTable'
-
 import './styles.scss'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { Tabs } from '../shared/components/Tabs'
-
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
 
-const Accounts = (props) => {
+export const Accounts = () => {
   const { id: accountId, tab = 'transactions' } = useParams()
   const { path = '/' } = useRouteMatch()
   const { t } = useTranslation()
@@ -61,7 +57,3 @@ const Accounts = (props) => {
 Accounts.defaultProps = {
   error: null,
 }
-
-export default connect((state) => ({
-  error: state.accountHeader.status,
-}))(Accounts)
