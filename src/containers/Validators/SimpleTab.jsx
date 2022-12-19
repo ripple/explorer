@@ -23,7 +23,7 @@ const DATE_OPTIONS = {
 class SimpleTab extends Component {
   renderRowIndex({
     last_ledger_time: lastLedgerTime,
-    ledger_index: ledgerIndex,
+    current_index: ledgerIndex,
     unl,
   }) {
     const { t } = this.props

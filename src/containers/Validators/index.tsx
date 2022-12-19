@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useEffect } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch, useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { connect } from 'react-redux'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
@@ -52,9 +53,7 @@ interface ValidatorData {
   ledger_hash?: string
 }
 
-const Validator = () => {
-  const [width, setWidth] = useState(0)
-  const ref = useRef<any>(null)
+const Validator = ({ width }: { width: number }) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const rippledSocket = useContext(SocketContext)
@@ -103,12 +102,6 @@ const Validator = () => {
       path: `/validators/:identifier/${tab}`,
     })
   }, [tab])
-
-  // TODO: move width calculation to SimpleTab once that's using hooks
-  useEffect(() => {
-    setWidth(ref.current ? ref.current.offsetWidth : 0)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- actually needed here, not sure why it's complaining
-  }, [ref.current])
 
   function fetchValidatorReport(): Promise<ValidatorReport[]> {
     return axios
@@ -201,9 +194,7 @@ const Validator = () => {
       <>
         {renderSummary()}
         {renderTabs()}
-        <div ref={ref} className="tab-body">
-          {body}
-        </div>
+        <div className="tab-body">{body}</div>
       </>
     )
   }
@@ -232,4 +223,6 @@ const Validator = () => {
   )
 }
 
-export default Validator
+export default connect((state: any) => ({
+  width: state.app.width,
+}))(Validator)

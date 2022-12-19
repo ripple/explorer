@@ -24,7 +24,7 @@ describe('SimpleTab container', () => {
                 'n9KNmrXo9gK3ucZy8KHKFM113ENGv6uyukS6Bb7TtuvEx98SdwMS',
               ledger_hash:
                 'D498209A1B1BBACB9D7C8419F9A4136E7F7748E66B7936D2F92249A2C1AFBCB9',
-              ledger_index: 55764842,
+              current_index: 55764842,
               load_fee: null,
               partial: false,
               chain: null,

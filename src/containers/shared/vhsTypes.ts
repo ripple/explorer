@@ -40,7 +40,7 @@ export interface NodeData extends NodeResponse {
   load_factor: number | null
 }
 
-interface ValidatorScore {
+export interface ValidatorScore {
   missed: number
   total: number
   score: string
