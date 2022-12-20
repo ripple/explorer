@@ -3,13 +3,9 @@ import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import Sequence from '../../shared/components/Sequence'
 import { transactionTypes } from '../../shared/components/Transaction'
-import { useLanguage } from '../../shared/hooks'
 
-const TransactionDescription = (props) => {
-  const language = useLanguage()
+const TransactionDescription = ({ data }) => {
   const { t } = useTranslation()
-  const { data } = props
-  let body = null
 
   if (!data || !data.tx) {
     return null
@@ -19,17 +15,12 @@ const TransactionDescription = (props) => {
   const DescriptionComponent =
     transactionTypes[data.tx.TransactionType]?.Description
 
-  if (DescriptionComponent) {
-    body = <DescriptionComponent data={data} />
-  }
-
   return (
     <div className="detail-section">
       <div className="title">{t('description')}</div>
       <div>
-        {t('transaction_sequence')}
+        {t('transaction_sequence')}{' '}
         <b>
-          {' '}
           <Sequence
             sequence={data.tx.Sequence}
             ticketSequence={data.tx.TicketSequence}
@@ -38,7 +29,7 @@ const TransactionDescription = (props) => {
           />
         </b>
       </div>
-      {body}
+      {DescriptionComponent && <DescriptionComponent data={data} />}
     </div>
   )
 }
