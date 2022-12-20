@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { QueryClient } from 'react-query'
 import { getQuorum, getNegativeUNL } from '../../rippled'
 import Log from './log'
 
@@ -34,6 +33,7 @@ export const CURRENCY_REGEX =
   /^[a-zA-Z0-9]{3,}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const FULL_CURRENCY_REGEX =
   /^[0-9A-Fa-f]{40}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
+export const VALIDATORS_REGEX = /^n[9H][0-9A-Za-z]{50}$/
 
 export const UP_COLOR = '#2BCB96'
 export const DOWN_COLOR = '#F23548'
