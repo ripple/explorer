@@ -24,26 +24,27 @@ describe('SimpleTab container', () => {
                 'n9KNmrXo9gK3ucZy8KHKFM113ENGv6uyukS6Bb7TtuvEx98SdwMS',
               ledger_hash:
                 'D498209A1B1BBACB9D7C8419F9A4136E7F7748E66B7936D2F92249A2C1AFBCB9',
-              ledger_index: 55764842,
+              current_index: 55764842,
               load_fee: null,
               partial: false,
               chain: null,
               unl: 'vl.ripple.com',
               last_ledger_time: '2020-05-28T09:21:19.000Z',
               server_version: '1.9.4',
-              agreement_1hour: {
-                score: 1,
+              agreement_1h: {
+                score: '1.00000',
                 missed: 0,
                 incomplete: false,
               },
-              agreement_24hour: {
-                score: 1,
+              agreement_24h: {
+                score: '1.00000',
                 missed: 0,
                 incomplete: true,
               },
               agreement_30day: {
-                score: 1,
-                missed: 0,
+                score: '0.99844',
+                missed: 1046,
+                total: 672351,
                 incomplete: true,
               },
               domain: 'digifin.uk',
@@ -65,6 +66,12 @@ describe('SimpleTab container', () => {
     expectSimpleRowText(wrapper, 'ledger-index', '55764842')
     expectSimpleRowLabel(wrapper, '.unl', 'UNL')
     expectSimpleRowText(wrapper, '.unl', ' vl.ripple.com')
+    expectSimpleRowLabel(wrapper, 'score-h1', 'Agreement (1 hour)')
+    expectSimpleRowText(wrapper, 'score-h1', '1.00000')
+    expectSimpleRowLabel(wrapper, 'score-h24', 'Agreement (24 hours)')
+    expectSimpleRowText(wrapper, 'score-h24', '1.00000*')
+    expectSimpleRowLabel(wrapper, 'score-d30', 'Agreement (30 days)')
+    expectSimpleRowText(wrapper, 'score-d30', '0.99844*')
     wrapper.unmount()
   })
 
