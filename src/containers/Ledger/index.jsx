@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
-import TxDetails from '../shared/components/TxDetails'
+import { TxDetails } from '../shared/components/TxDetails'
 import Sequence from '../shared/components/Sequence'
 import { ReactComponent as LeftArrow } from '../shared/images/ic_left_arrow.svg'
 import { ReactComponent as RightArrow } from '../shared/images/ic_right_arrow.svg'
@@ -202,11 +202,7 @@ class Ledger extends Component {
             </div>
             <div className="details">
               {success ? null : <TxStatus status={result} />}
-              <TxDetails
-                language={language}
-                instructions={details.instructions}
-                type={type}
-              />
+              <TxDetails instructions={details.instructions} type={type} />
             </div>
           </div>
         )

@@ -48,3 +48,4 @@ config.plugins.push(
     }
   }),
 )
+config.externals = ['dtrace-provider', 'fs']

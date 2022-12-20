@@ -40,14 +40,18 @@ export interface NodeData extends NodeResponse {
   load_factor: number | null
 }
 
-interface ValidatorScore {
+export interface ValidatorScore {
   missed: number
   total: number
   score: string
   incomplete: boolean
 }
 
-export interface ValidatorReport extends ValidatorScore {
+export interface ValidatorReport {
+  missed: string
+  total: string
+  score: string
+  incomplete: boolean
   chain: string
   date: string
   // eslint-disable-next-line camelcase -- mimicking rippled
@@ -77,6 +81,13 @@ export interface ValidatorResponse {
   agreement_30day: ValidatorScore | null
   partial: boolean
   unl: boolean
+}
+
+export interface ValidatorSupplemented extends ValidatorResponse {
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  ledger_hash: string
+  // eslint-disable-next-line camelcase -- mimicking rippled
+  last_ledger_time: number
 }
 
 export interface StreamValidator extends ValidatorResponse {
