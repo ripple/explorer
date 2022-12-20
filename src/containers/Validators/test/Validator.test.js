@@ -4,11 +4,15 @@ import moxios from 'moxios'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
 import { BrowserRouter as Router, useParams } from 'react-router-dom'
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import { Provider } from 'react-redux'
 import { BAD_REQUEST } from '../../shared/utils'
 import i18n from '../../../i18nTestConfig'
 import Validator from '../index'
-import { queryClient } from '../../shared/QueryClient'
 import { getLedger } from '../../../rippled'
+import { initialState } from '../../../rootReducer'
+import { testQueryClient } from '../../test/QueryClient'
 
 global.location = '/validators/aaaa'
 
@@ -28,13 +32,6 @@ function flushPromises() {
   return new Promise((resolve) => setImmediate(resolve))
 }
 
-queryClient.setDefaultOptions({
-  queries: {
-    ...queryClient.defaultQueryOptions(),
-    cacheTime: 0,
-  },
-})
-
 describe('Validator container', () => {
   const createWrapper = (
     getLedgerImpl = () =>
@@ -43,16 +40,21 @@ describe('Validator container', () => {
         () => {},
       ),
   ) => {
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+    const store = mockStore({ ...initialState })
     useParams.mockImplementation(() => ({ identifier: MOCK_IDENTIFIER }))
     getLedger.mockImplementation(getLedgerImpl)
     return mount(
-      <QueryClientProvider client={queryClient}>
-        <I18nextProvider i18n={i18n}>
-          <Router>
-            <Validator />
-          </Router>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <Provider store={store}>
+        <QueryClientProvider client={testQueryClient}>
+          <I18nextProvider i18n={i18n}>
+            <Router>
+              <Validator />
+            </Router>
+          </I18nextProvider>
+        </QueryClientProvider>
+      </Provider>,
     )
   }
 
@@ -89,6 +91,7 @@ describe('Validator container', () => {
     )
     const wrapper = createWrapper()
     await flushPromises()
+    await flushPromises()
     expect(document.title).toBe('Validator example.com | xrpl_explorer')
     wrapper.unmount()
   })
@@ -106,6 +109,7 @@ describe('Validator container', () => {
     )
     const wrapper = createWrapper()
     await flushPromises()
+    await flushPromises()
     expect(document.title).toBe('Validator foo... | xrpl_explorer')
     wrapper.unmount()
   })
@@ -122,6 +126,7 @@ describe('Validator container', () => {
       },
     )
     const wrapper = createWrapper()
+    await flushPromises()
     await flushPromises()
     expect(document.title).toBe('Validator bar... | xrpl_explorer')
     wrapper.unmount()

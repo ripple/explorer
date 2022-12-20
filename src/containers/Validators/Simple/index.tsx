@@ -1,16 +1,23 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { SimpleRow } from '../../shared/components/Transaction/SimpleRow'
+import { ValidatorScore, ValidatorSupplemented } from '../../shared/vhsTypes'
 
-const Simple = (props) => {
-  const { data } = props
+export interface SimpleProps {
+  data: ValidatorSupplemented
+}
+
+const Simple = ({ data }: SimpleProps) => {
   const { t } = useTranslation()
 
-  const renderAgreement = (className, d, label) =>
+  const renderAgreement = (
+    className: string,
+    d: ValidatorScore | null,
+    label: string,
+  ) =>
     d ? (
-      <div className="row">
+      <div className="row" data-test={`score-${className}`}>
         <div className="label">{label}</div>
         <div
           className={`value ${className} score`}
@@ -39,41 +46,15 @@ const Simple = (props) => {
         <div className="value">{data.signing_key || 'Unknown'}</div>
       </div>
       <SimpleRow label={t('ledger')}>
-        <Link to={`/ledgers/${data.ledger_index}`}>
-          {data.ledger_hash || 'Unknown'}
+        <Link to={`/ledgers/${data.current_index}`}>
+          {data?.ledger_hash || 'Unknown'}
         </Link>
       </SimpleRow>
-      {renderAgreement('h1', data.agreement_1hour, 'Agreement (1 hour)')}
-      {renderAgreement('h24', data.agreement_24hour, 'Agreement (24 hours)')}
+      {renderAgreement('h1', data.agreement_1h, 'Agreement (1 hour)')}
+      {renderAgreement('h24', data.agreement_24h, 'Agreement (24 hours)')}
       {renderAgreement('d30', data.agreement_30day, 'Agreement (30 days)')}
     </>
   )
-}
-
-Simple.propTypes = {
-  data: PropTypes.shape({
-    ledger_hash: PropTypes.string.isRequired,
-    ledger_index: PropTypes.number.isRequired,
-    domain: PropTypes.string,
-    master_key: PropTypes.string,
-    server_version: PropTypes.string,
-    signing_key: PropTypes.string,
-    agreement_1hour: PropTypes.shape({
-      score: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      missed: PropTypes.number,
-      incomplete: PropTypes.bool,
-    }),
-    agreement_24hour: PropTypes.shape({
-      score: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      missed: PropTypes.number,
-      incomplete: PropTypes.bool,
-    }),
-    agreement_30day: PropTypes.shape({
-      score: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      missed: PropTypes.number,
-      incomplete: PropTypes.bool,
-    }),
-  }).isRequired,
 }
 
 export default Simple
