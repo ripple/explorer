@@ -39,8 +39,7 @@ describe('Validator container', () => {
       new Promise(
         () => {},
         () => {},
-      ),
-  ) => {
+      )
     useParams.mockImplementation(() => ({ identifier: MOCK_IDENTIFIER }))
     getLedger.mockImplementation(props.getLedgerImpl || defaultGetLedgerImpl)
 
@@ -52,11 +51,11 @@ describe('Validator container', () => {
       <Provider store={store}>
         <QueryClientProvider client={testQueryClient}>
           <I18nextProvider i18n={i18n}>
-          <NetworkContext.Provider value={props.network || 'main'}>
-            <Router>
-              <Validator />
-            </Router>
-          </NetworkContext.Provider>
+            <NetworkContext.Provider value={props.network || 'main'}>
+              <Router>
+                <Validator />
+              </Router>
+            </NetworkContext.Provider>
           </I18nextProvider>
         </QueryClientProvider>
       </Provider>,
