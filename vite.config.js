@@ -70,4 +70,8 @@ export default defineConfig({
     }),
     viteTsconfigPaths(),
   ],
+  test: {
+    globals: true,
+    setupFiles: 'src/setupTests.js',
+  },
 })
