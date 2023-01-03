@@ -76,12 +76,12 @@ jobs:
 
       - run: npm run test:ci
         env:
-          REACT_APP_VALIDATOR: vl.ripple.com
-          REACT_APP_RIPPLED_WS_PORT: 51233
-          REACT_APP_RIPPLED_HOST: fake.rippled.example.com
-          REACT_APP_MAINNET_LINK: mainnet.example.com
-          REACT_APP_TESTNET_LINK: testnet.example.com
-          REACT_APP_CUSTOMNETWORK_LINK: custom.example.com
+          VITE_VALIDATOR: vl.ripple.com
+          VITE_RIPPLED_WS_PORT: 51233
+          VITE_RIPPLED_HOST: fake.rippled.example.com
+          VITE_MAINNET_LINK: mainnet.example.com
+          VITE_TESTNET_LINK: testnet.example.com
+          VITE_CUSTOMNETWORK_LINK: custom.example.com
 
   build:
     runs-on: ubuntu-latest
