@@ -21,6 +21,7 @@ import { NFT } from '../NFT/NFT'
 import SocketContext, { getSocket } from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
 import NetworkContext, { getNetworkName } from '../shared/NetworkContext'
+import Log from '../shared/log'
 
 const App = (props) => {
   const { actions, location, match } = props
@@ -57,6 +58,7 @@ const App = (props) => {
         .get(`${process.env.REACT_APP_DATA_URL}/get_network/${rippledUrl}`)
         .then((resp) => resp.data)
         .then((data) => setNetworkName(data.network))
+        .catch((e) => Log.error(e))
     }
   }, [rippledUrl])
 
