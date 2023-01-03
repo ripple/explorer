@@ -34,7 +34,7 @@ const LedgersPage = () => {
 
   const fetchValidators = () => {
     const network = getNetworkFromEnv()
-    const url = `${import.meta.env.env.VITE_DATA_URL}/validators/${network}`
+    const url = `${import.meta.env.VITE_DATA_URL}/validators/${network}`
 
     axios
       .get(url)
