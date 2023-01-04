@@ -47,7 +47,7 @@
     "ripple-address-codec": "^4.2.4",
     "topojson-client": "^3.0.0",
     "ws": "^7.4.2",
-    "xrpl-client": "^2.0.0"
+    "xrpl-client": "^2.0.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
@@ -62,7 +62,7 @@
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "canvas": "^2.10.2",
+    "canvas": "^2.11.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.5.0",
