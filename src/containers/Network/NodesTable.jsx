@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -91,7 +91,7 @@ const getVersion = (version) => {
   return version
 }
 
-export const NodesTable = ({ nodes: unformattedNodes }) => {
+const NodesTable = ({ nodes: unformattedNodes }) => {
   const nodes = unformattedNodes ? formatLedgerHistory(unformattedNodes) : null
   const ledgerRange = nodes && getLedgerRange(nodes)
 
