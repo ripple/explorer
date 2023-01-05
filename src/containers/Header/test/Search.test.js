@@ -3,13 +3,13 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../i18nTestConfig'
-import Search from '../Search'
+import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 
-describe('Header component', () => {
-  const createWrapper = (state = {}) => {
+describe('Search component', () => {
+  const createWrapper = () => {
     const client = new MockWsClient()
     return mount(
       <I18nextProvider i18n={i18n}>
