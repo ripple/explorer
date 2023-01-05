@@ -36,7 +36,7 @@ function getSocket(rippledUrl?: string): XrplClient {
   return socket
 }
 
-const SocketContext = React.createContext(undefined)
+const SocketContext = React.createContext<XrplClient | undefined>(undefined)
 
 export { getSocket }
 
