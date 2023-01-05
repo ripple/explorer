@@ -15,6 +15,7 @@ import {
   DECIMAL_REGEX,
   FULL_CURRENCY_REGEX,
   HASH_REGEX,
+  VALIDATORS_REGEX,
 } from '../shared/utils'
 import './search.scss'
 import { getTransaction } from '../../rippled/lib/rippled'
@@ -52,6 +53,9 @@ const getIdType = async (id, rippledContext) => {
     isValidClassicAddress(id.split('.')[1])
   ) {
     return 'token'
+  }
+  if (VALIDATORS_REGEX.test(id)) {
+    return 'validators'
   }
 
   return 'invalid'
