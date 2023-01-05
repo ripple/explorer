@@ -162,7 +162,6 @@
   "transaction_AccountDelete": "Account Delete",
   "generic_error": "Something bad happened",
   "not_your_fault": "It's probably not your fault",
-  "under_construction": "This page doesn't exist right now",
   "come_back_later": "It will be available soon",
   "invalid_ledger_id": "The ledger id is invalid",
   "invalid_transaction_hash": "The transaction hash is invalid",

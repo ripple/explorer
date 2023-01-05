@@ -18,7 +18,7 @@ function getNetworkName() {
   return undefined
 }
 
-const NetworkContext = React.createContext(undefined)
+const NetworkContext = React.createContext(getNetworkName())
 
 export { getNetworkName }
 
