@@ -113,7 +113,8 @@
     "stylelint-scss": "^4.3.0",
     "ts-jest": "^26.5.6",
     "ts-node": "^10.9.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "vitest": "^0.26.3"
   },
   "resolutions": {
     "jest-environment-jsdom": "29.3.1"
@@ -200,7 +201,7 @@
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
     "start": "DISABLE_NEW_JSX_TRANSFORM=true run-p dev-server dev-client",
-    "test": "DISABLE_NEW_JSX_TRANSFORM=true jest --env=jsdom --watch",
+    "test": "DISABLE_NEW_JSX_TRANSFORM=true vitest",
     "test:all": "DISABLE_NEW_JSX_TRANSFORM=true run-s lint:ci test:ci",
     "test:ci": "DISABLE_NEW_JSX_TRANSFORM=true jest --coverage --ci --color --env=jsdom --no-cache --runInBand",
     "test:debug": "jest --inspect-brk --runInBand --env=jsdom",
