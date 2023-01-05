@@ -15,16 +15,21 @@ export const Account = (props: AccountProps) => {
   return (
     <>
       {link ? (
-        <Link className="account" title={parts[0]} to={`/accounts/${parts[0]}`}>
+        <Link
+          data-testid="account"
+          className="account"
+          title={parts[0]}
+          to={`/accounts/${parts[0]}`}
+        >
           {parts[0]}
         </Link>
       ) : (
-        <span className="account" title={parts[0]}>
+        <span data-testid="account" className="account" title={parts[0]}>
           {parts[0]}
         </span>
       )}
       {computedTag && (
-        <span className="dt" data-testid="dt'">
+        <span className="dt" data-testid="dt">
           :{computedTag}
         </span>
       )}
