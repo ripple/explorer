@@ -48,14 +48,14 @@ const App = (props) => {
   const urlLink = rippledUrl ? `/${rippledUrl}` : ''
 
   /* START: Map legacy routes to new routes */
-  if (location.hash && location.pathname === '/') {
+  if (location.hash && location.pathname === `${urlLink}/`) {
     if (location.hash.indexOf('#/transactions/') === 0) {
       const identifier = location.hash.split('#/transactions/')[1]
-      return <Redirect to={`/transactions/${identifier}`} />
+      return <Redirect to={`${urlLink}/transactions/${identifier}`} />
     }
     if (location.hash.indexOf('#/graph/') === 0) {
       const identifier = location.hash.split('#/graph/')[1]
-      return <Redirect to={`/accounts/${identifier}`} />
+      return <Redirect to={`${urlLink}/accounts/${identifier}`} />
     }
   }
   /* END: Map legacy routes to new routes */

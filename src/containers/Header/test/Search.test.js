@@ -51,6 +51,7 @@ describe('Header component', () => {
     const rippleSplitAddress = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb:1888963938'
     const paystring = 'blunden$paystring.crypto.com'
     const paystringWithAt = 'blunden@paystring.crypto.com'
+    const validator = 'nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p'
 
     const hash =
       '59239EA78084F6E2F288473F8AE02F3E6FC92F44BDE59668B5CAE361D3D32838'
@@ -98,6 +99,12 @@ describe('Header component', () => {
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
     expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
+
+    // Validator
+    input.instance().value = validator
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/validators/${validator}`)
 
     mockAPI.mockImplementation(() => {
       '123'
