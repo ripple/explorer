@@ -13,8 +13,6 @@ const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv'
 const TEST_CURRENCY = 'abc'
 
 describe('TokenHeader Actions', () => {
-  vi.setTimeout(10000)
-
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
   let client
