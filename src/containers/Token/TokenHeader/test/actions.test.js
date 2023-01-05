@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { vi } from 'vitest'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 import { initialState } from '../reducer'
