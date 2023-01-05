@@ -110,5 +110,14 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['setupTests.js'],
+    coverage: {
+      provider: 'c8',
+      include: ['src/**/*.{js,jsx,ts,tsx}'],
+      reporter: ['text', 'text-summary', 'html'],
+      branches: 70,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
   },
 })

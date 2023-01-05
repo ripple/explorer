@@ -69,7 +69,6 @@
     "@babel/preset-react": "^7.18.6",
     "@types/create-hash": "^1.2.2",
     "@types/enzyme": "^3.10.12",
-    "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.186",
     "@types/node": "^17.0.8",
     "@types/react": "^17.0.39",
@@ -79,7 +78,7 @@
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "babel-jest": "^29.3.1",
+    "@vitest/coverage-c8": "^0.26.3",
     "canvas": "^2.11.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -111,75 +110,9 @@
     "stylelint-config-standard": "^26.0.0",
     "stylelint-prettier": "^2.0.0",
     "stylelint-scss": "^4.3.0",
-    "ts-jest": "^26.5.6",
     "ts-node": "^10.9.1",
     "typescript": "^4.3.5",
     "vitest": "^0.26.3"
-  },
-  "resolutions": {
-    "jest-environment-jsdom": "29.3.1"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.ts"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.(ts|tsx)?$": "ts-jest",
-      "^.+\\.(js|jsx)$": "babel-jest",
-      "^.+\\.(svg)$": "<rootDir>/svgTransform.js",
-      "^.+\\.(css|scss)$": "<rootDir>/cssTransform.js",
-      "^.+\\.(png)$": "<rootDir>/imageTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!arc)/(?!d3)"
-    ],
-    "moduleNameMapper": {
-      "d3-hexbin": "<rootDir>/node_modules/d3-hexbin/build/d3-hexbin.min.js",
-      "d3": "<rootDir>/node_modules/d3/dist/d3.min.js"
-    },
-    "clearMocks": true,
-    "resetMocks": true,
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!<rootDir>/node_modules/",
-      "!src/index.js",
-      "!src/i18n.js",
-      "!src/i18nTestConfig.js",
-      "!src/setupTests.js",
-      "!src/setupProxy.js",
-      "!src/rootReducer.js",
-      "!src/registerServiceWorker.js",
-      "!src/containers/shared/images/*",
-      "!src/containers/test/*"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 70,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
-      }
-    },
-    "coverageReporters": [
-      "text",
-      "text-summary",
-      "html"
-    ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": {
-          "warnOnly": true
-        }
-      }
-    }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,scss}": [
@@ -201,11 +134,10 @@
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
     "start": "DISABLE_NEW_JSX_TRANSFORM=true run-p dev-server dev-client",
-    "test": "DISABLE_NEW_JSX_TRANSFORM=true vitest",
+    "test": "DISABLE_NEW_JSX_TRANSFORM=true vitest watch",
     "test:all": "DISABLE_NEW_JSX_TRANSFORM=true run-s lint:ci test:ci",
-    "test:ci": "DISABLE_NEW_JSX_TRANSFORM=true jest --coverage --ci --color --env=jsdom --no-cache --runInBand",
-    "test:debug": "jest --inspect-brk --runInBand --env=jsdom",
-    "test:coverage": "npm run test -- --coverage --watchAll=false"
+    "test:ci": "DISABLE_NEW_JSX_TRANSFORM=true vitest run --coverage",
+    "test:coverage": "npm run test:ci"
   },
   "browserslist": [
     ">0.2%",
