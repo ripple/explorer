@@ -23,7 +23,11 @@ export const Account = (props: AccountProps) => {
           {parts[0]}
         </span>
       )}
-      {computedTag && <span className="dt">:{computedTag}</span>}
+      {computedTag && (
+        <span className="dt" data-testid="dt'">
+          :{computedTag}
+        </span>
+      )}
     </>
   )
 }
