@@ -9,6 +9,7 @@ import {
   classicAddressToXAddress,
 } from 'ripple-address-codec'
 import { isValidPayId as isValidPayString } from 'payid-lib'
+import SocketContext from '../shared/SocketContext'
 import {
   analytics,
   ANALYTIC_TYPES,
@@ -20,7 +21,6 @@ import {
 } from '../shared/utils'
 import './search.scss'
 import { getTransaction } from '../../rippled/lib/rippled'
-import SocketContext from '../shared/SocketContext'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
@@ -104,14 +104,10 @@ export const Search = ({
   mobile = false,
 }: SearchProps) => {
   const { t } = useTranslation()
-  const socket = useContext<XrplClient | undefined>(SocketContext)
+  const socket = useContext(SocketContext)
   const history = useHistory()
 
   const handleSearch = async (id: string) => {
-    if (!socket) {
-      return
-    }
-
     const type = await getIdType(id, socket)
 
     analytics(ANALYTIC_TYPES.event, {
