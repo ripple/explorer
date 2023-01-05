@@ -3,15 +3,16 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
+import { vi } from 'vitest'
 import i18n from '../../../../i18nTestConfig'
 import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
 import { getAccountTransactions } from '../../../../rippled'
 import { testQueryClient } from '../../../test/QueryClient'
 
-jest.mock('../../../../rippled', () => ({
+vi.mock('../../../../rippled', () => ({
   __esModule: true,
-  getAccountTransactions: jest.fn(),
+  getAccountTransactions: vi.fn(),
 }))
 
 const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'

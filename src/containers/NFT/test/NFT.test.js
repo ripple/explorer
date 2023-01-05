@@ -3,6 +3,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
+import { vi } from 'vitest'
 import { NFT } from '../NFT'
 import i18n from '../../../i18nTestConfig'
 import { queryClient } from '../../shared/QueryClient'
@@ -42,9 +43,9 @@ describe('NFT container', () => {
   })
 
   it('renders error', () => {
-    const setState = jest.fn()
+    const setState = vi.fn()
     const wrapper = createWrapper()
-    const useStateSpy = jest.spyOn(React, 'useState')
+    const useStateSpy = vi.spyOn(React, 'useState')
     useStateSpy.mockImplementation((initialState) => [404, setState])
     expect(wrapper.find('NoMatch').length).toBe(1)
   })

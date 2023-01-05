@@ -3,6 +3,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { useQuery, QueryClientProvider } from 'react-query'
+import { vi } from 'vitest'
 import { NFTHeader } from '../NFTHeader'
 import i18n from '../../../../i18nTestConfig'
 import { queryClient } from '../../../shared/QueryClient'
@@ -25,11 +26,11 @@ const data = {
   ],
 }
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+vi.mock('react-query', async () => ({
+  ...(await vi.importActual('react-query')),
+  useQuery: vi.fn(),
 }))
-const setError = jest.fn()
+const setError = vi.fn()
 
 describe('NFT header container', () => {
   const createWrapper = () =>

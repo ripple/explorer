@@ -5,6 +5,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { vi } from 'vitest'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
 import SidechainHome from '../index'
@@ -53,7 +54,7 @@ describe('SidechainHome page', () => {
 
   describe('test redirects', () => {
     const { location } = window
-    const mockedFunction = jest.fn()
+    const mockedFunction = vi.fn()
     const oldEnvs = process.env
 
     beforeEach(() => {

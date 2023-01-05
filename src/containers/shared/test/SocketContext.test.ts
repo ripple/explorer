@@ -1,15 +1,17 @@
 import { XrplClient } from 'xrpl-client'
+import { vi } from 'vitest'
 import { getSocket } from '../SocketContext'
 
-jest.mock('xrpl-client', () => ({
-  XrplClient: jest.fn(),
+vi.mock('xrpl-client', () => ({
+  XrplClient: vi.fn(),
 }))
 
 describe('getSocket', () => {
   const OLD_ENV = process.env
 
   beforeEach(() => {
-    jest.resetModules() // Most important - it clears the cache
+    vi.resetModules() // Most important - it clears the cache
+    vi.clearAllMocks()
     process.env = { ...OLD_ENV } // Make a copy
   })
 

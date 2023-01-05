@@ -1,12 +1,13 @@
 import React from 'react'
 import { mount } from 'enzyme'
+import { vi } from 'vitest'
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 import AppErrorBoundary from '../AppErrorBoundary'
 
-jest.mock('../../shared/utils', () => ({
+vi.mock('../../shared/utils', async () => ({
   __esModule: true,
-  ...jest.requireActual('../../shared/utils'),
-  analytics: jest.fn(),
+  ...(await vi.importActual('../../shared/utils')),
+  analytics: vi.fn(),
 }))
 
 const ProblemChild = () => {

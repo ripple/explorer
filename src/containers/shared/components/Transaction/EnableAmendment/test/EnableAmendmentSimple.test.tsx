@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import i18n from '../../../../../../i18nTestConfig.en-US'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
@@ -13,14 +14,16 @@ import {
 
 const createWrapper = createSimpleWrapperFactory(Simple, i18n)
 
-jest.mock('../../../../amendmentUtils', () => {
+vi.mock('../../../../amendmentUtils', async () => {
   // Require the original module to not be mocked...
-  const originalModule = jest.requireActual('../../../../amendmentUtils')
+  const originalModule = (await vi.importActual(
+    '../../../../amendmentUtils',
+  )) as object
   return {
     __esModule: true,
     ...originalModule,
-    getRippledVersion: jest.fn(),
-    nameOfAmendmentID: jest.fn(),
+    getRippledVersion: vi.fn(),
+    nameOfAmendmentID: vi.fn(),
   }
 })
 

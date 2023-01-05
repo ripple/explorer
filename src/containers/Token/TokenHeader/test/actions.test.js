@@ -1,5 +1,6 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import { vi } from 'vitest'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 import { initialState } from '../reducer'
@@ -12,7 +13,7 @@ const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv'
 const TEST_CURRENCY = 'abc'
 
 describe('TokenHeader Actions', () => {
-  jest.setTimeout(10000)
+  vi.setTimeout(10000)
 
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)

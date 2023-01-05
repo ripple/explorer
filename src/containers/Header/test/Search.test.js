@@ -2,6 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { vi } from 'vitest'
 import i18n from '../../../i18nTestConfig'
 import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
@@ -59,7 +60,7 @@ describe('Search component', () => {
     const invalidString = '123invalid'
 
     // mock getNFTInfo api to test transactions and nfts
-    const mockAPI = jest.spyOn(rippled, 'getTransaction')
+    const mockAPI = vi.spyOn(rippled, 'getTransaction')
 
     input.simulate('keyDown', { key: 'a' })
     expect(window.location.pathname).toEqual('/')

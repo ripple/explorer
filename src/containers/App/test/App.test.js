@@ -5,6 +5,7 @@ import { I18nextProvider } from 'react-i18next'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
 import App from '../index'
@@ -13,9 +14,9 @@ import MockWsClient from '../../test/mockWsClient'
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
 // and the routing won't actually happen in the test
-jest.mock('react-router-dom', () => {
+vi.mock('react-router-dom', async () => {
   // Require the original module to not be mocked...
-  const originalModule = jest.requireActual('react-router-dom')
+  const originalModule = await vi.importActual('react-router-dom')
 
   return {
     __esModule: true,
@@ -25,8 +26,8 @@ jest.mock('react-router-dom', () => {
   }
 })
 
-jest.mock('../../shared/SocketContext', () => {
-  const originalModule = jest.requireActual('../../shared/SocketContext')
+vi.mock('../../shared/SocketContext', async () => {
+  const originalModule = await vi.importActual('../../shared/SocketContext')
 
   return {
     __esModule: true,

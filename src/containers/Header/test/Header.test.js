@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
 import Header from '../index'
@@ -64,7 +65,7 @@ describe('Header component', () => {
 
   describe('test redirects', () => {
     const { location } = window
-    const mockedFunction = jest.fn()
+    const mockedFunction = vi.fn()
     const oldEnvs = process.env
 
     beforeEach(() => {

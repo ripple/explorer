@@ -7,6 +7,7 @@ import { BrowserRouter as Router, useParams } from 'react-router-dom'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { BAD_REQUEST } from '../../shared/utils'
 import i18n from '../../../i18nTestConfig'
 import Validator from '../index'
@@ -18,14 +19,14 @@ global.location = '/validators/aaaa'
 
 const MOCK_IDENTIFIER = 'mock-validator-hash'
 
-jest.mock('../../../rippled', () => ({
+vi.mock('../../../rippled', () => ({
   __esModule: true,
-  getLedger: jest.fn(),
+  getLedger: vi.fn(),
 }))
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn(),
+vi.mock('react-router-dom', async () => ({
+  ...(await vi.importActual('react-router-dom')),
+  useParams: vi.fn(),
 }))
 
 function flushPromises() {
