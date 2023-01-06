@@ -27,3 +27,5 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+declare module 'enzyme-adapter-react-16'
