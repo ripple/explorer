@@ -1,13 +1,15 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
-import { Redirect } from 'react-router-dom'
+import React, { KeyboardEventHandler, useContext } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
+import { XrplClient } from 'xrpl-client'
+
 import {
   isValidClassicAddress,
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
 import { isValidPayId as isValidPayString } from 'payid-lib'
+import SocketContext from '../shared/SocketContext'
 import {
   analytics,
   ANALYTIC_TYPES,
@@ -19,9 +21,8 @@ import {
 } from '../shared/utils'
 import './search.scss'
 import { getTransaction } from '../../rippled/lib/rippled'
-import SocketContext from '../shared/SocketContext'
 
-const determineHashType = async (id, rippledContext) => {
+const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
     await getTransaction(rippledContext, id)
     return 'transactions'
@@ -30,7 +31,7 @@ const determineHashType = async (id, rippledContext) => {
   }
 }
 
-const getIdType = async (id, rippledContext) => {
+const getIdType = async (id: string, rippledContext: XrplClient) => {
   if (DECIMAL_REGEX.test(id)) {
     return 'ledgers'
   }
@@ -63,7 +64,7 @@ const getIdType = async (id, rippledContext) => {
 
 // normalize classicAddress:tag to X-address
 // TODO: Take network into account (!)
-const normalize = (id, type) => {
+const normalize = (id: string, type: string) => {
   if (type === 'transactions') {
     return id.toUpperCase()
   }
@@ -75,7 +76,7 @@ const normalize = (id, type) => {
         components[0],
         components[1] === undefined || components[1] === 'false'
           ? false
-          : components[1],
+          : Number(components[1]),
         false,
       ) // TODO: Take network into account (!)
       return xAddress
@@ -93,21 +94,21 @@ const normalize = (id, type) => {
   return id
 }
 
-class Search extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { redirect: '' }
-    this.onKeyDown = this.onKeyDown.bind(this)
-  }
+export interface SearchProps {
+  mobile: boolean
+  callback: Function
+}
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({ redirect: '' })
-  }
+export const Search = ({
+  callback = () => {},
+  mobile = false,
+}: SearchProps) => {
+  const { t } = useTranslation()
+  const socket = useContext(SocketContext)
+  const history = useHistory()
 
-  async handleSearch(id) {
-    const { callback } = this.props
-    const type = await getIdType(id, this.context)
+  const handleSearch = async (id: string) => {
+    const type = await getIdType(id, socket)
 
     analytics(ANALYTIC_TYPES.event, {
       eventCategory: 'globalSearch',
@@ -115,51 +116,25 @@ class Search extends Component {
       eventLabel: id,
     })
 
-    this.setState(
-      {
-        redirect:
-          type === 'invalid'
-            ? `/search/${id}`
-            : `/${type}/${normalize(id, type)}`,
-      },
-      callback,
+    history.push(
+      type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
     )
+    callback()
   }
 
-  onKeyDown(event) {
+  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === 'Enter') {
-      this.handleSearch(event.currentTarget.value.trim())
+      handleSearch(event.currentTarget?.value?.trim())
     }
   }
 
-  render() {
-    const { t, mobile } = this.props
-    const { redirect } = this.state
-    return redirect ? (
-      <Redirect push to={redirect} />
-    ) : (
-      <div className={mobile ? 'search' : 'search in-header'}>
-        <input
-          type="text"
-          placeholder={t('header.search.placeholder')}
-          onKeyDown={this.onKeyDown}
-        />
-      </div>
-    )
-  }
+  return (
+    <div className={mobile ? 'search' : 'search in-header'}>
+      <input
+        type="text"
+        placeholder={t('header.search.placeholder')}
+        onKeyDown={onKeyDown}
+      />
+    </div>
+  )
 }
-
-Search.contextType = SocketContext
-
-Search.propTypes = {
-  t: PropTypes.func.isRequired,
-  mobile: PropTypes.bool,
-  callback: PropTypes.func,
-}
-
-Search.defaultProps = {
-  mobile: false,
-  callback: () => {},
-}
-
-export default withTranslation()(Search)

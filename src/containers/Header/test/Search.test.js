@@ -2,26 +2,22 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
-import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
-import Search from '../Search'
+import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
+import SocketContext from '../../shared/SocketContext'
+import MockWsClient from '../../test/mockWsClient'
 
-describe('Header component', () => {
-  const middlewares = [thunk]
-  const mockStore = configureMockStore(middlewares)
-  const createWrapper = (state = {}) => {
-    const store = mockStore({ ...initialState, ...state })
+describe('Search component', () => {
+  const createWrapper = () => {
+    const client = new MockWsClient()
     return mount(
       <I18nextProvider i18n={i18n}>
-        <Router>
-          <Provider store={store}>
+        <SocketContext.Provider value={client}>
+          <Router>
             <Search />
-          </Provider>
-        </Router>
+          </Router>
+        </SocketContext.Provider>
       </I18nextProvider>,
     )
   }
