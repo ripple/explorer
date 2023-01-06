@@ -158,7 +158,14 @@
       "text",
       "text-summary",
       "html"
-    ]
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "warnOnly": true
+        }
+      }
+    }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,scss}": [
