@@ -13,7 +13,7 @@ const SidechainHome = () => {
   const [networkText, setNetworkText] = useState('')
 
   function switchMode(desiredLink: string) {
-    const customNetworkUrl = import.meta.env.VITE_CUSTOMNETWORK_LINK
+    const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
     const url = `${customNetworkUrl}/${desiredLink}`
     analytics(ANALYTIC_TYPES.event, {
       eventCategory: 'mode switch',

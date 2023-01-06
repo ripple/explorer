@@ -33,7 +33,7 @@ class Network extends Component {
     const { match } = this.props
     const { params, path } = match
     const { tab = 'nodes' } = params
-    const mode = import.meta.env.VITE_ENVIRONMENT
+    const mode = process.env.VITE_ENVIRONMENT
 
     if (mode === 'custom') {
       return this.renderUnderConstruction()

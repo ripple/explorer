@@ -54,19 +54,19 @@ describe('SidechainHome page', () => {
   describe('test redirects', () => {
     const { location } = window
     const mockedFunction = jest.fn()
-    const oldEnvs = import.meta.env
+    const oldEnvs = process.env
 
     beforeEach(() => {
       delete window.location
       window.location = { assign: mockedFunction }
-      import.meta.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
 
       wrapper = createWrapper()
     })
 
     afterEach(() => {
       window.location = location
-      import.meta.env = oldEnvs
+      process.env = oldEnvs
     })
 
     it('redirect works on `enter` in textbox', () => {
@@ -81,7 +81,7 @@ describe('SidechainHome page', () => {
         currentTarget: { value: 'custom_url' },
       })
       expect(mockedFunction).toBeCalledWith(
-        `${import.meta.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
+        `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
     })
 
@@ -94,7 +94,7 @@ describe('SidechainHome page', () => {
       expect(button.length).toEqual(1)
       button.simulate('click')
       expect(mockedFunction).toBeCalledWith(
-        `${import.meta.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
+        `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
     })
   })

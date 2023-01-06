@@ -44,10 +44,10 @@ const getAccountTransactions = async (
 
       // TODO: Display tag, if present
       if (
-        (isTestnet && import.meta.env.VITE_ENVIRONMENT === 'mainnet') ||
+        (isTestnet && process.env.VITE_ENVIRONMENT === 'mainnet') ||
         (!isTestnet &&
-          (import.meta.env.VITE_ENVIRONMENT === 'testnet' ||
-            import.meta.env.VITE_ENVIRONMENT === 'devnet'))
+          (process.env.VITE_ENVIRONMENT === 'testnet' ||
+            process.env.VITE_ENVIRONMENT === 'devnet'))
       ) {
         throw Error('Address on wrong network')
       }

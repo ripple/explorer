@@ -15,7 +15,7 @@ import closeIcon from '../shared/images/close.png'
 import unionIcon from '../shared/images/union.png'
 import './mobileMenu.scss'
 
-const MODE = import.meta.env.VITE_ENVIRONMENT
+const MODE = process.env.VITE_ENVIRONMENT
 class MobileMenu extends Component {
   constructor(props) {
     super(props)

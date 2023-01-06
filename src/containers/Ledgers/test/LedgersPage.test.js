@@ -84,10 +84,10 @@ describe('Ledgers Page container', () => {
     )
   }
 
-  const oldEnvs = import.meta.env
+  const oldEnvs = process.env
 
   beforeEach(async () => {
-    import.meta.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
     server = new WS(WS_URL, { jsonProtocol: true })
     client = new MockWsClient(WS_URL)
     await server.connected
@@ -95,7 +95,7 @@ describe('Ledgers Page container', () => {
   })
 
   afterEach(() => {
-    import.meta.env = oldEnvs
+    process.env = oldEnvs
     moxios.uninstall()
     client.close()
     server.close()
@@ -108,7 +108,7 @@ describe('Ledgers Page container', () => {
   })
 
   it('renders all parts', () => {
-    moxios.stubRequest(`${import.meta.env.VITE_DATA_URL}/validators/main`, {
+    moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
       response: [],
     })
@@ -122,19 +122,19 @@ describe('Ledgers Page container', () => {
     client.addResponses(rippledResponses)
     const wrapper = createWrapper()
 
-    moxios.stubRequest(`${import.meta.env.VITE_DATA_URL}/validators/main`, {
+    moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
       response: {
         validators: [
           {
             signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
             master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-            unl: import.meta.env.VITE_VALIDATOR,
+            unl: process.env.VITE_VALIDATOR,
           },
           {
             signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
             master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-            unl: import.meta.env.VITE_VALIDATOR,
+            unl: process.env.VITE_VALIDATOR,
           },
           {
             signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
@@ -216,18 +216,18 @@ describe('Ledgers Page container', () => {
 
   describe('Custom network tests', () => {
     beforeEach(() => {
-      import.meta.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'custom' }
+      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'custom' }
     })
 
     afterEach(() => {
-      import.meta.env = oldEnvs
+      process.env = oldEnvs
     })
 
     it('receives messages from streams', async () => {
       client.addResponses(rippledResponses)
       const wrapper = createWrapper()
 
-      moxios.stubRequest(`${import.meta.env.VITE_DATA_URL}/validators/`, {
+      moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/`, {
         status: 200,
         response: {
           validators: [
@@ -236,14 +236,14 @@ describe('Ledgers Page container', () => {
                 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
               master_key:
                 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-              unl: import.meta.env.VITE_VALIDATOR,
+              unl: process.env.VITE_VALIDATOR,
             },
             {
               signing_key:
                 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
               master_key:
                 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-              unl: import.meta.env.VITE_VALIDATOR,
+              unl: process.env.VITE_VALIDATOR,
             },
             {
               signing_key:

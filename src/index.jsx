@@ -33,7 +33,7 @@ const renderApp = () => {
   )
 }
 
-const isDevelopment = import.meta.env.NODE_ENV === 'development'
+const isDevelopment = process.env.NODE_ENV === 'development'
 
 const middlewarePackages = [thunk]
 let middleware = applyMiddleware(...middlewarePackages)

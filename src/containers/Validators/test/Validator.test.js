@@ -80,7 +80,7 @@ describe('Validator container', () => {
 
   it('sets title to domain', async () => {
     moxios.stubRequest(
-      `${import.meta.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
+      `${process.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
       {
         status: 200,
         response: {
@@ -98,7 +98,7 @@ describe('Validator container', () => {
 
   it('sets title to master_key', async () => {
     moxios.stubRequest(
-      `${import.meta.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
+      `${process.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
       {
         status: 200,
         response: {
@@ -116,7 +116,7 @@ describe('Validator container', () => {
 
   it('sets title to signing_key', async () => {
     moxios.stubRequest(
-      `${import.meta.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
+      `${process.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
       {
         status: 200,
         response: {
@@ -134,7 +134,7 @@ describe('Validator container', () => {
 
   it('fetches ledger hash if not provided', async () => {
     moxios.stubRequest(
-      `${import.meta.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
+      `${process.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
       {
         status: 200,
         response: {
@@ -160,7 +160,7 @@ describe('Validator container', () => {
 
   it('renders 404 page on no match', async () => {
     moxios.stubRequest(
-      `${import.meta.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
+      `${process.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
       {
         status: BAD_REQUEST,
         response: { error: 'something went wrong' },

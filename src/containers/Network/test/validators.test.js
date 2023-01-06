@@ -67,7 +67,7 @@ describe('Validators Tab container', () => {
   it('receives live validation', async () => {
     const wrapper = createWrapper()
 
-    moxios.stubRequest(`${import.meta.env.VITE_DATA_URL}/validators/main`, {
+    moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
       response: mockValidators,
     })

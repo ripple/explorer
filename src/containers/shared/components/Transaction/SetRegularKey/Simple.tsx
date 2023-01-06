@@ -6,7 +6,7 @@ import { TransactionSimpleProps } from '../types'
 export const Simple = ({ data }: TransactionSimpleProps) => {
   const { key } = data.instructions
   const { t } = useTranslation()
-  let label = null
+  let label = ''
   let value = t('unset_regular_key')
   let className: string | undefined = 'unset'
 

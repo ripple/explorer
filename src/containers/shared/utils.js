@@ -8,7 +8,7 @@ const BILLION = MILLION * THOUSAND
 const TRILLION = BILLION * THOUSAND
 const QUADRILLION = TRILLION * THOUSAND
 
-const GA_ID = import.meta.env.VITE_GA_ID
+const GA_ID = process.env.VITE_GA_ID
 
 const EXOTIC_SYMBOLS = {
   BTC: '\u20BF',

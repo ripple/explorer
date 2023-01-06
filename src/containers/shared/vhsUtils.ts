@@ -7,6 +7,6 @@ const ENV_NETWORK_MAP: Record<string, string> = {
 }
 
 const getNetworkFromEnv = () =>
-  ENV_NETWORK_MAP[import.meta.env.VITE_ENVIRONMENT ?? ''] ?? ''
+  ENV_NETWORK_MAP[process.env.VITE_ENVIRONMENT ?? ''] ?? ''
 
 export { getNetworkFromEnv }
