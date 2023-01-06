@@ -130,7 +130,8 @@
     ],
     "moduleNameMapper": {
       "d3-hexbin": "<rootDir>/node_modules/d3-hexbin/build/d3-hexbin.min.js",
-      "d3": "<rootDir>/node_modules/d3/dist/d3.min.js"
+      "d3": "<rootDir>/node_modules/d3/dist/d3.min.js",
+      "\\.(scss|css)$": "<rootDir>/src/styleMock.js"
     },
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
