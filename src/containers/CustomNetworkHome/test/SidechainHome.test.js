@@ -59,7 +59,7 @@ describe('SidechainHome page', () => {
     beforeEach(() => {
       delete window.location
       window.location = { assign: mockedFunction }
-      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+      process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
 
       wrapper = createWrapper()
     })

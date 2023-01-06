@@ -10,6 +10,7 @@ describe('getSocket', () => {
 
   beforeEach(() => {
     jest.resetModules() // Most important - it clears the cache
+    jest.clearAllMocks()
     process.env = { ...OLD_ENV } // Make a copy
   })
 
@@ -21,6 +22,7 @@ describe('getSocket', () => {
     beforeEach(() => {
       process.env.VITE_RIPPLED_HOST = 'somewhere.com'
       process.env.VITE_P2P_RIPPLED_HOST = 'cli-somewhere.com'
+      process.env.VITE_RIPPLED_WS_PORT = '51233'
     })
 
     it('should instantiate with environment variables', () => {
@@ -38,7 +40,7 @@ describe('getSocket', () => {
       expect((client as any).p2pSocket).toBeDefined()
     })
 
-    it('should use REACT_APP_INSECURE_WS variable to use ws', () => {
+    it('should use VITE_INSECURE_WS variable to use ws', () => {
       process.env.VITE_INSECURE_WS = '1'
 
       const client = getSocket()
@@ -55,7 +57,7 @@ describe('getSocket', () => {
       expect((client as any).p2pSocket).toBeDefined()
     })
 
-    it('should not create p2pSocket when REACT_APP_P2P_RIPPLED_HOST is not set', () => {
+    it('should not create p2pSocket when VITE_P2P_RIPPLED_HOST is not set', () => {
       delete process.env.VITE_P2P_RIPPLED_HOST
 
       const client = getSocket()
@@ -67,9 +69,10 @@ describe('getSocket', () => {
     beforeEach(() => {
       delete process.env.VITE_RIPPLED_HOST
       delete process.env.VITE_P2P_RIPPLED_HOST
+      process.env.VITE_RIPPLED_WS_PORT = '51233'
     })
 
-    it('should use ignore REACT_APP_RIPPLED_WS_PORT when supplied entry point has a port', () => {
+    it('should use ignore VITE_RIPPLED_WS_PORT when supplied entry point has a port', () => {
       const client = getSocket('hello.com:4444')
       expect(XrplClient).toHaveBeenNthCalledWith(1, ['wss://hello.com:4444'], {
         tryAllNodes: true,
@@ -77,7 +80,7 @@ describe('getSocket', () => {
 
       expect((client as any).p2pSocket).not.toBeDefined()
     })
-    it('should use ws REACT_APP_INSECURE_WS variable is true', () => {
+    it('should use ws VITE_INSECURE_WS variable is true', () => {
       process.env.VITE_INSECURE_WS = '1'
 
       const client = getSocket('hello.com:4444')

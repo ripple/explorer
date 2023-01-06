@@ -54,7 +54,7 @@ describe('App container', () => {
   const oldEnvs = process.env
 
   beforeEach(() => {
-    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+    process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
   })
 
   afterEach(() => {

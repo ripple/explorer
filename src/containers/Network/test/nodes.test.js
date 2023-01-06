@@ -39,7 +39,7 @@ describe('Nodes Page container', () => {
 
   beforeEach(() => {
     moxios.install()
-    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+    process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
   })
 
   afterEach(() => {

@@ -42,15 +42,15 @@ GOOGLE_APP_CLIENT_EMAIL=your-client-email
 
 ### Testnet mode
 
-1. Replace `RIPPLED_HOST=s2.ripple.com` with `RIPPLED_HOST=s.altnet.rippletest.net` in the `.env` file
-1. Remove `RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
-1. Add `REACT_APP_ENVIRONMENT=testnet` to `.env` to enable TESTNET banner
+1. Replace `VITE_RIPPLED_HOST=s2.ripple.com` with `VITE_RIPPLED_HOST=s.altnet.rippletest.net` in the `.env` file
+1. Remove `VITE_RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
+1. Add `VITE_ENVIRONMENT=testnet` to `.env` to enable TESTNET banner
 
 ### Devnet mode
 
-1. Replace `RIPPLED_HOST=s2.ripple.com` with `RIPPLED_HOST=s.devnet.rippletest.net` in the `.env` file
-1. Remove `RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
-1. Add `REACT_APP_ENVIRONMENT=devnet` to `.env` to enable TESTNET banner
+1. Replace `VITE_RIPPLED_HOST=s2.ripple.com` with `VITE_RIPPLED_HOST=s.devnet.rippletest.net` in the `.env` file
+1. Remove `VITE_RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
+1. Add `VITE_ENVIRONMENT=devnet` to `.env` to enable TESTNET banner
 
 ## Testing
 

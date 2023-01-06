@@ -87,7 +87,7 @@ describe('Ledgers Page container', () => {
   const oldEnvs = process.env
 
   beforeEach(async () => {
-    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+    process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
     server = new WS(WS_URL, { jsonProtocol: true })
     client = new MockWsClient(WS_URL)
     await server.connected
@@ -216,7 +216,7 @@ describe('Ledgers Page container', () => {
 
   describe('Custom network tests', () => {
     beforeEach(() => {
-      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'custom' }
+      process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'custom' }
     })
 
     afterEach(() => {
