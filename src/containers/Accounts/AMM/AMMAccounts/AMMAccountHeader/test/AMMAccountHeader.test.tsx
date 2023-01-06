@@ -6,8 +6,7 @@ import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router'
 import { initialState } from 'rootReducer'
 import i18n from 'i18nTestConfig'
-import { AMMAccountHeader } from 'containers/Accounts/AMM/AMMAccounts/AMMAccountHeader/AMMAccountHeader'
-import { AmmDataType } from '../../index'
+import { AMMAccountHeader, AmmDataType } from '../AMMAccountHeader'
 
 const configureMockStore = require('redux-mock-store').default
 
@@ -16,7 +15,7 @@ describe('AMM Account Header', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
 
-  const creatWrapper = (state: AmmDataType) => {
+  const createWrapper = (state: AmmDataType) => {
     const store = mockStore({ ...initialState, ...state })
     return mount(
       <I18nextProvider i18n={i18n}>
@@ -35,13 +34,12 @@ describe('AMM Account Header', () => {
       balance: { currency: 'XRP', amount: 1000, issuer: 'hi' },
       balance2: { currency: 'USD', amount: 9000, issuer: 'hi' },
       lpBalance: 500,
-      ammId: 'some amm id',
       tradingFee: 10,
       accountId: 'the account ID',
       language: 'en-US',
     }
 
-    const wrapper = creatWrapper(state)
+    const wrapper = createWrapper(state)
     await flushPromises()
     wrapper.update()
     expect(wrapper.find(AMMAccountHeader).length).toBe(1)

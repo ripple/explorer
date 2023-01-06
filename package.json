@@ -186,13 +186,7 @@
       "es6": true
     },
     "rules": {
-      "import/no-unresolved": 0,
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": true
-        }
-      ],
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.ts", "**/*.test.tsx"]}],
       "prettier/prettier": [
         "error",
         {

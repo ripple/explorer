@@ -4,12 +4,12 @@ import { I18nextProvider } from 'react-i18next'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router'
-import { AccountTransactionTable } from 'containers/Accounts/AccountTransactionTable/AccountTransactionTable'
-import { initialState } from 'rootReducer'
-import i18n from 'i18nTestConfig'
-import { AMMAccountHeader } from 'containers/Accounts/AMM/AMMAccounts/AMMAccountHeader/AMMAccountHeader'
-import * as rippled from 'rippled/lib/rippled'
-import NoMatch from 'containers/NoMatch'
+import i18n from '../../../../../i18nTestConfig'
+import { initialState } from '../../../../../rootReducer'
+import * as rippled from '../../../../../rippled/lib/rippled'
+import NoMatch from '../../../../NoMatch'
+import { AMMAccountHeader } from '../AMMAccountHeader/AMMAccountHeader'
+import { AccountTransactionTable } from '../../../AccountTransactionTable'
 import { AMMAccounts } from '../index'
 
 const configureMockStore = require('redux-mock-store').default
@@ -34,7 +34,6 @@ describe('AMM Account Page', () => {
       Amount: '10000000000',
       Amount2: { currency: 'USD', value: '100000' },
       TradingFee: 10,
-      AMMID: 'the id',
       LPToken: {
         value: '8989',
       },

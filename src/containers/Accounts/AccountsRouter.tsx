@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { AMMAccounts } from 'containers/Accounts/AMM/AMMAccounts/index'
 import { connect } from 'react-redux'
+import { AMMAccounts } from './AMM/AMMAccounts'
 import SocketContext from '../shared/SocketContext'
 import { getAccountInfo } from '../../rippled/lib/rippled'
 import NoMatch from '../NoMatch'

@@ -1,26 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { AMMAccountHeader } from 'containers/Accounts/AMM/AMMAccounts/AMMAccountHeader/AMMAccountHeader'
-import { AccountTransactionTable } from 'containers/Accounts/AccountTransactionTable/index'
-import NoMatch from 'containers/NoMatch'
-import 'containers/Accounts/styles.scss'
-import { analytics, ANALYTIC_TYPES, formatAsset } from 'containers/shared/utils'
-import { Tabs } from 'containers/shared/components/Tabs'
-import { getAccountTransactions, getAMMInfo } from 'rippled/lib/rippled'
-import formatBalance from 'rippled/lib/txSummary/formatAmount'
+import '../../styles.scss'
+import formatBalance from '../../../../rippled/lib/txSummary/formatAmount'
+import {
+  getAccountTransactions,
+  getAMMInfo,
+} from '../../../../rippled/lib/rippled'
+import { Tabs } from '../../../shared/components/Tabs'
+import { analytics, ANALYTIC_TYPES, formatAsset } from '../../../shared/utils'
 import SocketContext from '../../../shared/SocketContext'
 import { ERROR_MESSAGES } from '../../Errors'
-
-export interface AmmDataType {
-  balance: { currency: string; amount: number; issuer: string }
-  balance2: { currency: string; amount: number; issuer: string }
-  lpBalance: number
-  ammId: string
-  tradingFee: number
-  accountId: string
-  language: string
-}
+import NoMatch from '../../../NoMatch'
+import {
+  AMMAccountHeader,
+  AmmDataType,
+} from './AMMAccountHeader/AMMAccountHeader'
+import { AccountTransactionTable } from '../../AccountTransactionTable'
 
 const getErrorMessage = (error: string) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -72,7 +68,6 @@ export const AMMAccounts = (props: any) => {
         const balance2 = formatBalance(ammData.Amount2)
 
         const ammInfo: AmmDataType = {
-          ammId: ammData.AMMID,
           balance,
           balance2,
           tradingFee: ammData.TradingFee,

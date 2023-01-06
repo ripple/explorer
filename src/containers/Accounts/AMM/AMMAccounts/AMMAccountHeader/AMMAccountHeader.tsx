@@ -1,22 +1,23 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import 'containers/shared/css/nested-menu.scss'
-import 'containers/Accounts/AccountHeader/styles.scss'
-import 'containers/Accounts/AccountHeader/balance-selector.scss'
-import { AmmDataType } from '../index'
+import '../../../../shared/css/nested-menu.scss'
+import '../../../AccountHeader/styles.scss'
+import '../../../AccountHeader/balance-selector.scss'
 import { localizeNumber, localizeBalance } from '../../../../shared/utils'
 import Currency from '../../../../shared/components/Currency'
 
+export interface AmmDataType {
+  balance: { currency: string; amount: number; issuer: string }
+  balance2: { currency: string; amount: number; issuer: string }
+  lpBalance: number
+  tradingFee: number
+  accountId: string
+  language: string
+}
+
 export const AMMAccountHeader = (props: AmmDataType) => {
-  const {
-    ammId,
-    balance,
-    balance2,
-    tradingFee,
-    lpBalance,
-    accountId,
-    language,
-  } = props
+  const { balance, balance2, tradingFee, lpBalance, accountId, language } =
+    props
   const { t } = useTranslation()
   const b1 = localizeBalance(balance, language)
   const b2 = localizeBalance(balance2, language)
@@ -50,10 +51,6 @@ export const AMMAccountHeader = (props: AmmDataType) => {
             <div className="title">{t('trading_fee')}</div>
             <div className="value">%{tf}</div>
           </div>
-          <div className="values">
-            <div className="title">{t('amm_account_address')}</div>
-            <div className="value">{accountId}</div>
-          </div>
         </div>
       </div>
     )
@@ -62,8 +59,8 @@ export const AMMAccountHeader = (props: AmmDataType) => {
   return (
     <div className="box account-header">
       <div className="section box-header">
-        <div className="amm-title">AMMID</div>
-        <h2 className="amm">{ammId}</h2>
+        <div className="amm-title">Account ID</div>
+        <h2 className="amm">{accountId}</h2>
         <div className="currency-pair">
           <Currency {...balance} showIssuer={false} />/
           <Currency {...balance2} showIssuer={false} />
