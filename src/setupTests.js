@@ -15,4 +15,5 @@ window.localStorage = window.localStorage || {
 configure({ adapter: new Adapter() })
 
 jest.spyOn(console, 'error')
+// eslint-disable-next-line no-console -- only for tests
 console.error.mockImplementation(() => {})
