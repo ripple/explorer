@@ -10,8 +10,8 @@ import { updateLanguage } from '../App/actions'
 
 import packageConfig from '../../../package.json'
 import Logo from '../shared/images/XRPLedger.svg'
-import iconDownArrow from '../shared/images/down_arrow.svg'
-import iconCheck from '../shared/images/checkmark_small_green.png'
+import IconDownArrow from '../shared/images/down_arrow.svg'
+import IconCheck from '../shared/images/checkmark_small_green.png'
 import flagUSA from '../shared/images/flag_usa.png'
 import flagChina from '../shared/images/flag_china.png'
 import flagJapan from '../shared/images/flag_japan.png'
@@ -31,10 +31,10 @@ const LANGUAGE_ORDER = [
 
 const languageIcon = (langIsOpenAndSelected, isLangOpen) => {
   if (langIsOpenAndSelected) {
-    return <img src={iconCheck} alt="" className="check" />
+    return <IconCheck alt="" className="check" />
   }
   if (!isLangOpen) {
-    return <img src={iconDownArrow} alt="" className="down" />
+    return <IconDownArrow alt="" className="down" />
   }
   return <></>
 }
