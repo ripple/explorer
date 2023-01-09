@@ -2,7 +2,7 @@
 
 This repo contains the source code for the block explorer of the XRP Ledger hosted at livenet.xrpl.org.
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find the most recent version of guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+This project uses [Vite](https://vitejs.dev/). You can find information about how to use it [here](https://vitejs.dev/guide/cli.html).
 
 ## Basic requirements
 

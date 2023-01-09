@@ -4,7 +4,7 @@ const path = require('path')
 // http://facebook.github.io/jest/docs/en/webpack.html
 
 module.exports = {
-  process(src, filename) {
+  process(_src, filename) {
     const assetFilename = JSON.stringify(path.basename(filename))
 
     return `const React = require('react');
