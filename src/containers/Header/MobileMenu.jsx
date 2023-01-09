@@ -9,7 +9,7 @@ import {
   BREAKPOINTS,
 } from '../shared/utils'
 import defaultRoutes from './routes'
-import Search from './Search'
+import { Search } from './Search'
 import arrowIcon from '../shared/images/down_arrow_black_50.png'
 import closeIcon from '../shared/images/close.png'
 import unionIcon from '../shared/images/union.png'
