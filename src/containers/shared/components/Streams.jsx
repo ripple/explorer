@@ -219,6 +219,7 @@ class Streams extends Component {
         pubkey,
         partial: !data.full,
         time: (data.signing_time + EPOCH_OFFSET) * 1000,
+        cookie: data.cookie,
       }
     }
 
@@ -294,6 +295,7 @@ class Streams extends Component {
         partial: data.partial,
         time: data.time,
         unl: vList && vList[data.pubkey] && vList[data.pubkey].unl,
+        cookie: data.cookie,
       })
 
       validators[data.pubkey] = data
