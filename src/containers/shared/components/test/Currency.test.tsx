@@ -17,7 +17,9 @@ describe('Currency', () => {
   })
 
   it('handles currency codes that are 4 characters and include issuer ', () => {
-    const wrapper = mount(<Currency currency="USD" issuer="david" showIssuer />)
+    const wrapper = mount(
+      <Currency currency="USD" issuer="david" shortenIssuer />,
+    )
     expect(wrapper.find('.currency').text()).toEqual('USD.david')
     wrapper.unmount()
   })

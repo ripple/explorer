@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { useLanguage } from '../../../shared/hooks'
 import '../../styles.scss'
 import formatBalance from '../../../../rippled/lib/txSummary/formatAmount'
 import {
@@ -21,7 +22,15 @@ import { AccountTransactionTable } from '../../AccountTransactionTable'
 const getErrorMessage = (error: string) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-export const AMMAccounts = (props: any) => {
+function findAMMCreate(txs: [any]) {
+  const ammCreate = txs.filter((tx) => tx.tx.TransactionType === 'AMMCreate')
+
+  if (ammCreate.length < 1) throw new Error('Could not find AMM Create')
+
+  return ammCreate[0].tx
+}
+
+export const AMMAccounts = () => {
   const { id: accountId, tab = 'transactions' } = useParams<{
     id: string
     tab: string
@@ -32,7 +41,7 @@ export const AMMAccounts = (props: any) => {
   const rippledSocket = useContext(SocketContext)
   const [data, setData] = useState<AmmDataType>()
   const [error, setError] = useState<any>()
-  const { language } = props
+  const language = useLanguage()
 
   useEffect(() => {
     let asset1: { currency: string; issuer?: string }
@@ -45,7 +54,7 @@ export const AMMAccounts = (props: any) => {
     */
     getAccountTransactions(rippledSocket, accountId, 1, undefined, true)
       .then((tData) => {
-        const { tx } = tData.transactions[0]
+        const tx = findAMMCreate(tData.transactions)
         asset1 = formatAsset(tx.Amount)
         asset2 = formatAsset(tx.Amount2)
 
@@ -64,14 +73,14 @@ export const AMMAccounts = (props: any) => {
       */
       .then((ammDataWrapper) => {
         ammData = ammDataWrapper.amm
-        const balance = formatBalance(ammData.Amount)
-        const balance2 = formatBalance(ammData.Amount2)
+        const balance = formatBalance(ammData.amount)
+        const balance2 = formatBalance(ammData.amount2)
 
         const ammInfo: AmmDataType = {
           balance,
           balance2,
-          tradingFee: ammData.TradingFee,
-          lpBalance: ammData.LPToken.value,
+          tradingFee: ammData.trading_fee,
+          lpBalance: ammData.lp_token.value,
           accountId,
           language,
         }
@@ -85,9 +94,9 @@ export const AMMAccounts = (props: any) => {
           )}`,
         })
 
-        if (e.message !== 'onthedex failure') setError(e)
+        setError(e)
       })
-  }, [accountId, rippledSocket])
+  }, [accountId, rippledSocket, language])
 
   function renderError() {
     const message = getErrorMessage(error)
@@ -116,10 +125,13 @@ export const AMMAccounts = (props: any) => {
     <div className="accounts-page section">
       {data && (
         <>
-          <AMMAccountHeader {...data!} />
+          <AMMAccountHeader data={data} />
           <Tabs tabs={tabs} selected={tab} path={mainPath} />
           {tab === 'transactions' && (
-            <AccountTransactionTable accountId={accountId} hasTokensColumn />
+            <AccountTransactionTable
+              accountId={accountId}
+              hasTokensColumn={false}
+            />
           )}
         </>
       )}

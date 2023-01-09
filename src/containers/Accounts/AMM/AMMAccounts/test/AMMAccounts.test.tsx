@@ -23,7 +23,7 @@ describe('AMM Account Page', () => {
       {
         tx: {
           Amount: '10000000000',
-          Amount2: { currency: 'USD', amount: '100000', issuer: 'your mom' },
+          Amount2: { currency: 'USD', amount: '100000', issuer: 'SOLO' },
         },
       },
     ],

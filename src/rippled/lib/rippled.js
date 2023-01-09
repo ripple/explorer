@@ -440,7 +440,7 @@ const getAMMInfo = (rippledSocket, asset, asset2) => {
   }
 
   return query(rippledSocket, request).then((resp) => {
-    if (resp.error_message || !resp.amm.validated) {
+    if (resp.error_message || !resp.validated) {
       throw new Error('Failed to get amm info', 404)
     }
 

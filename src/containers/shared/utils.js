@@ -331,8 +331,8 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
 }
 
 // Document: https://developers.google.com/analytics/devguides/collection/analyticsjs/
-export const analytics = (type = null, fields = {}) => {
-  // Check if GoogleAnalytics is set, type and fields are not empty, type is valid
+export const analytics = (type, fields = {}) => {
+  // Chek if GoogleAnalytics is set, type and fields are not empty, type is valid
   if (
     !window.gtag ||
     !type ||
@@ -435,6 +435,17 @@ export const formatAsset = (asset) =>
         currency: asset.currency,
         issuer: asset.issuer,
       }
+
+export const formatBalance = (asset) => {
+  const drop = 1000000
+  return typeof asset === 'string'
+    ? { currency: 'XRP', amount: Number(asset) / drop }
+    : {
+        currency: asset.currency,
+        amount: Number(asset.value),
+        issuer: asset.issuer,
+      }
+}
 
 export const localizeBalance = (balance, language) => {
   let b = localizeNumber(balance.amount || 0.0, language, {

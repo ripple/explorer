@@ -6,9 +6,8 @@ import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router'
 import { initialState } from 'rootReducer'
 import i18n from 'i18nTestConfig'
+import configureMockStore from 'redux-mock-store'
 import { AMMAccountHeader, AmmDataType } from '../AMMAccountHeader'
-
-const configureMockStore = require('redux-mock-store').default
 
 describe('AMM Account Header', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
@@ -21,7 +20,7 @@ describe('AMM Account Header', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
-            <AMMAccountHeader {...state} />
+            <AMMAccountHeader data={state} />
           </MemoryRouter>
         </Provider>
       </I18nextProvider>,
@@ -47,8 +46,8 @@ describe('AMM Account Header', () => {
     expect(wrapper.find('.currency-pair').length).toBe(1)
     expect(wrapper.text().includes('500')).toBe(true)
     expect(wrapper.text().includes('%0.01')).toBe(true)
-    expect(wrapper.text().includes('XRP/USD')).toBe(true)
-    expect(wrapper.text().includes('1,000')).toBe(true)
+    expect(wrapper.text().includes('XRP.hi/USD.hi')).toBe(true)
+    expect(wrapper.text().includes('\uE9001,000')).toBe(true)
     expect(wrapper.text().includes('9,000')).toBe(true)
     expect(wrapper.text().includes('the account ID')).toBe(true)
 

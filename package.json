@@ -63,7 +63,7 @@
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "canvas": "^2.11.0",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^6.0.0",
@@ -94,10 +94,7 @@
     "stylelint-config-standard": "^26.0.0",
     "stylelint-prettier": "^2.0.0",
     "stylelint-scss": "^4.3.0",
-    "typescript": "^4.3.5"
-  },
-  "resolutions": {
-    "react-error-overlay": "6.0.9"
+    "typescript": "^4.9.4"
   },
   "jest": {
     "transformIgnorePatterns": [
@@ -177,7 +174,8 @@
     ],
     "plugins": [
       "jsx-a11y",
-      "prettier"
+      "prettier",
+      "import"
     ],
     "env": {
       "browser": true,
@@ -186,7 +184,15 @@
       "es6": true
     },
     "rules": {
-      "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.ts", "**/*.test.tsx"]}],
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": [
+            "**/*.test.ts",
+            "**/*.test.tsx"
+          ]
+        }
+      ],
       "prettier/prettier": [
         "error",
         {
