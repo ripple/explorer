@@ -16,11 +16,11 @@
     width: 80px;
 
     &.paystring-type {
-      color: $gray-400;
+      color: $black-40;
 
       /* stylelint-disable selector-class-pattern -- Currency comes from server  */
       &.XRPL {
-        color: $gray-400;
+        color: $black-40;
       }
 
       &.BTC {

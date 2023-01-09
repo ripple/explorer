@@ -19,7 +19,6 @@
     position: absolute;
     z-index: 1;
     top: 0;
-    background: $black;
     opacity: 1;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -98,7 +97,7 @@
       }
 
       &.fail {
-        color: $orange-600;
+        color: $orange-50;
 
         span {
           text-transform: none;

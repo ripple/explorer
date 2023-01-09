@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import '../../../shared/css/variables';
 
 .transaction-table {
@@ -15,7 +16,7 @@
 
   .upper {
     padding: 12px 32px;
-    background: $gray-900;
+    background: $black-70;
     color: $white;
     font-size: 14px;
   }
@@ -74,7 +75,7 @@
     letter-spacing: 0;
 
     .transaction-address {
-      color: $gray-800;
+      color: $black-70;
       @include medium;
     }
 
@@ -110,8 +111,8 @@
   .details {
     min-height: 30px;
     padding: 32px;
-    background: #22252b80;
-    color: $gray-400;
+    background: rgba($black-70, 0.5);
+    color: $black-40;
     font-size: 10px;
     line-height: 12px;
     text-transform: uppercase;
@@ -156,8 +157,7 @@
     .partial-payment,
     .closed,
     .flag,
-    .unsetregularkey,
-    .empty {
+    .unsetregularkey {
       font-style: italic;
       text-transform: none;
     }
@@ -176,7 +176,7 @@
     }
 
     .flag {
-      color: $blue-grey;
+      color: $blue-purple-30;
     }
 
     .condition,
@@ -235,8 +235,7 @@
     .col-token,
     .col-date {
       border: none;
-      color: $gray-500;
-      letter-spacing: 0.5px;
+      color: $black-50;
       @include bold;
     }
 
@@ -248,7 +247,7 @@
 
 .empty-transactions-message {
   padding: 16px;
-  color: $gray-400;
+  color: $black-40;
   font-size: 16px;
   text-align: center;
 }
@@ -256,17 +255,17 @@
 .load-more-btn {
   display: block;
   padding: 10px 20px;
-  border: 1px solid $gray-400;
+  border: 1px solid $black-40;
   margin: 10px auto;
   background: $black;
   border-radius: 100px;
-  color: $gray-400;
+  color: $black-40;
   cursor: pointer;
   font-size: 16px;
   outline: inherit;
   @include bold;
 
   &:hover {
-    background: $gray-800;
+    background: $black-70;
   }
 }

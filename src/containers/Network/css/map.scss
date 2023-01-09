@@ -2,14 +2,13 @@
 
 .nodes-map {
   position: relative;
-  background: $black;
 
   svg {
     display: block;
     margin: auto;
 
     .country {
-      fill: $gray-400;
+      fill: $black-40;
       opacity: 0.2;
     }
 
@@ -24,7 +23,7 @@
 
     .legend {
       text {
-        fill: $gray-400;
+        fill: $black-40;
         font-size: 10px;
         @include regular;
       }

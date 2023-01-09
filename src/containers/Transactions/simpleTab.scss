@@ -1,6 +1,6 @@
 @import '../shared/css/variables';
 
-$subdued-color: $gray-400;
+$subdued-color: $black-40;
 
 .simple-body-tx {
   .rows {
@@ -45,11 +45,6 @@ $subdued-color: $gray-400;
           }
         }
 
-        .dt {
-          color: $subdued-color;
-          font-size: 12px;
-        }
-
         ul {
           padding: 0;
           margin: 0;
@@ -66,7 +61,7 @@ $subdued-color: $gray-400;
         }
 
         &.flag {
-          color: $blue-grey;
+          color: $blue-purple-30;
           font-size: 14px;
           font-style: italic;
           @include regular;
@@ -100,14 +95,14 @@ $subdued-color: $gray-400;
 
     .attestation {
       margin: 16px 0px;
-      background: rgba($gray-900, 0.5);
+      background: rgba($black-80, 0.7);
       gap: 15px;
 
       .attestation-title {
         display: block;
         flex-direction: row;
         padding: 16px 0 0 16px;
-        color: $gray-400;
+        color: $black-40;
         font-size: 14px;
         font-weight: 600;
         text-transform: uppercase;

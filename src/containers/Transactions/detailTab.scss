@@ -2,13 +2,13 @@
 
 .detail-body {
   margin-top: 20px;
-  color: $gray-400;
+  color: $black-40;
   font-size: 12px;
   letter-spacing: 0px;
 
   .detail-section {
     padding: 5px 15px;
-    border-bottom: 1px solid $gray-800;
+    border-bottom: 1px solid $black-70;
     margin: 0px 0px 30px;
 
     &:last-child {
@@ -26,7 +26,7 @@
     }
 
     b {
-      color: $gray-300;
+      color: $black-30;
       @include medium;
 
       small {
@@ -75,7 +75,7 @@
     .meta-title {
       margin-top: 16px;
       margin-bottom: 2px;
-      color: $gray-400;
+      color: $black-40;
       font-size: 14px;
       text-transform: uppercase;
       @include medium;
@@ -86,18 +86,11 @@
     }
 
     .tx-result.fail {
-      color: $orange-600;
-    }
-
-    .dt {
-      color: $gray-300;
-      font-size: 0.9em;
-      text-transform: capitalize;
-      @include medium;
+      color: $orange-50;
     }
 
     .time {
-      color: $blue-grey;
+      color: $blue-purple-30;
     }
 
     .hash {
@@ -110,17 +103,17 @@
     .regular-key,
     .email,
     .message-key {
-      color: $blue-grey;
+      color: $blue-purple-30;
       font-size: 13px;
       word-break: break-all;
     }
 
     .domain {
-      color: $blue-grey;
+      color: $blue-purple-30;
     }
 
     .flag {
-      color: $blue-grey;
+      color: $blue-purple-30;
       font-style: italic;
     }
 
