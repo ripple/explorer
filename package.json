@@ -113,7 +113,9 @@
     "jest-environment-jsdom": "29.3.1"
   },
   "jest": {
-    "roots": ["<rootDir>/src"],
+    "roots": [
+      "<rootDir>/src"
+    ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupTests.ts"
     ],
@@ -121,19 +123,19 @@
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
-    "testEnvironment": "jest-environment-jsdom",
+    "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.(ts|tsx)?$": "ts-jest",
-      "^.+\\.(js|jsx)$": "babel-jest"
+      "^.+\\.(js|jsx)$": "babel-jest",
+      "^.+\\.(svg)$": "<rootDir>/svgTransform.js",
+      "^.+\\.(css|scss)$": "<rootDir>/cssTransform.js"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!arc)/(?!d3)"
     ],
     "moduleNameMapper": {
       "d3-hexbin": "<rootDir>/node_modules/d3-hexbin/build/d3-hexbin.min.js",
-      "d3": "<rootDir>/node_modules/d3/dist/d3.min.js",
-      "\\.(scss|css|png)$": "<rootDir>/src/styleMock.js",
-      "\\.(svg)$": "<rootDir>/src/svgTransform.js"
+      "d3": "<rootDir>/node_modules/d3/dist/d3.min.js"
     },
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
@@ -272,6 +274,7 @@
             "**/*.test.ts",
             "**/*.test.tsx",
             "**/setupTests.ts",
+            "**/svgTransform.js",
             "**/test/**"
           ]
         }
