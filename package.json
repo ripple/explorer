@@ -113,6 +113,7 @@
     "jest-environment-jsdom": "29.3.1"
   },
   "jest": {
+    "roots": ["<rootDir>/src"],
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupTests.ts"
     ],
