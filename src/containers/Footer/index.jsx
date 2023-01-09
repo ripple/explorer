@@ -1,9 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { updateLanguage } from '../App/actions'
 
 import packageConfig from '../../../package.json'
 import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg'
@@ -113,22 +110,4 @@ const Footer = (props) => {
   )
 }
 
-Footer.propTypes = {
-  actions: PropTypes.shape({
-    updateLanguage: PropTypes.func,
-  }).isRequired,
-}
-
-export default connect(
-  (state) => ({
-    language: state.app.language,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        updateLanguage,
-      },
-      dispatch,
-    ),
-  }),
-)(Footer)
+export default Footer
