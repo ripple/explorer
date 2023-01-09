@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
 
 import packageConfig from '../../../package.json'
 import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg'
