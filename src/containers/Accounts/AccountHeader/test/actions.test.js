@@ -257,6 +257,7 @@ describe('AccountHeader Actions', () => {
       },
     ]
     client.addResponse('account_info', { result: actNotFound })
+    client.addResponse('account_tx', { result: actNotFound })
     const store = mockStore({ news: initialState })
     return store
       .dispatch(actions.loadAccountState(TEST_ADDRESS, client))
