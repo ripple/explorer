@@ -41,10 +41,12 @@ describe('AccountHeader Actions', () => {
         flags: [],
         balance: '123456000',
         gravatar: undefined,
+        nftMinter: undefined,
         previousTxn:
           '6B6F2CA1633A22247058E988372BA9EFFFC5BF10212230B67341CA32DC9D4A82',
         previousLedger: 68990183,
       },
+      deleted: false,
       balances: { XRP: 123.456 },
       signerList: undefined,
       tokens: [],
@@ -66,7 +68,7 @@ describe('AccountHeader Actions', () => {
       })
   })
 
-  fit('should dispatch correct actions on ripple account with tokens', () => {
+  it('should dispatch correct actions on account with tokens', () => {
     client.addResponses(actWithTokens)
     const expectedData = {
       account: 'rB5TihdPbKgMrkFqrqUC3yLdE8hhv4BdeY',
@@ -194,10 +196,12 @@ describe('AccountHeader Actions', () => {
         flags: [],
         balance: '123456000',
         gravatar: undefined,
+        nftMinter: undefined,
         previousTxn:
           '6B6F2CA1633A22247058E988372BA9EFFFC5BF10212230B67341CA32DC9D4A82',
         previousLedger: 68990183,
       },
+      deleted: false,
       balances: { XRP: 123.456 },
       signerList: undefined,
       tokens: [],
@@ -242,7 +246,7 @@ describe('AccountHeader Actions', () => {
       })
   })
 
-  it('should dispatch correct actions on ripple address not found', () => {
+  it('should dispatch correct actions on address not found', () => {
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_STATE },
       { type: actionTypes.FINISHED_LOADING_ACCOUNT_STATE },
@@ -261,7 +265,7 @@ describe('AccountHeader Actions', () => {
       })
   })
 
-  it('should dispatch correct actions on invalid ripple address', () => {
+  it('should dispatch correct actions on invalid address', () => {
     const expectedActions = [
       {
         type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,
