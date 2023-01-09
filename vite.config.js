@@ -48,7 +48,9 @@ export default defineConfig({
     },
   },
   plugins: [
-    svgrPlugin(),
+    svgrPlugin({
+      exportAsDefault: true,
+    }),
     react({
       // Use React plugin in all *.jsx and *.tsx files
       include: '**/*.{jsx,tsx}',
