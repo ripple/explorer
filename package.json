@@ -136,6 +136,8 @@
       "d3-hexbin": "<rootDir>/node_modules/d3-hexbin/build/d3-hexbin.min.js",
       "d3": "<rootDir>/node_modules/d3/dist/d3.min.js"
     },
+    "clearMocks": true,
+    "resetMocks": true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",

@@ -23,7 +23,6 @@ function flushPromises() {
 describe('AccountTransactionsTable container', () => {
   beforeEach(() => {
     jest.resetModules()
-    jest.clearAllMocks()
   })
 
   const createWrapper = (

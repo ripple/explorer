@@ -10,7 +10,6 @@ describe('getSocket', () => {
 
   beforeEach(() => {
     jest.resetModules() // Most important - it clears the cache
-    jest.clearAllMocks()
     process.env = { ...OLD_ENV } // Make a copy
   })
 
