@@ -6,14 +6,27 @@ import svgrPlugin from 'vite-plugin-svgr'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import inject from '@rollup/plugin-inject'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   root: './src',
   envDir: '..',
   build: {
-    // relative to the root
     outDir: '../build',
+    emptyOutDir: true,
+    sourcemap: true,
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
+    rollupOptions: {
+      plugins: [
+        // https://github.com/vitejs/vite/discussions/2785
+        inject({
+          modules: { Buffer: ['buffer', 'Buffer'] },
+        }),
+      ],
+    },
   },
   // relative to the root
   publicDir: '../public',

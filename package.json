@@ -6,6 +6,7 @@
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@fontsource/roboto": "^4.5.7",
     "@google-cloud/bigquery": "^5.5.0",
+    "@rollup/plugin-inject": "^5.0.3",
     "@vitejs/plugin-react": "^3.0.0",
     "@xrplf/prettier-config": "^1.5.0",
     "axios": "^0.21.1",
@@ -113,7 +114,9 @@
     "jest-environment-jsdom": "29.3.1"
   },
   "jest": {
-    "roots": ["<rootDir>/src"],
+    "roots": [
+      "<rootDir>/src"
+    ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupTests.ts"
     ],
@@ -182,7 +185,7 @@
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
-    "build": "DISABLE_NEW_JSX_TRANSFORM=true vite build --emptyOutDir",
+    "build": "DISABLE_NEW_JSX_TRANSFORM=true vite build",
     "dev-client": "vite serve",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "lint": "run-s \"lint:js -- --fix\" \"lint:css -- --fix\"",
