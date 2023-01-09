@@ -220,7 +220,7 @@ class Ledgers extends Component {
     const partial = v.partial ? <div className="partial" /> : null
     return (
       <div
-        key={v.pubkey}
+        key={`${v.pubkey}_${v.time}`}
         role="button"
         tabIndex={i}
         className={className}
