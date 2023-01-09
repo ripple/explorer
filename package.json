@@ -235,7 +235,6 @@
             "**/*.test.tsx",
             "**/test/**",
             "**/setupTests.ts",
-            "**/svgTransform.js",
             "**/setupProxy.js"
           ]
         }
