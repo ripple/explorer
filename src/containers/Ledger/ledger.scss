@@ -321,7 +321,6 @@
     .trans-row {
       display: block;
       border-left: 4px solid;
-      margin-bottom: 1px;
       vertical-align: middle;
 
       @include for-size(desktop-up) {
@@ -329,11 +328,7 @@
       }
 
       &:hover {
-        background: rgba($black-80, 0.7);
-
-        @include for-size(desktop-up) {
-          border-radius: 4px;
-        }
+        background: $black-70;
       }
 
       .upper {
