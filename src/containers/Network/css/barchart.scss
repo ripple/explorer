@@ -1,7 +1,7 @@
 @import '../../shared/css/variables';
 
 .y-label {
-  fill: #9ba2b0;
+  fill: $black-40;
 }
 
 .barchart {
@@ -12,7 +12,7 @@
 
   p,
   span {
-    color: #9ba2b0;
+    color: $black-40;
     line-height: 70%;
   }
 }
