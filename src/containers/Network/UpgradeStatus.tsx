@@ -57,7 +57,6 @@ export const UpgradeStatus = () => {
   const [vList, setVList] = useState<Record<string, ValidatorResponse>>({})
   const [validations, setValidations] = useState<ValidatorResponse[]>([])
   const [unlCount, setUnlCount] = useState(0)
-  const [stableVersion, setStableVersion] = useState<string | null>(null)
   const [aggregated, setAggregated] = useState<DataAggregation[]>([])
   const { t } = useTranslation()
   const language = useLanguage()
@@ -66,11 +65,19 @@ export const UpgradeStatus = () => {
     ['fetchUpgradeStatusData'],
     () => {
       fetchData()
-      fetchStableVersion()
     },
     {
       refetchInterval: FETCH_INTERVAL_MILLIS,
       refetchOnMount: true,
+    },
+  )
+
+  const { data: stableVersion } = useQuery(
+    ['stableVersion'],
+    () => fetchStableVersion(),
+    {
+      placeholderData: null,
+      retryDelay: FETCH_INTERVAL_MILLIS,
     },
   )
 
@@ -98,15 +105,14 @@ export const UpgradeStatus = () => {
 
   const fetchStableVersion = () => {
     const url = 'https://api.github.com/repos/XRPLF/rippled/releases'
-    axios.get(url).then((resp) => {
-      resp.data.every((release: any) => {
-        if (release.tag_name && !release.prerelease) {
-          setStableVersion(release.tag_name)
-          return false
-        }
-        return true
-      })
-    })
+    return axios
+      .get(url)
+      .then(
+        (resp) =>
+          resp.data.find(
+            (release: any) => release.tag_name && !release.prerelease,
+          )?.tag_name || null,
+      )
   }
 
   const updateValidators = (newValidations: StreamValidator[]) => {
