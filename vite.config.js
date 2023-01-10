@@ -47,7 +47,7 @@ export default defineConfig({
       events: 'events',
       stream: 'stream-browserify',
       zlib: 'browserify-zlib',
-      'util/': 'util',
+      util: 'rollup-plugin-node-polyfills/polyfills/util',
     },
   },
   optimizeDeps: {
