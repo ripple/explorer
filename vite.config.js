@@ -7,7 +7,6 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import inject from '@rollup/plugin-inject'
-import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import polyfillNode from 'rollup-plugin-polyfill-node'
 import autoprefixer from 'autoprefixer'
 
@@ -31,7 +30,6 @@ export default defineConfig({
           modules: { Buffer: ['buffer', 'Buffer'] },
         }),
         polyfillNode(),
-        viteCommonjs(),
       ],
     },
   },
