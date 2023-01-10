@@ -39,6 +39,7 @@ export default defineConfig({
   },
   define: { 'process.env': {} },
   resolve: {
+    // polyfills
     alias: {
       events: 'events',
       stream: 'stream-browserify',
@@ -52,8 +53,8 @@ export default defineConfig({
         // Node.js global to browser globalThis
         global: 'globalThis',
       },
-      // Enable esbuild polyfill plugins
       plugins: [
+        // activate Buffer
         NodeGlobalsPolyfillPlugin({
           buffer: true,
         }),
@@ -61,6 +62,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    // export SVGs as React components by default
     svgrPlugin({
       exportAsDefault: true,
     }),
@@ -76,11 +78,14 @@ export default defineConfig({
         },
       },
     }),
+    // use env vars
     EnvironmentPlugin('all'),
+    // activate buffer and process
     NodeGlobalsPolyfillPlugin({
       buffer: true,
       process: true,
     }),
+    // use TS paths
     viteTsconfigPaths(),
   ],
   test: {
