@@ -68,11 +68,11 @@
         }
 
         .low-num {
-          color: #19ff83;
+          color: $green-50;
         }
 
         .high-num {
-          color: #ff6719;
+          color: $orange-50;
         }
 
         .high {
@@ -83,7 +83,7 @@
 
     .no-pairs-message {
       padding: 16px;
-      color: #9ba2b0;
+      color: $black-50;
       font-size: 16px;
       text-align: center;
     }
