@@ -7,10 +7,10 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import inject from '@rollup/plugin-inject'
-import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
+import polyfillNode from 'rollup-plugin-polyfill-node'
 
-require('dotenv').config({ path: `./.env` })
+import 'dotenv/config'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -29,7 +29,7 @@ export default defineConfig({
         inject({
           modules: { Buffer: ['buffer', 'Buffer'] },
         }),
-        rollupNodePolyFill(),
+        polyfillNode(),
         viteCommonjs(),
       ],
     },
@@ -46,11 +46,9 @@ export default defineConfig({
   resolve: {
     // polyfills
     alias: {
-      assert: 'rollup-plugin-node-polyfills/polyfills/assert',
       events: 'events',
       stream: 'stream-browserify',
       zlib: 'browserify-zlib',
-      util: 'rollup-plugin-node-polyfills/polyfills/util',
     },
   },
   optimizeDeps: {
@@ -63,7 +61,6 @@ export default defineConfig({
         // activate Buffer
         NodeGlobalsPolyfillPlugin({
           buffer: true,
-          process: true,
         }),
       ],
     },
@@ -90,7 +87,6 @@ export default defineConfig({
     // activate buffer and process
     NodeGlobalsPolyfillPlugin({
       buffer: true,
-      process: true,
     }),
     // use TS paths
     viteTsconfigPaths(),
