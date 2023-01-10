@@ -208,10 +208,10 @@ a {
       margin-left: 4px;
       background-color: currentcolor;
       content: '';
-      mask-repeat: no-repeat;
-      mask-position: center;
-      mask-size: contain;
       mask-image: url('../images/external_link.svg');
+      mask-position: center;
+      mask-repeat: no-repeat;
+      mask-size: contain;
       vertical-align: text-top;
     }
 
@@ -223,10 +223,10 @@ a {
         margin-right: 4px;
         background-color: currentcolor;
         content: '';
-        mask-repeat: no-repeat;
-        mask-position: center;
-        mask-size: contain;
         mask-image: url('../images/github.svg');
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: contain;
         vertical-align: text-top;
       }
     }
