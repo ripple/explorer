@@ -15,7 +15,7 @@
     padding: 0 22px;
   }
 
-  &.primary {
+  &.primary-theme {
     color: $white;
 
     &.default {
@@ -35,7 +35,7 @@
 
     &.danger {
       border-color: $red;
-      background: $red;
+      background: $red-dark;
     }
 
     &.dark {
