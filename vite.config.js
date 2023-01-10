@@ -7,6 +7,7 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import inject from '@rollup/plugin-inject'
+import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,6 +26,7 @@ export default defineConfig({
         inject({
           modules: { Buffer: ['buffer', 'Buffer'] },
         }),
+        rollupNodePolyFill(),
       ],
     },
   },
@@ -41,6 +43,7 @@ export default defineConfig({
   resolve: {
     // polyfills
     alias: {
+      assert: 'rollup-plugin-node-polyfills/polyfills/assert',
       events: 'events',
       stream: 'stream-browserify',
       zlib: 'browserify-zlib',
