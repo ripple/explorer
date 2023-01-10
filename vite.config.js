@@ -10,6 +10,8 @@ import inject from '@rollup/plugin-inject'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 
+require('dotenv').config({ path: `./.env` })
+
 // https://vitejs.dev/config/
 export default defineConfig({
   root: './src',
@@ -41,7 +43,6 @@ export default defineConfig({
       '/api': 'http://localhost:5001',
     },
   },
-  define: { 'process.env': {} },
   resolve: {
     // polyfills
     alias: {
@@ -62,6 +63,7 @@ export default defineConfig({
         // activate Buffer
         NodeGlobalsPolyfillPlugin({
           buffer: true,
+          process: true,
         }),
       ],
     },
