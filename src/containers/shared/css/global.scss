@@ -207,11 +207,11 @@ a {
       height: 1em;
       margin-left: 4px;
       background-color: currentcolor;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: contain;
       content: '';
-      mask: url('../images/external_link.svg') no-repeat 100% 100%;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      mask-image: url('../images/external_link.svg');
       vertical-align: text-top;
     }
 
@@ -222,11 +222,11 @@ a {
         height: 1em;
         margin-right: 4px;
         background-color: currentcolor;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
         content: '';
-        mask: url('../images/github.svg') no-repeat 100% 100%;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: contain;
+        mask-image: url('../images/github.svg');
         vertical-align: text-top;
       }
     }

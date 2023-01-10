@@ -9,6 +9,7 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 import inject from '@rollup/plugin-inject'
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import polyfillNode from 'rollup-plugin-polyfill-node'
+import autoprefixer from 'autoprefixer'
 
 import 'dotenv/config'
 
@@ -91,6 +92,13 @@ export default defineConfig({
     // use TS paths
     viteTsconfigPaths(),
   ],
+  css: {
+    postcss: {
+      plugins: [
+        autoprefixer({}), // add options if needed
+      ],
+    },
+  },
   test: {
     globals: true,
     setupFiles: 'src/setupTests.js',
