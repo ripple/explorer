@@ -8,6 +8,7 @@ import EnvironmentPlugin from 'vite-plugin-environment'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import inject from '@rollup/plugin-inject'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
+import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,6 +28,7 @@ export default defineConfig({
           modules: { Buffer: ['buffer', 'Buffer'] },
         }),
         rollupNodePolyFill(),
+        viteCommonjs(),
       ],
     },
   },
