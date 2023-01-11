@@ -22,7 +22,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "types": ["jest"],
+    "types": ["vitest"],
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,

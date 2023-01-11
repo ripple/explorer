@@ -38,8 +38,6 @@
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
-    "jestRunIt.jestPath": "./backend/node_modules/.bin/jest",
-    "jestRunIt.jestConfigPath": "./backend/jest.config.js",
     "css.validate": false,
     "scss.validate": false,
     "stylelint.validate": ["css", "scss"],

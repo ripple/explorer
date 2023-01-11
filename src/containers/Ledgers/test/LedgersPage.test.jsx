@@ -1,7 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import moxios from 'moxios'
-import WS from 'jest-websocket-mock'
+import WS from '@vitest/ws-client'
 import { BrowserRouter as Router } from 'react-router-dom'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'

@@ -23,7 +23,7 @@ function flushPromises() {
 
 describe('AccountTransactionsTable container', () => {
   beforeEach(() => {
-    jest.resetModules()
+    vi.resetModules()
   })
 
   const createWrapper = (
