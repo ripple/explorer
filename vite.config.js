@@ -14,22 +14,29 @@ import 'dotenv/config'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // source code location
   root: './src',
+  // where env vars are stored
   envDir: '..',
   build: {
+    // where build files should be stored
     outDir: '../build',
+    // empty the build directory on each build
     emptyOutDir: true,
+    // improve CPU usage
     sourcemap: false,
     commonjsOptions: {
       transformMixedEsModules: true,
     },
     rollupOptions: {
+      // improve CPU usage
       cache: false,
       plugins: [
         // https://github.com/vitejs/vite/discussions/2785
         inject({
           modules: { Buffer: ['buffer', 'Buffer'] },
         }),
+        // include polyfills
         polyfillNode(),
       ],
     },
@@ -37,6 +44,7 @@ export default defineConfig({
   // relative to the root
   publicDir: '../public',
   server: {
+    // backend settings
     open: true,
     port: 3000,
     proxy: {
@@ -97,9 +105,5 @@ export default defineConfig({
         autoprefixer({}), // add options if needed
       ],
     },
-  },
-  test: {
-    globals: true,
-    setupFiles: 'src/setupTests.js',
   },
 })
