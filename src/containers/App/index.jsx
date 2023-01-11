@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
+import { updateViewportDimensions, onScroll } from './actions'
 import Footer from '../Footer'
 import Banner from '../Header/Banner' // included here for spacing
 import './app.scss'
@@ -43,7 +43,6 @@ AppWrapper.propTypes = {
   actions: PropTypes.shape({
     updateViewportDimensions: PropTypes.func,
     onScroll: PropTypes.func,
-    updateLanguage: PropTypes.func,
   }).isRequired,
 }
 
@@ -56,7 +55,6 @@ export default connect(
       {
         updateViewportDimensions,
         onScroll,
-        updateLanguage,
       },
       dispatch,
     ),
