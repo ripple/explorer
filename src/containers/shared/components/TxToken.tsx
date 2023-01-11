@@ -5,7 +5,7 @@ interface Props {
   tx: any
 }
 
-// We should consider moving this logic to each individual parser. This would give us more customizability.
+// TODO: We should consider moving this logic to each individual parser. This would give us more customizability.
 function getTokenPair(
   type: string,
   fee: number,

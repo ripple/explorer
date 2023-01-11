@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { useParams } from 'react-router'
-import { connect } from 'react-redux'
+import { useQuery } from 'react-query'
 import { AMMAccounts } from './AMM/AMMAccounts'
 import SocketContext from '../shared/SocketContext'
 import { getAccountInfo } from '../../rippled/lib/rippled'
@@ -22,39 +22,26 @@ function renderError(error: any) {
   )
 }
 
-const AccountsRouter = () => {
+export const AccountsRouter = () => {
   const { id: accountId } = useParams<{ id: string }>()
   const rippledSocket = useContext(SocketContext)
-  const [error, setError] = useState<any>()
-  const [comp, setComp] = useState<any>()
   const flags: any = Object.entries(ACCOUNT_FLAGS).reduce(
     (all, [key, value]) => ({ ...all, [value]: key }),
     {},
   )
 
-  useEffect(() => {
-    getAccountInfo(rippledSocket, accountId)
-      .then((data: any) => {
-        if (data.Flags & flags.lsfAMM) {
-          setComp(<AMMAccounts />)
-        } else {
-          setComp(<Accounts />)
-        }
-      })
-      .catch((e) => {
-        if (e.code === 404) {
-          setError(e)
-        }
-      })
-  }, [accountId, rippledSocket])
+  const { data: comp, error } = useQuery([accountId], () =>
+    getAccountInfo(rippledSocket, accountId).then((data: any) => {
+      if (data.Flags & flags.lsfAMM) {
+        return <AMMAccounts />
+      }
+      return <Accounts />
+    }),
+  )
 
-  if (error !== undefined) {
-    if (error.code === 404) {
-      return renderError(error)
-    }
+  if (error) {
+    return renderError(error)
   }
 
   return comp || <Loader />
 }
-
-export default connect(() => ({}))(AccountsRouter)

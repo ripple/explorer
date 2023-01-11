@@ -29,12 +29,11 @@ describe('AMM Account Header', () => {
 
   it('renders AMM account page', async () => {
     const state: AmmDataType = {
-      ...initialState,
       balance: { currency: 'XRP', amount: 1000, issuer: 'hi' },
       balance2: { currency: 'USD', amount: 9000, issuer: 'hi' },
       lpBalance: 500,
       tradingFee: 10,
-      accountId: 'the account ID',
+      accountId: 'rTEST_ACCOUNT',
       language: 'en-US',
     }
 
@@ -49,7 +48,7 @@ describe('AMM Account Header', () => {
     expect(wrapper.text().includes('XRP.hi/USD.hi')).toBe(true)
     expect(wrapper.text().includes('\uE9001,000')).toBe(true)
     expect(wrapper.text().includes('9,000')).toBe(true)
-    expect(wrapper.text().includes('the account ID')).toBe(true)
+    expect(wrapper.text().includes('rTEST_ACCOUNT')).toBe(true)
 
     wrapper.unmount()
   })

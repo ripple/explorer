@@ -53,7 +53,3 @@ export const Accounts = () => {
     </div>
   )
 }
-
-Accounts.defaultProps = {
-  error: null,
-}

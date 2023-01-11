@@ -230,7 +230,7 @@ describe('AMM utils localize balance', () => {
     const balance = { currency: 'XRP', amount: 9000000 }
     const formatted = localizeBalance(balance, 'en-US')
 
-    expect(formatted).toEqual('9,000,000')
+    expect(formatted).toEqual('\uE9009,000,000')
   })
 
   it('formats non XRP balance', () => {

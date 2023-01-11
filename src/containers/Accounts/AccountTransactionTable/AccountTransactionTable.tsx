@@ -16,8 +16,8 @@ export interface AccountTransactionsTableProps {
 
 export const AccountTransactionTable = ({
   accountId,
-  currencySelected = 'XRP',
   hasTokensColumn,
+  currencySelected = 'XRP',
 }: AccountTransactionsTableProps) => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
