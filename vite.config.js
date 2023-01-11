@@ -19,11 +19,12 @@ export default defineConfig({
   build: {
     outDir: '../build',
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: false,
     commonjsOptions: {
       transformMixedEsModules: true,
     },
     rollupOptions: {
+      cache: false,
       plugins: [
         // https://github.com/vitejs/vite/discussions/2785
         inject({
