@@ -123,5 +123,6 @@ export default defineConfig({
       lines: 80,
       statements: 80,
     },
+    css: false,
   },
 })

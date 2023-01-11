@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 
 i18n.init({
-  fallbackLng: 'cimode',
+  fallbackLng: 'en',
   debug: false,
   saveMissing: false,
 
