@@ -1,31 +1,21 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
-import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router'
-import { initialState } from 'rootReducer'
-import i18n from 'i18nTestConfig'
-import configureMockStore from 'redux-mock-store'
+import i18n from '../../../../../../i18nTestConfig'
 import { AMMAccountHeader, AmmDataType } from '../AMMAccountHeader'
 
 describe('AMM Account Header', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
-  const middlewares = [thunk]
-  const mockStore = configureMockStore(middlewares)
 
-  const createWrapper = (state: AmmDataType) => {
-    const store = mockStore({ ...initialState, ...state })
-    return mount(
+  const createWrapper = (state: AmmDataType) =>
+    mount(
       <I18nextProvider i18n={i18n}>
-        <Provider store={store}>
-          <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
-            <AMMAccountHeader data={state} />
-          </MemoryRouter>
-        </Provider>
+        <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
+          <AMMAccountHeader data={state} />
+        </MemoryRouter>
       </I18nextProvider>,
     )
-  }
 
   it('renders AMM account page', async () => {
     const state: AmmDataType = {

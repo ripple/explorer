@@ -188,8 +188,7 @@
         "error",
         {
           "devDependencies": [
-            "**/*.test.ts",
-            "**/*.test.tsx"
+            "**/*.test.{js,jsx,ts,tsx}"
           ]
         }
       ],

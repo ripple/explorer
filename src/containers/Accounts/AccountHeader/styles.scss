@@ -33,14 +33,14 @@
     }
 
     .currency-pair {
-      margin: 0px;
-      padding: 5px;
-      color: $white;
-      font-size: 16px;
       display: inline-block;
+      padding: 5px;
       border-width: thin;
       border-style: solid;
       border-color: $grayTranslucent-400;
+      margin: 0px;
+      color: $white;
+      font-size: 16px;
       @include semibold;
 
       @include for-size(tablet-landscape-up) {
@@ -53,12 +53,12 @@
     }
 
     .amm {
+      display: inline-block;
+      padding-right: 10px;
+      border-bottom: none;
       margin: 0px;
       color: $white;
       font-size: 18px;
-      padding-right: 10px;
-      display: inline-block;
-      border-bottom: none;
       @include bold;
 
       @include for-size(tablet-landscape-up) {

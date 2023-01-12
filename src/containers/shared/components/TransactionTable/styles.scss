@@ -41,6 +41,7 @@
       width: 230px;
     }
   }
+
   .col-token {
     width: 50px;
     letter-spacing: 0px;
@@ -60,10 +61,6 @@
     }
 
     @include for-size(desktop-up) {
-
-      .status {
-        display: initial;
-      }
       width: 130px;
 
       .status {
