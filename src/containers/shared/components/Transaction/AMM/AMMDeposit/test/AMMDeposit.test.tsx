@@ -1,4 +1,4 @@
-import { Simple } from 'containers/shared/components/Transaction/AMM/AMMSharedSimple'
+import { Simple } from '../../AMMSharedSimple'
 import { createSimpleWrapperFactory } from '../../../test'
 import depositBothAssets from './mock_data/deposit_both.json'
 import depositUSD from './mock_data/deposit_usd.json'

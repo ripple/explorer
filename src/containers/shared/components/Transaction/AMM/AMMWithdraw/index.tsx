@@ -1,6 +1,5 @@
-import { TransactionMapping } from 'containers/shared/components/Transaction/types'
-
-import { Simple } from 'containers/shared/components/Transaction/AMM/AMMSharedSimple'
+import { Simple } from '../AMMSharedSimple'
+import { TransactionMapping } from '../../types'
 import { parser } from './parser'
 
 export const AMMWithdraw: TransactionMapping = {

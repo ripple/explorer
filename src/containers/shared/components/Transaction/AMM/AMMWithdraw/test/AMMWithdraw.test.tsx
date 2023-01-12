@@ -1,4 +1,4 @@
-import { Simple } from 'containers/shared/components/Transaction/AMM/AMMSharedSimple'
+import { Simple } from '../../AMMSharedSimple'
 import { createSimpleWrapperFactory } from '../../../test'
 import withdrawMock from './mock_data/withdraw.json'
 
