@@ -4,12 +4,12 @@ import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { QueryClientProvider } from 'react-query'
-import { updateViewportDimensions, onScroll, updateLanguage } from './actions'
+import { AccountsRouter } from '../Accounts/AccountsRouter'
+import { updateViewportDimensions, onScroll } from './actions'
 import Ledgers from '../Ledgers'
 import Header from '../Header'
 import './app.scss'
 import ledger from '../Ledger'
-import accounts from '../Accounts'
 import transactions from '../Transactions'
 import network from '../Network'
 import validators from '../Validators'
@@ -85,7 +85,7 @@ const App = (props) => {
                 <Route
                   exact
                   path="/accounts/:id?/:tab?/:assetType?"
-                  component={accounts}
+                  component={AccountsRouter}
                 />
                 <Route
                   exact
@@ -119,7 +119,6 @@ App.propTypes = {
   actions: PropTypes.shape({
     updateViewportDimensions: PropTypes.func,
     onScroll: PropTypes.func,
-    updateLanguage: PropTypes.func,
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -137,7 +136,6 @@ export default connect(
       {
         updateViewportDimensions,
         onScroll,
-        updateLanguage,
       },
       dispatch,
     ),
