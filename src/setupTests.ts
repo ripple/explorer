@@ -1,6 +1,6 @@
 import 'jest-enzyme'
 import { configure } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from 'enzyme-adapter-react-17-updated'
 
 const mockStorage = {}
 
@@ -12,6 +12,7 @@ window.localStorage = window.localStorage || {
   },
   removeItem: (key) => delete mockStorage[key],
 }
+// @ts-ignore
 configure({ adapter: new Adapter() })
 
 // jest.spyOn(console, 'error')

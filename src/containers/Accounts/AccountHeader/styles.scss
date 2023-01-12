@@ -4,7 +4,6 @@
   margin-bottom: 16px;
 
   .box-header {
-    padding: 4px 8px;
     margin-top: 106px;
     margin-bottom: 80px;
     text-align: left;
@@ -21,6 +20,53 @@
 
       @include for-size(desktop-up) {
         font-size: 42px;
+      }
+    }
+
+    .amm-title {
+      padding-bottom: 4px;
+      color: $gray-400;
+      font-size: 14px;
+      text-transform: uppercase;
+
+      @include semibold;
+    }
+
+    .currency-pair {
+      display: inline-block;
+      padding: 5px;
+      border-width: thin;
+      border-style: solid;
+      border-color: $grayTranslucent-400;
+      margin: 0px;
+      color: $white;
+      font-size: 16px;
+      @include semibold;
+
+      @include for-size(tablet-landscape-up) {
+        font-size: 10px;
+      }
+
+      @include for-size(desktop-up) {
+        font-size: 20px;
+      }
+    }
+
+    .amm {
+      display: inline-block;
+      padding-right: 10px;
+      border-bottom: none;
+      margin: 0px;
+      color: $white;
+      font-size: 18px;
+      @include bold;
+
+      @include for-size(tablet-landscape-up) {
+        font-size: 10px;
+      }
+
+      @include for-size(desktop-up) {
+        font-size: 23px;
       }
     }
   }
@@ -43,6 +89,47 @@
   .box-content {
     min-height: 100px;
     padding-bottom: 20px;
+  }
+
+  .info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 68px;
+
+    @include for-size(desktop-up) {
+      flex-direction: row;
+      margin-top: 80px;
+    }
+
+    .values {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      color: $white;
+
+      @include for-size(desktop-up) {
+        flex-direction: column;
+        margin-bottom: 0px;
+      }
+
+      .title {
+        padding-bottom: 4px;
+        color: $gray-400;
+        font-size: 14px;
+        text-transform: uppercase;
+        @include semibold;
+      }
+
+      .value {
+        color: $white;
+        font-size: 18px;
+        line-height: 22.5px;
+        text-decoration: none;
+        @include bold;
+      }
+    }
   }
 
   .column {
