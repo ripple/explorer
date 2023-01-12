@@ -1,0 +1,210 @@
+{
+  "ledger_index": 46635258,
+  "balances": {
+    "XRP": 199.8175,
+    "USD": 1234.56
+  },
+  "info": {
+    "reserve": 20,
+    "sequence": 12345,
+    "domain": "example.com",
+    "email_hash": "ABCDE1234",
+    "flags": ["accountFlag1", "accountFlag2"]
+  },
+  "paychannels": {
+    "channels": [
+      {
+        "id": "56E13047B746FC01101D377DE9E685F8695B2F41CAF910A0D5A672765EB4083F",
+        "account": "rDqLfYdAdUQwTAZbybJVBiXRU7PQQYix2R",
+        "destination": "rnbKqVFYk9Cnzj4q6VmY88hJR4cSmc9xGt",
+        "amount": 10,
+        "balance": 0,
+        "settleDelay": 3600
+      },
+      {
+        "id": "961241B79351346C8C4A49BFF02D3E5031A22E1F4DD1160C5964A9EB16772A53",
+        "account": "rDqLfYdAdUQwTAZbybJVBiXRU7PQQYix2R",
+        "destination": "rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN",
+        "amount": 10,
+        "balance": 0.05,
+        "settleDelay": 3600
+      },
+      {
+        "id": "9BC25651E7CE6766863A9CEB67B295CA4DD98E58E9CA91A09D8B36E43DFDE84C",
+        "account": "rDqLfYdAdUQwTAZbybJVBiXRU7PQQYix2R",
+        "destination": "rnbKqVFYk9Cnzj4q6VmY88hJR4cSmc9xGt",
+        "amount": 10,
+        "balance": 0,
+        "settleDelay": 3600
+      },
+      {
+        "id": "B1ADE97B75C4A5FBBDF99A97B91C6E74343AB36033B943E287BD344E9DBE1CED",
+        "account": "rDqLfYdAdUQwTAZbybJVBiXRU7PQQYix2R",
+        "destination": "rDy4ZNRAokcmHvD7fPazisKQsE7iq3tCQF",
+        "amount": 10,
+        "balance": 0.06,
+        "settleDelay": 3600
+      }
+    ],
+    "total_available": 39.89
+  },
+  "signerList": {
+    "quorum": 4,
+    "max": 8,
+    "signers": [
+      {
+        "account": "re3LGjhrCvthtWWwrfKbVJjXN9PYDeQDJ",
+        "weight": 1
+      },
+      {
+        "account": "rkPA5RwLVPnJgpcsrzYvHwx1HVfDb6zD3",
+        "weight": 1
+      },
+      {
+        "account": "r9oLueGJ78wpDtx5R5Xtfx5P2fjFppcCuS",
+        "weight": 1
+      },
+      {
+        "account": "rGSxFjoqmWz54PycrgQBQ5dB6e7TUpMxzq",
+        "weight": 1
+      },
+      {
+        "account": "rHH2gS6XikKoEt9i1xAxEBvXLHKFr7oLn8",
+        "weight": 1
+      },
+      {
+        "account": "rLW75SfEdnGVsa3fTFkSaDTzXuFapwNYtf",
+        "weight": 1
+      },
+      {
+        "account": "rMY6Wm2RWQLN4d3Jjz15MKP74GJWVQE2pb",
+        "weight": 1
+      },
+      {
+        "account": "rP5xpZ5KzPih69fLhG3NYvZEDfLmSEViUk",
+        "weight": 1
+      }
+    ],
+    "ledger_index": 46635258
+  },
+  "escrows": {
+    "in": [
+      {
+        "id": "04F57D5C7F5B660C187BB55227DFC703AEFE482AEA8EEAF4C7FA5ED9BFF3403E",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 200000000,
+        "finishAfter": "2023-04-01T00:00:00Z"
+      },
+      {
+        "id": "05C1D23635030E7749CD6A1FB0ACE8F48A155313145397363B677254567F0051",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 100000000,
+        "finishAfter": "2022-11-01T00:00:00Z"
+      },
+      {
+        "id": "18727F780D876DF637561802D38C97AA6C7BF9DA9266F9B95E0B9872808E4863",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 400000000,
+        "finishAfter": "2023-03-01T00:00:00Z"
+      },
+      {
+        "id": "323ED5FADF59D6EB60E133D8AC630F56373A94A828FBCA40D8D2919F13EA6356",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 100000000,
+        "finishAfter": "2023-03-01T00:00:00Z"
+      },
+      {
+        "id": "425D1D1DB7992B2F4D31DC3FA2598C09BE1527256F68E35CEB46FEEA53479F8A",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 200000000,
+        "finishAfter": "2022-10-01T00:00:00Z"
+      },
+      {
+        "id": "4479E64BE345AFC083343800CEDEA82D1CAC3DEE0658E38E3972164654DFEA97",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 300000000,
+        "finishAfter": "2022-10-01T00:00:00Z"
+      },
+      {
+        "id": "4C664D50C9C0F347947F9CEF3F9698F96660946E7118152579B1EFAC98D0DBCD",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 500000000,
+        "finishAfter": "2023-05-01T00:00:00Z"
+      },
+      {
+        "id": "52458FA712939951ED53B3A8AA3EBBCDBC9FC50566E585457425214BD2799E73",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 300000000,
+        "finishAfter": "2023-04-01T00:00:00Z"
+      },
+      {
+        "id": "66F054B5EF2DCA2B823837701E7D54387DE2EF71119A5663C3449A5E976BE484",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 100000000,
+        "finishAfter": "2022-08-01T00:00:02Z"
+      },
+      {
+        "id": "94408416635DB67DC31DE418F13931F44A9B75C2FB5DCD4944AD5F267B6C4827",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 200000000,
+        "finishAfter": "2022-09-01T00:00:00Z"
+      },
+      {
+        "id": "985CBFA00D2152052DE0C5058C276461D4D96363B1C1783488A070D7D579D889",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 300000000,
+        "finishAfter": "2022-09-01T00:00:02Z"
+      },
+      {
+        "id": "9871AA7B5A34E98AA5207B637EFDDEDCA6DC39B8041A82FE9C1A2E2D2DD89AB6",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 400000000,
+        "finishAfter": "2022-11-01T00:00:00Z"
+      },
+      {
+        "id": "987779E4922312332B021EF76422C6A10B6FA0BF2CDD610AF0DBE3ABA58D12CD",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 500000000,
+        "finishAfter": "2023-02-01T00:00:00Z"
+      },
+      {
+        "id": "AE269A4700787F4519F13D54C1091613CF0CAC5E64AF4590CA779A680457B34B",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 500000000,
+        "finishAfter": "2022-12-01T00:00:00Z"
+      },
+      {
+        "id": "E5FDC1D1E7BDB140B6F954074692546F1D7C95F780DDCE083B92E05CEC0EF471",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 500000000,
+        "finishAfter": "2023-01-01T00:00:00Z"
+      },
+      {
+        "id": "F933D56AA2BBBB9F8E25961A495F2242813D04D73F89B3E0E7B56C333AEA4C3B",
+        "account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "destination": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+        "amount": 400000000,
+        "finishAfter": "2022-08-01T00:00:00Z"
+      }
+    ],
+    "out": [],
+    "total": 5000000000,
+    "totalIn": 5000000000,
+    "totalOut": 0
+  }
+}
