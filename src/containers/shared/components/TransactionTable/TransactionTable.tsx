@@ -11,6 +11,7 @@ export type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
   loading: boolean
   onLoadMore: MouseEventHandler
   hasAdditionalResults?: boolean
+  hasTokensColumn?: boolean
 }
 
 type TransactionTableComponent =
@@ -22,11 +23,16 @@ export const TransactionTable: TransactionTableComponent = ({
   loading = false,
   onLoadMore,
   transactions = [],
+  hasTokensColumn,
 }: TransactionTableProps) => {
   const { t } = useTranslation()
 
   const renderListItem = (tx: any) => (
-    <TransactionTableRow tx={tx} key={tx.hash} />
+    <TransactionTableRow
+      tx={tx}
+      hasTokensColumn={hasTokensColumn}
+      key={tx.hash}
+    />
   )
 
   const renderLoadMore = () =>
@@ -36,6 +42,7 @@ export const TransactionTable: TransactionTableComponent = ({
     <>
       <ol className="transaction-table">
         <li className="transaction-li transaction-li-header">
+          {hasTokensColumn && <div className="col-token"> {t('token')} </div>}
           <div className="col-account">{t('account')}</div>
           <div className="col-type">{t('transaction_type')}</div>
           <div className="col-status">{t('status')}</div>

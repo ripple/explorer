@@ -26,7 +26,7 @@
     "debug": "^4.3.1",
     "dotenv": "^16.0.3",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "^1.15.7",
+    "enzyme-adapter-react-17-updated": "^1.0.2",
     "events": "^3.3.0",
     "express": "^4.18.1",
     "i18next": "^22.0.6",
@@ -35,13 +35,13 @@
     "moment": "^2.29.4",
     "payid-lib": "^0.1.0",
     "prop-types": "^15.8.1",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-helmet": "^5.2.0",
     "react-i18next": "^11.16.7",
     "react-json-view": "^1.21.3",
     "react-query": "^3.39.2",
-    "react-redux": "^5.0.7",
+    "react-redux": "^7.0.1",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "recharts": "^2.1.13",
@@ -74,14 +74,15 @@
     "@types/node": "^17.0.8",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.9",
-    "@types/react-i18next": "^8.1.0",
     "@types/react-redux": "^7.1.22",
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "babel-jest": "^29.3.1",
     "canvas": "^2.11.0",
-    "eslint": "^7.31.0",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-17-updated": "^1.0.2",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^6.0.0",
@@ -100,7 +101,8 @@
     "nodemon": "^2.0.9",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
-    "react-test-renderer": "^16.14.0",
+    "react-error-overlay": "6.0.9",
+    "react-test-renderer": "^17.0.2",
     "redux-mock-store": "^1.5.1",
     "sass": "^1.51.0",
     "source-map-explorer": "^2.5.2",
@@ -113,7 +115,7 @@
     "stylelint-scss": "^4.3.0",
     "ts-jest": "^26.5.6",
     "ts-node": "^10.9.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.9.4"
   },
   "resolutions": {
     "jest-environment-jsdom": "29.3.1"
@@ -222,15 +224,30 @@
     ],
     "plugins": [
       "jsx-a11y",
-      "prettier"
+      "prettier",
+      "import"
     ],
     "env": {
       "browser": true,
+      "node": true,
       "jest": true,
       "es6": true
     },
     "rules": {
-      "prettier/prettier": "error",
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": [
+            "**/*.test.{js,jsx,ts,tsx}"
+          ]
+        }
+      ],
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ],
       "react/jsx-filename-extension": [
         1,
         {
