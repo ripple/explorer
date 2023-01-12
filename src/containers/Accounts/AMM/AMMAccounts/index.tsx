@@ -129,10 +129,7 @@ export const AMMAccounts = () => {
           <AMMAccountHeader data={data} />
           <Tabs tabs={tabs} selected={tab} path={mainPath} />
           {tab === 'transactions' && (
-            <AccountTransactionTable
-              accountId={accountId}
-              hasTokensColumn={false}
-            />
+            <AccountTransactionTable accountId={accountId} hasTokensColumn />
           )}
         </>
       )}
