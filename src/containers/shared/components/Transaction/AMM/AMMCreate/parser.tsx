@@ -1,5 +1,5 @@
 import formatAmount from '../../../../../../rippled/lib/txSummary/formatAmount'
-import { getAMMAccountID } from '../../../../MetaParser'
+import { getAMMAccountID } from '../../../../metaParser'
 
 export function parser(tx: any, meta: any) {
   const amount = formatAmount(tx.Amount)

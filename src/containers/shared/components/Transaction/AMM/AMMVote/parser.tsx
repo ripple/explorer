@@ -1,4 +1,4 @@
-import { getAMMAccountID } from '../../../../MetaParser'
+import { getAMMAccountID } from '../../../../metaParser'
 
 export function parser(tx: any, meta: any) {
   const tradingFee = tx.TradingFee

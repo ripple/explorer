@@ -1,4 +1,4 @@
-import { getAMMAccountID, findAssetAmount } from '../../../../MetaParser'
+import { getAMMAccountID, findAssetAmount } from '../../../../metaParser'
 import { XRP_BASE } from '../../../../transactionUtils'
 
 export function parser(tx: any, meta: any) {

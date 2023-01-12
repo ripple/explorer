@@ -2,7 +2,7 @@ import {
   findAssetAmount,
   getAMMAccountID,
   getLPTokenAmount,
-} from '../../../../MetaParser'
+} from '../../../../metaParser'
 
 export function parser(tx: any, meta: any) {
   const amount = tx.Asset

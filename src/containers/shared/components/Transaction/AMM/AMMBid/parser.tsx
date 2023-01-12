@@ -2,7 +2,7 @@ import {
   getAMMAccountID,
   getAuthAccounts,
   getMinBid,
-} from '../../../../MetaParser'
+} from '../../../../metaParser'
 
 export function parser(tx: any, meta: any) {
   const accountID = getAMMAccountID(meta)
