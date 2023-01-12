@@ -52,22 +52,22 @@
         "**/test/*.json": true
     },
     "cSpell.words": [
-        "CUSTOMNETWORK",
-        "Decomp",
-        "Hant",
-        "CUSTOMNETWORK",
-        "MILLIS",
-        "NFTSANDBOX",
         "camelcase",
         "chopa",
         "chopb",
         "cimode",
+        "CUSTOMNETWORK",
+        "Decomp",
         "fakenode",
+        "Hant",
         "healthz",
         "hexbin",
         "middlewares",
+        "MILLIS",
         "moxios",
+        "NFTSANDBOX",
         "pageview",
+        "paychannels",
         "paystrings",
         "topojson"
     ]

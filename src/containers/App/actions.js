@@ -22,7 +22,3 @@ export const onScroll = (event) => (dispatch) => {
   const value = event.target.scrollingElement.scrollTop || 0
   dispatch({ type: actionTypes.ON_SCROLL, data: value })
 }
-
-export const updateLanguage = (normalizedLang) => (dispatch) => {
-  dispatch({ type: actionTypes.UPDATE_LANGUAGE, data: normalizedLang })
-}
