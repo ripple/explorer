@@ -2,11 +2,13 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
-import { localizeBalance, localizeNumber } from '../../../utils'
+import {
+  localizeBalance,
+  localizeNumber,
+  formatTradingFee,
+} from '../../../utils'
 import { Account } from '../../Account'
 import { Amount } from '../../Amount'
-
-export const TRADE_FEE_TOTAL = 1000
 
 export const Simple = ({ data }: TransactionSimpleProps) => {
   const { t } = useTranslation()
@@ -19,6 +21,7 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
     fee,
     tradingFee,
     bidMin,
+    bidMax,
     authAccounts,
   } = data.instructions
   const value =
@@ -35,35 +38,59 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
         maximumFractionDigits: 2,
       })
     : undefined
-  const bid = bidMin ? localizeBalance(bidMin) : undefined
-  const tf = tradingFee
-    ? localizeNumber(tradingFee / TRADE_FEE_TOTAL, 'en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 3,
-      })
-    : undefined
-  const accList = authAccounts
-    ? authAccounts.map((accID: string) => <Account account={accID} />)
-    : undefined
+  const localizedBidMin = bidMin ? localizeBalance(bidMin) : undefined
+  const localizedBidMax = bidMax ? localizeBalance(bidMax) : undefined
+  const tf = tradingFee ? formatTradingFee(tradingFee) : undefined
 
   return (
     <>
       {accountID && (
-        <SimpleRow label={t('account_id')}>
+        <SimpleRow label={t('account_id')} data-test="account_id">
           <Account account={accountID} />
         </SimpleRow>
       )}
-      {value && <SimpleRow label={t('asset1')}>{value}</SimpleRow>}
-      {value2 && <SimpleRow label={t('asset2')}>{value2}</SimpleRow>}
+      {value && (
+        <SimpleRow label={t('asset1')} data-test="asset1">
+          {value}
+        </SimpleRow>
+      )}
+      {value2 && (
+        <SimpleRow label={t('asset2')} data-test="asset2">
+          {value2}
+        </SimpleRow>
+      )}
       {lpTokenFormatted && (
-        <SimpleRow label={t('lp_tokens')}>{lpTokenFormatted}</SimpleRow>
+        <SimpleRow label={t('lp_tokens')} data-test="lp_tokens">
+          {lpTokenFormatted}
+        </SimpleRow>
       )}
       {effectivePrice && (
-        <SimpleRow label={t('effective_price')}>{effectivePrice}</SimpleRow>
+        <SimpleRow label={t('effective_price')} data-test="effective_price">
+          {effectivePrice}
+        </SimpleRow>
       )}
-      {tf && <SimpleRow label={t('trading_fee')}>%{tf}</SimpleRow>}
-      {bid && <SimpleRow label={t('min_slot_price')}>{bid}</SimpleRow>}
-      {accList && <SimpleRow label={t('auth_accounts')}>{accList}</SimpleRow>}
+      {tf && (
+        <SimpleRow label={t('trading_fee')} data-test="trading_fee">
+          %{tf}
+        </SimpleRow>
+      )}
+      {localizedBidMin && (
+        <SimpleRow label={t('min_slot_price')} data-test="min_slot_price">
+          {localizedBidMin}
+        </SimpleRow>
+      )}
+      {localizedBidMax && (
+        <SimpleRow label={t('max_slot_price')} data-test="max_slot_price">
+          {localizedBidMax}
+        </SimpleRow>
+      )}
+      {authAccounts && (
+        <SimpleRow label={t('auth_accounts')} data-test="auth_accounts">
+          {authAccounts.map((accID: string) => (
+            <Account account={accID} />
+          ))}
+        </SimpleRow>
+      )}
     </>
   )
 }

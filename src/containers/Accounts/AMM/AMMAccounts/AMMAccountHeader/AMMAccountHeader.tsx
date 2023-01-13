@@ -6,6 +6,8 @@ import { localizeBalance, localizeNumber } from '../../../../shared/utils'
 import Currency from '../../../../shared/components/Currency'
 import { ExplorerAmount } from '../../../../shared/types'
 
+const TRADING_FEE_TOTAL = 1000
+
 export interface AmmDataType {
   balance: ExplorerAmount
   balance2: ExplorerAmount
@@ -21,13 +23,12 @@ export const AMMAccountHeader = (props: { data: AmmDataType }) => {
   const { t } = useTranslation()
   const localizedBalance1 = localizeBalance(balance, language)
   const localizedBalance2 = localizeBalance(balance2, language)
-  const tradingFeeTotal = 1000
   const localizedLPBalance = localizeNumber(lpBalance, language, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   })
   const localizedTradingFee = localizeNumber(
-    tradingFee / tradingFeeTotal,
+    tradingFee / TRADING_FEE_TOTAL,
     language,
     {
       minimumFractionDigits: 0,

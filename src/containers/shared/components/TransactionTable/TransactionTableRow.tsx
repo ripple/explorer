@@ -63,7 +63,3 @@ export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
     </li>
   )
 }
-
-TransactionTableRow.defaultProps = {
-  hasTokensColumn: false,
-}

@@ -14,6 +14,10 @@ export function getMinBid(tx: any) {
   return { currency: 'LP', issuer: tx.BidMin?.issuer, amount: tx.BidMin?.value }
 }
 
+export function getMaxBid(tx: any) {
+  return { currency: 'LP', issuer: tx.BidMax?.issuer, amount: tx.BidMax?.value }
+}
+
 /*
 Gets the AMM account ID
  */

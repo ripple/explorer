@@ -1,5 +1,5 @@
 import { Simple } from '../../AMMSharedSimple'
-import { createSimpleWrapperFactory } from '../../../test'
+import { createSimpleWrapperFactory, expectSimpleRowText } from '../../../test'
 import createMock from './mock_data/amm_create.json'
 
 describe('AMM Create Tests', () => {
@@ -7,13 +7,15 @@ describe('AMM Create Tests', () => {
 
   it('renders from transaction', () => {
     const wrapper = createWrapper(createMock)
-    expect(wrapper.find('[label="asset1"] .value')).toHaveText(
-      `\uE90010,000.00 XRP`,
+    expectSimpleRowText(wrapper, 'asset1', '\uE90010,000.00 XRP')
+    expectSimpleRowText(
+      wrapper,
+      'asset2',
+      '$10,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
-    expect(wrapper.find('[label="asset2"] .value')).toHaveText(
-      `$10,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET`,
-    )
-    expect(wrapper.find('[label="account_id"] .value')).toHaveText(
+    expectSimpleRowText(
+      wrapper,
+      'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
     wrapper.unmount()

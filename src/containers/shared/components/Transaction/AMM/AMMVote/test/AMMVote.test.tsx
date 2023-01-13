@@ -1,5 +1,5 @@
 import { Simple } from '../../AMMSharedSimple'
-import { createSimpleWrapperFactory } from '../../../test'
+import { createSimpleWrapperFactory, expectSimpleRowText } from '../../../test'
 import voteMock from './mock_data/amm_vote.json'
 
 describe('AMM Vote Tests', () => {
@@ -7,8 +7,10 @@ describe('AMM Vote Tests', () => {
 
   it('renders from transaction', () => {
     const wrapper = createWrapper(voteMock)
-    expect(wrapper.find('[label="trading_fee"] .value')).toHaveText(`%0.001`)
-    expect(wrapper.find('[label="account_id"] .value')).toHaveText(
+    expectSimpleRowText(wrapper, 'trading_fee', '%0.001')
+    expectSimpleRowText(
+      wrapper,
+      'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
     wrapper.unmount()

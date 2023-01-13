@@ -8,6 +8,8 @@ const BILLION = MILLION * THOUSAND
 const TRILLION = BILLION * THOUSAND
 const QUADRILLION = TRILLION * THOUSAND
 
+export const TRADE_FEE_TOTAL = 1000
+
 const GA_ID = process.env.REACT_APP_GA_ID
 
 const EXOTIC_SYMBOLS = {
@@ -454,3 +456,9 @@ export const localizeBalance = (balance, language) => {
 
   return b
 }
+
+export const formatTradingFee = (tradingFee) =>
+  localizeNumber(tradingFee / TRADE_FEE_TOTAL, 'en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 3,
+  })
