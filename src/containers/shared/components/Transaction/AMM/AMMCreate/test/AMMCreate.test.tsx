@@ -1,4 +1,4 @@
-import { Simple } from '../../AMMSharedSimple'
+import { Simple } from '../simple'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../../test'
 import createMock from './mock_data/amm_create.json'
 
@@ -8,6 +8,7 @@ describe('AMM Create Tests', () => {
   it('renders from transaction', () => {
     const wrapper = createWrapper(createMock)
     expectSimpleRowText(wrapper, 'asset1', '\uE90010,000.00 XRP')
+    expectSimpleRowText(wrapper, 'trading_fee', '%0.001')
     expectSimpleRowText(
       wrapper,
       'asset2',

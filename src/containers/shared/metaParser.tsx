@@ -10,12 +10,26 @@ export function getAuthAccounts(tx: any) {
   return tx.AuthAccounts?.map((acc: any) => acc?.AuthAccount?.Account)
 }
 
+export function findEffectivePrice(tx: any) {
+  return tx.EPrice
+    ? {
+        currency: tx.EPrice.currency,
+        issuer: tx.EPrice.issuer,
+        amount: tx.EPrice.value,
+      }
+    : undefined
+}
+
 export function getMinBid(tx: any) {
-  return { currency: 'LP', issuer: tx.BidMin?.issuer, amount: tx.BidMin?.value }
+  return tx.BidMin
+    ? { currency: 'LP', issuer: tx.BidMin.issuer, amount: tx.BidMin.value }
+    : undefined
 }
 
 export function getMaxBid(tx: any) {
-  return { currency: 'LP', issuer: tx.BidMax?.issuer, amount: tx.BidMax?.value }
+  return tx.BidMax
+    ? { currency: 'LP', issuer: tx.BidMax.issuer, amount: tx.BidMax.value }
+    : undefined
 }
 
 /*

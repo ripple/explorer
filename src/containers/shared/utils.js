@@ -8,7 +8,7 @@ const BILLION = MILLION * THOUSAND
 const TRILLION = BILLION * THOUSAND
 const QUADRILLION = TRILLION * THOUSAND
 
-export const TRADE_FEE_TOTAL = 1000
+export const TRADING_FEE_TOTAL = 1000
 
 const GA_ID = process.env.REACT_APP_GA_ID
 
@@ -458,7 +458,7 @@ export const localizeBalance = (balance, language) => {
 }
 
 export const formatTradingFee = (tradingFee) =>
-  localizeNumber(tradingFee / TRADE_FEE_TOTAL, 'en-US', {
+  localizeNumber(tradingFee / TRADING_FEE_TOTAL, 'en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 3,
   })

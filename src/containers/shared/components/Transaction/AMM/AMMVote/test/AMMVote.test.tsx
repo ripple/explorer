@@ -1,4 +1,4 @@
-import { Simple } from '../../AMMSharedSimple'
+import { Simple } from '../simple'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../../test'
 import voteMock from './mock_data/amm_vote.json'
 

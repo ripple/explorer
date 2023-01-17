@@ -2,11 +2,13 @@ import { useTranslation } from 'react-i18next'
 import '../../../../shared/css/nested-menu.scss'
 import '../../../AccountHeader/styles.scss'
 import '../../../AccountHeader/balance-selector.scss'
-import { localizeBalance, localizeNumber } from '../../../../shared/utils'
+import {
+  formatTradingFee,
+  localizeBalance,
+  localizeNumber,
+} from '../../../../shared/utils'
 import Currency from '../../../../shared/components/Currency'
 import { ExplorerAmount } from '../../../../shared/types'
-
-const TRADING_FEE_TOTAL = 1000
 
 export interface AmmDataType {
   balance: ExplorerAmount
@@ -27,29 +29,24 @@ export const AMMAccountHeader = (props: { data: AmmDataType }) => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   })
-  const localizedTradingFee = localizeNumber(
-    tradingFee / TRADING_FEE_TOTAL,
-    language,
-    {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 3,
-    },
-  )
+  const localizedTradingFee = tradingFee
+    ? formatTradingFee(tradingFee)
+    : undefined
 
   function renderHeaderContent() {
     return (
       <div className="section header-container">
         <div className="info-container">
           <div className="values">
-            <div className="title">{t('amm_lp_token_balance')}</div>
+            <div className="title">{t('lp_token_balance')}</div>
             <div className="value">{localizedLPBalance}</div>
           </div>
           <div className="values">
-            <div className="title">{t('amm_token_balance')}</div>
+            <div className="title">{t('token_balance')}</div>
             <div className="value">{localizedBalance1}</div>
           </div>
           <div className="values">
-            <div className="title">{t('amm_token_balance')}</div>
+            <div className="title">{t('token_balance')}</div>
             <div className="value">{localizedBalance2}</div>
           </div>
           <div className="values">

@@ -1,4 +1,4 @@
-import { Simple } from '../../AMMSharedSimple'
+import { Simple } from '../simple'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../../test'
 import bidMock from './mock_data/amm_bid.json'
 
@@ -14,10 +14,10 @@ describe('AMM Bid Tests', () => {
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    expect(wrapper.find('[label="min_slot_price"] .value')).toHaveText(`LP 100`)
-    expect(wrapper.find('[label="max_slot_price"] .value')).toHaveText(`LP 500`)
-    expect(wrapper.find('[label="account_id"] .value')).toHaveText(
-      'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
+    expectSimpleRowText(
+      wrapper,
+      'auth_accounts',
+      'ra8uHq2Qme5j19TqvPzTE2nqT12Zc3xJmKrU6o2YguZi847RaiH2QGTkL4eZWZjbxZvk',
     )
     wrapper.unmount()
   })

@@ -1,8 +1,9 @@
-import { Simple } from '../../AMMSharedSimple'
+import { Simple } from '../simple'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../../test'
 import depositBothAssets from './mock_data/deposit_both.json'
 import depositUSD from './mock_data/deposit_usd.json'
 import depositXRP from './mock_data/deposit_xrp.json'
+import depositEprice from './mock_data/deposit_eprice.json'
 
 describe('AMM Deposit Tests', () => {
   const createWrapper = createSimpleWrapperFactory(Simple)
@@ -45,6 +46,26 @@ describe('AMM Deposit Tests', () => {
       wrapper,
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
+    )
+    wrapper.unmount()
+  })
+
+  it('renders with eprice', () => {
+    const wrapper = createWrapper(depositEprice)
+    expectSimpleRowText(
+      wrapper,
+      'asset2',
+      '$1,000.00 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
+    )
+    expectSimpleRowText(
+      wrapper,
+      'effective_price',
+      '$0.10 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
+    )
+    expectSimpleRowText(
+      wrapper,
+      'account_id',
+      'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
     wrapper.unmount()
   })
