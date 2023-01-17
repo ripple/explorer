@@ -234,14 +234,6 @@
       "es6": true
     },
     "rules": {
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": [
-            "**/*.test.{js,jsx,ts,tsx}"
-          ]
-        }
-      ],
       "prettier/prettier": [
         "error",
         {
@@ -295,10 +287,7 @@
         "error",
         {
           "devDependencies": [
-            "**/*.test.js",
-            "**/*.test.jsx",
-            "**/*.test.ts",
-            "**/*.test.tsx",
+            "**/*.test.{js,jsx,ts,tsx}",
             "**/test/**",
             "**/setupTests.ts",
             "**/svgTransform.js"
