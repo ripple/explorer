@@ -29,7 +29,11 @@ import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
 import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { UNLModifyTransaction as UNLModify } from './UNLModify'
 
-import { TransactionMapping } from './types'
+import {
+  TransactionAction,
+  TransactionCategory,
+  TransactionMapping,
+} from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
@@ -63,3 +67,9 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   TrustSet,
   UNLModify,
 }
+
+export const getAction = (type: string): TransactionAction =>
+  transactionTypes[type]?.action || TransactionAction.UNKNOWN
+
+export const getCategory = (type: string): TransactionCategory =>
+  transactionTypes[type]?.category || TransactionCategory.UNKNOWN

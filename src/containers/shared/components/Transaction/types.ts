@@ -17,6 +17,7 @@ export enum TransactionAction {
   FINISH = 'FINISH',
   MODIFY = 'MODIFY',
   SEND = 'SEND',
+  UNKNOWN = 'UNKNOWN',
 }
 
 export interface TransactionTableDetailProps<I = any> {

@@ -93,59 +93,23 @@ div.react-stockchart div {
   @include bold;
 }
 
-/* stylelint-disable selector-class-pattern -- Name of class is TransactionType */
-.tx-category-ACCOUNT {
-  color: $red-purple;
+@mixin transaction-category($category, $color, $hover) {
+  .tx-category-#{$category} {
+    color: $color;
 
-  &:hover {
-    color: $red-purple;
+    &:hover {
+      color: $hover;
+    }
   }
 }
 
-.tx-category-DEX {
-  color: $blue;
-
-  &:hover {
-    color: $blue-30;
-  }
-}
-
-.tx-category-PAYMENT {
-  color: $green;
-
-  &:hover {
-    color: $green-30;
-  }
-}
-
-.tx-category-NFT {
-  color: $blue-purple;
-
-  &:hover {
-    color: $blue-purple-30;
-  }
-}
-
-.tx-category-XCHAIN {
-  color: $yellow;
-
-  &:hover {
-    color: $yellow-30;
-  }
-}
-
-.tx-category-PSUEDO {
-  color: $white;
-}
-
-.tx-category-UNKNOWN {
-  color: $black-50;
-
-  &:hover {
-    color: $black-30;
-  }
-}
-/* stylelint-enable selector-class-pattern */
+@include transaction-category(ACCOUNT, $red-purple, $red-purple-30);
+@include transaction-category(DEX, $blue, $blue-30);
+@include transaction-category(PAYMENT, $green, $green-30);
+@include transaction-category(NFT, $blue-purple, $blue-purple-30);
+@include transaction-category(XCHAIN, $yellow, $yellow-30);
+@include transaction-category(PSUEDO, $white, $white);
+@include transaction-category(UNKNOWN, $black-50, $black-30);
 
 .tx-result {
   &.success {

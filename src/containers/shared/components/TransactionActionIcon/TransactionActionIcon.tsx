@@ -1,6 +1,6 @@
 import React from 'react'
 import { TransactionAction } from '../Transaction/types'
-import { transactionTypes } from '../Transaction'
+import { getAction } from '../Transaction'
 import { ReactComponent as TransactionCancelIcon } from './TransactionCancelIcon.svg'
 import { ReactComponent as TransactionCreateIcon } from './TransactionCreateIcon.svg'
 import { ReactComponent as TransactionFinishIcon } from './TransactionFinishIcon.svg'
@@ -22,13 +22,14 @@ export const TransactionActionIcon = ({
     [TransactionAction.FINISH]: <TransactionFinishIcon />,
     [TransactionAction.MODIFY]: <TransactionModifyIcon />,
     [TransactionAction.SEND]: <TransactionSendIcon />,
+    [TransactionAction.UNKNOWN]: <TransactionFinishIcon />,
   }
 
-  let icon = type && icons[transactionTypes[type].action]
+  let icon = type && icons[getAction(type)]
 
   if (action) {
     icon = icons[action]
   }
 
-  return icon
+  return icon || icons[TransactionAction.UNKNOWN]
 }
