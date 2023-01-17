@@ -25,6 +25,7 @@ html {
 
 body {
   height: 100%;
+  color: $white;
 }
 
 .xrpl-explorer {
@@ -41,7 +42,7 @@ body,
 input {
   padding: 0px;
   margin: 0px;
-  background-color: $black;
+  background-color: $black-100;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   font-style: normal;
@@ -66,7 +67,7 @@ button {
 
 h2 {
   padding-bottom: 18px;
-  border-bottom: 1px $gray-800 solid;
+  border-bottom: 1px $black-70 solid;
   margin-top: 0;
   color: $white;
   font-size: 24px;
@@ -157,7 +158,7 @@ div.react-stockchart div {
   }
 
   &.fail {
-    color: $orange-600;
+    color: $orange-40;
   }
 }
 
@@ -189,11 +190,11 @@ div.react-stockchart div {
 }
 
 a {
-  color: $green-300;
+  color: $green-30;
   text-decoration: none;
 
   &:hover {
-    color: $green-primary;
+    color: $green-50;
   }
 
   &.external, // Force the external icon. Useful for when the protocol is unknown like with NFTs.
@@ -284,4 +285,12 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
   img {
     transform: scale(0.5);
   }
+}
+
+// A transactions destination tag.  Used like rafdasdfas:424242
+.dt {
+  @include medium;
+
+  color: $black-40;
+  font-size: 0.9em;
 }

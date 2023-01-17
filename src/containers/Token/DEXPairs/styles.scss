@@ -28,9 +28,9 @@
       td {
         width: 200px;
         padding: 2px 5px;
-        border-top: 1px solid $gray-800;
-        border-bottom: 1px solid $gray-800;
-        color: $gray-400;
+        border-top: 1px solid $black-70;
+        border-bottom: 1px solid $black-70;
+        color: $black-40;
 
         .loader {
           border-bottom: 1px solid $black;
@@ -68,11 +68,11 @@
         }
 
         .low-num {
-          color: #19ff83;
+          color: $green-50;
         }
 
         .high-num {
-          color: #ff6719;
+          color: $orange-50;
         }
 
         .high {
@@ -83,7 +83,7 @@
 
     .no-pairs-message {
       padding: 16px;
-      color: #9ba2b0;
+      color: $black-50;
       font-size: 16px;
       text-align: center;
     }

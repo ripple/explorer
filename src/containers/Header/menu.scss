@@ -3,7 +3,7 @@
 .menu {
   display: none;
   margin-bottom: -1px;
-  color: $gray-400;
+  color: $black-40;
   font-size: 14px;
   letter-spacing: 0px;
   @include medium;
@@ -81,8 +81,8 @@
 
       &:hover,
       &:focus {
-        background-color: $gray-800;
-        color: $gray-800;
+        background-color: $black-70;
+        color: $black-70;
       }
     }
   }
@@ -93,7 +93,7 @@
   }
 
   .vertical-selected {
-    background-color: $gray-800;
+    background-color: $black-70;
   }
 
   .horizontal-selected {
