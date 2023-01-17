@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import Loader from '../shared/components/Loader'
 import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
-import { ReactComponent as InfoIcon } from '../shared/images/info.svg'
+import InfoIcon from '../shared/images/info.svg'
 import './css/validatorsTable.scss'
 
 class ValidatorsTable extends Component {

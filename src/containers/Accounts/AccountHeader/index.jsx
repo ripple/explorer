@@ -12,7 +12,7 @@ import BalanceSelector from './BalanceSelector'
 import { Account } from '../../shared/components/Account'
 import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
-import { ReactComponent as InfoIcon } from '../../shared/images/info.svg'
+import InfoIcon from '../../shared/images/info.svg'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
