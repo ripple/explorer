@@ -5,7 +5,7 @@
   "dependencies": {
     "@fontsource/roboto": "^4.5.7",
     "@google-cloud/bigquery": "^5.5.0",
-    "@xrplf/prettier-config": "^1.5.0",
+    "@xrplf/prettier-config": "^1.9.1",
     "axios": "^0.21.1",
     "body-parser": "^1.18.2",
     "bunyan": "^1.8.15",
@@ -242,8 +242,20 @@
       "@typescript-eslint/no-use-before-define": [
         "error"
       ],
-      "no-shadow": "off",
-      "@typescript-eslint/no-shadow": ["error"]
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": [
+            "**/*.test.js",
+            "**/*.test.jsx",
+            "**/*.test.ts",
+            "**/*.test.tsx",
+            "**/test/**",
+            "**/setupTests.ts",
+            "**/setupProxy.js"
+          ]
+        }
+      ]
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
