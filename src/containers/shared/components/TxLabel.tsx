@@ -14,7 +14,7 @@ export const TxLabel = (props: Props) => {
   return (
     <div className={`tx-label tx-type tx-category-${getCategory(type)}`}>
       <TransactionActionIcon type={type} />
-      <span className="tx-type-name">{t(`transaction_${type}`)}</span>
+      <span className="tx-type-name">{t([`transaction_${type}`, type])}</span>
     </div>
   )
 }
