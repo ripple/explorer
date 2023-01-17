@@ -22,7 +22,6 @@
     position: absolute;
     z-index: 1;
     top: 0px;
-    background: $black;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -69,7 +68,7 @@
     .hash {
       overflow: hidden;
       padding-bottom: 87px;
-      color: $gray-400;
+      color: $black-40;
       font-size: 12px;
       letter-spacing: 0px;
       line-height: 20px;

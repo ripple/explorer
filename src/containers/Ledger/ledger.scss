@@ -7,7 +7,6 @@
     position: absolute;
     z-index: 1;
     top: 0px;
-    background: $black;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -22,7 +21,7 @@
     padding: 8px 4px;
     margin-top: 40px;
     margin-bottom: 60px;
-    color: $gray-400;
+    color: $black-40;
     font-size: 12px;
     letter-spacing: 0px;
     line-height: 15px;
@@ -30,12 +29,12 @@
     svg {
       position: relative;
       height: 8px;
-      color: $gray-400;
+      color: $black-40;
     }
 
     .previous {
       padding: 6px 16px;
-      border: 1px solid $gray-400;
+      border: 1px solid $black-40;
       border-radius: 100px;
       float: left;
 
@@ -45,13 +44,13 @@
 
       &:focus,
       &:hover {
-        background-color: $gray-800;
+        background-color: $black-70;
       }
     }
 
     .next {
       padding: 6px 16px;
-      border: 1px solid $gray-400;
+      border: 1px solid $black-40;
       border-radius: 100px;
       float: right;
 
@@ -61,7 +60,7 @@
 
       &:focus,
       &:hover {
-        background-color: $gray-800;
+        background-color: $black-70;
       }
     }
   }
@@ -92,7 +91,7 @@
         overflow: hidden;
         padding-top: 48px;
         margin: auto;
-        color: $gray-300;
+        color: $black-30;
         font-size: 12px;
         line-height: 18px;
         text-align: center;
@@ -101,7 +100,7 @@
       }
 
       .closed-date {
-        color: $gray-300;
+        color: $black-30;
         font-size: 10px;
 
         @include for-size(desktop-up) {
@@ -124,7 +123,7 @@
         overflow: hidden;
 
         .title {
-          color: $gray-400;
+          color: $black-40;
           font-size: 10px;
           letter-spacing: 0px;
           line-height: 18px;
@@ -205,7 +204,7 @@
 
     .no-trans {
       margin-top: 32px;
-      color: $gray-400;
+      color: $black-40;
       font-size: 16px;
       line-height: 24px;
       text-align: center;
@@ -298,7 +297,7 @@
 
     .trans-header {
       padding-bottom: 22px;
-      border-bottom: 1px solid $gray-800;
+      border-bottom: 1px solid $black-70;
       border-left: 4px solid transparent;
       color: $white;
       font-size: 10px;
@@ -322,7 +321,6 @@
     .trans-row {
       display: block;
       border-left: 4px solid;
-      margin-bottom: 1px;
       vertical-align: middle;
 
       @include for-size(desktop-up) {
@@ -330,11 +328,7 @@
       }
 
       &:hover {
-        background: $gray-900;
-
-        @include for-size(desktop-up) {
-          border-radius: 4px;
-        }
+        background: rgba($black-70, 0.5);
       }
 
       .upper {
@@ -344,7 +338,7 @@
 
         .col-sequence,
         .col-fee {
-          color: $gray-400;
+          color: $black-40;
         }
       }
 
@@ -379,8 +373,8 @@
       .details {
         min-height: 30px;
         padding: 2px 4px 16px;
-        border-bottom: 1px solid $gray-800;
-        color: $gray-400;
+        border-bottom: 1px solid $black-70;
+        color: $black-40;
         font-size: 10px;
         letter-spacing: 0px;
         text-transform: uppercase;
@@ -414,8 +408,7 @@
         .partial-payment,
         .closed,
         .flag,
-        .unset,
-        .empty {
+        .unset {
           font-style: italic;
           text-transform: none;
         }
@@ -430,11 +423,11 @@
 
         .partial-payment,
         .closed {
-          color: #944;
+          color: $red-dark;
         }
 
         .flag {
-          color: $blue-grey;
+          color: $blue-purple-30;
         }
 
         .condition,
