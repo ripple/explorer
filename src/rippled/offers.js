@@ -12,7 +12,7 @@ const getBookOffers = async (
   rippledSocket,
 ) => {
   try {
-    // log.info('fetching book offers from rippled');
+    // log.info('fetching book offers from rippled')
     let orderBook = await getOffers(
       rippledSocket,
       currencyCode,
