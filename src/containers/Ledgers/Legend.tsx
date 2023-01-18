@@ -8,10 +8,12 @@ import { useLocalStorage } from '../shared/hooks'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import './css/legend.scss'
 
+export const LEGEND_STORAGE_KEY = 'explorer-hide-legend'
+
 export const Legend = () => {
   const { t } = useTranslation()
   const [hidden, setHidden] = useLocalStorage<boolean>(
-    'explorer-hide-legend',
+    LEGEND_STORAGE_KEY,
     false,
   )
 
