@@ -29,9 +29,7 @@ export const AMMAccountHeader = (props: { data: AmmDataType }) => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   })
-  const localizedTradingFee = tradingFee
-    ? formatTradingFee(tradingFee)
-    : undefined
+  const localizedTradingFee = formatTradingFee(tradingFee)
 
   function renderHeaderContent() {
     return (

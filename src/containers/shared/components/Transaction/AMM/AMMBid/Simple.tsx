@@ -8,8 +8,8 @@ import { Account } from '../../../Account'
 export const Simple = ({ data }: TransactionSimpleProps) => {
   const { t } = useTranslation()
   const { accountID, bidMin, bidMax, authAccounts } = data.instructions
-  const localizedBidMin = bidMin ? localizeBalance(bidMin) : undefined
-  const localizedBidMax = bidMax ? localizeBalance(bidMax) : undefined
+  const localizedBidMin = localizeBalance(bidMin)
+  const localizedBidMax = localizeBalance(bidMax)
 
   return (
     <>

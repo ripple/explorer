@@ -17,7 +17,7 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
     amount2?.amount && amount2.amount !== fee ? (
       <Amount value={amount2} />
     ) : undefined
-  const tf = tradingFee ? formatTradingFee(tradingFee) : undefined
+  const tf = formatTradingFee(tradingFee)
 
   return (
     <>

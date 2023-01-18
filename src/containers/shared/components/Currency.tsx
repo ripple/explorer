@@ -12,8 +12,10 @@ export interface Props {
 
 const Currency = (props: Props) => {
   const { issuer, currency, link = true, shortenIssuer = false } = props
+  const LPTokenIdentifier = '03'
   const currencyCode =
-    currency?.length === NON_STANDARD_CODE_LENGTH
+    currency?.length === NON_STANDARD_CODE_LENGTH &&
+    currency?.substring(0, 2) !== LPTokenIdentifier
       ? hexToString(currency)
       : currency
 

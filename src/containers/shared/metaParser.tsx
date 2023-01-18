@@ -48,22 +48,24 @@ export function getAMMAccountID(meta: any) {
  */
 export function getLPTokenAmount(meta: any) {
   const lpNode = findNodes(meta, LedgerEntryTypes.RippledState).filter(
-    (n: any) => (n.FinalFields || n.NewFields).Balance.currency.length > 3,
+    (n: any) =>
+      (n.FinalFields || n.NewFields || n.DeletedNode).Balance.currency.length >
+      3,
   )[0]
 
-  if (!lpNode) {
-    throw new Error('No node found')
+  if (lpNode) {
+    const balance = (lpNode.FinalFields ?? lpNode.NewFields).Balance
+    const amount = lpNode.FinalFields?.Balance
+      ? Math.abs(
+          Number(lpNode.FinalFields.Balance.value) -
+            Number(lpNode.PreviousFields.Balance.value),
+        )
+      : Number(lpNode.NewFields?.Balance.value)
+
+    return { issuer: balance.issuer, currency: balance.currency, amount }
   }
 
-  const balance = (lpNode.FinalFields ?? lpNode.NewFields).Balance
-  const amount = lpNode.FinalFields?.Balance
-    ? Math.abs(
-        Number(lpNode.FinalFields.Balance.value) -
-          Number(lpNode.PreviousFields.Balance.value),
-      )
-    : Number(lpNode.NewFields?.Balance.value)
-
-  return { issuer: balance.issuer, currency: balance.currency, amount }
+  return undefined
 }
 
 /*
@@ -124,6 +126,9 @@ export function findNodes(meta: any, entryType: string) {
   return meta.AffectedNodes.filter(
     (node: any) =>
       node.CreatedNode?.LedgerEntryType === entryType ||
-      node.ModifiedNode?.LedgerEntryType === entryType,
-  ).map((node: any) => node.CreatedNode ?? node.ModifiedNode)
+      node.ModifiedNode?.LedgerEntryType === entryType ||
+      node.DeletedNode?.LedgerEntryType === entryType,
+  ).map(
+    (node: any) => node.CreatedNode || node.ModifiedNode || node.DeletedNode,
+  )
 }
