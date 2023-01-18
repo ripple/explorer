@@ -13,7 +13,7 @@ import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
 import { Ledger, ValidatorResponse } from './types'
 import NetworkContext from '../shared/NetworkContext'
-import SocketContext from '../shared/SocketContext'
+import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
@@ -27,32 +27,12 @@ const LedgersPage = () => {
   const [selected, setSelected] = useState<string | null>(null)
   const [metrics, setMetrics] = useState(undefined)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
-  const [isReady, setIsReady] = useState(false)
+  const { isOnline } = useIsOnline()
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
-  const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
 
   document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
-
-  useEffect(() => {
-    const setIsReadyTrue = () => setIsReady(true)
-    const setIsReadyFalse = () => setIsReady(false)
-    // @ts-ignore
-    rippledSocket.ready().then(() => {
-      setIsReadyTrue()
-      // @ts-ignore
-      rippledSocket.on('online', setIsReadyTrue)
-      // @ts-ignore
-      rippledSocket.on('offline', setIsReadyFalse)
-    })
-    return () => {
-      // @ts-ignore
-      rippledSocket.off('online', setIsReadyTrue)
-      // @ts-ignore
-      rippledSocket.off('offline', setIsReadyFalse)
-    }
-  }, [rippledSocket])
 
   useEffect(() => {
     /* @ts-ignore */
@@ -104,7 +84,7 @@ const LedgersPage = () => {
   return (
     <div className="ledgers-page">
       {/* @ts-ignore */}
-      {isReady && (
+      {isOnline && (
         <Streams
           validators={validators}
           updateLedgers={setLedgers}
@@ -125,7 +105,7 @@ const LedgersPage = () => {
         selected={selected}
         setSelected={updateSelected}
         paused={paused}
-        isOnline={isReady}
+        isOnline={isOnline}
       />
     </div>
   )

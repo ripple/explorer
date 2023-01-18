@@ -30,7 +30,7 @@ const App = (props) => {
     params: { rippledUrl = null },
   } = match
 
-  const [networkName, setNetworkName] = useState(undefined)
+  const [networkName, setNetworkName] = useState(getNetworkName())
   const socket = getSocket(rippledUrl)
 
   useEffect(() => {
@@ -50,10 +50,7 @@ const App = (props) => {
   })
 
   useEffect(() => {
-    const staticNetworkName = getNetworkName()
-    if (staticNetworkName != null) {
-      setNetworkName(staticNetworkName)
-    } else {
+    if (networkName == null) {
       axios
         .get(`${process.env.REACT_APP_DATA_URL}/get_network/${rippledUrl}`)
         .then((resp) => resp.data)
