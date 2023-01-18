@@ -1,4 +1,4 @@
-import { Simple } from '../simple'
+import { Simple } from '../Simple'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../../test'
 import withdrawMock from './mock_data/withdraw.json'
 import withdrawUSDMock from './mock_data/withdraw_usd.json'

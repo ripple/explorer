@@ -1,4 +1,4 @@
-import { Simple } from '../simple'
+import { Simple } from '../Simple'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../../test'
 import createMock from './mock_data/amm_create.json'
 

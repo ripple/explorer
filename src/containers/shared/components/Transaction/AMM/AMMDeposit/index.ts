@@ -1,8 +1,8 @@
-import { Simple } from './simple'
+import { Simple } from './Simple'
 import { TransactionMapping } from '../../types'
 import { parser } from './parser'
 
-export const AMMCreate: TransactionMapping = {
+export const AMMDeposit: TransactionMapping = {
   Simple,
   parser,
 }
