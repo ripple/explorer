@@ -45,7 +45,7 @@ describe('NFT container', () => {
     const setState = jest.fn()
     const wrapper = createWrapper()
     const useStateSpy = jest.spyOn(React, 'useState')
-    useStateSpy.mockImplementation((initialState) => [404, setState])
+    useStateSpy.mockImplementation(() => [404, setState])
     expect(wrapper.find('NoMatch').length).toBe(1)
   })
 })

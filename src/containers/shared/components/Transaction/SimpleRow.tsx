@@ -1,7 +1,7 @@
-import * as React from 'react'
+import { PropsWithChildren } from 'react'
 import clsx from 'clsx'
 
-export type SimpleRowProps = React.PropsWithChildren<{
+export type SimpleRowProps = PropsWithChildren<{
   className?: string
   label: string
 }>

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { FC } from 'react'
 import { Memo } from '../../transactionUtils'
 
 export interface Instructions {
@@ -44,8 +44,7 @@ export interface Instructions {
 export interface TransactionTableDetailProps<I = any> {
   instructions: I
 }
-export type TransactionTableDetailComponent =
-  React.FC<TransactionTableDetailProps>
+export type TransactionTableDetailComponent = FC<TransactionTableDetailProps>
 
 export interface TransactionDescriptionProps<T = any, M = any> {
   data: {
@@ -53,15 +52,14 @@ export interface TransactionDescriptionProps<T = any, M = any> {
     meta: M
   }
 }
-export type TransactionDescriptionComponent =
-  React.FC<TransactionDescriptionProps>
+export type TransactionDescriptionComponent = FC<TransactionDescriptionProps>
 
 export interface TransactionSimpleProps<I = any> {
   data: {
     instructions: I
   }
 }
-export type TransactionSimpleComponent = React.FC<TransactionSimpleProps>
+export type TransactionSimpleComponent = FC<TransactionSimpleProps>
 export type TransactionParser<T = any, I = any> = (tx: T, meta: any) => I
 
 export interface TransactionMapping {
