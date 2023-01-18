@@ -1,4 +1,4 @@
-import { KeyboardEvent, MouseEvent, useState } from 'react'
+import { KeyboardEvent, MouseEvent as ReactMouseEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { ReactComponent as CustomNetworkLogo } from '../shared/images/custom_network_logo.svg'
@@ -31,7 +31,7 @@ const SidechainHome = () => {
 
   function clickButton(
     _event:
-      | MouseEvent<HTMLDivElement, MouseEvent>
+      | ReactMouseEvent<HTMLDivElement, MouseEvent>
       | KeyboardEvent<HTMLDivElement>,
   ) {
     if (networkText != null) {
