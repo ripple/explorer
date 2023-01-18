@@ -185,8 +185,7 @@
   .transaction-li {
     position: relative;
     display: block;
-    border-left: 4px solid;
-    margin-bottom: 1px;
+    border-bottom: solid 1px $black-70;
     line-height: 20px;
 
     .transaction-address {
@@ -198,8 +197,6 @@
     @include for-size(tablet-landscape-up) {
       flex-direction: row;
       padding: 0;
-      border-width: 0;
-      border-radius: 0;
     }
 
     &.fail {
