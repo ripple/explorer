@@ -142,7 +142,7 @@
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
-    "build": "DISABLE_NEW_JSX_TRANSFORM=true node ./build-non-split.js",
+    "build": "node ./build-non-split.js",
     "dev-client": "react-scripts start",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "eject": "react-scripts eject",
@@ -152,10 +152,10 @@
     "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --ext=ts --ext=tsx --color .",
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
-    "start": "DISABLE_NEW_JSX_TRANSFORM=true run-p dev-server dev-client",
-    "test": "DISABLE_NEW_JSX_TRANSFORM=true react-scripts test --env=jsdom ",
-    "test:all": "DISABLE_NEW_JSX_TRANSFORM=true run-s lint:ci test:ci",
-    "test:ci": "DISABLE_NEW_JSX_TRANSFORM=true react-scripts test --coverage --ci --color --env=jsdom --no-cache --runInBand",
+    "start": "run-p dev-server dev-client",
+    "test": "react-scripts test --env=jsdom ",
+    "test:all": "run-s lint:ci test:ci",
+    "test:ci": "react-scripts test --coverage --ci --color --env=jsdom --no-cache --runInBand",
     "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
     "test:coverage": "npm run test -- --coverage --watchAll=false"
   },
@@ -237,6 +237,8 @@
           "maxDepth": 5
         }
       ],
+      "react/jsx-uses-react": "off",
+      "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": [

@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { mount } from 'enzyme'
 import Currency from '../Currency'

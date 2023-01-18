@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Memo } from '../../transactionUtils'
 
 export interface Instructions {

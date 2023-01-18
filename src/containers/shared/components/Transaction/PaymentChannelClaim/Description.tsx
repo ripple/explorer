@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { findNode, normalizeAmount } from '../../../transactionUtils'
 import { Account } from '../../Account'

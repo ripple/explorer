@@ -1,5 +1,5 @@
 import { mount, ReactWrapper } from 'enzyme'
-import React from 'react'
+import * as React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { i18n } from 'i18next'

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter as Router, Route } from 'react-router-dom'

@@ -1,4 +1,4 @@
-import React from 'react'
+import { Fragment } from 'react'
 import { Trans } from 'react-i18next'
 import {
   CURRENCY_ORDER,
@@ -101,11 +101,7 @@ const renderChanges = (t, language, node, index) => {
     )
   }
 
-  return (
-    <React.Fragment key={`renderOfferChangesMeta_${index}`}>
-      {meta}
-    </React.Fragment>
-  )
+  return <Fragment key={`renderOfferChangesMeta_${index}`}>{meta}</Fragment>
 }
 
 const render = (t, language, action, node, index, tx) => {

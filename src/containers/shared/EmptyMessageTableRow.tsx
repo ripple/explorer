@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 export type EmptyMessageTableRowProps = React.PropsWithChildren<{
   colSpan: number // How many columns is the table

@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { ReactComponent as CustomNetworkLogo } from '../shared/images/custom_network_logo.svg'

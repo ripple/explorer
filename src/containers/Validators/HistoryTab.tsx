@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Loader from '../shared/components/Loader'
 import { localizeDate } from '../shared/utils'

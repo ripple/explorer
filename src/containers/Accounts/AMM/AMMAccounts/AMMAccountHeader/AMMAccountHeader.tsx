@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import '../../../../shared/css/nested-menu.scss'
 import '../../../AccountHeader/styles.scss'
