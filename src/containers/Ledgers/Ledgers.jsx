@@ -10,11 +10,7 @@ import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
 import Loader from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
-import {
-  getAction,
-  getCategory,
-  transactionTypes,
-} from '../shared/components/Transaction'
+import { getAction, getCategory } from '../shared/components/Transaction'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import { Legend } from './Legend'
 
