@@ -34,7 +34,6 @@ describe(`Legend`, () => {
   it(`renders open when localStorage entry 'explorer-hide-legend' is set to false`, () => {
     const wrapper = setupTest(false)
 
-    console.log(wrapper.debug())
     expect(wrapper.find('.legend-heading')).toHaveLength(2)
     expect(wrapper.find('.legend-section')).toHaveLength(2)
     wrapper.unmount()

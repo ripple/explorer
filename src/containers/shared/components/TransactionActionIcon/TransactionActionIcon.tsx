@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { TransactionAction } from '../Transaction/types'
 import { getAction } from '../Transaction'
 import { ReactComponent as TransactionCancelIcon } from './TransactionCancelIcon.svg'
@@ -17,7 +17,7 @@ export const TransactionActionIcon = ({
   action,
   type,
 }: TransactionActionIconProps) => {
-  const icons: Record<string, any> = {
+  const icons: Record<string, ReactElement> = {
     [TransactionAction.CANCEL]: <TransactionCancelIcon />,
     [TransactionAction.CREATE]: <TransactionCreateIcon />,
     [TransactionAction.FINISH]: <TransactionFinishIcon />,
