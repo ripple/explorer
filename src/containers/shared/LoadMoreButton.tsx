@@ -8,7 +8,7 @@ export interface LoadMoreButtonProps {
 export const LoadMoreButton = ({ onClick }: LoadMoreButtonProps) => {
   const { t } = useTranslation()
   return (
-    <button type="button" className="load-more-btn" onClick={onClick}>
+    <button type="button" className="btn load-more-btn" onClick={onClick}>
       {t('load_more_action')}
     </button>
   )

@@ -245,7 +245,6 @@ class Ledgers extends Component {
         {isOnline ? (
           <>
             <div className="control">{selected && this.renderSelected()}</div>
-            <div className="ledger-line" />
             <div className="ledger-list">
               {ledgers.map(this.renderLedger)}{' '}
               <Tooltip t={t} language={language} data={tooltip} />

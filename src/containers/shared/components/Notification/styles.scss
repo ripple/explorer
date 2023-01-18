@@ -15,12 +15,12 @@
     padding: 0 22px;
   }
 
-  &.primary {
+  &.primary-theme {
     color: $white;
 
     &.default {
-      border-color: $blue2;
-      background: $blue2;
+      border-color: $blue;
+      background: $blue;
     }
 
     &.success {
@@ -35,7 +35,7 @@
 
     &.danger {
       border-color: $red;
-      background: $red;
+      background: $red-dark;
     }
 
     &.dark {
@@ -46,94 +46,6 @@
     &.dark50 {
       border-color: $black-50;
       background: $black-50;
-    }
-
-    &.light {
-      border-color: $white;
-      background: $white;
-      color: $black-100;
-    }
-  }
-
-  &.secondary-theme {
-    &.default {
-      border-color: $blue2;
-      background: $white;
-      color: $blue2;
-    }
-
-    &.success {
-      border-color: $green;
-      background: $white;
-      color: $green;
-    }
-
-    &.warning {
-      border-color: $orange;
-      background: $white;
-      color: $orange;
-    }
-
-    &.danger {
-      border-color: $red;
-      background: $white;
-      color: $red;
-    }
-
-    &.dark {
-      border-color: $black-100;
-      background: $white;
-      color: $black-100;
-    }
-
-    &.dark50 {
-      border-color: $black-50;
-      background: $white;
-      color: $black-50;
-    }
-
-    &.light {
-      border-color: $white;
-      background: $black-100;
-      color: $white;
-    }
-  }
-
-  &.ghost-theme {
-    &.default {
-      border-color: transparent;
-      background: transparent;
-      color: $blue2;
-    }
-
-    &.success {
-      border-color: transparent;
-      background: transparent;
-      color: $green;
-    }
-
-    &.warning {
-      border-color: transparent;
-      background: transparent;
-      color: $orange;
-    }
-
-    &.danger {
-      border-color: transparent;
-      background: transparent;
-      color: $red;
-    }
-
-    &.dark {
-      border-color: transparent;
-      background: transparent;
-      color: $black-100;
-    }
-
-    &.dark50 {
-      border-color: transparent;
-      background: transparent;
-      color: $black-50;
     }
 
     &.light {

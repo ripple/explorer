@@ -3,7 +3,6 @@
 .metrics {
   overflow: hidden;
   padding: 10px 20px;
-  background: $black;
   text-align: center;
 
   @include for-size(tablet-landscape-up) {
@@ -41,7 +40,7 @@
     .label {
       display: inline-block;
       overflow: hidden;
-      color: $gray-400;
+      color: $black-40;
       float: left;
       font-size: 12px;
       line-height: 25px;
@@ -81,7 +80,6 @@
   min-height: 30px;
   align-items: center;
   padding: 0px 14px 0px 32px;
-  background: $black;
   line-height: 14px;
   text-align: right;
 
@@ -106,7 +104,7 @@
     }
 
     &:hover {
-      color: $gray-300;
+      color: $black-30;
     }
   }
 }

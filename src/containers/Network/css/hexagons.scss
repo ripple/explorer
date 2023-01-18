@@ -3,17 +3,16 @@
 .validators-container {
   .validators {
     position: relative;
-    background: $gray-900;
+    background: $black-80;
 
     svg {
       display: block;
-      filter: drop-shadow(0px 0px 2px $gray-800);
+      filter: drop-shadow(0px 0px 2px $black-70);
     }
 
     .mesh path {
       fill: none;
       stroke: $black;
-      //stroke-opacity: 0.15;
     }
 
     .hexagons {
