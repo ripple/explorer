@@ -8,7 +8,7 @@ import { ReactComponent as TransactionModifyIcon } from './TransactionModifyIcon
 import { ReactComponent as TransactionSendIcon } from './TransactionSendIcon.svg'
 import { ReactComponent as TransactionUnknownIcon } from './TransactionUnknownIcon.svg'
 
-export interface TransactionActionIcon {
+export interface TransactionActionIconProps {
   action?: TransactionAction
   type?: string
 }
@@ -16,7 +16,7 @@ export interface TransactionActionIcon {
 export const TransactionActionIcon = ({
   action,
   type,
-}: TransactionActionIcon) => {
+}: TransactionActionIconProps) => {
   const icons: Record<string, any> = {
     [TransactionAction.CANCEL]: <TransactionCancelIcon />,
     [TransactionAction.CREATE]: <TransactionCreateIcon />,
