@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -19,23 +19,25 @@ const AppWrapper = (props) => {
   const mode = process.env.VITE_ENVIRONMENT
   const path = mode === 'custom' ? '/:rippledUrl' : '/'
   return (
-    <div className="app-wrapper">
-      <AppErrorBoundary>
-        <Helmet>
-          <meta name="description" content={t('app.meta.description')} />
-          <meta name="author" content={t('app.meta.author')} />
-        </Helmet>
-        <Banner />
-        <Switch>
-          <Route path={path} component={App} />
-          {mode === 'custom' && (
-            <Route path="/" component={CustomNetworkHome} />
-          )}
-          <Route component={NoMatch} />
-        </Switch>
-        <Footer />
-      </AppErrorBoundary>
-    </div>
+    <HelmetProvider>
+      <div className="app-wrapper">
+        <AppErrorBoundary>
+          <Helmet>
+            <meta name="description" content={t('app.meta.description')} />
+            <meta name="author" content={t('app.meta.author')} />
+          </Helmet>
+          <Banner />
+          <Switch>
+            <Route path={path} component={App} />
+            {mode === 'custom' && (
+              <Route path="/" component={CustomNetworkHome} />
+            )}
+            <Route component={NoMatch} />
+          </Switch>
+          <Footer />
+        </AppErrorBoundary>
+      </div>
+    </HelmetProvider>
   )
 }
 
