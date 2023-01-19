@@ -12,7 +12,7 @@ table.basic {
   text-align: left;
 
   tr {
-    border-bottom: 1px solid $gray-800;
+    border-bottom: 1px solid $black-70;
   }
 
   td,
@@ -32,7 +32,7 @@ table.basic {
 
   th {
     padding: 22px 5px;
-    color: $gray-400;
+    color: $black-40;
     text-align: left;
     text-transform: uppercase;
   }
@@ -43,14 +43,14 @@ table.basic {
     @include for-size(tablet-portrait-up) {
       td {
         padding: 15px 10px;
-        color: $gray-400;
+        color: $black-40;
       }
     }
   }
 
   .empty-message {
     padding: 16px;
-    color: $gray-400;
+    color: $black-40;
     font-size: 16px;
     text-align: center;
   }
@@ -63,7 +63,7 @@ table.token-table {
   .col1 {
     width: 180px;
     padding-bottom: 8px;
-    color: $gray-400;
+    color: $black-40;
     text-transform: uppercase;
     @include semibold;
   }

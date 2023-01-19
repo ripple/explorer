@@ -3,8 +3,6 @@ import * as PropTypes from 'prop-types'
 import './styles.scss'
 
 const PRIMARY = 'primary'
-const SECONDARY = 'secondary'
-const GHOST = 'ghost'
 const VALID_USAGES = [
   'default',
   'success',
@@ -72,7 +70,7 @@ Notification.defaultProps = {
 }
 
 Notification.propTypes = {
-  level: PropTypes.oneOf([PRIMARY, SECONDARY, GHOST]),
+  level: PropTypes.oneOf([PRIMARY]),
   usage: PropTypes.oneOf(VALID_USAGES),
   message: PropTypes.string.isRequired,
   action: PropTypes.element,

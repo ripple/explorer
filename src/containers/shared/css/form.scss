@@ -1,7 +1,7 @@
 @import './variables';
 
 label {
-  color: $gray-400;
+  color: $black-40;
 
   &.selected {
     color: $white;
@@ -15,7 +15,7 @@ label {
   }
 }
 
-input[type="radio"] {
+input[type='radio'] {
   height: 16px;
   accent-color: $green;
 }
