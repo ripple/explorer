@@ -136,9 +136,9 @@
     "transform": {
       "^.+\\.(ts|tsx)?$": "ts-jest",
       "^.+\\.(js|jsx)$": "babel-jest",
-      "^.+\\.(svg)$": "<rootDir>/svgTransform.js",
-      "^.+\\.(css|scss)$": "<rootDir>/cssTransform.js",
-      "^.+\\.(png)$": "<rootDir>/imageTransform.js"
+      "^.+\\.(svg)$": "<rootDir>/src/testUtils/svgTransform.js",
+      "^.+\\.(css|scss)$": "<rootDir>/src/testUtils/cssTransform.js",
+      "^.+\\.(png)$": "<rootDir>/src/testUtils/imageTransform.js"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!arc)/(?!d3)"
