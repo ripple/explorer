@@ -13,8 +13,6 @@ import './containers/shared/css/global.scss'
 import App from './containers/App'
 import i18n from './i18n'
 
-require('@fontsource/roboto')
-
 let enhancers
 let store
 
