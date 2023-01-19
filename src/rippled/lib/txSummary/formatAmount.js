@@ -1,4 +1,4 @@
-const formatAmount = (d) => {
+export const formatAmount = (d) => {
   if (d == null) {
     return d
   }
@@ -13,5 +13,3 @@ const formatAmount = (d) => {
         amount: d / 1000000,
       }
 }
-
-export { formatAmount }
