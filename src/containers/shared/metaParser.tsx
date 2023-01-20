@@ -5,52 +5,30 @@ export const LedgerEntryTypes = {
   RippledState: 'RippleState',
   AMM: 'AMM',
 }
+// TODO: fix fee logic - filter out the fee only nodes - make sure fee isnt included in xrp deposits/withdraws
 
 export function getAuthAccounts(tx: any) {
   return tx.AuthAccounts?.map((acc: any) => acc?.AuthAccount?.Account)
-}
-
-export function findEffectivePrice(tx: any) {
-  return tx.EPrice
-    ? {
-        currency: tx.EPrice.currency,
-        issuer: tx.EPrice.issuer,
-        amount: tx.EPrice.value,
-      }
-    : undefined
-}
-
-export function getMinBid(tx: any) {
-  return tx.BidMin
-    ? { currency: 'LP', issuer: tx.BidMin.issuer, amount: tx.BidMin.value }
-    : undefined
-}
-
-export function getMaxBid(tx: any) {
-  return tx.BidMax
-    ? { currency: 'LP', issuer: tx.BidMax.issuer, amount: tx.BidMax.value }
-    : undefined
 }
 
 /*
 Gets the AMM account ID
  */
 export function getAMMAccountID(meta: any) {
-  const accounts = findNodes(meta, LedgerEntryTypes.AMM)
+  const account = findNodes(meta, LedgerEntryTypes.AMM)[0]
 
-  return (
-    accounts[0]?.FinalFields?.AMMAccount || accounts[0]?.NewFields?.AMMAccount
-  )
+  return account.FinalFields?.AMMAccount || account.NewFields?.AMMAccount
 }
 
-/*
-
- */
 export function getLPTokenAmount(meta: any) {
+  // TODO: possibility of bug if currency that isnt LP token has 03 at the start
   const lpNode = findNodes(meta, LedgerEntryTypes.RippledState).filter(
     (n: any) =>
-      (n.FinalFields || n.NewFields || n.DeletedNode).Balance.currency.length >
-      3,
+      (
+        n.FinalFields ||
+        n.NewFields ||
+        n.DeletedNode
+      )?.Balance.currency.substring(0, 2) === '03',
   )[0]
 
   if (lpNode) {
@@ -95,8 +73,11 @@ export function findAssetAmount(
 }
 
 /*
-  All affected rippled state entries will either have their asset amounts increase or decrease so we
-  can use any returned ripple state node
+  All affected rippled state entries will either have their absolute asset amounts increase or decrease by the same
+  number so we can use any returned ripple state node.
+
+  i.e. if we deposit into the amm, the amm balance will go up by the same amount that the account balance decreases,
+  therefore it doesnt matter which node we use.
 */
 function findXRPAmount(meta: any) {
   const xrp = findNodes(meta, LedgerEntryTypes.AccountRoot)[0]

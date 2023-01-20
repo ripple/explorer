@@ -408,7 +408,7 @@
   "asset1in": "Asset 1 In",
   "asset2in": "Asset 2 In",
   "effective_price": "Effective Price",
-  "account_id": "Account ID",
+  "amm_account_id": "AMM Account ID",
   "lp_tokens": "LP Tokens",
   "min_slot_price": "Minimum Slot Price",
   "max_slot_price": " Maximum Slot Price",
