@@ -7,7 +7,7 @@ describe('AMM Vote Tests', () => {
 
   it('renders from transaction', () => {
     const wrapper = createWrapper(voteMock)
-    expectSimpleRowText(wrapper, 'trading_fee', '%0.001')
+    expectSimpleRowText(wrapper, 'trading_fee', '0.001%')
     expectSimpleRowText(
       wrapper,
       'account_id',

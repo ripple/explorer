@@ -10,10 +10,10 @@ describe('AMM Withdraw Tests', () => {
 
   it('renders from transaction', () => {
     const wrapper = createWrapper(withdrawMock)
-    expectSimpleRowText(wrapper, 'asset1', '\uE9003,666.580882 XRP')
+    expectSimpleRowText(wrapper, 'asset2', '\uE9003,666.580882 XRP')
     expectSimpleRowText(
       wrapper,
-      'asset2',
+      'asset1',
       '$4,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
@@ -28,7 +28,7 @@ describe('AMM Withdraw Tests', () => {
     const wrapper = createWrapper(withdrawUSDMock)
     expectSimpleRowText(
       wrapper,
-      'asset2',
+      'asset1',
       '$100.00 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
@@ -53,7 +53,7 @@ describe('AMM Withdraw Tests', () => {
     const wrapper = createWrapper(withdrawEpriceMock)
     expectSimpleRowText(
       wrapper,
-      'asset2',
+      'asset1',
       '$1,639.41097028 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(

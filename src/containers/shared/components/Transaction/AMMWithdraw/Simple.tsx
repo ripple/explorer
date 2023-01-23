@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
@@ -8,16 +7,7 @@ import { Amount } from '../../Amount'
 
 export const Simple = ({ data }: TransactionSimpleProps) => {
   const { t } = useTranslation()
-  const { amount, amount2, lpTokens, ammAccountID, ePrice, fee } =
-    data.instructions
-  const value =
-    amount?.amount && amount.amount !== fee ? (
-      <Amount value={amount} />
-    ) : undefined
-  const value2 =
-    amount2?.amount && amount2.amount !== fee ? (
-      <Amount value={amount2} />
-    ) : undefined
+  const { amount, amount2, lpTokens, ammAccountID, ePrice } = data.instructions
   const lpTokenFormatted = lpTokens
     ? localizeNumber(lpTokens, 'en-US', {
         minimumFractionDigits: 0,
@@ -32,14 +22,14 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
           <Account account={ammAccountID} />
         </SimpleRow>
       )}
-      {value && (
+      {amount && (
         <SimpleRow label={t('asset1in')} data-test="asset1">
-          {value}
+          <Amount value={amount} />
         </SimpleRow>
       )}
-      {value2 && (
+      {amount2 && (
         <SimpleRow label={t('asset2in')} data-test="asset2">
-          {value2}
+          <Amount value={amount2} />
         </SimpleRow>
       )}
       {ePrice && (

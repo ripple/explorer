@@ -11,10 +11,10 @@ describe('AMM Deposit Tests', () => {
 
   it('renders with both assets', () => {
     const wrapper = createWrapper(depositBothAssets)
-    expectSimpleRowText(wrapper, 'asset1', '\uE90010,997.290462 XRP')
+    expectSimpleRowText(wrapper, 'asset2', '\uE90010,997.290462 XRP')
     expectSimpleRowText(
       wrapper,
-      'asset2',
+      'asset1',
       '$10,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
@@ -29,7 +29,7 @@ describe('AMM Deposit Tests', () => {
     const wrapper = createWrapper(depositUSD)
     expectSimpleRowText(
       wrapper,
-      'asset2',
+      'asset1',
       '$2,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
@@ -55,7 +55,7 @@ describe('AMM Deposit Tests', () => {
     const wrapper = createWrapper(depositEprice)
     expectSimpleRowText(
       wrapper,
-      'asset2',
+      'asset1',
       '$1,000.00 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
@@ -75,12 +75,12 @@ describe('AMM Deposit Tests', () => {
     const wrapper = createWrapper(depositNonXRP)
     expectSimpleRowText(
       wrapper,
-      'asset1',
+      'asset2',
       '€500.00 EUR.rEaiyQKvxYWmh7q9mvSm11kZmKx92HZdmr',
     )
     expectSimpleRowText(
       wrapper,
-      'asset2',
+      'asset1',
       '$500.00 USD.rEaiyQKvxYWmh7q9mvSm11kZmKx92HZdmr',
     )
     expectSimpleRowText(

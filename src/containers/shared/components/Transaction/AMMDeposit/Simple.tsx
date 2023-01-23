@@ -1,21 +1,19 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
 import { Account } from '../../Account'
 import { Amount } from '../../Amount'
+import { localizeNumber } from '../../../utils'
 
 export const Simple = ({ data }: TransactionSimpleProps) => {
   const { t } = useTranslation()
-  const { amount, amount2, ammAccountID, ePrice, fee } = data.instructions
-  const value =
-    amount?.amount && amount.amount !== fee ? (
-      <Amount value={amount} />
-    ) : undefined
-  const value2 =
-    amount2?.amount && amount2.amount !== fee ? (
-      <Amount value={amount2} />
-    ) : undefined
+  const { amount, amount2, ammAccountID, ePrice, lpTokens } = data.instructions
+  const lpTokenFormatted = lpTokens
+    ? localizeNumber(lpTokens, 'en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      })
+    : undefined
 
   return (
     <>
@@ -24,19 +22,24 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
           <Account account={ammAccountID} />
         </SimpleRow>
       )}
-      {value && (
+      {amount && (
         <SimpleRow label={t('asset1out')} data-test="asset1">
-          {value}
+          <Amount value={amount} />
         </SimpleRow>
       )}
-      {value2 && (
+      {amount2 && (
         <SimpleRow label={t('asset2out')} data-test="asset2">
-          {value2}
+          <Amount value={amount2} />
         </SimpleRow>
       )}
       {ePrice && (
         <SimpleRow label={t('effective_price')} data-test="effective_price">
           <Amount value={ePrice} />
+        </SimpleRow>
+      )}
+      {lpTokenFormatted && (
+        <SimpleRow label={t('lp_tokens')} data-test="lp_tokens">
+          {lpTokenFormatted}
         </SimpleRow>
       )}
     </>
