@@ -1,7 +1,6 @@
 import type { Meta } from '../../../transactionUtils'
 import { PaymentChannelClaim, PaymentChannelClaimInstructions } from './types'
-
-const formatAmount = require('../../../../../rippled/lib/txSummary/formatAmount')
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const hasRenew = (flags: number): boolean => !!(0x00010000 & flags)
 const hasClose = (flags: number) => !!(0x00020000 & flags)
