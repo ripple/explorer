@@ -1,5 +1,5 @@
 import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { PaymentChannelCreate } from './types'
 
 const findNode = (meta: any, nodeType: string) => {
