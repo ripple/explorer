@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { useLanguage } from '../../../shared/hooks'
 import '../../styles.scss'
-import formatBalance from '../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../rippled/lib/txSummary/formatAmount'
 import {
   getAccountTransactions,
   getAMMInfo,
@@ -82,8 +82,8 @@ export const AMMAccounts = () => {
       */
         .then((ammDataWrapper) => {
           ammData = ammDataWrapper.amm
-          const balance = formatBalance(ammData.amount)
-          const balance2 = formatBalance(ammData.amount2)
+          const balance = formatAmount(ammData.amount)
+          const balance2 = formatAmount(ammData.amount2)
 
           const ammInfo: AmmDataType = {
             balance,

@@ -1,4 +1,4 @@
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const findNode = (meta: any) => {
   const node = meta.AffectedNodes.filter(

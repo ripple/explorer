@@ -9,7 +9,7 @@ import SocketContext from '../../shared/SocketContext'
 import { Amount } from '../../shared/components/Amount'
 import { analytics, ANALYTIC_TYPES } from '../../shared/utils'
 import '../../shared/components/TransactionTable/styles.scss' // Reuse load-more-btn
-import formatAmount from '../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../rippled/lib/txSummary/formatAmount'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
 
 interface Props {

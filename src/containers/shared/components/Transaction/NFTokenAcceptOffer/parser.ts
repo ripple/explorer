@@ -1,6 +1,6 @@
 import { NFTokenAcceptOffer, NFTokenAcceptOfferInstructions } from './types'
 import { TransactionParser } from '../types'
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const determineIsSellOffer = (flags: number) => (flags & 1) !== 0
 
