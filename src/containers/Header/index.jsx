@@ -1,5 +1,5 @@
 import classnames from 'classnames'
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'

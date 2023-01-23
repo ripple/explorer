@@ -192,7 +192,7 @@
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
-    "build": "DISABLE_NEW_JSX_TRANSFORM=true vite build",
+    "build": "vite build",
     "dev-client": "vite serve",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "lint": "run-s \"lint:js -- --fix\" \"lint:css -- --fix\"",
@@ -201,10 +201,10 @@
     "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --ext=ts --ext=tsx --color .",
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
-    "start": "DISABLE_NEW_JSX_TRANSFORM=true run-p dev-server dev-client",
-    "test": "DISABLE_NEW_JSX_TRANSFORM=true jest --env=jsdom --watch",
-    "test:all": "DISABLE_NEW_JSX_TRANSFORM=true run-s lint:ci test:ci",
-    "test:ci": "DISABLE_NEW_JSX_TRANSFORM=true jest --coverage --ci --color --env=jsdom --no-cache --runInBand",
+    "start": "run-p dev-server dev-client",
+    "test": "jest --env=jsdom --watch",
+    "test:all": "run-s lint:ci test:ci",
+    "test:ci": "jest --coverage --ci --color --env=jsdom --no-cache --runInBand",
     "test:debug": "jest --inspect-brk --runInBand --env=jsdom",
     "test:coverage": "npm run test -- --coverage --watchAll=false"
   },
@@ -278,6 +278,8 @@
           "maxDepth": 5
         }
       ],
+      "react/jsx-uses-react": "off",
+      "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": [

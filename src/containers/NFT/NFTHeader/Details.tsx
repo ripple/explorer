@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import './styles.scss'
 import { useLanguage } from '../../shared/hooks'

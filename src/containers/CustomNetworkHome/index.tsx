@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useState } from 'react'
+import { KeyboardEvent, MouseEvent as ReactMouseEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Header from '../Header'
@@ -31,8 +31,8 @@ const SidechainHome = () => {
 
   function clickButton(
     _event:
-      | React.MouseEvent<HTMLDivElement, MouseEvent>
-      | React.KeyboardEvent<HTMLDivElement>,
+      | ReactMouseEvent<HTMLDivElement, MouseEvent>
+      | KeyboardEvent<HTMLDivElement>,
   ) {
     if (networkText != null) {
       switchMode(networkText)

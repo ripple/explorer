@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import SuccessIcon from '../images/success.svg'
 import FailIcon from '../images/ic_fail.svg'

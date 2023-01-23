@@ -17,7 +17,7 @@
     "checkJs": false,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": [
       "dom",
       "dom.iterable",
