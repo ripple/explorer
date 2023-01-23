@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { Component } from 'react'
 import * as PropTypes from 'prop-types'
 import './styles.scss'
 
@@ -13,7 +13,7 @@ const VALID_USAGES = [
   'dark50',
 ]
 
-class Notification extends React.Component {
+class Notification extends Component {
   constructor(props) {
     super(props)
 

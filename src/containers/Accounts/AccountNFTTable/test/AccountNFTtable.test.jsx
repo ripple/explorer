@@ -1,5 +1,4 @@
 import { mount } from 'enzyme'
-import React from 'react'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'

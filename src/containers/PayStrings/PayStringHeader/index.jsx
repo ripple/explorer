@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import PayStringLogomark from '../../shared/images/PayString_Logomark.png'

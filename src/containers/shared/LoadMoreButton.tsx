@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react'
+import { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export interface LoadMoreButtonProps {

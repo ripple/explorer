@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes

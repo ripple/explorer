@@ -1,4 +1,3 @@
-import React from 'react'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
 import { useLanguage } from '../hooks'
 import { localizeNumber } from '../utils'
