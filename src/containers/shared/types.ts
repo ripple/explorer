@@ -9,10 +9,8 @@ export interface IssuedCurrencyAmount extends IssuedCurrency {
 
 export type Amount = IssuedCurrencyAmount | string
 
-export type ExplorerAmount =
-  | string
-  | {
-      issuer?: string
-      currency: string
-      amount: number
-    }
+export type ExplorerAmount = {
+  issuer?: string
+  currency: string
+  amount: number
+}
