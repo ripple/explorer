@@ -1,6 +1,6 @@
 import { NFTokenCancelOffer, NFTokenCancelOfferInstructions } from './types'
 import { TransactionParser } from '../types'
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export const parser: TransactionParser<
   NFTokenCancelOffer,

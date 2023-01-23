@@ -1,4 +1,4 @@
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export function parser(tx: any, meta: any) {
   const affectedNodes = meta.AffectedNodes
