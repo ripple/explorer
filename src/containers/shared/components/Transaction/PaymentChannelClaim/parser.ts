@@ -1,6 +1,5 @@
 import type { Meta } from '../../../transactionUtils'
 import { PaymentChannelClaim, PaymentChannelClaimInstructions } from './types'
-
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const hasRenew = (flags: number): boolean => !!(0x00010000 & flags)
