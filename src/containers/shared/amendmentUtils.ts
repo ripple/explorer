@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { createHash } from 'crypto'
+import createHash from 'create-hash'
 import { localizeDate } from './utils'
 
 const cachedAmendmentIDs: any = {}
