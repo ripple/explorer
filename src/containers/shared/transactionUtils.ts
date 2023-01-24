@@ -10,6 +10,22 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
   },
+  AMMDeposit: {
+    0x00010000: 'tfLPToken',
+    0x00080000: 'tfSingleAsset',
+    0x00100000: 'tfTwoAsset',
+    0x00200000: 'tfOneAssetLPToken',
+    0x00400000: 'tfLimitLPToken',
+  },
+  AMMWithdraw: {
+    0x00010000: 'tfLPToken',
+    0x00020000: 'tfWithdrawAll',
+    0x00040000: 'tfOneAssetWithdrawAll',
+    0x00080000: 'tfSingleAsset',
+    0x00100000: 'tfTwoAsset',
+    0x00200000: 'tfOneAssetLPToken',
+    0x00400000: 'tfLimitLPToken',
+  },
   NFTokenMint: {
     0x00000001: 'tfBurnable',
     0x00000002: 'tfOnlyXRP',
