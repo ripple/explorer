@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { TransactionAction } from '../Transaction/types'
 import { getAction } from '../Transaction'
 import { ReactComponent as TransactionCancelIcon } from './TransactionCancelIcon.svg'

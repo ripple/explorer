@@ -1,4 +1,3 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { TxLabel } from '../TxLabel'
