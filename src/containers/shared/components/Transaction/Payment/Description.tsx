@@ -1,10 +1,9 @@
-import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Account } from '../../Account'
 import { TransactionDescriptionProps } from '../types'
 import { isPartialPayment } from './parser'
 import { Amount } from '../../Amount'
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export const Description = ({ data }: TransactionDescriptionProps) => {
   const { t } = useTranslation()

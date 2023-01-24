@@ -1,11 +1,11 @@
-import React, { MouseEventHandler } from 'react'
+import { FunctionComponent, HTMLAttributes, MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TransactionTableRow } from './TransactionTableRow'
 import Loader from '../Loader'
 import { LoadMoreButton } from '../../LoadMoreButton'
 import './styles.scss'
 
-export type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
+export type TransactionTableProps = HTMLAttributes<HTMLElement> & {
   transactions?: any[]
   emptyMessage?: string
   loading: boolean
@@ -14,8 +14,7 @@ export type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
   hasTokensColumn?: boolean
 }
 
-type TransactionTableComponent =
-  React.FunctionComponent<TransactionTableProps> & {}
+type TransactionTableComponent = FunctionComponent<TransactionTableProps> & {}
 
 export const TransactionTable: TransactionTableComponent = ({
   hasAdditionalResults = false,

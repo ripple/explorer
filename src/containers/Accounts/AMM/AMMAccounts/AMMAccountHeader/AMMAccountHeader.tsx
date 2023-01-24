@@ -1,14 +1,14 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import '../../../../shared/css/nested-menu.scss'
 import '../../../AccountHeader/styles.scss'
 import '../../../AccountHeader/balance-selector.scss'
 import { localizeBalance, localizeNumber } from '../../../../shared/utils'
 import Currency from '../../../../shared/components/Currency'
+import { ExplorerAmount } from '../../../../shared/types'
 
 export interface AmmDataType {
-  balance: { currency: string; amount: number; issuer: string }
-  balance2: { currency: string; amount: number; issuer: string }
+  balance: ExplorerAmount
+  balance2: ExplorerAmount
   lpBalance: number
   tradingFee: number
   accountId: string
