@@ -8,8 +8,8 @@ import { localizeNumber } from '../../../utils'
 export const Simple = ({ data }: TransactionSimpleProps) => {
   const { t } = useTranslation()
   const { amount, amount2, ammAccountID, ePrice, lpTokens } = data.instructions
-  const lpTokenFormatted = lpTokens
-    ? localizeNumber(lpTokens, 'en-US', {
+  const lpTokenFormatted = lpTokens?.amount
+    ? localizeNumber(lpTokens.amount, 'en-US', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
       })
@@ -23,12 +23,12 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
         </SimpleRow>
       )}
       {amount && (
-        <SimpleRow label={t('asset1out')} data-test="asset1">
+        <SimpleRow label={t('asset1in')} data-test="asset1">
           <Amount value={amount} />
         </SimpleRow>
       )}
       {amount2 && (
-        <SimpleRow label={t('asset2out')} data-test="asset2">
+        <SimpleRow label={t('asset2in')} data-test="asset2">
           <Amount value={amount2} />
         </SimpleRow>
       )}

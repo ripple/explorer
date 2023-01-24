@@ -1,5 +1,9 @@
 import { Simple } from '../Simple'
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import {
+  createSimpleWrapperFactory,
+  expectSimpleRowNotToExist,
+  expectSimpleRowText,
+} from '../../test'
 import withdrawMock from './mock_data/withdraw.json'
 import withdrawUSDMock from './mock_data/withdraw_usd.json'
 import withdrawXRPMock from './mock_data/withdraw_xrp.json'
@@ -10,10 +14,10 @@ describe('AMM Withdraw Tests', () => {
 
   it('renders from transaction', () => {
     const wrapper = createWrapper(withdrawMock)
-    expectSimpleRowText(wrapper, 'asset2', '\uE9003,666.580882 XRP')
+    expectSimpleRowText(wrapper, 'asset1', '\uE9003,666.580862 XRP')
     expectSimpleRowText(
       wrapper,
-      'asset1',
+      'asset2',
       '$4,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
@@ -26,9 +30,10 @@ describe('AMM Withdraw Tests', () => {
 
   it('renders transaction from usd only', () => {
     const wrapper = createWrapper(withdrawUSDMock)
+    expectSimpleRowNotToExist(wrapper, 'asset1')
     expectSimpleRowText(
       wrapper,
-      'asset1',
+      'asset2',
       '$100.00 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
@@ -40,7 +45,9 @@ describe('AMM Withdraw Tests', () => {
   })
   it('renders transaction from XRP only', () => {
     const wrapper = createWrapper(withdrawXRPMock)
-    expectSimpleRowText(wrapper, 'asset1', '\uE90099.99999 XRP')
+    console.log(wrapper.debug())
+    expectSimpleRowNotToExist(wrapper, 'asset2')
+    expectSimpleRowText(wrapper, 'asset1', '\uE90099.99998 XRP')
     expectSimpleRowText(
       wrapper,
       'account_id',
@@ -51,9 +58,10 @@ describe('AMM Withdraw Tests', () => {
 
   it('renders transaction from eprice', () => {
     const wrapper = createWrapper(withdrawEpriceMock)
+    expectSimpleRowNotToExist(wrapper, 'asset1')
     expectSimpleRowText(
       wrapper,
-      'asset1',
+      'asset2',
       '$1,639.41097028 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(

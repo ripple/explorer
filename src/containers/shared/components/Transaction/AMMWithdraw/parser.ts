@@ -9,10 +9,8 @@ export function parser(tx: any, meta: any) {
   const ammAccountID = getAMMAccountID(meta)
   const lpTokens = getLPTokenAmount(meta)
   const ePrice = formatAmount(tx.EPrice)
-  const amount = formatAmount(tx.Amount)
-  const amount2 = formatAmount(tx.Amount2)
-  if (amount) amount.amount = findAssetAmount(meta, amount)
-  if (amount2) amount2.amount = findAssetAmount(meta, amount2)
+  const amount = findAssetAmount(meta, tx.Asset, tx)
+  const amount2 = findAssetAmount(meta, tx.Asset2, tx)
 
   return {
     amount,

@@ -1,4 +1,6 @@
 import { XRP_BASE } from './transactionUtils'
+import { ExplorerAmount } from './types'
+import { TransactionCommonFields } from './components/Transaction/types'
 
 export const LedgerEntryTypes = {
   AccountRoot: 'AccountRoot',
@@ -54,9 +56,10 @@ changes.
  */
 export function findAssetAmount(
   meta: any,
-  asset: { currency: string; issuer?: string; amount?: number },
-) {
-  if (asset.currency === 'XRP') return findXRPAmount(meta)
+  asset: { currency: string; issuer?: string },
+  tx: TransactionCommonFields,
+): ExplorerAmount | undefined {
+  if (asset.currency === 'XRP') return findXRPAmount(meta, tx)
 
   const assetNode = findNodeWithAsset(
     meta,
@@ -64,12 +67,16 @@ export function findAssetAmount(
     asset,
   )
 
-  return assetNode?.FinalFields?.Balance
+  const amount = assetNode?.FinalFields?.Balance
     ? Math.abs(
         Number(assetNode.FinalFields.Balance.value) -
           Number(assetNode.PreviousFields.Balance.value),
       )
     : Number(assetNode?.NewFields?.Balance)
+
+  return amount
+    ? { currency: asset.currency, issuer: asset.issuer, amount }
+    : undefined
 }
 
 /*
@@ -79,16 +86,29 @@ export function findAssetAmount(
   i.e. if we deposit into the amm, the amm balance will go up by the same amount that the account balance decreases,
   therefore it doesnt matter which node we use.
 */
-function findXRPAmount(meta: any) {
-  const xrp = findNodes(meta, LedgerEntryTypes.AccountRoot)[0]
+function findXRPAmount(
+  meta: any,
+  tx: TransactionCommonFields,
+): ExplorerAmount | undefined {
+  const xrp = findNodes(meta, LedgerEntryTypes.AccountRoot).filter(
+    (n: any) =>
+      n.FinalFields?.Account === tx.Account ||
+      n.NewFields?.Account === tx.Account,
+  )[0]
 
-  const balance = xrp?.FinalFields?.Balance
-    ? Math.abs(
-        Number(xrp.FinalFields.Balance) - Number(xrp.PreviousFields.Balance),
-      )
-    : Number(xrp?.NewFields?.Balance)
+  let balance = Math.abs(
+    xrp?.FinalFields?.Balance
+      ? Number(xrp.FinalFields.Balance) - Number(xrp.PreviousFields.Balance)
+      : Number(xrp?.NewFields?.Balance),
+  )
+  balance -= Number(tx.Fee)
 
-  return balance / XRP_BASE
+  return balance && balance !== 0
+    ? {
+        currency: 'XRP',
+        amount: balance / XRP_BASE,
+      }
+    : undefined
 }
 
 export function findNodeWithAsset(
@@ -98,7 +118,7 @@ export function findNodeWithAsset(
 ) {
   return findNodes(meta, entryType)?.filter(
     (n: any) =>
-      n.FinalFields?.Balance.currency === asset.currency ??
+      n.FinalFields?.Balance.currency === asset.currency ||
       n.NewFields?.Balance.currency === asset.currency,
   )[0]
 }
