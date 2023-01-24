@@ -1,4 +1,3 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { BrowserRouter as Router } from 'react-router-dom'

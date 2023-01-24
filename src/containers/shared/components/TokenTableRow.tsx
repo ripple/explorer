@@ -1,5 +1,3 @@
-import React from 'react'
-
 export interface TokenTableRowProps {
   label: string
   value: any

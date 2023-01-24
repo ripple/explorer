@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'

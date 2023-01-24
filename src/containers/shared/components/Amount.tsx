@@ -1,4 +1,3 @@
-import React from 'react'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
 import { useLanguage } from '../hooks'
 import { localizeNumber } from '../utils'
@@ -6,7 +5,7 @@ import Currency from './Currency'
 import { ExplorerAmount } from '../types'
 
 export interface AmountProps {
-  value: ExplorerAmount
+  value: ExplorerAmount | string
   displayIssuer?: boolean
   modifier?: `+` | '-' | '~' // value to put in front of the currency symbol and number
 }

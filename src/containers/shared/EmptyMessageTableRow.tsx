@@ -1,6 +1,6 @@
-import React from 'react'
+import { PropsWithChildren } from 'react'
 
-export type EmptyMessageTableRowProps = React.PropsWithChildren<{
+export type EmptyMessageTableRowProps = PropsWithChildren<{
   colSpan: number // How many columns is the table
 }>
 

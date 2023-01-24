@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import AccountHeader from './AccountHeader'

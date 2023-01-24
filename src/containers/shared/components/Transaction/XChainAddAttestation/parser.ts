@@ -1,4 +1,4 @@
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { TransactionParser } from '../types'
 import { XChainAddAttestation, XChainAddAttestationInstructions } from './types'
 

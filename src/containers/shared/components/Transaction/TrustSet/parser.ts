@@ -1,4 +1,4 @@
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { TrustSet } from './types'
 
 export const parser = (tx: TrustSet) => ({

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { localizeDate, localizeNumber } from '../../../utils'
 import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'

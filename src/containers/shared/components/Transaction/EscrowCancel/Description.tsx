@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { findNode, normalizeAmount } from '../../../transactionUtils'

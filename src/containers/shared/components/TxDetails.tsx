@@ -1,4 +1,3 @@
-import React from 'react'
 import { transactionTypes } from './Transaction'
 
 interface Props {

@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { localizeNumber } from '../../shared/utils'
 import { ReactComponent as IconDownArrow } from '../../shared/images/down_arrow.svg'

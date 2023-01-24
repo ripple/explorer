@@ -81,7 +81,14 @@ $ledger-width: 196px;
   .ledger-list {
     display: flex;
     padding: 0 0 40px $ledgers-margin-large;
-    overflow-x: hidden;
+    overflow-x: scroll;
+    scrollbar-width: none; /* Firefox */
+
+    &::-webkit-scrollbar {
+      /* WebKit */
+      width: 0;
+      height: 0;
+    }
   }
 
   .ledger {
