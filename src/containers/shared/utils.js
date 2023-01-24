@@ -8,6 +8,8 @@ const BILLION = MILLION * THOUSAND
 const TRILLION = BILLION * THOUSAND
 const QUADRILLION = TRILLION * THOUSAND
 
+const TRADING_FEE_TOTAL = 1000
+
 const GA_ID = process.env.VITE_GA_ID
 
 const EXOTIC_SYMBOLS = {
@@ -437,6 +439,10 @@ export const formatAsset = (asset) =>
       }
 
 export const localizeBalance = (balance, language) => {
+  if (balance === undefined) {
+    return undefined
+  }
+
   let b = localizeNumber(balance.amount || 0.0, language, {
     style: 'currency',
     currency: balance.currency,
@@ -454,3 +460,11 @@ export const localizeBalance = (balance, language) => {
 
   return b
 }
+
+export const formatTradingFee = (tradingFee) =>
+  tradingFee !== undefined
+    ? localizeNumber(tradingFee / TRADING_FEE_TOTAL, 'en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3,
+      })
+    : undefined
