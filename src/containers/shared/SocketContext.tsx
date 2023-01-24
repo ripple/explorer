@@ -23,7 +23,7 @@ function getSocket(rippledUrl?: string): XrplClient {
       `${prefix}://${rippledHost}:443`,
     ])
   }
-  const socket = new XrplClient(wsUrls, { tryAllNodes: true })
+  const socket = new XrplClient(wsUrls)
   const hasP2PSocket =
     process.env.REACT_APP_P2P_RIPPLED_HOST != null &&
     process.env.REACT_APP_P2P_RIPPLED_HOST !== ''
