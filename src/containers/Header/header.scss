@@ -162,15 +162,6 @@
       @include dropdown-network-item($amm);
     }
 
-    /* stylelint-disable-next-line selector-class-pattern -- Name comes from server designation  */
-    &.nft_sandbox {
-      @include dropdown-network-item($nft-sandbox);
-
-      .check path {
-        fill: $white;
-      }
-    }
-
     &.custom {
       @include dropdown-network-item($custom, $custom, $black);
 
