@@ -10,10 +10,16 @@ export interface Props {
   shortenIssuer?: boolean
 }
 
+/*
+  TODO: LP token identifier is the identifier for LP tokens. All issued LP tokens start with 03 so we can use this to
+  make sure we're only converting actual hex values.
+ */
 const Currency = (props: Props) => {
   const { issuer, currency, link = true, shortenIssuer = false } = props
+  const LPTokenIdentifier = '03'
   const currencyCode =
-    currency?.length === NON_STANDARD_CODE_LENGTH
+    currency?.length === NON_STANDARD_CODE_LENGTH &&
+    currency?.substring(0, 2) !== LPTokenIdentifier
       ? hexToString(currency)
       : currency
 
