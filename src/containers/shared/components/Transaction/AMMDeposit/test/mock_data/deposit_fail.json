@@ -1,0 +1,45 @@
+{
+  "tx": {
+  "Account": "rhmfYgnWbKKwYNJbh3iysPHbz7aparZ1qd",
+  "Amount": "100000000",
+  "Asset": {
+    "currency": "XRP"
+  },
+  "Asset2": {
+    "currency": "USD",
+    "issuer": "rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy"
+  },
+  "Fee": "10",
+  "Flags": 524288,
+  "Sequence": 113545,
+  "SigningPubKey": "031E3709F92AF9138B63CCDEC7357E3779762F3FB3BB56F6966D7040644B0E179C",
+  "TransactionType": "AMMWithdraw",
+  "TxnSignature": "3044022079422294399EE1A47EB35C018CD7775E074E51BB161E005E09754243FBDA58B902203775B497F7D2993F4BA0DAC4F9E8362BEB583D261C6F4E043303451B70942428",
+  "date": "2023-01-18T01:20:21Z"
+},
+  "meta":{
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rhmfYgnWbKKwYNJbh3iysPHbz7aparZ1qd",
+            "Balance": "41057652006",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 113546
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "1E47D3574E19E3D519D57FF5B3A6EE7622A5998A82DF170C440C8CB7AA0015E1",
+          "PreviousFields": {
+            "Balance": "41057652016",
+            "Sequence": 113545
+          },
+          "PreviousTxnID": "C7B058C67F97CF7C5F8B135BFF702FFE320130CB9516422BA82256D99E07F9F0",
+          "PreviousTxnLgrSeq": 116474
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tecAMM_BALANCE"
+  }
+}
