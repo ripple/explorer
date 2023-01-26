@@ -103,7 +103,7 @@ div.react-stockchart div {
   }
 }
 
-@include transaction-category(ACCOUNT, $red-purple, $red-purple-30);
+@include transaction-category(ACCOUNT, $magenta, $magenta-30);
 @include transaction-category(DEX, $blue, $blue-30);
 @include transaction-category(PAYMENT, $green, $green-30);
 @include transaction-category(NFT, $blue-purple, $blue-purple-30);
