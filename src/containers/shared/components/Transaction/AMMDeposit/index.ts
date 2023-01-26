@@ -1,8 +1,14 @@
 import { Simple } from './Simple'
-import { TransactionMapping } from '../types'
+import {
+  TransactionAction,
+  TransactionCategory,
+  TransactionMapping,
+} from '../types'
 import { parser } from './parser'
 
 export const AMMDeposit: TransactionMapping = {
   Simple,
+  action: TransactionAction.SEND,
   parser,
+  category: TransactionCategory.DEX,
 }
