@@ -1,3 +1,8 @@
+import { AMMCreate } from './AMMCreate'
+import { AMMDeposit } from './AMMDeposit'
+import { AMMWithdraw } from './AMMWithdraw'
+import { AMMBid } from './AMMBid'
+import { AMMVote } from './AMMVote'
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
@@ -64,6 +69,11 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   EscrowFinish,
   EscrowCancel,
   TicketCreate,
+  AMMCreate,
+  AMMWithdraw,
+  AMMDeposit,
+  AMMBid,
+  AMMVote,
   TrustSet,
   UNLModify,
 }
