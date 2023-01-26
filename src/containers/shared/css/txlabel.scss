@@ -2,6 +2,7 @@
 
 .tx-label {
   display: inline-block;
+  max-width: 100%;
   padding: 2px 14px;
   border: 1px solid currentcolor;
   border-radius: 100px;
@@ -11,5 +12,6 @@
     font-size: 14px;
     text-transform: uppercase;
     @include semibold;
+    @extend %truncate;
   }
 }
