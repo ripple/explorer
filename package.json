@@ -3,7 +3,7 @@
   "description": "XRPL Data Visualization",
   "version": "1.5.0",
   "dependencies": {
-    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@google-cloud/bigquery": "^5.5.0",
     "@rollup/plugin-inject": "^5.0.3",
     "@vitejs/plugin-react": "^3.0.0",
@@ -26,7 +26,7 @@
     "dotenv": "^16.0.3",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
-    "esbuild": "^0.16.7",
+    "esbuild": "^0.17.5",
     "events": "^3.3.0",
     "express": "^4.18.1",
     "i18next": "^22.0.6",
