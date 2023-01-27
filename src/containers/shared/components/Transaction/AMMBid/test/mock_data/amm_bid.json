@@ -118,18 +118,18 @@
       "issuer": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
       "value": "500"
     },
-    "AuthAccounts":[
+    "AuthAccounts": [
       {
-        "AuthAccount":{
-          "Account":"ra8uHq2Qme5j19TqvPzTE2nqT12Zc3xJmK"
+        "AuthAccount": {
+          "Account": "ra8uHq2Qme5j19TqvPzTE2nqT12Zc3xJmK"
         }
       },
       {
-        "AuthAccount":{
-          "Account":"rU6o2YguZi847RaiH2QGTkL4eZWZjbxZvk"
+        "AuthAccount": {
+          "Account": "rU6o2YguZi847RaiH2QGTkL4eZWZjbxZvk"
         }
       }
-      ],
+    ],
     "Fee": "10",
     "Flags": 0,
     "Sequence": 13,

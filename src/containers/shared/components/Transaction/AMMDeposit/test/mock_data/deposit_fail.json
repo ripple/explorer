@@ -1,23 +1,23 @@
 {
   "tx": {
-  "Account": "rhmfYgnWbKKwYNJbh3iysPHbz7aparZ1qd",
-  "Amount": "100000000",
-  "Asset": {
-    "currency": "XRP"
+    "Account": "rhmfYgnWbKKwYNJbh3iysPHbz7aparZ1qd",
+    "Amount": "100000000",
+    "Asset": {
+      "currency": "XRP"
+    },
+    "Asset2": {
+      "currency": "USD",
+      "issuer": "rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy"
+    },
+    "Fee": "10",
+    "Flags": 524288,
+    "Sequence": 113545,
+    "SigningPubKey": "031E3709F92AF9138B63CCDEC7357E3779762F3FB3BB56F6966D7040644B0E179C",
+    "TransactionType": "AMMWithdraw",
+    "TxnSignature": "3044022079422294399EE1A47EB35C018CD7775E074E51BB161E005E09754243FBDA58B902203775B497F7D2993F4BA0DAC4F9E8362BEB583D261C6F4E043303451B70942428",
+    "date": "2023-01-18T01:20:21Z"
   },
-  "Asset2": {
-    "currency": "USD",
-    "issuer": "rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy"
-  },
-  "Fee": "10",
-  "Flags": 524288,
-  "Sequence": 113545,
-  "SigningPubKey": "031E3709F92AF9138B63CCDEC7357E3779762F3FB3BB56F6966D7040644B0E179C",
-  "TransactionType": "AMMWithdraw",
-  "TxnSignature": "3044022079422294399EE1A47EB35C018CD7775E074E51BB161E005E09754243FBDA58B902203775B497F7D2993F4BA0DAC4F9E8362BEB583D261C6F4E043303451B70942428",
-  "date": "2023-01-18T01:20:21Z"
-},
-  "meta":{
+  "meta": {
     "AffectedNodes": [
       {
         "ModifiedNode": {
