@@ -12,6 +12,7 @@ import Validator from '../index'
 import { getLedger } from '../../../rippled'
 import { initialState } from '../../../rootReducer'
 import { testQueryClient } from '../../test/QueryClient'
+import NetworkContext from '../../shared/NetworkContext'
 
 global.location = '/validators/aaaa'
 
@@ -32,25 +33,28 @@ function flushPromises() {
 }
 
 describe('Validator container', () => {
-  const createWrapper = (
-    getLedgerImpl = () =>
+  const createWrapper = (props = {}) => {
+    const defaultGetLedgerImpl = () =>
       new Promise(
         () => {},
         () => {},
-      ),
-  ) => {
+      )
+    useParams.mockImplementation(() => ({ identifier: MOCK_IDENTIFIER }))
+    getLedger.mockImplementation(props.getLedgerImpl || defaultGetLedgerImpl)
+
     const middlewares = [thunk]
     const mockStore = configureMockStore(middlewares)
     const store = mockStore({ ...initialState })
-    useParams.mockImplementation(() => ({ identifier: MOCK_IDENTIFIER }))
-    getLedger.mockImplementation(getLedgerImpl)
+
     return mount(
       <Provider store={store}>
         <QueryClientProvider client={testQueryClient}>
           <I18nextProvider i18n={i18n}>
-            <Router>
-              <Validator />
-            </Router>
+            <NetworkContext.Provider value={props.network || 'main'}>
+              <Router>
+                <Validator />
+              </Router>
+            </NetworkContext.Provider>
           </I18nextProvider>
         </QueryClientProvider>
       </Provider>,
@@ -149,7 +153,10 @@ describe('Validator container', () => {
         last_ledger_time: 123456789,
       },
     }
-    const wrapper = createWrapper(() => Promise.resolve(ledger))
+    const wrapper = createWrapper({
+      getLedgerImpl: () => Promise.resolve(ledger),
+    })
+    await flushPromises()
     await flushPromises()
     expect(getLedger).toBeCalledTimes(1)
     expect(getLedger).toHaveBeenCalledWith('12345', undefined)
@@ -166,6 +173,7 @@ describe('Validator container', () => {
       },
     )
     const wrapper = createWrapper()
+    await flushPromises()
     await flushPromises()
     wrapper.update()
     expect(wrapper.find('.no-match').length).toBe(1)

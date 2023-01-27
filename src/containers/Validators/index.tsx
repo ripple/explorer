@@ -10,6 +10,7 @@ import { Tabs } from '../shared/components/Tabs'
 import {
   analytics,
   ANALYTIC_TYPES,
+  FETCH_INTERVAL_ERROR_MILLIS,
   FETCH_INTERVAL_VHS_MILLIS,
   NOT_FOUND,
   SERVER_ERROR,
@@ -20,6 +21,7 @@ import { HistoryTab } from './HistoryTab'
 import './validator.scss'
 import SocketContext from '../shared/SocketContext'
 import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
+import NetworkContext from '../shared/NetworkContext'
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -46,6 +48,7 @@ const Validator = ({ width }: { width: number }) => {
 
   const { path = '/' } = useRouteMatch()
   const { identifier = '', tab = 'details' } = useParams<Params>()
+  const network = useContext(NetworkContext)
 
   const {
     data,
@@ -55,8 +58,12 @@ const Validator = ({ width }: { width: number }) => {
     ['fetchValidatorData', identifier],
     async () => fetchValidatorData(),
     {
-      refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+      refetchInterval: (returnedData, _) =>
+        returnedData == null
+          ? FETCH_INTERVAL_ERROR_MILLIS
+          : FETCH_INTERVAL_VHS_MILLIS,
       refetchOnMount: true,
+      enabled: !!network,
     },
   )
 
@@ -74,7 +81,7 @@ const Validator = ({ width }: { width: number }) => {
     if (data?.domain) {
       short = data.domain
     } else if (data?.master_key) {
-      short = `${data?.master_key.substr(0, 8)}...`
+      short = `${data.master_key.substr(0, 8)}...`
     } else if (data?.signing_key) {
       short = `${data.signing_key.substr(0, 8)}...`
     }
@@ -86,7 +93,7 @@ const Validator = ({ width }: { width: number }) => {
       title: 'Validator',
       path: `/validators/:identifier/${tab}`,
     })
-  }, [tab])
+  }, [tab, data])
 
   function fetchValidatorReport(): Promise<ValidatorReport[]> {
     return axios

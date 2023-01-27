@@ -237,9 +237,7 @@ class Ledgers extends Component {
 
   render() {
     const { ledgers, selected, tooltip } = this.state
-    const { t, language } = this.props
-    // eslint-disable-next-line react/destructuring-assignment
-    const isOnline = this.context.getState().online
+    const { t, language, isOnline } = this.props
     return (
       <div className="ledgers">
         {isOnline ? (
@@ -269,6 +267,7 @@ Ledgers.propTypes = {
   language: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
   paused: PropTypes.bool,
+  isOnline: PropTypes.bool.isRequired,
 }
 
 Ledgers.defaultProps = {
