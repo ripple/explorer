@@ -1,130 +1,11 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import classnames from 'classnames'
-
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
-import { updateLanguage } from '../App/actions'
 
 import packageConfig from '../../../package.json'
 import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg'
-import iconDownArrow from '../shared/images/down_arrow.svg'
-import iconCheck from '../shared/images/checkmark_small_green.png'
-import flagUSA from '../shared/images/flag_usa.png'
-import flagChina from '../shared/images/flag_china.png'
-import flagJapan from '../shared/images/flag_japan.png'
-import flagKorea from '../shared/images/flag_korea.png'
-import flagBrazil from '../shared/images/flag_brazil.png'
-import flagMexico from '../shared/images/flag_mexico.png'
 import './footer.scss'
 
-const LANGUAGE_ORDER = [
-  { title: 'English', flag: flagUSA, code: 'en-US' },
-  { title: '中文', flag: flagChina, code: 'zh-Hans' },
-  { title: '日本語', flag: flagJapan, code: 'ja-JP' },
-  { title: '한국어', flag: flagKorea, code: 'ko-KP' },
-  { title: 'Español', flag: flagMexico, code: 'es-MX' },
-  { title: 'Português', flag: flagBrazil, code: 'pt-BR' },
-]
-
-const languageIcon = (langIsOpenAndSelected, isLangOpen) => {
-  if (langIsOpenAndSelected) {
-    return <img src={iconCheck} alt="" className="check" />
-  }
-  if (!isLangOpen) {
-    return <img src={iconDownArrow} alt="" className="down" />
-  }
-  return <></>
-}
-
 const Footer = (props) => {
-  const [isLangOpen, setLangOpen] = useState(false)
-  const [t, i18n] = useTranslation()
-
-  function changeLanguage(event) {
-    const { language, actions } = props
-    event.preventDefault()
-    event.stopPropagation()
-    const code = event.currentTarget.getAttribute('data-code')
-    const { key, type } = event
-
-    const rightEvent =
-      type === 'click' || (type === 'keydown' && key === 'Enter')
-    if (rightEvent && language !== code) {
-      analytics(ANALYTIC_TYPES.event, {
-        eventCategory: 'LanguageSelector',
-        eventAction: 'changeLanguage',
-        eventLabel: code,
-      })
-      i18n.changeLanguage(code)
-      actions.updateLanguage(code)
-    }
-
-    setLangOpen((currentValue) => !currentValue)
-  }
-
-  function languageEvents(event) {
-    event.preventDefault()
-    event.stopPropagation()
-    const { key, type } = event
-    setLangOpen((currentIsLangOpen) => {
-      let newIsLangOpen = !currentIsLangOpen
-      if (type === 'mouseleave') {
-        newIsLangOpen = false
-      } else if (key === 'Tab' && type === 'keyup') {
-        newIsLangOpen = true
-      }
-      return newIsLangOpen
-    })
-  }
-
-  function languageItem(config) {
-    const { language } = props
-    const langIsOpenAndSelected = isLangOpen && language === config.code
-
-    return (
-      <div
-        className={classnames({
-          'language-item': isLangOpen,
-          selected: langIsOpenAndSelected,
-          'language-item-collapsed': !isLangOpen,
-        })}
-        data-code={config.code}
-        key={config.code}
-        onClick={changeLanguage}
-        onKeyDown={changeLanguage}
-        role="menuitem"
-        tabIndex="0"
-      >
-        <img src={config.flag} alt={`${config.title} flag`} className="flag" />
-        <div className="title">{config.title}</div>
-        {languageIcon(langIsOpenAndSelected, isLangOpen)}
-      </div>
-    )
-  }
-
-  function renderLanguage() {
-    const { language } = props
-    const langsToRender = isLangOpen
-      ? LANGUAGE_ORDER
-      : LANGUAGE_ORDER.filter(({ code }) => code === language)
-
-    return (
-      <div className="language-container">
-        <div
-          className={classnames('language', { open: isLangOpen })}
-          onClick={languageEvents}
-          onKeyUp={languageEvents}
-          role="menubar"
-          tabIndex="0"
-        >
-          {langsToRender.map((langObj) => languageItem(langObj))}
-        </div>
-      </div>
-    )
-  }
+  const { t } = useTranslation()
 
   return (
     <div className="footer">
@@ -210,7 +91,6 @@ const Footer = (props) => {
             </span>
           </span>
         </div>
-        {renderLanguage()}
         <div className="copyright">
           <span>&#169;&nbsp;</span>
           <a
@@ -228,23 +108,4 @@ const Footer = (props) => {
   )
 }
 
-Footer.propTypes = {
-  language: PropTypes.string.isRequired,
-  actions: PropTypes.shape({
-    updateLanguage: PropTypes.func,
-  }).isRequired,
-}
-
-export default connect(
-  (state) => ({
-    language: state.app.language,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        updateLanguage,
-      },
-      dispatch,
-    ),
-  }),
-)(Footer)
+export default Footer

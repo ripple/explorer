@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -6,10 +6,14 @@ import NetworkTabs from './NetworkTabs'
 import Map from './Map'
 import NodesTable from './NodesTable'
 import Log from '../shared/log'
-import { FETCH_INTERVAL_NODES_MILLIS, localizeNumber } from '../shared/utils'
+import {
+  FETCH_INTERVAL_ERROR_MILLIS,
+  FETCH_INTERVAL_NODES_MILLIS,
+  localizeNumber,
+} from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import { NodeData, NodeResponse } from '../shared/vhsTypes'
-import { getNetworkFromEnv } from '../shared/vhsUtils'
+import NetworkContext from '../shared/NetworkContext'
 
 const semverCompare = (a: string | undefined, b: string | undefined) => {
   if (a == null) {
@@ -54,14 +58,18 @@ const ledgerCompare = (a: NodeData, b: NodeData) => {
 export const Nodes = () => {
   const language = useLanguage()
   const { t } = useTranslation()
+  const network = useContext(NetworkContext)
 
   const { data } = useQuery(['fetchNodesData'], async () => fetchData(), {
-    refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
+    refetchInterval: (returnedData, _) =>
+      returnedData == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_NODES_MILLIS,
+    enabled: !!network,
   })
 
-  const fetchData = async () => {
-    const network = getNetworkFromEnv()
-    return axios
+  const fetchData = async () =>
+    axios
       .get(`${process.env.REACT_APP_DATA_URL}/topology/nodes/${network}`)
       .then((resp) => resp.data.nodes)
       .then((allNodes) => {
@@ -99,7 +107,6 @@ export const Nodes = () => {
         }
       })
       .catch((e) => Log.error(e))
-  }
 
   return (
     <div className="network-page">

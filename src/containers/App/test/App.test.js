@@ -1,4 +1,3 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import { MemoryRouter } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
@@ -32,6 +31,19 @@ jest.mock('../../shared/SocketContext', () => {
     __esModule: true,
     ...originalModule,
     getSocket: () => new MockWsClient(),
+  }
+})
+
+jest.mock('../../../rippled/lib/rippled', () => {
+  const originalModule = jest.requireActual('../../../rippled/lib/rippled')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    getAccountInfo: () =>
+      Promise.resolve({
+        flags: 0,
+      }),
   }
 })
 

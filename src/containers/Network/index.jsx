@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { Validators } from './Validators'
@@ -6,7 +6,6 @@ import { UpgradeStatus } from './UpgradeStatus'
 import { Nodes } from './Nodes'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
-import NoMatch from '../NoMatch'
 
 class Network extends Component {
   componentDidMount() {
@@ -19,25 +18,11 @@ class Network extends Component {
     })
   }
 
-  renderUnderConstruction = () => (
-    <div className="network-page">
-      <NoMatch
-        title="under_construction"
-        hints={['come_back_later']}
-        isError={false}
-      />
-    </div>
-  )
-
   render() {
     const { match } = this.props
     const { params, path } = match
     const { tab = 'nodes' } = params
-    const mode = process.env.REACT_APP_ENVIRONMENT
 
-    if (mode === 'custom') {
-      return this.renderUnderConstruction()
-    }
     // strips :url from the front and the tab info from the end
     const base = path.split('/:')[0]
 

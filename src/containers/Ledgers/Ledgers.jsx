@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -237,15 +237,12 @@ class Ledgers extends Component {
 
   render() {
     const { ledgers, selected, tooltip } = this.state
-    const { t, language } = this.props
-    // eslint-disable-next-line react/destructuring-assignment
-    const isOnline = this.context.getState().online
+    const { t, language, isOnline } = this.props
     return (
       <div className="ledgers">
         {isOnline ? (
           <>
             <div className="control">{selected && this.renderSelected()}</div>
-            <div className="ledger-line" />
             <div className="ledger-list">
               {ledgers.map(this.renderLedger)}{' '}
               <Tooltip t={t} language={language} data={tooltip} />
@@ -270,6 +267,7 @@ Ledgers.propTypes = {
   language: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
   paused: PropTypes.bool,
+  isOnline: PropTypes.bool.isRequired,
 }
 
 Ledgers.defaultProps = {

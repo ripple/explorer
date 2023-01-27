@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
@@ -12,7 +12,7 @@ import BalanceSelector from './BalanceSelector'
 import { Account } from '../../shared/components/Account'
 import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
-import infoIcon from '../../shared/images/info_orange.png'
+import { ReactComponent as InfoIcon } from '../../shared/images/info.svg'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -282,7 +282,7 @@ const AccountHeader = (props) => {
           <div className="secondary balance">
             {deleted ? (
               <div className="warning">
-                <img src={infoIcon} alt="Account Deleted" />
+                <InfoIcon alt="Account Deleted" />
                 <span className="account-deleted-text">Account Deleted</span>
               </div>
             ) : (

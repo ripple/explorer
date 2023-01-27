@@ -52,7 +52,7 @@
 
       .title {
         padding-bottom: 4px;
-        color: $gray-400;
+        color: $black-40;
         font-size: 14px;
         text-transform: uppercase;
         @include semibold;
@@ -169,7 +169,7 @@
           }
 
           &.flags {
-            color: $blue-grey;
+            color: $blue-purple-30;
             font-style: italic;
           }
         }

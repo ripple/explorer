@@ -1,5 +1,4 @@
 import 'jest-enzyme'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import '@testing-library/jest-dom/extend-expect'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
@@ -17,4 +16,5 @@ window.localStorage = window.localStorage || {
 configure({ adapter: new Adapter() })
 
 jest.spyOn(console, 'error')
+// eslint-disable-next-line no-console -- only for tests
 console.error.mockImplementation(() => {})

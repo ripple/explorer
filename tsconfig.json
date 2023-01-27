@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
     "target": "esnext",
     "module": "esnext",
     "declaration": true,
@@ -15,7 +16,7 @@
     "checkJs": false,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": [
       "dom",
       "dom.iterable",

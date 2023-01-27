@@ -1,20 +1,20 @@
-import React, { MouseEventHandler } from 'react'
+import { FunctionComponent, HTMLAttributes, MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TransactionTableRow } from './TransactionTableRow'
 import Loader from '../Loader'
 import { LoadMoreButton } from '../../LoadMoreButton'
 import './styles.scss'
 
-export type TransactionTableProps = React.HTMLAttributes<HTMLElement> & {
+export type TransactionTableProps = HTMLAttributes<HTMLElement> & {
   transactions?: any[]
   emptyMessage?: string
   loading: boolean
   onLoadMore: MouseEventHandler
   hasAdditionalResults?: boolean
+  hasTokensColumn?: boolean
 }
 
-type TransactionTableComponent =
-  React.FunctionComponent<TransactionTableProps> & {}
+type TransactionTableComponent = FunctionComponent<TransactionTableProps> & {}
 
 export const TransactionTable: TransactionTableComponent = ({
   hasAdditionalResults = false,
@@ -22,11 +22,16 @@ export const TransactionTable: TransactionTableComponent = ({
   loading = false,
   onLoadMore,
   transactions = [],
+  hasTokensColumn,
 }: TransactionTableProps) => {
   const { t } = useTranslation()
 
   const renderListItem = (tx: any) => (
-    <TransactionTableRow tx={tx} key={tx.hash} />
+    <TransactionTableRow
+      tx={tx}
+      hasTokensColumn={hasTokensColumn}
+      key={tx.hash}
+    />
   )
 
   const renderLoadMore = () =>
@@ -36,6 +41,7 @@ export const TransactionTable: TransactionTableComponent = ({
     <>
       <ol className="transaction-table">
         <li className="transaction-li transaction-li-header">
+          {hasTokensColumn && <div className="col-token"> {t('token')} </div>}
           <div className="col-account">{t('account')}</div>
           <div className="col-type">{t('transaction_type')}</div>
           <div className="col-status">{t('status')}</div>

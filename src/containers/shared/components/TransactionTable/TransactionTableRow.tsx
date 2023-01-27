@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { TxLabel } from '../TxLabel'
 import { TxStatus } from '../TxStatus'
@@ -6,6 +5,7 @@ import { TxDetails } from '../TxDetails'
 import { localizeDate } from '../../utils'
 import './styles.scss'
 import { useLanguage } from '../../hooks'
+import TxToken from '../TxToken'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -19,11 +19,12 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
-interface Props {
+export interface Props {
   tx: any
+  hasTokensColumn?: boolean
 }
 
-export const TransactionTableRow = ({ tx }: Props) => {
+export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
   const language = useLanguage()
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
@@ -36,6 +37,11 @@ export const TransactionTableRow = ({ tx }: Props) => {
     >
       <Link to={`/transactions/${tx.hash}`} className="mask-overlay" />
       <div className="upper">
+        {hasTokensColumn && (
+          <div className="col-token">
+            <TxToken tx={tx} />
+          </div>
+        )}
         <div className="col-account">
           <div className="transaction-address" title={tx.account}>
             {tx.account}

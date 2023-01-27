@@ -1,4 +1,3 @@
-import React from 'react'
 import { Trans } from 'react-i18next'
 import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
 import { localizeNumber } from '../../shared/utils'

@@ -2,6 +2,3 @@ build/
 coverage/
 node_modules/
 src/registerServiceWorker.js
-src/setupTests.js
-src/setupProxy.js
-

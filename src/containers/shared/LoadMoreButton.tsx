@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react'
+import { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export interface LoadMoreButtonProps {
@@ -8,7 +8,7 @@ export interface LoadMoreButtonProps {
 export const LoadMoreButton = ({ onClick }: LoadMoreButtonProps) => {
   const { t } = useTranslation()
   return (
-    <button type="button" className="load-more-btn" onClick={onClick}>
+    <button type="button" className="btn load-more-btn" onClick={onClick}>
       {t('load_more_action')}
     </button>
   )

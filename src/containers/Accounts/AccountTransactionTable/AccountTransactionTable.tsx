@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useInfiniteQuery } from 'react-query'
@@ -10,12 +10,14 @@ import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 
 export interface AccountTransactionsTableProps {
   accountId: string
-  currencySelected: string
+  currencySelected?: string
+  hasTokensColumn: boolean
 }
 
 export const AccountTransactionTable = ({
   accountId,
-  currencySelected,
+  hasTokensColumn,
+  currencySelected = 'XRP',
 }: AccountTransactionsTableProps) => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
@@ -73,6 +75,7 @@ export const AccountTransactionTable = ({
     <TransactionTable
       transactions={transactions}
       loading={loading}
+      hasTokensColumn={hasTokensColumn}
       emptyMessage={t(
         tryLoading ? 'get_account_transactions_try' : error?.message,
       )}

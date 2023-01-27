@@ -1,4 +1,3 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
@@ -8,7 +7,7 @@ import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
-import Account from '../index'
+import { Accounts } from '../index'
 import AccountHeader from '../AccountHeader'
 import { AccountTransactionTable } from '../AccountTransactionTable'
 import mockAccountState from './mockAccountState.json'
@@ -26,7 +25,7 @@ describe('Account container', () => {
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
             <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
-              <Route path="accounts/:id" component={Account} />
+              <Route path="accounts/:id" component={Accounts} />
             </MemoryRouter>
           </Provider>
         </I18nextProvider>
@@ -50,6 +49,7 @@ describe('Account container', () => {
     }
 
     const wrapper = createWrapper(state)
+    wrapper.update()
     expect(wrapper.find(AccountHeader).length).toBe(1)
     expect(wrapper.find(AccountTransactionTable).length).toBe(1)
     wrapper.find('.balance-selector-button').simulate('click')

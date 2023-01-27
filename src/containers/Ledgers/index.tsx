@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import Log from '../shared/log'
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
+import {
+  analytics,
+  ANALYTIC_TYPES,
+  FETCH_INTERVAL_ERROR_MILLIS,
+} from '../shared/utils'
 import Streams from '../shared/components/Streams'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
 import { Ledger, ValidatorResponse } from './types'
-import { getNetworkFromEnv } from '../shared/vhsUtils'
+import NetworkContext from '../shared/NetworkContext'
+import { useIsOnline } from '../shared/SocketContext'
+import { useLanguage } from '../shared/hooks'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
@@ -21,11 +27,15 @@ const LedgersPage = () => {
   const [selected, setSelected] = useState<string | null>(null)
   const [metrics, setMetrics] = useState(undefined)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
-  const { t, i18n } = useTranslation()
+  const { isOnline } = useIsOnline()
+  const { t } = useTranslation()
+  const network = useContext(NetworkContext)
+  const language = useLanguage()
 
   document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
 
   useEffect(() => {
+    /* @ts-ignore */
     analytics(ANALYTIC_TYPES.pageview, { title: 'Ledgers', path: '/' })
     return () => {
       window.scrollTo(0, 0)
@@ -33,10 +43,9 @@ const LedgersPage = () => {
   }, [])
 
   const fetchValidators = () => {
-    const network = getNetworkFromEnv()
     const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
 
-    axios
+    return axios
       .get(url)
       .then((resp) => resp.data.validators)
       .then((validatorResponse) => {
@@ -52,13 +61,18 @@ const LedgersPage = () => {
 
         setValidators(newValidators)
         setUnlCount(newUnlCount)
+        return true
       })
       .catch((e) => Log.error(e))
   }
 
   useQuery(['fetchValidatorData'], async () => fetchValidators(), {
-    refetchInterval: FETCH_INTERVAL_MILLIS,
+    refetchInterval: (returnedData, _) =>
+      returnedData == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
+    enabled: !!network,
   })
 
   const updateSelected = (pubkey: string) => {
@@ -67,15 +81,16 @@ const LedgersPage = () => {
 
   const pause = () => setPaused(!paused)
 
-  const { language } = i18n
-
   return (
     <div className="ledgers-page">
-      <Streams
-        validators={validators}
-        updateLedgers={setLedgers}
-        updateMetrics={setMetrics}
-      />
+      {/* @ts-ignore */}
+      {isOnline && (
+        <Streams
+          validators={validators}
+          updateLedgers={setLedgers}
+          updateMetrics={setMetrics}
+        />
+      )}
       <LedgerMetrics
         language={language}
         data={metrics}
@@ -90,6 +105,7 @@ const LedgersPage = () => {
         selected={selected}
         setSelected={updateSelected}
         paused={paused}
+        isOnline={isOnline}
       />
     </div>
   )

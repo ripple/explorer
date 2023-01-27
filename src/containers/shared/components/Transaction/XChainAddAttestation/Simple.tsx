@@ -1,4 +1,3 @@
-import React from 'react'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { XChainBridge } from '../XChainBridge'
 import { AccountCreateAttestation } from './AccountCreateAttestation'

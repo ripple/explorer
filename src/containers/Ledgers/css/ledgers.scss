@@ -1,5 +1,7 @@
+@use 'sass:color';
 @import '../../shared/css/variables';
 
+$ledgers-border: 1px solid $black-70;
 $ledger-width: 168px;
 
 .ledgers-page {
@@ -22,7 +24,6 @@ $ledger-width: 168px;
     width: calc(100% - 28px);
     min-height: 30px;
     padding: 4px 14px;
-    background: $black;
     line-height: 14px;
     text-align: right;
 
@@ -74,14 +75,15 @@ $ledger-width: 168px;
     position: relative;
     display: flex;
     padding: 0 0 40px 32px;
-    margin: -45px 16px 20px;
-    overflow-x: hidden;
-  }
+    margin: 0 16px 20px;
+    overflow-x: scroll;
+    scrollbar-width: none; /* Firefox */
 
-  .ledger-line {
-    width: 100%;
-    height: 45px;
-    border-bottom: 1px solid $gray-800;
+    &::-webkit-scrollbar {
+      /* WebKit */
+      width: 0;
+      height: 0;
+    }
   }
 
   .ledger {
@@ -96,11 +98,6 @@ $ledger-width: 168px;
 
     &:first-child {
       margin-left: 0;
-    }
-
-    > * {
-      min-width: $ledger-width;
-      float: right;
     }
   }
 
@@ -119,10 +116,9 @@ $ledger-width: 168px;
   .ledger-head {
     min-height: 170px;
     padding: 32px;
-    border: 1px solid $gray-800;
+    border: $ledgers-border;
     border-bottom: 0;
-    background-color: $black;
-    color: $gray-400;
+    color: $black-40;
     font-size: 10px;
     line-height: 12px;
     text-align: center;
@@ -131,7 +127,7 @@ $ledger-width: 168px;
 
     .close-time {
       padding-bottom: 24px;
-      color: $gray-400;
+      color: $black-40;
       font-size: 10px;
     }
 
@@ -167,7 +163,7 @@ $ledger-width: 168px;
       }
 
       a:hover {
-        background: $gray-800;
+        background: $black-70;
       }
 
       &.flag-ledger a {
@@ -229,9 +225,9 @@ $ledger-width: 168px;
   .hash {
     overflow: hidden;
     padding: 0px 32px 32px;
-    border: 1px solid $gray-800;
+    border: 1px solid $black-60;
     border-top: 0;
-    background: $gray-900;
+    background: rgba($black-80, 0.7);
     color: $white;
     font-size: 15px;
     text-align: left;
@@ -245,7 +241,7 @@ $ledger-width: 168px;
       opacity: 0.5;
 
       .bar {
-        background: #ddd0cc !important;
+        background: $black-20 !important;
       }
     }
 
@@ -266,7 +262,7 @@ $ledger-width: 168px;
       flex-direction: column;
       padding-top: 24px;
       padding-bottom: 32px;
-      color: $gray-400;
+      color: $black-40;
       font-size: 10px;
       line-height: 14px;
       text-transform: uppercase;
@@ -295,7 +291,7 @@ $ledger-width: 168px;
     }
 
     .subtitle span.missed b {
-      background: $orange-600;
+      background: $orange-50;
       border-radius: 2px;
       color: white;
     }
@@ -326,7 +322,7 @@ $ledger-width: 168px;
 
     .validation {
       height: 4px;
-      background: #ccc;
+      background: $black-50;
       border-radius: 4px;
       cursor: pointer;
       opacity: 0.85;
@@ -337,11 +333,11 @@ $ledger-width: 168px;
     }
 
     .validation.trusted {
-      background: $gray-400;
+      background: $white;
     }
 
     .validation.selected {
-      background: #484;
+      background: $green;
       opacity: 1;
     }
 
@@ -352,7 +348,7 @@ $ledger-width: 168px;
     .partial {
       width: 50%;
       height: 100%;
-      background: #c22;
+      background: $red;
     }
   }
 }
