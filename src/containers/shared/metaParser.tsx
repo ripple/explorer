@@ -19,7 +19,10 @@ Gets the AMM account ID
 export function getAMMAccountID(meta: any) {
   const account = findNodes(meta, LedgerEntryTypes.AMM)[0]
 
-  return account.FinalFields?.AMMAccount || account.NewFields?.AMMAccount
+  if (account)
+    return account.FinalFields?.AMMAccount || account.NewFields?.AMMAccount
+
+  return undefined
 }
 
 export function getLPTokenAmount(meta: any) {
