@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLanguage } from '../../../hooks'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'

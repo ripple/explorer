@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import { ACCOUNT_FLAGS } from '../../../transactionUtils'
 import DomainLink from '../../DomainLink'

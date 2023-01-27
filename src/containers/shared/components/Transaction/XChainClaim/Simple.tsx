@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../Account'
 import { Amount } from '../../Amount'

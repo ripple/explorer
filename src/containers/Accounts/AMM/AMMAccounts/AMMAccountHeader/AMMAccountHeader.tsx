@@ -1,9 +1,12 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import '../../../../shared/css/nested-menu.scss'
 import '../../../AccountHeader/styles.scss'
 import '../../../AccountHeader/balance-selector.scss'
-import { localizeBalance, localizeNumber } from '../../../../shared/utils'
+import {
+  formatTradingFee,
+  localizeBalance,
+  localizeNumber,
+} from '../../../../shared/utils'
 import Currency from '../../../../shared/components/Currency'
 import { ExplorerAmount } from '../../../../shared/types'
 
@@ -22,34 +25,26 @@ export const AMMAccountHeader = (props: { data: AmmDataType }) => {
   const { t } = useTranslation()
   const localizedBalance1 = localizeBalance(balance, language)
   const localizedBalance2 = localizeBalance(balance2, language)
-  const tradingFeeTotal = 1000
   const localizedLPBalance = localizeNumber(lpBalance, language, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   })
-  const localizedTradingFee = localizeNumber(
-    tradingFee / tradingFeeTotal,
-    language,
-    {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 3,
-    },
-  )
+  const localizedTradingFee = formatTradingFee(tradingFee)
 
   function renderHeaderContent() {
     return (
       <div className="section header-container">
         <div className="info-container">
           <div className="values">
-            <div className="title">{t('amm_lp_token_balance')}</div>
+            <div className="title">{t('lp_token_balance')}</div>
             <div className="value">{localizedLPBalance}</div>
           </div>
           <div className="values">
-            <div className="title">{t('amm_token_balance')}</div>
+            <div className="title">{t('token_balance')}</div>
             <div className="value">{localizedBalance1}</div>
           </div>
           <div className="values">
-            <div className="title">{t('amm_token_balance')}</div>
+            <div className="title">{t('token_balance')}</div>
             <div className="value">{localizedBalance2}</div>
           </div>
           <div className="values">

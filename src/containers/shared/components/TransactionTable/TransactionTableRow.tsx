@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { TxLabel } from '../TxLabel'
 import { TxStatus } from '../TxStatus'
@@ -25,7 +24,7 @@ export interface Props {
   hasTokensColumn?: boolean
 }
 
-export const TransactionTableRow = ({ tx, hasTokensColumn = false }: Props) => {
+export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
   const language = useLanguage()
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)

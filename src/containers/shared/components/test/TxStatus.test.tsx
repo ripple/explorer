@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter } from 'react-router'
 import { mount } from 'enzyme'
@@ -6,7 +6,7 @@ import i18n from '../../../../i18nTestConfig.en-US'
 import { TxStatus } from '../TxStatus'
 
 describe('TxStatus', () => {
-  const createWrapper = (component: React.ReactElement) =>
+  const createWrapper = (component: ReactElement) =>
     mount(
       <I18nextProvider i18n={i18n}>
         <MemoryRouter>{component}</MemoryRouter>

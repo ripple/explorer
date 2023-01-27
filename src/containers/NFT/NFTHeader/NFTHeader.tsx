@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import Loader from '../../shared/components/Loader'

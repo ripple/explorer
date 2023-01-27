@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'

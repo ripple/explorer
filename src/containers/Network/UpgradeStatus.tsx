@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import { useQuery } from 'react-query'

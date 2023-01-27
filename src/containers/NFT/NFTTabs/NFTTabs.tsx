@@ -1,4 +1,3 @@
-import React from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import './styles.scss'
 import { Tabs } from '../../shared/components/Tabs'
