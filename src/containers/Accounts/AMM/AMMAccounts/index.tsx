@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -129,10 +129,7 @@ export const AMMAccounts = () => {
           <AMMAccountHeader data={data} />
           <Tabs tabs={tabs} selected={tab} path={mainPath} />
           {tab === 'transactions' && (
-            <AccountTransactionTable
-              accountId={accountId}
-              hasTokensColumn={false}
-            />
+            <AccountTransactionTable accountId={accountId} hasTokensColumn />
           )}
         </>
       )}

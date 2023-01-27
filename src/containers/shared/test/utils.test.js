@@ -10,7 +10,6 @@ import {
   ANALYTIC_TYPES,
   durationToHuman,
   formatAsset,
-  formatBalance,
   localizeBalance,
 } from '../utils'
 

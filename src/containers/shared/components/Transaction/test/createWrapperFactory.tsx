@@ -1,5 +1,5 @@
 import { mount, ReactWrapper } from 'enzyme'
-import React from 'react'
+import { ReactElement } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { i18n } from 'i18next'
@@ -18,7 +18,7 @@ import {
  */
 
 export function createWrapper(
-  TestComponent: React.ReactElement,
+  TestComponent: ReactElement,
   i18nConfig?: i18n,
 ): ReactWrapper {
   return mount(

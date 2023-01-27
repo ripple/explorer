@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import { useQuery } from 'react-query'
@@ -7,14 +7,15 @@ import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
 import Hexagons from './Hexagons'
 import {
-  localizeNumber,
   FETCH_INTERVAL_MILLIS,
+  FETCH_INTERVAL_ERROR_MILLIS,
+  localizeNumber,
   isEarlierVersion,
 } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
 import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
-import { getNetworkFromEnv } from '../shared/vhsUtils'
+import NetworkContext from '../shared/NetworkContext'
 
 interface DataAggregation {
   label: string
@@ -60,6 +61,7 @@ export const UpgradeStatus = () => {
   const [aggregated, setAggregated] = useState<DataAggregation[]>([])
   const { t } = useTranslation()
   const language = useLanguage()
+  const network = useContext(NetworkContext)
 
   useQuery(
     ['fetchUpgradeStatusData'],
@@ -67,8 +69,12 @@ export const UpgradeStatus = () => {
       fetchData()
     },
     {
-      refetchInterval: FETCH_INTERVAL_MILLIS,
+      refetchInterval: (returnedData, _) =>
+        returnedData == null
+          ? FETCH_INTERVAL_ERROR_MILLIS
+          : FETCH_INTERVAL_MILLIS,
       refetchOnMount: true,
+      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
     },
   )
 
@@ -77,12 +83,16 @@ export const UpgradeStatus = () => {
     () => fetchStableVersion(),
     {
       placeholderData: null,
-      retryDelay: FETCH_INTERVAL_MILLIS,
+      refetchInterval: (returnedData, _) =>
+        returnedData == null
+          ? FETCH_INTERVAL_ERROR_MILLIS
+          : FETCH_INTERVAL_MILLIS,
+      refetchOnMount: true,
+      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
     },
   )
 
   const fetchData = () => {
-    const network = getNetworkFromEnv()
     const url = `${process.env.VITE_DATA_URL}/validators/${network}`
 
     axios

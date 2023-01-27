@@ -1,4 +1,3 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import { vi } from 'vitest'
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils'

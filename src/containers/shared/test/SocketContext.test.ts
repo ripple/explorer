@@ -28,11 +28,10 @@ describe('getSocket', () => {
 
     it('should instantiate with environment variables', () => {
       const client = getSocket()
-      expect(XrplClient).toHaveBeenNthCalledWith(
-        1,
-        ['wss://somewhere.com:51233', 'wss://somewhere.com:443'],
-        { tryAllNodes: true },
-      )
+      expect(XrplClient).toHaveBeenNthCalledWith(1, [
+        'wss://somewhere.com:51233',
+        'wss://somewhere.com:443',
+      ])
 
       expect(XrplClient).toHaveBeenNthCalledWith(2, [
         'wss://cli-somewhere.com:51233',
@@ -45,11 +44,10 @@ describe('getSocket', () => {
       process.env.VITE_INSECURE_WS = '1'
 
       const client = getSocket()
-      expect(XrplClient).toHaveBeenNthCalledWith(
-        1,
-        ['ws://somewhere.com:51233', 'ws://somewhere.com:443'],
-        { tryAllNodes: true },
-      )
+      expect(XrplClient).toHaveBeenNthCalledWith(1, [
+        'ws://somewhere.com:51233',
+        'ws://somewhere.com:443',
+      ])
 
       expect(XrplClient).toHaveBeenNthCalledWith(2, [
         'ws://cli-somewhere.com:51233',
@@ -75,9 +73,7 @@ describe('getSocket', () => {
 
     it('should use ignore VITE_RIPPLED_WS_PORT when supplied entry point has a port', () => {
       const client = getSocket('hello.com:4444')
-      expect(XrplClient).toHaveBeenNthCalledWith(1, ['wss://hello.com:4444'], {
-        tryAllNodes: true,
-      })
+      expect(XrplClient).toHaveBeenNthCalledWith(1, ['wss://hello.com:4444'])
 
       expect((client as any).p2pSocket).not.toBeDefined()
     })
@@ -85,20 +81,17 @@ describe('getSocket', () => {
       process.env.VITE_INSECURE_WS = '1'
 
       const client = getSocket('hello.com:4444')
-      expect(XrplClient).toHaveBeenNthCalledWith(1, ['ws://hello.com:4444'], {
-        tryAllNodes: true,
-      })
+      expect(XrplClient).toHaveBeenNthCalledWith(1, ['ws://hello.com:4444'])
 
       expect((client as any).p2pSocket).not.toBeDefined()
     })
 
     it('should use ws when supplied entry is for a localhost', () => {
       const client = getSocket('localhost')
-      expect(XrplClient).toHaveBeenNthCalledWith(
-        1,
-        ['ws://localhost:51233', 'ws://localhost:443'],
-        { tryAllNodes: true },
-      )
+      expect(XrplClient).toHaveBeenNthCalledWith(1, [
+        'ws://localhost:51233',
+        'ws://localhost:443',
+      ])
 
       expect((client as any).p2pSocket).not.toBeDefined()
     })

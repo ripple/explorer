@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Loader from '../shared/components/Loader'
 import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
-import infoOrange from '../shared/images/info_orange.png'
+import InfoIcon from '../shared/images/info.svg'
 import './css/validatorsTable.scss'
 
 class ValidatorsTable extends Component {
@@ -94,7 +94,7 @@ class ValidatorsTable extends Component {
           {d.unl && <SuccessIcon title={d.unl} alt={d.unl} />}
         </td>
         <td className={`n-unl ${nUnl}`}>
-          {onNegativeUnl && <img src={infoOrange} title={d.unl} alt={d.unl} />}
+          {onNegativeUnl && <InfoIcon title={d.unl} alt={d.unl} />}
         </td>
         <td className="version text-truncate">{d.server_version}</td>
         {this.renderAgreement('h1', d.agreement_1h)}
@@ -141,7 +141,7 @@ class ValidatorsTable extends Component {
 }
 
 ValidatorsTable.propTypes = {
-  validators: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
+  validators: PropTypes.shape({}),
   t: PropTypes.func.isRequired,
   metrics: PropTypes.shape({}).isRequired,
 }

@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rUwaiErsYE5kibUUtaPczXZVVd73VNy4R9",
+            "Balance": "991642540751",
+            "Flags": 8388608,
+            "OwnerCount": 2,
+            "Sequence": 15
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "53383A918D45DEF78DED23CE5141C0FAB44661D602465F5FCFC487792448F1E2",
+          "PreviousFields": {
+            "Balance": "991642540761",
+            "Sequence": 14
+          },
+          "PreviousTxnID": "C23F7BB2A7F80DBCE9AB5CBA1E3F1CA20F2E68F34B98ADE7C4241B68E4574FEA",
+          "PreviousTxnLgrSeq": 376513
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "AMMAccount": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+            "Asset": {
+              "currency": "XRP"
+            },
+            "Asset2": {
+              "currency": "USD",
+              "issuer": "rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET"
+            },
+            "AuctionSlot": {
+              "Account": "rUwaiErsYE5kibUUtaPczXZVVd73VNy4R9",
+              "DiscountedFee": 0,
+              "Expiration": 723254240,
+              "Price": {
+                "currency": "03930D02208264E2E40EC1B0C09E4DB96EE197B1",
+                "issuer": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+                "value": "191.7396500029036"
+              }
+            },
+            "Flags": 0,
+            "LPTokenBalance": {
+              "currency": "03930D02208264E2E40EC1B0C09E4DB96EE197B1",
+              "issuer": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+              "value": "19173773.26064036"
+            },
+            "TradingFee": 1,
+            "VoteSlots": [
+              {
+                "VoteEntry": {
+                  "Account": "rUwaiErsYE5kibUUtaPczXZVVd73VNy4R9",
+                  "TradingFee": 1,
+                  "VoteWeight": 47845
+                }
+              }
+            ]
+          },
+          "LedgerEntryType": "AMM",
+          "LedgerIndex": "C7FD06649235AF4CABD8FA6D8BB0CAF6C6EA5038A74D0DDD5025290683636D02",
+          "PreviousFields": {
+            "TradingFee": 0
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "tx": {
+    "Account": "rUwaiErsYE5kibUUtaPczXZVVd73VNy4R9",
+    "Asset": {
+      "currency": "XRP"
+    },
+    "Asset2": {
+      "currency": "USD",
+      "issuer": "rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET"
+    },
+    "Fee": "10",
+    "Flags": 0,
+    "Sequence": 14,
+    "SigningPubKey": "023CFED4018084296285DD8A321C099134B9CF6DCD8D91DC067BABCFF0E3F2BE1A",
+    "TradingFee": 1,
+    "TransactionType": "AMMVote",
+    "TxnSignature": "3045022100978CE4DB4D648CE0E5F8744A0D29F40AD1A7874AF3D80E3DF06A4FC7A830EB5B022009ACABE3EE71B368520649A1F0251256137CA9B5742EEFDA8960C7E567670929",
+    "date": "2022-11-30T23:57:42Z"
+  }
+}

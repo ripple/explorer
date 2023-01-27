@@ -1,10 +1,8 @@
-import * as React from 'react'
+import { Component } from 'react'
 import * as PropTypes from 'prop-types'
 import './styles.scss'
 
 const PRIMARY = 'primary'
-const SECONDARY = 'secondary'
-const GHOST = 'ghost'
 const VALID_USAGES = [
   'default',
   'success',
@@ -15,7 +13,7 @@ const VALID_USAGES = [
   'dark50',
 ]
 
-class Notification extends React.Component {
+class Notification extends Component {
   constructor(props) {
     super(props)
 
@@ -72,7 +70,7 @@ Notification.defaultProps = {
 }
 
 Notification.propTypes = {
-  level: PropTypes.oneOf([PRIMARY, SECONDARY, GHOST]),
+  level: PropTypes.oneOf([PRIMARY]),
   usage: PropTypes.oneOf(VALID_USAGES),
   message: PropTypes.string.isRequired,
   action: PropTypes.element,

@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import PairLine from '../../shared/images/pair_line.svg'
 import Currency from '../../shared/components/Currency'

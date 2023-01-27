@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
-import infoIcon from '../shared/images/info_orange.png'
+import InfoIcon from '../shared/images/info.svg'
 import './nomatch.scss'
 
 class NoMatch extends Component {
@@ -30,7 +30,7 @@ class NoMatch extends Component {
         <div className="title">{t(title)}</div>
         {hintMsg}
         <div className="warning">
-          <img src={infoIcon} alt="not found" />
+          <InfoIcon alt="not found" />
           <span>{notFound && t('not_found')}</span>
         </div>
       </div>

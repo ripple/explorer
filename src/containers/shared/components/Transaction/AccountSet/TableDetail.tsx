@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ACCOUNT_FLAGS, decodeHex } from '../../../transactionUtils'
 import { Account } from '../../Account'

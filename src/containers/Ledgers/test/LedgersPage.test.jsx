@@ -1,4 +1,3 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import WS from '@vitest/ws-client'
@@ -12,6 +11,7 @@ import i18n from '../../../i18nTestConfig'
 import Ledgers from '../index'
 import { initialState } from '../../../rootReducer'
 import SocketContext from '../../shared/SocketContext'
+import NetworkContext from '../../shared/NetworkContext'
 import BaseMockWsClient from '../../test/mockWsClient'
 import prevLedgerMessage from './mock/prevLedger.json'
 import ledgerMessage from './mock/ledger.json'
@@ -33,6 +33,24 @@ const LEDGER_HASH_MAP = new Map([
     68992560,
   ],
 ])
+
+const MOCK_VALIDATORS = [
+  {
+    signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
+    master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
+    unl: process.env.VITE_VALIDATOR,
+  },
+  {
+    signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
+    master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
+    unl: process.env.VITE_VALIDATOR,
+  },
+  {
+    signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
+    master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
+    unl: null,
+  },
+]
 
 class MockWsClient extends BaseMockWsClient {
   send(message) {
@@ -66,7 +84,7 @@ describe('Ledgers Page container', () => {
   let client
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-  const createWrapper = (props = {}) => {
+  const createWrapper = (props = { network: 'main' }) => {
     const store = mockStore({ ...initialState })
 
     return mount(
@@ -75,7 +93,9 @@ describe('Ledgers Page container', () => {
           <I18nextProvider i18n={i18n}>
             <Provider store={store}>
               <SocketContext.Provider value={client}>
-                <Ledgers msg={props.msg} />
+                <NetworkContext.Provider value={props.network}>
+                  <Ledgers msg={props.msg} />
+                </NetworkContext.Provider>
               </SocketContext.Provider>
             </Provider>
           </I18nextProvider>
@@ -125,23 +145,7 @@ describe('Ledgers Page container', () => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
       response: {
-        validators: [
-          {
-            signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
-            master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-            unl: process.env.VITE_VALIDATOR,
-          },
-          {
-            signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-            master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-            unl: process.env.VITE_VALIDATOR,
-          },
-          {
-            signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
-            master_key: 'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-            unl: null,
-          },
-        ],
+        validators: MOCK_VALIDATORS,
       },
     })
 
@@ -157,6 +161,7 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.validation').length).toBe(0)
     expect(wrapper.find('.txn').length).toBe(0)
 
+    await sleep(250)
     server.send(prevLedgerMessage)
     await sleep(260)
     wrapper.update()
@@ -225,41 +230,24 @@ describe('Ledgers Page container', () => {
 
     it('receives messages from streams', async () => {
       client.addResponses(rippledResponses)
-      const wrapper = createWrapper()
+      const customNetwork = 'custom_network'
+      const wrapper = createWrapper({ network: customNetwork })
 
-      moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/`, {
-        status: 200,
-        response: {
-          validators: [
-            {
-              signing_key:
-                'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
-              master_key:
-                'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-              unl: process.env.VITE_VALIDATOR,
-            },
-            {
-              signing_key:
-                'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-              master_key:
-                'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-              unl: process.env.VITE_VALIDATOR,
-            },
-            {
-              signing_key:
-                'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
-              master_key:
-                'nHUkhmyFPr3vEN3C8yfhKp4pu4t3wkTCi2KEDBWhyMNpsMj2HbnD',
-              unl: null,
-            },
-          ],
+      moxios.stubRequest(
+        `${process.env.VITE_DATA_URL}/validators/${customNetwork}`,
+        {
+          status: 200,
+          response: {
+            validators: MOCK_VALIDATORS,
+          },
         },
-      })
+      )
 
       expect(wrapper.find('.ledger').length).toBe(0)
       expect(wrapper.find('.validation').length).toBe(0)
       expect(wrapper.find('.txn').length).toBe(0)
 
+      await sleep(260)
       server.send(prevLedgerMessage)
       await sleep(260)
       wrapper.update()

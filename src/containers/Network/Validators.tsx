@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useContext, useState } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -6,11 +6,15 @@ import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
 import ValidatorsTable from './ValidatorsTable'
 import Log from '../shared/log'
-import { localizeNumber, FETCH_INTERVAL_MILLIS } from '../shared/utils'
+import {
+  localizeNumber,
+  FETCH_INTERVAL_MILLIS,
+  FETCH_INTERVAL_ERROR_MILLIS,
+} from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Hexagons from './Hexagons'
 import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
-import { getNetworkFromEnv } from '../shared/vhsUtils'
+import NetworkContext from '../shared/NetworkContext'
 
 export const Validators = () => {
   const language = useLanguage()
@@ -19,10 +23,15 @@ export const Validators = () => {
   const [validations, setValidations] = useState([])
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
+  const network = useContext(NetworkContext)
 
   useQuery(['fetchValidatorsData'], () => fetchData(), {
-    refetchInterval: FETCH_INTERVAL_MILLIS,
+    refetchInterval: (returnedData, _) =>
+      returnedData == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
+    enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
   })
 
   function mergeLatest(
@@ -45,11 +54,10 @@ export const Validators = () => {
     return updated
   }
 
-  function fetchData(): void {
-    const network = getNetworkFromEnv()
+  function fetchData() {
     const url = `${process.env.VITE_DATA_URL}/validators/${network}`
 
-    axios
+    return axios
       .get(url)
       .then((resp) => resp.data.validators)
       .then((validators) => {
@@ -60,6 +68,7 @@ export const Validators = () => {
 
         setVList(() => mergeLatest(newValidatorList, vList))
         setUnlCount(validators.filter((d: any) => Boolean(d.unl)).length)
+        return true // indicating success in getting the data
       })
       .catch((e) => Log.error(e))
   }
@@ -84,12 +93,13 @@ export const Validators = () => {
   const validatorCount = Object.keys(vList).length
   return (
     <div className="network-page">
-      <Streams
-        validators={vList}
-        updateValidators={updateValidators}
-        updateMetrics={setMetrics}
-      />
-
+      {network && (
+        <Streams
+          validators={vList}
+          updateValidators={updateValidators}
+          updateMetrics={setMetrics}
+        />
+      )}
       {
         // @ts-ignore - Work around for complex type assignment issues
         <Hexagons data={validations} list={vList} />

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Account } from '../../shared/components/Account'
 
 const render = (t, action, node, index) => {

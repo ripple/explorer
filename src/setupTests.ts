@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import 'jest-enzyme'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-17-updated'
@@ -15,5 +16,8 @@ window.localStorage = window.localStorage || {
 // @ts-ignore
 configure({ adapter: new Adapter() })
 
+// @ts-ignore
 // jest.spyOn(console, 'error')
+// @ts-ignore
+// eslint-disable-next-line no-console -- only for tests
 // console.error.mockImplementation(() => {})

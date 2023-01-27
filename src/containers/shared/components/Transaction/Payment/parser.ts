@@ -1,17 +1,11 @@
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { Payment, PaymentInstructions } from './types'
+import { Amount, ExplorerAmount } from '../../../types'
 
-const formatFailedPartialAmount = (d: any) =>
-  d && d.value
-    ? {
-        currency: d.currency,
-        issuer: d.issuer,
-        amount: 0,
-      }
-    : {
-        currency: 'XRP',
-        amount: 0,
-      }
+const formatFailedPartialAmount = (d: Amount): ExplorerAmount => ({
+  ...formatAmount(d),
+  amount: 0,
+})
 
 export const isPartialPayment = (flags: any) => 0x00020000 & flags
 
