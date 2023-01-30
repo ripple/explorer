@@ -4,6 +4,7 @@ import { TxDetails } from '../shared/components/TxDetails'
 import { useLanguage } from '../shared/hooks'
 import Sequence from '../shared/components/Sequence'
 import { formatPrice } from '../shared/utils'
+import { TxStatus } from '../shared/components/TxStatus'
 
 const TXN_COST_PADDING = 6
 
@@ -44,6 +45,7 @@ export const LedgerTransactionTableRow = ({ tx }: Props) => {
       </div>
       {tx.details && (
         <div className="details">
+          {success ? null : <TxStatus status={tx.result} />}
           <TxDetails type={tx.type} instructions={tx.details.instructions} />
         </div>
       )}

@@ -37,8 +37,8 @@
 
   .col-type {
     flex: 2;
-    @include semibold;
 
+    @include semibold;
     @include for-size(desktop-up) {
       width: 230px;
     }
@@ -84,7 +84,7 @@
 
   .col-date {
     flex: 3;
-    text-align: right;
+    justify-content: right;
     @include medium;
 
     @include for-size(desktop-up) {
@@ -111,6 +111,10 @@
       min-height: 0;
       padding: 0;
       margin-bottom: 0;
+    }
+
+    .tx-status {
+      margin-bottom: 5px;
     }
 
     .currency,
