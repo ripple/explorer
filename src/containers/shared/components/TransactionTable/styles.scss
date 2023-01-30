@@ -16,11 +16,11 @@
 
   .upper {
     display: flex;
+    align-items: stretch;
     padding: 12px 16px;
     color: $white;
     font-size: 14px;
     gap: 0 12px;
-    align-items: stretch;
 
     @include for-size(tablet-landscape-up) {
       padding: 12px 32px;
@@ -30,8 +30,8 @@
   .col {
     display: flex;
     flex: 1;
-    letter-spacing: 0;
     align-items: center;
+    letter-spacing: 0;
     @extend %truncate;
   }
 
