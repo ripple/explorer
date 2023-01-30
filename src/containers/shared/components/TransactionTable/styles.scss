@@ -28,9 +28,10 @@
   }
 
   .col {
+    display: flex;
     flex: 1;
     letter-spacing: 0;
-
+    align-items: center;
     @extend %truncate;
   }
 
