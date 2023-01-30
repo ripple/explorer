@@ -103,14 +103,21 @@ class MockWsClient extends EventEmitter {
   }
 
   /**
-   * Mocks the `send` method on XrplClient.
-   * @param message The message to rippled.
-   * @returns a Promise result. If `this.returnError` has been set to `true`,
-   * the promise will be rejected with an empty shape.
+   * Mocks the `getState` method on XrplClient.
+   * @returns a dictionary indicating that the client is connected.
    */
   // eslint-disable-next-line class-methods-use-this -- not needed for a mock
   getState() {
     return { online: true }
+  }
+
+  /**
+   * Mocks the `ready` method on XrplClient.
+   * @returns a Promise that resolves with `true`.
+   */
+  // eslint-disable-next-line class-methods-use-this -- not needed for a mock
+  ready() {
+    return Promise.resolve(true)
   }
 }
 
