@@ -55,7 +55,11 @@ const App = (props) => {
       axios
         .get(`${process.env.REACT_APP_DATA_URL}/get_network/${rippledUrl}`)
         .then((resp) => resp.data)
-        .then((data) => setNetworkName(data.network))
+        .then((data) =>
+          data.result && data.result === 'error'
+            ? setNetworkName(null)
+            : setNetworkName(data.network),
+        )
         .catch((e) => Log.error(e))
     }
   }, [initialNetworkName, rippledUrl])
