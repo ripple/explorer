@@ -67,7 +67,6 @@ describe('<Notification />', () => {
         message,
       })
       const wrapperProps = wrapper.props()
-      // console.log(wrapperProps);
       expect(wrapperProps.usage).toEqual(usage)
     })
 
