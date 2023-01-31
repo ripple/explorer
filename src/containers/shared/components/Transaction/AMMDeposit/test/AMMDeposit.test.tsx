@@ -9,6 +9,7 @@ import depositUSD from './mock_data/deposit_usd.json'
 import depositXRP from './mock_data/deposit_xrp.json'
 import depositEprice from './mock_data/deposit_eprice.json'
 import depositNonXRP from './mock_data/deposit_nonxrp.json'
+import depositFail from './mock_data/deposit_fail.json'
 
 describe('AMM Deposit Tests', () => {
   const createWrapper = createSimpleWrapperFactory(Simple)
@@ -94,6 +95,14 @@ describe('AMM Deposit Tests', () => {
       'account_id',
       'rEJ1X5BoSmHqa5h6TSVvYrHAzFmyxGqNic',
     )
+    wrapper.unmount()
+  })
+
+  it('deposit shouldnt crash with tx that changes fee', () => {
+    const wrapper = createWrapper(depositFail)
+    expectSimpleRowNotToExist(wrapper, 'asset1')
+    expectSimpleRowNotToExist(wrapper, 'asset2')
+    expectSimpleRowNotToExist(wrapper, 'account_id')
     wrapper.unmount()
   })
 })

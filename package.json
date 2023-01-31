@@ -150,7 +150,7 @@
     "lint": "run-s \"lint:js -- --fix\" \"lint:css -- --fix\"",
     "lint:ci": "run-s lint:js lint:css",
     "lint:css": "node_modules/.bin/stylelint src/**/*.scss",
-    "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --ext=ts --ext=tsx --color .",
+    "lint:js": "node_modules/.bin/eslint --ext=js --ext=jsx --ext=ts --ext=tsx --color --max-warnings 0 .",
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
     "start": "run-p dev-server dev-client",
@@ -186,14 +186,6 @@
       "es6": true
     },
     "rules": {
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": [
-            "**/*.test.{js,jsx,ts,tsx}"
-          ]
-        }
-      ],
       "prettier/prettier": [
         "error",
         {
@@ -249,10 +241,7 @@
         "error",
         {
           "devDependencies": [
-            "**/*.test.js",
-            "**/*.test.jsx",
-            "**/*.test.ts",
-            "**/*.test.tsx",
+            "**/*.test.{js,jsx,ts,tsx}",
             "**/test/**",
             "**/setupTests.ts",
             "**/setupProxy.js"
