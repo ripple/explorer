@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router'
 import NetworkContext from '../shared/NetworkContext'
 import { Validators } from './Validators'
 import { UpgradeStatus } from './UpgradeStatus'
@@ -8,20 +9,9 @@ import NoMatch from '../NoMatch'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
 
-interface NetworkProps {
-  match: {
-    path: string
-    params: {
-      identifier: string
-      tab: string
-    }
-  }
-}
-const Network = (props: NetworkProps) => {
+export const Network = () => {
   const { t } = useTranslation()
-  const { match } = props
-  const { params } = match
-  const { tab = 'nodes' } = params
+  const { tab = 'nodes' } = useParams<{ tab: string }>()
   const network = useContext(NetworkContext)
   useEffect(() => {
     document.title = `${t('xrpl_explorer')} | ${t('network')}`
@@ -49,5 +39,3 @@ const Network = (props: NetworkProps) => {
   }
   return <Nodes />
 }
-
-export default Network

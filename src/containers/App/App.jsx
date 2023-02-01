@@ -12,7 +12,7 @@ import Header from '../Header'
 import './app.scss'
 import ledger from '../Ledger'
 import transactions from '../Transactions'
-import network from '../Network'
+import { Network } from '../Network'
 import validators from '../Validators'
 import paystrings from '../PayStrings'
 import token from '../Token'
@@ -56,9 +56,9 @@ const App = (props) => {
         .get(`${process.env.REACT_APP_DATA_URL}/get_network/${rippledUrl}`)
         .then((resp) => resp.data)
         .then((data) =>
-          data.result && data.result === 'error'
-            ? setNetworkName(null)
-            : setNetworkName(data.network),
+          setNetworkName(
+            data.result && data.result === 'error' ? null : data.network,
+          ),
         )
         .catch((e) => Log.error(e))
     }
@@ -112,7 +112,7 @@ const App = (props) => {
                     path="/transactions/:identifier/:tab?"
                     component={transactions}
                   />
-                  <Route exact path="/network/:tab?" component={network} />
+                  <Route exact path="/network/:tab?" component={Network} />
                   <Route
                     exact
                     path="/validators/:identifier/:tab?"
