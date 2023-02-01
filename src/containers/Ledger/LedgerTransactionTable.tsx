@@ -4,7 +4,7 @@ import { TransactionTableProps } from '../shared/components/TransactionTable/Tra
 import { LedgerTransactionTableRow } from './LedgerTransactionTableRow'
 
 export const LedgerTransactionTable = ({
-  emptyMessage,
+  emptyMessage = undefined,
   loading = false,
   transactions = [],
 }: TransactionTableProps) => {
