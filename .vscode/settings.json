@@ -65,6 +65,7 @@
         "middlewares",
         "MILLIS",
         "moxios",
+        "nodemodules",
         "pageview",
         "paychannels",
         "paystrings",

@@ -6,8 +6,6 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
-import { TxDetails } from '../shared/components/TxDetails'
-import Sequence from '../shared/components/Sequence'
 import { ReactComponent as LeftArrow } from '../shared/images/ic_left_arrow.svg'
 import { ReactComponent as RightArrow } from '../shared/images/ic_right_arrow.svg'
 import { loadLedger } from './actions'
@@ -21,9 +19,8 @@ import {
   ANALYTIC_TYPES,
 } from '../shared/utils'
 import './ledger.scss'
-import { TxLabel } from '../shared/components/TxLabel'
-import { TxStatus } from '../shared/components/TxStatus'
 import SocketContext from '../shared/SocketContext'
+import { LedgerTransactionTable } from './LedgerTransactionTable'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -36,8 +33,6 @@ const DATE_OPTIONS = {
   hour12: true,
   timeZone: TIME_ZONE,
 }
-
-const TXN_COST_PADDING = 6
 
 const ERROR_MESSAGES = {}
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -140,88 +135,15 @@ class Ledger extends Component {
     )
   }
 
-  renderTableHeader() {
-    const { t } = this.props
-    return (
-      <div className="trans-header">
-        <div className="col col-type">{t('transaction_type')}</div>
-        <div className="col col-account">{t('account')}</div>
-        <div className="col col-sequence">{t('sequence_number_short')}</div>
-        <div className="col col-fee">{t('transaction_cost_short')}</div>
-      </div>
-    )
-  }
-
-  renderTable() {
-    const { t, data, language, loading } = this.props
-    const transactions = data.transactions || []
-    let rows
-    if (transactions.length === 0) {
-      rows = <div className="no-trans">{t('ledger_has_no_trans')}</div>
-    } else {
-      rows = transactions.map((trans) => {
-        const {
-          type,
-          hash,
-          result,
-          account,
-          fee,
-          sequence,
-          details,
-          ticketSequence,
-        } = trans
-        const success = result === 'tesSUCCESS'
-        return (
-          <div
-            key={hash}
-            className={`trans-row anchor-mask ${
-              success ? 'success' : 'fail'
-            } tx-type ${type}`}
-          >
-            <Link to={`/transactions/${hash}`} className="mask-overlay" />
-            <div className="upper">
-              <div className={`col col-type tx-type ${type}`}>
-                <TxLabel type={type} />
-              </div>
-              <div className="col col-account">{account}</div>
-              <div className="col col-sequence">
-                <Sequence
-                  sequence={sequence}
-                  ticketSequence={ticketSequence}
-                  language={language}
-                  account={account}
-                />
-              </div>
-              <div className="col col-fee">
-                {formatPrice(fee, {
-                  lang: language,
-                  currency: 'XRP',
-                  padding: TXN_COST_PADDING,
-                })}
-              </div>
-            </div>
-            <div className="details">
-              {success ? null : <TxStatus status={result} />}
-              <TxDetails instructions={details.instructions} type={type} />
-            </div>
-          </div>
-        )
-      })
-    }
-    return (
-      <div className="trans-table">
-        {this.renderTableHeader()}
-        {!loading && rows}
-      </div>
-    )
-  }
-
   renderLedger() {
-    const { data } = this.props
+    const { data, loading } = this.props
     return data.ledger_hash ? (
       <>
         {this.renderNav()}
-        {this.renderTable()}
+        <LedgerTransactionTable
+          transactions={data.transactions}
+          loading={loading}
+        />
       </>
     ) : null
   }
@@ -239,11 +161,10 @@ class Ledger extends Component {
 
   render() {
     const { loading } = this.props
-    const loader = loading ? <Loader className="show" /> : <Loader />
 
     return (
       <div className="ledger-page">
-        {loader}
+        {loading && <Loader />}
         {this.renderLedger()}
         {this.renderError()}
       </div>

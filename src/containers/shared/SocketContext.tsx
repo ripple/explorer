@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { useContext, createContext, useEffect, useState } from 'react'
 import { XrplClient } from 'xrpl-client'
 
 const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
@@ -38,6 +38,32 @@ function getSocket(rippledUrl?: string): XrplClient {
 
 const SocketContext = createContext<XrplClient>(undefined!)
 
-export { getSocket }
+/**
+ * Hook that says whether or not the global socket is currently connected
+ */
+const useIsOnline = () => {
+  const rippledSocket = useContext(SocketContext)
+  const [isOnline, setIsOnline] = useState(false)
+
+  useEffect(() => {
+    const setIsReadyTrue = () => setIsOnline(true)
+    const setIsReadyFalse = () => setIsOnline(false)
+    rippledSocket.ready().then(() => {
+      setIsReadyTrue()
+      rippledSocket.on('online', setIsReadyTrue)
+      rippledSocket.on('offline', setIsReadyFalse)
+    })
+    return () => {
+      rippledSocket.off('online', setIsReadyTrue)
+      rippledSocket.off('offline', setIsReadyFalse)
+    }
+  }, [rippledSocket])
+
+  return {
+    isOnline,
+  }
+}
+
+export { getSocket, useIsOnline }
 
 export default SocketContext
