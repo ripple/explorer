@@ -38,7 +38,6 @@ describe('AccountHeader Actions', () => {
         rate: undefined,
         domain: undefined,
         emailHash: undefined,
-        nftMinter: undefined,
         flags: [],
         balance: '123456000',
         gravatar: undefined,
@@ -54,7 +53,6 @@ describe('AccountHeader Actions', () => {
       escrows: undefined,
       paychannels: null,
       xAddress: undefined,
-      deleted: false,
     }
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_STATE },
@@ -195,7 +193,6 @@ describe('AccountHeader Actions', () => {
         rate: undefined,
         domain: undefined,
         emailHash: undefined,
-        nftMinter: undefined,
         flags: [],
         balance: '123456000',
         gravatar: undefined,
@@ -215,7 +212,6 @@ describe('AccountHeader Actions', () => {
         tag: 0,
         test: false,
       },
-      deleted: false,
     }
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_STATE },
