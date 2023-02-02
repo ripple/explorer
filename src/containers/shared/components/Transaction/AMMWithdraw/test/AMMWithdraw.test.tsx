@@ -45,7 +45,6 @@ describe('AMM Withdraw Tests', () => {
   })
   it('renders transaction from XRP only', () => {
     const wrapper = createWrapper(withdrawXRPMock)
-    console.log(wrapper.debug())
     expectSimpleRowNotToExist(wrapper, 'asset2')
     expectSimpleRowText(wrapper, 'asset1', '\uE90099.99998 XRP')
     expectSimpleRowText(

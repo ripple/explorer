@@ -100,7 +100,6 @@ describe('AMM Deposit Tests', () => {
 
   it('deposit shouldnt crash with tx that changes fee', () => {
     const wrapper = createWrapper(depositFail)
-    console.log(wrapper.debug())
     expectSimpleRowNotToExist(wrapper, 'asset1')
     expectSimpleRowNotToExist(wrapper, 'asset2')
     expectSimpleRowNotToExist(wrapper, 'account_id')

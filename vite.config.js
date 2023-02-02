@@ -86,7 +86,6 @@ export default defineConfig({
       inject: {
         data: {
           VITE_GA_ID: process.env.VITE_GA_ID,
-          VITE_ZENDESK_KEY: process.env.VITE_ZENDESK_KEY,
         },
       },
     }),
