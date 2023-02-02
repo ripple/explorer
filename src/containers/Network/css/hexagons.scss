@@ -21,8 +21,8 @@
 
       .hexagon path {
         cursor: pointer;
-        fill-opacity: 0.8;
-        stroke-opacity: 1;
+        fill-opacity: 80%;
+        stroke-opacity: 100%;
 
         @include for-size(tablet-landscape-up) {
           cursor: auto;
@@ -36,7 +36,7 @@
       }
 
       .hexagon.selected path {
-        fill-opacity: 1;
+        fill-opacity: 100%;
         stroke: black !important;
       }
 
