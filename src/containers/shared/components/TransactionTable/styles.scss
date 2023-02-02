@@ -15,93 +15,81 @@
   }
 
   .upper {
-    padding: 12px 32px;
+    display: flex;
+    align-items: stretch;
+    padding: 12px 16px;
     color: $white;
     font-size: 14px;
+    gap: 0 12px;
+
+    @include for-size(tablet-landscape-up) {
+      padding: 12px 32px;
+    }
   }
 
-  .col-type,
-  .col-account,
-  .col-status,
-  .col-token,
-  .col-date {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    white-space: nowrap;
+  .col {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    letter-spacing: 0;
+    @extend %truncate;
   }
 
   .col-type {
-    width: 180px;
+    flex: 2;
 
+    @include semibold;
     @include for-size(desktop-up) {
       width: 230px;
     }
   }
 
   .col-token {
-    width: 50px;
-    letter-spacing: 0px;
-
-    @include for-size(desktop-up) {
-      width: calc(100% - 915px);
-    }
+    width: 40px;
   }
 
   .col-status {
     width: 50px;
-    letter-spacing: 0;
     @include regular;
 
     .status {
       display: none;
     }
 
-    @include for-size(desktop-up) {
-      width: 130px;
-
+    @include for-size(tablet-landscape-up) {
       .status {
         display: initial;
       }
+    }
+
+    @include for-size(desktop-up) {
+      width: auto;
+      flex: 2 2;
     }
   }
 
   .col-account {
     display: none;
-    letter-spacing: 0;
+    flex: 3;
 
-    .transaction-address {
+    .upper & {
       color: $black-70;
       @include medium;
     }
 
     @include for-size(tablet-landscape-up) {
       display: inline-block;
-      width: calc(100% - 675px);
-    }
-
-    @include for-size(desktop-up) {
-      width: calc(100% - 715px);
-    }
-
-    @include for-size(big-desktop-up) {
-      width: calc(100% - 715px);
     }
   }
 
   .col-date {
-    width: calc(100% - 230px);
-    text-align: right;
+    flex: 3;
+    justify-content: right;
     @include medium;
 
-    @include for-size(tablet-landscape-up) {
-      display: inline-block;
-      width: calc(100% - 280px);
-    }
-
     @include for-size(desktop-up) {
-      width: 185px;
+      width: 185px; // We know the width because dates can only be so big
+      flex: none;
     }
   }
 
@@ -123,6 +111,10 @@
       min-height: 0;
       padding: 0;
       margin-bottom: 0;
+    }
+
+    .tx-status {
+      margin-bottom: 5px;
     }
 
     .currency,
@@ -211,32 +203,23 @@
   }
 
   .transaction-li.transaction-li-header {
-    display: block;
-    padding: 0 32px 18px;
-    border-left-color: transparent;
+    display: flex;
+    padding: 0 16px 18px;
     font-size: 10px;
+    gap: 0 12px;
     text-transform: uppercase;
 
-    @include for-size(desktop-up) {
-      border-left: 0;
+    @include for-size(tablet-landscape-up) {
+      padding: 12px 32px;
     }
 
     &:hover {
       background-color: inherit;
     }
 
-    .col-type,
-    .col-account,
-    .col-status,
-    .col-token,
-    .col-date {
-      border: none;
+    .col {
       color: $black-50;
       @include bold;
-    }
-
-    @include for-size(tablet-landscape-up) {
-      border-radius: 4px;
     }
   }
 }

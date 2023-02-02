@@ -141,7 +141,7 @@ class ValidatorsTable extends Component {
 }
 
 ValidatorsTable.propTypes = {
-  validators: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
+  validators: PropTypes.shape({}),
   t: PropTypes.func.isRequired,
   metrics: PropTypes.shape({}).isRequired,
 }

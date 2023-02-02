@@ -2,6 +2,7 @@
 
 .tx-label {
   display: inline-flex;
+  max-width: 100%;
   align-items: center;
   padding: 2px 8px;
   border: 1px solid currentcolor;
@@ -14,6 +15,7 @@
     color: $white;
     letter-spacing: 0;
     text-transform: uppercase;
+    @extend %truncate;
 
     &::before {
       content: '\00a0';

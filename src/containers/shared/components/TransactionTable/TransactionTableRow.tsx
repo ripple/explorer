@@ -38,22 +38,20 @@ export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
       <Link to={`/transactions/${tx.hash}`} className="mask-overlay" />
       <div className="upper">
         {hasTokensColumn && (
-          <div className="col-token">
+          <div className="col col-token">
             <TxToken tx={tx} />
           </div>
         )}
-        <div className="col-account">
-          <div className="transaction-address" title={tx.account}>
-            {tx.account}
-          </div>
+        <div className="col col-account" title={tx.account}>
+          {tx.account}
         </div>
-        <div className={`col-type tx-type ${tx.type}`}>
+        <div className={`col col-type tx-type ${tx.type}`}>
           <TxLabel type={tx.type} />
         </div>
-        <div className="col-status">
+        <div className="col col-status">
           <TxStatus status={tx.result} />
         </div>
-        <div className="col-date">{date}</div>
+        <div className="col col-date">{date}</div>
       </div>
       {tx.details && (
         <div className="details">

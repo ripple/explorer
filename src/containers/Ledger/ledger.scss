@@ -2,7 +2,17 @@
 @import '../shared/css/variables';
 
 .ledger-page {
-  position: relative;
+  margin: 0 auto;
+
+  @include for-size(tablet-landscape-up) {
+    width: 600px;
+  }
+  @include for-size(desktop-up) {
+    width: 772px;
+  }
+  @include for-size(big-desktop-up) {
+    width: 864px;
+  }
 
   .loader {
     position: absolute;
@@ -68,16 +78,6 @@
 
   .ledger-header {
     margin: 0px auto;
-
-    @include for-size(tablet-landscape-up) {
-      width: 600px;
-    }
-    @include for-size(desktop-up) {
-      width: 772px;
-    }
-    @include for-size(big-desktop-up) {
-      width: 864px;
-    }
 
     .ledger-info {
       overflow: hidden;
@@ -187,47 +187,13 @@
     }
   }
 
-  .trans-table {
-    display: block;
-    width: 100%;
-    padding: 30px 0px;
-    margin: 0px auto;
+  .transaction-table {
+    padding: 30px 0;
 
-    @include for-size(tablet-landscape-up) {
-      width: 600px;
-    }
-    @include for-size(desktop-up) {
-      width: 772px;
-    }
-    @include for-size(big-desktop-up) {
-      width: 864px;
-    }
-
-    .no-trans {
-      margin-top: 32px;
-      color: $black-40;
-      font-size: 16px;
-      line-height: 24px;
-      text-align: center;
-      @include regular;
-    }
-
-    .col {
-      display: inline-block;
-      overflow: hidden;
-      min-height: 18px;
-      padding: 0px 8px 0px 4px;
-      line-height: 18px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      @include for-size(desktop-up) {
-        padding: 0 8px;
-      }
-
-      @include for-size(big-desktop-up) {
-        @include regular;
-      }
+    .col-type,
+    .col-fee,
+    .col-sequence {
+      flex: none;
     }
 
     .col-type {
@@ -239,24 +205,11 @@
     }
 
     .col-account {
-      width: calc(100% - 199px);
-      text-align: right;
+      display: block;
+      text-align: right; // on mobile it is the last column
 
       @include for-size(tablet-portrait-up) {
-        width: calc(100% - 312px);
         text-align: left;
-      }
-
-      @include for-size(tablet-landscape-up) {
-        width: calc(100% - 413px);
-      }
-
-      @include for-size(desktop-up) {
-        width: calc(100% - 450px);
-      }
-
-      @include for-size(big-desktop-up) {
-        width: calc(100% - 485px);
       }
     }
 
@@ -281,155 +234,20 @@
         display: inline-block;
         width: 100px;
       }
-
-      @include for-size(tablet-landscape-up) {
-        width: 105px;
-      }
-
-      @include for-size(desktop-up) {
-        width: 110px;
-      }
     }
 
-    .trans-header {
-      padding-bottom: 22px;
-      border-bottom: 1px solid $black-70;
-      border-left: 4px solid transparent;
-      color: $white;
-      font-size: 10px;
-      text-transform: uppercase;
-
-      @include for-size(desktop-up) {
-        border-left: 0px;
-      }
-
-      .col {
-        padding: 4px 8px 4px 4px;
-        @include bold;
-
-        @include for-size(desktop-up) {
-          padding: 4px 8px;
-          font-size: 10px;
-        }
-      }
-    }
-
-    .trans-row {
-      display: block;
-      border-left: 4px solid;
-      vertical-align: middle;
-
-      @include for-size(desktop-up) {
-        border-left: 0px;
-      }
-
-      &:hover {
-        background: rgba($black-70, 0.5);
-      }
-
-      .upper {
-        padding: 20px 0px 4px;
-        color: $white;
-        font-size: 14px;
-
-        .col-sequence,
-        .col-fee {
-          color: $black-40;
-        }
-      }
-
-      .col {
-        vertical-align: middle;
-      }
-
-      .col-type {
-        font-size: 14px;
-        letter-spacing: 0px;
-        @include bold;
-
-        @include for-size(desktop-up) {
-          letter-spacing: 0.5px;
-        }
-      }
-
+    .upper {
       .col-account {
-        font-size: 11px;
-        letter-spacing: 0px;
-        @include medium;
-
-        @include for-size(desktop-up) {
-          font-size: 12px;
-        }
-      }
-
-      .details {
-        min-height: 30px;
-        padding: 2px 4px 16px;
-        border-bottom: 1px solid $black-70;
-        color: $black-40;
         font-size: 10px;
-        letter-spacing: 0px;
-        text-transform: uppercase;
 
-        @include for-size(tablet-landscape-up) {
+        @include for-size(tablet-portrait-up) {
           font-size: 12px;
-        }
-
-        @include for-size(desktop-up) {
-          padding: 2px 8px 16px;
-        }
-
-        span {
-          display: inline-block;
-          margin-right: 5px;
-
-          span {
-            margin: 0px;
-          }
-        }
-
-        .label {
-          @include bold;
-        }
-
-        .currency {
-          margin-left: 5px;
-          font-size: 0.9em;
-        }
-
-        .partial-payment,
-        .closed,
-        .flag,
-        .unset {
-          font-style: italic;
-          text-transform: none;
-        }
-
-        .key,
-        .domain,
-        .account,
-        .email-hash,
-        .message-key {
-          text-transform: none;
-        }
-
-        .partial-payment,
-        .closed {
-          color: $red-dark;
-        }
-
-        .flag {
-          color: $blue-purple-30;
-        }
-
-        .condition,
-        .fulfillment {
-          word-break: break-all;
         }
       }
 
-      &.fail {
-        opacity: 0.4;
+      .col-sequence,
+      .col-fee {
+        color: $black-40;
       }
     }
   }

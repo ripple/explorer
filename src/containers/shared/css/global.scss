@@ -232,13 +232,14 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
 
 .section {
   margin: 0 32px;
+
   @include for-size(tablet-landscape-up) {
-    width: 552px;
+    width: calc(100% - 15px);
     margin: 0 auto;
   }
 
-  @include for-size(desktop-up) {
-    width: 1140px;
+  @include for-size(big-desktop-up) {
+    max-width: $desktop-upper-boundary;
   }
 }
 
