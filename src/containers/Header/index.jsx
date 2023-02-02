@@ -21,7 +21,6 @@ const STATIC_ENV_LINKS = {
   testnet: process.env.VITE_TESTNET_LINK,
   devnet: process.env.VITE_DEVNET_LINK,
   amm: process.env.VITE_AMM_LINK,
-  nft_sandbox: process.env.VITE_NFTSANDBOX_LINK,
 }
 
 const CUSTOM_NETWORK_BASE_LINK = process.env.VITE_CUSTOMNETWORK_LINK
