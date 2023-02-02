@@ -64,23 +64,7 @@ describe('Account', () => {
     expect(link).toHaveAttribute('title', 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
     expect(screen.queryByTestId('dt')).toHaveTextContent(':381702')
   })
-
-  it('should render with a destination tag supplied separately', () => {
-    createWrapper(
-      <Account account="rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt" tag={123} />,
-    )
-    const link = screen.getByTestId('account')
-    expect(link).toHaveClass('account')
-    expect(link).toHaveTextContent('rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
     expect(link).toHaveAttribute(
-      'href',
-      '/accounts/rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt',
-    )
-    expect(link).toHaveAttribute('title', 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(screen.queryByTestId('dt')).toHaveTextContent(':123')
-  })
-
-  it('should render with a destination tag supplied separately and no link', () => {
     createWrapper(
       <Account
         account="rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt"

@@ -47,11 +47,7 @@ describe('Amount', () => {
       issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
     }
 
-    const wrapper2 = mount(
-      <BrowserRouter>
-        <Amount value={value2} />
-      </BrowserRouter>,
-    )
+    const wrapper2 = createWrapper(<Amount value={value2} />)
     expect(wrapper2.find('.currency').text()).toEqual(
       'GBP.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
     )
