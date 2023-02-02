@@ -6,8 +6,8 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
-import { ReactComponent as LeftArrow } from '../shared/images/ic_left_arrow.svg'
-import { ReactComponent as RightArrow } from '../shared/images/ic_right_arrow.svg'
+import LeftArrow from '../shared/images/ic_left_arrow.svg'
+import RightArrow from '../shared/images/ic_right_arrow.svg'
 import { loadLedger } from './actions'
 import {
   localizeDate,
