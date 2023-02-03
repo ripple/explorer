@@ -5,9 +5,8 @@ import Adapter from 'enzyme-adapter-react-17-updated'
 
 const mockStorage = {}
 
-// @ts-ignore
+// @ts-expect-error
 window.gtag = window.gtag || (() => true)
-// @ts-ignore
 window.localStorage = window.localStorage || {
   getItem: (key) => mockStorage[key],
   setItem: (key, value) => {
@@ -15,11 +14,10 @@ window.localStorage = window.localStorage || {
   },
   removeItem: (key) => delete mockStorage[key],
 }
-// @ts-ignore
+// @ts-expect-error
 configure({ adapter: new Adapter() })
 
-// @ts-ignore
 jest.spyOn(console, 'error')
-// @ts-ignore
+// @ts-expect-error
 // eslint-disable-next-line no-console -- only for tests
 console.error.mockImplementation(() => {})
