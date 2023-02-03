@@ -13,11 +13,9 @@ window.localStorage = window.localStorage || {
   },
   removeItem: (key) => delete mockStorage[key],
 }
-// @ts-ignore
+// @ts-expect-error
 configure({ adapter: new Adapter() })
 
-// @ts-ignore
-// jest.spyOn(console, 'error')
 // @ts-ignore
 // eslint-disable-next-line no-console -- only for tests
 // console.error.mockImplementation(() => {})
