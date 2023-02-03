@@ -41,11 +41,13 @@ export const TransactionTable: TransactionTableComponent = ({
     <>
       <ol className="transaction-table">
         <li className="transaction-li transaction-li-header">
-          {hasTokensColumn && <div className="col-token"> {t('token')} </div>}
-          <div className="col-account">{t('account')}</div>
-          <div className="col-type">{t('transaction_type')}</div>
-          <div className="col-status">{t('status')}</div>
-          <div className="col-date">{t('transactions.date_header')}</div>
+          {hasTokensColumn && (
+            <div className="col col-token"> {t('token')} </div>
+          )}
+          <div className="col col-account">{t('account')}</div>
+          <div className="col col-type">{t('transaction_type')}</div>
+          <div className="col col-status">{t('status')}</div>
+          <div className="col col-date">{t('transactions.date_header')}</div>
         </li>
         {!transactions || (!loading && transactions.length === 0) ? (
           <div className="empty-transactions-message">
