@@ -15,7 +15,7 @@ import AppErrorBoundary from './AppErrorBoundary'
 
 const AppWrapper = (props) => {
   const { t } = useTranslation()
-  const mode = process.env.REACT_APP_ENVIRONMENT
+  const mode = process.env.VITE_ENVIRONMENT
   const path = mode === 'custom' ? '/:rippledUrl' : '/'
   return (
     <HelmetProvider>

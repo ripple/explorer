@@ -15,8 +15,7 @@
   "terms_of_service": "利用規約",
   "github": "Github",
   "footer_p1": "XRPチャートはXRP Ledgerのデータに基づき、Rippleにより構築、維持されています。",
-  "footer_p2":
-    "情報は「現況」のまま提供され、情報提供のみを目的としています。XRPチャートは投資アドバイスを提供するものではありません。Ripple社は、ゲートウェイや取引所に関してXRPチャートに表示される情報について、何らの承認、推奨、表明を行うものではありません。データには遅延または誤差が発生する場合があります。Ripple社は、例えば、実質所有に変更がない仮装売買など、真正ではないと疑われる取引をXRPチャートに取り込まない権利を留保します",
+  "footer_p2": "情報は「現況」のまま提供され、情報提供のみを目的としています。XRPチャートは投資アドバイスを提供するものではありません。Ripple社は、ゲートウェイや取引所に関してXRPチャートに表示される情報について、何らの承認、推奨、表明を行うものではありません。データには遅延または誤差が発生する場合があります。Ripple社は、例えば、実質所有に変更がない仮装売買など、真正ではないと疑われる取引をXRPチャートに取り込まない権利を留保します",
   "news": "ニュース",
   "read_speed": "{{speed}} 分表示",
   "xrp_trade_volume": "XRP取引高合計",
@@ -134,24 +133,17 @@
   "number_of_affected_node": "Ledgerの {{count}} 個のノードに影響が出ました",
   "nodes_type": "ノードを {{action}}",
   "node_meta_type": "{{nodeType}} タイプのノードを {{action}} します",
-  "transaction_balance_line_one":
-    "{{account}} と {{counterAccount}} の間の {{currency}}RippleState ノードを {{action}} します",
-  "transaction_balance_line_two":
-    "残高が {{change}} 調整され、{{previousBalance}} から {{finalBalance}} になりました",
+  "transaction_balance_line_one": "{{account}} と {{counterAccount}} の間の {{currency}}RippleState ノードを {{action}} します",
+  "transaction_balance_line_two": "残高が {{change}} 調整され、{{previousBalance}} から {{finalBalance}} になりました",
   "transaction_owned_directory": "{{owner}} 所有のDirectoryNodeノードを {{action}} します",
   "transaction_unowned_directory": "DirectoryNodeノードを {{action}} します",
   "owned_account_root": "{{acount}} のAccountRootノードを {{action}} します",
   "unowned_account_root": "AccountRootノードを {{action}} します",
-  "account_balance_increased":
-    "残高が {{diffrence}} 増加し、{{previousBalance}} から {{finalBalance}} になりました",
-  "account_balance_reduced":
-    "残高が {{diffrence}} 減少し、{{previousBalance}} から {{finalBalance}} になりました",
-  "taker_pays_decreased":
-    "TakerPayが {{diffrence}} 減少し、{{previousBalance}} から {{finalBalance}} になりました",
-  "taker_gets_decreased":
-    "TakerGetが {{diffrence}} 減少し、{{previousBalance}} から {{finalBalance}} になりました",
-  "offer_node_meta":
-    "シーケンス番号 {{sequence}} の {{account}} のオファーノードが、{{takerGets}} に {{takerPays}} を {{action}} しました",
+  "account_balance_increased": "残高が {{diffrence}} 増加し、{{previousBalance}} から {{finalBalance}} になりました",
+  "account_balance_reduced": "残高が {{diffrence}} 減少し、{{previousBalance}} から {{finalBalance}} になりました",
+  "taker_pays_decreased": "TakerPayが {{diffrence}} 減少し、{{previousBalance}} から {{finalBalance}} になりました",
+  "taker_gets_decreased": "TakerGetが {{diffrence}} 減少し、{{previousBalance}} から {{finalBalance}} になりました",
+  "offer_node_meta": "シーケンス番号 {{sequence}} の {{account}} のオファーノードが、{{takerGets}} に {{takerPays}} を {{action}} しました",
   "offer_replaces": "このオファーはオファー番号 {{sequence}} を置換します",
   "offer_partially_filled": "オファーの一部が満たされました",
   "offer_filled": "オファーが満たされました",
@@ -159,39 +151,29 @@
   "offer_replaced": "このオファーは新しいオファー番号 {{sequence}} と置換されました",
   "offer_lack_of_funds": "オファーの一部は満たされましたが、資金不足のため取り消されました",
   "transaction_sequence": "トランザクションのシーケンス番号は {{sequence}} です",
-  "trust_set_description":
-    "{{account}} が保持可能な {{issuer}} からの最大額は、{{amount}} に設定されています",
+  "trust_set_description": "{{account}} が保持可能な {{issuer}} からの最大額は、{{amount}} に設定されています",
   "payment_desc_line_1": "支払いは、{{account}} から {{destination}} に対して行われます",
   "payment_desc_line_2": "支払い元のタグは、{{tag}} です",
   "payment_desc_line_3": "支払い先のタグは、{{tag}} です",
   "payment_desc_line_4": "{{amount}} の支払い指示がありました",
   "payment_desc_line_5": " 最大 {{amount}} までの消費",
   "payment_desc_line_6": "実際に支払われた額は、{{amount}} です",
-  "offer_cancel_description":
-    "トランザクションによって、{{account}} のオファー番号 {{sequence}} が取り消されます",
-  "offer_create_desc_line_1":
-    "{{account}} は、{{takerPays}} を取得するために、{{takerGets}} を支払うオファーを出しました。このオファーの換金レートは、{{rate}}（{{pair}}）です",
-  "offer_create_desc_line_2":
-    "トランザクションによって、{{account}} からの既存のオファー番号 {{sequence}} が取り消されます",
-  "offer_will_expire_desc":
-    "オファーは、それまでに取り消されるか消費されない限り、{{date}} に失効します",
+  "offer_cancel_description": "トランザクションによって、{{account}} のオファー番号 {{sequence}} が取り消されます",
+  "offer_create_desc_line_1": "{{account}} は、{{takerPays}} を取得するために、{{takerGets}} を支払うオファーを出しました。このオファーの換金レートは、{{rate}}（{{pair}}）です",
+  "offer_create_desc_line_2": "トランザクションによって、{{account}} からの既存のオファー番号 {{sequence}} が取り消されます",
+  "offer_will_expire_desc": "オファーは、それまでに取り消されるか消費されない限り、{{date}} に失効します",
   "offer_did_expire_desc": "オファーは {{date}} で失効します",
   "escrow_is_from": "エスクローは、{{account}} から {{destination}} に行われます",
-  "escrow_is_created_by":
-    "エスクローは {{account}} によって作成されており、資金は同じアカウントに返金されます",
+  "escrow_is_created_by": "エスクローは {{account}} によって作成されており、資金は同じアカウントに返金されます",
   "escrowed_amount": "{{amount}} がエスクローされました",
   "escrowe_condition": "条件 {{condition}}",
   "escrowe_cancel_after": "{{date}} 以降に取消しが可能です",
   "escrowe_finish_after": "{{date}} 以降に完了予定です",
-  "escrow_completion_desc":
-    "{{account}} によって執行が発動されました。{{amount}} のエスクロー額が {{destination}} に支払われました",
-  "escrow_finish_created_desc":
-    "エスクローは、{{transaction}} トランザクションで {{account}} により作成されました",
+  "escrow_completion_desc": "{{account}} によって執行が発動されました。{{amount}} のエスクロー額が {{destination}} に支払われました",
+  "escrow_finish_created_desc": "エスクローは、{{transaction}} トランザクションで {{account}} により作成されました",
   "escrow_finish_fullfillment_desc": "履行: {fulfillment}",
-  "escrow_cancellation_desc":
-    "{{account}} によって取り消しが執行されました。{{amount}} のエスクロー額が {{destination}} に返金されました",
-  "escrow_cancellation_created_by_desc":
-    "エスクローは、{{transaction}} トランザクションで {{account}} により作成されました",
+  "escrow_cancellation_desc": "{{account}} によって取り消しが執行されました。{{amount}} のエスクロー額が {{destination}} に返金されました",
+  "escrow_cancellation_created_by_desc": "エスクローは、{{transaction}} トランザクションで {{account}} により作成されました",
   "invalid_ripple_address": "無効なRippleアドレス",
   "tokens": "トークン",
   "total_issuers": "総発行者数",

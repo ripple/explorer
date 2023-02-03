@@ -10,20 +10,20 @@ import Menu from './Menu'
 import MobileMenu from './MobileMenu'
 import Banner from './Banner'
 import { Search } from './Search'
-import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg'
-import { ReactComponent as ArrowIcon } from '../shared/images/down_arrow.svg'
-import { ReactComponent as CheckIcon } from '../shared/images/checkmark.svg'
+import Logo from '../shared/images/XRPLedger.svg'
+import ArrowIcon from '../shared/images/down_arrow.svg'
+import CheckIcon from '../shared/images/checkmark.svg'
 import './header.scss'
 import SocketContext from '../shared/SocketContext'
 
 const STATIC_ENV_LINKS = {
-  mainnet: process.env.REACT_APP_MAINNET_LINK,
-  testnet: process.env.REACT_APP_TESTNET_LINK,
-  devnet: process.env.REACT_APP_DEVNET_LINK,
-  amm: process.env.REACT_APP_AMM_LINK,
+  mainnet: process.env.VITE_MAINNET_LINK,
+  testnet: process.env.VITE_TESTNET_LINK,
+  devnet: process.env.VITE_DEVNET_LINK,
+  amm: process.env.VITE_AMM_LINK,
 }
 
-const CUSTOM_NETWORK_BASE_LINK = process.env.REACT_APP_CUSTOMNETWORK_LINK
+const CUSTOM_NETWORK_BASE_LINK = process.env.VITE_CUSTOMNETWORK_LINK
 
 function isCustomNetwork(mode) {
   return !Object.keys(STATIC_ENV_LINKS).includes(mode)
@@ -61,12 +61,11 @@ const Header = (props) => {
   function handleClick(event) {
     const mode = event.currentTarget.getAttribute('value')
 
-    if (mode === process.env.REACT_APP_ENVIRONMENT) {
+    if (mode === process.env.VITE_ENVIRONMENT) {
       return
     }
 
-    const desiredLink =
-      STATIC_ENV_LINKS[mode] ?? process.env.REACT_APP_MAINNET_LINK
+    const desiredLink = STATIC_ENV_LINKS[mode] ?? process.env.VITE_MAINNET_LINK
     switchMode(desiredLink)
   }
 
@@ -149,7 +148,7 @@ const Header = (props) => {
     width < BREAKPOINTS.landscape && inNetwork ? (
       <MobileMenu t={t} currentPath={getCurrentPath()} inNetwork={inNetwork} />
     ) : null
-  const currentMode = process.env.REACT_APP_ENVIRONMENT
+  const currentMode = process.env.VITE_ENVIRONMENT
 
   const urlLinkMap = {
     ...STATIC_ENV_LINKS,
@@ -158,10 +157,10 @@ const Header = (props) => {
 
   const rippledUrl = getSocketUrl(rippledSocket)
 
-  if (process.env.REACT_APP_ENVIRONMENT === 'custom') {
+  if (process.env.VITE_ENVIRONMENT === 'custom') {
     urlLinkMap[
       rippledUrl
-    ] = `${process.env.REACT_APP_CUSTOMNETWORK_LINK}${rippledUrl}`
+    ] = `${process.env.VITE_CUSTOMNETWORK_LINK}${rippledUrl}`
   }
 
   return (

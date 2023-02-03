@@ -69,7 +69,7 @@ describe('Header component', () => {
     beforeEach(() => {
       delete window.location
       window.location = { assign: mockedFunction }
-      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+      process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
     })
 
     afterEach(() => {
@@ -91,7 +91,7 @@ describe('Header component', () => {
 
       // test clicking on testnet
       wrapper.find('[value="testnet"]').simulate('click')
-      expect(mockedFunction).toBeCalledWith(process.env.REACT_APP_TESTNET_LINK)
+      expect(mockedFunction).toBeCalledWith(process.env.VITE_TESTNET_LINK)
 
       wrapper.unmount()
     })
@@ -105,7 +105,7 @@ describe('Header component', () => {
         currentTarget: { value: 'custom_url' },
       })
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
+        `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
 
       wrapper.unmount()

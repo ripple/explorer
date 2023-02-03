@@ -38,6 +38,7 @@ export const AccountTransactionTable = ({
         rippledSocket,
       ).catch((errorResponse) => {
         const errorLocation = `account transactions ${accountId} at ${pageParam}`
+        // @ts-expect-error -- because utils isn't typed
         analytics(ANALYTIC_TYPES.exception, {
           exDescription: `${errorLocation} --- ${JSON.stringify(
             errorResponse,
@@ -71,14 +72,15 @@ export const AccountTransactionTable = ({
 
   const transactions = filterTransactions()
   const tryLoading = transactions?.length === 0 && data?.pages[0]?.transactions
+  const emptyMessage = tryLoading
+    ? 'get_account_transactions_try'
+    : error?.message
   return (
     <TransactionTable
       transactions={transactions}
       loading={loading}
       hasTokensColumn={hasTokensColumn}
-      emptyMessage={t(
-        tryLoading ? 'get_account_transactions_try' : error?.message,
-      )}
+      emptyMessage={emptyMessage && t(emptyMessage)}
       onLoadMore={() => fetchNextPage()}
       hasAdditionalResults={hasNextPage}
     />

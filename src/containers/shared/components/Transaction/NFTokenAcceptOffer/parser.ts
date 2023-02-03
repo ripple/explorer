@@ -12,7 +12,7 @@ export const parser: TransactionParser<
     (node: any) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
   )
 
-  const acceptedOfferIDs = []
+  const acceptedOfferIDs: string[] = []
   if (tx.NFTokenBuyOffer) {
     acceptedOfferIDs.push(tx.NFTokenBuyOffer)
   }

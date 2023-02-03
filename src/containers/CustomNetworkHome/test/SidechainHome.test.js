@@ -58,7 +58,7 @@ describe('SidechainHome page', () => {
     beforeEach(() => {
       delete window.location
       window.location = { assign: mockedFunction }
-      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+      process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
 
       wrapper = createWrapper()
     })
@@ -80,7 +80,7 @@ describe('SidechainHome page', () => {
         currentTarget: { value: 'custom_url' },
       })
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
+        `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
     })
 
@@ -93,7 +93,7 @@ describe('SidechainHome page', () => {
       expect(button.length).toEqual(1)
       button.simulate('click')
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_CUSTOMNETWORK_LINK}/custom_url`,
+        `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
     })
   })
