@@ -21,7 +21,6 @@ const STATIC_ENV_LINKS = {
   testnet: process.env.REACT_APP_TESTNET_LINK,
   devnet: process.env.REACT_APP_DEVNET_LINK,
   amm: process.env.REACT_APP_AMM_LINK,
-  nft_sandbox: process.env.REACT_APP_NFTSANDBOX_LINK,
 }
 
 const CUSTOM_NETWORK_BASE_LINK = process.env.REACT_APP_CUSTOMNETWORK_LINK

@@ -16,7 +16,7 @@
 
 .header {
   position: fixed;
-  z-index: 2;
+  z-index: 20;
   top: 0px;
   display: flex;
   width: 100%;
@@ -45,8 +45,8 @@
       width: 100%;
       padding: 2px 5px;
       border: none;
-      background-color: $black-80;
       border-radius: 100px;
+      background-color: $black-80;
       color: $white;
       font-size: 12px;
       line-height: 18px;
@@ -160,15 +160,6 @@
 
     &.amm {
       @include dropdown-network-item($amm);
-    }
-
-    /* stylelint-disable-next-line selector-class-pattern -- Name comes from server designation  */
-    &.nft_sandbox {
-      @include dropdown-network-item($nft-sandbox);
-
-      .check path {
-        fill: $white;
-      }
     }
 
     &.custom {

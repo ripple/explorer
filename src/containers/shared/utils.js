@@ -8,6 +8,8 @@ const BILLION = MILLION * THOUSAND
 const TRILLION = BILLION * THOUSAND
 const QUADRILLION = TRILLION * THOUSAND
 
+const TRADING_FEE_TOTAL = 1000
+
 const GA_ID = process.env.REACT_APP_GA_ID
 
 const EXOTIC_SYMBOLS = {
@@ -24,6 +26,7 @@ export const BAD_REQUEST = 400
 export const FETCH_INTERVAL_MILLIS = 5000
 export const FETCH_INTERVAL_VHS_MILLIS = 60 * 1000 // 1 minute
 export const FETCH_INTERVAL_NODES_MILLIS = 60000
+export const FETCH_INTERVAL_ERROR_MILLIS = 300
 
 export const DECIMAL_REGEX = /^\d+$/
 export const RIPPLE_ADDRESS_REGEX =
@@ -437,6 +440,10 @@ export const formatAsset = (asset) =>
       }
 
 export const localizeBalance = (balance, language) => {
+  if (balance === undefined) {
+    return undefined
+  }
+
   let b = localizeNumber(balance.amount || 0.0, language, {
     style: 'currency',
     currency: balance.currency,
@@ -454,3 +461,11 @@ export const localizeBalance = (balance, language) => {
 
   return b
 }
+
+export const formatTradingFee = (tradingFee) =>
+  tradingFee !== undefined
+    ? localizeNumber(tradingFee / TRADING_FEE_TOTAL, 'en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3,
+      })
+    : undefined

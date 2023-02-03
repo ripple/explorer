@@ -10,6 +10,11 @@
     height: 1em;
   }
 
+  .status-icon {
+    display: flex;
+    align-items: center;
+  }
+
   .status {
     @extend %truncate;
 
@@ -35,5 +40,11 @@
     .status-code {
       display: none;
     }
+  }
+
+  // Because of an optical illusion caused by white space the link icon looks to be too lower
+  &::after {
+    position: relative;
+    top: -1px;
   }
 }

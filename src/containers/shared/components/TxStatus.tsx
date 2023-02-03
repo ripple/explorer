@@ -24,7 +24,9 @@ export const TxStatus = ({ shorthand = false, status }: TxStatusProps) => {
 
   const Success = () => (
     <Plain title={t('success')}>
-      <SuccessIcon className={`logo ${className}`} title={t('success')} />
+      <span className="status-icon">
+        <SuccessIcon className={`logo ${className}`} title={t('success')} />
+      </span>
       <span className="status">
         {!shorthand && <span className="status-message">{t('success')}</span>}
       </span>
@@ -34,7 +36,9 @@ export const TxStatus = ({ shorthand = false, status }: TxStatusProps) => {
   const Fail = () => {
     const content = (
       <>
-        <FailIcon className={`logo ${className}`} title={t('fail')} />
+        <span className="status-icon">
+          <FailIcon className={`logo ${className}`} />
+        </span>
         <span className="status">
           {!shorthand && <span className="status-message">{t('fail')}</span>}
           <span className="status-code">{status}</span>
@@ -46,7 +50,7 @@ export const TxStatus = ({ shorthand = false, status }: TxStatusProps) => {
     ) : (
       <a
         href={`https://xrpl.org/tec-codes.html#${status}`}
-        title={t('fail')}
+        title={`${t('fail')} - ${status}`}
         className={wrapperClassName}
       >
         {content}
