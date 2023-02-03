@@ -1,7 +1,6 @@
 /* eslint-disable no-console -- logging file */
 // TODO: refactor this file to use the npm module `debug` which is already used elsewhere
 // and send logs in prod to the backend
-
 const logMessage = (type, options, message) => {
   console[type]({ ...options, message })
 }

@@ -15,8 +15,7 @@
   "terms_of_service": "服务条款",
   "github": "Github",
   "footer_p1": "XRP 图表由Ripple根据XRP Ledger 的数据构建和维护。",
-  "footer_p2":
-    "信息按原样提供，仅供参考。XRP 图表并非交易顾问。就 XRP 图表显示的网关和交易所，Ripple 不做出支持、推荐或代表。数据可能出现延迟或不正确。Ripple保留权利，不包括XRP图表上的虚假交易，例如，在受益所有权没有变化的情况下的冲洗买卖。",
+  "footer_p2": "信息按原样提供，仅供参考。XRP 图表并非交易顾问。就 XRP 图表显示的网关和交易所，Ripple 不做出支持、推荐或代表。数据可能出现延迟或不正确。Ripple保留权利，不包括XRP图表上的虚假交易，例如，在受益所有权没有变化的情况下的冲洗买卖。",
   "news": "新闻",
   "read_speed": "{{speed}} 分钟 阅读",
   "xrp_trade_volume": "总XRP 交易量",
@@ -134,22 +133,16 @@
   "number_of_affected_node": "它影响了分类账中的 {{count}} 节点",
   "nodes_type": "{{action}} 节点",
   "node_meta_type": "它 {{action}} 类型为 {{nodeType}} 的节点",
-  "transaction_balance_line_one":
-    "{{action}} {{currency}} {{account}} 和 {{counterAccount}} 之间的RippleState节点",
-  "transaction_balance_line_two":
-    "余额 由 {{change}} 更改 从 {{previousBalance}} 至 {{finalBalance}}",
+  "transaction_balance_line_one": "{{action}} {{currency}} {{account}} 和 {{counterAccount}} 之间的RippleState节点",
+  "transaction_balance_line_two": "余额 由 {{change}} 更改 从 {{previousBalance}} 至 {{finalBalance}}",
   "transaction_owned_directory": "{{action}} {{owner}} 拥有的 DirectoryNode 节点",
   "transaction_unowned_directory": "它 {{action}} DirectoryNode 节点",
   "owned_account_root": "{{action}} {{account}} 的 AccountRoot 节点",
   "unowned_account_root": "它 {{action}} AccountRoot节点",
-  "account_balance_increased":
-    "余额 由 {{difference}} 增加 从 {{previousBalance}} 至 {{finalBalance}}",
-  "account_balance_reduced":
-    "余额 由 {{difference}}减少 从 {{previousBalance}} 至 {{finalBalance}}",
-  "taker_pays_decreased":
-    "TakerPays 由 {{change} 减少从 {{prevPays}} 至 {{finalPays}}, {{account}}",
-  "taker_gets_decreased":
-    "TakerGets 由 {{change}} 减少从{{prevGets}} 至 {{finalGets}}, {{account}}",
+  "account_balance_increased": "余额 由 {{difference}} 增加 从 {{previousBalance}} 至 {{finalBalance}}",
+  "account_balance_reduced": "余额 由 {{difference}}减少 从 {{previousBalance}} 至 {{finalBalance}}",
+  "taker_pays_decreased": "TakerPays 由 {{change} 减少从 {{prevPays}} 至 {{finalPays}}, {{account}}",
+  "taker_gets_decreased": "TakerGets 由 {{change}} 减少从{{prevGets}} 至 {{finalGets}}, {{account}}",
   "offer_node_meta": "TakerGets 由 {{change}} 减少从 {{prevGets}} 至 {{finalGets}}, {{account}}",
   "offer_replaces": "此报价取代报价 ＃{{sequence}}",
   "offer_partially_filled": "报价部分被填补",
@@ -166,8 +159,7 @@
   "payment_desc_line_5": " 支付高达 {{amount}}",
   "payment_desc_line_6": "实际交付金额是 {{amount}}",
   "offer_cancel_description": "交易将取消 {{account}} 报价 #{{sequence}}",
-  "offer_create_desc_line_1":
-    "{{account}} 支付 {{takerGets}} 以接收 {{takerPays}} 此报价的汇率为 {{rate}}，{{pair}}",
+  "offer_create_desc_line_1": "{{account}} 支付 {{takerGets}} 以接收 {{takerPays}} 此报价的汇率为 {{rate}}，{{pair}}",
   "offer_create_desc_line_2": "该交易还将取消 {{account}} 中的现有报价 ＃{{sequence}}",
   "offer_will_expire_desc": "报价在 {{date}} 过期，除非在此之前取消或消费",
   "offer_did_expire_desc": "该报价已于 {{date}} 过期",
@@ -180,8 +172,7 @@
   "escrow_completion_desc": "完成由 {{account}} 触发 {{amount}} 的代管金额已交付给 {{destination}}",
   "escrow_finish_created_desc": "该代管由 {account}} 与交易 {{transaction}} 创建",
   "escrow_finish_fullfillment_desc": "实现: {fulfillment}",
-  "escrow_cancellation_desc":
-    "取消由 {{account}} 触发 {{amount}} 的代管金额已返还给 {{destination}}",
+  "escrow_cancellation_desc": "取消由 {{account}} 触发 {{amount}} 的代管金额已返还给 {{destination}}",
   "escrow_cancellation_created_by_desc": "该代管由 {{account}} 与交易 {{transaction}} 创建",
   "invalid_ripple_address": "无效 ripple 地址",
   "token": "代币",
@@ -189,7 +180,7 @@
   "total_issuers": "代币发行者总数",
   "total_tokens": "代币发行总数",
   "top_trading_pairs": "最热门交易对",
-  "issuer_address":"发行人地址",
+  "issuer_address": "发行人地址",
   "obligations": "义务",
   "settings": "设定值",
   "rank": "排名",
@@ -197,8 +188,8 @@
   "volume_24h": "每日成交量",
   "no_tokens_message": "找不到代币",
   "no_pairs_message": "找不到交易对",
-  "high":"高",
-  "low":"低",
+  "high": "高",
+  "low": "低",
   "rank_message": "代币按信任线数量排序",
   "obligations_message": "义务是发给地址的代币总数"
 }

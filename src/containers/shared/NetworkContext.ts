@@ -10,10 +10,10 @@ const ENV_NETWORK_MAP: Record<string, string> = {
 
 function getNetworkName() {
   if (
-    process.env.REACT_APP_ENVIRONMENT &&
-    process.env.REACT_APP_ENVIRONMENT in ENV_NETWORK_MAP
+    process.env.VITE_ENVIRONMENT &&
+    process.env.VITE_ENVIRONMENT in ENV_NETWORK_MAP
   ) {
-    return ENV_NETWORK_MAP[process.env.REACT_APP_ENVIRONMENT]
+    return ENV_NETWORK_MAP[process.env.VITE_ENVIRONMENT]
   }
   return undefined
 }

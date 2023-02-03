@@ -3,10 +3,16 @@
   "description": "XRPL Data Visualization",
   "version": "1.5.0",
   "dependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@google-cloud/bigquery": "^5.5.0",
+    "@rollup/plugin-inject": "^5.0.3",
+    "@vitejs/plugin-react": "^3.0.0",
     "@xrplf/prettier-config": "^1.9.1",
+    "assert": "^2.0.0",
+    "autoprefixer": "^10.4.13",
     "axios": "^0.21.1",
     "body-parser": "^1.18.2",
+    "buffer": "^6.0.3",
     "bunyan": "^1.8.15",
     "classnames": "^2.3.1",
     "clsx": "^1.2.1",
@@ -20,12 +26,12 @@
     "dotenv": "^16.0.3",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
+    "esbuild": "^0.17.5",
+    "events": "^3.3.0",
     "express": "^4.18.2",
     "i18next": "^22.0.6",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.1.1",
-    "jest-enzyme": "^7.1.0",
-    "moment": "^2.29.4",
     "payid-lib": "^0.1.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
@@ -37,7 +43,6 @@
     "react-redux": "^7.0.1",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "^4.0.3",
     "recharts": "^2.3.2",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.8",
@@ -45,12 +50,22 @@
     "redux-thunk": "^2.2.0",
     "rewire": "^6.0.0",
     "ripple-address-codec": "^4.2.4",
+    "rollup-plugin-node-polyfills": "^0.2.1",
+    "rollup-plugin-polyfill-node": "^0.11.0",
+    "stream-browserify": "^3.0.0",
     "topojson-client": "^3.0.0",
+    "vite": "^4.0.1",
+    "vite-plugin-environment": "^1.1.3",
+    "vite-plugin-html": "^3.2.0",
+    "vite-plugin-svgr": "^2.4.0",
+    "vite-tsconfig-paths": "^4.0.2",
     "ws": "^7.4.2",
     "xrpl-client": "^2.0.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@types/create-hash": "^1.2.2",
@@ -64,6 +79,7 @@
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
+    "babel-jest": "^29.3.1",
     "canvas": "^2.11.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
@@ -77,8 +93,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "http-proxy-middleware": "^2.0.6",
     "husky": "^7.0.4",
+    "jest-enzyme": "^7.1.0",
     "jest-websocket-mock": "^2.4.0",
     "lint-staged": "^13.0.3",
     "mock-socket": "^9.1.5",
@@ -98,9 +114,32 @@
     "stylelint-config-standard": "^26.0.0",
     "stylelint-prettier": "^2.0.0",
     "stylelint-scss": "^4.3.0",
+    "ts-jest": "^26.5.6",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   },
+  "resolutions": {
+    "jest-environment-jsdom": "29.3.1"
+  },
   "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.(ts|tsx)?$": "ts-jest",
+      "^.+\\.(js|jsx)$": "babel-jest",
+      "^.+\\.(svg)$": "<rootDir>/src/testUtils/svgTransform.js",
+      "^.+\\.(css|scss)$": "<rootDir>/src/testUtils/cssTransform.js",
+      "^.+\\.(png)$": "<rootDir>/src/testUtils/imageTransform.js"
+    },
     "transformIgnorePatterns": [
       "node_modules/(?!arc)/(?!d3)"
     ],
@@ -108,6 +147,8 @@
       "d3-hexbin": "<rootDir>/node_modules/d3-hexbin/build/d3-hexbin.min.js",
       "d3": "<rootDir>/node_modules/d3/dist/d3.min.js"
     },
+    "clearMocks": true,
+    "resetMocks": true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
@@ -133,7 +174,14 @@
       "text",
       "text-summary",
       "html"
-    ]
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "warnOnly": true
+        }
+      }
+    }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,scss}": [
@@ -145,10 +193,10 @@
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
-    "build": "node ./build-non-split.js",
-    "dev-client": "react-scripts start",
+    "build": "vite build",
+    "build-ts": "tsc --build",
+    "dev-client": "vite serve",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
-    "eject": "react-scripts eject",
     "lint": "run-s \"lint:js -- --fix\" \"lint:css -- --fix\"",
     "lint:ci": "run-s lint:js lint:css",
     "lint:css": "node_modules/.bin/stylelint src/**/*.scss",
@@ -156,10 +204,10 @@
     "precommit": "lint-staged",
     "prod-server": "node server|bunyan",
     "start": "run-p dev-server dev-client",
-    "test": "react-scripts test --env=jsdom ",
+    "test": "jest --env=jsdom --watch",
     "test:all": "run-s lint:ci test:ci",
-    "test:ci": "react-scripts test --coverage --ci --color --env=jsdom --no-cache --runInBand",
-    "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
+    "test:ci": "jest --coverage --ci --color --env=jsdom --no-cache --runInBand",
+    "test:debug": "jest --inspect-brk --runInBand --env=jsdom",
     "test:coverage": "npm run test -- --coverage --watchAll=false"
   },
   "browserslist": [
@@ -245,8 +293,8 @@
           "devDependencies": [
             "**/*.test.{js,jsx,ts,tsx}",
             "**/test/**",
-            "**/setupTests.js",
-            "**/setupProxy.js"
+            "**/setupTests.ts",
+            "**/svgTransform.js"
           ]
         }
       ]

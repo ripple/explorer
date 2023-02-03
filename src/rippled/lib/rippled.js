@@ -1,5 +1,4 @@
-import { unix } from 'moment'
-import { Error, XRP_BASE, EPOCH_OFFSET } from './utils'
+import { Error, XRP_BASE, convertRippleDate } from './utils'
 
 const N_UNL_INDEX =
   '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244'
@@ -10,16 +9,8 @@ const formatEscrow = (d) => ({
   destination: d.Destination,
   amount: d.Amount / XRP_BASE,
   condition: d.Condition,
-  cancelAfter: d.CancelAfter
-    ? unix(d.CancelAfter + EPOCH_OFFSET)
-        .utc()
-        .format()
-    : undefined,
-  finishAfter: d.FinishAfter
-    ? unix(d.FinishAfter + EPOCH_OFFSET)
-        .utc()
-        .format()
-    : undefined,
+  cancelAfter: d.CancelAfter ? convertRippleDate(d.CancelAfter) : undefined,
+  finishAfter: d.FinishAfter ? convertRippleDate(d.FinishAfter) : undefined,
 })
 
 const formatPaychannel = (d) => ({
