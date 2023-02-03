@@ -8,7 +8,6 @@
   "mainnet_data": "liveデータ",
   "devnet_data": "devnetデータ",
   "amm_data": "AMM-Devnetデータ",
-  "nft_sandbox_data": "NFT-Devnetデータ",
   "custom_network_data": "カスタムネットワークデータ",
   "devnet_explorer": "devnetエクスプローラ",
   "testnet_explorer": "testnetエクスプローラ",
