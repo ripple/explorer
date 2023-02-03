@@ -30,6 +30,7 @@ interface Props {
   stableVersion: string | null
 }
 
+// TODO: figure out a better way to import this from recharts
 // copied from https://github.com/recharts/recharts/blob/master/src/component/DefaultTooltipContent.tsx
 type ValueType = number | string | Array<number | string>
 type NameType = number | string
