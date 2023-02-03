@@ -116,7 +116,7 @@ jobs:
 
       - run: npm run build
 
-typescript-check:
+  typescript-check:
     runs-on: ubuntu-latest
 
     strategy:
