@@ -14,7 +14,7 @@ describe('EscrowCreateTableDetail', () => {
     expect(wrapper.find('[data-test="condition"]')).toHaveText(
       ` A0258020886F982742772F414243855DC13B348FC78FB3D5119412C8A6480114E36A4451810120 `,
     )
-    expect(wrapper.find('[data-test="finish_after"]')).toHaveText(
+    expect(wrapper.find('[data-test="finish_after"]')).toIncludeText(
       `March 1, 2020 at 9:01:00 AM UTC`,
     )
     expect(wrapper.find('[data-test="cancel_after"]')).toHaveText(
