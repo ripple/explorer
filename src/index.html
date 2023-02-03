@@ -42,7 +42,7 @@
 
   <!-- Google Analytics -->
   <% if (VITE_GA_ID) { %>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_ID%"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%- VITE_GA_ID -%>"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
