@@ -1,4 +1,3 @@
-import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { cleanup, render, screen } from '@testing-library/react'
