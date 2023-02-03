@@ -12,10 +12,6 @@ import {
   Legend,
   Cell,
 } from 'recharts'
-import {
-  ValueType,
-  NameType,
-} from 'recharts/src/component/DefaultTooltipContent'
 import Loader from '../shared/components/Loader'
 import {
   GREY,
@@ -33,6 +29,11 @@ interface Props {
   data: any[]
   stableVersion: string | null
 }
+
+// TODO: figure out a better way to import this from recharts
+// copied from https://github.com/recharts/recharts/blob/master/src/component/DefaultTooltipContent.tsx
+type ValueType = number | string | Array<number | string>
+type NameType = number | string
 
 const CustomTooltip = ({
   active,
