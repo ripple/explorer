@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
 import packageConfig from '../../../package.json'
-import { ReactComponent as Logo } from '../shared/images/XRPLedger.svg'
+import Logo from '../shared/images/XRPLedger.svg'
 import './footer.scss'
 
 const Footer = (props) => {

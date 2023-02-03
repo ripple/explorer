@@ -1,10 +1,10 @@
 import { KeyboardEvent, MouseEvent as ReactMouseEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { ReactComponent as CustomNetworkLogo } from '../shared/images/custom_network_logo.svg'
 import Header from '../Header'
 import { ANALYTIC_TYPES, analytics } from '../shared/utils'
-import { ReactComponent as RightArrow } from '../shared/images/side_arrow_green.svg'
+import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
+import RightArrow from '../shared/images/side_arrow_green.svg'
 import './index.scss'
 
 const SidechainHome = () => {
@@ -13,7 +13,7 @@ const SidechainHome = () => {
   const [networkText, setNetworkText] = useState('')
 
   function switchMode(desiredLink: string) {
-    const customNetworkUrl = process.env.REACT_APP_CUSTOMNETWORK_LINK
+    const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
     const url = `${customNetworkUrl}/${desiredLink}`
     analytics(ANALYTIC_TYPES.event, {
       eventCategory: 'mode switch',
