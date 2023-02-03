@@ -24,7 +24,7 @@ export const Network = () => {
   if (network === null) {
     return (
       <NoMatch
-        title="network_cannot_crawled"
+        title="network_cannot_be_crawled"
         hints={['check_crawl_existed', 'peer_crawled_context']}
         isError={false}
       />
