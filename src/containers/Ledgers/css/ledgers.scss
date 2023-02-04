@@ -163,8 +163,8 @@ $ledger-width: 196px;
       a {
         display: inline-block;
         padding: 2px 4px;
-        margin-right: -4px;
         border-radius: 2px;
+        margin-right: -4px;
       }
 
       a:hover {
@@ -289,8 +289,8 @@ $ledger-width: 196px;
     }
 
     .subtitle span.missed b {
-      background: $orange-50;
       border-radius: 2px;
+      background: $orange-50;
       color: white;
     }
 
@@ -320,8 +320,8 @@ $ledger-width: 196px;
 
     .validation {
       height: 4px;
-      background: $black-50;
       border-radius: 4px;
+      background: $black-50;
       cursor: pointer;
       opacity: 0.85;
     }

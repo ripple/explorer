@@ -43,7 +43,7 @@ const LedgersPage = () => {
   }, [])
 
   const fetchValidators = () => {
-    const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
+    const url = `${process.env.VITE_DATA_URL}/validators/${network}`
 
     return axios
       .get(url)
@@ -53,7 +53,7 @@ const LedgersPage = () => {
         let newUnlCount = 0
 
         validatorResponse.forEach((v: ValidatorResponse) => {
-          if (v.unl === process.env.REACT_APP_VALIDATOR) {
+          if (v.unl === process.env.VITE_VALIDATOR) {
             newUnlCount += 1
           }
           newValidators[v.signing_key] = v

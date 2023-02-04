@@ -10,7 +10,7 @@ const QUADRILLION = TRILLION * THOUSAND
 
 const TRADING_FEE_TOTAL = 1000
 
-const GA_ID = process.env.REACT_APP_GA_ID
+const GA_ID = process.env.VITE_GA_ID
 
 const EXOTIC_SYMBOLS = {
   BTC: '\u20BF',

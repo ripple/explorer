@@ -13,8 +13,8 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { data } = props
   const { amount, destination, condition, finishAfter, cancelAfter } =
     data.instructions
-  const caDate = localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)
-  const faDate = localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS)
+  const caDate = localizeDate(new Date(cancelAfter), language, DATE_OPTIONS)
+  const faDate = localizeDate(new Date(finishAfter), language, DATE_OPTIONS)
 
   return (
     <>

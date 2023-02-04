@@ -38,12 +38,12 @@ const MOCK_VALIDATORS = [
   {
     signing_key: 'n9M2anhK2HzFFiJZRoGKhyLpkh55ZdeWw8YyGgvkzY7AkBvz5Vyj',
     master_key: 'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
-    unl: process.env.REACT_APP_VALIDATOR,
+    unl: process.env.VITE_VALIDATOR,
   },
   {
     signing_key: 'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
     master_key: 'nHBidG3pZK11zQD6kpNDoAhDxH6WLGui6ZxSbUx7LSqLHsgzMPec',
-    unl: process.env.REACT_APP_VALIDATOR,
+    unl: process.env.VITE_VALIDATOR,
   },
   {
     signing_key: 'n9K7Wfxgyqw4XSQ1BaiKPHKxw2D9BiBiseyn7Ldg7KieQZJfrPf4',
@@ -107,7 +107,7 @@ describe('Ledgers Page container', () => {
   const oldEnvs = process.env
 
   beforeEach(async () => {
-    process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+    process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
     server = new WS(WS_URL, { jsonProtocol: true })
     client = new MockWsClient(WS_URL)
     await server.connected
@@ -128,7 +128,7 @@ describe('Ledgers Page container', () => {
   })
 
   it('renders all parts', () => {
-    moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/main`, {
+    moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
       response: [],
     })
@@ -142,7 +142,7 @@ describe('Ledgers Page container', () => {
     client.addResponses(rippledResponses)
     const wrapper = createWrapper()
 
-    moxios.stubRequest(`${process.env.REACT_APP_DATA_URL}/validators/main`, {
+    moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
       response: {
         validators: MOCK_VALIDATORS,
@@ -221,7 +221,7 @@ describe('Ledgers Page container', () => {
 
   describe('Custom network tests', () => {
     beforeEach(() => {
-      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'custom' }
+      process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'custom' }
     })
 
     afterEach(() => {
@@ -234,7 +234,7 @@ describe('Ledgers Page container', () => {
       const wrapper = createWrapper({ network: customNetwork })
 
       moxios.stubRequest(
-        `${process.env.REACT_APP_DATA_URL}/validators/${customNetwork}`,
+        `${process.env.VITE_DATA_URL}/validators/${customNetwork}`,
         {
           status: 200,
           response: {

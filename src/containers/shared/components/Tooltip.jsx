@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import successIcon from '../images/success.png'
 import { localizeDate } from '../utils'
 import '../css/tooltip.scss'
-import { ReactComponent as PayStringToolTip } from '../images/paystring_tooltip.svg'
+import PayStringToolTip from '../images/paystring_tooltip.svg'
 import { TxStatus } from './TxStatus'
 import { TxLabel } from './TxLabel'
 
