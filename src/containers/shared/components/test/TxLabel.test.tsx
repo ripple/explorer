@@ -1,9 +1,9 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { TxLabel } from '../TxLabel'
-import { ReactComponent as TransactionCancelIcon } from '../TransactionActionIcon/TransactionCancelIcon.svg'
-import { ReactComponent as TransactionSendIcon } from '../TransactionActionIcon/TransactionSendIcon.svg'
-import { ReactComponent as TransactionUnknownIcon } from '../TransactionActionIcon/TransactionUnknownIcon.svg'
+import TransactionCancelIcon from '../TransactionActionIcon/TransactionCancelIcon.svg'
+import TransactionSendIcon from '../TransactionActionIcon/TransactionSendIcon.svg'
+import TransactionUnknownIcon from '../TransactionActionIcon/TransactionUnknownIcon.svg'
 import i18n from '../../../../i18nTestConfig.en-US'
 
 describe('TxLabel', () => {

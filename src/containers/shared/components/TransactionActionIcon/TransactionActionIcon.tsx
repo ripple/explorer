@@ -1,12 +1,12 @@
 import { ReactElement } from 'react'
 import { TransactionAction } from '../Transaction/types'
 import { getAction } from '../Transaction'
-import { ReactComponent as TransactionCancelIcon } from './TransactionCancelIcon.svg'
-import { ReactComponent as TransactionCreateIcon } from './TransactionCreateIcon.svg'
-import { ReactComponent as TransactionFinishIcon } from './TransactionFinishIcon.svg'
-import { ReactComponent as TransactionModifyIcon } from './TransactionModifyIcon.svg'
-import { ReactComponent as TransactionSendIcon } from './TransactionSendIcon.svg'
-import { ReactComponent as TransactionUnknownIcon } from './TransactionUnknownIcon.svg'
+import TransactionCancelIcon from './TransactionCancelIcon.svg'
+import TransactionCreateIcon from './TransactionCreateIcon.svg'
+import TransactionFinishIcon from './TransactionFinishIcon.svg'
+import TransactionModifyIcon from './TransactionModifyIcon.svg'
+import TransactionSendIcon from './TransactionSendIcon.svg'
+import TransactionUnknownIcon from './TransactionUnknownIcon.svg'
 
 export interface TransactionActionIconProps {
   action?: TransactionAction

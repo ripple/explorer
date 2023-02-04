@@ -1,9 +1,9 @@
 import { mount } from 'enzyme'
 import { TransactionActionIcon } from '../TransactionActionIcon'
 import { TransactionAction } from '../../Transaction/types'
-import { ReactComponent as TransactionCreateIcon } from '../TransactionCreateIcon.svg'
-import { ReactComponent as TransactionSendIcon } from '../TransactionSendIcon.svg'
-import { ReactComponent as TransactionUnknownIcon } from '../TransactionUnknownIcon.svg'
+import TransactionCreateIcon from '../TransactionCreateIcon.svg'
+import TransactionSendIcon from '../TransactionSendIcon.svg'
+import TransactionUnknownIcon from '../TransactionUnknownIcon.svg'
 
 describe('TransactionActionIcon', () => {
   it('renders with an action specified ', () => {
