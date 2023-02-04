@@ -7,7 +7,7 @@ const log = require('../../lib/logger')({ name: 'token discovery' })
 // For the purpose of running locally, this equals false if the env var doesn't exist
 // DO NOT SET TO TRUE UNLESS YOU'RE SURE ABOUT BIGQUERY USAGE
 // aka don't let the site run after you're done using it, because it'll cost $$
-const IS_PROD_ENV = process.env.REACT_APP_MAINNET_LINK?.includes('xrpl.org')
+const IS_PROD_ENV = process.env.VITE_MAINNET_LINK?.includes('xrpl.org')
 // How long the auto-caching should run in dev and staging environments
 // We want to turn it off after some time so it doesn't run when we don't need it, which costs us
 // money per BigQuery query
@@ -133,7 +133,7 @@ async function cacheTokensList() {
 // Starts the caching process for bigquery
 function startCaching() {
   // Only run if on mainnet (the tokens page doesn't exist on devnet/testnet)
-  if (process.env.REACT_APP_ENVIRONMENT !== 'mainnet') {
+  if (process.env.VITE_ENVIRONMENT !== 'mainnet') {
     return
   }
   // Initialize the cache

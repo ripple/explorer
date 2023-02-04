@@ -58,6 +58,7 @@
         "cimode",
         "CUSTOMNETWORK",
         "Decomp",
+        "esbuild",
         "fakenode",
         "Hant",
         "healthz",
@@ -69,6 +70,8 @@
         "pageview",
         "paychannels",
         "paystrings",
-        "topojson"
+        "svgr",
+        "topojson",
+        "VITE"
     ]
   }

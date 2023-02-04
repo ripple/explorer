@@ -31,7 +31,7 @@ export const Validators = () => {
         ? FETCH_INTERVAL_ERROR_MILLIS
         : FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
-    enabled: process.env.REACT_APP_ENVIRONMENT !== 'custom' || !!network,
+    enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
   })
 
   function mergeLatest(
@@ -55,7 +55,7 @@ export const Validators = () => {
   }
 
   function fetchData() {
-    const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
+    const url = `${process.env.VITE_DATA_URL}/validators/${network}`
 
     return axios
       .get(url)

@@ -97,7 +97,7 @@ const Validator = ({ width }: { width: number }) => {
 
   function fetchValidatorReport(): Promise<ValidatorReport[]> {
     return axios
-      .get(`${process.env.REACT_APP_DATA_URL}/validator/${identifier}/reports`)
+      .get(`${process.env.VITE_DATA_URL}/validator/${identifier}/reports`)
       .then((resp) => resp.data.reports)
       .then((vhsReports: ValidatorReport[]) => {
         const sortedValidatorReports = vhsReports.sort((a, b) =>
@@ -108,7 +108,7 @@ const Validator = ({ width }: { width: number }) => {
   }
 
   function fetchValidatorData() {
-    const url = `${process.env.REACT_APP_DATA_URL}/validator/${identifier}`
+    const url = `${process.env.VITE_DATA_URL}/validator/${identifier}`
     return axios
       .get(url)
       .then((resp) => resp.data)

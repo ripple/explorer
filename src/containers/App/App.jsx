@@ -53,7 +53,7 @@ const App = (props) => {
   useEffect(() => {
     if (initialNetworkName == null) {
       axios
-        .get(`${process.env.REACT_APP_DATA_URL}/get_network/${rippledUrl}`)
+        .get(`${process.env.VITE_DATA_URL}/get_network/${rippledUrl}`)
         .then((resp) => resp.data)
         .then((data) => setNetworkName(data.network))
         .catch((e) => Log.error(e))
