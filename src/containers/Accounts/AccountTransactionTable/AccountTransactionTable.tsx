@@ -38,7 +38,6 @@ export const AccountTransactionTable = ({
         rippledSocket,
       ).catch((errorResponse) => {
         const errorLocation = `account transactions ${accountId} at ${pageParam}`
-        // @ts-expect-error -- because utils isn't typed
         analytics(ANALYTIC_TYPES.exception, {
           exDescription: `${errorLocation} --- ${JSON.stringify(
             errorResponse,
