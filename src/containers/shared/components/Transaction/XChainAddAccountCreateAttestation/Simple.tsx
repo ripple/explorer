@@ -16,7 +16,7 @@ export const Simple: TransactionSimpleComponent = (
         lockingIssue,
         issuingDoor,
         issuingIssue,
-        send,
+        amount,
         otherChainSource,
         destination,
       },
@@ -33,7 +33,7 @@ export const Simple: TransactionSimpleComponent = (
         bridgeOwner=""
       />
       <SimpleRow label={t('send')} data-test="send">
-        <Amount value={send} />
+        <Amount value={amount} />
       </SimpleRow>
       <SimpleRow label={t('other_chain_source')} data-test="other_chain_source">
         <Account account={otherChainSource} link={false} />
