@@ -140,7 +140,6 @@ describe('Ledgers Page container', () => {
 
   it('receives messages from streams', async () => {
     client.addResponses(rippledResponses)
-    const wrapper = createWrapper()
 
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
@@ -156,6 +155,7 @@ describe('Ledgers Page container', () => {
       ledger_interval: '3.850',
       avg_fee: '0.001882',
     })
+    const wrapper = createWrapper()
 
     expect(wrapper.find('.ledger').length).toBe(0)
     expect(wrapper.find('.validation').length).toBe(0)
@@ -231,7 +231,6 @@ describe('Ledgers Page container', () => {
     it('receives messages from streams', async () => {
       client.addResponses(rippledResponses)
       const customNetwork = 'custom_network'
-      const wrapper = createWrapper({ network: customNetwork })
 
       moxios.stubRequest(
         `${process.env.VITE_DATA_URL}/validators/${customNetwork}`,
@@ -242,6 +241,8 @@ describe('Ledgers Page container', () => {
           },
         },
       )
+
+      const wrapper = createWrapper({ network: customNetwork })
 
       expect(wrapper.find('.ledger').length).toBe(0)
       expect(wrapper.find('.validation').length).toBe(0)
