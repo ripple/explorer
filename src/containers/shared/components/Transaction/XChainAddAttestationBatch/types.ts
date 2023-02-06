@@ -7,8 +7,8 @@ export interface XChainBridge {
   IssuingChainIssue: 'XRP' | IssuedCurrency
 }
 
-export interface XChainAddAttestation {
-  TransactionType: 'XChainAddAttestation'
+export interface XChainAddAttestationBatch {
+  TransactionType: 'XChainAddAttestationBatch'
   XChainAttestationBatch: {
     XChainBridge: XChainBridge
     XChainClaimAttestationBatch: Array<{
@@ -51,7 +51,7 @@ export interface AccountCreateAttestationInstructions {
   destination: string
 }
 
-export interface XChainAddAttestationInstructions {
+export interface XChainAddAttestationBatchInstructions {
   lockingDoor: string
   lockingIssue: 'XRP' | IssuedCurrency
   issuingDoor: string

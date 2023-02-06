@@ -1,7 +1,7 @@
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
-import mockXChainAddAttestationAccountCreate from './mock_data/XChainAddAttestationAccountCreate.json'
-import mockXChainAddAttestationClaim from './mock_data/XChainAddAttestationClaim.json'
+import mockXChainAddAttestationAccountCreate from './mock_data/XChainAddAttestationBatchAccountCreate.json'
+import mockXChainAddAttestationClaim from './mock_data/XChainAddAttestationBatchClaim.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 

@@ -1,10 +1,13 @@
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { TransactionParser } from '../types'
-import { XChainAddAttestation, XChainAddAttestationInstructions } from './types'
+import {
+  XChainAddAttestationBatch,
+  XChainAddAttestationBatchInstructions,
+} from './types'
 
 export const parser: TransactionParser<
-  XChainAddAttestation,
-  XChainAddAttestationInstructions
+  XChainAddAttestationBatch,
+  XChainAddAttestationBatchInstructions
 > = (tx) => {
   // TODO: get bridge owner somehow
   // it's not necessarily in the metadata
