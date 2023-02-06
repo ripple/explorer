@@ -14,10 +14,8 @@
   "privacy_policy": "개인 정보 보호 정책",
   "terms_of_service": "서비스 약관",
   "github": "깃허브",
-  "footer_p1":
-    "XRP 차트는 XRP Ledger 네트워크의 데이터에 기반하여 Ripple에서 작성하고 유지 관리합니다.",
-  "footer_p2":
-    "정보는 '있는 그대로' 정보 제공용으로만 제공됩니다. XRP 차트는 거래 자문관이 아닙니다. Ripple은 XRP 차트에 표시되는 게이트웨이 및 교환과 관련하여 승인하거나, 권장하거나, 항의하지 않습니다. 데이터가 지연되었거나 잘못되었을 수 있습니다. Ripple은 XRP 차트에 진짜가 아니라고 생각되는 거래(예: 수익 소유권의 변화가 없는 위장 매매)를 포함하지 않을 권리가 있습니다.",
+  "footer_p1": "XRP 차트는 XRP Ledger 네트워크의 데이터에 기반하여 Ripple에서 작성하고 유지 관리합니다.",
+  "footer_p2": "정보는 '있는 그대로' 정보 제공용으로만 제공됩니다. XRP 차트는 거래 자문관이 아닙니다. Ripple은 XRP 차트에 표시되는 게이트웨이 및 교환과 관련하여 승인하거나, 권장하거나, 항의하지 않습니다. 데이터가 지연되었거나 잘못되었을 수 있습니다. Ripple은 XRP 차트에 진짜가 아니라고 생각되는 거래(예: 수익 소유권의 변화가 없는 위장 매매)를 포함하지 않을 권리가 있습니다.",
   "news": "뉴스",
   "read_speed": "{{speed}}분 읽음",
   "xrp_trade_volume": "총 XRP 거래 수량",
@@ -135,25 +133,17 @@
   "number_of_affected_node": "이것은 Ledger에서 {{count}} 개의 노드에 영향을 주었습니다.",
   "nodes_type": "노드를 {{action}} 합니다.",
   "node_meta_type": "이것은 {{nodeType}} 유형으로 노드를 {{action}} 합니다.",
-  "transaction_balance_line_one":
-    "이것은 {{account}} 과(와) {{counterAccount}} 간에 {{currency}} RippleState 노드를 {{action}} 합니다.",
-  "transaction_balance_line_two":
-    "잔고가 {{previousBalance}} 에서 {{finalBalance}} (으)로 {{change}} 만큼 변경되었습니다.",
-  "transaction_owned_directory":
-    "이것은 {{owner}} 이(가) 소유한 DirectoryNode 노드를 {{action}} 했습니다.",
+  "transaction_balance_line_one": "이것은 {{account}} 과(와) {{counterAccount}} 간에 {{currency}} RippleState 노드를 {{action}} 합니다.",
+  "transaction_balance_line_two": "잔고가 {{previousBalance}} 에서 {{finalBalance}} (으)로 {{change}} 만큼 변경되었습니다.",
+  "transaction_owned_directory": "이것은 {{owner}} 이(가) 소유한 DirectoryNode 노드를 {{action}} 했습니다.",
   "transaction_unowned_directory": "이것은 DirectoryNode 노드를 {{action}} 했습니다.",
   "owned_account_root": "이것은 {{acount}} 의 AccountRoot 노드를 {{action}} 했습니다.",
   "unowned_account_root": "이것은 AccountRoot 노드를 {{action}} 했습니다.",
-  "account_balance_increased":
-    "잔고가 {{previousBalance}} 에서 {{finalBalance}} (으)로 {{diffrence}} 만큼 증가했습니다.",
-  "account_balance_reduced":
-    "잔고가 {{previousBalance}} 에서 {{finalBalance}} (으)로 {{diffrence}} 만큼 감소했습니다.",
-  "taker_pays_decreased":
-    "TakerPays가 {{prevPays}} 에서 {{finalPays}} (으)로 {{change}} 만큼 줄어들었습니다. {{account}}",
-  "taker_gets_decreased":
-    "TakerGets가 {{prevGets}} 에서 {{finalGets}} (으)로 {{change}} 만큼 줄어들었습니다. {{account}}",
-  "offer_node_meta":
-    "이것은 {{takerPays}} 를 {{account}} 의 {{takerGets}} 제공 노드에 시퀀스 번호 {{sequence}} (으)로 {{action}} 합니다.",
+  "account_balance_increased": "잔고가 {{previousBalance}} 에서 {{finalBalance}} (으)로 {{diffrence}} 만큼 증가했습니다.",
+  "account_balance_reduced": "잔고가 {{previousBalance}} 에서 {{finalBalance}} (으)로 {{diffrence}} 만큼 감소했습니다.",
+  "taker_pays_decreased": "TakerPays가 {{prevPays}} 에서 {{finalPays}} (으)로 {{change}} 만큼 줄어들었습니다. {{account}}",
+  "taker_gets_decreased": "TakerGets가 {{prevGets}} 에서 {{finalGets}} (으)로 {{change}} 만큼 줄어들었습니다. {{account}}",
+  "offer_node_meta": "이것은 {{takerPays}} 를 {{account}} 의 {{takerGets}} 제공 노드에 시퀀스 번호 {{sequence}} (으)로 {{action}} 합니다.",
   "offer_replaces": "이 제공은 제공 #{{sequence}} (을)를 대체합니다.",
   "offer_partially_filled": "이 제공은 일부만 채워졌습니다.",
   "offer_filled": "이 제공은 채워졌습니다.",
@@ -161,8 +151,7 @@
   "offer_replaced": "이 제공은 새로운 제공 #{{sequence}} (으)로 대체되었습니다.",
   "offer_lack_of_funds": "이 제공은 일부만 채워진 후, 자금 부족으로 인해 취소되었습니다.",
   "transaction_sequence": "거래 시퀀스 번호는 {{sequence}} 입니다.",
-  "trust_set_description":
-    "이것은 {{amount}} 을(를) {{account}} 이(가) 보유하려는 {{issuer}} 에서 최대 금액으로 설정합니다.",
+  "trust_set_description": "이것은 {{amount}} 을(를) {{account}} 이(가) 보유하려는 {{issuer}} 에서 최대 금액으로 설정합니다.",
   "payment_desc_line_1": "{{account}} 에서 {{destination}} (으)로 결제됩니다.",
   "payment_desc_line_2": "결제 소스 태그는 {{tag}} 입니다.",
   "payment_desc_line_3": "결제 대상 태그는 {{tag}} 입니다.",
@@ -170,29 +159,21 @@
   "payment_desc_line_5": "최대 {{amount}} 까지 지출하여",
   "payment_desc_line_6": "제공된 실제 금액은 {{amount}} 입니다.",
   "offer_cancel_description": "거래가 {{account}} 제공 #{{sequence}} 을(를) 취소합니다.",
-  "offer_create_desc_line_1":
-    "{{takerPays}} 을(를) 받기 위해 {{takerGets}} 을(를) 지불하도록 제공된 {{account}} 입니다. 이 제공의 환율은 {{rate}}, {{pair}} 입니다.",
+  "offer_create_desc_line_1": "{{takerPays}} 을(를) 받기 위해 {{takerGets}} 을(를) 지불하도록 제공된 {{account}} 입니다. 이 제공의 환율은 {{rate}}, {{pair}} 입니다.",
   "offer_create_desc_line_2": "거래가 {{account}} 에서 기존 제공 #{{sequence}} 도 취소합니다.",
-  "offer_will_expire_desc":
-    "이 제공은 그 전에 취소되거나 사용되지 않은 경우 {{date}} 에 만료됩니다.",
+  "offer_will_expire_desc": "이 제공은 그 전에 취소되거나 사용되지 않은 경우 {{date}} 에 만료됩니다.",
   "offer_did_expire_desc": "이 제공은 {{date}} 에 만료되었습니다.",
-  "escrow_is_from":
-    "이 조건부 날인 증서는 {{account}} 에서 {{destination}} (으)로 보내는 것입니다.",
-  "escrow_is_created_by":
-    "이 조건부 날인 증서는 {{account}} (으)로 생성되었으며 자금은 동일한 계정으로 반환됩니다.",
+  "escrow_is_from": "이 조건부 날인 증서는 {{account}} 에서 {{destination}} (으)로 보내는 것입니다.",
+  "escrow_is_created_by": "이 조건부 날인 증서는 {{account}} (으)로 생성되었으며 자금은 동일한 계정으로 반환됩니다.",
   "escrowed_amount": "{{amount}} 을(를) 조건부 날인 증서로 두었습니다.",
   "escrowe_condition": "조건 {{condition}}",
   "escrowe_cancel_after": "{{date}} 후에 취소될 수 있습니다.",
   "escrowe_finish_after": "{{date}} 후에 마무리할 수 있습니다.",
-  "escrow_completion_desc":
-    "{{account}} 이(가) 완료를 트리거했습니다. 조건부 날인 증서 금액 {{amount}} 이(가) {{destination}} (으)로 전달되었습니다.",
-  "escrow_finish_created_desc":
-    "이 조건부 날인 증서는 {{account}} 이(가) {{transaction}} 거래를 사용하여 만들었습니다.",
+  "escrow_completion_desc": "{{account}} 이(가) 완료를 트리거했습니다. 조건부 날인 증서 금액 {{amount}} 이(가) {{destination}} (으)로 전달되었습니다.",
+  "escrow_finish_created_desc": "이 조건부 날인 증서는 {{account}} 이(가) {{transaction}} 거래를 사용하여 만들었습니다.",
   "escrow_finish_fullfillment_desc": "이행: {fulfillment}",
-  "escrow_cancellation_desc":
-    "{{account}} 이(가) 취소를 트리거했습니다. 조건부 날인 증서 금액 {{amount}} 이(가) {{destination}} (으)로 반환되었습니다.",
-  "escrow_cancellation_created_by_desc":
-    "이 조건부 날인 증서는 {{account}} 이(가) {{transaction}} 거래를 사용하여 만들었습니다.",
+  "escrow_cancellation_desc": "{{account}} 이(가) 취소를 트리거했습니다. 조건부 날인 증서 금액 {{amount}} 이(가) {{destination}} (으)로 반환되었습니다.",
+  "escrow_cancellation_created_by_desc": "이 조건부 날인 증서는 {{account}} 이(가) {{transaction}} 거래를 사용하여 만들었습니다.",
   "invalid_ripple_address": "잘못된 Ripple 주소입니다.",
   "tokens": "토큰",
   "total_issuers": "총 발행자",

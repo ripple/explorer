@@ -70,10 +70,10 @@ export async function nameOfAmendmentID(id: string) {
 }
 
 async function fetchMinRippledVersions() {
-  const response = await fetch(
+  const response = await axios.get(
     'https://raw.githubusercontent.com/XRPLF/xrpl-dev-portal/master/content/concepts/consensus-network/amendments/known-amendments.md',
   )
-  const text = await response.text()
+  const text = response.data
   const mapping: any = {}
 
   text.split('\n').forEach((line) => {

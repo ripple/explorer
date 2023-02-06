@@ -71,14 +71,15 @@ export const AccountTransactionTable = ({
 
   const transactions = filterTransactions()
   const tryLoading = transactions?.length === 0 && data?.pages[0]?.transactions
+  const emptyMessage = tryLoading
+    ? 'get_account_transactions_try'
+    : error?.message
   return (
     <TransactionTable
       transactions={transactions}
       loading={loading}
       hasTokensColumn={hasTokensColumn}
-      emptyMessage={t(
-        tryLoading ? 'get_account_transactions_try' : error?.message,
-      )}
+      emptyMessage={emptyMessage && t(emptyMessage)}
       onLoadMore={() => fetchNextPage()}
       hasAdditionalResults={hasNextPage}
     />

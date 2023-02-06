@@ -2,7 +2,7 @@ import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
-import { ReactComponent as InfoIcon } from '../shared/images/info.svg'
+import InfoIcon from '../shared/images/info.svg'
 import './nomatch.scss'
 
 class NoMatch extends Component {

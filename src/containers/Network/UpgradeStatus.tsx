@@ -74,7 +74,7 @@ export const UpgradeStatus = () => {
           ? FETCH_INTERVAL_ERROR_MILLIS
           : FETCH_INTERVAL_MILLIS,
       refetchOnMount: true,
-      enabled: process.env.REACT_APP_ENVIRONMENT !== 'custom' || !!network,
+      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
     },
   )
 
@@ -88,12 +88,12 @@ export const UpgradeStatus = () => {
           ? FETCH_INTERVAL_ERROR_MILLIS
           : FETCH_INTERVAL_MILLIS,
       refetchOnMount: true,
-      enabled: process.env.REACT_APP_ENVIRONMENT !== 'custom' || !!network,
+      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
     },
   )
 
   const fetchData = () => {
-    const url = `${process.env.REACT_APP_DATA_URL}/validators/${network}`
+    const url = `${process.env.VITE_DATA_URL}/validators/${network}`
 
     axios
       .get(url)

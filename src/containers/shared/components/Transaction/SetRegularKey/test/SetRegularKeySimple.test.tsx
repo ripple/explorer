@@ -22,7 +22,7 @@ describe('SetRegularKey: Simple', () => {
     const wrapper = createWrapper(SetRegularKeyUnset)
     const keyRow = wrapper.find(SimpleRow)
 
-    expect(keyRow.prop('label')).toBe(null)
+    expect(keyRow.prop('label')).toBe('')
     expect(keyRow.find('.unset').hostNodes().text()).toBe(`unset_regular_key`)
     wrapper.unmount()
   })
