@@ -10,7 +10,7 @@
     "@xrplf/prettier-config": "^1.9.1",
     "assert": "^2.0.0",
     "autoprefixer": "^10.4.13",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "body-parser": "^1.18.2",
     "buffer": "^6.0.3",
     "bunyan": "^1.8.15",
@@ -126,6 +126,7 @@
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
     "build": "vite build",
+    "build-ts": "tsc --build",
     "dev-client": "vite serve",
     "dev-server": "NODE_ENV=development PORT=5001 nodemon --watch server --watch build server|bunyan || true",
     "lint": "run-s \"lint:js -- --fix\" \"lint:css -- --fix\"",
