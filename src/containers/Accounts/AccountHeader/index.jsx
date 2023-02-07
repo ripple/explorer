@@ -68,6 +68,7 @@ const AccountHeader = (props) => {
     )
   }
 
+  const options = { ...CURRENCY_OPTIONS, currency: currencySelected }
   function renderPaymentChannels() {
     const { paychannels } = data
     return (
@@ -95,6 +96,8 @@ const AccountHeader = (props) => {
 
   function renderEscrows() {
     const { escrows } = data
+    const fIn = escrows && escrows.totalIn[currencySelected]
+    const fOut = escrows && escrows.totalOut[currencySelected]
     return (
       escrows && (
         <div className="escrows secondary">
@@ -102,15 +105,11 @@ const AccountHeader = (props) => {
           <ul>
             <li>
               <span className="label">{t('inbound_total')}: </span>
-              <b>
-                {localizeNumber(escrows.totalIn, language, CURRENCY_OPTIONS)}
-              </b>
+              <b>{localizeNumber(fIn, language, options)}</b>
             </li>
             <li>
               <span className="label">{t('outbound_total')}: </span>
-              <b>
-                {localizeNumber(escrows.totalOut, language, CURRENCY_OPTIONS)}
-              </b>
+              <b>{localizeNumber(fOut, language, options)}</b>
             </li>
           </ul>
         </div>
