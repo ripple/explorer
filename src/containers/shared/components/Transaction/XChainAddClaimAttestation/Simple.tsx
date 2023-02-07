@@ -44,7 +44,7 @@ export const Simple: TransactionSimpleComponent = (
           <Account account={destination} />
         </SimpleRow>
       )}
-      <SimpleRow label={t('xchain_claim_id')} data-test="claim-id">
+      <SimpleRow label={t('xchain_claim_id')} data-test="xchain-claim-id">
         {claimId}
       </SimpleRow>
     </>
