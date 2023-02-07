@@ -250,7 +250,7 @@ export function normalizeAmount(
   const value =
     typeof amount === 'object' ? amount.value : Number(amount) / XRP_BASE
   const numberOption = { ...CURRENCY_OPTIONS, currency }
-  return localizeNumber(value, language, numberOption)
+  return `${localizeNumber(value, language, numberOption)} ${currency}`
 }
 
 export function findNode(
