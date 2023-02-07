@@ -231,10 +231,14 @@ export function formatPrice(number, options = {}) {
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
 export const localizeDate = (date, lang = 'en-US', options = {}) => {
   // TODO: default config
-  if (!date) {
+  try {
+    if (!date) {
+      return null
+    }
+    return new Intl.DateTimeFormat(lang, options).format(date)
+  } catch {
     return null
   }
-  return new Intl.DateTimeFormat(lang, options).format(date)
 }
 
 /**
