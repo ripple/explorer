@@ -10,7 +10,7 @@ describe('NFT Transactions tab container', () => {
   const nftId =
     '000800011C7D8ED1D715A0017E41BF9499ECC17E7FB666320000099B00000000'
 
-  const createWrapper = (tab = 'buy-offers') =>
+  const createWrapper = (tab = 'transactions') =>
     mount(
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
@@ -26,13 +26,14 @@ describe('NFT Transactions tab container', () => {
     wrapper.unmount()
   })
 
-  it('renders table content', () => {
+  it('renders transactions tab', () => {
     const wrapper = createWrapper()
     expect(wrapper.find('.tabs').length).toBe(1)
-    expect(wrapper.find('a.tab').length).toBe(2)
-    expect(wrapper.find('a.tab').at(0).props().title).toBe('buy_offers')
-    expect(wrapper.find('a.tab').at(1).props().title).toBe('sell_offers')
-    expect(wrapper.find('a.tab.selected').text()).toEqual('buy_offers')
+    expect(wrapper.find('a.tab').length).toBe(3)
+    expect(wrapper.find('a.tab').at(0).props().title).toBe('transactions')
+    expect(wrapper.find('a.tab').at(1).props().title).toBe('buy_offers')
+    expect(wrapper.find('a.tab').at(2).props().title).toBe('sell_offers')
+    expect(wrapper.find('a.tab.selected').text()).toEqual('transactions')
     wrapper.unmount()
   })
 
