@@ -21,7 +21,8 @@ import { PaymentChannelFundTransaction as PaymentChannelFund } from './PaymentCh
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
 import { XChainAccountCreateCommitTransaction as XChainAccountCreateCommit } from './XChainAccountCreateCommit'
-import { XChainAddAttestationTransaction as XChainAddAttestation } from './XChainAddAttestation'
+import { XChainAddAccountCreateAttestationTransaction as XChainAddAccountCreateAttestation } from './XChainAddAccountCreateAttestation'
+import { XChainAddClaimAttestationTransaction as XChainAddClaimAttestation } from './XChainAddClaimAttestation'
 import { XChainClaimTransaction as XChainClaim } from './XChainClaim'
 import { XChainCommitTransaction as XChainCommit } from './XChainCommit'
 import { XChainCreateBridgeTransaction as XChainCreateBridge } from './XChainCreateBridge'
@@ -55,7 +56,8 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   SetRegularKey,
   SignerListSet,
   XChainAccountCreateCommit,
-  XChainAddAttestation,
+  XChainAddAccountCreateAttestation,
+  XChainAddClaimAttestation,
   XChainClaim,
   XChainCommit,
   XChainCreateBridge,
