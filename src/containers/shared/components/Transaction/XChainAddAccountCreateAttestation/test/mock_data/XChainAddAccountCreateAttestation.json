@@ -1,0 +1,120 @@
+{
+  "tx": {
+    "Account": "r9cYxdjQsoXAEz3qQJc961SNLaXRkWXCvT",
+    "Amount": "10000000",
+    "AttestationRewardAccount": "r9cYxdjQsoXAEz3qQJc961SNLaXRkWXCvT",
+    "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+    "Fee": "20",
+    "LastLedgerSequence": 13,
+    "OtherChainSource": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+    "PublicKey": "ED1F4A024ACFEBDB6C7AA88DEDE3364E060487EA31B14CC9E0D610D152B31AADC2",
+    "Sequence": 5,
+    "Signature": "EEFCFA3DC2AB4AB7C4D2EBBC168CB621A11B82BABD86534DFC8EFA72439A49662D744073CD848E7A587A95B35162CDF9A69BB237E72C9537A987F5B8C394F30D",
+    "SignatureReward": "100",
+    "SigningPubKey": "EDF54108BA2E0A0D3DC2AE3897F8BE0EFE776AE8D0F9FB0D0B9D64233084A8DDD1",
+    "TransactionType": "XChainAddAccountCreateAttestation",
+    "TxnSignature": "03E74AEF1F585F156786429D2FC87A89E5C6B5A56D68BFC9A6A329F3AC67CBF2B6958283C663A4522278CA162C69B23CF75149AF022B410EA0508C16F4205800",
+    "WasLockingChainSend": 1,
+    "XChainAccountCreateCount": "6",
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": {
+        "currency": "XRP"
+      },
+      "LockingChainDoor": "rDJVtEuDKr4rj1B3qtW7R5TVWdXV2DY7Qg",
+      "LockingChainIssue": {
+        "currency": "XRP"
+      }
+    },
+    "date": 1675784087000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "XChainCreateAccountClaimID",
+          "LedgerIndex": "2AEFBADE243D2BD530128437586B201196536C01DEB79F11F18891526914E007",
+          "NewFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "XChainAccountCreateCount": "6",
+            "XChainBridge": {
+              "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+              "IssuingChainIssue": {
+                "currency": "XRP"
+              },
+              "LockingChainDoor": "rDJVtEuDKr4rj1B3qtW7R5TVWdXV2DY7Qg",
+              "LockingChainIssue": {
+                "currency": "XRP"
+              }
+            },
+            "XChainCreateAccountAttestations": [
+              {
+                "XChainCreateAccountProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "r9cYxdjQsoXAEz3qQJc961SNLaXRkWXCvT",
+                  "AttestationSignerAccount": "r9j4WCdX5GoDyzttYRKuXnUdgGjjFsuRVJ",
+                  "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+                  "SignatureReward": "100",
+                  "WasLockingChainSend": 1
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Balance": "99999999949999920",
+            "Flags": 1048576,
+            "OwnerCount": 3,
+            "Sequence": 9
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "2B6AC232AA4C4BE41BF49D2459FA4A0347E1B543A4C92FCEE0821C0201E2E9A8",
+          "PreviousFields": {
+            "OwnerCount": 2
+          },
+          "PreviousTxnID": "9B81F9C4CC257CF37A7E4FFD2A63568E2DB20A9650CAA72343D60052F7A8172F",
+          "PreviousTxnLgrSeq": 9
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "r9cYxdjQsoXAEz3qQJc961SNLaXRkWXCvT",
+            "Balance": "9999980",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 6
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "C30478B52A5DC8FCBC29EFEB1A7F11041765797D11C6C726FF80605606771583",
+          "PreviousFields": {
+            "Balance": "10000000",
+            "Sequence": 5
+          },
+          "PreviousTxnID": "D28949612209E1633EF68E124F63337118836C30D3412D9CFEC90BD66A747B5F",
+          "PreviousTxnLgrSeq": 5
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "RootIndex": "D8120FC732737A2CF2E9968FDF3797A43B457F2A81AA06D2653171A1EA635204"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "D8120FC732737A2CF2E9968FDF3797A43B457F2A81AA06D2653171A1EA635204"
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "F3F20B4F1096838B355EED7014CC5E2157A879D585FC560874B8AB67A37C680A",
+  "ledger_index": 10,
+  "date": 1675784087000
+}
