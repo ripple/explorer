@@ -3,6 +3,7 @@ import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { NFTokenBurnInstructions } from './types'
 import { NFTokenLink } from '../../NFTokenLink'
+import { Account } from '../../Account'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -16,8 +17,8 @@ export const Simple: TransactionSimpleComponent = ({
         <NFTokenLink tokenID={tokenID} />
       </SimpleRow>
       {owner && (
-        <SimpleRow label={t('owner')} className="dt" data-test="owner">
-          {owner}
+        <SimpleRow label={t('owner')} data-test="owner">
+          <Account account={owner} />
         </SimpleRow>
       )}
     </>
