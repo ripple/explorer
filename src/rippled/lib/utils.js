@@ -16,8 +16,8 @@ export const ACCOUNT_FLAGS = {
   0x01000000: 'lsfDepositAuth',
   0x04000000: 'lsfDisallowIncomingNFTOffer',
   0x08000000: 'lsfDisallowIncomingCheck',
-  0x10000000: 'lsfDisallowIncomingNFTOffer',
-  0x20000000: 'lsfDisallowIncomingNFTOffer',
+  0x10000000: 'lsfDisallowIncomingPayChan',
+  0x20000000: 'lsfDisallowIncomingTrustline',
   0x40000000: 'lsfAMM',
 }
 const NFT_FLAGS = {
