@@ -4,7 +4,7 @@ import { useInfiniteQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import Loader from '../../shared/components/Loader'
 import './styles.scss'
-import noInfo from '../../shared/images/no_info.svg'
+import NoInfo from '../../shared/images/no_info.svg'
 import SocketContext from '../../shared/SocketContext'
 import { Amount } from '../../shared/components/Amount'
 import { analytics, ANALYTIC_TYPES } from '../../shared/utils'
@@ -88,7 +88,7 @@ export const Offers = (props: Props) => {
                   {offerType === 'BuyOffers'
                     ? t('no_buy_offers')
                     : t('no_sell_offers')}
-                  <img src={noInfo} alt="noInfo" />
+                  <NoInfo className="no-info-img" alt="NoInfo" />
                 </div>
               </td>
             </tr>
