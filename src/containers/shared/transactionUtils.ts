@@ -1,7 +1,7 @@
 import { localizeNumber } from './utils'
 
 export const RIPPLE_EPOCH = 946684800
-export const SUCCESSFULL_TRANSACTION = 'tesSUCCESS'
+export const SUCCESSFUL_TRANSACTION = 'tesSUCCESS'
 export const XRP_BASE = 1000000
 export const hexMatch = new RegExp('^(0x)?[0-9A-Fa-f]+$')
 export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp'
@@ -9,6 +9,31 @@ export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp'
 export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
+  },
+  AMMDeposit: {
+    0x00010000: 'tfLPToken',
+    0x00080000: 'tfSingleAsset',
+    0x00100000: 'tfTwoAsset',
+    0x00200000: 'tfOneAssetLPToken',
+    0x00400000: 'tfLimitLPToken',
+  },
+  AMMWithdraw: {
+    0x00010000: 'tfLPToken',
+    0x00020000: 'tfWithdrawAll',
+    0x00040000: 'tfOneAssetWithdrawAll',
+    0x00080000: 'tfSingleAsset',
+    0x00100000: 'tfTwoAsset',
+    0x00200000: 'tfOneAssetLPToken',
+    0x00400000: 'tfLimitLPToken',
+  },
+  NFTokenMint: {
+    0x00000001: 'tfBurnable',
+    0x00000002: 'tfOnlyXRP',
+    0x00000004: 'tfTrustLine',
+    0x00000008: 'tfTransferable',
+  },
+  NFTokenOfferCreate: {
+    0x00000001: 'tfSellNFToken',
   },
   Payment: {
     0x00010000: 'tfNoDirectRipple',
@@ -91,18 +116,18 @@ export const DATE_OPTIONS = {
   timeZone: 'UTC',
 }
 
-interface Node {
+export interface Node {
   DeletedNode?: any
   ModifiedNode?: any
   CreatedNode?: any
   LedgerEntryType: string
 }
 
-interface Meta {
+export interface Meta {
   AffectedNodes: Node[]
 }
 
-interface Memo {
+export interface Memo {
   Memo: {
     MemoType: string
     MemoData: string
@@ -110,10 +135,10 @@ interface Memo {
   }
 }
 
-interface Tx {
-  Memos: Memo[]
+export interface Tx {
+  Memos?: Memo[]
   TransactionType: string
-  Flags: number
+  Flags?: number
 }
 
 export interface Transaction {
@@ -218,11 +243,12 @@ function zeroPad(num: string | number, size: number, back = false): string {
 }
 
 export function normalizeAmount(
-  amount: IssuedCurrencyAmount | number,
+  amount: IssuedCurrencyAmount | number | string,
   language = 'en-US',
 ): string | null {
   const currency = typeof amount === 'object' ? amount.currency : 'XRP'
-  const value = typeof amount === 'object' ? amount.value : amount / XRP_BASE
+  const value =
+    typeof amount === 'object' ? amount.value : Number(amount) / XRP_BASE
   const numberOption = { ...CURRENCY_OPTIONS, currency }
   return localizeNumber(value, language, numberOption)
 }
@@ -231,7 +257,7 @@ export function findNode(
   transaction: Transaction,
   nodeType: keyof Node,
   entryType: string,
-): Node {
+): any {
   const metaNode = transaction.meta.AffectedNodes.find(
     (node) => node[nodeType] && node[nodeType].LedgerEntryType === entryType,
   )

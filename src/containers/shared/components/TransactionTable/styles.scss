@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import '../../../shared/css/variables';
 
 .transaction-table {
@@ -14,105 +15,89 @@
   }
 
   .upper {
-    padding: 12px 32px;
-    background: $gray-900;
+    display: flex;
+    align-items: stretch;
+    padding: 12px 16px;
     color: $white;
     font-size: 14px;
+    gap: 0 12px;
+
+    @include for-size(tablet-landscape-up) {
+      padding: 12px 32px;
+    }
   }
 
-  .col-type,
-  .col-account,
-  .col-status,
-  .col-date {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    white-space: nowrap;
+  .col {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    letter-spacing: 0;
+    @extend %truncate;
   }
 
   .col-type {
-    width: 180px;
-    letter-spacing: 0;
-    @include semibold;
+    flex: 2;
 
+    @include semibold;
     @include for-size(desktop-up) {
-      width: 260px;
+      width: 230px;
     }
+  }
+
+  .col-token {
+    width: 40px;
   }
 
   .col-status {
     width: 50px;
-    letter-spacing: 0;
     @include regular;
-
-    .successful {
-      height: 16px;
-      margin-right: 12px;
-      vertical-align: middle;
-    }
-
-    .failed {
-      height: 16px;
-      margin-right: 12px;
-      vertical-align: middle;
-    }
 
     .status {
       display: none;
-      @include for-size(desktop-up) {
-        display: inline-block;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      .status {
+        display: initial;
       }
     }
 
     @include for-size(desktop-up) {
-      width: 270px;
+      width: auto;
+      flex: 2 2;
     }
   }
 
   .col-account {
     display: none;
-    letter-spacing: 0;
+    flex: 3;
 
-    .transaction-address {
-      color: $gray-800;
+    .upper & {
+      color: $black-70;
       @include medium;
     }
 
     @include for-size(tablet-landscape-up) {
       display: inline-block;
-      width: calc(100% - 675px);
-    }
-
-    @include for-size(desktop-up) {
-      width: calc(100% - 715px);
-    }
-
-    @include for-size(big-desktop-up) {
-      width: calc(100% - 715px);
     }
   }
 
   .col-date {
-    width: calc(100% - 230px);
-    text-align: right;
+    flex: 3;
+    justify-content: right;
     @include medium;
 
-    @include for-size(tablet-landscape-up) {
-      display: inline-block;
-      width: calc(100% - 280px);
-    }
-
     @include for-size(desktop-up) {
-      width: 185px;
+      width: 185px; // We know the width because dates can only be so big
+      flex: none;
     }
   }
 
   .details {
     min-height: 30px;
     padding: 32px;
-    background: #22252b80;
-    color: $gray-400;
+    background: rgba($black-70, 0.5);
+    color: $black-40;
     font-size: 10px;
     line-height: 12px;
     text-transform: uppercase;
@@ -126,6 +111,10 @@
       min-height: 0;
       padding: 0;
       margin-bottom: 0;
+    }
+
+    .tx-status {
+      margin-bottom: 5px;
     }
 
     .currency,
@@ -157,8 +146,7 @@
     .partial-payment,
     .closed,
     .flag,
-    .unsetregularkey,
-    .empty {
+    .unsetregularkey {
       font-style: italic;
       text-transform: none;
     }
@@ -173,11 +161,11 @@
 
     .partial-payment,
     .closed {
-      color: #944;
+      color: $red-dark;
     }
 
     .flag {
-      color: $blue-grey;
+      color: $blue-purple-30;
     }
 
     .condition,
@@ -189,8 +177,7 @@
   .transaction-li {
     position: relative;
     display: block;
-    border-left: 4px solid;
-    margin-bottom: 1px;
+    border-bottom: solid 1px $black-70;
     line-height: 20px;
 
     .transaction-address {
@@ -202,8 +189,6 @@
     @include for-size(tablet-landscape-up) {
       flex-direction: row;
       padding: 0;
-      border-width: 0;
-      border-radius: 0;
     }
 
     &.fail {
@@ -211,44 +196,37 @@
     }
 
     &:hover {
-      background-color: #383d4780;
+      .upper {
+        background-color: rgba($black-70, 0.7);
+      }
     }
   }
 
   .transaction-li.transaction-li-header {
-    display: block;
-    padding: 0 32px 18px;
-    border-left-color: transparent;
+    display: flex;
+    padding: 0 16px 18px;
     font-size: 10px;
+    gap: 0 12px;
     text-transform: uppercase;
 
-    @include for-size(desktop-up) {
-      border-left: 0;
+    @include for-size(tablet-landscape-up) {
+      padding: 12px 32px;
     }
 
     &:hover {
       background-color: inherit;
     }
 
-    .col-type,
-    .col-account,
-    .col-status,
-    .col-date {
-      border: none;
-      color: $gray-500;
-      letter-spacing: 0.5px;
+    .col {
+      color: $black-50;
       @include bold;
-    }
-
-    @include for-size(tablet-landscape-up) {
-      border-radius: 4px;
     }
   }
 }
 
 .empty-transactions-message {
   padding: 16px;
-  color: $gray-400;
+  color: $black-40;
   font-size: 16px;
   text-align: center;
 }
@@ -256,17 +234,17 @@
 .load-more-btn {
   display: block;
   padding: 10px 20px;
-  border: 1px solid $gray-400;
+  border: 1px solid $black-40;
+  border-radius: 100px;
   margin: 10px auto;
   background: $black;
-  border-radius: 100px;
-  color: $gray-400;
+  color: $black-40;
   cursor: pointer;
   font-size: 16px;
   outline: inherit;
   @include bold;
 
   &:hover {
-    background: $gray-800;
+    background: $black-70;
   }
 }

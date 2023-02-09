@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { QueryClient } from 'react-query'
 import { getQuorum, getNegativeUNL } from '../../rippled'
 import Log from './log'
 
@@ -9,7 +8,9 @@ const BILLION = MILLION * THOUSAND
 const TRILLION = BILLION * THOUSAND
 const QUADRILLION = TRILLION * THOUSAND
 
-const GA_ID = process.env.REACT_APP_GA_ID
+const TRADING_FEE_TOTAL = 1000
+
+const GA_ID = process.env.VITE_GA_ID
 
 const EXOTIC_SYMBOLS = {
   BTC: '\u20BF',
@@ -23,7 +24,9 @@ export const SERVER_ERROR = 500
 export const BAD_REQUEST = 400
 
 export const FETCH_INTERVAL_MILLIS = 5000
+export const FETCH_INTERVAL_VHS_MILLIS = 60 * 1000 // 1 minute
 export const FETCH_INTERVAL_NODES_MILLIS = 60000
+export const FETCH_INTERVAL_ERROR_MILLIS = 300
 
 export const DECIMAL_REGEX = /^\d+$/
 export const RIPPLE_ADDRESS_REGEX =
@@ -33,6 +36,7 @@ export const CURRENCY_REGEX =
   /^[a-zA-Z0-9]{3,}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const FULL_CURRENCY_REGEX =
   /^[0-9A-Fa-f]{40}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
+export const VALIDATORS_REGEX = /^n[9H][0-9A-Za-z]{50}$/
 
 export const UP_COLOR = '#2BCB96'
 export const DOWN_COLOR = '#F23548'
@@ -180,18 +184,6 @@ export const normalizeLanguage = (lang) => {
   return undefined
 }
 
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      cacheTime: 0,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      refetchOnMount: false,
-      retry: false,
-    },
-  },
-})
-
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   const number = Number.parseFloat(num)
@@ -243,28 +235,6 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
     return null
   }
   return new Intl.DateTimeFormat(lang, options).format(date)
-}
-
-/**
- * extract new items from top of array b using iterator
- * and merge it into the state array a.
- * @param {list} a The transactions in state.
- * @param {list} b The new transactions from props.
- * @returns {list} Concatenated list.
- */
-export const concatTx = (a, b) => {
-  if (a.length === 0) return b
-  if (b.length === 0) return a
-  if (a[0].hash === b[0].hash) return a
-
-  // joins if b has only old new transactions or has new ones on top of old ones.
-  let iterator = 0
-  for (iterator = 0; iterator < b.length; iterator += 1) {
-    if (b[iterator].hash === a[0].hash) {
-      break
-    }
-  }
-  return a.concat(b.slice(0, iterator))
 }
 
 /**
@@ -364,7 +334,7 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
 }
 
 // Document: https://developers.google.com/analytics/devguides/collection/analyticsjs/
-export const analytics = (type = null, fields = {}) => {
+export const analytics = (type, fields = {}) => {
   // Chek if GoogleAnalytics is set, type and fields are not empty, type is valid
   if (
     !window.gtag ||
@@ -460,3 +430,42 @@ export const fetchMetrics = () =>
 
 export const removeRoutes = (routes, ...routesToRemove) =>
   routes.filter((route) => !routesToRemove.includes(route.title))
+
+export const formatAsset = (asset) =>
+  typeof asset === 'string'
+    ? { currency: 'XRP' }
+    : {
+        currency: asset.currency,
+        issuer: asset.issuer,
+      }
+
+export const localizeBalance = (balance, language) => {
+  if (balance === undefined) {
+    return undefined
+  }
+
+  let b = localizeNumber(balance.amount || 0.0, language, {
+    style: 'currency',
+    currency: balance.currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  })
+
+  if (
+    balance.currency !== 'XRP' &&
+    balance.currency !== 'BTC' &&
+    balance.currency !== 'ETH'
+  ) {
+    b = `${balance.currency} ${b}`
+  }
+
+  return b
+}
+
+export const formatTradingFee = (tradingFee) =>
+  tradingFee !== undefined
+    ? localizeNumber(tradingFee / TRADING_FEE_TOTAL, 'en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3,
+      })
+    : undefined

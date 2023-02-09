@@ -1,6 +1,6 @@
 @import '../shared/css/variables';
 
-$subdued-color: $gray-400;
+$subdued-color: $black-40;
 
 .simple-body-tx {
   .rows {
@@ -11,7 +11,7 @@ $subdued-color: $gray-400;
       flex-wrap: wrap;
       padding-top: 20px;
       padding-left: 5px;
-      color: #944;
+      color: $red-dark;
       float: right;
       font-size: 14px;
       font-style: italic;
@@ -22,32 +22,29 @@ $subdued-color: $gray-400;
 
     .row {
       .value {
+        text-align: right;
+
         .amount {
           text-align: right;
 
           .amount-localized {
             display: block;
           }
-        }
 
-        .currency {
-          display: block;
-          margin: -1px 0px -16px;
-          color: $subdued-color;
-          font-size: 11px;
-          text-align: right;
-          @include medium;
+          .currency {
+            display: block;
+            margin: -1px 0px -16px;
+            color: $subdued-color;
+            font-size: 11px;
+            text-align: right;
+            @include medium;
 
-          .account {
-            font-size: inherit;
-            line-height: inherit;
-            vertical-align: bottom;
+            .account {
+              font-size: inherit;
+              line-height: inherit;
+              vertical-align: bottom;
+            }
           }
-        }
-
-        .dt {
-          color: $subdued-color;
-          font-size: 12px;
         }
 
         ul {
@@ -59,14 +56,14 @@ $subdued-color: $gray-400;
         &.partial,
         &.closed,
         &.unset {
-          color: #944;
+          color: $red-dark;
           font-size: 14px;
           font-style: italic;
           @include regular;
         }
 
         &.flag {
-          color: $blue-grey;
+          color: $blue-purple-30;
           font-size: 14px;
           font-style: italic;
           @include regular;
@@ -88,7 +85,7 @@ $subdued-color: $gray-400;
 
     .not-supported {
       padding: 50px;
-      color: #c97;
+      color: $orange-40;
       font-size: 14px;
       text-align: center;
 
@@ -100,14 +97,14 @@ $subdued-color: $gray-400;
 
     .attestation {
       margin: 16px 0px;
-      background: rgba($gray-900, 0.5);
+      background: rgba($black-80, 0.7);
       gap: 15px;
 
       .attestation-title {
         display: block;
         flex-direction: row;
         padding: 16px 0 0 16px;
-        color: $gray-400;
+        color: $black-40;
         font-size: 14px;
         font-weight: 600;
         text-transform: uppercase;

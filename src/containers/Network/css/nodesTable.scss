@@ -35,12 +35,11 @@
     .state span {
       display: inline-block;
       padding: 4px 12px;
-      margin: 1px 0;
       border-radius: 100px;
+      margin: 1px 0;
     }
 
     .state .full {
-      border: 1px solid $green2;
       background-color: $green;
       color: black;
     }
@@ -51,8 +50,8 @@
     }
 
     .state .connected {
-      background-color: yellow;
-      color: #444;
+      background-color: $yellow;
+      color: $black-60;
     }
 
     .version {
@@ -69,17 +68,13 @@
 
     .last-ledger {
       i {
-        color: #ccc;
-      }
-
-      small {
-        margin: 0 5px;
-        color: #666;
+        color: $black-30;
       }
     }
 
     .in-out small {
-      color: #666;
+      color: $black-50;
+      font-weight: bold;
     }
 
     .ledgers {
@@ -105,12 +100,13 @@
     .ledgers .boxes div {
       position: absolute;
       height: 100%;
-      background: #567;
       border-radius: 2px;
+      background: $black-50;
     }
 
     .ledgers span {
-      color: #666;
+      color: $black-50;
+      font-weight: bold;
       vertical-align: middle;
     }
 

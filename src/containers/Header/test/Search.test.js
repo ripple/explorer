@@ -1,27 +1,22 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
-import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18nTestConfig'
-import Search from '../Search'
+import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
+import SocketContext from '../../shared/SocketContext'
+import MockWsClient from '../../test/mockWsClient'
 
-describe('Header component', () => {
-  const middlewares = [thunk]
-  const mockStore = configureMockStore(middlewares)
-  const createWrapper = (state = {}) => {
-    const store = mockStore({ ...initialState, ...state })
+describe('Search component', () => {
+  const createWrapper = () => {
+    const client = new MockWsClient()
     return mount(
       <I18nextProvider i18n={i18n}>
-        <Router>
-          <Provider store={store}>
+        <SocketContext.Provider value={client}>
+          <Router>
             <Search />
-          </Provider>
-        </Router>
+          </Router>
+        </SocketContext.Provider>
       </I18nextProvider>,
     )
   }
@@ -51,6 +46,7 @@ describe('Header component', () => {
     const rippleSplitAddress = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb:1888963938'
     const paystring = 'blunden$paystring.crypto.com'
     const paystringWithAt = 'blunden@paystring.crypto.com'
+    const validator = 'nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p'
 
     const hash =
       '59239EA78084F6E2F288473F8AE02F3E6FC92F44BDE59668B5CAE361D3D32838'
@@ -98,6 +94,12 @@ describe('Header component', () => {
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
     expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
+
+    // Validator
+    input.instance().value = validator
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/validators/${validator}`)
 
     mockAPI.mockImplementation(() => {
       '123'

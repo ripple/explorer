@@ -1,20 +1,11 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Loader from '../shared/components/Loader'
 import { localizeDate } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import './historyTab.scss'
+import { ValidatorReport } from '../shared/vhsTypes'
 
-export interface Report {
-  date: string
-  chain: string
-  score: string
-  total: string
-  missed: string
-  incomplete: boolean
-}
-
-const ReportRow = ({ report }: { report: Report }) => {
+const ReportRow = ({ report }: { report: ValidatorReport }) => {
   const language = useLanguage()
 
   return (
@@ -55,7 +46,7 @@ const ReportRow = ({ report }: { report: Report }) => {
 }
 
 export interface HistoryTabProps {
-  reports?: Report[]
+  reports?: ValidatorReport[]
 }
 
 export const HistoryTab = ({ reports }: HistoryTabProps) => {
@@ -63,16 +54,20 @@ export const HistoryTab = ({ reports }: HistoryTabProps) => {
 
   return (
     <table className="history-table basic">
-      <tr>
-        <th className="col-date">{t('validator_history.date')}</th>
-        <th className="col-chain">{t('validator_history.chain')}</th>
-        <th className="col-score">{t('validator_history.score')}</th>
-        <th className="col-total">{t('total')}</th>
-        <th className="col-missed">{t('validator_history.missed')}</th>
-      </tr>
+      <thead>
+        <tr>
+          <th className="col-date">{t('validator_history.date')}</th>
+          <th className="col-chain">{t('validator_history.chain')}</th>
+          <th className="col-score">{t('validator_history.score')}</th>
+          <th className="col-total">{t('total')}</th>
+          <th className="col-missed">{t('validator_history.missed')}</th>
+        </tr>
+      </thead>
       <tbody>
         {reports ? (
-          reports.map((report) => <ReportRow report={report} />)
+          reports.map((report) => (
+            <ReportRow report={report} key={report.date} />
+          ))
         ) : (
           <tr>
             <td colSpan={5}>

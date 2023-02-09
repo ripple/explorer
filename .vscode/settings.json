@@ -50,5 +50,28 @@
         "**/test/mock_data": true,
         "package-lock.json": true,
         "**/test/*.json": true
-    }
+    },
+    "cSpell.words": [
+        "camelcase",
+        "chopa",
+        "chopb",
+        "cimode",
+        "CUSTOMNETWORK",
+        "Decomp",
+        "esbuild",
+        "fakenode",
+        "Hant",
+        "healthz",
+        "hexbin",
+        "middlewares",
+        "MILLIS",
+        "moxios",
+        "nodemodules",
+        "pageview",
+        "paychannels",
+        "paystrings",
+        "svgr",
+        "topojson",
+        "VITE"
+    ]
   }

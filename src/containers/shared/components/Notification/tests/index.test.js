@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { mount } from 'enzyme'
 import Notification from '../index'
 
@@ -68,7 +67,6 @@ describe('<Notification />', () => {
         message,
       })
       const wrapperProps = wrapper.props()
-      // console.log(wrapperProps);
       expect(wrapperProps.usage).toEqual(usage)
     })
 

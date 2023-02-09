@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default (
   <svg viewBox="0 0 24 24" className="icon">
     <g>

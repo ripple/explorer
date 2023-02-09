@@ -1,27 +1,31 @@
-import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { mount } from 'enzyme'
 import Currency from '../Currency'
 
 describe('Currency', () => {
   it('handles currency codes that are 3 characters ', () => {
-    const wrapper = mount(<Currency currency="BTC" amount={5.001} />)
+    const wrapper = mount(<Currency currency="BTC" />)
     expect(wrapper.find('.currency').text()).toEqual('BTC')
     wrapper.unmount()
   })
 
   it('handles currency codes that are 4 characters ', () => {
-    const wrapper = mount(<Currency currency="WOOT" amount={5.001} />)
+    const wrapper = mount(<Currency currency="WOOT" />)
     expect(wrapper.find('.currency').text()).toEqual('WOOT')
+    wrapper.unmount()
+  })
+
+  it('handles currency codes that are 4 characters and include issuer ', () => {
+    const wrapper = mount(
+      <Currency currency="USD" issuer="david" link={false} shortenIssuer />,
+    )
+    expect(wrapper.find('.currency').text()).toEqual('USD.davi')
     wrapper.unmount()
   })
 
   it('handles currency codes that are 40 characters ', () => {
     const wrapper = mount(
-      <Currency
-        currency="584D455441000000000000000000000000000000"
-        amount={5.001}
-      />,
+      <Currency currency="584D455441000000000000000000000000000000" />,
     )
     expect(wrapper.find('.currency').text()).toEqual('XMETA')
     wrapper.unmount()
@@ -33,13 +37,8 @@ describe('Currency', () => {
         <Currency
           currency="584D455441000000000000000000000000000000"
           issuer="r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB"
-          amount={5.001}
         />
-        <Currency
-          currency="USD"
-          issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq"
-          amount={15.01}
-        />
+        <Currency currency="USD" issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" />
       </BrowserRouter>,
     )
     const meta = wrapper.find('.currency').at(0)

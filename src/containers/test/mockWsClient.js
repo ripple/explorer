@@ -92,6 +92,7 @@ class MockWsClient extends EventEmitter {
    */
   send(message) {
     if (this.debug) {
+      // eslint-disable-next-line no-console -- For testing purposes
       console.log(message)
     }
     if (this.returnError) {
@@ -99,6 +100,24 @@ class MockWsClient extends EventEmitter {
     }
     const { command } = message
     return Promise.resolve(this.responses[command]?.result)
+  }
+
+  /**
+   * Mocks the `getState` method on XrplClient.
+   * @returns a dictionary indicating that the client is connected.
+   */
+  // eslint-disable-next-line class-methods-use-this -- not needed for a mock
+  getState() {
+    return { online: true }
+  }
+
+  /**
+   * Mocks the `ready` method on XrplClient.
+   * @returns a Promise that resolves with `true`.
+   */
+  // eslint-disable-next-line class-methods-use-this -- not needed for a mock
+  ready() {
+    return Promise.resolve(true)
   }
 }
 

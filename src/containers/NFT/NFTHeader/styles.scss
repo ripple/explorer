@@ -53,7 +53,7 @@
       .title {
         padding-bottom: 4px;
         margin-bottom: 4.5px;
-        color: $gray-400;
+        color: $black-40;
         font-size: 14px;
         text-transform: uppercase;
         @include semibold;
@@ -117,7 +117,7 @@
       flex-direction: row;
       align-items: center;
       padding-bottom: 4px;
-      color: $gray-400;
+      color: $black-40;
       font-size: 14px;
       text-transform: uppercase;
 
@@ -135,9 +135,9 @@
       justify-content: center;
       order: 0;
       padding: 2px 12px;
+      border-radius: 30px;
       margin-left: 8px;
       background: $nft;
-      border-radius: 30px;
       color: $white;
       font-size: 14px;
       font-style: normal;

@@ -1,6 +1,11 @@
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount'
-import formatFailedPartialAmount from '../../../../../rippled/lib/txSummary/formatFailedPartialAmount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { Payment, PaymentInstructions } from './types'
+import { Amount, ExplorerAmount } from '../../../types'
+
+const formatFailedPartialAmount = (d: Amount): ExplorerAmount => ({
+  ...formatAmount(d),
+  amount: 0,
+})
 
 export const isPartialPayment = (flags: any) => 0x00020000 & flags
 

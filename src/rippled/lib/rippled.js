@@ -1,5 +1,4 @@
-import { unix } from 'moment'
-import { Error, XRP_BASE, EPOCH_OFFSET } from './utils'
+import { Error, XRP_BASE, convertRippleDate } from './utils'
 
 const N_UNL_INDEX =
   '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244'
@@ -10,16 +9,8 @@ const formatEscrow = (d) => ({
   destination: d.Destination,
   amount: d.Amount / XRP_BASE,
   condition: d.Condition,
-  cancelAfter: d.CancelAfter
-    ? unix(d.CancelAfter + EPOCH_OFFSET)
-        .utc()
-        .format()
-    : undefined,
-  finishAfter: d.FinishAfter
-    ? unix(d.FinishAfter + EPOCH_OFFSET)
-        .utc()
-        .format()
-    : undefined,
+  cancelAfter: d.CancelAfter ? convertRippleDate(d.CancelAfter) : undefined,
+  finishAfter: d.FinishAfter ? convertRippleDate(d.FinishAfter) : undefined,
 })
 
 const formatPaychannel = (d) => ({
@@ -248,6 +239,7 @@ const getAccountTransactions = (
   account,
   limit = 20,
   marker = '',
+  reverseOrder = false,
 ) => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
@@ -256,6 +248,7 @@ const getAccountTransactions = (
     command: 'account_tx',
     account,
     limit,
+    forward: reverseOrder,
     ledger_index_max: -1,
     ledger_index_min: -1,
     marker: marker
@@ -426,6 +419,26 @@ const getOffers = (
 
     return resp
   })
+
+// AMM Additions
+
+const getAMMInfo = (rippledSocket, asset, asset2) => {
+  const request = {
+    command: 'amm_info',
+    asset,
+    asset2,
+    ledger_index: 'validated',
+  }
+
+  return query(rippledSocket, request).then((resp) => {
+    if (resp.error_message || !resp.validated) {
+      throw new Error('Failed to get amm info', 404)
+    }
+
+    return resp
+  })
+}
+
 export {
   getLedger,
   getTransaction,
@@ -442,4 +455,5 @@ export {
   getBuyNFToffers,
   getSellNFToffers,
   getNFTTransactions,
+  getAMMInfo,
 }

@@ -1,10 +1,10 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import './styles.scss'
 import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
 import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
 import { Account } from '../../shared/components/Account'
+import { TokenTableRow } from '../../shared/components/TokenTableRow'
 
 interface MintedProps {
   minted?: string
@@ -30,57 +30,24 @@ export const Details = ({ data }: Props) => {
   const formattedFee =
     transferFee &&
     `${localizeNumber((transferFee / 1000).toPrecision(5), language, {
-      style: 'currency',
-      currency: 'none',
       minimumFractionDigits: 3,
     })}%`
 
   return (
     <table className="token-table">
       <tbody>
-        {minted && (
-          <tr className="row">
-            <td className="col1">{t('minted')}</td>
-            <td className="col2">{minted}</td>
-          </tr>
-        )}
-        {domain && (
-          <tr className="row">
-            <td className="col1">{t('domain')}</td>
-            <td className="col2">{domain}</td>
-          </tr>
-        )}
-        <tr className="row">
-          <td className="col1">{t('taxon_id')}</td>
-          <td className="col2">{nftTaxon}</td>
-        </tr>
-        <tr className="row">
-          <td className="col1">{t('sequence_number_short')}</td>
-          <td className="col2">{nftSequence}</td>
-        </tr>
-        {uri && (
-          <tr className="row">
-            <td className="col1">URI</td>
-            <td className="col2">{uri}</td>
-          </tr>
-        )}
-        <tr className="row">
-          <td className="col1">{t('transfer_fee')}</td>
-          <td className="col2">{formattedFee}</td>
-        </tr>
-        {isBurned && (
-          <tr className="row">
-            <td className="col1">{t('is_burned')}</td>
-            <td className="col2">true</td>
-          </tr>
-        )}
+        {minted && <TokenTableRow label={t('minted')} value={minted} />}
+        {domain && <TokenTableRow label={t('domain')} value={domain} />}
+        <TokenTableRow label={t('taxon_id')} value={nftTaxon} />
+        <TokenTableRow label={t('sequence_number_short')} value={nftSequence} />
+        {uri && <TokenTableRow label="URI" value={uri} />}
+        <TokenTableRow label={t('transfer_fee')} value={formattedFee} />
+        {isBurned && <TokenTableRow label={t('is_burned')} value="true" />}
         {owner && (
-          <tr className="row">
-            <td className="col1">{t('owner')}</td>
-            <td className="col2">
-              <Account account={owner} />
-            </td>
-          </tr>
+          <TokenTableRow
+            label={t('owner')}
+            value={<Account account={owner!} />}
+          />
         )}
       </tbody>
     </table>

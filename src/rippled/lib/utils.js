@@ -1,11 +1,10 @@
 import { convertRippleDate, EPOCH_OFFSET } from './convertRippleDate'
-import summarizeTransaction from './txSummary'
 import { formatSignerList } from './formatSignerList'
 
 const XRP_BASE = 1000000
 const BILLION = 1000000000
 
-const ACCOUNT_FLAGS = {
+export const ACCOUNT_FLAGS = {
   0x00010000: 'lsfPasswordSpent',
   0x00020000: 'lsfRequireDestTag',
   0x00040000: 'lsfRequireAuth',
@@ -15,6 +14,7 @@ const ACCOUNT_FLAGS = {
   0x00400000: 'lsfGlobalFreeze',
   0x00800000: 'lsfDefaultRipple',
   0x01000000: 'lsfDepositAuth',
+  0x02000000: 'lsfAMM',
 }
 const NFT_FLAGS = {
   0x00000001: 'lsfBurnable',
@@ -96,30 +96,6 @@ function RippledError(message, code) {
   this.code = code
 }
 
-require('util').inherits(RippledError, Error)
-
-const summarizeLedger = (ledger, txDetails = false) => {
-  const summary = {
-    ledger_index: Number(ledger.ledger_index),
-    ledger_hash: ledger.ledger_hash,
-    parent_hash: ledger.parent_hash,
-    close_time: convertRippleDate(ledger.close_time),
-    total_xrp: ledger.total_coins / 1000000,
-    total_fees: 0,
-    transactions: [],
-  }
-
-  ledger.transactions.forEach((tx) => {
-    const d = formatTransaction(tx)
-    summary.total_fees += Number(tx.Fee)
-    summary.transactions.push(summarizeTransaction(d, txDetails))
-  })
-
-  summary.transactions.sort((a, b) => a.index - b.index)
-  Object.assign(summary, { total_fees: summary.total_fees / 1000000 })
-  return summary
-}
-
 function convertHexToString(hex, encoding = 'utf8') {
   return hex ? Buffer.from(hex, 'hex').toString(encoding) : undefined
 }
@@ -147,7 +123,6 @@ export {
   formatTransaction,
   formatSignerList,
   formatAccountInfo,
-  summarizeLedger,
   convertHexToString,
   formatNFTInfo,
   EPOCH_OFFSET,

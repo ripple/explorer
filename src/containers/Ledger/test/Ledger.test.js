@@ -1,4 +1,3 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import configureMockStore from 'redux-mock-store'
@@ -78,11 +77,11 @@ describe('Ledger container', () => {
     state.ledger.loading = false
     state.ledger.error = false
     const wrapper = createWrapper(state)
-    const table = wrapper.find('.trans-table')
+    const table = wrapper.find('.transaction-table')
     expect(table.length).toBe(1)
-    expect(table.find('.trans-header').length).toBe(1)
-    expect(table.find('.trans-header .col-type').length).toBe(1)
-    expect(table.find('.trans-header .col-account').length).toBe(1)
+    expect(table.find('.transaction-li-header').length).toBe(1)
+    expect(table.find('.transaction-li-header .col-type').length).toBe(1)
+    expect(table.find('.transaction-li-header .col-account').length).toBe(1)
     wrapper.unmount()
   })
 
@@ -92,9 +91,11 @@ describe('Ledger container', () => {
     state.ledger.loading = false
     state.ledger.error = false
     const wrapper = createWrapper(state)
-    const table = wrapper.find('.trans-table')
+    const table = wrapper.find('.transaction-table')
     expect(table.length).toBe(1)
-    expect(table.find('.trans-row').length).toBe(mockLedger.transactions.length)
+    expect(table.find('.transaction-li').length).toBe(
+      mockLedger.transactions.length + 1, // include the header
+    )
     wrapper.unmount()
   })
 

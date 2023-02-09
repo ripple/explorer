@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import Loader from '../../shared/components/Loader'
@@ -66,7 +66,7 @@ export const NFTHeader = (props: Props) => {
     if (!HASH_REGEX.test(tokenId)) {
       setError(BAD_REQUEST)
     }
-  }, [tokenId])
+  }, [setError, tokenId])
 
   // fetch the oldest NFT transaction to get its minted data
   const { data: firstTransaction } = useQuery(

@@ -1,12 +1,13 @@
 import { withTranslation } from 'react-i18next'
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from '../shared/components/Tooltip'
 import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
 import { localizeNumber } from '../shared/utils'
-import { ReactComponent as PauseIcon } from '../shared/images/ic_pause.svg'
-import { ReactComponent as ResumeIcon } from '../shared/images/ic_play.svg'
+import PauseIcon from '../shared/images/ic_pause.svg'
+import ResumeIcon from '../shared/images/ic_play.svg'
 import './css/ledgerMetrics.scss'
+import SocketContext from '../shared/SocketContext'
 
 const DEFAULTS = {
   load_fee: '--',
@@ -132,15 +133,24 @@ class LedgerMetrics extends Component {
 
     const { tooltip } = this.state
 
+    // eslint-disable-next-line react/destructuring-assignment
+    const isOnline = this.context.getState().online
+
     return (
       <div className="metrics-control">
-        <div className="control">{this.renderPause()}</div>
-        <div className="metrics">{items}</div>
-        <Tooltip t={t} language={language} data={tooltip} />
+        {isOnline && (
+          <>
+            <div className="control">{this.renderPause()}</div>
+            <div className="metrics">{items}</div>
+            <Tooltip t={t} language={language} data={tooltip} />
+          </>
+        )}
       </div>
     )
   }
 }
+
+LedgerMetrics.contextType = SocketContext
 
 LedgerMetrics.propTypes = {
   data: PropTypes.shape({}),

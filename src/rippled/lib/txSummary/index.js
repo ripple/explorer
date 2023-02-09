@@ -1,36 +1,8 @@
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 
-const TrustSet = require('./TrustSet')
-const PaymentChannelCreate = require('./PaymentChannelCreate')
-const PaymentChannelClaim = require('./PaymentChannelClaim')
-const PaymentChannelFund = require('./PaymentChannelFund')
-const AccountSet = require('./AccountSet')
-const DepositPreauth = require('./DepositPreauth')
-const EnableAmendment = require('./EnableAmendment')
-const UNLModify = require('./UNLModify')
-const AccountDelete = require('./AccountDelete')
-
-const summarize = {
-  TrustSet,
-  PaymentChannelCreate,
-  PaymentChannelClaim,
-  PaymentChannelFund,
-  AccountSet,
-  DepositPreauth,
-  EnableAmendment,
-  UNLModify,
-  AccountDelete,
-}
-
 const getInstructions = (tx, meta) => {
   const type = tx.TransactionType
-  // Locate the transaction parser which returns "instructions" to be used in transaction specific components
-  // TODO: Remove summarize[type] lookup once all transactions have been moved to the new definition style
-  const mappingFn = transactionTypes[type]?.parser
-    ? transactionTypes[type]?.parser
-    : summarize[type]
-
-  return mappingFn ? mappingFn(tx, meta) : {}
+  return transactionTypes[type]?.parser(tx, meta) || {}
 }
 
 const summarizeTransaction = (d, details = false) => ({

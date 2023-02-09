@@ -2,13 +2,13 @@
 
 This repo contains the source code for the block explorer of the XRP Ledger hosted at livenet.xrpl.org.
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find the most recent version of guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+This project uses [Vite](https://vitejs.dev/). You can find information about how to use it [here](https://vitejs.dev/guide/cli.html).
 
 ## Basic requirements
 
 ### Install Node and NPM
 
-The project requires node@14. Follow installation instructions on [nodejs.org](https://nodejs.org/en/).
+The project requires node@18.12.x. Follow installation instructions on [nodejs.org](https://nodejs.org/en/).
 
 (Recommended) Install using [nvm](https://github.com/nvm-sh/nvm).
 
@@ -38,19 +38,22 @@ GOOGLE_APP_CLIENT_EMAIL=your-client-email
 * `npm start` for development mode, or
 * `npm run build` then `npm run prod-server` for production mode
 
+### Installing on Apple Silicon
+Since `canvas` does not provide pre-built binaries for Apple chips during `npm install` it will try to compile it manually. To get this to succeed you need to install several dependencies by following the instructions [here](https://github.com/Automattic/node-canvas#compiling). 
+
 ## Running on Parallel Networks
 
 ### Testnet mode
 
-1. Replace `RIPPLED_HOST=s2.ripple.com` with `RIPPLED_HOST=s.altnet.rippletest.net` in the `.env` file
-1. Remove `RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
-1. Add `REACT_APP_ENVIRONMENT=testnet` to `.env` to enable TESTNET banner
+1. Replace `VITE_RIPPLED_HOST=s2.ripple.com` with `VITE_RIPPLED_HOST=s.altnet.rippletest.net` in the `.env` file
+1. Remove `VITE_RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
+1. Add `VITE_ENVIRONMENT=testnet` to `.env` to enable TESTNET banner
 
 ### Devnet mode
 
-1. Replace `RIPPLED_HOST=s2.ripple.com` with `RIPPLED_HOST=s.devnet.rippletest.net` in the `.env` file
-1. Remove `RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
-1. Add `REACT_APP_ENVIRONMENT=devnet` to `.env` to enable TESTNET banner
+1. Replace `VITE_RIPPLED_HOST=s2.ripple.com` with `VITE_RIPPLED_HOST=s.devnet.rippletest.net` in the `.env` file
+1. Remove `VITE_RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
+1. Add `VITE_ENVIRONMENT=devnet` to `.env` to enable TESTNET banner
 
 ## Testing
 

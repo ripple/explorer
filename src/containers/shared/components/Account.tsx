@@ -1,20 +1,28 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 export interface AccountProps {
-  link?: boolean
   account: string
+  link?: boolean
+  tag?: number
 }
 
 export const Account = (props: AccountProps) => {
-  const { link = true, account } = props
-  return link ? (
-    <Link className="account" title={account} to={`/accounts/${account}`}>
-      {account}
-    </Link>
-  ) : (
-    <span className="account" title={account}>
-      {account}
-    </span>
+  const { account, link = true, tag } = props
+  const parts = account.split(':')
+  const computedTag = tag || parts[1]
+
+  return (
+    <>
+      {link ? (
+        <Link className="account" title={parts[0]} to={`/accounts/${parts[0]}`}>
+          {parts[0]}
+        </Link>
+      ) : (
+        <span className="account" title={parts[0]}>
+          {parts[0]}
+        </span>
+      )}
+      {computedTag && <span className="dt">:{computedTag}</span>}
+    </>
   )
 }

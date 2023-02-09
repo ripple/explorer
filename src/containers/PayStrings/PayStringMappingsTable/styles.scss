@@ -16,25 +16,7 @@
     width: 80px;
 
     &.paystring-type {
-      color: $gray-400;
-
-      /* stylelint-disable selector-class-pattern -- Currency comes from server  */
-      &.XRPL {
-        color: $gray-400;
-      }
-
-      &.BTC {
-        color: #f2a900;
-      }
-
-      &.ETH {
-        color: #5dabd5;
-      }
-
-      a {
-        color: inherit;
-      }
-      /* stylelint-enable selector-class-pattern */
+      color: $black-40;
     }
   }
 

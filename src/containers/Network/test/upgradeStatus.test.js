@@ -37,7 +37,7 @@ describe('UpgradeStatus test functions', () => {
     },
   ]
 
-  it('aggregarteData handle edge case', () => {
+  it('aggregateData handle edge case', () => {
     expect(aggregateData(undefinedData)).toEqual([
       { count: 1, label: '1.9.4', value: 100 },
     ])

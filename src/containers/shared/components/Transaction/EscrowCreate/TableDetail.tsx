@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Amount } from '../../Amount'
 import { localizeDate } from '../../../utils'
@@ -41,7 +40,7 @@ export const TableDetail = (props: any) => {
         <div>
           <span className="label">{t('finish_after')}</span>
           <span data-test="finish_after">
-            {localizeDate(Date.parse(finishAfter), language, DATE_OPTIONS)} UTC
+            {localizeDate(new Date(finishAfter), language, DATE_OPTIONS)} UTC
           </span>
         </div>
       )}
@@ -49,7 +48,7 @@ export const TableDetail = (props: any) => {
         <div>
           <span className="label">{t('cancel_after')}</span>
           <span data-test="cancel_after">
-            {localizeDate(Date.parse(cancelAfter), language, DATE_OPTIONS)} UTC
+            {localizeDate(new Date(cancelAfter), language, DATE_OPTIONS)} UTC
           </span>
         </div>
       )}

@@ -25,6 +25,7 @@ html {
 
 body {
   height: 100%;
+  color: $white;
 }
 
 .xrpl-explorer {
@@ -41,7 +42,7 @@ body,
 input {
   padding: 0px;
   margin: 0px;
-  background-color: $black;
+  background-color: $black-100;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   font-style: normal;
@@ -66,7 +67,7 @@ button {
 
 h2 {
   padding-bottom: 18px;
-  border-bottom: 1px $gray-800 solid;
+  border-bottom: 1px $black-70 solid;
   margin-top: 0;
   color: $white;
   font-size: 24px;
@@ -132,7 +133,8 @@ div.react-stockchart div {
   }
 
   &.XChainAccountCreateCommit,
-  &.XChainAddAttestation,
+  &.XChainAddAccountCreateAttestation,
+  &.XChainAddClaimAttestation,
   &.XChainClaim,
   &.XChainCommit,
   &.XChainCreateBridge,
@@ -157,7 +159,7 @@ div.react-stockchart div {
   }
 
   &.fail {
-    color: $orange-600;
+    color: $orange-40;
   }
 }
 
@@ -189,11 +191,11 @@ div.react-stockchart div {
 }
 
 a {
-  color: $green-300;
+  color: $green-30;
   text-decoration: none;
 
   &:hover {
-    color: $green-primary;
+    color: $green-50;
   }
 
   &.external, // Force the external icon. Useful for when the protocol is unknown like with NFTs.
@@ -203,14 +205,15 @@ a {
     &::after {
       display: inline-block;
       width: 1em;
+      min-width: 1em;
       height: 1em;
       margin-left: 4px;
       background-color: currentcolor;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: contain;
       content: '';
-      mask: url('../images/external_link.svg') no-repeat 100% 100%;
+      mask-image: url('../images/external_link.svg');
+      mask-position: center;
+      mask-repeat: no-repeat;
+      mask-size: contain;
       vertical-align: text-top;
     }
 
@@ -221,11 +224,11 @@ a {
         height: 1em;
         margin-right: 4px;
         background-color: currentcolor;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
         content: '';
-        mask: url('../images/github.svg') no-repeat 100% 100%;
+        mask-image: url('../images/github.svg');
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: contain;
         vertical-align: text-top;
       }
     }
@@ -261,13 +264,14 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
 
 .section {
   margin: 0 32px;
+
   @include for-size(tablet-landscape-up) {
-    width: 552px;
+    width: calc(100% - 15px);
     margin: 0 auto;
   }
 
-  @include for-size(desktop-up) {
-    width: 1140px;
+  @include for-size(big-desktop-up) {
+    max-width: $desktop-upper-boundary;
   }
 }
 
@@ -283,4 +287,12 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
   img {
     transform: scale(0.5);
   }
+}
+
+// A transactions destination tag.  Used like rafdasdfas:424242
+.dt {
+  @include medium;
+
+  color: $black-40;
+  font-size: 0.9em;
 }

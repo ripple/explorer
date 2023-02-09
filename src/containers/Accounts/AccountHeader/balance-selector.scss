@@ -38,7 +38,7 @@
     outline: none;
 
     &:hover {
-      background-color: $gray-900;
+      background-color: $black-80;
       color: $green;
     }
 
@@ -71,7 +71,7 @@
     width: 18px;
     height: 16px;
     margin: 4px 0px;
-    color: $gray-400;
+    color: $black-40;
     vertical-align: middle;
 
     @include for-size(desktop-up) {
@@ -94,11 +94,11 @@
       z-index: 100000;
       right: 0;
       height: auto;
-      border: 1px solid $gray-800;
-      background-color: $black;
+      border: 1px solid $black-70;
       border-radius: 9px;
-      box-shadow: 0px 0px 5px 0px $gray-800;
-      color: $gray-400;
+      background-color: $black;
+      box-shadow: 0px 0px 5px 0px $black-70;
+      color: $black-40;
     }
   }
 }

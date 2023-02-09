@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -25,7 +24,6 @@ export default connect((state) => {
     ['ledgerError', state.ledger.error],
     ['transactionError', state.transaction.error],
     ['balanceError', state.accountHeader.error],
-    ['transactionsError', state.accountTransactions.error],
     ['payStringError', state.payStringData.error],
   ]
 

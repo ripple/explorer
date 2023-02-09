@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -9,13 +9,13 @@ import {
   BREAKPOINTS,
 } from '../shared/utils'
 import defaultRoutes from './routes'
-import Search from './Search'
+import { Search } from './Search'
 import arrowIcon from '../shared/images/down_arrow_black_50.png'
 import closeIcon from '../shared/images/close.png'
 import unionIcon from '../shared/images/union.png'
 import './mobileMenu.scss'
 
-const MODE = process.env.REACT_APP_ENVIRONMENT
+const MODE = process.env.VITE_ENVIRONMENT
 class MobileMenu extends Component {
   constructor(props) {
     super(props)

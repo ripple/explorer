@@ -10,12 +10,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
+  lint:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.20.0]
+        node-version: [18.12]
 
     steps:
       - uses: actions/checkout@v3
@@ -24,33 +24,127 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Setup npm version 8
-        id: npm8
-        run: |
-          npm i -g npm@8 --registry=https://registry.npmjs.org
-
       - name: Cache node modules
         id: cache-nodemodules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
+            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
+            ${{ matrix.node-version }}-build-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm install
 
-      - run: npm run test:all
+      - run: npm run lint:ci
+
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.12]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v3
         env:
-          REACT_APP_VALIDATOR: vl.ripple.com
-          REACT_APP_RIPPLED_WS_PORT: 51233
-          REACT_APP_RIPPLED_HOST: fake.rippled.example.com
-          REACT_APP_MAINNET_LINK: mainnet.example.com
-          REACT_APP_TESTNET_LINK: testnet.example.com
-          REACT_APP_SIDECHAIN_LINK: sidechain.example.com
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
+            ${{ matrix.node-version }}-build-
+
+      - name: Install Dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm install
+
+      - run: npm run test:ci
+        env:
+          VITE_VALIDATOR: vl.ripple.com
+          VITE_RIPPLED_WS_PORT: 51233
+          VITE_RIPPLED_HOST: fake.rippled.example.com
+          VITE_MAINNET_LINK: mainnet.example.com
+          VITE_TESTNET_LINK: testnet.example.com
+          VITE_CUSTOMNETWORK_LINK: custom.example.com
+
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.12]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
+            ${{ matrix.node-version }}-build-
+
+      - name: Install Dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm install
+
+      - run: npm run build
+
+  typescript-check:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.12]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
+            ${{ matrix.node-version }}-build-
+
+      - name: Install Dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm install
+
+      - run: npm run build-ts

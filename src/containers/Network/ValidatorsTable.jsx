@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Loader from '../shared/components/Loader'
-import { ReactComponent as SuccessIcon } from '../shared/images/success.svg'
+import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
-import infoOrange from '../shared/images/info_orange.png'
+import InfoIcon from '../shared/images/info.svg'
 import './css/validatorsTable.scss'
 
 class ValidatorsTable extends Component {
@@ -80,6 +80,7 @@ class ValidatorsTable extends Component {
     const pubkey = d.master_key || d.signing_key
     const onNegativeUnl = metrics.nUnl && metrics.nUnl.includes(pubkey)
     const nUnl = onNegativeUnl ? 'yes' : 'no'
+    const ledgerIndex = d.ledger_index ?? d.current_index
 
     return (
       <tr key={pubkey}>
@@ -93,21 +94,18 @@ class ValidatorsTable extends Component {
           {d.unl && <SuccessIcon title={d.unl} alt={d.unl} />}
         </td>
         <td className={`n-unl ${nUnl}`}>
-          {onNegativeUnl && <img src={infoOrange} title={d.unl} alt={d.unl} />}
+          {onNegativeUnl && <InfoIcon title={d.unl} alt={d.unl} />}
         </td>
         <td className="version text-truncate">{d.server_version}</td>
-        {this.renderAgreement('h1', d.agreement_1hour)}
-        {this.renderAgreement('h24', d.agreement_24hour)}
+        {this.renderAgreement('h1', d.agreement_1h)}
+        {this.renderAgreement('h24', d.agreement_24h)}
         {this.renderAgreement('d30', d.agreement_30day)}
-        <td className="fee">
-          {d.load_fee ? `x${(d.load_fee / 256).toFixed(3)}` : ''}
-        </td>
         <td
           className="last-ledger"
           style={{ color }}
           title={d.partial ? 'partial validation' : undefined}
         >
-          <Link to={`/ledgers/${d.ledger_index}`}>{d.ledger_index}</Link>
+          <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
           {d.partial && '*'}
         </td>
       </tr>
@@ -129,7 +127,6 @@ class ValidatorsTable extends Component {
             <th className="score h1">{t('1H')}</th>
             <th className="score h24">{t('24H')}</th>
             <th className="score d30">{t('30D')}</th>
-            <th className="fee">{t('fee')}</th>
             <th className="last-ledger">{t('ledger')}</th>
           </tr>
         </thead>
@@ -144,7 +141,7 @@ class ValidatorsTable extends Component {
 }
 
 ValidatorsTable.propTypes = {
-  validators: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
+  validators: PropTypes.shape({}),
   t: PropTypes.func.isRequired,
   metrics: PropTypes.shape({}).isRequired,
 }

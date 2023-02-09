@@ -19,15 +19,9 @@
     position: absolute;
     z-index: 1;
     top: 0;
-    background: $black;
-    opacity: 0;
+    opacity: 1;
     pointer-events: none;
     transition: opacity 0.3s ease;
-
-    &.show {
-      opacity: 0.8;
-      transition: opacity 0.15s ease;
-    }
   }
 
   .summary {
@@ -103,7 +97,7 @@
       }
 
       &.fail {
-        color: $orange-600;
+        color: $orange-40;
 
         span {
           text-transform: none;

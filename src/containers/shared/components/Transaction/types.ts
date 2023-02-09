@@ -1,4 +1,5 @@
-import React from 'react'
+import { FC } from 'react'
+import { Memo } from '../../transactionUtils'
 
 export interface Instructions {
   owner: string
@@ -17,14 +18,6 @@ export interface Instructions {
   maxSigners: number
   signers: any[]
   domain: string
-  // eslint-disable-next-line camelcase
-  email_hash: string
-  // eslint-disable-next-line camelcase
-  message_key: string
-  // eslint-disable-next-line camelcase
-  set_flag: number
-  // eslint-disable-next-line camelcase
-  clear_flag: number
   key: string
   limit: any
   pair: string
@@ -46,15 +39,12 @@ export interface Instructions {
   destination: string
   partial: boolean
   ticketCount: number
-  // eslint-disable-next-line camelcase
-  nftoken_minter: string
 }
 
 export interface TransactionTableDetailProps<I = any> {
   instructions: I
 }
-export type TransactionTableDetailComponent =
-  React.FC<TransactionTableDetailProps>
+export type TransactionTableDetailComponent = FC<TransactionTableDetailProps>
 
 export interface TransactionDescriptionProps<T = any, M = any> {
   data: {
@@ -62,15 +52,14 @@ export interface TransactionDescriptionProps<T = any, M = any> {
     meta: M
   }
 }
-export type TransactionDescriptionComponent =
-  React.FC<TransactionDescriptionProps>
+export type TransactionDescriptionComponent = FC<TransactionDescriptionProps>
 
 export interface TransactionSimpleProps<I = any> {
   data: {
     instructions: I
   }
 }
-export type TransactionSimpleComponent = React.FC<TransactionSimpleProps>
+export type TransactionSimpleComponent = FC<TransactionSimpleProps>
 export type TransactionParser<T = any, I = any> = (tx: T, meta: any) => I
 
 export interface TransactionMapping {
@@ -81,6 +70,7 @@ export interface TransactionMapping {
 }
 
 export interface TransactionCommonFields {
+  date: string
   Account: string
   TransactionType: string
   Fee: string
@@ -88,7 +78,7 @@ export interface TransactionCommonFields {
   AccountTxnID?: string
   Flags?: number
   LastLedgerSequence?: number
-  Memos?: object[]
+  Memos?: Memo[]
   Signers?: object[]
   SourceTag?: number
   SignerPubKey?: string

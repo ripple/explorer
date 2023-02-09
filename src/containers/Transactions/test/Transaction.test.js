@@ -1,4 +1,3 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import configureMockStore from 'redux-mock-store'
@@ -11,6 +10,7 @@ import mockTransactionSummary from './mock_data/TransactionSummary.json'
 import i18n from '../../../i18nTestConfig'
 import { initialState } from '../../../rootReducer'
 import Transaction from '../index'
+import { TxStatus } from '../../shared/components/TxStatus'
 
 global.location = '/transactions/aaaa'
 
@@ -79,14 +79,7 @@ describe('Transaction container', () => {
         </div>,
       ),
     ).toBe(true)
-    expect(
-      summary.contains(
-        <div className="status success">
-          <img src="success.png" alt="success" />
-          success
-        </div>,
-      ),
-    ).toBe(true)
+    expect(summary.contains(<TxStatus status="tesSUCCESS" />)).toBe(true)
     wrapper.unmount()
   })
 

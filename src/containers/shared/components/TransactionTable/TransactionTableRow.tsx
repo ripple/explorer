@@ -1,13 +1,11 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { TxLabel } from '../TxLabel'
-import { ReactComponent as SuccessIcon } from '../../images/success.svg'
-import { ReactComponent as FailIcon } from '../../images/ic_fail.svg'
-import TxDetails from '../TxDetails'
+import { TxStatus } from '../TxStatus'
+import { TxDetails } from '../TxDetails'
 import { localizeDate } from '../../utils'
 import './styles.scss'
 import { useLanguage } from '../../hooks'
+import TxToken from '../TxToken'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -21,16 +19,15 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
-interface Props {
+export interface Props {
   tx: any
+  hasTokensColumn?: boolean
 }
 
-export const TransactionTableRow = ({ tx }: Props) => {
+export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
   const language = useLanguage()
-  const { t, i18n } = useTranslation()
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
-  const status = success ? 'Success' : `Fail - ${tx.result}`
 
   return (
     <li
@@ -40,36 +37,25 @@ export const TransactionTableRow = ({ tx }: Props) => {
     >
       <Link to={`/transactions/${tx.hash}`} className="mask-overlay" />
       <div className="upper">
-        <div className="col-account">
-          <div className="transaction-address" title={tx.account}>
-            {tx.account}
+        {hasTokensColumn && (
+          <div className="col col-token">
+            <TxToken tx={tx} />
           </div>
+        )}
+        <div className="col col-account" title={tx.account}>
+          {tx.account}
         </div>
-        <div className={`col-type tx-type ${tx.type}`}>
+        <div className={`col col-type tx-type ${tx.type}`}>
           <TxLabel type={tx.type} />
         </div>
-        <div className="col-status">
-          <span
-            title={tx.result}
-            className={`tx-result ${success ? 'success' : 'fail'}`}
-          >
-            {success ? (
-              <SuccessIcon className="successful" title={t('success')} />
-            ) : (
-              <FailIcon className="failed" title={t('fail')} />
-            )}
-            <span className="status">{status}</span>
-          </span>
+        <div className="col col-status">
+          <TxStatus status={tx.result} />
         </div>
-        <div className="col-date">{date}</div>
+        <div className="col col-date">{date}</div>
       </div>
       {tx.details && (
         <div className="details">
-          <TxDetails
-            language={i18n.resolvedLanguage}
-            type={tx.type}
-            instructions={tx.details.instructions}
-          />
+          <TxDetails type={tx.type} instructions={tx.details.instructions} />
         </div>
       )}
     </li>

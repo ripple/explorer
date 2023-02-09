@@ -1,4 +1,3 @@
-import React from 'react'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
 import { useLanguage } from '../hooks'
 import { localizeNumber } from '../utils'
@@ -6,11 +5,16 @@ import Currency from './Currency'
 import { ExplorerAmount } from '../types'
 
 export interface AmountProps {
-  value: ExplorerAmount
+  value: ExplorerAmount | string
   displayIssuer?: boolean
+  modifier?: `+` | '-' | '~' // value to put in front of the currency symbol and number
 }
 
-export const Amount = ({ displayIssuer = true, value }: AmountProps) => {
+export const Amount = ({
+  displayIssuer = true,
+  modifier,
+  value,
+}: AmountProps) => {
   const language = useLanguage()
   const issuer = typeof value === 'string' ? undefined : value.issuer
   const currency = typeof value === 'string' ? 'XRP' : value.currency
@@ -22,7 +26,10 @@ export const Amount = ({ displayIssuer = true, value }: AmountProps) => {
 
   return (
     <span className="amount">
-      <span className="amount-localized">{localizedAmount}</span>{' '}
+      <span className="amount-localized">
+        {modifier && <span className="amount-modifier">{modifier}</span>}
+        {localizedAmount}
+      </span>{' '}
       <Currency issuer={displayIssuer ? issuer : ''} currency={currency} link />
     </span>
   )

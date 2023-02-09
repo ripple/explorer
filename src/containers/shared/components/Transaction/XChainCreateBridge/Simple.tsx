@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Amount } from '../../Amount'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
@@ -34,7 +33,10 @@ export const Simple: TransactionSimpleComponent = (
         bridgeOwner={bridgeOwner}
       />
       {minAccountCreateAmount && (
-        <SimpleRow label={t('min_account_create_amount')}>
+        <SimpleRow
+          label={t('min_account_create_amount')}
+          data-test="min-account-create-amount"
+        >
           <Amount value={minAccountCreateAmount} />
         </SimpleRow>
       )}

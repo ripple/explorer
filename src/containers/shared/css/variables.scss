@@ -11,64 +11,119 @@ $min-height: 500px;
 $min-width: 375px;
 
 // Colors
-$black-100: #171c21;
-$black-90: #23292f;
-$black-80: #3b4147;
-$black-70: #53585d;
-$black-60: #6b7075;
-$black-50: #999da2;
-$black-40: #b1b5ba;
-$black-30: #c9cdd1;
-$black-20: #e1e4e8;
-$black-15: #eaecef;
-$black-10: #f2f4f7;
-$black-05: #fcfbfb;
-$black: #000;
-$gray-900: #22252b;
-$gray-800: #383d47;
-$gray-500: #7e889a;
-$gray-400: #9ba2b0;
-$gray-300: #b8bdc7;
-$gray-200: #d4d7dd;
-$gray-100: #f1f2f4;
-$blue: #0f72e5;
-$blue1: #1db4ff;
-$blue2: #0a93eb;
-$blue-grey: #7b90d1;
-$dark-blue: #005dca;
-$navy: #0d294e;
-$green: #19ff83;
-$green2: #00e66a;
-$green-300: #80ffba;
-$green-primary: #19ff83;
-$orange: #f90;
-$orange2: #c60;
-$orange-600: #ff671a;
-$red: #f23548;
-$dark-red: #a22;
-$magenta: #f52a79;
-$magenta-600: #e50071;
-$violet: #be05d8;
-$purple: #691fdd;
-$purple-grey: #7e7ca5;
+$black-0: #fff;
+$black-10: #f5f5f7;
+$black-20: #e0e0e1;
+$black-30: #c1c1c2;
+$black-40: #a2a2a4;
+$black-50: #838386;
+$black-60: #454549;
+$black-70: #343437;
+$black-80: #232325;
+$black-90: #111112;
+$black-100: #000;
+$black: $black-100;
+
+$green-10: #d6fae7;
+$green-20: #adf5ce;
+$green-30: #84f0b6;
+$green-40: #5beb9d;
+$green-50: #32e685;
+$green-60: #2dcf78;
+$green-70: #28b86a;
+$green-80: #1e8a50;
+$green-90: #145c35;
+$green-100: #0a2e1b;
+$green: $green-50;
+
+$blue-10: #e5f5ff;
+$blue-20: #b2e0ff;
+$blue-30: #80ccff;
+$blue-40: #4bb7ff;
+$blue-50: #19a3ff;
+$blue-60: #008ae5;
+$blue-70: #006bb2;
+$blue-80: #004d80;
+$blue-90: #002e4c;
+$blue: $blue-50;
+
+$blue-purple-10: #f0e5ff;
+$blue-purple-20: #d2b2ff;
+$blue-purple-30: #b480ff;
+$blue-purple-40: #9a52ff;
+$blue-purple-50: #7919ff;
+$blue-purple-60: #5f00e5;
+$blue-purple-70: #4a00b2;
+$blue-purple-80: #350080;
+$blue-purple-90: #20004c;
+$blue-purple: $blue-purple-40;
+
+$red-purple-10: #fbe5ff;
+$red-purple-20: #f2b2ff;
+$red-purple-30: #ea80ff;
+$red-purple-40: #e24cff;
+$red-purple-50: #d919ff;
+$red-purple-60: #c000e5;
+$red-purple-70: #9500b2;
+$red-purple-80: #6b0080;
+$red-purple-90: #40004c;
+$red-purple: $red-purple-50;
+
+$magenta-10: #ffe5f2;
+$magenta-20: #ffb2d8;
+$magenta-30: #ff80bf;
+$magenta-40: #ff4ba4;
+$magenta-50: #ff198b;
+$magenta-60: #e50071;
+$magenta-70: #b20058;
+$magenta-80: #80003f;
+$magenta-90: #4c0026;
+$magenta: $magenta-50;
+
+$orange-10: #ffeee5;
+$orange-20: #ffccb2;
+$orange-30: #ffaa80;
+$orange-40: #ff884b;
+$orange-50: #ff6719;
+$orange-60: #e54d00;
+$orange-70: #b23c00;
+$orange-80: #802b00;
+$orange-90: #4c1a00;
+$orange: $orange-50;
+
+$yellow-10: #feffe5;
+$yellow-20: #fdffb2;
+$yellow-30: #fcff80;
+$yellow-40: #fbff4c;
+$yellow-50: #faff19;
+$yellow-60: #e0e500;
+$yellow-70: #aeb200;
+$yellow-80: #7d8000;
+$yellow-90: #4b4c00;
+$yellow: $yellow-50;
+
+$red: #ff668b;
+$red-dark: #940443;
 $shadows: #23292f;
 $white: #fff;
 $white-transparent: rgb(255 255 255 / 75%);
-$testnet: #e54d00;
-$devnet: #008ae5;
-$nft-sandbox: #791aff;
-$sidechain: #faff1a;
-$amm: $magenta-600;
+
+// Networks
+$testnet: $orange-60;
+$devnet: $blue-60;
+$custom: $yellow-50;
+$amm: $magenta;
 
 // TX type colors
 // @see global.scss
 $signerlistset: #791aff;
 $setregularkey: #5f00e5;
+$accountdelete: #ff671a;
 $accountset: #ff1a8b;
 $trustset: #afb200;
 $offercreate: #008ae5;
-$offercancel: $orange-600;
-$payment: $green2;
+$offercancel: #ff671a;
+$payment: #00e66a;
 $checkcash: #00803b;
 $checkcancel: #e54d00;
 $checkcreate: #006bb2;
@@ -82,8 +137,8 @@ $ticketcreate: #55805d;
 $enableamendment: #9ba2b0;
 $setfee: #9ba2b0;
 $unlmodify: #9ba2b0;
-$nft: #791aff;
-$accountdelete: $orange-600;
+$nft: $blue-purple;
+$sidechain: #faff1a;
 
 // Currency colors
 $CURRENCY_DEFAULT: #aedbf7;
@@ -178,16 +233,5 @@ $XRP_OTHERS: #f52a79;
 @mixin transaction-type($transactionType, $color) {
   &.#{$transactionType} {
     @include transaction-type-base($color);
-  }
-}
-
-// KeyFrames
-@keyframes black-10-fade {
-  from {
-    background-color: $black-10;
-  }
-
-  to {
-    background-color: $white;
   }
 }

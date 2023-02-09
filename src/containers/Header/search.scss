@@ -7,11 +7,10 @@
     width: 100%;
     padding: 12px;
     border: 1px transparent;
-    background: url('../shared/images/search.svg') no-repeat;
-    background-color: $gray-900;
-    background-position: right center;
-    background-size: 12px;
     border-radius: 4px;
+    background: $black-80 url('../shared/images/search.svg') no-repeat right
+      center;
+    background-size: 12px;
     color: $white;
     font-size: 14px;
     text-align: left;
@@ -20,7 +19,7 @@
     @include regular;
 
     &::placeholder {
-      color: $gray-400;
+      color: $black-40;
     }
   }
 
@@ -36,13 +35,13 @@
     input {
       width: auto;
       border: none;
-      background-color: $gray-900;
       border-radius: 100px;
+      background-color: $black-80;
       font-size: 10px;
       line-height: 15px;
 
       &::placeholder {
-        color: $gray-400;
+        color: $black-40;
       }
 
       @include for-size(desktop-up) {

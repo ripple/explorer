@@ -1,7 +1,6 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import moxios from 'moxios'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { Provider } from 'react-redux'
@@ -9,9 +8,10 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { initialState } from '../../App/reducer'
 import i18n from '../../../i18nTestConfig'
-import Network from '../index'
+import { Network } from '../index'
 import mockNodes from './mockNodes.json'
-import { queryClient } from '../../shared/utils'
+import { testQueryClient } from '../../test/QueryClient'
+import NetworkContext from '../../shared/NetworkContext'
 
 /* eslint-disable react/jsx-props-no-spreading */
 const middlewares = [thunk]
@@ -21,26 +21,29 @@ const store = mockStore({ app: initialState })
 describe('Nodes Page container', () => {
   const createWrapper = (props = {}) =>
     mount(
-      <QueryClientProvider client={queryClient}>
-        <Router>
-          <I18nextProvider i18n={i18n}>
-            <Provider store={store}>
-              <Network
-                {...props}
-                match={{ params: { tab: 'nodes' }, path: '/' }}
-              />
-            </Provider>
-          </I18nextProvider>
-        </Router>
+      <QueryClientProvider client={testQueryClient}>
+        <I18nextProvider i18n={i18n}>
+          <Provider store={store}>
+            <NetworkContext.Provider value="main">
+              <Router initialEntries={['/network/nodes']}>
+                <Route path="/network/:tab" component={Network} />
+              </Router>
+            </NetworkContext.Provider>
+          </Provider>
+        </I18nextProvider>
       </QueryClientProvider>,
     )
 
+  const oldEnvs = process.env
+
   beforeEach(() => {
     moxios.install()
+    process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
   })
 
   afterEach(() => {
     moxios.uninstall()
+    process.env = oldEnvs
   })
 
   it('renders without crashing', () => {
@@ -49,12 +52,12 @@ describe('Nodes Page container', () => {
   })
 
   it('renders all parts', (done) => {
-    const wrapper = createWrapper()
-
-    moxios.stubRequest(`/api/v1/nodes`, {
+    moxios.stubRequest(`${process.env.VITE_DATA_URL}/topology/nodes/main`, {
       status: 200,
-      response: mockNodes,
+      response: { nodes: mockNodes },
     })
+
+    const wrapper = createWrapper()
 
     expect(wrapper.find('.nodes-map').length).toBe(1)
     expect(wrapper.find('.stat').html()).toBe('<div class="stat"></div>')

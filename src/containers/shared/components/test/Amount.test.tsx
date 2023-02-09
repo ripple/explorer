@@ -1,4 +1,3 @@
-import React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { mount } from 'enzyme'
@@ -48,11 +47,7 @@ describe('Amount', () => {
       issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
     }
 
-    const wrapper2 = mount(
-      <BrowserRouter>
-        <Amount value={value2} />
-      </BrowserRouter>,
-    )
+    const wrapper2 = createWrapper(<Amount value={value2} />)
     expect(wrapper2.find('.currency').text()).toEqual(
       'GBP.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
     )
@@ -110,6 +105,16 @@ describe('Amount', () => {
     )
     expect(wrapper.find('.currency').text()).toEqual('XRP')
     expect(wrapper.find('.amount-localized').text()).toEqual('\uE9000.001')
+    wrapper.unmount()
+  })
+
+  it('handles modifier', () => {
+    const value = '9000'
+    const wrapper = createWrapper(
+      <Amount value={value} displayIssuer={false} modifier="+" />,
+    )
+    expect(wrapper.find('.currency').text()).toEqual('XRP')
+    expect(wrapper.find('.amount-localized').text()).toEqual('+\uE9000.009')
     wrapper.unmount()
   })
 })

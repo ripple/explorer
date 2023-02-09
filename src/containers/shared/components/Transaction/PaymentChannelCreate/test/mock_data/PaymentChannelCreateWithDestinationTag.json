@@ -1,0 +1,85 @@
+{
+  "tx": {
+    "Account": "rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH",
+    "Amount": "100000000",
+    "Destination": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+    "DestinationTag": 20170428,
+    "Fee": "10",
+    "Flags": 2147483648,
+    "PublicKey": "023693F15967AE357D0327974AD46FE3C127113B1110D6044FD41E723689F81CC6",
+    "Sequence": 39,
+    "SettleDelay": 86400,
+    "SigningPubKey": "023693F15967AE357D0327974AD46FE3C127113B1110D6044FD41E723689F81CC6",
+    "TransactionType": "PaymentChannelCreate",
+    "TxnSignature": "304402204C0850DFA1526E7C523284BF0944E59A72362F9F21CF056376CA1B9119E2B5C3022052E37B45BB82D15CCA742B26566904445A0530AABA60568E16FB1EBE60024824",
+    "date": "2017-04-28T22:32:00Z",
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "13F1A95D7AAB7108D5CE7EEAF504B2894B8C674E6D68499076441C4837282BF8",
+          "PreviousTxnID": "8FED577E905FD91185DE7FEF9BF7D7987BE0E25892C33E75906356EBAACE09B6",
+          "PreviousTxnLgrSeq": 29380025
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "PayChannel",
+          "LedgerIndex": "5DB01B7FFED6B67E6B0414DED11E051D2EE2B7619CE0EAA6286D67A3A4D5BDB3",
+          "NewFields": {
+            "Account": "rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH",
+            "Amount": "100000000",
+            "Destination": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+            "DestinationTag": 20170428,
+            "PublicKey": "023693F15967AE357D0327974AD46FE3C127113B1110D6044FD41E723689F81CC6",
+            "SettleDelay": 86400
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH",
+            "Balance": "942868460",
+            "Flags": 0,
+            "OwnerCount": 3,
+            "Sequence": 40
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "B1CB040A17F9469BC00376EC8719535655824AD16CB5F539DD5765FEA88FDBE3",
+          "PreviousFields": {
+            "Balance": "1042868470",
+            "OwnerCount": 2,
+            "Sequence": 39
+          },
+          "PreviousTxnID": "AE8C1F8D44D809F12E5FCF5457E8B28CC3E5FB6A87DF5F52686E32064F4AB1DB",
+          "PreviousTxnLgrSeq": 29380069
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH",
+            "RootIndex": "E590FC40B4F24D18341569BD3702A2D4E07E7BC04D11CE63608B67979E67030C"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "E590FC40B4F24D18341569BD3702A2D4E07E7BC04D11CE63608B67979E67030C"
+        }
+      }
+    ],
+    "TransactionIndex": 16,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "3F93C482C0BC2A1387D9E67DF60BECBB76CC2160AE98522C77AF0074D548F67D",
+  "ledger_index": 29380080,
+  "date": "2017-04-28T22:32:00Z"
+}

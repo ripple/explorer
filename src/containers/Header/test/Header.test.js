@@ -1,4 +1,3 @@
-import React from 'react'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -70,7 +69,7 @@ describe('Header component', () => {
     beforeEach(() => {
       delete window.location
       window.location = { assign: mockedFunction }
-      process.env = { ...oldEnvs, REACT_APP_ENVIRONMENT: 'mainnet' }
+      process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
     })
 
     afterEach(() => {
@@ -92,21 +91,21 @@ describe('Header component', () => {
 
       // test clicking on testnet
       wrapper.find('[value="testnet"]').simulate('click')
-      expect(mockedFunction).toBeCalledWith(process.env.REACT_APP_TESTNET_LINK)
+      expect(mockedFunction).toBeCalledWith(process.env.VITE_TESTNET_LINK)
 
       wrapper.unmount()
     })
 
-    it('redirect on sidechain input works', () => {
+    it('redirect on custom network input works', () => {
       const wrapper = createWrapper()
 
-      const sidechainInput = wrapper.find('[className="sidechain_input"]')
-      sidechainInput.prop('onKeyDown')({
+      const customInput = wrapper.find('[className="custom_network_input"]')
+      customInput.prop('onKeyDown')({
         key: 'Enter',
-        currentTarget: { value: 'sidechain_url' },
+        currentTarget: { value: 'custom_url' },
       })
       expect(mockedFunction).toBeCalledWith(
-        `${process.env.REACT_APP_SIDECHAIN_LINK}/sidechain_url`,
+        `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
 
       wrapper.unmount()
