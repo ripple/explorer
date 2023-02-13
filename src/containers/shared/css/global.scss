@@ -117,8 +117,8 @@ div.react-stockchart div {
   $blue-purple-90
 );
 @include transaction-category(XCHAIN, $yellow, $yellow-30, $yellow-90);
-@include transaction-category(PSUEDO, $white, $white, transparent);
-@include transaction-category(UNKNOWN, $black-50, $black-30, $black-80);
+@include transaction-category(PSUEDO, $white, $white, $black-80);
+@include transaction-category(UNKNOWN, $black-50, $black-30, $black-90);
 
 .tx-result {
   &.success {
