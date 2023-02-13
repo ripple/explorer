@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { Provider } from 'react-redux'
 import { QueryClientProvider } from 'react-query'
@@ -9,7 +9,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { initialState } from '../../App/reducer'
 import i18n from '../../../i18nTestConfig'
-import Network from '../index'
+import { Network } from '../index'
 import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
 import SocketContext from '../../shared/SocketContext'
@@ -29,18 +29,15 @@ describe('Validators Tab container', () => {
   const createWrapper = (props = {}) =>
     mount(
       <QueryClientProvider client={testQueryClient}>
-        <Router>
-          <I18nextProvider i18n={i18n}>
-            <Provider store={store}>
-              <SocketContext.Provider value={client}>
-                <Network
-                  {...props}
-                  match={{ params: { tab: 'validators' }, path: '/' }}
-                />
-              </SocketContext.Provider>
-            </Provider>
-          </I18nextProvider>
-        </Router>
+        <I18nextProvider i18n={i18n}>
+          <Provider store={store}>
+            <SocketContext.Provider value={client}>
+              <Router initialEntries={['/network/validators']}>
+                <Route path="/network/:tab" component={Network} />
+              </Router>
+            </SocketContext.Provider>
+          </Provider>
+        </I18nextProvider>
       </QueryClientProvider>,
     )
 
