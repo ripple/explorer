@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useWindowSize } from 'usehooks-ts'
 import {
   TransactionAction,
   TransactionCategory,
@@ -6,15 +7,24 @@ import {
 import { useLocalStorage } from '../shared/hooks'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import './css/legend.scss'
+import { useEffect, useState } from 'react'
 
-export const LEGEND_STORAGE_KEY = 'explorer-hide-legend'
+export const LEGEND_STORAGE_KEY = 'explorer-legend-previous-interaction'
 
 export const Legend = () => {
   const { t } = useTranslation()
-  const [hidden, setHidden] = useLocalStorage<boolean>(
-    LEGEND_STORAGE_KEY,
-    false,
-  )
+  const windowSize = useWindowSize()
+  const [previousInteraction, setPreviousInteraction] =
+    useLocalStorage<boolean>(LEGEND_STORAGE_KEY, false)
+  const [hidden, setHidden] = useState(previousInteraction)
+
+  // TODO: use global variables when we update places using width from redux.
+  // Show legend by default when on desktop sizes
+  useEffect(() => {
+    if (previousInteraction === false) {
+      setHidden(!(windowSize.width > 900))
+    }
+  }, [previousInteraction, windowSize])
 
   const actions = [
     TransactionAction.CREATE,
@@ -40,7 +50,7 @@ export const Legend = () => {
           <div className="legend-heading">Shapes Legend</div>
           <div className="legend-section">
             {actions.map((action) => (
-              <div className="legend-item">
+              <div className="legend-item" key={action}>
                 <TransactionActionIcon action={action} />{' '}
                 {t(`transaction_action_${action}`)}
               </div>
@@ -49,7 +59,10 @@ export const Legend = () => {
           <div className="legend-heading">Colors Legend</div>
           <div className="legend-section">
             {categories.map((category) => (
-              <div className={`legend-item tx-category-${category}`}>
+              <div
+                className={`legend-item tx-category-${category}`}
+                key={category}
+              >
                 <div className="legend-category" />{' '}
                 {t(`transaction_category_${category}`)}
               </div>
@@ -61,6 +74,9 @@ export const Legend = () => {
         className="btn btn-link legend-toggle"
         type="button"
         onClick={() => {
+          if (previousInteraction === false) {
+            setPreviousInteraction(true)
+          }
           setHidden(!hidden)
         }}
       >

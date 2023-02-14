@@ -21,7 +21,7 @@ describe(`Legend`, () => {
     )
   }
 
-  it(`renders open when localStorage entry 'explorer-hide-legend' is not defined`, () => {
+  it(`renders open when localStorage entry 'explorer-legend-previous-interaction' is not defined`, () => {
     const wrapper = setupTest()
 
     expect(wrapper.find('.legend-heading')).toHaveLength(2)
@@ -30,7 +30,7 @@ describe(`Legend`, () => {
     expect(wrapper.find('.legend-category')).toHaveLength(6) // XChain is hidden for now
     wrapper.unmount()
   })
-  it(`renders open when localStorage entry 'explorer-hide-legend' is set to false`, () => {
+  it(`renders open when localStorage entry 'explorer-legend-previous-interaction' is set to false`, () => {
     const wrapper = setupTest(false)
 
     expect(wrapper.find('.legend-heading')).toHaveLength(2)
@@ -38,21 +38,21 @@ describe(`Legend`, () => {
     wrapper.unmount()
   })
 
-  it(`renders closed when localStorage entry 'explorer-hide-legend' is set to true`, () => {
+  it(`renders closed when localStorage entry 'explorer-legend-previous-interaction' is set to true`, () => {
     const wrapper = setupTest(true)
 
     expect(wrapper.find('.legend-heading')).not.toExist()
     expect(wrapper.find('.legend-section')).not.toExist()
   })
 
-  it(`sets 'explorer-hide-legend' when the toggle is clicked`, () => {
+  it(`sets 'explorer-legend-previous-interaction' when the toggle is clicked`, () => {
     const wrapper = setupTest(false)
 
     wrapper.find('.legend-toggle').simulate('click')
     expect(localStorage.getItem(LEGEND_STORAGE_KEY)).toEqual('true')
 
     wrapper.find('.legend-toggle').simulate('click')
-    expect(localStorage.getItem(LEGEND_STORAGE_KEY)).toEqual('false')
+    expect(localStorage.getItem(LEGEND_STORAGE_KEY)).toEqual('true') // keeps it true
     wrapper.unmount()
   })
 })
