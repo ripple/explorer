@@ -10,6 +10,14 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
   },
+  AccountSet: {
+    0x00010000: 'tfRequireDestTag',
+    0x00020000: 'tfOptionalDestTag',
+    0x00040000: 'tfRequireAuth',
+    0x00080000: 'tfOptionalAuth',
+    0x00100000: 'tfDisallowXRP',
+    0x00200000: 'tfAllowXRP',
+  },
   AMMDeposit: {
     0x00010000: 'tfLPToken',
     0x00080000: 'tfSingleAsset',
@@ -35,24 +43,20 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   NFTokenOfferCreate: {
     0x00000001: 'tfSellNFToken',
   },
-  Payment: {
-    0x00010000: 'tfNoDirectRipple',
-    0x00020000: 'tfPartialPayment',
-    0x00040000: 'tfLimitQuality',
-  },
-  AccountSet: {
-    0x00010000: 'tfRequireDestTag',
-    0x00020000: 'tfOptionalDestTag',
-    0x00040000: 'tfRequireAuth',
-    0x00080000: 'tfOptionalAuth',
-    0x00100000: 'tfDisallowXRP',
-    0x00200000: 'tfAllowXRP',
-  },
   OfferCreate: {
     0x00010000: 'tfPassive',
     0x00020000: 'tfImmediateOrCancel',
     0x00040000: 'tfFillOrKill',
     0x00080000: 'tfSell',
+  },
+  Payment: {
+    0x00010000: 'tfNoDirectRipple',
+    0x00020000: 'tfPartialPayment',
+    0x00040000: 'tfLimitQuality',
+  },
+  PaymentChannelClaim: {
+    0x00010000: 'tfRenew',
+    0x00020000: 'tfClose',
   },
   TrustSet: {
     0x00010000: 'tfSetAuth',
@@ -61,9 +65,8 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00100000: 'tfSetFreeze',
     0x00200000: 'tfClearFreeze',
   },
-  PaymentChannelClaim: {
-    0x00010000: 'tfRenew',
-    0x00020000: 'tfClose',
+  XChainModifyBridge: {
+    0x00010000: 'tfClearAccountCreateAmount',
   },
 }
 
