@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWindowSize } from 'usehooks-ts'
 import {
@@ -7,7 +8,6 @@ import {
 import { useLocalStorage } from '../shared/hooks'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import './css/legend.scss'
-import { useEffect, useState } from 'react'
 
 export const LEGEND_STORAGE_KEY = 'explorer-legend-previous-interaction'
 
