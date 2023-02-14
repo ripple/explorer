@@ -27,6 +27,7 @@ describe('TransactionActionIcon', () => {
   })
 
   it('renders with no action or type', () => {
+    // @ts-expect-error
     const wrapper = mount(<TransactionActionIcon />)
     expect(wrapper).toContainReact(<TransactionUnknownIcon />)
     wrapper.unmount()

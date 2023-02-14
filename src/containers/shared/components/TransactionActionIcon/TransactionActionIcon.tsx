@@ -8,9 +8,9 @@ import TransactionModifyIcon from './TransactionModifyIcon.svg'
 import TransactionSendIcon from './TransactionSendIcon.svg'
 import TransactionUnknownIcon from './TransactionUnknownIcon.svg'
 
-type TransactionActionIconProps =
-  | { action: TransactionAction; type: never }
-  | { action: never; type: string }
+export type TransactionActionIconProps =
+  | { action: TransactionAction; type?: never }
+  | { action?: never; type: string }
 
 export const TransactionActionIcon = ({
   action,
