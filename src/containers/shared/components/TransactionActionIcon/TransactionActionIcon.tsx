@@ -17,7 +17,7 @@ export const TransactionActionIcon = ({
   action,
   type,
 }: TransactionActionIconProps) => {
-  const icons: Record<string, ReactElement> = {
+  const icons: Record<TransactionAction, ReactElement> = {
     [TransactionAction.CANCEL]: <TransactionCancelIcon />,
     [TransactionAction.CREATE]: <TransactionCreateIcon />,
     [TransactionAction.FINISH]: <TransactionFinishIcon />,
