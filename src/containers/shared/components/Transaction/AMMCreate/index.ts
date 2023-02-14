@@ -9,6 +9,6 @@ import { parser } from './parser'
 export const AMMCreate: TransactionMapping = {
   Simple,
   action: TransactionAction.CREATE,
-  parser,
   category: TransactionCategory.DEX,
+  parser,
 }

@@ -9,7 +9,7 @@ import { EnableAmendment } from './types'
 
 export const EnableAmendmentTransaction: TransactionMapping = {
   Simple,
-  parser: (tx: EnableAmendment): EnableAmendment => tx,
   action: TransactionAction.MODIFY,
   category: TransactionCategory.PSEUDO,
+  parser: (tx: EnableAmendment): EnableAmendment => tx,
 }

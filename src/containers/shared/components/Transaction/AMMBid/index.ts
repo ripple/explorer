@@ -9,6 +9,6 @@ import { parser } from './parser'
 export const AMMBid: TransactionMapping = {
   Simple,
   action: TransactionAction.MODIFY,
-  parser,
   category: TransactionCategory.DEX,
+  parser,
 }

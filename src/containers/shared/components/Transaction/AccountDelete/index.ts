@@ -9,7 +9,7 @@ import { AccountDelete } from './types'
 
 export const AccountDeleteTransaction: TransactionMapping = {
   Simple,
-  parser: (tx: AccountDelete): AccountDelete => tx,
   action: TransactionAction.CANCEL,
   category: TransactionCategory.ACCOUNT,
+  parser: (tx: AccountDelete): AccountDelete => tx,
 }

@@ -10,6 +10,6 @@ import { parser } from './parser'
 export const AMMVote: TransactionMapping = {
   Simple,
   action: TransactionAction.MODIFY,
-  parser,
   category: TransactionCategory.DEX,
+  parser,
 }

@@ -9,6 +9,6 @@ import { parser } from './parser'
 export const AMMWithdraw: TransactionMapping = {
   Simple,
   action: TransactionAction.SEND,
-  parser,
   category: TransactionCategory.DEX,
+  parser,
 }
