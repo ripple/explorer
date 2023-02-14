@@ -245,7 +245,7 @@ class Ledgers extends Component {
     const { t, language, isOnline } = this.props
     return (
       <div className="ledgers">
-        {isOnline ? (
+        {isOnline && ledgers.length > 0 ? (
           <>
             <Legend />
             <div className="control">{selected && this.renderSelected()}</div>

@@ -13,6 +13,7 @@ $ledger-width: 196px;
 
   .loader {
     position: inherit;
+    margin: 0;
   }
 }
 
@@ -79,8 +80,9 @@ $ledger-width: 196px;
   }
 
   .ledger-list {
+    position: relative;
     display: flex;
-    padding: 0 0 40px $ledgers-margin-large;
+    padding-left: $ledgers-margin-large; /* Did not use margin as that would chop off the scrolling */
     overflow-x: scroll;
     scrollbar-width: none; /* Firefox */
 
