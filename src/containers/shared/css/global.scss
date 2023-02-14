@@ -93,65 +93,32 @@ div.react-stockchart div {
   @include bold;
 }
 
-.tx-type {
-  border-left-color: $black;
-  color: $black;
+@mixin transaction-category($category, $color, $hover, $background) {
+  .tx-category-#{$category} {
+    color: $color;
 
-  &.bg {
-    background: $black;
+    &:hover {
+      color: $hover;
+    }
+
+    &.tx-label {
+      background: $background;
+    }
   }
-
-  @include transaction-type(AccountSet, $accountset);
-  @include transaction-type(CheckCancel, $checkcancel);
-  @include transaction-type(CheckCash, $checkcash);
-  @include transaction-type(CheckCreate, $checkcreate);
-  @include transaction-type(EscrowCancel, $escrowcancel);
-  @include transaction-type(EscrowCreate, $escrowcreate);
-  @include transaction-type(EscrowFinish, $escrowfinish);
-  @include transaction-type(OfferCancel, $offercancel);
-  @include transaction-type(OfferCreate, $offercreate);
-  @include transaction-type(TicketCreate, $ticketcreate);
-  @include transaction-type(Payment, $payment);
-  @include transaction-type(PaymentChannelClaim, $paymentchannelclaim);
-  @include transaction-type(PaymentChannelCreate, $paymentchannelcreate);
-  @include transaction-type(PaymentChannelFund, $paymentchannelfund);
-  @include transaction-type(EnableAmendment, $enableamendment);
-  @include transaction-type(SetFee, $setfee);
-  @include transaction-type(SetRegularKey, $setregularkey);
-  @include transaction-type(SignerListSet, $signerlistset);
-  @include transaction-type(TrustSet, $trustset);
-  @include transaction-type(UNLModify, $unlmodify);
-  @include transaction-type(AccountDelete, $accountdelete);
-
-  /* stylelint-disable selector-class-pattern -- Name of class is TransactionType */
-  &.NFTokenAcceptOffer,
-  &.NFTokenBurn,
-  &.NFTokenCancelOffer,
-  &.NFTokenCreateOffer,
-  &.NFTokenMint {
-    @include transaction-type-base($nft);
-  }
-
-  &.XChainAccountCreateCommit,
-  &.XChainAddAccountCreateAttestation,
-  &.XChainAddClaimAttestation,
-  &.XChainClaim,
-  &.XChainCommit,
-  &.XChainCreateBridge,
-  &.XChainCreateClaimID,
-  &.XChainModifyBridge {
-    @include transaction-type-base($sidechain);
-  }
-
-  &.AMMCreate,
-  &.AMMDeposit,
-  &.AMMWithdraw,
-  &.AMMVote,
-  &.AMMBid {
-    @include transaction-type-base($amm);
-  }
-  /* stylelint-enable selector-class-pattern */
 }
+
+@include transaction-category(ACCOUNT, $magenta, $magenta-30, $magenta-90);
+@include transaction-category(DEX, $blue, $blue-30, $blue-90);
+@include transaction-category(PAYMENT, $green, $green-30, $green-90);
+@include transaction-category(
+  NFT,
+  $blue-purple,
+  $blue-purple-30,
+  $blue-purple-90
+);
+@include transaction-category(XCHAIN, $yellow, $yellow-30, $yellow-90);
+@include transaction-category(PSUEDO, $white, $white, $black-80);
+@include transaction-category(UNKNOWN, $black-50, $black-30, $black-90);
 
 .tx-result {
   &.success {
@@ -190,7 +157,17 @@ div.react-stockchart div {
   }
 }
 
-a {
+.btn {
+  border: none;
+  background: transparent;
+  color: $white;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+a,
+.btn-link {
   color: $green-30;
   text-decoration: none;
 
