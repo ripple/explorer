@@ -1,0 +1,39 @@
+@import '../../shared/css/variables';
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-transform: uppercase;
+}
+
+.legend-category {
+  display: inline-block;
+  width: 12px;
+  height: 2px;
+  background: currentcolor;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  gap: 8px;
+}
+
+.legend-heading {
+  color: #a2a2a4;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.legend-section {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 16px;
+
+  @include for-size(desktop-up) {
+    flex-direction: row;
+  }
+}

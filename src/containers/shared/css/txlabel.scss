@@ -1,17 +1,24 @@
 @import './variables';
 
 .tx-label {
-  display: inline-block;
+  display: inline-flex;
   max-width: 100%;
-  padding: 2px 14px;
+  align-items: center;
+  padding: 2px 8px;
   border: 1px solid currentcolor;
   border-radius: 100px;
+  font-size: 14px;
+  line-height: 1;
+  @include semibold;
 
-  div {
+  .tx-type-name {
     color: $white;
-    font-size: 14px;
+    letter-spacing: 0;
     text-transform: uppercase;
-    @include semibold;
     @extend %truncate;
+
+    &::before {
+      content: '\00a0';
+    }
   }
 }

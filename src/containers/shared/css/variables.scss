@@ -112,33 +112,10 @@ $white-transparent: rgb(255 255 255 / 75%);
 $testnet: $orange-60;
 $devnet: $blue-60;
 $custom: $yellow-50;
-$amm: $magenta;
 
-// TX type colors
-// @see global.scss
-$signerlistset: #791aff;
-$setregularkey: #5f00e5;
-$accountdelete: #ff671a;
-$accountset: #ff1a8b;
-$trustset: #afb200;
-$offercreate: #008ae5;
-$offercancel: #ff671a;
-$payment: #00e66a;
-$checkcash: #00803b;
-$checkcancel: #e54d00;
-$checkcreate: #006bb2;
-$escrowcreate: #d91aff;
-$escrowcancel: #e50071;
-$escrowfinish: #c000e5;
-$paymentchannelcreate: #7d8000;
-$paymentchannelfund: #004d23;
-$paymentchannelclaim: #4b4d00;
-$ticketcreate: #55805d;
-$enableamendment: #9ba2b0;
-$setfee: #9ba2b0;
-$unlmodify: #9ba2b0;
+// Feature Sets
+$amm: $blue;
 $nft: $blue-purple;
-$sidechain: #faff1a;
 
 // Currency colors
 $CURRENCY_DEFAULT: #aedbf7;
@@ -218,20 +195,5 @@ $XRP_OTHERS: #f52a79;
     @media (min-width: $desktop-upper-boundary) {
       @content;
     }
-  }
-}
-
-@mixin transaction-type-base($color) {
-  border-left-color: $color;
-  color: $color;
-
-  &.bg {
-    background: $color;
-  }
-}
-
-@mixin transaction-type($transactionType, $color) {
-  &.#{$transactionType} {
-    @include transaction-type-base($color);
   }
 }

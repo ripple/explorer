@@ -1,44 +1,23 @@
 import { FC } from 'react'
 import { Memo } from '../../transactionUtils'
 
-export interface Instructions {
-  owner: string
-  sequence: number
-  ticketSequence: number
-  fulfillment: string
-  finishAfter: string
-  cancelAfter: string
-  condition: string
-  quorum: number
-  max: {
-    amount: number
-    currency: string
-    issuer: string
-  }
-  maxSigners: number
-  signers: any[]
-  domain: string
-  key: string
-  limit: any
-  pair: string
-  sourceTag: number
-  source: string
-  claimed: any
-  // eslint-disable-next-line camelcase
-  channel_amount: number
-  remaining: number
-  renew: boolean
-  close: boolean
-  deleted: boolean
-  gets: any
-  pays: any
-  price: string
-  cancel: number
-  convert: any
-  amount: any
-  destination: string
-  partial: boolean
-  ticketCount: number
+export enum TransactionCategory {
+  DEX = 'DEX',
+  ACCOUNT = 'ACCOUNT',
+  PAYMENT = 'PAYMENT',
+  NFT = 'NFT',
+  XCHAIN = 'XCHAIN',
+  PSEUDO = 'PSUEDO',
+  UNKNOWN = 'UNKNOWN',
+}
+
+export enum TransactionAction {
+  CREATE = 'CREATE',
+  CANCEL = 'CANCEL',
+  FINISH = 'FINISH',
+  MODIFY = 'MODIFY',
+  SEND = 'SEND',
+  UNKNOWN = 'UNKNOWN',
 }
 
 export interface TransactionTableDetailProps<I = any> {
@@ -67,6 +46,8 @@ export interface TransactionMapping {
   Simple: TransactionSimpleComponent
   TableDetail?: TransactionTableDetailComponent
   parser: TransactionParser
+  action: TransactionAction
+  category: TransactionCategory
 }
 
 export interface TransactionCommonFields {
