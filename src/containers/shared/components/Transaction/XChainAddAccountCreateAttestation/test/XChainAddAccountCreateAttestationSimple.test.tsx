@@ -34,7 +34,7 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
     expectSimpleRowText(
       wrapper,
       'destination',
-      'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
+      'rLbKhMNskUBYRShdbbQcFm9YhumEeUJfPK',
     )
     expect(wrapper.find(`[data-test="destination"] a`)).toExist()
   })
