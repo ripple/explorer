@@ -6,6 +6,11 @@ export function parser(tx: any, meta: any) {
     (node: any) =>
       node.ModifiedNode && node.ModifiedNode.LedgerEntryType === 'Bridge',
   )[0]
+  const claimIDMeta = affectedNodes.filter(
+    (node: any) =>
+      node.CreatedNode &&
+      node.CreatedNode.LedgerEntryType === 'XChainOwnedClaimID',
+  )[0]
   return {
     lockingDoor: tx.XChainBridge.LockingChainDoor,
     lockingIssue: tx.XChainBridge.LockingChainIssue,
@@ -14,5 +19,6 @@ export function parser(tx: any, meta: any) {
     signatureReward: formatAmount(tx.SignatureReward),
     otherChainSource: tx.OtherChainSource,
     bridgeOwner: bridgeMeta.ModifiedNode.FinalFields.Account,
+    claimID: claimIDMeta.CreatedNode.NewFields.XChainClaimID,
   }
 }

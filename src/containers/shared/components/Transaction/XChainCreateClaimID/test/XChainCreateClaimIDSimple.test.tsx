@@ -30,5 +30,6 @@ describe('XChainCreateClaimIDSimple', () => {
       'other-chain-account',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
+    expectSimpleRowText(wrapper, 'claim-id', '5')
   })
 })

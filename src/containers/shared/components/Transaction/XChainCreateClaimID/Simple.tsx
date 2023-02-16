@@ -18,6 +18,7 @@ export const Simple: TransactionSimpleComponent = (
         signatureReward,
         otherChainSource,
         bridgeOwner,
+        claimID,
       },
     },
   } = props
@@ -37,6 +38,9 @@ export const Simple: TransactionSimpleComponent = (
         data-test="other-chain-account"
       >
         <Account account={otherChainSource} link={false} />
+      </SimpleRow>
+      <SimpleRow label={t('xchain_claim_id')} data-test="claim-id">
+        {claimID}
       </SimpleRow>
     </>
   )
