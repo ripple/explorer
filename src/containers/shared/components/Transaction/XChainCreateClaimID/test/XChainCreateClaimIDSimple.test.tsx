@@ -30,6 +30,6 @@ describe('XChainCreateClaimIDSimple', () => {
       'other-chain-source',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
-    expectSimpleRowText(wrapper, 'claim-id', '5')
+    expectSimpleRowText(wrapper, 'claim-id', '1')
   })
 })
