@@ -356,7 +356,7 @@
   "issuing_chain_issue": "Issuing Chain Issue",
   "signature_reward": "Signature Reward",
   "min_account_create_amount": "Minimum Account Creation Amount",
-  "other_chain_account": "Other Chain Account",
+  "other_chain_source": "Other Chain Account",
   "xchain_claim_id": "XChain Claim ID",
   "check_nft_id": "Please check your NFT ID",
   "get_nft_state_failed": "Unable to load NFT",
