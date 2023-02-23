@@ -135,9 +135,9 @@
     "transform": {
       "^.+\\.(ts|tsx)?$": "ts-jest",
       "^.+\\.(js|jsx)$": "babel-jest",
-      "^.+\\.(svg)$": "<rootDir>/src/testUtils/svgTransform.js",
-      "^.+\\.(css|scss)$": "<rootDir>/src/testUtils/cssTransform.js",
-      "^.+\\.(png)$": "<rootDir>/src/testUtils/imageTransform.js"
+      "^.+\\.(svg)$": "<rootDir>/testUtils/svgTransform.js",
+      "^.+\\.(css|scss)$": "<rootDir>/testUtils/cssTransform.js",
+      "^.+\\.(png)$": "<rootDir>/testUtils/imageTransform.js"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!arc)/(?!d3)"
@@ -160,7 +160,7 @@
       "!src/registerServiceWorker.js",
       "!src/containers/shared/images/*",
       "!src/containers/test/*",
-      "!src/testUtils/*"
+      "!testUtils/*"
     ],
     "coverageThreshold": {
       "global": {
