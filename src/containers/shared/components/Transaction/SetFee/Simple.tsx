@@ -6,7 +6,7 @@ import { SetFeeInstructions } from './types'
 export const Simple = ({
   data,
 }: TransactionSimpleProps<SetFeeInstructions>) => {
-  const { fee, base, increment } = data.instructions
+  const { fee, reserve, increment } = data.instructions
 
   return (
     <>
@@ -14,7 +14,7 @@ export const Simple = ({
         <Amount value={fee} />
       </SimpleRow>
       <SimpleRow label="Reserve" data-test="reserve">
-        <Amount value={base} />
+        <Amount value={reserve} />
       </SimpleRow>
       <SimpleRow label="Reserve Increment" data-test="reserve-increment">
         <Amount value={increment} />

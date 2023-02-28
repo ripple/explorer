@@ -30,6 +30,6 @@ export type SetFee = SetFeePreAmendment | SetFeePostAmendment
 
 export interface SetFeeInstructions {
   fee: string
-  base: string
+  reserve: string
   increment: string
 }

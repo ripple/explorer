@@ -1,24 +1,36 @@
+import { Trans } from 'react-i18next'
 import { TransactionDescriptionProps } from '../types'
 import { parser } from './parser'
 import { Amount } from '../../Amount'
 
 export const Description = ({ data }: TransactionDescriptionProps) => {
-  const { fee, base, increment } = parser(data.tx)
+  const { fee, reserve, increment } = parser(data.tx)
 
   return (
     <>
       <div data-test="fees-line">
-        Future transactions will require a minimum fee of <Amount value={fee} />
-        .
+        <Trans
+          i18nKey="setfee_fees_description"
+          components={{
+            amount: <Amount value={fee} />,
+          }}
+        />
       </div>
       <div data-test="reserves-line">
-        Accounts must now hold a base of <Amount value={base} /> and an
-        additional <Amount value={increment} /> for each additional object that
-        account owns.
+        <Trans
+          i18nKey="setfee_reserves_description"
+          components={{
+            base: <Amount value={reserve} />,
+            increment: <Amount value={increment} />,
+          }}
+        />
       </div>
       <br />
       <div data-test="documentation-line">
-        Visit the docs: <a href="https://xrpl.org/fees.html">Fees</a>
+        <Trans
+          i18nKey="setfee_docs_description"
+          components={[<a href="https://xrpl.org/fees.html" />]}
+        />
       </div>
     </>
   )
