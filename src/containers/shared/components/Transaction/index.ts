@@ -18,6 +18,7 @@ import { PaymentTransaction as Payment } from './Payment'
 import { PaymentChannelClaimTransaction as PaymentChannelClaim } from './PaymentChannelClaim'
 import { PaymentChannelCreateTransaction as PaymentChannelCreate } from './PaymentChannelCreate'
 import { PaymentChannelFundTransaction as PaymentChannelFund } from './PaymentChannelFund'
+import { SetFeeTransaction as SetFee } from './SetFee'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
 import { XChainAccountCreateCommitTransaction as XChainAccountCreateCommit } from './XChainAccountCreateCommit'
@@ -57,6 +58,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   PaymentChannelCreate,
   PaymentChannelClaim,
   PaymentChannelFund,
+  SetFee,
   SetRegularKey,
   SignerListSet,
   XChainAccountCreateCommit,
