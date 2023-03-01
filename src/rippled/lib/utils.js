@@ -14,7 +14,7 @@ export const ACCOUNT_FLAGS = {
   0x00400000: 'lsfGlobalFreeze',
   0x00800000: 'lsfDefaultRipple',
   0x01000000: 'lsfDepositAuth',
-  0x04000000: 'lsfDisallowIncomingNFTOffer',
+  0x04000000: 'lsfDisallowIncomingNFTokenOffer',
   0x08000000: 'lsfDisallowIncomingCheck',
   0x10000000: 'lsfDisallowIncomingPayChan',
   0x20000000: 'lsfDisallowIncomingTrustline',
