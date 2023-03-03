@@ -1,7 +1,3 @@
-import axios from 'axios'
-import { getQuorum, getNegativeUNL } from '../../rippled'
-import Log from './log'
-
 const THOUSAND = 1000
 const MILLION = THOUSAND * THOUSAND
 const BILLION = MILLION * THOUSAND
@@ -372,29 +368,6 @@ export const durationToHuman = (s, decimal = 2) => {
 
   return `${d.num.toFixed(decimal)} ${d.unit}`
 }
-
-export const fetchNegativeUNL = async (rippledSocket) =>
-  getNegativeUNL(rippledSocket)
-    .then((data) => {
-      if (data === undefined) throw new Error('undefined nUNL')
-
-      return data
-    })
-    .catch((e) => Log.error(e))
-
-export const fetchQuorum = async (rippledSocket) =>
-  getQuorum(rippledSocket)
-    .then((data) => {
-      if (data === undefined) throw new Error('undefined quorum')
-      return data
-    })
-    .catch((e) => Log.error(e))
-
-export const fetchMetrics = () =>
-  axios
-    .get('/api/v1/metrics')
-    .then((result) => result.data)
-    .catch((e) => Log.error(e))
 
 export const removeRoutes = (routes, ...routesToRemove) =>
   routes.filter((route) => !routesToRemove.includes(route.title))

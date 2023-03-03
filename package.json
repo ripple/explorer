@@ -274,12 +274,6 @@
           "tsx": "never"
         }
       ],
-      "import/no-cycle": [
-        2,
-        {
-          "maxDepth": 5
-        }
-      ],
       "react/jsx-uses-react": "off",
       "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
