@@ -1,8 +1,9 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 import Log from '../log'
-import { fetchNegativeUNL, fetchQuorum, fetchMetrics } from '../utils'
 import SocketContext from '../SocketContext'
+import { getNegativeUNL, getQuorum } from '../../../rippled'
 import { getLedger, getServerInfo } from '../../../rippled/lib/rippled'
 import { EPOCH_OFFSET } from '../../../rippled/lib/utils'
 import { summarizeLedger } from '../../../rippled/lib/summarizeLedger'
@@ -93,6 +94,29 @@ const formatLedgers = (data) =>
       return { ...ledger, hashes }
     })
     .sort((a, b) => b.ledger_index - a.ledger_index)
+
+export const fetchNegativeUNL = async (rippledSocket) =>
+  getNegativeUNL(rippledSocket)
+    .then((data) => {
+      if (data === undefined) throw new Error('undefined nUNL')
+
+      return data
+    })
+    .catch((e) => Log.error(e))
+
+export const fetchQuorum = async (rippledSocket) =>
+  getQuorum(rippledSocket)
+    .then((data) => {
+      if (data === undefined) throw new Error('undefined quorum')
+      return data
+    })
+    .catch((e) => Log.error(e))
+
+export const fetchMetrics = () =>
+  axios
+    .get('/api/v1/metrics')
+    .then((result) => result.data)
+    .catch((e) => Log.error(e))
 
 class Streams extends Component {
   constructor(props) {
