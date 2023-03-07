@@ -1,6 +1,6 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { Provider } from 'react-redux'
@@ -8,7 +8,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { initialState } from '../../App/reducer'
 import i18n from '../../../i18nTestConfig'
-import Network from '../index'
+import { Network } from '../index'
 import mockNodes from './mockNodes.json'
 import { testQueryClient } from '../../test/QueryClient'
 import NetworkContext from '../../shared/NetworkContext'
@@ -22,18 +22,15 @@ describe('Nodes Page container', () => {
   const createWrapper = (props = {}) =>
     mount(
       <QueryClientProvider client={testQueryClient}>
-        <Router>
-          <I18nextProvider i18n={i18n}>
-            <Provider store={store}>
-              <NetworkContext.Provider value="main">
-                <Network
-                  {...props}
-                  match={{ params: { tab: 'nodes' }, path: '/' }}
-                />
-              </NetworkContext.Provider>
-            </Provider>
-          </I18nextProvider>
-        </Router>
+        <I18nextProvider i18n={i18n}>
+          <Provider store={store}>
+            <NetworkContext.Provider value="main">
+              <Router initialEntries={['/network/nodes']}>
+                <Route path="/network/:tab" component={Network} />
+              </Router>
+            </NetworkContext.Provider>
+          </Provider>
+        </I18nextProvider>
       </QueryClientProvider>,
     )
 

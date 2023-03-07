@@ -12,7 +12,7 @@ describe('XChainCreateClaimIDSimple', () => {
     expectSimpleRowText(
       wrapper,
       'locking-chain-door',
-      'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
+      'rNe5NbD1hqCSZPz9KM5PHm5Bf8jjHfezPE',
     )
     expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
@@ -27,8 +27,9 @@ describe('XChainCreateClaimIDSimple', () => {
     expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
     expectSimpleRowText(
       wrapper,
-      'other-chain-account',
+      'other-chain-source',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
+    expectSimpleRowText(wrapper, 'claim-id', '1')
   })
 })

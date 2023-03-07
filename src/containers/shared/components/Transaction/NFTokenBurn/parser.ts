@@ -5,4 +5,5 @@ export const parser: TransactionParser<NFTokenBurn, NFTokenBurnInstructions> = (
   tx,
 ) => ({
   tokenID: tx.NFTokenID,
+  owner: tx.Owner,
 })

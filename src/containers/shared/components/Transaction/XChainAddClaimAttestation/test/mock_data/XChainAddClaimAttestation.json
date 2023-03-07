@@ -1,0 +1,141 @@
+{
+  "tx": {
+    "Account": "rPV2mFffxz6Lm8Acx1P8qT26oq2JzwxuHg",
+    "Amount": "10000000",
+    "AttestationRewardAccount": "rPV2mFffxz6Lm8Acx1P8qT26oq2JzwxuHg",
+    "AttestationSignerAccount": "rpapTCHENsVvY73EBjK8TC91bkEWgeGEma",
+    "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+    "Fee": "20",
+    "LastLedgerSequence": 16,
+    "OtherChainSource": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+    "PublicKey": "ED0363D86ED103CF3EE768CC40A459A3684C46CB2D6C2F265EB29C483ECF62044C",
+    "Sequence": 7,
+    "Signature": "DDD0D3705359D751D63B37C00B9C83F31B0C0E5EF93F948D65C1DEDE184E87D73F70F406C8FB02B1B25564003263F544D8D9F7164057699CFDD6936236A9AF04",
+    "SigningPubKey": "EDE023B2C4049FB44B86C5F734801161C1969B33051A25A5DEF242673D55A6D169",
+    "TransactionType": "XChainAddClaimAttestation",
+    "TxnSignature": "DF43CEF994849AC597FD5F73EAB7A2B6EA302B15B91C8E6CCBFC3AE1A5299C3C6241CAD0BA8C3341DB2B6488ADCE69E3FF0C5A40DA2B4A90FD9977363B87570C",
+    "WasLockingChainSend": 1,
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": {
+        "currency": "XRP"
+      },
+      "LockingChainDoor": "r3ZsJYkBao2qiwUCvmjfgEUquKueLAwPxQ",
+      "LockingChainIssue": {
+        "currency": "XRP"
+      }
+    },
+    "XChainClaimID": "1",
+    "date": 1676580613000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+            "Flags": 0,
+            "OtherChainSource": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+            "OwnerNode": "0",
+            "SignatureReward": "100",
+            "XChainBridge": {
+              "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+              "IssuingChainIssue": {
+                "currency": "XRP"
+              },
+              "LockingChainDoor": "r3ZsJYkBao2qiwUCvmjfgEUquKueLAwPxQ",
+              "LockingChainIssue": {
+                "currency": "XRP"
+              }
+            },
+            "XChainClaimAttestations": [
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rBXad827GoQSdKM59v4RYehKPq3MmfRBiw",
+                  "AttestationSignerAccount": "rDu8rXLv4j7Fv5dRHUWM5mWnH43BkVkvr3",
+                  "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+                  "PublicKey": "ED01B4A7A25F226101B9A81C39765E5EC23DCE26B95020AF69561742A7CF686E40",
+                  "WasLockingChainSend": 1
+                }
+              },
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rESLaELJZzxkDaHtVfymwnK8v4WtpYpu9a",
+                  "AttestationSignerAccount": "rpkELuziXCWP5pmgkgwWyviq1wFHJnc5DY",
+                  "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+                  "PublicKey": "ED18F1E49CE9F8F79FAD5D171A10B74A6D0BE3F79191FFF8D3190C362E4262CDDD",
+                  "WasLockingChainSend": 1
+                }
+              },
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rPV2mFffxz6Lm8Acx1P8qT26oq2JzwxuHg",
+                  "AttestationSignerAccount": "rpapTCHENsVvY73EBjK8TC91bkEWgeGEma",
+                  "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+                  "PublicKey": "ED0363D86ED103CF3EE768CC40A459A3684C46CB2D6C2F265EB29C483ECF62044C",
+                  "WasLockingChainSend": 1
+                }
+              }
+            ],
+            "XChainClaimID": "1"
+          },
+          "LedgerEntryType": "XChainOwnedClaimID",
+          "LedgerIndex": "1B07AEFC5B2D612D4B0675A19A00424BD2544BB574E068483581FC67DDCEAAC5",
+          "PreviousFields": {
+            "XChainClaimAttestations": [
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rBXad827GoQSdKM59v4RYehKPq3MmfRBiw",
+                  "AttestationSignerAccount": "rDu8rXLv4j7Fv5dRHUWM5mWnH43BkVkvr3",
+                  "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+                  "PublicKey": "ED01B4A7A25F226101B9A81C39765E5EC23DCE26B95020AF69561742A7CF686E40",
+                  "WasLockingChainSend": 1
+                }
+              },
+              {
+                "XChainClaimProofSig": {
+                  "Amount": "10000000",
+                  "AttestationRewardAccount": "rESLaELJZzxkDaHtVfymwnK8v4WtpYpu9a",
+                  "AttestationSignerAccount": "rpkELuziXCWP5pmgkgwWyviq1wFHJnc5DY",
+                  "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+                  "PublicKey": "ED18F1E49CE9F8F79FAD5D171A10B74A6D0BE3F79191FFF8D3190C362E4262CDDD",
+                  "WasLockingChainSend": 1
+                }
+              }
+            ]
+          },
+          "PreviousTxnID": "C1421E3F95B63CCBE72C5C6E89C64EDD908F3E224D81AB3F3A65DD34023C99D5",
+          "PreviousTxnLgrSeq": 13
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rPV2mFffxz6Lm8Acx1P8qT26oq2JzwxuHg",
+            "Balance": "9999985",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 8
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "2FFAF7F72F36BA553C7555F12A82BF2B0EF13345DF37F1F11B2D91B5DD1E29E4",
+          "PreviousFields": {
+            "Balance": "10000005",
+            "Sequence": 7
+          },
+          "PreviousTxnID": "9569ED0B01279B441AD3D507EA2FCB564D6C0CAB4DAB8240C2D0428E1A5FEB2E",
+          "PreviousTxnLgrSeq": 11
+        }
+      }
+    ],
+    "TransactionIndex": 2,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "2FC69A726F4FB4141222BD0B73C7D19DC8BBCB8ACA0487BBBC8B055243360363",
+  "ledger_index": 13,
+  "date": 1676580613000
+}
