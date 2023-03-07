@@ -1,0 +1,46 @@
+{
+  "tx": {
+    "Account": "rrrrrrrrrrrrrrrrrrrrrhoLvTp",
+    "BaseFeeDrops": "10",
+    "Fee": "0",
+    "LedgerSequence": 66462465,
+    "ReserveBaseDrops": "10000000",
+    "ReserveIncrementDrops": "2000000",
+    "Sequence": 0,
+    "SigningPubKey": "",
+    "TransactionType": "SetFee",
+    "date": 1632045932000,
+    "warnings": [
+      {
+        "id": 1004,
+        "message": "This is a reporting server.  The default behavior of a reporting server is to only return validated data. If you are looking for not yet validated data, include \"ledger_index : current\" in your request, which will cause this server to forward the request to a p2p node. If the forward is successful the response will include \"forwarded\" : \"true\""
+      }
+    ]
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "BaseFeeDrops": "10",
+            "Flags": 0,
+            "ReferenceFeeUnits": 10,
+            "ReserveBaseDrops": "10000000",
+            "ReserveIncrementDrops": "2000000"
+          },
+          "LedgerEntryType": "FeeSettings",
+          "LedgerIndex": "4BC50C9B0D8515D3EAAE1E74B29A95804346C491EE1A95BF25E4AAB854A6A651",
+          "PreviousFields": {
+            "ReserveBaseDrops": "20000000",
+            "ReserveIncrementDrops": "5000000"
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 28,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "5922A0BA30621C60B2B6DDBC3FF6B5BB509EB3685C4C3D56696A9FE4FE6D48A3",
+  "ledger_index": 66462465,
+  "date": 1632045932000
+}
