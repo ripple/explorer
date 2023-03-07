@@ -74,7 +74,7 @@ export const ACCOUNT_FLAGS: Record<number, string> = {
   15: 'asfDisallowIncomingTrustline',
   14: 'asfDisallowIncomingPayChan',
   13: 'asfDisallowIncomingCheck',
-  12: 'asfDisallowIncomingNFTOffer',
+  12: 'asfDisallowIncomingNFTokenOffer',
   10: 'asfAuthorizedNFTokenMinter',
   9: 'asfDepositAuth',
   8: 'asfDefaultRipple',
