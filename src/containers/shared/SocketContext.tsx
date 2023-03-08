@@ -23,7 +23,19 @@ function getSocket(rippledUrl?: string): XrplClient {
       `${prefix}://${rippledHost}:443`,
     ])
   }
-  const socket = new XrplClient(wsUrls)
+
+  if (process.env.VITE_RIPPLED_SECONDARY) {
+    process.env.VITE_RIPPLED_SECONDARY.split(',').forEach((network) => {
+      wsUrls.push.apply(wsUrls, [
+        `${prefix}://${network}:${process.env.VITE_RIPPLED_WS_PORT}`,
+        `${prefix}://${network}:443`,
+      ])
+    })
+  }
+
+  const socket = new XrplClient(wsUrls, {
+    tryAllNodes: true,
+  })
   const hasP2PSocket =
     process.env.VITE_P2P_RIPPLED_HOST != null &&
     process.env.VITE_P2P_RIPPLED_HOST !== ''
