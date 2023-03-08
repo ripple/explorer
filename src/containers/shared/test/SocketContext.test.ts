@@ -19,6 +19,8 @@ describe('getSocket', () => {
 
   describe('server defined entrypoint', () => {
     beforeEach(() => {
+      delete process.env.VITE_RIPPLED_SECONDARY
+
       process.env.VITE_RIPPLED_HOST = 'somewhere.com'
       process.env.VITE_P2P_RIPPLED_HOST = 'cli-somewhere.com'
       process.env.VITE_RIPPLED_WS_PORT = '51233'
@@ -26,10 +28,13 @@ describe('getSocket', () => {
 
     it('should instantiate with environment variables', () => {
       const client = getSocket()
-      expect(XrplClient).toHaveBeenNthCalledWith(1, [
-        'wss://somewhere.com:51233',
-        'wss://somewhere.com:443',
-      ])
+      expect(XrplClient).toHaveBeenNthCalledWith(
+        1,
+        ['wss://somewhere.com:51233', 'wss://somewhere.com:443'],
+        {
+          tryAllNodes: true,
+        },
+      )
 
       expect(XrplClient).toHaveBeenNthCalledWith(2, [
         'wss://cli-somewhere.com:51233',
@@ -42,10 +47,13 @@ describe('getSocket', () => {
       process.env.VITE_INSECURE_WS = '1'
 
       const client = getSocket()
-      expect(XrplClient).toHaveBeenNthCalledWith(1, [
-        'ws://somewhere.com:51233',
-        'ws://somewhere.com:443',
-      ])
+      expect(XrplClient).toHaveBeenNthCalledWith(
+        1,
+        ['ws://somewhere.com:51233', 'ws://somewhere.com:443'],
+        {
+          tryAllNodes: true,
+        },
+      )
 
       expect(XrplClient).toHaveBeenNthCalledWith(2, [
         'ws://cli-somewhere.com:51233',
@@ -66,12 +74,38 @@ describe('getSocket', () => {
     beforeEach(() => {
       delete process.env.VITE_RIPPLED_HOST
       delete process.env.VITE_P2P_RIPPLED_HOST
+      delete process.env.VITE_RIPPLED_SECONDARY
+
       process.env.VITE_RIPPLED_WS_PORT = '51233'
+    })
+
+    it('should use VITE_RIPPLED_SECONDARY as a comma separate list of other entrypoints', () => {
+      process.env.VITE_RIPPLED_HOST = 's2.ripple.com'
+      process.env.VITE_RIPPLED_SECONDARY = 's1.ripple.com,xrplcluster.com'
+      const client = getSocket()
+      expect(XrplClient).toHaveBeenNthCalledWith(
+        1,
+        [
+          'wss://s2.ripple.com:51233',
+          'wss://s2.ripple.com:443',
+          'wss://s1.ripple.com:51233',
+          'wss://s1.ripple.com:443',
+          'wss://xrplcluster.com:51233',
+          'wss://xrplcluster.com:443',
+        ],
+        {
+          tryAllNodes: true,
+        },
+      )
+
+      expect((client as any).p2pSocket).not.toBeDefined()
     })
 
     it('should use ignore VITE_RIPPLED_WS_PORT when supplied entry point has a port', () => {
       const client = getSocket('hello.com:4444')
-      expect(XrplClient).toHaveBeenNthCalledWith(1, ['wss://hello.com:4444'])
+      expect(XrplClient).toHaveBeenNthCalledWith(1, ['wss://hello.com:4444'], {
+        tryAllNodes: true,
+      })
 
       expect((client as any).p2pSocket).not.toBeDefined()
     })
@@ -79,17 +113,22 @@ describe('getSocket', () => {
       process.env.VITE_INSECURE_WS = '1'
 
       const client = getSocket('hello.com:4444')
-      expect(XrplClient).toHaveBeenNthCalledWith(1, ['ws://hello.com:4444'])
+      expect(XrplClient).toHaveBeenNthCalledWith(1, ['ws://hello.com:4444'], {
+        tryAllNodes: true,
+      })
 
       expect((client as any).p2pSocket).not.toBeDefined()
     })
 
     it('should use ws when supplied entry is for a localhost', () => {
       const client = getSocket('localhost')
-      expect(XrplClient).toHaveBeenNthCalledWith(1, [
-        'ws://localhost:51233',
-        'ws://localhost:443',
-      ])
+      expect(XrplClient).toHaveBeenNthCalledWith(
+        1,
+        ['ws://localhost:51233', 'ws://localhost:443'],
+        {
+          tryAllNodes: true,
+        },
+      )
 
       expect((client as any).p2pSocket).not.toBeDefined()
     })
