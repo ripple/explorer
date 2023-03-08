@@ -6,12 +6,15 @@ import { I18nextProvider } from 'react-i18next'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { XrplClient } from 'xrpl-client'
+import { Helmet } from 'react-helmet-async'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled'
 import { flushPromises } from '../../test/utils'
+
+Helmet.defaultProps.defer = false
 
 Helmet.defaultProps.defer = false
 
@@ -163,6 +166,8 @@ describe('App container', () => {
   it('renders account page for classic address', () => {
     const id = 'rZaChweF5oXn'
     const wrapper = createWrapper(`/accounts/${id}#ssss`)
+    flushPromises()
+    flushPromises()
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`${id}...`)
       wrapper.unmount()

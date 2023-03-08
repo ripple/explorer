@@ -5,8 +5,7 @@ import Adapter from 'enzyme-adapter-react-17-updated'
 
 const mockStorage = {}
 
-// @ts-expect-error
-window.gtag = window.gtag || (() => true)
+window.dataLayer = window.dataLayer || []
 window.localStorage = window.localStorage || {
   getItem: (key) => mockStorage[key],
   setItem: (key, value) => {

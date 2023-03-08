@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { Helmet } from 'react-helmet-async'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
+import { useAnalytics } from '../shared/analytics'
 import { useLanguage } from '../shared/hooks'
 import {
   localizeDate,
@@ -14,8 +16,6 @@ import {
   formatPrice,
   NOT_FOUND,
   BAD_REQUEST,
-  analytics,
-  ANALYTIC_TYPES,
   DECIMAL_REGEX,
   HASH_REGEX,
 } from '../shared/utils'
@@ -61,13 +61,7 @@ export const Ledger = () => {
   const { identifier = '' } = useParams<{ identifier: string }>()
   const { t } = useTranslation()
   const language = useLanguage()
-
-  useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, {
-      title: 'Ledger',
-      path: '/ledgers/:id',
-    })
-  }, [identifier, t])
+  const { trackException, trackScreenLoaded } = useAnalytics()
 
   const {
     data: ledgerData,
@@ -81,13 +75,15 @@ export const Ledger = () => {
     return getLedger(identifier, rippledSocket).catch(
       (transactionRequestError) => {
         const status = transactionRequestError.code
-        analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `ledger ${identifier} --- ${JSON.stringify(error)}`,
-        })
+        trackException(`ledger ${identifier} --- ${JSON.stringify(error)}`)
         return Promise.reject(status)
       },
     )
   })
+
+  useEffect(() => {
+    trackScreenLoaded()
+  }, [ledgerData, trackScreenLoaded])
 
   const renderNav = (data: any) => {
     const { ledger_index: LedgerIndex, ledger_hash: LedgerHash } = data

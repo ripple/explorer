@@ -1,42 +1,38 @@
 import { useEffect } from 'react'
-import { useParams } from 'react-router'
-
-import { useQuery } from 'react-query'
 import { Helmet } from 'react-helmet-async'
+import { useParams } from 'react-router'
+import { useQuery } from 'react-query'
+
+import { useAnalytics } from '../shared/analytics'
 import { PayStringHeader } from './PayStringHeader'
 import { PayStringMappingsTable } from './PayStringMappingsTable'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { getPayString } from '../../rippled'
 
 export const PayString = () => {
   const { id: accountId = '' } = useParams<{ id: string }>()
+  const { trackException, trackScreenLoaded } = useAnalytics()
 
   const { data, isError, isLoading } = useQuery(['paystring', accountId], () =>
     getPayString(accountId).catch((transactionRequestError) => {
       const status = transactionRequestError.code
 
-      analytics(ANALYTIC_TYPES.exception, {
-        exDescription: `PayString ${accountId} --- ${JSON.stringify(
-          transactionRequestError,
-        )}`,
-      })
+      trackException(
+        `PayString ${accountId} --- ${JSON.stringify(transactionRequestError)}`,
+      )
       return Promise.reject(status)
     }),
   )
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, {
-      title: 'PayStrings',
-      path: '/paystrings',
-    })
+    trackScreenLoaded()
 
     return () => {
       window.scrollTo(0, 0)
     }
-  })
+  }, [accountId, trackScreenLoaded])
 
   const renderError = () => (
     <div className="paystring-page">

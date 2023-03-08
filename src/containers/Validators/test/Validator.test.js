@@ -72,6 +72,7 @@ describe('Validator container', () => {
         response: {
           domain: 'example.com',
           ledger_hash: 'sample-ledger-hash',
+          master_key: 'foo',
         },
       },
     )
@@ -124,6 +125,7 @@ describe('Validator container', () => {
       {
         status: 200,
         response: {
+          master_key: 'foo',
           domain: 'test.example.com',
           current_index: '12345',
         },

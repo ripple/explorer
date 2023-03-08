@@ -16,11 +16,11 @@ import { NFT } from '../NFT/NFT'
 import { SocketProvider } from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
 import { NetworkProvider } from '../shared/NetworkContext'
+// import { useAnalytics } from '../shared/analytics'
 
 export const App = () => {
   const location = useLocation()
   const { rippledUrl = undefined } = useParams<{ rippledUrl: string }>()
-
   const urlLink = rippledUrl ? `/${rippledUrl}` : ''
 
   /* START: Map legacy routes to new routes */

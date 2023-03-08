@@ -7,11 +7,17 @@ import { App } from './App'
 import NoMatch from '../NoMatch'
 import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'
+import { useAnalytics } from '../shared/analytics'
 
 export const AppWrapper = () => {
   const { t } = useTranslation()
   const mode = process.env.VITE_ENVIRONMENT
   const path = mode === 'custom' ? '/:rippledUrl' : '/'
+  const { setGlobals } = useAnalytics()
+
+  setGlobals({
+    network: mode,
+  })
   return (
     <HelmetProvider>
       <div className="app-wrapper">

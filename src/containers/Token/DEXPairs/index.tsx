@@ -2,13 +2,12 @@ import { useState, useEffect, useRef, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import './styles.scss'
+import { useAnalytics } from '../../shared/analytics'
 import Log from '../../shared/log'
 import Loader from '../../shared/components/Loader'
 import {
   formatLargeNumber,
   getLocalizedCurrencySymbol,
-  analytics,
-  ANALYTIC_TYPES,
 } from '../../shared/utils'
 import { getOffers } from '../../../rippled'
 import { PairStats } from './PairStats'
@@ -29,6 +28,7 @@ export interface DexPairsProps {
 }
 
 export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
+  const { trackException } = useAnalytics()
   const [pairs, setPairs] = useState<Pair[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const isMountedRef = useRef(false)
@@ -107,9 +107,9 @@ export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
                 })
                 .catch((err) => {
                   Log.error(err)
-                  analytics(ANALYTIC_TYPES.exception, {
-                    exDescription: `Error getting offers endpoint ${currency}.${accountId}/${token}`,
-                  })
+                  trackException(
+                    `Error getting offers endpoint ${currency}.${accountId}/${token}`,
+                  )
                 }),
             )
           }
@@ -126,14 +126,12 @@ export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
           setIsLoading(false)
         }
         Log.error(err)
-        analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `Error getting top tokens from /api/v1/tokens/top`,
-        })
+        trackException(`Error getting top tokens from /api/v1/tokens/top`)
       })
     return () => {
       isMountedRef.current = false
     }
-  }, [accountId, currency, rippledSocket])
+  }, [accountId, currency, rippledSocket, trackException])
 
   function renderNoPairs() {
     return <div className="no-pairs-message">{t('no_pairs_message')}</div>
@@ -163,21 +161,21 @@ export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
       <div className="pairs-table">
         <table>
           <thead>
-            <tr>
-              <th className="pair-header">{t('pair')}</th>
-              <th>{t('issuer')}</th>
-              <th className="stats-header">{t('offer_range')}</th>
-            </tr>
+          <tr>
+            <th className="pair-header">{t('pair')}</th>
+            <th>{t('issuer')}</th>
+            <th className="stats-header">{t('offer_range')}</th>
+          </tr>
           </thead>
           <tbody>
-            {pairs.map(renderRow)}
-            {isLoading && (
-              <tr key="loader">
-                <td colSpan={3} className="loader">
-                  <Loader />
-                </td>
-              </tr>
-            )}
+          {pairs.map(renderRow)}
+          {isLoading && (
+            <tr key="loader">
+              <td colSpan={3} className="loader">
+                <Loader />
+              </td>
+            </tr>
+          )}
           </tbody>
         </table>
         {(isError || (pairs.length === 0 && !isLoading)) && renderNoPairs()}

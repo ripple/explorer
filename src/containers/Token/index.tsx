@@ -10,12 +10,8 @@ import { DEXPairs } from './DEXPairs'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  NOT_FOUND,
-  BAD_REQUEST,
-} from '../shared/utils'
+import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
+import { useAnalytics } from '../shared/analytics'
 import { ErrorMessages } from '../shared/Interfaces'
 
 const IS_MAINNET = process.env.VITE_ENVIRONMENT === 'mainnet'
@@ -39,6 +35,7 @@ const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
 const Token: FC<{ error: string }> = ({ error }) => {
+  const { trackScreenLoaded } = useAnalytics()
   const { currency, id: accountId } = useParams<{
     currency: string
     id: string
@@ -46,12 +43,15 @@ const Token: FC<{ error: string }> = ({ error }) => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })
+    trackScreenLoaded({
+      issuer: accountId,
+      currency_code: currency,
+    })
 
     return () => {
       window.scrollTo(0, 0)
     }
-  }, [accountId, t])
+  }, [accountId, currency, trackScreenLoaded])
 
   const renderError = () => {
     const message = getErrorMessage(error)
