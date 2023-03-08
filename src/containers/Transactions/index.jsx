@@ -135,9 +135,10 @@ const Transaction = (props) => {
     body = renderTransaction()
   } else if (!loading) {
     body = (
-      <div style={{ textAlign: 'center', fontSize: '14px' }}>
-        <h2>Enter a transaction hash in the search box</h2>
-      </div>
+      <NoMatch
+        title="transaction_empty_title"
+        hints={['transaction_empty_hint']}
+      />
     )
   }
 
