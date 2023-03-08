@@ -101,7 +101,7 @@ describe('App container', () => {
   it('renders not found page', () => {
     const wrapper = createWrapper({}, '/zzz')
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual('xrpl_explorer | 404_default_title')
+      expect(document.title).toEqual('xrpl_explorer | not_found_default_title')
       wrapper.unmount()
     })
   })

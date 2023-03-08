@@ -133,7 +133,7 @@ const Transaction = (props) => {
     body = <NoMatch title={message.title} hints={message.hints} />
   } else if (data.raw && data.raw.hash) {
     body = renderTransaction()
-  } else if (!loading) {
+  } else if (!identifier) {
     body = (
       <NoMatch
         title="transaction_empty_title"
