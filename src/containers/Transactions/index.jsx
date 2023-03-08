@@ -138,6 +138,7 @@ const Transaction = (props) => {
       <NoMatch
         title="transaction_empty_title"
         hints={['transaction_empty_hint']}
+        isError={false}
       />
     )
   }
