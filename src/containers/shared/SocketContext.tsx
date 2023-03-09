@@ -12,26 +12,24 @@ function isInsecureWs(rippledHost: string | undefined): boolean {
 }
 
 function getSocket(rippledUrl?: string): XrplClient {
-  const rippledHost = rippledUrl ?? process.env.VITE_RIPPLED_HOST
-  const prefix = isInsecureWs(rippledHost) ? 'ws' : 'wss'
-  const wsUrls: string[] = []
-  if (rippledHost?.includes(':')) {
-    wsUrls.push(`${prefix}://${rippledHost}`)
-  } else {
-    wsUrls.push.apply(wsUrls, [
-      `${prefix}://${rippledHost}:${process.env.VITE_RIPPLED_WS_PORT}`,
-      `${prefix}://${rippledHost}:443`,
-    ])
-  }
+  const hosts = rippledUrl
+    ? [rippledUrl]
+    : process.env.VITE_RIPPLED_HOST?.split(',') || []
 
-  if (process.env.VITE_RIPPLED_SECONDARY) {
-    process.env.VITE_RIPPLED_SECONDARY.split(',').forEach((network) => {
+  const wsUrls: string[] = []
+
+  hosts.forEach((host) => {
+    const prefix = isInsecureWs(host) ? 'ws' : 'wss'
+
+    if (host?.includes(':')) {
+      wsUrls.push(`${prefix}://${host}`)
+    } else {
       wsUrls.push.apply(wsUrls, [
-        `${prefix}://${network}:${process.env.VITE_RIPPLED_WS_PORT}`,
-        `${prefix}://${network}:443`,
+        `${prefix}://${host}:${process.env.VITE_RIPPLED_WS_PORT}`,
+        `${prefix}://${host}:443`,
       ])
-    })
-  }
+    }
+  })
 
   const socket = new XrplClient(wsUrls, {
     tryAllNodes: true,
@@ -42,7 +40,9 @@ function getSocket(rippledUrl?: string): XrplClient {
   // @ts-ignore - will be removed eventually
   socket.p2pSocket = hasP2PSocket
     ? new XrplClient([
-        `${prefix}://${process.env.VITE_P2P_RIPPLED_HOST}:${process.env.VITE_RIPPLED_WS_PORT}`,
+        `${isInsecureWs(process.env.VITE_P2P_RIPPLED_HOST) ? 'ws' : 'wss'}://${
+          process.env.VITE_P2P_RIPPLED_HOST
+        }:${process.env.VITE_RIPPLED_WS_PORT}`,
       ])
     : undefined
   return socket
