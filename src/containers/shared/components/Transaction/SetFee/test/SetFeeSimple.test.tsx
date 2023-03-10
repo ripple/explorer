@@ -4,7 +4,7 @@ import {
   expectSimpleRowText,
 } from '../../test'
 import { Simple } from '../Simple'
-import i18nTestConfigEnUS from '../../../../../../i18nTestConfig.en-US'
+import i18nTestConfigEnUS from '../../../../../../i18n/testConfigEnglish'
 
 import SetFeePreAmendment from './mock_data/SetFee_PreAmendment.json'
 import SetFeePostAmendment from './mock_data/SetFee_PostAmendment.json'

@@ -6,7 +6,7 @@ import {
   expectSimpleRowLabel,
   expectSimpleRowText,
 } from '../../shared/components/Transaction/test'
-import i18n from '../../../i18nTestConfig.en-US'
+import i18n from '../../../i18n/testConfigEnglish'
 
 describe('SimpleTab container', () => {
   const createWrapper = (width = 1200) =>

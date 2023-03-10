@@ -4,7 +4,7 @@ import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import { NFT } from '../NFT'
-import i18n from '../../../i18nTestConfig'
+import i18n from '../../../i18n/testConfig'
 import { queryClient } from '../../shared/QueryClient'
 
 describe('NFT container', () => {

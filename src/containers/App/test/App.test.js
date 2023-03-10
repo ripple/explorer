@@ -5,7 +5,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { initialState } from '../../../rootReducer'
-import i18n from '../../../i18nTestConfig'
+import i18n from '../../../i18n/testConfig'
 import App from '../index'
 import MockWsClient from '../../test/mockWsClient'
 

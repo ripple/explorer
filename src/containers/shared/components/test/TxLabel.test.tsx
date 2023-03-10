@@ -4,7 +4,7 @@ import { TxLabel } from '../TxLabel'
 import TransactionCancelIcon from '../TransactionActionIcon/TransactionCancelIcon.svg'
 import TransactionSendIcon from '../TransactionActionIcon/TransactionSendIcon.svg'
 import TransactionUnknownIcon from '../TransactionActionIcon/TransactionUnknownIcon.svg'
-import i18n from '../../../../i18nTestConfig.en-US'
+import i18n from '../../../../i18n/testConfigEnglish'
 
 describe('TxLabel', () => {
   const createWapper = (component: any) =>
