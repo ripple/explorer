@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { Settings } from '../Settings'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 
 describe('NFT Setttings container', () => {
   const flags = ['lsfBurnable', 'lsfOnlyXRP']

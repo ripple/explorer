@@ -3,7 +3,7 @@ import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { useQuery, QueryClientProvider } from 'react-query'
 import { NFTHeader } from '../NFTHeader'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 import { queryClient } from '../../../shared/QueryClient'
 
 const data = {

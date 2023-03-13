@@ -2,7 +2,7 @@ import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { mount } from 'enzyme'
 import { Amount } from '../Amount'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 
 describe('Amount', () => {
   const createWrapper = (component: JSX.Element) =>
