@@ -45,11 +45,6 @@ export const Accounts = () => {
           {tab === 'assets' && <AccountAssetTab />}
         </>
       )}
-      {!accountId && (
-        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-          <h2>Enter an account ID in the search box</h2>
-        </div>
-      )}
     </div>
   )
 }
