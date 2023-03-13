@@ -39,6 +39,15 @@ export const AccountsRouter = () => {
     }),
   )
 
+  if (!accountId) {
+    return (
+      <NoMatch
+        title="account_empty_title"
+        hints={['account_empty_hint']}
+        isError={false}
+      />
+    )
+  }
   if (error) {
     return renderError(error)
   }
