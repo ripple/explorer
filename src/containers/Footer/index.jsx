@@ -24,31 +24,6 @@ const Footer = (props) => {
           <a href="https://xrpl.org/impact.html" className="footer-link">
             Impact
           </a>
-          <a
-            href="https://xrpl.org/carbon-calculator.html"
-            className="footer-link"
-          >
-            Carbon Calculator
-          </a>
-        </div>
-
-        <div className="footer-link-section">
-          <div className="footer-section-header">Explore</div>
-          <a href="https://xrpl.org/index.html" className="footer-link">
-            News
-          </a>
-          <a href="https://xrpl.org/wallet.html" className="footer-link">
-            Wallets
-          </a>
-          <a href="https://xrpl.org/exchanges.html" className="footer-link">
-            Exchanges
-          </a>
-          <a href="https://xrpl.org/businesses.html" className="footer-link">
-            XRPL Businesses
-          </a>
-          <a href="https://livenet.xrpl.org/" className="footer-link">
-            Ledger Explorer
-          </a>
         </div>
 
         <div className="footer-link-section">
