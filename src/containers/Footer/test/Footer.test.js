@@ -30,8 +30,8 @@ describe('Footer component', () => {
     const wrapper = createWrapper()
     expect(wrapper.find('.logo').length).toEqual(1)
     expect(wrapper.find('.copyright').length).toEqual(1)
-    expect(wrapper.find('.footer-link').length).toEqual(16)
-    expect(wrapper.find('.footer-section-header').length).toEqual(4)
+    expect(wrapper.find('.footer-link').length).toEqual(10)
+    expect(wrapper.find('.footer-section-header').length).toEqual(3)
 
     wrapper.unmount()
   })
