@@ -42,9 +42,13 @@ const NoMatch = (props) => {
 }
 
 NoMatch.propTypes = {
+  /** The i18n key to use for the title.  If the key contains "not_found" it is treated as a 404 type page */
   title: PropTypes.string,
+  /** An array of i18n keys to use for hints */
   hints: PropTypes.arrayOf(PropTypes.string),
+  /** Treat the message as an error. Adds "Uh Oh". */
   isError: PropTypes.bool,
+  /** Custom warning message to display next to info icon */
   warning: PropTypes.string,
 }
 
