@@ -110,7 +110,7 @@ export const Transaction = () => {
   function renderTransaction() {
     let body
 
-    if (!data) return
+    if (!data) return <></>
 
     switch (tab) {
       case 'detailed':
