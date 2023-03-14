@@ -9,20 +9,29 @@ import { Transaction } from '../index'
 import { TxStatus } from '../../shared/components/TxStatus'
 import { testQueryClient } from '../../test/QueryClient'
 import { getTransaction } from '../../../rippled'
-import { Error } from '../../../rippled/lib/rippled'
+import { Error as RippledError } from '../../../rippled/lib/utils'
 import { flushPromises } from '../../test/utils'
 
-jest.mock('../../../rippled', () => ({
-  __esModule: true,
-  getTransaction: jest.fn(),
-}))
+jest.mock('../../../rippled', () => {
+  const originalModule = jest.requireActual('../../../rippled')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    getTransaction: jest.fn(),
+  }
+})
 
 const mockedGetTransaction = getTransaction
 
-global.location = '/transactions/aaaa'
+global.location =
+  '/transactions/50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774'
 
 describe('Transaction container', () => {
-  const createWrapper = (hash = 'aaaa', tab = 'simple') =>
+  const createWrapper = (
+    hash = '50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774',
+    tab = 'simple',
+  ) =>
     mount(
       <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
@@ -52,13 +61,38 @@ describe('Transaction container', () => {
 
   it('renders 404 page on no match', async () => {
     mockedGetTransaction.mockImplementation(() =>
-      Promise.reject(new Error('transaction not found', 404)),
+      Promise.reject(new RippledError('transaction not found', 404)),
     )
 
     const wrapper = createWrapper()
     await flushPromises()
     wrapper.update()
-    expect(wrapper.find('.no-match').length).toBe(1)
+    expect(wrapper.find('.no-match .title')).toHaveText('transaction_not_found')
+    expect(wrapper.find('.no-match .hint')).toHaveText('check_transaction_hash')
+    wrapper.unmount()
+  })
+
+  it('renders invalid hash page', async () => {
+    const wrapper = createWrapper('aaaa')
+    await flushPromises()
+    wrapper.update()
+    expect(wrapper.find('.no-match .title')).toHaveText(
+      'invalid_transaction_hash',
+    )
+    expect(wrapper.find('.no-match .hint')).toHaveText('check_transaction_hash')
+    wrapper.unmount()
+  })
+
+  it('renders error page', async () => {
+    mockedGetTransaction.mockImplementation(() =>
+      Promise.reject(Error('transaction not validated', 500)),
+    )
+    const wrapper = createWrapper()
+    await flushPromises()
+    wrapper.update()
+
+    expect(wrapper.find('.no-match .title')).toHaveText('generic_error')
+    expect(wrapper.find('.no-match .hint')).toHaveText('not_your_fault')
     wrapper.unmount()
   })
 
