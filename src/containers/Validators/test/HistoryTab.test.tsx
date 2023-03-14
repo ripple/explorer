@@ -3,7 +3,7 @@ import { I18nextProvider } from 'react-i18next'
 import { HistoryTab } from '../HistoryTab'
 import history from './mock_data/history.json'
 import Loader from '../../shared/components/Loader'
-import i18n from '../../../i18nTestConfig'
+import i18n from '../../../i18n/testConfig'
 import { ValidatorReport } from '../../shared/vhsTypes'
 
 describe(`HistoryTab:`, () => {

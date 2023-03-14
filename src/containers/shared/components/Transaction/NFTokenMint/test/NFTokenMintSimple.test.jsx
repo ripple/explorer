@@ -10,7 +10,7 @@ import transactionModified4Created1 from './mock_data/NFTokenMintModified4Create
 import transactionNullURI from './mock_data/NFTokenMintNullURI.json'
 import transactionFailed from './mock_data/NFTokenMintFailed.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
-import i18n from '../../../../../../i18nTestConfig'
+import i18n from '../../../../../../i18n/testConfig'
 import { convertHexToString } from '../../../../../../rippled/lib/utils'
 import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
 

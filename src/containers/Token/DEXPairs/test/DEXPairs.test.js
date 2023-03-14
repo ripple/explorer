@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 import DEXPairs from '../index'
 
 const address = 'rHEQnRvqWccQALFfpG3YuoxxVyhDZnF4TS'

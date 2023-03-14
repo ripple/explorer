@@ -4,7 +4,7 @@ import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { getAccountNFTs } from '../../../../rippled/lib/rippled'
 import { AccountNFTTable } from '../AccountNFTTable'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { testQueryClient } from '../../../test/QueryClient'
 

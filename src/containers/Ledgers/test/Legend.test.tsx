@@ -2,7 +2,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { Legend, LEGEND_STORAGE_KEY } from '../Legend'
 import { TransactionActionIcon } from '../../shared/components/TransactionActionIcon/TransactionActionIcon'
-import i18n from '../../../i18nTestConfig.en-US'
+import i18n from '../../../i18n/testConfigEnglish'
 
 describe(`Legend`, () => {
   const setupTest = (localStorageValue?: boolean) => {
