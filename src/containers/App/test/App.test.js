@@ -5,7 +5,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { initialState } from '../../../rootReducer'
-import i18n from '../../../i18nTestConfig'
+import i18n from '../../../i18n/testConfig'
 import App from '../index'
 import MockWsClient from '../../test/mockWsClient'
 
@@ -101,7 +101,7 @@ describe('App container', () => {
   it('renders not found page', () => {
     const wrapper = createWrapper({}, '/zzz')
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual('xrpl_explorer | 404_default_title')
+      expect(document.title).toEqual('xrpl_explorer | not_found_default_title')
       wrapper.unmount()
     })
   })
@@ -126,11 +126,33 @@ describe('App container', () => {
     })
   })
 
+  it('renders transaction page with no hash', () => {
+    const wrapper = createWrapper({}, `/transactions/`)
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(wrapper.find('.no-match .title')).toHaveText(
+        'transaction_empty_title',
+      )
+      expect(wrapper.find('.no-match .hint')).toHaveText(
+        'transaction_empty_hint',
+      )
+      wrapper.unmount()
+    })
+  })
+
   it('renders account page', () => {
     const id = 'rZaChweF5oXn'
     const wrapper = createWrapper({}, `/accounts/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      wrapper.unmount()
+    })
+  })
+
+  it('renders account page with no id', () => {
+    const wrapper = createWrapper({}, `/accounts/`)
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(wrapper.find('.no-match .title')).toHaveText('account_empty_title')
+      expect(wrapper.find('.no-match .hint')).toHaveText('account_empty_hint')
       wrapper.unmount()
     })
   })

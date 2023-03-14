@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { initialState } from '../../../../rootReducer'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 import ConnectedTable, { PayStringAddressesTable } from '../index'
 import TEST_TRANSACTIONS_DATA from '../../test/mockPayStringData.json'
 

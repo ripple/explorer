@@ -1,7 +1,7 @@
 import { createTableDetailWrapperFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockTrustSet from './mock_data/TrustSet.json'
-import i18n from '../../../../../../i18nTestConfig.en-US'
+import i18n from '../../../../../../i18n/testConfigEnglish'
 
 const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
 

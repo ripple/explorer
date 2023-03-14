@@ -109,7 +109,7 @@ const App = (props) => {
                   />
                   <Route
                     exact
-                    path="/transactions/:identifier/:tab?"
+                    path="/transactions/:identifier?/:tab?"
                     component={transactions}
                   />
                   <Route exact path="/network/:tab?" component={Network} />
