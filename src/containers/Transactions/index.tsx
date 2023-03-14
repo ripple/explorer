@@ -110,14 +110,16 @@ export const Transaction = () => {
   function renderTransaction() {
     let body
 
+    if (!data) return
+
     switch (tab) {
       case 'detailed':
         body = (
           <DetailTab
             t={t}
             language={language}
-            data={data?.raw}
-            instructions={data?.summary?.instructions}
+            data={data.raw}
+            instructions={data.summary?.instructions}
           />
         )
         break
