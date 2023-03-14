@@ -1,10 +1,9 @@
 import { useContext, useEffect } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import ReactJson from 'react-json-view'
+import { useQuery } from 'react-query'
+import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
@@ -13,15 +12,17 @@ import {
   ANALYTIC_TYPES,
   NOT_FOUND,
   BAD_REQUEST,
+  HASH_REGEX,
 } from '../shared/utils'
-import { loadTransaction } from './actions'
 import SimpleTab from './SimpleTab'
 import DetailTab from './DetailTab'
 import './transaction.scss'
 import SocketContext from '../shared/SocketContext'
 import { TxStatus } from '../shared/components/TxStatus'
+import { getTransaction } from '../../rippled'
+import { useLanguage } from '../shared/hooks'
 
-const ERROR_MESSAGES = {}
+const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'transaction_not_found',
   hints: ['check_transaction_hash'],
@@ -38,13 +39,41 @@ ERROR_MESSAGES.default = {
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-const Transaction = (props) => {
-  const { identifier = '', tab = 'simple' } = useParams()
+export const Transaction = () => {
+  const { identifier = '', tab = 'simple' } = useParams<{
+    identifier: string
+    tab: string
+  }>()
   const match = useRouteMatch()
   const { t } = useTranslation()
-  const { actions, data, loading } = props
   const rippledSocket = useContext(SocketContext)
-  const hash = data.raw ? data.raw.hash : undefined
+  const { isLoading, data, error, isError } = useQuery(
+    ['transaction', identifier],
+    () => {
+      if (identifier === '') {
+        return undefined
+      }
+      if (!HASH_REGEX.test(identifier)) {
+        return Promise.reject(BAD_REQUEST)
+      }
+
+      return getTransaction(identifier, rippledSocket).catch(
+        (transactionRequestError) => {
+          const status = transactionRequestError.code
+          analytics(ANALYTIC_TYPES.exception, {
+            exDescription: `transaction ${identifier} --- ${JSON.stringify(
+              transactionRequestError.message,
+            )}`,
+          })
+
+          return Promise.reject(status)
+        },
+      )
+    },
+  )
+  const { width } = useWindowSize()
+  const language = useLanguage()
+
   const short = identifier.substr(0, 8)
   document.title = `${t('xrpl_explorer')} | ${t(
     'transaction_short',
@@ -57,20 +86,14 @@ const Transaction = (props) => {
     })
   }, [identifier, data, tab])
 
-  useEffect(() => {
-    if (identifier && identifier !== hash) {
-      actions.loadTransaction(identifier, rippledSocket)
-    }
-  }, [hash, identifier, actions, rippledSocket])
-
   function renderSummary() {
-    const type = data.raw.tx.TransactionType
+    const type = data?.raw.tx.TransactionType
     return (
       <div className="summary">
         <div className="type">{type}</div>
-        <TxStatus status={data.raw.meta.TransactionResult} />
-        <div className="hash" title={data.raw.hash}>
-          {data.raw.hash}
+        <TxStatus status={data?.raw.meta.TransactionResult} />
+        <div className="hash" title={data?.raw.hash}>
+          {data?.raw.hash}
         </div>
       </div>
     )
@@ -85,7 +108,6 @@ const Transaction = (props) => {
   }
 
   function renderTransaction() {
-    const { language, width } = props
     let body
 
     switch (tab) {
@@ -94,8 +116,8 @@ const Transaction = (props) => {
           <DetailTab
             t={t}
             language={language}
-            data={data.raw}
-            instructions={data.summary.instructions}
+            data={data?.raw}
+            instructions={data?.summary?.instructions}
           />
         )
         break
@@ -125,13 +147,12 @@ const Transaction = (props) => {
     )
   }
 
-  const loader = loading ? <Loader className="show" /> : <Loader />
   let body
 
-  if (data.error) {
-    const message = getErrorMessage(data.error)
+  if (isError) {
+    const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
-  } else if (data.raw && data.raw.hash) {
+  } else if (data?.raw && data?.raw.hash) {
     body = renderTransaction()
   } else if (!identifier) {
     body = (
@@ -145,42 +166,8 @@ const Transaction = (props) => {
 
   return (
     <div className="transaction">
-      {loader}
+      {isLoading && <Loader />}
       {body}
     </div>
   )
 }
-
-Transaction.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  width: PropTypes.number.isRequired,
-  language: PropTypes.string.isRequired,
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-    ]),
-  ).isRequired,
-  actions: PropTypes.shape({
-    loadTransaction: PropTypes.func,
-  }).isRequired,
-}
-
-export default connect(
-  (state) => ({
-    loading: state.transaction.loading,
-    data: state.transaction.data,
-    width: state.app.width,
-    language: state.app.language,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadTransaction,
-      },
-      dispatch,
-    ),
-  }),
-)(Transaction)
