@@ -100,7 +100,7 @@ export const isEarlierVersion = (source, target) => {
 
   // Compare release version
   if (sourcePatch.length !== targetPatch.length) {
-    return sourcePatch.length < targetPatch.length
+    return sourcePatch.length > targetPatch.length
   }
 
   if (sourcePatch.length === 2) {
