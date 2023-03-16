@@ -4,7 +4,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const compression = require('compression')
 const path = require('path')
-const xrpl = require('./lib/xrpl-ws')
 const routes = require('./routes/v1')
 
 const log = require('./lib/logger')({ name: 'server' })
@@ -43,6 +42,5 @@ app.use('*', (req, res) => {
   res.status(404).send({ error: 'route not found' })
 })
 
-xrpl.start()
 app.listen(PORT, ADDR)
 log.info(`server listening on ${ADDR}:${PORT}`)
