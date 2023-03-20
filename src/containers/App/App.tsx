@@ -25,8 +25,8 @@ import Log from '../shared/log'
 
 export interface AppProps {
   actions: {
-    updateViewportDimensions: Function
-    onScroll: Function
+    updateViewportDimensions: () => {}
+    onScroll: () => {}
   }
 }
 
