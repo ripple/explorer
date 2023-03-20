@@ -77,6 +77,9 @@ export default defineConfig({
     // export SVGs as React components by default
     svgrPlugin({
       exportAsDefault: true,
+      svgrOptions: {
+        ref: true,
+      },
     }),
     react({
       // Use React plugin in all *.jsx and *.tsx files
