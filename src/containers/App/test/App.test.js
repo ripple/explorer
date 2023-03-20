@@ -2,11 +2,10 @@ import { mount } from 'enzyme'
 import { MemoryRouter } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
 import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
-import App from '../index'
+import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
@@ -48,15 +47,14 @@ jest.mock('../../../rippled/lib/rippled', () => {
 })
 
 describe('App container', () => {
-  const middlewares = [thunk]
-  const mockStore = configureMockStore(middlewares)
-  const createWrapper = (state = {}, path = '/') => {
-    const store = mockStore({ ...initialState, ...state })
+  const mockStore = configureMockStore()
+  const createWrapper = (path = '/') => {
+    const store = mockStore(initialState)
     return mount(
       <MemoryRouter initialEntries={[path]}>
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
-            <App />
+            <AppWrapper />
           </Provider>
         </I18nextProvider>
       </MemoryRouter>,
@@ -91,7 +89,7 @@ describe('App container', () => {
   })
 
   it('renders ledger explorer page', () => {
-    const wrapper = createWrapper({}, '/ledgers')
+    const wrapper = createWrapper('/ledgers')
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual('xrpl_explorer | ledgers')
       wrapper.unmount()
@@ -99,7 +97,7 @@ describe('App container', () => {
   })
 
   it('renders not found page', () => {
-    const wrapper = createWrapper({}, '/zzz')
+    const wrapper = createWrapper('/zzz')
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual('xrpl_explorer | not_found_default_title')
       wrapper.unmount()
@@ -108,7 +106,7 @@ describe('App container', () => {
 
   it('renders ledger page', () => {
     const id = 12345
-    const wrapper = createWrapper({}, `/ledgers/${id}`)
+    const wrapper = createWrapper(`/ledgers/${id}`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | ledger ${id}`)
       wrapper.unmount()
@@ -117,7 +115,7 @@ describe('App container', () => {
 
   it('renders transaction page', () => {
     const id = 12345
-    const wrapper = createWrapper({}, `/transactions/${id}`)
+    const wrapper = createWrapper(`/transactions/${id}`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(
         `xrpl_explorer | transaction_short ${id}...`,
@@ -127,7 +125,7 @@ describe('App container', () => {
   })
 
   it('renders transaction page with no hash', () => {
-    const wrapper = createWrapper({}, `/transactions/`)
+    const wrapper = createWrapper(`/transactions/`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(wrapper.find('.no-match .title')).toHaveText(
         'transaction_empty_title',
@@ -141,7 +139,7 @@ describe('App container', () => {
 
   it('renders account page', () => {
     const id = 'rZaChweF5oXn'
-    const wrapper = createWrapper({}, `/accounts/${id}#ssss`)
+    const wrapper = createWrapper(`/accounts/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
       wrapper.unmount()
@@ -149,7 +147,7 @@ describe('App container', () => {
   })
 
   it('renders account page with no id', () => {
-    const wrapper = createWrapper({}, `/accounts/`)
+    const wrapper = createWrapper(`/accounts/`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(wrapper.find('.no-match .title')).toHaveText('account_empty_title')
       expect(wrapper.find('.no-match .hint')).toHaveText('account_empty_hint')
@@ -159,7 +157,7 @@ describe('App container', () => {
 
   it('redirects legacy transactions page', () => {
     const id = 12345
-    const wrapper = createWrapper({}, `/#/transactions/${id}`)
+    const wrapper = createWrapper(`/#/transactions/${id}`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(
         `xrpl_explorer | transaction_short ${id}...`,
@@ -170,7 +168,7 @@ describe('App container', () => {
 
   it('redirects legacy account page', () => {
     const id = 'rZaChweF5oXn'
-    const wrapper = createWrapper({}, `/#/graph/${id}#ssss`)
+    const wrapper = createWrapper(`/#/graph/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
       wrapper.unmount()

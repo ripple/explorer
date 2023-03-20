@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import { useLocation, useParams } from 'react-router'
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -23,12 +23,16 @@ import { queryClient } from '../shared/QueryClient'
 import NetworkContext, { getNetworkName } from '../shared/NetworkContext'
 import Log from '../shared/log'
 
-const App = (props) => {
-  const { actions, location, match } = props
+export interface AppProps {
+  actions: {
+    updateViewportDimensions: Function
+    onScroll: Function
+  }
+}
 
-  const {
-    params: { rippledUrl = null },
-  } = match
+const App = ({ actions }: AppProps) => {
+  const location = useLocation()
+  const { rippledUrl = undefined } = useParams<{ rippledUrl: string }>()
 
   const initialNetworkName = getNetworkName()
   const [networkName, setNetworkName] = useState(initialNetworkName)
@@ -132,26 +136,8 @@ const App = (props) => {
   )
 }
 
-App.propTypes = {
-  location: PropTypes.shape({
-    hash: PropTypes.string,
-    pathname: PropTypes.string,
-  }).isRequired,
-  actions: PropTypes.shape({
-    updateViewportDimensions: PropTypes.func,
-    onScroll: PropTypes.func,
-  }).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      rippledUrl: PropTypes.string,
-    }),
-  }).isRequired,
-}
-
 export default connect(
-  (state) => ({
-    language: state.app.language,
-  }),
+  () => {},
   (dispatch) => ({
     actions: bindActionCreators(
       {
