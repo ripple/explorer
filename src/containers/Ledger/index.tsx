@@ -74,14 +74,8 @@ const Ledger = ({ actions, data, loading }: LedgerProps) => {
       title: 'Ledger',
       path: '/ledgers/:id',
     })
-    if (Number(identifier) !== data.ledger_index) {
-      actions.loadLedger(identifier, rippledSocket)
-    }
-  }, [])
-
-  useEffect(() => {
     actions.loadLedger(identifier, rippledSocket)
-  }, [identifier])
+  }, [actions, identifier, rippledSocket, t])
 
   const renderNav = () => {
     const { ledger_index: LedgerIndex, ledger_hash: LedgerHash } = data
