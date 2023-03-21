@@ -14,17 +14,9 @@
   }
 
   .loader {
-    position: absolute;
     z-index: 1;
-    top: 0px;
-    opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
-
-    &.show {
-      opacity: 0.8;
-      transition: opacity 0.15s ease;
-    }
   }
 
   .ledger-nav {
