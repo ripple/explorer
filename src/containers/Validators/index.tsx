@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch, useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { connect } from 'react-redux'
+import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
@@ -42,13 +42,13 @@ interface Params {
   tab?: string
 }
 
-const Validator = ({ width }: { width: number }) => {
+export const Validator = () => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-
+  const network = useContext(NetworkContext)
   const { path = '/' } = useRouteMatch()
   const { identifier = '', tab = 'details' } = useParams<Params>()
-  const network = useContext(NetworkContext)
+  const { width } = useWindowSize()
 
   const {
     data,
@@ -214,7 +214,3 @@ const Validator = ({ width }: { width: number }) => {
     </div>
   )
 }
-
-export default connect((state: any) => ({
-  width: state.app.width,
-}))(Validator)

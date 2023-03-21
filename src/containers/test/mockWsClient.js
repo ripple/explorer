@@ -108,7 +108,12 @@ class MockWsClient extends EventEmitter {
    */
   // eslint-disable-next-line class-methods-use-this -- not needed for a mock
   getState() {
-    return { online: true }
+    return {
+      online: true,
+      server: {
+        version: '1.9.4',
+      },
+    }
   }
 
   /**
