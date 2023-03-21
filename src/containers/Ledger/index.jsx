@@ -37,7 +37,7 @@ const DATE_OPTIONS = {
 const ERROR_MESSAGES = {}
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'ledger_not_found',
-  hints: ['check_ledger_id'],
+  hints: ['server_ledgers_hint'],
 }
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_ledger_id',

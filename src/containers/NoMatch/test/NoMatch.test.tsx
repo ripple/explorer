@@ -1,17 +1,24 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
+import { XrplClient } from 'xrpl-client'
+import MockWsClient from '../../test/mockWsClient'
+import SocketContext from '../../shared/SocketContext'
 import i18n from '../../../i18n/testConfigEnglish'
 import NoMatch from '../index'
 
 /* eslint-disable react/jsx-props-no-spreading */
 describe('NoMatch container', () => {
-  const createWrapper = (props = {}) =>
-    mount(
+  const createWrapper = (props = {}) => {
+    const client = new MockWsClient() as unknown as XrplClient
+
+    return mount(
       <I18nextProvider i18n={i18n}>
-        <NoMatch {...props} />
+        <SocketContext.Provider value={client}>
+          <NoMatch {...props} />
+        </SocketContext.Provider>
       </I18nextProvider>,
     )
-
+  }
   it('renders without crashing', () => {
     const wrapper = createWrapper()
     wrapper.unmount()
@@ -69,5 +76,20 @@ describe('NoMatch container', () => {
     }
     const wrapper = createWrapper(params)
     expect(wrapper.find('.warning span')).toHaveText('be_warned')
+  })
+
+  it('renders connection state', () => {
+    i18n.addResource(
+      'en-US',
+      'test',
+      'hint_test',
+      'Version: {{connection.server.version}}',
+    )
+    const params = {
+      title: 'props_title',
+      hints: ['test:hint_test'],
+    }
+    const wrapper = createWrapper(params)
+    expect(wrapper.find('.hint')).toHaveText('Version: 1.9.4')
   })
 })
