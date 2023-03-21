@@ -188,6 +188,7 @@
   "invalid_transaction_hash": "The transaction hash is invalid",
   "ledger_not_found": "Ledger not Found",
   "check_ledger_id": "Please check your ledger id",
+  "server_ledgers_hint": "This node ({{connection.server.publicKey, truncate(length: 10)}}) only contains ledgers {{connection.ledger.validated}}",
   "use_search": "Please use our search",
   "ledger_has_no_trans": "This ledger does not have any transactions",
   "less_than": "Less than",
