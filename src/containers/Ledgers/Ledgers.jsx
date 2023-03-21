@@ -6,19 +6,18 @@ import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
 import { localizeNumber } from '../shared/utils'
 import Tooltip from '../shared/components/Tooltip'
 import './css/ledgers.scss'
-import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
 import Loader from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
 import { getAction, getCategory } from '../shared/components/Transaction'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import { Legend } from './Legend'
+import { LedgerHashComponent } from './LedgerHashView'
 
 class Ledgers extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ledgers: [],
       validators: {},
       tooltip: null,
     }
@@ -26,15 +25,9 @@ class Ledgers extends Component {
 
   static getDerivedStateFromProps = (nextProps, prevState) => ({
     selected: nextProps.selected,
-    ledgers: nextProps.paused ? prevState.ledgers : nextProps.ledgers,
     validators: nextProps.validators,
     unlCount: nextProps.unlCount,
   })
-
-  setSelected = (pubkey) =>
-    this.setState((prevState) => ({
-      selected: prevState.selected === pubkey ? null : pubkey,
-    }))
 
   getMissingValidators = (hash) => {
     const { validators } = this.props
@@ -85,23 +78,27 @@ class Ledgers extends Component {
   }
 
   renderLedger = (ledger) => {
-    const time = ledger.close_time
-      ? new Date(ledger.close_time).toLocaleTimeString()
+    const time = ledger.closeTime
+      ? new Date(ledger.closeTime).toLocaleTimeString()
       : null
     const transactions = ledger.transactions || []
 
     return (
-      <div className="ledger" key={ledger.ledger_index}>
+      <div className="ledger" key={ledger.index}>
         <div className="ledger-head">
-          {this.renderLedgerIndex(ledger.ledger_index)}
+          {this.renderLedgerIndex(ledger.index)}
           <div className="close-time">{time}</div>
-          {this.renderTxnCount(ledger.txn_count)}
-          {this.renderFees(ledger.total_fees)}
+          {this.renderTxnCount(ledger.txCount)}
+          {this.renderFees(ledger.totalFee)}
           <div className="transactions">
             {transactions.map(this.renderTransaction)}
           </div>
         </div>
-        <div className="hashes">{ledger.hashes.map(this.renderHash)}</div>
+        <div className="hashes">
+          {ledger.hashes.map((hash) => (
+            <LedgerHashComponent key={`${hash.hash}`} hash={hash} />
+          ))}
+        </div>
       </div>
     )
   }
@@ -155,35 +152,6 @@ class Ledgers extends Component {
     </Link>
   )
 
-  renderHash = (hash) => {
-    const { t } = this.props
-    const shortHash = hash.hash.substr(0, 6)
-    const barStyle = { background: `#${shortHash}` }
-    const validated = hash.validated && <SuccessIcon className="validated" />
-    return (
-      <div
-        className={`hash ${hash.unselected ? 'unselected' : ''}`}
-        key={hash.hash}
-      >
-        <div className="bar" style={barStyle} />
-        <div className="ledger-hash">
-          <div className="hash-concat">{hash.hash.substr(0, 6)}</div>
-          {validated}
-        </div>
-        <div className="subtitle">
-          <div className="validation-total">
-            <div>{t('total')}:</div>
-            <b>{hash.validations.length}</b>
-          </div>
-          {this.renderTrustedCount(hash)}
-        </div>
-        <div className="validations">
-          {hash.validations.map(this.renderValidator)}
-        </div>
-      </div>
-    )
-  }
-
   renderTrustedCount = (hash) => {
     const { t } = this.props
     const { unlCount } = this.state
@@ -215,42 +183,22 @@ class Ledgers extends Component {
     ) : null
   }
 
-  renderValidator = (v, i) => {
-    const { setSelected } = this.props
-    const { selected: selectedState } = this.state
-    const trusted = v.unl ? 'trusted' : ''
-    const unselected = selectedState ? 'unselected' : ''
-    const selected = selectedState === v.pubkey ? 'selected' : ''
-    const className = `validation ${trusted} ${unselected} ${selected} ${v.pubkey}`
-    const partial = v.partial ? <div className="partial" /> : null
-    return (
-      <div
-        key={`${v.pubkey}_${v.cookie}`}
-        role="button"
-        tabIndex={i}
-        className={className}
-        onMouseOver={(e) => this.showTooltip('validator', e, v)}
-        onFocus={(e) => {}}
-        onKeyUp={(e) => {}}
-        onMouseLeave={this.hideTooltip}
-        onClick={() => setSelected(v.pubkey)}
-      >
-        {partial}
-      </div>
-    )
-  }
-
   render() {
-    const { ledgers, selected, tooltip } = this.state
-    const { t, language, isOnline } = this.props
+    const { selected, tooltip } = this.state
+    const { ledgers, t, language } = this.props
+    const isOnline = this.context.getState().online
+
     return (
       <div className="ledgers">
-        {isOnline && ledgers.length > 0 ? (
+        {isOnline ? (
           <>
             <Legend />
             <div className="control">{selected && this.renderSelected()}</div>
             <div className="ledger-list">
-              {ledgers.map(this.renderLedger)}{' '}
+              {Object.values(ledgers)
+                .reverse()
+                .slice(0, 20)
+                .map(this.renderLedger)}{' '}
               <Tooltip t={t} language={language} data={tooltip} />
             </div>{' '}
           </>
@@ -265,24 +213,19 @@ class Ledgers extends Component {
 Ledgers.contextType = SocketContext
 
 Ledgers.propTypes = {
-  ledgers: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
+  ledgers: PropTypes.shape({}), // eslint-disable-line
   validators: PropTypes.shape({}), // eslint-disable-line
   unlCount: PropTypes.number, // eslint-disable-line
   selected: PropTypes.string, // eslint-disable-line
-  setSelected: PropTypes.func,
   language: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
-  paused: PropTypes.bool,
-  isOnline: PropTypes.bool.isRequired,
 }
 
 Ledgers.defaultProps = {
-  ledgers: [],
+  ledgers: {},
   validators: {},
   unlCount: 0,
   selected: null,
-  setSelected: () => {},
-  paused: false,
 }
 
 export default withTranslation()(Ledgers)

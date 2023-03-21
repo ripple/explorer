@@ -3,39 +3,29 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import Log from '../shared/log'
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  FETCH_INTERVAL_ERROR_MILLIS,
-} from '../shared/utils'
-import Streams from '../shared/components/Streams'
+import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
-import { Ledger, ValidatorResponse } from './types'
+import { ValidatorResponse } from './types'
 import NetworkContext from '../shared/NetworkContext'
 import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
+import { useStreams } from '../shared/useStreams'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
 const LedgersPage = () => {
-  const [validators, setValidators] = useState<
-    Record<string, ValidatorResponse>
-  >({})
-  const [ledgers, setLedgers] = useState<Ledger[]>([])
+  const { ledgers } = useStreams()
   const [paused, setPaused] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
-  const [metrics, setMetrics] = useState(undefined)
-  const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
+  const [metrics] = useState(undefined)
   const { isOnline } = useIsOnline()
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
   const language = useLanguage()
 
-  document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
-
   useEffect(() => {
-    /* @ts-ignore */
+    document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
     analytics(ANALYTIC_TYPES.pageview, { title: 'Ledgers', path: '/' })
     return () => {
       window.scrollTo(0, 0)
@@ -47,32 +37,32 @@ const LedgersPage = () => {
 
     return axios
       .get(url)
-      .then((resp) => resp.data.validators)
-      .then((validatorResponse) => {
+      .then((resp) => {
         const newValidators: Record<string, ValidatorResponse> = {}
         let newUnlCount = 0
 
-        validatorResponse.forEach((v: ValidatorResponse) => {
-          if (v.unl === process.env.VITE_VALIDATOR) {
+        resp.data.forEach((v: ValidatorResponse) => {
+          if (v.unl === process.env.REACT_APP_VALIDATOR) {
             newUnlCount += 1
           }
           newValidators[v.signing_key] = v
         })
 
-        setValidators(newValidators)
-        setUnlCount(newUnlCount)
-        return true
+        return {
+          validators: newValidators,
+          unlCount: newUnlCount,
+        }
       })
       .catch((e) => Log.error(e))
   }
 
-  useQuery(['fetchValidatorData'], async () => fetchValidators(), {
-    refetchInterval: (returnedData, _) =>
-      returnedData == null
-        ? FETCH_INTERVAL_ERROR_MILLIS
-        : FETCH_INTERVAL_MILLIS,
+  const { data: validationData } = useQuery<{
+    validators: Record<string, any>
+    unlCount: number
+  }>(['fetchValidatorData'], async () => fetchValidators(), {
+    refetchInterval: FETCH_INTERVAL_MILLIS,
     refetchOnMount: true,
-    enabled: !!network,
+    placeholderData: { validators: {}, unlCount: 0 },
   })
 
   const updateSelected = (pubkey: string) => {
@@ -83,14 +73,6 @@ const LedgersPage = () => {
 
   return (
     <div className="ledgers-page">
-      {/* @ts-ignore */}
-      {isOnline && (
-        <Streams
-          validators={validators}
-          updateLedgers={setLedgers}
-          updateMetrics={setMetrics}
-        />
-      )}
       <LedgerMetrics
         language={language}
         data={metrics}
@@ -100,8 +82,8 @@ const LedgersPage = () => {
       <Ledgers
         language={language}
         ledgers={ledgers}
-        validators={validators}
-        unlCount={unlCount}
+        validators={validationData?.validators}
+        unlCount={validationData?.unlCount}
         selected={selected}
         setSelected={updateSelected}
         paused={paused}

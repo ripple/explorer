@@ -238,12 +238,12 @@ class Streams extends Component {
       })
 
       return {
+        cookie: data.cookie,
         ledger_index: Number(ledgerIndex),
         ledger_hash: ledgerHash,
         pubkey,
         partial: !data.full,
         time: (data.signing_time + EPOCH_OFFSET) * 1000,
-        cookie: data.cookie,
       }
     }
 
@@ -313,13 +313,13 @@ class Streams extends Component {
       }
 
       ledgers[ledgerIndex].hashes[ledgerHash].push({
+        cookie: data.cookie,
         ledger_index: ledgerIndex,
         ledger_hash: ledgerHash,
         pubkey: data.pubkey,
         partial: data.partial,
         time: data.time,
         unl: vList && vList[data.pubkey] && vList[data.pubkey].unl,
-        cookie: data.cookie,
       })
 
       validators[data.pubkey] = data
