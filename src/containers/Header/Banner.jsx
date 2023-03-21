@@ -24,7 +24,6 @@ export default connect((state) => {
     ['ledgerError', state.ledger.error],
     ['transactionError', state.transaction.error],
     ['balanceError', state.accountHeader.error],
-    ['payStringError', state.payStringData.error],
   ]
 
   return { messages: messages.filter((d) => Boolean(d[1])) }

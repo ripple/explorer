@@ -1,25 +1,19 @@
-import { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { classicAddressToXAddress } from 'ripple-address-codec'
-import { loadPayStringData } from './actions'
 import Loader from '../../shared/components/Loader'
 import './styles.scss'
+import { PayStringResponse } from '../../../rippled/payString'
 
-export const PayStringAddressesTable = ({
-  accountId,
-  actions,
+export interface PayStringAddressesTable {
+  data?: PayStringResponse
+  loading: boolean
+}
+
+export const PayStringMappingsTable = ({
   data,
   loading,
-  loadingError,
-}) => {
+}: PayStringAddressesTable) => {
   const { t } = useTranslation()
-
-  useEffect(() => {
-    actions.loadPayStringData(accountId)
-  }, [actions, accountId])
 
   const renderListItem = (payString) => {
     // Force values to upper case and replace anything
@@ -126,11 +120,7 @@ export const PayStringAddressesTable = ({
   }
 
   const renderListContents = () => {
-    if (
-      !loading &&
-      (!data.addresses || data.addresses.length === 0) &&
-      !loadingError
-    ) {
+    if (!loading && (!data?.addresses || data?.addresses.length === 0)) {
       return (
         <tr>
           <td colSpan={4} className="empty-message">
@@ -139,7 +129,7 @@ export const PayStringAddressesTable = ({
         </tr>
       )
     }
-    if (!data.addresses) {
+    if (!data?.addresses) {
       return (
         <tr>
           <td colSpan={4} className="empty-message">
@@ -175,46 +165,3 @@ export const PayStringAddressesTable = ({
     </table>
   )
 }
-
-PayStringAddressesTable.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  loadingError: PropTypes.string,
-  accountId: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    payString: PropTypes.string,
-    addresses: PropTypes.arrayOf(
-      PropTypes.shape({
-        paymentNetwork: PropTypes.string,
-        environment: PropTypes.string,
-        addressDetailsType: PropTypes.string,
-        addressDetails: PropTypes.shape({
-          address: PropTypes.string,
-          tag: PropTypes.string, // optional
-        }),
-      }),
-    ),
-  }).isRequired,
-  actions: PropTypes.shape({
-    loadPayStringData: PropTypes.func,
-  }).isRequired,
-}
-
-PayStringAddressesTable.defaultProps = {
-  loadingError: '',
-}
-
-export default connect(
-  (state: any) => ({
-    loadingError: state.payStringData.error,
-    loading: state.payStringData.loading,
-    data: state.payStringData.data,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadPayStringData,
-      },
-      dispatch,
-    ),
-  }),
-)(PayStringAddressesTable)

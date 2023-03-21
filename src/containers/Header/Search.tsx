@@ -8,7 +8,6 @@ import {
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
-import { isValidPayId as isValidPayString } from 'payid-lib'
 import SocketContext from '../shared/SocketContext'
 import {
   analytics,
@@ -21,6 +20,7 @@ import {
 } from '../shared/utils'
 import './search.scss'
 import { getTransaction } from '../../rippled/lib/rippled'
+import { isValidPayString } from '../../rippled/payString'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {

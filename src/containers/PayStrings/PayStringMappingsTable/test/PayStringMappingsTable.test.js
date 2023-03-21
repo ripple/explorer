@@ -1,31 +1,16 @@
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { initialState } from '../../../../rootReducer'
 import i18n from '../../../../i18n/testConfig'
-import ConnectedTable, { PayStringAddressesTable } from '../index'
+import { PayStringMappingsTable } from '../index'
 import TEST_TRANSACTIONS_DATA from '../../test/mockPayStringData.json'
 
-const TEST_ACCOUNT_ID = 'blunden$paystring.crypto.com'
-
 describe('PayStringMappingsTable container', () => {
-  const middlewares = [thunk]
-  const mockStore = configureMockStore(middlewares)
-  const creatWrapper = (state = {}) => {
-    const store = mockStore({ ...initialState, ...state })
-    return mount(
+  const creatWrapper = (data, loading) =>
+    mount(
       <I18nextProvider i18n={i18n}>
-        <Provider store={store}>
-          <Router>
-            <ConnectedTable accountId={TEST_ACCOUNT_ID} />
-          </Router>
-        </Provider>
+        <PayStringMappingsTable data={data} loading={loading} />
       </I18nextProvider>,
     )
-  }
 
   it('renders without crashing', () => {
     const wrapper = creatWrapper()
@@ -39,48 +24,21 @@ describe('PayStringMappingsTable container', () => {
   })
 
   it('renders loader when fetching data', () => {
-    const state = { ...initialState }
-    state.payStringData.loading = true
-    const wrapper = creatWrapper(state)
+    const wrapper = creatWrapper(undefined, true)
     expect(wrapper.find('.loader').length).toBe(1)
     wrapper.unmount()
   })
 
   it('does not render loader if we have offline data', () => {
-    const state = {
-      ...initialState,
-      payStringData: {
-        loading: true,
-        data: TEST_TRANSACTIONS_DATA,
-      },
-    }
-    const wrapper = creatWrapper(state)
+    const wrapper = creatWrapper(TEST_TRANSACTIONS_DATA, true)
     expect(wrapper.find('.loader').length).toBe(1)
     wrapper.unmount()
   })
 
   it('renders dynamic content with paystring data', () => {
-    const actions = {
-      loadPayStringData: Function.prototype,
-    }
+    const wrapper = creatWrapper(TEST_TRANSACTIONS_DATA, false)
 
-    const component = shallow(
-      <PayStringAddressesTable
-        t={(d) => d}
-        language="en-US"
-        loading={false}
-        data={TEST_TRANSACTIONS_DATA}
-        actions={actions}
-        accountId="zzz"
-      />,
-    )
-
-    component.setProps({
-      accountId: TEST_ACCOUNT_ID,
-      data: TEST_TRANSACTIONS_DATA,
-    })
-
-    expect(component.find('.paystring-table').length).toBe(1)
-    expect(component.find('.paystring-table tbody tr').length).toBe(4)
+    expect(wrapper.find('.paystring-table').length).toBe(1)
+    expect(wrapper.find('.paystring-table tbody tr').length).toBe(4)
   })
 })
