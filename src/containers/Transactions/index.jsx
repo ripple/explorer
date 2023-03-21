@@ -24,7 +24,7 @@ import { TxStatus } from '../shared/components/TxStatus'
 const ERROR_MESSAGES = {}
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'transaction_not_found',
-  hints: ['check_transaction_hash'],
+  hints: ['server_ledgers_hint', 'check_transaction_hash'],
 }
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_transaction_hash',
