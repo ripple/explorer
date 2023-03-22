@@ -68,7 +68,12 @@ describe('Transaction container', () => {
     await flushPromises()
     wrapper.update()
     expect(wrapper.find('.no-match .title')).toHaveText('transaction_not_found')
-    expect(wrapper.find('.no-match .hint')).toHaveText('check_transaction_hash')
+    expect(wrapper.find('.no-match .hint').at(0)).toHaveText(
+      'server_ledgers_hint',
+    )
+    expect(wrapper.find('.no-match .hint').at(1)).toHaveText(
+      'check_transaction_hash',
+    )
     wrapper.unmount()
   })
 

@@ -8,6 +8,7 @@ import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import App from '../index'
 import MockWsClient from '../../test/mockWsClient'
+import { getAccountInfo } from '../../../rippled/'
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
@@ -40,13 +41,12 @@ jest.mock('../../../rippled', () => {
   return {
     __esModule: true,
     ...originalModule,
-    getAccountInfo: () =>
-      Promise.resolve({
-        flags: 0,
-      }),
+    getAccountInfo: jest.fn(),
     getTransaction: () => Promise.resolve({}),
   }
 })
+
+const mockGetAccountInfo = getAccountInfo
 
 describe('App container', () => {
   const middlewares = [thunk]
@@ -67,6 +67,11 @@ describe('App container', () => {
   const oldEnvs = process.env
 
   beforeEach(() => {
+    mockGetAccountInfo.mockImplementation(() =>
+      Promise.resolve({
+        flags: 0,
+      }),
+    )
     process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
   })
 
@@ -150,11 +155,24 @@ describe('App container', () => {
     })
   })
 
-  it('renders account page', () => {
+  it('renders account page for classic address', () => {
     const id = 'rZaChweF5oXn'
     const wrapper = createWrapper({}, `/accounts/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      wrapper.unmount()
+    })
+  })
+
+  it('renders account page for x-address', () => {
+    const id = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
+    const wrapper = createWrapper({}, `/accounts/${id}#ssss`)
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(document.title).toEqual(`xrpl_explorer | XVVFXHFdehYh...`)
+      expect(mockGetAccountInfo).toBeCalledWith(
+        expect.anything(),
+        'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb',
+      )
       wrapper.unmount()
     })
   })

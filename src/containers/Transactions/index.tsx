@@ -25,7 +25,7 @@ import { useLanguage } from '../shared/hooks'
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'transaction_not_found',
-  hints: ['check_transaction_hash'],
+  hints: ['server_ledgers_hint', 'check_transaction_hash'],
 }
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_transaction_hash',
