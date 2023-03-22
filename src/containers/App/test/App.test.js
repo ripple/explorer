@@ -8,7 +8,7 @@ import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import App from '../index'
 import MockWsClient from '../../test/mockWsClient'
-import { getAccountInfo } from '../../../rippled/'
+import { getAccountInfo } from '../../../rippled'
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
