@@ -1,4 +1,5 @@
 import { ReactWrapper } from 'enzyme'
+import { expect } from 'vitest'
 
 const getSelector = (selector: string) =>
   selector.indexOf('.') === 0 ? selector : `[data-test="${selector}"]`

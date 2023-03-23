@@ -31,12 +31,9 @@ function flushPromises() {
   return new Promise((resolve) => setImmediate(resolve))
 }
 
-const mockedGetRippledVersion = getRippledVersion as jest.MockedFunction<
-  typeof getRippledVersion
->
-const mockedNameOfAmendmentID = nameOfAmendmentID as jest.MockedFunction<
-  typeof nameOfAmendmentID
->
+// TODO: type this better
+const mockedGetRippledVersion = getRippledVersion as any
+const mockedNameOfAmendmentID = nameOfAmendmentID as any
 
 describe('EnableAmendment: Simple', () => {
   it('renders tx that causes an amendment to loose majority', async () => {
