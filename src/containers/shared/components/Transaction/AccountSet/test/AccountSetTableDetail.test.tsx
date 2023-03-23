@@ -1,5 +1,5 @@
 import { createTableDetailWrapperFactory } from '../../test'
-import i18n from '../../../../../../i18nTestConfig.en-US'
+import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { TableDetail } from '../TableDetail'
 import mockAccountSetWithDomain from './mock_data/AccountSetWithDomain.json'

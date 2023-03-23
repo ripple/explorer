@@ -1,4 +1,4 @@
-import i18n from '../../../../../../i18nTestConfig.en-US'
+import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import mockDepositPreaut from './mock_data/DepositPreauth.json'
 import mockDepositPreauthUnauthorize from './mock_data/DepositPreauthUnauthorize.json'

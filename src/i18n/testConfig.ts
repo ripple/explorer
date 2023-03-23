@@ -1,4 +1,5 @@
 import i18n from 'i18next'
+import { configureFormatters } from './formatters'
 
 i18n.init({
   fallbackLng: 'cimode',
@@ -15,5 +16,6 @@ i18n.init({
     useSuspense: false,
   },
 })
+configureFormatters(i18n)
 
 export default i18n

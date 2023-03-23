@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../../../i18nTestConfig'
+import i18n from '../../../i18n/testConfig'
 import Transaction from './mock_data/Transaction.json'
 import OfferCancel from '../../shared/components/Transaction/OfferCancel/test/mock_data/OfferCancel.json'
 import OfferCreateWithMissingPreviousFields from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithMissingPreviousFields.json'

@@ -4,7 +4,7 @@ import { I18nextProvider } from 'react-i18next'
 import Transaction from '../../shared/components/Transaction/EscrowCreate/test/mock_data/EscrowCreate.json'
 import FailedTransaction from '../../shared/components/Transaction/SignerListSet/test/mock_data/SignerListSet.json'
 import DetailTab from '../DetailTab'
-import i18n from '../../../i18nTestConfig.en-US'
+import i18n from '../../../i18n/testConfigEnglish'
 
 describe('DetailTab container', () => {
   const createWrapper = (transaction = Transaction) =>
