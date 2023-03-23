@@ -1,6 +1,7 @@
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
+import { describe, it } from 'vitest'
 import i18n from '../../../i18n/testConfig'
 import Description from '../Description'
 

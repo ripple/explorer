@@ -2,7 +2,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
-import { vi } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
 import i18n from '../../../../i18n/testConfig'
 import { TokenTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionTable/test/mockTransactions.json'
@@ -21,7 +21,6 @@ const TEST_CURRENCY = 'abc'
 function flushPromises() {
   return new Promise((resolve) => setImmediate(resolve))
 }
-
 describe('TokenTransactionsTable container', () => {
   const createWrapper = (
     getAccountTransactionsImpl = () =>

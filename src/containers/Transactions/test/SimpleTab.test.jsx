@@ -2,6 +2,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 
 import { BrowserRouter as Router } from 'react-router-dom'
+import { describe, it, expect } from 'vitest'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import SimpleTab from '../SimpleTab'

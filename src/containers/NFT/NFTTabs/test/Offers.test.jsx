@@ -2,7 +2,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { useInfiniteQuery, QueryClientProvider } from 'react-query'
-import { vi } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
 import { Offers } from '../Offers'
 import i18n from '../../../../i18n/testConfig'
 import { queryClient } from '../../../shared/QueryClient'
@@ -41,7 +41,6 @@ vi.mock('react-query', async () => ({
   useInfiniteQuery: vi.fn(),
 }))
 const fetchOffers = vi.fn()
-
 describe('NFT Offers container', () => {
   const createWrapper = () =>
     mount(

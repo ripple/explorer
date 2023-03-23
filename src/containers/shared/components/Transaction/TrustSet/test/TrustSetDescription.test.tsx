@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import mockTrustSet from './mock_data/TrustSet.json'
@@ -6,7 +7,6 @@ import { Description } from '../Description'
 import { createDescriptionWrapperFactory } from '../../test'
 
 const createWrapper = createDescriptionWrapperFactory(Description, i18n)
-
 describe('TrustSet: Description', () => {
   it('renders description for authorize', () => {
     const wrapper = createWrapper(mockTrustSet)

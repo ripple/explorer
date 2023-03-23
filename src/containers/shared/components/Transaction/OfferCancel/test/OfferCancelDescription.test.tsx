@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { createDescriptionWrapperFactory } from '../../test'
 import { Description } from '../Description'
 import offerCancel from './mock_data/OfferCancel.json'

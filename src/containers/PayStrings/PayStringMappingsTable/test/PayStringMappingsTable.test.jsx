@@ -4,13 +4,13 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { describe, it, expect } from 'vitest'
 import { initialState } from '../../../../rootReducer'
 import i18n from '../../../../i18n/testConfig'
 import ConnectedTable, { PayStringAddressesTable } from '../index'
 import TEST_TRANSACTIONS_DATA from '../../test/mockPayStringData.json'
 
 const TEST_ACCOUNT_ID = 'blunden$paystring.crypto.com'
-
 describe('PayStringMappingsTable container', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)

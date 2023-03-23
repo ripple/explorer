@@ -1,10 +1,10 @@
+import { describe, it, expect } from 'vitest'
 import { Simple } from '../Simple'
 import mockXChainCreateBridge from './mock_data/XChainCreateBridge.json'
 import mockXChainCreateBridgeIOU from './mock_data/XChainCreateBridgeIOU.json'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
-
 describe('XChainCreateBridgeSimple', () => {
   it('renders', () => {
     const wrapper = createWrapper(mockXChainCreateBridge)

@@ -1,5 +1,5 @@
 import { mount } from 'enzyme'
-import { vi } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 import AppErrorBoundary from '../AppErrorBoundary'
 
@@ -12,7 +12,6 @@ vi.mock('../../shared/utils', async () => ({
 const ProblemChild = () => {
   throw new Error('Error thrown from problem child')
 }
-
 describe('<AppErrorBoundary> component', () => {
   it('calls analytics with exception', () => {
     mount(

@@ -1,5 +1,6 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
+import { describe, it, expect } from 'vitest'
 import { Settings } from '../Settings'
 import i18n from '../../../../i18n/testConfig'
 

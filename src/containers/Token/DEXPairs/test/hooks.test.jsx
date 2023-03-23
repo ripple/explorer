@@ -1,6 +1,7 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import moxios from 'moxios'
+import { describe, it, expect } from 'vitest'
 import i18n from '../../../../i18n/testConfig'
 import DEXPairs from '../index'
 import mockTopEndpoint from './mockTopEndpoint.json'
@@ -23,7 +24,6 @@ class MockWsClient extends BaseMockWsClient {
     return Promise.resolve(this.responses[tokenName]?.result)
   }
 }
-
 describe('Testing hooks', () => {
   let client
   beforeEach(() => {

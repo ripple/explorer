@@ -1,4 +1,4 @@
-import { vi } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'

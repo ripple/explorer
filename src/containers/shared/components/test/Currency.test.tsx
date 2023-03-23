@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import { mount } from 'enzyme'
+import { describe, it, expect } from 'vitest'
 import Currency from '../Currency'
 
 describe('Currency', () => {

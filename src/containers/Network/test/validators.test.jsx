@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import { QueryClientProvider } from 'react-query'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import { describe, it, expect } from 'vitest'
 import { initialState } from '../../App/reducer'
 import i18n from '../../../i18n/testConfig'
 import { Network } from '../index'
@@ -22,7 +23,6 @@ const mockStore = configureMockStore(middlewares)
 const store = mockStore({ app: initialState })
 
 const WS_URL = 'ws://localhost:1234'
-
 describe('Validators Tab container', () => {
   let server
   let client

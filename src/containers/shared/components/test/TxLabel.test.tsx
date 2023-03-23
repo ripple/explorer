@@ -1,5 +1,6 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
+import { describe, it, expect } from 'vitest'
 import { TxLabel } from '../TxLabel'
 import TransactionCancelIcon from '../TransactionActionIcon/TransactionCancelIcon.svg'
 import TransactionSendIcon from '../TransactionActionIcon/TransactionSendIcon.svg'

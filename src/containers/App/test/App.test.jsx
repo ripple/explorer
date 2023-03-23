@@ -4,7 +4,7 @@ import { I18nextProvider } from 'react-i18next'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { vi } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import App from '../index'
@@ -47,7 +47,6 @@ vi.mock('../../../rippled/lib/rippled', async () => {
 })
 
 const mockGetAccountInfo = getAccountInfo
-
 describe('App container', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)

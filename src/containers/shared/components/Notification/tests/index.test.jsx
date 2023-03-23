@@ -1,4 +1,5 @@
 import { mount } from 'enzyme'
+import { describe, it, expect } from 'vitest'
 import Notification from '../index'
 
 /* eslint-disable react/jsx-props-no-spreading */
@@ -14,7 +15,6 @@ const VALID_USAGES = [
 const notificationLevels = ['primary', 'secondary', 'ghost']
 const message = 'A catchy message'
 const renderComponent = (props) => mount(<Notification {...props} />)
-
 describe('<Notification />', () => {
   it('should render with custom className', () => {
     const className = 'test-class'

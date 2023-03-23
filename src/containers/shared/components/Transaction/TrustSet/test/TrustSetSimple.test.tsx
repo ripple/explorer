@@ -1,3 +1,4 @@
+import { describe, it } from 'vitest'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
@@ -6,7 +7,6 @@ import mockTrustSet from './mock_data/TrustSet.json'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 
 const createWrapper = createSimpleWrapperFactory(Simple, i18n)
-
 describe('TrustSet: Simple', () => {
   it('renders', () => {
     const wrapper = createWrapper(mockTrustSet)

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { getRippledVersion, nameOfAmendmentID } from '../amendmentUtils'
 
 const nameTable = [
@@ -155,7 +156,6 @@ const nameTable = [
     'fixAmendmentMajorityCalc',
   ],
 ]
-
 describe('nameOfAmendmentID: ', () => {
   it.each(nameTable)(
     `should resolve amendment id "%s" to "%s"`,

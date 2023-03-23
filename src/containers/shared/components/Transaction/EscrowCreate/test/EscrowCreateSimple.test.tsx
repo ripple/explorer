@@ -1,9 +1,9 @@
+import { describe, it, expect } from 'vitest'
 import { Simple } from '../Simple'
 import mockEscrowCreate from './mock_data/EscrowCreate.json'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
-
 describe('EscrowCreateSimple', () => {
   it('renders with an expiration and offer', () => {
     const wrapper = createWrapper(mockEscrowCreate)

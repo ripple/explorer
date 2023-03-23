@@ -1,6 +1,7 @@
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
+import { describe, it, expect } from 'vitest'
 import Transaction from '../../shared/components/Transaction/EscrowCreate/test/mock_data/EscrowCreate.json'
 import FailedTransaction from '../../shared/components/Transaction/SignerListSet/test/mock_data/SignerListSet.json'
 import DetailTab from '../DetailTab'

@@ -4,6 +4,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
+import { describe, it, expect } from 'vitest'
 import { BAD_REQUEST } from '../../shared/utils'
 import mockTransaction from './mock_data/Transaction.json'
 import mockTransactionSummary from './mock_data/TransactionSummary.json'
@@ -13,7 +14,6 @@ import Transaction from '../index'
 import { TxStatus } from '../../shared/components/TxStatus'
 
 global.location = '/transactions/aaaa'
-
 describe('Transaction container', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)

@@ -1,3 +1,4 @@
+import { describe, it } from 'vitest'
 import { Simple } from '../Simple'
 import {
   createSimpleWrapperFactory,

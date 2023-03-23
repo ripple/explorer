@@ -1,4 +1,5 @@
 import { mount } from 'enzyme'
+import { describe, it, expect } from 'vitest'
 import DomainLink from '../DomainLink'
 
 describe('DomainLink', () => {

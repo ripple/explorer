@@ -2,7 +2,7 @@ import { mount } from 'enzyme'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
-import { vi } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
 import { getAccountNFTs } from '../../../../rippled/lib/rippled'
 import { AccountNFTTable } from '../AccountNFTTable'
 import i18n from '../../../../i18n/testConfig'
@@ -35,7 +35,6 @@ const data = {
   ledger_current_index: 21174400,
   validated: false,
 }
-
 describe('AccountNFTTable component', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 

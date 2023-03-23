@@ -1,5 +1,6 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
+import { describe, it, expect } from 'vitest'
 import { Legend, LEGEND_STORAGE_KEY } from '../Legend'
 import { TransactionActionIcon } from '../../shared/components/TransactionActionIcon/TransactionActionIcon'
 import i18n from '../../../i18n/testConfigEnglish'

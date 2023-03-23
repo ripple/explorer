@@ -1,6 +1,7 @@
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
+import { describe, it, expect } from 'vitest'
 import i18n from '../../../i18n/testConfig'
 import NodesTable from '../NodesTable'
 import nodes from './mockNodes.json'
@@ -14,7 +15,6 @@ const createWrapper = (props = {}) =>
       </I18nextProvider>
     </Router>,
   )
-
 describe('Nodes table', () => {
   it('renders without crashing', () => {
     const wrapper = createWrapper()

@@ -2,7 +2,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
-import { vi } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
 import i18n from '../../../../i18n/testConfig'
 import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
@@ -19,7 +19,6 @@ const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 function flushPromises() {
   return new Promise((resolve) => setImmediate(resolve))
 }
-
 describe('AccountTransactionsTable container', () => {
   beforeEach(() => {
     vi.resetModules()

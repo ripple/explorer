@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { aggregateData } from '../UpgradeStatus'
 
 describe('UpgradeStatus test functions', () => {

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { Simple } from '../Simple'
 import mockXChainCommit from './mock_data/XChainCommit.json'
 import mockXChainCommitInsufficientFunds from './mock_data/XChainCommitInsufficientFunds.json'
@@ -5,7 +6,6 @@ import mockXChainCommitInsufficientFunds from './mock_data/XChainCommitInsuffici
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
-
 describe('XChainCommitSimple', () => {
   it('renders', () => {
     const wrapper = createWrapper(mockXChainCommit)

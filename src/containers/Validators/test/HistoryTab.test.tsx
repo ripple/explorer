@@ -1,5 +1,6 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
+import { describe, it, expect } from 'vitest'
 import { HistoryTab } from '../HistoryTab'
 import history from './mock_data/history.json'
 import Loader from '../../shared/components/Loader'

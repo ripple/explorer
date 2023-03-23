@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createDescriptionWrapperFactory } from '../../test/createWrapperFactory'
@@ -6,7 +7,6 @@ import mockPaymentChannelFundFailed from './mock_data/PaymentChannelFundFailed.j
 import { Description } from '../Description'
 
 const createWrapper = createDescriptionWrapperFactory(Description, i18n)
-
 describe('PaymentChannelFund: Description', () => {
   it('renders a Fund', () => {
     const wrapper = createWrapper(mockPaymentChannelFund)

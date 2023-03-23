@@ -1,9 +1,9 @@
+import { describe, it, expect } from 'vitest'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import mockXChainClaim from './mock_data/XChainClaim.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
-
 describe('XChainClaimSimple', () => {
   it('renders', () => {
     const wrapper = createWrapper(mockXChainClaim)

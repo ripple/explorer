@@ -1,11 +1,10 @@
 import { XrplClient } from 'xrpl-client'
-import { vi } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
 import { getSocket } from '../SocketContext'
 
 vi.mock('xrpl-client', () => ({
   XrplClient: vi.fn(),
 }))
-
 describe('getSocket', () => {
   const OLD_ENV = process.env
 
