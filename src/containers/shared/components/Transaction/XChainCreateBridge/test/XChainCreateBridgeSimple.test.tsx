@@ -83,6 +83,6 @@ describe('XChainCreateBridgeSimple', () => {
     expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
 
     expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
-    expectSimpleRowText(wrapper, 'signature-reward', '\uE9005.00 XRP')
+    expectSimpleRowText(wrapper, 'min-account-create-amount', '\uE9005.00 XRP')
   })
 })
