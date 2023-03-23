@@ -3,7 +3,7 @@ import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import { vi } from 'vitest'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 import { TokenTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionTable/test/mockTransactions.json'
 

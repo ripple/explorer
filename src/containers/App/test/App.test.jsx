@@ -6,9 +6,10 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { vi } from 'vitest'
 import { initialState } from '../../../rootReducer'
-import i18n from '../../../i18nTestConfig'
+import i18n from '../../../i18n/testConfig'
 import App from '../index'
 import MockWsClient from '../../test/mockWsClient'
+import { getAccountInfo } from '../../../rippled/lib/rippled'
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
@@ -35,18 +36,17 @@ vi.mock('../../shared/SocketContext', async () => {
   }
 })
 
-jest.mock('../../../rippled/lib/rippled', () => {
-  const originalModule = jest.requireActual('../../../rippled/lib/rippled')
+vi.mock('../../../rippled/lib/rippled', async () => {
+  const originalModule = await vi.importActual('../../../rippled/lib/rippled')
 
   return {
     __esModule: true,
     ...originalModule,
-    getAccountInfo: () =>
-      Promise.resolve({
-        flags: 0,
-      }),
+    getAccountInfo: vi.fn(),
   }
 })
+
+const mockGetAccountInfo = getAccountInfo
 
 describe('App container', () => {
   const middlewares = [thunk]
@@ -67,6 +67,11 @@ describe('App container', () => {
   const oldEnvs = process.env
 
   beforeEach(() => {
+    mockGetAccountInfo.mockImplementation(() =>
+      Promise.resolve({
+        flags: 0,
+      }),
+    )
     process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
   })
 
@@ -102,7 +107,7 @@ describe('App container', () => {
   it('renders not found page', () => {
     const wrapper = createWrapper({}, '/zzz')
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual('xrpl_explorer | 404_default_title')
+      expect(document.title).toEqual('xrpl_explorer | not_found_default_title')
       wrapper.unmount()
     })
   })
@@ -127,11 +132,46 @@ describe('App container', () => {
     })
   })
 
-  it('renders account page', () => {
+  it('renders transaction page with no hash', () => {
+    const wrapper = createWrapper({}, `/transactions/`)
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(wrapper.find('.no-match .title')).toHaveText(
+        'transaction_empty_title',
+      )
+      expect(wrapper.find('.no-match .hint')).toHaveText(
+        'transaction_empty_hint',
+      )
+      wrapper.unmount()
+    })
+  })
+
+  it('renders account page for classic address', () => {
     const id = 'rZaChweF5oXn'
     const wrapper = createWrapper({}, `/accounts/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      wrapper.unmount()
+    })
+  })
+
+  it('renders account page for x-address', () => {
+    const id = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
+    const wrapper = createWrapper({}, `/accounts/${id}#ssss`)
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(document.title).toEqual(`xrpl_explorer | XVVFXHFdehYh...`)
+      expect(mockGetAccountInfo).toBeCalledWith(
+        expect.anything(),
+        'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb',
+      )
+      wrapper.unmount()
+    })
+  })
+
+  it('renders account page with no id', () => {
+    const wrapper = createWrapper({}, `/accounts/`)
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(wrapper.find('.no-match .title')).toHaveText('account_empty_title')
+      expect(wrapper.find('.no-match .hint')).toHaveText('account_empty_hint')
       wrapper.unmount()
     })
   })

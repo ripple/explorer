@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import i18n from '../../../../../../i18nTestConfig.en-US'
+import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 

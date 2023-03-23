@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import { getAccountNFTs } from '../../../../rippled/lib/rippled'
 import { AccountNFTTable } from '../AccountNFTTable'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { testQueryClient } from '../../../test/QueryClient'
 

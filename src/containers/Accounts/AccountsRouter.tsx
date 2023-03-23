@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { useParams } from 'react-router'
 import { useQuery } from 'react-query'
+import { isValidXAddress, xAddressToClassicAddress } from 'ripple-address-codec'
 import { AMMAccounts } from './AMM/AMMAccounts'
 import SocketContext from '../shared/SocketContext'
 import { getAccountInfo } from '../../rippled/lib/rippled'
@@ -30,15 +31,29 @@ export const AccountsRouter = () => {
     {},
   )
 
-  const { data: comp, error } = useQuery([accountId], () =>
-    getAccountInfo(rippledSocket, accountId).then((data: any) => {
+  const { data: comp, error } = useQuery([accountId], () => {
+    let classicAddress = accountId
+    if (isValidXAddress(accountId)) {
+      classicAddress = xAddressToClassicAddress(accountId).classicAddress
+    }
+
+    return getAccountInfo(rippledSocket, classicAddress).then((data: any) => {
       if (data.Flags & flags.lsfAMM) {
         return <AMMAccounts />
       }
       return <Accounts />
-    }),
-  )
+    })
+  })
 
+  if (!accountId) {
+    return (
+      <NoMatch
+        title="account_empty_title"
+        hints={['account_empty_hint']}
+        isError={false}
+      />
+    )
+  }
   if (error) {
     return renderError(error)
   }

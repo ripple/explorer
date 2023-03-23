@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { useInfiniteQuery, QueryClientProvider } from 'react-query'
 import { vi } from 'vitest'
 import { Offers } from '../Offers'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 import { queryClient } from '../../../shared/QueryClient'
 
 const data = {

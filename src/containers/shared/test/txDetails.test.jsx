@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
-import i18n from '../../../i18nTestConfig'
+import i18n from '../../../i18n/testConfig'
 import EnableAmendment from '../../Transactions/test/mock_data/EnableAmendment.json'
 import { TxDetails } from '../components/TxDetails'
 import summarize from '../../../rippled/lib/txSummary'
