@@ -1,5 +1,6 @@
 import { Simple } from '../Simple'
 import mockXChainCreateBridge from './mock_data/XChainCreateBridge.json'
+import mockXChainCreateBridgeFailed from './mock_data/XChainCreateBridgeFailed.json'
 import mockXChainCreateBridgeIOU from './mock_data/XChainCreateBridgeIOU.json'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 
@@ -63,7 +64,7 @@ describe('XChainCreateBridgeSimple', () => {
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockXChainCreateBridge)
+    const wrapper = createWrapper(mockXChainCreateBridgeFailed)
 
     // check XChainBridge parts
     expectSimpleRowText(
