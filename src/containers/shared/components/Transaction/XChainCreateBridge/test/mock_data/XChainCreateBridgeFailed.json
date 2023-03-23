@@ -1,0 +1,53 @@
+{
+  "tx": {
+    "Account": "rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd",
+    "Fee": "10",
+    "Flags": 0,
+    "LastLedgerSequence": 30,
+    "MinAccountCreateAmount": "5000000",
+    "Sequence": 5,
+    "SignatureReward": "100",
+    "SigningPubKey": "039EEAC2921FED0BE867F5C6BC6206A21A7ECF720982C44A3D503B40CB1374DD6F",
+    "TransactionType": "XChainCreateBridge",
+    "TxnSignature": "3045022100B3127F3D6FE09CEC8DB14A262F1FEA82EB0F24D3882BB875072B82398FECD50602201F802C94B322EA90E51116A5910F8F3EA4BF951AB96EA2256A03E46B087169BD",
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": {
+        "currency": "XRP"
+      },
+      "LockingChainDoor": "rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd",
+      "LockingChainIssue": {
+        "currency": "XRP"
+      }
+    },
+    "date": 1679597660000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd",
+            "Balance": "1070000570",
+            "Flags": 0,
+            "OwnerCount": 2,
+            "Sequence": 6
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "41F98EB375A0FA10B571528507E9BE0BFF807316EB0F8E64656E82DA7F755B6E",
+          "PreviousFields": {
+            "Balance": "1070000580",
+            "Sequence": 5
+          },
+          "PreviousTxnID": "3DB9DF9C3412C4ABFC578E16E37EF3F25C80105F5E8BC5C99A3EF66DD62E11BA",
+          "PreviousTxnLgrSeq": 10
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tecDUPLICATE"
+  },
+  "hash": "22BF0818FA3C1E1CE203BD0012FE83454D73B11A8EC06524EEAEA98D8137A6D6",
+  "ledger_index": 11,
+  "date": 1679597660000
+}
