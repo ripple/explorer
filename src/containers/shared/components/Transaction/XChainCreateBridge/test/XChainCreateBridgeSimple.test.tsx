@@ -72,14 +72,14 @@ describe('XChainCreateBridgeSimple', () => {
       'locking-chain-door',
       'rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
     expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).toExist()
+    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
 
     expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')

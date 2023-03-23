@@ -72,6 +72,6 @@ describe('XChainAddClaimAttestationSimple', () => {
       'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi',
     )
     expect(wrapper.find(`[data-test="destination"] a`)).toExist()
-    expectSimpleRowText(wrapper, 'xchain-claim-id', '1')
+    expectSimpleRowText(wrapper, 'xchain-claim-id', '3')
   })
 })

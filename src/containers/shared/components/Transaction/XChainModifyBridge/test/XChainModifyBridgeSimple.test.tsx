@@ -74,6 +74,6 @@ describe('XChainModifyBridgeSimple', () => {
     expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
 
-    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.01 XRP')
+    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
   })
 })
