@@ -1,7 +1,6 @@
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
-export function parser(tx: any, meta: any) {
-  const affectedNodes = meta.AffectedNodes
+export function parser(tx: any) {
   return {
     lockingDoor: tx.XChainBridge.LockingChainDoor,
     lockingIssue: tx.XChainBridge.LockingChainIssue,
