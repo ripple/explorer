@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import moxios from 'moxios'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 import DEXPairs from '../index'
 import mockTopEndpoint from './mockTopEndpoint.json'
 import mockExchangeData from './mockExchangeData.json'

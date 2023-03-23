@@ -3,7 +3,7 @@ import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { useInfiniteQuery, QueryClientProvider } from 'react-query'
 import { Transactions } from '../Transactions'
-import i18n from '../../../../i18nTestConfig'
+import i18n from '../../../../i18n/testConfig'
 import { queryClient } from '../../../shared/QueryClient'
 
 jest.mock('react-query', () => ({

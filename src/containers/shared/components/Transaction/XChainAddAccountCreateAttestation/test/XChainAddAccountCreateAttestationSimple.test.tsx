@@ -13,7 +13,7 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
     expectSimpleRowText(
       wrapper,
       'locking-chain-door',
-      'rDJVtEuDKr4rj1B3qtW7R5TVWdXV2DY7Qg',
+      'rDPwN6dz3shffxodeUC9Qf5y1mEHYySKLJ',
     )
     expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
@@ -34,7 +34,7 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
     expectSimpleRowText(
       wrapper,
       'destination',
-      'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi',
+      'rLbKhMNskUBYRShdbbQcFm9YhumEeUJfPK',
     )
     expect(wrapper.find(`[data-test="destination"] a`)).toExist()
   })

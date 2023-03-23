@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter } from 'react-router'
 import { mount } from 'enzyme'
-import i18n from '../../../../i18nTestConfig.en-US'
+import i18n from '../../../../i18n/testConfigEnglish'
 import { TxStatus } from '../TxStatus'
 
 describe('TxStatus', () => {

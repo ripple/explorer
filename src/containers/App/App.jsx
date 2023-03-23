@@ -13,7 +13,7 @@ import './app.scss'
 import ledger from '../Ledger'
 import transactions from '../Transactions'
 import { Network } from '../Network'
-import validators from '../Validators'
+import { Validator } from '../Validators'
 import paystrings from '../PayStrings'
 import token from '../Token'
 import noMatch from '../NoMatch'
@@ -109,14 +109,14 @@ const App = (props) => {
                   />
                   <Route
                     exact
-                    path="/transactions/:identifier/:tab?"
+                    path="/transactions/:identifier?/:tab?"
                     component={transactions}
                   />
                   <Route exact path="/network/:tab?" component={Network} />
                   <Route
                     exact
                     path="/validators/:identifier/:tab?"
-                    component={validators}
+                    component={Validator}
                   />
                   <Route exact path="/paystrings/:id?" component={paystrings} />
                   <Route exact path="/token/:currency.:id" component={token} />

@@ -1,7 +1,7 @@
 import logger from './lib/logger'
 import { formatTransaction } from './lib/utils'
 import { getTransaction as getRippledTransaction } from './lib/rippled'
-import summarize from './lib/txSummary'
+import summarizeTransaction from './lib/txSummary'
 
 const log = logger({ name: 'transactions' })
 
@@ -10,7 +10,7 @@ const getTransaction = (transactionId, rippledSocket) => {
   return getRippledTransaction(rippledSocket, transactionId)
     .then((response) => formatTransaction(response))
     .then((data) => ({
-      summary: summarize(data, true).details,
+      summary: summarizeTransaction(data, true).details,
       raw: data,
     }))
     .then((data) => data)

@@ -18,6 +18,7 @@ import { PaymentTransaction as Payment } from './Payment'
 import { PaymentChannelClaimTransaction as PaymentChannelClaim } from './PaymentChannelClaim'
 import { PaymentChannelCreateTransaction as PaymentChannelCreate } from './PaymentChannelCreate'
 import { PaymentChannelFundTransaction as PaymentChannelFund } from './PaymentChannelFund'
+import { SetFeeTransaction as SetFee } from './SetFee'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
 import { XChainAccountCreateCommitTransaction as XChainAccountCreateCommit } from './XChainAccountCreateCommit'
@@ -35,7 +36,11 @@ import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
 import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { UNLModifyTransaction as UNLModify } from './UNLModify'
 
-import { TransactionMapping } from './types'
+import {
+  TransactionAction,
+  TransactionCategory,
+  TransactionMapping,
+} from './types'
 
 export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
@@ -53,6 +58,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   PaymentChannelCreate,
   PaymentChannelClaim,
   PaymentChannelFund,
+  SetFee,
   SetRegularKey,
   SignerListSet,
   XChainAccountCreateCommit,
@@ -75,3 +81,9 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   TrustSet,
   UNLModify,
 }
+
+export const getAction = (type: string): TransactionAction =>
+  transactionTypes[type]?.action || TransactionAction.UNKNOWN
+
+export const getCategory = (type: string): TransactionCategory =>
+  transactionTypes[type]?.category || TransactionCategory.UNKNOWN

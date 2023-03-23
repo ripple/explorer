@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { localizeNumber } from '../../shared/utils'
 import IconDownArrow from '../../shared/images/down_arrow.svg'
 import iconClose from '../../shared/images/close.png'
+import Currency from '../../shared/components/Currency'
 import '../../shared/css/nested-menu.scss'
 import './styles.scss'
 import './balance-selector.scss'
@@ -41,7 +42,9 @@ const BalanceSelector = ({
         }}
         key={currency}
       >
-        <div className="menu-item-currency">{currency}</div>
+        <div className="menu-item-currency">
+          <Currency currency={currency} />
+        </div>
         <div className="menu-item-value">{formattedValue}</div>
       </button>
     )
@@ -55,7 +58,7 @@ const BalanceSelector = ({
     >
       <button
         type="button"
-        className="balance-selector-button"
+        className="btn balance-selector-button"
         onClick={onClick}
       >
         <span className="selector-text">{text}</span>

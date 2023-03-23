@@ -1,7 +1,3 @@
-import axios from 'axios'
-import { getQuorum, getNegativeUNL } from '../../rippled'
-import Log from './log'
-
 const THOUSAND = 1000
 const MILLION = THOUSAND * THOUSAND
 const BILLION = MILLION * THOUSAND
@@ -29,8 +25,6 @@ export const FETCH_INTERVAL_NODES_MILLIS = 60000
 export const FETCH_INTERVAL_ERROR_MILLIS = 300
 
 export const DECIMAL_REGEX = /^\d+$/
-export const RIPPLE_ADDRESS_REGEX =
-  /^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const HASH_REGEX = /[0-9A-Fa-f]{64}/i
 export const CURRENCY_REGEX =
   /^[a-zA-Z0-9]{3,}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
@@ -38,14 +32,6 @@ export const FULL_CURRENCY_REGEX =
   /^[0-9A-Fa-f]{40}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const VALIDATORS_REGEX = /^n[9H][0-9A-Za-z]{50}$/
 
-export const UP_COLOR = '#2BCB96'
-export const DOWN_COLOR = '#F23548'
-export const LINE_COLOR = '#0F72E5'
-export const BLACK_20 = '#E1E4E8'
-export const BLACK_30 = '#C9CDD1'
-export const BLACK_40 = '#B1B5BA'
-export const BLACK_60 = '#6B7075'
-export const WHITE = '#FFFFFF'
 export const GREY = '#9BA2B0'
 export const PURPLE = '#8884d8'
 export const BLUE = '#1AA4FF'
@@ -114,7 +100,7 @@ export const isEarlierVersion = (source, target) => {
 
   // Compare release version
   if (sourcePatch.length !== targetPatch.length) {
-    return sourcePatch.length < targetPatch.length
+    return sourcePatch.length > targetPatch.length
   }
 
   if (sourcePatch.length === 2) {
@@ -235,28 +221,6 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
     return null
   }
   return new Intl.DateTimeFormat(lang, options).format(date)
-}
-
-/**
- * extract new items from top of array b using iterator
- * and merge it into the state array a.
- * @param {any[]} a The nfts in state.
- * @param {any[]} b The new nfts from props.
- * @returns {any[]} Concatenated list.
- */
-export const concatNFT = (a, b) => {
-  if (a.length === 0) return b
-  if (b.length === 0) return a
-  if (a[0].NFTokenID === b[0].NFTokenID) return a
-
-  // joins if b has only old new nfts or has new ones on top of old ones.
-  let iterator = 0
-  for (iterator = 0; iterator < b.length; iterator += 1) {
-    if (b[iterator].NFTokenID === a[0].NFTokenID) {
-      break
-    }
-  }
-  return a.concat(b.slice(0, iterator))
 }
 
 export const getLocalizedCurrencySymbol = (
@@ -404,29 +368,6 @@ export const durationToHuman = (s, decimal = 2) => {
 
   return `${d.num.toFixed(decimal)} ${d.unit}`
 }
-
-export const fetchNegativeUNL = async (rippledSocket) =>
-  getNegativeUNL(rippledSocket)
-    .then((data) => {
-      if (data === undefined) throw new Error('undefined nUNL')
-
-      return data
-    })
-    .catch((e) => Log.error(e))
-
-export const fetchQuorum = async (rippledSocket) =>
-  getQuorum(rippledSocket)
-    .then((data) => {
-      if (data === undefined) throw new Error('undefined quorum')
-      return data
-    })
-    .catch((e) => Log.error(e))
-
-export const fetchMetrics = () =>
-  axios
-    .get('/api/v1/metrics')
-    .then((result) => result.data)
-    .catch((e) => Log.error(e))
 
 export const removeRoutes = (routes, ...routesToRemove) =>
   routes.filter((route) => !routesToRemove.includes(route.title))

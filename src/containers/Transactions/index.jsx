@@ -24,7 +24,7 @@ import { TxStatus } from '../shared/components/TxStatus'
 const ERROR_MESSAGES = {}
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'transaction_not_found',
-  hints: ['check_transaction_hash'],
+  hints: ['server_ledgers_hint', 'check_transaction_hash'],
 }
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_transaction_hash',
@@ -133,11 +133,13 @@ const Transaction = (props) => {
     body = <NoMatch title={message.title} hints={message.hints} />
   } else if (data.raw && data.raw.hash) {
     body = renderTransaction()
-  } else if (!loading) {
+  } else if (!identifier) {
     body = (
-      <div style={{ textAlign: 'center', fontSize: '14px' }}>
-        <h2>Enter a transaction hash in the search box</h2>
-      </div>
+      <NoMatch
+        title="transaction_empty_title"
+        hints={['transaction_empty_hint']}
+        isError={false}
+      />
     )
   }
 

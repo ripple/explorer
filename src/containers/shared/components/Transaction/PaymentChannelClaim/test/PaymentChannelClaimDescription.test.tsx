@@ -1,4 +1,4 @@
-import i18n from '../../../../../../i18nTestConfig.en-US'
+import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createDescriptionWrapperFactory } from '../../test/createWrapperFactory'
 import mockPaymentChannelClaim from './mock_data/PaymentChannelClaim.json'

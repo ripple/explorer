@@ -1,11 +1,18 @@
 const axios = require('axios')
 const { XrplClient } = require('xrpl-client')
 const utils = require('./utils')
+const streams = require('./streams')
 
-const RIPPLED_CLIENT = new XrplClient([
-  `wss://${process.env.VITE_RIPPLED_HOST}:${process.env.VITE_RIPPLED_WS_PORT}`,
-  `wss://${process.env.VITE_RIPPLED_HOST}`,
-])
+const RIPPLEDS = []
+process.env.VITE_RIPPLED_HOST.split(',').forEach((d) => {
+  const rippled = d.split(':')
+  RIPPLEDS.push(
+    `wss://${rippled[0]}:${rippled[1] || process.env.VITE_RIPPLED_WS_PORT}`,
+    `wss://${rippled[0]}`,
+  )
+})
+
+const RIPPLED_CLIENT = new XrplClient(RIPPLEDS, { tryAllNodes: true })
 // If there is a separate peer to peer server for admin requests, use it. Otherwise use the default url for everything.
 const HAS_P2P_SOCKET =
   process.env.VITE_P2P_RIPPLED_HOST != null &&
@@ -20,6 +27,12 @@ const P2P_URL_BASE = process.env.VITE_P2P_RIPPLED_HOST
   ? process.env.VITE_P2P_RIPPLED_HOST
   : process.env.VITE_RIPPLED_HOST
 const URL_HEALTH = `https://${P2P_URL_BASE}:${process.env.VITE_RIPPLED_PEER_PORT}/health`
+
+RIPPLED_CLIENT.on('ledger', (data) => {
+  if (data.type === 'ledgerClosed') {
+    streams.handleLedger(data)
+  }
+})
 
 const executeQuery = async (rippledSocket, params) =>
   rippledSocket.send(params).catch((error) => {
