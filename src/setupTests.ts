@@ -2,6 +2,7 @@ import 'dotenv/config'
 import 'jest-enzyme'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-17-updated'
+import 'vitest-dom/extend-expect'
 
 const mockStorage = {}
 
