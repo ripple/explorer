@@ -123,5 +123,6 @@ export default defineConfig({
       statements: 80,
     },
     css: false,
+    allowOnly: true,
   },
 })
