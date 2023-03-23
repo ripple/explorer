@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
-import packageConfig from '../../../package.json'
 import Logo from '../shared/images/XRPLedger.svg'
 import './footer.scss'
 
-const Footer = (props) => {
+const Footer = () => {
   const { t } = useTranslation()
 
   return (
@@ -24,31 +23,6 @@ const Footer = (props) => {
           <a href="https://xrpl.org/impact.html" className="footer-link">
             Impact
           </a>
-          <a
-            href="https://xrpl.org/carbon-calculator.html"
-            className="footer-link"
-          >
-            Carbon Calculator
-          </a>
-        </div>
-
-        <div className="footer-link-section">
-          <div className="footer-section-header">Explore</div>
-          <a href="https://xrpl.org/index.html" className="footer-link">
-            News
-          </a>
-          <a href="https://xrpl.org/wallet.html" className="footer-link">
-            Wallets
-          </a>
-          <a href="https://xrpl.org/exchanges.html" className="footer-link">
-            Exchanges
-          </a>
-          <a href="https://xrpl.org/businesses.html" className="footer-link">
-            XRPL Businesses
-          </a>
-          <a href="https://livenet.xrpl.org/" className="footer-link">
-            Ledger Explorer
-          </a>
         </div>
 
         <div className="footer-link-section">
@@ -61,6 +35,9 @@ const Footer = (props) => {
           </a>
           <a href="https://xrpl.org/dev-tools.html" className="footer-link">
             Tools
+          </a>
+          <a href="https://livenet.xrpl.org/" className="footer-link">
+            Ledger Explorer
           </a>
           <a href="https://xrpl.org/blog/" className="footer-link">
             Dev Blog
@@ -87,7 +64,7 @@ const Footer = (props) => {
             {t('explorer')}
             <span className="version">
               {' '}
-              {t('version', { number: packageConfig.version })}
+              {t('version', { number: process.env.VITE_APP_VERSION })}
             </span>
           </span>
         </div>
