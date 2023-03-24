@@ -23,7 +23,7 @@ export const Details = ({ data }: Props) => {
     transferFee,
     owner,
     isBurned,
-    NFTSequence: nftSequence,
+    NFTSerial: nftSequence,
   } = data
   const { t } = useTranslation()
   const language = useLanguage()

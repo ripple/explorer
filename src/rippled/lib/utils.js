@@ -113,7 +113,8 @@ const formatNFTInfo = (info) => ({
   transferFee: info.transfer_fee,
   issuer: info.issuer,
   NFTTaxon: info.nft_taxon,
-  NFTSequence: info.nft_sequence,
+  // TODO: remove `nft_sequence` support after clio update has been fully rolled out.
+  NFTSerial: info.nft_serial ?? info.nft_sequence,
   uri: info.uri,
   validated: info.validated,
   status: info.status,
