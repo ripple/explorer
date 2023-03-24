@@ -5,7 +5,7 @@ import { Details } from '../Details'
 import i18n from '../../../../i18n/testConfig'
 
 describe('NFT Details container', () => {
-  const data = {
+  const dataDefault = {
     NFTId: '0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000C',
     ledgerIndex: 2436210,
     owner: 'rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W',
@@ -25,7 +25,12 @@ describe('NFT Details container', () => {
     domain: '123456',
   }
 
-  const createWrapper = () =>
+  const dataWithHexURI = {
+    ...dataDefault,
+    uri: '697066733A2F2F62616679626569676479727A74357366703775646D37687537367568377932366E6634646675796C71616266336F636C67747179353566627A6469',
+  }
+
+  const createWrapper = (data = dataDefault) =>
     mount(
       <I18nextProvider i18n={i18n}>
         <BrowserRouter>
@@ -44,7 +49,21 @@ describe('NFT Details container', () => {
     expect(wrapper.find('.row').length).toEqual(7)
     expect(wrapper.text()).toEqual(
       expect.stringContaining(
-        'bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
+        'ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
+      ),
+    )
+    expect(wrapper.text()).toEqual(
+      expect.stringContaining('rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W'),
+    )
+    wrapper.unmount()
+  })
+
+  it('renders defined fields when uri is hex', () => {
+    const wrapper = createWrapper(dataWithHexURI)
+    expect(wrapper.find('.row').length).toEqual(7)
+    expect(wrapper.find('.row').at(3).text()).toEqual(
+      expect.stringContaining(
+        'ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
       ),
     )
     expect(wrapper.text()).toEqual(

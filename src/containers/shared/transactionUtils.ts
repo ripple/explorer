@@ -190,6 +190,12 @@ export function groupAffectedNodes(trans: Transaction) {
   return group
 }
 
+const hexRegex = /^([0-9A-Fa-f]*)$/g
+
+export function isHex(str: string) {
+  return hexRegex.test(str)
+}
+
 export function decodeHex(hex: string) {
   let str = ''
   for (let i = 0; i < hex.length; i += 2) {
