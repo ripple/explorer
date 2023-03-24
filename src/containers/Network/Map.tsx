@@ -1,12 +1,13 @@
+import axios from 'axios'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { geoPath, geoNaturalEarth1 } from 'd3-geo'
 import { scaleLinear } from 'd3-scale'
 import { hexbin } from 'd3-hexbin'
 import { feature } from 'topojson-client'
 import { useWindowSize } from 'usehooks-ts'
 import Loader from '../shared/components/Loader'
-import mapJSON from './countries.json'
 import './css/map.scss'
 
 const MAX_WIDTH = 1200
@@ -18,7 +19,6 @@ export interface MapProps {
 }
 
 export const Map = ({ locations = undefined }: MapProps) => {
-  const countries = feature(mapJSON, mapJSON.objects.countries).features
   const [tooltip, setTooltip] = useState<{
     count: number
     x: number
@@ -26,6 +26,14 @@ export const Map = ({ locations = undefined }: MapProps) => {
   } | null>(null)
   const { t } = useTranslation()
   const { width: propsWidth } = useWindowSize()
+  const { data: countries } = useQuery('countries', () =>
+    axios
+      .get('/countries.json')
+      .then(
+        (response) =>
+          feature(response.data, response.data.objects.countries).features,
+      ),
+  )
 
   const getProjection = (width, height) =>
     geoNaturalEarth1()
