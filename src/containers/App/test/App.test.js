@@ -153,7 +153,7 @@ describe('App container', () => {
 
   it('renders account page for x-address', () => {
     const id = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
-    const wrapper = createWrapper({}, `/accounts/${id}#ssss`)
+    const wrapper = createWrapper(`/accounts/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | XVVFXHFdehYh...`)
       expect(mockGetAccountInfo).toBeCalledWith(
