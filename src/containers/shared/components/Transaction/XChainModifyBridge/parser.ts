@@ -1,11 +1,6 @@
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
-export function parser(tx: any, meta: any) {
-  const affectedNodes = meta.AffectedNodes
-  const bridgeMeta = affectedNodes.filter(
-    (node: any) =>
-      node.ModifiedNode && node.ModifiedNode.LedgerEntryType === 'Bridge',
-  )[0]
+export function parser(tx: any) {
   return {
     lockingDoor: tx.XChainBridge.LockingChainDoor,
     lockingIssue: tx.XChainBridge.LockingChainIssue,
@@ -13,6 +8,6 @@ export function parser(tx: any, meta: any) {
     issuingIssue: tx.XChainBridge.IssuingChainIssue,
     signatureReward: formatAmount(tx.SignatureReward),
     minAccountCreateAmount: formatAmount(tx.MinAccountCreateAmount),
-    bridgeOwner: bridgeMeta.ModifiedNode.FinalFields.Account,
+    bridgeOwner: tx.Account,
   }
 }
