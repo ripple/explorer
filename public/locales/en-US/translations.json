@@ -212,7 +212,7 @@
   "transaction_cost": "Transaction Cost",
   "transaction_cost_short": "Txn. Cost",
   "sequence_number": "Sequence Number",
-  "sequence_number_short": "Sequence #",
+  "serial": "Serial",
   "n_a": "N/A",
   "memos": "Memos",
   "flags": "Flags",

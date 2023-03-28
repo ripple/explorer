@@ -5,7 +5,6 @@ import { localizeNumber } from '../../shared/utils'
 import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
 import { Account } from '../../shared/components/Account'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
-import { decodeHex, isHex } from '../../shared/transactionUtils'
 
 interface MintedProps {
   minted?: string
@@ -24,7 +23,7 @@ export const Details = ({ data }: Props) => {
     transferFee,
     owner,
     isBurned,
-    NFTSerial: nftSequence,
+    NFTSerial: nftSerial,
   } = data
   const { t } = useTranslation()
   const language = useLanguage()
@@ -40,14 +39,8 @@ export const Details = ({ data }: Props) => {
         {minted && <TokenTableRow label={t('minted')} value={minted} />}
         {domain && <TokenTableRow label={t('domain')} value={domain} />}
         <TokenTableRow label={t('taxon_id')} value={nftTaxon} />
-        <TokenTableRow label={t('sequence_number_short')} value={nftSequence} />
-        {/* TODO: remove `hex` check after clio update has been fully rolled out. */}
-        {uri && (
-          <TokenTableRow
-            label="URI"
-            value={isHex(uri) ? decodeHex(uri) : uri}
-          />
-        )}
+        <TokenTableRow label={t('serial')} value={nftSerial} />
+        {uri && <TokenTableRow label="URI" value={uri} />}
         <TokenTableRow label={t('transfer_fee')} value={formattedFee} />
         {isBurned && <TokenTableRow label={t('is_burned')} value="true" />}
         {owner && (
