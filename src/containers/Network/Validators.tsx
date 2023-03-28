@@ -12,7 +12,7 @@ import {
   FETCH_INTERVAL_ERROR_MILLIS,
 } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
-import Hexagons from './Hexagons'
+import { Hexagons } from './Hexagons'
 import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 
