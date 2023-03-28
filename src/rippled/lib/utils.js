@@ -1,6 +1,6 @@
 import { convertRippleDate, EPOCH_OFFSET } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
-import { decodeHex, isHex } from '../../containers/shared/transactionUtils'
+import { decodeHex } from '../../containers/shared/transactionUtils'
 
 const XRP_BASE = 1000000
 const BILLION = 1000000000
