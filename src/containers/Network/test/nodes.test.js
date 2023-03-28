@@ -8,6 +8,7 @@ import { Network } from '../index'
 import mockNodes from './mockNodes.json'
 import { testQueryClient } from '../../test/QueryClient'
 import NetworkContext from '../../shared/NetworkContext'
+import countries from '../../../../public/countries.json'
 
 jest.mock('usehooks-ts', () => ({
   useWindowSize: () => ({
@@ -51,6 +52,11 @@ describe('Nodes Page container', () => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/topology/nodes/main`, {
       status: 200,
       response: { nodes: mockNodes },
+    })
+
+    moxios.stubRequest(`/countries.json`, {
+      status: 200,
+      response: countries,
     })
 
     const wrapper = createWrapper()
