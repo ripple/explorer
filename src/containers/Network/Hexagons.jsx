@@ -85,11 +85,12 @@ export const Hexagons = ({ list, data }) => {
   }
 
   const renderHexagon = (d, theHex) => {
-    const fill = `#${d.ledger_hash.substr(0, 6)}`
+    const { cookie, pubkey, ledger_hash: ledgerHash } = d
+    const fill = `#${ledgerHash.substr(0, 6)}`
     const strokeWidth = theHex.radius() / 16
     return (
       <g
-        key={`${d.pubkey}${d.cookie}${d.ledger_hash}`}
+        key={`${pubkey}${cookie}${ledgerHash}`}
         transform={`translate(${d.x},${d.y})`}
         className="hexagon updated"
         onMouseOver={(e) => showTooltip(e, d)}

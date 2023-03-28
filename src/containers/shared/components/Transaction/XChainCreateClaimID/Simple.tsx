@@ -36,9 +36,11 @@ export const Simple: TransactionSimpleComponent = (
       <SimpleRow label={t('other_chain_source')} data-test="other-chain-source">
         <Account account={otherChainSource} link={false} />
       </SimpleRow>
-      <SimpleRow label={t('xchain_claim_id')} data-test="claim-id">
-        {claimID}
-      </SimpleRow>
+      {claimID && (
+        <SimpleRow label={t('xchain_claim_id')} data-test="claim-id">
+          {claimID}
+        </SimpleRow>
+      )}
     </>
   )
 }
