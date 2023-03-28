@@ -12,6 +12,9 @@ import autoprefixer from 'autoprefixer'
 
 import 'dotenv/config'
 
+// Populate with `version` field of package.json
+process.env.VITE_APP_VERSION = process.env.npm_package_version
+
 // https://vitejs.dev/config/
 export default defineConfig({
   // source code location

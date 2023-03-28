@@ -1,0 +1,60 @@
+{
+  "tx": {
+    "Account": "rPy1F9bQ7dNn2T3QAFRM6dFz6ygHa3MDDi",
+    "Amount": "10000000",
+    "AttestationRewardAccount": "rPy1F9bQ7dNn2T3QAFRM6dFz6ygHa3MDDi",
+    "AttestationSignerAccount": "rUvV7YmtbvWyNiapRbZsj4K6Awg9Yxh1Ya",
+    "Destination": "rPy1F9bQ7dNn2T3QAFRM6dFz6ygHa3MDDi",
+    "Fee": "20",
+    "LastLedgerSequence": 25,
+    "OtherChainSource": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+    "PublicKey": "EDF6CEB8B9AD595A4FC86C9D83EF821B44E47DB7562B384C5692B4D8C901A22430",
+    "Sequence": 13,
+    "Signature": "5DF8ECA9C9D4B398E58DB2E205D2873BB484B4C8FE8835272392F1A5110B9AAF28E58AE58072E41643F83A619081CDE50AAB122B192E21708D232CA673BB8E01",
+    "SignatureReward": "100",
+    "SigningPubKey": "EDA24CE8D77442FBA0AF7FE196073C23E987976FD147085D41B08C4C0BCBF56541",
+    "TransactionType": "XChainAddAccountCreateAttestation",
+    "TxnSignature": "8670FE67798C7D6A4CEAA99F42A42D099536D52C6DBA529961CB02BD36D0605E56A032237F47A4C597CA75224112810A8AB55E770E4BD3834E99A4040BE93709",
+    "WasLockingChainSend": 1,
+    "XChainAccountCreateCount": "c",
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": {
+        "currency": "XRP"
+      },
+      "LockingChainDoor": "rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd",
+      "LockingChainIssue": {
+        "currency": "XRP"
+      }
+    },
+    "date": 1679597991000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rPy1F9bQ7dNn2T3QAFRM6dFz6ygHa3MDDi",
+            "Balance": "30000015",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 14
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "FD8115CC13EF89062204867FAAD75826DD41DBEFEACF4A55DBFE0166294FF182",
+          "PreviousFields": {
+            "Balance": "30000035",
+            "Sequence": 13
+          },
+          "PreviousTxnID": "A5348D1A3C551811EDCDBC9F98586D7FD33834EDD5FC39FFBCA326F6B894D110",
+          "PreviousTxnLgrSeq": 22
+        }
+      }
+    ],
+    "TransactionIndex": 20,
+    "TransactionResult": "tecXCHAIN_ACCOUNT_CREATE_PAST"
+  },
+  "hash": "4D696F9BC6802A2AAADAE7ECBB814BDD99CD0E47FEF3C86249F710C5A8B7273F",
+  "ledger_index": 22,
+  "date": 1679597991000
+}

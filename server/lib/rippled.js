@@ -4,7 +4,7 @@ const utils = require('./utils')
 const streams = require('./streams')
 
 const RIPPLEDS = []
-process.env.VITE_RIPPLED_HOST.split(',').forEach((d) => {
+process.env.VITE_RIPPLED_HOST?.split(',').forEach((d) => {
   const rippled = d.split(':')
   RIPPLEDS.push(
     `wss://${rippled[0]}:${rippled[1] || process.env.VITE_RIPPLED_WS_PORT}`,
