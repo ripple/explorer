@@ -10,7 +10,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from './rootReducer'
 import { unregister } from './registerServiceWorker'
 import './containers/shared/css/global.scss'
-import App from './containers/App'
+import { AppWrapper } from './containers/App'
 import i18n from './i18n'
 
 let enhancers
@@ -22,7 +22,7 @@ const renderApp = () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <App />
+            <AppWrapper />
           </Router>
         </Provider>
       </I18nextProvider>
