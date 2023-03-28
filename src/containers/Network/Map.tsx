@@ -1,33 +1,46 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withTranslation } from 'react-i18next'
+import axios from 'axios'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { geoPath, geoNaturalEarth1 } from 'd3-geo'
 import { scaleLinear } from 'd3-scale'
 import { hexbin } from 'd3-hexbin'
 import { feature } from 'topojson-client'
+import { useWindowSize } from 'usehooks-ts'
 import Loader from '../shared/components/Loader'
-import mapJSON from './countries.json'
 import './css/map.scss'
 
 const MAX_WIDTH = 1200
 const BAR_COUNT = 30
 const HEX_RADIUS_FACTOR = 40
 
-class Map extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      countries: feature(mapJSON, mapJSON.objects.countries).features,
-    }
-  }
+export interface MapProps {
+  locations?: any[]
+}
 
-  static getProjection = (width, height) =>
+export const Map = ({ locations = undefined }: MapProps) => {
+  const [tooltip, setTooltip] = useState<{
+    count: number
+    x: number
+    y: number
+  } | null>(null)
+  const { t } = useTranslation()
+  const { width: propsWidth } = useWindowSize()
+  const { data: countries } = useQuery('countries', () =>
+    axios
+      .get('/countries.json')
+      .then(
+        (response) =>
+          feature(response.data, response.data.objects.countries).features,
+      ),
+  )
+
+  const getProjection = (width, height) =>
     geoNaturalEarth1()
       .scale(width / 4.8)
       .translate([width / 2.2, height / 1.7])
 
-  static getHexbin = (offset, width, height) =>
+  const getHexbin = (offset, width, height) =>
     hexbin()
       .extent([
         [0, 0],
@@ -35,8 +48,8 @@ class Map extends Component {
       ])
       .radius(Math.sqrt(width / HEX_RADIUS_FACTOR))
 
-  getDimensions() {
-    const { width: pageWidth } = this.props
+  const getDimensions = () => {
+    const pageWidth = propsWidth
     const width = Math.min(pageWidth, MAX_WIDTH)
     return {
       width,
@@ -44,17 +57,21 @@ class Map extends Component {
     }
   }
 
-  renderMap(width, height) {
-    const { locations, t, width: propsWidth } = this.props
-    const { countries, tooltip } = this.state
+  const renderMap = (width, height) => {
     const offset = (propsWidth - width) / 2
-    const projection = Map.getProjection(width, height)
-    const hex = Map.getHexbin(offset, width, height)
-    const bins = hex(locations.map((node) => projection([node.long, node.lat])))
+    const projection = getProjection(width, height)
+    const hex = getHexbin(offset, width, height)
+    const bins = hex(
+      locations?.map((node) => projection([node.long, node.lat])),
+    )
     const counts = bins.map((bin) => bin.length)
     const max = counts.length ? Math.max(...counts) : 0
-    const color = scaleLinear().domain([1, max]).range(['#FF6719', '#7919FF'])
-    const bars = []
+    // @ts-ignore -- d3-color allows strings to be returned
+    const color: Function<string> = scaleLinear()
+      .domain([1, max])
+      // @ts-ignore -- d3-color allows strings to be passed in
+      .range(['#FF6719', '#7919FF'])
+    const bars: { index: number; color: any }[] = []
     let i = 0
     const BAR_WIDTH = Math.ceil(width / (BAR_COUNT * 8))
     const BAR_HEIGHT = BAR_WIDTH / 1.5
@@ -133,18 +150,16 @@ class Map extends Component {
               fillOpacity="1"
               className="node"
               onMouseOver={() => {
-                this.setState({
-                  tooltip: {
-                    count: bin.length,
-                    x: bin.x,
-                    y: bin.y,
-                  },
+                setTooltip({
+                  count: bin.length,
+                  x: bin.x,
+                  y: bin.y,
                 })
               }}
-              onFocus={(e) => {}}
-              onKeyUp={(e) => {}}
+              onFocus={() => {}}
+              onKeyUp={() => {}}
               onMouseLeave={() => {
-                this.setState({ tooltip: null })
+                setTooltip(null)
               }}
             />
           ))}
@@ -168,30 +183,13 @@ class Map extends Component {
     )
   }
 
-  render() {
-    const { locations, width: propsWidth } = this.props
-    const { width, height } = this.getDimensions()
-    return (
-      <div className="nodes-map" style={{ height }}>
-        {!locations && <Loader />}
-        <svg width={propsWidth} height={height}>
-          {locations && this.renderMap(width, height)}
-        </svg>
-      </div>
-    )
-  }
+  const { width, height } = getDimensions()
+  return (
+    <div className="nodes-map" style={{ height }}>
+      {!locations && <Loader />}
+      <svg width={propsWidth} height={height}>
+        {locations && renderMap(width, height)}
+      </svg>
+    </div>
+  )
 }
-
-Map.propTypes = {
-  locations: PropTypes.arrayOf(PropTypes.shape({})),
-  width: PropTypes.number.isRequired,
-  t: PropTypes.func.isRequired,
-}
-
-Map.defaultProps = {
-  locations: null,
-}
-
-export default connect((state) => ({ width: state.app.width }))(
-  withTranslation()(Map),
-)
