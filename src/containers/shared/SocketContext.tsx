@@ -1,4 +1,4 @@
-import { useContext, createContext, useEffect, useState } from 'react'
+import React, { useContext, createContext, useEffect, useState } from 'react'
 import { XrplClient } from 'xrpl-client'
 
 const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
@@ -53,6 +53,28 @@ function getSocket(rippledUrl?: string): ExplorerXrplClient {
 }
 
 const SocketContext = createContext<XrplClient>(undefined!)
+
+export type SocketProviderProps = React.PropsWithChildren<{
+  children: any
+  rippledUrl?: string
+}>
+
+export const SocketProvider = ({
+  children,
+  rippledUrl,
+}: SocketProviderProps) => {
+  const socket = getSocket(rippledUrl)
+
+  useEffect(() => () => {
+    socket.close()
+    if (socket.p2pSocket !== undefined) {
+      socket.p2pSocket.close()
+    }
+  })
+  return (
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+  )
+}
 
 /**
  * Hook that says whether or not the global socket is currently connected
