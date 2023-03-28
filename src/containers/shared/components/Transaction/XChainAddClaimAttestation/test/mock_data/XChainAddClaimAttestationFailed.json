@@ -1,0 +1,59 @@
+{
+  "tx": {
+    "Account": "rPy1F9bQ7dNn2T3QAFRM6dFz6ygHa3MDDi",
+    "Amount": "10000000",
+    "AttestationRewardAccount": "rPy1F9bQ7dNn2T3QAFRM6dFz6ygHa3MDDi",
+    "AttestationSignerAccount": "rUvV7YmtbvWyNiapRbZsj4K6Awg9Yxh1Ya",
+    "Destination": "rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi",
+    "Fee": "20",
+    "LastLedgerSequence": 54,
+    "OtherChainSource": "raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym",
+    "PublicKey": "EDF6CEB8B9AD595A4FC86C9D83EF821B44E47DB7562B384C5692B4D8C901A22430",
+    "Sequence": 18,
+    "Signature": "917C77A7354920AA456DCE9144A99F2AC485B03081BB2011553131E1A594C9D145990B03E1BF00413EA3E7F093BA059BB458286174F33C3E58D2881D751B7A05",
+    "SigningPubKey": "EDA24CE8D77442FBA0AF7FE196073C23E987976FD147085D41B08C4C0BCBF56541",
+    "TransactionType": "XChainAddClaimAttestation",
+    "TxnSignature": "72A59AB11BE0271F68E710D2618BB1AA311727C1EB727424FCB83ADD8FA6FC6512644F2D8F0865815283005BBD55E6BD79EE8B77AC50A162DE067F6DC98D8103",
+    "WasLockingChainSend": 1,
+    "XChainBridge": {
+      "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "IssuingChainIssue": {
+        "currency": "XRP"
+      },
+      "LockingChainDoor": "rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd",
+      "LockingChainIssue": {
+        "currency": "XRP"
+      }
+    },
+    "XChainClaimID": "3",
+    "date": 1679603821000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rPy1F9bQ7dNn2T3QAFRM6dFz6ygHa3MDDi",
+            "Balance": "29999915",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 19
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "FD8115CC13EF89062204867FAAD75826DD41DBEFEACF4A55DBFE0166294FF182",
+          "PreviousFields": {
+            "Balance": "29999935",
+            "Sequence": 18
+          },
+          "PreviousTxnID": "23CDA6C9589B7DE88EBC55100FCF28C902F808604FA355767DF92239A559EDED",
+          "PreviousTxnLgrSeq": 22
+        }
+      }
+    ],
+    "TransactionIndex": 4,
+    "TransactionResult": "tecXCHAIN_NO_CLAIM_ID"
+  },
+  "hash": "F8AFD12029ED438AEC29C3621F38C06DEC2A5195DE596D9EFC8B08B3191050F8",
+  "ledger_index": 51,
+  "date": 1679603821000
+}
