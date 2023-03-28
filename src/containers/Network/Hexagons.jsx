@@ -1,11 +1,12 @@
-import { Component } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withTranslation } from 'react-i18next'
+import { useWindowSize } from 'usehooks-ts'
+
 import { hexbin } from 'd3-hexbin'
 import Loader from '../shared/components/Loader'
 import Tooltip from '../shared/components/Tooltip'
 import './css/hexagons.scss'
+import { useLanguage } from '../shared/hooks'
 
 const MAX_WIDTH = 1200
 const getDimensions = (width) => ({
@@ -48,69 +49,56 @@ const prepareHexagons = (data, list, prev = [], height, radius) => {
   })
 }
 
-class Validators extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
+export const Hexagons = ({ list, data }) => {
+  const language = useLanguage()
+  const { width } = useWindowSize()
+  const [tooltip, setToolip] = useState()
+  const [hexagons, setHexagons] = useState([])
+  const { width: gridWidth, height: gridHeight, radius } = getDimensions(width)
+  const bin = hexbin()
+    .extent([
+      [0, 0],
+      [gridWidth, gridHeight],
+    ])
+    .radius(radius)
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { width, height, radius } = getDimensions(nextProps.width)
-    return {
-      selected: nextProps.selected,
-      list: nextProps.list,
-      hexagons: prepareHexagons(
-        nextProps.data,
-        nextProps.list,
-        prevState.hexagons,
-        height,
-        radius,
-      ),
-      width,
-      height,
-      radius,
-      hex: hexbin()
-        .extent([
-          [0, 0],
-          [width, height],
-        ])
-        .radius(radius),
+  useEffect(() => {
+    if (width > 0) {
+      setHexagons((prevHexagons) =>
+        prepareHexagons(data, list, prevHexagons, gridHeight, radius),
+      )
     }
-  }
+  }, [data, list, width, gridHeight, radius])
 
-  showTooltip = (event, data) => {
-    const { list } = this.state
-    this.setState({
-      tooltip: {
-        ...data,
-        mode: 'validator',
-        v: list[data.pubkey],
-        x: event.nativeEvent.offsetX,
-        y: event.nativeEvent.offsetY,
-      },
+  const showTooltip = (event, tooltipData) => {
+    setToolip({
+      ...tooltipData,
+      mode: 'validator',
+      v: list[tooltipData.pubkey],
+      x: event.nativeEvent.offsetX,
+      y: event.nativeEvent.offsetY,
     })
   }
 
-  hideTooltip = () => {
-    this.setState({ tooltip: null })
+  const hideTooltip = () => {
+    setToolip(null)
   }
 
-  renderHexagon = (d) => {
-    const { selected, hex } = this.state
-    const fill = `#${d.ledger_hash.substr(0, 6)}`
-    const strokeWidth =
-      selected === d.pubkey ? hex.radius() / 8 : hex.radius() / 16
+  const renderHexagon = (d, theHex) => {
+    const { cookie, pubkey, ledger_hash: ledgerHash } = d
+    const fill = `#${ledgerHash.substr(0, 6)}`
+    const strokeWidth = theHex.radius() / 16
     return (
       <g
-        key={`${d.pubkey}${d.ledger_hash}`}
+        key={`${pubkey}${cookie}${ledgerHash}`}
         transform={`translate(${d.x},${d.y})`}
-        className={`hexagon updated ${selected === d.pubkey ? 'selected' : ''}`}
-        onMouseOver={(e) => this.showTooltip(e, d)}
+        className="hexagon updated"
+        onMouseOver={(e) => showTooltip(e, d)}
         onFocus={() => {}}
-        onMouseLeave={this.hideTooltip}
+        onMouseLeave={hideTooltip}
       >
         <path
-          d={hex.hexagon(hex.radius() * 0.85)}
+          d={theHex.hexagon(theHex.radius() * 0.85)}
           fill={fill}
           stroke={fill}
           strokeWidth={strokeWidth}
@@ -120,44 +108,30 @@ class Validators extends Component {
     )
   }
 
-  render() {
-    const { height, width, hex, hexagons, tooltip } = this.state
-    const { language } = this.props
-    return (
-      <div className="validators-container">
-        <div className="validators">
-          <svg width={width} height={height}>
-            <g className="mesh">
-              <path
-                fill="none"
-                d={hex.mesh()}
-                strokeWidth={hex.radius() / 8}
-                strokeLinejoin="round"
-              />
-            </g>
-            <g className="hexagons">{hexagons.map(this.renderHexagon)}</g>
-          </svg>
-          {hexagons.length === 0 && <Loader />}
-        </div>
-        <Tooltip language={language} data={tooltip} />
+  return (
+    <div className="validators-container">
+      <div className="validators">
+        <svg width={gridWidth} height={gridHeight}>
+          <g className="mesh">
+            <path
+              fill="none"
+              d={bin.mesh()}
+              strokeWidth={bin.radius() / 8}
+              strokeLinejoin="round"
+            />
+          </g>
+          <g className="hexagons">
+            {hexagons.map((hexagon) => renderHexagon(hexagon, bin))}
+          </g>
+        </svg>
+        {hexagons?.length === 0 && <Loader />}
       </div>
-    )
-  }
+      <Tooltip language={language} data={tooltip} />
+    </div>
+  )
 }
 
-Validators.propTypes = {
-  language: PropTypes.string.isRequired,
+Hexagons.propTypes = {
   list: PropTypes.shape({}).isRequired,
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired, // eslint-disable-line
-  width: PropTypes.number.isRequired,
-  selected: PropTypes.string,
 }
-
-Validators.defaultProps = {
-  selected: undefined,
-}
-
-export default connect((state) => ({
-  language: state.app.language,
-  width: state.app.width,
-}))(withTranslation()(Validators))
