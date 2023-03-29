@@ -202,11 +202,12 @@ describe('App container', () => {
 
   it('renders custom mode', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
+    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
     const wrapper = createWrapper('/s2.ripple.com/')
     await flushPromises()
     wrapper.update()
-    // Make sure the sockets aren't double initialized. Called twice. Once for main host and p2p
-    expect(XrplClient).toHaveBeenCalledTimes(2)
+    // Make sure the sockets aren't double initialized.
+    expect(XrplClient).toHaveBeenCalledTimes(1)
     wrapper.unmount()
   })
 })
