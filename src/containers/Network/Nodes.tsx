@@ -3,56 +3,24 @@ import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import NetworkTabs from './NetworkTabs'
-import Map from './Map'
+import { Map } from './Map'
 import NodesTable from './NodesTable'
 import Log from '../shared/log'
 import {
   FETCH_INTERVAL_ERROR_MILLIS,
   FETCH_INTERVAL_NODES_MILLIS,
+  isEarlierVersion,
   localizeNumber,
 } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import { NodeData, NodeResponse } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 
-const semverCompare = (a: string | undefined, b: string | undefined) => {
-  if (a == null) {
-    return -1
-  }
-  if (b == null) {
-    return 1
-  }
-  const aWithoutCommitHash = a.split('+')[0]
-  const bWithoutCommitHash = b.split('+')[0]
-  const aVersionSplit = aWithoutCommitHash.split('.')
-  const bVersionSplit = bWithoutCommitHash.split('.')
-
-  for (let i = 0; i < 3; i += 1) {
-    const aNumber = Number(aVersionSplit[i])
-    const bNumber = Number(bVersionSplit[i])
-    if (aNumber > bNumber) {
-      return 1
-    }
-    if (bNumber > aNumber) {
-      return -1
-    }
-    if (!isNaN(aNumber) && isNaN(bNumber)) {
-      return 1
-    }
-    if (isNaN(aNumber) && !isNaN(bNumber)) {
-      return -1
-    }
-  }
-
-  return 0
-}
-
 const ledgerCompare = (a: NodeData, b: NodeData) => {
   const aLedger = a.validated_ledger.ledger_index
   const bLedger = b.validated_ledger.ledger_index
-  return bLedger === aLedger
-    ? semverCompare(b.version, a.version)
-    : bLedger - aLedger
+  const compareVersion = isEarlierVersion(b.version, a.version) ? -1 : 1
+  return bLedger === aLedger ? compareVersion : bLedger - aLedger
 }
 
 export const Nodes = () => {

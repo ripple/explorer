@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { useParams } from 'react-router'
+import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
