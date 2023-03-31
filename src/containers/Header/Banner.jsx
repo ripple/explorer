@@ -21,7 +21,6 @@ Banner.propTypes = {
 
 export default connect((state) => {
   const messages = [
-    ['ledgerError', state.ledger.error],
     ['balanceError', state.accountHeader.error],
     ['payStringError', state.payStringData.error],
   ]

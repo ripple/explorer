@@ -29,13 +29,10 @@ describe('Banner component', () => {
   it('renders with messages', () => {
     const state = {
       ...initialState,
-      ledger: {
-        error: 'ledger_error',
-      },
     }
 
     const wrapper = createWrapper(state)
-    expect(wrapper.find('.notification').length).toEqual(1)
+    expect(wrapper.find('.notification').length).toEqual(0)
     wrapper.unmount()
   })
 })
