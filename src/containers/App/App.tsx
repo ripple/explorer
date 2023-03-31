@@ -14,7 +14,7 @@ import { Ledger } from '../Ledger'
 import transactions from '../Transactions'
 import { Network } from '../Network'
 import { Validator } from '../Validators'
-import paystrings from '../PayStrings'
+import { PayString } from '../PayStrings'
 import token from '../Token'
 import noMatch from '../NoMatch'
 import { NFT } from '../NFT/NFT'
@@ -122,7 +122,7 @@ const App = ({ actions }: AppProps) => {
                     path="/validators/:identifier/:tab?"
                     component={Validator}
                   />
-                  <Route exact path="/paystrings/:id?" component={paystrings} />
+                  <Route exact path="/paystrings/:id?" component={PayString} />
                   <Route exact path="/token/:currency.:id" component={token} />
                   <Route exact path="/nft/:id/:tab?" component={NFT} />
                   <Route component={noMatch} />
