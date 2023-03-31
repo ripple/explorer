@@ -1,9 +1,8 @@
 import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { Link } from 'react-router-dom'
 import { useParams } from 'react-router'
+import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
@@ -16,14 +15,16 @@ import {
   BAD_REQUEST,
   analytics,
   ANALYTIC_TYPES,
+  DECIMAL_REGEX,
+  HASH_REGEX,
 } from '../shared/utils'
 
 import LeftArrow from '../shared/images/ic_left_arrow.svg'
 import RightArrow from '../shared/images/ic_right_arrow.svg'
-import { loadLedger } from './actions'
 import { LedgerTransactionTable } from './LedgerTransactionTable'
 
 import './ledger.scss'
+import { getLedger } from '../../rippled'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -54,15 +55,7 @@ ERROR_MESSAGES.default = {
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-export interface LedgerProps {
-  actions: {
-    loadLedger: Function
-  }
-  data: any
-  loading: boolean
-}
-
-const Ledger = ({ actions, data, loading }: LedgerProps) => {
+export const Ledger = () => {
   const rippledSocket = useContext(SocketContext)
   const { identifier = '' } = useParams<{ identifier: string }>()
   const { t } = useTranslation()
@@ -74,10 +67,29 @@ const Ledger = ({ actions, data, loading }: LedgerProps) => {
       title: 'Ledger',
       path: '/ledgers/:id',
     })
-    actions.loadLedger(identifier, rippledSocket)
-  }, [actions, identifier, rippledSocket, t])
+  }, [identifier, t])
 
-  const renderNav = () => {
+  const {
+    data: ledgerData,
+    error,
+    isLoading,
+  } = useQuery(['ledger', identifier], () => {
+    if (!DECIMAL_REGEX.test(identifier) && !HASH_REGEX.test(identifier)) {
+      return Promise.reject(BAD_REQUEST)
+    }
+
+    return getLedger(identifier, rippledSocket).catch(
+      (transactionRequestError) => {
+        const status = transactionRequestError.code
+        analytics(ANALYTIC_TYPES.exception, {
+          exDescription: `ledger ${identifier} --- ${JSON.stringify(error)}`,
+        })
+        return Promise.reject(status)
+      },
+    )
+  })
+
+  const renderNav = (data: any) => {
     const { ledger_index: LedgerIndex, ledger_hash: LedgerHash } = data
     const previousIndex = LedgerIndex - 1
     const nextIndex = LedgerIndex + 1
@@ -133,45 +145,30 @@ const Ledger = ({ actions, data, loading }: LedgerProps) => {
   }
 
   const renderLedger = () =>
-    data.ledger_hash ? (
+    ledgerData?.ledger_hash ? (
       <>
-        {renderNav()}
+        {renderNav(ledgerData)}
         <LedgerTransactionTable
-          transactions={data.transactions}
-          loading={loading}
+          transactions={ledgerData.transactions}
+          loading={isLoading}
         />
       </>
     ) : null
 
   const renderError = () => {
-    if (!data.error) {
+    if (!error) {
       return null
     }
 
-    const message = getErrorMessage(data.error)
+    const message = getErrorMessage(error)
     return <NoMatch title={message.title} hints={message.hints} />
   }
 
   return (
     <div className="ledger-page">
-      {loading && <Loader />}
+      {isLoading && <Loader />}
       {renderLedger()}
       {renderError()}
     </div>
   )
 }
-
-export default connect(
-  (state: any) => ({
-    loading: state.ledger.loading,
-    data: state.ledger.data,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadLedger,
-      },
-      dispatch,
-    ),
-  }),
-)(Ledger)
