@@ -1,14 +1,12 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useContext, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
-import LeftArrow from '../shared/images/ic_left_arrow.svg'
-import RightArrow from '../shared/images/ic_right_arrow.svg'
-import { loadLedger } from './actions'
+import SocketContext from '../shared/SocketContext'
+import { useLanguage } from '../shared/hooks'
 import {
   localizeDate,
   localizeNumber,
@@ -17,10 +15,16 @@ import {
   BAD_REQUEST,
   analytics,
   ANALYTIC_TYPES,
+  DECIMAL_REGEX,
+  HASH_REGEX,
 } from '../shared/utils'
-import './ledger.scss'
-import SocketContext from '../shared/SocketContext'
+
+import LeftArrow from '../shared/images/ic_left_arrow.svg'
+import RightArrow from '../shared/images/ic_right_arrow.svg'
 import { LedgerTransactionTable } from './LedgerTransactionTable'
+
+import './ledger.scss'
+import { getLedger } from '../../rippled'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -34,7 +38,7 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
-const ERROR_MESSAGES = {}
+const ERROR_MESSAGES: any = {}
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'ledger_not_found',
   hints: ['server_ledgers_hint'],
@@ -51,36 +55,41 @@ ERROR_MESSAGES.default = {
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-class Ledger extends Component {
-  componentDidMount() {
-    const { t, actions, match, data } = this.props
-    const rippledSocket = this.context
-    const { identifier = '' } = match.params
+export const Ledger = () => {
+  const rippledSocket = useContext(SocketContext)
+  const { identifier = '' } = useParams<{ identifier: string }>()
+  const { t } = useTranslation()
+  const language = useLanguage()
+
+  useEffect(() => {
     document.title = `${t('xrpl_explorer')} | ${t('ledger')} ${identifier}`
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'Ledger',
       path: '/ledgers/:id',
     })
-    if (Number(identifier) !== data.ledger_index) {
-      actions.loadLedger(identifier, rippledSocket)
+  }, [identifier, t])
+
+  const {
+    data: ledgerData,
+    error,
+    isLoading,
+  } = useQuery(['ledger', identifier], () => {
+    if (!DECIMAL_REGEX.test(identifier) && !HASH_REGEX.test(identifier)) {
+      return Promise.reject(BAD_REQUEST)
     }
-  }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { actions, match } = nextProps
-    const rippledSocket = this.context
-    const { match: prevMatch } = this.props
-    const { identifier = '' } = match.params
-    const { identifier: prev } = prevMatch.params
+    return getLedger(identifier, rippledSocket).catch(
+      (transactionRequestError) => {
+        const status = transactionRequestError.code
+        analytics(ANALYTIC_TYPES.exception, {
+          exDescription: `ledger ${identifier} --- ${JSON.stringify(error)}`,
+        })
+        return Promise.reject(status)
+      },
+    )
+  })
 
-    if (identifier !== prev) {
-      actions.loadLedger(identifier, rippledSocket)
-    }
-  }
-
-  renderNav() {
-    const { t, language, data } = this.props
+  const renderNav = (data: any) => {
     const { ledger_index: LedgerIndex, ledger_hash: LedgerHash } = data
     const previousIndex = LedgerIndex - 1
     const nextIndex = LedgerIndex + 1
@@ -135,79 +144,31 @@ class Ledger extends Component {
     )
   }
 
-  renderLedger() {
-    const { data, loading } = this.props
-    return data.ledger_hash ? (
+  const renderLedger = () =>
+    ledgerData?.ledger_hash ? (
       <>
-        {this.renderNav()}
+        {renderNav(ledgerData)}
         <LedgerTransactionTable
-          transactions={data.transactions}
-          loading={loading}
+          transactions={ledgerData.transactions}
+          loading={isLoading}
         />
       </>
     ) : null
-  }
 
-  renderError() {
-    const { data } = this.props
-
-    if (!data.error) {
+  const renderError = () => {
+    if (!error) {
       return null
     }
 
-    const message = getErrorMessage(data.error)
+    const message = getErrorMessage(error)
     return <NoMatch title={message.title} hints={message.hints} />
   }
 
-  render() {
-    const { loading } = this.props
-
-    return (
-      <div className="ledger-page">
-        {loading && <Loader />}
-        {this.renderLedger()}
-        {this.renderError()}
-      </div>
-    )
-  }
+  return (
+    <div className="ledger-page">
+      {isLoading && <Loader />}
+      {renderLedger()}
+      {renderError()}
+    </div>
+  )
 }
-
-Ledger.contextType = SocketContext
-
-Ledger.propTypes = {
-  t: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  language: PropTypes.string.isRequired,
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-    ]),
-  ).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      identifier: PropTypes.string,
-    }),
-  }).isRequired,
-  actions: PropTypes.shape({
-    loadLedger: PropTypes.func,
-  }).isRequired,
-}
-
-export default connect(
-  (state) => ({
-    loading: state.ledger.loading,
-    data: state.ledger.data,
-    language: state.app.language,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadLedger,
-      },
-      dispatch,
-    ),
-  }),
-)(withTranslation()(Ledger))

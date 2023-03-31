@@ -1,16 +1,21 @@
 import { useState, useRef } from 'react'
-import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import PayStringLogomark from '../../shared/images/PayString_Logomark.png'
 import QuestIcon from '../../shared/images/hover_question.svg'
 import Tooltip from '../../shared/components/Tooltip'
 import '../../shared/css/nested-menu.scss'
 import './styles.scss'
+import { useLanguage } from '../../shared/hooks'
 
-const PayStringHeader = (props) => {
+export interface PayStringHeaderProps {
+  accountId: string
+}
+
+export const PayStringHeader = ({ accountId }: PayStringHeaderProps) => {
   const [showToolTip, setShowToolTip] = useState(false)
-  const questionRef = useRef(null)
-  const { accountId, language } = props
+  const { t } = useTranslation()
+  const language = useLanguage()
+  const questionRef = useRef<Element>(null)
   return (
     <div className="box paystring-header">
       <div className="box-header">
@@ -30,8 +35,9 @@ const PayStringHeader = (props) => {
           onBlur={() => setShowToolTip(false)}
         />
       </div>
-      {showToolTip && (
+      {showToolTip && questionRef.current && (
         <Tooltip
+          t={t}
           language={language}
           data={{
             mode: 'paystring',
@@ -43,10 +49,3 @@ const PayStringHeader = (props) => {
     </div>
   )
 }
-
-PayStringHeader.propTypes = {
-  accountId: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
-}
-
-export default withTranslation()(PayStringHeader)
