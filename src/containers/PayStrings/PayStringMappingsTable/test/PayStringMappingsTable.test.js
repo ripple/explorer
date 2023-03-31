@@ -81,6 +81,6 @@ describe('PayStringMappingsTable container', () => {
     })
 
     expect(component.find('.paystring-table').length).toBe(1)
-    expect(component.find('.paystring-table tbody tr').length).toBe(1)
+    expect(component.find('.paystring-table tbody tr').length).toBe(4)
   })
 })

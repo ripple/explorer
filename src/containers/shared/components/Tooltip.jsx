@@ -89,8 +89,15 @@ class Tooltip extends Component {
     return <div className="nft">{tokenId}</div>
   }
 
-  static renderPayStringToolTip() {
-    return <PayStringToolTip className="paystring" alt="" />
+  renderPayStringToolTip() {
+    const { t } = this.props
+
+    return (
+      <>
+        <PayStringToolTip className="paystring-logo" alt="" />
+        {t('paystring_explainer_blurb')}
+      </>
+    )
   }
 
   render() {
@@ -108,11 +115,8 @@ class Tooltip extends Component {
       style.background = 'rgba(120,0,0,.9)'
       content = this.renderMissingValidators()
     } else if (mode === 'paystring') {
-      style.top = y - 180
-      style.left = x - 135
-      style.background = 'rgba(0,0,0,0)'
       className += ' paystring'
-      content = Tooltip.renderPayStringToolTip()
+      content = this.renderPayStringToolTip()
     } else if (mode === 'nftId') {
       content = this.renderNFTId()
     }
