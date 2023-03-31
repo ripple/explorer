@@ -9,7 +9,7 @@ export type TransactionTableProps = HTMLAttributes<HTMLElement> & {
   transactions?: any[]
   emptyMessage?: string
   loading: boolean
-  onLoadMore: MouseEventHandler
+  onLoadMore?: MouseEventHandler
   hasAdditionalResults?: boolean
   hasTokensColumn?: boolean
 }
@@ -20,7 +20,7 @@ export const TransactionTable: TransactionTableComponent = ({
   hasAdditionalResults = false,
   emptyMessage,
   loading = false,
-  onLoadMore,
+  onLoadMore = () => {},
   transactions = [],
   hasTokensColumn,
 }: TransactionTableProps) => {

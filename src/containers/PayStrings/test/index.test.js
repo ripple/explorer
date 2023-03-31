@@ -3,11 +3,11 @@ import { I18nextProvider } from 'react-i18next'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { MemoryRouter as Router, Route } from 'react-router'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
-import Account from '../index'
-import PayStringHeader from '../PayStringHeader'
+import PayString from '../index'
+import { PayStringHeader } from '../PayStringHeader'
 import PayStringMappingsTable from '../PayStringMappingsTable'
 import mockPayStringData from './mockPayStringData.json'
 
@@ -21,8 +21,8 @@ describe('PayString container', () => {
     return mount(
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
-          <Router>
-            <Account match={{ params: { id: TEST_PAY_ID } }} />
+          <Router initialEntries={[`/paystrings/${TEST_PAY_ID}`]}>
+            <Route path="/paystrings/:id?" component={PayString} />
           </Router>
         </Provider>
       </I18nextProvider>,
