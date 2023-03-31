@@ -9,7 +9,7 @@ import { updateViewportDimensions, onScroll } from './actions'
 import Ledgers from '../Ledgers'
 import Header from '../Header'
 import './app.scss'
-import ledger from '../Ledger'
+import { Ledger } from '../Ledger'
 import transactions from '../Transactions'
 import { Network } from '../Network'
 import { Validator } from '../Validators'
@@ -80,7 +80,7 @@ const App = ({ actions }: AppProps) => {
               <div className="content">
                 <Switch>
                   <Route exact path="/" component={Ledgers} />
-                  <Route exact path="/ledgers/:identifier" component={ledger} />
+                  <Route exact path="/ledgers/:identifier" component={Ledger} />
                   <Route
                     exact
                     path="/accounts/:id?/:tab?/:assetType?"
