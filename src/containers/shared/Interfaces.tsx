@@ -30,7 +30,7 @@ export interface NFTFormattedInfo {
   transferFee?: number
   issuer?: string
   NFTTaxon?: number
-  NFTSequence?: number
+  NFTSerial?: number
   uri?: string
   validated?: boolean
   status?: string
