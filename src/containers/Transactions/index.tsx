@@ -108,9 +108,9 @@ export const Transaction = () => {
   }
 
   function renderTransaction() {
-    let body
-
     if (!data) return <></>
+
+    let body
 
     switch (tab) {
       case 'detailed':
