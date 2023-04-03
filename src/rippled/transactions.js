@@ -13,7 +13,6 @@ const getTransaction = (transactionId, rippledSocket) => {
       summary: summarizeTransaction(data, true).details,
       raw: data,
     }))
-    .then((data) => data)
     .catch((error) => {
       log.error(error.toString())
       throw error

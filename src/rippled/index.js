@@ -8,9 +8,10 @@ import getNegativeUNL from './nUNL'
 import getToken from './token'
 import getOffers from './offers'
 
-import { getAMMInfo } from './lib/rippled'
+import { getAccountInfo, getAMMInfo } from './lib/rippled'
 
 export {
+  getAccountInfo,
   getAccountState,
   getAccountTransactions,
   getLedger,

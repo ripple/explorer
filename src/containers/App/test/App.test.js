@@ -9,7 +9,7 @@ import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
-import { getAccountInfo } from '../../../rippled/lib/rippled'
+import { getAccountInfo } from '../../../rippled'
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
@@ -30,13 +30,14 @@ jest.mock('xrpl-client', () => ({
   XrplClient: jest.fn(),
 }))
 
-jest.mock('../../../rippled/lib/rippled', () => {
-  const originalModule = jest.requireActual('../../../rippled/lib/rippled')
+jest.mock('../../../rippled', () => {
+  const originalModule = jest.requireActual('../../../rippled')
 
   return {
     __esModule: true,
     ...originalModule,
     getAccountInfo: jest.fn(),
+    getTransaction: () => Promise.resolve({}),
   }
 })
 
@@ -126,12 +127,22 @@ describe('App container', () => {
   })
 
   it('renders transaction page', () => {
-    const id = 12345
+    const id =
+      '50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774'
     const wrapper = createWrapper(`/transactions/${id}`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(
-        `xrpl_explorer | transaction_short ${id}...`,
+        `xrpl_explorer | transaction_short 50BB0CC6...`,
       )
+      wrapper.unmount()
+    })
+  })
+
+  it('renders transaction page with invalid hash', () => {
+    const id = '12345'
+    const wrapper = createWrapper(`/transactions/${id}`)
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(document.title).toEqual(`xrpl_explorer | invalid_transaction_hash`)
       wrapper.unmount()
     })
   })
@@ -181,11 +192,12 @@ describe('App container', () => {
   })
 
   it('redirects legacy transactions page', () => {
-    const id = 12345
+    const id =
+      '50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774'
     const wrapper = createWrapper(`/#/transactions/${id}`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(
-        `xrpl_explorer | transaction_short ${id}...`,
+        `xrpl_explorer | transaction_short 50BB0CC6...`,
       )
       wrapper.unmount()
     })
