@@ -1,8 +1,10 @@
 import { mount } from 'enzyme'
+import moxios from 'moxios'
 import { MemoryRouter } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
+import { XrplClient } from 'xrpl-client'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
@@ -24,15 +26,9 @@ jest.mock('react-router-dom', () => {
   }
 })
 
-jest.mock('../../shared/SocketContext', () => {
-  const originalModule = jest.requireActual('../../shared/SocketContext')
-
-  return {
-    __esModule: true,
-    ...originalModule,
-    getSocket: () => new MockWsClient(),
-  }
-})
+jest.mock('xrpl-client', () => ({
+  XrplClient: jest.fn(),
+}))
 
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
@@ -45,7 +41,12 @@ jest.mock('../../../rippled', () => {
   }
 })
 
+const mockXrplClient = XrplClient
 const mockGetAccountInfo = getAccountInfo
+
+function flushPromises() {
+  return new Promise((resolve) => setImmediate(resolve))
+}
 
 describe('App container', () => {
   const mockStore = configureMockStore()
@@ -65,11 +66,17 @@ describe('App container', () => {
   const oldEnvs = process.env
 
   beforeEach(() => {
+    moxios.install()
+    moxios.stubRequest(
+      `${process.env.VITE_DATA_URL}/get_network/s2.ripple.com`,
+      { status: 200, response: { result: 'success', network: '3' } },
+    )
     mockGetAccountInfo.mockImplementation(() =>
       Promise.resolve({
         flags: 0,
       }),
     )
+    mockXrplClient.mockImplementation(() => new MockWsClient())
     process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
   })
 
@@ -203,5 +210,16 @@ describe('App container', () => {
       expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
       wrapper.unmount()
     })
+  })
+
+  it('renders custom mode', async () => {
+    process.env.VITE_ENVIRONMENT = 'custom'
+    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+    const wrapper = createWrapper('/s2.ripple.com/')
+    await flushPromises()
+    wrapper.update()
+    // Make sure the sockets aren't double initialized.
+    expect(XrplClient).toHaveBeenCalledTimes(1)
+    wrapper.unmount()
   })
 })
