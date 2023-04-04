@@ -1,7 +1,6 @@
 @import '../../shared/css/variables';
 
 .paystring-header {
-  margin-top: 106px;
   margin-bottom: 16px;
   @include for-size(tablet-landscape-up) {
     width: 552px;
@@ -13,27 +12,18 @@
 
   .box-header {
     display: flex;
-    align-content: center;
-    padding: 4px 8px 40px;
-    text-align: center;
+    align-items: center;
+    gap: 8px;
 
     .paystring-logomark {
-      width: 48px;
       height: 48px;
-      padding-right: 8px;
-      float: left;
     }
 
     .question {
-      width: 25px;
-      margin: auto 8px auto 0;
-      float: right;
+      cursor: pointer;
     }
 
     .paystring-id {
-      display: flex;
-      margin: auto 0px;
-      color: $white;
       font-size: 42px;
       @include bold;
     }
