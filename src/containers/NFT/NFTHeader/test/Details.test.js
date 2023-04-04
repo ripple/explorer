@@ -5,7 +5,7 @@ import { Details } from '../Details'
 import i18n from '../../../../i18n/testConfig'
 
 describe('NFT Details container', () => {
-  const data = {
+  const dataDefault = {
     NFTId: '0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000C',
     ledgerIndex: 2436210,
     owner: 'rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W',
@@ -14,7 +14,7 @@ describe('NFT Details container', () => {
     transferFee: 0,
     issuer: 'rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W',
     NFTTaxon: 0,
-    NFTSequence: 12,
+    NFTSerial: 12,
     uri: 'ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
     validated: true,
     status: 'success',
@@ -25,7 +25,7 @@ describe('NFT Details container', () => {
     domain: '123456',
   }
 
-  const createWrapper = () =>
+  const createWrapper = (data = dataDefault) =>
     mount(
       <I18nextProvider i18n={i18n}>
         <BrowserRouter>
@@ -44,7 +44,7 @@ describe('NFT Details container', () => {
     expect(wrapper.find('.row').length).toEqual(7)
     expect(wrapper.text()).toEqual(
       expect.stringContaining(
-        'bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
+        'ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
       ),
     )
     expect(wrapper.text()).toEqual(
