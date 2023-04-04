@@ -209,7 +209,7 @@
           display: flex;
           justify-content: space-between;
 
-          @media (min-width: 450px) {
+          @media (width >= 450px) {
             display: block;
           }
 
@@ -252,7 +252,7 @@
           display: flex;
           justify-content: space-between;
 
-          @media (min-width: 450px) {
+          @media (width >= 450px) {
             display: block;
           }
 

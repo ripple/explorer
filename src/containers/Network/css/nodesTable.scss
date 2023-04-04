@@ -17,11 +17,11 @@
         max-width: 180px;
       }
 
-      @media (min-width: 1300px) {
+      @media (width >= 1300px) {
         max-width: 280px;
       }
 
-      @media (min-width: 1400px) {
+      @media (width >= 1400px) {
         max-width: 350px;
       }
     }
@@ -124,7 +124,7 @@
     .ledgers {
       display: none;
 
-      @media (min-width: 750px) {
+      @media (width >= 750px) {
         display: table-cell;
       }
     }

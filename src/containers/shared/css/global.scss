@@ -233,10 +233,7 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
   a.mask-overlay {
     position: absolute;
     z-index: 5;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
   }
 }
 
