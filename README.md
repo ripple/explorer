@@ -46,13 +46,11 @@ Since `canvas` does not provide pre-built binaries for Apple chips during `npm i
 ### Testnet mode
 
 1. Replace `VITE_RIPPLED_HOST=s2.ripple.com` with `VITE_RIPPLED_HOST=s.altnet.rippletest.net` in the `.env` file
-1. Remove `VITE_RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
 1. Add `VITE_ENVIRONMENT=testnet` to `.env` to enable TESTNET banner
 
 ### Devnet mode
 
 1. Replace `VITE_RIPPLED_HOST=s2.ripple.com` with `VITE_RIPPLED_HOST=s.devnet.rippletest.net` in the `.env` file
-1. Remove `VITE_RIPPLED_SECONDARY` from `.env` (optional, but the extra validator subscriptions are not necessary)
 1. Add `VITE_ENVIRONMENT=devnet` to `.env` to enable TESTNET banner
 
 ## Testing
@@ -84,22 +82,16 @@ Since `canvas` does not provide pre-built binaries for Apple chips during `npm i
 ## Targeted languages
 
 1.  US English (default)
-1.  Simplified Chinese
 1.  Japanese
-1.  Korean
-1.  Mexican Spanish
-1.  Brazilian Portuguese
 
 ## Additional Documentation
 * [How to define transactions](./src/containers/shared/components/Transaction/README.md)
 
 ## React Documentation
 
-* Most updated documentation for [create-react-app](https://github.com/facebook/create-react-app)
 * Latest news in [react blog](https://reactjs.org/blog)
 * [React documentation](https://reactjs.org/docs)
 * [How to think in react](https://reactjs.org/docs/thinking-in-react.html) and break down components
-* [More details on packages and step by step tutorial](https://gitlab.ops.ripple.com/ui/ui_react_base)
 
 [enable_api]: https://console.cloud.google.com/flows/enableapi?apiid=bigquery.googleapis.com
 [projects]: https://console.cloud.google.com/project
