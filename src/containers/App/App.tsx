@@ -10,7 +10,7 @@ import Ledgers from '../Ledgers'
 import Header from '../Header'
 import './app.scss'
 import { Ledger } from '../Ledger'
-import transactions from '../Transactions'
+import { Transaction } from '../Transactions'
 import { Network } from '../Network'
 import { Validator } from '../Validators'
 import { PayString } from '../PayStrings'
@@ -89,7 +89,7 @@ const App = ({ actions }: AppProps) => {
                   <Route
                     exact
                     path="/transactions/:identifier?/:tab?"
-                    component={transactions}
+                    component={Transaction}
                   />
                   <Route exact path="/network/:tab?" component={Network} />
                   <Route

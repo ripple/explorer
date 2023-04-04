@@ -1,8 +1,9 @@
-import { Component } from 'react'
+import { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 
+import { useParams } from 'react-router'
 import TokenHeader from './TokenHeader'
 import { TokenTransactionTable } from './TokenTransactionTable'
 import DEXPairs from './DEXPairs'
@@ -35,16 +36,21 @@ ERROR_MESSAGES.default = {
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-class Token extends Component {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { match } = nextProps
-    return {
-      accountId: match.params.id,
-      prevId: prevState && prevState.accountId,
-    }
-  }
+const Token = ({ error }) => {
+  const { currency, id: accountId } = useParams()
+  const { t } = useTranslation()
+  const showError = error
 
-  static renderError(error) {
+  useEffect(() => {
+    document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`
+    analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })
+
+    return () => {
+      window.scrollTo(0, 0)
+    }
+  }, [accountId, t])
+
+  const renderError = () => {
     const message = getErrorMessage(error)
     return (
       <div className="token-page">
@@ -53,57 +59,32 @@ class Token extends Component {
     )
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
-  componentDidMount() {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })
-  }
-
-  componentWillUnmount() {
-    window.scrollTo(0, 0)
-  }
-
-  render() {
-    const { t, error, match } = this.props
-    const { prevId } = this.state
-    const accountId = match.params.id || ''
-    const currency = match.params.currency || ''
-    const showError = accountId === prevId && error
-
-    // TODO: title this so it includes the currency code somehow
-    document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`
-
-    return showError ? (
-      Token.renderError(error)
-    ) : (
-      <div className="token-page">
-        {accountId && (
-          <TokenHeader accountId={accountId} currency={currency} t={t} />
-        )}
-        {accountId && IS_MAINNET && (
-          <DEXPairs accountId={accountId} currency={currency} t={t} />
-        )}
-        {accountId && (
-          <div className="section">
-            <h2>{t('token_transactions')}</h2>
-            <TokenTransactionTable accountId={accountId} currency={currency} />
-          </div>
-        )}
-        {!accountId && (
-          <div style={{ textAlign: 'center', fontSize: '14px' }}>
-            <h2>Enter an account ID in the search box</h2>
-          </div>
-        )}
-      </div>
-    )
-  }
+  return showError ? (
+    renderError(error)
+  ) : (
+    <div className="token-page">
+      {accountId && (
+        <TokenHeader accountId={accountId} currency={currency} t={t} />
+      )}
+      {accountId && IS_MAINNET && (
+        <DEXPairs accountId={accountId} currency={currency} t={t} />
+      )}
+      {accountId && (
+        <div className="section">
+          <h2>{t('token_transactions')}</h2>
+          <TokenTransactionTable accountId={accountId} currency={currency} />
+        </div>
+      )}
+      {!accountId && (
+        <div style={{ textAlign: 'center', fontSize: '14px' }}>
+          <h2>Enter an account ID in the search box</h2>
+        </div>
+      )}
+    </div>
+  )
 }
 
 Token.propTypes = {
-  t: PropTypes.func.isRequired,
   error: PropTypes.number,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -118,6 +99,5 @@ Token.defaultProps = {
 }
 
 export default connect((state) => ({
-  width: state.app.width,
   error: state.accountHeader.status,
-}))(withTranslation()(Token))
+}))(Token)
