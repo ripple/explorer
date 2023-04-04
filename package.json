@@ -95,7 +95,7 @@
     "husky": "^7.0.4",
     "jest-enzyme": "^7.1.0",
     "jest-websocket-mock": "^2.4.0",
-    "lint-staged": "^13.0.3",
+    "lint-staged": "^13.2.0",
     "mock-socket": "^9.1.5",
     "moxios": "^0.4.0",
     "nodemon": "^2.0.20",
