@@ -4,10 +4,10 @@ import { QueryClientProvider } from 'react-query'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
-import Account from '../index'
+import Token from '../index'
 import TokenHeader from '../TokenHeader'
 import { TokenTransactionTable } from '../TokenTransactionTable'
 import mockAccountState from '../../Accounts/test/mockAccountState.json'
@@ -24,8 +24,8 @@ describe('Token container', () => {
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
-            <Router>
-              <Account match={{ params: { id: TEST_ACCOUNT_ID } }} />
+            <Router initialEntries={[`/token/USD.${TEST_ACCOUNT_ID}`]}>
+              <Route exact path="/token/:currency.:id" component={Token} />
             </Router>
           </Provider>
         </I18nextProvider>
