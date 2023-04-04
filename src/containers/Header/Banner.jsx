@@ -20,9 +20,7 @@ Banner.propTypes = {
 }
 
 export default connect((state) => {
-  const messages = [
-    ['balanceError', state.accountHeader.error],
-  ]
+  const messages = [['balanceError', state.accountHeader.error]]
 
   return { messages: messages.filter((d) => Boolean(d[1])) }
 })(Banner)
