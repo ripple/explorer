@@ -15,7 +15,7 @@ export interface PayStringResponse {
     addressDetailsType: string
     addressDetails: {
       address: string
-      tag: string // optional
+      tag?: string
     }
   }[]
 }
