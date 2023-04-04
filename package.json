@@ -106,12 +106,11 @@
     "redux-mock-store": "^1.5.1",
     "sass": "^1.51.0",
     "source-map-explorer": "^2.5.2",
-    "stylelint": "^14.9.1",
+    "stylelint": "^15.4.0",
     "stylelint-config-idiomatic-order": "^9.0.0",
-    "stylelint-config-prettier": "^9.0.3",
-    "stylelint-config-recommended-scss": "^8.0.0",
-    "stylelint-config-standard": "^26.0.0",
-    "stylelint-prettier": "^2.0.0",
+    "stylelint-config-recommended-scss": "^9.0.1",
+    "stylelint-config-standard": "^32.0.0",
+    "stylelint-prettier": "^3.0.0",
     "stylelint-scss": "^4.3.0",
     "ts-jest": "^26.5.6",
     "ts-node": "^10.9.1",
@@ -311,12 +310,12 @@
     "extends": [
       "stylelint-config-standard",
       "stylelint-config-recommended-scss",
-      "stylelint-config-idiomatic-order",
-      "stylelint-config-prettier"
+      "stylelint-config-idiomatic-order"
     ],
     "rules": {
       "at-rule-empty-line-before": null,
       "block-closing-brace-newline-after": null,
+      "import-notation": "string",
       "length-zero-no-unit": null
     }
   },
