@@ -23,7 +23,7 @@ export const Details = ({ data }: Props) => {
     transferFee,
     owner,
     isBurned,
-    NFTSequence: nftSequence,
+    NFTSerial: nftSerial,
   } = data
   const { t } = useTranslation()
   const language = useLanguage()
@@ -39,7 +39,7 @@ export const Details = ({ data }: Props) => {
         {minted && <TokenTableRow label={t('minted')} value={minted} />}
         {domain && <TokenTableRow label={t('domain')} value={domain} />}
         <TokenTableRow label={t('taxon_id')} value={nftTaxon} />
-        <TokenTableRow label={t('sequence_number_short')} value={nftSequence} />
+        <TokenTableRow label={t('serial')} value={nftSerial} />
         {uri && <TokenTableRow label="URI" value={uri} />}
         <TokenTableRow label={t('transfer_fee')} value={formattedFee} />
         {isBurned && <TokenTableRow label={t('is_burned')} value="true" />}
