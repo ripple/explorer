@@ -5,6 +5,7 @@
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@google-cloud/bigquery": "^5.5.0",
+    "@paystring/utils": "^2.0.0",
     "@rollup/plugin-inject": "^5.0.3",
     "@vitejs/plugin-react": "^3.0.0",
     "@xrplf/prettier-config": "^1.9.1",
@@ -32,7 +33,6 @@
     "i18next": "^22.4.13",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.1.1",
-    "payid-lib": "^0.1.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
