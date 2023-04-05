@@ -1,19 +1,32 @@
 import { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
 import { useParams } from 'react-router'
 
+import { useQuery } from 'react-query'
 import { PayStringHeader } from './PayStringHeader'
-import PayStringMappingsTable from './PayStringMappingsTable'
+import { PayStringMappingsTable } from './PayStringMappingsTable'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
+import { getPayString } from '../../rippled'
 
-const PayString = ({ error }) => {
-  const { id: accountId = '' } = useParams()
+export const PayString = () => {
+  const { id: accountId = '' } = useParams<{ id: string }>()
   const { t } = useTranslation()
+
+  const { data, isError, isLoading } = useQuery(['paystring', accountId], () =>
+    getPayString(accountId).catch((transactionRequestError) => {
+      const status = transactionRequestError.code
+
+      analytics(ANALYTIC_TYPES.exception, {
+        exDescription: `PayString ${accountId} --- ${JSON.stringify(
+          transactionRequestError,
+        )}`,
+      })
+      return Promise.reject(status)
+    }),
+  )
 
   useEffect(() => {
     document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 24)}${
@@ -35,12 +48,12 @@ const PayString = ({ error }) => {
     </div>
   )
 
-  return error ? (
-    renderError(error)
+  return isError ? (
+    renderError()
   ) : (
     <div className="paystring-page">
       {accountId && <PayStringHeader accountId={accountId} />}
-      {accountId && <PayStringMappingsTable accountId={accountId} />}
+      {accountId && <PayStringMappingsTable data={data} loading={isLoading} />}
       {!accountId && (
         <NoMatch
           title="paystring_empty_title"
@@ -51,15 +64,3 @@ const PayString = ({ error }) => {
     </div>
   )
 }
-
-PayString.propTypes = {
-  error: PropTypes.number,
-}
-
-PayString.defaultProps = {
-  error: null,
-}
-
-export default connect((state) => ({
-  error: state.payStringData.error,
-}))(PayString)
