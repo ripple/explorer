@@ -83,7 +83,7 @@ export const UpgradeStatus = () => {
     () => fetchStableVersion(),
     {
       placeholderData: null,
-      refetchInterval: (returnedData, _) =>
+      retryDelay: (returnedData, _) =>
         returnedData == null
           ? FETCH_INTERVAL_ERROR_MILLIS
           : FETCH_INTERVAL_MILLIS,
