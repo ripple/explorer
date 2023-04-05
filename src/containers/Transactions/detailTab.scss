@@ -61,10 +61,6 @@
       text-transform: capitalize;
       @include bold;
 
-      @include for-size(tablet-landscape-up) {
-        //width: 584px;
-      }
-
       span {
         margin-left: 8px;
         font-size: 10px;

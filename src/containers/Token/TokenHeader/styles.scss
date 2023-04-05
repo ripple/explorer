@@ -194,15 +194,6 @@
             font-weight: 500;
           }
 
-          // .weight {
-          //   text-align: right;
-          //   white-space: nowrap;
-          // }
-
-          // &.quorum {
-          //   display: block;
-          // }
-
           &.tag-info {
             padding-top: 14px;
             font-size: 14px;
@@ -238,29 +229,6 @@
           &.quorum {
             display: block;
           }
-        }
-      }
-
-      &.balance {
-        .value {
-          overflow: hidden;
-          margin: -4px 0px 5px -0.1em;
-          color: $white;
-          font-size: 26px;
-          line-height: 30px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          @include regular;
-
-          @include for-size(desktop-up) {
-            font-size: 30px;
-            line-height: 34px;
-          }
-        }
-
-        .balance-selector-container {
-          position: relative;
-          margin-top: 10px;
         }
       }
     }
