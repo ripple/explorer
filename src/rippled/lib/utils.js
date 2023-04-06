@@ -95,7 +95,9 @@ const formatTransaction = (tx) => {
 }
 
 function RippledError(message, code) {
-  Error.captureStackTrace(this, this.constructor)
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, this.constructor)
+  }
   this.name = this.constructor.name
   this.message = message
   this.code = code
