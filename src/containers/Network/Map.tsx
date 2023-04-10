@@ -91,7 +91,7 @@ export const Map = ({ locations = undefined }: MapProps) => {
     return (
       <>
         <g className="map">
-          {countries.map((d) => (
+          {countries?.map((d) => (
             <path
               key={`path-${d.id}-${d.geometry.coordinates[0].length}`}
               d={geoPath().projection(projection)(d)}
