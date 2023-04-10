@@ -141,7 +141,7 @@ class ValidatorsTable extends Component {
 }
 
 ValidatorsTable.propTypes = {
-  validators: PropTypes.shape({}),
+  validators: PropTypes.arrayOf(PropTypes.shape({})),
   t: PropTypes.func.isRequired,
   metrics: PropTypes.shape({}).isRequired,
 }
