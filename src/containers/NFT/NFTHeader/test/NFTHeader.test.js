@@ -15,7 +15,7 @@ const data = {
   transferFee: 0,
   issuer: 'rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W',
   NFTTaxon: 0,
-  NFTSequence: 12,
+  NFTSerial: 12,
   uri: 'ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
   validated: true,
   status: 'success',

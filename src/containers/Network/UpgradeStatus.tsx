@@ -5,7 +5,7 @@ import { useQuery } from 'react-query'
 import BarChartVersion from './BarChartVersion'
 import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
-import Hexagons from './Hexagons'
+import { Hexagons } from './Hexagons'
 import {
   FETCH_INTERVAL_MILLIS,
   FETCH_INTERVAL_ERROR_MILLIS,
@@ -83,7 +83,7 @@ export const UpgradeStatus = () => {
     () => fetchStableVersion(),
     {
       placeholderData: null,
-      refetchInterval: (returnedData, _) =>
+      retryDelay: (returnedData, _) =>
         returnedData == null
           ? FETCH_INTERVAL_ERROR_MILLIS
           : FETCH_INTERVAL_MILLIS,

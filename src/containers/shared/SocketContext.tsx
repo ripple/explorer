@@ -1,7 +1,11 @@
-import { useContext, createContext, useEffect, useState } from 'react'
+import React, { useContext, createContext, useEffect, useState } from 'react'
 import { XrplClient } from 'xrpl-client'
 
 const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
+
+export interface ExplorerXrplClient extends XrplClient {
+  p2pSocket: XrplClient
+}
 
 function isInsecureWs(rippledHost: string | undefined): boolean {
   return (
@@ -11,7 +15,7 @@ function isInsecureWs(rippledHost: string | undefined): boolean {
   )
 }
 
-function getSocket(rippledUrl?: string): XrplClient {
+function getSocket(rippledUrl?: string): ExplorerXrplClient {
   const hosts = rippledUrl
     ? [rippledUrl]
     : process.env.VITE_RIPPLED_HOST?.split(',') || []
@@ -33,7 +37,7 @@ function getSocket(rippledUrl?: string): XrplClient {
 
   const socket = new XrplClient(wsUrls, {
     tryAllNodes: true,
-  })
+  }) as ExplorerXrplClient
   const hasP2PSocket =
     process.env.VITE_P2P_RIPPLED_HOST != null &&
     process.env.VITE_P2P_RIPPLED_HOST !== ''
@@ -49,6 +53,28 @@ function getSocket(rippledUrl?: string): XrplClient {
 }
 
 const SocketContext = createContext<XrplClient>(undefined!)
+
+export type SocketProviderProps = React.PropsWithChildren<{
+  children: any
+  rippledUrl?: string
+}>
+
+export const SocketProvider = ({
+  children,
+  rippledUrl,
+}: SocketProviderProps) => {
+  const socket = getSocket(rippledUrl)
+
+  useEffect(() => () => {
+    socket.close()
+    if (socket.p2pSocket !== undefined) {
+      socket.p2pSocket.close()
+    }
+  })
+  return (
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+  )
+}
 
 /**
  * Hook that says whether or not the global socket is currently connected

@@ -1,5 +1,6 @@
 import { convertRippleDate, EPOCH_OFFSET } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
+import { decodeHex } from '../../containers/shared/transactionUtils'
 
 const XRP_BASE = 1000000
 const BILLION = 1000000000
@@ -94,7 +95,9 @@ const formatTransaction = (tx) => {
 }
 
 function RippledError(message, code) {
-  Error.captureStackTrace(this, this.constructor)
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, this.constructor)
+  }
   this.name = this.constructor.name
   this.message = message
   this.code = code
@@ -113,8 +116,9 @@ const formatNFTInfo = (info) => ({
   transferFee: info.transfer_fee,
   issuer: info.issuer,
   NFTTaxon: info.nft_taxon,
-  NFTSequence: info.nft_sequence,
-  uri: info.uri,
+  // TODO: remove `nft_sequence` support after clio update has been fully rolled out.
+  NFTSerial: info.nft_serial ?? info.nft_sequence,
+  uri: info.nft_serial ? decodeHex(info.uri) : info.uri,
   validated: info.validated,
   status: info.status,
   warnings: info.warnings,

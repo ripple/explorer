@@ -12,6 +12,9 @@ import autoprefixer from 'autoprefixer'
 
 import 'dotenv/config'
 
+// Populate with `version` field of package.json
+process.env.VITE_APP_VERSION = process.env.npm_package_version
+
 // https://vitejs.dev/config/
 export default defineConfig({
   // source code location
@@ -77,6 +80,9 @@ export default defineConfig({
     // export SVGs as React components by default
     svgrPlugin({
       exportAsDefault: true,
+      svgrOptions: {
+        ref: true,
+      },
     }),
     react({
       // Use React plugin in all *.jsx and *.tsx files

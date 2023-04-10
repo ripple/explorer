@@ -209,17 +209,9 @@
           display: flex;
           justify-content: space-between;
 
-          @media (min-width: 450px) {
+          @media (width >= 450px) {
             display: block;
           }
-
-          // .account {
-          //   overflow: hidden;
-          //   width: 285px;
-          //   padding-right: 10px;
-          //   text-overflow: ellipsis;
-          //   white-space: nowrap;
-          // }
 
           .tag {
             font-weight: 500;
@@ -228,15 +220,6 @@
           .network {
             font-weight: 500;
           }
-
-          // .weight {
-          //   text-align: right;
-          //   white-space: nowrap;
-          // }
-
-          // &.quorum {
-          //   display: block;
-          // }
 
           &.tag-info {
             padding-top: 14px;
@@ -252,7 +235,7 @@
           display: flex;
           justify-content: space-between;
 
-          @media (min-width: 450px) {
+          @media (width >= 450px) {
             display: block;
           }
 

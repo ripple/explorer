@@ -1,38 +1,36 @@
-import { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import { useEffect } from 'react'
+import { useLocation, useParams } from 'react-router'
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { QueryClientProvider } from 'react-query'
-import axios from 'axios'
 import { AccountsRouter } from '../Accounts/AccountsRouter'
 import { updateViewportDimensions, onScroll } from './actions'
 import Ledgers from '../Ledgers'
 import Header from '../Header'
 import './app.scss'
-import ledger from '../Ledger'
-import transactions from '../Transactions'
+import { Ledger } from '../Ledger'
+import { Transaction } from '../Transactions'
 import { Network } from '../Network'
 import { Validator } from '../Validators'
-import paystrings from '../PayStrings'
+import { PayString } from '../PayStrings'
 import token from '../Token'
 import noMatch from '../NoMatch'
 import { NFT } from '../NFT/NFT'
-import SocketContext, { getSocket } from '../shared/SocketContext'
+import { SocketProvider } from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
-import NetworkContext, { getNetworkName } from '../shared/NetworkContext'
-import Log from '../shared/log'
+import { NetworkProvider } from '../shared/NetworkContext'
 
-const App = (props) => {
-  const { actions, location, match } = props
+export interface AppProps {
+  actions: {
+    updateViewportDimensions: () => {}
+    onScroll: () => {}
+  }
+}
 
-  const {
-    params: { rippledUrl = null },
-  } = match
-
-  const initialNetworkName = getNetworkName()
-  const [networkName, setNetworkName] = useState(initialNetworkName)
-  const socket = getSocket(rippledUrl)
+const App = ({ actions }: AppProps) => {
+  const location = useLocation()
+  const { rippledUrl = undefined } = useParams<{ rippledUrl: string }>()
 
   useEffect(() => {
     actions.updateViewportDimensions()
@@ -42,27 +40,8 @@ const App = (props) => {
     return function cleanup() {
       window.removeEventListener('resize', actions.updateViewportDimensions)
       window.removeEventListener('scroll', actions.onScroll)
-
-      socket.close()
-      if (socket.p2pSocket !== undefined) {
-        socket.p2pSocket.close()
-      }
     }
   })
-
-  useEffect(() => {
-    if (initialNetworkName == null) {
-      axios
-        .get(`${process.env.VITE_DATA_URL}/get_network/${rippledUrl}`)
-        .then((resp) => resp.data)
-        .then((data) =>
-          setNetworkName(
-            data.result && data.result === 'error' ? null : data.network,
-          ),
-        )
-        .catch((e) => Log.error(e))
-    }
-  }, [initialNetworkName, rippledUrl])
 
   const urlLink = rippledUrl ? `/${rippledUrl}` : ''
 
@@ -94,14 +73,14 @@ const App = (props) => {
   return (
     <div className="app">
       <QueryClientProvider client={queryClient}>
-        <SocketContext.Provider value={socket}>
-          <NetworkContext.Provider value={networkName}>
+        <SocketProvider rippledUrl={rippledUrl}>
+          <NetworkProvider rippledUrl={rippledUrl}>
             <BrowserRouter basename={rippledUrl ?? ''}>
               <Header />
               <div className="content">
                 <Switch>
                   <Route exact path="/" component={Ledgers} />
-                  <Route exact path="/ledgers/:identifier" component={ledger} />
+                  <Route exact path="/ledgers/:identifier" component={Ledger} />
                   <Route
                     exact
                     path="/accounts/:id?/:tab?/:assetType?"
@@ -110,7 +89,7 @@ const App = (props) => {
                   <Route
                     exact
                     path="/transactions/:identifier?/:tab?"
-                    component={transactions}
+                    component={Transaction}
                   />
                   <Route exact path="/network/:tab?" component={Network} />
                   <Route
@@ -118,40 +97,22 @@ const App = (props) => {
                     path="/validators/:identifier/:tab?"
                     component={Validator}
                   />
-                  <Route exact path="/paystrings/:id?" component={paystrings} />
+                  <Route exact path="/paystrings/:id?" component={PayString} />
                   <Route exact path="/token/:currency.:id" component={token} />
                   <Route exact path="/nft/:id/:tab?" component={NFT} />
                   <Route component={noMatch} />
                 </Switch>
               </div>
             </BrowserRouter>
-          </NetworkContext.Provider>
-        </SocketContext.Provider>
+          </NetworkProvider>
+        </SocketProvider>
       </QueryClientProvider>
     </div>
   )
 }
 
-App.propTypes = {
-  location: PropTypes.shape({
-    hash: PropTypes.string,
-    pathname: PropTypes.string,
-  }).isRequired,
-  actions: PropTypes.shape({
-    updateViewportDimensions: PropTypes.func,
-    onScroll: PropTypes.func,
-  }).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      rippledUrl: PropTypes.string,
-    }),
-  }).isRequired,
-}
-
 export default connect(
-  (state) => ({
-    language: state.app.language,
-  }),
+  () => {},
   (dispatch) => ({
     actions: bindActionCreators(
       {
