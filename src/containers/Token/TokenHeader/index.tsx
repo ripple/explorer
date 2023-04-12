@@ -57,7 +57,7 @@ const TokenHeader = ({
 
   useEffect(() => {
     actions.loadTokenState(currency, accountId, rippledSocket)
-  }, [accountId, currency, rippledSocket])
+  }, [accountId, actions, currency, rippledSocket])
 
   const renderDetails = () => {
     const { domain, rate, emailHash, previousLedger, previousTxn } = data
