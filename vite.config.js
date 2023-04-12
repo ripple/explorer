@@ -26,8 +26,7 @@ export default defineConfig({
     outDir: '../build',
     // empty the build directory on each build
     emptyOutDir: true,
-    // improve CPU usage
-    sourcemap: false,
+    sourcemap: true,
     commonjsOptions: {
       transformMixedEsModules: true,
     },
