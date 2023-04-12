@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import PayStringLogomark from '../../shared/images/PayString_Logomark.png'
 import QuestIcon from '../../shared/images/hover_question.svg'
 import Tooltip from '../../shared/components/Tooltip'
-import '../../shared/css/nested-menu.scss'
 import './styles.scss'
 import { useLanguage } from '../../shared/hooks'
 
