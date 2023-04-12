@@ -7,7 +7,7 @@ const formatEscrow = (d) => ({
   id: d.index,
   account: d.Account,
   destination: d.Destination,
-  amount: d.Amount / XRP_BASE,
+  amount: d.Amount,
   condition: d.Condition,
   cancelAfter: d.CancelAfter ? convertRippleDate(d.CancelAfter) : undefined,
   finishAfter: d.FinishAfter ? convertRippleDate(d.FinishAfter) : undefined,
@@ -146,22 +146,30 @@ const getAccountEscrows = (
       return undefined
     }
 
-    const escrows = { in: [], out: [], total: 0, totalIn: 0, totalOut: 0 }
+    const escrows = {
+      in: [],
+      out: [],
+      total: 0,
+      totalIn: { XRP: 0 },
+      totalOut: { XRP: 0 },
+    }
     resp.account_objects.forEach((d) => {
-      const amount = Number(d.Amount)
+      const amount =
+        typeof d.Amount === 'object'
+          ? d.Amount.value
+          : Number(d.Amount) / XRP_BASE
+      const currency = typeof d.Amount === 'object' ? d.Amount.currency : 'XRP'
       escrows.total += amount
+      escrows.totalIn[currency] = 0
+      escrows.totalOut[currency] = 0
       if (account === d.Destination) {
         escrows.in.push(formatEscrow(d))
-        escrows.totalIn += amount
+        escrows.totalIn[currency] = amount
       } else {
         escrows.out.push(formatEscrow(d))
-        escrows.totalOut += amount
+        escrows.totalOut[currency] = amount
       }
     })
-
-    escrows.total /= XRP_BASE
-    escrows.totalIn /= XRP_BASE
-    escrows.totalOut /= XRP_BASE
     return escrows
   })
 
