@@ -15,7 +15,7 @@
   border-radius: 100px;
   cursor: pointer;
   font-weight: 700;
-  gap: 0 8px;
+  gap: 0 24px;
 
   .arrow {
     height: 1em;
@@ -25,7 +25,6 @@
 
 .dropdown-menu {
   position: absolute;
-  z-index: 1;
   z-index: 100;
   display: none;
   min-width: max(100%, 160px);
@@ -37,8 +36,8 @@
 }
 
 .dropdown-item {
-  border-radius: 4px;
   padding: 12px 8px;
+  border-radius: 4px;
   font-weight: normal;
 
   @at-root {
