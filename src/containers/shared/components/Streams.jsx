@@ -118,14 +118,25 @@ export const fetchMetrics = () =>
     .then((result) => result.data)
     .catch((e) => Log.error(e))
 
+function getTruncatedLedgers(ledgers, maxLedger, max) {
+  const newMax = Math.max(max, maxLedger)
+  Object.keys(ledgers).forEach((key) => {
+    if (newMax - key >= MAX_LEDGER_COUNT) {
+      delete ledgers[key]
+    }
+  })
+
+  return { ledgers, maxLedger: max }
+}
+
 class Streams extends Component {
   constructor(props) {
     super(props)
     const { updateLedgers, updateValidators } = props
     this.state = {
       ledgers: {},
-      metrics: {}, // eslint-disable-line
-      validators: {}, // eslint-disable-line
+      metrics: {},
+      validators: {},
       maxLedger: 0,
       allLedgers: {},
       allValidators: {},
@@ -267,7 +278,11 @@ class Streams extends Component {
     const { ledger_index: ledgerIndex } = data
     if (ledgerIndex % 256 === 0) this.updateNegativeUNL()
     this.setState((prevState) => {
-      const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex)
+      const { ledgers, maxLedger } = getTruncatedLedgers(
+        prevState.ledgers,
+        prevState.maxLedger,
+        ledgerIndex,
+      )
       ledgers[ledgerIndex] = Object.assign(
         ledgers[ledgerIndex] || { hashes: {} },
         data,
@@ -283,7 +298,11 @@ class Streams extends Component {
   onLedger(data) {
     const { ledger_index: ledgerIndex } = data
     this.setState((prevState) => {
-      const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex)
+      const { ledgers, maxLedger } = getTruncatedLedgers(
+        prevState.ledgers,
+        prevState.maxLedger,
+        ledgerIndex,
+      )
       ledgers[ledgerIndex] = Object.assign(
         ledgers[ledgerIndex] || { hashes: {} },
         data,
@@ -299,7 +318,11 @@ class Streams extends Component {
 
     this.setState((prevState) => {
       const { validators } = prevState
-      const { ledgers, maxLedger } = this.getTruncatedLedgers(ledgerIndex)
+      const { ledgers, maxLedger } = getTruncatedLedgers(
+        prevState.ledgers,
+        prevState.maxLedger,
+        ledgerIndex,
+      )
 
       if (maxLedger - ledgerIndex > MAX_LEDGER_COUNT) {
         return undefined
@@ -331,18 +354,6 @@ class Streams extends Component {
       this.updateValidators(validators)
       return { ledgers, validators, maxLedger }
     })
-  }
-
-  getTruncatedLedgers(max) {
-    const { ledgers, maxLedger } = this.state
-    const newMax = Math.max(max, maxLedger)
-    Object.keys(ledgers).forEach((key) => {
-      if (newMax - key >= MAX_LEDGER_COUNT) {
-        delete ledgers[key]
-      }
-    })
-
-    return { ledgers, maxLedger: max }
   }
 
   purge = () => {
