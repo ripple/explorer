@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import '../../../AccountHeader/styles.scss'
-import '../../../AccountHeader/balance-selector.scss'
 import {
   formatTradingFee,
   localizeBalance,

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { loadAccountState } from './actions'
 import Loader from '../../shared/components/Loader'
 import './styles.scss'
-import { BalanceSelector } from './BalanceSelector'
+import { BalanceSelector } from './BalanceSelector/BalanceSelector'
 import { Account } from '../../shared/components/Account'
 import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
@@ -20,7 +20,7 @@ const CURRENCY_OPTIONS = {
 }
 
 interface AccountHeaderProps {
-  onSetCurrencySelected: Function
+  onSetCurrencySelected: (currency: string) => void
   currencySelected: string
   loading: boolean
   accountId: string
@@ -90,9 +90,6 @@ const AccountHeader = (props: AccountHeaderProps) => {
       Object.keys(balances).length > 1 && (
         <div className="balance-selector-container">
           <BalanceSelector
-            text={`${Object.keys(balances).length - 1} ${t(
-              'accounts.other_balances',
-            )}`}
             balances={balances}
             onSetCurrencySelected={onSetCurrencySelected}
             currencySelected={currencySelected}
