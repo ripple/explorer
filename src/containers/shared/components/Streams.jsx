@@ -122,6 +122,7 @@ function getTruncatedLedgers(ledgers, maxLedger, max) {
   const newMax = Math.max(max, maxLedger)
   Object.keys(ledgers).forEach((key) => {
     if (newMax - key >= MAX_LEDGER_COUNT) {
+      // eslint-disable-next-line no-param-reassign
       delete ledgers[key]
     }
   })
