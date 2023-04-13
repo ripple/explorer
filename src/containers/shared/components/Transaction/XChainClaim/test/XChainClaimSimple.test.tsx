@@ -32,4 +32,32 @@ describe('XChainClaimSimple', () => {
     )
     expectSimpleRowText(wrapper, 'claim-id', '5')
   })
+
+  it('renders failed tx', () => {
+    const wrapper = createWrapper(mockXChainClaim)
+
+    // check XChainBridge parts
+    expectSimpleRowText(
+      wrapper,
+      'locking-chain-door',
+      'rMAXACCrp3Y8PpswXcg3bKggHX76V3F8M4',
+    )
+    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
+    expectSimpleRowText(
+      wrapper,
+      'issuing-chain-door',
+      'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
+    )
+    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
+
+    expectSimpleRowText(wrapper, 'amount', '\uE9000.01 XRP')
+    expectSimpleRowText(
+      wrapper,
+      'destination',
+      'rpwoKyUQn5uGDKeF6LhxK8HWS25ZMhFpaB',
+    )
+    expectSimpleRowText(wrapper, 'claim-id', '492')
+  })
 })
