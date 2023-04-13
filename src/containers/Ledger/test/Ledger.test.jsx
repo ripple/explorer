@@ -1,6 +1,6 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import mockLedger from './storedLedger.json'
@@ -10,13 +10,13 @@ import { getLedger } from '../../../rippled'
 import { testQueryClient } from '../../test/QueryClient'
 import { Error as RippledError } from '../../../rippled/lib/utils'
 
-jest.mock('../../../rippled', () => {
-  const originalModule = jest.requireActual('../../../rippled')
+vi.mock('../../../rippled', async () => {
+  const originalModule = await vi.importActual('../../../rippled')
 
   return {
     __esModule: true,
     ...originalModule,
-    getLedger: jest.fn(),
+    getLedger: vi.fn(),
   }
 })
 

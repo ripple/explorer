@@ -3,7 +3,7 @@ import moxios from 'moxios'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import i18n from '../../../i18n/testConfig'
 import { Network } from '../index'
 import mockNodes from './mockNodes.json'
@@ -11,7 +11,7 @@ import { testQueryClient } from '../../test/QueryClient'
 import NetworkContext from '../../shared/NetworkContext'
 import countries from '../../../../public/countries.json'
 
-jest.mock('usehooks-ts', () => ({
+vi.mock('usehooks-ts', () => ({
   useWindowSize: () => ({
     width: 375,
     height: 600,
