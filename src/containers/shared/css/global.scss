@@ -159,20 +159,29 @@ div.react-stockchart div {
 }
 
 .btn {
-  border: none;
-  background: transparent;
+  border: solid 1px $white;
+  border-radius: $border-radius;
+  padding: 12px 16px;
+  background: $black;
   color: $white;
   cursor: pointer;
   font-size: 14px;
   line-height: 21px;
+
+  &:hover {
+    background: $black-80;
+  }
 }
 
 a,
 .btn-link {
+  border: none;
+  background: transparent;
   color: $green-30;
   text-decoration: none;
 
   &:hover {
+    background: transparent;
     color: $green-50;
   }
 

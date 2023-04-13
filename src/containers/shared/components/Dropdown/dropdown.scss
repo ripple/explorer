@@ -10,10 +10,6 @@
 .dropdown-toggle {
   display: flex;
   align-items: center;
-  padding: 8px;
-  border: solid 1px $white;
-  border-radius: 100px;
-  cursor: pointer;
   font-weight: 700;
   gap: 0 24px;
 
@@ -30,14 +26,14 @@
   min-width: max(100%, 160px);
   padding: 8px;
   border: 1px solid $black-80;
-  border-radius: 8px;
+  border-radius: $border-radius * 2;
   margin-top: 5px;
   background: rgba($black, 0.96);
 }
 
 .dropdown-item {
   padding: 12px 8px;
-  border-radius: 4px;
+  border-radius: $border-radius;
   font-weight: normal;
 
   @at-root {
@@ -62,7 +58,6 @@
     width: 100%;
     padding: 8px;
     border: none;
-    border-radius: 4px;
     background: $black-80;
     color: $white;
     font-size: inherit;
