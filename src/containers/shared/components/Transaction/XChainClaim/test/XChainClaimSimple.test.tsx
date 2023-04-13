@@ -1,6 +1,7 @@
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import mockXChainClaim from './mock_data/XChainClaim.json'
+import mockXChainClaimNoQuorum from './mock_data/XChainClaimNoQuorum.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
@@ -34,7 +35,7 @@ describe('XChainClaimSimple', () => {
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockXChainClaim)
+    const wrapper = createWrapper(mockXChainClaimNoQuorum)
 
     // check XChainBridge parts
     expectSimpleRowText(
