@@ -71,6 +71,7 @@
         "paystrings",
         "svgr",
         "topojson",
+        "usehooks",
         "VITE"
     ]
   }
