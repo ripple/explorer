@@ -21,10 +21,6 @@
     text-transform: uppercase;
   }
 
-  .paystring {
-    position: fixed;
-  }
-
   .pubkey {
     overflow: hidden;
     max-width: 100px;
@@ -51,5 +47,15 @@
   .account {
     color: $black-50;
     font-size: 10px;
+  }
+
+  &.paystring {
+    width: 274px;
+    font-size: 12px;
+
+    .paystring-logo {
+      display: block;
+      margin-bottom: 8px;
+    }
   }
 }

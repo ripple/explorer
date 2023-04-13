@@ -67,6 +67,7 @@
         "nodemodules",
         "pageview",
         "paychannels",
+        "paystring",
         "paystrings",
         "svgr",
         "topojson",

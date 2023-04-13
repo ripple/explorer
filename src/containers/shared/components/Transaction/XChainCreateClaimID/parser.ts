@@ -18,7 +18,7 @@ export function parser(tx: any, meta: any) {
     issuingIssue: tx.XChainBridge.IssuingChainIssue,
     signatureReward: formatAmount(tx.SignatureReward),
     otherChainSource: tx.OtherChainSource,
-    bridgeOwner: bridgeMeta.ModifiedNode.FinalFields.Account,
-    claimID: claimIDMeta.CreatedNode.NewFields.XChainClaimID,
+    bridgeOwner: bridgeMeta?.ModifiedNode?.FinalFields?.Account,
+    claimID: claimIDMeta?.CreatedNode?.NewFields?.XChainClaimID,
   }
 }

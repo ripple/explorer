@@ -3,34 +3,31 @@ import moxios from 'moxios'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
-import { Provider } from 'react-redux'
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
 import { describe, it, expect } from 'vitest'
-import { initialState } from '../../App/reducer'
 import i18n from '../../../i18n/testConfig'
 import { Network } from '../index'
 import mockNodes from './mockNodes.json'
 import { testQueryClient } from '../../test/QueryClient'
 import NetworkContext from '../../shared/NetworkContext'
+import countries from '../../../../public/countries.json'
 
-/* eslint-disable react/jsx-props-no-spreading */
-const middlewares = [thunk]
-const mockStore = configureMockStore(middlewares)
-const store = mockStore({ app: initialState })
+jest.mock('usehooks-ts', () => ({
+  useWindowSize: () => ({
+    width: 375,
+    height: 600,
+  }),
+}))
 
 describe('Nodes Page container', () => {
-  const createWrapper = (props = {}) =>
+  const createWrapper = () =>
     mount(
       <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
-          <Provider store={store}>
-            <NetworkContext.Provider value="main">
-              <Router initialEntries={['/network/nodes']}>
-                <Route path="/network/:tab" component={Network} />
-              </Router>
-            </NetworkContext.Provider>
-          </Provider>
+          <NetworkContext.Provider value="main">
+            <Router initialEntries={['/network/nodes']}>
+              <Route path="/network/:tab" component={Network} />
+            </Router>
+          </NetworkContext.Provider>
         </I18nextProvider>
       </QueryClientProvider>,
     )
@@ -56,6 +53,11 @@ describe('Nodes Page container', () => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/topology/nodes/main`, {
       status: 200,
       response: { nodes: mockNodes },
+    })
+
+    moxios.stubRequest(`/countries.json`, {
+      status: 200,
+      response: countries,
     })
 
     const wrapper = createWrapper()

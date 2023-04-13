@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import mockXChainClaim from './mock_data/XChainClaim.json'
+import mockXChainClaimNoQuorum from './mock_data/XChainClaimNoQuorum.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 describe('XChainClaimSimple', () => {
@@ -31,5 +32,33 @@ describe('XChainClaimSimple', () => {
       'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi',
     )
     expectSimpleRowText(wrapper, 'claim-id', '5')
+  })
+
+  it('renders failed tx', () => {
+    const wrapper = createWrapper(mockXChainClaimNoQuorum)
+
+    // check XChainBridge parts
+    expectSimpleRowText(
+      wrapper,
+      'locking-chain-door',
+      'rMAXACCrp3Y8PpswXcg3bKggHX76V3F8M4',
+    )
+    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(wrapper, 'locking-chain-issue', 'XRP')
+    expectSimpleRowText(
+      wrapper,
+      'issuing-chain-door',
+      'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
+    )
+    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(wrapper, 'issuing-chain-issue', 'XRP')
+
+    expectSimpleRowText(wrapper, 'amount', '\uE9000.01 XRP')
+    expectSimpleRowText(
+      wrapper,
+      'destination',
+      'rpwoKyUQn5uGDKeF6LhxK8HWS25ZMhFpaB',
+    )
+    expectSimpleRowText(wrapper, 'claim-id', '492')
   })
 })

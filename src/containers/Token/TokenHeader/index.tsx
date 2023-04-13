@@ -1,0 +1,214 @@
+import { useContext, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { loadTokenState } from './actions'
+import Loader from '../../shared/components/Loader'
+import './styles.scss'
+import { localizeNumber, formatLargeNumber } from '../../shared/utils'
+import SocketContext from '../../shared/SocketContext'
+import Currency from '../../shared/components/Currency'
+import { Account } from '../../shared/components/Account'
+import DomainLink from '../../shared/components/DomainLink'
+import { TokenTableRow } from '../../shared/components/TokenTableRow'
+import { useLanguage } from '../../shared/hooks'
+
+const CURRENCY_OPTIONS = {
+  style: 'currency',
+  currency: 'XRP',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 6,
+}
+
+interface TokenHeaderProps {
+  loading: boolean
+  accountId: string
+  currency: string
+  data: {
+    balance: string
+    reserve: number
+    sequence: number
+    rate: number
+    obligations: string
+    domain: string
+    emailHash: string
+    gravatar: string
+    previousLedger: number
+    previousTxn: string
+    flags: string[]
+  }
+  actions: {
+    loadTokenState: typeof loadTokenState
+  }
+}
+
+const TokenHeader = ({
+  actions,
+  accountId,
+  currency,
+  data,
+  loading,
+}: TokenHeaderProps) => {
+  const language = useLanguage()
+  const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
+
+  useEffect(() => {
+    actions.loadTokenState(currency, accountId, rippledSocket)
+  }, [accountId, actions, currency, rippledSocket])
+
+  const renderDetails = () => {
+    const { domain, rate, emailHash, previousLedger, previousTxn } = data
+
+    const prevTxn = previousTxn && previousTxn.replace(/(.{20})..+/, '$1...')
+    const abbrvEmail = emailHash && emailHash.replace(/(.{20})..+/, '$1...')
+    return (
+      <table className="token-table">
+        <tbody>
+          {domain && (
+            <TokenTableRow
+              label={t('domain')}
+              value={<DomainLink domain={domain} />}
+            />
+          )}
+          {rate && (
+            <TokenTableRow label={t('fee_rate')} value={`${rate * 100}%`} />
+          )}
+          <TokenTableRow
+            label={t('last_ledger')}
+            value={
+              <Link to={`/ledgers/${previousLedger}`}>{previousLedger}</Link>
+            }
+          />
+          <TokenTableRow
+            label={t('last_affecting_transaction')}
+            value={<Link to={`/transactions/${previousTxn}`}>{prevTxn}</Link>}
+          />
+          {emailHash && (
+            <TokenTableRow label={t('email_hash')} value={abbrvEmail} />
+          )}
+        </tbody>
+      </table>
+    )
+  }
+
+  const renderSettings = () => {
+    const { flags } = data
+
+    const rippling =
+      flags && flags.includes('lsfDefaultRipple') ? 'enabled' : 'disabled'
+    const depositAuth =
+      flags && flags.includes('lsfDepositAuth') ? 'enabled' : 'disabled'
+    const masterKey =
+      flags && flags.includes('lsfDisableMaster') ? 'disabled' : 'enabled'
+    const receivingXRP =
+      flags && flags.includes('lsfDisallowXRP') ? 'disabled' : 'enabled'
+    const frozen = flags && flags.includes('lsfGlobalFreeze') ? 'true' : 'false'
+    const noFreeze = flags && flags.includes('lsfNoFreeze') ? 'true' : 'false'
+    const requireAuth =
+      flags && flags.includes('lsfRequireAuth') ? 'true' : 'false'
+    const requireDestTag =
+      flags && flags.includes('lsfRequireDestTag') ? 'true' : 'false'
+
+    return (
+      <table className="token-table">
+        <tbody>
+          <TokenTableRow label="Rippling" value={rippling} />
+          <TokenTableRow label="Deposit Auth" value={depositAuth} />
+          <TokenTableRow label="Master Key" value={masterKey} />
+          <TokenTableRow label="Receiving XRP" value={receivingXRP} />
+          <TokenTableRow label="Frozen" value={frozen} />
+          <TokenTableRow label="No freeze" value={noFreeze} />
+          <TokenTableRow label="Require Auth" value={requireAuth} />
+          <TokenTableRow label="Require Dest Tag" value={requireDestTag} />
+        </tbody>
+      </table>
+    )
+  }
+
+  const renderHeaderContent = () => {
+    const { balance, sequence, obligations, reserve } = data
+    const currencyBalance = localizeNumber(
+      parseInt(balance, 10) / 1000000 || 0.0,
+      language,
+      CURRENCY_OPTIONS,
+    )
+    const reserveBalance = localizeNumber(
+      reserve || 0.0,
+      language,
+      CURRENCY_OPTIONS,
+    )
+    const obligationsBalance = formatLargeNumber(Number.parseFloat(obligations))
+
+    return (
+      <div className="section header-container">
+        <div className="info-container">
+          <div className="values">
+            <div className="title">{t('accounts.xrp_balance')}</div>
+            <div className="value">{currencyBalance}</div>
+          </div>
+          <div className="values">
+            <div className="title">{t('reserve')}</div>
+            <div className="value">{reserveBalance}</div>
+          </div>
+          <div className="values">
+            <div className="title">{t('sequence_number_short')}</div>
+            <div className="value">{sequence}</div>
+          </div>
+          <div className="values">
+            <div className="title">{t('issuer_address')}</div>
+            <div className="value">
+              <Account account={accountId} />
+            </div>
+          </div>
+          <div className="values">
+            <div className="title">{t('obligations')}</div>
+            <div className="value">
+              {obligationsBalance.num}
+              {obligationsBalance.unit}
+            </div>
+          </div>
+        </div>
+        <div className="bottom-container">
+          <div className="details">
+            <h2>{t('details')}</h2>
+            {renderDetails()}
+          </div>
+          <div className="settings">
+            <h2 className="title">{t('settings')}</h2>
+            {renderSettings()}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const { gravatar } = data
+  return (
+    <div className="box token-header">
+      <div className="section box-header">
+        <Currency currency={currency} />
+        {gravatar && <img alt={`${currency} logo`} src={gravatar} />}
+      </div>
+      <div className="box-content">
+        {loading ? <Loader /> : renderHeaderContent()}
+      </div>
+    </div>
+  )
+}
+
+export default connect(
+  (state: any) => ({
+    loading: state.tokenHeader.loading,
+    data: state.tokenHeader.data,
+  }),
+  (dispatch) => ({
+    actions: bindActionCreators(
+      {
+        loadTokenState,
+      },
+      dispatch,
+    ),
+  }),
+)(TokenHeader)

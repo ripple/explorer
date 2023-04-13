@@ -17,7 +17,7 @@ export function parser(tx: any, meta: any) {
     lockingIssue: tx.XChainBridge.LockingChainIssue,
     issuingDoor: tx.XChainBridge.IssuingChainDoor,
     issuingIssue: tx.XChainBridge.IssuingChainIssue,
-    bridgeOwner: doorNode.ModifiedNode.FinalFields.Account,
+    bridgeOwner: doorNode?.ModifiedNode?.FinalFields?.Account,
     claimId: tx.XChainClaimID,
     destination: tx.Destination,
     amount: formatAmount(tx.Amount),

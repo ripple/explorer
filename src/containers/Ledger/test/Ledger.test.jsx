@@ -1,31 +1,46 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom'
 import { describe, it, expect } from 'vitest'
+import { MemoryRouter as Router, Route } from 'react-router-dom'
+import { QueryClientProvider } from 'react-query'
 import mockLedger from './storedLedger.json'
 import i18n from '../../../i18n/testConfig'
-import { initialState } from '../../../rootReducer'
-import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../shared/utils'
-import Ledger from '../index'
+import { Ledger } from '../index'
+import { getLedger } from '../../../rippled'
+import { testQueryClient } from '../../test/QueryClient'
+import { Error as RippledError } from '../../../rippled/lib/utils'
+
+jest.mock('../../../rippled', () => {
+  const originalModule = jest.requireActual('../../../rippled')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    getLedger: jest.fn(),
+  }
+})
+
+const mockedGetLedger = getLedger
+
+export function flushPromises() {
+  return new Promise((resolve) => setImmediate(resolve))
+}
 
 describe('Ledger container', () => {
-  const middlewares = [thunk]
-  const mockStore = configureMockStore(middlewares)
-  const createWrapper = (state = {}) => {
-    const store = mockStore({ ...initialState, ...state })
-    return mount(
+  const createWrapper = (identifier = 38079857) =>
+    mount(
       <I18nextProvider i18n={i18n}>
-        <Provider store={store}>
-          <Router>
-            <Ledger match={{ params: { identifier: '38079857' } }} />
+        <QueryClientProvider client={testQueryClient}>
+          <Router initialEntries={[`/ledgers/${identifier}`]}>
+            <Route exact path="/ledgers/:identifier" component={Ledger} />
           </Router>
-        </Provider>
+        </QueryClientProvider>
       </I18nextProvider>,
     )
-  }
+
+  afterEach(() => {
+    mockedGetLedger.mockReset()
+  })
 
   it('renders without crashing', () => {
     const wrapper = createWrapper()
@@ -33,20 +48,18 @@ describe('Ledger container', () => {
   })
 
   it('renders loading', () => {
-    const state = { ...initialState }
-    state.ledger.data = {}
-    state.ledger.loading = true
-    const wrapper = createWrapper(state)
+    const wrapper = createWrapper()
     expect(wrapper.find('.loader').length).toBe(1)
     wrapper.unmount()
   })
 
-  it('renders ledger navbar', () => {
-    const state = { ...initialState }
-    state.ledger.data = mockLedger
-    state.ledger.loading = false
-    state.ledger.error = false
-    const wrapper = createWrapper(state)
+  it('renders ledger navbar', async () => {
+    mockedGetLedger.mockImplementation(() => Promise.resolve(mockLedger))
+
+    const wrapper = createWrapper()
+    await flushPromises()
+    wrapper.update()
+
     const header = wrapper.find('.ledger-header')
     expect(header.length).toBe(1)
     expect(header.find('.ledger-nav').length).toBe(1)
@@ -54,12 +67,13 @@ describe('Ledger container', () => {
     wrapper.unmount()
   })
 
-  it('renders ledger summary', () => {
-    const state = { ...initialState }
-    state.ledger.data = mockLedger
-    state.ledger.loading = false
-    state.ledger.error = false
-    const wrapper = createWrapper(state)
+  it('renders ledger summary', async () => {
+    mockedGetLedger.mockImplementation(() => Promise.resolve(mockLedger))
+
+    const wrapper = createWrapper()
+    await flushPromises()
+    wrapper.update()
+
     const summary = wrapper.find('.ledger-header .ledger-info')
 
     expect(summary.length).toBe(1)
@@ -72,12 +86,13 @@ describe('Ledger container', () => {
     wrapper.unmount()
   })
 
-  it('renders transaction table header', () => {
-    const state = { ...initialState }
-    state.ledger.data = mockLedger
-    state.ledger.loading = false
-    state.ledger.error = false
-    const wrapper = createWrapper(state)
+  it('renders transaction table header', async () => {
+    mockedGetLedger.mockImplementation(() => Promise.resolve(mockLedger))
+
+    const wrapper = createWrapper()
+    await flushPromises()
+    wrapper.update()
+
     const table = wrapper.find('.transaction-table')
     expect(table.length).toBe(1)
     expect(table.find('.transaction-li-header').length).toBe(1)
@@ -86,12 +101,13 @@ describe('Ledger container', () => {
     wrapper.unmount()
   })
 
-  it('renders all transactions', () => {
-    const state = { ...initialState }
-    state.ledger.data = mockLedger
-    state.ledger.loading = false
-    state.ledger.error = false
-    const wrapper = createWrapper(state)
+  it('renders all transactions', async () => {
+    mockedGetLedger.mockImplementation(() => Promise.resolve(mockLedger))
+
+    const wrapper = createWrapper()
+    await flushPromises()
+    wrapper.update()
+
     const table = wrapper.find('.transaction-table')
     expect(table.length).toBe(1)
     expect(table.find('.transaction-li').length).toBe(
@@ -100,34 +116,41 @@ describe('Ledger container', () => {
     wrapper.unmount()
   })
 
-  it('renders 404 page on no match', () => {
-    const state = { ...initialState }
-    state.ledger.data = { error: NOT_FOUND, id: 1 }
-    state.ledger.loading = false
-    state.ledger.error = true
+  it('renders 404 page on no match', async () => {
+    mockedGetLedger.mockImplementation(() =>
+      Promise.reject(new RippledError('ledger not found', 404)),
+    )
 
-    const wrapper = createWrapper(state)
+    const wrapper = createWrapper()
+    await flushPromises()
+    wrapper.update()
+
     expect(wrapper.find('.no-match .title').text()).toEqual('ledger_not_found')
     wrapper.unmount()
   })
 
-  it('renders server error', () => {
-    const state = { ...initialState }
-    state.ledger.data = { error: SERVER_ERROR, id: 1 }
-    state.ledger.loading = false
-    state.ledger.error = true
+  it('renders server error', async () => {
+    mockedGetLedger.mockImplementation(() =>
+      Promise.reject(new RippledError('ledger failed', 500)),
+    )
 
-    const wrapper = createWrapper(state)
+    const wrapper = createWrapper()
+    await flushPromises()
+    wrapper.update()
+
     expect(wrapper.find('.no-match .title').text()).toEqual('generic_error')
     wrapper.unmount()
   })
 
-  it('renders invalid id error', () => {
-    const state = { ...initialState }
-    state.ledger.data = { error: BAD_REQUEST, id: 'zzzz' }
-    state.ledger.loading = false
+  it('renders invalid id error', async () => {
+    mockedGetLedger.mockImplementation(() =>
+      Promise.reject(new RippledError('invalid ledger index/hash', 400)),
+    )
 
-    const wrapper = createWrapper(state)
+    const wrapper = createWrapper('aaaa')
+    await flushPromises()
+    wrapper.update()
+
     expect(wrapper.find('.no-match .title').text()).toEqual('invalid_ledger_id')
     wrapper.unmount()
   })
