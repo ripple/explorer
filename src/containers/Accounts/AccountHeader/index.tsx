@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadAccountState } from './actions'
@@ -320,7 +320,9 @@ const AccountHeader = (props: AccountHeaderProps) => {
             ) : (
               <>
                 <div className="title">
-                  <Currency currency={currencySelected} /> Balance
+                  <Trans i18nKey="currency_balance">
+                    <Currency currency={currencySelected} />
+                  </Trans>
                 </div>
                 <div className="value">{balance}</div>
               </>
