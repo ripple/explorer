@@ -49,7 +49,8 @@ export const XChainBridge = (props: XChainBridgeProps) => {
   } = props
 
   return (
-    <>
+    <div className="xchainbridge">
+      <div className="xchainbridge-title">{t('xchainbridge')}</div>
       <SimpleRow label={t('locking_chain_door')} data-test="locking-chain-door">
         <Account account={lockingDoor} link={lockingDoor === bridgeOwner} />
       </SimpleRow>
@@ -79,6 +80,6 @@ export const XChainBridge = (props: XChainBridgeProps) => {
           <Amount value={signatureReward} />
         </SimpleRow>
       )}
-    </>
+    </div>
   )
 }
