@@ -12,6 +12,7 @@ const createWrapper = (component: JSX.Element) =>
   )
 
 const ACCOUNT = 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt'
+const ACCOUNT_PLUS_DT = `${ACCOUNT}:381702`
 
 describe('Account', () => {
   afterEach(cleanup)
@@ -34,7 +35,7 @@ describe('Account', () => {
   })
 
   it('should render with a destination tag', () => {
-    createWrapper(<Account account={ACCOUNT} />)
+    createWrapper(<Account account={ACCOUNT_PLUS_DT} />)
     const link = screen.getByTestId('account')
     expect(link).toHaveClass('account')
     expect(link).toHaveTextContent(ACCOUNT)
@@ -44,7 +45,7 @@ describe('Account', () => {
   })
 
   it('should render with a destination tag and no link', () => {
-    createWrapper(<Account account={ACCOUNT} link={false} />)
+    createWrapper(<Account account={ACCOUNT_PLUS_DT} link={false} />)
     const link = screen.getByTestId('account')
     expect(link).toHaveClass('account')
     expect(link).toHaveTextContent(ACCOUNT)
