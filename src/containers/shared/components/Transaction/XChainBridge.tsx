@@ -3,6 +3,7 @@ import { IssuedCurrency } from '../../types'
 import { Account } from '../Account'
 import { Amount } from '../Amount'
 import Currency from '../Currency'
+import { SimpleGroup } from './SimpleGroup'
 import { SimpleRow } from './SimpleRow'
 
 interface XChainIssueProps {
@@ -49,8 +50,7 @@ export const XChainBridge = (props: XChainBridgeProps) => {
   } = props
 
   return (
-    <div className="xchainbridge">
-      <div className="xchainbridge-title">{t('xchainbridge')}</div>
+    <SimpleGroup title={t('xchainbridge')}>
       <SimpleRow label={t('locking_chain_door')} data-test="locking-chain-door">
         <Account account={lockingDoor} link={lockingDoor === bridgeOwner} />
       </SimpleRow>
@@ -80,6 +80,6 @@ export const XChainBridge = (props: XChainBridgeProps) => {
           <Amount value={signatureReward} />
         </SimpleRow>
       )}
-    </div>
+    </SimpleGroup>
   )
 }
