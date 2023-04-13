@@ -38,7 +38,9 @@ export const Dropdown = ({ title, children, className }: DropdownProps) => {
   }, [])
 
   useEffect(
-    () => () => document.removeEventListener('click', globalClickListener),
+    (): (() => void) => () =>
+      // remove listener when cleaning up component
+      document.removeEventListener('click', globalClickListener),
     [globalClickListener],
   )
 
