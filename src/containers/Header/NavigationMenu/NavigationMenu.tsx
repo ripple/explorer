@@ -1,13 +1,14 @@
+import classnames from 'classnames'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
 import Logo from '../../shared/images/XRPLedger.svg'
 import { Search } from '../Search'
+import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
 
 import routesConfig from '../routes'
 import './NavigationMenu.scss'
-import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
 
 export const NavigationMenu = () => {
   const { t } = useTranslation()
@@ -22,25 +23,26 @@ export const NavigationMenu = () => {
   }
 
   return (
-    <div className="bottom-bar">
-      <Link to="/" className="nav-link logo">
+    <nav className="navbar">
+      <Link to="/" className="navbar-brand">
         <Logo alt={t('xrpl_explorer')} />
       </Link>
 
       <input
-        className="side-menu"
+        className="navbar-toggle-state"
         type="checkbox"
-        id="side-menu"
+        id="navbar-toggle-state"
         ref={toggle}
+        hidden
       />
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="mobile-menu-toggle" htmlFor="side-menu">
-        <span className="mobile-menu-line" />
+      <label className="navbar-toggle" htmlFor="navbar-toggle-state">
+        <span className="navbar-toggle-line" />
       </label>
 
-      <nav className="nav">
-        <ul className="menu">
-          <li className="nav-search">
+      <div className="navbar-collapse">
+        <ul className="navbar-nav">
+          <li className="nav-item nav-search">
             <Search />
           </li>
           {routesConfig.map((nav) => {
@@ -48,27 +50,28 @@ export const NavigationMenu = () => {
 
             if (nav.children) {
               return (
-                <li key={nav.title}>
-                  <div className="nav-link">
-                    <Dropdown title={title} className="dropdown-right">
-                      {nav.children.map((child) => (
-                        <DropdownItem
-                          href={child.path}
-                          data-title={title}
-                          className="nav-link"
-                        >
-                          {t(child.title)}
-                        </DropdownItem>
-                      ))}
-                    </Dropdown>
-                  </div>
-                </li>
+                <Dropdown
+                  key={nav.title}
+                  title={title}
+                  className="nav-item dropdown-right"
+                  tagName="li"
+                >
+                  {nav.children.map((child) => (
+                    <DropdownItem
+                      href={child.path}
+                      data-title={title}
+                      className="nav-link"
+                    >
+                      {t(child.title)}
+                    </DropdownItem>
+                  ))}
+                </Dropdown>
               )
             }
 
             if (nav.link) {
               return (
-                <li key={nav.title}>
+                <li key={nav.title} className="nav-item">
                   <a
                     href={nav.link}
                     target="_blank"
@@ -86,7 +89,10 @@ export const NavigationMenu = () => {
               (pathname.indexOf(nav.path || '') === 0 && nav.path !== '/')
 
             return (
-              <li key={nav.title} className={current ? 'selected' : ''}>
+              <li
+                key={nav.title}
+                className={classnames('nav-item', current && 'selected')}
+              >
                 <Link
                   to={nav.path || ''}
                   className="nav-link"
@@ -99,7 +105,7 @@ export const NavigationMenu = () => {
             )
           })}
         </ul>
-      </nav>
-    </div>
+      </div>
+    </nav>
   )
 }

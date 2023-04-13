@@ -22,3 +22,10 @@
     }
   }
 }
+
+// Only show search bar when we know which network to query
+.header-no-network {
+  .search {
+    display: none;
+  }
+}

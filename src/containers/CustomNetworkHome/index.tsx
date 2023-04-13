@@ -1,7 +1,7 @@
 import { KeyboardEvent, MouseEvent as ReactMouseEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import Header from '../Header'
+import { Header } from '../Header'
 import { ANALYTIC_TYPES, analytics } from '../shared/utils'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'

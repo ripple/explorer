@@ -4,8 +4,9 @@ import ArrowIcon from '../../images/down_arrow.svg'
 import './dropdown.scss'
 
 export interface DropdownProps {
+  tagName?: `div` | `li`
   title: string | JSX.Element
-  children: any
+  children: JSX.Element[]
   className?: string
 }
 
@@ -24,9 +25,14 @@ export interface DropdownProps {
  *   <DropdownItem>Option 2</DropdownItem>
  * </Dropdown>
  */
-export const Dropdown = ({ title, children, className }: DropdownProps) => {
+export const Dropdown = ({
+  title,
+  children,
+  className,
+  tagName = `div`,
+}: DropdownProps) => {
   const [expanded, setExpanded] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<any>(null)
 
   const globalClickListener = useCallback((nativeEvent) => {
     // ignore click event happened inside the dropdown menu
@@ -50,14 +56,16 @@ export const Dropdown = ({ title, children, className }: DropdownProps) => {
     document.addEventListener('click', globalClickListener)
   }
 
+  const TagName = tagName
+
   return (
-    <div
+    <TagName
+      ref={dropdownRef}
       className={classnames(
         'dropdown',
         expanded && 'dropdown-expanded',
         className,
       )}
-      ref={dropdownRef}
     >
       <button
         className="btn dropdown-toggle"
@@ -78,6 +86,6 @@ export const Dropdown = ({ title, children, className }: DropdownProps) => {
       >
         {children}
       </div>
-    </div>
+    </TagName>
   )
 }

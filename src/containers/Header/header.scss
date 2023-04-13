@@ -2,17 +2,13 @@
 
 /* Header */
 .header {
-  padding: 0 16px 16px 16px;
   position: sticky;
   z-index: 20;
   top: 0;
   display: flex;
   width: 100%;
   flex-direction: column;
+  padding: 0 16px 16px;
   background: $black;
   gap: 8px;
-
-  .nav-search {
-    display: none;
-  }
 }

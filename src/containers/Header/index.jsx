@@ -2,18 +2,16 @@ import classnames from 'classnames'
 import { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router'
-import { connect } from 'react-redux'
-import { BREAKPOINTS, ANALYTIC_TYPES, analytics } from '../shared/utils'
+import { ANALYTIC_TYPES, analytics } from '../shared/utils'
 
 import Banner from './Banner'
 import ArrowIcon from '../shared/images/down_arrow.svg'
 import CheckIcon from '../shared/images/checkmark.svg'
+import SocketContext from '../shared/SocketContext'
+import { NavigationMenu } from './NavigationMenu'
 import './header.scss'
 import './NetworkSelector/NetworkSelector.scss'
 import './menu.scss'
-import SocketContext from '../shared/SocketContext'
-import { NavigationMenu } from './NavigationMenu/NavigationMenu'
 
 const STATIC_ENV_LINKS = {
   mainnet: process.env.VITE_MAINNET_LINK,
@@ -32,9 +30,8 @@ function getSocketUrl(socket) {
   return socket?.endpoint.replace('wss://', '').replace('ws://', '')
 }
 
-const Header = ({ inNetwork }) => {
+export const Header = ({ inNetwork }) => {
   const rippledSocket = useContext(SocketContext)
-  const location = useLocation()
   const [expanded, setExpanded] = useState(false)
   const { t } = useTranslation()
 
@@ -44,10 +41,6 @@ const Header = ({ inNetwork }) => {
       eventAction: desiredLink,
     })
     window.location.assign(desiredLink)
-  }
-
-  function getCurrentPath() {
-    return location.pathname
   }
 
   function toggleExpand(event) {
@@ -154,7 +147,7 @@ const Header = ({ inNetwork }) => {
   }
 
   return (
-    <header className={classnames('header', inNetwork && 'header-in-network')}>
+    <header className={classnames('header', !inNetwork && 'header-no-network')}>
       <div className={`network ${currentMode}`}>
         <div
           className={classnames('dropdown', { expanded })}
@@ -213,12 +206,5 @@ Header.defaultProps = {
 }
 
 Header.propTypes = {
-  width: PropTypes.number.isRequired,
-  isScrolled: PropTypes.bool.isRequired,
   inNetwork: PropTypes.bool,
 }
-
-export default connect((state) => ({
-  width: state.app.width,
-  isScrolled: state.app.isScrolled,
-}))(Header)

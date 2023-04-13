@@ -6,93 +6,74 @@ $menu-toggle-size: 25px;
 $menu-toggle-line-spacing: math.div($menu-toggle-size, 4);
 $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
 
-.arrow {
-  height: 10px;
-
-  &.open {
-    transform: rotate(180deg);
-  }
-}
-
 .topbar,
-.bottom-bar {
+.navbar {
   display: flex;
   width: 100%;
 }
 
-.header-in-network {
-  .nav-search {
-    display: block;
-  }
-
-  .nav {
-    flex-basis: 100%;
-  }
-}
-
-.bottom-bar {
+.navbar {
   flex-wrap: wrap;
   align-items: center;
   margin: 0 auto;
   gap: 0 16px;
 
-  .nav {
-    width: 100%;
-    height: 100%;
-    max-height: 0;
-    margin-left: auto;
-
-    .nav-link {
-      color: $white;
-      font-size: 14px;
-    }
-  }
-
-  .menu a {
+  .navbar-nav a {
     display: block;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-
-    svg {
-      height: 26px;
-      color: #fff;
-    }
   }
 }
 
+.navbar-brand {
+  display: flex;
+  align-items: center;
+
+  svg {
+    height: 26px;
+    color: #fff;
+  }
+}
+
+.navbar-collapse {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-basis: 100%;
+  margin-left: auto;
+}
+
+.nav-search {
+  flex-grow: 1;
+}
+
+.nav-link {
+  color: $white;
+  font-size: 14px;
+}
+
 /* Nav menu */
-.menu {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+.navbar-nav {
   display: block;
+  padding: 0;
+  margin: 0 auto 0 0;
+  list-style: none;
 
   .btn {
-    border: none;
     padding: 0;
+    border: none;
     font-weight: normal;
   }
 
   .dropdown-toggle {
+    gap: 8px;
+
     &:hover {
       background: transparent;
     }
-    gap: 8px;
-  }
-
-  .dropdown-menu {
-    //position: static;
-    //border: none;
-    //padding: 0;
-    //margin: 0;
   }
 }
 
 /* Menu Icon */
-.mobile-menu-toggle {
+.navbar-toggle {
   display: flex;
   width: $menu-toggle-size;
   height: $menu-toggle-size;
@@ -102,11 +83,7 @@ $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
   cursor: pointer;
 }
 
-.side-menu {
-  display: none;
-}
-
-.mobile-menu-line {
+.navbar-toggle-line {
   position: relative;
   display: block;
   width: $menu-toggle-line-length;
@@ -134,8 +111,8 @@ $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
 }
 
 /* Open Mobile Menu */
-.side-menu:checked ~ .mobile-menu-toggle {
-  .mobile-menu-line {
+.navbar-toggle-state:checked ~ .navbar-toggle {
+  .navbar-toggle-line {
     width: 51px; // sqrt(($menu-toggle-line-length)^2 * 2)
     background: transparent;
 
@@ -153,11 +130,15 @@ $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
 
 // Prevents navigation from keeping styles when menu is opened on mobile sizes and then resized larger
 @media (max-width: $tablet-landscape-upper-boundary) {
-  .side-menu:checked ~ nav {
+  .navbar-collapse {
     max-height: 100%;
     margin-top: 24px;
 
-    li {
+    .navbar-toggle-state:checked ~ & {
+      display: block;
+    }
+
+    .nav-item {
       margin-bottom: 10px;
     }
 
@@ -172,10 +153,21 @@ $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
     .selected .nav-link {
       border-left-color: #32e685;
     }
+  }
 
-    .nav-search .search {
-      max-width: 100%;
-    }
+  .dropdown {
+    display: block;
+  }
+
+  .dropdown-menu {
+    position: static;
+    padding-left: 15px;
+    border: none;
+    margin: 0;
+  }
+
+  .dropdown-item:hover {
+    background: transparent !important;
   }
 
   .dot {
@@ -185,37 +177,33 @@ $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
 
 /* Responsiveness */
 @media (min-width: $tablet-landscape-upper-boundary) {
-  .bottom-bar {
+  .navbar {
     flex-wrap: nowrap;
     margin: 0 auto;
 
-    .nav {
+    .navbar-collapse {
       position: relative;
       top: 0;
+      display: block;
       width: fit-content;
       max-height: none;
       background-color: transparent;
     }
-
-    .nav-search {
-      flex-grow: 1;
-      text-align: center;
-    }
   }
 
-  .mobile-menu-toggle {
+  .navbar-toggle {
     display: none;
   }
 
-  .menu {
+  .navbar-nav {
     display: flex !important;
     align-items: center;
     gap: 0 28px;
-  }
 
-  .menu li {
-    position: relative;
-    text-align: center;
+    .nav-item {
+      position: relative;
+      text-align: center;
+    }
   }
 }
 

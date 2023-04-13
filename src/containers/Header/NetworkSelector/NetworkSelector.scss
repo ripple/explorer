@@ -17,11 +17,13 @@
 .network {
   display: flex;
   height: 23px;
+  padding: 0 16px;
+  margin: 0 -16px;
 
   .arrow-container {
-    align-items: center;
     display: flex;
     width: 100%;
+    align-items: center;
 
     .arrow {
       width: 10px;
