@@ -1,0 +1,240 @@
+@use 'sass:math';
+
+@import '../../shared/css/variables';
+
+$menu-toggle-size: 25px;
+$menu-toggle-line-spacing: math.div($menu-toggle-size, 4);
+$menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
+
+.arrow {
+  height: 10px;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.topbar,
+.bottom-bar {
+  display: flex;
+  width: 100%;
+}
+
+.header-in-network {
+  .nav-search {
+    display: block;
+  }
+
+  .nav {
+    flex-basis: 100%;
+  }
+}
+
+.bottom-bar {
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 auto;
+  gap: 0 16px;
+
+  .nav {
+    width: 100%;
+    height: 100%;
+    max-height: 0;
+    margin-left: auto;
+
+    .nav-link {
+      color: $white;
+      font-size: 14px;
+    }
+  }
+
+  .menu a {
+    display: block;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+
+    svg {
+      height: 26px;
+      color: #fff;
+    }
+  }
+}
+
+/* Nav menu */
+.menu {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: block;
+
+  .btn {
+    border: none;
+    padding: 0;
+    font-weight: normal;
+  }
+
+  .dropdown-toggle {
+    &:hover {
+      background: transparent;
+    }
+    gap: 8px;
+  }
+
+  .dropdown-menu {
+    //position: static;
+    //border: none;
+    //padding: 0;
+    //margin: 0;
+  }
+}
+
+/* Menu Icon */
+.mobile-menu-toggle {
+  display: flex;
+  width: $menu-toggle-size;
+  height: $menu-toggle-size;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.side-menu {
+  display: none;
+}
+
+.mobile-menu-line {
+  position: relative;
+  display: block;
+  width: $menu-toggle-line-length;
+  height: 2px;
+  background: white;
+
+  &::before,
+  &::after {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: white;
+    content: '';
+    transition: all 0.2s ease-out;
+  }
+
+  &::before {
+    top: $menu-toggle-line-spacing;
+  }
+
+  &::after {
+    top: -$menu-toggle-line-spacing;
+  }
+}
+
+/* Open Mobile Menu */
+.side-menu:checked ~ .mobile-menu-toggle {
+  .mobile-menu-line {
+    width: 51px; // sqrt(($menu-toggle-line-length)^2 * 2)
+    background: transparent;
+
+    &::before {
+      top: 0;
+      transform: rotate(-45deg);
+    }
+
+    &::after {
+      top: 0;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+// Prevents navigation from keeping styles when menu is opened on mobile sizes and then resized larger
+@media (max-width: $tablet-landscape-upper-boundary) {
+  .side-menu:checked ~ nav {
+    max-height: 100%;
+    margin-top: 24px;
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .nav-link,
+    .dropdown-toggle {
+      padding: 15px 1px 16px 8px;
+      border-left: 8px solid transparent;
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .selected .nav-link {
+      border-left-color: #32e685;
+    }
+
+    .nav-search .search {
+      max-width: 100%;
+    }
+  }
+
+  .dot {
+    display: none;
+  }
+}
+
+/* Responsiveness */
+@media (min-width: $tablet-landscape-upper-boundary) {
+  .bottom-bar {
+    flex-wrap: nowrap;
+    margin: 0 auto;
+
+    .nav {
+      position: relative;
+      top: 0;
+      width: fit-content;
+      max-height: none;
+      background-color: transparent;
+    }
+
+    .nav-search {
+      flex-grow: 1;
+      text-align: center;
+    }
+  }
+
+  .mobile-menu-toggle {
+    display: none;
+  }
+
+  .menu {
+    display: flex !important;
+    align-items: center;
+    gap: 0 28px;
+  }
+
+  .menu li {
+    position: relative;
+    text-align: center;
+  }
+}
+
+.selected {
+  .dot {
+    position: absolute;
+    top: calc(100% + 6px);
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    margin-left: 50%;
+    background-color: $green;
+  }
+
+  :hover {
+    color: $white;
+  }
+
+  :focus {
+    color: $white;
+  }
+}

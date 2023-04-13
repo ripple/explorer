@@ -9,6 +9,19 @@ const routesConfig = [
     title: 'network',
   },
   {
+    title: 'tokens',
+    children: [
+      {
+        title: 'Fungible Tokens',
+        path: '/tokens',
+      },
+      {
+        title: 'Non-Fungible Tokens',
+        path: '/nfts',
+      },
+    ],
+  },
+  {
     link: 'https://xrpl.org',
     title: 'xrpl_org',
   },

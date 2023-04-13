@@ -95,14 +95,10 @@ const normalize = (id: string, type: string) => {
 }
 
 export interface SearchProps {
-  mobile: boolean
-  callback: Function
+  callback?: Function
 }
 
-export const Search = ({
-  callback = () => {},
-  mobile = false,
-}: SearchProps) => {
+export const Search = ({ callback = () => {} }: SearchProps) => {
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
   const history = useHistory()
@@ -129,7 +125,7 @@ export const Search = ({
   }
 
   return (
-    <div className={mobile ? 'search' : 'search in-header'}>
+    <div className="search">
       <input
         type="text"
         placeholder={t('header.search.placeholder')}

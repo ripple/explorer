@@ -3,18 +3,17 @@ import { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { BREAKPOINTS, ANALYTIC_TYPES, analytics } from '../shared/utils'
-import Menu from './Menu'
-import MobileMenu from './MobileMenu'
+
 import Banner from './Banner'
-import { Search } from './Search'
-import Logo from '../shared/images/XRPLedger.svg'
 import ArrowIcon from '../shared/images/down_arrow.svg'
 import CheckIcon from '../shared/images/checkmark.svg'
 import './header.scss'
+import './NetworkSelector/NetworkSelector.scss'
+import './menu.scss'
 import SocketContext from '../shared/SocketContext'
+import { NavigationMenu } from './NavigationMenu/NavigationMenu'
 
 const STATIC_ENV_LINKS = {
   mainnet: process.env.VITE_MAINNET_LINK,
@@ -33,7 +32,7 @@ function getSocketUrl(socket) {
   return socket?.endpoint.replace('wss://', '').replace('ws://', '')
 }
 
-const Header = (props) => {
+const Header = ({ inNetwork }) => {
   const rippledSocket = useContext(SocketContext)
   const location = useLocation()
   const [expanded, setExpanded] = useState(false)
@@ -139,15 +138,6 @@ const Header = (props) => {
     )
   }
 
-  const { isScrolled, width, inNetwork } = props
-  const menu =
-    width >= BREAKPOINTS.landscape || !inNetwork ? (
-      <Menu t={t} currentPath={getCurrentPath()} inNetwork={inNetwork} />
-    ) : null
-  const mobileMenu =
-    width < BREAKPOINTS.landscape && inNetwork ? (
-      <MobileMenu t={t} currentPath={getCurrentPath()} inNetwork={inNetwork} />
-    ) : null
   const currentMode = process.env.VITE_ENVIRONMENT
 
   const urlLinkMap = {
@@ -164,78 +154,57 @@ const Header = (props) => {
   }
 
   return (
-    <>
-      <div className={classnames('header', { 'header-shadow': isScrolled })}>
-        <div className={`network ${currentMode}`}>
-          <div
-            className={classnames('dropdown', { expanded })}
-            role="menubar"
-            tabIndex={0}
-            onClick={toggleExpand}
-            onKeyUp={toggleExpand}
-          >
-            <div className="bg" />
-            {!inNetwork &&
-              !expanded &&
-              renderDropdown(
-                'no-network',
-                handleCustomNetworkClick,
-                classnames('item', 'custom', { selected: true }),
-                t('no_network_selected'),
-              )}
-            {Object.keys(urlLinkMap).map((network) =>
-              isCustomNetwork(network)
-                ? renderDropdown(
-                    network,
-                    handleCustomNetworkClick,
-                    classnames('item', 'custom', {
-                      selected: network === rippledUrl,
-                    }),
-                    `${t('custom_network_data')}: ${network.toLowerCase()}`,
-                  )
-                : renderDropdown(
-                    network,
-                    handleClick,
-                    classnames('item', { selected: currentMode === network }),
-                    t(`${network}_data`),
-                  ),
+    <header className={classnames('header', inNetwork && 'header-in-network')}>
+      <div className={`network ${currentMode}`}>
+        <div
+          className={classnames('dropdown', { expanded })}
+          role="menubar"
+          tabIndex={0}
+          onClick={toggleExpand}
+          onKeyUp={toggleExpand}
+        >
+          <div className="bg" />
+          {!inNetwork &&
+            !expanded &&
+            renderDropdown(
+              'no-network',
+              handleCustomNetworkClick,
+              classnames('item', 'custom', { selected: true }),
+              t('no_network_selected'),
             )}
-            {renderCustomNetworkInput()}
-          </div>
-          <div
-            className="arrow-container"
-            onClick={toggleExpand}
-            onKeyUp={toggleExpand}
-            role="menubar"
-            tabIndex={0}
-            value="arrow"
-          >
-            <ArrowIcon className={classnames('arrow', { open: expanded })} />
-          </div>
-        </div>
-        <Banner />
-        <div className="topbar">
-          <div className="element">
-            <Link to="/">
-              <Logo className="logo" alt={t('xrpl_explorer')} />
-            </Link>
-          </div>
-          {inNetwork && (
-            <div className="element">
-              <Search />
-            </div>
+          {Object.keys(urlLinkMap).map((network) =>
+            isCustomNetwork(network)
+              ? renderDropdown(
+                  network,
+                  handleCustomNetworkClick,
+                  classnames('item', 'custom', {
+                    selected: network === rippledUrl,
+                  }),
+                  `${t('custom_network_data')}: ${network.toLowerCase()}`,
+                )
+              : renderDropdown(
+                  network,
+                  handleClick,
+                  classnames('item', { selected: currentMode === network }),
+                  t(`${network}_data`),
+                ),
           )}
-          <div
-            className={classnames('element', { 'not-in-network': !inNetwork })}
-          >
-            {menu}
-          </div>
-          {mobileMenu}
+          {renderCustomNetworkInput()}
         </div>
-
-        <div className="clear" />
+        <div
+          className="arrow-container"
+          onClick={toggleExpand}
+          onKeyUp={toggleExpand}
+          role="menubar"
+          tabIndex={0}
+          value="arrow"
+        >
+          <ArrowIcon className={classnames('arrow', { open: expanded })} />
+        </div>
       </div>
-    </>
+      <Banner />
+      <NavigationMenu />
+    </header>
   )
 }
 
