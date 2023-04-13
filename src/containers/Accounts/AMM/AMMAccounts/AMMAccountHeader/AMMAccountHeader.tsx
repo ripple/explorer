@@ -1,7 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import '../../../../shared/css/nested-menu.scss'
 import '../../../AccountHeader/styles.scss'
-import '../../../AccountHeader/balance-selector.scss'
 import {
   formatTradingFee,
   localizeBalance,

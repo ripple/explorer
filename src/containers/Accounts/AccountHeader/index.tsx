@@ -1,18 +1,16 @@
-import { useContext, useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadAccountState } from './actions'
 import Loader from '../../shared/components/Loader'
-import '../../shared/css/nested-menu.scss'
 import './styles.scss'
-import './balance-selector.scss'
-import BalanceSelector from './BalanceSelector'
+import { BalanceSelector } from './BalanceSelector/BalanceSelector'
 import { Account } from '../../shared/components/Account'
 import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import InfoIcon from '../../shared/images/info.svg'
+import { useLanguage } from '../../shared/hooks'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -21,16 +19,62 @@ const CURRENCY_OPTIONS = {
   maximumFractionDigits: 6,
 }
 
-const AccountHeader = (props) => {
-  const [showBalanceSelector, setShowBalanceSelector] = useState(false)
+interface AccountHeaderProps {
+  onSetCurrencySelected: (currency: string) => void
+  currencySelected: string
+  loading: boolean
+  accountId: string
+  data: {
+    balances: {
+      XRP: number
+    }
+    paychannels: {
+      // eslint-disable-next-line camelcase
+      total_available: string
+      channels: any[]
+    }
+    escrows: {
+      totalIn: number
+      totalOut: number
+    }
+    signerList: {
+      signers: {
+        account: string
+        weight: number
+      }[]
+      quorum: number
+      maxSigners: number
+    }
+    info: {
+      reserve: number
+      sequence: number
+      ticketCount: number
+      domain: string
+      emailHash: string
+      flags: string[]
+      nftMinter: string
+    }
+    xAddress: {
+      classicAddress: string
+      tag: number | boolean
+      test: boolean
+    }
+    deleted: boolean
+  }
+  actions: {
+    loadAccountState: typeof loadAccountState
+  }
+}
+
+const AccountHeader = (props: AccountHeaderProps) => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
+  const language = useLanguage()
 
   const {
     accountId,
     actions,
     data,
-    language,
     onSetCurrencySelected,
     currencySelected,
     loading,
@@ -40,27 +84,14 @@ const AccountHeader = (props) => {
     actions.loadAccountState(accountId, rippledSocket)
   }, [accountId, actions, rippledSocket])
 
-  function toggleBalanceSelector(force) {
-    setShowBalanceSelector(force !== undefined ? force : !showBalanceSelector)
-  }
-
   function renderBalancesSelector() {
     const { balances = {} } = data
     return (
       Object.keys(balances).length > 1 && (
         <div className="balance-selector-container">
           <BalanceSelector
-            language={language}
-            text={`${Object.keys(balances).length - 1} ${t(
-              'accounts.other_balances',
-            )}`}
-            expandMenu={showBalanceSelector}
             balances={balances}
-            onClick={() => toggleBalanceSelector()}
-            onMouseLeave={() => toggleBalanceSelector(false)}
-            onSetCurrencySelected={(currency) =>
-              onSetCurrencySelected(currency)
-            }
+            onSetCurrencySelected={onSetCurrencySelected}
             currencySelected={currencySelected}
           />
         </div>
@@ -151,7 +182,7 @@ const AccountHeader = (props) => {
   function renderExtendedAddress() {
     const { xAddress } = data // undefined when page has not yet finished loading
 
-    let messageAboutTag = ''
+    let messageAboutTag: JSX.Element | string = ''
     if (xAddress && xAddress.tag !== false) {
       messageAboutTag = (
         <li className="tag-info">
@@ -236,10 +267,10 @@ const AccountHeader = (props) => {
                 <a href={`http://${info.domain}`}>{info.domain}</a>
               </li>
             )}
-            {info.email_hash && (
+            {info.emailHash && (
               <li>
                 <span className="label"> {t('email_hash')}: </span>
-                <b>{info.email_hash}</b>
+                <b>{info.emailHash}</b>
               </li>
             )}
             {info.nftMinter && (
@@ -317,60 +348,8 @@ const AccountHeader = (props) => {
   )
 }
 
-AccountHeader.propTypes = {
-  language: PropTypes.string.isRequired,
-  onSetCurrencySelected: PropTypes.func.isRequired,
-  currencySelected: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
-  accountId: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    balances: PropTypes.shape({
-      XRP: PropTypes.number,
-    }),
-    paychannels: PropTypes.shape({
-      total_available: PropTypes.string,
-      channels: PropTypes.shape({
-        length: PropTypes.number,
-      }),
-    }),
-    escrows: PropTypes.shape({
-      totalIn: PropTypes.number,
-      totalOut: PropTypes.number,
-    }),
-    signerList: PropTypes.shape({
-      signers: PropTypes.arrayOf(
-        PropTypes.shape({
-          account: PropTypes.string.isRequired,
-          weight: PropTypes.number.isRequired,
-        }),
-      ),
-      quorum: PropTypes.number,
-      maxSigners: PropTypes.number,
-    }),
-    info: PropTypes.shape({
-      reserve: PropTypes.number,
-      sequence: PropTypes.number,
-      ticketCount: PropTypes.number,
-      domain: PropTypes.string,
-      email_hash: PropTypes.string,
-      flags: PropTypes.arrayOf(PropTypes.string),
-      nftMinter: PropTypes.string,
-    }),
-    xAddress: PropTypes.shape({
-      classicAddress: PropTypes.string,
-      tag: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-      test: PropTypes.bool,
-    }),
-    deleted: PropTypes.bool.isRequired,
-  }).isRequired,
-  actions: PropTypes.shape({
-    loadAccountState: PropTypes.func.isRequired,
-  }).isRequired,
-}
-
 export default connect(
-  (state) => ({
-    language: state.app.language,
+  (state: any) => ({
     loading: state.accountHeader.loading,
     data: state.accountHeader.data,
   }),

@@ -52,7 +52,7 @@ describe('Account container', () => {
     wrapper.update()
     expect(wrapper.find(AccountHeader).length).toBe(1)
     expect(wrapper.find(AccountTransactionTable).length).toBe(1)
-    wrapper.find('.balance-selector-button').simulate('click')
+    wrapper.find('.balance-selector button').simulate('click')
     wrapper.unmount()
   })
 })
