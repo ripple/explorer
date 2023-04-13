@@ -23,16 +23,6 @@ describe.only('app reducers', () => {
     ).toEqual(nextState)
   })
 
-  it('should handle UPDATE_LANGUAGE', () => {
-    const nextState = { ...initialState, language: 'ja-JP' }
-    expect(
-      reducer(initialState, {
-        type: actionTypes.UPDATE_LANGUAGE,
-        data: 'ja-JP',
-      }),
-    ).toEqual(nextState)
-  })
-
   it('should handle persist/REHYDRATE', () => {
     const presist = { ...initialState, isOverlayOpen: true, isScrolled: true }
     expect(

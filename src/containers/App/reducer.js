@@ -5,7 +5,6 @@ export const initialState = {
   height: 600,
   isOverlayOpen: false,
   isScrolled: false,
-  language: 'en-US',
   pixelRatio: 1,
 }
 
@@ -20,8 +19,6 @@ const appReducer = (state = initialState, action) => {
       return { ...state, ...action.data }
     case actionTypes.ON_SCROLL:
       return { ...state, isScrolled: action.data > 0 }
-    case actionTypes.UPDATE_LANGUAGE:
-      return { ...state, language: action.data }
     case 'persist/REHYDRATE':
       return { ...state, ...rehydrate(action) }
     default:
