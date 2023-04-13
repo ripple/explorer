@@ -1,13 +1,11 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadAccountState } from './actions'
 import Loader from '../../shared/components/Loader'
-import '../../shared/css/nested-menu.scss'
 import './styles.scss'
-import './balance-selector.scss'
-import BalanceSelector from './BalanceSelector'
+import { BalanceSelector } from './BalanceSelector/BalanceSelector'
 import { Account } from '../../shared/components/Account'
 import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
@@ -22,7 +20,7 @@ const CURRENCY_OPTIONS = {
 }
 
 interface AccountHeaderProps {
-  onSetCurrencySelected: Function
+  onSetCurrencySelected: (currency: string) => void
   currencySelected: string
   loading: boolean
   accountId: string
@@ -69,7 +67,6 @@ interface AccountHeaderProps {
 }
 
 const AccountHeader = (props: AccountHeaderProps) => {
-  const [showBalanceSelector, setShowBalanceSelector] = useState(false)
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
@@ -87,27 +84,14 @@ const AccountHeader = (props: AccountHeaderProps) => {
     actions.loadAccountState(accountId, rippledSocket)
   }, [accountId, actions, rippledSocket])
 
-  function toggleBalanceSelector(force?) {
-    setShowBalanceSelector(force !== undefined ? force : !showBalanceSelector)
-  }
-
   function renderBalancesSelector() {
     const { balances = {} } = data
     return (
       Object.keys(balances).length > 1 && (
         <div className="balance-selector-container">
           <BalanceSelector
-            language={language}
-            text={`${Object.keys(balances).length - 1} ${t(
-              'accounts.other_balances',
-            )}`}
-            expandMenu={showBalanceSelector}
             balances={balances}
-            onClick={() => toggleBalanceSelector()}
-            onMouseLeave={() => toggleBalanceSelector(false)}
-            onSetCurrencySelected={(currency) =>
-              onSetCurrencySelected(currency)
-            }
+            onSetCurrencySelected={onSetCurrencySelected}
             currencySelected={currencySelected}
           />
         </div>
