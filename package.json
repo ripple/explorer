@@ -10,7 +10,7 @@
     "@vitejs/plugin-react": "^3.0.0",
     "@xrplf/prettier-config": "^1.9.1",
     "assert": "^2.0.0",
-    "autoprefixer": "^10.4.13",
+    "autoprefixer": "^10.4.14",
     "axios": "^0.21.2",
     "body-parser": "^1.18.2",
     "buffer": "^6.0.3",
