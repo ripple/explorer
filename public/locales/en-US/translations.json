@@ -49,6 +49,7 @@
   "accounts.other_balances_short": "Other Bal.",
   "amount": "Amount",
   "currency_code": "Currency Code",
+  "currency_balance": "<0>{{currency}}</0> Balance",
   "load_more_action": "Load more...",
   "account_transactions": "Account Transactions",
   "transaction_type": "Transaction Type",
