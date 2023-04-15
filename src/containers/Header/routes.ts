@@ -1,5 +1,7 @@
+import { NavigationMenuRoute } from './NavigationMenu'
+
 // NOTE: for submenus, remove `path` field and add `children` array of objects
-const routesConfig = [
+export const routesConfig: NavigationMenuRoute[] = [
   {
     path: '/',
     title: 'explorer',
@@ -30,5 +32,3 @@ const routesConfig = [
     title: 'github',
   },
 ]
-
-export default routesConfig

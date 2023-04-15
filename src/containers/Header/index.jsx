@@ -9,6 +9,8 @@ import ArrowIcon from '../shared/images/down_arrow.svg'
 import CheckIcon from '../shared/images/checkmark.svg'
 import SocketContext from '../shared/SocketContext'
 import { NavigationMenu } from './NavigationMenu'
+import { routesConfig } from './routes'
+
 import './header.scss'
 import './NetworkSelector/NetworkSelector.scss'
 import './menu.scss'
@@ -196,7 +198,7 @@ export const Header = ({ inNetwork }) => {
         </div>
       </div>
       <Banner />
-      <NavigationMenu />
+      <NavigationMenu routes={routesConfig} />
     </header>
   )
 }

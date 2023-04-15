@@ -7,10 +7,20 @@ import Logo from '../../shared/images/XRPLedger.svg'
 import { Search } from '../Search'
 import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
 
-import routesConfig from '../routes'
 import './NavigationMenu.scss'
 
-export const NavigationMenu = () => {
+export interface NavigationMenuRoute {
+  title: string
+  children?: NavigationMenuRoute[]
+  link?: string
+  path?: string
+}
+
+export const NavigationMenu = ({
+  routes,
+}: {
+  routes: NavigationMenuRoute[]
+}) => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
   const toggle = useRef<HTMLInputElement>(null)
@@ -45,7 +55,7 @@ export const NavigationMenu = () => {
           <li className="nav-item nav-search">
             <Search />
           </li>
-          {routesConfig.map((nav) => {
+          {routes.map((nav) => {
             const title = t(nav.title)
 
             if (nav.children) {
