@@ -145,7 +145,7 @@
   ],
   "prettier": "@xrplf/prettier-config",
   "engines": {
-    "node": ">=18.0.0 <19",
+    "node": ">=20.0.0 <21",
     "npm": ">=7.14.0 <10.0.0"
   }
 }
