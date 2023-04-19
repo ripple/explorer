@@ -33,7 +33,7 @@
 
 .dropdown-item {
   padding: 12px 8px;
-  border-radius: $border-radius;
+  border-radius: $border-radius / 2;
   font-weight: normal;
 
   @at-root {
