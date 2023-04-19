@@ -233,18 +233,7 @@
 
 .load-more-btn {
   display: block;
-  padding: 10px 20px;
-  border: 1px solid $black-40;
-  border-radius: 100px;
   margin: 10px auto;
-  background: $black;
-  color: $black-40;
-  cursor: pointer;
-  font-size: 16px;
   outline: inherit;
   @include bold;
-
-  &:hover {
-    background: $black-70;
-  }
 }
