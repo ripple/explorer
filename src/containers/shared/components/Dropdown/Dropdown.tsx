@@ -1,12 +1,18 @@
 import classnames from 'classnames'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import ArrowIcon from '../../images/down_arrow.svg'
 import './dropdown.scss'
 
 export interface DropdownProps {
   tagName?: `div` | `li`
-  title: string | JSX.Element
-  children: JSX.Element[]
+  title: ReactNode | string
+  children: ReactNode | undefined
   className?: string
 }
 
