@@ -73,7 +73,7 @@ export const Validators = () => {
       .catch((e) => Log.error(e))
   }
 
-  function updateValidators(newValidations: StreamValidator[]): void {
+  const updateValidators = (newValidations: StreamValidator[]) => {
     // @ts-ignore - Work around type assignment for complex validation data types
     setValidations(newValidations)
     setVList((value) => {
