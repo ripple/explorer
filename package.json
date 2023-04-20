@@ -44,7 +44,7 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "recharts": "^2.4.3",
-    "redux": "^3.7.2",
+    "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
