@@ -1,0 +1,86 @@
+@import '../../css/variables';
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  gap: 0 24px;
+
+  .arrow {
+    height: 1em;
+    margin-left: auto;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  z-index: 100;
+  display: none;
+  min-width: max(100%, 160px);
+  padding: 8px;
+  border: 1px solid $black-80;
+  border-radius: $border-radius;
+  margin-top: 5px;
+  background: rgba($black, 0.96);
+}
+
+.dropdown-item {
+  padding: 12px 8px;
+  border-radius: $border-radius / 2;
+  font-weight: normal;
+
+  @at-root {
+    a#{&} {
+      display: flex;
+      align-items: center;
+      color: $white;
+      gap: 0 12px;
+
+      &::after {
+        display: none;
+      }
+
+      &:hover {
+        background: $black-80;
+        cursor: pointer;
+      }
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: $black-80;
+    color: $white;
+    font-size: inherit;
+
+    &::placeholder {
+      color: $black-40;
+    }
+  }
+
+  .btn-remove {
+    padding: 8px;
+    margin-left: auto;
+    background: url('../../images/close.png') center no-repeat;
+    background-size: 8px;
+  }
+}
+
+.dropdown-expanded {
+  .arrow {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-menu {
+    display: block;
+  }
+}

@@ -1,12 +1,10 @@
-import { Component } from 'react'
+import { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadTokenState } from './actions'
 import Loader from '../../shared/components/Loader'
-import '../../shared/css/nested-menu.scss'
 import './styles.scss'
 import { localizeNumber, formatLargeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
@@ -14,6 +12,7 @@ import Currency from '../../shared/components/Currency'
 import { Account } from '../../shared/components/Account'
 import DomainLink from '../../shared/components/DomainLink'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
+import { useLanguage } from '../../shared/hooks'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -22,26 +21,44 @@ const CURRENCY_OPTIONS = {
   maximumFractionDigits: 6,
 }
 
-class TokenHeader extends Component {
-  componentDidMount() {
-    const { actions, accountId, currency } = this.props
-    const rippledSocket = this.context
+interface TokenHeaderProps {
+  loading: boolean
+  accountId: string
+  currency: string
+  data: {
+    balance: string
+    reserve: number
+    sequence: number
+    rate: number
+    obligations: string
+    domain: string
+    emailHash: string
+    gravatar: string
+    previousLedger: number
+    previousTxn: string
+    flags: string[]
+  }
+  actions: {
+    loadTokenState: typeof loadTokenState
+  }
+}
+
+const TokenHeader = ({
+  actions,
+  accountId,
+  currency,
+  data,
+  loading,
+}: TokenHeaderProps) => {
+  const language = useLanguage()
+  const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
+
+  useEffect(() => {
     actions.loadTokenState(currency, accountId, rippledSocket)
-  }
+  }, [accountId, actions, currency, rippledSocket])
 
-  componentDidUpdate(prevProps) {
-    const nextAccountId = prevProps.accountId
-    const nextCurrency = prevProps.currency
-    const { accountId, currency, actions } = this.props
-    const rippledSocket = this.context
-
-    if (nextAccountId !== accountId || nextCurrency !== currency) {
-      actions.loadTokenState(nextCurrency, nextAccountId, rippledSocket)
-    }
-  }
-
-  renderDetails() {
-    const { t, data } = this.props
+  const renderDetails = () => {
     const { domain, rate, emailHash, previousLedger, previousTxn } = data
 
     const prevTxn = previousTxn && previousTxn.replace(/(.{20})..+/, '$1...')
@@ -76,8 +93,7 @@ class TokenHeader extends Component {
     )
   }
 
-  renderSettings() {
-    const { data } = this.props
+  const renderSettings = () => {
     const { flags } = data
 
     const rippling =
@@ -111,11 +127,10 @@ class TokenHeader extends Component {
     )
   }
 
-  renderHeaderContent() {
-    const { t, data, language, accountId } = this.props
+  const renderHeaderContent = () => {
     const { balance, sequence, obligations, reserve } = data
     const currencyBalance = localizeNumber(
-      balance / 1000000 || 0.0,
+      parseInt(balance, 10) / 1000000 || 0.0,
       language,
       CURRENCY_OPTIONS,
     )
@@ -158,85 +173,33 @@ class TokenHeader extends Component {
         <div className="bottom-container">
           <div className="details">
             <h2>{t('details')}</h2>
-            {this.renderDetails()}
+            {renderDetails()}
           </div>
           <div className="settings">
             <h2 className="title">{t('settings')}</h2>
-            {this.renderSettings()}
+            {renderSettings()}
           </div>
         </div>
       </div>
     )
   }
 
-  render() {
-    const { currency, loading, data } = this.props
-    const { gravatar } = data
-    return (
-      <div className="box token-header">
-        <div className="section box-header">
-          <Currency currency={currency} />
-          {gravatar && <img alt={`${currency} logo`} src={gravatar} />}
-        </div>
-        <div className="box-content">
-          {loading ? <Loader /> : this.renderHeaderContent()}
-        </div>
+  const { gravatar } = data
+  return (
+    <div className="box token-header">
+      <div className="section box-header">
+        <Currency currency={currency} />
+        {gravatar && <img alt={`${currency} logo`} src={gravatar} />}
       </div>
-    )
-  }
-}
-
-TokenHeader.contextType = SocketContext
-
-TokenHeader.propTypes = {
-  language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  accountId: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    balance: PropTypes.string,
-    reserve: PropTypes.number,
-    sequence: PropTypes.number,
-    rate: PropTypes.number,
-    obligations: PropTypes.string,
-    domain: PropTypes.string,
-    emailHash: PropTypes.string,
-    gravatar: PropTypes.string,
-    previousLedger: PropTypes.number,
-    previousTxn: PropTypes.string,
-    paychannels: PropTypes.shape({
-      total_available: PropTypes.string,
-      channels: PropTypes.shape({
-        length: PropTypes.number,
-      }),
-    }),
-    escrows: PropTypes.shape({
-      totalIn: PropTypes.number,
-      totalOut: PropTypes.number,
-    }),
-    signerList: PropTypes.shape({
-      signers: PropTypes.shape({
-        map: PropTypes.func,
-      }),
-      quorum: PropTypes.number,
-      maxSigners: PropTypes.number,
-    }),
-    flags: PropTypes.arrayOf(PropTypes.string),
-    xAddress: PropTypes.shape({
-      classicAddress: PropTypes.string,
-      tag: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-      test: PropTypes.bool,
-    }),
-  }).isRequired,
-  actions: PropTypes.shape({
-    loadTokenState: PropTypes.func.isRequired,
-  }).isRequired,
+      <div className="box-content">
+        {loading ? <Loader /> : renderHeaderContent()}
+      </div>
+    </div>
+  )
 }
 
 export default connect(
-  (state) => ({
-    language: state.app.language,
+  (state: any) => ({
     loading: state.tokenHeader.loading,
     data: state.tokenHeader.data,
   }),
@@ -248,4 +211,4 @@ export default connect(
       dispatch,
     ),
   }),
-)(withTranslation()(TokenHeader))
+)(TokenHeader)
