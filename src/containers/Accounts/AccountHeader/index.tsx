@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadAccountState } from './actions'
@@ -11,6 +11,7 @@ import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import InfoIcon from '../../shared/images/info.svg'
 import { useLanguage } from '../../shared/hooks'
+import Currency from '../../shared/components/Currency'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -318,7 +319,11 @@ const AccountHeader = (props: AccountHeaderProps) => {
               </div>
             ) : (
               <>
-                <div className="title">{`${currencySelected} Balance`}</div>
+                <div className="title">
+                  <Trans i18nKey="currency_balance">
+                    <Currency currency={currencySelected} />
+                  </Trans>
+                </div>
                 <div className="value">{balance}</div>
               </>
             )}

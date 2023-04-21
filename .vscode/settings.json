@@ -72,6 +72,8 @@
         "paystrings",
         "svgr",
         "topojson",
-        "VITE"
+        "VITE",
+        "xchain",
+        "xchainbridge"
     ]
   }

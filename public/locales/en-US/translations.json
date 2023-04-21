@@ -49,6 +49,7 @@
   "accounts.other_balances_short": "Other Bal.",
   "amount": "Amount",
   "currency_code": "Currency Code",
+  "currency_balance": "<0>{{currency}}</0> Balance",
   "load_more_action": "Load more...",
   "account_transactions": "Account Transactions",
   "transaction_type": "Transaction Type",
@@ -442,5 +443,6 @@
   "auth_accounts": "Authorized Accounts",
   "network_cannot_be_crawled": "This network cannot be crawled",
   "check_crawl_existed": "Please contact the operator to make sure they have /crawl accessible or a vl set.",
-  "peer_crawled_context": "For more context, see https://xrpl.org/peer-crawler.html"
+  "peer_crawled_context": "For more context, see https://xrpl.org/peer-crawler.html",
+  "xchainbridge": "XChainBridge"
 }
