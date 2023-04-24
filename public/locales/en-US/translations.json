@@ -443,5 +443,6 @@
   "auth_accounts": "Authorized Accounts",
   "network_cannot_be_crawled": "This network cannot be crawled",
   "check_crawl_existed": "Please contact the operator to make sure they have /crawl accessible or a vl set.",
-  "peer_crawled_context": "For more context, see https://xrpl.org/peer-crawler.html"
+  "peer_crawled_context": "For more context, see https://xrpl.org/peer-crawler.html",
+  "xchainbridge": "XChainBridge"
 }
