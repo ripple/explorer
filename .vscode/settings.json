@@ -72,6 +72,8 @@
         "svgr",
         "topojson",
         "usehooks",
-        "VITE"
+        "VITE",
+        "xchain",
+        "xchainbridge"
     ]
   }
