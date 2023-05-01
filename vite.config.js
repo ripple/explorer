@@ -110,4 +110,24 @@ export default defineConfig({
       ],
     },
   },
+  test: {
+    root: 'src',
+    // Otherwise vitest creates a node_modules directory in ./src with a results.json file
+    // https://vitest.dev/config/#cache
+    cache: false,
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['setupTests.ts'],
+    coverage: {
+      provider: 'c8',
+      include: ['src/**/*.{js,jsx,ts,tsx}'],
+      reporter: ['text', 'text-summary', 'html'],
+      branches: 70,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+    css: false,
+    allowOnly: true,
+  },
 })

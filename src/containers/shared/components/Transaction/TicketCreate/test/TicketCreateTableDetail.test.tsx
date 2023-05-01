@@ -1,9 +1,9 @@
+import { describe, it, expect } from 'vitest'
 import { createTableDetailWrapperFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import TicketCreate from './mock_data/TicketCreate.json'
 
 const createWrapper = createTableDetailWrapperFactory(TableDetail)
-
 describe('TicketCreate: TableDetail', () => {
   it('renders', () => {
     const wrapper = createWrapper(TicketCreate)

@@ -1,9 +1,9 @@
+import { describe, it, expect } from 'vitest'
 import { createTableDetailWrapperFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockEscrowCreate from './mock_data/EscrowCreate.json'
 
 const createWrapper = createTableDetailWrapperFactory(TableDetail)
-
 describe('EscrowCreateTableDetail', () => {
   it('renders EscrowCreate without crashing', () => {
     const wrapper = createWrapper(mockEscrowCreate)

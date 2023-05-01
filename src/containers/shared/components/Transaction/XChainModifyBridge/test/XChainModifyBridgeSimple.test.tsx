@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import mockXChainModifyBridge from './mock_data/XChainModifyBridge.json'

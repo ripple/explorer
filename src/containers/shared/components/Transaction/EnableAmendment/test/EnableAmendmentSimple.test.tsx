@@ -1,3 +1,4 @@
+import { vi, describe, it, expect } from 'vitest'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
@@ -13,14 +14,16 @@ import {
 
 const createWrapper = createSimpleWrapperFactory(Simple, i18n)
 
-jest.mock('../../../../amendmentUtils', () => {
+vi.mock('../../../../amendmentUtils', async () => {
   // Require the original module to not be mocked...
-  const originalModule = jest.requireActual('../../../../amendmentUtils')
+  const originalModule = (await vi.importActual(
+    '../../../../amendmentUtils',
+  )) as object
   return {
     __esModule: true,
     ...originalModule,
-    getRippledVersion: jest.fn(),
-    nameOfAmendmentID: jest.fn(),
+    getRippledVersion: vi.fn(),
+    nameOfAmendmentID: vi.fn(),
   }
 })
 
@@ -28,12 +31,9 @@ function flushPromises() {
   return new Promise((resolve) => setImmediate(resolve))
 }
 
-const mockedGetRippledVersion = getRippledVersion as jest.MockedFunction<
-  typeof getRippledVersion
->
-const mockedNameOfAmendmentID = nameOfAmendmentID as jest.MockedFunction<
-  typeof nameOfAmendmentID
->
+// TODO: type this better
+const mockedGetRippledVersion = getRippledVersion as any
+const mockedNameOfAmendmentID = nameOfAmendmentID as any
 
 describe('EnableAmendment: Simple', () => {
   it('renders tx that causes an amendment to loose majority', async () => {

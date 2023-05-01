@@ -1,3 +1,4 @@
+import { describe, it } from 'vitest'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
@@ -11,7 +12,6 @@ import {
 } from '../../test'
 
 const createWrapper = createSimpleWrapperFactory(Simple, i18n)
-
 describe('PaymentChannelFund: Simple', () => {
   it('renders a fund', () => {
     const wrapper = createWrapper(mockPaymentChannelFund)

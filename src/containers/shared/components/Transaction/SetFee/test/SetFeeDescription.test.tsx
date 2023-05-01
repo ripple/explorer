@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { createDescriptionWrapperFactory } from '../../test'
 import { Description } from '../Description'
 import i18nTestConfigEnUS from '../../../../../../i18n/testConfigEnglish'

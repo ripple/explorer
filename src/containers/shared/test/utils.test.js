@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import {
   isEarlierVersion,
   formatLargeNumber,
@@ -175,7 +176,7 @@ describe('utils', () => {
     expect(localizeDate(d)).toEqual('3/20/2018')
   })
 
-  it('google analyitcs', () => {
+  it('google analytics', () => {
     expect(analytics(ANALYTIC_TYPES.pageview, {})).toEqual(false)
     expect(analytics(ANALYTIC_TYPES.event, {})).toEqual(false)
     expect(analytics(ANALYTIC_TYPES.social, {})).toEqual(false)

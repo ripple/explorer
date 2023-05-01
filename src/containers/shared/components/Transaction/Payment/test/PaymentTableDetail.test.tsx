@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { createTableDetailWrapperFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockPayment from './mock_data/Payment.json'

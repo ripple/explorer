@@ -17,7 +17,6 @@ window.localStorage = window.localStorage || {
 // @ts-expect-error
 configure({ adapter: new Adapter() })
 
-jest.spyOn(console, 'error')
-// @ts-expect-error
+// @ts-ignore
 // eslint-disable-next-line no-console -- only for tests
-console.error.mockImplementation(() => {})
+// console.error.mockImplementation(() => {})

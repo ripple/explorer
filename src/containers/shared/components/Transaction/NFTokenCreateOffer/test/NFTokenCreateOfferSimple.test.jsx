@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transactionBuy from './mock_data/NFTokenCreateOffer_Buy.json'
@@ -6,7 +7,6 @@ import transactionFailed from './mock_data/NFTokenCreateOfferFailed.json'
 import transactionDestination from './mock_data/NFTokenCreateOfferDestination.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
-
 describe('NFTokenCreateOffer', () => {
   it('handles NFTokenCreateOffer buy simple view ', () => {
     const wrapper = createWrapper(transactionBuy)

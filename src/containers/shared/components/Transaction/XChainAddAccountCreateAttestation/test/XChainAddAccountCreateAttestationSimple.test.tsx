@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockXChainAddAccountCreateAttestation from './mock_data/XChainAddAccountCreateAttestation.json'

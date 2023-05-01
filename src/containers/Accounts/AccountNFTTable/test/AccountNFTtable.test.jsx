@@ -2,15 +2,16 @@ import { mount } from 'enzyme'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
+import { vi, describe, it, expect } from 'vitest'
 import { getAccountNFTs } from '../../../../rippled/lib/rippled'
 import { AccountNFTTable } from '../AccountNFTTable'
 import i18n from '../../../../i18n/testConfig'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { testQueryClient } from '../../../test/QueryClient'
 
-jest.mock('../../../../rippled/lib/rippled', () => ({
+vi.mock('../../../../rippled/lib/rippled', () => ({
   __esModule: true,
-  getAccountNFTs: jest.fn(),
+  getAccountNFTs: vi.fn(),
 }))
 
 function flushPromises() {
@@ -34,7 +35,6 @@ const data = {
   ledger_current_index: 21174400,
   validated: false,
 }
-
 describe('AccountNFTTable component', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 
