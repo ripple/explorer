@@ -53,7 +53,7 @@ export const TokenTransactionTable = ({
     <TransactionTable
       transactions={data?.pages?.map((page: any) => page.transactions).flat()}
       loading={loading}
-      emptyMessage={t(error?.message || '')}
+      emptyMessage={t(error?.message || ('' as any))}
       onLoadMore={() => fetchNextPage()}
       hasAdditionalResults={hasNextPage}
     />

@@ -1,9 +1,12 @@
-import i18n, { InitOptions } from 'i18next'
+// @ts-check
+
 import Backend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import i18n, { InitOptions } from 'i18next'
 import { configureFormatters } from './formatters'
 
 const options: InitOptions = {
+  returnNull: false,
   debug: process.env.NODE_ENV === 'development',
   fallbackLng: 'en-US',
   ns: ['translations'], // have a common namespace used around the full app
