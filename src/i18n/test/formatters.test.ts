@@ -9,6 +9,9 @@ describe('i18n formatters', () => {
         'woo',
         `Hello {{value, truncate(length: 3)}}`,
       )
-      expect(i18n.t('test:woo', { value: 'World', defaultValue: 'Default' })).toEqual('Hello Wor\u2026')
+      expect(
+        i18n.t('test:woo', { value: 'World', defaultValue: 'Default' }),
+      ).toEqual('Hello Wor\u2026')
     })
+  })
 })
