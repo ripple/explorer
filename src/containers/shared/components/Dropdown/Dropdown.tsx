@@ -1,11 +1,5 @@
 import classnames from 'classnames'
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import ArrowIcon from '../../images/down_arrow.svg'
 import './dropdown.scss'
 
