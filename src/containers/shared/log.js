@@ -42,4 +42,6 @@ class Log {
   }
 }
 
-export default new Log()
+const logger = new Log()
+
+export default logger
