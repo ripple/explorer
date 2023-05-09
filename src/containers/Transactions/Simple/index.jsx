@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { transactionTypes } from '../../shared/components/Transaction'
+import { Simple as DefaultSimple } from '../../shared/components/Transaction/default/Simple'
 
 export const Simple = ({ data, type }) => {
   const { t } = useTranslation()
@@ -10,16 +11,7 @@ export const Simple = ({ data, type }) => {
   if (SimpleComponent) {
     return <SimpleComponent data={data} />
   }
-
-  return (
-    <div className="not-supported">
-      <div>
-        {t('simple_not_supported')}
-        <span className="type">{type}</span>
-      </div>
-      <div>{t('try_detailed_raw')}</div>
-    </div>
-  )
+  return <DefaultSimple data={data} />
 }
 
 Simple.propTypes = {
