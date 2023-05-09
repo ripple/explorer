@@ -1,0 +1,66 @@
+{
+  "tx": {
+    "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+    "Amount": "1000000",
+    "Destination": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+    "Fee": "10",
+    "FinishAfter": 736447590,
+    "Flags": 2147483648,
+    "Sequence": 4,
+    "SigningPubKey": "0330E7FC9D56BB25D6893BA3F317AE5BCF33B3291BD63DB32654A313222F7FD020",
+    "TransactionType": "NewEscrowCreate",
+    "TxnSignature": "30440220273DAAA2F1E9C24649D26A0833F452B9D408AF86565113B878711A4F99ED62250220472CF6BE6A43AB694856A92022F8949F7CD0527E0531C3CEFBA8134059E536FA",
+    "date": 1683122920000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Balance": "99999999995999960",
+            "Flags": 0,
+            "OwnerCount": 4,
+            "Sequence": 5
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "2B6AC232AA4C4BE41BF49D2459FA4A0347E1B543A4C92FCEE0821C0201E2E9A8",
+          "PreviousFields": {
+            "Balance": "99999999996999970",
+            "OwnerCount": 3,
+            "Sequence": 4
+          },
+          "PreviousTxnID": "AA6740AAC85C442653E80FE637B3F27EFEF8CE626014109C7502033D8C6AE25A",
+          "PreviousTxnLgrSeq": 3
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "Escrow",
+          "LedgerIndex": "D052EAF42C8EDCC23CE0EF4A08C5164ED17ECFA1E66C623674553EFAD94B5E63",
+          "NewFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Amount": "1000000",
+            "Destination": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "RootIndex": "D8120FC732737A2CF2E9968FDF3797A43B457F2A81AA06D2653171A1EA635204"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "D8120FC732737A2CF2E9968FDF3797A43B457F2A81AA06D2653171A1EA635204"
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "FE6A9F2D5949A913BA7DD8C69EA5CDF5D2B6A28976B4DC9982D1515CCFCC57C3",
+  "ledger_index": 4,
+  "date": 1683122920000
+}
