@@ -13,6 +13,7 @@ describe('DefaultSimple', () => {
       'Destination',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
+    expect(wrapper.find(`[data-test="Destination"] a`)).toExist()
     expectSimpleRowText(wrapper, 'Amount', '1000000')
     expectSimpleRowText(wrapper, 'FinishAfter', '736447590')
     wrapper.unmount()

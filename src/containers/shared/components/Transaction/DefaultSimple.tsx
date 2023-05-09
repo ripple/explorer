@@ -1,3 +1,5 @@
+import { isValidClassicAddress } from 'ripple-address-codec'
+import { Account } from '../Account'
 import { SimpleGroup } from './SimpleGroup'
 import { SimpleRow } from './SimpleRow'
 import { TransactionSimpleProps } from './types'
@@ -16,6 +18,16 @@ const DEFAULT_TX_ELEMENTS = [
   'date',
 ]
 
+const processValue = (value: any) => {
+  if (typeof value === 'string') {
+    if (isValidClassicAddress(value)) {
+      return <Account account={value} />
+    }
+    return value
+  }
+  return JSON.stringify(value)
+}
+
 const getRow = (key: any, value: any) => {
   if (typeof value === 'object') {
     return (
@@ -28,12 +40,9 @@ const getRow = (key: any, value: any) => {
       </SimpleGroup>
     )
   }
-
-  const valueToRender =
-    typeof value === 'string' ? value : JSON.stringify(value)
   return (
     <SimpleRow key={key} label={key} data-test={key}>
-      {valueToRender}
+      {processValue(value)}
     </SimpleRow>
   )
 }
