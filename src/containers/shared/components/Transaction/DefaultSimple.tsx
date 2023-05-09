@@ -19,7 +19,7 @@ const DEFAULT_TX_ELEMENTS = [
 const getRow = (key: any, value: any) => {
   if (typeof value === 'object') {
     return (
-      <SimpleGroup key={key} label={key} data-test={key}>
+      <SimpleGroup key={key} title={key} data-test={key}>
         <>
           {Object.entries(value).map(([childKey, childValue]) =>
             getRow(childKey, childValue),
