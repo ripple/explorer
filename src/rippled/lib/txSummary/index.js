@@ -1,5 +1,5 @@
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
-import { parser as defaultParser } from '../../../containers/shared/components/Transaction/default/parser'
+import { defaultParser } from '../../../containers/shared/components/Transaction/defaultParser'
 
 const getInstructions = (tx, meta) => {
   const type = tx.TransactionType

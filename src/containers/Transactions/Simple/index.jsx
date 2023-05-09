@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { transactionTypes } from '../../shared/components/Transaction'
-import { Simple as DefaultSimple } from '../../shared/components/Transaction/default/Simple'
+import { DefaultSimple } from '../../shared/components/Transaction/DefaultSimple'
 
 export const Simple = ({ data, type }) => {
   const { t } = useTranslation()
