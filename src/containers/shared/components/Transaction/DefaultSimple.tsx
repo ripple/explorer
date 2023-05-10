@@ -56,7 +56,7 @@ const getRow = (
                 index.toString(),
               )
             }
-            return getRow('placeholder', childValue, depth, index.toString())
+            return getRow(index.toString(), childValue, depth, index.toString())
           })}
         </>
       </SimpleGroup>
@@ -64,9 +64,6 @@ const getRow = (
   }
 
   if (key === 'Amount') {
-    if (typeof value === 'string') {
-      return <Amount value={value} />
-    }
     return (
       <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
         <Amount value={formatAmount(value)} />
