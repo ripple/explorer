@@ -19,6 +19,7 @@ const DEFAULT_TX_ELEMENTS = [
   'TxnSignature',
   'ctid',
   'date',
+  'warnings',
 ]
 
 const processValue = (key: any, value: any) => {
@@ -30,32 +31,6 @@ const processValue = (key: any, value: any) => {
       return `${value.substring(0, 300)}...`
     }
     return value
-  }
-
-  if (
-    typeof value === 'object' &&
-    Object.keys(value).length <= 2 &&
-    (value.issuer == null || typeof value.issuer === 'string') &&
-    typeof value.currency === 'string'
-  ) {
-    return <Currency currency={value.currency} issuer={value.issuer} />
-  }
-
-  if (
-    typeof value === 'object' &&
-    Object.keys(value).length === 3 &&
-    typeof value.value === 'string' &&
-    typeof value.issuer === 'string' &&
-    typeof value.currency === 'string'
-  ) {
-    return <Amount value={formatAmount(value)} />
-  }
-
-  if (key === 'Amount') {
-    if (typeof value === 'string') {
-      return <Amount value={value} />
-    }
-    return <Amount value={formatAmount(value)} />
   }
 
   return JSON.stringify(value)
@@ -87,16 +62,55 @@ const getRow = (
       </SimpleGroup>
     )
   }
-  if (typeof value === 'object' && depth < 1) {
-    return (
-      <SimpleGroup key={`${key}${uniqueKey}`} title={key} data-test={key}>
-        <>
-          {Object.entries(value).map(([childKey, childValue]) =>
-            getRow(childKey, childValue, depth + 1),
-          )}
-        </>
-      </SimpleGroup>
-    )
+
+  if (typeof value === 'object') {
+    if (
+      Object.keys(value).length <= 2 &&
+      (value.issuer == null || typeof value.issuer === 'string') &&
+      typeof value.currency === 'string'
+    ) {
+      return (
+        <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+          <Currency currency={value.currency} issuer={value.issuer} />
+        </SimpleRow>
+      )
+    }
+
+    if (
+      Object.keys(value).length === 3 &&
+      typeof value.value === 'string' &&
+      typeof value.issuer === 'string' &&
+      typeof value.currency === 'string'
+    ) {
+      return (
+        <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+          <Amount value={formatAmount(value)} />
+        </SimpleRow>
+      )
+    }
+
+    if (key === 'Amount') {
+      if (typeof value === 'string') {
+        return <Amount value={value} />
+      }
+      return (
+        <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+          <Amount value={formatAmount(value)} />
+        </SimpleRow>
+      )
+    }
+
+    if (typeof value === 'object' && depth < 1) {
+      return (
+        <SimpleGroup key={`${key}${uniqueKey}`} title={key} data-test={key}>
+          <>
+            {Object.entries(value).map(([childKey, childValue]) =>
+              getRow(childKey, childValue, depth + 1),
+            )}
+          </>
+        </SimpleGroup>
+      )
+    }
   }
   return (
     <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
