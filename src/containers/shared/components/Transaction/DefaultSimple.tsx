@@ -63,6 +63,17 @@ const getRow = (
     )
   }
 
+  if (key === 'Amount') {
+    if (typeof value === 'string') {
+      return <Amount value={value} />
+    }
+    return (
+      <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+        <Amount value={formatAmount(value)} />
+      </SimpleRow>
+    )
+  }
+
   if (typeof value === 'object') {
     if (
       Object.keys(value).length <= 2 &&
@@ -89,18 +100,7 @@ const getRow = (
       )
     }
 
-    if (key === 'Amount') {
-      if (typeof value === 'string') {
-        return <Amount value={value} />
-      }
-      return (
-        <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
-          <Amount value={formatAmount(value)} />
-        </SimpleRow>
-      )
-    }
-
-    if (typeof value === 'object' && depth < 1) {
+    if (depth < 1) {
       return (
         <SimpleGroup key={`${key}${uniqueKey}`} title={key} data-test={key}>
           <>
