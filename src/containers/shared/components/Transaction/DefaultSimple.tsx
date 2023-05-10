@@ -22,7 +22,7 @@ const DEFAULT_TX_ELEMENTS = [
   'warnings',
 ]
 
-const processValue = (key: any, value: any) => {
+const processValue = (value: any) => {
   if (typeof value === 'string') {
     if (isValidClassicAddress(value)) {
       return <Account account={value} />
@@ -114,7 +114,7 @@ const getRow = (
   }
   return (
     <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
-      {processValue(key, value)}
+      {processValue(value)}
     </SimpleRow>
   )
 }
