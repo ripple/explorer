@@ -26,6 +26,9 @@ const processValue = (key: any, value: any) => {
     if (isValidClassicAddress(value)) {
       return <Account account={value} />
     }
+    if (value.length > 300) {
+      return `${value.substring(0, 300)}...`
+    }
     return value
   }
 
@@ -58,20 +61,45 @@ const processValue = (key: any, value: any) => {
   return JSON.stringify(value)
 }
 
-const getRow = (key: any, value: any) => {
-  if (typeof value === 'object') {
+const getRow = (
+  key: any,
+  value: any,
+  depth: number = 0,
+  uniqueKey: string = '',
+) => {
+  if (Array.isArray(value) && depth < 1) {
     return (
-      <SimpleGroup key={key} title={key} data-test={key}>
+      <SimpleGroup key={key} title="" data-test={key}>
+        <>
+          {value.map((childValue, index) => {
+            if (Object.keys(childValue).length === 1) {
+              const childKey = Object.keys(childValue)[0]
+              return getRow(
+                childKey,
+                childValue[childKey],
+                depth,
+                index.toString(),
+              )
+            }
+            return getRow('placeholder', childValue, depth, index.toString())
+          })}
+        </>
+      </SimpleGroup>
+    )
+  }
+  if (typeof value === 'object' && depth < 1) {
+    return (
+      <SimpleGroup key={`${key}${uniqueKey}`} title={key} data-test={key}>
         <>
           {Object.entries(value).map(([childKey, childValue]) =>
-            getRow(childKey, childValue),
+            getRow(childKey, childValue, depth + 1),
           )}
         </>
       </SimpleGroup>
     )
   }
   return (
-    <SimpleRow key={key} label={key} data-test={key}>
+    <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
       {processValue(key, value)}
     </SimpleRow>
   )
