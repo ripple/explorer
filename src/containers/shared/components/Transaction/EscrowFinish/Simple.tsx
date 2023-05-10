@@ -31,7 +31,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       )}
       {fulfillment && (
         <SimpleRow
-          label={t('escrow_fulfillments')}
+          label={t('escrow_fulfillment')}
           data-test="escrow-fullfillments"
         >
           {fulfillment}

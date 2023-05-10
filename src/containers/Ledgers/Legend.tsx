@@ -52,19 +52,25 @@ export const Legend = () => {
             {actions.map((action) => (
               <div className="legend-item" key={action}>
                 <TransactionActionIcon action={action} />{' '}
-                {t(`transaction_action_${action}`)}
+                {t(`transaction_action`, {
+                  context: action,
+                  defaultValue: TransactionAction.UNKNOWN,
+                })}
               </div>
             ))}
           </div>
           <div className="legend-heading">Colors Legend</div>
           <div className="legend-section">
-            {categories.map((category) => (
+            {categories.map((category: string) => (
               <div
                 className={`legend-item tx-category-${category}`}
                 key={category}
               >
                 <div className="legend-category" />{' '}
-                {t(`transaction_category_${category}`)}
+                {t(`transaction_category`, {
+                  context: category,
+                  defaultValue: TransactionCategory.UNKNOWN,
+                })}
               </div>
             ))}
           </div>

@@ -12,7 +12,7 @@ export const Tabs = ({ tabs, selected, path }: Props) => {
   const { t } = useTranslation()
   const items = tabs.map((key) => {
     const className = selected === key ? 'tab selected' : 'tab'
-    const title = t(key.replace('-', '_'))
+    const title = t(key.replace('-', '_') as any)
     return (
       <Link className={className} title={title} key={key} to={`${path}/${key}`}>
         {title}

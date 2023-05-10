@@ -79,7 +79,7 @@ export const AccountTransactionTable = ({
       transactions={transactions}
       loading={loading}
       hasTokensColumn={hasTokensColumn}
-      emptyMessage={emptyMessage && t(emptyMessage)}
+      emptyMessage={emptyMessage && t(emptyMessage as any)}
       onLoadMore={() => fetchNextPage()}
       hasAdditionalResults={hasNextPage}
     />

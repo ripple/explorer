@@ -24,6 +24,10 @@
       "esnext"
     ],
     "types": ["jest"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ],
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
@@ -32,6 +36,7 @@
   },
   "include": [
     "src",
-    "server"
+    "server",
+    "@types"
   ]
 }

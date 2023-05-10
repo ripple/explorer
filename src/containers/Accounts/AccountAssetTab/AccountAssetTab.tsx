@@ -41,7 +41,7 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
                 checked={assetType === type}
                 onChange={switchAsset}
               />{' '}
-              {t(`assets.${type}_tab_title`)}
+              {t(`assets.${type}_tab_title` as any)}
             </label>
           )
         })}
