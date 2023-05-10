@@ -6,11 +6,12 @@ import { useLocation } from 'react-router'
 import Logo from '../../shared/images/XRPLedger.svg'
 import { Search } from '../Search'
 import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
+import type { defaultTranslationsKey } from '../../../../@types/i18next'
 
 import './NavigationMenu.scss'
 
 export interface NavigationMenuRoute {
-  title: string
+  title: defaultTranslationsKey
   children?: NavigationMenuRoute[]
   link?: string
   path?: string
