@@ -1,0 +1,228 @@
+@use 'sass:math';
+
+@import '../../shared/css/variables';
+
+$menu-toggle-size: 25px;
+$menu-toggle-line-spacing: math.div($menu-toggle-size, 4);
+$menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
+
+.topbar,
+.navbar {
+  display: flex;
+  width: 100%;
+}
+
+.navbar {
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 auto;
+  gap: 0 16px;
+
+  .navbar-nav a {
+    display: block;
+  }
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+
+  svg {
+    height: 26px;
+    color: #fff;
+  }
+}
+
+.navbar-collapse {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-basis: 100%;
+  margin-left: auto;
+}
+
+.nav-search {
+  flex-grow: 1;
+}
+
+.nav-link {
+  color: $white;
+  font-size: 14px;
+}
+
+/* Nav menu */
+.navbar-nav {
+  display: block;
+  padding: 0;
+  margin: 0 auto 0 0;
+  list-style: none;
+
+  .btn {
+    padding: 0;
+    border: none;
+    font-weight: normal;
+  }
+
+  .dropdown-toggle {
+    gap: 8px;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+}
+
+/* Menu Icon */
+.navbar-toggle {
+  display: flex;
+  width: $menu-toggle-size;
+  height: $menu-toggle-size;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.navbar-toggle-line {
+  position: relative;
+  display: block;
+  width: $menu-toggle-line-length;
+  height: 2px;
+  background: white;
+
+  &::before,
+  &::after {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: white;
+    content: '';
+    transition: all 0.2s ease-out;
+  }
+
+  &::before {
+    top: $menu-toggle-line-spacing;
+  }
+
+  &::after {
+    top: -$menu-toggle-line-spacing;
+  }
+}
+
+/* Open Mobile Menu */
+.navbar-toggle-state:checked ~ .navbar-toggle {
+  .navbar-toggle-line {
+    width: 51px; // sqrt(($menu-toggle-line-length)^2 * 2)
+    background: transparent;
+
+    &::before {
+      top: 0;
+      transform: rotate(-45deg);
+    }
+
+    &::after {
+      top: 0;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+// Prevents navigation from keeping styles when menu is opened on mobile sizes and then resized larger
+@media (max-width: $tablet-landscape-upper-boundary) {
+  .navbar-collapse {
+    max-height: 100%;
+    margin-top: 24px;
+
+    .navbar-toggle-state:checked ~ & {
+      display: block;
+    }
+
+    .nav-item {
+      margin-bottom: 10px;
+    }
+
+    .nav-link,
+    .dropdown-toggle {
+      padding: 15px 1px 16px 8px;
+      border-left: 8px solid transparent;
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .selected .nav-link {
+      border-left-color: #32e685;
+    }
+  }
+
+  .dropdown {
+    display: block;
+  }
+
+  .dropdown-menu {
+    position: static;
+    padding-left: 15px;
+    border: none;
+    margin: 0;
+  }
+
+  .dropdown-item:hover {
+    background: transparent !important;
+  }
+
+  .dot {
+    display: none;
+  }
+}
+
+/* Responsiveness */
+@media (min-width: $tablet-landscape-upper-boundary) {
+  .navbar {
+    flex-wrap: nowrap;
+    margin: 0 auto;
+
+    .navbar-collapse {
+      position: relative;
+      top: 0;
+      display: block;
+      width: fit-content;
+      max-height: none;
+      background-color: transparent;
+    }
+  }
+
+  .navbar-toggle {
+    display: none;
+  }
+
+  .navbar-nav {
+    display: flex !important;
+    align-items: center;
+    gap: 0 28px;
+
+    .nav-item {
+      position: relative;
+      text-align: center;
+    }
+  }
+}
+
+.selected {
+  .dot {
+    position: absolute;
+    top: calc(100% + 6px);
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    margin-left: 50%;
+    background-color: $green;
+  }
+
+  :hover {
+    color: $white;
+  }
+
+  :focus {
+    color: $white;
+  }
+}

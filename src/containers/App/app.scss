@@ -9,7 +9,7 @@
     min-height: 100%;
     flex-direction: column;
     justify-content: center;
-    margin: 97px 0 50px;
+    margin-bottom: 50px;
 
     @include for-size(desktop-up) {
       min-height: $min-height;

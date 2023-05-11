@@ -1,12 +1,8 @@
 // import the original type declarations
 import 'i18next'
+import defaultTranslations from '../public/locales/en-US/translations.json'
 
-import translations from '../public/locales/en-US/translations.json'
-
-// type defaultNamespace = typeof translations & {
-//   // eslint-disable-next-line camelcase
-//   transaction_type: { [type: string]: string }
-// }
+export type defaultTranslationsKey = keyof typeof defaultTranslations
 
 export interface I18nextCustomTypeOptions {
   returnNull: false
@@ -14,7 +10,7 @@ export interface I18nextCustomTypeOptions {
   defaultNS: 'translations'
   // custom resources type
   resources: {
-    translations: typeof translations
+    translations: typeof defaultTranslations
   }
 }
 

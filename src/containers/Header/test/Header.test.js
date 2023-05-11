@@ -6,16 +6,17 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
-import Header from '../index'
+import { Header } from '../index'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 
 describe('Header component', () => {
   let client
+  // Redux setup required for <Banner>
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-  const createWrapper = (state = {}) => {
-    const store = mockStore({ ...initialState, ...state })
+  const createWrapper = () => {
+    const store = mockStore({ ...initialState })
     return mount(
       <I18nextProvider i18n={i18n}>
         <Router>
@@ -44,9 +45,8 @@ describe('Header component', () => {
 
   it('renders all parts', () => {
     const wrapper = createWrapper()
-    expect(wrapper.find('.search').length).toEqual(2)
-    expect(wrapper.find('.logo').length).toEqual(2)
-    expect(wrapper.find('.mobile-menu').length).toEqual(1)
+    expect(wrapper.find('.search').length).toEqual(1)
+    expect(wrapper.find('.navbar-brand').hostNodes().length).toEqual(1)
     expect(wrapper.find('.network').length).toEqual(1)
     wrapper.unmount()
   })

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Footer from '../Footer'
 import Banner from '../Header/Banner' // included here for spacing
 import './app.scss'
-import App from './App'
+import { App } from './App'
 import NoMatch from '../NoMatch'
 import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'

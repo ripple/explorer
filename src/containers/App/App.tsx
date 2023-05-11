@@ -1,13 +1,9 @@
-import { useEffect } from 'react'
 import { useLocation, useParams } from 'react-router'
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { QueryClientProvider } from 'react-query'
 import { AccountsRouter } from '../Accounts/AccountsRouter'
-import { updateViewportDimensions, onScroll } from './actions'
 import Ledgers from '../Ledgers'
-import Header from '../Header'
+import { Header } from '../Header'
 import './app.scss'
 import { Ledger } from '../Ledger'
 import { Transaction } from '../Transactions'
@@ -21,27 +17,9 @@ import { SocketProvider } from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
 import { NetworkProvider } from '../shared/NetworkContext'
 
-export interface AppProps {
-  actions: {
-    updateViewportDimensions: () => {}
-    onScroll: () => {}
-  }
-}
-
-const App = ({ actions }: AppProps) => {
+export const App = () => {
   const location = useLocation()
   const { rippledUrl = undefined } = useParams<{ rippledUrl: string }>()
-
-  useEffect(() => {
-    actions.updateViewportDimensions()
-    window.addEventListener('resize', actions.updateViewportDimensions)
-    window.addEventListener('scroll', actions.onScroll)
-
-    return function cleanup() {
-      window.removeEventListener('resize', actions.updateViewportDimensions)
-      window.removeEventListener('scroll', actions.onScroll)
-    }
-  })
 
   const urlLink = rippledUrl ? `/${rippledUrl}` : ''
 
@@ -110,16 +88,3 @@ const App = ({ actions }: AppProps) => {
     </div>
   )
 }
-
-export default connect(
-  () => {},
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        updateViewportDimensions,
-        onScroll,
-      },
-      dispatch,
-    ),
-  }),
-)(App)
