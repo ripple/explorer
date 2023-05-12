@@ -28,7 +28,14 @@ describe('NetworkPicker component', () => {
     delete window.location
     // @ts-ignore -- typescript does not like mocking window
     window.location = { assign: mockedFunction }
-    process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
+    process.env = {
+      ...oldEnvs,
+      VITE_ENVIRONMENT: 'mainnet',
+      VITE_MAINNET_LINK: 'https://livenet.xrpl.org',
+      VITE_TESTNET_LINK: 'https://testnet.xrpl.org',
+      VITE_DEVNET_LINK: 'https://devnet.xrpl.org',
+      VITE_AMM_LINK: 'https://amm-devnet.xrpl.org',
+    }
     client = new MockWsClient()
   })
 
