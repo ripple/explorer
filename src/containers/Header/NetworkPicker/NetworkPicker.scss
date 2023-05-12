@@ -27,7 +27,7 @@
   }
 
   &.network-mainnet {
-    @include dropdown-network-item($black, $black-80, $white, $white);
+    @include dropdown-network-item($white, $black-20);
   }
 
   &.network-testnet {
