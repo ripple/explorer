@@ -1,9 +1,8 @@
-import Backend from 'i18next-http-backend'
-import LanguageDetector from 'i18next-browser-languagedetector'
-import i18n, { InitOptions } from 'i18next'
-import { configureFormatters } from './formatters'
+import { InitOptions } from 'i18next'
 
-const options: InitOptions = {
+export const supportedLanguages = ['en-US', 'ja-JP']
+
+export const options: InitOptions = {
   returnNull: false,
   debug: process.env.NODE_ENV === 'development',
   fallbackLng: 'en-US',
@@ -14,6 +13,7 @@ const options: InitOptions = {
     escapeValue: false, // not needed for react!!
     formatSeparator: ',',
   },
+  supportedLngs: supportedLanguages,
   react: {
     useSuspense: true,
   },
@@ -22,8 +22,3 @@ const options: InitOptions = {
   },
   load: 'currentOnly',
 }
-
-i18n.use(Backend).use(LanguageDetector).init(options)
-configureFormatters(i18n)
-
-export default i18n
