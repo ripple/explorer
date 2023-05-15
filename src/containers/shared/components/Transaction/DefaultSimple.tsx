@@ -33,35 +33,34 @@ const processValue = (value: any) => {
     return value
   }
 
+  if (Array.isArray(value)) {
+    return value.map((childValue) => {
+      if (
+        typeof childValue === 'object' &&
+        Object.keys(childValue).length === 1
+      ) {
+        const childKey = Object.keys(childValue)[0]
+        return <div key={childValue}>{processValue(childValue[childKey])}</div>
+      }
+      return <div key={childValue}>{processValue(childValue)}</div>
+    })
+  }
+
+  if (typeof value === 'object') {
+    return (
+      <div className="subgroup">
+        {Object.entries(value).map(([childKey, childValue]) => (
+          <div key={childKey}>{`${childKey}: ${processValue(childValue)}`}</div>
+        ))}
+      </div>
+    )
+  }
+
   return JSON.stringify(value)
 }
 
-const getRow = (
-  key: any,
-  value: any,
-  depth: number = 0,
-  uniqueKey: string = '',
-) => {
-  if (Array.isArray(value) && depth < 1) {
-    return (
-      <SimpleGroup key={key} title="" data-test={key}>
-        <>
-          {value.map((childValue, index) => {
-            if (Object.keys(childValue).length === 1) {
-              const childKey = Object.keys(childValue)[0]
-              return getRow(
-                childKey,
-                childValue[childKey],
-                depth,
-                index.toString(),
-              )
-            }
-            return getRow(index.toString(), childValue, depth, index.toString())
-          })}
-        </>
-      </SimpleGroup>
-    )
-  }
+const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
+  console.log(key, value, uniqueKey)
 
   if (key === 'Amount') {
     return (
@@ -71,49 +70,56 @@ const getRow = (
     )
   }
 
-  if (typeof value === 'object') {
-    if (
-      Object.keys(value).length <= 2 &&
-      (value.issuer == null || typeof value.issuer === 'string') &&
-      typeof value.currency === 'string'
-    ) {
-      return (
-        <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
-          <Currency currency={value.currency} issuer={value.issuer} />
-        </SimpleRow>
-      )
-    }
-
-    if (
-      Object.keys(value).length === 3 &&
-      typeof value.value === 'string' &&
-      typeof value.issuer === 'string' &&
-      typeof value.currency === 'string'
-    ) {
-      return (
-        <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
-          <Amount value={formatAmount(value)} />
-        </SimpleRow>
-      )
-    }
-
-    if (depth < 1) {
-      return (
-        <SimpleGroup key={`${key}${uniqueKey}`} title={key} data-test={key}>
-          <>
-            {Object.entries(value).map(([childKey, childValue]) =>
-              getRow(childKey, childValue, depth + 1),
-            )}
-          </>
-        </SimpleGroup>
-      )
-    }
-  }
   return (
     <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
       {processValue(value)}
     </SimpleRow>
   )
+}
+
+const getRow = (key: any, value: any) => {
+  if (Array.isArray(value)) {
+    return (
+      <>
+        {value.map((innerValue, index) => {
+          if (
+            typeof innerValue === 'object' &&
+            Object.keys(innerValue).length === 1
+          ) {
+            const innerKey = Object.keys(innerValue)[0]
+            return (
+              <SimpleGroup
+                // eslint-disable-next-line react/no-array-index-key
+                key={`group_${innerKey}_${index}`}
+                title={innerKey}
+                data-test={key}
+              >
+                {Object.entries(innerValue[innerKey]).map(
+                  ([childKey, childValue], index2) =>
+                    getRowNested(childKey, childValue, index2.toString()),
+                )}
+              </SimpleGroup>
+            )
+          }
+          return getRowNested(index.toString(), innerValue, index.toString())
+        })}
+      </>
+    )
+  }
+
+  if (typeof value === 'object') {
+    return (
+      <SimpleGroup key={key} title={key} data-test={key}>
+        <>
+          {Object.entries(value).map(([childKey, childValue]) =>
+            getRowNested(childKey, childValue),
+          )}
+        </>
+      </SimpleGroup>
+    )
+  }
+
+  return getRowNested(key, value)
 }
 
 export const DefaultSimple = ({ data }: TransactionSimpleProps) => {
@@ -122,6 +128,8 @@ export const DefaultSimple = ({ data }: TransactionSimpleProps) => {
       ([key, value]) => !DEFAULT_TX_ELEMENTS.includes(key) && value != null,
     ),
   )
+
+  console.log(uniqueData)
 
   return (
     <>{Object.entries(uniqueData).map(([key, value]) => getRow(key, value))}</>
