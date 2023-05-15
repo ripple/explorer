@@ -137,7 +137,7 @@ const getRow = (key: any, value: any) => {
               <SimpleGroup
                 // eslint-disable-next-line react/no-array-index-key -- okay here
                 key={`group_${innerKey}_${index}`}
-                title={innerKey}
+                title={displayKey(innerKey)}
                 data-test={key}
               >
                 {Object.entries(innerValue[innerKey]).map(
@@ -159,7 +159,7 @@ const getRow = (key: any, value: any) => {
     !isAmount(value, key)
   ) {
     return (
-      <SimpleGroup key={key} title={key} data-test={key}>
+      <SimpleGroup key={key} title={displayKey(key)} data-test={key}>
         {Object.entries(value).map(([childKey, childValue], index) =>
           getRowNested(childKey, childValue, index.toString()),
         )}
