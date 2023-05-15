@@ -12,6 +12,8 @@ const DEFAULT_TX_ELEMENTS = [
   'Fee',
   'Flags',
   'LastLedgerSequence',
+  'Memos',
+  'Signers',
   'NetworkID',
   'Sequence',
   'SigningPubKey',
@@ -21,6 +23,8 @@ const DEFAULT_TX_ELEMENTS = [
   'date',
   'warnings',
 ]
+
+const displayKey = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1 $2')
 
 const isCurrency = (value: any) =>
   typeof value === 'object' &&
@@ -75,7 +79,11 @@ const processValue = (value: any) => {
 const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
   if (key === 'Amount') {
     return (
-      <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+      <SimpleRow
+        key={`${key}${uniqueKey}`}
+        label={displayKey(key)}
+        data-test={key}
+      >
         <Amount value={formatAmount(value)} />
       </SimpleRow>
     )
@@ -83,7 +91,11 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
 
   if (isCurrency(value)) {
     return (
-      <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+      <SimpleRow
+        key={`${key}${uniqueKey}`}
+        label={displayKey(key)}
+        data-test={key}
+      >
         <Currency currency={value.currency} issuer={value.issuer} />
       </SimpleRow>
     )
@@ -91,13 +103,21 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
 
   if (isAmount(value, key)) {
     return (
-      <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+      <SimpleRow
+        key={`${key}${uniqueKey}`}
+        label={displayKey(key)}
+        data-test={key}
+      >
         <Amount value={formatAmount(value)} />
       </SimpleRow>
     )
   }
   return (
-    <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+    <SimpleRow
+      key={`${key}${uniqueKey}`}
+      label={displayKey(key)}
+      data-test={key}
+    >
       {processValue(value)}
     </SimpleRow>
   )
