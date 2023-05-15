@@ -22,6 +22,19 @@ const DEFAULT_TX_ELEMENTS = [
   'warnings',
 ]
 
+const isCurrency = (value: any) =>
+  typeof value === 'object' &&
+  Object.keys(value).length <= 2 &&
+  (value.issuer == null || typeof value.issuer === 'string') &&
+  typeof value.currency === 'string'
+
+const isAmount = (value: any, key: any = null) =>
+  key === 'Amount' ||
+  (typeof value === 'object' &&
+    Object.keys(value).length <= 2 &&
+    (value.issuer == null || typeof value.issuer === 'string') &&
+    typeof value.currency === 'string')
+
 const processValue = (value: any) => {
   if (typeof value === 'string') {
     if (isValidClassicAddress(value)) {
@@ -60,8 +73,6 @@ const processValue = (value: any) => {
 }
 
 const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
-  console.log(key, value, uniqueKey)
-
   if (key === 'Amount') {
     return (
       <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
@@ -70,6 +81,21 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
     )
   }
 
+  if (isCurrency(value)) {
+    return (
+      <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+        <Currency currency={value.currency} issuer={value.issuer} />
+      </SimpleRow>
+    )
+  }
+
+  if (isAmount(value, key)) {
+    return (
+      <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
+        <Amount value={formatAmount(value)} />
+      </SimpleRow>
+    )
+  }
   return (
     <SimpleRow key={`${key}${uniqueKey}`} label={key} data-test={key}>
       {processValue(value)}
@@ -89,7 +115,7 @@ const getRow = (key: any, value: any) => {
             const innerKey = Object.keys(innerValue)[0]
             return (
               <SimpleGroup
-                // eslint-disable-next-line react/no-array-index-key
+                // eslint-disable-next-line react/no-array-index-key -- okay here
                 key={`group_${innerKey}_${index}`}
                 title={innerKey}
                 data-test={key}
@@ -107,14 +133,16 @@ const getRow = (key: any, value: any) => {
     )
   }
 
-  if (typeof value === 'object') {
+  if (
+    typeof value === 'object' &&
+    !isCurrency(value) &&
+    !isAmount(value, key)
+  ) {
     return (
       <SimpleGroup key={key} title={key} data-test={key}>
-        <>
-          {Object.entries(value).map(([childKey, childValue]) =>
-            getRowNested(childKey, childValue),
-          )}
-        </>
+        {Object.entries(value).map(([childKey, childValue], index) =>
+          getRowNested(childKey, childValue, index.toString()),
+        )}
       </SimpleGroup>
     )
   }
@@ -129,9 +157,11 @@ export const DefaultSimple = ({ data }: TransactionSimpleProps) => {
     ),
   )
 
-  console.log(uniqueData)
-
   return (
-    <>{Object.entries(uniqueData).map(([key, value]) => getRow(key, value))}</>
+    <>
+      {Object.entries(uniqueData).map(([key, value]) => (
+        <div key={key}>{getRow(key, value)}</div>
+      ))}
+    </>
   )
 }
