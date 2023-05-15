@@ -89,18 +89,6 @@ $subdued-color: $black-40;
       }
     }
 
-    .not-supported {
-      padding: 50px;
-      color: $orange-40;
-      font-size: 14px;
-      text-align: center;
-
-      .type {
-        margin: 0 5px;
-        @include bold;
-      }
-    }
-
     .group {
       margin: 16px 0 16px -16px;
       background: rgba($black-80, 0.7);
