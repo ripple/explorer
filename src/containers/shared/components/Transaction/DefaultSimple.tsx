@@ -67,7 +67,10 @@ const processValue = (value: any) => {
     return (
       <div className="subgroup">
         {Object.entries(value).map(([childKey, childValue]) => (
-          <div key={childKey}>{`${childKey}: ${processValue(childValue)}`}</div>
+          <div
+            key={childKey}
+            data-test={childKey}
+          >{`${childKey}: ${processValue(childValue)}`}</div>
         ))}
       </div>
     )

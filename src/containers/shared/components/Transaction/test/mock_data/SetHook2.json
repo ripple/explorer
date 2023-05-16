@@ -1,0 +1,142 @@
+{
+  "tx": {
+    "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+    "Fee": "124531",
+    "Flags": 0,
+    "Hooks": [
+      {
+        "Hook": {
+          "CreateCode": "0061736D01000000011C0460057F7F7F7F7F017E60037F7F7E017E60027F7F017F60017F017E02230303656E76057472616365000003656E7606616363657074000103656E76025F6700020302010305030100020621057F0141B088040B7F0041A6080B7F004180080B7F0041B088040B7F004180080B07080104686F6F6B00030AC6800001C2800002017F017E230041106B220124002001200036020C418008411341940841124100220010001A20002000420010011A41012200200010021A200141106A240020020B0B2C01004180080B25224163636570742E633A2043616C6C65642E22004163636570742E633A2043616C6C65642E",
+          "Flags": 1,
+          "HookApiVersion": 0,
+          "HookNamespace": "4FF9961269BF7630D32E15276569C94470174A5DA79FA567C0F62251AA9A36B9",
+          "HookOn": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFFFFFFFFFBFFFFF",
+          "HookParameters": [
+            {
+              "HookParameter": {
+                "HookParameterName": "6E616D6531",
+                "HookParameterValue": "76616C756531"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "LastLedgerSequence": 1716655,
+    "NetworkID": 21338,
+    "Sequence": 35,
+    "SigningPubKey": "0330E7FC9D56BB25D6893BA3F317AE5BCF33B3291BD63DB32654A313222F7FD020",
+    "TransactionType": "SetHook",
+    "TxnSignature": "30450221009F547779E181441978A2E4F2C75774A07D6B654A40AC71E4D9FED65C342138390220710BD22DCB10FA609E0E85F8EC60355081921F7BC5001E826FC42A69FD3D8219",
+    "ctid": "C01A319D0000535A",
+    "date": 1680058650000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Balance": "8095809079",
+            "Flags": 0,
+            "OwnerCount": 11,
+            "Sequence": 36
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "2B6AC232AA4C4BE41BF49D2459FA4A0347E1B543A4C92FCEE0821C0201E2E9A8",
+          "PreviousFields": {
+            "Balance": "8095933610",
+            "Sequence": 35
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+            "Flags": 0,
+            "Hooks": [
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "7FCD62CCB03D525CA18AA59714CA22EDB008E93BEB3ED963442EB873E5915AE0",
+                  "HookOn": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFFFFFFFFFBFFFFF",
+                  "HookParameters": [
+                    {
+                      "HookParameter": {
+                        "HookParameterName": "6E616D6531",
+                        "HookParameterValue": "76616C756531"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "AF43D543F9D8EB03CF1A0A3C28D3264A691D9BFC23CFD40E639F3D20DD5167C5"
+                }
+              },
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "AF43D543F9D8EB03CF1A0A3C28D3264A691D9BFC23CFD40E639F3D20DD5167C5"
+                }
+              },
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "AF43D543F9D8EB03CF1A0A3C28D3264A691D9BFC23CFD40E639F3D20DD5167C5"
+                }
+              },
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "AF43D543F9D8EB03CF1A0A3C28D3264A691D9BFC23CFD40E639F3D20DD5167C5"
+                }
+              },
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "AF43D543F9D8EB03CF1A0A3C28D3264A691D9BFC23CFD40E639F3D20DD5167C5"
+                }
+              },
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "AF43D543F9D8EB03CF1A0A3C28D3264A691D9BFC23CFD40E639F3D20DD5167C5"
+                }
+              },
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "AF43D543F9D8EB03CF1A0A3C28D3264A691D9BFC23CFD40E639F3D20DD5167C5"
+                }
+              },
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "AF43D543F9D8EB03CF1A0A3C28D3264A691D9BFC23CFD40E639F3D20DD5167C5"
+                }
+              },
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "AF43D543F9D8EB03CF1A0A3C28D3264A691D9BFC23CFD40E639F3D20DD5167C5"
+                }
+              }
+            ],
+            "OwnerNode": "0"
+          },
+          "LedgerEntryType": "Hook",
+          "LedgerIndex": "469372BEE8814EC52CA2AECB5374AB57A47B53627E3C0E2ACBE3FDC78DBFEC7B"
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "044F061D19F2D24EC7CBEB84770910C72A972D2212BDF8E04FE5F47258B7F79E",
+  "ledger_index": 1716637,
+  "date": 1680058650000
+}
