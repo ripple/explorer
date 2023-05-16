@@ -1,5 +1,6 @@
 import NewEscrowCreate from './mock_data/NewEscrowCreate.json'
 import SetHook from './mock_data/SetHook.json'
+import SignerListSet from './mock_data/SignerListSet.json'
 import { DefaultSimple } from '../DefaultSimple'
 import { createSimpleWrapperFactory } from './createWrapperFactory'
 import { expectSimpleRowText } from './expectations'
@@ -44,6 +45,51 @@ describe('DefaultSimple', () => {
     )
     expect(wrapper.find(`[data-test="HookOn"] .value`).at(0)).toHaveText(
       'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFFFFFFFFFBFFFFF',
+    )
+
+    wrapper.unmount()
+  })
+
+  it('renders Simple for more complex transaction', () => {
+    const wrapper = createWrapper(SignerListSet)
+    expect(wrapper.find(`[data-test="group"]`).length).toEqual(5)
+    expect(wrapper.find(`[data-test="Account"]`).length).toEqual(5)
+    expect(wrapper.find(`[data-test="Account"] a`).length).toEqual(5)
+    expect(wrapper.find(`[data-test="SignerWeight"]`).length).toEqual(5)
+
+    expect(wrapper.find(`[data-test="Account"] .value`).at(0)).toHaveText(
+      'rEg5sHxZVTNwRL3BAdMwJatkmWDzHMmzDF',
+    )
+    expect(wrapper.find(`[data-test="SignerWeight"] .value`).at(0)).toHaveText(
+      '1',
+    )
+
+    expect(wrapper.find(`[data-test="Account"] .value`).at(1)).toHaveText(
+      'rsDcSULqePdATo4Phosy33G9BJB3xjid6f',
+    )
+    expect(wrapper.find(`[data-test="SignerWeight"] .value`).at(1)).toHaveText(
+      '1',
+    )
+
+    expect(wrapper.find(`[data-test="Account"] .value`).at(2)).toHaveText(
+      'rL8qTrAvZ8Q1o1H9H9Ahpj3xjgmRvFLvJ3',
+    )
+    expect(wrapper.find(`[data-test="SignerWeight"] .value`).at(2)).toHaveText(
+      '1',
+    )
+
+    expect(wrapper.find(`[data-test="Account"] .value`).at(3)).toHaveText(
+      'r14FxdvpSA1JpGgcotxPFY1NZe4bhRtSh',
+    )
+    expect(wrapper.find(`[data-test="SignerWeight"] .value`).at(3)).toHaveText(
+      '1',
+    )
+
+    expect(wrapper.find(`[data-test="Account"] .value`).at(4)).toHaveText(
+      'rfsxNxZ6xB1nTPhTMwQajNnkCxWG8B714n',
+    )
+    expect(wrapper.find(`[data-test="SignerWeight"] .value`).at(4)).toHaveText(
+      '1',
     )
 
     wrapper.unmount()

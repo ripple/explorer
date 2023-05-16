@@ -1,0 +1,127 @@
+{
+  "tx": {
+    "Account": "rMAXACCrp3Y8PpswXcg3bKggHX76V3F8M4",
+    "Fee": "10",
+    "Flags": 0,
+    "LastLedgerSequence": 332,
+    "Sequence": 2,
+    "SignerEntries": [
+      {
+        "SignerEntry": {
+          "Account": "rEg5sHxZVTNwRL3BAdMwJatkmWDzHMmzDF",
+          "SignerWeight": 1
+        }
+      },
+      {
+        "SignerEntry": {
+          "Account": "rsDcSULqePdATo4Phosy33G9BJB3xjid6f",
+          "SignerWeight": 1
+        }
+      },
+      {
+        "SignerEntry": {
+          "Account": "rL8qTrAvZ8Q1o1H9H9Ahpj3xjgmRvFLvJ3",
+          "SignerWeight": 1
+        }
+      },
+      {
+        "SignerEntry": {
+          "Account": "r14FxdvpSA1JpGgcotxPFY1NZe4bhRtSh",
+          "SignerWeight": 1
+        }
+      },
+      {
+        "SignerEntry": {
+          "Account": "rfsxNxZ6xB1nTPhTMwQajNnkCxWG8B714n",
+          "SignerWeight": 1
+        }
+      }
+    ],
+    "SignerQuorum": 4,
+    "SigningPubKey": "029AC7DF8C2ADD0164C8BB618E333EE6D2970BBCA80CF095314BCFA7AF9A781E0F",
+    "TransactionType": "SignerListSet",
+    "TxnSignature": "304402200D23AD5DEEE155D4B6487BFECE45CF44B038A3C73149D594C2E485A525FE92C2022018D69315428CC59959CE29EA67D9B218830631A3ACC69A7DE9391C6202BC8614",
+    "date": 1680035620000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rMAXACCrp3Y8PpswXcg3bKggHX76V3F8M4",
+            "RootIndex": "0127AB8B4B29CCDBB61AA51C0799A8A6BB80B86A9899807C11ED576AF8516473"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "0127AB8B4B29CCDBB61AA51C0799A8A6BB80B86A9899807C11ED576AF8516473"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rMAXACCrp3Y8PpswXcg3bKggHX76V3F8M4",
+            "Balance": "999999980",
+            "Flags": 0,
+            "OwnerCount": 8,
+            "Sequence": 3
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "07FA59CE72C6D4DFC7B825D5732B1D52DD72942AC54EB66E3C5C7234B220B454",
+          "PreviousFields": {
+            "Balance": "999999990",
+            "OwnerCount": 1,
+            "Sequence": 2
+          },
+          "PreviousTxnID": "5CCF12976B92749178DC1C6ABA180531518102AA22012BD0E80671B852648D89",
+          "PreviousTxnLgrSeq": 312
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "SignerList",
+          "LedgerIndex": "141D5B37995FFE6884D7CE276EEADC2A584FF04DD7036E47A294177278638D18",
+          "NewFields": {
+            "SignerEntries": [
+              {
+                "SignerEntry": {
+                  "Account": "r14FxdvpSA1JpGgcotxPFY1NZe4bhRtSh",
+                  "SignerWeight": 1
+                }
+              },
+              {
+                "SignerEntry": {
+                  "Account": "rsDcSULqePdATo4Phosy33G9BJB3xjid6f",
+                  "SignerWeight": 1
+                }
+              },
+              {
+                "SignerEntry": {
+                  "Account": "rfsxNxZ6xB1nTPhTMwQajNnkCxWG8B714n",
+                  "SignerWeight": 1
+                }
+              },
+              {
+                "SignerEntry": {
+                  "Account": "rEg5sHxZVTNwRL3BAdMwJatkmWDzHMmzDF",
+                  "SignerWeight": 1
+                }
+              },
+              {
+                "SignerEntry": {
+                  "Account": "rL8qTrAvZ8Q1o1H9H9Ahpj3xjgmRvFLvJ3",
+                  "SignerWeight": 1
+                }
+              }
+            ],
+            "SignerQuorum": 4
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "E2633E45E316FF4B3E87C67A423EEC7E4E1544D217DB46ACCF610D333CF4484C",
+  "ledger_index": 314,
+  "date": 1680035620000
+}
