@@ -47,6 +47,9 @@ const processValue = (value: any) => {
     if (value.length > 300) {
       return `${value.substring(0, 300)}...`
     }
+    if (value === '') {
+      return '<empty>'
+    }
     return value
   }
 
@@ -129,7 +132,7 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
 const getRow = (key: any, value: any) => {
   if (Array.isArray(value)) {
     return (
-      <>
+      <div key={key}>
         {value.map((innerValue, index) => {
           if (
             typeof innerValue === 'object' &&
@@ -152,7 +155,7 @@ const getRow = (key: any, value: any) => {
           }
           return getRowNested(index.toString(), innerValue, index.toString())
         })}
-      </>
+      </div>
     )
   }
 
@@ -181,10 +184,6 @@ export const DefaultSimple = ({ data }: TransactionSimpleProps) => {
   )
 
   return (
-    <>
-      {Object.entries(uniqueData).map(([key, value]) => (
-        <div key={key}>{getRow(key, value)}</div>
-      ))}
-    </>
+    <>{Object.entries(uniqueData).map(([key, value]) => getRow(key, value))}</>
   )
 }
