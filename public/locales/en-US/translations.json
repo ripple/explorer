@@ -112,7 +112,6 @@
   "message_key": "message key",
   "out_of": "of",
   "weight": "weight",
-  "no_account_settings": "no account settings provided",
   "the_account": "The account",
   "create_payment_channel": "will create a payment channel to",
   "destination_tag": "destination tag",
