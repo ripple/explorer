@@ -153,17 +153,17 @@ $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
     .selected .nav-link {
       border-left-color: #32e685;
     }
-  }
 
-  .dropdown {
-    display: block;
-  }
+    .dropdown {
+      display: block;
+    }
 
-  .dropdown-menu {
-    position: static;
-    padding-left: 15px;
-    border: none;
-    margin: 0;
+    .dropdown-menu {
+      position: static;
+      padding-left: 15px;
+      border: none;
+      margin: 0;
+    }
   }
 
   .dropdown-item:hover {

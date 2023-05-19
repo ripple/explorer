@@ -22,6 +22,17 @@
 }
 
 .network {
+  overflow-x: clip;
+
+  .dropdown-toggle {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .dropdown-toggle-text {
+    @extend %truncate;
+  }
+
   .dropdown-menu {
     min-width: max(100%, 250px);
   }

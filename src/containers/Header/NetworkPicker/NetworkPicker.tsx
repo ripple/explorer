@@ -105,28 +105,27 @@ export const NetworkPicker = () => {
   }
 
   return (
-    <div className={`network network-${currentMode}`}>
-      <Dropdown
-        title={
-          isCustom && inNetwork
-            ? getCustomNetworkName(rippledUrl)
-            : networkPickerTitle
-        }
-      >
-        <>
-          {networks.map(({ network, title, url = '' }) => {
-            if (
-              network === currentMode ||
-              window.location.href?.indexOf(url) === 0
-            ) {
-              return <></> // don't render if we are in that network
-            }
+    <Dropdown
+      title={
+        isCustom && inNetwork
+          ? getCustomNetworkName(rippledUrl)
+          : networkPickerTitle
+      }
+      className={`network network-${currentMode}`}
+    >
+      <>
+        {networks.map(({ network, title, url = '' }) => {
+          if (
+            network === currentMode ||
+            window.location.href?.indexOf(url) === 0
+          ) {
+            return <></> // don't render if we are in that network
+          }
 
-            return renderDropdownItem(network, url, title)
-          })}
-          {renderCustomNetworkInput()}
-        </>
-      </Dropdown>
-    </div>
+          return renderDropdownItem(network, url, title)
+        })}
+        {renderCustomNetworkInput()}
+      </>
+    </Dropdown>
   )
 }
