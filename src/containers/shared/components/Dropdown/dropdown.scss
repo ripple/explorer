@@ -23,6 +23,7 @@
   position: absolute;
   z-index: 100;
   display: none;
+  overflow: hidden;
   min-width: max(100%, 160px);
   padding: 8px;
   border: 1px solid $black-80;

@@ -119,7 +119,7 @@ export const NetworkPicker = () => {
             network === currentMode ||
             window.location.href?.indexOf(url) === 0
           ) {
-            return <></> // don't render if we are in that network
+            return null // don't render if we are in that network
           }
 
           return renderDropdownItem(network, url, title)
