@@ -47,7 +47,7 @@ describe('Header component', () => {
     const wrapper = createWrapper()
     expect(wrapper.find('.search').length).toEqual(1)
     expect(wrapper.find('.navbar-brand').hostNodes().length).toEqual(1)
-    expect(wrapper.find('.network').length).toEqual(1)
+    expect(wrapper.find('.network').hostNodes().length).toEqual(1)
     wrapper.unmount()
   })
 })
