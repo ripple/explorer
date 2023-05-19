@@ -4,16 +4,10 @@
   margin-left: auto;
 
   .dropdown-toggle {
-    padding-right: 0 !important;
-    padding-left: 0 !important;
     border-color: transparent;
   }
 
   .arrow {
     color: $blue-purple-40;
-  }
-
-  .dropdown-content {
-    right: 0;
   }
 }
