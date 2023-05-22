@@ -154,6 +154,6 @@
   "prettier": "@xrplf/prettier-config",
   "engines": {
     "node": ">=18.0.0 <18.13.0",
-    "npm": ">=7.14.0 <9.0.0"
+    "npm": ">=7.14.0 <10.0.0"
   }
 }
