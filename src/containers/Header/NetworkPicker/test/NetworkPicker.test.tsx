@@ -3,7 +3,6 @@ import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
-import { NetworkPicker } from '../NetworkPicker'
 import MockWsClient from '../../../test/mockWsClient'
 
 describe('NetworkPicker component', () => {
@@ -12,16 +11,24 @@ describe('NetworkPicker component', () => {
   const mockedFunction = jest.fn()
   const oldEnvs = process.env
 
-  const createWrapper = () =>
-    mount(
+  const createWrapper = () => {
+    let Picker
+
+    // Needed to test different env variable values.
+    jest.isolateModules(() => {
+      ;({ NetworkPicker: Picker } = jest.requireActual('../NetworkPicker'))
+    })
+
+    return mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <SocketContext.Provider value={client}>
-            <NetworkPicker />
+            <Picker />
           </SocketContext.Provider>
         </Router>
       </I18nextProvider>,
     )
+  }
 
   beforeEach(() => {
     // @ts-ignore -- typescript does not like mocking window

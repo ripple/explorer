@@ -11,16 +11,16 @@ export interface Network {
   url: string
 }
 
-export const NetworkPicker = () => {
-  const CUSTOM_NETWORK_BASE_LINK = process.env.VITE_CUSTOMNETWORK_LINK
-  const STATIC_ENV_LINKS: Record<string, string | undefined> = {
-    mainnet: process.env.VITE_MAINNET_LINK,
-    testnet: process.env.VITE_TESTNET_LINK,
-    devnet: process.env.VITE_DEVNET_LINK,
-    amm: process.env.VITE_AMM_LINK,
-  }
-  const currentMode: string = process.env.VITE_ENVIRONMENT || 'mainnet'
+const CUSTOM_NETWORK_BASE_LINK = process.env.VITE_CUSTOMNETWORK_LINK
+const STATIC_ENV_LINKS: Record<string, string | undefined> = {
+  mainnet: process.env.VITE_MAINNET_LINK,
+  testnet: process.env.VITE_TESTNET_LINK,
+  devnet: process.env.VITE_DEVNET_LINK,
+  amm: process.env.VITE_AMM_LINK,
+}
+const currentMode: string = process.env.VITE_ENVIRONMENT || 'mainnet'
 
+export const NetworkPicker = () => {
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
   const [newRippledUrl, setNewRippledUrl] = useState('')
