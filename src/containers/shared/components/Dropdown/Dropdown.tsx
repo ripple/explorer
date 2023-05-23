@@ -76,7 +76,8 @@ export const Dropdown = ({
         aria-haspopup="true"
         aria-expanded={expanded}
       >
-        {title} <ArrowIcon className="arrow" />
+        <div className="dropdown-toggle-text">{title}</div>{' '}
+        <ArrowIcon className="arrow" />
       </button>
       <div
         className="dropdown-menu"

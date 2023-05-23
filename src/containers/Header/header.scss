@@ -8,7 +8,24 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  padding: 0 16px 16px;
+  padding: 16px;
   background: $black;
   gap: 8px;
+
+  .topbar {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    gap: 0 16px;
+
+    .dropdown-toggle {
+      padding: 8px 12px;
+    }
+
+    .dropdown-menu,
+    .dropdown-item {
+      padding: 8px;
+    }
+  }
 }

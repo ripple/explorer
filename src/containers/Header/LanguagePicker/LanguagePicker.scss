@@ -1,0 +1,13 @@
+@import '../../shared/css/variables';
+
+.language-picker {
+  margin-left: auto;
+
+  .dropdown-toggle {
+    border-color: transparent;
+  }
+
+  .arrow {
+    color: $blue-purple-40;
+  }
+}
