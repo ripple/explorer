@@ -11,7 +11,7 @@
   "network_name_mainnet": "Mainnet",
   "network_name_devnet": "Devnet",
   "network_name_amm": "AMM-Devnet",
-  "network_name_custom": "カスタムネットワーク",
+  "network_name_custom": "Custom",
   "app.meta.description": "XRPLネットワークエクスプローラ",
   "app.meta.author": "Ripple",
   "explorer": "エクスプローラ",
