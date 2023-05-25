@@ -2,6 +2,8 @@ import { useContext, useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Amount } from 'containers/shared/components/Amount'
+import { ExplorerAmount } from 'containers/shared/types'
 import { loadAccountState } from './actions'
 import Loader from '../../shared/components/Loader'
 import './styles.scss'
@@ -61,6 +63,23 @@ interface AccountHeaderProps {
       test: boolean
     }
     deleted: boolean
+    bridge: {
+      lockingChainDoor: string
+      lockingChainIssue: {
+        currency: string
+        issuer?: string
+      }
+      issuingChainDoor: string
+      issuingChainIssue: {
+        currency: string
+        issuer?: string
+      }
+      minAccountCreateAmount: ExplorerAmount | undefined
+      signatureReward: ExplorerAmount | undefined
+      xchainAccountClaimCount: number
+      xchainAccountCreateCount: number
+      xchainClaimId: number
+    }
   }
   actions: {
     loadAccountState: typeof loadAccountState
@@ -173,6 +192,78 @@ const AccountHeader = (props: AccountHeaderProps) => {
               <span className="label"> {t('required')}</span>
             </li>
           </ul>
+        </div>
+      )
+    )
+  }
+
+  function renderBridge() {
+    const { bridge } = data
+    console.log(bridge)
+    return (
+      bridge && (
+        <div className="bridge secondary">
+          <div className="title">{t('xchainbridge')}</div>
+          <ul>
+            <li>
+              <span className="label">{`${t('locking_chain_door')} `}</span>
+              <Account
+                account={bridge.lockingChainDoor}
+                link={bridge.lockingChainDoor === accountId}
+              />
+            </li>
+            <li>
+              <span className="label">{`${t('locking_chain_issue')} `}</span>
+              <Currency
+                currency={bridge.lockingChainIssue.currency}
+                issuer={bridge.lockingChainIssue.issuer}
+              />
+            </li>
+            <li>
+              <span className="label">{`${t('issuing_chain_door')} `}</span>
+              <Account
+                account={bridge.issuingChainDoor}
+                link={bridge.issuingChainDoor === accountId}
+              />
+            </li>
+            <li>
+              <span className="label">{`${t('issuing_chain_issue')} `}</span>
+              <Currency
+                currency={bridge.issuingChainIssue.currency}
+                issuer={bridge.issuingChainIssue.issuer}
+              />
+            </li>
+            {bridge.minAccountCreateAmount && (
+              <li>
+                <span className="label">{`${t(
+                  'min_account_create_amount',
+                )} `}</span>
+                <Amount value={bridge.minAccountCreateAmount} />
+              </li>
+            )}
+            {bridge.signatureReward && (
+              <li>
+                <span className="label">{`${t('signature_reward')} `}</span>
+                <Amount value={bridge.signatureReward} />
+              </li>
+            )}
+          </ul>
+          <li>
+            <span className="label">{`${t(
+              'xchain_account_claim_count',
+            )} `}</span>
+            <span>{bridge.xchainAccountClaimCount}</span>
+          </li>
+          <li>
+            <span className="label">{`${t(
+              'xchain_account_create_count',
+            )} `}</span>
+            <span>{bridge.xchainAccountCreateCount}</span>
+          </li>
+          <li>
+            <span className="label">{`${t('xchain_claim_id')} `}</span>
+            <span>{bridge.xchainClaimId}</span>
+          </li>
         </div>
       )
     )
@@ -335,6 +426,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
           {renderInfo()}
           {renderEscrows()}
           {renderPaymentChannels()}
+          {renderBridge()}
         </div>
       </div>
     )

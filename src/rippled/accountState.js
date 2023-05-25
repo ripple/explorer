@@ -16,6 +16,7 @@ import {
   getBalances,
   getServerInfo,
   getAccountTransactions,
+  getAccountBridge,
 } from './lib/rippled'
 import logger from './lib/logger'
 import { formatAccountInfo, formatSignerList } from './lib/utils'
@@ -98,6 +99,7 @@ const getAccountState = (account, rippledSocket) => {
         getAccountEscrows(rippledSocket, classicAddress, info.ledger_index),
         getAccountPaychannels(rippledSocket, classicAddress, info.ledger_index),
         getServerInfo(rippledSocket),
+        getAccountBridge(rippledSocket, classicAddress),
       ]).then((data) => ({
         account: info.Account,
         ledger_index: info.ledger_index,
@@ -111,6 +113,7 @@ const getAccountState = (account, rippledSocket) => {
         paychannels: data[2],
         xAddress: decomposedAddress || undefined,
         deleted: false,
+        bridge: data[4],
       })),
     )
     .catch((error) => {
