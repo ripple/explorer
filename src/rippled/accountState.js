@@ -117,6 +117,7 @@ const getAccountState = (account, rippledSocket) => {
       })),
     )
     .catch((error) => {
+      console.log(error)
       // X-address:
       //   error.toString(): CustomError: account not found
       //   error.code: 404
@@ -134,7 +135,7 @@ const getAccountState = (account, rippledSocket) => {
           },
         )
       }
-      log.error(error.toString())
+      log.error(error.message.toString())
       throw error
     })
 }

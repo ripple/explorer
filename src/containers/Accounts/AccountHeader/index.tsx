@@ -199,7 +199,6 @@ const AccountHeader = (props: AccountHeaderProps) => {
 
   function renderBridge() {
     const { bridge } = data
-    console.log(bridge)
     return (
       bridge && (
         <div className="bridge secondary">

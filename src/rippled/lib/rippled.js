@@ -228,6 +228,11 @@ const getAccountBridge = (rippledSocket, account, ledger_index = 'validated') =>
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404)
     }
+    if (resp.error === 'invalidParams') {
+      // thrown when XChainBridge amendment is not activated
+      // TODO: remove this when XLS-38d is live in mainnet
+      return undefined
+    }
 
     if (resp.error_message) {
       throw new Error(resp.error_message, 500)
