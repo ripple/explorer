@@ -67,6 +67,7 @@
         "middlewares",
         "MILLIS",
         "moxios",
+        "nftoken",
         "nodemodules",
         "pageview",
         "paychannels",

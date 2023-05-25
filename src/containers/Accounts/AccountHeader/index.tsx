@@ -330,7 +330,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
     return (
       info && (
         <div className="info secondary">
-          <div className="title">{t('account_info')}</div>
+          <div className="label">{t('account_info')}</div>
           <ul>
             <li>
               <span className="label"> {t('reserve')}: </span>
@@ -419,14 +419,14 @@ const AccountHeader = (props: AccountHeaderProps) => {
             )}
             {renderBalancesSelector()}
           </div>
-          {renderSignerList()}
         </div>
         <div className="column second">
           {renderInfo()}
           {renderEscrows()}
           {renderPaymentChannels()}
-          {renderBridge()}
         </div>
+        <div className="column first">{renderSignerList()}</div>
+        <div className="column second">{renderBridge()}</div>
       </div>
     )
   }

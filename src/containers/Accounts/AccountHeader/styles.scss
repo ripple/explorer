@@ -158,13 +158,15 @@
 
       .title {
         color: $white;
-        font-size: 14px;
-        text-transform: uppercase;
+        font-size: 24px;
+        font-weight: 700;
+        text-align: left;
         @include medium;
       }
 
       .label {
-        color: $white;
+        color: $black-40;
+        text-align: left;
         text-transform: uppercase;
         @include medium;
       }
