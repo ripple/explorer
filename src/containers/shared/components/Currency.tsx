@@ -2,12 +2,14 @@ import { Link } from 'react-router-dom'
 
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
+const XRP = 'XRP'
 
 export interface Props {
   issuer?: string
   currency: string
   link?: boolean
   shortenIssuer?: boolean
+  displaySymbol?: boolean
 }
 
 /*
@@ -15,7 +17,13 @@ export interface Props {
   make sure we're only converting actual hex values.
  */
 const Currency = (props: Props) => {
-  const { issuer, currency, link = true, shortenIssuer = false } = props
+  const {
+    issuer,
+    currency,
+    link = true,
+    shortenIssuer = false,
+    displaySymbol = true,
+  } = props
   const LPTokenIdentifier = '03'
   const currencyCode =
     currency?.length === NON_STANDARD_CODE_LENGTH &&
@@ -24,6 +32,10 @@ const Currency = (props: Props) => {
       : currency
 
   let display = `${currencyCode}`
+
+  if (currencyCode === XRP && displaySymbol) {
+    display = `\uE900 ${display}`
+  }
 
   if (issuer) {
     display += '.'
