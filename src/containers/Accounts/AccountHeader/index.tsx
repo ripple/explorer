@@ -178,6 +178,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
           <ul>
             {signerList.signers.map((d) => (
               <li key={d.account}>
+                <span className="label">Signer</span>
                 <Account account={d.account} />
                 <span className="weight">
                   <span className="label">{` ${t('weight')}: `}</span>
@@ -246,23 +247,23 @@ const AccountHeader = (props: AccountHeaderProps) => {
                 <Amount value={bridge.signatureReward} />
               </li>
             )}
+            <li>
+              <span className="label">{`${t(
+                'xchain_account_claim_count',
+              )} `}</span>
+              <span>{bridge.xchainAccountClaimCount}</span>
+            </li>
+            <li>
+              <span className="label">{`${t(
+                'xchain_account_create_count',
+              )} `}</span>
+              <span>{bridge.xchainAccountCreateCount}</span>
+            </li>
+            <li>
+              <span className="label">{`${t('xchain_claim_id')} `}</span>
+              <span>{bridge.xchainClaimId}</span>
+            </li>
           </ul>
-          <li>
-            <span className="label">{`${t(
-              'xchain_account_claim_count',
-            )} `}</span>
-            <span>{bridge.xchainAccountClaimCount}</span>
-          </li>
-          <li>
-            <span className="label">{`${t(
-              'xchain_account_create_count',
-            )} `}</span>
-            <span>{bridge.xchainAccountCreateCount}</span>
-          </li>
-          <li>
-            <span className="label">{`${t('xchain_claim_id')} `}</span>
-            <span>{bridge.xchainClaimId}</span>
-          </li>
         </div>
       )
     )
@@ -425,8 +426,10 @@ const AccountHeader = (props: AccountHeaderProps) => {
           {renderEscrows()}
           {renderPaymentChannels()}
         </div>
-        <div className="column first">{renderSignerList()}</div>
-        <div className="column second">{renderBridge()}</div>
+        <div className="lower-header">
+          <div className="column first">{renderSignerList()}</div>
+          <div className="column second">{renderBridge()}</div>
+        </div>
       </div>
     )
   }

@@ -138,10 +138,10 @@
     vertical-align: top;
 
     @include for-size(desktop-up) {
-      width: 450px;
+      width: max(50%, 475px);
 
       &.second {
-        width: calc(100% - 450px);
+        width: 50%;
         text-align: right;
       }
     }
@@ -172,6 +172,7 @@
       }
 
       ul {
+        width: 100%;
         padding: 0px;
         margin: 0px;
         list-style: none;
@@ -229,33 +230,42 @@
         }
       }
 
-      &.signer-list ul {
-        width: 100%;
-
-        li {
+      &.signer-list,
+      &.bridge {
+        ul {
           display: flex;
-          justify-content: space-between;
+          width: 100%;
+          flex-direction: column;
 
-          @media (width >= 450px) {
-            display: block;
-          }
+          li {
+            // display: flex;
+            // justify-content: space-between;
 
-          .account {
-            overflow: hidden;
-            width: 300px;
-            padding-right: 10px;
-            color: $white;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
+            @media (width >= 450px) {
+              display: block;
+            }
 
-          .weight {
-            text-align: right;
-            white-space: nowrap;
-          }
+            .label {
+              padding-right: 15px;
+              text-align: left;
+            }
 
-          &.quorum {
-            display: block;
+            .account {
+              overflow: hidden;
+              // width: 300px;
+              padding-right: 10px;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            .weight {
+              text-align: right;
+              white-space: nowrap;
+            }
+
+            &.quorum {
+              display: block;
+            }
           }
         }
       }
