@@ -4,9 +4,28 @@
   margin-bottom: 16px;
 
   .box-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     margin-top: 106px;
     margin-bottom: 80px;
     text-align: left;
+
+    .door-account {
+      height: 19px;
+      box-sizing: border-box;
+      padding: 2px 12px;
+      border: 1px solid $yellow-50;
+      border-radius: 30px;
+      margin-left: 12px;
+      background: $yellow-50;
+      box-shadow: 0px 1px 1px $yellow-80;
+      color: $black;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
 
     .classic {
       margin: 0px;
@@ -19,7 +38,7 @@
       }
 
       @include for-size(desktop-up) {
-        font-size: 42px;
+        font-size: 36px;
       }
     }
 
@@ -246,6 +265,10 @@
             .label {
               padding-right: 15px;
               text-align: left;
+
+              &.quorum {
+                text-transform: none;
+              }
             }
 
             .value {
@@ -262,10 +285,6 @@
             .weight {
               text-align: right;
               white-space: nowrap;
-            }
-
-            &.quorum {
-              display: block;
             }
           }
         }

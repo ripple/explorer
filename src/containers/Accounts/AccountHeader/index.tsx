@@ -188,11 +188,12 @@ const AccountHeader = (props: AccountHeaderProps) => {
                 </div>
               </li>
             ))}
-            <li className="quorum">
-              <b>{signerList.quorum}</b>
-              <span className="label"> {t('out_of')} </span>
-              <b>{signerList.maxSigners}</b>
-              <span className="label"> {t('required')}</span>
+
+            <li className="label quorum">
+              <Trans
+                i18nKey="min_signer_quorum"
+                values={{ quorum: signerList.quorum }}
+              />
             </li>
           </ul>
         </div>
@@ -460,11 +461,12 @@ const AccountHeader = (props: AccountHeaderProps) => {
     )
   }
 
-  const { xAddress } = data
+  const { xAddress, bridge } = data
   return (
     <div className="box account-header">
       <div className="section box-header">
         <h1 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h1>
+        {bridge && <div className="door-account">Door Account</div>}
       </div>
       <div className="box-content">
         {loading ? <Loader /> : renderHeaderContent()}
