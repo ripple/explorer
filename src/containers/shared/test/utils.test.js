@@ -1,7 +1,6 @@
 import {
   isEarlierVersion,
   formatLargeNumber,
-  normalizeLanguage,
   localizeNumber,
   formatPrice,
   getLocalizedCurrencySymbol,
@@ -46,28 +45,6 @@ describe('utils', () => {
     expect(formatLargeNumber(44400000)).toEqual({ num: '44.4000', unit: 'M' })
     expect(formatLargeNumber(555500)).toEqual({ num: '555.5000', unit: 'K' })
     expect(formatLargeNumber(66.666, 2)).toEqual({ num: '66.67', unit: '' })
-  })
-
-  it('normalizeLanguage', () => {
-    expect(normalizeLanguage('en')).toEqual('en-US')
-    expect(normalizeLanguage('en-US')).toEqual('en-US')
-    expect(normalizeLanguage('zh')).toEqual('zh-Hans')
-    expect(normalizeLanguage('zh-Hant')).toEqual('zh-Hans')
-    expect(normalizeLanguage('zh-Hans')).toEqual('zh-Hans')
-    expect(normalizeLanguage('zh-Ti')).toEqual('zh-Hans')
-    expect(normalizeLanguage('ja')).toEqual('ja-JP')
-    expect(normalizeLanguage('ja-JP')).toEqual('ja-JP')
-    expect(normalizeLanguage('ja-Ti')).toEqual('ja-JP')
-    expect(normalizeLanguage('ko')).toEqual('ko-KP')
-    expect(normalizeLanguage('ko-KP')).toEqual('ko-KP')
-    expect(normalizeLanguage('ko-KR')).toEqual('ko-KP')
-    expect(normalizeLanguage('ko-Ti')).toEqual('ko-KP')
-    expect(normalizeLanguage('es')).toEqual('es-MX')
-    expect(normalizeLanguage('es-MX')).toEqual('es-MX')
-    expect(normalizeLanguage('pt-PT')).toEqual('pt-BR')
-    expect(normalizeLanguage('in-IN')).toEqual(undefined)
-    expect(normalizeLanguage('')).toEqual(undefined)
-    expect(normalizeLanguage()).toEqual(undefined)
   })
 
   it('localizeNumber', () => {
