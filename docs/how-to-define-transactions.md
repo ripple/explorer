@@ -15,4 +15,4 @@ This object is then provided in `./index.ts`
 The transaction needs to have its display value defined in `/public/locales/en-US/translations.json` with the key
 `"transaction_{TransactionType}"`.
 
-The helper methods `getAction` and `getCategory` are available to find out how a transaction is defined and falls back to UNKNOWN.
+The helper methods `getAction` and `getCategory` are available to find out how a transaction is defined and falls back to "UNKNOWN".
