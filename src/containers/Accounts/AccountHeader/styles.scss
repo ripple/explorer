@@ -149,10 +149,9 @@
     vertical-align: top;
 
     @include for-size(desktop-up) {
-      width: max(50%, 475px);
+      width: 50%;
 
       &.second {
-        width: 50%;
         text-align: right;
       }
     }
@@ -251,20 +250,13 @@
         }
 
         ul {
-          // display: flex;
-          // width: 100%;
-          // flex-direction: column;
-
           li {
             display: flex;
-
-            // @media (width >= 450px) {
-            //   display: block;
-            // }
 
             .label {
               padding-right: 15px;
               text-align: left;
+              white-space: nowrap;
 
               &.quorum {
                 text-transform: none;
@@ -272,10 +264,14 @@
             }
 
             .value {
+              overflow: hidden;
               margin-left: auto;
+              font-weight: inherit;
+              text-overflow: ellipsis;
             }
 
             .account {
+              display: block;
               overflow: hidden;
               font-weight: inherit;
               text-overflow: ellipsis;
