@@ -114,14 +114,6 @@
         margin-bottom: 0px;
       }
 
-      .title {
-        padding-bottom: 4px;
-        color: $black-40;
-        font-size: 14px;
-        text-transform: uppercase;
-        @include semibold;
-      }
-
       .value {
         color: $white;
         font-size: 18px;
@@ -157,11 +149,11 @@
       }
 
       .title {
-        color: $white;
-        font-size: 24px;
-        font-weight: 700;
-        text-align: left;
-        @include medium;
+        padding-bottom: 4px;
+        color: $black-40;
+        font-size: 14px;
+        text-transform: uppercase;
+        @include semibold;
       }
 
       .label {
@@ -232,28 +224,37 @@
 
       &.signer-list,
       &.bridge {
+        display: block;
+        font-weight: 500;
+
+        h2 {
+          text-align: left;
+        }
+
         ul {
-          display: flex;
-          width: 100%;
-          flex-direction: column;
+          // display: flex;
+          // width: 100%;
+          // flex-direction: column;
 
           li {
-            // display: flex;
-            // justify-content: space-between;
+            display: flex;
 
-            @media (width >= 450px) {
-              display: block;
-            }
+            // @media (width >= 450px) {
+            //   display: block;
+            // }
 
             .label {
               padding-right: 15px;
               text-align: left;
             }
 
+            .value {
+              margin-left: auto;
+            }
+
             .account {
               overflow: hidden;
-              // width: 300px;
-              padding-right: 10px;
+              font-weight: inherit;
               text-overflow: ellipsis;
               white-space: nowrap;
             }

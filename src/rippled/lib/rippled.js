@@ -251,9 +251,9 @@ const getAccountBridge = (rippledSocket, account, ledger_index = 'validated') =>
         issuingChainIssue: bridge.XChainBridge.LockingChainIssue,
         minAccountCreateAmount: formatAmount(bridge.MinAccountCreateAmount),
         signatureReward: formatAmount(bridge.SignatureReward),
-        xchainAccountClaimCount: parseInt(bridge.XChainAccountClaimCount, 16),
-        xchainAccountCreateCount: parseInt(bridge.XChainAccountCreateCount, 16),
-        xchainClaimId: parseInt(bridge.XChainClaimID, 16),
+        xchainAccountClaimCount: bridge.XChainAccountClaimCount,
+        xchainAccountCreateCount: bridge.XChainAccountCreateCount,
+        xchainClaimId: bridge.XChainClaimID,
       }
     }
 

@@ -76,9 +76,9 @@ interface AccountHeaderProps {
       }
       minAccountCreateAmount: ExplorerAmount | undefined
       signatureReward: ExplorerAmount | undefined
-      xchainAccountClaimCount: number
-      xchainAccountCreateCount: number
-      xchainClaimId: number
+      xchainAccountClaimCount: string
+      xchainAccountCreateCount: string
+      xchainClaimId: string
     }
   }
   actions: {
@@ -173,17 +173,19 @@ const AccountHeader = (props: AccountHeaderProps) => {
     const { signerList } = data
     return (
       signerList && (
-        <div className="signer-list secondary">
-          <div className="title">{t('signers')}</div>
+        <div className="signer-list secondary bottom-container">
+          <h2>{t('signers')}</h2>
           <ul>
             {signerList.signers.map((d) => (
               <li key={d.account}>
                 <span className="label">Signer</span>
-                <Account account={d.account} />
-                <span className="weight">
-                  <span className="label">{` ${t('weight')}: `}</span>
-                  <b>{d.weight}</b>
-                </span>
+                <Account account={d.account} link={false} />
+                <div className="value">
+                  <span className="weight">
+                    <span className="label">{` ${t('weight')}:`}</span>
+                    <span>{d.weight}</span>
+                  </span>
+                </div>
               </li>
             ))}
             <li className="quorum">
@@ -198,70 +200,91 @@ const AccountHeader = (props: AccountHeaderProps) => {
     )
   }
 
+  function displayHex(hexStr: string): string {
+    const decStr = parseInt(hexStr, 16)
+    return `0x${hexStr} (${decStr})`
+  }
+
   function renderBridge() {
     const { bridge } = data
     return (
       bridge && (
-        <div className="bridge secondary">
-          <div className="title">{t('xchainbridge')}</div>
+        <div className="bridge secondary bottom-container">
+          <h2>{t('xchainbridge')}</h2>
           <ul>
             <li>
               <span className="label">{`${t('locking_chain_door')} `}</span>
-              <Account
-                account={bridge.lockingChainDoor}
-                link={bridge.lockingChainDoor === accountId}
-              />
+              <div className="value">
+                <Account
+                  account={bridge.lockingChainDoor}
+                  link={bridge.lockingChainDoor === accountId}
+                />
+              </div>
             </li>
             <li>
               <span className="label">{`${t('locking_chain_issue')} `}</span>
-              <Currency
-                currency={bridge.lockingChainIssue.currency}
-                issuer={bridge.lockingChainIssue.issuer}
-              />
+              <div className="value">
+                <Currency
+                  currency={bridge.lockingChainIssue.currency}
+                  issuer={bridge.lockingChainIssue.issuer}
+                />
+              </div>
             </li>
             <li>
               <span className="label">{`${t('issuing_chain_door')} `}</span>
-              <Account
-                account={bridge.issuingChainDoor}
-                link={bridge.issuingChainDoor === accountId}
-              />
+              <div className="value">
+                <Account
+                  account={bridge.issuingChainDoor}
+                  link={bridge.issuingChainDoor === accountId}
+                />
+              </div>
             </li>
             <li>
               <span className="label">{`${t('issuing_chain_issue')} `}</span>
-              <Currency
-                currency={bridge.issuingChainIssue.currency}
-                issuer={bridge.issuingChainIssue.issuer}
-              />
+              <div className="value">
+                <Currency
+                  currency={bridge.issuingChainIssue.currency}
+                  issuer={bridge.issuingChainIssue.issuer}
+                />
+              </div>
             </li>
             {bridge.minAccountCreateAmount && (
               <li>
                 <span className="label">{`${t(
                   'min_account_create_amount',
                 )} `}</span>
-                <Amount value={bridge.minAccountCreateAmount} />
+                <div className="value">
+                  <Amount value={bridge.minAccountCreateAmount} />
+                </div>
               </li>
             )}
             {bridge.signatureReward && (
               <li>
                 <span className="label">{`${t('signature_reward')} `}</span>
-                <Amount value={bridge.signatureReward} />
+                <div className="value">
+                  <Amount value={bridge.signatureReward} />
+                </div>
               </li>
             )}
             <li>
               <span className="label">{`${t(
                 'xchain_account_claim_count',
               )} `}</span>
-              <span>{bridge.xchainAccountClaimCount}</span>
+              <div className="value">
+                {displayHex(bridge.xchainAccountClaimCount)}
+              </div>
             </li>
             <li>
               <span className="label">{`${t(
                 'xchain_account_create_count',
               )} `}</span>
-              <span>{bridge.xchainAccountCreateCount}</span>
+              <div className="value">
+                {displayHex(bridge.xchainAccountCreateCount)}
+              </div>
             </li>
             <li>
               <span className="label">{`${t('xchain_claim_id')} `}</span>
-              <span>{bridge.xchainClaimId}</span>
+              <div className="value">{displayHex(bridge.xchainClaimId)}</div>
             </li>
           </ul>
         </div>
@@ -331,7 +354,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
     return (
       info && (
         <div className="info secondary">
-          <div className="label">{t('account_info')}</div>
+          <div className="title">{t('account_info')}</div>
           <ul>
             <li>
               <span className="label"> {t('reserve')}: </span>
@@ -412,7 +435,10 @@ const AccountHeader = (props: AccountHeaderProps) => {
               <>
                 <div className="title">
                   <Trans i18nKey="currency_balance">
-                    <Currency currency={currencySelected} />
+                    <Currency
+                      currency={currencySelected}
+                      displaySymbol={false}
+                    />
                   </Trans>
                 </div>
                 <div className="value">{balance}</div>
