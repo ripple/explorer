@@ -39,11 +39,15 @@ export const AMMAccountHeader = (props: { data: AmmDataType }) => {
           </div>
           <div className="values">
             <div className="title">{t('token_balance')}</div>
-            <div className="value">{localizedBalance1}</div>
+            <div className='value'>
+             <Currency currency={localizedBalance1}/>
+            </div>
           </div>
           <div className="values">
             <div className="title">{t('token_balance')}</div>
-            <div className="value">{localizedBalance2}</div>
+            <div>
+               <Currency currency={localizedBalance2}/>
+            </div>
           </div>
           <div className="values">
             <div className="title">{t('trading_fee')}</div>
