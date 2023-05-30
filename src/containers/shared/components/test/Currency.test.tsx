@@ -57,4 +57,10 @@ describe('Currency', () => {
     )
     wrapper.unmount()
   })
+
+  it('displays the XRP symbol when rendering XRP', () => {
+    const wrapper = mount(<Currency currency="XRP" />)
+    expect(wrapper.find('.currency').text()).toEqual('\uE900 XRP')
+    wrapper.unmount()
+  })
 })
