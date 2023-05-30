@@ -157,13 +157,17 @@
     @include for-size(desktop-up) {
       width: 50%;
 
+      &.first {
+        padding-right: calc(50% - clamp(40%, 475px, 50%));
+      }
+
       &.second {
         text-align: right;
       }
     }
 
     .secondary {
-      padding: 0px 8px;
+      padding: 0px 16px;
       margin-bottom: 20px;
       font-size: 12px;
       @include bold;
@@ -296,7 +300,9 @@
             }
 
             .weight {
+              overflow: inherit;
               text-align: right;
+              text-overflow: inherit;
               white-space: nowrap;
             }
           }

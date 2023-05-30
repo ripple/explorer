@@ -186,11 +186,9 @@ const AccountHeader = (props: AccountHeaderProps) => {
               <li key={d.account}>
                 <span className="label">Signer</span>
                 <Account account={d.account} link={false} />
-                <div className="value">
-                  <span className="weight">
-                    <span className="label">{` ${t('weight')}:`}</span>
-                    <span>{d.weight}</span>
-                  </span>
+                <div className="value weight">
+                  <span className="label">{` ${t('weight')}:`}</span>
+                  <span>{d.weight}</span>
                 </div>
               </li>
             ))}
