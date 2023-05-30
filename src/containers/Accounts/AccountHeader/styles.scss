@@ -8,12 +8,10 @@
     color: $black-40;
     font-size: 14px;
     text-transform: uppercase;
-
     @include semibold;
   }
 
   .box-header {
-    overflow: hidden;
     margin-top: 106px;
     margin-bottom: 80px;
 
@@ -172,14 +170,6 @@
 
       @include for-size(desktop-up) {
         border: none;
-      }
-
-      .title {
-        padding-bottom: 4px;
-        color: $black-40;
-        font-size: 14px;
-        text-transform: uppercase;
-        @include semibold;
       }
 
       .label {
