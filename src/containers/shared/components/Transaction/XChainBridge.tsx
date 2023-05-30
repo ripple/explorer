@@ -6,23 +6,6 @@ import Currency from '../Currency'
 import { SimpleGroup } from './SimpleGroup'
 import { SimpleRow } from './SimpleRow'
 
-interface XChainIssueProps {
-  issue: IssuedCurrency
-  isThisChain: boolean
-}
-
-const XChainIssue = (props: XChainIssueProps) => {
-  const { issue, isThisChain } = props
-
-  return (
-    <Currency
-      issuer={issue.issuer}
-      currency={issue.currency}
-      link={isThisChain}
-    />
-  )
-}
-
 export interface XChainBridgeProps {
   lockingDoor: string
   lockingIssue: IssuedCurrency
@@ -52,9 +35,10 @@ export const XChainBridge = (props: XChainBridgeProps) => {
         label={t('locking_chain_issue')}
         data-test="locking-chain-issue"
       >
-        <XChainIssue
-          issue={lockingIssue}
-          isThisChain={lockingDoor === bridgeOwner}
+        <Currency
+          issuer={lockingIssue.issuer}
+          currency={lockingIssue.currency}
+          link={lockingDoor === bridgeOwner}
         />
       </SimpleRow>
       <SimpleRow label={t('issuing_chain_door')} data-test="issuing-chain-door">
@@ -64,9 +48,10 @@ export const XChainBridge = (props: XChainBridgeProps) => {
         label={t('issuing_chain_issue')}
         data-test="issuing-chain-issue"
       >
-        <XChainIssue
-          issue={issuingIssue}
-          isThisChain={issuingDoor === bridgeOwner}
+        <Currency
+          issuer={issuingIssue.issuer}
+          currency={issuingIssue.currency}
+          link={issuingDoor === bridgeOwner}
         />
       </SimpleRow>
       {signatureReward && (
