@@ -14,12 +14,18 @@ import SocketContext from '../../shared/SocketContext'
 import InfoIcon from '../../shared/images/info.svg'
 import { useLanguage } from '../../shared/hooks'
 import Currency from '../../shared/components/Currency'
+import { SubheaderLine } from './SubheaderLine'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
   currency: 'XRP',
   minimumFractionDigits: 2,
   maximumFractionDigits: 6,
+}
+
+function displayHex(hexStr: string): string {
+  const decStr = parseInt(hexStr, 16)
+  return `0x${hexStr} (${decStr})`
 }
 
 interface AccountHeaderProps {
@@ -173,7 +179,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
     const { signerList } = data
     return (
       signerList && (
-        <div className="signer-list secondary bottom-container">
+        <div className="signer-list secondary">
           <h2>{t('signers')}</h2>
           <ul>
             {signerList.signers.map((d) => (
@@ -189,7 +195,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
               </li>
             ))}
 
-            <li className="label quorum">
+            <li className="label">
               <Trans
                 i18nKey="min_signer_quorum"
                 values={{ quorum: signerList.quorum }}
@@ -201,11 +207,6 @@ const AccountHeader = (props: AccountHeaderProps) => {
     )
   }
 
-  function displayHex(hexStr: string): string {
-    const decStr = parseInt(hexStr, 16)
-    return `0x${hexStr} (${decStr})`
-  }
-
   function renderBridge() {
     const { bridge } = data
     return (
@@ -213,80 +214,49 @@ const AccountHeader = (props: AccountHeaderProps) => {
         <div className="bridge secondary bottom-container">
           <h2>{t('xchainbridge')}</h2>
           <ul>
-            <li>
-              <span className="label">{`${t('locking_chain_door')} `}</span>
-              <div className="value">
-                <Account
-                  account={bridge.lockingChainDoor}
-                  link={bridge.lockingChainDoor === accountId}
-                />
-              </div>
-            </li>
-            <li>
-              <span className="label">{`${t('locking_chain_issue')} `}</span>
-              <div className="value">
-                <Currency
-                  currency={bridge.lockingChainIssue.currency}
-                  issuer={bridge.lockingChainIssue.issuer}
-                />
-              </div>
-            </li>
-            <li>
-              <span className="label">{`${t('issuing_chain_door')} `}</span>
-              <div className="value">
-                <Account
-                  account={bridge.issuingChainDoor}
-                  link={bridge.issuingChainDoor === accountId}
-                />
-              </div>
-            </li>
-            <li>
-              <span className="label">{`${t('issuing_chain_issue')} `}</span>
-              <div className="value">
-                <Currency
-                  currency={bridge.issuingChainIssue.currency}
-                  issuer={bridge.issuingChainIssue.issuer}
-                />
-              </div>
-            </li>
+            <SubheaderLine label={t('locking_chain_door')}>
+              <Account
+                account={bridge.lockingChainDoor}
+                link={bridge.lockingChainDoor === accountId}
+              />
+            </SubheaderLine>
+            <SubheaderLine label={t('locking_chain_issue')}>
+              <Currency
+                currency={bridge.lockingChainIssue.currency}
+                issuer={bridge.lockingChainIssue.issuer}
+              />
+            </SubheaderLine>
+            <SubheaderLine label={t('issuing_chain_door')}>
+              <Account
+                account={bridge.issuingChainDoor}
+                link={bridge.issuingChainDoor === accountId}
+              />
+            </SubheaderLine>
+            <SubheaderLine label={t('issuing_chain_issue')}>
+              <Currency
+                currency={bridge.issuingChainIssue.currency}
+                issuer={bridge.issuingChainIssue.issuer}
+              />
+            </SubheaderLine>
             {bridge.minAccountCreateAmount && (
-              <li>
-                <span className="label">{`${t(
-                  'min_account_create_amount',
-                )} `}</span>
-                <div className="value">
-                  <Amount value={bridge.minAccountCreateAmount} />
-                </div>
-              </li>
+              <SubheaderLine label={t('min_account_create_amount')}>
+                <Amount value={bridge.minAccountCreateAmount} />
+              </SubheaderLine>
             )}
             {bridge.signatureReward && (
-              <li>
-                <span className="label">{`${t('signature_reward')} `}</span>
-                <div className="value">
-                  <Amount value={bridge.signatureReward} />
-                </div>
-              </li>
+              <SubheaderLine label={t('signature_reward')}>
+                <Amount value={bridge.signatureReward} />
+              </SubheaderLine>
             )}
-            <li>
-              <span className="label">{`${t(
-                'xchain_account_claim_count',
-              )} `}</span>
-              <div className="value">
-                {displayHex(bridge.xchainAccountClaimCount)}
-              </div>
-            </li>
-            <li>
-              <span className="label">{`${t(
-                'xchain_account_create_count',
-              )} `}</span>
-              <div className="value">
-                {displayHex(bridge.xchainAccountCreateCount)}
-              </div>
-            </li>
-            <li>
-              <span className="label">{`${t('xchain_claim_id')} `}</span>
-              <div className="value">{displayHex(bridge.xchainClaimId)}</div>
-            </li>
+            <SubheaderLine label={t('xchain_account_claim_count')}>
+              {displayHex(bridge.xchainAccountClaimCount)}
+            </SubheaderLine>
+            <SubheaderLine label={t('xchain_account_create_count')}>
+              {displayHex(bridge.xchainAccountCreateCount)}
+            </SubheaderLine>
+            <SubheaderLine label={t('xchain_claim_id')}>
+              {displayHex(bridge.xchainClaimId)}
+            </SubheaderLine>
           </ul>
         </div>
       )
