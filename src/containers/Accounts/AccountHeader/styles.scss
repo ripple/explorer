@@ -158,10 +158,11 @@
       width: 50%;
 
       &.first {
-        padding-right: calc(50% - clamp(40%, 475px, 50%));
+        padding-right: calc(50% - clamp(47.5%, 500px, 50%));
       }
 
       &.second {
+        padding-left: calc(50% - clamp(47.5%, 500px, 50%));
         text-align: right;
       }
     }
