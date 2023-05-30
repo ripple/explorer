@@ -84,6 +84,8 @@ Since `canvas` does not provide pre-built binaries for Apple chips during `npm i
 1.  US English (default)
 1.  Japanese
 
+If you are interested in adding more translations please follow the guide on [how to define an additional language](./docs/how-to-define-a-language.md).
+
 ## Additional Documentation
 * [How to define transactions](./src/containers/shared/components/Transaction/README.md)
 
