@@ -465,8 +465,11 @@ const AccountHeader = (props: AccountHeaderProps) => {
   return (
     <div className="box account-header">
       <div className="section box-header">
+        <div className="title">
+          Account ID
+          {bridge && <div className="door-account">Door Account</div>}
+        </div>
         <h1 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h1>
-        {bridge && <div className="door-account">Door Account</div>}
       </div>
       <div className="box-content">
         {loading ? <Loader /> : renderHeaderContent()}

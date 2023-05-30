@@ -247,7 +247,7 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
 }
 
 .section {
-  margin: 0 32px;
+  margin: 0 8px;
 
   @include for-size(tablet-landscape-up) {
     width: calc(100% - 15px);

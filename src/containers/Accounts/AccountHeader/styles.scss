@@ -3,13 +3,30 @@
 .account-header {
   margin-bottom: 16px;
 
+  .title {
+    padding-bottom: 4px;
+    color: $black-40;
+    font-size: 14px;
+    text-transform: uppercase;
+
+    @include semibold;
+  }
+
   .box-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    overflow: hidden;
     margin-top: 106px;
     margin-bottom: 80px;
-    text-align: left;
+
+    .title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    h1 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     .door-account {
       height: 19px;
@@ -40,15 +57,6 @@
       @include for-size(desktop-up) {
         font-size: 36px;
       }
-    }
-
-    .amm-title {
-      padding-bottom: 4px;
-      color: $black-40;
-      font-size: 14px;
-      text-transform: uppercase;
-
-      @include semibold;
     }
 
     .currency-pair {
