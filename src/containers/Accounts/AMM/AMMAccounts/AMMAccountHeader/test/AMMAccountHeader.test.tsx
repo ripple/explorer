@@ -30,7 +30,7 @@ describe('AMM Account Header', () => {
     await flushPromises()
     wrapper.update()
     expect(wrapper.find(AMMAccountHeader).length).toBe(1)
-    expect(wrapper.find('.amm-title').length).toBe(1)
+    expect(wrapper.find('.title').length).toBe(1)
     expect(wrapper.find('.currency-pair').length).toBe(1)
     expect(wrapper.text().includes('500')).toBe(true)
     expect(wrapper.text().includes('%0.01')).toBe(true)
