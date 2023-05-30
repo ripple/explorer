@@ -7,7 +7,7 @@ import { SimpleGroup } from './SimpleGroup'
 import { SimpleRow } from './SimpleRow'
 
 interface XChainIssueProps {
-  issue: string | IssuedCurrency
+  issue: IssuedCurrency
   isThisChain: boolean
 }
 
@@ -15,25 +15,19 @@ const XChainIssue = (props: XChainIssueProps) => {
   const { issue, isThisChain } = props
 
   return (
-    <>
-      {typeof issue === 'string' ? (
-        issue
-      ) : (
-        <Currency
-          issuer={issue.issuer}
-          currency={issue.currency}
-          link={isThisChain}
-        />
-      )}
-    </>
+    <Currency
+      issuer={issue.issuer}
+      currency={issue.currency}
+      link={isThisChain}
+    />
   )
 }
 
 export interface XChainBridgeProps {
   lockingDoor: string
-  lockingIssue: string
+  lockingIssue: IssuedCurrency
   issuingDoor: string
-  issuingIssue: string
+  issuingIssue: IssuedCurrency
   signatureReward?: string
   bridgeOwner: string
 }

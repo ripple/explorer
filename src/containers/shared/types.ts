@@ -1,6 +1,6 @@
 export interface IssuedCurrency {
   currency: string
-  issuer: string
+  issuer?: string
 }
 
 export interface IssuedCurrencyAmount extends IssuedCurrency {
