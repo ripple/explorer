@@ -1,5 +1,5 @@
 import { PaymentChannelFund, PaymentChannelFundInstructions } from './types'
-import { Meta } from '../../../transactionUtils'
+import { Meta } from '../../../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const findNode = (meta: Meta, nodeType: 'DeletedNode' | 'ModifiedNode') => {
