@@ -26,16 +26,16 @@ export const Amount = ({
 
   return (
     <span className="amount">
+      <span className="amount-localized">
+        {modifier && <span className="amount-modifier">{modifier}</span>}
+        {localizedAmount}
+      </span>{' '}
       <Currency
         issuer={displayIssuer ? issuer : ''}
         currency={currency}
         link
         displaySymbol={false}
-      />{' '}
-      <span className="amount-localized">
-        {modifier && <span className="amount-modifier">{modifier}</span>}
-        {localizedAmount}
-      </span>
+      />
     </span>
   )
 }
