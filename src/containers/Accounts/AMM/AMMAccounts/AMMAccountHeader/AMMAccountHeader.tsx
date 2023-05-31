@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import '../../../AccountHeader/styles.scss'
+import { Amount } from 'containers/shared/components/Amount'
 import {
   formatTradingFee,
   localizeBalance,
@@ -39,14 +40,16 @@ export const AMMAccountHeader = (props: { data: AmmDataType }) => {
           </div>
           <div className="values">
             <div className="title">{t('token_balance')}</div>
-            <div className='value'>
-             <Currency currency={localizedBalance1}/>
+            {/* <div className="value">{localizedBalance1}</div> */}
+            <div className="value">
+              <Amount value={balance} displayIssuer={false} />
             </div>
           </div>
           <div className="values">
             <div className="title">{t('token_balance')}</div>
-            <div>
-               <Currency currency={localizedBalance2}/>
+            {/* <div className="value">{localizedBalance2}</div> */}
+            <div className="value">
+              <Amount value={balance2} displayIssuer={false} />
             </div>
           </div>
           <div className="values">

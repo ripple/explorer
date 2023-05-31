@@ -5,7 +5,7 @@ const NON_STANDARD_CODE_LENGTH = 40
 
 export interface Props {
   issuer?: string
-  currency?: string | null
+  currency: string
   link?: boolean
   shortenIssuer?: boolean
 }
