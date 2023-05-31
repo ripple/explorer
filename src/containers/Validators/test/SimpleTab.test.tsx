@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
-import SimpleTab from '../SimpleTab'
+import { SimpleTab } from '../SimpleTab'
 import {
   expectSimpleRowLabel,
   expectSimpleRowText,
@@ -14,19 +14,18 @@ describe('SimpleTab container', () => {
       <I18nextProvider i18n={i18n}>
         <Router>
           <SimpleTab
-            t={i18n.t}
-            language="en-US"
             data={{
               master_key:
                 'nHUvzia57LRXr9zqnYpyFUFeKvis2tqn4DkXBVGSppt5M4nNq43C',
               signing_key:
                 'n9KNmrXo9gK3ucZy8KHKFM113ENGv6uyukS6Bb7TtuvEx98SdwMS',
+              validation_public_key:
+                'nHUvzia57LRXr9zqnYpyFUFeKvis2tqn4DkXBVGSppt5M4nNq43C',
               ledger_hash:
                 'D498209A1B1BBACB9D7C8419F9A4136E7F7748E66B7936D2F92249A2C1AFBCB9',
               current_index: 55764842,
-              load_fee: null,
               partial: false,
-              chain: null,
+              chain: '',
               unl: 'vl.ripple.com',
               last_ledger_time: '2020-05-28T09:21:19.000Z',
               server_version: '1.9.4',
@@ -34,11 +33,13 @@ describe('SimpleTab container', () => {
                 score: '1.00000',
                 missed: 0,
                 incomplete: false,
+                total: 917,
               },
               agreement_24h: {
                 score: '1.00000',
                 missed: 0,
                 incomplete: true,
+                total: 22184,
               },
               agreement_30day: {
                 score: '0.99844',

@@ -14,13 +14,12 @@ import {
   BAD_REQUEST,
   HASH_REGEX,
 } from '../shared/utils'
-import SimpleTab from './SimpleTab'
+import { SimpleTab } from './SimpleTab'
 import DetailTab from './DetailTab'
 import './transaction.scss'
 import SocketContext from '../shared/SocketContext'
 import { TxStatus } from '../shared/components/TxStatus'
 import { getTransaction } from '../../rippled'
-import { useLanguage } from '../shared/hooks'
 
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -72,7 +71,6 @@ export const Transaction = () => {
     },
   )
   const { width } = useWindowSize()
-  const language = useLanguage()
 
   const short = identifier.substr(0, 8)
   document.title = `${t('xrpl_explorer')} | ${t(
@@ -114,14 +112,7 @@ export const Transaction = () => {
 
     switch (tab) {
       case 'detailed':
-        body = (
-          <DetailTab
-            t={t}
-            language={language}
-            data={data.raw}
-            instructions={data.summary?.instructions}
-          />
-        )
+        body = <DetailTab data={data.raw} />
         break
       case 'raw':
         body = (
@@ -137,7 +128,7 @@ export const Transaction = () => {
         )
         break
       default:
-        body = <SimpleTab t={t} language={language} data={data} width={width} />
+        body = <SimpleTab data={data} width={width} />
         break
     }
     return (

@@ -41,3 +41,8 @@ export interface ErrorMessage {
   title: string
   hints: string[]
 }
+
+export type ErrorMessages = {
+  default: ErrorMessage
+  [code: number]: ErrorMessage
+}

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { FC } from 'react'
 import { localizeDate, BREAKPOINTS } from '../shared/utils'
 import Simple from './Simple'
 import '../shared/css/simpleTab.scss'
@@ -22,12 +22,10 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
-export interface SimpleTabProps {
+export const SimpleTab: FC<{
   data: ValidatorSupplemented
   width: number
-}
-
-const SimpleTab = ({ data, width }: SimpleTabProps) => {
+}> = ({ data, width }) => {
   const language = useLanguage()
   const { t } = useTranslation()
 
@@ -76,19 +74,3 @@ const SimpleTab = ({ data, width }: SimpleTabProps) => {
     </div>
   )
 }
-
-// TODO: Remove in the next PR
-SimpleTab.propTypes = {
-  width: PropTypes.number.isRequired,
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-      PropTypes.bool,
-    ]),
-  ).isRequired,
-}
-
-export default SimpleTab
