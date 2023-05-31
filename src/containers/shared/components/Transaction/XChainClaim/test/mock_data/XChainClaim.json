@@ -11,9 +11,9 @@
     "TxnSignature": "3045022100E70D47DCBD4B4961C7D452E26983BB1B453D36A74F95419BAF717A82D475353502203B068A4B6EA042DCAFFD9948E3EA73E924169F2B0CAFC0ACAEF2322A0655B02E",
     "XChainBridge": {
       "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-      "IssuingChainIssue": "XRP",
+      "IssuingChainIssue": { "currency": "XRP" },
       "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
-      "LockingChainIssue": "XRP"
+      "LockingChainIssue": { "currency": "XRP" }
     },
     "XChainClaimID": "5",
     "date": "2022-08-16T19:25:12Z"
@@ -50,9 +50,9 @@
             "SignatureReward": "100",
             "XChainBridge": {
               "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-              "IssuingChainIssue": "XRP",
+              "IssuingChainIssue": { "currency": "XRP" },
               "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
-              "LockingChainIssue": "XRP"
+              "LockingChainIssue": { "currency": "XRP" }
             },
             "XChainClaimAttestations": [
               {

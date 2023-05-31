@@ -12,9 +12,9 @@
     "TxnSignature": "304502210083718A57DDBFAAA3D58C6ADB116B418521FB157A794FA21BA47DC675318693550220774C412491186E55925803E177969921E7706196A1647CCA06168D448446C7BF",
     "XChainBridge": {
       "IssuingChainDoor": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-      "IssuingChainIssue": "XRP",
+      "IssuingChainIssue": { "currency": "XRP" },
       "LockingChainDoor": "rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR",
-      "LockingChainIssue": "XRP"
+      "LockingChainIssue": { "currency": "XRP" }
     },
     "date": "2022-08-18T17:18:11Z"
   },
