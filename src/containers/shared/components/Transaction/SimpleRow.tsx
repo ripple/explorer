@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
-import clsx from 'clsx'
+import classnames from 'classnames'
 
 export type SimpleRowProps = PropsWithChildren<{
   className?: string
@@ -11,7 +11,7 @@ export const SimpleRow = (props: SimpleRowProps) => {
   return (
     <div className="row">
       <div className="label">{label}</div>
-      <div className={clsx(`value`, className)}>{children}</div>
+      <div className={classnames(`value`, className)}>{children}</div>
     </div>
   )
 }
