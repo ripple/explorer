@@ -17,12 +17,12 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
       )}
       {bidMin && (
         <SimpleRow label={t('min_slot_price')} data-test="min_slot_price">
-          <Amount value={bidMin} displayIssuer={false} />
+          <Amount value={bidMin} />
         </SimpleRow>
       )}
       {bidMax && (
         <SimpleRow label={t('max_slot_price')} data-test="max_slot_price">
-          <Amount value={bidMax} displayIssuer={false} />
+          <Amount value={bidMax} />
         </SimpleRow>
       )}
       {authAccounts && (
