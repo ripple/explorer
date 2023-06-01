@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
-import { localizeBalance } from '../../../utils'
 import { Account } from '../../Account'
+import { Amount } from '../../Amount'
 
 export const Simple = ({ data }: TransactionSimpleProps) => {
   const { t } = useTranslation()
   const { ammAccountID, bidMin, bidMax, authAccounts } = data.instructions
-  const localizedBidMin = localizeBalance(bidMin)
-  const localizedBidMax = localizeBalance(bidMax)
 
   return (
     <>
@@ -17,14 +15,14 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
           <Account account={ammAccountID} />
         </SimpleRow>
       )}
-      {localizedBidMin && (
+      {bidMin && (
         <SimpleRow label={t('min_slot_price')} data-test="min_slot_price">
-          {localizedBidMin}
+          <Amount value={bidMin} />
         </SimpleRow>
       )}
-      {localizedBidMax && (
+      {bidMax && (
         <SimpleRow label={t('max_slot_price')} data-test="max_slot_price">
-          {localizedBidMax}
+          <Amount value={bidMax} />
         </SimpleRow>
       )}
       {authAccounts && (
