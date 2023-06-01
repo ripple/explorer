@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
-import clsx from 'clsx'
+import classnames from 'classnames'
 
 export type SubheaderLineProps = PropsWithChildren<{
   className?: string
@@ -11,7 +11,7 @@ export const SubheaderLine = (props: SubheaderLineProps) => {
   return (
     <li>
       <span className="label">{label}</span>
-      <div className={clsx(`value`, className)}>{children}</div>
+      <div className={classnames(`value`, className)}>{children}</div>
     </li>
   )
 }
