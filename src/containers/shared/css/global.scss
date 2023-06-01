@@ -246,6 +246,30 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
   }
 }
 
+.badge {
+  display: flex;
+  width: 53px;
+  height: 22px;
+  flex: none;
+  flex-direction: row;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: center;
+  order: 0;
+  padding: 2px 12px;
+  border-radius: 30px;
+  margin: auto;
+  margin-left: 8px;
+  background: $nft;
+  color: $white;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 125%;
+  text-align: center;
+  vertical-align: middle;
+  @include bold;
+}
+
 .section {
   margin: 0 8px;
 
