@@ -433,7 +433,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
       <div className="section box-header">
         <div className="title">
           Account ID
-          {bridge && <div className="subscript">Door Account</div>}
+          {bridge && <div className="badge">Door Account</div>}
         </div>
         <h1 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h1>
       </div>

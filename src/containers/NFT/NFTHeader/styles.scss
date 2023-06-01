@@ -122,6 +122,11 @@
       text-transform: uppercase;
 
       @include semibold;
+
+      .badge {
+        background: $nft;
+        color: $white;
+      }
     }
 
     img {

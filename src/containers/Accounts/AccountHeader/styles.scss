@@ -26,20 +26,11 @@
       text-overflow: ellipsis;
     }
 
-    .door-account {
-      height: 19px;
-      box-sizing: border-box;
-      padding: 2px 12px;
+    .badge {
       border: 1px solid $yellow-50;
-      border-radius: 30px;
-      margin-left: 12px;
       background: $yellow-50;
       box-shadow: 0px 1px 1px $yellow-80;
       color: $black;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      white-space: nowrap;
     }
 
     .classic {
