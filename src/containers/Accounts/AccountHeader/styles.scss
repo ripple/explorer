@@ -29,12 +29,12 @@
     .badge {
       border: 1px solid $yellow-50;
       background: $yellow-50;
-      box-shadow: 0px 1px 1px $yellow-80;
+      box-shadow: 0 1px 1px $yellow-80;
       color: $black;
     }
 
     .classic {
-      margin: 0px;
+      margin: 0;
       color: $white;
       font-size: 20px;
       @include bold;
@@ -54,7 +54,7 @@
       border-width: thin;
       border-style: solid;
       border-color: $black-70;
-      margin: 0px;
+      margin: 0;
       color: $white;
       font-size: 16px;
       @include semibold;
@@ -72,7 +72,7 @@
       display: inline-block;
       padding-right: 10px;
       border-bottom: none;
-      margin: 0px;
+      margin: 0;
       color: $white;
       font-size: 18px;
       @include bold;
@@ -127,7 +127,7 @@
 
       @include for-size(desktop-up) {
         flex-direction: column;
-        margin-bottom: 0px;
+        margin-bottom: 0;
       }
 
       .value {
@@ -137,6 +137,16 @@
         text-decoration: none;
         @include bold;
       }
+    }
+  }
+
+  .lower-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include for-size(desktop-up) {
+      flex-direction: row;
     }
   }
 
@@ -159,6 +169,7 @@
     }
 
     .secondary {
+      padding: 0;
       margin-bottom: 20px;
       font-size: 12px;
       @include bold;
@@ -176,8 +187,8 @@
 
       ul {
         width: 100%;
-        padding: 0px;
-        margin: 0px;
+        padding: 0;
+        margin: 0;
         list-style: none;
 
         li {
@@ -186,12 +197,10 @@
 
           a {
             display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
             text-transform: none;
             vertical-align: middle;
-            white-space: nowrap;
             @include medium;
+            @extend %truncate;
           }
 
           b {
@@ -235,19 +244,16 @@
 
       &.balance {
         .value {
-          overflow: hidden;
-          margin: -4px 0px 5px -0.1em;
+          margin: -4px 0 5px -0.1em;
           color: $white;
           font-size: 26px;
           line-height: 30px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
           @include regular;
-
           @include for-size(desktop-up) {
             font-size: 30px;
             line-height: 34px;
           }
+          @extend %truncate;
         }
 
         .balance-selector-container {
@@ -284,10 +290,8 @@
 
             .account {
               display: block;
-              overflow: hidden;
               font-weight: inherit;
-              text-overflow: ellipsis;
-              white-space: nowrap;
+              @extend %truncate;
             }
 
             .weight {
