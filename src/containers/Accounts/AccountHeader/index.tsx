@@ -81,7 +81,7 @@ interface AccountHeaderProps {
         issuer?: string
       }
       minAccountCreateAmount: ExplorerAmount | undefined
-      signatureReward: ExplorerAmount | undefined
+      signatureReward: ExplorerAmount
       xchainAccountClaimCount: string
       xchainAccountCreateCount: string
       xchainClaimId: string
@@ -241,11 +241,9 @@ const AccountHeader = (props: AccountHeaderProps) => {
                 <Amount value={bridge.minAccountCreateAmount} />
               </SubheaderLine>
             )}
-            {bridge.signatureReward && (
-              <SubheaderLine label={t('signature_reward')}>
-                <Amount value={bridge.signatureReward} />
-              </SubheaderLine>
-            )}
+            <SubheaderLine label={t('signature_reward')}>
+              <Amount value={bridge.signatureReward} />
+            </SubheaderLine>
             <SubheaderLine label={t('xchain_account_claim_count')}>
               {displayHex(bridge.xchainAccountClaimCount)}
             </SubheaderLine>
