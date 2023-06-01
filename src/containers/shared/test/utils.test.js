@@ -9,7 +9,6 @@ import {
   ANALYTIC_TYPES,
   durationToHuman,
   formatAsset,
-  localizeBalance,
 } from '../utils'
 
 describe('utils', () => {
@@ -199,21 +198,5 @@ describe('AMM utils format asset', () => {
     const formatted = formatAsset(asset)
 
     expect(formatted).toEqual({ currency: 'USD', issuer: 'your mom' })
-  })
-})
-
-describe('AMM utils localize balance', () => {
-  it('formats XRP balance', () => {
-    const balance = { currency: 'XRP', amount: 9000000 }
-    const formatted = localizeBalance(balance, 'en-US')
-
-    expect(formatted).toEqual('\uE9009,000,000')
-  })
-
-  it('formats non XRP balance', () => {
-    const balance = { currency: 'USD', amount: 9000000 }
-    const formatted = localizeBalance(balance, 'en-US')
-
-    expect(formatted).toEqual('USD $9,000,000')
   })
 })

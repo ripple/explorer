@@ -335,29 +335,6 @@ export const formatAsset = (asset) =>
         issuer: asset.issuer,
       }
 
-export const localizeBalance = (balance, language) => {
-  if (balance === undefined) {
-    return undefined
-  }
-
-  let b = localizeNumber(balance.amount || 0.0, language, {
-    style: 'currency',
-    currency: balance.currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  })
-
-  if (
-    balance.currency !== 'XRP' &&
-    balance.currency !== 'BTC' &&
-    balance.currency !== 'ETH'
-  ) {
-    b = `${balance.currency} ${b}`
-  }
-
-  return b
-}
-
 export const formatTradingFee = (tradingFee) =>
   tradingFee !== undefined
     ? localizeNumber(tradingFee / TRADING_FEE_TOTAL, 'en-US', {
