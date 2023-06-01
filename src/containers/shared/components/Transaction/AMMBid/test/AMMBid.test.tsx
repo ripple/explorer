@@ -7,8 +7,8 @@ describe('AMM Bid Tests', () => {
 
   it('renders from transaction', () => {
     const wrapper = createWrapper(bidMock)
-    expectSimpleRowText(wrapper, 'min_slot_price', 'LP 100')
-    expectSimpleRowText(wrapper, 'max_slot_price', 'LP 500')
+    expectSimpleRowText(wrapper, 'min_slot_price', '100.00 LP')
+    expectSimpleRowText(wrapper, 'max_slot_price', '500.00 LP')
     expectSimpleRowText(
       wrapper,
       'account_id',
