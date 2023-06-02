@@ -6,11 +6,17 @@ import { ANALYTIC_TYPES, analytics } from '../shared/utils'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
 import './index.scss'
+import { useLocalStorage } from '../shared/hooks'
 
 const SidechainHome = () => {
   const { t } = useTranslation()
 
   const [networkText, setNetworkText] = useState('')
+  const [customNetworks = [], setCustomNetworks] = useLocalStorage<string[]>(
+    'explorer-custom-networks',
+    [],
+  )
+  console.log(customNetworks)
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
@@ -50,9 +56,6 @@ const SidechainHome = () => {
     )
   }
 
-  // TODO: get previous networks from cookies
-  const existingNetworks: string[] = []
-
   return (
     <div className="app">
       {/* @ts-ignore -- TODO: I think this error is because Header isn't in TS */}
@@ -80,10 +83,10 @@ const SidechainHome = () => {
             <span>Go to network</span>
           </div>
         </div>
-        {existingNetworks.length > 0 && (
+        {customNetworks.length > 0 && (
           <div className="custom-network-list">
             <div className="custom-network-header">{t('custom_networks')}</div>
-            {existingNetworks.map(renderCustomNetwork)}
+            {customNetworks.map(renderCustomNetwork)}
           </div>
         )}
       </div>

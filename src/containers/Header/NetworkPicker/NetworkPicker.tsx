@@ -29,7 +29,6 @@ export const NetworkPicker = () => {
     'explorer-custom-networks',
     [],
   )
-  console.log(customNetworks)
 
   const rippledUrl = rippledSocket?.rippledUrl
   const isCustom = currentMode === 'custom'
@@ -62,8 +61,6 @@ export const NetworkPicker = () => {
       url: `${process.env.VITE_CUSTOMNETWORK_LINK}/${customUrl}`,
     })),
   ]
-
-  console.log(networks)
 
   const handleNetworkClick = (network: Network) => () => {
     trackNetworkSwitch(network)
@@ -133,8 +130,6 @@ export const NetworkPicker = () => {
     })
     window.location.assign(`${CUSTOM_NETWORK_BASE_LINK}/${newRippledUrl}`)
   }
-
-  console.log(networks, currentMode, rippledUrl)
 
   return (
     <Dropdown

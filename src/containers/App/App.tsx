@@ -29,7 +29,7 @@ export const App = () => {
   const urlLink = rippledUrl ? `/${rippledUrl}` : ''
 
   if (rippledUrl && !customNetworks.includes(rippledUrl)) {
-    setCustomNetworks(customNetworks.concat([rippledUrl]))
+    setCustomNetworks(customNetworks.concat([rippledUrl]).sort())
   }
 
   /* START: Map legacy routes to new routes */
