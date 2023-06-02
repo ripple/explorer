@@ -16,12 +16,21 @@ import { NFT } from '../NFT/NFT'
 import { SocketProvider } from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
 import { NetworkProvider } from '../shared/NetworkContext'
+import { useLocalStorage } from '../shared/hooks'
 
 export const App = () => {
   const location = useLocation()
   const { rippledUrl = undefined } = useParams<{ rippledUrl: string }>()
+  const [customNetworks = [], setCustomNetworks] = useLocalStorage<string[]>(
+    'explorer-custom-networks',
+    [],
+  )
 
   const urlLink = rippledUrl ? `/${rippledUrl}` : ''
+
+  if (rippledUrl && !customNetworks.includes(rippledUrl)) {
+    setCustomNetworks(customNetworks.concat([rippledUrl]))
+  }
 
   /* START: Map legacy routes to new routes */
   if (location.hash && location.pathname === `${urlLink}/`) {

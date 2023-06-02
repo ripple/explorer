@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
+import { useLocalStorage } from '../../shared/hooks'
 import SocketContext from '../../shared/SocketContext'
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 import './NetworkPicker.scss'
@@ -24,6 +25,11 @@ export const NetworkPicker = () => {
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
   const [newRippledUrl, setNewRippledUrl] = useState('')
+  const [customNetworks = [], setCustomNetworks] = useLocalStorage<string[]>(
+    'explorer-custom-networks',
+    [],
+  )
+  console.log(customNetworks)
 
   const rippledUrl = rippledSocket?.rippledUrl
   const isCustom = currentMode === 'custom'
@@ -50,7 +56,14 @@ export const NetworkPicker = () => {
       title: getNetworkName(network),
       url,
     })),
+    ...customNetworks.map((customUrl: string) => ({
+      network: 'custom',
+      title: getCustomNetworkName(customUrl),
+      url: `${process.env.VITE_CUSTOMNETWORK_LINK}/${customUrl}`,
+    })),
   ]
+
+  console.log(networks)
 
   const handleNetworkClick = (network: Network) => () => {
     trackNetworkSwitch(network)
@@ -69,6 +82,23 @@ export const NetworkPicker = () => {
         handler={handleNetworkClick(network)}
       >
         {text}
+        {network === 'custom' && (
+          <button
+            type="button"
+            className="btn btn-remove"
+            onClick={(event) => {
+              event.preventDefault()
+              event.stopPropagation()
+              setCustomNetworks(
+                customNetworks.filter(
+                  (customNetwork) =>
+                    customNetwork !==
+                    url?.slice((CUSTOM_NETWORK_BASE_LINK || '').length + 1),
+                ),
+              )
+            }}
+          />
+        )}
       </DropdownItem>
     )
   }
@@ -104,6 +134,8 @@ export const NetworkPicker = () => {
     window.location.assign(`${CUSTOM_NETWORK_BASE_LINK}/${newRippledUrl}`)
   }
 
+  console.log(networks, currentMode, rippledUrl)
+
   return (
     <Dropdown
       title={
@@ -116,12 +148,12 @@ export const NetworkPicker = () => {
       <>
         {networks.map(({ network, title, url = '' }) => {
           if (
-            network === currentMode ||
+            (currentMode !== 'custom' && network === currentMode) ||
+            (currentMode === 'custom' && url === `/${rippledUrl}`) ||
             window.location.href?.indexOf(url) === 0
           ) {
             return null // don't render if we are in that network
           }
-
           return renderDropdownItem(network, url, title)
         })}
         {renderCustomNetworkInput()}
