@@ -122,32 +122,10 @@
       text-transform: uppercase;
 
       @include semibold;
-    }
 
-    .token-type {
-      display: flex;
-      width: 53px;
-      height: 22px;
-      flex: none;
-      flex-direction: row;
-      flex-grow: 0;
-      align-items: center;
-      justify-content: center;
-      order: 0;
-      padding: 2px 12px;
-      border-radius: 30px;
-      margin-left: 8px;
-      background: $nft;
-      color: $white;
-      font-size: 14px;
-      font-style: normal;
-      line-height: 125%;
-
-      .subscript {
-        margin: auto;
-        text-align: center;
-        vertical-align: middle;
-        @include bold;
+      .badge {
+        background: $nft;
+        color: $white;
       }
     }
 

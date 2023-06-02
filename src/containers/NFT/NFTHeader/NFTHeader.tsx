@@ -144,9 +144,7 @@ export const NFTHeader = (props: Props) => {
           <div className="nft-box-header">
             <div className="token-title">
               NFT ID
-              <div className="token-type">
-                <div className="subscript">NFT</div>
-              </div>
+              <div className="badge">NFT</div>
             </div>
             <div
               className="title-content"
