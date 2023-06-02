@@ -12,11 +12,11 @@ const SidechainHome = () => {
   const { t } = useTranslation()
 
   const [networkText, setNetworkText] = useState('')
-  const [customNetworks = [], setCustomNetworks] = useLocalStorage<string[]>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not used here
+  const [customNetworks = [], _setCustomNetworks] = useLocalStorage<string[]>(
     'explorer-custom-networks',
     [],
   )
-  console.log(customNetworks)
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
