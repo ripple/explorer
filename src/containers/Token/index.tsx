@@ -62,9 +62,11 @@ const Token: FC<{ error: string }> = ({ error }) => {
     )
   }
 
-  return error ? (
-    renderError()
-  ) : (
+  if (error) {
+    return renderError()
+  }
+
+  return (
     <div className="token-page">
       {accountId && <TokenHeader accountId={accountId} currency={currency} />}
       {accountId && IS_MAINNET && (
