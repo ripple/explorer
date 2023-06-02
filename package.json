@@ -104,7 +104,7 @@
     "redux-mock-store": "^1.5.1",
     "sass": "^1.51.0",
     "source-map-explorer": "^2.5.3",
-    "stylelint": "^15.4.0",
+    "stylelint": "^15.6.2",
     "stylelint-config-idiomatic-order": "^9.0.0",
     "stylelint-config-recommended-scss": "^9.0.1",
     "stylelint-config-standard": "^32.0.0",
