@@ -246,8 +246,16 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
   }
 }
 
+.badge {
+  padding: 2px 12px;
+  border-radius: 30px;
+  margin-left: 12px;
+  font-size: 14px;
+  @include bold;
+}
+
 .section {
-  margin: 0 32px;
+  margin: 0 8px;
 
   @include for-size(tablet-landscape-up) {
     width: calc(100% - 15px);

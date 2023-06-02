@@ -56,7 +56,7 @@ export const AMMAccountHeader = (props: { data: AmmDataType }) => {
   return (
     <div className="box account-header">
       <div className="section box-header">
-        <div className="amm-title">Account ID</div>
+        <div className="title">Account ID</div>
         <h2 className="amm">{accountId}</h2>
         <div className="currency-pair">
           <Currency

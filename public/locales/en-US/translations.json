@@ -448,5 +448,8 @@
   "peer_crawled_context": "For more context, see https://xrpl.org/peer-crawler.html",
   "xchainbridge": "XChainBridge",
   "language_en-US": "English",
-  "language_ja-JP": "Japanese"
+  "language_ja-JP": "Japanese",
+  "xchain_account_claim_count": "XChain Account Claim Count",
+  "xchain_account_create_count": "XChain Account Create Count",
+  "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required"
 }
