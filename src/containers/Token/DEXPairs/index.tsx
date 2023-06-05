@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useContext } from 'react'
-import { withTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import './styles.scss'
 import Log from '../../shared/log'
@@ -12,9 +11,10 @@ import {
   ANALYTIC_TYPES,
 } from '../../shared/utils'
 import { getOffers } from '../../../rippled'
-import PairStats from './PairStats'
+import { PairStats } from './PairStats'
 import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
+import { Pair } from './types'
 
 // Hard Coded Pairs that we always check for
 const pairsHardCoded = [
@@ -23,17 +23,22 @@ const pairsHardCoded = [
   { currency: 'BTC', issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B' }, // Bitstamp BTC
 ]
 
-const DEXPairs = (props) => {
-  const { accountId, currency, t } = props
-  const [pairs, setPairs] = useState([])
+export interface DexPairsProps {
+  accountId: string
+  currency: string
+}
+
+export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
+  const [pairs, setPairs] = useState<Pair[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const isMountedRef = useRef(null)
+  const isMountedRef = useRef(false)
   const [isError, setIsError] = useState(false)
+  const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
 
   useEffect(() => {
     isMountedRef.current = true
-    const promises = []
+    const promises: Promise<any>[] = []
     axios
       .get(`/api/v1/token/top`)
       .then((tokenRes) => {
@@ -87,13 +92,15 @@ const DEXPairs = (props) => {
 
                     if (isMountedRef.current) {
                       setPairs((previousPairs) =>
-                        previousPairs.concat({
-                          token: token.currency,
-                          issuer: token.issuer,
-                          low,
-                          high,
-                          average,
-                        }),
+                        previousPairs.concat([
+                          {
+                            token: token.currency,
+                            issuer: token.issuer,
+                            low,
+                            high,
+                            average,
+                          },
+                        ]),
                       )
                     }
                   }
@@ -145,7 +152,7 @@ const DEXPairs = (props) => {
         )}
       </td>
       <td>
-        <PairStats pair={pair} t={t} />
+        <PairStats pair={pair} />
       </td>
     </tr>
   )
@@ -166,7 +173,7 @@ const DEXPairs = (props) => {
             {pairs.map(renderRow)}
             {isLoading && (
               <tr key="loader">
-                <td colSpan="3" className="loader">
+                <td colSpan={3} className="loader">
                   <Loader />
                 </td>
               </tr>
@@ -178,10 +185,3 @@ const DEXPairs = (props) => {
     </div>
   )
 }
-
-DEXPairs.propTypes = {
-  accountId: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired,
-}
-export default withTranslation()(DEXPairs)

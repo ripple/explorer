@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { useParams } from 'react-router'
 import TokenHeader from './TokenHeader'
 import { TokenTransactionTable } from './TokenTransactionTable'
-import DEXPairs from './DEXPairs'
+import { DEXPairs } from './DEXPairs'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
