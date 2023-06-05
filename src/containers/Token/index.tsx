@@ -70,7 +70,7 @@ const Token: FC<{ error: string }> = ({ error }) => {
     <div className="token-page">
       {accountId && <TokenHeader accountId={accountId} currency={currency} />}
       {accountId && IS_MAINNET && (
-        <DEXPairs accountId={accountId} currency={currency} t={t} />
+        <DEXPairs accountId={accountId} currency={currency} />
       )}
       {accountId && (
         <div className="section">
