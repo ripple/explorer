@@ -1,9 +1,8 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Trans } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import TransactionMeta from './Meta'
-import TransactionDescription from './Description'
+import { TransactionMeta } from './Meta'
+import { TransactionDescription } from './Description'
 import { Account } from '../shared/components/Account'
 import { localizeDate, localizeNumber } from '../shared/utils'
 import {
@@ -15,10 +14,13 @@ import {
   buildMemos,
 } from '../shared/transactionUtils'
 import './detailTab.scss'
+import { useLanguage } from '../shared/hooks'
 
-class DetailTab extends Component {
-  renderStatus() {
-    const { t, language, data } = this.props
+const DetailTab = ({ data }) => {
+  const { t } = useTranslation()
+  const language = useLanguage()
+
+  const renderStatus = () => {
     const { TransactionResult } = data.meta
     const time = localizeDate(new Date(data.date), language, DATE_OPTIONS)
     let line1
@@ -47,8 +49,7 @@ class DetailTab extends Component {
     )
   }
 
-  renderMemos() {
-    const { t, data } = this.props
+  const renderMemos = () => {
     const memos = buildMemos(data)
     return memos.length ? (
       <div className="detail-section">
@@ -63,8 +64,7 @@ class DetailTab extends Component {
     ) : null
   }
 
-  renderFee() {
-    const { t, data, language } = this.props
+  const renderFee = () => {
     const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' }
     const totalCost = data.tx.Fee
       ? localizeNumber(
@@ -89,8 +89,7 @@ class DetailTab extends Component {
     )
   }
 
-  renderFlags() {
-    const { t, data } = this.props
+  const renderFlags = () => {
     const flags = buildFlags(data)
     return flags.length ? (
       <div className="detail-section">
@@ -104,9 +103,8 @@ class DetailTab extends Component {
     ) : null
   }
 
-  renderSigners() {
-    const { t, data } = this.props
-    return data.tx.Signers ? (
+  const renderSigners = () =>
+    data.tx.Signers ? (
       <div className="detail-section">
         <div className="title">{t('signers')}</div>
         <ul className="signers">
@@ -118,27 +116,21 @@ class DetailTab extends Component {
         </ul>
       </div>
     ) : null
-  }
 
-  render() {
-    const { t, language, data, instructions } = this.props
-    return (
-      <div className="detail-body">
-        {this.renderStatus()}
-        <TransactionDescription data={data} instructions={instructions} />
-        {this.renderSigners()}
-        {this.renderFlags()}
-        {this.renderFee()}
-        {this.renderMemos()}
-        <TransactionMeta t={t} language={language} data={data} />
-      </div>
-    )
-  }
+  return (
+    <div className="detail-body">
+      {renderStatus()}
+      <TransactionDescription data={data} />
+      {renderSigners()}
+      {renderFlags()}
+      {renderFee()}
+      {renderMemos()}
+      <TransactionMeta data={data} />
+    </div>
+  )
 }
 
 DetailTab.propTypes = {
-  t: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
   data: PropTypes.objectOf(
     PropTypes.oneOfType([
       PropTypes.string,
@@ -147,7 +139,6 @@ DetailTab.propTypes = {
       PropTypes.array,
     ]),
   ).isRequired,
-  instructions: PropTypes.shape({}).isRequired,
 }
 
 export default DetailTab

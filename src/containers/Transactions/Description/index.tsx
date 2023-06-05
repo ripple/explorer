@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import { FC } from 'react'
 import Sequence from '../../shared/components/Sequence'
 import { transactionTypes } from '../../shared/components/Transaction'
 
-const TransactionDescription = ({ data }) => {
+export const TransactionDescription: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
 
   if (!data || !data.tx) {
@@ -32,16 +32,3 @@ const TransactionDescription = ({ data }) => {
     </div>
   )
 }
-
-TransactionDescription.propTypes = {
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-    ]),
-  ).isRequired,
-}
-
-export default TransactionDescription
