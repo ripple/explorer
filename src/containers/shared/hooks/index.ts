@@ -5,5 +5,7 @@ export * from './useLocalStorage'
 
 export const useLanguage = () => useTranslation().i18n.resolvedLanguage
 
+export const CUSTOM_NETWORKS_STORAGE_KEY = 'explorer-custom-networks'
+
 export const useCustomNetworks = () =>
-  useLocalStorage<string[]>('explorer-custom-networks', [])
+  useLocalStorage<string[]>(CUSTOM_NETWORKS_STORAGE_KEY, [])

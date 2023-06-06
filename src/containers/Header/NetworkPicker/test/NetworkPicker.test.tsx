@@ -2,6 +2,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../../i18n/testConfigEnglish'
+import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../../shared/hooks'
 import SocketContext from '../../../shared/SocketContext'
 import MockWsClient from '../../../test/mockWsClient'
 
@@ -11,13 +12,21 @@ describe('NetworkPicker component', () => {
   const mockedFunction = jest.fn()
   const oldEnvs = process.env
 
-  const createWrapper = () => {
+  const createWrapper = (localNetworks?: string[]) => {
     let Picker
 
     // Needed to test different env variable values.
     jest.isolateModules(() => {
       ;({ NetworkPicker: Picker } = jest.requireActual('../NetworkPicker'))
     })
+
+    localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
+    if (localNetworks) {
+      localStorage.setItem(
+        CUSTOM_NETWORKS_STORAGE_KEY,
+        JSON.stringify(localNetworks),
+      )
+    }
 
     return mount(
       <I18nextProvider i18n={i18n}>
@@ -42,6 +51,7 @@ describe('NetworkPicker component', () => {
       VITE_TESTNET_LINK: 'https://testnet.xrpl.org',
       VITE_DEVNET_LINK: 'https://devnet.xrpl.org',
       VITE_AMM_LINK: 'https://amm-devnet.xrpl.org',
+      VITE_CUSTOMNETWORK_LINK: 'https://custom.xrpl.org',
     }
     client = new MockWsClient()
   })
@@ -112,6 +122,24 @@ describe('NetworkPicker component', () => {
     expect(wrapper.find('.network-custom')).toExist()
     expect(wrapper.find('.network-custom .dropdown-toggle')).toIncludeText(
       'No Custom Network Selected',
+    )
+  })
+
+  it('shows custom networks in local storage if they exist', () => {
+    process.env.VITE_ENVIRONMENT = 'custom'
+    const wrapper = createWrapper(['custom_url', 'custom_url2'])
+
+    // expand dropdown
+    expect(wrapper.find('.network-custom')).toExist()
+
+    expect(wrapper.find('.dropdown-item.custom').length).toEqual(2)
+    expect(wrapper.find('.dropdown-item.custom').at(0)).toHaveProp(
+      'href',
+      `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
+    )
+    expect(wrapper.find('.dropdown-item.custom').at(1)).toHaveProp(
+      'href',
+      `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url2`,
     )
   })
 })
