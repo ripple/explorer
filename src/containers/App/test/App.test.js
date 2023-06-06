@@ -11,6 +11,7 @@ import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled'
 import { flushPromises } from '../../test/utils'
+import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
@@ -47,7 +48,15 @@ const mockGetAccountInfo = getAccountInfo
 
 describe('App container', () => {
   const mockStore = configureMockStore()
-  const createWrapper = (path = '/') => {
+  const createWrapper = (path = '/', localNetworks = []) => {
+    localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
+    if (localNetworks) {
+      localStorage.setItem(
+        CUSTOM_NETWORKS_STORAGE_KEY,
+        JSON.stringify(localNetworks),
+      )
+    }
+
     const store = mockStore(initialState)
     return mount(
       <MemoryRouter initialEntries={[path]}>
@@ -212,11 +221,29 @@ describe('App container', () => {
   it('renders custom mode', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
-    const wrapper = createWrapper('/s2.ripple.com/')
+    const network = 's2.ripple.com'
+    const wrapper = createWrapper(`/${network}/`)
     await flushPromises()
     wrapper.update()
     // Make sure the sockets aren't double initialized.
     expect(XrplClient).toHaveBeenCalledTimes(1)
+    expect(localStorage.getItem(CUSTOM_NETWORKS_STORAGE_KEY)).toEqual(
+      JSON.stringify([network]),
+    )
+    wrapper.unmount()
+  })
+
+  it('properly populates sorted networks in custom mode', async () => {
+    process.env.VITE_ENVIRONMENT = 'custom'
+    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+    const network = 's2.ripple.com'
+    const existingNetworks = ['custom_url', 'xrpl_custom_url']
+    const wrapper = createWrapper(`/${network}/`, existingNetworks)
+    await flushPromises()
+    wrapper.update()
+    expect(localStorage.getItem(CUSTOM_NETWORKS_STORAGE_KEY)).toEqual(
+      JSON.stringify(existingNetworks.concat(network).sort()),
+    )
     wrapper.unmount()
   })
 })
