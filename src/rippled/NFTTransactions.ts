@@ -9,8 +9,8 @@ const log = logger({ name: 'NFT transactions' })
 export const getNFTTransactions = (
   rippledSocket: XrplClient,
   tokenId: string,
-  limit: number,
-  marker: string,
+  limit?: number,
+  marker?: string,
 ) =>
   getNFTTxs(rippledSocket, tokenId, limit, marker, undefined)
     .then((data) => {

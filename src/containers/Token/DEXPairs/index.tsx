@@ -161,21 +161,21 @@ export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
       <div className="pairs-table">
         <table>
           <thead>
-          <tr>
-            <th className="pair-header">{t('pair')}</th>
-            <th>{t('issuer')}</th>
-            <th className="stats-header">{t('offer_range')}</th>
-          </tr>
+            <tr>
+              <th className="pair-header">{t('pair')}</th>
+              <th>{t('issuer')}</th>
+              <th className="stats-header">{t('offer_range')}</th>
+            </tr>
           </thead>
           <tbody>
-          {pairs.map(renderRow)}
-          {isLoading && (
-            <tr key="loader">
-              <td colSpan={3} className="loader">
-                <Loader />
-              </td>
-            </tr>
-          )}
+            {pairs.map(renderRow)}
+            {isLoading && (
+              <tr key="loader">
+                <td colSpan={3} className="loader">
+                  <Loader />
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         {(isError || (pairs.length === 0 && !isLoading)) && renderNoPairs()}
