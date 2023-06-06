@@ -6,17 +6,14 @@ import { ANALYTIC_TYPES, analytics } from '../shared/utils'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
 import './index.scss'
-import { useLocalStorage } from '../shared/hooks'
+import { useCustomNetworks } from '../shared/hooks'
 
 const SidechainHome = () => {
   const { t } = useTranslation()
 
   const [networkText, setNetworkText] = useState('')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not used here
-  const [customNetworks = [], _setCustomNetworks] = useLocalStorage<string[]>(
-    'explorer-custom-networks',
-    [],
-  )
+  const [customNetworks = [], _setCustomNetworks] = useCustomNetworks()
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK

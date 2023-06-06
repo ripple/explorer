@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
-import { useLocalStorage } from '../../shared/hooks'
+import { useCustomNetworks } from '../../shared/hooks'
 import SocketContext from '../../shared/SocketContext'
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 import './NetworkPicker.scss'
@@ -25,10 +25,7 @@ export const NetworkPicker = () => {
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
   const [newRippledUrl, setNewRippledUrl] = useState('')
-  const [customNetworks = [], setCustomNetworks] = useLocalStorage<string[]>(
-    'explorer-custom-networks',
-    [],
-  )
+  const [customNetworks = [], setCustomNetworks] = useCustomNetworks()
 
   const rippledUrl = rippledSocket?.rippledUrl
   const isCustom = currentMode === 'custom'
