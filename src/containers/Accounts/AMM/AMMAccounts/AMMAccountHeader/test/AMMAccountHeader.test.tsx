@@ -3,6 +3,7 @@ import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter } from 'react-router'
 import i18n from '../../../../../../i18n/testConfig'
 import { AMMAccountHeader, AmmDataType } from '../AMMAccountHeader'
+import { flushPromises } from '../../../../../test/utils'
 
 describe('AMM Account Header', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
@@ -42,7 +43,3 @@ describe('AMM Account Header', () => {
     wrapper.unmount()
   })
 })
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}

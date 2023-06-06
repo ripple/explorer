@@ -8,6 +8,7 @@ import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionTable/te
 
 import { getAccountTransactions } from '../../../../rippled'
 import { testQueryClient } from '../../../test/QueryClient'
+import { flushPromises } from '../../../test/utils'
 
 jest.mock('../../../../rippled', () => ({
   __esModule: true,
@@ -16,10 +17,6 @@ jest.mock('../../../../rippled', () => ({
 
 const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 const TEST_CURRENCY = 'abc'
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
 
 describe('TokenTransactionsTable container', () => {
   const createWrapper = (

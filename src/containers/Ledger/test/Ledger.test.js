@@ -8,6 +8,7 @@ import { Ledger } from '../index'
 import { getLedger } from '../../../rippled'
 import { testQueryClient } from '../../test/QueryClient'
 import { Error as RippledError } from '../../../rippled/lib/utils'
+import { flushPromises } from '../../test/utils'
 
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
@@ -20,10 +21,6 @@ jest.mock('../../../rippled', () => {
 })
 
 const mockedGetLedger = getLedger
-
-export function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
 
 describe('Ledger container', () => {
   const createWrapper = (identifier = 38079857) =>

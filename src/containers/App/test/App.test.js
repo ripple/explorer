@@ -10,6 +10,7 @@ import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled'
+import { flushPromises } from '../../test/utils'
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
@@ -43,10 +44,6 @@ jest.mock('../../../rippled', () => {
 
 const mockXrplClient = XrplClient
 const mockGetAccountInfo = getAccountInfo
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
 
 describe('App container', () => {
   const mockStore = configureMockStore()
