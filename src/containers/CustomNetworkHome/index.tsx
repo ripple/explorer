@@ -12,7 +12,6 @@ const SidechainHome = () => {
   const { t } = useTranslation()
 
   const [networkText, setNetworkText] = useState('')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not used here
   const [customNetworks = [], _setCustomNetworks] = useCustomNetworks()
 
   function switchMode(desiredLink: string) {
