@@ -12,7 +12,7 @@ describe('Transaction Table container', () => {
     transactions = [],
     emptyMessage = undefined,
     loading = false,
-    onLoadMore,
+    onLoadMore = loadMore,
     hasAdditionalResults = false,
   ) =>
     mount(

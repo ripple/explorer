@@ -106,6 +106,7 @@ export function Transaction() {
   }
 
   function renderTransaction() {
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     if (!data) return <></>
 
     let body

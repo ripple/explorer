@@ -3,7 +3,7 @@ import { getAccountState } from '../../../rippled'
 import { analytics, ANALYTIC_TYPES, BAD_REQUEST } from '../../shared/utils'
 import * as actionTypes from './actionTypes'
 
-export const loadAccountState = (accountId, rippledSocket) => (dispatch) => {
+const loadAccountState = (accountId, rippledSocket) => (dispatch) => {
   if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
     dispatch({
       type: actionTypes.ACCOUNT_STATE_LOAD_FAIL,
@@ -40,4 +40,4 @@ export const loadAccountState = (accountId, rippledSocket) => (dispatch) => {
     })
 }
 
-export { loadAccountState as default }
+export default loadAccountState

@@ -7,7 +7,7 @@ import { SignerListSetInstructions } from './types'
 export function Simple({
   data,
 }: TransactionSimpleProps<SignerListSetInstructions>) {
-  const { quorum, maxSigners, signers } = data?.instructions
+  const { quorum, maxSigners, signers } = data.instructions
   const { t } = useTranslation()
 
   return signers?.length ? (

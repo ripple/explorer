@@ -22,6 +22,7 @@ export function BalanceSelector({
     <Dropdown title={title} className="balance-selector">
       {balanceTuples.map(([currency, value]) => {
         if (currency === currencySelected) {
+          // eslint-disable-next-line react/jsx-no-useless-fragment
           return <></>
         }
 

@@ -33,11 +33,6 @@ class Ledgers extends Component {
     }
   }
 
-  setSelected = (pubkey) =>
-    this.setState((prevState) => ({
-      selected: prevState.selected === pubkey ? null : pubkey,
-    }))
-
   getMissingValidators = (hash) => {
     const { validators } = this.props
     const unl = {}
