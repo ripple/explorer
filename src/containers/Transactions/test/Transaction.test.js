@@ -1,16 +1,13 @@
 import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
-import { MemoryRouter as Router, Route } from 'react-router-dom'
-import { QueryClientProvider } from 'react-query'
+import { Route } from 'react-router-dom'
 import mockTransaction from './mock_data/Transaction.json'
 import mockTransactionSummary from './mock_data/TransactionSummary.json'
 import i18n from '../../../i18n/testConfig'
 import { Transaction } from '../index'
 import { TxStatus } from '../../shared/components/TxStatus'
-import { testQueryClient } from '../../test/QueryClient'
 import { getTransaction } from '../../../rippled'
 import { Error as RippledError } from '../../../rippled/lib/utils'
-import { flushPromises } from '../../test/utils'
+import { flushPromises, QuickHarness } from '../../test/utils'
 
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
@@ -33,16 +30,15 @@ describe('Transaction container', () => {
     tab = 'simple',
   ) =>
     mount(
-      <QueryClientProvider client={testQueryClient}>
-        <I18nextProvider i18n={i18n}>
-          <Router initialEntries={[`/transactions/${hash}/${tab}`]}>
-            <Route
-              path="/transactions/:identifier?/:tab?"
-              component={Transaction}
-            />
-          </Router>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <QuickHarness
+        i18n={i18n}
+        initialEntries={[`/transactions/${hash}/${tab}`]}
+      >
+        <Route
+          path="/transactions/:identifier?/:tab?"
+          component={Transaction}
+        />
+      </QuickHarness>,
     )
   afterEach(() => {
     mockedGetTransaction.mockReset()

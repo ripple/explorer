@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import axios from 'axios'
+import { Helmet } from 'react-helmet-async'
 import Log from '../shared/log'
 import {
   analytics,
@@ -31,8 +32,6 @@ const LedgersPage = () => {
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
   const language = useLanguage()
-
-  document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
 
   useEffect(() => {
     /* @ts-ignore */
@@ -83,7 +82,7 @@ const LedgersPage = () => {
 
   return (
     <div className="ledgers-page">
-      {/* @ts-ignore */}
+      <Helmet title={t('ledgers')} />
       {isOnline && (
         <Streams
           validators={validators}

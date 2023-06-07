@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
+import { Helmet } from 'react-helmet-async'
 import NetworkContext from '../shared/NetworkContext'
 import { Validators } from './Validators'
 import { UpgradeStatus } from './UpgradeStatus'
@@ -11,10 +12,11 @@ import './css/style.scss'
 
 export const Network = () => {
   const { t } = useTranslation()
-  const { tab = 'nodes' } = useParams<{ tab: string }>()
+  const { tab = 'nodes' } = useParams<{
+    tab: 'upgrade-status' | 'validators' | 'nodes'
+  }>()
   const network = useContext(NetworkContext)
   useEffect(() => {
-    document.title = `${t('xrpl_explorer')} | ${t('network')}`
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'network',
       path: `/network/${tab || 'nodes'}`,
@@ -31,11 +33,15 @@ export const Network = () => {
     )
   }
 
-  if (tab === 'upgrade-status') {
-    return <UpgradeStatus />
-  }
-  if (tab === 'validators') {
-    return <Validators />
-  }
-  return <Nodes />
+  const Body = {
+    'upgrade-status': UpgradeStatus,
+    validators: Validators,
+    nodes: Nodes,
+  }[tab]
+  return (
+    <>
+      <Helmet title={t('network')} />
+      <Body />
+    </>
+  )
 }

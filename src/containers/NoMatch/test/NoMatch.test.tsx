@@ -1,5 +1,6 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
+import { HelmetProvider } from 'react-helmet-async'
 import MockWsClient from '../../test/mockWsClient'
 import SocketContext, { ExplorerXrplClient } from '../../shared/SocketContext'
 import i18n from '../../../i18n/testConfigEnglish'
@@ -13,7 +14,9 @@ describe('NoMatch container', () => {
     return mount(
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
-          <NoMatch {...props} />
+          <HelmetProvider>
+            <NoMatch {...props} />
+          </HelmetProvider>
         </SocketContext.Provider>
       </I18nextProvider>,
     )

@@ -1,11 +1,9 @@
 import * as React from 'react'
 import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
-import { MemoryRouter as Router, Route } from 'react-router-dom'
-import { QueryClientProvider } from 'react-query'
+import { Route } from 'react-router-dom'
 import { NFT } from '../NFT'
 import i18n from '../../../i18n/testConfig'
-import { queryClient } from '../../shared/QueryClient'
+import { QuickHarness } from '../../test/utils'
 
 describe('NFT container', () => {
   const nftId =
@@ -13,13 +11,9 @@ describe('NFT container', () => {
 
   const createWrapper = (nft = undefined) =>
     mount(
-      <QueryClientProvider client={queryClient}>
-        <I18nextProvider i18n={i18n}>
-          <Router initialEntries={[`/nft/${nft}`]}>
-            <Route path="/nft/:id" component={NFT} />
-          </Router>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <QuickHarness i18n={i18n} initialEntries={[`/nft/${nft}`]}>
+        <Route path="/nft/:id" component={NFT} />
+      </QuickHarness>,
     )
 
   it('renders without crashing', () => {
