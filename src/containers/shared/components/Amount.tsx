@@ -30,7 +30,12 @@ export const Amount = ({
         {modifier && <span className="amount-modifier">{modifier}</span>}
         {localizedAmount}
       </span>{' '}
-      <Currency issuer={displayIssuer ? issuer : ''} currency={currency} link />
+      <Currency
+        issuer={displayIssuer ? issuer : ''}
+        currency={currency}
+        link
+        displaySymbol={false}
+      />
     </span>
   )
 }

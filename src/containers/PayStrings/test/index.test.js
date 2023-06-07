@@ -7,6 +7,7 @@ import { PayString } from '../index'
 import { getPayString } from '../../../rippled'
 import { testQueryClient } from '../../test/QueryClient'
 import mockPayStringData from './mockPayStringData.json'
+import { flushPromises } from '../../test/utils'
 
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
@@ -19,10 +20,6 @@ jest.mock('../../../rippled', () => {
 })
 
 const mockGetPayString = getPayString
-
-export function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
 
 describe('PayString container', () => {
   const TEST_PAY_ID = 'blunden$paystring.crypto.com'

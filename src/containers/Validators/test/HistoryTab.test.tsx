@@ -9,7 +9,6 @@ import { ValidatorReport } from '../../shared/vhsTypes'
 describe(`HistoryTab:`, () => {
   const createWrapper = (reports?: ValidatorReport[]) =>
     mount(
-      // eslint-disable-next-line react/jsx-no-undef
       <I18nextProvider i18n={i18n}>
         <HistoryTab reports={reports} />
       </I18nextProvider>,

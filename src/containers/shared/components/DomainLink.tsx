@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import classnames from 'classnames'
 import { decodeHex } from '../transactionUtils'
 
 export interface Props {
@@ -11,7 +11,7 @@ const DomainLink = (props: Props) => {
   const { className, decode = false, domain } = props
   return (
     <a
-      className={clsx(`domain`, className)}
+      className={classnames(`domain`, className)}
       rel="noopener noreferrer"
       target="_blank"
       href={`https://${decode ? decodeHex(domain) : domain}`}

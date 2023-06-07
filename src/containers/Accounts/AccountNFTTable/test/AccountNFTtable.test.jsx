@@ -7,15 +7,12 @@ import { AccountNFTTable } from '../AccountNFTTable'
 import i18n from '../../../../i18n/testConfig'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { testQueryClient } from '../../../test/QueryClient'
+import { flushPromises } from '../../../test/utils'
 
 jest.mock('../../../../rippled/lib/rippled', () => ({
   __esModule: true,
   getAccountNFTs: jest.fn(),
 }))
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
 
 const mockedGetAccountNFTs = getAccountNFTs
 

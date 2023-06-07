@@ -1,3 +1,4 @@
+import { IssuedCurrencyAmount, Transaction, Node } from './types'
 import { localizeNumber } from './utils'
 
 export const RIPPLE_EPOCH = 946684800
@@ -121,52 +122,6 @@ export const DATE_OPTIONS = {
   day: 'numeric',
   hour12: true,
   timeZone: 'UTC',
-}
-
-export interface Node {
-  DeletedNode?: any
-  ModifiedNode?: any
-  CreatedNode?: any
-  LedgerEntryType: string
-}
-
-export interface Meta {
-  AffectedNodes: Node[]
-}
-
-export interface Memo {
-  Memo: {
-    MemoType: string
-    MemoData: string
-    MemoFormat: string
-  }
-}
-
-export interface Tx {
-  Memos?: Memo[]
-  TransactionType: string
-  Flags?: number
-}
-
-export interface Transaction {
-  meta: Meta
-  tx: Tx
-}
-
-interface IssuedCurrencyAmount {
-  currency: string
-  issuer: string
-  value: string
-}
-
-export interface AccountNFToken {
-  Flags: number
-  Issuer: string
-  NFTokenID: string
-  NFTokenTaxon: number
-  URI?: string
-  // eslint-disable-next-line camelcase
-  nft_serial: number
 }
 
 export function groupAffectedNodes(trans: Transaction) {

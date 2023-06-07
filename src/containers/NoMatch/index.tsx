@@ -31,7 +31,7 @@ const NoMatch = ({
   const values = { connection: socket?.getState() }
 
   useEffect(() => {
-    document.title = `${t('xrpl_explorer')} | ${t(title)}`
+    document.title = `${t('xrpl_explorer')} | ${t(title as any)}`
     analytics(ANALYTIC_TYPES.pageview, {
       title: `${title} -- ${hints.join(', ')}`,
       path: '/404',
@@ -41,7 +41,7 @@ const NoMatch = ({
   const notFound = title.includes('not_found')
   const hintMsg = hints.map((hint) => (
     <div className="hint" key={hint}>
-      {t(hint, values)}
+      {t(hint as any, values)}
     </div>
   ))
   const derivedWarning = warning ?? (notFound && t('not_found'))
@@ -49,7 +49,7 @@ const NoMatch = ({
   return (
     <div className="no-match">
       {isError && <div className="uh-oh">{t('uh_oh')}</div>}
-      <div className="title">{t(title, values)}</div>
+      <div className="title">{t(title as any, values)}</div>
       {hintMsg}
       {(derivedWarning || isError) && (
         <div className="warning">

@@ -80,14 +80,14 @@ export interface ValidatorResponse {
   // eslint-disable-next-line camelcase -- from VHS
   agreement_30day: ValidatorScore | null
   partial: boolean
-  unl: boolean
+  unl: string
 }
 
 export interface ValidatorSupplemented extends ValidatorResponse {
   // eslint-disable-next-line camelcase -- mimicking rippled
   ledger_hash: string
   // eslint-disable-next-line camelcase -- mimicking rippled
-  last_ledger_time: number
+  last_ledger_time: string
 }
 
 export interface StreamValidator extends ValidatorResponse {

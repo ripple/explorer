@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   font-weight: 700;
-  gap: 0 24px;
+  gap: 0 8px;
 
   .arrow {
     height: 1em;
@@ -23,6 +23,7 @@
   position: absolute;
   z-index: 100;
   display: none;
+  overflow: hidden;
   min-width: max(100%, 160px);
   padding: 8px;
   border: 1px solid $black-80;
@@ -33,7 +34,7 @@
 
 .dropdown-item {
   padding: 12px 8px;
-  border-radius: $border-radius / 2;
+  border-radius: calc($border-radius / 2);
   font-weight: normal;
 
   @at-root {
@@ -82,5 +83,11 @@
 
   .dropdown-menu {
     display: block;
+  }
+}
+
+.dropdown-right {
+  .dropdown-menu {
+    right: 0;
   }
 }

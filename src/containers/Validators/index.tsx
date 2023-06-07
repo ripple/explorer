@@ -16,7 +16,7 @@ import {
   SERVER_ERROR,
 } from '../shared/utils'
 import { getLedger } from '../../rippled'
-import SimpleTab from './SimpleTab'
+import { SimpleTab } from './SimpleTab'
 import { HistoryTab } from './HistoryTab'
 import './validator.scss'
 import SocketContext from '../shared/SocketContext'

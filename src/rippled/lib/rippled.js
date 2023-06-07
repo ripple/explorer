@@ -1,3 +1,4 @@
+import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
 
 const N_UNL_INDEX =
@@ -214,6 +215,50 @@ const getAccountPaychannels = async (
       }
     : null
 }
+
+// get account escrows
+const getAccountBridge = (rippledSocket, account, ledger_index = 'validated') =>
+  query(rippledSocket, {
+    command: 'account_objects',
+    account,
+    ledger_index,
+    type: 'bridge',
+    limit: 400,
+  }).then((resp) => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+    if (resp.error === 'invalidParams') {
+      // thrown when XChainBridge amendment is not activated
+      // TODO: remove this when XLS-38d is live in mainnet
+      return undefined
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    if (!resp.account_objects.length) {
+      return undefined
+    }
+
+    if (resp.account_objects.length === 1) {
+      const bridge = resp.account_objects[0]
+      return {
+        lockingChainDoor: bridge.XChainBridge.LockingChainDoor,
+        lockingChainIssue: bridge.XChainBridge.LockingChainIssue,
+        issuingChainDoor: bridge.XChainBridge.IssuingChainDoor,
+        issuingChainIssue: bridge.XChainBridge.LockingChainIssue,
+        minAccountCreateAmount: formatAmount(bridge.MinAccountCreateAmount),
+        signatureReward: formatAmount(bridge.SignatureReward),
+        xchainAccountClaimCount: bridge.XChainAccountClaimCount,
+        xchainAccountCreateCount: bridge.XChainAccountCreateCount,
+        xchainClaimId: bridge.XChainClaimID,
+      }
+    }
+
+    return undefined
+  })
 
 // get Token balance summary
 const getBalances = (rippledSocket, account, ledger_index = 'validated') =>
@@ -445,6 +490,7 @@ export {
   getAccountInfo,
   getAccountEscrows,
   getAccountPaychannels,
+  getAccountBridge,
   getAccountNFTs,
   getBalances,
   getAccountTransactions,

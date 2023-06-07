@@ -1,15 +1,14 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
-import { XrplClient } from 'xrpl-client'
 import MockWsClient from '../../test/mockWsClient'
-import SocketContext from '../../shared/SocketContext'
+import SocketContext, { ExplorerXrplClient } from '../../shared/SocketContext'
 import i18n from '../../../i18n/testConfigEnglish'
 import NoMatch from '../index'
 
 /* eslint-disable react/jsx-props-no-spreading */
 describe('NoMatch container', () => {
   const createWrapper = (props = {}) => {
-    const client = new MockWsClient() as unknown as XrplClient
+    const client = new MockWsClient() as unknown as ExplorerXrplClient
 
     return mount(
       <I18nextProvider i18n={i18n}>

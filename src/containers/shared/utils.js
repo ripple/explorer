@@ -125,51 +125,6 @@ export const isEarlierVersion = (source, target) => {
   return false
 }
 
-export const normalizeLanguage = (lang) => {
-  if (!lang) {
-    return undefined
-  }
-
-  if (lang === 'en' || lang === 'en-US' || lang.indexOf('en-') === 0) {
-    return 'en-US' // Only US English supported now
-  }
-  if (
-    lang === 'zh' ||
-    lang === 'zh-Hans' ||
-    lang === 'zh-Hant' ||
-    lang.indexOf('zh-') === 0
-  ) {
-    return 'zh-Hans' // Only Simplified chinese supported now
-  }
-  if (lang === 'ja' || lang === 'ja-JP' || lang.indexOf('ja-') === 0) {
-    return 'ja-JP' // Japanese
-  }
-  if (
-    lang === 'ko' ||
-    lang === 'ko-KR' ||
-    lang === 'ko-KP' ||
-    lang.indexOf('ko-') === 0
-  ) {
-    return 'ko-KP' // Korean
-  }
-  if (
-    lang === 'es' ||
-    lang === 'es-ES' ||
-    lang === 'es-MX' ||
-    lang === 'es-AR' ||
-    lang === 'es-CO' ||
-    lang === 'es-CL' ||
-    lang.indexOf('es-') === 0
-  ) {
-    return 'es-MX' // Mexican Spanish
-  }
-  if (lang === 'pt-PT' || lang === 'pt-BR' || lang.indexOf('pt-') === 0) {
-    return 'pt-BR' // Brazilian Portuguese
-  }
-
-  return undefined
-}
-
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   const number = Number.parseFloat(num)
@@ -379,29 +334,6 @@ export const formatAsset = (asset) =>
         currency: asset.currency,
         issuer: asset.issuer,
       }
-
-export const localizeBalance = (balance, language) => {
-  if (balance === undefined) {
-    return undefined
-  }
-
-  let b = localizeNumber(balance.amount || 0.0, language, {
-    style: 'currency',
-    currency: balance.currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  })
-
-  if (
-    balance.currency !== 'XRP' &&
-    balance.currency !== 'BTC' &&
-    balance.currency !== 'ETH'
-  ) {
-    b = `${balance.currency} ${b}`
-  }
-
-  return b
-}
 
 export const formatTradingFee = (tradingFee) =>
   tradingFee !== undefined

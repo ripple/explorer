@@ -5,6 +5,7 @@ const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 export interface ExplorerXrplClient extends XrplClient {
   p2pSocket: XrplClient
+  rippledUrl: string | undefined
 }
 
 function isInsecureWs(rippledHost: string | undefined): boolean {
@@ -49,10 +50,12 @@ function getSocket(rippledUrl?: string): ExplorerXrplClient {
         }:${process.env.VITE_RIPPLED_WS_PORT}`,
       ])
     : undefined
+
+  socket.rippledUrl = rippledUrl
   return socket
 }
 
-const SocketContext = createContext<XrplClient>(undefined!)
+const SocketContext = createContext<ExplorerXrplClient>(undefined!)
 
 export type SocketProviderProps = React.PropsWithChildren<{
   children: any
