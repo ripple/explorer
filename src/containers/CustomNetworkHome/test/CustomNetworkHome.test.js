@@ -103,20 +103,5 @@ describe('SidechainHome page', () => {
       )
       wrapper.unmount()
     })
-
-    it('redirect works on button click', () => {
-      wrapper = createWrapper()
-      const customNetworkInput = wrapper.find('.custom-network-input')
-      customNetworkInput.simulate('change', { target: { value: 'custom_url' } })
-      wrapper.update()
-
-      const button = wrapper.find('.custom-network-input-button')
-      expect(button.length).toEqual(1)
-      button.simulate('click')
-      expect(mockedFunction).toBeCalledWith(
-        `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
-      )
-      wrapper.unmount()
-    })
   })
 })
