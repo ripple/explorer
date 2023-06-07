@@ -1,4 +1,4 @@
-import { KeyboardEvent, MouseEvent as ReactMouseEvent, useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Header } from '../Header'
@@ -31,16 +31,6 @@ const SidechainHome = () => {
     }
   }
 
-  function clickButton(
-    _event:
-      | ReactMouseEvent<HTMLDivElement, MouseEvent>
-      | KeyboardEvent<HTMLDivElement>,
-  ) {
-    if (networkText != null) {
-      switchMode(networkText)
-    }
-  }
-
   function renderCustomNetwork(network: string) {
     return (
       <Link key={network} className="custom-network-item" to={`/${network}`}>
@@ -69,15 +59,6 @@ const SidechainHome = () => {
             value={networkText}
             onChange={(event) => setNetworkText(event.target.value)}
           />
-          <div
-            className="custom-network-input-button"
-            tabIndex={0}
-            role="button"
-            onClick={clickButton}
-            onKeyUp={clickButton}
-          >
-            <span>Go to network</span>
-          </div>
         </div>
         {customNetworks.length > 0 && (
           <div className="custom-network-list">

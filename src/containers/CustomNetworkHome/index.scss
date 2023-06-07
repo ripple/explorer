@@ -14,6 +14,7 @@
       align-items: center;
       justify-content: center;
       padding: auto;
+      margin-top: -20px;
       text-align: center;
 
       .custom-network-logo {
@@ -24,11 +25,16 @@
         }
 
         @include for-size(desktop-up) {
-          width: 400px;
+          width: 280px;
+        }
+
+        @media (height >= 800px) {
+          width: 350px;
         }
       }
 
       .page-header {
+        margin-top: -20px;
         font-size: 20px;
         @include bold;
 
@@ -89,6 +95,7 @@
       flex-direction: column;
       align-items: normal;
       margin: 0% 10%;
+      margin-top: 40px;
       margin-bottom: 70px;
       font-size: 16px;
       text-align: left;
@@ -98,10 +105,6 @@
         border-bottom: 1px solid $black-80;
         font-size: 20px;
         @include bold;
-
-        @include for-size(tablet-landscape-up) {
-          font-size: 24px;
-        }
       }
 
       .custom-network-item {
