@@ -63,10 +63,6 @@ module.exports = {
     ],
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      { destructuredArrayIgnorePattern: '^_' },
-    ],
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {

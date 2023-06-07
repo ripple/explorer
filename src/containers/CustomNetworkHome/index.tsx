@@ -12,7 +12,7 @@ const SidechainHome = () => {
   const { t } = useTranslation()
 
   const [networkText, setNetworkText] = useState('')
-  const [customNetworks = [], _setCustomNetworks] = useCustomNetworks()
+  const [customNetworks = []] = useCustomNetworks()
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
