@@ -34,7 +34,6 @@ module.exports = {
       },
     ],
     'no-bitwise': 'off',
-    'react/jsx-props-no-spreading': 'warn',
     'import/extensions': [
       'error',
       'ignorePackages',
