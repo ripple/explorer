@@ -9,10 +9,7 @@ import { AMMAccountHeader } from '../AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from '../../../AccountTransactionTable'
 import { AMMAccounts } from '../index'
 import { testQueryClient } from '../../../../test/QueryClient'
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
+import { flushPromises } from '../../../../test/utils'
 
 function setSpy(accountTransactions: any, ammInfo: any) {
   const spyInfo = jest.spyOn(rippled, 'getAMMInfo')

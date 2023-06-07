@@ -7,6 +7,7 @@ import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
 import { getAccountTransactions } from '../../../../rippled'
 import { testQueryClient } from '../../../test/QueryClient'
+import { flushPromises } from '../../../test/utils'
 
 jest.mock('../../../../rippled', () => ({
   __esModule: true,
@@ -14,10 +15,6 @@ jest.mock('../../../../rippled', () => ({
 }))
 
 const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
 
 describe('AccountTransactionsTable container', () => {
   beforeEach(() => {

@@ -6,6 +6,7 @@ import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
+import { flushPromises } from '../../test/utils'
 
 describe('Search component', () => {
   const createWrapper = () => {
@@ -37,7 +38,6 @@ describe('Search component', () => {
   })
 
   it('search values', async () => {
-    const flushPromises = () => new Promise((resolve) => setImmediate(resolve))
     const wrapper = createWrapper()
     const input = wrapper.find('.search input')
     const ledgerIndex = '123456789'
