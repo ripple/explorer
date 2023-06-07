@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useRouteMatch, useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { useWindowSize } from 'usehooks-ts'
+import { Helmet } from 'react-helmet-async'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
@@ -77,18 +78,6 @@ export const Validator = () => {
   )
 
   useEffect(() => {
-    let short = ''
-    if (data?.domain) {
-      short = data.domain
-    } else if (data?.master_key) {
-      short = `${data.master_key.substr(0, 8)}...`
-    } else if (data?.signing_key) {
-      short = `${data.signing_key.substr(0, 8)}...`
-    }
-    document.title = `Validator ${short} | ${t('xrpl_explorer')}`
-  }, [data, t])
-
-  useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'Validator',
       path: `/validators/:identifier/${tab}`,
@@ -134,6 +123,23 @@ export const Validator = () => {
         })
         return Promise.reject(status)
       })
+  }
+
+  function renderPageTitle() {
+    if (!data) {
+      return <></>
+    }
+
+    let short = ''
+    if (data.domain) {
+      short = data.domain
+    } else if (data.master_key) {
+      short = `${data.master_key.substr(0, 8)}...`
+    } else if (data.signing_key) {
+      short = `${data.signing_key.substr(0, 8)}...`
+    }
+
+    return <Helmet title={`${t('validator')} ${short}`} />
   }
 
   function renderSummary() {
@@ -209,6 +215,7 @@ export const Validator = () => {
 
   return (
     <div className="validator">
+      {renderPageTitle()}
       {isLoading && <Loader />}
       {body}
     </div>

@@ -28,7 +28,7 @@
   "transactions": "Transactions",
   "transaction_short": "TX",
   "nodes": "Nodes",
-  "validator": "validator",
+  "validator": "Validator",
   "validators": "Validators",
   "upgrade_status": "Upgrade Status",
   "version": "v{{number}}",

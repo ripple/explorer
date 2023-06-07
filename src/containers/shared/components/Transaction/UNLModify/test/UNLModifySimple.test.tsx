@@ -11,7 +11,7 @@ const createWrapper = createSimpleWrapperFactory(Simple, i18n)
 describe('UNLModify: Simple', () => {
   it('renders tx that enables a validator', () => {
     const wrapper = createWrapper(mockUNLModifyEnable)
-    expectSimpleRowLabel(wrapper, 'validator', 'validator')
+    expectSimpleRowLabel(wrapper, 'validator', 'Validator')
     expectSimpleRowText(
       wrapper,
       'validator',
@@ -24,7 +24,7 @@ describe('UNLModify: Simple', () => {
 
   it('renders tx that disables a validator', () => {
     const wrapper = createWrapper(mockUNLModifyDisable)
-    expectSimpleRowLabel(wrapper, 'validator', 'validator')
+    expectSimpleRowLabel(wrapper, 'validator', 'Validator')
     expectSimpleRowText(
       wrapper,
       'validator',

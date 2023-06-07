@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useParams, useRouteMatch } from 'react-router'
-import { useTranslation } from 'react-i18next'
 import AccountHeader from './AccountHeader'
 import { AccountTransactionTable } from './AccountTransactionTable'
 import './styles.scss'
@@ -9,9 +9,11 @@ import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
 
 export const Accounts = () => {
-  const { id: accountId, tab = 'transactions' } = useParams()
+  const { id: accountId, tab = 'transactions' } = useParams<{
+    id: string
+    tab: 'assets' | 'transactions'
+  }>()
   const { path = '/' } = useRouteMatch()
-  const { t } = useTranslation()
   const [currencySelected, setCurrencySelected] = useState('XRP')
   const mainPath = `${path.split('/:')[0]}/${accountId}`
 
@@ -23,11 +25,11 @@ export const Accounts = () => {
     }
   })
 
-  document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`
   const tabs = ['transactions', 'assets']
 
   return (
     <div className="accounts-page section">
+      <Helmet title={`${accountId.substr(0, 12)}...`} />
       {accountId && (
         <>
           <AccountHeader
@@ -40,6 +42,7 @@ export const Accounts = () => {
             <AccountTransactionTable
               accountId={accountId}
               currencySelected={currencySelected}
+              hasTokensColumn={false}
             />
           )}
           {tab === 'assets' && <AccountAssetTab />}

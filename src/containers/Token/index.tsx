@@ -1,8 +1,9 @@
-import { FC, useEffect } from 'react'
+import { FC, PropsWithChildren, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 
 import { useParams } from 'react-router'
+import { Helmet } from 'react-helmet-async'
 import TokenHeader from './TokenHeader'
 import { TokenTransactionTable } from './TokenTransactionTable'
 import { DEXPairs } from './DEXPairs'
@@ -45,7 +46,6 @@ const Token: FC<{ error: string }> = ({ error }) => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`
     analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })
 
     return () => {
@@ -55,19 +55,22 @@ const Token: FC<{ error: string }> = ({ error }) => {
 
   const renderError = () => {
     const message = getErrorMessage(error)
-    return (
-      <div className="token-page">
-        <NoMatch title={message.title} hints={message.hints} />
-      </div>
-    )
+    return <NoMatch title={message.title} hints={message.hints} />
   }
 
+  const Page: FC<PropsWithChildren<{}>> = ({ children }) => (
+    <div className="token-page">
+      <Helmet title={`${accountId.substring(0, 12)}...`} />
+      {children}
+    </div>
+  )
+
   if (error) {
-    return renderError()
+    return <Page>{renderError()}</Page>
   }
 
   return (
-    <div className="token-page">
+    <Page>
       {accountId && <TokenHeader accountId={accountId} currency={currency} />}
       {accountId && IS_MAINNET && (
         <DEXPairs accountId={accountId} currency={currency} />
@@ -83,7 +86,7 @@ const Token: FC<{ error: string }> = ({ error }) => {
           <h2>Enter an account ID in the search box</h2>
         </div>
       )}
-    </div>
+    </Page>
   )
 }
 
