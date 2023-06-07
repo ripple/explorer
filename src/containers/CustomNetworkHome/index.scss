@@ -17,10 +17,13 @@
       text-align: center;
 
       .custom-network-logo {
-        width: auto;
-        height: auto;
-
+        display: none;
         @include for-size(tablet-landscape-up) {
+          display: inherit;
+          height: auto;
+        }
+
+        @include for-size(desktop-up) {
           width: 400px;
         }
       }
