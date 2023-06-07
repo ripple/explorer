@@ -9,6 +9,7 @@ import { Validator } from '../index'
 import { getLedger } from '../../../rippled'
 import { testQueryClient } from '../../test/QueryClient'
 import NetworkContext from '../../shared/NetworkContext'
+import { flushPromises } from '../../test/utils'
 
 global.location = '/validators/aaaa'
 
@@ -23,10 +24,6 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useParams: jest.fn(),
 }))
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
 
 describe('Validator container', () => {
   const createWrapper = (props = {}) => {

@@ -6,14 +6,14 @@ import Transaction from './mock_data/Transaction.json'
 import OfferCancel from '../../shared/components/Transaction/OfferCancel/test/mock_data/OfferCancel.json'
 import OfferCreateWithMissingPreviousFields from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithMissingPreviousFields.json'
 import PaymentChannelClaim from '../../shared/components/Transaction/PaymentChannelClaim/test/mock_data/PaymentChannelClaim.json'
-import Meta from '../Meta'
+import { TransactionMeta } from '../Meta'
 
 describe('TransactionMeta container', () => {
-  const createWrapper = (data = Transaction) =>
+  const createWrapper = (data: any = Transaction) =>
     mount(
       <Router>
         <I18nextProvider i18n={i18n}>
-          <Meta t={(s) => s} language="en-US" data={data} />
+          <TransactionMeta data={data} />
         </I18nextProvider>
       </Router>,
     )

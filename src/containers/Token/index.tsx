@@ -1,12 +1,11 @@
-import { useEffect } from 'react'
-import PropTypes from 'prop-types'
+import { FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 
 import { useParams } from 'react-router'
 import TokenHeader from './TokenHeader'
 import { TokenTransactionTable } from './TokenTransactionTable'
-import DEXPairs from './DEXPairs'
+import { DEXPairs } from './DEXPairs'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
@@ -16,30 +15,34 @@ import {
   NOT_FOUND,
   BAD_REQUEST,
 } from '../shared/utils'
+import { ErrorMessages } from '../shared/Interfaces'
 
 const IS_MAINNET = process.env.VITE_ENVIRONMENT === 'mainnet'
 
-const ERROR_MESSAGES = {}
-ERROR_MESSAGES[NOT_FOUND] = {
-  title: 'account_not_found',
-  hints: ['check_account_id'],
-}
-ERROR_MESSAGES[BAD_REQUEST] = {
-  title: 'invalid_xrpl_address',
-  hints: ['check_account_id'],
-}
-ERROR_MESSAGES.default = {
-  title: 'generic_error',
-  hints: ['not_your_fault'],
+const ERROR_MESSAGES: ErrorMessages = {
+  default: {
+    title: 'generic_error',
+    hints: ['not_your_fault'],
+  },
+  [NOT_FOUND]: {
+    title: 'account_not_found',
+    hints: ['check_account_id'],
+  },
+  [BAD_REQUEST]: {
+    title: 'invalid_xrpl_address',
+    hints: ['check_account_id'],
+  },
 }
 
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-const Token = ({ error }) => {
-  const { currency, id: accountId } = useParams()
+const Token: FC<{ error: string }> = ({ error }) => {
+  const { currency, id: accountId } = useParams<{
+    currency: string
+    id: string
+  }>()
   const { t } = useTranslation()
-  const showError = error
 
   useEffect(() => {
     document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`
@@ -59,15 +62,15 @@ const Token = ({ error }) => {
     )
   }
 
-  return showError ? (
-    renderError(error)
-  ) : (
+  if (error) {
+    return renderError()
+  }
+
+  return (
     <div className="token-page">
-      {accountId && (
-        <TokenHeader accountId={accountId} currency={currency} t={t} />
-      )}
+      {accountId && <TokenHeader accountId={accountId} currency={currency} />}
       {accountId && IS_MAINNET && (
-        <DEXPairs accountId={accountId} currency={currency} t={t} />
+        <DEXPairs accountId={accountId} currency={currency} />
       )}
       {accountId && (
         <div className="section">
@@ -84,20 +87,6 @@ const Token = ({ error }) => {
   )
 }
 
-Token.propTypes = {
-  error: PropTypes.number,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-      currency: PropTypes.string,
-    }),
-  }).isRequired,
-}
-
-Token.defaultProps = {
-  error: null,
-}
-
-export default connect((state) => ({
+export default connect((state: any) => ({
   error: state.accountHeader.status,
 }))(Token)

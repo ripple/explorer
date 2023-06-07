@@ -1,11 +1,12 @@
-import PropTypes from 'prop-types'
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import PairLine from '../../shared/images/pair_line.svg'
 import Currency from '../../shared/components/Currency'
+import { Pair } from './types'
 
-const PairStats = (props) => {
-  const { pair } = props
+export const PairStats: FC<{ pair: Pair }> = ({ pair }) => {
   const { low, high, token } = pair
-  const { t } = props
+  const { t } = useTranslation()
 
   return (
     <div className="pair-stats-container">
@@ -32,7 +33,7 @@ const PairStats = (props) => {
             </td>
           </tr>
           <tr>
-            <td colSpan="2">
+            <td colSpan={2}>
               <PairLine />
             </td>
           </tr>
@@ -41,24 +42,3 @@ const PairStats = (props) => {
     </div>
   )
 }
-
-PairStats.propTypes = {
-  pair: PropTypes.shape({
-    low: PropTypes.shape({
-      num: PropTypes.string.isRequired,
-      unit: PropTypes.string.isRequired,
-    }).isRequired,
-    high: PropTypes.shape({
-      num: PropTypes.string.isRequired,
-      unit: PropTypes.string.isRequired,
-    }).isRequired,
-    average: PropTypes.shape({
-      num: PropTypes.string.isRequired,
-      unit: PropTypes.string.isRequired,
-    }).isRequired,
-    token: PropTypes.string.isRequired,
-  }).isRequired,
-  t: PropTypes.func.isRequired,
-}
-
-export default PairStats

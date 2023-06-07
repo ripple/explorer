@@ -1,11 +1,12 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import renderAccountRoot from './AccountRoot'
 import renderDirectoryNode from './DirectoryNode'
 import renderOffer from './Offer'
 import renderRippleState from './RippleState'
 import renderPayChannel from './PayChannel'
 import { groupAffectedNodes } from '../../shared/transactionUtils'
+import { useLanguage } from '../../shared/hooks'
 
 const renderDefault = (t, action, node, index) => (
   <li key={`${node.LedgerEntryType}_${index}`} className="meta-line">
@@ -13,8 +14,11 @@ const renderDefault = (t, action, node, index) => (
   </li>
 )
 
-class TransactionMeta extends Component {
-  static renderNodesMeta(t, language, action, list, tx) {
+export const TransactionMeta = ({ data }) => {
+  const language = useLanguage()
+  const { t } = useTranslation()
+
+  const renderNodesMeta = (action, list, tx) => {
     const meta = list.map((node, index) => {
       switch (node.LedgerEntryType) {
         case 'AccountRoot':
@@ -42,47 +46,24 @@ class TransactionMeta extends Component {
     )
   }
 
-  render() {
-    const { t, language, data } = this.props
-    const affectedNodes = groupAffectedNodes(data)
+  const affectedNodes = groupAffectedNodes(data)
 
-    return (
-      <div className="detail-section">
-        <div className="title">{t('meta')}</div>
-        <div>
-          {t('number_of_affected_node', {
-            count: data.meta.AffectedNodes.length,
-          })}
-        </div>
-        {TransactionMeta.renderNodesMeta(
-          t,
-          language,
-          'created',
-          affectedNodes.created,
-          data.tx,
-        )}
-        {TransactionMeta.renderNodesMeta(
-          t,
-          language,
-          'modified',
-          affectedNodes.modified,
-          data.tx,
-        )}
-        {TransactionMeta.renderNodesMeta(
-          t,
-          language,
-          'deleted',
-          affectedNodes.deleted,
-          data.tx,
-        )}
+  return (
+    <div className="detail-section">
+      <div className="title">{t('meta')}</div>
+      <div>
+        {t('number_of_affected_node', {
+          count: data.meta.AffectedNodes.length,
+        })}
       </div>
-    )
-  }
+      {renderNodesMeta('created', affectedNodes.created, data.tx)}
+      {renderNodesMeta('modified', affectedNodes.modified, data.tx)}
+      {renderNodesMeta('deleted', affectedNodes.deleted, data.tx)}
+    </div>
+  )
 }
 
 TransactionMeta.propTypes = {
-  t: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
   data: PropTypes.objectOf(
     PropTypes.oneOfType([
       PropTypes.string,
@@ -92,5 +73,3 @@ TransactionMeta.propTypes = {
     ]),
   ).isRequired,
 }
-
-export default TransactionMeta

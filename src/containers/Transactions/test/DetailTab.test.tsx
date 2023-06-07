@@ -7,11 +7,11 @@ import DetailTab from '../DetailTab'
 import i18n from '../../../i18n/testConfigEnglish'
 
 describe('DetailTab container', () => {
-  const createWrapper = (transaction = Transaction) =>
+  const createWrapper = (transaction: any = Transaction) =>
     mount(
       <Router>
         <I18nextProvider i18n={i18n}>
-          <DetailTab t={i18n.t} language="en-US" data={transaction} />
+          <DetailTab data={transaction} />
         </I18nextProvider>
       </Router>,
     )
