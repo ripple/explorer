@@ -6,7 +6,7 @@ export type SubheaderLineProps = PropsWithChildren<{
   label: string
 }>
 
-export const SubheaderLine = (props: SubheaderLineProps) => {
+export function SubheaderLine(props: SubheaderLineProps) {
   const { label, children, className } = props
   return (
     <li>

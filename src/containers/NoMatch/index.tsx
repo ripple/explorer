@@ -20,12 +20,12 @@ export interface NoMatchProps {
  * Provides messaging for not found. I18n values have access to XrplClient's ConnectionState through the variable `connection`.
  * @constructor
  */
-const NoMatch = ({
+function NoMatch({
   title = 'not_found_default_title',
   hints = ['not_found_check_url'],
   isError = true,
   warning = undefined,
-}: NoMatchProps) => {
+}: NoMatchProps) {
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
   const values = { connection: socket?.getState() }

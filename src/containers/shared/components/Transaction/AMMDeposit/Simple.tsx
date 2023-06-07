@@ -5,7 +5,7 @@ import { Account } from '../../Account'
 import { Amount } from '../../Amount'
 import { localizeNumber } from '../../../utils'
 
-export const Simple = ({ data }: TransactionSimpleProps) => {
+export function Simple({ data }: TransactionSimpleProps) {
   const { t } = useTranslation()
   const { amount, amount2, ammAccountID, ePrice, lpTokens } = data.instructions
   const lpTokenFormatted = lpTokens?.amount

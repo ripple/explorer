@@ -9,7 +9,7 @@ import NoMatch from '../NoMatch'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
 
-export const Network = () => {
+export function Network() {
   const { t } = useTranslation()
   const { tab = 'nodes' } = useParams<{ tab: string }>()
   const network = useContext(NetworkContext)

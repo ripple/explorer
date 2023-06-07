@@ -23,7 +23,7 @@ interface Props {
   ) => Promise<any>
 }
 
-export const Offers = (props: Props) => {
+export function Offers(props: Props) {
   const { t } = useTranslation()
   const { tokenId, fetchOffers, offerType } = props
   const rippledSocket = useContext(SocketContext)

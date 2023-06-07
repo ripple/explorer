@@ -54,7 +54,7 @@ export const aggregateData = (
     .sort((a, b) => (isEarlierVersion(a.label, b.label) ? -1 : 1))
 }
 
-export const UpgradeStatus = () => {
+export function UpgradeStatus() {
   const [vList, setVList] = useState<Record<string, ValidatorResponse>>({})
   const [validations, setValidations] = useState<ValidatorResponse[]>([])
   const [unlCount, setUnlCount] = useState(0)
@@ -154,18 +154,16 @@ export const UpgradeStatus = () => {
         <Hexagons data={validations} list={vList} />
       }
       <div className="stat">
-        <>
-          <span>{t('validators_found')}: </span>
-          <span>
-            {localizeNumber(validatorCount, language)}
-            {unlCount !== 0 && (
-              <i>
-                {' '}
-                ({t('unl')}: {unlCount})
-              </i>
-            )}
-          </span>
-        </>
+        <span>{t('validators_found')}: </span>
+        <span>
+          {localizeNumber(validatorCount, language)}
+          {unlCount !== 0 && (
+            <i>
+              {' '}
+              ({t('unl')}: {unlCount})
+            </i>
+          )}
+        </span>
       </div>
       <div className="wrap">
         <NetworkTabs selected="upgrade-status" />

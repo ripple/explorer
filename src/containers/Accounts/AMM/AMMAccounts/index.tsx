@@ -40,7 +40,7 @@ function renderError(error: any) {
   )
 }
 
-export const AMMAccounts = () => {
+export function AMMAccounts() {
   const { id: accountId, tab = 'transactions' } = useParams<{
     id: string
     tab: string

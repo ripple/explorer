@@ -9,7 +9,7 @@ interface Props {
   tokenId: string
 }
 
-export const NFTTabs = (props: Props) => {
+export function NFTTabs(props: Props) {
   const { id = '', tab = 'transactions' } = useParams<{
     id: string
     tab: string

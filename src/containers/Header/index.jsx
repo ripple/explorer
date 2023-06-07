@@ -9,16 +9,18 @@ import './header.scss'
 import { LanguagePicker } from './LanguagePicker/LanguagePicker'
 import { NetworkPicker } from './NetworkPicker/NetworkPicker'
 
-export const Header = ({ inNetwork }) => (
-  <header className={classnames('header', !inNetwork && 'header-no-network')}>
-    <div className="topbar">
-      <NetworkPicker />
-      <LanguagePicker />
-    </div>
-    <Banner />
-    <NavigationMenu routes={routesConfig} />
-  </header>
-)
+export function Header({ inNetwork }) {
+  return (
+    <header className={classnames('header', !inNetwork && 'header-no-network')}>
+      <div className="topbar">
+        <NetworkPicker />
+        <LanguagePicker />
+      </div>
+      <Banner />
+      <NavigationMenu routes={routesConfig} />
+    </header>
+  )
+}
 
 Header.defaultProps = {
   inNetwork: true,

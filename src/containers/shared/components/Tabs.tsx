@@ -8,7 +8,7 @@ interface Props {
   tabs: string[]
 }
 
-export const Tabs = ({ tabs, selected, path }: Props) => {
+export function Tabs({ tabs, selected, path }: Props) {
   const { t } = useTranslation()
   const items = tabs.map((key) => {
     const className = selected === key ? 'tab selected' : 'tab'

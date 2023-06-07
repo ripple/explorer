@@ -8,7 +8,7 @@ import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
 
-export const Accounts = () => {
+export function Accounts() {
   const { id: accountId, tab = 'transactions' } = useParams()
   const { path = '/' } = useRouteMatch()
   const { t } = useTranslation()

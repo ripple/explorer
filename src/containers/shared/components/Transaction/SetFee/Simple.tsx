@@ -4,9 +4,7 @@ import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
 import { SetFeeInstructions } from './types'
 
-export const Simple = ({
-  data,
-}: TransactionSimpleProps<SetFeeInstructions>) => {
+export function Simple({ data }: TransactionSimpleProps<SetFeeInstructions>) {
   const { t } = useTranslation()
   const { fee, reserve, increment } = data.instructions
 

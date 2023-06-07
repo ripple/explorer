@@ -23,7 +23,7 @@ const ledgerCompare = (a: NodeData, b: NodeData) => {
   return bLedger === aLedger ? compareVersion : bLedger - aLedger
 }
 
-export const Nodes = () => {
+export function Nodes() {
   const language = useLanguage()
   const { t } = useTranslation()
   const network = useContext(NetworkContext)

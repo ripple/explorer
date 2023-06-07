@@ -90,7 +90,7 @@ const getVersion = (version) => {
   return version
 }
 
-const NodesTable = ({ nodes: unformattedNodes }) => {
+function NodesTable({ nodes: unformattedNodes }) {
   const nodes = unformattedNodes ? formatLedgerHistory(unformattedNodes) : null
   const ledgerRange = nodes && getLedgerRange(nodes)
 

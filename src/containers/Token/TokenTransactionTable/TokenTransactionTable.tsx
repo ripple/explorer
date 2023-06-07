@@ -12,10 +12,10 @@ export interface TokenTransactionsTableProps {
   currency: string
 }
 
-export const TokenTransactionTable = ({
+export function TokenTransactionTable({
   accountId,
   currency,
-}: TokenTransactionsTableProps) => {
+}: TokenTransactionsTableProps) {
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
 

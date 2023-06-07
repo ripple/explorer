@@ -14,7 +14,7 @@ const renderDefault = (t, action, node, index) => (
   </li>
 )
 
-export const TransactionMeta = ({ data }) => {
+export function TransactionMeta({ data }) {
   const language = useLanguage()
   const { t } = useTranslation()
 

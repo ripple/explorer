@@ -7,7 +7,7 @@ import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
 import './index.scss'
 
-const SidechainHome = () => {
+function SidechainHome() {
   const { t } = useTranslation()
 
   const [networkText, setNetworkText] = useState('')

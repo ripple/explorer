@@ -3,7 +3,7 @@ export interface TokenTableRowProps {
   value: any
 }
 
-export const TokenTableRow = (props: TokenTableRowProps) => {
+export function TokenTableRow(props: TokenTableRowProps) {
   const { label, value } = props
   return (
     <tr className="row">

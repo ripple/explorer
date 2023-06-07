@@ -31,7 +31,7 @@ const DEFAULT_ERROR: ErrorMessage = {
 
 const getErrorMessage = (error: any) => ERROR_MESSAGES[error] ?? DEFAULT_ERROR
 
-export const NFT = () => {
+export function NFT() {
   const { id: tokenId } = useParams<{ id: string }>()
   const { t } = useTranslation()
   const [error, setError] = useState<number | null>(null)

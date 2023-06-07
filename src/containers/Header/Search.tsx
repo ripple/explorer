@@ -98,7 +98,7 @@ export interface SearchProps {
   callback?: Function
 }
 
-export const Search = ({ callback = () => {} }: SearchProps) => {
+export function Search({ callback = () => {} }: SearchProps) {
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
   const history = useHistory()

@@ -7,7 +7,7 @@ interface Props {
   type: string
 }
 
-export const TxLabel = (props: Props) => {
+export function TxLabel(props: Props) {
   const { t } = useTranslation()
   const { type } = props
   return (

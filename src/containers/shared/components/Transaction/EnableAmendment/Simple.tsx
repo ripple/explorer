@@ -14,7 +14,7 @@ const states = {
   unknown: 'Unknown',
 }
 
-export const Simple = ({ data }: TransactionSimpleProps<EnableAmendment>) => {
+export function Simple({ data }: TransactionSimpleProps<EnableAmendment>) {
   const language = useLanguage()
   const [amendmentDetails, setAmendmentDetails] = useState({
     name: states.loading,

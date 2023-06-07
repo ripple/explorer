@@ -12,7 +12,7 @@ export interface Props {
   tx: any
 }
 
-export const LedgerTransactionTableRow = ({ tx }: Props) => {
+export function LedgerTransactionTableRow({ tx }: Props) {
   const language = useLanguage()
   const success = tx.result === 'tesSUCCESS'
 

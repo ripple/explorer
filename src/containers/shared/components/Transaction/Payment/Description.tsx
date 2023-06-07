@@ -5,7 +5,7 @@ import { isPartialPayment } from './parser'
 import { Amount } from '../../Amount'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
-export const Description = ({ data }: TransactionDescriptionProps) => {
+export function Description({ data }: TransactionDescriptionProps) {
   const { t } = useTranslation()
   const partial = isPartialPayment(data.tx.Flags)
 

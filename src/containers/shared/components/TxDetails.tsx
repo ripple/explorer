@@ -5,7 +5,7 @@ interface Props {
   type: string
 }
 
-export const TxDetails = ({ type = '', instructions }: Props) => {
+export function TxDetails({ type = '', instructions }: Props) {
   // Locate the component for detail row that is unique per TransactionType.
   const TableDetail = transactionTypes[type]?.TableDetail
   if (TableDetail) {

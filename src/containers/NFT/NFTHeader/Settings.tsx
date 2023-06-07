@@ -6,7 +6,7 @@ interface Props {
   flags: string[]
 }
 
-export const Settings = ({ flags }: Props) => {
+export function Settings({ flags }: Props) {
   const { t } = useTranslation()
 
   const burnable = flags.includes('lsfBurnable') ? 'enabled' : 'disabled'

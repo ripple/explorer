@@ -11,7 +11,7 @@ import './css/legend.scss'
 
 export const LEGEND_STORAGE_KEY = 'explorer-legend-previous-interaction'
 
-export const Legend = () => {
+export function Legend() {
   const { t } = useTranslation()
   const windowSize = useWindowSize()
   const [previousInteraction, setPreviousInteraction] =

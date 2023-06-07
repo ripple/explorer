@@ -7,12 +7,12 @@ export type DropdownItemProps = PropsWithChildren<{
   href?: string
 }>
 
-export const DropdownItem = ({
+export function DropdownItem({
   children,
   className,
   handler,
   href,
-}: DropdownItemProps) => {
+}: DropdownItemProps) {
   const Tag = handler || href ? `a` : `div`
 
   return (

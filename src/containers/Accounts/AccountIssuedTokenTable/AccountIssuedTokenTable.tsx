@@ -9,7 +9,7 @@ interface Props {
   account: any
 }
 
-export const AccountIssuedTokenTable = (props: Props) => {
+export function AccountIssuedTokenTable(props: Props) {
   const { account } = props
   const { t } = useTranslation()
 

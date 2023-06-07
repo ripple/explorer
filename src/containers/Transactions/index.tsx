@@ -38,7 +38,7 @@ ERROR_MESSAGES.default = {
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-export const Transaction = () => {
+export function Transaction() {
   const { identifier = '', tab = 'simple' } = useParams<{
     identifier: string
     tab: string

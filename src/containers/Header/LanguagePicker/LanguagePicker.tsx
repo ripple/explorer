@@ -4,7 +4,7 @@ import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
 import './LanguagePicker.scss'
 import { supportedLanguages } from '../../../i18n/baseConfig'
 
-export const LanguagePicker = () => {
+export function LanguagePicker() {
   const { t, i18n } = useTranslation()
   const currentLanguage = useLanguage()
 

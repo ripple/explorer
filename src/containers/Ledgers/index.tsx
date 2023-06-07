@@ -18,7 +18,7 @@ import { useLanguage } from '../shared/hooks'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
-const LedgersPage = () => {
+function LedgersPage() {
   const [validators, setValidators] = useState<
     Record<string, ValidatorResponse>
   >({})

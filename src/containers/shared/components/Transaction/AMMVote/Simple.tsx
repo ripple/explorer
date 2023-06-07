@@ -5,7 +5,7 @@ import { formatTradingFee } from '../../../utils'
 import { Account } from '../../Account'
 import { Amount } from '../../Amount'
 
-export const Simple = ({ data }: TransactionSimpleProps) => {
+export function Simple({ data }: TransactionSimpleProps) {
   const { t } = useTranslation()
   const { amount, amount2, tradingFee, ammAccountID } = data.instructions
   const tf = formatTradingFee(tradingFee)

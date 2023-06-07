@@ -4,7 +4,7 @@ export interface NFTokenLinkProps {
   tokenID: string
 }
 
-export const NFTokenLink = (props: NFTokenLinkProps) => {
+export function NFTokenLink(props: NFTokenLinkProps) {
   const { tokenID } = props
   return (
     <Link title={tokenID} to={`/nft/${tokenID}`}>

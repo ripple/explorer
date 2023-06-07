@@ -4,7 +4,7 @@ import { localizeDate } from '../../../utils'
 import { DATE_OPTIONS } from '../../../transactionUtils'
 import { useLanguage } from '../../../hooks'
 
-export const TableDetail = (props: any) => {
+export function TableDetail(props: any) {
   const { t } = useTranslation()
   const { instructions } = props
   const language = useLanguage()

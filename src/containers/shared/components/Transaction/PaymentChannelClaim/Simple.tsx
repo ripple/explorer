@@ -5,9 +5,9 @@ import { Amount } from '../../Amount'
 import { TransactionSimpleProps } from '../types'
 import { PaymentChannelClaimInstructions } from './types'
 
-export const Simple = ({
+export function Simple({
   data,
-}: TransactionSimpleProps<PaymentChannelClaimInstructions>) => {
+}: TransactionSimpleProps<PaymentChannelClaimInstructions>) {
   const { t } = useTranslation()
   const {
     channelAmount,

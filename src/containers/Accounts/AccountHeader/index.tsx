@@ -92,7 +92,7 @@ interface AccountHeaderProps {
   }
 }
 
-const AccountHeader = (props: AccountHeaderProps) => {
+function AccountHeader(props: AccountHeaderProps) {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()

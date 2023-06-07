@@ -15,7 +15,7 @@ export interface XChainBridgeProps {
   bridgeOwner: string
 }
 
-export const XChainBridge = (props: XChainBridgeProps) => {
+export function XChainBridge(props: XChainBridgeProps) {
   const { t } = useTranslation()
   const {
     lockingDoor,

@@ -25,12 +25,12 @@ export interface DropdownProps {
  *   <DropdownItem>Option 2</DropdownItem>
  * </Dropdown>
  */
-export const Dropdown = ({
+export function Dropdown({
   title,
   children,
   className,
   tagName = `div`,
-}: DropdownProps) => {
+}: DropdownProps) {
   const [expanded, setExpanded] = useState(false)
   const dropdownRef = useRef<any>(null)
 

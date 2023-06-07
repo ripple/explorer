@@ -15,7 +15,7 @@ export interface AccountNFTTableProps {
   accountId: string
 }
 
-export const AccountNFTTable = ({ accountId }: AccountNFTTableProps) => {
+export function AccountNFTTable({ accountId }: AccountNFTTableProps) {
   const rippledSocket = useContext(SocketContext)
   const {
     data: pages,

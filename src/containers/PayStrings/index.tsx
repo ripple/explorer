@@ -11,7 +11,7 @@ import './styles.scss'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { getPayString } from '../../rippled'
 
-export const PayString = () => {
+export function PayString() {
   const { id: accountId = '' } = useParams<{ id: string }>()
   const { t } = useTranslation()
 

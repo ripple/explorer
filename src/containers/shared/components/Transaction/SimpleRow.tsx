@@ -6,7 +6,7 @@ export type SimpleRowProps = PropsWithChildren<{
   label: string
 }>
 
-export const SimpleRow = (props: SimpleRowProps) => {
+export function SimpleRow(props: SimpleRowProps) {
   const { label, children, className } = props
   return (
     <div className="row">

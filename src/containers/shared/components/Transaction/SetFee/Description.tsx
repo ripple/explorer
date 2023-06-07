@@ -3,7 +3,7 @@ import { TransactionDescriptionProps } from '../types'
 import { parser } from './parser'
 import { Amount } from '../../Amount'
 
-export const Description = ({ data }: TransactionDescriptionProps) => {
+export function Description({ data }: TransactionDescriptionProps) {
   const { fee, reserve, increment } = parser(data.tx)
 
   return (

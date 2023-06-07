@@ -7,7 +7,7 @@ interface Props {
   className: string
 }
 
-const Loader = (props: Props) => {
+function Loader(props: Props) {
   const { t } = useTranslation()
   const { className } = props
   return (

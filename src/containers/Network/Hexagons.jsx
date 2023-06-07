@@ -49,7 +49,7 @@ const prepareHexagons = (data, list, prev = [], height, radius) => {
   })
 }
 
-export const Hexagons = ({ list, data }) => {
+export function Hexagons({ list, data }) {
   const language = useLanguage()
   const { width } = useWindowSize()
   const [tooltip, setToolip] = useState()

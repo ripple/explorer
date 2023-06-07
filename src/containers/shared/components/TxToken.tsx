@@ -32,7 +32,7 @@ function getTokenPair(
   return 'LP'
 }
 
-const TxToken = (props: Props) => {
+function TxToken(props: Props) {
   const { tx } = props
   return (
     <div>

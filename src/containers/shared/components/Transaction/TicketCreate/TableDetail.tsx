@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-export const TableDetail = (props: any) => {
+export function TableDetail(props: any) {
   const { t } = useTranslation()
   const { instructions } = props
   const { ticketCount } = instructions

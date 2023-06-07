@@ -35,11 +35,11 @@ interface Props {
 type ValueType = number | string | Array<number | string>
 type NameType = number | string
 
-const CustomTooltip = ({
+function CustomTooltip({
   active,
   payload,
   label,
-}: TooltipProps<ValueType, NameType>) => {
+}: TooltipProps<ValueType, NameType>) {
   const { t } = useTranslation()
   if (active) {
     return (
@@ -74,7 +74,7 @@ const stableColorCode = (dataLabel: string, stableVersion: string) => {
   return BLUE
 }
 
-const BarChartVersion = (props: Props) => {
+function BarChartVersion(props: Props) {
   const { data, stableVersion } = props
   const { t } = useTranslation()
   const [showTooltips, setShowTooltips] = useState(false)

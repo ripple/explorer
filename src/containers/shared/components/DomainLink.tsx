@@ -7,7 +7,7 @@ export interface Props {
   domain: string
 }
 
-const DomainLink = (props: Props) => {
+function DomainLink(props: Props) {
   const { className, decode = false, domain } = props
   return (
     <a

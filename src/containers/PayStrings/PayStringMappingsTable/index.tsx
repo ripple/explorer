@@ -9,10 +9,10 @@ export interface PayStringAddressesTable {
   loading: boolean
 }
 
-export const PayStringMappingsTable = ({
+export function PayStringMappingsTable({
   data,
   loading,
-}: PayStringAddressesTable) => {
+}: PayStringAddressesTable) {
   const { t } = useTranslation()
 
   const renderListItem = (payString) => {

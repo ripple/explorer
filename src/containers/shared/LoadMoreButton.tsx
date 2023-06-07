@@ -5,7 +5,7 @@ export interface LoadMoreButtonProps {
   onClick: MouseEventHandler
 }
 
-export const LoadMoreButton = ({ onClick }: LoadMoreButtonProps) => {
+export function LoadMoreButton({ onClick }: LoadMoreButtonProps) {
   const { t } = useTranslation()
   return (
     <button type="button" className="btn load-more-btn" onClick={onClick}>

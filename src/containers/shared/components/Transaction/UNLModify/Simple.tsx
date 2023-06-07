@@ -6,7 +6,7 @@ import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
 import { UNLModify } from './types'
 
-export const Simple = ({ data }: TransactionSimpleProps<UNLModify>) => {
+export function Simple({ data }: TransactionSimpleProps<UNLModify>) {
   const { t } = useTranslation()
   const tx = data.instructions
 
