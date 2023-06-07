@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import SocketContext from '../shared/SocketContext'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
@@ -31,7 +32,6 @@ const NoMatch = ({
   const values = { connection: socket?.getState() }
 
   useEffect(() => {
-    document.title = `${t('xrpl_explorer')} | ${t(title as any)}`
     analytics(ANALYTIC_TYPES.pageview, {
       title: `${title} -- ${hints.join(', ')}`,
       path: '/404',
@@ -48,6 +48,7 @@ const NoMatch = ({
 
   return (
     <div className="no-match">
+      <Helmet title={t(title as any)} />
       {isError && <div className="uh-oh">{t('uh_oh')}</div>}
       <div className="title">{t(title as any, values)}</div>
       {hintMsg}

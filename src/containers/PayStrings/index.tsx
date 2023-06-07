@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 
 import { useQuery } from 'react-query'
+import { Helmet } from 'react-helmet-async'
 import { PayStringHeader } from './PayStringHeader'
 import { PayStringMappingsTable } from './PayStringMappingsTable'
 import NoMatch from '../NoMatch'
@@ -13,7 +13,6 @@ import { getPayString } from '../../rippled'
 
 export const PayString = () => {
   const { id: accountId = '' } = useParams<{ id: string }>()
-  const { t } = useTranslation()
 
   const { data, isError, isLoading } = useQuery(['paystring', accountId], () =>
     getPayString(accountId).catch((transactionRequestError) => {
@@ -29,9 +28,6 @@ export const PayString = () => {
   )
 
   useEffect(() => {
-    document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 24)}${
-      accountId.length > 24 ? '...' : ''
-    }`
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'PayStrings',
       path: '/paystrings',
@@ -52,6 +48,11 @@ export const PayString = () => {
     renderError()
   ) : (
     <div className="paystring-page">
+      <Helmet
+        title={`${accountId.substring(0, 24)} ${
+          accountId.length > 24 ? '...' : ''
+        }`}
+      />
       {accountId && <PayStringHeader accountId={accountId} />}
       {accountId && <PayStringMappingsTable data={data} loading={isLoading} />}
       {!accountId && (
