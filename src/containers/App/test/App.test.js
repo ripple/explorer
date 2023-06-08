@@ -1,5 +1,6 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
+import { Helmet } from 'react-helmet-async'
 import { MemoryRouter } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
 import configureMockStore from 'redux-mock-store'
@@ -12,6 +13,8 @@ import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled'
 import { flushPromises } from '../../test/utils'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
+
+Helmet.defaultProps.defer = false
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
@@ -170,7 +173,7 @@ describe('App container', () => {
     const id = 'rZaChweF5oXn'
     const wrapper = createWrapper(`/accounts/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      expect(document.title).toEqual(`${id}...`)
       wrapper.unmount()
     })
   })
@@ -179,7 +182,7 @@ describe('App container', () => {
     const id = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
     const wrapper = createWrapper(`/accounts/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual(`xrpl_explorer | XVVFXHFdehYh...`)
+      expect(document.title).toEqual(`XVVFXHFdehYh...`)
       expect(mockGetAccountInfo).toBeCalledWith(
         expect.anything(),
         'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb',
@@ -213,7 +216,7 @@ describe('App container', () => {
     const id = 'rZaChweF5oXn'
     const wrapper = createWrapper(`/#/graph/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      expect(document.title).toEqual(`${id}...`)
       wrapper.unmount()
     })
   })

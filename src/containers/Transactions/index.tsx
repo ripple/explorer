@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
+import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import ReactJson from 'react-json-view'
 import { useQuery } from 'react-query'
@@ -71,11 +72,6 @@ export const Transaction = () => {
     },
   )
   const { width } = useWindowSize()
-
-  const short = identifier.substr(0, 8)
-  document.title = `${t('xrpl_explorer')} | ${t(
-    'transaction_short',
-  )} ${short}...`
 
   useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, {
@@ -159,6 +155,9 @@ export const Transaction = () => {
 
   return (
     <div className="transaction">
+      <Helmet
+        title={`${t('transaction_short')} ${identifier.substring(0, 8)}...`}
+      />
       {isLoading && <Loader />}
       {body}
     </div>

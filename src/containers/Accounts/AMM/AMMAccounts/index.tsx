@@ -1,7 +1,7 @@
-import { useContext, useEffect } from 'react'
+import { FC, PropsWithChildren, useContext, useEffect } from 'react'
 import { useParams, useRouteMatch } from 'react-router'
-import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
+import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '../../../shared/hooks'
 import '../../styles.scss'
 import { formatAmount } from '../../../../rippled/lib/txSummary/formatAmount'
@@ -46,7 +46,6 @@ export const AMMAccounts = () => {
     tab: string
   }>()
   const { path = '/' } = useRouteMatch()
-  const { t } = useTranslation()
   const mainPath = `${path.split('/:')[0]}/${accountId}`
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
@@ -116,13 +115,20 @@ export const AMMAccounts = () => {
     }
   })
 
-  document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`
+  const Page: FC<PropsWithChildren<{}>> = ({ children }) => (
+    <div className="accounts-page">
+      <Helmet title={`AMM ${accountId.substr(0, 12)}...`} />
+      {children}
+    </div>
+  )
 
   const tabs = ['transactions']
 
-  return error ? (
-    renderError(error)
-  ) : (
+  if (error) {
+    return <Page>{renderError(error)}</Page>
+  }
+
+  return (
     <div className="accounts-page section">
       {data && (
         <>
