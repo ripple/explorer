@@ -5,7 +5,7 @@ interface Props {
   selected: string
 }
 
-function NetworkTabs(props: Props) {
+const NetworkTabs = (props: Props) => {
   const { selected } = props
   const { path = '/' } = useRouteMatch()
   const tabs = ['nodes', 'validators', 'upgrade-status']

@@ -3,9 +3,9 @@ import { Account } from '../../Account'
 import { TransactionDescriptionProps } from '../types'
 import { SignerListSet } from './types'
 
-export function Description({
+export const Description = ({
   data,
-}: TransactionDescriptionProps<SignerListSet>) {
+}: TransactionDescriptionProps<SignerListSet>) => {
   const { tx } = data
   const { t } = useTranslation()
   return tx.SignerQuorum === 0 ? (

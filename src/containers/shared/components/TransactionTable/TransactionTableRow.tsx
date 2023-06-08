@@ -24,7 +24,7 @@ export interface Props {
   hasTokensColumn?: boolean
 }
 
-export function TransactionTableRow({ tx, hasTokensColumn }: Props) {
+export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
   const language = useLanguage()
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)

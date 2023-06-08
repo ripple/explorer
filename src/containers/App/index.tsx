@@ -8,7 +8,7 @@ import NoMatch from '../NoMatch'
 import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'
 
-export function AppWrapper() {
+export const AppWrapper = () => {
   const { t } = useTranslation()
   const mode = process.env.VITE_ENVIRONMENT
   const path = mode === 'custom' ? '/:rippledUrl' : '/'

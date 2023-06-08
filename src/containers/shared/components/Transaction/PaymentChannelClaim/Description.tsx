@@ -5,9 +5,9 @@ import { TransactionDescriptionProps } from '../types'
 import { PaymentChannelClaim } from './types'
 import { useLanguage } from '../../../hooks'
 
-export function Description({
+export const Description = ({
   data,
-}: TransactionDescriptionProps<PaymentChannelClaim>) {
+}: TransactionDescriptionProps<PaymentChannelClaim>) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const deleted = findNode(data, 'DeletedNode', 'PayChannel')

@@ -50,7 +50,7 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
   </div>
 )
 
-export function AMMAccounts() {
+export const AMMAccounts = () => {
   const { id: accountId, tab = 'transactions' } = useParams<{
     id: string
     tab: string

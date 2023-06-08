@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { findNode } from '../../../transactionUtils'
 import { Amount } from '../../Amount'
 
-export function Description({ data }: any) {
+export const Description = ({ data }: any) => {
   const { t } = useTranslation()
   const node = findNode(data, 'ModifiedNode', 'PayChannel')
 

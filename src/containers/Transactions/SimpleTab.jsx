@@ -24,7 +24,7 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
-function SimpleTab({ data, width }) {
+const SimpleTab = ({ data, width }) => {
   const { t } = useTranslation()
   const language = useLanguage()
 

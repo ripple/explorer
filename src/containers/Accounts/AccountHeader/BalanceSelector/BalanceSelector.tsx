@@ -9,11 +9,11 @@ export interface BalanceSelectorProps {
   currencySelected: string
 }
 
-export function BalanceSelector({
+export const BalanceSelector = ({
   balances,
   onSetCurrencySelected,
   currencySelected,
-}: BalanceSelectorProps) {
+}: BalanceSelectorProps) => {
   const { t } = useTranslation()
   const balanceTuples = Object.entries(balances)
   const title = `${balanceTuples.length - 1} ${t('accounts.other_balances')}`

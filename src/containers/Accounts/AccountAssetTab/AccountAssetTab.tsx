@@ -10,7 +10,7 @@ interface Props {
   account: any
 }
 
-function AccountAssetTabDisconnected({ account }: Props) {
+const AccountAssetTabDisconnected = ({ account }: Props) => {
   const assetTypes = ['issued', 'nft']
   const { id: accountId, assetType = assetTypes[0] } = useParams<{
     id: string

@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
 
-export function Simple({ data }: TransactionSimpleProps) {
+export const Simple = ({ data }: TransactionSimpleProps) => {
   const { key } = data.instructions
   const { t } = useTranslation()
   let label = ''

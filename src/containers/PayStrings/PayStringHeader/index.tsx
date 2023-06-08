@@ -10,7 +10,7 @@ export interface PayStringHeaderProps {
   accountId: string
 }
 
-export function PayStringHeader({ accountId }: PayStringHeaderProps) {
+export const PayStringHeader = ({ accountId }: PayStringHeaderProps) => {
   const [showToolTip, setShowToolTip] = useState(false)
   const { t } = useTranslation()
   const language = useLanguage()

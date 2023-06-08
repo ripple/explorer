@@ -23,7 +23,7 @@ function renderError(error: any) {
   )
 }
 
-export function AccountsRouter() {
+export const AccountsRouter = () => {
   const { id: accountId } = useParams<{ id: string }>()
   const rippledSocket = useContext(SocketContext)
   const flags: any = Object.entries(ACCOUNT_FLAGS).reduce(

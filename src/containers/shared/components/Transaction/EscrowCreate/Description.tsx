@@ -30,18 +30,22 @@ const Description: TransactionDescriptionComponent = (
   return (
     <>
       {data.tx.Destination !== data.tx.Account ? (
-        <Trans i18nKey="escrow_is_from">
-          The escrow is from
-          <Account account={data.tx.Account} />
-          to
-          <Account account={data.tx.Destination} />
-        </Trans>
+        <>
+          <Trans i18nKey="escrow_is_from">
+            The escrow is from
+            <Account account={data.tx.Account} />
+            to
+            <Account account={data.tx.Destination} />
+          </Trans>
+        </>
       ) : (
-        <Trans i18nKey="escrow_is_created_by">
-          the escrow was created by
-          <Account account={data.tx.Account} />
-          and the funds will be returned to the same account
-        </Trans>
+        <>
+          <Trans i18nKey="escrow_is_created_by">
+            the escrow was created by
+            <Account account={data.tx.Account} />
+            and the funds will be returned to the same account
+          </Trans>
+        </>
       )}
       {data.tx.Condition && (
         <div>

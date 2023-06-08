@@ -5,14 +5,16 @@ import { TransactionSimpleProps } from '../types'
 import { Account } from '../../Account'
 import { AccountDelete } from './types'
 
-export function Simple({ data }: TransactionSimpleProps<AccountDelete>) {
+export const Simple = ({ data }: TransactionSimpleProps<AccountDelete>) => {
   const { t } = useTranslation()
   const tx = data.instructions
 
   return (
-    <SimpleRow label={t('destination')}>
-      <Account account={tx.Destination} />
-      {tx.DestinationTag && <span className="dt">:{tx.DestinationTag}</span>}
-    </SimpleRow>
+    <>
+      <SimpleRow label={t('destination')}>
+        <Account account={tx.Destination} />
+        {tx.DestinationTag && <span className="dt">:{tx.DestinationTag}</span>}
+      </SimpleRow>
+    </>
   )
 }

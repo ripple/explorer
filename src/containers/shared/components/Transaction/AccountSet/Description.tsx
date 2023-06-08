@@ -5,7 +5,9 @@ import { TransactionDescriptionProps } from '../types'
 import { AccountSet } from './types'
 import { Account } from '../../Account'
 
-export function Description({ data }: TransactionDescriptionProps<AccountSet>) {
+export const Description = ({
+  data,
+}: TransactionDescriptionProps<AccountSet>) => {
   const { t } = useTranslation()
   const { tx } = data
 

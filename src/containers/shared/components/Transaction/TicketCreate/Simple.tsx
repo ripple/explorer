@@ -8,9 +8,11 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { ticketCount } = data.instructions
 
   return (
-    <SimpleRow label={t('ticket_count')} data-test="ticket-count">
-      {ticketCount}
-    </SimpleRow>
+    <>
+      <SimpleRow label={t('ticket_count')} data-test="ticket-count">
+        {ticketCount}
+      </SimpleRow>
+    </>
   )
 }
 

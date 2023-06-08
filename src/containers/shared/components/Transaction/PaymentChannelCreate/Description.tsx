@@ -8,9 +8,9 @@ import { TransactionDescriptionProps } from '../types'
 import { PaymentChannelCreate } from './types'
 import { Amount } from '../../Amount'
 
-export function Description({
+export const Description = ({
   data,
-}: TransactionDescriptionProps<PaymentChannelCreate>) {
+}: TransactionDescriptionProps<PaymentChannelCreate>) => {
   const language = useLanguage()
   const { t } = useTranslation()
   const { tx } = data

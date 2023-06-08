@@ -3,11 +3,9 @@ export type SimpleGroupProps = React.PropsWithChildren<{
   title?: string
 }>
 
-export function SimpleGroup({ children, title }: SimpleGroupProps) {
-  return (
-    <div className="group" data-test="group">
-      {title && <div className="group-title">{title}</div>}
-      {children}
-    </div>
-  )
-}
+export const SimpleGroup = ({ children, title }: SimpleGroupProps) => (
+  <div className="group" data-test="group">
+    {title && <div className="group-title">{title}</div>}
+    {children}
+  </div>
+)

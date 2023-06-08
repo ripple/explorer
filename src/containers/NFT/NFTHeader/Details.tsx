@@ -14,7 +14,7 @@ interface Props {
   data: NFTFormattedInfo & AccountFormattedInfo & MintedProps
 }
 
-export function Details({ data }: Props) {
+export const Details = ({ data }: Props) => {
   const {
     minted,
     domain,

@@ -43,7 +43,7 @@ interface Params {
   tab?: string
 }
 
-export function Validator() {
+export const Validator = () => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const network = useContext(NetworkContext)

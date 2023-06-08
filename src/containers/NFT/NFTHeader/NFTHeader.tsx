@@ -38,7 +38,7 @@ interface Props {
   setError: (error: number | null) => void
 }
 
-export function NFTHeader(props: Props) {
+export const NFTHeader = (props: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const { tokenId, setError } = props

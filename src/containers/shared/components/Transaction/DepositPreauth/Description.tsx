@@ -3,9 +3,9 @@ import { Account } from '../../Account'
 import { TransactionDescriptionProps } from '../types'
 import { DepositPreauth } from './types'
 
-export function Description({
+export const Description = ({
   data,
-}: TransactionDescriptionProps<DepositPreauth>) {
+}: TransactionDescriptionProps<DepositPreauth>) => {
   const { tx } = data
   return tx.Authorize ? (
     <div>

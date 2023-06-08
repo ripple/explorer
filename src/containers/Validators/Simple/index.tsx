@@ -7,7 +7,7 @@ export interface SimpleProps {
   data: ValidatorSupplemented
 }
 
-function Simple({ data }: SimpleProps) {
+const Simple = ({ data }: SimpleProps) => {
   const { t } = useTranslation()
 
   const renderAgreement = (

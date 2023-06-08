@@ -62,7 +62,10 @@ export type SocketProviderProps = React.PropsWithChildren<{
   rippledUrl?: string
 }>
 
-export function SocketProvider({ children, rippledUrl }: SocketProviderProps) {
+export const SocketProvider = ({
+  children,
+  rippledUrl,
+}: SocketProviderProps) => {
   const socket = getSocket(rippledUrl)
 
   useEffect(() => () => {

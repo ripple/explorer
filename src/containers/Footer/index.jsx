@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import Logo from '../shared/images/XRPLedger.svg'
 import './footer.scss'
 
-function Footer() {
+const Footer = () => {
   const { t } = useTranslation()
 
   return (

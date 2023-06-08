@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next'
 import { TransactionTableDetailProps } from '../types'
 import { OfferCancelInstructions } from './types'
 
-export function TableDetail({
+export const TableDetail = ({
   instructions,
-}: TransactionTableDetailProps<OfferCancelInstructions>) {
+}: TransactionTableDetailProps<OfferCancelInstructions>) => {
   const { t } = useTranslation()
   const { cancel } = instructions
 

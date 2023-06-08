@@ -4,9 +4,9 @@ import { TransactionTableDetailProps } from '../types'
 import { PaymentInstructions } from './types'
 import { Account } from '../../Account'
 
-export function TableDetail({
+export const TableDetail = ({
   instructions,
-}: TransactionTableDetailProps<PaymentInstructions>) {
+}: TransactionTableDetailProps<PaymentInstructions>) => {
   const { t } = useTranslation()
   const { convert, amount, destination, partial, sourceTag } = instructions
 

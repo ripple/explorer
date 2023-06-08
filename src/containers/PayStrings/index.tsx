@@ -11,7 +11,7 @@ import './styles.scss'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { getPayString } from '../../rippled'
 
-export function PayString() {
+export const PayString = () => {
   const { id: accountId = '' } = useParams<{ id: string }>()
 
   const { data, isError, isLoading } = useQuery(['paystring', accountId], () =>

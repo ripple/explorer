@@ -9,7 +9,7 @@ interface Props {
   account: string
 }
 
-function Sequence(props: Props) {
+const Sequence = (props: Props) => {
   const { t } = useTranslation()
   const { addContextHelp, sequence, ticketSequence, account } = props
   const isPseudoTransaction = account === ACCOUNT_ZERO

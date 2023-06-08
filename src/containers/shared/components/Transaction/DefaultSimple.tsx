@@ -176,7 +176,7 @@ const getRow = (key: any, value: any) => {
   return getRowNested(key, value)
 }
 
-export function DefaultSimple({ data }: TransactionSimpleProps) {
+export const DefaultSimple = ({ data }: TransactionSimpleProps) => {
   const uniqueData = Object.fromEntries(
     Object.entries(data.instructions).filter(
       ([key, value]) => !DEFAULT_TX_ELEMENTS.includes(key) && value != null,

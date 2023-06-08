@@ -5,7 +5,9 @@ import { useLanguage } from '../../../hooks'
 import { TrustSet } from './types'
 import { TransactionDescriptionProps } from '../types'
 
-export function Description({ data }: TransactionDescriptionProps<TrustSet>) {
+export const Description = ({
+  data,
+}: TransactionDescriptionProps<TrustSet>) => {
   const language = useLanguage()
   const { tx } = data
   const amount = normalizeAmount(tx.LimitAmount, language)

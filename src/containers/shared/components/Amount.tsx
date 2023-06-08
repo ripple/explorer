@@ -10,7 +10,11 @@ export interface AmountProps {
   modifier?: `+` | '-' | '~' // value to put in front of the currency symbol and number
 }
 
-export function Amount({ displayIssuer = true, modifier, value }: AmountProps) {
+export const Amount = ({
+  displayIssuer = true,
+  modifier,
+  value,
+}: AmountProps) => {
   const language = useLanguage()
   const issuer = typeof value === 'string' ? undefined : value.issuer
   const currency = typeof value === 'string' ? 'XRP' : value.currency

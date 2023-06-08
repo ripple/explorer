@@ -3,11 +3,11 @@ import Loader from '../shared/components/Loader'
 import { TransactionTableProps } from '../shared/components/TransactionTable/TransactionTable'
 import { LedgerTransactionTableRow } from './LedgerTransactionTableRow'
 
-export function LedgerTransactionTable({
+export const LedgerTransactionTable = ({
   emptyMessage = undefined,
   loading = false,
   transactions = [],
-}: TransactionTableProps) {
+}: TransactionTableProps) => {
   const { t } = useTranslation()
 
   const renderListItem = (tx: any) => (

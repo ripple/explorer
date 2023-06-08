@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { TransactionTableDetailProps } from '../types'
 
-export function TableDetail({ instructions }: TransactionTableDetailProps) {
+export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
   const { t } = useTranslation()
   const { key } = instructions
   return key ? (

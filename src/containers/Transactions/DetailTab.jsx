@@ -16,7 +16,7 @@ import {
 import './detailTab.scss'
 import { useLanguage } from '../shared/hooks'
 
-function DetailTab({ data }) {
+const DetailTab = ({ data }) => {
   const { t } = useTranslation()
   const language = useLanguage()
 

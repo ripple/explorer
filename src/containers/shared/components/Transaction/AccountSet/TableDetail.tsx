@@ -4,9 +4,9 @@ import { Account } from '../../Account'
 import { AccountSet } from './types'
 import { TransactionTableDetailProps } from '../types'
 
-export function TableDetail({
+export const TableDetail = ({
   instructions: tx,
-}: TransactionTableDetailProps<AccountSet>) {
+}: TransactionTableDetailProps<AccountSet>) => {
   const { t } = useTranslation()
 
   return (

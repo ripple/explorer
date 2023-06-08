@@ -8,7 +8,7 @@ import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
 
-export function Accounts() {
+export const Accounts = () => {
   const { id: accountId, tab = 'transactions' } = useParams<{
     id: string
     tab: 'assets' | 'transactions'

@@ -4,7 +4,7 @@ import { TransactionSimpleProps } from '../types'
 import { Account } from '../../Account'
 import { Amount } from '../../Amount'
 
-export function Simple({ data }: TransactionSimpleProps) {
+export const Simple = ({ data }: TransactionSimpleProps) => {
   const { t } = useTranslation()
   const { ammAccountID, bidMin, bidMax, authAccounts } = data.instructions
 

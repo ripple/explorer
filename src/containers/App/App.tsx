@@ -17,7 +17,7 @@ import { SocketProvider } from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
 import { NetworkProvider } from '../shared/NetworkContext'
 
-export function App() {
+export const App = () => {
   const location = useLocation()
   const { rippledUrl = undefined } = useParams<{ rippledUrl: string }>()
 

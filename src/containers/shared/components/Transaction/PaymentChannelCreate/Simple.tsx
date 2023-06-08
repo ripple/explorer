@@ -8,9 +8,9 @@ import { useLanguage } from '../../../hooks'
 import { TransactionSimpleProps } from '../types'
 import { PaymentChannelCreateInstructions } from './types'
 
-export function Simple({
+export const Simple = ({
   data,
-}: TransactionSimpleProps<PaymentChannelCreateInstructions>) {
+}: TransactionSimpleProps<PaymentChannelCreateInstructions>) => {
   const language = useLanguage()
   const { t } = useTranslation()
   const { amount, source, destination, delay, cancelAfter, channel } =

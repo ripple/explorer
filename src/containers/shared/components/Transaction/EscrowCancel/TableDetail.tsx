@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Account } from '../../Account'
 import Sequence from '../../Sequence'
 
-export function TableDetail(props: any) {
+export const TableDetail = (props: any) => {
   const { t } = useTranslation()
   const { instructions } = props
   const { owner, sequence, ticketSequence } = instructions

@@ -5,7 +5,7 @@ import { useLanguage } from '../shared/hooks'
 import './historyTab.scss'
 import { ValidatorReport } from '../shared/vhsTypes'
 
-function ReportRow({ report }: { report: ValidatorReport }) {
+const ReportRow = ({ report }: { report: ValidatorReport }) => {
   const language = useLanguage()
 
   return (
@@ -49,7 +49,7 @@ export interface HistoryTabProps {
   reports?: ValidatorReport[]
 }
 
-export function HistoryTab({ reports }: HistoryTabProps) {
+export const HistoryTab = ({ reports }: HistoryTabProps) => {
   const { t } = useTranslation()
 
   return (

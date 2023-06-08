@@ -5,7 +5,7 @@ import { PaymentInstructions } from './types'
 import { TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 
-export function Simple(props: TransactionSimpleProps<PaymentInstructions>) {
+export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
   const { data } = props
   const { t } = useTranslation()
   const { amount, convert } = data.instructions

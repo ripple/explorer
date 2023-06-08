@@ -41,7 +41,7 @@ const Page: FC<PropsWithChildren<{ tokenId: string }>> = ({
   </div>
 )
 
-export function NFT() {
+export const NFT = () => {
   const { id: tokenId } = useParams<{ id: string }>()
   const [error, setError] = useState<number | null>(null)
 

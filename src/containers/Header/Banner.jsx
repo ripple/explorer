@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import Notification from '../shared/components/Notification'
 
-function Banner(props) {
+const Banner = (props) => {
   const { t } = useTranslation()
   const { messages } = props
   return (

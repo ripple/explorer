@@ -16,7 +16,7 @@ export interface Props {
   TODO: LP token identifier is the identifier for LP tokens. All issued LP tokens start with 03 so we can use this to
   make sure we're only converting actual hex values.
  */
-function Currency(props: Props) {
+const Currency = (props: Props) => {
   const {
     issuer,
     currency,

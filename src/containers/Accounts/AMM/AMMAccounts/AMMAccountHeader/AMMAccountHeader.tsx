@@ -14,7 +14,7 @@ export interface AmmDataType {
   language: string
 }
 
-export function AMMAccountHeader(props: { data: AmmDataType }) {
+export const AMMAccountHeader = (props: { data: AmmDataType }) => {
   const { data } = props
   const { balance, balance2, tradingFee, lpBalance, accountId, language } = data
   const { t } = useTranslation()

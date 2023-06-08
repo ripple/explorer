@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { TransactionDescriptionProps } from '../types'
 import { OfferCancel } from './types'
 
-export function Description({
+export const Description = ({
   data,
-}: TransactionDescriptionProps<OfferCancel>) {
+}: TransactionDescriptionProps<OfferCancel>) => {
   const { t } = useTranslation()
 
   return (

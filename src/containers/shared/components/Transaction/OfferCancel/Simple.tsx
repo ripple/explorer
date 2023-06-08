@@ -3,9 +3,9 @@ import { TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { OfferCancelInstructions } from './types'
 
-export function Simple({
+export const Simple = ({
   data,
-}: TransactionSimpleProps<OfferCancelInstructions>) {
+}: TransactionSimpleProps<OfferCancelInstructions>) => {
   const { t } = useTranslation()
   const { cancel } = data.instructions
 

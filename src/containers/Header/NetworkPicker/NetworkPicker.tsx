@@ -20,7 +20,7 @@ const STATIC_ENV_LINKS: Record<string, string | undefined> = {
 }
 const currentMode: string = process.env.VITE_ENVIRONMENT || 'mainnet'
 
-export function NetworkPicker() {
+export const NetworkPicker = () => {
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
   const [newRippledUrl, setNewRippledUrl] = useState('')

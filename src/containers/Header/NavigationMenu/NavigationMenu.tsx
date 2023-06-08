@@ -17,7 +17,11 @@ export interface NavigationMenuRoute {
   path?: string
 }
 
-export function NavigationMenu({ routes }: { routes: NavigationMenuRoute[] }) {
+export const NavigationMenu = ({
+  routes,
+}: {
+  routes: NavigationMenuRoute[]
+}) => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
   const toggle = useRef<HTMLInputElement>(null)

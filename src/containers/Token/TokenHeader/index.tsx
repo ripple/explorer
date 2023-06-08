@@ -43,13 +43,13 @@ interface TokenHeaderProps {
   }
 }
 
-function TokenHeader({
+const TokenHeader = ({
   actions,
   accountId,
   currency,
   data,
   loading,
-}: TokenHeaderProps) {
+}: TokenHeaderProps) => {
   const language = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)

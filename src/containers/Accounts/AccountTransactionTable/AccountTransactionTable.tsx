@@ -14,11 +14,11 @@ export interface AccountTransactionsTableProps {
   hasTokensColumn: boolean
 }
 
-export function AccountTransactionTable({
+export const AccountTransactionTable = ({
   accountId,
   hasTokensColumn,
   currencySelected = 'XRP',
-}: AccountTransactionsTableProps) {
+}: AccountTransactionsTableProps) => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const {

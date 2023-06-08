@@ -6,7 +6,7 @@ export interface AccountProps {
   tag?: number
 }
 
-export function Account(props: AccountProps) {
+export const Account = (props: AccountProps) => {
   const { account, link = true, tag } = props
   const parts = account.split(':')
   const computedTag = tag || parts[1]

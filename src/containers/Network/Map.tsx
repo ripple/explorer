@@ -18,7 +18,7 @@ export interface MapProps {
   locations?: any[]
 }
 
-export function Map({ locations = undefined }: MapProps) {
+export const Map = ({ locations = undefined }: MapProps) => {
   const [tooltip, setTooltip] = useState<{
     count: number
     x: number

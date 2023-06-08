@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { TransactionDescriptionProps } from '../types'
 
-export function Description({ data }: TransactionDescriptionProps) {
+export const Description = ({ data }: TransactionDescriptionProps) => {
   const { t } = useTranslation()
   const key = data.tx.RegularKey
 

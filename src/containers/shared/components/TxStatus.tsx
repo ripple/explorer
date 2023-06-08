@@ -12,34 +12,30 @@ export interface TxStatusProps {
   status: string
 }
 
-export function TxStatus({ shorthand = false, status }: TxStatusProps) {
+export const TxStatus = ({ shorthand = false, status }: TxStatusProps) => {
   const { t } = useTranslation()
   const success = status === SUCCESSFUL_TRANSACTION
   const className = success ? 'success' : 'fail'
   const wrapperClassName = `tx-status tx-result ${className}`
 
-  function Plain({ title, children }: any) {
-    return (
-      <span title={title} className={wrapperClassName}>
-        {children}
+  const Plain = ({ title, children }: any) => (
+    <span title={title} className={wrapperClassName}>
+      {children}
+    </span>
+  )
+
+  const Success = () => (
+    <Plain title={t('success')}>
+      <span className="status-icon">
+        <SuccessIcon className={`logo ${className}`} title={t('success')} />
       </span>
-    )
-  }
+      <span className="status">
+        {!shorthand && <span className="status-message">{t('success')}</span>}
+      </span>
+    </Plain>
+  )
 
-  function Success() {
-    return (
-      <Plain title={t('success')}>
-        <span className="status-icon">
-          <SuccessIcon className={`logo ${className}`} title={t('success')} />
-        </span>
-        <span className="status">
-          {!shorthand && <span className="status-message">{t('success')}</span>}
-        </span>
-      </Plain>
-    )
-  }
-
-  function Fail() {
+  const Fail = () => {
     const content = (
       <>
         <span className="status-icon">

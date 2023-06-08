@@ -28,7 +28,7 @@ export interface DexPairsProps {
   currency: string
 }
 
-export function DEXPairs({ accountId, currency }: DexPairsProps) {
+export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
   const [pairs, setPairs] = useState<Pair[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const isMountedRef = useRef(false)

@@ -56,7 +56,7 @@ ERROR_MESSAGES.default = {
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
-export function Ledger() {
+export const Ledger = () => {
   const rippledSocket = useContext(SocketContext)
   const { identifier = '' } = useParams<{ identifier: string }>()
   const { t } = useTranslation()

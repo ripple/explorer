@@ -27,10 +27,10 @@ export type NetworkProviderProps = React.PropsWithChildren<{
   rippledUrl?: string
 }>
 
-export function NetworkProvider({
+export const NetworkProvider = ({
   children,
   rippledUrl,
-}: NetworkProviderProps) {
+}: NetworkProviderProps) => {
   const initialNetworkName = getNetworkName()
   const [networkName, setNetworkName] = useState(initialNetworkName)
 

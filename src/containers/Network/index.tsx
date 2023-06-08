@@ -10,7 +10,7 @@ import NoMatch from '../NoMatch'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
 
-export function Network() {
+export const Network = () => {
   const { t } = useTranslation()
   const { tab = 'nodes' } = useParams<{
     tab: 'upgrade-status' | 'validators' | 'nodes'
