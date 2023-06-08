@@ -102,7 +102,7 @@ export const Transaction = () => {
   }
 
   function renderTransaction() {
-    if (!data) return <></>
+    if (!data) return undefined
 
     let body
 

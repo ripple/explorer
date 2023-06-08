@@ -22,7 +22,7 @@ export const BalanceSelector = ({
     <Dropdown title={title} className="balance-selector">
       {balanceTuples.map(([currency, value]) => {
         if (currency === currencySelected) {
-          return <></>
+          return undefined
         }
 
         return (

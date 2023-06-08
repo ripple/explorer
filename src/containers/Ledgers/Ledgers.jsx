@@ -24,17 +24,14 @@ class Ledgers extends Component {
     }
   }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => ({
-    selected: nextProps.selected,
-    ledgers: nextProps.paused ? prevState.ledgers : nextProps.ledgers,
-    validators: nextProps.validators,
-    unlCount: nextProps.unlCount,
-  })
-
-  setSelected = (pubkey) =>
-    this.setState((prevState) => ({
-      selected: prevState.selected === pubkey ? null : pubkey,
-    }))
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
+      selected: nextProps.selected,
+      ledgers: nextProps.paused ? prevState.ledgers : nextProps.ledgers,
+      validators: nextProps.validators,
+      unlCount: nextProps.unlCount,
+    }
+  }
 
   getMissingValidators = (hash) => {
     const { validators } = this.props

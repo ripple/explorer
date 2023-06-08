@@ -41,4 +41,4 @@ export const loadTokenState =
       })
   }
 
-export { loadTokenState as default }
+export default loadTokenState
