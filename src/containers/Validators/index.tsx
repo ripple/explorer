@@ -127,7 +127,7 @@ export const Validator = () => {
 
   function renderPageTitle() {
     if (!data) {
-      return <></>
+      return undefined
     }
 
     let short = ''

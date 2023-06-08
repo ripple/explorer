@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+// TODO: fix the linter issues
 import { useTranslation } from 'react-i18next'
 import SuccessIcon from '../images/success.svg'
 import FailIcon from '../images/ic_fail.svg'

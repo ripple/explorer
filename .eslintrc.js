@@ -33,7 +33,6 @@ module.exports = {
       },
     ],
     'no-bitwise': 'off',
-    'react/jsx-props-no-spreading': 'warn',
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -63,6 +62,8 @@ module.exports = {
     ],
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
+    'no-promise-executor-return': 'off',
+    'react/function-component-definition': 'off',
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
