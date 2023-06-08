@@ -1,14 +1,12 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
-import { MemoryRouter as Router, Route } from 'react-router-dom'
-import { QueryClientProvider } from 'react-query'
-import { I18nextProvider } from 'react-i18next'
+import { Route } from 'react-router-dom'
 import i18n from '../../../i18n/testConfig'
 import { Network } from '../index'
 import mockNodes from './mockNodes.json'
-import { testQueryClient } from '../../test/QueryClient'
 import NetworkContext from '../../shared/NetworkContext'
 import countries from '../../../../public/countries.json'
+import { QuickHarness } from '../../test/utils'
 
 jest.mock('usehooks-ts', () => ({
   useWindowSize: () => ({
@@ -20,15 +18,11 @@ jest.mock('usehooks-ts', () => ({
 describe('Nodes Page container', () => {
   const createWrapper = () =>
     mount(
-      <QueryClientProvider client={testQueryClient}>
-        <I18nextProvider i18n={i18n}>
-          <NetworkContext.Provider value="main">
-            <Router initialEntries={['/network/nodes']}>
-              <Route path="/network/:tab" component={Network} />
-            </Router>
-          </NetworkContext.Provider>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <QuickHarness i18n={i18n} initialEntries={['/network/nodes']}>
+        <NetworkContext.Provider value="main">
+          <Route path="/network/:tab" component={Network} />
+        </NetworkContext.Provider>
+      </QuickHarness>,
     )
 
   const oldEnvs = process.env
