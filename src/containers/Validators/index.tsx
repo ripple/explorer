@@ -127,6 +127,7 @@ export function Validator() {
 
   function renderPageTitle() {
     if (!data) {
+      // eslint-disable-next-line react/jsx-no-useless-fragment
       return <></>
     }
 
