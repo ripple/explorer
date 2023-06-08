@@ -16,7 +16,7 @@ export function AppWrapper() {
     <HelmetProvider>
       <div className="app-wrapper">
         <AppErrorBoundary>
-          <Helmet>
+          <Helmet titleTemplate={`${t('xrpl_explorer')} | %s`} defer={false}>
             <meta name="description" content={t('app.meta.description')} />
             <meta name="author" content={t('app.meta.author')} />
           </Helmet>

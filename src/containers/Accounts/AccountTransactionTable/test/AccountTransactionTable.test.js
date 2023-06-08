@@ -1,13 +1,10 @@
 import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
-import { QueryClientProvider } from 'react-query'
-import { BrowserRouter as Router, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import i18n from '../../../../i18n/testConfig'
 import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
 import { getAccountTransactions } from '../../../../rippled'
-import { testQueryClient } from '../../../test/QueryClient'
-import { flushPromises } from '../../../test/utils'
+import { flushPromises, QuickHarness } from '../../../test/utils'
 
 jest.mock('../../../../rippled', () => ({
   __esModule: true,
@@ -32,17 +29,13 @@ describe('AccountTransactionsTable container', () => {
   ) => {
     getAccountTransactions.mockImplementation(getAccountTransactionsImpl)
     return mount(
-      <QueryClientProvider client={testQueryClient}>
-        <I18nextProvider i18n={i18n}>
-          <Router>
-            <AccountTransactionTable
-              accountId={TEST_ACCOUNT_ID}
-              hasTokensColumn={state.hasToken}
-              currencySelected={currencySelected}
-            />
-          </Router>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <QuickHarness i18n={i18n}>
+        <AccountTransactionTable
+          accountId={TEST_ACCOUNT_ID}
+          hasTokensColumn={state.hasToken}
+          currencySelected={currencySelected}
+        />
+      </QuickHarness>,
     )
   }
 

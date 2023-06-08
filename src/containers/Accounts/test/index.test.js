@@ -1,17 +1,15 @@
 import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
-import { QueryClientProvider } from 'react-query'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route } from 'react-router'
+import { Route } from 'react-router'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import { Accounts } from '../index'
 import AccountHeader from '../AccountHeader'
 import { AccountTransactionTable } from '../AccountTransactionTable'
 import mockAccountState from './mockAccountState.json'
-import { testQueryClient } from '../../test/QueryClient'
+import { QuickHarness } from '../../test/utils'
 
 describe('Account container', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
@@ -21,15 +19,14 @@ describe('Account container', () => {
   const createWrapper = (state = {}) => {
     const store = mockStore({ ...initialState, ...state })
     return mount(
-      <QueryClientProvider client={testQueryClient}>
-        <I18nextProvider i18n={i18n}>
-          <Provider store={store}>
-            <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
-              <Route path="accounts/:id" component={Accounts} />
-            </MemoryRouter>
-          </Provider>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <QuickHarness
+        i18n={i18n}
+        initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}
+      >
+        <Provider store={store}>
+          <Route path="accounts/:id" component={Accounts} />
+        </Provider>
+      </QuickHarness>,
     )
   }
 

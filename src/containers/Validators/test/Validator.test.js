@@ -1,15 +1,15 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
-import { I18nextProvider } from 'react-i18next'
-import { QueryClientProvider } from 'react-query'
-import { BrowserRouter as Router, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { BAD_REQUEST } from '../../shared/utils'
-import i18n from '../../../i18n/testConfig'
 import { Validator } from '../index'
 import { getLedger } from '../../../rippled'
-import { testQueryClient } from '../../test/QueryClient'
 import NetworkContext from '../../shared/NetworkContext'
-import { flushPromises } from '../../test/utils'
+import testConfigEnglish from '../../../i18n/testConfigEnglish'
+import { QuickHarness, flushPromises } from '../../test/utils'
+
+Helmet.defaultProps.defer = false
 
 global.location = '/validators/aaaa'
 
@@ -36,15 +36,11 @@ describe('Validator container', () => {
     getLedger.mockImplementation(props.getLedgerImpl || defaultGetLedgerImpl)
 
     return mount(
-      <QueryClientProvider client={testQueryClient}>
-        <I18nextProvider i18n={i18n}>
-          <NetworkContext.Provider value={props.network || 'main'}>
-            <Router>
-              <Validator />
-            </Router>
-          </NetworkContext.Provider>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <QuickHarness i18n={testConfigEnglish}>
+        <NetworkContext.Provider value={props.network || 'main'}>
+          <Validator />
+        </NetworkContext.Provider>
+      </QuickHarness>,
     )
   }
 
@@ -82,7 +78,7 @@ describe('Validator container', () => {
     const wrapper = createWrapper()
     await flushPromises()
     await flushPromises()
-    expect(document.title).toBe('Validator example.com | xrpl_explorer')
+    expect(document.title).toBe('Validator example.com')
     wrapper.unmount()
   })
 
@@ -100,7 +96,7 @@ describe('Validator container', () => {
     const wrapper = createWrapper()
     await flushPromises()
     await flushPromises()
-    expect(document.title).toBe('Validator foo... | xrpl_explorer')
+    expect(document.title).toBe('Validator foo...')
     wrapper.unmount()
   })
 
@@ -118,7 +114,7 @@ describe('Validator container', () => {
     const wrapper = createWrapper()
     await flushPromises()
     await flushPromises()
-    expect(document.title).toBe('Validator bar... | xrpl_explorer')
+    expect(document.title).toBe('Validator bar...')
     wrapper.unmount()
   })
 
@@ -147,7 +143,7 @@ describe('Validator container', () => {
     await flushPromises()
     expect(getLedger).toBeCalledTimes(1)
     expect(getLedger).toHaveBeenCalledWith('12345', undefined)
-    expect(document.title).toBe('Validator test.example.com | xrpl_explorer')
+    expect(document.title).toBe('Validator test.example.com')
     wrapper.unmount()
   })
 

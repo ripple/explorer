@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -62,7 +63,6 @@ export function Ledger() {
   const language = useLanguage()
 
   useEffect(() => {
-    document.title = `${t('xrpl_explorer')} | ${t('ledger')} ${identifier}`
     analytics(ANALYTIC_TYPES.pageview, {
       title: 'Ledger',
       path: '/ledgers/:id',
@@ -166,6 +166,7 @@ export function Ledger() {
 
   return (
     <div className="ledger-page">
+      <Helmet title={`${t('ledger')} ${identifier}`} />
       {isLoading && <Loader />}
       {renderLedger()}
       {renderError()}
