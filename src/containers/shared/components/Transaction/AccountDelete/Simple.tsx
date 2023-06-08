@@ -10,11 +10,9 @@ export const Simple = ({ data }: TransactionSimpleProps<AccountDelete>) => {
   const tx = data.instructions
 
   return (
-    <>
-      <SimpleRow label={t('destination')}>
-        <Account account={tx.Destination} />
-        {tx.DestinationTag && <span className="dt">:{tx.DestinationTag}</span>}
-      </SimpleRow>
-    </>
+    <SimpleRow label={t('destination')}>
+      <Account account={tx.Destination} />
+      {tx.DestinationTag && <span className="dt">:{tx.DestinationTag}</span>}
+    </SimpleRow>
   )
 }

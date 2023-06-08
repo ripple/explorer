@@ -105,18 +105,16 @@ export const Validators = () => {
         <Hexagons data={validations} list={vList} />
       }
       <div className="stat">
-        <>
-          <span>{t('validators_found')}: </span>
-          <span>
-            {localizeNumber(validatorCount, language)}
-            {unlCount !== 0 && (
-              <i>
-                {' '}
-                ({t('unl')}: {unlCount})
-              </i>
-            )}
-          </span>
-        </>
+        <span>{t('validators_found')}: </span>
+        <span>
+          {localizeNumber(validatorCount, language)}
+          {unlCount !== 0 && (
+            <i>
+              {' '}
+              ({t('unl')}: {unlCount})
+            </i>
+          )}
+        </span>
       </div>
       <div className="wrap">
         <NetworkTabs selected="validators" />
