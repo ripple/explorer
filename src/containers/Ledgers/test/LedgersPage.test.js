@@ -186,10 +186,10 @@ describe('Ledgers Page container', () => {
     )
 
     const validations = wrapper.find('div.validation')
-    const txn = wrapper.find('.txn')
+    const txn = wrapper.find('a.txn')
 
     // check ledger transactions
-    expect(txn.length).toBe(36)
+    expect(txn.length).toBe(12)
     txn.first().simulate('focus')
     txn.first().simulate('mouseOver')
 
@@ -273,10 +273,10 @@ describe('Ledgers Page container', () => {
       )
 
       const validations = wrapper.find('div.validation')
-      const txn = wrapper.find('.txn')
+      const txn = wrapper.find('a.txn')
 
       // check ledger transactions
-      expect(txn.length).toBe(36)
+      expect(txn.length).toBe(12)
       txn.first().simulate('focus')
       txn.first().simulate('mouseOver')
 

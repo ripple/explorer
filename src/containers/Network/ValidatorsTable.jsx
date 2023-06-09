@@ -1,12 +1,13 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import Loader from '../shared/components/Loader'
 import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
 import InfoIcon from '../shared/images/info.svg'
 import './css/validatorsTable.scss'
+import { Link } from '../shared/routing'
+import { LEDGER, VALIDATOR } from '../App/routes'
 
 class ValidatorsTable extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -85,7 +86,9 @@ class ValidatorsTable extends Component {
     return (
       <tr key={pubkey}>
         <td className="pubkey text-truncate" title={pubkey}>
-          <Link to={`/validators/${pubkey}`}>{pubkey}</Link>
+          <Link to={VALIDATOR} params={{ identifier: pubkey }}>
+            {pubkey}
+          </Link>
         </td>
         <td className="domain text-truncate">
           {ValidatorsTable.renderDomain(d.domain)}
@@ -105,7 +108,9 @@ class ValidatorsTable extends Component {
           style={{ color }}
           title={d.partial ? 'partial validation' : undefined}
         >
-          <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
+          <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
+            {ledgerIndex}
+          </Link>
           {d.partial && '*'}
         </td>
       </tr>

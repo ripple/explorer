@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import { Link } from 'react-router-dom'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
@@ -13,6 +12,8 @@ import SocketContext from '../shared/SocketContext'
 import { getAction, getCategory } from '../shared/components/Transaction'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import { Legend } from './Legend'
+import { Link } from '../shared/routing'
+import { LEDGER, TRANSACTION } from '../App/routes'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -111,7 +112,9 @@ class Ledgers extends Component {
         className={`ledger-index ${flagLedger ? 'flag-ledger' : ''}`}
         title={flagLedger ? t('flag_ledger') : ''}
       >
-        <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
+        <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
+          {ledgerIndex}
+        </Link>
       </div>
     )
   }
@@ -145,7 +148,8 @@ class Ledgers extends Component {
       onMouseOver={(e) => this.showTooltip('tx', e, tx)}
       onFocus={(e) => {}}
       onMouseLeave={this.hideTooltip}
-      to={`/transactions/${tx.hash}`}
+      to={TRANSACTION}
+      params={{ identifier: tx.hash }}
     >
       <TransactionActionIcon type={tx.type} />
       <span>{tx.hash}</span>

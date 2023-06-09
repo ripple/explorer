@@ -52,9 +52,12 @@ export const AccountTransactionTable = ({
   )
 
   const filterTransactions = () => {
-    let processedTransactions = data?.pages
-      ?.map((page: any) => page.transactions)
-      .flat()
+    let processedTransactions = data?.pages?.reduce((txArray, page: any) => {
+      if (page.transactions) {
+        return txArray.concat(page.transactions)
+      }
+      return txArray
+    }, [])
 
     if (currencySelected !== 'XRP') {
       processedTransactions = processedTransactions?.filter(

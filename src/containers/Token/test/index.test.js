@@ -24,7 +24,7 @@ describe('Token container', () => {
         initialEntries={[`/token/USD.${TEST_ACCOUNT_ID}`]}
       >
         <Provider store={store}>
-          <Route exact path="/token/:currency.:id" component={Token} />
+          <Route exact path="/token/:currency.:identifier" component={Token} />
         </Provider>
       </QuickHarness>,
     )

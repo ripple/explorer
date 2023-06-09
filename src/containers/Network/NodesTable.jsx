@@ -1,13 +1,16 @@
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import Loader from '../shared/components/Loader'
 import { durationToHuman } from '../shared/utils'
 import './css/nodesTable.scss'
+import { LEDGER } from '../App/routes'
+import { Link } from '../shared/routing'
 
 const renderLastLedger = (ledger) =>
   ledger && ledger.ledger_index ? (
-    <Link to={`/ledgers/${ledger.ledger_index}`}>{ledger.ledger_index}</Link>
+    <Link to={LEDGER} params={{ identifier: ledger.ledger_index }}>
+      {ledger.ledger_index}
+    </Link>
   ) : (
     <i>unknown</i>
   )

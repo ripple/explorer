@@ -49,9 +49,9 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 )
 
 const Token: FC<{ error: string }> = ({ error }) => {
-  const { currency, id: accountId } = useParams<{
+  const { currency, identifier: accountId } = useParams<{
     currency: string
-    id: string
+    identifier: string
   }>()
   const { t } = useTranslation()
 

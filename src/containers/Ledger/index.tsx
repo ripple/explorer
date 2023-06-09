@@ -2,7 +2,6 @@ import { useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
-import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import Loader from '../shared/components/Loader'
@@ -26,6 +25,8 @@ import { LedgerTransactionTable } from './LedgerTransactionTable'
 
 import './ledger.scss'
 import { getLedger } from '../../rippled'
+import { Link } from '../shared/routing'
+import { LEDGER } from '../App/routes'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -97,7 +98,7 @@ export const Ledger = () => {
     return (
       <div className="ledger-header">
         <div className="ledger-nav">
-          <Link to={`/ledgers/${previousIndex}`}>
+          <Link to={LEDGER} params={{ identifier: previousIndex }}>
             <div className="previous">
               <LeftArrow alt="previous ledger" />
               {previousIndex}

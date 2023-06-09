@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { Link } from '../routing'
+import { ACCOUNT } from '../../App/routes'
 
 export interface AccountProps {
   account: string
@@ -14,7 +15,12 @@ export const Account = (props: AccountProps) => {
   return (
     <>
       {link ? (
-        <Link className="account" title={parts[0]} to={`/accounts/${parts[0]}`}>
+        <Link
+          className="account"
+          title={parts[0]}
+          to={ACCOUNT}
+          params={{ id: parts[0] }}
+        >
           {parts[0]}
         </Link>
       ) : (

@@ -1,11 +1,12 @@
 import { useTranslation, Trans } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { findNode, normalizeAmount } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import {
   TransactionDescriptionComponent,
   TransactionDescriptionProps,
 } from '../types'
+import { TRANSACTION } from '../../../../App/routes'
+import { Link } from '../../../routing'
 
 const Description: TransactionDescriptionComponent = (
   props: TransactionDescriptionProps,
@@ -53,7 +54,8 @@ const Description: TransactionDescriptionComponent = (
         with transaction
         <Link
           className="hash"
-          to={`/transactions/${deleted.FinalFields.PreviousTxnID}`}
+          to={TRANSACTION}
+          params={{ identifier: deleted.FinalFields.PreviousTxnID }}
         >
           {`${deleted.FinalFields.PreviousTxnID.substr(0, 6)}...`}
         </Link>

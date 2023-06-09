@@ -30,7 +30,7 @@ export function build<T>(route: RouteDefinition<T>, params: T) {
   )
 }
 
-export function Link<T extends {} = {}>({
+export function ExplorerLink<T extends {} = {}>({
   to,
   children,
   params,
@@ -39,13 +39,6 @@ export function Link<T extends {} = {}>({
 }: LinkProps<RouteDefinition<T>>) {
   const path = params ? build(to, params) : to.path
 
-  if (to.legacy) {
-    return (
-      <a href={path} ref={innerRef}>
-        {children}
-      </a>
-    )
-  }
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <RouterLink innerRef={innerRef} to={path} {...rest}>
@@ -53,3 +46,5 @@ export function Link<T extends {} = {}>({
     </RouterLink>
   )
 }
+
+export { ExplorerLink as Link }

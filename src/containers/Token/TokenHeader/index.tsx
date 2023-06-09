@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -13,6 +12,8 @@ import { Account } from '../../shared/components/Account'
 import DomainLink from '../../shared/components/DomainLink'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { useLanguage } from '../../shared/hooks'
+import { LEDGER, TRANSACTION } from '../../App/routes'
+import { Link } from '../../shared/routing'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -75,15 +76,23 @@ const TokenHeader = ({
           {rate && (
             <TokenTableRow label={t('fee_rate')} value={`${rate * 100}%`} />
           )}
-          <TokenTableRow
-            label={t('last_ledger')}
-            value={
-              <Link to={`/ledgers/${previousLedger}`}>{previousLedger}</Link>
-            }
-          />
+          {previousLedger && (
+            <TokenTableRow
+              label={t('last_ledger')}
+              value={
+                <Link to={LEDGER} params={{ identifier: previousLedger }}>
+                  {previousLedger}
+                </Link>
+              }
+            />
+          )}
           <TokenTableRow
             label={t('last_affecting_transaction')}
-            value={<Link to={`/transactions/${previousTxn}`}>{prevTxn}</Link>}
+            value={
+              <Link to={TRANSACTION} params={{ identifier: previousTxn }}>
+                {prevTxn}
+              </Link>
+            }
           />
           {emailHash && (
             <TokenTableRow label={t('email_hash')} value={abbrvEmail} />

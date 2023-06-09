@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'
-
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
+import { Link } from '../routing'
+import { TOKEN } from '../../App/routes'
+
 const NON_STANDARD_CODE_LENGTH = 40
 const XRP = 'XRP'
 
@@ -44,7 +45,9 @@ const Currency = (props: Props) => {
 
   const content =
     link && issuer ? (
-      <Link to={`/token/${currency}.${issuer}`}>{display}</Link>
+      <Link to={TOKEN} params={{ currency, identifier: issuer }}>
+        {display}
+      </Link>
     ) : (
       display
     )

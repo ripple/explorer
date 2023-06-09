@@ -41,7 +41,7 @@ export const TOKEN: RouteDefinition<{
   identifier: string
   currency: string
 }> = {
-  path: `/token/:currency.:id`,
+  path: `/token/:currency.:identifier`,
 }
 
 export const TRANSACTION: RouteDefinition<{
