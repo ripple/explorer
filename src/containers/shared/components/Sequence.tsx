@@ -2,14 +2,14 @@ import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
 import { ACCOUNT_ZERO } from '../transactionUtils'
 
-interface Props {
+interface SequenceProps {
   addContextHelp?: boolean
   sequence?: number
   ticketSequence?: number
   account?: string
 }
 
-export const Sequence: FC<Props> = ({
+export const Sequence: FC<SequenceProps> = ({
   addContextHelp = false,
   sequence = 0,
   ticketSequence = 0,
