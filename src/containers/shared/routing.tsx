@@ -1,4 +1,4 @@
-import { Route as RouterRoute, generatePath, useLocation } from 'react-router'
+import { generatePath } from 'react-router'
 import { Link as RouterLink } from 'react-router-dom'
 import { ReactNode, Ref } from 'react'
 
@@ -51,25 +51,5 @@ export function Link<T extends {} = {}>({
     <RouterLink innerRef={innerRef} to={path} {...rest}>
       {children}
     </RouterLink>
-  )
-}
-
-export const Route = ({
-  route,
-  component,
-}: {
-  route: RouteDefinition
-  component: any
-}) => {
-  const location = useLocation()
-  const rippledUrl =
-    process.env.VITE_ENVIRONMENT === 'custom'
-      ? location.pathname.split('/')[1]
-      : ''
-  const urlLink =
-    process.env.VITE_ENVIRONMENT === 'custom' ? `/${rippledUrl}` : ''
-
-  return (
-    <RouterRoute exact path={`${urlLink}${route.path}`} component={component} />
   )
 }
