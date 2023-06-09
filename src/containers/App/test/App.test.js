@@ -15,21 +15,6 @@ import { flushPromises } from '../../test/utils'
 
 Helmet.defaultProps.defer = false
 
-// We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
-// get confused about being inside another Router (the `MemoryRouter` in the `mount`),
-// and the routing won't actually happen in the test
-jest.mock('react-router-dom', () => {
-  // Require the original module to not be mocked...
-  const originalModule = jest.requireActual('react-router-dom')
-
-  return {
-    __esModule: true,
-    ...originalModule,
-    // eslint-disable-next-line react/prop-types -- not really needed for tests
-    BrowserRouter: ({ children }) => <div>{children}</div>,
-  }
-})
-
 jest.mock('xrpl-client', () => ({
   XrplClient: jest.fn(),
 }))
@@ -40,8 +25,17 @@ jest.mock('../../../rippled', () => {
   return {
     __esModule: true,
     ...originalModule,
-    getAccountInfo: jest.fn(),
     getTransaction: () => Promise.resolve({}),
+  }
+})
+
+jest.mock('../../../rippled/lib/rippled', () => {
+  const originalModule = jest.requireActual('../../../rippled/lib/rippled')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    getAccountInfo: jest.fn(),
   }
 })
 
@@ -212,7 +206,20 @@ describe('App container', () => {
     })
   })
 
-  it('renders custom mode', async () => {
+  it('renders custom mode homepage', async () => {
+    process.env.VITE_ENVIRONMENT = 'custom'
+    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+    const wrapper = createWrapper('/')
+    await flushPromises()
+    wrapper.update()
+    // Make sure the sockets aren't double initialized.
+    expect(XrplClient).toHaveBeenCalledTimes(0)
+    expect(document.title).toEqual(`xrpl_explorer`)
+
+    wrapper.unmount()
+  })
+
+  it('renders custom mode ledgers', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
     const wrapper = createWrapper('/s2.ripple.com/')
@@ -220,6 +227,7 @@ describe('App container', () => {
     wrapper.update()
     // Make sure the sockets aren't double initialized.
     expect(XrplClient).toHaveBeenCalledTimes(1)
+    expect(document.title).toEqual(`ledgers`)
     wrapper.unmount()
   })
 })

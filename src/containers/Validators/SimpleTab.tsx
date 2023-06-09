@@ -52,11 +52,16 @@ export const SimpleTab: FC<{
             {localizeDate(new Date(lastLedgerTime), language, DATE_OPTIONS)}
           </SimpleRow>
         )}
-        <SimpleRow label={`Last ${t('ledger_index')}`} data-test="ledger-index">
-          <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
-            {ledgerIndex}
-          </Link>
-        </SimpleRow>
+        {ledgerIndex && (
+          <SimpleRow
+            label={`Last ${t('ledger_index')}`}
+            data-test="ledger-index"
+          >
+            <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
+              {ledgerIndex}
+            </Link>
+          </SimpleRow>
+        )}
         {unlRow}
       </>
     )

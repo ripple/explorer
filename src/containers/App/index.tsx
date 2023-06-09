@@ -1,35 +1,49 @@
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, useLocation } from 'react-router'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { QueryClientProvider } from 'react-query'
 import { useTranslation } from 'react-i18next'
 import Footer from '../Footer'
 import './app.scss'
+
 import { App } from './App'
-import NoMatch from '../NoMatch'
 import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'
+import noMatch from '../NoMatch'
+import { Header } from '../Header'
+import { queryClient } from '../shared/QueryClient'
 
 export const AppWrapper = () => {
   const { t } = useTranslation()
+  const location = useLocation()
   const mode = process.env.VITE_ENVIRONMENT
-  const path = mode === 'custom' ? '/:rippledUrl' : '/'
+
+  const rippledUrl = `/${location.pathname.split('/')[1]}/`
   return (
     <HelmetProvider>
-      <div className="app-wrapper">
-        <AppErrorBoundary>
-          <Helmet titleTemplate={`${t('xrpl_explorer')} | %s`} defer={false}>
-            <meta name="description" content={t('app.meta.description')} />
-            <meta name="author" content={t('app.meta.author')} />
-          </Helmet>
-          <Switch>
-            <Route path={path} component={App} />
-            {mode === 'custom' && (
-              <Route path="/" component={CustomNetworkHome} />
-            )}
-            <Route component={NoMatch} />
-          </Switch>
-          <Footer />
-        </AppErrorBoundary>
-      </div>
+      <QueryClientProvider client={queryClient}>
+        <div className="app-wrapper">
+          <AppErrorBoundary>
+            <Helmet
+              defaultTitle={t('xrpl_explorer')}
+              titleTemplate={`${t('xrpl_explorer')} | %s`}
+            >
+              <meta name="description" content={t('app.meta.description')} />
+              <meta name="author" content={t('app.meta.author')} />
+            </Helmet>
+            <div className="app">
+              <Header inNetwork={!!(mode !== 'custom' || rippledUrl)} />
+              <Switch>
+                {mode === 'custom' && (
+                  <Route exact path="/" component={CustomNetworkHome} />
+                )}
+                <Route path={rippledUrl} component={App} />
+                <Route component={noMatch} />
+              </Switch>
+              <Footer />
+            </div>
+          </AppErrorBoundary>
+        </div>
+      </QueryClientProvider>
     </HelmetProvider>
   )
 }

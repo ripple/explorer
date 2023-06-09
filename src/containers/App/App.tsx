@@ -1,20 +1,17 @@
-import { useLocation, useParams } from 'react-router'
-import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
-import { QueryClientProvider } from 'react-query'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { AccountsRouter } from '../Accounts/AccountsRouter'
 import Ledgers from '../Ledgers'
-import { Header } from '../Header'
 import './app.scss'
 import { Ledger } from '../Ledger'
 import { Transaction } from '../Transactions'
 import { Network } from '../Network'
 import { Validator } from '../Validators'
 import { PayString } from '../PayStrings'
-import token from '../Token'
+import Token from '../Token'
 import noMatch from '../NoMatch'
 import { NFT } from '../NFT/NFT'
 import { SocketProvider } from '../shared/SocketContext'
-import { queryClient } from '../shared/QueryClient'
 import { NetworkProvider } from '../shared/NetworkContext'
 import {
   ACCOUNT,
@@ -27,12 +24,16 @@ import {
   VALIDATOR,
   NFT as NFTRoute,
 } from './routes'
+import { RouteDefinition } from '../shared/routing'
 
 export const App = () => {
-  const location = useLocation()
-  const { rippledUrl = undefined } = useParams<{ rippledUrl: string }>()
+  const mode = process.env.VITE_ENVIRONMENT
 
-  const urlLink = rippledUrl ? `/${rippledUrl}` : ''
+  const location = useLocation()
+  const rippledUrl = mode === 'custom' ? location.pathname.split('/')[1] : ''
+  const urlLink = mode === 'custom' ? `/${rippledUrl}` : ''
+
+  const updatePath = (path) => `${urlLink}${path}`
 
   /* START: Map legacy routes to new routes */
   if (location.hash && location.pathname === `${urlLink}/`) {
@@ -59,35 +60,37 @@ export const App = () => {
     return <Redirect to="/network/upgrade-status" />
   }
 
+  const routes: [RouteDefinition, any][] = [
+    [LEDGERS, Ledgers],
+    [LEDGER, Ledger],
+    [ACCOUNT, AccountsRouter],
+    [TRANSACTION, Transaction],
+    [NETWORK, Network],
+    [VALIDATOR, Validator],
+    [PAYSTRING, PayString],
+    [TOKEN, Token],
+    [NFTRoute, NFT],
+  ]
+
   return (
-    <div className="app">
-      <QueryClientProvider client={queryClient}>
-        <SocketProvider rippledUrl={rippledUrl}>
-          <NetworkProvider rippledUrl={rippledUrl}>
-            <BrowserRouter basename={rippledUrl ?? ''}>
-              <Header />
-              <div className="content">
-                <Switch>
-                  <Route exact path={LEDGERS.path} component={Ledgers} />
-                  <Route exact path={LEDGER.path} component={Ledger} />
-                  <Route exact path={ACCOUNT.path} component={AccountsRouter} />
-                  <Route
-                    exact
-                    path={TRANSACTION.path}
-                    component={Transaction}
-                  />
-                  <Route exact path={NETWORK.path} component={Network} />
-                  <Route exact path={VALIDATOR.path} component={Validator} />
-                  <Route exact path={PAYSTRING.path} component={PayString} />
-                  <Route exact path={TOKEN.path} component={token} />
-                  <Route exact path={NFTRoute.path} component={NFT} />
-                  <Route component={noMatch} />
-                </Switch>
-              </div>
-            </BrowserRouter>
-          </NetworkProvider>
-        </SocketProvider>
-      </QueryClientProvider>
-    </div>
+    <SocketProvider rippledUrl={rippledUrl}>
+      <NetworkProvider rippledUrl={rippledUrl}>
+        <div className="content">
+          <Switch>
+            {routes.map(([route, component]) => {
+              return (
+                <Route
+                  key={route.path}
+                  exact
+                  path={updatePath(route.path)}
+                  component={component}
+                />
+              )
+            })}
+            <Route component={noMatch} />
+          </Switch>
+        </div>
+      </NetworkProvider>
+    </SocketProvider>
   )
 }

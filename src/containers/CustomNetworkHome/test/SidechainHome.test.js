@@ -43,9 +43,6 @@ describe('SidechainHome page', () => {
   })
 
   it('renders without crashing', () => {
-    const appNode = wrapper.find('.app')
-    expect(appNode.length).toEqual(1)
-
     const pageNode = wrapper.find('.custom-network-main-page')
     expect(pageNode.length).toEqual(1)
   })

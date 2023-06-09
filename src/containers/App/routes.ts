@@ -1,65 +1,59 @@
-import { Route } from '../shared/routing'
+import { RouteDefinition } from '../shared/routing'
 
-export const ACCOUNT: Route<{
-  id: string
+export const ACCOUNT: RouteDefinition<{
+  id?: string
   tab?: 'assets' | 'transactions'
   assetType?: 'issued' | 'nfts'
 }> = {
   path: '/accounts/:id?/:tab?/:assetType?',
 }
 
-export const LEDGERS: Route = {
+export const LEDGERS: RouteDefinition = {
   path: '/',
 }
 
-export const LEDGER: Route<{
+export const LEDGER: RouteDefinition<{
   identifier: number | string
 }> = {
   path: `/ledgers/:identifier`,
 }
 
-export const NETWORK: Route<{
+export const NETWORK: RouteDefinition<{
   tab?: 'nodes' | 'validators' | 'upgrade-status'
 }> = {
   path: '/network/:tab?',
 }
 
-export const NFT: Route<{
+export const NFT: RouteDefinition<{
   id: string
   tab?: 'transactions' | 'buy-offers' | 'sell-offers'
 }> = {
   path: '/nft/:id/:tab?',
 }
 
-export const PAYSTRING: Route<{
+export const PAYSTRING: RouteDefinition<{
   id?: string
 }> = {
   path: '/paystrings/:id?',
 }
 
-export const TOKEN: Route<{
+export const TOKEN: RouteDefinition<{
   identifier: string
   currency: string
 }> = {
   path: `/token/:currency.:id`,
 }
 
-export const TRANSACTION: Route<{
+export const TRANSACTION: RouteDefinition<{
   identifier: string
   tab?: 'simple' | 'detail' | 'raw'
 }> = {
-  path: `/transactions/:identifier/:tab?`,
+  path: `/transactions/:identifier?/:tab?`,
 }
 
-export const VALIDATOR: Route<{
+export const VALIDATOR: RouteDefinition<{
   identifier: string
   tab?: 'details' | 'history'
 }> = {
   path: `/validators/:identifier/:tab?`,
-}
-
-export const routes: { [key: string]: Route } = {
-  ledger: LEDGER,
-  transaction: TRANSACTION,
-  validator: VALIDATOR,
 }

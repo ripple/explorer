@@ -1,7 +1,6 @@
 import { KeyboardEvent, MouseEvent as ReactMouseEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Header } from '../Header'
 import { ANALYTIC_TYPES, analytics } from '../shared/utils'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
@@ -54,39 +53,35 @@ const SidechainHome = () => {
   const existingNetworks: string[] = []
 
   return (
-    <div className="app">
-      {/* @ts-ignore -- TODO: I think this error is because Header isn't in TS */}
-      <Header inNetwork={false} />
-      <div className="custom-network-main-page">
-        <div className="logo-content">
-          <CustomNetworkLogo className="custom-network-logo" />
-          <div className="page-header">{t('custom_network')}</div>
-          <div className="input-help">{t('custom_network_input_help')}</div>
-          <input
-            className="custom-network-input"
-            type="text"
-            placeholder={t('custom_network_input')}
-            onKeyDown={customNetworkOnKeyDown}
-            value={networkText}
-            onChange={(event) => setNetworkText(event.target.value)}
-          />
-          <div
-            className="custom-network-input-button"
-            tabIndex={0}
-            role="button"
-            onClick={clickButton}
-            onKeyUp={clickButton}
-          >
-            <span>Go to network</span>
-          </div>
+    <div className="custom-network-main-page">
+      <div className="logo-content">
+        <CustomNetworkLogo className="custom-network-logo" />
+        <div className="page-header">{t('custom_network')}</div>
+        <div className="input-help">{t('custom_network_input_help')}</div>
+        <input
+          className="custom-network-input"
+          type="text"
+          placeholder={t('custom_network_input')}
+          onKeyDown={customNetworkOnKeyDown}
+          value={networkText}
+          onChange={(event) => setNetworkText(event.target.value)}
+        />
+        <div
+          className="custom-network-input-button"
+          tabIndex={0}
+          role="button"
+          onClick={clickButton}
+          onKeyUp={clickButton}
+        >
+          <span>Go to network</span>
         </div>
-        {existingNetworks.length > 0 && (
-          <div className="custom-network-list">
-            <div className="custom-network-header">{t('custom_networks')}</div>
-            {existingNetworks.map(renderCustomNetwork)}
-          </div>
-        )}
       </div>
+      {existingNetworks.length > 0 && (
+        <div className="custom-network-list">
+          <div className="custom-network-header">{t('custom_networks')}</div>
+          {existingNetworks.map(renderCustomNetwork)}
+        </div>
+      )}
     </div>
   )
 }

@@ -45,11 +45,13 @@ const Simple = ({ data }: SimpleProps) => {
         <div className="label">Signing Key</div>
         <div className="value">{data.signing_key || 'Unknown'}</div>
       </div>
-      <SimpleRow label={t('ledger')}>
-        <Link to={LEDGER} params={{ identifier: data.current_index }}>
-          {data?.ledger_hash || 'Unknown'}
-        </Link>
-      </SimpleRow>
+      {data.current_index && (
+        <SimpleRow label={t('ledger')}>
+          <Link to={LEDGER} params={{ identifier: data.current_index }}>
+            {data?.ledger_hash || 'Unknown'}
+          </Link>
+        </SimpleRow>
+      )}
       {renderAgreement('h1', data.agreement_1h, 'Agreement (1 hour)')}
       {renderAgreement('h24', data.agreement_24h, 'Agreement (24 hours)')}
       {renderAgreement('d30', data.agreement_30day, 'Agreement (30 days)')}
