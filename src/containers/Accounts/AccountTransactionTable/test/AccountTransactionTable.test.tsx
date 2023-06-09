@@ -20,8 +20,9 @@ describe('AccountTransactionsTable container', () => {
   })
 
   const createWrapper = (
-    getAccountTransactionsImpl = () => new Promise(() => {}),
-    currencySelected?: string,
+    getAccountTransactionsImpl: () => Promise<any> = () =>
+      new Promise(() => {}),
+    currencySelected: string = '',
     state = { hasToken: false },
   ) => {
     ;(getAccountTransactions as Mock).mockImplementation(
