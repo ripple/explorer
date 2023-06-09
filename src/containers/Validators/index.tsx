@@ -6,7 +6,7 @@ import { useQuery } from 'react-query'
 import { useWindowSize } from 'usehooks-ts'
 import { Helmet } from 'react-helmet-async'
 import NoMatch from '../NoMatch'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
 import {
   analytics,

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import './styles.scss'
 import Log from '../../shared/log'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import {
   formatLargeNumber,
   getLocalizedCurrencySymbol,

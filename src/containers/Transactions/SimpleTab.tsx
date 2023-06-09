@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { FC } from 'react'
 import { localizeDate, localizeNumber, BREAKPOINTS } from '../shared/utils'
 import { Account } from '../shared/components/Account'
-import Sequence from '../shared/components/Sequence'
+import { Sequence } from '../shared/components/Sequence'
 import { Simple } from './Simple'
 
 import { useLanguage } from '../shared/hooks'
@@ -24,7 +24,10 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
-const SimpleTab = ({ data, width }) => {
+export const SimpleTab: FC<{ data: any; width: number }> = ({
+  data,
+  width,
+}) => {
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -96,17 +99,3 @@ const SimpleTab = ({ data, width }) => {
     </div>
   )
 }
-
-SimpleTab.propTypes = {
-  width: PropTypes.number.isRequired,
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-    ]),
-  ).isRequired,
-}
-
-export { SimpleTab }
