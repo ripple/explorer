@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { FC } from 'react'
+import { Link } from '../shared/routing'
 import { localizeDate, BREAKPOINTS } from '../shared/utils'
 import Simple from './Simple'
 import '../shared/css/simpleTab.scss'
@@ -9,6 +9,7 @@ import successIcon from '../shared/images/success.png'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import { useLanguage } from '../shared/hooks'
 import { ValidatorSupplemented } from '../shared/vhsTypes'
+import { LEDGER } from '../App/routes'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -52,7 +53,9 @@ export const SimpleTab: FC<{
           </SimpleRow>
         )}
         <SimpleRow label={`Last ${t('ledger_index')}`} data-test="ledger-index">
-          <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
+          <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
+            {ledgerIndex}
+          </Link>
         </SimpleRow>
         {unlRow}
       </>

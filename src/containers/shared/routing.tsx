@@ -1,0 +1,55 @@
+import { Link as RouterLink } from 'react-router-dom'
+import { generatePath } from 'react-router'
+import { ReactNode, Ref } from 'react'
+
+export interface Route<T = {}> {
+  path: string
+  legacy?: boolean
+  sampleParams?: T
+}
+
+export interface LinkProps<
+  T extends Route,
+  K extends T['sampleParams'] = T['sampleParams'],
+> {
+  children?: ReactNode
+  to: T
+  params?: K
+  innerRef?: Ref<HTMLAnchorElement>
+  [key: string]: any
+}
+
+export function build<T>(route: Route<T>, params: T) {
+  const path =
+    (process.env.VITE_ENVIRONMENT === 'custom'
+      ? window.location.pathname.split('/')
+      : '') + route.path
+  return generatePath(
+    path,
+    params && Object.fromEntries(Object.entries(params)),
+  )
+}
+
+export function Link<T extends {} = {}>({
+  to,
+  children,
+  params,
+  innerRef,
+  ...rest
+}: LinkProps<Route<T>>) {
+  const path = params ? build(to, params) : to.path
+
+  if (to.legacy) {
+    return (
+      <a href={path} ref={innerRef}>
+        {children}
+      </a>
+    )
+  }
+  return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <RouterLink innerRef={innerRef} to={path} {...rest}>
+      {children}
+    </RouterLink>
+  )
+}

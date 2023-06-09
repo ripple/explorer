@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { SimpleRow } from '../../shared/components/Transaction/SimpleRow'
 import { ValidatorScore, ValidatorSupplemented } from '../../shared/vhsTypes'
+import { Link } from '../../shared/routing'
+import { LEDGER } from '../../App/routes'
 
 export interface SimpleProps {
   data: ValidatorSupplemented
@@ -45,7 +46,7 @@ const Simple = ({ data }: SimpleProps) => {
         <div className="value">{data.signing_key || 'Unknown'}</div>
       </div>
       <SimpleRow label={t('ledger')}>
-        <Link to={`/ledgers/${data.current_index}`}>
+        <Link to={LEDGER} params={{ identifier: data.current_index }}>
           {data?.ledger_hash || 'Unknown'}
         </Link>
       </SimpleRow>

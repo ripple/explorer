@@ -16,6 +16,17 @@ import { NFT } from '../NFT/NFT'
 import { SocketProvider } from '../shared/SocketContext'
 import { queryClient } from '../shared/QueryClient'
 import { NetworkProvider } from '../shared/NetworkContext'
+import {
+  ACCOUNT,
+  LEDGER,
+  LEDGERS,
+  NETWORK,
+  PAYSTRING,
+  TOKEN,
+  TRANSACTION,
+  VALIDATOR,
+  NFT as NFTRoute,
+} from './routes'
 
 export const App = () => {
   const location = useLocation()
@@ -57,27 +68,19 @@ export const App = () => {
               <Header />
               <div className="content">
                 <Switch>
-                  <Route exact path="/" component={Ledgers} />
-                  <Route exact path="/ledgers/:identifier" component={Ledger} />
+                  <Route exact path={LEDGERS.path} component={Ledgers} />
+                  <Route exact path={LEDGER.path} component={Ledger} />
+                  <Route exact path={ACCOUNT.path} component={AccountsRouter} />
                   <Route
                     exact
-                    path="/accounts/:id?/:tab?/:assetType?"
-                    component={AccountsRouter}
-                  />
-                  <Route
-                    exact
-                    path="/transactions/:identifier?/:tab?"
+                    path={TRANSACTION.path}
                     component={Transaction}
                   />
-                  <Route exact path="/network/:tab?" component={Network} />
-                  <Route
-                    exact
-                    path="/validators/:identifier/:tab?"
-                    component={Validator}
-                  />
-                  <Route exact path="/paystrings/:id?" component={PayString} />
-                  <Route exact path="/token/:currency.:id" component={token} />
-                  <Route exact path="/nft/:id/:tab?" component={NFT} />
+                  <Route exact path={NETWORK.path} component={Network} />
+                  <Route exact path={VALIDATOR.path} component={Validator} />
+                  <Route exact path={PAYSTRING.path} component={PayString} />
+                  <Route exact path={TOKEN.path} component={token} />
+                  <Route exact path={NFTRoute.path} component={NFT} />
                   <Route component={noMatch} />
                 </Switch>
               </div>

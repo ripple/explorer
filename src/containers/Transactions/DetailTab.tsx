@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { Trans, useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { TransactionMeta } from './Meta'
 import { TransactionDescription } from './Description'
 import { Account } from '../shared/components/Account'
@@ -15,6 +14,8 @@ import {
 } from '../shared/transactionUtils'
 import './detailTab.scss'
 import { useLanguage } from '../shared/hooks'
+import { Link } from '../shared/routing'
+import { LEDGER } from '../App/routes'
 
 const DetailTab = ({ data }) => {
   const { t } = useTranslation()
@@ -40,7 +41,11 @@ const DetailTab = ({ data }) => {
         <div className="title">{t('status')}</div>
         {line1}
         {t('transaction_validated')}
-        <Link className="ledger" to={`/ledgers/${data.ledger_index}`}>
+        <Link
+          className="ledger"
+          to={LEDGER}
+          params={{ identifier: data.ledger_index }}
+        >
           {data.ledger_index}
         </Link>
         {t('on')}
@@ -108,7 +113,7 @@ const DetailTab = ({ data }) => {
       <div className="detail-section">
         <div className="title">{t('signers')}</div>
         <ul className="signers">
-          {data.tx.Signers.map((d, i) => (
+          {data.tx.Signers.map((d) => (
             <li key={d.Signer.Account}>
               <Account account={d.Signer.Account} />
             </li>

@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { localizeDate, localizeNumber, BREAKPOINTS } from '../shared/utils'
 import { Account } from '../shared/components/Account'
@@ -7,10 +6,12 @@ import Sequence from '../shared/components/Sequence'
 import { Simple } from './Simple'
 
 import { useLanguage } from '../shared/hooks'
+import { Link } from '../shared/routing'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../shared/transactionUtils'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
+import { LEDGER } from '../App/routes'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -24,7 +25,10 @@ const DATE_OPTIONS = {
   timeZone: TIME_ZONE,
 }
 
-const SimpleTab = ({ data, width }) => {
+export const SimpleTab: FC<{ data: any; width: number }> = ({
+  data,
+  width,
+}) => {
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -44,7 +48,9 @@ const SimpleTab = ({ data, width }) => {
         {time}
       </SimpleRow>
       <SimpleRow label={t('ledger_index')} data-test="ledger-index">
-        <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
+        <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
+          {ledgerIndex}
+        </Link>
       </SimpleRow>
       <SimpleRow label={t('account')} data-test="account">
         <Account account={account} />
@@ -96,17 +102,3 @@ const SimpleTab = ({ data, width }) => {
     </div>
   )
 }
-
-SimpleTab.propTypes = {
-  width: PropTypes.number.isRequired,
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-    ]),
-  ).isRequired,
-}
-
-export { SimpleTab }
