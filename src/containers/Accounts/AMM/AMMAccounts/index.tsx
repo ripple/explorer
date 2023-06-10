@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren, useContext, useEffect } from 'react'
-import { useParams, useRouteMatch } from 'react-router'
 import { useQuery } from 'react-query'
 import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '../../../shared/hooks'
@@ -19,6 +18,8 @@ import {
   AmmDataType,
 } from './AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from '../../AccountTransactionTable'
+import { ACCOUNT } from '../../../App/routes'
+import { build, useParams } from '../../../shared/routing'
 
 const getErrorMessage = (error: string) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -51,12 +52,8 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 )
 
 export const AMMAccounts = () => {
-  const { id: accountId, tab = 'transactions' } = useParams<{
-    id: string
-    tab: string
-  }>()
-  const { path = '/' } = useRouteMatch()
-  const mainPath = `${path.split('/:')[0]}/${accountId}`
+  const { id: accountId = '', tab = 'transactions' } = useParams(ACCOUNT)
+  const mainPath = build(ACCOUNT, { id: accountId })
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
 

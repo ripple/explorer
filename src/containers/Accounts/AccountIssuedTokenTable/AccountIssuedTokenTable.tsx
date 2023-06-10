@@ -35,7 +35,7 @@ export const AccountIssuedTokenTable = (props: Props) => {
             className="token-issuer"
             title={tokenName}
             to={TOKEN}
-            params={{ currency: token.currency, identifier: token.issuer }}
+            params={{ token: `${token.currency}.${token.issuer}` }}
           >
             {token.issuer}
           </Link>

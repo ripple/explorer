@@ -1,9 +1,11 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import { useHistory, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
+import { useParams } from '../../shared/routing'
 import { AccountIssuedTokenTable } from '../AccountIssuedTokenTable'
 import { AccountNFTTable } from '../AccountNFTTable/AccountNFTTable'
+import { ACCOUNT } from '../../App/routes'
 
 // TODO: Add state types or convert to react query
 interface Props {
@@ -12,14 +14,11 @@ interface Props {
 
 const AccountAssetTabDisconnected = ({ account }: Props) => {
   const assetTypes = ['issued', 'nft']
-  const { id: accountId, assetType = assetTypes[0] } = useParams<{
-    id: string
-    assetType: string
-  }>()
-  const history = useHistory()
+  const { id: accountId, assetType = assetTypes[0] } = useParams(ACCOUNT)
+  const navigate = useNavigate()
   const { t } = useTranslation()
   function switchAsset(event: ChangeEvent<HTMLInputElement>) {
-    return history.push(`/accounts/${accountId}/assets/${event.target.value}`)
+    return navigate(`/accounts/${accountId}/assets/${event.target.value}`)
   }
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (account.deleted) return <></>

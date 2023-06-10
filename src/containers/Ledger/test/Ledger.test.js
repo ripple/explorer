@@ -1,5 +1,5 @@
 import { mount } from 'enzyme'
-import { Route } from 'react-router-dom'
+import { Route, Routes } from 'react-router'
 import mockLedger from './storedLedger.json'
 import i18n from '../../../i18n/testConfig'
 import { Ledger } from '../index'
@@ -23,7 +23,9 @@ describe('Ledger container', () => {
   const createWrapper = (identifier = 38079857) =>
     mount(
       <QuickHarness i18n={i18n} initialEntries={[`/ledgers/${identifier}`]}>
-        <Route exact path="/ledgers/:identifier" component={Ledger} />
+        <Routes>
+          <Route exact path="/ledgers/:identifier" element={<Ledger />} />
+        </Routes>
       </QuickHarness>,
     )
 

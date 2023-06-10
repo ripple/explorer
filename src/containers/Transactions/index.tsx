@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react'
-import { useParams, useRouteMatch } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import ReactJson from 'react-json-view'
@@ -21,6 +20,8 @@ import './transaction.scss'
 import SocketContext from '../shared/SocketContext'
 import { TxStatus } from '../shared/components/TxStatus'
 import { getTransaction } from '../../rippled'
+import { TRANSACTION } from '../App/routes'
+import { build, useParams } from '../shared/routing'
 
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -40,11 +41,7 @@ const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
 export const Transaction = () => {
-  const { identifier = '', tab = 'simple' } = useParams<{
-    identifier: string
-    tab: string
-  }>()
-  const match = useRouteMatch()
+  const { identifier = '', tab = 'simple' } = useParams(TRANSACTION)
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { isLoading, data, error, isError } = useQuery(
@@ -94,10 +91,8 @@ export const Transaction = () => {
   }
 
   function renderTabs() {
-    const { path = '/' } = match
     const tabs = ['simple', 'detailed', 'raw']
-    // strips :url from the front and the identifier/tab info from the end
-    const mainPath = `${path.split('/:')[0]}/${identifier}`
+    const mainPath = build(TRANSACTION, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 

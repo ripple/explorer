@@ -1,21 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useParams, useRouteMatch } from 'react-router'
 import AccountHeader from './AccountHeader'
 import { AccountTransactionTable } from './AccountTransactionTable'
 import './styles.scss'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
+import { build, useParams } from '../shared/routing'
+import { ACCOUNT } from '../App/routes'
 
 export const Accounts = () => {
-  const { id: accountId, tab = 'transactions' } = useParams<{
-    id: string
-    tab: 'assets' | 'transactions'
-  }>()
-  const { path = '/' } = useRouteMatch()
+  const { id: accountId = '', tab = 'transactions' } = useParams(ACCOUNT)
   const [currencySelected, setCurrencySelected] = useState('XRP')
-  const mainPath = `${path.split('/:')[0]}/${accountId}`
+  const mainPath = build(ACCOUNT, { id: accountId })
 
   useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })

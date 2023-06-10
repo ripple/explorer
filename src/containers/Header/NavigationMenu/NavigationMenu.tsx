@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router'
+import { Link as RouterLink } from 'react-router-dom'
 import Logo from '../../shared/images/XRPLedger.svg'
 import { Search } from '../Search'
 import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
@@ -12,18 +12,31 @@ import { build, Link, RouteDefinition } from '../../shared/routing'
 
 export interface NavigationMenuRoute {
   title: defaultTranslationsKey
-  children?: NavigationMenuRoute[]
-  link?: string
-  route?: RouteDefinition
 }
+
+export interface NavigationMenuParentRoute extends NavigationMenuRoute {
+  children: NavigationMenuInternalRoute[]
+}
+
+export interface NavigationMenuExternalRoute extends NavigationMenuRoute {
+  link: string
+}
+
+export interface NavigationMenuInternalRoute extends NavigationMenuRoute {
+  route: RouteDefinition<any>
+}
+
+export type NavigationMenuAnyRoute =
+  | NavigationMenuParentRoute
+  | NavigationMenuExternalRoute
+  | NavigationMenuInternalRoute
 
 export const NavigationMenu = ({
   routes,
 }: {
-  routes: NavigationMenuRoute[]
+  routes: NavigationMenuAnyRoute[]
 }) => {
   const { t } = useTranslation()
-  const { pathname } = useLocation()
   const toggle = useRef<HTMLInputElement>(null)
 
   // manually set toggle to false because the <Link> component will `preventDefault` breaking the <label> technique
@@ -35,9 +48,9 @@ export const NavigationMenu = ({
 
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar-brand">
+      <RouterLink to="/" className="navbar-brand">
         <Logo alt={t('xrpl_explorer')} />
-      </Link>
+      </RouterLink>
 
       <input
         className="navbar-toggle-state"
@@ -56,10 +69,11 @@ export const NavigationMenu = ({
           <li className="nav-item nav-search">
             <Search />
           </li>
-          {routes.map((nav) => {
+          {/* @ts-ignore */}
+          {routes.map((nav): any => {
             const title = t(nav.title)
 
-            if (nav.children) {
+            if ('children' in nav) {
               return (
                 <Dropdown
                   key={nav.title}
@@ -79,8 +93,7 @@ export const NavigationMenu = ({
                 </Dropdown>
               )
             }
-
-            if (nav.link) {
+            if ('link' in nav) {
               return (
                 <li key={nav.title} className="nav-item">
                   <a
@@ -102,11 +115,7 @@ export const NavigationMenu = ({
                 key={nav.title}
                 className={classnames('nav-item', current && 'selected')}
               >
-                <Link
-                  to={nav.route}
-                  className="nav-link"
-                  onClick={forceClose}
-                >
+                <Link to={nav.route} className="nav-link" onClick={forceClose}>
                   {t(nav.title)}
                 </Link>
                 <div className="dot" />

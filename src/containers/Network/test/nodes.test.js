@@ -1,6 +1,6 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
-import { Route } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import i18n from '../../../i18n/testConfig'
 import { Network } from '../index'
 import mockNodes from './mockNodes.json'
@@ -20,7 +20,9 @@ describe('Nodes Page container', () => {
     mount(
       <QuickHarness i18n={i18n} initialEntries={['/network/nodes']}>
         <NetworkContext.Provider value="main">
-          <Route path="/network/:tab" component={Network} />
+          <Routes>
+            <Route path="/network/:tab" element={<Network />} />
+          </Routes>
         </NetworkContext.Provider>
       </QuickHarness>,
     )

@@ -2,7 +2,6 @@ import { FC, PropsWithChildren, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 
-import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import TokenHeader from './TokenHeader'
 import { TokenTransactionTable } from './TokenTransactionTable'
@@ -17,6 +16,8 @@ import {
   BAD_REQUEST,
 } from '../shared/utils'
 import { ErrorMessages } from '../shared/Interfaces'
+import { TOKEN } from '../App/routes'
+import { useParams } from '../shared/routing'
 
 const IS_MAINNET = process.env.VITE_ENVIRONMENT === 'mainnet'
 
@@ -49,10 +50,8 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 )
 
 const Token: FC<{ error: string }> = ({ error }) => {
-  const { currency, identifier: accountId } = useParams<{
-    currency: string
-    identifier: string
-  }>()
+  const { token = '' } = useParams(TOKEN)
+  const [currency, accountId] = token.split('.')
   const { t } = useTranslation()
 
   useEffect(() => {

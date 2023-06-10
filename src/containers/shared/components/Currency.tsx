@@ -45,7 +45,7 @@ const Currency = (props: Props) => {
 
   const content =
     link && issuer ? (
-      <Link to={TOKEN} params={{ currency, identifier: issuer }}>
+      <Link to={TOKEN} params={{ token: `${currency}.${issuer}` }}>
         {display}
       </Link>
     ) : (

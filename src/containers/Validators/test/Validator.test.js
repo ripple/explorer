@@ -9,6 +9,7 @@ import NetworkContext from '../../shared/NetworkContext'
 import testConfigEnglish from '../../../i18n/testConfigEnglish'
 import { QuickHarness, flushPromises } from '../../test/utils'
 import { VALIDATOR } from '../../App/routes'
+import { Routes } from 'react-router'
 
 Helmet.defaultProps.defer = false
 
@@ -36,7 +37,9 @@ describe('Validator container', () => {
         initialEntries={[`/validators/${MOCK_IDENTIFIER}`]}
       >
         <NetworkContext.Provider value={props.network || 'main'}>
-          <Route path={VALIDATOR.path} component={Validator} />
+          <Routes>
+            <Route path={VALIDATOR.path} element={<Validator />} />
+          </Routes>
         </NetworkContext.Provider>
       </QuickHarness>,
     )

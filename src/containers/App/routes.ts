@@ -38,15 +38,14 @@ export const PAYSTRING: RouteDefinition<{
 }
 
 export const TOKEN: RouteDefinition<{
-  identifier: string
-  currency: string
+  token: string
 }> = {
-  path: `/token/:currency.:identifier`,
+  path: `/token/:token`,
 }
 
 export const TRANSACTION: RouteDefinition<{
   identifier: string
-  tab?: 'simple' | 'detail' | 'raw'
+  tab?: 'simple' | 'detailed' | 'raw'
 }> = {
   path: `/transactions/:identifier?/:tab?`,
 }

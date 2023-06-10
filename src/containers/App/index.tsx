@@ -1,4 +1,4 @@
-import { Switch, Route, useLocation } from 'react-router'
+import { Route, useLocation, Routes } from 'react-router'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from 'react-query'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +8,7 @@ import './app.scss'
 import { App } from './App'
 import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'
-import noMatch from '../NoMatch'
+import NoMatch from '../NoMatch'
 import { Header } from '../Header'
 import { queryClient } from '../shared/QueryClient'
 
@@ -17,7 +17,10 @@ export const AppWrapper = () => {
   const location = useLocation()
   const mode = process.env.VITE_ENVIRONMENT
 
-  const rippledUrl = `/${location.pathname.split('/')[1]}/`
+  const rippledUrl =
+    process.env.VITE_ENVIRONMENT === 'custom'
+      ? `/${location.pathname.split('/')[1]}`
+      : ''
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
@@ -32,13 +35,13 @@ export const AppWrapper = () => {
             </Helmet>
             <div className="app">
               <Header inNetwork={!!(mode !== 'custom' || rippledUrl)} />
-              <Switch>
+              <Routes>
                 {mode === 'custom' && (
-                  <Route exact path="/" component={CustomNetworkHome} />
+                  <Route path="/" element={<CustomNetworkHome />} />
                 )}
-                <Route path={rippledUrl} component={App} />
-                <Route component={noMatch} />
-              </Switch>
+                <Route path="/*" element={<App />} />
+                <Route element={<NoMatch />} />
+              </Routes>
               <Footer />
             </div>
           </AppErrorBoundary>

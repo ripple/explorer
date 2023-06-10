@@ -1,10 +1,11 @@
 import { mount } from 'enzyme'
-import { Route } from 'react-router'
+import { Route, Routes } from 'react-router'
 import i18n from '../../../i18n/testConfig'
 import { PayString } from '../index'
 import { getPayString } from '../../../rippled'
 import mockPayStringData from './mockPayStringData.json'
 import { QuickHarness, flushPromises } from '../../test/utils'
+import { PAYSTRING } from '../../App/routes'
 
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
@@ -24,7 +25,9 @@ describe('PayString container', () => {
   const createWrapper = () =>
     mount(
       <QuickHarness i18n={i18n} initialEntries={[`/paystrings/${TEST_PAY_ID}`]}>
-        <Route path="/paystrings/:id?" component={PayString} />
+        <Routes>
+          <Route path={PAYSTRING.path} element={<PayString />} />
+        </Routes>
       </QuickHarness>,
     )
 
