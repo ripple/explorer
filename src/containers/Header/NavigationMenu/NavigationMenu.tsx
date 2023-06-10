@@ -1,6 +1,5 @@
 import classnames from 'classnames'
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
 import Logo from '../../shared/images/XRPLedger.svg'
@@ -9,12 +8,13 @@ import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
 import type { defaultTranslationsKey } from '../../../../@types/i18next'
 
 import './NavigationMenu.scss'
+import { build, Link, RouteDefinition } from '../../shared/routing'
 
 export interface NavigationMenuRoute {
   title: defaultTranslationsKey
   children?: NavigationMenuRoute[]
   link?: string
-  path?: string
+  route?: RouteDefinition
 }
 
 export const NavigationMenu = ({
@@ -69,7 +69,7 @@ export const NavigationMenu = ({
                 >
                   {nav.children.map((child) => (
                     <DropdownItem
-                      href={child.path}
+                      href={build(child.route, {})}
                       data-title={title}
                       className="nav-link"
                     >
@@ -95,9 +95,7 @@ export const NavigationMenu = ({
                 </li>
               )
             }
-            const current =
-              pathname === nav.path ||
-              (pathname.indexOf(nav.path || '') === 0 && nav.path !== '/')
+            const current = false
 
             return (
               <li
@@ -105,7 +103,7 @@ export const NavigationMenu = ({
                 className={classnames('nav-item', current && 'selected')}
               >
                 <Link
-                  to={nav.path || ''}
+                  to={nav.route}
                   className="nav-link"
                   onClick={forceClose}
                 >

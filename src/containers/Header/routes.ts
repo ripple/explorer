@@ -1,13 +1,14 @@
 import { NavigationMenuRoute } from './NavigationMenu'
+import { LEDGERS, NETWORK } from '../App/routes'
 
 // NOTE: for submenus, remove `path` field and add `children` array of objects
 export const routesConfig: NavigationMenuRoute[] = [
   {
-    path: '/',
+    route: LEDGERS,
     title: 'explorer',
   },
   {
-    path: '/network',
+    route: NETWORK,
     title: 'network',
   },
   {

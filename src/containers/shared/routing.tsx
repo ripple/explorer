@@ -1,5 +1,5 @@
 import { generatePath } from 'react-router'
-import { Link as RouterLink } from 'react-router-dom'
+import { NavLink as RouterLink } from 'react-router-dom'
 import { ReactNode, Ref } from 'react'
 
 export interface RouteDefinition<T = {}> {
@@ -22,7 +22,7 @@ export interface LinkProps<
 export function build<T>(route: RouteDefinition<T>, params: T) {
   const path =
     (process.env.VITE_ENVIRONMENT === 'custom'
-      ? window.location.pathname.split('/')
+      ? `/${window.location.pathname.split('/')[1]}`
       : '') + route.path
   return generatePath(
     path,
@@ -37,7 +37,7 @@ export function ExplorerLink<T extends {} = {}>({
   innerRef,
   ...rest
 }: LinkProps<RouteDefinition<T>>) {
-  const path = params ? build(to, params) : to.path
+  const path = build(to, params || {})
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
