@@ -1,7 +1,8 @@
 import classnames from 'classnames'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import Logo from '../../shared/images/XRPLedger.svg'
 import { Search } from '../Search'
 import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
@@ -12,6 +13,7 @@ import { buildPath, RouteLink, RouteDefinition } from '../../shared/routing'
 
 export interface NavigationMenuRoute {
   title: defaultTranslationsKey
+  current?: (path: string) => boolean
 }
 
 export interface NavigationMenuParentRoute extends NavigationMenuRoute {
@@ -36,6 +38,7 @@ export const NavigationMenu = ({
 }: {
   routes: NavigationMenuAnyRoute[]
 }) => {
+  const location = useLocation()
   const { t } = useTranslation()
   const toggle = useRef<HTMLInputElement>(null)
 
@@ -48,9 +51,9 @@ export const NavigationMenu = ({
 
   return (
     <nav className="navbar">
-      <RouterLink to="/" className="navbar-brand">
+      <Link to="/" className="navbar-brand">
         <Logo alt={t('xrpl_explorer')} />
-      </RouterLink>
+      </Link>
 
       <input
         className="navbar-toggle-state"
@@ -69,7 +72,6 @@ export const NavigationMenu = ({
           <li className="nav-item nav-search">
             <Search />
           </li>
-          {/* @ts-ignore */}
           {routes.map((nav): any => {
             const title = t(nav.title)
 
@@ -108,12 +110,14 @@ export const NavigationMenu = ({
                 </li>
               )
             }
-            const current = false
 
             return (
               <li
                 key={nav.title}
-                className={classnames('nav-item', current && 'selected')}
+                className={classnames(
+                  'nav-item',
+                  nav.current && nav.current(location.pathname) && 'selected',
+                )}
               >
                 <RouteLink
                   to={nav.route}

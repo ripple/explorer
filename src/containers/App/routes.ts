@@ -68,10 +68,12 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
   {
     route: LEDGERS,
     title: 'explorer',
+    current: (path: string) => path.indexOf('/network') !== 0,
   },
   {
     route: NETWORK,
     title: 'network',
+    current: (path: string) => path.indexOf('/network') === 0,
   },
   {
     link: 'https://xrpl.org',
