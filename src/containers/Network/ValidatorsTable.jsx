@@ -6,7 +6,7 @@ import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
 import InfoIcon from '../shared/images/info.svg'
 import './css/validatorsTable.scss'
-import { Link } from '../shared/routing'
+import { RouteLink } from '../shared/routing'
 import { LEDGER, VALIDATOR } from '../App/routes'
 
 class ValidatorsTable extends Component {
@@ -86,9 +86,9 @@ class ValidatorsTable extends Component {
     return (
       <tr key={pubkey}>
         <td className="pubkey text-truncate" title={pubkey}>
-          <Link to={VALIDATOR} params={{ identifier: pubkey }}>
+          <RouteLink to={VALIDATOR} params={{ identifier: pubkey }}>
             {pubkey}
-          </Link>
+          </RouteLink>
         </td>
         <td className="domain text-truncate">
           {ValidatorsTable.renderDomain(d.domain)}
@@ -108,9 +108,9 @@ class ValidatorsTable extends Component {
           style={{ color }}
           title={d.partial ? 'partial validation' : undefined}
         >
-          <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
+          <RouteLink to={LEDGER} params={{ identifier: ledgerIndex }}>
             {ledgerIndex}
-          </Link>
+          </RouteLink>
           {d.partial && '*'}
         </td>
       </tr>

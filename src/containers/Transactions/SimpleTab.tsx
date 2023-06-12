@@ -6,7 +6,7 @@ import Sequence from '../shared/components/Sequence'
 import { Simple } from './Simple'
 
 import { useLanguage } from '../shared/hooks'
-import { Link } from '../shared/routing'
+import { RouteLink } from '../shared/routing'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../shared/transactionUtils'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import '../shared/css/simpleTab.scss'
@@ -48,9 +48,9 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
         {time}
       </SimpleRow>
       <SimpleRow label={t('ledger_index')} data-test="ledger-index">
-        <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
+        <RouteLink to={LEDGER} params={{ identifier: ledgerIndex }}>
           {ledgerIndex}
-        </Link>
+        </RouteLink>
       </SimpleRow>
       <SimpleRow label={t('account')} data-test="account">
         <Account account={account} />

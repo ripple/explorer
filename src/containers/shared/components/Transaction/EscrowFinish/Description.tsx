@@ -5,7 +5,7 @@ import {
   TransactionDescriptionComponent,
   TransactionDescriptionProps,
 } from '../types'
-import { Link } from '../../../routing'
+import { RouteLink } from '../../../routing'
 import { TRANSACTION } from '../../../../App/routes'
 
 const Description: TransactionDescriptionComponent = (
@@ -53,13 +53,13 @@ const Description: TransactionDescriptionComponent = (
         The escrow was created by
         <Account account={data.tx.Owner} />
         with transaction
-        <Link
+        <RouteLink
           className="hash"
           to={TRANSACTION}
           params={{ identifier: deleted.FinalFields.PreviousTxnID }}
         >
           {`${deleted.FinalFields.PreviousTxnID.substr(0, 6)}...`}
-        </Link>
+        </RouteLink>
       </Trans>
       {data.tx.Fulfillment && (
         <div>

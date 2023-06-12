@@ -3,7 +3,7 @@ import Currency from '../../shared/components/Currency'
 import { Amount } from '../../shared/components/Amount'
 import Loader from '../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
-import { Link } from '../../shared/routing'
+import { RouteLink } from '../../shared/routing'
 import { TOKEN } from '../../App/routes'
 
 interface Props {
@@ -31,14 +31,14 @@ export const AccountIssuedTokenTable = (props: Props) => {
           <Currency currency={token.currency} />
         </td>
         <td>
-          <Link
+          <RouteLink
             className="token-issuer"
             title={tokenName}
             to={TOKEN}
             params={{ token: `${token.currency}.${token.issuer}` }}
           >
             {token.issuer}
-          </Link>
+          </RouteLink>
         </td>
         <td className="right">
           <Amount value={token} displayIssuer={false} />

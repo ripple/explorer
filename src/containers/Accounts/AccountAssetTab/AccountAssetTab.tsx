@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { useNavigate } from 'react-router'
-import { useParams } from '../../shared/routing'
+import { useRouteParams } from '../../shared/routing'
 import { AccountIssuedTokenTable } from '../AccountIssuedTokenTable'
 import { AccountNFTTable } from '../AccountNFTTable/AccountNFTTable'
 import { ACCOUNT } from '../../App/routes'
@@ -14,7 +14,8 @@ interface Props {
 
 const AccountAssetTabDisconnected = ({ account }: Props) => {
   const assetTypes = ['issued', 'nft']
-  const { id: accountId, assetType = assetTypes[0] } = useParams(ACCOUNT)
+  const { id: accountId = '', assetType = assetTypes[0] } =
+    useRouteParams(ACCOUNT)
   const navigate = useNavigate()
   const { t } = useTranslation()
   function switchAsset(event: ChangeEvent<HTMLInputElement>) {

@@ -6,13 +6,13 @@ import './styles.scss'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
-import { build, useParams } from '../shared/routing'
+import { buildPath, useRouteParams } from '../shared/routing'
 import { ACCOUNT } from '../App/routes'
 
 export const Accounts = () => {
-  const { id: accountId = '', tab = 'transactions' } = useParams(ACCOUNT)
+  const { id: accountId = '', tab = 'transactions' } = useRouteParams(ACCOUNT)
   const [currencySelected, setCurrencySelected] = useState('XRP')
-  const mainPath = build(ACCOUNT, { id: accountId })
+  const mainPath = buildPath(ACCOUNT, { id: accountId })
 
   useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })

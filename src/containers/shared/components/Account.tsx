@@ -1,4 +1,4 @@
-import { Link } from '../routing'
+import { RouteLink } from '../routing'
 import { ACCOUNT } from '../../App/routes'
 
 export interface AccountProps {
@@ -15,14 +15,14 @@ export const Account = (props: AccountProps) => {
   return (
     <>
       {link ? (
-        <Link
+        <RouteLink
           className="account"
           title={parts[0]}
           to={ACCOUNT}
           params={{ id: parts[0] }}
         >
           {parts[0]}
-        </Link>
+        </RouteLink>
       ) : (
         <span className="account" title={parts[0]}>
           {parts[0]}

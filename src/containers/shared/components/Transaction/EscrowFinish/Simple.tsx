@@ -3,7 +3,7 @@ import { Account } from '../../Account'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
-import { Link } from '../../../routing'
+import { RouteLink } from '../../../routing'
 import { TRANSACTION } from '../../../../App/routes'
 
 const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
@@ -54,13 +54,13 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
           className="tx"
           data-test="escrow-tx"
         >
-          <Link
+          <RouteLink
             className="hash"
             to={TRANSACTION}
             params={{ identifier: previousTx }}
           >
             {previousTx}
-          </Link>
+          </RouteLink>
         </SimpleRow>
       )}
     </>

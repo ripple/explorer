@@ -13,7 +13,7 @@ import DomainLink from '../../shared/components/DomainLink'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { useLanguage } from '../../shared/hooks'
 import { LEDGER, TRANSACTION } from '../../App/routes'
-import { Link } from '../../shared/routing'
+import { RouteLink } from '../../shared/routing'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -80,18 +80,18 @@ const TokenHeader = ({
             <TokenTableRow
               label={t('last_ledger')}
               value={
-                <Link to={LEDGER} params={{ identifier: previousLedger }}>
+                <RouteLink to={LEDGER} params={{ identifier: previousLedger }}>
                   {previousLedger}
-                </Link>
+                </RouteLink>
               }
             />
           )}
           <TokenTableRow
             label={t('last_affecting_transaction')}
             value={
-              <Link to={TRANSACTION} params={{ identifier: previousTxn }}>
+              <RouteLink to={TRANSACTION} params={{ identifier: previousTxn }}>
                 {prevTxn}
-              </Link>
+              </RouteLink>
             }
           />
           {emailHash && (

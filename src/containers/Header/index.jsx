@@ -2,8 +2,8 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 import Banner from './Banner'
+import { navigationConfig } from '../App/routes'
 import { NavigationMenu } from './NavigationMenu'
-import { routesConfig } from './routes'
 
 import './header.scss'
 import { LanguagePicker } from './LanguagePicker/LanguagePicker'
@@ -16,7 +16,7 @@ export const Header = ({ inNetwork }) => (
       <LanguagePicker />
     </div>
     <Banner />
-    <NavigationMenu routes={routesConfig} />
+    <NavigationMenu routes={navigationConfig} />
   </header>
 )
 

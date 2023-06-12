@@ -11,7 +11,7 @@ import '../../shared/components/TransactionTable/styles.scss' // Reuse load-more
 import { formatAmount } from '../../../rippled/lib/txSummary/formatAmount'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
 import { ACCOUNT } from '../../App/routes'
-import { Link } from '../../shared/routing'
+import { RouteLink } from '../../shared/routing'
 
 interface Props {
   tokenId: string
@@ -60,9 +60,9 @@ export const Offers = (props: Props) => {
           {offerIndex}
         </td>
         <td className="owner text-truncate">
-          <Link to={ACCOUNT} params={{ id: owner }}>
+          <RouteLink to={ACCOUNT} params={{ id: owner }}>
             {owner}
-          </Link>
+          </RouteLink>
         </td>
         <td className="amount right">
           <Amount value={formatAmount(amount)} />

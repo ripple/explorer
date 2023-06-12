@@ -17,7 +17,7 @@ import {
 } from '../shared/utils'
 import { ErrorMessages } from '../shared/Interfaces'
 import { TOKEN } from '../App/routes'
-import { useParams } from '../shared/routing'
+import { useRouteParams } from '../shared/routing'
 
 const IS_MAINNET = process.env.VITE_ENVIRONMENT === 'mainnet'
 
@@ -50,7 +50,7 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 )
 
 const Token: FC<{ error: string }> = ({ error }) => {
-  const { token = '' } = useParams(TOKEN)
+  const { token = '' } = useRouteParams(TOKEN)
   const [currency, accountId] = token.split('.')
   const { t } = useTranslation()
 

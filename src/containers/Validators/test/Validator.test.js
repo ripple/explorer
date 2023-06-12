@@ -2,6 +2,7 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
+import { Routes } from 'react-router'
 import { BAD_REQUEST } from '../../shared/utils'
 import { Validator } from '../index'
 import { getLedger } from '../../../rippled'
@@ -9,7 +10,6 @@ import NetworkContext from '../../shared/NetworkContext'
 import testConfigEnglish from '../../../i18n/testConfigEnglish'
 import { QuickHarness, flushPromises } from '../../test/utils'
 import { VALIDATOR } from '../../App/routes'
-import { Routes } from 'react-router'
 
 Helmet.defaultProps.defer = false
 

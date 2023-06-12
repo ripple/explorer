@@ -8,12 +8,12 @@ import { Nodes } from './Nodes'
 import NoMatch from '../NoMatch'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
-import { useParams } from '../shared/routing'
+import { useRouteParams } from '../shared/routing'
 import { NETWORK } from '../App/routes'
 
 export const Network = () => {
   const { t } = useTranslation()
-  const { tab = 'nodes' } = useParams(NETWORK)
+  const { tab = 'nodes' } = useRouteParams(NETWORK)
   const network = useContext(NetworkContext)
   useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, {

@@ -24,7 +24,7 @@ import { LedgerTransactionTable } from './LedgerTransactionTable'
 
 import './ledger.scss'
 import { getLedger } from '../../rippled'
-import { useParams, Link } from '../shared/routing'
+import { useRouteParams, RouteLink } from '../shared/routing'
 import { LEDGER } from '../App/routes'
 
 const TIME_ZONE = 'UTC'
@@ -58,7 +58,7 @@ const getErrorMessage = (error) =>
 
 export const Ledger = () => {
   const rippledSocket = useContext(SocketContext)
-  const { identifier = '' } = useParams(LEDGER)
+  const { identifier = '' } = useRouteParams(LEDGER)
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -100,18 +100,18 @@ export const Ledger = () => {
     return (
       <div className="ledger-header">
         <div className="ledger-nav">
-          <Link to={LEDGER} params={{ identifier: previousIndex }}>
+          <RouteLink to={LEDGER} params={{ identifier: previousIndex }}>
             <div className="previous">
               <LeftArrow alt="previous ledger" />
               {previousIndex}
             </div>
-          </Link>
-          <Link to={LEDGER} params={{ identifier: nextIndex }}>
+          </RouteLink>
+          <RouteLink to={LEDGER} params={{ identifier: nextIndex }}>
             <div className="next">
               {nextIndex}
               <RightArrow alt="next ledger" />
             </div>
-          </Link>
+          </RouteLink>
           <div className="clear" />
         </div>
         <div className="ledger-info">

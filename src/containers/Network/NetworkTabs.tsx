@@ -1,5 +1,5 @@
 import { Tabs } from '../shared/components/Tabs'
-import { build } from '../shared/routing'
+import { buildPath } from '../shared/routing'
 import { NETWORK } from '../App/routes'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 const NetworkTabs = (props: Props) => {
   const { selected } = props
   const tabs = ['nodes', 'validators', 'upgrade-status']
-  return <Tabs tabs={tabs} selected={selected} path={build(NETWORK, {})} />
+  return <Tabs tabs={tabs} selected={selected} path={buildPath(NETWORK, {})} />
 }
 
 export default NetworkTabs

@@ -12,7 +12,7 @@ import SocketContext from '../shared/SocketContext'
 import { getAction, getCategory } from '../shared/components/Transaction'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import { Legend } from './Legend'
-import { Link } from '../shared/routing'
+import { RouteLink } from '../shared/routing'
 import { LEDGER, TRANSACTION } from '../App/routes'
 
 class Ledgers extends Component {
@@ -112,9 +112,9 @@ class Ledgers extends Component {
         className={`ledger-index ${flagLedger ? 'flag-ledger' : ''}`}
         title={flagLedger ? t('flag_ledger') : ''}
       >
-        <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
+        <RouteLink to={LEDGER} params={{ identifier: ledgerIndex }}>
           {ledgerIndex}
-        </Link>
+        </RouteLink>
       </div>
     )
   }
@@ -140,7 +140,7 @@ class Ledgers extends Component {
   }
 
   renderTransaction = (tx) => (
-    <Link
+    <RouteLink
       key={tx.hash}
       className={`txn tx-type tx-dot bg tx-category-${getCategory(
         tx.type,
@@ -153,7 +153,7 @@ class Ledgers extends Component {
     >
       <TransactionActionIcon type={tx.type} />
       <span>{tx.hash}</span>
-    </Link>
+    </RouteLink>
   )
 
   renderHash = (hash) => {

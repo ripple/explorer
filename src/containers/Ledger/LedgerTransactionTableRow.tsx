@@ -4,7 +4,7 @@ import { useLanguage } from '../shared/hooks'
 import Sequence from '../shared/components/Sequence'
 import { formatPrice } from '../shared/utils'
 import { TxStatus } from '../shared/components/TxStatus'
-import { Link } from '../shared/routing'
+import { RouteLink } from '../shared/routing'
 import { TRANSACTION } from '../App/routes'
 
 const TXN_COST_PADDING = 6
@@ -23,7 +23,7 @@ export const LedgerTransactionTableRow = ({ tx }: Props) => {
         success ? 'success' : 'fail'
       }`}
     >
-      <Link
+      <RouteLink
         to={TRANSACTION}
         params={{ identifier: tx.hash }}
         className="mask-overlay"

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
-import { Link } from '../shared/routing'
+import { RouteLink } from '../shared/routing'
 import { localizeDate, BREAKPOINTS } from '../shared/utils'
 import Simple from './Simple'
 import '../shared/css/simpleTab.scss'
@@ -57,9 +57,9 @@ export const SimpleTab: FC<{
             label={`Last ${t('ledger_index')}`}
             data-test="ledger-index"
           >
-            <Link to={LEDGER} params={{ identifier: ledgerIndex }}>
+            <RouteLink to={LEDGER} params={{ identifier: ledgerIndex }}>
               {ledgerIndex}
-            </Link>
+            </RouteLink>
           </SimpleRow>
         )}
         {unlRow}

@@ -8,7 +8,7 @@ import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
 import type { defaultTranslationsKey } from '../../../../@types/i18next'
 
 import './NavigationMenu.scss'
-import { build, Link, RouteDefinition } from '../../shared/routing'
+import { buildPath, RouteLink, RouteDefinition } from '../../shared/routing'
 
 export interface NavigationMenuRoute {
   title: defaultTranslationsKey
@@ -83,7 +83,7 @@ export const NavigationMenu = ({
                 >
                   {nav.children.map((child) => (
                     <DropdownItem
-                      href={build(child.route, {})}
+                      href={buildPath(child.route, {})}
                       data-title={title}
                       className="nav-link"
                     >
@@ -115,9 +115,13 @@ export const NavigationMenu = ({
                 key={nav.title}
                 className={classnames('nav-item', current && 'selected')}
               >
-                <Link to={nav.route} className="nav-link" onClick={forceClose}>
+                <RouteLink
+                  to={nav.route}
+                  className="nav-link"
+                  onClick={forceClose}
+                >
                   {t(nav.title)}
-                </Link>
+                </RouteLink>
                 <div className="dot" />
               </li>
             )

@@ -14,7 +14,7 @@ import {
 } from '../shared/transactionUtils'
 import './detailTab.scss'
 import { useLanguage } from '../shared/hooks'
-import { Link } from '../shared/routing'
+import { RouteLink } from '../shared/routing'
 import { LEDGER } from '../App/routes'
 
 const DetailTab = ({ data }) => {
@@ -41,13 +41,13 @@ const DetailTab = ({ data }) => {
         <div className="title">{t('status')}</div>
         {line1}
         {t('transaction_validated')}
-        <Link
+        <RouteLink
           className="ledger"
           to={LEDGER}
           params={{ identifier: data.ledger_index }}
         >
           {data.ledger_index}
-        </Link>
+        </RouteLink>
         {t('on')}
         <span className="time">{`${time} ${DATE_OPTIONS.timeZone}`}</span>
       </div>

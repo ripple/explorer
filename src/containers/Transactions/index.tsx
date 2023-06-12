@@ -21,7 +21,7 @@ import SocketContext from '../shared/SocketContext'
 import { TxStatus } from '../shared/components/TxStatus'
 import { getTransaction } from '../../rippled'
 import { TRANSACTION } from '../App/routes'
-import { build, useParams } from '../shared/routing'
+import { buildPath, useRouteParams } from '../shared/routing'
 
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -41,7 +41,7 @@ const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
 export const Transaction = () => {
-  const { identifier = '', tab = 'simple' } = useParams(TRANSACTION)
+  const { identifier = '', tab = 'simple' } = useRouteParams(TRANSACTION)
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { isLoading, data, error, isError } = useQuery(
@@ -92,7 +92,7 @@ export const Transaction = () => {
 
   function renderTabs() {
     const tabs = ['simple', 'detailed', 'raw']
-    const mainPath = build(TRANSACTION, { identifier })
+    const mainPath = buildPath(TRANSACTION, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 

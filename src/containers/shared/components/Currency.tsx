@@ -1,5 +1,5 @@
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
-import { Link } from '../routing'
+import { RouteLink } from '../routing'
 import { TOKEN } from '../../App/routes'
 
 const NON_STANDARD_CODE_LENGTH = 40
@@ -45,9 +45,9 @@ const Currency = (props: Props) => {
 
   const content =
     link && issuer ? (
-      <Link to={TOKEN} params={{ token: `${currency}.${issuer}` }}>
+      <RouteLink to={TOKEN} params={{ token: `${currency}.${issuer}` }}>
         {display}
-      </Link>
+      </RouteLink>
     ) : (
       display
     )

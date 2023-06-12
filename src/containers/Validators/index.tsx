@@ -23,7 +23,7 @@ import SocketContext from '../shared/SocketContext'
 import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 import { VALIDATOR } from '../App/routes'
-import { build, useParams } from '../shared/routing'
+import { buildPath, useRouteParams } from '../shared/routing'
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -43,7 +43,7 @@ export const Validator = () => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const network = useContext(NetworkContext)
-  const { identifier = '', tab = 'details' } = useParams(VALIDATOR)
+  const { identifier = '', tab = 'details' } = useRouteParams(VALIDATOR)
   const { width } = useWindowSize()
 
   const {
@@ -166,7 +166,7 @@ export const Validator = () => {
 
   function renderTabs() {
     const tabs = ['details', 'history']
-    const mainPath = build(VALIDATOR, { identifier })
+    const mainPath = buildPath(VALIDATOR, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 

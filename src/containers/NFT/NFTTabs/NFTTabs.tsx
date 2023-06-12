@@ -4,19 +4,19 @@ import { getBuyNFToffers, getSellNFToffers } from '../../../rippled/lib/rippled'
 import { Offers } from './Offers'
 import { Transactions } from './Transactions'
 import { NFT } from '../../App/routes'
-import { build, useParams } from '../../shared/routing'
+import { buildPath, useRouteParams } from '../../shared/routing'
 
 interface Props {
   tokenId: string
 }
 
 export const NFTTabs = (props: Props) => {
-  const { id = '', tab = 'transactions' } = useParams(NFT)
+  const { id = '', tab = 'transactions' } = useRouteParams(NFT)
   const { tokenId } = props
 
   function renderTabs() {
     const tabs = ['transactions', 'buy-offers', 'sell-offers']
-    const mainPath = build(NFT, { id })
+    const mainPath = buildPath(NFT, { id })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 
