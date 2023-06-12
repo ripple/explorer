@@ -85,15 +85,15 @@ describe('Ledgers Page container', () => {
     const store = mockStore({ ...initialState })
 
     return mount(
-      <QuickHarness i18n={i18n}>
-        <Provider store={store}>
-          <SocketContext.Provider value={client}>
-            <NetworkContext.Provider value={props.network}>
+      <Provider store={store}>
+        <SocketContext.Provider value={client}>
+          <NetworkContext.Provider value={props.network}>
+            <QuickHarness i18n={i18n}>
               <Ledgers msg={props.msg} />
-            </NetworkContext.Provider>
-          </SocketContext.Provider>
-        </Provider>
-      </QuickHarness>,
+            </QuickHarness>
+          </NetworkContext.Provider>
+        </SocketContext.Provider>
+      </Provider>,
     )
   }
 

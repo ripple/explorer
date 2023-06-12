@@ -1,5 +1,5 @@
 import { mount } from 'enzyme'
-import { Route, Routes } from 'react-router'
+import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfig'
 import { PayString } from '../index'
 import { getPayString } from '../../../rippled'
@@ -25,9 +25,7 @@ describe('PayString container', () => {
   const createWrapper = () =>
     mount(
       <QuickHarness i18n={i18n} initialEntries={[`/paystrings/${TEST_PAY_ID}`]}>
-        <Routes>
-          <Route path={PAYSTRING.path} element={<PayString />} />
-        </Routes>
+        <Route path={PAYSTRING.path} element={<PayString />} />
       </QuickHarness>,
     )
 

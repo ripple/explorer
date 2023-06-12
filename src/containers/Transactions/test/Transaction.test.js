@@ -1,5 +1,5 @@
 import { mount } from 'enzyme'
-import { Route, Routes } from 'react-router'
+import { Route } from 'react-router'
 import mockTransaction from './mock_data/Transaction.json'
 import mockTransactionSummary from './mock_data/TransactionSummary.json'
 import i18n from '../../../i18n/testConfig'
@@ -34,12 +34,10 @@ describe('Transaction container', () => {
         i18n={i18n}
         initialEntries={[`/transactions/${hash}/${tab}`]}
       >
-        <Routes>
-          <Route
-            path="/transactions/:identifier?/:tab?"
-            element={<Transaction />}
-          />
-        </Routes>
+        <Route
+          path="/transactions/:identifier?/:tab?"
+          element={<Transaction />}
+        />
       </QuickHarness>,
     )
   afterEach(() => {

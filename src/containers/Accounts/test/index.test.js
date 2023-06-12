@@ -2,7 +2,7 @@ import { mount } from 'enzyme'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { Route, Routes } from 'react-router'
+import { Route } from 'react-router'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import { Accounts } from '../index'
@@ -19,16 +19,14 @@ describe('Account container', () => {
   const createWrapper = (state = {}) => {
     const store = mockStore({ ...initialState, ...state })
     return mount(
-      <QuickHarness
-        i18n={i18n}
-        initialEntries={[`/accounts/${TEST_ACCOUNT_ID}`]}
-      >
-        <Provider store={store}>
-          <Routes>
-            <Route path="/accounts/:id" element={<Accounts />} />
-          </Routes>
-        </Provider>
-      </QuickHarness>,
+      <Provider store={store}>
+        <QuickHarness
+          i18n={i18n}
+          initialEntries={[`/accounts/${TEST_ACCOUNT_ID}`]}
+        >
+          <Route path="/accounts/:id" element={<Accounts />} />
+        </QuickHarness>
+      </Provider>,
     )
   }
 

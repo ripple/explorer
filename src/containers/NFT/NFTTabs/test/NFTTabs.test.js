@@ -1,11 +1,8 @@
 import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
-import { MemoryRouter as Router, Route } from 'react-router-dom'
-import { QueryClientProvider } from 'react-query'
-import { Routes } from 'react-router'
+import { Route } from 'react-router-dom'
 import { NFTTabs } from '../NFTTabs'
 import i18n from '../../../../i18n/testConfig'
-import { queryClient } from '../../../shared/QueryClient'
+import { QuickHarness } from '../../../test/utils'
 
 describe('NFT Transactions tab container', () => {
   const nftId =
@@ -13,15 +10,9 @@ describe('NFT Transactions tab container', () => {
 
   const createWrapper = (tab = 'transactions') =>
     mount(
-      <QueryClientProvider client={queryClient}>
-        <I18nextProvider i18n={i18n}>
-          <Router initialEntries={[`/nft/${nftId}/${tab}`]}>
-            <Routes>
-              <Route path="/nft/:id/:tab?" element={<NFTTabs />} />
-            </Routes>
-          </Router>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <QuickHarness i18n={i18n} initialEntries={[`/nft/${nftId}/${tab}`]}>
+        <Route path="/nft/:id/:tab?" element={<NFTTabs />} />
+      </QuickHarness>,
     )
 
   it('renders without crashing', () => {

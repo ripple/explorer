@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
-import { Route, Routes } from 'react-router'
+import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfig'
 import { Network } from '../index'
 import mockValidators from './mockValidators.json'
@@ -17,13 +17,11 @@ describe('Validators Tab container', () => {
   let client
   const createWrapper = () =>
     mount(
-      <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
-        <SocketContext.Provider value={client}>
-          <Routes>
-            <Route path="/network/:tab" element={<Network />} />
-          </Routes>
-        </SocketContext.Provider>
-      </QuickHarness>,
+      <SocketContext.Provider value={client}>
+        <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
+          <Route path="/network/:tab" element={<Network />} />
+        </QuickHarness>
+      </SocketContext.Provider>,
     )
 
   beforeEach(async () => {

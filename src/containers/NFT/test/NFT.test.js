@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { mount } from 'enzyme'
-import { Route, Routes } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { NFT } from '../NFT'
 import i18n from '../../../i18n/testConfig'
 import { QuickHarness } from '../../test/utils'
@@ -12,9 +12,7 @@ describe('NFT container', () => {
   const createWrapper = (nft = undefined) =>
     mount(
       <QuickHarness i18n={i18n} initialEntries={[`/nft/${nft}`]}>
-        <Routes>
-          <Route path="/nft/:id" element={<NFT />} />
-        </Routes>
+        <Route path="/nft/:id" element={<NFT />} />
       </QuickHarness>,
     )
 

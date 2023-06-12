@@ -1,8 +1,9 @@
-import { FC, PropsWithChildren } from 'react'
+import React, { FC, PropsWithChildren } from 'react'
 import { HelmetProvider } from 'react-helmet-async'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter, Routes } from 'react-router'
+import { Route } from 'react-router-dom'
 import type i18n from '../../i18n/testConfig'
 import { testQueryClient } from './QueryClient'
 
@@ -19,7 +20,13 @@ export const QuickHarness: FC<
   <QueryClientProvider client={testQueryClient}>
     <I18nextProvider i18n={i18nConfig}>
       <HelmetProvider>
-        <MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>
+        <MemoryRouter initialEntries={initialEntries}>
+          {React.isValidElement(children) && children?.type === Route ? (
+            <Routes>{children}</Routes>
+          ) : (
+            children
+          )}
+        </MemoryRouter>
       </HelmetProvider>
     </I18nextProvider>
   </QueryClientProvider>

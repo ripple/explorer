@@ -2,7 +2,6 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { Routes } from 'react-router'
 import { BAD_REQUEST } from '../../shared/utils'
 import { Validator } from '../index'
 import { getLedger } from '../../../rippled'
@@ -32,16 +31,14 @@ describe('Validator container', () => {
     getLedger.mockImplementation(props.getLedgerImpl || defaultGetLedgerImpl)
 
     return mount(
-      <QuickHarness
-        i18n={testConfigEnglish}
-        initialEntries={[`/validators/${MOCK_IDENTIFIER}`]}
-      >
-        <NetworkContext.Provider value={props.network || 'main'}>
-          <Routes>
-            <Route path={VALIDATOR.path} element={<Validator />} />
-          </Routes>
-        </NetworkContext.Provider>
-      </QuickHarness>,
+      <NetworkContext.Provider value={props.network || 'main'}>
+        <QuickHarness
+          i18n={testConfigEnglish}
+          initialEntries={[`/validators/${MOCK_IDENTIFIER}`]}
+        >
+          <Route path={VALIDATOR.path} element={<Validator />} />
+        </QuickHarness>
+      </NetworkContext.Provider>,
     )
   }
 

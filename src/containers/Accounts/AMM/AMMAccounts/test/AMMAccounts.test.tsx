@@ -1,5 +1,5 @@
 import { mount } from 'enzyme'
-import { Route, Routes } from 'react-router'
+import { Route } from 'react-router'
 import i18n from '../../../../../i18n/testConfig'
 import * as rippled from '../../../../../rippled/lib/rippled'
 import NoMatch from '../../../../NoMatch'
@@ -54,9 +54,7 @@ describe('AMM Account Page', () => {
         i18n={i18n}
         initialEntries={[`/accounts/${TEST_ACCOUNT_ID}`]}
       >
-        <Routes>
-          <Route path="/accounts/:id" element={<AMMAccounts />} />
-        </Routes>
+        <Route path="/accounts/:id" element={<AMMAccounts />} />
       </QuickHarness>,
     )
 

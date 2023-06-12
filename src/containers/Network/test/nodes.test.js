@@ -1,6 +1,6 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
-import { Route, Routes } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import i18n from '../../../i18n/testConfig'
 import { Network } from '../index'
 import mockNodes from './mockNodes.json'
@@ -18,13 +18,11 @@ jest.mock('usehooks-ts', () => ({
 describe('Nodes Page container', () => {
   const createWrapper = () =>
     mount(
-      <QuickHarness i18n={i18n} initialEntries={['/network/nodes']}>
-        <NetworkContext.Provider value="main">
-          <Routes>
-            <Route path="/network/:tab" element={<Network />} />
-          </Routes>
-        </NetworkContext.Provider>
-      </QuickHarness>,
+      <NetworkContext.Provider value="main">
+        <QuickHarness i18n={i18n} initialEntries={['/network/nodes']}>
+          <Route path="/network/:tab" element={<Network />} />
+        </QuickHarness>
+      </NetworkContext.Provider>,
     )
 
   const oldEnvs = process.env
