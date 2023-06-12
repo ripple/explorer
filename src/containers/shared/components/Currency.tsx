@@ -1,7 +1,7 @@
-// https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 import { RouteLink } from '../routing'
 import { TOKEN } from '../../App/routes'
 
+// https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
 const XRP = 'XRP'
 

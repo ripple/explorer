@@ -60,6 +60,7 @@ export const App = () => {
     return <Navigate to="/network/upgrade-status" />
   }
 
+  // Defined here rather than ./routes to avoid circular dependencies when using RouteDefinitions with <RouteLink>.
   const routes: [RouteDefinition<any>, any][] = [
     [LEDGERS, Ledgers],
     [LEDGER, Ledger],

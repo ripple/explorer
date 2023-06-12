@@ -10,6 +10,7 @@ import AccountHeader from '../AccountHeader'
 import { AccountTransactionTable } from '../AccountTransactionTable'
 import mockAccountState from './mockAccountState.json'
 import { QuickHarness } from '../../test/utils'
+import { ACCOUNT } from '../../App/routes'
 
 describe('Account container', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
@@ -24,7 +25,7 @@ describe('Account container', () => {
           i18n={i18n}
           initialEntries={[`/accounts/${TEST_ACCOUNT_ID}`]}
         >
-          <Route path="/accounts/:id" element={<Accounts />} />
+          <Route path={ACCOUNT.path} element={<Accounts />} />
         </QuickHarness>
       </Provider>,
     )
