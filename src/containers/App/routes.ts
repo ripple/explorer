@@ -63,17 +63,20 @@ export const VALIDATOR: RouteDefinition<{
   path: `/validators/:identifier/:tab?`,
 }
 
+const isNetwork = (path) =>
+  path.indexOf('/network') === 0 || path.indexOf('/validators') === 0
+
 // NOTE: for submenus, remove `path` field and add `children` array of objects
 export const navigationConfig: NavigationMenuAnyRoute[] = [
   {
     route: LEDGERS,
     title: 'explorer',
-    current: (path: string) => path.indexOf('/network') !== 0,
+    current: (path: string) => !isNetwork(path),
   },
   {
     route: NETWORK,
     title: 'network',
-    current: (path: string) => path.indexOf('/network') === 0,
+    current: (path: string) => isNetwork(path),
   },
   {
     link: 'https://xrpl.org',
