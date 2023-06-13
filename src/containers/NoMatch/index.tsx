@@ -36,6 +36,7 @@ const NoMatch = ({
     track('not_found', {
       description: `${title} -- ${hints.join(', ')}`,
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- hints has to be spread to prevent this from running multiple times
   }, [...hints, title, track])
 
   const notFound = title.includes('not_found')

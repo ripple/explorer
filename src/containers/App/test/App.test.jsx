@@ -16,11 +16,9 @@ import { flushPromises } from '../../test/utils'
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
 // and the routing won't actually happen in the test
-let originalBrowserRouter
 jest.mock('react-router-dom', () => {
   // Require the original module to not be mocked...
   const originalModule = jest.requireActual('react-router-dom')
-  originalBrowserRouter = originalModule.BrowserRouter
   return {
     __esModule: true,
     ...originalModule,
@@ -144,7 +142,7 @@ describe('App container', () => {
     expect(document.title).toEqual('xrpl_explorer | ledgers')
     expect(window.dataLayer).toEqual([
       {
-        page_path: '/ledgers', // TODO: This is wrong.  Check again when upgrading to react-router@6
+        page_path: '/',
         page_title: `xrpl_explorer | ledgers`,
         event: 'screen_view',
         network: 'mainnet',
@@ -321,9 +319,8 @@ describe('App container', () => {
       )
       expect(window.dataLayer).toEqual([
         {
-          // TODO: This is wrong.  Check again when upgrading to react-router@6
           page_path:
-            '/#/transactions/50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774',
+            '/transactions/50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774',
           event: 'screen_view',
           network: 'mainnet',
           page_title: 'xrpl_explorer | transaction_short 50BB0CC6...',
@@ -344,8 +341,7 @@ describe('App container', () => {
       expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
       expect(window.dataLayer).toEqual([
         {
-          // TODO: This is wrong.  Check again when upgrading to react-router@6
-          page_path: '/#/graph/rZaChweF5oXn#ssss',
+          page_path: '/accounts/rZaChweF5oXn#ssss',
           page_title: 'xrpl_explorer | rZaChweF5oXn...',
           event: 'screen_view',
           network: 'mainnet',

@@ -19,7 +19,7 @@ const SidechainHome = () => {
 
   useEffect(() => {
     trackScreenLoaded()
-  }, [])
+  }, [trackScreenLoaded])
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK

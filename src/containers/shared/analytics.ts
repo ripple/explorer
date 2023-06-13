@@ -105,7 +105,7 @@ export const AnalyticsSetPath = () => {
     setGlobals({
       page_path: url,
     })
-  }, [])
+  }, [hash, pathname, search, setGlobals])
 
   return null
 }

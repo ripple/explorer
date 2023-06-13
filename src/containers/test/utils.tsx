@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useEffect } from 'react'
+import { FC, PropsWithChildren } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
