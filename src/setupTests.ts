@@ -20,3 +20,7 @@ jest.spyOn(console, 'error')
 // @ts-expect-error
 // eslint-disable-next-line no-console -- only for tests
 console.error.mockImplementation(() => {})
+
+afterEach(() => {
+  window.dataLayer = []
+})

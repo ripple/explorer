@@ -36,7 +36,7 @@ const NoMatch = ({
     track('not_found', {
       description: `${title} -- ${hints.join(', ')}`,
     })
-  }, [hints, title, t, track])
+  }, [...hints, title, track])
 
   const notFound = title.includes('not_found')
   const hintMsg = hints.map((hint) => (

@@ -82,7 +82,7 @@ export const Ledger = () => {
 
   useEffect(() => {
     trackScreenLoaded()
-  }, [ledgerData, trackScreenLoaded])
+  }, [trackScreenLoaded])
 
   const renderNav = (data: any) => {
     const { ledger_index: LedgerIndex, ledger_hash: LedgerHash } = data

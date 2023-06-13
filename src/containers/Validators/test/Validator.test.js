@@ -1,15 +1,12 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { useParams } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { BAD_REQUEST } from '../../shared/utils'
 import { Validator } from '../index'
 import { getLedger } from '../../../rippled'
 import NetworkContext from '../../shared/NetworkContext'
 import testConfigEnglish from '../../../i18n/testConfigEnglish'
 import { QuickHarness, flushPromises } from '../../test/utils'
-
-Helmet.defaultProps.defer = false
 
 global.location = '/validators/aaaa'
 

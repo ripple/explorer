@@ -1,4 +1,5 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
+import { useLocation } from 'react-router'
 
 /* eslint-disable camelcase -- GA uses underscores for the names */
 export type AnalyticsEventNames =
@@ -50,18 +51,9 @@ class Analytics {
   }
 
   trackScreenLoaded(fields?: AnalyticsFields) {
-    // remove the custom mode's endpoint from the url path
-    const url =
-      (process.env.VITE_ENVIRONMENT === 'custom'
-        ? `/${window.location.pathname.split('/').slice(2).join('/')}`
-        : window.location.pathname) +
-      window.location.search +
-      window.location.hash
-
     this.track('screen_view', {
       ...fields,
       page_title: document.title,
-      page_path: url,
     })
   }
 }
@@ -92,4 +84,28 @@ export const useAnalytics = () => {
     trackException,
     trackScreenLoaded,
   }
+}
+
+/**
+ * Sets up a hook to populate page_path from `useLocation`.  This allows for via various routers.
+ * @constructor
+ */
+export const AnalyticsSetPath = () => {
+  const { setGlobals } = useAnalytics()
+  const { hash, pathname, search } = useLocation()
+  useEffect(() => {
+    // remove the custom mode's endpoint from the url path
+    const url =
+      (process.env.VITE_ENVIRONMENT === 'custom'
+        ? `/${pathname.split('/').slice(2).join('/')}`
+        : pathname) +
+      search +
+      hash
+
+    setGlobals({
+      page_path: url,
+    })
+  }, [])
+
+  return null
 }

@@ -7,7 +7,7 @@ import { App } from './App'
 import NoMatch from '../NoMatch'
 import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'
-import { useAnalytics } from '../shared/analytics'
+import { AnalyticsSetPath, useAnalytics } from '../shared/analytics'
 
 export const AppWrapper = () => {
   const { t } = useTranslation()
@@ -20,9 +20,10 @@ export const AppWrapper = () => {
   })
   return (
     <HelmetProvider>
+      <AnalyticsSetPath />
       <div className="app-wrapper">
         <AppErrorBoundary>
-          <Helmet titleTemplate={`${t('xrpl_explorer')} | %s`} defer={false}>
+          <Helmet titleTemplate={`${t('xrpl_explorer')} | %s`}>
             <meta name="description" content={t('app.meta.description')} />
             <meta name="author" content={t('app.meta.author')} />
           </Helmet>

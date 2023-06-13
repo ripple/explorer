@@ -1,17 +1,25 @@
-import { KeyboardEvent, MouseEvent as ReactMouseEvent, useState } from 'react'
+import {
+  KeyboardEvent,
+  MouseEvent as ReactMouseEvent,
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Header } from '../Header'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
-import './index.scss'
 import { useAnalytics } from '../shared/analytics'
+import './index.scss'
 
 const SidechainHome = () => {
-  const { track } = useAnalytics()
+  const { track, trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
-
   const [networkText, setNetworkText] = useState('')
+
+  useEffect(() => {
+    trackScreenLoaded()
+  }, [])
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
@@ -58,7 +66,6 @@ const SidechainHome = () => {
 
   return (
     <div className="app">
-      {/* @ts-ignore -- TODO: I think this error is because Header isn't in TS */}
       <Header inNetwork={false} />
       <div className="custom-network-main-page">
         <div className="logo-content">
