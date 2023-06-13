@@ -29,7 +29,7 @@ jest.mock('react-router-dom', () => {
 
 jest.mock('../../Ledgers/LedgerMetrics', () => ({
   __esModule: true,
-  default: () => <></>,
+  default: () => null,
 }))
 
 jest.mock('xrpl-client', () => ({
