@@ -91,6 +91,7 @@ export default defineConfig({
       inject: {
         data: {
           VITE_GTM_ID: process.env.VITE_GTM_ID,
+          VITE_OSANO_ID: process.env.VITE_OSANO_ID,
         },
       },
     }),

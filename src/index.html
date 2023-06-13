@@ -25,6 +25,9 @@
   <script>
     window.dataLayer = window.dataLayer || [];
   </script>
+  <% if(VITE_OSANO_ID) { %>
+    <script src="https://cmp.osano.com/<%- VITE_OSANO_ID -%>/osano.js"></script>
+  <% } %>
   <% if (VITE_GTM_ID) { %>
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
