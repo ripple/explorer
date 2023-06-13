@@ -5,6 +5,7 @@ import { PayString } from '../index'
 import { getPayString } from '../../../rippled'
 import mockPayStringData from './mockPayStringData.json'
 import { QuickHarness, flushPromises } from '../../test/utils'
+import Mock = jest.Mock
 
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
@@ -16,7 +17,7 @@ jest.mock('../../../rippled', () => {
   }
 })
 
-const mockGetPayString = getPayString
+const mockGetPayString = getPayString as Mock
 
 describe('PayString container', () => {
   const TEST_PAY_ID = 'blunden$paystring.crypto.com'

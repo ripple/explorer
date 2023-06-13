@@ -7,7 +7,7 @@ import { scaleLinear } from 'd3-scale'
 import { hexbin } from 'd3-hexbin'
 import { feature } from 'topojson-client'
 import { useWindowSize } from 'usehooks-ts'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import './css/map.scss'
 
 const MAX_WIDTH = 1200

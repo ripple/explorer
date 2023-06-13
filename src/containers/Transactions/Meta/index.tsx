@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import renderAccountRoot from './AccountRoot'
 import renderDirectoryNode from './DirectoryNode'
@@ -14,7 +14,7 @@ const renderDefault = (t, action, node, index) => (
   </li>
 )
 
-export const TransactionMeta = ({ data }) => {
+export const TransactionMeta: FC<{ data: any }> = ({ data }) => {
   const language = useLanguage()
   const { t } = useTranslation()
 
@@ -22,17 +22,17 @@ export const TransactionMeta = ({ data }) => {
     const meta = list.map((node, index) => {
       switch (node.LedgerEntryType) {
         case 'AccountRoot':
-          return renderAccountRoot(t, language, action, node, index, tx)
+          return renderAccountRoot(t, language, action, node, index)
         case 'DirectoryNode':
-          return renderDirectoryNode(t, action, node, index, tx)
+          return renderDirectoryNode(t, action, node, index)
         case 'Offer':
           return renderOffer(t, language, action, node, index, tx)
         case 'RippleState':
-          return renderRippleState(t, language, action, node, index, tx)
+          return renderRippleState(t, language, action, node, index)
         case 'PayChannel':
-          return renderPayChannel(t, language, action, node, index, tx)
+          return renderPayChannel(t, language, action, node, index)
         default:
-          return renderDefault(t, action, node, index, tx)
+          return renderDefault(t, action, node, index)
       }
     })
 
@@ -61,15 +61,4 @@ export const TransactionMeta = ({ data }) => {
       {renderNodesMeta('deleted', affectedNodes.deleted, data.tx)}
     </div>
   )
-}
-
-TransactionMeta.propTypes = {
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-    ]),
-  ).isRequired,
 }
