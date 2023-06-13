@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import NetworkTabs from './NetworkTabs'
 import { Map } from './Map'
-import NodesTable from './NodesTable'
+import { NodesTable } from './NodesTable'
 import Log from '../shared/log'
 import {
   FETCH_INTERVAL_ERROR_MILLIS,

@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'
 import Tooltip from '../../shared/components/Tooltip'

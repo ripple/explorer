@@ -5,6 +5,7 @@ import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
 import { getAccountTransactions } from '../../../../rippled'
 import { flushPromises, QuickHarness } from '../../../test/utils'
+import Mock = jest.Mock
 
 jest.mock('../../../../rippled', () => ({
   __esModule: true,
@@ -19,15 +20,14 @@ describe('AccountTransactionsTable container', () => {
   })
 
   const createWrapper = (
-    getAccountTransactionsImpl = () =>
-      new Promise(
-        () => {},
-        () => {},
-      ),
-    currencySelected = null,
+    getAccountTransactionsImpl: () => Promise<any> = () =>
+      new Promise(() => {}),
+    currencySelected: string = '',
     state = { hasToken: false },
   ) => {
-    getAccountTransactions.mockImplementation(getAccountTransactionsImpl)
+    ;(getAccountTransactions as Mock).mockImplementation(
+      getAccountTransactionsImpl,
+    )
     return mount(
       <QuickHarness i18n={i18n}>
         <AccountTransactionTable
@@ -115,7 +115,7 @@ describe('AccountTransactionsTable container', () => {
   it('renders dynamic content with transaction data and token column', async () => {
     const component = createWrapper(
       () => Promise.resolve(TEST_TRANSACTIONS_DATA),
-      null,
+      undefined,
       { hasToken: true },
     )
 

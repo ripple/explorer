@@ -4,7 +4,7 @@ import axios from 'axios'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
 import Log from '../../shared/log'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import {
   formatLargeNumber,
   getLocalizedCurrencySymbol,

@@ -1,5 +1,5 @@
 import { mount } from 'enzyme'
-import Notification from '../index'
+import { Notification } from '../index'
 
 /* eslint-disable react/jsx-props-no-spreading */
 const VALID_USAGES = [
@@ -41,7 +41,7 @@ describe('<Notification />', () => {
       message,
     })
 
-    expect(wrapper.containsMatchingElement(message)).toEqual(true)
+    expect(wrapper).toHaveText(message)
   })
 
   // test all notification levels

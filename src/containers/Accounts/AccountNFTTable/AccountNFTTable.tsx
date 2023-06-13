@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
 
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
 import { useAnalytics } from '../../shared/analytics'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
