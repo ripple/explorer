@@ -42,6 +42,16 @@ function renderError(error: any) {
   )
 }
 
+const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
+  accountId,
+  children,
+}) => (
+  <div className="accounts-page">
+    <Helmet title={`AMM ${accountId.substr(0, 12)}...`} />
+    {children}
+  </div>
+)
+
 export const AMMAccounts = () => {
   const { id: accountId, tab = 'transactions' } = useParams<{
     id: string
@@ -127,17 +137,10 @@ export const AMMAccounts = () => {
     })
   }, [data, trackScreenLoaded])
 
-  const Page: FC<PropsWithChildren<{}>> = ({ children }) => (
-    <div className="accounts-page">
-      <Helmet title={`AMM ${accountId.substr(0, 12)}...`} />
-      {children}
-    </div>
-  )
-
   const tabs = ['transactions']
 
   if (error) {
-    return <Page>{renderError(error)}</Page>
+    return <Page accountId={accountId}>{renderError(error)}</Page>
   }
 
   return (

@@ -28,6 +28,16 @@ const DEFAULT_ERROR: ErrorMessage = {
 
 const getErrorMessage = (error: any) => ERROR_MESSAGES[error] ?? DEFAULT_ERROR
 
+const Page: FC<PropsWithChildren<{ tokenId: string }>> = ({
+  tokenId,
+  children,
+}) => (
+  <div className="nft-page">
+    <Helmet title={`NFT ${tokenId.substr(0, 12)}...`} />
+    {children}
+  </div>
+)
+
 export const NFT = () => {
   const { trackScreenLoaded } = useAnalytics()
   const { id: tokenId } = useParams<{ id: string }>()
@@ -52,18 +62,11 @@ export const NFT = () => {
     )
   }
 
-  const Page: FC<PropsWithChildren<{}>> = ({ children }) => (
-    <div className="nft-page">
-      <Helmet title={`NFT ${tokenId.substr(0, 12)}...`} />
-      {children}
-    </div>
-  )
-
   if (error) {
-    return <Page>{renderError()}</Page>
+    return <Page tokenId={tokenId}>{renderError()}</Page>
   }
   return (
-    <Page>
+    <Page tokenId={tokenId}>
       {tokenId && <NFTHeader tokenId={tokenId} setError={setError} />}
       {tokenId && <NFTTabs tokenId={tokenId} />}
       {!tokenId && (

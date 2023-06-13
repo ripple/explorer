@@ -34,6 +34,16 @@ const ERROR_MESSAGES: ErrorMessages = {
 const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
+const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
+  accountId,
+  children,
+}) => (
+  <div className="token-page">
+    <Helmet title={`${accountId.substring(0, 12)}...`} />
+    {children}
+  </div>
+)
+
 const Token: FC<{ error: string }> = ({ error }) => {
   const { trackScreenLoaded } = useAnalytics()
   const { currency, id: accountId } = useParams<{
@@ -58,19 +68,12 @@ const Token: FC<{ error: string }> = ({ error }) => {
     return <NoMatch title={message.title} hints={message.hints} />
   }
 
-  const Page: FC<PropsWithChildren<{}>> = ({ children }) => (
-    <div className="token-page">
-      <Helmet title={`${accountId.substring(0, 12)}...`} />
-      {children}
-    </div>
-  )
-
   if (error) {
-    return <Page>{renderError()}</Page>
+    return <Page accountId={accountId}>{renderError()}</Page>
   }
 
   return (
-    <Page>
+    <Page accountId={accountId}>
       {accountId && <TokenHeader accountId={accountId} currency={currency} />}
       {accountId && IS_MAINNET && (
         <DEXPairs accountId={accountId} currency={currency} />

@@ -39,4 +39,4 @@ export const loadAccountState = (accountId, rippledSocket) => (dispatch) => {
     })
 }
 
-export { loadAccountState as default }
+export default loadAccountState

@@ -26,7 +26,6 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
       },
     ],
-    'jsx-a11y/href-no-hash': 'off',
     'jsx-a11y/anchor-is-valid': [
       'warn',
       {
@@ -34,7 +33,6 @@ module.exports = {
       },
     ],
     'no-bitwise': 'off',
-    'react/jsx-props-no-spreading': 'warn',
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -64,6 +62,8 @@ module.exports = {
     ],
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
+    'no-promise-executor-return': 'off',
+    'react/function-component-definition': 'off',
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
