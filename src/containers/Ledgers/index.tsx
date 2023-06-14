@@ -1,18 +1,15 @@
 import { useContext, useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import axios from 'axios'
-import { Helmet } from 'react-helmet-async'
 import Log from '../shared/log'
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  FETCH_INTERVAL_ERROR_MILLIS,
-} from '../shared/utils'
+import { FETCH_INTERVAL_ERROR_MILLIS } from '../shared/utils'
 import Streams from '../shared/components/Streams'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
 import { Ledger, ValidatorResponse } from './types'
+import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
 import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
@@ -20,6 +17,7 @@ import { useLanguage } from '../shared/hooks'
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
 const LedgersPage = () => {
+  const { trackScreenLoaded } = useAnalytics()
   const [validators, setValidators] = useState<
     Record<string, ValidatorResponse>
   >({})
@@ -34,12 +32,11 @@ const LedgersPage = () => {
   const language = useLanguage()
 
   useEffect(() => {
-    /* @ts-ignore */
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Ledgers', path: '/' })
+    trackScreenLoaded()
     return () => {
       window.scrollTo(0, 0)
     }
-  }, [])
+  }, [trackScreenLoaded])
 
   const fetchValidators = () => {
     const url = `${process.env.VITE_DATA_URL}/validators/${network}`

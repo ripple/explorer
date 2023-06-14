@@ -7,9 +7,8 @@ import { Helmet } from 'react-helmet-async'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
+import { useAnalytics } from '../shared/analytics'
 import {
-  analytics,
-  ANALYTIC_TYPES,
   FETCH_INTERVAL_ERROR_MILLIS,
   FETCH_INTERVAL_VHS_MILLIS,
   NOT_FOUND,
@@ -40,11 +39,12 @@ const getErrorMessage = (error: keyof typeof ERROR_MESSAGES | null) =>
   (error && ERROR_MESSAGES[error]) || ERROR_MESSAGES.default
 
 export const Validator = () => {
-  const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const network = useContext(NetworkContext)
   const { identifier = '', tab = 'details' } = useRouteParams(VALIDATOR_ROUTE)
   const { width } = useWindowSize()
+  const { trackException, trackScreenLoaded } = useAnalytics()
+  const { t } = useTranslation()
 
   const {
     data,
@@ -73,11 +73,8 @@ export const Validator = () => {
   )
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, {
-      title: 'Validator',
-      path: `/validators/:identifier/${tab}`,
-    })
-  }, [tab, data])
+    trackScreenLoaded({ validator: identifier })
+  }, [identifier, tab, trackScreenLoaded])
 
   function fetchValidatorReport(): Promise<ValidatorReport[]> {
     return axios
@@ -113,9 +110,7 @@ export const Validator = () => {
           axiosError.response && axiosError.response.status
             ? axiosError.response.status
             : SERVER_ERROR
-        analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `${url} --- ${JSON.stringify(axiosError)}`,
-        })
+        trackException(`${url} --- ${JSON.stringify(axiosError)}`)
         return Promise.reject(status)
       })
   }
@@ -184,6 +179,7 @@ export const Validator = () => {
 
     return (
       <>
+        {renderPageTitle()}
         {renderSummary()}
         {renderTabs()}
         <div className="tab-body">{body}</div>

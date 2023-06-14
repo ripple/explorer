@@ -6,8 +6,6 @@ const QUADRILLION = TRILLION * THOUSAND
 
 const TRADING_FEE_TOTAL = 1000
 
-const GA_ID = process.env.VITE_GA_ID
-
 const EXOTIC_SYMBOLS = {
   BTC: '\u20BF',
   XRP: '\uE900',
@@ -45,14 +43,6 @@ export const BREAKPOINTS = {
   landscape: 900,
   portrait: 600,
   phone: 415,
-}
-
-export const ANALYTIC_TYPES = {
-  pageview: 'pageview',
-  event: 'event',
-  social: 'social',
-  timing: 'timing',
-  exception: 'exception',
 }
 
 const NUMBER_DEFAULT_OPTIONS = {
@@ -250,51 +240,6 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
     num: d.toFixed(variableDigits),
     unit: '',
   }
-}
-
-// Document: https://developers.google.com/analytics/devguides/collection/analyticsjs/
-export const analytics = (type, fields = {}) => {
-  // Chek if GoogleAnalytics is set, type and fields are not empty, type is valid
-  if (
-    !window.gtag ||
-    !type ||
-    Object.keys(fields).length === 0 ||
-    Object.keys(ANALYTIC_TYPES).indexOf(type) === -1
-  ) {
-    return false
-  }
-
-  // Check for required fields for each type
-  switch (type) {
-    case ANALYTIC_TYPES.pageview:
-      if (!!fields.title && !!fields.path) {
-        window.gtag('config', GA_ID, {
-          page_title: fields.title,
-          page_path: fields.path,
-        })
-        return true
-      }
-      break
-    case ANALYTIC_TYPES.event:
-      if (!!fields.eventCategory && !!fields.eventAction) {
-        window.gtag('event', fields.eventAction, {
-          event_category: fields.eventCategory,
-          event_label: fields.eventLabel,
-        })
-        return true
-      }
-      break
-    case ANALYTIC_TYPES.exception:
-      if (fields.exDescription) {
-        window.gtag('event', 'exception', { description: fields.exDescription })
-        return true
-      }
-      break
-    default:
-      return false
-  }
-
-  return false
 }
 
 export const durationToHuman = (s, decimal = 2) => {

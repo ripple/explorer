@@ -1,26 +1,25 @@
 import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
+import { NETWORK_ROUTE } from '../App/routes'
+import { useAnalytics } from '../shared/analytics'
+import { useRouteParams } from '../shared/routing'
 import NetworkContext from '../shared/NetworkContext'
 import { Validators } from './Validators'
 import { UpgradeStatus } from './UpgradeStatus'
 import { Nodes } from './Nodes'
 import NoMatch from '../NoMatch'
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
-import { useRouteParams } from '../shared/routing'
-import { NETWORK_ROUTE } from '../App/routes'
 
 export const Network = () => {
+  const { trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
   const { tab = 'nodes' } = useRouteParams(NETWORK_ROUTE)
   const network = useContext(NetworkContext)
+
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, {
-      title: 'network',
-      path: `/network/${tab || 'nodes'}`,
-    })
-  })
+    trackScreenLoaded()
+  }, [tab, trackScreenLoaded])
 
   if (network === null) {
     return (

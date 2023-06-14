@@ -11,6 +11,7 @@ import AppErrorBoundary from './AppErrorBoundary'
 import NoMatch from '../NoMatch'
 import { Header } from '../Header'
 import { queryClient } from '../shared/QueryClient'
+import { AnalyticsSetPath, useAnalytics } from '../shared/analytics'
 import { RouteDefinition } from '../shared/routing'
 import {
   ACCOUNT_ROUTE,
@@ -35,10 +36,15 @@ import { NFT } from '../NFT/NFT'
 import { LegacyRoutes } from './LegacyRoutes'
 
 export const AppWrapper = () => {
-  const { t } = useTranslation()
-  const location = useLocation()
   const mode = process.env.VITE_ENVIRONMENT
 
+  const { setGlobals } = useAnalytics()
+  const { t } = useTranslation()
+  const location = useLocation()
+
+  setGlobals({
+    network: mode,
+  })
   const rippledUrl = mode === 'custom' ? location.pathname.split('/')[1] : ''
   const basename = mode === 'custom' ? `/${rippledUrl}` : ''
   const updatePath = (path) => `${basename}${path}`
@@ -58,6 +64,7 @@ export const AppWrapper = () => {
 
   return (
     <HelmetProvider>
+      <AnalyticsSetPath />
       <LegacyRoutes basename={basename} />
       <QueryClientProvider client={queryClient}>
         <div className="app-wrapper">

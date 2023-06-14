@@ -3,25 +3,26 @@ import { Helmet } from 'react-helmet-async'
 import AccountHeader from './AccountHeader'
 import { AccountTransactionTable } from './AccountTransactionTable'
 import './styles.scss'
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
+import { useAnalytics } from '../shared/analytics'
 import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
 import { buildPath, useRouteParams } from '../shared/routing'
 import { ACCOUNT_ROUTE } from '../App/routes'
 
 export const Accounts = () => {
+  const { trackScreenLoaded } = useAnalytics()
   const { id: accountId = '', tab = 'transactions' } =
     useRouteParams(ACCOUNT_ROUTE)
   const [currencySelected, setCurrencySelected] = useState('XRP')
   const mainPath = buildPath(ACCOUNT_ROUTE, { id: accountId })
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })
+    trackScreenLoaded()
 
     return () => {
       window.scrollTo(0, 0)
     }
-  })
+  }, [tab, trackScreenLoaded])
 
   const tabs = ['transactions', 'assets']
 

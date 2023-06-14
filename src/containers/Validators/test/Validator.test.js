@@ -1,7 +1,6 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { BAD_REQUEST } from '../../shared/utils'
 import { Validator } from '../index'
 import { getLedger } from '../../../rippled'
@@ -9,8 +8,6 @@ import NetworkContext from '../../shared/NetworkContext'
 import testConfigEnglish from '../../../i18n/testConfigEnglish'
 import { QuickHarness, flushPromises } from '../../test/utils'
 import { VALIDATOR_ROUTE } from '../../App/routes'
-
-Helmet.defaultProps.defer = false
 
 global.location = '/validators/aaaa'
 
@@ -70,6 +67,7 @@ describe('Validator container', () => {
         response: {
           domain: 'example.com',
           ledger_hash: 'sample-ledger-hash',
+          master_key: 'foo',
         },
       },
     )
@@ -122,6 +120,7 @@ describe('Validator container', () => {
       {
         status: 200,
         response: {
+          master_key: 'foo',
           domain: 'test.example.com',
           current_index: '12345',
         },

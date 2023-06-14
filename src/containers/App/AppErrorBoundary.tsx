@@ -1,6 +1,6 @@
 import { Component, ErrorInfo, PropsWithChildren } from 'react'
 
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
+import { analytics } from '../shared/analytics'
 
 export type AppErrorBoundaryProps = PropsWithChildren<{}>
 /**
@@ -8,11 +8,9 @@ export type AppErrorBoundaryProps = PropsWithChildren<{}>
  */
 class AppErrorBoundary extends Component<AppErrorBoundaryProps> {
   componentDidCatch(error: Error, info: ErrorInfo) {
-    analytics(ANALYTIC_TYPES.exception, {
-      exDescription: `${error.toString()} -------->>>>>  ${
-        info.componentStack
-      }`,
-    })
+    analytics.trackException(
+      `${error.toString()} -------->>>>>  ${info.componentStack}`,
+    )
   }
 
   render() {

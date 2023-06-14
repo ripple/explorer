@@ -4,14 +4,11 @@ import { Helmet } from 'react-helmet-async'
 import NoMatch from '../NoMatch'
 import { NFTHeader } from './NFTHeader/NFTHeader'
 import { NFTTabs } from './NFTTabs/NFTTabs'
-import './styles.scss'
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  NOT_FOUND,
-  BAD_REQUEST,
-} from '../shared/utils'
+import { useAnalytics } from '../shared/analytics'
+import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
+import { parseIssuerFromNFTokenID } from '../../rippled/NFTTransactions'
+import './styles.scss'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
   [NOT_FOUND]: {
@@ -42,15 +39,19 @@ const Page: FC<PropsWithChildren<{ tokenId: string }>> = ({
 )
 
 export const NFT = () => {
+  const { trackScreenLoaded } = useAnalytics()
   const { id: tokenId = '' } = useParams<{ id: string }>()
   const [error, setError] = useState<number | null>(null)
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/nft/:id' })
+    trackScreenLoaded({
+      nftoken_id: tokenId,
+      issuer: parseIssuerFromNFTokenID(tokenId),
+    })
     return () => {
       window.scrollTo(0, 0)
     }
-  }, [])
+  }, [tokenId, trackScreenLoaded])
 
   const renderError = () => {
     const message = getErrorMessage(error)

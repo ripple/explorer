@@ -9,12 +9,8 @@ import { DEXPairs } from './DEXPairs'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  NOT_FOUND,
-  BAD_REQUEST,
-} from '../shared/utils'
+import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
+import { useAnalytics } from '../shared/analytics'
 import { ErrorMessages } from '../shared/Interfaces'
 import { TOKEN_ROUTE } from '../App/routes'
 import { useRouteParams } from '../shared/routing'
@@ -50,17 +46,21 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 )
 
 const Token: FC<{ error: string }> = ({ error }) => {
+  const { trackScreenLoaded } = useAnalytics()
   const { token = '' } = useRouteParams(TOKEN_ROUTE)
   const [currency, accountId] = token.split('.')
   const { t } = useTranslation()
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })
+    trackScreenLoaded({
+      issuer: accountId,
+      currency_code: currency,
+    })
 
     return () => {
       window.scrollTo(0, 0)
     }
-  }, [accountId, t])
+  }, [accountId, currency, trackScreenLoaded])
 
   const renderError = () => {
     const message = getErrorMessage(error)

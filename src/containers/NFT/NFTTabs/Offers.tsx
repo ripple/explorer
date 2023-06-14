@@ -4,9 +4,9 @@ import { useInfiniteQuery } from 'react-query'
 import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import NoInfo from '../../shared/images/no_info.svg'
+import { useAnalytics } from '../../shared/analytics'
 import SocketContext from '../../shared/SocketContext'
 import { Amount } from '../../shared/components/Amount'
-import { analytics, ANALYTIC_TYPES } from '../../shared/utils'
 import '../../shared/components/TransactionTable/styles.scss' // Reuse load-more-btn
 import { formatAmount } from '../../../rippled/lib/txSummary/formatAmount'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
@@ -27,6 +27,7 @@ interface Props {
 export const Offers = (props: Props) => {
   const { t } = useTranslation()
   const { tokenId, fetchOffers, offerType } = props
+  const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
 
   const {
@@ -41,10 +42,7 @@ export const Offers = (props: Props) => {
     {
       getNextPageParam: (lastPage) => lastPage.marker,
       onError: (_e: any) => {
-        /* @ts-ignore */
-        analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `Cannot find ${offerType} for NFT ${tokenId}`,
-        })
+        trackException(`Cannot find ${offerType} for NFT ${tokenId}`)
       },
     },
   )

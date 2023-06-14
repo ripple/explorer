@@ -2,9 +2,9 @@ import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
 
-import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 import { Loader } from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
+import { useAnalytics } from '../../shared/analytics'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 import { getAccountNFTs } from '../../../rippled/lib/rippled'
 import { Account } from '../../shared/components/Account'
@@ -17,6 +17,7 @@ export interface AccountNFTTableProps {
 
 export const AccountNFTTable = ({ accountId }: AccountNFTTableProps) => {
   const rippledSocket = useContext(SocketContext)
+  const { trackException } = useAnalytics()
   const {
     data: pages,
     isFetching: loading,
@@ -28,11 +29,9 @@ export const AccountNFTTable = ({ accountId }: AccountNFTTableProps) => {
       getAccountNFTs(rippledSocket, accountId, pageParam).catch(
         (errorResponse) => {
           const errorLocation = `account NFTs ${accountId} at ${pageParam}`
-          analytics(ANALYTIC_TYPES.exception, {
-            exDescription: `${errorLocation} --- ${JSON.stringify(
-              errorResponse,
-            )}`,
-          })
+          trackException(
+            `${errorLocation} --- ${JSON.stringify(errorResponse)}`,
+          )
         },
       ),
     {

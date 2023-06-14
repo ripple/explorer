@@ -1,15 +1,16 @@
 import classnames from 'classnames'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router'
+import { Link } from 'react-router-dom'
 import Logo from '../../shared/images/XRPLedger.svg'
 import { Search } from '../Search'
 import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
 import type { defaultTranslationsKey } from '../../../../@types/i18next'
+import { useAnalytics } from '../../shared/analytics'
+import { buildPath, RouteLink, RouteDefinition } from '../../shared/routing'
 
 import './NavigationMenu.scss'
-import { buildPath, RouteLink, RouteDefinition } from '../../shared/routing'
 
 export interface NavigationMenuRoute {
   title: defaultTranslationsKey
@@ -38,6 +39,7 @@ export const NavigationMenu = ({
 }: {
   routes: NavigationMenuAnyRoute[]
 }) => {
+  const { track } = useAnalytics()
   const location = useLocation()
   const { t } = useTranslation()
   const toggle = useRef<HTMLInputElement>(null)
@@ -47,6 +49,10 @@ export const NavigationMenu = ({
     if (toggle.current) {
       toggle.current.checked = false
     }
+  }
+
+  const trackOpened = () => {
+    track('mobile_menu', {})
   }
 
   return (
@@ -62,8 +68,12 @@ export const NavigationMenu = ({
         ref={toggle}
         hidden
       />
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="navbar-toggle" htmlFor="navbar-toggle-state">
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control,jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions -- just for tracking */}
+      <label
+        className="navbar-toggle"
+        htmlFor="navbar-toggle-state"
+        onClick={trackOpened}
+      >
         <span className="navbar-toggle-line" />
       </label>
 
