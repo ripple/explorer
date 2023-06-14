@@ -4,12 +4,12 @@ import { Loader } from '../shared/components/Loader'
 import { durationToHuman } from '../shared/utils'
 import { NodeData } from '../shared/vhsTypes'
 import './css/nodesTable.scss'
-import { LEDGER } from '../App/routes'
+import { LEDGER_ROUTE } from '../App/routes'
 import { RouteLink } from '../shared/routing'
 
 const renderLastLedger = (ledger) =>
   ledger && ledger.ledger_index ? (
-    <RouteLink to={LEDGER} params={{ identifier: ledger.ledger_index }}>
+    <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledger.ledger_index }}>
       {ledger.ledger_index}
     </RouteLink>
   ) : (

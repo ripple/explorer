@@ -7,12 +7,13 @@ import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
 import { buildPath, useRouteParams } from '../shared/routing'
-import { ACCOUNT } from '../App/routes'
+import { ACCOUNT_ROUTE } from '../App/routes'
 
 export const Accounts = () => {
-  const { id: accountId = '', tab = 'transactions' } = useRouteParams(ACCOUNT)
+  const { id: accountId = '', tab = 'transactions' } =
+    useRouteParams(ACCOUNT_ROUTE)
   const [currencySelected, setCurrencySelected] = useState('XRP')
-  const mainPath = buildPath(ACCOUNT, { id: accountId })
+  const mainPath = buildPath(ACCOUNT_ROUTE, { id: accountId })
 
   useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })

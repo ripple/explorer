@@ -9,7 +9,7 @@ import successIcon from '../shared/images/success.png'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import { useLanguage } from '../shared/hooks'
 import { ValidatorSupplemented } from '../shared/vhsTypes'
-import { LEDGER } from '../App/routes'
+import { LEDGER_ROUTE } from '../App/routes'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -57,7 +57,7 @@ export const SimpleTab: FC<{
             label={`Last ${t('ledger_index')}`}
             data-test="ledger-index"
           >
-            <RouteLink to={LEDGER} params={{ identifier: ledgerIndex }}>
+            <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledgerIndex }}>
               {ledgerIndex}
             </RouteLink>
           </SimpleRow>

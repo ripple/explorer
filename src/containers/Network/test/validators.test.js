@@ -9,7 +9,7 @@ import validationMessage from './mockValidation.json'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 import { QuickHarness } from '../../test/utils'
-import { NETWORK } from '../../App/routes'
+import { NETWORK_ROUTE } from '../../App/routes'
 
 const WS_URL = 'ws://localhost:1234'
 
@@ -20,7 +20,7 @@ describe('Validators Tab container', () => {
     mount(
       <SocketContext.Provider value={client}>
         <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
-          <Route path={NETWORK.path} element={<Network />} />
+          <Route path={NETWORK_ROUTE.path} element={<Network />} />
         </QuickHarness>
       </SocketContext.Provider>,
     )

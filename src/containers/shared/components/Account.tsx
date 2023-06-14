@@ -1,5 +1,5 @@
 import { RouteLink } from '../routing'
-import { ACCOUNT } from '../../App/routes'
+import { ACCOUNT_ROUTE } from '../../App/routes'
 
 export interface AccountProps {
   account: string
@@ -18,7 +18,7 @@ export const Account = (props: AccountProps) => {
         <RouteLink
           className="account"
           title={parts[0]}
-          to={ACCOUNT}
+          to={ACCOUNT_ROUTE}
           params={{ id: parts[0] }}
         >
           {parts[0]}

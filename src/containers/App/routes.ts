@@ -2,7 +2,7 @@ import { RouteDefinition } from '../shared/routing'
 
 import { NavigationMenuAnyRoute } from '../Header/NavigationMenu'
 
-export const ACCOUNT: RouteDefinition<{
+export const ACCOUNT_ROUTE: RouteDefinition<{
   id?: string
   tab?: 'assets' | 'transactions'
   assetType?: 'issued' | 'nfts'
@@ -10,23 +10,23 @@ export const ACCOUNT: RouteDefinition<{
   path: '/accounts/:id?/:tab?/:assetType?',
 }
 
-export const LEDGERS: RouteDefinition = {
+export const LEDGERS_ROUTE: RouteDefinition = {
   path: '/',
 }
 
-export const LEDGER: RouteDefinition<{
+export const LEDGER_ROUTE: RouteDefinition<{
   identifier: number | string
 }> = {
   path: `/ledgers/:identifier`,
 }
 
-export const NETWORK: RouteDefinition<{
+export const NETWORK_ROUTE: RouteDefinition<{
   tab?: 'nodes' | 'validators' | 'upgrade-status'
 }> = {
   path: '/network/:tab?',
 }
 
-export const NFT: RouteDefinition<{
+export const NFT_ROUTE: RouteDefinition<{
   id: string
   tab?: 'transactions' | 'buy-offers' | 'sell-offers'
 }> = {
@@ -69,12 +69,12 @@ const isNetwork = (path) =>
 // NOTE: for submenus, remove `path` field and add `children` array of objects
 export const navigationConfig: NavigationMenuAnyRoute[] = [
   {
-    route: LEDGERS,
+    route: LEDGERS_ROUTE,
     title: 'explorer',
     current: (path: string) => !isNetwork(path),
   },
   {
-    route: NETWORK,
+    route: NETWORK_ROUTE,
     title: 'network',
     current: (path: string) => isNetwork(path),
   },

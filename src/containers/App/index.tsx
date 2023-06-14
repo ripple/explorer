@@ -13,11 +13,11 @@ import { Header } from '../Header'
 import { queryClient } from '../shared/QueryClient'
 import { RouteDefinition } from '../shared/routing'
 import {
-  ACCOUNT,
-  LEDGER,
-  LEDGERS,
-  NETWORK,
-  NFT as NFTRoute,
+  ACCOUNT_ROUTE,
+  LEDGER_ROUTE,
+  LEDGERS_ROUTE,
+  NETWORK_ROUTE,
+  NFT_ROUTE,
   PAYSTRING,
   TOKEN,
   TRANSACTION,
@@ -45,15 +45,15 @@ export const AppWrapper = () => {
 
   // Defined here rather than ./routes to avoid circular dependencies when using RouteDefinitions with <RouteLink>.
   const routes: [RouteDefinition<any>, any][] = [
-    [LEDGERS, Ledgers],
-    [LEDGER, Ledger],
-    [ACCOUNT, AccountsRouter],
+    [LEDGERS_ROUTE, Ledgers],
+    [LEDGER_ROUTE, Ledger],
+    [ACCOUNT_ROUTE, AccountsRouter],
     [TRANSACTION, Transaction],
-    [NETWORK, Network],
+    [NETWORK_ROUTE, Network],
     [VALIDATOR, Validator],
     [PAYSTRING, PayString],
     [TOKEN, Token],
-    [NFTRoute, NFT],
+    [NFT_ROUTE, NFT],
   ]
 
   return (

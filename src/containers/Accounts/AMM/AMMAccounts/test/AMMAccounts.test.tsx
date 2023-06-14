@@ -7,7 +7,7 @@ import { AMMAccountHeader } from '../AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from '../../../AccountTransactionTable'
 import { AMMAccounts } from '../index'
 import { flushPromises, QuickHarness } from '../../../../test/utils'
-import { ACCOUNT } from '../../../../App/routes'
+import { ACCOUNT_ROUTE } from '../../../../App/routes'
 
 function setSpy(accountTransactions: any, ammInfo: any) {
   const spyInfo = jest.spyOn(rippled, 'getAMMInfo')
@@ -55,7 +55,7 @@ describe('AMM Account Page', () => {
         i18n={i18n}
         initialEntries={[`/accounts/${TEST_ACCOUNT_ID}`]}
       >
-        <Route path={ACCOUNT.path} element={<AMMAccounts />} />
+        <Route path={ACCOUNT_ROUTE.path} element={<AMMAccounts />} />
       </QuickHarness>,
     )
 

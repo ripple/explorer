@@ -7,7 +7,7 @@ import DomainLink from '../shared/components/DomainLink'
 import InfoIcon from '../shared/images/info.svg'
 import './css/validatorsTable.scss'
 import { RouteLink } from '../shared/routing'
-import { LEDGER, VALIDATOR } from '../App/routes'
+import { LEDGER_ROUTE, VALIDATOR } from '../App/routes'
 
 class ValidatorsTable extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -108,7 +108,7 @@ class ValidatorsTable extends Component {
           style={{ color }}
           title={d.partial ? 'partial validation' : undefined}
         >
-          <RouteLink to={LEDGER} params={{ identifier: ledgerIndex }}>
+          <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledgerIndex }}>
             {ledgerIndex}
           </RouteLink>
           {d.partial && '*'}

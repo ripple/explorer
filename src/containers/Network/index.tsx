@@ -9,11 +9,11 @@ import NoMatch from '../NoMatch'
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
 import { useRouteParams } from '../shared/routing'
-import { NETWORK } from '../App/routes'
+import { NETWORK_ROUTE } from '../App/routes'
 
 export const Network = () => {
   const { t } = useTranslation()
-  const { tab = 'nodes' } = useRouteParams(NETWORK)
+  const { tab = 'nodes' } = useRouteParams(NETWORK_ROUTE)
   const network = useContext(NetworkContext)
   useEffect(() => {
     analytics(ANALYTIC_TYPES.pageview, {

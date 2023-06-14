@@ -11,7 +11,7 @@ import { CURRENCY_OPTIONS, XRP_BASE } from '../shared/transactionUtils'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
-import { LEDGER } from '../App/routes'
+import { LEDGER_ROUTE } from '../App/routes'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -48,7 +48,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
         {time}
       </SimpleRow>
       <SimpleRow label={t('ledger_index')} data-test="ledger-index">
-        <RouteLink to={LEDGER} params={{ identifier: ledgerIndex }}>
+        <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledgerIndex }}>
           {ledgerIndex}
         </RouteLink>
       </SimpleRow>

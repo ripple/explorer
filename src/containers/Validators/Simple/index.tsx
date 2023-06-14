@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../../shared/components/Transaction/SimpleRow'
 import { ValidatorScore, ValidatorSupplemented } from '../../shared/vhsTypes'
 import { RouteLink } from '../../shared/routing'
-import { LEDGER } from '../../App/routes'
+import { LEDGER_ROUTE } from '../../App/routes'
 
 export interface SimpleProps {
   data: ValidatorSupplemented
@@ -47,7 +47,10 @@ const Simple = ({ data }: SimpleProps) => {
       </div>
       {data.current_index && (
         <SimpleRow label={t('ledger')}>
-          <RouteLink to={LEDGER} params={{ identifier: data.current_index }}>
+          <RouteLink
+            to={LEDGER_ROUTE}
+            params={{ identifier: data.current_index }}
+          >
             {data?.ledger_hash || 'Unknown'}
           </RouteLink>
         </SimpleRow>

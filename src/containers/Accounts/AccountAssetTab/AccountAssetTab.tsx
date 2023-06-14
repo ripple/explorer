@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router'
 import { useRouteParams } from '../../shared/routing'
 import { AccountIssuedTokenTable } from '../AccountIssuedTokenTable'
 import { AccountNFTTable } from '../AccountNFTTable/AccountNFTTable'
-import { ACCOUNT } from '../../App/routes'
+import { ACCOUNT_ROUTE } from '../../App/routes'
 
 // TODO: Add state types or convert to react query
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 const AccountAssetTabDisconnected = ({ account }: Props) => {
   const assetTypes = ['issued', 'nft']
   const { id: accountId = '', assetType = assetTypes[0] } =
-    useRouteParams(ACCOUNT)
+    useRouteParams(ACCOUNT_ROUTE)
   const navigate = useNavigate()
   const { t } = useTranslation()
   function switchAsset(event: ChangeEvent<HTMLInputElement>) {

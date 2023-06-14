@@ -18,7 +18,7 @@ import {
   AmmDataType,
 } from './AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from '../../AccountTransactionTable'
-import { ACCOUNT } from '../../../App/routes'
+import { ACCOUNT_ROUTE } from '../../../App/routes'
 import { buildPath, useRouteParams } from '../../../shared/routing'
 
 const getErrorMessage = (error: string) =>
@@ -52,8 +52,9 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 )
 
 export const AMMAccounts = () => {
-  const { id: accountId = '', tab = 'transactions' } = useRouteParams(ACCOUNT)
-  const mainPath = buildPath(ACCOUNT, { id: accountId })
+  const { id: accountId = '', tab = 'transactions' } =
+    useRouteParams(ACCOUNT_ROUTE)
+  const mainPath = buildPath(ACCOUNT_ROUTE, { id: accountId })
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
 

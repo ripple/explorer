@@ -15,7 +15,7 @@ import {
 import './detailTab.scss'
 import { useLanguage } from '../shared/hooks'
 import { RouteLink } from '../shared/routing'
-import { LEDGER } from '../App/routes'
+import { LEDGER_ROUTE } from '../App/routes'
 
 export const DetailTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
@@ -43,7 +43,7 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
         {t('transaction_validated')}
         <RouteLink
           className="ledger"
-          to={LEDGER}
+          to={LEDGER_ROUTE}
           params={{ identifier: data.ledger_index }}
         >
           {data.ledger_index}

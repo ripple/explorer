@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom'
 import { NFT } from '../NFT'
 import i18n from '../../../i18n/testConfig'
 import { QuickHarness } from '../../test/utils'
-import { NFT as NFT_ROUTE } from '../../App/routes'
+import { NFT_ROUTE } from '../../App/routes'
 
 describe('NFT container', () => {
   const nftId =

@@ -13,7 +13,7 @@ import { getAction, getCategory } from '../shared/components/Transaction'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import { Legend } from './Legend'
 import { RouteLink } from '../shared/routing'
-import { LEDGER, TRANSACTION } from '../App/routes'
+import { LEDGER_ROUTE, TRANSACTION } from '../App/routes'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -112,7 +112,7 @@ class Ledgers extends Component {
         className={`ledger-index ${flagLedger ? 'flag-ledger' : ''}`}
         title={flagLedger ? t('flag_ledger') : ''}
       >
-        <RouteLink to={LEDGER} params={{ identifier: ledgerIndex }}>
+        <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledgerIndex }}>
           {ledgerIndex}
         </RouteLink>
       </div>
