@@ -8,10 +8,9 @@ import {
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
+import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
 import {
-  analytics,
-  ANALYTIC_TYPES,
   CURRENCY_REGEX,
   DECIMAL_REGEX,
   FULL_CURRENCY_REGEX,
@@ -99,6 +98,7 @@ export interface SearchProps {
 }
 
 export const Search = ({ callback = () => {} }: SearchProps) => {
+  const { track } = useAnalytics()
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
   const history = useHistory()
@@ -106,10 +106,9 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   const handleSearch = async (id: string) => {
     const type = await getIdType(id, socket)
 
-    analytics(ANALYTIC_TYPES.event, {
-      eventCategory: 'globalSearch',
-      eventAction: type,
-      eventLabel: id,
+    track('search', {
+      search_term: id,
+      search_category: type,
     })
 
     history.push(

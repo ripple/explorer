@@ -4,11 +4,12 @@ import { useParams, useRouteMatch } from 'react-router'
 import AccountHeader from './AccountHeader'
 import { AccountTransactionTable } from './AccountTransactionTable'
 import './styles.scss'
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
+import { useAnalytics } from '../shared/analytics'
 import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
 
 export const Accounts = () => {
+  const { trackScreenLoaded } = useAnalytics()
   const { id: accountId, tab = 'transactions' } = useParams<{
     id: string
     tab: 'assets' | 'transactions'
@@ -18,12 +19,12 @@ export const Accounts = () => {
   const mainPath = `${path.split('/:')[0]}/${accountId}`
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })
+    trackScreenLoaded()
 
     return () => {
       window.scrollTo(0, 0)
     }
-  })
+  }, [tab, trackScreenLoaded])
 
   const tabs = ['transactions', 'assets']
 

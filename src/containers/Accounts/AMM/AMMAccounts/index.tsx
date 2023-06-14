@@ -10,7 +10,8 @@ import {
   getAMMInfo,
 } from '../../../../rippled/lib/rippled'
 import { Tabs } from '../../../shared/components/Tabs'
-import { analytics, ANALYTIC_TYPES, formatAsset } from '../../../shared/utils'
+import { useAnalytics } from '../../../shared/analytics'
+import { formatAsset } from '../../../shared/utils'
 import SocketContext from '../../../shared/SocketContext'
 import { ERROR_MESSAGES } from '../../Errors'
 import NoMatch from '../../../NoMatch'
@@ -19,6 +20,7 @@ import {
   AmmDataType,
 } from './AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from '../../AccountTransactionTable'
+import { hexToString } from '../../../shared/components/Currency'
 
 const getErrorMessage = (error: string) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -59,6 +61,7 @@ export const AMMAccounts = () => {
   const mainPath = `${path.split('/:')[0]}/${accountId}`
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
+  const { trackException, trackScreenLoaded } = useAnalytics()
 
   const { data, error } = useQuery([accountId, language], () => {
     let asset1: { currency: string; issuer?: string }
@@ -106,24 +109,33 @@ export const AMMAccounts = () => {
           return ammInfo
         })
         .catch((e) => {
-          analytics(ANALYTIC_TYPES.exception, {
-            exDescription: `Error setting up amm account --- ${JSON.stringify(
-              e,
-            )}`,
-          })
+          trackException(
+            `Error setting up amm account --- ${JSON.stringify(e)}`,
+          )
 
           throw e
         })
     )
   })
 
-  useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })
-
-    return () => {
+  useEffect(
+    () => () => {
       window.scrollTo(0, 0)
+    },
+    [],
+  )
+
+  useEffect(() => {
+    if (!data) {
+      return
     }
-  })
+
+    trackScreenLoaded({
+      account_id: data.accountId,
+      asset1: `${hexToString(data.balance.currency)}.${data.balance.issuer}`,
+      asset2: `${hexToString(data.balance2.currency)}.${data.balance2.issuer}`,
+    })
+  }, [data, trackScreenLoaded])
 
   const tabs = ['transactions']
 
@@ -133,6 +145,9 @@ export const AMMAccounts = () => {
 
   return (
     <div className="accounts-page section">
+      <Helmet>
+        <title>AMM {accountId.substr(0, 12)}...</title>
+      </Helmet>
       {data && (
         <>
           <AMMAccountHeader data={data} />

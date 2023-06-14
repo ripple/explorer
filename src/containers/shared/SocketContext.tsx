@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useEffect, useState } from 'react'
 import { XrplClient } from 'xrpl-client'
+import { useAnalytics } from './analytics'
 
 const LOCALHOST_URLS = ['localhost', '127.0.0.1', '0.0.0.0']
 
@@ -67,6 +68,13 @@ export const SocketProvider = ({
   rippledUrl,
 }: SocketProviderProps) => {
   const socket = getSocket(rippledUrl)
+  const { setGlobals } = useAnalytics()
+
+  socket.once('online', () => {
+    setGlobals({
+      entrypoint: socket.getState().server.uri,
+    })
+  })
 
   useEffect(() => () => {
     socket.close()
@@ -80,7 +88,7 @@ export const SocketProvider = ({
 }
 
 /**
- * Hook that says whether or not the global socket is currently connected
+ * Hook that says whether the global socket is currently connected
  */
 const useIsOnline = () => {
   const rippledSocket = useContext(SocketContext)

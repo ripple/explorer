@@ -20,7 +20,6 @@ import { NetworkProvider } from '../shared/NetworkContext'
 export const App = () => {
   const location = useLocation()
   const { rippledUrl = undefined } = useParams<{ rippledUrl: string }>()
-
   const urlLink = rippledUrl ? `/${rippledUrl}` : ''
 
   /* START: Map legacy routes to new routes */

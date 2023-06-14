@@ -90,7 +90,8 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          VITE_GA_ID: process.env.VITE_GA_ID,
+          VITE_GTM_ID: process.env.VITE_GTM_ID,
+          VITE_OSANO_ID: process.env.VITE_OSANO_ID,
         },
       },
     }),
