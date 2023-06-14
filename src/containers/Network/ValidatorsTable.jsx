@@ -7,7 +7,7 @@ import DomainLink from '../shared/components/DomainLink'
 import InfoIcon from '../shared/images/info.svg'
 import './css/validatorsTable.scss'
 import { RouteLink } from '../shared/routing'
-import { LEDGER_ROUTE, VALIDATOR } from '../App/routes'
+import { LEDGER_ROUTE, VALIDATOR_ROUTE } from '../App/routes'
 
 class ValidatorsTable extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -86,7 +86,7 @@ class ValidatorsTable extends Component {
     return (
       <tr key={pubkey}>
         <td className="pubkey text-truncate" title={pubkey}>
-          <RouteLink to={VALIDATOR} params={{ identifier: pubkey }}>
+          <RouteLink to={VALIDATOR_ROUTE} params={{ identifier: pubkey }}>
             {pubkey}
           </RouteLink>
         </td>

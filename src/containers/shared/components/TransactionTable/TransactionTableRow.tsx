@@ -6,7 +6,7 @@ import './styles.scss'
 import { useLanguage } from '../../hooks'
 import TxToken from '../TxToken'
 import { RouteLink } from '../../routing'
-import { TRANSACTION } from '../../../App/routes'
+import { TRANSACTION_ROUTE } from '../../../App/routes'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -37,7 +37,7 @@ export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
       }`}
     >
       <RouteLink
-        to={TRANSACTION}
+        to={TRANSACTION_ROUTE}
         params={{ identifier: tx.hash }}
         className="mask-overlay"
       />

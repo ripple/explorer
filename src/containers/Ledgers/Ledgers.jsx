@@ -13,7 +13,7 @@ import { getAction, getCategory } from '../shared/components/Transaction'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import { Legend } from './Legend'
 import { RouteLink } from '../shared/routing'
-import { LEDGER_ROUTE, TRANSACTION } from '../App/routes'
+import { LEDGER_ROUTE, TRANSACTION_ROUTE } from '../App/routes'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -148,7 +148,7 @@ class Ledgers extends Component {
       onMouseOver={(e) => this.showTooltip('tx', e, tx)}
       onFocus={(e) => {}}
       onMouseLeave={this.hideTooltip}
-      to={TRANSACTION}
+      to={TRANSACTION_ROUTE}
       params={{ identifier: tx.hash }}
     >
       <TransactionActionIcon type={tx.type} />

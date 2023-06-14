@@ -4,7 +4,7 @@ import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { RouteLink } from '../../../routing'
-import { TRANSACTION } from '../../../../App/routes'
+import { TRANSACTION_ROUTE } from '../../../../App/routes'
 
 const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation()
@@ -56,7 +56,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         >
           <RouteLink
             className="hash"
-            to={TRANSACTION}
+            to={TRANSACTION_ROUTE}
             params={{ identifier: previousTx }}
           >
             {previousTx}

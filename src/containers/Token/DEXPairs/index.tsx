@@ -15,6 +15,8 @@ import { PairStats } from './PairStats'
 import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
 import { Pair } from './types'
+import { TOKEN_ROUTE } from '../../App/routes'
+import { RouteLink } from '../../shared/routing'
 
 // Hard Coded Pairs that we always check for
 const pairsHardCoded = [
@@ -146,7 +148,12 @@ export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
       </td>
       <td className="issuer-address">
         {pair.issuer !== undefined ? (
-          <a href={`/token/${pair.token}.${pair.issuer}`}>{pair.issuer}</a>
+          <RouteLink
+            to={TOKEN_ROUTE}
+            params={{ token: `${pair.token}.${pair.issuer}` }}
+          >
+            {pair.issuer}
+          </RouteLink>
         ) : (
           getLocalizedCurrencySymbol('en-US', 'XRP')
         )}

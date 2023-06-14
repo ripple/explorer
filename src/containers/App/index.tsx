@@ -18,10 +18,10 @@ import {
   LEDGERS_ROUTE,
   NETWORK_ROUTE,
   NFT_ROUTE,
-  PAYSTRING,
-  TOKEN,
-  TRANSACTION,
-  VALIDATOR,
+  PAYSTRING_ROUTE,
+  TOKEN_ROUTE,
+  TRANSACTION_ROUTE,
+  VALIDATOR_ROUTE,
 } from './routes'
 import Ledgers from '../Ledgers'
 import { Ledger } from '../Ledger'
@@ -48,11 +48,11 @@ export const AppWrapper = () => {
     [LEDGERS_ROUTE, Ledgers],
     [LEDGER_ROUTE, Ledger],
     [ACCOUNT_ROUTE, AccountsRouter],
-    [TRANSACTION, Transaction],
+    [TRANSACTION_ROUTE, Transaction],
     [NETWORK_ROUTE, Network],
-    [VALIDATOR, Validator],
-    [PAYSTRING, PayString],
-    [TOKEN, Token],
+    [VALIDATOR_ROUTE, Validator],
+    [PAYSTRING_ROUTE, PayString],
+    [TOKEN_ROUTE, Token],
     [NFT_ROUTE, NFT],
   ]
 

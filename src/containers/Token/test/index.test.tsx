@@ -10,7 +10,7 @@ import TokenHeader from '../TokenHeader'
 import { TokenTransactionTable } from '../TokenTransactionTable'
 import mockAccountState from '../../Accounts/test/mockAccountState.json'
 import { QuickHarness } from '../../test/utils'
-import { TOKEN } from '../../App/routes'
+import { TOKEN_ROUTE } from '../../App/routes'
 
 describe('Token container', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
@@ -25,7 +25,7 @@ describe('Token container', () => {
           i18n={i18n}
           initialEntries={[`/token/USD.${TEST_ACCOUNT_ID}`]}
         >
-          <Route path={TOKEN.path} element={<Token />} />
+          <Route path={TOKEN_ROUTE.path} element={<Token />} />
         </QuickHarness>
       </Provider>,
     )

@@ -16,7 +16,7 @@ import {
   BAD_REQUEST,
 } from '../shared/utils'
 import { ErrorMessages } from '../shared/Interfaces'
-import { TOKEN } from '../App/routes'
+import { TOKEN_ROUTE } from '../App/routes'
 import { useRouteParams } from '../shared/routing'
 
 const IS_MAINNET = process.env.VITE_ENVIRONMENT === 'mainnet'
@@ -50,7 +50,7 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 )
 
 const Token: FC<{ error: string }> = ({ error }) => {
-  const { token = '' } = useRouteParams(TOKEN)
+  const { token = '' } = useRouteParams(TOKEN_ROUTE)
   const [currency, accountId] = token.split('.')
   const { t } = useTranslation()
 

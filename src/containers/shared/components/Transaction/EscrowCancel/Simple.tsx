@@ -3,7 +3,7 @@ import { Account } from '../../Account'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
-import { TRANSACTION } from '../../../../App/routes'
+import { TRANSACTION_ROUTE } from '../../../../App/routes'
 import { RouteLink } from '../../../routing'
 
 const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
@@ -41,7 +41,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         >
           <RouteLink
             className="hash"
-            to={TRANSACTION}
+            to={TRANSACTION_ROUTE}
             params={{ identifier: tx }}
           >
             {tx}

@@ -12,7 +12,7 @@ import { Account } from '../../shared/components/Account'
 import DomainLink from '../../shared/components/DomainLink'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { useLanguage } from '../../shared/hooks'
-import { LEDGER_ROUTE, TRANSACTION } from '../../App/routes'
+import { LEDGER_ROUTE, TRANSACTION_ROUTE } from '../../App/routes'
 import { RouteLink } from '../../shared/routing'
 
 const CURRENCY_OPTIONS = {
@@ -92,7 +92,10 @@ const TokenHeader = ({
           <TokenTableRow
             label={t('last_affecting_transaction')}
             value={
-              <RouteLink to={TRANSACTION} params={{ identifier: previousTxn }}>
+              <RouteLink
+                to={TRANSACTION_ROUTE}
+                params={{ identifier: previousTxn }}
+              >
                 {prevTxn}
               </RouteLink>
             }

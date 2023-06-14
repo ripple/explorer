@@ -4,7 +4,7 @@ import { Amount } from '../../shared/components/Amount'
 import { Loader } from '../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 import { RouteLink } from '../../shared/routing'
-import { TOKEN } from '../../App/routes'
+import { TOKEN_ROUTE } from '../../App/routes'
 
 interface Props {
   account: any
@@ -34,7 +34,7 @@ export const AccountIssuedTokenTable = (props: Props) => {
           <RouteLink
             className="token-issuer"
             title={tokenName}
-            to={TOKEN}
+            to={TOKEN_ROUTE}
             params={{ token: `${token.currency}.${token.issuer}` }}
           >
             {token.issuer}

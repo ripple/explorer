@@ -5,7 +5,7 @@ import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
 import { UNLModify } from './types'
 import { RouteLink } from '../../../routing'
-import { VALIDATOR } from '../../../../App/routes'
+import { VALIDATOR_ROUTE } from '../../../../App/routes'
 
 export const Simple = ({ data }: TransactionSimpleProps<UNLModify>) => {
   const { t } = useTranslation()
@@ -16,7 +16,7 @@ export const Simple = ({ data }: TransactionSimpleProps<UNLModify>) => {
   return (
     <>
       <SimpleRow label={t('validator')} data-test="validator">
-        <RouteLink to={VALIDATOR} params={{ identifier: encoded }}>
+        <RouteLink to={VALIDATOR_ROUTE} params={{ identifier: encoded }}>
           {encoded}
         </RouteLink>
       </SimpleRow>

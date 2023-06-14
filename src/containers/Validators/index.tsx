@@ -22,7 +22,7 @@ import './validator.scss'
 import SocketContext from '../shared/SocketContext'
 import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
-import { VALIDATOR } from '../App/routes'
+import { VALIDATOR_ROUTE } from '../App/routes'
 import { buildPath, useRouteParams } from '../shared/routing'
 
 const ERROR_MESSAGES = {
@@ -43,7 +43,7 @@ export const Validator = () => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const network = useContext(NetworkContext)
-  const { identifier = '', tab = 'details' } = useRouteParams(VALIDATOR)
+  const { identifier = '', tab = 'details' } = useRouteParams(VALIDATOR_ROUTE)
   const { width } = useWindowSize()
 
   const {
@@ -166,7 +166,7 @@ export const Validator = () => {
 
   function renderTabs() {
     const tabs = ['details', 'history']
-    const mainPath = buildPath(VALIDATOR, { identifier })
+    const mainPath = buildPath(VALIDATOR_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 

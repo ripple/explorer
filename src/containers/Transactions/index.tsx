@@ -20,7 +20,7 @@ import './transaction.scss'
 import SocketContext from '../shared/SocketContext'
 import { TxStatus } from '../shared/components/TxStatus'
 import { getTransaction } from '../../rippled'
-import { TRANSACTION } from '../App/routes'
+import { TRANSACTION_ROUTE } from '../App/routes'
 import { buildPath, useRouteParams } from '../shared/routing'
 
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
@@ -41,7 +41,7 @@ const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
 export const Transaction = () => {
-  const { identifier = '', tab = 'simple' } = useRouteParams(TRANSACTION)
+  const { identifier = '', tab = 'simple' } = useRouteParams(TRANSACTION_ROUTE)
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { isLoading, data, error, isError } = useQuery(
@@ -92,7 +92,7 @@ export const Transaction = () => {
 
   function renderTabs() {
     const tabs = ['simple', 'detailed', 'raw']
-    const mainPath = buildPath(TRANSACTION, { identifier })
+    const mainPath = buildPath(TRANSACTION_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 

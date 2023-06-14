@@ -6,7 +6,7 @@ import {
   TransactionDescriptionProps,
 } from '../types'
 import { RouteLink } from '../../../routing'
-import { TRANSACTION } from '../../../../App/routes'
+import { TRANSACTION_ROUTE } from '../../../../App/routes'
 
 const Description: TransactionDescriptionComponent = (
   props: TransactionDescriptionProps,
@@ -55,7 +55,7 @@ const Description: TransactionDescriptionComponent = (
         with transaction
         <RouteLink
           className="hash"
-          to={TRANSACTION}
+          to={TRANSACTION_ROUTE}
           params={{ identifier: deleted.FinalFields.PreviousTxnID }}
         >
           {`${deleted.FinalFields.PreviousTxnID.substr(0, 6)}...`}

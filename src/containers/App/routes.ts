@@ -33,30 +33,26 @@ export const NFT_ROUTE: RouteDefinition<{
   path: '/nft/:id/:tab?',
 }
 
-export const PAYSTRING: RouteDefinition<{
+export const PAYSTRING_ROUTE: RouteDefinition<{
   id?: string
 }> = {
   path: '/paystrings/:id?',
 }
 
-export const TOKEN: RouteDefinition<{
+export const TOKEN_ROUTE: RouteDefinition<{
   token: string
 }> = {
   path: `/token/:token`,
 }
 
-export const TOP_TOKENS: RouteDefinition<{}> = {
-  path: `/tokens/top`,
-}
-
-export const TRANSACTION: RouteDefinition<{
+export const TRANSACTION_ROUTE: RouteDefinition<{
   identifier: string
   tab?: 'simple' | 'detailed' | 'raw'
 }> = {
   path: `/transactions/:identifier?/:tab?`,
 }
 
-export const VALIDATOR: RouteDefinition<{
+export const VALIDATOR_ROUTE: RouteDefinition<{
   identifier: string
   tab?: 'details' | 'history'
 }> = {

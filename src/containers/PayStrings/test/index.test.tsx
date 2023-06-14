@@ -5,7 +5,7 @@ import { PayString } from '../index'
 import { getPayString } from '../../../rippled'
 import mockPayStringData from './mockPayStringData.json'
 import { QuickHarness, flushPromises } from '../../test/utils'
-import { PAYSTRING } from '../../App/routes'
+import { PAYSTRING_ROUTE } from '../../App/routes'
 import Mock = jest.Mock
 
 jest.mock('../../../rippled', () => {
@@ -26,7 +26,7 @@ describe('PayString container', () => {
   const createWrapper = () =>
     mount(
       <QuickHarness i18n={i18n} initialEntries={[`/paystrings/${TEST_PAY_ID}`]}>
-        <Route path={PAYSTRING.path} element={<PayString />} />
+        <Route path={PAYSTRING_ROUTE.path} element={<PayString />} />
       </QuickHarness>,
     )
 

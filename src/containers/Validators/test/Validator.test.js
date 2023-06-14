@@ -8,7 +8,7 @@ import { getLedger } from '../../../rippled'
 import NetworkContext from '../../shared/NetworkContext'
 import testConfigEnglish from '../../../i18n/testConfigEnglish'
 import { QuickHarness, flushPromises } from '../../test/utils'
-import { VALIDATOR } from '../../App/routes'
+import { VALIDATOR_ROUTE } from '../../App/routes'
 
 Helmet.defaultProps.defer = false
 
@@ -36,7 +36,7 @@ describe('Validator container', () => {
           i18n={testConfigEnglish}
           initialEntries={[`/validators/${MOCK_IDENTIFIER}`]}
         >
-          <Route path={VALIDATOR.path} element={<Validator />} />
+          <Route path={VALIDATOR_ROUTE.path} element={<Validator />} />
         </QuickHarness>
       </NetworkContext.Provider>,
     )
