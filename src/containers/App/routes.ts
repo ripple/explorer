@@ -1,4 +1,4 @@
-import { RouteDefinition } from '../shared/routing'
+import { buildPath, RouteDefinition } from '../shared/routing'
 
 import { NavigationMenuAnyRoute } from '../Header/NavigationMenu'
 
@@ -60,7 +60,8 @@ export const VALIDATOR_ROUTE: RouteDefinition<{
 }
 
 const isNetwork = (path) =>
-  path.indexOf('/network') === 0 || path.indexOf('/validators') === 0
+  path.indexOf(buildPath(NETWORK_ROUTE, {})) === 0 ||
+  path.indexOf(buildPath(VALIDATOR_ROUTE, { identifier: '' })) === 0
 
 // NOTE: for submenus, remove `path` field and add `children` array of objects
 export const navigationConfig: NavigationMenuAnyRoute[] = [
