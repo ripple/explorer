@@ -20,8 +20,6 @@ import { SUCCESSFUL_TRANSACTION } from '../shared/transactionUtils'
 import { getTransaction } from '../../rippled'
 import { TRANSACTION_ROUTE } from '../App/routes'
 
-
-
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'transaction_not_found',

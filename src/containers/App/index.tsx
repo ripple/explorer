@@ -1,4 +1,5 @@
 import { Route, useLocation, Routes } from 'react-router'
+import { Navigate } from 'react-router-dom'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from 'react-query'
 import { useTranslation } from 'react-i18next'
@@ -33,7 +34,7 @@ import { Validator } from '../Validators'
 import { PayString } from '../PayStrings'
 import Token from '../Token'
 import { NFT } from '../NFT/NFT'
-import { LegacyRoutes } from './LegacyRoutes'
+import { legacyRedirect } from './legacyRedirects'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -62,10 +63,11 @@ export const AppWrapper = () => {
     [NFT_ROUTE, NFT],
   ]
 
+  const redirect = legacyRedirect(basename, location)
+
   return (
     <HelmetProvider>
       <AnalyticsSetPath />
-      <LegacyRoutes basename={basename} />
       <QueryClientProvider client={queryClient}>
         <div className="app-wrapper">
           <AppErrorBoundary>
@@ -79,6 +81,20 @@ export const AppWrapper = () => {
             <div className="app">
               <Header inNetwork={!!(mode !== 'custom' || rippledUrl)} />
               <Routes>
+                {/* Start: Redirects */}
+                {/* Ensures redirects happen without loading other routes. Specifically for hash routes */}
+                {redirect && (
+                  <Route path="" element={<Navigate to={redirect} replace />} />
+                )}
+                <Route
+                  path={updatePath('/explorer')}
+                  element={<Navigate to={updatePath('/')} replace />}
+                />
+                <Route
+                  path={updatePath('/ledgers')}
+                  element={<Navigate to={updatePath('/')} replace />}
+                />
+                {/* End: Redirects */}
                 {mode === 'custom' && (
                   <Route path="/" element={<CustomNetworkHome />} />
                 )}
@@ -92,6 +108,7 @@ export const AppWrapper = () => {
                   ))}
                   <Route path="*" element={<NoMatch />} />
                 </Route>
+                \{' '}
               </Routes>
               <Footer />
             </div>
