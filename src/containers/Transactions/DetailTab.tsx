@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import { FC } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { TransactionMeta } from './Meta'
 import { TransactionDescription } from './Description'
@@ -17,7 +17,7 @@ import { useLanguage } from '../shared/hooks'
 import { RouteLink } from '../shared/routing'
 import { LEDGER } from '../App/routes'
 
-const DetailTab = ({ data }) => {
+export const DetailTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -134,16 +134,3 @@ const DetailTab = ({ data }) => {
     </div>
   )
 }
-
-DetailTab.propTypes = {
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-    ]),
-  ).isRequired,
-}
-
-export default DetailTab

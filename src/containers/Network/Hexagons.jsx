@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useWindowSize } from 'usehooks-ts'
 
 import { hexbin } from 'd3-hexbin'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import Tooltip from '../shared/components/Tooltip'
 import './css/hexagons.scss'
 import { useLanguage } from '../shared/hooks'

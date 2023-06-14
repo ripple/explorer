@@ -1,9 +1,8 @@
-import { Component, ErrorInfo } from 'react'
-import { ReactNodeLike } from 'prop-types'
+import { Component, ErrorInfo, PropsWithChildren } from 'react'
 
 import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 
-export type AppErrorBoundaryProps = { children: Array<ReactNodeLike> }
+export type AppErrorBoundaryProps = PropsWithChildren<{}>
 /**
  * Needs to be a class due to React not having a componentDidCatch hook equivalent.
  */

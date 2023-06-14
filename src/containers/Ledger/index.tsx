@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
 import {

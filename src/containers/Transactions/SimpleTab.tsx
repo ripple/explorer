@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { localizeDate, localizeNumber, BREAKPOINTS } from '../shared/utils'
 import { Account } from '../shared/components/Account'
-import Sequence from '../shared/components/Sequence'
+import { Sequence } from '../shared/components/Sequence'
 import { Simple } from './Simple'
 
 import { useLanguage } from '../shared/hooks'

@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
 import InfoIcon from '../shared/images/info.svg'

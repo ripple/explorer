@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
-import Banner from '../Banner'
+import { Banner } from '../Banner'
 
 describe('Banner component', () => {
   const middlewares = [thunk]

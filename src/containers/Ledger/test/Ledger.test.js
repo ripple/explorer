@@ -23,7 +23,7 @@ describe('Ledger container', () => {
   const createWrapper = (identifier = 38079857) =>
     mount(
       <QuickHarness i18n={i18n} initialEntries={[`/ledgers/${identifier}`]}>
-        <Route exact path="/ledgers/:identifier" element={<Ledger />} />
+        <Route path="/ledgers/:identifier" element={<Ledger />} />
       </QuickHarness>,
     )
 

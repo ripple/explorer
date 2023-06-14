@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import NoInfo from '../../shared/images/no_info.svg'
 import SocketContext from '../../shared/SocketContext'

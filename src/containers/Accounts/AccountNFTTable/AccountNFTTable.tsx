@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
 
 import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 import { getAccountNFTs } from '../../../rippled/lib/rippled'

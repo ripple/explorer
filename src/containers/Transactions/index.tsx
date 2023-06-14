@@ -5,7 +5,7 @@ import ReactJson from 'react-json-view'
 import { useQuery } from 'react-query'
 import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
 import {
   analytics,
@@ -15,7 +15,7 @@ import {
   HASH_REGEX,
 } from '../shared/utils'
 import { SimpleTab } from './SimpleTab'
-import DetailTab from './DetailTab'
+import { DetailTab } from './DetailTab'
 import './transaction.scss'
 import SocketContext from '../shared/SocketContext'
 import { TxStatus } from '../shared/components/TxStatus'

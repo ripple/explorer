@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import Currency from '../../shared/components/Currency'
 import { Amount } from '../../shared/components/Amount'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 import { RouteLink } from '../../shared/routing'
 import { TOKEN } from '../../App/routes'

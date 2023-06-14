@@ -25,7 +25,7 @@ describe('Token container', () => {
           i18n={i18n}
           initialEntries={[`/token/USD.${TEST_ACCOUNT_ID}`]}
         >
-          <Route exact path={TOKEN.path} element={<Token />} />
+          <Route path={TOKEN.path} element={<Token />} />
         </QuickHarness>
       </Provider>,
     )
