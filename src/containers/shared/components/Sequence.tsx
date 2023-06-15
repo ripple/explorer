@@ -16,7 +16,7 @@ export const Sequence: FC<SequenceProps> = ({
   account = '',
 }) => {
   const { t } = useTranslation()
-  const isPseudoTransaction = account === ACCOUNT_ZERO
+  const isPseudoTransaction = account === ACCOUNT_ZERO || account === ''
 
   return (
     <span>

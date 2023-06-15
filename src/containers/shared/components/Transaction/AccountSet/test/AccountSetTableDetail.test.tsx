@@ -17,6 +17,19 @@ describe('AccountSet: TableDetail', () => {
     wrapper.unmount()
   })
 
+  it('renders tx that sets the email hash', () => {
+    const wrapper = createWrapper({
+      ...mockAccountSetWithDomain,
+      tx: {
+        ...mockAccountSetWithDomain.tx,
+        Domain: undefined,
+        EmailHash: '7AC3878BF42A5329698F468A6AAA03B9',
+      },
+    })
+    expect(wrapper).toHaveText('email hash: 7AC3878BF42A5329698F468A6AAA03B9')
+    wrapper.unmount()
+  })
+
   it('renders tx that clears a flag', () => {
     const wrapper = createWrapper(mockAccountSetWithClearFlag)
     expect(wrapper).toHaveText('clear flag: asfGlobalFreeze')
@@ -26,6 +39,24 @@ describe('AccountSet: TableDetail', () => {
   it('renders tx that sets a flag', () => {
     const wrapper = createWrapper(mockAccountSetWithSetFlag)
     expect(wrapper).toHaveText('set flag: asfRequireDest')
+    wrapper.unmount()
+  })
+
+  it('renders tx that clears a flag that is not defined', () => {
+    const wrapper = createWrapper({
+      ...mockAccountSetWithClearFlag,
+      tx: { ...mockAccountSetWithClearFlag.tx, ClearFlag: 45 },
+    })
+    expect(wrapper).toHaveText('clear flag: 45')
+    wrapper.unmount()
+  })
+
+  it('renders tx that sets a flag that is not defined', () => {
+    const wrapper = createWrapper({
+      ...mockAccountSetWithSetFlag,
+      tx: { ...mockAccountSetWithSetFlag.tx, SetFlag: 45 },
+    })
+    expect(wrapper).toHaveText('set flag: 45')
     wrapper.unmount()
   })
 
