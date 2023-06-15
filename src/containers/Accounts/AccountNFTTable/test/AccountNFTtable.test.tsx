@@ -8,13 +8,14 @@ import i18n from '../../../../i18n/testConfig'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { testQueryClient } from '../../../test/QueryClient'
 import { flushPromises } from '../../../test/utils'
+import Mock = jest.Mock
 
 jest.mock('../../../../rippled/lib/rippled', () => ({
   __esModule: true,
   getAccountNFTs: jest.fn(),
 }))
 
-const mockedGetAccountNFTs = getAccountNFTs
+const mockedGetAccountNFTs = getAccountNFTs as Mock
 
 const data = {
   account: 'rnuweigWrt8Jp1gBmKJT6VLxrVMSJSuu6G',

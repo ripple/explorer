@@ -24,7 +24,7 @@ describe('Account container', () => {
         initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}
       >
         <Provider store={store}>
-          <Route path="accounts/:id" component={Accounts} />
+          <Route path="accounts/:id?" component={Accounts} />
         </Provider>
       </QuickHarness>,
     )

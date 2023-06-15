@@ -5,8 +5,6 @@ import {
   formatPrice,
   getLocalizedCurrencySymbol,
   localizeDate,
-  analytics,
-  ANALYTIC_TYPES,
   durationToHuman,
   formatAsset,
 } from '../utils'
@@ -149,30 +147,6 @@ describe('utils', () => {
     const d = new Date('Tue Mar 20 2018')
     expect(localizeDate()).toEqual(null)
     expect(localizeDate(d)).toEqual('3/20/2018')
-  })
-
-  it('google analyitcs', () => {
-    expect(analytics(ANALYTIC_TYPES.pageview, {})).toEqual(false)
-    expect(analytics(ANALYTIC_TYPES.event, {})).toEqual(false)
-    expect(analytics(ANALYTIC_TYPES.social, {})).toEqual(false)
-    expect(analytics(ANALYTIC_TYPES.timing, {})).toEqual(false)
-    expect(analytics(ANALYTIC_TYPES.exception, {})).toEqual(false)
-    expect(analytics()).toEqual(false)
-    expect(
-      analytics(ANALYTIC_TYPES.pageview, { title: 'Transaction', path: '/tx' }),
-    ).toEqual(true)
-    expect(analytics(ANALYTIC_TYPES.pageview, { blah: 'blah' })).toEqual(false)
-    expect(
-      analytics(ANALYTIC_TYPES.event, {
-        eventCategory: 'MobileMenu',
-        eventAction: 'Open',
-      }),
-    ).toEqual(true)
-    expect(
-      analytics(ANALYTIC_TYPES.exception, {
-        exDescription: 'something bad happened',
-      }),
-    ).toEqual(true)
   })
 
   test('duration to human', () => {

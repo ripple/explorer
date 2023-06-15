@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Currency from '../../shared/components/Currency'
 import { Amount } from '../../shared/components/Amount'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 
 interface Props {

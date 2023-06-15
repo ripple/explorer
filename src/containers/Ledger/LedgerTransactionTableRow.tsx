@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { TxLabel } from '../shared/components/TxLabel'
 import { TxDetails } from '../shared/components/TxDetails'
 import { useLanguage } from '../shared/hooks'
-import Sequence from '../shared/components/Sequence'
+import { Sequence } from '../shared/components/Sequence'
 import { formatPrice } from '../shared/utils'
 import { TxStatus } from '../shared/components/TxStatus'
 

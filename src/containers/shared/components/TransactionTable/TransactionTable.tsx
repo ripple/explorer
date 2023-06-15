@@ -1,7 +1,7 @@
 import { FunctionComponent, HTMLAttributes, MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TransactionTableRow } from './TransactionTableRow'
-import Loader from '../Loader'
+import { Loader } from '../Loader'
 import { LoadMoreButton } from '../../LoadMoreButton'
 import './styles.scss'
 

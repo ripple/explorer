@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-
 import { useInfiniteQuery } from 'react-query'
+
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
+import { useAnalytics } from '../../shared/analytics'
 import SocketContext from '../../shared/SocketContext'
 
 import { getAccountTransactions } from '../../../rippled'
-import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 
 export interface AccountTransactionsTableProps {
   accountId: string
@@ -20,7 +20,9 @@ export const AccountTransactionTable = ({
   currencySelected = 'XRP',
 }: AccountTransactionsTableProps) => {
   const { t } = useTranslation()
+  const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
+
   const {
     data,
     error,
@@ -38,11 +40,7 @@ export const AccountTransactionTable = ({
         rippledSocket,
       ).catch((errorResponse) => {
         const errorLocation = `account transactions ${accountId} at ${pageParam}`
-        analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `${errorLocation} --- ${JSON.stringify(
-            errorResponse,
-          )}`,
-        })
+        trackException(`${errorLocation} --- ${JSON.stringify(errorResponse)}`)
 
         throw new Error('get_account_transactions_failed')
       }),
@@ -52,9 +50,12 @@ export const AccountTransactionTable = ({
   )
 
   const filterTransactions = () => {
-    let processedTransactions = data?.pages
-      ?.map((page: any) => page.transactions)
-      .flat()
+    let processedTransactions = data?.pages?.reduce((txArray, page: any) => {
+      if (page.transactions) {
+        return txArray.concat(page.transactions)
+      }
+      return txArray
+    }, [])
 
     if (currencySelected !== 'XRP') {
       processedTransactions = processedTransactions?.filter(

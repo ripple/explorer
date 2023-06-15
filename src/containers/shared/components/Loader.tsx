@@ -1,28 +1,13 @@
-import PropTypes from 'prop-types'
+import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import loader from '../images/xrp-loader.png'
+import LoaderPath from '../images/xrp-loader.png'
 import '../css/loader.scss'
 
-interface Props {
-  className: string
-}
-
-const Loader = (props: Props) => {
+export const Loader: FC<{ className?: string }> = ({ className }) => {
   const { t } = useTranslation()
-  const { className } = props
   return (
     <div className={`loader ${className}`}>
-      <img src={loader} alt={t('loading')} />
+      <img src={LoaderPath} alt={t('loading')} />
     </div>
   )
 }
-
-Loader.propTypes = {
-  className: PropTypes.string,
-}
-
-Loader.defaultProps = {
-  className: '',
-}
-
-export default Loader

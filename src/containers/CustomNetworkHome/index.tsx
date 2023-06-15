@@ -1,26 +1,36 @@
-import { KeyboardEvent, useState } from 'react'
+import {
+  KeyboardEvent,
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Header } from '../Header'
-import { ANALYTIC_TYPES, analytics } from '../shared/utils'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
+import { useAnalytics } from '../shared/analytics'
 import './index.scss'
 import { useCustomNetworks } from '../shared/hooks'
 
 const SidechainHome = () => {
+  const { track, trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
-
   const [networkText, setNetworkText] = useState('')
   const [customNetworks = []] = useCustomNetworks()
+
+  useEffect(() => {
+    trackScreenLoaded()
+  }, [trackScreenLoaded])
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
     const url = `${customNetworkUrl}/${desiredLink}`
-    analytics(ANALYTIC_TYPES.event, {
-      eventCategory: 'mode switch',
-      eventAction: url,
+
+    track('network_switch', {
+      network: 'custom',
+      entrypoint: desiredLink,
     })
+
     // TODO: do some validation on this??
     window.location.assign(url)
   }
@@ -44,7 +54,6 @@ const SidechainHome = () => {
 
   return (
     <div className="app">
-      {/* @ts-ignore -- TODO: I think this error is because Header isn't in TS */}
       <Header inNetwork={false} />
       <div className="custom-network-main-page">
         <div className="logo-content">
