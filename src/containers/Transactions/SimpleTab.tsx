@@ -49,9 +49,11 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
       <SimpleRow label={t('ledger_index')} data-test="ledger-index">
         <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
       </SimpleRow>
-      <SimpleRow label={t('account')} data-test="account">
-        <Account account={account} />
-      </SimpleRow>
+      {account && (
+        <SimpleRow label={t('account')} data-test="account">
+          <Account account={account} />
+        </SimpleRow>
+      )}
       <SimpleRow label={t('sequence_number')} data-test="sequence">
         <Sequence
           sequence={sequence}
