@@ -43,10 +43,9 @@ export const NetworkPicker = () => {
   const trackNetworkSwitch = (network, url) => {
     track('network_switch', {
       network,
-      entrypoint:
-        network === 'custom'
-          ? url?.replace(`${CUSTOM_NETWORK_BASE_LINK || ''}/`, '')
-          : undefined,
+      entrypoint: isCustom
+        ? url?.replace(`${CUSTOM_NETWORK_BASE_LINK || ''}/`, '')
+        : undefined,
     })
   }
 
@@ -80,7 +79,7 @@ export const NetworkPicker = () => {
         handler={handleNetworkClick(network, url)}
       >
         {text}
-        {network === 'custom' && (
+        {isCustom && (
           <button
             type="button"
             className="btn btn-remove"
@@ -140,8 +139,11 @@ export const NetworkPicker = () => {
       <>
         {networks.map(({ network, title, url = '' }) => {
           if (
+            // we are not in custom mode and it's this network
             (currentMode !== 'custom' && network === currentMode) ||
+            // we are in custom mode and it's this URL
             (currentMode === 'custom' && url === `/${rippledUrl}`) ||
+            // the href of this window contains this URL
             window.location.href?.indexOf(url) === 0
           ) {
             return null // don't render if we are in that network
