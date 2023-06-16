@@ -1,3 +1,4 @@
+import type { EscrowFinish } from 'xrpl'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { findNode } from '../../../transactionUtils'
 
@@ -6,7 +7,7 @@ const findNodeFinalFields = (meta: any) => {
   return node ? node.FinalFields : {}
 }
 
-export function parser(tx: any, meta: any) {
+export function parser(tx: EscrowFinish, meta: any) {
   const escrow = findNodeFinalFields(meta)
   return {
     sequence: tx.OfferSequence,

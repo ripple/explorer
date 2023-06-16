@@ -1,32 +1,26 @@
 import { useTranslation, Trans } from 'react-i18next'
-import {
-  DATE_OPTIONS,
-  RIPPLE_EPOCH,
-  normalizeAmount,
-} from '../../../transactionUtils'
+import type { EscrowCreate } from 'xrpl'
+import { DATE_OPTIONS, normalizeAmount } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import { localizeDate } from '../../../utils'
 import {
   TransactionDescriptionComponent,
   TransactionDescriptionProps,
 } from '../types'
+import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
 
 const Description: TransactionDescriptionComponent = (
-  props: TransactionDescriptionProps,
+  props: TransactionDescriptionProps<EscrowCreate>,
 ) => {
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage
   const { data } = props
-  const cancelAfter = localizeDate(
-    (data.tx.CancelAfter + RIPPLE_EPOCH) * 1000,
-    language,
-    DATE_OPTIONS,
-  )
-  const finishAfter = localizeDate(
-    (data.tx.FinishAfter + RIPPLE_EPOCH) * 1000,
-    language,
-    DATE_OPTIONS,
-  )
+
+  const formatDate = (time: number) =>
+    `${localizeDate(convertRippleDate(time), language, DATE_OPTIONS)} ${
+      DATE_OPTIONS.timeZone
+    }`
+
   return (
     <>
       {data.tx.Destination !== data.tx.Account ? (
@@ -60,13 +54,13 @@ const Description: TransactionDescriptionComponent = (
       {data.tx.CancelAfter && (
         <div>
           {t('describe_cancel_after')}
-          <span className="time">{` ${cancelAfter} ${DATE_OPTIONS.timeZone}`}</span>
+          <span className="time"> {formatDate(data.tx.CancelAfter)}</span>
         </div>
       )}
       {data.tx.FinishAfter && (
         <div>
           {t('describe_finish_after')}
-          <span className="time">{` ${finishAfter} ${DATE_OPTIONS.timeZone}`}</span>
+          <span className="time"> {formatDate(data.tx.FinishAfter)}</span>
         </div>
       )}
     </>

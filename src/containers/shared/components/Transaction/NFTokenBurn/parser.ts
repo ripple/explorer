@@ -1,4 +1,5 @@
-import { NFTokenBurn, NFTokenBurnInstructions } from './types'
+import { NFTokenBurn } from 'xrpl'
+import { NFTokenBurnInstructions } from './types'
 import { TransactionParser } from '../types'
 
 export const parser: TransactionParser<NFTokenBurn, NFTokenBurnInstructions> = (

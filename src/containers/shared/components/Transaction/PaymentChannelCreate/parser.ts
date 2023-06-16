@@ -1,6 +1,6 @@
+import type { PaymentChannelCreate } from 'xrpl'
 import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
-import { PaymentChannelCreate } from './types'
 import { findNode } from '../../../transactionUtils'
 
 export const parser = (tx: PaymentChannelCreate, meta: any) => {

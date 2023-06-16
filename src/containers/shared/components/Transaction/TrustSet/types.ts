@@ -1,9 +1,4 @@
-import { ExplorerAmount, IssuedCurrencyAmount } from '../../../types'
-import { TransactionCommonFields } from '../types'
-
-export interface TrustSet extends TransactionCommonFields {
-  LimitAmount: IssuedCurrencyAmount
-}
+import { ExplorerAmount } from '../../../types'
 
 export interface TrustSetInstructions {
   limit: ExplorerAmount

@@ -1,5 +1,6 @@
 import { useTranslation, Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import type { EscrowCancel } from 'xrpl'
 import { findNode, normalizeAmount } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import {
@@ -8,7 +9,7 @@ import {
 } from '../types'
 
 const Description: TransactionDescriptionComponent = (
-  props: TransactionDescriptionProps,
+  props: TransactionDescriptionProps<EscrowCancel>,
 ) => {
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage

@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
+import type { PaymentChannelClaim } from 'xrpl'
 import { findNode, normalizeAmount } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import { TransactionDescriptionProps } from '../types'
-import { PaymentChannelClaim } from './types'
 import { useLanguage } from '../../../hooks'
 
 export const Description = ({

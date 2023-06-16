@@ -1,5 +1,5 @@
-import type { TransactionMetadata } from 'xrpl'
-import { PaymentChannelFund, PaymentChannelFundInstructions } from './types'
+import type { PaymentChannelFund, TransactionMetadata } from 'xrpl'
+import { PaymentChannelFundInstructions } from './types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const findNode = (

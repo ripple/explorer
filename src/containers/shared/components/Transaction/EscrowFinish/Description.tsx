@@ -1,5 +1,6 @@
 import { useTranslation, Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import type { EscrowFinish } from 'xrpl'
 import { normalizeAmount, findNode } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import {
@@ -8,7 +9,7 @@ import {
 } from '../types'
 
 const Description: TransactionDescriptionComponent = (
-  props: TransactionDescriptionProps,
+  props: TransactionDescriptionProps<EscrowFinish>,
 ) => {
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage
@@ -39,7 +40,7 @@ const Description: TransactionDescriptionComponent = (
             (
             <b>
               {normalizeAmount(
-                deleted.FinalFields.Amount - data.tx.Fee,
+                deleted.FinalFields.Amount - parseInt(data.tx.Fee || '0', 10),
                 language,
               )}
               <small>XRP</small>

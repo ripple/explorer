@@ -1,8 +1,12 @@
 import { useTranslation } from 'react-i18next'
+import type { PaymentChannelFund } from 'xrpl'
 import { findNode } from '../../../transactionUtils'
 import { Amount } from '../../Amount'
+import { TransactionDescriptionProps } from '../types'
 
-export const Description = ({ data }: any) => {
+export const Description = ({
+  data,
+}: TransactionDescriptionProps<PaymentChannelFund>) => {
   const { t } = useTranslation()
   const node = findNode(data.meta, 'ModifiedNode', 'PayChannel')
 

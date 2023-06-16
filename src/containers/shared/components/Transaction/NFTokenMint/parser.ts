@@ -1,4 +1,5 @@
-import { NFTokenMint, NFTokenMintInstructions } from './types'
+import type { NFTokenMint } from 'xrpl'
+import { NFTokenMintInstructions } from './types'
 import { TransactionParser } from '../types'
 
 import { convertHexToString } from '../../../../../rippled/lib/utils'

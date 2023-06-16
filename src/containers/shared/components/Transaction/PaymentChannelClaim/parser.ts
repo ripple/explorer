@@ -1,5 +1,5 @@
-import type { TransactionMetadata } from 'xrpl'
-import { PaymentChannelClaim, PaymentChannelClaimInstructions } from './types'
+import type { PaymentChannelClaim, TransactionMetadata } from 'xrpl'
+import { PaymentChannelClaimInstructions } from './types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { findNode } from '../../../transactionUtils'
 
@@ -26,8 +26,8 @@ export const parser = (
   const data: PaymentChannelClaimInstructions = {
     channel: tx.Channel,
     totalClaimed: tx.Balance ? formatAmount(tx.Balance) : undefined,
-    renew: hasRenew(tx.Flags || 0) || undefined,
-    close: hasClose(tx.Flags || 0) || undefined,
+    renew: hasRenew(typeof tx.Flags === 'number' ? tx.Flags : 0) || undefined,
+    close: hasClose(typeof tx.Flags === 'number' ? tx.Flags : 0) || undefined,
   }
 
   if (node) {
