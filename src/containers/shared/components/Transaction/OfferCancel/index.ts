@@ -1,3 +1,4 @@
+import type { OfferCancel } from 'xrpl'
 import {
   TransactionAction,
   TransactionCategory,
@@ -6,7 +7,6 @@ import {
 
 import { Description } from './Description'
 import { Simple } from './Simple'
-import { parser } from './parser'
 import { TableDetail } from './TableDetail'
 
 export const OfferCancelTransaction: TransactionMapping = {
@@ -15,5 +15,5 @@ export const OfferCancelTransaction: TransactionMapping = {
   TableDetail,
   action: TransactionAction.CANCEL,
   category: TransactionCategory.DEX,
-  parser,
+  parser: (tx: OfferCancel) => tx,
 }

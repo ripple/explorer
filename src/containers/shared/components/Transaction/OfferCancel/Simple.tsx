@@ -1,17 +1,15 @@
 import { useTranslation } from 'react-i18next'
+import type { OfferCancel } from 'xrpl'
 import { TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
-import { OfferCancelInstructions } from './types'
 
-export const Simple = ({
-  data,
-}: TransactionSimpleProps<OfferCancelInstructions>) => {
+export const Simple = ({ data }: TransactionSimpleProps<OfferCancel>) => {
   const { t } = useTranslation()
-  const { cancel } = data.instructions
+  const { OfferSequence } = data.instructions
 
   return (
     <SimpleRow label={t('cancel_offer')} data-test="cancel">
-      #{cancel}
+      #{OfferSequence}
     </SimpleRow>
   )
 }

@@ -1,3 +1,4 @@
+import type { NFTokenBurn } from 'xrpl'
 import {
   TransactionAction,
   TransactionCategory,
@@ -5,11 +6,10 @@ import {
 } from '../types'
 
 import { Simple } from './Simple'
-import { parser } from './parser'
 
 export const NFTokenBurnTransaction: TransactionMapping = {
   Simple,
   action: TransactionAction.CANCEL,
   category: TransactionCategory.NFT,
-  parser,
+  parser: (tx: NFTokenBurn) => tx,
 }
