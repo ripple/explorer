@@ -1,10 +1,10 @@
+import type { TransactionMetadata } from 'xrpl'
 import type {
   CreatedNode,
   DeletedNode,
   ModifiedNode,
   Node,
 } from 'xrpl/dist/npm/models/transactions/metadata'
-import { TransactionMetadata } from 'xrpl'
 import { IssuedCurrencyAmount, Transaction } from './types'
 import { localizeNumber } from './utils'
 

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import type { Memo } from 'xrpl/dist/npm/models/common'
-import { TransactionMetadata } from 'xrpl'
+import type { TransactionMetadata } from 'xrpl'
 
 export enum TransactionCategory {
   DEX = 'DEX',

@@ -1,4 +1,4 @@
-import { NFTokenBurn } from 'xrpl'
+import type { NFTokenBurn } from 'xrpl'
 import { NFTokenBurnInstructions } from './types'
 import { TransactionParser } from '../types'
 
