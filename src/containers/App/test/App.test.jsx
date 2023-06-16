@@ -129,6 +129,7 @@ describe('App container', () => {
     const wrapper = createWrapper()
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual('xrpl_explorer | ledgers')
+      expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
       expect(wrapper.find('.ledgers').length).toBe(1)
       expect(window.dataLayer).toEqual([
         {
@@ -360,7 +361,19 @@ describe('App container', () => {
     })
   })
 
-  it('renders custom mode', async () => {
+  it('renders custom mode homepage', async () => {
+    process.env.VITE_ENVIRONMENT = 'custom'
+    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+    const wrapper = createWrapper('/')
+    await flushPromises()
+    wrapper.update()
+    expect(wrapper.find('header')).toHaveClassName('header-no-network')
+    // We don't know the endpoint yet.
+    expect(XrplClient).toHaveBeenCalledTimes(0)
+    wrapper.unmount()
+  })
+
+  it('renders custom mode ledgers', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
     const network = 's2.ripple.com'
@@ -368,6 +381,7 @@ describe('App container', () => {
     await flushPromises()
     wrapper.update()
     // Make sure the sockets aren't double initialized.
+    expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
     expect(XrplClient).toHaveBeenCalledTimes(1)
     expect(localStorage.getItem(CUSTOM_NETWORKS_STORAGE_KEY)).toEqual(
       JSON.stringify([network]),
