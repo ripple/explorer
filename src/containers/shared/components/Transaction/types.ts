@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { Memo } from '../../types'
+import type { Memo } from 'xrpl/dist/npm/models/common'
+import { TransactionMetadata } from 'xrpl'
 
 export enum TransactionCategory {
   DEX = 'DEX',
@@ -25,7 +26,7 @@ export interface TransactionTableDetailProps<I = any> {
 }
 export type TransactionTableDetailComponent = FC<TransactionTableDetailProps>
 
-export interface TransactionDescriptionProps<T = any, M = any> {
+export interface TransactionDescriptionProps<T = any, M = TransactionMetadata> {
   data: {
     tx: T
     meta: M

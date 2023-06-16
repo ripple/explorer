@@ -4,7 +4,7 @@ import { Amount } from '../../Amount'
 
 export const Description = ({ data }: any) => {
   const { t } = useTranslation()
-  const node = findNode(data, 'ModifiedNode', 'PayChannel')
+  const node = findNode(data.meta, 'ModifiedNode', 'PayChannel')
 
   return (
     <>

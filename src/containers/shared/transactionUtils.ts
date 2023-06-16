@@ -1,4 +1,11 @@
-import { IssuedCurrencyAmount, Transaction, Node } from './types'
+import type {
+  CreatedNode,
+  DeletedNode,
+  ModifiedNode,
+  Node,
+} from 'xrpl/dist/npm/models/transactions/metadata'
+import { TransactionMetadata } from 'xrpl'
+import { IssuedCurrencyAmount, Transaction } from './types'
 import { localizeNumber } from './utils'
 
 export const RIPPLE_EPOCH = 946684800
@@ -125,17 +132,21 @@ export const DATE_OPTIONS = {
 }
 
 export function groupAffectedNodes(trans: Transaction) {
-  const group: Record<string, Node[]> = {
+  const group: {
+    created: CreatedNode['CreatedNode'][]
+    deleted: DeletedNode['DeletedNode'][]
+    modified: ModifiedNode['ModifiedNode'][]
+  } = {
     created: [],
     modified: [],
     deleted: [],
   }
   ;(trans.meta.AffectedNodes || []).forEach((node) => {
-    if (node.DeletedNode) {
+    if ('DeletedNode' in node && node.DeletedNode) {
       group.deleted.push(node.DeletedNode)
-    } else if (node.ModifiedNode) {
+    } else if ('ModifiedNode' in node && node.ModifiedNode) {
       group.modified.push(node.ModifiedNode)
-    } else if (node.CreatedNode) {
+    } else if ('CreatedNode' in node && node.CreatedNode) {
       group.created.push(node.CreatedNode)
     }
   })
@@ -158,15 +169,15 @@ export function buildMemos(trans: Transaction) {
   const { Memos = [] } = trans.tx
   const memoList: string[] = []
   Memos.forEach((data) => {
-    if (hexMatch.test(data.Memo.MemoType)) {
+    if (data.Memo.MemoType && hexMatch.test(data.Memo.MemoType)) {
       memoList.push(decodeHex(data.Memo.MemoType))
     }
 
-    if (hexMatch.test(data.Memo.MemoData)) {
+    if (data.Memo.MemoData && hexMatch.test(data.Memo.MemoData)) {
       memoList.push(decodeHex(data.Memo.MemoData))
     }
 
-    if (hexMatch.test(data.Memo.MemoFormat)) {
+    if (data.Memo.MemoFormat && hexMatch.test(data.Memo.MemoFormat)) {
       memoList.push(decodeHex(data.Memo.MemoFormat))
     }
   })
@@ -216,12 +227,13 @@ export function normalizeAmount(
 }
 
 export function findNode(
-  transaction: Transaction,
-  nodeType: keyof Node,
+  meta: TransactionMetadata,
+  nodeType: 'DeletedNode' | 'CreatedNode' | 'ModifiedNode',
   entryType: string,
 ): any {
-  const metaNode = transaction.meta.AffectedNodes.find(
-    (node) => node[nodeType] && node[nodeType].LedgerEntryType === entryType,
+  const metaNode = meta.AffectedNodes.find(
+    (node: Node) =>
+      node[nodeType] && node[nodeType].LedgerEntryType === entryType,
   )
   return metaNode ? metaNode[nodeType] : null
 }

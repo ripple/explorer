@@ -1,17 +1,10 @@
-import type { Meta } from '../../../types'
+import type { TransactionMetadata } from 'xrpl'
 import { PaymentChannelClaim, PaymentChannelClaimInstructions } from './types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
+import { findNode } from '../../../transactionUtils'
 
 const hasRenew = (flags: number): boolean => !!(0x00010000 & flags)
 const hasClose = (flags: number) => !!(0x00020000 & flags)
-
-const findNode = (meta: Meta, nodeType: 'DeletedNode' | 'ModifiedNode') => {
-  const metaNode = meta.AffectedNodes.find(
-    (node: any) =>
-      node[nodeType] && node[nodeType].LedgerEntryType === 'PayChannel',
-  )
-  return metaNode ? metaNode[nodeType] : null
-}
 
 const getDetails = (node: any) => {
   const st = node.FinalFields.SourceTag ? `:${node.FinalFields.SourceTag}` : ''
@@ -27,9 +20,9 @@ const getDetails = (node: any) => {
 
 export const parser = (
   tx: PaymentChannelClaim,
-  meta: Meta,
+  meta: TransactionMetadata,
 ): PaymentChannelClaimInstructions => {
-  let node = findNode(meta, 'ModifiedNode')
+  let node = findNode(meta, 'ModifiedNode', 'PayChannel')
   const data: PaymentChannelClaimInstructions = {
     channel: tx.Channel,
     totalClaimed: tx.Balance ? formatAmount(tx.Balance) : undefined,
@@ -53,7 +46,7 @@ export const parser = (
     })
   }
 
-  node = findNode(meta, 'DeletedNode')
+  node = findNode(meta, 'DeletedNode', 'PayChannel')
   if (node) {
     const details = getDetails(node)
     const returned = node.FinalFields.Amount - node.FinalFields.Balance

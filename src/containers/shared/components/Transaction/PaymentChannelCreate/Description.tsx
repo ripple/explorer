@@ -18,7 +18,7 @@ export const Description = ({
     tx.CancelAfter &&
     localizeDate(convertRippleDate(tx.CancelAfter), language, DATE_OPTIONS)
 
-  const node = findNode(data, 'CreatedNode', 'PayChannel')
+  const node = findNode(data.meta, 'CreatedNode', 'PayChannel')
 
   return (
     <>

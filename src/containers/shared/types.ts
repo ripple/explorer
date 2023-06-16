@@ -1,3 +1,6 @@
+import type { TransactionMetadata } from 'xrpl'
+import type { Memo } from 'xrpl/dist/npm/models/common'
+
 export interface IssuedCurrency {
   currency: string
   issuer: string
@@ -21,25 +24,6 @@ export type ExplorerAmount = {
   amount: number
 }
 
-export interface Node {
-  DeletedNode?: any
-  ModifiedNode?: any
-  CreatedNode?: any
-  LedgerEntryType: string
-}
-
-export interface Meta {
-  AffectedNodes: Node[]
-}
-
-export interface Memo {
-  Memo: {
-    MemoType: string
-    MemoData: string
-    MemoFormat: string
-  }
-}
-
 export interface Tx {
   Memos?: Memo[]
   TransactionType: string
@@ -47,7 +31,7 @@ export interface Tx {
 }
 
 export interface Transaction {
-  meta: Meta
+  meta: TransactionMetadata
   tx: Tx
 }
 
