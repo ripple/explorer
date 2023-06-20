@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../Account'
-import Sequence from '../../Sequence'
+import { Sequence } from '../../Sequence'
 
 export const TableDetail = (props: any) => {
   const { t } = useTranslation()

@@ -4,14 +4,11 @@ import { Helmet } from 'react-helmet-async'
 import NoMatch from '../NoMatch'
 import { NFTHeader } from './NFTHeader/NFTHeader'
 import { NFTTabs } from './NFTTabs/NFTTabs'
-import './styles.scss'
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  NOT_FOUND,
-  BAD_REQUEST,
-} from '../shared/utils'
+import { useAnalytics } from '../shared/analytics'
+import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
+import { parseIssuerFromNFTokenID } from '../../rippled/NFTTransactions'
+import './styles.scss'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
   [NOT_FOUND]: {
@@ -31,16 +28,30 @@ const DEFAULT_ERROR: ErrorMessage = {
 
 const getErrorMessage = (error: any) => ERROR_MESSAGES[error] ?? DEFAULT_ERROR
 
+const Page: FC<PropsWithChildren<{ tokenId: string }>> = ({
+  tokenId,
+  children,
+}) => (
+  <div className="nft-page">
+    <Helmet title={`NFT ${tokenId.substr(0, 12)}...`} />
+    {children}
+  </div>
+)
+
 export const NFT = () => {
+  const { trackScreenLoaded } = useAnalytics()
   const { id: tokenId } = useParams<{ id: string }>()
   const [error, setError] = useState<number | null>(null)
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'NFT', path: '/nft/:id' })
+    trackScreenLoaded({
+      nftoken_id: tokenId,
+      issuer: parseIssuerFromNFTokenID(tokenId),
+    })
     return () => {
       window.scrollTo(0, 0)
     }
-  }, [])
+  }, [tokenId, trackScreenLoaded])
 
   const renderError = () => {
     const message = getErrorMessage(error)
@@ -51,18 +62,11 @@ export const NFT = () => {
     )
   }
 
-  const Page: FC<PropsWithChildren<{}>> = ({ children }) => (
-    <div className="nft-page">
-      <Helmet title={`NFT ${tokenId.substr(0, 12)}...`} />
-      {children}
-    </div>
-  )
-
   if (error) {
-    return <Page>{renderError()}</Page>
+    return <Page tokenId={tokenId}>{renderError()}</Page>
   }
   return (
-    <Page>
+    <Page tokenId={tokenId}>
       {tokenId && <NFTHeader tokenId={tokenId} setError={setError} />}
       {tokenId && <NFTTabs tokenId={tokenId} />}
       {!tokenId && (

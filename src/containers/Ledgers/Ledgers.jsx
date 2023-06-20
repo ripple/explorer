@@ -8,7 +8,7 @@ import Tooltip from '../shared/components/Tooltip'
 import './css/ledgers.scss'
 import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
 import { getAction, getCategory } from '../shared/components/Transaction'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
@@ -24,17 +24,14 @@ class Ledgers extends Component {
     }
   }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => ({
-    selected: nextProps.selected,
-    ledgers: nextProps.paused ? prevState.ledgers : nextProps.ledgers,
-    validators: nextProps.validators,
-    unlCount: nextProps.unlCount,
-  })
-
-  setSelected = (pubkey) =>
-    this.setState((prevState) => ({
-      selected: prevState.selected === pubkey ? null : pubkey,
-    }))
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
+      selected: nextProps.selected,
+      ledgers: nextProps.paused ? prevState.ledgers : nextProps.ledgers,
+      validators: nextProps.validators,
+      unlCount: nextProps.unlCount,
+    }
+  }
 
   getMissingValidators = (hash) => {
     const { validators } = this.props

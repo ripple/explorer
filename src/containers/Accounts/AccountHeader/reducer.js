@@ -7,6 +7,7 @@ export const initialState = {
   status: null,
 }
 
+// eslint-disable-next-line default-param-last
 const accountReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.START_LOADING_ACCOUNT_STATE:

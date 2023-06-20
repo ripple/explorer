@@ -6,21 +6,18 @@ import ReactJson from 'react-json-view'
 import { useQuery } from 'react-query'
 import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
-import {
-  analytics,
-  ANALYTIC_TYPES,
-  NOT_FOUND,
-  BAD_REQUEST,
-  HASH_REGEX,
-} from '../shared/utils'
+import { NOT_FOUND, BAD_REQUEST, HASH_REGEX } from '../shared/utils'
 import { SimpleTab } from './SimpleTab'
-import DetailTab from './DetailTab'
+import { DetailTab } from './DetailTab'
 import './transaction.scss'
+import { AnalyticsFields, useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
 import { TxStatus } from '../shared/components/TxStatus'
 import { getTransaction } from '../../rippled'
+import { getAction, getCategory } from '../shared/components/Transaction'
+import { SUCCESSFUL_TRANSACTION } from '../shared/transactionUtils'
 
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -47,6 +44,7 @@ export const Transaction = () => {
   const match = useRouteMatch()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
+  const { trackException, trackScreenLoaded } = useAnalytics()
   const { isLoading, data, error, isError } = useQuery(
     ['transaction', identifier],
     () => {
@@ -60,11 +58,11 @@ export const Transaction = () => {
       return getTransaction(identifier, rippledSocket).catch(
         (transactionRequestError) => {
           const status = transactionRequestError.code
-          analytics(ANALYTIC_TYPES.exception, {
-            exDescription: `transaction ${identifier} --- ${JSON.stringify(
+          trackException(
+            `transaction ${identifier} --- ${JSON.stringify(
               transactionRequestError.message,
             )}`,
-          })
+          )
 
           return Promise.reject(status)
         },
@@ -74,11 +72,23 @@ export const Transaction = () => {
   const { width } = useWindowSize()
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, {
-      title: 'Transaction',
-      path: `/transactions/:hash/${tab}`,
-    })
-  }, [identifier, data, tab])
+    if (!data?.raw) return
+
+    const type = data?.raw.tx.TransactionType
+    const status = data?.raw.meta.TransactionResult
+
+    const transactionProperties: AnalyticsFields = {
+      transaction_action: getAction(type),
+      transaction_category: getCategory(type),
+      transaction_type: type,
+    }
+
+    if (status !== SUCCESSFUL_TRANSACTION) {
+      transactionProperties.tec_code = status
+    }
+
+    trackScreenLoaded(transactionProperties)
+  }, [identifier, data?.raw, tab, trackScreenLoaded])
 
   function renderSummary() {
     const type = data?.raw.tx.TransactionType
@@ -102,7 +112,7 @@ export const Transaction = () => {
   }
 
   function renderTransaction() {
-    if (!data) return <></>
+    if (!data) return undefined
 
     let body
 
@@ -152,7 +162,6 @@ export const Transaction = () => {
       />
     )
   }
-
   return (
     <div className="transaction">
       <Helmet

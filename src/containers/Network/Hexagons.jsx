@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useWindowSize } from 'usehooks-ts'
 
 import { hexbin } from 'd3-hexbin'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import Tooltip from '../shared/components/Tooltip'
 import './css/hexagons.scss'
 import { useLanguage } from '../shared/hooks'
@@ -15,7 +15,7 @@ const getDimensions = (width) => ({
   radius: Math.min(width, MAX_WIDTH) / 25,
 })
 
-const prepareHexagons = (data, list, prev = [], height, radius) => {
+const prepareHexagons = (data, list, height, radius, prev = []) => {
   const maxRows = Math.ceil(height / ((radius * 3) / 2))
   const hexWidth = radius * Math.sqrt(3)
   let row = 0
@@ -65,7 +65,7 @@ export const Hexagons = ({ list, data }) => {
   useEffect(() => {
     if (width > 0) {
       setHexagons((prevHexagons) =>
-        prepareHexagons(data, list, prevHexagons, gridHeight, radius),
+        prepareHexagons(data, list, gridHeight, radius, prevHexagons),
       )
     }
   }, [data, list, width, gridHeight, radius])

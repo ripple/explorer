@@ -4,11 +4,11 @@ import { useQuery } from 'react-query'
 import { isValidXAddress, xAddressToClassicAddress } from 'ripple-address-codec'
 import { AMMAccounts } from './AMM/AMMAccounts'
 import SocketContext from '../shared/SocketContext'
-import { getAccountInfo } from '../../rippled'
+import { getAccountInfo } from '../../rippled/lib/rippled'
 import NoMatch from '../NoMatch'
 import { Accounts } from './index'
 import { ERROR_MESSAGES } from './Errors'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import { ACCOUNT_FLAGS } from '../../rippled/lib/utils'
 
 const getErrorMessage = (error: any) =>

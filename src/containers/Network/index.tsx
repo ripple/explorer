@@ -7,21 +7,20 @@ import { Validators } from './Validators'
 import { UpgradeStatus } from './UpgradeStatus'
 import { Nodes } from './Nodes'
 import NoMatch from '../NoMatch'
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import './css/style.scss'
+import { useAnalytics } from '../shared/analytics'
 
 export const Network = () => {
+  const { trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
   const { tab = 'nodes' } = useParams<{
     tab: 'upgrade-status' | 'validators' | 'nodes'
   }>()
   const network = useContext(NetworkContext)
+
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, {
-      title: 'network',
-      path: `/network/${tab || 'nodes'}`,
-    })
-  })
+    trackScreenLoaded()
+  }, [tab, trackScreenLoaded])
 
   if (network === null) {
     return (

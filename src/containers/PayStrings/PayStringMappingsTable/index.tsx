@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { classicAddressToXAddress } from 'ripple-address-codec'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import { PayStringResponse } from '../../../rippled/payString'
 import './styles.scss'
 

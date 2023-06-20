@@ -21,6 +21,7 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
   function switchAsset(event: ChangeEvent<HTMLInputElement>) {
     return history.push(`/accounts/${accountId}/assets/${event.target.value}`)
   }
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   if (account.deleted) return <></>
   return (
     <>
