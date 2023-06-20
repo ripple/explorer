@@ -1,0 +1,156 @@
+{
+  "account_info": {
+    "id": 2,
+    "status": "error",
+    "type": "response",
+    "account": "r35jYntLwkrbc3edisgavDbEdNRSKgcQE6",
+    "error": "actNotFound",
+    "error_code": 19,
+    "error_message": "Account not found.",
+    "ledger_current_index": 80602456,
+    "request": {
+      "account": "r35jYntLwkrbc3edisgavDbEdNRSKgcQE6",
+      "command": "account_info",
+      "id": 2,
+      "ledger_index": "current",
+      "queue": true,
+      "strict": true
+    },
+    "validated": false,
+    "forwarded": true,
+    "warnings": [
+      {
+        "id": 2001,
+        "message": "This is a clio server. clio only serves validated data. If you want to talk to rippled, include 'ledger_index':'current' in your request"
+      }
+    ]
+  },
+  "account_tx": {
+    "id": 2,
+    "status": "success",
+    "type": "response",
+    "result": {
+      "account": "r35jYntLwkrbc3edisgavDbEdNRSKgcQE6",
+      "ledger_index_min": 32570,
+      "ledger_index_max": 80602468,
+      "transactions": [
+        {
+          "meta": {
+            "AffectedNodes": [
+              {
+                "ModifiedNode": {
+                  "FinalFields": {
+                    "Account": "rEoRCpve6aPs6gg2u5aaeCsBmX9ZB7TzhR",
+                    "Balance": "1553170065225",
+                    "Flags": 0,
+                    "OwnerCount": 0,
+                    "Sequence": 80463368
+                  },
+                  "LedgerEntryType": "AccountRoot",
+                  "LedgerIndex": "856F60BEC3D95BC1035C2D9691CA4CA2FD455FA0D62783F504277374A6966589",
+                  "PreviousFields": {
+                    "Balance": "1553152515225"
+                  },
+                  "PreviousTxnID": "005613ADA8AA0618C62B4EC53C181ED8831E694F24F1B77706DE98218522AADF",
+                  "PreviousTxnLgrSeq": 80537220
+                }
+              },
+              {
+                "DeletedNode": {
+                  "FinalFields": {
+                    "Account": "r35jYntLwkrbc3edisgavDbEdNRSKgcQE6",
+                    "Balance": "0",
+                    "Flags": 0,
+                    "OwnerCount": 0,
+                    "PreviousTxnID": "B5180561D25F1D17672F2FCED48E06F3B72D43E33202660BF57647D1914D940A",
+                    "PreviousTxnLgrSeq": 29256436,
+                    "Sequence": 8
+                  },
+                  "LedgerEntryType": "AccountRoot",
+                  "LedgerIndex": "EAE9EC4DC190D2C0A33E8963D86B48D3A18394B04E2C891176E5A78E1EFD7023",
+                  "PreviousFields": {
+                    "Balance": "19550000",
+                    "Sequence": 7
+                  }
+                }
+              }
+            ],
+            "DeliveredAmount": "17550000",
+            "TransactionIndex": 25,
+            "TransactionResult": "tesSUCCESS",
+            "delivered_amount": "17550000"
+          },
+          "tx": {
+            "Account": "r35jYntLwkrbc3edisgavDbEdNRSKgcQE6",
+            "Destination": "rEoRCpve6aPs6gg2u5aaeCsBmX9ZB7TzhR",
+            "DestinationTag": 2123456789,
+            "Fee": "2000000",
+            "Flags": 2147483648,
+            "Sequence": 7,
+            "SigningPubKey": "029D82602618266B98506884CE4C61CECF5504CBCEDA41CED583FE4C6972455C9E",
+            "TransactionType": "AccountDelete",
+            "TxnSignature": "3045022100A95A9508F96B5D979BD2AFE1F667733DDFC06A5BF79C5C085439CB39C4B14B04022074D84F5AB63390565A4D12D313A8D4666370A99F05B0B887505A80F431E18682",
+            "hash": "BB955E1E2DDC4529A79F6DCB9741013B6D218FFBE441871FC466895DD4300F37",
+            "ledger_index": 80537221,
+            "date": 740350911
+          },
+          "validated": true
+        },
+        {
+          "meta": {
+            "AffectedNodes": [
+              {
+                "ModifiedNode": {
+                  "FinalFields": {
+                    "Account": "r35jYntLwkrbc3edisgavDbEdNRSKgcQE6",
+                    "Balance": "19550000",
+                    "Flags": 0,
+                    "OwnerCount": 0,
+                    "Sequence": 7
+                  },
+                  "LedgerEntryType": "AccountRoot",
+                  "LedgerIndex": "EAE9EC4DC190D2C0A33E8963D86B48D3A18394B04E2C891176E5A78E1EFD7023",
+                  "PreviousFields": {
+                    "Balance": "19700000",
+                    "Sequence": 6
+                  },
+                  "PreviousTxnID": "56675612ACAF05BAA0499A0CD2D81E0C2B66C2133A2AC328CE311B0BD8C83401",
+                  "PreviousTxnLgrSeq": 29256433
+                }
+              }
+            ],
+            "TransactionIndex": 22,
+            "TransactionResult": "tecUNFUNDED_PAYMENT"
+          },
+          "tx": {
+            "Account": "r35jYntLwkrbc3edisgavDbEdNRSKgcQE6",
+            "Amount": "4856600000",
+            "Destination": "rDCgaaSBAWYfsxUYhCk1n26Na7x8PQGmkq",
+            "Fee": "150000",
+            "Flags": 2147483648,
+            "Sequence": 6,
+            "SigningPubKey": "029D82602618266B98506884CE4C61CECF5504CBCEDA41CED583FE4C6972455C9E",
+            "TransactionType": "Payment",
+            "TxnSignature": "3045022100D84347CBC15152E08D83AD7F50B29E07548DB142E69D23D7B983AFD71E5AE67F02205EA4717A39120489DA26088BAD9F741D9F2B87A78C863CBED47FE518675B8215",
+            "hash": "B5180561D25F1D17672F2FCED48E06F3B72D43E33202660BF57647D1914D940A",
+            "ledger_index": 29256436,
+            "date": 546295030
+          },
+          "validated": true
+        }
+      ],
+      "validated": true,
+      "marker": {
+        "ledger": 29256436,
+        "seq": 22
+      },
+      "limit": 2
+    },
+    "warnings": [
+      {
+        "id": 2001,
+        "message": "This is a clio server. clio only serves validated data. If you want to talk to rippled, include 'ledger_index':'current' in your request"
+      }
+    ]
+  }
+}

@@ -13,6 +13,7 @@ import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled/lib/rippled'
 import { flushPromises } from '../../test/utils'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
+import { Error } from '../../../rippled/lib/utils'
 
 // We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
 // get confused about being inside another Router (the `MemoryRouter` in the `mount`),
@@ -74,7 +75,16 @@ const mockGetAccountInfo = getAccountInfo
 
 describe('App container', () => {
   const mockStore = configureMockStore([thunk])
-  const createWrapper = (path = '/', localNetworks = []) => {
+  const createWrapper = (
+    path = '/',
+    localNetworks = [],
+    accountInfoMock = () =>
+      Promise.resolve({
+        flags: 0,
+      }),
+  ) => {
+    mockGetAccountInfo.mockImplementation(accountInfoMock)
+
     localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
     if (localNetworks) {
       localStorage.setItem(
@@ -102,11 +112,6 @@ describe('App container', () => {
     moxios.stubRequest(
       `${process.env.VITE_DATA_URL}/get_network/s2.ripple.com`,
       { status: 200, response: { result: 'success', network: '3' } },
-    )
-    mockGetAccountInfo.mockImplementation(() =>
-      Promise.resolve({
-        flags: 0,
-      }),
     )
     mockXrplClient.mockImplementation(() => new MockWsClient())
     // BrowserRouter.mockImplementation(({ children }) => <div>{children}</div>)
@@ -276,6 +281,29 @@ describe('App container', () => {
           network: 'mainnet',
         },
       ])
+      wrapper.unmount()
+    })
+  })
+
+  it('renders account page for a deleted account', () => {
+    const id = 'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6'
+    const wrapper = createWrapper(`/accounts/${id}#ssss`, [], () =>
+      Promise.reject(new Error('account not found', 404)),
+    )
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(document.title).toEqual(`xrpl_explorer | r35jYntLwkrb...`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/r35jYntLwkrbc3edisgavDbEdNRSKgcQE6#ssss',
+          page_title: `xrpl_explorer | r35jYntLwkrb...`,
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
+      expect(mockGetAccountInfo).toBeCalledWith(
+        expect.anything(),
+        'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6',
+      )
       wrapper.unmount()
     })
   })
