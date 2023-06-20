@@ -141,9 +141,9 @@ export const NetworkPicker = () => {
         {networks.map(({ network, title, url = '' }) => {
           if (
             // we are not in custom mode and it's this network
-            (currentMode !== 'custom' && network === currentMode) ||
+            (!isCustom && network === currentMode) ||
             // we are in custom mode and it's this URL
-            (currentMode === 'custom' && url === `/${rippledUrl}`) ||
+            (isCustom && url === `/${rippledUrl}`) ||
             // the href of this window contains this URL
             window.location.href?.indexOf(url) === 0
           ) {
