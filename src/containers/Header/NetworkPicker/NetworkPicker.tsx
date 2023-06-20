@@ -43,9 +43,10 @@ export const NetworkPicker = () => {
   const trackNetworkSwitch = (network, url) => {
     track('network_switch', {
       network,
-      entrypoint: isCustom
-        ? url?.replace(`${CUSTOM_NETWORK_BASE_LINK || ''}/`, '')
-        : undefined,
+      entrypoint:
+        network === 'custom'
+          ? url?.replace(`${CUSTOM_NETWORK_BASE_LINK || ''}/`, '')
+          : undefined,
     })
   }
 
@@ -79,7 +80,7 @@ export const NetworkPicker = () => {
         handler={handleNetworkClick(network, url)}
       >
         {text}
-        {isCustom && (
+        {network === 'custom' && (
           <button
             type="button"
             className="btn btn-remove"
