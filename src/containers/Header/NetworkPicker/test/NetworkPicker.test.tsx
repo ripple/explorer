@@ -141,5 +141,9 @@ describe('NetworkPicker component', () => {
       'href',
       `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url2`,
     )
+    expect(wrapper.find('.dropdown-item.custom .btn-remove').length).toEqual(2)
+
+    expect(wrapper.find('.dropdown-item.testnet')).toExist()
+    expect(wrapper.find('.dropdown-item.testnet .btn-remove')).not.toExist()
   })
 })
