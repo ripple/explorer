@@ -1,8 +1,8 @@
 import { useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
+import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import InfoIcon from '../shared/images/info.svg'
 import './nomatch.scss'
 
@@ -27,16 +27,17 @@ const NoMatch = ({
   isError = true,
   warning = undefined,
 }: NoMatchProps) => {
+  const { track } = useAnalytics()
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
   const values = { connection: socket?.getState() }
 
   useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, {
-      title: `${title} -- ${hints.join(', ')}`,
-      path: '/404',
+    track('not_found', {
+      description: `${title} -- ${hints.join(', ')}`,
     })
-  }, [hints, title, t])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- hints has to be spread to prevent this from running multiple times
+  }, [...hints, title, track])
 
   const notFound = title.includes('not_found')
   const hintMsg = hints.map((hint) => (

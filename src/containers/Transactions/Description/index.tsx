@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
-import Sequence from '../../shared/components/Sequence'
+import { Sequence } from '../../shared/components/Sequence'
 import { transactionTypes } from '../../shared/components/Transaction'
 
 export const TransactionDescription: FC<{ data: any }> = ({ data }) => {

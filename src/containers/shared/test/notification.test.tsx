@@ -1,5 +1,5 @@
 import { mount } from 'enzyme'
-import Notification from '../components/Notification'
+import { Notification } from '../components/Notification'
 
 describe('Notification', () => {
   it('renders without crashing', () => {

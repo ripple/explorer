@@ -9,6 +9,7 @@ import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
 import type { defaultTranslationsKey } from '../../../../@types/i18next'
 
 import './NavigationMenu.scss'
+import { useAnalytics } from '../../shared/analytics'
 
 export interface NavigationMenuRoute {
   title: defaultTranslationsKey
@@ -22,6 +23,12 @@ export const NavigationMenu = ({
 }: {
   routes: NavigationMenuRoute[]
 }) => {
+  const { track } = useAnalytics()
+
+  const trackOpened = () => {
+    track('mobile_menu', {})
+  }
+
   const { t } = useTranslation()
   const { pathname } = useLocation()
   const toggle = useRef<HTMLInputElement>(null)
@@ -46,8 +53,12 @@ export const NavigationMenu = ({
         ref={toggle}
         hidden
       />
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="navbar-toggle" htmlFor="navbar-toggle-state">
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control,jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions -- just for tracking */}
+      <label
+        className="navbar-toggle"
+        htmlFor="navbar-toggle-state"
+        onClick={trackOpened}
+      >
         <span className="navbar-toggle-line" />
       </label>
 

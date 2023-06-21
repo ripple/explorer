@@ -1,8 +1,9 @@
+import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import { durationToHuman } from '../shared/utils'
+import { NodeData } from '../shared/vhsTypes'
 import './css/nodesTable.scss'
 
 const renderLastLedger = (ledger) =>
@@ -19,7 +20,7 @@ const renderLedgerHistory = (ledgers, range) => {
   const diff = range[1] - min
 
   if (ledgers) {
-    const boxes = ledgers.map((l, i) => {
+    const boxes = ledgers.map((l) => {
       const [low, high] = l
       const width = Math.min((high - low + 1) / diff, 1) * MAX_WIDTH
       const left = Math.max((low - min) / diff, 0) * MAX_WIDTH
@@ -90,7 +91,9 @@ const getVersion = (version) => {
   return version
 }
 
-const NodesTable = ({ nodes: unformattedNodes }) => {
+export const NodesTable: FC<{ nodes: NodeData[] }> = ({
+  nodes: unformattedNodes,
+}) => {
   const nodes = unformattedNodes ? formatLedgerHistory(unformattedNodes) : null
   const ledgerRange = nodes && getLedgerRange(nodes)
 
@@ -156,13 +159,3 @@ const NodesTable = ({ nodes: unformattedNodes }) => {
 
   return <div className="nodes-table">{content}</div>
 }
-
-NodesTable.propTypes = {
-  nodes: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
-}
-
-NodesTable.defaultProps = {
-  nodes: null,
-}
-
-export default NodesTable

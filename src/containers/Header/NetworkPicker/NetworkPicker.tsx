@@ -1,9 +1,10 @@
 import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
+import { useCustomNetworks } from '../../shared/hooks'
 import SocketContext from '../../shared/SocketContext'
-import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 import './NetworkPicker.scss'
+import { useAnalytics } from '../../shared/analytics'
 
 export interface Network {
   network: string
@@ -21,9 +22,11 @@ const STATIC_ENV_LINKS: Record<string, string | undefined> = {
 const currentMode: string = process.env.VITE_ENVIRONMENT || 'mainnet'
 
 export const NetworkPicker = () => {
+  const { track } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
   const [newRippledUrl, setNewRippledUrl] = useState('')
+  const [customNetworks = [], setCustomNetworks] = useCustomNetworks()
 
   const rippledUrl = rippledSocket?.rippledUrl
   const isCustom = currentMode === 'custom'
@@ -37,10 +40,13 @@ export const NetworkPicker = () => {
       ?.replace(`${CUSTOM_NETWORK_BASE_LINK || ''}/`, '')
       .toLowerCase()}`
 
-  const trackNetworkSwitch = (network: Network) => {
-    analytics(ANALYTIC_TYPES.event, {
-      eventCategory: 'mode switch',
-      eventAction: network.url,
+  const trackNetworkSwitch = (network, url) => {
+    track('network_switch', {
+      network,
+      entrypoint:
+        network === 'custom'
+          ? url?.replace(`${CUSTOM_NETWORK_BASE_LINK || ''}/`, '')
+          : undefined,
     })
   }
 
@@ -50,10 +56,15 @@ export const NetworkPicker = () => {
       title: getNetworkName(network),
       url,
     })),
+    ...customNetworks.map((customUrl: string) => ({
+      network: 'custom',
+      title: getCustomNetworkName(customUrl),
+      url: `${process.env.VITE_CUSTOMNETWORK_LINK}/${customUrl}`,
+    })),
   ]
 
-  const handleNetworkClick = (network: Network) => () => {
-    trackNetworkSwitch(network)
+  const handleNetworkClick = (network, url) => () => {
+    trackNetworkSwitch(network, url)
   }
 
   const networkPickerTitle = !inNetwork
@@ -66,9 +77,26 @@ export const NetworkPicker = () => {
         key={url}
         href={url}
         className={network}
-        handler={handleNetworkClick(network)}
+        handler={handleNetworkClick(network, url)}
       >
         {text}
+        {network === 'custom' && (
+          <button
+            type="button"
+            className="btn btn-remove"
+            onClick={(event) => {
+              event.preventDefault()
+              event.stopPropagation()
+              setCustomNetworks(
+                customNetworks.filter(
+                  (customNetwork) =>
+                    customNetwork !==
+                    url?.slice((CUSTOM_NETWORK_BASE_LINK || '').length + 1),
+                ),
+              )
+            }}
+          />
+        )}
       </DropdownItem>
     )
   }
@@ -96,11 +124,7 @@ export const NetworkPicker = () => {
       return
     }
 
-    trackNetworkSwitch({
-      network: 'custom',
-      title: `Custom: ${newRippledUrl}`,
-      url: newRippledUrl,
-    })
+    trackNetworkSwitch('custom', newRippledUrl)
     window.location.assign(`${CUSTOM_NETWORK_BASE_LINK}/${newRippledUrl}`)
   }
 
@@ -116,12 +140,15 @@ export const NetworkPicker = () => {
       <>
         {networks.map(({ network, title, url = '' }) => {
           if (
-            network === currentMode ||
+            // we are not in custom mode and it's this network
+            (!isCustom && network === currentMode) ||
+            // we are in custom mode and it's this URL
+            (isCustom && url === `/${rippledUrl}`) ||
+            // the href of this window contains this URL
             window.location.href?.indexOf(url) === 0
           ) {
             return null // don't render if we are in that network
           }
-
           return renderDropdownItem(network, url, title)
         })}
         {renderCustomNetworkInput()}

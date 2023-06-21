@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { FC } from 'react'
 import { TransactionMeta } from './Meta'
 import { TransactionDescription } from './Description'
 import { Account } from '../shared/components/Account'
@@ -16,7 +16,7 @@ import {
 import './detailTab.scss'
 import { useLanguage } from '../shared/hooks'
 
-const DetailTab = ({ data }) => {
+export const DetailTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -108,7 +108,7 @@ const DetailTab = ({ data }) => {
       <div className="detail-section">
         <div className="title">{t('signers')}</div>
         <ul className="signers">
-          {data.tx.Signers.map((d, i) => (
+          {data.tx.Signers.map((d) => (
             <li key={d.Signer.Account}>
               <Account account={d.Signer.Account} />
             </li>
@@ -129,16 +129,3 @@ const DetailTab = ({ data }) => {
     </div>
   )
 }
-
-DetailTab.propTypes = {
-  data: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.number,
-      PropTypes.array,
-    ]),
-  ).isRequired,
-}
-
-export default DetailTab

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { Amount } from '../../shared/components/Amount'
 import { ExplorerAmount } from '../../shared/types'
 import { loadAccountState } from './actions'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import { BalanceSelector } from './BalanceSelector/BalanceSelector'
 import { Account } from '../../shared/components/Account'
@@ -395,7 +395,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
           <div className="secondary balance">
             {deleted ? (
               <div className="warning">
-                <InfoIcon alt="Account Deleted" />
+                <InfoIcon alt="Account Deleted" />{' '}
                 <span className="account-deleted-text">Account Deleted</span>
               </div>
             ) : (

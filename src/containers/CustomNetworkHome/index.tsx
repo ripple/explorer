@@ -1,40 +1,38 @@
-import { KeyboardEvent, MouseEvent as ReactMouseEvent, useState } from 'react'
+import { KeyboardEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Header } from '../Header'
-import { ANALYTIC_TYPES, analytics } from '../shared/utils'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
+import { useAnalytics } from '../shared/analytics'
 import './index.scss'
+import { useCustomNetworks } from '../shared/hooks'
 
 const SidechainHome = () => {
+  const { track, trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
-
   const [networkText, setNetworkText] = useState('')
+  const [customNetworks = []] = useCustomNetworks()
+
+  useEffect(() => {
+    trackScreenLoaded()
+  }, [trackScreenLoaded])
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
     const url = `${customNetworkUrl}/${desiredLink}`
-    analytics(ANALYTIC_TYPES.event, {
-      eventCategory: 'mode switch',
-      eventAction: url,
+
+    track('network_switch', {
+      network: 'custom',
+      entrypoint: desiredLink,
     })
+
     // TODO: do some validation on this??
     window.location.assign(url)
   }
 
   function customNetworkOnKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter' && networkText != null) {
-      switchMode(networkText)
-    }
-  }
-
-  function clickButton(
-    _event:
-      | ReactMouseEvent<HTMLDivElement, MouseEvent>
-      | KeyboardEvent<HTMLDivElement>,
-  ) {
-    if (networkText != null) {
       switchMode(networkText)
     }
   }
@@ -50,12 +48,8 @@ const SidechainHome = () => {
     )
   }
 
-  // TODO: get previous networks from cookies
-  const existingNetworks: string[] = []
-
   return (
     <div className="app">
-      {/* @ts-ignore -- TODO: I think this error is because Header isn't in TS */}
       <Header inNetwork={false} />
       <div className="custom-network-main-page">
         <div className="logo-content">
@@ -70,20 +64,11 @@ const SidechainHome = () => {
             value={networkText}
             onChange={(event) => setNetworkText(event.target.value)}
           />
-          <div
-            className="custom-network-input-button"
-            tabIndex={0}
-            role="button"
-            onClick={clickButton}
-            onKeyUp={clickButton}
-          >
-            <span>Go to network</span>
-          </div>
         </div>
-        {existingNetworks.length > 0 && (
+        {customNetworks.length > 0 && (
           <div className="custom-network-list">
             <div className="custom-network-header">{t('custom_networks')}</div>
-            {existingNetworks.map(renderCustomNetwork)}
+            {customNetworks.map(renderCustomNetwork)}
           </div>
         )}
       </div>

@@ -1,18 +1,22 @@
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
+import { FC } from 'react'
 import { ACCOUNT_ZERO } from '../transactionUtils'
 
-interface Props {
-  addContextHelp: boolean
-  sequence: number
-  ticketSequence: number
-  account: string
+interface SequenceProps {
+  addContextHelp?: boolean
+  sequence?: number
+  ticketSequence?: number
+  account?: string
 }
 
-const Sequence = (props: Props) => {
+export const Sequence: FC<SequenceProps> = ({
+  addContextHelp = false,
+  sequence = 0,
+  ticketSequence = 0,
+  account = '',
+}) => {
   const { t } = useTranslation()
-  const { addContextHelp, sequence, ticketSequence, account } = props
-  const isPseudoTransaction = account === ACCOUNT_ZERO
+  const isPseudoTransaction = account === ACCOUNT_ZERO || account === ''
 
   return (
     <span>
@@ -31,19 +35,3 @@ const Sequence = (props: Props) => {
     </span>
   )
 }
-
-Sequence.propTypes = {
-  sequence: PropTypes.number,
-  ticketSequence: PropTypes.number,
-  addContextHelp: PropTypes.bool,
-  account: PropTypes.string,
-}
-
-Sequence.defaultProps = {
-  sequence: PropTypes.number,
-  ticketSequence: 0,
-  addContextHelp: false,
-  account: '',
-}
-
-export default Sequence

@@ -20,24 +20,24 @@ class Log {
     return this.debuggers[level]
   }
 
-  generateMessage(level, message, source) {
+  generateMessage(level, message, source?) {
     const log = this.getDebugger(level)
     return source ? log(source, message) : log(message)
   }
 
-  trace(message, source) {
+  trace(message, source?) {
     return this.generateMessage('trace', message, source)
   }
 
-  info(message, source) {
+  info(message, source?) {
     return this.generateMessage('info', message, source)
   }
 
-  warn(message, source) {
+  warn(message, source?) {
     return this.generateMessage('warn', message, source)
   }
 
-  error(message, source) {
+  error(message, source?) {
     return this.generateMessage('error', message, source)
   }
 }

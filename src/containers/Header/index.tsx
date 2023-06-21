@@ -1,7 +1,7 @@
+import { FC } from 'react'
 import classnames from 'classnames'
-import PropTypes from 'prop-types'
 
-import Banner from './Banner'
+import { Banner } from './Banner'
 import { NavigationMenu } from './NavigationMenu'
 import { routesConfig } from './routes'
 
@@ -9,7 +9,7 @@ import './header.scss'
 import { LanguagePicker } from './LanguagePicker/LanguagePicker'
 import { NetworkPicker } from './NetworkPicker/NetworkPicker'
 
-export const Header = ({ inNetwork }) => (
+export const Header: FC<{ inNetwork?: boolean }> = ({ inNetwork = true }) => (
   <header className={classnames('header', !inNetwork && 'header-no-network')}>
     <div className="topbar">
       <NetworkPicker />
@@ -19,11 +19,3 @@ export const Header = ({ inNetwork }) => (
     <NavigationMenu routes={routesConfig} />
   </header>
 )
-
-Header.defaultProps = {
-  inNetwork: true,
-}
-
-Header.propTypes = {
-  inNetwork: PropTypes.bool,
-}
