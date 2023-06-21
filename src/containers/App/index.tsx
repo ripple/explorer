@@ -10,7 +10,6 @@ import { App } from './App'
 import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'
 import NoMatch from '../NoMatch'
-import { Header } from '../Header'
 import { queryClient } from '../shared/QueryClient'
 import { AnalyticsSetPath, useAnalytics } from '../shared/analytics'
 import { RouteDefinition } from '../shared/routing'
@@ -35,6 +34,7 @@ import { PayString } from '../PayStrings'
 import Token from '../Token'
 import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
+import { useCustomNetworks } from '../shared/hooks'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -84,7 +84,6 @@ export const AppWrapper = () => {
               <meta name="author" content={t('app.meta.author')} />
             </Helmet>
             <div className="app">
-              <Header inNetwork={!!(mode !== 'custom' || rippledUrl)} />
               <Routes>
                 {/* Start: Redirects */}
                 {/* Ensures redirects happen without loading other routes. Specifically for hash routes */}

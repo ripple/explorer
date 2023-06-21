@@ -4,6 +4,7 @@ import './app.scss'
 
 import { SocketProvider } from '../shared/SocketContext'
 import { NetworkProvider } from '../shared/NetworkContext'
+import { Header } from '../Header'
 
 // memoize to prevent react-router from creating a new socket ever single time a rew route is loaded
 export const App: FC<{ rippledUrl: string }> = memo(
@@ -11,6 +12,7 @@ export const App: FC<{ rippledUrl: string }> = memo(
     <SocketProvider rippledUrl={rippledUrl}>
       <NetworkProvider rippledUrl={rippledUrl}>
         <div className="content">
+          <Header inNetwork />
           <Outlet />
         </div>
       </NetworkProvider>

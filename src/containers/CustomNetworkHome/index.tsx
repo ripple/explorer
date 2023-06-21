@@ -6,6 +6,7 @@ import RightArrow from '../shared/images/side_arrow_green.svg'
 import { useAnalytics } from '../shared/analytics'
 import './index.scss'
 import { useCustomNetworks } from '../shared/hooks'
+import { Header } from '../Header'
 
 const SidechainHome = () => {
   const { track, trackScreenLoaded } = useAnalytics()
@@ -48,27 +49,30 @@ const SidechainHome = () => {
   }
 
   return (
-    <div className="custom-network-main-page">
-      <div className="logo-content">
-        <CustomNetworkLogo className="custom-network-logo" />
-        <div className="page-header">{t('custom_network')}</div>
-        <div className="input-help">{t('custom_network_input_help')}</div>
-        <input
-          className="custom-network-input"
-          type="text"
-          placeholder={t('custom_network_input')}
-          onKeyDown={customNetworkOnKeyDown}
-          value={networkText}
-          onChange={(event) => setNetworkText(event.target.value)}
-        />
-      </div>
-      {customNetworks.length > 0 && (
-        <div className="custom-network-list">
-          <div className="custom-network-header">{t('custom_networks')}</div>
-          {customNetworks.map(renderCustomNetwork)}
+    <>
+      <Header inNetwork={false} />
+      <div className="custom-network-main-page">
+        <div className="logo-content">
+          <CustomNetworkLogo className="custom-network-logo" />
+          <div className="page-header">{t('custom_network')}</div>
+          <div className="input-help">{t('custom_network_input_help')}</div>
+          <input
+            className="custom-network-input"
+            type="text"
+            placeholder={t('custom_network_input')}
+            onKeyDown={customNetworkOnKeyDown}
+            value={networkText}
+            onChange={(event) => setNetworkText(event.target.value)}
+          />
         </div>
-      )}
-    </div>
+        {customNetworks.length > 0 && (
+          <div className="custom-network-list">
+            <div className="custom-network-header">{t('custom_networks')}</div>
+            {customNetworks.map(renderCustomNetwork)}
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 
