@@ -19,6 +19,20 @@ describe('AccountSet: Simple', () => {
     wrapper.unmount()
   })
 
+  it('renders tx that sets the email hash', () => {
+    const wrapper = createWrapper({
+      ...mockAccountSetWithDomain,
+      tx: {
+        ...mockAccountSetWithDomain.tx,
+        Domain: undefined,
+        EmailHash: '7AC3878BF42A5329698F468A6AAA03B9',
+      },
+    })
+
+    expectSimpleRowLabel(wrapper, 'email', 'email hash')
+    expectSimpleRowText(wrapper, 'email', '7AC3878BF42A5329698F468A6AAA03B9')
+  })
+
   it('renders tx that clears a flag', () => {
     const wrapper = createWrapper(mockAccountSetWithClearFlag)
     expectSimpleRowLabel(wrapper, 'clear-flag', 'clear flag')
@@ -30,6 +44,26 @@ describe('AccountSet: Simple', () => {
     const wrapper = createWrapper(mockAccountSetWithSetFlag)
     expectSimpleRowLabel(wrapper, 'set-flag', 'set flag')
     expectSimpleRowText(wrapper, 'set-flag', 'asfRequireDest')
+    wrapper.unmount()
+  })
+
+  it('renders tx that clears a flag without a defined flag', () => {
+    const wrapper = createWrapper({
+      ...mockAccountSetWithClearFlag,
+      tx: { ...mockAccountSetWithClearFlag.tx, ClearFlag: 45 },
+    })
+    expectSimpleRowLabel(wrapper, 'clear-flag', 'clear flag')
+    expectSimpleRowText(wrapper, 'clear-flag', '45')
+    wrapper.unmount()
+  })
+
+  it('renders tx that sets a flag without a defined flag', () => {
+    const wrapper = createWrapper({
+      ...mockAccountSetWithSetFlag,
+      tx: { ...mockAccountSetWithSetFlag.tx, SetFlag: 45 },
+    })
+    expectSimpleRowLabel(wrapper, 'set-flag', 'set flag')
+    expectSimpleRowText(wrapper, 'set-flag', '45')
     wrapper.unmount()
   })
 

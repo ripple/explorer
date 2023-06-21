@@ -40,6 +40,7 @@ export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
 
   const { setGlobals } = useAnalytics()
+  const [customNetworks = [], setCustomNetworks] = useCustomNetworks()
   const { t } = useTranslation()
   const location = useLocation()
 
@@ -49,6 +50,10 @@ export const AppWrapper = () => {
   const rippledUrl = mode === 'custom' ? location.pathname.split('/')[1] : ''
   const basename = mode === 'custom' ? `/${rippledUrl}` : ''
   const updatePath = (path) => `${basename}${path}`
+
+  if (rippledUrl && !customNetworks.includes(rippledUrl)) {
+    setCustomNetworks(customNetworks.concat([rippledUrl]).sort())
+  }
 
   // Defined here rather than ./routes to avoid circular dependencies when using RouteDefinitions with <RouteLink>.
   const routes: [RouteDefinition<any>, any][] = [

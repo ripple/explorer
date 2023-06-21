@@ -37,12 +37,17 @@ export const AccountsRouter = () => {
       classicAddress = xAddressToClassicAddress(accountId).classicAddress
     }
 
-    return getAccountInfo(rippledSocket, classicAddress).then((data: any) => {
-      if (data.Flags & flags.lsfAMM) {
-        return <AMMAccounts />
-      }
-      return <Accounts />
-    })
+    return (
+      getAccountInfo(rippledSocket, classicAddress)
+        .then((data: any) => {
+          if (data.Flags & flags.lsfAMM) {
+            return <AMMAccounts />
+          }
+          return <Accounts />
+        })
+        // Even if account info fails it might be a deleted account
+        .catch(() => <Accounts />)
+    )
   })
 
   if (!accountId) {

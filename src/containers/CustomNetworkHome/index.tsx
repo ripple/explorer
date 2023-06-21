@@ -1,20 +1,17 @@
-import {
-  KeyboardEvent,
-  MouseEvent as ReactMouseEvent,
-  useEffect,
-  useState,
-} from 'react'
+import { KeyboardEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
 import { useAnalytics } from '../shared/analytics'
 import './index.scss'
+import { useCustomNetworks } from '../shared/hooks'
 
 const SidechainHome = () => {
   const { track, trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
   const [networkText, setNetworkText] = useState('')
+  const [customNetworks = []] = useCustomNetworks()
 
   useEffect(() => {
     trackScreenLoaded()
@@ -39,16 +36,6 @@ const SidechainHome = () => {
     }
   }
 
-  function clickButton(
-    _event:
-      | ReactMouseEvent<HTMLDivElement, MouseEvent>
-      | KeyboardEvent<HTMLDivElement>,
-  ) {
-    if (networkText != null) {
-      switchMode(networkText)
-    }
-  }
-
   function renderCustomNetwork(network: string) {
     return (
       <Link key={network} className="custom-network-item" to={`/${network}`}>
@@ -59,9 +46,6 @@ const SidechainHome = () => {
       </Link>
     )
   }
-
-  // TODO: get previous networks from cookies
-  const existingNetworks: string[] = []
 
   return (
     <div className="custom-network-main-page">
@@ -77,20 +61,11 @@ const SidechainHome = () => {
           value={networkText}
           onChange={(event) => setNetworkText(event.target.value)}
         />
-        <div
-          className="custom-network-input-button"
-          tabIndex={0}
-          role="button"
-          onClick={clickButton}
-          onKeyUp={clickButton}
-        >
-          <span>Go to network</span>
-        </div>
       </div>
-      {existingNetworks.length > 0 && (
+      {customNetworks.length > 0 && (
         <div className="custom-network-list">
           <div className="custom-network-header">{t('custom_networks')}</div>
-          {existingNetworks.map(renderCustomNetwork)}
+          {customNetworks.map(renderCustomNetwork)}
         </div>
       )}
     </div>

@@ -12,6 +12,8 @@ import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled/lib/rippled'
 import { flushPromises } from '../../test/utils'
+import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
+import { Error } from '../../../rippled/lib/utils'
 
 jest.mock('../../Ledgers/LedgerMetrics', () => ({
   __esModule: true,
@@ -69,7 +71,24 @@ const mockGetAccountInfo = getAccountInfo
 
 describe('App container', () => {
   const mockStore = configureMockStore([thunk])
-  const createWrapper = (path = '/') => {
+  const createWrapper = (
+    path = '/',
+    localNetworks = [],
+    accountInfoMock = () =>
+      Promise.resolve({
+        flags: 0,
+      }),
+  ) => {
+    mockGetAccountInfo.mockImplementation(accountInfoMock)
+
+    localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
+    if (localNetworks) {
+      localStorage.setItem(
+        CUSTOM_NETWORKS_STORAGE_KEY,
+        JSON.stringify(localNetworks),
+      )
+    }
+
     const store = mockStore(initialState)
     return mount(
       <Provider store={store}>
@@ -89,11 +108,6 @@ describe('App container', () => {
     moxios.stubRequest(
       `${process.env.VITE_DATA_URL}/get_network/s2.ripple.com`,
       { status: 200, response: { result: 'success', network: '3' } },
-    )
-    mockGetAccountInfo.mockImplementation(() =>
-      Promise.resolve({
-        flags: 0,
-      }),
     )
     mockXrplClient.mockImplementation(() => new MockWsClient())
     // BrowserRouter.mockImplementation(({ children }) => <div>{children}</div>)
@@ -116,6 +130,7 @@ describe('App container', () => {
     const wrapper = createWrapper()
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual('xrpl_explorer | ledgers')
+      expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
       expect(wrapper.find('.ledgers').length).toBe(1)
       expect(window.dataLayer).toEqual([
         {
@@ -266,6 +281,29 @@ describe('App container', () => {
     })
   })
 
+  it('renders account page for a deleted account', () => {
+    const id = 'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6'
+    const wrapper = createWrapper(`/accounts/${id}#ssss`, [], () =>
+      Promise.reject(new Error('account not found', 404)),
+    )
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(document.title).toEqual(`xrpl_explorer | r35jYntLwkrb...`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/r35jYntLwkrbc3edisgavDbEdNRSKgcQE6#ssss',
+          page_title: `xrpl_explorer | r35jYntLwkrb...`,
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
+      expect(mockGetAccountInfo).toBeCalledWith(
+        expect.anything(),
+        'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6',
+      )
+      wrapper.unmount()
+    })
+  })
+
   it('renders account page for x-address', () => {
     const id = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
     const wrapper = createWrapper(`/accounts/${id}#ssss`)
@@ -353,7 +391,8 @@ describe('App container', () => {
     const wrapper = createWrapper('/')
     await flushPromises()
     wrapper.update()
-    // Make sure the sockets aren't double initialized.
+    expect(wrapper.find('header')).toHaveClassName('header-no-network')
+    // We don't know the endpoint yet.
     expect(XrplClient).toHaveBeenCalledTimes(0)
     expect(document.title).toEqual(`xrpl_explorer`)
 
@@ -363,10 +402,12 @@ describe('App container', () => {
   it('renders custom mode ledgers', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
-    const wrapper = createWrapper('/s2.ripple.com/')
+    const network = 's2.ripple.com'
+    const wrapper = createWrapper(`/${network}/`)
     await flushPromises()
     wrapper.update()
     // Make sure the sockets aren't double initialized.
+    expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
     expect(XrplClient).toHaveBeenCalledTimes(1)
     expect(document.title).toEqual(`xrpl_explorer | ledgers`)
     wrapper.unmount()

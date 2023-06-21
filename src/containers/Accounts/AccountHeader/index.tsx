@@ -395,7 +395,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
           <div className="secondary balance">
             {deleted ? (
               <div className="warning">
-                <InfoIcon alt="Account Deleted" />
+                <InfoIcon alt="Account Deleted" />{' '}
                 <span className="account-deleted-text">Account Deleted</span>
               </div>
             ) : (
