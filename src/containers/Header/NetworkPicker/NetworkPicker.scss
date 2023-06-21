@@ -54,6 +54,10 @@
     @include dropdown-network-item($amm, $blue-60);
   }
 
+  &.network-hooks {
+    @include dropdown-network-item($hooks, $red-purple-60);
+  }
+
   &.network-custom {
     @include dropdown-network-item($custom, $yellow-60);
   }
