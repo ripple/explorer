@@ -54,6 +54,7 @@
     @include dropdown-network-item($amm, $blue-60);
   }
 
+  /* stylelint-disable-next-line selector-class-pattern -- needed here for variables */
   &.network-hooks_testnet {
     @include dropdown-network-item($hooks-testnet, $red-purple-60);
   }
