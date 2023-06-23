@@ -7,6 +7,7 @@ interface SequenceProps {
   sequence?: number
   ticketSequence?: number
   account?: string
+  isHook?: boolean
 }
 
 export const Sequence: FC<SequenceProps> = ({
@@ -14,9 +15,17 @@ export const Sequence: FC<SequenceProps> = ({
   sequence = 0,
   ticketSequence = 0,
   account = '',
+  isHook = false,
 }) => {
   const { t } = useTranslation()
   const isPseudoTransaction = account === ACCOUNT_ZERO || account === ''
+
+  function getContext() {
+    if (isHook) {
+      return addContextHelp === true ? t('hook_emitted') : t('hook')
+    }
+    return addContextHelp === true ? t('ticket_used') : t('ticket')
+  }
 
   return (
     <span>
@@ -24,10 +33,7 @@ export const Sequence: FC<SequenceProps> = ({
         <span className="row">
           {ticketSequence}
           {' ('}
-          {addContextHelp && addContextHelp === true
-            ? t('ticket_used')
-            : t('ticket')}
-          )
+          {getContext()})
         </span>
       ) : (
         sequence

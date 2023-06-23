@@ -24,6 +24,7 @@ export const TransactionDescription: FC<{ data: any }> = ({ data }) => {
             sequence={data.tx.Sequence}
             ticketSequence={data.tx.TicketSequence}
             account={data.tx.Account}
+            isHook={!!data.tx.EmitDetails}
             addContextHelp
           />
         </b>

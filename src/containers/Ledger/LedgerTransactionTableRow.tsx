@@ -33,6 +33,7 @@ export const LedgerTransactionTableRow = ({ tx }: Props) => {
             sequence={tx.sequence}
             ticketSequence={tx.ticketSequence}
             account={tx.account}
+            isHook={tx.isHook}
           />
         </div>
         <div className="col col-fee">
