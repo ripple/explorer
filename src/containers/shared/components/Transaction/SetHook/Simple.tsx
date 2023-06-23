@@ -30,7 +30,7 @@ export const Simple = ({
         {hook.HookHash ?? 'undefined'}
       </SimpleRow>
       {hook.HookOn && (
-        <SimpleRow label={t('on')} data-test="hook-on">
+        <SimpleRow label={t('triggered_on')} data-test="hook-on">
           {/* {hookOnToTxList(hook.HookOn).map((tx) => (
             <TxPill txType={tx} />
           ))} */}

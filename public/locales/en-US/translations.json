@@ -457,5 +457,6 @@
   "hash": "Hash",
   "grant": "Grant",
   "namespace": "Namespace",
-  "api_version": "API Version"
+  "api_version": "API Version",
+  "triggered_on": "Triggered On"
 }
