@@ -169,6 +169,7 @@
   "transaction_type_name_PaymentChannelClaim": "Payment Channel Claim",
   "transaction_type_name_PaymentChannelCreate": "Payment Channel Create",
   "transaction_type_name_PaymentChannelFund": "Payment Channel Fund",
+  "transaction_type_name_SetHook": "Set Hook",
   "transaction_type_name_SetRegularKey": "Set Regular Key",
   "transaction_type_name_SignerListSet": "Signer List Set",
   "transaction_type_name_TicketCreate": "Ticket Create",
