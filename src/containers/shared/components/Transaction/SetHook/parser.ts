@@ -14,6 +14,8 @@ export const parser = (tx: SetHook, meta: any): SetHookInstructions => {
       (hook: any) => hook.Hook.HookHash,
     ),
   )
+  // TODO: there may be bugs here when a `HookHash` is already specified in a hook
+  // It's difficult to understand what situation that would be in, so this is left here for now
   hashes.forEach((element, index) => {
     if (hooks[index] != null) hooks[index].HookHash = element
   })

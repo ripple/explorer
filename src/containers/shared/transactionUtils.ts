@@ -88,6 +88,12 @@ export const ACCOUNT_FLAGS: Record<number, string> = {
   1: 'asfRequireDest',
 }
 
+export const HOOK_FLAGS: Record<number, string> = {
+  0x00000001: 'hsfOverride',
+  0x00000010: 'hsfNSDelete',
+  0x00000100: 'hsfCollect',
+}
+
 export const CURRENCY_ORDER = [
   'CNY',
   'JPY',
@@ -173,7 +179,7 @@ export function buildMemos(trans: Transaction) {
   return memoList
 }
 
-export function buildFlags(trans: Transaction) {
+export function buildFlags(trans: Transaction): string[] {
   const flags = TX_FLAGS[trans.tx.TransactionType] || {}
   const bits = zeroPad((trans.tx.Flags || 0).toString(2), 32).split('')
 
@@ -186,7 +192,20 @@ export function buildFlags(trans: Transaction) {
         ? TX_FLAGS.all[int] || flags[int] || hex32(int)
         : undefined
     })
-    .filter((d) => Boolean(d))
+    .filter((d) => Boolean(d)) as string[]
+}
+
+export function buildHookFlags(flags: number): string[] {
+  const bits = zeroPad((flags || 0).toString(2), 32).split('')
+
+  return bits
+    .map((value, i) => {
+      const bin = zeroPad(1, 32 - i, true)
+      const int = parseInt(bin, 2)
+      // const type = i < 8 ? 'universal' : (i < 16 ? 'type_specific' : 'reserved');
+      return value === '1' ? HOOK_FLAGS[int] || hex32(int) : undefined
+    })
+    .filter((d) => Boolean(d)) as string[]
 }
 
 function hex32(d: number): string {

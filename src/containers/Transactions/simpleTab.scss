@@ -49,6 +49,15 @@ $subdued-color: $black-40;
           }
         }
 
+        .grant {
+          .account {
+            padding-bottom: 8px;
+            font-size: 11px;
+            text-align: right;
+            @include medium;
+          }
+        }
+
         ul {
           padding: 0;
           margin: 0;
