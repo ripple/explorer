@@ -195,7 +195,11 @@ function hex32(d: number): string {
   return `0x${`00000000${hex}`.slice(-8)}`
 }
 
-function zeroPad(num: string | number, size: number, back = false): string {
+export function zeroPad(
+  num: string | number,
+  size: number,
+  back = false,
+): string {
   let s = String(num)
   while (s.length < (size || 2)) {
     s = back ? `${s}0` : `0${s}`
