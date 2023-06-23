@@ -48,7 +48,10 @@ const processValue = (value: any) => {
       return `${value.substring(0, 300)}...`
     }
     if (value === '') {
-      return '<empty>'
+      return <em>{'<empty>'}</em>
+    }
+    if (typeof value === 'object') {
+      return JSON.stringify(value)
     }
     return value
   }
@@ -70,10 +73,10 @@ const processValue = (value: any) => {
     return (
       <div className="subgroup">
         {Object.entries(value).map(([childKey, childValue]) => (
-          <div
-            key={childKey}
-            data-test={childKey}
-          >{`${childKey}: ${processValue(childValue)}`}</div>
+          <div key={childKey} data-test={childKey}>
+            {`${childKey}: `}
+            {processValue(childValue)}
+          </div>
         ))}
       </div>
     )
