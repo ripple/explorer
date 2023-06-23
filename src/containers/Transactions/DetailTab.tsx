@@ -119,8 +119,15 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
     ) : null
 
   const renderHooks = () => {
-    if (!data.tx.EmitDetails && !data.tx.HookParameters) return null
+    if (
+      !data.tx.EmitDetails &&
+      !data.tx.HookParameters &&
+      !data.meta.HookExecutions
+    )
+      return null
     const renderHookParameterName = (name) => {
+      // Example:
+      // 4556520100000000000000000000000000000000000000000000000000000002 -> EVR 2
       const split = name.split('0000').filter((d) => d !== '')
       if (split.length === 2) {
         return `${convertHexToString(split[0])}${Number(split[1])}`
@@ -181,6 +188,50 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
                   : param.HookParameter.HookParameterValue}
               </li>
             ))}
+          </div>
+        )}
+        {data.meta.HookExecutions && (
+          <div className="detail-subsection">
+            <div className="detail-subtitle">Hook Executions</div>
+            {data.meta.HookExecutions.map((element) => {
+              const exec = element.HookExecution
+              console.log(exec)
+              return (
+                <li key={`hook_exec_${exec.HookHash}`} className="detail-line">
+                  <Trans
+                    i18nKey="hook_exec_hash"
+                    values={{ hash: exec.HookHash }}
+                  />
+                  <ul className="detail-line">
+                    <Trans
+                      i18nKey="hook_exec_account"
+                      values={{
+                        account: exec.HookAccount,
+                      }}
+                    >
+                      <Account account={exec.HookAccount} />
+                    </Trans>
+                  </ul>
+                  <ul className="detail-line">
+                    <Trans
+                      i18nKey="hook_exec_return"
+                      values={{
+                        code: exec.HookReturnCode,
+                        string: convertHexToString(exec.HookReturnString),
+                      }}
+                    />
+                  </ul>
+                  <ul className="detail-line">
+                    <Trans
+                      i18nKey="hook_exec_emit_count"
+                      values={{
+                        count: exec.HookEmitCount,
+                      }}
+                    />
+                  </ul>
+                </li>
+              )
+            })}
           </div>
         )}
       </div>

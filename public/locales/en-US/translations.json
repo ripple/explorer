@@ -456,8 +456,12 @@
   "hook": "Hook",
   "hooks": "Hooks",
   "hook_emitted": "this Transaction was emitted by a Hook",
-  "emit_generation": "This transaction was number <0>{{emit}}</0> in the line of generated transactions",
-  "emit_hook_hash": "This transaction was emitted by the hook <0>{{hash}}</0>",
-  "emit_parent": "This transaction was emitted by a hook triggered by <0>{{hash}}</0>",
-  "emit_callback": "The emit callback is <0>{{callback}}<0>"
+  "emit_generation": "Number <0>{{emit}}</0> in the line of generated transactions",
+  "emit_hook_hash": "Emitted by the hook <0>{{hash}}</0>",
+  "emit_parent": "Emitted by a hook triggered by <0>{{hash}}</0>",
+  "emit_callback": "The emit callback is <0>{{callback}}<0>",
+  "hook_exec_hash": "It triggered the hook <0>{{hash}}</0>",
+  "hook_exec_account": "On the account <0>{{account}}</0>",
+  "hook_exec_return": "Returned the code <0>{{code}}</0> with string <1>{{string}}</1>",
+  "hook_exec_emit_count": "Emitted <0>{{count}}</0> transactions"
 }
