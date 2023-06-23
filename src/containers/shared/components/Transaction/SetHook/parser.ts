@@ -7,7 +7,7 @@ export const parser = (tx: SetHook, meta: any): SetHookInstructions => {
     (node: any) =>
       node.CreatedNode?.LedgerEntryType === 'Hook' ||
       (node.ModifiedNode?.LedgerEntryType === 'Hook' &&
-        !!node.ModifiedNode?.PreviousFields.Hooks),
+        !!node.ModifiedNode?.PreviousFields?.Hooks),
   )
   const hashes = affectedNodes.flatMap((node: any) =>
     (node.ModifiedNode?.FinalFields ?? node.CreatedNode?.NewFields)?.Hooks?.map(
