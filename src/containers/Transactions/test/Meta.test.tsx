@@ -26,9 +26,11 @@ describe('TransactionMeta container', () => {
   it('renders Meta', () => {
     const w = createWrapper()
     expect(w.find('.title').length).toBe(1)
-    expect(w.find('.meta-section').length).toBe(1)
+    expect(w.find('.detail-subsection').length).toBe(1)
     expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
-    expect(w.contains(<div className="meta-title">nodes_type</div>)).toBe(true)
+    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
+      true,
+    )
     expect(w.find('li').length).toBe(23)
 
     expect(w.find('li').at(0).html()).toBe(
@@ -129,27 +131,33 @@ describe('TransactionMeta container', () => {
   it('renders OfferCancel Meta', () => {
     const w = createWrapper(OfferCancel)
     expect(w.find('.title').length).toBe(1)
-    expect(w.find('.meta-section').length).toBe(2)
+    expect(w.find('.detail-subsection').length).toBe(2)
     expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
-    expect(w.contains(<div className="meta-title">nodes_type</div>)).toBe(true)
+    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
+      true,
+    )
     expect(w.find('li').length).toBe(6)
   })
 
   it('renders OfferCreate Meta with missing PreviousFields', () => {
     const w = createWrapper(OfferCreateWithMissingPreviousFields)
     expect(w.find('.title').length).toBe(1)
-    expect(w.find('.meta-section').length).toBe(2)
+    expect(w.find('.detail-subsection').length).toBe(2)
     expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
-    expect(w.contains(<div className="meta-title">nodes_type</div>)).toBe(true)
+    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
+      true,
+    )
     expect(w.find('li').length).toBe(5291)
   })
 
   it('renders PayChannel Meta', () => {
     const w = createWrapper(PaymentChannelClaim)
     expect(w.find('.title').length).toBe(1)
-    expect(w.find('.meta-section').length).toBe(1)
+    expect(w.find('.detail-subsection').length).toBe(1)
     expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
-    expect(w.contains(<div className="meta-title">nodes_type</div>)).toBe(true)
+    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
+      true,
+    )
     expect(w.find('li').length).toBe(4)
   })
 })
