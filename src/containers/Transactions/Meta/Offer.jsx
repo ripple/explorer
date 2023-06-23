@@ -39,7 +39,7 @@ const renderChanges = (t, language, node, index) => {
         <span className="field">TakerPays </span>
         <b>{paysCurrency}</b>
         {renderIssuer(final.TakerPays.issuer)}{' '}
-        <Trans Trans i18nKey="decreased_from_to">
+        <Trans i18nKey="decreased_from_to">
           decreased by
           <b>{{ change: localizeNumber(changePays, language, options) }}</b>
           from
@@ -73,7 +73,7 @@ const renderChanges = (t, language, node, index) => {
         <span className="field">TakerGets </span>
         <b>{getsCurrency}</b>
         {renderIssuer(final.TakerGets.issuer)}{' '}
-        <Trans Trans i18nKey="decreased_from_to">
+        <Trans i18nKey="decreased_from_to">
           decreased by
           <b>{{ change: localizeNumber(changeGets, language, options) }}</b>
           from

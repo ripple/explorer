@@ -9,8 +9,11 @@ import { TransactionSimpleProps } from './types'
 
 const DEFAULT_TX_ELEMENTS = [
   'Account',
+  'EmitDetails',
   'Fee',
+  'FirstLedgerSequence',
   'Flags',
+  'HookParameters',
   'LastLedgerSequence',
   'Memos',
   'Signers',

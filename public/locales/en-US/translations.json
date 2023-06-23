@@ -454,5 +454,10 @@
   "xchain_account_create_count": "XChain Account Create Count",
   "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required",
   "hook": "Hook",
-  "hook_emitted": "this Transaction was emitted by a Hook"
+  "hooks": "Hooks",
+  "hook_emitted": "this Transaction was emitted by a Hook",
+  "emit_generation": "This transaction was number <0>{{emit}}</0> in the line of generated transactions",
+  "emit_hook_hash": "This transaction was emitted by the hook <0>{{hash}}</0>",
+  "emit_parent": "This transaction was emitted by a hook triggered by <0>{{hash}}</0>",
+  "emit_callback": "The emit callback is <0>{{callback}}<0>"
 }

@@ -38,8 +38,8 @@ export const TransactionMeta: FC<{ data: any }> = ({ data }) => {
 
     return (
       meta.length !== 0 && (
-        <div className="meta-section">
-          <div className="meta-title">{t('nodes_type', { action })}</div>
+        <div className="detail-subsection">
+          <div className="detail-subtitle">{t('nodes_type', { action })}</div>
           <ul>{meta}</ul>
         </div>
       )

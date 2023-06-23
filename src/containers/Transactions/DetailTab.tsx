@@ -15,6 +15,7 @@ import {
 } from '../shared/transactionUtils'
 import './detailTab.scss'
 import { useLanguage } from '../shared/hooks'
+import { convertHexToString } from '../../rippled/lib/utils'
 
 export const DetailTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
@@ -117,11 +118,81 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
       </div>
     ) : null
 
+  const renderHooks = () => {
+    if (!data.tx.EmitDetails && !data.tx.HookParameters) return null
+    const renderHookParameterName = (name) => {
+      const split = name.split('0000').filter((d) => d !== '')
+      if (split.length === 2) {
+        return `${convertHexToString(split[0])}${Number(split[1])}`
+      }
+      return name
+    }
+    return (
+      <div className="detail-section">
+        <div className="title">{t('hooks')}</div>
+        {data.tx.EmitDetails && (
+          <div className="detail-subsection">
+            <div className="detail-subtitle">Emit Details</div>
+            <div className="detail-line">
+              <Trans
+                i18nKey="emit_generation"
+                values={{ emit: data.tx.EmitDetails.EmitGeneration }}
+              />
+            </div>
+            <div className="detail-line">
+              <Trans
+                i18nKey="emit_hook_hash"
+                values={{ hash: data.tx.EmitDetails.EmitHookHash }}
+              />
+            </div>
+            <div className="detail-line">
+              <Trans
+                i18nKey="emit_parent"
+                values={{
+                  hash: `${data.tx.EmitDetails.EmitParentTxnID.substring(
+                    20,
+                  )}...`,
+                }}
+              >
+                <Link
+                  to={`/transactions/${data.tx.EmitDetails.EmitParentTxnID}`}
+                />
+              </Trans>
+            </div>
+            {data.tx.EmitDetails.EmitCallback && (
+              <div className="detail-line">
+                <Trans
+                  i18nKey="emit_callback"
+                  values={{ callback: data.tx.EmitDetails.EmitCallback }}
+                />
+              </div>
+            )}
+          </div>
+        )}
+        {data.tx.HookParameters && (
+          <div className="detail-subsection">
+            <div className="detail-subtitle">Hook Parameters</div>
+            {data.tx.HookParameters.map((param) => (
+              <li key={param.HookParameter.HookParameterName}>
+                {renderHookParameterName(param.HookParameter.HookParameterName)}
+                {': '}
+                {param.HookParameter.HookParameterValue.length === 20
+                  ? convertHexToString(param.HookParameter.HookParameterValue)
+                  : param.HookParameter.HookParameterValue}
+              </li>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="detail-body">
       {renderStatus()}
       <TransactionDescription data={data} />
       {renderSigners()}
+      {renderHooks()}
       {renderFlags()}
       {renderFee()}
       {renderMemos()}
