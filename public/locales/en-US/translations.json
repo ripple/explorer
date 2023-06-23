@@ -462,6 +462,6 @@
   "emit_callback": "The emit callback is <0>{{callback}}<0>",
   "hook_exec_hash": "It triggered the hook <0>{{hash}}</0>",
   "hook_exec_account": "On the account <0>{{account}}</0>",
-  "hook_exec_return": "Returned the code <0>{{code}}</0> with string <1>{{string}}</1>",
+  "hook_exec_return": "Returned the code <0>{{code}}</0> with string \"<1>{{string}}</1>\"",
   "hook_exec_emit_count": "Emitted <0>{{count}}</0> transactions"
 }

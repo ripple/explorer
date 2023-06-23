@@ -140,19 +140,19 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
         {data.tx.EmitDetails && (
           <div className="detail-subsection">
             <div className="detail-subtitle">Emit Details</div>
-            <div className="detail-line">
+            <li className="detail-line">
               <Trans
                 i18nKey="emit_generation"
                 values={{ emit: data.tx.EmitDetails.EmitGeneration }}
               />
-            </div>
-            <div className="detail-line">
+            </li>
+            <li className="detail-line">
               <Trans
                 i18nKey="emit_hook_hash"
                 values={{ hash: data.tx.EmitDetails.EmitHookHash }}
               />
-            </div>
-            <div className="detail-line">
+            </li>
+            <li className="detail-line">
               <Trans
                 i18nKey="emit_parent"
                 values={{
@@ -165,14 +165,14 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
                   to={`/transactions/${data.tx.EmitDetails.EmitParentTxnID}`}
                 />
               </Trans>
-            </div>
+            </li>
             {data.tx.EmitDetails.EmitCallback && (
-              <div className="detail-line">
+              <li className="detail-line">
                 <Trans
                   i18nKey="emit_callback"
                   values={{ callback: data.tx.EmitDetails.EmitCallback }}
                 />
-              </div>
+              </li>
             )}
           </div>
         )}
@@ -197,7 +197,10 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
               const exec = element.HookExecution
               console.log(exec)
               return (
-                <li key={`hook_exec_${exec.HookHash}`} className="detail-line">
+                <li
+                  key={`hook_exec_${exec.HookHash}_${exec.HookExecutionIndex}`}
+                  className="detail-line"
+                >
                   <Trans
                     i18nKey="hook_exec_hash"
                     values={{ hash: exec.HookHash }}
