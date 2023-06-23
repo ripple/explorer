@@ -195,7 +195,6 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
             <div className="detail-subtitle">Hook Executions</div>
             {data.meta.HookExecutions.map((element) => {
               const exec = element.HookExecution
-              console.log(exec)
               return (
                 <li
                   key={`hook_exec_${exec.HookHash}_${exec.HookExecutionIndex}`}
