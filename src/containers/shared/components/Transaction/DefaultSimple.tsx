@@ -63,9 +63,11 @@ const processValue = (value: any) => {
         Object.keys(childValue).length === 1
       ) {
         const childKey = Object.keys(childValue)[0]
-        return <div key={childValue}>{processValue(childValue[childKey])}</div>
+        const processed = processValue(childValue[childKey])
+        return <div key={JSON.stringify(childValue)}>{processed}</div>
       }
-      return <div key={childValue}>{processValue(childValue)}</div>
+      const processed = processValue(childValue)
+      return <div key={JSON.stringify(processed)}>{processed}</div>
     })
   }
 
