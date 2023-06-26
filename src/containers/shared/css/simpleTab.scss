@@ -9,9 +9,16 @@ $index-width: 324px;
     width: $index-width;
     padding: 16px;
     border-left: 1px solid $black-70;
+    margin-bottom: 60px;
     margin-left: -1px;
 
     .row {
+      margin-bottom: 32px;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+
       .label {
         margin-bottom: 0;
         color: $black-40;
@@ -22,7 +29,6 @@ $index-width: 324px;
 
       .value {
         overflow: hidden;
-        margin-bottom: 32px;
         color: $white;
         font-size: 14px;
         line-height: 16px;
@@ -53,6 +59,10 @@ $index-width: 324px;
     .row {
       &:first-child {
         padding-top: 0;
+      }
+
+      &:last-child {
+        border-bottom: none;
       }
 
       display: flex;
