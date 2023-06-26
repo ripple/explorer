@@ -42,7 +42,7 @@ export const Simple = ({
           {hook.HookGrants.map((hookGrant) => {
             const grant = hookGrant.HookGrant
             return (
-              <div className="grant">
+              <div className="grant" key={grant.HookHash}>
                 <div className="hash">{grant.HookHash}</div>
                 {grant.Authorize && <Account account={grant.Authorize} />}
               </div>
@@ -61,7 +61,7 @@ export const Simple = ({
         </SimpleRow>
       )}
       {hook.HookApiVersion != null && (
-        <SimpleRow label={t('api_version')} data-test="hook-namespace">
+        <SimpleRow label={t('api_version')} data-test="hook-api-version">
           {hook.HookApiVersion}
         </SimpleRow>
       )}
