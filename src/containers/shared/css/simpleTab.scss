@@ -8,6 +8,7 @@ $index-width: 324px;
   .index {
     width: $index-width;
     padding: 16px;
+    border-left: 1px solid $black-70;
     margin-left: -1px;
 
     .row {
