@@ -171,7 +171,9 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
                 <Trans
                   i18nKey="emit_callback"
                   values={{ callback: data.tx.EmitDetails.EmitCallback }}
-                />
+                >
+                  <Account account={data.tx.EmitDetails.EmitCallback} />
+                </Trans>
               </li>
             )}
           </div>
