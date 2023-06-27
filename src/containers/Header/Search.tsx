@@ -48,9 +48,10 @@ const getIdType = async (id: string, rippledContext: XrplClient) => {
   if (isValidPayString(id) || isValidPayString(id.replace('@', '$'))) {
     return 'paystrings'
   }
+  const separators = /[.:+-]/
   if (
     (CURRENCY_REGEX.test(id) || FULL_CURRENCY_REGEX.test(id)) &&
-    isValidClassicAddress(id.split('.')[1])
+    isValidClassicAddress(id.split(separators)[1])
   ) {
     return 'token'
   }
@@ -87,7 +88,8 @@ const normalize = (id: string, type: string) => {
       return id.replace('@', '$')
     }
   } else if (type === 'token') {
-    const components = id.split('.')
+    const separators = /[.:+-]/
+    const components = id.split(separators)
     return `${components[0].toLowerCase()}.${components[1]}`
   }
   return id
@@ -110,7 +112,6 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
       search_term: id,
       search_category: type,
     })
-
     history.push(
       type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
     )
