@@ -47,6 +47,9 @@ describe('Search component', () => {
     const paystring = 'blunden$paystring.crypto.com'
     const paystringWithAt = 'blunden@paystring.crypto.com'
     const validator = 'nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p'
+    const addressWithQuotes = '"rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX"'
+    const addressWithSpace = ' rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX '
+    const addressWithSingleQuote = '"rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX'
 
     const hash =
       '59239EA78084F6E2F288473F8AE02F3E6FC92F44BDE59668B5CAE361D3D32838'
@@ -69,6 +72,21 @@ describe('Search component', () => {
     expect(window.location.pathname).toEqual(`/ledgers/${ledgerIndex}`)
 
     input.instance().value = rippleAddress
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+
+    input.instance().value = addressWithQuotes
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+
+    input.instance().value = addressWithSingleQuote
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+
+    input.instance().value = addressWithSpace
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
     expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)

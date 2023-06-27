@@ -11,6 +11,7 @@
   "network_name_mainnet": "Mainnet",
   "network_name_devnet": "Devnet",
   "network_name_amm": "AMM-Devnet",
+  "network_name_hooks_testnet": "Hooks-Testnet",
   "network_name_custom": "Custom",
   "app.meta.description": "XRPLネットワークエクスプローラ",
   "app.meta.author": "Ripple",
@@ -448,5 +449,8 @@
   "peer_crawled_context": null,
   "xchainbridge": null,
   "language_en-US": null,
-  "language_ja-JP": null
+  "language_ja-JP": null,
+  "xchain_account_claim_count": null,
+  "xchain_account_create_count": null,
+  "min_signer_quorum": null
 }
