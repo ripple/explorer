@@ -16,7 +16,7 @@ import { useLanguage } from '../shared/hooks'
 import { NodeData, NodeResponse } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 
-const ledgerCompare = (a: NodeData, b: NodeData) => {
+export const ledgerCompare = (a: NodeData, b: NodeData) => {
   const aLedger = a.validated_ledger.ledger_index
   const bLedger = b.validated_ledger.ledger_index
   const compareVersion = isEarlierVersion(b.version, a.version) ? -1 : 1

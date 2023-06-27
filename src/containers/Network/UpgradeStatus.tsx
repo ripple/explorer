@@ -14,42 +14,76 @@ import {
 } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
-import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
+import {
+  NodeData,
+  NodeResponse,
+  StreamValidator,
+  ValidatorResponse,
+} from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
+import { ledgerCompare } from './Nodes'
 
 interface DataAggregation {
   label: string
-  value: number
-  count: number
+  validatorsPercent: number
+  validatorsCount: number
+  nodesPercent: number
+  nodesCount: number
 }
 
 export const aggregateData = (
   validators: ValidatorResponse[],
+  nodes: NodeResponse[],
 ): DataAggregation[] => {
   if (!validators) {
     return []
   }
-  let total = 0
-  const aggregation: Record<string, number> = {}
+  let totalVals = 0
+  let totalNodes = 0
+  interface aggregationTypes {
+    validatorsCount: number
+    nodesCount: number
+  }
+  const aggregation: Record<string, aggregationTypes> = {}
   validators.forEach((validator) => {
     if (validator.signing_key) {
-      total += 1
+      totalVals += 1
       const version = validator.server_version
       if (version) {
         if (!aggregation[version]) {
-          aggregation[version] = 1
+          aggregation[version] = { validatorsCount: 1, nodesCount: 0 }
         } else {
-          aggregation[version] += 1
+          aggregation[version].validatorsCount += 1
+        }
+      }
+    }
+  })
+
+  nodes.forEach((node) => {
+    if (node.version?.includes('+')) {
+      node.version = node.version.split('+')[0]
+    }
+    if (node.node_public_key) {
+      totalNodes += 1
+      const { version } = node
+      if (version) {
+        if (!aggregation[version]) {
+          aggregation[version] = { validatorsCount: 0, nodesCount: 1 }
+        } else {
+          aggregation[version].nodesCount += 1
         }
       }
     }
   })
 
   return Object.entries(aggregation)
-    .map(([version, count]) => ({
+    .map(([version, counts]) => ({
       label: version ? version.trim() : 'N/A',
-      value: total > 0 ? (count * 100) / total : 0,
-      count,
+      validatorsPercent:
+        totalVals > 0 ? (counts.validatorsCount * 100) / totalVals : 0,
+      validatorsCount: counts.validatorsCount,
+      nodesPercent: totalNodes > 0 ? (counts.nodesCount * 100) / totalNodes : 0,
+      nodesCount: counts.nodesCount,
     }))
     .sort((a, b) => (isEarlierVersion(a.label, b.label) ? -1 : 1))
 }
@@ -93,10 +127,8 @@ export const UpgradeStatus = () => {
   )
 
   const fetchData = () => {
-    const url = `${process.env.VITE_DATA_URL}/validators/${network}`
-
-    axios
-      .get(url)
+    const validatorsReq = axios
+      .get(`${process.env.VITE_DATA_URL}/validators/${network}`)
       .then((resp) => resp.data.validators)
       .then((validators: ValidatorResponse[]) => {
         const newValidatorList: Record<string, ValidatorResponse> = {}
@@ -108,9 +140,44 @@ export const UpgradeStatus = () => {
         setUnlCount(
           validators.filter((validator) => Boolean(validator.unl)).length,
         )
-        setAggregated(aggregateData(Object.values(newValidatorList)))
+        return Object.values(newValidatorList)
       })
       .catch((e) => Log.error(e))
+
+    const nodesReq = axios
+      .get(`${process.env.VITE_DATA_URL}/topology/nodes/${network}`)
+      .then((resp) => resp.data.nodes)
+      .then((allNodes) => {
+        const nodes: NodeData[] = allNodes.map((node: NodeResponse) => ({
+          ...node,
+          version: node.version?.startsWith('rippled')
+            ? node.version.split('-')[1]
+            : node.version,
+          validated_ledger: {
+            ledger_index: node.complete_ledgers
+              ? Number(node.complete_ledgers.split('-')[1])
+              : 0,
+          },
+          load_factor: node.load_factor_server
+            ? Number(node.load_factor_server)
+            : null,
+        }))
+
+        nodes.sort((a: NodeData, b: NodeData) => {
+          if (a.server_state === b.server_state) {
+            return ledgerCompare(a, b)
+          }
+          if (a.server_state && !b.server_state) {
+            return -1
+          }
+          return 1
+        })
+        return nodes
+      })
+      .catch((e) => Log.error(e))
+    Promise.all([validatorsReq, nodesReq]).then(([validators, nodes]) => {
+      setAggregated(aggregateData(validators, nodes))
+    })
   }
 
   const fetchStableVersion = () => {

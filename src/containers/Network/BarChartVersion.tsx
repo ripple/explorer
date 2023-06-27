@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -9,24 +10,29 @@ import {
   TooltipProps,
   Label,
   ResponsiveContainer,
-  Legend,
+  Text,
   Cell,
 } from 'recharts'
 import { Loader } from '../shared/components/Loader'
 import {
-  GREY,
-  BLUE,
-  RED,
-  GREEN,
   PURPLE,
   GREY_600,
   GREY_800,
-  isEarlierVersion,
+  GREEN_500,
+  PURPLE_500,
+  GREEN_800,
+  PURPLE_700,
+  GREY_0,
+  GREY_400,
 } from '../shared/utils'
 import './css/barchart.scss'
 
 interface Props {
   data: any[]
+  stableVersion: string | null
+}
+
+interface LegendProps {
   stableVersion: string | null
 }
 
@@ -47,7 +53,12 @@ const CustomTooltip = ({
         <p className="label">{t('version_display', { version: label })}</p>
         <p className="value">
           {t('validators_count', {
-            count: payload ? payload[0].payload.count : 0,
+            vals_count: payload ? payload[0].payload.validatorsCount : 0,
+          })}
+        </p>
+        <p className="value">
+          {t('nodes_count', {
+            nodes_count: payload ? payload[0].payload.nodesCount : 0,
           })}
         </p>
       </div>
@@ -56,22 +67,44 @@ const CustomTooltip = ({
   return null
 }
 
-const renderLegend = (stableVersion: string | null, t: any) => (
-  <div className="legend">
-    <div className="legend-text">
-      <span>{t('current_stable_version')}:</span>
-      <span style={{ color: GREEN }}>
-        {' '}
-        {t('stable_version', { stableVersion })}{' '}
-      </span>
+const CustomLegend = (props: LegendProps) => {
+  const { stableVersion } = props
+  return (
+    <div className="custom-legend">
+      <div className="legend-color">
+        <div className="segment">
+          <span className="icon vals" />
+          <span className="text">{t('validators')}</span>
+        </div>
+        <div className="segment">
+          <span className="icon nodes" />
+          <span className="text">{t('nodes')}</span>
+        </div>
+      </div>
+      <div className="legend-stable">
+        <div className="stable-text">
+          <span>{t('current_stable_version')}:</span>
+          <span className="stable" style={{ color: GREY_0 }}>
+            {' '}
+            {t('stable_version', { stableVersion })}{' '}
+          </span>
+        </div>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
-const stableColorCode = (dataLabel: string, stableVersion: string) => {
-  if (dataLabel === stableVersion) return GREEN
-  if (isEarlierVersion(dataLabel, stableVersion)) return RED
-  return BLUE
+const stableColorCode = (
+  type: string,
+  dataLabel: string,
+  stableVersion: string,
+) => {
+  if (dataLabel === stableVersion) {
+    if (type === 'validators') return GREEN_500
+    return PURPLE_500
+  }
+  if (type === 'validators') return GREEN_800
+  return PURPLE_700
 }
 
 const BarChartVersion = (props: Props) => {
@@ -80,6 +113,7 @@ const BarChartVersion = (props: Props) => {
   const [showTooltips, setShowTooltips] = useState(false)
   return (
     <div className="barchart">
+      <CustomLegend stableVersion={stableVersion} />
       <ResponsiveContainer height={532} width="95%">
         <BarChart
           data={data}
@@ -93,26 +127,40 @@ const BarChartVersion = (props: Props) => {
             height={90}
             tickLine={false}
             minTickGap={-1}
-            stroke={GREY}
+            stroke={GREY_400}
+            tick={(e) => {
+              const {
+                payload: { value },
+              } = e
+              const color = value === stableVersion ? GREY_0 : GREY_400
+              e['fill'] = color
+              if (value === stableVersion)
+                return (
+                  <Text {...e} style={{ fontWeight: 700 }}>
+                    {value}
+                  </Text>
+                )
+              return <Text {...e}>{value}</Text>
+            }}
             interval={0}
           />
           <YAxis
             className="yAxis"
             tickLine={false}
             tickFormatter={(tick) => `${tick}%`}
-            stroke={GREY}
+            stroke={GREY_400}
           >
             <Label
               className="y-label"
-              value={t('%_of_total_validators')}
+              value={t('%_of_total_nodes_validators')}
               angle={-90}
               position="insideTop"
               dx={45}
-              dy={80}
+              dy={110}
             />
           </YAxis>
           <Bar
-            dataKey="value"
+            dataKey="validatorsPercent"
             barSize={30}
             fill={PURPLE}
             radius={[4, 4, 0, 0]}
@@ -124,17 +172,35 @@ const BarChartVersion = (props: Props) => {
               data.map((_entry, index) => (
                 <Cell
                   key={data[index].label}
-                  fill={stableColorCode(data[index].label, stableVersion)}
+                  fill={stableColorCode(
+                    'validators',
+                    data[index].label,
+                    stableVersion,
+                  )}
                 />
               ))}
           </Bar>
-          <Legend
-            verticalAlign="top"
-            content={() => renderLegend(stableVersion, t)}
-            wrapperStyle={{
-              textAlign: 'right',
-            }}
-          />
+          <Bar
+            dataKey="nodesPercent"
+            barSize={30}
+            fill={PURPLE}
+            radius={[4, 4, 0, 0]}
+            isAnimationActive={false}
+            onMouseOver={() => setShowTooltips(true)}
+            onMouseLeave={() => setShowTooltips(false)}
+          >
+            {stableVersion &&
+              data.map((_entry, index) => (
+                <Cell
+                  key={data[index].label}
+                  fill={stableColorCode(
+                    'nodes',
+                    data[index].label,
+                    stableVersion,
+                  )}
+                />
+              ))}
+          </Bar>
           <Tooltip
             content={<CustomTooltip />}
             cursor={false}

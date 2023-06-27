@@ -24,3 +24,54 @@
     color: $white;
   }
 }
+
+.custom-legend {
+  margin-bottom: 40px;
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  .legend-color {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+    .segment {
+      display: inline-block;
+      .icon {
+        &.vals {
+          background-color: #32E685;
+          margin-left: 16px;
+        }
+        &.nodes {
+          background-color: #7919FF;
+          margin-left: 16px;
+          @media (width >= 600px) {
+            margin-left: 24px;
+          }
+        }
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        display: inline-block;
+      }
+      .text {
+        display: inline-block;
+        color: $black-40;
+        text-transform: none;
+        vertical-align: middle;
+        margin-left: 16px;
+        height: 16px;
+      }
+    }
+  }
+  .legend-stable {
+    display: inline-flex;
+    padding: 16px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 8px;
+    background-color: #343437;
+    .stable {
+      font-weight: 700;
+    }
+  }
+}
