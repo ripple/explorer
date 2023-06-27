@@ -94,6 +94,10 @@ $subdued-color: $black-40;
       background: rgba($black-80, 0.7);
       gap: 15px;
 
+      &:first-child {
+        margin-top: 0px;
+      }
+
       &:last-child {
         margin-bottom: 0px;
       }
