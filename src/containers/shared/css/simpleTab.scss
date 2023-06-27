@@ -56,6 +56,7 @@ $index-width: 324px;
       margin-bottom: 60px;
     }
 
+    /* stylelint-disable-next-line no-descending-specificity -- more confusing to satisfy it */
     .row {
       &:first-child {
         padding-top: 0;
