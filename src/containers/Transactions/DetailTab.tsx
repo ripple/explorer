@@ -135,10 +135,10 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
       return name
     }
     return (
-      <div className="detail-section">
+      <div className="detail-section" data-test="hooks">
         <div className="title">{t('hooks')}</div>
         {data.tx.EmitDetails && (
-          <div className="detail-subsection">
+          <div className="detail-subsection" data-test="emit-details">
             <div className="detail-subtitle">Emit Details</div>
             <li className="detail-line">
               <Trans
@@ -177,33 +177,37 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
           </div>
         )}
         {data.tx.HookParameters && (
-          <div className="detail-subsection">
+          <div className="detail-subsection" data-test="hook-params">
             <div className="detail-subtitle">Hook Parameters</div>
-            {data.tx.HookParameters.map((param) => (
-              <li key={param.HookParameter.HookParameterName}>
-                {renderHookParameterName(param.HookParameter.HookParameterName)}
-                {': '}
-                {param.HookParameter.HookParameterValue.length === 20
-                  ? convertHexToString(param.HookParameter.HookParameterValue)
-                  : param.HookParameter.HookParameterValue}
-              </li>
-            ))}
+            {data.tx.HookParameters.map((hookParam) => {
+              const param = hookParam.HookParameter
+              return (
+                <li key={param.HookParameterName}>
+                  {renderHookParameterName(param.HookParameterName)}
+                  {': '}
+                  {param.HookParameterValue.length <= 32
+                    ? convertHexToString(param.HookParameterValue)
+                    : param.HookParameterValue}
+                </li>
+              )
+            })}
           </div>
         )}
         {data.meta.HookExecutions && (
-          <div className="detail-subsection">
+          <div className="detail-subsection" data-test="hook-executions">
             <div className="detail-subtitle">Hook Executions</div>
             {data.meta.HookExecutions.map((element) => {
               const exec = element.HookExecution
               return (
                 <li
                   key={`hook_exec_${exec.HookHash}_${exec.HookExecutionIndex}`}
-                  className="detail-line"
                 >
-                  <Trans
-                    i18nKey="hook_exec_hash"
-                    values={{ hash: exec.HookHash }}
-                  />
+                  <span className="detail-line">
+                    <Trans
+                      i18nKey="hook_exec_hash"
+                      values={{ hash: exec.HookHash }}
+                    />
+                  </span>
                   <ul className="detail-line">
                     <Trans
                       i18nKey="hook_exec_account"
@@ -218,7 +222,7 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
                     <Trans
                       i18nKey="hook_exec_return"
                       values={{
-                        code: exec.HookReturnCode,
+                        code: `0x${exec.HookReturnCode}`,
                         string: convertHexToString(exec.HookReturnString),
                       }}
                     />

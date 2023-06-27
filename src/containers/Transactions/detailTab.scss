@@ -15,6 +15,10 @@
       border: none;
     }
 
+    li {
+      word-wrap: break-word;
+    }
+
     @include for-size(tablet-landscape-up) {
       width: 552px;
     }
