@@ -106,14 +106,16 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   const history = useHistory()
 
   const handleSearch = async (id: string) => {
-    const type = await getIdType(id, socket)
-
+    const strippedId = id.replace(/^["']|["']$/g, '')
+    const type = await getIdType(strippedId, socket)
     track('search', {
-      search_term: id,
+      search_term: strippedId,
       search_category: type,
     })
     history.push(
-      type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
+      type === 'invalid'
+        ? `/search/${strippedId}`
+        : `/${type}/${normalize(strippedId, type)}`,
     )
     callback()
   }
