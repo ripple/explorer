@@ -29,6 +29,8 @@ const determineHashType = async (id: string, rippledContext: XrplClient) => {
     return 'nft'
   }
 }
+// separator for currency formats
+const separators = /[.:+-]/
 
 const getIdType = async (id: string, rippledContext: XrplClient) => {
   if (DECIMAL_REGEX.test(id)) {
@@ -48,7 +50,6 @@ const getIdType = async (id: string, rippledContext: XrplClient) => {
   if (isValidPayString(id) || isValidPayString(id.replace('@', '$'))) {
     return 'paystrings'
   }
-  const separators = /[.:+-]/
   if (
     (CURRENCY_REGEX.test(id) || FULL_CURRENCY_REGEX.test(id)) &&
     isValidClassicAddress(id.split(separators)[1])
@@ -88,7 +89,6 @@ const normalize = (id: string, type: string) => {
       return id.replace('@', '$')
     }
   } else if (type === 'token') {
-    const separators = /[.:+-]/
     const components = id.split(separators)
     return `${components[0].toLowerCase()}.${components[1]}`
   }
