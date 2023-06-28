@@ -1,4 +1,3 @@
-import { t } from 'i18next'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -69,6 +68,7 @@ const CustomTooltip = ({
 
 const CustomLegend = (props: LegendProps) => {
   const { stableVersion } = props
+  const { t } = useTranslation()
   return (
     <div className="custom-legend">
       <div className="legend-color">
@@ -111,6 +111,21 @@ const BarChartVersion = (props: Props) => {
   const { data, stableVersion } = props
   const { t } = useTranslation()
   const [showTooltips, setShowTooltips] = useState(false)
+  const customTick = (e) => {
+    const {
+      payload: { value },
+    } = e
+    const color = value === stableVersion ? GREY_0 : GREY_400
+    e.fill = color
+    if (value === stableVersion)
+      /* eslint-disable react/jsx-props-no-spreading */
+      return (
+        <Text {...e} style={{ fontWeight: 700 }}>
+          {value}
+        </Text>
+      )
+    return <Text {...e}>{value}</Text>
+  }
   return (
     <div className="barchart">
       <CustomLegend stableVersion={stableVersion} />
@@ -128,20 +143,7 @@ const BarChartVersion = (props: Props) => {
             tickLine={false}
             minTickGap={-1}
             stroke={GREY_400}
-            tick={(e) => {
-              const {
-                payload: { value },
-              } = e
-              const color = value === stableVersion ? GREY_0 : GREY_400
-              e['fill'] = color
-              if (value === stableVersion)
-                return (
-                  <Text {...e} style={{ fontWeight: 700 }}>
-                    {value}
-                  </Text>
-                )
-              return <Text {...e}>{value}</Text>
-            }}
+            tick={customTick}
             interval={0}
           />
           <YAxis

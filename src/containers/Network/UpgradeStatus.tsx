@@ -44,8 +44,9 @@ export const aggregateData = (
     validatorsCount: number
     nodesCount: number
   }
+
   const aggregation: Record<string, aggregationTypes> = {}
-  validators.forEach((validator) => {
+  validators?.forEach((validator) => {
     if (validator.signing_key) {
       totalVals += 1
       const version = validator.server_version
@@ -59,10 +60,7 @@ export const aggregateData = (
     }
   })
 
-  nodes.forEach((node) => {
-    if (node.version?.includes('+')) {
-      node.version = node.version.split('+')[0]
-    }
+  nodes?.forEach((node) => {
     if (node.node_public_key) {
       totalNodes += 1
       const { version } = node
@@ -86,6 +84,15 @@ export const aggregateData = (
       nodesCount: counts.nodesCount,
     }))
     .sort((a, b) => (isEarlierVersion(a.label, b.label) ? -1 : 1))
+}
+
+const handleNodeVersion = (version: string | undefined) => {
+  let cleanedVersion = version
+  if (version?.startsWith('rippled'))
+    cleanedVersion = `${version.split('-')[1]}`
+  if (version?.includes('+'))
+    cleanedVersion = `${cleanedVersion?.split('+')[0]}`
+  return cleanedVersion
 }
 
 export const UpgradeStatus = () => {
@@ -150,9 +157,7 @@ export const UpgradeStatus = () => {
       .then((allNodes) => {
         const nodes: NodeData[] = allNodes.map((node: NodeResponse) => ({
           ...node,
-          version: node.version?.startsWith('rippled')
-            ? node.version.split('-')[1]
-            : node.version,
+          version: handleNodeVersion(node?.version),
           validated_ledger: {
             ledger_index: node.complete_ledgers
               ? Number(node.complete_ledgers.split('-')[1])
