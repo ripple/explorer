@@ -27,45 +27,35 @@
 
 .custom-legend {
   display: flex;
-  width: 95%;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin: 0 16px 40px;
 
   .legend-color {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 0 16px;
 
     .segment {
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      gap: 0 16px;
 
       .icon {
         &.vals {
-          margin-left: 16px;
-          background-color: #32E685;
+          background-color: #32e685;
         }
 
         &.nodes {
-          margin-left: 16px;
-          background-color: #7919FF;
-          @media (width >= 600px) {
-            margin-left: 24px;
-          }
+          background-color: #7919ff;
         }
 
-        display: inline-block;
         width: 16px;
         height: 16px;
         border-radius: 4px;
       }
 
       .text {
-        display: inline-block;
-        height: 16px;
-        margin-left: 16px;
         color: $black-40;
-        text-transform: none;
-        vertical-align: middle;
       }
     }
   }
@@ -74,7 +64,7 @@
     display: inline-flex;
     align-items: flex-start;
     padding: 16px;
-    border-radius: 8px;
+    border-radius: $border-radius;
     background-color: #343437;
     gap: 10px;
 
