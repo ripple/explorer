@@ -452,5 +452,6 @@
   "language_ja-JP": "Japanese",
   "xchain_account_claim_count": "XChain Account Claim Count",
   "xchain_account_create_count": "XChain Account Create Count",
-  "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required"
+  "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required",
+  "holder": "Holder"
 }
