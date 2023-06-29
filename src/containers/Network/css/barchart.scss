@@ -27,7 +27,6 @@
 
 .custom-legend {
   display: flex;
-  justify-content: space-between;
   margin: 0 16px 40px;
 
   .legend-color {
@@ -61,12 +60,10 @@
   }
 
   .legend-stable {
-    display: inline-flex;
-    align-items: flex-start;
     padding: 16px;
+    margin-left: auto;
     border-radius: $border-radius;
     background-color: #343437;
-    gap: 10px;
 
     .stable {
       font-weight: 700;
