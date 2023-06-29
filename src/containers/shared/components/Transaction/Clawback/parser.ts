@@ -6,7 +6,7 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
   tx,
 ) => {
   const account = tx.Account
-  let amount = formatAmount(tx.Amount)
+  const amount = formatAmount(tx.Amount)
   const holder = amount.issuer
   amount.issuer = account
 
