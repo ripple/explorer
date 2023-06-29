@@ -1,8 +1,4 @@
-import {
-  createSimpleWrapperFactory,
-  expectSimpleRowText,
-  expectSimpleRowNotToExist,
-} from '../../test'
+import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transaction from './mock_data/Clawback.json'
 
