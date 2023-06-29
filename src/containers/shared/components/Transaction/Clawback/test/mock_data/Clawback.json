@@ -1,0 +1,81 @@
+{
+  "tx": {
+    "Account": "rBUPvxccLNQJ3mKKK4JZgrJL6q5SBR674X",
+    "Amount": {
+      "currency": "FOO",
+      "issuer": "rn9N1bqXzKV6AwDXiS1mCjy27BGuwwweY6",
+      "value": "3840"
+    },
+    "Fee": "10",
+    "Flags": 0,
+    "LastLedgerSequence": 315,
+    "Sequence": 293,
+    "SigningPubKey": "EDC76D14371304057E386EDA6F159CD7D8463413CF2B48A7759E830912F53C70C7",
+    "TransactionType": "Clawback",
+    "TxnSignature": "F4ABC4F8A1AE5AD0F3854B106524F6BD50D05F725D78AF5E2DB7D27D00221ED2756476ABB6AE12B363940C9F0AF963ED831097B8AFFF2CD6D777184616475B09",
+    "date": 1688059056000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Balance": {
+              "currency": "FOO",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "0"
+            },
+            "Flags": 65536,
+            "HighLimit": {
+              "currency": "FOO",
+              "issuer": "rBUPvxccLNQJ3mKKK4JZgrJL6q5SBR674X",
+              "value": "0"
+            },
+            "HighNode": "0",
+            "LowLimit": {
+              "currency": "FOO",
+              "issuer": "rn9N1bqXzKV6AwDXiS1mCjy27BGuwwweY6",
+              "value": "0"
+            },
+            "LowNode": "0"
+          },
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "4AFC29AB739180A9AD6348A9A821AAD63BF74ED26657D22FB472B1EBB04A29F5",
+          "PreviousFields": {
+            "Balance": {
+              "currency": "FOO",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "3840"
+            }
+          },
+          "PreviousTxnID": "0815E4EAE51B91D63788FDE648033FC38CB05FAB2BFF73300F16F01EDE67AFC2",
+          "PreviousTxnLgrSeq": 295
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rBUPvxccLNQJ3mKKK4JZgrJL6q5SBR674X",
+            "Balance": "99999999960",
+            "Flags": 2155872256,
+            "OwnerCount": 0,
+            "Sequence": 294
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "E5ECCC4DACFA965AC1EA37DFFE605A9F10E471EB97A35F1EADC4ABAA1B26A995",
+          "PreviousFields": {
+            "Balance": "99999999970",
+            "Sequence": 293
+          },
+          "PreviousTxnID": "597540CF49E0A63CBDA67691791A3F3894EFEA1FD117373FD5077311DE5D110F",
+          "PreviousTxnLgrSeq": 294
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "D6D6A6B9B1F6CEF05F70B842BE0DA04DBB36ED523770CF3FFED6C4B7E931303C",
+  "ledger_index": 296,
+  "date": 1688059056000
+}
