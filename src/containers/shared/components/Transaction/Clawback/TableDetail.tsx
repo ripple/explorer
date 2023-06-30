@@ -11,7 +11,7 @@ export const TableDetail = ({
   const { amount, holder } = instructions
 
   return (
-    <>
+    <div>
       {amount && holder && (
         <div className="clawback">
           <span className="label">{t('claws_back')}</span>
@@ -20,6 +20,6 @@ export const TableDetail = ({
           <Account account={holder} />
         </div>
       )}
-    </>
+    </div>
   )
 }
