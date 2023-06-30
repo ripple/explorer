@@ -83,10 +83,24 @@ export const aggregateData = (
     .sort((a, b) => (isEarlierVersion(a.label, b.label) ? -1 : 1))
 }
 
+/**
+ * Extracts the correct node version format from the source data.
+ * (https://data.xrpl.org/v1/network/topology/nodes)
+ *
+ * Node versions often come in in this format:
+ * rippled-[version]-[release (optional)]+[rippled hash (optional)]
+ * Output format:
+ * [version]-[release (optional)]
+ * e.g. rippled-1.9.4+ba3c0e51455a88d76d90b996f20c0f102ac3f5a0.DEBUG should returns 1.9.4
+ *      rippled-1.9.4-b1 should returns 1.9.4-b1
+ *
+ * @param version - The version retrieved from source data.
+ * @returns - The correct version format.
+ */
 const handleNodeVersion = (version: string | undefined) => {
   let cleanedVersion = version
   if (version?.startsWith('rippled'))
-    cleanedVersion = `${version.split('-')[1]}`
+    cleanedVersion = `${version.split('-').slice(1).join('-')}`
   if (version?.includes('+'))
     cleanedVersion = `${cleanedVersion?.split('+')[0]}`
   return cleanedVersion
