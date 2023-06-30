@@ -129,7 +129,7 @@ const BarChartVersion = (props: Props) => {
   return (
     <div className="barchart">
       <CustomLegend stableVersion={stableVersion} />
-      <ResponsiveContainer height={532} width="95%">
+      <ResponsiveContainer height={532} width="100%">
         <BarChart
           data={data}
           margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
