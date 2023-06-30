@@ -41,11 +41,11 @@
 
       .icon {
         &.vals {
-          background-color: #32e685;
+          background-color: $green-50;
         }
 
         &.nodes {
-          background-color: #7919ff;
+          background-color: $blue-purple-50;
         }
 
         width: 16px;
@@ -63,7 +63,7 @@
     padding: 16px;
     border-radius: $border-radius;
     margin-left: auto;
-    background-color: #343437;
+    background-color: $black-70;
 
     .stable {
       font-weight: 700;
