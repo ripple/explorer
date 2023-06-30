@@ -38,8 +38,6 @@ export const aggregateData = (
   if (!validators) {
     return []
   }
-  let totalVals = 0
-  let totalNodes = 0
   interface aggregationTypes {
     validatorsCount: number
     nodesCount: number
@@ -47,30 +45,22 @@ export const aggregateData = (
 
   const aggregation: Record<string, aggregationTypes> = {}
   validators?.forEach((validator) => {
-    if (validator.signing_key) {
-      totalVals += 1
-      const version = validator.server_version
-      if (version) {
-        if (!aggregation[version]) {
-          aggregation[version] = { validatorsCount: 1, nodesCount: 0 }
-        } else {
-          aggregation[version].validatorsCount += 1
-        }
+    const version = validator.server_version
+    if (version) {
+      if (!aggregation[version]) {
+        aggregation[version] = { validatorsCount: 0, nodesCount: 0 }
       }
+      aggregation[version].validatorsCount += 1
     }
   })
 
   nodes?.forEach((node) => {
-    if (node.node_public_key) {
-      totalNodes += 1
-      const { version } = node
-      if (version) {
-        if (!aggregation[version]) {
-          aggregation[version] = { validatorsCount: 0, nodesCount: 1 }
-        } else {
-          aggregation[version].nodesCount += 1
-        }
+    const { version } = node
+    if (version) {
+      if (!aggregation[version]) {
+        aggregation[version] = { validatorsCount: 0, nodesCount: 0 }
       }
+      aggregation[version].nodesCount += 1
     }
   })
 
@@ -78,9 +68,12 @@ export const aggregateData = (
     .map(([version, counts]) => ({
       label: version ? version.trim() : 'N/A',
       validatorsPercent:
-        totalVals > 0 ? (counts.validatorsCount * 100) / totalVals : 0,
+        validators.length > 0
+          ? (counts.validatorsCount * 100) / validators.length
+          : 0,
       validatorsCount: counts.validatorsCount,
-      nodesPercent: totalNodes > 0 ? (counts.nodesCount * 100) / totalNodes : 0,
+      nodesPercent:
+        nodes.length > 0 ? (counts.nodesCount * 100) / nodes.length : 0,
       nodesCount: counts.nodesCount,
     }))
     .sort((a, b) => (isEarlierVersion(a.label, b.label) ? -1 : 1))
