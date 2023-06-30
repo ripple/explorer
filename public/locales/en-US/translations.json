@@ -453,5 +453,8 @@
   "xchain_account_claim_count": "XChain Account Claim Count",
   "xchain_account_create_count": "XChain Account Create Count",
   "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required",
-  "holder": "Holder"
+  "holder": "Holder",
+  "claws_back": " Claws back",
+  "claws_back_from": "<source/> claws back from <destination/>",
+  "instruct_to_claw": "It was instructed to claw back at most "
 }

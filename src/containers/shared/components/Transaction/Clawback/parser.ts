@@ -23,6 +23,7 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
 
   if (!trustlineNode || trustlineNode.length !== 1)
     return {
+      account,
       holder,
     }
 
@@ -33,6 +34,7 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
   amount.amount = Math.abs(change)
 
   return {
+    account,
     amount,
     holder,
   }

@@ -6,6 +6,7 @@ export interface Clawback extends TransactionCommonFields {
 }
 
 export interface ClawbackInstructions {
+  account: string
   amount?: { currency: string; amount: number; issuer?: string }
   holder?: string
 }
