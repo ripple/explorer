@@ -3,7 +3,7 @@ import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
 import { localizeNumber } from '../../shared/utils'
 import { Account } from '../../shared/components/Account'
 
-const render = (t, language, action, node, index) => {
+export const computeBalanceChange = (node) => {
   const fields = node.FinalFields || node.NewFields
   const prev = node.PreviousFields
   const { currency } = fields.Balance
@@ -24,6 +24,27 @@ const render = (t, language, action, node, index) => {
   }
 
   const change = finalBalance - previousBalance
+  return {
+    change,
+    numberOption,
+    previousBalance,
+    finalBalance,
+    currency,
+    account,
+    counterAccount,
+  }
+}
+
+const render = (t, language, action, node, index) => {
+  const {
+    change,
+    numberOption,
+    previousBalance,
+    finalBalance,
+    currency,
+    account,
+    counterAccount,
+  } = computeBalanceChange(node)
 
   const line1 = (
     <Trans i18nKey="transaction_balance_line_one">

@@ -8,22 +8,19 @@ import { Amount } from '../../Amount'
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<ClawbackInstructions>) => {
-  const { account: issuer, amount, holder } = data.instructions
+  const { amount, holder } = data.instructions
   const { t } = useTranslation()
 
   return (
     <>
-      <SimpleRow label={t('issuer')} data-test="issuer">
-        <Account account={issuer} />
+      <SimpleRow label={t('holder')} data-test="holder">
+        <Account account={holder} />
       </SimpleRow>
-      {holder && (
-        <SimpleRow label={t('holder')} data-test="holder">
-          <Account account={holder} />
+      {amount && (
+        <SimpleRow label={t('amount')} data-test="amount">
+          <Amount value={amount} displayIssuer />
         </SimpleRow>
       )}
-      <SimpleRow label={t('amount')} data-test="amount">
-        <Amount value={amount} displayIssuer />
-      </SimpleRow>
     </>
   )
 }

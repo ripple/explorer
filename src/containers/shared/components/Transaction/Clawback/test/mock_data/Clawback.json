@@ -1,22 +1,41 @@
 {
   "tx": {
-    "Account": "rBUPvxccLNQJ3mKKK4JZgrJL6q5SBR674X",
+    "Account": "rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9",
     "Amount": {
       "currency": "FOO",
-      "issuer": "rn9N1bqXzKV6AwDXiS1mCjy27BGuwwweY6",
-      "value": "3840"
+      "issuer": "rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP",
+      "value": "4840"
     },
     "Fee": "10",
     "Flags": 0,
-    "LastLedgerSequence": 315,
-    "Sequence": 293,
-    "SigningPubKey": "EDC76D14371304057E386EDA6F159CD7D8463413CF2B48A7759E830912F53C70C7",
+    "LastLedgerSequence": 515,
+    "Sequence": 492,
+    "SigningPubKey": "ED4B74169976E689D549ED4A50BF06C1174115D363CF9E14031030D2BB5CAA274D",
     "TransactionType": "Clawback",
-    "TxnSignature": "F4ABC4F8A1AE5AD0F3854B106524F6BD50D05F725D78AF5E2DB7D27D00221ED2756476ABB6AE12B363940C9F0AF963ED831097B8AFFF2CD6D777184616475B09",
-    "date": 1688059056000
+    "TxnSignature": "E3C2138CA0C09DD4243DB47B562BDE334CFADFDFF39B50DE7E2A3D6FBCB1ADD89CCAF19A7DE08C3C295974492C3FC7E7CD71FB040A582154EC26DB09D1AEF800",
+    "date": 1688136937000
   },
   "meta": {
     "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9",
+            "Balance": "99999999960",
+            "Flags": 2155872256,
+            "OwnerCount": 0,
+            "Sequence": 493
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "057A552C60FE5AC6C77FC70C28209BB4D33C60C6A350DACEF609C48FE12A4387",
+          "PreviousFields": {
+            "Balance": "99999999970",
+            "Sequence": 492
+          },
+          "PreviousTxnID": "E6EF19434F7FF87AB6EE7127A19D9FBC822B3E8E7C26264A902703424AB1F188",
+          "PreviousTxnLgrSeq": 493
+        }
+      },
       {
         "ModifiedNode": {
           "FinalFields": {
@@ -28,19 +47,19 @@
             "Flags": 65536,
             "HighLimit": {
               "currency": "FOO",
-              "issuer": "rBUPvxccLNQJ3mKKK4JZgrJL6q5SBR674X",
+              "issuer": "rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9",
               "value": "0"
             },
             "HighNode": "0",
             "LowLimit": {
               "currency": "FOO",
-              "issuer": "rn9N1bqXzKV6AwDXiS1mCjy27BGuwwweY6",
+              "issuer": "rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP",
               "value": "0"
             },
             "LowNode": "0"
           },
           "LedgerEntryType": "RippleState",
-          "LedgerIndex": "4AFC29AB739180A9AD6348A9A821AAD63BF74ED26657D22FB472B1EBB04A29F5",
+          "LedgerIndex": "907573E62311BAC99A985BBBB38DAB09D89B0C47167AB6E280DD2B309CFAF31B",
           "PreviousFields": {
             "Balance": {
               "currency": "FOO",
@@ -48,34 +67,15 @@
               "value": "3840"
             }
           },
-          "PreviousTxnID": "0815E4EAE51B91D63788FDE648033FC38CB05FAB2BFF73300F16F01EDE67AFC2",
-          "PreviousTxnLgrSeq": 295
-        }
-      },
-      {
-        "ModifiedNode": {
-          "FinalFields": {
-            "Account": "rBUPvxccLNQJ3mKKK4JZgrJL6q5SBR674X",
-            "Balance": "99999999960",
-            "Flags": 2155872256,
-            "OwnerCount": 0,
-            "Sequence": 294
-          },
-          "LedgerEntryType": "AccountRoot",
-          "LedgerIndex": "E5ECCC4DACFA965AC1EA37DFFE605A9F10E471EB97A35F1EADC4ABAA1B26A995",
-          "PreviousFields": {
-            "Balance": "99999999970",
-            "Sequence": 293
-          },
-          "PreviousTxnID": "597540CF49E0A63CBDA67691791A3F3894EFEA1FD117373FD5077311DE5D110F",
-          "PreviousTxnLgrSeq": 294
+          "PreviousTxnID": "FEF8B23EB453ECC8BE0D4104CEB0B481E029213848EC1BD11470F8B8C3E6B424",
+          "PreviousTxnLgrSeq": 494
         }
       }
     ],
     "TransactionIndex": 0,
     "TransactionResult": "tesSUCCESS"
   },
-  "hash": "D6D6A6B9B1F6CEF05F70B842BE0DA04DBB36ED523770CF3FFED6C4B7E931303C",
-  "ledger_index": 296,
-  "date": 1688059056000
+  "hash": "0E09D8C61C799AF206D66F81561EC5B52641B439EEA47CB4F5637A918FB51536",
+  "ledger_index": 496,
+  "date": 1688136937000
 }
