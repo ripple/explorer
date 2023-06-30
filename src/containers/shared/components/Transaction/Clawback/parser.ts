@@ -21,7 +21,7 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
       node.ModifiedNode?.LedgerEntryType === 'RippleState',
   )
 
-  if (!trustlineNode || trustlineNode.length != 1)
+  if (!trustlineNode || trustlineNode.length !== 1)
     return {
       holder,
     }
