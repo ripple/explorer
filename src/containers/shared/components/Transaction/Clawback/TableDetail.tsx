@@ -9,6 +9,7 @@ export const TableDetail = ({
 }: TransactionTableDetailProps<ClawbackInstructions>) => {
   const { t } = useTranslation()
   const { amount, holder } = instructions
+
   return (
     <>
       {amount && holder && (

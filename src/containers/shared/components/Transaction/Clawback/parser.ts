@@ -21,8 +21,11 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
       node.ModifiedNode?.LedgerEntryType === 'RippleState',
   )
 
+  // If no trustline is modified, it means the tx failed.
+  // We just return the amount that was attempted to claw.
   if (!trustlineNode || trustlineNode.length !== 1)
     return {
+      amount,
       account,
       holder,
     }
@@ -31,6 +34,8 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
     trustlineNode[0].ModifiedNode ?? trustlineNode[0].DeletedNode,
   )
 
+  // Update the amount that was actually clawed back
+  // (could be different from what was submitted)
   amount.amount = Math.abs(change)
 
   return {
