@@ -13,9 +13,11 @@ export const Simple: TransactionSimpleComponent = ({
 
   return (
     <>
-      <SimpleRow label={t('holder')} data-test="holder">
-        <Account account={holder} />
-      </SimpleRow>
+      {holder && (
+        <SimpleRow label={t('holder')} data-test="holder">
+          <Account account={holder} />
+        </SimpleRow>
+      )}
       {amount && (
         <SimpleRow label={t('amount')} data-test="amount">
           <Amount value={amount} displayIssuer />
