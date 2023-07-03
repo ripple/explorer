@@ -84,10 +84,10 @@ const CustomLegend = (props: LegendProps) => {
       <div className="legend-stable">
         <div className="stable-text">
           <span>{t('current_stable_version')}:</span>
-          <span className="stable" style={{ color: GREY_0 }}>
+          <strong className="stable">
             {' '}
             {t('stable_version', { stableVersion })}{' '}
-          </span>
+          </strong>
         </div>
       </div>
     </div>
