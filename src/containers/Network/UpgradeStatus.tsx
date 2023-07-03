@@ -168,7 +168,7 @@ export const UpgradeStatus = () => {
       .then((allNodes) => {
         const nodes: NodeData[] = allNodes.map((node: NodeResponse) => ({
           ...node,
-          version: handleNodeVersion(node?.version),
+          version: handleNodeVersion(node.version),
           validated_ledger: {
             ledger_index: node.complete_ledgers
               ? Number(node.complete_ledgers.split('-')[1])

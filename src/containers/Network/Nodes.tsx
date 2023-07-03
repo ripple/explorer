@@ -44,7 +44,7 @@ export const Nodes = () => {
         const nodes: NodeData[] = allNodes.map((node: NodeResponse) => ({
           ...node,
           version: node.version?.startsWith('rippled')
-            ? node.version.split('-')[1]
+            ? node.version.split('-').slice(1).join('-')
             : node.version,
           validated_ledger: {
             ledger_index: node.complete_ledgers
