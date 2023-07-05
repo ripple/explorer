@@ -1,7 +1,7 @@
 import { Clawback, ClawbackInstructions } from './types'
 import { TransactionParser } from '../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
-import { computeBalanceChange } from '../../../../Transactions/Meta/RippleState'
+import { computeBalanceChange } from '../../../../shared/utils'
 
 export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
   tx,

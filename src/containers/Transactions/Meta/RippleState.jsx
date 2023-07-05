@@ -1,39 +1,6 @@
 import { Trans } from 'react-i18next'
-import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
-import { localizeNumber } from '../../shared/utils'
+import { localizeNumber, computeBalanceChange } from '../../shared/utils'
 import { Account } from '../../shared/components/Account'
-
-export const computeBalanceChange = (node) => {
-  const fields = node.FinalFields || node.NewFields
-  const prev = node.PreviousFields
-  const { currency } = fields.Balance
-  const numberOption = { ...CURRENCY_OPTIONS, currency }
-  let finalBalance = fields.Balance.value
-  let previousBalance = prev && prev.Balance ? prev.Balance.value : 0
-  let account
-  let counterAccount
-
-  if (finalBalance < 0) {
-    account = fields.HighLimit.issuer
-    counterAccount = fields.LowLimit.issuer
-    finalBalance = 0 - finalBalance
-    previousBalance = 0 - previousBalance
-  } else {
-    account = fields.LowLimit.issuer
-    counterAccount = fields.HighLimit.issuer
-  }
-
-  const change = finalBalance - previousBalance
-  return {
-    change,
-    numberOption,
-    previousBalance,
-    finalBalance,
-    currency,
-    account,
-    counterAccount,
-  }
-}
 
 const render = (t, language, action, node, index) => {
   const {
