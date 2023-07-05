@@ -1,5 +1,3 @@
-import { CURRENCY_OPTIONS } from './transactionUtils'
-
 const THOUSAND = 1000
 const MILLION = THOUSAND * THOUSAND
 const BILLION = MILLION * THOUSAND
@@ -289,6 +287,13 @@ export const formatTradingFee = (tradingFee) =>
         maximumFractionDigits: 3,
       })
     : undefined
+
+export const CURRENCY_OPTIONS = {
+  style: 'currency',
+  currency: '',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 8,
+}
 
 export const computeBalanceChange = (node) => {
   const fields = node.FinalFields || node.NewFields
