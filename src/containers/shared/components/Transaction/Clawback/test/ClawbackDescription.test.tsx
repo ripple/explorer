@@ -12,7 +12,7 @@ describe('Clawback', () => {
       `rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9 claws back from rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP`,
     )
     expect(wrapper.find('[data-test="amount-line"]')).toHaveText(
-      `It was instructed to claw back at most 4,840.00 FOO.rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9`,
+      `The max clawback amount is 4,840.00 FOO.rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9`,
     )
     wrapper.unmount()
   })

@@ -456,5 +456,5 @@
   "holder": "Holder",
   "claws_back": " Claws back",
   "claws_back_from": "<source/> claws back from <destination/>",
-  "instruct_to_claw": "It was instructed to claw back at most "
+  "instruct_to_claw": "The max clawback amount is <amount/>"
 }

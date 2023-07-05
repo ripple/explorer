@@ -22,8 +22,12 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
         />
       </div>
       <div data-test="amount-line">
-        {t('instruct_to_claw')}
-        <Amount value={formatAmount(amount)} />
+        <Trans
+          i18nKey="instruct_to_claw"
+          components={{
+            amount: <Amount value={formatAmount(amount)} />,
+          }}
+        />
       </div>
     </>
   )
