@@ -416,7 +416,7 @@
   "uri": "URI",
   "owner": "所有者",
   "other_chain_destination": null,
-  "%_of_total_validators": "全バリデータの割合",
+  "%_of_total_nodes_validators": null,
   "version_display": "バージョン: {{version}}",
   "validators_count": "バリデータの数: {{count}}",
   "current_stable_version": "現在の安定バージョン",
