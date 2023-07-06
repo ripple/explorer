@@ -25,9 +25,9 @@ export const FETCH_INTERVAL_ERROR_MILLIS = 300
 export const DECIMAL_REGEX = /^\d+$/
 export const HASH_REGEX = /[0-9A-Fa-f]{64}/i
 export const CURRENCY_REGEX =
-  /^[a-zA-Z0-9]{3,}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
+  /^[a-zA-Z0-9]{3,}[.:+-]r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const FULL_CURRENCY_REGEX =
-  /^[0-9A-Fa-f]{40}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
+  /^[0-9A-Fa-f]{40}[.:+-]r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const VALIDATORS_REGEX = /^n[9H][0-9A-Za-z]{50}$/
 
 export const GREY = '#9BA2B0'
