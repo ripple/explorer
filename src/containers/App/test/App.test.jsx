@@ -263,22 +263,42 @@ describe('App container', () => {
   })
 
   it('renders account page for classic address', () => {
-    const id = 'rZaChweF5oXn'
+    const id = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb'
     const wrapper = createWrapper(`/accounts/${id}#ssss`)
     flushPromises()
     flushPromises()
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
         {
-          page_path: '/accounts/rZaChweF5oXn#ssss',
-          page_title: 'xrpl_explorer | rZaChweF5oXn...',
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
           event: 'screen_view',
           network: 'mainnet',
         },
       ])
       wrapper.unmount()
     })
+  })
+
+  it('renders account page for malformed', async () => {
+    const id = 'rZaChweF5oXn'
+    const wrapper = createWrapper(`/accounts/${id}#ssss`)
+    await flushPromises()
+    await flushPromises()
+    wrapper.update()
+    expect(document.title).toEqual(`xrpl_explorer | invalid_xrpl_address`)
+    expect(window.dataLayer).toEqual([
+      {
+        page_path: '/accounts/rZaChweF5oXn#ssss',
+        description: 'invalid_xrpl_address -- check_account_id',
+        event: 'not_found',
+        network: 'mainnet',
+      },
+    ])
+    expect(wrapper.find('.no-match .title')).toHaveText('invalid_xrpl_address')
+    expect(wrapper.find('.no-match .hint')).toHaveText('check_account_id')
+    wrapper.unmount()
   })
 
   it('renders account page for a deleted account', () => {
@@ -369,14 +389,14 @@ describe('App container', () => {
   })
 
   it('redirects legacy account page', () => {
-    const id = 'rZaChweF5oXn'
+    const id = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb'
     const wrapper = createWrapper(`/#/graph/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
         {
-          page_path: '/accounts/rZaChweF5oXn#ssss',
-          page_title: 'xrpl_explorer | rZaChweF5oXn...',
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
           event: 'screen_view',
           network: 'mainnet',
         },
