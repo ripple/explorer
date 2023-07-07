@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../Account'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
+import { TRANSACTION_ROUTE } from '../../../../App/routes'
+import { RouteLink } from '../../../routing'
 
 const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation()
@@ -38,9 +39,13 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
           className="tx"
           data-test="escrow-cancel-tx"
         >
-          <Link className="hash" to={`/transactions/${tx}`}>
+          <RouteLink
+            className="hash"
+            to={TRANSACTION_ROUTE}
+            params={{ identifier: tx }}
+          >
             {tx}
-          </Link>
+          </RouteLink>
         </SimpleRow>
       )}
     </>

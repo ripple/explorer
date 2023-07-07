@@ -15,20 +15,6 @@ import { flushPromises } from '../../test/utils'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
 import { Error } from '../../../rippled/lib/utils'
 
-// We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
-// get confused about being inside another Router (the `MemoryRouter` in the `mount`),
-// and the routing won't actually happen in the test
-jest.mock('react-router-dom', () => {
-  // Require the original module to not be mocked...
-  const originalModule = jest.requireActual('react-router-dom')
-  return {
-    __esModule: true,
-    ...originalModule,
-    // eslint-disable-next-line react/prop-types -- not really needed for tests
-    BrowserRouter: ({ children }) => <div>{children}</div>,
-  }
-})
-
 jest.mock('../../Ledgers/LedgerMetrics', () => ({
   __esModule: true,
   default: () => null,
@@ -67,6 +53,16 @@ jest.mock('../../../rippled', () => {
     getAccountTransactions: () => Promise.resolve({}),
     getAccountState: () => Promise.resolve({}),
     getLedger: () => Promise.resolve({}),
+  }
+})
+
+jest.mock('../../../rippled/lib/rippled', () => {
+  const originalModule = jest.requireActual('../../../rippled/lib/rippled')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    getAccountInfo: jest.fn(),
   }
 })
 
@@ -267,22 +263,42 @@ describe('App container', () => {
   })
 
   it('renders account page for classic address', () => {
-    const id = 'rZaChweF5oXn'
+    const id = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb'
     const wrapper = createWrapper(`/accounts/${id}#ssss`)
     flushPromises()
     flushPromises()
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
         {
-          page_path: '/accounts/rZaChweF5oXn#ssss',
-          page_title: 'xrpl_explorer | rZaChweF5oXn...',
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
           event: 'screen_view',
           network: 'mainnet',
         },
       ])
       wrapper.unmount()
     })
+  })
+
+  it('renders account page for malformed', async () => {
+    const id = 'rZaChweF5oXn'
+    const wrapper = createWrapper(`/accounts/${id}#ssss`)
+    await flushPromises()
+    await flushPromises()
+    wrapper.update()
+    expect(document.title).toEqual(`xrpl_explorer | invalid_xrpl_address`)
+    expect(window.dataLayer).toEqual([
+      {
+        page_path: '/accounts/rZaChweF5oXn#ssss',
+        description: 'invalid_xrpl_address -- check_account_id',
+        event: 'not_found',
+        network: 'mainnet',
+      },
+    ])
+    expect(wrapper.find('.no-match .title')).toHaveText('invalid_xrpl_address')
+    expect(wrapper.find('.no-match .hint')).toHaveText('check_account_id')
+    wrapper.unmount()
   })
 
   it('renders account page for a deleted account', () => {
@@ -373,14 +389,14 @@ describe('App container', () => {
   })
 
   it('redirects legacy account page', () => {
-    const id = 'rZaChweF5oXn'
+    const id = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb'
     const wrapper = createWrapper(`/#/graph/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
         {
-          page_path: '/accounts/rZaChweF5oXn#ssss',
-          page_title: 'xrpl_explorer | rZaChweF5oXn...',
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
           event: 'screen_view',
           network: 'mainnet',
         },
@@ -398,6 +414,8 @@ describe('App container', () => {
     expect(wrapper.find('header')).toHaveClassName('header-no-network')
     // We don't know the endpoint yet.
     expect(XrplClient).toHaveBeenCalledTimes(0)
+    expect(document.title).toEqual(`xrpl_explorer`)
+
     wrapper.unmount()
   })
 
@@ -411,23 +429,7 @@ describe('App container', () => {
     // Make sure the sockets aren't double initialized.
     expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
     expect(XrplClient).toHaveBeenCalledTimes(1)
-    expect(localStorage.getItem(CUSTOM_NETWORKS_STORAGE_KEY)).toEqual(
-      JSON.stringify([network]),
-    )
-    wrapper.unmount()
-  })
-
-  it('properly populates sorted networks in custom mode', async () => {
-    process.env.VITE_ENVIRONMENT = 'custom'
-    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
-    const network = 's2.ripple.com'
-    const existingNetworks = ['custom_url', 'xrpl_custom_url']
-    const wrapper = createWrapper(`/${network}/`, existingNetworks)
-    await flushPromises()
-    wrapper.update()
-    expect(localStorage.getItem(CUSTOM_NETWORKS_STORAGE_KEY)).toEqual(
-      JSON.stringify(existingNetworks.concat(network).sort()),
-    )
+    expect(document.title).toEqual(`xrpl_explorer | ledgers`)
     wrapper.unmount()
   })
 })

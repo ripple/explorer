@@ -85,15 +85,15 @@ describe('Ledgers Page container', () => {
     const store = mockStore({ ...initialState })
 
     return mount(
-      <QuickHarness i18n={i18n}>
-        <Provider store={store}>
-          <SocketContext.Provider value={client}>
-            <NetworkContext.Provider value={props.network}>
+      <Provider store={store}>
+        <SocketContext.Provider value={client}>
+          <NetworkContext.Provider value={props.network}>
+            <QuickHarness i18n={i18n}>
               <Ledgers msg={props.msg} />
-            </NetworkContext.Provider>
-          </SocketContext.Provider>
-        </Provider>
-      </QuickHarness>,
+            </QuickHarness>
+          </NetworkContext.Provider>
+        </SocketContext.Provider>
+      </Provider>,
     )
   }
 
@@ -186,10 +186,10 @@ describe('Ledgers Page container', () => {
     )
 
     const validations = wrapper.find('div.validation')
-    const txn = wrapper.find('.txn')
+    const txn = wrapper.find('a.txn')
 
     // check ledger transactions
-    expect(txn.length).toBe(36)
+    expect(txn.length).toBe(12)
     txn.first().simulate('focus')
     txn.first().simulate('mouseOver')
 
@@ -273,10 +273,10 @@ describe('Ledgers Page container', () => {
       )
 
       const validations = wrapper.find('div.validation')
-      const txn = wrapper.find('.txn')
+      const txn = wrapper.find('a.txn')
 
       // check ledger transactions
-      expect(txn.length).toBe(36)
+      expect(txn.length).toBe(12)
       txn.first().simulate('focus')
       txn.first().simulate('mouseOver')
 
