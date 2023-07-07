@@ -34,6 +34,10 @@ jest.mock('../../../rippled/lib/rippled', () => {
   }
 })
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
   const { formatTransaction } = jest.requireActual('../../../rippled/lib/utils')
@@ -284,7 +288,7 @@ describe('App container', () => {
   it('renders account page for malformed', async () => {
     const id = 'rZaChweF5oXn'
     const wrapper = createWrapper(`/accounts/${id}#ssss`)
-    await flushPromises()
+    await sleep(100)
     await flushPromises()
     wrapper.update()
     expect(document.title).toEqual(`xrpl_explorer | invalid_xrpl_address`)
