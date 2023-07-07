@@ -15,7 +15,7 @@ import {
 } from '../../shared/transactionUtils'
 import './detailTab.scss'
 import { useLanguage } from '../../shared/hooks'
-import { convertHexToString } from '../../../rippled/lib/utils'
+import { HookDetails } from './HookDetails'
 
 export const DetailTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
@@ -118,140 +118,12 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
       </div>
     ) : null
 
-  const renderHooks = () => {
-    if (
-      !data.tx.EmitDetails &&
-      !data.tx.HookParameters &&
-      !data.meta.HookExecutions
-    )
-      return null
-    const renderHookParameterName = (name) => {
-      // Example:
-      // 4556520100000000000000000000000000000000000000000000000000000002 -> EVR 2
-      const split = name.split('0000').filter((d) => d !== '')
-      if (split.length === 2) {
-        return `${convertHexToString(split[0])}${Number(split[1])}`
-      }
-      return name
-    }
-    return (
-      <div className="detail-section" data-test="hooks">
-        <div className="title">{t('hooks')}</div>
-        {data.tx.EmitDetails && (
-          <div className="detail-subsection" data-test="emit-details">
-            <div className="detail-subtitle">Emit Details</div>
-            <li className="detail-line">
-              <Trans
-                i18nKey="emit_generation"
-                values={{ emit: data.tx.EmitDetails.EmitGeneration }}
-              />
-            </li>
-            <li className="detail-line">
-              <Trans
-                i18nKey="emit_hook_hash"
-                values={{ hash: data.tx.EmitDetails.EmitHookHash }}
-              />
-            </li>
-            <li className="detail-line">
-              <Trans
-                i18nKey="emit_parent"
-                values={{
-                  hash: `${data.tx.EmitDetails.EmitParentTxnID.substring(
-                    20,
-                  )}...`,
-                }}
-              >
-                <Link
-                  to={`/transactions/${data.tx.EmitDetails.EmitParentTxnID}`}
-                />
-              </Trans>
-            </li>
-            {data.tx.EmitDetails.EmitCallback && (
-              <li className="detail-line">
-                <Trans
-                  i18nKey="emit_callback"
-                  values={{ callback: data.tx.EmitDetails.EmitCallback }}
-                >
-                  <Account account={data.tx.EmitDetails.EmitCallback} />
-                </Trans>
-              </li>
-            )}
-          </div>
-        )}
-        {data.tx.HookParameters && (
-          <div className="detail-subsection" data-test="hook-params">
-            <div className="detail-subtitle">Hook Parameters</div>
-            {data.tx.HookParameters.map((hookParam) => {
-              const param = hookParam.HookParameter
-              return (
-                <li key={param.HookParameterName}>
-                  {renderHookParameterName(param.HookParameterName)}
-                  {': '}
-                  {param.HookParameterValue.length <= 32
-                    ? convertHexToString(param.HookParameterValue)
-                    : param.HookParameterValue}
-                </li>
-              )
-            })}
-          </div>
-        )}
-        {data.meta.HookExecutions && (
-          <div className="detail-subsection" data-test="hook-executions">
-            <div className="detail-subtitle">Hook Executions</div>
-            {data.meta.HookExecutions.map((element) => {
-              const exec = element.HookExecution
-              return (
-                <li
-                  key={`hook_exec_${exec.HookHash}_${exec.HookExecutionIndex}`}
-                >
-                  <span className="detail-line">
-                    <Trans
-                      i18nKey="hook_exec_hash"
-                      values={{ hash: exec.HookHash }}
-                    />
-                  </span>
-                  <ul className="detail-line">
-                    <Trans
-                      i18nKey="hook_exec_account"
-                      values={{
-                        account: exec.HookAccount,
-                      }}
-                    >
-                      <Account account={exec.HookAccount} />
-                    </Trans>
-                  </ul>
-                  <ul className="detail-line">
-                    <Trans
-                      i18nKey="hook_exec_return"
-                      values={{
-                        code: `0x${exec.HookReturnCode}`,
-                        string: convertHexToString(exec.HookReturnString),
-                      }}
-                    />
-                  </ul>
-                  <ul className="detail-line">
-                    <Trans
-                      i18nKey="hook_exec_emit_count"
-                      values={{
-                        count: exec.HookEmitCount,
-                      }}
-                    />
-                  </ul>
-                </li>
-              )
-            })}
-          </div>
-        )}
-      </div>
-    )
-  }
-
   return (
     <div className="detail-body">
       {renderStatus()}
       <TransactionDescription data={data} />
       {renderSigners()}
-      {renderHooks()}
+      <HookDetails data={data} />
       {renderFlags()}
       {renderFee()}
       {renderMemos()}
