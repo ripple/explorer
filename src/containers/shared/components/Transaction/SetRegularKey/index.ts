@@ -1,4 +1,3 @@
-import type { SetRegularKey } from 'xrpl'
 import {
   TransactionAction,
   TransactionCategory,
@@ -15,5 +14,4 @@ export const SetRegularKeyTransaction: TransactionMapping = {
   TableDetail,
   action: TransactionAction.MODIFY,
   category: TransactionCategory.ACCOUNT,
-  parser: (tx: SetRegularKey) => tx,
 }

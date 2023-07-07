@@ -1,4 +1,3 @@
-import type { TicketCreate } from 'xrpl'
 import {
   TransactionAction,
   TransactionCategory,
@@ -13,5 +12,4 @@ export const TicketCreateTransaction: TransactionMapping = {
   TableDetail,
   action: TransactionAction.CREATE,
   category: TransactionCategory.ACCOUNT,
-  parser: (tx: TicketCreate) => tx,
 }

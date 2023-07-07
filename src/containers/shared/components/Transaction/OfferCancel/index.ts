@@ -15,5 +15,4 @@ export const OfferCancelTransaction: TransactionMapping = {
   TableDetail,
   action: TransactionAction.CANCEL,
   category: TransactionCategory.DEX,
-  parser: (tx: OfferCancel) => tx,
 }

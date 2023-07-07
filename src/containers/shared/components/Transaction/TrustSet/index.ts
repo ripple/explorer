@@ -1,4 +1,3 @@
-import type { TrustSet } from 'xrpl'
 import {
   TransactionAction,
   TransactionCategory,
@@ -15,5 +14,4 @@ export const TrustSetTransaction: TransactionMapping = {
   TableDetail,
   action: TransactionAction.MODIFY,
   category: TransactionCategory.DEX,
-  parser: (tx: TrustSet) => tx,
 }

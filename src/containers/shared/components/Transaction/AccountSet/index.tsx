@@ -1,5 +1,3 @@
-import type { AccountSet } from 'xrpl'
-
 import {
   TransactionAction,
   TransactionCategory,
@@ -15,5 +13,4 @@ export const AccountSetTransaction: TransactionMapping = {
   TableDetail,
   action: TransactionAction.MODIFY,
   category: TransactionCategory.ACCOUNT,
-  parser: (tx: AccountSet): AccountSet => tx,
 }
