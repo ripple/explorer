@@ -88,6 +88,7 @@ If you are interested in adding more translations please follow the guide on [ho
 
 ## Additional Documentation
 * [How to define transactions](./src/containers/shared/components/Transaction/README.md)
+* [Routing](./docs/routing.md)
 
 ## React Documentation
 

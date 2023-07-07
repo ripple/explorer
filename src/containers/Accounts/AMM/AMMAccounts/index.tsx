@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren, useContext, useEffect } from 'react'
-import { useParams, useRouteMatch } from 'react-router'
 import { useQuery } from 'react-query'
 import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '../../../shared/hooks'
@@ -11,6 +10,7 @@ import {
 } from '../../../../rippled/lib/rippled'
 import { Tabs } from '../../../shared/components/Tabs'
 import { useAnalytics } from '../../../shared/analytics'
+import { buildPath, useRouteParams } from '../../../shared/routing'
 import { formatAsset } from '../../../shared/utils'
 import SocketContext from '../../../shared/SocketContext'
 import { ERROR_MESSAGES } from '../../Errors'
@@ -21,6 +21,7 @@ import {
 } from './AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from '../../AccountTransactionTable'
 import { hexToString } from '../../../shared/components/Currency'
+import { ACCOUNT_ROUTE } from '../../../App/routes'
 
 const getErrorMessage = (error: string) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -53,12 +54,9 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 )
 
 export const AMMAccounts = () => {
-  const { id: accountId, tab = 'transactions' } = useParams<{
-    id: string
-    tab: string
-  }>()
-  const { path = '/' } = useRouteMatch()
-  const mainPath = `${path.split('/:')[0]}/${accountId}`
+  const { id: accountId = '', tab = 'transactions' } =
+    useRouteParams(ACCOUNT_ROUTE)
+  const mainPath = buildPath(ACCOUNT_ROUTE, { id: accountId })
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
   const { trackException, trackScreenLoaded } = useAnalytics()

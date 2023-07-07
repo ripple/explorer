@@ -47,12 +47,26 @@ describe('Search component', () => {
     const paystring = 'blunden$paystring.crypto.com'
     const paystringWithAt = 'blunden@paystring.crypto.com'
     const validator = 'nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p'
+    const addressWithQuotes = '"rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX"'
+    const addressWithSpace = ' rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX '
+    const addressWithSingleQuote = '"rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX'
 
     const hash =
       '59239EA78084F6E2F288473F8AE02F3E6FC92F44BDE59668B5CAE361D3D32838'
     const token1 = 'cny.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
+    const token1VariantPlus = 'cny.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
+    const token1VariantMinus = 'cny-rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
+    const token1VariantColon = 'cny:rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
+
     const token2 =
       '534f4c4f00000000000000000000000000000000.rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz'
+    const token2VariantPlus =
+      '534f4c4f00000000000000000000000000000000+rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz'
+    const token2VariantMinus =
+      '534f4c4f00000000000000000000000000000000-rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz'
+    const token2VariantColon =
+      '534f4c4f00000000000000000000000000000000:rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz'
+
     const nftoken =
       '000800011C7D8ED1D715A0017E41BF9499ECC17E7FB666320000099B00000000'
     const invalidString = '123invalid'
@@ -69,6 +83,21 @@ describe('Search component', () => {
     expect(window.location.pathname).toEqual(`/ledgers/${ledgerIndex}`)
 
     input.instance().value = rippleAddress
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+
+    input.instance().value = addressWithQuotes
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+
+    input.instance().value = addressWithSingleQuote
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+
+    input.instance().value = addressWithSpace
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
     expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
@@ -114,7 +143,39 @@ describe('Search component', () => {
     await flushPromises()
     expect(window.location.pathname).toEqual(`/token/${token1}`)
 
+    // testing multiple variants of token format
+    input.instance().value = token1VariantColon
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/token/${token1}`)
+
+    input.instance().value = token1VariantPlus
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/token/${token1}`)
+
+    input.instance().value = token1VariantMinus
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/token/${token1}`)
+
     input.instance().value = token2
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/token/${token2}`)
+
+    // testing multiple variants of full token format
+    input.instance().value = token2VariantColon
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/token/${token2}`)
+
+    input.instance().value = token2VariantPlus
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/token/${token2}`)
+
+    input.instance().value = token2VariantMinus
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
     expect(window.location.pathname).toEqual(`/token/${token2}`)

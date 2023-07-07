@@ -1,6 +1,6 @@
 import { KeyboardEventHandler, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
 
 import {
@@ -29,6 +29,8 @@ const determineHashType = async (id: string, rippledContext: XrplClient) => {
     return 'nft'
   }
 }
+// separator for currency formats
+const separators = /[.:+-]/
 
 const getIdType = async (id: string, rippledContext: XrplClient) => {
   if (DECIMAL_REGEX.test(id)) {
@@ -50,7 +52,7 @@ const getIdType = async (id: string, rippledContext: XrplClient) => {
   }
   if (
     (CURRENCY_REGEX.test(id) || FULL_CURRENCY_REGEX.test(id)) &&
-    isValidClassicAddress(id.split('.')[1])
+    isValidClassicAddress(id.split(separators)[1])
   ) {
     return 'token'
   }
@@ -87,7 +89,7 @@ const normalize = (id: string, type: string) => {
       return id.replace('@', '$')
     }
   } else if (type === 'token') {
-    const components = id.split('.')
+    const components = id.split(separators)
     return `${components[0].toLowerCase()}.${components[1]}`
   }
   return id
@@ -101,18 +103,20 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   const { track } = useAnalytics()
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleSearch = async (id: string) => {
-    const type = await getIdType(id, socket)
-
+    const strippedId = id.replace(/^["']|["']$/g, '')
+    const type = await getIdType(strippedId, socket)
     track('search', {
-      search_term: id,
+      search_term: strippedId,
       search_category: type,
     })
 
-    history.push(
-      type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
+    navigate(
+      type === 'invalid'
+        ? `/search/${strippedId}`
+        : `/${type}/${normalize(strippedId, type)}`,
     )
     callback()
   }

@@ -5,6 +5,7 @@ import * as actionTypes from '../actionTypes'
 import { initialState } from '../reducer'
 import { NOT_FOUND, BAD_REQUEST, SERVER_ERROR } from '../../../shared/utils'
 import rippledResponses from './rippledResponses.json'
+import accountDeletedTransactions from './accountDeletedTransactions.json'
 import actNotFound from '../../../Token/TokenHeader/test/actNotFound.json'
 import actWithTokens from './accountWithTokens.json'
 import MockWsClient from '../../../test/mockWsClient'
@@ -278,5 +279,34 @@ describe('AccountHeader Actions', () => {
     store.dispatch(actions.loadAccountState('ZZZ', client)).then(() => {
       expect(store.getActions()).toEqual(expectedActions)
     })
+  })
+
+  it('should dispatch correct actions on a deleted account', () => {
+    client.addResponses(accountDeletedTransactions)
+
+    const expectedActions = [
+      {
+        type: 'START_LOADING_ACCOUNT_STATE',
+      },
+      {
+        type: 'FINISHED_LOADING_ACCOUNT_STATE',
+      },
+      {
+        type: actionTypes.ACCOUNT_STATE_LOAD_SUCCESS,
+        data: {
+          account: 'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6',
+          deleted: true,
+          xAddress: undefined,
+        },
+      },
+    ]
+    const store = mockStore({ news: initialState })
+    store
+      .dispatch(
+        actions.loadAccountState('r35jYntLwkrbc3edisgavDbEdNRSKgcQE6', client),
+      )
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
   })
 })

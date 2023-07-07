@@ -40,7 +40,7 @@ const Page: FC<PropsWithChildren<{ tokenId: string }>> = ({
 
 export const NFT = () => {
   const { trackScreenLoaded } = useAnalytics()
-  const { id: tokenId } = useParams<{ id: string }>()
+  const { id: tokenId = '' } = useParams<{ id: string }>()
   const [error, setError] = useState<number | null>(null)
 
   useEffect(() => {

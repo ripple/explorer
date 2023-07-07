@@ -12,20 +12,8 @@ import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled/lib/rippled'
 import { flushPromises } from '../../test/utils'
-
-// We need to mock `react-router-dom` because otherwise the BrowserRouter in `App` will
-// get confused about being inside another Router (the `MemoryRouter` in the `mount`),
-// and the routing won't actually happen in the test
-jest.mock('react-router-dom', () => {
-  // Require the original module to not be mocked...
-  const originalModule = jest.requireActual('react-router-dom')
-  return {
-    __esModule: true,
-    ...originalModule,
-    // eslint-disable-next-line react/prop-types -- not really needed for tests
-    BrowserRouter: ({ children }) => <div>{children}</div>,
-  }
-})
+import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
+import { Error } from '../../../rippled/lib/utils'
 
 jest.mock('../../Ledgers/LedgerMetrics', () => ({
   __esModule: true,
@@ -68,12 +56,39 @@ jest.mock('../../../rippled', () => {
   }
 })
 
+jest.mock('../../../rippled/lib/rippled', () => {
+  const originalModule = jest.requireActual('../../../rippled/lib/rippled')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    getAccountInfo: jest.fn(),
+  }
+})
+
 const mockXrplClient = XrplClient
 const mockGetAccountInfo = getAccountInfo
 
 describe('App container', () => {
   const mockStore = configureMockStore([thunk])
-  const createWrapper = (path = '/') => {
+  const createWrapper = (
+    path = '/',
+    localNetworks = [],
+    accountInfoMock = () =>
+      Promise.resolve({
+        flags: 0,
+      }),
+  ) => {
+    mockGetAccountInfo.mockImplementation(accountInfoMock)
+
+    localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
+    if (localNetworks) {
+      localStorage.setItem(
+        CUSTOM_NETWORKS_STORAGE_KEY,
+        JSON.stringify(localNetworks),
+      )
+    }
+
     const store = mockStore(initialState)
     return mount(
       <Provider store={store}>
@@ -93,11 +108,6 @@ describe('App container', () => {
     moxios.stubRequest(
       `${process.env.VITE_DATA_URL}/get_network/s2.ripple.com`,
       { status: 200, response: { result: 'success', network: '3' } },
-    )
-    mockGetAccountInfo.mockImplementation(() =>
-      Promise.resolve({
-        flags: 0,
-      }),
     )
     mockXrplClient.mockImplementation(() => new MockWsClient())
     // BrowserRouter.mockImplementation(({ children }) => <div>{children}</div>)
@@ -120,6 +130,7 @@ describe('App container', () => {
     const wrapper = createWrapper()
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual('xrpl_explorer | ledgers')
+      expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
       expect(wrapper.find('.ledgers').length).toBe(1)
       expect(window.dataLayer).toEqual([
         {
@@ -252,20 +263,63 @@ describe('App container', () => {
   })
 
   it('renders account page for classic address', () => {
-    const id = 'rZaChweF5oXn'
+    const id = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb'
     const wrapper = createWrapper(`/accounts/${id}#ssss`)
     flushPromises()
     flushPromises()
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
         {
-          page_path: '/accounts/rZaChweF5oXn#ssss',
-          page_title: 'xrpl_explorer | rZaChweF5oXn...',
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
           event: 'screen_view',
           network: 'mainnet',
         },
       ])
+      wrapper.unmount()
+    })
+  })
+
+  it('renders account page for malformed', async () => {
+    const id = 'rZaChweF5oXn'
+    const wrapper = createWrapper(`/accounts/${id}#ssss`)
+    await flushPromises()
+    await flushPromises()
+    wrapper.update()
+    expect(document.title).toEqual(`xrpl_explorer | invalid_xrpl_address`)
+    expect(window.dataLayer).toEqual([
+      {
+        page_path: '/accounts/rZaChweF5oXn#ssss',
+        description: 'invalid_xrpl_address -- check_account_id',
+        event: 'not_found',
+        network: 'mainnet',
+      },
+    ])
+    expect(wrapper.find('.no-match .title')).toHaveText('invalid_xrpl_address')
+    expect(wrapper.find('.no-match .hint')).toHaveText('check_account_id')
+    wrapper.unmount()
+  })
+
+  it('renders account page for a deleted account', () => {
+    const id = 'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6'
+    const wrapper = createWrapper(`/accounts/${id}#ssss`, [], () =>
+      Promise.reject(new Error('account not found', 404)),
+    )
+    return new Promise((r) => setTimeout(r, 200)).then(() => {
+      expect(document.title).toEqual(`xrpl_explorer | r35jYntLwkrb...`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/r35jYntLwkrbc3edisgavDbEdNRSKgcQE6#ssss',
+          page_title: `xrpl_explorer | r35jYntLwkrb...`,
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
+      expect(mockGetAccountInfo).toBeCalledWith(
+        expect.anything(),
+        'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6',
+      )
       wrapper.unmount()
     })
   })
@@ -335,14 +389,14 @@ describe('App container', () => {
   })
 
   it('redirects legacy account page', () => {
-    const id = 'rZaChweF5oXn'
+    const id = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb'
     const wrapper = createWrapper(`/#/graph/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
-      expect(document.title).toEqual(`xrpl_explorer | ${id}...`)
+      expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
         {
-          page_path: '/accounts/rZaChweF5oXn#ssss',
-          page_title: 'xrpl_explorer | rZaChweF5oXn...',
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
           event: 'screen_view',
           network: 'mainnet',
         },
@@ -351,14 +405,31 @@ describe('App container', () => {
     })
   })
 
-  it('renders custom mode', async () => {
+  it('renders custom mode homepage', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
-    const wrapper = createWrapper('/s2.ripple.com/')
+    const wrapper = createWrapper('/')
+    await flushPromises()
+    wrapper.update()
+    expect(wrapper.find('header')).toHaveClassName('header-no-network')
+    // We don't know the endpoint yet.
+    expect(XrplClient).toHaveBeenCalledTimes(0)
+    expect(document.title).toEqual(`xrpl_explorer`)
+
+    wrapper.unmount()
+  })
+
+  it('renders custom mode ledgers', async () => {
+    process.env.VITE_ENVIRONMENT = 'custom'
+    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+    const network = 's2.ripple.com'
+    const wrapper = createWrapper(`/${network}/`)
     await flushPromises()
     wrapper.update()
     // Make sure the sockets aren't double initialized.
+    expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
     expect(XrplClient).toHaveBeenCalledTimes(1)
+    expect(document.title).toEqual(`xrpl_explorer | ledgers`)
     wrapper.unmount()
   })
 })
