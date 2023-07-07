@@ -1,14 +1,17 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { Loader } from '../shared/components/Loader'
 import { durationToHuman } from '../shared/utils'
 import { NodeData } from '../shared/vhsTypes'
 import './css/nodesTable.scss'
+import { LEDGER_ROUTE } from '../App/routes'
+import { RouteLink } from '../shared/routing'
 
 const renderLastLedger = (ledger) =>
   ledger && ledger.ledger_index ? (
-    <Link to={`/ledgers/${ledger.ledger_index}`}>{ledger.ledger_index}</Link>
+    <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledger.ledger_index }}>
+      {ledger.ledger_index}
+    </RouteLink>
   ) : (
     <i>unknown</i>
   )

@@ -7,6 +7,7 @@ import mockNodes from './mockNodes.json'
 import NetworkContext from '../../shared/NetworkContext'
 import countries from '../../../../public/countries.json'
 import { QuickHarness } from '../../test/utils'
+import { NETWORK_ROUTE } from '../../App/routes'
 
 jest.mock('usehooks-ts', () => ({
   useWindowSize: () => ({
@@ -18,11 +19,11 @@ jest.mock('usehooks-ts', () => ({
 describe('Nodes Page container', () => {
   const createWrapper = () =>
     mount(
-      <QuickHarness i18n={i18n} initialEntries={['/network/nodes']}>
-        <NetworkContext.Provider value="main">
-          <Route path="/network/:tab" component={Network} />
-        </NetworkContext.Provider>
-      </QuickHarness>,
+      <NetworkContext.Provider value="main">
+        <QuickHarness i18n={i18n} initialEntries={['/network/nodes']}>
+          <Route path={NETWORK_ROUTE.path} element={<Network />} />
+        </QuickHarness>
+      </NetworkContext.Provider>,
     )
 
   const oldEnvs = process.env

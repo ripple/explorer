@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
-import { useRouteMatch, useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { useWindowSize } from 'usehooks-ts'
 import { Helmet } from 'react-helmet-async'
@@ -22,6 +21,8 @@ import './validator.scss'
 import SocketContext from '../shared/SocketContext'
 import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
+import { VALIDATOR_ROUTE } from '../App/routes'
+import { buildPath, useRouteParams } from '../shared/routing'
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -37,16 +38,10 @@ const ERROR_MESSAGES = {
 const getErrorMessage = (error: keyof typeof ERROR_MESSAGES | null) =>
   (error && ERROR_MESSAGES[error]) || ERROR_MESSAGES.default
 
-interface Params {
-  identifier?: string
-  tab?: string
-}
-
 export const Validator = () => {
   const rippledSocket = useContext(SocketContext)
   const network = useContext(NetworkContext)
-  const { path = '/' } = useRouteMatch()
-  const { identifier = '', tab = 'details' } = useParams<Params>()
+  const { identifier = '', tab = 'details' } = useRouteParams(VALIDATOR_ROUTE)
   const { width } = useWindowSize()
   const { trackException, trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
@@ -166,8 +161,7 @@ export const Validator = () => {
 
   function renderTabs() {
     const tabs = ['details', 'history']
-    // strips :url from the front and the identifier/tab info from the end
-    const mainPath = `${path.split('/:')[0]}/${identifier}`
+    const mainPath = buildPath(VALIDATOR_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 

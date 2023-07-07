@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
-import { Link } from 'react-router-dom'
 import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import NoInfo from '../../shared/images/no_info.svg'
@@ -11,6 +10,8 @@ import { Amount } from '../../shared/components/Amount'
 import '../../shared/components/TransactionTable/styles.scss' // Reuse load-more-btn
 import { formatAmount } from '../../../rippled/lib/txSummary/formatAmount'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
+import { ACCOUNT_ROUTE } from '../../App/routes'
+import { RouteLink } from '../../shared/routing'
 
 interface Props {
   tokenId: string
@@ -57,7 +58,9 @@ export const Offers = (props: Props) => {
           {offerIndex}
         </td>
         <td className="owner text-truncate">
-          <Link to={`/accounts/${owner}`}>{owner}</Link>
+          <RouteLink to={ACCOUNT_ROUTE} params={{ id: owner }}>
+            {owner}
+          </RouteLink>
         </td>
         <td className="amount right">
           <Amount value={formatAmount(amount)} />

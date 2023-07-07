@@ -1,36 +1,47 @@
 import classnames from 'classnames'
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
+import { Link } from 'react-router-dom'
 import Logo from '../../shared/images/XRPLedger.svg'
 import { Search } from '../Search'
 import { Dropdown, DropdownItem } from '../../shared/components/Dropdown'
 import type { defaultTranslationsKey } from '../../../../@types/i18next'
+import { useAnalytics } from '../../shared/analytics'
+import { buildPath, RouteLink, RouteDefinition } from '../../shared/routing'
 
 import './NavigationMenu.scss'
-import { useAnalytics } from '../../shared/analytics'
 
 export interface NavigationMenuRoute {
   title: defaultTranslationsKey
-  children?: NavigationMenuRoute[]
-  link?: string
-  path?: string
+  current?: (path: string) => boolean
 }
+
+export interface NavigationMenuParentRoute extends NavigationMenuRoute {
+  children: NavigationMenuInternalRoute[]
+}
+
+export interface NavigationMenuExternalRoute extends NavigationMenuRoute {
+  link: string
+}
+
+export interface NavigationMenuInternalRoute extends NavigationMenuRoute {
+  route: RouteDefinition<any>
+}
+
+export type NavigationMenuAnyRoute =
+  | NavigationMenuParentRoute
+  | NavigationMenuExternalRoute
+  | NavigationMenuInternalRoute
 
 export const NavigationMenu = ({
   routes,
 }: {
-  routes: NavigationMenuRoute[]
+  routes: NavigationMenuAnyRoute[]
 }) => {
   const { track } = useAnalytics()
-
-  const trackOpened = () => {
-    track('mobile_menu', {})
-  }
-
+  const location = useLocation()
   const { t } = useTranslation()
-  const { pathname } = useLocation()
   const toggle = useRef<HTMLInputElement>(null)
 
   // manually set toggle to false because the <Link> component will `preventDefault` breaking the <label> technique
@@ -38,6 +49,10 @@ export const NavigationMenu = ({
     if (toggle.current) {
       toggle.current.checked = false
     }
+  }
+
+  const trackOpened = () => {
+    track('mobile_menu', {})
   }
 
   return (
@@ -70,7 +85,7 @@ export const NavigationMenu = ({
           {routes.map((nav) => {
             const title = t(nav.title)
 
-            if (nav.children) {
+            if ('children' in nav) {
               return (
                 <Dropdown
                   key={nav.title}
@@ -80,9 +95,10 @@ export const NavigationMenu = ({
                 >
                   {nav.children.map((child) => (
                     <DropdownItem
-                      href={child.path}
+                      href={buildPath(child.route, {})}
                       data-title={title}
                       className="nav-link"
+                      key={child.title}
                     >
                       {t(child.title)}
                     </DropdownItem>
@@ -90,8 +106,7 @@ export const NavigationMenu = ({
                 </Dropdown>
               )
             }
-
-            if (nav.link) {
+            if ('link' in nav) {
               return (
                 <li key={nav.title} className="nav-item">
                   <a
@@ -106,22 +121,22 @@ export const NavigationMenu = ({
                 </li>
               )
             }
-            const current =
-              pathname === nav.path ||
-              (pathname.indexOf(nav.path || '') === 0 && nav.path !== '/')
 
             return (
               <li
                 key={nav.title}
-                className={classnames('nav-item', current && 'selected')}
+                className={classnames(
+                  'nav-item',
+                  nav.current && nav.current(location.pathname) && 'selected',
+                )}
               >
-                <Link
-                  to={nav.path || ''}
+                <RouteLink
+                  to={nav.route}
                   className="nav-link"
                   onClick={forceClose}
                 >
                   {t(nav.title)}
-                </Link>
+                </RouteLink>
                 <div className="dot" />
               </li>
             )
