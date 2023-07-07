@@ -106,6 +106,7 @@ describe('App container', () => {
   }
 
   const oldEnvs = process.env
+  let wrapper
 
   beforeEach(() => {
     moxios.install()
@@ -119,19 +120,19 @@ describe('App container', () => {
   })
 
   afterEach(() => {
+    wrapper.unmount()
     process.env = oldEnvs
   })
 
   it('renders main parts', () => {
-    const wrapper = createWrapper()
+    wrapper = createWrapper()
     expect(wrapper.find('.header').length).toBe(1)
     expect(wrapper.find('.content').length).toBe(1)
     expect(wrapper.find('.footer').length).toBe(1)
-    wrapper.unmount()
   })
 
   it('renders home', () => {
-    const wrapper = createWrapper()
+    wrapper = createWrapper()
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual('xrpl_explorer | ledgers')
       expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
@@ -144,12 +145,11 @@ describe('App container', () => {
           network: 'mainnet',
         },
       ])
-      wrapper.unmount()
     })
   })
 
   it('renders ledger explorer page', async () => {
-    const wrapper = createWrapper('/ledgers')
+    wrapper = createWrapper('/ledgers')
     await flushPromises()
     await flushPromises()
     wrapper.update()
@@ -163,11 +163,10 @@ describe('App container', () => {
         network: 'mainnet',
       },
     ])
-    wrapper.unmount()
   })
 
   it('renders not found page', () => {
-    const wrapper = createWrapper('/zzz')
+    wrapper = createWrapper('/zzz')
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual('xrpl_explorer | not_found_default_title')
       expect(window.dataLayer).toEqual([
@@ -178,13 +177,12 @@ describe('App container', () => {
           page_path: '/zzz',
         },
       ])
-      wrapper.unmount()
     })
   })
 
   it('renders ledger page', async () => {
     const id = 12345
-    const wrapper = createWrapper(`/ledgers/${id}`)
+    wrapper = createWrapper(`/ledgers/${id}`)
     await flushPromises()
     await flushPromises() // flush ledger request
     wrapper.update()
@@ -198,13 +196,12 @@ describe('App container', () => {
         network: 'mainnet',
       },
     ])
-    wrapper.unmount()
   })
 
   it('renders transaction page', async () => {
     const id =
       '50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774'
-    const wrapper = createWrapper(`/transactions/${id}`)
+    wrapper = createWrapper(`/transactions/${id}`)
     await flushPromises()
     await flushPromises() // flush transaction request
     wrapper.update()
@@ -225,12 +222,11 @@ describe('App container', () => {
         transaction_type: 'OfferCreate',
       },
     ])
-    wrapper.unmount()
   })
 
   it('renders transaction page with invalid hash', () => {
     const id = '12345'
-    const wrapper = createWrapper(`/transactions/${id}`)
+    wrapper = createWrapper(`/transactions/${id}`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | invalid_transaction_hash`)
       expect(window.dataLayer).toEqual([
@@ -241,12 +237,11 @@ describe('App container', () => {
           description: 'invalid_transaction_hash -- check_transaction_hash',
         },
       ])
-      wrapper.unmount()
     })
   })
 
   it('renders transaction page with no hash', () => {
-    const wrapper = createWrapper(`/transactions/`)
+    wrapper = createWrapper(`/transactions/`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(wrapper.find('.no-match .title')).toHaveText(
         'transaction_empty_title',
@@ -262,13 +257,12 @@ describe('App container', () => {
           description: 'transaction_empty_title -- transaction_empty_hint',
         },
       ])
-      wrapper.unmount()
     })
   })
 
   it('renders account page for classic address', () => {
     const id = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb'
-    const wrapper = createWrapper(`/accounts/${id}#ssss`)
+    wrapper = createWrapper(`/accounts/${id}#ssss`)
     flushPromises()
     flushPromises()
     return new Promise((r) => setTimeout(r, 200)).then(() => {
@@ -281,13 +275,12 @@ describe('App container', () => {
           network: 'mainnet',
         },
       ])
-      wrapper.unmount()
     })
   })
 
   it('renders account page for malformed', async () => {
     const id = 'rZaChweF5oXn'
-    const wrapper = createWrapper(`/accounts/${id}#ssss`)
+    wrapper = createWrapper(`/accounts/${id}#ssss`)
     await sleep(100)
     await flushPromises()
     wrapper.update()
@@ -302,12 +295,11 @@ describe('App container', () => {
     ])
     expect(wrapper.find('.no-match .title')).toHaveText('invalid_xrpl_address')
     expect(wrapper.find('.no-match .hint')).toHaveText('check_account_id')
-    wrapper.unmount()
   })
 
   it('renders account page for a deleted account', () => {
     const id = 'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6'
-    const wrapper = createWrapper(`/accounts/${id}#ssss`, [], () =>
+    wrapper = createWrapper(`/accounts/${id}#ssss`, [], () =>
       Promise.reject(new Error('account not found', 404)),
     )
     return new Promise((r) => setTimeout(r, 200)).then(() => {
@@ -324,13 +316,12 @@ describe('App container', () => {
         expect.anything(),
         'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6',
       )
-      wrapper.unmount()
     })
   })
 
   it('renders account page for x-address', () => {
     const id = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
-    const wrapper = createWrapper(`/accounts/${id}#ssss`)
+    wrapper = createWrapper(`/accounts/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | XVVFXHFdehYh...`)
       expect(window.dataLayer).toEqual([
@@ -346,12 +337,11 @@ describe('App container', () => {
         expect.anything(),
         'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb',
       )
-      wrapper.unmount()
     })
   })
 
   it('renders account page with no id', () => {
-    const wrapper = createWrapper(`/accounts/`)
+    wrapper = createWrapper(`/accounts/`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(wrapper.find('.no-match .title')).toHaveText('account_empty_title')
       expect(wrapper.find('.no-match .hint')).toHaveText('account_empty_hint')
@@ -363,14 +353,13 @@ describe('App container', () => {
           description: 'account_empty_title -- account_empty_hint',
         },
       ])
-      wrapper.unmount()
     })
   })
 
   it('redirects legacy transactions page', () => {
     const id =
       '50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774'
-    const wrapper = createWrapper(`/#/transactions/${id}`)
+    wrapper = createWrapper(`/#/transactions/${id}`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(
         `xrpl_explorer | transaction_short 50BB0CC6...`,
@@ -388,13 +377,12 @@ describe('App container', () => {
           transaction_type: 'OfferCreate',
         },
       ])
-      wrapper.unmount()
     })
   })
 
   it('redirects legacy account page', () => {
     const id = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb'
-    const wrapper = createWrapper(`/#/graph/${id}#ssss`)
+    wrapper = createWrapper(`/#/graph/${id}#ssss`)
     return new Promise((r) => setTimeout(r, 200)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
@@ -405,35 +393,31 @@ describe('App container', () => {
           network: 'mainnet',
         },
       ])
-      wrapper.unmount()
     })
   })
 
   it('renders custom mode homepage', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
-    const wrapper = createWrapper('/')
+    wrapper = createWrapper('/')
     await flushPromises()
     wrapper.update()
     expect(wrapper.find('header')).toHaveClassName('header-no-network')
     // We don't know the endpoint yet.
     expect(XrplClient).toHaveBeenCalledTimes(0)
     expect(document.title).toEqual(`xrpl_explorer`)
-
-    wrapper.unmount()
   })
 
   it('renders custom mode ledgers', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
     const network = 's2.ripple.com'
-    const wrapper = createWrapper(`/${network}/`)
+    wrapper = createWrapper(`/${network}/`)
     await flushPromises()
     wrapper.update()
     // Make sure the sockets aren't double initialized.
     expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
     expect(XrplClient).toHaveBeenCalledTimes(1)
     expect(document.title).toEqual(`xrpl_explorer | ledgers`)
-    wrapper.unmount()
   })
 })
