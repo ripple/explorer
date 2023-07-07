@@ -1,6 +1,6 @@
 import { KeyboardEventHandler, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
 
 import {
@@ -103,7 +103,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   const { track } = useAnalytics()
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleSearch = async (id: string) => {
     const strippedId = id.replace(/^["']|["']$/g, '')
@@ -112,7 +112,8 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
       search_term: strippedId,
       search_category: type,
     })
-    history.push(
+
+    navigate(
       type === 'invalid'
         ? `/search/${strippedId}`
         : `/${type}/${normalize(strippedId, type)}`,

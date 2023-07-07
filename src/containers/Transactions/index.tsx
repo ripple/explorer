@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react'
-import { useParams, useRouteMatch } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import ReactJson from 'react-json-view'
@@ -15,9 +14,11 @@ import './transaction.scss'
 import { AnalyticsFields, useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
 import { TxStatus } from '../shared/components/TxStatus'
-import { getTransaction } from '../../rippled'
 import { getAction, getCategory } from '../shared/components/Transaction'
+import { buildPath, useRouteParams } from '../shared/routing'
 import { SUCCESSFUL_TRANSACTION } from '../shared/transactionUtils'
+import { getTransaction } from '../../rippled'
+import { TRANSACTION_ROUTE } from '../App/routes'
 
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
@@ -37,11 +38,7 @@ const getErrorMessage = (error) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
 
 export const Transaction = () => {
-  const { identifier = '', tab = 'simple' } = useParams<{
-    identifier: string
-    tab: string
-  }>()
-  const match = useRouteMatch()
+  const { identifier = '', tab = 'simple' } = useRouteParams(TRANSACTION_ROUTE)
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { trackException, trackScreenLoaded } = useAnalytics()
@@ -104,10 +101,8 @@ export const Transaction = () => {
   }
 
   function renderTabs() {
-    const { path = '/' } = match
     const tabs = ['simple', 'detailed', 'raw']
-    // strips :url from the front and the identifier/tab info from the end
-    const mainPath = `${path.split('/:')[0]}/${identifier}`
+    const mainPath = buildPath(TRANSACTION_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 
