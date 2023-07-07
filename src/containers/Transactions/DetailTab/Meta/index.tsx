@@ -5,8 +5,8 @@ import renderDirectoryNode from './DirectoryNode'
 import renderOffer from './Offer'
 import renderRippleState from './RippleState'
 import renderPayChannel from './PayChannel'
-import { groupAffectedNodes } from '../../shared/transactionUtils'
-import { useLanguage } from '../../shared/hooks'
+import { groupAffectedNodes } from '../../../shared/transactionUtils'
+import { useLanguage } from '../../../shared/hooks'
 
 const renderDefault = (t, action, node, index) => (
   <li key={`${node.LedgerEntryType}_${index}`} className="meta-line">

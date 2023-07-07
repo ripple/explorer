@@ -6,7 +6,7 @@ import Transaction from './mock_data/Transaction.json'
 import OfferCancel from '../../shared/components/Transaction/OfferCancel/test/mock_data/OfferCancel.json'
 import OfferCreateWithMissingPreviousFields from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithMissingPreviousFields.json'
 import PaymentChannelClaim from '../../shared/components/Transaction/PaymentChannelClaim/test/mock_data/PaymentChannelClaim.json'
-import { TransactionMeta } from '../Meta'
+import { TransactionMeta } from '../DetailTab/Meta'
 
 describe('TransactionMeta container', () => {
   const createWrapper = (data: any = Transaction) =>

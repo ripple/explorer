@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { FC } from 'react'
 import { TransactionMeta } from './Meta'
 import { TransactionDescription } from './Description'
-import { Account } from '../shared/components/Account'
-import { localizeDate, localizeNumber } from '../shared/utils'
+import { Account } from '../../shared/components/Account'
+import { localizeDate, localizeNumber } from '../../shared/utils'
 import {
   DATE_OPTIONS,
   CURRENCY_OPTIONS,
@@ -12,10 +12,10 @@ import {
   XRP_BASE,
   buildFlags,
   buildMemos,
-} from '../shared/transactionUtils'
+} from '../../shared/transactionUtils'
 import './detailTab.scss'
-import { useLanguage } from '../shared/hooks'
-import { convertHexToString } from '../../rippled/lib/utils'
+import { useLanguage } from '../../shared/hooks'
+import { convertHexToString } from '../../../rippled/lib/utils'
 
 export const DetailTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
