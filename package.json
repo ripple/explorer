@@ -139,7 +139,7 @@
     "start": "run-p dev-server dev-client",
     "test": "jest --env=jsdom --watch",
     "test:all": "run-s lint:ci test:ci",
-    "test:ci": "jest --coverage --ci --color --env=jsdom --no-cache",
+    "test:ci": "jest --coverage --ci --color --env=jsdom --no-cache --runInBand",
     "test:debug": "jest --inspect-brk --runInBand --env=jsdom",
     "test:coverage": "npm run test -- --coverage --watchAll=false"
   },
