@@ -47,6 +47,13 @@ export const BREAKPOINTS = {
   phone: 415,
 }
 
+export const CURRENCY_OPTIONS = {
+  style: 'currency',
+  currency: '',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 8,
+}
+
 const NUMBER_DEFAULT_OPTIONS = {
   style: 'decimal',
   minimumFractionDigits: 0,
@@ -289,13 +296,6 @@ export const formatTradingFee = (tradingFee) =>
         maximumFractionDigits: 3,
       })
     : undefined
-
-export const CURRENCY_OPTIONS = {
-  style: 'currency',
-  currency: '',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 8,
-}
 
 export const computeBalanceChange = (node) => {
   const fields = node.FinalFields || node.NewFields
