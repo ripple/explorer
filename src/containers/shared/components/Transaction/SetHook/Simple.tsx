@@ -25,7 +25,7 @@ export const Simple = ({
   const { t } = useTranslation()
 
   const renderHook = (hook: HookData) => (
-    <SimpleGroup title={t('hook')} key={hook.HookHash}>
+    <SimpleGroup title={t('hook')} key={hook.HookHash || hook.CreateCode}>
       <SimpleRow label={t('hash')} data-test="hook-hash">
         {hook.HookHash ?? 'undefined'}
       </SimpleRow>

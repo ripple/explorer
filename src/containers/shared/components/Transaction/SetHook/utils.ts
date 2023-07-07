@@ -1,5 +1,6 @@
 import { zeroPad } from '../../../transactionUtils'
 
+// TODO: import from ripple-binary-codec
 const TRANSACTION_TYPES: Record<string, number> = {
   Invalid: -1,
   Payment: 0,

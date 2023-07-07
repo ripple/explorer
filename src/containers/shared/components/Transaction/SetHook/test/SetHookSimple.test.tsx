@@ -2,6 +2,7 @@ import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockSetHook from './mock_data/SetHook.json'
 import mockSetHook2 from './mock_data/SetHook2.json'
+import mockSetHookFailure from './mock_data/SetHookFailure.json'
 import { expectSimpleRowText } from '../../test/expectations'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
@@ -77,5 +78,24 @@ describe('SetHookSimple', () => {
       'raPSFU999HcwpyRojdNh2i96T22gY9fgxL',
     )
     expect(grant2.find(`.account a`)).toExist()
+  })
+
+  it('renders a failed SetHook tx', () => {
+    const wrapper = createWrapper(mockSetHookFailure)
+
+    expect(wrapper.find('.group')).toHaveLength(1)
+
+    const hook = wrapper.find('.group').at(0)
+
+    expectSimpleRowText(hook, 'hook-hash', 'undefined')
+
+    expectSimpleRowText(hook, 'hook-on', 'Payment')
+    expectSimpleRowText(
+      hook,
+      'hook-namespace',
+      'CAE662172FD450BB0CD710A769079C05BFC5D8E35EFA6576EDC7D0377AFDD4A2',
+    )
+    expectSimpleRowText(hook, 'hook-flags', 'hsfOverride')
+    expectSimpleRowText(hook, 'hook-api-version', '0')
   })
 })
