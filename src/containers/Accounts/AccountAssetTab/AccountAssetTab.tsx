@@ -12,8 +12,9 @@ interface Props {
   account: any
 }
 
+const assetTypes = ['issued', 'nft']
+
 const AccountAssetTabDisconnected = ({ account }: Props) => {
-  const assetTypes = ['issued', 'nft']
   const { id: accountId = '', assetType = assetTypes[0] } =
     useRouteParams(ACCOUNT_ROUTE)
   const navigate = useNavigate()

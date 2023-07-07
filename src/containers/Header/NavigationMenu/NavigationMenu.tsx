@@ -82,7 +82,7 @@ export const NavigationMenu = ({
           <li className="nav-item nav-search">
             <Search />
           </li>
-          {routes.map((nav): any => {
+          {routes.map((nav) => {
             const title = t(nav.title)
 
             if ('children' in nav) {
@@ -98,6 +98,7 @@ export const NavigationMenu = ({
                       href={buildPath(child.route, {})}
                       data-title={title}
                       className="nav-link"
+                      key={child.title}
                     >
                       {t(child.title)}
                     </DropdownItem>
