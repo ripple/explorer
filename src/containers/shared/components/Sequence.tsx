@@ -30,7 +30,7 @@ export const Sequence: FC<SequenceProps> = ({
   return (
     <span>
       {sequence === 0 && !isPseudoTransaction ? (
-        <span className="row">
+        <span className="row" data-test="sequence">
           {ticketSequence}
           {' ('}
           {getContext()})
