@@ -7,17 +7,6 @@ import { TransactionSimpleProps } from '../types'
 import { HookData, SetHookInstructions } from './types'
 import { hookOnToTxList } from './utils'
 
-// interface TxPillProps {
-//   txType: string
-// }
-
-// const TxPill = ({ txType }: TxPillProps) => (
-//   <div className={`col-type tx-type ${txType}`}>
-//     {txType}
-//     {/* <TxLabel type={txType} /> */}
-//   </div>
-// )
-
 export const Simple = ({
   data,
 }: TransactionSimpleProps<SetHookInstructions>) => {
@@ -31,9 +20,7 @@ export const Simple = ({
       </SimpleRow>
       {hook.HookOn && (
         <SimpleRow label={t('triggered_on')} data-test="hook-on">
-          {/* {hookOnToTxList(hook.HookOn).map((tx) => (
-            <TxPill txType={tx} />
-          ))} */}
+          {/* // TODO: use the transaction badges here instead of just text */}
           {hookOnToTxList(hook.HookOn)?.join(', ') ?? <em>None</em>}
         </SimpleRow>
       )}
