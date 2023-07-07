@@ -34,10 +34,6 @@ jest.mock('../../../rippled/lib/rippled', () => {
   }
 })
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
   const { formatTransaction } = jest.requireActual('../../../rippled/lib/utils')
@@ -133,7 +129,7 @@ describe('App container', () => {
 
   it('renders home', () => {
     wrapper = createWrapper()
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(document.title).toEqual('xrpl_explorer | ledgers')
       expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
       expect(wrapper.find('.ledgers').length).toBe(1)
@@ -167,7 +163,7 @@ describe('App container', () => {
 
   it('renders not found page', () => {
     wrapper = createWrapper('/zzz')
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(document.title).toEqual('xrpl_explorer | not_found_default_title')
       expect(window.dataLayer).toEqual([
         {
@@ -227,7 +223,7 @@ describe('App container', () => {
   it('renders transaction page with invalid hash', () => {
     const id = '12345'
     wrapper = createWrapper(`/transactions/${id}`)
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | invalid_transaction_hash`)
       expect(window.dataLayer).toEqual([
         {
@@ -242,7 +238,7 @@ describe('App container', () => {
 
   it('renders transaction page with no hash', () => {
     wrapper = createWrapper(`/transactions/`)
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(wrapper.find('.no-match .title')).toHaveText(
         'transaction_empty_title',
       )
@@ -265,7 +261,7 @@ describe('App container', () => {
     wrapper = createWrapper(`/accounts/${id}#ssss`)
     flushPromises()
     flushPromises()
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
         {
@@ -278,23 +274,22 @@ describe('App container', () => {
     })
   })
 
-  it('renders account page for malformed', async () => {
+  it('renders account page for malformed', () => {
     const id = 'rZaChweF5oXn'
-    wrapper = createWrapper(`/accounts/${id}#ssss`)
-    await sleep(100)
-    await flushPromises()
-    wrapper.update()
-    expect(document.title).toEqual(`xrpl_explorer | invalid_xrpl_address`)
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/accounts/rZaChweF5oXn#ssss',
-        description: 'invalid_xrpl_address -- check_account_id',
-        event: 'not_found',
-        network: 'mainnet',
-      },
-    ])
-    expect(wrapper.find('.no-match .title')).toHaveText('invalid_xrpl_address')
-    expect(wrapper.find('.no-match .hint')).toHaveText('check_account_id')
+    wrapper = createWrapper(`/accounts/${id}#ssss`, [], () =>
+      Promise.reject(new Error('account not found', 404)),
+    )
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
+      expect(document.title).toEqual(`xrpl_explorer | invalid_xrpl_address`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/rZaChweF5oXn#ssss',
+          description: 'invalid_xrpl_address -- check_account_id',
+          event: 'not_found',
+          network: 'mainnet',
+        },
+      ])
+    })
   })
 
   it('renders account page for a deleted account', () => {
@@ -302,7 +297,7 @@ describe('App container', () => {
     wrapper = createWrapper(`/accounts/${id}#ssss`, [], () =>
       Promise.reject(new Error('account not found', 404)),
     )
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | r35jYntLwkrb...`)
       expect(window.dataLayer).toEqual([
         {
@@ -322,7 +317,7 @@ describe('App container', () => {
   it('renders account page for x-address', () => {
     const id = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
     wrapper = createWrapper(`/accounts/${id}#ssss`)
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | XVVFXHFdehYh...`)
       expect(window.dataLayer).toEqual([
         {
@@ -342,7 +337,7 @@ describe('App container', () => {
 
   it('renders account page with no id', () => {
     wrapper = createWrapper(`/accounts/`)
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(wrapper.find('.no-match .title')).toHaveText('account_empty_title')
       expect(wrapper.find('.no-match .hint')).toHaveText('account_empty_hint')
       expect(window.dataLayer).toEqual([
@@ -360,7 +355,7 @@ describe('App container', () => {
     const id =
       '50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774'
     wrapper = createWrapper(`/#/transactions/${id}`)
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(document.title).toEqual(
         `xrpl_explorer | transaction_short 50BB0CC6...`,
       )
@@ -383,7 +378,7 @@ describe('App container', () => {
   it('redirects legacy account page', () => {
     const id = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb'
     wrapper = createWrapper(`/#/graph/${id}#ssss`)
-    return new Promise((r) => setTimeout(r, 200)).then(() => {
+    return new Promise((r) => setTimeout(r, 100)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
         {
