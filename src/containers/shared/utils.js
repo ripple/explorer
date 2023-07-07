@@ -30,11 +30,13 @@ export const FULL_CURRENCY_REGEX =
   /^[0-9A-Fa-f]{40}[.:+-]r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const VALIDATORS_REGEX = /^n[9H][0-9A-Za-z]{50}$/
 
-export const GREY = '#9BA2B0'
 export const PURPLE = '#8884d8'
-export const BLUE = '#1AA4FF'
-export const RED = '#FF1A8B'
-export const GREEN = '#19FF83'
+export const GREEN_500 = '#32E685'
+export const GREEN_800 = '#1E8A50'
+export const PURPLE_500 = '#7919FF'
+export const PURPLE_700 = '#4A00B2'
+export const GREY_0 = '#FFFFFF'
+export const GREY_400 = '#A2A2A4'
 export const GREY_600 = '#656E81'
 export const GREY_800 = '#383D47'
 
