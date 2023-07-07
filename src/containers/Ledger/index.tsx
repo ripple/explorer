@@ -1,8 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router'
-import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
@@ -25,6 +23,8 @@ import { LedgerTransactionTable } from './LedgerTransactionTable'
 
 import './ledger.scss'
 import { getLedger } from '../../rippled'
+import { useRouteParams, RouteLink } from '../shared/routing'
+import { LEDGER_ROUTE } from '../App/routes'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -57,7 +57,7 @@ const getErrorMessage = (error) =>
 
 export const Ledger = () => {
   const rippledSocket = useContext(SocketContext)
-  const { identifier = '' } = useParams<{ identifier: string }>()
+  const { identifier = '' } = useRouteParams(LEDGER_ROUTE)
   const { t } = useTranslation()
   const language = useLanguage()
   const { trackException, trackScreenLoaded } = useAnalytics()
@@ -67,7 +67,10 @@ export const Ledger = () => {
     error,
     isLoading,
   } = useQuery(['ledger', identifier], () => {
-    if (!DECIMAL_REGEX.test(identifier) && !HASH_REGEX.test(identifier)) {
+    if (
+      !DECIMAL_REGEX.test(identifier.toString()) &&
+      !HASH_REGEX.test(identifier.toString())
+    ) {
       return Promise.reject(BAD_REQUEST)
     }
 
@@ -92,18 +95,18 @@ export const Ledger = () => {
     return (
       <div className="ledger-header">
         <div className="ledger-nav">
-          <Link to={`/ledgers/${previousIndex}`}>
+          <RouteLink to={LEDGER_ROUTE} params={{ identifier: previousIndex }}>
             <div className="previous">
               <LeftArrow alt="previous ledger" />
               {previousIndex}
             </div>
-          </Link>
-          <Link to={`/ledgers/${nextIndex}`}>
+          </RouteLink>
+          <RouteLink to={LEDGER_ROUTE} params={{ identifier: nextIndex }}>
             <div className="next">
               {nextIndex}
               <RightArrow alt="next ledger" />
             </div>
-          </Link>
+          </RouteLink>
           <div className="clear" />
         </div>
         <div className="ledger-info">
