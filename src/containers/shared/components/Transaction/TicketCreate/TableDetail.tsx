@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TicketCreate } from 'xrpl'
+import type { TicketCreate } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
 
 export const TableDetail = ({

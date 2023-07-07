@@ -1,4 +1,3 @@
-import type { OfferCancel } from 'xrpl'
 import {
   TransactionAction,
   TransactionCategory,

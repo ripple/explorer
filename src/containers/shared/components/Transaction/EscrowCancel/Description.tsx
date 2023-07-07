@@ -40,7 +40,7 @@ const Description: TransactionDescriptionComponent = (
             (
             <b>
               {normalizeAmount(
-                deleted.FinalFields.Amount - data.tx.Fee,
+                deleted.FinalFields.Amount - parseInt(data.tx.Fee || '0', 10),
                 language,
               )}
               <small>XRP</small>

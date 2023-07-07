@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { SetRegularKey } from 'xrpl'
+import type { SetRegularKey } from 'xrpl'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
 
