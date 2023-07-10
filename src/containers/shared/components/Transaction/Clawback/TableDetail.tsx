@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import { Amount } from '../../Amount'
 import { TransactionTableDetailProps } from '../types'
 import { ClawbackInstructions } from './types'
@@ -14,10 +14,12 @@ export const TableDetail = ({
     <div>
       {amount && holder && (
         <div className="clawback">
-          <span className="label">{t('claws_back')}</span>
-          <Amount value={amount} displayIssuer />
-          <span>{t('from')}</span>
-          <Account account={holder} />
+          <Trans i18nKey="action_from">
+            <span className="label">{t('claws_back')}</span>
+            <Amount value={amount} displayIssuer />
+            from
+            <Account account={holder} />
+          </Trans>
         </div>
       )}
     </div>
