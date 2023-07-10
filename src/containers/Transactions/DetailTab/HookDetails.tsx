@@ -1,8 +1,9 @@
 import { FC } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { convertHexToString } from '../../../rippled/lib/utils'
 import { Account } from '../../shared/components/Account'
+import { RouteLink } from '../../shared/routing'
+import { TRANSACTION_ROUTE } from '../../App/routes'
 
 const renderHookParameterName = (name: string) => {
   // Example:
@@ -14,43 +15,52 @@ const renderHookParameterName = (name: string) => {
   return name
 }
 
-const EmitDetails: FC<{ emitDetails: any }> = ({ emitDetails }) => (
-  <div className="detail-subsection" data-test="emit-details">
-    <div className="detail-subtitle">Emit Details</div>
-    <li className="detail-line">
-      <Trans
-        i18nKey="emit_generation"
-        values={{ emit: emitDetails.EmitGeneration }}
-      />
-    </li>
-    <li className="detail-line">
-      <Trans
-        i18nKey="emit_hook_hash"
-        values={{ hash: emitDetails.EmitHookHash }}
-      />
-    </li>
-    <li className="detail-line">
-      <Trans
-        i18nKey="emit_parent"
-        values={{
-          hash: `${emitDetails.EmitParentTxnID.substring(20)}...`,
-        }}
-      >
-        <Link to={`/transactions/${emitDetails.EmitParentTxnID}`} />
-      </Trans>
-    </li>
-    {emitDetails.EmitCallback && (
+const EmitDetails: FC<{ emitDetails: any }> = ({ emitDetails }) => {
+  const { t } = useTranslation()
+  return (
+    <div className="detail-subsection" data-test="emit-details">
+      <div className="detail-subtitle">{t('emit_details')}</div>
       <li className="detail-line">
         <Trans
-          i18nKey="emit_callback"
-          values={{ callback: emitDetails.EmitCallback }}
+          i18nKey="emit_generation"
+          values={{ emit: emitDetails.EmitGeneration }}
+        />
+      </li>
+      <li className="detail-line">
+        <Trans
+          i18nKey="emit_hook_hash"
+          values={{ hash: emitDetails.EmitHookHash }}
+        />
+      </li>
+      <li className="detail-line">
+        <Trans
+          i18nKey="emit_parent"
+          values={{
+            hash: `${emitDetails.EmitParentTxnID.substring(20)}...`,
+          }}
         >
-          <Account account={emitDetails.EmitCallback} />
+          <RouteLink
+            className="hash"
+            to={TRANSACTION_ROUTE}
+            params={{ identifier: emitDetails.EmitParentTxnID }}
+          >
+            ${emitDetails.EmitParentTxnID.substring(20)}...
+          </RouteLink>
         </Trans>
       </li>
-    )}
-  </div>
-)
+      {emitDetails.EmitCallback && (
+        <li className="detail-line">
+          <Trans
+            i18nKey="emit_callback"
+            values={{ callback: emitDetails.EmitCallback }}
+          >
+            <Account account={emitDetails.EmitCallback} />
+          </Trans>
+        </li>
+      )}
+    </div>
+  )
+}
 
 const HookParameter: FC<{ HookParameter: any }> = ({
   HookParameter: param,
@@ -111,13 +121,13 @@ export const HookDetails: FC<{ data: { tx: any; meta: any } }> = ({ data }) => {
       {tx.EmitDetails && <EmitDetails emitDetails={tx.EmitDetails} />}
       {tx.HookParameters && (
         <div className="detail-subsection" data-test="hook-params">
-          <div className="detail-subtitle">Hook Parameters</div>
+          <div className="detail-subtitle">{t('hook_parameters')}</div>
           {tx.HookParameters.map(HookParameter)}
         </div>
       )}
       {meta.HookExecutions && (
         <div className="detail-subsection" data-test="hook-executions">
-          <div className="detail-subtitle">Hook Executions</div>
+          <div className="detail-subtitle">{t('hook_executions')}</div>
           {meta.HookExecutions.map(HookExecution)}
         </div>
       )}
