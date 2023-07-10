@@ -1,5 +1,5 @@
 import { IssuedCurrencyAmount, Transaction, Node } from './types'
-import { localizeNumber } from './utils'
+import { localizeNumber, CURRENCY_OPTIONS } from './utils'
 
 export const RIPPLE_EPOCH = 946684800
 export const SUCCESSFUL_TRANSACTION = 'tesSUCCESS'
@@ -106,12 +106,7 @@ export const CURRENCY_ORDER = [
   'XRP',
 ]
 
-export const CURRENCY_OPTIONS = {
-  style: 'currency',
-  currency: '',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 8,
-}
+export { CURRENCY_OPTIONS }
 
 export const DATE_OPTIONS = {
   hour: 'numeric',
