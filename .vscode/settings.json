@@ -75,6 +75,7 @@
         "pageview",
         "paychannels",
         "paystrings",
+        "stylelint",
         "svgr",
         "topojson",
         "VITE",
