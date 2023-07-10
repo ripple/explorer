@@ -1,7 +1,7 @@
 import { Trans } from 'react-i18next'
-import { CURRENCY_OPTIONS } from '../../shared/transactionUtils'
-import { localizeNumber } from '../../shared/utils'
-import { Account } from '../../shared/components/Account'
+import { CURRENCY_OPTIONS } from '../../../shared/transactionUtils'
+import { localizeNumber } from '../../../shared/utils'
+import { Account } from '../../../shared/components/Account'
 
 const MILLION = 1000000
 

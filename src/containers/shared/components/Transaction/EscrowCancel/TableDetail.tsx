@@ -5,7 +5,7 @@ import { Sequence } from '../../Sequence'
 export const TableDetail = (props: any) => {
   const { t } = useTranslation()
   const { instructions } = props
-  const { owner, sequence, ticketSequence } = instructions
+  const { owner, sequence, ticketSequence, isHook } = instructions
   return (
     <div className="escrow">
       {owner && (
@@ -16,6 +16,7 @@ export const TableDetail = (props: any) => {
             sequence={sequence}
             ticketSequence={ticketSequence}
             account={owner}
+            isHook={isHook}
           />
         </>
       )}

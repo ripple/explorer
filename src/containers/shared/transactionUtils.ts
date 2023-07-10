@@ -1,5 +1,5 @@
 import { IssuedCurrencyAmount, Transaction, Node } from './types'
-import { localizeNumber } from './utils'
+import { localizeNumber, CURRENCY_OPTIONS } from './utils'
 
 export const RIPPLE_EPOCH = 946684800
 export const SUCCESSFUL_TRANSACTION = 'tesSUCCESS'
@@ -72,6 +72,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
 }
 
 export const ACCOUNT_FLAGS: Record<number, string> = {
+  16: 'asfAllowClawback',
   15: 'asfDisallowIncomingTrustline',
   14: 'asfDisallowIncomingPayChan',
   13: 'asfDisallowIncomingCheck',
@@ -112,12 +113,7 @@ export const CURRENCY_ORDER = [
   'XRP',
 ]
 
-export const CURRENCY_OPTIONS = {
-  style: 'currency',
-  currency: '',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 8,
-}
+export { CURRENCY_OPTIONS }
 
 export const DATE_OPTIONS = {
   hour: 'numeric',
