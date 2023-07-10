@@ -29,7 +29,7 @@ function renderError(error: any) {
 }
 
 export const AccountsRouter = () => {
-  const { id: accountId } = useParams<{ id: string }>()
+  const { id: accountId = '' } = useParams<{ id: string }>()
   const rippledSocket = useContext(SocketContext)
   const flags: any = Object.entries(ACCOUNT_FLAGS).reduce(
     (all, [key, value]) => ({ ...all, [value]: key }),

@@ -1,21 +1,20 @@
 import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
+import { NETWORK_ROUTE } from '../App/routes'
+import { useAnalytics } from '../shared/analytics'
+import { useRouteParams } from '../shared/routing'
 import NetworkContext from '../shared/NetworkContext'
 import { Validators } from './Validators'
 import { UpgradeStatus } from './UpgradeStatus'
 import { Nodes } from './Nodes'
 import NoMatch from '../NoMatch'
 import './css/style.scss'
-import { useAnalytics } from '../shared/analytics'
 
 export const Network = () => {
   const { trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
-  const { tab = 'nodes' } = useParams<{
-    tab: 'upgrade-status' | 'validators' | 'nodes'
-  }>()
+  const { tab = 'nodes' } = useRouteParams(NETWORK_ROUTE)
   const network = useContext(NetworkContext)
 
   useEffect(() => {

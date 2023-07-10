@@ -1,12 +1,12 @@
 import { KeyboardEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Header } from '../Header'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
 import { useAnalytics } from '../shared/analytics'
 import './index.scss'
 import { useCustomNetworks } from '../shared/hooks'
+import { Header } from '../Header'
 
 const SidechainHome = () => {
   const { track, trackScreenLoaded } = useAnalytics()
@@ -49,7 +49,7 @@ const SidechainHome = () => {
   }
 
   return (
-    <div className="app">
+    <>
       <Header inNetwork={false} />
       <div className="custom-network-main-page">
         <div className="logo-content">
@@ -72,7 +72,7 @@ const SidechainHome = () => {
           </div>
         )}
       </div>
-    </div>
+    </>
   )
 }
 

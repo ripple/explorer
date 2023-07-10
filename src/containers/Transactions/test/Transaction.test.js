@@ -1,5 +1,5 @@
 import { mount } from 'enzyme'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 import mockTransaction from './mock_data/Transaction.json'
 import mockTransactionSummary from './mock_data/TransactionSummary.json'
 import i18n from '../../../i18n/testConfig'
@@ -36,7 +36,7 @@ describe('Transaction container', () => {
       >
         <Route
           path="/transactions/:identifier?/:tab?"
-          component={Transaction}
+          element={<Transaction />}
         />
       </QuickHarness>,
     )
