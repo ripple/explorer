@@ -28,6 +28,7 @@ export const BalanceSelector = ({
         return (
           <BalanceSelectorItem
             currency={currency}
+            key={currency}
             handler={() => {
               onSetCurrencySelected(currency)
             }}

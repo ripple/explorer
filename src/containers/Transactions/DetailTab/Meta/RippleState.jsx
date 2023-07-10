@@ -1,6 +1,6 @@
 import { Trans } from 'react-i18next'
-import { localizeNumber, computeBalanceChange } from '../../shared/utils'
-import { Account } from '../../shared/components/Account'
+import { Account } from '../../../shared/components/Account'
+import { localizeNumber, computeBalanceChange } from '../../../shared/utils'
 
 const render = (t, language, action, node, index) => {
   const {
