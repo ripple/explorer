@@ -47,6 +47,13 @@ export const BREAKPOINTS = {
   phone: 415,
 }
 
+export const CURRENCY_OPTIONS = {
+  style: 'currency',
+  currency: '',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 8,
+}
+
 const NUMBER_DEFAULT_OPTIONS = {
   style: 'decimal',
   minimumFractionDigits: 0,
@@ -289,3 +296,35 @@ export const formatTradingFee = (tradingFee) =>
         maximumFractionDigits: 3,
       })
     : undefined
+
+export const computeBalanceChange = (node) => {
+  const fields = node.FinalFields || node.NewFields
+  const prev = node.PreviousFields
+  const { currency } = fields.Balance
+  const numberOption = { ...CURRENCY_OPTIONS, currency }
+  let finalBalance = fields.Balance.value
+  let previousBalance = prev && prev.Balance ? prev.Balance.value : 0
+  let account
+  let counterAccount
+
+  if (finalBalance < 0) {
+    account = fields.HighLimit.issuer
+    counterAccount = fields.LowLimit.issuer
+    finalBalance = 0 - finalBalance
+    previousBalance = 0 - previousBalance
+  } else {
+    account = fields.LowLimit.issuer
+    counterAccount = fields.HighLimit.issuer
+  }
+
+  const change = finalBalance - previousBalance
+  return {
+    change,
+    numberOption,
+    previousBalance,
+    finalBalance,
+    currency,
+    account,
+    counterAccount,
+  }
+}
