@@ -1,8 +1,8 @@
-import type { EscrowFinish } from 'xrpl'
+import type { EscrowFinish, TransactionMetadata } from 'xrpl'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { findNode } from '../../../transactionUtils'
 
-const findNodeFinalFields = (meta: any) => {
+const findNodeFinalFields = (meta: TransactionMetadata) => {
   const node = findNode(meta, 'DeletedNode', 'Escrow')
   return node ? node.FinalFields : {}
 }
