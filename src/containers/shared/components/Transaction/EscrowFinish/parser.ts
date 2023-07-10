@@ -7,7 +7,7 @@ const findNodeFinalFields = (meta: any) => {
   return node ? node.FinalFields : {}
 }
 
-export function parser(tx: EscrowFinish, meta: any) {
+export function parser(tx: EscrowFinish, meta: TransactionMetadata) {
   const escrow = findNodeFinalFields(meta)
   return {
     sequence: tx.OfferSequence,
