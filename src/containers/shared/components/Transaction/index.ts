@@ -35,6 +35,7 @@ import { EscrowCancelTransaction as EscrowCancel } from './EscrowCancel'
 import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
 import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { UNLModifyTransaction as UNLModify } from './UNLModify'
+import { ClawbackTransaction as Clawback } from './Clawback'
 
 import {
   TransactionAction,
@@ -80,6 +81,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AMMVote,
   TrustSet,
   UNLModify,
+  Clawback,
 }
 
 export const getAction = (type: string): TransactionAction =>

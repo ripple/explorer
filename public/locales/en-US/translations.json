@@ -453,5 +453,10 @@
   "language_ja-JP": "Japanese",
   "xchain_account_claim_count": "XChain Account Claim Count",
   "xchain_account_create_count": "XChain Account Create Count",
-  "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required"
+  "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required",
+  "holder": "Holder",
+  "action_from": "<0><0>{{action}}</0></0> <1><0>{{amount}}</0></1> from <3><0>{{destination}}</0></3>",
+  "claws_back": "Claws back",
+  "claws_back_from": "<source/> claws back from <destination/>",
+  "instruct_to_claw": "The max clawback amount is <amount/>"
 }
