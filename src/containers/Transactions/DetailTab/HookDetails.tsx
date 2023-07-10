@@ -43,9 +43,7 @@ const EmitDetails: FC<{ emitDetails: any }> = ({ emitDetails }) => {
             className="hash"
             to={TRANSACTION_ROUTE}
             params={{ identifier: emitDetails.EmitParentTxnID }}
-          >
-            ${emitDetails.EmitParentTxnID.substring(20)}...
-          </RouteLink>
+          />
         </Trans>
       </li>
       {emitDetails.EmitCallback && (
