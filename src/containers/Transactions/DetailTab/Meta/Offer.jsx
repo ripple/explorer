@@ -4,9 +4,9 @@ import {
   CURRENCY_ORDER,
   CURRENCY_OPTIONS,
   XRP_BASE,
-} from '../../shared/transactionUtils'
-import { localizeNumber } from '../../shared/utils'
-import { Account } from '../../shared/components/Account'
+} from '../../../shared/transactionUtils'
+import { localizeNumber } from '../../../shared/utils'
+import { Account } from '../../../shared/components/Account'
 
 const normalize = (value, currency) =>
   currency === 'XRP' ? (value / XRP_BASE).toString() : value
@@ -39,7 +39,7 @@ const renderChanges = (t, language, node, index) => {
         <span className="field">TakerPays </span>
         <b>{paysCurrency}</b>
         {renderIssuer(final.TakerPays.issuer)}{' '}
-        <Trans Trans i18nKey="decreased_from_to">
+        <Trans i18nKey="decreased_from_to">
           decreased by
           <b>{{ change: localizeNumber(changePays, language, options) }}</b>
           from
@@ -73,7 +73,7 @@ const renderChanges = (t, language, node, index) => {
         <span className="field">TakerGets </span>
         <b>{getsCurrency}</b>
         {renderIssuer(final.TakerGets.issuer)}{' '}
-        <Trans Trans i18nKey="decreased_from_to">
+        <Trans i18nKey="decreased_from_to">
           decreased by
           <b>{{ change: localizeNumber(changeGets, language, options) }}</b>
           from

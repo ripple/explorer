@@ -1,0 +1,129 @@
+{
+  "tx": {
+    "Account": "rf4VZ6LYKnPY1uaEiZF8qzD8vrW91vvjbb",
+    "Fee": "10",
+    "Flags": 65536,
+    "LastLedgerSequence": 80986097,
+    "Sequence": 0,
+    "SigningPubKey": "EDD17BABBBECFEFE3FCC777113E2A3B9F12F3747B92E6E822E04FE0F2EAFDCF83C",
+    "TakerGets": {
+      "currency": "EUR",
+      "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+      "value": "1362.49752"
+    },
+    "TakerPays": {
+      "currency": "GBP",
+      "issuer": "r4GN9eEoz9K4BhMQXe4H1eYNtvtkwGdt8g",
+      "value": "1168.4025"
+    },
+    "TicketSequence": 79469284,
+    "TransactionType": "OfferCreate",
+    "TxnSignature": "337F766904250BD32A46EE74C7A6624F108769BAD04EDBB818C22B007D994700B90E043017EBB3582922676B62E65299214DB79AC563AD292EC97B08A357A509",
+    "date": 1688757492000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "IndexPrevious": "32fc",
+            "Owner": "rf4VZ6LYKnPY1uaEiZF8qzD8vrW91vvjbb",
+            "RootIndex": "031ACE475F9337139A17B266C859DC92F26154380AF93F77C72036BAAA3A9999"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "4FB37C0D16E9CAF664BD74FFCBCE65F06F9B1BE048011A9251ED5AC7B255C228"
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "Offer",
+          "LedgerIndex": "677F2CF01C84ED748C2A0B146D740B716E8777E327835F1D5173BC1F28BF6704",
+          "NewFields": {
+            "Account": "rf4VZ6LYKnPY1uaEiZF8qzD8vrW91vvjbb",
+            "BookDirectory": "BEED7204994F6D7E6967B2BFAA27880866F54F6F30BBA3B2541E7752CC657FC6",
+            "Flags": 65536,
+            "OwnerNode": "32fd",
+            "Sequence": 79469284,
+            "TakerGets": {
+              "currency": "EUR",
+              "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+              "value": "1362.49752"
+            },
+            "TakerPays": {
+              "currency": "GBP",
+              "issuer": "r4GN9eEoz9K4BhMQXe4H1eYNtvtkwGdt8g",
+              "value": "1168.4025"
+            }
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "IndexNext": "32f7",
+            "IndexPrevious": "32f3",
+            "Owner": "rf4VZ6LYKnPY1uaEiZF8qzD8vrW91vvjbb",
+            "RootIndex": "031ACE475F9337139A17B266C859DC92F26154380AF93F77C72036BAAA3A9999"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "7632CE5B80F3C7E1D636BE4ACEEFACAA5D654A3A7AC553E0F069BC90A79A8EED"
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Account": "rf4VZ6LYKnPY1uaEiZF8qzD8vrW91vvjbb",
+            "Flags": 0,
+            "OwnerNode": "32f6",
+            "PreviousTxnID": "1EE9C1A86FE001213E77CD9514594969C9B72660F021E6CA356ACE964081EC5E",
+            "PreviousTxnLgrSeq": 80985444,
+            "TicketSequence": 79469284
+          },
+          "LedgerEntryType": "Ticket",
+          "LedgerIndex": "945B6605EE9AC922C81C3FCCDFB5B995FAC97923CEF190E4176B93553A00C542"
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "BEED7204994F6D7E6967B2BFAA27880866F54F6F30BBA3B2541E7752CC657FC6",
+          "NewFields": {
+            "ExchangeRate": "541e7752cc657fc6",
+            "RootIndex": "BEED7204994F6D7E6967B2BFAA27880866F54F6F30BBA3B2541E7752CC657FC6",
+            "TakerGetsCurrency": "0000000000000000000000004555520000000000",
+            "TakerGetsIssuer": "2ADB0B3959D60A6E6991F729E1918B7163925230",
+            "TakerPaysCurrency": "0000000000000000000000004742500000000000",
+            "TakerPaysIssuer": "E93BDB6C7098EF415FEA6C4B7A7A76BF9289118B"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rf4VZ6LYKnPY1uaEiZF8qzD8vrW91vvjbb",
+            "Balance": "389253477",
+            "Flags": 0,
+            "OwnerCount": 157,
+            "Sequence": 79469653,
+            "TicketCount": 134
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "E306A63B590C825C6278CC92A7D29E4030BA9DE4DE748CD9F9891F01B7045943",
+          "PreviousFields": {
+            "Balance": "389253487",
+            "TicketCount": 135
+          },
+          "PreviousTxnID": "E32F95AABE7A3147952386495EA30075B99244BC7F69643E7D4268D43CDBCE3A",
+          "PreviousTxnLgrSeq": 80986079
+        }
+      }
+    ],
+    "TransactionIndex": 22,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "BD19F7D08D7470E15B3F7329421B20B7511E9FDB2C9EB8C0E1F11540EAC76070",
+  "ledger_index": 80986080,
+  "date": 1688757492000
+}
