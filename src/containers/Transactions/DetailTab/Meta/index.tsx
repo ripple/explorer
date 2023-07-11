@@ -5,8 +5,8 @@ import renderDirectoryNode from './DirectoryNode'
 import renderOffer from './Offer'
 import renderRippleState from './RippleState'
 import renderPayChannel from './PayChannel'
-import { groupAffectedNodes } from '../../shared/transactionUtils'
-import { useLanguage } from '../../shared/hooks'
+import { groupAffectedNodes } from '../../../shared/transactionUtils'
+import { useLanguage } from '../../../shared/hooks'
 
 const renderDefault = (t, action, node, index) => (
   <li key={`${node.LedgerEntryType}_${index}`} className="meta-line">
@@ -38,8 +38,8 @@ export const TransactionMeta: FC<{ data: any }> = ({ data }) => {
 
     return (
       meta.length !== 0 && (
-        <div className="meta-section">
-          <div className="meta-title">{t('nodes_type', { action })}</div>
+        <div className="detail-subsection">
+          <div className="detail-subtitle">{t('nodes_type', { action })}</div>
           <ul>{meta}</ul>
         </div>
       )

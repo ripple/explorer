@@ -9,8 +9,11 @@ import { TransactionSimpleProps } from './types'
 
 const DEFAULT_TX_ELEMENTS = [
   'Account',
+  'EmitDetails',
   'Fee',
+  'FirstLedgerSequence',
   'Flags',
+  'HookParameters',
   'LastLedgerSequence',
   'Memos',
   'Signers',
@@ -48,7 +51,10 @@ const processValue = (value: any) => {
       return `${value.substring(0, 300)}...`
     }
     if (value === '') {
-      return '<empty>'
+      return <em>{'<empty>'}</em>
+    }
+    if (typeof value === 'object') {
+      return JSON.stringify(value)
     }
     return value
   }
@@ -60,9 +66,11 @@ const processValue = (value: any) => {
         Object.keys(childValue).length === 1
       ) {
         const childKey = Object.keys(childValue)[0]
-        return <div key={childValue}>{processValue(childValue[childKey])}</div>
+        const processed = processValue(childValue[childKey])
+        return <div key={JSON.stringify(childValue)}>{processed}</div>
       }
-      return <div key={childValue}>{processValue(childValue)}</div>
+      const processed = processValue(childValue)
+      return <div key={JSON.stringify(processed)}>{processed}</div>
     })
   }
 
@@ -70,10 +78,10 @@ const processValue = (value: any) => {
     return (
       <div className="subgroup">
         {Object.entries(value).map(([childKey, childValue]) => (
-          <div
-            key={childKey}
-            data-test={childKey}
-          >{`${childKey}: ${processValue(childValue)}`}</div>
+          <div key={childKey} data-test={childKey}>
+            {`${childKey}: `}
+            {processValue(childValue)}
+          </div>
         ))}
       </div>
     )

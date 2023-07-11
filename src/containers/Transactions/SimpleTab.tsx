@@ -39,6 +39,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     account,
     sequence,
     ticketSequence,
+    isHook,
   ) => (
     <>
       <SimpleRow
@@ -62,6 +63,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
           sequence={sequence}
           ticketSequence={ticketSequence}
           account={account}
+          isHook={isHook}
         />
       </SimpleRow>
       <SimpleRow label={t('transaction_cost')} data-test="tx-cost">
@@ -89,6 +91,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     raw.tx.Account,
     raw.tx.Sequence,
     raw.tx.TicketSequence,
+    !!raw.tx.EmitDetails,
   )
 
   return (

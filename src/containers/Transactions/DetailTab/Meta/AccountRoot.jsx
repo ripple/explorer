@@ -1,7 +1,7 @@
 import { Trans } from 'react-i18next'
-import { CURRENCY_OPTIONS, XRP_BASE } from '../../shared/transactionUtils'
-import { localizeNumber } from '../../shared/utils'
-import { Account } from '../../shared/components/Account'
+import { CURRENCY_OPTIONS, XRP_BASE } from '../../../shared/transactionUtils'
+import { localizeNumber } from '../../../shared/utils'
+import { Account } from '../../../shared/components/Account'
 
 const render = (t, language, action, node, index) => {
   const fields = node.FinalFields || node.NewFields || { Balance: 0 }

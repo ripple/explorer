@@ -1,4 +1,4 @@
-@import '../shared/css/variables';
+@import '../../shared/css/variables';
 
 .detail-body {
   margin-top: 20px;
@@ -13,6 +13,10 @@
 
     &:last-child {
       border: none;
+    }
+
+    li {
+      word-wrap: break-word;
     }
 
     @include for-size(tablet-landscape-up) {
@@ -68,7 +72,7 @@
       }
     }
 
-    .meta-title {
+    .detail-subtitle {
       margin-top: 16px;
       margin-bottom: 2px;
       color: $black-40;

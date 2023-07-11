@@ -1,0 +1,108 @@
+{
+  "tx": {
+    "Account": "rMPwD1b8dJUaqZHaBgEvFx4ENhtpPVvDsv",
+    "Amount": "999999",
+    "Destination": "rfCarbonVNTuXckX6x2qTMFmFSnm6dEWGX",
+    "DestinationTag": 0,
+    "EmitDetails": {
+      "EmitBurden": "1",
+      "EmitCallback": "rMPwD1b8dJUaqZHaBgEvFx4ENhtpPVvDsv",
+      "EmitGeneration": 1,
+      "EmitHookHash": "A9B5411F4A4368008B4736EEE47A34B0EFCBE74016B9B94CC6208FBC0BF5C0C2",
+      "EmitNonce": "74AEA17E77DCE55FD7E37098B3B96DFFD9E3A3CAD03823D723590D7F2813AC85",
+      "EmitParentTxnID": "1D2E4D286D7EF7D13BD3D6DB0B8D9C864FB7B46A154BC57C7D17D9BD59C80FFD"
+    },
+    "Fee": "31",
+    "FirstLedgerSequence": 4309433,
+    "Flags": 2147483648,
+    "LastLedgerSequence": 4309437,
+    "Sequence": 0,
+    "SigningPubKey": "000000000000000000000000000000000000000000000000000000000000000000",
+    "SourceTag": 0,
+    "TransactionType": "Payment",
+    "ctid": "C041C1B90001535A",
+    "date": 1687874661000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "EmittedTxn": {
+              "Account": "rMPwD1b8dJUaqZHaBgEvFx4ENhtpPVvDsv",
+              "Amount": "999999",
+              "Destination": "rfCarbonVNTuXckX6x2qTMFmFSnm6dEWGX",
+              "DestinationTag": 0,
+              "EmitDetails": {
+                "EmitBurden": "1",
+                "EmitCallback": "rMPwD1b8dJUaqZHaBgEvFx4ENhtpPVvDsv",
+                "EmitGeneration": 1,
+                "EmitHookHash": "A9B5411F4A4368008B4736EEE47A34B0EFCBE74016B9B94CC6208FBC0BF5C0C2",
+                "EmitNonce": "74AEA17E77DCE55FD7E37098B3B96DFFD9E3A3CAD03823D723590D7F2813AC85",
+                "EmitParentTxnID": "1D2E4D286D7EF7D13BD3D6DB0B8D9C864FB7B46A154BC57C7D17D9BD59C80FFD"
+              },
+              "Fee": "31",
+              "FirstLedgerSequence": 4309433,
+              "Flags": 2147483648,
+              "LastLedgerSequence": 4309437,
+              "Sequence": 0,
+              "SigningPubKey": "000000000000000000000000000000000000000000000000000000000000000000",
+              "SourceTag": 0,
+              "TransactionType": "Payment"
+            },
+            "Flags": 0,
+            "OwnerNode": "0"
+          },
+          "LedgerEntryType": "EmittedTxn",
+          "LedgerIndex": "30B66645E9A4DBD71BDE0EC2DCE2A0A8D89BB4A6885EBB83666EBF5A0FBE26D3"
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Flags": 4,
+            "RootIndex": "B4DE823055D00BC12CD78FE1AAF74EE6062195B2629F49A25915A39C64BE1900"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "B4DE823055D00BC12CD78FE1AAF74EE6062195B2629F49A25915A39C64BE1900"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rMPwD1b8dJUaqZHaBgEvFx4ENhtpPVvDsv",
+            "Balance": "9396541450",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 4280223
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "FDD5F4ABDFBF8EEE583BCAF910E66A6862941BE5E644E4DEA4BFB9362B8CCADF",
+          "PreviousFields": {
+            "Balance": "9396541481"
+          }
+        }
+      }
+    ],
+    "HookExecutions": [
+      {
+        "HookExecution": {
+          "HookAccount": "rMPwD1b8dJUaqZHaBgEvFx4ENhtpPVvDsv",
+          "HookEmitCount": 0,
+          "HookExecutionIndex": 0,
+          "HookHash": "A9B5411F4A4368008B4736EEE47A34B0EFCBE74016B9B94CC6208FBC0BF5C0C2",
+          "HookInstructionCount": "25",
+          "HookResult": 2,
+          "HookReturnCode": "8000000000000001",
+          "HookReturnString": "",
+          "HookStateChangeCount": 0
+        }
+      }
+    ],
+    "TransactionIndex": 1,
+    "TransactionResult": "tecNO_DST_INSUF_XRP"
+  },
+  "hash": "0B5F24CD8DCA13ABA7FD1B340AF489E7FC45201B6908ED38FFA561660BBBB567",
+  "ledger_index": 4309433,
+  "date": 1687874661000
+}
