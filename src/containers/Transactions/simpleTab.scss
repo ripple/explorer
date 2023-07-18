@@ -26,6 +26,15 @@ $subdued-color: $black-40;
       .value {
         text-align: right;
 
+        .grant {
+          .account {
+            padding-bottom: 8px;
+            font-size: 11px;
+            text-align: right;
+            @include medium;
+          }
+        }
+
         .amount {
           text-align: right;
 
@@ -93,6 +102,14 @@ $subdued-color: $black-40;
       margin: 16px 0 16px -16px;
       background: rgba($black-80, 0.7);
       gap: 15px;
+
+      &:first-child {
+        margin-top: 0px;
+      }
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
 
       .group-title {
         display: block;

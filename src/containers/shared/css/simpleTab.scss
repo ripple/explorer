@@ -8,9 +8,17 @@ $index-width: 324px;
   .index {
     width: $index-width;
     padding: 16px;
+    border-left: 1px solid $black-70;
+    margin-bottom: 60px;
     margin-left: -1px;
 
     .row {
+      margin-bottom: 32px;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+
       .label {
         margin-bottom: 0;
         color: $black-40;
@@ -21,7 +29,6 @@ $index-width: 324px;
 
       .value {
         overflow: hidden;
-        margin-bottom: 32px;
         color: $white;
         font-size: 14px;
         line-height: 16px;
@@ -45,13 +52,18 @@ $index-width: 324px;
     @include for-size(desktop-up) {
       width: calc(100% - $index-width);
       padding-right: 0;
-      padding-bottom: 60px;
       border-right: 1px solid $black-70;
+      margin-bottom: 60px;
     }
 
+    /* stylelint-disable-next-line no-descending-specificity -- more confusing to satisfy it */
     .row {
       &:first-child {
         padding-top: 0;
+      }
+
+      &:last-child {
+        border-bottom: none;
       }
 
       display: flex;

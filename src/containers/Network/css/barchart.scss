@@ -24,3 +24,50 @@
     color: $white;
   }
 }
+
+.custom-legend {
+  display: flex;
+  margin: 0 16px 40px;
+
+  .legend-color {
+    display: flex;
+    align-items: center;
+    gap: 0 16px;
+
+    .segment {
+      display: flex;
+      align-items: center;
+      gap: 0 16px;
+
+      .icon {
+        &.vals {
+          background-color: $green-50;
+        }
+
+        &.nodes {
+          background-color: $blue-purple-50;
+        }
+
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+      }
+
+      .text {
+        color: $black-40;
+      }
+    }
+  }
+
+  .legend-stable {
+    padding: 16px;
+    border-radius: $border-radius;
+    margin-left: auto;
+    background-color: $black-70;
+
+    .stable {
+      color: $black-0;
+      font-weight: 700;
+    }
+  }
+}

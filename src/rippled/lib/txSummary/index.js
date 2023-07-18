@@ -15,6 +15,7 @@ const summarizeTransaction = (d, details = false) => ({
   fee: d.tx.Fee / 1000000,
   sequence: d.tx.Sequence,
   ticketSequence: d.tx.TicketSequence,
+  isHook: !!d.tx.EmitDetails,
   date: d.date,
   details: details
     ? {

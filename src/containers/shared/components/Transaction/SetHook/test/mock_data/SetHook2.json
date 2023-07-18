@@ -1,0 +1,127 @@
+{
+  "tx": {
+    "Account": "rGVHr1PrfL93UAjyw3DWZoi9adz2sLp2yL",
+    "Fee": "20",
+    "Flags": 0,
+    "Hooks": [
+      {
+        "Hook": {
+          "HookGrants": [
+            {
+              "HookGrant": {
+                "Authorize": "rQUhXd7sopuga3taru3jfvc1BgVbscrb1X",
+                "HookHash": "096A70632BBB67488F4804AE55604A01F52226BD556E3589270D0D30C9A6AF81"
+              }
+            },
+            {
+              "HookGrant": {
+                "Authorize": "raPSFU999HcwpyRojdNh2i96T22gY9fgxL",
+                "HookHash": "3F47684053E1A653E54EAC1C5F50BCBAF7F69078CEFB5846BB046CE44B8ECDC2"
+              }
+            }
+          ],
+          "HookHash": "548BBB700F5841C2D41E227456E8A80E6A6335D1149BA3B5FF745A00CC0EBECE"
+        }
+      }
+    ],
+    "LastLedgerSequence": 1976819,
+    "NetworkID": 21338,
+    "Sequence": 1784919,
+    "SigningPubKey": "025137610C314DA06E4CD804541F2A7CDD0483EB85BA3F74067A026B5F170C8047",
+    "TransactionType": "SetHook",
+    "TxnSignature": "30450221008A7DD8DE50A7D107CF36DEA92D06B64926E865EADA243F18901DD7D9FB9D450D02203505F2C40D516D9208DF3172B6A45CB74C8DB0C18260C180B3185C7C872E0BAE",
+    "ctid": "C01E29E10000535A",
+    "date": 1680842731000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rGVHr1PrfL93UAjyw3DWZoi9adz2sLp2yL",
+            "Flags": 0,
+            "Hooks": [
+              {
+                "Hook": {
+                  "HookGrants": [
+                    {
+                      "HookGrant": {
+                        "Authorize": "rQUhXd7sopuga3taru3jfvc1BgVbscrb1X",
+                        "HookHash": "096A70632BBB67488F4804AE55604A01F52226BD556E3589270D0D30C9A6AF81"
+                      }
+                    },
+                    {
+                      "HookGrant": {
+                        "Authorize": "raPSFU999HcwpyRojdNh2i96T22gY9fgxL",
+                        "HookHash": "3F47684053E1A653E54EAC1C5F50BCBAF7F69078CEFB5846BB046CE44B8ECDC2"
+                      }
+                    }
+                  ],
+                  "HookHash": "548BBB700F5841C2D41E227456E8A80E6A6335D1149BA3B5FF745A00CC0EBECE"
+                }
+              },
+              {
+                "Hook": {}
+              },
+              {
+                "Hook": {}
+              },
+              {
+                "Hook": {}
+              }
+            ],
+            "OwnerNode": "0"
+          },
+          "LedgerEntryType": "Hook",
+          "LedgerIndex": "0BCDDA47012D784783CE787017E103BA542DFC451168074C9AA4704016893ED4",
+          "PreviousFields": {
+            "Hooks": [
+              {
+                "Hook": {
+                  "Flags": 0,
+                  "HookHash": "548BBB700F5841C2D41E227456E8A80E6A6335D1149BA3B5FF745A00CC0EBECE"
+                }
+              },
+              {
+                "Hook": {}
+              },
+              {
+                "Hook": {}
+              },
+              {
+                "Hook": {}
+              }
+            ]
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rGVHr1PrfL93UAjyw3DWZoi9adz2sLp2yL",
+            "Balance": "9879550122",
+            "Flags": 0,
+            "HookNamespaces": [
+              "01EAF09326B4911554384121FF56FA8FECC215FDDE2EC35D9E59F2C53EC665A0"
+            ],
+            "HookStateCount": 74,
+            "OwnerCount": 78,
+            "Sequence": 1784920
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "BB71F3181F2B9D63FF4D7439AB82C32ABE4ED8F70CE00E0EFC68FD9C37149435",
+          "PreviousFields": {
+            "Balance": "9879550142",
+            "OwnerCount": 76,
+            "Sequence": 1784919
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "62A6257455F2366CC54DE43EE40258E51FD1695459521D48DE70ECB4D53D677E",
+  "ledger_index": 1976801,
+  "date": 1680842731000
+}

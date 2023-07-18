@@ -12,7 +12,7 @@ describe('DepositPreauth: Description', () => {
   it('renders description for authorize', () => {
     const wrapper = createWrapper(mockDepositPreaut)
     expect(wrapper.html()).toBe(
-      `<div>It authorizes <a data-testid="account" class="account" title="rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM" href="/accounts/rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM">rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM</a> to send payments to this account</div>`,
+      `<div>It authorizes <a data-testid="account" title="rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM" class="account" href="/accounts/rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM">rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM</a> to send payments to this account</div>`,
     )
     wrapper.unmount()
   })
@@ -20,7 +20,7 @@ describe('DepositPreauth: Description', () => {
   it('renders description for unauthorize', () => {
     const wrapper = createWrapper(mockDepositPreauthUnauthorize)
     expect(wrapper.html()).toBe(
-      `<div>It removes the authorization for <a data-testid="account" class="account" title="rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM" href="/accounts/rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM">rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM</a> to send payments to this account</div>`,
+      `<div>It removes the authorization for <a data-testid="account" title="rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM" class="account" href="/accounts/rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM">rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM</a> to send payments to this account</div>`,
     )
     wrapper.unmount()
   })

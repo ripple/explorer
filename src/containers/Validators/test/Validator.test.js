@@ -1,12 +1,13 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
-import { useParams } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { BAD_REQUEST } from '../../shared/utils'
 import { Validator } from '../index'
 import { getLedger } from '../../../rippled'
 import NetworkContext from '../../shared/NetworkContext'
 import testConfigEnglish from '../../../i18n/testConfigEnglish'
 import { QuickHarness, flushPromises } from '../../test/utils'
+import { VALIDATOR_ROUTE } from '../../App/routes'
 
 global.location = '/validators/aaaa'
 
@@ -17,11 +18,6 @@ jest.mock('../../../rippled', () => ({
   getLedger: jest.fn(),
 }))
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn(),
-}))
-
 describe('Validator container', () => {
   const createWrapper = (props = {}) => {
     const defaultGetLedgerImpl = () =>
@@ -29,15 +25,17 @@ describe('Validator container', () => {
         () => {},
         () => {},
       )
-    useParams.mockImplementation(() => ({ identifier: MOCK_IDENTIFIER }))
     getLedger.mockImplementation(props.getLedgerImpl || defaultGetLedgerImpl)
 
     return mount(
-      <QuickHarness i18n={testConfigEnglish}>
-        <NetworkContext.Provider value={props.network || 'main'}>
-          <Validator />
-        </NetworkContext.Provider>
-      </QuickHarness>,
+      <NetworkContext.Provider value={props.network || 'main'}>
+        <QuickHarness
+          i18n={testConfigEnglish}
+          initialEntries={[`/validators/${MOCK_IDENTIFIER}`]}
+        >
+          <Route path={VALIDATOR_ROUTE.path} element={<Validator />} />
+        </QuickHarness>
+      </NetworkContext.Provider>,
     )
   }
 

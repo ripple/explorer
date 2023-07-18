@@ -1,10 +1,9 @@
-import { Trans, useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { FC } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { TransactionMeta } from './Meta'
 import { TransactionDescription } from './Description'
-import { Account } from '../shared/components/Account'
-import { localizeDate, localizeNumber } from '../shared/utils'
+import { Account } from '../../shared/components/Account'
+import { localizeDate, localizeNumber } from '../../shared/utils'
 import {
   DATE_OPTIONS,
   CURRENCY_OPTIONS,
@@ -12,9 +11,12 @@ import {
   XRP_BASE,
   buildFlags,
   buildMemos,
-} from '../shared/transactionUtils'
+} from '../../shared/transactionUtils'
 import './detailTab.scss'
-import { useLanguage } from '../shared/hooks'
+import { useLanguage } from '../../shared/hooks'
+import { HookDetails } from './HookDetails'
+import { RouteLink } from '../../shared/routing'
+import { LEDGER_ROUTE } from '../../App/routes'
 
 export const DetailTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
@@ -40,9 +42,13 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
         <div className="title">{t('status')}</div>
         {line1}
         {t('transaction_validated')}
-        <Link className="ledger" to={`/ledgers/${data.ledger_index}`}>
+        <RouteLink
+          className="ledger"
+          to={LEDGER_ROUTE}
+          params={{ identifier: data.ledger_index }}
+        >
           {data.ledger_index}
-        </Link>
+        </RouteLink>
         {t('on')}
         <span className="time">{`${time} ${DATE_OPTIONS.timeZone}`}</span>
       </div>
@@ -122,6 +128,7 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
       {renderStatus()}
       <TransactionDescription data={data} />
       {renderSigners()}
+      <HookDetails data={data} />
       {renderFlags()}
       {renderFee()}
       {renderMemos()}

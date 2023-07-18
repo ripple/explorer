@@ -1,16 +1,17 @@
-import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { localizeDate, localizeNumber, BREAKPOINTS } from '../shared/utils'
 import { Account } from '../shared/components/Account'
 import { Sequence } from '../shared/components/Sequence'
 import { Simple } from './Simple'
 
 import { useLanguage } from '../shared/hooks'
+import { RouteLink } from '../shared/routing'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../shared/transactionUtils'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
+import { LEDGER_ROUTE } from '../App/routes'
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -38,6 +39,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     account,
     sequence,
     ticketSequence,
+    isHook,
   ) => (
     <>
       <SimpleRow
@@ -47,7 +49,9 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
         {time}
       </SimpleRow>
       <SimpleRow label={t('ledger_index')} data-test="ledger-index">
-        <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
+        <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledgerIndex }}>
+          {ledgerIndex}
+        </RouteLink>
       </SimpleRow>
       {account && (
         <SimpleRow label={t('account')} data-test="account">
@@ -59,6 +63,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
           sequence={sequence}
           ticketSequence={ticketSequence}
           account={account}
+          isHook={isHook}
         />
       </SimpleRow>
       <SimpleRow label={t('transaction_cost')} data-test="tx-cost">
@@ -86,6 +91,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     raw.tx.Account,
     raw.tx.Sequence,
     raw.tx.TicketSequence,
+    !!raw.tx.EmitDetails,
   )
 
   return (
