@@ -169,6 +169,7 @@
   "transaction_type_name_PaymentChannelClaim": "Payment Channel Claim",
   "transaction_type_name_PaymentChannelCreate": "Payment Channel Create",
   "transaction_type_name_PaymentChannelFund": "Payment Channel Fund",
+  "transaction_type_name_SetHook": "Set Hook",
   "transaction_type_name_SetRegularKey": "Set Regular Key",
   "transaction_type_name_SignerListSet": "Signer List Set",
   "transaction_type_name_TicketCreate": "Ticket Create",
@@ -472,5 +473,10 @@
   "hook_exec_hash": "It triggered the hook <0>{{hash}}</0>",
   "hook_exec_account": "On the account <0>{{account}}</0>",
   "hook_exec_return": "Returned the code <0>{{code}}</0> with string \"<1>{{string}}</1>\"",
-  "hook_exec_emit_count": "Emitted <0>{{count}}</0> transactions"
+  "hook_exec_emit_count": "Emitted <0>{{count}}</0> transactions",
+  "hash": "Hash",
+  "grant": "Grant",
+  "namespace": "Namespace",
+  "api_version": "API Version",
+  "triggered_on": "Triggered On"
 }

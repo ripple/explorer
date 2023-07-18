@@ -26,6 +26,15 @@ $subdued-color: $black-40;
       .value {
         text-align: right;
 
+        .grant {
+          .account {
+            padding-bottom: 8px;
+            font-size: 11px;
+            text-align: right;
+            @include medium;
+          }
+        }
+
         .amount {
           text-align: right;
 

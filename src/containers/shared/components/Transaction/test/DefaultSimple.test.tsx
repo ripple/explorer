@@ -2,10 +2,16 @@ import NewEscrowCreate from './mock_data/NewEscrowCreate.json'
 import SetHook from './mock_data/SetHook.json'
 import SetHook2 from './mock_data/SetHook2.json'
 import { DefaultSimple } from '../DefaultSimple'
-import { createSimpleWrapperFactory } from './createWrapperFactory'
+import { createWrapper as createGeneralWrapper } from './createWrapperFactory'
 import { expectSimpleRowText } from './expectations'
+import summarizeTransaction from '../../../../../rippled/lib/txSummary'
 
-const createWrapper = createSimpleWrapperFactory(DefaultSimple)
+function createWrapper(tx: any) {
+  // eslint-disable-next-line no-param-reassign -- needed so parsers aren't triggered
+  tx.tx.TransactionType = 'DummyTx'
+  const data = summarizeTransaction(tx, true)
+  return createGeneralWrapper(<DefaultSimple data={data.details!} />)
+}
 
 describe('DefaultSimple', () => {
   it('renders Simple for basic transaction', () => {
