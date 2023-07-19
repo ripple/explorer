@@ -1,7 +1,6 @@
-import { useContext, useEffect } from 'react'
-import { useParams, useRouteMatch } from 'react-router'
-import { useTranslation } from 'react-i18next'
+import { FC, PropsWithChildren, useContext, useEffect } from 'react'
 import { useQuery } from 'react-query'
+import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '../../../shared/hooks'
 import '../../styles.scss'
 import { formatAmount } from '../../../../rippled/lib/txSummary/formatAmount'
@@ -10,7 +9,9 @@ import {
   getAMMInfo,
 } from '../../../../rippled/lib/rippled'
 import { Tabs } from '../../../shared/components/Tabs'
-import { analytics, ANALYTIC_TYPES, formatAsset } from '../../../shared/utils'
+import { useAnalytics } from '../../../shared/analytics'
+import { buildPath, useRouteParams } from '../../../shared/routing'
+import { formatAsset } from '../../../shared/utils'
 import SocketContext from '../../../shared/SocketContext'
 import { ERROR_MESSAGES } from '../../Errors'
 import NoMatch from '../../../NoMatch'
@@ -19,6 +20,8 @@ import {
   AmmDataType,
 } from './AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from '../../AccountTransactionTable'
+import { hexToString } from '../../../shared/components/Currency'
+import { ACCOUNT_ROUTE } from '../../../App/routes'
 
 const getErrorMessage = (error: string) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -40,16 +43,23 @@ function renderError(error: any) {
   )
 }
 
+const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
+  accountId,
+  children,
+}) => (
+  <div className="accounts-page">
+    <Helmet title={`AMM ${accountId.substr(0, 12)}...`} />
+    {children}
+  </div>
+)
+
 export const AMMAccounts = () => {
-  const { id: accountId, tab = 'transactions' } = useParams<{
-    id: string
-    tab: string
-  }>()
-  const { path = '/' } = useRouteMatch()
-  const { t } = useTranslation()
-  const mainPath = `${path.split('/:')[0]}/${accountId}`
+  const { id: accountId = '', tab = 'transactions' } =
+    useRouteParams(ACCOUNT_ROUTE)
+  const mainPath = buildPath(ACCOUNT_ROUTE, { id: accountId })
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
+  const { trackException, trackScreenLoaded } = useAnalytics()
 
   const { data, error } = useQuery([accountId, language], () => {
     let asset1: { currency: string; issuer?: string }
@@ -97,33 +107,45 @@ export const AMMAccounts = () => {
           return ammInfo
         })
         .catch((e) => {
-          analytics(ANALYTIC_TYPES.exception, {
-            exDescription: `Error setting up amm account --- ${JSON.stringify(
-              e,
-            )}`,
-          })
+          trackException(
+            `Error setting up amm account --- ${JSON.stringify(e)}`,
+          )
 
           throw e
         })
     )
   })
 
-  useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Accounts', path: '/accounts' })
-
-    return () => {
+  useEffect(
+    () => () => {
       window.scrollTo(0, 0)
-    }
-  })
+    },
+    [],
+  )
 
-  document.title = `${t('xrpl_explorer')} | ${accountId.substr(0, 12)}...`
+  useEffect(() => {
+    if (!data) {
+      return
+    }
+
+    trackScreenLoaded({
+      account_id: data.accountId,
+      asset1: `${hexToString(data.balance.currency)}.${data.balance.issuer}`,
+      asset2: `${hexToString(data.balance2.currency)}.${data.balance2.issuer}`,
+    })
+  }, [data, trackScreenLoaded])
 
   const tabs = ['transactions']
 
-  return error ? (
-    renderError(error)
-  ) : (
+  if (error) {
+    return <Page accountId={accountId}>{renderError(error)}</Page>
+  }
+
+  return (
     <div className="accounts-page section">
+      <Helmet>
+        <title>AMM {accountId.substr(0, 12)}...</title>
+      </Helmet>
       {data && (
         <>
           <AMMAccountHeader data={data} />

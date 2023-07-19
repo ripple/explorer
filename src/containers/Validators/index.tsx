@@ -1,27 +1,28 @@
 import { useContext, useEffect } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
-import { useRouteMatch, useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { useWindowSize } from 'usehooks-ts'
+import { Helmet } from 'react-helmet-async'
 import NoMatch from '../NoMatch'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
+import { useAnalytics } from '../shared/analytics'
 import {
-  analytics,
-  ANALYTIC_TYPES,
   FETCH_INTERVAL_ERROR_MILLIS,
   FETCH_INTERVAL_VHS_MILLIS,
   NOT_FOUND,
   SERVER_ERROR,
 } from '../shared/utils'
 import { getLedger } from '../../rippled'
-import SimpleTab from './SimpleTab'
+import { SimpleTab } from './SimpleTab'
 import { HistoryTab } from './HistoryTab'
 import './validator.scss'
 import SocketContext from '../shared/SocketContext'
 import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
+import { VALIDATOR_ROUTE } from '../App/routes'
+import { buildPath, useRouteParams } from '../shared/routing'
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -37,18 +38,13 @@ const ERROR_MESSAGES = {
 const getErrorMessage = (error: keyof typeof ERROR_MESSAGES | null) =>
   (error && ERROR_MESSAGES[error]) || ERROR_MESSAGES.default
 
-interface Params {
-  identifier?: string
-  tab?: string
-}
-
 export const Validator = () => {
-  const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const network = useContext(NetworkContext)
-  const { path = '/' } = useRouteMatch()
-  const { identifier = '', tab = 'details' } = useParams<Params>()
+  const { identifier = '', tab = 'details' } = useRouteParams(VALIDATOR_ROUTE)
   const { width } = useWindowSize()
+  const { trackException, trackScreenLoaded } = useAnalytics()
+  const { t } = useTranslation()
 
   const {
     data,
@@ -77,23 +73,8 @@ export const Validator = () => {
   )
 
   useEffect(() => {
-    let short = ''
-    if (data?.domain) {
-      short = data.domain
-    } else if (data?.master_key) {
-      short = `${data.master_key.substr(0, 8)}...`
-    } else if (data?.signing_key) {
-      short = `${data.signing_key.substr(0, 8)}...`
-    }
-    document.title = `Validator ${short} | ${t('xrpl_explorer')}`
-  }, [data, t])
-
-  useEffect(() => {
-    analytics(ANALYTIC_TYPES.pageview, {
-      title: 'Validator',
-      path: `/validators/:identifier/${tab}`,
-    })
-  }, [tab, data])
+    trackScreenLoaded({ validator: identifier })
+  }, [identifier, tab, trackScreenLoaded])
 
   function fetchValidatorReport(): Promise<ValidatorReport[]> {
     return axios
@@ -129,11 +110,26 @@ export const Validator = () => {
           axiosError.response && axiosError.response.status
             ? axiosError.response.status
             : SERVER_ERROR
-        analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `${url} --- ${JSON.stringify(axiosError)}`,
-        })
+        trackException(`${url} --- ${JSON.stringify(axiosError)}`)
         return Promise.reject(status)
       })
+  }
+
+  function renderPageTitle() {
+    if (!data) {
+      return undefined
+    }
+
+    let short = ''
+    if (data.domain) {
+      short = data.domain
+    } else if (data.master_key) {
+      short = `${data.master_key.substr(0, 8)}...`
+    } else if (data.signing_key) {
+      short = `${data.signing_key.substr(0, 8)}...`
+    }
+
+    return <Helmet title={`${t('validator')} ${short}`} />
   }
 
   function renderSummary() {
@@ -165,8 +161,7 @@ export const Validator = () => {
 
   function renderTabs() {
     const tabs = ['details', 'history']
-    // strips :url from the front and the identifier/tab info from the end
-    const mainPath = `${path.split('/:')[0]}/${identifier}`
+    const mainPath = buildPath(VALIDATOR_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 
@@ -184,6 +179,7 @@ export const Validator = () => {
 
     return (
       <>
+        {renderPageTitle()}
         {renderSummary()}
         {renderTabs()}
         <div className="tab-body">{body}</div>
@@ -209,6 +205,7 @@ export const Validator = () => {
 
   return (
     <div className="validator">
+      {renderPageTitle()}
       {isLoading && <Loader />}
       {body}
     </div>

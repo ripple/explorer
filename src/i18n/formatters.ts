@@ -15,7 +15,7 @@ const truncate = (
   truncateOptions: { length: number },
 ) =>
   value.substring(0, truncateOptions.length) +
-  (value.length > truncateOptions.length ? '&hellip;' : '')
+  (value.length > truncateOptions.length ? '\u2026' : '')
 
 export const configureFormatters = (instance: typeof i18n) => {
   instance.services.formatter?.add('truncate', truncate)

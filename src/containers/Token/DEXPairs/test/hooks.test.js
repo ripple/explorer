@@ -1,8 +1,10 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
+import { HelmetProvider } from 'react-helmet-async'
+import { MemoryRouter } from 'react-router'
 import moxios from 'moxios'
 import i18n from '../../../../i18n/testConfig'
-import DEXPairs from '../index'
+import { DEXPairs } from '../index'
 import mockTopEndpoint from './mockTopEndpoint.json'
 import mockExchangeData from './mockExchangeData.json'
 import SocketContext from '../../../shared/SocketContext'
@@ -50,7 +52,11 @@ describe('Testing hooks', () => {
     const wrapper = mount(
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
-          <DEXPairs accountId={address} currency={currency} />
+          <HelmetProvider>
+            <MemoryRouter>
+              <DEXPairs accountId={address} currency={currency} />
+            </MemoryRouter>
+          </HelmetProvider>
         </SocketContext.Provider>
       </I18nextProvider>,
     )

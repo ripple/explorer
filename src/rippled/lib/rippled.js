@@ -1,3 +1,4 @@
+import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
 
 const N_UNL_INDEX =
@@ -122,15 +123,11 @@ const getAccountInfo = (rippledSocket, account) =>
   })
 
 // get account escrows
-const getAccountEscrows = (
-  rippledSocket,
-  account,
-  ledger_index = 'validated',
-) =>
+const getAccountEscrows = (rippledSocket, account, ledgerIndex = 'validated') =>
   query(rippledSocket, {
     command: 'account_objects',
     account,
-    ledger_index,
+    ledger_index: ledgerIndex,
     type: 'escrow',
     limit: 400,
   }).then((resp) => {
@@ -169,7 +166,7 @@ const getAccountEscrows = (
 const getAccountPaychannels = async (
   rippledSocket,
   account,
-  ledger_index = 'validated',
+  ledgerIndex = 'validated',
 ) => {
   const list = []
   let remaining = 0
@@ -178,7 +175,7 @@ const getAccountPaychannels = async (
       command: 'account_objects',
       marker,
       account,
-      ledger_index,
+      ledger_index: ledgerIndex,
       type: 'payment_channel',
       limit: 400,
     }).then((resp) => {
@@ -215,12 +212,56 @@ const getAccountPaychannels = async (
     : null
 }
 
+// get account escrows
+const getAccountBridge = (rippledSocket, account, ledgerIndex = 'validated') =>
+  query(rippledSocket, {
+    command: 'account_objects',
+    account,
+    ledger_index: ledgerIndex,
+    type: 'bridge',
+    limit: 400,
+  }).then((resp) => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+    if (resp.error === 'invalidParams') {
+      // thrown when XChainBridge amendment is not activated
+      // TODO: remove this when XLS-38d is live in mainnet
+      return undefined
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    if (!resp.account_objects.length) {
+      return undefined
+    }
+
+    if (resp.account_objects.length === 1) {
+      const bridge = resp.account_objects[0]
+      return {
+        lockingChainDoor: bridge.XChainBridge.LockingChainDoor,
+        lockingChainIssue: bridge.XChainBridge.LockingChainIssue,
+        issuingChainDoor: bridge.XChainBridge.IssuingChainDoor,
+        issuingChainIssue: bridge.XChainBridge.LockingChainIssue,
+        minAccountCreateAmount: formatAmount(bridge.MinAccountCreateAmount),
+        signatureReward: formatAmount(bridge.SignatureReward),
+        xchainAccountClaimCount: bridge.XChainAccountClaimCount,
+        xchainAccountCreateCount: bridge.XChainAccountCreateCount,
+        xchainClaimId: bridge.XChainClaimID,
+      }
+    }
+
+    return undefined
+  })
+
 // get Token balance summary
-const getBalances = (rippledSocket, account, ledger_index = 'validated') =>
+const getBalances = (rippledSocket, account, ledgerIndex = 'validated') =>
   queryP2P(rippledSocket, {
     command: 'gateway_balances',
     account,
-    ledger_index,
+    ledger_index: ledgerIndex,
   }).then((resp) => {
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404)
@@ -445,6 +486,7 @@ export {
   getAccountInfo,
   getAccountEscrows,
   getAccountPaychannels,
+  getAccountBridge,
   getAccountNFTs,
   getBalances,
   getAccountTransactions,

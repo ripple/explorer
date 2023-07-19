@@ -1,11 +1,12 @@
 import { useTranslation, Trans } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { normalizeAmount, findNode } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import {
   TransactionDescriptionComponent,
   TransactionDescriptionProps,
 } from '../types'
+import { RouteLink } from '../../../routing'
+import { TRANSACTION_ROUTE } from '../../../../App/routes'
 
 const Description: TransactionDescriptionComponent = (
   props: TransactionDescriptionProps,
@@ -52,12 +53,13 @@ const Description: TransactionDescriptionComponent = (
         The escrow was created by
         <Account account={data.tx.Owner} />
         with transaction
-        <Link
+        <RouteLink
           className="hash"
-          to={`/transactions/${deleted.FinalFields.PreviousTxnID}`}
+          to={TRANSACTION_ROUTE}
+          params={{ identifier: deleted.FinalFields.PreviousTxnID }}
         >
           {`${deleted.FinalFields.PreviousTxnID.substr(0, 6)}...`}
-        </Link>
+        </RouteLink>
       </Trans>
       {data.tx.Fulfillment && (
         <div>

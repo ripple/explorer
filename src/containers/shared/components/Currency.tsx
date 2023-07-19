@@ -1,13 +1,16 @@
-import { Link } from 'react-router-dom'
+import { RouteLink } from '../routing'
+import { TOKEN_ROUTE } from '../../App/routes'
 
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
+const XRP = 'XRP'
 
 export interface Props {
   issuer?: string
   currency: string
   link?: boolean
   shortenIssuer?: boolean
+  displaySymbol?: boolean
 }
 
 /*
@@ -15,7 +18,13 @@ export interface Props {
   make sure we're only converting actual hex values.
  */
 const Currency = (props: Props) => {
-  const { issuer, currency, link = true, shortenIssuer = false } = props
+  const {
+    issuer,
+    currency,
+    link = true,
+    shortenIssuer = false,
+    displaySymbol = true,
+  } = props
   const LPTokenIdentifier = '03'
   const currencyCode =
     currency?.length === NON_STANDARD_CODE_LENGTH &&
@@ -25,6 +34,10 @@ const Currency = (props: Props) => {
 
   let display = `${currencyCode}`
 
+  if (currencyCode === XRP && displaySymbol) {
+    display = `\uE900 ${display}`
+  }
+
   if (issuer) {
     display += '.'
     display += shortenIssuer ? issuer.substring(0, 4) : issuer
@@ -32,7 +45,9 @@ const Currency = (props: Props) => {
 
   const content =
     link && issuer ? (
-      <Link to={`/token/${currency}.${issuer}`}>{display}</Link>
+      <RouteLink to={TOKEN_ROUTE} params={{ token: `${currency}.${issuer}` }}>
+        {display}
+      </RouteLink>
     ) : (
       display
     )

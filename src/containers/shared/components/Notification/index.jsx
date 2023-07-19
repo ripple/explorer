@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { useEffect, useState } from 'react'
 import * as PropTypes from 'prop-types'
 import './styles.scss'
 
@@ -13,50 +13,33 @@ const VALID_USAGES = [
   'dark50',
 ]
 
-class Notification extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      dismissed: props.dismissed || false,
-    }
-  }
-
-  componentDidMount() {
-    const { autoDismiss, delay } = this.props
-
+export const Notification = ({
+  autoDismiss = false,
+  delay = 5000,
+  message,
+  action,
+  usage = 'default',
+  level = PRIMARY,
+  className,
+}) => {
+  const [dismissed, setDismissed] = useState(false)
+  useEffect(() => {
     if (autoDismiss) {
       setTimeout(() => {
-        this.setState({ dismissed: true })
+        setDismissed(true)
       }, delay)
     }
-  }
+  }, [autoDismiss, delay])
 
-  render() {
-    const {
-      dismissed: propDismissed,
-      message,
-      action,
-      usage,
-      level,
-      className,
-    } = this.props
-    const { dismissed: stateDismissed } = this.state
-    const dismissed =
-      propDismissed !== undefined ? propDismissed : stateDismissed
-    const classNames = [
-      'notification',
-      usage,
-      `${level}-theme`,
-      className,
-    ].join(' ')
-    return !dismissed ? (
-      <div className={classNames}>
-        <span>{message}</span>
-        {action}
-      </div>
-    ) : null
-  }
+  const classNames = ['notification', usage, `${level}-theme`, className].join(
+    ' ',
+  )
+  return !dismissed ? (
+    <div className={classNames}>
+      <span>{message}</span>
+      {action}
+    </div>
+  ) : null
 }
 
 Notification.defaultProps = {
@@ -64,7 +47,6 @@ Notification.defaultProps = {
   usage: 'default',
   action: undefined,
   autoDismiss: false,
-  dismissed: undefined,
   delay: 5000,
   className: '',
 }
@@ -75,9 +57,6 @@ Notification.propTypes = {
   message: PropTypes.string.isRequired,
   action: PropTypes.element,
   autoDismiss: PropTypes.bool,
-  dismissed: PropTypes.bool,
   delay: PropTypes.number,
   className: PropTypes.string,
 }
-
-export default Notification

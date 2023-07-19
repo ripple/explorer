@@ -6,8 +6,6 @@ const QUADRILLION = TRILLION * THOUSAND
 
 const TRADING_FEE_TOTAL = 1000
 
-const GA_ID = process.env.VITE_GA_ID
-
 const EXOTIC_SYMBOLS = {
   BTC: '\u20BF',
   XRP: '\uE900',
@@ -27,16 +25,18 @@ export const FETCH_INTERVAL_ERROR_MILLIS = 300
 export const DECIMAL_REGEX = /^\d+$/
 export const HASH_REGEX = /[0-9A-Fa-f]{64}/i
 export const CURRENCY_REGEX =
-  /^[a-zA-Z0-9]{3,}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
+  /^[a-zA-Z0-9]{3,}[.:+-]r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const FULL_CURRENCY_REGEX =
-  /^[0-9A-Fa-f]{40}\.r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
+  /^[0-9A-Fa-f]{40}[.:+-]r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const VALIDATORS_REGEX = /^n[9H][0-9A-Za-z]{50}$/
 
-export const GREY = '#9BA2B0'
 export const PURPLE = '#8884d8'
-export const BLUE = '#1AA4FF'
-export const RED = '#FF1A8B'
-export const GREEN = '#19FF83'
+export const GREEN_500 = '#32E685'
+export const GREEN_800 = '#1E8A50'
+export const PURPLE_500 = '#7919FF'
+export const PURPLE_700 = '#4A00B2'
+export const GREY_0 = '#FFFFFF'
+export const GREY_400 = '#A2A2A4'
 export const GREY_600 = '#656E81'
 export const GREY_800 = '#383D47'
 
@@ -47,12 +47,11 @@ export const BREAKPOINTS = {
   phone: 415,
 }
 
-export const ANALYTIC_TYPES = {
-  pageview: 'pageview',
-  event: 'event',
-  social: 'social',
-  timing: 'timing',
-  exception: 'exception',
+export const CURRENCY_OPTIONS = {
+  style: 'currency',
+  currency: '',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 8,
 }
 
 const NUMBER_DEFAULT_OPTIONS = {
@@ -123,51 +122,6 @@ export const isEarlierVersion = (source, target) => {
   }
 
   return false
-}
-
-export const normalizeLanguage = (lang) => {
-  if (!lang) {
-    return undefined
-  }
-
-  if (lang === 'en' || lang === 'en-US' || lang.indexOf('en-') === 0) {
-    return 'en-US' // Only US English supported now
-  }
-  if (
-    lang === 'zh' ||
-    lang === 'zh-Hans' ||
-    lang === 'zh-Hant' ||
-    lang.indexOf('zh-') === 0
-  ) {
-    return 'zh-Hans' // Only Simplified chinese supported now
-  }
-  if (lang === 'ja' || lang === 'ja-JP' || lang.indexOf('ja-') === 0) {
-    return 'ja-JP' // Japanese
-  }
-  if (
-    lang === 'ko' ||
-    lang === 'ko-KR' ||
-    lang === 'ko-KP' ||
-    lang.indexOf('ko-') === 0
-  ) {
-    return 'ko-KP' // Korean
-  }
-  if (
-    lang === 'es' ||
-    lang === 'es-ES' ||
-    lang === 'es-MX' ||
-    lang === 'es-AR' ||
-    lang === 'es-CO' ||
-    lang === 'es-CL' ||
-    lang.indexOf('es-') === 0
-  ) {
-    return 'es-MX' // Mexican Spanish
-  }
-  if (lang === 'pt-PT' || lang === 'pt-BR' || lang.indexOf('pt-') === 0) {
-    return 'pt-BR' // Brazilian Portuguese
-  }
-
-  return undefined
 }
 
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
@@ -297,51 +251,6 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
   }
 }
 
-// Document: https://developers.google.com/analytics/devguides/collection/analyticsjs/
-export const analytics = (type, fields = {}) => {
-  // Chek if GoogleAnalytics is set, type and fields are not empty, type is valid
-  if (
-    !window.gtag ||
-    !type ||
-    Object.keys(fields).length === 0 ||
-    Object.keys(ANALYTIC_TYPES).indexOf(type) === -1
-  ) {
-    return false
-  }
-
-  // Check for required fields for each type
-  switch (type) {
-    case ANALYTIC_TYPES.pageview:
-      if (!!fields.title && !!fields.path) {
-        window.gtag('config', GA_ID, {
-          page_title: fields.title,
-          page_path: fields.path,
-        })
-        return true
-      }
-      break
-    case ANALYTIC_TYPES.event:
-      if (!!fields.eventCategory && !!fields.eventAction) {
-        window.gtag('event', fields.eventAction, {
-          event_category: fields.eventCategory,
-          event_label: fields.eventLabel,
-        })
-        return true
-      }
-      break
-    case ANALYTIC_TYPES.exception:
-      if (fields.exDescription) {
-        window.gtag('event', 'exception', { description: fields.exDescription })
-        return true
-      }
-      break
-    default:
-      return false
-  }
-
-  return false
-}
-
 export const durationToHuman = (s, decimal = 2) => {
   const d = {}
   const seconds = Math.abs(s)
@@ -380,29 +289,6 @@ export const formatAsset = (asset) =>
         issuer: asset.issuer,
       }
 
-export const localizeBalance = (balance, language) => {
-  if (balance === undefined) {
-    return undefined
-  }
-
-  let b = localizeNumber(balance.amount || 0.0, language, {
-    style: 'currency',
-    currency: balance.currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  })
-
-  if (
-    balance.currency !== 'XRP' &&
-    balance.currency !== 'BTC' &&
-    balance.currency !== 'ETH'
-  ) {
-    b = `${balance.currency} ${b}`
-  }
-
-  return b
-}
-
 export const formatTradingFee = (tradingFee) =>
   tradingFee !== undefined
     ? localizeNumber(tradingFee / TRADING_FEE_TOTAL, 'en-US', {
@@ -410,3 +296,35 @@ export const formatTradingFee = (tradingFee) =>
         maximumFractionDigits: 3,
       })
     : undefined
+
+export const computeBalanceChange = (node) => {
+  const fields = node.FinalFields || node.NewFields
+  const prev = node.PreviousFields
+  const { currency } = fields.Balance
+  const numberOption = { ...CURRENCY_OPTIONS, currency }
+  let finalBalance = fields.Balance.value
+  let previousBalance = prev && prev.Balance ? prev.Balance.value : 0
+  let account
+  let counterAccount
+
+  if (finalBalance < 0) {
+    account = fields.HighLimit.issuer
+    counterAccount = fields.LowLimit.issuer
+    finalBalance = 0 - finalBalance
+    previousBalance = 0 - previousBalance
+  } else {
+    account = fields.LowLimit.issuer
+    counterAccount = fields.HighLimit.issuer
+  }
+
+  const change = finalBalance - previousBalance
+  return {
+    change,
+    numberOption,
+    previousBalance,
+    finalBalance,
+    currency,
+    account,
+    counterAccount,
+  }
+}

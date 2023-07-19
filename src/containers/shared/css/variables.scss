@@ -10,6 +10,8 @@ $desktop-upper-boundary: 1200px;
 $min-height: 500px;
 $min-width: 375px;
 
+$border-radius: 8px;
+
 // Colors
 $black-0: #fff;
 $black-10: #f5f5f7;
@@ -109,8 +111,9 @@ $white: #fff;
 $white-transparent: rgb(255 255 255 / 75%);
 
 // Networks
-$testnet: $orange-60;
-$devnet: $blue-60;
+$testnet: $orange;
+$devnet: $blue-purple-30;
+$hooks-testnet: $magenta-30;
 $custom: $yellow-50;
 
 // Feature Sets

@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import Log from '../shared/log'
-import { analytics, ANALYTIC_TYPES } from '../shared/utils'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
 import { ValidatorResponse } from './types'
+import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
 import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
@@ -16,6 +17,7 @@ const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
 const LedgersPage = () => {
   const { ledgers } = useStreams()
+  const { trackScreenLoaded } = useAnalytics()
   const [paused, setPaused] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
   const [metrics] = useState(undefined)
@@ -25,12 +27,11 @@ const LedgersPage = () => {
   const language = useLanguage()
 
   useEffect(() => {
-    document.title = `${t('xrpl_explorer')} | ${t('ledgers')}`
-    analytics(ANALYTIC_TYPES.pageview, { title: 'Ledgers', path: '/' })
+    trackScreenLoaded()
     return () => {
       window.scrollTo(0, 0)
     }
-  }, [])
+  }, [trackScreenLoaded])
 
   const fetchValidators = () => {
     const url = `${process.env.VITE_DATA_URL}/validators/${network}`
@@ -73,6 +74,7 @@ const LedgersPage = () => {
 
   return (
     <div className="ledgers-page">
+      <Helmet title={t('ledgers')} />
       <LedgerMetrics
         language={language}
         data={metrics}

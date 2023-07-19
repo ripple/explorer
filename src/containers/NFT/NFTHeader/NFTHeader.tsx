@@ -1,24 +1,18 @@
 import { useEffect, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
-import Loader from '../../shared/components/Loader'
-import '../../shared/css/nested-menu.scss'
+import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'
 import Tooltip from '../../shared/components/Tooltip'
 import { getNFTInfo, getAccountInfo } from '../../../rippled/lib/rippled'
 import { formatNFTInfo, formatAccountInfo } from '../../../rippled/lib/utils'
-import {
-  localizeDate,
-  analytics,
-  ANALYTIC_TYPES,
-  BAD_REQUEST,
-  HASH_REGEX,
-} from '../../shared/utils'
+import { localizeDate, BAD_REQUEST, HASH_REGEX } from '../../shared/utils'
 import { Details } from './Details'
 import { Settings } from './Settings'
 import { Account } from '../../shared/components/Account'
 import { getOldestNFTTransaction } from '../../../rippled/NFTTransactions'
+import { useAnalytics } from '../../shared/analytics'
 import { useLanguage } from '../../shared/hooks'
 import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
 
@@ -44,7 +38,9 @@ export const NFTHeader = (props: Props) => {
   const language = useLanguage()
   const { tokenId, setError } = props
   const rippledSocket = useContext(SocketContext)
+  const { trackException } = useAnalytics()
   const [tooltip, setTooltip] = useState(null)
+
   const { data, isFetching: loading } = useQuery<NFTFormattedInfo>(
     ['getNFTInfo', tokenId],
     async () => {
@@ -53,10 +49,7 @@ export const NFTHeader = (props: Props) => {
     },
     {
       onError: (e: any) => {
-        /* @ts-ignore */
-        analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `NFT ${tokenId} --- ${JSON.stringify(e)}`,
-        })
+        trackException(`NFT ${tokenId} --- ${JSON.stringify(e)}`)
         setError(e.code)
       },
     },
@@ -145,9 +138,7 @@ export const NFTHeader = (props: Props) => {
           <div className="nft-box-header">
             <div className="token-title">
               NFT ID
-              <div className="token-type">
-                <div className="subscript">NFT</div>
-              </div>
+              <div className="badge">NFT</div>
             </div>
             <div
               className="title-content"

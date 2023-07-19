@@ -3,13 +3,38 @@
 .account-header {
   margin-bottom: 16px;
 
+  .title {
+    padding-bottom: 4px;
+    color: $black-40;
+    font-size: 14px;
+    text-transform: uppercase;
+    @include semibold;
+  }
+
   .box-header {
     margin-top: 106px;
     margin-bottom: 80px;
-    text-align: left;
+
+    .title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    h1 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge {
+      border: 1px solid $yellow-50;
+      background: $yellow-50;
+      box-shadow: 0 1px 1px $yellow-80;
+      color: $black;
+    }
 
     .classic {
-      margin: 0px;
+      margin: 0;
       color: $white;
       font-size: 20px;
       @include bold;
@@ -19,17 +44,8 @@
       }
 
       @include for-size(desktop-up) {
-        font-size: 42px;
+        font-size: 36px;
       }
-    }
-
-    .amm-title {
-      padding-bottom: 4px;
-      color: $black-40;
-      font-size: 14px;
-      text-transform: uppercase;
-
-      @include semibold;
     }
 
     .currency-pair {
@@ -38,7 +54,8 @@
       border-width: thin;
       border-style: solid;
       border-color: $black-70;
-      margin: 0px;
+      margin: 0;
+      margin-left: 12px;
       color: $white;
       font-size: 16px;
       @include semibold;
@@ -56,7 +73,7 @@
       display: inline-block;
       padding-right: 10px;
       border-bottom: none;
-      margin: 0px;
+      margin: 0;
       color: $white;
       font-size: 18px;
       @include bold;
@@ -111,15 +128,7 @@
 
       @include for-size(desktop-up) {
         flex-direction: column;
-        margin-bottom: 0px;
-      }
-
-      .title {
-        padding-bottom: 4px;
-        color: $black-40;
-        font-size: 14px;
-        text-transform: uppercase;
-        @include semibold;
+        margin-bottom: 0;
       }
 
       .value {
@@ -132,24 +141,37 @@
     }
   }
 
+  .lower-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include for-size(desktop-up) {
+      flex-direction: row;
+    }
+  }
+
   .column {
     display: inline-block;
     width: 100%;
     vertical-align: top;
 
     @include for-size(desktop-up) {
-      width: 450px;
+      width: 50%;
+
+      &.first {
+        padding-right: calc(50% - clamp(47.5%, 500px, 50%));
+      }
 
       &.second {
-        width: calc(100% - 450px);
+        padding-left: calc(50% - clamp(47.5%, 500px, 50%));
         text-align: right;
       }
     }
 
     .secondary {
-      padding: 0px 8px;
+      padding: 0;
       margin-bottom: 20px;
-      color: $black-40;
       font-size: 12px;
       @include bold;
 
@@ -157,22 +179,17 @@
         border: none;
       }
 
-      .title {
-        color: $white;
-        font-size: 14px;
-        text-transform: uppercase;
-        @include medium;
-      }
-
       .label {
-        color: $white;
+        color: $black-40;
+        text-align: left;
         text-transform: uppercase;
         @include medium;
       }
 
       ul {
-        padding: 0px;
-        margin: 0px;
+        width: 100%;
+        padding: 0;
+        margin: 0;
         list-style: none;
 
         li {
@@ -181,12 +198,10 @@
 
           a {
             display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
             text-transform: none;
             vertical-align: middle;
-            white-space: nowrap;
             @include medium;
+            @extend %truncate;
           }
 
           b {
@@ -209,17 +224,9 @@
           display: flex;
           justify-content: space-between;
 
-          @media (min-width: 450px) {
+          @media (width >= 450px) {
             display: block;
           }
-
-          // .account {
-          //   overflow: hidden;
-          //   width: 285px;
-          //   padding-right: 10px;
-          //   text-overflow: ellipsis;
-          //   white-space: nowrap;
-          // }
 
           .tag {
             font-weight: 500;
@@ -229,15 +236,6 @@
             font-weight: 500;
           }
 
-          // .weight {
-          //   text-align: right;
-          //   white-space: nowrap;
-          // }
-
-          // &.quorum {
-          //   display: block;
-          // }
-
           &.tag-info {
             padding-top: 14px;
             font-size: 14px;
@@ -245,57 +243,65 @@
         }
       }
 
-      &.signer-list ul {
-        width: 100%;
-
-        li {
-          display: flex;
-          justify-content: space-between;
-
-          @media (min-width: 450px) {
-            display: block;
-          }
-
-          .account {
-            overflow: hidden;
-            width: 285px;
-            padding-right: 10px;
-            color: $white;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-
-          .weight {
-            text-align: right;
-            white-space: nowrap;
-          }
-
-          &.quorum {
-            display: block;
-          }
-        }
-      }
-
       &.balance {
         .value {
-          overflow: hidden;
-          margin: -4px 0px 5px -0.1em;
+          margin: -4px 0 5px -0.1em;
           color: $white;
           font-size: 26px;
           line-height: 30px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
           @include regular;
-
           @include for-size(desktop-up) {
             font-size: 30px;
             line-height: 34px;
           }
+          @extend %truncate;
         }
 
         .balance-selector-container {
           position: relative;
           margin-top: 10px;
+        }
+      }
+
+      &.bridge,
+      &.signer-list {
+        display: block;
+        font-weight: 500;
+
+        h2 {
+          text-align: left;
+        }
+
+        ul {
+          li {
+            display: flex;
+
+            .label {
+              padding-right: 15px;
+              text-align: left;
+              white-space: nowrap;
+            }
+
+            .value {
+              overflow: hidden;
+              margin-left: auto;
+              font-weight: inherit;
+              text-overflow: ellipsis;
+            }
+
+            .account {
+              display: block;
+              font-weight: inherit;
+              @extend %truncate;
+            }
+
+            .weight {
+              overflow: inherit;
+              text-align: right;
+              text-overflow: inherit;
+              white-space: nowrap;
+            }
+          }
         }
       }
     }

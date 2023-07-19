@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import { Link } from 'react-router-dom'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
@@ -7,12 +6,14 @@ import { localizeNumber } from '../shared/utils'
 import Tooltip from '../shared/components/Tooltip'
 import './css/ledgers.scss'
 import DomainLink from '../shared/components/DomainLink'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
 import { getAction, getCategory } from '../shared/components/Transaction'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import { Legend } from './Legend'
 import { LedgerHashComponent } from './LedgerHashView'
+import { RouteLink } from '../shared/routing'
+import { LEDGER_ROUTE, TRANSACTION_ROUTE } from '../App/routes'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -23,11 +24,13 @@ class Ledgers extends Component {
     }
   }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => ({
-    selected: nextProps.selected,
-    validators: nextProps.validators,
-    unlCount: nextProps.unlCount,
-  })
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
+      selected: nextProps.selected,
+      validators: nextProps.validators,
+      unlCount: nextProps.unlCount,
+    }
+  }
 
   getMissingValidators = (hash) => {
     const { validators } = this.props
@@ -111,7 +114,9 @@ class Ledgers extends Component {
         className={`ledger-index ${flagLedger ? 'flag-ledger' : ''}`}
         title={flagLedger ? t('flag_ledger') : ''}
       >
-        <Link to={`/ledgers/${ledgerIndex}`}>{ledgerIndex}</Link>
+        <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledgerIndex }}>
+          {ledgerIndex}
+        </RouteLink>
       </div>
     )
   }
@@ -137,7 +142,7 @@ class Ledgers extends Component {
   }
 
   renderTransaction = (tx) => (
-    <Link
+    <RouteLink
       key={tx.hash}
       className={`txn tx-type tx-dot bg tx-category-${getCategory(
         tx.type,
@@ -145,11 +150,12 @@ class Ledgers extends Component {
       onMouseOver={(e) => this.showTooltip('tx', e, tx)}
       onFocus={(e) => {}}
       onMouseLeave={this.hideTooltip}
-      to={`/transactions/${tx.hash}`}
+      to={TRANSACTION_ROUTE}
+      params={{ identifier: tx.hash }}
     >
       <TransactionActionIcon type={tx.type} />
       <span>{tx.hash}</span>
-    </Link>
+    </RouteLink>
   )
 
   renderTrustedCount = (hash) => {

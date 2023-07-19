@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Memo } from '../../transactionUtils'
+import { Memo } from '../../types'
 
 export enum TransactionCategory {
   DEX = 'DEX',

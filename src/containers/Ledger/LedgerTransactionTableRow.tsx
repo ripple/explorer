@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom'
 import { TxLabel } from '../shared/components/TxLabel'
 import { TxDetails } from '../shared/components/TxDetails'
 import { useLanguage } from '../shared/hooks'
-import Sequence from '../shared/components/Sequence'
+import { Sequence } from '../shared/components/Sequence'
 import { formatPrice } from '../shared/utils'
 import { TxStatus } from '../shared/components/TxStatus'
+import { RouteLink } from '../shared/routing'
+import { TRANSACTION_ROUTE } from '../App/routes'
 
 const TXN_COST_PADDING = 6
 
@@ -22,7 +23,11 @@ export const LedgerTransactionTableRow = ({ tx }: Props) => {
         success ? 'success' : 'fail'
       }`}
     >
-      <Link to={`/transactions/${tx.hash}`} className="mask-overlay" />
+      <RouteLink
+        to={TRANSACTION_ROUTE}
+        params={{ identifier: tx.hash }}
+        className="mask-overlay"
+      />
       <div className="upper">
         <div className={`col col-type tx-type ${tx.type}`}>
           <TxLabel type={tx.type} />
@@ -33,6 +38,7 @@ export const LedgerTransactionTableRow = ({ tx }: Props) => {
             sequence={tx.sequence}
             ticketSequence={tx.ticketSequence}
             account={tx.account}
+            isHook={tx.isHook}
           />
         </div>
         <div className="col col-fee">

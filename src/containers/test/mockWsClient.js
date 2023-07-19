@@ -99,7 +99,10 @@ class MockWsClient extends EventEmitter {
       return Promise.reject(new Error({}))
     }
     const { command } = message
-    return Promise.resolve(this.responses[command]?.result)
+    return Promise.resolve(
+      // When an error (no result) return the whole response like xrpl-client does.
+      this.responses[command]?.result || this.responses[command],
+    )
   }
 
   /**
@@ -108,7 +111,12 @@ class MockWsClient extends EventEmitter {
    */
   // eslint-disable-next-line class-methods-use-this -- not needed for a mock
   getState() {
-    return { online: true }
+    return {
+      online: true,
+      server: {
+        version: '1.9.4',
+      },
+    }
   }
 
   /**

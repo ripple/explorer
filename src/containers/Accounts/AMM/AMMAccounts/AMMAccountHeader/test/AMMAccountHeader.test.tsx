@@ -3,6 +3,7 @@ import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter } from 'react-router'
 import i18n from '../../../../../../i18n/testConfig'
 import { AMMAccountHeader, AmmDataType } from '../AMMAccountHeader'
+import { flushPromises } from '../../../../../test/utils'
 
 describe('AMM Account Header', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
@@ -30,7 +31,7 @@ describe('AMM Account Header', () => {
     await flushPromises()
     wrapper.update()
     expect(wrapper.find(AMMAccountHeader).length).toBe(1)
-    expect(wrapper.find('.amm-title').length).toBe(1)
+    expect(wrapper.find('.box-header .title').length).toBe(1)
     expect(wrapper.find('.currency-pair').length).toBe(1)
     expect(wrapper.text().includes('500')).toBe(true)
     expect(wrapper.text().includes('%0.01')).toBe(true)
@@ -42,7 +43,3 @@ describe('AMM Account Header', () => {
     wrapper.unmount()
   })
 })
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}

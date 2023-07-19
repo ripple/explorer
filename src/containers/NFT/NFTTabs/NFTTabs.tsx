@@ -1,27 +1,22 @@
-import { useParams, useRouteMatch } from 'react-router'
 import './styles.scss'
 import { Tabs } from '../../shared/components/Tabs'
 import { getBuyNFToffers, getSellNFToffers } from '../../../rippled/lib/rippled'
 import { Offers } from './Offers'
 import { Transactions } from './Transactions'
+import { NFT_ROUTE } from '../../App/routes'
+import { buildPath, useRouteParams } from '../../shared/routing'
 
 interface Props {
   tokenId: string
 }
 
 export const NFTTabs = (props: Props) => {
-  const { id = '', tab = 'transactions' } = useParams<{
-    id: string
-    tab: string
-  }>()
-  const match = useRouteMatch()
+  const { id = '', tab = 'transactions' } = useRouteParams(NFT_ROUTE)
   const { tokenId } = props
 
   function renderTabs() {
-    const { path = '/' } = match
     const tabs = ['transactions', 'buy-offers', 'sell-offers']
-    // strips :url from the front and the identifier/tab info from the end
-    const mainPath = [path.split('/:')[0], id].join('/')
+    const mainPath = buildPath(NFT_ROUTE, { id })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 

@@ -1,68 +1,31 @@
 @import '../shared/css/variables';
 
 .search {
-  text-align: right;
+  display: inline-block;
+  width: 100%;
 
   input {
     width: 100%;
-    padding: 12px;
-    border: 1px transparent;
-    border-radius: 4px;
-    background: $black-80 url('../shared/images/search.svg') no-repeat right
-      center;
+    padding: 8px 16px 8px 42px;
+    border: 1px solid $black-50;
+    background: $black url('../shared/images/search.svg') no-repeat 16px center;
     background-size: 12px;
     color: $white;
     font-size: 14px;
+    line-height: 24px;
     text-align: left;
     text-overflow: ellipsis;
-    transition: width 0.2s, background-position-x 0.2s;
     @include regular;
 
     &::placeholder {
-      color: $black-40;
+      color: $white;
     }
   }
+}
 
-  &.in-header {
+// Only show search bar when we know which network to query
+.header-no-network {
+  .search {
     display: none;
-    justify-content: center;
-    margin: 24px 0px;
-
-    @include for-size(desktop-up) {
-      display: inline-block;
-    }
-
-    input {
-      width: auto;
-      border: none;
-      border-radius: 100px;
-      background-color: $black-80;
-      font-size: 10px;
-      line-height: 15px;
-
-      &::placeholder {
-        color: $black-40;
-      }
-
-      @include for-size(desktop-up) {
-        width: 220px;
-        padding: 8px 40px 8px 25px;
-        background-position-x: 185px;
-      }
-
-      @include for-size(big-desktop-up) {
-        width: 272px;
-        padding: 8px 25px;
-        background-position-x: 235px;
-      }
-
-      &:focus {
-        @include for-size(desktop-up) {
-          width: 272px;
-          padding: 8px 25px;
-          background-position-x: 235px;
-        }
-      }
-    }
   }
 }

@@ -1,44 +1,28 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
-import { MemoryRouter as Router, Route } from 'react-router-dom'
-import { I18nextProvider } from 'react-i18next'
-import { Provider } from 'react-redux'
-import { QueryClientProvider } from 'react-query'
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import { initialState } from '../../App/reducer'
+import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfig'
 import { Network } from '../index'
 import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
-import { testQueryClient } from '../../test/QueryClient'
-
-/* eslint-disable react/jsx-props-no-spreading */
-const middlewares = [thunk]
-const mockStore = configureMockStore(middlewares)
-const store = mockStore({ app: initialState })
+import { QuickHarness } from '../../test/utils'
+import { NETWORK_ROUTE } from '../../App/routes'
 
 const WS_URL = 'ws://localhost:1234'
 
 describe('Validators Tab container', () => {
   let server
   let client
-  const createWrapper = (props = {}) =>
+  const createWrapper = () =>
     mount(
-      <QueryClientProvider client={testQueryClient}>
-        <I18nextProvider i18n={i18n}>
-          <Provider store={store}>
-            <SocketContext.Provider value={client}>
-              <Router initialEntries={['/network/validators']}>
-                <Route path="/network/:tab" component={Network} />
-              </Router>
-            </SocketContext.Provider>
-          </Provider>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <SocketContext.Provider value={client}>
+        <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
+          <Route path={NETWORK_ROUTE.path} element={<Network />} />
+        </QuickHarness>
+      </SocketContext.Provider>,
     )
 
   beforeEach(async () => {

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import { TransactionTableProps } from '../shared/components/TransactionTable/TransactionTable'
 import { LedgerTransactionTableRow } from './LedgerTransactionTableRow'
 

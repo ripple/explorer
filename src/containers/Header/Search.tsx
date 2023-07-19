@@ -1,6 +1,6 @@
 import { KeyboardEventHandler, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
 
 import {
@@ -8,11 +8,9 @@ import {
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
-import { isValidPayId as isValidPayString } from 'payid-lib'
+import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
 import {
-  analytics,
-  ANALYTIC_TYPES,
   CURRENCY_REGEX,
   DECIMAL_REGEX,
   FULL_CURRENCY_REGEX,
@@ -20,6 +18,7 @@ import {
   VALIDATORS_REGEX,
 } from '../shared/utils'
 import './search.scss'
+import { isValidPayString } from '../../rippled/payString'
 import { getTransaction } from '../../rippled/lib/rippled'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
@@ -30,6 +29,8 @@ const determineHashType = async (id: string, rippledContext: XrplClient) => {
     return 'nft'
   }
 }
+// separator for currency formats
+const separators = /[.:+-]/
 
 const getIdType = async (id: string, rippledContext: XrplClient) => {
   if (DECIMAL_REGEX.test(id)) {
@@ -51,7 +52,7 @@ const getIdType = async (id: string, rippledContext: XrplClient) => {
   }
   if (
     (CURRENCY_REGEX.test(id) || FULL_CURRENCY_REGEX.test(id)) &&
-    isValidClassicAddress(id.split('.')[1])
+    isValidClassicAddress(id.split(separators)[1])
   ) {
     return 'token'
   }
@@ -88,36 +89,34 @@ const normalize = (id: string, type: string) => {
       return id.replace('@', '$')
     }
   } else if (type === 'token') {
-    const components = id.split('.')
+    const components = id.split(separators)
     return `${components[0].toLowerCase()}.${components[1]}`
   }
   return id
 }
 
 export interface SearchProps {
-  mobile: boolean
-  callback: Function
+  callback?: Function
 }
 
-export const Search = ({
-  callback = () => {},
-  mobile = false,
-}: SearchProps) => {
+export const Search = ({ callback = () => {} }: SearchProps) => {
+  const { track } = useAnalytics()
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleSearch = async (id: string) => {
-    const type = await getIdType(id, socket)
-
-    analytics(ANALYTIC_TYPES.event, {
-      eventCategory: 'globalSearch',
-      eventAction: type,
-      eventLabel: id,
+    const strippedId = id.replace(/^["']|["']$/g, '')
+    const type = await getIdType(strippedId, socket)
+    track('search', {
+      search_term: strippedId,
+      search_category: type,
     })
 
-    history.push(
-      type === 'invalid' ? `/search/${id}` : `/${type}/${normalize(id, type)}`,
+    navigate(
+      type === 'invalid'
+        ? `/search/${strippedId}`
+        : `/${type}/${normalize(strippedId, type)}`,
     )
     callback()
   }
@@ -129,7 +128,7 @@ export const Search = ({
   }
 
   return (
-    <div className={mobile ? 'search' : 'search in-header'}>
+    <div className="search">
       <input
         type="text"
         placeholder={t('header.search.placeholder')}

@@ -1,9 +1,10 @@
-import { localizeNumber } from './utils'
+import { IssuedCurrencyAmount, Transaction, Node } from './types'
+import { localizeNumber, CURRENCY_OPTIONS } from './utils'
 
 export const RIPPLE_EPOCH = 946684800
 export const SUCCESSFUL_TRANSACTION = 'tesSUCCESS'
 export const XRP_BASE = 1000000
-export const hexMatch = new RegExp('^(0x)?[0-9A-Fa-f]+$')
+export const hexMatch = /^(0x)?[0-9A-Fa-f]+$/
 export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp'
 
 export const TX_FLAGS: Record<string, Record<number, string>> = {
@@ -71,6 +72,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
 }
 
 export const ACCOUNT_FLAGS: Record<number, string> = {
+  16: 'asfAllowTrustLineClawback',
   15: 'asfDisallowIncomingTrustline',
   14: 'asfDisallowIncomingPayChan',
   13: 'asfDisallowIncomingCheck',
@@ -85,6 +87,12 @@ export const ACCOUNT_FLAGS: Record<number, string> = {
   3: 'asfDisallowXRP',
   2: 'asfRequireAuth',
   1: 'asfRequireDest',
+}
+
+export const HOOK_FLAGS: Record<number, string> = {
+  0x00000001: 'hsfOverride',
+  0x00000010: 'hsfNSDelete',
+  0x00000100: 'hsfCollect',
 }
 
 export const CURRENCY_ORDER = [
@@ -105,12 +113,7 @@ export const CURRENCY_ORDER = [
   'XRP',
 ]
 
-export const CURRENCY_OPTIONS = {
-  style: 'currency',
-  currency: '',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 8,
-}
+export { CURRENCY_OPTIONS }
 
 export const DATE_OPTIONS = {
   hour: 'numeric',
@@ -121,52 +124,6 @@ export const DATE_OPTIONS = {
   day: 'numeric',
   hour12: true,
   timeZone: 'UTC',
-}
-
-export interface Node {
-  DeletedNode?: any
-  ModifiedNode?: any
-  CreatedNode?: any
-  LedgerEntryType: string
-}
-
-export interface Meta {
-  AffectedNodes: Node[]
-}
-
-export interface Memo {
-  Memo: {
-    MemoType: string
-    MemoData: string
-    MemoFormat: string
-  }
-}
-
-export interface Tx {
-  Memos?: Memo[]
-  TransactionType: string
-  Flags?: number
-}
-
-export interface Transaction {
-  meta: Meta
-  tx: Tx
-}
-
-interface IssuedCurrencyAmount {
-  currency: string
-  issuer: string
-  value: string
-}
-
-export interface AccountNFToken {
-  Flags: number
-  Issuer: string
-  NFTokenID: string
-  NFTokenTaxon: number
-  URI?: string
-  // eslint-disable-next-line camelcase
-  nft_serial: number
 }
 
 export function groupAffectedNodes(trans: Transaction) {
@@ -218,7 +175,7 @@ export function buildMemos(trans: Transaction) {
   return memoList
 }
 
-export function buildFlags(trans: Transaction) {
+export function buildFlags(trans: Transaction): string[] {
   const flags = TX_FLAGS[trans.tx.TransactionType] || {}
   const bits = zeroPad((trans.tx.Flags || 0).toString(2), 32).split('')
 
@@ -231,7 +188,20 @@ export function buildFlags(trans: Transaction) {
         ? TX_FLAGS.all[int] || flags[int] || hex32(int)
         : undefined
     })
-    .filter((d) => Boolean(d))
+    .filter((d) => Boolean(d)) as string[]
+}
+
+export function buildHookFlags(flags: number): string[] {
+  const bits = zeroPad((flags || 0).toString(2), 32).split('')
+
+  return bits
+    .map((value, i) => {
+      const bin = zeroPad(1, 32 - i, true)
+      const int = parseInt(bin, 2)
+      // const type = i < 8 ? 'universal' : (i < 16 ? 'type_specific' : 'reserved');
+      return value === '1' ? HOOK_FLAGS[int] || hex32(int) : undefined
+    })
+    .filter((d) => Boolean(d)) as string[]
 }
 
 function hex32(d: number): string {
@@ -240,7 +210,11 @@ function hex32(d: number): string {
   return `0x${`00000000${hex}`.slice(-8)}`
 }
 
-function zeroPad(num: string | number, size: number, back = false): string {
+export function zeroPad(
+  num: string | number,
+  size: number,
+  back = false,
+): string {
   let s = String(num)
   while (s.length < (size || 2)) {
     s = back ? `${s}0` : `0${s}`

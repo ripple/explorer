@@ -1,18 +1,13 @@
 import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
-import { MemoryRouter, Route } from 'react-router'
-import { QueryClientProvider } from 'react-query'
+import { Route } from 'react-router'
 import i18n from '../../../../../i18n/testConfig'
 import * as rippled from '../../../../../rippled/lib/rippled'
 import NoMatch from '../../../../NoMatch'
 import { AMMAccountHeader } from '../AMMAccountHeader/AMMAccountHeader'
 import { AccountTransactionTable } from '../../../AccountTransactionTable'
 import { AMMAccounts } from '../index'
-import { testQueryClient } from '../../../../test/QueryClient'
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
+import { flushPromises, QuickHarness } from '../../../../test/utils'
+import { ACCOUNT_ROUTE } from '../../../../App/routes'
 
 function setSpy(accountTransactions: any, ammInfo: any) {
   const spyInfo = jest.spyOn(rippled, 'getAMMInfo')
@@ -56,13 +51,12 @@ describe('AMM Account Page', () => {
 
   const createWrapper = () =>
     mount(
-      <QueryClientProvider client={testQueryClient}>
-        <I18nextProvider i18n={i18n}>
-          <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
-            <Route path="accounts/:id" component={AMMAccounts} />
-          </MemoryRouter>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <QuickHarness
+        i18n={i18n}
+        initialEntries={[`/accounts/${TEST_ACCOUNT_ID}`]}
+      >
+        <Route path={ACCOUNT_ROUTE.path} element={<AMMAccounts />} />
+      </QuickHarness>,
     )
 
   it('renders AMM account page when TVL not present', async () => {

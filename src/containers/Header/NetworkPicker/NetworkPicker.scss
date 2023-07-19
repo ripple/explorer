@@ -1,0 +1,65 @@
+@import '../../shared/css/variables';
+
+@mixin dropdown-network-item(
+  $background,
+  $background-hover: $background,
+  $border: $background,
+  $color: $black
+) {
+  .dropdown-toggle {
+    border-color: $border;
+    background: $background;
+    color: $color;
+
+    &:hover {
+      background: $background-hover;
+    }
+
+    .arrow {
+      color: $color;
+    }
+  }
+}
+
+.network {
+  min-width: 0;
+
+  .dropdown-toggle {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .dropdown-toggle-text {
+    @extend %truncate;
+  }
+
+  .dropdown-menu {
+    min-width: max(100%, 250px);
+  }
+
+  &.network-mainnet {
+    @include dropdown-network-item($white, $black-20);
+  }
+
+  &.network-testnet {
+    @include dropdown-network-item($testnet, $orange-60);
+  }
+
+  &.network-devnet {
+    @include dropdown-network-item($devnet, $blue-purple-40);
+  }
+
+  &.network-amm {
+    @include dropdown-network-item($amm, $blue-60);
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern -- needed here for variables */
+  &.network-hooks_testnet {
+    @include dropdown-network-item($hooks-testnet, $magenta-40);
+  }
+
+  &.network-custom {
+    @include dropdown-network-item($custom, $yellow-60);
+  }
+}

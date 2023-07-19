@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import Loader from '../shared/components/Loader'
+import { Loader } from '../shared/components/Loader'
 import { localizeDate } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import './historyTab.scss'

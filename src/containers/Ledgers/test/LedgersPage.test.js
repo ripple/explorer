@@ -1,12 +1,9 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
-import { BrowserRouter as Router } from 'react-router-dom'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { I18nextProvider } from 'react-i18next'
-import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import Ledgers from '../index'
 import { initialState } from '../../../rootReducer'
@@ -17,7 +14,7 @@ import prevLedgerMessage from './mock/prevLedger.json'
 import ledgerMessage from './mock/ledger.json'
 import validationMessage from './mock/validation.json'
 import rippledResponses from './mock/rippled.json'
-import { testQueryClient } from '../../test/QueryClient'
+import { QuickHarness } from '../../test/utils'
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -88,19 +85,15 @@ describe('Ledgers Page container', () => {
     const store = mockStore({ ...initialState })
 
     return mount(
-      <QueryClientProvider client={testQueryClient}>
-        <Router>
-          <I18nextProvider i18n={i18n}>
-            <Provider store={store}>
-              <SocketContext.Provider value={client}>
-                <NetworkContext.Provider value={props.network}>
-                  <Ledgers msg={props.msg} />
-                </NetworkContext.Provider>
-              </SocketContext.Provider>
-            </Provider>
-          </I18nextProvider>
-        </Router>
-      </QueryClientProvider>,
+      <Provider store={store}>
+        <SocketContext.Provider value={client}>
+          <NetworkContext.Provider value={props.network}>
+            <QuickHarness i18n={i18n}>
+              <Ledgers msg={props.msg} />
+            </QuickHarness>
+          </NetworkContext.Provider>
+        </SocketContext.Provider>
+      </Provider>,
     )
   }
 
@@ -193,10 +186,10 @@ describe('Ledgers Page container', () => {
     )
 
     const validations = wrapper.find('div.validation')
-    const txn = wrapper.find('.txn')
+    const txn = wrapper.find('a.txn')
 
     // check ledger transactions
-    expect(txn.length).toBe(36)
+    expect(txn.length).toBe(12)
     txn.first().simulate('focus')
     txn.first().simulate('mouseOver')
 
@@ -280,10 +273,10 @@ describe('Ledgers Page container', () => {
       )
 
       const validations = wrapper.find('div.validation')
-      const txn = wrapper.find('.txn')
+      const txn = wrapper.find('a.txn')
 
       // check ledger transactions
-      expect(txn.length).toBe(36)
+      expect(txn.length).toBe(12)
       txn.first().simulate('focus')
       txn.first().simulate('mouseOver')
 

@@ -4,6 +4,8 @@ $subdued-color: $black-40;
 
 .simple-body-tx {
   .rows {
+    padding-top: 0px;
+
     .partial-row {
       display: flex;
       overflow: hidden;
@@ -23,6 +25,15 @@ $subdued-color: $black-40;
     .row {
       .value {
         text-align: right;
+
+        .grant {
+          .account {
+            padding-bottom: 8px;
+            font-size: 11px;
+            text-align: right;
+            @include medium;
+          }
+        }
 
         .amount {
           text-align: right;
@@ -81,26 +92,26 @@ $subdued-color: $black-40;
           @include regular;
         }
       }
-    }
 
-    .not-supported {
-      padding: 50px;
-      color: $orange-40;
-      font-size: 14px;
-      text-align: center;
-
-      .type {
-        margin: 0 5px;
-        @include bold;
+      &:first-child {
+        padding-top: 40px;
       }
     }
 
-    .attestation {
-      margin: 16px 0px;
+    .group {
+      margin: 16px 0 16px -16px;
       background: rgba($black-80, 0.7);
       gap: 15px;
 
-      .attestation-title {
+      &:first-child {
+        margin-top: 0px;
+      }
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+
+      .group-title {
         display: block;
         flex-direction: row;
         padding: 16px 0 0 16px;
@@ -111,12 +122,12 @@ $subdued-color: $black-40;
       }
 
       .row {
-        padding: 16px 44px 12px 16px;
-      }
+        padding: 16px 28px 12px 16px;
 
-      .row:last-child {
-        padding-bottom: 16px;
-        border: none;
+        &:last-child {
+          padding-bottom: 16px;
+          border: none;
+        }
       }
     }
   }

@@ -15,7 +15,22 @@ label {
   }
 }
 
-input[type='radio'] {
-  height: 16px;
-  accent-color: $green;
+input {
+  border-radius: $border-radius;
+
+  &[type='text'] {
+    &:hover,
+    &:focus {
+      background-color: $black-80;
+    }
+
+    &:focus {
+      outline: solid 1px $blue-purple-40 !important;
+    }
+  }
+
+  &[type='radio'] {
+    height: 16px;
+    accent-color: $green;
+  }
 }

@@ -16,6 +16,8 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.formatOnSave": true
     },
+    "javascript.preferences.importModuleSpecifier": "relative",
+    "typescript.preferences.importModuleSpecifier": "relative",
     "eslint.alwaysShowStatus": true,
     "eslint.lintTask.enable": true,
     "eslint.codeAction.showDocumentation": {
@@ -56,6 +58,8 @@
         "chopa",
         "chopb",
         "cimode",
+        "clsx",
+        "ctid",
         "CUSTOMNETWORK",
         "Decomp",
         "esbuild",
@@ -66,12 +70,16 @@
         "middlewares",
         "MILLIS",
         "moxios",
+        "nftoken",
         "nodemodules",
         "pageview",
         "paychannels",
         "paystrings",
+        "stylelint",
         "svgr",
         "topojson",
-        "VITE"
+        "VITE",
+        "xchain",
+        "xchainbridge"
     ]
   }

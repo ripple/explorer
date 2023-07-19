@@ -1,4 +1,4 @@
-import type { Meta } from '../../../transactionUtils'
+import type { Meta } from '../../../types'
 import { PaymentChannelClaim, PaymentChannelClaimInstructions } from './types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 

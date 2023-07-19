@@ -10,6 +10,7 @@ import {
   getRippledVersion,
   nameOfAmendmentID,
 } from '../../../../amendmentUtils'
+import { flushPromises } from '../../../../../test/utils'
 
 const createWrapper = createSimpleWrapperFactory(Simple, i18n)
 
@@ -23,10 +24,6 @@ jest.mock('../../../../amendmentUtils', () => {
     nameOfAmendmentID: jest.fn(),
   }
 })
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
 
 const mockedGetRippledVersion = getRippledVersion as jest.MockedFunction<
   typeof getRippledVersion

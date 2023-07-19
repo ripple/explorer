@@ -12,6 +12,9 @@ import autoprefixer from 'autoprefixer'
 
 import 'dotenv/config'
 
+// Populate with `version` field of package.json
+process.env.VITE_APP_VERSION = process.env.npm_package_version
+
 // https://vitejs.dev/config/
 export default defineConfig({
   // source code location
@@ -23,8 +26,7 @@ export default defineConfig({
     outDir: '../build',
     // empty the build directory on each build
     emptyOutDir: true,
-    // improve CPU usage
-    sourcemap: false,
+    sourcemap: true,
     commonjsOptions: {
       transformMixedEsModules: true,
     },
@@ -77,6 +79,9 @@ export default defineConfig({
     // export SVGs as React components by default
     svgrPlugin({
       exportAsDefault: true,
+      svgrOptions: {
+        ref: true,
+      },
     }),
     react({
       // Use React plugin in all *.jsx and *.tsx files
@@ -85,7 +90,8 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          VITE_GA_ID: process.env.VITE_GA_ID,
+          VITE_GTM_ID: process.env.VITE_GTM_ID,
+          VITE_OSANO_ID: process.env.VITE_OSANO_ID,
         },
       },
     }),

@@ -1,14 +1,13 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
-import { I18nextProvider } from 'react-i18next'
-import { QueryClientProvider } from 'react-query'
-import { BrowserRouter as Router, useParams } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { BAD_REQUEST } from '../../shared/utils'
-import i18n from '../../../i18n/testConfig'
 import { Validator } from '../index'
 import { getLedger } from '../../../rippled'
-import { testQueryClient } from '../../test/QueryClient'
 import NetworkContext from '../../shared/NetworkContext'
+import testConfigEnglish from '../../../i18n/testConfigEnglish'
+import { QuickHarness, flushPromises } from '../../test/utils'
+import { VALIDATOR_ROUTE } from '../../App/routes'
 
 global.location = '/validators/aaaa'
 
@@ -19,15 +18,6 @@ jest.mock('../../../rippled', () => ({
   getLedger: jest.fn(),
 }))
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn(),
-}))
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
-}
-
 describe('Validator container', () => {
   const createWrapper = (props = {}) => {
     const defaultGetLedgerImpl = () =>
@@ -35,19 +25,17 @@ describe('Validator container', () => {
         () => {},
         () => {},
       )
-    useParams.mockImplementation(() => ({ identifier: MOCK_IDENTIFIER }))
     getLedger.mockImplementation(props.getLedgerImpl || defaultGetLedgerImpl)
 
     return mount(
-      <QueryClientProvider client={testQueryClient}>
-        <I18nextProvider i18n={i18n}>
-          <NetworkContext.Provider value={props.network || 'main'}>
-            <Router>
-              <Validator />
-            </Router>
-          </NetworkContext.Provider>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <NetworkContext.Provider value={props.network || 'main'}>
+        <QuickHarness
+          i18n={testConfigEnglish}
+          initialEntries={[`/validators/${MOCK_IDENTIFIER}`]}
+        >
+          <Route path={VALIDATOR_ROUTE.path} element={<Validator />} />
+        </QuickHarness>
+      </NetworkContext.Provider>,
     )
   }
 
@@ -79,13 +67,14 @@ describe('Validator container', () => {
         response: {
           domain: 'example.com',
           ledger_hash: 'sample-ledger-hash',
+          master_key: 'foo',
         },
       },
     )
     const wrapper = createWrapper()
     await flushPromises()
     await flushPromises()
-    expect(document.title).toBe('Validator example.com | xrpl_explorer')
+    expect(document.title).toBe('Validator example.com')
     wrapper.unmount()
   })
 
@@ -103,7 +92,7 @@ describe('Validator container', () => {
     const wrapper = createWrapper()
     await flushPromises()
     await flushPromises()
-    expect(document.title).toBe('Validator foo... | xrpl_explorer')
+    expect(document.title).toBe('Validator foo...')
     wrapper.unmount()
   })
 
@@ -121,7 +110,7 @@ describe('Validator container', () => {
     const wrapper = createWrapper()
     await flushPromises()
     await flushPromises()
-    expect(document.title).toBe('Validator bar... | xrpl_explorer')
+    expect(document.title).toBe('Validator bar...')
     wrapper.unmount()
   })
 
@@ -131,6 +120,7 @@ describe('Validator container', () => {
       {
         status: 200,
         response: {
+          master_key: 'foo',
           domain: 'test.example.com',
           current_index: '12345',
         },
@@ -150,7 +140,7 @@ describe('Validator container', () => {
     await flushPromises()
     expect(getLedger).toBeCalledTimes(1)
     expect(getLedger).toHaveBeenCalledWith('12345', undefined)
-    expect(document.title).toBe('Validator test.example.com | xrpl_explorer')
+    expect(document.title).toBe('Validator test.example.com')
     wrapper.unmount()
   })
 

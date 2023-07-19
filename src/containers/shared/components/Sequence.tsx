@@ -1,29 +1,39 @@
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
+import { FC } from 'react'
 import { ACCOUNT_ZERO } from '../transactionUtils'
 
-interface Props {
-  addContextHelp: boolean
-  sequence: number
-  ticketSequence: number
-  account: string
+interface SequenceProps {
+  addContextHelp?: boolean
+  sequence?: number
+  ticketSequence?: number
+  account?: string
+  isHook?: boolean
 }
 
-const Sequence = (props: Props) => {
+export const Sequence: FC<SequenceProps> = ({
+  addContextHelp = false,
+  sequence = 0,
+  ticketSequence = 0,
+  account = '',
+  isHook = false,
+}) => {
   const { t } = useTranslation()
-  const { addContextHelp, sequence, ticketSequence, account } = props
-  const isPseudoTransaction = account === ACCOUNT_ZERO
+  const isPseudoTransaction = account === ACCOUNT_ZERO || account === ''
+
+  function getContext() {
+    if (isHook) {
+      return addContextHelp === true ? t('hook_emitted') : t('hook')
+    }
+    return addContextHelp === true ? t('ticket_used') : t('ticket')
+  }
 
   return (
     <span>
       {sequence === 0 && !isPseudoTransaction ? (
-        <span className="row">
+        <span className="row" data-test="sequence">
           {ticketSequence}
           {' ('}
-          {addContextHelp && addContextHelp === true
-            ? t('ticket_used')
-            : t('ticket')}
-          )
+          {getContext()})
         </span>
       ) : (
         sequence
@@ -31,19 +41,3 @@ const Sequence = (props: Props) => {
     </span>
   )
 }
-
-Sequence.propTypes = {
-  sequence: PropTypes.number,
-  ticketSequence: PropTypes.number,
-  addContextHelp: PropTypes.bool,
-  account: PropTypes.string,
-}
-
-Sequence.defaultProps = {
-  sequence: PropTypes.number,
-  ticketSequence: 0,
-  addContextHelp: false,
-  account: '',
-}
-
-export default Sequence

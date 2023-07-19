@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import Currency from '../../shared/components/Currency'
 import { Amount } from '../../shared/components/Amount'
-import Loader from '../../shared/components/Loader'
+import { Loader } from '../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
+import { RouteLink } from '../../shared/routing'
+import { TOKEN_ROUTE } from '../../App/routes'
 
 interface Props {
   account: any
@@ -30,13 +31,14 @@ export const AccountIssuedTokenTable = (props: Props) => {
           <Currency currency={token.currency} />
         </td>
         <td>
-          <Link
+          <RouteLink
             className="token-issuer"
             title={tokenName}
-            to={`/token/${tokenName}`}
+            to={TOKEN_ROUTE}
+            params={{ token: `${token.currency}.${token.issuer}` }}
           >
             {token.issuer}
-          </Link>
+          </RouteLink>
         </td>
         <td className="right">
           <Amount value={token} displayIssuer={false} />

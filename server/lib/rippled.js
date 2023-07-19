@@ -4,7 +4,7 @@ const utils = require('./utils')
 const streams = require('./streams')
 
 const RIPPLEDS = []
-process.env.VITE_RIPPLED_HOST.split(',').forEach((d) => {
+process.env.VITE_RIPPLED_HOST?.split(',').forEach((d) => {
   const rippled = d.split(':')
   RIPPLEDS.push(
     `wss://${rippled[0]}:${rippled[1] || process.env.VITE_RIPPLED_WS_PORT}`,
@@ -55,11 +55,11 @@ function queryP2P(...options) {
 }
 
 // get account info
-module.exports.getAccountInfo = (account, ledger_index = 'validated') =>
+module.exports.getAccountInfo = (account, ledgerIndex = 'validated') =>
   query({
     command: 'account_info',
     account,
-    ledger_index,
+    ledger_index: ledgerIndex,
     signer_lists: true,
   }).then((resp) => {
     if (resp.error === 'actNotFound') {
@@ -76,11 +76,11 @@ module.exports.getAccountInfo = (account, ledger_index = 'validated') =>
   })
 
 // get Token balance summary
-module.exports.getBalances = (account, ledger_index = 'validated') =>
+module.exports.getBalances = (account, ledgerIndex = 'validated') =>
   queryP2P({
     command: 'gateway_balances',
     account,
-    ledger_index,
+    ledger_index: ledgerIndex,
   }).then((resp) => {
     if (resp.error === 'actNotFound') {
       throw new utils.Error('account not found', 404)

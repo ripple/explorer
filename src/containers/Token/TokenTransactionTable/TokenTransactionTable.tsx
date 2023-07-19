@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
-import { ANALYTIC_TYPES, analytics } from '../../shared/utils'
 
+import { useAnalytics } from '../../shared/analytics'
 import SocketContext from '../../shared/SocketContext'
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
 import { getAccountTransactions } from '../../../rippled'
@@ -16,6 +16,7 @@ export const TokenTransactionTable = ({
   accountId,
   currency,
 }: TokenTransactionsTableProps) => {
+  const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
 
@@ -36,11 +37,7 @@ export const TokenTransactionTable = ({
         rippledSocket,
       ).catch((errorResponse) => {
         const errorLocation = `token transactions ${accountId}.${currency} at ${pageParam}`
-        analytics(ANALYTIC_TYPES.exception, {
-          exDescription: `${errorLocation} --- ${JSON.stringify(
-            errorResponse,
-          )}`,
-        })
+        trackException(`${errorLocation} --- ${JSON.stringify(errorResponse)}`)
 
         throw new Error('get_account_transactions_failed')
       }),
@@ -53,7 +50,7 @@ export const TokenTransactionTable = ({
     <TransactionTable
       transactions={data?.pages?.map((page: any) => page.transactions).flat()}
       loading={loading}
-      emptyMessage={t(error?.message || '')}
+      emptyMessage={t(error?.message || ('' as any))}
       onLoadMore={() => fetchNextPage()}
       hasAdditionalResults={hasNextPage}
     />

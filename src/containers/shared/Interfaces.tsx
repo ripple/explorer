@@ -30,7 +30,7 @@ export interface NFTFormattedInfo {
   transferFee?: number
   issuer?: string
   NFTTaxon?: number
-  NFTSequence?: number
+  NFTSerial?: number
   uri?: string
   validated?: boolean
   status?: string
@@ -40,4 +40,9 @@ export interface NFTFormattedInfo {
 export interface ErrorMessage {
   title: string
   hints: string[]
+}
+
+export type ErrorMessages = {
+  default: ErrorMessage
+  [code: number]: ErrorMessage
 }

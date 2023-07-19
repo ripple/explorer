@@ -5,113 +5,109 @@
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@google-cloud/bigquery": "^5.5.0",
+    "@paystring/utils": "^2.0.0",
     "@rollup/plugin-inject": "^5.0.3",
     "@vitejs/plugin-react": "^3.0.0",
     "@xrplf/prettier-config": "^1.9.1",
     "assert": "^2.0.0",
-    "autoprefixer": "^10.4.13",
-    "axios": "^0.21.2",
-    "body-parser": "^1.18.2",
+    "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
     "buffer": "^6.0.3",
     "bunyan": "^1.8.15",
     "classnames": "^2.3.1",
-    "clsx": "^1.2.1",
     "compression": "^1.7.4",
     "create-hash": "^1.2.0",
-    "d3": "^6.7.0",
+    "d3": "^7.8.5",
     "d3-geo": "^1.11.3",
     "d3-hexbin": "^0.2.2",
-    "d3-scale": "^2.2.2",
+    "d3-scale": "^4.0.2",
     "debug": "^4.3.1",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.1.3",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
     "esbuild": "^0.17.11",
     "events": "^3.3.0",
     "express": "^4.18.2",
-    "i18next": "^22.0.6",
+    "i18next": "^22.4.15",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.1.1",
-    "payid-lib": "^0.1.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet-async": "^1.3.0",
-    "react-i18next": "^11.16.7",
+    "react-i18next": "^12.3.1",
     "react-json-view": "^1.21.3",
-    "react-query": "^3.39.2",
+    "react-query": "^3.39.3",
     "react-redux": "^7.0.1",
-    "react-router": "^5.0.0",
-    "react-router-dom": "^5.0.0",
-    "recharts": "^2.4.3",
+    "react-router": "^6.12.1",
+    "react-router-dom": "^6.12.1",
+    "recharts": "^2.7.2",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "rewire": "^6.0.0",
-    "ripple-address-codec": "^4.2.4",
+    "ripple-address-codec": "^4.3.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
-    "rollup-plugin-polyfill-node": "^0.11.0",
+    "rollup-plugin-polyfill-node": "^0.12.0",
     "stream-browserify": "^3.0.0",
     "topojson-client": "^3.0.0",
     "usehooks-ts": "^2.9.1",
-    "vite": "^4.0.1",
+    "vite": "^4.2.3",
     "vite-plugin-environment": "^1.1.3",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-svgr": "^2.4.0",
-    "vite-tsconfig-paths": "^4.0.2",
+    "vite-tsconfig-paths": "^4.2.0",
     "ws": "^7.4.2",
-    "xrpl-client": "^2.0.5"
+    "xrpl-client": "^2.1.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.19.1",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/eslint-parser": "^7.22.6",
+    "@babel/preset-env": "^7.21.4",
     "@babel/preset-react": "^7.18.6",
     "@types/create-hash": "^1.2.2",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
-    "@types/lodash": "^4.14.191",
+    "@types/lodash": "^4.14.194",
     "@types/node": "^17.0.8",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.9",
     "@types/react-redux": "^7.1.22",
-    "@types/react-router-dom": "^5.1.8",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
     "babel-jest": "^29.3.1",
     "canvas": "^2.11.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-flowtype": "^5.8.2",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint": "^8.0.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^7.0.4",
     "jest-enzyme": "^7.1.0",
     "jest-websocket-mock": "^2.4.0",
-    "lint-staged": "^13.0.3",
+    "lint-staged": "^13.2.0",
     "mock-socket": "^9.1.5",
     "moxios": "^0.4.0",
-    "nodemon": "^2.0.20",
+    "nodemon": "^2.0.22",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.7.1",
-    "react-error-overlay": "6.0.9",
+    "prettier": "^2.8.8",
+    "react-error-overlay": "6.0.11",
     "react-test-renderer": "^17.0.2",
     "redux-mock-store": "^1.5.1",
     "sass": "^1.51.0",
-    "source-map-explorer": "^2.5.2",
-    "stylelint": "^14.9.1",
+    "source-map-explorer": "^2.5.3",
+    "stylelint": "^15.6.2",
     "stylelint-config-idiomatic-order": "^9.0.0",
-    "stylelint-config-prettier": "^9.0.3",
-    "stylelint-config-recommended-scss": "^8.0.0",
-    "stylelint-config-standard": "^26.0.0",
-    "stylelint-prettier": "^2.0.0",
+    "stylelint-config-recommended-scss": "^12.0.0",
+    "stylelint-config-standard": "^33.0.0",
+    "stylelint-prettier": "^3.0.0",
     "stylelint-scss": "^4.3.0",
     "ts-jest": "^26.5.6",
     "ts-node": "^10.9.1",
@@ -119,69 +115,6 @@
   },
   "resolutions": {
     "jest-environment-jsdom": "29.3.1"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.ts"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.(ts|tsx)?$": "ts-jest",
-      "^.+\\.(js|jsx)$": "babel-jest",
-      "^.+\\.(svg)$": "<rootDir>/testUtils/svgTransform.js",
-      "^.+\\.(css|scss)$": "<rootDir>/testUtils/cssTransform.js",
-      "^.+\\.(png)$": "<rootDir>/testUtils/imageTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!arc)/(?!d3)"
-    ],
-    "moduleNameMapper": {
-      "d3-hexbin": "<rootDir>/node_modules/d3-hexbin/build/d3-hexbin.min.js",
-      "d3": "<rootDir>/node_modules/d3/dist/d3.min.js"
-    },
-    "clearMocks": true,
-    "resetMocks": true,
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!<rootDir>/node_modules/",
-      "!src/index.js",
-      "!src/i18n.js",
-      "!src/i18nTestConfig.js",
-      "!src/setupTests.js",
-      "!src/setupProxy.js",
-      "!src/rootReducer.js",
-      "!src/registerServiceWorker.js",
-      "!src/containers/shared/images/*",
-      "!src/containers/test/*",
-      "!testUtils/*"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 70,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
-      }
-    },
-    "coverageReporters": [
-      "text",
-      "text-summary",
-      "html"
-    ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": {
-          "warnOnly": true
-        }
-      }
-    }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,scss}": [
@@ -216,112 +149,9 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "eslintConfig": {
-    "extends": [
-      "airbnb",
-      "react-app",
-      "plugin:jsx-a11y/recommended",
-      "plugin:import/typescript",
-      "prettier"
-    ],
-    "plugins": [
-      "jsx-a11y",
-      "prettier",
-      "import"
-    ],
-    "env": {
-      "browser": true,
-      "node": true,
-      "jest": true,
-      "es6": true
-    },
-    "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "endOfLine": "auto"
-        }
-      ],
-      "react/jsx-filename-extension": [
-        1,
-        {
-          "extensions": [
-            ".ts",
-            ".tsx",
-            ".js",
-            ".jsx"
-          ]
-        }
-      ],
-      "jsx-a11y/href-no-hash": "off",
-      "jsx-a11y/anchor-is-valid": [
-        "warn",
-        {
-          "aspects": [
-            "invalidHref"
-          ]
-        }
-      ],
-      "no-bitwise": "off",
-      "react/jsx-props-no-spreading": "warn",
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          "js": "never",
-          "jsx": "never",
-          "ts": "never",
-          "tsx": "never"
-        }
-      ],
-      "react/jsx-uses-react": "off",
-      "react/react-in-jsx-scope": "off",
-      "import/prefer-default-export": "off",
-      "no-use-before-define": "off",
-      "@typescript-eslint/no-use-before-define": [
-        "error"
-      ],
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": [
-            "**/*.test.{js,jsx,ts,tsx}",
-            "**/test/**",
-            "**/setupTests.ts",
-            "**/svgTransform.js"
-          ]
-        }
-      ],
-      "no-shadow": "off",
-      "@typescript-eslint/no-shadow": "error"
-    },
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "allowImportExportEverywhere": true
-    },
-    "globals": {
-      "ga": true
-    }
-  },
   "prettier": "@xrplf/prettier-config",
-  "stylelint": {
-    "plugins": [
-      "stylelint-scss"
-    ],
-    "extends": [
-      "stylelint-config-standard",
-      "stylelint-config-recommended-scss",
-      "stylelint-config-idiomatic-order",
-      "stylelint-config-prettier"
-    ],
-    "rules": {
-      "at-rule-empty-line-before": null,
-      "block-closing-brace-newline-after": null,
-      "length-zero-no-unit": null
-    }
-  },
   "engines": {
-    "node": ">=18.0.0 <18.13.0",
-    "npm": ">=7.14.0 <9.0.0"
+    "node": ">=18.0.0 <19",
+    "npm": ">=7.14.0 <10.0.0"
   }
 }

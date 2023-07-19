@@ -159,20 +159,29 @@ div.react-stockchart div {
 }
 
 .btn {
-  border: none;
-  background: transparent;
+  padding: 12px 16px;
+  border: solid 1px $white;
+  border-radius: $border-radius;
+  background: $black;
   color: $white;
   cursor: pointer;
   font-size: 14px;
   line-height: 21px;
+
+  &:hover {
+    background: $black-80;
+  }
 }
 
 a,
 .btn-link {
+  border: none;
+  background: transparent;
   color: $green-30;
   text-decoration: none;
 
   &:hover {
+    background: transparent;
     color: $green-50;
   }
 
@@ -233,15 +242,20 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
   a.mask-overlay {
     position: absolute;
     z-index: 5;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
   }
 }
 
+.badge {
+  padding: 2px 12px;
+  border-radius: 30px;
+  margin-left: 12px;
+  font-size: 14px;
+  @include bold;
+}
+
 .section {
-  margin: 0 32px;
+  margin: 0 8px;
 
   @include for-size(tablet-landscape-up) {
     width: calc(100% - 15px);
