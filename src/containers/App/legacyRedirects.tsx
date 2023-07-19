@@ -9,9 +9,13 @@ export const legacyRedirect = (
       const identifier = location.hash.split('#/transactions/')[1]
       return `${basename}/transactions/${identifier}`
     }
-    if (location.hash.indexOf('#/graph/') === 0) {
+    if (location.hash.indexOf('#/graph') === 0) {
       const identifier = location.hash.split('#/graph/')[1]
-      return `${basename}/accounts/${identifier}`
+      if (identifier) {
+        return `${basename}/accounts/${identifier}`
+      }
+
+      return `${basename}/`
     }
   }
 

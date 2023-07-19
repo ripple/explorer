@@ -391,6 +391,21 @@ describe('App container', () => {
     })
   })
 
+  it('redirects legacy account page with no account', () => {
+    wrapper = createWrapper(`/#/graph/`)
+    return new Promise((r) => setTimeout(r, 10)).then(() => {
+      expect(document.title).toEqual(`xrpl_explorer | ledgers`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/',
+          page_title: 'xrpl_explorer | ledgers',
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
+    })
+  })
+
   it('renders custom mode homepage', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
