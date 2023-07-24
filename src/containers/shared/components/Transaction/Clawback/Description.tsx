@@ -7,7 +7,10 @@ import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 export const Description = ({ data }: TransactionDescriptionProps) => {
   const issuer = data.tx.Account
   const holder = data.tx.Amount.issuer
-  const amount = data.tx.Amount
+
+  // construct a new amount object by spreading to avoid mutating
+  // the original object reference
+  const amount = { ...data.tx.Amount }
   amount.issuer = issuer
   return (
     <>
