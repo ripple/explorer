@@ -7,7 +7,7 @@ import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 export const Description = ({ data }: TransactionDescriptionProps) => {
   const issuer = data.tx.Account
   const holder = data.tx.Amount.issuer
-  const amount = data.tx.Amount
+  const amount = formatAmount(data.tx.Amount)
   amount.issuer = issuer
   return (
     <>
@@ -24,7 +24,7 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
         <Trans
           i18nKey="instruct_to_claw"
           components={{
-            amount: <Amount value={formatAmount(amount)} />,
+            amount: <Amount value={amount} />,
           }}
         />
       </div>
