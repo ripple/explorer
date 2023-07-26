@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
+import type { AccountDelete } from 'xrpl'
 
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
 import { Account } from '../../Account'
-import { AccountDelete } from './types'
 
 export const Simple = ({ data }: TransactionSimpleProps<AccountDelete>) => {
   const { t } = useTranslation()

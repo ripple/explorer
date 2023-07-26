@@ -1,4 +1,5 @@
-import { NFTokenCancelOffer, NFTokenCancelOfferInstructions } from './types'
+import type { NFTokenCancelOffer } from 'xrpl'
+import { NFTokenCancelOfferInstructions } from './types'
 import { TransactionParser } from '../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
