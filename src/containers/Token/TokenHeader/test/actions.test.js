@@ -37,7 +37,6 @@ describe('TokenHeader Actions', () => {
       emailHash: undefined,
       flags: [],
       balance: '123456000',
-      gravatar: undefined,
       previousTxn:
         '6B6F2CA1633A22247058E988372BA9EFFFC5BF10212230B67341CA32DC9D4A82',
       previousLedger: 68990183,
