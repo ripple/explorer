@@ -50,10 +50,14 @@ const Footer = () => {
             How to Contribute
           </a>
           <a
-            href="https://github.com/ripple/xrpl-dev-portal"
+            href="https://github.com/ripple/explorer" className="footer-link">
+            XRPL Explorer on GitHub
+          </a>
+          <a
+            href="https://github.com/XRPLF/xrpl-dev-portal"
             className="footer-link"
           >
-            XRPL on GitHub
+            XRPL.org Docs on GitHub
           </a>
         </div>
       </div>
