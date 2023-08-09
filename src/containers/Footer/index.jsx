@@ -49,8 +49,7 @@ const Footer = () => {
           <a href="https://xrpl.org/contribute.html" className="footer-link">
             How to Contribute
           </a>
-          <a
-            href="https://github.com/ripple/explorer" className="footer-link">
+          <a href="https://github.com/ripple/explorer" className="footer-link">
             XRPL Explorer on GitHub
           </a>
           <a
