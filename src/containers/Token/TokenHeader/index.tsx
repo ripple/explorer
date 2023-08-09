@@ -34,7 +34,6 @@ interface TokenHeaderProps {
     obligations: string
     domain: string
     emailHash: string
-    gravatar: string
     previousLedger: number
     previousTxn: string
     flags: string[]
@@ -199,12 +198,17 @@ const TokenHeader = ({
     )
   }
 
-  const { gravatar } = data
+  const { emailHash } = data
   return (
     <div className="box token-header">
       <div className="section box-header">
         <Currency currency={currency} />
-        {gravatar && <img alt={`${currency} logo`} src={gravatar} />}
+        {emailHash && (
+          <img
+            alt={`${currency} logo`}
+            src={`https://www.gravatar.com/avatar/${emailHash.toLowerCase()}`}
+          />
+        )}
       </div>
       <div className="box-content">
         {loading ? <Loader /> : renderHeaderContent()}
