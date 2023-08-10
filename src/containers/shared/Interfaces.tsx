@@ -12,7 +12,6 @@ export interface AccountFormattedInfo {
   emailHash?: string
   flags?: string[]
   balance?: string
-  gravatar?: any
   previousTxn?: string
   previousLedger?: number
   nftMinter?: string
