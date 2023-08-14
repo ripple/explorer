@@ -3,7 +3,8 @@ import { useLocalStorage } from './useLocalStorage'
 
 export * from './useLocalStorage'
 
-export const useLanguage = () => useTranslation().i18n.resolvedLanguage
+export const useLanguage = () =>
+  useTranslation().i18n.resolvedLanguage || 'en-US'
 
 export const CUSTOM_NETWORKS_STORAGE_KEY = 'explorer-custom-networks'
 
