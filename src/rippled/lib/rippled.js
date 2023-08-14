@@ -213,7 +213,7 @@ const getAccountPaychannels = async (
 }
 
 // get account escrows
-const getAccountBridge = (rippledSocket, account, ledgerIndex = 'validated') =>
+const getAccountBridges = (rippledSocket, account, ledgerIndex = 'validated') =>
   query(rippledSocket, {
     command: 'account_objects',
     account,
@@ -238,9 +238,8 @@ const getAccountBridge = (rippledSocket, account, ledgerIndex = 'validated') =>
       return undefined
     }
 
-    if (resp.account_objects.length === 1) {
-      const bridge = resp.account_objects[0]
-      return {
+    if (resp.account_objects.length >= 1) {
+      return resp.account_objects.map((bridge) => ({
         lockingChainDoor: bridge.XChainBridge.LockingChainDoor,
         lockingChainIssue: bridge.XChainBridge.LockingChainIssue,
         issuingChainDoor: bridge.XChainBridge.IssuingChainDoor,
@@ -250,7 +249,7 @@ const getAccountBridge = (rippledSocket, account, ledgerIndex = 'validated') =>
         xchainAccountClaimCount: bridge.XChainAccountClaimCount,
         xchainAccountCreateCount: bridge.XChainAccountCreateCount,
         xchainClaimId: bridge.XChainClaimID,
-      }
+      }))
     }
 
     return undefined
@@ -486,7 +485,7 @@ export {
   getAccountInfo,
   getAccountEscrows,
   getAccountPaychannels,
-  getAccountBridge,
+  getAccountBridges,
   getAccountNFTs,
   getBalances,
   getAccountTransactions,

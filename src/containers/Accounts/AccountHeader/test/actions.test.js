@@ -53,6 +53,7 @@ describe('AccountHeader Actions', () => {
       escrows: undefined,
       paychannels: null,
       xAddress: undefined,
+      hasBridge: false,
     }
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_STATE },
@@ -162,6 +163,7 @@ describe('AccountHeader Actions', () => {
       escrows: undefined,
       paychannels: null,
       xAddress: undefined,
+      hasBridge: false,
       deleted: false,
     }
     const expectedActions = [
@@ -204,6 +206,7 @@ describe('AccountHeader Actions', () => {
       signerList: undefined,
       tokens: [],
       escrows: undefined,
+      hasBridge: false,
       paychannels: null,
       xAddress: {
         classicAddress: 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv',
