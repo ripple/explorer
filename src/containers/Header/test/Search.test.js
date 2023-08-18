@@ -210,4 +210,6 @@ describe('Search component', () => {
     expect(window.location.pathname).toEqual(`/transactions/${hash}`)
     wrapper.unmount()
   })
+
+  // TODO: Add custom search tests
 })
