@@ -1,18 +1,18 @@
 import { useTranslation } from 'react-i18next'
+import type { OfferCancel } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
-import { OfferCancelInstructions } from './types'
 
 export const TableDetail = ({
   instructions,
-}: TransactionTableDetailProps<OfferCancelInstructions>) => {
+}: TransactionTableDetailProps<OfferCancel>) => {
   const { t } = useTranslation()
-  const { cancel } = instructions
+  const { OfferSequence } = instructions
 
   return (
     <div className="offercancel">
       <span className="label">{t('cancel_offer')}</span>
       {` #`}
-      <span className="sequence">{cancel}</span>
+      <span className="sequence">{OfferSequence}</span>
     </div>
   )
 }

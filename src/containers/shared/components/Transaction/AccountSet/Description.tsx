@@ -1,8 +1,8 @@
 import { useTranslation, Trans } from 'react-i18next'
+import type { AccountSet } from 'xrpl'
 import { ACCOUNT_FLAGS } from '../../../transactionUtils'
 import DomainLink from '../../DomainLink'
 import { TransactionDescriptionProps } from '../types'
-import { AccountSet } from './types'
 import { Account } from '../../Account'
 
 export const Description = ({

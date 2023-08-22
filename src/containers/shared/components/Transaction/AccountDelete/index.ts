@@ -1,3 +1,4 @@
+import type { AccountDelete } from 'xrpl'
 import {
   TransactionAction,
   TransactionCategory,
@@ -5,7 +6,6 @@ import {
 } from '../types'
 
 import { Simple } from './Simple'
-import { AccountDelete } from './types'
 
 export const AccountDeleteTransaction: TransactionMapping = {
   Simple,

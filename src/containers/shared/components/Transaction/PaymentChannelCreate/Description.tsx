@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
+import type { PaymentChannelCreate } from 'xrpl'
 import { localizeDate, localizeNumber } from '../../../utils'
 import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
 import { DATE_OPTIONS, findNode } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import { useLanguage } from '../../../hooks'
 import { TransactionDescriptionProps } from '../types'
-import { PaymentChannelCreate } from './types'
 import { Amount } from '../../Amount'
 
 export const Description = ({
@@ -18,7 +18,7 @@ export const Description = ({
     tx.CancelAfter &&
     localizeDate(convertRippleDate(tx.CancelAfter), language, DATE_OPTIONS)
 
-  const node = findNode(data, 'CreatedNode', 'PayChannel')
+  const node = findNode(data.meta, 'CreatedNode', 'PayChannel')
 
   return (
     <>

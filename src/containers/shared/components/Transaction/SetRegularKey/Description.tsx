@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next'
+import type { SetRegularKey } from 'xrpl'
 import { TransactionDescriptionProps } from '../types'
 
-export const Description = ({ data }: TransactionDescriptionProps) => {
+export const Description = ({
+  data,
+}: TransactionDescriptionProps<SetRegularKey>) => {
   const { t } = useTranslation()
   const key = data.tx.RegularKey
 

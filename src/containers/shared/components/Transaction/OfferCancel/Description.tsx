@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import type { OfferCancel } from 'xrpl'
 
 import { TransactionDescriptionProps } from '../types'
-import { OfferCancel } from './types'
 
 export const Description = ({
   data,

@@ -2,7 +2,7 @@ import { FC } from 'react'
 import classnames from 'classnames'
 
 import { Banner } from './Banner'
-import { navigationConfig } from '../App/routes'
+import { navigationConfig } from '../App/navigation'
 import { NavigationMenu } from './NavigationMenu'
 
 import './header.scss'

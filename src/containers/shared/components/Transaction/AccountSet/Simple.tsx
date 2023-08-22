@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
+import type { AccountSet } from 'xrpl'
 import { ACCOUNT_FLAGS } from '../../../transactionUtils'
 import DomainLink from '../../DomainLink'
 import { Account } from '../../Account'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
-import { AccountSet } from './types'
 
 export const Simple = ({ data }: TransactionSimpleProps<AccountSet>) => {
   const { t } = useTranslation()

@@ -5,7 +5,6 @@ import {
 } from '../types'
 
 import { Simple } from './Simple'
-import { parser } from './parser'
 import { TableDetail } from './TableDetail'
 
 export const TicketCreateTransaction: TransactionMapping = {
@@ -13,5 +12,4 @@ export const TicketCreateTransaction: TransactionMapping = {
   TableDetail,
   action: TransactionAction.CREATE,
   category: TransactionCategory.ACCOUNT,
-  parser,
 }
