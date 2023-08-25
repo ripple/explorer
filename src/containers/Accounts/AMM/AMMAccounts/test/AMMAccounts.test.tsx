@@ -9,12 +9,18 @@ import { AMMAccounts } from '../index'
 import { flushPromises, QuickHarness } from '../../../../test/utils'
 import { ACCOUNT_ROUTE } from '../../../../App/routes'
 
-function setSpy(accountTransactions: any, ammInfo: any) {
+function setSpy(accountInfo: any, getLedgerEntry: any, ammInfo: any) {
+  const spyAccountInfo = jest.spyOn(rippled, 'getAccountInfo')
+  const spyLedgerEntry = jest.spyOn(rippled, 'getLedgerEntry')
   const spyInfo = jest.spyOn(rippled, 'getAMMInfo')
-  const spyTransactions = jest.spyOn(rippled, 'getAccountTransactions')
-  spyTransactions.mockReturnValue(
+  spyAccountInfo.mockReturnValue(
     new Promise((resolve) => {
-      resolve(accountTransactions)
+      resolve(accountInfo)
+    }),
+  )
+  spyLedgerEntry.mockReturnValue(
+    new Promise((resolve) => {
+      resolve(getLedgerEntry)
     }),
   )
   spyInfo.mockReturnValue(
@@ -26,27 +32,100 @@ function setSpy(accountTransactions: any, ammInfo: any) {
 
 describe('AMM Account Page', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
-  const accountTransactions: any = {
-    transactions: [
-      {
-        tx: {
-          Amount: '10000000000',
-          Amount2: { currency: 'USD', amount: '100000', issuer: 'SOLO' },
-          TransactionType: 'AMMCreate',
+  const accountInfo: any = {
+    AMMID: '0017D8D412779284FDA6A63CEBEADD43BC2FEF37181C3C234ADAC9EFBB5FDB53',
+    Account: 'rJbt6ryq1TzikBuvVQDaxVLqL77eJeibsj',
+    Balance: '10000000',
+    Flags: 26214400,
+    LedgerEntryType: 'AccountRoot',
+    OwnerCount: 1,
+    PreviousTxnID:
+      '2A9F2B8D74CBECFF339BBD5CD9E42468984D3D8AA5D521B9610F31B014629DC2',
+    PreviousTxnLgrSeq: 58180,
+    Sequence: 58180,
+    index: '115CA30FD281E3265AA22F563B4ADE4BD15A6107F1E5105056F191882BE78FC4',
+  }
+
+  const ledgerEntry: any = {
+    index: '0017D8D412779284FDA6A63CEBEADD43BC2FEF37181C3C234ADAC9EFBB5FDB53',
+    ledger_hash:
+      '6C1914FF5966D2FD060B92B07A30A303369F28132DB5E8D73BED4FFC8A372EF2',
+    ledger_index: 285601,
+    node: {
+      Account: 'rJbt6ryq1TzikBuvVQDaxVLqL77eJeibsj',
+      Asset: {
+        currency: 'XRP',
+      },
+      Asset2: {
+        currency: 'USD',
+        issuer: 'rJd9Ti4TF2Mrn268LW7sSw8E16J4hYzMiD',
+      },
+      AuctionSlot: {
+        Account: 'rJd9Ti4TF2Mrn268LW7sSw8E16J4hYzMiD',
+        Expiration: 745719332,
+        Price: {
+          currency: '03930D02208264E2E40EC1B0C09E4DB96EE197B1',
+          issuer: 'rJbt6ryq1TzikBuvVQDaxVLqL77eJeibsj',
+          value: '0',
         },
       },
-    ],
+      Flags: 0,
+      LPTokenBalance: {
+        currency: '03930D02208264E2E40EC1B0C09E4DB96EE197B1',
+        issuer: 'rJbt6ryq1TzikBuvVQDaxVLqL77eJeibsj',
+        value: '10000',
+      },
+      LedgerEntryType: 'AMM',
+      VoteSlots: [
+        {
+          VoteEntry: {
+            Account: 'rJd9Ti4TF2Mrn268LW7sSw8E16J4hYzMiD',
+            VoteWeight: 100000,
+          },
+        },
+      ],
+      index: '0017D8D412779284FDA6A63CEBEADD43BC2FEF37181C3C234ADAC9EFBB5FDB53',
+    },
+    validated: true,
   }
 
   const ammInfo: any = {
     amm: {
-      amount: '10000000000',
-      amount2: { currency: 'USD', value: '100000' },
-      trading_fee: 10,
-      lp_token: {
-        value: '8989',
+      account: 'rJbt6ryq1TzikBuvVQDaxVLqL77eJeibsj',
+      amount: '10000000',
+      amount2: {
+        currency: 'USD',
+        issuer: 'rJd9Ti4TF2Mrn268LW7sSw8E16J4hYzMiD',
+        value: '10',
       },
+      asset2_frozen: false,
+      auction_slot: {
+        account: 'rJd9Ti4TF2Mrn268LW7sSw8E16J4hYzMiD',
+        discounted_fee: 0,
+        expiration: '2023-08-19T00:15:32+0000',
+        price: {
+          currency: '03930D02208264E2E40EC1B0C09E4DB96EE197B1',
+          issuer: 'rJbt6ryq1TzikBuvVQDaxVLqL77eJeibsj',
+          value: '0',
+        },
+        time_interval: 20,
+      },
+      lp_token: {
+        currency: '03930D02208264E2E40EC1B0C09E4DB96EE197B1',
+        issuer: 'rJbt6ryq1TzikBuvVQDaxVLqL77eJeibsj',
+        value: '10000',
+      },
+      trading_fee: 0,
+      vote_slots: [
+        {
+          account: 'rJd9Ti4TF2Mrn268LW7sSw8E16J4hYzMiD',
+          trading_fee: 0,
+          vote_weight: 100000,
+        },
+      ],
     },
+    ledger_current_index: 285641,
+    validated: false,
   }
 
   const createWrapper = () =>
@@ -59,8 +138,8 @@ describe('AMM Account Page', () => {
       </QuickHarness>,
     )
 
-  it('renders AMM account page when TVL not present', async () => {
-    setSpy(accountTransactions, ammInfo)
+  it('renders AMM account page', async () => {
+    setSpy(accountInfo, ledgerEntry, ammInfo)
 
     const wrapper = createWrapper()
     await flushPromises()
@@ -71,7 +150,7 @@ describe('AMM Account Page', () => {
   })
 
   it('shows error when amm info data is formatted incorrectly', async () => {
-    setSpy(accountTransactions, 'ammInfo')
+    setSpy(accountInfo, ledgerEntry, 'ammInfo')
 
     const wrapper = await createWrapper()
     await flushPromises()
@@ -82,12 +161,13 @@ describe('AMM Account Page', () => {
     wrapper.unmount()
   })
 
-  it('shows error when account transactions data is formatted incorrectly', async () => {
-    const accTransBad: any = {
-      transactions: [],
+  it('shows error when account_info has no AMMID', async () => {
+    const badAccountInfo: any = {
+      ...accountInfo,
     }
+    delete badAccountInfo.AMMID
 
-    setSpy(accTransBad, ammInfo)
+    setSpy(badAccountInfo, ledgerEntry, ammInfo)
 
     const wrapper = createWrapper()
     await flushPromises()
