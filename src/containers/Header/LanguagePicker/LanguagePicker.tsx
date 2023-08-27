@@ -7,7 +7,7 @@ import { supportedLanguages } from '../../../i18n/baseConfig'
 export const LanguagePicker = () => {
   const { i18n } = useTranslation()
   const currentLanguage = useLanguage();
-  let lang;
+  let lang:String;
   if(currentLanguage=='en-US'){
     lang  = "English";
   }else if(currentLanguage =='ja-JP'){
