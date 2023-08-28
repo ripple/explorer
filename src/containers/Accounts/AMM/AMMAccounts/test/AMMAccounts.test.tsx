@@ -165,9 +165,30 @@ describe('AMM Account Page', () => {
     const badAccountInfo: any = {
       ...accountInfo,
     }
+
     delete badAccountInfo.AMMID
 
-    setSpy(badAccountInfo, ledgerEntry, ammInfo)
+    const badLedgerEntry = {
+      error: 'invalidParams',
+      error_code: 31,
+      error_message: 'indexMalformed',
+      status: 'error',
+      type: 'response',
+      request: {
+        command: 'ledger_entry',
+        index: '',
+        ledger_index: 'validated',
+      },
+      warnings: [
+        {
+          id: 2001,
+          message:
+            "This is a clio server. clio only serves validated data. If you want to talk to rippled, include 'ledger_index':'current' in your request",
+        },
+      ],
+    }
+
+    setSpy(badAccountInfo, badLedgerEntry, ammInfo)
 
     const wrapper = createWrapper()
     await flushPromises()
