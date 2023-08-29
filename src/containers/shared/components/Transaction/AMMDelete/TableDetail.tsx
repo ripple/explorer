@@ -1,28 +1,23 @@
 import { useTranslation } from 'react-i18next'
+import { type AMMDelete } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
-import { PaymentChannelCreateInstructions } from './types'
-import { Amount } from '../../Amount'
-import { Account } from '../../Account'
+import Currency from '../../Currency'
 
 export const TableDetail = ({
   instructions,
-}: TransactionTableDetailProps<PaymentChannelCreateInstructions>) => {
+}: TransactionTableDetailProps<AMMDelete>) => {
   const { t } = useTranslation()
-  const { amount, source, destination } = instructions
+  const { Asset, Asset2 } = instructions
 
   return (
-    <div className="paymentChannelCreate">
-      <div data-test="source">
-        <span className="label">{t('source')}</span>
-        <Account account={source} />
+    <div className="ammDelete">
+      <div data-test="asset">
+        <span className="label">{t('asset')}</span>
+        <Currency currency={Asset.currency} issuer={(Asset as any).issuer} />
       </div>
-      <div data-test="destination">
-        <span className="label">{t('destination')}</span>
-        <Account account={destination} />
-      </div>
-      <div data-test="amount">
-        <span className="label">{t('channel_amount')}</span>
-        <Amount value={amount} />
+      <div data-test="asset2">
+        <span className="label">{t('asset2')}</span>
+        <Currency currency={Asset2.currency} issuer={(Asset2 as any).issuer} />
       </div>
     </div>
   )
