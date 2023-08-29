@@ -1,39 +1,34 @@
 import { Trans } from 'react-i18next'
+import { type AMMDelete } from 'xrpl'
 import { TransactionDescriptionProps } from '../types'
-import { Amount } from '../../Amount'
+import { formatCurrencyString } from '../../Currency'
 
 export const Description = ({
   data,
 }: TransactionDescriptionProps<AMMDelete>) => {
   const { Asset, Asset2 } = data.tx
-  // TODO:
 
   return (
-    <>
-      <div data-test="fees-line">
-        <Trans
-          i18nKey="setfee_fees_description"
-          components={{
-            amount: <Amount value={fee} />,
-          }}
-        />
-      </div>
-      <div data-test="reserves-line">
-        <Trans
-          i18nKey="setfee_reserves_description"
-          components={{
-            base: <Amount value={reserve} />,
-            increment: <Amount value={increment} />,
-          }}
-        />
-      </div>
+    <div data-test="amm-delete-description">
+      <Trans
+        i18nKey="amm_delete_description"
+        components={{
+          Asset: formatCurrencyString(
+            Asset.currency,
+            false,
+            (Asset as any).issuer,
+            false,
+          ),
+          Asset2: formatCurrencyString(
+            Asset2.currency,
+            false,
+            (Asset2 as any).issuer,
+            false,
+          ),
+        }}
+      />
       <br />
-      <div data-test="documentation-line">
-        <Trans
-          i18nKey="setfee_docs_description"
-          components={[<a href="https://xrpl.org/fees.html">Fees</a>]}
-        />
-      </div>
-    </>
+      <Trans i18nKey="amm_delete_description_caveat" />
+    </div>
   )
 }

@@ -25,6 +25,32 @@ const Currency = (props: Props) => {
     shortenIssuer = false,
     displaySymbol = true,
   } = props
+
+  const display = formatCurrencyString(
+    currency,
+    displaySymbol,
+    issuer,
+    shortenIssuer,
+  )
+
+  const content =
+    link && issuer ? (
+      <RouteLink to={TOKEN_ROUTE} params={{ token: `${currency}.${issuer}` }}>
+        {display}
+      </RouteLink>
+    ) : (
+      display
+    )
+
+  return <span className="currency">{content}</span>
+}
+
+export function formatCurrencyString(
+  currency: string,
+  displaySymbol: boolean,
+  issuer: string | undefined,
+  shortenIssuer: boolean,
+) {
   const LPTokenIdentifier = '03'
   const currencyCode =
     currency?.length === NON_STANDARD_CODE_LENGTH &&
@@ -42,17 +68,7 @@ const Currency = (props: Props) => {
     display += '.'
     display += shortenIssuer ? issuer.substring(0, 4) : issuer
   }
-
-  const content =
-    link && issuer ? (
-      <RouteLink to={TOKEN_ROUTE} params={{ token: `${currency}.${issuer}` }}>
-        {display}
-      </RouteLink>
-    ) : (
-      display
-    )
-
-  return <span className="currency">{content}</span>
+  return display
 }
 
 export const hexToString = (hex: string) => {
