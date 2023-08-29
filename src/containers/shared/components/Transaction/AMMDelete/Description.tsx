@@ -1,7 +1,7 @@
 import { Trans } from 'react-i18next'
 import { type AMMDelete } from 'xrpl'
 import { TransactionDescriptionProps } from '../types'
-import { formatCurrencyString } from '../../Currency'
+import Currency from '../../Currency'
 
 export const Description = ({
   data,
@@ -13,17 +13,17 @@ export const Description = ({
       <Trans
         i18nKey="amm_delete_description"
         components={{
-          Asset: formatCurrencyString(
-            Asset.currency,
-            false,
-            (Asset as any).issuer,
-            false,
+          Asset: (
+            <Currency
+              currency={Asset.currency}
+              issuer={(Asset as any).issuer}
+            />
           ),
-          Asset2: formatCurrencyString(
-            Asset2.currency,
-            false,
-            (Asset2 as any).issuer,
-            false,
+          Asset2: (
+            <Currency
+              currency={Asset2.currency}
+              issuer={(Asset2 as any).issuer}
+            />
           ),
         }}
       />

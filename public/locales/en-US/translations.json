@@ -122,7 +122,7 @@
   "the_channel_amount_is": "The channel amount is",
   "update_payment_channel": "It will update the payment channel",
   "the_channel_balance_is": "The channel balance claimed is",
-  "amm_delete_description": "Attempted to delete the AMM for {{Asset}} and {{Asset2}}.",
+  "amm_delete_description": "Attempted to delete the AMM for <Asset/> and <Asset2/>.",
   "amm_delete_description_caveat": "If there were more than 512 trustlines, this only removes 512 trustlines instead.",
   "payment_channel_closed_description": "The payment channel will be closed, any remaining balance will be returned to the source account",
   "set_signer_list_description": "It sets the minimum signer quorum at {{quorum}} with the following list of signers",
