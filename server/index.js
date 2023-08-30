@@ -1,9 +1,9 @@
 require('dotenv').config()
 
+const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const compression = require('compression')
-const path = require('path')
 const routes = require('./routes/v1')
 
 const log = require('./lib/logger')({ name: 'server' })
