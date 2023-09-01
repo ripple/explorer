@@ -160,7 +160,7 @@ export const Validator = () => {
   }
 
   function renderTabs() {
-    const tabs = ['details', 'history']
+    const tabs = ['details', 'history', 'voting']
     const mainPath = buildPath(VALIDATOR_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
