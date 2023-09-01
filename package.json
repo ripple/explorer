@@ -91,7 +91,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest-enzyme": "^7.1.0",
-    "jest-websocket-mock": "^2.4.0",
+    "jest-websocket-mock": "^2.4.1",
     "lint-staged": "^13.2.0",
     "mock-socket": "^9.1.5",
     "moxios": "^0.4.0",
