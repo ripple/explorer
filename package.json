@@ -77,7 +77,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "^5.59.9",
     "babel-jest": "^29.3.1",
-    "canvas": "^2.11.0",
+    "canvas": "^2.11.2",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
     "eslint": "^8.0.0",
