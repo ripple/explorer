@@ -19,7 +19,7 @@ export const Description = ({
             <Currency
               currency={Asset2.currency}
               // @ts-expect-error -- Fixed by https://github.com/XRPLF/xrpl.js/pull/2451
-              issuer={Asset.issuer}
+              issuer={Asset2.issuer}
             />
           ),
         }}

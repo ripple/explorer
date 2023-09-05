@@ -9,9 +9,14 @@ describe('AMMDelete: Description', () => {
   it('renders description for AMMDelete transaction', () => {
     const wrapper = createWrapper(mockAMMDelete)
 
-    expect(wrapper.html()).toBe(
-      '<div data-test="amm-delete-description">Attempted to delete the AMM for <span class="currency">\uE900 XRP</span> and <span class="currency"><a class="" href="/token/FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9">FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9</a></span>.<br>If there were more than 512 trustlines, this only removes 512 trustlines instead.</div>',
+    expect(wrapper.find('[data-test="amm-delete-description"]')).toHaveText(
+      'Attempted to delete the AMM for \uE900 XRP and FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9.If there were more than 512 trustlines, this only removes 512 trustlines instead.',
     )
+    expect(wrapper.find('a')).toHaveProp(
+      'href',
+      '/token/FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9',
+    )
+
     wrapper.unmount()
   })
 })
