@@ -75,10 +75,10 @@ const getLedger = (rippledSocket, parameters) => {
 }
 
 // get ledger_entry
-const getLedgerEntry = (rippledSocket, parameters) => {
+const getLedgerEntry = (rippledSocket, { index }) => {
   const request = {
     command: 'ledger_entry',
-    ...parameters,
+    index,
     ledger_index: 'validated',
   }
 
@@ -343,7 +343,6 @@ const getAccountTransactions = (
   account,
   limit = 20,
   marker = '',
-  reverseOrder = false,
 ) => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
@@ -352,7 +351,6 @@ const getAccountTransactions = (
     command: 'account_tx',
     account,
     limit,
-    forward: reverseOrder,
     ledger_index_max: -1,
     ledger_index_min: -1,
     marker: marker
