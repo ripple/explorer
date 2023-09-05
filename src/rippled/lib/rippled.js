@@ -75,10 +75,10 @@ const getLedger = (rippledSocket, parameters) => {
 }
 
 // get ledger_entry
-const getLedgerEntry = (rippledSocket, parameters) => {
+const getLedgerEntry = (rippledSocket, { index }) => {
   const request = {
     command: 'ledger_entry',
-    ...parameters,
+    index,
     ledger_index: 'validated',
   }
 
