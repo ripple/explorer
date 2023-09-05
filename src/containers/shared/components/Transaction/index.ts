@@ -1,5 +1,6 @@
 import { AMMCreate } from './AMMCreate'
 import { AMMDeposit } from './AMMDeposit'
+import { AMMDeleteTransaction as AMMDelete } from './AMMDelete'
 import { AMMWithdraw } from './AMMWithdraw'
 import { AMMBid } from './AMMBid'
 import { AMMVote } from './AMMVote'
@@ -81,6 +82,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AMMDeposit,
   AMMBid,
   AMMVote,
+  AMMDelete,
   TrustSet,
   UNLModify,
   Clawback,
