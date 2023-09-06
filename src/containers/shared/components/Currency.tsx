@@ -25,6 +25,7 @@ const Currency = (props: Props) => {
     shortenIssuer = false,
     displaySymbol = true,
   } = props
+
   const LPTokenIdentifier = '03'
   const currencyCode =
     currency?.length === NON_STANDARD_CODE_LENGTH &&

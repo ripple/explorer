@@ -8,6 +8,7 @@ export interface IssuedCurrency {
 
 export interface XRP {
   currency: 'XRP'
+  issuer: never
 }
 
 export type Currency = IssuedCurrency | XRP
