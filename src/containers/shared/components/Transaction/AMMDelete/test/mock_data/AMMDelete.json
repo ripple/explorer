@@ -1,0 +1,48 @@
+{
+  "tx": {
+    "Account": "rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9",
+    "Asset": {
+      "currency": "XRP"
+    },
+    "Asset2": {
+      "currency": "FOO",
+      "issuer": "rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9"
+    },
+    "Fee": "12",
+    "Flags": 0,
+    "LastLedgerSequence": 372572,
+    "Sequence": 372548,
+    "SigningPubKey": "ED6784394D134E202BCCD957A1A3C5A66647092F3929D388A878A16D1910875435",
+    "TransactionType": "AMMDelete",
+    "TxnSignature": "F9AA459D8CE593E6E2E69BB6A6F723A4822FD5F40314F642FA9EC5187F7FD937FBD3E8A214119D04C74358A3478DCB6EAABE02EFAC1E6E125E15310E18A36D0D",
+    "date": 1693268101000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9",
+            "Balance": "9997998976",
+            "Flags": 8388608,
+            "OwnerCount": 1,
+            "Sequence": 372549
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "84CA74ECFDB34F014142013B4CD2FBE3942C7BA9BA7E1FC5A1CB1EF719173812",
+          "PreviousFields": {
+            "Balance": "9997998988",
+            "Sequence": 372548
+          },
+          "PreviousTxnID": "E5051DA09F143A719521D6ABBB3856EA3E2CA38EF1CFF0E7DF9FE1C31DD73B6D",
+          "PreviousTxnLgrSeq": 372552
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tecAMM_NOT_EMPTY"
+  },
+  "hash": "D159883D456646562F51F3E5A2754F7D880D39A6372EDF679A43A7DDB77F735C",
+  "ledger_index": 372554,
+  "date": 1693268101000
+}

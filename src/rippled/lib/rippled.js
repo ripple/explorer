@@ -74,6 +74,70 @@ const getLedger = (rippledSocket, parameters) => {
   })
 }
 
+// get ledger_entry
+const getLedgerEntry = (rippledSocket, { index }) => {
+  const request = {
+    command: 'ledger_entry',
+    index,
+    ledger_index: 'validated',
+  }
+
+  return query(rippledSocket, request).then((resp) => {
+    if (resp.error_message === 'entryNotFound') {
+      throw new Error('ledger entry not found', 404)
+    }
+
+    if (resp.error_message === 'invalidParams') {
+      throw new Error('invalidParams for ledger_entry', 404)
+    }
+
+    if (resp.error_message === 'lgrNotFound') {
+      throw new Error('invalid ledger index/hash', 400)
+    }
+
+    if (resp.error_message === 'malformedAddress') {
+      throw new Error(
+        'The ledger_entry request improperly specified an Address field.',
+        404,
+      )
+    }
+
+    if (resp.error_message === 'malformedCurrency') {
+      throw new Error(
+        'The ledger_entry request improperly specified a Currency Code field.',
+        404,
+      )
+    }
+
+    if (resp.error_message === 'malformedOwner') {
+      throw new Error(
+        'The ledger_entry request improperly specified the escrow.owner sub-field.',
+        404,
+      )
+    }
+
+    if (resp.error_message === 'malformedRequest') {
+      throw new Error(
+        'The ledger_entry request provided an invalid combination of fields, or provided the wrong type for one or more fields.',
+        404,
+      )
+    }
+
+    if (resp.error_message === 'unknownOption') {
+      throw new Error(
+        'The fields provided in the ledger_entry request did not match any of the expected request formats.',
+        404,
+      )
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
+  })
+}
+
 // get transaction
 const getTransaction = (rippledSocket, txHash) => {
   const params = {
@@ -279,7 +343,6 @@ const getAccountTransactions = (
   account,
   limit = 20,
   marker = '',
-  reverseOrder = false,
 ) => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
@@ -288,7 +351,6 @@ const getAccountTransactions = (
     command: 'account_tx',
     account,
     limit,
-    forward: reverseOrder,
     ledger_index_max: -1,
     ledger_index_min: -1,
     marker: marker
@@ -481,6 +543,7 @@ const getAMMInfo = (rippledSocket, asset, asset2) => {
 
 export {
   getLedger,
+  getLedgerEntry,
   getTransaction,
   getAccountInfo,
   getAccountEscrows,

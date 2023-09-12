@@ -19,7 +19,6 @@ export const ACCOUNT_FLAGS = {
   0x08000000: 'lsfDisallowIncomingCheck',
   0x10000000: 'lsfDisallowIncomingPayChan',
   0x20000000: 'lsfDisallowIncomingTrustline',
-  0x40000000: 'lsfAMM',
   0x80000000: 'lsfAllowTrustLineClawback',
 }
 const NFT_FLAGS = {
