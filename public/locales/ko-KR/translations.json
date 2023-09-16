@@ -455,6 +455,7 @@
   "language_en-US": "영어",
   "language_ja-JP": "일본어",
   "language_ko-KR": "한국어",
+  "language_es-ES": "null",
   "xchain_account_claim_count": "XChain 계정 요구 수",
   "xchain_account_create_count": "XChain 계정 생성 수",
   "min_signer_quorum": "최소 가중치 <0>{{quorum}}</0>가 필요합니다",
