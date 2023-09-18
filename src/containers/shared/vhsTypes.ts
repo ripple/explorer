@@ -88,6 +88,10 @@ export interface ValidatorSupplemented extends ValidatorResponse {
   ledger_hash: string
   // eslint-disable-next-line camelcase -- mimicking rippled
   last_ledger_time: string
+  amendments: Array<{ id: string; name: string }>
+  base_fee: number
+  reserve_base: number
+  reserve_inc: number
 }
 
 export interface StreamValidator extends ValidatorResponse {

@@ -19,7 +19,7 @@ const DEFAULTS = {
   nUnl: [],
 }
 
-const renderXRP = (d, language) => {
+export const renderXRP = (d, language) => {
   const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
   return localizeNumber(d, language, options)
 }
