@@ -14,6 +14,8 @@ import {
   SERVER_ERROR,
 } from '../shared/utils'
 import { useAnalytics } from '../shared/analytics'
+import { RouteLink } from '../shared/routing'
+import { AMENDMENT_ROUTE } from '../App/routes'
 
 const DROPS_TO_XRP_FACTOR = 1000000
 
@@ -64,9 +66,9 @@ export const VotingTab: FC<{
   }
 
   const renderAmendment = (id: string, name: string, voted: boolean) => (
-    <div className="row-amendment">
+    <div className="rows">
       <SimpleRow label={t('amendment_name')} className="amendment-name">
-        {name}
+        <RouteLink to={AMENDMENT_ROUTE}>{name}</RouteLink>
       </SimpleRow>
       <SimpleRow label={t('amendment_id')}>{id}</SimpleRow>
       {voted ? (
@@ -101,23 +103,21 @@ export const VotingTab: FC<{
           </div>
         </div>
       </div>
-      <div className="amendment-label">Amendments</div>
+      <div className="amendment-label">{t('amendments')}</div>
       <div className="voting-amendment">
-        <div className="rows">
-          {data !== undefined && data.length > 0 ? (
-            data.map((amendment) => {
-              let voted = false
-              if (votedAmenments.has(amendment.id)) {
-                voted = true
-              }
-              return renderAmendment(amendment.id, amendment.name, voted)
-            })
-          ) : (
-            <div className="no-match no-match-amendments">
-              <div className="hint">{t('no_amendment_in_voting')}</div>
-            </div>
-          )}
-        </div>
+        {data !== undefined && data.length > 0 ? (
+          data.map((amendment) => {
+            let voted = false
+            if (votedAmenments.has(amendment.id)) {
+              voted = true
+            }
+            return renderAmendment(amendment.id, amendment.name, voted)
+          })
+        ) : (
+          <div className="no-match no-match-amendments">
+            <div className="hint">{t('no_amendment_in_voting')}</div>
+          </div>
+        )}
       </div>
     </div>
   )
