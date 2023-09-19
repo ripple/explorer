@@ -13,7 +13,7 @@ import NoMatch from '../NoMatch'
 import { Accounts } from './index'
 import { ERROR_MESSAGES } from './Errors'
 import { Loader } from '../shared/components/Loader'
-import { ACCOUNT_FLAGS, Error } from '../../rippled/lib/utils'
+import { Error } from '../../rippled/lib/utils'
 import { BAD_REQUEST } from '../shared/utils'
 
 const getErrorMessage = (error: any) =>
@@ -31,10 +31,6 @@ function renderError(error: any) {
 export const AccountsRouter = () => {
   const { id: accountId = '' } = useParams<{ id: string }>()
   const rippledSocket = useContext(SocketContext)
-  const flags: any = Object.entries(ACCOUNT_FLAGS).reduce(
-    (all, [key, value]) => ({ ...all, [value]: key }),
-    {},
-  )
 
   const { data: comp, error } = useQuery([accountId], () => {
     let classicAddress = accountId
@@ -49,7 +45,7 @@ export const AccountsRouter = () => {
     return (
       getAccountInfo(rippledSocket, classicAddress)
         .then((data: any) => {
-          if (data.Flags & flags.lsfAMM) {
+          if (data.AMMID) {
             return <AMMAccounts />
           }
           return <Accounts />
