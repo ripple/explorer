@@ -66,13 +66,8 @@
     }
   }
 
-  .pill {
-    align-items: center;
-    justify-content: center;
-    padding: 2px 12px;
-    border-radius: 30px;
+  .badge{
     color: $black-100;
-    font-weight: 700;
 
     &.yea {
       background-color: $green-60;
@@ -81,7 +76,7 @@
     &.nay {
       background-color: $black-30;
     }
-  }
+}
 
   .no-match {
     &.no-match-amendments {

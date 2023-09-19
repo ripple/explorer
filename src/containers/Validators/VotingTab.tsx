@@ -70,11 +70,11 @@ export const VotingTab: FC<{
       </SimpleRow>
       <SimpleRow label={t('amendment_id')}>{id}</SimpleRow>
       {voted ? (
-        <SimpleRow label={t('vote')} className="pill yea">
+        <SimpleRow label={t('vote')} className="badge yea">
           Yea
         </SimpleRow>
       ) : (
-        <SimpleRow label={t('vote')} className="pill nay">
+        <SimpleRow label={t('vote')} className="badge nay">
           Nay
         </SimpleRow>
       )}
