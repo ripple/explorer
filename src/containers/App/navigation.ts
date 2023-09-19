@@ -1,6 +1,11 @@
 import { buildPath } from '../shared/routing'
 import { NavigationMenuAnyRoute } from '../Header/NavigationMenu'
-import { LEDGERS_ROUTE, NETWORK_ROUTE, VALIDATOR_ROUTE } from './routes'
+import {
+  AMENDMENTS_ROUTE,
+  LEDGERS_ROUTE,
+  NETWORK_ROUTE,
+  VALIDATOR_ROUTE,
+} from './routes'
 
 const isNetwork = (path) =>
   path.indexOf(buildPath(NETWORK_ROUTE, {})) === 0 ||
@@ -12,11 +17,14 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
     route: LEDGERS_ROUTE,
     title: 'explorer',
     current: (path: string) => !isNetwork(path),
-  },
-  {
-    route: NETWORK_ROUTE,
-    title: 'network',
-    current: (path: string) => isNetwork(path),
+    children: [
+      {
+        route: NETWORK_ROUTE,
+        title: 'network',
+        current: (path: string) => isNetwork(path),
+      },
+      { route: AMENDMENTS_ROUTE, title: 'amendments' },
+    ],
   },
   {
     link: 'https://xrpl.org',
