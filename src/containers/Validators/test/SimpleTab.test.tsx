@@ -48,6 +48,10 @@ describe('SimpleTab container', () => {
                 incomplete: true,
               },
               domain: 'digifin.uk',
+              base_fee: 10,
+              reserve_base: 10000000,
+              reserve_inc: 2000000,
+              amendments: [],
             }}
             width={width}
           />
