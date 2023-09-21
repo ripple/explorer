@@ -49,16 +49,8 @@
       font-weight: 100;
     }
 
-    .value {
-      overflow-x: scroll;
-      scrollbar-width: none;
-      text-align: end;
-
-      &::-webkit-scrollbar {
-        /* WebKit */
-        width: 0;
-        height: 0;
-      }
+    .text-truncate {
+      @extend %truncate;
     }
   }
 

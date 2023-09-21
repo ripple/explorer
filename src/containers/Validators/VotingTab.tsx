@@ -64,7 +64,9 @@ export const VotingTab: FC<{
         Commented out until the Amendment Summary page is created. */}
         {name}
       </SimpleRow>
-      <SimpleRow label={t('amendment_id')}>{id}</SimpleRow>
+      <SimpleRow label={t('amendment_id')} className="text-truncate">
+        {id}
+      </SimpleRow>
       {voted ? (
         <SimpleRow label={t('vote')} className="badge yea">
           Yea
