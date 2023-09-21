@@ -5,8 +5,6 @@ import { useQuery } from 'react-query'
 
 import { ValidatorSupplemented } from '../shared/vhsTypes'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
-
-import './votingTab.scss'
 import {
   FETCH_INTERVAL_ERROR_MILLIS,
   FETCH_INTERVAL_VHS_MILLIS,
@@ -15,6 +13,8 @@ import {
 } from '../shared/utils'
 import { useAnalytics } from '../shared/analytics'
 import { XRP_BASE } from '../shared/transactionUtils'
+
+import './votingTab.scss'
 
 export const VotingTab: FC<{
   validatorData: ValidatorSupplemented
@@ -87,11 +87,11 @@ export const VotingTab: FC<{
           <div>{renderXRP(validatorData.base_fee / XRP_BASE)}</div>
         </div>
         <div className="cell">
-          <div className="label">{t('reserve_base')}</div>
+          <div className="label">{t('account_reserve')}</div>
           <div>{renderXRP(validatorData.reserve_base / XRP_BASE)}</div>
         </div>
         <div className="cell">
-          <div className="label">{t('reserve_inc')}</div>
+          <div className="label">{t('object_reserve')}</div>
           <div>{renderXRP(validatorData.reserve_inc / XRP_BASE)}</div>
         </div>
       </div>
