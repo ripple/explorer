@@ -98,3 +98,15 @@ export interface StreamValidator extends ValidatorResponse {
   pubkey?: string
   time?: string
 }
+
+export interface AmendmentsList {
+  version: string
+  id: string
+  name: string
+  voters: string | null
+  threshold: string | null
+  consensus: string | null
+  enabled: boolean
+  deprecated: boolean
+  on_tx: string | null
+}

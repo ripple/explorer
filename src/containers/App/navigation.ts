@@ -23,7 +23,11 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
         title: 'network',
         current: (path: string) => isNetwork(path),
       },
-      { route: AMENDMENTS_ROUTE, title: 'amendments' },
+      {
+        route: AMENDMENTS_ROUTE,
+        title: 'amendments',
+        current: (path: string) => isNetwork(path),
+      },
     ],
   },
   {
