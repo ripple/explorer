@@ -2,8 +2,7 @@ import { withTranslation } from 'react-i18next'
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from '../shared/components/Tooltip'
-import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
-import { localizeNumber } from '../shared/utils'
+import { renderXRP } from '../shared/utils'
 import PauseIcon from '../shared/images/ic_pause.svg'
 import ResumeIcon from '../shared/images/ic_play.svg'
 import './css/ledgerMetrics.scss'
@@ -17,11 +16,6 @@ const DEFAULTS = {
   avg_fee: '--',
   quorum: '--',
   nUnl: [],
-}
-
-export const renderXRP = (d, language) => {
-  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
-  return localizeNumber(d, language, options)
 }
 
 class LedgerMetrics extends Component {

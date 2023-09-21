@@ -7,17 +7,14 @@ import { ValidatorSupplemented } from '../shared/vhsTypes'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 
 import './votingTab.scss'
-import { renderXRP } from '../Ledgers/LedgerMetrics'
 import {
   FETCH_INTERVAL_ERROR_MILLIS,
   FETCH_INTERVAL_VHS_MILLIS,
   SERVER_ERROR,
+  renderXRP,
 } from '../shared/utils'
 import { useAnalytics } from '../shared/analytics'
-import { RouteLink } from '../shared/routing'
-import { AMENDMENT_ROUTE } from '../App/routes'
-
-const DROPS_TO_XRP_FACTOR = 1000000
+import { XRP_BASE } from '../shared/transactionUtils'
 
 export const VotingTab: FC<{
   validatorData: ValidatorSupplemented
@@ -26,7 +23,7 @@ export const VotingTab: FC<{
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
 
-  const votedAmenments = new Set(
+  const votedAmendments = new Set(
     validatorData.amendments
       ? validatorData.amendments.map((amendment) => amendment.id)
       : [],
@@ -49,12 +46,7 @@ export const VotingTab: FC<{
     return axios
       .get(url)
       .then((resp) => resp.data)
-      .then((response) =>
-        response.amendments.voting.amendments.map((amendment) => ({
-          id: amendment.id,
-          name: amendment.name,
-        })),
-      )
+      .then((response) => response.amendments.voting.amendments)
       .catch((axiosError) => {
         const status =
           axiosError.response && axiosError.response.status
@@ -68,7 +60,9 @@ export const VotingTab: FC<{
   const renderAmendment = (id: string, name: string, voted: boolean) => (
     <div className="rows">
       <SimpleRow label={t('amendment_name')} className="amendment-name">
-        <RouteLink to={AMENDMENT_ROUTE}>{name}</RouteLink>
+        {/* <RouteLink to={AMENDMENT_ROUTE}>{name}</RouteLink>
+        Commented out until the Amendment Summary page is created. */}
+        {name}
       </SimpleRow>
       <SimpleRow label={t('amendment_id')}>{id}</SimpleRow>
       {voted ? (
@@ -88,29 +82,22 @@ export const VotingTab: FC<{
       <div className="metrics metrics-voting">
         <div className="cell">
           <div className="label">{t('base_fee')}</div>
-          <div>{renderXRP(validatorData.base_fee / DROPS_TO_XRP_FACTOR)}</div>
+          <div>{renderXRP(validatorData.base_fee / XRP_BASE)}</div>
         </div>
         <div className="cell">
           <div className="label">{t('reserve_base')}</div>
-          <div>
-            {renderXRP(validatorData.reserve_base / DROPS_TO_XRP_FACTOR)}
-          </div>
+          <div>{renderXRP(validatorData.reserve_base / XRP_BASE)}</div>
         </div>
         <div className="cell">
           <div className="label">{t('reserve_inc')}</div>
-          <div>
-            {renderXRP(validatorData.reserve_inc / DROPS_TO_XRP_FACTOR)}
-          </div>
+          <div>{renderXRP(validatorData.reserve_inc / XRP_BASE)}</div>
         </div>
       </div>
       <div className="amendment-label">{t('amendments')}</div>
       <div className="voting-amendment">
         {data !== undefined && data.length > 0 ? (
           data.map((amendment) => {
-            let voted = false
-            if (votedAmenments.has(amendment.id)) {
-              voted = true
-            }
+            const voted = votedAmendments.has(amendment.id)
             return renderAmendment(amendment.id, amendment.name, voted)
           })
         ) : (

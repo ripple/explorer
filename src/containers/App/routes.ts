@@ -56,8 +56,3 @@ export const VALIDATOR_ROUTE: RouteDefinition<{
 }> = {
   path: `/validators/:identifier/:tab?`,
 }
-
-// TODO: Modify when the amendment summary page is ready.
-export const AMENDMENT_ROUTE: RouteDefinition = {
-  path: `/#`,
-}
