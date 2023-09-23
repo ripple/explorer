@@ -106,7 +106,7 @@ const getAccountState = (account, rippledSocket) => {
         info: formatAccountInfo(info, data[3].info.validated_ledger),
         balances: data[0].balances,
         tokens: data[0].tokens,
-        signerList: info.signer_lists[0]
+        signerList: info.signer_lists?.[0]
           ? formatSignerList(info.signer_lists[0])
           : undefined,
         escrows: data[1],
