@@ -24,7 +24,8 @@ const formatPaychannel = (d) => ({
 })
 
 const executeQuery = async (rippledSocket, params) =>
-  rippledSocket.send(params).catch((error) => {
+  // `clio` defaults the `api_version` to `2` and `rippled` to `1`.
+  rippledSocket.send({ ...params, api_version: 1 }).catch((error) => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
