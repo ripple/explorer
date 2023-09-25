@@ -1,0 +1,136 @@
+@import '../shared/css/variables';
+@import '../shared/css/table';
+
+.amendments-page{
+  .summary {
+    padding: 0 16px;
+    margin-top: 100px;
+
+    @include for-size(tablet-portrait-up) {
+      padding: 0;
+    }
+
+    .type {
+      display: inline-block;
+      padding-bottom: 24px;
+      color: $white;
+      font-size: 32px;
+
+      @include for-size(tablet-portrait-up) {
+        font-size: 42px;
+      }
+
+      @include bold;
+    }
+  }
+
+  .wrap {
+    overflow: auto;
+    width: 100%;
+    max-width: 1500px;
+    min-height: 150px;
+    margin: auto;
+  }
+}
+
+.amendments-table {
+  position: relative;
+
+  table {
+    .name {
+      max-width: 120px;
+
+      @include for-size(tablet-portrait-up) {
+        max-width: 180px;
+      }
+
+      @include for-size(desktop-up) {
+        max-width: 280px;
+      }
+    }
+
+    .amendment-id {
+      display: none;
+      max-width: 80px;
+
+      @include for-size(desktop-up) {
+        display: table-cell;
+      }
+    }
+
+    .name-deprecated {
+      display: flex;
+      overflow: hidden;
+      align-items: center;
+      gap: 6px;
+
+      @include for-size(tablet-portrait-up) {
+        gap: 12px;
+      }
+
+      .name-text {
+        overflow: hidden;
+        max-width: fit-content;
+        flex: 1;
+        text-overflow: ellipsis;
+      }
+
+      .deprecated {
+        overflow: hidden;
+        max-width: 60%;
+        font-size: 12px;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+
+        &.badge {
+          border: 1px solid $black-30;
+          background-color: $black-80;
+          color: $black-30;
+        }
+      }
+    }
+
+    .version, .enabled, .consensus {
+      max-width: 70px;
+      overflow-wrap: break-word;
+      @include for-size(tablet-portrait-up) {
+        max-width: 100px;
+      }
+    }
+  }
+
+  .badge {
+    margin: 0;
+    color: $black-100;
+
+    &.yes {
+      background-color: $green-60;
+    }
+
+    &.no {
+      background-color: $black-30;
+    }
+  }
+
+  .voting {
+    color: $yellow-50;
+  }
+
+  .voters,
+  .threshold {
+    display: none;
+    max-width: 70px;
+
+    @include for-size(desktop-up) {
+      display: table-cell;
+    }
+  }
+
+  .count {
+    display: none;
+
+    @include for-size(tablet-portrait-up) {
+      display: table-cell;
+    }
+  }
+}

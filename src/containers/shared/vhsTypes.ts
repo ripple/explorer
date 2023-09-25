@@ -103,10 +103,11 @@ export interface AmendmentsList {
   version: string
   id: string
   name: string
-  voters: string | null
-  threshold: string | null
-  consensus: string | null
+  voters: string
+  threshold: string
+  consensus: string
   enabled: boolean
   deprecated: boolean
   on_tx: string | null
+  tx_hash?: string
 }
