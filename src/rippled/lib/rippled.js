@@ -24,7 +24,7 @@ const formatPaychannel = (d) => ({
 })
 
 const executeQuery = async (rippledSocket, params) =>
-  rippledSocket.send(params).catch((error) => {
+  rippledSocket.send({ ...params, api_version: 1 }).catch((error) => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
