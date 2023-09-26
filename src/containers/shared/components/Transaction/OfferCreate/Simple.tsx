@@ -2,18 +2,32 @@ import { useTranslation } from 'react-i18next'
 import { Amount } from '../../Amount'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
+import Currency from '../../Currency'
 
 const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation()
   const { data } = props
-  const { price, pair, pays, gets, cancel } = data.instructions
+  const { price, firstCurrency, secondCurrency, pays, gets, cancel } =
+    data.instructions
 
   return (
     <>
       <SimpleRow label={t('price')}>
         <div className="amount">
           {`${Number(price)}`}
-          <span className="currency">{pair}</span>
+          <div className="one-line">
+            <Currency
+              currency={firstCurrency.currency}
+              issuer={firstCurrency.issuer}
+              shortenIssuer
+            />
+            /
+            <Currency
+              currency={secondCurrency.currency}
+              issuer={secondCurrency.issuer}
+              shortenIssuer
+            />
+          </div>
         </div>
       </SimpleRow>
       <SimpleRow label={t('buy')} data-test="amount-buy">
