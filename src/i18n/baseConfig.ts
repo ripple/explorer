@@ -1,6 +1,6 @@
 import { InitOptions } from 'i18next'
 
-export const supportedLanguages = ['en-US', 'ja-JP', 'ko-KR', 'fr-FR']
+export const supportedLanguages = ['en-US', 'ja-JP', 'ko-KR', 'es-ES', 'fr-FR']
 
 export const options: InitOptions = {
   returnNull: false,
