@@ -50,7 +50,7 @@
   "accounts.other_balances_short": "Soldes",
   "amount": "Montant",
   "currency_code": "Code FX",
-  "currency_balance": "Solde {{currency}}",
+  "currency_balance": "Solde <0>{{currency}}</0>",
   "load_more_action": "Charger plus...",
   "account_transactions": "Transactions",
   "transaction_type": "Type de transaction",
