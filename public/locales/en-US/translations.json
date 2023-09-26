@@ -156,6 +156,8 @@
   "transaction_type_name_CheckCancel": "Check Cancel",
   "transaction_type_name_CheckCash": "Check Cash",
   "transaction_type_name_CheckCreate": "Check Create",
+  "transaction_type_name_DIDDelete": "DID Delete",
+  "transaction_type_name_DIDSet": "DID Set",
   "transaction_type_name_DepositPreauth": "Deposit Preauth",
   "transaction_type_name_Error_Cases": "Error Cases",
   "transaction_type_name_EscrowCancel": "Escrow Cancel",
