@@ -484,5 +484,7 @@
   "grant": "Grant",
   "namespace": "Namespace",
   "api_version": "API Version",
-  "triggered_on": "Triggered On"
+  "triggered_on": "Triggered On",
+  "did_document": "DID Document",
+  "attestation": "Attestation"
 }
