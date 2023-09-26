@@ -1,3 +1,4 @@
+import { CTID_REGEX, HASH_REGEX } from '../../containers/shared/utils'
 import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
 
@@ -139,10 +140,16 @@ const getLedgerEntry = (rippledSocket, { index }) => {
 }
 
 // get transaction
-const getTransaction = (rippledSocket, txHash) => {
+const getTransaction = (rippledSocket, txId) => {
   const params = {
     command: 'tx',
-    transaction: txHash,
+  }
+  if (HASH_REGEX.test(txId)) {
+    params.transaction = txId
+  } else if (CTID_REGEX.test(txId)) {
+    params.ctid = txId
+  } else {
+    throw new Error(`${txId} not a ctid or hash`, 404)
   }
 
   return query(rippledSocket, params).then((resp) => {

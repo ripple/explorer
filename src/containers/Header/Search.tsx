@@ -16,6 +16,7 @@ import {
   FULL_CURRENCY_REGEX,
   HASH_REGEX,
   VALIDATORS_REGEX,
+  CTID_REGEX,
 } from '../shared/utils'
 import './search.scss'
 import { isValidPayString } from '../../rippled/payString'
@@ -107,6 +108,12 @@ const getRoute = async (
     return {
       type: 'validators',
       path: buildPath(VALIDATOR_ROUTE, { identifier: normalizeAccount(id) }),
+    }
+  }
+  if (CTID_REGEX.test(id)) {
+    return {
+      type: 'transactions',
+      path: buildPath(TRANSACTION_ROUTE, { identifier: id.toUpperCase() }),
     }
   }
 
