@@ -7,54 +7,14 @@ import {
   expectSimpleRowText,
 } from '../../shared/components/Transaction/test'
 import i18n from '../../../i18n/testConfigEnglish'
+import validator from './mock_data/validator.json'
 
 describe('SimpleTab container', () => {
   const createWrapper = (width = 1200) =>
     mount(
       <I18nextProvider i18n={i18n}>
         <Router>
-          <SimpleTab
-            data={{
-              master_key:
-                'nHUvzia57LRXr9zqnYpyFUFeKvis2tqn4DkXBVGSppt5M4nNq43C',
-              signing_key:
-                'n9KNmrXo9gK3ucZy8KHKFM113ENGv6uyukS6Bb7TtuvEx98SdwMS',
-              validation_public_key:
-                'nHUvzia57LRXr9zqnYpyFUFeKvis2tqn4DkXBVGSppt5M4nNq43C',
-              ledger_hash:
-                'D498209A1B1BBACB9D7C8419F9A4136E7F7748E66B7936D2F92249A2C1AFBCB9',
-              current_index: 55764842,
-              partial: false,
-              chain: '',
-              unl: 'vl.ripple.com',
-              last_ledger_time: '2020-05-28T09:21:19.000Z',
-              server_version: '1.9.4',
-              agreement_1h: {
-                score: '1.00000',
-                missed: 0,
-                incomplete: false,
-                total: 917,
-              },
-              agreement_24h: {
-                score: '1.00000',
-                missed: 0,
-                incomplete: true,
-                total: 22184,
-              },
-              agreement_30day: {
-                score: '0.99844',
-                missed: 1046,
-                total: 672351,
-                incomplete: true,
-              },
-              domain: 'digifin.uk',
-              base_fee: 10,
-              reserve_base: 10000000,
-              reserve_inc: 2000000,
-              amendments: [],
-            }}
-            width={width}
-          />
+          <SimpleTab data={validator} width={width} />
         </Router>
       </I18nextProvider>,
     )
