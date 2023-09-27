@@ -1,7 +1,7 @@
 {
   "tx": {
     "Account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-    "Amount": "1000000",
+    "Amount2": "1000000",
     "Destination": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
     "Fee": "10",
     "FinishAfter": 736447590,
