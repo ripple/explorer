@@ -65,7 +65,7 @@ describe('AccountTransactionsTable container', () => {
     expect(component.find('.transaction-li.transaction-li-header').length).toBe(
       1,
     )
-    expect(component.find(Link).length).toBe(40)
+    expect(component.find(Link).length).toBe(60)
 
     component.find('.load-more-btn').simulate('click')
     expect(getAccountTransactions).toHaveBeenCalledWith(
@@ -128,7 +128,7 @@ describe('AccountTransactionsTable container', () => {
     expect(component.find('.transaction-li.transaction-li-header').length).toBe(
       1,
     )
-    expect(component.find(Link).length).toBe(40)
+    expect(component.find(Link).length).toBe(60)
 
     component.find('.load-more-btn').simulate('click')
     expect(getAccountTransactions).toHaveBeenCalledWith(
