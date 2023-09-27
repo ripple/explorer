@@ -41,7 +41,7 @@ const isAmount = (amount: any, key: any = null) =>
     Object.keys(amount).length === 3 &&
     typeof amount.issuer === 'string' &&
     typeof amount.currency === 'string' &&
-    typeof amount.value === 'number')
+    typeof amount.value === 'string')
 
 const processValue = (value: any) => {
   if (typeof value === 'string') {

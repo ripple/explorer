@@ -1,6 +1,7 @@
 import NewEscrowCreate from './mock_data/NewEscrowCreate.json'
 import SetHook from './mock_data/SetHook.json'
 import SetHook2 from './mock_data/SetHook2.json'
+import TokenSwapPropose from './mock_data/TokenSwapPropose.json'
 import { DefaultSimple } from '../DefaultSimple'
 import { createWrapper as createGeneralWrapper } from './createWrapperFactory'
 import { expectSimpleRowText } from './expectations'
@@ -93,6 +94,27 @@ describe('DefaultSimple', () => {
       ),
     ).toHaveText('HookParameterValue: 76616C756531')
 
+    wrapper.unmount()
+  })
+
+  it('renders Simple for amount', () => {
+    const wrapper = createWrapper(TokenSwapPropose)
+    expectSimpleRowText(
+      wrapper,
+      'AccountOther',
+      'rPTScb8m3wq6r3Ys93Ec5at7LYDmWrtndi',
+    )
+    expect(wrapper.find(`[data-test="AccountOther"] a`)).toExist()
+    expectSimpleRowText(
+      wrapper,
+      'Amount',
+      '€12.00 EUR.rnz5f1MFcgbVxzYhU5hUKbKquEJHJady5K',
+    )
+    expectSimpleRowText(
+      wrapper,
+      'AmountOther',
+      '$33.00 USD.rnz5f1MFcgbVxzYhU5hUKbKquEJHJady5K',
+    )
     wrapper.unmount()
   })
 })
