@@ -35,12 +35,13 @@ const isCurrency = (value: any) =>
   (value.issuer == null || typeof value.issuer === 'string') &&
   typeof value.currency === 'string'
 
-const isAmount = (value: any, key: any = null) =>
+const isAmount = (amount: any, key: any = null) =>
   key === 'Amount' ||
-  (typeof value === 'object' &&
-    Object.keys(value).length <= 2 &&
-    (value.issuer == null || typeof value.issuer === 'string') &&
-    typeof value.currency === 'string')
+  (typeof amount === 'object' &&
+    Object.keys(amount).length === 3 &&
+    typeof amount.issuer === 'string' &&
+    typeof amount.currency === 'string' &&
+    typeof amount.value === 'number')
 
 const processValue = (value: any) => {
   if (typeof value === 'string') {

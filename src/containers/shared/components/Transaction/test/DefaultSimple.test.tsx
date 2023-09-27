@@ -6,7 +6,7 @@ import { createWrapper as createGeneralWrapper } from './createWrapperFactory'
 import { expectSimpleRowText } from './expectations'
 import summarizeTransaction from '../../../../../rippled/lib/txSummary'
 
-function createWrapper(tx: any) {
+function createWrapper(tx: { tx: any; meta: any }) {
   // eslint-disable-next-line no-param-reassign -- needed so parsers aren't triggered
   tx.tx.TransactionType = 'DummyTx'
   const data = summarizeTransaction(tx, true)
