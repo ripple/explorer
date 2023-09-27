@@ -11,7 +11,7 @@ describe('OfferCreate: TableDetail', () => {
     const wrapper = createWrapper(mockOfferCreateWithCancel)
 
     expect(wrapper.find('[data-test="pair"]')).toHaveText(
-      'price: 612.518 XRP/CSC',
+      'price:612.518\uE900 XRP/CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
     )
     expect(wrapper.find('[data-test="cancel-id"]')).toHaveText(
       'cancel_offer #44866443',
@@ -29,7 +29,7 @@ describe('OfferCreate: TableDetail', () => {
     const wrapper = createWrapper(mockOfferCreate)
 
     expect(wrapper.find('[data-test="pair"]')).toHaveText(
-      'price: 0.00207696 XRP/BCH',
+      'price:0.00207696\uE900 XRP/BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds',
     )
     expect(wrapper.find('[data-test="offer-id"]')).not.toExist()
     expect(wrapper.find('[data-test="amount-buy"]')).toHaveText(
@@ -44,7 +44,7 @@ describe('OfferCreate: TableDetail', () => {
     const wrapper = createWrapper(mockOfferCreateInvertedCurrencies)
 
     expect(wrapper.find('[data-test="pair"]')).toHaveText(
-      'price: 0.346896 XRP/USD',
+      'price:0.346896\uE900 XRP/USD.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
     )
   })
 })
