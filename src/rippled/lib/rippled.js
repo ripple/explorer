@@ -24,8 +24,7 @@ const formatPaychannel = (d) => ({
 })
 
 const executeQuery = async (rippledSocket, params) =>
-  // `clio` defaults the `api_version` to `2` and `rippled` to `1`.
-  rippledSocket.send({ api_version: 1, ...params }).catch((error) => {
+  rippledSocket.send(params).catch((error) => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
@@ -170,6 +169,7 @@ const getTransaction = (rippledSocket, txHash) => {
 const getAccountInfo = (rippledSocket, account) =>
   query(rippledSocket, {
     command: 'account_info',
+    api_version: 1,
     account,
     ledger_index: 'validated',
     signer_lists: true,
