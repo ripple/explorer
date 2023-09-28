@@ -25,7 +25,7 @@ const formatPaychannel = (d) => ({
 
 const executeQuery = async (rippledSocket, params) =>
   // `clio` defaults the `api_version` to `2` and `rippled` to `1`.
-  rippledSocket.send({ ...params, api_version: 1 }).catch((error) => {
+  rippledSocket.send({ api_version: 1, ...params }).catch((error) => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
@@ -388,6 +388,7 @@ const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) =>
 const getNFTInfo = (rippledSocket, tokenId) =>
   queryP2P(rippledSocket, {
     command: 'nft_info',
+    api_version: 2,
     nft_id: tokenId,
   }).then((resp) => {
     if (resp.error === 'objectNotFound') {
@@ -439,6 +440,7 @@ const getNFTTransactions = (
   const seq = parseInt(markerComponents[1], 10)
   return queryP2P(rippledSocket, {
     command: 'nft_history',
+    api_version: 2,
     nft_id: tokenId,
     limit,
     ledger_index_max: -1,
