@@ -13,13 +13,15 @@ export const TableDetail = ({
       {URI && (
         <div className="uri">
           <span className="label">{t('uri')}: </span>
-          <span className="lower">{convertHexToString(URI)}</span>
+          <span className="case-sensitive">{convertHexToString(URI)}</span>
         </div>
       )}
       {URI && (
         <div className="did-document">
           <span className="label">{t('did_document')}: </span>
-          <span className="lower">{convertHexToString(DIDDocument)}</span>
+          <span className="case-sensitive">
+            {convertHexToString(DIDDocument)}
+          </span>
         </div>
       )}
     </div>
