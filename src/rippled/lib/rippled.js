@@ -161,6 +161,12 @@ const getTransaction = (rippledSocket, txId) => {
       throw new Error('invalid transaction hash', 400)
     }
 
+    // TODO: remove the `unknown` option when
+    // https://github.com/XRPLF/rippled/pull/4738 is in a release
+    if (resp.error === 'wrongNetwork' || resp.error === 'unknown') {
+      throw new Error('wrong network for CTID', 406)
+    }
+
     if (resp.error_message) {
       throw new Error(resp.error_message, 500)
     }

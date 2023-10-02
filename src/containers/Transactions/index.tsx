@@ -20,6 +20,8 @@ import { SUCCESSFUL_TRANSACTION } from '../shared/transactionUtils'
 import { getTransaction } from '../../rippled'
 import { TRANSACTION_ROUTE } from '../App/routes'
 
+const WRONG_NETWORK = 406
+
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'transaction_not_found',
@@ -27,6 +29,10 @@ ERROR_MESSAGES[NOT_FOUND] = {
 }
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_transaction_hash',
+  hints: ['check_transaction_hash'],
+}
+ERROR_MESSAGES[WRONG_NETWORK] = {
+  title: 'wrong_network',
   hints: ['check_transaction_hash'],
 }
 ERROR_MESSAGES.default = {
