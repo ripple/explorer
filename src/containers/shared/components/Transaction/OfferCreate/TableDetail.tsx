@@ -18,18 +18,22 @@ export const TableDetail = (props: any) => {
           <Currency
             currency={firstCurrency.currency}
             issuer={firstCurrency.issuer}
+            shortenIssuer
           />
           /
           <Currency
             currency={secondCurrency.currency}
             issuer={secondCurrency.issuer}
+            shortenIssuer
           />
         </span>
       </div>
-      <div className="amounts">
+      <div>
         <span className="label">{t('buy')}</span>
         <Amount value={gets} data-test="amount-buy" />
-        <span className="label">{`- ${t('sell')}`}</span>
+      </div>
+      <div>
+        <span className="label">{t('sell')}</span>
         <Amount value={pays} data-test="amount-sell" />
       </div>
       {cancel && (
