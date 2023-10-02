@@ -98,3 +98,22 @@ export interface StreamValidator extends ValidatorResponse {
   pubkey?: string
   time?: string
 }
+
+export interface VotedValidators {
+  signing_key: string
+  ledger_index: string
+  unl: string | false
+}
+
+export interface AmendmentVote {
+  voting_status: string
+  amendment_id: string
+  name: string
+  rippled_version: string
+  deprecated: boolean
+  threshold?: string
+  consensus?: string
+  tx_hash?: string
+  date?: string | null
+  voted?: Array<VotedValidators>
+}

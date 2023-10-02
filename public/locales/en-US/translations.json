@@ -485,5 +485,22 @@
   "grant": "Grant",
   "namespace": "Namespace",
   "api_version": "API Version",
-  "triggered_on": "Triggered On"
+  "triggered_on": "Triggered On",
+  "name": "name",
+  "amendment_id": "Amendment ID",
+  "introduced_in": "Introduced In",
+  "threshold": "threshold",
+  "voting": "Voting",
+  "yeas": "yeas",
+  "nays": "nays",
+  "eta": "eta",
+  "consensus": "consensus",
+  "amendment_summary": "Amendment Summary",
+  "not_enabled": "Not Enabled",
+  "enabled": "Enabled",
+  "enabled_on": "enabled on",
+  "yeas_all": "yeas (all)",
+  "nays_all": "nays (all)",
+  "yeas_unl": "yeas (unl)",
+  "nays_unl": "nays (unl)"
 }

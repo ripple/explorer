@@ -1,0 +1,117 @@
+@import '../shared/css/variables';
+@import '../shared/css/table';
+
+.amendment-summary {
+  width: 80%;
+  margin: 0 auto;
+  .simple-body {
+    max-width: 1000px;
+    width: 100%;
+    @include for-size(desktop-up) {
+      width: 80%;
+    }
+  }
+
+  .type {
+    display: inline-block;
+    margin-top: 80px;
+    margin-bottom: 32px;
+    color: $white;
+    font-size: 32px;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 42px;
+      margin-top: 120px;
+      margin-bottom: 64px;
+    }
+
+    @include bold;
+  }
+
+  .rows {
+    width: calc(100% - 150px);
+    padding-left: 0;
+  }
+
+  .label {
+    margin-bottom: 0;
+  }
+
+  .index {
+    width: 150px;
+  }
+
+  .badge {
+    color: $black-100 !important;
+    margin: 0;
+    max-width: fit-content;
+    &.voting {
+      background-color: $black-30;
+    }
+    &.enabled {
+      background-color: $green-60;
+    }
+    &.consensus {
+      background-color: $yellow-50;
+      font-weight: 700 !important;
+      margin-top: 6px;
+    }
+  }
+  .value {
+    &.eta {
+      color: $yellow-50 !important;
+    }
+  }
+
+  .votes {
+
+    @include for-size(desktop-up) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 48px;
+    }
+
+    .label {
+      @include bold;
+      font-size: 24px;
+      text-transform: capitalize;
+      margin-bottom: 24px;
+    }
+
+    .votes-column {
+      min-width: 0;
+      max-width: 100%;
+      flex: 1 1 0px;
+      margin-top: 24px;
+
+      .vals {
+        background: $black-80;
+
+        .row {
+          display: flex;
+          padding: 16px;
+          border-bottom: 1px solid $black-70;
+          white-space: nowrap;
+          overflow: hidden;
+
+          .val {
+            overflow: hidden;
+            max-width: fit-content;
+            flex: 1;
+            text-overflow: ellipsis;
+          }
+
+          .unl {
+            color: $green-40;
+            margin-left: 8px;
+          }
+
+          .index {
+            margin-right: 24px;
+            max-width: 16px;
+          }
+        }
+      }
+    }
+  }
+}
