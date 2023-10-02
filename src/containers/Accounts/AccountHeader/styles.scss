@@ -58,6 +58,7 @@
       margin-left: 12px;
       color: $white;
       font-size: 16px;
+      text-transform: none;
       @include semibold;
 
       @include for-size(tablet-landscape-up) {
