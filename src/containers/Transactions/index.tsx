@@ -101,6 +101,8 @@ export const Transaction = () => {
         <TxStatus status={data?.raw.meta.TransactionResult} />
         <div className="hash" title={data?.raw.hash}>
           {data?.raw.hash}
+          {' / '}
+          {data?.raw.tx.ctid}
         </div>
       </div>
     )
