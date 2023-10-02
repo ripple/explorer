@@ -21,7 +21,13 @@
             "amount": 13450
           },
           "price": "0.287390",
-          "pair": "XRP/USD"
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          }
         }
       }
     },
@@ -46,7 +52,13 @@
             "amount": 1878.6976023515
           },
           "price": "0.299973",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068713
         }
       }
