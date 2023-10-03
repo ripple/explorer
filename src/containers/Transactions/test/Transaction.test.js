@@ -125,7 +125,7 @@ describe('Transaction container', () => {
       expect(
         summary.contains(
           <div className="hash" title={mockTransaction.hash}>
-            {mockTransaction.hash}
+            {mockTransaction.hash} / {mockTransaction.tx.ctid}
           </div>,
         ),
       ).toBe(true)
