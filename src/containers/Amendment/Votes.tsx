@@ -104,15 +104,13 @@ export const Votes = ({ data, validators }: VotesProps) => {
 
   const aggregate = aggregateVoting()
 
-  return (
-    data.voting_status === 'voting' && (
-      <div className="votes">
-        {aggregate && <BarChartVoting data={aggregate} />}
-        <div className="votes-columns">
-          {renderColumn('yeas', yeas)}
-          {renderColumn('nays', nays)}
-        </div>
+  return data.voting_status === 'voting' ? (
+    <div className="votes">
+      {aggregate && <BarChartVoting data={aggregate} />}
+      <div className="votes-columns">
+        {renderColumn('yeas', yeas)}
+        {renderColumn('nays', nays)}
       </div>
-    )
-  )
+    </div>
+  ) : null
 }

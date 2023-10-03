@@ -5,12 +5,9 @@
   width: 80%;
   max-width: 1200px;
   margin: auto;
+
   .simple-body {
-    max-width: 1000px;
-    width: 100%;
-    @include for-size(desktop-up) {
-      width: 80%;
-    }
+    max-width: 1100px;
   }
 
   .type {
@@ -21,16 +18,15 @@
     font-size: 32px;
 
     @include for-size(tablet-portrait-up) {
-      font-size: 42px;
       margin-top: 120px;
       margin-bottom: 64px;
+      font-size: 42px;
     }
 
     @include bold;
   }
 
   .rows {
-    width: calc(100% - 150px);
     padding-left: 0;
   }
 
@@ -43,45 +39,54 @@
   }
 
   .badge {
-    color: $black-100 !important;
-    margin: 0;
     max-width: fit-content;
+    margin: 0;
+    color: $black-100 !important;
+
     &.voting {
       background-color: $black-30;
     }
+
     &.enabled {
       background-color: $green-60;
     }
+
     &.consensus {
+      margin-top: 6px;
       background-color: $yellow-50;
       font-weight: 700 !important;
-      margin-top: 6px;
     }
   }
+
   .value {
     &.eta {
       color: $yellow-50 !important;
     }
   }
+
   .votes {
     margin: 48px 0;
 
     .barchart {
       max-width: 1200px;
     }
+
     .votes-columns {
       max-width: 1200px;
+      margin: 48px 0;
+
       @include for-size(desktop-up) {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
         gap: 48px;
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .label {
         @include bold;
+
+        margin-bottom: 24px;
         font-size: 24px;
         text-transform: capitalize;
-        margin-bottom: 24px;
       }
 
       .votes-column {
@@ -95,10 +100,10 @@
 
           .row {
             display: flex;
+            overflow: hidden;
             padding: 16px;
             border-bottom: 1px solid $black-70;
             white-space: nowrap;
-            overflow: hidden;
 
             .val {
               overflow: hidden;
@@ -108,13 +113,13 @@
             }
 
             .unl {
-              color: $green-40;
               margin-left: 8px;
+              color: $green-40;
             }
 
             .index {
-              margin-right: 24px;
               max-width: 16px;
+              margin-right: 24px;
             }
           }
         }
