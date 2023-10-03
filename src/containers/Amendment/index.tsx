@@ -20,6 +20,9 @@ import Log from '../shared/log'
 import { Votes } from './Votes'
 
 import './amendment.scss'
+import NoMatch from '../NoMatch'
+import { useAnalytics } from '../shared/analytics'
+import { Loader } from '../shared/components/Loader'
 
 const DATE_OPTIONS_AMENDMEND = {
   year: 'numeric',
@@ -36,6 +39,7 @@ export const Amendment = () => {
   const { width } = useWindowSize()
   const { t } = useTranslation()
   const language = useLanguage()
+  const { trackException } = useAnalytics()
 
   const ERROR_MESSAGES = {
     [NOT_FOUND]: {
@@ -48,14 +52,14 @@ export const Amendment = () => {
     },
   }
 
-  const { data, error } = useQuery<
+  const getErrorMessage = (error: keyof typeof ERROR_MESSAGES | null) =>
+    (error && ERROR_MESSAGES[error]) || ERROR_MESSAGES.default
+
+  const { data, error, isLoading } = useQuery<
     AmendmentVote,
     keyof typeof ERROR_MESSAGES | null
   >(['fetchAmendmentData', identifier], async () => fetchAmendmentData(), {
-    refetchInterval: (returnedData, _) =>
-      returnedData == null
-        ? FETCH_INTERVAL_ERROR_MILLIS
-        : FETCH_INTERVAL_VHS_MILLIS,
+    refetchInterval: (_) => FETCH_INTERVAL_VHS_MILLIS,
     refetchOnMount: true,
     enabled: !!network,
   })
@@ -134,21 +138,31 @@ export const Amendment = () => {
       .catch((e) => Log.error(e))
   }
 
+  let body
+
+  if (error) {
+    const message = getErrorMessage(error)
+    body = <NoMatch title={message.title} hints={message.hints} />
+  } else if (data?.amendment_id) {
+    body = (
+      <>
+        <div className="summary">
+          <div className="type">{t('amendment_summary')}</div>
+        </div>
+        <div className="simple-body">
+          {data && validators && (
+            <Simple data={data} validators={validators} width={width} />
+          )}
+        </div>
+        {data && validators && <Votes data={data} validators={validators} />}
+      </>
+    )
+  }
+
   return (
     <div className="amendment-summary">
-      <div className="summary">
-        <div className="type">{t('amendment_summary')}</div>
-      </div>
-      <div className="simple-body">
-        {data && validators && (
-          <Simple data={data} validators={validators} width={width} />
-        )}
-      </div>
-      {data && validators && <Votes data={data} validators={validators} />}
+      {isLoading && <Loader />}
+      {body}
     </div>
   )
-}
-
-function trackException(arg0: string) {
-  throw new Error('Function not implemented.')
 }

@@ -505,5 +505,7 @@
   "nays_unl": "nays (unl)",
   "yeas_count": "# of Yea Votes: {{yeas_count}}",
   "nays_count": "# of Nay Votes: {{nays_count}}",
-  "no_of_validators": "# of Validators"
+  "no_of_validators": "# of Validators",
+  "amendment_not_found": "Amendment not found",
+  "check_amendment_key": "Please check your amendment key"
 }
