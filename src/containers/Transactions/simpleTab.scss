@@ -42,6 +42,10 @@ $subdued-color: $black-40;
             display: block;
           }
 
+          .one-line {
+            display: flex;
+          }
+
           .currency {
             display: block;
             margin: -1px 0px -16px;
