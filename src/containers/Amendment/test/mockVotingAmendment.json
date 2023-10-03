@@ -1,0 +1,26 @@
+{
+  "voting_status": "voting",
+  "amendment": {
+    "id": "mock-amendment-id",
+    "name": "mock-name",
+    "rippled_version": "1.12.0",
+    "deprecated": false,
+    "threshold": "3/4",
+    "consensus": "25%",
+    "voted": {
+      "count": 2,
+      "validators": [
+        {
+          "signing_key": "sign1",
+          "ledger_index": "index1",
+          "unl": "vl.ripple.com"
+        },
+        {
+          "signing_key": "sign2",
+          "ledger_index": "82658047",
+          "unl": false
+        }
+      ]
+    }
+  }
+}
