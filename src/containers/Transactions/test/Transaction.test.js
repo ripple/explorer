@@ -122,13 +122,15 @@ describe('Transaction container', () => {
       expect(summary.contains(<div className="type">OfferCreate</div>)).toBe(
         true,
       )
-      expect(
-        summary.contains(
-          <div className="hash" title={mockTransaction.hash}>
-            {mockTransaction.hash} / {mockTransaction.tx.ctid}
-          </div>,
-        ),
-      ).toBe(true)
+
+      // console.log(wrapper.debug())
+      expect(wrapper.find('.txid').length).toBe(2)
+      expect(wrapper.find('.txid').at(0).text()).toBe(
+        `hash:${mockTransaction.hash}`,
+      )
+      expect(wrapper.find('.txid').at(1).text()).toBe(
+        `CTID:${mockTransaction.tx.ctid}`,
+      )
       expect(summary.contains(<TxStatus status="tesSUCCESS" />)).toBe(true)
       expect(wrapper.find('.tabs').length).toBe(1)
       expect(wrapper.find('a.tab').length).toBe(3)

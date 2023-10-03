@@ -99,11 +99,16 @@ export const Transaction = () => {
       <div className="summary">
         <div className="type">{type}</div>
         <TxStatus status={data?.raw.meta.TransactionResult} />
-        <div className="hash" title={data?.raw.hash}>
+        <div className="txid" title={data?.raw.hash}>
+          <div className="title">hash:</div>
           {data?.raw.hash}
-          {' / '}
-          {data?.raw.tx.ctid}
         </div>
+        {data?.raw.tx.ctid && (
+          <div className="txid" title={data?.raw.tx.ctid}>
+            <div className="title">CTID:</div>
+            {data?.raw.tx.ctid}
+          </div>
+        )}
       </div>
     )
   }

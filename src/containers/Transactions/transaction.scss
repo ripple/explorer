@@ -57,16 +57,28 @@
       }
     }
 
-    .hash {
+    .txid {
+      .title {
+        @include semibold;
+
+        margin-right: 2px;
+      }
+
+      display: flex;
       overflow: hidden;
-      padding-bottom: 87px;
+      padding-bottom: 8px;
       color: $black-40;
       font-size: 12px;
       letter-spacing: 0px;
       line-height: 20px;
       text-overflow: ellipsis;
+      text-transform: uppercase;
       white-space: nowrap;
       @include medium;
+    }
+
+    .txid:last-child {
+      padding-bottom: 87px;
     }
 
     .tx-status {
