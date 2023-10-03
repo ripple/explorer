@@ -14,7 +14,7 @@ export const TableDetail = (props: any) => {
         <span className="label">{t('price')}:</span>
 
         <span className="amount" data-test="amount">
-          {`${Number(price)}`}
+          {`${Number(price)} `}
           <Currency
             currency={firstCurrency.currency}
             issuer={firstCurrency.issuer}
