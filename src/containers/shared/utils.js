@@ -31,6 +31,7 @@ export const FULL_CURRENCY_REGEX =
 export const VALIDATORS_REGEX = /^n[9H][0-9A-Za-z]{50}$/
 
 export const PURPLE = '#8884d8'
+export const GREEN_400 = '#5BEB9D'
 export const GREEN_500 = '#32E685'
 export const GREEN_800 = '#1E8A50'
 export const PURPLE_500 = '#7919FF'
@@ -39,6 +40,8 @@ export const GREY_0 = '#FFFFFF'
 export const GREY_400 = '#A2A2A4'
 export const GREY_600 = '#656E81'
 export const GREY_800 = '#383D47'
+export const BLACK_600 = '#454549'
+export const MAGENTA_500 = '#FF198B'
 
 export const BREAKPOINTS = {
   desktop: 1200,

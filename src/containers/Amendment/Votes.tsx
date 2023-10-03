@@ -4,6 +4,7 @@ import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
 import { RouteLink } from '../shared/routing'
 import { VALIDATOR_ROUTE } from '../App/routes'
+import { BarChartVoting } from './BarChartVoting'
 
 interface VotesProps {
   data: AmendmentVote
@@ -85,10 +86,33 @@ export const Votes = ({ data, validators }: VotesProps) => {
       )
       .sort(compareValidators)
 
+  const yeas = getYeas()
+  const nays = getNays()
+
+  const aggregateVoting = () => [
+    {
+      label: 'UNL',
+      yeas: yeas.filter((val) => val.unl !== false).length,
+      nays: nays.filter((val) => val.unl !== false).length,
+    },
+    {
+      label: 'non-UNL',
+      yeas: yeas.filter((val) => val.unl === false).length,
+      nays: nays.filter((val) => val.unl === false).length,
+    },
+  ]
+
+  const aggregate = aggregateVoting()
+
   return (
-    <div className="votes">
-      {renderColumn('yeas', getYeas())}
-      {renderColumn('nays', getNays())}
-    </div>
+    data.voting_status === 'voting' && (
+      <div className="votes">
+        {aggregate && <BarChartVoting data={aggregate} />}
+        <div className="votes-columns">
+          {renderColumn('yeas', yeas)}
+          {renderColumn('nays', nays)}
+        </div>
+      </div>
+    )
   )
 }

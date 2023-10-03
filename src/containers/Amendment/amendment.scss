@@ -3,7 +3,8 @@
 
 .amendment-summary {
   width: 80%;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: auto;
   .simple-body {
     max-width: 1000px;
     width: 100%;
@@ -62,53 +63,59 @@
       color: $yellow-50 !important;
     }
   }
-
   .votes {
+    margin: 48px 0;
 
-    @include for-size(desktop-up) {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 48px;
+    .barchart {
+      max-width: 1200px;
     }
+    .votes-columns {
+      max-width: 1200px;
+      @include for-size(desktop-up) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 48px;
+      }
 
-    .label {
-      @include bold;
-      font-size: 24px;
-      text-transform: capitalize;
-      margin-bottom: 24px;
-    }
+      .label {
+        @include bold;
+        font-size: 24px;
+        text-transform: capitalize;
+        margin-bottom: 24px;
+      }
 
-    .votes-column {
-      min-width: 0;
-      max-width: 100%;
-      flex: 1 1 0px;
-      margin-top: 24px;
+      .votes-column {
+        min-width: 0;
+        max-width: 100%;
+        flex: 1 1 0px;
+        margin-top: 24px;
 
-      .vals {
-        background: $black-80;
+        .vals {
+          background: $black-80;
 
-        .row {
-          display: flex;
-          padding: 16px;
-          border-bottom: 1px solid $black-70;
-          white-space: nowrap;
-          overflow: hidden;
-
-          .val {
+          .row {
+            display: flex;
+            padding: 16px;
+            border-bottom: 1px solid $black-70;
+            white-space: nowrap;
             overflow: hidden;
-            max-width: fit-content;
-            flex: 1;
-            text-overflow: ellipsis;
-          }
 
-          .unl {
-            color: $green-40;
-            margin-left: 8px;
-          }
+            .val {
+              overflow: hidden;
+              max-width: fit-content;
+              flex: 1;
+              text-overflow: ellipsis;
+            }
 
-          .index {
-            margin-right: 24px;
-            max-width: 16px;
+            .unl {
+              color: $green-40;
+              margin-left: 8px;
+            }
+
+            .index {
+              margin-right: 24px;
+              max-width: 16px;
+            }
           }
         }
       }

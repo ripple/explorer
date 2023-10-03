@@ -502,5 +502,8 @@
   "yeas_all": "yeas (all)",
   "nays_all": "nays (all)",
   "yeas_unl": "yeas (unl)",
-  "nays_unl": "nays (unl)"
+  "nays_unl": "nays (unl)",
+  "yeas_count": "# of Yea Votes: {{yeas_count}}",
+  "nays_count": "# of Nay Votes: {{nays_count}}",
+  "no_of_validators": "# of Validators"
 }
