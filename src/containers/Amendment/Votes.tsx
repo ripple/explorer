@@ -47,7 +47,7 @@ export const Votes = ({ data, validators }: VotesProps) => {
       <div className="label">{t(label)}</div>
       <div className="vals">
         {validatorsList.map((validator, index) => (
-          <div className="row">
+          <div className="row" key={validator.pubkey}>
             <span className="index">{index + 1}</span>
             <span className="val">
               {validator.domain ? (
