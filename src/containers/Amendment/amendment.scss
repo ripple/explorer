@@ -64,6 +64,15 @@
     }
   }
 
+  .note {
+    .unl {
+      display: inline-block;
+      margin: 0 10px;
+      color: $green-40;
+      vertical-align: middle;
+    }
+  }
+
   .votes {
     margin: 48px 0;
 
@@ -123,15 +132,6 @@
             }
           }
         }
-      }
-    }
-
-    .note {
-      .unl {
-        display: inline-block;
-        vertical-align: middle;
-        color: $green-40;
-        margin: 0 10px;
       }
     }
   }
