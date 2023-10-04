@@ -69,7 +69,7 @@
       {
         "ModifiedNode": {
           "FinalFields": {
-            "AMMAccount": "rEJ1X5BoSmHqa5h6TSVvYrHAzFmyxGqNic",
+            "Account": "rEJ1X5BoSmHqa5h6TSVvYrHAzFmyxGqNic",
             "Asset": {
               "currency": "EUR",
               "issuer": "rEaiyQKvxYWmh7q9mvSm11kZmKx92HZdmr"

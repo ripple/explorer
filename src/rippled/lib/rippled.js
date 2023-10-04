@@ -169,6 +169,7 @@ const getTransaction = (rippledSocket, txHash) => {
 const getAccountInfo = (rippledSocket, account) =>
   query(rippledSocket, {
     command: 'account_info',
+    api_version: 1,
     account,
     ledger_index: 'validated',
     signer_lists: true,
@@ -387,6 +388,7 @@ const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) =>
 const getNFTInfo = (rippledSocket, tokenId) =>
   queryP2P(rippledSocket, {
     command: 'nft_info',
+    api_version: 2,
     nft_id: tokenId,
   }).then((resp) => {
     if (resp.error === 'objectNotFound') {
@@ -438,6 +440,7 @@ const getNFTTransactions = (
   const seq = parseInt(markerComponents[1], 10)
   return queryP2P(rippledSocket, {
     command: 'nft_history',
+    api_version: 2,
     nft_id: tokenId,
     limit,
     ledger_index_max: -1,

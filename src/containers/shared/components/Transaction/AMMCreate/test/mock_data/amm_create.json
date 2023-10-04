@@ -160,7 +160,7 @@
           "LedgerEntryType": "AMM",
           "LedgerIndex": "C7FD06649235AF4CABD8FA6D8BB0CAF6C6EA5038A74D0DDD5025290683636D02",
           "NewFields": {
-            "AMMAccount": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+            "Account": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
             "Asset2": {
               "currency": "USD",
               "issuer": "rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET"
