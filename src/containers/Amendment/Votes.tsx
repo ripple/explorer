@@ -19,6 +19,12 @@ interface validatorUNL {
 }
 
 function compareValidators(a: validatorUNL, b: validatorUNL) {
+  if (a.unl === false && b.unl !== false) {
+    return 1
+  }
+  if (a.unl !== false && b.unl === false) {
+    return -1
+  }
   if (a.domain === null && b.domain !== null) {
     return 1
   }
