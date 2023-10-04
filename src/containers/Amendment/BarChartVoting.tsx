@@ -86,9 +86,7 @@ export const BarChartVoting = ({ data }: Props) => {
         >
           <XAxis
             dataKey="label"
-            angle={-65}
-            dy={30}
-            dx={-7}
+            dy={12}
             height={90}
             tickLine={false}
             minTickGap={-1}
@@ -108,7 +106,7 @@ export const BarChartVoting = ({ data }: Props) => {
               angle={-90}
               position="insideTop"
               dx={45}
-              dy={110}
+              dy={55}
               style={{ fill: GREY_0 }}
             />
           </YAxis>
