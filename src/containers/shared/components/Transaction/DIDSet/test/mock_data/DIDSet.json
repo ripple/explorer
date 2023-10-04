@@ -1,0 +1,67 @@
+{
+  "tx": {
+    "Account": "rsMvgKpm7cb5TMxt9XRGBXyyVWToBnDTBn",
+    "Attestation": "617474657374",
+    "DIDDocument": "646F63",
+    "Fee": "10",
+    "Flags": 2147483648,
+    "Sequence": 7,
+    "SigningPubKey": "ED1F092C6A847F1095938E8DA5BA2E3710642FE6436ED559E42574FD0562BCC0C8",
+    "TransactionType": "DIDSet",
+    "TxnSignature": "7B513D1FF1FA5E6D36A4E5C2AB748CB5D18664E0CCF9CF2A33FEA586070FCA2B8EAD91158B6FAA6689282B14BC186453BB10CF66E95A493C04C5F22BDE05B708",
+    "URI": "6469645F6578616D706C65",
+    "ctid": "C000000800000000",
+    "date": 1695751681000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DID",
+          "LedgerIndex": "6DB3D8D5B4D76A0BCC1F009759D6FB80F32148194FF7F118B53C6141496F5EA1",
+          "NewFields": {
+            "Account": "rsMvgKpm7cb5TMxt9XRGBXyyVWToBnDTBn",
+            "Attestation": "617474657374",
+            "DIDDocument": "646F63",
+            "URI": "6469645F6578616D706C65"
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "89B26FFDA662393CAE9FBE41F734A269414D2B6DDF835A58BED6C4094F678321",
+          "NewFields": {
+            "Owner": "rsMvgKpm7cb5TMxt9XRGBXyyVWToBnDTBn",
+            "RootIndex": "89B26FFDA662393CAE9FBE41F734A269414D2B6DDF835A58BED6C4094F678321"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rsMvgKpm7cb5TMxt9XRGBXyyVWToBnDTBn",
+            "Balance": "999999999990",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 8
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "E9045B69A0655023B8E4008DAA20A67AE3DFDF785A4A71E740B15414F7FEC435",
+          "PreviousFields": {
+            "Balance": "1000000000000",
+            "OwnerCount": 0,
+            "Sequence": 7
+          },
+          "PreviousTxnID": "47150C4F0FF2B33140ED221E424B2F685EF853E6E000837FBAB71DB1AD9018C9",
+          "PreviousTxnLgrSeq": 7
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "3119491F7965C0048D7FEF0C9D177307A974B2764662082F405A5D8F2B4AEEB6",
+  "ledger_index": 8,
+  "date": 1695751681000
+}
