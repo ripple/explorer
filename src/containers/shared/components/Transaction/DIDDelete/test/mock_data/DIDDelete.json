@@ -1,0 +1,69 @@
+{
+  "tx": {
+    "Account": "r91PyqgWTgED2x8dPHQX7gBktDoSJyHadi",
+    "Fee": "10",
+    "Flags": 2147483648,
+    "Sequence": 10,
+    "SigningPubKey": "ED4195861D0E6438C9CB53C05035A35F8C0183264FBFD07D3EF3DEDFA376E841F6",
+    "TransactionType": "DIDDelete",
+    "TxnSignature": "BA5EE539FBBB76BC5A8017837AC486B9FBB2803B51C71E289CE373420BDEE2FECA62BAAB6596EAD92715CA6FC6E9AC987468564279BF279217223B8BF4814208",
+    "ctid": "C000000B00000000",
+    "date": 1695754510000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "r91PyqgWTgED2x8dPHQX7gBktDoSJyHadi",
+            "Balance": "999999999980",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 11
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "502EE614ECBCEC0BE756852ED6F9A460CB441052DA36585D8A59A8D55A6728DF",
+          "PreviousFields": {
+            "Balance": "999999999990",
+            "OwnerCount": 1,
+            "Sequence": 10
+          },
+          "PreviousTxnID": "2858A1F28031EDA2065DED324B7D7924F3D5320A60F14BBC16902784E1175F7F",
+          "PreviousTxnLgrSeq": 10
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "r91PyqgWTgED2x8dPHQX7gBktDoSJyHadi",
+            "RootIndex": "52904262844EF0B9813C13C5C1C4732AD5ED0B5FC51B38F5C9329BF10AA1C8ED"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "52904262844EF0B9813C13C5C1C4732AD5ED0B5FC51B38F5C9329BF10AA1C8ED"
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Account": "r91PyqgWTgED2x8dPHQX7gBktDoSJyHadi",
+            "Attestation": "617474657374",
+            "DIDDocument": "646F63",
+            "Flags": 0,
+            "OwnerNode": "0",
+            "PreviousTxnID": "2858A1F28031EDA2065DED324B7D7924F3D5320A60F14BBC16902784E1175F7F",
+            "PreviousTxnLgrSeq": 10,
+            "URI": "6469645F6578616D706C65"
+          },
+          "LedgerEntryType": "DID",
+          "LedgerIndex": "62FA3D98BA56773590ACC6C5A93126085287E6A6BBCE82DFB085487F385442C3"
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "3CFF587C2CB976563CE6D89268FA5C90626F0D0B466B56607C0775241BAF6274",
+  "ledger_index": 11,
+  "date": 1695754510000
+}
