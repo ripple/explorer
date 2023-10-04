@@ -1,0 +1,85 @@
+{
+  "tx": {
+    "Account": "ratB3Rp7pcid4hzwSYTWiqWXYXFmWUFDv1",
+    "AccountOther": "rPTScb8m3wq6r3Ys93Ec5at7LYDmWrtndi",
+    "Amount": {
+      "currency": "EUR",
+      "issuer": "rnz5f1MFcgbVxzYhU5hUKbKquEJHJady5K",
+      "value": "12"
+    },
+    "AmountOther": {
+      "currency": "USD",
+      "issuer": "rnz5f1MFcgbVxzYhU5hUKbKquEJHJady5K",
+      "value": "33"
+    },
+    "Fee": "10",
+    "Flags": 2147483648,
+    "Sequence": 5,
+    "SigningPubKey": "ED2D7565F8E1432940E5B3BEB4562DE99DB880323B5C8A178376D5B481A7DB6E1C",
+    "TransactionType": "TokenSwapPropose",
+    "TxnSignature": "153E5473EB70B6E073F22A8281AE1E5593C96369CACDC1E2DB9FA54C5B3EC7C07F458061858DD7AE061198E7CB8BF56A7034F102016DFDB5F38EF4C28466B308",
+    "ctid": "C000005800000000",
+    "date": 749136066
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "ratB3Rp7pcid4hzwSYTWiqWXYXFmWUFDv1",
+            "RootIndex": "547794AC3EA3084040EF8EF8BB8927E1D9BC52A6EC0F03E31B32C11260FD7D51"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "547794AC3EA3084040EF8EF8BB8927E1D9BC52A6EC0F03E31B32C11260FD7D51"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "ratB3Rp7pcid4hzwSYTWiqWXYXFmWUFDv1",
+            "Balance": "49999966",
+            "Flags": 0,
+            "OwnerCount": 3,
+            "Sequence": 6
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "605F4818F631C60C34A29650C2783B604CDB7D00663B0C68F1A6A7775680FDF2",
+          "PreviousFields": {
+            "Balance": "49999976",
+            "OwnerCount": 2,
+            "Sequence": 5
+          },
+          "PreviousTxnID": "B25FA4890F5BFFE3A2DB62050A2ABE4792D717DF9131C7BEAF917F70CD94283A",
+          "PreviousTxnLgrSeq": 15
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "TokenSwap",
+          "LedgerIndex": "BBEA4CB206489C14E428B8CDF8CBC931E380DC66450036BD4D6C926C2CC23811",
+          "NewFields": {
+            "Account": "ratB3Rp7pcid4hzwSYTWiqWXYXFmWUFDv1",
+            "AccountOther": "rPTScb8m3wq6r3Ys93Ec5at7LYDmWrtndi",
+            "Amount": {
+              "currency": "EUR",
+              "issuer": "rnz5f1MFcgbVxzYhU5hUKbKquEJHJady5K",
+              "value": "12"
+            },
+            "AmountOther": {
+              "currency": "USD",
+              "issuer": "rnz5f1MFcgbVxzYhU5hUKbKquEJHJady5K",
+              "value": "33"
+            },
+            "TokenSwapId": "5"
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "F84CCA4C6948B0D068A2D97A8CA92F557CE3615D98F6E90540369D4A4F122D0E",
+  "inLedger": 88,
+  "ledger_index": 88
+}
