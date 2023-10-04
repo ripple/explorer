@@ -38,6 +38,10 @@ const determineHashType = async (id: string, rippledContext: XrplClient) => {
     await getTransaction(rippledContext, id)
     return 'transactions'
   } catch (e) {
+    const isAmendment = await isAmendmentType(id)
+    if (isAmendment) {
+      return 'amendment'
+    }
     return 'nft'
   }
 }
@@ -71,12 +75,6 @@ const getRoute = async (
       path: buildPath(ACCOUNT_ROUTE, { id: normalizeAccount(id) }),
     }
   }
-  if (await isAmendmentType(id)) {
-    return {
-      type: 'amendment',
-      path: buildPath(AMENDMENT_ROUTE, { identifier: id }),
-    }
-  }
   if (HASH_REGEX.test(id)) {
     // Transactions and NFTs share the same syntax
     // We must make an api call to ensure if it's one or the other
@@ -84,6 +82,8 @@ const getRoute = async (
     let path
     if (type === 'transactions') {
       path = buildPath(TRANSACTION_ROUTE, { identifier: id.toUpperCase() })
+    } else if (type === 'amendment') {
+      path = buildPath(AMENDMENT_ROUTE, { identifier: id })
     } else if (type === 'nft') {
       path = buildPath(NFT_ROUTE, { id: id.toUpperCase() })
     }
@@ -126,6 +126,12 @@ const getRoute = async (
     return {
       type: 'validators',
       path: buildPath(VALIDATOR_ROUTE, { identifier: normalizeAccount(id) }),
+    }
+  }
+  if (await isAmendmentType(id)) {
+    return {
+      type: 'amendment',
+      path: buildPath(AMENDMENT_ROUTE, { identifier: id }),
     }
   }
 

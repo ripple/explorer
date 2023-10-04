@@ -1,6 +1,7 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
+import moxios from 'moxios'
 import i18n from '../../../i18n/testConfig'
 import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
@@ -38,6 +39,7 @@ describe('Search component', () => {
   })
 
   it('search values', async () => {
+    moxios.install()
     const wrapper = createWrapper()
     const input = wrapper.find('.search input')
     const ledgerIndex = '123456789'
@@ -72,9 +74,24 @@ describe('Search component', () => {
     const invalidString = '123invalid'
 
     const amendmentId =
-      '56B241D7A43D40354D02A9DC4C8DF5C7A1F930D92A9035C4E12291B3CA3E1C2B'
+      '8CC0774A3BF66D1D22E76BBDA8E8A232E6B6313834301B3B23E8601196AE6455'
 
-    const amendmentName = 'Clawback'
+    const amendmentName = 'AMM'
+
+    const invalidAmendmentResponse = {
+      result: 'error',
+      message: "incorrect amendment's id/name",
+    }
+
+    const validAmendmentResponse = {
+      result: 'success',
+      amendment: {
+        id: '8CC0774A3BF66D1D22E76BBDA8E8A232E6B6313834301B3B23E8601196AE6455',
+        name: 'AMM',
+        rippled_version: '1.12.0',
+        deprecated: false,
+      },
+    }
 
     // mock getNFTInfo api to test transactions and nfts
     const mockAPI = jest.spyOn(rippled, 'getTransaction')
@@ -186,6 +203,13 @@ describe('Search component', () => {
     expect(window.location.pathname).toEqual(`/token/${token2}`)
 
     // Returns a response upon a valid nft_id, redirect to NFT
+    moxios.stubRequest(
+      `${process.env.VITE_DATA_URL}/amendment/info/${nftoken}`,
+      {
+        status: 200,
+        response: invalidAmendmentResponse,
+      },
+    )
     mockAPI.mockImplementation(() => {
       throw new Error('Tx not found', 404)
     })
@@ -194,6 +218,13 @@ describe('Search component', () => {
     await flushPromises()
     expect(window.location.pathname).toEqual(`/nft/${nftoken}`)
 
+    moxios.stubRequest(
+      `${process.env.VITE_DATA_URL}/amendment/info/${invalidString}`,
+      {
+        status: 200,
+        response: invalidAmendmentResponse,
+      },
+    )
     input.instance().value = invalidString
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
@@ -214,16 +245,34 @@ describe('Search component', () => {
     await flushPromises()
     expect(window.location.pathname).toEqual(`/transactions/${hash}`)
 
+    moxios.stubRequest(
+      `${process.env.VITE_DATA_URL}/amendment/info/${amendmentId}`,
+      {
+        status: 200,
+        response: validAmendmentResponse,
+      },
+    )
+    mockAPI.mockImplementation(() => {
+      throw new Error('Tx not found', 404)
+    })
     input.instance().value = amendmentId
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
     expect(window.location.pathname).toEqual(`/amendment/${amendmentId}`)
 
+    moxios.stubRequest(
+      `${process.env.VITE_DATA_URL}/amendment/info/${amendmentName}`,
+      {
+        status: 200,
+        response: validAmendmentResponse,
+      },
+    )
     input.instance().value = amendmentName
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
-    expect(window.location.pathname).toEqual(`/amendment/${amendmentId}`)
+    expect(window.location.pathname).toEqual(`/amendment/${amendmentName}`)
 
+    moxios.uninstall()
     wrapper.unmount()
   })
 
