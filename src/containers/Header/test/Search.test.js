@@ -71,6 +71,11 @@ describe('Search component', () => {
       '000800011C7D8ED1D715A0017E41BF9499ECC17E7FB666320000099B00000000'
     const invalidString = '123invalid'
 
+    const amendmentId =
+      '56B241D7A43D40354D02A9DC4C8DF5C7A1F930D92A9035C4E12291B3CA3E1C2B'
+
+    const amendmentName = 'Clawback'
+
     // mock getNFTInfo api to test transactions and nfts
     const mockAPI = jest.spyOn(rippled, 'getTransaction')
 
@@ -208,6 +213,17 @@ describe('Search component', () => {
     input.simulate('keyDown', { key: 'Enter' })
     await flushPromises()
     expect(window.location.pathname).toEqual(`/transactions/${hash}`)
+
+    input.instance().value = amendmentId
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/amendment/${amendmentId}`)
+
+    input.instance().value = amendmentName
+    input.simulate('keyDown', { key: 'Enter' })
+    await flushPromises()
+    expect(window.location.pathname).toEqual(`/amendment/${amendmentId}`)
+
     wrapper.unmount()
   })
 

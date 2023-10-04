@@ -2,6 +2,7 @@ import { KeyboardEventHandler, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
+import axios from 'axios'
 
 import {
   isValidClassicAddress,
@@ -23,6 +24,7 @@ import { getTransaction } from '../../rippled/lib/rippled'
 import { buildPath } from '../shared/routing'
 import {
   ACCOUNT_ROUTE,
+  AMENDMENT_ROUTE,
   LEDGER_ROUTE,
   NFT_ROUTE,
   PAYSTRING_ROUTE,
@@ -39,6 +41,17 @@ const determineHashType = async (id: string, rippledContext: XrplClient) => {
     return 'nft'
   }
 }
+
+const isAmendmentType = async (id: string): Promise<boolean> => {
+  const res = await axios
+    .get(`${process.env.VITE_DATA_URL}/amendment/info/${id}`)
+    .then((resp) => resp.data)
+  if (res.amendment) {
+    return true
+  }
+  return false
+}
+
 // separator for currency formats
 const separators = /[.:+-]/
 
@@ -56,6 +69,12 @@ const getRoute = async (
     return {
       type: 'accounts',
       path: buildPath(ACCOUNT_ROUTE, { id: normalizeAccount(id) }),
+    }
+  }
+  if (await isAmendmentType(id)) {
+    return {
+      type: 'amendment',
+      path: buildPath(AMENDMENT_ROUTE, { identifier: id }),
     }
   }
   if (HASH_REGEX.test(id)) {
