@@ -511,5 +511,7 @@
   "amendment_not_found": "Amendment not found",
   "check_amendment_key": "Please check your amendment key",
   "did_document": "DID Document",
-  "attestation": "Attestation"
+  "attestation": "Attestation",
+  "note": "Note",
+  "indicate_unl": "indicates a validator on an UNL"
 }

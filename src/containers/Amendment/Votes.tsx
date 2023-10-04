@@ -117,6 +117,13 @@ export const Votes = ({ data, validators }: VotesProps) => {
         {renderColumn('yeas', yeas)}
         {renderColumn('nays', nays)}
       </div>
+      <div className="note">
+        <span className="note-text">{t('note')}:</span>
+        <span className="unl">
+          <SuccessIcon />
+        </span>
+        <span className="note-text">{t('indicate_unl')}</span>
+      </div>
     </div>
   ) : null
 }

@@ -48,7 +48,7 @@ export default defineConfig({
   server: {
     // backend settings
     open: true,
-    port: 3000,
+    port: 3001,
     proxy: {
       '/api': 'http://localhost:5001',
     },
