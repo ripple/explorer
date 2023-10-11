@@ -73,7 +73,7 @@ export const AmendmentsTable: FC<{
   const renderAmendment = (amendment, index) => (
     <tr key={amendment.amendment_id}>
       <td className="count">{index + 1}</td>
-      <td className="version">{amendment.version}</td>
+      <td className="version">{amendment.rippled_version}</td>
       <td className="amendment-id text-truncate">{amendment.id}</td>
       <td className="name text-truncate">
         {renderName(amendment.name, amendment.deprecated)}

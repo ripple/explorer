@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18n/testConfig'
 import { AmendmentsTable } from '../AmendmentsTable'
-import amendments from './mockAmendmentsProcessed.json'
+import amendmentsRaw from './mockAmendments.json'
 
 /* eslint-disable react/jsx-props-no-spreading */
 const createWrapper = (props = {}) =>
@@ -22,8 +22,8 @@ describe('Amendments table', () => {
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper({ amendments })
-    expect(wrapper.find('tr').length).toBe(amendments.length + 1)
+    const wrapper = createWrapper({ amendments: amendmentsRaw.amendments })
+    expect(wrapper.find('tr').length).toBe(amendmentsRaw.amendments.length + 1)
     wrapper.unmount()
   })
 })
