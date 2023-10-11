@@ -156,6 +156,8 @@
   "transaction_type_name_CheckCancel": "Check Cancel",
   "transaction_type_name_CheckCash": "Check Cash",
   "transaction_type_name_CheckCreate": "Check Create",
+  "transaction_type_name_DIDDelete": "DID Delete",
+  "transaction_type_name_DIDSet": "DID Set",
   "transaction_type_name_DepositPreauth": "Deposit Preauth",
   "transaction_type_name_Error_Cases": "Error Cases",
   "transaction_type_name_EscrowCancel": "Escrow Cancel",
@@ -464,8 +466,10 @@
   "peer_crawled_context": "For more context, see https://xrpl.org/peer-crawler.html",
   "xchainbridge": "XChainBridge",
   "language_en-US": "English",
+  "language_fr-FR": "French",
   "language_ja-JP": "Japanese",
   "language_ko-KR": "Korean",
+  "language_es-ES": "Spanish",
   "xchain_account_claim_count": "XChain Account Claim Count",
   "xchain_account_create_count": "XChain Account Create Count",
   "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required",
@@ -492,5 +496,7 @@
   "grant": "Grant",
   "namespace": "Namespace",
   "api_version": "API Version",
-  "triggered_on": "Triggered On"
+  "triggered_on": "Triggered On",
+  "did_document": "DID Document",
+  "attestation": "Attestation"
 }

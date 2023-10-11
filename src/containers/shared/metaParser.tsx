@@ -19,8 +19,7 @@ Gets the AMM account ID
 export function getAMMAccountID(meta: any) {
   const account = findNodes(meta, LedgerEntryTypes.AMM)[0]
 
-  if (account)
-    return account.FinalFields?.AMMAccount || account.NewFields?.AMMAccount
+  if (account) return account.FinalFields?.Account || account.NewFields?.Account
 
   return undefined
 }

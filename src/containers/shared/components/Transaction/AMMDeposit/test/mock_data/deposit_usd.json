@@ -150,7 +150,7 @@
       {
         "ModifiedNode": {
           "FinalFields": {
-            "AMMAccount": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+            "Account": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
             "Asset": {
               "currency": "XRP"
             },

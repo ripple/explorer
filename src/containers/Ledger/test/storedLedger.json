@@ -26,7 +26,13 @@
             "amount": 3780.406678065401
           },
           "price": "2.07000",
-          "pair": "XRP/CNY",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "CNY",
+            "issuer": "rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK"
+          },
           "cancel": 434833
         }
       }
@@ -51,7 +57,13 @@
             "amount": 814.3575749822622
           },
           "price": "2.09939",
-          "pair": "XRP/CNY",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "CNY",
+            "issuer": "rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK"
+          },
           "cancel": 434834
         }
       }
@@ -76,7 +88,13 @@
             "amount": 2921.251458458587
           },
           "price": "2.11200",
-          "pair": "XRP/CNY",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "CNY",
+            "issuer": "rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK"
+          },
           "cancel": 434835
         }
       }
@@ -101,7 +119,13 @@
             "amount": 4026.982799610241
           },
           "price": "2.13000",
-          "pair": "XRP/CNY",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "CNY",
+            "issuer": "rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK"
+          },
           "cancel": 434836
         }
       }
@@ -127,7 +151,14 @@
             "amount": 117.183
           },
           "price": "117.183",
-          "pair": "ETH/EUR",
+          "firstCurrency": {
+            "currency": "ETH",
+            "issuer": "rLAKy3kN7um61z27iYgUiEnhM29FxXMq1F"
+          },
+          "secondCurrency": {
+            "currency": "EUR",
+            "issuer": "rhqZLBimNU78SGmA9WzcEdtn9ZaG8sqV5x"
+          },
           "cancel": 175236
         }
       }
@@ -184,7 +215,13 @@
             "amount": 620.1885165967301
           },
           "price": "0.305146",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq"
+          },
           "cancel": 2500102
         }
       }
@@ -210,7 +247,14 @@
             "amount": 1
           },
           "price": "95.6790",
-          "pair": "ETH/EUR",
+          "firstCurrency": {
+            "currency": "ETH",
+            "issuer": "rLAKy3kN7um61z27iYgUiEnhM29FxXMq1F"
+          },
+          "secondCurrency": {
+            "currency": "EUR",
+            "issuer": "rhqZLBimNU78SGmA9WzcEdtn9ZaG8sqV5x"
+          },
           "cancel": 175141
         }
       }
