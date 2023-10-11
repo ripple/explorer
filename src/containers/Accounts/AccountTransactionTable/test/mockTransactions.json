@@ -21,7 +21,13 @@
             "amount": 13450
           },
           "price": "0.287390",
-          "pair": "XRP/USD"
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          }
         }
       }
     },
@@ -46,7 +52,13 @@
             "amount": 1878.6976023515
           },
           "price": "0.299973",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068713
         }
       }
@@ -72,7 +84,13 @@
             "amount": 1879.10009047646
           },
           "price": "0.300038",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068712
         }
       }
@@ -98,7 +116,13 @@
             "amount": 1879.10009407692
           },
           "price": "0.300038",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068711
         }
       }
@@ -124,7 +148,13 @@
             "amount": 1879.10009767737
           },
           "price": "0.300038",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068710
         }
       }
@@ -150,7 +180,13 @@
             "amount": 1879.10010127782
           },
           "price": "0.300038",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068709
         }
       }
@@ -176,7 +212,13 @@
             "amount": 1879.13179564093
           },
           "price": "0.300043",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068708
         }
       }
@@ -202,7 +244,13 @@
             "amount": 1879.54361824799
           },
           "price": "0.300109",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068707
         }
       }
@@ -228,7 +276,13 @@
             "amount": 1879.54362184929
           },
           "price": "0.300109",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068706
         }
       }
@@ -254,7 +308,13 @@
             "amount": 1879.54362545059
           },
           "price": "0.300109",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068705
         }
       }
@@ -280,7 +340,13 @@
             "amount": 1879.5436290519
           },
           "price": "0.300109",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068704
         }
       }
@@ -306,7 +372,13 @@
             "amount": 1879.95574978003
           },
           "price": "0.300174",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068703
         }
       }
@@ -332,7 +404,13 @@
             "amount": 1879.54377656814
           },
           "price": "0.300109",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068702
         }
       }
@@ -358,7 +436,13 @@
             "amount": 1879.53443693073
           },
           "price": "0.300107",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068701
         }
       }
@@ -384,7 +468,13 @@
             "amount": 1876.9546384819
           },
           "price": "0.299695",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068700
         }
       }
@@ -410,7 +500,13 @@
             "amount": 1876.94521140099
           },
           "price": "0.299694",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068699
         }
       }
@@ -436,7 +532,13 @@
             "amount": 1876.94521499731
           },
           "price": "0.299694",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068698
         }
       }
@@ -462,7 +564,13 @@
             "amount": 1876.94521859364
           },
           "price": "0.299694",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068697
         }
       }
@@ -488,7 +596,13 @@
             "amount": 1876.91353188456
           },
           "price": "0.299689",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068696
         }
       }
@@ -514,7 +628,13 @@
             "amount": 1876.91353548082
           },
           "price": "0.299689",
-          "pair": "XRP/USD",
+          "firstCurrency": {
+            "currency": "XRP"
+          },
+          "secondCurrency": {
+            "currency": "USD",
+            "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+          },
           "cancel": 2068695
         }
       }

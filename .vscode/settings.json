@@ -1,85 +1,86 @@
 {
-    "editor.tabSize": 2,
-    "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
+  "editor.tabSize": 2,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "eslint.alwaysShowStatus": true,
+  "eslint.lintTask.enable": true,
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "eslint.workingDirectories": [
+    {
+      "directory": "./server",
+      "changeProcessCWD": true
     },
-    "[javascriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "javascript.preferences.importModuleSpecifier": "relative",
-    "typescript.preferences.importModuleSpecifier": "relative",
-    "eslint.alwaysShowStatus": true,
-    "eslint.lintTask.enable": true,
-    "eslint.codeAction.showDocumentation": {
-        "enable": true
-    },
-    "eslint.workingDirectories": [
-      {
-          "directory": "./server",
-          "changeProcessCWD": true
-      },
-      {
-          "directory": "./src",
-          "changeProcessCWD": true
-      },
-    ],
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true,
-        "source.fixAll.stylelint": true,
-    },
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
-    "jestRunIt.jestPath": "./backend/node_modules/.bin/jest",
-    "jestRunIt.jestConfigPath": "./backend/jest.config.js",
-    "css.validate": false,
-    "scss.validate": false,
-    "stylelint.validate": ["css", "scss"],
-    "search.exclude": {
-        "**/node_modules": true,
-        "**/*.code-search": true,
-        "**/*.svg": true,
-        "**/test/mock_data": true,
-        "package-lock.json": true,
-        "**/test/*.json": true
-    },
-    "cSpell.words": [
-        "camelcase",
-        "chopa",
-        "chopb",
-        "cimode",
-        "clsx",
-        "ctid",
-        "CUSTOMNETWORK",
-        "Decomp",
-        "esbuild",
-        "fakenode",
-        "Hant",
-        "healthz",
-        "hexbin",
-        "middlewares",
-        "MILLIS",
-        "moxios",
-        "nftoken",
-        "nodemodules",
-        "pageview",
-        "paychannels",
-        "paystrings",
-        "stylelint",
-        "svgr",
-        "topojson",
-        "VITE",
-        "xchain",
-        "xchainbridge"
-    ]
-  }
+    {
+      "directory": "./src",
+      "changeProcessCWD": true
+    }
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "jestRunIt.jestPath": "./backend/node_modules/.bin/jest",
+  "jestRunIt.jestConfigPath": "./backend/jest.config.js",
+  "css.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "scss"],
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/*.code-search": true,
+    "**/*.svg": true,
+    "**/test/mock_data": true,
+    "package-lock.json": true,
+    "**/test/*.json": true
+  },
+  "cSpell.words": [
+    "camelcase",
+    "chopa",
+    "chopb",
+    "cimode",
+    "Clawback",
+    "clsx",
+    "ctid",
+    "CUSTOMNETWORK",
+    "Decomp",
+    "esbuild",
+    "fakenode",
+    "Hant",
+    "healthz",
+    "hexbin",
+    "middlewares",
+    "MILLIS",
+    "moxios",
+    "nftoken",
+    "nodemodules",
+    "pageview",
+    "paychannels",
+    "paystrings",
+    "stylelint",
+    "svgr",
+    "topojson",
+    "VITE",
+    "xchain",
+    "xchainbridge"
+  ]
+}
