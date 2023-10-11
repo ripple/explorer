@@ -2,13 +2,25 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TRANSACTION_ROUTE } from '../App/routes'
 import { Loader } from '../shared/components/Loader'
+import { useLanguage } from '../shared/hooks'
 import { RouteLink } from '../shared/routing'
-import { AmendmentsList } from '../shared/vhsTypes'
+import { localizeDate } from '../shared/utils'
+import { AmendmentsList, Voter } from '../shared/vhsTypes'
+
+const DATE_OPTIONS_AMENDMENTS = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  timeZone: 'UTC',
+}
+
+const DEFAULT_EMPTY_VALUE = '--'
 
 export const AmendmentsTable: FC<{
   amendments: AmendmentsList[] | undefined
 }> = ({ amendments }) => {
   const { t } = useTranslation()
+  const language = useLanguage()
 
   const renderEnabled = (enabled: boolean) =>
     enabled ? (
@@ -17,17 +29,31 @@ export const AmendmentsTable: FC<{
       <span className="badge no">{t('no')}</span>
     )
 
-  const renderOnTx = (onTx: string | null, txHash: string | undefined) =>
-    // eslint-disable-next-line no-nested-ternary -- Disabled since there are 2 conditions.
-    onTx === 'voting' ? (
-      <span className="voting">{t('voting')}</span>
-    ) : txHash ? (
-      <RouteLink to={TRANSACTION_ROUTE} params={{ identifier: txHash }}>
-        {onTx}
-      </RouteLink>
-    ) : (
-      <span>{onTx}</span>
-    )
+  const renderOnTx = (amendment) => {
+    if (amendment.voted) {
+      return <span className="voting">{t('voting')}</span>
+    }
+
+    if (amendment.date) {
+      const dateLocalized = localizeDate(
+        new Date(amendment.date),
+        language,
+        DATE_OPTIONS_AMENDMENTS,
+      )
+      return amendment.tx_hash ? (
+        <RouteLink
+          to={TRANSACTION_ROUTE}
+          params={{ identifier: amendment.tx_hash }}
+        >
+          {dateLocalized}
+        </RouteLink>
+      ) : (
+        <span>{dateLocalized}</span>
+      )
+    }
+
+    return DEFAULT_EMPTY_VALUE
+  }
 
   const renderName = (name: string, deprecated: boolean) =>
     deprecated ? (
@@ -39,21 +65,30 @@ export const AmendmentsTable: FC<{
       <span className="name-text">{name}</span>
     )
 
+  const getVoter = (voted: Voter | undefined) => {
+    if (!voted) return DEFAULT_EMPTY_VALUE
+    return voted.validators.filter((val) => val.unl !== false).length
+  }
+
   const renderAmendment = (amendment, index) => (
-    <tr id={amendment.amendment_id}>
+    <tr key={amendment.amendment_id}>
       <td className="count">{index + 1}</td>
       <td className="version">{amendment.version}</td>
       <td className="amendment-id text-truncate">{amendment.id}</td>
       <td className="name text-truncate">
         {renderName(amendment.name, amendment.deprecated)}
       </td>
-      <td className="voters">{amendment.voters}</td>
-      <td className="threshold">{amendment.threshold}</td>
-      <td className="consensus">{amendment.consensus}</td>
-      <td className="enabled">{renderEnabled(amendment.enabled)}</td>
-      <td className="on_tx">
-        {renderOnTx(amendment.on_tx, amendment.tx_hash)}
+      <td className="voters">{getVoter(amendment.voted)}</td>
+      <td className="threshold">
+        {amendment.threshold ?? DEFAULT_EMPTY_VALUE}
       </td>
+      <td className="consensus">
+        {amendment.consensus ?? DEFAULT_EMPTY_VALUE}
+      </td>
+      <td className="enabled">
+        {renderEnabled(amendment.voted === undefined)}
+      </td>
+      <td className="on_tx">{renderOnTx(amendment)}</td>
     </tr>
   )
 

@@ -100,14 +100,23 @@ export interface StreamValidator extends ValidatorResponse {
 }
 
 export interface AmendmentsList {
-  version: string
+  rippled_version: string
   id: string
   name: string
-  voters: string
-  threshold: string
-  consensus: string
-  enabled: boolean
+  threshold?: string
+  consensus?: string
   deprecated: boolean
-  on_tx: string | null
+  date: string | null
   tx_hash?: string
+  ledger_index?: number
+  voted?: Voter
+}
+
+export interface Voter {
+  count: number
+  validators: Array<{
+    signing_key: string
+    ledger_index: string
+    unl: string | false
+  }>
 }
