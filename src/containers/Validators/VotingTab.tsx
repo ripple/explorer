@@ -45,8 +45,10 @@ export const VotingTab: FC<{
     const url = `${process.env.VITE_DATA_URL}/amendments/vote/${networkID}`
     return axios
       .get(url)
-      .then((resp) => resp.data)
-      .then((response) => response.amendments.voting.amendments)
+      .then((resp) => resp.data.amendments)
+      .then((amendments) =>
+        amendments.filter((amendment) => amendment.voted !== undefined),
+      )
       .catch((axiosError) => {
         const status =
           axiosError.response && axiosError.response.status
