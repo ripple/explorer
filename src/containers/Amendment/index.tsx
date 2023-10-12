@@ -46,11 +46,15 @@ export const Amendment = () => {
   const { data, error, isLoading } = useQuery<
     AmendmentData,
     keyof typeof ERROR_MESSAGES | null
-  >(['fetchAmendmentData', identifier], async () => fetchAmendmentData(), {
-    refetchInterval: (_) => FETCH_INTERVAL_VHS_MILLIS,
-    refetchOnMount: true,
-    enabled: !!network,
-  })
+  >(
+    ['fetchAmendmentData', identifier, network],
+    async () => fetchAmendmentData(),
+    {
+      refetchInterval: (_) => FETCH_INTERVAL_VHS_MILLIS,
+      refetchOnMount: true,
+      enabled: !!network,
+    },
+  )
 
   const { data: validators } = useQuery(
     ['fetchValidatorsData'],

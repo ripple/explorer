@@ -499,6 +499,7 @@
   "not_enabled": null,
   "enabled": null,
   "enabled_on": null,
+  "tx": null,
   "yeas_all": null,
   "nays_all": null,
   "yeas_unl": null,

@@ -501,6 +501,7 @@
   "not_enabled": "Not Enabled",
   "enabled": "Enabled",
   "enabled_on": "enabled on",
+  "tx": "tx",
   "yeas_all": "yeas (all)",
   "nays_all": "nays (all)",
   "yeas_unl": "yeas (unl)",
