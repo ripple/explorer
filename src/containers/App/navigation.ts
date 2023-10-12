@@ -17,11 +17,26 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
     route: LEDGERS_ROUTE,
     title: 'explorer',
     current: (path: string) => !isNetwork(path),
+  },
+  {
+    route: NETWORK_ROUTE,
+    title: 'network',
+    current: (path: string) => isNetwork(path),
     children: [
       {
         route: NETWORK_ROUTE,
-        title: 'network',
-        current: (path: string) => isNetwork(path),
+        title: 'nodes',
+        params: { tab: 'nodes' },
+      },
+      {
+        route: NETWORK_ROUTE,
+        title: 'validators',
+        params: { tab: 'validators' },
+      },
+      {
+        route: NETWORK_ROUTE,
+        title: 'upgrade_status',
+        params: { tab: 'upgrade-status' },
       },
       {
         route: AMENDMENTS_ROUTE,
