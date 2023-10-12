@@ -75,13 +75,9 @@
 
   .votes {
     margin: 48px 0;
-
-    .barchart {
-      max-width: 1200px;
-    }
+    max-width: 1200px;
 
     .votes-columns {
-      max-width: 1200px;
       margin: 48px 0;
 
       @include for-size(desktop-up) {
