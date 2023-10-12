@@ -1,5 +1,4 @@
 {
-  "voting_status": "voting",
   "amendment": {
     "id": "mock-amendment-id",
     "name": "mock-name",
