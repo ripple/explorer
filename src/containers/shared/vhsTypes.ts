@@ -99,7 +99,7 @@ export interface StreamValidator extends ValidatorResponse {
   time?: string
 }
 
-export interface AmendmentsList {
+export interface AmendmentData {
   rippled_version: string
   id: string
   name: string

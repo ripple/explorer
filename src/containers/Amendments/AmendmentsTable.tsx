@@ -5,7 +5,7 @@ import { Loader } from '../shared/components/Loader'
 import { useLanguage } from '../shared/hooks'
 import { RouteLink } from '../shared/routing'
 import { localizeDate } from '../shared/utils'
-import { AmendmentsList, Voter } from '../shared/vhsTypes'
+import { AmendmentData, Voter } from '../shared/vhsTypes'
 
 const DATE_OPTIONS_AMENDMENTS = {
   year: 'numeric',
@@ -17,7 +17,7 @@ const DATE_OPTIONS_AMENDMENTS = {
 const DEFAULT_EMPTY_VALUE = '--'
 
 export const AmendmentsTable: FC<{
-  amendments: AmendmentsList[] | undefined
+  amendments: AmendmentData[] | undefined
 }> = ({ amendments }) => {
   const { t } = useTranslation()
   const language = useLanguage()
