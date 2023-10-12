@@ -54,7 +54,7 @@ describe('VotingTab container', () => {
   it('renders voting tab information', (done) => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/amendments/vote/main`, {
       status: 200,
-      response: { amendments },
+      response: amendments,
     })
 
     const wrapper = createWrapper()
