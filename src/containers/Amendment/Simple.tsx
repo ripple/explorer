@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { TRANSACTION_ROUTE } from '../App/routes'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
+import { useLanguage } from '../shared/hooks'
 import { RouteLink } from '../shared/routing'
-import { BREAKPOINTS } from '../shared/utils'
-import { AmendmentVote, VotedValidators } from '../shared/vhsTypes'
+import { BREAKPOINTS, localizeDate } from '../shared/utils'
+import { AmendmentData, Voter } from '../shared/vhsTypes'
 
 interface validatorUNL {
   signing_key: string
@@ -14,39 +15,58 @@ interface validatorUNL {
 }
 
 interface SimpleProps {
-  data: AmendmentVote
+  data: AmendmentData
   validators: Array<validatorUNL>
   width: number
 }
 
+const DATE_OPTIONS_AMENDMEND = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  timeZone: 'UTC',
+}
+
+const DEFAULT_EMPTY_VALUE = '--'
+
 export const Simple = ({ data, validators, width }: SimpleProps) => {
   const { t } = useTranslation()
+  const language = useLanguage()
 
-  const calculateUNLNays = (
-    voted: Array<VotedValidators>,
-    all: Array<validatorUNL>,
-  ): number =>
+  const voting = data.voted !== undefined
+
+  const calculateUNLNays = (voted: Voter, all: Array<validatorUNL>): number =>
     all.filter((val) => val.unl !== false).length -
-    voted.filter((val) => val.unl !== false).length
+    voted.validators.filter((val) => val.unl !== false).length
 
-  const renderStatus = (status: string) =>
-    status === 'voting' ? (
+  const renderStatus = () =>
+    voting ? (
       <div className="badge voting">{t('not_enabled')}</div>
     ) : (
       <div className="badge enabled">{t('enabled')}</div>
     )
 
+  const renderDate = (date: string | null) =>
+    date
+      ? localizeDate(new Date(date), language, DATE_OPTIONS_AMENDMEND)
+      : DEFAULT_EMPTY_VALUE
+
   const renderRowIndex = () =>
-    data.voting_status === 'voting' ? (
+    voting ? (
       <>
         {data.voted !== undefined && (
           <>
-            <SimpleRow label={t('yeas_all')}>{data.voted.length}</SimpleRow>
+            <SimpleRow label={t('yeas_all')}>
+              {data.voted.validators.length}
+            </SimpleRow>
             <SimpleRow label={t('nays_all')}>
-              {validators.length - data.voted.length}
+              {validators.length - data.voted.validators.length}
             </SimpleRow>
             <SimpleRow label={t('yeas_unl')}>
-              {data.voted.filter((voted) => voted.unl !== false).length}
+              {
+                data.voted.validators.filter((voted) => voted.unl !== false)
+                  .length
+              }
             </SimpleRow>
             <SimpleRow label={t('nays_unl')}>
               {calculateUNLNays(data.voted, validators)}
@@ -64,11 +84,11 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
       <SimpleRow label={t('enabled_on')}>
         <RouteLink to={TRANSACTION_ROUTE} params={{ identifier: data.tx_hash }}>
           {' '}
-          {data.date}
+          {renderDate(data.date)}
         </RouteLink>
       </SimpleRow>
     ) : (
-      <SimpleRow label={t('enabled_on')}>{data.date}</SimpleRow>
+      <SimpleRow label={t('enabled_on')}>{renderDate(data.date)}</SimpleRow>
     )
 
   const rowIndex = renderRowIndex()
@@ -79,11 +99,11 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
     <>
       <div className="rows">
         <SimpleRow label={t('name')}>{data.name}</SimpleRow>
-        <SimpleRow label={t('amendment_id')}>{data.amendment_id}</SimpleRow>
+        <SimpleRow label={t('amendment_id')}>{data.id}</SimpleRow>
         <SimpleRow label={t('introduced_in')}>
           {`v${data.rippled_version}`}
         </SimpleRow>
-        {data.voting_status === 'voting' ? (
+        {voting ? (
           <SimpleRow label={t('threshold')}>{data.threshold}</SimpleRow>
         ) : (
           data.tx_hash && (
@@ -101,9 +121,7 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
         <SimpleRow label={t('details')}>
           <Link to={details}>{details}</Link>
         </SimpleRow>
-        <SimpleRow label={t('status')}>
-          {renderStatus(data.voting_status)}
-        </SimpleRow>
+        <SimpleRow label={t('status')}>{renderStatus()}</SimpleRow>
         {width < BREAKPOINTS.landscape && rowIndex}
       </div>
       {width >= BREAKPOINTS.landscape && (

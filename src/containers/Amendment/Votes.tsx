@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { AmendmentVote } from '../shared/vhsTypes'
+import { AmendmentData } from '../shared/vhsTypes'
 import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
 import { RouteLink } from '../shared/routing'
@@ -7,7 +7,7 @@ import { VALIDATOR_ROUTE } from '../App/routes'
 import { BarChartVoting } from './BarChartVoting'
 
 interface VotesProps {
-  data: AmendmentVote
+  data: AmendmentData
   validators: Array<validatorUNL>
 }
 
@@ -41,6 +41,8 @@ function compareValidators(a: validatorUNL, b: validatorUNL) {
 
 export const Votes = ({ data, validators }: VotesProps) => {
   const { t } = useTranslation()
+
+  const voting = data.voted !== undefined
 
   const renderColumn = (label: string, validatorsList: Array<validatorUNL>) => (
     <div className="votes-column">
@@ -77,7 +79,7 @@ export const Votes = ({ data, validators }: VotesProps) => {
     validators
       .filter(
         (validator) =>
-          !data.voted?.some(
+          !data.voted?.validators.some(
             (voted) => voted.signing_key === validator.signing_key,
           ),
       )
@@ -86,7 +88,7 @@ export const Votes = ({ data, validators }: VotesProps) => {
   const getYeas = () =>
     validators
       .filter((validator) =>
-        data.voted?.some(
+        data.voted?.validators.some(
           (voted) => voted.signing_key === validator.signing_key,
         ),
       )
@@ -110,7 +112,7 @@ export const Votes = ({ data, validators }: VotesProps) => {
 
   const aggregate = aggregateVoting()
 
-  return data.voting_status === 'voting' ? (
+  return voting ? (
     <div className="votes">
       {aggregate && <BarChartVoting data={aggregate} />}
       <div className="votes-columns">
