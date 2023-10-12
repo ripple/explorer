@@ -42,6 +42,7 @@
     max-width: fit-content;
     margin: 0;
     color: $black-100 !important;
+    text-transform: capitalize;
 
     &.voting {
       background-color: $black-30;
@@ -74,8 +75,8 @@
   }
 
   .votes {
-    margin: 48px 0;
     max-width: 1200px;
+    margin: 48px 0;
 
     .votes-columns {
       margin: 48px 0;

@@ -41,7 +41,7 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
 
   const renderStatus = () =>
     voting ? (
-      <div className="badge voting">{t('not_enabled')}</div>
+      <div className="badge voting">{`${t('not')} ${t('enabled')}`}</div>
     ) : (
       <div className="badge enabled">{t('enabled')}</div>
     )
@@ -56,19 +56,19 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
       <>
         {data.voted !== undefined && (
           <>
-            <SimpleRow label={t('yeas_all')}>
+            <SimpleRow label={`${t('yeas')} (${t('all')})`}>
               {data.voted.validators.length}
             </SimpleRow>
-            <SimpleRow label={t('nays_all')}>
+            <SimpleRow label={`${t('nays')} (${t('all')})`}>
               {validators.length - data.voted.validators.length}
             </SimpleRow>
-            <SimpleRow label={t('yeas_unl')}>
+            <SimpleRow label={`${t('yeas')} (${t('unl')})`}>
               {
                 data.voted.validators.filter((voted) => voted.unl !== false)
                   .length
               }
             </SimpleRow>
-            <SimpleRow label={t('nays_unl')}>
+            <SimpleRow label={`${t('nays')} (${t('unl')})`}>
               {calculateUNLNays(data.voted, validators)}
             </SimpleRow>
           </>
@@ -81,14 +81,16 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
         </SimpleRow>
       </>
     ) : data.tx_hash ? (
-      <SimpleRow label={t('enabled_on')}>
+      <SimpleRow label={`${t('enabled')} (${t('on')})`.trim()}>
         <RouteLink to={TRANSACTION_ROUTE} params={{ identifier: data.tx_hash }}>
           {' '}
           {renderDate(data.date)}
         </RouteLink>
       </SimpleRow>
     ) : (
-      <SimpleRow label={t('enabled_on')}>{renderDate(data.date)}</SimpleRow>
+      <SimpleRow label={`${t('enabled')} (${t('on')})`.trim()}>
+        {renderDate(data.date)}
+      </SimpleRow>
     )
 
   const rowIndex = renderRowIndex()
