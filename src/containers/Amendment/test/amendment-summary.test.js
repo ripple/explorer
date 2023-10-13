@@ -126,7 +126,7 @@ describe('Amendments Page container', () => {
         .at(5)
         .find('.value .badge')
         .html(),
-    ).toBe('<div class="badge voting">not_enabled</div>')
+    ).toBe('<div class="badge voting">not enabled</div>')
 
     expect(
       wrapper
