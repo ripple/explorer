@@ -38,4 +38,13 @@ describe('DomainLink', () => {
     expect(wrapper.find('a').props().href).toEqual('https://sologenic.com')
     wrapper.unmount()
   })
+  it('handles domain link with domain provided in HEX-encoded format', () => {
+    const wrapper = mount(
+      <DomainLink decode domain="68747470733A2F2F6578616D706C652E636F6D" />,
+    )
+    expect(wrapper.find('a').props().className).toEqual('domain')
+    expect(wrapper.find('a').text()).toEqual('https://example.com')
+    expect(wrapper.find('a').props().href).toEqual('https://example.com')
+    wrapper.unmount()
+  })
 })
