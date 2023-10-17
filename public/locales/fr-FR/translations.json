@@ -484,5 +484,7 @@
   "grant": "Allocation",
   "namespace": "Espace de noms",
   "api_version": "Version API",
-  "triggered_on": "Déclenché Par"
+  "triggered_on": "Déclenché Par",
+  "token_for_transaction": null,
+  "token_for_transaction_swap": null
 }
