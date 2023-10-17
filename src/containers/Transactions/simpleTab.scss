@@ -42,8 +42,16 @@ $subdued-color: $black-40;
             display: block;
           }
 
+          .one-line {
+            display: flex;
+          }
+
           .currency {
             display: block;
+          }
+
+          .currency,
+          .one-line {
             margin: -1px 0px -16px;
             color: $subdued-color;
             font-size: 11px;
