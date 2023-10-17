@@ -18,18 +18,15 @@ export const LanguagePicker = () => {
         title={t(`language`, { context: currentLanguage, defaultValue: '' })}
         className="dropdown-right"
       >
-        {supportedLanguages
-          .filter((language) => language !== currentLanguage)
-          .map((language) => (
+        {Object.entries(supportedLanguages)
+          .filter(([language]) => language !== currentLanguage)
+          .map(([language, languageName]) => (
             <DropdownItem
               key={language}
               className={`language-picker-${language}`}
               handler={handleLanguageClick(language)}
             >
-              {t(`language`, {
-                context: language,
-                defaultValue: '',
-              })}
+              {languageName}
             </DropdownItem>
           ))}
       </Dropdown>
