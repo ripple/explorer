@@ -5,7 +5,7 @@ import './LanguagePicker.scss'
 import { supportedLanguages } from '../../../i18n/baseConfig'
 
 export const LanguagePicker = () => {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const currentLanguage = useLanguage()
 
   const handleLanguageClick = (language: string) => () => {
@@ -15,7 +15,7 @@ export const LanguagePicker = () => {
   return (
     <div className="language-picker">
       <Dropdown
-        title={t(`language`, { context: currentLanguage, defaultValue: '' })}
+        title={supportedLanguages[currentLanguage]}
         className="dropdown-right"
       >
         {Object.entries(supportedLanguages)
