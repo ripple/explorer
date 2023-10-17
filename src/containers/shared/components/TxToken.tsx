@@ -1,6 +1,7 @@
-import '../css/txlabel.scss'
 import { Trans } from 'react-i18next'
 import Currency from './Currency'
+
+import '../css/txlabel.scss'
 
 interface Props {
   tx: any
