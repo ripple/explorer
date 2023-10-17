@@ -10,7 +10,13 @@
       "issuer": "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y",
       "amount": 19909.5799999996
     },
-    "price": "0.995479",
-    "pair": "CNY/CNY"
+    "firstCurrency": {
+      "currency": "CNY",
+      "issuer": "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y"
+    },
+    "secondCurrency": {
+      "currency": "CNY",
+      "issuer": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA"
+    }
   }
 }

@@ -118,12 +118,9 @@
     }
 
     .currency,
-    .account {
+    .account,
+    .case-sensitive {
       text-transform: none;
-    }
-
-    .currency {
-      margin-left: 5px;
     }
 
     span {
