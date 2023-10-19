@@ -8,7 +8,7 @@ export interface Props {
 }
 
 // Matches a protocol (e.g. 'http://' or 'https://') at the start of a string.
-const protocolRegex = /^([a-z][a-z0-9+\-.]*):\/\//
+const PROTOCOL_REGEX = /^([a-z][a-z0-9+\-.]*):\/\//
 
 const DomainLink = (props: Props) => {
   const { className, decode = false, domain } = props
@@ -17,7 +17,7 @@ const DomainLink = (props: Props) => {
   const decodedDomain = decode ? decodeHex(domain) : domain
 
   // Use the test method to check for the protocol
-  const domainHasProtocol = protocolRegex.test(decodedDomain)
+  const domainHasProtocol = PROTOCOL_REGEX.test(decodedDomain)
 
   // If decoded domain does not have a protocol, add one ; otherwise, don't
   const href = domainHasProtocol ? decodedDomain : `https://${decodedDomain}`
