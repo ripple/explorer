@@ -479,5 +479,7 @@
   "grant": "Subvención",
   "namespace": "Espacio de Nombres",
   "api_version": "Versión API",
-  "triggered_on": "Activado En"
+  "triggered_on": "Activado En",
+  "transaction_tokens_involved": null,
+  "transaction_tokens_swapped": null
 }
