@@ -34,8 +34,8 @@ function getTokenPair(
         <Trans
           i18nKey={
             type === 'Payment'
-              ? 'token_for_transaction_swap'
-              : 'token_for_transaction'
+              ? 'transaction_tokens_swapped'
+              : 'transaction_tokens_involved'
           }
           components={{
             Currency: first,

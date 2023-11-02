@@ -486,6 +486,6 @@
   "triggered_on": "Triggered On",
   "did_document": "DID Document",
   "attestation": "Attestation",
-  "token_for_transaction": "<Currency/> and <Currency2/>",
-  "token_for_transaction_swap": "<Currency/> for <Currency2/>"
+  "transaction_tokens_involved": "<Currency/> and <Currency2/>",
+  "transaction_tokens_swapped": "<Currency/> for <Currency2/>"
 }

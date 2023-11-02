@@ -482,6 +482,6 @@
   "namespace": "ネームスペース",
   "api_version": "APIバージョン",
   "triggered_on": null,
-  "token_for_transaction": null,
-  "token_for_transaction_swap": null
+  "transaction_tokens_involved": null,
+  "transaction_tokens_swapped": null
 }
