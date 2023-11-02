@@ -481,5 +481,7 @@
   "grant": null,
   "namespace": "ネームスペース",
   "api_version": "APIバージョン",
-  "triggered_on": null
+  "triggered_on": null,
+  "transaction_tokens_involved": null,
+  "transaction_tokens_swapped": null
 }
