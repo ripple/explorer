@@ -479,5 +479,7 @@
   "grant": "그랜트",
   "namespace": "Namespace",
   "api_version": "API 버전",
-  "triggered_on": "Triggered On"
+  "triggered_on": "Triggered On",
+  "transaction_tokens_involved": null,
+  "transaction_tokens_swapped": null
 }
