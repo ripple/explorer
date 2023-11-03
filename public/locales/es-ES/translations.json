@@ -204,6 +204,7 @@
   "transaction_empty_hint": "Introduce un hash de transacción en la caja de búsqueda",
   "validator_not_found": "Validador no encontrado",
   "check_transaction_hash": "Por favor, comprueba tu hash de transacción",
+  "wrong_network": null,
   "check_validator_key": "Por favor, comprueba la clave de tu validador",
   "transaction": "Transacción",
   "success": "Éxito",

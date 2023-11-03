@@ -206,6 +206,7 @@
   "transaction_empty_hint": "Entrez un hash de transaction dans la zone de recherche",
   "validator_not_found": "Validateur non trouvé",
   "check_transaction_hash": "Veuillez vérifier le hash de la transaction",
+  "wrong_network": null,
   "check_validator_key": "Veuillez vérifier la clé du validateur",
   "transaction": "Transaction",
   "success": "Succès",
