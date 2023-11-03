@@ -7,7 +7,8 @@ const ENV_NETWORK_MAP: Record<string, string> = {
   testnet: 'test',
   devnet: 'dev',
   amm: 'amm-dev',
-  hooks_testnet: 'hooks-test',
+  xahau_mainnet: 'xahau-main',
+  xahau_testnet: 'xahau-test',
 }
 
 function getNetworkName() {
