@@ -13,7 +13,8 @@
   "network_name_mainnet": "Mainnet",
   "network_name_devnet": "Devnet",
   "network_name_amm": "AMM-Devnet",
-  "network_name_hooks_testnet": "Hooks-Testnet",
+  "network_name_xahau_mainnet": "Xahau Mainnet",
+  "network_name_xahau_testnet": "Xahau Testnet",
   "network_name_custom": "Custom",
   "app.meta.description": "XRPL 네트워크 탐색기",
   "app.meta.author": "리플",
@@ -461,11 +462,6 @@
   "check_crawl_existed": "운영자에게 연락하여 /crawl이 접근 가능하거나 vl 세트가 있는지 확인하세요",
   "peer_crawled_context": "더 자세한 정보는 https://xrpl.org/peer-crawler.html 를 참조하세요",
   "xchainbridge": "XChain 브리지",
-  "language_en-US": "영어",
-  "language_fr-FR": "프랑스말",
-  "language_ja-JP": "일본어",
-  "language_ko-KR": "한국어",
-  "language_es-ES": "null",
   "xchain_account_claim_count": "XChain 계정 요구 수",
   "xchain_account_create_count": "XChain 계정 생성 수",
   "min_signer_quorum": "최소 가중치 <0>{{quorum}}</0>가 필요합니다",
@@ -492,5 +488,7 @@
   "grant": "그랜트",
   "namespace": "Namespace",
   "api_version": "API 버전",
-  "triggered_on": "Triggered On"
+  "triggered_on": "Triggered On",
+  "transaction_tokens_involved": null,
+  "transaction_tokens_swapped": null
 }

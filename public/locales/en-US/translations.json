@@ -11,7 +11,8 @@
   "network_name_mainnet": "Mainnet",
   "network_name_devnet": "Devnet",
   "network_name_amm": "AMM-Devnet",
-  "network_name_hooks_testnet": "Hooks-Testnet",
+  "network_name_xahau_mainnet": "Xahau Mainnet",
+  "network_name_xahau_testnet": "Xahau Testnet",
   "network_name_custom": "Custom",
   "app.meta.description": "XRPL Network Explorer",
   "app.meta.author": "Ripple",
@@ -465,11 +466,6 @@
   "check_crawl_existed": "Please contact the operator to make sure they have /crawl accessible or a vl set.",
   "peer_crawled_context": "For more context, see https://xrpl.org/peer-crawler.html",
   "xchainbridge": "XChainBridge",
-  "language_en-US": "English",
-  "language_fr-FR": "French",
-  "language_ja-JP": "Japanese",
-  "language_ko-KR": "Korean",
-  "language_es-ES": "Spanish",
   "xchain_account_claim_count": "XChain Account Claim Count",
   "xchain_account_create_count": "XChain Account Create Count",
   "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required",
@@ -498,5 +494,7 @@
   "api_version": "API Version",
   "triggered_on": "Triggered On",
   "did_document": "DID Document",
-  "attestation": "Attestation"
+  "attestation": "Attestation",
+  "transaction_tokens_involved": "<Currency/> and <Currency2/>",
+  "transaction_tokens_swapped": "<Currency/> for <Currency2/>"
 }
