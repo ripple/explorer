@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TRANSACTION_ROUTE } from '../App/routes'
+import { AMENDMENT_ROUTE, TRANSACTION_ROUTE } from '../App/routes'
 import { Loader } from '../shared/components/Loader'
 import { useLanguage } from '../shared/hooks'
 import { RouteLink } from '../shared/routing'
@@ -55,14 +55,22 @@ export const AmendmentsTable: FC<{
     return DEFAULT_EMPTY_VALUE
   }
 
-  const renderName = (name: string, deprecated: boolean) =>
+  const renderName = (name: string, id: string, deprecated: boolean) =>
     deprecated ? (
       <div className="name-deprecated">
-        <span className="name-text text-truncate">{name}</span>
+        <span className="name-text text-truncate">
+          <RouteLink to={AMENDMENT_ROUTE} params={{ identifier: id }}>
+            {name}
+          </RouteLink>
+        </span>
         <span className="deprecated badge">{t('deprecated')}</span>
       </div>
     ) : (
-      <span className="name-text">{name}</span>
+      <span className="name-text">
+        <RouteLink to={AMENDMENT_ROUTE} params={{ identifier: id }}>
+          {name}
+        </RouteLink>
+      </span>
     )
 
   const getVoter = (voted: Voter | undefined) => {
@@ -73,10 +81,12 @@ export const AmendmentsTable: FC<{
   const renderAmendment = (amendment, index) => (
     <tr key={amendment.id}>
       <td className="count">{index + 1}</td>
-      <td className="version">{amendment.rippled_version}</td>
+      <td className="version">
+        {amendment.rippled_version ?? DEFAULT_EMPTY_VALUE}
+      </td>
       <td className="amendment-id text-truncate">{amendment.id}</td>
       <td className="name text-truncate">
-        {renderName(amendment.name, amendment.deprecated)}
+        {renderName(amendment.name, amendment.id, amendment.deprecated)}
       </td>
       <td className="voters">{getVoter(amendment.voted)}</td>
       <td className="threshold">
