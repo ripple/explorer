@@ -24,6 +24,7 @@ import {
   TRANSACTION_ROUTE,
   VALIDATOR_ROUTE,
   AMENDMENTS_ROUTE,
+  AMENDMENT_ROUTE,
 } from './routes'
 import Ledgers from '../Ledgers'
 import { Ledger } from '../Ledger'
@@ -37,6 +38,7 @@ import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
 import { useCustomNetworks } from '../shared/hooks'
 import { Amendments } from '../Amendments'
+import { Amendment } from '../Amendment'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -69,6 +71,7 @@ export const AppWrapper = () => {
     [PAYSTRING_ROUTE, PayString],
     [TOKEN_ROUTE, Token],
     [NFT_ROUTE, NFT],
+    [AMENDMENT_ROUTE, Amendment],
   ]
 
   const redirect = legacyRedirect(basename, location)
