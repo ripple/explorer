@@ -15,6 +15,8 @@ import { useAnalytics } from '../shared/analytics'
 import { XRP_BASE } from '../shared/transactionUtils'
 
 import './votingTab.scss'
+import { RouteLink } from '../shared/routing'
+import { AMENDMENT_ROUTE } from '../App/routes'
 
 export const VotingTab: FC<{
   validatorData: ValidatorSupplemented
@@ -62,9 +64,9 @@ export const VotingTab: FC<{
   const renderAmendment = (id: string, name: string, voted: boolean) => (
     <div className="rows">
       <SimpleRow label={t('amendment_name')} className="amendment-name">
-        {/* <RouteLink to={AMENDMENT_ROUTE}>{name}</RouteLink>
-        Commented out until the Amendment Summary page is created. */}
-        {name}
+        <RouteLink to={AMENDMENT_ROUTE} params={{ identifier: id }}>
+          {name}
+        </RouteLink>
       </SimpleRow>
       <SimpleRow label={t('amendment_id')} className="text-truncate">
         {id}
