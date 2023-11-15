@@ -12,7 +12,8 @@
   "network_name_mainnet": "Mainnet",
   "network_name_devnet": "Devnet",
   "network_name_amm": "AMM-Devnet",
-  "network_name_hooks_testnet": "Hooks-Testnet",
+  "network_name_xahau_mainnet": "Xahau Mainnet",
+  "network_name_xahau_testnet": "Xahau Testnet",
   "network_name_custom": "Personalizada",
   "app.meta.description": "Explorador de la Red XRPL",
   "app.meta.author": "Ripple",
@@ -464,11 +465,6 @@
   "check_crawl_existed": "Por favor, contacta con el operador para asegurarte de que tienen acceso a /crawl o un  vl incluido.",
   "peer_crawled_context": "Para más contexto, mira https://xrpl.org/peer-crawler.html",
   "xchainbridge": "XChainBridge",
-  "language_en-US": "Inglés",
-  "language_ja-JP": "Japonés",
-  "language_kr-KR": "Coreano",
-  "language_fr-FR": "Francés",
-  "language_es-ES": "Español",
   "xchain_account_claim_count": "Contador de Reclamación de Cuentas XChain",
   "xchain_account_create_count": "Contador de Creación de Cuentas XChain",
   "min_signer_quorum": "Peso mínimo <0>{{quorum}}</0> requerido",
@@ -495,5 +491,7 @@
   "grant": "Subvención",
   "namespace": "Espacio de Nombres",
   "api_version": "Versión API",
-  "triggered_on": "Activado En"
+  "triggered_on": "Activado En",
+  "transaction_tokens_involved": null,
+  "transaction_tokens_swapped": null
 }
