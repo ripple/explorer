@@ -11,7 +11,8 @@
   "network_name_mainnet": "Mainnet",
   "network_name_devnet": "Devnet",
   "network_name_amm": "AMM-Devnet",
-  "network_name_hooks_testnet": "Hooks-Testnet",
+  "network_name_xahau_mainnet": "Xahau Mainnet",
+  "network_name_xahau_testnet": "Xahau Testnet",
   "network_name_custom": "Personnalisé",
   "app.meta.description": "Explorateur XRPL",
   "app.meta.author": "Ripple",
@@ -454,9 +455,6 @@
   "check_crawl_existed": "Veuillez contacter l'opérateur pour vous assurer qu'il dispose d'un accès /crawl accessible ou d'un ensemble vl.",
   "peer_crawled_context": "Pour plus de contexte, voir https://xrpl.org/peer-crawler.html",
   "xchainbridge": "Pont XChain",
-  "language_en-US": "Anglais",
-  "language_ja-JP": "Japonais",
-  "language_fr-FR": "Français",
   "xchain_account_claim_count": "Nombre de réclamations de compte XChain",
   "xchain_account_create_count": "Nombre de compte XChain créés",
   "min_signer_quorum": "Poids minimum <0>{{quorum}}</0> requis.",
@@ -505,5 +503,7 @@
   "amendment_not_found": null,
   "check_amendment_key": null,
   "note": null,
-  "indicate_unl": null
+  "indicate_unl": null,
+  "transaction_tokens_involved": null,
+  "transaction_tokens_swapped": null
 }

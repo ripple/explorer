@@ -11,7 +11,8 @@
   "network_name_mainnet": "Mainnet",
   "network_name_devnet": "Devnet",
   "network_name_amm": "AMM-Devnet",
-  "network_name_hooks_testnet": "Hooks-Testnet",
+  "network_name_xahau_mainnet": "Xahau Mainnet",
+  "network_name_xahau_testnet": "Xahau Testnet",
   "network_name_custom": "Custom",
   "app.meta.description": "XRPLネットワークエクスプローラ",
   "app.meta.author": "Ripple",
@@ -454,11 +455,6 @@
   "check_crawl_existed": null,
   "peer_crawled_context": null,
   "xchainbridge": null,
-  "language_en-US": null,
-  "language_fr-FR": null,
-  "language_ja-JP": null,
-  "language_ko-KR": null,
-  "language_es-ES": null,
   "xchain_account_claim_count": null,
   "xchain_account_create_count": null,
   "min_signer_quorum": null,
@@ -506,5 +502,7 @@
   "amendment_not_found": null,
   "check_amendment_key": null,
   "note": null,
-  "indicate_unl": null
+  "indicate_unl": null,
+  "transaction_tokens_involved": null,
+  "transaction_tokens_swapped": null
 }
