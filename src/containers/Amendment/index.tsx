@@ -43,10 +43,11 @@ export const Amendment = () => {
   const getErrorMessage = (error: keyof typeof ERROR_MESSAGES | null) =>
     (error && ERROR_MESSAGES[error]) || ERROR_MESSAGES.default
 
-  const { data, error, isLoading } = useQuery<
-    AmendmentData,
-    keyof typeof ERROR_MESSAGES | null
-  >(
+  const {
+    data,
+    error,
+    isLoading: isAmendmentLoading,
+  } = useQuery<AmendmentData, keyof typeof ERROR_MESSAGES | null>(
     ['fetchAmendmentData', identifier, network],
     async () => fetchAmendmentData(),
     {
@@ -56,7 +57,7 @@ export const Amendment = () => {
     },
   )
 
-  const { data: validators } = useQuery(
+  const { data: validators, isLoading: isValidatorsLoading } = useQuery(
     ['fetchValidatorsData'],
     () => fetchValidatorsData(),
     {
@@ -106,7 +107,7 @@ export const Amendment = () => {
   if (error) {
     const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
-  } else if (data?.id && validators) {
+  } else if (data?.id && validators.length) {
     body = (
       <>
         <div className="summary">
@@ -124,7 +125,7 @@ export const Amendment = () => {
 
   return (
     <div className="amendment-summary">
-      {isLoading && <Loader />}
+      {(isValidatorsLoading || isAmendmentLoading) && <Loader />}
       {body}
     </div>
   )
