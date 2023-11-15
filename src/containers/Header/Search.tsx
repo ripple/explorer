@@ -40,6 +40,7 @@ const determineHashType = async (id: string, rippledContext: XrplClient) => {
     return 'nft'
   }
 }
+
 // separator for currency formats
 const separators = /[.:+-]/
 
