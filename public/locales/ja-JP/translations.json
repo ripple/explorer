@@ -207,6 +207,7 @@
   "transaction_empty_hint": "検索欄にトランザクションハッシュを入力してください",
   "validator_not_found": "バリデータが見つかりません",
   "check_transaction_hash": "トランザクションのハッシュ値を確認してください",
+  "wrong_network": null,
   "check_validator_key": "バリデータのキーを確認してください",
   "transaction": "トランザクション",
   "success": "成功",

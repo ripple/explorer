@@ -8,6 +8,7 @@ import { TxStatus } from '../../shared/components/TxStatus'
 import { getTransaction } from '../../../rippled'
 import { Error as RippledError } from '../../../rippled/lib/utils'
 import { flushPromises, QuickHarness } from '../../test/utils'
+import Mock = jest.Mock
 
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
@@ -19,10 +20,11 @@ jest.mock('../../../rippled', () => {
   }
 })
 
-const mockedGetTransaction = getTransaction
+const mockedGetTransaction: Mock = getTransaction as Mock
 
-global.location =
-  '/transactions/50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774'
+window.location.assign(
+  '/transactions/50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774',
+)
 
 describe('Transaction container', () => {
   const createWrapper = (
@@ -86,7 +88,7 @@ describe('Transaction container', () => {
 
   it('renders error page', async () => {
     mockedGetTransaction.mockImplementation(() =>
-      Promise.reject(Error('transaction not validated', 500)),
+      Promise.reject(new RippledError('transaction not validated', 500)),
     )
     const wrapper = createWrapper()
     await flushPromises()
@@ -122,13 +124,15 @@ describe('Transaction container', () => {
       expect(summary.contains(<div className="type">OfferCreate</div>)).toBe(
         true,
       )
-      expect(
-        summary.contains(
-          <div className="hash" title={mockTransaction.hash}>
-            {mockTransaction.hash}
-          </div>,
-        ),
-      ).toBe(true)
+
+      // console.log(wrapper.debug())
+      expect(wrapper.find('.txid').length).toBe(2)
+      expect(wrapper.find('.txid').at(0).text()).toBe(
+        `hash: ${mockTransaction.hash}`,
+      )
+      expect(wrapper.find('.txid').at(1).text()).toBe(
+        `CTID: ${mockTransaction.tx.ctid}`,
+      )
       expect(summary.contains(<TxStatus status="tesSUCCESS" />)).toBe(true)
       expect(wrapper.find('.tabs').length).toBe(1)
       expect(wrapper.find('a.tab').length).toBe(3)

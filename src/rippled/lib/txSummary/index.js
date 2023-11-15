@@ -9,6 +9,7 @@ const getInstructions = (tx, meta) => {
 
 const summarizeTransaction = (d, details = false) => ({
   hash: d.hash,
+  ctid: d.ctid,
   type: d.tx.TransactionType,
   result: d.meta.TransactionResult,
   account: d.tx.Account,
