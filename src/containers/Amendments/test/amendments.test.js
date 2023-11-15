@@ -89,7 +89,9 @@ describe('Amendments Page container', () => {
           .at(2)
           .find('.name .name-text')
           .html(),
-      ).toBe('<span class="name-text">Clawback</span>')
+      ).toBe(
+        '<span class="name-text"><a class="" href="/amendment/56B241D7A43D40354D02A9DC4C8DF5C7A1F930D92A9035C4E12291B3CA3E1C2B">Clawback</a></span>',
+      )
 
       expect(
         wrapper.find('.amendments-table table tr').at(2).find('.voters').html(),
@@ -137,7 +139,9 @@ describe('Amendments Page container', () => {
           .at(4)
           .find('.name .name-text')
           .html(),
-      ).toBe('<span class="name-text">ImmediateOfferKilled</span>')
+      ).toBe(
+        '<span class="name-text"><a class="" href="/amendment/75A7E01C505DD5A179DFE3E000A9B6F1EDDEB55A12F95579A23E15B15DC8BE5A">ImmediateOfferKilled</a></span>',
+      )
 
       expect(
         wrapper
