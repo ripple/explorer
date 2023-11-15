@@ -1,3 +1,4 @@
+import { CTID_REGEX, HASH_REGEX } from '../../containers/shared/utils'
 import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
 
@@ -139,10 +140,16 @@ const getLedgerEntry = (rippledSocket, { index }) => {
 }
 
 // get transaction
-const getTransaction = (rippledSocket, txHash) => {
+const getTransaction = (rippledSocket, txId) => {
   const params = {
     command: 'tx',
-    transaction: txHash,
+  }
+  if (HASH_REGEX.test(txId)) {
+    params.transaction = txId
+  } else if (CTID_REGEX.test(txId)) {
+    params.ctid = txId
+  } else {
+    throw new Error(`${txId} not a ctid or hash`, 404)
   }
 
   return query(rippledSocket, params).then((resp) => {
@@ -152,6 +159,12 @@ const getTransaction = (rippledSocket, txHash) => {
 
     if (resp.error === 'notImpl') {
       throw new Error('invalid transaction hash', 400)
+    }
+
+    // TODO: remove the `unknown` option when
+    // https://github.com/XRPLF/rippled/pull/4738 is in a release
+    if (resp.error === 'wrongNetwork' || resp.error === 'unknown') {
+      throw new Error('wrong network for CTID', 406)
     }
 
     if (resp.error_message) {

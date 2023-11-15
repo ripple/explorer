@@ -56,3 +56,9 @@ export const VALIDATOR_ROUTE: RouteDefinition<{
 }> = {
   path: `/validators/:identifier/:tab?`,
 }
+
+export const AMENDMENT_ROUTE: RouteDefinition<{
+  identifier: string
+}> = {
+  path: `/amendment/:identifier`,
+}
