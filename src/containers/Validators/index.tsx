@@ -23,6 +23,7 @@ import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 import { VALIDATOR_ROUTE } from '../App/routes'
 import { buildPath, useRouteParams } from '../shared/routing'
+import { VotingTab } from './VotingTab'
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -160,7 +161,7 @@ export const Validator = () => {
   }
 
   function renderTabs() {
-    const tabs = ['details', 'history']
+    const tabs = ['details', 'history', 'voting']
     const mainPath = buildPath(VALIDATOR_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
@@ -171,6 +172,9 @@ export const Validator = () => {
     switch (tab) {
       case 'history':
         body = <HistoryTab reports={reports ?? []} />
+        break
+      case 'voting':
+        body = data && <VotingTab validatorData={data} network={network} />
         break
       default:
         body = data && <SimpleTab data={data} width={width} />
