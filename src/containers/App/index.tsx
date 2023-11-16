@@ -23,6 +23,7 @@ import {
   TOKEN_ROUTE,
   TRANSACTION_ROUTE,
   VALIDATOR_ROUTE,
+  AMENDMENTS_ROUTE,
   AMENDMENT_ROUTE,
 } from './routes'
 import Ledgers from '../Ledgers'
@@ -36,6 +37,7 @@ import Token from '../Token'
 import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
 import { useCustomNetworks } from '../shared/hooks'
+import { Amendments } from '../Amendments'
 import { Amendment } from '../Amendment'
 
 export const AppWrapper = () => {
@@ -64,6 +66,7 @@ export const AppWrapper = () => {
     [ACCOUNT_ROUTE, AccountsRouter],
     [TRANSACTION_ROUTE, Transaction],
     [NETWORK_ROUTE, Network],
+    [AMENDMENTS_ROUTE, Amendments],
     [VALIDATOR_ROUTE, Validator],
     [PAYSTRING_ROUTE, PayString],
     [TOKEN_ROUTE, Token],

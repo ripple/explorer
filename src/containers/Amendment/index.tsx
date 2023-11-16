@@ -107,7 +107,7 @@ export const Amendment = () => {
   if (error) {
     const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
-  } else if (data?.id && validators.length) {
+  } else if (data?.id && validators instanceof Array) {
     body = (
       <>
         <div className="summary">
