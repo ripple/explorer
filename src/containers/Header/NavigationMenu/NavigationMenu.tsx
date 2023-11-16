@@ -27,6 +27,7 @@ export interface NavigationMenuExternalRoute extends NavigationMenuRoute {
 
 export interface NavigationMenuInternalRoute extends NavigationMenuRoute {
   route: RouteDefinition<any>
+  params?: any
 }
 
 export type NavigationMenuAnyRoute =
@@ -95,7 +96,7 @@ export const NavigationMenu = ({
                 >
                   {nav.children.map((child) => (
                     <DropdownItem
-                      href={buildPath(child.route, {})}
+                      href={buildPath(child.route, child.params)}
                       data-title={title}
                       className="nav-link"
                       key={child.title}
@@ -134,6 +135,7 @@ export const NavigationMenu = ({
                   to={nav.route}
                   className="nav-link"
                   onClick={forceClose}
+                  params={nav.params || {}}
                 >
                   {t(nav.title)}
                 </RouteLink>
