@@ -103,7 +103,7 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
         <SimpleRow label={t('name')}>{data.name}</SimpleRow>
         <SimpleRow label={t('amendment_id')}>{data.id}</SimpleRow>
         <SimpleRow label={t('introduced_in')}>
-          {`v${data.rippled_version}`}
+          {data.rippled_version ? `v${data.rippled_version}` : t('n_a')}
         </SimpleRow>
         {voting ? (
           <SimpleRow label={t('threshold')}>{data.threshold}</SimpleRow>

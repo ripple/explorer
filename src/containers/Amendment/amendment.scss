@@ -32,6 +32,7 @@
 
   .label {
     margin-bottom: 0;
+    font-weight: 600;
   }
 
   .index {
@@ -116,6 +117,7 @@
               max-width: fit-content;
               flex: 1;
               text-overflow: ellipsis;
+              font-size: 14px;
             }
 
             .unl {
