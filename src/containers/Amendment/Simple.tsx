@@ -103,7 +103,16 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
         <SimpleRow label={t('name')}>{data.name}</SimpleRow>
         <SimpleRow label={t('amendment_id')}>{data.id}</SimpleRow>
         <SimpleRow label={t('introduced_in')}>
-          {data.rippled_version ? `v${data.rippled_version}` : t('n_a')}
+          {data.rippled_version ? (
+            <Link
+              to={`https://github.com/XRPLF/rippled/releases/tag/${data.rippled_version}`}
+              target="_blank"
+            >
+              {`v${data.rippled_version}`}
+            </Link>
+          ) : (
+            t('n_a')
+          )}
         </SimpleRow>
         {voting ? (
           <SimpleRow label={t('threshold')}>{data.threshold}</SimpleRow>
@@ -121,7 +130,9 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
           )
         )}
         <SimpleRow label={t('details')}>
-          <Link to={details}>{details}</Link>
+          <Link to={details} target="_blank">
+            {details}
+          </Link>
         </SimpleRow>
         <SimpleRow label={t('status')}>{renderStatus()}</SimpleRow>
         {width < BREAKPOINTS.landscape && rowIndex}

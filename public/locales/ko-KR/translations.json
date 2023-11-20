@@ -509,7 +509,7 @@
   "all": null,
   "yeas_count": null,
   "nays_count": null,
-  "no_of_validators": null,
+  "%_of_validators": null,
   "amendment_not_found": null,
   "check_amendment_key": null,
   "note": null,

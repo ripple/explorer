@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { AmendmentData } from '../shared/vhsTypes'
 import SuccessIcon from '../shared/images/success.svg'
-import DomainLink from '../shared/components/DomainLink'
 import { RouteLink } from '../shared/routing'
 import { VALIDATOR_ROUTE } from '../App/routes'
 import { BarChartVoting } from './BarChartVoting'
@@ -45,24 +44,20 @@ export const Votes = ({ data, validators }: VotesProps) => {
   const voting = data.voted !== undefined
 
   const renderColumn = (label: string, validatorsList: Array<validatorUNL>) => (
-    <div className="votes-column">
+    <div className={`votes-column ${label}`}>
       <div className="label">{t(label)}</div>
       <div className="vals">
         {validatorsList.map((validator, index) => (
           <div className="row" key={validator.pubkey}>
             <span className="index">{index + 1}</span>
             <span className="val">
-              {validator.domain ? (
-                <DomainLink domain={validator.domain} />
-              ) : (
-                <RouteLink
-                  to={VALIDATOR_ROUTE}
-                  params={{ identifier: validator.pubkey }}
-                  className="key-link"
-                >
-                  {validator.pubkey}
-                </RouteLink>
-              )}
+              <RouteLink
+                to={VALIDATOR_ROUTE}
+                params={{ identifier: validator.pubkey }}
+                className="key-link"
+              >
+                {validator.domain ? validator.domain : validator.pubkey}
+              </RouteLink>
             </span>
             {validator.unl && (
               <span className="unl">
@@ -97,17 +92,37 @@ export const Votes = ({ data, validators }: VotesProps) => {
 
   const yeas = getYeas()
   const nays = getNays()
+  const validatorsUNLCount = validators.filter(
+    (val) => val.unl !== false,
+  ).length
+  const validatorsNonUNLCount = validators.filter(
+    (val) => val.unl === false,
+  ).length
 
   const aggregateVoting = () => [
     {
       label: 'UNL',
       yeas: yeas.filter((val) => val.unl !== false).length,
       nays: nays.filter((val) => val.unl !== false).length,
+      yeas_percent:
+        (yeas.filter((val) => val.unl !== false).length / validatorsUNLCount) *
+        100,
+      nays_percent:
+        (nays.filter((val) => val.unl !== false).length / validatorsUNLCount) *
+        100,
     },
     {
       label: 'non-UNL',
       yeas: yeas.filter((val) => val.unl === false).length,
       nays: nays.filter((val) => val.unl === false).length,
+      yeas_percent:
+        (yeas.filter((val) => val.unl === false).length /
+          validatorsNonUNLCount) *
+        100,
+      nays_percent:
+        (nays.filter((val) => val.unl === false).length /
+          validatorsNonUNLCount) *
+        100,
     },
   ]
 

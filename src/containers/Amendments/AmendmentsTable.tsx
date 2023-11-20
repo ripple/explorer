@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import { AMENDMENT_ROUTE, TRANSACTION_ROUTE } from '../App/routes'
 import { Loader } from '../shared/components/Loader'
 import { useLanguage } from '../shared/hooks'
@@ -82,7 +83,16 @@ export const AmendmentsTable: FC<{
     <tr key={amendment.id}>
       <td className="count">{index + 1}</td>
       <td className="version">
-        {amendment.rippled_version ?? DEFAULT_EMPTY_VALUE}
+        {amendment.rippled_version ? (
+          <Link
+            to={`https://github.com/XRPLF/rippled/releases/tag/${amendment.rippled_version}`}
+            target="_blank"
+          >
+            {amendment.rippled_version}
+          </Link>
+        ) : (
+          DEFAULT_EMPTY_VALUE
+        )}
       </td>
       <td className="amendment-id text-truncate">{amendment.id}</td>
       <td className="name text-truncate">
