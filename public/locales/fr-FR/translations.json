@@ -508,7 +508,7 @@
   "eta": null,
   "amendment_summary": null,
   "not": null,
-  "tx": null,
+  "enable_tx": null,
   "all": null,
   "yeas_count": null,
   "nays_count": null,

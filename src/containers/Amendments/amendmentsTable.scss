@@ -103,6 +103,7 @@
   .badge {
     margin: 0;
     color: $black-100;
+    text-transform: uppercase;
 
     &.yes {
       background-color: $green-60;

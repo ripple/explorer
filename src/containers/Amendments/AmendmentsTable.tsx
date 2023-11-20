@@ -110,7 +110,7 @@ export const AmendmentsTable: FC<{
           <th className="version">{t('Version')}</th>
           <th className="amendment-id">{t('amendment_id')}</th>
           <th className="name">{t('amendment_name')}</th>
-          <th className="voters">{t('voters')}</th>
+          <th className="voters">{`${t('unl')} ${t('voters')}`}</th>
           <th className="threshold">{t('threshold')}</th>
           <th className="consensus">{t('consensus')}</th>
           <th className="enabled">{t('enabled')}</th>

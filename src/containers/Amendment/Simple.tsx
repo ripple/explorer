@@ -81,7 +81,7 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
         </SimpleRow>
       </>
     ) : data.tx_hash ? (
-      <SimpleRow label={`${t('enabled')} (${t('on')})`.trim()}>
+      <SimpleRow label={`${t('enabled')} ${t('on')}`.trim()}>
         <RouteLink to={TRANSACTION_ROUTE} params={{ identifier: data.tx_hash }}>
           {' '}
           {renderDate(data.date)}
@@ -109,7 +109,7 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
           <SimpleRow label={t('threshold')}>{data.threshold}</SimpleRow>
         ) : (
           data.tx_hash && (
-            <SimpleRow label={t('tx')}>
+            <SimpleRow label={t('enable_tx')}>
               <RouteLink
                 to={TRANSACTION_ROUTE}
                 params={{ identifier: data.tx_hash }}

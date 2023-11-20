@@ -506,7 +506,7 @@
   "amendment_summary": null,
   "not_enabled": null,
   "enabled_on": null,
-  "tx": null,
+  "enable_tx": null,
   "yeas_all": null,
   "nays_all": null,
   "yeas_unl": null,
