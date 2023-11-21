@@ -12,6 +12,7 @@ import SocketContext from '../../shared/SocketContext'
 import InfoIcon from '../../shared/images/info.svg'
 import { useLanguage } from '../../shared/hooks'
 import Currency from '../../shared/components/Currency'
+import DomainLink from '../../shared/components/DomainLink'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -267,7 +268,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
             {info.domain && (
               <li>
                 <span className="label"> {t('domain')}: </span>
-                <a href={`http://${info.domain}`}>{info.domain}</a>
+                <DomainLink domain={info.domain} />
               </li>
             )}
             {info.emailHash && (
