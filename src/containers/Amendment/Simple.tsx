@@ -21,9 +21,13 @@ interface SimpleProps {
 }
 
 const DATE_OPTIONS_AMENDMEND = {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
   year: 'numeric',
   month: 'numeric',
   day: 'numeric',
+  hour12: true,
   timeZone: 'UTC',
 }
 
@@ -73,15 +77,22 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
             </SimpleRow>
           </>
         )}
-        <SimpleRow label={t('eta')} className="eta">
-          {t('voting')}
-        </SimpleRow>
+        {data.eta ? (
+          <SimpleRow label={`${t('eta')} (UTC)`} className="eta yes">
+            {localizeDate(new Date(data.eta), language, DATE_OPTIONS_AMENDMEND)}
+          </SimpleRow>
+        ) : (
+          <SimpleRow label={t('eta')} className="eta no">
+            {t('voting')}
+          </SimpleRow>
+        )}
+
         <SimpleRow label={t('consensus')} className="badge consensus">
           {data.consensus}
         </SimpleRow>
       </>
     ) : data.tx_hash ? (
-      <SimpleRow label={`${t('enabled')} ${t('on')}`.trim()}>
+      <SimpleRow label={`${t('enabled')} ${t('on')} (UTC)`.trim()}>
         <RouteLink to={TRANSACTION_ROUTE} params={{ identifier: data.tx_hash }}>
           {' '}
           {renderDate(data.date)}

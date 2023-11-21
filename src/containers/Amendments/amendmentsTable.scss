@@ -37,6 +37,16 @@
   position: relative;
 
   table {
+    .incoming {
+      background: rgba($green-90, 0.7);
+    }
+
+    .eta-label {
+      margin-left: 38px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
     .name {
       max-width: 120px;
 

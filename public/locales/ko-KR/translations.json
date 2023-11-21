@@ -509,6 +509,8 @@
   "all": null,
   "yeas_count": null,
   "nays_count": null,
+  "yeas_percent": null,
+  "nays_percent": null,
   "%_of_validators": null,
   "amendment_not_found": null,
   "check_amendment_key": null,

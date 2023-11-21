@@ -32,6 +32,19 @@ export const AmendmentsTable: FC<{
 
   const renderOnTx = (amendment) => {
     if (amendment.voted) {
+      if (amendment.eta) {
+        const etaLocalized = localizeDate(
+          new Date(amendment.eta),
+          language,
+          DATE_OPTIONS_AMENDMENTS,
+        )
+        return (
+          <div className="eta">
+            <div className="eta-label">{t('eta')}</div>
+            <div>{etaLocalized}</div>
+          </div>
+        )
+      }
       return <span className="voting">{t('voting')}</span>
     }
 
@@ -80,7 +93,10 @@ export const AmendmentsTable: FC<{
   }
 
   const renderAmendment = (amendment, index) => (
-    <tr key={amendment.id}>
+    <tr
+      className={`amendment-row${amendment.eta ? ' incoming' : ''}`}
+      key={amendment.id}
+    >
       <td className="count">{index + 1}</td>
       <td className="version">
         {amendment.rippled_version ? (

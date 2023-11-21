@@ -36,7 +36,7 @@
   }
 
   .index {
-    width: 150px;
+    width: 220px;
   }
 
   .badge {
@@ -62,7 +62,9 @@
 
   .value {
     &.eta {
-      color: $yellow-50 !important;
+      &.no{
+        color: $yellow-50 !important;
+      }
     }
   }
 

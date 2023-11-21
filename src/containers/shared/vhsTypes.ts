@@ -113,6 +113,7 @@ export interface AmendmentData {
   date: string | null
   tx_hash?: string
   ledger_index?: number
+  eta?: string
   voted?: Voter
 }
 
