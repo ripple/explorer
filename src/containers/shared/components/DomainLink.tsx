@@ -21,12 +21,10 @@ const DomainLink = (props: Props) => {
 
   // If decoded domain does not have a protocol, add one ; otherwise, don't
   let href = domainHasProtocol ? decodedDomain : `https://${decodedDomain}`
-  console.log(href)
 
   if (href.startsWith('ipfs://')) {
     href = href.replace('ipfs://', 'https://ipfs.io/ipfs/')
   }
-  console.log(href)
 
   return (
     <a
