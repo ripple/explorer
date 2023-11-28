@@ -32,10 +32,11 @@
 
   .label {
     margin-bottom: 0;
+    font-weight: 600;
   }
 
   .index {
-    width: 150px;
+    width: 220px;
   }
 
   .badge {
@@ -61,7 +62,9 @@
 
   .value {
     &.eta {
-      color: $yellow-50 !important;
+      &.no{
+        color: $yellow-50 !important;
+      }
     }
   }
 
@@ -115,6 +118,7 @@
               overflow: hidden;
               max-width: fit-content;
               flex: 1;
+              font-size: 14px;
               text-overflow: ellipsis;
             }
 

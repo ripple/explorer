@@ -100,7 +100,9 @@ describe('Amendments Page container', () => {
         .at(2)
         .find('.value')
         .html(),
-    ).toBe('<div class="value">v1.12.0</div>')
+    ).toBe(
+      '<div class="value"><a href="https://github.com/XRPLF/rippled/releases/tag/1.12.0" target="_blank">v1.12.0</a></div>',
+    )
 
     expect(
       wrapper
@@ -117,7 +119,7 @@ describe('Amendments Page container', () => {
         .find('.value a')
         .html(),
     ).toBe(
-      '<a href="https://xrpl.org/known-amendments.html#mock-name">https://xrpl.org/known-amendments.html#mock-name</a>',
+      '<a href="https://xrpl.org/known-amendments.html#mock-name" target="_blank">https://xrpl.org/known-amendments.html#mock-name</a>',
     )
 
     expect(
@@ -166,7 +168,7 @@ describe('Amendments Page container', () => {
         .at(10)
         .find('.value')
         .html(),
-    ).toBe('<div class="value eta">voting</div>')
+    ).toBe('<div class="value eta no">voting</div>')
 
     expect(
       wrapper
