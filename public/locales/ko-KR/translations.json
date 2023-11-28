@@ -13,7 +13,6 @@
   "network_name_testnet": "Testnet",
   "network_name_mainnet": "Mainnet",
   "network_name_devnet": "Devnet",
-  "network_name_amm": "AMM-Devnet",
   "network_name_xahau_mainnet": "Xahau Mainnet",
   "network_name_xahau_testnet": "Xahau Testnet",
   "network_name_custom": "Custom",
