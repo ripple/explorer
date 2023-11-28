@@ -20,7 +20,7 @@ interface SimpleProps {
   width: number
 }
 
-const DATE_OPTIONS_AMENDMEND = {
+const DATE_OPTIONS_AMENDMENT = {
   hour: 'numeric',
   minute: 'numeric',
   second: 'numeric',
@@ -52,7 +52,7 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
 
   const renderDate = (date: string | null) =>
     date
-      ? localizeDate(new Date(date), language, DATE_OPTIONS_AMENDMEND)
+      ? localizeDate(new Date(date), language, DATE_OPTIONS_AMENDMENT)
       : DEFAULT_EMPTY_VALUE
 
   const renderRowIndex = () =>
@@ -79,7 +79,7 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
         )}
         {data.eta ? (
           <SimpleRow label={`${t('eta')} (UTC)`} className="eta yes">
-            {localizeDate(new Date(data.eta), language, DATE_OPTIONS_AMENDMEND)}
+            {localizeDate(new Date(data.eta), language, DATE_OPTIONS_AMENDMENT)}
           </SimpleRow>
         ) : (
           <SimpleRow label={t('eta')} className="eta no">
