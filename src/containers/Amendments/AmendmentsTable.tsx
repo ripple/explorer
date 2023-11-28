@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import { AMENDMENT_ROUTE, TRANSACTION_ROUTE } from '../App/routes'
 import { Loader } from '../shared/components/Loader'
 import { useLanguage } from '../shared/hooks'
@@ -31,6 +32,19 @@ export const AmendmentsTable: FC<{
 
   const renderOnTx = (amendment) => {
     if (amendment.voted) {
+      if (amendment.eta) {
+        const etaLocalized = localizeDate(
+          new Date(amendment.eta),
+          language,
+          DATE_OPTIONS_AMENDMENTS,
+        )
+        return (
+          <div className="eta">
+            <div className="eta-label">{t('eta')}</div>
+            <div>{etaLocalized}</div>
+          </div>
+        )
+      }
       return <span className="voting">{t('voting')}</span>
     }
 
@@ -79,10 +93,22 @@ export const AmendmentsTable: FC<{
   }
 
   const renderAmendment = (amendment, index) => (
-    <tr key={amendment.id}>
+    <tr
+      className={`amendment-row${amendment.eta ? ' incoming' : ''}`}
+      key={amendment.id}
+    >
       <td className="count">{index + 1}</td>
       <td className="version">
-        {amendment.rippled_version ?? DEFAULT_EMPTY_VALUE}
+        {amendment.rippled_version ? (
+          <Link
+            to={`https://github.com/XRPLF/rippled/releases/tag/${amendment.rippled_version}`}
+            target="_blank"
+          >
+            {amendment.rippled_version}
+          </Link>
+        ) : (
+          DEFAULT_EMPTY_VALUE
+        )}
       </td>
       <td className="amendment-id text-truncate">{amendment.id}</td>
       <td className="name text-truncate">
@@ -110,7 +136,7 @@ export const AmendmentsTable: FC<{
           <th className="version">{t('Version')}</th>
           <th className="amendment-id">{t('amendment_id')}</th>
           <th className="name">{t('amendment_name')}</th>
-          <th className="voters">{t('voters')}</th>
+          <th className="voters">{`${t('unl')} ${t('voters')}`}</th>
           <th className="threshold">{t('threshold')}</th>
           <th className="consensus">{t('consensus')}</th>
           <th className="enabled">{t('enabled')}</th>
