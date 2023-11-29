@@ -11,14 +11,15 @@
 
 ## Updating Existing Translations
 
-When making changes to the base (English) language file follow the ?
+When making changes to the base (English) language file follow the guide based on the type and scope of the change.
 
 ### New Entry
 1. Create entry in `en-US/translations.json`
-2. Add an entry to all other `translation.json` files with a value of `null`
+2. Add an entry to all other `translation.json` files. Set the value to be `null` (which means it will default to using the English version).
 
 ## Existing Entry
 1. Update the entry in `en-US/translations.json`
-2. Update other `translation.json` files
-   - Leave entry as is if the string does not change materially. ex. "Please check your transaction hash" => "Please check your transaction hash or CTID."
-   - Set the value to `null` in all other language files to fallback to new English string
+2. If the meaning does **NOT** change materially, you can leave them as is. Ex. "Please check your transaction hash" => "Please check your transaction hash or CTID."
+3. If the entry has a new meaning than before, set the value to `null` in all other `translation.json` files.
+     
+  *Note that changing a translation to `null` causes it to fall back to the English version, and is a signal to language contributors that they may want to provide a fresh localization.*
