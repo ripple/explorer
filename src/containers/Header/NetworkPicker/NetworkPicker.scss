@@ -50,15 +50,11 @@
     @include dropdown-network-item($devnet, $blue-purple-40);
   }
 
-  &.network-amm {
-    @include dropdown-network-item($amm, $blue-60);
-  }
-
   /* stylelint-disable-next-line selector-class-pattern -- needed here for variables */
   &.network-xahau_mainnet {
     @include dropdown-network-item($xahau-mainnet, $green-50);
   }
-  
+
   /* stylelint-disable-next-line selector-class-pattern -- needed here for variables */
   &.network-xahau_testnet {
     @include dropdown-network-item($xahau-testnet, $magenta-40);

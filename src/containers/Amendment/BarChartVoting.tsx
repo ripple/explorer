@@ -18,7 +18,7 @@ import {
   GREY_0,
   GREY_600,
   GREY_800,
-  MAGENTA_500,
+  MAGENTA_700,
 } from '../shared/utils'
 
 interface Props {
@@ -44,8 +44,22 @@ const CustomTooltip = ({
           })}
         </p>
         <p className="value">
+          {t('yeas_percent', {
+            yeas_percent: payload
+              ? payload[0].payload.yeas_percent.toFixed(2)
+              : 0,
+          })}
+        </p>
+        <p className="value">
           {t('nays_count', {
             nays_count: payload ? payload[0].payload.nays : 0,
+          })}
+        </p>
+        <p className="value">
+          {t('nays_percent', {
+            nays_percent: payload
+              ? payload[0].payload.nays_percent.toFixed(2)
+              : 0,
           })}
         </p>
       </div>
@@ -102,7 +116,7 @@ export const BarChartVoting = ({ data }: Props) => {
           >
             <Label
               className="y-label"
-              value={t('no_of_validators')}
+              value={t('%_of_validators')}
               angle={-90}
               position="insideTop"
               dx={45}
@@ -111,7 +125,7 @@ export const BarChartVoting = ({ data }: Props) => {
             />
           </YAxis>
           <Bar
-            dataKey="yeas"
+            dataKey="yeas_percent"
             barSize={30}
             fill={GREEN_400}
             radius={[4, 4, 0, 0]}
@@ -120,9 +134,9 @@ export const BarChartVoting = ({ data }: Props) => {
             onMouseLeave={() => setShowTooltips(false)}
           />
           <Bar
-            dataKey="nays"
+            dataKey="nays_percent"
             barSize={30}
-            fill={MAGENTA_500}
+            fill={MAGENTA_700}
             radius={[4, 4, 0, 0]}
             isAnimationActive={false}
             onMouseOver={() => setShowTooltips(true)}

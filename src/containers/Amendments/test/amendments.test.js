@@ -67,7 +67,9 @@ describe('Amendments Page container', () => {
           .at(2)
           .find('.version')
           .html(),
-      ).toBe('<td class="version">1.12.0</td>')
+      ).toBe(
+        '<td class="version"><a href="https://github.com/XRPLF/rippled/releases/tag/1.12.0" target="_blank">1.12.0</a></td>',
+      )
 
       expect(
         wrapper.find('.amendments-table table tr').at(2).find('.count').html(),
@@ -117,7 +119,9 @@ describe('Amendments Page container', () => {
           .at(4)
           .find('.version')
           .html(),
-      ).toBe('<td class="version">1.10.0</td>')
+      ).toBe(
+        '<td class="version"><a href="https://github.com/XRPLF/rippled/releases/tag/1.10.0" target="_blank">1.10.0</a></td>',
+      )
 
       expect(
         wrapper.find('.amendments-table table tr').at(4).find('.count').html(),

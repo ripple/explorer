@@ -37,6 +37,16 @@
   position: relative;
 
   table {
+    .incoming {
+      background: rgba($green-90, 0.7);
+    }
+
+    .eta-label {
+      margin-left: 38px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
     .name {
       max-width: 120px;
 
@@ -103,6 +113,7 @@
   .badge {
     margin: 0;
     color: $black-100;
+    text-transform: uppercase;
 
     &.yes {
       background-color: $green-60;

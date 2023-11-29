@@ -6,7 +6,6 @@ const ENV_NETWORK_MAP: Record<string, string> = {
   mainnet: 'main',
   testnet: 'test',
   devnet: 'dev',
-  amm: 'amm-dev',
   xahau_mainnet: 'xahau-main',
   xahau_testnet: 'xahau-test',
 }

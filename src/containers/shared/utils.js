@@ -42,7 +42,7 @@ export const GREY_400 = '#A2A2A4'
 export const GREY_600 = '#656E81'
 export const GREY_800 = '#383D47'
 export const BLACK_600 = '#454549'
-export const MAGENTA_500 = '#FF198B'
+export const MAGENTA_700 = '#B20058'
 
 export const BREAKPOINTS = {
   desktop: 1200,
