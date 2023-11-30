@@ -59,19 +59,18 @@
   }
 
   .tab-body {
-    .react-json-view {
+    .json-view {
       overflow: hidden;
       margin-bottom: 40px;
       font-size: 12px;
       letter-spacing: 0px;
 
-      .variable-row,
-      .object-key-val {
-        padding: 1px 5px 1px 15px !important;
+      svg {
+        height: 14px !important;
       }
 
-      .copy-icon svg {
-        height: 14px !important;
+      .jv-indent {
+        padding: 1px 5px 1px 15px !important;
       }
     }
   }
