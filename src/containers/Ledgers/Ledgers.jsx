@@ -161,37 +161,6 @@ class Ledgers extends Component {
     </RouteLink>
   )
 
-  renderTrustedCount = (hash) => {
-    const { t } = this.props
-    const { unlCount } = this.state
-    const className = hash.trusted_count < unlCount ? 'missed' : null
-    const missing =
-      hash.trusted_count && className === 'missed'
-        ? this.getMissingValidators(hash)
-        : null
-
-    return hash.trusted_count ? (
-      <span
-        tabIndex={0}
-        role="button"
-        className={className}
-        onMouseMove={(e) =>
-          missing &&
-          missing.length &&
-          this.showTooltip('missing', e, { missing })
-        }
-        onFocus={(e) => {}}
-        onKeyUp={(e) => {}}
-        onMouseLeave={this.hideTooltip}
-      >
-        <div>{t('unl')}:</div>
-        <b>
-          {hash.trusted_count}/{unlCount}
-        </b>
-      </span>
-    ) : null
-  }
-
   render() {
     const { selected, tooltip } = this.state
     const { ledgers, t, language } = this.props

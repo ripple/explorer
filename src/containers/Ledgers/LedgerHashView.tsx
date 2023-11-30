@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import SuccessIcon from '../shared/images/success.svg'
 import { LedgerValidation } from './LedgerValidation'
 import { LedgerHash } from '../shared/useStreams'
+import { LedgerUNLCount } from './LedgerUNLCount'
 
 function areEqual(prevProps: any, nextProps: any) {
   return (
@@ -31,6 +32,7 @@ export const LedgerHashComponent = memo(({ hash }: { hash: LedgerHash }) => {
           <div>{t('total')}:</div>
           <b>{hash.validations.length}</b>
         </div>
+        <LedgerUNLCount unlCount={35} trustedCount={hash.trusted_count} />
       </div>
       <div className="validations">
         {hash.validations.map((validation) => (

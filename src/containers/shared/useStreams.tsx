@@ -46,6 +46,7 @@ export interface LedgerHash {
   validated: boolean
   validations: ValidationStream[]
   unselected: boolean
+  trusted_count: number
 }
 
 export interface Ledger {

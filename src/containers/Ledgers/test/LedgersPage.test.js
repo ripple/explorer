@@ -162,6 +162,8 @@ describe('Ledgers Page container', () => {
 
     server.send(validationMessage)
     wrapper.update()
+    await sleep(260)
+    wrapper.update()
     expect(wrapper.find('.validation').length).toBe(1)
 
     server.send(ledgerMessage)
@@ -178,6 +180,7 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.tooltip').length).toBe(0)
 
     const unlCounter = wrapper.find('.ledger .hash .missed')
+    expect(unlCounter.length).toBe(1)
     expect(unlCounter.text()).toBe('unl:1/2')
     unlCounter.simulate('mouseMove')
     expect(wrapper.find('.tooltip').length).toBe(1)
@@ -252,6 +255,8 @@ describe('Ledgers Page container', () => {
 
       server.send(validationMessage)
       wrapper.update()
+      await sleep(260)
+      wrapper.update()
       expect(wrapper.find('.validation').length).toBe(1)
 
       server.send(ledgerMessage)
@@ -268,6 +273,7 @@ describe('Ledgers Page container', () => {
       expect(wrapper.find('.tooltip').length).toBe(0)
 
       const unlCounter = wrapper.find('.ledger .hash .missed')
+      expect(unlCounter.length).toBe(1)
       expect(unlCounter.text()).toBe('unl:1/2')
       unlCounter.simulate('mouseMove')
       expect(wrapper.find('.tooltip').length).toBe(1)
