@@ -34,6 +34,8 @@ export const Amendments = () => {
       .then((resp) => resp.data.amendments)
       .then((amendments) =>
         amendments.sort((a, b) => {
+          if (a.eta && !b.eta) return -1
+          if (!a.eta && b.eta) return 1
           if (a.voted && !b.voted) return -1
           if (!a.voted && b.voted) return 1
           return 0

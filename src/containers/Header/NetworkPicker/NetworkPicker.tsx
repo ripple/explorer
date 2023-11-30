@@ -17,7 +17,6 @@ const STATIC_ENV_LINKS: Record<string, string | undefined> = {
   mainnet: process.env.VITE_MAINNET_LINK,
   testnet: process.env.VITE_TESTNET_LINK,
   devnet: process.env.VITE_DEVNET_LINK,
-  amm: process.env.VITE_AMM_LINK,
   xahau_mainnet: process.env.VITE_XAHAU_MAINNET_LINK,
   xahau_testnet: process.env.VITE_XAHAU_TESTNET_LINK,
 }

@@ -47,6 +47,7 @@
     .label {
       margin: 0;
       font-weight: 100;
+      text-transform: capitalize;
     }
 
     .text-truncate {
@@ -56,6 +57,7 @@
 
   .badge {
     color: $black-100;
+    text-transform: uppercase;
 
     &.yea {
       background-color: $green-60;

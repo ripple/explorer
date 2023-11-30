@@ -17,6 +17,7 @@ import { XRP_BASE } from '../shared/transactionUtils'
 import './votingTab.scss'
 import { RouteLink } from '../shared/routing'
 import { AMENDMENT_ROUTE } from '../App/routes'
+import { Loader } from '../shared/components/Loader'
 
 export const VotingTab: FC<{
   validatorData: ValidatorSupplemented
@@ -30,7 +31,7 @@ export const VotingTab: FC<{
       ? validatorData.amendments.map((amendment) => amendment.id)
       : [],
   )
-  const { data } = useQuery<Array<{ id: string; name: string }>>(
+  const { data, isLoading } = useQuery<Array<{ id: string; name: string }>>(
     ['fetchNetworkVotingData', network],
     async () => fetchNetworkVote(network),
     {
@@ -101,16 +102,17 @@ export const VotingTab: FC<{
       </div>
       <div className="amendment-label">{t('amendments')}</div>
       <div className="voting-amendment">
-        {data !== undefined && data.length > 0 ? (
-          data.map((amendment) => {
-            const voted = votedAmendments.has(amendment.id)
-            return renderAmendment(amendment.id, amendment.name, voted)
-          })
-        ) : (
-          <div className="no-match no-match-amendments">
-            <div className="hint">{t('no_amendment_in_voting')}</div>
-          </div>
-        )}
+        {isLoading && <Loader />}
+        {data !== undefined && data.length > 0
+          ? data.map((amendment) => {
+              const voted = votedAmendments.has(amendment.id)
+              return renderAmendment(amendment.id, amendment.name, voted)
+            })
+          : !isLoading && (
+              <div className="no-match no-match-amendments">
+                <div className="hint">{t('no_amendment_in_voting')}</div>
+              </div>
+            )}
       </div>
     </div>
   )
