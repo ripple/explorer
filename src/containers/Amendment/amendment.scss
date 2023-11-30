@@ -1,0 +1,135 @@
+@import '../shared/css/variables';
+@import '../shared/css/table';
+
+.amendment-summary {
+  width: 80%;
+  max-width: 1200px;
+  margin: auto;
+
+  .simple-body {
+    max-width: 1100px;
+  }
+
+  .type {
+    display: inline-block;
+    margin-top: 80px;
+    margin-bottom: 32px;
+    color: $white;
+    font-size: 32px;
+
+    @include for-size(tablet-portrait-up) {
+      margin-top: 120px;
+      margin-bottom: 64px;
+      font-size: 42px;
+    }
+
+    @include bold;
+  }
+
+  .rows {
+    padding-left: 0;
+  }
+
+  .label {
+    margin-bottom: 0;
+  }
+
+  .index {
+    width: 150px;
+  }
+
+  .badge {
+    max-width: fit-content;
+    margin: 0;
+    color: $black-100 !important;
+    text-transform: capitalize;
+
+    &.voting {
+      background-color: $black-30;
+    }
+
+    &.enabled {
+      background-color: $green-60;
+    }
+
+    &.consensus {
+      margin-top: 6px;
+      background-color: $yellow-50;
+      font-weight: 700 !important;
+    }
+  }
+
+  .value {
+    &.eta {
+      color: $yellow-50 !important;
+    }
+  }
+
+  .note {
+    .unl {
+      display: inline-block;
+      margin: 0 10px;
+      color: $green-40;
+      vertical-align: middle;
+    }
+  }
+
+  .votes {
+    max-width: 1200px;
+    margin: 48px 0;
+
+    .votes-columns {
+      margin: 48px 0;
+
+      @include for-size(desktop-up) {
+        display: grid;
+        gap: 48px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .label {
+        @include bold;
+
+        margin-bottom: 24px;
+        font-size: 24px;
+        text-transform: capitalize;
+      }
+
+      .votes-column {
+        min-width: 0;
+        max-width: 100%;
+        flex: 1 1 0px;
+        margin-top: 24px;
+
+        .vals {
+          background: $black-80;
+
+          .row {
+            display: flex;
+            overflow: hidden;
+            padding: 16px;
+            border-bottom: 1px solid $black-70;
+            white-space: nowrap;
+
+            .val {
+              overflow: hidden;
+              max-width: fit-content;
+              flex: 1;
+              text-overflow: ellipsis;
+            }
+
+            .unl {
+              margin-left: 8px;
+              color: $green-40;
+            }
+
+            .index {
+              max-width: 16px;
+              margin-right: 24px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

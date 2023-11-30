@@ -52,7 +52,17 @@ export const TRANSACTION_ROUTE: RouteDefinition<{
 
 export const VALIDATOR_ROUTE: RouteDefinition<{
   identifier: string
-  tab?: 'details' | 'history'
+  tab?: 'details' | 'history' | 'voting'
 }> = {
   path: `/validators/:identifier/:tab?`,
+}
+
+export const AMENDMENTS_ROUTE: RouteDefinition = {
+  path: '/amendments',
+}
+
+export const AMENDMENT_ROUTE: RouteDefinition<{
+  identifier: string
+}> = {
+  path: `/amendment/:identifier`,
 }

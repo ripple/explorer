@@ -1,0 +1,41 @@
+{
+  "count": 6,
+  "validators": [
+    {
+      "validation_public_key": "pub1",
+      "signing_key": "sign1",
+      "domain": "domain1.com",
+      "unl": "vl.ripple.com"
+    },
+    {
+      "validation_public_key": "pub2",
+      "signing_key": "sign2",
+      "domain": "domain2.com",
+      "unl": false
+    },
+    {
+      "validation_public_key": "pub3",
+      "signing_key": "sign3",
+      "domain": "domain3.com",
+      "unl": "vl.ripple.com"
+    },
+    {
+      "validation_public_key": "pub4",
+      "signing_key": "sign4",
+      "domain": "domain4.com",
+      "unl": "vl.ripple.com"
+    },
+    {
+      "validation_public_key": "pub5",
+      "signing_key": "sign5",
+      "domain": "domain5.com",
+      "unl": false
+    },
+    {
+      "validation_public_key": "pub6",
+      "signing_key": "sign6",
+      "domain": "domain6.com",
+      "unl": "vl.ripple.com"
+    }
+  ]
+}
