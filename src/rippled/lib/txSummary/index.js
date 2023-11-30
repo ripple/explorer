@@ -3,11 +3,13 @@ import { defaultParser } from '../../../containers/shared/components/Transaction
 
 const getInstructions = (tx, meta) => {
   const type = tx.TransactionType
-  return transactionTypes[type]?.parser(tx, meta) || defaultParser(tx, meta)
+  const parser = transactionTypes[type]?.parser || defaultParser
+  return parser(tx, meta)
 }
 
 const summarizeTransaction = (d, details = false) => ({
   hash: d.hash,
+  ctid: d.ctid,
   type: d.tx.TransactionType,
   result: d.meta.TransactionResult,
   account: d.tx.Account,

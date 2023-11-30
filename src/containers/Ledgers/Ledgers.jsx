@@ -13,7 +13,7 @@ import { TransactionActionIcon } from '../shared/components/TransactionActionIco
 import { Legend } from './Legend'
 import { LedgerHashComponent } from './LedgerHashView'
 import { RouteLink } from '../shared/routing'
-import { LEDGER_ROUTE, TRANSACTION_ROUTE } from '../App/routes'
+import { LEDGER_ROUTE, TRANSACTION_ROUTE, VALIDATOR_ROUTE } from '../App/routes'
 
 class Ledgers extends Component {
   constructor(props) {
@@ -69,13 +69,16 @@ class Ledgers extends Component {
   renderSelected = () => {
     const { validators, selected } = this.state
     const v = validators[selected] || {}
-    const url = `/validators/${selected}`
     return (
       <div className="selected-validator">
         {v.domain && <DomainLink domain={v.domain} />}
-        <a className="pubkey" href={url}>
+        <RouteLink
+          to={VALIDATOR_ROUTE}
+          params={{ identifier: selected }}
+          className="pubkey"
+        >
           {selected}
-        </a>
+        </RouteLink>
       </div>
     )
   }

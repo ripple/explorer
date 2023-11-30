@@ -6,7 +6,6 @@ import {
 
 import { Simple } from './Simple'
 import { Description } from './Description'
-import { parser } from './parser'
 import { TableDetail } from './TableDetail'
 
 export const SetRegularKeyTransaction: TransactionMapping = {
@@ -15,5 +14,4 @@ export const SetRegularKeyTransaction: TransactionMapping = {
   TableDetail,
   action: TransactionAction.MODIFY,
   category: TransactionCategory.ACCOUNT,
-  parser,
 }

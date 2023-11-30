@@ -20,7 +20,7 @@ describe('Footer component', () => {
     const wrapper = createWrapper()
     expect(wrapper.find('.logo').length).toEqual(1)
     expect(wrapper.find('.copyright').length).toEqual(1)
-    expect(wrapper.find('.footer-link').length).toEqual(11)
+    expect(wrapper.find('.footer-link').length).toEqual(12)
     expect(wrapper.find('.footer-section-header').length).toEqual(3)
 
     wrapper.unmount()

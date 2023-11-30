@@ -1,10 +1,12 @@
 import { AMMCreate } from './AMMCreate'
 import { AMMDeposit } from './AMMDeposit'
+import { AMMDeleteTransaction as AMMDelete } from './AMMDelete'
 import { AMMWithdraw } from './AMMWithdraw'
 import { AMMBid } from './AMMBid'
 import { AMMVote } from './AMMVote'
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
+import { DIDSetTransaction as DIDSet } from './DIDSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
 import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
@@ -47,6 +49,8 @@ import {
 export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
   AccountSet,
+  Clawback,
+  DIDSet,
   DepositPreauth,
   EnableAmendment,
   NFTokenMint,
@@ -81,9 +85,9 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AMMDeposit,
   AMMBid,
   AMMVote,
+  AMMDelete,
   TrustSet,
   UNLModify,
-  Clawback,
 }
 
 export const getAction = (type: string): TransactionAction =>

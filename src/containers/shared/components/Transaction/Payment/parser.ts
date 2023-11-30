@@ -1,5 +1,6 @@
+import type { Payment } from 'xrpl'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
-import { Payment, PaymentInstructions } from './types'
+import { PaymentInstructions } from './types'
 import { Amount, ExplorerAmount } from '../../../types'
 
 const formatFailedPartialAmount = (d: Amount): ExplorerAmount => ({

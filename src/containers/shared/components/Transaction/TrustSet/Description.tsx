@@ -1,8 +1,8 @@
 import { Trans } from 'react-i18next'
+import type { TrustSet } from 'xrpl'
 import { Account } from '../../Account'
 import { normalizeAmount } from '../../../transactionUtils'
 import { useLanguage } from '../../../hooks'
-import { TrustSet } from './types'
 import { TransactionDescriptionProps } from '../types'
 
 export const Description = ({

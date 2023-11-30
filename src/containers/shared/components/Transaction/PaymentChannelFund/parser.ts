@@ -1,8 +1,11 @@
-import { PaymentChannelFund, PaymentChannelFundInstructions } from './types'
-import { Meta } from '../../../types'
+import type { PaymentChannelFund, TransactionMetadata } from 'xrpl'
+import { PaymentChannelFundInstructions } from './types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
-const findNode = (meta: Meta, nodeType: 'DeletedNode' | 'ModifiedNode') => {
+const findNode = (
+  meta: TransactionMetadata,
+  nodeType: 'DeletedNode' | 'ModifiedNode',
+) => {
   const metaNode = meta.AffectedNodes.find(
     (node) => node[nodeType] && node[nodeType].LedgerEntryType === 'PayChannel',
   )
@@ -22,7 +25,7 @@ const getDetails = (node: any): PaymentChannelFundInstructions => {
 
 export const parser = (
   tx: PaymentChannelFund,
-  meta: Meta,
+  meta: TransactionMetadata,
 ): PaymentChannelFundInstructions => {
   const node = findNode(meta, 'ModifiedNode')
   const channel = {

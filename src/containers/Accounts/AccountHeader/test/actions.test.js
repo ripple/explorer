@@ -41,7 +41,6 @@ describe('AccountHeader Actions', () => {
         emailHash: undefined,
         flags: [],
         balance: '123456000',
-        gravatar: undefined,
         nftMinter: undefined,
         previousTxn:
           '6B6F2CA1633A22247058E988372BA9EFFFC5BF10212230B67341CA32DC9D4A82',
@@ -54,6 +53,7 @@ describe('AccountHeader Actions', () => {
       escrows: undefined,
       paychannels: null,
       xAddress: undefined,
+      hasBridge: false,
     }
     const expectedActions = [
       { type: actionTypes.START_LOADING_ACCOUNT_STATE },
@@ -85,7 +85,6 @@ describe('AccountHeader Actions', () => {
         emailHash: undefined,
         flags: [],
         balance: '1172875760329',
-        gravatar: undefined,
         previousTxn:
           '259A84CE4B3B09D5FBCAA133F62FC767CA2B57B3C64CF065F7546AA63D55E070',
         previousLedger: 67657581,
@@ -164,6 +163,7 @@ describe('AccountHeader Actions', () => {
       escrows: undefined,
       paychannels: null,
       xAddress: undefined,
+      hasBridge: false,
       deleted: false,
     }
     const expectedActions = [
@@ -196,7 +196,6 @@ describe('AccountHeader Actions', () => {
         emailHash: undefined,
         flags: [],
         balance: '123456000',
-        gravatar: undefined,
         nftMinter: undefined,
         previousTxn:
           '6B6F2CA1633A22247058E988372BA9EFFFC5BF10212230B67341CA32DC9D4A82',
@@ -207,6 +206,7 @@ describe('AccountHeader Actions', () => {
       signerList: undefined,
       tokens: [],
       escrows: undefined,
+      hasBridge: false,
       paychannels: null,
       xAddress: {
         classicAddress: 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv',

@@ -8,6 +8,9 @@ const createWrapper = createSimpleWrapperFactory(Simple)
 describe('OfferCreate: Simple', () => {
   it('renders with an expiration and offer', () => {
     const wrapper = createWrapper(mockOfferCreateWithCancel)
+    expect(wrapper.find('[data-test="amount"] .one-line')).toHaveText(
+      '\uE900 XRP/CSC.rCSC',
+    )
     expect(wrapper.find('[data-test="cancel-id"] .value')).toHaveText(
       '#44866443',
     )

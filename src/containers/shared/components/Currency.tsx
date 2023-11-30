@@ -4,6 +4,7 @@ import { TOKEN_ROUTE } from '../../App/routes'
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
 const XRP = 'XRP'
+const LP_TOKEN_IDENTIFIER = '03'
 
 export interface Props {
   issuer?: string
@@ -25,10 +26,10 @@ const Currency = (props: Props) => {
     shortenIssuer = false,
     displaySymbol = true,
   } = props
-  const LPTokenIdentifier = '03'
+
   const currencyCode =
     currency?.length === NON_STANDARD_CODE_LENGTH &&
-    currency?.substring(0, 2) !== LPTokenIdentifier
+    currency?.substring(0, 2) !== LP_TOKEN_IDENTIFIER
       ? hexToString(currency)
       : currency
 

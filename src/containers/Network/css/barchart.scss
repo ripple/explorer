@@ -48,13 +48,22 @@
           background-color: $blue-purple-50;
         }
 
+        &.yea {
+          background-color: $green-50;
+        }
+
+        &.nay {
+          background-color: $magenta-70;
+        }
+
         width: 16px;
         height: 16px;
         border-radius: 4px;
       }
 
       .text {
-        color: $black-40;
+        color: $white;
+        text-transform: capitalize;
       }
     }
   }

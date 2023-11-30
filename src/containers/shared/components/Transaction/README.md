@@ -7,7 +7,7 @@ Each transaction has its properties defined in `./{TransactionType}/index.ts`.
 - **TableDetail**: A React component that defines the body of transaction on the account, ledger, token, or nft page.
 - **action**: A TransactionCategory value used to determine shape color of the transaction.
 - **category**: A TransactionCategory value used to determine the color of the transaction.
-- **parser**: A function which takes a transaction object and meta nodes. It returns additional properties to map onto a transaction.
+- **parser**: An optional function which takes a transaction object and meta nodes. It returns additional properties to map onto a transaction.
   This is run when a transaction is received from the server and is useful for transforming complex properties derived from nodes.
 
 This object is then provided in `./index.ts`

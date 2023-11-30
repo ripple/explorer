@@ -7,7 +7,7 @@ import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
-import { NOT_FOUND, BAD_REQUEST, HASH_REGEX } from '../shared/utils'
+import { NOT_FOUND, BAD_REQUEST, HASH_REGEX, CTID_REGEX } from '../shared/utils'
 import { SimpleTab } from './SimpleTab'
 import { DetailTab } from './DetailTab'
 import './transaction.scss'
@@ -20,6 +20,8 @@ import { SUCCESSFUL_TRANSACTION } from '../shared/transactionUtils'
 import { getTransaction } from '../../rippled'
 import { TRANSACTION_ROUTE } from '../App/routes'
 
+const WRONG_NETWORK = 406
+
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
   title: 'transaction_not_found',
@@ -27,6 +29,10 @@ ERROR_MESSAGES[NOT_FOUND] = {
 }
 ERROR_MESSAGES[BAD_REQUEST] = {
   title: 'invalid_transaction_hash',
+  hints: ['check_transaction_hash'],
+}
+ERROR_MESSAGES[WRONG_NETWORK] = {
+  title: 'wrong_network',
   hints: ['check_transaction_hash'],
 }
 ERROR_MESSAGES.default = {
@@ -48,22 +54,22 @@ export const Transaction = () => {
       if (identifier === '') {
         return undefined
       }
-      if (!HASH_REGEX.test(identifier)) {
-        return Promise.reject(BAD_REQUEST)
+      if (HASH_REGEX.test(identifier) || CTID_REGEX.test(identifier)) {
+        return getTransaction(identifier, rippledSocket).catch(
+          (transactionRequestError) => {
+            const status = transactionRequestError.code
+            trackException(
+              `transaction ${identifier} --- ${JSON.stringify(
+                transactionRequestError.message,
+              )}`,
+            )
+
+            return Promise.reject(status)
+          },
+        )
       }
 
-      return getTransaction(identifier, rippledSocket).catch(
-        (transactionRequestError) => {
-          const status = transactionRequestError.code
-          trackException(
-            `transaction ${identifier} --- ${JSON.stringify(
-              transactionRequestError.message,
-            )}`,
-          )
-
-          return Promise.reject(status)
-        },
-      )
+      return Promise.reject(BAD_REQUEST)
     },
   )
   const { width } = useWindowSize()
@@ -93,9 +99,16 @@ export const Transaction = () => {
       <div className="summary">
         <div className="type">{type}</div>
         <TxStatus status={data?.raw.meta.TransactionResult} />
-        <div className="hash" title={data?.raw.hash}>
+        <div className="txid" title={data?.raw.hash}>
+          <div className="title">{t('hash')}: </div>
           {data?.raw.hash}
         </div>
+        {data?.raw.tx.ctid && (
+          <div className="txid" title={data.raw.tx.ctid}>
+            <div className="title">CTID: </div>
+            {data.raw.tx.ctid}
+          </div>
+        )}
       </div>
     )
   }

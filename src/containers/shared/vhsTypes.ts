@@ -88,6 +88,10 @@ export interface ValidatorSupplemented extends ValidatorResponse {
   ledger_hash: string
   // eslint-disable-next-line camelcase -- mimicking rippled
   last_ledger_time: string
+  amendments: Array<{ id: string; name: string }>
+  base_fee: number
+  reserve_base: number
+  reserve_inc: number
 }
 
 export interface StreamValidator extends ValidatorResponse {
@@ -97,4 +101,27 @@ export interface StreamValidator extends ValidatorResponse {
   ledger_hash?: string
   pubkey?: string
   time?: string
+}
+
+export interface AmendmentData {
+  rippled_version: string
+  id: string
+  name: string
+  threshold?: string
+  consensus?: string
+  deprecated: boolean
+  date: string | null
+  tx_hash?: string
+  ledger_index?: number
+  eta?: string
+  voted?: Voter
+}
+
+export interface Voter {
+  count: number
+  validators: Array<{
+    signing_key: string
+    ledger_index: string
+    unl: string | false
+  }>
 }

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import type { AccountSet } from 'xrpl'
 import { ACCOUNT_FLAGS, decodeHex } from '../../../transactionUtils'
 import { Account } from '../../Account'
-import { AccountSet } from './types'
 import { TransactionTableDetailProps } from '../types'
 
 export const TableDetail = ({

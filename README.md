@@ -39,7 +39,7 @@ GOOGLE_APP_CLIENT_EMAIL=your-client-email
 * `npm run build` then `npm run prod-server` for production mode
 
 ### Installing on Apple Silicon
-Since `canvas` does not provide pre-built binaries for Apple chips during `npm install` it will try to compile it manually. To get this to succeed you need to install several dependencies by following the instructions [here](https://github.com/Automattic/node-canvas#compiling). 
+Since `canvas` does not provide pre-built binaries for Apple chips during `npm install` it will try to compile it manually. To get this to succeed you need to install several dependencies by following the instructions [here](https://github.com/Automattic/node-canvas#compiling).
 
 ## Running on Parallel Networks
 
@@ -81,10 +81,13 @@ Since `canvas` does not provide pre-built binaries for Apple chips during `npm i
 
 ## Targeted languages
 
-1.  US English (default)
-1.  Japanese
+1. US English (default)
+1. Spanish
+1. French
+1. Japanese 
+1. Korean 
 
-If you are interested in adding more translations please follow the guide on [how to define an additional language](./docs/how-to-define-a-language.md).
+When updating translation entires or adding new languages consult the guide [Translating](./docs/translating.md).
 
 ## Additional Documentation
 * [How to define transactions](./src/containers/shared/components/Transaction/README.md)

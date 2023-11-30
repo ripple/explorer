@@ -1,6 +1,4 @@
-import { buildPath, RouteDefinition } from '../shared/routing'
-
-import { NavigationMenuAnyRoute } from '../Header/NavigationMenu'
+import { RouteDefinition } from '../shared/routing'
 
 export const ACCOUNT_ROUTE: RouteDefinition<{
   id?: string
@@ -54,33 +52,17 @@ export const TRANSACTION_ROUTE: RouteDefinition<{
 
 export const VALIDATOR_ROUTE: RouteDefinition<{
   identifier: string
-  tab?: 'details' | 'history'
+  tab?: 'details' | 'history' | 'voting'
 }> = {
   path: `/validators/:identifier/:tab?`,
 }
 
-const isNetwork = (path) =>
-  path.indexOf(buildPath(NETWORK_ROUTE, {})) === 0 ||
-  path.indexOf(buildPath(VALIDATOR_ROUTE, { identifier: '' })) === 0
+export const AMENDMENTS_ROUTE: RouteDefinition = {
+  path: '/amendments',
+}
 
-// NOTE: for submenus, remove `path` field and add `children` array of objects
-export const navigationConfig: NavigationMenuAnyRoute[] = [
-  {
-    route: LEDGERS_ROUTE,
-    title: 'explorer',
-    current: (path: string) => !isNetwork(path),
-  },
-  {
-    route: NETWORK_ROUTE,
-    title: 'network',
-    current: (path: string) => isNetwork(path),
-  },
-  {
-    link: 'https://xrpl.org',
-    title: 'xrpl_org',
-  },
-  {
-    link: 'https://github.com/ripple/explorer',
-    title: 'github',
-  },
-]
+export const AMENDMENT_ROUTE: RouteDefinition<{
+  identifier: string
+}> = {
+  path: `/amendment/:identifier`,
+}
