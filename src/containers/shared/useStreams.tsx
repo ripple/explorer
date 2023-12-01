@@ -1,11 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import SocketContext from './SocketContext'
-import { getLedger, getNegativeUNL } from '../../rippled/lib/rippled'
+import { getLedger } from '../../rippled/lib/rippled'
 import { EPOCH_OFFSET } from '../../rippled/lib/convertRippleDate'
 import { summarizeLedger } from '../../rippled/lib/summarizeLedger'
 import Log from './log'
-import { getQuorum } from '../../rippled'
+import { getNegativeUNL, getQuorum } from '../../rippled'
+import { XRP_BASE } from './transactionUtils'
 
 const THROTTLE = 250
 
@@ -72,16 +73,6 @@ export interface Metrics {
   nUnl: string[]
 }
 
-const DEFAULT_METRICS = {
-  load_fee: '--',
-  txn_sec: '--',
-  txn_ledger: '--',
-  ledger_interval: '--',
-  avg_fee: '--',
-  quorum: '--',
-  nUnl: [],
-}
-
 const fetchMetrics = () =>
   axios
     .get('/api/v1/metrics')
@@ -114,15 +105,13 @@ export const useStreams = () => {
   const socket = useContext(SocketContext)
 
   // metrics
-  const [loadFee, setLoadFee] = useState<string>(DEFAULT_METRICS.load_fee)
-  const [txnSec, setTxnSec] = useState<string>(DEFAULT_METRICS.txn_sec)
-  const [txnLedger, setTxnLedger] = useState<string>(DEFAULT_METRICS.txn_ledger)
-  const [ledgerInterval, setLedgerInterval] = useState<string>(
-    DEFAULT_METRICS.ledger_interval,
-  )
-  const [avgFee, setAvgFee] = useState<string>(DEFAULT_METRICS.avg_fee)
-  const [quorum, setQuorum] = useState<string>(DEFAULT_METRICS.quorum)
-  const [nUnl, setNUnl] = useState<string[]>(DEFAULT_METRICS.nUnl)
+  const [loadFee, setLoadFee] = useState<string>('--')
+  const [txnSec, setTxnSec] = useState<string>('--')
+  const [txnLedger, setTxnLedger] = useState<string>('--')
+  const [ledgerInterval, setLedgerInterval] = useState<string>('--')
+  const [avgFee, setAvgFee] = useState<string>('--')
+  const [quorum, setQuorum] = useState<string>('--')
+  const [nUnl, setNUnl] = useState<string[]>([])
 
   function addLedger(index: number | string) {
     if (!firstLedgerRef.current) {
@@ -133,25 +122,61 @@ export const useStreams = () => {
     }
 
     // TODO: only keep 20
-    setLedgers((previousLedgers) => ({
-      [index]: {
-        index: Number(index),
-        seen: Date.now(),
-        hashes: [],
-        transactions: [],
-      },
-      ...previousLedgers,
-    }))
+    if (!(index in ledgers)) {
+      setLedgers((previousLedgers) => ({
+        [index]: {
+          index: Number(index),
+          seen: Date.now(),
+          hashes: [],
+          transactions: [],
+        },
+        ...previousLedgers,
+      }))
+    }
   }
 
   function updateMetricsFromServer() {
     fetchMetrics().then((serverMetrics) => {
-      setLoadFee(serverMetrics.base_fee)
       setTxnSec(serverMetrics.txn_sec)
       setTxnLedger(serverMetrics.txn_ledger)
       setAvgFee(serverMetrics.avg_fee)
       setLedgerInterval(serverMetrics.ledger_interval)
     })
+  }
+
+  function updateMetrics() {
+    const ledgerChain = Object.values(ledgers)
+      .sort((a, b) => a.index - b.index)
+      .slice(-100)
+
+    let time = 0
+    let fees = 0
+    let timeCount = 0
+    let txCount = 0
+    let txWithFeesCount = 0
+    let ledgerCount = 0
+
+    ledgerChain.forEach((d, i) => {
+      const next = ledgerChain[i + 1]
+      if (next && next.seen && d.seen) {
+        time += next.seen - d.seen
+        timeCount += 1
+      }
+
+      if (d.totalFees) {
+        fees += d.totalFees
+        txWithFeesCount += d.txCount ?? 0
+      }
+      if (d.txCount) {
+        txCount += d.txCount
+      }
+      ledgerCount += 1
+    })
+
+    setTxnSec(time ? ((txCount / time) * 1000).toFixed(2) : '--')
+    setTxnLedger(ledgerCount ? (txCount / ledgerCount).toFixed(2) : '--')
+    setLedgerInterval(timeCount ? (time / timeCount / 1000).toFixed(3) : '--')
+    setAvgFee(txWithFeesCount ? (fees / txWithFeesCount).toPrecision(4) : '--')
   }
 
   function updateQuorum() {
@@ -173,11 +198,15 @@ export const useStreams = () => {
 
     if (process.env.VITE_ENVIRONMENT !== 'custom') {
       updateMetricsFromServer()
+    } else {
+      updateMetrics()
     }
-    if (data.ledger_index % 256 === 0 || nUnl === DEFAULT_METRICS.nUnl) {
+
+    setLoadFee((data.fee_base / XRP_BASE).toString())
+    if (data.ledger_index % 256 === 0 || nUnl.length === 0) {
       updateNegativeUNL()
     }
-    if (data.ledger_index % 256 === 0 || quorum === DEFAULT_METRICS.quorum) {
+    if (data.ledger_index % 256 === 0 || quorum === '--') {
       updateQuorum()
     }
 
@@ -189,7 +218,7 @@ export const useStreams = () => {
             txCount: data.txn_count,
             closeTime: (data.ledger_time + EPOCH_OFFSET) * 1000,
             transactions: ledgerSummary.transactions,
-            totalFee: ledgerSummary.total_fees, // fix type
+            totalFees: ledgerSummary.total_fees, // fix type
           })
           const ledger = previousLedgers[Number(ledgerSummary.ledger_index)]
           const matchingHashIndex = ledger?.hashes.findIndex(
@@ -288,7 +317,7 @@ export const useStreams = () => {
         socket.off('validation', onValidation)
       }
     }
-  }, [])
+  }, [socket])
 
   useEffect(() => {
     ledgersRef.current = ledgers
