@@ -13,14 +13,9 @@ export const Description = ({
       <Trans
         i18nKey="amm_delete_description"
         components={{
-          // @ts-expect-error -- Fixed by https://github.com/XRPLF/xrpl.js/pull/2451
           Asset: <Currency currency={Asset.currency} issuer={Asset.issuer} />,
           Asset2: (
-            <Currency
-              currency={Asset2.currency}
-              // @ts-expect-error -- Fixed by https://github.com/XRPLF/xrpl.js/pull/2451
-              issuer={Asset2.issuer}
-            />
+            <Currency currency={Asset2.currency} issuer={Asset2.issuer} />
           ),
         }}
       />

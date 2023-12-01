@@ -12,11 +12,9 @@ export const Simple = ({ data }: TransactionSimpleProps<AMMDelete>) => {
   return (
     <>
       <SimpleRow label={t('asset1')} data-test="asset1">
-        {/* @ts-expect-error -- Fixed by https://github.com/XRPLF/xrpl.js/pull/2451 */}
         <Currency currency={Asset.currency} issuer={Asset.issuer} />
       </SimpleRow>
       <SimpleRow label={t('asset2')} data-test="asset2">
-        {/* @ts-expect-error -- Fixed by https://github.com/XRPLF/xrpl.js/pull/2451 */}
         <Currency currency={Asset2.currency} issuer={Asset2.issuer} />
       </SimpleRow>
     </>
