@@ -191,7 +191,7 @@ class Ledgers extends Component {
 Ledgers.contextType = SocketContext
 
 Ledgers.propTypes = {
-  ledgers: PropTypes.shape({}), // eslint-disable-line
+  ledgers: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
   validators: PropTypes.shape({}), // eslint-disable-line
   unlCount: PropTypes.number, // eslint-disable-line
   selected: PropTypes.string, // eslint-disable-line

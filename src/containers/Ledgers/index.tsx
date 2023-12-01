@@ -16,11 +16,10 @@ import { useStreams } from '../shared/useStreams'
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
 const LedgersPage = () => {
-  const { ledgers } = useStreams()
+  const { ledgers, metrics } = useStreams()
   const { trackScreenLoaded } = useAnalytics()
   const [paused, setPaused] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
-  const [metrics] = useState(undefined)
   const { isOnline } = useIsOnline()
   const { t } = useTranslation()
   const network = useContext(NetworkContext)

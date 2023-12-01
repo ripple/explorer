@@ -1,8 +1,11 @@
 import { useContext, useEffect, useRef, useState } from 'react'
+import axios from 'axios'
 import SocketContext from './SocketContext'
-import { getLedger } from '../../rippled/lib/rippled'
+import { getLedger, getNegativeUNL } from '../../rippled/lib/rippled'
 import { EPOCH_OFFSET } from '../../rippled/lib/convertRippleDate'
 import { summarizeLedger } from '../../rippled/lib/summarizeLedger'
+import Log from './log'
+import { getQuorum } from '../../rippled'
 
 const THROTTLE = 250
 
@@ -59,6 +62,49 @@ export interface Ledger {
   totalFees: number
 }
 
+export interface Metrics {
+  load_fee: string
+  txn_sec: string
+  txn_ledger: string
+  ledger_interval: string
+  avg_fee: string
+  quorum: string
+  nUnl: string[]
+}
+
+const DEFAULT_METRICS = {
+  load_fee: '--',
+  txn_sec: '--',
+  txn_ledger: '--',
+  ledger_interval: '--',
+  avg_fee: '--',
+  quorum: '--',
+  nUnl: [],
+}
+
+const fetchMetrics = () =>
+  axios
+    .get('/api/v1/metrics')
+    .then((result) => result.data)
+    .catch((e) => Log.error(e))
+
+const fetchNegativeUNL = async (rippledSocket) =>
+  getNegativeUNL(rippledSocket)
+    .then((data) => {
+      if (data === undefined) throw new Error('undefined nUNL')
+
+      return data
+    })
+    .catch((e) => Log.error(e))
+
+const fetchQuorum = async (rippledSocket) =>
+  getQuorum(rippledSocket)
+    .then((data) => {
+      if (data === undefined) throw new Error('undefined quorum')
+      return data
+    })
+    .catch((e) => Log.error(e))
+
 export const useStreams = () => {
   const [ledgers, setLedgers] = useState<Record<number, Ledger>>([])
   const ledgersRef = useRef<Record<number, Ledger>>(ledgers)
@@ -66,6 +112,17 @@ export const useStreams = () => {
   // const [validators, setValidators] = useState<{}>()
   const validationQueue = useRef<ValidationStream[]>([])
   const socket = useContext(SocketContext)
+
+  // metrics
+  const [loadFee, setLoadFee] = useState<string>(DEFAULT_METRICS.load_fee)
+  const [txnSec, setTxnSec] = useState<string>(DEFAULT_METRICS.txn_sec)
+  const [txnLedger, setTxnLedger] = useState<string>(DEFAULT_METRICS.txn_ledger)
+  const [ledgerInterval, setLedgerInterval] = useState<string>(
+    DEFAULT_METRICS.ledger_interval,
+  )
+  const [avgFee, setAvgFee] = useState<string>(DEFAULT_METRICS.avg_fee)
+  const [quorum, setQuorum] = useState<string>(DEFAULT_METRICS.quorum)
+  const [nUnl, setNUnl] = useState<string[]>(DEFAULT_METRICS.nUnl)
 
   function addLedger(index: number | string) {
     if (!firstLedgerRef.current) {
@@ -87,9 +144,41 @@ export const useStreams = () => {
     }))
   }
 
+  function updateMetricsFromServer() {
+    fetchMetrics().then((serverMetrics) => {
+      setLoadFee(serverMetrics.base_fee)
+      setTxnSec(serverMetrics.txn_sec)
+      setTxnLedger(serverMetrics.txn_ledger)
+      setAvgFee(serverMetrics.avg_fee)
+      setLedgerInterval(serverMetrics.ledger_interval)
+    })
+  }
+
+  function updateQuorum() {
+    fetchQuorum(socket).then((newQuorum) => {
+      setQuorum(newQuorum)
+    })
+  }
+
+  function updateNegativeUNL() {
+    fetchNegativeUNL(socket).then((newNUnl) => {
+      setNUnl(newNUnl)
+    })
+  }
+
   function onLedger(data: LedgerStream) {
     if (!ledgersRef.current[data.ledger_index]) {
       addLedger(data.ledger_index)
+    }
+
+    if (process.env.VITE_ENVIRONMENT !== 'custom') {
+      updateMetricsFromServer()
+    }
+    if (data.ledger_index % 256 === 0 || nUnl === DEFAULT_METRICS.nUnl) {
+      updateNegativeUNL()
+    }
+    if (data.ledger_index % 256 === 0 || quorum === DEFAULT_METRICS.quorum) {
+      updateQuorum()
     }
 
     getLedger(socket, { ledger_hash: data.ledger_hash })
@@ -208,5 +297,14 @@ export const useStreams = () => {
   return {
     ledgers,
     // validators,
+    metrics: {
+      load_fee: loadFee,
+      txn_sec: txnSec,
+      txn_ledger: txnLedger,
+      ledger_interval: ledgerInterval,
+      avg_fee: avgFee,
+      quorum,
+      nUnl,
+    },
   }
 }

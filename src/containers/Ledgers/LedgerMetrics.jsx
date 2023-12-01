@@ -8,16 +8,6 @@ import ResumeIcon from '../shared/images/ic_play.svg'
 import './css/ledgerMetrics.scss'
 import SocketContext from '../shared/SocketContext'
 
-const DEFAULTS = {
-  load_fee: '--',
-  txn_sec: '--',
-  txn_ledger: '--',
-  ledger_interval: '--',
-  avg_fee: '--',
-  quorum: '--',
-  nUnl: [],
-}
-
 class LedgerMetrics extends Component {
   constructor(props) {
     super(props)
@@ -66,8 +56,7 @@ class LedgerMetrics extends Component {
 
   render() {
     const { language, t } = this.props
-    const { data: stateData } = this.state
-    const data = { ...DEFAULTS, ...stateData }
+    const { data } = this.state
 
     if (data.load_fee === '--') {
       data.load_fee = data.base_fee || '--'
