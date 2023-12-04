@@ -76,6 +76,10 @@ describe('EnableAmendment: Simple', () => {
 
     expectSimpleRowText(wrapper, 'name', 'ExpandedSignerList')
     expectSimpleRowText(wrapper, 'version', 'v1.9.1')
+    expect(wrapper.find('[data-test="name"] .value a')).toHaveProp(
+      'href',
+      '/amendment/B2A4DB846F0891BF2C76AB2F2ACC8F5B4EC64437135C6E56F3F859DE5FFD5856',
+    )
 
     wrapper.unmount()
   })
