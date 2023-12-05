@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
+import { useQuery } from 'react-query'
 import SocketContext from './SocketContext'
 import { getLedger } from '../../rippled/lib/rippled'
 import { EPOCH_OFFSET } from '../../rippled/lib/convertRippleDate'
@@ -7,6 +8,8 @@ import { summarizeLedger } from '../../rippled/lib/summarizeLedger'
 import Log from './log'
 import { getNegativeUNL, getQuorum } from '../../rippled'
 import { XRP_BASE } from './transactionUtils'
+import { FETCH_INTERVAL_MILLIS } from './utils'
+import { ValidatorResponse } from './vhsTypes'
 
 const THROTTLE = 250
 
@@ -100,7 +103,7 @@ export const useStreams = () => {
   const [ledgers, setLedgers] = useState<Record<number, Ledger>>([])
   const ledgersRef = useRef<Record<number, Ledger>>(ledgers)
   const firstLedgerRef = useRef<number>(0)
-  // const [validators, setValidators] = useState<{}>()
+  const [validators, setValidators] = useState<Record<number, any>>({})
   const validationQueue = useRef<ValidationStream[]>([])
   const socket = useContext(SocketContext)
 
@@ -112,6 +115,54 @@ export const useStreams = () => {
   const [avgFee, setAvgFee] = useState<string>('--')
   const [quorum, setQuorum] = useState<string>('--')
   const [nUnl, setNUnl] = useState<string[]>([])
+
+  const fetchValidators = () => {
+    console.log('fetchValidators')
+    // TODO: make less generalized
+    const url = `${process.env.VITE_DATA_URL}/validators/main`
+
+    return axios
+      .get(url)
+      .then((resp) => resp.data.validators)
+      .then((data) => {
+        let newUnlCount = 0
+
+        data.forEach((v: ValidatorResponse) => {
+          if (v.unl === process.env.VITE_VALIDATOR) {
+            newUnlCount += 1
+          }
+        })
+
+        return {
+          validators: data,
+          unlCount: newUnlCount,
+        }
+      })
+      .catch((e) => Log.error(e))
+  }
+
+  const { data: validatorData } = useQuery<{
+    validators: any[]
+    unlCount: number
+  }>(['fetchValidatorData'], async () => fetchValidators(), {
+    refetchInterval: FETCH_INTERVAL_MILLIS,
+    refetchOnMount: true,
+    placeholderData: { validators: [], unlCount: 0 },
+  })
+
+  useEffect(() => {
+    console.log('useEffect', validatorData)
+    setValidators((previousValidators) => {
+      const newValidators = { ...previousValidators }
+      validatorData?.validators.forEach((validator) => {
+        newValidators[validator.validation_public_key] = {
+          ...newValidators[validator.validation_public_key],
+          ...validator,
+        }
+      })
+      return newValidators
+    })
+  }, [validatorData])
 
   function addLedger(index: number | string) {
     if (!firstLedgerRef.current) {
@@ -203,10 +254,8 @@ export const useStreams = () => {
     }
 
     setLoadFee((data.fee_base / XRP_BASE).toString())
-    if (data.ledger_index % 256 === 0 || nUnl.length === 0) {
-      updateNegativeUNL()
-    }
     if (data.ledger_index % 256 === 0 || quorum === '--') {
+      updateNegativeUNL()
       updateQuorum()
     }
 
@@ -255,18 +304,11 @@ export const useStreams = () => {
     if (validationQueue.current.length < 1) {
       return
     }
-    // copy the queue and clear it so we arent adding more while processing
+    // copy the queue and clear it so we aren't adding more while processing
     const queue = [...validationQueue.current]
     validationQueue.current = []
     setLedgers((previousLedgers) => {
-      // const newValidators: any = { ...validators }
       queue.forEach((validation) => {
-        // newValidators[validation.validation_public_key] = {
-        //   ledger_hash: validation.ledger_hash,
-        //   ledger_index: validation.ledger_index,
-        //   last: Date.now(),
-        // }
-
         const ledger = previousLedgers[Number(validation.ledger_index)]
         const matchingHashIndex = ledger?.hashes.findIndex(
           (hash) => hash.hash === validation.ledger_hash,
@@ -283,6 +325,16 @@ export const useStreams = () => {
           ledger.hashes.push(matchingHash)
         }
         matchingHash.validations = [...matchingHash.validations, validation]
+        console.log(
+          validation.validation_public_key,
+          validators[validation.validation_public_key],
+        )
+        if (
+          validators[validation.validation_public_key] &&
+          validators[validation.validation_public_key].unl
+        ) {
+          matchingHash.trusted_count += 1
+        }
         if (ledger) {
           ledger.hashes = [...(ledger?.hashes || [])]
           ledger.hashes[matchingHashIndex] = {
@@ -292,7 +344,24 @@ export const useStreams = () => {
       })
       return { ...previousLedgers }
     })
-    // setValidators(validators)
+    setValidators((previousValidators) => {
+      const newValidators: any = { ...previousValidators }
+      queue.forEach((validation) => {
+        newValidators[validation.validation_public_key] = {
+          ...previousValidators[validation.validation_public_key],
+          cookie: validation.cookie,
+          ledger_index: Number(validation.ledger_index),
+          ledger_hash: validation.ledger_hash,
+          pubkey: validation.validation_public_key,
+          partial: !validation.full,
+          time: (validation.signing_time + EPOCH_OFFSET) * 1000,
+          // ledger_hash: validation.ledger_hash,
+          // ledger_index: validation.ledger_index,
+          last: Date.now(),
+        }
+      })
+      return newValidators
+    })
   }
 
   useEffect(() => {
@@ -326,7 +395,8 @@ export const useStreams = () => {
 
   return {
     ledgers,
-    // validators,
+    validators,
+    unlCount: validatorData?.unlCount || 0,
     metrics: {
       load_fee: loadFee,
       txn_sec: txnSec,

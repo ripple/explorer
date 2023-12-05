@@ -14,6 +14,7 @@ function areEqual(prevProps: any, nextProps: any) {
 }
 export const LedgerHashComponent = memo(
   ({ hash, unlCount }: { hash: LedgerHash; unlCount: number }) => {
+    // console.log(hash)
     const { t } = useTranslation()
     const shortHash = hash.hash.substr(0, 6)
     const barStyle = { background: `#${shortHash}` }
