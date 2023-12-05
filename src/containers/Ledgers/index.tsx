@@ -37,12 +37,13 @@ const LedgersPage = () => {
 
     return axios
       .get(url)
-      .then((resp) => {
+      .then((resp) => resp.data.validators)
+      .then((data) => {
         const newValidators: Record<string, ValidatorResponse> = {}
         let newUnlCount = 0
 
-        resp.data.forEach((v: ValidatorResponse) => {
-          if (v.unl === process.env.REACT_APP_VALIDATOR) {
+        data.forEach((v: ValidatorResponse) => {
+          if (v.unl === process.env.VITE_VALIDATOR) {
             newUnlCount += 1
           }
           newValidators[v.signing_key] = v

@@ -12,36 +12,42 @@ function areEqual(prevProps: any, nextProps: any) {
     prevProps.hash.validated === nextProps.hash.validated
   )
 }
-export const LedgerHashComponent = memo(({ hash }: { hash: LedgerHash }) => {
-  const { t } = useTranslation()
-  const shortHash = hash.hash.substr(0, 6)
-  const barStyle = { background: `#${shortHash}` }
-  const validated = hash.validated && <SuccessIcon className="validated" />
-  return (
-    <div
-      className={`hash ${hash.unselected ? 'unselected' : ''}`}
-      key={hash.hash}
-    >
-      <div className="bar" style={barStyle} />
-      <div className="ledger-hash">
-        <div className="hash-concat">{shortHash}</div>
-        {validated}
-      </div>
-      <div className="subtitle">
-        <div className="validation-total">
-          <div>{t('total')}:</div>
-          <b>{hash.validations.length}</b>
+export const LedgerHashComponent = memo(
+  ({ hash, unlCount }: { hash: LedgerHash; unlCount: number }) => {
+    const { t } = useTranslation()
+    const shortHash = hash.hash.substr(0, 6)
+    const barStyle = { background: `#${shortHash}` }
+    const validated = hash.validated && <SuccessIcon className="validated" />
+    return (
+      <div
+        className={`hash ${hash.unselected ? 'unselected' : ''}`}
+        key={hash.hash}
+      >
+        <div className="bar" style={barStyle} />
+        <div className="ledger-hash">
+          <div className="hash-concat">{shortHash}</div>
+          {validated}
         </div>
-        <LedgerUNLCount unlCount={35} trustedCount={hash.trusted_count} />
-      </div>
-      <div className="validations">
-        {hash.validations.map((validation) => (
-          <LedgerValidation
-            validation={validation}
-            key={`${validation.validation_public_key}-${validation.cookie}`}
+        <div className="subtitle">
+          <div className="validation-total">
+            <div>{t('total')}:</div>
+            <b>{hash.validations.length}</b>
+          </div>
+          <LedgerUNLCount
+            unlCount={unlCount}
+            trustedCount={hash.trusted_count}
           />
-        ))}
+        </div>
+        <div className="validations">
+          {hash.validations.map((validation) => (
+            <LedgerValidation
+              validation={validation}
+              key={`${validation.validation_public_key}-${validation.cookie}`}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  )
-}, areEqual)
+    )
+  },
+  areEqual,
+)

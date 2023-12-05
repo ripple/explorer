@@ -32,6 +32,6 @@ export interface ValidatorResponse {
   signing_key: string
   // eslint-disable-next-line camelcase -- from VHS
   master_key: string
-  unl: string
+  unl: string | false
   domain: string | null
 }

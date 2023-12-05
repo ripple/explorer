@@ -278,12 +278,13 @@ export const useStreams = () => {
             validated: false,
             unselected: false,
             validations: [],
+            trusted_count: 0,
           }
           ledger.hashes.push(matchingHash)
         }
         matchingHash.validations = [...matchingHash.validations, validation]
         if (ledger) {
-          ledger.hashes = [...ledger?.hashes]
+          ledger.hashes = [...(ledger?.hashes || [])]
           ledger.hashes[matchingHashIndex] = {
             ...matchingHash,
           }

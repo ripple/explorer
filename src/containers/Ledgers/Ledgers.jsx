@@ -84,6 +84,7 @@ class Ledgers extends Component {
   }
 
   renderLedger = (ledger) => {
+    const { unlCount } = this.state
     const time = ledger.closeTime
       ? new Date(ledger.closeTime).toLocaleTimeString()
       : null
@@ -102,7 +103,11 @@ class Ledgers extends Component {
         </div>
         <div className="hashes">
           {ledger.hashes.map((hash) => (
-            <LedgerHashComponent key={`${hash.hash}`} hash={hash} />
+            <LedgerHashComponent
+              key={`${hash.hash}`}
+              hash={hash}
+              unlCount={unlCount}
+            />
           ))}
         </div>
       </div>
