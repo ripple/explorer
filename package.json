@@ -60,7 +60,7 @@
     "@babel/preset-env": "^7.23.5",
     "@babel/preset-react": "^7.22.15",
     "@types/create-hash": "^1.2.2",
-    "@types/enzyme": "^3.10.12",
+    "@types/enzyme": "^3.10.18",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.194",
     "@types/node": "^18.18.8",
