@@ -88,9 +88,7 @@ class Ledgers extends Component {
             <LedgerHashComponent
               key={`${hash.hash}`}
               hash={hash}
-              unlValidators={vhsData
-                .filter((validation) => validation.unl)
-                .map((validation) => validation.signing_key)}
+              unlValidators={vhsData.filter((validation) => validation.unl)}
               unlCount={unlCount}
             />
           ))}

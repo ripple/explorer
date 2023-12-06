@@ -20,12 +20,26 @@ export const LedgerHashComponent = memo(
   }: {
     hash: LedgerHash
     unlCount: number
-    unlValidators: string[]
+    unlValidators: any[]
   }) => {
     const { t } = useTranslation()
     const shortHash = hash.hash.substr(0, 6)
     const barStyle = { background: `#${shortHash}` }
     const validated = hash.validated && <SuccessIcon className="validated" />
+    const unlValidatorKeys = unlValidators.map(
+      (validator) => validator.signing_key,
+    )
+
+    const getMissingValidators = () => {
+      const unlValidations = hash.validations
+        .map((validation) => validation.validation_public_key)
+        .filter((pubkey) => unlValidatorKeys.includes(pubkey))
+      const missing = unlValidators.filter(
+        (validator) => !unlValidations.includes(validator.signing_key),
+      )
+      return missing
+    }
+
     return (
       <div
         className={`hash ${hash.unselected ? 'unselected' : ''}`}
@@ -45,16 +59,17 @@ export const LedgerHashComponent = memo(
             unlCount={unlCount}
             trustedCount={
               hash.validations.filter((validation) =>
-                unlValidators.includes(validation.validation_public_key),
+                unlValidatorKeys.includes(validation.validation_public_key),
               ).length
             }
+            missing={getMissingValidators() ?? null}
           />
         </div>
         <div className="validations">
           {hash.validations.map((validation) => (
             <LedgerValidation
               validation={validation}
-              isTrusted={unlValidators.includes(
+              isTrusted={unlValidatorKeys.includes(
                 validation.validation_public_key,
               )}
               key={`${validation.validation_public_key}-${validation.cookie}`}

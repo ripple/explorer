@@ -266,6 +266,10 @@ $ledger-width: 196px;
       line-height: 14px;
       text-transform: uppercase;
       @include bold;
+
+      .tooltip {
+        text-transform: none;
+      }
     }
 
     .validation-total {

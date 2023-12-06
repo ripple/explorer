@@ -52,7 +52,7 @@ const prepareHexagons = (data, list, height, radius, prev = []) => {
 export const Hexagons = ({ list, data }) => {
   const language = useLanguage()
   const { width } = useWindowSize()
-  const [tooltip, setToolip] = useState()
+  const [tooltip, setTooltip] = useState()
   const [hexagons, setHexagons] = useState([])
   const { width: gridWidth, height: gridHeight, radius } = getDimensions(width)
   const bin = hexbin()
@@ -71,7 +71,7 @@ export const Hexagons = ({ list, data }) => {
   }, [data, list, width, gridHeight, radius])
 
   const showTooltip = (event, tooltipData) => {
-    setToolip({
+    setTooltip({
       ...tooltipData,
       mode: 'validator',
       v: list[tooltipData.pubkey],
@@ -81,7 +81,7 @@ export const Hexagons = ({ list, data }) => {
   }
 
   const hideTooltip = () => {
-    setToolip(null)
+    setTooltip(null)
   }
 
   const renderHexagon = (d, theHex) => {
