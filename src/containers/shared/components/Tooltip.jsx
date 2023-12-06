@@ -37,18 +37,18 @@ class Tooltip extends Component {
 
   renderValidatorTooltip() {
     const { language } = this.props
-    const { v = {}, pubkey, time } = this.state
-    const key = v.master_key || pubkey
+    const { validation = {}, pubkey, time } = this.state
+    const key = validation.master_key || pubkey
 
     return (
       <>
-        <div className="domain">{v.domain}</div>
+        <div className="domain">{validation.domain}</div>
         <div className="pubkey">{key}</div>
         <div className="time">{localizeDate(time, language, DATE_OPTIONS)}</div>
-        {v.unl && (
+        {validation.unl && (
           <div className="unl">
-            {v.unl}
-            <img src={successIcon} alt={v.unl} />
+            {validation.unl}
+            <img src={successIcon} alt={validation.unl} />
           </div>
         )}
       </>

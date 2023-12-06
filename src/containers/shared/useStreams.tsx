@@ -50,6 +50,7 @@ export interface LedgerHash {
   validated: boolean
   validations: ValidationStream[]
   unselected: boolean
+  time: number
 }
 
 export interface Ledger {
@@ -268,6 +269,7 @@ export const useStreams = () => {
             validated: false,
             unselected: false,
             validations: [],
+            time: (validation.signing_time + EPOCH_OFFSET) * 1000,
           }
           ledger.hashes.push(matchingHash)
         }

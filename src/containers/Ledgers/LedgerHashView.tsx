@@ -17,10 +17,12 @@ export const LedgerHashComponent = memo(
     hash,
     unlCount,
     unlValidators,
+    vhsData,
   }: {
     hash: LedgerHash
     unlCount: number
     unlValidators: any[]
+    vhsData: any[]
   }) => {
     const { t } = useTranslation()
     const shortHash = hash.hash.substr(0, 6)
@@ -73,6 +75,14 @@ export const LedgerHashComponent = memo(
                 validation.validation_public_key,
               )}
               key={`${validation.validation_public_key}-${validation.cookie}`}
+              vhsData={
+                vhsData.filter(
+                  (vhsValidator) =>
+                    vhsValidator.signing_key ===
+                    validation.validation_public_key,
+                )[0]
+              }
+              time={hash.time}
             />
           ))}
         </div>
