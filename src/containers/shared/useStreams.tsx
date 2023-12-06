@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import { useQuery } from 'react-query'
 import SocketContext from './SocketContext'
 import { getLedger } from '../../rippled/lib/rippled'
 import { EPOCH_OFFSET } from '../../rippled/lib/convertRippleDate'
@@ -8,8 +7,6 @@ import { summarizeLedger } from '../../rippled/lib/summarizeLedger'
 import Log from './log'
 import { getNegativeUNL, getQuorum } from '../../rippled'
 import { XRP_BASE } from './transactionUtils'
-import { FETCH_INTERVAL_MILLIS } from './utils'
-import { ValidatorResponse } from './vhsTypes'
 
 const THROTTLE = 250
 

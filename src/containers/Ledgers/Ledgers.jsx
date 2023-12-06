@@ -32,25 +32,6 @@ class Ledgers extends Component {
     }
   }
 
-  getMissingValidators = (hash) => {
-    const { validators } = this.props
-    const unl = {}
-
-    Object.keys(validators).forEach((pubkey) => {
-      if (validators[pubkey].unl) {
-        unl[pubkey] = false
-      }
-    })
-
-    hash.validations.forEach((v) => {
-      if (unl[v.pubkey] !== undefined) {
-        delete unl[v.pubkey]
-      }
-    })
-
-    return Object.keys(unl).map((pubkey) => validators[pubkey])
-  }
-
   showTooltip = (mode, event, data) => {
     const { validators } = this.state
     this.setState({
@@ -173,6 +154,7 @@ class Ledgers extends Component {
   render() {
     const { selected, tooltip } = this.state
     const { ledgers, t, language } = this.props
+    // eslint-disable-next-line react/destructuring-assignment -- this is clearer
     const isOnline = this.context.getState().online
 
     return (
