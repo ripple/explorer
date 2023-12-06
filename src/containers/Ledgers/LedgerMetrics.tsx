@@ -10,7 +10,7 @@ import { useLanguage } from '../shared/hooks'
 
 export type LedgerMetricsProps = React.PropsWithChildren<{
   data: Record<string, any>
-  onPause: () => {}
+  onPause: () => void
   paused: boolean
 }>
 
