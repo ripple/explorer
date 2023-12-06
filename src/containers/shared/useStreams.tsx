@@ -8,7 +8,7 @@ import Log from './log'
 import { getNegativeUNL, getQuorum } from '../../rippled'
 import { XRP_BASE } from './transactionUtils'
 
-const THROTTLE = 250
+const THROTTLE = 100
 
 /* eslint-disable camelcase -- server interfaces */
 export interface LedgerStream {
