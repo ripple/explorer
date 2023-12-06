@@ -1,6 +1,10 @@
-import { memo, useState } from 'react'
+import { Dispatch, SetStateAction, memo, useState } from 'react'
 import { ValidationStream } from '../shared/useStreams'
 import Tooltip from '../shared/components/Tooltip'
+
+function areEqual(prevProps: any, nextProps: any) {
+  return prevProps.selected === nextProps.selected
+}
 
 export const LedgerValidation = memo(
   ({
@@ -8,16 +12,26 @@ export const LedgerValidation = memo(
     vhsData,
     isTrusted,
     time,
+    selected,
+    setSelected,
   }: {
     validation: ValidationStream
     vhsData: any
     isTrusted: boolean
     time: number
+    selected: string
+    setSelected: Dispatch<SetStateAction<string>>
   }) => {
     const pubkey = validation.validation_public_key
     const trusted = isTrusted ? 'trusted ' : ''
     const partial = validation.full ? '' : 'partial '
-    const className = `validation ${trusted}${partial}${pubkey}`
+    const selectedPart =
+      selected === validation.validation_public_key ? 'selected ' : ''
+    const unselectedPart =
+      selected && selected !== validation.validation_public_key
+        ? 'unselected '
+        : ''
+    const className = `validation ${selectedPart}${unselectedPart}${trusted}${partial}${pubkey}`
     const text = validation.full ? null : <div className="partial" />
     const [tooltip, setTooltip] = useState<any | null>(null)
 
@@ -44,7 +58,13 @@ export const LedgerValidation = memo(
           onFocus={(_e) => {}}
           onKeyUp={(_e) => {}}
           onMouseLeave={hideTooltip}
-          // onClick={() => setSelected(v.pubkey)}
+          onClick={() => {
+            if (selected === '') {
+              setSelected(validation.validation_public_key)
+            } else {
+              setSelected('')
+            }
+          }}
         >
           {text}
         </div>
@@ -52,4 +72,5 @@ export const LedgerValidation = memo(
       </>
     )
   },
+  areEqual,
 )

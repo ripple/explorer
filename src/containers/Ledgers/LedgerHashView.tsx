@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { Dispatch, SetStateAction, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import SuccessIcon from '../shared/images/success.svg'
 import { LedgerValidation } from './LedgerValidation'
@@ -10,7 +10,8 @@ function areEqual(prevProps: any, nextProps: any) {
   return (
     prevProps.hash.hash === nextProps.hash.hash &&
     prevProps.hash.validations.length === nextProps.hash.validations.length &&
-    prevProps.hash.validated === nextProps.hash.validated
+    prevProps.hash.validated === nextProps.hash.validated &&
+    prevProps.selected === nextProps.selected
   )
 }
 export const LedgerHashComponent = memo(
@@ -19,11 +20,15 @@ export const LedgerHashComponent = memo(
     unlCount,
     unlValidators,
     vhsData,
+    selected,
+    setSelected,
   }: {
     hash: LedgerHash
-    unlCount: number
+    unlCount: number | undefined
     unlValidators: any[]
     vhsData: ValidatorResponse[]
+    selected: string
+    setSelected: Dispatch<SetStateAction<string>>
   }) => {
     const { t } = useTranslation()
     const shortHash = hash.hash.substr(0, 6)
@@ -58,15 +63,17 @@ export const LedgerHashComponent = memo(
             <div>{t('total')}:</div>
             <b>{hash.validations.length}</b>
           </div>
-          <LedgerUNLCount
-            unlCount={unlCount}
-            trustedCount={
-              hash.validations.filter((validation) =>
-                unlValidatorKeys.includes(validation.validation_public_key),
-              ).length
-            }
-            missing={getMissingValidators()}
-          />
+          {unlCount && (
+            <LedgerUNLCount
+              unlCount={unlCount}
+              trustedCount={
+                hash.validations.filter((validation) =>
+                  unlValidatorKeys.includes(validation.validation_public_key),
+                ).length
+              }
+              missing={getMissingValidators()}
+            />
+          )}
         </div>
         <div className="validations">
           {hash.validations.map((validation) => (
@@ -84,6 +91,8 @@ export const LedgerHashComponent = memo(
                 )[0]
               }
               time={hash.time}
+              selected={selected}
+              setSelected={setSelected}
             />
           ))}
         </div>
