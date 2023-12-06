@@ -27,8 +27,8 @@ class LedgerMetrics extends Component {
         nUnl: data.nUnl,
         mode: 'nUnl',
         v: nUnl,
-        x: event.pageX,
-        y: event.pageY,
+        x: event.currentTarget.offsetLeft,
+        y: event.currentTarget.offsetTop,
       },
     })
   }

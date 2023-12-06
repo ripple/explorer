@@ -73,12 +73,14 @@ export interface Metrics {
   nUnl: string[]
 }
 
+// TODO: use useQuery
 const fetchMetrics = () =>
   axios
     .get('/api/v1/metrics')
     .then((result) => result.data)
     .catch((e) => Log.error(e))
 
+// TODO: use useQuery
 const fetchNegativeUNL = async (rippledSocket) =>
   getNegativeUNL(rippledSocket)
     .then((data) => {
@@ -88,6 +90,7 @@ const fetchNegativeUNL = async (rippledSocket) =>
     })
     .catch((e) => Log.error(e))
 
+// TODO: use useQuery
 const fetchQuorum = async (rippledSocket) =>
   getQuorum(rippledSocket)
     .then((data) => {
@@ -135,6 +138,7 @@ export const useStreams = () => {
     }
   }
 
+  // TODO: use useQuery
   function updateMetricsFromServer() {
     fetchMetrics().then((serverMetrics) => {
       setTxnSec(serverMetrics.txn_sec)
@@ -212,7 +216,7 @@ export const useStreams = () => {
       .then(summarizeLedger)
       .then((ledgerSummary) => {
         setLedgers((previousLedgers) => {
-          Object.assign(previousLedgers[data.ledger_index], {
+          Object.assign(previousLedgers[data.ledger_index] ?? {}, {
             txCount: data.txn_count,
             closeTime: (data.ledger_time + EPOCH_OFFSET) * 1000,
             transactions: ledgerSummary.transactions,

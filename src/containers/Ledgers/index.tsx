@@ -6,12 +6,12 @@ import axios from 'axios'
 import Log from '../shared/log'
 import LedgerMetrics from './LedgerMetrics'
 import Ledgers from './Ledgers'
-import { ValidatorResponse } from './types'
 import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
 import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
 import { useStreams } from '../shared/useStreams'
+import { ValidatorResponse } from '../shared/vhsTypes'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 

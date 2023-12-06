@@ -18,17 +18,14 @@ import { LEDGER_ROUTE, TRANSACTION_ROUTE, VALIDATOR_ROUTE } from '../App/routes'
 class Ledgers extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      validators: {},
-      tooltip: null,
-    }
+    this.state = { ledgers: [], validators: {}, tooltip: null }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     return {
       selected: nextProps.selected,
+      ledgers: nextProps.paused ? prevState.ledgers : nextProps.ledgers,
       validators: nextProps.validators,
-      unlCount: nextProps.unlCount,
     }
   }
 
@@ -65,8 +62,7 @@ class Ledgers extends Component {
   }
 
   renderLedger = (ledger) => {
-    const { unlCount } = this.state
-    const { vhsData } = this.props
+    const { vhsData, unlCount } = this.props
     const time = ledger.closeTime
       ? new Date(ledger.closeTime).toLocaleTimeString()
       : null
@@ -152,8 +148,8 @@ class Ledgers extends Component {
   )
 
   render() {
-    const { selected, tooltip } = this.state
-    const { ledgers, t, language } = this.props
+    const { ledgers, selected, tooltip } = this.state
+    const { t, language } = this.props
     // eslint-disable-next-line react/destructuring-assignment -- this is clearer
     const isOnline = this.context.getState().online
 
@@ -189,6 +185,7 @@ Ledgers.propTypes = {
   selected: PropTypes.string, // eslint-disable-line
   language: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
+  paused: PropTypes.bool,
 }
 
 Ledgers.defaultProps = {
@@ -196,6 +193,7 @@ Ledgers.defaultProps = {
   validators: {},
   unlCount: 0,
   selected: null,
+  paused: false,
 }
 
 export default withTranslation()(Ledgers)

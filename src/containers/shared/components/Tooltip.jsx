@@ -29,7 +29,7 @@ class Tooltip extends Component {
     const { nUnl } = this.state
     const list = nUnl.map((key) => {
       const short = key.substr(0, 8)
-      return <div key={key} className={`nUnl: ${key}`}>{`${short}...`}</div>
+      return <div key={key} className={`nUnl ${key}`}>{`${short}...`}</div>
     })
 
     return list
