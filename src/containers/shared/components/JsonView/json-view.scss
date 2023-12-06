@@ -4,13 +4,13 @@
 .json-view {
   overflow: hidden;
   margin-bottom: 40px;
-  color: white !important;
+  color: $black-10 !important;
   font-size: 12px;
   letter-spacing: 0;
 
   svg {
     height: 11px !important;
-    color: white;
+    color: $black-10;
   }
 }
 
