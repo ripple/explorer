@@ -53,7 +53,6 @@ export interface LedgerHash {
   validated: boolean
   validations: ValidationStream[]
   unselected: boolean
-  trusted_count: number
 }
 
 export interface Ledger {
@@ -115,54 +114,6 @@ export const useStreams = () => {
   const [avgFee, setAvgFee] = useState<string>('--')
   const [quorum, setQuorum] = useState<string>('--')
   const [nUnl, setNUnl] = useState<string[]>([])
-
-  const fetchValidators = () => {
-    console.log('fetchValidators')
-    // TODO: make less generalized
-    const url = `${process.env.VITE_DATA_URL}/validators/main`
-
-    return axios
-      .get(url)
-      .then((resp) => resp.data.validators)
-      .then((data) => {
-        let newUnlCount = 0
-
-        data.forEach((v: ValidatorResponse) => {
-          if (v.unl === process.env.VITE_VALIDATOR) {
-            newUnlCount += 1
-          }
-        })
-
-        return {
-          validators: data,
-          unlCount: newUnlCount,
-        }
-      })
-      .catch((e) => Log.error(e))
-  }
-
-  const { data: validatorData } = useQuery<{
-    validators: any[]
-    unlCount: number
-  }>(['fetchValidatorData'], async () => fetchValidators(), {
-    refetchInterval: FETCH_INTERVAL_MILLIS,
-    refetchOnMount: true,
-    placeholderData: { validators: [], unlCount: 0 },
-  })
-
-  useEffect(() => {
-    console.log('useEffect', validatorData)
-    setValidators((previousValidators) => {
-      const newValidators = { ...previousValidators }
-      validatorData?.validators.forEach((validator) => {
-        newValidators[validator.validation_public_key] = {
-          ...newValidators[validator.validation_public_key],
-          ...validator,
-        }
-      })
-      return newValidators
-    })
-  }, [validatorData])
 
   function addLedger(index: number | string) {
     if (!firstLedgerRef.current) {
@@ -320,21 +271,10 @@ export const useStreams = () => {
             validated: false,
             unselected: false,
             validations: [],
-            trusted_count: 0,
           }
           ledger.hashes.push(matchingHash)
         }
         matchingHash.validations = [...matchingHash.validations, validation]
-        console.log(
-          validation.validation_public_key,
-          validators[validation.validation_public_key],
-        )
-        if (
-          validators[validation.validation_public_key] &&
-          validators[validation.validation_public_key].unl
-        ) {
-          matchingHash.trusted_count += 1
-        }
         if (ledger) {
           ledger.hashes = [...(ledger?.hashes || [])]
           ledger.hashes[matchingHashIndex] = {
@@ -396,7 +336,6 @@ export const useStreams = () => {
   return {
     ledgers,
     validators,
-    unlCount: validatorData?.unlCount || 0,
     metrics: {
       load_fee: loadFee,
       txn_sec: txnSec,

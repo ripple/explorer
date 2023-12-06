@@ -85,6 +85,7 @@ class Ledgers extends Component {
 
   renderLedger = (ledger) => {
     const { unlCount } = this.state
+    const { vhsData } = this.props
     const time = ledger.closeTime
       ? new Date(ledger.closeTime).toLocaleTimeString()
       : null
@@ -106,6 +107,9 @@ class Ledgers extends Component {
             <LedgerHashComponent
               key={`${hash.hash}`}
               hash={hash}
+              unlValidators={vhsData
+                .filter((validation) => validation.unl)
+                .map((validation) => validation.signing_key)}
               unlCount={unlCount}
             />
           ))}
@@ -198,6 +202,7 @@ Ledgers.contextType = SocketContext
 Ledgers.propTypes = {
   ledgers: PropTypes.arrayOf(PropTypes.shape({})), // eslint-disable-line
   validators: PropTypes.shape({}), // eslint-disable-line
+  vhsData: PropTypes.shape([]), // eslint-disable-line
   unlCount: PropTypes.number, // eslint-disable-line
   selected: PropTypes.string, // eslint-disable-line
   language: PropTypes.string.isRequired,

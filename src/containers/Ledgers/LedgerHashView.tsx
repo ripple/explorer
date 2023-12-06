@@ -13,8 +13,15 @@ function areEqual(prevProps: any, nextProps: any) {
   )
 }
 export const LedgerHashComponent = memo(
-  ({ hash, unlCount }: { hash: LedgerHash; unlCount: number }) => {
-    // console.log(hash)
+  ({
+    hash,
+    unlCount,
+    unlValidators,
+  }: {
+    hash: LedgerHash
+    unlCount: number
+    unlValidators: string[]
+  }) => {
     const { t } = useTranslation()
     const shortHash = hash.hash.substr(0, 6)
     const barStyle = { background: `#${shortHash}` }
@@ -36,13 +43,20 @@ export const LedgerHashComponent = memo(
           </div>
           <LedgerUNLCount
             unlCount={unlCount}
-            trustedCount={hash.trusted_count}
+            trustedCount={
+              hash.validations.filter((validation) =>
+                unlValidators.includes(validation.validation_public_key),
+              ).length
+            }
           />
         </div>
         <div className="validations">
           {hash.validations.map((validation) => (
             <LedgerValidation
               validation={validation}
+              isTrusted={unlValidators.includes(
+                validation.validation_public_key,
+              )}
               key={`${validation.validation_public_key}-${validation.cookie}`}
             />
           ))}
