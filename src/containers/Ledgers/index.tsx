@@ -58,7 +58,7 @@ const LedgersPage = () => {
   }
 
   const { data: validationData } = useQuery<{
-    validators: []
+    validators: ValidatorResponse[]
     unlCount: number
   }>(['fetchValidatorData'], async () => fetchValidators(), {
     refetchInterval: FETCH_INTERVAL_MILLIS,

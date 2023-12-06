@@ -90,6 +90,7 @@ class Ledgers extends Component {
               hash={hash}
               unlValidators={vhsData.filter((validation) => validation.unl)}
               unlCount={unlCount}
+              // TODO: put this in a context
               vhsData={vhsData}
             />
           ))}

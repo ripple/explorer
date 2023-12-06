@@ -4,6 +4,7 @@ import SuccessIcon from '../shared/images/success.svg'
 import { LedgerValidation } from './LedgerValidation'
 import { LedgerHash } from '../shared/useStreams'
 import { LedgerUNLCount } from './LedgerUNLCount'
+import { ValidatorResponse } from '../shared/vhsTypes'
 
 function areEqual(prevProps: any, nextProps: any) {
   return (
@@ -22,7 +23,7 @@ export const LedgerHashComponent = memo(
     hash: LedgerHash
     unlCount: number
     unlValidators: any[]
-    vhsData: any[]
+    vhsData: ValidatorResponse[]
   }) => {
     const { t } = useTranslation()
     const shortHash = hash.hash.substr(0, 6)
@@ -64,7 +65,7 @@ export const LedgerHashComponent = memo(
                 unlValidatorKeys.includes(validation.validation_public_key),
               ).length
             }
-            missing={getMissingValidators() ?? null}
+            missing={getMissingValidators()}
           />
         </div>
         <div className="validations">

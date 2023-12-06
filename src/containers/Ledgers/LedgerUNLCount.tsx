@@ -10,7 +10,7 @@ export const LedgerUNLCount = memo(
   }: {
     unlCount: number
     trustedCount: number
-    missing: string[] | null
+    missing: string[]
   }) => {
     const { t } = useTranslation()
     const className = trustedCount < unlCount ? 'missed' : undefined
@@ -33,7 +33,7 @@ export const LedgerUNLCount = memo(
           tabIndex={0}
           role="button"
           className={className}
-          onMouseMove={(e) => showTooltip(e)}
+          onMouseMove={(e) => missing.length > 0 && showTooltip(e)}
           onFocus={(_e) => {}}
           onKeyUp={(_e) => {}}
           onMouseLeave={hideTooltip}
