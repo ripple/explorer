@@ -198,7 +198,7 @@
   "invalid_transaction_hash": "Le hash de la transaction est invalide",
   "ledger_not_found": "Registre introuvable",
   "check_ledger_id": "Veuillez vérifier votre id de registre",
-  "server_ledgers_hint": "Ce nœud ({{connection.server.publicKey, truncate(length: 10)}}) ne contient que les registres {{connection.ledger.validated}}.",
+  "server_ledgers_hint": "Ce nœud ne contient que les registres {{connection.ledger.validated}}.",
   "use_search": "Merci d'utiliser notre outil de recherche",
   "ledger_has_no_trans": "Ce registre n'a aucune transaction.",
   "less_than": "Moins de",
