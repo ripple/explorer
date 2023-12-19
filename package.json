@@ -3,22 +3,20 @@
   "description": "XRPL Data Visualization",
   "version": "1.5.0",
   "dependencies": {
-    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@google-cloud/bigquery": "^7.3.0",
     "@paystring/utils": "^2.0.0",
     "@redux-devtools/extension": "^3.2.6",
     "@rollup/plugin-inject": "^5.0.5",
     "@vitejs/plugin-react": "^3.0.0",
     "@xrplf/prettier-config": "^1.9.1",
+    "@xrplf/isomorphic": "^1.0.0-beta.1",
     "assert": "^2.1.0",
     "autoprefixer": "^10.4.16",
     "axios": "^1.5.1",
     "body-parser": "^1.20.2",
-    "buffer": "^6.0.3",
     "bunyan": "^1.8.15",
     "classnames": "^2.3.2",
     "compression": "^1.7.4",
-    "create-hash": "^1.2.0",
     "d3": "^7.8.5",
     "d3-geo": "^3.1.0",
     "d3-hexbin": "^0.2.2",
@@ -47,11 +45,7 @@
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "rewire": "^6.0.0",
-    "ripple-address-codec": "^4.3.0",
-    "rollup-plugin-node-polyfills": "^0.2.1",
-    "rollup-plugin-polyfill-node": "^0.12.0",
-    "stream-browserify": "^3.0.0",
+    "ripple-address-codec": "^5.0.0-beta.1",
     "topojson-client": "^3.0.0",
     "usehooks-ts": "^2.9.1",
     "vite": "^4.2.3",
@@ -59,7 +53,6 @@
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.2.0",
-    "ws": "^7.4.2",
     "xrpl-client": "^2.1.0"
   },
   "devDependencies": {
@@ -112,7 +105,7 @@
     "ts-jest": "^26.5.6",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4",
-    "xrpl": "^2.10.0"
+    "xrpl": "^3.0.0-beta.1"
   },
   "resolutions": {
     "jest-environment-jsdom": "29.3.1"
