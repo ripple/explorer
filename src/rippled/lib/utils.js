@@ -1,4 +1,4 @@
-import { convertRippleDate, EPOCH_OFFSET } from './convertRippleDate'
+import { convertRippleDate } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
 import { decodeHex } from '../../containers/shared/transactionUtils'
 
@@ -133,5 +133,4 @@ export {
   formatAccountInfo,
   convertHexToString,
   formatNFTInfo,
-  EPOCH_OFFSET,
 }
