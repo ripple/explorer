@@ -88,7 +88,10 @@ const fetchNegativeUNL = async (rippledSocket) =>
 
       return data
     })
-    .catch((e) => Log.error(e))
+    .catch((e) => {
+      Log.error(e)
+      return []
+    })
 
 // TODO: use useQuery
 const fetchQuorum = async (rippledSocket) =>

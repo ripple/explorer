@@ -81,7 +81,7 @@ export const Ledgers = ({
           {renderLedgerIndex(ledger.index)}
           <div className="close-time">{time}</div>
           {renderTxnCount(ledger.txCount)}
-          {renderFees(ledger.totalFee)}
+          {renderFees(ledger.totalFees)}
           <div className="transactions">
             {transactions.map(renderTransaction)}
           </div>
