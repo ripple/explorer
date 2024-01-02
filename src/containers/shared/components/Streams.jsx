@@ -5,8 +5,8 @@ import Log from '../log'
 import SocketContext from '../SocketContext'
 import { getNegativeUNL, getQuorum } from '../../../rippled'
 import { getLedger, getServerInfo } from '../../../rippled/lib/rippled'
-import { EPOCH_OFFSET } from '../../../rippled/lib/utils'
 import { summarizeLedger } from '../../../rippled/lib/summarizeLedger'
+import { convertRippleDate } from '../../../rippled/lib/convertRippleDate'
 
 const MAX_LEDGER_COUNT = 20
 
@@ -187,7 +187,7 @@ class Streams extends Component {
     Log.info('new ledger', ledgerIndex)
     ledger.ledger_hash = ledgerHash
     ledger.txn_count = txnCount
-    ledger.close_time = (data.ledger_time + EPOCH_OFFSET) * 1000
+    ledger.close_time = convertRippleDate(data.ledger_time)
 
     const baseFee = data.fee_base / 1000000
     return {
@@ -242,7 +242,7 @@ class Streams extends Component {
         ledger_hash: ledgerHash,
         pubkey,
         partial: !data.full,
-        time: (data.signing_time + EPOCH_OFFSET) * 1000,
+        time: convertRippleDate(data.signing_time),
         cookie: data.cookie,
       }
     }
