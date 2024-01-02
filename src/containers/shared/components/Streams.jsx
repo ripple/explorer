@@ -313,8 +313,6 @@ class Streams extends Component {
       }
 
       ledgers[ledgerIndex].hashes[ledgerHash].push({
-        ledger_index: ledgerIndex,
-        ledger_hash: ledgerHash,
         pubkey: data.pubkey,
         partial: data.partial,
         time: data.time,
