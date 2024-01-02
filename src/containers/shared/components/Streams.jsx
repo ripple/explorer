@@ -8,10 +8,10 @@ import { getLedger, getServerInfo } from '../../../rippled/lib/rippled'
 import { summarizeLedger } from '../../../rippled/lib/summarizeLedger'
 import { convertRippleDate } from '../../../rippled/lib/convertRippleDate'
 
-const MAX_LEDGER_COUNT = 20
+const MAX_LEDGER_COUNT = 15
 
 const PURGE_INTERVAL = 10 * 1000
-const MAX_AGE = 120 * 1000
+const MAX_AGE = 90 * 1000
 
 const throttle = (func, limit) => {
   let inThrottle
