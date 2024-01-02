@@ -98,6 +98,7 @@ class Ledgers extends Component {
           <div className="close-time">{time}</div>
           {this.renderTxnCount(ledger.txn_count)}
           {this.renderFees(ledger.total_fees)}
+          {ledger.transactions == null && <Loader />}
           <div className="transactions">
             {transactions.map(this.renderTransaction)}
           </div>

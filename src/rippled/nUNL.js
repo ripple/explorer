@@ -26,6 +26,7 @@ const getNegativeUNL = (rippledSocket) => {
     })
     .catch((error) => {
       log.error(error.toString())
+      console.log(error.stack)
       throw error
     })
 }
