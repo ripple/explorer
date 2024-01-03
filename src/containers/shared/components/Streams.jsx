@@ -8,7 +8,7 @@ import { getLedger, getServerInfo } from '../../../rippled/lib/rippled'
 import { EPOCH_OFFSET } from '../../../rippled/lib/utils'
 import { summarizeLedger } from '../../../rippled/lib/summarizeLedger'
 
-const MAX_LEDGER_COUNT = 10
+const MAX_LEDGER_COUNT = 20
 
 const PURGE_INTERVAL = 10 * 1000
 const MAX_AGE = 120 * 1000
