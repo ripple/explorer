@@ -22,7 +22,6 @@ export interface LedgerStream {
   reserve_info: number
   txn_count: number
   validated_ledgers: string
-  total_fee: number // TODO: Not on server response
 }
 
 export interface ValidationStream {
