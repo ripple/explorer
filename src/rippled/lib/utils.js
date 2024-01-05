@@ -75,7 +75,8 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
 })
 
 const formatTransaction = (tx) => {
-  const txn = tx.tx || tx
+  // `tx` is the property for some v1 arrays of transactions such as account_tx and `tx_json` is used in v2 for all
+  const txn = tx.tx || tx.tx_json || tx
   return {
     tx: {
       ...txn,
