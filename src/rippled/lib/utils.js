@@ -1,3 +1,4 @@
+import { hexToString } from '@xrplf/isomorphic/utils'
 import { convertRippleDate } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
 import { decodeHex } from '../../containers/shared/transactionUtils'
@@ -63,7 +64,7 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
     : undefined,
   tick: info.TickSize,
   rate: info.TransferRate ? (info.TransferRate - BILLION) / BILLION : undefined,
-  domain: info.Domain ? Buffer.from(info.Domain, 'hex').toString() : undefined,
+  domain: info.Domain ? hexToString(info.Domain) : undefined,
   emailHash: info.EmailHash,
   flags: buildFlags(info.Flags, ACCOUNT_FLAGS),
   balance: info.Balance,
@@ -104,7 +105,7 @@ function RippledError(message, code) {
 }
 
 function convertHexToString(hex, encoding = 'utf8') {
-  return hex ? Buffer.from(hex, 'hex').toString(encoding) : undefined
+  return hex ? hexToString(hex) : undefined
 }
 
 const formatNFTInfo = (info) => ({
