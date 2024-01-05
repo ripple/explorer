@@ -102,7 +102,10 @@ export const fetchNegativeUNL = async (rippledSocket) =>
 
       return data
     })
-    .catch((e) => Log.error(e))
+    .catch((e) => {
+      Log.error(e)
+      return []
+    })
 
 export const fetchQuorum = async (rippledSocket) =>
   getQuorum(rippledSocket)
