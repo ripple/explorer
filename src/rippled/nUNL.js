@@ -1,4 +1,5 @@
 import { encodeNodePublic } from 'ripple-address-codec'
+import { hexToBytes } from '@xrplf/isomorphic/utils'
 
 import { getNegativeUNL as getRippledNegativeUNL } from './lib/rippled'
 import logger from './lib/logger'
@@ -19,7 +20,7 @@ const getNegativeUNL = (rippledSocket) => {
       if (validators !== undefined) {
         return validators
           .map((obj) => obj.DisabledValidator.PublicKey)
-          .map((key) => encodeNodePublic(Buffer.from(key, 'hex')))
+          .map((key) => encodeNodePublic(hexToBytes(key)))
       }
 
       return []
