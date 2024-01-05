@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
-import ReactJson from 'react-json-view'
 import { useQuery } from 'react-query'
 import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
@@ -19,6 +18,7 @@ import { buildPath, useRouteParams } from '../shared/routing'
 import { SUCCESSFUL_TRANSACTION } from '../shared/transactionUtils'
 import { getTransaction } from '../../rippled'
 import { TRANSACTION_ROUTE } from '../App/routes'
+import { JsonView } from '../shared/components/JsonView'
 
 const WRONG_NETWORK = 406
 
@@ -129,17 +129,7 @@ export const Transaction = () => {
         body = <DetailTab data={data.raw} />
         break
       case 'raw':
-        body = (
-          <ReactJson
-            src={data.raw}
-            collapsed={5}
-            displayObjectSize={false}
-            displayDataTypes={false}
-            name={false}
-            collapseStringsAfterLength={65}
-            theme="bright"
-          />
-        )
+        body = <JsonView data={data.raw} />
         break
       default:
         body = <SimpleTab data={data} width={width} />
