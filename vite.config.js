@@ -78,7 +78,6 @@ export default defineConfig({
     }),
     // use env vars
     EnvironmentPlugin('all'),
-    // activate buffer and process
     // use TS paths
     viteTsconfigPaths(),
   ],

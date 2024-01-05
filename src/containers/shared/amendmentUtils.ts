@@ -50,8 +50,8 @@ async function fetchAmendmentNames() {
   return amendmentNames
 }
 
-function sha512Half(buffer: Uint8Array) {
-  return bytesToHex(sha512(buffer)).slice(0, 64)
+function sha512Half(bytes: Uint8Array) {
+  return bytesToHex(sha512(bytes)).slice(0, 64)
 }
 
 export async function nameOfAmendmentID(id: string) {
