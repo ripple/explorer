@@ -77,6 +77,8 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
 const formatTransaction = (tx) => {
   // `tx` is the property for some v1 arrays of transactions such as account_tx and `tx_json` is used in v2 for all
   const txn = tx.tx || tx.tx_json || tx
+  // `hash` is up a level on v2 responses objects
+  const hash = txn.hash || tx.hash
   return {
     tx: {
       ...txn,
@@ -90,7 +92,7 @@ const formatTransaction = (tx) => {
       date: txn.date ? convertRippleDate(txn.date) : undefined,
     },
     meta: tx.meta || tx.metaData,
-    hash: txn.hash,
+    hash,
     ledger_index: txn.ledger_index,
     date: txn.date ? convertRippleDate(txn.date) : undefined,
   }
