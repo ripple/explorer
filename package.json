@@ -7,7 +7,7 @@
     "@paystring/utils": "^2.0.0",
     "@redux-devtools/extension": "^3.3.0",
     "@rollup/plugin-inject": "^5.0.5",
-    "@vitejs/plugin-react": "^3.0.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "@xrplf/prettier-config": "^1.9.1",
     "@xrplf/isomorphic": "^1.0.0-beta.1",
     "assert": "^2.1.0",
