@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { encodeNodePublic } from 'ripple-address-codec'
 
+import { hexToBytes } from '@xrplf/isomorphic/utils'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
 import { UNLModify } from './types'
@@ -11,7 +12,7 @@ export const Simple = ({ data }: TransactionSimpleProps<UNLModify>) => {
   const { t } = useTranslation()
   const tx = data.instructions
 
-  const encoded = encodeNodePublic(Buffer.from(tx.UNLModifyValidator, 'hex'))
+  const encoded = encodeNodePublic(hexToBytes(tx.UNLModifyValidator))
 
   return (
     <>
