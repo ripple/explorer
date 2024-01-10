@@ -24,6 +24,9 @@ import NetworkContext from '../shared/NetworkContext'
 import { VALIDATOR_ROUTE } from '../App/routes'
 import { buildPath, useRouteParams } from '../shared/routing'
 import { VotingTab } from './VotingTab'
+import logger from '../../rippled/lib/logger'
+
+const log = logger({ name: 'ledgers' })
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -96,13 +99,18 @@ export const Validator = () => {
       .then((resp) => resp.data)
       .then((response) => {
         if (response.ledger_hash == null) {
-          return getLedger(response.current_index, rippledSocket).then(
-            (ledgerData) => ({
+          return getLedger(response.current_index, rippledSocket)
+            .then((ledgerData) => ({
               ...response,
               ledger_hash: ledgerData.ledger_hash,
               last_ledger_time: ledgerData.close_time,
-            }),
-          )
+            }))
+            .catch((ledgerError) => {
+              // Log the error and return response without ledger data
+              // add breakpoint
+              log.error(`Error fetching ledger data: ${ledgerError.message}`)
+              return response
+            })
         }
         return response
       })
@@ -112,7 +120,8 @@ export const Validator = () => {
             ? axiosError.response.status
             : SERVER_ERROR
         trackException(`${url} --- ${JSON.stringify(axiosError)}`)
-        return Promise.reject(status)
+        // Return a custom error response instead of rejecting the promise
+        return { error: true, status }
       })
   }
 
