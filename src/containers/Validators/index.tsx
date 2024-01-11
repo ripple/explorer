@@ -107,7 +107,6 @@ export const Validator = () => {
             }))
             .catch((ledgerError) => {
               // Log the error and return response without ledger data
-              // add breakpoint
               log.error(`Error fetching ledger data: ${ledgerError.message}`)
               return response
             })
@@ -120,8 +119,7 @@ export const Validator = () => {
             ? axiosError.response.status
             : SERVER_ERROR
         trackException(`${url} --- ${JSON.stringify(axiosError)}`)
-        // Return a custom error response instead of rejecting the promise
-        return { error: true, status }
+        return Promise.reject(status)
       })
   }
 

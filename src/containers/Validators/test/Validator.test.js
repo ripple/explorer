@@ -159,4 +159,42 @@ describe('Validator container', () => {
     expect(wrapper.find('.no-match').length).toBe(1)
     wrapper.unmount()
   })
+
+  it('displays all details except last ledger date/time on ledger 404 error', async () => {
+    moxios.stubRequest(
+      `${process.env.VITE_DATA_URL}/validator/${MOCK_IDENTIFIER}`,
+      {
+        status: 200,
+        response: {
+          master_key: 'foo',
+          domain: 'test.example.com',
+          current_index: '12345',
+        },
+      },
+    )
+
+    const notFoundError = new Error('Ledger not found')
+    notFoundError.response = { status: 404 }
+
+    const wrapper = createWrapper({
+      getLedgerImpl: () => Promise.reject(notFoundError),
+    })
+
+    await flushPromises()
+    await flushPromises()
+
+    wrapper.update()
+
+    expect(getLedger).toBeCalledWith('12345', undefined)
+    expect(document.title).toBe('Validator test.example.com')
+    // test ledger-time isn't updated
+    const lastLedgerDateTime = wrapper.find(`[data-test="ledger-time"]`)
+    expect(lastLedgerDateTime).not.toExist()
+    // test ledger-index stays the same
+    const lastLedgerIndx = wrapper.find(`[data-test="ledger-index"]`)
+    expect(lastLedgerIndx).toExist()
+    const linkText = lastLedgerIndx.find('.value').text()
+    expect(linkText).toBe('12345')
+    wrapper.unmount()
+  })
 })
