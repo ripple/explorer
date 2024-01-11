@@ -26,7 +26,7 @@ import { buildPath, useRouteParams } from '../shared/routing'
 import { VotingTab } from './VotingTab'
 import logger from '../../rippled/lib/logger'
 
-const log = logger({ name: 'ledgers' })
+const log = logger({ name: 'validator' })
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {

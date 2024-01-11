@@ -193,8 +193,7 @@ describe('Validator container', () => {
     // test ledger-index stays the same
     const lastLedgerIndx = wrapper.find(`[data-test="ledger-index"]`)
     expect(lastLedgerIndx).toExist()
-    const linkText = lastLedgerIndx.find('.value').text()
-    expect(linkText).toBe('12345')
+    expect(lastLedgerIndx.find('.value')).toHaveText('12345')
     wrapper.unmount()
   })
 })
