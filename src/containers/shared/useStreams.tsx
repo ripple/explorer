@@ -1,7 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import SocketContext from './SocketContext'
 import { getLedger } from '../../rippled/lib/rippled'
-import { EPOCH_OFFSET } from '../../rippled/lib/convertRippleDate'
+import {
+  convertRippleDate,
+  EPOCH_OFFSET,
+} from '../../rippled/lib/convertRippleDate'
 import { summarizeLedger } from '../../rippled/lib/summarizeLedger'
 
 const THROTTLE = 250
@@ -97,7 +100,7 @@ export const useStreams = () => {
         setLedgers((previousLedgers) => {
           Object.assign(previousLedgers[data.ledger_index], {
             txCount: data.txn_count,
-            closeTime: (data.ledger_time + EPOCH_OFFSET) * 1000,
+            closeTime: convertRippleDate(data.ledger_time),
             transactions: ledgerSummary.transactions,
             totalFee: ledgerSummary.total_fees, // fix type
           })
