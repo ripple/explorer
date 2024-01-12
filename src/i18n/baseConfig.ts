@@ -1,6 +1,12 @@
 import { InitOptions } from 'i18next'
 
-export const supportedLanguages = ['en-US', 'ja-JP']
+export const supportedLanguages = {
+  'en-US': 'English',
+  'ja-JP': '日本語',
+  'ko-KR': '한국어',
+  'es-ES': 'Español',
+  'fr-FR': 'Français',
+}
 
 export const options: InitOptions = {
   returnNull: false,
@@ -13,7 +19,7 @@ export const options: InitOptions = {
     escapeValue: false, // not needed for react!!
     formatSeparator: ',',
   },
-  supportedLngs: supportedLanguages,
+  supportedLngs: Object.keys(supportedLanguages),
   react: {
     useSuspense: true,
   },

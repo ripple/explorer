@@ -1,0 +1,128 @@
+{
+  "amendments": [
+    {
+      "id": "2E2FB9CF8A44EB80F4694D38AADAE9B8B7ADAFD2F092E10068E61C98C4F092B0",
+      "ledger_index": 81986305,
+      "tx_hash": "EFE82B7155CE5B766AF343D98DAE6662C2713C99E760D610370D02338881B2F3",
+      "date": "2023-08-21T05:59:11.000Z",
+      "name": "fixUniversalNumber",
+      "rippled_version": "1.10.0",
+      "deprecated": false
+    },
+    {
+      "id": "75A7E01C505DD5A179DFE3E000A9B6F1EDDEB55A12F95579A23E15B15DC8BE5A",
+      "ledger_index": 81986305,
+      "tx_hash": "65B8A4068B20696A866A07E5668B2AEB0451564E13B79421356FB962EC9A536B",
+      "date": "2023-08-21T05:59:11.000Z",
+      "name": "ImmediateOfferKilled",
+      "rippled_version": "1.10.0",
+      "deprecated": false
+    },
+    {
+      "id": "8CC0774A3BF66D1D22E76BBDA8E8A232E6B6313834301B3B23E8601196AE6455",
+      "name": "AMM",
+      "rippled_version": "1.12.0",
+      "deprecated": false,
+      "voted": {
+        "count": 6,
+        "validators": [
+          {
+            "signing_key": "n9L7m2qvpDm4Jc7vBpW2gb5TJEbj1UNDxWyiYX91c2wBCWHknnA5",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9JiUqAXcHFzNFtdJ9uYeNZsdJTs1LGf4zr98bN7mWHxdtDpijAB",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n94NK1FSM9d6wkMsUhzPVPPGPzNxcEJNV5LguNoFRAa7V2o4Vmpf",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9L8gNy4bXu8P8hR4wCPFvpomr6rtTRMUT5nX8jiYUVZD1oQ1dx5",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9LkKWDtnHvmauvBXC3xqaG2G8QMcFAAvRFbJLT5maBv7SwQnd9p",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9MxDjQMr1DkzW3Z5X1guKJq4QNDEeYFPgqGgHfpzerGbHWGZvj4",
+            "ledger_index": "82658047"
+          }
+        ]
+      }
+    },
+    {
+      "id": "56B241D7A43D40354D02A9DC4C8DF5C7A1F930D92A9035C4E12291B3CA3E1C2B",
+      "name": "Clawback",
+      "rippled_version": "1.12.0",
+      "deprecated": false,
+      "voted": {
+        "count": 15,
+        "validators": [
+          {
+            "signing_key": "n9KNmrXo9gK3ucZy8KHKFM113ENGv6uyukS6Bb7TtuvEx98SdwMS",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n94aSAP9QcYtmKxgCTxcv3xeD2cB6tuwH3mNDQzrjAQ5DTu7SfZi",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9LHt3x8EhVWatBKuEWYNBas1jxiAdsxtP5QtohtcPZgRUan4Jgi",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9L7m2qvpDm4Jc7vBpW2gb5TJEbj1UNDxWyiYX91c2wBCWHknnA5",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9Kto4YT6BqYbz5CYDqU8pqmw7k1dZD9eUrTt3CppAh5Vo2HmUct",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9LoWo183FhqjMznQ6aLNhWZ1gJvQdrnFq2QQn7wPgeZtvuPm68j",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n94a894ARPe5RdcaRgdMBB9gG9ukS5mqsd7q2oNmC1NKqtZqEJnb",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9JiUqAXcHFzNFtdJ9uYeNZsdJTs1LGf4zr98bN7mWHxdtDpijAB",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n94NK1FSM9d6wkMsUhzPVPPGPzNxcEJNV5LguNoFRAa7V2o4Vmpf",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9L8gNy4bXu8P8hR4wCPFvpomr6rtTRMUT5nX8jiYUVZD1oQ1dx5",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9LkKWDtnHvmauvBXC3xqaG2G8QMcFAAvRFbJLT5maBv7SwQnd9p",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9MxDjQMr1DkzW3Z5X1guKJq4QNDEeYFPgqGgHfpzerGbHWGZvj4",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n94rGrfuwvYTS1HEeWboW2nGvAQgVDpiD8id2pLWSHFVggBRpQRE",
+            "ledger_index": "82658047"
+          },
+          {
+            "signing_key": "n9M2UqXLK25h9YEQTskmCXbWPGhQmB1pFVqeXia38UwLaL838VbG",
+            "ledger_index": "82658047"
+          }
+        ]
+      }
+    }
+  ]
+}

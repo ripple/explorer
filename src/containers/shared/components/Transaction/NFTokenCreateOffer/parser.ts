@@ -1,6 +1,8 @@
-import { NFTokenCreateOffer, NFTokenCreateOfferInstructions } from './types'
+import type { NFTokenCreateOffer } from 'xrpl'
+import { NFTokenCreateOfferInstructions } from './types'
 import { TransactionParser } from '../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
+import { findNode } from '../../../transactionUtils'
 
 export const parser: TransactionParser<
   NFTokenCreateOffer,
@@ -9,11 +11,9 @@ export const parser: TransactionParser<
   const account = tx.Account
   const amount = formatAmount(tx.Amount)
   const tokenID = tx.NFTokenID
-  const isSellOffer = (tx.Flags! & 1) !== 0
+  const isSellOffer = ((tx.Flags as number)! & 1) !== 0
   const owner = tx.Owner
-  const offerID = meta.AffectedNodes.find(
-    (node: any) => node?.CreatedNode?.LedgerEntryType === 'NFTokenOffer',
-  )?.CreatedNode?.LedgerIndex
+  const offerID = findNode(meta, 'CreatedNode', 'NFTokenOffer')?.LedgerIndex
   const destination = tx.Destination
 
   return {

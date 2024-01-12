@@ -81,14 +81,14 @@ describe('Ledgers Page container', () => {
   let client
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-  const createWrapper = (props = { network: 'main' }) => {
+  const createWrapper = (props = { network: 'main', path: '/' }) => {
     const store = mockStore({ ...initialState })
 
     return mount(
       <Provider store={store}>
         <SocketContext.Provider value={client}>
           <NetworkContext.Provider value={props.network}>
-            <QuickHarness i18n={i18n}>
+            <QuickHarness i18n={i18n} initialEntries={[props.path]}>
               <Ledgers msg={props.msg} />
             </QuickHarness>
           </NetworkContext.Provider>
@@ -200,11 +200,11 @@ describe('Ledgers Page container', () => {
     validations.first().simulate('mouseLeave')
     expect(wrapper.find('.tooltip').length).toBe(0)
     validations.first().simulate('focus')
-    expect(wrapper.find('.selected-validator .pubkey').length).toBe(0)
+    expect(wrapper.find('.selected-validator a.pubkey').length).toBe(0)
     validations.first().simulate('click') // set selected
-    expect(wrapper.find('.selected-validator .pubkey').length).toBe(1)
+    expect(wrapper.find('.selected-validator a.pubkey').length).toBe(1)
     validations.first().simulate('click') // unset selected
-    expect(wrapper.find('.selected-validator .pubkey').length).toBe(0)
+    expect(wrapper.find('.selected-validator a.pubkey').length).toBe(0)
 
     wrapper.unmount()
 
@@ -235,7 +235,10 @@ describe('Ledgers Page container', () => {
         },
       )
 
-      const wrapper = createWrapper({ network: customNetwork })
+      const wrapper = createWrapper({
+        network: customNetwork,
+        path: '/my.custom.com',
+      })
 
       expect(wrapper.find('.ledger').length).toBe(0)
       expect(wrapper.find('.validation').length).toBe(0)
@@ -289,7 +292,11 @@ describe('Ledgers Page container', () => {
       validations.first().simulate('focus')
       expect(wrapper.find('.selected-validator .pubkey').length).toBe(0)
       validations.first().simulate('click') // set selected
-      expect(wrapper.find('.selected-validator .pubkey').length).toBe(1)
+      expect(wrapper.find('.selected-validator a.pubkey').length).toBe(1)
+      expect(wrapper.find('.selected-validator a.pubkey')).toHaveProp(
+        'href',
+        '/validators/n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
+      )
       validations.first().simulate('click') // unset selected
       expect(wrapper.find('.selected-validator .pubkey').length).toBe(0)
 

@@ -2,8 +2,6 @@ import { useContext, useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Amount } from '../../shared/components/Amount'
-import { ExplorerAmount } from '../../shared/types'
 import { loadAccountState } from './actions'
 import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
@@ -14,18 +12,13 @@ import SocketContext from '../../shared/SocketContext'
 import InfoIcon from '../../shared/images/info.svg'
 import { useLanguage } from '../../shared/hooks'
 import Currency from '../../shared/components/Currency'
-import { SubheaderLine } from './SubheaderLine'
+import DomainLink from '../../shared/components/DomainLink'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
   currency: 'XRP',
   minimumFractionDigits: 2,
   maximumFractionDigits: 6,
-}
-
-function displayHex(hexStr: string): string {
-  const decStr = parseInt(hexStr, 16)
-  return `0x${hexStr} (${decStr})`
 }
 
 interface AccountHeaderProps {
@@ -69,23 +62,7 @@ interface AccountHeaderProps {
       test: boolean
     }
     deleted: boolean
-    bridge: {
-      lockingChainDoor: string
-      lockingChainIssue: {
-        currency: string
-        issuer?: string
-      }
-      issuingChainDoor: string
-      issuingChainIssue: {
-        currency: string
-        issuer?: string
-      }
-      minAccountCreateAmount: ExplorerAmount | undefined
-      signatureReward: ExplorerAmount
-      xchainAccountClaimCount: string
-      xchainAccountCreateCount: string
-      xchainClaimId: string
-    }
+    hasBridge: boolean
   }
   actions: {
     loadAccountState: typeof loadAccountState
@@ -204,61 +181,6 @@ const AccountHeader = (props: AccountHeaderProps) => {
       )
     )
   }
-
-  function renderBridge() {
-    const { bridge } = data
-    return (
-      bridge && (
-        <div className="bridge secondary bottom-container">
-          <h2>{t('xchainbridge')}</h2>
-          <ul>
-            <SubheaderLine label={t('locking_chain_door')}>
-              <Account
-                account={bridge.lockingChainDoor}
-                link={bridge.lockingChainDoor === accountId}
-              />
-            </SubheaderLine>
-            <SubheaderLine label={t('locking_chain_issue')}>
-              <Currency
-                currency={bridge.lockingChainIssue.currency}
-                issuer={bridge.lockingChainIssue.issuer}
-              />
-            </SubheaderLine>
-            <SubheaderLine label={t('issuing_chain_door')}>
-              <Account
-                account={bridge.issuingChainDoor}
-                link={bridge.issuingChainDoor === accountId}
-              />
-            </SubheaderLine>
-            <SubheaderLine label={t('issuing_chain_issue')}>
-              <Currency
-                currency={bridge.issuingChainIssue.currency}
-                issuer={bridge.issuingChainIssue.issuer}
-              />
-            </SubheaderLine>
-            {bridge.minAccountCreateAmount && (
-              <SubheaderLine label={t('min_account_create_amount')}>
-                <Amount value={bridge.minAccountCreateAmount} />
-              </SubheaderLine>
-            )}
-            <SubheaderLine label={t('signature_reward')}>
-              <Amount value={bridge.signatureReward} />
-            </SubheaderLine>
-            <SubheaderLine label={t('xchain_account_claim_count')}>
-              {displayHex(bridge.xchainAccountClaimCount)}
-            </SubheaderLine>
-            <SubheaderLine label={t('xchain_account_create_count')}>
-              {displayHex(bridge.xchainAccountCreateCount)}
-            </SubheaderLine>
-            <SubheaderLine label={t('xchain_claim_id')}>
-              {displayHex(bridge.xchainClaimId)}
-            </SubheaderLine>
-          </ul>
-        </div>
-      )
-    )
-  }
-
   // TODO: show X-address on 'classic' account pages
 
   function renderExtendedAddress() {
@@ -346,7 +268,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
             {info.domain && (
               <li>
                 <span className="label"> {t('domain')}: </span>
-                <a href={`http://${info.domain}`}>{info.domain}</a>
+                <DomainLink domain={info.domain} />
               </li>
             )}
             {info.emailHash && (
@@ -421,19 +343,18 @@ const AccountHeader = (props: AccountHeaderProps) => {
         </div>
         <div className="lower-header">
           <div className="column first">{renderSignerList()}</div>
-          <div className="column second">{renderBridge()}</div>
         </div>
       </div>
     )
   }
 
-  const { xAddress, bridge } = data
+  const { xAddress, hasBridge } = data
   return (
     <div className="box account-header">
       <div className="section box-header">
         <div className="title">
           Account ID
-          {bridge && <div className="badge">Door Account</div>}
+          {hasBridge && <div className="badge">Door Account</div>}
         </div>
         <h1 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h1>
       </div>

@@ -23,6 +23,10 @@ import { ValidatorReport, ValidatorSupplemented } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 import { VALIDATOR_ROUTE } from '../App/routes'
 import { buildPath, useRouteParams } from '../shared/routing'
+import { VotingTab } from './VotingTab'
+import logger from '../../rippled/lib/logger'
+
+const log = logger({ name: 'validator' })
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -95,13 +99,17 @@ export const Validator = () => {
       .then((resp) => resp.data)
       .then((response) => {
         if (response.ledger_hash == null) {
-          return getLedger(response.current_index, rippledSocket).then(
-            (ledgerData) => ({
+          return getLedger(response.current_index, rippledSocket)
+            .then((ledgerData) => ({
               ...response,
               ledger_hash: ledgerData.ledger_hash,
               last_ledger_time: ledgerData.close_time,
-            }),
-          )
+            }))
+            .catch((ledgerError) => {
+              // Log the error and return response without ledger data
+              log.error(`Error fetching ledger data: ${ledgerError.message}`)
+              return response
+            })
         }
         return response
       })
@@ -160,7 +168,7 @@ export const Validator = () => {
   }
 
   function renderTabs() {
-    const tabs = ['details', 'history']
+    const tabs = ['details', 'history', 'voting']
     const mainPath = buildPath(VALIDATOR_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
@@ -171,6 +179,9 @@ export const Validator = () => {
     switch (tab) {
       case 'history':
         body = <HistoryTab reports={reports ?? []} />
+        break
+      case 'voting':
+        body = data && <VotingTab validatorData={data} network={network} />
         break
       default:
         body = data && <SimpleTab data={data} width={width} />

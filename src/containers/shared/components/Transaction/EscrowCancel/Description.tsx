@@ -1,4 +1,5 @@
 import { useTranslation, Trans } from 'react-i18next'
+import type { EscrowCancel } from 'xrpl'
 import { findNode, normalizeAmount } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import {
@@ -9,12 +10,12 @@ import { TRANSACTION_ROUTE } from '../../../../App/routes'
 import { RouteLink } from '../../../routing'
 
 const Description: TransactionDescriptionComponent = (
-  props: TransactionDescriptionProps,
+  props: TransactionDescriptionProps<EscrowCancel>,
 ) => {
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage
   const { data } = props
-  const deleted: any = findNode(data, 'DeletedNode', 'Escrow')
+  const deleted: any = findNode(data.meta, 'DeletedNode', 'Escrow')
   if (deleted == null) {
     return null
   }
@@ -39,7 +40,7 @@ const Description: TransactionDescriptionComponent = (
             (
             <b>
               {normalizeAmount(
-                deleted.FinalFields.Amount - data.tx.Fee,
+                deleted.FinalFields.Amount - parseInt(data.tx.Fee || '0', 10),
                 language,
               )}
               <small>XRP</small>

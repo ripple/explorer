@@ -90,6 +90,11 @@ $ledger-width: 196px;
       width: 0;
       height: 0;
     }
+
+    .loader {
+      position: relative;
+      padding: 32px;
+    }
   }
 
   .ledger {

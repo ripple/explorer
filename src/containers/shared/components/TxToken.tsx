@@ -1,3 +1,6 @@
+import { Trans } from 'react-i18next'
+import Currency from './Currency'
+
 import '../css/txlabel.scss'
 
 interface Props {
@@ -18,12 +21,28 @@ function getTokenPair(
     type === 'Payment'
   ) {
     const first =
-      amount?.amount && amount.amount !== fee ? amount.currency : undefined
+      amount?.amount && amount.amount !== fee ? (
+        <Currency currency={amount.currency} />
+      ) : undefined
     const second =
-      amount2?.amount && amount2.amount !== fee ? amount2.currency : undefined
+      amount2?.amount && amount2.amount !== fee ? (
+        <Currency currency={amount2.currency} />
+      ) : undefined
 
     if (first && second) {
-      return first + (type === 'Payment' ? ' for ' : ' and ') + second
+      return (
+        <Trans
+          i18nKey={
+            type === 'Payment'
+              ? 'transaction_tokens_swapped'
+              : 'transaction_tokens_involved'
+          }
+          components={{
+            Currency: first,
+            Currency2: second,
+          }}
+        />
+      )
     }
 
     return first || second
@@ -39,8 +58,8 @@ const TxToken = (props: Props) => {
       {getTokenPair(
         tx.type,
         tx.fee,
-        tx.details.instructions.amount,
-        tx.details.instructions.amount2,
+        tx.details?.instructions?.amount,
+        tx.details?.instructions?.amount2,
       )}
     </div>
   )

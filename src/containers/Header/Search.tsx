@@ -16,10 +16,21 @@ import {
   FULL_CURRENCY_REGEX,
   HASH_REGEX,
   VALIDATORS_REGEX,
+  CTID_REGEX,
 } from '../shared/utils'
 import './search.scss'
 import { isValidPayString } from '../../rippled/payString'
 import { getTransaction } from '../../rippled/lib/rippled'
+import { buildPath } from '../shared/routing'
+import {
+  ACCOUNT_ROUTE,
+  LEDGER_ROUTE,
+  NFT_ROUTE,
+  PAYSTRING_ROUTE,
+  TOKEN_ROUTE,
+  TRANSACTION_ROUTE,
+  VALIDATOR_ROUTE,
+} from '../App/routes'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
@@ -29,69 +40,108 @@ const determineHashType = async (id: string, rippledContext: XrplClient) => {
     return 'nft'
   }
 }
+
 // separator for currency formats
 const separators = /[.:+-]/
 
-const getIdType = async (id: string, rippledContext: XrplClient) => {
+const getRoute = async (
+  id: string,
+  rippledContext: XrplClient,
+): Promise<{ type: string; path: string } | null> => {
   if (DECIMAL_REGEX.test(id)) {
-    return 'ledgers'
+    return {
+      type: 'ledgers',
+      path: buildPath(LEDGER_ROUTE, { identifier: id }),
+    }
   }
   if (isValidClassicAddress(id)) {
-    return 'accounts'
+    return {
+      type: 'accounts',
+      path: buildPath(ACCOUNT_ROUTE, { id: normalizeAccount(id) }),
+    }
   }
   if (HASH_REGEX.test(id)) {
     // Transactions and NFTs share the same syntax
     // We must make an api call to ensure if it's one or the other
-    return determineHashType(id, rippledContext)
+    const type = await determineHashType(id, rippledContext)
+    let path
+    if (type === 'transactions') {
+      path = buildPath(TRANSACTION_ROUTE, { identifier: id.toUpperCase() })
+    } else if (type === 'nft') {
+      path = buildPath(NFT_ROUTE, { id: id.toUpperCase() })
+    }
+
+    return {
+      path,
+      type,
+    }
   }
   if (isValidXAddress(id) || isValidClassicAddress(id.split(':')[0])) {
-    return 'accounts' // TODO: Consider a new path/page specific to X-addresses
+    return {
+      type: 'accounts',
+      path: buildPath(ACCOUNT_ROUTE, { id: normalizeAccount(id) }), // TODO: Consider a new path/page specific to X-addresses
+    }
   }
   if (isValidPayString(id) || isValidPayString(id.replace('@', '$'))) {
-    return 'paystrings'
+    let normalizedId = id
+    if (!isValidPayString(id)) {
+      normalizedId = id.replace('@', '$')
+    }
+
+    return {
+      type: 'paystrings',
+      path: buildPath(PAYSTRING_ROUTE, { id: normalizedId }),
+    }
   }
   if (
     (CURRENCY_REGEX.test(id) || FULL_CURRENCY_REGEX.test(id)) &&
     isValidClassicAddress(id.split(separators)[1])
   ) {
-    return 'token'
+    const components = id.split(separators)
+    return {
+      type: 'token',
+      path: buildPath(TOKEN_ROUTE, {
+        token: `${components[0]}.${components[1]}`,
+      }),
+    }
   }
   if (VALIDATORS_REGEX.test(id)) {
-    return 'validators'
+    return {
+      type: 'validators',
+      path: buildPath(VALIDATOR_ROUTE, { identifier: normalizeAccount(id) }),
+    }
+  }
+  if (CTID_REGEX.test(id)) {
+    return {
+      type: 'transactions',
+      path: buildPath(TRANSACTION_ROUTE, { identifier: id.toUpperCase() }),
+    }
   }
 
-  return 'invalid'
+  return null
 }
 
 // normalize classicAddress:tag to X-address
 // TODO: Take network into account (!)
-const normalize = (id: string, type: string) => {
-  if (type === 'transactions') {
-    return id.toUpperCase()
+const normalizeAccount = (id: string) => {
+  if (!id.includes(':')) {
+    return id
   }
-  if (type === 'accounts' && id.includes(':')) {
-    // TODO: Test invalid classic address; "invalid" tag (?)
-    const components = id.split(':')
-    try {
-      const xAddress = classicAddressToXAddress(
-        components[0],
-        components[1] === undefined || components[1] === 'false'
-          ? false
-          : Number(components[1]),
-        false,
-      ) // TODO: Take network into account (!)
-      return xAddress
-    } catch (_) {
-      /* version_invalid: version bytes do not match any of the provided version(s) */
-    }
-  } else if (type === 'paystrings') {
-    if (!isValidPayString(id)) {
-      return id.replace('@', '$')
-    }
-  } else if (type === 'token') {
-    const components = id.split(separators)
-    return `${components[0].toLowerCase()}.${components[1]}`
+  // TODO: Test invalid classic address; "invalid" tag (?)
+  const components = id.split(':')
+  try {
+    const xAddress = classicAddressToXAddress(
+      components[0],
+      components[1] === undefined || components[1] === 'false'
+        ? false
+        : Number(components[1]),
+      false,
+    ) // TODO: Take network into account (!)
+    return xAddress
+  } catch (_) {
+    /* version_invalid: version bytes do not match any of the provided version(s) */
   }
+
   return id
 }
 
@@ -107,17 +157,13 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
 
   const handleSearch = async (id: string) => {
     const strippedId = id.replace(/^["']|["']$/g, '')
-    const type = await getIdType(strippedId, socket)
+    const route = await getRoute(strippedId, socket)
     track('search', {
       search_term: strippedId,
-      search_category: type,
+      search_category: route?.type,
     })
 
-    navigate(
-      type === 'invalid'
-        ? `/search/${strippedId}`
-        : `/${type}/${normalize(strippedId, type)}`,
-    )
+    navigate(route === null ? `/search/${strippedId}` : route.path)
     callback()
   }
 

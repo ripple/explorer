@@ -29,8 +29,10 @@ export const CURRENCY_REGEX =
 export const FULL_CURRENCY_REGEX =
   /^[0-9A-Fa-f]{40}[.:+-]r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const VALIDATORS_REGEX = /^n[9H][0-9A-Za-z]{50}$/
+export const CTID_REGEX = /^[cC][0-9A-Za-z]{15}$/
 
 export const PURPLE = '#8884d8'
+export const GREEN_400 = '#5BEB9D'
 export const GREEN_500 = '#32E685'
 export const GREEN_800 = '#1E8A50'
 export const PURPLE_500 = '#7919FF'
@@ -39,6 +41,8 @@ export const GREY_0 = '#FFFFFF'
 export const GREY_400 = '#A2A2A4'
 export const GREY_600 = '#656E81'
 export const GREY_800 = '#383D47'
+export const BLACK_600 = '#454549'
+export const MAGENTA_700 = '#B20058'
 
 export const BREAKPOINTS = {
   desktop: 1200,
@@ -327,4 +331,9 @@ export const computeBalanceChange = (node) => {
     account,
     counterAccount,
   }
+}
+
+export const renderXRP = (d, language) => {
+  const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
+  return localizeNumber(d, language, options)
 }

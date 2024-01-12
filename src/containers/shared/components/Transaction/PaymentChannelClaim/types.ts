@@ -1,11 +1,4 @@
-import { TransactionCommonFields } from '../types'
 import { ExplorerAmount } from '../../../types'
-
-export interface PaymentChannelClaim extends TransactionCommonFields {
-  Channel: string
-  Balance: string
-  Amount: string
-}
 
 export interface PaymentChannelClaimInstructions {
   channelAmount?: ExplorerAmount

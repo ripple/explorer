@@ -1,3 +1,4 @@
+import { CTID_REGEX, HASH_REGEX } from '../../containers/shared/utils'
 import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
 
@@ -74,11 +75,81 @@ const getLedger = (rippledSocket, parameters) => {
   })
 }
 
+// get ledger_entry
+const getLedgerEntry = (rippledSocket, { index }) => {
+  const request = {
+    command: 'ledger_entry',
+    index,
+    ledger_index: 'validated',
+  }
+
+  return query(rippledSocket, request).then((resp) => {
+    if (resp.error_message === 'entryNotFound') {
+      throw new Error('ledger entry not found', 404)
+    }
+
+    if (resp.error_message === 'invalidParams') {
+      throw new Error('invalidParams for ledger_entry', 404)
+    }
+
+    if (resp.error_message === 'lgrNotFound') {
+      throw new Error('invalid ledger index/hash', 400)
+    }
+
+    if (resp.error_message === 'malformedAddress') {
+      throw new Error(
+        'The ledger_entry request improperly specified an Address field.',
+        404,
+      )
+    }
+
+    if (resp.error_message === 'malformedCurrency') {
+      throw new Error(
+        'The ledger_entry request improperly specified a Currency Code field.',
+        404,
+      )
+    }
+
+    if (resp.error_message === 'malformedOwner') {
+      throw new Error(
+        'The ledger_entry request improperly specified the escrow.owner sub-field.',
+        404,
+      )
+    }
+
+    if (resp.error_message === 'malformedRequest') {
+      throw new Error(
+        'The ledger_entry request provided an invalid combination of fields, or provided the wrong type for one or more fields.',
+        404,
+      )
+    }
+
+    if (resp.error_message === 'unknownOption') {
+      throw new Error(
+        'The fields provided in the ledger_entry request did not match any of the expected request formats.',
+        404,
+      )
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
+  })
+}
+
 // get transaction
-const getTransaction = (rippledSocket, txHash) => {
+const getTransaction = (rippledSocket, txId) => {
   const params = {
     command: 'tx',
-    transaction: txHash,
+  }
+  if (HASH_REGEX.test(txId)) {
+    params.transaction = txId
+  } else if (CTID_REGEX.test(txId)) {
+    params.ctid = txId
+  } else {
+    throw new Error(`${txId} not a ctid or hash`, 404)
   }
 
   return query(rippledSocket, params).then((resp) => {
@@ -88,6 +159,12 @@ const getTransaction = (rippledSocket, txHash) => {
 
     if (resp.error === 'notImpl') {
       throw new Error('invalid transaction hash', 400)
+    }
+
+    // TODO: remove the `unknown` option when
+    // https://github.com/XRPLF/rippled/pull/4738 is in a release
+    if (resp.error === 'wrongNetwork' || resp.error === 'unknown') {
+      throw new Error('wrong network for CTID', 406)
     }
 
     if (resp.error_message) {
@@ -105,6 +182,7 @@ const getTransaction = (rippledSocket, txHash) => {
 const getAccountInfo = (rippledSocket, account) =>
   query(rippledSocket, {
     command: 'account_info',
+    api_version: 1,
     account,
     ledger_index: 'validated',
     signer_lists: true,
@@ -213,7 +291,7 @@ const getAccountPaychannels = async (
 }
 
 // get account escrows
-const getAccountBridge = (rippledSocket, account, ledgerIndex = 'validated') =>
+const getAccountBridges = (rippledSocket, account, ledgerIndex = 'validated') =>
   query(rippledSocket, {
     command: 'account_objects',
     account,
@@ -238,9 +316,8 @@ const getAccountBridge = (rippledSocket, account, ledgerIndex = 'validated') =>
       return undefined
     }
 
-    if (resp.account_objects.length === 1) {
-      const bridge = resp.account_objects[0]
-      return {
+    if (resp.account_objects.length >= 1) {
+      return resp.account_objects.map((bridge) => ({
         lockingChainDoor: bridge.XChainBridge.LockingChainDoor,
         lockingChainIssue: bridge.XChainBridge.LockingChainIssue,
         issuingChainDoor: bridge.XChainBridge.IssuingChainDoor,
@@ -250,7 +327,7 @@ const getAccountBridge = (rippledSocket, account, ledgerIndex = 'validated') =>
         xchainAccountClaimCount: bridge.XChainAccountClaimCount,
         xchainAccountCreateCount: bridge.XChainAccountCreateCount,
         xchainClaimId: bridge.XChainClaimID,
-      }
+      }))
     }
 
     return undefined
@@ -280,7 +357,6 @@ const getAccountTransactions = (
   account,
   limit = 20,
   marker = '',
-  reverseOrder = false,
 ) => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
@@ -289,7 +365,6 @@ const getAccountTransactions = (
     command: 'account_tx',
     account,
     limit,
-    forward: reverseOrder,
     ledger_index_max: -1,
     ledger_index_min: -1,
     marker: marker
@@ -326,6 +401,7 @@ const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) =>
 const getNFTInfo = (rippledSocket, tokenId) =>
   queryP2P(rippledSocket, {
     command: 'nft_info',
+    api_version: 2,
     nft_id: tokenId,
   }).then((resp) => {
     if (resp.error === 'objectNotFound') {
@@ -377,6 +453,7 @@ const getNFTTransactions = (
   const seq = parseInt(markerComponents[1], 10)
   return queryP2P(rippledSocket, {
     command: 'nft_history',
+    api_version: 2,
     nft_id: tokenId,
     limit,
     ledger_index_max: -1,
@@ -482,11 +559,12 @@ const getAMMInfo = (rippledSocket, asset, asset2) => {
 
 export {
   getLedger,
+  getLedgerEntry,
   getTransaction,
   getAccountInfo,
   getAccountEscrows,
   getAccountPaychannels,
-  getAccountBridge,
+  getAccountBridges,
   getAccountNFTs,
   getBalances,
   getAccountTransactions,

@@ -5,9 +5,6 @@ import viteTsconfigPaths from 'vite-tsconfig-paths'
 import svgrPlugin from 'vite-plugin-svgr'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import EnvironmentPlugin from 'vite-plugin-environment'
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import inject from '@rollup/plugin-inject'
-import polyfillNode from 'rollup-plugin-polyfill-node'
 import autoprefixer from 'autoprefixer'
 
 import 'dotenv/config'
@@ -33,14 +30,6 @@ export default defineConfig({
     rollupOptions: {
       // improve CPU usage
       cache: false,
-      plugins: [
-        // https://github.com/vitejs/vite/discussions/2785
-        inject({
-          modules: { Buffer: ['buffer', 'Buffer'] },
-        }),
-        // include polyfills
-        polyfillNode(),
-      ],
     },
   },
   // relative to the root
@@ -57,8 +46,6 @@ export default defineConfig({
     // polyfills
     alias: {
       events: 'events',
-      stream: 'stream-browserify',
-      zlib: 'browserify-zlib',
     },
   },
   optimizeDeps: {
@@ -67,21 +54,15 @@ export default defineConfig({
         // Node.js global to browser globalThis
         global: 'globalThis',
       },
-      plugins: [
-        // activate Buffer
-        NodeGlobalsPolyfillPlugin({
-          buffer: true,
-        }),
-      ],
     },
   },
   plugins: [
     // export SVGs as React components by default
     svgrPlugin({
-      exportAsDefault: true,
       svgrOptions: {
         ref: true,
       },
+      include: '**/*.svg',
     }),
     react({
       // Use React plugin in all *.jsx and *.tsx files
@@ -97,10 +78,6 @@ export default defineConfig({
     }),
     // use env vars
     EnvironmentPlugin('all'),
-    // activate buffer and process
-    NodeGlobalsPolyfillPlugin({
-      buffer: true,
-    }),
     // use TS paths
     viteTsconfigPaths(),
   ],

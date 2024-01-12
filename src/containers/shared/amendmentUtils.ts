@@ -1,5 +1,7 @@
+import { sha512 } from '@xrplf/isomorphic/sha512'
+import { hexToBytes, bytesToHex, stringToHex } from '@xrplf/isomorphic/utils'
 import axios from 'axios'
-import createHash from 'create-hash'
+
 import { localizeDate } from './utils'
 
 const cachedAmendmentIDs: any = {}
@@ -48,12 +50,8 @@ async function fetchAmendmentNames() {
   return amendmentNames
 }
 
-function sha512Half(buffer: Buffer) {
-  return createHash('sha512')
-    .update(buffer)
-    .digest('hex')
-    .toUpperCase()
-    .slice(0, 64)
+function sha512Half(bytes: Uint8Array) {
+  return bytesToHex(sha512(bytes)).slice(0, 64)
 }
 
 export async function nameOfAmendmentID(id: string) {
@@ -63,7 +61,7 @@ export async function nameOfAmendmentID(id: string) {
   // The Amendment ID is the hash of the Amendment name
   const amendmentNames = await fetchAmendmentNames()
   amendmentNames.forEach((name) => {
-    cachedAmendmentIDs[sha512Half(Buffer.from(name, 'ascii'))] = name
+    cachedAmendmentIDs[sha512Half(hexToBytes(stringToHex(name)))] = name
   })
 
   return cachedAmendmentIDs[id]
@@ -71,7 +69,7 @@ export async function nameOfAmendmentID(id: string) {
 
 async function fetchMinRippledVersions() {
   const response = await axios.get(
-    'https://raw.githubusercontent.com/XRPLF/xrpl-dev-portal/master/content/concepts/consensus-network/amendments/known-amendments.md',
+    'https://raw.githubusercontent.com/XRPLF/xrpl-dev-portal/master/content/resources/known-amendments.md',
   )
   const text = response.data
   const mapping: any = {}

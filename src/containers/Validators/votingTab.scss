@@ -1,0 +1,76 @@
+@import '../shared/css/variables';
+
+.voting {
+  margin-left: 24px;
+
+  .metrics {
+    &.metrics-voting {
+      width: auto;
+      padding-left: 0;
+      text-align: left;
+
+      .cell {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 !important;
+        text-align: left;
+
+        @include for-size(tablet-landscape-up) {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .amendment-label {
+    margin-top: 48px;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .voting-amendment {
+    font-size: 14px;
+
+    .rows {
+      margin-top: 32px;
+      background-color: $black-80;
+    }
+
+    .row {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      padding: 16px;
+      border-bottom: 1px solid $black-70;
+    }
+
+    .label {
+      margin: 0;
+      font-weight: 100;
+      text-transform: capitalize;
+    }
+
+    .text-truncate {
+      @extend %truncate;
+    }
+  }
+
+  .badge {
+    color: $black-100;
+    text-transform: uppercase;
+
+    &.yea {
+      background-color: $green-60;
+    }
+
+    &.nay {
+      background-color: $black-30;
+    }
+}
+
+  .no-match {
+    &.no-match-amendments {
+      margin: 32px 0;
+    }
+  }
+}

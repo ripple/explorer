@@ -28,6 +28,7 @@ Please check relevant options, delete irrelevant ones.
 - [ ] Refactor (non-breaking change that only restructures code)
 - [ ] Tests (You added tests for code that already exists, or your new feature included in this PR)
 - [ ] Documentation Updates
+- [ ] Translation Updates
 - [ ] Release
 
 ### TypeScript/Hooks Update

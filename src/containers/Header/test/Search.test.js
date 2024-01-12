@@ -1,6 +1,7 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
+import moxios from 'moxios'
 import i18n from '../../../i18n/testConfig'
 import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
@@ -22,6 +23,16 @@ describe('Search component', () => {
     )
   }
 
+  const oldEnvs = process.env
+
+  beforeEach(() => {
+    process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
+  })
+
+  afterEach(() => {
+    process.env = oldEnvs
+  })
+
   it('renders without crashing', () => {
     const wrapper = createWrapper()
     wrapper.unmount()
@@ -38,6 +49,7 @@ describe('Search component', () => {
   })
 
   it('search values', async () => {
+    moxios.install()
     const wrapper = createWrapper()
     const input = wrapper.find('.search input')
     const ledgerIndex = '123456789'
@@ -53,10 +65,12 @@ describe('Search component', () => {
 
     const hash =
       '59239EA78084F6E2F288473F8AE02F3E6FC92F44BDE59668B5CAE361D3D32838'
+    const ctid = 'C0BF433500020000'
     const token1 = 'cny.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
     const token1VariantPlus = 'cny.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
     const token1VariantMinus = 'cny-rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
     const token1VariantColon = 'cny:rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
+    const token1Uppercase = 'CNY.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
 
     const token2 =
       '534f4c4f00000000000000000000000000000000.rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz'
@@ -74,140 +88,87 @@ describe('Search component', () => {
     // mock getNFTInfo api to test transactions and nfts
     const mockAPI = jest.spyOn(rippled, 'getTransaction')
 
+    const testValue = async (searchInput, expectedPath) => {
+      input.instance().value = searchInput
+      input.simulate('keyDown', { key: 'Enter' })
+      await flushPromises()
+      expect(window.location.pathname).toEqual(expectedPath)
+    }
+
     input.simulate('keyDown', { key: 'a' })
     expect(window.location.pathname).toEqual('/')
 
-    input.instance().value = ledgerIndex
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/ledgers/${ledgerIndex}`)
+    await testValue(ledgerIndex, `/ledgers/${ledgerIndex}`)
 
-    input.instance().value = rippleAddress
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+    await testValue(rippleAddress, `/accounts/${rippleAddress}`)
 
-    input.instance().value = addressWithQuotes
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+    await testValue(addressWithQuotes, `/accounts/${rippleAddress}`)
 
-    input.instance().value = addressWithSingleQuote
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+    await testValue(addressWithSingleQuote, `/accounts/${rippleAddress}`)
 
-    input.instance().value = addressWithSpace
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/accounts/${rippleAddress}`)
+    await testValue(addressWithSpace, `/accounts/${rippleAddress}`)
 
-    input.instance().value = rippleXAddress
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/accounts/${rippleXAddress}`)
+    await testValue(rippleXAddress, `/accounts/${rippleXAddress}`)
 
     // Normalize split address format to a X-Address
-    input.instance().value = rippleSplitAddress
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/accounts/${rippleXAddress}`)
+    await testValue(rippleSplitAddress, `/accounts/${rippleXAddress}`)
 
-    input.instance().value = paystring
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
+    await testValue(paystring, `/paystrings/${paystring}`)
 
     // Normalize paystrings with @ to $
-    input.instance().value = paystringWithAt
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/paystrings/${paystring}`)
+    await testValue(paystringWithAt, `/paystrings/${paystring}`)
 
     // Validator
-    input.instance().value = validator
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/validators/${validator}`)
+    await testValue(validator, `/validators/${validator}`)
 
     mockAPI.mockImplementation(() => {
       '123'
     })
-    input.instance().value = hash
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/transactions/${hash}`)
+    await testValue(hash, `/transactions/${hash}`)
 
-    input.instance().value = token1
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/token/${token1}`)
+    await testValue(ctid, `/transactions/${ctid}`)
+
+    await testValue(token1, `/token/${token1}`)
 
     // testing multiple variants of token format
-    input.instance().value = token1VariantColon
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/token/${token1}`)
+    await testValue(token1VariantColon, `/token/${token1}`)
 
-    input.instance().value = token1VariantPlus
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/token/${token1}`)
+    await testValue(token1VariantPlus, `/token/${token1}`)
 
-    input.instance().value = token1VariantMinus
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/token/${token1}`)
+    await testValue(token1VariantMinus, `/token/${token1}`)
 
-    input.instance().value = token2
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/token/${token2}`)
+    await testValue(token1Uppercase, `/token/${token1Uppercase}`)
+
+    await testValue(token2, `/token/${token2}`)
 
     // testing multiple variants of full token format
-    input.instance().value = token2VariantColon
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/token/${token2}`)
+    await testValue(token2VariantColon, `/token/${token2}`)
 
-    input.instance().value = token2VariantPlus
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/token/${token2}`)
+    await testValue(token2VariantPlus, `/token/${token2}`)
 
-    input.instance().value = token2VariantMinus
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/token/${token2}`)
+    await testValue(token2VariantMinus, `/token/${token2}`)
 
     // Returns a response upon a valid nft_id, redirect to NFT
     mockAPI.mockImplementation(() => {
       throw new Error('Tx not found', 404)
     })
-    input.instance().value = nftoken
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/nft/${nftoken}`)
+    await testValue(nftoken, `/nft/${nftoken}`)
 
-    input.instance().value = invalidString
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/search/${invalidString}`)
+    await testValue(invalidString, `/search/${invalidString}`)
 
     // ensure strings are trimmed
     mockAPI.mockImplementation(() => {
       '123'
     })
-    input.instance().value = ` ${hash} `
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/transactions/${hash}`)
+    await testValue(` ${hash} `, `/transactions/${hash}`)
 
     // handle lower case tx hash
-    input.instance().value = hash.toLowerCase()
-    input.simulate('keyDown', { key: 'Enter' })
-    await flushPromises()
-    expect(window.location.pathname).toEqual(`/transactions/${hash}`)
+    await testValue(hash.toLowerCase(), `/transactions/${hash}`)
+
+    // handle lower case ctid
+    await testValue(ctid.toLowerCase(), `/transactions/${ctid}`)
     wrapper.unmount()
   })
+
+  // TODO: Add custom search tests
 })
