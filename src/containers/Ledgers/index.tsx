@@ -13,6 +13,8 @@ import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
 import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
+import { TooltipProvider } from './useTooltip'
+import { SelectedValidatorProvider } from './useSelectedValidator'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
@@ -23,7 +25,6 @@ const LedgersPage = () => {
   >({})
   const [ledgers, setLedgers] = useState<Ledger[]>([])
   const [paused, setPaused] = useState(false)
-  const [selected, setSelected] = useState<string | null>(null)
   const [metrics, setMetrics] = useState(undefined)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
   const { isOnline } = useIsOnline()
@@ -71,10 +72,6 @@ const LedgersPage = () => {
     enabled: !!network,
   })
 
-  const updateSelected = (pubkey: string) => {
-    setSelected(selected === pubkey ? null : pubkey)
-  }
-
   const pause = () => setPaused(!paused)
 
   return (
@@ -87,22 +84,24 @@ const LedgersPage = () => {
           updateMetrics={setMetrics}
         />
       )}
-      <LedgerMetrics
-        language={language}
-        data={metrics}
-        onPause={() => pause()}
-        paused={paused}
-      />
-      <Ledgers
-        language={language}
-        ledgers={ledgers}
-        validators={validators}
-        unlCount={unlCount}
-        selected={selected}
-        setSelected={updateSelected}
-        paused={paused}
-        isOnline={isOnline}
-      />
+      <TooltipProvider>
+        <SelectedValidatorProvider>
+          <LedgerMetrics
+            language={language}
+            data={metrics}
+            onPause={() => pause()}
+            paused={paused}
+          />
+          <Ledgers
+            language={language}
+            ledgers={ledgers}
+            validators={validators}
+            unlCount={unlCount}
+            paused={paused}
+            isOnline={isOnline}
+          />
+        </SelectedValidatorProvider>
+      </TooltipProvider>
     </div>
   )
 }
