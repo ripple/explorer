@@ -6,13 +6,12 @@ import axios from 'axios'
 import Log from '../shared/log'
 import { FETCH_INTERVAL_ERROR_MILLIS } from '../shared/utils'
 import Streams from '../shared/components/Streams'
-import LedgerMetrics from './LedgerMetrics'
+import { LedgerMetrics } from './LedgerMetrics'
 import { Ledgers } from './Ledgers'
 import { Ledger, ValidatorResponse } from './types'
 import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
 import { useIsOnline } from '../shared/SocketContext'
-import { useLanguage } from '../shared/hooks'
 import { TooltipProvider } from './useTooltip'
 import { SelectedValidatorProvider } from './useSelectedValidator'
 
@@ -30,7 +29,6 @@ const LedgersPage = () => {
   const { isOnline } = useIsOnline()
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
-  const language = useLanguage()
 
   useEffect(() => {
     trackScreenLoaded()
@@ -84,24 +82,24 @@ const LedgersPage = () => {
           updateMetrics={setMetrics}
         />
       )}
-      <TooltipProvider>
-        <SelectedValidatorProvider>
+      <SelectedValidatorProvider>
+        <TooltipProvider>
           <LedgerMetrics
-            language={language}
             data={metrics}
             onPause={() => pause()}
             paused={paused}
           />
+        </TooltipProvider>
+        <TooltipProvider>
           <Ledgers
-            language={language}
             ledgers={ledgers}
             validators={validators}
             unlCount={unlCount}
             paused={paused}
             isOnline={isOnline}
           />
-        </SelectedValidatorProvider>
-      </TooltipProvider>
+        </TooltipProvider>
+      </SelectedValidatorProvider>
     </div>
   )
 }

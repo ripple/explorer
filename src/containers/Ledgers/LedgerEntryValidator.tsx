@@ -34,8 +34,8 @@ export const LedgerEntryValidator = ({
       tabIndex={index}
       className={className}
       onMouseOver={(e) => showTooltip('validator', e, validator)}
-      onFocus={(e) => {}}
-      onKeyUp={(e) => {}}
+      onFocus={() => {}}
+      onKeyUp={() => {}}
       onMouseLeave={() => setTooltip(undefined)}
       onClick={() => setSelectedValidator(validator.pubkey)}
     >

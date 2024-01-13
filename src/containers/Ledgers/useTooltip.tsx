@@ -8,17 +8,17 @@ import {
 } from 'react'
 
 export interface TooltipContextType {
-  tooltip?: string
-  setTooltip: Dispatch<SetStateAction<string | undefined>>
+  tooltip?: any
+  setTooltip: Dispatch<SetStateAction<any | undefined>>
 }
 
 export const TooltipContext = createContext<TooltipContextType>({
   tooltip: undefined,
-  setTooltip: (validator: SetStateAction<string | undefined>) => validator,
+  setTooltip: (validator: SetStateAction<any | undefined>) => validator,
 })
 
 export const TooltipProvider: FC = ({ children }) => {
-  const [tooltip, setTooltip] = useState<string>()
+  const [tooltip, setTooltip] = useState<any>()
 
   return (
     <TooltipContext.Provider value={{ tooltip, setTooltip }}>

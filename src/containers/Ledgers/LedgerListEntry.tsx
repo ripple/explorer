@@ -60,7 +60,7 @@ export const LedgerListEntry = ({ ledger }: { ledger: Ledger }) => {
       </div>
       <div className="hashes">
         {ledger.hashes.map((hash) => (
-          <LedgerEntryHash hash={hash} />
+          <LedgerEntryHash hash={hash} key={hash.hash} />
         ))}
       </div>
     </div>
