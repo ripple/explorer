@@ -21,6 +21,25 @@ export const LedgerEntryHashTrustedCount = ({ hash }: any) => {
     })
   }
 
+  // getMissingValidators = (hash) => {
+  //   const { validators } = this.props
+  //   const unl = {}
+  //
+  //   Object.keys(validators).forEach((pubkey) => {
+  //     if (validators[pubkey].unl) {
+  //       unl[pubkey] = false
+  //     }
+  //   })
+  //
+  //   hash.validations.forEach((v) => {
+  //     if (unl[v.pubkey] !== undefined) {
+  //       delete unl[v.pubkey]
+  //     }
+  //   })
+  //
+  //   return Object.keys(unl).map((pubkey) => validators[pubkey])
+  // }
+
   return hash.trusted_count ? (
     <span
       tabIndex={0}

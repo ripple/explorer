@@ -51,11 +51,10 @@ export const LedgerListEntry = ({ ledger }: { ledger: Ledger }) => {
             </b>
           </div>
         )}
-
         {ledger.transactions == null && <Loader />}
         <div className="transactions">
           {transactions.map((tx) => (
-            <LedgerEntryTransaction transaction={tx} />
+            <LedgerEntryTransaction transaction={tx} key={tx.hash} />
           ))}
         </div>
       </div>

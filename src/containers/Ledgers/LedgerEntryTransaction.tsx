@@ -30,7 +30,7 @@ export const LedgerEntryTransaction = ({
         `transaction-action-${getAction(transaction.type)}`,
         `${transaction.result}`,
       )}
-      onMouseOver={(e) => showTooltip('transaction', e, transaction)}
+      onMouseOver={(e) => showTooltip('tx', e, transaction)}
       onFocus={() => {}}
       onMouseLeave={() => setTooltip(undefined)}
       to={TRANSACTION_ROUTE}
