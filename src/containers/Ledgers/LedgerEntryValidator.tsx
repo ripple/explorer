@@ -8,7 +8,7 @@ export const LedgerEntryValidator = ({
   validator: any
   index: number
 }) => {
-  const { setTooltip } = useTooltip()
+  const { showTooltip, hideTooltip } = useTooltip()
   const { selectedValidator, setSelectedValidator } = useSelectedValidator()
 
   const trusted = validator.unl ? 'trusted' : ''
@@ -17,27 +17,23 @@ export const LedgerEntryValidator = ({
   const className = `validation ${trusted} ${unselected} ${selected} ${validator.pubkey}`
   const partial = validator.partial ? <div className="partial" /> : null
 
-  const showTooltip = (mode, event, data) => {
-    setTooltip({
-      ...data,
-      mode,
-      v: mode === 'validator' && data,
-      x: event.currentTarget.offsetLeft,
-      y: event.currentTarget.offsetTop,
-    })
-  }
-
   return (
     <div
       key={`${validator.pubkey}_${validator.cookie}`}
       role="button"
       tabIndex={index}
       className={className}
-      onMouseOver={(e) => showTooltip('validator', e, validator)}
+      onMouseOver={(e) =>
+        showTooltip('validator', e, { validator, v: validator })
+      }
       onFocus={() => {}}
       onKeyUp={() => {}}
-      onMouseLeave={() => setTooltip(undefined)}
-      onClick={() => setSelectedValidator(validator.pubkey)}
+      onMouseLeave={() => hideTooltip()}
+      onClick={() =>
+        setSelectedValidator(
+          selectedValidator === validator.pubkey ? undefined : validator.pubkey,
+        )
+      }
     >
       {partial}
     </div>

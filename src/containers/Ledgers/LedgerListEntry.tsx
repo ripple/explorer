@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Loader } from '../shared/components/Loader'
-import { Ledger } from './types'
+import { Ledger, ValidatorResponse } from './types'
 import { RouteLink } from '../shared/routing'
 import { LEDGER_ROUTE } from '../App/routes'
 import { Amount } from '../shared/components/Amount'
@@ -24,7 +24,15 @@ const LedgerIndex = ({ ledgerIndex }: { ledgerIndex: number }) => {
   )
 }
 
-export const LedgerListEntry = ({ ledger }: { ledger: Ledger }) => {
+export const LedgerListEntry = ({
+  ledger,
+  unlCount,
+  validators,
+}: {
+  ledger: Ledger
+  unlCount?: number
+  validators: { [pubkey: string]: ValidatorResponse }
+}) => {
   const { t } = useTranslation()
   const time = ledger.close_time
     ? new Date(ledger.close_time).toLocaleTimeString()
@@ -60,7 +68,12 @@ export const LedgerListEntry = ({ ledger }: { ledger: Ledger }) => {
       </div>
       <div className="hashes">
         {ledger.hashes.map((hash) => (
-          <LedgerEntryHash hash={hash} key={hash.hash} />
+          <LedgerEntryHash
+            hash={hash}
+            key={hash.hash}
+            unlCount={unlCount}
+            validators={validators}
+          />
         ))}
       </div>
     </div>

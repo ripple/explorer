@@ -28,19 +28,10 @@ export const LedgerMetrics = ({
   paused: boolean
 }) => {
   data = { ...DEFAULTS, ...data }
-  const { tooltip, setTooltip } = useTooltip()
+  const { tooltip, showTooltip, hideTooltip } = useTooltip()
   const { t } = useTranslation()
   const isOnline = useIsOnline()
   const language = useLanguage()
-
-  const showTooltip = (event) => {
-    setTooltip({
-      nUnl: data.nUnl,
-      mode: 'nUnl',
-      x: event.currentTarget.offsetLeft,
-      y: event.currentTarget.offsetTop,
-    })
-  }
 
   const renderPause = () => {
     const Icon = paused ? ResumeIcon : PauseIcon
@@ -86,8 +77,8 @@ export const LedgerMetrics = ({
             className="cell"
             onFocus={() => {}}
             onBlur={() => {}}
-            onMouseOver={(e) => showTooltip(e)}
-            onMouseOut={() => setTooltip(undefined)}
+            onMouseOver={(e) => showTooltip('nUnl', e, { nUnl: data.nUnl })}
+            onMouseOut={() => hideTooltip()}
             tabIndex={0}
             key={key}
           >

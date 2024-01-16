@@ -15,6 +15,7 @@ import ledgerMessage from './mock/ledger.json'
 import validationMessage from './mock/validation.json'
 import rippledResponses from './mock/rippled.json'
 import { QuickHarness } from '../../test/utils'
+import { SelectedValidatorProvider } from '../useSelectedValidator'
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -86,13 +87,15 @@ describe('Ledgers Page container', () => {
 
     return mount(
       <Provider store={store}>
-        <SocketContext.Provider value={client}>
-          <NetworkContext.Provider value={props.network}>
-            <QuickHarness i18n={i18n} initialEntries={[props.path]}>
-              <Ledgers msg={props.msg} />
-            </QuickHarness>
-          </NetworkContext.Provider>
-        </SocketContext.Provider>
+        <SelectedValidatorProvider>
+          <SocketContext.Provider value={client}>
+            <NetworkContext.Provider value={props.network}>
+              <QuickHarness i18n={i18n} initialEntries={[props.path]}>
+                <Ledgers msg={props.msg} />
+              </QuickHarness>
+            </NetworkContext.Provider>
+          </SocketContext.Provider>
+        </SelectedValidatorProvider>
       </Provider>,
     )
   }

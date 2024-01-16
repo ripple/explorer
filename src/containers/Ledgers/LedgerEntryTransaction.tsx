@@ -10,16 +10,7 @@ export const LedgerEntryTransaction = ({
 }: {
   transaction: any
 }) => {
-  const { setTooltip } = useTooltip()
-  const showTooltip = (mode, event, data) => {
-    setTooltip({
-      ...data,
-      mode,
-      v: mode === 'validator' && data,
-      x: event.currentTarget.offsetLeft,
-      y: event.currentTarget.offsetTop,
-    })
-  }
+  const { hideTooltip, showTooltip } = useTooltip()
 
   return (
     <RouteLink
@@ -32,7 +23,7 @@ export const LedgerEntryTransaction = ({
       )}
       onMouseOver={(e) => showTooltip('tx', e, transaction)}
       onFocus={() => {}}
-      onMouseLeave={() => setTooltip(undefined)}
+      onMouseLeave={() => hideTooltip()}
       to={TRANSACTION_ROUTE}
       params={{ identifier: transaction.hash }}
     >

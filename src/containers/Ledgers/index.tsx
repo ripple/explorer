@@ -96,7 +96,6 @@ const LedgersPage = () => {
             validators={validators}
             unlCount={unlCount}
             paused={paused}
-            isOnline={isOnline}
           />
         </TooltipProvider>
       </SelectedValidatorProvider>

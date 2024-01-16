@@ -13,10 +13,14 @@ import { useLanguage } from '../shared/hooks'
 import { useTooltip } from './useTooltip'
 
 export const Ledgers = ({
+  // paused,
   ledgers = [],
+  unlCount,
   validators = {},
 }: {
+  // paused: boolean
   ledgers: any[]
+  unlCount?: number
   validators: any
 }) => {
   const { selectedValidator } = useSelectedValidator()
@@ -48,7 +52,12 @@ export const Ledgers = ({
           </div>
           <div className="ledger-list">
             {ledgers.map((ledger) => (
-              <LedgerListEntry ledger={ledger} key={ledger.ledger_index} />
+              <LedgerListEntry
+                ledger={ledger}
+                key={ledger.ledger_index}
+                unlCount={unlCount}
+                validators={validators}
+              />
             ))}{' '}
             <Tooltip t={t} language={language} data={tooltip} />
           </div>{' '}
