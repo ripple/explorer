@@ -3,8 +3,7 @@ import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { CURRENCY_OPTIONS } from '../shared/transactionUtils'
 import { localizeNumber } from '../shared/utils'
-import Tooltip from '../shared/components/Tooltip'
-import './css/ledgers.scss'
+import { Tooltip } from '../shared/components/Tooltip'
 import SuccessIcon from '../shared/images/success.svg'
 import DomainLink from '../shared/components/DomainLink'
 import { Loader } from '../shared/components/Loader'
@@ -14,6 +13,7 @@ import { TransactionActionIcon } from '../shared/components/TransactionActionIco
 import { Legend } from './Legend'
 import { RouteLink } from '../shared/routing'
 import { LEDGER_ROUTE, TRANSACTION_ROUTE, VALIDATOR_ROUTE } from '../App/routes'
+import './css/ledgers.scss'
 
 const SIGMA = '\u03A3'
 
@@ -59,16 +59,15 @@ class Ledgers extends Component {
     const { validators } = this.state
     this.setState({
       tooltip: {
-        ...data,
+        data: { ...data, v: mode === 'validator' && validators[data.pubkey] },
         mode,
-        v: mode === 'validator' && validators[data.pubkey],
         x: event.currentTarget.offsetLeft,
         y: event.currentTarget.offsetTop,
       },
     })
   }
 
-  hideTooltip = () => this.setState({ tooltip: null })
+  hideTooltip = () => this.setState({ tooltip: undefined })
 
   renderSelected = () => {
     const { validators, selected } = this.state
@@ -257,8 +256,7 @@ class Ledgers extends Component {
             <Legend />
             <div className="control">{selected && this.renderSelected()}</div>
             <div className="ledger-list">
-              {ledgers.map(this.renderLedger)}{' '}
-              <Tooltip t={t} language={language} data={tooltip} />
+              {ledgers.map(this.renderLedger)} <Tooltip tooltip={tooltip} />
             </div>{' '}
           </>
         ) : (

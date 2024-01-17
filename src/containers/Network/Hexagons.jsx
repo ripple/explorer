@@ -4,9 +4,9 @@ import { useWindowSize } from 'usehooks-ts'
 
 import { hexbin } from 'd3-hexbin'
 import { Loader } from '../shared/components/Loader'
-import Tooltip from '../shared/components/Tooltip'
-import './css/hexagons.scss'
+import { Tooltip } from '../shared/components/Tooltip'
 import { useLanguage } from '../shared/hooks'
+import './css/hexagons.scss'
 
 const MAX_WIDTH = 1200
 const getDimensions = (width) => ({
@@ -126,7 +126,7 @@ export const Hexagons = ({ list, data }) => {
         </svg>
         {hexagons?.length === 0 && <Loader />}
       </div>
-      <Tooltip language={language} data={tooltip} />
+      <Tooltip tooltip={tooltip} />
     </div>
   )
 }
