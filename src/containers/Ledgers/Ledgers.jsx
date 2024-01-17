@@ -248,7 +248,7 @@ class Ledgers extends Component {
 
   render() {
     const { ledgers, selected, tooltip } = this.state
-    const { t, language, isOnline } = this.props
+    const { isOnline } = this.props
     return (
       <div className="ledgers">
         {isOnline && ledgers.length > 0 ? (

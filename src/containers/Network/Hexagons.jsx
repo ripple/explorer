@@ -5,7 +5,6 @@ import { useWindowSize } from 'usehooks-ts'
 import { hexbin } from 'd3-hexbin'
 import { Loader } from '../shared/components/Loader'
 import { Tooltip } from '../shared/components/Tooltip'
-import { useLanguage } from '../shared/hooks'
 import './css/hexagons.scss'
 
 const MAX_WIDTH = 1200
@@ -50,7 +49,6 @@ const prepareHexagons = (data, list, height, radius, prev = []) => {
 }
 
 export const Hexagons = ({ list, data }) => {
-  const language = useLanguage()
   const { width } = useWindowSize()
   const [tooltip, setToolip] = useState()
   const [hexagons, setHexagons] = useState([])

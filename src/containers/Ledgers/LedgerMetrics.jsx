@@ -31,12 +31,11 @@ class LedgerMetrics extends Component {
   }
 
   showTooltip = (event) => {
-    const { nUnl } = this.state.data
+    const { data } = this.state
     this.setState({
       tooltip: {
-        data: { nUnl },
+        data: { nUnl: data.nUnl },
         mode: 'nUnl',
-        v: nUnl,
         x: event.currentTarget.offsetLeft,
         y: event.currentTarget.offsetTop,
       },

@@ -34,14 +34,11 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
 
   const { data } = tooltip
 
-  const renderNegativeUnlTooltip = () => {
-    const list = data.nUnl.map((key) => {
+  const renderNegativeUnlTooltip = () =>
+    data.nUnl.map((key) => {
       const short = key.substr(0, 8)
       return <div key={key} className={`nUnl: ${key}`}>{`${short}...`}</div>
     })
-
-    return list
-  }
 
   const renderValidatorTooltip = () => {
     const { v = {}, pubkey, time } = data
@@ -74,26 +71,18 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     )
   }
 
-  const renderMissingValidators = () => {
-    const { missing } = data
-    const list = missing.map((d) => (
-      <div className={d.domain ? 'domain' : 'pubkey'} key={d.master_key}>
-        {d.domain || d.master_key}
-      </div>
-    ))
+  const renderMissingValidators = () => (
+    <>
+      <div className="label">{t('missing')}:</div>
+      {data.missing.map((d) => (
+        <div className={d.domain ? 'domain' : 'pubkey'} key={d.master_key}>
+          {d.domain || d.master_key}
+        </div>
+      ))}
+    </>
+  )
 
-    return (
-      <>
-        <div className="label">{t('missing')}:</div>
-        {list}
-      </>
-    )
-  }
-
-  const renderNFTId = () => {
-    const { tokenId } = data
-    return <div className="nft">{tokenId}</div>
-  }
+  const renderNFTId = () => <div className="nft">{data.tokenId}</div>
 
   const renderPayStringToolTip = () => (
     <>
