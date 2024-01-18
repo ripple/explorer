@@ -1,5 +1,4 @@
-import { useTranslation } from 'react-i18next'
-import Tooltip from '../shared/components/Tooltip'
+import { Tooltip } from '../shared/components/Tooltip'
 import './css/ledgers.scss'
 import DomainLink from '../shared/components/DomainLink'
 import { Loader } from '../shared/components/Loader'
@@ -9,7 +8,6 @@ import { RouteLink } from '../shared/routing'
 import { VALIDATOR_ROUTE } from '../App/routes'
 import { LedgerListEntry } from './LedgerListEntry'
 import { useSelectedValidator } from './useSelectedValidator'
-import { useLanguage } from '../shared/hooks'
 import { useTooltip } from './useTooltip'
 
 export const Ledgers = ({
@@ -25,9 +23,7 @@ export const Ledgers = ({
 }) => {
   const { selectedValidator } = useSelectedValidator()
   const isOnline = useIsOnline()
-  const language = useLanguage()
   const { tooltip } = useTooltip()
-  const { t } = useTranslation()
 
   return (
     <div className="ledgers">
@@ -59,7 +55,7 @@ export const Ledgers = ({
                 validators={validators}
               />
             ))}{' '}
-            <Tooltip t={t} language={language} data={tooltip} />
+            <Tooltip tooltip={tooltip} />
           </div>{' '}
         </>
       ) : (

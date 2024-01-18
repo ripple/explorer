@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'
-import Tooltip from '../../shared/components/Tooltip'
+import { Tooltip, TooltipInstance } from '../../shared/components/Tooltip'
 import { getNFTInfo, getAccountInfo } from '../../../rippled/lib/rippled'
 import { formatNFTInfo, formatAccountInfo } from '../../../rippled/lib/utils'
 import { localizeDate, BAD_REQUEST, HASH_REGEX } from '../../shared/utils'
@@ -39,7 +39,7 @@ export const NFTHeader = (props: Props) => {
   const { tokenId, setError } = props
   const rippledSocket = useContext(SocketContext)
   const { trackException } = useAnalytics()
-  const [tooltip, setTooltip] = useState(null)
+  const [tooltip, setTooltip] = useState<TooltipInstance | undefined>(undefined)
 
   const { data, isFetching: loading } = useQuery<NFTFormattedInfo>(
     ['getNFTInfo', tokenId],
@@ -90,11 +90,16 @@ export const NFTHeader = (props: Props) => {
       : undefined
 
   const showTooltip = (event: any, d: any) => {
-    setTooltip({ ...d, mode: 'nftId', x: event.pageX, y: event.pageY })
+    setTooltip({
+      data: d,
+      mode: 'nftId',
+      x: event.currentTarget.offsetLeft,
+      y: event.currentTarget.offsetTop,
+    })
   }
 
   const hideTooltip = () => {
-    setTooltip(null)
+    setTooltip(undefined)
   }
 
   const renderHeaderContent = () => {
@@ -154,7 +159,7 @@ export const NFTHeader = (props: Props) => {
       <div className="box-content">
         {loading ? <Loader /> : renderHeaderContent()}
       </div>
-      <Tooltip data={tooltip} />
+      <Tooltip tooltip={tooltip} />
     </div>
   )
 }

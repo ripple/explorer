@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import Tooltip from '../shared/components/Tooltip'
+import { Tooltip } from '../shared/components/Tooltip'
 import { renderXRP } from '../shared/utils'
 import PauseIcon from '../shared/images/ic_pause.svg'
 import ResumeIcon from '../shared/images/ic_play.svg'
@@ -113,7 +113,7 @@ export const LedgerMetrics = ({
         <>
           <div className="control">{renderPause()}</div>
           <div className="metrics">{items}</div>
-          <Tooltip t={t} language={language} data={tooltip} />
+          <Tooltip tooltip={tooltip} />
         </>
       )}
     </div>
