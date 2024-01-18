@@ -31,7 +31,7 @@ export const TooltipProvider: FC = ({ children }) => {
     data: any,
   ) => {
     setTooltip({
-      ...data,
+      data,
       mode,
       x: event.currentTarget.offsetLeft,
       y: event.currentTarget.offsetTop,
