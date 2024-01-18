@@ -4,7 +4,7 @@ import { useWindowSize } from 'usehooks-ts'
 
 import { hexbin } from 'd3-hexbin'
 import { Loader } from '../shared/components/Loader'
-import { Tooltip } from '../shared/components/Tooltip'
+import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import './css/hexagons.scss'
 
 const MAX_WIDTH = 1200
@@ -50,9 +50,9 @@ const prepareHexagons = (data, list, height, radius, prev = []) => {
 
 export const Hexagons = ({ list, data }) => {
   const { width } = useWindowSize()
-  const [tooltip, setToolip] = useState()
   const [hexagons, setHexagons] = useState([])
   const { width: gridWidth, height: gridHeight, radius } = getDimensions(width)
+  const { tooltip, showTooltip, hideTooltip } = useTooltip()
   const bin = hexbin()
     .extent([
       [0, 0],
@@ -68,19 +68,6 @@ export const Hexagons = ({ list, data }) => {
     }
   }, [data, list, width, gridHeight, radius])
 
-  const showTooltip = (event, tooltipData) => {
-    setToolip({
-      data: { ...tooltipData, v: list[tooltipData.pubkey] },
-      mode: 'validator',
-      x: event.nativeEvent.offsetX,
-      y: event.nativeEvent.offsetY,
-    })
-  }
-
-  const hideTooltip = () => {
-    setToolip(null)
-  }
-
   const renderHexagon = (d, theHex) => {
     const { cookie, pubkey, ledger_hash: ledgerHash } = d
     const fill = `#${ledgerHash.substr(0, 6)}`
@@ -90,7 +77,9 @@ export const Hexagons = ({ list, data }) => {
         key={`${pubkey}${cookie}${ledgerHash}`}
         transform={`translate(${d.x},${d.y})`}
         className="hexagon updated"
-        onMouseOver={(e) => showTooltip(e, d)}
+        onMouseOver={(e) =>
+          showTooltip('validator', e, { ...d, v: list[d.pubkey] })
+        }
         onFocus={() => {}}
         onMouseLeave={hideTooltip}
       >

@@ -4,6 +4,7 @@ import {
   FC,
   SetStateAction,
   useContext,
+  useMemo,
   useState,
 } from 'react'
 
@@ -22,10 +23,16 @@ export const SelectedValidatorContext =
 export const SelectedValidatorProvider: FC = ({ children }) => {
   const [selectedValidator, setSelectedValidator] = useState<string>()
 
+  const selectedValidatorValues = useMemo(
+    () => ({
+      selectedValidator,
+      setSelectedValidator,
+    }),
+    [selectedValidator],
+  )
+
   return (
-    <SelectedValidatorContext.Provider
-      value={{ selectedValidator, setSelectedValidator }}
-    >
+    <SelectedValidatorContext.Provider value={selectedValidatorValues}>
       {children}
     </SelectedValidatorContext.Provider>
   )
