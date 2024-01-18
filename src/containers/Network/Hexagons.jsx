@@ -70,9 +70,8 @@ export const Hexagons = ({ list, data }) => {
 
   const showTooltip = (event, tooltipData) => {
     setToolip({
-      ...tooltipData,
+      data: { ...tooltipData, v: list[tooltipData.pubkey] },
       mode: 'validator',
-      v: list[tooltipData.pubkey],
       x: event.nativeEvent.offsetX,
       y: event.nativeEvent.offsetY,
     })
