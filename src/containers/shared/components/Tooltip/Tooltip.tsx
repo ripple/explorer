@@ -1,12 +1,12 @@
 import { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
-import successIcon from '../images/success.png'
-import { localizeDate } from '../utils'
-import '../css/tooltip.scss'
-import PayStringToolTip from '../images/paystring_tooltip.svg'
-import { TxStatus } from './TxStatus'
-import { TxLabel } from './TxLabel'
-import { useLanguage } from '../hooks'
+import successIcon from '../../images/success.png'
+import { localizeDate } from '../../utils'
+import '../../css/tooltip.scss'
+import PayStringToolTip from '../../images/paystring_tooltip.svg'
+import { TxStatus } from '../TxStatus'
+import { TxLabel } from '../TxLabel'
+import { useLanguage } from '../../hooks'
 
 const PADDING_Y = 20
 const DATE_OPTIONS = {

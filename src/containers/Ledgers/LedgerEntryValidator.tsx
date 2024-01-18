@@ -1,5 +1,5 @@
 import { useSelectedValidator } from './useSelectedValidator'
-import { useTooltip } from './useTooltip'
+import { useTooltip } from '../shared/components/Tooltip'
 
 export const LedgerEntryValidator = ({
   validator,

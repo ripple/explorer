@@ -3,7 +3,7 @@ import { getAction, getCategory } from '../shared/components/Transaction'
 import { TRANSACTION_ROUTE } from '../App/routes'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import { RouteLink } from '../shared/routing'
-import { useTooltip } from './useTooltip'
+import { useTooltip } from '../shared/components/Tooltip'
 
 export const LedgerEntryTransaction = ({
   transaction,

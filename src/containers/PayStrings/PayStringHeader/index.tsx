@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import PayStringLogomark from '../../shared/images/PayString_Logomark.png'
 import QuestIcon from '../../shared/images/hover_question.svg'
-import { Tooltip } from '../../shared/components/Tooltip'
+import { Tooltip } from '../../shared/components/Tooltip/Tooltip'
 import './styles.scss'
 
 export interface PayStringHeaderProps {

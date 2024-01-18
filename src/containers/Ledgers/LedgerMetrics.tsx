@@ -1,11 +1,10 @@
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from '../shared/components/Tooltip'
+import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import { renderXRP } from '../shared/utils'
 import PauseIcon from '../shared/images/ic_pause.svg'
 import ResumeIcon from '../shared/images/ic_play.svg'
 import './css/ledgerMetrics.scss'
 import { useIsOnline } from '../shared/SocketContext'
-import { useTooltip } from './useTooltip'
 import { useLanguage } from '../shared/hooks'
 
 const DEFAULTS = {

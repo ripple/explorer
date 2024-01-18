@@ -1,4 +1,4 @@
-import { Tooltip } from '../shared/components/Tooltip'
+import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import './css/ledgers.scss'
 import DomainLink from '../shared/components/DomainLink'
 import { Loader } from '../shared/components/Loader'
@@ -8,7 +8,6 @@ import { RouteLink } from '../shared/routing'
 import { VALIDATOR_ROUTE } from '../App/routes'
 import { LedgerListEntry } from './LedgerListEntry'
 import { useSelectedValidator } from './useSelectedValidator'
-import { useTooltip } from './useTooltip'
 
 export const Ledgers = ({
   // paused,

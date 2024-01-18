@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useTooltip } from './useTooltip'
+import { useTooltip } from '../shared/components/Tooltip'
 import { Hash, ValidatorResponse } from './types'
 
 export const LedgerEntryHashTrustedCount = ({
