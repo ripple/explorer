@@ -18,7 +18,7 @@ const DEFAULTS = {
 }
 
 export const LedgerMetrics = ({
-  data,
+  data: suppliedData,
   onPause,
   paused,
 }: {
@@ -26,7 +26,7 @@ export const LedgerMetrics = ({
   onPause: any
   paused: boolean
 }) => {
-  data = { ...DEFAULTS, ...data }
+  const data = { ...DEFAULTS, ...suppliedData }
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
   const { t } = useTranslation()
   const isOnline = useIsOnline()

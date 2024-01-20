@@ -38,8 +38,14 @@ export const TooltipProvider: FC = ({ children }) => {
     setTooltip({
       data,
       mode,
-      x: event.currentTarget?.offsetLeft ?? event.nativeEvent.offsetX,
-      y: event.currentTarget?.offsetTop ?? event.nativeEvent.offsetY,
+      x:
+        event.currentTarget instanceof HTMLElement
+          ? event.currentTarget.offsetLeft
+          : event.nativeEvent.offsetX,
+      y:
+        event.currentTarget instanceof HTMLElement
+          ? event.currentTarget.offsetTop
+          : event.nativeEvent.offsetY,
     })
   }
 
