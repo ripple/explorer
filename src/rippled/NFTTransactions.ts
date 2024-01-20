@@ -1,5 +1,6 @@
 import { XrplClient } from 'xrpl-client'
 import { encodeAccountID } from 'ripple-address-codec'
+import { hexToBytes } from '@xrplf/isomorphic/utils'
 import { getNFTTransactions as getNFTTxs } from './lib/rippled'
 import { formatTransaction } from './lib/utils'
 import summarize from './lib/txSummary'
@@ -56,5 +57,5 @@ export const parseIssuerFromNFTokenID = (
   if (issuerPortion.length < 20) {
     return undefined
   }
-  return encodeAccountID(Buffer.from(nftokenID.substring(8, 48), 'hex'))
+  return encodeAccountID(hexToBytes(nftokenID.substring(8, 48)))
 }

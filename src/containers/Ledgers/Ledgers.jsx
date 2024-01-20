@@ -15,6 +15,8 @@ import { Legend } from './Legend'
 import { RouteLink } from '../shared/routing'
 import { LEDGER_ROUTE, TRANSACTION_ROUTE, VALIDATOR_ROUTE } from '../App/routes'
 
+const SIGMA = '\u03A3'
+
 class Ledgers extends Component {
   constructor(props) {
     super(props)
@@ -98,6 +100,7 @@ class Ledgers extends Component {
           <div className="close-time">{time}</div>
           {this.renderTxnCount(ledger.txn_count)}
           {this.renderFees(ledger.total_fees)}
+          {ledger.transactions == null && <Loader />}
           <div className="transactions">
             {transactions.map(this.renderTransaction)}
           </div>
@@ -137,7 +140,7 @@ class Ledgers extends Component {
     const amount = localizeNumber(d, language, options)
     return d !== undefined ? (
       <div className="fees">
-        {t('fees')}:<b>{amount}</b>
+        {SIGMA} {t('fees')}:<b>{amount}</b>
       </div>
     ) : null
   }
