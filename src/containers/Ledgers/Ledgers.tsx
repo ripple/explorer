@@ -8,19 +8,21 @@ import { RouteLink } from '../shared/routing'
 import { VALIDATOR_ROUTE } from '../App/routes'
 import { LedgerListEntry } from './LedgerListEntry'
 import { useSelectedValidator } from './useSelectedValidator'
+import { usePreviousWithPausing } from '../shared/hooks/usePreviousWithPausing'
 
 export const Ledgers = ({
-  // paused,
+  paused,
   ledgers = [],
   unlCount,
   validators = {},
 }: {
-  // paused: boolean
+  paused: boolean
   ledgers: any[]
   unlCount?: number
   validators: any
 }) => {
   const { selectedValidator } = useSelectedValidator()
+  const localLedgers = usePreviousWithPausing(ledgers, paused)
   const isOnline = useIsOnline()
   const { tooltip } = useTooltip()
 
@@ -46,7 +48,7 @@ export const Ledgers = ({
             )}
           </div>
           <div className="ledger-list">
-            {ledgers.map((ledger) => (
+            {localLedgers?.map((ledger) => (
               <LedgerListEntry
                 ledger={ledger}
                 key={ledger.ledger_index}

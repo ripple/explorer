@@ -5,7 +5,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import i18n from '../../../i18n/testConfig'
-import Ledgers from '../index'
+import { LedgersPage } from '../index'
 import { initialState } from '../../../rootReducer'
 import SocketContext from '../../shared/SocketContext'
 import NetworkContext from '../../shared/NetworkContext'
@@ -91,7 +91,7 @@ describe('Ledgers Page container', () => {
           <SocketContext.Provider value={client}>
             <NetworkContext.Provider value={props.network}>
               <QuickHarness i18n={i18n} initialEntries={[props.path]}>
-                <Ledgers msg={props.msg} />
+                <LedgersPage />
               </QuickHarness>
             </NetworkContext.Provider>
           </SocketContext.Provider>

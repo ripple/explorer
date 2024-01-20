@@ -17,7 +17,7 @@ import { SelectedValidatorProvider } from './useSelectedValidator'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
-const LedgersPage = () => {
+export const LedgersPage = () => {
   const { trackScreenLoaded } = useAnalytics()
   const [validators, setValidators] = useState<
     Record<string, ValidatorResponse>
@@ -102,5 +102,3 @@ const LedgersPage = () => {
     </div>
   )
 }
-
-export default LedgersPage
