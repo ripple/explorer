@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import SocketContext from './SocketContext'
 import { getLedger } from '../../rippled/lib/rippled'
-import { EPOCH_OFFSET } from '../../rippled/lib/convertRippleDate'
+import { convertRippleDate } from '../../rippled/lib/convertRippleDate'
 import { summarizeLedger } from '../../rippled/lib/summarizeLedger'
 import Log from './log'
 import { getNegativeUNL, getQuorum } from '../../rippled'
@@ -50,6 +50,7 @@ export interface LedgerHash {
   validations: ValidationStream[]
   unselected: boolean
   time: number
+  cookie?: string
 }
 
 export interface Ledger {
@@ -275,7 +276,8 @@ export const useStreams = () => {
             validated: false,
             unselected: false,
             validations: [],
-            time: (validation.signing_time + EPOCH_OFFSET) * 1000,
+            time: convertRippleDate(validation.signing_time),
+            cookie: validation.cookie,
           }
           ledger.hashes.push(matchingHash)
         }
@@ -299,7 +301,7 @@ export const useStreams = () => {
           ledger_hash: validation.ledger_hash,
           pubkey: validation.validation_public_key,
           partial: !validation.full,
-          time: (validation.signing_time + EPOCH_OFFSET) * 1000,
+          time: convertRippleDate(validation.signing_time),
           // ledger_hash: validation.ledger_hash,
           // ledger_index: validation.ledger_index,
           last: Date.now(),

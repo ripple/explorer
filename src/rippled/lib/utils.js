@@ -1,4 +1,5 @@
-import { convertRippleDate, EPOCH_OFFSET } from './convertRippleDate'
+import { hexToString } from '@xrplf/isomorphic/utils'
+import { convertRippleDate } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
 import { decodeHex } from '../../containers/shared/transactionUtils'
 
@@ -63,7 +64,7 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
     : undefined,
   tick: info.TickSize,
   rate: info.TransferRate ? (info.TransferRate - BILLION) / BILLION : undefined,
-  domain: info.Domain ? Buffer.from(info.Domain, 'hex').toString() : undefined,
+  domain: info.Domain ? hexToString(info.Domain) : undefined,
   emailHash: info.EmailHash,
   flags: buildFlags(info.Flags, ACCOUNT_FLAGS),
   balance: info.Balance,
@@ -74,7 +75,10 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
 })
 
 const formatTransaction = (tx) => {
-  const txn = tx.tx || tx
+  // `tx` is the property for some v1 arrays of transactions such as account_tx and `tx_json` is used in v2 for all
+  const txn = tx.tx || tx.tx_json || tx
+  // `hash` is up a level on v2 responses objects
+  const hash = txn.hash || tx.hash
   return {
     tx: {
       ...txn,
@@ -88,7 +92,7 @@ const formatTransaction = (tx) => {
       date: txn.date ? convertRippleDate(txn.date) : undefined,
     },
     meta: tx.meta || tx.metaData,
-    hash: txn.hash,
+    hash,
     ledger_index: txn.ledger_index,
     date: txn.date ? convertRippleDate(txn.date) : undefined,
   }
@@ -104,7 +108,7 @@ function RippledError(message, code) {
 }
 
 function convertHexToString(hex, encoding = 'utf8') {
-  return hex ? Buffer.from(hex, 'hex').toString(encoding) : undefined
+  return hex ? hexToString(hex) : undefined
 }
 
 const formatNFTInfo = (info) => ({
@@ -133,5 +137,4 @@ export {
   formatAccountInfo,
   convertHexToString,
   formatNFTInfo,
-  EPOCH_OFFSET,
 }

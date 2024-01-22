@@ -70,6 +70,7 @@ describe('Search component', () => {
     const token1VariantPlus = 'cny.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
     const token1VariantMinus = 'cny-rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
     const token1VariantColon = 'cny:rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
+    const token1Uppercase = 'CNY.rJ1adrpGS3xsnQMb9Cw54tWJVFPuSdZHK'
 
     const token2 =
       '534f4c4f00000000000000000000000000000000.rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz'
@@ -135,6 +136,8 @@ describe('Search component', () => {
     await testValue(token1VariantPlus, `/token/${token1}`)
 
     await testValue(token1VariantMinus, `/token/${token1}`)
+
+    await testValue(token1Uppercase, `/token/${token1Uppercase}`)
 
     await testValue(token2, `/token/${token2}`)
 

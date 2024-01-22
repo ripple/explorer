@@ -16,6 +16,8 @@ import { LEDGER_ROUTE, TRANSACTION_ROUTE, VALIDATOR_ROUTE } from '../App/routes'
 import { useLanguage } from '../shared/hooks'
 import { Ledger } from '../shared/useStreams'
 
+const SIGMA = '\u03A3'
+
 export type LedgersProps = React.PropsWithChildren<{
   ledgers: Record<number, Ledger>
   validators: Record<string, any>
@@ -82,6 +84,7 @@ export const Ledgers = ({
           <div className="close-time">{time}</div>
           {renderTxnCount(ledger.txCount)}
           {renderFees(ledger.totalFees)}
+          {ledger.transactions == null && <Loader />}
           <div className="transactions">
             {transactions.map(renderTransaction)}
           </div>
@@ -130,7 +133,7 @@ export const Ledgers = ({
     const amount = localizeNumber(d, language, options)
     return d !== undefined ? (
       <div className="fees">
-        {t('fees')}:<b>{amount}</b>
+        {SIGMA} {t('fees')}:<b>{amount}</b>
       </div>
     ) : null
   }

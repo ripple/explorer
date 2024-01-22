@@ -159,7 +159,7 @@ describe('Transaction container', () => {
       wrapper.update()
 
       expect(wrapper.find('a.tab.selected').text()).toEqual('raw')
-      expect(wrapper.find('.react-json-view').length).toBe(1)
+      expect(wrapper.find('.json-view').length).toBe(1)
       wrapper.unmount()
     })
   })

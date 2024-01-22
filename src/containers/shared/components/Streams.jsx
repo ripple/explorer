@@ -5,13 +5,13 @@ import Log from '../log'
 import SocketContext from '../SocketContext'
 import { getNegativeUNL, getQuorum } from '../../../rippled'
 import { getLedger, getServerInfo } from '../../../rippled/lib/rippled'
-import { EPOCH_OFFSET } from '../../../rippled/lib/utils'
 import { summarizeLedger } from '../../../rippled/lib/summarizeLedger'
+import { convertRippleDate } from '../../../rippled/lib/convertRippleDate'
 
-const MAX_LEDGER_COUNT = 20
+const MAX_LEDGER_COUNT = 15
 
 const PURGE_INTERVAL = 10 * 1000
-const MAX_AGE = 120 * 1000
+const MAX_AGE = 90 * 1000
 
 const throttle = (func, limit) => {
   let inThrottle
@@ -102,7 +102,10 @@ export const fetchNegativeUNL = async (rippledSocket) =>
 
       return data
     })
-    .catch((e) => Log.error(e))
+    .catch((e) => {
+      Log.error(e)
+      return []
+    })
 
 export const fetchQuorum = async (rippledSocket) =>
   getQuorum(rippledSocket)
@@ -187,7 +190,7 @@ class Streams extends Component {
     Log.info('new ledger', ledgerIndex)
     ledger.ledger_hash = ledgerHash
     ledger.txn_count = txnCount
-    ledger.close_time = (data.ledger_time + EPOCH_OFFSET) * 1000
+    ledger.close_time = convertRippleDate(data.ledger_time)
 
     const baseFee = data.fee_base / 1000000
     return {
@@ -243,7 +246,8 @@ class Streams extends Component {
         ledger_hash: ledgerHash,
         pubkey,
         partial: !data.full,
-        time: (data.signing_time + EPOCH_OFFSET) * 1000,
+        time: convertRippleDate(data.signing_time),
+        cookie: data.cookie,
       }
     }
 
@@ -313,9 +317,6 @@ class Streams extends Component {
       }
 
       ledgers[ledgerIndex].hashes[ledgerHash].push({
-        cookie: data.cookie,
-        ledger_index: ledgerIndex,
-        ledger_hash: ledgerHash,
         pubkey: data.pubkey,
         partial: data.partial,
         time: data.time,
