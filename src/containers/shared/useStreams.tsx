@@ -221,7 +221,7 @@ export const useStreams = () => {
         setLedgers((previousLedgers) => {
           Object.assign(previousLedgers[data.ledger_index] ?? {}, {
             txCount: data.txn_count,
-            closeTime: (data.ledger_time + EPOCH_OFFSET) * 1000,
+            closeTime: convertRippleDate(data.ledger_time),
             transactions: ledgerSummary.transactions,
             totalFees: ledgerSummary.total_fees, // fix type
           })
