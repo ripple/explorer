@@ -1,10 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { Loader } from '../shared/components/Loader'
 import { Ledger, ValidatorResponse } from './types'
 import { RouteLink } from '../shared/routing'
 import { LEDGER_ROUTE } from '../App/routes'
 import { Amount } from '../shared/components/Amount'
-import { LedgerEntryTransaction } from './LedgerEntryTransaction'
 import { LedgerEntryHash } from './LedgerEntryHash'
 import { LedgerEntryTransactions } from './LedgerEntryTransactions'
 
@@ -38,7 +36,6 @@ export const LedgerListEntry = ({
   const time = ledger.close_time
     ? new Date(ledger.close_time).toLocaleTimeString()
     : null
-  const transactions = ledger.transactions || []
 
   return (
     <div className="ledger" key={ledger.ledger_index}>
