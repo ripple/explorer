@@ -5,15 +5,14 @@ import { useQuery } from 'react-query'
 import axios from 'axios'
 import Log from '../shared/log'
 import { FETCH_INTERVAL_ERROR_MILLIS } from '../shared/utils'
-import Streams from '../shared/components/Streams'
 import { LedgerMetrics } from './LedgerMetrics'
 import { Ledgers } from './Ledgers'
-import { Ledger, ValidatorResponse } from './types'
+import { ValidatorResponse } from './types'
 import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
-import { useIsOnline } from '../shared/SocketContext'
 import { TooltipProvider } from '../shared/components/Tooltip'
 import { SelectedValidatorProvider } from './useSelectedValidator'
+import { useStreams } from '../shared/hooks/useStreams'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
@@ -22,11 +21,9 @@ export const LedgersPage = () => {
   const [validators, setValidators] = useState<
     Record<string, ValidatorResponse>
   >({})
-  const [ledgers, setLedgers] = useState<Ledger[]>([])
+  const { metrics } = useStreams()
   const [paused, setPaused] = useState(false)
-  const [metrics, setMetrics] = useState(undefined)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
-  const { isOnline } = useIsOnline()
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
 
@@ -75,13 +72,6 @@ export const LedgersPage = () => {
   return (
     <div className="ledgers-page">
       <Helmet title={t('ledgers')} />
-      {isOnline && (
-        <Streams
-          validators={validators}
-          updateLedgers={setLedgers}
-          updateMetrics={setMetrics}
-        />
-      )}
       <SelectedValidatorProvider>
         <TooltipProvider>
           <LedgerMetrics
@@ -92,7 +82,6 @@ export const LedgersPage = () => {
         </TooltipProvider>
         <TooltipProvider>
           <Ledgers
-            ledgers={ledgers}
             validators={validators}
             unlCount={unlCount}
             paused={paused}

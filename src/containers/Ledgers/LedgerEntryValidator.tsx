@@ -13,13 +13,18 @@ export const LedgerEntryValidator = ({
 
   const trusted = validator.unl ? 'trusted' : ''
   const unselected = selectedValidator ? 'unselected' : ''
-  const selected = selectedValidator === validator.pubkey ? 'selected' : ''
-  const className = `validation ${trusted} ${unselected} ${selected} ${validator.pubkey}`
+  const selected =
+    selectedValidator &&
+    (selectedValidator === validator.master_key ||
+      selectedValidator === validator.signing_key)
+      ? 'selected'
+      : ''
+  const className = `validation ${trusted} ${unselected} ${selected} ${validator.master_key}`
   const partial = validator.partial ? <div className="partial" /> : null
 
   return (
     <div
-      key={`${validator.pubkey}_${validator.cookie}`}
+      key={`${validator.master_key}_${validator.cookie}`}
       role="button"
       tabIndex={index}
       className={className}
@@ -31,7 +36,11 @@ export const LedgerEntryValidator = ({
       onMouseLeave={() => hideTooltip()}
       onClick={() =>
         setSelectedValidator(
-          selectedValidator === validator.pubkey ? undefined : validator.pubkey,
+          selectedValidator &&
+            (selectedValidator === validator.master_key ||
+              selectedValidator === validator.signing_key)
+            ? undefined
+            : validator.master_key || validator.signing_key,
         )
       }
     >

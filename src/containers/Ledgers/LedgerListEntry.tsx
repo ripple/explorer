@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { Loader } from '../shared/components/Loader'
-import { Ledger, ValidatorResponse } from './types'
+import { ValidatorResponse } from './types'
 import { RouteLink } from '../shared/routing'
 import { LEDGER_ROUTE } from '../App/routes'
 import { Amount } from '../shared/components/Amount'
 import { LedgerEntryTransaction } from './LedgerEntryTransaction'
 import { LedgerEntryHash } from './LedgerEntryHash'
+import { Ledger } from '../shared/hooks/useStreams'
+import { LedgerEntryTransactions } from './LedgerEntryTransactions'
 
 const SIGMA = '\u03A3'
 
@@ -34,37 +36,32 @@ export const LedgerListEntry = ({
   validators: { [pubkey: string]: ValidatorResponse }
 }) => {
   const { t } = useTranslation()
-  const time = ledger.close_time
-    ? new Date(ledger.close_time).toLocaleTimeString()
+  const time = ledger.closeTime
+    ? new Date(ledger.closeTime).toLocaleTimeString()
     : null
   const transactions = ledger.transactions || []
 
   return (
-    <div className="ledger" key={ledger.ledger_index}>
+    <div className="ledger" key={ledger.index}>
       <div className="ledger-head">
-        <LedgerIndex ledgerIndex={ledger.ledger_index} />
+        <LedgerIndex ledgerIndex={ledger.index} />
         <div className="close-time">{time}</div>
         {/* Render Transaction Count (can be 0) */}
-        {ledger.txn_count !== undefined && (
+        {ledger.txCount !== undefined && (
           <div className="txn-count">
-            {t('txn_count')}:<b>{ledger.txn_count.toLocaleString()}</b>
+            {t('txn_count')}:<b>{ledger.txCount.toLocaleString()}</b>
           </div>
         )}
         {/* Render Total Fees (can be 0) */}
-        {ledger.total_fees !== undefined && (
+        {ledger.totalFees !== undefined && (
           <div className="fees">
             {SIGMA} {t('fees')}:
             <b>
-              <Amount value={{ currency: 'XRP', amount: ledger.total_fees }} />
+              <Amount value={{ currency: 'XRP', amount: ledger.totalFees }} />
             </b>
           </div>
         )}
-        {ledger.transactions == null && <Loader />}
-        <div className="transactions">
-          {transactions.map((tx) => (
-            <LedgerEntryTransaction transaction={tx} key={tx.hash} />
-          ))}
-        </div>
+        <LedgerEntryTransactions transactions={transactions} />
       </div>
       <div className="hashes">
         {ledger.hashes.map((hash) => (
