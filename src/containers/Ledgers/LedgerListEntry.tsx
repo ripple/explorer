@@ -6,6 +6,7 @@ import { LEDGER_ROUTE } from '../App/routes'
 import { Amount } from '../shared/components/Amount'
 import { LedgerEntryTransaction } from './LedgerEntryTransaction'
 import { LedgerEntryHash } from './LedgerEntryHash'
+import { LedgerEntryTransactions } from './LedgerEntryTransactions'
 
 const SIGMA = '\u03A3'
 
@@ -59,12 +60,7 @@ export const LedgerListEntry = ({
             </b>
           </div>
         )}
-        {ledger.transactions == null && <Loader />}
-        <div className="transactions">
-          {transactions.map((tx) => (
-            <LedgerEntryTransaction transaction={tx} key={tx.hash} />
-          ))}
-        </div>
+        <LedgerEntryTransactions transactions={ledger.transactions} />
       </div>
       <div className="hashes">
         {ledger.hashes.map((hash) => (
