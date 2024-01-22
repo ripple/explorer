@@ -247,7 +247,6 @@ class Streams extends Component {
         pubkey,
         partial: !data.full,
         time: convertRippleDate(data.signing_time),
-        cookie: data.cookie,
       }
     }
 
