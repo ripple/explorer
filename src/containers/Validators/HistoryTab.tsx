@@ -58,7 +58,7 @@ export const HistoryTab = ({ reports }: HistoryTabProps) => {
   return (
     <>
       <div className="history-note">
-        { t('dates_in_utc')}
+        {t('dates_in_utc')}
       </div>
       <table className="history-table basic">
         <thead>
