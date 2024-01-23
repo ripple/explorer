@@ -1,35 +1,30 @@
+import classNames from 'classnames'
 import { useSelectedValidator } from './useSelectedValidator'
 import { useTooltip } from '../shared/components/Tooltip'
 
-export const LedgerEntryValidator = ({
-  validator,
+export const LedgerEntryValidation = ({
+  validation,
   index,
 }: {
-  validator: any
+  validation: any
   index: number
 }) => {
   const { showTooltip, hideTooltip } = useTooltip()
   const { selectedValidator, setSelectedValidator } = useSelectedValidator()
-
-  const trusted = validator.unl ? 'trusted' : ''
-  const unselected = selectedValidator ? 'unselected' : ''
-  const selected =
-    selectedValidator &&
-    (selectedValidator === validator.master_key ||
-      selectedValidator === validator.signing_key)
-      ? 'selected'
-      : ''
-  const className = `validation ${trusted} ${unselected} ${selected} ${validator.master_key}`
-  const partial = validator.partial ? <div className="partial" /> : null
+  const className = classNames(
+    'validation',
+    validation.unl && 'trusted',
+    selectedValidator && 'unselected',
+    selectedValidator === validation.validation_public_key && 'selected',
+  )
 
   return (
     <div
-      key={`${validator.master_key}_${validator.cookie}`}
       role="button"
       tabIndex={index}
       className={className}
       onMouseOver={(e) =>
-        showTooltip('validator', e, { ...validator, v: validator })
+        showTooltip('validation', e, { ...validation, v: validation })
       }
       onFocus={() => {}}
       onKeyUp={() => {}}
@@ -37,14 +32,13 @@ export const LedgerEntryValidator = ({
       onClick={() =>
         setSelectedValidator(
           selectedValidator &&
-            (selectedValidator === validator.master_key ||
-              selectedValidator === validator.signing_key)
+            selectedValidator === validation.validation_public_key
             ? undefined
-            : validator.master_key || validator.signing_key,
+            : validation.validation_public_key,
         )
       }
     >
-      {partial}
+      {validation.partial && <div className="partial" />}
     </div>
   )
 }

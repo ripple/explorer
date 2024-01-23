@@ -1,13 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import { Loader } from '../shared/components/Loader'
 import { ValidatorResponse } from './types'
 import { RouteLink } from '../shared/routing'
 import { LEDGER_ROUTE } from '../App/routes'
 import { Amount } from '../shared/components/Amount'
-import { LedgerEntryTransaction } from './LedgerEntryTransaction'
 import { LedgerEntryHash } from './LedgerEntryHash'
-import { Ledger } from '../shared/hooks/useStreams'
 import { LedgerEntryTransactions } from './LedgerEntryTransactions'
+import { Ledger } from '../shared/components/Streams/types'
 
 const SIGMA = '\u03A3'
 
@@ -39,7 +37,6 @@ export const LedgerListEntry = ({
   const time = ledger.closeTime
     ? new Date(ledger.closeTime).toLocaleTimeString()
     : null
-  const transactions = ledger.transactions || []
 
   return (
     <div className="ledger" key={ledger.index}>
@@ -61,7 +58,7 @@ export const LedgerListEntry = ({
             </b>
           </div>
         )}
-        <LedgerEntryTransactions transactions={transactions} />
+        <LedgerEntryTransactions transactions={ledger.transactions} />
       </div>
       <div className="hashes">
         {ledger.hashes.map((hash) => (

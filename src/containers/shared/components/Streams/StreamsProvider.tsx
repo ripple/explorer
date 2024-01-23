@@ -1,44 +1,17 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { FC, useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import type { LedgerStream, ValidationStream } from 'xrpl'
-import SocketContext from '../SocketContext'
-import { getLedger } from '../../../rippled/lib/rippled'
-import { convertRippleDate } from '../../../rippled/lib/convertRippleDate'
-import { summarizeLedger } from '../../../rippled/lib/summarizeLedger'
-import Log from '../log'
-import { getNegativeUNL, getQuorum } from '../../../rippled'
-import { XRP_BASE } from '../transactionUtils'
+import SocketContext from '../../SocketContext'
+import { getLedger } from '../../../../rippled/lib/rippled'
+import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
+import { summarizeLedger } from '../../../../rippled/lib/summarizeLedger'
+import Log from '../../log'
+import { getNegativeUNL, getQuorum } from '../../../../rippled'
+import { XRP_BASE } from '../../transactionUtils'
+import { StreamsContext } from './StreamsContext'
+import { Ledger } from './types'
 
 const THROTTLE = 150
-
-export interface LedgerHash {
-  hash: string
-  validated: boolean
-  validations: ValidationStream[]
-  unselected: boolean
-  time: number
-  cookie?: string
-}
-
-export interface Ledger {
-  transactions: any[]
-  index: number
-  hashes: LedgerHash[]
-  seen: number
-  txCount?: number
-  closeTime: number
-  totalFees: number
-}
-
-export interface Metrics {
-  load_fee: string
-  txn_sec: string
-  txn_ledger: string
-  ledger_interval: string
-  avg_fee: string
-  quorum: string
-  nUnl: string[]
-}
 
 // TODO: use useQuery
 const fetchMetrics = () =>
@@ -69,7 +42,7 @@ const fetchQuorum = async (rippledSocket) =>
     })
     .catch((e) => Log.error(e))
 
-export const useStreams = () => {
+export const StreamsProvider: FC = ({ children }) => {
   const [ledgers, setLedgers] = useState<Record<number, Ledger>>([])
   const ledgersRef = useRef<Record<number, Ledger>>(ledgers)
   const firstLedgerRef = useRef<number>(0)
@@ -87,6 +60,7 @@ export const useStreams = () => {
   const [nUnl, setNUnl] = useState<string[]>([])
 
   function addLedger(index: number | string) {
+    // Only add new ledgers that are newer than the last one added.
     if (!firstLedgerRef.current) {
       firstLedgerRef.current = Number(index)
     }
@@ -101,7 +75,8 @@ export const useStreams = () => {
           index: Number(index),
           seen: Date.now(),
           hashes: [],
-          transactions: [],
+          transactions: undefined,
+          txCount: undefined,
         },
         ...previousLedgers,
       }))
@@ -167,38 +142,49 @@ export const useStreams = () => {
 
   function onLedger(data: LedgerStream) {
     if (!ledgersRef.current[data.ledger_index]) {
+      // The ledger closed, but we did not have an existing entry likely because the page just loaded and its
+      // validations came in before we connected to the websocket.
       addLedger(data.ledger_index)
     }
 
     if (process.env.VITE_ENVIRONMENT !== 'custom') {
+      // In custom mode we populate metrics from ledgers loaded into memory
       updateMetricsFromServer()
     } else {
+      // Make call to metrics tracked on the backend
       updateMetrics()
     }
 
     setLoadFee((data.fee_base / XRP_BASE).toString())
+
+    // After each flag ledger we should check the UNL and quorum which are correlated and can only update every flag ledger.
     if (data.ledger_index % 256 === 0 || quorum === '--') {
       updateNegativeUNL()
       updateQuorum()
     }
 
+    // TODO: Set fields before getting full ledger info
+    // set validated hash
+    // set closetime
+
     getLedger(socket, { ledger_hash: data.ledger_hash })
       .then(summarizeLedger)
       .then((ledgerSummary) => {
         setLedgers((previousLedgers) => {
-          Object.assign(previousLedgers[data.ledger_index] ?? {}, {
-            txCount: data.txn_count,
-            closeTime: convertRippleDate(data.ledger_time),
-            transactions: ledgerSummary.transactions,
-            totalFees: ledgerSummary.total_fees, // fix type
-          })
-          const ledger = previousLedgers[Number(ledgerSummary.ledger_index)]
+          const ledger = Object.assign(
+            previousLedgers[data.ledger_index] ?? {},
+            {
+              txCount: ledgerSummary.transactions.length,
+              closeTime: convertRippleDate(data.ledger_time),
+              transactions: ledgerSummary.transactions,
+              totalFees: ledgerSummary.total_fees, // fix type
+            },
+          )
           const matchingHashIndex = ledger?.hashes.findIndex(
             (hash) => hash.hash === ledgerSummary.ledger_hash,
           )
           const matchingHash = ledger?.hashes[matchingHashIndex]
           if (matchingHash) {
-            matchingHash.unselected = false
             matchingHash.validated = true
           }
           if (ledger && matchingHash) {
@@ -206,6 +192,9 @@ export const useStreams = () => {
               ...matchingHash,
             }
           }
+
+          // eslint-disable-next-line no-param-reassign
+          previousLedgers[data.ledger_index] = ledger
 
           return { ...previousLedgers }
         })
@@ -221,13 +210,14 @@ export const useStreams = () => {
     }
   }
 
+  // Process validations in chunks to make re-renders more manageable.
   function processValidationQueue() {
     setTimeout(processValidationQueue, THROTTLE)
 
     if (validationQueue.current.length < 1) {
       return
     }
-    // copy the queue and clear it so we aren't adding more while processing
+    // copy the queue and clear it, so we aren't adding more while processing
     const queue = [...validationQueue.current]
     validationQueue.current = []
     setLedgers((previousLedgers) => {
@@ -241,7 +231,6 @@ export const useStreams = () => {
           matchingHash = {
             hash: validation.ledger_hash,
             validated: false,
-            unselected: false,
             validations: [],
             time: convertRippleDate(validation.signing_time),
             cookie: validation.cookie,
@@ -305,7 +294,9 @@ export const useStreams = () => {
     ledgersRef.current = ledgers
   }, [ledgers])
 
-  return {
+  // TODO: retrieve most recent ledger to populate the screen
+
+  const value = {
     ledgers,
     validators,
     metrics: {
@@ -318,4 +309,8 @@ export const useStreams = () => {
       nUnl,
     },
   }
+
+  return (
+    <StreamsContext.Provider value={value}>{children}</StreamsContext.Provider>
+  )
 }

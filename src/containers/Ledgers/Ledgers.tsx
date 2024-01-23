@@ -9,19 +9,18 @@ import { VALIDATOR_ROUTE } from '../App/routes'
 import { LedgerListEntry } from './LedgerListEntry'
 import { useSelectedValidator } from './useSelectedValidator'
 import { usePreviousWithPausing } from '../shared/hooks/usePreviousWithPausing'
-import { Ledger, useStreams } from '../shared/hooks/useStreams'
+import { useStreams } from '../shared/components/Streams/StreamsContext'
+import { Ledger } from '../shared/components/Streams/types'
 
 export const Ledgers = ({
   paused,
   unlCount,
-  validators = {},
 }: {
   paused: boolean
   unlCount?: number
-  validators: any
 }) => {
   const { selectedValidator } = useSelectedValidator()
-  const { ledgers } = useStreams()
+  const { ledgers, validators } = useStreams()
   const localLedgers = usePreviousWithPausing<Record<number, Ledger>>(
     ledgers,
     paused,

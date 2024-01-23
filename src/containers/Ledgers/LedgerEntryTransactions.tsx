@@ -5,7 +5,7 @@ import { LedgerEntryTransaction } from './LedgerEntryTransaction'
 export const LedgerEntryTransactions = memo(
   ({ transactions }: { transactions: any[] }) => (
     <>
-      {transactions == null && <Loader />}
+      {!transactions && <Loader />}
       <div className="transactions">
         {transactions?.map((tx) => (
           <LedgerEntryTransaction transaction={tx} key={tx.hash} />

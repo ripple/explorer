@@ -12,7 +12,7 @@ import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
 import { TooltipProvider } from '../shared/components/Tooltip'
 import { SelectedValidatorProvider } from './useSelectedValidator'
-import { useStreams } from '../shared/hooks/useStreams'
+import { StreamsProvider } from '../shared/components/Streams/StreamsProvider'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
@@ -21,7 +21,6 @@ export const LedgersPage = () => {
   const [validators, setValidators] = useState<
     Record<string, ValidatorResponse>
   >({})
-  const { metrics } = useStreams()
   const [paused, setPaused] = useState(false)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
   const { t } = useTranslation()
@@ -72,22 +71,16 @@ export const LedgersPage = () => {
   return (
     <div className="ledgers-page">
       <Helmet title={t('ledgers')} />
-      <SelectedValidatorProvider>
-        <TooltipProvider>
-          <LedgerMetrics
-            data={metrics}
-            onPause={() => pause()}
-            paused={paused}
-          />
-        </TooltipProvider>
-        <TooltipProvider>
-          <Ledgers
-            validators={validators}
-            unlCount={unlCount}
-            paused={paused}
-          />
-        </TooltipProvider>
-      </SelectedValidatorProvider>
+      <StreamsProvider>
+        <SelectedValidatorProvider>
+          <TooltipProvider>
+            <LedgerMetrics onPause={() => pause()} paused={paused} />
+          </TooltipProvider>
+          <TooltipProvider>
+            <Ledgers unlCount={unlCount} paused={paused} />
+          </TooltipProvider>
+        </SelectedValidatorProvider>
+      </StreamsProvider>
     </div>
   )
 }

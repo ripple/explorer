@@ -6,6 +6,7 @@ import ResumeIcon from '../shared/images/ic_play.svg'
 import './css/ledgerMetrics.scss'
 import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
+import { useStreams } from '../shared/components/Streams/StreamsContext'
 
 const DEFAULTS = {
   load_fee: '--',
@@ -18,14 +19,13 @@ const DEFAULTS = {
 }
 
 export const LedgerMetrics = ({
-  data: suppliedData,
   onPause,
   paused,
 }: {
-  data: any
   onPause: any
   paused: boolean
 }) => {
+  const { metrics: suppliedData } = useStreams()
   const data = { ...DEFAULTS, ...suppliedData }
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
   const { t } = useTranslation()

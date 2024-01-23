@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { memo } from 'react'
 import SuccessIcon from '../shared/images/success.svg'
-import { LedgerEntryValidator } from './LedgerEntryValidator'
+import { LedgerEntryValidation } from './LedgerEntryValidator'
 import { LedgerEntryHashTrustedCount } from './LedgerEntryHashTrustedCount'
 import { ValidatorResponse } from './types'
 
@@ -42,10 +42,10 @@ export const LedgerEntryHash = memo(
         </div>
         <div className="validations">
           {hash.validations.map((validation, i) => (
-            <LedgerEntryValidator
-              validator={validation}
+            <LedgerEntryValidation
+              validation={validation}
               index={i}
-              key={validation.cookie}
+              key={`${validation.validation_public_key}_${validation.cookie}`}
             />
           ))}
         </div>
