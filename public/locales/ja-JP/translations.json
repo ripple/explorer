@@ -429,7 +429,7 @@
   "no_sell_offers": "売却オファーがありません",
   "no_buy_offers": "購入オファーがありません",
   "validator_history.chain": "チェーン",
-  "validator_history.date": "日付",
+  "validator_history.date": "日付 (UTC)",
   "validator_history.missed": "失敗",
   "validator_history.score": "スコア",
   "seller": "売却者",

@@ -431,7 +431,7 @@
   "no_sell_offers": "No sell offers",
   "no_buy_offers": "No buy offers",
   "validator_history.chain": "Chain",
-  "validator_history.date": "Date",
+  "validator_history.date": "Date (UTC)",
   "validator_history.missed": "Missed",
   "validator_history.score": "Score",
   "seller": "Seller",
