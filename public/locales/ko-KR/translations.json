@@ -516,6 +516,5 @@
   "note": null,
   "indicate_unl": null,
   "transaction_tokens_involved": null,
-  "transaction_tokens_swapped": null,
-  "dates_in_utc": null
+  "transaction_tokens_swapped": null
 }

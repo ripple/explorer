@@ -518,6 +518,5 @@
   "note": "Nota",
   "indicate_unl": "indica a un validador en una UNL",
   "transaction_tokens_involved": "<Currency/> y <Currency2/>",
-  "transaction_tokens_swapped": "<Currency/> por <Currency2/>",
-  "dates_in_utc": null
+  "transaction_tokens_swapped": "<Currency/> por <Currency2/>"
 }
