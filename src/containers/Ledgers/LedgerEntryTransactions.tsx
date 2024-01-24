@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { Loader } from '../shared/components/Loader'
 import { LedgerEntryTransaction } from './LedgerEntryTransaction'
+import { TransactionSummary } from '../shared/types'
 
 /**
  * A separate component to handle iterating over the transactions for a ledger on the homepage.
@@ -10,7 +11,7 @@ import { LedgerEntryTransaction } from './LedgerEntryTransaction'
  * @constructor
  */
 export const LedgerEntryTransactions = memo(
-  ({ transactions }: { transactions: any[] }) => (
+  ({ transactions }: { transactions: TransactionSummary[] }) => (
     <>
       {transactions == null && <Loader />}
       <div className="transactions">

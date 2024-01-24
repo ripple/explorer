@@ -4,11 +4,12 @@ import { TRANSACTION_ROUTE } from '../App/routes'
 import { TransactionActionIcon } from '../shared/components/TransactionActionIcon/TransactionActionIcon'
 import { RouteLink } from '../shared/routing'
 import { useTooltip } from '../shared/components/Tooltip'
+import { TransactionSummary } from '../shared/types'
 
 export const LedgerEntryTransaction = ({
   transaction,
 }: {
-  transaction: any
+  transaction: TransactionSummary
 }) => {
   const { hideTooltip, showTooltip } = useTooltip()
 
