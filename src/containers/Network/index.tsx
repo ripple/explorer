@@ -10,6 +10,19 @@ import { UpgradeStatus } from './UpgradeStatus'
 import { Nodes } from './Nodes'
 import NoMatch from '../NoMatch'
 import './css/style.scss'
+import { StreamsProvider } from '../shared/components/Streams/StreamsProvider'
+
+export const ValidatorsPage = () => (
+  <StreamsProvider>
+    <Validators />
+  </StreamsProvider>
+)
+
+export const UpgradeStatusPage = () => (
+  <StreamsProvider>
+    <UpgradeStatus />
+  </StreamsProvider>
+)
 
 export const Network = () => {
   const { trackScreenLoaded } = useAnalytics()
@@ -32,8 +45,8 @@ export const Network = () => {
   }
 
   const Body = {
-    'upgrade-status': UpgradeStatus,
-    validators: Validators,
+    'upgrade-status': UpgradeStatusPage,
+    validators: ValidatorsPage,
     nodes: Nodes,
   }[tab]
   return (

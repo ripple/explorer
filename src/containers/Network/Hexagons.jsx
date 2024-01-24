@@ -63,7 +63,13 @@ export const Hexagons = ({ list, data }) => {
   useEffect(() => {
     if (width > 0) {
       setHexagons((prevHexagons) =>
-        prepareHexagons(data, list, gridHeight, radius, prevHexagons),
+        prepareHexagons(
+          Object.values(data),
+          list,
+          gridHeight,
+          radius,
+          prevHexagons,
+        ),
       )
     }
   }, [data, list, width, gridHeight, radius])
@@ -115,9 +121,4 @@ export const Hexagons = ({ list, data }) => {
       <Tooltip tooltip={tooltip} />
     </div>
   )
-}
-
-Hexagons.propTypes = {
-  list: PropTypes.shape({}).isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired, // eslint-disable-line
 }

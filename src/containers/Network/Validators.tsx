@@ -1,9 +1,8 @@
-import { useContext, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import NetworkTabs from './NetworkTabs'
-import Streams from '../shared/components/Streams'
 import ValidatorsTable from './ValidatorsTable'
 import Log from '../shared/log'
 import {
@@ -16,44 +15,27 @@ import { Hexagons } from './Hexagons'
 import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 import { TooltipProvider } from '../shared/components/Tooltip'
+import { useStreams } from '../shared/components/Streams/StreamsContext'
 
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const [vList, setVList] = useState<Record<string, StreamValidator>>({})
-  const [validations, setValidations] = useState([])
-  const [metrics, setMetrics] = useState({})
+  const { validators: validatorsFromValidations, metrics } = useStreams()
   const [unlCount, setUnlCount] = useState(0)
   const network = useContext(NetworkContext)
 
-  useQuery(['fetchValidatorsData'], () => fetchData(), {
-    refetchInterval: (returnedData, _) =>
-      returnedData == null
-        ? FETCH_INTERVAL_ERROR_MILLIS
-        : FETCH_INTERVAL_MILLIS,
-    refetchOnMount: true,
-    enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
-  })
-
-  function mergeLatest(
-    validators: Record<string, ValidatorResponse>,
-    live: Record<string, StreamValidator>,
-  ): Record<string, StreamValidator> {
-    const updated: Record<string, StreamValidator> = {}
-    const keys = new Set(Object.keys(validators).concat(Object.keys(live)))
-    keys.forEach((d: string) => {
-      const newData: StreamValidator = validators[d] || live[d]
-      if (newData.ledger_index == null && live[d] && live[d].ledger_index) {
-        // VHS uses `current_index` instead of `ledger_index`
-        // If `ledger_index` isn't defined, then we're still using the VHS data,
-        // instead of the Streams data
-        newData.ledger_index = live[d].ledger_index
-        newData.ledger_hash = live[d].ledger_hash
-      }
-      updated[d] = newData
-    })
-    return updated
-  }
+  const { data: validatorsFromVHS } = useQuery(
+    ['fetchValidatorsData'],
+    () => fetchData(),
+    {
+      refetchInterval: (returnedData, _) =>
+        returnedData == null
+          ? FETCH_INTERVAL_ERROR_MILLIS
+          : FETCH_INTERVAL_MILLIS,
+      refetchOnMount: true,
+      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
+    },
+  )
 
   function fetchData() {
     const url = `${process.env.VITE_DATA_URL}/validators/${network}`
@@ -67,44 +49,66 @@ export const Validators = () => {
           newValidatorList[v.signing_key] = v
         })
 
-        setVList(() => mergeLatest(newValidatorList, vList))
         setUnlCount(validators.filter((d: any) => Boolean(d.unl)).length)
-        return true // indicating success in getting the data
+        return newValidatorList
       })
       .catch((e) => Log.error(e))
   }
 
-  const updateValidators = (newValidations: StreamValidator[]) => {
-    // @ts-ignore - Work around type assignment for complex validation data types
-    setValidations(newValidations)
-    setVList((value) => {
-      const newValidatorsList: Record<string, StreamValidator> = { ...value }
-      newValidations.forEach((validation: any) => {
-        newValidatorsList[validation.pubkey] = {
-          ...value[validation.pubkey],
-          signing_key: validation.pubkey,
-          ledger_index: validation.ledger_index,
-          ledger_hash: validation.ledger_hash,
-        }
-      })
-      return mergeLatest(newValidatorsList, value)
-    })
-  }
+  const merged = useMemo(() => {
+    if (
+      !validatorsFromVHS ||
+      !(
+        validatorsFromValidations &&
+        Object.keys(validatorsFromValidations).length
+      )
+    ) {
+      return
+    }
+    const updated: Record<string, StreamValidator> = {}
+    const keys = new Set(
+      Object.keys(validatorsFromVHS).concat(
+        Object.keys(validatorsFromValidations),
+      ),
+    )
+    keys.forEach((d: string) => {
+      const newData: StreamValidator =
+        validatorsFromVHS[d] || validatorsFromValidations[d]
+      if (
+        newData.ledger_index == null &&
+        validatorsFromValidations[d] &&
+        validatorsFromValidations[d].ledger_index
+      ) {
+        // VHS uses `current_index` instead of `ledger_index`
+        // If `ledger_index` isn't defined, then we're still using the VHS data,
+        // instead of the Streams data
+        newData.ledger_index = validatorsFromValidations[d].ledger_index
+      }
+      if (newData.current_index == null) {
+        newData.signing_key = validatorsFromValidations[d].pubkey
+      }
+      // latest hash and time comes from the validations stream
+      if (validatorsFromValidations[d]) {
+        newData.time = validatorsFromValidations[d].time
+        newData.ledger_hash = validatorsFromValidations[d].ledger_hash
+      }
 
-  const validatorCount = Object.keys(vList).length
+      updated[d] = newData
+    })
+    return Object.values(updated)
+  }, [validatorsFromVHS, validatorsFromValidations])
+
+  const validatorCount = useMemo(
+    () => merged && Object.keys(merged).length,
+    [merged],
+  )
+
   return (
     <div className="network-page">
-      {network && (
-        <Streams
-          validators={vList}
-          updateValidators={updateValidators}
-          updateMetrics={setMetrics}
-        />
-      )}
       {
         // @ts-ignore - Work around for complex type assignment issues
         <TooltipProvider>
-          <Hexagons data={validations} list={vList} />
+          <Hexagons data={validatorsFromValidations} list={validatorsFromVHS} />
         </TooltipProvider>
       }
       <div className="stat">
@@ -121,7 +125,7 @@ export const Validators = () => {
       </div>
       <div className="wrap">
         <NetworkTabs selected="validators" />
-        <ValidatorsTable validators={Object.values(vList)} metrics={metrics} />
+        <ValidatorsTable validators={merged} metrics={metrics} />
       </div>
     </div>
   )

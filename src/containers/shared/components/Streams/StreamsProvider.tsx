@@ -280,7 +280,7 @@ export const StreamsProvider: FC = ({ children }) => {
       socket.on('validation', onValidation as any)
 
       // Load in the most recent validated ledger to prevent the page from being empty until the next validations come in.
-      getLedger(socket, { ledger_index: 'current' }).then(
+      getLedger(socket, { ledger_index: 'validated' }).then(
         populateFromLedgerResponse,
       )
     }
