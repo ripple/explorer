@@ -92,14 +92,3 @@
     color: $orange-50;
   }
 }
-
-.history-note {
-  overflow: hidden;
-  color: $black-40;
-  font-size: 12px;
-  letter-spacing: 0px;
-  line-height: 20px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  @include medium;
-}
