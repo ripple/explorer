@@ -167,38 +167,41 @@ export const StreamsProvider: FC = ({ children }) => {
     // set validated hash
     // set closetime
 
-    getLedger(socket, { ledger_hash: data.ledger_hash })
-      .then(summarizeLedger)
-      .then((ledgerSummary) => {
-        setLedgers((previousLedgers) => {
-          const ledger = Object.assign(
-            previousLedgers[data.ledger_index] ?? {},
-            {
-              txCount: ledgerSummary.transactions.length,
-              closeTime: convertRippleDate(data.ledger_time),
-              transactions: ledgerSummary.transactions,
-              totalFees: ledgerSummary.total_fees, // fix type
-            },
-          )
-          const matchingHashIndex = ledger?.hashes.findIndex(
-            (hash) => hash.hash === ledgerSummary.ledger_hash,
-          )
-          const matchingHash = ledger?.hashes[matchingHashIndex]
-          if (matchingHash) {
-            matchingHash.validated = true
-          }
-          if (ledger && matchingHash) {
-            ledger.hashes[matchingHashIndex] = {
-              ...matchingHash,
-            }
-          }
+    getLedger(socket, { ledger_hash: data.ledger_hash }).then(
+      populateFromLedgerResponse,
+    )
+  }
 
-          // eslint-disable-next-line no-param-reassign
-          previousLedgers[data.ledger_index] = ledger
+  const populateFromLedgerResponse = (ledger: Promise<any>) => {
+    const ledgerSummary = summarizeLedger(ledger)
+    setLedgers((previousLedgers) => {
+      const ledger = Object.assign(
+        previousLedgers[ledgerSummary.ledger_index] ?? {},
+        {
+          txCount: ledgerSummary.transactions.length,
+          closeTime: convertRippleDate(ledgerSummary.ledger_time),
+          transactions: ledgerSummary.transactions,
+          totalFees: ledgerSummary.total_fees, // fix type
+        },
+      )
+      const matchingHashIndex = ledger?.hashes.findIndex(
+        (hash) => hash.hash === ledgerSummary.ledger_hash,
+      )
+      const matchingHash = ledger?.hashes[matchingHashIndex]
+      if (matchingHash) {
+        matchingHash.validated = true
+      }
+      if (ledger && matchingHash) {
+        ledger.hashes[matchingHashIndex] = {
+          ...matchingHash,
+        }
+      }
 
-          return { ...previousLedgers }
-        })
-      })
+      // eslint-disable-next-line no-param-reassign
+      previousLedgers[ledgerSummary.ledger_index] = ledger
+
+      return { ...previousLedgers }
+    })
   }
 
   const onValidation = (data: ValidationStream) => {
@@ -275,6 +278,11 @@ export const StreamsProvider: FC = ({ children }) => {
       })
       socket.on('ledger', onLedger as any)
       socket.on('validation', onValidation as any)
+
+      // Load in the most recent validated ledger to prevent the page from being empty until the next validations come in.
+      getLedger(socket, { ledger_index: 'current' }).then(
+        populateFromLedgerResponse,
+      )
     }
 
     return () => {
@@ -293,8 +301,6 @@ export const StreamsProvider: FC = ({ children }) => {
   useEffect(() => {
     ledgersRef.current = ledgers
   }, [ledgers])
-
-  // TODO: retrieve most recent ledger to populate the screen
 
   const value = {
     ledgers,
