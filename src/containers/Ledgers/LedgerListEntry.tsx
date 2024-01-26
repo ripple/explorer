@@ -5,6 +5,11 @@ import { LEDGER_ROUTE } from '../App/routes'
 import { Amount } from '../shared/components/Amount'
 import { LedgerEntryHash } from './LedgerEntryHash'
 import { LedgerEntryTransactions } from './LedgerEntryTransactions'
+import {
+  Tooltip,
+  TooltipProvider,
+  useTooltip,
+} from '../shared/components/Tooltip'
 
 const SIGMA = '\u03A3'
 
@@ -23,7 +28,7 @@ const LedgerIndex = ({ ledgerIndex }: { ledgerIndex: number }) => {
   )
 }
 
-export const LedgerListEntry = ({
+export const LedgerListEntryInner = ({
   ledger,
   unlCount,
   validators,
@@ -32,6 +37,7 @@ export const LedgerListEntry = ({
   unlCount?: number
   validators: { [pubkey: string]: ValidatorResponse }
 }) => {
+  const { tooltip } = useTooltip()
   const { t } = useTranslation()
   const time = ledger.close_time
     ? new Date(ledger.close_time).toLocaleTimeString()
@@ -69,6 +75,25 @@ export const LedgerListEntry = ({
           />
         ))}
       </div>
+      <Tooltip tooltip={tooltip} />
     </div>
   )
 }
+
+export const LedgerListEntry = ({
+  ledger,
+  unlCount,
+  validators,
+}: {
+  ledger: Ledger
+  unlCount?: number
+  validators: { [pubkey: string]: ValidatorResponse }
+}) => (
+  <TooltipProvider>
+    <LedgerListEntryInner
+      ledger={ledger}
+      validators={validators}
+      unlCount={unlCount}
+    />
+  </TooltipProvider>
+)

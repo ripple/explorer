@@ -1,4 +1,3 @@
-import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import './css/ledgers.scss'
 import DomainLink from '../shared/components/DomainLink'
 import { Loader } from '../shared/components/Loader'
@@ -24,7 +23,6 @@ export const Ledgers = ({
   const { selectedValidator } = useSelectedValidator()
   const localLedgers = usePreviousWithPausing(ledgers, paused)
   const isOnline = useIsOnline()
-  const { tooltip } = useTooltip()
 
   return (
     <div className="ledgers">
@@ -55,9 +53,8 @@ export const Ledgers = ({
                 unlCount={unlCount}
                 validators={validators}
               />
-            ))}{' '}
-            <Tooltip tooltip={tooltip} />
-          </div>{' '}
+            ))}
+          </div>
         </>
       ) : (
         <Loader />

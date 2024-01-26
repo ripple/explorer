@@ -90,14 +90,12 @@ export const LedgersPage = () => {
             paused={paused}
           />
         </TooltipProvider>
-        <TooltipProvider>
-          <Ledgers
-            ledgers={ledgers}
-            validators={validators}
-            unlCount={unlCount}
-            paused={paused}
-          />
-        </TooltipProvider>
+        <Ledgers
+          ledgers={ledgers}
+          validators={validators}
+          unlCount={unlCount}
+          paused={paused}
+        />
       </SelectedValidatorProvider>
     </div>
   )
