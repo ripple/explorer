@@ -5,15 +5,17 @@ import { useLanguage } from '../shared/hooks'
 import './historyTab.scss'
 import { ValidatorReport } from '../shared/vhsTypes'
 
+const DEFAULT_HISTORY_TIMEZONE = 'UTC'
+
 const ReportRow = ({ report }: { report: ValidatorReport }) => {
   const language = useLanguage()
-
   return (
     <tr key={report.date}>
       <td className="col-date">
         <div className="full-date">
           {localizeDate(new Date(report.date), language, {
             dateStyle: 'full',
+            timeZone: DEFAULT_HISTORY_TIMEZONE,
           })}
         </div>
         <div className="abbrev-date">
@@ -21,6 +23,7 @@ const ReportRow = ({ report }: { report: ValidatorReport }) => {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
+            timeZone: DEFAULT_HISTORY_TIMEZONE,
           })}
         </div>
       </td>
