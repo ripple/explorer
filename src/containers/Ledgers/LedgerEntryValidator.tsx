@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { useSelectedValidator } from './useSelectedValidator'
 import { useTooltip } from '../shared/components/Tooltip'
+import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
 
 export const LedgerEntryValidation = ({
   validation,
@@ -11,9 +12,10 @@ export const LedgerEntryValidation = ({
 }) => {
   const { showTooltip, hideTooltip } = useTooltip()
   const { selectedValidator, setSelectedValidator } = useSelectedValidator()
+  const { validators } = useVHSValidators()
   const className = classNames(
     'validation',
-    validation.unl && 'trusted',
+    validators?.[validation.validation_public_key]?.unl && 'trusted',
     selectedValidator && 'unselected',
     selectedValidator === validation.validation_public_key && 'selected',
   )
@@ -24,7 +26,10 @@ export const LedgerEntryValidation = ({
       tabIndex={index}
       className={className}
       onMouseOver={(e) =>
-        showTooltip('validation', e, { ...validation, v: validation })
+        showTooltip('validator', e, {
+          ...validation,
+          v: validators?.[validation.validation_public_key],
+        })
       }
       onFocus={() => {}}
       onKeyUp={() => {}}

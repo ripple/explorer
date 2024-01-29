@@ -98,11 +98,10 @@ $ledger-width: 196px;
   }
 
   .ledger {
-    overflow: visible;
     width: $ledger-width;
     flex-grow: 0;
     flex-shrink: 0;
-    margin-left: $ledgers-margin-large;
+    margin-right: $ledgers-margin-large;
     animation-duration: 0.4s;
     animation-name: ledger-enter;
     white-space: normal;
@@ -114,12 +113,10 @@ $ledger-width: 196px;
 
   @keyframes ledger-enter {
     from {
-      width: 0;
-      margin-left: -$ledgers-margin-large;
+      margin-left: -$ledger-width;
     }
 
     to {
-      width: $ledger-width;
       margin-left: 0;
     }
   }

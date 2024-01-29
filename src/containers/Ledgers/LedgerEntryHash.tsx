@@ -1,59 +1,39 @@
 import { useTranslation } from 'react-i18next'
-import { memo } from 'react'
 import SuccessIcon from '../shared/images/success.svg'
 import { LedgerEntryValidation } from './LedgerEntryValidator'
 import { LedgerEntryHashTrustedCount } from './LedgerEntryHashTrustedCount'
-import { ValidatorResponse } from './types'
 
-export const LedgerEntryHash = memo(
-  ({
-    hash,
-    unlCount,
-    validators,
-  }: {
-    hash: any
-    unlCount?: number
-    validators: { [pubkey: string]: ValidatorResponse }
-  }) => {
-    const { t } = useTranslation()
-    const shortHash = hash.hash.substr(0, 6)
-    const barStyle = { background: `#${shortHash}` }
-    const validated = hash.validated && <SuccessIcon className="validated" />
-    return (
-      <div
-        className={`hash ${hash.unselected ? 'unselected' : ''}`}
-        key={hash.hash}
-      >
-        <div className="bar" style={barStyle} />
-        <div className="ledger-hash">
-          <div className="hash-concat">{hash.hash.substr(0, 6)}</div>
-          {validated}
-        </div>
-        <div className="subtitle">
-          <div className="validation-total">
-            <div>{t('total')}:</div>
-            <b>{hash.validations.length}</b>
-          </div>
-          <LedgerEntryHashTrustedCount
-            hash={hash}
-            unlCount={unlCount}
-            validators={validators}
-          />
-        </div>
-        <div className="validations">
-          {hash.validations.map((validation, i) => (
-            <LedgerEntryValidation
-              validation={validation}
-              index={i}
-              key={`${validation.validation_public_key}_${validation.cookie}`}
-            />
-          ))}
-        </div>
+export const LedgerEntryHash = ({ hash }: { hash: any }) => {
+  const { t } = useTranslation()
+  const shortHash = hash.hash.substr(0, 6)
+  const barStyle = { background: `#${shortHash}` }
+  const validated = hash.validated && <SuccessIcon className="validated" />
+  return (
+    <div
+      className={`hash ${hash.unselected ? 'unselected' : ''}`}
+      key={hash.hash}
+    >
+      <div className="bar" style={barStyle} />
+      <div className="ledger-hash">
+        <div className="hash-concat">{hash.hash.substr(0, 6)}</div>
+        {validated}
       </div>
-    )
-  },
-  (prevProps, nextProps) =>
-    prevProps.unlCount === nextProps.unlCount &&
-    Object.keys(prevProps.hash.validations || {}).length ===
-      Object.keys(nextProps.hash.validations || {}).length,
-)
+      <div className="subtitle">
+        <div className="validation-total">
+          <div>{t('total')}:</div>
+          <b>{hash.validations.length}</b>
+        </div>
+        <LedgerEntryHashTrustedCount validations={hash.validations} />
+      </div>
+      <div className="validations">
+        {hash.validations.map((validation, i) => (
+          <LedgerEntryValidation
+            validation={validation}
+            index={i}
+            key={`${validation.validation_public_key}_${validation.cookie}`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}

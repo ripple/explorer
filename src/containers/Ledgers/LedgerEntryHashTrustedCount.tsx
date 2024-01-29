@@ -1,56 +1,59 @@
 import { useTranslation } from 'react-i18next'
+import classNames from 'classnames'
+import { useMemo } from 'react'
+import { ValidationStream } from 'xrpl'
 import { useTooltip } from '../shared/components/Tooltip'
-import { Hash, ValidatorResponse } from './types'
+import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
 
 export const LedgerEntryHashTrustedCount = ({
-  hash,
-  unlCount,
-  validators,
+  validations,
 }: {
-  hash: Hash
-  unlCount?: number
-  validators: { [pubkey: string]: ValidatorResponse }
+  validations: ValidationStream[]
 }) => {
   const { t } = useTranslation()
   const { hideTooltip, showTooltip } = useTooltip()
-  const className = hash.trusted_count < (unlCount || 0) ? 'missed' : ''
+  const { unl, validators } = useVHSValidators()
 
-  const getMissingValidators = () => {
-    const unl = {}
+  const status = useMemo(() => {
+    const missing = [...(unl || [])]
+    validations.forEach((v) => {
+      if (!validators?.[v.validation_public_key]) {
+        return
+      }
 
-    Object.keys(validators).forEach((pubkey) => {
-      if (validators[pubkey].unl) {
-        unl[pubkey] = false
+      const missingIndex = missing.findIndex(
+        (assumedMissing) => assumedMissing === v.validation_public_key,
+      )
+      if (missingIndex !== -1) {
+        missing.splice(missingIndex, 1)
       }
     })
 
-    hash.validations.forEach((v) => {
-      if (unl[v.pubkey] !== undefined) {
-        delete unl[v.pubkey]
-      }
-    })
+    return {
+      missing: missing.map((v) => validators?.[v]),
+      trustedCount: (unl?.length || 0) - missing.length,
+    }
+  }, [unl, validations])
 
-    return Object.keys(unl).map((pubkey) => validators[pubkey])
-  }
-
-  const missing =
-    hash.trusted_count && className === 'missed' ? getMissingValidators() : null
-
-  return hash.trusted_count ? (
+  return status.trustedCount ? (
     <span
       tabIndex={0}
       role="button"
-      className={className}
-      onMouseMove={(e) =>
-        missing && missing.length && showTooltip('missing', e, { missing })
-      }
+      className={classNames(
+        status.trustedCount < status.missing.length && 'missed',
+      )}
+      onMouseMove={(e) => {
+        const { missing } = status
+
+        missing.length && showTooltip('missing', e, { missing })
+      }}
       onFocus={() => {}}
       onKeyUp={() => {}}
       onMouseLeave={() => hideTooltip()}
     >
       <div>{t('unl')}:</div>
       <b>
-        {hash.trusted_count}/{unlCount}
+        {status.trustedCount}/{unl?.length}
       </b>
     </span>
   ) : null

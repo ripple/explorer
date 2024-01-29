@@ -7,6 +7,7 @@ import PayStringToolTip from '../../images/paystring_tooltip.svg'
 import { TxStatus } from '../TxStatus'
 import { TxLabel } from '../TxLabel'
 import { useLanguage } from '../../hooks'
+import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 
 const PADDING_Y = 20
 const DATE_OPTIONS = {
@@ -41,14 +42,21 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     })
 
   const renderValidatorTooltip = () => {
-    const { v = {}, pubkey, time } = data
+    // eslint-disable-next-line camelcase
+    const { v = {}, pubkey, signing_time } = data
     const key = v.master_key || pubkey
 
     return (
       <>
         <div className="domain">{v.domain}</div>
         <div className="pubkey">{key}</div>
-        <div className="time">{localizeDate(time, language, DATE_OPTIONS)}</div>
+        <div className="time">
+          {localizeDate(
+            convertRippleDate(signing_time),
+            language,
+            DATE_OPTIONS,
+          )}
+        </div>
         {v.unl && (
           <div className="unl">
             {v.unl}

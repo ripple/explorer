@@ -1,11 +1,15 @@
 import { useTranslation } from 'react-i18next'
-import { ValidatorResponse } from './types'
 import { RouteLink } from '../shared/routing'
 import { LEDGER_ROUTE } from '../App/routes'
 import { Amount } from '../shared/components/Amount'
 import { LedgerEntryHash } from './LedgerEntryHash'
 import { LedgerEntryTransactions } from './LedgerEntryTransactions'
 import { Ledger } from '../shared/components/Streams/types'
+import {
+  Tooltip,
+  TooltipProvider,
+  useTooltip,
+} from '../shared/components/Tooltip'
 
 const SIGMA = '\u03A3'
 
@@ -24,15 +28,8 @@ const LedgerIndex = ({ ledgerIndex }: { ledgerIndex: number }) => {
   )
 }
 
-export const LedgerListEntry = ({
-  ledger,
-  unlCount,
-  validators,
-}: {
-  ledger: Ledger
-  unlCount?: number
-  validators: { [pubkey: string]: ValidatorResponse }
-}) => {
+export const LedgerListEntryInner = ({ ledger }: { ledger: Ledger }) => {
+  const { tooltip } = useTooltip()
   const { t } = useTranslation()
   const time = ledger.closeTime
     ? new Date(ledger.closeTime).toLocaleTimeString()
@@ -62,14 +59,16 @@ export const LedgerListEntry = ({
       </div>
       <div className="hashes">
         {ledger.hashes.map((hash) => (
-          <LedgerEntryHash
-            hash={hash}
-            key={hash.hash}
-            unlCount={unlCount}
-            validators={validators}
-          />
+          <LedgerEntryHash hash={hash} key={hash.hash} />
         ))}
       </div>
+      <Tooltip tooltip={tooltip} />
     </div>
   )
 }
+
+export const LedgerListEntry = ({ ledger }: { ledger: Ledger }) => (
+  <TooltipProvider>
+    <LedgerListEntryInner ledger={ledger} />
+  </TooltipProvider>
+)

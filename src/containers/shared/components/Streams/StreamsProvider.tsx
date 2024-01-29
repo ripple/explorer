@@ -11,7 +11,7 @@ import { XRP_BASE } from '../../transactionUtils'
 import { StreamsContext } from './StreamsContext'
 import { Ledger } from './types'
 
-const THROTTLE = 150
+const THROTTLE = 200
 
 // TODO: use useQuery
 const fetchMetrics = () =>

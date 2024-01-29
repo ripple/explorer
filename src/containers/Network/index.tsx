@@ -11,16 +11,21 @@ import { Nodes } from './Nodes'
 import NoMatch from '../NoMatch'
 import './css/style.scss'
 import { StreamsProvider } from '../shared/components/Streams/StreamsProvider'
+import { VHSValidatorsProvider } from '../shared/components/VHSValidators/VHSValidatorsProvider'
 
 export const ValidatorsPage = () => (
   <StreamsProvider>
-    <Validators />
+    <VHSValidatorsProvider>
+      <Validators />
+    </VHSValidatorsProvider>
   </StreamsProvider>
 )
 
 export const UpgradeStatusPage = () => (
   <StreamsProvider>
-    <UpgradeStatus />
+    <VHSValidatorsProvider>
+      <UpgradeStatus />
+    </VHSValidatorsProvider>
   </StreamsProvider>
 )
 

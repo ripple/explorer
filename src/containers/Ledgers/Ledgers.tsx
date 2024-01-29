@@ -11,16 +11,12 @@ import { useSelectedValidator } from './useSelectedValidator'
 import { usePreviousWithPausing } from '../shared/hooks/usePreviousWithPausing'
 import { useStreams } from '../shared/components/Streams/StreamsContext'
 import { Ledger } from '../shared/components/Streams/types'
+import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
 
-export const Ledgers = ({
-  paused,
-  unlCount,
-}: {
-  paused: boolean
-  unlCount?: number
-}) => {
+export const Ledgers = ({ paused }: { paused: boolean }) => {
+  const { validators: validatorsFromVHS } = useVHSValidators()
   const { selectedValidator } = useSelectedValidator()
-  const { ledgers, validators } = useStreams()
+  const { ledgers } = useStreams()
   const localLedgers = usePreviousWithPausing<Record<number, Ledger>>(
     ledgers,
     paused,
@@ -34,10 +30,12 @@ export const Ledgers = ({
         <>
           <Legend />
           <div className="control">
-            {selectedValidator && (
+            {selectedValidator && validatorsFromVHS && (
               <div className="selected-validator">
-                {validators[selectedValidator].domain && (
-                  <DomainLink domain={validators[selectedValidator].domain} />
+                {validatorsFromVHS[selectedValidator].domain && (
+                  <DomainLink
+                    domain={validatorsFromVHS[selectedValidator].domain}
+                  />
                 )}
                 <RouteLink
                   to={VALIDATOR_ROUTE}
@@ -55,12 +53,7 @@ export const Ledgers = ({
                 .reverse()
                 .slice(0, 20)
                 ?.map((ledger) => (
-                  <LedgerListEntry
-                    ledger={ledger}
-                    key={ledger.index}
-                    unlCount={unlCount}
-                    validators={validators}
-                  />
+                  <LedgerListEntry ledger={ledger} key={ledger.index} />
                 ))}{' '}
             <Tooltip tooltip={tooltip} />
           </div>{' '}

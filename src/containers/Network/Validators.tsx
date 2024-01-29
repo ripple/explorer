@@ -1,59 +1,20 @@
-import { useContext, useMemo, useState } from 'react'
-import axios from 'axios'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
 import NetworkTabs from './NetworkTabs'
 import ValidatorsTable from './ValidatorsTable'
-import Log from '../shared/log'
-import {
-  localizeNumber,
-  FETCH_INTERVAL_MILLIS,
-  FETCH_INTERVAL_ERROR_MILLIS,
-} from '../shared/utils'
+import { localizeNumber } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import { Hexagons } from './Hexagons'
-import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
-import NetworkContext from '../shared/NetworkContext'
+import { StreamValidator } from '../shared/vhsTypes'
 import { TooltipProvider } from '../shared/components/Tooltip'
 import { useStreams } from '../shared/components/Streams/StreamsContext'
+import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
 
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
   const { validators: validatorsFromValidations, metrics } = useStreams()
-  const [unlCount, setUnlCount] = useState(0)
-  const network = useContext(NetworkContext)
-
-  const { data: validatorsFromVHS } = useQuery(
-    ['fetchValidatorsData'],
-    () => fetchData(),
-    {
-      refetchInterval: (returnedData, _) =>
-        returnedData == null
-          ? FETCH_INTERVAL_ERROR_MILLIS
-          : FETCH_INTERVAL_MILLIS,
-      refetchOnMount: true,
-      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
-    },
-  )
-
-  function fetchData() {
-    const url = `${process.env.VITE_DATA_URL}/validators/${network}`
-
-    return axios
-      .get(url)
-      .then((resp) => resp.data.validators)
-      .then((validators) => {
-        const newValidatorList: Record<string, ValidatorResponse> = {}
-        validators.forEach((v: ValidatorResponse) => {
-          newValidatorList[v.signing_key] = v
-        })
-
-        setUnlCount(validators.filter((d: any) => Boolean(d.unl)).length)
-        return newValidatorList
-      })
-      .catch((e) => Log.error(e))
-  }
+  const { validators: validatorsFromVHS, unl } = useVHSValidators()
 
   const merged = useMemo(() => {
     if (
@@ -115,10 +76,10 @@ export const Validators = () => {
         <span>{t('validators_found')}: </span>
         <span>
           {localizeNumber(validatorCount, language)}
-          {unlCount !== 0 && (
+          {unl?.length !== 0 && (
             <i>
               {' '}
-              ({t('unl')}: {unlCount})
+              ({t('unl')}: {unl?.length})
             </i>
           )}
         </span>
