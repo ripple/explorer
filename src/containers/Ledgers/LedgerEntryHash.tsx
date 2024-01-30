@@ -41,6 +41,7 @@ export const LedgerEntryHash = ({
       <div className="validations">
         {hash.validations.map((validation, i) => (
           <LedgerEntryValidator
+            validators={validators}
             validator={validation}
             index={i}
             key={validation.cookie}

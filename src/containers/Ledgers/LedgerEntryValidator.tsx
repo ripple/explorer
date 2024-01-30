@@ -1,11 +1,14 @@
 import { useSelectedValidator } from './useSelectedValidator'
 import { useTooltip } from '../shared/components/Tooltip'
+import { ValidatorResponse } from './types'
 
 export const LedgerEntryValidator = ({
   validator,
+  validators,
   index,
 }: {
   validator: any
+  validators: { [pubkey: string]: ValidatorResponse }
   index: number
 }) => {
   const { showTooltip, hideTooltip } = useTooltip()
@@ -24,7 +27,10 @@ export const LedgerEntryValidator = ({
       tabIndex={index}
       className={className}
       onMouseOver={(e) =>
-        showTooltip('validator', e, { ...validator, v: validator })
+        showTooltip('validator', e, {
+          ...validator,
+          v: validators[validator.pubkey],
+        })
       }
       onFocus={() => {}}
       onKeyUp={() => {}}
