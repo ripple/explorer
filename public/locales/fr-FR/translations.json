@@ -429,7 +429,7 @@
   "no_sell_offers": "Aucune offre de vente",
   "no_buy_offers": "Aucune offre d'achat",
   "validator_history.chain": "Chaîne",
-  "validator_history.date": "Date",
+  "validator_history.date": "Date (UTC)",
   "validator_history.missed": "Manqué",
   "validator_history.score": "Score",
   "seller": "Vendeur",

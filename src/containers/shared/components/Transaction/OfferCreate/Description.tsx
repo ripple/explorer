@@ -3,7 +3,6 @@ import { localizeDate } from '../../../utils'
 import {
   DATE_OPTIONS,
   CURRENCY_ORDER,
-  RIPPLE_EPOCH,
   XRP_BASE,
   normalizeAmount,
 } from '../../../transactionUtils'
@@ -12,6 +11,7 @@ import {
   TransactionDescriptionComponent,
   TransactionDescriptionProps,
 } from '../types'
+import { convertRippleDate } from '../../../../../rippled/lib/utils'
 
 const normalize = (amount: any) => amount.value || amount / XRP_BASE
 
@@ -39,7 +39,7 @@ const Description: TransactionDescriptionComponent = (
   }
 
   const renderLine4 = () => {
-    const unixT = (data.tx.Expiration + RIPPLE_EPOCH) * 1000
+    const unixT = convertRippleDate(data.tx.Expiration)
     const today = new Date()
     const transString =
       unixT - today.getTime() > 0

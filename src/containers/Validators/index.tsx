@@ -24,6 +24,9 @@ import NetworkContext from '../shared/NetworkContext'
 import { VALIDATOR_ROUTE } from '../App/routes'
 import { buildPath, useRouteParams } from '../shared/routing'
 import { VotingTab } from './VotingTab'
+import logger from '../../rippled/lib/logger'
+
+const log = logger({ name: 'validator' })
 
 const ERROR_MESSAGES = {
   [NOT_FOUND]: {
@@ -96,13 +99,17 @@ export const Validator = () => {
       .then((resp) => resp.data)
       .then((response) => {
         if (response.ledger_hash == null) {
-          return getLedger(response.current_index, rippledSocket).then(
-            (ledgerData) => ({
+          return getLedger(response.current_index, rippledSocket)
+            .then((ledgerData) => ({
               ...response,
               ledger_hash: ledgerData.ledger_hash,
               last_ledger_time: ledgerData.close_time,
-            }),
-          )
+            }))
+            .catch((ledgerError) => {
+              // Log the error and return response without ledger data
+              log.error(`Error fetching ledger data: ${ledgerError.message}`)
+              return response
+            })
         }
         return response
       })

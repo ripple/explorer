@@ -101,7 +101,7 @@ const getRoute = async (
     return {
       type: 'token',
       path: buildPath(TOKEN_ROUTE, {
-        token: `${components[0].toLowerCase()}.${components[1]}`,
+        token: `${components[0]}.${components[1]}`,
       }),
     }
   }

@@ -1,4 +1,5 @@
 # Contributing
+
 Thanks for contributing to the explorer!
 
 We're thrilled you're interested and your help is greatly appreciated. Contributing is a great way to learn about the XRP Ledger (XRPL).
@@ -11,6 +12,7 @@ We're thrilled you're interested and your help is greatly appreciated. Contribut
 - [.env](.env.example) - Environment variables
 
 ## Git setup
+
 You need only to do this once and you have probably already done this if you already use git.
 
 1. Download git.
@@ -19,12 +21,14 @@ You need only to do this once and you have probably already done this if you alr
 4. git config --global user.name “Your Name Here”
 
 ### Fork the repository
-1. Create a GitHub account if you haven’t already.  Let’s assume your git account name is username.
+
+1. Create a GitHub account if you haven’t already. Let’s assume your git account name is username.
 2. Go to https://github.com/ripple/explorer.
 3. Click on the “Watch”, “Star” and “Fork” buttons in the top right.
 4. That last command will fork a new copy of the repo in your personal git area at https://github.com/username/explorer
 
 ### Clone the repository on your local machine.
+
 ```
 $ git clone git@github.com:username/explorer.git --branch staging
 $ cd explorer
@@ -32,6 +36,7 @@ $ git remote add upstream git@github.com:ripple/explorer.git
 ```
 
 ### Start work in a new branch.
+
 ```
 $ git fetch upstream staging
 $ git checkout staging
@@ -40,6 +45,7 @@ $ git push --set-upstream origin your-branch-name
 ```
 
 Bring in recent changes to the “staging” branch into your own branch
+
 ```
 $ git fetch upstream staging
 $ git pull upstream staging
@@ -65,7 +71,6 @@ Before being considered for review or merging, each pull request must:
 
 All new react components must be [function components](https://reactjs.org/docs/components-and-props.html) unless there is good reason to use classes.
 
-
 ## CSS linting rules are extended from
 
 1.  [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard)
@@ -74,7 +79,7 @@ All new react components must be [function components](https://reactjs.org/docs/
 
 ## JSON viewer
 
-We are using [react-json-view](https://github.com/mac-s-g/react-json-view)
+We are using [react18-json-view](https://github.com/YYsuni/react18-json-view)
 
 ## Analytics
 
@@ -108,10 +113,10 @@ We are using Google Analytics. For more info read the [documentation](https://de
 
 ## Useful Chrome add-on
 
-* [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
-* [Dom listener](https://chrome.google.com/webstore/detail/domlistener/jlfdgnlpibogjanomigieemaembjeolj?hl=en)
-* [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi/related?hl=en)
-* [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop/related?hl=en)
+- [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
+- [Dom listener](https://chrome.google.com/webstore/detail/domlistener/jlfdgnlpibogjanomigieemaembjeolj?hl=en)
+- [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi/related?hl=en)
+- [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop/related?hl=en)
 
 ## Basic security
 

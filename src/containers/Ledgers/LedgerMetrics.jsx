@@ -1,7 +1,7 @@
 import { withTranslation } from 'react-i18next'
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import Tooltip from '../shared/components/Tooltip'
+import { Tooltip } from '../shared/components/Tooltip'
 import { renderXRP } from '../shared/utils'
 import PauseIcon from '../shared/images/ic_pause.svg'
 import ResumeIcon from '../shared/images/ic_play.svg'
@@ -31,14 +31,13 @@ class LedgerMetrics extends Component {
   }
 
   showTooltip = (event) => {
-    const { data, nUnl } = this.state
+    const { data } = this.state
     this.setState({
       tooltip: {
-        nUnl: data.nUnl,
+        data: { nUnl: data.nUnl },
         mode: 'nUnl',
-        v: nUnl,
-        x: event.pageX,
-        y: event.pageY,
+        x: event.currentTarget.offsetLeft,
+        y: event.currentTarget.offsetTop,
       },
     })
   }
@@ -84,7 +83,7 @@ class LedgerMetrics extends Component {
           content = renderXRP(data[key], language)
         } else if (key === 'ledger_interval' && data[key] !== '--') {
           content = `${data[key]} ${t('seconds_short')}`
-        } else if (key === 'nUnl' && data[key].length === 0) {
+        } else if (key === 'nUnl' && data[key]?.length === 0) {
           return null
         } else if (key === 'nUnl') {
           content = data[key].length
@@ -136,7 +135,7 @@ class LedgerMetrics extends Component {
           <>
             <div className="control">{this.renderPause()}</div>
             <div className="metrics">{items}</div>
-            <Tooltip t={t} language={language} data={tooltip} />
+            <Tooltip tooltip={tooltip} />
           </>
         )}
       </div>
