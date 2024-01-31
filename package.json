@@ -8,8 +8,8 @@
     "@redux-devtools/extension": "^3.3.0",
     "@rollup/plugin-inject": "^5.0.5",
     "@vitejs/plugin-react": "^4.2.1",
-    "@xrplf/prettier-config": "^1.9.1",
     "@xrplf/isomorphic": "^1.0.0-beta.1",
+    "@xrplf/prettier-config": "^1.9.1",
     "assert": "^2.1.0",
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.5",
@@ -151,5 +151,8 @@
   "engines": {
     "node": ">=18.0.0 <19",
     "npm": ">=7.14.0 <10.0.0"
+  },
+  "optionalDependencies": {
+    "@esbuild/linux-x64": "^0.20.0"
   }
 }
