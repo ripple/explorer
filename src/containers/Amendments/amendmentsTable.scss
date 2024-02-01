@@ -42,7 +42,6 @@
     }
 
     .eta-label {
-      margin-left: 38px;
       font-weight: 700;
       text-transform: uppercase;
     }
@@ -125,6 +124,7 @@
   }
 
   .voting {
+    margin-left: 0;
     color: $yellow-50;
   }
 

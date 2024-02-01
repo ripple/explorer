@@ -427,7 +427,7 @@
   "no_sell_offers": "판매 offers 없음",
   "no_buy_offers": "구매 offers 없음",
   "validator_history.chain": "체인",
-  "validator_history.date": "날짜",
+  "validator_history.date": "날짜 (UTC)",
   "validator_history.missed": "누락",
   "validator_history.score": "점수",
   "seller": "판매자",
