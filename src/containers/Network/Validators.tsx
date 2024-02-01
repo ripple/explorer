@@ -15,6 +15,7 @@ import { useLanguage } from '../shared/hooks'
 import { Hexagons } from './Hexagons'
 import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
+import { TooltipProvider } from '../shared/components/Tooltip'
 
 export const Validators = () => {
   const language = useLanguage()
@@ -102,7 +103,9 @@ export const Validators = () => {
       )}
       {
         // @ts-ignore - Work around for complex type assignment issues
-        <Hexagons data={validations} list={vList} />
+        <TooltipProvider>
+          <Hexagons data={validations} list={vList} />
+        </TooltipProvider>
       }
       <div className="stat">
         <span>{t('validators_found')}: </span>
