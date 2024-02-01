@@ -26,7 +26,7 @@ import {
   AMENDMENTS_ROUTE,
   AMENDMENT_ROUTE,
 } from './routes'
-import Ledgers from '../Ledgers'
+import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
 import { AccountsRouter } from '../Accounts/AccountsRouter'
 import { Transaction } from '../Transactions'
