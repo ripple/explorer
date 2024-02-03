@@ -36,6 +36,15 @@ export interface Transaction {
   tx: Tx
 }
 
+// A summary of a Transaction created by summarizeTransaction
+export interface TransactionSummary {
+  hash: string
+  ctid: string
+  type: string
+  result: string
+  account: string
+}
+
 export interface AccountNFToken {
   Flags: number
   Issuer: string

@@ -6,30 +6,29 @@ import axios from 'axios'
 import Log from '../shared/log'
 import { FETCH_INTERVAL_ERROR_MILLIS } from '../shared/utils'
 import Streams from '../shared/components/Streams'
-import LedgerMetrics from './LedgerMetrics'
-import Ledgers from './Ledgers'
+import { LedgerMetrics } from './LedgerMetrics'
+import { Ledgers } from './Ledgers'
 import { Ledger, ValidatorResponse } from './types'
 import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
 import { useIsOnline } from '../shared/SocketContext'
-import { useLanguage } from '../shared/hooks'
+import { TooltipProvider } from '../shared/components/Tooltip'
+import { SelectedValidatorProvider } from './useSelectedValidator'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
-const LedgersPage = () => {
+export const LedgersPage = () => {
   const { trackScreenLoaded } = useAnalytics()
   const [validators, setValidators] = useState<
     Record<string, ValidatorResponse>
   >({})
   const [ledgers, setLedgers] = useState<Ledger[]>([])
   const [paused, setPaused] = useState(false)
-  const [selected, setSelected] = useState<string | null>(null)
   const [metrics, setMetrics] = useState(undefined)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
   const { isOnline } = useIsOnline()
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
-  const language = useLanguage()
 
   useEffect(() => {
     trackScreenLoaded()
@@ -71,10 +70,6 @@ const LedgersPage = () => {
     enabled: !!network,
   })
 
-  const updateSelected = (pubkey: string) => {
-    setSelected(selected === pubkey ? null : pubkey)
-  }
-
   const pause = () => setPaused(!paused)
 
   return (
@@ -87,24 +82,21 @@ const LedgersPage = () => {
           updateMetrics={setMetrics}
         />
       )}
-      <LedgerMetrics
-        language={language}
-        data={metrics}
-        onPause={() => pause()}
-        paused={paused}
-      />
-      <Ledgers
-        language={language}
-        ledgers={ledgers}
-        validators={validators}
-        unlCount={unlCount}
-        selected={selected}
-        setSelected={updateSelected}
-        paused={paused}
-        isOnline={isOnline}
-      />
+      <SelectedValidatorProvider>
+        <TooltipProvider>
+          <LedgerMetrics
+            data={metrics}
+            onPause={() => pause()}
+            paused={paused}
+          />
+        </TooltipProvider>
+        <Ledgers
+          ledgers={ledgers}
+          validators={validators}
+          unlCount={unlCount}
+          paused={paused}
+        />
+      </SelectedValidatorProvider>
     </div>
   )
 }
-
-export default LedgersPage
