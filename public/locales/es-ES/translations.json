@@ -427,7 +427,7 @@
   "no_sell_offers": "Sin ofertas de venta",
   "no_buy_offers": "Sin ofertas de compra",
   "validator_history.chain": "Cadena",
-  "validator_history.date": "Fecha",
+  "validator_history.date": "Fecha (UTC)",
   "validator_history.missed": "Perdidos",
   "validator_history.score": "Puntuación",
   "seller": "Vendedor",

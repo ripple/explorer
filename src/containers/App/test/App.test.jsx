@@ -17,7 +17,7 @@ import { Error } from '../../../rippled/lib/utils'
 
 jest.mock('../../Ledgers/LedgerMetrics', () => ({
   __esModule: true,
-  default: () => null,
+  LedgerMetrics: () => null,
 }))
 
 jest.mock('xrpl-client', () => ({
