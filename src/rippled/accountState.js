@@ -28,14 +28,6 @@ const formatBalances = (info, data) => {
   const { assets = {}, obligations = {} } = data
   const tokens = []
 
-  Object.keys(obligations).forEach((currency) => {
-    if (!balances[currency]) {
-      balances[currency] = 0
-    }
-
-    balances[currency] += Number(obligations[currency])
-  })
-
   Object.keys(assets).forEach((issuer) => {
     assets[issuer].forEach((d) => {
       if (!balances[d.currency]) {
