@@ -25,7 +25,7 @@ const log = logger({ name: 'account balances' })
 
 const formatBalances = (info, data) => {
   const balances = { XRP: Number(info.Balance) / 1000000 }
-  const { assets = {}, obligations = {} } = data
+  const { assets = {} } = data
   const tokens = []
 
   Object.keys(assets).forEach((issuer) => {
