@@ -243,7 +243,7 @@
   "number_of_affected_node": "It affected {{count}} nodes in the ledger:",
   "nodes_type": "{{action}} nodes",
   "node_meta_type": "It {{action}} a node with type",
-  "transaction_balance_line_one": "It <1><0>{{action}}</0></1> a <3><0>{{currency}}</0></3> RippleState node between <5><0>{{account}}</0></5> and <7><0>{{counterAccount}}</0></7>",
+  "transaction_balance_line_one": "It <1><0>{{action}}</0></1> a <4><0>{{currency}}</0></4> RippleState node between <6><0>{{account}}</0></6> and <8><0>{{counterAccount}}</0></8>",
   "transaction_balance_line_two": "Balance changed by <1><0>{{change}}</0></1> from <3><0>{{previousBalance}}</0></3> to <5><0>{{finalBalance}}</0></5>",
   "transaction_owned_directory": "It {{action}} a DirectoryNode node owned by",
   "transaction_unowned_directory": "It {{action}} a DirectoryNode node",
