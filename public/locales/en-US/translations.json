@@ -221,7 +221,6 @@
   "history": "History",
   "voting": "Voting",
   "raw": "Raw",
-  "simple_not_supported": "`Simple` view not yet supported for",
   "try_detailed_raw": "Try `Detailed` or `Raw` view",
   "account": "Account",
   "transaction_cost": "Transaction Cost",
