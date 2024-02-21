@@ -118,9 +118,39 @@ const render = (t, language, action, node, index, tx) => {
   )
   const invert =
     CURRENCY_ORDER.indexOf(getsCurrency) > CURRENCY_ORDER.indexOf(paysCurrency)
-  const pair = invert
-    ? `${getsCurrency}/${paysCurrency}`
-    : `${paysCurrency}/${getsCurrency}`
+  const pair = invert ? (
+    <b>
+      (
+      <Currency
+        currency={tx.TakerGets.currency || 'XRP'}
+        issuer={tx.TakerGets.issuer}
+        displaySymbol={false}
+      />
+      ) / (
+      <Currency
+        currency={tx.TakerPays.currency || 'XRP'}
+        issuer={tx.TakerPays.issuer}
+        displaySymbol={false}
+      />
+      )
+    </b>
+  ) : (
+    <b>
+      (
+      <Currency
+        currency={tx.TakerPays.currency || 'XRP'}
+        issuer={tx.TakerPays.issuer}
+        displaySymbol={false}
+      />
+      ) / (
+      <Currency
+        currency={tx.TakerGets.currency || 'XRP'}
+        issuer={tx.TakerGets.issuer}
+        displaySymbol={false}
+      />
+      )
+    </b>
+  )
 
   if (
     action === 'created' &&
