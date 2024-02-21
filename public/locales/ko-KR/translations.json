@@ -70,6 +70,7 @@
   "transaction_category_PAYMENT": "결제",
   "transaction_type_name_Payment": "결제",
   "transaction_category_PSEUDO": "유사 트랜잭션",
+  "transaction_category_XCHAIN": null,
   "transaction_category_UNKNOWN": "알 수 없음",
   "transaction_legend_toggle_hide": "범례 숨기기",
   "transaction_legend_toggle_show": "범례 보이기",
