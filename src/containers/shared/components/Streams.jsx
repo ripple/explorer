@@ -215,17 +215,6 @@ class Streams extends Component {
   handleValidation(data) {
     const { ledger_hash: ledgerHash, validation_public_key: pubkey } = data
     const ledgerIndex = Number(data.ledger_index)
-    const { allValidators } = this.state
-    let returnUndefinedAfterUpdate = false
-
-    if (
-      allValidators[pubkey] != null &&
-      (allValidators[pubkey].ledger_hash === ledgerHash ||
-        ledgerIndex <= allValidators[pubkey].ledger_index)
-    ) {
-      // in case there is an old validation that is sent for some reason
-      returnUndefinedAfterUpdate = true
-    }
 
     if (!this.isValidatedChain(ledgerIndex)) {
       return undefined
@@ -234,38 +223,43 @@ class Streams extends Component {
     this.addLedger(data)
 
     this.setState((prevState) => {
-      let newAllValidators
       if (!prevState.allValidators[pubkey]) {
-        newAllValidators = Object.assign(prevState.allValidators, {
+        const allValidators = {
           [pubkey]: { pubkey, ledger_index: 0 },
-        })
-      } else {
-        newAllValidators = prevState.allValidators
+        }
+        return { allValidators }
       }
-
-      if (
-        newAllValidators[pubkey].ledger_hash !== ledgerHash &&
-        ledgerIndex > newAllValidators[pubkey].ledger_index
-      ) {
-        newAllValidators[pubkey] = Object.assign(newAllValidators[pubkey], {
-          ledger_hash: ledgerHash,
-          ledger_index: ledgerIndex,
-          last: Date.now(),
-        })
-      }
-
-      return { allValidators: newAllValidators }
+      return {}
     })
 
-    if (returnUndefinedAfterUpdate) return undefined
+    const { allValidators } = this.state
+    if (
+      allValidators[pubkey].ledger_hash !== ledgerHash &&
+      ledgerIndex > allValidators[pubkey].ledger_index
+    ) {
+      this.setState((prevState) => {
+        const newValidatorData = Object.assign(
+          prevState.allValidators[pubkey],
+          {
+            ledger_hash: ledgerHash,
+            ledger_index: ledgerIndex,
+            last: Date.now(),
+          },
+        )
+        const newAllValidators = Object.assign(prevState.allValidators, {
+          [pubkey]: newValidatorData,
+        })
+        return { allValidators: newAllValidators }
+      })
 
-    return {
-      ledger_index: Number(ledgerIndex),
-      ledger_hash: ledgerHash,
-      pubkey,
-      partial: !data.full,
-      time: convertRippleDate(data.signing_time),
-      cookie: data.cookie,
+      return {
+        ledger_index: Number(ledgerIndex),
+        ledger_hash: ledgerHash,
+        pubkey,
+        partial: !data.full,
+        time: convertRippleDate(data.signing_time),
+        cookie: data.cookie,
+      }
     }
   }
 
@@ -424,15 +418,11 @@ class Streams extends Component {
         })
         return { allLedgers }
       }
-      return prevState.allLedgers
+      return {}
     })
 
     const { allLedgers } = this.state
-    if (allLedgers[ledgerIndex]) return allLedgers[ledgerIndex]
-    return {
-      ledger_index: Number(ledgerIndex),
-      seen: Date.now(),
-    }
+    return allLedgers[ledgerIndex]
   }
 
   // update rolling metrics
