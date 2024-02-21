@@ -7,6 +7,7 @@ import {
 } from '../../../shared/transactionUtils'
 import { localizeNumber } from '../../../shared/utils'
 import { Account } from '../../../shared/components/Account'
+import Currency from '../../../shared/components/Currency'
 
 const normalize = (value, currency) =>
   currency === 'XRP' ? (value / XRP_BASE).toString() : value
@@ -24,21 +25,18 @@ const renderChanges = (t, language, node, index) => {
   const changePays = normalize(prevPays - finalPays, paysCurrency)
   const changeGets = normalize(prevGets - finalGets, getsCurrency)
 
-  const renderIssuer = (issuer) =>
-    issuer ? (
-      <>
-        .
-        <Account account={issuer} />
-      </>
-    ) : null
-
   if (prevPays && finalPays) {
     const options = { ...CURRENCY_OPTIONS, currency: paysCurrency }
     meta.push(
       <li key={`taker_pays_decreased_${index}`} className="meta-line">
         <span className="field">TakerPays </span>
-        <b>{paysCurrency}</b>
-        {renderIssuer(final.TakerPays.issuer)}{' '}
+        <b>
+          <Currency
+            currency={paysCurrency}
+            issuer={final.TakerPays.issuer}
+            displaySymbol={false}
+          />
+        </b>{' '}
         <Trans i18nKey="decreased_from_to">
           decreased by
           <b>{{ change: localizeNumber(changePays, language, options) }}</b>
@@ -71,8 +69,13 @@ const renderChanges = (t, language, node, index) => {
     meta.push(
       <li key={`taker_gets_decreased_${index}`} className="meta-line">
         <span className="field">TakerGets </span>
-        <b>{getsCurrency}</b>
-        {renderIssuer(final.TakerGets.issuer)}{' '}
+        <b>
+          <Currency
+            currency={getsCurrency}
+            issuer={final.TakerGets.issuer}
+            displaySymbol={false}
+          />
+        </b>{' '}
         <Trans i18nKey="decreased_from_to">
           decreased by
           <b>{{ change: localizeNumber(changeGets, language, options) }}</b>
