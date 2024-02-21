@@ -249,6 +249,8 @@ class Streams extends Component {
         cookie: data.cookie,
       }
     }
+
+    return undefined
   }
 
   onMetric(data) {
