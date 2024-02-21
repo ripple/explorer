@@ -1,3 +1,5 @@
+import { TransactionSummary } from '../shared/types'
+
 export interface Hash {
   hash: string
   // eslint-disable-next-line camelcase -- TODO: change
@@ -22,7 +24,7 @@ export interface Ledger {
   total_fees: number
   // eslint-disable-next-line camelcase -- mimicking rippled
   total_xrp: number
-  transactions: any[]
+  transactions: TransactionSummary[]
   // eslint-disable-next-line camelcase -- TODO: change
   txn_count: number
 }
