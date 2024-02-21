@@ -64,7 +64,7 @@
   "transaction_category_DEX": "Dex (AMM, オファー, トラストライン, トークン)",
   "transaction_category_NFT": "NFT",
   "transaction_category_PAYMENT": "支払い",
-  "transaction_category_PSUEDO": "擬似Tx",
+  "transaction_category_PSEUDO": "擬似Tx",
   "transaction_category_UNKNOWN": "不明",
   "transaction_legend_toggle_hide": "凡例を閉じる",
   "transaction_legend_toggle_show": "凡例を開く",
