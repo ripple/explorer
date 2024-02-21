@@ -12,6 +12,9 @@ import {
   TransactionDescriptionProps,
 } from '../types'
 import { convertRippleDate } from '../../../../../rippled/lib/utils'
+import Currency from '../../Currency'
+import { Amount } from '../../Amount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const normalize = (amount: any) => amount.value || amount / XRP_BASE
 
@@ -33,9 +36,35 @@ const Description: TransactionDescriptionComponent = (
 
   if (invert) {
     rate = 1 / rate
-    pair = `${getsCurrency}/${paysCurrency}`
+    pair = (
+      <small>
+        <Currency
+          currency={data.tx.TakerGets.currency || 'XRP'}
+          issuer={data.tx.TakerGets.issuer}
+          displaySymbol={false}
+        />
+        /
+        <Currency
+          currency={data.tx.TakerPays.currency || 'XRP'}
+          issuer={data.tx.TakerPays.issuer}
+          displaySymbol={false}
+        />
+      </small>
+    )
   } else {
-    pair = `${paysCurrency}/${getsCurrency}`
+    pair = (
+      <small>
+        <Currency
+          currency={data.tx.TakerPays.currency}
+          issuer={data.tx.TakerPays.issuer}
+        />
+        /
+        <Currency
+          currency={data.tx.TakerGets.currency}
+          issuer={data.tx.TakerGets.issuer}
+        />
+      </small>
+    )
   }
 
   const renderLine4 = () => {
@@ -66,13 +95,11 @@ const Description: TransactionDescriptionComponent = (
           <Account account={data.tx.Account} />
           offered to pay
           <b>
-            {normalizeAmount(data.tx.TakerGets, language)}
-            <small>{data.tx.TakerGets.currency || 'XRP'}</small>
+            <Amount value={formatAmount(data.tx.TakerGets)} />
           </b>
           in order to receive
           <b>
-            {normalizeAmount(data.tx.TakerPays, language)}
-            <small>{data.tx.TakerPays.currency || 'XRP'}</small>
+            <Amount value={formatAmount(data.tx.TakerPays)} />
           </b>
         </Trans>
       </div>
@@ -80,7 +107,7 @@ const Description: TransactionDescriptionComponent = (
         {t('offer_create_desc_line_2')}
         <b>
           <span> {rate.toPrecision(5)}</span>
-          <small>{pair}</small>
+          {pair}
         </b>
       </div>
       {data.tx.OfferSequence && (
