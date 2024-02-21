@@ -218,7 +218,6 @@
   "history": "履歴",
   "voting": null,
   "raw": "生データ",
-  "simple_not_supported": "`シンプル`は次のトランザクションタイプに対応していません：",
   "try_detailed_raw": "`詳細`または`生データ`をご覧ください。",
   "account": "アカウント",
   "transaction_cost": "トランザクション手数料",
