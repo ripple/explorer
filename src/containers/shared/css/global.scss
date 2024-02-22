@@ -14,7 +14,8 @@
   font-family: 'currency_symbols';
   font-style: normal;
   font-weight: normal;
-  src: url('../fonts/currency_symbols.ttf') format('truetype'),
+  src:
+    url('../fonts/currency_symbols.ttf') format('truetype'),
     url('../fonts/currency_symbols.woff') format('woff');
   unicode-range: u+e900-e901;
 }
@@ -118,7 +119,7 @@ div.react-stockchart div {
   $blue-purple-90
 );
 @include transaction-category(XCHAIN, $yellow, $yellow-30, $yellow-90);
-@include transaction-category(PSUEDO, $white, $white, $black-80);
+@include transaction-category(PSEUDO, $white, $white, $black-80);
 @include transaction-category(UNKNOWN, $black-50, $black-30, $black-90);
 
 .tx-result {
