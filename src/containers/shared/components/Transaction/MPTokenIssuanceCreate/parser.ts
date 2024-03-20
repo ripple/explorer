@@ -1,19 +1,23 @@
-
-import { MPTokenIssuanceCreate, MPTokenIssuanceCreateInstructions } from './types'
+import {
+  MPTokenIssuanceCreate,
+  MPTokenIssuanceCreateInstructions,
+} from './types'
 import { TransactionParser } from '../types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 
-export const parser: TransactionParser<MPTokenIssuanceCreate, MPTokenIssuanceCreateInstructions> = (
-  tx,
-  meta,
-) => {
-  const issuanceID = meta.mpt_issuance_id
-
+export const parser: TransactionParser<
+  MPTokenIssuanceCreate,
+  MPTokenIssuanceCreateInstructions
+> = (tx, meta) => {
   return {
-    issuanceID,
-    metadata: convertHexToString(tx.MPTokenMetadata),
-    transferFee:tx.TransferFee,
+    issuanceID: meta.mpt_issuance_id,
+    metadata: tx.MPTokenMetadata
+      ? convertHexToString(tx.MPTokenMetadata)
+      : undefined,
+    transferFee: tx.TransferFee,
     assetScale: tx.AssetScale,
-    maxAmount:convertHexToString(tx.MaximumAmount)
+    maxAmount: tx.MaximumAmount
+      ? BigInt('0x' + tx.MaximumAmount).toString(10)
+      : undefined,
   }
 }

@@ -1,4 +1,3 @@
-
 import { TransactionCommonFields } from '../types'
 
 export interface MPTokenIssuanceCreate extends TransactionCommonFields {
@@ -9,9 +8,9 @@ export interface MPTokenIssuanceCreate extends TransactionCommonFields {
 }
 
 export interface MPTokenIssuanceCreateInstructions {
-  issuanceID: string
+  issuanceID?: string
   metadata?: string
   transferFee?: number
   assetScale?: number
-  maxAmount?: number
+  maxAmount?: string
 }

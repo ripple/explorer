@@ -5,7 +5,7 @@
     "Fee": "10",
     "Flags": 34,
     "MPTokenMetadata": "68747470733A2F2F697066732E696F2F697066732F516D5A6E6A6D4239546B34786141394536373979747250586461336265574D4C556E4D423552466A316553744C70",
-    "MaximumAmount": "3e8",
+    "MaximumAmount": "7fffffffffffffff",
     "Sequence": 5496,
     "SigningPubKey": "EDAD408FAEE57EB4A347E6FE395B834DD47C6531C3C37B09ACC35528161CAD4B0E",
     "TransactionType": "MPTokenIssuanceCreate",
@@ -52,7 +52,7 @@
             "Flags": 34,
             "Issuer": "rfGb6p2kWy3zQweWnYNxSFYoHeymcx7mhg",
             "MPTokenMetadata": "68747470733A2F2F697066732E696F2F697066732F516D5A6E6A6D4239546B34786141394536373979747250586461336265574D4C556E4D423552466A316553744C70",
-            "MaximumAmount": "3e8",
+            "MaximumAmount": "7fffffffffffffff",
             "Sequence": 5496,
             "TransferFee": 10
           }
