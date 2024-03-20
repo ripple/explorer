@@ -1,0 +1,79 @@
+{
+  "tx": {
+    "Account": "rfGb6p2kWy3zQweWnYNxSFYoHeymcx7mhg",
+    "AssetScale": 2,
+    "Fee": "10",
+    "Flags": 34,
+    "MPTokenMetadata": "68747470733A2F2F697066732E696F2F697066732F516D5A6E6A6D4239546B34786141394536373979747250586461336265574D4C556E4D423552466A316553744C70",
+    "MaximumAmount": "3e8",
+    "Sequence": 5496,
+    "SigningPubKey": "EDAD408FAEE57EB4A347E6FE395B834DD47C6531C3C37B09ACC35528161CAD4B0E",
+    "TransactionType": "MPTokenIssuanceCreate",
+    "TransferFee": 10,
+    "TxnSignature": "F7AA8083EE7D7EFD10E11FF5A12B73D2D45A80094AEED4B41FBF2A90C9E03E5E4D162E91FA1EC156BF94E770E70E7633DF09665A5C2D5408178FC376BFC9B100",
+    "ctid": "C000157A00000000",
+    "date": 1710949602000,
+    "hash": "undefined",
+    "inLedger": "undefined",
+    "ledger_index": "undefined",
+    "meta": "undefined",
+    "validated": "undefined",
+    "metaData": "undefined",
+    "status": "undefined"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rfGb6p2kWy3zQweWnYNxSFYoHeymcx7mhg",
+            "Balance": "99999990",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 5497
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "1996F74D57092C1AC261F55CB16A45A63C785993691869A431D72A5BF8AF47A0",
+          "PreviousFields": {
+            "Balance": "100000000",
+            "OwnerCount": 0,
+            "Sequence": 5496
+          },
+          "PreviousTxnID": "531254FC0F1599CCAF9ABCDBE0854B6BFBBA225ADD7CA341D2897CBDC3E78E5E",
+          "PreviousTxnLgrSeq": 5496
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "MPTokenIssuance",
+          "LedgerIndex": "265CEA78D8246B8B51D5CCC20AF4DB95569DE09E53115C888B176A3D1D05048A",
+          "NewFields": {
+            "AssetScale": 2,
+            "Flags": 34,
+            "Issuer": "rfGb6p2kWy3zQweWnYNxSFYoHeymcx7mhg",
+            "MPTokenMetadata": "68747470733A2F2F697066732E696F2F697066732F516D5A6E6A6D4239546B34786141394536373979747250586461336265574D4C556E4D423552466A316553744C70",
+            "MaximumAmount": "3e8",
+            "Sequence": 5496,
+            "TransferFee": 10
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "3A6F809498F6C0E3664BD8451BBAE5F972E45AF17537354D1C28F3A00B35BDFE",
+          "NewFields": {
+            "Owner": "rfGb6p2kWy3zQweWnYNxSFYoHeymcx7mhg",
+            "RootIndex": "3A6F809498F6C0E3664BD8451BBAE5F972E45AF17537354D1C28F3A00B35BDFE"
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS",
+    "mpt_issuance_id": "0000157844C3F3B57A8B579FEE1033CC8E8498729D063617"
+  },
+  "hash": "9686DA1322D2D8F9CD97C5848A8E3CADB9D3F73154DA59BB3A3CACC4CA43671C",
+  "ledger_index": 5498,
+  "date": 1710949602000
+}

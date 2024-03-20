@@ -522,5 +522,9 @@
   "note": "Note",
   "indicate_unl": "indicates a validator on an UNL",
   "transaction_tokens_involved": "<Currency/> and <Currency2/>",
-  "transaction_tokens_swapped": "<Currency/> for <Currency2/>"
+  "transaction_tokens_swapped": "<Currency/> for <Currency2/>",
+  "mpt_issuance_id": "MPT Issuance ID",
+  "asset_scale": "Asset Scale",
+  "metadata": "Metadata",
+  "max_amount": "Max Amount"
 }

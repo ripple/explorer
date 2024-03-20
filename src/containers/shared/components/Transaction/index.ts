@@ -39,6 +39,7 @@ import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
 import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { UNLModifyTransaction as UNLModify } from './UNLModify'
 import { ClawbackTransaction as Clawback } from './Clawback'
+import { MPTokenIssuanceCreateTransaction as MPTokenIssuanceCreate } from './MPTokenIssuanceCreate'
 
 import {
   TransactionAction,
@@ -53,6 +54,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   DIDSet,
   DepositPreauth,
   EnableAmendment,
+  MPTokenIssuanceCreate,
   NFTokenMint,
   NFTokenCancelOffer,
   NFTokenBurn,
