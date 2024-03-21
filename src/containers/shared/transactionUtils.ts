@@ -41,6 +41,18 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00200000: 'tfOneAssetLPToken',
     0x00400000: 'tfLimitLPToken',
   },
+  MPTokenIssuanceCreate: {
+    0x00000002: 'tfMPTCanLock',
+    0x00000004: 'tfMPTRequireAuth',
+    0x00000008: 'tfMPTCanEscrow',
+    0x00000010: 'tfMPTCanTrade',
+    0x00000020: 'tfMPTCanTransfer',
+    0x00000040: 'tfMPTCanClawback',
+  },
+  MPTokenIssuanceSet: {
+    0x00000001: 'tfMPTLock',
+    0x00000002: 'tfMPTUnlock',
+  },
   NFTokenMint: {
     0x00000001: 'tfBurnable',
     0x00000002: 'tfOnlyXRP',

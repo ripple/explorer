@@ -41,6 +41,7 @@ import { UNLModifyTransaction as UNLModify } from './UNLModify'
 import { ClawbackTransaction as Clawback } from './Clawback'
 import { MPTokenIssuanceCreateTransaction as MPTokenIssuanceCreate } from './MPTokenIssuanceCreate'
 import { MPTokenIssuanceDestroyTransaction as MPTokenIssuanceDestroy } from './MPTokenIssuanceDestroy'
+import { MPTokenIssuanceSetTransaction as MPTokenIssuanceSet } from './MPTokenIssuanceSet'
 
 import {
   TransactionAction,
@@ -57,6 +58,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   EnableAmendment,
   MPTokenIssuanceCreate,
   MPTokenIssuanceDestroy,
+  MPTokenIssuanceSet,
   NFTokenMint,
   NFTokenCancelOffer,
   NFTokenBurn,

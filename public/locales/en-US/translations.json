@@ -166,6 +166,10 @@
   "transaction_type_name_EscrowCreate": "Escrow Create",
   "transaction_type_name_EscrowFinish": "Escrow Finish",
   "transaction_type_name_Invoke": "Invoke",
+  "transaction_type_name_MPTokenIssuanceCreate": "MPT Issuance Create",
+  "transaction_type_name_MPTokenIssuanceDestroy": "MPT Issuance Destroy",
+  "transaction_type_name_MPTokenIssuanceSet": "MPT Issuance Set",
+  "transaction_type_name_MPTokenAuthorize": "MPT Authorize",
   "transaction_type_name_NFTokenAcceptOffer": "NFT Accept Offer",
   "transaction_type_name_NFTokenBurn": "NFT Burn",
   "transaction_type_name_NFTokenCancelOffer": "NFT Cancel Offer",
@@ -526,5 +530,6 @@
   "mpt_issuance_id": "MPT Issuance ID",
   "asset_scale": "Asset Scale",
   "metadata": "Metadata",
-  "max_amount": "Max Amount"
+  "max_amount": "Max Amount",
+  "mpt_holder": "MPT Holder"
 }
