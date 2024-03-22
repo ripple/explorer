@@ -34,7 +34,7 @@ describe('AMM Account Header', () => {
     expect(wrapper.find('.box-header .title').length).toBe(1)
     expect(wrapper.find('.currency-pair').length).toBe(1)
     expect(wrapper.text().includes('500')).toBe(true)
-    expect(wrapper.text().includes('%0.01')).toBe(true)
+    expect(wrapper.text().includes('0.01%')).toBe(true)
     expect(wrapper.text().includes('XRP.hi/USD.hi')).toBe(true)
     expect(wrapper.text().includes('\uE9001,000')).toBe(true)
     expect(wrapper.text().includes('9,000')).toBe(true)

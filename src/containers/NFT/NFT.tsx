@@ -33,7 +33,7 @@ const Page: FC<PropsWithChildren<{ tokenId: string }>> = ({
   children,
 }) => (
   <div className="nft-page">
-    <Helmet title={`NFT ${tokenId.substr(0, 12)}...`} />
+    <Helmet title={`NFT ${tokenId.substring(0, 12)}...`} />
     {children}
   </div>
 )
