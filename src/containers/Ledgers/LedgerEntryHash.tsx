@@ -14,7 +14,7 @@ export const LedgerEntryHash = ({
   validators: { [pubkey: string]: ValidatorResponse }
 }) => {
   const { t } = useTranslation()
-  const shortHash = hash.hash.substr(0, 6)
+  const shortHash = hash.hash.substring(0, 6)
   const barStyle = { background: `#${shortHash}` }
   const validated = hash.validated && <SuccessIcon className="validated" />
   return (
@@ -24,7 +24,7 @@ export const LedgerEntryHash = ({
     >
       <div className="bar" style={barStyle} />
       <div className="ledger-hash">
-        <div className="hash-concat">{hash.hash.substr(0, 6)}</div>
+        <div className="hash-concat">{hash.hash.substring(0, 6)}</div>
         {validated}
       </div>
       <div className="subtitle">

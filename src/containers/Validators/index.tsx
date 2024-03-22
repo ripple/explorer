@@ -132,9 +132,9 @@ export const Validator = () => {
     if (data.domain) {
       short = data.domain
     } else if (data.master_key) {
-      short = `${data.master_key.substr(0, 8)}...`
+      short = `${data.master_key.substring(0, 8)}...`
     } else if (data.signing_key) {
-      short = `${data.signing_key.substr(0, 8)}...`
+      short = `${data.signing_key.substring(0, 8)}...`
     }
 
     return <Helmet title={`${t('validator')} ${short}`} />
@@ -145,9 +145,9 @@ export const Validator = () => {
     if (data?.domain) {
       name = `Validator / Domain: ${data.domain}`
     } else if (data?.master_key) {
-      name = `Validator / Public Key: ${data.master_key.substr(0, 8)}...`
+      name = `Validator / Public Key: ${data.master_key.substring(0, 8)}...`
     } else if (data?.signing_key) {
-      name = `Validator / Ephemeral Key: ${data.signing_key.substr(0, 8)}...`
+      name = `Validator / Ephemeral Key: ${data.signing_key.substring(0, 8)}...`
     }
 
     let subtitle = 'UNKNOWN KEY'
