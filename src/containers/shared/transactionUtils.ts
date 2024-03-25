@@ -41,6 +41,9 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00200000: 'tfOneAssetLPToken',
     0x00400000: 'tfLimitLPToken',
   },
+  MPTokenAuthorize: {
+    0x00000001: 'tfMPTUnauthorize',
+  },
   MPTokenIssuanceCreate: {
     0x00000002: 'tfMPTCanLock',
     0x00000004: 'tfMPTRequireAuth',
