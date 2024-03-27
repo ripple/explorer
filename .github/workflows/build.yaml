@@ -1,0 +1,98 @@
+name: Maven build and Docker push
+on:
+  workflow_call:
+    inputs:
+      dockerfile_path:
+        description: 'Path to the Dockerfile to build'
+        type: string
+        required: false
+        default: "."
+      docker_image_name:
+        description: 'Name of the component to build'
+        type: string
+        required: false
+        default: "cbdc-backend"
+      docker_image_registry:
+        description: 'Docker image registry to push to'
+        type: string
+        required: false
+        default: "428571310775.dkr.ecr.us-east-1.amazonaws.com"
+      version:
+        type: string
+        required: true
+
+jobs:
+  build_and_publish:
+    name: Run Maven build for application and publish Docker image to GCR
+    runs-on: cbdc-actions-runner-ubuntu-large
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      MAVEN_GITHUB_USERNAME: ripplex-xsre-cbdc-npm-packages
+      MAVEN_GITHUB_TOKEN: ${{ secrets.DOCKER_BUILD_GITHUB_TOKEN }}
+      PUSH_PACKAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      AUTH0_TEST_AUTH_CLIENT_ID: 9NQx850kEjEgtVYpOQmbHxaEmQWahfCp
+      AUTH0_TEST_AUTH_CLIENT_SECRET: ${{ secrets.AUTH0_TEST_AUTH_CLIENT_SECRET }}
+      AUTH0_TEST_MGMT_CLIENT_ID: JhMTotuteD8Y8VlQI9FNefYR76BZAkML
+      AUTH0_TEST_MGMT_CLIENT_SECRET: ${{ secrets.AUTH0_TEST_MGMT_CLIENT_SECRET }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - id: gcp-maven-build-docker-setup
+        name: "Set up GCR access for maven build"
+        uses: xpring-eng/ripplex-github-actions/actions/gcp-docker-setup@v3
+        with:
+          credentials_json: ${{ secrets.GCR_KEY_RIPPLEX_SA }}
+          project_id: cbdc-helm-repo
+          artifact_repository_domain: us-central1-docker.pkg.dev
+      - name: Setup Java for Maven build
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'maven'
+      - name: Maven build
+        run: |
+          mvn -s settings.xml --batch-mode clean install \
+          -Dauth0.authentication.client-id=$AUTH0_TEST_AUTH_CLIENT_ID \
+          -Dauth0.authentication.client-secret=$AUTH0_TEST_AUTH_CLIENT_SECRET \
+          -Dauth0.management.client-id=$AUTH0_TEST_MGMT_CLIENT_ID \
+          -Dauth0.management.client-secret=$AUTH0_TEST_MGMT_CLIENT_SECRET \
+          -DskipTests
+        env:
+          GITHUB_USERNAME: ${MAVEN_GITHUB_USERNAME}
+          GITHUB_TOKEN: ${MAVEN_GITHUB_TOKEN}
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v3.1.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+      - name: Configure AWS Credentials ecr
+        id: auth-aws-ecr
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::428571310775:role/ECRGithubActionsRole
+          aws-region: us-east-1
+          output-credentials: true
+      - name: Build and Push Docker Image AWS CBDC-Backend
+        uses: xpring-eng/ripplex-actions-docker-build-push@0.1.0-beta
+        with:
+          docker_image_registry: ${{ inputs.docker_image_registry }}
+          docker_image_version: ${{ inputs.version }}
+          docker_image_name: ${{ inputs.docker_image_name }}
+          dockerfile_path: "${{ github.workspace }}/cbdc-server/Dockerfile"
+          build_args: |
+            GITHUB_SHA="${{ github.sha }}
+            GITHUB_REF="${{ github.ref }}
+      - name: Build and Push Docker Image AWS CBDC-Teardown
+        uses: xpring-eng/ripplex-actions-docker-build-push@0.1.0-beta
+        with:
+          docker_image_registry: ${{ inputs.docker_image_registry }}
+          docker_image_version: ${{ inputs.version }}
+          docker_image_name: cbdc-teardown
+          dockerfile_path: "${{ github.workspace }}/cbdc-teardown/teardown.Dockerfile"
+          build_args: |
+            GITHUB_SHA="${{ github.sha }}
+            GITHUB_REF="${{ github.ref }}   
+

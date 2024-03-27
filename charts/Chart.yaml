@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Explorer
+name: explorer
+version: 1.0.0

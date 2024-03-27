@@ -1,0 +1,98 @@
+{{ $defaultAppName := printf "%s" .Release.Name }}
+{{ $fullAppName := default $defaultAppName .Values.fullnameOverride }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullAppName }}
+spec:
+  type: NodePort
+  selector:
+    app: {{ $fullAppName }}
+  ports:
+  - protocol: TCP
+    port: {{ .Values.publicPort }}
+    targetPort: {{ .Values.publicPort }}
+    name: public
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $fullAppName }}-secret
+type: Opaque
+data:
+  NODE_ENV: {{ .Values.nodeEnv | b64enc }}
+  RIPPLED_WS_PORT: {{ .Values.rippledWsPort | toString | b64enc }}
+  RIPPLED_RPC_PORT: {{ .Values.rippledRpcPort | toString | b64enc }}
+  RIPPLED_PEER_PORT: {{ .Values.rippledPeerPort | toString | b64enc }}
+  {{ if .Values.rippledHost}}RIPPLED_HOST: {{ .Values.rippledHost | b64enc }}{{ end }}
+  {{ if .Values.p2pRippledHost}}P2P_RIPPLED_HOST: {{ .Values.p2pRippledHost | b64enc }}{{ end }}
+  VITE_RIPPLED_WS_PORT: {{ .Values.rippledWsPort | toString | b64enc }}
+  {{ if .Values.rippledHost}}VITE_RIPPLED_HOST: {{ .Values.rippledHost | b64enc }}{{ end }}
+  {{ if .Values.p2pRippledHost}}VITE_P2P_RIPPLED_HOST: {{ .Values.p2pRippledHost | b64enc }}{{ end }}
+  {{ if .Values.rippledSecondary}}RIPPLED_SECONDARY: {{ .Values.rippledSecondary | b64enc }}{{ end }}
+  VITE_GTM_ID: {{ .Values.viteId | b64enc }}
+  VITE_OSANO_ID: {{ .Values.viteOsanoId | b64enc }}
+  VITE_ENVIRONMENT: {{ .Values.viteEnvironment | toString | b64enc }}
+  VITE_MAINNET_LINK: {{ .Values.viteMainnetLink | b64enc }}
+  VITE_TESTNET_LINK: {{ .Values.viteTestnetLink | b64enc }}
+  VITE_DEVNET_LINK: {{ .Values.viteDevnetLink | b64enc }}
+  VITE_XAHAU_MAINNET_LINK: {{ .Values.viteXahauMainnetLink | b64enc }}
+  VITE_XAHAU_TESTNET_LINK: {{ .Values.viteXahauTestnetLink | b64enc }}
+  VITE_CUSTOMNETWORK_LINK: {{ .Values.viteCustomNetworkLink | b64enc }}
+  {{ if .Values.viteValidator}}VITE_VALIDATOR: {{ .Values.viteValidator | b64enc }}{{ end }}
+  PORT: {{ .Values.publicPort | toString | b64enc }}
+  ADDR: {{ .Values.bindAddr | toString | b64enc }}
+  VITE_DATA_URL: {{ .Values.viteDataUrl | toString | b64enc }}
+  GOOGLE_APP_PROJECT_ID: {{ .Values.GOOGLE_APP_PROJECT_ID | toString |b64enc }}
+  GOOGLE_APP_PRIVATE_KEY: {{ .Values.GOOGLE_APP_PRIVATE_KEY | toString |b64enc }}
+  GOOGLE_APP_CLIENT_EMAIL: {{ .Values.GOOGLE_APP_CLIENT_EMAIL | toString |b64enc }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $fullAppName }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $fullAppName }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 1
+  template:
+    metadata:
+      annotations:
+        date: {{ now }}
+      labels:
+        app: {{ $fullAppName }}
+    spec:
+      containers:
+      - image: {{ .Values.releaseImage }}
+        name: {{ $fullAppName }}
+        envFrom:
+        - secretRef:
+            name: {{ $fullAppName }}-secret
+        imagePullPolicy: {{ .Values.releaseImagePullPolicy }}
+        livenessProbe:
+          httpGet:
+              path: /api/v1/healthz
+              port: 5001
+          initialDelaySeconds: 300
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          httpGet:
+              path: /api/v1/healthz
+              port: 5001
+          initialDelaySeconds: 300
+          periodSeconds: 10
+        ports:
+        - containerPort: 5001
+          name: public
+        resources:
+          limits:
+            memory: 2500Mi
+          requests:
+            memory: 1500Mi

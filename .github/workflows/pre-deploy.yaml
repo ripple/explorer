@@ -1,0 +1,52 @@
+name: Pre-deployment steps
+
+on:
+  workflow_call:
+    inputs:
+      aws_region:
+        required: false
+        type: string
+        default: "us-east-1"
+      helm_chart_name:
+        required: false
+        type: string
+        default: "cbdc-backend-helm"
+      helm_repo_url:
+        required: false
+        type: string
+        default: "428571310775.dkr.ecr.us-east-1.amazonaws.com/cbdc-backend"
+      helm_chart_dir:
+        required: false
+        type: string
+        default: "./.github/charts"
+      version:
+        required: true
+        type: string
+jobs:
+  pre-deploy:
+    permissions:
+      id-token: write
+      contents: read
+      packages: read
+    name: Pre-deploy steps
+    environment:
+      name: ${{ inputs.deployment_environment }}
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Assume AWS Role
+        id: assume_role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::428571310775:role/ECRGithubActionsRole
+          aws-region: ${{ inputs.aws_region }}
+          output-credentials: true
+      - name: "Helm package AWS cbdc-backend-helm"
+        id: "helm_package_aws_backend"
+        uses: xpring-eng/ripplex-actions-helm-package-push@0.1.1
+        with:
+          helm_chart_dir: ${{ inputs.helm_chart_dir }}
+          helm_chart_version: ${{ inputs.version }}
+          # Optional
+          # ecr_registry: ${{ inputs.helm_repo_url }}

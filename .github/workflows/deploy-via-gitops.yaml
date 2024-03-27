@@ -1,0 +1,52 @@
+name: Deployment via GitOps
+on:
+  workflow_call:
+    inputs:
+      deployment_environment:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      docker_image_location:
+        required: false
+        type: string
+        default: "428571310775.dkr.ecr.us-east-1.amazonaws.com"
+      gitops_repository:
+        required: false
+        type: string
+        default: "xpring-eng/ripplex-cbdc-gitops"
+      gitops_path:
+        required: true
+        type: string
+      gitops_appname_name:
+        required: true
+        type: string
+      gitops_repo_token_secret_name:
+        required: false
+        type: string
+        default: "GITOPS_REPO_RW_TOKEN"
+
+jobs:
+  deploy-dcm:
+    name: Deploy DCM application
+    environment:
+      name: ${{ inputs.deployment_environment }}
+    runs-on: ubuntu-20.04
+    steps:
+      - name: 'Check if gitops repo token secret is set'
+        uses: xpring-eng/ripplex-github-actions/actions/assert-not-empty@v4
+        with:
+          name: "secrets[${{ inputs.gitops_repo_token_secret_name }}]"
+          value: ${{ secrets[inputs.gitops_repo_token_secret_name] }}
+
+      - name: "Update gitops repo with new versions"
+        uses: xpring-eng/ripplex-github-actions/actions/modify-gitops-repo-for-docker-image@v4
+        with:
+          version: ${{ inputs.version }}
+          gitops_repository: ${{ inputs.gitops_repository }}
+          gitops_repo_token: ${{ secrets[inputs.gitops_repo_token_secret_name] }}
+          gitops_path: "./${{ inputs.gitops_path }}"
+          gitops_dependency_name: "${{ inputs.gitops_appname_name }}"
+          docker_image_location: ${{ inputs.docker_image_location }}
+          branch_unique_name_token: ${{ inputs.gitops_appname_name }}_${{ inputs.deployment_environment }}

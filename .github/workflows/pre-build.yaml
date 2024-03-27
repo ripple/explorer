@@ -1,0 +1,38 @@
+name: Pre-build Steps
+on:
+  workflow_call:
+    outputs:
+      maven_project_version:
+        description: 'The Maven project version'
+        value: ${{ jobs.pre-build.outputs.maven_project_version }}
+      deployable:
+        description: "Boolean indicating if the build is deployable"
+        value: ${{ jobs.pre-build.outputs.deployable }}
+      version:
+        description: "The version of the build"
+        value: ${{ jobs.pre-build.outputs.version }}
+
+jobs:
+  pre-build:
+    name: "Pre-build steps"
+    runs-on: ubuntu-latest
+    outputs:
+      maven_project_version: ${{ steps.compute-maven-version-info.outputs.maven_project_version }}
+      deployable: ${{ steps.check_deployability.outputs.deployable }}
+      version: ${{ steps.compute_next_semver_version.outputs.version }}
+    steps:
+      - name: 'Compute SemVer version'
+        id: compute_next_semver_version
+        uses: xpring-eng/ripplex-actions-compute-semver-version@feature/xpe-2125-fix-error-when-no-tags
+      - name: Check if build is deployable
+        id: check_deployability
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = '${{ github.ref_name }}';
+            const refType = '${{ github.ref_type }}';
+            const version = '${{ steps.compute_next_semver_version.outputs.version }}';
+            const deployable = branchName === 'main' || branchName.startsWith('release') || branchName.startsWith('feature') || refType === 'tag';
+            core.setOutput('deployable', deployable);
+            console.log(`Deployable: ${deployable}`);
+          result-encoding: string

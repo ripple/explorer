@@ -1,0 +1,18 @@
+nodeEnv: production
+bindAddr: 0.0.0.0
+releaseImage: gcr.io/xpring-dev-sandbox/explorer:latest
+releaseImagePullPolicy: Always
+installBackups: true
+createNamespace: true
+publicPort: 5001
+resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
+proxyng:
+  install: true
+  releaseImage: gcr.io/xpring-dev-sandbox/xpring_nginx:0.0.3
+  wssEnabled: true

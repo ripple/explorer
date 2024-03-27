@@ -5,4 +5,9 @@ updates:
   schedule:
     interval: monthly
     time: "15:00"
+- package-ecosystem: docker
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "15:00"
   open-pull-requests-limit: 10

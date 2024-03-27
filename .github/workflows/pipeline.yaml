@@ -1,0 +1,44 @@
+name: Build and deploy pipeline
+on:
+  push:
+    branches:
+      - '**'
+    # don't run this pipeline on tags; those should be reserved for releases
+    tags-ignore:
+      - '**'
+concurrency:
+  group: ${{ github.ref }}
+jobs:
+  pre-build:
+    name: "Pre-build steps"
+    uses: ./.github/workflows/pre-build.yaml
+
+  build:
+    name: 'Docker build and push'
+    needs: [ pre-build ]
+    uses: ./.github/workflows/build.yaml
+    secrets: inherit
+    with:
+      version: ${{ needs.pre-build.outputs.version }}
+  
+  pre-deploy-explorer:
+    name: "Pre-deploy steps"
+    needs: [ pre-build, build ]
+    if: ${{ needs.pre-build.outputs.deployable == 'true' }}
+    uses: ./.github/workflows/pre-deploy.yaml
+    secrets: inherit
+    with:
+      version: ${{ needs.pre-build.outputs.version }}
+      helm_chart_dir: "./charts"
+
+  # deploy-sandbox-dev-gcp-cbdc-explorer:
+  #   name: 'Deploy to Sandbox Dev GCP CBDC Explorer'
+  #   if: ${{ needs.pre-build.outputs.deployable == 'true' }}
+  #   needs: [ pre-build, pre-deploy-explorer ]
+  #   uses: ./.github/workflows/deploy-via-gitops.yaml
+  #   secrets: inherit
+  #   with:
+  #     version: ${{ needs.pre-build.outputs.version }}
+  #     deployment_environment: 'sandbox-dev-experimental'
+  #     gitops_appname_name: 'cbdc-explorer'
+  #     gitops_path: 'gcp/dev/cbdc-explorer/'

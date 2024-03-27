@@ -1,0 +1,16 @@
+
+name: 'Check for Vulnerabilities'
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # every 6 hours
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      # X.X.X - Latest version available at: https://github.com/kunalnagarco/action-cve/releases
+      - uses: kunalnagarco/action-cve@v1.7.32
+        with:
+          token: ${{ secrets.SA_PAT_PUSH }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK_DEPENDABOT }}

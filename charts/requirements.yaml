@@ -1,0 +1,6 @@
+dependencies:
+- name: xpringnginx
+  version: 0.0.1
+  repository: "file://dependency_charts/xpring_nginx/helm/xpringnginx"
+  condition: proxyng.install
+  alias: proxyng
