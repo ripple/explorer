@@ -43,7 +43,7 @@
     "react-router-dom": "^6.18.0",
     "react18-json-view": "^0.2.7",
     "recharts": "^2.7.2",
-    "redux": "^4.2.1",
+    "redux": "^5.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "ripple-address-codec": "^5.0.0-beta.1",
