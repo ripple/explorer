@@ -28,7 +28,7 @@ export const Accounts = () => {
 
   return (
     <div className="accounts-page section">
-      <Helmet title={`${accountId.substr(0, 12)}...`} />
+      <Helmet title={`${accountId.substring(0, 12)}...`} />
       {accountId && (
         <>
           <AccountHeader

@@ -42,7 +42,7 @@ const prepareHexagons = (data, list, height, radius, prev = []) => {
       ...list[d.pubkey],
       prev:
         prev[i] && prev[i].ledger_hash !== d.ledger_hash
-          ? prev[i].ledger_hash.substr(0, 6)
+          ? prev[i].ledger_hash.substring(0, 6)
           : undefined,
     }
   })
@@ -70,7 +70,7 @@ export const Hexagons = ({ list, data }) => {
 
   const renderHexagon = (d, theHex) => {
     const { cookie, pubkey, ledger_hash: ledgerHash } = d
-    const fill = `#${ledgerHash.substr(0, 6)}`
+    const fill = `#${ledgerHash.substring(0, 6)}`
     const strokeWidth = theHex.radius() / 16
     return (
       <g

@@ -76,7 +76,7 @@ class ValidatorsTable extends Component {
 
   renderValidator = (d) => {
     const { metrics } = this.state
-    const color = d.ledger_hash ? `#${d.ledger_hash.substr(0, 6)}` : ''
+    const color = d.ledger_hash ? `#${d.ledger_hash.substring(0, 6)}` : ''
     const trusted = d.unl ? 'yes' : 'no'
     const pubkey = d.master_key || d.signing_key
     const onNegativeUnl = metrics.nUnl && metrics.nUnl.includes(pubkey)
