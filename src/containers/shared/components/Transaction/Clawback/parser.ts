@@ -9,6 +9,38 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
 ) => {
   const account = tx.Account
   const amount = formatAmount(tx.Amount)
+
+  if (amount.isMPT === true) {
+    const holder = tx.MPTokenHolder
+
+    const filteredMptNode = meta.AffectedNodes.filter(
+      (node: any) => node.ModifiedNode?.LedgerEntryType === 'MPToken',
+    )
+
+    // If no mpt is modified, it means the tx failed.
+    // We just return the amount that was attempted to claw.
+    if (!filteredMptNode || filteredMptNode.length !== 1)
+      return {
+        amount,
+        account,
+        holder,
+      }
+
+    const mptNode = filteredMptNode[0].ModifiedNode
+    const prevAmount = mptNode.PreviousFields.MPTAmount ?? '0'
+    const finalAmount = mptNode.FinalFields.MPTAmount ?? '0'
+
+    const change = BigInt('0x' + finalAmount) - BigInt('0x' + prevAmount)
+    amount.amount =
+      change < 0 ? BigInt(-change).toString(10) : BigInt(change).toString(10)
+
+    return {
+      account,
+      amount,
+      holder,
+    }
+  }
+
   const holder = amount.issuer
   amount.issuer = account
 

@@ -12,6 +12,7 @@ export interface Props {
   link?: boolean
   shortenIssuer?: boolean
   displaySymbol?: boolean
+  isMPT?: boolean
 }
 
 /*
@@ -25,33 +26,39 @@ const Currency = (props: Props) => {
     link = true,
     shortenIssuer = false,
     displaySymbol = true,
+    isMPT = false,
   } = props
+  let content
 
-  const currencyCode =
-    currency?.length === NON_STANDARD_CODE_LENGTH &&
-    currency?.substring(0, 2) !== LP_TOKEN_IDENTIFIER
-      ? hexToString(currency)
-      : currency
+  if (isMPT) {
+    content = currency + ' (MPT)'
+  } else {
+    const currencyCode =
+      currency?.length === NON_STANDARD_CODE_LENGTH &&
+      currency?.substring(0, 2) !== LP_TOKEN_IDENTIFIER
+        ? hexToString(currency)
+        : currency
 
-  let display = `${currencyCode}`
+    let display = `${currencyCode}`
 
-  if (currencyCode === XRP && displaySymbol) {
-    display = `\uE900 ${display}`
+    if (currencyCode === XRP && displaySymbol) {
+      display = `\uE900 ${display}`
+    }
+
+    if (issuer) {
+      display += '.'
+      display += shortenIssuer ? issuer.substring(0, 4) : issuer
+    }
+
+    content =
+      link && issuer ? (
+        <RouteLink to={TOKEN_ROUTE} params={{ token: `${currency}.${issuer}` }}>
+          {display}
+        </RouteLink>
+      ) : (
+        display
+      )
   }
-
-  if (issuer) {
-    display += '.'
-    display += shortenIssuer ? issuer.substring(0, 4) : issuer
-  }
-
-  const content =
-    link && issuer ? (
-      <RouteLink to={TOKEN_ROUTE} params={{ token: `${currency}.${issuer}` }}>
-        {display}
-      </RouteLink>
-    ) : (
-      display
-    )
 
   return <span className="currency">{content}</span>
 }

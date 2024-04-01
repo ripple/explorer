@@ -1,4 +1,4 @@
-import type { Payment } from 'xrpl'
+//import type { Payment } from 'xrpl'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { PaymentInstructions } from './types'
 import { Amount, ExplorerAmount } from '../../../types'
@@ -10,7 +10,8 @@ const formatFailedPartialAmount = (d: Amount): ExplorerAmount => ({
 
 export const isPartialPayment = (flags: any) => 0x00020000 & flags
 
-export const parser = (tx: Payment, meta: any): PaymentInstructions => {
+// TODO: use MPTAmount type from xrpl.js
+export const parser = (tx: any, meta: any): PaymentInstructions => {
   const max = tx.SendMax ? formatAmount(tx.SendMax) : undefined
   const partial = !!isPartialPayment(tx.Flags)
   const failedPartial = partial && meta.TransactionResult !== 'tesSUCCESS'
