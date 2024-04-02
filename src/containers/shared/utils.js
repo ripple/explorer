@@ -301,7 +301,7 @@ export const formatTradingFee = (tradingFee) =>
       })
     : undefined
 
-export const computeBalanceChange = (node) => {
+export const computeRippleStateBalanceChange = (node) => {
   const fields = node.FinalFields || node.NewFields
   const prev = node.PreviousFields
   const { currency } = fields.Balance
@@ -330,6 +330,30 @@ export const computeBalanceChange = (node) => {
     currency,
     account,
     counterAccount,
+  }
+}
+
+export const computeMPTokenBalanceChange = (node) => {
+  const prevAmount = node.PreviousFields.MPTAmount ?? '0'
+  const finalAmount = node.FinalFields.MPTAmount ?? '0'
+
+  return {
+    previousBalance: BigInt('0x' + prevAmount),
+    finalBalance: BigInt('0x' + finalAmount),
+    account: node.FinalFields.Account,
+    change: BigInt('0x' + finalAmount) - BigInt('0x' + prevAmount),
+  }
+}
+
+export const computeMPTIssuanceBalanceChange = (node) => {
+  const prevAmount = node.PreviousFields.OutstandingAmount ?? '0'
+  const finalAmount = node.FinalFields.OutstandingAmount ?? '0'
+
+  return {
+    previousBalance: BigInt('0x' + prevAmount),
+    finalBalance: BigInt('0x' + finalAmount),
+    account: node.FinalFields.Issuer,
+    change: BigInt('0x' + finalAmount) - BigInt('0x' + prevAmount),
   }
 }
 

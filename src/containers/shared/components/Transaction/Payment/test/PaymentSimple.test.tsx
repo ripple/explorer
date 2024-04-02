@@ -10,6 +10,7 @@ import mockPaymentDestinationTag from './mock_data/PaymentWithDestinationTag.jso
 import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
+import mockPaymentMPT from './mock_data/PaymentMPT.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
@@ -111,6 +112,25 @@ describe('Payment: Simple', () => {
     const wrapper = createWrapper(mockPaymentSourceTag)
 
     expectSimpleRowText(wrapper, 'source-tag', `20648`)
+
+    wrapper.unmount()
+  })
+
+  it('renders direct MPT payment', () => {
+    const wrapper = createWrapper(mockPaymentMPT)
+
+    expectSimpleRowText(
+      wrapper,
+      'amount',
+      `100 00002DB655677487DE53D3052961F0288A648480EC9E58DD (MPT)`,
+    )
+    expectSimpleRowLabel(wrapper, 'amount', `send`)
+
+    expectSimpleRowText(
+      wrapper,
+      'destination',
+      `rsD1FybfM2xCBBuQqxmZb1iFRbHPjeE3Jm`,
+    )
 
     wrapper.unmount()
   })

@@ -252,6 +252,8 @@
   "transaction_balance_line_two": "Balance changed by <1><0>{{change}}</0></1> from <3><0>{{previousBalance}}</0></3> to <5><0>{{finalBalance}}</0></5>",
   "transaction_owned_directory": "It {{action}} a DirectoryNode node owned by",
   "transaction_unowned_directory": "It {{action}} a DirectoryNode node",
+  "transaction_mptoken": "It <1><0>{{action}}</0></1> an MPToken node of <3><0>{{account}}</0></3>",
+  "transaction_mpt_issuance": "It <1><0>{{action}}</0></1> an MPTokenIssuance node of <3><0>{{account}}</0></3>",
   "owned_account_root": "It {{action}} the AccountRoot node of",
   "unowned_account_root": "It {{action}} the AccountRoot node",
   "account_balance_increased": "Balance increased by <1><0>{{difference}}</0><1><0>{{currency}}</0></1></1> from <3><0>{{previous}}</0><1><0>{{currency}}</0></1></3> to <5><0>{{final}}</0><1><0>{{currency}}</0></1></5>",

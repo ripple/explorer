@@ -1,7 +1,10 @@
 import { Clawback, ClawbackInstructions } from './types'
 import { TransactionParser } from '../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
-import { computeBalanceChange } from '../../../utils'
+import {
+  computeRippleStateBalanceChange,
+  computeMPTokenBalanceChange,
+} from '../../../utils'
 
 export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
   tx,
@@ -27,12 +30,12 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
       }
 
     const mptNode = filteredMptNode[0].ModifiedNode
-    const prevAmount = mptNode.PreviousFields.MPTAmount ?? '0'
-    const finalAmount = mptNode.FinalFields.MPTAmount ?? '0'
 
-    const change = BigInt('0x' + finalAmount) - BigInt('0x' + prevAmount)
+    const { change } = computeMPTokenBalanceChange(mptNode)
     amount.amount =
-      change < 0 ? BigInt(-change).toString(10) : BigInt(change).toString(10)
+      BigInt(change) < 0
+        ? BigInt(-change).toString(10)
+        : BigInt(change).toString(10)
 
     return {
       account,
@@ -62,7 +65,7 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
       holder,
     }
 
-  const { change } = computeBalanceChange(
+  const { change } = computeRippleStateBalanceChange(
     trustlineNode[0].ModifiedNode ?? trustlineNode[0].DeletedNode,
   )
 
