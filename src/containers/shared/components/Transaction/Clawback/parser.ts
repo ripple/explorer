@@ -30,7 +30,6 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
       }
 
     const mptNode = filteredMptNode[0].ModifiedNode
-
     const { change } = computeMPTokenBalanceChange(mptNode)
     amount.amount =
       BigInt(change) < 0
