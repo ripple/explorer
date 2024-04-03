@@ -10,7 +10,7 @@ const render = (t, language, action, node, index) => {
   const changeStr = change.toString(10)
 
   const line1 = (
-    <Trans i18nKey="transaction_mptoken">
+    <Trans i18nKey="transaction_mptoken_line_one">
       It {action} an MPToken node of
       <Account account={account} />
     </Trans>

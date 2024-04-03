@@ -10,18 +10,18 @@ const render = (t, language, action, node, index) => {
   const changeStr = change.toString(10)
 
   const line1 = (
-    <Trans i18nKey="transaction_mpt_issuance">
+    <Trans i18nKey="transaction_mpt_issuance_line_one">
       It {action} an MPTokenIssuance node of
       <Account account={account} />
     </Trans>
   )
 
   const line2 =
-    change != BigInt(0) ? (
+    change != 0 ? (
       <ul key={`balance_${index}`} className="meta-line">
         <li>
-          <Trans i18nKey="transaction_balance_line_two">
-            Balance changed by
+          <Trans i18nKey="transaction_outstanding_balance_line_two">
+            Outstanding balance changed by
             <b>{changeStr}</b>
             from
             <b>{previousBalanceStr}</b>

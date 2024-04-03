@@ -182,11 +182,11 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(4).html()).toBe(
-      '<li class="meta-line">It modified an MPTokenIssuance node of<a title="rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw" class="account" href="/accounts/rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw">rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw</a><ul class="meta-line"><li>Balance changed by<b>100</b>from<b>0</b>to<b>100</b></li></ul></li>',
+      '<li class="meta-line">It modified an MPTokenIssuance node of<a title="rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw" class="account" href="/accounts/rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw">rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw</a><ul class="meta-line"><li>Outstanding balance changed by<b>100</b>from<b>0</b>to<b>100</b></li></ul></li>',
     )
 
     expect(w.find('li').at(5).html()).toBe(
-      '<li>Balance changed by<b>100</b>from<b>0</b>to<b>100</b></li>',
+      '<li>Outstanding balance changed by<b>100</b>from<b>0</b>to<b>100</b></li>',
     )
   })
 })
