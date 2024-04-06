@@ -200,6 +200,7 @@
   "ledger_not_found": "Ledgerが見つかりません",
   "check_ledger_id": "Ledger IDを確認してください",
   "server_ledgers_hint": null,
+  "server_ledgers_hint_with_key": null,
   "use_search": "検索機能をご利用ください",
   "ledger_has_no_trans": "Ledgerにはトランザクションがありません",
   "less_than": "未満",

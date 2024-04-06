@@ -201,6 +201,7 @@
   "ledger_not_found": "원장을 찾을 수 없습니다",
   "check_ledger_id": "원장 ID를 확인해주세요",
   "server_ledgers_hint": "이 노드 는 {{connection.ledger.validated}} 원장만 포함하고 있습니다",
+  "server_ledgers_hint_with_key": null,
   "use_search": "검색을 이용해 주세요",
   "ledger_has_no_trans": "이 원장에는 어떠한 트랜잭션도 없습니다",
   "less_than": "미만",

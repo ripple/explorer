@@ -40,11 +40,12 @@ const NoMatch = ({
   }, [...hints, title, track])
 
   const notFound = title.includes('not_found')
-  const hintMsg = hints.map((hint) => (
-    <div className="hint" key={hint}>
-      {t(hint as any, values)}
-    </div>
-  ))
+
+  // Determine which hint message to display based on the presence of publicKey
+  const hintMsg = values.connection?.server?.publicKey
+    ? t('server_ledgers_hint_with_key', values)
+    : t('server_ledgers_hint', values)
+
   const derivedWarning = warning ?? (notFound && t('not_found'))
 
   return (
@@ -52,7 +53,7 @@ const NoMatch = ({
       <Helmet title={t(title as any)} />
       {isError && <div className="uh-oh">{t('uh_oh')}</div>}
       <div className="title">{t(title as any, values)}</div>
-      {hintMsg}
+      {hintMsg && <div className="hint">{hintMsg}</div>}
       {(derivedWarning || isError) && (
         <div className="warning">
           <InfoIcon title={derivedWarning} />

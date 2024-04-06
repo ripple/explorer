@@ -198,6 +198,7 @@
   "ledger_not_found": "Libro Contable no Encontrado",
   "check_ledger_id": "Por favor, comprueba el id de tu libro contable",
   "server_ledgers_hint": "Este nodo solo contiene libros contables {{connection.ledger.validated}}",
+  "server_ledgers_hint_with_key": null,
   "use_search": "Por favor, utiliza nuestra búsqueda",
   "ledger_has_no_trans": "Este libro contable no tiene ninguna transacción",
   "less_than": "Menos que",
