@@ -41,7 +41,7 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
   children,
 }) => (
   <div className="accounts-page">
-    <Helmet title={`AMM ${accountId.substr(0, 12)}...`} />
+    <Helmet title={`AMM ${accountId.substring(0, 12)}...`} />
     {children}
   </div>
 )
@@ -57,7 +57,6 @@ export const AMMAccounts = () => {
   const { data, error } = useQuery([accountId, language], () => {
     let asset1: { currency: string; issuer?: string }
     let asset2: { currency: string; issuer?: string }
-    let ammData: any
 
     /*
     Get the first account transaction which in this case should be AMMCreate. From this we get
@@ -83,7 +82,7 @@ export const AMMAccounts = () => {
             Use the assets to get the AMM Info.
             */
           .then((ammDataWrapper) => {
-            ammData = ammDataWrapper.amm
+            const ammData = ammDataWrapper.amm
             const balance = formatAmount(ammData.amount)
             const balance2 = formatAmount(ammData.amount2)
 
@@ -134,7 +133,7 @@ export const AMMAccounts = () => {
   return (
     <div className="accounts-page section">
       <Helmet>
-        <title>AMM {accountId.substr(0, 12)}...</title>
+        <title>AMM {accountId.substring(0, 12)}...</title>
       </Helmet>
       {data && (
         <>

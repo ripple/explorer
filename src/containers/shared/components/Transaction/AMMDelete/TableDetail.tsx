@@ -12,7 +12,7 @@ export const TableDetail = ({
   return (
     <div className="ammDelete">
       <div data-test="asset">
-        <span className="label">{t('asset')}</span>
+        <span className="label">{t('asset1')}</span>
         <Currency currency={Asset.currency} issuer={(Asset as any).issuer} />
       </div>
       <div data-test="asset2">

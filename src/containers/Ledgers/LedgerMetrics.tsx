@@ -99,7 +99,9 @@ export const LedgerMetrics = ({
 
       return (
         <div className="cell" key={key}>
-          <div className={className}>{t(key)}</div>
+          <div className={className}>
+            {t(key, { defaultValue: 'load_fee' })}
+          </div>
           <span>{content}</span>
         </div>
       )
