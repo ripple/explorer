@@ -5,6 +5,7 @@
   "assets.issued_tab_title": "Issued Tokens",
   "assets.no_issued_message": "No tokens found.",
   "assets.no_nfts_message": "No NFTs found.",
+  "assets.no_mpts_message": "No MPTs found.",
   "network": "Network",
   "amendments": "Amendments",
   "network_name": "Unknown Network",
@@ -61,7 +62,7 @@
   "transaction_action_MODIFY": "Modify",
   "transaction_action_SEND": "Send",
   "transaction_category_ACCOUNT": "Account",
-  "transaction_category_DEX": "Dex (AMM, Offers, Trust Sets, Tokens)",
+  "transaction_category_DEX": "Dex (AMM, Offers, Trust Sets, Tokens, MPT)",
   "transaction_category_NFT": "NFT",
   "transaction_category_PAYMENT": "Payment",
   "transaction_category_PSEUDO": "Pseudo-Tx",
@@ -534,5 +535,6 @@
   "asset_scale": "Asset Scale",
   "metadata": "Metadata",
   "max_amount": "Max Amount",
-  "mpt_holder": "MPT Holder"
+  "mpt_holder": "MPT Holder",
+  "check_mpt_id": "Please check your MPT Issuance ID"
 }

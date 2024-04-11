@@ -27,6 +27,15 @@ const NFT_FLAGS = {
   0x00000002: 'lsfOnlyXRP',
   0x00000008: 'lsfTransferable',
 }
+const MPT_ISSUANCE_FLAGS = {
+  0x00000001: 'lsfMPTLocked',
+  0x00000002: 'lsfMPTCanLock',
+  0x00000004: 'lsfMPTRequireAuth',
+  0x00000008: 'lsfMPTCanEscrow',
+  0x00000010: 'lsfMPTCanTrade',
+  0x00000020: 'lsfMPTCanTransfer',
+  0x00000040: 'lsfMPTCanClawback',
+}
 const hex32 = (d) => {
   const int = d & 0xffffffff
   const hex = int.toString(16).toUpperCase()
@@ -128,6 +137,21 @@ const formatNFTInfo = (info) => ({
   warnings: info.warnings,
 })
 
+const formatMPTIssuanceInfo = (info) => {
+  return {
+    issuer: info.node.Issuer,
+    assetScale: info.node.AssetScale,
+    maxAmt: info.node.MaximumAmount,
+    outstandingAmt: info.node.OutstandingAmount,
+    transferFee: info.node.TransferFee,
+    sequence: info.node.Sequence,
+    metadata: info.node.MPTokenMetadata
+      ? decodeHex(info.node.MPTokenMetadata)
+      : info.node.MPTokenMetadata,
+    flags: buildFlags(info.node.Flags, MPT_ISSUANCE_FLAGS),
+  }
+}
+
 export {
   XRP_BASE,
   RippledError as Error,
@@ -137,4 +161,5 @@ export {
   formatAccountInfo,
   convertHexToString,
   formatNFTInfo,
+  formatMPTIssuanceInfo,
 }

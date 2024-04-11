@@ -4,6 +4,7 @@ import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { MPTokenIssuanceCreateInstructions } from './types'
 import { useLanguage } from '../../../hooks'
 import { localizeNumber } from '../../../utils'
+import { MPTokenLink } from '../../MPTokenLink'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -22,7 +23,7 @@ export const Simple: TransactionSimpleComponent = ({
     <>
       {issuanceID && (
         <SimpleRow label={t('mpt_issuance_id')} data-test="mpt-issuance-id">
-          {issuanceID}
+          <MPTokenLink tokenID={issuanceID} />
         </SimpleRow>
       )}
       {assetScale && (

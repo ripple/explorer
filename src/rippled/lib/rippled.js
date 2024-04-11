@@ -557,6 +557,26 @@ const getAMMInfo = (rippledSocket, asset, asset2) => {
   })
 }
 
+const getMPTIssuance = (rippledSocket, tokenId) =>
+  query(rippledSocket, {
+    command: 'ledger_entry',
+    mpt_issuance: tokenId,
+    ledger_index: 'validated',
+  }).then((resp) => {
+    if (
+      resp.error === 'entryNotFound' ||
+      resp.error === 'lgrNotFound' ||
+      resp.error === 'objectNotFound'
+    ) {
+      throw new Error('MPT not found', 404)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+    return resp
+  })
+
 export {
   getLedger,
   getLedgerEntry,
@@ -576,4 +596,5 @@ export {
   getSellNFToffers,
   getNFTTransactions,
   getAMMInfo,
+  getMPTIssuance,
 }

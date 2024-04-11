@@ -66,3 +66,9 @@ export const AMENDMENT_ROUTE: RouteDefinition<{
 }> = {
   path: `/amendment/:identifier`,
 }
+
+export const MPT_ROUTE: RouteDefinition<{
+  id: string
+}> = {
+  path: '/mpt/:id',
+}
