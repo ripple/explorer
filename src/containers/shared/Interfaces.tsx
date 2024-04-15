@@ -43,7 +43,7 @@ export interface MPTIssuanceFormattedInfo {
   issuer: string
   sequence: number
   assetScale?: number
-  maxAmt: string
+  maxAmt?: string
   outstandingAmt?: string
   flags?: string[]
   transferFee?: number

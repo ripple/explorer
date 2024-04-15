@@ -91,6 +91,8 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     </>
   )
 
+  const renderMPTId = () => <div className="nft">{data.tokenId}</div>
+
   const { x, y, mode } = tooltip
   const style: CSSProperties = { top: y + PADDING_Y, left: x }
   const modeMap = {
@@ -100,6 +102,7 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     missing: renderMissingValidators,
     paystring: renderPayStringToolTip,
     nftId: renderNFTId,
+    mptID: renderMPTId,
   }
 
   return modeMap[mode] ? (

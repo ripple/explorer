@@ -5,10 +5,9 @@ import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'
 import { Tooltip, TooltipInstance } from '../../shared/components/Tooltip'
-import { localizeDate, BAD_REQUEST, HASH192_REGEX } from '../../shared/utils'
+import { BAD_REQUEST, HASH192_REGEX } from '../../shared/utils'
 import { Account } from '../../shared/components/Account'
 import { useAnalytics } from '../../shared/analytics'
-import { useLanguage } from '../../shared/hooks'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
 import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
@@ -22,7 +21,6 @@ interface Props {
 
 export const MPTHeader = (props: Props) => {
   const { t } = useTranslation()
-  const language = useLanguage()
   const { tokenId, setError } = props
   const rippledSocket = useContext(SocketContext)
   const { trackException } = useAnalytics()
@@ -51,7 +49,7 @@ export const MPTHeader = (props: Props) => {
   const showTooltip = (event: any, d: any) => {
     setTooltip({
       data: d,
-      mode: 'mptId',
+      mode: 'mptID',
       x: event.currentTarget.offsetLeft,
       y: event.currentTarget.offsetTop,
     })

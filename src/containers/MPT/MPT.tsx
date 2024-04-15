@@ -6,7 +6,6 @@ import { MPTHeader } from './MPTHeader/MPTHeader'
 import { useAnalytics } from '../shared/analytics'
 import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
-import { parseIssuerFromNFTokenID } from '../../rippled/NFTTransactions'
 import './styles.scss'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
@@ -45,7 +44,6 @@ export const MPT = () => {
   useEffect(() => {
     trackScreenLoaded({
       mpt_issuance_id: tokenId,
-      // issuer: parseIssuerFromNFTokenID(tokenId),
     })
     return () => {
       window.scrollTo(0, 0)

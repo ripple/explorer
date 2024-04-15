@@ -4,6 +4,7 @@ import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
 import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
+import { convertHexToBigInt } from '../../../containers/shared/utils'
 
 interface Props {
   data: MPTIssuanceFormattedInfo
@@ -32,16 +33,21 @@ export const Details = ({ data }: Props) => {
         {assetScale && (
           <TokenTableRow label={t('asset_scale')} value={assetScale} />
         )}
-        {maxAmt && <TokenTableRow label={t('max_amount')} value={maxAmt} />}
+        {maxAmt && (
+          <TokenTableRow
+            label={t('max_amount')}
+            value={convertHexToBigInt(maxAmt).toString(10)}
+          />
+        )}
         {outstandingAmt && (
           <TokenTableRow
             label={t('outstanding_amount')}
-            value={outstandingAmt}
+            value={convertHexToBigInt(outstandingAmt).toString(10)}
           />
         )}
         <TokenTableRow label={t('transfer_fee')} value={formattedFee ?? '0%'} />
         <TokenTableRow label={t('sequence_number_short')} value={sequence} />
-        {metadata && <TokenTableRow label="Metadata" value={metadata} />}
+        {metadata && <TokenTableRow label={t('metadata')} value={metadata} />}
       </tbody>
     </table>
   )
