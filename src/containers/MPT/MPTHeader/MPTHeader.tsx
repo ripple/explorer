@@ -11,6 +11,9 @@ import { useAnalytics } from '../../shared/analytics'
 import { useLanguage } from '../../shared/hooks'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
+import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
+import { Details } from './Details'
+import { Settings } from './Settings'
 
 interface Props {
   tokenId: string
@@ -25,7 +28,7 @@ export const MPTHeader = (props: Props) => {
   const { trackException } = useAnalytics()
   const [tooltip, setTooltip] = useState<TooltipInstance | undefined>(undefined)
 
-  const { data, isFetching: loading } = useQuery(
+  const { data, isFetching: loading } = useQuery<MPTIssuanceFormattedInfo>(
     ['getMPTIssuance', tokenId],
     async () => {
       const info = await getMPTIssuance(rippledSocket, tokenId)
@@ -73,22 +76,16 @@ export const MPTHeader = (props: Props) => {
             </div>
           </div>
         </div>
-        {/* <div className="mpt-bottom-container">
+        <div className="mpt-bottom-container">
           <div className="details">
             <h2>{t('details')}</h2>
-            <Details
-              data={{
-                ...data,
-                domain: accountData?.domain,
-                minted: mintedDate,
-              }}
-            />
+            <Details data={data!} />
           </div>
           <div className="settings">
             <h2 className="title">{t('settings')}</h2>
             <Settings flags={data!.flags!} />
           </div>
-        </div> */}
+        </div>
       </div>
     )
   }

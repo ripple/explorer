@@ -36,6 +36,20 @@ export interface NFTFormattedInfo {
   warnings?: string[]
 }
 
+/**
+ * Values returned by 'formatMPTIssuanceInfo' from /src/rippled/lib/utils.js
+ */
+export interface MPTIssuanceFormattedInfo {
+  issuer: string
+  sequence: number
+  assetScale?: number
+  maxAmt: string
+  outstandingAmt?: string
+  flags?: string[]
+  transferFee?: number
+  metadata?: string
+}
+
 export interface ErrorMessage {
   title: string
   hints: string[]

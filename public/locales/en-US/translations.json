@@ -536,5 +536,13 @@
   "metadata": "Metadata",
   "max_amount": "Max Amount",
   "mpt_holder": "MPT Holder",
-  "check_mpt_id": "Please check your MPT Issuance ID"
+  "check_mpt_id": "Please check your MPT Issuance ID",
+  "outstanding_amount": "Issued Amount",
+  "locked": "Locked",
+  "can_lock": "Can Lock",
+  "require_auth": "Require Auth",
+  "can_escrow": "Can Escrow",
+  "can_trade": "Can Trade",
+  "can_transfer": "Can Transfer",
+  "can_clawback": "Can Clawback"
 }

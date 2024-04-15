@@ -1,5 +1,5 @@
 import { RouteLink } from '../routing'
-import { TOKEN_ROUTE } from '../../App/routes'
+import { TOKEN_ROUTE, MPT_ROUTE } from '../../App/routes'
 
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
@@ -31,7 +31,14 @@ const Currency = (props: Props) => {
   let content
 
   if (isMPT) {
-    content = currency + ' (MPT)'
+    const display = currency + ' (MPT)'
+    content = link ? (
+      <RouteLink to={MPT_ROUTE} params={{ id: currency }}>
+        {display}
+      </RouteLink>
+    ) : (
+      display
+    )
   } else {
     const currencyCode =
       currency?.length === NON_STANDARD_CODE_LENGTH &&

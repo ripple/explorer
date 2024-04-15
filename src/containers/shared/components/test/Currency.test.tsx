@@ -63,4 +63,26 @@ describe('Currency', () => {
     expect(wrapper.find('.currency').text()).toEqual('\uE900 XRP')
     wrapper.unmount()
   })
+
+  it('handles MPT ID ', () => {
+    const wrapper = mount(
+      <BrowserRouter>
+        <Currency
+          currency="00000BDE5B4F868ECE457207E2C1750065987730B8839E0D"
+          issuer="r9Kokzc4FC1BW81pDarodghf3n8w2vufhW"
+          isMPT
+        />
+      </BrowserRouter>,
+    )
+    const mpt = wrapper.find('.currency').at(0)
+
+    expect(mpt).toHaveText(
+      '00000BDE5B4F868ECE457207E2C1750065987730B8839E0D (MPT)',
+    )
+    expect(mpt.find('a')).toHaveProp(
+      'href',
+      '/mpt/00000BDE5B4F868ECE457207E2C1750065987730B8839E0D',
+    )
+    wrapper.unmount()
+  })
 })

@@ -4,6 +4,7 @@ import {
 } from './types'
 import { TransactionParser } from '../types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
+import { convertHexToBigInt } from '../../../../shared/utils'
 
 export const parser: TransactionParser<
   MPTokenIssuanceCreate,
@@ -17,7 +18,7 @@ export const parser: TransactionParser<
     transferFee: tx.TransferFee,
     assetScale: tx.AssetScale,
     maxAmount: tx.MaximumAmount
-      ? BigInt('0x' + tx.MaximumAmount).toString(10)
+      ? convertHexToBigInt(tx.MaximumAmount).toString(10)
       : undefined,
   }
 }

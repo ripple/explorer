@@ -256,6 +256,10 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
   }
 }
 
+export const convertHexToBigInt = (s) => {
+  return BigInt('0x' + s)
+}
+
 export const durationToHuman = (s, decimal = 2) => {
   const d = {}
   const seconds = Math.abs(s)
@@ -335,26 +339,31 @@ export const computeRippleStateBalanceChange = (node) => {
 }
 
 export const computeMPTokenBalanceChange = (node) => {
-  const prevAmount = node.PreviousFields.MPTAmount ?? '0'
-  const finalAmount = node.FinalFields.MPTAmount ?? '0'
+  const final = node.FinalFields || node.NewFields
+  const prev = node.PreviousFields
+  const prevAmount = prev && prev.MPTAmount ? prev.MPTAmount : '0'
+  const finalAmount = final.MPTAmount ?? '0'
 
   return {
-    previousBalance: BigInt('0x' + prevAmount),
-    finalBalance: BigInt('0x' + finalAmount),
-    account: node.FinalFields.Account,
-    change: BigInt('0x' + finalAmount) - BigInt('0x' + prevAmount),
+    previousBalance: convertHexToBigInt(prevAmount),
+    finalBalance: convertHexToBigInt(finalAmount),
+    account: final.Account,
+    change: convertHexToBigInt(finalAmount) - convertHexToBigInt(prevAmount),
   }
 }
 
 export const computeMPTIssuanceBalanceChange = (node) => {
-  const prevAmount = node.PreviousFields.OutstandingAmount ?? '0'
-  const finalAmount = node.FinalFields.OutstandingAmount ?? '0'
+  const final = node.FinalFields || node.NewFields
+  const prev = node.PreviousFields
+  const prevAmount =
+    prev && prev.OutstandingAmount ? prev.OutstandingAmount : '0'
+  const finalAmount = final.OutstandingAmount ?? '0'
 
   return {
-    previousBalance: BigInt('0x' + prevAmount),
-    finalBalance: BigInt('0x' + finalAmount),
-    account: node.FinalFields.Issuer,
-    change: BigInt('0x' + finalAmount) - BigInt('0x' + prevAmount),
+    previousBalance: convertHexToBigInt(prevAmount),
+    finalBalance: convertHexToBigInt(finalAmount),
+    account: final.Issuer,
+    change: convertHexToBigInt(finalAmount) - convertHexToBigInt(prevAmount),
   }
 }
 
