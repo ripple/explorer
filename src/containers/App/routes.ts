@@ -3,7 +3,7 @@ import { RouteDefinition } from '../shared/routing'
 export const ACCOUNT_ROUTE: RouteDefinition<{
   id?: string
   tab?: 'assets' | 'transactions'
-  assetType?: 'issued' | 'nfts'
+  assetType?: 'issued' | 'nfts' | 'mpts'
 }> = {
   path: '/accounts/:id?/:tab?/:assetType?',
 }

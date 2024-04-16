@@ -3,6 +3,7 @@ import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { MPTokenIssuanceSet } from './types'
 import { Account } from '../../Account'
+import { MPTokenLink } from '../../MPTokenLink'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -13,7 +14,7 @@ export const Simple: TransactionSimpleComponent = ({
   return (
     <>
       <SimpleRow label={t('mpt_issuance_id')} data-test="mpt-issuance-id">
-        {MPTokenIssuanceID}
+        <MPTokenLink tokenID={MPTokenIssuanceID} />
       </SimpleRow>
       {MPTokenHolder && (
         <SimpleRow label={t('mpt_holder')} data-test="mpt-holder">

@@ -33,16 +33,11 @@ export const Details = ({ data }: Props) => {
         {assetScale && (
           <TokenTableRow label={t('asset_scale')} value={assetScale} />
         )}
-        {maxAmt && (
-          <TokenTableRow
-            label={t('max_amount')}
-            value={convertHexToBigInt(maxAmt).toString(10)}
-          />
-        )}
+        {maxAmt && <TokenTableRow label={t('max_amount')} value={maxAmt} />}
         {outstandingAmt && (
           <TokenTableRow
             label={t('outstanding_amount')}
-            value={convertHexToBigInt(outstandingAmt).toString(10)}
+            value={outstandingAmt}
           />
         )}
         <TokenTableRow label={t('transfer_fee')} value={formattedFee ?? '0%'} />

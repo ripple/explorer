@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { MPTokenIssuanceDestroy } from './types'
+import { MPTokenLink } from '../../MPTokenLink'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -11,7 +12,7 @@ export const Simple: TransactionSimpleComponent = ({
 
   return (
     <SimpleRow label={t('mpt_issuance_id')} data-test="mpt-issuance-id">
-      {MPTokenIssuanceID}
+      <MPTokenLink tokenID={MPTokenIssuanceID} />
     </SimpleRow>
   )
 }

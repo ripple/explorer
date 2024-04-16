@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 import { useRouteParams } from '../../shared/routing'
 import { AccountIssuedTokenTable } from '../AccountIssuedTokenTable'
 import { AccountNFTTable } from '../AccountNFTTable/AccountNFTTable'
+import { AccountMPTTable } from '../AccountMPTTable/AccountMPTTable'
 import { ACCOUNT_ROUTE } from '../../App/routes'
 
 // TODO: Add state types or convert to react query
@@ -12,7 +13,7 @@ interface Props {
   account: any
 }
 
-const assetTypes = ['issued', 'nft']
+const assetTypes = ['issued', 'nft', 'mpt']
 
 const AccountAssetTabDisconnected = ({ account }: Props) => {
   const { id: accountId = '', assetType = assetTypes[0] } =
@@ -53,6 +54,7 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
           <AccountIssuedTokenTable account={account} />
         )}
         {assetType === 'nft' && <AccountNFTTable accountId={accountId} />}
+        {assetType === 'mpt' && <AccountMPTTable accountId={accountId} />}
       </div>
     </>
   )

@@ -577,6 +577,34 @@ const getMPTIssuance = (rippledSocket, tokenId) =>
     return resp
   })
 
+const getAccountMPTs = (
+  rippledSocket,
+  account,
+  marker = '',
+  ledgerIndex = 'validated',
+) =>
+  query(rippledSocket, {
+    command: 'account_objects',
+    account,
+    ledger_index: ledgerIndex,
+    type: 'mptoken',
+    marker: marker || undefined,
+    limit: 400,
+  }).then((resp) => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+    if (resp.error === 'invalidParams') {
+      return undefined
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
+  })
+
 export {
   getLedger,
   getLedgerEntry,
@@ -597,4 +625,5 @@ export {
   getNFTTransactions,
   getAMMInfo,
   getMPTIssuance,
+  getAccountMPTs,
 }

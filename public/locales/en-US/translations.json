@@ -2,6 +2,7 @@
   "action": "action",
   "assets": "Assets",
   "assets.nft_tab_title": "Non-Fungible Tokens",
+  "assets.mpt_tab_title": "Multi-Purpose Tokens",
   "assets.issued_tab_title": "Issued Tokens",
   "assets.no_issued_message": "No tokens found.",
   "assets.no_nfts_message": "No NFTs found.",
