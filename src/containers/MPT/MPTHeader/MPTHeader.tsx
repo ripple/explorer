@@ -49,7 +49,7 @@ export const MPTHeader = (props: Props) => {
   const showTooltip = (event: any, d: any) => {
     setTooltip({
       data: d,
-      mode: 'mptID',
+      mode: 'mptId',
       x: event.currentTarget.offsetLeft,
       y: event.currentTarget.offsetTop,
     })

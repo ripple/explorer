@@ -102,7 +102,7 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     missing: renderMissingValidators,
     paystring: renderPayStringToolTip,
     nftId: renderNFTId,
-    mptID: renderMPTId,
+    mptId: renderMPTId,
   }
 
   return modeMap[mode] ? (
