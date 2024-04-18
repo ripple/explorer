@@ -4,7 +4,6 @@ import {
   DATE_OPTIONS,
   CURRENCY_ORDER,
   XRP_BASE,
-  normalizeAmount,
 } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import {

@@ -118,39 +118,6 @@ const render = (t, language, action, node, index, tx) => {
   )
   const invert =
     CURRENCY_ORDER.indexOf(getsCurrency) > CURRENCY_ORDER.indexOf(paysCurrency)
-  const pair = invert ? (
-    <b>
-      (
-      <Currency
-        currency={tx.TakerGets.currency || 'XRP'}
-        issuer={tx.TakerGets.issuer}
-        displaySymbol={false}
-      />
-      ) / (
-      <Currency
-        currency={tx.TakerPays.currency || 'XRP'}
-        issuer={tx.TakerPays.issuer}
-        displaySymbol={false}
-      />
-      )
-    </b>
-  ) : (
-    <b>
-      (
-      <Currency
-        currency={tx.TakerPays.currency || 'XRP'}
-        issuer={tx.TakerPays.issuer}
-        displaySymbol={false}
-      />
-      ) / (
-      <Currency
-        currency={tx.TakerGets.currency || 'XRP'}
-        issuer={tx.TakerGets.issuer}
-        displaySymbol={false}
-      />
-      )
-    </b>
-  )
 
   if (
     action === 'created' &&
@@ -220,6 +187,7 @@ const render = (t, language, action, node, index, tx) => {
               }
               issuer={invert ? tx.TakerGets.issuer : tx.TakerPays.issuer}
               displaySymbol={false}
+              shortenIssuer
             />
           ),
           Currency2: (
@@ -230,13 +198,12 @@ const render = (t, language, action, node, index, tx) => {
               }
               issuer={invert ? tx.TakerPays.issuer : tx.TakerGets.issuer}
               displaySymbol={false}
+              shortenIssuer
             />
           ),
           Account: <Account account={fields.Account} />,
         }}
-      >
-        {pair}
-      </Trans>
+      />
       <ul>{lines}</ul>
     </li>
   )
