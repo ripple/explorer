@@ -40,7 +40,6 @@
   "30D": "30D",
   "total_transactions": "# de Txs",
   "total_fees": "Comisiones Totales",
-  "async_component_timedout": "Cargar el componente tomó más tiempo del esperado",
   "async_component_failed": "Fallo al cargar Componente",
   "account_not_found": "Cuenta no encontrada",
   "account_empty_title": "El ID de la cuenta no fue facilitado",

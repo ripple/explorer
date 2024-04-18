@@ -40,7 +40,6 @@
   "30D": "30D",
   "total_transactions": "# de Txns",
   "total_fees": "Total de comissions",
-  "async_component_timedout": "La càrrega del component ha trigat més del que s'esperava",
   "async_component_failed": "Error en carregar el component",
   "account_not_found": "No s'ha trobat el compte",
   "account_empty_title": "No s'ha proporcionat l'ID del compte",

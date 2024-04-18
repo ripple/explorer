@@ -40,7 +40,6 @@
   "30D": "30日",
   "total_transactions": "トランザクション数",
   "total_fees": "合計トランザクション手数料",
-  "async_component_timedout": "コンポーネントの読み込みに通常以上の時間がかかりました",
   "async_component_failed": "コンポーネントの読み込みに失敗しました",
   "account_not_found": "アカウントが見つかりません",
   "account_empty_title": "アカウントIDが入力されていません",
