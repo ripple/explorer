@@ -54,13 +54,15 @@ const Description: TransactionDescriptionComponent = (
     pair = (
       <small>
         <Currency
-          currency={data.tx.TakerPays.currency}
+          currency={data.tx.TakerPays.currency || 'XRP'}
           issuer={data.tx.TakerPays.issuer}
+          displaySymbol={false}
         />
         /
         <Currency
-          currency={data.tx.TakerGets.currency}
+          currency={data.tx.TakerGets.currency || 'XRP'}
           issuer={data.tx.TakerGets.issuer}
+          displaySymbol={false}
         />
       </small>
     )
