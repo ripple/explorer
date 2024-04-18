@@ -252,7 +252,7 @@
   "account_balance_increased": "Balance increased by <1><0>{{difference}}</0><1><0>{{currency}}</0></1></1> from <3><0>{{previous}}</0><1><0>{{currency}}</0></1></3> to <5><0>{{final}}</0><1><0>{{currency}}</0></1></5>",
   "account_balance_decreased": "Balance decreased by <1><0>{{difference}}</0><1><0>{{currency}}</0></1></1> from <3><0>{{previous}}</0><1><0>{{currency}}</0></1></3> to <5><0>{{final}}</0><1><0>{{currency}}</0></1></5>",
   "decreased_from_to": "decreased by <1><0>{{change}}</0></1> from <3><0>{{previous}}</0></3> to <5><0>{{final}}</0></5>",
-  "offer_node_meta": "It <1><0>{{action}}</0></1> a <3><0>{{pair}}</0></3> offer node owned by <5><0>{{account}}</0></5> with sequence # <7><0>{{sequence}}</0></7>",
+  "offer_node_meta": "It {{action}} a <Currency/> / <Currency2/> offer node owned by <Account/> with sequence # {{sequence}}",
   "offer_replaces": "This offer replaces the existing offer #",
   "offer_partially_filled": "The offer was partially filled.",
   "offer_filled": "The offer was filled.",

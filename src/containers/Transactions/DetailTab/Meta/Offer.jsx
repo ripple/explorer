@@ -208,11 +208,34 @@ const render = (t, language, action, node, index, tx) => {
 
   return (
     <li key={`offer_node_meta_${index}`} className="meta-line">
-      <Trans i18nKey="offer_node_meta">
-        It {action} a <b>{pair}</b>
-        owned by
-        <Account account={fields.Account} />
-        with sequence # <b>{{ sequence: fields.Sequence }}</b>
+      <Trans
+        i18nKey="offer_node_meta"
+        values={{ action, sequence: fields.Sequence }}
+        components={{
+          Currency: (
+            <Currency
+              currency={
+                (invert ? tx.TakerGets.currency : tx.TakerPays.currency) ||
+                'XRP'
+              }
+              issuer={invert ? tx.TakerGets.issuer : tx.TakerPays.issuer}
+              displaySymbol={false}
+            />
+          ),
+          Currency2: (
+            <Currency
+              currency={
+                (invert ? tx.TakerPays.currency : tx.TakerGets.currency) ||
+                'XRP'
+              }
+              issuer={invert ? tx.TakerPays.issuer : tx.TakerGets.issuer}
+              displaySymbol={false}
+            />
+          ),
+          Account: <Account account={fields.Account} />,
+        }}
+      >
+        {pair}
       </Trans>
       <ul>{lines}</ul>
     </li>
