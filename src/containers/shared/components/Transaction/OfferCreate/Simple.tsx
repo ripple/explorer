@@ -31,10 +31,10 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         </div>
       </SimpleRow>
       <SimpleRow label={t('buy')} data-test="amount-buy">
-        <Amount value={gets} />
+        <Amount value={pays} />
       </SimpleRow>
       <SimpleRow label={t('sell')} data-test="amount-sell">
-        <Amount value={pays} />
+        <Amount value={gets} />
       </SimpleRow>
       {cancel && (
         <SimpleRow label={t('cancel_offer')} data-test="cancel-id">

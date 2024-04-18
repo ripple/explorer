@@ -14,7 +14,7 @@ import prevLedgerMessage from './mock/prevLedger.json'
 import ledgerMessage from './mock/ledger.json'
 import validationMessage from './mock/validation.json'
 import rippledResponses from './mock/rippled.json'
-import { QuickHarness } from '../../test/utils'
+import { QuickHarness, flushPromises } from '../../test/utils'
 import { SelectedValidatorProvider } from '../useSelectedValidator'
 
 function sleep(ms) {
@@ -164,6 +164,7 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.ledger').length).toBe(1)
 
     server.send(validationMessage)
+    await flushPromises()
     wrapper.update()
     expect(wrapper.find('.validation').length).toBe(1)
 
@@ -254,6 +255,7 @@ describe('Ledgers Page container', () => {
       expect(wrapper.find('.ledger').length).toBe(1)
 
       server.send(validationMessage)
+      await flushPromises()
       wrapper.update()
       expect(wrapper.find('.validation').length).toBe(1)
 

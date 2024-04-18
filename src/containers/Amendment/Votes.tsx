@@ -43,7 +43,10 @@ export const Votes = ({ data, validators }: VotesProps) => {
 
   const voting = data.voted !== undefined
 
-  const renderColumn = (label: string, validatorsList: Array<validatorUNL>) => (
+  const renderColumn = (
+    label: 'yeas' | 'nays',
+    validatorsList: Array<validatorUNL>,
+  ) => (
     <div className={`votes-column ${label}`}>
       <div className="label">{t(label)}</div>
       <div className="vals">

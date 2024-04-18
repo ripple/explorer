@@ -36,7 +36,7 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
 
   const renderNegativeUnlTooltip = () =>
     data.nUnl.map((key) => {
-      const short = key.substr(0, 8)
+      const short = key.substring(0, 8)
       return <div key={key} className={`nUnl: ${key}`}>{`${short}...`}</div>
     })
 
