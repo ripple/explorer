@@ -68,9 +68,8 @@ export const AccountMPTTable = ({ accountId }: AccountMPTTableProps) => {
     .flatMap((page: any) => page.account_objects)
     .map((mpt) => formatMPTokenInfo(mpt))
 
-  console.log('mpts', mpts)
   return (
-    <div className="section nfts-table">
+    <div className="section nodes-table">
       <table className="basic">
         <thead>
           <tr>
