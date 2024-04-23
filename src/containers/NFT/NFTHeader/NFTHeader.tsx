@@ -7,7 +7,7 @@ import SocketContext from '../../shared/SocketContext'
 import { Tooltip, TooltipInstance } from '../../shared/components/Tooltip'
 import { getNFTInfo, getAccountInfo } from '../../../rippled/lib/rippled'
 import { formatNFTInfo, formatAccountInfo } from '../../../rippled/lib/utils'
-import { localizeDate, BAD_REQUEST, HASH_REGEX } from '../../shared/utils'
+import { localizeDate, BAD_REQUEST, HASH256_REGEX } from '../../shared/utils'
 import { Details } from './Details'
 import { Settings } from './Settings'
 import { Account } from '../../shared/components/Account'
@@ -56,7 +56,7 @@ export const NFTHeader = (props: Props) => {
   )
 
   useEffect(() => {
-    if (!HASH_REGEX.test(tokenId)) {
+    if (!HASH256_REGEX.test(tokenId)) {
       setError(BAD_REQUEST)
     }
   }, [setError, tokenId])

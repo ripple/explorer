@@ -14,9 +14,10 @@ import {
   CURRENCY_REGEX,
   DECIMAL_REGEX,
   FULL_CURRENCY_REGEX,
-  HASH_REGEX,
+  HASH256_REGEX,
   VALIDATORS_REGEX,
   CTID_REGEX,
+  HASH192_REGEX,
 } from '../shared/utils'
 import './search.scss'
 import { isValidPayString } from '../../rippled/payString'
@@ -30,6 +31,7 @@ import {
   TOKEN_ROUTE,
   TRANSACTION_ROUTE,
   VALIDATOR_ROUTE,
+  MPT_ROUTE,
 } from '../App/routes'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
@@ -60,7 +62,7 @@ const getRoute = async (
       path: buildPath(ACCOUNT_ROUTE, { id: normalizeAccount(id) }),
     }
   }
-  if (HASH_REGEX.test(id)) {
+  if (HASH256_REGEX.test(id)) {
     // Transactions and NFTs share the same syntax
     // We must make an api call to ensure if it's one or the other
     const type = await determineHashType(id, rippledContext)
@@ -74,6 +76,12 @@ const getRoute = async (
     return {
       path,
       type,
+    }
+  }
+  if (HASH192_REGEX.test(id)) {
+    return {
+      path: buildPath(MPT_ROUTE, { id: id.toUpperCase() }),
+      type: 'mpt',
     }
   }
   if (isValidXAddress(id) || isValidClassicAddress(id.split(':')[0])) {

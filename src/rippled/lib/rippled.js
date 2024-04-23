@@ -1,4 +1,4 @@
-import { CTID_REGEX, HASH_REGEX } from '../../containers/shared/utils'
+import { CTID_REGEX, HASH256_REGEX } from '../../containers/shared/utils'
 import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
 
@@ -144,7 +144,7 @@ const getTransaction = (rippledSocket, txId) => {
   const params = {
     command: 'tx',
   }
-  if (HASH_REGEX.test(txId)) {
+  if (HASH256_REGEX.test(txId)) {
     params.transaction = txId
   } else if (CTID_REGEX.test(txId)) {
     params.ctid = txId

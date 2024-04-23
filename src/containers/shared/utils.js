@@ -23,7 +23,7 @@ export const FETCH_INTERVAL_NODES_MILLIS = 60000
 export const FETCH_INTERVAL_ERROR_MILLIS = 300
 
 export const DECIMAL_REGEX = /^\d+$/
-export const HASH_REGEX = /[0-9A-Fa-f]{64}/i
+export const HASH256_REGEX = /[0-9A-Fa-f]{64}/i
 export const HASH192_REGEX = /[0-9A-Fa-f]{48}/i
 export const CURRENCY_REGEX =
   /^[a-zA-Z0-9]{3,}[.:+-]r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/

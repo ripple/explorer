@@ -6,7 +6,12 @@ import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
-import { NOT_FOUND, BAD_REQUEST, HASH_REGEX, CTID_REGEX } from '../shared/utils'
+import {
+  NOT_FOUND,
+  BAD_REQUEST,
+  HASH256_REGEX,
+  CTID_REGEX,
+} from '../shared/utils'
 import { SimpleTab } from './SimpleTab'
 import { DetailTab } from './DetailTab'
 import './transaction.scss'
@@ -54,7 +59,7 @@ export const Transaction = () => {
       if (identifier === '') {
         return undefined
       }
-      if (HASH_REGEX.test(identifier) || CTID_REGEX.test(identifier)) {
+      if (HASH256_REGEX.test(identifier) || CTID_REGEX.test(identifier)) {
         return getTransaction(identifier, rippledSocket).catch(
           (transactionRequestError) => {
             const status = transactionRequestError.code

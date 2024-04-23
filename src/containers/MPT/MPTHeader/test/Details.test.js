@@ -8,7 +8,7 @@ describe('MPT Details container', () => {
   const dataDefault = {
     issuer: 'r3SnSE9frruxwsC9qGHFiUJShda62fNFGQ',
     assetScale: 2,
-    maxAmt: '100',
+    maxAmt: '256',
     outstandingAmt: '64',
     transferFee: 3,
     sequence: 3949,
@@ -41,7 +41,7 @@ describe('MPT Details container', () => {
       '<tr class="row"><td class="col1">max_amount</td><td class="col2">256</td></tr>',
     )
     expect(wrapper.find('.row').at(2).html()).toBe(
-      '<tr class="row"><td class="col1">outstanding_amount</td><td class="col2">100</td></tr>',
+      '<tr class="row"><td class="col1">outstanding_amount</td><td class="col2">64</td></tr>',
     )
     expect(wrapper.find('.row').at(3).html()).toBe(
       '<tr class="row"><td class="col1">transfer_fee</td><td class="col2">0.003%</td></tr>',
