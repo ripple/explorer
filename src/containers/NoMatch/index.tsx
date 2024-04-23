@@ -25,7 +25,7 @@ const NoMatch = ({
   title = 'not_found_default_title',
   hints = ['not_found_check_url'],
   isError = true,
-  warning = undefined,
+  warning,
 }: NoMatchProps) => {
   const { track } = useAnalytics()
   const { t } = useTranslation()
@@ -41,20 +41,21 @@ const NoMatch = ({
 
   const notFound = title.includes('not_found')
 
-  // Determine which hint message to display based on the presence of publicKey
   const hintMsg = values.connection?.server?.publicKey
     ? t('server_ledgers_hint_with_key', values)
     : t('server_ledgers_hint', values)
 
-  const derivedWarning = warning ?? (notFound && t('not_found'))
+  const derivedWarning = warning ?? (notFound ? t('not_found') : undefined)
 
   return (
     <div className="no-match">
       <Helmet title={t(title as any)} />
       {isError && <div className="uh-oh">{t('uh_oh')}</div>}
       <div className="title">{t(title as any, values)}</div>
+      {/* Render hintMsg only if it exists */}
       {hintMsg && <div className="hint">{hintMsg}</div>}
-      {(derivedWarning || isError) && (
+      {/* Render derivedWarning only if it exists */}
+      {derivedWarning && (
         <div className="warning">
           <InfoIcon title={derivedWarning} />
           &nbsp;
