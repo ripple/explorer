@@ -1,38 +1,44 @@
 import { BrowserRouter } from 'react-router-dom'
-import { mount } from 'enzyme'
+import { cleanup, render, screen } from '@testing-library/react'
 import Currency from '../Currency'
 
 describe('Currency', () => {
   it('handles currency codes that are 3 characters ', () => {
-    const wrapper = mount(<Currency currency="BTC" />)
-    expect(wrapper.find('.currency').text()).toEqual('BTC')
-    wrapper.unmount()
+    render(<Currency currency="BTC" />)
+    const element = screen.getByTestId('currency')
+    expect(element).toHaveClass('currency')
+    expect(element).toHaveTextContent('BTC')
+    cleanup()
   })
 
   it('handles currency codes that are 4 characters ', () => {
-    const wrapper = mount(<Currency currency="WOOT" />)
-    expect(wrapper.find('.currency').text()).toEqual('WOOT')
-    wrapper.unmount()
+    render(<Currency currency="WOOT" />)
+    const element = screen.getByTestId('currency')
+    expect(element).toHaveClass('currency')
+    expect(element).toHaveTextContent('WOOT')
+    cleanup()
   })
 
   it('handles currency codes that are 4 characters and include issuer ', () => {
-    const wrapper = mount(
+    render(
       <Currency currency="USD" issuer="david" link={false} shortenIssuer />,
     )
-    expect(wrapper.find('.currency').text()).toEqual('USD.davi')
-    wrapper.unmount()
+    const element = screen.getByTestId('currency')
+    expect(element).toHaveClass('currency')
+    expect(element).toHaveTextContent('USD.davi')
+    cleanup()
   })
 
   it('handles currency codes that are 40 characters ', () => {
-    const wrapper = mount(
-      <Currency currency="584D455441000000000000000000000000000000" />,
-    )
-    expect(wrapper.find('.currency').text()).toEqual('XMETA')
-    wrapper.unmount()
+    render(<Currency currency="584D455441000000000000000000000000000000" />)
+    const element = screen.getByTestId('currency')
+    expect(element).toHaveClass('currency')
+    expect(element).toHaveTextContent('XMETA')
+    cleanup()
   })
 
   it('handles currency codes that are 40 characters and issuer ', () => {
-    const wrapper = mount(
+    render(
       <BrowserRouter>
         <Currency
           currency="584D455441000000000000000000000000000000"
@@ -41,26 +47,33 @@ describe('Currency', () => {
         <Currency currency="USD" issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" />
       </BrowserRouter>,
     )
-    const meta = wrapper.find('.currency').at(0)
-    const usd = wrapper.find('.currency').at(1)
+    const elements = screen.getAllByTestId('currency')
+    expect(elements).toHaveLength(2)
+    expect(elements[0]).toHaveClass('currency')
+    expect(elements[1]).toHaveClass('currency')
 
-    expect(meta).toHaveText('XMETA.r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB')
-    expect(meta.find('a')).toHaveProp(
+    const meta = elements[0]
+    const usd = elements[1]
+
+    expect(meta).toHaveTextContent('XMETA.r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB')
+    expect(meta).toHaveAttribute(
       'href',
       '/token/584D455441000000000000000000000000000000.r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB',
     )
 
-    expect(usd).toHaveText('USD.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq')
-    expect(usd.find('a')).toHaveProp(
+    expect(usd).toHaveTextContent('USD.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq')
+    expect(usd).toHaveAttribute(
       'href',
       '/token/USD.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
     )
-    wrapper.unmount()
+    cleanup()
   })
 
   it('displays the XRP symbol when rendering XRP', () => {
-    const wrapper = mount(<Currency currency="XRP" />)
-    expect(wrapper.find('.currency').text()).toEqual('\uE900 XRP')
-    wrapper.unmount()
+    render(<Currency currency="XRP" />)
+    const element = screen.getByTestId('currency')
+    expect(element).toHaveClass('currency')
+    expect(element).toHaveTextContent('\uE900 XRP')
+    cleanup()
   })
 })
