@@ -3,12 +3,12 @@ import { cleanup, render, screen } from '@testing-library/react'
 import Currency from '../Currency'
 
 describe('Currency', () => {
+  afterEach(cleanup)
   it('handles currency codes that are 3 characters ', () => {
     render(<Currency currency="BTC" />)
     const element = screen.getByTestId('currency')
     expect(element).toHaveClass('currency')
     expect(element).toHaveTextContent('BTC')
-    cleanup()
   })
 
   it('handles currency codes that are 4 characters ', () => {
@@ -16,7 +16,6 @@ describe('Currency', () => {
     const element = screen.getByTestId('currency')
     expect(element).toHaveClass('currency')
     expect(element).toHaveTextContent('WOOT')
-    cleanup()
   })
 
   it('handles currency codes that are 4 characters and include issuer ', () => {
@@ -26,7 +25,6 @@ describe('Currency', () => {
     const element = screen.getByTestId('currency')
     expect(element).toHaveClass('currency')
     expect(element).toHaveTextContent('USD.davi')
-    cleanup()
   })
 
   it('handles currency codes that are 40 characters ', () => {
@@ -34,7 +32,6 @@ describe('Currency', () => {
     const element = screen.getByTestId('currency')
     expect(element).toHaveClass('currency')
     expect(element).toHaveTextContent('XMETA')
-    cleanup()
   })
 
   it('handles currency codes that are 40 characters and issuer ', () => {
@@ -66,7 +63,6 @@ describe('Currency', () => {
       'href',
       '/token/USD.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
     )
-    cleanup()
   })
 
   it('displays the XRP symbol when rendering XRP', () => {
@@ -74,6 +70,5 @@ describe('Currency', () => {
     const element = screen.getByTestId('currency')
     expect(element).toHaveClass('currency')
     expect(element).toHaveTextContent('\uE900 XRP')
-    cleanup()
   })
 })
