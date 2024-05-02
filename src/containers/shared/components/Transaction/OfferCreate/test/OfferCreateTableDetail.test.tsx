@@ -17,10 +17,10 @@ describe('OfferCreate: TableDetail', () => {
       'cancel_offer #44866443',
     )
     expect(wrapper.find('[data-test="amount-buy"]')).toHaveText(
-      `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
+      `\uE9001,764.293151 XRP`,
     )
     expect(wrapper.find('[data-test="amount-sell"]')).toHaveText(
-      `\uE9001,764.293151 XRP`,
+      `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
     wrapper.unmount()
   })
@@ -33,10 +33,10 @@ describe('OfferCreate: TableDetail', () => {
     )
     expect(wrapper.find('[data-test="offer-id"]')).not.toExist()
     expect(wrapper.find('[data-test="amount-buy"]')).toHaveText(
-      `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
+      `\uE90024,755.081083 XRP`,
     )
     expect(wrapper.find('[data-test="amount-sell"]')).toHaveText(
-      `\uE90024,755.081083 XRP`,
+      `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
     )
   })
 
