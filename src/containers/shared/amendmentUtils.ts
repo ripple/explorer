@@ -69,7 +69,7 @@ export async function nameOfAmendmentID(id: string) {
 
 async function fetchMinRippledVersions() {
   const response = await axios.get(
-    'https://raw.githubusercontent.com/XRPLF/xrpl-dev-portal/b3cb2c667a03f0b043989958706497bf54c74cc2/resources/known-amendments.md',
+    'https://raw.githubusercontent.com/XRPLF/xrpl-dev-portal/master/resources/known-amendments.md',
   )
   const text = response.data
   const mapping: any = {}
