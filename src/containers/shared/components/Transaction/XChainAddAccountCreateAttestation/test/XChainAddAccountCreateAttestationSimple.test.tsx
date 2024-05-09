@@ -1,5 +1,5 @@
-import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { cleanup, screen } from '@testing-library/react'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockXChainAddAccountCreateAttestation from './mock_data/XChainAddAccountCreateAttestation.json'
 import mockXChainAddAccountCreateAttestationFailed from './mock_data/XChainAddAccountCreateAttestationFailed.json'
@@ -7,7 +7,8 @@ import { expectSimpleRowText } from '../../test/expectations'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
-describe('XChainAddAccountCreateAttestationSimple', () => {
+describe('XChainAddAccountCreateAttestation - Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockXChainAddAccountCreateAttestation)
 
@@ -17,14 +18,14 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
       'locking-chain-door',
       'rDPwN6dz3shffxodeUC9Qf5y1mEHYySKLJ',
     )
-    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'send', '\uE90010.00 XRP')
@@ -38,7 +39,7 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
       'destination',
       'rLbKhMNskUBYRShdbbQcFm9YhumEeUJfPK',
     )
-    expect(screen.find(`[data-testid="destination"] a`)).toExist()
+    expect(screen.getByTestId('destination')).not.toHaveAttribute('href')
   })
 
   it('renders failed transaction', () => {
@@ -50,14 +51,14 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
       'locking-chain-door',
       'rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd',
     )
-    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'send', '\uE90010.00 XRP')
@@ -71,6 +72,6 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
       'destination',
       'rPy1F9bQ7dNn2T3QAFRM6dFz6ygHa3MDDi',
     )
-    expect(screen.find(`[data-testid="destination"] a`)).toExist()
+    expect(screen.getByTestId('destination')).not.toHaveAttribute('href')
   })
 })

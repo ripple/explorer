@@ -1,5 +1,5 @@
-import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { cleanup, screen } from '@testing-library/react'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockSetHook from './mock_data/SetHook.json'
 import mockSetHook2 from './mock_data/SetHook2.json'
@@ -9,6 +9,7 @@ import { expectSimpleRowText } from '../../test/expectations'
 const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('SetHookSimple', () => {
+  afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockSetHook)
 
@@ -64,18 +65,18 @@ describe('SetHookSimple', () => {
     const grant1 = hook.find('.grant').at(0)
     const grant2 = hook.find('.grant').at(1)
 
-    expect(grant1.find('.hash')).toHaveText(
+    expect(grant1.find('.hash')).toHaveTextContent(
       '096A70632BBB67488F4804AE55604A01F52226BD556E3589270D0D30C9A6AF81',
     )
-    expect(grant1.find('.account').at(0)).toHaveText(
+    expect(grant1.find('.account').at(0)).toHaveTextContent(
       'rQUhXd7sopuga3taru3jfvc1BgVbscrb1X',
     )
     expect(grant1.find(`.account a`)).toExist()
 
-    expect(grant2.find('.hash')).toHaveText(
+    expect(grant2.find('.hash')).toHaveTextContent(
       '3F47684053E1A653E54EAC1C5F50BCBAF7F69078CEFB5846BB046CE44B8ECDC2',
     )
-    expect(grant2.find('.account').at(0)).toHaveText(
+    expect(grant2.find('.account').at(0)).toHaveTextContent(
       'raPSFU999HcwpyRojdNh2i96T22gY9fgxL',
     )
     expect(grant2.find(`.account a`)).toExist()

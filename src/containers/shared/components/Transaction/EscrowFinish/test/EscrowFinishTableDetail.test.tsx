@@ -5,16 +5,17 @@ import mockEscrowFinish from './mock_data/EscrowFinish.json'
 
 const renderComponent = createTableDetailRenderFactory(TableDetail)
 
-describe('EscrowFinishTableDetail', () => {
+describe('EscrowFinish - TableDetail', () => {
+  afterEach(cleanup)
   it('renders EscrowFinish without crashing', () => {
     renderComponent(mockEscrowFinish)
-    expect(screen.find('[data-testid="escrow-account"]')).toHaveText(
+    expect(screen.getByTestId('escrow-account')).toHaveTextContent(
       `finish_escrowr4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8 -28`,
     )
-    expect(screen.find('[data-testid="escrow-amount"]')).toHaveText(
+    expect(screen.getByTestId('escrow-amount')).toHaveTextContent(
       `\uE9000.0154 XRP`,
     )
-    expect(screen.find('[data-testid="escrow-fullfillment"]')).toHaveText(
+    expect(screen.getByTestId('escrow-fulfillment')).toHaveTextContent(
       `fulfillment Fulfillment `,
     )
   })

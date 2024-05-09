@@ -11,8 +11,8 @@ describe('AMMDelete: TableDetail', () => {
   it('renders with an expiration and offer', () => {
     renderComponent(mockAMMDelete)
 
-    expect(screen.find('[data-testid="asset"]')).toHaveText('Asset 1\uE900 XRP')
-    expect(screen.find('[data-testid="asset2"]')).toHaveText(
+    expect(screen.getByTestId('asset')).toHaveTextContent('Asset 1\uE900 XRP')
+    expect(screen.getByTestId('asset2')).toHaveTextContent(
       'Asset 2FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9',
     )
   })

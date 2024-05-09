@@ -97,7 +97,7 @@ describe('NFTokenMint', () => {
       </I18nextProvider>,
     )
 
-    expect(screen.find('[data-testid="token-issuer"] .value')).toExist()
+    expect(screen.getByTestId('token-issuer')).toExist()
     expectSimpleRowText(
       screen,
       'token-id',

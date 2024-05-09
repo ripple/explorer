@@ -14,12 +14,12 @@ const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 describe('AccountSet: TableDetail', () => {
   afterEach(cleanup)
   it('renders tx that sets the domain', () => {
-    renderComponent(mockAccountSetWithDomain)
-    expect(screen).toHaveText('domain: mduo13.com')
+    const { container } = renderComponent(mockAccountSetWithDomain)
+    expect(container).toHaveTextContent('domain: mduo13.com')
   })
 
   it('renders tx that sets the email hash', () => {
-    renderComponent({
+    const { container } = renderComponent({
       ...mockAccountSetWithDomain,
       tx: {
         ...mockAccountSetWithDomain.tx,
@@ -27,45 +27,47 @@ describe('AccountSet: TableDetail', () => {
         EmailHash: '7AC3878BF42A5329698F468A6AAA03B9',
       },
     })
-    expect(screen).toHaveText('email hash: 7AC3878BF42A5329698F468A6AAA03B9')
+    expect(container).toHaveTextContent(
+      'email hash: 7AC3878BF42A5329698F468A6AAA03B9',
+    )
   })
 
   it('renders tx that clears a flag', () => {
-    renderComponent(mockAccountSetWithClearFlag)
-    expect(screen).toHaveText('clear flag: asfGlobalFreeze')
+    const { container } = renderComponent(mockAccountSetWithClearFlag)
+    expect(container).toHaveTextContent('clear flag: asfGlobalFreeze')
   })
 
   it('renders tx that sets a flag', () => {
-    renderComponent(mockAccountSetWithSetFlag)
-    expect(screen).toHaveText('set flag: asfRequireDest')
+    const { container } = renderComponent(mockAccountSetWithSetFlag)
+    expect(container).toHaveTextContent('set flag: asfRequireDest')
   })
 
   it('renders tx that clears a flag that is not defined', () => {
-    renderComponent({
+    const { container } = renderComponent({
       ...mockAccountSetWithClearFlag,
       tx: { ...mockAccountSetWithClearFlag.tx, ClearFlag: 45 },
     })
-    expect(screen).toHaveText('clear flag: 45')
+    expect(container).toHaveTextContent('clear flag: 45')
   })
 
   it('renders tx that sets a flag that is not defined', () => {
-    renderComponent({
+    const { container } = renderComponent({
       ...mockAccountSetWithSetFlag,
       tx: { ...mockAccountSetWithSetFlag.tx, SetFlag: 45 },
     })
-    expect(screen).toHaveText('set flag: 45')
+    expect(container).toHaveTextContent('set flag: 45')
   })
 
   it('renders tx that sets a message', () => {
-    renderComponent(mockAccountSetWithMessageKey)
-    expect(screen).toHaveText(
+    const { container } = renderComponent(mockAccountSetWithMessageKey)
+    expect(container).toHaveTextContent(
       'message key: 020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA',
     )
   })
 
   it('renders tx that sets a minter', () => {
     renderComponent(mockAccountSetWithNFTokenMinter)
-    expect(screen.find('[data-testid="minter"]')).toHaveText(
+    expect(screen.getByTestId('minter')).toHaveTextContent(
       'NFT Minter: rXMART8usFd5kABXCayoP6ZfB35b4v43t',
     )
   })
