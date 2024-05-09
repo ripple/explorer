@@ -30,7 +30,7 @@ describe('XChainCommitSimple', () => {
 
     expectSimpleRowText(screen, 'send', '\uE90010.00 XRP')
     expectSimpleRowText(screen, 'claim-id', '4')
-    expect(screen.getByTestId('destination')).toBeNull()
+    expect(screen.queryByTestId('destination')).toBeNull()
   })
 
   it('renders failed tx', () => {

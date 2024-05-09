@@ -19,7 +19,7 @@ describe('PaymentChannelCreate: TableDetail', () => {
     expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrUXYat4hW2M87gHoqKK7fC4cqrT9C6V7d7',
     )
-    expect(screen.getByTestId('amount')).toHaveTextContent(
+    expect(screen.getByTestId('channel-amount')).toHaveTextContent(
       'channel amount\uE9001.00 XRP',
     )
   })
@@ -32,7 +32,7 @@ describe('PaymentChannelCreate: TableDetail', () => {
     expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(screen.getByTestId('amount')).toHaveTextContent(
+    expect(screen.getByTestId('channel-amount')).toHaveTextContent(
       'channel amount\uE90010.00 XRP',
     )
   })
@@ -45,7 +45,7 @@ describe('PaymentChannelCreate: TableDetail', () => {
     expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn:20170428',
     )
-    expect(screen.getByTestId('amount')).toHaveTextContent(
+    expect(screen.getByTestId('channel-amount')).toHaveTextContent(
       'channel amount\uE900100.00 XRP',
     )
   })
