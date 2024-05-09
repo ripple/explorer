@@ -11,7 +11,7 @@ describe('SetRegularKey: Simple', () => {
   afterEach(cleanup)
   it('renders Simple for transaction', () => {
     renderComponent(SetRegularKey)
-    const keyRow = wrapper.find(SimpleRow)
+    const keyRow = screen.find(SimpleRow)
 
     expect(keyRow.prop('label')).toBe(`regular_key`)
     expect(keyRow.find('.value').text()).toBe(
@@ -21,7 +21,7 @@ describe('SetRegularKey: Simple', () => {
 
   it('renders Simple for transaction that unsets key', () => {
     renderComponent(SetRegularKeyUnset)
-    const keyRow = wrapper.find(SimpleRow)
+    const keyRow = screen.find(SimpleRow)
 
     expect(keyRow.prop('label')).toBe('')
     expect(keyRow.find('.unset').hostNodes().text()).toBe(`unset_regular_key`)

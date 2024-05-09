@@ -9,6 +9,6 @@ describe('TicketCreate: Simple', () => {
   afterEach(cleanup)
   it('renders ticket count', () => {
     renderComponent(TicketCreate)
-    expectSimpleRowText(wrapper, 'ticket-count', '1')
+    expectSimpleRowText(screen, 'ticket-count', '1')
   })
 })

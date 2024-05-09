@@ -9,6 +9,6 @@ describe('TicketCreate: TableDetail', () => {
   afterEach(cleanup)
   it('renders', () => {
     renderComponent(TicketCreate)
-    expect(wrapper).toHaveText('ticket_count: 1')
+    expect(screen).toHaveText('ticket_count: 1')
   })
 })

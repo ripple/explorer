@@ -12,27 +12,27 @@ describe('XChainCreateClaimIDSimple', () => {
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      screen,
       'locking-chain-door',
       'rNe5NbD1hqCSZPz9KM5PHm5Bf8jjHfezPE',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).toExist()
+    expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
-    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
+    expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'other-chain-source',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
-    expectSimpleRowText(wrapper, 'claim-id', '1')
+    expectSimpleRowText(screen, 'claim-id', '1')
   })
 
   it('renders failed transaction', () => {
@@ -40,26 +40,26 @@ describe('XChainCreateClaimIDSimple', () => {
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      screen,
       'locking-chain-door',
       'r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'issuing-chain-door',
       'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
-    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
+    expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'other-chain-source',
       'r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W',
     )
-    expect(wrapper.find(`[data-testid="claim-id"]`)).not.toExist()
+    expect(screen.find(`[data-testid="claim-id"]`)).not.toExist()
   })
 })

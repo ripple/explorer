@@ -17,7 +17,7 @@ import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
 
 describe('NFTokenMint', () => {
   it('handles NFTokenMint that modified 2 nodes', () => {
-    const wrapper = mount(
+    const screen = mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <NFTokenMint
@@ -28,18 +28,18 @@ describe('NFTokenMint', () => {
     )
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'token-id',
       '000800006203F49C21D5D6E022CB16DE3538F248662FC73C535743B40000001A',
     )
-    expectSimpleRowText(wrapper, 'token-taxon', '1')
-    expectSimpleRowText(wrapper, 'token-uri', 'https://gregweisbrod.com')
-    expectSimpleRowNotToExist(wrapper, 'token-fee')
-    expectSimpleRowNotToExist(wrapper, 'token-issuer')
+    expectSimpleRowText(screen, 'token-taxon', '1')
+    expectSimpleRowText(screen, 'token-uri', 'https://gregweisbrod.com')
+    expectSimpleRowNotToExist(screen, 'token-fee')
+    expectSimpleRowNotToExist(screen, 'token-issuer')
   })
 
   it('handles NFTokenMint that modified 1 node and created 1 node', () => {
-    const wrapper = mount(
+    const screen = mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <NFTokenMint
@@ -52,18 +52,18 @@ describe('NFTokenMint', () => {
     )
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'token-id',
       '0008000085D33F9C5481D3515029C9904D16F0109414D3A00000099A00000000',
     )
-    expectSimpleRowText(wrapper, 'token-taxon', '1')
-    expectSimpleRowText(wrapper, 'token-uri', 'https://gregweisbrod.com')
-    expectSimpleRowNotToExist(wrapper, 'token-fee')
-    expectSimpleRowNotToExist(wrapper, 'token-issuer')
+    expectSimpleRowText(screen, 'token-taxon', '1')
+    expectSimpleRowText(screen, 'token-uri', 'https://gregweisbrod.com')
+    expectSimpleRowNotToExist(screen, 'token-fee')
+    expectSimpleRowNotToExist(screen, 'token-issuer')
   })
 
   it('handles NFTokenMint that modified 2 nodes and created 1 node', () => {
-    const wrapper = mount(
+    const screen = mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <NFTokenMint
@@ -76,18 +76,18 @@ describe('NFTokenMint', () => {
     )
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'token-id',
       '0008000085D33F9C5481D3515029C9904D16F0109414D3A0DCBA29BA00000020',
     )
-    expectSimpleRowText(wrapper, 'token-taxon', '1')
-    expectSimpleRowText(wrapper, 'token-uri', 'https://gregweisbrod.com')
-    expectSimpleRowNotToExist(wrapper, 'token-fee')
-    expectSimpleRowNotToExist(wrapper, 'token-issuer')
+    expectSimpleRowText(screen, 'token-taxon', '1')
+    expectSimpleRowText(screen, 'token-uri', 'https://gregweisbrod.com')
+    expectSimpleRowNotToExist(screen, 'token-fee')
+    expectSimpleRowNotToExist(screen, 'token-issuer')
   })
 
   it('handles NFTokenMint with issuer', () => {
-    const wrapper = mount(
+    const screen = mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <NFTokenMint
@@ -97,28 +97,28 @@ describe('NFTokenMint', () => {
       </I18nextProvider>,
     )
 
-    expect(wrapper.find('[data-testid="token-issuer"] .value')).toExist()
+    expect(screen.find('[data-testid="token-issuer"] .value')).toExist()
     expectSimpleRowText(
-      wrapper,
+      screen,
       'token-id',
       '000861A8A99B4460C2A4CCC90634FD9C7F51940AD9450BE30000099B00000000',
     )
-    expectSimpleRowText(wrapper, 'token-taxon', '0')
+    expectSimpleRowText(screen, 'token-taxon', '0')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'token-uri',
       'ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
     )
-    expectSimpleRowText(wrapper, 'token-fee', '25.000%')
+    expectSimpleRowText(screen, 'token-fee', '25.000%')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'token-issuer',
       'rGToUZ1JjRUdv1wXNXKMFn2o4wTM2DLkpg',
     )
   })
 
   it('handles NFTokenMint that modified 3 nodes', () => {
-    const wrapper = mount(
+    const screen = mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <NFTokenMint
@@ -131,13 +131,13 @@ describe('NFTokenMint', () => {
     )
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'token-id',
       '000D0000B9BD7D214128A91ECECE5FCFF9BDB0D043567C51CFBEC443000063A7',
     )
-    expectSimpleRowText(wrapper, 'token-taxon', '1')
+    expectSimpleRowText(screen, 'token-taxon', '1')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'token-uri',
       convertHexToString(
         '516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463',
@@ -146,7 +146,7 @@ describe('NFTokenMint', () => {
   })
 
   it('handles NFTokenMint that has null URI', () => {
-    const wrapper = mount(
+    const screen = mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <NFTokenMint
@@ -156,11 +156,11 @@ describe('NFTokenMint', () => {
       </I18nextProvider>,
     )
 
-    expectSimpleRowNotToExist(wrapper, 'token-uri')
+    expectSimpleRowNotToExist(screen, 'token-uri')
   })
 
   it('handles NFTokenMint that failed', () => {
-    const wrapper = mount(
+    const screen = mount(
       <I18nextProvider i18n={i18n}>
         <Router>
           <NFTokenMint
@@ -170,10 +170,10 @@ describe('NFTokenMint', () => {
       </I18nextProvider>,
     )
 
-    expectSimpleRowNotToExist(wrapper, 'token-id')
-    expectSimpleRowText(wrapper, 'token-taxon', '19')
+    expectSimpleRowNotToExist(screen, 'token-id')
+    expectSimpleRowText(screen, 'token-taxon', '19')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'token-uri',
       convertHexToString(
         '516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463',

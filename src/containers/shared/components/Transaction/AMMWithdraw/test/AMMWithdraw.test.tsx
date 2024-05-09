@@ -15,14 +15,14 @@ describe('AMM Withdraw Tests', () => {
 
   it('renders from transaction', () => {
     renderComponent(withdrawMock)
-    expectSimpleRowText(wrapper, 'asset1', '\uE9003,666.580862 XRP')
+    expectSimpleRowText(screen, 'asset1', '\uE9003,666.580862 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'asset2',
       '$4,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
-      wrapper,
+      screen,
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
@@ -30,24 +30,24 @@ describe('AMM Withdraw Tests', () => {
 
   it('renders transaction from usd only', () => {
     renderComponent(withdrawUSDMock)
-    expectSimpleRowNotToExist(wrapper, 'asset1')
+    expectSimpleRowNotToExist(screen, 'asset1')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'asset2',
       '$100.00 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
-      wrapper,
+      screen,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
   })
   it('renders transaction from XRP only', () => {
     renderComponent(withdrawXRPMock)
-    expectSimpleRowNotToExist(wrapper, 'asset2')
-    expectSimpleRowText(wrapper, 'asset1', '\uE90099.99998 XRP')
+    expectSimpleRowNotToExist(screen, 'asset2')
+    expectSimpleRowText(screen, 'asset1', '\uE90099.99998 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
@@ -55,14 +55,14 @@ describe('AMM Withdraw Tests', () => {
 
   it('renders transaction from eprice', () => {
     renderComponent(withdrawEpriceMock)
-    expectSimpleRowNotToExist(wrapper, 'asset1')
+    expectSimpleRowNotToExist(screen, 'asset1')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'asset2',
       '$1,639.41097028 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
-      wrapper,
+      screen,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
