@@ -37,7 +37,7 @@ describe('UNLModify: Simple', () => {
 
   it('renders tx with correct account and sequence', () => {
     renderComponent(mockUNLModifyDisable)
-    expect(screen.getByTestId('account')).not.toExist()
+    expect(screen.getByTestId('account')).toBeNull()
     expectSimpleRowLabel(screen, 'sequence', 'Sequence Number')
     expectSimpleRowText(screen, 'sequence', '0')
   })

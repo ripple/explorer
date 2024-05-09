@@ -29,7 +29,7 @@ describe('XChainCreateBridgeSimple', () => {
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
-    expect(screen.getByTestId('min-create-account-amount')).not.toExist()
+    expect(screen.getByTestId('min-create-account-amount')).toBeNull()
   })
 
   it('renders IOU bridge', () => {

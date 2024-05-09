@@ -23,10 +23,10 @@ describe('PaymentChannelClaim: TableDetail', () => {
     expect(screen.getByTestId('claimed')).toHaveTextContent(
       'claimed\uE9000.01 XRP (\uE90020.34284 XRP of \uE90070.00 XRP remaining)',
     )
-    expect(screen.getByTestId('channel-amount')).not.toExist()
-    expect(screen.getByTestId('renew')).not.toExist()
-    expect(screen.getByTestId('close-request')).not.toExist()
-    expect(screen.getByTestId('closed')).not.toExist()
+    expect(screen.getByTestId('channel-amount')).toBeNull()
+    expect(screen.getByTestId('renew')).toBeNull()
+    expect(screen.getByTestId('close-request')).toBeNull()
+    expect(screen.getByTestId('closed')).toBeNull()
   })
 
   it('renders tx with channel being closed', () => {
@@ -37,11 +37,11 @@ describe('PaymentChannelClaim: TableDetail', () => {
     expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(screen.getByTestId('claimed')).not.toExist()
+    expect(screen.getByTestId('claimed')).toBeNull()
     expect(screen.getByTestId('channel-amount')).toHaveTextContent(
       'channel amount\uE90010.00 XRP',
     )
-    expect(screen.getByTestId('renew')).not.toExist()
+    expect(screen.getByTestId('renew')).toBeNull()
     expect(screen.getByTestId('close-request')).toHaveTextContent(
       'close channel request',
     )
@@ -58,15 +58,15 @@ describe('PaymentChannelClaim: TableDetail', () => {
     expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(screen.getByTestId('claimed')).not.toExist()
+    expect(screen.getByTestId('claimed')).toBeNull()
     expect(screen.getByTestId('channel-amount')).toHaveTextContent(
       'channel amount\uE90010.00 XRP',
     )
-    expect(screen.getByTestId('renew')).not.toExist()
+    expect(screen.getByTestId('renew')).toBeNull()
     expect(screen.getByTestId('close-request')).toHaveTextContent(
       'close channel request',
     )
-    expect(screen.getByTestId('closed')).not.toExist()
+    expect(screen.getByTestId('closed')).toBeNull()
   })
 
   it('renders tx with destination tag', () => {
@@ -80,9 +80,9 @@ describe('PaymentChannelClaim: TableDetail', () => {
     expect(screen.getByTestId('claimed')).toHaveTextContent(
       'claimed\uE9001.00 XRP (\uE90099.00 XRP of \uE900100.00 XRP remaining)',
     )
-    expect(screen.getByTestId('channel-amount')).not.toExist()
-    expect(screen.getByTestId('renew')).not.toExist()
-    expect(screen.getByTestId('close-request')).not.toExist()
-    expect(screen.getByTestId('closed')).not.toExist()
+    expect(screen.getByTestId('channel-amount')).toBeNull()
+    expect(screen.getByTestId('renew')).toBeNull()
+    expect(screen.getByTestId('close-request')).toBeNull()
+    expect(screen.getByTestId('closed')).toBeNull()
   })
 })
