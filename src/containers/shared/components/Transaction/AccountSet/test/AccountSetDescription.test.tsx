@@ -16,7 +16,6 @@ describe('AccountSet: Description', () => {
   it('renders tx that sets the domain', () => {
     renderComponent(mockAccountSetWithDomain)
     expect(wrapper).toHaveText('It sets the account domain as mduo13.com')
-    wrapper.unmount()
   })
 
   it('renders tx that sets the email hash', () => {
@@ -31,19 +30,16 @@ describe('AccountSet: Description', () => {
     expect(wrapper).toHaveText(
       'It sets the account email hash as 7AC3878BF42A5329698F468A6AAA03B9',
     )
-    wrapper.unmount()
   })
 
   it('renders tx that clears a flag', () => {
     renderComponent(mockAccountSetWithClearFlag)
     expect(wrapper).toHaveText('It clears the account flag asfGlobalFreeze')
-    wrapper.unmount()
   })
 
   it('renders tx that sets a flag', () => {
     renderComponent(mockAccountSetWithSetFlag)
     expect(wrapper).toHaveText('It sets the account flag asfRequireDest')
-    wrapper.unmount()
   })
 
   it('renders tx that clears a flag that is not defined', () => {
@@ -52,7 +48,6 @@ describe('AccountSet: Description', () => {
       tx: { ...mockAccountSetWithClearFlag.tx, ClearFlag: 45 },
     })
     expect(wrapper).toHaveText('It clears the account flag 45')
-    wrapper.unmount()
   })
 
   it('renders tx that sets a flag that is not defined', () => {
@@ -61,7 +56,6 @@ describe('AccountSet: Description', () => {
       tx: { ...mockAccountSetWithSetFlag.tx, SetFlag: 45 },
     })
     expect(wrapper).toHaveText('It sets the account flag 45')
-    wrapper.unmount()
   })
 
   it('renders tx that sets a message', () => {
@@ -69,7 +63,6 @@ describe('AccountSet: Description', () => {
     expect(wrapper.find('[data-testid="message-key"]')).toHaveText(
       'It sets the account message key as 020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA',
     )
-    wrapper.unmount()
   })
 
   it('renders tx that sets a minter', () => {
@@ -77,6 +70,5 @@ describe('AccountSet: Description', () => {
     expect(wrapper.find('[data-testid="minter"]')).toHaveText(
       'It sets rXMART8usFd5kABXCayoP6ZfB35b4v43t as the authorized minter for this account',
     )
-    wrapper.unmount()
   })
 })

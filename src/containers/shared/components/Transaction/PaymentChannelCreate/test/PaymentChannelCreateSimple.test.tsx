@@ -40,7 +40,6 @@ describe('PaymentChannelCreate: Simple', () => {
       '.channel',
       '15AB9EE9344C42C05164E6A1F2F08B35F35D7B9D66CCB9697452B0995C8F8242',
     )
-    wrapper.unmount()
   })
 
   it('renders failed tx', () => {
@@ -58,7 +57,6 @@ describe('PaymentChannelCreate: Simple', () => {
     )
     expectSimpleRowText(wrapper, 'delay', '3,600 sec.')
     expectSimpleRowNotToExist(wrapper, '.channel')
-    wrapper.unmount()
   })
 
   it('renders tx with destination tag', () => {
@@ -76,6 +74,5 @@ describe('PaymentChannelCreate: Simple', () => {
       '.channel',
       '5DB01B7FFED6B67E6B0414DED11E051D2EE2B7619CE0EAA6286D67A3A4D5BDB3',
     )
-    wrapper.unmount()
   })
 })

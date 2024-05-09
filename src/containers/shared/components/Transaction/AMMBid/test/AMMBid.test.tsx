@@ -28,6 +28,5 @@ describe('AMM Bid Tests', () => {
       'auth_accounts',
       'ra8uHq2Qme5j19TqvPzTE2nqT12Zc3xJmKrU6o2YguZi847RaiH2QGTkL4eZWZjbxZvk',
     )
-    wrapper.unmount()
   })
 })

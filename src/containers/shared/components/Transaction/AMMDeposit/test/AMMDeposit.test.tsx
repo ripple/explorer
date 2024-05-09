@@ -28,7 +28,6 @@ describe('AMM Deposit Tests', () => {
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
   })
 
   it('renders only with USD', () => {
@@ -44,7 +43,6 @@ describe('AMM Deposit Tests', () => {
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
   })
 
   it('renders only with XRP', () => {
@@ -55,7 +53,6 @@ describe('AMM Deposit Tests', () => {
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
   })
 
   it('renders with eprice', () => {
@@ -76,7 +73,6 @@ describe('AMM Deposit Tests', () => {
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
   })
 
   it('renders with both assets non XRP', () => {
@@ -96,7 +92,6 @@ describe('AMM Deposit Tests', () => {
       'account_id',
       'rEJ1X5BoSmHqa5h6TSVvYrHAzFmyxGqNic',
     )
-    wrapper.unmount()
   })
 
   it('deposit shouldnt crash with tx that changes fee', () => {
@@ -104,6 +99,5 @@ describe('AMM Deposit Tests', () => {
     expectSimpleRowNotToExist(wrapper, 'asset1')
     expectSimpleRowNotToExist(wrapper, 'asset2')
     expectSimpleRowNotToExist(wrapper, 'account_id')
-    wrapper.unmount()
   })
 })

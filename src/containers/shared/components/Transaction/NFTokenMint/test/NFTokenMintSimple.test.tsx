@@ -36,7 +36,6 @@ describe('NFTokenMint', () => {
     expectSimpleRowText(wrapper, 'token-uri', 'https://gregweisbrod.com')
     expectSimpleRowNotToExist(wrapper, 'token-fee')
     expectSimpleRowNotToExist(wrapper, 'token-issuer')
-    wrapper.unmount()
   })
 
   it('handles NFTokenMint that modified 1 node and created 1 node', () => {
@@ -61,7 +60,6 @@ describe('NFTokenMint', () => {
     expectSimpleRowText(wrapper, 'token-uri', 'https://gregweisbrod.com')
     expectSimpleRowNotToExist(wrapper, 'token-fee')
     expectSimpleRowNotToExist(wrapper, 'token-issuer')
-    wrapper.unmount()
   })
 
   it('handles NFTokenMint that modified 2 nodes and created 1 node', () => {
@@ -86,7 +84,6 @@ describe('NFTokenMint', () => {
     expectSimpleRowText(wrapper, 'token-uri', 'https://gregweisbrod.com')
     expectSimpleRowNotToExist(wrapper, 'token-fee')
     expectSimpleRowNotToExist(wrapper, 'token-issuer')
-    wrapper.unmount()
   })
 
   it('handles NFTokenMint with issuer', () => {
@@ -118,7 +115,6 @@ describe('NFTokenMint', () => {
       'token-issuer',
       'rGToUZ1JjRUdv1wXNXKMFn2o4wTM2DLkpg',
     )
-    wrapper.unmount()
   })
 
   it('handles NFTokenMint that modified 3 nodes', () => {
@@ -147,7 +143,6 @@ describe('NFTokenMint', () => {
         '516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463',
       ) as string,
     )
-    wrapper.unmount()
   })
 
   it('handles NFTokenMint that has null URI', () => {
@@ -162,7 +157,6 @@ describe('NFTokenMint', () => {
     )
 
     expectSimpleRowNotToExist(wrapper, 'token-uri')
-    wrapper.unmount()
   })
 
   it('handles NFTokenMint that failed', () => {
@@ -185,6 +179,5 @@ describe('NFTokenMint', () => {
         '516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463',
       ) as string,
     )
-    wrapper.unmount()
   })
 })

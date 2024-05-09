@@ -14,6 +14,5 @@ describe('AMM Vote Tests', () => {
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
   })
 })
