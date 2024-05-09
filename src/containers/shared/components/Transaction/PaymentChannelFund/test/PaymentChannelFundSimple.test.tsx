@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
@@ -10,11 +11,12 @@ import {
   expectSimpleRowText,
 } from '../../test'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('PaymentChannelFund: Simple', () => {
+  afterEach(cleanup)
   it('renders a fund', () => {
-    const wrapper = createWrapper(mockPaymentChannelFund)
+    renderComponent(mockPaymentChannelFund)
     expectSimpleRowLabel(wrapper, 'increase', 'channel amount increase')
     expectSimpleRowText(wrapper, 'increase', '+\uE9001.00 XRP')
     expectSimpleRowLabel(wrapper, 'channel-amount', 'channel amount')
@@ -43,7 +45,7 @@ describe('PaymentChannelFund: Simple', () => {
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockPaymentChannelFundFailed)
+    renderComponent(mockPaymentChannelFundFailed)
     expectSimpleRowLabel(wrapper, 'increase', 'channel amount increase')
     expectSimpleRowText(wrapper, 'increase', '+\uE90020.00 XRP')
     expectSimpleRowNotToExist(wrapper, 'channel-amount')

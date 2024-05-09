@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import { createTableDetailRenderFactory } from '../../test'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
@@ -8,17 +9,18 @@ import mockAccountSetWithSetFlag from './mock_data/AccountSetWithSetFlag.json'
 import mockAccountSetWithMessageKey from './mock_data/AccountSetWithMessageKey.json'
 import mockAccountSetWithNFTokenMinter from './mock_data/AccountSetWithNFTokenMinter.json'
 
-const createWrapper = createTableDetailRenderFactory(TableDetail, i18n)
+const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('AccountSet: TableDetail', () => {
+  afterEach(cleanup)
   it('renders tx that sets the domain', () => {
-    const wrapper = createWrapper(mockAccountSetWithDomain)
+    renderComponent(mockAccountSetWithDomain)
     expect(wrapper).toHaveText('domain: mduo13.com')
     wrapper.unmount()
   })
 
   it('renders tx that sets the email hash', () => {
-    const wrapper = createWrapper({
+    renderComponent({
       ...mockAccountSetWithDomain,
       tx: {
         ...mockAccountSetWithDomain.tx,
@@ -31,19 +33,19 @@ describe('AccountSet: TableDetail', () => {
   })
 
   it('renders tx that clears a flag', () => {
-    const wrapper = createWrapper(mockAccountSetWithClearFlag)
+    renderComponent(mockAccountSetWithClearFlag)
     expect(wrapper).toHaveText('clear flag: asfGlobalFreeze')
     wrapper.unmount()
   })
 
   it('renders tx that sets a flag', () => {
-    const wrapper = createWrapper(mockAccountSetWithSetFlag)
+    renderComponent(mockAccountSetWithSetFlag)
     expect(wrapper).toHaveText('set flag: asfRequireDest')
     wrapper.unmount()
   })
 
   it('renders tx that clears a flag that is not defined', () => {
-    const wrapper = createWrapper({
+    renderComponent({
       ...mockAccountSetWithClearFlag,
       tx: { ...mockAccountSetWithClearFlag.tx, ClearFlag: 45 },
     })
@@ -52,7 +54,7 @@ describe('AccountSet: TableDetail', () => {
   })
 
   it('renders tx that sets a flag that is not defined', () => {
-    const wrapper = createWrapper({
+    renderComponent({
       ...mockAccountSetWithSetFlag,
       tx: { ...mockAccountSetWithSetFlag.tx, SetFlag: 45 },
     })
@@ -61,7 +63,7 @@ describe('AccountSet: TableDetail', () => {
   })
 
   it('renders tx that sets a message', () => {
-    const wrapper = createWrapper(mockAccountSetWithMessageKey)
+    renderComponent(mockAccountSetWithMessageKey)
     expect(wrapper).toHaveText(
       'message key: 020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA',
     )
@@ -69,7 +71,7 @@ describe('AccountSet: TableDetail', () => {
   })
 
   it('renders tx that sets a minter', () => {
-    const wrapper = createWrapper(mockAccountSetWithNFTokenMinter)
+    renderComponent(mockAccountSetWithNFTokenMinter)
     expect(wrapper.find('[data-testid="minter"]')).toHaveText(
       'NFT Minter: rXMART8usFd5kABXCayoP6ZfB35b4v43t',
     )

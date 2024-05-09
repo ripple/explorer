@@ -4,11 +4,11 @@ import mockXChainAddAccountCreateAttestation from './mock_data/XChainAddAccountC
 import mockXChainAddAccountCreateAttestationFailed from './mock_data/XChainAddAccountCreateAttestationFailed.json'
 import { expectSimpleRowText } from '../../test/expectations'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('XChainAddAccountCreateAttestationSimple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockXChainAddAccountCreateAttestation)
+    renderComponent(mockXChainAddAccountCreateAttestation)
 
     // check XChainBridge parts
     expectSimpleRowText(
@@ -41,7 +41,7 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
   })
 
   it('renders failed transaction', () => {
-    const wrapper = createWrapper(mockXChainAddAccountCreateAttestationFailed)
+    renderComponent(mockXChainAddAccountCreateAttestationFailed)
 
     // check XChainBridge parts
     expectSimpleRowText(

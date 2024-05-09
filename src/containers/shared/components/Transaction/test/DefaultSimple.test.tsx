@@ -16,7 +16,7 @@ function createWrapper(tx: { tx: any; meta: any }) {
 
 describe('DefaultSimple', () => {
   it('renders Simple for basic transaction', () => {
-    const wrapper = createWrapper(NewEscrowCreate)
+    renderComponent(NewEscrowCreate)
     expectSimpleRowText(
       wrapper,
       'Destination',
@@ -29,7 +29,7 @@ describe('DefaultSimple', () => {
   })
 
   it('renders Simple for more complex transaction', () => {
-    const wrapper = createWrapper(SetHook)
+    renderComponent(SetHook)
     expect(wrapper.find(`[data-testid="group"]`).length).toEqual(10)
     expect(wrapper.find(`[data-testid="CreateCode"]`).length).toEqual(10)
     expect(wrapper.find(`[data-testid="Flags"]`).length).toEqual(10)
@@ -60,7 +60,7 @@ describe('DefaultSimple', () => {
   })
 
   it('renders Simple for more complex transaction', () => {
-    const wrapper = createWrapper(SetHook2)
+    renderComponent(SetHook2)
     expect(wrapper.find(`[data-testid="group"]`).length).toEqual(1)
     expect(wrapper.find(`[data-testid="CreateCode"]`).length).toEqual(1)
     expect(wrapper.find(`[data-testid="Flags"]`).length).toEqual(1)
@@ -102,7 +102,7 @@ describe('DefaultSimple', () => {
   })
 
   it('renders Simple for amount', () => {
-    const wrapper = createWrapper(TokenSwapPropose)
+    renderComponent(TokenSwapPropose)
     expectSimpleRowText(
       wrapper,
       'AccountOther',

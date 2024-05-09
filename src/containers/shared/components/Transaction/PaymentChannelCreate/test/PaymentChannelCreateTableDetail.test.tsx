@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createTableDetailRenderFactory } from '../../test'
@@ -6,11 +7,12 @@ import mockPaymentChannelCreateFailed from './mock_data/PaymentChannelCreateFail
 import mockPaymentChannelCreateWithDestinationTag from './mock_data/PaymentChannelCreateWithDestinationTag.json'
 import { TableDetail } from '../TableDetail'
 
-const createWrapper = createTableDetailRenderFactory(TableDetail, i18n)
+const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('PaymentChannelCreate: TableDetail', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreate)
+    renderComponent(mockPaymentChannelCreate)
     expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcerJnQrhRTXutuSwtrwxYiTkHn4Dtp8sF2LM:2460331042',
     )
@@ -22,7 +24,7 @@ describe('PaymentChannelCreate: TableDetail', () => {
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreateFailed)
+    renderComponent(mockPaymentChannelCreateFailed)
     expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcerMphibGfHpLDU4DzVCspzLYVuMNpmzN6n8:2810223114',
     )
@@ -34,7 +36,7 @@ describe('PaymentChannelCreate: TableDetail', () => {
   })
 
   it('renders tx with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreateWithDestinationTag)
+    renderComponent(mockPaymentChannelCreateWithDestinationTag)
     expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcerN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
     )

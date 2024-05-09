@@ -1,13 +1,15 @@
+import { cleanup, screen } from '@testing-library/react'
 import { TableDetail } from '../TableDetail'
 import mockAMMDelete from './mock_data/AMMDelete.json'
 import { createTableDetailRenderFactory } from '../../test'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-const createWrapper = createTableDetailRenderFactory(TableDetail, i18n)
+const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('AMMDelete: TableDetail', () => {
+  afterEach(cleanup)
   it('renders with an expiration and offer', () => {
-    const wrapper = createWrapper(mockAMMDelete)
+    renderComponent(mockAMMDelete)
 
     expect(wrapper.find('[data-testid="asset"]')).toHaveText(
       'Asset 1\uE900 XRP',

@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
@@ -12,7 +13,7 @@ import {
 } from '../../../../amendmentUtils'
 import { flushPromises } from '../../../../../test/utils'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 jest.mock('../../../../amendmentUtils', () => {
   // Require the original module to not be mocked...
@@ -33,12 +34,13 @@ const mockedNameOfAmendmentID = nameOfAmendmentID as jest.MockedFunction<
 >
 
 describe('EnableAmendment: Simple', () => {
+  afterEach(cleanup)
   it('renders tx that causes an amendment to loose majority', async () => {
     mockedGetRippledVersion.mockImplementation(() => Promise.resolve('v1.9.1'))
     mockedNameOfAmendmentID.mockImplementation(() =>
       Promise.resolve('ExpandedSignerList'),
     )
-    const wrapper = createWrapper(mockEnableAmendmentWithMinority)
+    renderComponent(mockEnableAmendmentWithMinority)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'status', 'Amendment Status')
@@ -61,7 +63,7 @@ describe('EnableAmendment: Simple', () => {
     mockedNameOfAmendmentID.mockImplementation(() =>
       Promise.resolve('ExpandedSignerList'),
     )
-    const wrapper = createWrapper(mockEnableAmendmentWithMajority)
+    renderComponent(mockEnableAmendmentWithMajority)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'status', 'Amendment Status')
@@ -89,7 +91,7 @@ describe('EnableAmendment: Simple', () => {
     mockedNameOfAmendmentID.mockImplementation(() =>
       Promise.resolve('NegativeUNL'),
     )
-    const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
+    renderComponent(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'status', 'Amendment Status')
@@ -109,7 +111,7 @@ describe('EnableAmendment: Simple', () => {
   it('renders tx that cannot determine version or name', async () => {
     mockedGetRippledVersion.mockImplementation(() => Promise.resolve(''))
     mockedNameOfAmendmentID.mockImplementation(() => Promise.resolve(''))
-    const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
+    renderComponent(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
@@ -127,7 +129,7 @@ describe('EnableAmendment: Simple', () => {
     mockedNameOfAmendmentID.mockImplementation(() =>
       Promise.resolve('NegativeUNL'),
     )
-    const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
+    renderComponent(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
@@ -143,7 +145,7 @@ describe('EnableAmendment: Simple', () => {
   it('renders tx that cannot determine name', async () => {
     mockedGetRippledVersion.mockImplementation(() => Promise.resolve('v1.7.3'))
     mockedNameOfAmendmentID.mockImplementation(() => Promise.resolve(''))
-    const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
+    renderComponent(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'version', 'Introduced In')

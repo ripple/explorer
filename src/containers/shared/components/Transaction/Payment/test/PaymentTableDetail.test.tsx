@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockPayment from './mock_data/Payment.json'
@@ -7,11 +8,12 @@ import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 
-const createWrapper = createTableDetailRenderFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('Payment: TableDetail', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockPayment)
+    renderComponent(mockPayment)
 
     // styling makes this look okay
     expect(wrapper.find('.payment')).toHaveText(
@@ -22,7 +24,7 @@ describe('Payment: TableDetail', () => {
   })
 
   it('renders with failed partial conversion', () => {
-    const wrapper = createWrapper(mockPaymentConvert)
+    renderComponent(mockPaymentConvert)
 
     // styling makes this look okay
     expect(wrapper.find('.payment')).toHaveText(
@@ -33,7 +35,7 @@ describe('Payment: TableDetail', () => {
   })
 
   it('renders with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentDestinationTag)
+    renderComponent(mockPaymentDestinationTag)
 
     // styling makes this look okay
     expect(wrapper.find('.payment')).toHaveText(
@@ -44,7 +46,7 @@ describe('Payment: TableDetail', () => {
   })
 
   it('renders with send max', () => {
-    const wrapper = createWrapper(mockPaymentSendMax)
+    renderComponent(mockPaymentSendMax)
 
     // styling makes this look okay
     expect(wrapper.find('.payment')).toHaveText(
@@ -55,7 +57,7 @@ describe('Payment: TableDetail', () => {
   })
 
   it('renders with partial', () => {
-    const wrapper = createWrapper(mockPaymentPartial)
+    renderComponent(mockPaymentPartial)
 
     // styling makes this look okay
     expect(wrapper.find('.payment')).toHaveText(
@@ -66,7 +68,7 @@ describe('Payment: TableDetail', () => {
   })
 
   it('renders with SourceTag', () => {
-    const wrapper = createWrapper(mockPaymentSourceTag)
+    renderComponent(mockPaymentSourceTag)
 
     expect(wrapper.find('.st')).toHaveText('source_tag: 20648')
 
