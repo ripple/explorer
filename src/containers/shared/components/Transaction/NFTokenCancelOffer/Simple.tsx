@@ -19,17 +19,21 @@ export const Simple: TransactionSimpleComponent = ({
           <SimpleRow
             label={t('offer_index')}
             className="dt"
-            data-test="offer-id"
+            data-testid="offer-id"
           >
             {offerID}
           </SimpleRow>
-          <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
+          <SimpleRow
+            label={t('token_id')}
+            className="dt"
+            data-testid="token-id"
+          >
             <NFTokenLink tokenID={tokenID} />
           </SimpleRow>
-          <SimpleRow label={t('amount')} data-test="amount">
+          <SimpleRow label={t('amount')} data-testid="amount">
             <Amount value={amount} displayIssuer />
           </SimpleRow>
-          <SimpleRow label={t('offerer')} data-test="offerer">
+          <SimpleRow label={t('offerer')} data-testid="offerer">
             <Account account={offerer} />
           </SimpleRow>
         </>

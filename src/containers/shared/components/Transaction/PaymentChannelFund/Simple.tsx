@@ -21,27 +21,27 @@ export const Simple = ({
   return (
     <>
       {increase && (
-        <SimpleRow label={t('channel_amount_increase')} data-test="increase">
+        <SimpleRow label={t('channel_amount_increase')} data-testid="increase">
           <Amount modifier="+" value={increase} />
         </SimpleRow>
       )}
       {channelAmount && (
-        <SimpleRow label={t('channel_amount')} data-test="amount">
+        <SimpleRow label={t('channel_amount')} data-testid="amount">
           <Amount value={channelAmount} />
         </SimpleRow>
       )}
       {totalClaimed && (
-        <SimpleRow label={t('total_claimed')} data-test="total">
+        <SimpleRow label={t('total_claimed')} data-testid="total">
           <Amount value={totalClaimed} />
         </SimpleRow>
       )}
       {source && (
-        <SimpleRow label={t('source')} data-test="source">
+        <SimpleRow label={t('source')} data-testid="source">
           <Account account={source} />
         </SimpleRow>
       )}
       {destination && (
-        <SimpleRow label={t('destination')} data-test="destination">
+        <SimpleRow label={t('destination')} data-testid="destination">
           <Account account={destination} />
         </SimpleRow>
       )}

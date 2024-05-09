@@ -14,24 +14,24 @@ export const Description = ({
   return (
     <>
       {tx.Domain && (
-        <div data-test="domain">
+        <div data-testid="domain">
           {t('set_domain_description')} <DomainLink decode domain={tx.Domain} />
         </div>
       )}
       {tx.EmailHash && (
-        <div data-test="email">
+        <div data-testid="email">
           {t('set_email_description')}
           <span className="email"> {tx.EmailHash}</span>
         </div>
       )}
       {tx.MessageKey && (
-        <div data-test="message-key">
+        <div data-testid="message-key">
           {t('set_message_key_description')}
           <span className="message-key"> {tx.MessageKey}</span>
         </div>
       )}
       {tx.SetFlag && (
-        <div data-test="set-flag">
+        <div data-testid="set-flag">
           {t('set_flag_description')}
           <span className="flag">
             {' '}
@@ -40,7 +40,7 @@ export const Description = ({
         </div>
       )}
       {tx.ClearFlag && (
-        <div data-test="clear-flag">
+        <div data-testid="clear-flag">
           {t('clear_flag_description')}
           <span className="flag">
             {' '}
@@ -49,7 +49,7 @@ export const Description = ({
         </div>
       )}
       {tx.NFTokenMinter && (
-        <div data-test="minter">
+        <div data-testid="minter">
           <Trans i18nKey="set_nftoken_minter_description">
             <Account account={tx.NFTokenMinter} />
           </Trans>

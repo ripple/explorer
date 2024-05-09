@@ -12,39 +12,39 @@ const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
 describe('PaymentChannelClaim: TableDetail', () => {
   it('renders a claim', () => {
     const wrapper = createWrapper(mockPaymentChannelClaim)
-    expect(wrapper.find('[data-test="source"]')).toHaveText(
+    expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcernNzy3iPc7gPEAJbAdXwxY1UTBamBqTYhR:1002539517',
     )
-    expect(wrapper.find('[data-test="destination"]')).toHaveText(
+    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(wrapper.find('[data-test="claimed"]')).toHaveText(
+    expect(wrapper.find('[data-testid="claimed"]')).toHaveText(
       'claimed\uE9000.01 XRP (\uE90020.34284 XRP of \uE90070.00 XRP remaining)',
     )
-    expect(wrapper.find('[data-test="amount"]')).not.toExist()
-    expect(wrapper.find('[data-test="renew"]')).not.toExist()
-    expect(wrapper.find('[data-test="close-request"]')).not.toExist()
-    expect(wrapper.find('[data-test="closed"]')).not.toExist()
+    expect(wrapper.find('[data-testid="amount"]')).not.toExist()
+    expect(wrapper.find('[data-testid="renew"]')).not.toExist()
+    expect(wrapper.find('[data-testid="close-request"]')).not.toExist()
+    expect(wrapper.find('[data-testid="closed"]')).not.toExist()
     wrapper.unmount()
   })
 
   it('renders tx with channel being closed', () => {
     const wrapper = createWrapper(mockPaymentChannelClaimClosed)
-    expect(wrapper.find('[data-test="source"]')).toHaveText(
+    expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcerH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B:2647131528',
     )
-    expect(wrapper.find('[data-test="destination"]')).toHaveText(
+    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(wrapper.find('[data-test="claimed"]')).not.toExist()
-    expect(wrapper.find('[data-test="amount"]')).toHaveText(
+    expect(wrapper.find('[data-testid="claimed"]')).not.toExist()
+    expect(wrapper.find('[data-testid="amount"]')).toHaveText(
       'channel amount\uE90010.00 XRP',
     )
-    expect(wrapper.find('[data-test="renew"]')).not.toExist()
-    expect(wrapper.find('[data-test="close-request"]')).toHaveText(
+    expect(wrapper.find('[data-testid="renew"]')).not.toExist()
+    expect(wrapper.find('[data-testid="close-request"]')).toHaveText(
       'close channel request',
     )
-    expect(wrapper.find('[data-test="closed"]')).toHaveText(
+    expect(wrapper.find('[data-testid="closed"]')).toHaveText(
       'payment channel closed',
     )
     wrapper.unmount()
@@ -52,39 +52,39 @@ describe('PaymentChannelClaim: TableDetail', () => {
 
   it('renders tx requesting channel be closed but not closing it', () => {
     const wrapper = createWrapper(mockPaymentChannelClaimCloseDenied)
-    expect(wrapper.find('[data-test="source"]')).toHaveText(
+    expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcerH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B:2647131528',
     )
-    expect(wrapper.find('[data-test="destination"]')).toHaveText(
+    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(wrapper.find('[data-test="claimed"]')).not.toExist()
-    expect(wrapper.find('[data-test="amount"]')).toHaveText(
+    expect(wrapper.find('[data-testid="claimed"]')).not.toExist()
+    expect(wrapper.find('[data-testid="amount"]')).toHaveText(
       'channel amount\uE90010.00 XRP',
     )
-    expect(wrapper.find('[data-test="renew"]')).not.toExist()
-    expect(wrapper.find('[data-test="close-request"]')).toHaveText(
+    expect(wrapper.find('[data-testid="renew"]')).not.toExist()
+    expect(wrapper.find('[data-testid="close-request"]')).toHaveText(
       'close channel request',
     )
-    expect(wrapper.find('[data-test="closed"]')).not.toExist()
+    expect(wrapper.find('[data-testid="closed"]')).not.toExist()
     wrapper.unmount()
   })
 
   it('renders tx with destination tag', () => {
     const wrapper = createWrapper(mockPaymentChannelClaimWithDestinationTag)
-    expect(wrapper.find('[data-test="source"]')).toHaveText(
+    expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcerN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
     )
-    expect(wrapper.find('[data-test="destination"]')).toHaveText(
+    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
       'destinationrf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn:20170428',
     )
-    expect(wrapper.find('[data-test="claimed"]')).toHaveText(
+    expect(wrapper.find('[data-testid="claimed"]')).toHaveText(
       'claimed\uE9001.00 XRP (\uE90099.00 XRP of \uE900100.00 XRP remaining)',
     )
-    expect(wrapper.find('[data-test="amount"]')).not.toExist()
-    expect(wrapper.find('[data-test="renew"]')).not.toExist()
-    expect(wrapper.find('[data-test="close-request"]')).not.toExist()
-    expect(wrapper.find('[data-test="closed"]')).not.toExist()
+    expect(wrapper.find('[data-testid="amount"]')).not.toExist()
+    expect(wrapper.find('[data-testid="renew"]')).not.toExist()
+    expect(wrapper.find('[data-testid="close-request"]')).not.toExist()
+    expect(wrapper.find('[data-testid="closed"]')).not.toExist()
     wrapper.unmount()
   })
 })

@@ -38,7 +38,7 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
     }
 
     return (
-      <div className="detail-section" data-test="status">
+      <div className="detail-section" data-testid="status">
         <div className="title">{t('status')}</div>
         {line1}
         {t('transaction_validated')}

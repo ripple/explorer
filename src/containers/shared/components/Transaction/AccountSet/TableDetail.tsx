@@ -12,25 +12,25 @@ export const TableDetail = ({
   return (
     <>
       {tx.Domain && (
-        <div data-test="domain">
+        <div data-testid="domain">
           <span className="label">{t('domain')}:</span>{' '}
           <span className="domain">{decodeHex(tx.Domain)}</span>
         </div>
       )}
       {tx.EmailHash && (
-        <div data-test="email">
+        <div data-testid="email">
           <span className="label">{t('email_hash')}:</span>{' '}
           <span className="email-hash">{tx.EmailHash}</span>
         </div>
       )}
       {tx.MessageKey && (
-        <div data-test="message">
+        <div data-testid="message">
           <span className="label">{t('message_key')}:</span>{' '}
           <span className="message-key">{tx.MessageKey}</span>
         </div>
       )}
       {tx.SetFlag && (
-        <div data-test="set-flag">
+        <div data-testid="set-flag">
           <span className="label">{t('set_flag')}:</span>{' '}
           <span className="flag">
             {ACCOUNT_FLAGS[Number(tx.SetFlag)] || tx.SetFlag}
@@ -38,7 +38,7 @@ export const TableDetail = ({
         </div>
       )}
       {tx.ClearFlag && (
-        <div data-test="clear-flag">
+        <div data-testid="clear-flag">
           <span className="label">{t('clear_flag')}:</span>{' '}
           <span className="flag">
             {ACCOUNT_FLAGS[Number(tx.ClearFlag)] || tx.ClearFlag}
@@ -46,7 +46,7 @@ export const TableDetail = ({
         </div>
       )}
       {tx.NFTokenMinter && (
-        <div data-test="minter">
+        <div data-testid="minter">
           <span className="label">{t('nftoken_minter')}:</span>{' '}
           <span className="domain">
             <Account account={tx.NFTokenMinter} />

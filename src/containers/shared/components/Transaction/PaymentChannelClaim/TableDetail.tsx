@@ -22,7 +22,7 @@ export const TableDetail = ({
   return (
     <div className="paymentChannelClaim">
       {source && (
-        <div data-test="source">
+        <div data-testid="source">
           <span className="label">{t('source')}</span>
           <span className="account">
             <Account account={source} />
@@ -30,7 +30,7 @@ export const TableDetail = ({
         </div>
       )}
       {destination && (
-        <div data-test="destination">
+        <div data-testid="destination">
           <span className="label">{t('destination')}</span>
           <span className="account">
             <Account account={destination} />
@@ -38,7 +38,7 @@ export const TableDetail = ({
         </div>
       )}
       {claimed && (
-        <div data-test="claimed">
+        <div data-testid="claimed">
           <span className="label">{t('claimed')}</span>
           <Amount value={claimed} />
           {remaining && channelAmount && (
@@ -51,23 +51,23 @@ export const TableDetail = ({
         </div>
       )}
       {channelAmount && !claimed && (
-        <div data-test="amount">
+        <div data-testid="amount">
           <span className="label">{t('channel_amount')}</span>
           <Amount value={channelAmount} />
         </div>
       )}
       {renew && (
-        <div className="flag" data-test="renew">
+        <div className="flag" data-testid="renew">
           {t('renew_channel')}
         </div>
       )}
       {close && (
-        <div className="flag" data-test="close-request">
+        <div className="flag" data-testid="close-request">
           {t('close_request')}
         </div>
       )}
       {deleted && (
-        <div className="closed" data-test="closed">
+        <div className="closed" data-testid="closed">
           {t('payment_channel_closed')}
         </div>
       )}

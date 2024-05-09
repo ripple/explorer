@@ -16,14 +16,14 @@ describe('XChainAddClaimAttestationSimple', () => {
       'locking-chain-door',
       'r3ZsJYkBao2qiwUCvmjfgEUquKueLAwPxQ',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(wrapper, 'send', '\uE90010.00 XRP')
@@ -37,7 +37,7 @@ describe('XChainAddClaimAttestationSimple', () => {
       'destination',
       'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi',
     )
-    expect(wrapper.find(`[data-test="destination"] a`)).toExist()
+    expect(wrapper.find(`[data-testid="destination"] a`)).toExist()
     expectSimpleRowText(wrapper, 'xchain-claim-id', '1')
   })
 
@@ -50,14 +50,14 @@ describe('XChainAddClaimAttestationSimple', () => {
       'locking-chain-door',
       'rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(wrapper, 'send', '\uE90010.00 XRP')
@@ -71,7 +71,7 @@ describe('XChainAddClaimAttestationSimple', () => {
       'destination',
       'rJdTJRJZ6GXCCRaamHJgEqVzB7Zy4557Pi',
     )
-    expect(wrapper.find(`[data-test="destination"] a`)).toExist()
+    expect(wrapper.find(`[data-testid="destination"] a`)).toExist()
     expectSimpleRowText(wrapper, 'xchain-claim-id', '3')
   })
 })
