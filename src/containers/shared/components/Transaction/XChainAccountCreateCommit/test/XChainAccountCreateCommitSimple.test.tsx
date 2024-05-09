@@ -18,14 +18,18 @@ describe('XChainAccountCreateCommitSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(screen.getByTestId('locking-chain-door')).toHaveAttribute('href')
+    expect(
+      screen.getByText('rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR'),
+    ).toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'),
+    ).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'send', '\uE90010.00 XRP')
@@ -34,7 +38,9 @@ describe('XChainAccountCreateCommitSimple', () => {
       'destination',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
-    expect(screen.getByTestId('destination')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym'),
+    ).not.toHaveAttribute('href')
   })
 
   it('renders failed transaction', () => {
@@ -46,14 +52,18 @@ describe('XChainAccountCreateCommitSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym'),
+    ).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'),
+    ).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'send', '\uE9001,000.00 XRP')
@@ -62,6 +72,8 @@ describe('XChainAccountCreateCommitSimple', () => {
       'destination',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
-    expect(screen.getByTestId('destination')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym'),
+    ).not.toHaveAttribute('href')
   })
 })

@@ -17,14 +17,18 @@ describe('XChainClaimSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR'),
+    ).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door')).toHaveAttribute('href')
+    expect(
+      screen.getByText('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'),
+    ).toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'amount', '\uE90010.00 XRP')
@@ -45,17 +49,21 @@ describe('XChainClaimSimple', () => {
       'locking-chain-door',
       'rMAXACCrp3Y8PpswXcg3bKggHX76V3F8M4',
     )
-    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('rMAXACCrp3Y8PpswXcg3bKggHX76V3F8M4'),
+    ).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'),
+    ).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
-    expectSimpleRowText(screen, 'amount', '\uE9000.01 XRP')
+    expectSimpleRowText(screen, 'claim-amount', '\uE9000.01 XRP')
     expectSimpleRowText(
       screen,
       'destination',
