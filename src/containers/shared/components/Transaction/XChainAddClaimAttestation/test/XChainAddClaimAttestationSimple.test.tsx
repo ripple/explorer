@@ -18,14 +18,14 @@ describe('XChainAddClaimAttestationSimple', () => {
       'locking-chain-door',
       'r3ZsJYkBao2qiwUCvmjfgEUquKueLAwPxQ',
     )
-    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'send', '\uE90010.00 XRP')
@@ -52,14 +52,14 @@ describe('XChainAddClaimAttestationSimple', () => {
       'locking-chain-door',
       'rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd',
     )
-    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'send', '\uE90010.00 XRP')

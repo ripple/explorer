@@ -8,7 +8,7 @@ import { expectSimpleRowText } from '../../test/expectations'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
-describe('SetHookSimple', () => {
+describe('SetHook: Simple', () => {
   afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockSetHook)

@@ -18,7 +18,7 @@ describe('XChainModifyBridgeSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
@@ -47,7 +47,7 @@ describe('XChainModifyBridgeSimple', () => {
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'min-account-create-amount', '\uE900100.00 XRP')
@@ -62,7 +62,7 @@ describe('XChainModifyBridgeSimple', () => {
       'locking-chain-door',
       'r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W',
     )
-    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
