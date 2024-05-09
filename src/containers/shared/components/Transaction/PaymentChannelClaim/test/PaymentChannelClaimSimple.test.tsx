@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
@@ -12,11 +13,12 @@ import {
   expectSimpleRowText,
 } from '../../test'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('PaymentChannelClaim: Simple', () => {
+  afterEach(cleanup)
   it('renders a claim', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaim)
+    renderComponent(mockPaymentChannelClaim)
     expectSimpleRowLabel(wrapper, 'amount', 'channel amount')
     expectSimpleRowText(wrapper, 'amount', '\uE90070.00 XRP')
     expectSimpleRowLabel(wrapper, 'claimed', 'amount claimed')
@@ -48,7 +50,7 @@ describe('PaymentChannelClaim: Simple', () => {
   })
 
   it('renders tx with channel being closed', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimClosed)
+    renderComponent(mockPaymentChannelClaimClosed)
     expectSimpleRowText(wrapper, 'amount', '\uE90010.00 XRP')
     expectSimpleRowNotToExist(wrapper, 'claimed')
     expectSimpleRowText(wrapper, 'total', '\uE9000.34 XRP')
@@ -74,7 +76,7 @@ describe('PaymentChannelClaim: Simple', () => {
   })
 
   it('renders tx requesting channel be closed but not closing it', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimCloseDenied)
+    renderComponent(mockPaymentChannelClaimCloseDenied)
     expectSimpleRowText(wrapper, 'amount', '\uE90010.00 XRP')
     expectSimpleRowNotToExist(wrapper, 'claimed')
     expectSimpleRowNotToExist(wrapper, 'total')
@@ -100,7 +102,7 @@ describe('PaymentChannelClaim: Simple', () => {
   })
 
   it('renders tx with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimWithDestinationTag)
+    renderComponent(mockPaymentChannelClaimWithDestinationTag)
     expectSimpleRowText(wrapper, 'amount', '\uE900100.00 XRP')
     expectSimpleRowText(wrapper, 'claimed', '\uE9001.00 XRP')
     expectSimpleRowText(wrapper, 'total', '\uE9001.00 XRP')

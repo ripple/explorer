@@ -1,12 +1,14 @@
+import { cleanup, screen } from '@testing-library/react'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import offerCancel from './mock_data/OfferCancel.json'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('OfferCancel: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(offerCancel)
+    renderComponent(offerCancel)
 
     expectSimpleRowText(wrapper, 'cancel', '#15239384')
   })

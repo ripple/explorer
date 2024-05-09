@@ -3,11 +3,11 @@ import mockEscrowCreate from './mock_data/EscrowCreate.json'
 import mockEscrowCreateFinishFunction from './mock_data/EscrowCreateFinishFunction.json'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('EscrowCreateSimple', () => {
   it('renders with an expiration and offer', () => {
-    const wrapper = createWrapper(mockEscrowCreate)
+    renderComponent(mockEscrowCreate)
     expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
       '\uE900997.50 XRP',
     )

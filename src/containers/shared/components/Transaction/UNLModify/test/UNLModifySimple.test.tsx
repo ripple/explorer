@@ -1,4 +1,5 @@
 import { mount } from 'enzyme'
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
@@ -10,11 +11,12 @@ import { SimpleTab } from '../../../../../Transactions/SimpleTab'
 import { QuickHarness } from '../../../../../test/utils'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('UNLModify: Simple', () => {
+  afterEach(cleanup)
   it('renders tx that enables a validator', () => {
-    const wrapper = createWrapper(mockUNLModifyEnable)
+    renderComponent(mockUNLModifyEnable)
     expectSimpleRowLabel(wrapper, 'validator', 'Validator')
     expectSimpleRowText(
       wrapper,
@@ -27,7 +29,7 @@ describe('UNLModify: Simple', () => {
   })
 
   it('renders tx that disables a validator', () => {
-    const wrapper = createWrapper(mockUNLModifyDisable)
+    renderComponent(mockUNLModifyDisable)
     expectSimpleRowLabel(wrapper, 'validator', 'Validator')
     expectSimpleRowText(
       wrapper,

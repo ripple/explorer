@@ -1,13 +1,15 @@
+import { cleanup, screen } from '@testing-library/react'
 import mockSignerListSetClear from './mock_data/SignerListSetClear.json'
 import mockSignerListSet from './mock_data/SignerListSet.json'
 import { Description } from '../Description'
 import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionRenderFactory(Description)
+const renderComponent = createDescriptionRenderFactory(Description)
 
 describe('SignerListSet: Description', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockSignerListSet)
+    renderComponent(mockSignerListSet)
 
     expect(wrapper.find('div').at(0).text()).toEqual(
       'set_signer_list_description:',
@@ -26,7 +28,7 @@ describe('SignerListSet: Description', () => {
   })
 
   it('renders when signer list is cleared', () => {
-    const wrapper = createWrapper(mockSignerListSetClear)
+    renderComponent(mockSignerListSetClear)
     expect(wrapper).toHaveText('unset_signer_list_description')
     wrapper.unmount()
   })

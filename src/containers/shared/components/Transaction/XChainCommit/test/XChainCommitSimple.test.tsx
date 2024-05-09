@@ -1,14 +1,15 @@
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockXChainCommit from './mock_data/XChainCommit.json'
 import mockXChainCommitInsufficientFunds from './mock_data/XChainCommitInsufficientFunds.json'
 
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('XChainCommitSimple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockXChainCommit)
+    renderComponent(mockXChainCommit)
 
     // check XChainBridge parts
     expectSimpleRowText(
@@ -32,7 +33,7 @@ describe('XChainCommitSimple', () => {
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockXChainCommitInsufficientFunds)
+    renderComponent(mockXChainCommitInsufficientFunds)
 
     // check XChainBridge parts
     expectSimpleRowText(

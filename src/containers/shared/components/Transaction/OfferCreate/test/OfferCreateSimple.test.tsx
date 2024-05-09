@@ -3,11 +3,12 @@ import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndC
 import mockOfferCreate from './mock_data/OfferCreate.json'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('OfferCreate: Simple', () => {
+  afterEach(cleanup)
   it('renders with an expiration and offer', () => {
-    const wrapper = createWrapper(mockOfferCreateWithCancel)
+    renderComponent(mockOfferCreateWithCancel)
     expect(wrapper.find('[data-testid="amount"] .one-line')).toHaveText(
       '\uE900 XRP/CSC.rCSC',
     )
@@ -24,7 +25,7 @@ describe('OfferCreate: Simple', () => {
   })
 
   it('renders', () => {
-    const wrapper = createWrapper(mockOfferCreate)
+    renderComponent(mockOfferCreate)
 
     expect(wrapper.find('[data-testid="offer-id"] .value')).not.toExist()
     expect(wrapper.find('[data-testid="amount-buy"] .value')).toHaveText(

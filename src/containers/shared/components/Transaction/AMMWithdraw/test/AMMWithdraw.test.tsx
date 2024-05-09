@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import {
   createSimpleRenderFactory,
@@ -10,10 +11,10 @@ import withdrawXRPMock from './mock_data/withdraw_xrp.json'
 import withdrawEpriceMock from './mock_data/withdraw_eprice.json'
 
 describe('AMM Withdraw Tests', () => {
-  const createWrapper = createSimpleRenderFactory(Simple)
+  const renderComponent = createSimpleRenderFactory(Simple)
 
   it('renders from transaction', () => {
-    const wrapper = createWrapper(withdrawMock)
+    renderComponent(withdrawMock)
     expectSimpleRowText(wrapper, 'asset1', '\uE9003,666.580862 XRP')
     expectSimpleRowText(
       wrapper,
@@ -29,7 +30,7 @@ describe('AMM Withdraw Tests', () => {
   })
 
   it('renders transaction from usd only', () => {
-    const wrapper = createWrapper(withdrawUSDMock)
+    renderComponent(withdrawUSDMock)
     expectSimpleRowNotToExist(wrapper, 'asset1')
     expectSimpleRowText(
       wrapper,
@@ -44,7 +45,7 @@ describe('AMM Withdraw Tests', () => {
     wrapper.unmount()
   })
   it('renders transaction from XRP only', () => {
-    const wrapper = createWrapper(withdrawXRPMock)
+    renderComponent(withdrawXRPMock)
     expectSimpleRowNotToExist(wrapper, 'asset2')
     expectSimpleRowText(wrapper, 'asset1', '\uE90099.99998 XRP')
     expectSimpleRowText(
@@ -56,7 +57,7 @@ describe('AMM Withdraw Tests', () => {
   })
 
   it('renders transaction from eprice', () => {
-    const wrapper = createWrapper(withdrawEpriceMock)
+    renderComponent(withdrawEpriceMock)
     expectSimpleRowNotToExist(wrapper, 'asset1')
     expectSimpleRowText(
       wrapper,

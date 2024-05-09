@@ -1,12 +1,14 @@
+import { cleanup, screen } from '@testing-library/react'
 import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import TicketCreate from './mock_data/TicketCreate.json'
 
-const createWrapper = createTableDetailRenderFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('TicketCreate: TableDetail', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(TicketCreate)
+    renderComponent(TicketCreate)
     expect(wrapper).toHaveText('ticket_count: 1')
     wrapper.unmount()
   })

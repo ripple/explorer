@@ -1,6 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
+import { cleanup, screen } from '@testing-library/react'
 import { Simple as NFTokenMint } from '../Simple'
 import transactionModified2 from './mock_data/NFTokenMintModified2.json'
 import transactionModified1Created1 from './mock_data/NFTokenMintModified1Created1.json'

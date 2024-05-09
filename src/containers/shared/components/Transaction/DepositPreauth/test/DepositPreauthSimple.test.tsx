@@ -5,11 +5,12 @@ import { Simple } from '../Simple'
 import mockDepositPreauth from './mock_data/DepositPreauth.json'
 import mockDepositPreauthUnauthorize from './mock_data/DepositPreauthUnauthorize.json'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('DepositPreauth: Simple', () => {
+  afterEach(cleanup)
   it('renders authorized', () => {
-    const wrapper = createWrapper(mockDepositPreauth)
+    renderComponent(mockDepositPreauth)
     expect(wrapper.find('.label')).toHaveText('authorize')
     expect(wrapper.find('.value')).toHaveText(
       'rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM',
@@ -18,7 +19,7 @@ describe('DepositPreauth: Simple', () => {
   })
 
   it('renders unauthorized', () => {
-    const wrapper = createWrapper(mockDepositPreauthUnauthorize)
+    renderComponent(mockDepositPreauthUnauthorize)
     expect(wrapper.find('.label')).toHaveText('unauthorize')
     expect(wrapper.find('.value')).toHaveText(
       'rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM',

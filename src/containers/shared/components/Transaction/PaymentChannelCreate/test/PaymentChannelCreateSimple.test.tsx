@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import {
@@ -11,11 +12,12 @@ import mockPaymentChannelCreateFailed from './mock_data/PaymentChannelCreateFail
 import mockPaymentChannelCreateWithDestinationTag from './mock_data/PaymentChannelCreateWithDestinationTag.json'
 import { Simple } from '../Simple'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('PaymentChannelCreate: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreate)
+    renderComponent(mockPaymentChannelCreate)
     expectSimpleRowLabel(wrapper, 'amount', 'Amount')
     expectSimpleRowText(wrapper, 'amount', '\uE9001.00 XRP')
     expectSimpleRowLabel(wrapper, 'source', 'source')
@@ -42,7 +44,7 @@ describe('PaymentChannelCreate: Simple', () => {
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreateFailed)
+    renderComponent(mockPaymentChannelCreateFailed)
     expectSimpleRowText(wrapper, 'amount', '\uE90010.00 XRP')
     expectSimpleRowText(
       wrapper,
@@ -60,7 +62,7 @@ describe('PaymentChannelCreate: Simple', () => {
   })
 
   it('renders tx with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreateWithDestinationTag)
+    renderComponent(mockPaymentChannelCreateWithDestinationTag)
     expectSimpleRowText(wrapper, 'amount', '\uE900100.00 XRP')
     expectSimpleRowText(wrapper, 'source', 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH')
     expectSimpleRowText(

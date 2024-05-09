@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { Description } from '../Description'
 
@@ -9,11 +10,12 @@ import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionRenderFactory(Description, i18n)
+const renderComponent = createDescriptionRenderFactory(Description, i18n)
 
 describe('Payment: Description', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockPayment)
+    renderComponent(mockPayment)
 
     expect(wrapper.find('[data-testid="from-to-line"]')).toHaveText(
       `The payment is from rNQEMJA4PsoSrZRn9J6RajAYhcDzzhf8ok to rHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
@@ -31,7 +33,7 @@ describe('Payment: Description', () => {
   })
 
   it('renders with failed partial conversion', () => {
-    const wrapper = createWrapper(mockPaymentConvert)
+    renderComponent(mockPaymentConvert)
 
     expect(wrapper.find('[data-testid="from-to-line"]')).toHaveText(
       `The payment is from r9x5PHDiwuvbpYB3uvGAqEUVV5wxHayQEx to r9x5PHDiwuvbpYB3uvGAqEUVV5wxHayQEx`,
@@ -47,7 +49,7 @@ describe('Payment: Description', () => {
   })
 
   it('renders with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentDestinationTag)
+    renderComponent(mockPaymentDestinationTag)
 
     expect(wrapper.find('[data-testid="from-to-line"]')).toHaveText(
       `The payment is from rDAE53VfMvftPB4ogpWGWvzkQxfht6JPxr to rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt`,
@@ -67,7 +69,7 @@ describe('Payment: Description', () => {
   })
 
   it('renders with send max', () => {
-    const wrapper = createWrapper(mockPaymentSendMax)
+    renderComponent(mockPaymentSendMax)
 
     expect(wrapper.find('[data-testid="from-to-line"]')).toHaveText(
       `The payment is from r3RaNVLvWjqqtFAawC6jbRhgKyFH7HvRS8 to rprcTynT68nYdKzDTefAZG9HjSHiYcnP4b`,
@@ -86,7 +88,7 @@ describe('Payment: Description', () => {
   })
 
   it('renders with partial', () => {
-    const wrapper = createWrapper(mockPaymentPartial)
+    renderComponent(mockPaymentPartial)
 
     expect(wrapper.find('[data-testid="from-to-line"]')).toHaveText(
       `The payment is from rGTurN94Nn3RkJGSqy9MwmQCLpXZkELbnq to rMQ4oGC8fasuJwfdrfknFTttDbf8cR3D2j`,
@@ -106,7 +108,7 @@ describe('Payment: Description', () => {
   })
 
   it('renders with SourceTag', () => {
-    const wrapper = createWrapper(mockPaymentSourceTag)
+    renderComponent(mockPaymentSourceTag)
 
     expect(wrapper.find('[data-testid="source-tag-line"]')).toHaveText(
       `The source tag is 20648`,
