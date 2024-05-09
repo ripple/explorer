@@ -18,7 +18,7 @@ describe('XChainCreateBridgeSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
@@ -29,9 +29,7 @@ describe('XChainCreateBridgeSimple', () => {
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
-    expect(
-      screen.getByTestId('min-create-account-amount"]`),
-    ).not.toExist()
+    expect(screen.getByTestId('min-create-account-amount')).not.toExist()
   })
 
   it('renders IOU bridge', () => {
@@ -43,7 +41,7 @@ describe('XChainCreateBridgeSimple', () => {
       'locking-chain-door',
       'ratAutb3katzezbXX3LsX4sk4vmvhNucac',
     )
-    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(
       screen,
       'locking-chain-issue',
@@ -81,7 +79,7 @@ describe('XChainCreateBridgeSimple', () => {
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
