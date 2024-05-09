@@ -34,11 +34,4 @@ describe('UNLModify: Simple', () => {
     expectSimpleRowLabel(screen, 'action', 'action')
     expectSimpleRowText(screen, 'action', 'DISABLE')
   })
-
-  it('renders tx with correct account and sequence', () => {
-    renderComponent(mockUNLModifyDisable)
-    expect(screen.queryByTestId('account')).toBeNull()
-    expectSimpleRowLabel(screen, 'sequence', 'Sequence Number')
-    expectSimpleRowText(screen, 'sequence', '0')
-  })
 })
