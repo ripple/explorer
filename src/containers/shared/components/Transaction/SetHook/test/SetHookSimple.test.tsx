@@ -1,4 +1,5 @@
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockSetHook from './mock_data/SetHook.json'
 import mockSetHook2 from './mock_data/SetHook2.json'

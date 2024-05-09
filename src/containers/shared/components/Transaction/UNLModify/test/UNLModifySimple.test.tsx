@@ -25,7 +25,6 @@ describe('UNLModify: Simple', () => {
     )
     expectSimpleRowLabel(wrapper, 'action', 'action')
     expectSimpleRowText(wrapper, 'action', 'ENABLE')
-    wrapper.unmount()
   })
 
   it('renders tx that disables a validator', () => {
@@ -38,7 +37,6 @@ describe('UNLModify: Simple', () => {
     )
     expectSimpleRowLabel(wrapper, 'action', 'action')
     expectSimpleRowText(wrapper, 'action', 'DISABLE')
-    wrapper.unmount()
   })
 
   it('renders tx with correct account and sequence', () => {
@@ -56,7 +54,5 @@ describe('UNLModify: Simple', () => {
     expect(wrapper.find('[data-testid="account"]')).not.toExist()
     expectSimpleRowLabel(wrapper, 'sequence', 'Sequence Number')
     expectSimpleRowText(wrapper, 'sequence', '0')
-
-    wrapper.unmount()
   })
 })

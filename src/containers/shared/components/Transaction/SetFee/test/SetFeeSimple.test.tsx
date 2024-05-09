@@ -26,12 +26,10 @@ describe('SetFee: Simple', () => {
   it('renders Simple for transaction before XRPFees amendment', () => {
     renderComponent(SetFeePreAmendment)
     testSimple(wrapper)
-    wrapper.unmount()
   })
 
   it('renders Simple for transaction after XRPFees amendment', () => {
     renderComponent(SetFeePostAmendment)
     testSimple(wrapper)
-    wrapper.unmount()
   })
 })

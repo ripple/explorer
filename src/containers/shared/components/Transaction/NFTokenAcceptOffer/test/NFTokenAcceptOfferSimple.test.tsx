@@ -1,5 +1,6 @@
 import { cleanup, screen } from '@testing-library/react'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import transactionBuy from './mock_data/NFTokenAcceptOffer_Buy.json'
 import transactionSell from './mock_data/NFTokenAcceptOffer_Sell.json'
@@ -26,7 +27,6 @@ describe('NFTokenAcceptOffer', () => {
     expectSimpleRowText(wrapper, 'amount', '\uE9000.0001 XRP')
     expectSimpleRowText(wrapper, 'buyer', 'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh')
     expectSimpleRowText(wrapper, 'seller', 'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g')
-    wrapper.unmount()
   })
 
   it('handles NFTokenAcceptOffer Sell simple view ', () => {
@@ -44,7 +44,6 @@ describe('NFTokenAcceptOffer', () => {
     expectSimpleRowText(wrapper, 'amount', '\uE9000.000102 XRP')
     expectSimpleRowText(wrapper, 'buyer', 'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh')
     expectSimpleRowText(wrapper, 'seller', 'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g')
-    wrapper.unmount()
   })
 
   it('handles NFTokenAcceptOffer Sell Failure simple view ', () => {
@@ -59,7 +58,6 @@ describe('NFTokenAcceptOffer', () => {
     expectSimpleRowNotToExist(wrapper, 'amount')
     expectSimpleRowNotToExist(wrapper, 'buyer')
     expectSimpleRowNotToExist(wrapper, 'seller')
-    wrapper.unmount()
   })
 
   it('handles NFTokenAcceptOffer from Broker simple view ', () => {
@@ -73,6 +71,5 @@ describe('NFTokenAcceptOffer', () => {
     expectSimpleRowText(wrapper, 'amount', '\uE9002,500.00 XRP')
     expectSimpleRowText(wrapper, 'buyer', 'rNYKGnHrjSnKXQGgACciyCLg4xRcwWZixN')
     expectSimpleRowText(wrapper, 'seller', 'rnp9DA6H2tLH7YFkgpjoVREB2yccYv56Sg')
-    wrapper.unmount()
   })
 })

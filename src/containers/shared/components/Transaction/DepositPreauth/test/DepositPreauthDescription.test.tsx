@@ -1,7 +1,7 @@
 import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import mockDepositPreaut from './mock_data/DepositPreauth.json'
+import mockDepositPreauth from './mock_data/DepositPreauth.json'
 import mockDepositPreauthUnauthorize from './mock_data/DepositPreauthUnauthorize.json'
 
 import { Description } from '../Description'
@@ -12,18 +12,23 @@ const renderComponent = createDescriptionRenderFactory(Description, i18n)
 describe('DepositPreauth: Description', () => {
   afterEach(cleanup)
   it('renders description for authorize', () => {
-    renderComponent(mockDepositPreaut)
-    expect(wrapper.html()).toBe(
-      `<div>It authorizes <a data-testid="account" title="rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM" class="account" href="/accounts/rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM">rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM</a> to send payments to this account</div>`,
+    renderComponent(mockDepositPreauth)
+    expect(screen.getByTestId('deposit-auth')).toHaveTextContent(
+      'It authorizes rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM to send payments to this account',
     )
-    wrapper.unmount()
+    expect(
+      screen.getByText('rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM'),
+    ).toHaveAttribute('href')
   })
 
   it('renders description for unauthorize', () => {
     renderComponent(mockDepositPreauthUnauthorize)
-    expect(wrapper.html()).toBe(
-      `<div>It removes the authorization for <a data-testid="account" title="rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM" class="account" href="/accounts/rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM">rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM</a> to send payments to this account</div>`,
+
+    expect(screen.getByTestId('deposit-unauth')).toHaveTextContent(
+      'It removes the authorization for rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM to send payments to this account',
     )
-    wrapper.unmount()
+    expect(
+      screen.getByText('rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM'),
+    ).toHaveAttribute('href')
   })
 })

@@ -1,6 +1,7 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createTableDetailRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 import { TableDetail } from '../TableDetail'
 import mockPaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import mockPaymentChannelClaimClosed from './mock_data/PaymentChannelClaimClosed.json'
@@ -26,7 +27,6 @@ describe('PaymentChannelClaim: TableDetail', () => {
     expect(wrapper.find('[data-testid="renew"]')).not.toExist()
     expect(wrapper.find('[data-testid="close-request"]')).not.toExist()
     expect(wrapper.find('[data-testid="closed"]')).not.toExist()
-    wrapper.unmount()
   })
 
   it('renders tx with channel being closed', () => {
@@ -48,7 +48,6 @@ describe('PaymentChannelClaim: TableDetail', () => {
     expect(wrapper.find('[data-testid="closed"]')).toHaveText(
       'payment channel closed',
     )
-    wrapper.unmount()
   })
 
   it('renders tx requesting channel be closed but not closing it', () => {
@@ -68,7 +67,6 @@ describe('PaymentChannelClaim: TableDetail', () => {
       'close channel request',
     )
     expect(wrapper.find('[data-testid="closed"]')).not.toExist()
-    wrapper.unmount()
   })
 
   it('renders tx with destination tag', () => {
@@ -86,6 +84,5 @@ describe('PaymentChannelClaim: TableDetail', () => {
     expect(wrapper.find('[data-testid="renew"]')).not.toExist()
     expect(wrapper.find('[data-testid="close-request"]')).not.toExist()
     expect(wrapper.find('[data-testid="closed"]')).not.toExist()
-    wrapper.unmount()
   })
 })

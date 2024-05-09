@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { Simple } from '../Simple'
@@ -16,7 +17,6 @@ describe('SetRegularKey: Simple', () => {
     expect(keyRow.find('.value').text()).toBe(
       `rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp`,
     )
-    wrapper.unmount()
   })
 
   it('renders Simple for transaction that unsets key', () => {
@@ -25,6 +25,5 @@ describe('SetRegularKey: Simple', () => {
 
     expect(keyRow.prop('label')).toBe('')
     expect(keyRow.find('.unset').hostNodes().text()).toBe(`unset_regular_key`)
-    wrapper.unmount()
   })
 })
