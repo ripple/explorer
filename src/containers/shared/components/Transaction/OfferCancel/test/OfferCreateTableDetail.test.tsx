@@ -10,6 +10,6 @@ describe('OfferCancel: TableDetail', () => {
   it('renders', () => {
     renderComponent(offerCancel)
 
-    expect(wrapper).toHaveText('cancel_offer #15239384')
+    expect(screen).toHaveText('cancel_offer #15239384')
   })
 })

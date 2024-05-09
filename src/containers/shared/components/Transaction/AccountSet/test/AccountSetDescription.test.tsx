@@ -15,7 +15,7 @@ describe('AccountSet: Description', () => {
   afterEach(cleanup)
   it('renders tx that sets the domain', () => {
     renderComponent(mockAccountSetWithDomain)
-    expect(wrapper).toHaveText('It sets the account domain as mduo13.com')
+    expect(screen).toHaveText('It sets the account domain as mduo13.com')
   })
 
   it('renders tx that sets the email hash', () => {
@@ -27,19 +27,19 @@ describe('AccountSet: Description', () => {
         EmailHash: '7AC3878BF42A5329698F468A6AAA03B9',
       },
     })
-    expect(wrapper).toHaveText(
+    expect(screen).toHaveText(
       'It sets the account email hash as 7AC3878BF42A5329698F468A6AAA03B9',
     )
   })
 
   it('renders tx that clears a flag', () => {
     renderComponent(mockAccountSetWithClearFlag)
-    expect(wrapper).toHaveText('It clears the account flag asfGlobalFreeze')
+    expect(screen).toHaveText('It clears the account flag asfGlobalFreeze')
   })
 
   it('renders tx that sets a flag', () => {
     renderComponent(mockAccountSetWithSetFlag)
-    expect(wrapper).toHaveText('It sets the account flag asfRequireDest')
+    expect(screen).toHaveText('It sets the account flag asfRequireDest')
   })
 
   it('renders tx that clears a flag that is not defined', () => {
@@ -47,7 +47,7 @@ describe('AccountSet: Description', () => {
       ...mockAccountSetWithClearFlag,
       tx: { ...mockAccountSetWithClearFlag.tx, ClearFlag: 45 },
     })
-    expect(wrapper).toHaveText('It clears the account flag 45')
+    expect(screen).toHaveText('It clears the account flag 45')
   })
 
   it('renders tx that sets a flag that is not defined', () => {
@@ -55,19 +55,19 @@ describe('AccountSet: Description', () => {
       ...mockAccountSetWithSetFlag,
       tx: { ...mockAccountSetWithSetFlag.tx, SetFlag: 45 },
     })
-    expect(wrapper).toHaveText('It sets the account flag 45')
+    expect(screen).toHaveText('It sets the account flag 45')
   })
 
   it('renders tx that sets a message', () => {
     renderComponent(mockAccountSetWithMessageKey)
-    expect(wrapper.find('[data-testid="message-key"]')).toHaveText(
+    expect(screen.find('[data-testid="message-key"]')).toHaveText(
       'It sets the account message key as 020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA',
     )
   })
 
   it('renders tx that sets a minter', () => {
     renderComponent(mockAccountSetWithNFTokenMinter)
-    expect(wrapper.find('[data-testid="minter"]')).toHaveText(
+    expect(screen.find('[data-testid="minter"]')).toHaveText(
       'It sets rXMART8usFd5kABXCayoP6ZfB35b4v43t as the authorized minter for this account',
     )
   })

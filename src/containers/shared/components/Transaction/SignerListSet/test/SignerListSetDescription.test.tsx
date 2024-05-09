@@ -11,11 +11,11 @@ describe('SignerListSet: Description', () => {
   it('renders', () => {
     renderComponent(mockSignerListSet)
 
-    expect(wrapper.find('div').at(0).text()).toEqual(
+    expect(screen.find('div').at(0).text()).toEqual(
       'set_signer_list_description:',
     )
 
-    const signers = wrapper.find('.signers li')
+    const signers = screen.find('.signers li')
     expect(signers.at(0)).toHaveText(
       'rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv - weight: 2',
     )
@@ -29,6 +29,6 @@ describe('SignerListSet: Description', () => {
 
   it('renders when signer list is cleared', () => {
     renderComponent(mockSignerListSetClear)
-    expect(wrapper).toHaveText('unset_signer_list_description')
+    expect(screen).toHaveText('unset_signer_list_description')
   })
 })

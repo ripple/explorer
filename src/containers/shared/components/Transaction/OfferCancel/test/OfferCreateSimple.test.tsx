@@ -10,6 +10,6 @@ describe('OfferCancel: Simple', () => {
   it('renders', () => {
     renderComponent(offerCancel)
 
-    expectSimpleRowText(wrapper, 'cancel', '#15239384')
+    expectSimpleRowText(screen, 'cancel', '#15239384')
   })
 })

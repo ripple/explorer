@@ -26,11 +26,11 @@ describe('Payment: Simple', () => {
   it('renders', () => {
     renderComponent(mockPayment)
 
-    expectSimpleRowText(wrapper, 'amount', `\uE9002,421.8268 XRP`)
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowText(screen, 'amount', `\uE9002,421.8268 XRP`)
+    expectSimpleRowLabel(screen, 'amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'destination',
       `rHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
     )
@@ -39,27 +39,27 @@ describe('Payment: Simple', () => {
   it('renders with failed partial conversion', () => {
     renderComponent(mockPaymentConvert)
 
-    expectSimpleRowLabel(wrapper, 'max', `convert_maximum`)
-    expectSimpleRowText(wrapper, 'max', `\uE9001,140.00 XRP`)
+    expectSimpleRowLabel(screen, 'max', `convert_maximum`)
+    expectSimpleRowText(screen, 'max', `\uE9001,140.00 XRP`)
 
-    expectSimpleRowLabel(wrapper, 'amount', `convert_to`)
+    expectSimpleRowLabel(screen, 'amount', `convert_to`)
     expectSimpleRowText(
-      wrapper,
+      screen,
       'amount',
       `0.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZrpartial_payment_allowed`,
     )
 
-    expect(wrapper.find('[data-testid="destination"]')).not.toExist()
+    expect(screen.find('[data-testid="destination"]')).not.toExist()
   })
 
   it('renders with destination tag', () => {
     renderComponent(mockPaymentDestinationTag)
 
-    expectSimpleRowText(wrapper, 'amount', `\uE9001,531.267 XRP`)
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowText(screen, 'amount', `\uE9001,531.267 XRP`)
+    expectSimpleRowLabel(screen, 'amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'destination',
       `rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt:381702`,
     )
@@ -69,21 +69,21 @@ describe('Payment: Simple', () => {
     renderComponent(mockPaymentSendMax)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'max',
       `17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA`,
     )
-    expectSimpleRowLabel(wrapper, 'max', `using_at_most`)
+    expectSimpleRowLabel(screen, 'max', `using_at_most`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'amount',
       `17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA`,
     )
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowLabel(screen, 'amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'destination',
       `rprcTynT68nYdKzDTefAZG9HjSHiYcnP4b:0`,
     )
@@ -93,14 +93,14 @@ describe('Payment: Simple', () => {
     renderComponent(mockPaymentPartial)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'amount',
       `0.00104196 xCoin.rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFipartial_payment_allowed`,
     )
-    expectSimpleRowLabel(wrapper, 'amount', `delivered`)
+    expectSimpleRowLabel(screen, 'amount', `delivered`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'destination',
       `rMQ4oGC8fasuJwfdrfknFTttDbf8cR3D2j:0`,
     )
@@ -109,7 +109,7 @@ describe('Payment: Simple', () => {
   it('renders with SourceTag', () => {
     renderComponent(mockPaymentSourceTag)
 
-    expectSimpleRowText(wrapper, 'source-tag', `20648`)
+    expectSimpleRowText(screen, 'source-tag', `20648`)
   })
 
   it('renders direct MPT payment', () => {

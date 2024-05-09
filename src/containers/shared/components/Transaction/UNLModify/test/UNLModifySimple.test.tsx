@@ -17,30 +17,30 @@ describe('UNLModify: Simple', () => {
   afterEach(cleanup)
   it('renders tx that enables a validator', () => {
     renderComponent(mockUNLModifyEnable)
-    expectSimpleRowLabel(wrapper, 'validator', 'Validator')
+    expectSimpleRowLabel(screen, 'validator', 'Validator')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'validator',
       'nHUXeusfwk61c4xJPneb9Lgy7Ga6DVaVLEyB29ftUdt9k2KxD6Hw',
     )
-    expectSimpleRowLabel(wrapper, 'action', 'action')
-    expectSimpleRowText(wrapper, 'action', 'ENABLE')
+    expectSimpleRowLabel(screen, 'action', 'action')
+    expectSimpleRowText(screen, 'action', 'ENABLE')
   })
 
   it('renders tx that disables a validator', () => {
     renderComponent(mockUNLModifyDisable)
-    expectSimpleRowLabel(wrapper, 'validator', 'Validator')
+    expectSimpleRowLabel(screen, 'validator', 'Validator')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'validator',
       'nHUXeusfwk61c4xJPneb9Lgy7Ga6DVaVLEyB29ftUdt9k2KxD6Hw',
     )
-    expectSimpleRowLabel(wrapper, 'action', 'action')
-    expectSimpleRowText(wrapper, 'action', 'DISABLE')
+    expectSimpleRowLabel(screen, 'action', 'action')
+    expectSimpleRowText(screen, 'action', 'DISABLE')
   })
 
   it('renders tx with correct account and sequence', () => {
-    const wrapper = mount(
+    const screen = mount(
       <QuickHarness i18n={i18n}>
         <SimpleTab
           data={{
@@ -51,8 +51,8 @@ describe('UNLModify: Simple', () => {
         />
       </QuickHarness>,
     )
-    expect(wrapper.find('[data-testid="account"]')).not.toExist()
-    expectSimpleRowLabel(wrapper, 'sequence', 'Sequence Number')
-    expectSimpleRowText(wrapper, 'sequence', '0')
+    expect(screen.find('[data-testid="account"]')).not.toExist()
+    expectSimpleRowLabel(screen, 'sequence', 'Sequence Number')
+    expectSimpleRowText(screen, 'sequence', '0')
   })
 })

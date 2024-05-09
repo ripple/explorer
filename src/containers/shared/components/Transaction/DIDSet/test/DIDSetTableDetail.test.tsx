@@ -9,7 +9,7 @@ describe('DIDSet: TableDetail', () => {
   afterEach(cleanup)
   it('renders', () => {
     renderComponent(DIDSet)
-    expect(wrapper).toHaveText(
+    expect(screen).toHaveText(
       // eslint-disable-next-line no-useless-concat -- easier to read this way
       'uri: did_example' + 'did_document: doc' + 'data: attest',
     )
