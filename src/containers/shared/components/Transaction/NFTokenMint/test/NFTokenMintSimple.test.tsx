@@ -1,8 +1,5 @@
-import { BrowserRouter as Router } from 'react-router-dom'
-import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
 import { cleanup, screen } from '@testing-library/react'
-import { Simple as NFTokenMint } from '../Simple'
+import { Simple } from '../Simple'
 import transactionModified2 from './mock_data/NFTokenMintModified2.json'
 import transactionModified1Created1 from './mock_data/NFTokenMintModified1Created1.json'
 import transactionModified2Created1 from './mock_data/NFTokenMintMostModified2Created1.json'
@@ -10,22 +7,19 @@ import transactionWithIssuer from './mock_data/NFTokenMintWithIssuer.json'
 import transactionModified4Created1 from './mock_data/NFTokenMintModified4Created1.json'
 import transactionNullURI from './mock_data/NFTokenMintNullURI.json'
 import transactionFailed from './mock_data/NFTokenMintFailed.json'
-import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
-import i18n from '../../../../../../i18n/testConfig'
 import { convertHexToString } from '../../../../../../rippled/lib/utils'
-import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
+import {
+  expectSimpleRowText,
+  expectSimpleRowNotToExist,
+  createSimpleRenderFactory,
+} from '../../test'
 
-describe('NFTokenMint', () => {
+const renderComponent = createSimpleRenderFactory(Simple)
+
+describe('NFTokenMint - Simple', () => {
+  afterEach(cleanup)
   it('handles NFTokenMint that modified 2 nodes', () => {
-    const screen = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenMint
-            data={summarizeTransaction(transactionModified2, true).details}
-          />
-        </Router>
-      </I18nextProvider>,
-    )
+    renderComponent(transactionModified2)
 
     expectSimpleRowText(
       screen,
@@ -39,17 +33,7 @@ describe('NFTokenMint', () => {
   })
 
   it('handles NFTokenMint that modified 1 node and created 1 node', () => {
-    const screen = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenMint
-            data={
-              summarizeTransaction(transactionModified1Created1, true).details
-            }
-          />
-        </Router>
-      </I18nextProvider>,
-    )
+    renderComponent(transactionModified1Created1)
 
     expectSimpleRowText(
       screen,
@@ -63,17 +47,7 @@ describe('NFTokenMint', () => {
   })
 
   it('handles NFTokenMint that modified 2 nodes and created 1 node', () => {
-    const screen = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenMint
-            data={
-              summarizeTransaction(transactionModified2Created1, true).details
-            }
-          />
-        </Router>
-      </I18nextProvider>,
-    )
+    renderComponent(transactionModified2Created1)
 
     expectSimpleRowText(
       screen,
@@ -87,15 +61,7 @@ describe('NFTokenMint', () => {
   })
 
   it('handles NFTokenMint with issuer', () => {
-    const screen = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenMint
-            data={summarizeTransaction(transactionWithIssuer, true).details}
-          />
-        </Router>
-      </I18nextProvider>,
-    )
+    renderComponent(transactionWithIssuer)
 
     expect(screen.getByTestId('token-issuer')).toExist()
     expectSimpleRowText(
@@ -118,17 +84,7 @@ describe('NFTokenMint', () => {
   })
 
   it('handles NFTokenMint that modified 3 nodes', () => {
-    const screen = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenMint
-            data={
-              summarizeTransaction(transactionModified4Created1, true).details
-            }
-          />
-        </Router>
-      </I18nextProvider>,
-    )
+    renderComponent(transactionModified4Created1)
 
     expectSimpleRowText(
       screen,
@@ -146,29 +102,13 @@ describe('NFTokenMint', () => {
   })
 
   it('handles NFTokenMint that has null URI', () => {
-    const screen = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenMint
-            data={summarizeTransaction(transactionNullURI, true).details}
-          />
-        </Router>
-      </I18nextProvider>,
-    )
+    renderComponent(transactionNullURI)
 
     expectSimpleRowNotToExist(screen, 'token-uri')
   })
 
   it('handles NFTokenMint that failed', () => {
-    const screen = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenMint
-            data={summarizeTransaction(transactionFailed, true).details}
-          />
-        </Router>
-      </I18nextProvider>,
-    )
+    renderComponent(transactionFailed)
 
     expectSimpleRowNotToExist(screen, 'token-id')
     expectSimpleRowText(screen, 'token-taxon', '19')

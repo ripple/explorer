@@ -1,26 +1,14 @@
-import { BrowserRouter as Router } from 'react-router-dom'
-import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
-import { QueryClientProvider } from 'react-query'
-import { Simple as NFTokenCancelOffer } from '../Simple'
+import { cleanup, screen } from '@testing-library/react'
+import { Simple } from '../Simple'
 import transaction from './mock_data/NFTokenCancelOffer.json'
-import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
-import i18n from '../../../../../../i18n/testConfig'
-import { queryClient } from '../../../../QueryClient'
+import { createSimpleRenderFactory } from '../../test'
+
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('NFTokenCancelOffer', () => {
+  afterEach(cleanup)
   it.only('handles NFTokenCancelOffer simple view ', () => {
-    const screen = mount(
-      <QueryClientProvider client={queryClient}>
-        <I18nextProvider i18n={i18n}>
-          <Router>
-            <NFTokenCancelOffer
-              data={summarizeTransaction(transaction, true).details}
-            />
-          </Router>
-        </I18nextProvider>
-      </QueryClientProvider>,
-    )
+    renderComponent(transaction)
     expect(screen.getByTestId('token-id')).toHaveTextContent(
       '000800006203F49C21D5D6E022CB16DE3538F248662FC73C258BA1B200000018',
     )
