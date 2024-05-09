@@ -18,9 +18,9 @@ export const TableDetail = (props: any) => {
         </div>
       )}
       {amount && (
-        <div>
+        <div data-testid="escrow-amount">
           <span className="label">{t('amount')}</span>
-          <Amount value={amount} data-testid="escrow-amount" />
+          <Amount value={amount} />
         </div>
       )}
       {fulfillment && (
