@@ -17,9 +17,9 @@ const renderComponent = createSimpleRenderFactory(Simple)
 describe('Clawback', () => {
   it('handles Clawback simple view ', () => {
     renderComponent(transaction)
-    expectSimpleRowText(wrapper, 'holder', 'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP')
+    expectSimpleRowText(screen, 'holder', 'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'amount',
       '3,840.00 FOO.rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9',
     )
@@ -47,9 +47,9 @@ describe('Clawback', () => {
 
   it('handles failed Clawback simple view ', () => {
     renderComponent(transactionFailure)
-    expectSimpleRowText(wrapper, 'holder', 'rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9')
+    expectSimpleRowText(screen, 'holder', 'rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'amount',
       '4,840.00 FOO.rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP',
     )

@@ -16,7 +16,7 @@ describe('Payment: TableDetail', () => {
     renderComponent(mockPayment)
 
     // styling makes this look okay
-    expect(wrapper.find('.payment')).toHaveText(
+    expect(screen.find('.payment')).toHaveText(
       `send\uE9002,421.8268 XRPtorHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
     )
   })
@@ -25,7 +25,7 @@ describe('Payment: TableDetail', () => {
     renderComponent(mockPaymentConvert)
 
     // styling makes this look okay
-    expect(wrapper.find('.payment')).toHaveText(
+    expect(screen.find('.payment')).toHaveText(
       `convert_maximum1,140.00 XRPto0.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZrpartial_payment_allowed`,
     )
   })
@@ -34,7 +34,7 @@ describe('Payment: TableDetail', () => {
     renderComponent(mockPaymentDestinationTag)
 
     // styling makes this look okay
-    expect(wrapper.find('.payment')).toHaveText(
+    expect(screen.find('.payment')).toHaveText(
       `send1,531.267 XRPtorHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt:381702`,
     )
   })
@@ -43,7 +43,7 @@ describe('Payment: TableDetail', () => {
     renderComponent(mockPaymentSendMax)
 
     // styling makes this look okay
-    expect(wrapper.find('.payment')).toHaveText(
+    expect(screen.find('.payment')).toHaveText(
       `send17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjAtorprcTynT68nYdKzDTefAZG9HjSHiYcnP4b:0`,
     )
   })
@@ -52,7 +52,7 @@ describe('Payment: TableDetail', () => {
     renderComponent(mockPaymentPartial)
 
     // styling makes this look okay
-    expect(wrapper.find('.payment')).toHaveText(
+    expect(screen.find('.payment')).toHaveText(
       `send0.00104196 xCoin.rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFitorMQ4oGC8fasuJwfdrfknFTttDbf8cR3D2j:0partial_payment_allowed`,
     )
   })
@@ -60,6 +60,6 @@ describe('Payment: TableDetail', () => {
   it('renders with SourceTag', () => {
     renderComponent(mockPaymentSourceTag)
 
-    expect(wrapper.find('.st')).toHaveText('source_tag: 20648')
+    expect(screen.find('.st')).toHaveText('source_tag: 20648')
   })
 })

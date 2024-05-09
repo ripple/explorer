@@ -11,7 +11,7 @@ describe('SetRegularKey: Description', () => {
   it('renders description for transaction', () => {
     renderComponent(SetRegularKey)
 
-    expect(wrapper.html()).toBe(
+    expect(screen.html()).toBe(
       `<div>set_regular_key_description <span class="regular-key">rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp</span></div>`,
     )
   })
@@ -19,6 +19,6 @@ describe('SetRegularKey: Description', () => {
   it('renders description for transaction that unsets key', () => {
     renderComponent(SetRegularKeyUnset)
 
-    expect(wrapper.html()).toBe(`<div>unset_regular_key_description</div>`)
+    expect(screen.html()).toBe(`<div>unset_regular_key_description</div>`)
   })
 })

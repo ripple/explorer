@@ -8,15 +8,15 @@ describe('AMM Create Tests', () => {
 
   it('renders from transaction', () => {
     renderComponent(createMock)
-    expectSimpleRowText(wrapper, 'asset1', '\uE90010,000.00 XRP')
-    expectSimpleRowText(wrapper, 'trading_fee', '0.001%')
+    expectSimpleRowText(screen, 'asset1', '\uE90010,000.00 XRP')
+    expectSimpleRowText(screen, 'trading_fee', '0.001%')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'asset2',
       '$10,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
-      wrapper,
+      screen,
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )

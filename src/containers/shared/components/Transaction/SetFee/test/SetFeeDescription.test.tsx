@@ -11,14 +11,14 @@ const renderComponent = createDescriptionRenderFactory(
   i18nTestConfigEnUS,
 )
 
-function testDescription(wrapper) {
-  expect(wrapper.find('[data-testid="fees-line"]')).toHaveText(
+function testDescription(screen) {
+  expect(screen.find('[data-testid="fees-line"]')).toHaveText(
     `Future transactions will require a minimum fee of \uE9000.00001 XRP.`,
   )
-  expect(wrapper.find('[data-testid="reserves-line"]')).toHaveText(
+  expect(screen.find('[data-testid="reserves-line"]')).toHaveText(
     `Accounts must now hold a base of \uE90010.00 XRP and an additional \uE9002.00 XRP for each additional object that account owns.`,
   )
-  expect(wrapper.find('[data-testid="documentation-line"]')).toHaveText(
+  expect(screen.find('[data-testid="documentation-line"]')).toHaveText(
     `Visit the docs: Fees`,
   )
 }
@@ -27,11 +27,11 @@ describe('SetFee: Description', () => {
   afterEach(cleanup)
   it('renders Description for transaction before XRPFees amendment', () => {
     renderComponent(SetFeePreAmendment)
-    testDescription(wrapper)
+    testDescription(screen)
   })
 
   it('renders Description for transaction after XRPFees amendment', () => {
     renderComponent(SetFeePostAmendment)
-    testDescription(wrapper)
+    testDescription(screen)
   })
 })
