@@ -19,7 +19,7 @@ export const Simple: TransactionSimpleComponent = ({
         </SimpleRow>
       )}
       {amount && (
-        <SimpleRow label={t('amount')} data-testid="amount">
+        <SimpleRow label={t('amount')} data-testid="clawback-amount">
           <Amount value={amount} displayIssuer />
         </SimpleRow>
       )}

@@ -1,4 +1,4 @@
-import { cleanup, screen } from '@testing-library/react'
+import { cleanup, screen, within } from '@testing-library/react'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockSetHook from './mock_data/SetHook.json'
@@ -19,32 +19,32 @@ describe('SetHook: Simple', () => {
     const hook2 = screen.getAllByTestId('group')[1]
 
     expectSimpleRowText(
-      hook1,
+      within(hook1),
       'hook-hash',
       '4E57C7FE7A84ABFA53CFE411DE9BA3420B94F55038BF238EBE1EB89095ABA4DE',
     )
-    expectSimpleRowText(hook1, 'hook-on', 'Invoke')
+    expectSimpleRowText(within(hook1), 'hook-on', 'Invoke')
     expectSimpleRowText(
-      hook1,
+      within(hook1),
       'hook-namespace',
       '0000000000000000000000000000000000000000000000000000000000000000',
     )
-    expectSimpleRowText(hook1, 'hook-flags', 'hsfOverride')
-    expectSimpleRowText(hook1, 'hook-api-version', '0')
+    expectSimpleRowText(within(hook1), 'hook-flags', 'hsfOverride')
+    expectSimpleRowText(within(hook1), 'hook-api-version', '0')
 
     expectSimpleRowText(
-      hook2,
+      within(hook2),
       'hook-hash',
       'C04E2043B656B578CB30E9FF465304AF402B7AFE38B6CE2D8CEFECDD669E3424',
     )
-    expectSimpleRowText(hook2, 'hook-on', '98')
+    expectSimpleRowText(within(hook2), 'hook-on', '98')
     expectSimpleRowText(
-      hook2,
+      within(hook2),
       'hook-namespace',
       '0000000000000000000000000000000000000000000000000000000000000000',
     )
-    expectSimpleRowText(hook2, 'hook-flags', 'hsfOverride')
-    expectSimpleRowText(hook2, 'hook-api-version', '0')
+    expectSimpleRowText(within(hook2), 'hook-flags', 'hsfOverride')
+    expectSimpleRowText(within(hook2), 'hook-api-version', '0')
   })
 
   it('renders a different SetHook tx', () => {
@@ -55,31 +55,35 @@ describe('SetHook: Simple', () => {
     const hook = screen.getAllByTestId('group')[0]
 
     expectSimpleRowText(
-      hook,
+      within(hook),
       'hook-hash',
       '548BBB700F5841C2D41E227456E8A80E6A6335D1149BA3B5FF745A00CC0EBECE',
     )
+    const grants = within(hook).getAllByTestId('grant')
+    expect(grants).toHaveLength(2)
 
-    expect(hook.find('.grant')).toHaveLength(2)
+    const grant1 = grants[0]
+    const grant2 = grants[1]
 
-    const grant1 = hook.find('.grant')[0]
-    const grant2 = hook.find('.grant')[1]
-
-    expect(grant1.find('.hash')).toHaveTextContent(
+    expect(within(grant1).getByTestId('hash')).toHaveTextContent(
       '096A70632BBB67488F4804AE55604A01F52226BD556E3589270D0D30C9A6AF81',
     )
-    expect(grant1.find('.account')[0]).toHaveTextContent(
+    expect(within(grant1).getAllByTestId('account')[0]).toHaveTextContent(
       'rQUhXd7sopuga3taru3jfvc1BgVbscrb1X',
     )
-    expect(grant1.find(`.account a`)).toBeDefined()
+    expect(
+      within(grant1).getByText('rQUhXd7sopuga3taru3jfvc1BgVbscrb1X'),
+    ).toHaveAttribute('href')
 
-    expect(grant2.find('.hash')).toHaveTextContent(
+    expect(within(grant2).getByTestId('hash')).toHaveTextContent(
       '3F47684053E1A653E54EAC1C5F50BCBAF7F69078CEFB5846BB046CE44B8ECDC2',
     )
-    expect(grant2.find('.account')[0]).toHaveTextContent(
+    expect(within(grant2).getByTestId('account')).toHaveTextContent(
       'raPSFU999HcwpyRojdNh2i96T22gY9fgxL',
     )
-    expect(grant2.find(`.account a`)).toBeDefined()
+    expect(
+      within(grant2).getByText('raPSFU999HcwpyRojdNh2i96T22gY9fgxL'),
+    ).toHaveAttribute('href')
   })
 
   it('renders a failed SetHook tx', () => {
@@ -89,15 +93,15 @@ describe('SetHook: Simple', () => {
 
     const hook = screen.getAllByTestId('group')[0]
 
-    expectSimpleRowText(hook, 'hook-hash', 'undefined')
+    expectSimpleRowText(within(hook), 'hook-hash', 'undefined')
 
-    expectSimpleRowText(hook, 'hook-on', 'Payment')
+    expectSimpleRowText(within(hook), 'hook-on', 'Payment')
     expectSimpleRowText(
-      hook,
+      within(hook),
       'hook-namespace',
       'CAE662172FD450BB0CD710A769079C05BFC5D8E35EFA6576EDC7D0377AFDD4A2',
     )
-    expectSimpleRowText(hook, 'hook-flags', 'hsfOverride')
-    expectSimpleRowText(hook, 'hook-api-version', '0')
+    expectSimpleRowText(within(hook), 'hook-flags', 'hsfOverride')
+    expectSimpleRowText(within(hook), 'hook-api-version', '0')
   })
 })
