@@ -1,9 +1,9 @@
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 import { Description } from '../Description'
 import transaction from './mock_data/Clawback.json'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-const createWrapper = createDescriptionWrapperFactory(Description, i18n)
+const createWrapper = createDescriptionRenderFactory(Description, i18n)
 
 describe('Clawback', () => {
   it('handles Clawback Description ', () => {

@@ -1,11 +1,11 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockDepositPreauth from './mock_data/DepositPreauth.json'
 import mockDepositPreauthUnauthorize from './mock_data/DepositPreauthUnauthorize.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const createWrapper = createSimpleRenderFactory(Simple, i18n)
 
 describe('DepositPreauth: Simple', () => {
   it('renders authorized', () => {

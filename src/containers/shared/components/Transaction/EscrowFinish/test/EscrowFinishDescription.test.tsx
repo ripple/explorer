@@ -1,8 +1,8 @@
 import EscrowFinish from './mock_data/EscrowFinish.json'
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description)
+const createWrapper = createDescriptionRenderFactory(Description)
 
 describe('EscrowFinishDescription', () => {
   it('renders description for EscrowFinish', () => {

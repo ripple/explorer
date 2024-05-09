@@ -1,6 +1,6 @@
 import { Simple } from '../Simple'
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowNotToExist,
   expectSimpleRowText,
 } from '../../test'
@@ -12,7 +12,7 @@ import depositNonXRP from './mock_data/deposit_nonxrp.json'
 import depositFail from './mock_data/deposit_fail.json'
 
 describe('AMM Deposit Tests', () => {
-  const createWrapper = createSimpleWrapperFactory(Simple)
+  const createWrapper = createSimpleRenderFactory(Simple)
 
   it('renders with both assets', () => {
     const wrapper = createWrapper(depositBothAssets)

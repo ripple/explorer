@@ -1,11 +1,11 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowText } from '../../test'
 
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockAMMDelete from './mock_data/AMMDelete.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const createWrapper = createSimpleRenderFactory(Simple, i18n)
 
 describe('AMMDelete: Simple', () => {
   it('renders', () => {

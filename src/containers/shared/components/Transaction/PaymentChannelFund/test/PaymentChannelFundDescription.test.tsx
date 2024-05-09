@@ -1,11 +1,11 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createDescriptionWrapperFactory } from '../../test/createWrapperFactory'
+import { createDescriptionRenderFactory } from '../../test/createRenderFactory'
 import mockPaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import mockPaymentChannelFundFailed from './mock_data/PaymentChannelFundFailed.json'
 import { Description } from '../Description'
 
-const createWrapper = createDescriptionWrapperFactory(Description, i18n)
+const createWrapper = createDescriptionRenderFactory(Description, i18n)
 
 describe('PaymentChannelFund: Description', () => {
   it('renders a Fund', () => {

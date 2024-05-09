@@ -1,6 +1,6 @@
 import { Simple } from '../Simple'
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowNotToExist,
   expectSimpleRowText,
 } from '../../test'
@@ -10,7 +10,7 @@ import withdrawXRPMock from './mock_data/withdraw_xrp.json'
 import withdrawEpriceMock from './mock_data/withdraw_eprice.json'
 
 describe('AMM Withdraw Tests', () => {
-  const createWrapper = createSimpleWrapperFactory(Simple)
+  const createWrapper = createSimpleRenderFactory(Simple)
 
   it('renders from transaction', () => {
     const wrapper = createWrapper(withdrawMock)

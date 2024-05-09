@@ -1,8 +1,8 @@
-import { createSimpleWrapperFactory } from '../../test'
+import { createSimpleRenderFactory } from '../../test'
 import { Simple } from '../Simple'
 import DIDDelete from './mock_data/DIDDelete.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const createWrapper = createSimpleRenderFactory(Simple)
 
 describe('DIDDelete: Simple', () => {
   it('renders', () => {
