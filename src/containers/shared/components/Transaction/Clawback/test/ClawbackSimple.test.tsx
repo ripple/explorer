@@ -11,10 +11,9 @@ describe('Clawback: Simple', () => {
   it('handles Clawback simple view ', () => {
     renderComponent(transaction)
     expectSimpleRowText(screen, 'holder', 'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP')
-    screen.debug()
     expectSimpleRowText(
       screen,
-      'amount',
+      'clawback-amount',
       '3,840.00 FOO.rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9',
     )
   })
@@ -24,7 +23,7 @@ describe('Clawback: Simple', () => {
     expectSimpleRowText(screen, 'holder', 'rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9')
     expectSimpleRowText(
       screen,
-      'amount',
+      'clawback-amount',
       '4,840.00 FOO.rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP',
     )
   })
