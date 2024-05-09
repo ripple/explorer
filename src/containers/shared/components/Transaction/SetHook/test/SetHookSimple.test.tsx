@@ -13,10 +13,10 @@ describe('SetHook: Simple', () => {
   it('renders', () => {
     renderComponent(mockSetHook)
 
-    expect(screen.find('.group')).toHaveLength(2)
+    expect(screen.getAllByTestId('group')).toHaveLength(2)
 
-    const hook1 = screen.find('.group').at(0)
-    const hook2 = screen.find('.group').at(1)
+    const hook1 = screen.getAllByTestId('group')[0]
+    const hook2 = screen.getAllByTestId('group')[1]
 
     expectSimpleRowText(
       hook1,
@@ -50,9 +50,9 @@ describe('SetHook: Simple', () => {
   it('renders a different SetHook tx', () => {
     renderComponent(mockSetHook2)
 
-    expect(screen.find('.group')).toHaveLength(1)
+    expect(screen.getAllByTestId('group')).toHaveLength(1)
 
-    const hook = screen.find('.group').at(0)
+    const hook = screen.getAllByTestId('group')[0]
 
     expectSimpleRowText(
       hook,
@@ -62,13 +62,13 @@ describe('SetHook: Simple', () => {
 
     expect(hook.find('.grant')).toHaveLength(2)
 
-    const grant1 = hook.find('.grant').at(0)
-    const grant2 = hook.find('.grant').at(1)
+    const grant1 = hook.find('.grant')[0]
+    const grant2 = hook.find('.grant')[1]
 
     expect(grant1.find('.hash')).toHaveTextContent(
       '096A70632BBB67488F4804AE55604A01F52226BD556E3589270D0D30C9A6AF81',
     )
-    expect(grant1.find('.account').at(0)).toHaveTextContent(
+    expect(grant1.find('.account')[0]).toHaveTextContent(
       'rQUhXd7sopuga3taru3jfvc1BgVbscrb1X',
     )
     expect(grant1.find(`.account a`)).toBeDefined()
@@ -76,7 +76,7 @@ describe('SetHook: Simple', () => {
     expect(grant2.find('.hash')).toHaveTextContent(
       '3F47684053E1A653E54EAC1C5F50BCBAF7F69078CEFB5846BB046CE44B8ECDC2',
     )
-    expect(grant2.find('.account').at(0)).toHaveTextContent(
+    expect(grant2.find('.account')[0]).toHaveTextContent(
       'raPSFU999HcwpyRojdNh2i96T22gY9fgxL',
     )
     expect(grant2.find(`.account a`)).toBeDefined()
@@ -85,9 +85,9 @@ describe('SetHook: Simple', () => {
   it('renders a failed SetHook tx', () => {
     renderComponent(mockSetHookFailure)
 
-    expect(screen.find('.group')).toHaveLength(1)
+    expect(screen.getAllByTestId('group')).toHaveLength(1)
 
-    const hook = screen.find('.group').at(0)
+    const hook = screen.getAllByTestId('group')[0]
 
     expectSimpleRowText(hook, 'hook-hash', 'undefined')
 
