@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import {
   createSimpleRenderFactory,
   expectSimpleRowText,
@@ -7,11 +8,11 @@ import { Simple } from '../Simple'
 import transaction from './mock_data/NFTokenBurn.json'
 import transactionByIssuer from './mock_data/NFTokenBurnByIssuer.json'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('NFTokenBurn', () => {
   it('handles NFTokenBurn simple view ', () => {
-    const wrapper = createWrapper(transaction)
+    renderComponent(transaction)
     expectSimpleRowText(
       wrapper,
       'token-id',
@@ -22,7 +23,7 @@ describe('NFTokenBurn', () => {
   })
 
   it('handles NFTokenBurn when the burner is not the owner', () => {
-    const wrapper = createWrapper(transactionByIssuer)
+    renderComponent(transactionByIssuer)
     expectSimpleRowText(
       wrapper,
       'token-id',

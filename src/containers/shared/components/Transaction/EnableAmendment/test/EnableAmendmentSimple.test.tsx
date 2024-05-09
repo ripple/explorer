@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
@@ -12,7 +13,7 @@ import { getRippledVersion } from '../../../../amendmentUtils'
 import { flushPromises } from '../../../../../test/utils'
 import { getFeature } from '../../../../../../rippled/lib/rippled'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 jest.mock('../../../../amendmentUtils', () => {
   // Require the original module to not be mocked...
@@ -45,13 +46,14 @@ const mockedGetFeature = getFeature as jest.MockedFunction<typeof getFeature>
 describe('EnableAmendment: Simple', () => {
   afterEach(() => {
     mockedGetFeature.mockReset()
+    cleanup()
   })
   it('renders tx that causes an amendment to loose majority', async () => {
     mockedGetRippledVersion.mockImplementation(() => Promise.resolve('v1.9.1'))
     mockedGetFeature.mockImplementation(() =>
       Promise.resolve(mockFeatureExpandedSignerList),
     )
-    const wrapper = createWrapper(mockEnableAmendmentWithMinority)
+    renderComponent(mockEnableAmendmentWithMinority)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'status', 'Amendment Status')
@@ -74,7 +76,7 @@ describe('EnableAmendment: Simple', () => {
     mockedGetFeature.mockImplementation(() =>
       Promise.resolve(mockFeatureExpandedSignerList),
     )
-    const wrapper = createWrapper(mockEnableAmendmentWithMajority)
+    renderComponent(mockEnableAmendmentWithMajority)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'status', 'Amendment Status')
@@ -102,7 +104,7 @@ describe('EnableAmendment: Simple', () => {
     mockedGetFeature.mockImplementation(() =>
       Promise.resolve(mockFeatureNegativeUNL),
     )
-    const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
+    renderComponent(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'status', 'Amendment Status')
@@ -122,7 +124,8 @@ describe('EnableAmendment: Simple', () => {
   it('renders tx that cannot determine version or name', async () => {
     mockedGetRippledVersion.mockImplementation(() => Promise.resolve(''))
     mockedGetFeature.mockImplementation(() => Promise.resolve(null))
-    const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
+    renderComponent(mockEnableAmendmentWithEnabled)
+    renderComponent(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
@@ -140,7 +143,7 @@ describe('EnableAmendment: Simple', () => {
     mockedGetFeature.mockImplementation(() =>
       Promise.resolve(mockFeatureNegativeUNL),
     )
-    const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
+    renderComponent(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
@@ -156,7 +159,7 @@ describe('EnableAmendment: Simple', () => {
   it('renders tx that cannot determine name', async () => {
     mockedGetRippledVersion.mockImplementation(() => Promise.resolve('v1.7.3'))
     mockedGetFeature.mockImplementation(() => Promise.resolve(null))
-    const wrapper = createWrapper(mockEnableAmendmentWithEnabled)
+    renderComponent(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
     expectSimpleRowText(wrapper, 'name', 'Loading')
     expectSimpleRowLabel(wrapper, 'version', 'Introduced In')

@@ -1,12 +1,13 @@
+import { cleanup, screen } from '@testing-library/react'
 import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockEscrowCreate from './mock_data/EscrowCreate.json'
 
-const createWrapper = createTableDetailRenderFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('EscrowCreateTableDetail', () => {
   it('renders EscrowCreate without crashing', () => {
-    const wrapper = createWrapper(mockEscrowCreate)
+    renderComponent(mockEscrowCreate)
     expect(wrapper.find('[data-testid="account"]')).toHaveText(
       ` rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q `,
     )

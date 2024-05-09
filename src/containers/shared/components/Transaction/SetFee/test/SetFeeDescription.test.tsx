@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import { createDescriptionRenderFactory } from '../../test'
 import { Description } from '../Description'
 import i18nTestConfigEnUS from '../../../../../../i18n/testConfigEnglish'
@@ -5,7 +6,7 @@ import i18nTestConfigEnUS from '../../../../../../i18n/testConfigEnglish'
 import SetFeePreAmendment from './mock_data/SetFee_PreAmendment.json'
 import SetFeePostAmendment from './mock_data/SetFee_PostAmendment.json'
 
-const createWrapper = createDescriptionRenderFactory(
+const renderComponent = createDescriptionRenderFactory(
   Description,
   i18nTestConfigEnUS,
 )
@@ -23,14 +24,15 @@ function testDescription(wrapper) {
 }
 
 describe('SetFee: Description', () => {
+  afterEach(cleanup)
   it('renders Description for transaction before XRPFees amendment', () => {
-    const wrapper = createWrapper(SetFeePreAmendment)
+    renderComponent(SetFeePreAmendment)
     testDescription(wrapper)
     wrapper.unmount()
   })
 
   it('renders Description for transaction after XRPFees amendment', () => {
-    const wrapper = createWrapper(SetFeePostAmendment)
+    renderComponent(SetFeePostAmendment)
     testDescription(wrapper)
     wrapper.unmount()
   })

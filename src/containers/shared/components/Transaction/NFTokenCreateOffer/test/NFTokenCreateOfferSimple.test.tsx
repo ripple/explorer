@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transactionBuy from './mock_data/NFTokenCreateOffer_Buy.json'
@@ -5,11 +6,11 @@ import transactionSell from './mock_data/NFTokenCreateOffer_Sell.json'
 import transactionFailed from './mock_data/NFTokenCreateOfferFailed.json'
 import transactionDestination from './mock_data/NFTokenCreateOfferDestination.json'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('NFTokenCreateOffer', () => {
   it('handles NFTokenCreateOffer buy simple view ', () => {
-    const wrapper = createWrapper(transactionBuy)
+    renderComponent(transactionBuy)
     expectSimpleRowText(
       wrapper,
       'token-id',
@@ -35,7 +36,7 @@ describe('NFTokenCreateOffer', () => {
   })
 
   it('handles NFTokenCreateOffer sell simple view ', () => {
-    const wrapper = createWrapper(transactionSell)
+    renderComponent(transactionSell)
     expectSimpleRowText(
       wrapper,
       'token-id',
@@ -65,7 +66,7 @@ describe('NFTokenCreateOffer', () => {
   })
 
   it('handles failed NFTokenCreateOffer transaction', () => {
-    const wrapper = createWrapper(transactionFailed)
+    renderComponent(transactionFailed)
     expectSimpleRowText(
       wrapper,
       'token-id',
@@ -78,7 +79,7 @@ describe('NFTokenCreateOffer', () => {
   })
 
   it('handles NFTokenCreateOffer with destination', () => {
-    const wrapper = createWrapper(transactionDestination)
+    renderComponent(transactionDestination)
     expectSimpleRowText(
       wrapper,
       'destination',

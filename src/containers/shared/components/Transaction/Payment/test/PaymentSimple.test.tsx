@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query'
+import { cleanup, screen } from '@testing-library/react'
 import {
   createSimpleRenderFactory,
   expectSimpleRowLabel,
@@ -18,11 +19,12 @@ jest.mock('react-query', () => ({
   useQuery: jest.fn(),
 }))
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('Payment: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockPayment)
+    renderComponent(mockPayment)
 
     expectSimpleRowText(wrapper, 'amount', `\uE9002,421.8268 XRP`)
     expectSimpleRowLabel(wrapper, 'amount', `send`)
@@ -37,7 +39,7 @@ describe('Payment: Simple', () => {
   })
 
   it('renders with failed partial conversion', () => {
-    const wrapper = createWrapper(mockPaymentConvert)
+    renderComponent(mockPaymentConvert)
 
     expectSimpleRowLabel(wrapper, 'max', `convert_maximum`)
     expectSimpleRowText(wrapper, 'max', `\uE9001,140.00 XRP`)
@@ -55,7 +57,7 @@ describe('Payment: Simple', () => {
   })
 
   it('renders with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentDestinationTag)
+    renderComponent(mockPaymentDestinationTag)
 
     expectSimpleRowText(wrapper, 'amount', `\uE9001,531.267 XRP`)
     expectSimpleRowLabel(wrapper, 'amount', `send`)
@@ -70,7 +72,7 @@ describe('Payment: Simple', () => {
   })
 
   it('renders with send max', () => {
-    const wrapper = createWrapper(mockPaymentSendMax)
+    renderComponent(mockPaymentSendMax)
 
     expectSimpleRowText(
       wrapper,
@@ -96,7 +98,7 @@ describe('Payment: Simple', () => {
   })
 
   it('renders with partial', () => {
-    const wrapper = createWrapper(mockPaymentPartial)
+    renderComponent(mockPaymentPartial)
 
     expectSimpleRowText(
       wrapper,
@@ -115,7 +117,7 @@ describe('Payment: Simple', () => {
   })
 
   it('renders with SourceTag', () => {
-    const wrapper = createWrapper(mockPaymentSourceTag)
+    renderComponent(mockPaymentSourceTag)
 
     expectSimpleRowText(wrapper, 'source-tag', `20648`)
 

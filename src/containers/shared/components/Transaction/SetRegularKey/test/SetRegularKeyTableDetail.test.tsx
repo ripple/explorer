@@ -1,13 +1,14 @@
+import { cleanup, screen } from '@testing-library/react'
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { TableDetail } from '../TableDetail'
 import { createTableDetailRenderFactory } from '../../test'
 
-const createWrapper = createTableDetailRenderFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('SetRegularKeyTable: Detail', () => {
   it('renders Simple for transaction', () => {
-    const wrapper = createWrapper(SetRegularKey)
+    renderComponent(SetRegularKey)
 
     expect(wrapper.find('.setregularkey')).toExist()
     expect(wrapper.find('.label').text()).toBe(`regular_key`)
@@ -18,7 +19,7 @@ describe('SetRegularKeyTable: Detail', () => {
   })
 
   it('renders Simple for transaction that unsets key', () => {
-    const wrapper = createWrapper(SetRegularKeyUnset)
+    renderComponent(SetRegularKeyUnset)
 
     expect(wrapper.find('.unset')).toExist()
     expect(wrapper.text()).toBe(`unset_regular_key`)

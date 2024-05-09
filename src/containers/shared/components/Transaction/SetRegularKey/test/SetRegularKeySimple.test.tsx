@@ -4,11 +4,12 @@ import { Simple } from '../Simple'
 import { SimpleRow } from '../../SimpleRow'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('SetRegularKey: Simple', () => {
+  afterEach(cleanup)
   it('renders Simple for transaction', () => {
-    const wrapper = createWrapper(SetRegularKey)
+    renderComponent(SetRegularKey)
     const keyRow = wrapper.find(SimpleRow)
 
     expect(keyRow.prop('label')).toBe(`regular_key`)
@@ -19,7 +20,7 @@ describe('SetRegularKey: Simple', () => {
   })
 
   it('renders Simple for transaction that unsets key', () => {
-    const wrapper = createWrapper(SetRegularKeyUnset)
+    renderComponent(SetRegularKeyUnset)
     const keyRow = wrapper.find(SimpleRow)
 
     expect(keyRow.prop('label')).toBe('')

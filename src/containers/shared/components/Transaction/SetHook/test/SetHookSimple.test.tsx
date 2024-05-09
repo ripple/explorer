@@ -5,11 +5,11 @@ import mockSetHook2 from './mock_data/SetHook2.json'
 import mockSetHookFailure from './mock_data/SetHookFailure.json'
 import { expectSimpleRowText } from '../../test/expectations'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('SetHookSimple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockSetHook)
+    renderComponent(mockSetHook)
 
     expect(wrapper.find('.group')).toHaveLength(2)
 
@@ -46,7 +46,7 @@ describe('SetHookSimple', () => {
   })
 
   it('renders a different SetHook tx', () => {
-    const wrapper = createWrapper(mockSetHook2)
+    renderComponent(mockSetHook2)
 
     expect(wrapper.find('.group')).toHaveLength(1)
 
@@ -81,7 +81,7 @@ describe('SetHookSimple', () => {
   })
 
   it('renders a failed SetHook tx', () => {
-    const wrapper = createWrapper(mockSetHookFailure)
+    renderComponent(mockSetHookFailure)
 
     expect(wrapper.find('.group')).toHaveLength(1)
 

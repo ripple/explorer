@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import {
   createSimpleRenderFactory,
   expectSimpleRowLabel,
@@ -9,7 +10,7 @@ import i18nTestConfigEnUS from '../../../../../../i18n/testConfigEnglish'
 import SetFeePreAmendment from './mock_data/SetFee_PreAmendment.json'
 import SetFeePostAmendment from './mock_data/SetFee_PostAmendment.json'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18nTestConfigEnUS)
+const renderComponent = createSimpleRenderFactory(Simple, i18nTestConfigEnUS)
 
 function testSimple(wrapper) {
   expectSimpleRowLabel(wrapper, `base-fee`, 'Base Fee')
@@ -21,14 +22,15 @@ function testSimple(wrapper) {
 }
 
 describe('SetFee: Simple', () => {
+  afterEach(cleanup)
   it('renders Simple for transaction before XRPFees amendment', () => {
-    const wrapper = createWrapper(SetFeePreAmendment)
+    renderComponent(SetFeePreAmendment)
     testSimple(wrapper)
     wrapper.unmount()
   })
 
   it('renders Simple for transaction after XRPFees amendment', () => {
-    const wrapper = createWrapper(SetFeePostAmendment)
+    renderComponent(SetFeePostAmendment)
     testSimple(wrapper)
     wrapper.unmount()
   })

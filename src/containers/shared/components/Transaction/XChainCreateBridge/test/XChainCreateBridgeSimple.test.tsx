@@ -1,14 +1,15 @@
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockXChainCreateBridge from './mock_data/XChainCreateBridge.json'
 import mockXChainCreateBridgeFailed from './mock_data/XChainCreateBridgeFailed.json'
 import mockXChainCreateBridgeIOU from './mock_data/XChainCreateBridgeIOU.json'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('XChainCreateBridgeSimple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockXChainCreateBridge)
+    renderComponent(mockXChainCreateBridge)
 
     // check XChainBridge parts
     expectSimpleRowText(
@@ -33,7 +34,7 @@ describe('XChainCreateBridgeSimple', () => {
   })
 
   it('renders IOU bridge', () => {
-    const wrapper = createWrapper(mockXChainCreateBridgeIOU)
+    renderComponent(mockXChainCreateBridgeIOU)
 
     // check XChainBridge parts
     expectSimpleRowText(
@@ -64,7 +65,7 @@ describe('XChainCreateBridgeSimple', () => {
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockXChainCreateBridgeFailed)
+    renderComponent(mockXChainCreateBridgeFailed)
 
     // check XChainBridge parts
     expectSimpleRowText(
