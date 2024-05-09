@@ -1,4 +1,4 @@
-import { cleanup, screen } from '@testing-library/react'
+import { cleanup } from '@testing-library/react'
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { Description } from '../Description'
