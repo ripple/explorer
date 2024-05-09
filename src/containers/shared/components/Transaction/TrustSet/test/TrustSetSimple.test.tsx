@@ -12,10 +12,10 @@ describe('TrustSet: Simple', () => {
   afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockTrustSet)
-    expectSimpleRowLabel(screen, 'amount', 'Set Trust Limit')
+    expectSimpleRowLabel(screen, 'limit-amount', 'Set Trust Limit')
     expectSimpleRowText(
       screen,
-      'amount',
+      'limit-amount',
       `CN¥1,000,000,000.00 CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA`,
     )
   })
