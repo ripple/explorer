@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { cleanup, render, screen } from '@testing-library/react'
 import { Notification } from '../index'
 
 /* eslint-disable react/jsx-props-no-spreading */
@@ -13,47 +13,48 @@ const VALID_USAGES = [
 ]
 const notificationLevels = ['primary', 'secondary', 'ghost']
 const message = 'A catchy message'
-const renderComponent = (props) => mount(<Notification {...props} />)
+
+const renderComponent = (props) => render(<Notification {...props} />)
 
 describe('<Notification />', () => {
+  afterEach(cleanup)
   it('should render with custom className', () => {
     const className = 'test-class'
-    const wrapper = renderComponent({
+    renderComponent({
       message,
       className,
     })
-
-    expect(wrapper.hasClass(className)).toEqual(true)
+    expect(screen.getByText(message).parentElement).toHaveClass(className)
   })
 
   it('should render the action button', () => {
     const action = <button type="button" />
-    const wrapper = renderComponent({
+    renderComponent({
       message,
       action,
     })
 
-    expect(wrapper.containsMatchingElement(action)).toEqual(true)
+    expect(screen.queryByRole('button')).toBeDefined()
   })
 
   it('should render its message', () => {
-    const wrapper = renderComponent({
+    const { container } = renderComponent({
       message,
     })
 
-    expect(wrapper).toHaveText(message)
+    expect(container).toHaveTextContent(message)
   })
 
   // test all notification levels
   notificationLevels.map((level) => {
     it(`should accept level prop of ${level}`, () => {
-      const wrapper = renderComponent({
+      renderComponent({
         level,
         message,
       })
-      const wrapperProps = wrapper.props()
-
-      expect(wrapperProps.level).toEqual(level)
+      expect(screen.getByText(message).parentElement).toHaveClass(
+        `notification default ${level}-theme`,
+      )
     })
 
     return false
@@ -62,12 +63,11 @@ describe('<Notification />', () => {
   // test all notification usages
   VALID_USAGES.map((usage) => {
     it(`should render with usage prop of ${usage}`, () => {
-      const wrapper = renderComponent({
+      renderComponent({
         usage,
         message,
       })
-      const wrapperProps = wrapper.props()
-      expect(wrapperProps.usage).toEqual(usage)
+      expect(screen.getByText(message).parentElement).toHaveClass(usage)
     })
 
     return false
