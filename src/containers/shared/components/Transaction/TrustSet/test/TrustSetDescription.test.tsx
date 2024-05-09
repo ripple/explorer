@@ -1,4 +1,4 @@
-import { cleanup, screen } from '@testing-library/react'
+import { cleanup } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import mockTrustSet from './mock_data/TrustSet.json'

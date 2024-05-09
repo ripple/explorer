@@ -1,4 +1,4 @@
-import { cleanup, screen } from '@testing-library/react'
+import { cleanup } from '@testing-library/react'
 import { TableDetail } from '../TableDetail'
 import mockEscrowCancel from './mock_data/EscrowCancel.json'
 import { createTableDetailRenderFactory } from '../../test'
