@@ -14,7 +14,7 @@ describe('AMMDelete: Description', () => {
     expect(screen.getByTestId('amm-delete-description')).toHaveTextContent(
       'Attempted to delete the AMM for \uE900 XRP and FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9.If there were more than 512 trustlines, this only removes 512 trustlines instead.',
     )
-    expect(screen.findByRole('link')).toHaveAttribute(
+    expect(screen.queryByRole('link')).toHaveAttribute(
       'href',
       '/token/FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9',
     )

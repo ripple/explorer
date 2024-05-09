@@ -5,7 +5,7 @@ import bidMock from './mock_data/amm_bid.json'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
-describe('AMM Bid Tests', () => {
+describe('AMM Bid: Simple', () => {
   afterEach(cleanup)
 
   it('renders from transaction', () => {
