@@ -5,16 +5,17 @@ import mockEscrowCancel from './mock_data/EscrowCancel.json'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
-describe('EscrowCancelSimple', () => {
+describe('EscrowCancel - Simple', () => {
+  afterEach(cleanup)
   it('renders with an expiration and offer', () => {
     renderComponent(mockEscrowCancel)
-    expect(screen.find('[data-testid="escrow-amount"] .value')).toHaveText(
+    expect(screen.getByTestId('escrow-amount')).toHaveTextContent(
       `\uE900135.79 XRP`,
     )
-    expect(screen.find('[data-testid="escrow-cancel"] .value')).toHaveText(
+    expect(screen.getByTestId('escrow-cancel')).toHaveTextContent(
       'rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56 - 9',
     )
-    expect(screen.find('[data-testid="escrow-cancel-tx"] .value')).toHaveText(
+    expect(screen.getByTestId('escrow-cancel-tx')).toHaveTextContent(
       `A979AD5C6A6C844913DA51D71BF5F0B8E254D9A211FA837C4B322C4A8FD358E6`,
     )
   })

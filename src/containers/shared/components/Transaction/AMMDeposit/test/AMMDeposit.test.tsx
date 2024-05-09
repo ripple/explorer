@@ -12,8 +12,10 @@ import depositEprice from './mock_data/deposit_eprice.json'
 import depositNonXRP from './mock_data/deposit_nonxrp.json'
 import depositFail from './mock_data/deposit_fail.json'
 
+const renderComponent = createSimpleRenderFactory(Simple)
+
 describe('AMM Deposit Tests', () => {
-  const renderComponent = createSimpleRenderFactory(Simple)
+  afterEach(cleanup)
 
   it('renders with both assets', () => {
     renderComponent(depositBothAssets)

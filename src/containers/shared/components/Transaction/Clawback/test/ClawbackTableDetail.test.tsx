@@ -5,10 +5,11 @@ import transaction from './mock_data/Clawback.json'
 
 const renderComponent = createTableDetailRenderFactory(TableDetail)
 
-describe('Clawback', () => {
+describe('Clawback - TableDetail', () => {
+  afterEach(cleanup)
   it('handles Clawback TableDetail ', () => {
     renderComponent(transaction)
-    expect(screen.find('.clawback')).toHaveText(
+    expect(screen.getByTestId('clawback')).toHaveTextContent(
       `claws_back3,840.00 FOO.rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9fromrscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP`,
     )
   })

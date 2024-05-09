@@ -6,7 +6,8 @@ import transactionFailure from './mock_data/Clawback_Failure.json'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
-describe('Clawback', () => {
+describe('Clawback - Simple', () => {
+  afterEach(cleanup)
   it('handles Clawback simple view ', () => {
     renderComponent(transaction)
     expectSimpleRowText(screen, 'holder', 'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP')

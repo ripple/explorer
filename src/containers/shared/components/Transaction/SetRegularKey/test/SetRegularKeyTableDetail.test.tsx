@@ -6,7 +6,8 @@ import { createTableDetailRenderFactory } from '../../test'
 
 const renderComponent = createTableDetailRenderFactory(TableDetail)
 
-describe('SetRegularKeyTable: Detail', () => {
+describe('SetRegularKeyTable: TableDetail', () => {
+  afterEach(cleanup)
   it('renders Simple for transaction', () => {
     renderComponent(SetRegularKey)
 

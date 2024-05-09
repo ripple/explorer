@@ -16,19 +16,19 @@ describe('SignerListSet: Description', () => {
     )
 
     const signers = screen.find('.signers li')
-    expect(signers.at(0)).toHaveText(
+    expect(signers.at(0)).toHaveTextContent(
       'rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv - weight: 2',
     )
-    expect(signers.at(1)).toHaveText(
+    expect(signers.at(1)).toHaveTextContent(
       'rLoRH7XuBgz2kTP1ACkoyVYk9hsLggVvbP - weight: 1',
     )
-    expect(signers.at(2)).toHaveText(
+    expect(signers.at(2)).toHaveTextContent(
       'rL6SsrxyVp1JLNEZsX1hFWHcP2iJcZJ2dy - weight: 1',
     )
   })
 
   it('renders when signer list is cleared', () => {
-    renderComponent(mockSignerListSetClear)
-    expect(screen).toHaveText('unset_signer_list_description')
+    const { container } = renderComponent(mockSignerListSetClear)
+    expect(container).toHaveTextContent('unset_signer_list_description')
   })
 })

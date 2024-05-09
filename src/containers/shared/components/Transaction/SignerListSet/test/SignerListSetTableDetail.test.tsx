@@ -10,12 +10,12 @@ const renderComponent = createTableDetailRenderFactory(TableDetail)
 describe('SignerListSet: TableDetail', () => {
   afterEach(cleanup)
   it('renders', () => {
-    renderComponent(mockSignerListSet)
-    expect(screen).toHaveText('signers: 3 - quorum: 3/4')
+    const { container } = renderComponent(mockSignerListSet)
+    expect(container).toHaveTextContent('signers: 3 - quorum: 3/4')
   })
 
   it('renders when signer list is cleared', () => {
-    renderComponent(mockSignerListSetClear)
-    expect(screen).toHaveText('unset_signer_list')
+    const { container } = renderComponent(mockSignerListSetClear)
+    expect(container).toHaveTextContent('unset_signer_list')
   })
 })
