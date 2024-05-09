@@ -16,7 +16,7 @@ describe('EscrowFinish - TableDetail', () => {
       `\uE9000.0154 XRP`,
     )
     expect(screen.getByTestId('escrow-fulfillment')).toHaveTextContent(
-      `fulfillment Fulfillment `,
+      `fulfillment Fulfillment`,
     )
   })
 })
