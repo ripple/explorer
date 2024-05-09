@@ -1,13 +1,14 @@
+import { cleanup, screen } from '@testing-library/react'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transaction from './mock_data/Clawback.json'
 import transactionFailure from './mock_data/Clawback_Failure.json'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('Clawback', () => {
   it('handles Clawback simple view ', () => {
-    const wrapper = createWrapper(transaction)
+    renderComponent(transaction)
     expectSimpleRowText(wrapper, 'holder', 'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP')
     expectSimpleRowText(
       wrapper,
@@ -18,7 +19,7 @@ describe('Clawback', () => {
   })
 
   it('handles failed Clawback simple view ', () => {
-    const wrapper = createWrapper(transactionFailure)
+    renderComponent(transactionFailure)
     expectSimpleRowText(wrapper, 'holder', 'rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9')
     expectSimpleRowText(
       wrapper,

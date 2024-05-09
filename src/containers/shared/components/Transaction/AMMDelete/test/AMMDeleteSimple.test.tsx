@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowText } from '../../test'
 
@@ -5,11 +6,12 @@ import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockAMMDelete from './mock_data/AMMDelete.json'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('AMMDelete: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockAMMDelete) // TOOD: - Make this look up asset 1 / asset 2 currency codes
+    renderComponent(mockAMMDelete) // TOOD: - Make this look up asset 1 / asset 2 currency codes
     expectSimpleRowText(wrapper, 'asset1', '\uE900 XRP')
     expectSimpleRowText(
       wrapper,

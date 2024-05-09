@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createDescriptionRenderFactory } from '../../test'
@@ -6,11 +7,12 @@ import mockPaymentChannelCreateFailed from './mock_data/PaymentChannelCreateFail
 import mockPaymentChannelCreateWithDestinationTag from './mock_data/PaymentChannelCreateWithDestinationTag.json'
 import { Description } from '../Description'
 
-const createWrapper = createDescriptionRenderFactory(Description, i18n)
+const renderComponent = createDescriptionRenderFactory(Description, i18n)
 
 describe('PaymentChannelCreate: Description', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreate)
+    renderComponent(mockPaymentChannelCreate)
     expect(wrapper.find('[data-testid="accounts-line"]')).toHaveText(
       `The account rJnQrhRTXutuSwtrwxYiTkHn4Dtp8sF2LM:2460331042 will create a payment channel to rUXYat4hW2M87gHoqKK7fC4cqrT9C6V7d7`,
     )
@@ -28,7 +30,7 @@ describe('PaymentChannelCreate: Description', () => {
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreateFailed)
+    renderComponent(mockPaymentChannelCreateFailed)
     expect(wrapper.find('[data-testid="accounts-line"]')).toHaveText(
       `The account rMphibGfHpLDU4DzVCspzLYVuMNpmzN6n8:2810223114 will create a payment channel to rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN`,
     )
@@ -44,7 +46,7 @@ describe('PaymentChannelCreate: Description', () => {
   })
 
   it('renders tx with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreateWithDestinationTag)
+    renderComponent(mockPaymentChannelCreateWithDestinationTag)
     expect(wrapper.find('[data-testid="accounts-line"]')).toHaveText(
       `The account rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH will create a payment channel to rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn:20170428`,
     )

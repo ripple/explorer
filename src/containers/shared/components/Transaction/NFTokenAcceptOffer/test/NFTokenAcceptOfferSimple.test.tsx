@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import transactionBuy from './mock_data/NFTokenAcceptOffer_Buy.json'
@@ -6,11 +7,11 @@ import transactionFailure from './mock_data/NFTokenAcceptOffer_Failure.json'
 import transactionBroker from './mock_data/NFTokenAcceptOffer_Broker.json'
 import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('NFTokenAcceptOffer', () => {
   it('handles NFTokenAcceptOffer Buy simple view ', () => {
-    const wrapper = createWrapper(transactionBuy)
+    renderComponent(transactionBuy)
 
     expectSimpleRowText(
       wrapper,
@@ -29,7 +30,7 @@ describe('NFTokenAcceptOffer', () => {
   })
 
   it('handles NFTokenAcceptOffer Sell simple view ', () => {
-    const wrapper = createWrapper(transactionSell)
+    renderComponent(transactionSell)
     expectSimpleRowText(
       wrapper,
       'token-id',
@@ -47,7 +48,7 @@ describe('NFTokenAcceptOffer', () => {
   })
 
   it('handles NFTokenAcceptOffer Sell Failure simple view ', () => {
-    const wrapper = createWrapper(transactionFailure)
+    renderComponent(transactionFailure)
 
     expectSimpleRowText(
       wrapper,
@@ -62,7 +63,7 @@ describe('NFTokenAcceptOffer', () => {
   })
 
   it('handles NFTokenAcceptOffer from Broker simple view ', () => {
-    const wrapper = createWrapper(transactionBroker)
+    renderComponent(transactionBroker)
     expectSimpleRowText(
       wrapper,
       'token-id',

@@ -1,14 +1,16 @@
+import { cleanup, screen } from '@testing-library/react'
 import { TableDetail } from '../TableDetail'
 import mockOfferCreateInvertedCurrencies from './mock_data/OfferCreateInvertedCurrencies.json'
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import mockOfferCreate from './mock_data/OfferCreate.json'
 import { createTableDetailRenderFactory } from '../../test'
 
-const createWrapper = createTableDetailRenderFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('OfferCreate: TableDetail', () => {
+  afterEach(cleanup)
   it('renders with an expiration and offer', () => {
-    const wrapper = createWrapper(mockOfferCreateWithCancel)
+    renderComponent(mockOfferCreateWithCancel)
 
     expect(wrapper.find('[data-testid="pair"]')).toHaveText(
       'price:612.518 \uE900 XRP/CSC.rCSC',
@@ -26,7 +28,7 @@ describe('OfferCreate: TableDetail', () => {
   })
 
   it('renders', () => {
-    const wrapper = createWrapper(mockOfferCreate)
+    renderComponent(mockOfferCreate)
 
     expect(wrapper.find('[data-testid="pair"]')).toHaveText(
       'price:0.00207696 \uE900 XRP/BCH.rcyS',
@@ -41,7 +43,7 @@ describe('OfferCreate: TableDetail', () => {
   })
 
   it('renders inverted currencies', () => {
-    const wrapper = createWrapper(mockOfferCreateInvertedCurrencies)
+    renderComponent(mockOfferCreateInvertedCurrencies)
 
     expect(wrapper.find('[data-testid="pair"]')).toHaveText(
       'price:0.346896 \uE900 XRP/USD.rvYA',

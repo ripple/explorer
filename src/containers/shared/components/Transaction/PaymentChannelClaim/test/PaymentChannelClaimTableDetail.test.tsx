@@ -7,11 +7,12 @@ import mockPaymentChannelClaimClosed from './mock_data/PaymentChannelClaimClosed
 import mockPaymentChannelClaimCloseDenied from './mock_data/PaymentChannelClaimCloseDenied.json'
 import mockPaymentChannelClaimWithDestinationTag from './mock_data/PaymentChannelClaimWithDestinationTag.json'
 
-const createWrapper = createTableDetailRenderFactory(TableDetail, i18n)
+const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('PaymentChannelClaim: TableDetail', () => {
+  afterEach(cleanup)
   it('renders a claim', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaim)
+    renderComponent(mockPaymentChannelClaim)
     expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcernNzy3iPc7gPEAJbAdXwxY1UTBamBqTYhR:1002539517',
     )
@@ -29,7 +30,7 @@ describe('PaymentChannelClaim: TableDetail', () => {
   })
 
   it('renders tx with channel being closed', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimClosed)
+    renderComponent(mockPaymentChannelClaimClosed)
     expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcerH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B:2647131528',
     )
@@ -51,7 +52,7 @@ describe('PaymentChannelClaim: TableDetail', () => {
   })
 
   it('renders tx requesting channel be closed but not closing it', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimCloseDenied)
+    renderComponent(mockPaymentChannelClaimCloseDenied)
     expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcerH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B:2647131528',
     )
@@ -71,7 +72,7 @@ describe('PaymentChannelClaim: TableDetail', () => {
   })
 
   it('renders tx with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimWithDestinationTag)
+    renderComponent(mockPaymentChannelClaimWithDestinationTag)
     expect(wrapper.find('[data-testid="source"]')).toHaveText(
       'sourcerN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
     )

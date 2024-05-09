@@ -7,11 +7,12 @@ import mockPaymentChannelClaimCloseDenied from './mock_data/PaymentChannelClaimC
 import mockPaymentChannelClaimWithDestinationTag from './mock_data/PaymentChannelClaimWithDestinationTag.json'
 import { Description } from '../Description'
 
-const createWrapper = createDescriptionRenderFactory(Description, i18n)
+const renderComponent = createDescriptionRenderFactory(Description, i18n)
 
 describe('PaymentChannelClaim: Description', () => {
+  afterEach(cleanup)
   it('renders a claim', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaim)
+    renderComponent(mockPaymentChannelClaim)
     expect(wrapper.find('[data-testid="account-line"]')).toHaveText(
       `The transaction was initiated by rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN`,
     )
@@ -26,7 +27,7 @@ describe('PaymentChannelClaim: Description', () => {
   })
 
   it('renders tx with channel being closed', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimClosed)
+    renderComponent(mockPaymentChannelClaimClosed)
     expect(wrapper.find('[data-testid="account-line"]')).toHaveText(
       `The transaction was initiated by rH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B`,
     )
@@ -41,7 +42,7 @@ describe('PaymentChannelClaim: Description', () => {
   })
 
   it('renders tx requesting channel be closed but not closing it', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimCloseDenied)
+    renderComponent(mockPaymentChannelClaimCloseDenied)
     expect(wrapper.find('[data-testid="account-line"]')).toHaveText(
       `The transaction was initiated by rH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B`,
     )
@@ -54,7 +55,7 @@ describe('PaymentChannelClaim: Description', () => {
   })
 
   it('renders tx with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimWithDestinationTag)
+    renderComponent(mockPaymentChannelClaimWithDestinationTag)
     expect(wrapper.find('[data-testid="account-line"]')).toHaveText(
       `The transaction was initiated by rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn`,
     )

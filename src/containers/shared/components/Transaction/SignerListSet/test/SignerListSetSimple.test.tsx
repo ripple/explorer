@@ -4,11 +4,12 @@ import mockSignerListSet from './mock_data/SignerListSet.json'
 import { SimpleRow } from '../../SimpleRow'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 
-const createWrapper = createSimpleRenderFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('SignerListSet: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockSignerListSet)
+    renderComponent(mockSignerListSet)
 
     expect(wrapper.find('[data-testid="quorum"] .value').text()).toEqual(
       '3 out_of 4',
@@ -28,7 +29,7 @@ describe('SignerListSet: Simple', () => {
   })
 
   it('renders when signer list is cleared', () => {
-    const wrapper = createWrapper(mockSignerListSetClear)
+    renderComponent(mockSignerListSetClear)
     expect(wrapper.find(SimpleRow)).toHaveText('unset_signer_list')
     wrapper.unmount()
   })

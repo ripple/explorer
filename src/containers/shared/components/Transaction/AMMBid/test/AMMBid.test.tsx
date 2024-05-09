@@ -1,12 +1,13 @@
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import bidMock from './mock_data/amm_bid.json'
 
 describe('AMM Bid Tests', () => {
-  const createWrapper = createSimpleRenderFactory(Simple)
+  const renderComponent = createSimpleRenderFactory(Simple)
 
   it('renders from transaction', () => {
-    const wrapper = createWrapper(bidMock)
+    renderComponent(bidMock)
     expectSimpleRowText(
       wrapper,
       'min_slot_price',

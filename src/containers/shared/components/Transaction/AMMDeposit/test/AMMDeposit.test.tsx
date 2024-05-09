@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import {
   createSimpleRenderFactory,
@@ -12,10 +13,10 @@ import depositNonXRP from './mock_data/deposit_nonxrp.json'
 import depositFail from './mock_data/deposit_fail.json'
 
 describe('AMM Deposit Tests', () => {
-  const createWrapper = createSimpleRenderFactory(Simple)
+  const renderComponent = createSimpleRenderFactory(Simple)
 
   it('renders with both assets', () => {
-    const wrapper = createWrapper(depositBothAssets)
+    renderComponent(depositBothAssets)
     expectSimpleRowText(wrapper, 'asset1', '\uE90010,997.290462 XRP')
     expectSimpleRowText(
       wrapper,
@@ -31,7 +32,7 @@ describe('AMM Deposit Tests', () => {
   })
 
   it('renders only with USD', () => {
-    const wrapper = createWrapper(depositUSD)
+    renderComponent(depositUSD)
     expectSimpleRowNotToExist(wrapper, 'asset1')
     expectSimpleRowText(
       wrapper,
@@ -47,7 +48,7 @@ describe('AMM Deposit Tests', () => {
   })
 
   it('renders only with XRP', () => {
-    const wrapper = createWrapper(depositXRP)
+    renderComponent(depositXRP)
     expectSimpleRowText(wrapper, 'asset1', '\uE9001,000.00 XRP')
     expectSimpleRowText(
       wrapper,
@@ -58,7 +59,7 @@ describe('AMM Deposit Tests', () => {
   })
 
   it('renders with eprice', () => {
-    const wrapper = createWrapper(depositEprice)
+    renderComponent(depositEprice)
     expectSimpleRowNotToExist(wrapper, 'asset1')
     expectSimpleRowText(
       wrapper,
@@ -79,7 +80,7 @@ describe('AMM Deposit Tests', () => {
   })
 
   it('renders with both assets non XRP', () => {
-    const wrapper = createWrapper(depositNonXRP)
+    renderComponent(depositNonXRP)
     expectSimpleRowText(
       wrapper,
       'asset1',
@@ -99,7 +100,7 @@ describe('AMM Deposit Tests', () => {
   })
 
   it('deposit shouldnt crash with tx that changes fee', () => {
-    const wrapper = createWrapper(depositFail)
+    renderComponent(depositFail)
     expectSimpleRowNotToExist(wrapper, 'asset1')
     expectSimpleRowNotToExist(wrapper, 'asset2')
     expectSimpleRowNotToExist(wrapper, 'account_id')

@@ -1,13 +1,15 @@
+import { cleanup, screen } from '@testing-library/react'
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { Description } from '../Description'
 import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionRenderFactory(Description)
+const renderComponent = createDescriptionRenderFactory(Description)
 
 describe('SetRegularKey: Description', () => {
+  afterEach(cleanup)
   it('renders description for transaction', () => {
-    const wrapper = createWrapper(SetRegularKey)
+    renderComponent(SetRegularKey)
 
     expect(wrapper.html()).toBe(
       `<div>set_regular_key_description <span class="regular-key">rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp</span></div>`,
@@ -16,7 +18,7 @@ describe('SetRegularKey: Description', () => {
   })
 
   it('renders description for transaction that unsets key', () => {
-    const wrapper = createWrapper(SetRegularKeyUnset)
+    renderComponent(SetRegularKeyUnset)
 
     expect(wrapper.html()).toBe(`<div>unset_regular_key_description</div>`)
     wrapper.unmount()
