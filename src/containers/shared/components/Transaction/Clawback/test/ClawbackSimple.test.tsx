@@ -14,11 +14,12 @@ jest.mock('react-query', () => ({
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
-describe('Clawback - Simple', () => {
+describe('Clawback: Simple', () => {
   afterEach(cleanup)
   it('handles Clawback simple view ', () => {
     renderComponent(transaction)
     expectSimpleRowText(screen, 'holder', 'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP')
+    screen.debug()
     expectSimpleRowText(
       screen,
       'amount',
