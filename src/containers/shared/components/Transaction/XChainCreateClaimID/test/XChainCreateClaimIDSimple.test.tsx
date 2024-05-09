@@ -61,6 +61,6 @@ describe('XChainCreateClaimIDSimple', () => {
       'other-chain-source',
       'r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W',
     )
-    expect(screen.getByTestId('claim-id')).not.toExist()
+    expect(screen.getByTestId('claim-id')).toBeNull()
   })
 })

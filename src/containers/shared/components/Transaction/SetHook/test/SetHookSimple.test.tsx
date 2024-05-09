@@ -71,7 +71,7 @@ describe('SetHook: Simple', () => {
     expect(grant1.find('.account').at(0)).toHaveTextContent(
       'rQUhXd7sopuga3taru3jfvc1BgVbscrb1X',
     )
-    expect(grant1.find(`.account a`)).toExist()
+    expect(grant1.find(`.account a`)).toBeDefined()
 
     expect(grant2.find('.hash')).toHaveTextContent(
       '3F47684053E1A653E54EAC1C5F50BCBAF7F69078CEFB5846BB046CE44B8ECDC2',
@@ -79,7 +79,7 @@ describe('SetHook: Simple', () => {
     expect(grant2.find('.account').at(0)).toHaveTextContent(
       'raPSFU999HcwpyRojdNh2i96T22gY9fgxL',
     )
-    expect(grant2.find(`.account a`)).toExist()
+    expect(grant2.find(`.account a`)).toBeDefined()
   })
 
   it('renders a failed SetHook tx', () => {

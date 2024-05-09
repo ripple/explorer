@@ -28,13 +28,13 @@ export const TableDetail = (props: any) => {
           />
         </span>
       </div>
-      <div>
+      <div data-testid="amount-buy">
         <span className="label">{t('buy')}</span>
-        <Amount value={pays} data-testid="amount-buy" />
+        <Amount value={pays} />
       </div>
-      <div>
+      <div data-testid="amount-sell">
         <span className="label">{t('sell')}</span>
-        <Amount value={gets} data-testid="amount-sell" />
+        <Amount value={gets} />
       </div>
       {cancel && (
         <div className="cancel" data-testid="cancel-id">

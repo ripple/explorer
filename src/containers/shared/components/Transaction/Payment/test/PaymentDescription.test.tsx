@@ -20,8 +20,8 @@ describe('Payment: Description', () => {
     expect(screen.getByTestId('from-to-line')).toHaveTextContent(
       `The payment is from rNQEMJA4PsoSrZRn9J6RajAYhcDzzhf8ok to rHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
     )
-    expect(screen.getByTestId('source-tag-line')).not.toExist()
-    expect(screen.getByTestId('destination-tag-line')).not.toExist()
+    expect(screen.getByTestId('source-tag-line')).toBeNull()
+    expect(screen.getByTestId('destination-tag-line')).toBeNull()
     expect(screen.getByTestId('amount-line')).toHaveTextContent(
       `It was instructed to deliver \uE9002,421.8268 XRP`,
     )
@@ -36,12 +36,12 @@ describe('Payment: Description', () => {
     expect(screen.getByTestId('from-to-line')).toHaveTextContent(
       `The payment is from r9x5PHDiwuvbpYB3uvGAqEUVV5wxHayQEx to r9x5PHDiwuvbpYB3uvGAqEUVV5wxHayQEx`,
     )
-    expect(screen.getByTestId('source-tag-line')).not.toExist()
-    expect(screen.getByTestId('destination-tag-line')).not.toExist()
+    expect(screen.getByTestId('source-tag-line')).toBeNull()
+    expect(screen.getByTestId('destination-tag-line')).toBeNull()
     expect(screen.getByTestId('amount-line')).toHaveTextContent(
       `It was instructed to deliver up to 1,140.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr by spending up to \uE9001,140.00 XRP`,
     )
-    expect(screen.getByTestId('delivered-line')).not.toExist()
+    expect(screen.getByTestId('delivered-line')).toBeNull()
   })
 
   it('renders with destination tag', () => {
@@ -50,7 +50,7 @@ describe('Payment: Description', () => {
     expect(screen.getByTestId('from-to-line')).toHaveTextContent(
       `The payment is from rDAE53VfMvftPB4ogpWGWvzkQxfht6JPxr to rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt`,
     )
-    expect(screen.getByTestId('source-tag-line')).not.toExist()
+    expect(screen.getByTestId('source-tag-line')).toBeNull()
     expect(screen.getByTestId('destination-tag-line')).toHaveTextContent(
       `The destination tag is 381702`,
     )
@@ -71,7 +71,7 @@ describe('Payment: Description', () => {
     expect(screen.getByTestId('destination-tag-line')).toHaveTextContent(
       `The destination tag is 0`,
     )
-    expect(screen.getByTestId('source-tag-line')).not.toExist()
+    expect(screen.getByTestId('source-tag-line')).toBeNull()
     expect(screen.getByTestId('amount-line')).toHaveTextContent(
       `It was instructed to deliver 17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA by spending up to 17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA`,
     )
@@ -89,7 +89,7 @@ describe('Payment: Description', () => {
     expect(screen.getByTestId('destination-tag-line')).toHaveTextContent(
       `The destination tag is 0`,
     )
-    expect(screen.getByTestId('source-tag-line')).not.toExist()
+    expect(screen.getByTestId('source-tag-line')).toBeNull()
     expect(screen.getByTestId('amount-line')).toHaveTextContent(
       `It was instructed to deliver up to 0.001043 xCoin.rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFi`,
     )
