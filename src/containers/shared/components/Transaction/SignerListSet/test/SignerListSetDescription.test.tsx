@@ -9,20 +9,19 @@ const renderComponent = createDescriptionRenderFactory(Description)
 describe('SignerListSet: Description', () => {
   afterEach(cleanup)
   it('renders', () => {
-    renderComponent(mockSignerListSet)
+    const { container } = renderComponent(mockSignerListSet)
 
-    expect(screen.find('div').at(0).text()).toEqual(
-      'set_signer_list_description:',
-    )
+    expect(container).toHaveTextContent('set_signer_list_description:')
 
-    const signers = screen.find('.signers li')
-    expect(signers.at(0)).toHaveTextContent(
+    const signers = screen.getAllByTestId('signer')
+
+    expect(signers[0]).toHaveTextContent(
       'rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv - weight: 2',
     )
-    expect(signers.at(1)).toHaveTextContent(
+    expect(signers[1]).toHaveTextContent(
       'rLoRH7XuBgz2kTP1ACkoyVYk9hsLggVvbP - weight: 1',
     )
-    expect(signers.at(2)).toHaveTextContent(
+    expect(signers[2]).toHaveTextContent(
       'rL6SsrxyVp1JLNEZsX1hFWHcP2iJcZJ2dy - weight: 1',
     )
   })
