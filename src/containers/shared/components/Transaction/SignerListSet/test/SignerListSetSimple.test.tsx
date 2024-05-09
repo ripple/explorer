@@ -12,11 +12,11 @@ describe('SignerListSet: Simple', () => {
   it('renders', () => {
     renderComponent(mockSignerListSet)
 
-    expect(wrapper.find('[data-testid="quorum"] .value').text()).toEqual(
+    expect(screen.find('[data-testid="quorum"] .value').text()).toEqual(
       '3 out_of 4',
     )
 
-    const signers = wrapper.find('[data-testid="signers"] .value li')
+    const signers = screen.find('[data-testid="signers"] .value li')
     expect(signers.at(0)).toHaveText(
       'rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv weight: 2',
     )
@@ -30,6 +30,6 @@ describe('SignerListSet: Simple', () => {
 
   it('renders when signer list is cleared', () => {
     renderComponent(mockSignerListSetClear)
-    expect(wrapper.find(SimpleRow)).toHaveText('unset_signer_list')
+    expect(screen.find(SimpleRow)).toHaveText('unset_signer_list')
   })
 })

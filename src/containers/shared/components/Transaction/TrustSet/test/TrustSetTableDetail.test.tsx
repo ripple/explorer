@@ -10,8 +10,8 @@ describe('TrustSet: TableDetail', () => {
   afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockTrustSet)
-    expect(wrapper.find('.label')).toHaveText('Set Trust Limit')
-    expect(wrapper.find('Amount')).toHaveText(
+    expect(screen.find('.label')).toHaveText('Set Trust Limit')
+    expect(screen.find('Amount')).toHaveText(
       'CN¥1,000,000,000.00 CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA',
     )
   })

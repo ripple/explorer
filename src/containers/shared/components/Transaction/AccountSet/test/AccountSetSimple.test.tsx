@@ -2,7 +2,6 @@ import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
-import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockAccountSetWithDomain from './mock_data/AccountSetWithDomain.json'
 import mockAccountSetWithClearFlag from './mock_data/AccountSetWithClearFlag.json'
@@ -17,8 +16,8 @@ describe('AccountSet: Simple', () => {
   afterEach(cleanup)
   it('renders tx that sets the domain', () => {
     renderComponent(mockAccountSetWithDomain)
-    expectSimpleRowLabel(wrapper, 'domain', 'domain')
-    expectSimpleRowText(wrapper, 'domain', 'mduo13.com')
+    expectSimpleRowLabel(screen, 'domain', 'domain')
+    expectSimpleRowText(screen, 'domain', 'mduo13.com')
   })
 
   it('renders tx that sets the email hash', () => {
@@ -31,20 +30,20 @@ describe('AccountSet: Simple', () => {
       },
     })
 
-    expectSimpleRowLabel(wrapper, 'email', 'email hash')
-    expectSimpleRowText(wrapper, 'email', '7AC3878BF42A5329698F468A6AAA03B9')
+    expectSimpleRowLabel(screen, 'email', 'email hash')
+    expectSimpleRowText(screen, 'email', '7AC3878BF42A5329698F468A6AAA03B9')
   })
 
   it('renders tx that clears a flag', () => {
     renderComponent(mockAccountSetWithClearFlag)
-    expectSimpleRowLabel(wrapper, 'clear-flag', 'clear flag')
-    expectSimpleRowText(wrapper, 'clear-flag', 'asfGlobalFreeze')
+    expectSimpleRowLabel(screen, 'clear-flag', 'clear flag')
+    expectSimpleRowText(screen, 'clear-flag', 'asfGlobalFreeze')
   })
 
   it('renders tx that sets a flag', () => {
     renderComponent(mockAccountSetWithSetFlag)
-    expectSimpleRowLabel(wrapper, 'set-flag', 'set flag')
-    expectSimpleRowText(wrapper, 'set-flag', 'asfRequireDest')
+    expectSimpleRowLabel(screen, 'set-flag', 'set flag')
+    expectSimpleRowText(screen, 'set-flag', 'asfRequireDest')
   })
 
   it('renders tx that clears a flag without a defined flag', () => {
@@ -52,8 +51,8 @@ describe('AccountSet: Simple', () => {
       ...mockAccountSetWithClearFlag,
       tx: { ...mockAccountSetWithClearFlag.tx, ClearFlag: 45 },
     })
-    expectSimpleRowLabel(wrapper, 'clear-flag', 'clear flag')
-    expectSimpleRowText(wrapper, 'clear-flag', '45')
+    expectSimpleRowLabel(screen, 'clear-flag', 'clear flag')
+    expectSimpleRowText(screen, 'clear-flag', '45')
   })
 
   it('renders tx that sets a flag without a defined flag', () => {
@@ -61,15 +60,15 @@ describe('AccountSet: Simple', () => {
       ...mockAccountSetWithSetFlag,
       tx: { ...mockAccountSetWithSetFlag.tx, SetFlag: 45 },
     })
-    expectSimpleRowLabel(wrapper, 'set-flag', 'set flag')
-    expectSimpleRowText(wrapper, 'set-flag', '45')
+    expectSimpleRowLabel(screen, 'set-flag', 'set flag')
+    expectSimpleRowText(screen, 'set-flag', '45')
   })
 
   it('renders tx that sets a message', () => {
     renderComponent(mockAccountSetWithMessageKey)
-    expectSimpleRowLabel(wrapper, 'message', 'message key')
+    expectSimpleRowLabel(screen, 'message', 'message key')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'message',
       '020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA',
     )
@@ -77,7 +76,7 @@ describe('AccountSet: Simple', () => {
 
   it('renders tx that sets a minter', () => {
     renderComponent(mockAccountSetWithNFTokenMinter)
-    expectSimpleRowLabel(wrapper, 'minter', 'NFT Minter')
-    expectSimpleRowText(wrapper, 'minter', 'rXMART8usFd5kABXCayoP6ZfB35b4v43t')
+    expectSimpleRowLabel(screen, 'minter', 'NFT Minter')
+    expectSimpleRowText(screen, 'minter', 'rXMART8usFd5kABXCayoP6ZfB35b4v43t')
   })
 })

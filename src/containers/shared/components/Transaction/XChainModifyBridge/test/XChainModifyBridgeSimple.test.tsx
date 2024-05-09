@@ -13,21 +13,21 @@ describe('XChainModifyBridgeSimple', () => {
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      screen,
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).toExist()
+    expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
-    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.01 XRP')
+    expectSimpleRowText(screen, 'signature-reward', '\uE9000.01 XRP')
   })
 
   it('renders MinAccountCreateAmount', () => {
@@ -35,25 +35,21 @@ describe('XChainModifyBridgeSimple', () => {
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      screen,
       'locking-chain-door',
       'rnBnyot2gCJywLxLzfHQX2dUJqZ6oghUFp',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="locking-chain-door"] a`)).toExist()
+    expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
-    expectSimpleRowText(
-      wrapper,
-      'min-account-create-amount',
-      '\uE900100.00 XRP',
-    )
+    expectSimpleRowText(screen, 'min-account-create-amount', '\uE900100.00 XRP')
   })
 
   it('renders failed transaction', () => {
@@ -61,20 +57,20 @@ describe('XChainModifyBridgeSimple', () => {
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      screen,
       'locking-chain-door',
       'r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
+    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).toExist()
+    expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
-    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
+    expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
   })
 })
