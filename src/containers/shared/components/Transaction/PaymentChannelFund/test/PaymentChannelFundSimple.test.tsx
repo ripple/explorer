@@ -35,10 +35,10 @@ describe('PaymentChannelFund: Simple', () => {
       'destination',
       'rBFpf3YQQrcR1HnCt5AhYpNVvXUh4W89Dr',
     )
-    expectSimpleRowLabel(screen, '.channel', 'Channel ID')
+    expectSimpleRowLabel(screen, 'channel', 'Channel ID')
     expectSimpleRowText(
       screen,
-      '.channel',
+      'channel',
       '4BEAC9E4C10674AB698EAC0F2D78A4FF507428370578A59B04883E7EB8D82260',
     )
   })
@@ -54,7 +54,7 @@ describe('PaymentChannelFund: Simple', () => {
     expectSimpleRowNotToExist(screen, 'source')
     expectSimpleRowText(
       screen,
-      '.channel',
+      'channel',
       '933F93F7113A2F94B7838D64D0D2A244C57EFD6411C16FFF5FA293D200EF5876',
     )
   })
