@@ -1,12 +1,13 @@
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import voteMock from './mock_data/amm_vote.json'
 
 describe('AMM Vote Tests', () => {
-  const createWrapper = createSimpleRenderFactory(Simple)
+  const renderComponent = createSimpleRenderFactory(Simple)
 
   it('renders from transaction', () => {
-    const wrapper = createWrapper(voteMock)
+    renderComponent(voteMock)
     expectSimpleRowText(wrapper, 'trading_fee', '0.001%')
     expectSimpleRowText(
       wrapper,

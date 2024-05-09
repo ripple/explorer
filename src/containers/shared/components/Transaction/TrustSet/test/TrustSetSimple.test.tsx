@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
@@ -5,11 +6,12 @@ import { Simple } from '../Simple'
 import mockTrustSet from './mock_data/TrustSet.json'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 
-const createWrapper = createSimpleRenderFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('TrustSet: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockTrustSet)
+    renderComponent(mockTrustSet)
     expectSimpleRowLabel(wrapper, 'amount', 'Set Trust Limit')
     expectSimpleRowText(
       wrapper,
