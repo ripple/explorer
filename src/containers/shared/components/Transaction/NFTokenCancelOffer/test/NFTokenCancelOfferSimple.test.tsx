@@ -15,7 +15,7 @@ describe('NFTokenCancelOffer', () => {
     expect(screen.getByTestId('offer-id')).toHaveTextContent(
       '35F3D6D99548FA5F5315580FBF8BA6B15CAA2CAE93023D5CE4FDC130602BC5C3',
     )
-    expect(screen.getByTestId('amount')).toHaveTextContent(
+    expect(screen.getByTestId('offer-amount')).toHaveTextContent(
       '$100.00 USD.r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
     expect(screen.getByTestId('offerer')).toHaveTextContent(

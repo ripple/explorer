@@ -63,7 +63,7 @@ describe('NFTokenMint - Simple', () => {
   it('handles NFTokenMint with issuer', () => {
     renderComponent(transactionWithIssuer)
 
-    expect(screen.getByTestId('token-issuer')).toExist()
+    expect(screen.getByTestId('token-issuer')).toBeDefined()
     expectSimpleRowText(
       screen,
       'token-id',

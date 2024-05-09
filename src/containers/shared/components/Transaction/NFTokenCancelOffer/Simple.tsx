@@ -30,7 +30,7 @@ export const Simple: TransactionSimpleComponent = ({
           >
             <NFTokenLink tokenID={tokenID} />
           </SimpleRow>
-          <SimpleRow label={t('amount')} data-testid="amount">
+          <SimpleRow label={t('amount')} data-testid="offer-amount">
             <Amount value={amount} displayIssuer />
           </SimpleRow>
           <SimpleRow label={t('offerer')} data-testid="offerer">
