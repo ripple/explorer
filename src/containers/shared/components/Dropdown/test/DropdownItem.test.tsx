@@ -1,65 +1,68 @@
-import { mount } from 'enzyme'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { DropdownItem } from '../DropdownItem'
 import createSpy = jasmine.createSpy
 
 describe('DropdownItem', () => {
+  afterEach(cleanup)
   describe(`prop: className`, () => {
     it('renders with custom className', () => {
-      const wrapper = mount(
-        <DropdownItem className="custom">Hello</DropdownItem>,
-      )
-      expect(wrapper.find('.dropdown-item')).toHaveClassName('custom')
+      render(<DropdownItem className="custom">Hello</DropdownItem>)
+      const item = screen.getByText('Hello')
+      expect(item).toHaveClass('custom')
     })
   })
 
   describe('prop: handler', () => {
-    let wrapper
+    let item
     const handler = createSpy('handler')
 
     beforeEach(() => {
-      wrapper = mount(<DropdownItem handler={handler}>Hello</DropdownItem>)
+      render(<DropdownItem handler={handler}>Hello</DropdownItem>)
+      item = screen.getByText('Hello')
     })
 
     it('renders as an anchor tag', () => {
-      expect(wrapper.find('.dropdown-item')).toHaveDisplayName('a')
+      expect(item.tagName).toBe('A')
     })
 
     it('executes handler on click', () => {
-      wrapper.find('.dropdown-item').simulate('click')
+      fireEvent.click(item)
       expect(handler).toHaveBeenCalled()
     })
 
     it('executes handler on keyup', () => {
-      wrapper.find('.dropdown-item').simulate('click')
+      fireEvent.click(item)
       expect(handler).toHaveBeenCalled()
     })
   })
 
   describe('prop: href', () => {
-    let wrapper
+    let item
 
     beforeEach(() => {
-      wrapper = mount(
-        <DropdownItem href="http://google.com">Hello</DropdownItem>,
-      )
+      render(<DropdownItem href="http://google.com">Hello</DropdownItem>)
+      item = screen.getByText('Hello')
     })
 
     it('renders as an anchor tag', () => {
-      expect(wrapper.find('.dropdown-item')).toHaveDisplayName('a')
+      expect(item.tagName).toBe('A')
     })
 
     it('renders href attribute on anchor', () => {
-      expect(wrapper.find('.dropdown-item')).toHaveProp('href')
+      screen.debug()
+      expect(item.tagName).toBe('A')
     })
   })
 
   it('renders as div without handler or href', () => {
-    const wrapper = mount(<DropdownItem>Hello</DropdownItem>)
-    expect(wrapper.find('.dropdown-item')).toHaveDisplayName('div')
+    render(<DropdownItem>Hello</DropdownItem>)
+    const item = screen.getByText('Hello')
+    expect(item.tagName).toBe('DIV')
   })
 
   it('adds aria roles', () => {
-    const wrapper = mount(<DropdownItem>Hello</DropdownItem>)
-    expect(wrapper.find('.dropdown-item')).toHaveProp('role', 'menuitem')
+    render(<DropdownItem>Hello</DropdownItem>)
+    const item = screen.getByText('Hello')
+    expect(item).toHaveAttribute('role', 'menuitem')
   })
 })

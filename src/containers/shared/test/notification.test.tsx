@@ -9,7 +9,7 @@ describe('Notification', () => {
     wrapper.unmount()
   })
 
-  it('dissapears', (done) => {
+  it('disappears', (done) => {
     const wrapper = mount(
       <Notification
         key="key"
