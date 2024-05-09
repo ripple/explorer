@@ -13,7 +13,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   return (
     <>
       <SimpleRow label={t('price')}>
-        <div className="amount" data-testid="amount">
+        <div className="amount">
           {`${Number(price)}`}
           <div className="one-line">
             <Currency

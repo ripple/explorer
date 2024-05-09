@@ -10,9 +10,7 @@ describe('OfferCreate: Simple', () => {
   afterEach(cleanup)
   it('renders with an expiration and offer', () => {
     renderComponent(mockOfferCreateWithCancel)
-    expect(screen.getByTestId('amount')).toHaveTextContent(
-      '\uE900 XRP/CSC.rCSC',
-    )
+    expect(screen.getByTestId('price')).toHaveTextContent('\uE900 XRP/CSC.rCSC')
     expect(screen.getByTestId('cancel-id')).toHaveTextContent('#44866443')
     expect(screen.getByTestId('amount-buy')).toHaveTextContent(
       `\uE9001,764.293151 XRP`,
@@ -25,7 +23,7 @@ describe('OfferCreate: Simple', () => {
   it('renders', () => {
     renderComponent(mockOfferCreate)
 
-    expect(screen.getByTestId('offer-id')).not.toExist()
+    expect(screen.queryByTestId('offer-id')).toBeNull()
     expect(screen.getByTestId('amount-buy')).toHaveTextContent(
       `\uE90024,755.081083 XRP`,
     )
