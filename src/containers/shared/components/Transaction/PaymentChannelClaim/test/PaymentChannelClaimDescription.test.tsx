@@ -14,55 +14,55 @@ describe('PaymentChannelClaim: Description', () => {
   afterEach(cleanup)
   it('renders a claim', () => {
     renderComponent(mockPaymentChannelClaim)
-    expect(screen.find('[data-testid="account-line"]')).toHaveText(
+    expect(screen.getByTestId("account-line")).toHaveTextContent(
       `The transaction was initiated by rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN`,
     )
-    expect(screen.find('[data-testid="channel-line"]')).toHaveText(
+    expect(screen.getByTestId("channel-line")).toHaveTextContent(
       `It will update the payment channel 50107651E7163E294CE0EAD8A20BF7CC046304480FCC9C74A49FFAB3F46FB98E`,
     )
-    expect(screen.find('[data-testid="balance-line"]')).toHaveText(
+    expect(screen.getByTestId("balance-line")).toHaveTextContent(
       `The channel balance claimed is \uE90049.65716XRP (increased by \uE9000.01XRP)`,
     )
-    expect(screen.find('[data-testid="closed-line"]')).not.toExist()
+    expect(screen.getByTestId("closed-line").not.toExist()
   })
 
   it('renders tx with channel being closed', () => {
     renderComponent(mockPaymentChannelClaimClosed)
-    expect(screen.find('[data-testid="account-line"]')).toHaveText(
+    expect(screen.getByTestId("account-line")).toHaveTextContent(
       `The transaction was initiated by rH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B`,
     )
-    expect(screen.find('[data-testid="channel-line"]')).toHaveText(
+    expect(screen.getByTestId("channel-line")).toHaveTextContent(
       `It will update the payment channel 3BDB4F92432BCEB2385D3BAA60E8AAEC9B552890A240AEE4AA9E88C9E6C517E8`,
     )
-    expect(screen.find('[data-testid="balance-line"]')).not.toExist()
-    expect(screen.find('[data-testid="closed-line"]')).toHaveText(
+    expect(screen.getByTestId("balance-line").not.toExist()
+    expect(screen.getByTestId("closed-line")).toHaveTextContent(
       `The payment channel will be closed, any remaining balance will be returned to the source account`,
     )
   })
 
   it('renders tx requesting channel be closed but not closing it', () => {
     renderComponent(mockPaymentChannelClaimCloseDenied)
-    expect(screen.find('[data-testid="account-line"]')).toHaveText(
+    expect(screen.getByTestId("account-line")).toHaveTextContent(
       `The transaction was initiated by rH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B`,
     )
-    expect(screen.find('[data-testid="channel-line"]')).toHaveText(
+    expect(screen.getByTestId("channel-line")).toHaveTextContent(
       `It will update the payment channel 3BDB4F92432BCEB2385D3BAA60E8AAEC9B552890A240AEE4AA9E88C9E6C517E8`,
     )
-    expect(screen.find('[data-testid="balance-line"]')).not.toExist()
-    expect(screen.find('[data-testid="closed-line"]')).not.toExist()
+    expect(screen.getByTestId("balance-line").not.toExist()
+    expect(screen.getByTestId("closed-line").not.toExist()
   })
 
   it('renders tx with destination tag', () => {
     renderComponent(mockPaymentChannelClaimWithDestinationTag)
-    expect(screen.find('[data-testid="account-line"]')).toHaveText(
+    expect(screen.getByTestId("account-line")).toHaveTextContent(
       `The transaction was initiated by rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn`,
     )
-    expect(screen.find('[data-testid="channel-line"]')).toHaveText(
+    expect(screen.getByTestId("channel-line")).toHaveTextContent(
       `It will update the payment channel 5DB01B7FFED6B67E6B0414DED11E051D2EE2B7619CE0EAA6286D67A3A4D5BDB3`,
     )
-    expect(screen.find('[data-testid="balance-line"]')).toHaveText(
+    expect(screen.getByTestId("balance-line")).toHaveTextContent(
       `The channel balance claimed is \uE9001.00XRP (increased by \uE9001.00XRP)`,
     )
-    expect(screen.find('[data-testid="closed-line"]')).not.toExist()
+    expect(screen.getByTestId("closed-line").not.toExist()
   })
 })

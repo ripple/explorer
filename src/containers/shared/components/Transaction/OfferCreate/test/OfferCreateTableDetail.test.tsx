@@ -12,16 +12,16 @@ describe('OfferCreate: TableDetail', () => {
   it('renders with an expiration and offer', () => {
     renderComponent(mockOfferCreateWithCancel)
 
-    expect(screen.find('[data-testid="pair"]')).toHaveText(
+    expect(screen.getByTestId("pair")).toHaveTextContent(
       'price:612.518 \uE900 XRP/CSC.rCSC',
     )
-    expect(screen.find('[data-testid="cancel-id"]')).toHaveText(
+    expect(screen.getByTestId("cancel-id")).toHaveTextContent(
       'cancel_offer #44866443',
     )
-    expect(screen.find('[data-testid="amount-buy"]')).toHaveText(
+    expect(screen.getByTestId("amount-buy")).toHaveTextContent(
       `\uE9001,764.293151 XRP`,
     )
-    expect(screen.find('[data-testid="amount-sell"]')).toHaveText(
+    expect(screen.getByTestId("amount-sell")).toHaveTextContent(
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
   })
@@ -29,14 +29,14 @@ describe('OfferCreate: TableDetail', () => {
   it('renders', () => {
     renderComponent(mockOfferCreate)
 
-    expect(screen.find('[data-testid="pair"]')).toHaveText(
+    expect(screen.getByTestId("pair")).toHaveTextContent(
       'price:0.00207696 \uE900 XRP/BCH.rcyS',
     )
-    expect(screen.find('[data-testid="offer-id"]')).not.toExist()
-    expect(screen.find('[data-testid="amount-buy"]')).toHaveText(
+    expect(screen.getByTestId("offer-id").not.toExist()
+    expect(screen.getByTestId("amount-buy")).toHaveTextContent(
       `\uE90024,755.081083 XRP`,
     )
-    expect(screen.find('[data-testid="amount-sell"]')).toHaveText(
+    expect(screen.getByTestId("amount-sell")).toHaveTextContent(
       `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
     )
   })
@@ -44,7 +44,7 @@ describe('OfferCreate: TableDetail', () => {
   it('renders inverted currencies', () => {
     renderComponent(mockOfferCreateInvertedCurrencies)
 
-    expect(screen.find('[data-testid="pair"]')).toHaveText(
+    expect(screen.getByTestId("pair")).toHaveTextContent(
       'price:0.346896 \uE900 XRP/USD.rvYA',
     )
   })

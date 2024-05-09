@@ -23,7 +23,7 @@ describe('NFTokenCreateOffer', () => {
     )
     expectSimpleRowText(screen, 'owner', 'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g')
     expectSimpleRowText(screen, 'amount', '\uE9000.0001 XRP')
-    expect(screen.find('[data-testid="buyer-or-seller"] .label')).toHaveText(
+    expect(screen.getByTestId("buyer-or-seller"] .label')).toHaveTextContent(
       'buyer',
     )
     expectSimpleRowText(
@@ -31,7 +31,7 @@ describe('NFTokenCreateOffer', () => {
       'buyer-or-seller',
       'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh',
     )
-    expect(screen.find('[data-testid="destination"] .value')).not.toExist()
+    expect(screen.getByTestId("destination")).not.toExist()
   })
 
   it('handles NFTokenCreateOffer sell simple view ', () => {
@@ -46,13 +46,13 @@ describe('NFTokenCreateOffer', () => {
       'offer-id',
       'F660CA62E16B8067649052E8FCE947049FC6EF0D8B42EF7E5819997EC5AE45B6',
     )
-    expect(screen.find('[data-testid="owner"] .value')).not.toExist()
+    expect(screen.getByTestId("owner")).not.toExist()
     expectSimpleRowText(
       screen,
       'amount',
       '$100.00 USD.r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
-    expect(screen.find('[data-testid="buyer-or-seller"] .label')).toHaveText(
+    expect(screen.getByTestId("buyer-or-seller"] .label')).toHaveTextContent(
       'seller',
     )
     expectSimpleRowText(
@@ -60,7 +60,7 @@ describe('NFTokenCreateOffer', () => {
       'buyer-or-seller',
       'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
-    expect(screen.find('[data-testid="destination"] .value')).not.toExist()
+    expect(screen.getByTestId("destination")).not.toExist()
   })
 
   it('handles failed NFTokenCreateOffer transaction', () => {
@@ -70,8 +70,8 @@ describe('NFTokenCreateOffer', () => {
       'token-id',
       '00080000AC7377C74DD53E77C8161537F5EBF56B0CE8FD3BD392C2B800001702',
     )
-    expect(screen.find('[data-testid="offer-id"] .value')).not.toExist()
-    expect(screen.find('[data-testid="owner"] .value')).not.toExist()
+    expect(screen.getByTestId("offer-id")).not.toExist()
+    expect(screen.getByTestId("owner")).not.toExist()
     expectSimpleRowText(screen, 'amount', '\uE900500.00 XRP')
   })
 

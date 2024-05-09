@@ -9,16 +9,16 @@ const renderComponent = createDescriptionRenderFactory(Description)
 describe('SetRegularKey: Description', () => {
   afterEach(cleanup)
   it('renders description for transaction', () => {
-    renderComponent(SetRegularKey)
+    const { container } = renderComponent(SetRegularKey)
 
-    expect(screen.html()).toBe(
+    expect(container).toHaveHTML(
       `<div>set_regular_key_description <span class="regular-key">rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp</span></div>`,
     )
   })
 
   it('renders description for transaction that unsets key', () => {
-    renderComponent(SetRegularKeyUnset)
+    const { container } = renderComponent(SetRegularKeyUnset)
 
-    expect(screen.html()).toBe(`<div>unset_regular_key_description</div>`)
+    expect(container).toHaveHTML(`<div>unset_regular_key_description</div>`)
   })
 })

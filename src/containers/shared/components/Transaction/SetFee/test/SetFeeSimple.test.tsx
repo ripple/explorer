@@ -12,7 +12,7 @@ import SetFeePostAmendment from './mock_data/SetFee_PostAmendment.json'
 
 const renderComponent = createSimpleRenderFactory(Simple, i18nTestConfigEnUS)
 
-function testSimple(screen) {
+function testSimple() {
   expectSimpleRowLabel(screen, `base-fee`, 'Base Fee')
   expectSimpleRowText(screen, `base-fee`, `\uE9000.00001 XRP`)
   expectSimpleRowLabel(screen, `reserve`, 'Reserve')
@@ -25,11 +25,11 @@ describe('SetFee: Simple', () => {
   afterEach(cleanup)
   it('renders Simple for transaction before XRPFees amendment', () => {
     renderComponent(SetFeePreAmendment)
-    testSimple(screen)
+    testSimple()
   })
 
   it('renders Simple for transaction after XRPFees amendment', () => {
     renderComponent(SetFeePostAmendment)
-    testSimple(screen)
+    testSimple()
   })
 })
