@@ -60,7 +60,7 @@ describe('EnableAmendment: Simple', () => {
     expectSimpleRowText(screen, 'status', 'Lost Majority')
     expectSimpleRowLabel(screen, 'version', 'Introduced In')
     expectSimpleRowText(screen, 'version', 'Loading')
-    expect(screen.find('[data-testid="date"]')).not.toExist()
+    expect(screen.getByTestId('date')).not.toExist()
 
     await flushPromises()
 
@@ -87,7 +87,7 @@ describe('EnableAmendment: Simple', () => {
 
     expectSimpleRowText(screen, 'name', 'ExpandedSignerList')
     expectSimpleRowText(screen, 'version', 'v1.9.1')
-    expect(screen.find('[data-testid="name"] .value a')).toHaveProp(
+    expect(screen.getByTestId('name')).toHaveAttribute(
       'href',
       '/amendment/B2A4DB846F0891BF2C76AB2F2ACC8F5B4EC64437135C6E56F3F859DE5FFD5856',
     )

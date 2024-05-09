@@ -9,10 +9,11 @@ const renderComponent = createTableDetailRenderFactory(
   i18nTestConfigEnUS,
 )
 
-describe('EscrowCancelTableDetail', () => {
+describe('EscrowCancel - TableDetail', () => {
+  afterEach(cleanup)
   it('renders EscrowCancel without crashing', () => {
-    renderComponent(mockEscrowCancel)
-    expect(screen).toHaveText(
+    const { container } = renderComponent(mockEscrowCancel)
+    expect(container).toHaveTextContent(
       'cancel escrow rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56 - 9',
     )
   })

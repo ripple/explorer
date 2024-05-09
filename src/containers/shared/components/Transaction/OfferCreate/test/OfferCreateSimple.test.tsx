@@ -10,16 +10,16 @@ describe('OfferCreate: Simple', () => {
   afterEach(cleanup)
   it('renders with an expiration and offer', () => {
     renderComponent(mockOfferCreateWithCancel)
-    expect(screen.find('[data-testid="amount"] .one-line')).toHaveText(
+    expect(screen.getByTestId("amount"] .one-line')).toHaveTextContent(
       '\uE900 XRP/CSC.rCSC',
     )
-    expect(screen.find('[data-testid="cancel-id"] .value')).toHaveText(
+    expect(screen.getByTestId("cancel-id")).toHaveTextContent(
       '#44866443',
     )
-    expect(screen.find('[data-testid="amount-buy"] .value')).toHaveText(
+    expect(screen.getByTestId("amount-buy")).toHaveTextContent(
       `\uE9001,764.293151 XRP`,
     )
-    expect(screen.find('[data-testid="amount-sell"] .value')).toHaveText(
+    expect(screen.getByTestId("amount-sell")).toHaveTextContent(
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
   })
@@ -27,11 +27,11 @@ describe('OfferCreate: Simple', () => {
   it('renders', () => {
     renderComponent(mockOfferCreate)
 
-    expect(screen.find('[data-testid="offer-id"] .value')).not.toExist()
-    expect(screen.find('[data-testid="amount-buy"] .value')).toHaveText(
+    expect(screen.getByTestId("offer-id")).not.toExist()
+    expect(screen.getByTestId("amount-buy")).toHaveTextContent(
       `\uE90024,755.081083 XRP`,
     )
-    expect(screen.find('[data-testid="amount-sell"] .value')).toHaveText(
+    expect(screen.getByTestId("amount-sell")).toHaveTextContent(
       `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
     )
   })

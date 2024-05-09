@@ -3,8 +3,10 @@ import { Simple } from '../Simple'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import voteMock from './mock_data/amm_vote.json'
 
+const renderComponent = createSimpleRenderFactory(Simple)
+
 describe('AMM Vote Tests', () => {
-  const renderComponent = createSimpleRenderFactory(Simple)
+  afterEach(cleanup)
 
   it('renders from transaction', () => {
     renderComponent(voteMock)

@@ -1,4 +1,4 @@
-import { cleanup, screen } from '@testing-library/react'
+import { cleanup } from '@testing-library/react'
 import { createSimpleRenderFactory } from '../../test'
 import { Simple } from '../Simple'
 import DIDDelete from './mock_data/DIDDelete.json'
