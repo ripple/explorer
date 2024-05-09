@@ -1,6 +1,7 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createDescriptionRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 import mockPaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import mockPaymentChannelClaimClosed from './mock_data/PaymentChannelClaimClosed.json'
 import mockPaymentChannelClaimCloseDenied from './mock_data/PaymentChannelClaimCloseDenied.json'
@@ -23,7 +24,6 @@ describe('PaymentChannelClaim: Description', () => {
       `The channel balance claimed is \uE90049.65716XRP (increased by \uE9000.01XRP)`,
     )
     expect(wrapper.find('[data-testid="closed-line"]')).not.toExist()
-    wrapper.unmount()
   })
 
   it('renders tx with channel being closed', () => {
@@ -38,7 +38,6 @@ describe('PaymentChannelClaim: Description', () => {
     expect(wrapper.find('[data-testid="closed-line"]')).toHaveText(
       `The payment channel will be closed, any remaining balance will be returned to the source account`,
     )
-    wrapper.unmount()
   })
 
   it('renders tx requesting channel be closed but not closing it', () => {
@@ -51,7 +50,6 @@ describe('PaymentChannelClaim: Description', () => {
     )
     expect(wrapper.find('[data-testid="balance-line"]')).not.toExist()
     expect(wrapper.find('[data-testid="closed-line"]')).not.toExist()
-    wrapper.unmount()
   })
 
   it('renders tx with destination tag', () => {
@@ -66,6 +64,5 @@ describe('PaymentChannelClaim: Description', () => {
       `The channel balance claimed is \uE9001.00XRP (increased by \uE9001.00XRP)`,
     )
     expect(wrapper.find('[data-testid="closed-line"]')).not.toExist()
-    wrapper.unmount()
   })
 })

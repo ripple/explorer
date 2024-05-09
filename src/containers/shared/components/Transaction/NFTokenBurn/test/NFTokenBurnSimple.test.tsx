@@ -19,7 +19,6 @@ describe('NFTokenBurn', () => {
       '000800006203F49C21D5D6E022CB16DE3538F248662FC73C29ABA6A90000000D',
     )
     expectSimpleRowNotToExist(wrapper, 'owner')
-    wrapper.unmount()
   })
 
   it('handles NFTokenBurn when the burner is not the owner', () => {
@@ -30,6 +29,5 @@ describe('NFTokenBurn', () => {
       '00090000DF7682C6F61329B887798E2ABB518BF1C923F4010000099B00000000',
     )
     expectSimpleRowText(wrapper, 'owner', 'rH3Jr1zwADrokm2niuJLEAD5NuoVwBvzpk')
-    wrapper.unmount()
   })
 })

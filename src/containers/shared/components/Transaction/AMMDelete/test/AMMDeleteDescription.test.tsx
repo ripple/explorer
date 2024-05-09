@@ -18,7 +18,5 @@ describe('AMMDelete: Description', () => {
       'href',
       '/token/FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9',
     )
-
-    wrapper.unmount()
   })
 })

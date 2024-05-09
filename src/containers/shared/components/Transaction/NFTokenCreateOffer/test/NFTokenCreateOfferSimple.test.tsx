@@ -32,7 +32,6 @@ describe('NFTokenCreateOffer', () => {
       'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh',
     )
     expect(wrapper.find('[data-testid="destination"] .value')).not.toExist()
-    wrapper.unmount()
   })
 
   it('handles NFTokenCreateOffer sell simple view ', () => {
@@ -62,7 +61,6 @@ describe('NFTokenCreateOffer', () => {
       'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
     expect(wrapper.find('[data-testid="destination"] .value')).not.toExist()
-    wrapper.unmount()
   })
 
   it('handles failed NFTokenCreateOffer transaction', () => {
@@ -75,7 +73,6 @@ describe('NFTokenCreateOffer', () => {
     expect(wrapper.find('[data-testid="offer-id"] .value')).not.toExist()
     expect(wrapper.find('[data-testid="owner"] .value')).not.toExist()
     expectSimpleRowText(wrapper, 'amount', '\uE900500.00 XRP')
-    wrapper.unmount()
   })
 
   it('handles NFTokenCreateOffer with destination', () => {
@@ -85,6 +82,5 @@ describe('NFTokenCreateOffer', () => {
       'destination',
       'rpdUbED32X3YXRPBGzSv8gMTJE66t3sji9',
     )
-    wrapper.unmount()
   })
 })

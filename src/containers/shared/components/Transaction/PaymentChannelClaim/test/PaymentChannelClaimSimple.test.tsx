@@ -2,6 +2,7 @@ import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockPaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import mockPaymentChannelClaimClosed from './mock_data/PaymentChannelClaimClosed.json'
@@ -46,7 +47,6 @@ describe('PaymentChannelClaim: Simple', () => {
     expectSimpleRowNotToExist(wrapper, 'renew')
     expectSimpleRowNotToExist(wrapper, 'close-request')
     expectSimpleRowNotToExist(wrapper, 'closed')
-    wrapper.unmount()
   })
 
   it('renders tx with channel being closed', () => {
@@ -72,7 +72,6 @@ describe('PaymentChannelClaim: Simple', () => {
     expectSimpleRowNotToExist(wrapper, 'renew')
     expectSimpleRowText(wrapper, 'close-request', 'close channel request')
     expectSimpleRowText(wrapper, 'closed', 'payment channel closed')
-    wrapper.unmount()
   })
 
   it('renders tx requesting channel be closed but not closing it', () => {
@@ -98,7 +97,6 @@ describe('PaymentChannelClaim: Simple', () => {
     expectSimpleRowNotToExist(wrapper, 'renew')
     expectSimpleRowText(wrapper, 'close-request', 'close channel request')
     expectSimpleRowNotToExist(wrapper, 'closed')
-    wrapper.unmount()
   })
 
   it('renders tx with destination tag', () => {
@@ -120,6 +118,5 @@ describe('PaymentChannelClaim: Simple', () => {
     expectSimpleRowNotToExist(wrapper, 'renew')
     expectSimpleRowNotToExist(wrapper, 'close-request')
     expectSimpleRowNotToExist(wrapper, 'closed')
-    wrapper.unmount()
   })
 })

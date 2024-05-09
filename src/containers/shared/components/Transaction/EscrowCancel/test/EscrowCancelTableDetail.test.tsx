@@ -15,6 +15,5 @@ describe('EscrowCancelTableDetail', () => {
     expect(wrapper).toHaveText(
       'cancel escrow rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56 - 9',
     )
-    wrapper.unmount()
   })
 })

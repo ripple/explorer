@@ -30,6 +30,5 @@ describe('SignerListSet: Description', () => {
   it('renders when signer list is cleared', () => {
     renderComponent(mockSignerListSetClear)
     expect(wrapper).toHaveText('unset_signer_list_description')
-    wrapper.unmount()
   })
 })

@@ -13,6 +13,5 @@ describe('DIDSet: TableDetail', () => {
       // eslint-disable-next-line no-useless-concat -- easier to read this way
       'uri: did_example' + 'did_document: doc' + 'data: attest',
     )
-    wrapper.unmount()
   })
 })

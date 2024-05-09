@@ -2,6 +2,7 @@ import { Simple } from '../Simple'
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import mockOfferCreate from './mock_data/OfferCreate.json'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
@@ -21,7 +22,6 @@ describe('OfferCreate: Simple', () => {
     expect(wrapper.find('[data-testid="amount-sell"] .value')).toHaveText(
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
-    wrapper.unmount()
   })
 
   it('renders', () => {

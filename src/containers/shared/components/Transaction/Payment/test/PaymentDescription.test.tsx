@@ -28,8 +28,6 @@ describe('Payment: Description', () => {
     expect(wrapper.find('[data-testid="delivered-line"]')).toHaveText(
       `The actual amount delivered was \uE9002,421.8268 XRP`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with failed partial conversion', () => {
@@ -44,8 +42,6 @@ describe('Payment: Description', () => {
       `It was instructed to deliver up to 1,140.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZr by spending up to \uE9001,140.00 XRP`,
     )
     expect(wrapper.find('[data-testid="delivered-line"]')).not.toExist()
-
-    wrapper.unmount()
   })
 
   it('renders with destination tag', () => {
@@ -64,8 +60,6 @@ describe('Payment: Description', () => {
     expect(wrapper.find('[data-testid="delivered-line"]')).toHaveText(
       `The actual amount delivered was \uE9001,531.267 XRP`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with send max', () => {
@@ -84,7 +78,6 @@ describe('Payment: Description', () => {
     expect(wrapper.find('[data-testid="delivered-line"]')).toHaveText(
       `The actual amount delivered was 17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA`,
     )
-    wrapper.unmount()
   })
 
   it('renders with partial', () => {
@@ -103,8 +96,6 @@ describe('Payment: Description', () => {
     expect(wrapper.find('[data-testid="delivered-line"]')).toHaveText(
       `The actual amount delivered was 0.00104196 xCoin.rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFi`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with SourceTag', () => {
@@ -116,7 +107,5 @@ describe('Payment: Description', () => {
     expect(wrapper.find('[data-testid="destination-tag-line"]')).toHaveText(
       `The destination tag is 412453880`,
     )
-
-    wrapper.unmount()
   })
 })

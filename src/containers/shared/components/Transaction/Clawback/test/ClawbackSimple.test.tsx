@@ -23,7 +23,6 @@ describe('Clawback', () => {
       'amount',
       '3,840.00 FOO.rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9',
     )
-    wrapper.unmount()
   })
 
   it('handles MPT Clawback simple view ', () => {
@@ -54,7 +53,6 @@ describe('Clawback', () => {
       'amount',
       '4,840.00 FOO.rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP',
     )
-    wrapper.unmount()
   })
 
   it('handles failed MPT Clawback simple view ', () => {

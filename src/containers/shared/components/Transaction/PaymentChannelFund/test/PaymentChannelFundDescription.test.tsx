@@ -1,6 +1,7 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createDescriptionRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 import mockPaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import mockPaymentChannelFundFailed from './mock_data/PaymentChannelFundFailed.json'
 import { Description } from '../Description'
@@ -17,7 +18,6 @@ describe('PaymentChannelFund: Description', () => {
     expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
       `It will increase the channel amount by \uE9001.00 XRP from \uE90074.00 XRP to \uE90075.00 XRP`,
     )
-    wrapper.unmount()
   })
 
   it('renders failed tx', () => {
@@ -28,6 +28,5 @@ describe('PaymentChannelFund: Description', () => {
     expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
       `It will increase the channel amount by \uE90020.00 XRP`,
     )
-    wrapper.unmount()
   })
 })

@@ -1,3 +1,4 @@
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockSignerListSetClear from './mock_data/SignerListSetClear.json'
 import mockSignerListSet from './mock_data/SignerListSet.json'
@@ -25,12 +26,10 @@ describe('SignerListSet: Simple', () => {
     expect(signers.at(2)).toHaveText(
       'rL6SsrxyVp1JLNEZsX1hFWHcP2iJcZJ2dy weight: 1',
     )
-    wrapper.unmount()
   })
 
   it('renders when signer list is cleared', () => {
     renderComponent(mockSignerListSetClear)
     expect(wrapper.find(SimpleRow)).toHaveText('unset_signer_list')
-    wrapper.unmount()
   })
 })

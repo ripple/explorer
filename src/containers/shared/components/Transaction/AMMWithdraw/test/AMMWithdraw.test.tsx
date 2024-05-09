@@ -26,7 +26,6 @@ describe('AMM Withdraw Tests', () => {
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
   })
 
   it('renders transaction from usd only', () => {
@@ -42,7 +41,6 @@ describe('AMM Withdraw Tests', () => {
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
   })
   it('renders transaction from XRP only', () => {
     renderComponent(withdrawXRPMock)
@@ -53,7 +51,6 @@ describe('AMM Withdraw Tests', () => {
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
   })
 
   it('renders transaction from eprice', () => {
@@ -69,6 +66,5 @@ describe('AMM Withdraw Tests', () => {
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
   })
 })

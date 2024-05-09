@@ -33,6 +33,5 @@ describe('NFTokenCancelOffer', () => {
     expect(wrapper.find('[data-testid="offerer"] .value')).toHaveText(
       'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
-    wrapper.unmount()
   })
 })

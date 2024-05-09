@@ -21,7 +21,5 @@ describe('EscrowCreateTableDetail', () => {
     expect(wrapper.find('[data-testid="cancel_after"]')).toHaveText(
       `March 1, 2020 at 8:54:20 AM UTC`,
     )
-
-    wrapper.unmount()
   })
 })
