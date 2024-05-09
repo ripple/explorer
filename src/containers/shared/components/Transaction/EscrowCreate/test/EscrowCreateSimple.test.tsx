@@ -23,15 +23,13 @@ describe('EscrowCreate - Simple', () => {
 
   it('renders with a smart escrow', () => {
     renderComponent(mockEscrowCreateFinishFunction)
-    expect(screen.find('[data-test="escrow-amount"] .value')).toHaveText(
+    expect(screen.getByTestId('escrow-amount')).toHaveTextContent(
       '\uE9000.10 XRP',
     )
-    expect(screen.find('[data-test="escrow-destination"] .value')).toHaveText(
+    expect(screen.getByTestId('escrow-destination')).toHaveTextContent(
       'rQE6iDVinSGsk9jdGS8rbwHste1VkhyCo6',
     )
-    expect(
-      screen.find('[data-test="escrow-finish-function"] .value'),
-    ).toHaveText(
+    expect(screen.getByTestId('escrow-finish-function')).toHaveTextContent(
       '0061736D0100000001690F60037F7F7F017F60027F7F017F60017F0060027F7F0060057F7F7F7F' +
         '7F017F6000017F60037E7F7F017F60057F7F7F7F7F0060037F7F7F0060067F7F7F7F7F7F017F' +
         '600B7F7F7F7F7F7F7F7F7F7F7F017F60017F017F60047F7F7F7F0060000060057F7E7E7E7E00' +
@@ -40,9 +38,6 @@ describe('EscrowCreate - Simple', () => {
         '656C64000108686F73745F6C6962136765744C6564676572456E7472794669656C6400040868' +
         '6F73745F6C696213676574506172656E744C656467657254696D650005035453020',
     )
-    expect(screen.find('[data-test="escrow-data"] .value')).toHaveText(
-      '70000000',
-    )
-    screen.unmount()
+    expect(screen.getByTestId('escrow-data')).toHaveTextContent('70000000')
   })
 })
