@@ -35,7 +35,6 @@ describe('TxStatus', () => {
     expect(screen.getByText('Fail')).toBeDefined()
     expect(screen.getByTitle('status')).toBeDefined()
     expect(screen.getByTitle('status')).toHaveClass('fail')
-    screen.debug()
     expect(screen.getByTitle('Fail - tecPATH_DRY')).toHaveAttribute(
       'href',
       'https://xrpl.org/tec-codes.html#tecPATH_DRY',
