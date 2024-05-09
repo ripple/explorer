@@ -1,4 +1,4 @@
-import { cleanup, screen } from '@testing-library/react'
+import { cleanup, screen, within } from '@testing-library/react'
 import NewEscrowCreate from './mock_data/NewEscrowCreate.json'
 import SetHook from './mock_data/SetHook.json'
 import SetHook2 from './mock_data/SetHook2.json'
@@ -24,7 +24,9 @@ describe('DefaultSimple', () => {
       'Destination',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('Destination')).toHaveAttribute('href')
+    expect(
+      screen.getByText('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'),
+    ).toHaveAttribute('href')
     expectSimpleRowText(screen, 'Amount', '\uE9001.00 XRP')
     expectSimpleRowText(screen, 'FinishAfter', '736447590')
   })
@@ -38,18 +40,18 @@ describe('DefaultSimple', () => {
     expect(screen.getAllByTestId('HookNamespace').length).toEqual(2)
     expect(screen.getAllByTestId('HookOn').length).toEqual(2)
 
-    expect(screen.getByTestId('CreateCode')[0]).toHaveTextContent(
+    expect(screen.getAllByTestId('CreateCode')[0]).toHaveTextContent(
       '0061736D0100000001420960027F7F017F60037F7F7F017E60037F7F7E017E60027F7F017E60047F' +
         '7F7F7F017E60017F017E6000017E60057F7F7F7F7F017E60097F7F7F7F7F7F7F7F7F017E02BC02' +
         '1403656E76025F67000003656E760A6F74786E5F6669656C64000103656E760661636365707400' +
         '0203656E7608726F6C6C6261636B000203656E760C686F6F6B5F6163636F756E...',
     )
-    expect(screen.getByTestId('Flags')).toHaveTextContent('1')
-    expect(screen.getByTestId('HookApiVersion')).toHaveTextContent('0')
-    expect(screen.getByTestId('HookNamespace')).toHaveTextContent(
+    expect(screen.getAllByTestId('Flags')[0]).toHaveTextContent('1')
+    expect(screen.getAllByTestId('HookApiVersion')[0]).toHaveTextContent('0')
+    expect(screen.getAllByTestId('HookNamespace')[0]).toHaveTextContent(
       '0000000000000000000000000000000000000000000000000000000000000000',
     )
-    expect(screen.getByTestId('HookOn')).toHaveTextContent(
+    expect(screen.getAllByTestId('HookOn')[0]).toHaveTextContent(
       'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFFFFFFFFFBFFFFF',
     )
   })
@@ -78,15 +80,12 @@ describe('DefaultSimple', () => {
     expect(screen.getByTestId('HookOn')).toHaveTextContent(
       'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFFFFFFFFFBFFFFF',
     )
+    const hookParams = screen.getByTestId('HookParameters')
     expect(
-      screen.find(
-        `[data-testid="HookParameters"] .subgroup [data-testid="HookParameterName"]`,
-      ),
+      within(hookParams).getByTestId('HookParameterName'),
     ).toHaveTextContent('HookParameterName: 6E616D6531')
     expect(
-      screen.find(
-        `[data-testid="HookParameters"] .subgroup [data-testid="HookParameterValue"]`,
-      ),
+      within(hookParams).getByTestId('HookParameterValue'),
     ).toHaveTextContent('HookParameterValue: 76616C756531')
   })
 
@@ -97,7 +96,9 @@ describe('DefaultSimple', () => {
       'AccountOther',
       'rPTScb8m3wq6r3Ys93Ec5at7LYDmWrtndi',
     )
-    expect(screen.getByTestId('AccountOther')).toHaveAttribute('href')
+    expect(
+      screen.getByText('rPTScb8m3wq6r3Ys93Ec5at7LYDmWrtndi'),
+    ).toHaveAttribute('href')
     expectSimpleRowText(
       screen,
       'Amount',
