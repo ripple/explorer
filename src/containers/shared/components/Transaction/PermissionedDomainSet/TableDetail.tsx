@@ -11,13 +11,13 @@ export const TableDetail = ({
     <div className="permissionedDomainSet">
       {acceptedCredentials.map((credential) => (
         <div>
-          <div data-test="cred-type">
+          <div data-testid="cred-type">
             <span className="label">{t('credential_type')}: </span>
             <span className="case-sensitive">
               {credential.Credential.CredentialType}
             </span>
           </div>
-          <div data-test="cred-issuer">
+          <div data-testid="cred-issuer">
             <span className="label">{t('credential_issuer')}: </span>
             <span className="case-sensitive">
               {credential.Credential.Issuer}

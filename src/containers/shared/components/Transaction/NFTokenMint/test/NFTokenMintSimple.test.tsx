@@ -99,7 +99,7 @@ describe('NFTokenMint', () => {
       </I18nextProvider>,
     )
 
-    expect(wrapper.find('[data-test="token-issuer"] .value')).toExist()
+    expect(wrapper.find('[data-testid="token-issuer"] .value')).toExist()
     expectSimpleRowText(
       wrapper,
       'token-id',

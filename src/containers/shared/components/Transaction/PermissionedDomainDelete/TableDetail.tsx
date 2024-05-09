@@ -9,7 +9,7 @@ export const TableDetail = ({
   const { DomainID: domainID } = instructions
   return (
     <div className="permissionedDomainDelete">
-      <div data-test="domain-id">
+      <div data-testid="domain-id">
         <span className="label">{t('domain_id')}: </span>
         <span className="case-sensitive">{domainID}</span>
       </div>
