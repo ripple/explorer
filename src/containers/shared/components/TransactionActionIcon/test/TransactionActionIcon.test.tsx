@@ -1,35 +1,27 @@
-import { mount } from 'enzyme'
+import { cleanup, render, screen } from '@testing-library/react'
 import { TransactionActionIcon } from '../TransactionActionIcon'
 import { TransactionAction } from '../../Transaction/types'
-import TransactionCreateIcon from '../TransactionCreateIcon.svg'
-import TransactionSendIcon from '../TransactionSendIcon.svg'
-import TransactionUnknownIcon from '../TransactionUnknownIcon.svg'
 
 describe('TransactionActionIcon', () => {
+  afterEach(cleanup)
   it('renders with an action specified ', () => {
-    const wrapper = mount(
-      <TransactionActionIcon action={TransactionAction.CREATE} />,
-    )
-    expect(wrapper).toContainReact(<TransactionCreateIcon />)
-    wrapper.unmount()
+    render(<TransactionActionIcon action={TransactionAction.CREATE} />)
+    expect(screen.getByTitle('tx-create')).toBeDefined()
   })
 
   it('renders with type specified ', () => {
-    const wrapper = mount(<TransactionActionIcon type="Payment" />)
-    expect(wrapper).toContainReact(<TransactionSendIcon />)
-    wrapper.unmount()
+    render(<TransactionActionIcon type="Payment" />)
+    expect(screen.getByTitle('tx-send')).toBeDefined()
   })
 
   it('renders with type specified that is not defined', () => {
-    const wrapper = mount(<TransactionActionIcon type="Wooo" />)
-    expect(wrapper).toContainReact(<TransactionUnknownIcon />)
-    wrapper.unmount()
+    render(<TransactionActionIcon type="Wooo" />)
+    expect(screen.getByTitle('tx-unknown')).toBeDefined()
   })
 
   it('renders with no action or type', () => {
     // @ts-expect-error
-    const wrapper = mount(<TransactionActionIcon />)
-    expect(wrapper).toContainReact(<TransactionUnknownIcon />)
-    wrapper.unmount()
+    render(<TransactionActionIcon />)
+    expect(screen.getByTitle('tx-unknown')).toBeDefined()
   })
 })
