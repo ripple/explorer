@@ -51,7 +51,7 @@ describe('UNLModify: Simple', () => {
         />
       </QuickHarness>,
     )
-    expect(wrapper.find('[data-test="account"]')).not.toExist()
+    expect(wrapper.find('[data-testid="account"]')).not.toExist()
     expectSimpleRowLabel(wrapper, 'sequence', 'Sequence Number')
     expectSimpleRowText(wrapper, 'sequence', '0')
 

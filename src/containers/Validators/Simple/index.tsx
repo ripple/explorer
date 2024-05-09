@@ -17,7 +17,7 @@ const Simple = ({ data }: SimpleProps) => {
     label: string,
   ) =>
     d ? (
-      <div className="row" data-test={`score-${className}`}>
+      <div className="row" data-testid={`score-${className}`}>
         <div className="label">{label}</div>
         <div
           className={`value ${className} score`}
@@ -34,7 +34,7 @@ const Simple = ({ data }: SimpleProps) => {
   return (
     <>
       <SimpleRow label={t('domain')}>{data.domain || 'Unknown'}</SimpleRow>
-      <SimpleRow label={t('rippled_version')} data-test="version">
+      <SimpleRow label={t('rippled_version')} data-testid="version">
         {data.server_version}
       </SimpleRow>
       <div className="row">

@@ -4,7 +4,7 @@ export type SimpleGroupProps = React.PropsWithChildren<{
 }>
 
 export const SimpleGroup = ({ children, title }: SimpleGroupProps) => (
-  <div className="group" data-test="group">
+  <div className="group" data-testid="group">
     {title && <div className="group-title">{title}</div>}
     {children}
   </div>

@@ -12,15 +12,15 @@ export const TableDetail = ({
 
   return (
     <div className="paymentChannelCreate">
-      <div data-test="source">
+      <div data-testid="source">
         <span className="label">{t('source')}</span>
         <Account account={source} />
       </div>
-      <div data-test="destination">
+      <div data-testid="destination">
         <span className="label">{t('destination')}</span>
         <Account account={destination} />
       </div>
-      <div data-test="amount">
+      <div data-testid="amount">
         <span className="label">{t('channel_amount')}</span>
         <Amount value={amount} />
       </div>

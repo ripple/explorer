@@ -15,13 +15,13 @@ export const TableDetail = (props: any) => {
       {amount && (
         <div>
           <span className="label">{t('amount')}</span>
-          <Amount value={amount} data-test="amount" />
+          <Amount value={amount} data-testid="amount" />
         </div>
       )}
       {destination && (
         <div>
           <span className="label">{t('destination')}</span>
-          <span className="account" data-test="account">
+          <span className="account" data-testid="account">
             {' '}
             {destination}{' '}
           </span>
@@ -30,7 +30,7 @@ export const TableDetail = (props: any) => {
       {condition && (
         <div>
           <span className="label">{t('condition')}</span>
-          <span className="condition" data-test="condition">
+          <span className="condition" data-testid="condition">
             {' '}
             {condition}{' '}
           </span>
@@ -39,7 +39,7 @@ export const TableDetail = (props: any) => {
       {finishAfter && (
         <div>
           <span className="label">{t('finish_after')}</span>
-          <span data-test="finish_after">
+          <span data-testid="finish_after">
             {localizeDate(new Date(finishAfter), language, DATE_OPTIONS)} UTC
           </span>
         </div>
@@ -47,7 +47,7 @@ export const TableDetail = (props: any) => {
       {cancelAfter && (
         <div>
           <span className="label">{t('cancel_after')}</span>
-          <span data-test="cancel_after">
+          <span data-testid="cancel_after">
             {localizeDate(new Date(cancelAfter), language, DATE_OPTIONS)} UTC
           </span>
         </div>

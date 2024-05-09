@@ -16,19 +16,19 @@ describe('XChainCreateBridgeSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).toExist()
+    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
     expect(
-      wrapper.find(`[data-test="min-create-account-amount"]`),
+      wrapper.find(`[data-testid="min-create-account-amount"]`),
     ).not.toExist()
   })
 
@@ -41,7 +41,7 @@ describe('XChainCreateBridgeSimple', () => {
       'locking-chain-door',
       'ratAutb3katzezbXX3LsX4sk4vmvhNucac',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(
       wrapper,
       'locking-chain-issue',
@@ -52,7 +52,7 @@ describe('XChainCreateBridgeSimple', () => {
       'issuing-chain-door',
       'rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).toExist()
+    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).toExist()
     expectSimpleRowText(
       wrapper,
       'issuing-chain-issue',
@@ -72,14 +72,14 @@ describe('XChainCreateBridgeSimple', () => {
       'locking-chain-door',
       'rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).toExist()
+    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
