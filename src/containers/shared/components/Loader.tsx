@@ -7,7 +7,7 @@ export const Loader: FC<{ className?: string }> = ({ className }) => {
   const { t } = useTranslation()
   return (
     <div className={`loader ${className}`}>
-      <img src={LoaderPath} alt={t('loading')} />
+      <img src={LoaderPath} alt={t('loading')} title="loader" />
     </div>
   )
 }

@@ -11,7 +11,10 @@ export const TxLabel = (props: Props) => {
   const { t } = useTranslation()
   const { type } = props
   return (
-    <div className={`tx-label tx-type tx-category-${getCategory(type)}`}>
+    <div
+      className={`tx-label tx-type tx-category-${getCategory(type)}`}
+      title="tx-label"
+    >
       <TransactionActionIcon type={type} />
       <span className="tx-type-name">
         {t(`transaction_type_name`, { context: type, defaultValue: type })}

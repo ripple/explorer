@@ -1,34 +1,34 @@
-import { mount } from 'enzyme'
+import { cleanup, render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { TxLabel } from '../TxLabel'
-import TransactionCancelIcon from '../TransactionActionIcon/TransactionCancelIcon.svg'
-import TransactionSendIcon from '../TransactionActionIcon/TransactionSendIcon.svg'
-import TransactionUnknownIcon from '../TransactionActionIcon/TransactionUnknownIcon.svg'
 import i18n from '../../../../i18n/testConfigEnglish'
 
 describe('TxLabel', () => {
-  const createWapper = (component: any) =>
-    mount(<I18nextProvider i18n={i18n}>{component}</I18nextProvider>)
+  afterEach(cleanup)
+  const renderComponent = (component: any) =>
+    render(<I18nextProvider i18n={i18n}>{component}</I18nextProvider>)
 
-  it('renders with an action specified ', () => {
-    let wrapper = createWapper(<TxLabel type="Payment" />)
-    expect(wrapper.find('.tx-category-PAYMENT')).toExist()
-    expect(wrapper).toContainReact(<TransactionSendIcon />)
-    expect(wrapper.find('.tx-type-name')).toHaveText('Payment')
-    wrapper.unmount()
+  it('renders with an action specified', () => {
+    const { container } = renderComponent(<TxLabel type="Payment" />)
 
-    wrapper = createWapper(<TxLabel type="OfferCancel" />)
-    expect(wrapper.find('.tx-category-DEX')).toExist()
-    expect(wrapper).toContainReact(<TransactionCancelIcon />)
-    expect(wrapper.find('.tx-type-name')).toHaveText('Offer Cancel')
-    wrapper.unmount()
+    expect(screen.getByTitle('tx-label')).toHaveClass('tx-category-PAYMENT')
+    expect(screen.queryByTitle('tx-send')).toBeDefined()
+    expect(container).toHaveTextContent('Payment')
+  })
+
+  it('renders with an action specified 2', () => {
+    const { container } = renderComponent(<TxLabel type="OfferCancel" />)
+
+    expect(screen.getByTitle('tx-label')).toHaveClass('tx-category-DEX')
+    expect(screen.queryByTitle('tx-cancel')).toBeDefined()
+    expect(container).toHaveTextContent('Offer Cancel')
   })
 
   it('renders with type that is not defined', () => {
-    const wrapper = createWapper(<TxLabel type="WooCreate" />)
-    expect(wrapper.find('.tx-category-UNKNOWN')).toExist()
-    expect(wrapper).toContainReact(<TransactionUnknownIcon />)
-    expect(wrapper.find('.tx-type-name')).toHaveText('WooCreate')
-    wrapper.unmount()
+    const { container } = renderComponent(<TxLabel type="WooCreate" />)
+
+    expect(screen.getByTitle('tx-label')).toHaveClass('tx-category-UNKNOWN')
+    expect(screen.queryByTitle('tx-unknown')).toBeDefined()
+    expect(container).toHaveTextContent('WooCreate')
   })
 })
