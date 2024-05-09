@@ -49,7 +49,7 @@ describe('Payment: Simple', () => {
       `0.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZrpartial_payment_allowed`,
     )
 
-    expect(screen.getByTestId('destination')).not.toExist()
+    expect(screen.getByTestId('destination')).toBeNull()
   })
 
   it('renders with destination tag', () => {

@@ -11,7 +11,7 @@ describe('SetRegularKeyTable: TableDetail', () => {
   it('renders Simple for transaction', () => {
     renderComponent(SetRegularKey)
 
-    expect(screen.find('.setregularkey')).toExist()
+    expect(screen.find('.setregularkey')).toBeDefined()
     expect(screen.find('.label').text()).toBe(`regular_key`)
     expect(screen.find('.key').text()).toBe(
       `rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp`,
@@ -21,7 +21,7 @@ describe('SetRegularKeyTable: TableDetail', () => {
   it('renders Simple for transaction that unsets key', () => {
     renderComponent(SetRegularKeyUnset)
 
-    expect(screen.find('.unset')).toExist()
+    expect(screen.find('.unset')).toBeDefined()
     expect(screen.text()).toBe(`unset_regular_key`)
   })
 })
