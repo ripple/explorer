@@ -7,7 +7,6 @@ const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('DIDSet: Simple', () => {
   afterEach(cleanup)
-  afterEach(cleanup)
   it('renders', () => {
     renderComponent(DIDSet)
     expectSimpleRowText(screen, 'uri', 'did_example')

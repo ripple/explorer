@@ -51,7 +51,7 @@ describe('UNLModify: Simple', () => {
         />
       </QuickHarness>,
     )
-    expect(screen.getByTestId("account").not.toExist()
+    expect(screen.getByTestId('account')).not.toExist()
     expectSimpleRowLabel(screen, 'sequence', 'Sequence Number')
     expectSimpleRowText(screen, 'sequence', '0')
   })
