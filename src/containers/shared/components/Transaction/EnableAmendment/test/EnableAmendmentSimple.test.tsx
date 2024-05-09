@@ -41,19 +41,19 @@ describe('EnableAmendment: Simple', () => {
       Promise.resolve('ExpandedSignerList'),
     )
     renderComponent(mockEnableAmendmentWithMinority)
-    expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
-    expectSimpleRowText(wrapper, 'name', 'Loading')
-    expectSimpleRowLabel(wrapper, 'status', 'Amendment Status')
-    expectSimpleRowText(wrapper, 'status', 'Lost Majority')
-    expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
-    expectSimpleRowText(wrapper, 'version', 'Loading')
-    expect(wrapper.find('[data-testid="date"]')).not.toExist()
+    expectSimpleRowLabel(screen, 'name', 'Amendment Name')
+    expectSimpleRowText(screen, 'name', 'Loading')
+    expectSimpleRowLabel(screen, 'status', 'Amendment Status')
+    expectSimpleRowText(screen, 'status', 'Lost Majority')
+    expectSimpleRowLabel(screen, 'version', 'Introduced In')
+    expectSimpleRowText(screen, 'version', 'Loading')
+    expect(screen.find('[data-testid="date"]')).not.toExist()
 
     await flushPromises()
-    wrapper.update()
+    screen.update()
 
-    expectSimpleRowText(wrapper, 'name', 'ExpandedSignerList')
-    expectSimpleRowText(wrapper, 'version', 'v1.9.1')
+    expectSimpleRowText(screen, 'name', 'ExpandedSignerList')
+    expectSimpleRowText(screen, 'version', 'v1.9.1')
   })
 
   it('renders tx that causes an amendment to gain majority', async () => {
@@ -62,21 +62,21 @@ describe('EnableAmendment: Simple', () => {
       Promise.resolve('ExpandedSignerList'),
     )
     renderComponent(mockEnableAmendmentWithMajority)
-    expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
-    expectSimpleRowText(wrapper, 'name', 'Loading')
-    expectSimpleRowLabel(wrapper, 'status', 'Amendment Status')
-    expectSimpleRowText(wrapper, 'status', 'Got Majority')
-    expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
-    expectSimpleRowText(wrapper, 'version', 'Loading')
-    expectSimpleRowLabel(wrapper, 'date', 'Expected Date')
-    expectSimpleRowText(wrapper, 'date', '10/13/2022, 3:28:31 PM')
+    expectSimpleRowLabel(screen, 'name', 'Amendment Name')
+    expectSimpleRowText(screen, 'name', 'Loading')
+    expectSimpleRowLabel(screen, 'status', 'Amendment Status')
+    expectSimpleRowText(screen, 'status', 'Got Majority')
+    expectSimpleRowLabel(screen, 'version', 'Introduced In')
+    expectSimpleRowText(screen, 'version', 'Loading')
+    expectSimpleRowLabel(screen, 'date', 'Expected Date')
+    expectSimpleRowText(screen, 'date', '10/13/2022, 3:28:31 PM')
 
     await flushPromises()
-    wrapper.update()
+    screen.update()
 
-    expectSimpleRowText(wrapper, 'name', 'ExpandedSignerList')
-    expectSimpleRowText(wrapper, 'version', 'v1.9.1')
-    expect(wrapper.find('[data-testid="name"] .value a')).toHaveProp(
+    expectSimpleRowText(screen, 'name', 'ExpandedSignerList')
+    expectSimpleRowText(screen, 'version', 'v1.9.1')
+    expect(screen.find('[data-testid="name"] .value a')).toHaveProp(
       'href',
       '/amendment/B2A4DB846F0891BF2C76AB2F2ACC8F5B4EC64437135C6E56F3F859DE5FFD5856',
     )
@@ -88,34 +88,34 @@ describe('EnableAmendment: Simple', () => {
       Promise.resolve('NegativeUNL'),
     )
     renderComponent(mockEnableAmendmentWithEnabled)
-    expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
-    expectSimpleRowText(wrapper, 'name', 'Loading')
-    expectSimpleRowLabel(wrapper, 'status', 'Amendment Status')
-    expectSimpleRowText(wrapper, 'status', 'Enabled')
-    expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
-    expectSimpleRowText(wrapper, 'version', 'Loading')
+    expectSimpleRowLabel(screen, 'name', 'Amendment Name')
+    expectSimpleRowText(screen, 'name', 'Loading')
+    expectSimpleRowLabel(screen, 'status', 'Amendment Status')
+    expectSimpleRowText(screen, 'status', 'Enabled')
+    expectSimpleRowLabel(screen, 'version', 'Introduced In')
+    expectSimpleRowText(screen, 'version', 'Loading')
 
     await flushPromises()
-    wrapper.update()
+    screen.update()
 
-    expectSimpleRowText(wrapper, 'name', 'NegativeUNL')
-    expectSimpleRowText(wrapper, 'version', 'v1.7.3')
+    expectSimpleRowText(screen, 'name', 'NegativeUNL')
+    expectSimpleRowText(screen, 'version', 'v1.7.3')
   })
 
   it('renders tx that cannot determine version or name', async () => {
     mockedGetRippledVersion.mockImplementation(() => Promise.resolve(''))
     mockedNameOfAmendmentID.mockImplementation(() => Promise.resolve(''))
     renderComponent(mockEnableAmendmentWithEnabled)
-    expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
-    expectSimpleRowText(wrapper, 'name', 'Loading')
-    expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
-    expectSimpleRowText(wrapper, 'version', 'Loading')
+    expectSimpleRowLabel(screen, 'name', 'Amendment Name')
+    expectSimpleRowText(screen, 'name', 'Loading')
+    expectSimpleRowLabel(screen, 'version', 'Introduced In')
+    expectSimpleRowText(screen, 'version', 'Loading')
 
     await flushPromises()
-    wrapper.update()
+    screen.update()
 
-    expectSimpleRowText(wrapper, 'name', 'Unknown')
-    expectSimpleRowText(wrapper, 'version', 'Unknown')
+    expectSimpleRowText(screen, 'name', 'Unknown')
+    expectSimpleRowText(screen, 'version', 'Unknown')
   })
 
   it('renders tx that cannot determine version', async () => {
@@ -124,31 +124,31 @@ describe('EnableAmendment: Simple', () => {
       Promise.resolve('NegativeUNL'),
     )
     renderComponent(mockEnableAmendmentWithEnabled)
-    expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
-    expectSimpleRowText(wrapper, 'name', 'Loading')
-    expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
-    expectSimpleRowText(wrapper, 'version', 'Loading')
+    expectSimpleRowLabel(screen, 'name', 'Amendment Name')
+    expectSimpleRowText(screen, 'name', 'Loading')
+    expectSimpleRowLabel(screen, 'version', 'Introduced In')
+    expectSimpleRowText(screen, 'version', 'Loading')
 
     await flushPromises()
-    wrapper.update()
+    screen.update()
 
-    expectSimpleRowText(wrapper, 'name', 'NegativeUNL')
-    expectSimpleRowText(wrapper, 'version', 'Unknown')
+    expectSimpleRowText(screen, 'name', 'NegativeUNL')
+    expectSimpleRowText(screen, 'version', 'Unknown')
   })
 
   it('renders tx that cannot determine name', async () => {
     mockedGetRippledVersion.mockImplementation(() => Promise.resolve('v1.7.3'))
     mockedNameOfAmendmentID.mockImplementation(() => Promise.resolve(''))
     renderComponent(mockEnableAmendmentWithEnabled)
-    expectSimpleRowLabel(wrapper, 'name', 'Amendment Name')
-    expectSimpleRowText(wrapper, 'name', 'Loading')
-    expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
-    expectSimpleRowText(wrapper, 'version', 'Loading')
+    expectSimpleRowLabel(screen, 'name', 'Amendment Name')
+    expectSimpleRowText(screen, 'name', 'Loading')
+    expectSimpleRowLabel(screen, 'version', 'Introduced In')
+    expectSimpleRowText(screen, 'version', 'Loading')
 
     await flushPromises()
-    wrapper.update()
+    screen.update()
 
-    expectSimpleRowText(wrapper, 'name', 'Unknown')
-    expectSimpleRowText(wrapper, 'version', 'Unknown')
+    expectSimpleRowText(screen, 'name', 'Unknown')
+    expectSimpleRowText(screen, 'version', 'Unknown')
   })
 })

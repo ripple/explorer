@@ -11,11 +11,11 @@ describe('SignerListSet: TableDetail', () => {
   afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockSignerListSet)
-    expect(wrapper).toHaveText('signers: 3 - quorum: 3/4')
+    expect(screen).toHaveText('signers: 3 - quorum: 3/4')
   })
 
   it('renders when signer list is cleared', () => {
     renderComponent(mockSignerListSetClear)
-    expect(wrapper).toHaveText('unset_signer_list')
+    expect(screen).toHaveText('unset_signer_list')
   })
 })

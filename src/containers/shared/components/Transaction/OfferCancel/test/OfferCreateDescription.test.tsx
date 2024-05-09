@@ -10,7 +10,7 @@ describe('OfferCancel: Description', () => {
   it('renders', () => {
     renderComponent(offerCancel)
 
-    expect(wrapper.find('[data-testid="cancel-line"]')).toHaveText(
+    expect(screen.find('[data-testid="cancel-line"]')).toHaveText(
       'offer_cancel_description15239384',
     )
   })

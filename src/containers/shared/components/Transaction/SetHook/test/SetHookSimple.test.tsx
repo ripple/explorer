@@ -12,10 +12,10 @@ describe('SetHookSimple', () => {
   it('renders', () => {
     renderComponent(mockSetHook)
 
-    expect(wrapper.find('.group')).toHaveLength(2)
+    expect(screen.find('.group')).toHaveLength(2)
 
-    const hook1 = wrapper.find('.group').at(0)
-    const hook2 = wrapper.find('.group').at(1)
+    const hook1 = screen.find('.group').at(0)
+    const hook2 = screen.find('.group').at(1)
 
     expectSimpleRowText(
       hook1,
@@ -49,9 +49,9 @@ describe('SetHookSimple', () => {
   it('renders a different SetHook tx', () => {
     renderComponent(mockSetHook2)
 
-    expect(wrapper.find('.group')).toHaveLength(1)
+    expect(screen.find('.group')).toHaveLength(1)
 
-    const hook = wrapper.find('.group').at(0)
+    const hook = screen.find('.group').at(0)
 
     expectSimpleRowText(
       hook,
@@ -84,9 +84,9 @@ describe('SetHookSimple', () => {
   it('renders a failed SetHook tx', () => {
     renderComponent(mockSetHookFailure)
 
-    expect(wrapper.find('.group')).toHaveLength(1)
+    expect(screen.find('.group')).toHaveLength(1)
 
-    const hook = wrapper.find('.group').at(0)
+    const hook = screen.find('.group').at(0)
 
     expectSimpleRowText(hook, 'hook-hash', 'undefined')
 

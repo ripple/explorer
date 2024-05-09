@@ -12,16 +12,16 @@ describe('OfferCreate: TableDetail', () => {
   it('renders with an expiration and offer', () => {
     renderComponent(mockOfferCreateWithCancel)
 
-    expect(wrapper.find('[data-testid="pair"]')).toHaveText(
+    expect(screen.find('[data-testid="pair"]')).toHaveText(
       'price:612.518 \uE900 XRP/CSC.rCSC',
     )
-    expect(wrapper.find('[data-testid="cancel-id"]')).toHaveText(
+    expect(screen.find('[data-testid="cancel-id"]')).toHaveText(
       'cancel_offer #44866443',
     )
-    expect(wrapper.find('[data-testid="amount-buy"]')).toHaveText(
+    expect(screen.find('[data-testid="amount-buy"]')).toHaveText(
       `\uE9001,764.293151 XRP`,
     )
-    expect(wrapper.find('[data-testid="amount-sell"]')).toHaveText(
+    expect(screen.find('[data-testid="amount-sell"]')).toHaveText(
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
   })
@@ -29,14 +29,14 @@ describe('OfferCreate: TableDetail', () => {
   it('renders', () => {
     renderComponent(mockOfferCreate)
 
-    expect(wrapper.find('[data-testid="pair"]')).toHaveText(
+    expect(screen.find('[data-testid="pair"]')).toHaveText(
       'price:0.00207696 \uE900 XRP/BCH.rcyS',
     )
-    expect(wrapper.find('[data-testid="offer-id"]')).not.toExist()
-    expect(wrapper.find('[data-testid="amount-buy"]')).toHaveText(
+    expect(screen.find('[data-testid="offer-id"]')).not.toExist()
+    expect(screen.find('[data-testid="amount-buy"]')).toHaveText(
       `\uE90024,755.081083 XRP`,
     )
-    expect(wrapper.find('[data-testid="amount-sell"]')).toHaveText(
+    expect(screen.find('[data-testid="amount-sell"]')).toHaveText(
       `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
     )
   })
@@ -44,7 +44,7 @@ describe('OfferCreate: TableDetail', () => {
   it('renders inverted currencies', () => {
     renderComponent(mockOfferCreateInvertedCurrencies)
 
-    expect(wrapper.find('[data-testid="pair"]')).toHaveText(
+    expect(screen.find('[data-testid="pair"]')).toHaveText(
       'price:0.346896 \uE900 XRP/USD.rvYA',
     )
   })
