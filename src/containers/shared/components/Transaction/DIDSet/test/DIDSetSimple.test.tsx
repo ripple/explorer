@@ -10,7 +10,7 @@ describe('DIDSet: Simple', () => {
   it('renders', () => {
     renderComponent(DIDSet)
     expectSimpleRowText(screen, 'uri', 'did_example')
-    expectSimpleRowText(screen, 'did_document', 'doc')
+    expectSimpleRowText(screen, 'did-document', 'doc')
     expectSimpleRowText(screen, 'attestation', 'attest')
   })
 })
