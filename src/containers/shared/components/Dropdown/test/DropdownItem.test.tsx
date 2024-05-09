@@ -48,7 +48,6 @@ describe('DropdownItem', () => {
     })
 
     it('renders href attribute on anchor', () => {
-      screen.debug()
       expect(item.tagName).toBe('A')
     })
   })
