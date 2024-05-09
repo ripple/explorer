@@ -1,9 +1,9 @@
 import { TableDetail } from '../TableDetail'
 import mockEscrowCancel from './mock_data/EscrowCancel.json'
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import i18nTestConfigEnUS from '../../../../../../i18n/testConfigEnglish'
 
-const createWrapper = createTableDetailWrapperFactory(
+const createWrapper = createTableDetailRenderFactory(
   TableDetail,
   i18nTestConfigEnUS,
 )

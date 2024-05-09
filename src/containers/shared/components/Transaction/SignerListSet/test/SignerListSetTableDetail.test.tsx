@@ -2,9 +2,9 @@ import { TableDetail } from '../TableDetail'
 import mockSignerListSetClear from './mock_data/SignerListSetClear.json'
 import mockSignerListSet from './mock_data/SignerListSet.json'
 
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const createWrapper = createTableDetailRenderFactory(TableDetail)
 
 describe('SignerListSet: TableDetail', () => {
   it('renders', () => {

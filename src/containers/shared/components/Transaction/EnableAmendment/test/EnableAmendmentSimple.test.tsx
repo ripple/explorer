@@ -1,6 +1,6 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 
 import { Simple } from '../Simple'
 import mockEnableAmendmentWithEnabled from './mock_data/EnableAmendmentWithEnabled.json'
@@ -12,7 +12,7 @@ import { getRippledVersion } from '../../../../amendmentUtils'
 import { flushPromises } from '../../../../../test/utils'
 import { getFeature } from '../../../../../../rippled/lib/rippled'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const createWrapper = createSimpleRenderFactory(Simple, i18n)
 
 jest.mock('../../../../amendmentUtils', () => {
   // Require the original module to not be mocked...

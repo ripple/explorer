@@ -1,13 +1,13 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createTableDetailWrapperFactory } from '../../test/createWrapperFactory'
+import { createTableDetailRenderFactory } from '../../test/createRenderFactory'
 import { TableDetail } from '../TableDetail'
 import mockPaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import mockPaymentChannelClaimClosed from './mock_data/PaymentChannelClaimClosed.json'
 import mockPaymentChannelClaimCloseDenied from './mock_data/PaymentChannelClaimCloseDenied.json'
 import mockPaymentChannelClaimWithDestinationTag from './mock_data/PaymentChannelClaimWithDestinationTag.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
+const createWrapper = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('PaymentChannelClaim: TableDetail', () => {
   it('renders a claim', () => {

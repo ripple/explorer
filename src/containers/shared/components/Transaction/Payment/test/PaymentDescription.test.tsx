@@ -7,9 +7,9 @@ import mockPaymentDestinationTag from './mock_data/PaymentWithDestinationTag.jso
 import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description, i18n)
+const createWrapper = createDescriptionRenderFactory(Description, i18n)
 
 describe('Payment: Description', () => {
   it('renders', () => {

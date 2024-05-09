@@ -1,14 +1,14 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 import mockAccountSetWithDomain from './mock_data/AccountSetWithDomain.json'
 import mockAccountSetWithClearFlag from './mock_data/AccountSetWithClearFlag.json'
 import mockAccountSetWithSetFlag from './mock_data/AccountSetWithSetFlag.json'
 import mockAccountSetWithMessageKey from './mock_data/AccountSetWithMessageKey.json'
 import mockAccountSetWithNFTokenMinter from './mock_data/AccountSetWithNFTokenMinter.json'
 
-const createWrapper = createDescriptionWrapperFactory(Description, i18n)
+const createWrapper = createDescriptionRenderFactory(Description, i18n)
 
 describe('AccountSet: Description', () => {
   it('renders tx that sets the domain', () => {

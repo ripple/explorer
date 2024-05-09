@@ -1,12 +1,12 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import mockPaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import mockPaymentChannelCreateFailed from './mock_data/PaymentChannelCreateFailed.json'
 import mockPaymentChannelCreateWithDestinationTag from './mock_data/PaymentChannelCreateWithDestinationTag.json'
 import { TableDetail } from '../TableDetail'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
+const createWrapper = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('PaymentChannelCreate: TableDetail', () => {
   it('renders', () => {

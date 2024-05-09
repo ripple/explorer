@@ -1,10 +1,10 @@
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockXChainAddAccountCreateAttestation from './mock_data/XChainAddAccountCreateAttestation.json'
 import mockXChainAddAccountCreateAttestationFailed from './mock_data/XChainAddAccountCreateAttestationFailed.json'
 import { expectSimpleRowText } from '../../test/expectations'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const createWrapper = createSimpleRenderFactory(Simple)
 
 describe('XChainAddAccountCreateAttestationSimple', () => {
   it('renders', () => {

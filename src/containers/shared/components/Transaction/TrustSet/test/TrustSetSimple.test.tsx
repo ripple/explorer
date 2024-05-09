@@ -1,11 +1,11 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockTrustSet from './mock_data/TrustSet.json'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const createWrapper = createSimpleRenderFactory(Simple, i18n)
 
 describe('TrustSet: Simple', () => {
   it('renders', () => {

@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowLabel,
   expectSimpleRowText,
 } from '../../test'
@@ -18,7 +18,7 @@ jest.mock('react-query', () => ({
   useQuery: jest.fn(),
 }))
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const createWrapper = createSimpleRenderFactory(Simple)
 
 describe('Payment: Simple', () => {
   it('renders', () => {

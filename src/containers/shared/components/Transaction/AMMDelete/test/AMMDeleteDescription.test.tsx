@@ -1,9 +1,9 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import mockAMMDelete from './mock_data/AMMDelete.json'
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description, i18n)
+const createWrapper = createDescriptionRenderFactory(Description, i18n)
 
 describe('AMMDelete: Description', () => {
   it('renders description for AMMDelete transaction', () => {

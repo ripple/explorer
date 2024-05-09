@@ -1,11 +1,11 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockAccountDelete from './mock_data/AccountDelete.json'
 import mockAccountDeleteWithDestinationTag from './mock_data/AccountDeleteWithDestinationTag.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const createWrapper = createSimpleRenderFactory(Simple, i18n)
 
 describe('AccountDelete: Simple', () => {
   it('renders', () => {
