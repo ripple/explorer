@@ -8,7 +8,7 @@ export const Simple: TransactionSimpleComponent = ({
   const { t } = useTranslation()
   const { OracleDocumentID } = data.instructions
   return (
-    <SimpleRow label={t('oracle_document_id')} data-test="oracle-document-id">
+    <SimpleRow label={t('oracle_document_id')} data-testid="oracle-document-id">
       {OracleDocumentID}
     </SimpleRow>
   )

@@ -10,7 +10,7 @@ export const Simple = ({ data }: TransactionSimpleProps<TrustSet>) => {
   const { LimitAmount } = data.instructions
 
   return (
-    <SimpleRow label={t('set_limit')} data-test="amount">
+    <SimpleRow label={t('set_limit')} data-testid="amount">
       <Amount value={formatAmount(LimitAmount)} />
     </SimpleRow>
   )

@@ -47,7 +47,7 @@ export const SimpleTab: FC<{
             label={`Last Ledger ${t('formatted_date', {
               timeZone: TIME_ZONE,
             })}`}
-            data-test="ledger-time"
+            data-testid="ledger-time"
           >
             {localizeDate(new Date(lastLedgerTime), language, DATE_OPTIONS)}
           </SimpleRow>
@@ -55,7 +55,7 @@ export const SimpleTab: FC<{
         {ledgerIndex && (
           <SimpleRow
             label={`Last ${t('ledger_index')}`}
-            data-test="ledger-index"
+            data-testid="ledger-index"
           >
             <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledgerIndex }}>
               {ledgerIndex}

@@ -11,13 +11,13 @@ const createWrapper = createDescriptionWrapperFactory(
 )
 
 function testDescription(wrapper) {
-  expect(wrapper.find('[data-test="fees-line"]')).toHaveText(
+  expect(wrapper.find('[data-testid="fees-line"]')).toHaveText(
     `Future transactions will require a minimum fee of \uE9000.00001 XRP.`,
   )
-  expect(wrapper.find('[data-test="reserves-line"]')).toHaveText(
+  expect(wrapper.find('[data-testid="reserves-line"]')).toHaveText(
     `Accounts must now hold a base of \uE90010.00 XRP and an additional \uE9002.00 XRP for each additional object that account owns.`,
   )
-  expect(wrapper.find('[data-test="documentation-line"]')).toHaveText(
+  expect(wrapper.find('[data-testid="documentation-line"]')).toHaveText(
     `Visit the docs: Fees`,
   )
 }

@@ -44,21 +44,21 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     <>
       <SimpleRow
         label={t('formatted_date', { timeZone: TIME_ZONE })}
-        data-test="tx-date"
+        data-testid="tx-date"
       >
         {time}
       </SimpleRow>
-      <SimpleRow label={t('ledger_index')} data-test="ledger-index">
+      <SimpleRow label={t('ledger_index')} data-testid="ledger-index">
         <RouteLink to={LEDGER_ROUTE} params={{ identifier: ledgerIndex }}>
           {ledgerIndex}
         </RouteLink>
       </SimpleRow>
       {account && (
-        <SimpleRow label={t('account')} data-test="account">
+        <SimpleRow label={t('account')} data-testid="account">
           <Account account={account} />
         </SimpleRow>
       )}
-      <SimpleRow label={t('sequence_number')} data-test="sequence">
+      <SimpleRow label={t('sequence_number')} data-testid="sequence">
         <Sequence
           sequence={sequence}
           ticketSequence={ticketSequence}
@@ -66,7 +66,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
           isHook={isHook}
         />
       </SimpleRow>
-      <SimpleRow label={t('transaction_cost')} data-test="tx-cost">
+      <SimpleRow label={t('transaction_cost')} data-testid="tx-cost">
         {fee}
       </SimpleRow>
     </>

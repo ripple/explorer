@@ -8,7 +8,7 @@ export const Simple = ({ data }: TransactionSimpleProps<OfferCancel>) => {
   const { OfferSequence } = data.instructions
 
   return (
-    <SimpleRow label={t('cancel_offer')} data-test="cancel">
+    <SimpleRow label={t('cancel_offer')} data-testid="cancel">
       #{OfferSequence}
     </SimpleRow>
   )

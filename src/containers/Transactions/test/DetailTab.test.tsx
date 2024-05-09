@@ -55,32 +55,34 @@ describe('DetailTab container', () => {
 
   it('renders failed transaction', () => {
     const wrapper = createWrapper(FailedTransaction)
-    expect(wrapper.find('.detail-section[data-test="status"]').text()).toEqual(
+    expect(
+      wrapper.find('.detail-section[data-testid="status"]').text(),
+    ).toEqual(
       expect.stringContaining(
         'This transaction failed with a status code of tecINSUFFICIENT_RESERVE, and validated in ledger 37375929 on',
       ),
     )
     expect(
-      wrapper.find('.detail-section[data-test="status"] .fail').text(),
+      wrapper.find('.detail-section[data-testid="status"] .fail').text(),
     ).toEqual('tecINSUFFICIENT_RESERVE')
     wrapper.unmount()
   })
 
   it('renders hooks section', () => {
     const wrapper = createWrapper(HookPayment)
-    expect(wrapper.find('.detail-section[data-test="hooks"]')).toHaveLength(1)
+    expect(wrapper.find('.detail-section[data-testid="hooks"]')).toHaveLength(1)
 
-    const hooksWrapper = wrapper.find('.detail-section[data-test="hooks"]')
+    const hooksWrapper = wrapper.find('.detail-section[data-testid="hooks"]')
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="emit-details"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="emit-details"]'),
     ).toHaveLength(0)
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="hook-params"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="hook-params"]'),
     ).toHaveLength(1)
     const paramWrapper = hooksWrapper.find(
-      '.detail-subsection[data-test="hook-params"]',
+      '.detail-subsection[data-testid="hook-params"]',
     )
     expect(paramWrapper.find('li')).toHaveLength(2)
     expect(paramWrapper.find('li').at(0)).toHaveText('EVR2: evnHostUpdateReg')
@@ -89,10 +91,10 @@ describe('DetailTab container', () => {
     )
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="hook-executions"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="hook-executions"]'),
     ).toHaveLength(1)
     const execWrapper = hooksWrapper.find(
-      '.detail-subsection[data-test="hook-executions"]',
+      '.detail-subsection[data-testid="hook-executions"]',
     )
     expect(execWrapper.find('li')).toHaveLength(1)
     expect(execWrapper.find('.detail-line')).toHaveLength(4)
@@ -115,15 +117,15 @@ describe('DetailTab container', () => {
 
   it('renders hooks section for emitted tx', () => {
     const wrapper = createWrapper(EmittedPayment)
-    expect(wrapper.find('.detail-section[data-test="hooks"]')).toHaveLength(1)
+    expect(wrapper.find('.detail-section[data-testid="hooks"]')).toHaveLength(1)
 
-    const hooksWrapper = wrapper.find('.detail-section[data-test="hooks"]')
+    const hooksWrapper = wrapper.find('.detail-section[data-testid="hooks"]')
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="emit-details"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="emit-details"]'),
     ).toHaveLength(1)
     const emitWrapper = hooksWrapper.find(
-      '.detail-subsection[data-test="emit-details"]',
+      '.detail-subsection[data-testid="emit-details"]',
     )
     expect(emitWrapper.find('.detail-line')).toHaveLength(4)
     expect(emitWrapper.find('.detail-line').at(0)).toHaveText(
@@ -142,14 +144,14 @@ describe('DetailTab container', () => {
     expect(emitWrapper.find('.detail-line').at(3).find('a')).toExist()
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="hook-params"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="hook-params"]'),
     ).toHaveLength(0)
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="hook-executions"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="hook-executions"]'),
     ).toHaveLength(1)
     const execWrapper = hooksWrapper.find(
-      '.detail-subsection[data-test="hook-executions"]',
+      '.detail-subsection[data-testid="hook-executions"]',
     )
     expect(execWrapper.find('li')).toHaveLength(1)
     expect(execWrapper.find('.detail-line')).toHaveLength(4)

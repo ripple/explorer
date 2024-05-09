@@ -24,7 +24,7 @@ export const Simple: TransactionSimpleComponent = ({
   return (
     <>
       {issuanceID && (
-        <SimpleRow label={t('mpt_issuance_id')} data-test="mpt-issuance-id">
+        <SimpleRow label={t('mpt_issuance_id')} data-testid="mpt-issuance-id">
           <MPTokenLink tokenID={issuanceID} />
         </SimpleRow>
       )}
@@ -32,13 +32,13 @@ export const Simple: TransactionSimpleComponent = ({
         <SimpleRow
           label={t('asset_scale')}
           className="dt"
-          data-test="mpt-asset-scale"
+          data-testid="mpt-asset-scale"
         >
           {assetScale}
         </SimpleRow>
       )}
       {transferFee && (
-        <SimpleRow label={t('transfer_fee')} data-test="mpt-fee">
+        <SimpleRow label={t('transfer_fee')} data-testid="mpt-fee">
           {formattedFee}
         </SimpleRow>
       )}
@@ -46,7 +46,7 @@ export const Simple: TransactionSimpleComponent = ({
         <SimpleRow
           label={t('max_amount')}
           className="dt"
-          data-test="mpt-max-amount"
+          data-testid="mpt-max-amount"
         >
           {maxAmount}
         </SimpleRow>
@@ -55,7 +55,7 @@ export const Simple: TransactionSimpleComponent = ({
         <SimpleRow
           label={t('metadata')}
           className="dt"
-          data-test="mpt-metadata"
+          data-testid="mpt-metadata"
         >
           {isValidJsonString(metadata) ? (
             <JsonView data={JSON.parse(metadata)} />
