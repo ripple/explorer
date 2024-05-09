@@ -78,6 +78,7 @@
     "paystrings",
     "stylelint",
     "svgr",
+    "testid",
     "topojson",
     "VITE",
     "xchain",

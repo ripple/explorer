@@ -2,9 +2,9 @@ import { TableDetail } from '../TableDetail'
 import mockOfferCreateInvertedCurrencies from './mock_data/OfferCreateInvertedCurrencies.json'
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import mockOfferCreate from './mock_data/OfferCreate.json'
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const createWrapper = createTableDetailRenderFactory(TableDetail)
 
 describe('OfferCreate: TableDetail', () => {
   it('renders with an expiration and offer', () => {

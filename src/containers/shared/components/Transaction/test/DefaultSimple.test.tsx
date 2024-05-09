@@ -3,7 +3,7 @@ import SetHook from './mock_data/SetHook.json'
 import SetHook2 from './mock_data/SetHook2.json'
 import TokenSwapPropose from './mock_data/TokenSwapPropose.json'
 import { DefaultSimple } from '../DefaultSimple'
-import { createWrapper as createGeneralWrapper } from './createWrapperFactory'
+import { createWrapper as createGeneralWrapper } from './createRenderFactory'
 import { expectSimpleRowText } from './expectations'
 import summarizeTransaction from '../../../../../rippled/lib/txSummary'
 

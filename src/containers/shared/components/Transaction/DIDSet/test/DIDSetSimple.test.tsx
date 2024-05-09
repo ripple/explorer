@@ -1,15 +1,16 @@
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { cleanup, screen } from '@testing-library/react'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import DIDSet from './mock_data/DIDSet.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('DIDSet: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(DIDSet)
-    expectSimpleRowText(wrapper, 'uri', 'did_example')
-    expectSimpleRowText(wrapper, 'did-document', 'doc')
-    expectSimpleRowText(wrapper, 'attestation', 'attest')
-    wrapper.unmount()
+    renderComponent(DIDSet)
+    expectSimpleRowText(screen, 'uri', 'did_example')
+    expectSimpleRowText(screen, 'did_document', 'doc')
+    expectSimpleRowText(screen, 'attestation', 'attest')
   })
 })

@@ -1,8 +1,8 @@
 import { Simple } from '../Simple'
 import mockEscrowCreate from './mock_data/EscrowCreate.json'
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const createWrapper = createSimpleRenderFactory(Simple)
 
 describe('EscrowCreateSimple', () => {
   it('renders with an expiration and offer', () => {

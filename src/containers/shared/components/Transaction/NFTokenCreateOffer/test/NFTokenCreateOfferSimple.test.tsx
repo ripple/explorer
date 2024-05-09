@@ -1,11 +1,11 @@
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transactionBuy from './mock_data/NFTokenCreateOffer_Buy.json'
 import transactionSell from './mock_data/NFTokenCreateOffer_Sell.json'
 import transactionFailed from './mock_data/NFTokenCreateOfferFailed.json'
 import transactionDestination from './mock_data/NFTokenCreateOfferDestination.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const createWrapper = createSimpleRenderFactory(Simple)
 
 describe('NFTokenCreateOffer', () => {
   it('handles NFTokenCreateOffer buy simple view ', () => {
