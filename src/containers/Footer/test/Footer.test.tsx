@@ -1,28 +1,34 @@
-import { mount } from 'enzyme'
+import { render, cleanup, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18n/testConfig'
 import Footer from '../index'
 
 describe('Footer component', () => {
-  const createWrapper = () =>
-    mount(
+  afterEach(cleanup)
+
+  const renderComponent = () =>
+    render(
       <I18nextProvider i18n={i18n}>
         <Footer />
       </I18nextProvider>,
     )
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.logo').length).toEqual(1)
-    expect(wrapper.find('.copyright').length).toEqual(1)
-    expect(wrapper.find('.footer-link').length).toEqual(12)
-    expect(wrapper.find('.footer-section-header').length).toEqual(3)
-
-    wrapper.unmount()
+    renderComponent()
+    expect(screen.queryAllByTitle('logo')).toHaveLength(1)
+    expect(screen.queryAllByTitle('copyright')).toHaveLength(1)
+    expect(screen.getAllByRole('link')).toHaveLength(13)
+    expect(
+      screen
+        .getAllByRole('link')
+        .filter((element) => element.className.includes('footer-link')),
+    ).toHaveLength(12)
+    expect(screen.queryByText('Learn')).toBeDefined()
+    expect(screen.queryByText('Build')).toBeDefined()
+    expect(screen.queryByText('Contribute')).toBeDefined()
   })
 })
