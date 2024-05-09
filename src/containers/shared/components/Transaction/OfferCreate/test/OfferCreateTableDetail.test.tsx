@@ -24,7 +24,6 @@ describe('OfferCreate: TableDetail', () => {
     expect(wrapper.find('[data-testid="amount-sell"]')).toHaveText(
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
-    wrapper.unmount()
   })
 
   it('renders', () => {

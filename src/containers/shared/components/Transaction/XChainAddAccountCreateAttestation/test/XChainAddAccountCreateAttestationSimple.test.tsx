@@ -1,4 +1,5 @@
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockXChainAddAccountCreateAttestation from './mock_data/XChainAddAccountCreateAttestation.json'
 import mockXChainAddAccountCreateAttestationFailed from './mock_data/XChainAddAccountCreateAttestationFailed.json'

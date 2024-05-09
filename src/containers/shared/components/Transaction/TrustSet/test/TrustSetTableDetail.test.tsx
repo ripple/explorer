@@ -14,6 +14,5 @@ describe('TrustSet: TableDetail', () => {
     expect(wrapper.find('Amount')).toHaveText(
       'CN¥1,000,000,000.00 CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA',
     )
-    wrapper.unmount()
   })
 })

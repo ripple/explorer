@@ -3,6 +3,7 @@ import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowText } from '../../test'
 
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockAMMDelete from './mock_data/AMMDelete.json'
 
@@ -18,6 +19,5 @@ describe('AMMDelete: Simple', () => {
       'asset2',
       'FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9',
     )
-    wrapper.unmount()
   })
 })

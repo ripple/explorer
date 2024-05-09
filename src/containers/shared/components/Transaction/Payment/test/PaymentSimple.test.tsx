@@ -27,8 +27,6 @@ describe('Payment: Simple', () => {
       'destination',
       `rHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with failed partial conversion', () => {
@@ -45,8 +43,6 @@ describe('Payment: Simple', () => {
     )
 
     expect(wrapper.find('[data-testid="destination"]')).not.toExist()
-
-    wrapper.unmount()
   })
 
   it('renders with destination tag', () => {
@@ -60,8 +56,6 @@ describe('Payment: Simple', () => {
       'destination',
       `rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt:381702`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with send max', () => {
@@ -86,8 +80,6 @@ describe('Payment: Simple', () => {
       'destination',
       `rprcTynT68nYdKzDTefAZG9HjSHiYcnP4b:0`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with partial', () => {
@@ -105,15 +97,11 @@ describe('Payment: Simple', () => {
       'destination',
       `rMQ4oGC8fasuJwfdrfknFTttDbf8cR3D2j:0`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with SourceTag', () => {
     renderComponent(mockPaymentSourceTag)
 
     expectSimpleRowText(wrapper, 'source-tag', `20648`)
-
-    wrapper.unmount()
   })
 })

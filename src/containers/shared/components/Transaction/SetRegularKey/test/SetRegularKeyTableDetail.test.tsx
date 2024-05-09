@@ -15,7 +15,6 @@ describe('SetRegularKeyTable: Detail', () => {
     expect(wrapper.find('.key').text()).toBe(
       `rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp`,
     )
-    wrapper.unmount()
   })
 
   it('renders Simple for transaction that unsets key', () => {
@@ -23,6 +22,5 @@ describe('SetRegularKeyTable: Detail', () => {
 
     expect(wrapper.find('.unset')).toExist()
     expect(wrapper.text()).toBe(`unset_regular_key`)
-    wrapper.unmount()
   })
 })
