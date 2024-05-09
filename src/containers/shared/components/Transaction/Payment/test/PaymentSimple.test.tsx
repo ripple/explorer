@@ -26,8 +26,8 @@ describe('Payment: Simple', () => {
   it('renders', () => {
     renderComponent(mockPayment)
 
-    expectSimpleRowText(screen, 'amount', `\uE9002,421.8268 XRP`)
-    expectSimpleRowLabel(screen, 'amount', `send`)
+    expectSimpleRowText(screen, 'payment-amount', `\uE9002,421.8268 XRP`)
+    expectSimpleRowLabel(screen, 'payment-amount', `send`)
 
     expectSimpleRowText(
       screen,
@@ -42,21 +42,21 @@ describe('Payment: Simple', () => {
     expectSimpleRowLabel(screen, 'max', `convert_maximum`)
     expectSimpleRowText(screen, 'max', `\uE9001,140.00 XRP`)
 
-    expectSimpleRowLabel(screen, 'amount', `convert_to`)
+    expectSimpleRowLabel(screen, 'convert-amount', `convert_to`)
     expectSimpleRowText(
       screen,
-      'amount',
+      'convert-amount',
       `0.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZrpartial_payment_allowed`,
     )
 
-    expect(screen.getByTestId('destination')).toBeNull()
+    expect(screen.queryByTestId('destination')).toBeNull()
   })
 
   it('renders with destination tag', () => {
     renderComponent(mockPaymentDestinationTag)
 
-    expectSimpleRowText(screen, 'amount', `\uE9001,531.267 XRP`)
-    expectSimpleRowLabel(screen, 'amount', `send`)
+    expectSimpleRowText(screen, 'payment-amount', `\uE9001,531.267 XRP`)
+    expectSimpleRowLabel(screen, 'payment-amount', `send`)
 
     expectSimpleRowText(
       screen,
@@ -77,10 +77,10 @@ describe('Payment: Simple', () => {
 
     expectSimpleRowText(
       screen,
-      'amount',
+      'payment-amount',
       `17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA`,
     )
-    expectSimpleRowLabel(screen, 'amount', `send`)
+    expectSimpleRowLabel(screen, 'payment-amount', `send`)
 
     expectSimpleRowText(
       screen,
@@ -94,10 +94,10 @@ describe('Payment: Simple', () => {
 
     expectSimpleRowText(
       screen,
-      'amount',
+      'payment-amount',
       `0.00104196 xCoin.rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFipartial_payment_allowed`,
     )
-    expectSimpleRowLabel(screen, 'amount', `delivered`)
+    expectSimpleRowLabel(screen, 'payment-amount', `delivered`)
 
     expectSimpleRowText(
       screen,

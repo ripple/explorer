@@ -18,8 +18,8 @@ describe('PaymentChannelCreate: Simple', () => {
   afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockPaymentChannelCreate)
-    expectSimpleRowLabel(screen, 'amount', 'Amount')
-    expectSimpleRowText(screen, 'amount', '\uE9001.00 XRP')
+    expectSimpleRowLabel(screen, 'channel-amount', 'Amount')
+    expectSimpleRowText(screen, 'channel-amount', '\uE9001.00 XRP')
     expectSimpleRowLabel(screen, 'source', 'source')
     expectSimpleRowText(
       screen,
@@ -34,17 +34,17 @@ describe('PaymentChannelCreate: Simple', () => {
     )
     expectSimpleRowLabel(screen, 'delay', 'Settlement Delay')
     expectSimpleRowText(screen, 'delay', '3,600 sec.')
-    expectSimpleRowLabel(screen, '.channel', 'Channel ID')
+    expectSimpleRowLabel(screen, 'channel', 'Channel ID')
     expectSimpleRowText(
       screen,
-      '.channel',
+      'channel',
       '15AB9EE9344C42C05164E6A1F2F08B35F35D7B9D66CCB9697452B0995C8F8242',
     )
   })
 
   it('renders failed tx', () => {
     renderComponent(mockPaymentChannelCreateFailed)
-    expectSimpleRowText(screen, 'amount', '\uE90010.00 XRP')
+    expectSimpleRowText(screen, 'channel-amount', '\uE90010.00 XRP')
     expectSimpleRowText(
       screen,
       'source',
@@ -56,12 +56,12 @@ describe('PaymentChannelCreate: Simple', () => {
       'rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
     expectSimpleRowText(screen, 'delay', '3,600 sec.')
-    expectSimpleRowNotToExist(screen, '.channel')
+    expectSimpleRowNotToExist(screen, 'channel')
   })
 
   it('renders tx with destination tag', () => {
     renderComponent(mockPaymentChannelCreateWithDestinationTag)
-    expectSimpleRowText(screen, 'amount', '\uE900100.00 XRP')
+    expectSimpleRowText(screen, 'channel-amount', '\uE900100.00 XRP')
     expectSimpleRowText(screen, 'source', 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH')
     expectSimpleRowText(
       screen,
@@ -71,7 +71,7 @@ describe('PaymentChannelCreate: Simple', () => {
     expectSimpleRowText(screen, 'delay', '86,400 sec.')
     expectSimpleRowText(
       screen,
-      '.channel',
+      'channel',
       '5DB01B7FFED6B67E6B0414DED11E051D2EE2B7619CE0EAA6286D67A3A4D5BDB3',
     )
   })

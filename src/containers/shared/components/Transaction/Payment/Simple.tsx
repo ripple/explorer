@@ -29,7 +29,7 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
         )}
         <SimpleRow
           label={partial ? t('delivered') : t('send')}
-          data-testid="amount"
+          data-testid="payment-amount"
         >
           <Amount value={amount} />
           {renderPartial()}
@@ -51,7 +51,7 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
       <SimpleRow label={t('convert_maximum')} data-testid="max">
         <Amount value={convert} />
       </SimpleRow>
-      <SimpleRow label={t('convert_to')} data-testid="amount">
+      <SimpleRow label={t('convert_to')} data-testid="convert-amount">
         <Amount value={amount} />
         {renderPartial()}
       </SimpleRow>

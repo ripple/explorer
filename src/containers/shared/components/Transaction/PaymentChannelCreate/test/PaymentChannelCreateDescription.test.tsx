@@ -25,7 +25,7 @@ describe('PaymentChannelCreate: Description', () => {
     expect(screen.getByTestId('delay-line')).toHaveTextContent(
       `The channel has a settlement delay of 3,600 seconds`,
     )
-    expect(screen.getByTestId('cancel-line')).toBeNull()
+    expect(screen.queryByTestId('cancel-line')).toBeNull()
   })
 
   it('renders failed tx', () => {
@@ -33,14 +33,14 @@ describe('PaymentChannelCreate: Description', () => {
     expect(screen.getByTestId('accounts-line')).toHaveTextContent(
       `The account rMphibGfHpLDU4DzVCspzLYVuMNpmzN6n8:2810223114 will create a payment channel to rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN`,
     )
-    expect(screen.getByTestId('channel-line')).toBeNull()
+    expect(screen.queryByTestId('channel-line')).toBeNull()
     expect(screen.getByTestId('amount-line')).toHaveTextContent(
       `The channel amount is \uE90010.00 XRP`,
     )
     expect(screen.getByTestId('delay-line')).toHaveTextContent(
       `The channel has a settlement delay of 3,600 seconds`,
     )
-    expect(screen.getByTestId('cancel-line')).toBeNull()
+    expect(screen.queryByTestId('cancel-line')).toBeNull()
   })
 
   it('renders tx with destination tag', () => {
@@ -57,6 +57,6 @@ describe('PaymentChannelCreate: Description', () => {
     expect(screen.getByTestId('delay-line')).toHaveTextContent(
       `The channel has a settlement delay of 86,400 seconds`,
     )
-    expect(screen.getByTestId('cancel-line')).toBeNull()
+    expect(screen.queryByTestId('cancel-line')).toBeNull()
   })
 })

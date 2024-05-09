@@ -23,7 +23,7 @@ describe('PaymentChannelClaim: Description', () => {
     expect(screen.getByTestId('balance-line')).toHaveTextContent(
       `The channel balance claimed is \uE90049.65716XRP (increased by \uE9000.01XRP)`,
     )
-    expect(screen.getByTestId('closed-line')).toBeNull()
+    expect(screen.queryByTestId('closed-line')).toBeNull()
   })
 
   it('renders tx with channel being closed', () => {
@@ -34,7 +34,7 @@ describe('PaymentChannelClaim: Description', () => {
     expect(screen.getByTestId('channel-line')).toHaveTextContent(
       `It will update the payment channel 3BDB4F92432BCEB2385D3BAA60E8AAEC9B552890A240AEE4AA9E88C9E6C517E8`,
     )
-    expect(screen.getByTestId('balance-line')).toBeNull()
+    expect(screen.queryByTestId('balance-line')).toBeNull()
     expect(screen.getByTestId('closed-line')).toHaveTextContent(
       `The payment channel will be closed, any remaining balance will be returned to the source account`,
     )
@@ -48,8 +48,8 @@ describe('PaymentChannelClaim: Description', () => {
     expect(screen.getByTestId('channel-line')).toHaveTextContent(
       `It will update the payment channel 3BDB4F92432BCEB2385D3BAA60E8AAEC9B552890A240AEE4AA9E88C9E6C517E8`,
     )
-    expect(screen.getByTestId('balance-line')).toBeNull()
-    expect(screen.getByTestId('closed-line')).toBeNull()
+    expect(screen.queryByTestId('balance-line')).toBeNull()
+    expect(screen.queryByTestId('closed-line')).toBeNull()
   })
 
   it('renders tx with destination tag', () => {
@@ -63,6 +63,6 @@ describe('PaymentChannelClaim: Description', () => {
     expect(screen.getByTestId('balance-line')).toHaveTextContent(
       `The channel balance claimed is \uE9001.00XRP (increased by \uE9001.00XRP)`,
     )
-    expect(screen.getByTestId('closed-line')).toBeNull()
+    expect(screen.queryByTestId('closed-line')).toBeNull()
   })
 })

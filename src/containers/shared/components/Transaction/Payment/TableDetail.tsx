@@ -33,7 +33,7 @@ export const TableDetail = ({
       <span>{t('to')}</span>
       <Account account={destination} />
       {sourceTag !== undefined && (
-        <div className="st">
+        <div className="st" data-testid="st">
           {t('source_tag')}
           {': '}
           <span>{sourceTag}</span>
