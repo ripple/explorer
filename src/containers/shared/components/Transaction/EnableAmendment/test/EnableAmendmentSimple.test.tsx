@@ -50,7 +50,7 @@ describe('EnableAmendment: Simple', () => {
     expect(screen.queryByTestId('date')).toBeNull()
 
     await flushPromises()
-    screen.update()
+    // screen.update()
 
     expectSimpleRowText(screen, 'name', 'ExpandedSignerList')
     expectSimpleRowText(screen, 'version', 'v1.9.1')
@@ -72,11 +72,11 @@ describe('EnableAmendment: Simple', () => {
     expectSimpleRowText(screen, 'date', '10/13/2022, 3:28:31 PM')
 
     await flushPromises()
-    screen.update()
+    // screen.update()
 
     expectSimpleRowText(screen, 'name', 'ExpandedSignerList')
     expectSimpleRowText(screen, 'version', 'v1.9.1')
-    expect(screen.getByTestId('name')).toHaveAttribute(
+    expect(screen.getByText('ExpandedSignerList')).toHaveAttribute(
       'href',
       '/amendment/B2A4DB846F0891BF2C76AB2F2ACC8F5B4EC64437135C6E56F3F859DE5FFD5856',
     )
@@ -96,7 +96,7 @@ describe('EnableAmendment: Simple', () => {
     expectSimpleRowText(screen, 'version', 'Loading')
 
     await flushPromises()
-    screen.update()
+    // screen.update()
 
     expectSimpleRowText(screen, 'name', 'NegativeUNL')
     expectSimpleRowText(screen, 'version', 'v1.7.3')
@@ -112,7 +112,7 @@ describe('EnableAmendment: Simple', () => {
     expectSimpleRowText(screen, 'version', 'Loading')
 
     await flushPromises()
-    screen.update()
+    // screen.update()
 
     expectSimpleRowText(screen, 'name', 'Unknown')
     expectSimpleRowText(screen, 'version', 'Unknown')
@@ -130,7 +130,7 @@ describe('EnableAmendment: Simple', () => {
     expectSimpleRowText(screen, 'version', 'Loading')
 
     await flushPromises()
-    screen.update()
+    // screen.update()
 
     expectSimpleRowText(screen, 'name', 'NegativeUNL')
     expectSimpleRowText(screen, 'version', 'Unknown')
@@ -146,7 +146,7 @@ describe('EnableAmendment: Simple', () => {
     expectSimpleRowText(screen, 'version', 'Loading')
 
     await flushPromises()
-    screen.update()
+    // screen.update()
 
     expectSimpleRowText(screen, 'name', 'Unknown')
     expectSimpleRowText(screen, 'version', 'Unknown')
