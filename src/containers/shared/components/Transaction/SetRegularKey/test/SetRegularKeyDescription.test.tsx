@@ -1,9 +1,9 @@
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description)
+const createWrapper = createDescriptionRenderFactory(Description)
 
 describe('SetRegularKey: Description', () => {
   it('renders description for transaction', () => {

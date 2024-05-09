@@ -1,4 +1,4 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { TableDetail } from '../TableDetail'
@@ -8,7 +8,7 @@ import mockAccountSetWithSetFlag from './mock_data/AccountSetWithSetFlag.json'
 import mockAccountSetWithMessageKey from './mock_data/AccountSetWithMessageKey.json'
 import mockAccountSetWithNFTokenMinter from './mock_data/AccountSetWithNFTokenMinter.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
+const createWrapper = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('AccountSet: TableDetail', () => {
   it('renders tx that sets the domain', () => {

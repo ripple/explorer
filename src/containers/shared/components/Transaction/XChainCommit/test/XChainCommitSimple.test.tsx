@@ -2,9 +2,9 @@ import { Simple } from '../Simple'
 import mockXChainCommit from './mock_data/XChainCommit.json'
 import mockXChainCommitInsufficientFunds from './mock_data/XChainCommitInsufficientFunds.json'
 
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const createWrapper = createSimpleRenderFactory(Simple)
 
 describe('XChainCommitSimple', () => {
   it('renders', () => {

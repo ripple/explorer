@@ -1,11 +1,11 @@
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 import { Description } from '../Description'
 import i18nTestConfigEnUS from '../../../../../../i18n/testConfigEnglish'
 
 import SetFeePreAmendment from './mock_data/SetFee_PreAmendment.json'
 import SetFeePostAmendment from './mock_data/SetFee_PostAmendment.json'
 
-const createWrapper = createDescriptionWrapperFactory(
+const createWrapper = createDescriptionRenderFactory(
   Description,
   i18nTestConfigEnUS,
 )

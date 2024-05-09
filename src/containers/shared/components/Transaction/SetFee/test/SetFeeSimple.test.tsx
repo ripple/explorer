@@ -1,5 +1,5 @@
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowLabel,
   expectSimpleRowText,
 } from '../../test'
@@ -9,7 +9,7 @@ import i18nTestConfigEnUS from '../../../../../../i18n/testConfigEnglish'
 import SetFeePreAmendment from './mock_data/SetFee_PreAmendment.json'
 import SetFeePostAmendment from './mock_data/SetFee_PostAmendment.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18nTestConfigEnUS)
+const createWrapper = createSimpleRenderFactory(Simple, i18nTestConfigEnUS)
 
 function testSimple(wrapper) {
   expectSimpleRowLabel(wrapper, `base-fee`, 'Base Fee')

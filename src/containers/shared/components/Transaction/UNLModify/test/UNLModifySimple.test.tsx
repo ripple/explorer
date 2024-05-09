@@ -1,7 +1,7 @@
 import { mount } from 'enzyme'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 
 import { Simple } from '../Simple'
 import mockUNLModifyEnable from './mock_data/UNLModifyEnable.json'
@@ -10,7 +10,7 @@ import { SimpleTab } from '../../../../../Transactions/SimpleTab'
 import { QuickHarness } from '../../../../../test/utils'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const createWrapper = createSimpleRenderFactory(Simple, i18n)
 
 describe('UNLModify: Simple', () => {
   it('renders tx that enables a validator', () => {

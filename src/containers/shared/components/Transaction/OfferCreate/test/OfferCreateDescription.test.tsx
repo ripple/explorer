@@ -1,9 +1,9 @@
 import OfferCreate from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import OfferCreateInvertedCurrencies from './mock_data/OfferCreateInvertedCurrencies.json'
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description)
+const createWrapper = createDescriptionRenderFactory(Description)
 
 describe('OfferCreate: Description', () => {
   it('renders description for transaction with cancel and expiration', () => {

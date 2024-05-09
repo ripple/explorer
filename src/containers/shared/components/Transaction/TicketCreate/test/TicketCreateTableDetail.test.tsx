@@ -1,8 +1,8 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import TicketCreate from './mock_data/TicketCreate.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const createWrapper = createTableDetailRenderFactory(TableDetail)
 
 describe('TicketCreate: TableDetail', () => {
   it('renders', () => {

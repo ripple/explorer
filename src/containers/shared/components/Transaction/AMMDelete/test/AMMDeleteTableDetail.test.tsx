@@ -1,9 +1,9 @@
 import { TableDetail } from '../TableDetail'
 import mockAMMDelete from './mock_data/AMMDelete.json'
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
+const createWrapper = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('AMMDelete: TableDetail', () => {
   it('renders with an expiration and offer', () => {

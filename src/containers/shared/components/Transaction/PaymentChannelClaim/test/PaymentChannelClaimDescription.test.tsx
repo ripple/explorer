@@ -1,13 +1,13 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createDescriptionWrapperFactory } from '../../test/createWrapperFactory'
+import { createDescriptionRenderFactory } from '../../test/createRenderFactory'
 import mockPaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import mockPaymentChannelClaimClosed from './mock_data/PaymentChannelClaimClosed.json'
 import mockPaymentChannelClaimCloseDenied from './mock_data/PaymentChannelClaimCloseDenied.json'
 import mockPaymentChannelClaimWithDestinationTag from './mock_data/PaymentChannelClaimWithDestinationTag.json'
 import { Description } from '../Description'
 
-const createWrapper = createDescriptionWrapperFactory(Description, i18n)
+const createWrapper = createDescriptionRenderFactory(Description, i18n)
 
 describe('PaymentChannelClaim: Description', () => {
   it('renders a claim', () => {

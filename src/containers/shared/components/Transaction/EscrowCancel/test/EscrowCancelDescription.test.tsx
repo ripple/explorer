@@ -1,8 +1,8 @@
 import EscrowCancel from './mock_data/EscrowCancel.json'
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description)
+const createWrapper = createDescriptionRenderFactory(Description)
 
 describe('EscrowCancelDescription', () => {
   it('renders description for EscrowCancel', () => {

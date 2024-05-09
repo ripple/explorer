@@ -1,6 +1,6 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockAccountSetWithDomain from './mock_data/AccountSetWithDomain.json'
 import mockAccountSetWithClearFlag from './mock_data/AccountSetWithClearFlag.json'
@@ -9,7 +9,7 @@ import mockAccountSetWithMessageKey from './mock_data/AccountSetWithMessageKey.j
 import mockAccountSetWithNFTokenMinter from './mock_data/AccountSetWithNFTokenMinter.json'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const createWrapper = createSimpleRenderFactory(Simple, i18n)
 
 describe('AccountSet: Simple', () => {
   it('renders tx that sets the domain', () => {

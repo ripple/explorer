@@ -1,11 +1,11 @@
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockSetHook from './mock_data/SetHook.json'
 import mockSetHook2 from './mock_data/SetHook2.json'
 import mockSetHookFailure from './mock_data/SetHookFailure.json'
 import { expectSimpleRowText } from '../../test/expectations'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const createWrapper = createSimpleRenderFactory(Simple)
 
 describe('SetHookSimple', () => {
   it('renders', () => {

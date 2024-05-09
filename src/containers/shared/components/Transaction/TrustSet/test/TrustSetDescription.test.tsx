@@ -3,9 +3,9 @@ import i18n from '../../../../../../i18n/testConfigEnglish'
 import mockTrustSet from './mock_data/TrustSet.json'
 
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description, i18n)
+const createWrapper = createDescriptionRenderFactory(Description, i18n)
 
 describe('TrustSet: Description', () => {
   it('renders description for authorize', () => {

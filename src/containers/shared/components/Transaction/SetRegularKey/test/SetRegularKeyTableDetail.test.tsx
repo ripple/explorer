@@ -1,9 +1,9 @@
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { TableDetail } from '../TableDetail'
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const createWrapper = createTableDetailRenderFactory(TableDetail)
 
 describe('SetRegularKeyTable: Detail', () => {
   it('renders Simple for transaction', () => {

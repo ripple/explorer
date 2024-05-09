@@ -1,9 +1,9 @@
 import { Simple } from '../Simple'
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import voteMock from './mock_data/amm_vote.json'
 
 describe('AMM Vote Tests', () => {
-  const createWrapper = createSimpleWrapperFactory(Simple)
+  const createWrapper = createSimpleRenderFactory(Simple)
 
   it('renders from transaction', () => {
     const wrapper = createWrapper(voteMock)

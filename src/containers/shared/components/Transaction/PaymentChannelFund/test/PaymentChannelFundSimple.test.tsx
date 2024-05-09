@@ -1,6 +1,6 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockPaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import mockPaymentChannelFundFailed from './mock_data/PaymentChannelFundFailed.json'
@@ -10,7 +10,7 @@ import {
   expectSimpleRowText,
 } from '../../test'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const createWrapper = createSimpleRenderFactory(Simple, i18n)
 
 describe('PaymentChannelFund: Simple', () => {
   it('renders a fund', () => {

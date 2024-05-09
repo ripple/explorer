@@ -1,8 +1,8 @@
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 import { Description } from '../Description'
 import offerCancel from './mock_data/OfferCancel.json'
 
-const createWrapper = createDescriptionWrapperFactory(Description)
+const createWrapper = createDescriptionRenderFactory(Description)
 
 describe('OfferCancel: Description', () => {
   it('renders', () => {

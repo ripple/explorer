@@ -1,7 +1,7 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowLabel,
   expectSimpleRowNotToExist,
   expectSimpleRowText,
@@ -11,7 +11,7 @@ import mockPaymentChannelCreateFailed from './mock_data/PaymentChannelCreateFail
 import mockPaymentChannelCreateWithDestinationTag from './mock_data/PaymentChannelCreateWithDestinationTag.json'
 import { Simple } from '../Simple'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const createWrapper = createSimpleRenderFactory(Simple, i18n)
 
 describe('PaymentChannelCreate: Simple', () => {
   it('renders', () => {

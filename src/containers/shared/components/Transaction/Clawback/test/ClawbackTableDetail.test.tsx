@@ -1,8 +1,8 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import transaction from './mock_data/Clawback.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const createWrapper = createTableDetailRenderFactory(TableDetail)
 
 describe('Clawback', () => {
   it('handles Clawback TableDetail ', () => {
