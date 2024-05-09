@@ -1,8 +1,8 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockEscrowCreate from './mock_data/EscrowCreate.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const createWrapper = createTableDetailRenderFactory(TableDetail)
 
 describe('EscrowCreateTableDetail', () => {
   it('renders EscrowCreate without crashing', () => {

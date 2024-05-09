@@ -1,21 +1,8 @@
-import { ReactWrapper } from 'enzyme'
+export const expectSimpleRowLabel = (screen: any, key: string, text: string) =>
+  expect(screen.getByTestId(key)).toHaveTextContent(text)
 
-const getSelector = (selector: string) =>
-  selector.indexOf('.') === 0 ? selector : `[data-testid="${selector}"]`
+export const expectSimpleRowText = (screen: any, key: string, text: string) =>
+  expect(screen.getByTestId(key)).toHaveTextContent(text)
 
-export const expectSimpleRowLabel = (
-  wrapper: ReactWrapper<any, Readonly<{}>>,
-  key: string,
-  text: string,
-) => expect(wrapper.find(`${getSelector(key)} .label`)).toHaveText(text)
-
-export const expectSimpleRowText = (
-  wrapper: ReactWrapper<any, Readonly<{}>>,
-  key: string,
-  text: string,
-) => expect(wrapper.find(`${getSelector(key)} .value`)).toHaveText(text)
-
-export const expectSimpleRowNotToExist = (
-  wrapper: ReactWrapper<any, Readonly<{}>>,
-  key: string,
-) => expect(wrapper.find(`${getSelector(key)}`)).not.toExist()
+export const expectSimpleRowNotToExist = (screen: any, key: string) =>
+  expect(screen.getByTestId(key)).not.toExist()

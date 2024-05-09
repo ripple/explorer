@@ -1,5 +1,5 @@
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowText,
   expectSimpleRowNotToExist,
 } from '../../test'
@@ -7,7 +7,7 @@ import { Simple } from '../Simple'
 import transaction from './mock_data/NFTokenBurn.json'
 import transactionByIssuer from './mock_data/NFTokenBurnByIssuer.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const createWrapper = createSimpleRenderFactory(Simple)
 
 describe('NFTokenBurn', () => {
   it('handles NFTokenBurn simple view ', () => {

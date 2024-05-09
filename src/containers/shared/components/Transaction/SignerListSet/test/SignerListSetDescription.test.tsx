@@ -1,9 +1,9 @@
 import mockSignerListSetClear from './mock_data/SignerListSetClear.json'
 import mockSignerListSet from './mock_data/SignerListSet.json'
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description)
+const createWrapper = createDescriptionRenderFactory(Description)
 
 describe('SignerListSet: Description', () => {
   it('renders', () => {
