@@ -10,7 +10,7 @@ describe('TrustSet: TableDetail', () => {
   afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockTrustSet)
-    expect(screen.find('.label')).toHaveText('Set Trust Limit')
+    expectSimpleRowLabel(screen, 'Set Trust Limit')
     expect(screen.find('Amount')).toHaveText(
       'CN¥1,000,000,000.00 CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA',
     )
