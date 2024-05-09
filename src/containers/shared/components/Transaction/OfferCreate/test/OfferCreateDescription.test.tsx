@@ -1,4 +1,4 @@
-import { cleanup, screen } from '@testing-library/react'
+import { cleanup } from '@testing-library/react'
 import OfferCreate from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import OfferCreateInvertedCurrencies from './mock_data/OfferCreateInvertedCurrencies.json'
 import { Description } from '../Description'
