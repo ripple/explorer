@@ -18,22 +18,22 @@ export const Simple = ({
 
   return (
     <>
-      <SimpleRow label={t('amount')} data-test="amount">
+      <SimpleRow label={t('amount')} data-testid="amount">
         <Amount value={amount} />
       </SimpleRow>
-      <SimpleRow label={t('source')} data-test="source">
+      <SimpleRow label={t('source')} data-testid="source">
         <Account account={source} />
       </SimpleRow>
-      <SimpleRow label={t('destination')} data-test="destination">
+      <SimpleRow label={t('destination')} data-testid="destination">
         <Account account={destination} />
       </SimpleRow>
       {delay && (
-        <SimpleRow label={t('settle_delay')} data-test="delay">
+        <SimpleRow label={t('settle_delay')} data-testid="delay">
           {localizeNumber(delay, language)} {t('seconds_short')}
         </SimpleRow>
       )}
       {cancelAfter && (
-        <SimpleRow label={t('cancel_after')} data-test="cancel-after">
+        <SimpleRow label={t('cancel_after')} data-testid="cancel-after">
           {localizeDate(new Date(cancelAfter), language, DATE_OPTIONS)}{' '}
           {DATE_OPTIONS.timeZone}
         </SimpleRow>

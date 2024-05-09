@@ -11,12 +11,12 @@ export const TableDetail = ({
 
   return (
     <div className="ammDelete">
-      <div data-test="asset">
+      <div data-testid="asset">
         <span className="label">{t('asset1')}</span>
         {/* @ts-expect-error - MPT is not being supported for AMM transactions until https://github.com/XRPLF/rippled/pull/5285 is merged */}
         <Currency currency={Asset.currency} issuer={(Asset as any).issuer} />
       </div>
-      <div data-test="asset2">
+      <div data-testid="asset2">
         <span className="label">{t('asset2')}</span>
         {/* @ts-expect-error - MPT is not being supported for AMM transactions until https://github.com/XRPLF/rippled/pull/5285 is merged */}
         <Currency currency={Asset2.currency} issuer={(Asset2 as any).issuer} />

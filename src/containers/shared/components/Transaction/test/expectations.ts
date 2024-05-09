@@ -1,7 +1,7 @@
 import { ReactWrapper } from 'enzyme'
 
 const getSelector = (selector: string) =>
-  selector.indexOf('.') === 0 ? selector : `[data-test="${selector}"]`
+  selector.indexOf('.') === 0 ? selector : `[data-testid="${selector}"]`
 
 export const expectSimpleRowLabel = (
   wrapper: ReactWrapper<any, Readonly<{}>>,

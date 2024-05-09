@@ -33,7 +33,7 @@ describe('Description container', () => {
 
   it('renders sequence number with ticket', () => {
     const wrapper = createWrapper(OfferCreateTicket)
-    expect(wrapper.find(`[data-test="sequence"]`)).toHaveText(
+    expect(wrapper.find(`[data-testid="sequence"]`)).toHaveText(
       '79469284 (a Ticket was used for this Transaction)',
     )
     wrapper.unmount()
@@ -41,7 +41,7 @@ describe('Description container', () => {
 
   it('renders sequence number with hook', () => {
     const wrapper = createWrapper(EmittedPayment)
-    expect(wrapper.find(`[data-test="sequence"]`)).toHaveText(
+    expect(wrapper.find(`[data-testid="sequence"]`)).toHaveText(
       '0 (this Transaction was emitted by a Hook)',
     )
     wrapper.unmount()

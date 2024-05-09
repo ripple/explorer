@@ -9,7 +9,7 @@ export const Description = ({
   const { t } = useTranslation()
 
   return (
-    <div data-test="cancel-line">
+    <div data-testid="cancel-line">
       {t('offer_cancel_description')}
       <b>{data.tx.OfferSequence}</b>
     </div>

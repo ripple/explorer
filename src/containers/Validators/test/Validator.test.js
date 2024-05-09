@@ -188,10 +188,10 @@ describe('Validator container', () => {
     expect(getLedger).toBeCalledWith('12345', undefined)
     expect(document.title).toBe('Validator test.example.com')
     // test ledger-time isn't updated
-    const lastLedgerDateTime = wrapper.find(`[data-test="ledger-time"]`)
+    const lastLedgerDateTime = wrapper.find(`[data-testid="ledger-time"]`)
     expect(lastLedgerDateTime).not.toExist()
     // test ledger-index stays the same
-    const lastLedgerIndex = wrapper.find(`[data-test="ledger-index"]`)
+    const lastLedgerIndex = wrapper.find(`[data-testid="ledger-index"]`)
     expect(lastLedgerIndex).toExist()
     expect(lastLedgerIndex.find('.value')).toHaveText('12345')
     wrapper.unmount()
