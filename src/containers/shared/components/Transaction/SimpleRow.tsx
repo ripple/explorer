@@ -10,7 +10,7 @@ export type SimpleRowProps = PropsWithChildren<{
 export const SimpleRow = (props: SimpleRowProps) => {
   const { label, children, className, 'data-testid': testId } = props
   return (
-    <div className="row" data-testid={testId ?? label}>
+    <div className="row" data-testid={testId ?? className ?? label}>
       <div className="label">{label}</div>
       <div className={classnames(`value`, className)}>{children}</div>
     </div>
