@@ -32,7 +32,7 @@ describe('OfferCreate: TableDetail', () => {
     expect(screen.getByTestId('pair')).toHaveTextContent(
       'price:0.00207696 \uE900 XRP/BCH.rcyS',
     )
-    expect(screen.getByTestId('offer-id')).not.toExist()
+    expect(screen.queryByTestId('offer-id')).toBeNull()
     expect(screen.getByTestId('amount-buy')).toHaveTextContent(
       `\uE90024,755.081083 XRP`,
     )

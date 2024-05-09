@@ -60,7 +60,7 @@ describe('EnableAmendment: Simple', () => {
     expectSimpleRowText(screen, 'status', 'Lost Majority')
     expectSimpleRowLabel(screen, 'version', 'Introduced In')
     expectSimpleRowText(screen, 'version', 'Loading')
-    expect(screen.getByTestId('date')).not.toExist()
+    expect(screen.getByTestId('date')).toBeNull()
 
     await flushPromises()
 
