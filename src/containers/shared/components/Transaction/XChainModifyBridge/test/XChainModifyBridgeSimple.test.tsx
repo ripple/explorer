@@ -18,14 +18,18 @@ describe('XChainModifyBridgeSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR'),
+    ).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door')).toHaveAttribute('href')
+    expect(
+      screen.getByText('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'),
+    ).toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'signature-reward', '\uE9000.01 XRP')
@@ -40,14 +44,18 @@ describe('XChainModifyBridgeSimple', () => {
       'locking-chain-door',
       'rnBnyot2gCJywLxLzfHQX2dUJqZ6oghUFp',
     )
-    expect(screen.getByTestId('locking-chain-door')).toHaveAttribute('href')
+    expect(
+      screen.getByText('rnBnyot2gCJywLxLzfHQX2dUJqZ6oghUFp'),
+    ).toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'),
+    ).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'min-account-create-amount', '\uE900100.00 XRP')
@@ -62,14 +70,18 @@ describe('XChainModifyBridgeSimple', () => {
       'locking-chain-door',
       'r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W',
     )
-    expect(screen.getByTestId('locking-chain-door')).not.toHaveAttribute('href')
+    expect(
+      screen.getByText('r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W'),
+    ).not.toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.getByTestId('issuing-chain-door')).toHaveAttribute('href')
+    expect(
+      screen.getByText('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'),
+    ).toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
