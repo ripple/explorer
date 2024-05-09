@@ -9,8 +9,8 @@ describe('DIDSet: TableDetail', () => {
   afterEach(cleanup)
   it('renders', () => {
     const { container } = renderComponent(DIDSet)
-    // eslint-disable-next-line no-useless-concat -- easier to read this way
     expect(container).toHaveTextContent(
+      // eslint-disable-next-line no-useless-concat -- easier to read this way
       'uri: did_example' + 'did_document: doc',
     )
   })
