@@ -18,6 +18,11 @@ const renderComponent = (props) => render(<Notification {...props} />)
 
 describe('<Notification />', () => {
   afterEach(cleanup)
+
+  it('renders without crashing', () => {
+    render(<Notification key="key" usage="danger" message="boo!" />)
+  })
+
   it('should render with custom className', () => {
     const className = 'test-class'
     renderComponent({
@@ -71,5 +76,25 @@ describe('<Notification />', () => {
     })
 
     return false
+  })
+
+  it('disappears', (done) => {
+    const { container } = render(
+      <Notification
+        key="key"
+        usage="danger"
+        message="boo!"
+        autoDismiss
+        delay={100}
+      />,
+    )
+    expect(container.innerHTML).toBe(
+      '<div class="notification danger primary-theme "><span>boo!</span></div>',
+    )
+
+    setTimeout(() => {
+      expect(container.innerHTML).toBe('')
+      done()
+    }, 200)
   })
 })
