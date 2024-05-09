@@ -62,7 +62,7 @@ const Footer = () => {
       </div>
       <div className="footer-branding">
         <div className="logo">
-          <Logo className="image" alt={t('xrpl_explorer')} />
+          <Logo className="image" title="logo" alt={t('xrpl_explorer')} />
           <span className="text">
             {t('explorer')}
             <span className="version">
@@ -71,7 +71,7 @@ const Footer = () => {
             </span>
           </span>
         </div>
-        <div className="copyright">
+        <div className="copyright" title="copyright">
           <span>&#169;&nbsp;</span>
           <a
             className="link"
