@@ -11,6 +11,5 @@ describe('Clawback', () => {
     expect(wrapper.find('.clawback')).toHaveText(
       `claws_back3,840.00 FOO.rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9fromrscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP`,
     )
-    wrapper.unmount()
   })
 })

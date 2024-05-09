@@ -25,7 +25,6 @@ describe('DefaultSimple', () => {
     expect(wrapper.find(`[data-testid="Destination"] a`)).toExist()
     expectSimpleRowText(wrapper, 'Amount', '\uE9001.00 XRP')
     expectSimpleRowText(wrapper, 'FinishAfter', '736447590')
-    wrapper.unmount()
   })
 
   it('renders Simple for more complex transaction', () => {
@@ -55,8 +54,6 @@ describe('DefaultSimple', () => {
     expect(wrapper.find(`[data-testid="HookOn"] .value`).at(0)).toHaveText(
       'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFFFFFFFFFBFFFFF',
     )
-
-    wrapper.unmount()
   })
 
   it('renders Simple for more complex transaction', () => {
@@ -97,8 +94,6 @@ describe('DefaultSimple', () => {
         `[data-testid="HookParameters"] .subgroup [data-testid="HookParameterValue"]`,
       ),
     ).toHaveText('HookParameterValue: 76616C756531')
-
-    wrapper.unmount()
   })
 
   it('renders Simple for amount', () => {
@@ -119,6 +114,5 @@ describe('DefaultSimple', () => {
       'AmountOther',
       '$33.00 USD.rnz5f1MFcgbVxzYhU5hUKbKquEJHJady5K',
     )
-    wrapper.unmount()
   })
 })

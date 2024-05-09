@@ -2,6 +2,7 @@ import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockPaymentChannelFund from './mock_data/PaymentChannelFund.json'
 import mockPaymentChannelFundFailed from './mock_data/PaymentChannelFundFailed.json'
@@ -41,7 +42,6 @@ describe('PaymentChannelFund: Simple', () => {
       '.channel',
       '4BEAC9E4C10674AB698EAC0F2D78A4FF507428370578A59B04883E7EB8D82260',
     )
-    wrapper.unmount()
   })
 
   it('renders failed tx', () => {
@@ -58,6 +58,5 @@ describe('PaymentChannelFund: Simple', () => {
       '.channel',
       '933F93F7113A2F94B7838D64D0D2A244C57EFD6411C16FFF5FA293D200EF5876',
     )
-    wrapper.unmount()
   })
 })

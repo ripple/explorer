@@ -17,6 +17,5 @@ describe('AMMDelete: TableDetail', () => {
     expect(wrapper.find('[data-testid="asset2"]')).toHaveText(
       'Asset 2FOO.rm5c42Crqpdch5fbuCdHmSMV1wrL9arV9',
     )
-    wrapper.unmount()
   })
 })

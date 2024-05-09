@@ -11,6 +11,5 @@ describe('DIDSet: TableDetail', () => {
     renderComponent(DIDSet)
     // eslint-disable-next-line no-useless-concat -- easier to read this way
     expect(wrapper).toHaveText('uri: did_example' + 'did_document: doc')
-    wrapper.unmount()
   })
 })

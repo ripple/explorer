@@ -10,6 +10,5 @@ describe('TicketCreate: TableDetail', () => {
   it('renders', () => {
     renderComponent(TicketCreate)
     expect(wrapper).toHaveText('ticket_count: 1')
-    wrapper.unmount()
   })
 })

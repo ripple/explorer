@@ -22,7 +22,6 @@ describe('PaymentChannelCreate: TableDetail', () => {
     expect(wrapper.find('[data-testid="amount"]')).toHaveText(
       'channel amount\uE9001.00 XRP',
     )
-    wrapper.unmount()
   })
 
   it('renders failed tx', () => {
@@ -36,7 +35,6 @@ describe('PaymentChannelCreate: TableDetail', () => {
     expect(wrapper.find('[data-testid="amount"]')).toHaveText(
       'channel amount\uE90010.00 XRP',
     )
-    wrapper.unmount()
   })
 
   it('renders tx with destination tag', () => {
@@ -50,6 +48,5 @@ describe('PaymentChannelCreate: TableDetail', () => {
     expect(wrapper.find('[data-testid="amount"]')).toHaveText(
       'channel amount\uE900100.00 XRP',
     )
-    wrapper.unmount()
   })
 })

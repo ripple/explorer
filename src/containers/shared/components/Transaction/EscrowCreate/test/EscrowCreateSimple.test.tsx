@@ -1,6 +1,7 @@
 import { Simple } from '../Simple'
 import mockEscrowCreate from './mock_data/EscrowCreate.json'
 import { createSimpleRenderFactory } from '../../test/createRenderFactory'
+import { cleanup, screen } from '@testing-library/react'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
@@ -16,6 +17,5 @@ describe('EscrowCreateSimple', () => {
     expect(wrapper.find('[data-testid="escrow-condition"] .value')).toHaveText(
       `A0258020886F982742772F414243855DC13B348FC78FB3D5119412C8A6480114E36A4451810120`,
     )
-    wrapper.unmount()
   })
 })

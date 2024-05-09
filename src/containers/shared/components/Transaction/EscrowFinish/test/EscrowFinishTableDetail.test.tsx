@@ -17,6 +17,5 @@ describe('EscrowFinishTableDetail', () => {
     expect(wrapper.find('[data-testid="escrow-fullfillment"]')).toHaveText(
       `fulfillment Fulfillment `,
     )
-    wrapper.unmount()
   })
 })

@@ -12,12 +12,10 @@ describe('SignerListSet: TableDetail', () => {
   it('renders', () => {
     renderComponent(mockSignerListSet)
     expect(wrapper).toHaveText('signers: 3 - quorum: 3/4')
-    wrapper.unmount()
   })
 
   it('renders when signer list is cleared', () => {
     renderComponent(mockSignerListSetClear)
     expect(wrapper).toHaveText('unset_signer_list')
-    wrapper.unmount()
   })
 })

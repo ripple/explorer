@@ -10,6 +10,5 @@ describe('TicketCreate: Simple', () => {
   it('renders ticket count', () => {
     renderComponent(TicketCreate)
     expectSimpleRowText(wrapper, 'ticket-count', '1')
-    wrapper.unmount()
   })
 })

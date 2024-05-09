@@ -26,7 +26,6 @@ describe('PaymentChannelCreate: Description', () => {
       `The channel has a settlement delay of 3,600 seconds`,
     )
     expect(wrapper.find('[data-testid="cancel-line"]')).not.toExist()
-    wrapper.unmount()
   })
 
   it('renders failed tx', () => {
@@ -42,7 +41,6 @@ describe('PaymentChannelCreate: Description', () => {
       `The channel has a settlement delay of 3,600 seconds`,
     )
     expect(wrapper.find('[data-testid="cancel-line"]')).not.toExist()
-    wrapper.unmount()
   })
 
   it('renders tx with destination tag', () => {
@@ -60,6 +58,5 @@ describe('PaymentChannelCreate: Description', () => {
       `The channel has a settlement delay of 86,400 seconds`,
     )
     expect(wrapper.find('[data-testid="cancel-line"]')).not.toExist()
-    wrapper.unmount()
   })
 })
