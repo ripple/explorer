@@ -11,6 +11,7 @@ import transactionByIssuer from './mock_data/NFTokenBurnByIssuer.json'
 const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('NFTokenBurn', () => {
+  afterEach(cleanup)
   it('handles NFTokenBurn simple view ', () => {
     renderComponent(transaction)
     expectSimpleRowText(

@@ -8,7 +8,7 @@ const renderComponent = createTableDetailRenderFactory(TableDetail)
 describe('TicketCreate: TableDetail', () => {
   afterEach(cleanup)
   it('renders', () => {
-    renderComponent(TicketCreate)
-    expect(screen).toHaveText('ticket_count: 1')
+    const { container } = renderComponent(TicketCreate)
+    expect(container).toHaveTextContent('ticket_count: 1')
   })
 })

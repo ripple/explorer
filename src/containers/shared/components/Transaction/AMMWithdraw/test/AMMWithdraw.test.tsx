@@ -10,8 +10,10 @@ import withdrawUSDMock from './mock_data/withdraw_usd.json'
 import withdrawXRPMock from './mock_data/withdraw_xrp.json'
 import withdrawEpriceMock from './mock_data/withdraw_eprice.json'
 
+const renderComponent = createSimpleRenderFactory(Simple)
+
 describe('AMM Withdraw Tests', () => {
-  const renderComponent = createSimpleRenderFactory(Simple)
+  afterEach(cleanup)
 
   it('renders from transaction', () => {
     renderComponent(withdrawMock)

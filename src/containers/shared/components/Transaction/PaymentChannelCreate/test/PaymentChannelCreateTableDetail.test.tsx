@@ -13,34 +13,34 @@ describe('PaymentChannelCreate: TableDetail', () => {
   afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockPaymentChannelCreate)
-    expect(screen.find('[data-testid="source"]')).toHaveText(
+    expect(screen.getByTestId('source')).toHaveTextContent(
       'sourcerJnQrhRTXutuSwtrwxYiTkHn4Dtp8sF2LM:2460331042',
     )
-    expect(screen.find('[data-testid="destination"]')).toHaveText(
+    expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrUXYat4hW2M87gHoqKK7fC4cqrT9C6V7d7',
     )
-    expect(screen.find('[data-testid="amount"]')).toHaveText('\uE9001.00 XRP')
+    expect(screen.getByTestId('amount')).toHaveTextContent('\uE9001.00 XRP')
   })
 
   it('renders failed tx', () => {
     renderComponent(mockPaymentChannelCreateFailed)
-    expect(screen.find('[data-testid="source"]')).toHaveText(
+    expect(screen.getByTestId('source')).toHaveTextContent(
       'sourcerMphibGfHpLDU4DzVCspzLYVuMNpmzN6n8:2810223114',
     )
-    expect(screen.find('[data-testid="destination"]')).toHaveText(
+    expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(screen.find('[data-testid="amount"]')).toHaveText('\uE90010.00 XRP')
+    expect(screen.getByTestId('amount')).toHaveTextContent('\uE90010.00 XRP')
   })
 
   it('renders tx with destination tag', () => {
     renderComponent(mockPaymentChannelCreateWithDestinationTag)
-    expect(screen.find('[data-testid="source"]')).toHaveText(
+    expect(screen.getByTestId('source')).toHaveTextContent(
       'sourcerN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
     )
-    expect(screen.find('[data-testid="destination"]')).toHaveText(
+    expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn:20170428',
     )
-    expect(screen.find('[data-testid="amount"]')).toHaveText('\uE900100.00 XRP')
+    expect(screen.getByTestId('amount')).toHaveTextContent('\uE900100.00 XRP')
   })
 })

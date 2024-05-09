@@ -9,7 +9,8 @@ import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
-describe('NFTokenAcceptOffer', () => {
+describe('NFTokenAcceptOffer - Simple', () => {
+  afterEach(cleanup)
   it('handles NFTokenAcceptOffer Buy simple view ', () => {
     renderComponent(transactionBuy)
 
@@ -66,7 +67,7 @@ describe('NFTokenAcceptOffer', () => {
       'token-id',
       '00081B581189F5687DBB7516339D6CCB5593D96622AD82DF08CFDA8600000A17',
     )
-    expect(screen.find('[data-testid="offer-id"] .value').length).toBe(2)
+    expect(screen.getAllByTestId('offer-id').length).toBe(2)
     expectSimpleRowText(screen, 'amount', '\uE9002,500.00 XRP')
     expectSimpleRowText(screen, 'buyer', 'rNYKGnHrjSnKXQGgACciyCLg4xRcwWZixN')
     expectSimpleRowText(screen, 'seller', 'rnp9DA6H2tLH7YFkgpjoVREB2yccYv56Sg')

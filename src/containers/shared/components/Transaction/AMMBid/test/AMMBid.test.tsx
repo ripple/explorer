@@ -3,8 +3,10 @@ import { Simple } from '../Simple'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import bidMock from './mock_data/amm_bid.json'
 
+const renderComponent = createSimpleRenderFactory(Simple)
+
 describe('AMM Bid Tests', () => {
-  const renderComponent = createSimpleRenderFactory(Simple)
+  afterEach(cleanup)
 
   it('renders from transaction', () => {
     renderComponent(bidMock)

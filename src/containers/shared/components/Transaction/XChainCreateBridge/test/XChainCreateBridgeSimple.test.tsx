@@ -8,6 +8,7 @@ import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('XChainCreateBridgeSimple', () => {
+  afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockXChainCreateBridge)
 
@@ -17,19 +18,19 @@ describe('XChainCreateBridgeSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).toExist()
+    expect(screen.getByTestId('issuing-chain-door')).toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
     expect(
-      screen.find(`[data-testid="min-create-account-amount"]`),
+      screen.getByTestId('min-create-account-amount"]`),
     ).not.toExist()
   })
 
@@ -42,7 +43,7 @@ describe('XChainCreateBridgeSimple', () => {
       'locking-chain-door',
       'ratAutb3katzezbXX3LsX4sk4vmvhNucac',
     )
-    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(
       screen,
       'locking-chain-issue',
@@ -53,7 +54,7 @@ describe('XChainCreateBridgeSimple', () => {
       'issuing-chain-door',
       'rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq',
     )
-    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).toExist()
+    expect(screen.getByTestId('issuing-chain-door')).toHaveAttribute('href')
     expectSimpleRowText(
       screen,
       'issuing-chain-issue',
@@ -73,14 +74,14 @@ describe('XChainCreateBridgeSimple', () => {
       'locking-chain-door',
       'rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd',
     )
-    expect(screen.find(`[data-testid="locking-chain-door"] a`)).toExist()
+    expect(screen.getByTestId('locking-chain-door')).toHaveAttribute('href')
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')

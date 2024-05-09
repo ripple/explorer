@@ -7,6 +7,7 @@ import mockXChainCreateClaimIDFailed from './mock_data/XChainCreateClaimIDFailed
 const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('XChainCreateClaimIDSimple', () => {
+  afterEach(cleanup)
   it('renders', () => {
     renderComponent(mockXChainCreateClaimID)
 
@@ -16,14 +17,14 @@ describe('XChainCreateClaimIDSimple', () => {
       'locking-chain-door',
       'rNe5NbD1hqCSZPz9KM5PHm5Bf8jjHfezPE',
     )
-    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).toExist()
+    expect(screen.getByTestId('issuing-chain-door')).toHaveAttribute('href')
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
@@ -44,14 +45,14 @@ describe('XChainCreateClaimIDSimple', () => {
       'locking-chain-door',
       'r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W',
     )
-    expect(screen.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(screen, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       screen,
       'issuing-chain-door',
       'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
     )
-    expect(screen.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
+    expect(screen.getByTestId('issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(screen, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(screen, 'signature-reward', '\uE9000.0001 XRP')
@@ -60,6 +61,6 @@ describe('XChainCreateClaimIDSimple', () => {
       'other-chain-source',
       'r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W',
     )
-    expect(screen.find(`[data-testid="claim-id"]`)).not.toExist()
+    expect(screen.getByTestId('claim-id"]`)).not.toExist()
   })
 })
