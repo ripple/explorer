@@ -53,7 +53,10 @@ export const TransactionTable: TransactionTableComponent = ({
           <div className="col col-date">{t('transactions.date_header')}</div>
         </li>
         {!transactions || (!loading && transactions.length === 0) ? (
-          <div className="empty-transactions-message">
+          <div
+            className="empty-transactions-message"
+            title="empty-transactions-message"
+          >
             {emptyMessage || t('no_transactions_message')}
           </div>
         ) : (
