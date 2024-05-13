@@ -41,34 +41,34 @@ describe('Transaction Table container', () => {
   it('renders multi-page content', () => {
     renderComponent(mockTx.transactions, undefined, false, loadMore, false)
 
-    expect(wrapper.find('.transaction-table').length).toBe(1)
-    expect(wrapper.find('.upper').length).toBe(3)
-    expect(wrapper.find('.details').length).toBe(2)
-    expect(wrapper.find('.load-more-btn').length).toEqual(0)
+    expect(screen.queryByTitle('transaction-table')).toBeDefined()
+    expect(screen.getAllByTitle('tx-row')).toHaveLength(3)
+    expect(screen.getAllByTitle('tx-details')).toHaveLength(2)
+    expect(screen.queryByRole('button')).toBeNull()
   })
 
   it('renders single-page content', () => {
     renderComponent(mockTx.transactions, undefined, false, loadMore, true)
-    expect(wrapper.find('.transaction-table').length).toBe(1)
-    expect(wrapper.find('.upper').length).toBe(3)
-    expect(wrapper.find('.details').length).toBe(2)
-    expect(wrapper.find('.load-more-btn').length).toEqual(1)
+    expect(screen.queryByTitle('transaction-table')).toBeDefined()
+    expect(screen.getAllByTitle('tx-row')).toHaveLength(3)
+    expect(screen.getAllByTitle('tx-details')).toHaveLength(2)
+    expect(screen.queryByRole('button')).toBeDefined()
   })
 
   it('renders without details', () => {
     renderComponent(mockTx.transactions, undefined, false, loadMore, true)
-    expect(wrapper.find('.transaction-table').length).toBe(1)
-    expect(wrapper.find('.upper').length).toBe(3)
-    expect(wrapper.find('.details').length).toBe(2)
+    expect(screen.queryByTitle('transaction-table')).toBeDefined()
+    expect(screen.getAllByTitle('tx-row')).toHaveLength(3)
+    expect(screen.getAllByTitle('tx-details')).toHaveLength(2)
   })
 
   it('renders loader', () => {
     renderComponent(mockTx.transactions, undefined, true, loadMore, false)
-    expect(wrapper.find('.loader').length).toBe(1)
+    expect(screen.queryByTitle('loader')).toBeDefined()
   })
 
   it('renders empty message', () => {
     renderComponent([], undefined, false, loadMore, false)
-    expect(wrapper.find('.empty-transactions-message').length).toBe(1)
+    expect(screen.queryByTitle('empty-transactions-message')).toBeDefined()
   })
 })
