@@ -54,11 +54,11 @@ export const AMMAccountHeader = (props: { data: AmmDataType }) => {
   }
 
   return (
-    <div className="box account-header">
+    <div className="box account-header" data-testid="amm-header">
       <div className="section box-header">
         <div className="title">
           Account ID
-          <div className="currency-pair">
+          <div className="currency-pair" data-testid="currency-pair">
             <Currency
               currency={balance.currency}
               issuer={balance.issuer}
