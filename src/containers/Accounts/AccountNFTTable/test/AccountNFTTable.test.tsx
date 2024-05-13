@@ -1,11 +1,10 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { getAccountNFTs } from '../../../../rippled/lib/rippled'
 import { AccountNFTTable } from '../AccountNFTTable'
 import i18n from '../../../../i18n/testConfig'
-import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { testQueryClient } from '../../../test/QueryClient'
 import { flushPromises } from '../../../test/utils'
 import Mock = jest.Mock
@@ -36,8 +35,8 @@ const data = {
 describe('AccountNFTTable component', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 
-  const createWrapper = () =>
-    mount(
+  const renderComponent = () =>
+    render(
       <QueryClientProvider client={testQueryClient}>
         <BrowserRouter>
           <I18nextProvider i18n={i18n}>
@@ -49,6 +48,7 @@ describe('AccountNFTTable component', () => {
 
   afterEach(() => {
     mockedGetAccountNFTs.mockReset()
+    cleanup()
   })
 
   it('should render a table of nfts', async () => {
@@ -56,13 +56,11 @@ describe('AccountNFTTable component', () => {
 
     mockedGetAccountNFTs.mockImplementation(() => Promise.resolve(data))
 
-    const wrapper = createWrapper()
+    renderComponent()
     await flushPromises()
-    wrapper.update()
 
-    expect(wrapper.find('tbody tr td').length).toEqual(3)
-    expect(wrapper.find('.load-more-btn')).not.toExist()
-    wrapper.unmount()
+    expect(screen.getAllByRole('cell').length).toEqual(3)
+    expect(screen.queryByRole('button')).toBeDefined()
   })
 
   it('should handle load more', async () => {
@@ -75,20 +73,18 @@ describe('AccountNFTTable component', () => {
       }),
     )
 
-    const wrapper = createWrapper()
+    renderComponent()
     await flushPromises()
-    wrapper.update()
 
-    const columns = wrapper.find('tbody tr td')
-    expect(columns.at(0).text()).toEqual(
+    const columns = screen.getAllByRole('cell')
+    expect(columns[0]).toHaveTextContent(
       `00000000AF460F0D7BC0F05B626E19498DF690E00C97080B0000099B00000000`,
     )
-    expect(columns.at(1).text()).toEqual(`rGymBL8Huct6euA8jtEcLagYXpRgQKh6EC`)
-    expect(columns.at(2).text()).toEqual(`0`)
-    expect(wrapper.find('.load-more-btn')).toExist()
-    wrapper.find('.load-more-btn').simulate('click')
+    expect(columns[1]).toHaveTextContent(`rGymBL8Huct6euA8jtEcLagYXpRgQKh6EC`)
+    expect(columns[2]).toHaveTextContent(`0`)
+    expect(screen.getByRole('button')).toBeDefined()
+    fireEvent.click(screen.getByRole('button'))
     expect(mockedGetAccountNFTs.mock.calls[1][2]).toEqual('hello')
-    wrapper.unmount()
   })
 
   it(`should handle no results`, async () => {
@@ -104,11 +100,9 @@ describe('AccountNFTTable component', () => {
       }),
     )
 
-    const wrapper = createWrapper()
+    renderComponent()
     await flushPromises()
-    wrapper.update()
 
-    expect(wrapper.find(EmptyMessageTableRow)).toExist()
-    wrapper.unmount()
+    expect(screen.queryByTestId('empty-message')).toBeDefined()
   })
 })
