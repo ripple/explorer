@@ -3,7 +3,6 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import Token from '../index'
 import TokenHeader from '../TokenHeader'
@@ -18,7 +17,7 @@ describe('Token container', () => {
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
   const createWrapper = (state = {}) => {
-    const store = mockStore({ ...initialState, ...state })
+    const store = mockStore({ ...state })
     return mount(
       <Provider store={store}>
         <QuickHarness

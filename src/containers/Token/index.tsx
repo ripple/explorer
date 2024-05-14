@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
 
 import { Helmet } from 'react-helmet-async'
 import TokenHeader from './TokenHeader'
@@ -92,6 +91,4 @@ const Token: FC<{ error: string }> = ({ error }) => {
   )
 }
 
-export default connect((state: any) => ({
-  error: state.tokenHeader.status,
-}))(Token)
+export default Token
