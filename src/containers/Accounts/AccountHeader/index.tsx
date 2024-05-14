@@ -1,18 +1,19 @@
 import { useContext, useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { loadAccountState } from './actions'
+import { useQuery } from 'react-query'
+import { isValidClassicAddress, isValidXAddress } from 'ripple-address-codec'
 import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import { BalanceSelector } from './BalanceSelector/BalanceSelector'
 import { Account } from '../../shared/components/Account'
-import { localizeNumber } from '../../shared/utils'
+import { BAD_REQUEST, localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import InfoIcon from '../../shared/images/info.svg'
 import { useLanguage } from '../../shared/hooks'
 import Currency from '../../shared/components/Currency'
 import DomainLink from '../../shared/components/DomainLink'
+import { getAccountState } from '../../../rippled'
+import { useAnalytics } from '../../shared/analytics'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -24,70 +25,81 @@ const CURRENCY_OPTIONS = {
 interface AccountHeaderProps {
   onSetCurrencySelected: (currency: string) => void
   currencySelected: string
-  loading: boolean
   accountId: string
-  data: {
-    balances: {
-      XRP: number
-    }
-    paychannels: {
-      // eslint-disable-next-line camelcase
-      total_available: string
-      channels: any[]
-    }
-    escrows: {
-      totalIn: number
-      totalOut: number
-    }
-    signerList: {
-      signers: {
-        account: string
-        weight: number
-      }[]
-      quorum: number
-      maxSigners: number
-    }
-    info: {
-      reserve: number
-      sequence: number
-      ticketCount: number
-      domain: string
-      emailHash: string
-      flags: string[]
-      nftMinter: string
-    }
-    xAddress: {
-      classicAddress: string
-      tag: number | boolean
-      test: boolean
-    }
-    deleted: boolean
-    hasBridge: boolean
-  }
-  actions: {
-    loadAccountState: typeof loadAccountState
-  }
 }
 
-const AccountHeader = (props: AccountHeaderProps) => {
+interface AccountState {
+  balances: {
+    XRP: number
+  }
+  paychannels: {
+    // eslint-disable-next-line camelcase
+    total_available: number
+    channels: any[]
+  }
+  escrows: {
+    totalIn: number
+    totalOut: number
+  }
+  signerList: {
+    signers: {
+      account: string
+      weight: number
+    }[]
+    quorum: number
+    maxSigners: number
+  }
+  info: {
+    reserve: number
+    sequence: number
+    ticketCount: number
+    domain: string
+    emailHash: string
+    flags: string[]
+    nftMinter: string
+  }
+  xAddress: {
+    classicAddress: string
+    tag: number | boolean
+    test: boolean
+  }
+  deleted: boolean
+  hasBridge: boolean
+}
+
+export const AccountHeader = ({
+  accountId,
+  onSetCurrencySelected,
+  currencySelected,
+}: AccountHeaderProps) => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
+  const { trackException, trackScreenLoaded } = useAnalytics()
 
   const {
-    accountId,
-    actions,
-    data,
-    onSetCurrencySelected,
-    currencySelected,
-    loading,
-  } = props
-  const { deleted } = data
-  useEffect(() => {
-    actions.loadAccountState(accountId, rippledSocket)
-  }, [accountId, actions, rippledSocket])
+    data: accountState,
+    error,
+    isLoading,
+  } = useQuery<AccountState>(['accountState', accountId], async () => {
+    if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
+      return Promise.reject(BAD_REQUEST)
+    }
 
-  function renderBalancesSelector() {
+    return getAccountState(accountId, rippledSocket).catch(
+      (transactionRequestError) => {
+        const status = transactionRequestError.code
+        trackException(`ledger ${accountId} --- ${JSON.stringify(error)}`)
+        return Promise.reject(status)
+      },
+    )
+  })
+
+  useEffect(() => {
+    trackScreenLoaded()
+  }, [trackScreenLoaded])
+
+  function renderBalancesSelector(data: AccountState) {
     const { balances = {} } = data
     return (
       Object.keys(balances).length > 1 && (
@@ -102,7 +114,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
     )
   }
 
-  function renderPaymentChannels() {
+  function renderPaymentChannels(data: AccountState) {
     const { paychannels } = data
     return (
       paychannels && (
@@ -127,7 +139,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
     )
   }
 
-  function renderEscrows() {
+  function renderEscrows(data: AccountState) {
     const { escrows } = data
     return (
       escrows && (
@@ -152,7 +164,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
     )
   }
 
-  function renderSignerList() {
+  function renderSignerList(data: AccountState) {
     const { signerList } = data
     return (
       signerList && (
@@ -183,7 +195,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
   }
   // TODO: show X-address on 'classic' account pages
 
-  function renderExtendedAddress() {
+  function renderExtendedAddress(data: AccountState) {
     const { xAddress } = data // undefined when page has not yet finished loading
 
     let messageAboutTag: JSX.Element | string = ''
@@ -238,7 +250,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
     )
   }
 
-  function renderInfo() {
+  function renderInfo(data: AccountState) {
     const { info } = data
     return (
       info && (
@@ -298,8 +310,8 @@ const AccountHeader = (props: AccountHeaderProps) => {
     )
   }
 
-  function renderHeaderContent() {
-    const { balances = {} } = data
+  function renderHeaderContent(data: AccountState) {
+    const { balances = {}, deleted } = data
     const balance = localizeNumber(
       balances[currencySelected] || 0.0,
       language,
@@ -313,7 +325,7 @@ const AccountHeader = (props: AccountHeaderProps) => {
     return (
       <div className="section header-container">
         <div className="column first">
-          {renderExtendedAddress()}
+          {renderExtendedAddress(data)}
           <div className="secondary balance">
             {deleted ? (
               <div className="warning">
@@ -333,22 +345,23 @@ const AccountHeader = (props: AccountHeaderProps) => {
                 <div className="value">{balance}</div>
               </>
             )}
-            {renderBalancesSelector()}
+            {renderBalancesSelector(data)}
           </div>
         </div>
         <div className="column second">
-          {renderInfo()}
-          {renderEscrows()}
-          {renderPaymentChannels()}
+          {renderInfo(data)}
+          {renderEscrows(data)}
+          {renderPaymentChannels(data)}
         </div>
         <div className="lower-header">
-          <div className="column first">{renderSignerList()}</div>
+          <div className="column first">{renderSignerList(data)}</div>
         </div>
       </div>
     )
   }
 
-  const { xAddress, hasBridge } = data
+  const xAddress = accountState?.xAddress ?? false
+  const hasBridge = accountState?.hasBridge ?? false
   return (
     <div className="box account-header">
       <div className="section box-header">
@@ -359,23 +372,9 @@ const AccountHeader = (props: AccountHeaderProps) => {
         <h1 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h1>
       </div>
       <div className="box-content">
-        {loading ? <Loader /> : renderHeaderContent()}
+        {isLoading ?? <Loader />}
+        {accountState != null && renderHeaderContent(accountState)}
       </div>
     </div>
   )
 }
-
-export default connect(
-  (state: any) => ({
-    loading: state.accountHeader.loading,
-    data: state.accountHeader.data,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadAccountState,
-      },
-      dispatch,
-    ),
-  }),
-)(AccountHeader)

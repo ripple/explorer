@@ -39,7 +39,7 @@ describe('Token container', () => {
   it('renders static parts', () => {
     const state = {
       ...initialState,
-      accountHeader: {
+      tokenHeader: {
         loading: false,
         error: null,
         data: mockAccountState,

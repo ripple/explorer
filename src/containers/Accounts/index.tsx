@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import AccountHeader from './AccountHeader'
+import { AccountHeader } from './AccountHeader'
 import { AccountTransactionTable } from './AccountTransactionTable'
 import './styles.scss'
 import { useAnalytics } from '../shared/analytics'

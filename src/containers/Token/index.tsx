@@ -93,5 +93,5 @@ const Token: FC<{ error: string }> = ({ error }) => {
 }
 
 export default connect((state: any) => ({
-  error: state.accountHeader.status,
+  error: state.tokenHeader.status,
 }))(Token)
