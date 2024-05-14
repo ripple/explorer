@@ -19,6 +19,7 @@ import { LEDGER_ROUTE, TRANSACTION_ROUTE } from '../../App/routes'
 import { RouteLink } from '../../shared/routing'
 import { getToken } from '../../../rippled'
 import { useAnalytics } from '../../shared/analytics'
+import { TokenData } from '../../../rippled/token'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -30,19 +31,6 @@ const CURRENCY_OPTIONS = {
 interface TokenHeaderProps {
   accountId: string
   currency: string
-}
-
-interface TokenData {
-  balance: string
-  reserve: number
-  sequence: number
-  rate: number
-  obligations: string
-  domain?: string
-  emailHash?: string
-  previousLedger: number
-  previousTxn: string
-  flags: string[]
 }
 
 const TokenHeader = ({ accountId, currency }: TokenHeaderProps) => {
