@@ -14,6 +14,7 @@ import Currency from '../../shared/components/Currency'
 import DomainLink from '../../shared/components/DomainLink'
 import { getAccountState } from '../../../rippled'
 import { useAnalytics } from '../../shared/analytics'
+import { AccountState } from '../../../rippled/accountState'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -26,45 +27,6 @@ interface AccountHeaderProps {
   onSetCurrencySelected: (currency: string) => void
   currencySelected: string
   accountId: string
-}
-
-interface AccountState {
-  balances: {
-    XRP: number
-  }
-  paychannels: {
-    // eslint-disable-next-line camelcase
-    total_available: number
-    channels: any[]
-  }
-  escrows: {
-    totalIn: number
-    totalOut: number
-  }
-  signerList: {
-    signers: {
-      account: string
-      weight: number
-    }[]
-    quorum: number
-    maxSigners: number
-  }
-  info: {
-    reserve: number
-    sequence: number
-    ticketCount: number
-    domain: string
-    emailHash: string
-    flags: string[]
-    nftMinter: string
-  }
-  xAddress: {
-    classicAddress: string
-    tag: number | boolean
-    test: boolean
-  }
-  deleted: boolean
-  hasBridge: boolean
 }
 
 export const AccountHeader = ({
@@ -81,7 +43,7 @@ export const AccountHeader = ({
     data: accountState,
     error,
     isLoading,
-  } = useQuery<AccountState>(['accountState', accountId], async () => {
+  } = useQuery(['accountState', accountId], () => {
     if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
       return Promise.reject(BAD_REQUEST)
     }
@@ -362,6 +324,7 @@ export const AccountHeader = ({
 
   const xAddress = accountState?.xAddress ?? false
   const hasBridge = accountState?.hasBridge ?? false
+
   return (
     <div className="box account-header">
       <div className="section box-header">
@@ -372,7 +335,7 @@ export const AccountHeader = ({
         <h1 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h1>
       </div>
       <div className="box-content">
-        {isLoading ?? <Loader />}
+        {isLoading && <Loader />}
         {accountState != null && renderHeaderContent(accountState)}
       </div>
     </div>
