@@ -1,11 +1,14 @@
 import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { loadTokenState } from './actions'
+import { useQuery } from 'react-query'
+import { isValidClassicAddress, isValidXAddress } from 'ripple-address-codec'
 import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
-import { localizeNumber, formatLargeNumber } from '../../shared/utils'
+import {
+  localizeNumber,
+  formatLargeNumber,
+  BAD_REQUEST,
+} from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
 import { Account } from '../../shared/components/Account'
@@ -14,6 +17,8 @@ import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { useLanguage } from '../../shared/hooks'
 import { LEDGER_ROUTE, TRANSACTION_ROUTE } from '../../App/routes'
 import { RouteLink } from '../../shared/routing'
+import { getToken } from '../../../rippled'
+import { useAnalytics } from '../../shared/analytics'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -23,42 +28,55 @@ const CURRENCY_OPTIONS = {
 }
 
 interface TokenHeaderProps {
-  loading: boolean
   accountId: string
   currency: string
-  data: {
-    balance: string
-    reserve: number
-    sequence: number
-    rate: number
-    obligations: string
-    domain: string
-    emailHash: string
-    previousLedger: number
-    previousTxn: string
-    flags: string[]
-  }
-  actions: {
-    loadTokenState: typeof loadTokenState
-  }
 }
 
-const TokenHeader = ({
-  actions,
-  accountId,
-  currency,
-  data,
-  loading,
-}: TokenHeaderProps) => {
+interface TokenData {
+  balance: string
+  reserve: number
+  sequence: number
+  rate: number
+  obligations: string
+  domain?: string
+  emailHash?: string
+  previousLedger: number
+  previousTxn: string
+  flags: string[]
+}
+
+const TokenHeader = ({ accountId, currency }: TokenHeaderProps) => {
   const language = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
+  const { trackException, trackScreenLoaded } = useAnalytics()
+
+  const { data: tokenData, isLoading } = useQuery(
+    ['token', accountId, currency],
+    () => {
+      if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
+        return Promise.reject(BAD_REQUEST)
+      }
+
+      return getToken(currency, accountId, rippledSocket).catch(
+        (rippledError) => {
+          const status = rippledError.code
+          trackException(
+            `token ${currency}.${accountId} --- ${JSON.stringify(
+              rippledError,
+            )}`,
+          )
+          return Promise.reject(status)
+        },
+      )
+    },
+  )
 
   useEffect(() => {
-    actions.loadTokenState(currency, accountId, rippledSocket)
-  }, [accountId, actions, currency, rippledSocket])
+    trackScreenLoaded()
+  }, [trackScreenLoaded])
 
-  const renderDetails = () => {
+  const renderDetails = (data: TokenData) => {
     const { domain, rate, emailHash, previousLedger, previousTxn } = data
 
     const prevTxn = previousTxn && previousTxn.replace(/(.{20})..+/, '$1...')
@@ -107,7 +125,7 @@ const TokenHeader = ({
     )
   }
 
-  const renderSettings = () => {
+  const renderSettings = (data: TokenData) => {
     const { flags } = data
 
     const rippling =
@@ -141,7 +159,7 @@ const TokenHeader = ({
     )
   }
 
-  const renderHeaderContent = () => {
+  const renderHeaderContent = (data: TokenData) => {
     const { balance, sequence, obligations, reserve } = data
     const currencyBalance = localizeNumber(
       parseInt(balance, 10) / 1000000 || 0.0,
@@ -187,18 +205,18 @@ const TokenHeader = ({
         <div className="bottom-container">
           <div className="details">
             <h2>{t('details')}</h2>
-            {renderDetails()}
+            {renderDetails(data)}
           </div>
           <div className="settings">
             <h2 className="title">{t('settings')}</h2>
-            {renderSettings()}
+            {renderSettings(data)}
           </div>
         </div>
       </div>
     )
   }
 
-  const { emailHash } = data
+  const emailHash = tokenData?.emailHash
   return (
     <div className="box token-header">
       <div className="section box-header">
@@ -211,23 +229,11 @@ const TokenHeader = ({
         )}
       </div>
       <div className="box-content">
-        {loading ? <Loader /> : renderHeaderContent()}
+        {isLoading && <Loader />}
+        {tokenData != null && renderHeaderContent(tokenData)}
       </div>
     </div>
   )
 }
 
-export default connect(
-  (state: any) => ({
-    loading: state.tokenHeader.loading,
-    data: state.tokenHeader.data,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadTokenState,
-      },
-      dispatch,
-    ),
-  }),
-)(TokenHeader)
+export default TokenHeader

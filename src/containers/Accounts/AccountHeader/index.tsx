@@ -39,23 +39,26 @@ export const AccountHeader = ({
   const language = useLanguage()
   const { trackException, trackScreenLoaded } = useAnalytics()
 
-  const {
-    data: accountState,
-    error,
-    isLoading,
-  } = useQuery(['accountState', accountId], () => {
-    if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
-      return Promise.reject(BAD_REQUEST)
-    }
+  const { data: accountState, isLoading } = useQuery(
+    ['accountState', accountId],
+    () => {
+      if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
+        return Promise.reject(BAD_REQUEST)
+      }
 
-    return getAccountState(accountId, rippledSocket).catch(
-      (transactionRequestError) => {
-        const status = transactionRequestError.code
-        trackException(`ledger ${accountId} --- ${JSON.stringify(error)}`)
-        return Promise.reject(status)
-      },
-    )
-  })
+      return getAccountState(accountId, rippledSocket).catch(
+        (transactionRequestError) => {
+          const status = transactionRequestError.code
+          trackException(
+            `ledger ${accountId} --- ${JSON.stringify(
+              transactionRequestError,
+            )}`,
+          )
+          return Promise.reject(status)
+        },
+      )
+    },
+  )
 
   useEffect(() => {
     trackScreenLoaded()

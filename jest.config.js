@@ -27,7 +27,6 @@ module.exports = {
     '!src/i18n/*',
     '!src/setupTests.js',
     '!src/setupProxy.js',
-    '!src/rootReducer.js',
     '!src/registerServiceWorker.js',
     '!src/containers/shared/images/*',
     '!src/containers/test/*',
