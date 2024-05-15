@@ -41,17 +41,19 @@ const NoMatch = ({
 
   const notFound = title.includes('not_found')
   const hintMsg = hints.map((hint) => (
-    <div className="hint" key={hint}>
+    <div className="hint" key={hint} data-testid="hint">
       {t(hint as any, values)}
     </div>
   ))
   const derivedWarning = warning ?? (notFound && t('not_found'))
 
   return (
-    <div className="no-match">
+    <div className="no-match" title="no-match">
       <Helmet title={t(title as any)} />
       {isError && <div className="uh-oh">{t('uh_oh')}</div>}
-      <div className="title">{t(title as any, values)}</div>
+      <div className="title" data-testid="title">
+        {t(title as any, values)}
+      </div>
       {hintMsg}
       {(derivedWarning || isError) && (
         <div className="warning">
