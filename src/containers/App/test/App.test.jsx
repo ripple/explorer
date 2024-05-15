@@ -2,9 +2,6 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { MemoryRouter } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
-import configureMockStore from 'redux-mock-store'
-import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
 import { XrplClient } from 'xrpl-client'
 import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
@@ -69,7 +66,6 @@ const mockXrplClient = XrplClient
 const mockGetAccountInfo = getAccountInfo
 
 describe('App container', () => {
-  const mockStore = configureMockStore([thunk])
   const createWrapper = (
     path = '/',
     localNetworks = [],
@@ -88,15 +84,12 @@ describe('App container', () => {
       )
     }
 
-    const store = mockStore(initialState)
     return mount(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[path]}>
-          <I18nextProvider i18n={i18n}>
-            <AppWrapper />
-          </I18nextProvider>
-        </MemoryRouter>
-      </Provider>,
+      <MemoryRouter initialEntries={[path]}>
+        <I18nextProvider i18n={i18n}>
+          <AppWrapper />
+        </I18nextProvider>
+      </MemoryRouter>,
     )
   }
 
@@ -269,6 +262,12 @@ describe('App container', () => {
           event: 'screen_view',
           network: 'mainnet',
         },
+        {
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
+          event: 'screen_view',
+          network: 'mainnet',
+        },
       ])
     })
   })
@@ -305,6 +304,12 @@ describe('App container', () => {
           event: 'screen_view',
           network: 'mainnet',
         },
+        {
+          page_path: '/accounts/r35jYntLwkrbc3edisgavDbEdNRSKgcQE6#ssss',
+          page_title: `xrpl_explorer | r35jYntLwkrb...`,
+          event: 'screen_view',
+          network: 'mainnet',
+        },
       ])
       expect(mockGetAccountInfo).toBeCalledWith(
         expect.anything(),
@@ -319,6 +324,13 @@ describe('App container', () => {
     return new Promise((r) => setTimeout(r, 10)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | XVVFXHFdehYh...`)
       expect(window.dataLayer).toEqual([
+        {
+          page_path:
+            '/accounts/XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG#ssss',
+          page_title: `xrpl_explorer | XVVFXHFdehYh...`,
+          event: 'screen_view',
+          network: 'mainnet',
+        },
         {
           page_path:
             '/accounts/XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG#ssss',
@@ -380,6 +392,12 @@ describe('App container', () => {
     return new Promise((r) => setTimeout(r, 10)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
+          event: 'screen_view',
+          network: 'mainnet',
+        },
         {
           page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
           page_title: 'xrpl_explorer | rKV8HEL3vLc6...',

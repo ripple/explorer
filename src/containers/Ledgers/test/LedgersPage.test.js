@@ -1,9 +1,6 @@
 import { mount } from 'enzyme'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
 import i18n from '../../../i18n/testConfig'
 import { LedgersPage } from '../index'
 import SocketContext from '../../shared/SocketContext'
@@ -79,25 +76,18 @@ const WS_URL = 'ws://localhost:1234'
 describe('Ledgers Page container', () => {
   let server
   let client
-  const middlewares = [thunk]
-  const mockStore = configureMockStore(middlewares)
-  const createWrapper = (props = { network: 'main', path: '/' }) => {
-    const store = mockStore({ ...initialState })
-
-    return mount(
-      <Provider store={store}>
-        <SelectedValidatorProvider>
-          <SocketContext.Provider value={client}>
-            <NetworkContext.Provider value={props.network}>
-              <QuickHarness i18n={i18n} initialEntries={[props.path]}>
-                <LedgersPage />
-              </QuickHarness>
-            </NetworkContext.Provider>
-          </SocketContext.Provider>
-        </SelectedValidatorProvider>
-      </Provider>,
+  const createWrapper = (props = { network: 'main', path: '/' }) =>
+    mount(
+      <SelectedValidatorProvider>
+        <SocketContext.Provider value={client}>
+          <NetworkContext.Provider value={props.network}>
+            <QuickHarness i18n={i18n} initialEntries={[props.path]}>
+              <LedgersPage />
+            </QuickHarness>
+          </NetworkContext.Provider>
+        </SocketContext.Provider>
+      </SelectedValidatorProvider>,
     )
-  }
 
   const oldEnvs = process.env
 
