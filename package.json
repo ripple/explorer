@@ -9,6 +9,7 @@
     "@rollup/plugin-inject": "^5.0.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^12.1.5",
+    "@testing-library/user-event": "^14.5.2",
     "@vitejs/plugin-react": "^4.2.1",
     "@xrplf/isomorphic": "^1.0.0-beta.1",
     "@xrplf/prettier-config": "^1.9.1",
