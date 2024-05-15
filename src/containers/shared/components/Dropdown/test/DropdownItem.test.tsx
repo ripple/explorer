@@ -1,4 +1,5 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, render, screen } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
 import { DropdownItem } from '../DropdownItem'
 
 describe('DropdownItem', () => {
@@ -25,12 +26,12 @@ describe('DropdownItem', () => {
     })
 
     it('executes handler on click', () => {
-      fireEvent.click(item)
+      userEvent.click(item)
       expect(handler).toHaveBeenCalled()
     })
 
     it('executes handler on keyup', () => {
-      fireEvent.click(item)
+      userEvent.click(item)
       expect(handler).toHaveBeenCalled()
     })
   })

@@ -1,4 +1,5 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, render, screen } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
 import { Dropdown } from '../Dropdown'
 
 describe('Dropdown', () => {
@@ -49,9 +50,9 @@ describe('Dropdown', () => {
     render(<Dropdown title="Woo">Menu Contents</Dropdown>)
     expect(screen.getByTestId('dropdown')).not.toHaveClass('dropdown-expanded')
     const button = screen.getByRole('button')
-    fireEvent.click(button)
+    userEvent.click(button)
     expect(screen.getByTestId('dropdown')).toHaveClass('dropdown-expanded')
-    fireEvent.click(button)
+    userEvent.click(button)
     expect(screen.getByTestId('dropdown')).not.toHaveClass('dropdown-expanded')
   })
 
@@ -71,9 +72,9 @@ describe('Dropdown', () => {
 
     const child = screen.getAllByRole('button')[0]
     const outside = screen.getAllByRole('button')[1]
-    fireEvent.click(child)
+    userEvent.click(child)
     expect(screen.getByTestId('dropdown')).toHaveClass('dropdown-expanded')
-    fireEvent.click(outside)
+    userEvent.click(outside)
     expect(screen.getByTestId('dropdown')).not.toHaveClass('dropdown-expanded')
   })
 
@@ -85,7 +86,7 @@ describe('Dropdown', () => {
     expect(toggle).toHaveAttribute('tabIndex', '0')
     expect(menu).toHaveAttribute('role', 'menu')
     expect(menu).toHaveAttribute('tabIndex', '0')
-    fireEvent.click(toggle)
+    userEvent.click(toggle)
     expect(toggle).toHaveAttribute('aria-expanded', 'true')
     expect(menu).toHaveAttribute('aria-hidden', 'false')
   })
