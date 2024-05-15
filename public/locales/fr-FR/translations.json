@@ -171,6 +171,8 @@
   "transaction_type_name_NFTokenMint": "NFT forgé",
   "transaction_type_name_OfferCancel": "Offre annulée",
   "transaction_type_name_OfferCreate": "Offre créée",
+  "transaction_type_name_OracleDelete": null,
+  "transaction_type_name_OracleSet": null,
   "transaction_type_name_Payment": "Paiement effectué",
   "transaction_type_name_PaymentChannelClaim": "Canal de paiement  réclamé",
   "transaction_type_name_PaymentChannelCreate": "Canal de paiement créé",
@@ -519,5 +521,11 @@
   "note": null,
   "indicate_unl": null,
   "transaction_tokens_involved": null,
-  "transaction_tokens_swapped": null
+  "transaction_tokens_swapped": null,
+  "oracle_document_id": null,
+  "provider": null,
+  "last_update_time": null,
+  "asset_class": null,
+  "asset_price": null,
+  "trading_pair": null
 }

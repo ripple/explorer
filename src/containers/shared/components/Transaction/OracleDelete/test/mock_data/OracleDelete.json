@@ -1,0 +1,91 @@
+{
+  "tx": {
+    "Account": "rnuj2NkRxGbGpUK8u9hqEJA1zGRWyxHGvC",
+    "Fee": "10",
+    "Flags": 0,
+    "LastLedgerSequence": 670056,
+    "OracleDocumentID": 1,
+    "Sequence": 670033,
+    "SigningPubKey": "ED9376FE6E9063CB291C1031FC07A3B349D9FC45F2D71001B9CC7318F32C3A8F72",
+    "TransactionType": "OracleDelete",
+    "TxnSignature": "B1BD6A7AA9A0B3779D4EBE0652931D22792931B2F853C38E14BCFC2FD981FF3AFAA4921748B0321C8F0088180703425A8421606FCAFA028BF09F6E9A636DEC0D",
+    "ctid": "C00A395600000002",
+    "date": 768949530,
+    "inLedger": 670038,
+    "ledger_index": 670038
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rnuj2NkRxGbGpUK8u9hqEJA1zGRWyxHGvC",
+            "Balance": "99999970",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 670034
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "05CC65869680974EF73B8C16A8D59DE7CE9C6B3B012328B11FCC28232B552EA6",
+          "PreviousFields": {
+            "Balance": "99999980",
+            "OwnerCount": 1,
+            "Sequence": 670033
+          },
+          "PreviousTxnID": "F5729FD72193989887718F13A28F2F8A33C03FD8299DC0C00F9952B28C8DA7EA",
+          "PreviousTxnLgrSeq": 670036
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "AssetClass": "63757272656E6379",
+            "Flags": 0,
+            "LastUpdateTime": 1715634318,
+            "Owner": "rnuj2NkRxGbGpUK8u9hqEJA1zGRWyxHGvC",
+            "OwnerNode": "0",
+            "PreviousTxnID": "F5729FD72193989887718F13A28F2F8A33C03FD8299DC0C00F9952B28C8DA7EA",
+            "PreviousTxnLgrSeq": 670036,
+            "PriceDataSeries": [
+              {
+                "PriceData": {
+                  "AssetPrice": "67",
+                  "BaseAsset": "BTC",
+                  "QuoteAsset": "EUR",
+                  "Scale": 2
+                }
+              },
+              {
+                "PriceData": {
+                  "AssetPrice": "2e6",
+                  "BaseAsset": "XRP",
+                  "QuoteAsset": "USD",
+                  "Scale": 1
+                }
+              }
+            ],
+            "Provider": "70726F7669646572"
+          },
+          "LedgerEntryType": "Oracle",
+          "LedgerIndex": "2E0AC1D6AFC11AD78E48BE575761F75C0326F0547EE178CBB5D67F61691E13E7"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rnuj2NkRxGbGpUK8u9hqEJA1zGRWyxHGvC",
+            "RootIndex": "D745822C67049231E61684BF1F68DACFE522A3172FE4B635FE3966B218E90E2F"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "D745822C67049231E61684BF1F68DACFE522A3172FE4B635FE3966B218E90E2F"
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "DEBA9881129F2191619045FC07B294107342410BF4E447CEEB801BFC75CC2342",
+  "ledger_index": 670038,
+  "date": 768949530
+}
