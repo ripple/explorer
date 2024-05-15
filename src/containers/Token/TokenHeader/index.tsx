@@ -20,6 +20,7 @@ import { RouteLink } from '../../shared/routing'
 import { getToken } from '../../../rippled'
 import { useAnalytics } from '../../shared/analytics'
 import { TokenData } from '../../../rippled/token'
+import { XRP_BASE } from '../../shared/transactionUtils'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -150,7 +151,7 @@ const TokenHeader = ({ accountId, currency }: TokenHeaderProps) => {
   const renderHeaderContent = (data: TokenData) => {
     const { balance, sequence, obligations, reserve } = data
     const currencyBalance = localizeNumber(
-      parseInt(balance, 10) / 1000000 || 0.0,
+      parseInt(balance, 10) / XRP_BASE || 0.0,
       language,
       CURRENCY_OPTIONS,
     )

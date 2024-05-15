@@ -190,7 +190,7 @@ describe('AccountHeader Actions', () => {
     wrapper.unmount()
   })
 
-  it('should dispatch correct actions on successful loadAccountState for X-Address', async () => {
+  it('X-Address', async () => {
     mockedGetAccountState.mockImplementation(() =>
       Promise.resolve({
         account: TEST_ADDRESS,
@@ -236,7 +236,7 @@ describe('AccountHeader Actions', () => {
   })
 
   it('server error', async () => {
-    mockedGetAccountState.mockImplementation(() => {})
+    mockedGetAccountState.mockImplementation(() => Promise.reject())
 
     const wrapper = createWrapper()
     await flushPromises()
@@ -248,7 +248,7 @@ describe('AccountHeader Actions', () => {
     wrapper.unmount()
   })
 
-  it('should dispatch correct actions on invalid address', async () => {
+  it('invalid address', async () => {
     const wrapper = createWrapper('ZZZ')
     await flushPromises()
     wrapper.update()
