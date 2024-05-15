@@ -52,8 +52,6 @@ describe('AccountNFTTable component', () => {
   })
 
   it('should render a table of nfts', async () => {
-    mockedGetAccountNFTs.mockReset()
-
     mockedGetAccountNFTs.mockImplementation(() => Promise.resolve(data))
 
     const wrapper = createWrapper()
@@ -66,8 +64,6 @@ describe('AccountNFTTable component', () => {
   })
 
   it('should handle load more', async () => {
-    mockedGetAccountNFTs.mockReset()
-
     mockedGetAccountNFTs.mockImplementation(() =>
       Promise.resolve({
         ...data,
@@ -92,8 +88,6 @@ describe('AccountNFTTable component', () => {
   })
 
   it(`should handle no results`, async () => {
-    mockedGetAccountNFTs.mockReset()
-
     mockedGetAccountNFTs.mockImplementation(() =>
       Promise.resolve({
         account: 'rnuweigWrt8Jp1gBmKJT6VLxrVMSJSuu6G',

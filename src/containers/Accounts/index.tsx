@@ -44,7 +44,7 @@ export const Accounts = () => {
               hasTokensColumn={false}
             />
           )}
-          {tab === 'assets' && <AccountAssetTab />}
+          {tab === 'assets' && <AccountAssetTab account={accountId} />}
         </>
       )}
     </div>
