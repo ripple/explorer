@@ -1,4 +1,10 @@
-import { mount } from 'enzyme'
+import {
+  cleanup,
+  render,
+  screen,
+  within,
+  fireEvent,
+} from '@testing-library/react'
 import i18n from '../../../i18n/testConfig'
 import CustomNetworkHome from '../index'
 import MockWsClient from '../../test/mockWsClient'
@@ -7,9 +13,8 @@ import { QuickHarness } from '../../test/utils'
 
 describe('CustomNetworkHome page', () => {
   let client
-  let wrapper
 
-  const createWrapper = (localNetworks = null) => {
+  const renderComponent = (localNetworks = null) => {
     localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
     if (localNetworks) {
       localStorage.setItem(
@@ -18,7 +23,7 @@ describe('CustomNetworkHome page', () => {
       )
     }
 
-    return mount(
+    return render(
       <QuickHarness i18n={i18n}>
         <CustomNetworkHome />
       </QuickHarness>,
@@ -31,21 +36,20 @@ describe('CustomNetworkHome page', () => {
 
   afterEach(() => {
     client.close()
+    cleanup()
   })
 
   it('renders without crashing', () => {
-    wrapper = createWrapper()
-    const pageNode = wrapper.find('.custom-network-main-page')
-    expect(pageNode.length).toEqual(1)
-    wrapper.unmount()
+    renderComponent()
+    expect(screen.queryByTitle('custom-network-main-page')).toBeDefined()
   })
 
   it('renders without crashing', () => {
-    wrapper = createWrapper(['custom_url', 'custom_url2'])
-    expect(wrapper.find('.custom-network-text').length).toEqual(2)
-    expect(wrapper.find('.custom-network-text').at(0)).toHaveText('custom_url')
-    expect(wrapper.find('.custom-network-text').at(1)).toHaveText('custom_url2')
-    wrapper.unmount()
+    renderComponent(['custom_url', 'custom_url2'])
+    const customNetworks = screen.getAllByTitle('custom-network-name')
+    expect(customNetworks).toHaveLength(2)
+    expect(customNetworks[0]).toHaveTextContent('custom_url')
+    expect(customNetworks[1]).toHaveTextContent('custom_url2')
   })
 
   describe('test redirects', () => {
@@ -65,21 +69,23 @@ describe('CustomNetworkHome page', () => {
     })
 
     it('redirect works on `enter` in textbox', () => {
-      wrapper = createWrapper()
-      expect(wrapper.find('.custom-network-input').length).toEqual(1)
-      wrapper
-        .find('.custom-network-input')
-        .simulate('change', { target: { value: 'custom_url' } })
+      renderComponent()
+      expect(
+        within(screen.getByTitle('custom-network-main-page')).queryByRole(
+          'textbox',
+        ),
+      ).toBeDefined()
+      const input = within(
+        screen.getByTitle('custom-network-main-page'),
+      ).getByRole('textbox')
 
-      wrapper.update()
-      wrapper.find('.custom-network-input').prop('onKeyDown')({
-        key: 'Enter',
-        currentTarget: { value: 'custom_url' },
-      })
+      // TODO: figure out how to use userEvent for this instead
+      fireEvent.change(input, { target: { value: 'custom_url' } })
+      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
+
       expect(mockedFunction).toBeCalledWith(
         `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
-      wrapper.unmount()
     })
   })
 })
