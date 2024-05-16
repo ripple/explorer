@@ -91,7 +91,7 @@ export const BarChartVoting = ({ data }: Props) => {
   const [showTooltips, setShowTooltips] = useState(false)
 
   return (
-    <div className="barchart">
+    <div className="barchart" title="barchart">
       <CustomLegend />
       <ResponsiveContainer height={532} width="100%">
         <BarChart
