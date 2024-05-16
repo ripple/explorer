@@ -9,14 +9,17 @@ export const Simple: TransactionSimpleComponent = ({
   const { OracleDocumentID } = data.instructions
   return (
     <div className="oracle-delete">
-      {OracleDocumentID !== undefined && (
-        <SimpleRow
-          label={t('oracle_document_id')}
-          data-test="oracle-document-id"
-        >
-          {OracleDocumentID}
-        </SimpleRow>
-      )}
+      {
+        // OracleDocumentID could be zero.
+        OracleDocumentID !== null && (
+          <SimpleRow
+            label={t('oracle_document_id')}
+            data-test="oracle-document-id"
+          >
+            {OracleDocumentID}
+          </SimpleRow>
+        )
+      }
     </div>
   )
 }

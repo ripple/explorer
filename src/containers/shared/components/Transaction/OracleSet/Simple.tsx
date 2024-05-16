@@ -22,28 +22,31 @@ export const Simple: TransactionSimpleComponent = ({
   } = data.instructions
   return (
     <>
-      {oracleDocumentID !== undefined && (
-        <SimpleRow
-          label={t('oracle_document_id')}
-          data-test="oracle-document-id"
-        >
-          {oracleDocumentID}
-        </SimpleRow>
-      )}
+      {
+        // oracleDocumentID could be zero.
+        oracleDocumentID !== null && (
+          <SimpleRow
+            label={t('oracle_document_id')}
+            data-test="oracle-document-id"
+          >
+            {oracleDocumentID}
+          </SimpleRow>
+        )
+      }
 
-      {provider !== undefined && (
+      {provider && (
         <SimpleRow label={t('provider')} data-test="provider">
           {provider}
         </SimpleRow>
       )}
 
-      {uri !== undefined && (
+      {uri && (
         <SimpleRow label={t('uri')} data-test="uri">
           {uri}
         </SimpleRow>
       )}
 
-      {lastUpdateTime !== undefined && (
+      {lastUpdateTime && (
         <SimpleRow label={t('last_update_time')} data-test="last-update-time">
           {localizeDate(
             new Date(lastUpdateTime * MILLIS_PER_SECOND),
@@ -53,15 +56,15 @@ export const Simple: TransactionSimpleComponent = ({
         </SimpleRow>
       )}
 
-      {assetClass !== undefined && (
+      {assetClass && (
         <SimpleRow label={t('asset_class')} data-test="asset-class">
           {assetClass}
         </SimpleRow>
       )}
-      {priceDataSeries !== undefined &&
+      {priceDataSeries &&
         priceDataSeries.map((priceDataObj, index) => (
           <SimpleGroup data-test={`price-data-${index}`}>
-            {priceDataObj.tradingPair !== undefined && (
+            {priceDataObj.tradingPair !== null && (
               <SimpleRow
                 label={t('trading_pair')}
                 data-test={`trading-pair-${index}`}
@@ -69,7 +72,7 @@ export const Simple: TransactionSimpleComponent = ({
                 {priceDataObj.tradingPair}
               </SimpleRow>
             )}
-            {priceDataObj.assetPrice !== undefined && (
+            {priceDataObj.assetPrice && (
               <SimpleRow
                 label={t('asset_price')}
                 data-test={`asset-price-${index}`}
