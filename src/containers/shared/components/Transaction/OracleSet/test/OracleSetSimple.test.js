@@ -8,7 +8,11 @@ describe('OracleSet: Simple', () => {
     const wrapper = createWrapper(OracleSet)
     expectSimpleRowText(wrapper, 'oracle-document-id', '1')
     expectSimpleRowText(wrapper, 'provider', 'provider')
-    expectSimpleRowText(wrapper, 'last-update-time', 'May 13, 2024, 9:05:10 PM')
+    expectSimpleRowText(
+      wrapper,
+      'last-update-time',
+      'May 13, 2024 at 9:05:10 PM',
+    )
     expectSimpleRowText(wrapper, 'asset-class', 'currency')
     expectSimpleRowText(wrapper, 'trading-pair-0', 'XRP/USD')
     expectSimpleRowText(wrapper, 'asset-price-0', '74.00000')
