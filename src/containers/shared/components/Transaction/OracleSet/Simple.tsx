@@ -22,17 +22,9 @@ export const Simple: TransactionSimpleComponent = ({
   } = data.instructions
   return (
     <>
-      {
-        // oracleDocumentID could be zero.
-        oracleDocumentID !== null && (
-          <SimpleRow
-            label={t('oracle_document_id')}
-            data-test="oracle-document-id"
-          >
-            {oracleDocumentID}
-          </SimpleRow>
-        )
-      }
+      <SimpleRow label={t('oracle_document_id')} data-test="oracle-document-id">
+        {oracleDocumentID}
+      </SimpleRow>
 
       {provider && (
         <SimpleRow label={t('provider')} data-test="provider">
@@ -46,42 +38,38 @@ export const Simple: TransactionSimpleComponent = ({
         </SimpleRow>
       )}
 
-      {lastUpdateTime && (
-        <SimpleRow label={t('last_update_time')} data-test="last-update-time">
-          {localizeDate(
-            new Date(lastUpdateTime * MILLIS_PER_SECOND),
-            language,
-            DATE_OPTIONS,
-          )}
-        </SimpleRow>
-      )}
+      <SimpleRow label={t('last_update_time')} data-test="last-update-time">
+        {localizeDate(
+          new Date(lastUpdateTime * MILLIS_PER_SECOND),
+          language,
+          DATE_OPTIONS,
+        )}
+      </SimpleRow>
 
       {assetClass && (
         <SimpleRow label={t('asset_class')} data-test="asset-class">
           {assetClass}
         </SimpleRow>
       )}
-      {priceDataSeries &&
-        priceDataSeries.map((priceDataObj, index) => (
-          <SimpleGroup data-test={`price-data-${index}`}>
-            {priceDataObj.tradingPair !== null && (
-              <SimpleRow
-                label={t('trading_pair')}
-                data-test={`trading-pair-${index}`}
-              >
-                {priceDataObj.tradingPair}
-              </SimpleRow>
-            )}
-            {priceDataObj.assetPrice && (
-              <SimpleRow
-                label={t('asset_price')}
-                data-test={`asset-price-${index}`}
-              >
-                {priceDataObj.assetPrice}
-              </SimpleRow>
-            )}
-          </SimpleGroup>
-        ))}
+      {priceDataSeries.map((priceDataObj, index) => (
+        <SimpleGroup data-test={`price-data-${index}`}>
+          <SimpleRow
+            label={t('trading_pair')}
+            data-test={`trading-pair-${index}`}
+          >
+            {priceDataObj.tradingPair}
+          </SimpleRow>
+
+          {priceDataObj.assetPrice && (
+            <SimpleRow
+              label={t('asset_price')}
+              data-test={`asset-price-${index}`}
+            >
+              {priceDataObj.assetPrice}
+            </SimpleRow>
+          )}
+        </SimpleGroup>
+      ))}
     </>
   )
 }

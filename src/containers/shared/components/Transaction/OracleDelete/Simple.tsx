@@ -8,18 +8,8 @@ export const Simple: TransactionSimpleComponent = ({
   const { t } = useTranslation()
   const { OracleDocumentID } = data.instructions
   return (
-    <div className="oracle-delete">
-      {
-        // OracleDocumentID could be zero.
-        OracleDocumentID !== null && (
-          <SimpleRow
-            label={t('oracle_document_id')}
-            data-test="oracle-document-id"
-          >
-            {OracleDocumentID}
-          </SimpleRow>
-        )
-      }
-    </div>
+    <SimpleRow label={t('oracle_document_id')} data-test="oracle-document-id">
+      {OracleDocumentID}
+    </SimpleRow>
   )
 }
