@@ -1,11 +1,10 @@
-import { mount } from 'enzyme'
+import { cleanup, render, screen } from '@testing-library/react'
 import { Route } from 'react-router'
+import userEvent from '@testing-library/user-event'
 import i18n from '../../../i18n/testConfig'
 import { Accounts } from '../index'
-import { AccountHeader } from '../AccountHeader'
-import { AccountTransactionTable } from '../AccountTransactionTable'
 import mockAccountState from './mockAccountState.json'
-import { QuickHarness, flushPromises } from '../../test/utils'
+import { QuickHarness } from '../../test/utils'
 import { ACCOUNT_ROUTE } from '../../App/routes'
 import { getAccountState } from '../../../rippled'
 import Mock = jest.Mock
@@ -21,8 +20,8 @@ const mockedGetAccountState = getAccountState as Mock
 describe('Account container', () => {
   const TEST_ACCOUNT_ID = 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM'
 
-  const createWrapper = () =>
-    mount(
+  const renderComponent = () =>
+    render(
       <QuickHarness
         i18n={i18n}
         initialEntries={[`/accounts/${TEST_ACCOUNT_ID}`]}
@@ -35,9 +34,10 @@ describe('Account container', () => {
     jest.resetModules()
   })
 
+  afterEach(cleanup)
+
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders static parts', async () => {
@@ -45,13 +45,9 @@ describe('Account container', () => {
       Promise.resolve(mockAccountState),
     )
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
-
-    expect(wrapper.find(AccountHeader).length).toBe(1)
-    expect(wrapper.find(AccountTransactionTable).length).toBe(1)
-    wrapper.find('.balance-selector button').simulate('click')
-    wrapper.unmount()
+    renderComponent()
+    expect(screen.getByTitle('account-header')).toBeDefined()
+    expect(screen.getByTitle('transaction-table')).toBeDefined()
+    userEvent.click(screen.getByRole('button'))
   })
 })

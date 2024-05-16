@@ -297,7 +297,7 @@ export const AccountHeader = ({
   const hasBridge = account?.hasBridge ?? false
 
   return (
-    <div className="box account-header">
+    <div className="box account-header" title="account-header">
       <div className="section box-header">
         <div className="title">
           Account ID
