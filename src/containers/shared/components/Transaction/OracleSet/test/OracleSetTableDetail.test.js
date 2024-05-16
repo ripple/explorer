@@ -10,7 +10,7 @@ describe('OracleDelete: TableDetail', () => {
     expect(wrapper).toHaveText(
       'oracle_document_id: 1' +
         'provider: provider' +
-        'last_update_time: May 13, 2024, 9:05:10 PM' +
+        'last_update_time: May 13, 2024 at 9:05:10 PM' +
         'asset_class: currency' +
         'trading_pair XRP/USD' +
         'asset_price 74.00000' +
