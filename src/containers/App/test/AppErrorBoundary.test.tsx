@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { cleanup, render } from '@testing-library/react'
 import { analytics } from '../../shared/analytics'
 import AppErrorBoundary from '../AppErrorBoundary'
 
@@ -18,8 +18,9 @@ const ProblemChild = () => {
 }
 
 describe('<AppErrorBoundary> component', () => {
+  afterEach(cleanup)
   it('calls analytics with exception', () => {
-    mount(
+    render(
       <AppErrorBoundary>
         <ProblemChild />
       </AppErrorBoundary>,
