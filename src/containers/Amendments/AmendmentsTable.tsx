@@ -95,10 +95,13 @@ export const AmendmentsTable: FC<{
   const renderAmendment = (amendment, index) => (
     <tr
       className={`amendment-row${amendment.eta ? ' incoming' : ''}`}
+      title="amendment-row"
       key={amendment.id}
     >
-      <td className="count">{index + 1}</td>
-      <td className="version">
+      <td className="count" title="count">
+        {index + 1}
+      </td>
+      <td className="version" title="version">
         {amendment.rippled_version ? (
           <Link
             to={`https://github.com/XRPLF/rippled/releases/tag/${amendment.rippled_version}`}
@@ -110,21 +113,27 @@ export const AmendmentsTable: FC<{
           DEFAULT_EMPTY_VALUE
         )}
       </td>
-      <td className="amendment-id text-truncate">{amendment.id}</td>
-      <td className="name text-truncate">
+      <td className="amendment-id text-truncate" title="amendment-id">
+        {amendment.id}
+      </td>
+      <td className="name text-truncate" title="name">
         {renderName(amendment.name, amendment.id, amendment.deprecated)}
       </td>
-      <td className="voters">{getVoter(amendment.voted)}</td>
-      <td className="threshold">
+      <td className="voters" title="voters">
+        {getVoter(amendment.voted)}
+      </td>
+      <td className="threshold" title="threshold">
         {amendment.threshold ?? DEFAULT_EMPTY_VALUE}
       </td>
-      <td className="consensus">
+      <td className="consensus" title="consensus">
         {amendment.consensus ?? DEFAULT_EMPTY_VALUE}
       </td>
-      <td className="enabled">
+      <td className="enabled" title="enabled">
         {renderEnabled(amendment.voted === undefined)}
       </td>
-      <td className="on_tx">{renderOnTx(amendment)}</td>
+      <td className="on_tx" title="on_tx">
+        {renderOnTx(amendment)}
+      </td>
     </tr>
   )
 
@@ -148,5 +157,9 @@ export const AmendmentsTable: FC<{
   ) : (
     <Loader />
   )
-  return <div className="amendments-table">{content}</div>
+  return (
+    <div className="amendments-table" title="amendments-table">
+      {content}
+    </div>
+  )
 }
