@@ -40,7 +40,11 @@ const SidechainHome = () => {
   function renderCustomNetwork(network: string) {
     return (
       <Link key={network} className="custom-network-item" to={`/${network}`}>
-        <div key={network} className="custom-network-text">
+        <div
+          key={network}
+          className="custom-network-text"
+          title="custom-network-name"
+        >
           {network}
         </div>
         <RightArrow className="custom-network-arrow" />
@@ -51,7 +55,10 @@ const SidechainHome = () => {
   return (
     <>
       <Header inNetwork={false} />
-      <div className="custom-network-main-page">
+      <div
+        className="custom-network-main-page"
+        title="custom-network-main-page"
+      >
         <div className="logo-content">
           <CustomNetworkLogo className="custom-network-logo" />
           <div className="page-header">{t('custom_network')}</div>
