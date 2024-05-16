@@ -45,9 +45,13 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
 
   const renderStatus = () =>
     voting ? (
-      <div className="badge voting">{`${t('not')} ${t('enabled')}`}</div>
+      <div className="badge voting" title="enabled">{`${t('not')} ${t(
+        'enabled',
+      )}`}</div>
     ) : (
-      <div className="badge enabled">{t('enabled')}</div>
+      <div className="badge enabled" title="enabled">
+        {t('enabled')}
+      </div>
     )
 
   const renderDate = (date: string | null) =>
