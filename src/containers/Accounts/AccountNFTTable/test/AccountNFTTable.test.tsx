@@ -1,5 +1,4 @@
-import { render, screen, cleanup } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
@@ -84,7 +83,8 @@ describe('AccountNFTTable component', () => {
     expect(columns[1]).toHaveTextContent(`rGymBL8Huct6euA8jtEcLagYXpRgQKh6EC`)
     expect(columns[2]).toHaveTextContent(`0`)
     expect(screen.getByRole('button')).toBeDefined()
-    userEvent.click(screen.getByRole('button'))
+    fireEvent.click(screen.getByRole('button'))
+    expect(mockedGetAccountNFTs).toHaveBeenCalledTimes(2)
     expect(mockedGetAccountNFTs.mock.calls[1][2]).toEqual('hello')
   })
 

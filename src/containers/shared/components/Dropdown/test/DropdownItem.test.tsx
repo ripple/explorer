@@ -1,5 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { DropdownItem } from '../DropdownItem'
 import createSpy = jasmine.createSpy
 
@@ -27,12 +26,12 @@ describe('DropdownItem', () => {
     })
 
     it('executes handler on click', () => {
-      userEvent.click(item)
+      fireEvent.click(item)
       expect(handler).toHaveBeenCalled()
     })
 
     it('executes handler on keyup', () => {
-      userEvent.click(item)
+      fireEvent.click(item)
       expect(handler).toHaveBeenCalled()
     })
   })
