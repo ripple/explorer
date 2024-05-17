@@ -91,6 +91,7 @@ export const NetworkPicker = () => {
           <button
             type="button"
             className="btn btn-remove"
+            data-testid="btn-remove"
             onClick={(event) => {
               event.preventDefault()
               event.stopPropagation()
@@ -111,7 +112,11 @@ export const NetworkPicker = () => {
   function renderCustomNetworkInput() {
     return (
       <DropdownItem key="new_network">
-        <form onSubmit={onSubmit} className="custom-network-form">
+        <form
+          onSubmit={onSubmit}
+          className="custom-network-form"
+          title="custom-network-form"
+        >
           <input
             type="text"
             placeholder="Add custom network"
@@ -143,6 +148,7 @@ export const NetworkPicker = () => {
           : networkPickerTitle
       }
       className={`network network-${currentMode}`}
+      data-testid="dropdown"
     >
       <>
         {networks.map(({ network, title, url = '' }) => {
