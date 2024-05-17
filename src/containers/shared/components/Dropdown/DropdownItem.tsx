@@ -18,6 +18,7 @@ export const DropdownItem = ({
   return (
     <Tag
       className={classnames(`dropdown-item`, className)}
+      data-testid={`dropdown-item-${className}`}
       role="menuitem"
       onClick={handler}
       onKeyUp={handler}
