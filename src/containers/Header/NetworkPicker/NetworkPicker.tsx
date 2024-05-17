@@ -142,7 +142,6 @@ export const NetworkPicker = () => {
           : networkPickerTitle
       }
       className={`network network-${currentMode}`}
-      data-testid="dropdown"
     >
       <>
         {networks.map(({ network, title, url = '' }) => {

@@ -1,5 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import i18n from '../../../../i18n/testConfig'
 import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
@@ -62,7 +61,7 @@ describe('AccountTransactionsTable container', () => {
     expect(screen.getAllByRole('link')).toHaveLength(60)
 
     const button = screen.getByRole('button')
-    userEvent.click(button)
+    fireEvent.click(button)
     expect(getAccountTransactions).toHaveBeenCalledWith(
       TEST_ACCOUNT_ID,
       undefined,
@@ -107,7 +106,7 @@ describe('AccountTransactionsTable container', () => {
     expect(screen.getAllByRole('link')).toHaveLength(60)
 
     const button = screen.getByRole('button')
-    userEvent.click(button)
+    fireEvent.click(button)
     expect(getAccountTransactions).toHaveBeenCalledWith(
       TEST_ACCOUNT_ID,
       undefined,
