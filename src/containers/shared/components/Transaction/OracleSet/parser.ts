@@ -1,4 +1,3 @@
-import { UInt64 } from 'ripple-binary-codec/dist/types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 import { OracleSet } from './types'
 
@@ -8,10 +7,10 @@ export function parser(tx: OracleSet) {
 
     assetPrice:
       priceDataObj.PriceData.AssetPrice && priceDataObj.PriceData.Scale
-        ? (
-            Number(UInt64.from(priceDataObj.PriceData.AssetPrice).valueOf()) /
-            10 ** priceDataObj.PriceData.Scale
-          ).toFixed(5)
+        ? Number(
+            (BigInt(`0x${priceDataObj.PriceData.AssetPrice}`) * 100000n) /
+              BigInt(10 ** priceDataObj.PriceData.Scale),
+          ) / 100000
         : undefined,
   }))
 
