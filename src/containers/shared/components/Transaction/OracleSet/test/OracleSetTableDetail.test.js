@@ -13,10 +13,10 @@ describe('OracleDelete: TableDetail', () => {
         'last_update_time: May 13, 2024 at 9:05:10 PM' +
         'asset_class: currency' +
         'trading_pair XRP/USD' +
-        'asset_price 74.00000' +
+        'asset_price 74.2' +
         ', ' +
         'trading_pair BTC/EUR' +
-        'asset_price 1.00000',
+        'asset_price 1.03',
     )
     wrapper.unmount()
   })

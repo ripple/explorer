@@ -10,7 +10,7 @@
     "PriceDataSeries": [
       {
         "PriceData": {
-          "AssetPrice": "2e4",
+          "AssetPrice": "2e6",
           "BaseAsset": "XRP",
           "QuoteAsset": "USD",
           "Scale": 1
@@ -18,7 +18,7 @@
       },
       {
         "PriceData": {
-          "AssetPrice": "64",
+          "AssetPrice": "67",
           "BaseAsset": "BTC",
           "QuoteAsset": "EUR",
           "Scale": 2
