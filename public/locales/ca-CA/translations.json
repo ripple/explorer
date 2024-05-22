@@ -527,6 +527,7 @@
   "transaction_tokens_involved": "<Currency/> i <Currency2/>",
   "transaction_tokens_swapped": "<Currency/> per <Currency2/>",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "oracle_document_id": null,
   "provider": null,
   "last_update_time": null,
@@ -563,7 +564,7 @@
   "enable_amendment_name": null,
   "amendment_status": null,
   "expected_date": null,
-  "graph_dependant_currency": "*Graph is dependant on the currency used.",
+  "graph_dependant_currency": "*Graph is dependent on the currency used.",
   "incomplete_transaction": "Incomplete transaction",
   "liquidity_source": "Liquidity Source",
   "balance_changes": "Balance Changes",
