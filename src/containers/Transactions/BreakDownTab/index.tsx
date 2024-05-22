@@ -39,7 +39,11 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
       change.value *= -1
 
       let balanceLabel =
-        type === 'direct' ? 'recieved' : change.value < 0 ? 'sold' : 'bought'
+        type === 'direct'
+          ? 'recieved'
+          : change.value < 0
+          ? t('sold')
+          : t('bought')
       if (type === 'direct') {
         change.value *= -1
       }
@@ -186,7 +190,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
             {destinationCurrencyCode} {t('destination')}
           </option>
         </select>
-        <p>{t('graph_dependant_currency')}</p>
+        <p>{t('graph_dependent_currency')}</p>
         <div className="rectangle-row">
           <div
             className="rectangle"

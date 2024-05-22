@@ -526,8 +526,6 @@
   "indicate_unl": "indica un validador en una UNL",
   "transaction_tokens_involved": "<Currency/> i <Currency2/>",
   "transaction_tokens_swapped": "<Currency/> per <Currency2/>",
-<<<<<<< HEAD
-<<<<<<< HEAD
   "oracle_document_id": null,
   "provider": null,
   "last_update_time": null,
@@ -571,5 +569,7 @@
   "direct": "direct",
   "dex": "dex",
   "amm": "amm",
-  "rippling": "rippling"
+  "rippling": "rippling",
+  "sold": "sold",
+  "bought": "bought"
 }

@@ -562,12 +562,14 @@
   "enable_amendment_name": "Amendment Name",
   "amendment_status": "Amendment Status",
   "expected_date": "Expected Date",
-  "graph_dependant_currency": "*Graph is dependant on the currency used.",
+  "graph_dependent_currency": "*Graph is dependent on the currency used.",
   "incomplete_transaction": "Incomplete transaction",
   "liquidity_source": "Liquidity Source",
   "balance_changes": "Balance Changes",
   "direct": "direct",
   "dex": "dex",
   "amm": "amm",
-  "rippling": "rippling"
+  "rippling": "rippling",
+  "sold": "sold",
+  "bought": "bought"
 }
