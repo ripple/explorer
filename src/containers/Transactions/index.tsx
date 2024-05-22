@@ -9,6 +9,7 @@ import { Tabs } from '../shared/components/Tabs'
 import { NOT_FOUND, BAD_REQUEST, HASH_REGEX, CTID_REGEX } from '../shared/utils'
 import { SimpleTab } from './SimpleTab'
 import { DetailTab } from './DetailTab'
+import { BreakDownTab } from './BreakDownTab'
 import './transaction.scss'
 import { AnalyticsFields, useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
@@ -115,6 +116,12 @@ export const Transaction = () => {
 
   function renderTabs() {
     const tabs = ['simple', 'detailed', 'raw']
+    if (
+      data.raw.tx.TransactionType === 'OfferCreate' ||
+      data.raw.tx.TransactionType === 'Payment'
+    ) {
+      tabs.push('breakdown')
+    }
     const mainPath = buildPath(TRANSACTION_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
@@ -125,6 +132,9 @@ export const Transaction = () => {
     let body
 
     switch (tab) {
+      case 'breakdown':
+        body = <BreakDownTab data={data.raw} />
+        break
       case 'detailed':
         body = <DetailTab data={data.raw} />
         break

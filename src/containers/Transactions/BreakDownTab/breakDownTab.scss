@@ -1,0 +1,119 @@
+@import '../../shared/css/variables';
+
+.breakdown-body {
+  margin-top: 20px;
+  color: $black-40;
+  font-size: 12px;
+  letter-spacing: 0px;
+}
+
+.detail-section {
+  padding: 5px 15px;
+  border-bottom: 1px solid $black-70;
+  margin: 0px 0px 30px;
+
+  &:last-child {
+    border: none;
+  }
+
+  &.no-border {
+    border: none;
+  }
+}
+
+.title {
+  margin-bottom: 4px;
+  color: $white;
+  font-size: 16px;
+  text-transform: capitalize;
+  @include bold;
+
+  span {
+    margin-left: 8px;
+    font-size: 10px;
+    line-height: 18px;
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.rectangle-container {
+  min-height: 200px;
+  // margin-top: 100px;
+}
+
+:root{
+  --max-height: 80%;
+}
+
+// Build the cylinder
+$circle-height: 9px;
+
+.rectangle-row {
+  position: relative;
+  display: block;
+  height: 50px;
+}
+
+.rectangle {
+  position: relative;
+  left: 0;
+  display: block;
+  width: $circle-height;
+  height: 30px;
+  box-sizing: border-box;
+  border-top: solid 2px var(--cylinder-color);
+  border-bottom: solid 2px var(--cylinder-color);
+  margin-top: 10px;
+  margin-left: 10px;
+  animation: grow 600ms 1.5s ease both;
+  background: linear-gradient(to right, #271527, var(--cylinder-color));
+  // transform: rotate(90deg);
+}
+
+.margin-text {
+  position: relative;
+  display: block;
+  border-bottom: dashed 1px $white;
+  font-weight: bold;
+  text-align: right;
+  text-transform: capitalize;
+  // transform: rotate(-180deg);
+  // writing-mode: vertical-rl;
+}
+
+.rectangle::before,
+.rectangle::after {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  width: $circle-height;
+  height: 30px;
+  box-sizing: border-box;
+  border: solid 2px var(--cylinder-color);
+  border-radius: 50%;
+  content: '';
+}
+
+.rectangle::before {
+  left: calc(-1 * $circle-height / 2);
+  background: #271527;
+}
+
+.rectangle::after {
+  z-index: -1;
+  right: calc(-1 * $circle-height / 2);
+  background: var(--cylinder-color);
+}
+
+@keyframes grow {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: calc(var(--max-height) * var(--percent-value)); // Change this to make things ✨
+  }
+}

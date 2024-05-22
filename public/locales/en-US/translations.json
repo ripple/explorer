@@ -76,6 +76,7 @@
   "not_found_default_title": "Page Not Found",
   "not_found_check_url": "Please double check your URL",
   "not_found": "Not found",
+  "breakdown": "Breakdown",
   "buy": "Buy",
   "sell": "Sell",
   "price": "Price",
@@ -522,5 +523,9 @@
   "note": "Note",
   "indicate_unl": "indicates a validator on an UNL",
   "transaction_tokens_involved": "<Currency/> and <Currency2/>",
-  "transaction_tokens_swapped": "<Currency/> for <Currency2/>"
+  "transaction_tokens_swapped": "<Currency/> for <Currency2/>",
+  "graph_dependant_currency": "*Graph is dependant on the currency used.",
+  "incomplete_transaction": "Incomplete transaction",
+  "liquidity_source": "Liquidity Source",
+  "balance_changes": "Balance Changes"
 }
