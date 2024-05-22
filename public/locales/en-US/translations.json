@@ -527,5 +527,9 @@
   "graph_dependant_currency": "*Graph is dependant on the currency used.",
   "incomplete_transaction": "Incomplete transaction",
   "liquidity_source": "Liquidity Source",
-  "balance_changes": "Balance Changes"
+  "balance_changes": "Balance Changes",
+  "direct": "direct",
+  "dex": "dex",
+  "amm": "amm",
+  "rippling": "rippling"
 }
