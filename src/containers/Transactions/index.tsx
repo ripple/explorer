@@ -115,13 +115,7 @@ export const Transaction = () => {
   }
 
   function renderTabs() {
-    const tabs = ['simple', 'detailed', 'raw']
-    if (
-      data.raw.tx.TransactionType === 'OfferCreate' ||
-      data.raw.tx.TransactionType === 'Payment'
-    ) {
-      tabs.push('breakdown')
-    }
+    const tabs = (data.raw.tx.TransactionType === 'OfferCreate' || data.raw.tx.TransactionType === 'Payment') ? ['simple', 'breakdown', 'detailed', 'raw'] ? ['simple', 'detailed', 'raw']
     const mainPath = buildPath(TRANSACTION_ROUTE, { identifier })
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
