@@ -54,9 +54,7 @@ export const Simple: TransactionSimpleComponent = ({
       <SimpleRow label={t('trading_pairs')} data-test="trading-pairs">
         {priceDataSeries.map((priceDataObj) => (
           <div className="amount" data-test="amount">
-            {priceDataObj.assetPrice && (
-              <div className="asset-price">{priceDataObj.assetPrice}</div>
-            )}
+            {priceDataObj.assetPrice ? priceDataObj.assetPrice : t('n_a')}
             <div className="one-line list">{priceDataObj.tradingPair}</div>
           </div>
         ))}
