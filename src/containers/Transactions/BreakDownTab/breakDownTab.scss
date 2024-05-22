@@ -35,6 +35,30 @@
   }
 }
 
+.badge {
+  padding: 5px;
+  padding-top: 3px;
+  border-radius: 5px;
+  color: $black;
+
+  &.amm {
+    background-color: #ff198b;
+
+  }
+
+  &.dex {
+    background-color: #19a3ff;
+  }
+
+  &.direct {
+    background-color: #9a52ff;
+  }
+
+  &.rippling {
+    background-color: #32e685;
+  }
+}
+
 .flex {
   display: flex;
 }

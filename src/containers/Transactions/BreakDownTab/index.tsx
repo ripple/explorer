@@ -63,19 +63,28 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
     const changes = []
     parsed.accountBalanceChanges.forEach((change, index) => {
       if (account !== change.account) {
-        let type: String = 'direct'
+        let type: String = ''
+        let span_class: String = ''
+        if (change.isDirect) {
+          type = 'direct'
+          span_class = 'badge direct'
+        }
         if (change.isAMM) {
           type = 'amm'
+          span_class = 'badge amm'
         }
         if (change.isOffer) {
           type = 'dex'
+          span_class = 'badge dex'
         }
         if (change.isRippling) {
           type = 'rippling'
+          span_class = 'badge rippling'
         }
         changes.push(
           <p key={`${index}-p`}>
-            <span>{type}</span> <Account account={change.account} />
+            <span className={span_class}>{type}</span>{' '}
+            <Account account={change.account} />
           </p>,
 
           <BalanceChange
@@ -187,7 +196,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
             }}
           />
           <span className="margin-text">
-            AMM ({Math.round((sum.amm / sum.total) * 100)}%)
+            {t('amm')} ({Math.round((sum.amm / sum.total) * 100)}%)
           </span>
         </div>
         <div className="rectangle-row">
@@ -199,7 +208,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
             }}
           />
           <span className="margin-text">
-            RIPPLING ({Math.round((sum.rippling / sum.total) * 100)}%)
+            {t('rippling')} ({Math.round((sum.rippling / sum.total) * 100)}%)
           </span>
         </div>
         <div className="rectangle-row">
@@ -211,7 +220,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
             }}
           />
           <span className="margin-text">
-            DEX ({Math.round((sum.dex / sum.total) * 100)}%)
+            {t('dex')} ({Math.round((sum.dex / sum.total) * 100)}%)
           </span>
         </div>
         <div className="rectangle-row">
@@ -223,7 +232,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
             }}
           />
           <span className="margin-text">
-            DIRECT ({Math.round((sum.direct / sum.total) * 100)}%)
+            {t('direct')} ({Math.round((sum.direct / sum.total) * 100)}%)
           </span>
         </div>
         <div className="rectangle-row">
@@ -235,7 +244,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
             }}
           />
           <span className="margin-text">
-            TOTAL{' '}
+            {t('total')}{' '}
             <Amount
               value={formatAmount(
                 selectedView === 'destination'
