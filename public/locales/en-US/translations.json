@@ -530,5 +530,5 @@
   "last_update_time": "Last Update Time",
   "asset_class": "Asset Class",
   "asset_price": "Asset Price",
-  "trading_pair": "Trading Pair"
+  "trading_pairs": "Trading Pairs"
 }

@@ -14,10 +14,7 @@ describe('OracleSet: Simple', () => {
       'May 13, 2024 at 9:05:10 PM',
     )
     expectSimpleRowText(wrapper, 'asset-class', 'currency')
-    expectSimpleRowText(wrapper, 'trading-pair-0', 'XRP/USD')
-    expectSimpleRowText(wrapper, 'asset-price-0', '74.2')
-    expectSimpleRowText(wrapper, 'trading-pair-1', 'BTC/EUR')
-    expectSimpleRowText(wrapper, 'asset-price-1', '1.03')
+    expectSimpleRowText(wrapper, 'trading-pairs', '74.2XRP/USD1.03BTC/EUR')
     wrapper.unmount()
   })
 })

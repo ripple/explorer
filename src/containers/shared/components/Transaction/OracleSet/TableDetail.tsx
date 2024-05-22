@@ -16,44 +16,50 @@ export const TableDetail = ({
         <span className="label">{t('oracle_document_id')}: </span>
         <span className="case-sensitive">{tx.oracleDocumentID}</span>
       </div>
-      {tx.provider && (
-        <div className="provider">
-          <span className="label">{t('provider')}: </span>
-          <span className="case-sensitive">{tx.provider}</span>
-        </div>
-      )}
-      <div className="last-update-time">
-        <span className="label">{t('last_update_time')}: </span>
-        <span className="case-sensitive">
-          {localizeDate(
-            new Date(tx.lastUpdateTime * MILLIS_PER_SECOND),
-            language,
-            DATE_OPTIONS,
-          )}
-        </span>
-      </div>
-      {tx.assetClass && (
-        <div className="asset-class">
-          <span className="label">{t('asset_class')}: </span>
-          <span className="case-sensitive">{tx.assetClass}</span>
-        </div>
-      )}
-      {tx.priceDataSeries.map((priceDataObj, index) => (
-        <>
+      <>
+        {tx.provider && (
           <>
-            <span className="label">{t('trading_pair')} </span>
-            <span className="case-sensitive">{priceDataObj.tradingPair}</span>
+            <span className="label">{t('provider')}: </span>
+            <span className="case-sensitive">{tx.provider}</span>
           </>
-
-          {priceDataObj.assetPrice && (
-            <>
-              <span className="label">{t('asset_price')} </span>
-              <span className="case-sensitive">{priceDataObj.assetPrice}</span>
-            </>
-          )}
-          {index < tx.priceDataSeries.length - 1 && ', '}
+        )}
+        {tx.assetClass && (
+          <>
+            <span className="label">{t('asset_class')}: </span>
+            <span className="case-sensitive">{tx.assetClass}</span>
+          </>
+        )}
+        <>
+          <span className="label">{t('last_update_time')}: </span>
+          <span className="case-sensitive">
+            {localizeDate(
+              new Date(tx.lastUpdateTime * MILLIS_PER_SECOND),
+              language,
+              DATE_OPTIONS,
+            )}
+          </span>
         </>
-      ))}
+      </>
+      {tx.priceDataSeries.length > 0 && (
+        <div className="trading-pair">
+          <span className="label">{t('trading_pairs')}: </span>
+          {tx.priceDataSeries.map((priceDataObj, index) => (
+            <>
+              <>
+                {priceDataObj.assetPrice != null && (
+                  <span className="case-sensitive">
+                    {priceDataObj.assetPrice}
+                  </span>
+                )}
+                <span className="case-sensitive">
+                  {priceDataObj.tradingPair}
+                </span>
+              </>
+              {index < tx.priceDataSeries.length - 1 && ', '}
+            </>
+          ))}
+        </div>
+      )}
     </>
   )
 }

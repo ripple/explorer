@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
-import { SimpleGroup } from '../SimpleGroup'
 import { MILLIS_PER_SECOND } from '../../../../../rippled/lib/convertRippleDate'
 import { localizeDate } from '../../../utils'
 import { DATE_OPTIONS } from '../../../transactionUtils'
@@ -51,25 +50,15 @@ export const Simple: TransactionSimpleComponent = ({
           {assetClass}
         </SimpleRow>
       )}
-      {priceDataSeries.map((priceDataObj, index) => (
-        <SimpleGroup data-test={`price-data-${index}`}>
-          <SimpleRow
-            label={t('trading_pair')}
-            data-test={`trading-pair-${index}`}
-          >
-            {priceDataObj.tradingPair}
-          </SimpleRow>
 
-          {priceDataObj.assetPrice && (
-            <SimpleRow
-              label={t('asset_price')}
-              data-test={`asset-price-${index}`}
-            >
-              {priceDataObj.assetPrice}
-            </SimpleRow>
-          )}
-        </SimpleGroup>
-      ))}
+      <SimpleRow label={t('trading_pairs')} data-test="trading-pairs">
+        {priceDataSeries.map((priceDataObj) => (
+          <div className="amount" data-test="amount">
+            <div className="asset-price">{priceDataObj.assetPrice}</div>
+            <div className="one-line list">{priceDataObj.tradingPair}</div>
+          </div>
+        ))}
+      </SimpleRow>
     </>
   )
 }
