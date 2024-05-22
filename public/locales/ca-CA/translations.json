@@ -524,7 +524,7 @@
   "indicate_unl": "indica un validador en una UNL",
   "transaction_tokens_involved": "<Currency/> i <Currency2/>",
   "transaction_tokens_swapped": "<Currency/> per <Currency2/>",
-  "graph_dependant_currency": "*Graph is dependant on the currency used.",
+  "graph_dependant_currency": "*Graph is dependent on the currency used.",
   "incomplete_transaction": "Incomplete transaction",
   "liquidity_source": "Liquidity Source",
   "balance_changes": "Balance Changes",
