@@ -524,12 +524,14 @@
   "indicate_unl": "indicates a validator on an UNL",
   "transaction_tokens_involved": "<Currency/> and <Currency2/>",
   "transaction_tokens_swapped": "<Currency/> for <Currency2/>",
-  "graph_dependant_currency": "*Graph is dependant on the currency used.",
+  "graph_dependent_currency": "*Graph is dependent on the currency used.",
   "incomplete_transaction": "Incomplete transaction",
   "liquidity_source": "Liquidity Source",
   "balance_changes": "Balance Changes",
   "direct": "direct",
   "dex": "dex",
   "amm": "amm",
-  "rippling": "rippling"
+  "rippling": "rippling",
+  "sold": "sold",
+  "bought": "bought"
 }
