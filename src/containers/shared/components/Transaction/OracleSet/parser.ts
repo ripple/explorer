@@ -2,12 +2,14 @@ import { convertHexToString } from '../../../../../rippled/lib/utils'
 import { OracleSet } from './types'
 
 export function convertScaledPrice(assetPrice: string, scale: number) {
-  return (
-    Number(
-      (BigInt(`0x${assetPrice}`) * BigInt(10 ** scale)) / BigInt(10 ** scale),
-    ) /
-    10 ** scale
-  )
+  const scaledPriceInBigInt = BigInt(`0x${assetPrice}`)
+  const divisor = BigInt(10 ** scale)
+  const integerPart = scaledPriceInBigInt / divisor
+  const remainder = scaledPriceInBigInt % divisor
+  const fractionalPart = (remainder * BigInt(10 ** scale)) / divisor
+  return fractionalPart > 0
+    ? `${integerPart}.${fractionalPart.toString().padStart(scale, '0')}`
+    : `${integerPart}`
 }
 
 export function parser(tx: OracleSet) {
