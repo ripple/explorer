@@ -3,7 +3,10 @@ import { OracleSet } from './types'
 
 export function convertScaledPrice(assetPrice: string, scale: number) {
   return (
-    Number((BigInt(`0x${assetPrice}`) * 100000n) / BigInt(10 ** scale)) / 100000
+    Number(
+      (BigInt(`0x${assetPrice}`) * BigInt(10 ** scale)) / BigInt(10 ** scale),
+    ) /
+    10 ** scale
   )
 }
 
