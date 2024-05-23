@@ -525,5 +525,6 @@
   "provider": null,
   "last_update_time": null,
   "asset_class": null,
-  "trading_pairs": null
+  "trading_pairs": null,
+  "deleted": null
 }

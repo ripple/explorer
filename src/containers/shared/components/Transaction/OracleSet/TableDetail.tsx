@@ -47,7 +47,7 @@ export const TableDetail = ({
             <>
               {priceDataObj.assetPrice != null && (
                 <span className="case-sensitive">
-                  {priceDataObj.assetPrice}
+                  {priceDataObj.assetPrice ?? t('deleted')}
                 </span>
               )}
               <span className="case-sensitive">{priceDataObj.tradingPair}</span>

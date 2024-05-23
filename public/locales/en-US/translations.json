@@ -529,5 +529,6 @@
   "provider": "Provider",
   "last_update_time": "Last Update Time",
   "asset_class": "Asset Class",
-  "trading_pairs": "Trading Pairs"
+  "trading_pairs": "Trading Pairs",
+  "deleted": "Deleted"
 }
