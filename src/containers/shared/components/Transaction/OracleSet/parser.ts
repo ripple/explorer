@@ -14,8 +14,8 @@ export function convertScaledPrice(assetPrice: string, scale: number) {
 
 export function parser(tx: OracleSet) {
   const priceDataSeries = tx.PriceDataSeries.map((priceDataObj) => ({
-    tradingPair: `${priceDataObj.PriceData.BaseAsset}/${priceDataObj.PriceData.QuoteAsset}`,
-
+    baseAsset: priceDataObj.PriceData.BaseAsset,
+    quoteAsset: priceDataObj.PriceData.QuoteAsset,
     assetPrice:
       priceDataObj.PriceData.AssetPrice && priceDataObj.PriceData.Scale
         ? convertScaledPrice(

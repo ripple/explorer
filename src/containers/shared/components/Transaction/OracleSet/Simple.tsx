@@ -5,6 +5,7 @@ import { MILLIS_PER_SECOND } from '../../../../../rippled/lib/convertRippleDate'
 import { localizeDate } from '../../../utils'
 import { DATE_OPTIONS } from '../../../transactionUtils'
 import { useLanguage } from '../../../hooks'
+import Currency from '../../Currency'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -55,7 +56,10 @@ export const Simple: TransactionSimpleComponent = ({
         {priceDataSeries.map((priceDataObj) => (
           <div className="amount list" data-test="amount">
             {priceDataObj.assetPrice ?? t('deleted')}
-            <div className="one-line">{priceDataObj.tradingPair}</div>
+            <div className="one-line">
+              <Currency currency={priceDataObj.baseAsset} />/
+              <Currency currency={priceDataObj.quoteAsset} />
+            </div>
           </div>
         ))}
       </SimpleRow>

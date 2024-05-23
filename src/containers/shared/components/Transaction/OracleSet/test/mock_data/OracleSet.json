@@ -20,7 +20,7 @@
         "PriceData": {
           "AssetPrice": "67",
           "BaseAsset": "BTC",
-          "QuoteAsset": "EUR",
+          "QuoteAsset": "4155445400000000000000000000000000000000",
           "Scale": 2
         }
       }

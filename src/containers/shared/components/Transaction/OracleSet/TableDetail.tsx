@@ -4,6 +4,7 @@ import { useLanguage } from '../../../hooks'
 import { DATE_OPTIONS } from '../../../transactionUtils'
 import { localizeDate } from '../../../utils'
 import { MILLIS_PER_SECOND } from '../../../../../rippled/lib/convertRippleDate'
+import Currency from '../../Currency'
 
 export const TableDetail = ({
   instructions: tx,
@@ -49,7 +50,8 @@ export const TableDetail = ({
                 {priceDataObj.assetPrice ?? t('deleted')}
               </span>
               <span className="case-sensitive no-space">
-                {priceDataObj.tradingPair}
+                <Currency currency={priceDataObj.baseAsset} />/
+                <Currency currency={priceDataObj.quoteAsset} />
               </span>
             </>
             {index < tx.priceDataSeries.length - 1 && ', '}
