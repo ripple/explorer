@@ -1,25 +1,17 @@
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import parsePayment from 'xrpl-tx-path-parser'
+import pathParser from 'xrpl-tx-path-parser'
 import { Account } from '../../shared/components/Account'
 import { Amount } from '../../shared/components/Amount'
 import { formatAmount } from '../../../rippled/lib/txSummary/formatAmount'
-import Currency from '../../shared/components/Currency'
-
 import './breakDownTab.scss'
-
-// import {
-//   createSourceAmount,
-//   createPaymentDefaultPaths,
-//   amountToBalance,
-// } from 'xrpl-tx-path-parser'
 
 export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
   const [selectedView, setView] = useState('source')
 
   const hexToString = (hex: string) => {
-    let string = ''
+    let string: string = ''
     for (let i = 0; i < hex.length; i += 2) {
       const part = hex.substring(i, i + 2)
       const code = parseInt(part, 16)
@@ -35,24 +27,25 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
     type: String
   }> = ({ data, label, type }) => {
     const balances = []
-    data.forEach((change, index) => {
-      change.value *= -1
+    data.forEach((change: any, index: any) => {
+      const amount = change
+      amount.value *= -1
 
-      let balanceLabel =
+      let balanceLabel: string =
         type === 'direct'
           ? 'recieved'
-          : change.value < 0
+          : amount.value < 0
           ? t('sold')
           : t('bought')
       if (type === 'direct') {
-        change.value *= -1
+        amount.value *= -1
       }
       if (!label) {
         balanceLabel = ''
       }
       balances.push(
-        <li key={index}>
-          {balanceLabel} <Amount value={formatAmount(change)} />
+        <li key={String(index)}>
+          {balanceLabel} <Amount value={formatAmount(amount)} />
         </li>,
       )
     })
@@ -60,39 +53,39 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
     return <ul>{balances}</ul>
   }
   // eslint-disable-next-line react/no-unstable-nested-components
-  const Transaction: FC<{ parsed: any; account: Account }> = ({
+  const Transaction: FC<{ parsed: any; account: any }> = ({
     parsed,
     account,
   }) => {
     const changes = []
     parsed.accountBalanceChanges.forEach((change, index) => {
       if (account !== change.account) {
-        let type: String = ''
-        let span_class: String = ''
+        let type: string = ''
+        let spanClass: string = ''
         if (change.isDirect) {
           type = 'direct'
-          span_class = 'badge direct'
+          spanClass = 'badge direct'
         }
         if (change.isAMM) {
           type = 'amm'
-          span_class = 'badge amm'
+          spanClass = 'badge amm'
         }
         if (change.isOffer) {
           type = 'dex'
-          span_class = 'badge dex'
+          spanClass = 'badge dex'
         }
         if (change.isRippling) {
           type = 'rippling'
-          span_class = 'badge rippling'
+          spanClass = 'badge rippling'
         }
         changes.push(
-          <p key={`${index}-p`}>
-            <span className={span_class}>{type}</span>{' '}
+          <p key={`${String(index)}-p`}>
+            <span className={spanClass}>{type}</span>{' '}
             <Account account={change.account} />
           </p>,
 
           <BalanceChange
-            key={`${index}-b`}
+            key={`${String(index)}-b`}
             data={change.balances}
             label={!change.isRippling}
             type={type}
@@ -105,7 +98,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
   }
 
   // eslint-disable-next-line react/no-unstable-nested-components
-  const Cylindars: FC<{ parsed: any; account: Account }> = ({
+  const Cylindars: FC<{ parsed: any; account: any }> = ({
     parsed,
     account,
   }) => {
@@ -119,7 +112,6 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
     parsed.accountBalanceChanges.forEach((change) => {
       if (account !== change.account) {
         change.balances.forEach((balance) => {
-          // if (parsed.sourceAmount.currency === balance.currency) {
           if (
             (selectedView === 'source' &&
               parsed.destinationAmount.currency === balance.currency) ||
@@ -150,7 +142,6 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
     })
 
     const NON_STANDARD_CODE_LENGTH = 40
-    const XRP = 'XRP'
     const LP_TOKEN_IDENTIFIER = '03'
     const destinationCurrencyCode =
       parsed.destinationAmount.currency?.length === NON_STANDARD_CODE_LENGTH &&
@@ -264,14 +255,13 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
 
   const renderData = () => {
     data.tx.meta = data.meta
-    // delete mutate.meta
     try {
-      const parsed = parsePayment(data.tx)
+      const parsed = pathParser(data.tx)
       if (
         parsed.sourceAmount.value === '0' &&
         data.tx.TransactionType === 'OfferCreate'
       ) {
-        return <h3>{t('The offer has not crossed anything yet.')}</h3>
+        return <h3>{t('no_cross')}</h3>
       }
 
       return (

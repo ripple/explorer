@@ -116,6 +116,7 @@ export const Transaction = () => {
 
   function renderTabs() {
     const tabs =
+      data === undefined ||
       data.raw.tx.TransactionType === 'OfferCreate' ||
       data.raw.tx.TransactionType === 'Payment'
         ? ['simple', 'breakdown', 'detailed', 'raw']

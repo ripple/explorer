@@ -533,5 +533,6 @@
   "amm": "amm",
   "rippling": "rippling",
   "sold": "sold",
-  "bought": "bought"
+  "bought": "bought",
+  "no_cross": "The offer has not crossed anything yet"
 }
