@@ -45,11 +45,9 @@ export const TableDetail = ({
         {tx.priceDataSeries.map((priceDataObj, index) => (
           <>
             <>
-              {priceDataObj.assetPrice != null && (
-                <span className="case-sensitive">
-                  {priceDataObj.assetPrice ?? t('deleted')}
-                </span>
-              )}
+              <span className="case-sensitive">
+                {priceDataObj.assetPrice ?? t('deleted')}
+              </span>
               <span className="case-sensitive">{priceDataObj.tradingPair}</span>
             </>
             {index < tx.priceDataSeries.length - 1 && ', '}
