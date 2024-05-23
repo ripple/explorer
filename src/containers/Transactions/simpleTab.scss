@@ -65,9 +65,13 @@ $subdued-color: $black-40;
             }
           }
 
-          .one-line.list {
-            display: block;
-            margin: -1px 0px 0px;
+          &.list {
+            margin-bottom: 12px;
+
+            .one-line{
+              display: block;
+              margin: -1px 0px 0px;
+            }
           }
         }
 

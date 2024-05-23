@@ -48,7 +48,9 @@ export const TableDetail = ({
               <span className="case-sensitive">
                 {priceDataObj.assetPrice ?? t('deleted')}
               </span>
-              <span className="case-sensitive">{priceDataObj.tradingPair}</span>
+              <span className="case-sensitive no-space">
+                {priceDataObj.tradingPair}
+              </span>
             </>
             {index < tx.priceDataSeries.length - 1 && ', '}
           </>
