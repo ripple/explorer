@@ -40,26 +40,22 @@ export const TableDetail = ({
           </span>
         </>
       </>
-      {tx.priceDataSeries.length > 0 && (
-        <div className="trading-pair">
-          <span className="label">{t('trading_pairs')}: </span>
-          {tx.priceDataSeries.map((priceDataObj, index) => (
+      <div className="trading-pair">
+        <span className="label">{t('trading_pairs')}: </span>
+        {tx.priceDataSeries.map((priceDataObj, index) => (
+          <>
             <>
-              <>
-                {priceDataObj.assetPrice != null && (
-                  <span className="case-sensitive">
-                    {priceDataObj.assetPrice}
-                  </span>
-                )}
+              {priceDataObj.assetPrice != null && (
                 <span className="case-sensitive">
-                  {priceDataObj.tradingPair}
+                  {priceDataObj.assetPrice}
                 </span>
-              </>
-              {index < tx.priceDataSeries.length - 1 && ', '}
+              )}
+              <span className="case-sensitive">{priceDataObj.tradingPair}</span>
             </>
-          ))}
-        </div>
-      )}
+            {index < tx.priceDataSeries.length - 1 && ', '}
+          </>
+        ))}
+      </div>
     </>
   )
 }
