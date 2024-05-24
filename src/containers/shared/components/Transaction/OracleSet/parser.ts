@@ -3,7 +3,7 @@ import { OracleSet } from './types'
 
 // Convert scaled price (assetPrice) to original price using formula:
 // originalPrice = assetPrice / 10**scale
-// More details: https://github.com/XRPLF/XRPL-Standards/discussions/129
+// More details: https://github.com/XRPLF/XRPL-Standards/tree/master/XLS-47d-PriceOracles
 export function convertScaledPrice(assetPrice: string, scale: number) {
   const scaledPriceInBigInt = BigInt(`0x${assetPrice}`)
   const divisor = BigInt(10 ** scale)
