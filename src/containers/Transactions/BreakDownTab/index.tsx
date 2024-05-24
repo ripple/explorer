@@ -45,7 +45,8 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
       }
       balances.push(
         <li key={String(index)}>
-          {balanceLabel} <Amount value={formatAmount(amount)} />
+          {balanceLabel}{' '}
+          <Amount change_type={type} value={formatAmount(amount)} />
         </li>,
       )
     })
@@ -290,7 +291,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
             <div className="title">{t('liquidity_source')}</div>
             <Cylindars parsed={parsed} account={parsed.sourceAccount} />
           </div>
-          <div className="detail-section">
+          <div className="detail-section balance-changes">
             <div className="title">{t('balance_changes')}</div>
             <Transaction parsed={parsed} account={parsed.sourceAccount} />
           </div>
@@ -302,6 +303,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
         </div>
       )
     } catch (e) {
+      // console.log(e)
       return <h3>{t('incomplete_transaction')}</h3>
     }
   }
