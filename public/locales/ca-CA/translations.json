@@ -173,6 +173,8 @@
   "transaction_type_name_NFTokenMint": "Encunyar NFT",
   "transaction_type_name_OfferCancel": "Cancel·lar Oferta",
   "transaction_type_name_OfferCreate": "Crear Ofertae",
+  "transaction_type_name_OracleDelete": null,
+  "transaction_type_name_OracleSet": null,
   "transaction_type_name_Payment": "Pagament",
   "transaction_type_name_PaymentChannelClaim": "Reclamar al Canal de Pagament",
   "transaction_type_name_PaymentChannelCreate": "Crear Canal de Pagament",
@@ -534,5 +536,11 @@
   "rippling": "rippling",
   "sold": "sold",
   "bought": "bought",
-  "no_cross": "The offer has not crossed anything yet"
+  "no_cross": "The offer has not crossed anything yet",
+  "oracle_document_id": null,
+  "provider": null,
+  "last_update_time": null,
+  "asset_class": null,
+  "trading_pairs": null,
+  "deleted": null
 }
