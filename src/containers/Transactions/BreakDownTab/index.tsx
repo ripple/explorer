@@ -26,7 +26,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
     label: Boolean
     type: String
   }> = ({ data, label, type }) => {
-    const balances = []
+    const balances: string[] = []
     data.forEach((change: any, index: any) => {
       const amount = change
       amount.value *= -1
@@ -43,11 +43,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
       if (!label) {
         balanceLabel = ''
       }
-      balances.push(
-        <li key={String(index)}>
-          {balanceLabel} <Amount value={formatAmount(amount)} />
-        </li>,
-      )
+      balances.push(<li key={String(index)}>{balanceLabel}</li>)
     })
 
     return <ul>{balances}</ul>
@@ -57,7 +53,7 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
     parsed,
     account,
   }) => {
-    const changes = []
+    const changes: string[] = []
     parsed.accountBalanceChanges.forEach((change, index) => {
       if (account !== change.account) {
         let type: string = ''
@@ -254,32 +250,36 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
   }
 
   const renderData = () => {
-    data.tx.meta = data.meta
+    if (data === undefined || data.tx === undefined) {
+      return null
+    }
+
+    const mutated = data
+    mutated.tx.meta = data.meta
     try {
-      const parsed = pathParser(data.tx)
+      const parsed = pathParser(mutated.tx)
       if (
         parsed.sourceAmount.value === '0' &&
-        data.tx.TransactionType === 'OfferCreate'
+        mutated.tx.TransactionType === 'OfferCreate'
       ) {
         return <h3>{t('no_cross')}</h3>
       }
-
       return (
         <div className="row">
           <div className="detail-section">
-            <div className="title">{data.tx.TransactionType}</div>
-            <div>
+            <div className="title">{mutated.tx.TransactionType}</div>
+            <div className="source-account">
               Source: <Account account={parsed.sourceAccount} />
             </div>
-            <div>
-              <Amount value={formatAmount(parsed.sourceAmount)} />
+            <div className="source-amount">
+              <Amount value={formatAmount(parsed.sourceAmount as any)} />
             </div>
             <br />
-            <div>
+            <div className="destination-account">
               Destination: <Account account={parsed.destinationAccount} />
             </div>
-            <div>
-              <Amount value={formatAmount(parsed.destinationAmount)} />
+            <div className="destination-amount">
+              <Amount value={formatAmount(parsed.destinationAmount as any)} />
             </div>
           </div>
           <div className="detail-section no-border">
