@@ -135,7 +135,7 @@ describe('Transaction container', () => {
       )
       expect(summary.contains(<TxStatus status="tesSUCCESS" />)).toBe(true)
       expect(wrapper.find('.tabs').length).toBe(1)
-      expect(wrapper.find('a.tab').length).toBe(3)
+      expect(wrapper.find('a.tab').length).toBe(4)
       expect(wrapper.find('a.tab').at(0).props().title).toBe('simple')
       expect(wrapper.find('a.tab').at(1).props().title).toBe('breakdown')
       expect(wrapper.find('a.tab').at(2).props().title).toBe('detailed')
