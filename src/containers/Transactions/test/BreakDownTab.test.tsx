@@ -25,7 +25,7 @@ describe('BreakdownTab container', () => {
   it('renders breakdown tab information', () => {
     const wrapper = createWrapper(Payment)
 
-    console.log(Payment)
+    // console.log(Payment)
 
     expect(wrapper.find('.breakdown-body').length).toBe(1)
     expect(wrapper.find('.detail-section').length).toBe(3)
@@ -70,7 +70,7 @@ describe('BreakdownTab container', () => {
     ).toBe(true)
     expect(wrapper.contains(<span className="badge amm">amm</span>)).toBe(true)
 
-    console.log(wrapper.debug())
+    // console.log(wrapper.debug())
     wrapper.unmount()
   })
 })
