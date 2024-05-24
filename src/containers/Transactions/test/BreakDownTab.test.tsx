@@ -39,23 +39,23 @@ describe('BreakdownTab container', () => {
       wrapper.contains(<div className="title">liquidity_source</div>),
     ).toBe(true)
 
-    expect(wrapper.contains(<option value="source">USD source</option>)).toBe(
+    expect(wrapper.contains(<option value="source">XRP source</option>)).toBe(
       true,
     )
     expect(
-      wrapper.contains(<option value="destination">XRP destination</option>),
+      wrapper.contains(<option value="destination">USDC destination</option>),
     ).toBe(true)
 
     expect(wrapper.contains(<p>graph_dependent_currency</p>)).toBe(true)
 
     expect(
-      wrapper.contains(<span className="margin-text">amm (98%)</span>),
+      wrapper.contains(<span className="margin-text">amm (100%)</span>),
     ).toBe(true)
     expect(
-      wrapper.contains(<span className="margin-text">rippling (0%)</span>),
+      wrapper.contains(<span className="margin-text">rippling (100%)</span>),
     ).toBe(true)
     expect(
-      wrapper.contains(<span className="margin-text">dex (2%)</span>),
+      wrapper.contains(<span className="margin-text">dex (0%)</span>),
     ).toBe(true)
     expect(
       wrapper.contains(<span className="margin-text">direct (0%)</span>),
@@ -64,13 +64,38 @@ describe('BreakdownTab container', () => {
     expect(wrapper.contains(<div className="title">balance_changes</div>)).toBe(
       true,
     )
-    expect(wrapper.contains(<span className="badge dex">dex</span>)).toBe(true)
+
+    expect(wrapper.contains(<span className="badge dex">dex</span>)).toBe(false)
+    expect(wrapper.contains(<span className="badge dex">direct</span>)).toBe(
+      false,
+    )
     expect(
       wrapper.contains(<span className="badge rippling">rippling</span>),
     ).toBe(true)
     expect(wrapper.contains(<span className="badge amm">amm</span>)).toBe(true)
 
+    const balanceChanges = wrapper.find('.balance-changes')
+    expect(balanceChanges.find('BalanceChange')).toHaveLength(2)
     // console.log(wrapper.debug())
+
+    expect(
+      balanceChanges.contains(
+        <span className="amount-localized">26.79746261</span>,
+      ),
+    ).toBe(true)
+    expect(
+      balanceChanges.contains(
+        <span className="amount-localized">-26.877855</span>,
+      ),
+    ).toBe(true)
+    expect(
+      balanceChanges.contains(
+        <span className="amount-localized">-50.624692</span>,
+      ),
+    ).toBe(true)
+
     wrapper.unmount()
   })
+
+  // console.log(balanceChanges.debug())
 })
