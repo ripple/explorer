@@ -43,7 +43,11 @@ export const BreakDownTab: FC<{ data: any }> = ({ data }) => {
       if (!label) {
         balanceLabel = ''
       }
-      balances.push(<li key={String(index)}>{balanceLabel}</li>)
+      balances.push(
+        <li key={String(index)}>
+          {balanceLabel} <Amount value={formatAmount(amount)} />
+        </li>,
+      )
     })
 
     return <ul>{balances}</ul>
