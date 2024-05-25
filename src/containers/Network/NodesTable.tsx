@@ -162,6 +162,27 @@ export const NodesTable: FC<{ nodes: NodeData[] }> = ({
     </tr>
   )
 
+  const compareSemanticVersions = (
+    a: string,
+    b: string,
+    returnValue: string,
+  ) => {
+    const a1 = a.split('.')
+    const b1 = b.split('.')
+
+    const len = Math.min(a1.length, b1.length)
+
+    for (let i = 0; i < len; i++) {
+      const a2 = +a1[i] || 0
+      const b2 = +b1[i] || 0
+
+      if (a2 !== b2) {
+        return a2 > b2 ? returnValue : returnValue * -1
+      }
+    }
+    return b1.length - a1.length
+  }
+
   if (nodes !== null) {
     const sort = (key: any, order: string) => {
       const returnValue = order === 'desc' ? 1 : -1
@@ -180,13 +201,15 @@ export const NodesTable: FC<{ nodes: NodeData[] }> = ({
             ? returnValue * -1
             : returnValue,
         )
+      } else if (key === 'rippled_version') {
+        nodes.sort((a, b) =>
+          compareSemanticVersions(a.version, b.version, returnValue),
+        )
       } else {
         nodes.sort((a, b) => (a[key] > b[key] ? returnValue * -1 : returnValue))
       }
     }
 
-    // console.log('sortingg....')
-    // console.log(nodes)
     sort(sortedField, sortOrder)
   }
 
