@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Loader } from '../shared/components/Loader'
 import { durationToHuman } from '../shared/utils'
@@ -15,21 +15,28 @@ const renderLastLedger = (ledger) =>
   ) : (
     <i>unknown</i>
   )
-
-const renderLedgerHistory = (ledgers, range) => {
+const getLedgerHistory = (ledgers, range, MAX_WIDTH = 160) => {
   let count = 0
-  const MAX_WIDTH = 160
+  let boxes = ''
   const min = Math.max(range[1] - 10000000, range[0])
   const diff = range[1] - min
 
   if (ledgers) {
-    const boxes = ledgers.map((l) => {
+    boxes = ledgers.map((l) => {
       const [low, high] = l
       const width = Math.min((high - low + 1) / diff, 1) * MAX_WIDTH
       const left = Math.max((low - min) / diff, 0) * MAX_WIDTH
       count += high - low
       return <div key={low} style={{ left, width }} />
     })
+  }
+  return { boxes, count }
+}
+const renderLedgerHistory = (ledgers, range) => {
+  const MAX_WIDTH = 160
+
+  if (ledgers) {
+    const { boxes, count } = getLedgerHistory(ledgers, range, MAX_WIDTH)
 
     if (count < 0) {
       return null
@@ -99,19 +106,38 @@ export const NodesTable: FC<{ nodes: NodeData[] }> = ({
 }) => {
   const nodes = unformattedNodes ? formatLedgerHistory(unformattedNodes) : null
   const ledgerRange = nodes && getLedgerRange(nodes)
+  const [sortedField, setSortedField] = useState(null)
+  const [sortOrder, setSortOrder] = useState(null)
+
+  const requestSort = (key) => {
+    let direction = 'desc'
+    if (sortedField === key && sortOrder === 'desc') {
+      direction = 'asc'
+    }
+    setSortOrder(direction)
+    setSortedField(key)
+  }
 
   const { t } = useTranslation()
   const renderNode = (node) => (
     <tr key={node.node_public_key}>
-      <td className="pubkey text-truncate">{node.node_public_key}</td>
-      <td className="ip text-truncate">{node.ip}</td>
-      <td className="state center">
+      <td className={getClassNamesFor('pubkey text-truncate', 'pubkey')}>
+        {node.node_public_key}
+      </td>
+      <td className={getClassNamesFor('ip text-truncate', 'ip')}>{node.ip}</td>
+      <td className={getClassNamesFor('state center', 'server_state')}>
         <span className={node.server_state}>{node.server_state}</span>
       </td>
-      <td className="version">{getVersion(node.version)}</td>
-      <td className="last-ledger">{renderLastLedger(node.validated_ledger)}</td>
-      <td className="uptime">{durationToHuman(node.uptime)}</td>
-      <td className="peers right">
+      <td className={getClassNamesFor('version', 'rippled_version')}>
+        {getVersion(node.version)}
+      </td>
+      <td className={getClassNamesFor('last-ledger', 'last_ledger')}>
+        {renderLastLedger(node.validated_ledger)}
+      </td>
+      <td className={getClassNamesFor('uptime', 'uptime')}>
+        {durationToHuman(node.uptime)}
+      </td>
+      <td className={getClassNamesFor('peers right', 'peers')}>
         {node.inbound_count + node.outbound_count}
       </td>
       <td className="in-out">
@@ -119,39 +145,138 @@ export const NodesTable: FC<{ nodes: NodeData[] }> = ({
           ({node.inbound_count}:{node.outbound_count})
         </small>
       </td>
-      <td className="ledgers">
+      <td className={getClassNamesFor('ledgers', 'ledger_history')}>
         {renderLedgerHistory(node.ledgers, ledgerRange)}
       </td>
-      <td className="quorum right">{node.quorum}</td>
-      <td className="load-factor right">
+      <td className={getClassNamesFor('quorum right', 'quorum')}>
+        {node.quorum}
+      </td>
+      <td className={getClassNamesFor('load-factor right', 'load')}>
         {node.load_factor && node.load_factor > 1
           ? node.load_factor.toFixed(2)
           : ''}
       </td>
-      <td className="latency right">
+      <td className={getClassNamesFor('latency right', 'latency')}>
         {node.io_latency_ms && node.io_latency_ms > 1}
       </td>
     </tr>
   )
 
+  if (nodes !== null) {
+    const sort = (key: any, order: string) => {
+      const returnValue = order === 'desc' ? 1 : -1
+
+      if (key === 'peers') {
+        nodes.sort((a, b) =>
+          a.inbound_count + a.outbound_count >
+          b.inbound_count + b.outbound_count
+            ? returnValue * -1
+            : returnValue,
+        )
+      } else if (key === 'ledger_history') {
+        nodes.sort((a, b) =>
+          getLedgerHistory(a.ledgers, ledgerRange).count >
+          getLedgerHistory(b.ledgers, ledgerRange).count
+            ? returnValue * -1
+            : returnValue,
+        )
+      } else {
+        nodes.sort((a, b) => (a[key] > b[key] ? returnValue * -1 : returnValue))
+      }
+    }
+
+    // console.log('sortingg....')
+    // console.log(nodes)
+    sort(sortedField, sortOrder)
+  }
+
+  const getClassNamesFor = (name, order) =>
+    sortedField === order ? `${name} sorted` : name
+  const getClassArrowFor = (field) => {
+    if (sortedField === field && sortOrder === 'desc') {
+      return 'arrow down'
+    }
+    if (sortedField === field && sortOrder === 'asc') {
+      return 'arrow up'
+    }
+    return ''
+  }
+
   const content = nodes ? (
     <table className="basic">
       <thead>
         <tr>
-          <th className="pubkey">{t('node_pubkey')}</th>
-          <th className="ip">{t('ip')}</th>
-          <th className="server-state center">{t('state')}</th>
-          <th className="version">{t('rippled_version')}</th>
-          <th className="last-ledger">{t('last_ledger')}</th>
-          <th className="uptime">{t('uptime')}</th>
-          <th className="peers right">{t('peers')}</th>
+          <th className={getClassNamesFor('pubkey', 'pubkey')}>
+            <a href="#" onClick={() => requestSort('pubkey')}>
+              <i className={getClassArrowFor('pubkey')} />
+              {t('node_pubkey')}
+            </a>
+          </th>
+          <th className={getClassNamesFor('ip', 'ip')}>
+            <a href="#" onClick={() => requestSort('ip')}>
+              <i className={getClassArrowFor('ip')} />
+              {t('ip')}
+            </a>
+          </th>
+          <th
+            className={getClassNamesFor('server-state center', 'server_state')}
+          >
+            <a href="#" onClick={() => requestSort('server_state')}>
+              <i className={getClassArrowFor('server_state')} />
+              {t('state')}
+            </a>
+          </th>
+          <th className={getClassNamesFor('version', 'rippled_version')}>
+            <a href="#" onClick={() => requestSort('rippled_version')}>
+              <i className={getClassArrowFor('rippled_version')} />
+              {t('rippled_version')}{' '}
+            </a>
+          </th>
+          <th className={getClassNamesFor('last-ledger', 'last_ledger')}>
+            <a href="#" onClick={() => requestSort('last_ledger')}>
+              <i className={getClassArrowFor('last_ledger')} />
+              {t('last_ledger')}
+            </a>
+          </th>
+          <th className={getClassNamesFor('uptime', 'uptime')}>
+            <a href="#" onClick={() => requestSort('uptime')}>
+              <i className={getClassArrowFor('uptime')} />
+              {t('uptime')}
+            </a>
+          </th>
+          <th className={getClassNamesFor('peers right', 'peers')}>
+            <a href="#" onClick={() => requestSort('peers')}>
+              <i className={getClassArrowFor('peers')} />
+              {t('peers')}
+            </a>
+          </th>
           <th className="in-out">
             <small>{t('in_out')}</small>
           </th>
-          <th className="ledgers">{t('ledger_history')}</th>
-          <th className="quorum right">{t('quorum')}</th>
-          <th className="load-factor right">{t('load')}</th>
-          <th className="latency right">{t('latency')}</th>
+          <th className={getClassNamesFor('ledgers', 'ledger_history')}>
+            <a href="#" onClick={() => requestSort('ledger_history')}>
+              <i className={getClassArrowFor('ledger_history')} />
+              {t('ledger_history')}
+            </a>
+          </th>
+          <th className={getClassNamesFor('quorum right', 'quorum')}>
+            <a href="#" onClick={() => requestSort('quorum')}>
+              <i className={getClassArrowFor('quorum')} />
+              {t('quorum')}
+            </a>
+          </th>
+          <th className={getClassNamesFor('load-factor right', 'load')}>
+            <a href="#" onClick={() => requestSort('load')}>
+              <i className={getClassArrowFor('load')} />
+              {t('load')}
+            </a>
+          </th>
+          <th className={getClassNamesFor('latency right', 'latency')}>
+            <a href="#" onClick={() => requestSort('latency')}>
+              <i className={getClassArrowFor('latency')} />
+              {t('latency')}
+            </a>
+          </th>
         </tr>
       </thead>
       <tbody>{nodes.map(renderNode)}</tbody>
