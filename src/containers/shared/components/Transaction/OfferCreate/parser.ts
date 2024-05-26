@@ -14,19 +14,19 @@ export function parser(tx: any, meta: any) {
 
   tx.meta = meta
   const parsed = pathParser(tx)
-  const deliveredPrice = Math.abs(
-    parsed.destinationAmount.value / parsed.sourceAmount.value,
-  )
-
-  console.log('parsed', parsed)
+  const deliveredPrice =
+    parsed.destinationAmount.value > 0
+      ? Math.abs(parsed.destinationAmount.value / parsed.sourceAmount.value)
+      : undefined
 
   return {
     gets,
     pays,
     price: (invert ? 1 / price : price).toPrecision(6),
-    deliveredPrice: (invert ? 1 / deliveredPrice : deliveredPrice).toPrecision(
-      6,
-    ),
+    deliveredPrice:
+      deliveredPrice !== undefined
+        ? (invert ? 1 / deliveredPrice : deliveredPrice).toPrecision(6)
+        : undefined,
     firstCurrency: invert ? counter : base,
     secondCurrency: invert ? base : counter,
     cancel: tx.OfferSequence,

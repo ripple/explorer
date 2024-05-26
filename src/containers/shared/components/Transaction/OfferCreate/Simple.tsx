@@ -10,6 +10,34 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { deliveredPrice, firstCurrency, secondCurrency, pays, gets, cancel } =
     data.instructions
 
+  const getDeliveredAmount = () => {
+    let result: string = ''
+
+    if (deliveredPrice !== undefined) {
+      result = (
+        <SimpleRow label={t('filled_price')}>
+          <div className="amount" data-test="amount">
+            {`${Number(deliveredPrice)}`}
+            <div className="one-line">
+              <Currency
+                currency={firstCurrency.currency}
+                issuer={firstCurrency.issuer}
+                shortenIssuer
+              />
+              /
+              <Currency
+                currency={secondCurrency.currency}
+                issuer={secondCurrency.issuer}
+                shortenIssuer
+              />
+            </div>
+          </div>
+        </SimpleRow>
+      )
+    }
+    return result
+  }
+
   return (
     <>
       <SimpleRow label={t('buy')} data-test="amount-buy">
@@ -23,26 +51,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
           #{cancel}
         </SimpleRow>
       )}
-      <br />
-      <h4>Executed Information</h4>
-      <SimpleRow label={t('filled_price')}>
-        <div className="amount" data-test="amount">
-          {`${Number(deliveredPrice)}`}
-          <div className="one-line">
-            <Currency
-              currency={firstCurrency.currency}
-              issuer={firstCurrency.issuer}
-              shortenIssuer
-            />
-            /
-            <Currency
-              currency={secondCurrency.currency}
-              issuer={secondCurrency.issuer}
-              shortenIssuer
-            />
-          </div>
-        </div>
-      </SimpleRow>
+      {getDeliveredAmount()}
     </>
   )
 }
