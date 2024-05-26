@@ -38,6 +38,11 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
     return result
   }
 
+  const rendetfSell = () => {
+    const { tfSell } = data.instructions
+    return tfSell ? <div className="partial-row">tfSell</div> : null
+  }
+
   return (
     <>
       <SimpleRow label={t('buy')} data-test="amount-buy">
@@ -45,6 +50,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       </SimpleRow>
       <SimpleRow label={t('sell')} data-test="amount-sell">
         <Amount value={gets} />
+        {rendetfSell()}
       </SimpleRow>
       {cancel && (
         <SimpleRow label={t('cancel_offer')} data-test="cancel-id">

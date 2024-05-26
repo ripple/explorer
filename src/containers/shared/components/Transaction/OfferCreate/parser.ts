@@ -2,6 +2,8 @@ import pathParser from 'xrpl-tx-path-parser'
 import { CURRENCY_ORDER } from '../../../transactionUtils'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
+export const istfSell = (flags: any) => 0x00080000 & flags
+
 export function parser(tx: any, meta: any) {
   const gets = formatAmount(tx.TakerGets)
   const base = tx.TakerGets.currency ? tx.TakerGets : { currency: 'XRP' }
@@ -19,6 +21,8 @@ export function parser(tx: any, meta: any) {
       ? Math.abs(parsed.destinationAmount.value / parsed.sourceAmount.value)
       : undefined
 
+  const tfSell = !!istfSell(tx.Flags)
+
   return {
     gets,
     pays,
@@ -30,5 +34,6 @@ export function parser(tx: any, meta: any) {
     firstCurrency: invert ? counter : base,
     secondCurrency: invert ? base : counter,
     cancel: tx.OfferSequence,
+    tfSell,
   }
 }
