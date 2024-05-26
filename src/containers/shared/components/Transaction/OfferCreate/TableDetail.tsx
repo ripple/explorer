@@ -5,16 +5,16 @@ import Currency from '../../Currency'
 export const TableDetail = (props: any) => {
   const { t } = useTranslation()
   const { instructions } = props
-  const { gets, pays, price, firstCurrency, secondCurrency, cancel } =
+  const { gets, pays, deliveredPrice, firstCurrency, secondCurrency, cancel } =
     instructions
 
   return pays && gets ? (
     <div className="offercreate">
       <div className="price" data-test="pair">
-        <span className="label">{t('price')}:</span>
+        <span className="label">{t('filled_price')}:</span>
 
         <span className="amount" data-test="amount">
-          {`${Number(price)} `}
+          {`${Number(deliveredPrice)} `}
           <Currency
             currency={firstCurrency.currency}
             issuer={firstCurrency.issuer}

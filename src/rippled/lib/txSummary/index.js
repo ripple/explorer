@@ -27,6 +27,8 @@ const summarizeTransaction = (d, details = false) => {
     details: details
       ? {
           instructions: getInstructions(d.tx, d.meta),
+          tx: d.tx,
+          meta: d.meta,
         }
       : undefined,
   }
