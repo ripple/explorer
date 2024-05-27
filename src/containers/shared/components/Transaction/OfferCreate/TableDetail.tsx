@@ -19,24 +19,26 @@ export const TableDetail = (props: any) => {
     tfSell ? <div className="partial-payment">tfSell</div> : null
   return pays && gets ? (
     <div className="offercreate">
-      <div className="price" data-test="pair">
-        <span className="label">{t('filled_price')}:</span>
+      {!cancel && (
+        <div className="price" data-test="pair">
+          <span className="label">{t('filled_price')}:</span>
 
-        <span className="amount" data-test="amount">
-          {`${Number(deliveredPrice)} `}
-          <Currency
-            currency={firstCurrency.currency}
-            issuer={firstCurrency.issuer}
-            shortenIssuer
-          />
-          /
-          <Currency
-            currency={secondCurrency.currency}
-            issuer={secondCurrency.issuer}
-            shortenIssuer
-          />
-        </span>
-      </div>
+          <span className="amount" data-test="amount">
+            {`${Number(deliveredPrice)} `}
+            <Currency
+              currency={firstCurrency.currency}
+              issuer={firstCurrency.issuer}
+              shortenIssuer
+            />
+            /
+            <Currency
+              currency={secondCurrency.currency}
+              issuer={secondCurrency.issuer}
+              shortenIssuer
+            />
+          </span>
+        </div>
+      )}
       <div>
         <span className="label">{t('buy')}</span>
         <Amount value={pays} data-test="amount-buy" />
