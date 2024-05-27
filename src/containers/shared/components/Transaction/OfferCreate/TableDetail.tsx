@@ -19,7 +19,7 @@ export const TableDetail = (props: any) => {
     tfSell ? <div className="partial-payment">tfSell</div> : null
   return pays && gets ? (
     <div className="offercreate">
-      {!cancel && (
+      {!cancel && deliveredPrice !== undefined && (
         <div className="price" data-test="pair">
           <span className="label">{t('filled_price')}:</span>
 
