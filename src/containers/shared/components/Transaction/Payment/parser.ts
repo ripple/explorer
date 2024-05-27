@@ -1,3 +1,4 @@
+import pathParser from 'xrpl-tx-path-parser'
 import type { Payment } from 'xrpl'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { PaymentInstructions } from './types'
@@ -20,12 +21,20 @@ export const parser = (tx: Payment, meta: any): PaymentInstructions => {
   const dt = tx.DestinationTag !== undefined ? `:${tx.DestinationTag}` : ''
   const destination = `${tx.Destination}${dt}`
 
+  tx.meta = meta
+  const parsed = pathParser(tx)
+  const deliveredPrice =
+    parsed.destinationAmount.value > 0
+      ? Math.abs(parsed.destinationAmount.value / parsed.sourceAmount.value)
+      : undefined
+
   if (tx.Account === tx.Destination) {
     return {
       amount,
       convert: max,
       destination,
       partial,
+      deliveredPrice,
     }
   }
 
@@ -35,5 +44,6 @@ export const parser = (tx: Payment, meta: any): PaymentInstructions => {
     destination: `${tx.Destination}${dt}`,
     sourceTag: tx.SourceTag,
     partial,
+    deliveredPrice,
   }
 }
