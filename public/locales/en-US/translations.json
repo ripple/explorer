@@ -173,6 +173,8 @@
   "transaction_type_name_NFTokenMint": "NFT Mint",
   "transaction_type_name_OfferCancel": "Offer Cancel",
   "transaction_type_name_OfferCreate": "Offer Create",
+  "transaction_type_name_OracleDelete": "Oracle Delete",
+  "transaction_type_name_OracleSet": "Oracle Set",
   "transaction_type_name_Payment": "Payment",
   "transaction_type_name_PaymentChannelClaim": "Payment Channel Claim",
   "transaction_type_name_PaymentChannelCreate": "Payment Channel Create",
@@ -524,4 +526,10 @@
   "transaction_tokens_involved": "<Currency/> and <Currency2/>",
   "transaction_tokens_swapped": "<Currency/> for <Currency2/>",
   "filled_price": "filled price"
+  "oracle_document_id": "Oracle Document ID",
+  "provider": "Provider",
+  "last_update_time": "Last Update Time",
+  "asset_class": "Asset Class",
+  "trading_pairs": "Trading Pairs",
+  "deleted": "Deleted"
 }

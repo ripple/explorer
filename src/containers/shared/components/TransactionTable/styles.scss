@@ -127,6 +127,10 @@
       display: inline-block;
       margin-right: 5px;
 
+      &.no-space {
+        margin-right: 0;
+      }
+
       span {
         margin: 0;
       }
