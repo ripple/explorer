@@ -4,7 +4,6 @@ import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
 import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
-import { convertHexToBigInt } from '../../../containers/shared/utils'
 
 interface Props {
   data: MPTIssuanceFormattedInfo
