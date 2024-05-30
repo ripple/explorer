@@ -15,10 +15,10 @@ describe('OfferCreate: Simple', () => {
       '#44866443',
     )
     expect(wrapper.find('[data-test="amount-buy"] .value')).toHaveText(
-      `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
+      `\uE9001,764.293151 XRP`,
     )
     expect(wrapper.find('[data-test="amount-sell"] .value')).toHaveText(
-      `\uE9001,764.293151 XRP`,
+      `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
     wrapper.unmount()
   })
@@ -28,10 +28,10 @@ describe('OfferCreate: Simple', () => {
 
     expect(wrapper.find('[data-test="offer-id"] .value')).not.toExist()
     expect(wrapper.find('[data-test="amount-buy"] .value')).toHaveText(
-      `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
+      `\uE90024,755.081083 XRP`,
     )
     expect(wrapper.find('[data-test="amount-sell"] .value')).toHaveText(
-      `\uE90024,755.081083 XRP`,
+      `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
     )
   })
 })

@@ -59,7 +59,7 @@ const Description: TransactionDescriptionComponent = (
           to={TRANSACTION_ROUTE}
           params={{ identifier: deleted.FinalFields.PreviousTxnID }}
         >
-          {`${deleted.FinalFields.PreviousTxnID.substr(0, 6)}...`}
+          {`${deleted.FinalFields.PreviousTxnID.substring(0, 6)}...`}
         </RouteLink>
       </Trans>
       {data.tx.Fulfillment && (

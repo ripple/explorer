@@ -20,6 +20,8 @@ import { NFTokenCreateOfferTransaction as NFTokenCreateOffer } from './NFTokenCr
 import { NFTokenAcceptOfferTransaction as NFTokenAcceptOffer } from './NFTokenAcceptOffer'
 import { OfferCancelTransaction as OfferCancel } from './OfferCancel'
 import { OfferCreateTransaction as OfferCreate } from './OfferCreate'
+import { OracleDeleteTransaction as OracleDelete } from './OracleDelete'
+import { OracleSetTransaction as OracleSet } from './OracleSet'
 import { PaymentTransaction as Payment } from './Payment'
 import { PaymentChannelClaimTransaction as PaymentChannelClaim } from './PaymentChannelClaim'
 import { PaymentChannelCreateTransaction as PaymentChannelCreate } from './PaymentChannelCreate'
@@ -68,6 +70,8 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   NFTokenAcceptOffer,
   OfferCancel,
   OfferCreate,
+  OracleDelete,
+  OracleSet,
   Payment,
   PaymentChannelCreate,
   PaymentChannelClaim,

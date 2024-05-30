@@ -175,7 +175,7 @@ export function groupAffectedNodes(trans: Transaction) {
 export function decodeHex(hex: string) {
   let str = ''
   for (let i = 0; i < hex.length; i += 2) {
-    const v = parseInt(hex.substr(i, 2), 16)
+    const v = parseInt(hex.substring(i, i + 2), 16)
     str += v ? String.fromCharCode(v) : ''
   }
   return str

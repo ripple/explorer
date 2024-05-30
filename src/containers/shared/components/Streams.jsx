@@ -143,8 +143,8 @@ class Streams extends Component {
     }, 100)
   }
 
-  componentDidMount() {
-    this.connect()
+  async componentDidMount() {
+    await this.connect()
     this.updateNegativeUNL()
     if (process.env.VITE_ENVIRONMENT !== 'custom') {
       this.updateMetricsFromServer()
@@ -179,8 +179,8 @@ class Streams extends Component {
   }
 
   // handle ledger messages
-  handleLedger(data) {
-    const ledger = this.addLedger(data)
+  async handleLedger(data) {
+    const ledger = await this.addLedger(data)
     const {
       ledger_hash: ledgerHash,
       ledger_index: ledgerIndex,
@@ -200,7 +200,7 @@ class Streams extends Component {
   }
 
   // handle validation messages
-  handleValidation(data) {
+  async handleValidation(data) {
     const { ledger_hash: ledgerHash, validation_public_key: pubkey } = data
     const ledgerIndex = Number(data.ledger_index)
 
@@ -208,7 +208,7 @@ class Streams extends Component {
       return undefined
     }
 
-    this.addLedger(data)
+    await this.addLedger(data)
 
     this.setState((prevState) => {
       if (!prevState.allValidators[pubkey]) {
@@ -330,6 +330,12 @@ class Streams extends Component {
     })
   }
 
+  async setStateAsync(state) {
+    return new Promise((resolve) => {
+      this.setState(state, resolve)
+    })
+  }
+
   getTruncatedLedgers(max) {
     const { ledgers, maxLedger } = this.state
     const newMax = Math.max(max, maxLedger)
@@ -395,10 +401,10 @@ class Streams extends Component {
   }
 
   // add the ledger to the cache
-  addLedger(data) {
+  async addLedger(data) {
     const { ledger_index: ledgerIndex } = data
 
-    this.setState((prevState) => {
+    await this.setStateAsync((prevState) => {
       if (!prevState.allLedgers[ledgerIndex]) {
         const allLedgers = Object.assign(prevState.allLedgers, {
           [ledgerIndex]: {
@@ -493,14 +499,14 @@ class Streams extends Component {
     })
   }
 
-  connect() {
+  async connect() {
     const rippledSocket = this.context
 
-    this.onLedgerWrapper = (streamResult) => {
+    this.onLedgerWrapper = async (streamResult) => {
       if (streamResult.type !== 'ledgerClosed') {
         return
       }
-      const { ledger, baseFee } = this.handleLedger(streamResult)
+      const { ledger, baseFee } = await this.handleLedger(streamResult)
       this.onLedger(ledger)
       fetchLedger(ledger, rippledSocket)
         .then((ledgerSummary) => {
@@ -535,8 +541,8 @@ class Streams extends Component {
 
     rippledSocket.on('ledger', this.onLedgerWrapper)
 
-    this.onValidationWrapper = (streamResult) => {
-      const data = this.handleValidation(streamResult)
+    this.onValidationWrapper = async (streamResult) => {
+      const data = await this.handleValidation(streamResult)
       if (data) {
         this.onValidation(data)
       }
