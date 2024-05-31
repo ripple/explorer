@@ -31,7 +31,7 @@ const Currency = (props: Props) => {
   let content
 
   if (isMPT) {
-    const display = 'MPT (' + currency + ')'
+    const display = `MPT (${currency})`
     content = link ? (
       <RouteLink to={MPT_ROUTE} params={{ id: currency }}>
         {display}

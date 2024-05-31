@@ -5,12 +5,9 @@ import {
 } from '../../../containers/shared/types'
 import { XRP_BASE } from '../utils'
 
-export const isMPTAmount = (amount: Amount): amount is MPTAmount => {
-  return (
-    (amount as MPTAmount).mpt_issuance_id !== undefined &&
-    (amount as MPTAmount).value !== undefined
-  )
-}
+export const isMPTAmount = (amount: Amount): amount is MPTAmount =>
+  (amount as MPTAmount).mpt_issuance_id !== undefined &&
+  (amount as MPTAmount).value !== undefined
 
 export const formatAmount = (d: Amount | number): ExplorerAmount => {
   if (d == null) {

@@ -1,10 +1,9 @@
-import { hexToString } from '@xrplf/isomorphic/utils'
+import { hexToString, hexToBytes } from '@xrplf/isomorphic/utils'
+import { encodeAccountID } from 'ripple-address-codec'
 import { convertRippleDate } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
 import { decodeHex } from '../../containers/shared/transactionUtils'
 import { convertHexToBigInt } from '../../containers/shared/utils'
-import { encodeAccountID } from 'ripple-address-codec'
-import { hexToBytes } from '@xrplf/isomorphic/utils'
 
 const XRP_BASE = 1000000
 const BILLION = 1000000000
@@ -144,41 +143,37 @@ const formatNFTInfo = (info) => ({
   warnings: info.warnings,
 })
 
-const formatMPTIssuanceInfo = (info) => {
-  return {
-    issuer: info.node.Issuer,
-    assetScale: info.node.AssetScale,
-    maxAmt: info.node.MaximumAmount
-      ? convertHexToBigInt(info.node.MaximumAmount).toString(10)
-      : undefined, // default is undefined because the default maxAmt is the largest 63-bit int
-    outstandingAmt: info.node.OutstandingAmount
-      ? convertHexToBigInt(info.node.OutstandingAmount).toString(10)
-      : '0',
-    transferFee: info.node.TransferFee,
-    sequence: info.node.Sequence,
-    metadata: info.node.MPTokenMetadata
-      ? decodeHex(info.node.MPTokenMetadata)
-      : info.node.MPTokenMetadata,
-    flags: buildFlags(info.node.Flags, MPT_ISSUANCE_FLAGS),
-  }
-}
+const formatMPTIssuanceInfo = (info) => ({
+  issuer: info.node.Issuer,
+  assetScale: info.node.AssetScale,
+  maxAmt: info.node.MaximumAmount
+    ? convertHexToBigInt(info.node.MaximumAmount).toString(10)
+    : undefined, // default is undefined because the default maxAmt is the largest 63-bit int
+  outstandingAmt: info.node.OutstandingAmount
+    ? convertHexToBigInt(info.node.OutstandingAmount).toString(10)
+    : '0',
+  transferFee: info.node.TransferFee,
+  sequence: info.node.Sequence,
+  metadata: info.node.MPTokenMetadata
+    ? decodeHex(info.node.MPTokenMetadata)
+    : info.node.MPTokenMetadata,
+  flags: buildFlags(info.node.Flags, MPT_ISSUANCE_FLAGS),
+})
 
-const formatMPTokenInfo = (info) => {
-  return {
-    account: info.Account,
-    flags: buildFlags(info.Flags, MPTOKEN_FLAGS),
-    mptIssuanceID: info.MPTokenIssuanceID,
-    mptIssuer: encodeAccountID(
-      hexToBytes(info.MPTokenIssuanceID.substring(8, 48)),
-    ),
-    mptAmount: info.MPTAmount
-      ? convertHexToBigInt(info.MPTAmount).toString(10)
-      : '0',
-    lockedAmount: info.LockedAmount
-      ? convertHexToBigInt(info.LockedAmount).toString(10)
-      : '0',
-  }
-}
+const formatMPTokenInfo = (info) => ({
+  account: info.Account,
+  flags: buildFlags(info.Flags, MPTOKEN_FLAGS),
+  mptIssuanceID: info.MPTokenIssuanceID,
+  mptIssuer: encodeAccountID(
+    hexToBytes(info.MPTokenIssuanceID.substring(8, 48)),
+  ),
+  mptAmount: info.MPTAmount
+    ? convertHexToBigInt(info.MPTAmount).toString(10)
+    : '0',
+  lockedAmount: info.LockedAmount
+    ? convertHexToBigInt(info.LockedAmount).toString(10)
+    : '0',
+})
 
 export {
   XRP_BASE,

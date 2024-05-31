@@ -256,9 +256,7 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
   }
 }
 
-export const convertHexToBigInt = (s) => {
-  return BigInt('0x' + s)
-}
+export const convertHexToBigInt = (s) => BigInt(`0x${s}`)
 
 export const durationToHuman = (s, decimal = 2) => {
   const d = {}

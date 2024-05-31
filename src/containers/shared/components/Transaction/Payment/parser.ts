@@ -1,4 +1,4 @@
-//import type { Payment } from 'xrpl'
+// import type { Payment } from 'xrpl'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { PaymentInstructions } from './types'
 import { Amount, ExplorerAmount } from '../../../types'
