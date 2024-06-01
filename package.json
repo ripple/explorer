@@ -86,7 +86,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest-enzyme": "^7.1.0",
     "jest-websocket-mock": "^2.5.0",
-    "lint-staged": "^15.1.0",
+    "lint-staged": "^15.2.5",
     "mock-socket": "^9.1.5",
     "moxios": "^0.4.0",
     "nodemon": "^3.0.1",
