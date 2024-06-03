@@ -54,7 +54,7 @@
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.2.0",
-    "xrpl-client": "^2.1.0"
+    "xrpl-client": "^2.4.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.6",
