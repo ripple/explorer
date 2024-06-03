@@ -525,6 +525,7 @@
   "indicate_unl": "indicates a validator on an UNL",
   "transaction_tokens_involved": "<Currency/> and <Currency2/>",
   "transaction_tokens_swapped": "<Currency/> for <Currency2/>",
+  "filled_price": "filled price"
   "oracle_document_id": "Oracle Document ID",
   "provider": "Provider",
   "last_update_time": "Last Update Time",
