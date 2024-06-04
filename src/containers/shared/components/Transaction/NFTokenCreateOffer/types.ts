@@ -1,4 +1,5 @@
-import { ExplorerAmount } from '../../../../shared/types'
+import { ExplorerAmount } from '../../../types'
+
 export interface NFTokenCreateOfferInstructions {
   account: string
   amount: ExplorerAmount
