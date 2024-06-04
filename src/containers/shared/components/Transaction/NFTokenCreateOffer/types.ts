@@ -1,6 +1,7 @@
+import { ExplorerAmount } from '../../../../shared/types'
 export interface NFTokenCreateOfferInstructions {
   account: string
-  amount: { currency: string; amount: number; issuer?: string }
+  amount: ExplorerAmount
   tokenID: string
   isSellOffer: boolean
   owner?: string

@@ -1,6 +1,7 @@
+import { ExplorerAmount } from '../../../../shared/types'
 export interface NFTokenAcceptOfferInstructions {
   acceptedOfferIDs: string[]
-  amount?: { currency: string; amount: number; issuer?: string }
+  amount?: ExplorerAmount
   tokenID?: string
   seller?: string
   buyer?: string
