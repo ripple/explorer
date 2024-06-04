@@ -17,7 +17,7 @@ const render = (t, language, action, node, index) => {
   )
 
   const line2 =
-    change != BigInt(0) ? (
+    change !== BigInt(0) ? (
       <ul key={`balance_${index}`} className="meta-line">
         <li>
           <Trans i18nKey="transaction_balance_line_two">

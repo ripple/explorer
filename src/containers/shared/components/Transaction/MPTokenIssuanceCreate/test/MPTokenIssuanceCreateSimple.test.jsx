@@ -1,6 +1,6 @@
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
-import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
+import { expectSimpleRowText } from '../../test'
 import transactionSuccess from './mock_data/MPTokenIssuanceCreate.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
