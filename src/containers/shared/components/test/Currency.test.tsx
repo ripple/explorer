@@ -77,7 +77,7 @@ describe('Currency', () => {
     const mpt = wrapper.find('.currency').at(0)
 
     expect(mpt).toHaveText(
-      '00000BDE5B4F868ECE457207E2C1750065987730B8839E0D (MPT)',
+      'MPT (00000BDE5B4F868ECE457207E2C1750065987730B8839E0D)',
     )
     expect(mpt.find('a')).toHaveProp(
       'href',

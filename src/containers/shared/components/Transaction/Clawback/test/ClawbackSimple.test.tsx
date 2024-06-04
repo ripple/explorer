@@ -25,7 +25,7 @@ describe('Clawback', () => {
     expectSimpleRowText(
       wrapper,
       'amount',
-      '200 00002C8389DF4D75362F45B32EA66F8CF250438A9AD0D555 (MPT)',
+      '200 MPT (00002C8389DF4D75362F45B32EA66F8CF250438A9AD0D555)',
     )
     wrapper.unmount()
   })
@@ -47,7 +47,7 @@ describe('Clawback', () => {
     expectSimpleRowText(
       wrapper,
       'amount',
-      '1000 0000012F2CCA489EAB713F0F099281FE4A9BCC2703560564 (MPT)',
+      '1000 MPT (0000012F2CCA489EAB713F0F099281FE4A9BCC2703560564)',
     )
     wrapper.unmount()
   })
