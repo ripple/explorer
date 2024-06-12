@@ -22,6 +22,7 @@ import {
 } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 import { ledgerCompare } from './Nodes'
+import { Loader } from '../shared/components/Loader'
 
 interface DataAggregation {
   label: string
@@ -154,11 +155,15 @@ export const UpgradeStatus = () => {
           newValidatorList[validator.signing_key] = validator
         })
 
-        setVList(newValidatorList)
-        setUnlCount(
-          validators.filter((validator) => Boolean(validator.unl)).length,
-        )
-        return Object.values(newValidatorList)
+        if (validators != null) {
+          setVList(newValidatorList)
+          setUnlCount(
+            validators.filter((validator) => Boolean(validator.unl)).length,
+          )
+          return Object.values(newValidatorList)
+        }
+
+        return null
       })
       .catch((e) => Log.error(e))
 
@@ -192,7 +197,9 @@ export const UpgradeStatus = () => {
       })
       .catch((e) => Log.error(e))
     Promise.all([validatorsReq, nodesReq]).then(([validators, nodes]) => {
-      setAggregated(aggregateData(validators, nodes))
+      if (validators != null && nodes != null) {
+        setAggregated(aggregateData(validators, nodes))
+      }
     })
   }
 
@@ -250,9 +257,13 @@ export const UpgradeStatus = () => {
       </div>
       <div className="wrap">
         <NetworkTabs selected="upgrade-status" />
-        <div className="upgrade_status">
-          <BarChartVersion data={aggregated} stableVersion={stableVersion} />
-        </div>
+        {aggregated ? (
+          <div className="upgrade_status">
+            <BarChartVersion data={aggregated} stableVersion={stableVersion} />
+          </div>
+        ) : (
+          <Loader />
+        )}
       </div>
     </div>
   )
