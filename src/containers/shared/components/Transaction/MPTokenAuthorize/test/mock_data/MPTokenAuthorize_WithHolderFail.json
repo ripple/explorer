@@ -1,0 +1,50 @@
+{
+  "tx": {
+    "Account": "rL4pMQAa3V7s9QNw1wEk2znnhjbfYo4GQC",
+    "Fee": "10",
+    "Flags": 2147483648,
+    "MPTokenHolder": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+    "MPTokenIssuanceID": "00000F76D46440EE21F74E5B2398315BC1CFEB9A7EB48A14",
+    "Sequence": 3959,
+    "SigningPubKey": "EDF7A3D93CE3AA46168649283C20C2D4FC36642FDD87449F1CCF068638BF17B10E",
+    "TransactionType": "MPTokenAuthorize",
+    "TxnSignature": "2795F1DC9C54493ADE475800A67FD5B3BC7B65F4E343CEEA0950E994F0FC10D0DAED13B4B0FD345E92BFD2B4F42A09A44906D5B2CD1D8FD7A4B3D28983F51806",
+    "ctid": "C0000F7900000000",
+    "date": 1711400033000,
+    "hash": "undefined",
+    "inLedger": "undefined",
+    "ledger_index": "undefined",
+    "meta": "undefined",
+    "validated": "undefined",
+    "metaData": "undefined",
+    "status": "undefined"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rL4pMQAa3V7s9QNw1wEk2znnhjbfYo4GQC",
+            "Balance": "99999980",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 3960
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "00BFE84169F6CAA5D03348856B57D47788B6856ABA9FA6EC7A16E6DA1B99B9D7",
+          "PreviousFields": {
+            "Balance": "99999990",
+            "Sequence": 3959
+          },
+          "PreviousTxnID": "E07D68B9728EE8954C66219FF713782933612A7D5EF44B50F5485557629DFE3D",
+          "PreviousTxnLgrSeq": 3960
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tecNO_AUTH"
+  },
+  "hash": "95AE2E382D6CFBFCECC012DDC52458E753FB9208A5040D2F441B5DE5BEA535CF",
+  "ledger_index": 3961,
+  "date": 1711400033000
+}

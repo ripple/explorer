@@ -17,12 +17,18 @@ export interface IssuedCurrencyAmount extends IssuedCurrency {
   value: string
 }
 
-export type Amount = IssuedCurrencyAmount | string
+export interface MPTAmount {
+  mpt_issuance_id: string
+  value: string
+}
+
+export type Amount = IssuedCurrencyAmount | MPTAmount | string
 
 export type ExplorerAmount = {
   issuer?: string
   currency: string
-  amount: number
+  amount: number | string
+  isMPT?: boolean
 }
 
 export interface Tx {

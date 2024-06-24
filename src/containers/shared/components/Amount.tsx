@@ -20,9 +20,14 @@ export const Amount = ({
   const currency = typeof value === 'string' ? 'XRP' : value.currency
   const amount =
     typeof value === 'string' ? parseInt(value, 10) / XRP_BASE : value.amount
+  const isMPT = typeof value === 'string' ? false : value.isMPT
 
   const options = { ...CURRENCY_OPTIONS, currency }
-  const localizedAmount = localizeNumber(amount, language, options)
+  // If it's an MPT, we can use as it is because we don't need decimal
+  const localizedAmount =
+    isMPT && typeof value !== 'string'
+      ? value.amount
+      : localizeNumber(amount, language, options)
 
   return (
     <span className="amount">
@@ -35,6 +40,7 @@ export const Amount = ({
         currency={currency}
         link
         displaySymbol={false}
+        isMPT={isMPT}
       />
     </span>
   )

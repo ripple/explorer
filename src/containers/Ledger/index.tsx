@@ -14,7 +14,7 @@ import {
   NOT_FOUND,
   BAD_REQUEST,
   DECIMAL_REGEX,
-  HASH_REGEX,
+  HASH256_REGEX,
 } from '../shared/utils'
 
 import LeftArrow from '../shared/images/ic_left_arrow.svg'
@@ -69,7 +69,7 @@ export const Ledger = () => {
   } = useQuery(['ledger', identifier], () => {
     if (
       !DECIMAL_REGEX.test(identifier.toString()) &&
-      !HASH_REGEX.test(identifier.toString())
+      !HASH256_REGEX.test(identifier.toString())
     ) {
       return Promise.reject(BAD_REQUEST)
     }

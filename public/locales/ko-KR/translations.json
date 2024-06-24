@@ -2,6 +2,7 @@
   "action": "action",
   "assets": "자산",
   "assets.nft_tab_title": "NFT",
+  "assets.mpt_tab_title": null,
   "assets.issued_tab_title": "발행된 토큰",
   "assets.no_issued_message": "토큰을 찾을 수 없습니다",
   "no_tokens_message": "토큰을 찾을 수 없습니다",

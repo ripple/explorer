@@ -23,7 +23,8 @@ export const FETCH_INTERVAL_NODES_MILLIS = 60000
 export const FETCH_INTERVAL_ERROR_MILLIS = 300
 
 export const DECIMAL_REGEX = /^\d+$/
-export const HASH_REGEX = /[0-9A-Fa-f]{64}/i
+export const HASH256_REGEX = /[0-9A-Fa-f]{64}/i
+export const HASH192_REGEX = /[0-9A-Fa-f]{48}/i
 export const CURRENCY_REGEX =
   /^[a-zA-Z0-9]{3,}[.:+-]r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const FULL_CURRENCY_REGEX =
@@ -255,6 +256,8 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
   }
 }
 
+export const convertHexToBigInt = (s) => BigInt(`0x${s}`)
+
 export const durationToHuman = (s, decimal = 2) => {
   const d = {}
   const seconds = Math.abs(s)
@@ -301,7 +304,7 @@ export const formatTradingFee = (tradingFee) =>
       })
     : undefined
 
-export const computeBalanceChange = (node) => {
+export const computeRippleStateBalanceChange = (node) => {
   const fields = node.FinalFields || node.NewFields
   const prev = node.PreviousFields
   const { currency } = fields.Balance
@@ -330,6 +333,35 @@ export const computeBalanceChange = (node) => {
     currency,
     account,
     counterAccount,
+  }
+}
+
+export const computeMPTokenBalanceChange = (node) => {
+  const final = node.FinalFields || node.NewFields
+  const prev = node.PreviousFields
+  const prevAmount = prev && prev.MPTAmount ? prev.MPTAmount : '0'
+  const finalAmount = final.MPTAmount ?? '0'
+
+  return {
+    previousBalance: convertHexToBigInt(prevAmount),
+    finalBalance: convertHexToBigInt(finalAmount),
+    account: final.Account,
+    change: convertHexToBigInt(finalAmount) - convertHexToBigInt(prevAmount),
+  }
+}
+
+export const computeMPTIssuanceBalanceChange = (node) => {
+  const final = node.FinalFields || node.NewFields
+  const prev = node.PreviousFields
+  const prevAmount =
+    prev && prev.OutstandingAmount ? prev.OutstandingAmount : '0'
+  const finalAmount = final.OutstandingAmount ?? '0'
+
+  return {
+    previousBalance: convertHexToBigInt(prevAmount),
+    finalBalance: convertHexToBigInt(finalAmount),
+    account: final.Issuer,
+    change: convertHexToBigInt(finalAmount) - convertHexToBigInt(prevAmount),
   }
 }
 
