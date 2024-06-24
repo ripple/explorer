@@ -63,7 +63,7 @@
   "transaction_action_MODIFY": "Modify",
   "transaction_action_SEND": "Send",
   "transaction_category_ACCOUNT": "Account",
-  "transaction_category_DEX": "Dex (AMM, Offers, Trust Sets, Tokens, MPT)",
+  "transaction_category_DEX": "Dex (AMM, Offers, Trust Sets, Tokens)",
   "transaction_category_NFT": "NFT",
   "transaction_category_PAYMENT": "Payment",
   "transaction_category_PSEUDO": "Pseudo-Tx",

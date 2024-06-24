@@ -2,6 +2,7 @@
   "action": "acción",
   "assets": "Activos",
   "assets.nft_tab_title": "Tokens No-Fungibles",
+  "assets.mpt_tab_title": null,
   "assets.issued_tab_title": "Tokens Emitidos",
   "assets.no_issued_message": "No se han encontrado tokens.",
   "assets.no_nfts_message": "NFTs no encontrados.",
