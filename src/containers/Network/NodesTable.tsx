@@ -165,7 +165,7 @@ export const NodesTable: FC<{ nodes: NodeData[] }> = ({
   const compareSemanticVersions = (
     a: string,
     b: string,
-    returnValue: string,
+    returnValue: number,
   ) => {
     const a1 = a.split('.')
     const b1 = b.split('.')
