@@ -1,6 +1,5 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { useRouteParams } from '../../shared/routing'
 import { AccountIssuedTokenTable } from '../AccountIssuedTokenTable'
@@ -14,7 +13,7 @@ interface Props {
 
 const assetTypes = ['issued', 'nft']
 
-const AccountAssetTabDisconnected = ({ account }: Props) => {
+export const AccountAssetTab = ({ account }: Props) => {
   const { id: accountId = '', assetType = assetTypes[0] } =
     useRouteParams(ACCOUNT_ROUTE)
   const navigate = useNavigate()
@@ -57,7 +56,3 @@ const AccountAssetTabDisconnected = ({ account }: Props) => {
     </>
   )
 }
-
-export const AccountAssetTab = connect((state: any) => ({
-  account: state.accountHeader.data,
-}))(AccountAssetTabDisconnected)
