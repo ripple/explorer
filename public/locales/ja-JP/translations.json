@@ -170,6 +170,8 @@
   "transaction_type_name_NFTokenMint": "NFTのミント",
   "transaction_type_name_OfferCancel": "オファーの取消",
   "transaction_type_name_OfferCreate": "オファーの作成",
+  "transaction_type_name_OracleDelete": null,
+  "transaction_type_name_OracleSet": null,
   "transaction_type_name_Payment": "支払い",
   "transaction_type_name_PaymentChannelClaim": "ペイメントチャネル請求",
   "transaction_type_name_PaymentChannelCreate": "ペイメントチャネル作成",
@@ -517,5 +519,11 @@
   "note": null,
   "indicate_unl": null,
   "transaction_tokens_involved": null,
-  "transaction_tokens_swapped": null
+  "transaction_tokens_swapped": null,
+  "oracle_document_id": null,
+  "provider": null,
+  "last_update_time": null,
+  "asset_class": null,
+  "trading_pairs": null,
+  "deleted": null
 }

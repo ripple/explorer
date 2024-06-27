@@ -168,6 +168,8 @@
   "transaction_type_name_NFTokenMint": "Acuñar NFT",
   "transaction_type_name_OfferCancel": "Cancelar Oferta",
   "transaction_type_name_OfferCreate": "Crear Oferta",
+  "transaction_type_name_OracleDelete": null,
+  "transaction_type_name_OracleSet": null,
   "transaction_type_name_Payment": "Pago",
   "transaction_type_name_PaymentChannelClaim": "Reclamar Canal de Pago",
   "transaction_type_name_PaymentChannelCreate": "Crear Canal de Pago",
@@ -517,5 +519,11 @@
   "note": "Nota",
   "indicate_unl": "indica a un validador en una UNL",
   "transaction_tokens_involved": "<Currency/> y <Currency2/>",
-  "transaction_tokens_swapped": "<Currency/> por <Currency2/>"
+  "transaction_tokens_swapped": "<Currency/> por <Currency2/>",
+  "oracle_document_id": null,
+  "provider": null,
+  "last_update_time": null,
+  "asset_class": null,
+  "trading_pairs": null,
+  "deleted": null
 }

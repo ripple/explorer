@@ -172,6 +172,8 @@
   "transaction_type_name_NFTokenMint": "NFT 발행",
   "transaction_type_name_OfferCancel": "제안 취소",
   "transaction_type_name_OfferCreate": "제안 생성",
+  "transaction_type_name_OracleDelete": null,
+  "transaction_type_name_OracleSet": null,
   "transaction_type_name_PaymentChannelClaim": "결제 채널 청구",
   "transaction_type_name_PaymentChannelCreate": "결제 채널 생성",
   "transaction_type_name_PaymentChannelFund": "결제 채널 펀딩",
@@ -515,5 +517,11 @@
   "note": null,
   "indicate_unl": null,
   "transaction_tokens_involved": null,
-  "transaction_tokens_swapped": null
+  "transaction_tokens_swapped": null,
+  "oracle_document_id": null,
+  "provider": null,
+  "last_update_time": null,
+  "asset_class": null,
+  "trading_pairs": null,
+  "deleted": null
 }
