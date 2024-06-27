@@ -124,6 +124,8 @@ const TokenHeader = ({
       flags && flags.includes('lsfRequireAuth') ? 'true' : 'false'
     const requireDestTag =
       flags && flags.includes('lsfRequireDestTag') ? 'true' : 'false'
+    const clawback =
+      flags && flags.includes('lsfAllowTrustLineClawback') ? 'true' : 'false'
 
     return (
       <table className="token-table">
@@ -136,6 +138,7 @@ const TokenHeader = ({
           <TokenTableRow label="No freeze" value={noFreeze} />
           <TokenTableRow label="Require Auth" value={requireAuth} />
           <TokenTableRow label="Require Dest Tag" value={requireDestTag} />
+          <TokenTableRow label="Allow TrustLine Clawback" value={clawback} />
         </tbody>
       </table>
     )
