@@ -64,6 +64,15 @@ $subdued-color: $black-40;
               vertical-align: bottom;
             }
           }
+
+          &.list {
+            margin-bottom: 12px;
+
+            .one-line {
+              justify-content: flex-end;
+              margin: -1px 0px 0px;
+            }
+          }
         }
 
         ul {

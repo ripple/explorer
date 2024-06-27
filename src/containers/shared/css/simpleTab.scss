@@ -62,7 +62,7 @@ $index-width: 324px;
         padding-top: 0;
       }
 
-      &:last-child {
+      &:not(:only-child):last-child {
         border-bottom: none;
       }
 
