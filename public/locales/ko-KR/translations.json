@@ -42,7 +42,6 @@
   "30D": "30일",
   "total_transactions": "트랜잭션 수",
   "total_fees": "총 수수료",
-  "async_component_timedout": "컴포넌트 로딩이 예상보다 오래 걸렸습니다",
   "async_component_failed": "컴포넌트 로드 실패",
   "account_not_found": "계정을 찾을 수 없습니다",
   "account_empty_title": "계정 ID가 제공되지 않았습니다",
