@@ -33,7 +33,7 @@ export function getExpectedDate(date: string, language: string) {
 
 async function fetchAmendmentNames() {
   const response = await axios.get(
-    'https://raw.githubusercontent.com/ripple/rippled/develop/src/ripple/protocol/impl/Feature.cpp',
+    'https://raw.githubusercontent.com/XRPLF/rippled/develop/src/libxrpl/protocol/Feature.cpp',
   )
   const text = response.data
 
