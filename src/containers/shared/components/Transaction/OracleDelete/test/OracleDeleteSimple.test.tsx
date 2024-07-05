@@ -1,12 +1,13 @@
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { screen, cleanup } from '@testing-library/react'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import OracleDelete from './mock_data/OracleDelete.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 describe('OracleDelete: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(OracleDelete)
-    expectSimpleRowText(wrapper, 'oracle-document-id', '1')
-    wrapper.unmount()
+    renderComponent(OracleDelete)
+    expectSimpleRowText(screen, 'oracle-document-id', '1')
   })
 })
