@@ -21,7 +21,7 @@ describe('PaymentChannelClaim: TableDetail', () => {
     expect(wrapper.find('[data-testid="claimed"]')).toHaveText(
       'claimed\uE9000.01 XRP (\uE90020.34284 XRP of \uE90070.00 XRP remaining)',
     )
-    expect(wrapper.find('[data-testid="amount"]')).not.toExist()
+    expect(wrapper.find('[data-testid="channel-amount"]')).not.toExist()
     expect(wrapper.find('[data-testid="renew"]')).not.toExist()
     expect(wrapper.find('[data-testid="close-request"]')).not.toExist()
     expect(wrapper.find('[data-testid="closed"]')).not.toExist()
@@ -37,7 +37,7 @@ describe('PaymentChannelClaim: TableDetail', () => {
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
     expect(wrapper.find('[data-testid="claimed"]')).not.toExist()
-    expect(wrapper.find('[data-testid="amount"]')).toHaveText(
+    expect(wrapper.find('[data-testid="channel-amount"]')).toHaveText(
       'channel amount\uE90010.00 XRP',
     )
     expect(wrapper.find('[data-testid="renew"]')).not.toExist()
@@ -59,7 +59,7 @@ describe('PaymentChannelClaim: TableDetail', () => {
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
     expect(wrapper.find('[data-testid="claimed"]')).not.toExist()
-    expect(wrapper.find('[data-testid="amount"]')).toHaveText(
+    expect(wrapper.find('[data-testid="channel-amount"]')).toHaveText(
       'channel amount\uE90010.00 XRP',
     )
     expect(wrapper.find('[data-testid="renew"]')).not.toExist()
@@ -81,7 +81,7 @@ describe('PaymentChannelClaim: TableDetail', () => {
     expect(wrapper.find('[data-testid="claimed"]')).toHaveText(
       'claimed\uE9001.00 XRP (\uE90099.00 XRP of \uE900100.00 XRP remaining)',
     )
-    expect(wrapper.find('[data-testid="amount"]')).not.toExist()
+    expect(wrapper.find('[data-testid="channel-amount"]')).not.toExist()
     expect(wrapper.find('[data-testid="renew"]')).not.toExist()
     expect(wrapper.find('[data-testid="close-request"]')).not.toExist()
     expect(wrapper.find('[data-testid="closed"]')).not.toExist()

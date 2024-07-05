@@ -20,7 +20,7 @@ export const TableDetail = ({
         <span className="label">{t('destination')}</span>
         <Account account={destination} />
       </div>
-      <div data-testid="amount">
+      <div>
         <span className="label">{t('channel_amount')}</span>
         <Amount value={amount} />
       </div>

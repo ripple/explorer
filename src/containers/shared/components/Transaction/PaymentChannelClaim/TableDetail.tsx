@@ -51,7 +51,7 @@ export const TableDetail = ({
         </div>
       )}
       {channelAmount && !claimed && (
-        <div data-testid="amount">
+        <div data-testid="channel-amount">
           <span className="label">{t('channel_amount')}</span>
           <Amount value={channelAmount} />
         </div>

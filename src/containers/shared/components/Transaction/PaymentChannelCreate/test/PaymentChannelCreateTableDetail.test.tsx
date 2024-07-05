@@ -17,9 +17,7 @@ describe('PaymentChannelCreate: TableDetail', () => {
     expect(wrapper.find('[data-testid="destination"]')).toHaveText(
       'destinationrUXYat4hW2M87gHoqKK7fC4cqrT9C6V7d7',
     )
-    expect(wrapper.find('[data-testid="amount"]')).toHaveText(
-      'channel amount\uE9001.00 XRP',
-    )
+    expect(wrapper.find('[data-testid="amount"]')).toHaveText('\uE9001.00 XRP')
     wrapper.unmount()
   })
 
@@ -31,9 +29,7 @@ describe('PaymentChannelCreate: TableDetail', () => {
     expect(wrapper.find('[data-testid="destination"]')).toHaveText(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(wrapper.find('[data-testid="amount"]')).toHaveText(
-      'channel amount\uE90010.00 XRP',
-    )
+    expect(wrapper.find('[data-testid="amount"]')).toHaveText('\uE90010.00 XRP')
     wrapper.unmount()
   })
 
@@ -46,7 +42,7 @@ describe('PaymentChannelCreate: TableDetail', () => {
       'destinationrf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn:20170428',
     )
     expect(wrapper.find('[data-testid="amount"]')).toHaveText(
-      'channel amount\uE900100.00 XRP',
+      '\uE900100.00 XRP',
     )
     wrapper.unmount()
   })
