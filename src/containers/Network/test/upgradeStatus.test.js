@@ -154,10 +154,10 @@ describe('UpgradeStatus renders', () => {
     await new Promise((resolve) => {
       setTimeout(() => {
         wrapper.update()
-        expect(wrapper.find('.barchart').length).toEqual(1)
         resolve()
       }, 0)
     })
+    expect(wrapper.find('.barchart').length).toEqual(1)
     wrapper.unmount()
   })
 })
