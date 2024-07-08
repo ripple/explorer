@@ -60,13 +60,9 @@ export const aggregateValidators = (validators: ValidatorResponse[]) => {
       aggregation[version].validatorsCount += 1
     }
   })
-  for (const label in aggregation) {
-    if (Object.prototype.hasOwnProperty.call(aggregation, label)) {
-      aggregation[label].validatorsPercent =
-        totalVals > 0
-          ? (aggregation[label].validatorsCount / totalVals) * 100
-          : 0
-    }
+  for (const label of Object.keys(aggregation)) {
+    aggregation[label].validatorsPercent =
+      totalVals > 0 ? (aggregation[label].validatorsCount / totalVals) * 100 : 0
   }
 
   return aggregation
