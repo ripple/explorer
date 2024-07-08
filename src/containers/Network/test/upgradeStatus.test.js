@@ -118,8 +118,6 @@ describe('UpgradeStatus renders', () => {
       </SocketContext.Provider>,
     )
 
-  const { ResizeObserver } = window
-
   beforeEach(async () => {
     window.ResizeObserver = jest.fn().mockImplementation(() => ({
       observe: jest.fn(),
