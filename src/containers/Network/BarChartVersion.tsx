@@ -52,12 +52,12 @@ const CustomTooltip = ({
         <p className="label">{t('version_display', { version: label })}</p>
         <p className="value">
           {t('validators_count', {
-            vals_count: payload ? payload[0].payload.validatorsCount : 0,
+            vals_count: payload?.[0]?.payload?.validatorsCount ?? 0,
           })}
         </p>
         <p className="value">
           {t('nodes_count', {
-            nodes_count: payload ? payload[0].payload.nodesCount : 0,
+            nodes_count: payload?.[0]?.payload?.nodesCount ?? 0,
           })}
         </p>
       </div>
