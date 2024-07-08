@@ -2,7 +2,6 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
-import { act } from 'react-dom/test-utils'
 import i18n from '../../../i18n/testConfig'
 import { Network } from '../index'
 import SocketContext from '../../shared/SocketContext'
@@ -151,12 +150,10 @@ describe('UpgradeStatus renders', () => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/topology/nodes/main`, {
       status: 502,
     })
-    let wrapper
-    await act(async () => {
-      wrapper = createWrapper()
-      await new Promise((resolve) => setTimeout(resolve, 0))
-      wrapper.update()
-    })
+
+    const wrapper = createWrapper()
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    wrapper.update()
     expect(wrapper.find('.barchart').length).toEqual(1)
     wrapper.unmount()
   })
