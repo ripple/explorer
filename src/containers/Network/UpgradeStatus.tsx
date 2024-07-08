@@ -94,7 +94,7 @@ export const aggregateData = (
   validatorsAggregation: ValidatorsAggregation,
   nodesAggregation: NodesAggregation,
 ): DataAggregation[] => {
-  const combinedAggregation: { [label: string]: ValidatorsStats & NodesStats } =
+  const combinedAggregation: { [label: string]: ValidatorStats & NodeStats } =
     {}
   for (const label of Object.keys(validatorsAggregation)) {
     combinedAggregation[label] = {
