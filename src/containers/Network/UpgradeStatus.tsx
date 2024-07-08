@@ -33,6 +33,7 @@ interface ValidatorsStats {
   validatorsPercent: number
   validatorsCount: number
 }
+
 interface ValidatorsAggregation {
   [label: string]: ValidatorsStats
 }
