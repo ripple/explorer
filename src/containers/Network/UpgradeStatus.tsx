@@ -24,25 +24,25 @@ import NetworkContext from '../shared/NetworkContext'
 import { ledgerCompare } from './Nodes'
 import { Loader } from '../shared/components/Loader'
 
-interface NodesStats {
+interface NodeStats {
   nodesPercent: number
   nodesCount: number
 }
 
-interface ValidatorsStats {
+interface ValidatorStats {
   validatorsPercent: number
   validatorsCount: number
 }
 
 interface ValidatorsAggregation {
-  [label: string]: ValidatorsStats
+  [label: string]: ValidatorStats
 }
 
 interface NodesAggregation {
-  [label: string]: NodesStats
+  [label: string]: NodeStats
 }
 
-interface DataAggregation extends ValidatorsStats, NodesStats {
+interface DataAggregation extends ValidatorStats, NodeStats {
   label: string
 }
 
@@ -82,11 +82,9 @@ export const aggregateNodes = (nodes: NodeResponse[]) => {
       aggregation[version].nodesCount += 1
     }
   })
-  for (const label in aggregation) {
-    if (Object.prototype.hasOwnProperty.call(aggregation, label)) {
-      aggregation[label].nodesPercent =
-        totalNodes > 0 ? (aggregation[label].nodesCount / totalNodes) * 100 : 0
-    }
+  for (const label of Object.keys(aggregation)) {
+    aggregation[label].nodesPercent =
+      totalNodes > 0 ? (aggregation[label].nodesCount / totalNodes) * 100 : 0
   }
 
   return aggregation
@@ -98,32 +96,27 @@ export const aggregateData = (
 ): DataAggregation[] => {
   const combinedAggregation: { [label: string]: ValidatorsStats & NodesStats } =
     {}
-  for (const label in validatorsAggregation) {
-    if (Object.prototype.hasOwnProperty.call(validatorsAggregation, label)) {
-      combinedAggregation[label] = {
-        validatorsPercent: validatorsAggregation[label].validatorsPercent,
-        validatorsCount: validatorsAggregation[label].validatorsCount,
-        nodesPercent: 0,
-        nodesCount: 0,
-      }
+  for (const label of Object.keys(validatorsAggregation)) {
+    combinedAggregation[label] = {
+      validatorsPercent: validatorsAggregation[label].validatorsPercent,
+      validatorsCount: validatorsAggregation[label].validatorsCount,
+      nodesPercent: 0,
+      nodesCount: 0,
     }
   }
 
-  for (const label in nodesAggregation) {
-    if (Object.prototype.hasOwnProperty.call(nodesAggregation, label)) {
-      if (!combinedAggregation[label]) {
-        combinedAggregation[label] = {
-          validatorsPercent: 0,
-          validatorsCount: 0,
-          nodesPercent: nodesAggregation[label].nodesPercent,
-          nodesCount: nodesAggregation[label].nodesCount,
-        }
-      } else {
-        combinedAggregation[label].nodesPercent =
-          nodesAggregation[label].nodesPercent
-        combinedAggregation[label].nodesCount =
-          nodesAggregation[label].nodesCount
+  for (const label of Object.keys(nodesAggregation)) {
+    if (!combinedAggregation[label]) {
+      combinedAggregation[label] = {
+        validatorsPercent: 0,
+        validatorsCount: 0,
+        nodesPercent: nodesAggregation[label].nodesPercent,
+        nodesCount: nodesAggregation[label].nodesCount,
       }
+    } else {
+      combinedAggregation[label].nodesPercent =
+        nodesAggregation[label].nodesPercent
+      combinedAggregation[label].nodesCount = nodesAggregation[label].nodesCount
     }
   }
 
