@@ -13,7 +13,7 @@ export const parser: TransactionParser<
   const tokenID = tx.NFTokenID
   const isSellOffer = ((tx.Flags as number)! & 1) !== 0
   const owner = tx.Owner
-  const offerID = findNode(meta, 'CreatedNode', 'NFTokenOffer')?.LedgerIndex
+  const offerID = meta.offer_id
   const destination = tx.Destination
 
   return {
