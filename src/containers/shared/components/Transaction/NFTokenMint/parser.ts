@@ -27,21 +27,19 @@ export const parser: TransactionParser<NFTokenMint, NFTokenMintInstructions> = (
 
   const previousTokenIDSet = new Set(
     affectedNodes
-      .flatMap(
-        (node: any) =>
-          node.ModifiedNode?.PreviousFields?.NFTokens?.map(
-            (token: any) => token.NFToken.NFTokenID,
-          ),
+      .flatMap((node: any) =>
+        node.ModifiedNode?.PreviousFields?.NFTokens?.map(
+          (token: any) => token.NFToken.NFTokenID,
+        ),
       )
       .filter((id: any) => id),
   )
 
   const finalTokenIDs = affectedNodes
-    .flatMap(
-      (node: any) =>
-        (
-          node.ModifiedNode?.FinalFields ?? node.CreatedNode?.NewFields
-        )?.NFTokens?.map((token: any) => token.NFToken.NFTokenID),
+    .flatMap((node: any) =>
+      (
+        node.ModifiedNode?.FinalFields ?? node.CreatedNode?.NewFields
+      )?.NFTokens?.map((token: any) => token.NFToken.NFTokenID),
     )
     .filter((id: any) => id)
 
