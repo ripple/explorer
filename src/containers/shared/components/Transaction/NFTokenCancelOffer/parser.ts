@@ -7,6 +7,8 @@ export const parser: TransactionParser<
   NFTokenCancelOffer,
   NFTokenCancelOfferInstructions
 > = (_, meta) => {
+  // Purposely do not use meta.nftoken_ids[] to keep logic simple
+  // since we iterate nodes for other fields
   const cancelledOffers = meta.AffectedNodes.filter(
     (node: any) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
   ).map((node: any) => ({

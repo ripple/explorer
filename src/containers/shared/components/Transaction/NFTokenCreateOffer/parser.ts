@@ -2,7 +2,6 @@ import type { NFTokenCreateOffer } from 'xrpl'
 import { NFTokenCreateOfferInstructions } from './types'
 import { TransactionParser } from '../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
-import { findNode } from '../../../transactionUtils'
 
 export const parser: TransactionParser<
   NFTokenCreateOffer,
