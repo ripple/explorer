@@ -7,12 +7,10 @@ import { convertHexToString } from '../../../../../rippled/lib/utils'
 export const parser: TransactionParser<NFTokenMint, NFTokenMintInstructions> = (
   tx,
   meta,
-) => {
-  return {
-    tokenID: meta.nftoken_id,
-    tokenTaxon: tx.NFTokenTaxon,
-    uri: convertHexToString(tx.URI),
-    transferFee: tx.TransferFee,
-    issuer: tx.Issuer,
-  }
-}
+) => ({
+  tokenID: meta.nftoken_id,
+  tokenTaxon: tx.NFTokenTaxon,
+  uri: convertHexToString(tx.URI),
+  transferFee: tx.TransferFee,
+  issuer: tx.Issuer,
+})
