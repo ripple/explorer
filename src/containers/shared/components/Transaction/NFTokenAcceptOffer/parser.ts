@@ -9,6 +9,7 @@ export const parser: TransactionParser<
   NFTokenAcceptOffer,
   NFTokenAcceptOfferInstructions
 > = (tx, meta) => {
+  console.log('accept', meta)
   const acceptedOfferNodes = meta.AffectedNodes.filter(
     (node: any) => node.DeletedNode?.LedgerEntryType === 'NFTokenOffer',
   )
