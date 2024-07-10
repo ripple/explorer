@@ -70,7 +70,8 @@
       }
     ],
     "TransactionIndex": 0,
-    "TransactionResult": "tesSUCCESS"
+    "TransactionResult": "tesSUCCESS",
+    "offer_id": "3D1C297DA5B831267CCF692F8A023688D6A4BD5AFAE9A746D5C4E0B15D256B29"
   },
   "hash": "385DC0497AAF8061549A7DC04EB20C2B387A167792796F5806A13E0422125563",
   "ledger_index": 1887982,
