@@ -7,7 +7,6 @@ export const parser: TransactionParser<
   NFTokenCreateOffer,
   NFTokenCreateOfferInstructions
 > = (tx, meta) => {
-  console.log('create', meta)
   const account = tx.Account
   const amount = formatAmount(tx.Amount)
   const tokenID = tx.NFTokenID
