@@ -109,7 +109,7 @@
     "xrpl": "^3.1.0"
   },
   "resolutions": {
-    "jest-environment-jsdom": "29.3.1"
+    "jest-environment-jsdom": "29.7.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,scss}": [
