@@ -120,6 +120,7 @@
   "main": "index",
   "private": true,
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "analyze": "source-map-explorer build/static/js/main.*",
     "build": "vite build",
     "build-ts": "tsc --build",
