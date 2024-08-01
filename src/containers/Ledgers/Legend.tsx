@@ -38,7 +38,6 @@ export const Legend = () => {
     TransactionCategory.DEX,
     TransactionCategory.NFT,
     TransactionCategory.ACCOUNT,
-    TransactionCategory.XCHAIN,
     TransactionCategory.PSEUDO,
     TransactionCategory.UNKNOWN,
   ]
