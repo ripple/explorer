@@ -25,7 +25,6 @@ import {
   VALIDATOR_ROUTE,
   AMENDMENTS_ROUTE,
   AMENDMENT_ROUTE,
-  LEDGERS_ROUTE_REDIRECT,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
@@ -63,7 +62,6 @@ export const AppWrapper = () => {
   // Defined here rather than ./routes to avoid circular dependencies when using RouteDefinitions with <RouteLink>.
   const routes: [RouteDefinition<any>, any][] = [
     [LEDGERS_ROUTE, Ledgers],
-    [LEDGERS_ROUTE_REDIRECT, Ledgers],
     [LEDGER_ROUTE, Ledger],
     [ACCOUNT_ROUTE, AccountsRouter],
     [TRANSACTION_ROUTE, Transaction],
@@ -104,6 +102,10 @@ export const AppWrapper = () => {
                 />
                 <Route
                   path={updatePath('/ledgers')}
+                  element={<Navigate to={updatePath('/')} replace />}
+                />
+                <Route
+                  path={updatePath('/index.html')}
                   element={<Navigate to={updatePath('/')} replace />}
                 />
                 {/* End: Redirects */}

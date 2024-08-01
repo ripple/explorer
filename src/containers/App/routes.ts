@@ -12,10 +12,6 @@ export const LEDGERS_ROUTE: RouteDefinition = {
   path: '/',
 }
 
-export const LEDGERS_ROUTE_REDIRECT: RouteDefinition = {
-  path: '/index.html',
-}
-
 export const LEDGER_ROUTE: RouteDefinition<{
   identifier: number | string
 }> = {
