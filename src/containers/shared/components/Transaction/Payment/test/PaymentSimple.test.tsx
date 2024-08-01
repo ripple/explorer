@@ -1,5 +1,6 @@
+import { cleanup, screen } from '@testing-library/react'
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowLabel,
   expectSimpleRowText,
 } from '../../test'
@@ -11,107 +12,96 @@ import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('Payment: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockPayment)
+    renderComponent(mockPayment)
 
-    expectSimpleRowText(wrapper, 'amount', `\uE9002,421.8268 XRP`)
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowText(screen, 'payment-amount', `\uE9002,421.8268 XRP`)
+    expectSimpleRowLabel(screen, 'payment-amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'destination',
       `rHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with failed partial conversion', () => {
-    const wrapper = createWrapper(mockPaymentConvert)
+    renderComponent(mockPaymentConvert)
 
-    expectSimpleRowLabel(wrapper, 'max', `convert_maximum`)
-    expectSimpleRowText(wrapper, 'max', `\uE9001,140.00 XRP`)
+    expectSimpleRowLabel(screen, 'max', `convert_maximum`)
+    expectSimpleRowText(screen, 'max', `\uE9001,140.00 XRP`)
 
-    expectSimpleRowLabel(wrapper, 'amount', `convert_to`)
+    expectSimpleRowLabel(screen, 'convert-amount', `convert_to`)
     expectSimpleRowText(
-      wrapper,
-      'amount',
+      screen,
+      'convert-amount',
       `0.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZrpartial_payment_allowed`,
     )
 
-    expect(wrapper.find('[data-testid="destination"]')).not.toExist()
-
-    wrapper.unmount()
+    expect(screen.queryByTestId('destination')).toBeNull()
   })
 
   it('renders with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentDestinationTag)
+    renderComponent(mockPaymentDestinationTag)
 
-    expectSimpleRowText(wrapper, 'amount', `\uE9001,531.267 XRP`)
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowText(screen, 'payment-amount', `\uE9001,531.267 XRP`)
+    expectSimpleRowLabel(screen, 'payment-amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'destination',
       `rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt:381702`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with send max', () => {
-    const wrapper = createWrapper(mockPaymentSendMax)
+    renderComponent(mockPaymentSendMax)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'max',
       `17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA`,
     )
-    expectSimpleRowLabel(wrapper, 'max', `using_at_most`)
+    expectSimpleRowLabel(screen, 'max', `using_at_most`)
 
     expectSimpleRowText(
-      wrapper,
-      'amount',
+      screen,
+      'payment-amount',
       `17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA`,
     )
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowLabel(screen, 'payment-amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'destination',
       `rprcTynT68nYdKzDTefAZG9HjSHiYcnP4b:0`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with partial', () => {
-    const wrapper = createWrapper(mockPaymentPartial)
+    renderComponent(mockPaymentPartial)
 
     expectSimpleRowText(
-      wrapper,
-      'amount',
+      screen,
+      'payment-amount',
       `0.00104196 xCoin.rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFipartial_payment_allowed`,
     )
-    expectSimpleRowLabel(wrapper, 'amount', `delivered`)
+    expectSimpleRowLabel(screen, 'payment-amount', `delivered`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'destination',
       `rMQ4oGC8fasuJwfdrfknFTttDbf8cR3D2j:0`,
     )
-
-    wrapper.unmount()
   })
 
   it('renders with SourceTag', () => {
-    const wrapper = createWrapper(mockPaymentSourceTag)
+    renderComponent(mockPaymentSourceTag)
 
-    expectSimpleRowText(wrapper, 'source-tag', `20648`)
-
-    wrapper.unmount()
+    expectSimpleRowText(screen, 'source-tag', `20648`)
   })
 })

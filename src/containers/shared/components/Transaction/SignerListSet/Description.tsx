@@ -17,7 +17,7 @@ export const Description = ({
       </div>
       <ul className="signers">
         {tx.SignerEntries?.map((d) => (
-          <li key={d.SignerEntry.Account}>
+          <li key={d.SignerEntry.Account} data-testid="signer">
             <Account account={d.SignerEntry.Account} />
             <span className="label">{` - ${t('weight')}: `}</span>
             <span>{d.SignerEntry.SignerWeight}</span>

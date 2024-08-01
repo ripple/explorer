@@ -1,21 +1,21 @@
+import { cleanup } from '@testing-library/react'
 import { TableDetail } from '../TableDetail'
 import mockSignerListSetClear from './mock_data/SignerListSetClear.json'
 import mockSignerListSet from './mock_data/SignerListSet.json'
 
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('SignerListSet: TableDetail', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockSignerListSet)
-    expect(wrapper).toHaveText('signers: 3 - quorum: 3/4')
-    wrapper.unmount()
+    const { container } = renderComponent(mockSignerListSet)
+    expect(container).toHaveTextContent('signers: 3 - quorum: 3/4')
   })
 
   it('renders when signer list is cleared', () => {
-    const wrapper = createWrapper(mockSignerListSetClear)
-    expect(wrapper).toHaveText('unset_signer_list')
-    wrapper.unmount()
+    const { container } = renderComponent(mockSignerListSetClear)
+    expect(container).toHaveTextContent('unset_signer_list')
   })
 })

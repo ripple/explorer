@@ -25,12 +25,14 @@ export const Simple = ({
         </SimpleRow>
       )}
       {hook.HookGrants && (
-        <SimpleRow label={t('grant')} data-testid="hook-grant">
+        <SimpleRow label={t('grant')} data-testid="hook-grants">
           {hook.HookGrants.map((hookGrant) => {
             const grant = hookGrant.HookGrant
             return (
-              <div className="grant" key={grant.HookHash}>
-                <div className="hash">{grant.HookHash}</div>
+              <div className="grant" data-testid="grant" key={grant.HookHash}>
+                <div className="hash" data-testid="hash">
+                  {grant.HookHash}
+                </div>
                 {grant.Authorize && <Account account={grant.Authorize} />}
               </div>
             )
