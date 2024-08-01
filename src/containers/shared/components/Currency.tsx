@@ -44,16 +44,20 @@ const Currency = (props: Props) => {
     display += shortenIssuer ? issuer.substring(0, 4) : issuer
   }
 
-  const content =
-    link && issuer ? (
-      <RouteLink to={TOKEN_ROUTE} params={{ token: `${currency}.${issuer}` }}>
-        {display}
-      </RouteLink>
-    ) : (
-      display
-    )
-
-  return <span className="currency">{content}</span>
+  return link && issuer ? (
+    <RouteLink
+      className="currency"
+      data-testid="currency"
+      to={TOKEN_ROUTE}
+      params={{ token: `${currency}.${issuer}` }}
+    >
+      {display}
+    </RouteLink>
+  ) : (
+    <span className="currency" data-testid="currency">
+      {display}
+    </span>
+  )
 }
 
 export const hexToString = (hex: string) => {
