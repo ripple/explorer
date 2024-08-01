@@ -22,7 +22,7 @@ describe('NFTokenCreateOffer', () => {
     )
     expectSimpleRowText(wrapper, 'owner', 'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g')
     expectSimpleRowText(wrapper, 'amount', '\uE9000.0001 XRP')
-    expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
+    expect(wrapper.find('[data-testid="buyer-or-seller"] .label')).toHaveText(
       'buyer',
     )
     expectSimpleRowText(
@@ -30,7 +30,7 @@ describe('NFTokenCreateOffer', () => {
       'buyer-or-seller',
       'rfFRmXUR1yfxeUfXj7WwKhETrtToYx1hYh',
     )
-    expect(wrapper.find('[data-test="destination"] .value')).not.toExist()
+    expect(wrapper.find('[data-testid="destination"] .value')).not.toExist()
     wrapper.unmount()
   })
 
@@ -46,13 +46,13 @@ describe('NFTokenCreateOffer', () => {
       'offer-id',
       'F660CA62E16B8067649052E8FCE947049FC6EF0D8B42EF7E5819997EC5AE45B6',
     )
-    expect(wrapper.find('[data-test="owner"] .value')).not.toExist()
+    expect(wrapper.find('[data-testid="owner"] .value')).not.toExist()
     expectSimpleRowText(
       wrapper,
       'amount',
       '$100.00 USD.r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
-    expect(wrapper.find('[data-test="buyer-or-seller"] .label')).toHaveText(
+    expect(wrapper.find('[data-testid="buyer-or-seller"] .label')).toHaveText(
       'seller',
     )
     expectSimpleRowText(
@@ -60,7 +60,7 @@ describe('NFTokenCreateOffer', () => {
       'buyer-or-seller',
       'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
-    expect(wrapper.find('[data-test="destination"] .value')).not.toExist()
+    expect(wrapper.find('[data-testid="destination"] .value')).not.toExist()
     wrapper.unmount()
   })
 
@@ -71,8 +71,8 @@ describe('NFTokenCreateOffer', () => {
       'token-id',
       '00080000AC7377C74DD53E77C8161537F5EBF56B0CE8FD3BD392C2B800001702',
     )
-    expect(wrapper.find('[data-test="offer-id"] .value')).not.toExist()
-    expect(wrapper.find('[data-test="owner"] .value')).not.toExist()
+    expect(wrapper.find('[data-testid="offer-id"] .value')).not.toExist()
+    expect(wrapper.find('[data-testid="owner"] .value')).not.toExist()
     expectSimpleRowText(wrapper, 'amount', '\uE900500.00 XRP')
     wrapper.unmount()
   })

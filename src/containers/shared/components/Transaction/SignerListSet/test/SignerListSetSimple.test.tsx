@@ -10,11 +10,11 @@ describe('SignerListSet: Simple', () => {
   it('renders', () => {
     const wrapper = createWrapper(mockSignerListSet)
 
-    expect(wrapper.find('[data-test="quorum"] .value').text()).toEqual(
+    expect(wrapper.find('[data-testid="quorum"] .value').text()).toEqual(
       '3 out_of 4',
     )
 
-    const signers = wrapper.find('[data-test="signers"] .value li')
+    const signers = wrapper.find('[data-testid="signers"] .value li')
     expect(signers.at(0)).toHaveText(
       'rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv weight: 2',
     )

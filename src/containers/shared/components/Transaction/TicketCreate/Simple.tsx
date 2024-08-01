@@ -11,7 +11,7 @@ const Simple: TransactionSimpleComponent = (
   const { TicketCount } = data.instructions
 
   return (
-    <SimpleRow label={t('ticket_count')} data-test="ticket-count">
+    <SimpleRow label={t('ticket_count')} data-testid="ticket-count">
       {TicketCount}
     </SimpleRow>
   )

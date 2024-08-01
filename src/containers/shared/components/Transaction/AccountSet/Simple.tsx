@@ -13,22 +13,26 @@ export const Simple = ({ data }: TransactionSimpleProps<AccountSet>) => {
   return (
     <>
       {tx.Domain && (
-        <SimpleRow label={t('domain')} data-test="domain">
+        <SimpleRow label={t('domain')} data-testid="domain">
           <DomainLink decode domain={tx.Domain} />
         </SimpleRow>
       )}
       {tx.EmailHash && (
-        <SimpleRow label={t('email_hash')} data-test="email">
+        <SimpleRow label={t('email_hash')} data-testid="email">
           {tx.EmailHash}
         </SimpleRow>
       )}
       {tx.MessageKey && (
-        <SimpleRow label={t('message_key')} data-test="message">
+        <SimpleRow label={t('message_key')} data-testid="message">
           {tx.MessageKey}
         </SimpleRow>
       )}
       {tx.SetFlag && (
-        <SimpleRow label={t('set_flag')} className="flag" data-test="set-flag">
+        <SimpleRow
+          label={t('set_flag')}
+          className="flag"
+          data-testid="set-flag"
+        >
           {ACCOUNT_FLAGS[tx.SetFlag] || tx.SetFlag}
         </SimpleRow>
       )}
@@ -36,13 +40,13 @@ export const Simple = ({ data }: TransactionSimpleProps<AccountSet>) => {
         <SimpleRow
           label={t('clear_flag')}
           className="flag"
-          data-test="clear-flag"
+          data-testid="clear-flag"
         >
           {ACCOUNT_FLAGS[tx.ClearFlag] || tx.ClearFlag}
         </SimpleRow>
       )}
       {tx.NFTokenMinter && (
-        <SimpleRow label={t('nftoken_minter')} data-test="minter">
+        <SimpleRow label={t('nftoken_minter')} data-testid="minter">
           <Account account={tx.NFTokenMinter} />
         </SimpleRow>
       )}

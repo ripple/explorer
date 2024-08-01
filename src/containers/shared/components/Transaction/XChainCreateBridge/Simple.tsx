@@ -35,7 +35,7 @@ export const Simple: TransactionSimpleComponent = (
       {minAccountCreateAmount && (
         <SimpleRow
           label={t('min_account_create_amount')}
-          data-test="min-account-create-amount"
+          data-testid="min-account-create-amount"
         >
           <Amount value={minAccountCreateAmount} />
         </SimpleRow>
