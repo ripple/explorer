@@ -25,7 +25,7 @@
     "dotenv": "^16.4.5",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
-    "esbuild": "^0.19.8",
+    "esbuild": "^0.23.0",
     "events": "^3.3.0",
     "express": "^4.18.2",
     "i18next": "^23.9.0",
@@ -91,7 +91,7 @@
     "moxios": "^0.4.0",
     "nodemon": "^3.0.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.0.3",
+    "prettier": "^3.3.2",
     "react-error-overlay": "6.0.11",
     "react-test-renderer": "^17.0.2",
     "redux-mock-store": "^1.5.1",
@@ -106,7 +106,7 @@
     "ts-jest": "^26.5.6",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.4",
-    "xrpl": "^3.0.0"
+    "xrpl": "^3.1.0"
   },
   "resolutions": {
     "jest-environment-jsdom": "29.3.1"
