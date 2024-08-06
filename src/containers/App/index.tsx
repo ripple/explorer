@@ -104,6 +104,14 @@ export const AppWrapper = () => {
                   path={updatePath('/ledgers')}
                   element={<Navigate to={updatePath('/')} replace />}
                 />
+                <Route
+                  path={updatePath('/index.html')}
+                  element={<Navigate to={updatePath('/')} replace />}
+                />
+                <Route
+                  path={updatePath('/index.htm')}
+                  element={<Navigate to={updatePath('/')} replace />}
+                />
                 {/* End: Redirects */}
                 {mode === 'custom' && (
                   <Route path="/" element={<CustomNetworkHome />} />
