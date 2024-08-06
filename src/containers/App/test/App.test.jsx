@@ -161,6 +161,40 @@ describe('App container', () => {
     ])
   })
 
+  it('renders ledger explorer page from index.html redirect', async () => {
+    wrapper = createWrapper('/index.html')
+    await flushPromises()
+    await flushPromises()
+    wrapper.update()
+
+    expect(document.title).toEqual('xrpl_explorer | ledgers')
+    expect(window.dataLayer).toEqual([
+      {
+        page_path: '/',
+        page_title: `xrpl_explorer | ledgers`,
+        event: 'screen_view',
+        network: 'mainnet',
+      },
+    ])
+  })
+
+  it('renders ledger explorer page from index.htm redirect', async () => {
+    wrapper = createWrapper('/index.html')
+    await flushPromises()
+    await flushPromises()
+    wrapper.update()
+
+    expect(document.title).toEqual('xrpl_explorer | ledgers')
+    expect(window.dataLayer).toEqual([
+      {
+        page_path: '/',
+        page_title: `xrpl_explorer | ledgers`,
+        event: 'screen_view',
+        network: 'mainnet',
+      },
+    ])
+  })
+
   it('renders not found page', () => {
     wrapper = createWrapper('/zzz')
     return new Promise((r) => setTimeout(r, 10)).then(() => {
