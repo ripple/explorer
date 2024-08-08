@@ -1,0 +1,67 @@
+{
+  "tx": {
+    "Account": "rERyS9qtwky94UMMjjmbku3uo5aQwAoJ58",
+    "Fee": "10",
+    "Flags": 1,
+    "MPTokenHolder": "r9hF4e3e6kLuxLobPwfQa2wzXZMDvBDeUg",
+    "MPTokenIssuanceID": "00000BED9E4ADA3DCC1BE78683C4B623A74013818160590C",
+    "Sequence": 3054,
+    "SigningPubKey": "EDF73A1C528F5BFBD6FF2B05D0C71760D7D2DF1DE3496935612E47BCB440F28040",
+    "TransactionType": "MPTokenIssuanceSet",
+    "TxnSignature": "5BC9ABE91A10F86440E301F17DFADD08D2E55E0699441372BE73D843B4481869BD6224ED461BC4F9894E97F1F99562D3CF2CD1A4E991BD7993DC24EDA63F5B05",
+    "ctid": "C0000BF100000000",
+    "date": 1711047580000,
+    "hash": "undefined",
+    "inLedger": "undefined",
+    "ledger_index": "undefined",
+    "meta": "undefined",
+    "validated": "undefined",
+    "metaData": "undefined",
+    "status": "undefined"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "r9hF4e3e6kLuxLobPwfQa2wzXZMDvBDeUg",
+            "Flags": 1,
+            "MPTokenIssuanceID": "00000BED9E4ADA3DCC1BE78683C4B623A74013818160590C",
+            "OwnerNode": "0"
+          },
+          "LedgerEntryType": "MPToken",
+          "LedgerIndex": "DDA698915F22D7CEA45896CB70DCC0DF803E1F573B92B6F0178F1688208EED04",
+          "PreviousFields": {
+            "Flags": 0
+          },
+          "PreviousTxnID": "39709CA66D9103354D09070234A14253EC779846BB73477EEB21C5A65144C844",
+          "PreviousTxnLgrSeq": 3056
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rERyS9qtwky94UMMjjmbku3uo5aQwAoJ58",
+            "Balance": "99999980",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 3055
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "EDD52DA05DAB16BAF6A3B7D47CCB9FEAB7AAC2BDD9CB007F6A3B8E0DBCE50A45",
+          "PreviousFields": {
+            "Balance": "99999990",
+            "Sequence": 3054
+          },
+          "PreviousTxnID": "41A99F7E107F813C132B105AB930FD8C6960530DDFA5D98FCEF5A5600DA39D38",
+          "PreviousTxnLgrSeq": 3055
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "4993E5B875E0217ABC92EFC395805F1344D8A9A3D75437EEA457C05EDB3AB20B",
+  "ledger_index": 3057,
+  "date": 1711047580000
+}

@@ -83,6 +83,8 @@ describe('Search component', () => {
 
     const nftoken =
       '000800011C7D8ED1D715A0017E41BF9499ECC17E7FB666320000099B00000000'
+
+    const mptoken = '00002AF2588C244FE5F74BF48B5C5E2823235B243AA34634'
     const invalidString = '123invalid'
 
     // mock getNFTInfo api to test transactions and nfts
@@ -167,6 +169,8 @@ describe('Search component', () => {
 
     // handle lower case ctid
     await testValue(ctid.toLowerCase(), `/transactions/${ctid}`)
+
+    await testValue(mptoken, `/mpt/${mptoken}`)
     wrapper.unmount()
   })
 

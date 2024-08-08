@@ -9,6 +9,10 @@ import { AccountSetTransaction as AccountSet } from './AccountSet'
 import { DIDSetTransaction as DIDSet } from './DIDSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
 import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
+import { MPTokenAuthorizeTransaction as MPTokenAuthorize } from './MPTokenAuthorize'
+import { MPTokenIssuanceCreateTransaction as MPTokenIssuanceCreate } from './MPTokenIssuanceCreate'
+import { MPTokenIssuanceDestroyTransaction as MPTokenIssuanceDestroy } from './MPTokenIssuanceDestroy'
+import { MPTokenIssuanceSetTransaction as MPTokenIssuanceSet } from './MPTokenIssuanceSet'
 import { NFTokenMintTransaction as NFTokenMint } from './NFTokenMint'
 import { NFTokenCancelOfferTransaction as NFTokenCancelOffer } from './NFTokenCancelOffer'
 import { NFTokenBurnTransaction as NFTokenBurn } from './NFTokenBurn'
@@ -55,6 +59,10 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   DIDSet,
   DepositPreauth,
   EnableAmendment,
+  MPTokenAuthorize,
+  MPTokenIssuanceCreate,
+  MPTokenIssuanceDestroy,
+  MPTokenIssuanceSet,
   NFTokenMint,
   NFTokenCancelOffer,
   NFTokenBurn,

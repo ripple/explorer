@@ -1,0 +1,53 @@
+{
+  "tx": {
+    "Account": "rnnqhMCx3jdhyp1Koa8MVj62FgmELJzfYm",
+    "Amount": {
+      "mpt_issuance_id": "0000012F2CCA489EAB713F0F099281FE4A9BCC2703560564",
+      "value": "1000"
+    },
+    "Fee": "10",
+    "Flags": 2147483648,
+    "MPTokenHolder": "rHEudzMb9QwaHgKCT8NREJUQ9wWs8GwpKV",
+    "Sequence": 304,
+    "SigningPubKey": "ED0C126A466F106C90CDDB8007856477250252F0F31A0F9FDC528E94357FD7824A",
+    "TransactionType": "Clawback",
+    "TxnSignature": "F7437D295C7408DCCB3AE38F5CDAD1C65CC9CEECC1421AFDB38EF77B032B219D829B01187B989C23A991B9F792D6F9FF99AF832C938131C3943E1875CEC4B80E",
+    "ctid": "C000013200000000",
+    "date": 1712251343000,
+    "hash": "undefined",
+    "inLedger": "undefined",
+    "ledger_index": "undefined",
+    "meta": "undefined",
+    "validated": "undefined",
+    "metaData": "undefined",
+    "status": "undefined"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rnnqhMCx3jdhyp1Koa8MVj62FgmELJzfYm",
+            "Balance": "99999980",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 305
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "23B976A2A925BCCDE8545CDA5F0593231E6C86036E4F6C4FC399BB3F4F978005",
+          "PreviousFields": {
+            "Balance": "99999990",
+            "Sequence": 304
+          },
+          "PreviousTxnID": "6EC2F90E0EAA2CC061F3294C78F54FA0EF1E0F974D304FE4583CE53FF54A3444",
+          "PreviousTxnLgrSeq": 305
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tecOBJECT_NOT_FOUND"
+  },
+  "hash": "46D5BA12BF0EC676E268D3B9CE5A7610870A35DC3CB214B9C6B0E1DB07DBE1EB",
+  "ledger_index": 306,
+  "date": 1712251343000
+}

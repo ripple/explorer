@@ -1,4 +1,4 @@
-import { CTID_REGEX, HASH_REGEX } from '../../containers/shared/utils'
+import { CTID_REGEX, HASH256_REGEX } from '../../containers/shared/utils'
 import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
 
@@ -144,7 +144,7 @@ const getTransaction = (rippledSocket, txId) => {
   const params = {
     command: 'tx',
   }
-  if (HASH_REGEX.test(txId)) {
+  if (HASH256_REGEX.test(txId)) {
     params.transaction = txId
   } else if (CTID_REGEX.test(txId)) {
     params.ctid = txId
@@ -557,6 +557,54 @@ const getAMMInfo = (rippledSocket, asset, asset2) => {
   })
 }
 
+const getMPTIssuance = (rippledSocket, tokenId) =>
+  query(rippledSocket, {
+    command: 'ledger_entry',
+    mpt_issuance: tokenId,
+    ledger_index: 'validated',
+  }).then((resp) => {
+    if (
+      resp.error === 'entryNotFound' ||
+      resp.error === 'lgrNotFound' ||
+      resp.error === 'objectNotFound'
+    ) {
+      throw new Error('MPT not found', 404)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+    return resp
+  })
+
+const getAccountMPTs = (
+  rippledSocket,
+  account,
+  marker = '',
+  ledgerIndex = 'validated',
+) =>
+  query(rippledSocket, {
+    command: 'account_objects',
+    account,
+    ledger_index: ledgerIndex,
+    type: 'mptoken',
+    marker: marker || undefined,
+    limit: 400,
+  }).then((resp) => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+    if (resp.error === 'invalidParams') {
+      return undefined
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
+  })
+
 export {
   getLedger,
   getLedgerEntry,
@@ -576,4 +624,6 @@ export {
   getSellNFToffers,
   getNFTTransactions,
   getAMMInfo,
+  getMPTIssuance,
+  getAccountMPTs,
 }

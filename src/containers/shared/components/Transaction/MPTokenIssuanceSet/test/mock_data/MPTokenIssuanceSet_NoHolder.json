@@ -1,0 +1,67 @@
+{
+  "tx": {
+    "Account": "rEUGuTqrySk9o1rZSVx8seuvcsEZymeEYM",
+    "Fee": "10",
+    "Flags": 1,
+    "MPTokenIssuanceID": "000002609BB39CEC721B5AB337B6BD862ACD2811CBBB5F18",
+    "Sequence": 609,
+    "SigningPubKey": "ED92DDE49AA689EC63589623067968B85E4885A9874B3CAB89E07D192EBFA42FF9",
+    "TransactionType": "MPTokenIssuanceSet",
+    "TxnSignature": "6678BF017A62360DAA39156112960D934440467D2E4098958F053B6758A2D237DA82CD27FDA3B35BAB610D74669BF6C4DEB12D77984E48158B2D79C8BAEC3303",
+    "ctid": "C000026400000000",
+    "date": 1711133159000,
+    "hash": "undefined",
+    "inLedger": "undefined",
+    "ledger_index": "undefined",
+    "meta": "undefined",
+    "validated": "undefined",
+    "metaData": "undefined",
+    "status": "undefined"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rEUGuTqrySk9o1rZSVx8seuvcsEZymeEYM",
+            "Balance": "99999980",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 610
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "1D54D263727856612FC7C7A27D93532ED0C41B74FA651992C125AD19C900669D",
+          "PreviousFields": {
+            "Balance": "99999990",
+            "Sequence": 609
+          },
+          "PreviousTxnID": "CF68A8D929F089F6F53B071250935DD7C3F52F6E175D82E53118265D776D4BF7",
+          "PreviousTxnLgrSeq": 610
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 35,
+            "Issuer": "rEUGuTqrySk9o1rZSVx8seuvcsEZymeEYM",
+            "OutstandingAmount": "0",
+            "OwnerNode": "0",
+            "Sequence": 608
+          },
+          "LedgerEntryType": "MPTokenIssuance",
+          "LedgerIndex": "E8DF796110B1FBD9086A4637491E49843D33D897FBC32F03A33140F76378EE86",
+          "PreviousFields": {
+            "Flags": 34
+          },
+          "PreviousTxnID": "CF68A8D929F089F6F53B071250935DD7C3F52F6E175D82E53118265D776D4BF7",
+          "PreviousTxnLgrSeq": 610
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "73C21D8B5DFBF5DE03FCAF0D69C00E9E2918280561E9898C556A1C743A566D47",
+  "ledger_index": 612,
+  "date": 1711133159000
+}
