@@ -5,15 +5,22 @@ interface SearchResultsProps {
   currentSearchValue: string
 }
 
+let socket
+
 const SearchResults = ({
   currentSearchValue,
 }: SearchResultsProps): JSX.Element => {
-  const socket = getXRPLMetaSocket()
+  useEffect(() => {
+    socket = getXRPLMetaSocket()
+  }, [])
   useEffect(() => {
     const command = {
+      command: 'tokens',
       name_like: currentSearchValue,
+      trust_level: [1, 2, 3],
+      limit: 10,
     }
-    if (socket.readyState === socket.OPEN) {
+    if (socket.readyState === socket.OPEN && currentSearchValue !== '') {
       socket.send(JSON.stringify(command))
     }
   }, [currentSearchValue, socket])
