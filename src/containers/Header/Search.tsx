@@ -1,4 +1,4 @@
-import { KeyboardEventHandler, useContext } from 'react'
+import { KeyboardEventHandler, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
@@ -31,6 +31,7 @@ import {
   TRANSACTION_ROUTE,
   VALIDATOR_ROUTE,
 } from '../App/routes'
+import SearchResults from '../shared/components/SearchResults/SearchResults'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
@@ -155,6 +156,8 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   const socket = useContext(SocketContext)
   const navigate = useNavigate()
 
+  const [currentSearchInput, setCurrentSearchInput] = useState('')
+
   const handleSearch = async (id: string) => {
     const strippedId = id.replace(/^["']|["']$/g, '')
     const route = await getRoute(strippedId, socket)
@@ -174,12 +177,17 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   }
 
   return (
-    <div className="search">
-      <input
-        type="text"
-        placeholder={t('header.search.placeholder')}
-        onKeyDown={onKeyDown}
-      />
-    </div>
+    <>
+      <div className="search">
+        <input
+          type="text"
+          placeholder={t('header.search.placeholder')}
+          onKeyDown={onKeyDown}
+          value={currentSearchInput}
+          onChange={(e) => setCurrentSearchInput(e.target.value)}
+        />
+      </div>
+      <SearchResults currentSearchValue={currentSearchInput} />
+    </>
   )
 }
