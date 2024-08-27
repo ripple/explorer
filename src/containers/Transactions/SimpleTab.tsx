@@ -72,13 +72,13 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     </>
   )
 
-  const { raw } = data
+  const { processed } = data
   const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' }
-  const time = localizeDate(new Date(raw.date), language, DATE_OPTIONS)
-  const ledgerIndex = raw.ledger_index
-  const fee = raw.tx.Fee
+  const time = localizeDate(new Date(processed.date), language, DATE_OPTIONS)
+  const ledgerIndex = processed.ledger_index
+  const fee = processed.tx.Fee
     ? localizeNumber(
-        Number.parseFloat(raw.tx.Fee) / XRP_BASE,
+        Number.parseFloat(processed.tx.Fee) / XRP_BASE,
         language,
         numberOptions,
       )
@@ -88,16 +88,16 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     time,
     ledgerIndex,
     fee,
-    raw.tx.Account,
-    raw.tx.Sequence,
-    raw.tx.TicketSequence,
-    !!raw.tx.EmitDetails,
+    processed.tx.Account,
+    processed.tx.Sequence,
+    processed.tx.TicketSequence,
+    !!processed.tx.EmitDetails,
   )
 
   return (
     <div className="simple-body simple-body-tx">
       <div className="rows">
-        <Simple type={raw.tx.TransactionType} data={data.summary} />
+        <Simple type={processed.tx.TransactionType} data={data.summary} />
         {width < BREAKPOINTS.landscape && rowIndex}
       </div>
       {width >= BREAKPOINTS.landscape && (

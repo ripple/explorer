@@ -104,7 +104,7 @@ describe('Transaction container', () => {
 
     beforeEach(async () => {
       const transaction = {
-        raw: mockTransaction,
+        processed: mockTransaction,
         summary: mockTransactionSummary,
       }
 
