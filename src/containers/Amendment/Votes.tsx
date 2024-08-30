@@ -85,10 +85,11 @@ export const Votes = ({ data, validators }: VotesProps) => {
 
   const getYeas = () =>
     validators
-      .filter((validator) =>
-        data.voted?.validators.some(
-          (voted) => voted.signing_key === validator.signing_key,
-        ),
+      .filter(
+        (validator) =>
+          data.voted?.validators.some(
+            (voted) => voted.signing_key === validator.signing_key,
+          ),
       )
       .sort(compareValidators)
 

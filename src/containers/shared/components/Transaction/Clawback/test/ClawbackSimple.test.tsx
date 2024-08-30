@@ -1,9 +1,15 @@
+import { useQuery } from 'react-query'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transaction from './mock_data/Clawback.json'
 import transactionFailure from './mock_data/Clawback_Failure.json'
 import transactionMPT from './mock_data/ClawbackMPT.json'
 import transactionMPTFailure from './mock_data/ClawbackMPT_Failure.json'
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn(),
+}))
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
@@ -20,13 +26,22 @@ describe('Clawback', () => {
   })
 
   it('handles MPT Clawback simple view ', () => {
+    const data = {
+      assetScale: 3,
+    }
+
+    // @ts-ignore
+    useQuery.mockImplementation(() => ({
+      data,
+    }))
     const wrapper = createWrapper(transactionMPT)
     expectSimpleRowText(wrapper, 'holder', 'rJxiAVBX7B9PqHXb7VmitRZWbFb87wzeb7')
     expectSimpleRowText(
       wrapper,
       'amount',
-      '200 MPT (00002C8389DF4D75362F45B32EA66F8CF250438A9AD0D555)',
+      '0.2 MPT (00002C8389DF4D75362F45B32EA66F8CF250438A9AD0D555)',
     )
+
     wrapper.unmount()
   })
 
@@ -42,12 +57,21 @@ describe('Clawback', () => {
   })
 
   it('handles failed MPT Clawback simple view ', () => {
+    const data = {
+      assetScale: 3,
+    }
+
+    // @ts-ignore
+    useQuery.mockImplementation(() => ({
+      data,
+    }))
     const wrapper = createWrapper(transactionMPTFailure)
+
     expectSimpleRowText(wrapper, 'holder', 'rHEudzMb9QwaHgKCT8NREJUQ9wWs8GwpKV')
     expectSimpleRowText(
       wrapper,
       'amount',
-      '1000 MPT (0000012F2CCA489EAB713F0F099281FE4A9BCC2703560564)',
+      '1 MPT (0000012F2CCA489EAB713F0F099281FE4A9BCC2703560564)',
     )
     wrapper.unmount()
   })

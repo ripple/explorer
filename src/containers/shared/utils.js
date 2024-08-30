@@ -157,6 +157,16 @@ export const localizeNumber = (num, lang = 'en-US', options = {}) => {
   return new Intl.NumberFormat(lang, config).format(number)
 }
 
+export const localizeMPTNumber = (num, scale, lang = 'en-US', options = {}) => {
+  const number = Number.parseFloat(num)
+  const config = { ...NUMBER_DEFAULT_OPTIONS, ...options }
+
+  if (Number.isNaN(number)) {
+    return null
+  }
+  return new Intl.NumberFormat(lang, config).format(number)
+}
+
 export function formatPrice(number, options = {}) {
   const { lang, currency, decimals, padding } = {
     ...FORMAT_PRICE_DEFAULT_OPTIONS,
