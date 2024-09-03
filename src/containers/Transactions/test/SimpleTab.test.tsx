@@ -15,7 +15,7 @@ describe('SimpleTab container', () => {
       <Router>
         <I18nextProvider i18n={i18n}>
           <SimpleTab
-            data={{ raw: tx, summary: summarize(tx, true).details }}
+            data={{ processed: tx, summary: summarize(tx, true).details }}
             width={width}
           />
         </I18nextProvider>
