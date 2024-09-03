@@ -3,7 +3,7 @@
   "description": "XRPL Data Visualization",
   "version": "1.5.0",
   "dependencies": {
-    "@google-cloud/bigquery": "^7.6.1",
+    "@google-cloud/bigquery": "^7.9.0",
     "@paystring/utils": "^2.0.0",
     "@redux-devtools/extension": "^3.3.0",
     "@rollup/plugin-inject": "^5.0.5",
