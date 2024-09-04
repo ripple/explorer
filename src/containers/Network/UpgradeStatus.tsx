@@ -22,63 +22,108 @@ import {
 } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 import { ledgerCompare } from './Nodes'
+import { Loader } from '../shared/components/Loader'
 
-interface DataAggregation {
-  label: string
-  validatorsPercent: number
-  validatorsCount: number
-  nodesPercent: number
-  nodesCount: number
+interface NodeStats {
+  nodePercent: number
+  nodeCount: number
 }
 
-export const aggregateData = (
-  validators: ValidatorResponse[],
-  nodes: NodeResponse[],
-): DataAggregation[] => {
-  if (!validators) {
-    return []
-  }
+interface ValidatorStats {
+  validatorPercent: number
+  validatorCount: number
+}
 
+interface ValidatorAggregation {
+  [label: string]: ValidatorStats
+}
+
+interface NodeAggregation {
+  [label: string]: NodeStats
+}
+
+interface DataAggregation extends ValidatorStats, NodeStats {
+  label: string
+}
+
+export const aggregateValidators = (validators: ValidatorResponse[]) => {
   let totalVals = 0
-  let totalNodes = 0
-  interface aggregationTypes {
-    validatorsCount: number
-    nodesCount: number
-  }
-
-  const aggregation: Record<string, aggregationTypes> = {}
+  const aggregation: ValidatorAggregation = {}
   validators?.forEach((validator) => {
     if (!validator.signing_key) return
     const version = validator.server_version
     totalVals += 1
     if (version) {
       if (!aggregation[version]) {
-        aggregation[version] = { validatorsCount: 0, nodesCount: 0 }
+        aggregation[version] = { validatorCount: 0, validatorPercent: 0 }
       }
-      aggregation[version].validatorsCount += 1
+      aggregation[version].validatorCount += 1
     }
   })
+  for (const label of Object.keys(aggregation)) {
+    aggregation[label].validatorPercent =
+      totalVals > 0 ? (aggregation[label].validatorCount / totalVals) * 100 : 0
+  }
 
+  return aggregation
+}
+
+export const aggregateNodes = (nodes: NodeResponse[]) => {
+  let totalNodes = 0
+  const aggregation: NodeAggregation = {}
   nodes?.forEach((node) => {
     const { version } = node
     if (!node.node_public_key) return
     totalNodes += 1
     if (version) {
       if (!aggregation[version]) {
-        aggregation[version] = { validatorsCount: 0, nodesCount: 0 }
+        aggregation[version] = { nodeCount: 0, nodePercent: 0 }
       }
-      aggregation[version].nodesCount += 1
+      aggregation[version].nodeCount += 1
     }
   })
+  for (const label of Object.keys(aggregation)) {
+    aggregation[label].nodePercent =
+      totalNodes > 0 ? (aggregation[label].nodeCount / totalNodes) * 100 : 0
+  }
 
-  return Object.entries(aggregation)
-    .map(([version, counts]) => ({
-      label: version ? version.trim() : 'N/A',
-      validatorsPercent:
-        totalVals > 0 ? (counts.validatorsCount * 100) / totalVals : 0,
-      validatorsCount: counts.validatorsCount,
-      nodesPercent: totalNodes > 0 ? (counts.nodesCount * 100) / totalNodes : 0,
-      nodesCount: counts.nodesCount,
+  return aggregation
+}
+
+export const aggregateData = (
+  validatorAggregation: ValidatorAggregation,
+  nodeAggregation: NodeAggregation,
+): DataAggregation[] => {
+  const combinedAggregation: { [label: string]: ValidatorStats & NodeStats } =
+    {}
+  for (const label of Object.keys(validatorAggregation)) {
+    combinedAggregation[label] = {
+      validatorPercent: validatorAggregation[label].validatorPercent,
+      validatorCount: validatorAggregation[label].validatorCount,
+      nodePercent: 0,
+      nodeCount: 0,
+    }
+  }
+
+  for (const label of Object.keys(nodeAggregation)) {
+    if (!combinedAggregation[label]) {
+      combinedAggregation[label] = {
+        validatorPercent: 0,
+        validatorCount: 0,
+        nodePercent: nodeAggregation[label].nodePercent,
+        nodeCount: nodeAggregation[label].nodeCount,
+      }
+    } else {
+      combinedAggregation[label].nodePercent =
+        nodeAggregation[label].nodePercent
+      combinedAggregation[label].nodeCount = nodeAggregation[label].nodeCount
+    }
+  }
+
+  return Object.entries(combinedAggregation)
+    .map(([label, stats]) => ({
+      label,
+      ...stats,
     }))
     .sort((a, b) => (isEarlierVersion(a.label, b.label) ? -1 : 1))
 }
@@ -110,7 +155,9 @@ export const UpgradeStatus = () => {
   const [vList, setVList] = useState<Record<string, ValidatorResponse>>({})
   const [validations, setValidations] = useState<ValidatorResponse[]>([])
   const [unlCount, setUnlCount] = useState(0)
-  const [aggregated, setAggregated] = useState<DataAggregation[]>([])
+  const [validatorAggregation, setValidatorAggregation] =
+    useState<ValidatorAggregation>({})
+  const [nodeAggregation, setNodeAggregation] = useState<NodeAggregation>({})
   const { t } = useTranslation()
   const language = useLanguage()
   const network = useContext(NetworkContext)
@@ -145,7 +192,7 @@ export const UpgradeStatus = () => {
   )
 
   const fetchData = () => {
-    const validatorsReq = axios
+    axios
       .get(`${process.env.VITE_DATA_URL}/validators/${network}`)
       .then((resp) => resp.data.validators)
       .then((validators: ValidatorResponse[]) => {
@@ -153,16 +200,16 @@ export const UpgradeStatus = () => {
         validators.forEach((validator) => {
           newValidatorList[validator.signing_key] = validator
         })
-
         setVList(newValidatorList)
         setUnlCount(
           validators.filter((validator) => Boolean(validator.unl)).length,
         )
+        setValidatorAggregation(aggregateValidators(validators))
         return Object.values(newValidatorList)
       })
       .catch((e) => Log.error(e))
 
-    const nodesReq = axios
+    axios
       .get(`${process.env.VITE_DATA_URL}/topology/nodes/${network}`)
       .then((resp) => resp.data.nodes)
       .then((allNodes) => {
@@ -188,12 +235,11 @@ export const UpgradeStatus = () => {
           }
           return 1
         })
+
+        setNodeAggregation(aggregateNodes(nodes))
         return nodes
       })
       .catch((e) => Log.error(e))
-    Promise.all([validatorsReq, nodesReq]).then(([validators, nodes]) => {
-      setAggregated(aggregateData(validators, nodes))
-    })
   }
 
   const fetchStableVersion = () => {
@@ -250,9 +296,17 @@ export const UpgradeStatus = () => {
       </div>
       <div className="wrap">
         <NetworkTabs selected="upgrade-status" />
-        <div className="upgrade_status">
-          <BarChartVersion data={aggregated} stableVersion={stableVersion} />
-        </div>
+        {Object.keys(validatorAggregation).length > 0 ||
+        Object.keys(nodeAggregation).length > 0 ? (
+          <div className="upgrade_status">
+            <BarChartVersion
+              data={aggregateData(validatorAggregation, nodeAggregation)}
+              stableVersion={stableVersion}
+            />
+          </div>
+        ) : (
+          <Loader />
+        )}
       </div>
     </div>
   )
