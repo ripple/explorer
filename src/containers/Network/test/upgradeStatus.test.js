@@ -78,28 +78,28 @@ const nodesData = [
 
 describe('UpgradeStatus test functions', () => {
   it('aggregate data works with validators without keys', () => {
-    const validatorsAggregate = aggregateValidators(undefinedValidatorsData)
-    expect(validatorsAggregate).toEqual({
-      '1.9.4': { validatorsCount: 1, validatorsPercent: 100 },
+    const validatorAggregate = aggregateValidators(undefinedValidatorsData)
+    expect(validatorAggregate).toEqual({
+      '1.9.4': { validatorCount: 1, validatorPercent: 100 },
     })
-    const nodesAggregate = aggregateNodes(nodesData)
-    expect(nodesAggregate).toEqual({
-      '1.11.0-rc3': { nodesCount: 1, nodesPercent: 100 },
+    const nodeAggregate = aggregateNodes(nodesData)
+    expect(nodeAggregate).toEqual({
+      '1.11.0-rc3': { nodeCount: 1, nodePercent: 100 },
     })
-    expect(aggregateData(validatorsAggregate, nodesAggregate)).toEqual([
+    expect(aggregateData(validatorAggregate, nodeAggregate)).toEqual([
       {
         label: '1.9.4',
-        validatorsCount: 1,
-        validatorsPercent: 100,
-        nodesCount: 0,
-        nodesPercent: 0,
+        validatorCount: 1,
+        validatorPercent: 100,
+        nodeCount: 0,
+        nodePercent: 0,
       },
       {
         label: '1.11.0-rc3',
-        validatorsCount: 0,
-        validatorsPercent: 0,
-        nodesCount: 1,
-        nodesPercent: 100,
+        validatorCount: 0,
+        validatorPercent: 0,
+        nodeCount: 1,
+        nodePercent: 100,
       },
     ])
   })
