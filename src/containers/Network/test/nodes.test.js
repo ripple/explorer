@@ -76,6 +76,19 @@ describe('Nodes Page container', () => {
       expect(wrapper.find('.nodes-map .tooltip').length).toBe(0)
       expect(wrapper.find('.nodes-map path.node').length).toBe(2)
       expect(wrapper.find('.nodes-table table tr').length).toBe(4)
+      wrapper.find('.nodes-table table th.version a').simulate('click')
+      const rows = wrapper.find('.nodes-table table tbody tr td.version')
+      const expected = [
+        '<td class="version sorted">1.1.2</td>',
+        '<td class="version sorted">1.2.0-rc2</td>',
+        '<td class="version sorted">1.2.0-rc2</td>',
+      ]
+      let index = 0
+      rows.forEach((element) => {
+        expect(element.html()).toBe(expected[index])
+        // eslint-disable-next-line no-plusplus
+        index++
+      })
       wrapper.unmount()
       done()
     })
