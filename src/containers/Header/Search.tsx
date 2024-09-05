@@ -177,7 +177,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   }
 
   return (
-    <>
+    <div>
       <div className="search">
         <input
           type="text"
@@ -186,8 +186,13 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
           value={currentSearchInput}
           onChange={(e) => setCurrentSearchInput(e.target.value)}
         />
+        <div className="search-results">
+          <SearchResults
+            setCurrentSearchInput
+            currentSearchValue={currentSearchInput}
+          />
+        </div>
       </div>
-      <SearchResults currentSearchValue={currentSearchInput} />
-    </>
+    </div>
   )
 }
