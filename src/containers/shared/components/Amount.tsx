@@ -10,6 +10,7 @@ import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
 import SocketContext from '../SocketContext'
 import { useAnalytics } from '../analytics'
+import { convertScaledPrice } from '../utils'
 
 export interface AmountProps {
   value: ExplorerAmount | string
@@ -72,7 +73,11 @@ export const Amount = ({
   if (isMPT && typeof value !== 'string') {
     if (mptIssuanceData) {
       const scale = mptIssuanceData.assetScale ?? 0
-      const scaledAmount = parseInt(amount as string, 10) / 10 ** scale
+      const scaledAmount = convertScaledPrice(
+        parseInt(amount as string, 10).toString(16),
+        scale,
+      )
+      //   const scaledAmount = parseInt(amount as string, 10) / 10 ** scale
       return renderAmount(localizeMPTNumber(scaledAmount))
     }
     return null
