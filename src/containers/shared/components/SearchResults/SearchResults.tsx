@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Logo from '../../images/info.svg'
 import './SearchResults.scss'
 import { Link } from 'react-router-dom'
-import { RouteLink } from '../../routing'
+import { getRoute } from '../../../Header/Search'
+import SocketContext from '../../SocketContext'
 
 interface SearchResultsProps {
   currentSearchValue: string
@@ -23,6 +24,56 @@ const truncateLong = (str: string | undefined) => {
     return str.length > 10 ? `${str.substring(0, 10)}...` : str
   }
   return str
+}
+
+const SearchResultBarNonToken = ({ type, path, onClick }) => {
+  const generateBarText = () => {
+    switch (type) {
+      case 'ledgers':
+        return 'Search ledger ID'
+      case 'accounts':
+        return 'Search account'
+      case 'paystrings':
+        return 'Search paystring'
+      case 'token':
+        return 'Search token'
+      case 'validators':
+        return 'Search validators'
+      case 'transactions':
+        return 'Search transactions'
+      default:
+        return null
+    }
+  }
+
+  return (
+    <Link to={path} onClick={onClick}>
+      <div className="search-result-row">
+        <Logo
+          style={{
+            width: '2rem',
+            height: '2rem',
+            minWidth: '2rem',
+            minHeight: '2rem',
+            margin: '1rem',
+            marginRight: '50px',
+            alignContent: 'center',
+            justifyContent: 'center',
+          }}
+        />
+        <div
+          style={{
+            marginRight: '30px',
+            width: '100px',
+            alignContent: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <h4>{generateBarText()}</h4>
+        </div>
+      </div>
+    </Link>
+  )
 }
 
 const SearchResultBar = ({ resultContent, onClick }) => (
@@ -93,7 +144,9 @@ const SearchResults = ({
   currentSearchValue,
   setCurrentSearchInput,
 }: SearchResultsProps): JSX.Element => {
+  const xrplSocket = useContext(SocketContext)
   const [rawCurrentSearchResults, setRawCurrentSearchResults] = useState([])
+  const [searchRouteObj, setSearchRouteObj] = useState({ type: '', path: '' })
   useEffect(() => {
     socket = new WebSocket('wss://s1.xrplmeta.org', 'tokens')
 
@@ -122,14 +175,28 @@ const SearchResults = ({
     if (currentSearchValue === '') {
       setRawCurrentSearchResults([])
     }
+
+    getRoute(currentSearchValue, xrplSocket).then((routeObj) => {
+      if (routeObj) {
+        setSearchRouteObj(routeObj)
+      }
+    })
   }, [currentSearchValue, socket])
 
   const onLinkClick = () => {
     setCurrentSearchInput('')
     setRawCurrentSearchResults([])
+    setSearchRouteObj({ type: '', path: '' })
   }
   return (
     <div className="search-results-menu">
+      {searchRouteObj && searchRouteObj.path !== '' && (
+        <SearchResultBarNonToken
+          type={searchRouteObj.type}
+          path={searchRouteObj.path}
+          onClick={onLinkClick}
+        />
+      )}
       {rawCurrentSearchResults.map((searchResultContent) => (
         <SearchResultBar
           resultContent={searchResultContent}

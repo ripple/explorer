@@ -45,7 +45,7 @@ const determineHashType = async (id: string, rippledContext: XrplClient) => {
 // separator for currency formats
 const separators = /[.:+-]/
 
-const getRoute = async (
+export const getRoute = async (
   id: string,
   rippledContext: XrplClient,
 ): Promise<{ type: string; path: string } | null> => {
