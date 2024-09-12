@@ -4,6 +4,7 @@ import './SearchResults.scss'
 import { Link } from 'react-router-dom'
 import { getRoute } from '../../../Header/Search'
 import SocketContext from '../../SocketContext'
+import { convertHexToString } from 'xrpl'
 
 interface SearchResultsProps {
   currentSearchValue: string
@@ -64,7 +65,7 @@ const SearchResultBarNonToken = ({ type, path, onClick }) => {
         <div
           style={{
             marginRight: '30px',
-            width: '100px',
+            width: '200px',
             alignContent: 'center',
             justifyContent: 'center',
           }}
@@ -82,60 +83,77 @@ const SearchResultBar = ({ resultContent, onClick }) => (
     onClick={onClick}
   >
     <div className="search-result-row">
-      {resultContent.meta.token.icon ? (
-        <img
-          src={resultContent.meta.token.icon}
-          alt="token icon"
-          style={{
-            width: '2rem',
-            height: '2rem',
-            margin: '1rem',
-            marginRight: '50px',
-            alignContent: 'center',
-            justifyContent: 'center',
-          }}
-        />
-      ) : (
-        <Logo
-          style={{
-            width: '2rem',
-            height: '2rem',
-            minWidth: '2rem',
-            minHeight: '2rem',
-            margin: '1rem',
-            marginRight: '50px',
-            alignContent: 'center',
-            justifyContent: 'center',
-          }}
-        />
-      )}
-      <div
-        style={{
-          marginRight: '30px',
-          width: '100px',
-          alignContent: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <h4>{truncateShort(resultContent.currency)}</h4>
-      </div>
-      <div style={{ marginRight: '30px', width: '150px', minWidth: '100px' }}>
-        {resultContent.meta.token.name ? (
-          <h4>{truncateLong(resultContent.meta.token.name)}</h4>
+      <div className="search-result-logo">
+        {resultContent.meta.token.icon ? (
+          <object
+            data={resultContent.meta.token.icon}
+            style={{
+              width: '1.5rem',
+              height: '1.5rem',
+              borderRadius: '16px',
+            }}
+          >
+            <Logo
+              style={{
+                width: '1.5rem',
+                height: '1.5rem',
+                borderRadius: '16px',
+              }}
+            />
+          </object>
         ) : (
-          <h4>----</h4>
+          <Logo
+            style={{
+              width: '1.5rem',
+              height: '1.5rem',
+              borderRadius: '16px',
+            }}
+          />
         )}
       </div>
-
-      {resultContent.meta.issuer.name ? (
-        <div style={{ width: '150px', minWidth: '100px', marginRight: '30px' }}>
-          <h5>{truncateLong(resultContent.meta.issuer.name)}</h5>
+      <div className="search-result-content">
+        <div className="search-result-row-line-one">
+          <div style={{ paddingTop: '2px', paddingBottom: '2px' }}>
+            {resultContent.currency.length > 10
+              ? convertHexToString(resultContent.currency)
+              : truncateShort(resultContent.currency)}
+          </div>
+          <div
+            style={{
+              paddingTop: '2px',
+              paddingBottom: '2px',
+              marginLeft: '0.25rem',
+            }}
+          >
+            {resultContent.meta.token.name && (
+              <div>({resultContent.meta.token.name})</div>
+            )}
+          </div>
+          <div className="search-result-metric-chip">
+            ${resultContent.metrics.price}
+          </div>
+          <div className="search-result-metric-chip">
+            HOLDERS: {resultContent.metrics.holders}
+          </div>
+          <div className="search-result-metric-chip">
+            TRUSTLINES: {resultContent.metrics.trustlines}
+          </div>
         </div>
-      ) : (
-        <div style={{ width: '150px', minWidth: '100px' }}>
-          <h4>{truncateLong(resultContent.issuer)}</h4>
+        <div className="search-result-row-line-two">
+          <div>Address:</div>
+          {resultContent.meta.issuer.name && (
+            <div style={{ marginLeft: '0.25rem' }}>
+              <div>{resultContent.issuer}</div>
+            </div>
+          )}
         </div>
-      )}
+        <div className="search-result-row-line-three">
+          <div>Website</div>
+          <div style={{ marginLeft: '0.25rem' }}>
+            <div>{resultContent.meta.issuer.domain}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </Link>
 )
@@ -155,8 +173,17 @@ const SearchResults = ({
     })
 
     socket.addEventListener('message', (event) => {
-      console.log('Got message from server:', event.data)
-      setRawCurrentSearchResults(JSON.parse(event.data).result.tokens)
+      // console.log('Got message from server:', event.data)
+      const results = JSON.parse(event.data).result.tokens
+      const filteredResults = results.filter(
+        (result) =>
+          result.metrics.trustlines > 50 &&
+          result.metrics.holders > 50 &&
+          result.metrics.marketcap > 0 &&
+          result.metrics.volume_7d > 0,
+      )
+      console.log(filteredResults)
+      setRawCurrentSearchResults(filteredResults)
     })
     socket.addEventListener('close', (event) => {
       console.log('Disconnected...')
@@ -167,7 +194,8 @@ const SearchResults = ({
       command: 'tokens',
       name_like: currentSearchValue,
       trust_level: [1, 2, 3],
-      limit: 10,
+      sort_by: 'holders',
+      limit: 50,
     }
     if (socket.readyState === socket.OPEN && currentSearchValue !== '') {
       socket.send(JSON.stringify(command))
@@ -179,6 +207,8 @@ const SearchResults = ({
     getRoute(currentSearchValue, xrplSocket).then((routeObj) => {
       if (routeObj) {
         setSearchRouteObj(routeObj)
+      } else {
+        setSearchRouteObj({ type: '', path: '' })
       }
     })
   }, [currentSearchValue, socket])
@@ -190,6 +220,11 @@ const SearchResults = ({
   }
   return (
     <div className="search-results-menu">
+      {rawCurrentSearchResults.length > 0 && (
+        <div className="search-results-header">
+          Tokens ({rawCurrentSearchResults.length})
+        </div>
+      )}
       {searchRouteObj && searchRouteObj.path !== '' && (
         <SearchResultBarNonToken
           type={searchRouteObj.type}
@@ -201,6 +236,7 @@ const SearchResults = ({
         <SearchResultBar
           resultContent={searchResultContent}
           onClick={onLinkClick}
+          key={`${searchResultContent.currency}.${searchResultContent.issuer}`}
         />
       ))}
     </div>
