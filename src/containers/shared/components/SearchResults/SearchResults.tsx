@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { convertHexToString } from 'xrpl'
+import { getRoute } from '../../../Header/Search'
 import Logo from '../../images/info.svg'
 import './SearchResults.scss'
-import { Link } from 'react-router-dom'
-import { getRoute } from '../../../Header/Search'
+
 import SocketContext from '../../SocketContext'
-import { convertHexToString } from 'xrpl'
 
 interface SearchResultsProps {
   currentSearchValue: string
@@ -12,20 +13,6 @@ interface SearchResultsProps {
 }
 
 let socket
-
-const truncateShort = (str: string | undefined) => {
-  if (str) {
-    return str.length > 10 ? `${str.substring(0, 7)}...` : str
-  }
-  return str
-}
-
-const truncateLong = (str: string | undefined) => {
-  if (str) {
-    return str.length > 10 ? `${str.substring(0, 10)}...` : str
-  }
-  return str
-}
 
 const SearchResultBarNonToken = ({ type, path, onClick }) => {
   const generateBarText = () => {
@@ -52,10 +39,8 @@ const SearchResultBarNonToken = ({ type, path, onClick }) => {
       <div className="search-result-row">
         <Logo
           style={{
-            width: '2rem',
-            height: '2rem',
-            minWidth: '2rem',
-            minHeight: '2rem',
+            width: '1.5rem',
+            height: '1.5rem',
             margin: '1rem',
             marginRight: '50px',
             alignContent: 'center',
@@ -116,7 +101,7 @@ const SearchResultBar = ({ resultContent, onClick }) => (
           <div style={{ paddingTop: '2px', paddingBottom: '2px' }}>
             {resultContent.currency.length > 10
               ? convertHexToString(resultContent.currency)
-              : truncateShort(resultContent.currency)}
+              : resultContent.currency}
           </div>
           <div
             style={{

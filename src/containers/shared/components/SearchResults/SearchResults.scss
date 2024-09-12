@@ -49,8 +49,9 @@
   border-top: 0px;
   margin-top: 6px;
   background-color: black;
+  box-shadow: 2px 2px 15px 0px rgb(131 131 134 / 30%);
   overflow-y: scroll;
-  scrollbar-color: $black-50 $black-80;
+  scrollbar-color: $black-50 transparent;
   scrollbar-width: thin;
 }
 
