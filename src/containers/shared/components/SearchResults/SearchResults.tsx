@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { convertHexToString } from 'xrpl'
 import { getRoute } from '../../../Header/Search'
-import Logo from '../../images/info.svg'
+import Logo from '../../images/generic_token.svg'
 import './SearchResults.scss'
 
 import SocketContext from '../../SocketContext'
@@ -115,7 +115,7 @@ const SearchResultBar = ({ resultContent, onClick }) => (
             )}
           </div>
           <div className="search-result-metric-chip">
-            ${resultContent.metrics.price}
+            ~${resultContent.metrics.price.substring(0, 7)}
           </div>
           <div className="search-result-metric-chip">
             HOLDERS: {resultContent.metrics.holders}
@@ -126,17 +126,27 @@ const SearchResultBar = ({ resultContent, onClick }) => (
         </div>
         <div className="search-result-row-line-two">
           <div>Address:</div>
-          {resultContent.meta.issuer.name && (
-            <div style={{ marginLeft: '0.25rem' }}>
+          {resultContent.issuer && (
+            <Link
+              to={`/accounts/${resultContent.issuer}`}
+              className="issuer-link"
+            >
               <div>{resultContent.issuer}</div>
-            </div>
+            </Link>
           )}
         </div>
         <div className="search-result-row-line-three">
-          <div>Website</div>
-          <div style={{ marginLeft: '0.25rem' }}>
-            <div>{resultContent.meta.issuer.domain}</div>
-          </div>
+          <div>Website:</div>
+          {resultContent.meta.issuer.domain && (
+            <a
+              href={`https://${resultContent.meta.issuer.domain}/`}
+              target="_blank"
+              rel="noreferrer"
+              className="website-link"
+            >
+              <div>{resultContent.meta.issuer.domain}</div>
+            </a>
+          )}
         </div>
       </div>
     </div>

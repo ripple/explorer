@@ -50,6 +50,7 @@
   margin-top: 6px;
   background-color: black;
   box-shadow: 2px 2px 15px 0px rgb(131 131 134 / 30%);
+  overflow-wrap: anywhere;
   overflow-y: scroll;
   scrollbar-color: $black-50 transparent;
   scrollbar-width: thin;
@@ -75,5 +76,30 @@
   &:hover {
     background-color: black;
     cursor: pointer;
+  }
+}
+
+.issuer-link {
+  margin-left: 0.25rem;
+  color: $blue-purple-20;
+
+  &:hover {
+    background: transparent;
+    color: $blue-purple-40;
+  }
+
+}
+
+.website-link {
+  margin-left: 0.25rem;
+  color: $blue-purple-20;
+
+  &:hover {
+    background: transparent;
+    color: $blue-purple-40;
+  }
+
+  &::after {
+    content: none !important;
   }
 }
