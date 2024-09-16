@@ -36,14 +36,15 @@
 
 .search-result-row-line-three {
   display: flex;
-  color: $black-50
+  flex-direction: row;
+  color: $black-50;
 }
 
 .search-results-menu {
   position: absolute;
   z-index: 1;
   width: 100%;
-  max-height: 500px;
+  max-height: 400px;
   border: 1px solid $black-80;
   border-radius: 8px;
   border-top: 0px;
@@ -91,8 +92,10 @@
 }
 
 .website-link {
+  min-width: 300px;
   margin-left: 0.25rem;
   color: $black-50;
+
 
   &:hover {
     background: transparent;

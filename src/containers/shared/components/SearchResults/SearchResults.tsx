@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import { convertHexToString } from 'xrpl'
 import Logo from '../../images/generic_token.svg'
 import './SearchResults.scss'
+import ExternalLogo from '../../images/external_link.svg'
 
 import SocketContext from '../../SocketContext'
+import { Amount } from '../Amount'
 
 interface SearchResultsProps {
   currentSearchValue: string
@@ -17,10 +19,29 @@ const SearchResultBar = ({ resultContent, onClick }) => {
   const parsePrice = (price) => {
     const parsed = Number(price).toFixed(6)
     if (Number(parsed) === 0) {
-      return '~$0'
+      return 0
     }
-    return `$${parseFloat(parsed)}`
+    return parseFloat(parsed)
   }
+
+  const parseDomain = (domain: string) => {
+    let result = domain
+
+    if (domain.startsWith('www.')) {
+      result = result.substring(4)
+    } else if (domain.startsWith('http://')) {
+      result = result.substring(7)
+    } else if (domain.startsWith('https://')) {
+      result = result.substring(8)
+    }
+
+    if (domain.endsWith('/')) {
+      result = result.substring(0, result.length - 1)
+    }
+
+    return result
+  }
+
   return (
     <Link
       to={`/token/${resultContent.currency}.${resultContent.issuer}`}
@@ -64,8 +85,8 @@ const SearchResultBar = ({ resultContent, onClick }) => {
               }}
             >
               {resultContent.currency.length > 10
-                ? convertHexToString(resultContent.currency)
-                : resultContent.currency}
+                ? convertHexToString(resultContent.currency).trim()
+                : resultContent.currency.trim()}
             </div>
             <div
               style={{
@@ -75,41 +96,68 @@ const SearchResultBar = ({ resultContent, onClick }) => {
               }}
             >
               {resultContent.meta.token.name && (
-                <div>({resultContent.meta.token.name.trim()})</div>
+                <div>
+                  (
+                  {resultContent.meta.token.name
+                    .trim()
+                    .toUpperCase()
+                    .replace('(', '')
+                    .replace(')', '')}
+                  )
+                </div>
               )}
             </div>
             <div className="search-result-metric-chip">
-              {parsePrice(resultContent.metrics.price)}
+              <Amount
+                value={{
+                  currency: 'USD',
+                  amount: parsePrice(resultContent.metrics.price),
+                }}
+                displayIssuer={false}
+                modifier={
+                  parsePrice(resultContent.metrics.price) === 0
+                    ? '~'
+                    : undefined
+                }
+              />
             </div>
             <div className="search-result-metric-chip">
               HOLDERS: {resultContent.metrics.holders}
             </div>
             <div className="search-result-metric-chip">
-              TRUSTLINES: {resultContent.metrics.trustlines}
+              <div>TRUSTLINES: {resultContent.metrics.trustlines}</div>
             </div>
           </div>
           <div className="search-result-row-line-two">
-            <div>Address:</div>
+            <div>Issuer:</div>
             {resultContent.issuer && (
               <Link
                 to={`/accounts/${resultContent.issuer}`}
                 className="issuer-link"
               >
-                <div>{resultContent.issuer}</div>
+                <div>
+                  {resultContent.meta.issuer.name
+                    ? `${resultContent.meta.issuer.name} (${resultContent.issuer})`
+                    : resultContent.issuer}
+                </div>
               </Link>
             )}
           </div>
           <div className="search-result-row-line-three">
-            <div>Website:</div>
             {resultContent.meta.issuer.domain && (
-              <a
-                href={`https://${resultContent.meta.issuer.domain}/`}
-                target="_blank"
-                rel="noreferrer"
-                className="website-link"
-              >
-                <div>{resultContent.meta.issuer.domain}</div>
-              </a>
+              <>
+                <div>Website:</div>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <a
+                    href={`https://${resultContent.meta.issuer.domain}/`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="website-link"
+                  >
+                    <div>{parseDomain(resultContent.meta.issuer.domain)}</div>
+                  </a>
+                </div>
+              </>
             )}
           </div>
         </div>
