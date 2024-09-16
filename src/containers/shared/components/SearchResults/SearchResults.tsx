@@ -7,6 +7,7 @@ import ExternalLogo from '../../images/external_link.svg'
 
 import SocketContext from '../../SocketContext'
 import { Amount } from '../Amount'
+import { localizeNumber } from '../../utils'
 
 interface SearchResultsProps {
   currentSearchValue: string
@@ -120,10 +121,12 @@ const SearchResultBar = ({ resultContent, onClick }) => {
               />
             </div>
             <div className="search-result-metric-chip">
-              HOLDERS: {resultContent.metrics.holders}
+              HOLDERS: {localizeNumber(resultContent.metrics.holders)}
             </div>
             <div className="search-result-metric-chip">
-              <div>TRUSTLINES: {resultContent.metrics.trustlines}</div>
+              <div>
+                TRUSTLINES: {localizeNumber(resultContent.metrics.trustlines)}
+              </div>
             </div>
           </div>
           <div className="search-result-row-line-two">
@@ -213,7 +216,7 @@ const SearchResults = ({
     // Exponential backoff logic
     setTimeout(() => {
       connect()
-    }, 1000)
+    }, 500)
   }
 
   // establish socket and watch for xrplmeta responses
