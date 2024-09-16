@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { convertHexToString } from 'xrpl'
 import Logo from '../../images/generic_token.svg'
@@ -12,8 +12,6 @@ interface SearchResultsProps {
   currentSearchValue: string
   setCurrentSearchInput: (string) => void
 }
-
-let socket
 
 const SearchResultBar = ({ resultContent, onClick }) => {
   const parsePrice = (price) => {
@@ -171,16 +169,20 @@ const SearchResults = ({
   setCurrentSearchInput,
 }: SearchResultsProps): JSX.Element => {
   const xrplSocket = useContext(SocketContext)
+  const xrplmetaWSRef = useRef<WebSocket | null>(null)
   const [rawCurrentSearchResults, setRawCurrentSearchResults] = useState([])
   const [totalTokenCount, setTotalTokenCount] = useState(0)
-  useEffect(() => {
-    socket = new WebSocket('wss://s1.xrplmeta.org', 'tokens')
 
-    socket.addEventListener('open', (event) => {
-      console.log('Connected!')
-    })
+  const connect = () => {
+    xrplmetaWSRef.current = new WebSocket('wss://s1.xrplmeta.org', 'tokens')
 
-    socket.addEventListener('message', (event) => {
+    xrplmetaWSRef.current.onopen = () => {
+      console.log('Connected')
+    }
+
+    xrplmetaWSRef.current.onmessage = (event) => {
+      console.log('Message from server:', event.data)
+
       console.log('Got message from server:', event.data)
       const results = JSON.parse(event.data).result.tokens
       setTotalTokenCount(JSON.parse(event.data).result.count)
@@ -194,11 +196,32 @@ const SearchResults = ({
       )
       console.log(filteredResults)
       setRawCurrentSearchResults(filteredResults)
-    })
-    socket.addEventListener('close', (event) => {
-      console.log('Disconnected...')
-    })
+    }
+
+    xrplmetaWSRef.current.onclose = () => {
+      console.log('Disconnected. Reconnecting...')
+      attemptReconnect()
+    }
+
+    xrplmetaWSRef.current.onerror = (error) => {
+      console.error('XRPLMeta error:', error)
+      xrplmetaWSRef.current?.close()
+    }
+  }
+
+  const attemptReconnect = () => {
+    // Exponential backoff logic
+    setTimeout(() => {
+      connect()
+    }, 1000)
+  }
+
+  // establish socket and watch for xrplmeta responses
+  useEffect(() => {
+    connect()
   }, [])
+
+  // watch for user input changes
   useEffect(() => {
     const command = {
       command: 'tokens',
@@ -207,13 +230,16 @@ const SearchResults = ({
       sort_by: 'holders',
       limit: 20,
     }
-    if (socket.readyState === socket.OPEN && currentSearchValue !== '') {
-      socket.send(JSON.stringify(command))
+    if (
+      xrplmetaWSRef.current?.readyState === xrplmetaWSRef.current?.OPEN &&
+      currentSearchValue !== ''
+    ) {
+      xrplmetaWSRef.current?.send(JSON.stringify(command))
     }
     if (currentSearchValue === '') {
       setRawCurrentSearchResults([])
     }
-  }, [currentSearchValue, socket])
+  }, [currentSearchValue])
 
   const onLinkClick = () => {
     setCurrentSearchInput('')
