@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { convertHexToString } from 'xrpl'
 import Logo from '../../images/generic_token.svg'
 import './SearchResults.scss'
-import ExternalLogo from '../../images/external_link.svg'
 
 import SocketContext from '../../SocketContext'
 import { Amount } from '../Amount'
@@ -81,10 +80,13 @@ const SearchResultBar = ({ resultContent, onClick }) => {
               style={{
                 paddingTop: '2px',
                 paddingBottom: '2px',
+                paddingRight: '0px',
               }}
             >
               {resultContent.currency.length > 10
-                ? convertHexToString(resultContent.currency).trim()
+                ? convertHexToString(resultContent.currency)
+                    .replaceAll('\u0000', '')
+                    .trim()
                 : resultContent.currency.trim()}
             </div>
             <div
