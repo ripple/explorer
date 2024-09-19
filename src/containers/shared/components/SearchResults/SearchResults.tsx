@@ -284,14 +284,16 @@ const SearchResults = ({
           Tokens ({rawCurrentSearchResults.length})
         </div>
       )}
-      {rawCurrentSearchResults.map((searchResultContent) => (
-        <SearchResultBar
-          resultContent={searchResultContent}
-          onClick={onLinkClick}
-          xrpPrice={XRPUSDPrice}
-          key={`${searchResultContent.currency}.${searchResultContent.issuer}`}
-        />
-      ))}
+      <div className="scrollable-search-results">
+        {rawCurrentSearchResults.map((searchResultContent) => (
+          <SearchResultBar
+            resultContent={searchResultContent}
+            onClick={onLinkClick}
+            xrpPrice={XRPUSDPrice}
+            key={`${searchResultContent.currency}.${searchResultContent.issuer}`}
+          />
+        ))}
+      </div>
     </div>
   )
 }
