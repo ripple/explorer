@@ -92,6 +92,7 @@
 }
 
 .website-link {
+  display: inline-flex;
   margin-left: 0.25rem;
   color: $black-50;
 
@@ -101,4 +102,17 @@
     color: $blue-purple-30;
   }
 
+  &::after {
+    content: none !important;
+  }
+
+}
+
+.website-external-logo {
+  width: 1em;
+  min-width: 1em;
+  height: 1em;
+  align-content: center;
+  padding-top: 1px;
+  margin-left: 4px;
 }

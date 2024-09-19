@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { convertHexToString } from 'xrpl'
 import Logo from '../../images/no_token_logo.svg'
+import ExternalLogo from '../../images/external_link.svg'
 import './SearchResults.scss'
 
 import SocketContext from '../../SocketContext'
@@ -150,14 +151,20 @@ const SearchResultBar = ({ resultContent, onClick, xrpPrice }) => {
             {resultContent.meta.issuer.domain && (
               <>
                 <div>Website:</div>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div style={{ display: 'inline-flex' }}>
                   <a
                     href={`https://${resultContent.meta.issuer.domain}/`}
                     target="_blank"
                     rel="noreferrer"
                     className="website-link"
+                    data-title={parseDomain(resultContent.meta.issuer.domain)}
                   >
-                    <div>{parseDomain(resultContent.meta.issuer.domain)}</div>
+                    <div
+                      style={{ alignItems: 'center', justifyContent: 'center' }}
+                    >
+                      {parseDomain(resultContent.meta.issuer.domain)}
+                      <ExternalLogo className="website-external-logo" />
+                    </div>
                   </a>
                 </div>
               </>
