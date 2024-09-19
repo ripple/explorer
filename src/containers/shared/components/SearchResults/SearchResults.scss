@@ -92,7 +92,6 @@
 }
 
 .website-link {
-  min-width: 300px;
   margin-left: 0.25rem;
   color: $black-50;
 
@@ -102,7 +101,4 @@
     color: $blue-purple-30;
   }
 
-  &::after {
-    content: none !important;
-  }
 }

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { convertHexToString } from 'xrpl'
-import Logo from '../../images/generic_token.svg'
+import Logo from '../../images/no_token_logo.svg'
 import './SearchResults.scss'
 
 import SocketContext from '../../SocketContext'
@@ -13,13 +13,13 @@ interface SearchResultsProps {
   setCurrentSearchInput: (string) => void
 }
 
-const SearchResultBar = ({ resultContent, onClick }) => {
+const SearchResultBar = ({ resultContent, onClick, xrpPrice }) => {
   const parsePrice = (price) => {
     const parsed = Number(price).toFixed(6)
     if (Number(parsed) === 0) {
       return 0
     }
-    return parseFloat(parsed)
+    return Number(parseFloat(parsed) * xrpPrice).toFixed(6)
   }
 
   const parseDomain = (domain: string) => {
@@ -173,10 +173,10 @@ const SearchResults = ({
   currentSearchValue,
   setCurrentSearchInput,
 }: SearchResultsProps): JSX.Element => {
-  const xrplSocket = useContext(SocketContext)
   const xrplmetaWSRef = useRef<WebSocket | null>(null)
   const [rawCurrentSearchResults, setRawCurrentSearchResults] = useState([])
   const [totalTokenCount, setTotalTokenCount] = useState(0)
+  const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
 
   const connect = () => {
     xrplmetaWSRef.current = new WebSocket('wss://s1.xrplmeta.org', 'tokens')
@@ -204,13 +204,14 @@ const SearchResults = ({
     }
 
     xrplmetaWSRef.current.onclose = () => {
-      console.log('Disconnected. Reconnecting...')
+      console.log(' close Disconnected. Reconnecting...')
       attemptReconnect()
     }
 
     xrplmetaWSRef.current.onerror = (error) => {
       console.error('XRPLMeta error:', error)
       xrplmetaWSRef.current?.close()
+      attemptReconnect()
     }
   }
 
@@ -224,6 +225,25 @@ const SearchResults = ({
   // establish socket and watch for xrplmeta responses
   useEffect(() => {
     connect()
+    const xrplClusterSocket = new WebSocket('wss://xrplcluster.com')
+    const clusterCommand = {
+      command: 'account_lines',
+      account: 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx',
+      limit: 1,
+    }
+
+    xrplClusterSocket.onopen = () => {
+      console.log('cluster Connected')
+      xrplClusterSocket.send(JSON.stringify(clusterCommand))
+    }
+
+    xrplClusterSocket.onmessage = (event) => {
+      console.log('Message from server:', event.data)
+
+      const results = JSON.parse(event.data).result.lines[0].limit
+      setXRPUSDPrice(results)
+      console.log(results)
+    }
   }, [])
 
   // watch for user input changes
@@ -261,6 +281,7 @@ const SearchResults = ({
         <SearchResultBar
           resultContent={searchResultContent}
           onClick={onLinkClick}
+          xrpPrice={XRPUSDPrice}
           key={`${searchResultContent.currency}.${searchResultContent.issuer}`}
         />
       ))}
