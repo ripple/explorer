@@ -1,11 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { convertHexToString } from 'xrpl'
 import Logo from '../../images/no_token_logo.svg'
-import ExternalLogo from '../../images/external_link.svg'
 import './SearchResults.scss'
 
-import SocketContext from '../../SocketContext'
 import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
 
@@ -137,6 +135,7 @@ const SearchResultBar = ({ resultContent, onClick, xrpPrice }) => {
             {resultContent.issuer && (
               <Link
                 to={`/accounts/${resultContent.issuer}`}
+                onClick={onClick}
                 className="issuer-link"
               >
                 <div>
@@ -151,21 +150,15 @@ const SearchResultBar = ({ resultContent, onClick, xrpPrice }) => {
             {resultContent.meta.issuer.domain && (
               <>
                 <div>Website:</div>
-                <div style={{ display: 'inline-flex' }}>
-                  <a
-                    href={`https://${resultContent.meta.issuer.domain}/`}
+                <div>
+                  <Link
+                    to={`https://${resultContent.meta.issuer.domain}/`}
+                    className="issuer-link"
                     target="_blank"
                     rel="noreferrer"
-                    className="website-link"
-                    data-title={parseDomain(resultContent.meta.issuer.domain)}
                   >
-                    <div
-                      style={{ alignItems: 'center', justifyContent: 'center' }}
-                    >
-                      {parseDomain(resultContent.meta.issuer.domain)}
-                      <ExternalLogo className="website-external-logo" />
-                    </div>
-                  </a>
+                    {parseDomain(resultContent.meta.issuer.domain)}
+                  </Link>
                 </div>
               </>
             )}

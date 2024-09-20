@@ -173,6 +173,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === 'Enter') {
       handleSearch(event.currentTarget?.value?.trim())
+      setCurrentSearchInput('')
     }
   }
 
