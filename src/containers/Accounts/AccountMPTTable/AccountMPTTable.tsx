@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
-
+import { useQuery } from 'react-query'
 import { Loader } from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
 import { useAnalytics } from '../../shared/analytics'
@@ -11,9 +11,53 @@ import { Account } from '../../shared/components/Account'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
 import { MPTokenLink } from '../../shared/components/MPTokenLink'
 import { formatMPTokenInfo } from '../../../rippled/lib/utils'
+import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
+import { getMPTIssuance } from '../../../rippled/lib/rippled'
+import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
+import { convertScaledPrice } from '../../shared/utils'
 
 export interface AccountMPTTableProps {
   accountId: string
+}
+
+export const AccountMPTRow = ({ mpt }: any) => {
+  const rippledSocket = useContext(SocketContext)
+  const { trackException } = useAnalytics()
+  const { data: mptIssuanceData } = useQuery<MPTIssuanceFormattedInfo>(
+    ['getMPTIssuanceScale', mpt.mptIssuanceID],
+    async () => {
+      const info = await getMPTIssuance(rippledSocket, mpt.mptIssuanceID)
+      return formatMPTIssuanceInfo(info)
+    },
+    {
+      onError: (e: any) => {
+        trackException(
+          `mptIssuance ${mpt.mptIssuanceID} --- ${JSON.stringify(e)}`,
+        )
+      },
+    },
+  )
+
+  if (!mptIssuanceData) return null
+
+  const scale = mptIssuanceData?.assetScale ?? 0
+
+  return (
+    <tr>
+      <td>
+        <MPTokenLink tokenID={mpt.mptIssuanceID} />
+      </td>
+      <td>
+        <Account account={mpt.mptIssuer} />
+      </td>
+      <td className="right">
+        {convertScaledPrice(
+          parseInt(mpt.mptAmount as string, 10).toString(16),
+          scale,
+        )}
+      </td>
+    </tr>
+  )
 }
 
 export const AccountMPTTable = ({ accountId }: AccountMPTTableProps) => {
@@ -49,18 +93,6 @@ export const AccountMPTTable = ({ accountId }: AccountMPTTableProps) => {
     )
   }
 
-  const renderRow = (mpt: any) => (
-    <tr key={mpt.mptIssuanceID}>
-      <td>
-        <MPTokenLink tokenID={mpt.mptIssuanceID} />
-      </td>
-      <td>
-        <Account account={mpt.mptIssuer} />
-      </td>
-      <td className="right">{mpt.mptAmount}</td>
-    </tr>
-  )
-
   const renderLoadMoreButton = () =>
     hasNextPage && <LoadMoreButton onClick={() => fetchNextPage()} />
 
@@ -79,7 +111,12 @@ export const AccountMPTTable = ({ accountId }: AccountMPTTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {!loading && (mpts?.length ? mpts.map(renderRow) : renderNoResults())}
+          {!loading &&
+            (mpts?.length
+              ? mpts.map((mpt) => (
+                  <AccountMPTRow key={mpt.mptIssuanceID} mpt={mpt} />
+                ))
+              : renderNoResults())}
         </tbody>
       </table>
       {loading ? <Loader /> : renderLoadMoreButton()}

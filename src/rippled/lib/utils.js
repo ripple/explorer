@@ -147,10 +147,10 @@ const formatMPTIssuanceInfo = (info) => ({
   issuer: info.node.Issuer,
   assetScale: info.node.AssetScale,
   maxAmt: info.node.MaximumAmount
-    ? convertHexToBigInt(info.node.MaximumAmount).toString(10)
+    ? BigInt(info.node.MaximumAmount).toString(10)
     : undefined, // default is undefined because the default maxAmt is the largest 63-bit int
   outstandingAmt: info.node.OutstandingAmount
-    ? convertHexToBigInt(info.node.OutstandingAmount).toString(10)
+    ? BigInt(info.node.OutstandingAmount).toString(10)
     : '0',
   transferFee: info.node.TransferFee,
   sequence: info.node.Sequence,
@@ -167,12 +167,7 @@ const formatMPTokenInfo = (info) => ({
   mptIssuer: encodeAccountID(
     hexToBytes(info.MPTokenIssuanceID.substring(8, 48)),
   ),
-  mptAmount: info.MPTAmount
-    ? convertHexToBigInt(info.MPTAmount).toString(10)
-    : '0',
-  lockedAmount: info.LockedAmount
-    ? convertHexToBigInt(info.LockedAmount).toString(10)
-    : '0',
+  mptAmount: BigInt(info.MPTAmount) ? info.MPTAmount.toString(10) : '0',
 })
 
 export {

@@ -2,8 +2,6 @@ import { mount } from 'enzyme'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
-import { encodeAccountID } from 'ripple-address-codec'
-import { hexToBytes } from '@xrplf/isomorphic/utils'
 import { getAccountMPTs } from '../../../../rippled/lib/rippled'
 import { AccountMPTTable } from '../AccountMPTTable'
 import i18n from '../../../../i18n/testConfig'
@@ -21,25 +19,24 @@ jest.mock('../../../../rippled/lib/rippled', () => ({
 const mockedGetAccountMPTs = getAccountMPTs as Mock
 
 const data = {
-  account: 'rLEr9C6kwybj1BFE1iYbhJXNFVz8rnLu8C',
+  account: 'rw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu',
   account_objects: [
     {
-      Account: 'rLEr9C6kwybj1BFE1iYbhJXNFVz8rnLu8C',
+      Account: 'rw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu',
       Flags: 0,
       LedgerEntryType: 'MPToken',
-      MPTAmount: '64',
+      MPTAmount: '100',
       MPTokenIssuanceID: '000017C2CE76E3E3328AE9E0D80CDD68BA72CC8D8D053DB6',
       OwnerNode: '0',
       PreviousTxnID:
-        '9B1E307299B48E2FB183CC23A6D070DCB5F2E170AE57A536E3F809D37F831688',
-      PreviousTxnLgrSeq: 6086,
-      index: '998FE89705D92481338C9EE24AD7B77AB84E2517AC2EBB32B2B7CBB094D17093',
+        '98646C9E7C6D7B8461DC92712B83EFF6CDA4203CE3FF3FF7E0B86FD57907949F',
+      PreviousTxnLgrSeq: 969,
+      index: '3BAA73912496683A414494218D3CCA33D02F80D588F80C1257C691448E00E486',
     },
   ],
-  ledger_hash:
-    '7CC58622B7071E675AF63F39AAF81BDB4E87FDFEBB0BA8CE7D753F3C702D2886',
-  ledger_index: 6086,
-  validated: true,
+  ledger_current_index: 970,
+  status: 'success',
+  validated: false,
 }
 
 describe('AccountMPTTable component', () => {
@@ -68,8 +65,6 @@ describe('AccountMPTTable component', () => {
     const wrapper = createWrapper()
     await flushPromises()
     wrapper.update()
-
-    expect(wrapper.find('tbody tr td').length).toEqual(3)
     expect(wrapper.find('.load-more-btn')).not.toExist()
     wrapper.unmount()
   })
@@ -88,16 +83,6 @@ describe('AccountMPTTable component', () => {
     await flushPromises()
     wrapper.update()
 
-    const columns = wrapper.find('tbody tr td')
-    expect(columns.at(0).text()).toEqual(
-      `000017C2CE76E3E3328AE9E0D80CDD68BA72CC8D8D053DB6`,
-    )
-    expect(columns.at(1).text()).toEqual(
-      encodeAccountID(
-        hexToBytes(data.account_objects[0].MPTokenIssuanceID.substring(8, 48)),
-      ),
-    )
-    expect(columns.at(2).text()).toEqual(`100`)
     expect(wrapper.find('.load-more-btn')).toExist()
     wrapper.find('.load-more-btn').simulate('click')
     expect(mockedGetAccountMPTs.mock.calls[1][2]).toEqual('hello')

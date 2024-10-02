@@ -137,14 +137,14 @@ describe('Payment: Simple', () => {
     expectSimpleRowText(
       wrapper,
       'amount',
-      `0.1 MPT (00002DB655677487DE53D3052961F0288A648480EC9E58DD)`,
+      `0.1 MPT (000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F)`,
     )
     expectSimpleRowLabel(wrapper, 'amount', `send`)
 
     expectSimpleRowText(
       wrapper,
       'destination',
-      `rsD1FybfM2xCBBuQqxmZb1iFRbHPjeE3Jm`,
+      `rw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu`,
     )
 
     wrapper.unmount()
