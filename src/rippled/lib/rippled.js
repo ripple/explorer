@@ -557,6 +557,21 @@ const getAMMInfo = (rippledSocket, asset, asset2) => {
   })
 }
 
+// get feature
+const getFeature = (rippledSocket, amendmentId) => {
+  const request = {
+    command: 'feature',
+    feature: amendmentId,
+  }
+  return query(rippledSocket, request).then((resp) => {
+    if (resp.error_message) {
+      return null
+    }
+
+    return resp
+  })
+}
+
 export {
   getLedger,
   getLedgerEntry,
@@ -576,4 +591,5 @@ export {
   getSellNFToffers,
   getNFTTransactions,
   getAMMInfo,
+  getFeature,
 }

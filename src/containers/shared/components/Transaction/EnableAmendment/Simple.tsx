@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useLanguage } from '../../../hooks'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
 import { EnableAmendment } from './types'
-import {
-  getExpectedDate,
-  getRippledVersion,
-  nameOfAmendmentID,
-} from '../../../amendmentUtils'
+import { getExpectedDate, getRippledVersion } from '../../../amendmentUtils'
 import { AMENDMENT_ROUTE } from '../../../../App/routes'
 import { RouteLink } from '../../../routing'
+import SocketContext from '../../../SocketContext'
+import { getFeature } from '../../../../../rippled/lib/rippled'
 
 const states = {
   loading: 'Loading',
@@ -22,31 +20,21 @@ export const Simple = ({ data }: TransactionSimpleProps<EnableAmendment>) => {
     name: states.loading,
     minRippledVersion: states.loading,
   })
+  const rippledSocket = useContext(SocketContext)
 
   useEffect(() => {
-    nameOfAmendmentID(data.instructions.Amendment).then((name: string) => {
-      if (name) {
-        getRippledVersion(name).then((rippledVersion) => {
-          if (rippledVersion) {
-            setAmendmentDetails({
-              name,
-              minRippledVersion: rippledVersion,
-            })
-          } else {
-            setAmendmentDetails({
-              name,
-              minRippledVersion: states.unknown,
-            })
-          }
-        })
-      } else {
+    const amendmentId = data.instructions.Amendment
+    getFeature(rippledSocket, amendmentId).then((feature) => {
+      const name =
+        feature && feature[amendmentId] ? feature[amendmentId].name : ''
+      getRippledVersion(name).then((rippledVersion) => {
         setAmendmentDetails({
-          name: states.unknown,
-          minRippledVersion: states.unknown,
+          name: name || states.unknown,
+          minRippledVersion: rippledVersion || states.unknown,
         })
-      }
+      })
     })
-  }, [data.instructions.Amendment])
+  }, [data.instructions.Amendment, rippledSocket])
 
   let amendmentStatus = states.unknown
   let expectedDate: string | null = states.unknown
