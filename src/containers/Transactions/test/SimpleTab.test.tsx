@@ -8,19 +8,28 @@ import { SimpleTab } from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18n/testConfig'
 import { expectSimpleRowText } from '../../shared/components/Transaction/test'
+import SocketContext from '../../shared/SocketContext'
+import MockWsClient from '../../test/mockWsClient'
 
 describe('SimpleTab container', () => {
+  let client
   const createWrapper = (tx, width = 1200) =>
     mount(
       <Router>
         <I18nextProvider i18n={i18n}>
-          <SimpleTab
-            data={{ processed: tx, summary: summarize(tx, true).details }}
-            width={width}
-          />
+          <SocketContext.Provider value={client}>
+            <SimpleTab
+              data={{ processed: tx, summary: summarize(tx, true).details }}
+              width={width}
+            />
+          </SocketContext.Provider>
         </I18nextProvider>
       </Router>,
     )
+
+  beforeEach(() => {
+    client = new MockWsClient()
+  })
 
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)

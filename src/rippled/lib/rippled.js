@@ -564,7 +564,7 @@ const getFeature = (rippledSocket, amendmentId) => {
     feature: amendmentId,
   }
   return query(rippledSocket, request).then((resp) => {
-    if (resp.error_message) {
+    if (resp == null || resp.error_message) {
       return null
     }
 
