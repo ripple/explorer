@@ -12,16 +12,25 @@ interface SearchResultsProps {
   setCurrentSearchInput: (string) => void
 }
 
-const SearchResultBar = ({ resultContent, onClick, xrpPrice }) => {
-  const parsePrice = (price) => {
+interface SearchResultBarProps {
+  resultContent: any
+  onClick: () => void
+  xrpPrice: number
+}
+const SearchResultBar = ({
+  resultContent,
+  onClick,
+  xrpPrice,
+}: SearchResultBarProps): JSX.Element => {
+  const parsePrice = (price): number => {
     const parsed = Number(price).toFixed(6)
     if (Number(parsed) === 0) {
       return 0
     }
-    return Number(parseFloat(parsed) * xrpPrice).toFixed(6)
+    return Number(Number(parseFloat(parsed) * xrpPrice).toFixed(6))
   }
 
-  const parseDomain = (domain: string) => {
+  const parseDomain = (domain: string): string => {
     let result = domain
 
     if (domain.startsWith('www.')) {
@@ -174,24 +183,17 @@ const SearchResults = ({
   setCurrentSearchInput,
 }: SearchResultsProps): JSX.Element => {
   const xrplmetaWSRef = useRef<WebSocket | null>(null)
-  const [rawCurrentSearchResults, setRawCurrentSearchResults] = useState([])
-  const [totalTokenCount, setTotalTokenCount] = useState(0)
+  const [rawCurrentSearchResults, setRawCurrentSearchResults] = useState<any[]>(
+    [],
+  )
   const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
 
   const connect = () => {
     xrplmetaWSRef.current = new WebSocket('wss://s1.xrplmeta.org', 'tokens')
 
-    xrplmetaWSRef.current.onopen = () => {
-      console.log('Connected')
-    }
-
     xrplmetaWSRef.current.onmessage = (event) => {
-      console.log('Message from server:', event.data)
-
-      console.log('Got message from server:', event.data)
       const results = JSON.parse(event.data).result.tokens
-      setTotalTokenCount(JSON.parse(event.data).result.count)
-      console.log(totalTokenCount)
+
       const filteredResults = results.filter(
         (result) =>
           result.metrics.trustlines > 50 &&
@@ -199,17 +201,15 @@ const SearchResults = ({
           result.metrics.marketcap > 0 &&
           result.metrics.volume_7d > 0,
       )
-      console.log(filteredResults)
+
       setRawCurrentSearchResults(filteredResults)
     }
 
     xrplmetaWSRef.current.onclose = () => {
-      console.log(' close Disconnected. Reconnecting...')
       attemptReconnect()
     }
 
-    xrplmetaWSRef.current.onerror = (error) => {
-      console.error('XRPLMeta error:', error)
+    xrplmetaWSRef.current.onerror = () => {
       xrplmetaWSRef.current?.close()
       attemptReconnect()
     }
@@ -222,7 +222,7 @@ const SearchResults = ({
     }, 500)
   }
 
-  // establish socket and watch for xrplmeta responses
+  // xrpl cluster temporary socket connection for XRP/USD conversion rate
   useEffect(() => {
     connect()
     const xrplClusterSocket = new WebSocket('wss://xrplcluster.com')
@@ -233,16 +233,13 @@ const SearchResults = ({
     }
 
     xrplClusterSocket.onopen = () => {
-      console.log('cluster Connected')
       xrplClusterSocket.send(JSON.stringify(clusterCommand))
     }
 
     xrplClusterSocket.onmessage = (event) => {
-      console.log('Message from server:', event.data)
-
       const results = JSON.parse(event.data).result.lines[0].limit
       setXRPUSDPrice(results)
-      console.log(results)
+      xrplClusterSocket.close()
     }
   }, [])
 
