@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { TFunction } from 'i18next'
 import renderAccountRoot from './AccountRoot'
 import renderDirectoryNode from './DirectoryNode'
 import renderOffer from './Offer'
@@ -8,7 +9,12 @@ import renderPayChannel from './PayChannel'
 import { groupAffectedNodes } from '../../../shared/transactionUtils'
 import { useLanguage } from '../../../shared/hooks'
 
-const renderDefault = (t, action, node, index) => (
+const renderDefault = (
+  t: TFunction<'translations', undefined>,
+  action: string,
+  node: any,
+  index: number,
+) => (
   <li key={`${node.LedgerEntryType}_${index}`} className="meta-line">
     {t('node_meta_type', { action })} <b>{node.LedgerEntryType}</b>
   </li>
@@ -18,7 +24,7 @@ export const TransactionMeta: FC<{ data: any }> = ({ data }) => {
   const language = useLanguage()
   const { t } = useTranslation()
 
-  const renderNodesMeta = (action, list, tx) => {
+  const renderNodesMeta = (action: string, list: any[], tx: any) => {
     const meta = list.map((node, index) => {
       switch (node.LedgerEntryType) {
         case 'AccountRoot':
