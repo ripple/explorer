@@ -25,8 +25,8 @@ export const Amount = ({
   const localizedAmount = localizeNumber(amount, language, options)
 
   return (
-    <span className="amount">
-      <span className="amount-localized">
+    <span className="amount" data-testid="amount">
+      <span className="amount-localized" data-testid="amount-localized">
         {modifier && <span className="amount-modifier">{modifier}</span>}
         {localizedAmount}
       </span>{' '}
