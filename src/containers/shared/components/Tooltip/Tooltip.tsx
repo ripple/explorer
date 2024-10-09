@@ -91,7 +91,7 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     </>
   )
 
-  const renderMPTId = () => <div className="nft">{data.tokenId}</div>
+  const renderMPTId = () => <div className="mpt">{data.tokenId}</div>
 
   const { x, y, mode } = tooltip
   const style: CSSProperties = { top: y + PADDING_Y, left: x }
