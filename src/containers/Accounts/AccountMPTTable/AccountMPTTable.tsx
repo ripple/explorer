@@ -1,19 +1,19 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useInfiniteQuery } from 'react-query'
-import { useQuery } from 'react-query'
+import { useInfiniteQuery, useQuery } from 'react-query'
 import { Loader } from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
 import { useAnalytics } from '../../shared/analytics'
 import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
-import { getAccountMPTs } from '../../../rippled/lib/rippled'
+import { getAccountMPTs, getMPTIssuance } from '../../../rippled/lib/rippled'
 import { Account } from '../../shared/components/Account'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
 import { MPTokenLink } from '../../shared/components/MPTokenLink'
-import { formatMPTokenInfo } from '../../../rippled/lib/utils'
+import {
+  formatMPTokenInfo,
+  formatMPTIssuanceInfo,
+} from '../../../rippled/lib/utils'
 import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
-import { getMPTIssuance } from '../../../rippled/lib/rippled'
-import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
 import { convertScaledPrice } from '../../shared/utils'
 
 export interface AccountMPTTableProps {

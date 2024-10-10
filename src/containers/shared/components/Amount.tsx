@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 import { useContext } from 'react'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
 import { useLanguage } from '../hooks'
-import { localizeNumber, localizeMPTNumber } from '../utils'
+import { localizeNumber, localizeMPTNumber, convertScaledPrice } from '../utils'
 import Currency from './Currency'
 import { ExplorerAmount } from '../types'
 import { MPTIssuanceFormattedInfo } from '../Interfaces'
@@ -10,7 +10,6 @@ import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
 import SocketContext from '../SocketContext'
 import { useAnalytics } from '../analytics'
-import { convertScaledPrice } from '../utils'
 
 export interface AmountProps {
   value: ExplorerAmount | string
