@@ -35,11 +35,11 @@ describe('Clawback', () => {
       data,
     }))
     const wrapper = createWrapper(transactionMPT)
-    expectSimpleRowText(wrapper, 'holder', 'rJxiAVBX7B9PqHXb7VmitRZWbFb87wzeb7')
+    expectSimpleRowText(wrapper, 'holder', 'rUZTPFN7MBJkjiZ48rak6q7MbhT4ur2kAD')
     expectSimpleRowText(
       wrapper,
       'amount',
-      '0.2 MPT (00002C8389DF4D75362F45B32EA66F8CF250438A9AD0D555)',
+      '0.05 MPT (00000D668E702F54A27C42EF98C13B0787D1766CC9162A47)',
     )
 
     wrapper.unmount()
@@ -67,11 +67,11 @@ describe('Clawback', () => {
     }))
     const wrapper = createWrapper(transactionMPTFailure)
 
-    expectSimpleRowText(wrapper, 'holder', 'rHEudzMb9QwaHgKCT8NREJUQ9wWs8GwpKV')
+    expectSimpleRowText(wrapper, 'holder', 'r9rAqX8Jjo4uACsimYDVsy5thHDPivujqf')
     expectSimpleRowText(
       wrapper,
       'amount',
-      '1 MPT (0000012F2CCA489EAB713F0F099281FE4A9BCC2703560564)',
+      '0.05 MPT (000010952ECE2AFC727F1C67EF568F360A2D92CB7C29FF7C)',
     )
     wrapper.unmount()
   })

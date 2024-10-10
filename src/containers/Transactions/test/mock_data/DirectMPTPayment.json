@@ -52,7 +52,7 @@
           "FinalFields": {
             "Account": "rnNkvddM96FE2QsaFztLAn5xicjq5d6d8d",
             "Flags": 0,
-            "MPTAmount": "64",
+            "MPTAmount": "100",
             "MPTokenIssuanceID": "0000301C674EE6ECD0374A628E2C442EF8E3BBBEE8C58CF3",
             "OwnerNode": "0"
           },
@@ -68,7 +68,7 @@
           "FinalFields": {
             "Flags": 64,
             "Issuer": "rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw",
-            "OutstandingAmount": "64",
+            "OutstandingAmount": "100",
             "OwnerNode": "0",
             "Sequence": 12316
           },

@@ -353,10 +353,10 @@ export const computeMPTokenBalanceChange = (node) => {
   const finalAmount = final.MPTAmount ?? '0'
 
   return {
-    previousBalance: convertHexToBigInt(prevAmount),
-    finalBalance: convertHexToBigInt(finalAmount),
+    previousBalance: BigInt(prevAmount),
+    finalBalance: BigInt(finalAmount),
     account: final.Account,
-    change: convertHexToBigInt(finalAmount) - convertHexToBigInt(prevAmount),
+    change: BigInt(finalAmount) - BigInt(prevAmount),
   }
 }
 
@@ -368,10 +368,10 @@ export const computeMPTIssuanceBalanceChange = (node) => {
   const finalAmount = final.OutstandingAmount ?? '0'
 
   return {
-    previousBalance: convertHexToBigInt(prevAmount),
-    finalBalance: convertHexToBigInt(finalAmount),
+    previousBalance: BigInt(prevAmount),
+    finalBalance: BigInt(finalAmount),
     account: final.Issuer,
-    change: convertHexToBigInt(finalAmount) - convertHexToBigInt(prevAmount),
+    change: BigInt(finalAmount) - BigInt(prevAmount),
   }
 }
 
