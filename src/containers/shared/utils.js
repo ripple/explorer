@@ -23,7 +23,8 @@ export const FETCH_INTERVAL_NODES_MILLIS = 60000
 export const FETCH_INTERVAL_ERROR_MILLIS = 300
 
 export const DECIMAL_REGEX = /^\d+$/
-export const HASH_REGEX = /[0-9A-Fa-f]{64}/i
+export const HASH256_REGEX = /[0-9A-Fa-f]{64}/i
+export const HASH192_REGEX = /[0-9A-Fa-f]{48}/i
 export const CURRENCY_REGEX =
   /^[a-zA-Z0-9]{3,}[.:+-]r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
 export const FULL_CURRENCY_REGEX =
@@ -129,14 +130,19 @@ export const isEarlierVersion = (source, target) => {
 }
 
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
-export const localizeNumber = (num, lang = 'en-US', options = {}) => {
+export const localizeNumber = (
+  num,
+  lang = 'en-US',
+  options = {},
+  isMPT = false,
+) => {
   const number = Number.parseFloat(num)
   const config = { ...NUMBER_DEFAULT_OPTIONS, ...options }
 
   if (Number.isNaN(number)) {
     return null
   }
-  if (config.style === 'currency') {
+  if (config.style === 'currency' && !isMPT) {
     try {
       const neg = number < 0 ? '-' : ''
       const d = new Intl.NumberFormat(lang, config).format(number)
@@ -255,6 +261,8 @@ export const formatLargeNumber = (d = 0, digits = 4) => {
   }
 }
 
+export const convertHexToBigInt = (s) => BigInt(`0x${s}`)
+
 export const durationToHuman = (s, decimal = 2) => {
   const d = {}
   const seconds = Math.abs(s)
@@ -301,7 +309,7 @@ export const formatTradingFee = (tradingFee) =>
       })
     : undefined
 
-export const computeBalanceChange = (node) => {
+export const computeRippleStateBalanceChange = (node) => {
   const fields = node.FinalFields || node.NewFields
   const prev = node.PreviousFields
   const { currency } = fields.Balance
@@ -333,7 +341,50 @@ export const computeBalanceChange = (node) => {
   }
 }
 
+export const computeMPTokenBalanceChange = (node) => {
+  const final = node.FinalFields || node.NewFields
+  const prev = node.PreviousFields
+  const prevAmount = prev && prev.MPTAmount ? prev.MPTAmount : '0'
+  const finalAmount = final.MPTAmount ?? '0'
+
+  return {
+    previousBalance: BigInt(prevAmount),
+    finalBalance: BigInt(finalAmount),
+    account: final.Account,
+    change: BigInt(finalAmount) - BigInt(prevAmount),
+  }
+}
+
+export const computeMPTIssuanceBalanceChange = (node) => {
+  const final = node.FinalFields || node.NewFields
+  const prev = node.PreviousFields
+  const prevAmount =
+    prev && prev.OutstandingAmount ? prev.OutstandingAmount : '0'
+  const finalAmount = final.OutstandingAmount ?? '0'
+
+  return {
+    previousBalance: BigInt(prevAmount),
+    finalBalance: BigInt(finalAmount),
+    account: final.Issuer,
+    change: BigInt(finalAmount) - BigInt(prevAmount),
+  }
+}
+
 export const renderXRP = (d, language) => {
   const options = { ...CURRENCY_OPTIONS, currency: 'XRP' }
   return localizeNumber(d, language, options)
+}
+
+// Convert scaled price (assetPrice) in hex string to original price using formula:
+// originalPrice = assetPrice / 10**scale
+// More details: https://github.com/XRPLF/XRPL-Standards/tree/master/XLS-47d-PriceOracles
+export function convertScaledPrice(assetPrice, scale) {
+  const scaledPriceInBigInt = BigInt(`0x${assetPrice}`)
+  const divisor = BigInt(10 ** scale)
+  const integerPart = scaledPriceInBigInt / divisor
+  const remainder = scaledPriceInBigInt % divisor
+  const fractionalPart = (remainder * BigInt(10 ** scale)) / divisor
+  return fractionalPart > 0
+    ? `${integerPart}.${fractionalPart.toString().padStart(scale, '0')}`
+    : `${integerPart}`
 }

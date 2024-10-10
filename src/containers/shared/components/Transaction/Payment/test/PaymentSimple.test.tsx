@@ -1,3 +1,4 @@
+import { useQuery } from 'react-query'
 import {
   createSimpleWrapperFactory,
   expectSimpleRowLabel,
@@ -10,6 +11,12 @@ import mockPaymentDestinationTag from './mock_data/PaymentWithDestinationTag.jso
 import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
+import mockPaymentMPT from './mock_data/PaymentMPT.json'
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn(),
+}))
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
@@ -111,6 +118,34 @@ describe('Payment: Simple', () => {
     const wrapper = createWrapper(mockPaymentSourceTag)
 
     expectSimpleRowText(wrapper, 'source-tag', `20648`)
+
+    wrapper.unmount()
+  })
+
+  it('renders direct MPT payment', () => {
+    const data = {
+      assetScale: 3,
+    }
+
+    // @ts-ignore
+    useQuery.mockImplementation(() => ({
+      data,
+    }))
+
+    const wrapper = createWrapper(mockPaymentMPT)
+
+    expectSimpleRowText(
+      wrapper,
+      'amount',
+      `0.1 MPT (000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F)`,
+    )
+    expectSimpleRowLabel(wrapper, 'amount', `send`)
+
+    expectSimpleRowText(
+      wrapper,
+      'destination',
+      `rw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu`,
+    )
 
     wrapper.unmount()
   })
