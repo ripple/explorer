@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import './styles.scss'
 import { useLanguage } from '../../shared/hooks'
-import { localizeNumber } from '../../shared/utils'
+import { isValidJsonString, localizeNumber } from '../../shared/utils'
 import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
+import { JsonView } from '../../shared/components/JsonView'
 
 interface Props {
   data: MPTIssuanceFormattedInfo
@@ -41,7 +42,18 @@ export const Details = ({ data }: Props) => {
         )}
         <TokenTableRow label={t('transfer_fee')} value={formattedFee ?? '0%'} />
         <TokenTableRow label={t('sequence_number_short')} value={sequence} />
-        {metadata && <TokenTableRow label={t('metadata')} value={metadata} />}
+        {metadata && (
+          <TokenTableRow
+            label={t('metadata')}
+            value={
+              isValidJsonString(metadata) ? (
+                <JsonView data={JSON.parse(metadata)} />
+              ) : (
+                metadata
+              )
+            }
+          />
+        )}
       </tbody>
     </table>
   )
