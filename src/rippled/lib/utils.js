@@ -167,7 +167,7 @@ const formatMPTokenInfo = (info) => ({
   mptIssuer: encodeAccountID(
     hexToBytes(info.MPTokenIssuanceID.substring(8, 48)),
   ),
-  mptAmount: BigInt(info.MPTAmount) ? info.MPTAmount.toString(10) : '0',
+  mptAmount: info.MPTAmount ? info.MPTAmount.toString(10) : '0',
 })
 
 export {
