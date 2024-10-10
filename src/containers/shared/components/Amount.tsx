@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 import { useContext } from 'react'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
 import { useLanguage } from '../hooks'
-import { localizeNumber, localizeMPTNumber, convertScaledPrice } from '../utils'
+import { localizeNumber, convertScaledPrice } from '../utils'
 import Currency from './Currency'
 import { ExplorerAmount } from '../types'
 import { MPTIssuanceFormattedInfo } from '../Interfaces'
@@ -76,8 +76,8 @@ export const Amount = ({
         parseInt(amount as string, 10).toString(16),
         scale,
       )
-      //   const scaledAmount = parseInt(amount as string, 10) / 10 ** scale
-      return renderAmount(localizeMPTNumber(scaledAmount))
+
+      return renderAmount(localizeNumber(scaledAmount, language, {}, true))
     }
     return null
   }

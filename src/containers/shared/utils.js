@@ -130,14 +130,19 @@ export const isEarlierVersion = (source, target) => {
 }
 
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
-export const localizeNumber = (num, lang = 'en-US', options = {}) => {
+export const localizeNumber = (
+  num,
+  lang = 'en-US',
+  options = {},
+  isMPT = false,
+) => {
   const number = Number.parseFloat(num)
   const config = { ...NUMBER_DEFAULT_OPTIONS, ...options }
 
   if (Number.isNaN(number)) {
     return null
   }
-  if (config.style === 'currency') {
+  if (config.style === 'currency' && !isMPT) {
     try {
       const neg = number < 0 ? '-' : ''
       const d = new Intl.NumberFormat(lang, config).format(number)
@@ -154,16 +159,6 @@ export const localizeNumber = (num, lang = 'en-US', options = {}) => {
     }
   }
 
-  return new Intl.NumberFormat(lang, config).format(number)
-}
-
-export const localizeMPTNumber = (num, scale, lang = 'en-US', options = {}) => {
-  const number = Number.parseFloat(num)
-  const config = { ...NUMBER_DEFAULT_OPTIONS, ...options }
-
-  if (Number.isNaN(number)) {
-    return null
-  }
   return new Intl.NumberFormat(lang, config).format(number)
 }
 
