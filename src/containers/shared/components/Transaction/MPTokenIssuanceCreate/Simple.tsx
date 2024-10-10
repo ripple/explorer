@@ -3,8 +3,10 @@ import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { MPTokenIssuanceCreateInstructions } from './types'
 import { useLanguage } from '../../../hooks'
-import { localizeNumber } from '../../../utils'
+import { isValidJsonString, localizeNumber } from '../../../utils'
 import { MPTokenLink } from '../../MPTokenLink'
+import { JsonView } from '../../JsonView'
+import './styles.scss'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -55,7 +57,11 @@ export const Simple: TransactionSimpleComponent = ({
           className="dt"
           data-test="mpt-metadata"
         >
-          {metadata}
+          {isValidJsonString(metadata) ? (
+            <JsonView data={JSON.parse(metadata)} />
+          ) : (
+            metadata
+          )}
         </SimpleRow>
       )}
     </>
