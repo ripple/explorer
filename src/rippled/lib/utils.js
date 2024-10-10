@@ -3,7 +3,6 @@ import { encodeAccountID } from 'ripple-address-codec'
 import { convertRippleDate } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
 import { decodeHex } from '../../containers/shared/transactionUtils'
-import { convertHexToBigInt } from '../../containers/shared/utils'
 
 const XRP_BASE = 1000000
 const BILLION = 1000000000
