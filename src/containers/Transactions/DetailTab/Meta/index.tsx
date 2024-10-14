@@ -5,6 +5,8 @@ import renderDirectoryNode from './DirectoryNode'
 import renderOffer from './Offer'
 import renderRippleState from './RippleState'
 import renderPayChannel from './PayChannel'
+import renderMPToken from './MPToken'
+import renderMPTokenIssuance from './MPTokenIssuance'
 import { groupAffectedNodes } from '../../../shared/transactionUtils'
 import { useLanguage } from '../../../shared/hooks'
 
@@ -31,6 +33,10 @@ export const TransactionMeta: FC<{ data: any }> = ({ data }) => {
           return renderRippleState(t, language, action, node, index)
         case 'PayChannel':
           return renderPayChannel(t, language, action, node, index)
+        case 'MPTokenIssuance':
+          return renderMPTokenIssuance(t, language, action, node, index)
+        case 'MPToken':
+          return renderMPToken(t, language, action, node, index)
         default:
           return renderDefault(t, action, node, index)
       }

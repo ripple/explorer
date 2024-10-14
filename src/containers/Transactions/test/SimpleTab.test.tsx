@@ -2,6 +2,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 
+import { QueryClientProvider } from 'react-query'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import { SimpleTab } from '../SimpleTab'
@@ -10,20 +11,23 @@ import i18n from '../../../i18n/testConfig'
 import { expectSimpleRowText } from '../../shared/components/Transaction/test'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
+import { queryClient } from '../../shared/QueryClient'
 
 describe('SimpleTab container', () => {
   let client
   const createWrapper = (tx, width = 1200) =>
     mount(
       <Router>
-        <I18nextProvider i18n={i18n}>
-          <SocketContext.Provider value={client}>
-            <SimpleTab
-              data={{ processed: tx, summary: summarize(tx, true).details }}
-              width={width}
-            />
-          </SocketContext.Provider>
-        </I18nextProvider>
+        <QueryClientProvider client={queryClient}>
+          <I18nextProvider i18n={i18n}>
+            <SocketContext.Provider value={client}>
+              <SimpleTab
+                data={{ processed: tx, summary: summarize(tx, true).details }}
+                width={width}
+              />
+            </SocketContext.Provider>
+          </I18nextProvider>
+        </QueryClientProvider>
       </Router>,
     )
 
