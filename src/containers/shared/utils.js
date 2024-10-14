@@ -129,6 +129,15 @@ export const isEarlierVersion = (source, target) => {
   return false
 }
 
+export const isValidJsonString = (str) => {
+  try {
+    JSON.parse(str)
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
 // Document: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 export const localizeNumber = (
   num,
