@@ -35,6 +35,10 @@ describe('SimpleTab container', () => {
     client = new MockWsClient()
   })
 
+  afterEach(() => {
+    client.close()
+  })
+
   it('renders EnableAmendment without crashing', () => {
     const wrapper = createWrapper(EnableAmendment)
     wrapper.unmount()
