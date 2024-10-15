@@ -6,6 +6,26 @@
   min-height: 150px;
 
   table {
+    .sorted {
+      background-color: $black-90;
+    }
+
+    .arrow {
+      display: inline-block;
+      padding: 3px;
+      border: solid $white;
+      border-width: 0 3px 3px 0;
+      margin-right: 5px;
+    }
+
+    .up {
+      transform: rotate(-135deg);
+    }
+
+    .down {
+      transform: rotate(45deg);
+    }
+
     .pubkey {
       max-width: 70px;
 
