@@ -1,20 +1,24 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter } from 'react-router'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../../../../i18n/testConfig'
 import { AMMAccountHeader, AmmDataType } from '../AMMAccountHeader'
 import { flushPromises } from '../../../../../test/utils'
+import { queryClient } from '../../../../../shared/QueryClient'
 
 describe('AMM Account Header', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 
   const createWrapper = (state: AmmDataType) =>
     mount(
-      <I18nextProvider i18n={i18n}>
-        <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
-          <AMMAccountHeader data={state} />
-        </MemoryRouter>
-      </I18nextProvider>,
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18n}>
+          <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
+            <AMMAccountHeader data={state} />
+          </MemoryRouter>
+        </I18nextProvider>
+      </QueryClientProvider>,
     )
 
   it('renders AMM account page', async () => {

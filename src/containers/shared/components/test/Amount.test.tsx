@@ -1,8 +1,14 @@
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { cleanup, render, screen } from '@testing-library/react'
+import { useQuery } from 'react-query'
 import { Amount } from '../Amount'
 import i18n from '../../../../i18n/testConfig'
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn(),
+}))
 
 describe('Amount', () => {
   afterEach(cleanup)
@@ -120,6 +126,36 @@ describe('Amount', () => {
     expect(screen.getByTestId('currency')).toHaveTextContent('XRP')
     expect(screen.getByTestId('amount-localized')).toHaveTextContent(
       '+\uE9000.009',
+    )
+  })
+
+  it('handles MPT amount', async () => {
+    const data = {
+      issuer: 'rL2LzUhsBJMqsaVCXVvzedPjePbjVzBCC',
+      assetScale: 3,
+      maxAmt: '100000000',
+      outstandingAmt: '1043001',
+      sequence: 2447,
+      metadata:
+        '{"name":"US Treasury Bill Token","symbol":"USTBT","decimals":2,"totalSupply":1000000,"issuer":"US Treasury","issueDate":"2024-03-25","maturityDate":"2025-03-25","faceValue":"1000","interestRate":"2.5","interestFrequency":"Quarterly","collateral":"US Government","jurisdiction":"United States","regulatoryCompliance":"SEC Regulations","securityType":"Treasury Bill","external_url":"https://example.com/t-bill-token-metadata.json"}',
+      flags: [],
+    }
+
+    // @ts-ignore
+    useQuery.mockImplementation(() => ({
+      data,
+    }))
+
+    const value = {
+      amount: '1043001',
+      currency: '0000098F03B3BCE934EE8CAA1DF25A42032388361B9E5A65',
+      isMPT: true,
+    }
+    renderComponent(<Amount value={value} displayIssuer={false} />)
+    screen.debug()
+
+    expect(screen.getByTestId('amount-localized')).toHaveTextContent(
+      '1,043.001',
     )
   })
 })

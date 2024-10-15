@@ -1,5 +1,5 @@
 import { RouteLink } from '../routing'
-import { TOKEN_ROUTE } from '../../App/routes'
+import { TOKEN_ROUTE, MPT_ROUTE } from '../../App/routes'
 
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
@@ -12,6 +12,7 @@ export interface Props {
   link?: boolean
   shortenIssuer?: boolean
   displaySymbol?: boolean
+  isMPT?: boolean
 }
 
 /*
@@ -25,37 +26,59 @@ const Currency = (props: Props) => {
     link = true,
     shortenIssuer = false,
     displaySymbol = true,
+    isMPT = false,
   } = props
+  let content: string
 
-  const currencyCode =
-    currency?.length === NON_STANDARD_CODE_LENGTH &&
-    currency?.substring(0, 2) !== LP_TOKEN_IDENTIFIER
-      ? hexToString(currency)
-      : currency
+  if (isMPT) {
+    const display = `MPT (${currency})`
+    if (link)
+      return (
+        <RouteLink
+          className="currency"
+          data-testid="currency"
+          to={MPT_ROUTE}
+          params={{ id: currency }}
+        >
+          {display}
+        </RouteLink>
+      )
+    content = display
+  } else {
+    const currencyCode =
+      currency?.length === NON_STANDARD_CODE_LENGTH &&
+      currency?.substring(0, 2) !== LP_TOKEN_IDENTIFIER
+        ? hexToString(currency)
+        : currency
 
-  let display = `${currencyCode}`
+    let display = `${currencyCode}`
 
-  if (currencyCode === XRP && displaySymbol) {
-    display = `\uE900 ${display}`
+    if (currencyCode === XRP && displaySymbol) {
+      display = `\uE900 ${display}`
+    }
+
+    if (issuer) {
+      display += '.'
+      display += shortenIssuer ? issuer.substring(0, 4) : issuer
+    }
+
+    if (link && issuer)
+      return (
+        <RouteLink
+          className="currency"
+          to={TOKEN_ROUTE}
+          data-testid="currency"
+          params={{ token: `${currency}.${issuer}` }}
+        >
+          {display}
+        </RouteLink>
+      )
+    content = display
   }
 
-  if (issuer) {
-    display += '.'
-    display += shortenIssuer ? issuer.substring(0, 4) : issuer
-  }
-
-  return link && issuer ? (
-    <RouteLink
-      className="currency"
-      data-testid="currency"
-      to={TOKEN_ROUTE}
-      params={{ token: `${currency}.${issuer}` }}
-    >
-      {display}
-    </RouteLink>
-  ) : (
+  return (
     <span className="currency" data-testid="currency">
-      {display}
+      {content}
     </span>
   )
 }

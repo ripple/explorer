@@ -6,6 +6,7 @@ import Transaction from './mock_data/Transaction.json'
 import OfferCancel from '../../shared/components/Transaction/OfferCancel/test/mock_data/OfferCancel.json'
 import OfferCreateWithMissingPreviousFields from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithMissingPreviousFields.json'
 import PaymentChannelClaim from '../../shared/components/Transaction/PaymentChannelClaim/test/mock_data/PaymentChannelClaim.json'
+import DirectMPTPayment from './mock_data/DirectMPTPayment.json'
 import { TransactionMeta } from '../DetailTab/Meta'
 
 describe('TransactionMeta container', () => {
@@ -159,5 +160,33 @@ describe('TransactionMeta container', () => {
       true,
     )
     expect(w.find('li').length).toBe(4)
+  })
+
+  it('renders MPT Payment Meta', () => {
+    const w = createWrapper(DirectMPTPayment)
+
+    expect(w.find('.title').length).toBe(1)
+    expect(w.find('.detail-subsection').length).toBe(1)
+    expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
+    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
+      true,
+    )
+    expect(w.find('li').length).toBe(6)
+
+    expect(w.find('li').at(2).html()).toBe(
+      '<li class="meta-line">It modified an MPToken node of<a data-testid="account" title="rnNkvddM96FE2QsaFztLAn5xicjq5d6d8d" class="account" href="/accounts/rnNkvddM96FE2QsaFztLAn5xicjq5d6d8d">rnNkvddM96FE2QsaFztLAn5xicjq5d6d8d</a><ul class="meta-line"><li>Balance changed by<b>100</b>from<b>0</b>to<b>100</b></li></ul></li>',
+    )
+
+    expect(w.find('li').at(3).html()).toBe(
+      '<li>Balance changed by<b>100</b>from<b>0</b>to<b>100</b></li>',
+    )
+
+    expect(w.find('li').at(4).html()).toBe(
+      '<li class="meta-line">It modified an MPTokenIssuance node of<a data-testid="account" title="rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw" class="account" href="/accounts/rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw">rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw</a><ul class="meta-line"><li>Outstanding balance changed by<b>100</b>from<b>0</b>to<b>100</b></li></ul></li>',
+    )
+
+    expect(w.find('li').at(5).html()).toBe(
+      '<li>Outstanding balance changed by<b>100</b>from<b>0</b>to<b>100</b></li>',
+    )
   })
 })
