@@ -56,7 +56,7 @@ export const Simple = ({ data }: TransactionSimpleProps<EnableAmendment>) => {
 
   return (
     <>
-      <SimpleRow label="Amendment Name" data-test="name">
+      <SimpleRow label="Amendment Name" data-testid="name">
         <RouteLink
           to={AMENDMENT_ROUTE}
           params={{ identifier: data.instructions.Amendment }}
@@ -64,16 +64,16 @@ export const Simple = ({ data }: TransactionSimpleProps<EnableAmendment>) => {
           {amendmentDetails.name}
         </RouteLink>
       </SimpleRow>
-      <SimpleRow label="Amendment Status" data-test="status">
+      <SimpleRow label="Amendment Status" data-testid="status">
         <a href="https://xrpl.org/enableamendment.html#enableamendment-flags">
           {amendmentStatus}
         </a>
       </SimpleRow>
-      <SimpleRow label="Introduced In" data-test="version">
+      <SimpleRow label="Introduced In" data-testid="version">
         {amendmentDetails.minRippledVersion}
       </SimpleRow>
       {amendmentStatus === 'Got Majority' && (
-        <SimpleRow label="Expected Date" data-test="date">
+        <SimpleRow label="Expected Date" data-testid="date">
           {expectedDate}
         </SimpleRow>
       )}

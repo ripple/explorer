@@ -21,16 +21,16 @@ describe('NFTokenCancelOffer', () => {
         </I18nextProvider>
       </QueryClientProvider>,
     )
-    expect(wrapper.find('[data-test="token-id"] .value')).toHaveText(
+    expect(wrapper.find('[data-testid="token-id"] .value')).toHaveText(
       '000800006203F49C21D5D6E022CB16DE3538F248662FC73C258BA1B200000018',
     )
-    expect(wrapper.find('[data-test="offer-id"] .value')).toHaveText(
+    expect(wrapper.find('[data-testid="offer-id"] .value')).toHaveText(
       '35F3D6D99548FA5F5315580FBF8BA6B15CAA2CAE93023D5CE4FDC130602BC5C3',
     )
-    expect(wrapper.find('[data-test="amount"] .value')).toHaveText(
+    expect(wrapper.find('[data-testid="amount"] .value')).toHaveText(
       '$100.00 USD.r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
-    expect(wrapper.find('[data-test="offerer"] .value')).toHaveText(
+    expect(wrapper.find('[data-testid="offerer"] .value')).toHaveText(
       'r9AExd6v3keXaXa3nXAMHHcP9nWy9Aef2g',
     )
     wrapper.unmount()

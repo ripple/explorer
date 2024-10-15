@@ -16,12 +16,12 @@ export const Simple = ({ data }: TransactionSimpleProps<UNLModify>) => {
 
   return (
     <>
-      <SimpleRow label={t('validator')} data-test="validator">
+      <SimpleRow label={t('validator')} data-testid="validator">
         <RouteLink to={VALIDATOR_ROUTE} params={{ identifier: encoded }}>
           {encoded}
         </RouteLink>
       </SimpleRow>
-      <SimpleRow label={t('action')} data-test="action">
+      <SimpleRow label={t('action')} data-testid="action">
         {tx.UNLModifyDisabling ? 'DISABLE' : 'ENABLE'}
       </SimpleRow>
     </>

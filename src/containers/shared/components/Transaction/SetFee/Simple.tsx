@@ -12,15 +12,15 @@ export const Simple = ({
 
   return (
     <>
-      <SimpleRow label={t('setfee_base_fee')} data-test="base-fee">
+      <SimpleRow label={t('setfee_base_fee')} data-testid="base-fee">
         <Amount value={fee} />
       </SimpleRow>
-      <SimpleRow label={t('setfee_reserve')} data-test="reserve">
+      <SimpleRow label={t('setfee_reserve')} data-testid="reserve">
         <Amount value={reserve} />
       </SimpleRow>
       <SimpleRow
         label={t('setfee_reserve_increment')}
-        data-test="reserve-increment"
+        data-testid="reserve-increment"
       >
         <Amount value={increment} />
       </SimpleRow>

@@ -11,7 +11,7 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
   amount.issuer = issuer
   return (
     <>
-      <div data-test="from-to-line">
+      <div data-testid="from-to-line">
         <Trans
           i18nKey="claws_back_from"
           components={{
@@ -20,7 +20,7 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
           }}
         />
       </div>
-      <div data-test="amount-line">
+      <div data-testid="amount-line">
         <Trans
           i18nKey="instruct_to_claw"
           components={{

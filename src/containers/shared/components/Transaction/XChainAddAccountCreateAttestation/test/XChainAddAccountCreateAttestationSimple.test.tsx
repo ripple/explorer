@@ -16,14 +16,14 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
       'locking-chain-door',
       'rDPwN6dz3shffxodeUC9Qf5y1mEHYySKLJ',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(wrapper, 'send', '\uE90010.00 XRP')
@@ -37,7 +37,7 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
       'destination',
       'rLbKhMNskUBYRShdbbQcFm9YhumEeUJfPK',
     )
-    expect(wrapper.find(`[data-test="destination"] a`)).toExist()
+    expect(wrapper.find(`[data-testid="destination"] a`)).toExist()
   })
 
   it('renders failed transaction', () => {
@@ -49,14 +49,14 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
       'locking-chain-door',
       'rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(wrapper, 'send', '\uE90010.00 XRP')
@@ -70,6 +70,6 @@ describe('XChainAddAccountCreateAttestationSimple', () => {
       'destination',
       'rPy1F9bQ7dNn2T3QAFRM6dFz6ygHa3MDDi',
     )
-    expect(wrapper.find(`[data-test="destination"] a`)).toExist()
+    expect(wrapper.find(`[data-testid="destination"] a`)).toExist()
   })
 })

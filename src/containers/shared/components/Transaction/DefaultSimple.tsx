@@ -79,7 +79,7 @@ const processValue = (value: any) => {
     return (
       <div className="subgroup">
         {Object.entries(value).map(([childKey, childValue]) => (
-          <div key={childKey} data-test={childKey}>
+          <div key={childKey} data-testid={childKey}>
             {`${childKey}: `}
             {processValue(childValue)}
           </div>
@@ -97,7 +97,7 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
       <SimpleRow
         key={`${key}${uniqueKey}`}
         label={displayKey(key)}
-        data-test={key}
+        data-testid={key}
       >
         <Amount value={formatAmount(value)} />
       </SimpleRow>
@@ -109,7 +109,7 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
       <SimpleRow
         key={`${key}${uniqueKey}`}
         label={displayKey(key)}
-        data-test={key}
+        data-testid={key}
       >
         <Currency currency={value.currency} issuer={value.issuer} />
       </SimpleRow>
@@ -121,7 +121,7 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
       <SimpleRow
         key={`${key}${uniqueKey}`}
         label={displayKey(key)}
-        data-test={key}
+        data-testid={key}
       >
         <Amount value={formatAmount(value)} />
       </SimpleRow>
@@ -131,7 +131,7 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
     <SimpleRow
       key={`${key}${uniqueKey}`}
       label={displayKey(key)}
-      data-test={key}
+      data-testid={key}
     >
       {processValue(value)}
     </SimpleRow>
@@ -153,7 +153,7 @@ const getRow = (key: any, value: any) => {
                 // eslint-disable-next-line react/no-array-index-key -- okay here
                 key={`group_${innerKey}_${index}`}
                 title={displayKey(innerKey)}
-                data-test={key}
+                data-testid={key}
               >
                 {Object.entries(innerValue[innerKey]).map(
                   ([childKey, childValue], index2) =>
@@ -174,7 +174,7 @@ const getRow = (key: any, value: any) => {
     !isAmount(value, key)
   ) {
     return (
-      <SimpleGroup key={key} title={displayKey(key)} data-test={key}>
+      <SimpleGroup key={key} title={displayKey(key)} data-testid={key}>
         {Object.entries(value).map(([childKey, childValue], index) =>
           getRowNested(childKey, childValue, index.toString()),
         )}
