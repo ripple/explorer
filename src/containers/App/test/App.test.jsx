@@ -39,7 +39,7 @@ jest.mock('../../../rippled', () => {
     ...originalModule,
     getTransaction: () =>
       Promise.resolve({
-        raw: formatTransaction({
+        processed: formatTransaction({
           TransactionType: 'OfferCreate',
           meta: {
             TransactionResult: 'tecKILLED',
@@ -138,6 +138,40 @@ describe('App container', () => {
 
   it('renders ledger explorer page', async () => {
     wrapper = createWrapper('/ledgers')
+    await flushPromises()
+    await flushPromises()
+    wrapper.update()
+
+    expect(document.title).toEqual('xrpl_explorer | ledgers')
+    expect(window.dataLayer).toEqual([
+      {
+        page_path: '/',
+        page_title: `xrpl_explorer | ledgers`,
+        event: 'screen_view',
+        network: 'mainnet',
+      },
+    ])
+  })
+
+  it('renders ledger explorer page from index.html redirect', async () => {
+    wrapper = createWrapper('/index.html')
+    await flushPromises()
+    await flushPromises()
+    wrapper.update()
+
+    expect(document.title).toEqual('xrpl_explorer | ledgers')
+    expect(window.dataLayer).toEqual([
+      {
+        page_path: '/',
+        page_title: `xrpl_explorer | ledgers`,
+        event: 'screen_view',
+        network: 'mainnet',
+      },
+    ])
+  })
+
+  it('renders ledger explorer page from index.htm redirect', async () => {
+    wrapper = createWrapper('/index.html')
     await flushPromises()
     await flushPromises()
     wrapper.update()

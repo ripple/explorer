@@ -6,7 +6,12 @@ import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
-import { NOT_FOUND, BAD_REQUEST, HASH_REGEX, CTID_REGEX } from '../shared/utils'
+import {
+  NOT_FOUND,
+  BAD_REQUEST,
+  HASH256_REGEX,
+  CTID_REGEX,
+} from '../shared/utils'
 import { SimpleTab } from './SimpleTab'
 import { DetailTab } from './DetailTab'
 import './transaction.scss'
@@ -54,7 +59,7 @@ export const Transaction = () => {
       if (identifier === '') {
         return undefined
       }
-      if (HASH_REGEX.test(identifier) || CTID_REGEX.test(identifier)) {
+      if (HASH256_REGEX.test(identifier) || CTID_REGEX.test(identifier)) {
         return getTransaction(identifier, rippledSocket).catch(
           (transactionRequestError) => {
             const status = transactionRequestError.code
@@ -75,10 +80,10 @@ export const Transaction = () => {
   const { width } = useWindowSize()
 
   useEffect(() => {
-    if (!data?.raw) return
+    if (!data?.processed) return
 
-    const type = data?.raw.tx.TransactionType
-    const status = data?.raw.meta.TransactionResult
+    const type = data?.processed.tx.TransactionType
+    const status = data?.processed.meta.TransactionResult
 
     const transactionProperties: AnalyticsFields = {
       transaction_action: getAction(type),
@@ -91,22 +96,22 @@ export const Transaction = () => {
     }
 
     trackScreenLoaded(transactionProperties)
-  }, [identifier, data?.raw, tab, trackScreenLoaded])
+  }, [identifier, data?.processed, tab, trackScreenLoaded])
 
   function renderSummary() {
-    const type = data?.raw.tx.TransactionType
+    const type = data?.processed.tx.TransactionType
     return (
       <div className="summary">
         <div className="type">{type}</div>
-        <TxStatus status={data?.raw.meta.TransactionResult} />
-        <div className="txid" title={data?.raw.hash}>
+        <TxStatus status={data?.processed.meta.TransactionResult} />
+        <div className="txid" title={data?.processed.hash}>
           <div className="title">{t('hash')}: </div>
-          {data?.raw.hash}
+          {data?.processed.hash}
         </div>
-        {data?.raw.tx.ctid && (
-          <div className="txid" title={data.raw.tx.ctid}>
+        {data?.processed.tx.ctid && (
+          <div className="txid" title={data.processed.tx.ctid}>
             <div className="title">CTID: </div>
-            {data.raw.tx.ctid}
+            {data.processed.tx.ctid}
           </div>
         )}
       </div>
@@ -126,7 +131,7 @@ export const Transaction = () => {
 
     switch (tab) {
       case 'detailed':
-        body = <DetailTab data={data.raw} />
+        body = <DetailTab data={data.processed} />
         break
       case 'raw':
         body = <JsonView data={data.raw} />
@@ -149,7 +154,7 @@ export const Transaction = () => {
   if (isError) {
     const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
-  } else if (data?.raw && data?.raw.hash) {
+  } else if (data?.processed && data?.processed.hash) {
     body = renderTransaction()
   } else if (!identifier) {
     body = (

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import { useRouteParams } from '../../shared/routing'
 import { AccountIssuedTokenTable } from '../AccountIssuedTokenTable'
 import { AccountNFTTable } from '../AccountNFTTable/AccountNFTTable'
+import { AccountMPTTable } from '../AccountMPTTable/AccountMPTTable'
 import { ACCOUNT_ROUTE } from '../../App/routes'
 
 // TODO: Add state types or convert to react query
@@ -11,11 +12,17 @@ interface Props {
   account: any
 }
 
-const assetTypes = ['issued', 'nft']
+let assetTypes = ['issued', 'nft']
 
 export const AccountAssetTab = ({ account }: Props) => {
   const { id: accountId = '', assetType = assetTypes[0] } =
     useRouteParams(ACCOUNT_ROUTE)
+
+  const supportsMPT = ['mpt_sandbox', 'devnet'].includes(
+    process.env.VITE_ENVIRONMENT as string,
+  )
+  if (supportsMPT) assetTypes = ['issued', 'nft', 'mpt']
+
   const navigate = useNavigate()
   const { t } = useTranslation()
   function switchAsset(event: ChangeEvent<HTMLInputElement>) {
@@ -47,11 +54,13 @@ export const AccountAssetTab = ({ account }: Props) => {
           )
         })}
       </div>
+
       <div className="tab-body">
         {assetType === 'issued' && (
           <AccountIssuedTokenTable account={account} />
         )}
         {assetType === 'nft' && <AccountNFTTable accountId={accountId} />}
+        {assetType === 'mpt' && <AccountMPTTable accountId={accountId} />}
       </div>
     </>
   )
