@@ -1,0 +1,49 @@
+{
+  "tx": {
+    "Account": "rJtok1j4okh4HkKxC3ArAvZbMD1vcDSteo",
+    "Fee": "10",
+    "Flags": 2147483648,
+    "MPTokenIssuanceID": "0000098410531B842DEECCF4ABB1268C931EB71D9F6A1B64",
+    "Sequence": 2438,
+    "SigningPubKey": "EDE493F0B7846A102A5C6EF4FDD9E95D1A84B0BEB99DED06C4436C0D61E5FA0B67",
+    "TransactionType": "MPTokenAuthorize",
+    "TxnSignature": "C903E4BA935BA27424D05CA230385FBA392CB4B48C136E37EF5DABE07814A2A8FA0AAEE34FCAB994D1AED7A663EB4CA121FA07B83E3C5A74289ABA258AA45F00",
+    "ctid": "C000098800000000",
+    "date": 1711398512000,
+    "hash": "undefined",
+    "inLedger": "undefined",
+    "ledger_index": "undefined",
+    "meta": "undefined",
+    "validated": "undefined",
+    "metaData": "undefined",
+    "status": "undefined"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rJtok1j4okh4HkKxC3ArAvZbMD1vcDSteo",
+            "Balance": "99999980",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 2439
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "FE496E6B5CBE4778460846E5B93648B41E15463E691311EA4CD7E578561CA20E",
+          "PreviousFields": {
+            "Balance": "99999990",
+            "Sequence": 2438
+          },
+          "PreviousTxnID": "26BB8D3B11AA0C967470DBA5D6B09A10608B4D1DADE0408668A45C010F4B8DDC",
+          "PreviousTxnLgrSeq": 2439
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tecMPTOKEN_EXISTS"
+  },
+  "hash": "7B785C2D172D8FAE35DBBA66868D147747F32B5D6AA41F62D698E872643CE2B6",
+  "ledger_index": 2440,
+  "date": 1711398512000
+}

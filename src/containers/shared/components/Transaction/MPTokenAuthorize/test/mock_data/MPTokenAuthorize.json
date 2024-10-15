@@ -1,0 +1,70 @@
+{
+  "tx": {
+    "Account": "rnLz9TWQAvaLpdyrtb1WbMgp7jZdNQ47Ny",
+    "Fee": "10",
+    "Flags": 2147483648,
+    "MPTokenIssuanceID": "000005F398B624EBD06822198649C920C8B20ADB8EBE745E",
+    "Sequence": 1524,
+    "SigningPubKey": "ED97BAFB2D380AF67DA2C1968C3A1DC38797E9BA0653CE620F6BC97FFD66925EBB",
+    "TransactionType": "MPTokenAuthorize",
+    "TxnSignature": "28879892AF0D465063993BD1DDCA147C7CA0AB9C8429DAB3A0030AA4AC57AA80F725F295622913C07E4CAFB3160DEF7E8D0209429390B0FBD78F96B28E700A07",
+    "ctid": "C00005F600000000",
+    "date": 1711397033000,
+    "hash": "undefined",
+    "inLedger": "undefined",
+    "ledger_index": "undefined",
+    "meta": "undefined",
+    "validated": "undefined",
+    "metaData": "undefined",
+    "status": "undefined"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rnLz9TWQAvaLpdyrtb1WbMgp7jZdNQ47Ny",
+            "Balance": "99999990",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 1525
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "424AAE60FE8A4B7EF77DA492F9561AAFA1D09DB56BE5804B055235BCD662C9FE",
+          "PreviousFields": {
+            "Balance": "100000000",
+            "OwnerCount": 0,
+            "Sequence": 1524
+          },
+          "PreviousTxnID": "B6301327D79A93DC211043ABF66A60DC9C70BD2962FC42E0EAD0A829680ABAE8",
+          "PreviousTxnLgrSeq": 1524
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "65BCF554A41D30521B876D012D3DC167F9E886E02D88231E9DEBD2501A4A7BB5",
+          "NewFields": {
+            "Owner": "rnLz9TWQAvaLpdyrtb1WbMgp7jZdNQ47Ny",
+            "RootIndex": "65BCF554A41D30521B876D012D3DC167F9E886E02D88231E9DEBD2501A4A7BB5"
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "MPToken",
+          "LedgerIndex": "91D261494BB3D64D5D3D12BD480EB58C5E2B21F3222B12FE442BC73276C27266",
+          "NewFields": {
+            "Account": "rnLz9TWQAvaLpdyrtb1WbMgp7jZdNQ47Ny",
+            "MPTokenIssuanceID": "000005F398B624EBD06822198649C920C8B20ADB8EBE745E"
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "9592E76A725CF4A5A441024EE80596DFE8809D1AD1EC28A8D9DB2CEC2CB81EDC",
+  "ledger_index": 1526,
+  "date": 1711397033000
+}
