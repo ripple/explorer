@@ -61,16 +61,14 @@ export const Simple = ({ data, validators, width }: SimpleProps) => {
         {data.voted !== undefined && (
           <>
             <SimpleRow label={`${t('yeas')} (${t('all')})`}>
-              {data.voted.validators.length}
+              {data.voted.validators.length - 1}
             </SimpleRow>
             <SimpleRow label={`${t('nays')} (${t('all')})`}>
-              {validators.length - data.voted.validators.length}
+              {validators.length - data.voted.validators.length - 1}
             </SimpleRow>
             <SimpleRow label={`${t('yeas')} (${t('unl')})`}>
-              {
-                data.voted.validators.filter((voted) => voted.unl !== false)
-                  .length
-              }
+              {data.voted.validators.filter((voted) => voted.unl !== false)
+                .length - 1}
             </SimpleRow>
             <SimpleRow label={`${t('nays')} (${t('unl')})`}>
               {calculateUNLNays(data.voted, validators)}
