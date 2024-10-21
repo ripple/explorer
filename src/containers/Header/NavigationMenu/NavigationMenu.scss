@@ -14,7 +14,7 @@ $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
 
 .navbar {
   flex-wrap: wrap;
-  align-items: start;
+  align-items: center;
   margin: 0 auto;
   gap: 0 16px;
 
@@ -26,7 +26,7 @@ $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
 .navbar-brand {
   display: flex;
   align-items: center;
-  padding-top: 8px;
+
 
 
   svg {
@@ -54,7 +54,7 @@ $menu-toggle-line-length: $menu-toggle-size - $menu-toggle-line-spacing;
 
 /* Nav menu */
 .navbar-nav {
-  display: flex;
+  display: block;
   padding: 0;
   margin: 0 auto 0 0;
   list-style: none;

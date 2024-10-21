@@ -83,7 +83,6 @@ export const NavigationMenu = ({
           <li className="nav-item nav-search">
             <Search />
           </li>
-
           {routes.map((nav) => {
             const title = t(nav.title)
 

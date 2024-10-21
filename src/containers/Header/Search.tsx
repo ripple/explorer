@@ -45,7 +45,7 @@ const determineHashType = async (id: string, rippledContext: XrplClient) => {
 // separator for currency formats
 const separators = /[.:+-]/
 
-export const getRoute = async (
+const getRoute = async (
   id: string,
   rippledContext: XrplClient,
 ): Promise<{ type: string; path: string } | null> => {
@@ -189,7 +189,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
         />
         <div className="search-results">
           <SearchResults
-            setCurrentSearchInput
+            setCurrentSearchInput={setCurrentSearchInput}
             currentSearchValue={currentSearchInput}
           />
         </div>
