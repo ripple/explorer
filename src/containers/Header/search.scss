@@ -23,6 +23,10 @@
   }
 }
 
+.search:not(:focus-within) .search-results {
+  display: none;
+}
+
 // Only show search bar when we know which network to query
 .header-no-network {
   .search {
