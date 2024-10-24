@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
 import { convertHexToString } from 'xrpl'
+import { useTranslation } from 'react-i18next'
 import Logo from '../../images/no_token_logo.svg'
 import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
+import './SearchResultRow.scss'
+import './SearchResults.scss'
 
 interface SearchResultRowProps {
   resultContent: any
@@ -14,6 +17,8 @@ export const SearchResultRow = ({
   onClick,
   xrpPrice,
 }: SearchResultRowProps): JSX.Element => {
+  const { t } = useTranslation()
+
   const parsePrice = (price): number => {
     const parsed = Number(price).toFixed(6)
     if (Number(parsed) === 0) {
@@ -50,52 +55,24 @@ export const SearchResultRow = ({
           {resultContent.meta.token.icon ? (
             <object
               data={resultContent.meta.token.icon}
-              style={{
-                width: '1.5rem',
-                height: '1.5rem',
-                borderRadius: '16px',
-              }}
+              className="result-row-icon"
             >
-              <Logo
-                style={{
-                  width: '1.5rem',
-                  height: '1.5rem',
-                  borderRadius: '16px',
-                }}
-              />
+              <Logo className="result-row-icon" />
             </object>
           ) : (
-            <Logo
-              style={{
-                width: '1.5rem',
-                height: '1.5rem',
-                borderRadius: '16px',
-              }}
-            />
+            <Logo className="result-row-icon" />
           )}
         </div>
         <div className="search-result-content">
           <div className="search-result-row-line-one">
-            <div
-              style={{
-                paddingTop: '2px',
-                paddingBottom: '2px',
-                paddingRight: '0px',
-              }}
-            >
+            <div className="result-currency">
               {resultContent.currency.length > 10
                 ? convertHexToString(resultContent.currency)
                     .replaceAll('\u0000', '')
                     .trim()
                 : resultContent.currency.trim()}
             </div>
-            <div
-              style={{
-                paddingTop: '2px',
-                paddingBottom: '2px',
-                marginLeft: '3px',
-              }}
-            >
+            <div className="result-token-name">
               {resultContent.meta.token.name && (
                 <div>
                   (
@@ -123,16 +100,20 @@ export const SearchResultRow = ({
               />
             </div>
             <div className="search-result-metric-chip">
-              HOLDERS: {localizeNumber(resultContent.metrics.holders)}
+              {t('holders', {
+                holders: localizeNumber(resultContent.metrics.holders),
+              })}
             </div>
             <div className="search-result-metric-chip">
               <div>
-                TRUSTLINES: {localizeNumber(resultContent.metrics.trustlines)}
+                {t('trustlines', {
+                  trustlines: localizeNumber(resultContent.metrics.trustlines),
+                })}
               </div>
             </div>
           </div>
           <div className="search-result-row-line-two">
-            <div>Issuer:</div>
+            <div>{t('issuer')}:</div>
             {resultContent.issuer && (
               <Link
                 to={`/accounts/${resultContent.issuer}`}

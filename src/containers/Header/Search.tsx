@@ -1,4 +1,4 @@
-import { KeyboardEventHandler, useContext, useState } from 'react'
+import { KeyboardEventHandler, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
@@ -32,6 +32,11 @@ import {
   VALIDATOR_ROUTE,
 } from '../App/routes'
 import SearchResults from '../shared/components/SearchResults/SearchResults'
+import {
+  Tooltip,
+  TooltipInstance,
+  useTooltip,
+} from '../shared/components/Tooltip'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
@@ -177,8 +182,28 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
     }
   }
 
+  const [isVisible, setIsVisible] = useState(true)
+
+  const mytooltip: TooltipInstance = {
+    mode: 'searchbanner',
+    data: {},
+    x: 175,
+    y: -75,
+  }
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setIsVisible(false)
+    }, 10000) // Disappear after 3 seconds
+
+    return () => clearTimeout(timeoutId)
+  }, [])
+
   return (
     <div>
+      <div className={isVisible ? 'normal' : 'normal fade-out'}>
+        <Tooltip tooltip={mytooltip} />
+      </div>
       <div className="search">
         <input
           type="text"

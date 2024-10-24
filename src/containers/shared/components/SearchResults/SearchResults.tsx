@@ -21,7 +21,10 @@ const SearchResults = ({
   const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
 
   const connect = () => {
-    xrplmetaWSRef.current = new WebSocket('wss://s1.xrplmeta.org', 'tokens')
+    xrplmetaWSRef.current = new WebSocket(
+      process.env.XRPL_META_LINK || '',
+      'tokens',
+    )
 
     xrplmetaWSRef.current.onmessage = (event) => {
       const results = JSON.parse(event.data).result.tokens
@@ -56,7 +59,7 @@ const SearchResults = ({
   // xrpl cluster temporary socket connection for XRP/USD conversion rate
   useEffect(() => {
     connect()
-    const xrplClusterSocket = new WebSocket('wss://xrplcluster.com')
+    const xrplClusterSocket = new WebSocket(process.env.XRPL_CLUSTER_LINK || '')
     const clusterCommand = {
       command: 'account_lines',
       account: 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx',

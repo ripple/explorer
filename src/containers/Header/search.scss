@@ -33,3 +33,12 @@
     display: none;
   }
 }
+
+.normal {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.normal.fade-out {
+  opacity: 0;
+}
