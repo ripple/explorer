@@ -527,5 +527,8 @@
   "last_update_time": null,
   "asset_class": null,
   "trading_pairs": null,
-  "deleted": null
+  "deleted": null,
+  "holders": null,
+  "trustlines": null,
+  "website": null
 }

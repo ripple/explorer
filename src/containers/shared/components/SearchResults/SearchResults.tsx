@@ -119,7 +119,7 @@ const SearchResults = ({
           <div className="search-results-header">
             {t('tokens')} ({currentSearchResults.length})
           </div>
-          <div className="scrollable-search-results">
+          <div>
             {currentSearchResults.map((searchResultContent) => (
               <SearchResultRow
                 resultContent={searchResultContent}

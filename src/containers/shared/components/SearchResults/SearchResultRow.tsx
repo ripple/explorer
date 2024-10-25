@@ -69,8 +69,8 @@ export const SearchResultRow = ({
       onClick={onClick}
     >
       <div className="search-result-row">
-        <div className="search-result-logo">{renderLogo(resultContent)}</div>
-        <div className="search-result-content">
+        <div className="result-logo">{renderLogo(resultContent)}</div>
+        <div>
           <div className="result-name-line">
             <div className="result-currency">
               {renderCurrency(resultContent)}

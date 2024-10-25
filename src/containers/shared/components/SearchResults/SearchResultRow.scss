@@ -19,7 +19,7 @@
     margin-left: 3px;
 }
 
-.search-result-logo {
+.result-logo {
   padding-right: 14px;
   padding-left: 1rem;
 }
@@ -73,4 +73,15 @@
     background-color: black;
     cursor: pointer;
   }
+}
+
+.issuer-link {
+  margin-left: 0.25rem;
+  color: $black-50;
+
+  &:hover {
+    background: transparent;
+    color: $blue-purple-30;
+  }
+
 }

@@ -23,37 +23,3 @@
   font-size: 14px;
   font-weight: 500;
 }
-
-.issuer-link {
-  margin-left: 0.25rem;
-  color: $black-50;
-
-  &:hover {
-    background: transparent;
-    color: $blue-purple-30;
-  }
-
-}
-
-.website-link {
-  margin-left: 0.25rem;
-  color: $black-50;
-
-
-  &:hover {
-    background: transparent;
-    color: $blue-purple-30;
-  }
-
-  &::after {
-    content: none !important;
-  }
-
-}
-
-.website-external-logo {
-  width: 14px;
-  min-width: 14px;
-  height: 14px;
-  margin-left: 4px;
-}
