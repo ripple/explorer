@@ -10,6 +10,7 @@ export type AnalyticsEventNames =
   | 'network_switch'
   | 'load_more'
   | 'not_found'
+  | 'token_search_click'
 
 export interface AnalyticsFields {
   network?: string

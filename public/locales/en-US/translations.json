@@ -532,5 +532,6 @@
   "last_update_time": "Last Update Time",
   "asset_class": "Asset Class",
   "trading_pairs": "Trading Pairs",
-  "deleted": "Deleted"
+  "deleted": "Deleted",
+  "website": "Wesbite"
 }
