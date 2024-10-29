@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import './SearchResults.scss'
+import './styles.scss'
 
 import { useTranslation } from 'react-i18next'
 import { useAnalytics } from '../../analytics'
-import { SearchResultRow } from './SearchResultRow'
+import { TokenSearchRow } from './TokenSearchRow'
 
 interface SearchResultsProps {
   currentSearchValue: string
@@ -13,11 +13,11 @@ interface SearchResultsProps {
 const SearchResults = ({
   currentSearchValue,
   setCurrentSearchInput,
-}: SearchResultsProps): JSX.Element => {
+}: SearchResultsProps): JSX.Element | null => {
   const analytics = useAnalytics()
   const { t } = useTranslation()
   const xrplmetaWSRef = useRef<WebSocket | null>(null)
-  const [currentSearchResults, setCurrentSearchResults] = useState<any[]>([])
+  const [tokens, setTokens] = useState<any[]>([])
   const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
 
   const connectXRPLMeta = () => {
@@ -38,7 +38,7 @@ const SearchResults = ({
           result.metrics.volume_7d > 0,
       )
 
-      setCurrentSearchResults(filteredResults)
+      setTokens(filteredResults)
     }
 
     xrplmetaWSRef.current.onclose = () => {
@@ -98,7 +98,7 @@ const SearchResults = ({
 
     // clear out results and prevent search input/results cache discrepancies
     if (currentSearchValue === '') {
-      setCurrentSearchResults([])
+      setTokens([])
     }
   }, [currentSearchValue])
 
@@ -110,29 +110,25 @@ const SearchResults = ({
 
     // clear current search on navigation
     setCurrentSearchInput('')
-    setCurrentSearchResults([])
+    setTokens([])
   }
-  return (
-    <div>
-      {currentSearchResults.length > 0 && (
-        <div className="search-results-menu">
-          <div className="search-results-header">
-            {t('tokens')} ({currentSearchResults.length})
-          </div>
-          <div>
-            {currentSearchResults.map((searchResultContent) => (
-              <SearchResultRow
-                resultContent={searchResultContent}
-                onClick={onLinkClick}
-                xrpPrice={XRPUSDPrice}
-                key={`${searchResultContent.currency}.${searchResultContent.issuer}`}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+  return tokens.length > 0 ? (
+    <div className="search-results-menu">
+      <div className="search-results-header">
+        {t('tokens')} ({tokens.length})
+      </div>
+      <div>
+        {tokens.map((token) => (
+          <TokenSearchRow
+            token={token}
+            onClick={onLinkClick}
+            xrpPrice={XRPUSDPrice}
+            key={`${token.currency}.${token.issuer}`}
+          />
+        ))}
+      </div>
     </div>
-  )
+  ) : null
 }
 
 export default SearchResults

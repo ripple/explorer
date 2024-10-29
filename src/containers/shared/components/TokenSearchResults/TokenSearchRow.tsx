@@ -3,31 +3,28 @@ import { useTranslation } from 'react-i18next'
 import Logo from '../../images/no_token_logo.svg'
 import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
-import './SearchResultRow.scss'
 import { convertHexToString } from '../../../../rippled/lib/utils'
 import { parsePrice, stripDomain } from './utils'
 
-const renderLogo = (resultContent) =>
-  resultContent.meta.token.icon ? (
-    <object data={resultContent.meta.token.icon} className="result-row-icon">
+const renderLogo = (token) =>
+  token.meta.token.icon ? (
+    <object data={token.meta.token.icon} className="result-row-icon">
       <Logo className="result-row-icon" />
     </object>
   ) : (
     <Logo className="result-row-icon" />
   )
 
-const renderCurrency = (resultContent) =>
-  resultContent.currency.length > 10
-    ? convertHexToString(resultContent.currency)!
-        .replaceAll('\u0000', '')
-        .trim()
-    : resultContent.currency.trim()
+const renderCurrency = (token) =>
+  token.currency.length > 10
+    ? convertHexToString(token.currency)!.replaceAll('\u0000', '').trim()
+    : token.currency.trim()
 
-const renderName = (resultContent) =>
-  resultContent.meta.token.name && (
+const renderName = (token) =>
+  token.meta.token.name && (
     <div>
       (
-      {resultContent.meta.token.name
+      {token.meta.token.name
         .trim()
         .toUpperCase()
         .replace('(', '')
@@ -36,55 +33,51 @@ const renderName = (resultContent) =>
     </div>
   )
 
-const renderIssuerAddress = (resultContent, onClick) =>
-  resultContent.issuer && (
+const renderIssuerAddress = (token, onClick) =>
+  token.issuer && (
     <Link
-      to={`/accounts/${resultContent.issuer}`}
+      to={`/accounts/${token.issuer}`}
       onClick={onClick}
       className="issuer-link"
     >
       <div>
-        {resultContent.meta.issuer.name
-          ? `${resultContent.meta.issuer.name} (${resultContent.issuer})`
-          : resultContent.issuer}
+        {token.meta.issuer.name
+          ? `${token.meta.issuer.name} (${token.issuer})`
+          : token.issuer}
       </div>
     </Link>
   )
 
 interface SearchResultRowProps {
-  resultContent: any
+  token: any
   onClick: () => void
   xrpPrice: number
 }
-export const SearchResultRow = ({
-  resultContent,
+
+export const TokenSearchRow = ({
+  token,
   onClick,
   xrpPrice,
 }: SearchResultRowProps): JSX.Element => {
   const { t } = useTranslation()
 
   return (
-    <Link
-      to={`/token/${resultContent.currency}.${resultContent.issuer}`}
-      onClick={onClick}
-    >
+    <Link to={`/token/${token.currency}.${token.issuer}`} onClick={onClick}>
       <div className="search-result-row">
-        <div className="result-logo">{renderLogo(resultContent)}</div>
+        <div className="result-logo">{renderLogo(token)}</div>
         <div>
           <div className="result-name-line">
-            <div className="result-currency">
-              {renderCurrency(resultContent)}
-            </div>
-            <div className="result-token-name">{renderName(resultContent)}</div>
+            <div className="result-currency">{renderCurrency(token)}</div>
+            <div className="result-token-name">{renderName(token)}</div>
             <div className="metric-chip">
               <Amount
                 value={{
                   currency: 'USD',
-                  amount: parsePrice(resultContent.metrics.price, xrpPrice),
+                  amount: parsePrice(token.metrics.price, xrpPrice),
                 }}
                 displayIssuer={false}
                 modifier={
-                  parsePrice(resultContent.metrics.price, xrpPrice) === 0
+                  parsePrice(token.metrics.price, xrpPrice) === 0
                     ? '~'
                     : undefined
                 }
@@ -92,33 +85,33 @@ export const SearchResultRow = ({
             </div>
             <div className="metric-chip">
               {t('holders', {
-                holders: localizeNumber(resultContent.metrics.holders),
+                holders: localizeNumber(token.metrics.holders),
               })}
             </div>
             <div className="metric-chip">
               <div>
                 {t('trustlines', {
-                  trustlines: localizeNumber(resultContent.metrics.trustlines),
+                  trustlines: localizeNumber(token.metrics.trustlines),
                 })}
               </div>
             </div>
           </div>
           <div className="result-issuer-line">
             <div>{t('issuer')}:</div>
-            {renderIssuerAddress(resultContent, onClick)}
+            {renderIssuerAddress(token, onClick)}
           </div>
           <div className="result-website-line">
-            {resultContent.meta.issuer.domain && (
+            {token.meta.issuer.domain && (
               <>
                 <div>{t('website')}:</div>
                 <div>
                   <Link
-                    to={`https://${resultContent.meta.issuer.domain}/`}
+                    to={`https://${token.meta.issuer.domain}/`}
                     className="issuer-link"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {stripDomain(resultContent.meta.issuer.domain)}
+                    {stripDomain(token.meta.issuer.domain)}
                   </Link>
                 </div>
               </>

@@ -36,7 +36,7 @@ import {
   VALIDATOR_ROUTE,
   MPT_ROUTE,
 } from '../App/routes'
-import SearchResults from '../shared/components/SearchResults/SearchResults'
+import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSearchResults'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
@@ -231,7 +231,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
         />
         {process.env.VITE_ENVIRONMENT === 'mainnet' && (
           <div className="search-results">
-            <SearchResults
+            <TokenSearchResults
               setCurrentSearchInput={setCurrentSearchInput}
               currentSearchValue={currentSearchInput}
             />
