@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-
 import {
   isValidClassicAddress,
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
+import CloseIcon from '../shared/images/close.png'
+
 import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
 import {
@@ -34,11 +35,6 @@ import {
   VALIDATOR_ROUTE,
 } from '../App/routes'
 import SearchResults from '../shared/components/SearchResults/SearchResults'
-import {
-  Tooltip,
-  TooltipInstance,
-  useTooltip,
-} from '../shared/components/Tooltip'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
@@ -186,13 +182,6 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
 
   const [isVisible, setIsVisible] = useState(true)
 
-  const mytooltip: TooltipInstance = {
-    mode: 'searchbanner',
-    data: {},
-    x: 175,
-    y: -75,
-  }
-
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsVisible(false)
@@ -208,13 +197,20 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
         id="my-tooltip-styles"
         place="top"
         isOpen={isVisible}
+        clickable
       >
-        <div>
+        <div className="banner-content">
           <div>
             Token search by name and account is now available! Try searching for
             USD
           </div>
-          <img src="../../shared/images/close.png" alt="" />
+          <button
+            className="banner-button"
+            type="button"
+            onClick={() => setIsVisible(false)}
+          >
+            <img src={CloseIcon} width={10} height={10} />
+          </button>
         </div>
       </ReactTooltip>
       <div data-tooltip-id="my-tooltip-styles" className="search">

@@ -46,4 +46,20 @@
 .banner {
   background-color: $blue-purple-30 !important;
   color: $black !important;
+
+  .banner-content {
+    display: flex;
+  }
+
+  .banner-button {
+    width: 5px;
+    height: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    border: none;
+    margin-top: -3px;
+    background: none;
+    color: inherit;
+  }
+
 }
