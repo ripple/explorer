@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import './styles.scss'
 
 import { useTranslation } from 'react-i18next'
+import axios from 'axios'
 import { useAnalytics } from '../../analytics'
 import { TokenSearchRow } from './TokenSearchRow'
 import SocketContext from '../../SocketContext'
@@ -21,50 +22,10 @@ const SearchResults = ({
   const analytics = useAnalytics()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-  const xrplmetaWSRef = useRef<WebSocket | null>(null)
   const [tokens, setTokens] = useState<any[]>([])
   const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
 
-  const connectXRPLMeta = () => {
-    xrplmetaWSRef.current = new WebSocket(
-      process.env.XRPL_META_LINK || '',
-      'tokens',
-    )
-
-    xrplmetaWSRef.current.onmessage = (event) => {
-      const results = JSON.parse(event.data).result.tokens
-
-      // prevent illegitimate results by filtering out low usage tokens
-      const filteredResults = results.filter(
-        (result) =>
-          result.metrics.trustlines > 50 &&
-          result.metrics.holders > 50 &&
-          result.metrics.marketcap > 0 &&
-          result.metrics.volume_7d > 0,
-      )
-
-      setTokens(filteredResults)
-    }
-
-    xrplmetaWSRef.current.onclose = () => {
-      attemptXRPLMetaReconnect()
-    }
-
-    xrplmetaWSRef.current.onerror = () => {
-      xrplmetaWSRef.current?.close()
-      attemptXRPLMetaReconnect()
-    }
-  }
-
-  const attemptXRPLMetaReconnect = () => {
-    setTimeout(() => {
-      connectXRPLMeta()
-    }, 500)
-  }
-
   useEffect(() => {
-    connectXRPLMeta()
-
     getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1).then((accountLines) =>
       setXRPUSDPrice(accountLines.lines[0]?.limit),
     )
@@ -73,18 +34,31 @@ const SearchResults = ({
 
   // watch for user input changes and send to XRPLMeta
   useEffect(() => {
-    const tokenSearchCommand = {
-      command: 'tokens',
-      name_like: currentSearchValue,
-      trust_level: [1, 2, 3],
-      sort_by: 'holders',
-      limit: 20,
-    }
-    if (
-      xrplmetaWSRef.current?.readyState === xrplmetaWSRef.current?.OPEN &&
-      currentSearchValue !== ''
-    ) {
-      xrplmetaWSRef.current?.send(JSON.stringify(tokenSearchCommand))
+    const fetchTokens = async () =>
+      axios
+        .get(`${process.env.XRPL_META_URL}/tokens`, {
+          params: {
+            name_like: currentSearchValue,
+            trust_level: [1, 2, 3],
+            sort_by: 'holders',
+            limit: 20,
+          },
+        })
+        .then((resp) => resp.data.tokens)
+        .then((tokensRaw) => {
+          const filteredTokens = tokensRaw.filter(
+            (result) =>
+              result.metrics.trustlines > 50 &&
+              result.metrics.holders > 50 &&
+              result.metrics.marketcap > 0 &&
+              result.metrics.volume_7d > 0,
+          )
+
+          setTokens(filteredTokens)
+        })
+
+    if (currentSearchValue !== '') {
+      fetchTokens()
     }
 
     // clear out results and prevent search input/results cache discrepancies
