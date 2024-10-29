@@ -62,14 +62,4 @@
   &.tooltip-missing {
     background: rgb(120 0 0 / 90%);
   }
-
-  &.tooltip-searchbanner {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    background-color: $blue-purple-30;
-    color: $black;
-    opacity: 1;
-    transition: 0.5s;
-  }
 }

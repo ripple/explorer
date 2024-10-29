@@ -1,7 +1,6 @@
 import { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 import successIcon from '../../images/success.png'
-import closeIcon from '../../images/close.png'
 import { localizeDate } from '../../utils'
 import '../../css/tooltip.scss'
 import PayStringToolTip from '../../images/paystring_tooltip.svg'
@@ -92,15 +91,6 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     </>
   )
 
-  const renderSearchBannerToolTip = () => (
-    <>
-      <div>
-        Token search by name and account is now available! Try searching for USD
-      </div>
-      <img src={closeIcon} alt="" />
-    </>
-  )
-
   const { x, y, mode } = tooltip
   const style: CSSProperties = { top: y + PADDING_Y, left: x }
   const modeMap = {
@@ -110,7 +100,6 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     missing: renderMissingValidators,
     paystring: renderPayStringToolTip,
     nftId: renderNFTId,
-    searchbanner: renderSearchBannerToolTip,
   }
 
   return modeMap[mode] ? (

@@ -2,6 +2,8 @@ import { KeyboardEventHandler, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Tooltip as ReactTooltip } from 'react-tooltip'
 
 import {
   isValidClassicAddress,
@@ -194,17 +196,28 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsVisible(false)
-    }, 10000) // Disappear after 3 seconds
+    }, 10000) // Disappear after 10 seconds
 
     return () => clearTimeout(timeoutId)
   }, [])
 
   return (
     <div>
-      <div className={isVisible ? 'normal' : 'normal fade-out'}>
-        <Tooltip tooltip={mytooltip} />
-      </div>
-      <div className="search">
+      <ReactTooltip
+        className="banner"
+        id="my-tooltip-styles"
+        place="top"
+        isOpen={isVisible}
+      >
+        <div>
+          <div>
+            Token search by name and account is now available! Try searching for
+            USD
+          </div>
+          <img src="../../shared/images/close.png" alt="" />
+        </div>
+      </ReactTooltip>
+      <div data-tooltip-id="my-tooltip-styles" className="search">
         <input
           type="text"
           placeholder={t('header.search.placeholder')}
