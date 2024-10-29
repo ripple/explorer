@@ -212,12 +212,14 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
           value={currentSearchInput}
           onChange={(e) => setCurrentSearchInput(e.target.value)}
         />
-        <div className="search-results">
-          <SearchResults
-            setCurrentSearchInput={setCurrentSearchInput}
-            currentSearchValue={currentSearchInput}
-          />
-        </div>
+        {process.env.VITE_ENVIRONMENT === 'mainnet' && (
+          <div className="search-results">
+            <SearchResults
+              setCurrentSearchInput={setCurrentSearchInput}
+              currentSearchValue={currentSearchInput}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
