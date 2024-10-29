@@ -1,9 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import './styles.scss'
 
 import { useTranslation } from 'react-i18next'
 import { useAnalytics } from '../../analytics'
 import { TokenSearchRow } from './TokenSearchRow'
+import SocketContext from '../../SocketContext'
+import { getAccountLines } from '../../../../rippled/lib/rippled'
+
+const ORACLE_ACCOUNT = 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx'
 
 interface SearchResultsProps {
   currentSearchValue: string
@@ -16,6 +20,7 @@ const SearchResults = ({
 }: SearchResultsProps): JSX.Element | null => {
   const analytics = useAnalytics()
   const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
   const xrplmetaWSRef = useRef<WebSocket | null>(null)
   const [tokens, setTokens] = useState<any[]>([])
   const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
@@ -60,25 +65,11 @@ const SearchResults = ({
   useEffect(() => {
     connectXRPLMeta()
 
-    // xrpl cluster temporary socket connection for XRP/USD conversion rate
-    // to be replaced by actual oracles once amendment goes live
-    const xrplClusterSocket = new WebSocket(process.env.XRPL_CLUSTER_LINK || '')
-    const clusterConversionRateCommand = {
-      command: 'account_lines',
-      account: 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx',
-      limit: 1,
-    }
-
-    xrplClusterSocket.onopen = () => {
-      xrplClusterSocket.send(JSON.stringify(clusterConversionRateCommand))
-    }
-
-    xrplClusterSocket.onmessage = (event) => {
-      setXRPUSDPrice(JSON.parse(event.data).result.lines[0].limit)
-      xrplClusterSocket.close()
-    }
+    getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1).then((accountLines) =>
+      setXRPUSDPrice(accountLines.lines[0]?.limit),
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [rippledSocket])
 
   // watch for user input changes and send to XRPLMeta
   useEffect(() => {
