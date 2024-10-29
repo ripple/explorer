@@ -217,7 +217,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
             type="button"
             onClick={() => setIsVisible(false)}
           >
-            <img src={CloseIcon} width={10} height={10} />
+            <img src={CloseIcon} alt="close-icon" width={10} height={10} />
           </button>
         </div>
       </ReactTooltip>
