@@ -25,6 +25,7 @@ import {
   VALIDATOR_ROUTE,
   AMENDMENTS_ROUTE,
   AMENDMENT_ROUTE,
+  MPT_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
@@ -39,6 +40,7 @@ import { legacyRedirect } from './legacyRedirects'
 import { useCustomNetworks } from '../shared/hooks'
 import { Amendments } from '../Amendments'
 import { Amendment } from '../Amendment'
+import { MPT } from '../MPT/MPT'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -72,6 +74,7 @@ export const AppWrapper = () => {
     [TOKEN_ROUTE, Token],
     [NFT_ROUTE, NFT],
     [AMENDMENT_ROUTE, Amendment],
+    [MPT_ROUTE, MPT],
   ]
 
   const redirect = legacyRedirect(basename, location)

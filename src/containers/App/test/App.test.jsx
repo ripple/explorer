@@ -43,7 +43,7 @@ jest.mock('../../../rippled', () => {
     ...originalModule,
     getTransaction: () =>
       Promise.resolve({
-        raw: formatTransaction({
+        processed: formatTransaction({
           TransactionType: 'OfferCreate',
           meta: {
             TransactionResult: 'tecKILLED',

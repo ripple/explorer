@@ -1,7 +1,10 @@
 import { Clawback, ClawbackInstructions } from './types'
 import { TransactionParser } from '../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
-import { computeBalanceChange } from '../../../utils'
+import {
+  computeRippleStateBalanceChange,
+  computeMPTokenBalanceChange,
+} from '../../../utils'
 
 export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
   tx,
@@ -9,6 +12,37 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
 ) => {
   const account = tx.Account
   const amount = formatAmount(tx.Amount)
+
+  if (amount.isMPT === true) {
+    const holder = tx.MPTokenHolder
+
+    const filteredMptNode = meta.AffectedNodes.filter(
+      (node: any) => node.ModifiedNode?.LedgerEntryType === 'MPToken',
+    )
+
+    // If no mpt is modified, it means the tx failed.
+    // We just return the amount that was attempted to claw.
+    if (!filteredMptNode || filteredMptNode.length !== 1)
+      return {
+        amount,
+        account,
+        holder,
+      }
+
+    const mptNode = filteredMptNode[0].ModifiedNode
+    const { change } = computeMPTokenBalanceChange(mptNode)
+    amount.amount =
+      BigInt(change) < 0
+        ? BigInt(-change).toString(10)
+        : BigInt(change).toString(10)
+
+    return {
+      account,
+      amount,
+      holder,
+    }
+  }
+
   const holder = amount.issuer
   amount.issuer = account
 
@@ -30,7 +64,7 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
       holder,
     }
 
-  const { change } = computeBalanceChange(
+  const { change } = computeRippleStateBalanceChange(
     trustlineNode[0].ModifiedNode ?? trustlineNode[0].DeletedNode,
   )
 
