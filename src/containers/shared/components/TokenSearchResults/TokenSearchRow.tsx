@@ -5,6 +5,7 @@ import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
 import { convertHexToString } from '../../../../rippled/lib/utils'
 import { parsePrice, stripDomain } from './utils'
+import Currency from '../Currency'
 
 const renderLogo = (token) =>
   token.meta.token.icon ? (
@@ -14,11 +15,6 @@ const renderLogo = (token) =>
   ) : (
     <Logo className="result-row-icon" />
   )
-
-const renderCurrency = (token) =>
-  token.currency.length > 10
-    ? convertHexToString(token.currency)!.replaceAll('\u0000', '').trim()
-    : token.currency.trim()
 
 const renderName = (token) =>
   token.meta.token.name && (
@@ -67,7 +63,9 @@ export const TokenSearchRow = ({
         <div className="result-logo">{renderLogo(token)}</div>
         <div>
           <div className="result-name-line">
-            <div className="result-currency">{renderCurrency(token)}</div>
+            <div className="result-currency">
+              <Currency currency={token.currency} />
+            </div>
             <div className="result-token-name">{renderName(token)}</div>
             <div className="metric-chip">
               <Amount
