@@ -1,5 +1,9 @@
 @import '../shared/css/variables';
 
+.search-container {
+  position: relative;
+}
+
 .search {
   display: inline-block;
   width: 100%;
@@ -44,11 +48,20 @@
 }
 
 .banner {
+  position: absolute;
+  top: -60px;
+  left: 10%;
+  width: 80%;
+  max-width: 600px;
+  padding: 12px 16px;
+  border-radius: 4px;
   background-color: $blue-purple-30 !important;
   color: $black !important;
 
   .banner-content {
     display: flex;
+    justify-content: space-between;
+    font-size: 12px;
   }
 
   .banner-button {
@@ -62,4 +75,18 @@
     color: inherit;
   }
 
+  @media (width >= 1350px) {
+    top: -50px;
+  }
+}
+
+.banner::after {
+  position: absolute;
+  top: 100%;
+  left: 30%;
+  border-width: 8px;
+  border-style: solid;
+  border-color: $blue-purple-30 transparent transparent transparent;
+  content: "";
+  transform: translateX(-50%);
 }

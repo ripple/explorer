@@ -157,6 +157,26 @@ const normalizeAccount = (id: string) => {
   return id
 }
 
+const SearchBanner = (setIsBannerVisible) => (
+  <div className="banner-wrapper">
+    <div className="banner">
+      <div className="banner-content">
+        <div>
+          Token search by name and account is now available! Try searching for
+          USD
+        </div>
+        <button
+          className="banner-button"
+          type="button"
+          onClick={() => setIsBannerVisible(false)}
+        >
+          <img src={CloseIcon} alt="close-icon" width={10} height={10} />
+        </button>
+      </div>
+    </div>
+  </div>
+)
+
 export interface SearchProps {
   callback?: Function
 }
@@ -193,35 +213,17 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsBannerVisible(false)
-    }, 10000) // Disappear after 10 seconds
+    }, 100000) // Disappear after 10 seconds
 
     return () => clearTimeout(timeoutId)
   }, [])
 
   return (
-    <div>
-      <ReactTooltip
-        className="banner"
-        id="my-tooltip-styles"
-        place="top"
-        isOpen={isBannerVisible}
-        clickable
-      >
-        <div className="banner-content">
-          <div>
-            Token search by name and account is now available! Try searching for
-            USD
-          </div>
-          <button
-            className="banner-button"
-            type="button"
-            onClick={() => setIsBannerVisible(false)}
-          >
-            <img src={CloseIcon} alt="close-icon" width={10} height={10} />
-          </button>
-        </div>
-      </ReactTooltip>
-      <div data-tooltip-id="my-tooltip-styles" className="search">
+    <div className="search container">
+      {isBannerVisible && (
+        <SearchBanner setIsBannerVisible={setIsBannerVisible} />
+      )}
+      <div className="search">
         <input
           type="text"
           placeholder={t('header.search.placeholder')}
