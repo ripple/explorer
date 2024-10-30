@@ -2,8 +2,6 @@ import { KeyboardEventHandler, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Tooltip as ReactTooltip } from 'react-tooltip'
 import {
   isValidClassicAddress,
   isValidXAddress,
