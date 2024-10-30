@@ -217,7 +217,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   }, [])
 
   return (
-    <div className="search container">
+    <>
       {isBannerVisible && (
         <SearchBanner setIsBannerVisible={setIsBannerVisible} />
       )}
@@ -238,6 +238,6 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
           </div>
         )}
       </div>
-    </div>
+    </>
   )
 }
