@@ -6,7 +6,7 @@ import '../css/loader.scss'
 export const Loader: FC<{ className?: string }> = ({ className }) => {
   const { t } = useTranslation()
   return (
-    <div className={`loader ${className}`}>
+    <div className={`loader ${className}`} data-testid="loader">
       <img src={LoaderPath} alt={t('loading')} title="loader" />
     </div>
   )

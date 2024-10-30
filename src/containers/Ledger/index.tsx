@@ -93,7 +93,7 @@ export const Ledger = () => {
     const nextIndex = LedgerIndex + 1
     const date = new Date(data.close_time)
     return (
-      <div className="ledger-header">
+      <div className="ledger-header" data-testid="ledger-header">
         <div className="ledger-nav">
           <RouteLink to={LEDGER_ROUTE} params={{ identifier: previousIndex }}>
             <div className="previous">
