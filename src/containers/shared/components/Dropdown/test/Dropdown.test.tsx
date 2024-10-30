@@ -48,7 +48,6 @@ describe('Dropdown', () => {
   it('shows menu when clicking toggle', () => {
     render(<Dropdown title="Woo">Menu Contents</Dropdown>)
     expect(screen.getByTestId('dropdown')).not.toHaveClass('dropdown-expanded')
-    screen.debug()
     const button = screen.getByRole('button')
     fireEvent.click(button)
     expect(screen.getByTestId('dropdown')).toHaveClass('dropdown-expanded')

@@ -151,10 +151,8 @@ describe('App container', () => {
   })
 
   it('renders ledger explorer page from index.html redirect', async () => {
-    wrapper = createWrapper('/index.html')
+    renderComponent('/index.html')
     await flushPromises()
-    await flushPromises()
-    wrapper.update()
 
     expect(document.title).toEqual('xrpl_explorer | ledgers')
     expect(window.dataLayer).toEqual([
@@ -168,10 +166,8 @@ describe('App container', () => {
   })
 
   it('renders ledger explorer page from index.htm redirect', async () => {
-    wrapper = createWrapper('/index.html')
+    renderComponent('/index.html')
     await flushPromises()
-    await flushPromises()
-    wrapper.update()
 
     expect(document.title).toEqual('xrpl_explorer | ledgers')
     expect(window.dataLayer).toEqual([
