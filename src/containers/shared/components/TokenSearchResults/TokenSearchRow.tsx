@@ -1,19 +1,17 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Logo from '../../images/no_token_logo.svg'
 import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
-import { convertHexToString } from '../../../../rippled/lib/utils'
 import { parsePrice, stripDomain } from './utils'
 import Currency from '../Currency'
 
 const renderLogo = (token) =>
   token.meta.token.icon ? (
     <object data={token.meta.token.icon} className="result-row-icon">
-      <Logo className="result-row-icon" />
+      <div className="result-row-icon" />
     </object>
   ) : (
-    <Logo className="result-row-icon" />
+    <div className="result-row-icon no-logo" />
   )
 
 const renderName = (token) =>

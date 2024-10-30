@@ -30,6 +30,11 @@
   border-radius: 16px;
 }
 
+.no-logo {
+  border-radius: 50%;
+  background-color: $black-50;
+}
+
 .result-currency {
   flex-shrink: 0;
   padding-top: 2px;

@@ -188,11 +188,11 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
     }
   }
 
-  const [isVisible, setIsVisible] = useState(true)
+  const [isBannerVisible, setIsBannerVisible] = useState(true)
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      setIsVisible(false)
+      setIsBannerVisible(false)
     }, 10000) // Disappear after 10 seconds
 
     return () => clearTimeout(timeoutId)
@@ -204,7 +204,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
         className="banner"
         id="my-tooltip-styles"
         place="top"
-        isOpen={isVisible}
+        isOpen={isBannerVisible}
         clickable
       >
         <div className="banner-content">
@@ -215,7 +215,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
           <button
             className="banner-button"
             type="button"
-            onClick={() => setIsVisible(false)}
+            onClick={() => setIsBannerVisible(false)}
           >
             <img src={CloseIcon} alt="close-icon" width={10} height={10} />
           </button>
