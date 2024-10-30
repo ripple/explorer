@@ -35,15 +35,13 @@ describe('Clawback: Simple', () => {
     useQuery.mockImplementation(() => ({
       data,
     }))
-    const wrapper = createWrapper(transactionMPT)
-    expectSimpleRowText(wrapper, 'holder', 'rUZTPFN7MBJkjiZ48rak6q7MbhT4ur2kAD')
+    renderComponent(transactionMPT)
+    expectSimpleRowText(screen, 'holder', 'rUZTPFN7MBJkjiZ48rak6q7MbhT4ur2kAD')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'amount',
       '0.05 MPT (00000D668E702F54A27C42EF98C13B0787D1766CC9162A47)',
     )
-
-    wrapper.unmount()
   })
 
   it('handles failed Clawback simple view ', () => {
@@ -65,14 +63,13 @@ describe('Clawback: Simple', () => {
     useQuery.mockImplementation(() => ({
       data,
     }))
-    const wrapper = createWrapper(transactionMPTFailure)
+    renderComponent(transactionMPTFailure)
 
-    expectSimpleRowText(wrapper, 'holder', 'r9rAqX8Jjo4uACsimYDVsy5thHDPivujqf')
+    expectSimpleRowText(screen, 'holder', 'r9rAqX8Jjo4uACsimYDVsy5thHDPivujqf')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'amount',
       '0.05 MPT (000010952ECE2AFC727F1C67EF568F360A2D92CB7C29FF7C)',
     )
-    wrapper.unmount()
   })
 })

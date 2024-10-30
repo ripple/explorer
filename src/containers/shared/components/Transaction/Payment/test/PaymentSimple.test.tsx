@@ -122,21 +122,19 @@ describe('Payment: Simple', () => {
       data,
     }))
 
-    const wrapper = createWrapper(mockPaymentMPT)
+    renderComponent(mockPaymentMPT)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'amount',
       `0.1 MPT (000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F)`,
     )
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowLabel(screen, 'payment-amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'destination',
       `rw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu`,
     )
-
-    wrapper.unmount()
   })
 })

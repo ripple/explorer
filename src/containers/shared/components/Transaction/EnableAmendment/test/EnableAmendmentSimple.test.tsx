@@ -116,7 +116,6 @@ describe('EnableAmendment: Simple', () => {
     mockedGetRippledVersion.mockImplementation(() => Promise.resolve(''))
     mockedGetFeature.mockImplementation(() => Promise.resolve(null))
     renderComponent(mockEnableAmendmentWithEnabled)
-    renderComponent(mockEnableAmendmentWithEnabled)
     expectSimpleRowLabel(screen, 'name', 'Amendment Name')
     expectSimpleRowText(screen, 'name', 'Loading')
     expectSimpleRowLabel(screen, 'version', 'Introduced In')
