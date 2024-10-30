@@ -1,12 +1,15 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './styles.scss'
 
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
+import { useQuery } from 'react-query'
 import { useAnalytics } from '../../analytics'
 import { TokenSearchRow } from './TokenSearchRow'
 import SocketContext from '../../SocketContext'
+import Log from '../../log'
 import { getAccountLines } from '../../../../rippled/lib/rippled'
+import { FETCH_INTERVAL_NODES_MILLIS } from '../../utils'
 
 const ORACLE_ACCOUNT = 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx'
 
@@ -25,12 +28,14 @@ const SearchResults = ({
   const [tokens, setTokens] = useState<any[]>([])
   const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
 
-  useEffect(() => {
-    getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1).then((accountLines) =>
-      setXRPUSDPrice(accountLines.lines[0]?.limit),
-    )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rippledSocket])
+  useQuery(['fetchXRPToUSDRate'], async () => fetchXRPToUSDRate(), {
+    refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
+  })
+
+  const fetchXRPToUSDRate = () =>
+    getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1)
+      .then((accountLines) => setXRPUSDPrice(accountLines.lines[0]?.limit))
+      .catch((e) => Log.error(e))
 
   // watch for user input changes and send to XRPLMeta
   useEffect(() => {
