@@ -14,7 +14,7 @@ import {
 import { testQueryClient } from '../../../../test/QueryClient'
 
 /**
- * Methods that produce createWrapper function for tests
+ * Methods that produce renderComponent function for tests
  * @param TestComponent - react component to test
  * @param i18nConfig - i18next configuration to use instead of the default which outputs the key as the value
  */
