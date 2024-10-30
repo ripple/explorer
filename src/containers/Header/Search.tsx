@@ -214,7 +214,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
       {process.env.VITE_ENVIRONMENT === 'mainnet' && isBannerVisible && (
         <SearchBanner setIsBannerVisible={setIsBannerVisible} />
       )}
-      <div className="search">
+      <div className="search" data-testid="search">
         <input
           type="text"
           placeholder={t('header.search.placeholder')}

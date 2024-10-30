@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
@@ -10,8 +10,8 @@ import { queryClient } from '../../shared/QueryClient'
 
 describe('Header component', () => {
   let client
-  const createWrapper = () =>
-    mount(
+  const renderComponent = () =>
+    render(
       <I18nextProvider i18n={i18n}>
         <Router>
           <SocketContext.Provider value={client}>
@@ -29,18 +29,17 @@ describe('Header component', () => {
 
   afterEach(() => {
     client.close()
+    cleanup()
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.search').length).toEqual(1)
-    expect(wrapper.find('.navbar-brand').hostNodes().length).toEqual(1)
-    expect(wrapper.find('.network').hostNodes().length).toEqual(1)
-    wrapper.unmount()
+    renderComponent()
+    expect(screen.queryAllByTestId('search')).toHaveLength(1)
+    expect(screen.queryAllByTestId('navbar-brand')).toHaveLength(1)
+    expect(screen.queryAllByTestId('dropdown')).toHaveLength(3)
   })
 })
