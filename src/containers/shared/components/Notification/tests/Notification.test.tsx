@@ -89,7 +89,7 @@ describe('<Notification />', () => {
       />,
     )
     expect(container.innerHTML).toBe(
-      '<div class="notification danger primary-theme "><span>boo!</span></div>',
+      '<div class="notification danger primary-theme " data-testid="notification"><span>boo!</span></div>',
     )
 
     setTimeout(() => {

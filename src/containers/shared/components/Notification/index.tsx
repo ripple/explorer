@@ -43,7 +43,7 @@ export const Notification = ({
     ' ',
   )
   return !dismissed ? (
-    <div className={classNames}>
+    <div className={classNames} data-testid="notification">
       <span>{message}</span>
       {action}
     </div>
