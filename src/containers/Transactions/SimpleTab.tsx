@@ -54,7 +54,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
         </RouteLink>
       </SimpleRow>
       {account && (
-        <SimpleRow label={t('account')} data-testid="account">
+        <SimpleRow label={t('account')} data-testid="tx-account">
           <Account account={account} />
         </SimpleRow>
       )}
@@ -95,7 +95,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
   )
 
   return (
-    <div className="simple-body simple-body-tx">
+    <div className="simple-body simple-body-tx" data-testid="simple-body">
       <div className="rows">
         <Simple type={processed.tx.TransactionType} data={data.summary} />
         {width < BREAKPOINTS.landscape && rowIndex}
