@@ -1,13 +1,12 @@
-import { mount } from 'enzyme'
+import { cleanup, render, screen } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { Route } from 'react-router'
+import userEvent from '@testing-library/user-event'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import { Accounts } from '../index'
-import AccountHeader from '../AccountHeader'
-import { AccountTransactionTable } from '../AccountTransactionTable'
 import mockAccountState from './mockAccountState.json'
 import { QuickHarness } from '../../test/utils'
 import { ACCOUNT_ROUTE } from '../../App/routes'
@@ -17,9 +16,9 @@ describe('Account container', () => {
 
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-  const createWrapper = (state = {}) => {
+  const renderComponent = (state = {}) => {
     const store = mockStore({ ...initialState, ...state })
-    return mount(
+    return render(
       <Provider store={store}>
         <QuickHarness
           i18n={i18n}
@@ -31,9 +30,10 @@ describe('Account container', () => {
     )
   }
 
+  afterEach(cleanup)
+
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders static parts', () => {
@@ -46,11 +46,9 @@ describe('Account container', () => {
       },
     }
 
-    const wrapper = createWrapper(state)
-    wrapper.update()
-    expect(wrapper.find(AccountHeader).length).toBe(1)
-    expect(wrapper.find(AccountTransactionTable).length).toBe(1)
-    wrapper.find('.balance-selector button').simulate('click')
-    wrapper.unmount()
+    renderComponent(state)
+    expect(screen.getByTitle('account-header')).toBeDefined()
+    expect(screen.getByTitle('transaction-table')).toBeDefined()
+    userEvent.click(screen.getByRole('button'))
   })
 })

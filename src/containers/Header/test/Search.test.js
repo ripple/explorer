@@ -1,7 +1,6 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
-import moxios from 'moxios'
 import i18n from '../../../i18n/testConfig'
 import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
@@ -10,9 +9,9 @@ import MockWsClient from '../../test/mockWsClient'
 import { flushPromises } from '../../test/utils'
 
 describe('Search component', () => {
-  const createWrapper = () => {
+  const renderComponent = () => {
     const client = new MockWsClient()
-    return mount(
+    return render(
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
           <Router>
@@ -30,28 +29,27 @@ describe('Search component', () => {
   })
 
   afterEach(() => {
+    cleanup()
     process.env = oldEnvs
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.search').length).toEqual(1)
-    expect(wrapper.find('.search input').length).toEqual(1)
-    expect(wrapper.find('.search input').prop('placeholder')).toEqual(
+    renderComponent()
+    expect(screen.queryAllByTestId('search')).toHaveLength(1)
+    expect(screen.queryAllByRole('textbox')).toHaveLength(1)
+    expect(screen.getByRole('textbox')).toHaveAttribute(
+      'placeholder',
       'header.search.placeholder',
     )
-    wrapper.unmount()
   })
 
   it('search values', async () => {
-    moxios.install()
-    const wrapper = createWrapper()
-    const input = wrapper.find('.search input')
+    renderComponent()
+    const input = screen.getByRole('textbox')
     const ledgerIndex = '123456789'
     const rippleAddress = 'rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX'
     const rippleXAddress = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
@@ -90,15 +88,17 @@ describe('Search component', () => {
     // mock getNFTInfo api to test transactions and nfts
     const mockAPI = jest.spyOn(rippled, 'getTransaction')
 
-    const testValue = async (searchInput, expectedPath) => {
-      input.instance().value = searchInput
-      input.simulate('keyDown', { key: 'Enter' })
+    const testValue = async (searchInput, expectedPath, pressEnter = true) => {
+      // TODO: figure out how to use userEvent for this instead
+      fireEvent.change(input, { target: { value: searchInput } })
+      if (pressEnter) {
+        fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
+      }
       await flushPromises()
       expect(window.location.pathname).toEqual(expectedPath)
     }
 
-    input.simulate('keyDown', { key: 'a' })
-    expect(window.location.pathname).toEqual('/')
+    await testValue('a', window.location.pathname, false)
 
     await testValue(ledgerIndex, `/ledgers/${ledgerIndex}`)
 
@@ -171,7 +171,6 @@ describe('Search component', () => {
     await testValue(ctid.toLowerCase(), `/transactions/${ctid}`)
 
     await testValue(mptoken, `/mpt/${mptoken}`)
-    wrapper.unmount()
   })
 
   // TODO: Add custom search tests

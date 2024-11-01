@@ -1,14 +1,17 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { cleanup } from '@testing-library/react'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import DIDSet from './mock_data/DIDSet.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('DIDSet: TableDetail', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(DIDSet)
-    // eslint-disable-next-line no-useless-concat -- easier to read this way
-    expect(wrapper).toHaveText('uri: did_example' + 'did_document: doc')
-    wrapper.unmount()
+    const { container } = renderComponent(DIDSet)
+    expect(container).toHaveTextContent(
+      // eslint-disable-next-line no-useless-concat -- easier to read this way
+      'uri: did_example' + 'did_document: doc',
+    )
   })
 })

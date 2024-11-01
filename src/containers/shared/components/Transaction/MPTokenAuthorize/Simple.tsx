@@ -13,11 +13,11 @@ export const Simple: TransactionSimpleComponent = ({
 
   return (
     <>
-      <SimpleRow label={t('mpt_issuance_id')} data-test="mpt-issuance-id">
+      <SimpleRow label={t('mpt_issuance_id')} data-testid="mpt-issuance-id">
         <MPTokenLink tokenID={MPTokenIssuanceID} />
       </SimpleRow>
       {MPTokenHolder && (
-        <SimpleRow label={t('mpt_holder')} data-test="mpt-holder">
+        <SimpleRow label={t('mpt_holder')} data-testid="mpt-holder">
           <Account account={MPTokenHolder} />
         </SimpleRow>
       )}

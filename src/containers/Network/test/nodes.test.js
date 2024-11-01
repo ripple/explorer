@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
 import i18n from '../../../i18n/testConfig'
@@ -17,8 +17,8 @@ jest.mock('usehooks-ts', () => ({
 }))
 
 describe('Nodes Page container', () => {
-  const createWrapper = () =>
-    mount(
+  const renderComponent = () =>
+    render(
       <NetworkContext.Provider value="main">
         <QuickHarness i18n={i18n} initialEntries={['/network/nodes']}>
           <Route path={NETWORK_ROUTE.path} element={<Network />} />
@@ -34,13 +34,13 @@ describe('Nodes Page container', () => {
   })
 
   afterEach(() => {
+    cleanup()
     moxios.uninstall()
     process.env = oldEnvs
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders all parts', (done) => {
@@ -54,29 +54,28 @@ describe('Nodes Page container', () => {
       response: countries,
     })
 
-    const wrapper = createWrapper()
+    renderComponent()
 
-    expect(wrapper.find('.nodes-map').length).toBe(1)
-    expect(wrapper.find('.stat').html()).toBe('<div class="stat"></div>')
-    expect(wrapper.find('.nodes-table').length).toBe(1)
+    expect(screen.queryByTestId('nodes-map')).toBeDefined()
+    expect(screen.getByTestId('stat').outerHTML).toBe(
+      '<div class="stat" data-testid="stat"></div>',
+    )
+    expect(screen.queryByTestId('nodes-table')).toBeDefined()
     setTimeout(() => {
-      wrapper.update()
-      expect(wrapper.find('.stat').html()).toBe(
-        '<div class="stat"><span>nodes_found: </span><span>3<i> (1 unmapped)</i></span></div>',
+      expect(screen.getByTestId('stat').outerHTML).toBe(
+        '<div class="stat" data-testid="stat"><span>nodes_found: </span><span>3<i> (1 unmapped)</i></span></div>',
       )
-      expect(wrapper.find('.nodes-map .tooltip').length).toBe(0)
-      wrapper.find('.nodes-map path.node').first().simulate('mouseOver')
-      wrapper.update()
-      expect(wrapper.find('.nodes-map .tooltip').length).toBe(1)
-      expect(wrapper.find('.nodes-map .tooltip').html()).toBe(
-        '<g class="tooltip"><rect rx="2" ry="2" x="102.80776503073434" y="44.52072594490305" width="60" height="15"></rect><text x="104.80776503073434" y="56.52072594490305">1 nodes</text></g>',
+      expect(screen.queryByTestId('tooltip')).toBeNull()
+      // TODO: replace with userEvent
+      fireEvent.mouseOver(screen.getAllByTestId('node')[0])
+      expect(screen.queryByTestId('tooltip')).toBeDefined()
+      expect(screen.getByTestId('tooltip').outerHTML).toBe(
+        '<g class="tooltip" data-testid="tooltip"><rect rx="2" ry="2" x="102.80776503073434" y="44.52072594490305" width="60" height="15"></rect><text x="104.80776503073434" y="56.52072594490305">1 nodes</text></g>',
       )
-      wrapper.find('.nodes-map path.node').first().simulate('mouseLeave')
-      wrapper.update()
-      expect(wrapper.find('.nodes-map .tooltip').length).toBe(0)
-      expect(wrapper.find('.nodes-map path.node').length).toBe(2)
-      expect(wrapper.find('.nodes-table table tr').length).toBe(4)
-      wrapper.unmount()
+      fireEvent.mouseLeave(screen.getAllByTestId('node')[0])
+      expect(screen.queryByTestId('tooltip')).toBeNull()
+      expect(screen.getAllByTestId('node')).toHaveLength(2)
+      expect(screen.getAllByRole('row')).toHaveLength(4)
       done()
     })
   })

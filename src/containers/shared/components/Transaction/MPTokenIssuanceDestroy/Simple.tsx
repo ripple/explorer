@@ -11,7 +11,7 @@ export const Simple: TransactionSimpleComponent = ({
   const { t } = useTranslation()
 
   return (
-    <SimpleRow label={t('mpt_issuance_id')} data-test="mpt-issuance-id">
+    <SimpleRow label={t('mpt_issuance_id')} data-testid="mpt-issuance-id">
       <MPTokenLink tokenID={MPTokenIssuanceID} />
     </SimpleRow>
   )

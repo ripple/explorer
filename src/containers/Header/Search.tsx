@@ -182,7 +182,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   }
 
   return (
-    <div className="search">
+    <div className="search" data-testid="search">
       <input
         type="text"
         placeholder={t('header.search.placeholder')}

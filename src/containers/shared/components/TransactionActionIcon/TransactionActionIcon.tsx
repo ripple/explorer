@@ -17,12 +17,12 @@ export const TransactionActionIcon = ({
   type,
 }: TransactionActionIconProps) => {
   const icons: Record<TransactionAction, ReactElement> = {
-    [TransactionAction.CANCEL]: <TransactionCancelIcon />,
-    [TransactionAction.CREATE]: <TransactionCreateIcon />,
-    [TransactionAction.FINISH]: <TransactionFinishIcon />,
-    [TransactionAction.MODIFY]: <TransactionModifyIcon />,
-    [TransactionAction.SEND]: <TransactionSendIcon />,
-    [TransactionAction.UNKNOWN]: <TransactionUnknownIcon />,
+    [TransactionAction.CANCEL]: <TransactionCancelIcon title="tx-cancel" />,
+    [TransactionAction.CREATE]: <TransactionCreateIcon title="tx-create" />,
+    [TransactionAction.FINISH]: <TransactionFinishIcon title="tx-finish" />,
+    [TransactionAction.MODIFY]: <TransactionModifyIcon title="tx-modify" />,
+    [TransactionAction.SEND]: <TransactionSendIcon title="tx-send" />,
+    [TransactionAction.UNKNOWN]: <TransactionUnknownIcon title="tx-unknown" />,
   }
 
   let icon = type && icons[getAction(type)]

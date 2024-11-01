@@ -58,7 +58,7 @@ export const NavigationMenu = ({
 
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar-brand">
+      <Link to="/" className="navbar-brand" data-testid="navbar-brand">
         <Logo alt={t('xrpl_explorer')} />
       </Link>
 

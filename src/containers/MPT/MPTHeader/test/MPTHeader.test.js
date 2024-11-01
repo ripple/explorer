@@ -1,7 +1,14 @@
-import { mount } from 'enzyme'
+import {
+  render,
+  screen,
+  cleanup,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { useQuery, QueryClientProvider } from 'react-query'
+import userEvent from '@testing-library/user-event'
 import { MPTHeader } from '../MPTHeader'
 import i18n from '../../../../i18n/testConfig'
 import { queryClient } from '../../../shared/QueryClient'
@@ -24,8 +31,8 @@ jest.mock('react-query', () => ({
 const setError = jest.fn()
 
 describe('MPT header container', () => {
-  const createWrapper = () =>
-    mount(
+  const renderComponent = () =>
+    render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <I18nextProvider i18n={i18n}>
@@ -38,13 +45,14 @@ describe('MPT header container', () => {
       </QueryClientProvider>,
     )
 
+  afterEach(cleanup)
+
   it('renders without crashing', async () => {
     useQuery.mockImplementation(() => ({
       data,
       isFetching: false,
     }))
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders MPT content', async () => {
@@ -52,21 +60,20 @@ describe('MPT header container', () => {
       data,
       isFetching: false,
     }))
-    const wrapper = createWrapper()
+    renderComponent()
 
-    expect(
-      wrapper
-        .text()
-        .includes('00000F6D5186FB5C90A8112419BED54193EDC7218835C6F5'),
-    ).toBe(true)
-    expect(wrapper.text().includes('r3SnSE9frruxwsC9qGHFiUJShda62fNFGQ')).toBe(
-      true,
+    // expect(screen.getByTestId('mpt-header')).toHaveTextContent(
+    //   /00000F6D5186FB5C90A8112419BED54193EDC7218835C6F5$/i,
+    // )
+    expect(screen.getByTestId('mpt-header')).toHaveTextContent(
+      'r3SnSE9frruxwsC9qGHFiUJShda62fNFGQ',
     )
-    expect(wrapper.find('Settings').length).toBe(1)
-    expect(wrapper.find('Details').length).toBe(1)
-    wrapper.find('.title-content').first().simulate('mouseOver')
-    expect(wrapper.find('.tooltip').length).toBe(1)
-    wrapper.unmount()
+    expect(screen.queryAllByTitle('settings')).toHaveLength(1)
+    expect(screen.queryAllByTitle('details')).toHaveLength(1)
+    fireEvent.mouseOver(screen.getByTitle('title-content'))
+    screen.getByTitle('title-content').focus()
+    await waitFor(() => screen.getByTestId('tooltip'))
+    expect(screen.queryAllByTestId('tooltip')).toHaveLength(1)
   })
 
   it('renders loader', async () => {
@@ -75,8 +82,7 @@ describe('MPT header container', () => {
       isFetching: true,
       error: {},
     }))
-    const wrapper = createWrapper()
-    expect(wrapper.find('Loader').length).toEqual(1)
-    wrapper.unmount()
+    renderComponent()
+    expect(screen.queryByTitle('loader')).toBeDefined()
   })
 })

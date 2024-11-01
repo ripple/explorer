@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import configureMockStore from 'redux-mock-store'
@@ -15,9 +15,9 @@ describe('Header component', () => {
   // Redux setup required for <Banner>
   const middlewares = [thunk]
   const mockStore = configureMockStore(middlewares)
-  const createWrapper = () => {
+  const renderComponent = () => {
     const store = mockStore({ ...initialState })
-    return mount(
+    return render(
       <I18nextProvider i18n={i18n}>
         <Router>
           <Provider store={store}>
@@ -36,18 +36,17 @@ describe('Header component', () => {
 
   afterEach(() => {
     client.close()
+    cleanup()
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.search').length).toEqual(1)
-    expect(wrapper.find('.navbar-brand').hostNodes().length).toEqual(1)
-    expect(wrapper.find('.network').hostNodes().length).toEqual(1)
-    wrapper.unmount()
+    renderComponent()
+    expect(screen.queryAllByTestId('search')).toHaveLength(1)
+    expect(screen.queryAllByTestId('navbar-brand')).toHaveLength(1)
+    expect(screen.queryAllByTestId('dropdown')).toHaveLength(3)
   })
 })

@@ -1,11 +1,10 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { QueryClientProvider } from 'react-query'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { getAccountMPTs } from '../../../../rippled/lib/rippled'
 import { AccountMPTTable } from '../AccountMPTTable'
 import i18n from '../../../../i18n/testConfig'
-import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { testQueryClient } from '../../../test/QueryClient'
 import { flushPromises } from '../../../test/utils'
 
@@ -42,8 +41,10 @@ const data = {
 describe('AccountMPTTable component', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 
-  const createWrapper = () =>
-    mount(
+  afterEach(cleanup)
+
+  const renderComponent = () =>
+    render(
       <QueryClientProvider client={testQueryClient}>
         <BrowserRouter>
           <I18nextProvider i18n={i18n}>
@@ -62,11 +63,9 @@ describe('AccountMPTTable component', () => {
 
     mockedGetAccountMPTs.mockImplementation(() => Promise.resolve(data))
 
-    const wrapper = createWrapper()
+    renderComponent()
     await flushPromises()
-    wrapper.update()
-    expect(wrapper.find('.load-more-btn')).not.toExist()
-    wrapper.unmount()
+    expect(screen.queryByRole('button')).toBeNull()
   })
 
   it('should handle load more', async () => {
@@ -79,14 +78,13 @@ describe('AccountMPTTable component', () => {
       }),
     )
 
-    const wrapper = createWrapper()
+    renderComponent()
     await flushPromises()
-    wrapper.update()
 
-    expect(wrapper.find('.load-more-btn')).toExist()
-    wrapper.find('.load-more-btn').simulate('click')
+    expect(screen.queryByRole('button')).toBeDefined()
+    const button = screen.getByRole('button')
+    fireEvent.click(button)
     expect(mockedGetAccountMPTs.mock.calls[1][2]).toEqual('hello')
-    wrapper.unmount()
   })
 
   it(`should handle no results`, async () => {
@@ -104,11 +102,9 @@ describe('AccountMPTTable component', () => {
       }),
     )
 
-    const wrapper = createWrapper()
+    renderComponent()
     await flushPromises()
-    wrapper.update()
 
-    expect(wrapper.find(EmptyMessageTableRow)).toExist()
-    wrapper.unmount()
+    expect(screen.queryByTestId('empty-message')).toBeDefined()
   })
 })

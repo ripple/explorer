@@ -1,19 +1,20 @@
+import { cleanup } from '@testing-library/react'
 import { TableDetail } from '../TableDetail'
 import mockEscrowCancel from './mock_data/EscrowCancel.json'
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import i18nTestConfigEnUS from '../../../../../../i18n/testConfigEnglish'
 
-const createWrapper = createTableDetailWrapperFactory(
+const renderComponent = createTableDetailRenderFactory(
   TableDetail,
   i18nTestConfigEnUS,
 )
 
-describe('EscrowCancelTableDetail', () => {
+describe('EscrowCancel - TableDetail', () => {
+  afterEach(cleanup)
   it('renders EscrowCancel without crashing', () => {
-    const wrapper = createWrapper(mockEscrowCancel)
-    expect(wrapper).toHaveText(
+    const { container } = renderComponent(mockEscrowCancel)
+    expect(container).toHaveTextContent(
       'cancel escrow rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56 - 9',
     )
-    wrapper.unmount()
   })
 })

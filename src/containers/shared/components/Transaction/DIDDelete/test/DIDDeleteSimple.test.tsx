@@ -1,12 +1,13 @@
-import { createSimpleWrapperFactory } from '../../test'
+import { cleanup } from '@testing-library/react'
+import { createSimpleRenderFactory } from '../../test'
 import { Simple } from '../Simple'
 import DIDDelete from './mock_data/DIDDelete.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('DIDDelete: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(DIDDelete)
-    wrapper.unmount()
+    renderComponent(DIDDelete)
   })
 })

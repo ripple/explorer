@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18n/testConfig'
@@ -6,8 +6,8 @@ import { NodesTable } from '../NodesTable'
 import nodes from './mockNodes.json'
 
 /* eslint-disable react/jsx-props-no-spreading */
-const createWrapper = (props = {}) =>
-  mount(
+const renderComponent = (props = {}) =>
+  render(
     <Router>
       <I18nextProvider i18n={i18n}>
         <NodesTable {...props} />
@@ -16,14 +16,13 @@ const createWrapper = (props = {}) =>
   )
 
 describe('Nodes table', () => {
+  afterEach(cleanup)
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper({ nodes })
-    expect(wrapper.find('tr').length).toBe(nodes.length + 1)
-    wrapper.unmount()
+    renderComponent({ nodes })
+    expect(screen.getAllByRole('row')).toHaveLength(nodes.length + 1)
   })
 })

@@ -1,24 +1,25 @@
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { cleanup, screen } from '@testing-library/react'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import OracleSet from './mock_data/OracleSet.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 describe('OracleSet: Simple', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(OracleSet)
-    expectSimpleRowText(wrapper, 'oracle-document-id', '1')
-    expectSimpleRowText(wrapper, 'provider', 'provider')
+    renderComponent(OracleSet)
+    expectSimpleRowText(screen, 'oracle-document-id', '1')
+    expectSimpleRowText(screen, 'provider', 'provider')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'last-update-time',
       'May 13, 2024 at 9:05:10 PM',
     )
-    expectSimpleRowText(wrapper, 'asset-class', 'currency')
+    expectSimpleRowText(screen, 'asset-class', 'currency')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'trading-pairs',
       '74.2\uE900 XRP/USD1.03BTC/AUDT',
     )
-    wrapper.unmount()
   })
 })
