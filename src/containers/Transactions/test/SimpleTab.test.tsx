@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 
@@ -15,8 +15,8 @@ import { queryClient } from '../../shared/QueryClient'
 
 describe('SimpleTab container', () => {
   let client
-  const createWrapper = (tx, width = 1200) =>
-    mount(
+  const renderComponent = (tx, width = 1200) =>
+    render(
       <Router>
         <QueryClientProvider client={queryClient}>
           <I18nextProvider i18n={i18n}>
@@ -36,27 +36,26 @@ describe('SimpleTab container', () => {
   })
 
   afterEach(() => {
+    cleanup()
     client.close()
   })
 
   it('renders EnableAmendment without crashing', () => {
-    const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
+    renderComponent(EnableAmendment)
   })
 
   it('renders simple tab information', () => {
-    const wrapper = createWrapper(Payment)
-    expect(wrapper.find('.simple-body').length).toBe(1)
-    expect(wrapper.find('a').length).toBe(3)
-    expectSimpleRowText(wrapper, 'tx-date', '3/23/2018, 1:34:51 PM')
-    expectSimpleRowText(wrapper, 'ledger-index', '37432866')
+    renderComponent(Payment)
+    expect(screen.queryByTestId('simple-body')).toBeDefined()
+    expect(screen.getAllByRole('link')).toHaveLength(3)
+    expectSimpleRowText(screen, 'tx-date', '3/23/2018, 1:34:51 PM')
+    expectSimpleRowText(screen, 'ledger-index', '37432866')
     expectSimpleRowText(
-      wrapper,
-      'account',
+      screen,
+      'tx-account',
       'rNQEMJA4PsoSrZRn9J6RajAYhcDzzhf8ok',
     )
-    expectSimpleRowText(wrapper, 'sequence', '31030')
-    expectSimpleRowText(wrapper, 'tx-cost', '\uE9000.15')
-    wrapper.unmount()
+    expectSimpleRowText(screen, 'sequence', '31030')
+    expectSimpleRowText(screen, 'tx-cost', '\uE9000.15')
   })
 })
