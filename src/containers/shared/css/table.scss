@@ -1,4 +1,4 @@
-@import './variables';
+@use 'variables';
 
 table.basic {
   overflow: hidden;
@@ -6,13 +6,13 @@ table.basic {
   border-top: none;
   margin: auto;
   border-collapse: collapse;
-  color: $white;
+  color: variables.$white;
   font-size: 12px;
   letter-spacing: 0px;
   text-align: left;
 
   tr {
-    border-bottom: 1px solid $black-70;
+    border-bottom: 1px solid variables.$black-70;
   }
 
   td,
@@ -32,7 +32,7 @@ table.basic {
 
   th {
     padding: 22px 5px;
-    color: $black-40;
+    color: variables.$black-40;
     text-align: left;
     text-transform: uppercase;
   }
@@ -40,17 +40,17 @@ table.basic {
   td {
     padding: 15px 5px;
 
-    @include for-size(tablet-portrait-up) {
+    @include variables.for-size(tablet-portrait-up) {
       td {
         padding: 15px 10px;
-        color: $black-40;
+        color: variables.$black-40;
       }
     }
   }
 
   .empty-message {
     padding: 16px;
-    color: $black-40;
+    color: variables.$black-40;
     font-size: 16px;
     text-align: center;
   }
@@ -63,16 +63,16 @@ table.token-table {
   .col1 {
     width: 180px;
     padding-bottom: 8px;
-    color: $black-40;
+    color: variables.$black-40;
     text-transform: uppercase;
-    @include semibold;
+    @include variables.semibold;
   }
 
   .col2 {
     display: inline-block;
     width: 230px;
     padding-bottom: 8px;
-    color: $white;
+    color: variables.$white;
     overflow-wrap: break-word;
   }
 }

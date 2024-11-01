@@ -1,4 +1,4 @@
-@import './variables';
+@use 'variables';
 
 .box {
   border-radius: 4px;
@@ -9,13 +9,13 @@
 .box-content {
   padding: 16px;
 
-  @include for-size(desktop-up) {
+  @include variables.for-size(desktop-up) {
     padding: 24px;
   }
 }
 
 .box-header {
-  border-bottom: 1px solid $black-20;
+  border-bottom: 1px solid variables.$black-20;
 }
 
 .box-header > .icon {
@@ -31,7 +31,7 @@
   font-size: 12px;
   line-height: 22px;
 
-  @include for-size(desktop-up) {
+  @include variables.for-size(desktop-up) {
     font-size: 20px;
   }
 }

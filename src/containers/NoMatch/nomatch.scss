@@ -1,4 +1,4 @@
-@import '../shared/css/variables';
+@use '../shared/css/variables';
 
 .no-match {
   margin: 10% auto;
@@ -7,29 +7,29 @@
   .uh-oh {
     display: inline-block;
     padding: 2px 8px;
-    border: 1px solid $black-80;
+    border: 1px solid variables.$black-80;
     border-radius: 4px;
     margin-bottom: 24px;
-    color: $black-20;
+    color: variables.$black-20;
     font-size: 12px;
     line-height: 20px;
-    @include bold;
+    @include variables.bold;
   }
 
   .title {
     margin-bottom: 16px;
-    color: $black-20;
+    color: variables.$black-20;
     font-size: 40px;
     line-height: 48px;
-    @include bold;
+    @include variables.bold;
   }
 
   .hint {
     margin-bottom: 16px;
-    color: $black-50;
+    color: variables.$black-50;
     font-size: 16px;
     line-height: 24px;
-    @include bold;
+    @include variables.bold;
   }
 
   .warning {

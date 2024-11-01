@@ -1,10 +1,10 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables';
 
 @mixin dropdown-network-item(
   $background,
   $background-hover: $background,
   $border: $background,
-  $color: $black
+  $color: variables.$black
 ) {
   .dropdown-toggle {
     border-color: $border;
@@ -39,28 +39,28 @@
   }
 
   &.network-mainnet {
-    @include dropdown-network-item($white, $black-20);
+    @include dropdown-network-item(variables.$white, variables.$black-20);
   }
 
   &.network-testnet {
-    @include dropdown-network-item($testnet, $orange-60);
+    @include dropdown-network-item(variables.$testnet, variables.$orange-60);
   }
 
   &.network-devnet {
-    @include dropdown-network-item($devnet, $blue-purple-40);
+    @include dropdown-network-item(variables.$devnet, variables.$blue-purple-40);
   }
 
   /* stylelint-disable-next-line selector-class-pattern -- needed here for variables */
   &.network-xahau_mainnet {
-    @include dropdown-network-item($xahau-mainnet, $green-50);
+    @include dropdown-network-item(variables.$xahau-mainnet, variables.$green-50);
   }
 
   /* stylelint-disable-next-line selector-class-pattern -- needed here for variables */
   &.network-xahau_testnet {
-    @include dropdown-network-item($xahau-testnet, $magenta-40);
+    @include dropdown-network-item(variables.$xahau-testnet, variables.$magenta-40);
   }
 
   &.network-custom {
-    @include dropdown-network-item($custom, $yellow-60);
+    @include dropdown-network-item(variables.$custom, variables.$yellow-60);
   }
 }

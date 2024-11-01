@@ -1,20 +1,20 @@
-@import '../shared/css/variables';
+@use '../shared/css/variables';
 
 .transaction {
   position: relative;
   max-width: 912px;
   min-height: 600px;
 
-  @include for-size(tablet-landscape-up) {
+  @include variables.for-size(tablet-landscape-up) {
     width: 584px;
     margin: 0 auto;
   }
 
-  @include for-size(desktop-up) {
+  @include variables.for-size(desktop-up) {
     width: 820px;
   }
 
-  @include for-size(big-desktop-up) {
+  @include variables.for-size(big-desktop-up) {
     width: 912px;
   }
 
@@ -30,27 +30,27 @@
     .type {
       display: inline-block;
       margin-bottom: 24px;
-      color: $white;
+      color: variables.$white;
       font-size: 42px;
-      @include bold;
+      @include variables.bold;
     }
 
     .txid {
       .title {
-        @include semibold;
+        @include variables.semibold;
       }
 
       display: flex;
       overflow: hidden;
       margin-top: 8px;
-      color: $black-40;
+      color: variables.$black-40;
       font-size: 12px;
       letter-spacing: 0px;
       line-height: 20px;
       text-overflow: ellipsis;
       text-transform: uppercase;
       white-space: nowrap;
-      @include medium;
+      @include variables.medium;
     }
 
     .tx-status {

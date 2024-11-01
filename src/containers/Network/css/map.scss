@@ -1,4 +1,4 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables';
 
 .nodes-map {
   position: relative;
@@ -8,7 +8,7 @@
     margin: auto;
 
     .country {
-      fill: $black-40;
+      fill: variables.$black-40;
       opacity: 0.2;
     }
 
@@ -23,9 +23,9 @@
 
     .legend {
       text {
-        fill: $black-40;
+        fill: variables.$black-40;
         font-size: 10px;
-        @include regular;
+        @include variables.regular;
       }
     }
   }

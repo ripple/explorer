@@ -1,5 +1,5 @@
-@import '../../shared/css/variables';
-@import '../../shared/css/table';
+@use '../../shared/css/variables';
+@use '../../shared/css/table';
 
 .nodes-table {
   position: relative;
@@ -9,11 +9,11 @@
     .pubkey {
       max-width: 70px;
 
-      @include for-size(tablet-portrait-up) {
+      @include variables.for-size(tablet-portrait-up) {
         max-width: 100px;
       }
 
-      @include for-size(big-desktop-up) {
+      @include variables.for-size(big-desktop-up) {
         max-width: 180px;
       }
 
@@ -29,7 +29,7 @@
     .state {
       min-width: 60px;
       text-transform: uppercase;
-      @include semibold;
+      @include variables.semibold;
     }
 
     .state span {
@@ -40,18 +40,18 @@
     }
 
     .state .full {
-      background-color: $green;
+      background-color: variables.$green;
       color: black;
     }
 
     .state .proposing {
-      background-color: $orange;
+      background-color: variables.$orange;
       color: white;
     }
 
     .state .connected {
-      background-color: $yellow;
-      color: $black-60;
+      background-color: variables.$yellow;
+      color: variables.$black-60;
     }
 
     .version {
@@ -61,26 +61,26 @@
     .uptime {
       text-align: right;
 
-      @include for-size(tablet-landscape-up) {
+      @include variables.for-size(tablet-landscape-up) {
         text-align: left;
       }
     }
 
     .last-ledger {
       i {
-        color: $black-30;
+        color: variables.$black-30;
       }
     }
 
     .in-out small {
-      color: $black-50;
+      color: variables.$black-50;
       font-weight: bold;
     }
 
     .ledgers {
       text-align: right;
 
-      @include for-size(big-desktop-up) {
+      @include variables.for-size(big-desktop-up) {
         text-align: left;
       }
     }
@@ -92,7 +92,7 @@
       margin: 3px 5px;
       vertical-align: middle;
 
-      @include for-size(big-desktop-up) {
+      @include variables.for-size(big-desktop-up) {
         display: inline-block;
       }
     }
@@ -101,11 +101,11 @@
       position: absolute;
       height: 100%;
       border-radius: 2px;
-      background: $black-50;
+      background: variables.$black-50;
     }
 
     .ledgers span {
-      color: $black-50;
+      color: variables.$black-50;
       font-weight: bold;
       vertical-align: middle;
     }
@@ -115,7 +115,7 @@
     .latency {
       display: none;
 
-      @include for-size(desktop-up) {
+      @include variables.for-size(desktop-up) {
         display: table-cell;
       }
     }
@@ -134,7 +134,7 @@
     .in-out {
       display: none;
 
-      @include for-size(tablet-landscape-up) {
+      @include variables.for-size(tablet-landscape-up) {
         display: table-cell;
       }
     }

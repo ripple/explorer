@@ -1,7 +1,7 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables';
 
 .y-label {
-  fill: $black-40;
+  fill: variables.$black-40;
 }
 
 .barchart {
@@ -12,7 +12,7 @@
 
   p,
   span {
-    color: $black-40;
+    color: variables.$black-40;
     line-height: 70%;
   }
 }
@@ -21,7 +21,7 @@
   margin: 10px;
 
   p {
-    color: $white;
+    color: variables.$white;
   }
 }
 
@@ -41,19 +41,19 @@
 
       .icon {
         &.vals {
-          background-color: $green-50;
+          background-color: variables.$green-50;
         }
 
         &.nodes {
-          background-color: $blue-purple-50;
+          background-color: variables.$blue-purple-50;
         }
 
         &.yea {
-          background-color: $green-50;
+          background-color: variables.$green-50;
         }
 
         &.nay {
-          background-color: $magenta-70;
+          background-color: variables.$magenta-70;
         }
 
         width: 16px;
@@ -62,7 +62,7 @@
       }
 
       .text {
-        color: $white;
+        color: variables.$white;
         text-transform: capitalize;
       }
     }
@@ -70,12 +70,12 @@
 
   .legend-stable {
     padding: 16px;
-    border-radius: $border-radius;
+    border-radius: variables.$border-radius;
     margin-left: auto;
-    background-color: $black-70;
+    background-color: variables.$black-70;
 
     .stable {
-      color: $black-0;
+      color: variables.$black-0;
       font-weight: 700;
     }
   }

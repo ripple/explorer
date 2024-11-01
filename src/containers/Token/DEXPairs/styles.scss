@@ -1,9 +1,9 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables';
 
 .dex-pairs-container {
   padding: 64px 0 100px;
 
-  @include for-size(desktop-up) {
+  @include variables.for-size(desktop-up) {
     padding-top: 80px;
   }
 
@@ -17,10 +17,10 @@
       font-size: 14px;
 
       th {
-        @include bold;
+        @include variables.bold;
 
         border-bottom: 1px black solid;
-        color: $white;
+        color: variables.$white;
         font-size: 18px;
         text-align: center;
       }
@@ -28,19 +28,19 @@
       td {
         width: 200px;
         padding: 2px 5px;
-        border-top: 1px solid $black-70;
-        border-bottom: 1px solid $black-70;
-        color: $black-40;
+        border-top: 1px solid variables.$black-70;
+        border-bottom: 1px solid variables.$black-70;
+        color: variables.$black-40;
 
         .loader {
-          border-bottom: 1px solid $black;
+          border-bottom: 1px solid variables.$black;
         }
       }
 
       .pair {
-        @include bold;
+        @include variables.bold;
 
-        color: $white;
+        color: variables.$white;
         font-size: 18px;
         text-align: left;
       }
@@ -50,7 +50,7 @@
 
         a {
           font-size: 14px;
-          @include bold;
+          @include variables.bold;
         }
       }
 
@@ -68,11 +68,11 @@
         }
 
         .low-num {
-          color: $green-50;
+          color: variables.$green-50;
         }
 
         .high-num {
-          color: $orange-50;
+          color: variables.$orange-50;
         }
 
         .high {
@@ -83,7 +83,7 @@
 
     .no-pairs-message {
       padding: 16px;
-      color: $black-50;
+      color: variables.$black-50;
       font-size: 16px;
       text-align: center;
     }

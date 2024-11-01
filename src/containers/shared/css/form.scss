@@ -1,10 +1,10 @@
-@import './variables';
+@use 'variables';
 
 label {
-  color: $black-40;
+  color: variables.$black-40;
 
   &.selected {
-    color: $white;
+    color: variables.$white;
     font-weight: bold;
   }
 }
@@ -16,21 +16,21 @@ label {
 }
 
 input {
-  border-radius: $border-radius;
+  border-radius: variables.$border-radius;
 
   &[type='text'] {
     &:hover,
     &:focus {
-      background-color: $black-80;
+      background-color: variables.$black-80;
     }
 
     &:focus {
-      outline: solid 1px $blue-purple-40 !important;
+      outline: solid 1px variables.$blue-purple-40 !important;
     }
   }
 
   &[type='radio'] {
     height: 16px;
-    accent-color: $green;
+    accent-color: variables.$green;
   }
 }

@@ -1,4 +1,4 @@
-@import '../shared/css/variables';
+@use '../shared/css/variables';
 
 .voting {
   margin-left: 24px;
@@ -15,7 +15,7 @@
         margin: 0 !important;
         text-align: left;
 
-        @include for-size(tablet-landscape-up) {
+        @include variables.for-size(tablet-landscape-up) {
           display: inline-block;
         }
       }
@@ -33,7 +33,7 @@
 
     .rows {
       margin-top: 32px;
-      background-color: $black-80;
+      background-color: variables.$black-80;
     }
 
     .row {
@@ -41,7 +41,7 @@
       flex-flow: row wrap;
       justify-content: space-between;
       padding: 16px;
-      border-bottom: 1px solid $black-70;
+      border-bottom: 1px solid variables.$black-70;
     }
 
     .label {
@@ -56,15 +56,15 @@
   }
 
   .badge {
-    color: $black-100;
+    color: variables.$black-100;
     text-transform: uppercase;
 
     &.yea {
-      background-color: $green-60;
+      background-color: variables.$green-60;
     }
 
     &.nay {
-      background-color: $black-30;
+      background-color: variables.$black-30;
     }
 }
 

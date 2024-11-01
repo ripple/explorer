@@ -1,4 +1,4 @@
-@import './variables';
+@use 'variables';
 
 .tx-label {
   display: inline-flex;
@@ -9,10 +9,10 @@
   border-radius: 100px;
   font-size: 14px;
   line-height: 1;
-  @include semibold;
+  @include variables.semibold;
 
   .tx-type-name {
-    color: $white;
+    color: variables.$white;
     letter-spacing: 0;
     text-transform: uppercase;
     @extend %truncate;

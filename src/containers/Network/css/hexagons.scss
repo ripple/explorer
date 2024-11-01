@@ -1,18 +1,18 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables';
 
 .validators-container {
   .validators {
     position: relative;
-    background: $black-80;
+    background: variables.$black-80;
 
     svg {
       display: block;
-      filter: drop-shadow(0px 0px 2px $black-70);
+      filter: drop-shadow(0px 0px 2px variables.$black-70);
     }
 
     .mesh path {
       fill: none;
-      stroke: $black;
+      stroke: variables.$black;
     }
 
     .hexagons {
@@ -24,7 +24,7 @@
         fill-opacity: 0.8;
         stroke-opacity: 1;
 
-        @include for-size(tablet-landscape-up) {
+        @include variables.for-size(tablet-landscape-up) {
           cursor: auto;
         }
       }

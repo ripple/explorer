@@ -1,7 +1,7 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables';
 
 $ledgers-margin-large: 32px;
-$ledgers-border: 1px solid $black-70;
+$ledgers-border: 1px solid variables.$black-70;
 $ledger-width: 196px;
 
 .ledgers-page {
@@ -28,7 +28,7 @@ $ledger-width: 196px;
     line-height: 14px;
     text-align: right;
 
-    @include for-size(desktop-up) {
+    @include variables.for-size(desktop-up) {
       width: calc(100% - 80px);
       padding: 4px 40px;
     }
@@ -49,7 +49,7 @@ $ledger-width: 196px;
         &.domain {
           max-width: calc(70% - 5px);
           font-size: 14px;
-          @include medium;
+          @include variables.medium;
         }
 
         &.pubkey {
@@ -59,7 +59,7 @@ $ledger-width: 196px;
           letter-spacing: 0;
         }
 
-        @include for-size(tablet-landscape-up) {
+        @include variables.for-size(tablet-landscape-up) {
           &.domain {
             max-width: calc(50% - 5px);
           }
@@ -126,16 +126,16 @@ $ledger-width: 196px;
     padding: $ledgers-margin-large;
     border: $ledgers-border;
     border-bottom: 0;
-    color: $black-40;
+    color: variables.$black-40;
     font-size: 10px;
     line-height: 12px;
     text-align: center;
     text-transform: uppercase;
-    @include bold;
+    @include variables.bold;
 
     .close-time {
       padding-bottom: 24px;
-      color: $black-40;
+      color: variables.$black-40;
       font-size: 10px;
     }
 
@@ -150,15 +150,15 @@ $ledger-width: 196px;
     }
 
     b {
-      color: $white;
+      color: variables.$white;
       font-size: 10px;
       text-align: end;
-      @include medium;
+      @include variables.medium;
     }
 
     .ledger-index {
       padding-bottom: 3px;
-      color: $white;
+      color: variables.$white;
       font-size: 14px;
       font-weight: 700;
       line-height: 16px;
@@ -171,12 +171,12 @@ $ledger-width: 196px;
       }
 
       a:hover {
-        background: $black-70;
+        background: variables.$black-70;
       }
 
       &.flag-ledger a {
-        background: $black-70;
-        color: $white;
+        background: variables.$black-70;
+        color: variables.$white;
       }
     }
 
@@ -226,10 +226,10 @@ $ledger-width: 196px;
   .hash {
     overflow: hidden;
     padding: 0 32px 32px;
-    border: 1px solid $black-60;
+    border: 1px solid variables.$black-60;
     border-top: 0;
-    background: rgba($black-80, 0.7);
-    color: $white;
+    background: rgba(variables.$black-80, 0.7);
+    color: variables.$white;
     font-size: 15px;
     text-align: left;
 
@@ -242,7 +242,7 @@ $ledger-width: 196px;
       opacity: 0.5;
 
       .bar {
-        background: $black-20 !important;
+        background: variables.$black-20 !important;
       }
     }
 
@@ -252,9 +252,9 @@ $ledger-width: 196px;
 
     .hash-concat {
       padding-top: 32px;
-      color: $white;
+      color: variables.$white;
       font-size: 14px;
-      @include bold;
+      @include variables.bold;
     }
 
     .subtitle {
@@ -263,11 +263,11 @@ $ledger-width: 196px;
       flex-direction: column;
       padding-top: 24px;
       padding-bottom: 32px;
-      color: $black-40;
+      color: variables.$black-40;
       font-size: 10px;
       line-height: 14px;
       text-transform: uppercase;
-      @include bold;
+      @include variables.bold;
     }
 
     .validation-total {
@@ -276,7 +276,7 @@ $ledger-width: 196px;
     }
 
     .subtitle b {
-      color: $white;
+      color: variables.$white;
       font-size: 11px;
     }
 
@@ -293,14 +293,14 @@ $ledger-width: 196px;
 
     .subtitle span.missed b {
       border-radius: 2px;
-      background: $orange-50;
+      background: variables.$orange-50;
       color: white;
     }
 
     .validated {
       display: inline-block;
       height: 26px;
-      color: $green;
+      color: variables.$green;
       text-align: center;
       vertical-align: middle;
     }
@@ -324,7 +324,7 @@ $ledger-width: 196px;
     .validation {
       height: 4px;
       border-radius: 4px;
-      background: $black-50;
+      background: variables.$black-50;
       cursor: pointer;
       opacity: 0.85;
     }
@@ -334,11 +334,11 @@ $ledger-width: 196px;
     }
 
     .validation.trusted {
-      background: $white;
+      background: variables.$white;
     }
 
     .validation.selected {
-      background: $green;
+      background: variables.$green;
       opacity: 1;
     }
 
@@ -349,7 +349,7 @@ $ledger-width: 196px;
     .partial {
       width: 50%;
       height: 100%;
-      background: $red;
+      background: variables.$red;
     }
   }
 }

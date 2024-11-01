@@ -1,12 +1,12 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables';
 
 .paystring-header {
   margin-bottom: 16px;
-  @include for-size(tablet-landscape-up) {
+  @include variables.for-size(tablet-landscape-up) {
     width: 552px;
   }
 
-  @include for-size(desktop-up) {
+  @include variables.for-size(desktop-up) {
     width: 1140px;
   }
 
@@ -25,7 +25,7 @@
 
     .paystring-id {
       font-size: 42px;
-      @include bold;
+      @include variables.bold;
     }
   }
 }

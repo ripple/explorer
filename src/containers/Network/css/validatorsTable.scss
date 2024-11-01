@@ -1,4 +1,4 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables';
 
 .validators-table {
   position: relative;
@@ -14,11 +14,11 @@
 
     .pubkey {
       max-width: 70px;
-      @include for-size(tablet-portrait-up) {
+      @include variables.for-size(tablet-portrait-up) {
         max-width: 100px;
       }
 
-      @include for-size(big-desktop-up) {
+      @include variables.for-size(big-desktop-up) {
         max-width: 180px;
       }
 
@@ -33,21 +33,21 @@
 
     .fee {
       min-width: 90px;
-      color: $orange-50;
+      color: variables.$orange-50;
     }
 
     .missed {
-      color: $orange-50;
+      color: variables.$orange-50;
     }
 
     .domain {
       max-width: 140px;
-      @include medium;
+      @include variables.medium;
     }
 
     .last-ledger {
       min-width: 55px;
-      @include bold;
+      @include variables.bold;
 
       // When a validation comes in we update the color to use the ledgers hash. Until that occurs the table's default
       // text color is used.
@@ -66,7 +66,7 @@
     }
 
     .unl.yes {
-      color: $green;
+      color: variables.$green;
     }
 
     .n-unl {
@@ -80,22 +80,22 @@
     }
 
     .n-unl.yes {
-      color: $orange-40;
+      color: variables.$orange-40;
     }
 
-    @include for-size(tablet-portrait-up) {
+    @include variables.for-size(tablet-portrait-up) {
       .score.d30 {
         display: table-cell;
       }
     }
 
-    @include for-size(tablet-landscape-up) {
+    @include variables.for-size(tablet-landscape-up) {
       .pubkey {
         display: table-cell;
       }
     }
 
-    @include for-size(desktop-up) {
+    @include variables.for-size(desktop-up) {
       .score.h1,
       .fee {
         display: table-cell;

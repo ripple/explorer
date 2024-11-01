@@ -1,5 +1,5 @@
-@import '../../shared/css/variables';
-@import '../../shared/css/table';
+@use '../../shared/css/variables';
+@use '../../shared/css/table';
 
 .nft-header-container {
   .nft-bottom-container {
@@ -7,21 +7,21 @@
     flex-direction: column;
     padding-top: 64px;
 
-    @include for-size(desktop-up) {
+    @include variables.for-size(desktop-up) {
       flex-direction: row;
       padding-top: 80px;
     }
 
     .details {
       width: 100%;
-      @include for-size(desktop-up) {
+      @include variables.for-size(desktop-up) {
         width: 490px;
       }
     }
 
     .settings {
       width: 100%;
-      @include for-size(desktop-up) {
+      @include variables.for-size(desktop-up) {
         width: 650px;
       }
     }
@@ -33,7 +33,7 @@
     justify-content: space-between;
     margin-top: 68px;
 
-    @include for-size(desktop-up) {
+    @include variables.for-size(desktop-up) {
       flex-direction: row;
       margin-top: 80px;
     }
@@ -43,9 +43,9 @@
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 18px;
-      color: $white;
+      color: variables.$white;
 
-      @include for-size(desktop-up) {
+      @include variables.for-size(desktop-up) {
         flex-direction: column;
         margin-bottom: 0;
       }
@@ -53,10 +53,10 @@
       .title {
         padding-bottom: 4px;
         margin-bottom: 4.5px;
-        color: $black-40;
+        color: variables.$black-40;
         font-size: 14px;
         text-transform: uppercase;
-        @include semibold;
+        @include variables.semibold;
       }
 
       .value {
@@ -64,13 +64,13 @@
 
         .nft-issuer {
           margin: auto;
-          color: $white;
+          color: variables.$white;
           font-size: 18px;
           font-style: normal;
           line-height: 125%;
           text-align: right;
           text-decoration: none;
-          @include bold;
+          @include variables.bold;
         }
 
         .copy {
@@ -105,11 +105,11 @@
       padding-top: 0;
       margin-top: 0;
       margin-bottom: 0;
-      color: $white;
+      color: variables.$white;
       font-size: 24px;
       text-overflow: ellipsis;
       white-space: nowrap;
-      @include bold;
+      @include variables.bold;
     }
 
     .token-title {
@@ -117,15 +117,15 @@
       flex-direction: row;
       align-items: center;
       padding-bottom: 4px;
-      color: $black-40;
+      color: variables.$black-40;
       font-size: 14px;
       text-transform: uppercase;
 
-      @include semibold;
+      @include variables.semibold;
 
       .badge {
-        background: $nft;
-        color: $white;
+        background: variables.$nft;
+        color: variables.$white;
       }
     }
 

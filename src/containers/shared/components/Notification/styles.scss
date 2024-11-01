@@ -1,57 +1,57 @@
-@import '../../css/variables';
+@use '../../css/variables';
 
 .notification {
   border: 1px solid;
   border-radius: 4px;
   margin: 12px 0;
-  background: $blue;
-  color: $white;
+  background: variables.$blue;
+  color: variables.$white;
   font-size: 14px;
   line-height: 22px;
   text-align: center;
-  @include bold;
+  @include variables.bold;
 
   span {
     padding: 0 22px;
   }
 
   &.primary-theme {
-    color: $white;
+    color: variables.$white;
 
     &.default {
-      border-color: $blue;
-      background: $blue;
+      border-color: variables.$blue;
+      background: variables.$blue;
     }
 
     &.success {
-      border-color: $green;
-      background: $green;
+      border-color: variables.$green;
+      background: variables.$green;
     }
 
     &.warning {
-      border-color: $orange;
-      background: $orange;
+      border-color: variables.$orange;
+      background: variables.$orange;
     }
 
     &.danger {
-      border-color: $red;
-      background: $red-dark;
+      border-color: variables.$red;
+      background: variables.$red-dark;
     }
 
     &.dark {
-      border-color: $black-100;
-      background: $black-100;
+      border-color: variables.$black-100;
+      background: variables.$black-100;
     }
 
     &.dark50 {
-      border-color: $black-50;
-      background: $black-50;
+      border-color: variables.$black-50;
+      background: variables.$black-50;
     }
 
     &.light {
-      border-color: $white;
-      background: $white;
-      color: $black-100;
+      border-color: variables.$white;
+      background: variables.$white;
+      color: variables.$black-100;
     }
   }
 }

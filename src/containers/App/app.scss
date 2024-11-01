@@ -1,4 +1,4 @@
-@import '../shared/css/variables';
+@use '../shared/css/variables';
 
 .app {
   flex-grow: 1;
@@ -12,13 +12,13 @@
     justify-content: center;
     margin-bottom: 50px;
 
-    @include for-size(desktop-up) {
-      min-height: $min-height;
+    @include variables.for-size(desktop-up) {
+      min-height: variables.$min-height;
     }
   }
 
   .content,
   .footer {
-    min-width: $min-width;
+    min-width: variables.$min-width;
   }
 }
