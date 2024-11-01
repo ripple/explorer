@@ -7,6 +7,7 @@ import {
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
+import PropTypes from 'prop-types'
 import CloseIcon from '../shared/images/close.png'
 
 import { useAnalytics } from '../shared/analytics'
@@ -155,7 +156,7 @@ const normalizeAccount = (id: string) => {
   return id
 }
 
-const SearchBanner = (setIsBannerVisible) => (
+const SearchBanner = ({ setIsBannerVisible }) => (
   <div className="banner-wrapper">
     <div className="banner">
       <div className="banner-content">
@@ -174,6 +175,10 @@ const SearchBanner = (setIsBannerVisible) => (
     </div>
   </div>
 )
+
+SearchBanner.propTypes = {
+  setIsBannerVisible: PropTypes.func.isRequired,
+}
 
 export interface SearchProps {
   callback?: Function
