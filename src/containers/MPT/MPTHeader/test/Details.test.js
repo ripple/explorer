@@ -32,26 +32,26 @@ describe('MPT Details container', () => {
 
   it('renders defined fields', () => {
     renderComponent()
-    const rows = screen.getAllByTitle('row')
+    const rows = screen.getAllByRole('row')
     expect(rows).toHaveLength(6)
 
     expect(rows[0].outerHTML).toBe(
-      '<tr class="row" title="row"><td class="col1">asset_scale</td><td class="col2">2</td></tr>',
+      '<tr class="row"><td class="col1">asset_scale</td><td class="col2">2</td></tr>',
     )
     expect(rows[1].outerHTML).toBe(
-      '<tr class="row" title="row"><td class="col1">max_amount</td><td class="col2">256</td></tr>',
+      '<tr class="row"><td class="col1">max_amount</td><td class="col2">256</td></tr>',
     )
     expect(rows[2].outerHTML).toBe(
-      '<tr class="row" title="row"><td class="col1">outstanding_amount</td><td class="col2">64</td></tr>',
+      '<tr class="row"><td class="col1">outstanding_amount</td><td class="col2">64</td></tr>',
     )
     expect(rows[3].outerHTML).toBe(
-      '<tr class="row" title="row"><td class="col1">transfer_fee</td><td class="col2">0.003%</td></tr>',
+      '<tr class="row"><td class="col1">transfer_fee</td><td class="col2">0.003%</td></tr>',
     )
     expect(rows[4].outerHTML).toBe(
-      '<tr class="row" title="row"><td class="col1">sequence_number_short</td><td class="col2">3949</td></tr>',
+      '<tr class="row"><td class="col1">sequence_number_short</td><td class="col2">3949</td></tr>',
     )
     expect(rows[5].outerHTML).toBe(
-      '<tr class="row" title="row"><td class="col1">metadata</td><td class="col2">https://www.google.com/</td></tr>',
+      '<tr class="row"><td class="col1">metadata</td><td class="col2">https://www.google.com/</td></tr>',
     )
   })
 })
