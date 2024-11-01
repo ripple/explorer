@@ -2,9 +2,13 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
-import { parsePrice, stripDomain } from './utils'
 import Currency from '../Currency'
 import DomainLink from '../DomainLink'
+
+const parsePrice = (dollarPrice: string, xrpPrice: number): number => {
+  const parsedDollar = Number(dollarPrice)
+  return Number((parsedDollar * xrpPrice).toFixed(6))
+}
 
 const renderLogo = (token) =>
   token.meta.token.icon ? (
