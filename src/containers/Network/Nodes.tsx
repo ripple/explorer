@@ -82,7 +82,7 @@ export const Nodes = () => {
         // @ts-ignore - Work around for complex type assignment issues
         <Map locations={data?.locations} />
       }
-      <div className="stat">
+      <div className="stat" data-testid="stat">
         {data?.nodes && (
           <>
             <span>{t('nodes_found')}: </span>

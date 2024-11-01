@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
@@ -8,7 +8,7 @@ import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
-import { QuickHarness } from '../../test/utils'
+import { flushPromises, QuickHarness } from '../../test/utils'
 import { NETWORK_ROUTE } from '../../App/routes'
 
 const WS_URL = 'ws://localhost:1234'
@@ -16,8 +16,8 @@ const WS_URL = 'ws://localhost:1234'
 describe('Validators Tab container', () => {
   let server
   let client
-  const createWrapper = () =>
-    mount(
+  const renderComponent = () =>
+    render(
       <SocketContext.Provider value={client}>
         <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
           <Route path={NETWORK_ROUTE.path} element={<Network />} />
@@ -33,6 +33,7 @@ describe('Validators Tab container', () => {
   })
 
   afterEach(() => {
+    cleanup()
     moxios.uninstall()
     server.close()
     client.close()
@@ -40,47 +41,46 @@ describe('Validators Tab container', () => {
   })
 
   it('renders without crashing', async () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
-  it('receives live validation', async () => {
-    const wrapper = createWrapper()
-
+  it('receives live validation', async (done) => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
       response: mockValidators,
     })
 
-    expect(wrapper.find('.validators').length).toBe(1)
-    expect(wrapper.find('.stat').html()).toBe(
-      '<div class="stat"><span>validators_found: </span><span>0</span></div>',
+    renderComponent()
+
+    expect(screen.queryByTestId('validators')).toBeDefined()
+    expect(screen.queryByTestId('stat').outerHTML).toBe(
+      '<div class="stat" data-testid="stat"><span>validators_found: </span><span>0</span></div>',
     )
-    expect(wrapper.find('.validators-table').length).toBe(1)
+    expect(screen.queryByTestId('validators-table')).toBeDefined()
 
     server.send(validationMessage)
+    await flushPromises()
 
     setTimeout(() => {
-      wrapper.update()
-      expect(wrapper.find('.stat').html()).toBe(
-        '<div class="stat"><span>validators_found: </span><span>4<i> (unl: 2)</i></span></div>',
+      expect(screen.queryByTestId('stat').outerHTML).toBe(
+        '<div class="stat" data-testid="stat"><span>validators_found: </span><span>4<i> (unl: 2)</i></span></div>',
       )
-      expect(wrapper.find('.validators .tooltip').length).toBe(0)
+      expect(screen.queryByTestId('validators .tooltip')).toBeNull()
 
-      wrapper.find('.validators .hexagon').first().simulate('mouseOver')
-      wrapper.update()
-      expect(wrapper.find('.validators-container .tooltip').length).toBe(1)
+      fireEvent.mouseOver(screen.queryAllByTestId('hexagon')[0])
       expect(
-        wrapper.find('.validators-container .tooltip .pubkey').html(),
+        screen.queryByTestId('validators-container .tooltip'),
+      ).toBeDefined()
+      expect(
+        screen.queryByTestId('validators-container .tooltip .pubkey').outerHTML,
       ).toBe(
         '<div class="pubkey">n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR</div>',
       )
-      wrapper.find('.validators .hexagon').first().simulate('mouseLeave')
-      wrapper.update()
-      expect(wrapper.find('.validators-container .tooltip').length).toBe(0)
-      expect(wrapper.find('.validators .hexagons').length).toBe(1)
-      expect(wrapper.find('.validators-table table tr').length).toBe(5)
-      wrapper.unmount()
+      fireEvent.mouseLeave(screen.queryByTestId('validators .hexagon')[0])
+      expect(screen.queryByTestId('validators-container .tooltip')).toBeNull()
+      expect(screen.queryByTestId('hexagons')).toBeDefined()
+      expect(screen.queryByTestId('row')).toHaveLength(5)
+      done()
     })
   })
 })
