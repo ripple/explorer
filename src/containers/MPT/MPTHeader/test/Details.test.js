@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup, within } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { Details } from '../Details'
@@ -16,8 +16,8 @@ describe('MPT Details container', () => {
     flags: ['lsfMPTCanClawback', 'lsfMPTCanTransfer'],
   }
 
-  const createWrapper = (data = dataDefault) =>
-    mount(
+  const renderComponent = (data = dataDefault) =>
+    render(
       <I18nextProvider i18n={i18n}>
         <BrowserRouter>
           <Details data={data} />
@@ -25,34 +25,33 @@ describe('MPT Details container', () => {
       </I18nextProvider>,
     )
 
+  afterEach(cleanup)
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders defined fields', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.row').length).toEqual(6)
+    renderComponent()
+    const rows = screen.getAllByTitle('row')
+    expect(rows).toHaveLength(6)
 
-    expect(wrapper.find('.row').at(0).html()).toBe(
-      '<tr class="row"><td class="col1">asset_scale</td><td class="col2">2</td></tr>',
+    expect(rows[0].outerHTML).toBe(
+      '<tr class="row" title="row"><td class="col1">asset_scale</td><td class="col2">2</td></tr>',
     )
-    expect(wrapper.find('.row').at(1).html()).toBe(
-      '<tr class="row"><td class="col1">max_amount</td><td class="col2">256</td></tr>',
+    expect(rows[1].outerHTML).toBe(
+      '<tr class="row" title="row"><td class="col1">max_amount</td><td class="col2">256</td></tr>',
     )
-    expect(wrapper.find('.row').at(2).html()).toBe(
-      '<tr class="row"><td class="col1">outstanding_amount</td><td class="col2">64</td></tr>',
+    expect(rows[2].outerHTML).toBe(
+      '<tr class="row" title="row"><td class="col1">outstanding_amount</td><td class="col2">64</td></tr>',
     )
-    expect(wrapper.find('.row').at(3).html()).toBe(
-      '<tr class="row"><td class="col1">transfer_fee</td><td class="col2">0.003%</td></tr>',
+    expect(rows[3].outerHTML).toBe(
+      '<tr class="row" title="row"><td class="col1">transfer_fee</td><td class="col2">0.003%</td></tr>',
     )
-    expect(wrapper.find('.row').at(4).html()).toBe(
-      '<tr class="row"><td class="col1">sequence_number_short</td><td class="col2">3949</td></tr>',
+    expect(rows[4].outerHTML).toBe(
+      '<tr class="row" title="row"><td class="col1">sequence_number_short</td><td class="col2">3949</td></tr>',
     )
-    expect(wrapper.find('.row').at(5).html()).toBe(
-      '<tr class="row"><td class="col1">metadata</td><td class="col2">https://www.google.com/</td></tr>',
+    expect(rows[5].outerHTML).toBe(
+      '<tr class="row" title="row"><td class="col1">metadata</td><td class="col2">https://www.google.com/</td></tr>',
     )
-
-    wrapper.unmount()
   })
 })
