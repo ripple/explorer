@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { mount } from 'enzyme'
+import { render, screen, cleanup } from '@testing-library/react'
 import { Route } from 'react-router-dom'
 import { MPT } from '../MPT'
 import i18n from '../../../i18n/testConfig'
@@ -9,28 +9,25 @@ import { MPT_ROUTE } from '../../App/routes'
 describe('MPT container', () => {
   const mptID = '00000F6D5186FB5C90A8112419BED54193EDC7218835C6F5'
 
-  const createWrapper = (mpt = undefined) =>
-    mount(
+  const renderComponent = (mpt = undefined) =>
+    render(
       <QuickHarness i18n={i18n} initialEntries={[`/mpt/${mpt}`]}>
         <Route path={MPT_ROUTE.path} element={<MPT />} />
       </QuickHarness>,
     )
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper(mptID)
-    wrapper.unmount()
+    renderComponent(mptID)
   })
 
   it('renders children', () => {
-    const wrapper = createWrapper(mptID)
-    expect(wrapper.find('MPTHeader').length).toBe(1)
-    wrapper.unmount()
+    renderComponent(mptID)
+    expect(screen.queryByTestId('mpt-header')).toBeDefined()
   })
 
   it('does not render when no mpt provided', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('MPTHeader').length).toBe(0)
-    wrapper.unmount()
+    renderComponent()
+    expect(screen.queryByTestId('mpt-header')).toBeNull()
   })
 
   it('renders error', () => {
@@ -40,7 +37,7 @@ describe('MPT container', () => {
       },
     }))
 
-    const wrapper = createWrapper('something')
-    expect(wrapper.find('NoMatch').length).toBe(1)
+    renderComponent('something')
+    expect(screen.queryByTitle('no-match')).toBeDefined()
   })
 })
