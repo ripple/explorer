@@ -6,7 +6,7 @@ export interface TokenTableRowProps {
 export const TokenTableRow = (props: TokenTableRowProps) => {
   const { label, value } = props
   return (
-    <tr className="row" title="row">
+    <tr className="row">
       <td className="col1">{label}</td>
       <td className="col2">{value}</td>
     </tr>
