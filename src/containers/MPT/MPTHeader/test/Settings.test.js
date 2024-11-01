@@ -3,7 +3,7 @@ import { I18nextProvider } from 'react-i18next'
 import { Settings } from '../Settings'
 import i18n from '../../../../i18n/testConfig'
 
-describe('MPT Setttings container', () => {
+describe('MPT Settings container', () => {
   const flags = ['lsfMPTCanClawback', 'lsfMPTCanTransfer']
 
   const renderComponent = () =>
@@ -12,6 +12,8 @@ describe('MPT Setttings container', () => {
         <Settings flags={flags} />
       </I18nextProvider>,
     )
+
+  afterEach(cleanup)
 
   it('renders without crashing', () => {
     renderComponent()
