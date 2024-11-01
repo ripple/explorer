@@ -1,6 +1,6 @@
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
-import { mount } from 'enzyme'
+import { render, screen, cleanup } from '@testing-library/react'
 import { QueryClientProvider } from 'react-query'
 import { AccountMPTRow } from '../AccountMPTTable'
 import i18n from '../../../../i18n/testConfig'
@@ -26,8 +26,8 @@ const mptData = {
 }
 
 describe('AccountMPTRow', () => {
-  const createWrapper = (component: JSX.Element) =>
-    mount(
+  const renderComponent = (component: JSX.Element) =>
+    render(
       <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
           <BrowserRouter>{component}</BrowserRouter>
@@ -35,6 +35,7 @@ describe('AccountMPTRow', () => {
       </QueryClientProvider>,
     )
 
+  afterEach(cleanup)
   it('handles Account MPT row', async () => {
     const issuanceData = {
       node: {
@@ -48,16 +49,17 @@ describe('AccountMPTRow', () => {
       Promise.resolve({ ...issuanceData }),
     )
 
-    const wrapper = createWrapper(<AccountMPTRow mpt={mptData} />)
+    renderComponent(<AccountMPTRow mpt={mptData} />)
     await flushPromises()
-    wrapper.update()
-    expect(wrapper.find('td').at(0).html()).toBe(
+
+    const elements = screen.getAllByRole('cell')
+
+    expect(elements[0].outerHTML).toBe(
       '<td><a title="000017C2CE76E3E3328AE9E0D80CDD68BA72CC8D8D053DB6" class="" href="/mpt/000017C2CE76E3E3328AE9E0D80CDD68BA72CC8D8D053DB6">000017C2CE76E3E3328AE9E0D80CDD68BA72CC8D8D053DB6</a></td>',
     )
-    expect(wrapper.find('td').at(1).html()).toBe(
+    expect(elements[1].outerHTML).toBe(
       '<td><a data-testid="account" title="rKFgd9FNzwu7a7iVYa2Me4dmBC3zzUepSC" class="account" href="/accounts/rKFgd9FNzwu7a7iVYa2Me4dmBC3zzUepSC">rKFgd9FNzwu7a7iVYa2Me4dmBC3zzUepSC</a></td>',
     )
-    expect(wrapper.find('td').at(2).html()).toBe('<td class="right">0.100</td>')
-    wrapper.unmount()
+    expect(elements[2].outerHTML).toBe('<td class="right">0.100</td>')
   })
 })
