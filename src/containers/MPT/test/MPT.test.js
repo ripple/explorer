@@ -16,6 +16,8 @@ describe('MPT container', () => {
       </QuickHarness>,
     )
 
+  afterEach(cleanup)
+
   it('renders without crashing', () => {
     renderComponent(mptID)
   })
