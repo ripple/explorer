@@ -4,6 +4,7 @@ import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
 import { parsePrice, stripDomain } from './utils'
 import Currency from '../Currency'
+import DomainLink from '../DomainLink'
 
 const renderLogo = (token) =>
   token.meta.token.icon ? (
@@ -100,15 +101,11 @@ export const TokenSearchRow = ({
             {token.meta.issuer.domain && (
               <>
                 <div>{t('website')}:</div>
-                <div>
-                  <Link
-                    to={`https://${token.meta.issuer.domain}/`}
-                    className="issuer-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {stripDomain(token.meta.issuer.domain)}
-                  </Link>
+                <div className="result-domain-link">
+                  <DomainLink
+                    domain={token.meta.issuer.domain}
+                    keepProtocol={false}
+                  />
                 </div>
               </>
             )}
