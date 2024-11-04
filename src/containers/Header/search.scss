@@ -49,7 +49,7 @@
 
 .banner-search {
   position: absolute;
-  top: 70px;
+  top: 50px;
   left: 10%;
   width: 80%;
   max-width: 600px;
@@ -76,16 +76,23 @@
     color: inherit;
   }
 
-  @media (width >= 1200px) {
+  @media (width >= 1350px) {
     top: -60px;
   }
-  @media (1000px <= width < 1200px) {
+  @media (1000px <= width < 1350px) {
     top: -70px;
   }
-  @media (900px <= width < 1200px) {
+  @media (900px <= width < 1000px) {
     top: -80px;
   }
+  @media (750px <= width < 900px) {
+    top: 60px;
+  }
 
+  @media (max-width: $tablet-portrait-upper-boundary){
+    left: 5%;
+    width: 90%;
+  }
 }
 
 .banner-search::after {
