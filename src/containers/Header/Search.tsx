@@ -157,21 +157,18 @@ const normalizeAccount = (id: string) => {
 }
 
 const SearchBanner = ({ setIsBannerVisible }) => (
-  <div className="banner-wrapper">
-    <div className="banner">
-      <div className="banner-content">
-        <div>
-          Token search by name and account is now available! Try searching for
-          USD
-        </div>
-        <button
-          className="banner-button"
-          type="button"
-          onClick={() => setIsBannerVisible(false)}
-        >
-          <img src={CloseIcon} alt="close-icon" width={10} height={10} />
-        </button>
+  <div className="banner-search">
+    <div className="banner-content">
+      <div>
+        Token search by name and account is now available! Try searching for USD
       </div>
+      <button
+        className="banner-button"
+        type="button"
+        onClick={() => setIsBannerVisible(false)}
+      >
+        <img src={CloseIcon} alt="close-icon" width={10} height={10} />
+      </button>
     </div>
   </div>
 )
@@ -216,7 +213,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsBannerVisible(false)
-    }, 10000) // Disappear after 10 seconds
+    }, 100000) // Disappear after 10 seconds
 
     return () => clearTimeout(timeoutId)
   }, [])

@@ -47,9 +47,9 @@
   opacity: 0;
 }
 
-.banner {
+.banner-search {
   position: absolute;
-  top: -60px;
+  top: 70px;
   left: 10%;
   width: 80%;
   max-width: 600px;
@@ -61,7 +61,8 @@
   .banner-content {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 500;
   }
 
   .banner-button {
@@ -70,17 +71,24 @@
     padding: 5px;
     padding-left: 10px;
     border: none;
-    margin-top: -3px;
+    margin-top: -5px;
     background: none;
     color: inherit;
   }
 
-  @media (width >= 1350px) {
-    top: -50px;
+  @media (width >= 1200px) {
+    top: -60px;
   }
+  @media (1000px <= width < 1200px) {
+    top: -70px;
+  }
+  @media (900px <= width < 1200px) {
+    top: -80px;
+  }
+
 }
 
-.banner::after {
+.banner-search::after {
   position: absolute;
   top: 100%;
   left: 30%;
