@@ -41,34 +41,13 @@ const SearchResults = ({
   useEffect(() => {
     const fetchTokens = async () =>
       axios
-        .get(`${process.env.XRPL_META_URL}/tokens`, {
-          params: {
-            name_like: currentSearchValue,
-            trust_level: [1, 2, 3],
-            sort_by: 'holders',
-            limit: 20,
-          },
-        })
-        .then((resp) => resp.data.tokens)
-        .then((tokensRaw) => {
-          const filteredTokens = tokensRaw.filter(
-            (result) =>
-              result.metrics.trustlines > 50 &&
-              result.metrics.holders > 50 &&
-              result.metrics.marketcap > 0 &&
-              result.metrics.volume_7d > 0,
-          )
-
-          setTokens(filteredTokens)
-        })
+        .get(`/api/v1/tokens/search/${currentSearchValue}`)
+        .then((resp) => setTokens(resp.data.tokens))
 
     if (currentSearchValue !== '') {
       fetchTokens()
-    }
-
-    // clear out results and prevent search input/results cache discrepancies
-    if (currentSearchValue === '') {
-      setTokens([])
+    } else {
+      setTokens([]) // clear out results and prevent search input/results cache discrepancies
     }
   }, [currentSearchValue])
 
