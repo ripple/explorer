@@ -67,6 +67,7 @@ async function cacheXRPLMetaTokens() {
   )
   cachedTokenSearchList.last_updated = Date.now()
 
+  // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
   cachedTokenSearchList.tokens.map((token) => ({
     ...token,
     currency: parseCurrency(token.currency),
