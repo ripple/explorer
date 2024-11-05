@@ -220,7 +220,7 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
 
   return (
     <>
-      {isBannerVisible && (
+      {process.env.VITE_ENVIRONMENT === 'mainnet' && isBannerVisible && (
         <SearchBanner setIsBannerVisible={setIsBannerVisible} />
       )}
       <div className="search">
