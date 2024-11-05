@@ -39,11 +39,11 @@ const renderIssuerAddress = (token, onClick) =>
       onClick={onClick}
       className="issuer-link"
     >
-      <div>
-        {token.meta.issuer.name
-          ? `${token.meta.issuer.name} (${token.issuer})`
-          : token.issuer}
+      <div className="issuer-name">
+        {token.meta.issuer.name ? `${token.meta.issuer.name} (` : token.issuer}
       </div>
+      <div className="issuer-address truncate">{token.issuer}</div>
+      <div>)</div>
     </Link>
   )
 
@@ -63,9 +63,9 @@ export const TokenSearchRow = ({
   return (
     <Link to={`/token/${token.currency}.${token.issuer}`} onClick={onClick}>
       <div className="search-result-row">
-        <div className="result-logo">{renderLogo(token)}</div>
         <div>
           <div className="result-name-line">
+            <div className="result-logo">{renderLogo(token)}</div>
             <div className="result-currency">
               <Currency currency={token.currency} />
             </div>
@@ -98,13 +98,13 @@ export const TokenSearchRow = ({
             </div>
           </div>
           <div className="result-issuer-line">
-            <div>{t('issuer')}:</div>
+            <div className="issuer-title">{t('issuer')}:&nbsp;</div>
             {renderIssuerAddress(token, onClick)}
           </div>
           <div className="result-website-line">
             {token.meta.issuer.domain && (
               <>
-                <div>{t('website')}:</div>
+                <div>{t('website')}:&nbsp;</div>
                 <div className="result-domain-link">
                   <DomainLink
                     domain={token.meta.issuer.domain}

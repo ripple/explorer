@@ -213,14 +213,14 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsBannerVisible(false)
-    }, 100000) // Disappear after 10 seconds
+    }, 10000) // Disappear after 10 seconds
 
     return () => clearTimeout(timeoutId)
   }, [])
 
   return (
     <>
-      {isBannerVisible && (
+      {process.env.VITE_ENVIRONMENT === 'mainnet' && isBannerVisible && (
         <SearchBanner setIsBannerVisible={setIsBannerVisible} />
       )}
       <div className="search">
@@ -232,12 +232,10 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
           onChange={(e) => setCurrentSearchInput(e.target.value)}
         />
         {process.env.VITE_ENVIRONMENT === 'mainnet' && (
-          <div className="search-results">
-            <TokenSearchResults
-              setCurrentSearchInput={setCurrentSearchInput}
-              currentSearchValue={currentSearchInput}
-            />
-          </div>
+          <TokenSearchResults
+            setCurrentSearchInput={setCurrentSearchInput}
+            currentSearchValue={currentSearchInput}
+          />
         )}
       </div>
     </>
