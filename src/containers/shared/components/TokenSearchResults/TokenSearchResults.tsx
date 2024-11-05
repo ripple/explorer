@@ -28,7 +28,7 @@ const SearchResults = ({
   const [tokens, setTokens] = useState<any[]>([])
   const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
 
-  useQuery(['fetchXRPToUSDRate'], async () => fetchXRPToUSDRate(), {
+  useQuery(['fetchXRPToUSDRate'], () => fetchXRPToUSDRate(), {
     refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
   })
 

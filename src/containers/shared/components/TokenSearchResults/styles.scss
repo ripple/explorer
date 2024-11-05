@@ -9,7 +9,7 @@
   border-radius: 8px;
   border-top: 0px;
   margin-top: 6px;
-  background-color: black;
+  background-color: $black-100;
   box-shadow: 2px 2px 15px 0px rgb(131 131 134 / 30%);
   overflow-wrap: anywhere;
   overflow-y: scroll;
@@ -105,12 +105,12 @@ white-space: nowrap;
   border-radius: 100px;
   margin-right: 8px;
   margin-left: 8px;
-  background-color: black;
+  background-color: $black-100;
   font-size: 12px;
   font-weight: 600;
 
   &:hover {
-    background-color: black;
+    background-color: $black-100;
     cursor: pointer;
   }
 }
