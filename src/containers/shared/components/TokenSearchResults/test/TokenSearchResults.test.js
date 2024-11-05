@@ -1,15 +1,11 @@
 import { mount } from 'enzyme'
-import { I18nextProvider } from 'react-i18next'
-import { HelmetProvider } from 'react-helmet-async'
-import { MemoryRouter } from 'react-router'
-import { QueryClientProvider } from 'react-query'
 import moxios from 'moxios'
 import i18n from '../../../../../i18n/testConfig'
 import testTokens from './mock_data/tokens.json'
 import SocketContext from '../../../SocketContext'
 import SearchResults from '../TokenSearchResults'
 import MockWsClient from '../../../../test/mockWsClient'
-import { testQueryClient } from '../../../../test/QueryClient'
+import { QuickHarness } from '../../../../test/utils'
 
 const testQuery = 'test'
 
@@ -24,20 +20,14 @@ describe('Testing tokens search', () => {
       response: testTokens,
     })
     return mount(
-      <I18nextProvider i18n={i18n}>
+      <QuickHarness i18n={i18n}>
         <SocketContext.Provider value={client}>
-          <QueryClientProvider client={testQueryClient}>
-            <HelmetProvider>
-              <MemoryRouter>
-                <SearchResults
-                  currentSearchValue={testQuery}
-                  setCurrentSearchInput={jest.fn()}
-                />
-              </MemoryRouter>
-            </HelmetProvider>
-          </QueryClientProvider>
+          <SearchResults
+            currentSearchValue={testQuery}
+            setCurrentSearchInput={jest.fn()}
+          />
         </SocketContext.Provider>
-      </I18nextProvider>,
+      </QuickHarness>,
     )
   }
 
