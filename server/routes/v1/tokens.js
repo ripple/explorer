@@ -2,6 +2,7 @@ const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'tokens search' })
 
 const REFETCH_INTERVAL = 60 * 60 * 1000 // 1 hour
+const XRPLMETA_QUERY_LIMIT = 1000
 const cachedTokenSearchList = { tokens: [], last_updated: null }
 
 const parseCurrency = (currency) => {
@@ -30,11 +31,12 @@ async function fetchXRPLMetaTokens(offset) {
   log.info('caching tokens from XRPLMeta')
   return axios
     .get(
-      `${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3&sort_by=holders`,
+      `${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3`,
       {
         params: {
+          sort_by: 'holders',
           offset,
-          limit: 1000,
+          limit: XRPLMETA_QUERY_LIMIT,
         },
       },
     )
@@ -44,31 +46,25 @@ async function fetchXRPLMetaTokens(offset) {
 
 async function cacheXRPLMetaTokens() {
   let offset = 0
-  let tokenPage = []
+  let tokensDataBatch = []
   const allTokensFetched = []
 
-  const XRPLMetaTokensData = await fetchXRPLMetaTokens(0)
-  let { count } = XRPLMetaTokensData
-  while (count > 0) {
+  tokensDataBatch = await fetchXRPLMetaTokens(0)
+  const { count } = tokensDataBatch
+  while (offset < count) {
+    allTokensFetched.push(...tokensDataBatch.tokens)
+    offset += XRPLMETA_QUERY_LIMIT
     // eslint-disable-next-line no-await-in-loop
-    tokenPage = await fetchXRPLMetaTokens(offset)
-    log.info(`tokenPage length: ${tokenPage.tokens.length}`)
-    log.info(`count: ${count}`)
-    allTokensFetched.push(...tokenPage.tokens)
-    offset += 1000
-    count -= 1000
+    tokensDataBatch = await fetchXRPLMetaTokens(offset)
   }
 
-  log.info(`Retrieved all tokens: ${allTokensFetched.length}`)
-  const filterredTokens = allTokensFetched.filter(
+  cachedTokenSearchList.tokens = allTokensFetched.filter(
     (result) =>
       result.metrics.trustlines > 50 &&
       result.metrics.holders > 50 &&
       result.metrics.marketcap > 0 &&
       result.metrics.volume_7d > 0,
   )
-  cachedTokenSearchList.tokens = filterredTokens
-  log.info(`cacheXRPLMetaTokens length: ${cachedTokenSearchList.tokens.length}`)
   cachedTokenSearchList.last_updated = Date.now()
 
   cachedTokenSearchList.tokens.map((token) => ({
@@ -105,7 +101,7 @@ function sleep(ms) {
 
 module.exports = async (req, res) => {
   try {
-    log.info('getting tokens list from XRPLMeta')
+    log.info('getting tokens list for search')
     const { query } = req.params
     while (cachedTokenSearchList.tokens.length === 0) {
       // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
