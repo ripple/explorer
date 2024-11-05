@@ -19,7 +19,7 @@ const renderLogo = (token) =>
     <div className="result-row-icon no-logo" />
   )
 
-const renderName = (token) =>
+const TokenName = (token) =>
   token.meta.token.name && (
     <div>
       (
