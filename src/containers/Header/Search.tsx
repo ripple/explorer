@@ -156,20 +156,23 @@ const normalizeAccount = (id: string) => {
   return id
 }
 
-const SearchBanner = ({ setIsBannerVisible }) => (
-  <div className="banner-search">
-    <div className="banner-content">
-      <div>{t('search_results_banner')}</div>
-      <button
-        className="banner-button"
-        type="button"
-        onClick={() => setIsBannerVisible(false)}
-      >
-        <img src={CloseIcon} alt="close-icon" width={10} height={10} />
-      </button>
+const SearchBanner = ({ setIsBannerVisible }) => {
+  const { t } = useTranslation()
+  return (
+    <div className="banner-search">
+      <div className="banner-content">
+        <div>{t('search_results_banner')}</div>
+        <button
+          className="banner-button"
+          type="button"
+          onClick={() => setIsBannerVisible(false)}
+        >
+          <img src={CloseIcon} alt="close-icon" width={10} height={10} />
+        </button>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 SearchBanner.propTypes = {
   setIsBannerVisible: PropTypes.func.isRequired,
