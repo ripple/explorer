@@ -92,7 +92,7 @@ function queryTokens(tokenList, query) {
       token.currency?.toLowerCase().includes(sanitizedQuery) ||
       token.meta?.token?.name?.toLowerCase().includes(sanitizedQuery) ||
       token.meta?.issuer?.name?.toLowerCase().includes(sanitizedQuery) ||
-      token.issuer?.toLowerCase().includes(sanitizedQuery),
+      token.issuer?.toLowerCase().startsWith(sanitizedQuery),
   )
 }
 
