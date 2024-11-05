@@ -4,14 +4,35 @@ const log = require('../../lib/logger')({ name: 'tokens search' })
 const REFETCH_INTERVAL = 60 * 60 * 1000 // 1 hour
 const cachedTokenSearchList = { tokens: [], last_updated: null }
 
+const parseCurrency = (currency) => {
+  const NON_STANDARD_CODE_LENGTH = 40
+  const LP_TOKEN_IDENTIFIER = '03'
+
+  const hexToString = (hex) => {
+    let string = ''
+    for (let i = 0; i < hex.length; i += 2) {
+      const part = hex.substring(i, i + 2)
+      const code = parseInt(part, 16)
+      if (!isNaN(code) && code !== 0) {
+        string += String.fromCharCode(code)
+      }
+    }
+    return string
+  }
+
+  return currency.length === NON_STANDARD_CODE_LENGTH &&
+    currency?.substring(0, 2) !== LP_TOKEN_IDENTIFIER
+    ? hexToString(currency)
+    : currency
+}
+
 async function fetchXRPLMetaTokens(offset) {
   log.info('caching tokens from XRPLMeta')
   return axios
     .get(
-      `${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3`,
+      `${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3&sort_by=holders`,
       {
         params: {
-          sort_by: 'holders',
           offset,
           limit: 1000,
         },
@@ -29,8 +50,8 @@ async function cacheXRPLMetaTokens() {
   const XRPLMetaTokensData = await fetchXRPLMetaTokens(0)
   let { count } = XRPLMetaTokensData
   while (count > 0) {
+    // eslint-disable-next-line no-await-in-loop
     tokenPage = await fetchXRPLMetaTokens(offset)
-    await sleep(1000)
     log.info(`tokenPage length: ${tokenPage.tokens.length}`)
     log.info(`count: ${count}`)
     allTokensFetched.push(...tokenPage.tokens)
@@ -49,6 +70,11 @@ async function cacheXRPLMetaTokens() {
   cachedTokenSearchList.tokens = filterredTokens
   log.info(`cacheXRPLMetaTokens length: ${cachedTokenSearchList.tokens.length}`)
   cachedTokenSearchList.last_updated = Date.now()
+
+  cachedTokenSearchList.tokens.map((token) => ({
+    ...token,
+    currency: parseCurrency(token.currency),
+  }))
 }
 
 function startCaching() {
@@ -62,12 +88,14 @@ function startCaching() {
 startCaching()
 
 function queryTokens(tokenList, query) {
+  const sanitizedQuery = query.toLowerCase()
+
   return tokenList.filter(
     (token) =>
-      token.currency?.includes(query) ||
-      token.meta?.token?.name?.includes(query) ||
-      token.meta?.issuer?.name?.includes(query) ||
-      token.issuer?.includes(query),
+      token.currency?.toLowerCase().includes(sanitizedQuery) ||
+      token.meta?.token?.name?.toLowerCase().includes(sanitizedQuery) ||
+      token.meta?.issuer?.name?.toLowerCase().includes(sanitizedQuery) ||
+      token.issuer?.toLowerCase().includes(sanitizedQuery),
   )
 }
 
