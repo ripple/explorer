@@ -15,6 +15,10 @@
   overflow-y: scroll;
   scrollbar-color: $black-50 transparent;
   scrollbar-width: thin;
+
+  @media (width < 900px) {
+    max-width: calc(100% - 32px);
+  }
 }
 
 .search-results-header {
@@ -61,12 +65,13 @@ padding-left: 1rem;
   box-sizing: border-box;
   padding-top: 13px;
   padding-bottom: 13px;
-  color: white;
+  color: $black-0;
   font-size: 14px;
   font-weight: 500;
 
   &:hover {
     background-color: $black-70;
+    color: $black-0;
     cursor: pointer;
   }
 }

@@ -66,16 +66,15 @@ const SearchResults = ({
       <div className="search-results-header">
         {t('tokens')} ({tokens.length})
       </div>
-      <div>
-        {tokens.map((token) => (
-          <TokenSearchRow
-            token={token}
-            onClick={onLinkClick}
-            xrpPrice={XRPUSDPrice}
-            key={`${token.currency}.${token.issuer}`}
-          />
-        ))}
-      </div>
+
+      {tokens.map((token) => (
+        <TokenSearchRow
+          token={token}
+          onClick={onLinkClick}
+          xrpPrice={XRPUSDPrice}
+          key={`${token.currency}.${token.issuer}`}
+        />
+      ))}
     </div>
   ) : null
 }
