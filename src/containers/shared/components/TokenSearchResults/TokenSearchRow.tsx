@@ -104,7 +104,7 @@ export const TokenSearchRow = ({
           <div className="result-website-line">
             {token.meta.issuer.domain && (
               <>
-                <div>{t('website')}:&nbsp;</div>
+                <div>{t('website')}:</div>
                 <div className="result-domain-link">
                   <DomainLink
                     domain={token.meta.issuer.domain}
