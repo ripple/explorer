@@ -9,7 +9,7 @@ import { TokenSearchRow } from './TokenSearchRow'
 import SocketContext from '../../SocketContext'
 import Log from '../../log'
 import { getAccountLines } from '../../../../rippled/lib/rippled'
-import { FETCH_INTERVAL_NODES_MILLIS } from '../../utils'
+import { FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS } from '../../utils'
 
 const ORACLE_ACCOUNT = 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx'
 
@@ -29,7 +29,7 @@ const SearchResults = ({
   const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
 
   useQuery(['fetchXRPToUSDRate'], () => fetchXRPToUSDRate(), {
-    refetchInterval: FETCH_INTERVAL_NODES_MILLIS,
+    refetchInterval: FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
   })
 
   const fetchXRPToUSDRate = () =>

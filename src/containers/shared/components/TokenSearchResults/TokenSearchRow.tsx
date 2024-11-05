@@ -67,11 +67,11 @@ export const TokenSearchRow = ({
       onClick={onClick}
     >
       <div className="result-name-line">
-        <div className="result-logo">{renderLogo(token)}</div>
+        <div className="result-logo">{TokenLogo(token)}</div>
         <div className="result-currency">
           <Currency currency={token.currency} />
         </div>
-        <div className="result-token-name">{renderName(token)}</div>
+        <div className="result-token-name">{TokenName(token)}</div>
         <div className="metric-chip">
           <Amount
             value={{
@@ -90,15 +90,13 @@ export const TokenSearchRow = ({
           })}
         </div>
         <div className="metric-chip">
-          <div>
-            {t('trustlines', {
-              trustlines: localizeNumber(token.metrics.trustlines),
-            })}
-          </div>
+          {t('trustlines', {
+            trustlines: localizeNumber(token.metrics.trustlines),
+          })}
         </div>
       </div>
       <div className="result-issuer-line">
-        <div className="issuer-title">{t('issuer')}:&nbsp;</div>
+        <div className="issuer-title">{t('issuer')}:</div>
         {renderIssuerAddress(token, onClick)}
       </div>
       <div className="result-website-line">
