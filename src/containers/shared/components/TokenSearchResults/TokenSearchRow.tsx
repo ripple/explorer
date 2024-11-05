@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { FC } from 'react'
 import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
 import Currency from '../Currency'
@@ -10,7 +11,7 @@ const parsePrice = (dollarPrice: string, xrpPrice: number): number => {
   return Number((parsedDollar * xrpPrice).toFixed(6))
 }
 
-const TokenLogo = (token) =>
+const TokenLogo: FC<{ token: any }> = ({ token }) =>
   token.meta.token.icon ? (
     <object data={token.meta.token.icon} className="result-row-icon">
       <div className="result-row-icon" />
@@ -19,7 +20,7 @@ const TokenLogo = (token) =>
     <div className="result-row-icon no-logo" />
   )
 
-const TokenName = (token) =>
+const TokenName: FC<{ token: any }> = ({ token }) =>
   token.meta.token.name && (
     <div>
       (
