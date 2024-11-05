@@ -62,14 +62,19 @@ describe('Testing tokens search', () => {
   it('renders all tokens ', () => {
     wrapper.update()
     const searchMenu = wrapper.find('.search-results-menu')
-    expect(searchMenu.find('.search-result-row').length).toEqual(1)
+
+    expect(searchMenu.find('.search-results-header').at(0).html()).toEqual(
+      `<div class="search-results-header">tokens (1)</div>`,
+    )
     expect(searchMenu.find('.currency').at(0).html()).toEqual(
       `<span class="currency">SOLO</span>`,
     )
-    expect(searchMenu.find('.issuer-link').at(0).html()).toEqual(
-      `<a class="issuer-link" href="/accounts/rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz"><div>Sologenic (rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz)</div></a>`,
+    expect(searchMenu.find('.issuer-name').at(0).html()).toEqual(
+      `<div class="issuer-name">Sologenic (</div>`,
     )
-
+    expect(searchMenu.find('.issuer-address').at(0).html()).toEqual(
+      `<div class="issuer-address truncate">rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz</div>`,
+    )
     expect(
       searchMenu.find('.search-result-row').at(0).find('.metric-chip').length,
     ).toEqual(3)
