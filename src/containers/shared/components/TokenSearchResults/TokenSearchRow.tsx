@@ -10,7 +10,7 @@ const parsePrice = (dollarPrice: string, xrpPrice: number): number => {
   return Number((parsedDollar * xrpPrice).toFixed(6))
 }
 
-const renderLogo = (token) =>
+const TokenLogo = (token) =>
   token.meta.token.icon ? (
     <object data={token.meta.token.icon} className="result-row-icon">
       <div className="result-row-icon" />
