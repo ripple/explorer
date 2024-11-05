@@ -1,4 +1,10 @@
-import { KeyboardEventHandler, useContext, useEffect, useState } from 'react'
+import {
+  FC,
+  KeyboardEventHandler,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
@@ -7,7 +13,6 @@ import {
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
-import PropTypes from 'prop-types'
 import CloseIcon from '../shared/images/close.png'
 
 import { useAnalytics } from '../shared/analytics'
@@ -156,7 +161,9 @@ const normalizeAccount = (id: string) => {
   return id
 }
 
-const SearchBanner = ({ setIsBannerVisible }) => {
+const SearchBanner: FC<{ setIsBannerVisible: (visible: boolean) => void }> = ({
+  setIsBannerVisible,
+}) => {
   const { t } = useTranslation()
   return (
     <div className="banner-search">
@@ -172,10 +179,6 @@ const SearchBanner = ({ setIsBannerVisible }) => {
       </div>
     </div>
   )
-}
-
-SearchBanner.propTypes = {
-  setIsBannerVisible: PropTypes.func.isRequired,
 }
 
 export interface SearchProps {
