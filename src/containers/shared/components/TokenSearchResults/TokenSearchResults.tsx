@@ -32,24 +32,23 @@ const SearchResults = ({
     refetchInterval: FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
   })
 
+  useQuery(['fetchTokens', currentSearchValue], () => fetchTokens())
+
   const fetchXRPToUSDRate = () =>
     getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1)
       .then((accountLines) => setXRPUSDPrice(accountLines.lines[0]?.limit))
       .catch((e) => Log.error(e))
 
-  // watch for user input changes and send to XRPLMeta
-  useEffect(() => {
-    const fetchTokens = async () =>
+  const fetchTokens = async () => {
+    if (currentSearchValue !== '') {
       axios
         .get(`/api/v1/tokens/search/${currentSearchValue}`)
         .then((resp) => setTokens(resp.data.tokens))
-
-    if (currentSearchValue !== '') {
-      fetchTokens()
+        .catch((e) => Log.error(e))
     } else {
       setTokens([]) // clear out results and prevent search input/results cache discrepancies
     }
-  }, [currentSearchValue])
+  }
 
   const onLinkClick = () => {
     analytics.track('token_search_click', {
