@@ -8,6 +8,7 @@ import {
   classicAddressToXAddress,
 } from 'ripple-address-codec'
 import PropTypes from 'prop-types'
+import { t } from 'i18next'
 import CloseIcon from '../shared/images/close.png'
 
 import { useAnalytics } from '../shared/analytics'
@@ -159,9 +160,7 @@ const normalizeAccount = (id: string) => {
 const SearchBanner = ({ setIsBannerVisible }) => (
   <div className="banner-search">
     <div className="banner-content">
-      <div>
-        Token search by name and account is now available! Try searching for USD
-      </div>
+      <div>{t('search_results_banner')}</div>
       <button
         className="banner-button"
         type="button"

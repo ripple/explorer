@@ -556,5 +556,6 @@
   "can_escrow": "Can Escrow",
   "can_trade": "Can Trade",
   "can_transfer": "Can Transfer",
-  "can_clawback": "Can Clawback"
+  "can_clawback": "Can Clawback",
+  "search_results_banner": "Token search by name and account is now available! Try searching for USD"
 }

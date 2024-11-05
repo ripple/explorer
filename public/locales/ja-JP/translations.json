@@ -552,5 +552,6 @@
   "can_escrow": null,
   "can_trade": null,
   "can_transfer": null,
-  "can_clawback": null
+  "can_clawback": null,
+  "search_results_banner": null
 }
