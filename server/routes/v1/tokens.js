@@ -31,7 +31,7 @@ async function fetchXRPLMetaTokens(offset) {
   log.info('caching tokens from XRPLMeta')
   return axios
     .get(
-      `${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3`,
+      `https://${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3`,
       {
         params: {
           sort_by: 'holders',
