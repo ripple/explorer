@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { FC } from 'react'
 import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
 import Currency from '../Currency'
@@ -10,7 +11,7 @@ const parsePrice = (dollarPrice: string, xrpPrice: number): number => {
   return Number((parsedDollar * xrpPrice).toFixed(6))
 }
 
-const tokenLogo = (token) =>
+const TokenLogo: FC<{ token: any }> = ({ token }) =>
   token && token.meta?.token.icon ? (
     <object data={token.meta.token.icon} className="result-row-icon">
       <div className="result-row-icon" />
@@ -19,8 +20,8 @@ const tokenLogo = (token) =>
     <div className="result-row-icon no-logo" />
   )
 
-const tokenName = (token) =>
-  token.meta.token.name && (
+const TokenName: FC<{ token: any }> = ({ token }) =>
+  token && token.meta?.token.name ? (
     <div>
       (
       {token.meta.token.name
@@ -30,10 +31,10 @@ const tokenName = (token) =>
         .replace(')', '')}
       )
     </div>
-  )
+  ) : null
 
-const renderIssuerAddress = (token, onClick) =>
-  token.issuer && (
+const IssuerAddress: FC<{ token: any; onClick: any }> = ({ token, onClick }) =>
+  token && (token.issuer || token.meta?.issuer) ? (
     <Link
       to={`/accounts/${token.issuer}`}
       onClick={onClick}
@@ -45,7 +46,7 @@ const renderIssuerAddress = (token, onClick) =>
       <div className="issuer-address truncate">{token.issuer}</div>
       <div>)</div>
     </Link>
-  )
+  ) : null
 
 interface SearchResultRowProps {
   token: any
@@ -67,11 +68,15 @@ export const TokenSearchRow = ({
       onClick={onClick}
     >
       <div className="result-name-line">
-        <div className="result-logo">{tokenLogo(token)}</div>
+        <div className="result-logo">
+          <TokenLogo token={token} />
+        </div>
         <div className="result-currency">
           <Currency currency={token.currency} />
         </div>
-        <div className="result-token-name">{tokenName(token)}</div>
+        <div className="result-token-name">
+          <TokenName token={token} />
+        </div>
         <div className="metric-chip">
           <Amount
             value={{
@@ -97,7 +102,7 @@ export const TokenSearchRow = ({
       </div>
       <div className="result-issuer-line">
         <div className="issuer-title">{t('issuer')}:</div>
-        {renderIssuerAddress(token, onClick)}
+        <IssuerAddress token={token} onClick={onClick} />
       </div>
       <div className="result-website-line">
         {token.meta.issuer.domain && (
