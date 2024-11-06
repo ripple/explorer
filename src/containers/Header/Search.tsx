@@ -1,13 +1,20 @@
-import { KeyboardEventHandler, useContext } from 'react'
+import {
+  FC,
+  KeyboardEventHandler,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
-
 import {
   isValidClassicAddress,
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
+import CloseIcon from '../shared/images/close.png'
+
 import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
 import {
@@ -33,6 +40,7 @@ import {
   VALIDATOR_ROUTE,
   MPT_ROUTE,
 } from '../App/routes'
+import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSearchResults'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
@@ -153,6 +161,26 @@ const normalizeAccount = (id: string) => {
   return id
 }
 
+const SearchBanner: FC<{ setIsBannerVisible: (visible: boolean) => void }> = ({
+  setIsBannerVisible,
+}) => {
+  const { t } = useTranslation()
+  return (
+    <div className="banner-search">
+      <div className="banner-content">
+        <div>{t('search_results_banner')}</div>
+        <button
+          className="banner-button"
+          type="button"
+          onClick={() => setIsBannerVisible(false)}
+        >
+          <img src={CloseIcon} alt="close-icon" width={10} height={10} />
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export interface SearchProps {
   callback?: Function
 }
@@ -162,6 +190,8 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
   const navigate = useNavigate()
+
+  const [currentSearchInput, setCurrentSearchInput] = useState('')
 
   const handleSearch = async (id: string) => {
     const strippedId = id.replace(/^["']|["']$/g, '')
@@ -178,16 +208,40 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === 'Enter') {
       handleSearch(event.currentTarget?.value?.trim())
+      setCurrentSearchInput('')
     }
   }
 
+  const [isBannerVisible, setIsBannerVisible] = useState(true)
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setIsBannerVisible(false)
+    }, 10000) // Disappear after 10 seconds
+
+    return () => clearTimeout(timeoutId)
+  }, [])
+
   return (
-    <div className="search">
-      <input
-        type="text"
-        placeholder={t('header.search.placeholder')}
-        onKeyDown={onKeyDown}
-      />
-    </div>
+    <>
+      {process.env.VITE_ENVIRONMENT === 'mainnet' && isBannerVisible && (
+        <SearchBanner setIsBannerVisible={setIsBannerVisible} />
+      )}
+      <div className="search">
+        <input
+          type="text"
+          placeholder={t('header.search.placeholder')}
+          onKeyDown={onKeyDown}
+          value={currentSearchInput}
+          onChange={(e) => setCurrentSearchInput(e.target.value)}
+        />
+        {process.env.VITE_ENVIRONMENT === 'mainnet' && (
+          <TokenSearchResults
+            setCurrentSearchInput={setCurrentSearchInput}
+            currentSearchValue={currentSearchInput}
+          />
+        )}
+      </div>
+    </>
   )
 }
