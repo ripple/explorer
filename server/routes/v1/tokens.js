@@ -28,9 +28,7 @@ const parseCurrency = (currency) => {
 }
 
 async function fetchXRPLMetaTokens(offset) {
-  log.info('caching tokens from XRPLMeta')
-  const url = `https://${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3`
-  log.info(`url: ${url}`)
+  log.info(`caching tokens from ${process.env.XRPL_META_URL}`)
   return axios
     .get(
       `https://${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3`,
