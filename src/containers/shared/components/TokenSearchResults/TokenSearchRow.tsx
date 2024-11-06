@@ -60,7 +60,6 @@ export const TokenSearchRow = ({
 }: SearchResultRowProps): JSX.Element => {
   const { t } = useTranslation()
 
-  console.log(token)
   return (
     <Link
       to={`/token/${token.currency}.${token.issuer}`}
