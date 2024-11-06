@@ -25,14 +25,22 @@ const SearchResults = ({
   const analytics = useAnalytics()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-  const [tokens, setTokens] = useState<any[]>([])
   const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
 
   useQuery(['fetchXRPToUSDRate'], () => fetchXRPToUSDRate(), {
     refetchInterval: FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
   })
 
-  useQuery(['fetchTokens', currentSearchValue], () => fetchTokens())
+  const { data: tokens = [] } = useQuery(
+    ['fetchTokens', currentSearchValue],
+    () => fetchTokens(),
+    {
+      enabled: !!currentSearchValue,
+      staleTime: 0,
+      keepPreviousData: false,
+      onError: (error) => Log.error(error),
+    },
+  )
 
   const fetchXRPToUSDRate = () =>
     getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1)
@@ -40,14 +48,14 @@ const SearchResults = ({
       .catch((e) => Log.error(e))
 
   const fetchTokens = async () => {
-    if (currentSearchValue !== '') {
-      axios
-        .get(`/api/v1/tokens/search/${currentSearchValue}`)
-        .then((resp) => setTokens(resp.data.tokens))
-        .catch((e) => Log.error(e))
-    } else {
-      setTokens([]) // clear out results and prevent search input/results cache discrepancies
+    if (currentSearchValue === '') {
+      return [] // Return an empty list if search is cleared
     }
+
+    const response = await axios.get(
+      `/api/v1/tokens/search/${currentSearchValue}`,
+    )
+    return response.data.tokens
   }
 
   const onLinkClick = () => {
@@ -58,8 +66,9 @@ const SearchResults = ({
 
     // clear current search on navigation
     setCurrentSearchInput('')
-    setTokens([])
   }
+
+  console.log(tokens.length)
   return tokens.length > 0 ? (
     <div className="search-results-menu">
       <div className="search-results-header">
