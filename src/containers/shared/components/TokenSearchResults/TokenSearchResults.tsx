@@ -68,7 +68,6 @@ const SearchResults = ({
     setCurrentSearchInput('')
   }
 
-  console.log(tokens.length)
   return tokens.length > 0 ? (
     <div className="search-results-menu">
       <div className="search-results-header">
