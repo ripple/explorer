@@ -54,15 +54,14 @@ const SearchResults = ({
       (accountLines) => accountLines.lines[0]?.limit ?? 0.0,
     )
 
-  const fetchTokens = async () => {
+  const fetchTokens = () => {
     if (currentSearchValue === '') {
       return [] // Return an empty list if search is cleared
     }
 
-    const response = await axios.get(
-      `/api/v1/tokens/search/${currentSearchValue}`,
-    )
-    return response.data.tokens
+    return axios
+      .get(`/api/v1/tokens/search/${currentSearchValue}`)
+      .then((response) => response.data.tokens)
   }
 
   const onLinkClick = () => {
