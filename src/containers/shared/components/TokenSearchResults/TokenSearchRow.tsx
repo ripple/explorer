@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { FC } from 'react'
 import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
 import Currency from '../Currency'
@@ -11,8 +10,8 @@ const parsePrice = (dollarPrice: string, xrpPrice: number): number => {
   return Number((parsedDollar * xrpPrice).toFixed(6))
 }
 
-const TokenLogo: FC<{ token: any }> = ({ token }) =>
-  token.meta.token.icon ? (
+const tokenLogo = (token) =>
+  token && token.meta?.token.icon ? (
     <object data={token.meta.token.icon} className="result-row-icon">
       <div className="result-row-icon" />
     </object>
@@ -20,7 +19,7 @@ const TokenLogo: FC<{ token: any }> = ({ token }) =>
     <div className="result-row-icon no-logo" />
   )
 
-const TokenName: FC<{ token: any }> = ({ token }) =>
+const tokenName = (token) =>
   token.meta.token.name && (
     <div>
       (
@@ -61,6 +60,7 @@ export const TokenSearchRow = ({
 }: SearchResultRowProps): JSX.Element => {
   const { t } = useTranslation()
 
+  console.log(token)
   return (
     <Link
       to={`/token/${token.currency}.${token.issuer}`}
@@ -68,11 +68,11 @@ export const TokenSearchRow = ({
       onClick={onClick}
     >
       <div className="result-name-line">
-        <div className="result-logo">{TokenLogo(token)}</div>
+        <div className="result-logo">{tokenLogo(token)}</div>
         <div className="result-currency">
           <Currency currency={token.currency} />
         </div>
-        <div className="result-token-name">{TokenName(token)}</div>
+        <div className="result-token-name">{tokenName(token)}</div>
         <div className="metric-chip">
           <Amount
             value={{
