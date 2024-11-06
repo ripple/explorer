@@ -25,11 +25,13 @@ const SearchResults = ({
   const analytics = useAnalytics()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-  const [XRPUSDPrice, setXRPUSDPrice] = useState(0.0)
-
-  useQuery(['fetchXRPToUSDRate'], () => fetchXRPToUSDRate(), {
-    refetchInterval: FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
-  })
+  const { data: XRPUSDPrice = 0.0 } = useQuery(
+    ['fetchXRPToUSDRate'],
+    () => fetchXRPToUSDRate(),
+    {
+      refetchInterval: FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
+    },
+  )
 
   const { data: tokens = [] } = useQuery(
     ['fetchTokens', currentSearchValue],
@@ -42,10 +44,19 @@ const SearchResults = ({
     },
   )
 
-  const fetchXRPToUSDRate = () =>
-    getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1)
-      .then((accountLines) => setXRPUSDPrice(accountLines.lines[0]?.limit))
-      .catch((e) => Log.error(e))
+  const fetchXRPToUSDRate = async () => {
+    try {
+      const accountLines = await getAccountLines(
+        rippledSocket,
+        ORACLE_ACCOUNT,
+        1,
+      )
+      return accountLines.lines[0]?.limit ?? 0.0 // Return the fetched XRP/USD price or 0.0 if not available
+    } catch (e) {
+      Log.error(e)
+      return 0.0
+    }
+  }
 
   const fetchTokens = async () => {
     if (currentSearchValue === '') {
