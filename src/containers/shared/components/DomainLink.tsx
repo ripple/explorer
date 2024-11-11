@@ -5,13 +5,15 @@ export interface Props {
   className?: string
   decode?: boolean
   domain: string
+  keepProtocol?: boolean
 }
 
 // Matches a protocol (e.g. 'http://' or 'https://') at the start of a string.
 const PROTOCOL_REGEX = /^([a-z][a-z0-9+\-.]*):\/\//
+const PROTOCOL_REMOVAL_REGEX = /^(https?:\/\/)?(.*?)(\/)?$/
 
 const DomainLink = (props: Props) => {
-  const { className, decode = false, domain } = props
+  const { className, decode = false, domain, keepProtocol = true } = props
 
   // If decode is true, decode the domain
   const decodedDomain = decode ? decodeHex(domain) : domain
@@ -26,14 +28,19 @@ const DomainLink = (props: Props) => {
     href = href.replace('ipfs://', 'https://ipfs.io/ipfs/')
   }
 
+  const domainText = keepProtocol
+    ? decodedDomain
+    : decodedDomain.replace(PROTOCOL_REMOVAL_REGEX, '$2')
+
   return (
     <a
       className={classnames('domain', className)}
       rel="noopener noreferrer"
       target="_blank"
       href={href}
+      onClick={(event) => event.stopPropagation()}
     >
-      {decode ? decodeHex(domain) : domain}
+      {domainText}
     </a>
   )
 }

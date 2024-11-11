@@ -1,0 +1,142 @@
+@import '../../css/variables';
+
+.search-results-menu {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  max-height: 400px;
+  border: 1px solid $black-80;
+  border-radius: 8px;
+  border-top: 0px;
+  margin-top: 6px;
+  background-color: $black-100;
+  box-shadow: 2px 2px 15px 0px rgb(131 131 134 / 30%);
+  overflow-wrap: anywhere;
+  overflow-y: scroll;
+  scrollbar-color: $black-50 transparent;
+  scrollbar-width: thin;
+
+  @media (width < 900px) {
+    max-width: calc(100% - 32px);
+  }
+}
+
+.search-results-header {
+  padding: 0.5rem 0rem 0.5rem 1rem;
+  background-color: $black-80;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.result-row-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 16px;
+}
+
+.no-logo {
+  border-radius: 50%;
+  background-color: $black-50;
+}
+
+.result-currency {
+  flex-shrink: 0;
+  padding-top: 2px;
+  padding-right: 0px;
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+
+.result-token-name {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-left: 3px;
+}
+
+.result-logo {
+  padding-right: 14px;
+  padding-left: 1rem;
+}
+
+.search-result-row {
+  position: relative;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  color: $black-0;
+  font-size: 14px;
+  font-weight: 500;
+
+  &:hover {
+    background-color: $black-70;
+    color: $black-0;
+    cursor: pointer;
+  }
+}
+
+.result-name-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+
+.result-issuer-line {
+  display: flex;
+  overflow: hidden;
+  padding: 0 1rem;
+  margin-bottom: 0.5rem;
+  color: $black-50;
+}
+
+.result-website-line {
+  display: flex;
+  flex-direction: row;
+  padding: 0 1rem;
+  color: $black-50;
+}
+
+.metric-chip {
+  padding: 2px 12px;
+  border: 1px solid $black-70;
+  border-radius: 100px;
+  margin-right: 8px;
+  margin-left: 8px;
+  background-color: $black-100;
+  font-size: 12px;
+  font-weight: 600;
+
+  &:hover {
+    background-color: $black-100;
+    cursor: pointer;
+  }
+}
+
+.issuer-link {
+  display: inline-flex !important;
+  overflow: hidden;
+  margin-left: 0.25rem;
+  color: $black-50;
+
+  &:hover {
+    background: transparent;
+    color: $blue-purple-30;
+  }
+
+}
+
+.issuer-address {
+  @extend %truncate;
+}
+
+.issuer-name,
+.issuer-title {
+  flex-shrink: 0;
+}
+
+.result-domain-link {
+  margin-left: 0.25rem;
+}

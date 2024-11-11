@@ -620,6 +620,26 @@ const getAccountMPTs = (
     return resp
   })
 
+const getAccountLines = (rippledSocket, account, limit) =>
+  query(rippledSocket, {
+    command: 'account_lines',
+    account,
+    limit,
+  }).then((resp) => {
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+    if (resp.error === 'invalidParams') {
+      return undefined
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
+  })
+
 export {
   getLedger,
   getLedgerEntry,
@@ -642,4 +662,5 @@ export {
   getFeature,
   getMPTIssuance,
   getAccountMPTs,
+  getAccountLines,
 }
