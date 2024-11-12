@@ -1,4 +1,4 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .account-header {
   margin-bottom: 16px;

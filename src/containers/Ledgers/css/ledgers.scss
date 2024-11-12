@@ -1,4 +1,4 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 $ledgers-margin-large: 32px;
 $ledgers-border: 1px solid $black-70;
