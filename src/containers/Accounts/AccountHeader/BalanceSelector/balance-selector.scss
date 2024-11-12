@@ -1,4 +1,4 @@
-@import 'src/containers/shared/css/variables';
+@use 'src/containers/shared/css/variables' as *;
 
 .balance-selector {
   position: relative;

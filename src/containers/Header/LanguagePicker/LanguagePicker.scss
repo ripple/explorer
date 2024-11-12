@@ -1,4 +1,4 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .language-picker {
   margin-left: auto;

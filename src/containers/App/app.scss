@@ -1,4 +1,4 @@
-@import '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 .app {
   flex-grow: 1;

@@ -1,4 +1,4 @@
-@import '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 .search-container {
   position: relative;
