@@ -553,5 +553,8 @@
   "can_trade": null,
   "can_transfer": null,
   "can_clawback": null,
-  "search_results_banner": null
+  "search_results_banner": null,
+  "enable_amendment_name": null,
+  "amendment_status": null,
+  "expected_date": null
 }

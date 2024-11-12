@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLanguage } from '../../../hooks'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
@@ -16,6 +17,7 @@ const states = {
 
 export const Simple = ({ data }: TransactionSimpleProps<EnableAmendment>) => {
   const language = useLanguage()
+  const { t } = useTranslation()
   const [amendmentDetails, setAmendmentDetails] = useState({
     name: states.loading,
     minRippledVersion: states.loading,
@@ -56,7 +58,7 @@ export const Simple = ({ data }: TransactionSimpleProps<EnableAmendment>) => {
 
   return (
     <>
-      <SimpleRow label="Amendment Name" data-test="name">
+      <SimpleRow label={t('enable_amendment_name')} data-test="name">
         <RouteLink
           to={AMENDMENT_ROUTE}
           params={{ identifier: data.instructions.Amendment }}
@@ -64,16 +66,16 @@ export const Simple = ({ data }: TransactionSimpleProps<EnableAmendment>) => {
           {amendmentDetails.name}
         </RouteLink>
       </SimpleRow>
-      <SimpleRow label="Amendment Status" data-test="status">
+      <SimpleRow label={t('amendment_status')} data-test="status">
         <a href="https://xrpl.org/enableamendment.html#enableamendment-flags">
           {amendmentStatus}
         </a>
       </SimpleRow>
-      <SimpleRow label="Introduced In" data-test="version">
+      <SimpleRow label={t('introduced_in')} data-test="version">
         {amendmentDetails.minRippledVersion}
       </SimpleRow>
       {amendmentStatus === 'Got Majority' && (
-        <SimpleRow label="Expected Date" data-test="date">
+        <SimpleRow label={t('expected_date')} data-test="date">
           {expectedDate}
         </SimpleRow>
       )}
