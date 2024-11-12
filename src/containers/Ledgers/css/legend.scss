@@ -1,4 +1,4 @@
-@use '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .legend {
   display: flex;
@@ -33,7 +33,7 @@
   flex-flow: column wrap;
   gap: 16px;
 
-  @include variables.for-size(desktop-up) {
+  @include for-size(desktop-up) {
     flex-direction: row;
   }
 }

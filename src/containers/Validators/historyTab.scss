@@ -1,4 +1,4 @@
-@use '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 .history-table {
   // Col overall styling
@@ -12,25 +12,25 @@
 
   .col-date {
     width: 90px;
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       width: 200px;
     }
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 300px;
     }
-    @include variables.for-size(big-desktop-up) {
+    @include for-size(big-desktop-up) {
       width: 390px;
     }
 
     .abbrev-date {
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         display: none;
       }
     }
 
     .full-date {
       display: none;
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         display: table-cell;
       }
     }
@@ -38,57 +38,57 @@
 
   .col-chain {
     width: 55px;
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       width: 70px;
     }
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 100px;
     }
-    @include variables.for-size(big-desktop-up) {
+    @include for-size(big-desktop-up) {
       width: 200px;
     }
   }
 
   .col-score {
     width: 55px;
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       width: 70px;
     }
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 100px;
     }
-    @include variables.for-size(big-desktop-up) {
+    @include for-size(big-desktop-up) {
       width: 150px;
     }
   }
 
   .col-total {
     width: 55px;
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       width: 70px;
     }
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 100px;
     }
-    @include variables.for-size(big-desktop-up) {
+    @include for-size(big-desktop-up) {
       width: 165px;
     }
   }
 
   .col-missed {
     width: 55px;
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       width: 70px;
     }
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 100px;
     }
-    @include variables.for-size(big-desktop-up) {
+    @include for-size(big-desktop-up) {
       width: 165px;
     }
   }
 
   .td-missed {
-    color: variables.$orange-50;
+    color: $orange-50;
   }
 }

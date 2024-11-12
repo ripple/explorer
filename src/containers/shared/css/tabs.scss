@@ -1,7 +1,7 @@
-@use 'variables';
+@use 'variables' as *;
 
 .tabs {
-  border-top: 1px solid variables.$black-70;
+  border-top: 1px solid $black-70;
   margin: 8px auto 40px;
   font-size: 14px;
 
@@ -13,20 +13,20 @@
     display: inline-block;
     padding: 24px 24px 0;
     border-top: 2px solid transparent;
-    color: variables.$black-40;
+    color: $black-40;
     cursor: pointer;
     text-align: center;
 
     &:hover,
     &:focus {
-      color: variables.$white;
-      @include variables.bold;
+      color: $white;
+      @include bold;
     }
 
     &.selected {
-      border-top: 2px solid variables.$white;
-      color: variables.$white;
-      @include variables.bold;
+      border-top: 2px solid $white;
+      color: $white;
+      @include bold;
     }
   }
 }

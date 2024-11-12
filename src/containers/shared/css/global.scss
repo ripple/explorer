@@ -1,6 +1,6 @@
 // ONLY GLOBAL CSS, KEEP IT TO MINIMAL
 // CSS SHOULD BE SCOPPED TO COMPONENT
-@use 'variables';
+@use 'variables' as *;
 @use 'form';
 
 /**
@@ -26,7 +26,7 @@ html {
 
 body {
   height: 100%;
-  color: variables.$white;
+  color: $white;
 }
 
 .xrpl-explorer {
@@ -43,7 +43,7 @@ body,
 input {
   padding: 0px;
   margin: 0px;
-  background-color: variables.$black-100;
+  background-color: $black-100;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   font-style: normal;
@@ -68,12 +68,12 @@ button {
 
 h2 {
   padding-bottom: 18px;
-  border-bottom: 1px variables.$black-70 solid;
+  border-bottom: 1px $black-70 solid;
   margin-top: 0;
-  color: variables.$white;
+  color: $white;
   font-size: 24px;
 
-  @include variables.bold;
+  @include bold;
 }
 
 svg.react-stockchart {
@@ -87,11 +87,11 @@ div.react-stockchart div {
 
 .async-component-error {
   margin: 0px auto;
-  color: variables.$black-40;
+  color: $black-40;
   font-size: 16px;
   line-height: 24px;
   text-align: center;
-  @include variables.bold;
+  @include bold;
 }
 
 @mixin transaction-category($category, $color, $hover, $background) {
@@ -109,27 +109,27 @@ div.react-stockchart div {
   }
 }
 
-@include transaction-category(ACCOUNT, variables.$magenta, variables.$magenta-30, variables.$magenta-90);
-@include transaction-category(DEX, variables.$blue, variables.$blue-30, variables.$blue-90);
-@include transaction-category(PAYMENT, variables.$green, variables.$green-30, variables.$green-90);
+@include transaction-category(ACCOUNT, $magenta, $magenta-30, $magenta-90);
+@include transaction-category(DEX, $blue, $blue-30, $blue-90);
+@include transaction-category(PAYMENT, $green, $green-30, $green-90);
 @include transaction-category(
   NFT,
-  variables.$blue-purple,
-  variables.$blue-purple-30,
-  variables.$blue-purple-90
+  $blue-purple,
+  $blue-purple-30,
+  $blue-purple-90
 );
-@include transaction-category(XCHAIN, variables.$yellow, variables.$yellow-30, variables.$yellow-90);
-@include transaction-category(PSEUDO, variables.$white, variables.$white, variables.$black-80);
-@include transaction-category(UNKNOWN, variables.$black-50, variables.$black-30, variables.$black-90);
-@include transaction-category(MPT, variables.$blue, variables.$blue-30, variables.$blue-90);
+@include transaction-category(XCHAIN, $yellow, $yellow-30, $yellow-90);
+@include transaction-category(PSEUDO, $white, $white, $black-80);
+@include transaction-category(UNKNOWN, $black-50, $black-30, $black-90);
+@include transaction-category(MPT, $blue, $blue-30, $blue-90);
 
 .tx-result {
   &.success {
-    color: variables.$green;
+    color: $green;
   }
 
   &.fail {
-    color: variables.$orange-40;
+    color: $orange-40;
   }
 }
 
@@ -162,16 +162,16 @@ div.react-stockchart div {
 
 .btn {
   padding: 12px 16px;
-  border: solid 1px variables.$white;
-  border-radius: variables.$border-radius;
-  background: variables.$black;
-  color: variables.$white;
+  border: solid 1px $white;
+  border-radius: $border-radius;
+  background: $black;
+  color: $white;
   cursor: pointer;
   font-size: 14px;
   line-height: 21px;
 
   &:hover {
-    background: variables.$black-80;
+    background: $black-80;
   }
 }
 
@@ -179,12 +179,12 @@ a,
 .btn-link {
   border: none;
   background: transparent;
-  color: variables.$green-30;
+  color: $green-30;
   text-decoration: none;
 
   &:hover {
     background: transparent;
-    color: variables.$green-50;
+    color: $green-50;
   }
 
   &.external, // Force the external icon. Useful for when the protocol is unknown like with NFTs.
@@ -253,30 +253,30 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
   border-radius: 30px;
   margin-left: 12px;
   font-size: 14px;
-  @include variables.bold;
+  @include bold;
 }
 
 .section {
   margin: 0 8px;
 
-  @include variables.for-size(tablet-landscape-up) {
+  @include for-size(tablet-landscape-up) {
     width: calc(100% - 15px);
     margin: 0 auto;
   }
 
-  @include variables.for-size(big-desktop-up) {
-    max-width: variables.$desktop-upper-boundary;
+  @include for-size(big-desktop-up) {
+    max-width: $desktop-upper-boundary;
   }
 }
 
 .warning {
   display: flex;
   align-items: center;
-  color: variables.$orange;
+  color: $orange;
   font-size: 12px;
   line-height: 20px;
   text-transform: uppercase;
-  @include variables.bold;
+  @include bold;
 
   img {
     transform: scale(0.5);
@@ -285,8 +285,8 @@ This makes the `mask-overlay` sit on top of the `anchor-mask` and then places an
 
 // A transactions destination tag.  Used like rafdasdfas:424242
 .dt {
-  @include variables.medium;
+  @include medium;
 
-  color: variables.$black-40;
+  color: $black-40;
   font-size: 0.9em;
 }

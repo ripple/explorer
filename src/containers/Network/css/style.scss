@@ -1,4 +1,4 @@
-@use '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .network-page {
   // Needs additional bottom margin to break up table from the horizontal
@@ -14,7 +14,7 @@
   .stat {
     min-height: 15px;
     padding: 2px;
-    color: variables.$black-40;
+    color: $black-40;
     font-size: 11px;
     text-align: center;
     text-transform: uppercase;
@@ -23,7 +23,7 @@
       font-size: 10px;
     }
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       padding: 4px 10px;
       font-size: 12px;
 

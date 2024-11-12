@@ -1,17 +1,17 @@
-@use '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 .validator {
   position: relative;
   min-height: 600px;
 
-  @include variables.for-size(tablet-landscape-up) {
+  @include for-size(tablet-landscape-up) {
     width: 552px;
     margin: auto;
   }
-  @include variables.for-size(desktop-up) {
+  @include for-size(desktop-up) {
     width: 772px;
   }
-  @include variables.for-size(big-desktop-up) {
+  @include for-size(big-desktop-up) {
     width: 1140px;
   }
 
@@ -28,28 +28,28 @@
     .type {
       display: inline-block;
       margin-bottom: 24px;
-      color: variables.$white;
+      color: $white;
       font-size: 32px;
-      @include variables.bold;
+      @include bold;
     }
 
     .label {
       margin-top: 16px;
       margin-bottom: 4px;
-      color: variables.$black-80;
+      color: $black-80;
       font-size: 24px;
       line-height: 32px;
-      @include variables.bold;
+      @include bold;
 
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         font-size: 32px;
         line-height: 40px;
       }
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         font-size: 40px;
         line-height: 48px;
       }
-      @include variables.for-size(big-desktop-up) {
+      @include for-size(big-desktop-up) {
         font-size: 40px;
         line-height: 48px;
       }
@@ -58,13 +58,13 @@
     .hash {
       overflow: hidden;
       padding-bottom: 87px;
-      color: variables.$black-40;
+      color: $black-40;
       font-size: 12px;
       letter-spacing: 0px;
       line-height: 20px;
       text-overflow: ellipsis;
       white-space: nowrap;
-      @include variables.medium;
+      @include medium;
     }
 
     .status {
@@ -74,27 +74,27 @@
       line-height: 18px;
       text-transform: uppercase;
       vertical-align: middle;
-      @include variables.bold;
+      @include bold;
 
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         font-size: 12px;
         line-height: 20px;
       }
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         font-size: 12px;
         line-height: 20px;
       }
-      @include variables.for-size(big-desktop-up) {
+      @include for-size(big-desktop-up) {
         font-size: 12px;
         line-height: 20px;
       }
 
       &.success {
-        color: variables.$green;
+        color: $green;
       }
 
       &.fail {
-        color: variables.$orange-40;
+        color: $orange-40;
 
         span {
           text-transform: none;

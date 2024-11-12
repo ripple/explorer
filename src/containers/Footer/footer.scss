@@ -1,11 +1,11 @@
-@use '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 .footer {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  border-top: 1px solid variables.$black-80;
+  border-top: 1px solid $black-80;
   margin: 0 10%;
 
   .footer-links {
@@ -13,7 +13,7 @@
     flex-direction: column;
     justify-content: space-around;
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       flex-direction: row;
     }
   }
@@ -24,7 +24,7 @@
 
   .footer-section-header {
     margin-bottom: 24px;
-    color: variables.$white;
+    color: $white;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
@@ -55,11 +55,11 @@
 
   .logo {
     margin-bottom: 11px;
-    color: variables.$white;
+    color: $white;
     font-size: 14px;
-    @include variables.regular;
+    @include regular;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       display: inline-block;
     }
 
@@ -77,11 +77,11 @@
 
   .copyright {
     margin-top: 20px;
-    color: variables.$black-40;
+    color: $black-40;
     font-size: 12px;
-    @include variables.medium;
+    @include medium;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 320px;
       margin-top: 8px;
       clear: right;

@@ -1,4 +1,4 @@
-@use '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .language-picker {
   margin-left: auto;
@@ -8,6 +8,6 @@
   }
 
   .arrow {
-    color: variables.$blue-purple-40;
+    color: $blue-purple-40;
   }
 }

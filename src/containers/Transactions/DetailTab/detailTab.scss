@@ -1,14 +1,14 @@
-@use '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .detail-body {
   margin-top: 20px;
-  color: variables.$black-40;
+  color: $black-40;
   font-size: 12px;
   letter-spacing: 0px;
 
   .detail-section {
     padding: 5px 15px;
-    border-bottom: 1px solid variables.$black-70;
+    border-bottom: 1px solid $black-70;
     margin: 0px 0px 30px;
 
     &:last-child {
@@ -19,19 +19,19 @@
       word-wrap: break-word;
     }
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       width: 552px;
     }
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 772px;
     }
-    @include variables.for-size(big-desktop-up) {
+    @include for-size(big-desktop-up) {
       width: 882px;
     }
 
     b {
-      color: variables.$black-30;
-      @include variables.medium;
+      color: $black-30;
+      @include medium;
 
       small {
         margin-left: 5px;
@@ -60,10 +60,10 @@
 
     .title {
       margin-bottom: 4px;
-      color: variables.$white;
+      color: $white;
       font-size: 16px;
       text-transform: capitalize;
-      @include variables.bold;
+      @include bold;
 
       span {
         margin-left: 8px;
@@ -75,26 +75,26 @@
     .detail-subtitle {
       margin-top: 16px;
       margin-bottom: 2px;
-      color: variables.$black-40;
+      color: $black-40;
       font-size: 14px;
       text-transform: uppercase;
-      @include variables.medium;
+      @include medium;
     }
 
     .ledger {
-      @include variables.medium;
+      @include medium;
     }
 
     .tx-result.fail {
-      color: variables.$orange-40;
+      color: $orange-40;
     }
 
     .time {
-      color: variables.$blue-purple-30;
+      color: $blue-purple-30;
     }
 
     .hash {
-      @include variables.medium;
+      @include medium;
     }
 
     .condition,
@@ -103,23 +103,23 @@
     .regular-key,
     .email,
     .message-key {
-      color: variables.$blue-purple-30;
+      color: $blue-purple-30;
       font-size: 13px;
       word-break: break-all;
     }
 
     .domain {
-      color: variables.$blue-purple-30;
+      color: $blue-purple-30;
     }
 
     .flag {
-      color: variables.$blue-purple-30;
+      color: $blue-purple-30;
       font-style: italic;
     }
 
     .account {
       font-size: 11px;
-      @include variables.bold;
+      @include bold;
     }
 
     .signers {

@@ -1,4 +1,4 @@
-@use '../shared/css/variables';
+@use '../shared/css/variables' as *;
 @use '../shared/css/table';
 
 .amendment-summary {
@@ -14,16 +14,16 @@
     display: inline-block;
     margin-top: 80px;
     margin-bottom: 32px;
-    color: variables.$white;
+    color: $white;
     font-size: 32px;
 
-    @include variables.for-size(tablet-portrait-up) {
+    @include for-size(tablet-portrait-up) {
       margin-top: 120px;
       margin-bottom: 64px;
       font-size: 42px;
     }
 
-    @include variables.bold;
+    @include bold;
   }
 
   .rows {
@@ -42,20 +42,20 @@
   .badge {
     max-width: fit-content;
     margin: 0;
-    color: variables.$black-100 !important;
+    color: $black-100 !important;
     text-transform: capitalize;
 
     &.voting {
-      background-color: variables.$black-30;
+      background-color: $black-30;
     }
 
     &.enabled {
-      background-color: variables.$green-60;
+      background-color: $green-60;
     }
 
     &.consensus {
       margin-top: 6px;
-      background-color: variables.$yellow-50;
+      background-color: $yellow-50;
       font-weight: 700 !important;
     }
   }
@@ -63,7 +63,7 @@
   .value {
     &.eta {
       &.no{
-        color: variables.$yellow-50 !important;
+        color: $yellow-50 !important;
       }
     }
   }
@@ -72,7 +72,7 @@
     .unl {
       display: inline-block;
       margin: 0 10px;
-      color: variables.$green-40;
+      color: $green-40;
       vertical-align: middle;
     }
   }
@@ -84,14 +84,14 @@
     .votes-columns {
       margin: 48px 0;
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         display: grid;
         gap: 48px;
         grid-template-columns: repeat(2, 1fr);
       }
 
       .label {
-        @include variables.bold;
+        @include bold;
 
         margin-bottom: 24px;
         font-size: 24px;
@@ -105,13 +105,13 @@
         margin-top: 24px;
 
         .vals {
-          background: variables.$black-80;
+          background: $black-80;
 
           .row {
             display: flex;
             overflow: hidden;
             padding: 16px;
-            border-bottom: 1px solid variables.$black-70;
+            border-bottom: 1px solid $black-70;
             white-space: nowrap;
 
             .val {
@@ -124,7 +124,7 @@
 
             .unl {
               margin-left: 8px;
-              color: variables.$green-40;
+              color: $green-40;
             }
 
             .index {

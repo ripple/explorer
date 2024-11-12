@@ -1,4 +1,4 @@
-@use '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 @use '../../shared/css/table';
 
 .nft-tabs {
@@ -11,7 +11,7 @@
 
   table {
     .no-info-panel {
-      color: variables.$black-40;
+      color: $black-40;
       font-size: 14px;
       font-weight: 400;
       line-height: 150%;
@@ -33,11 +33,11 @@
       width: 55%;
       padding-left: 32px;
 
-      @include variables.for-size(tablet-portrait-up) {
+      @include for-size(tablet-portrait-up) {
         max-width: 140px;
       }
 
-      @include variables.for-size(big-desktop-up) {
+      @include for-size(big-desktop-up) {
         max-width: 180px;
       }
     }
@@ -46,7 +46,7 @@
       display: table-cell;
       width: 15%;
       padding-right: 32px;
-      @include variables.medium;
+      @include medium;
 
       span.amount {
         padding: 0;
@@ -57,16 +57,16 @@
       display: table-cell;
       width: 30%;
       min-width: 0;
-      @include variables.for-size(tablet-portrait-up) {
+      @include for-size(tablet-portrait-up) {
         max-width: 80px;
       }
 
-      @include variables.for-size(big-desktop-up) {
+      @include for-size(big-desktop-up) {
         max-width: 120px;
       }
-      @include variables.medium;
+      @include medium;
     }
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       .offer-id {
         display: table-cell;
       }

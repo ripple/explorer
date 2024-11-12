@@ -1,14 +1,14 @@
-@use '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .account-header {
   margin-bottom: 16px;
 
   .title {
     padding-bottom: 4px;
-    color: variables.$black-40;
+    color: $black-40;
     font-size: 14px;
     text-transform: uppercase;
-    @include variables.semibold;
+    @include semibold;
   }
 
   .box-header {
@@ -27,23 +27,23 @@
     }
 
     .badge {
-      border: 1px solid variables.$yellow-50;
-      background: variables.$yellow-50;
-      box-shadow: 0 1px 1px variables.$yellow-80;
-      color: variables.$black;
+      border: 1px solid $yellow-50;
+      background: $yellow-50;
+      box-shadow: 0 1px 1px $yellow-80;
+      color: $black;
     }
 
     .classic {
       margin: 0;
-      color: variables.$white;
+      color: $white;
       font-size: 20px;
-      @include variables.bold;
+      @include bold;
 
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         font-size: 24px;
       }
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         font-size: 36px;
       }
     }
@@ -53,19 +53,19 @@
       padding: 5px;
       border-width: thin;
       border-style: solid;
-      border-color: variables.$black-70;
+      border-color: $black-70;
       margin: 0;
       margin-left: 12px;
-      color: variables.$white;
+      color: $white;
       font-size: 16px;
       text-transform: none;
-      @include variables.semibold;
+      @include semibold;
 
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         font-size: 10px;
       }
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         font-size: 20px;
       }
     }
@@ -75,15 +75,15 @@
       padding-right: 10px;
       border-bottom: none;
       margin: 0;
-      color: variables.$white;
+      color: $white;
       font-size: 18px;
-      @include variables.bold;
+      @include bold;
 
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         font-size: 10px;
       }
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         font-size: 23px;
       }
     }
@@ -91,15 +91,15 @@
 
   .x-address {
     margin: 0;
-    color: variables.$white;
+    color: $white;
     font-size: 14px;
-    @include variables.bold;
+    @include bold;
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       font-size: 18px;
     }
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       font-size: 36px;
     }
   }
@@ -115,7 +115,7 @@
     justify-content: space-between;
     margin-top: 68px;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       flex-direction: row;
       margin-top: 80px;
     }
@@ -125,19 +125,19 @@
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 18px;
-      color: variables.$white;
+      color: $white;
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         flex-direction: column;
         margin-bottom: 0;
       }
 
       .value {
-        color: variables.$white;
+        color: $white;
         font-size: 18px;
         line-height: 22.5px;
         text-decoration: none;
-        @include variables.bold;
+        @include bold;
       }
     }
   }
@@ -147,7 +147,7 @@
     flex-direction: column;
     gap: 16px;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       flex-direction: row;
     }
   }
@@ -157,7 +157,7 @@
     width: 100%;
     vertical-align: top;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 50%;
 
       &.first {
@@ -174,17 +174,17 @@
       padding: 0;
       margin-bottom: 20px;
       font-size: 12px;
-      @include variables.bold;
+      @include bold;
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         border: none;
       }
 
       .label {
-        color: variables.$black-40;
+        color: $black-40;
         text-align: left;
         text-transform: uppercase;
-        @include variables.medium;
+        @include medium;
       }
 
       ul {
@@ -201,18 +201,18 @@
             display: inline-block;
             text-transform: none;
             vertical-align: middle;
-            @include variables.medium;
+            @include medium;
             @extend %truncate;
           }
 
           b {
-            color: variables.$white;
+            color: $white;
             word-break: break-all;
-            @include variables.bold;
+            @include bold;
           }
 
           &.flags {
-            color: variables.$blue-purple-30;
+            color: $blue-purple-30;
             font-style: italic;
           }
         }
@@ -247,11 +247,11 @@
       &.balance {
         .value {
           margin: -4px 0 5px -0.1em;
-          color: variables.$white;
+          color: $white;
           font-size: 26px;
           line-height: 30px;
-          @include variables.regular;
-          @include variables.for-size(desktop-up) {
+          @include regular;
+          @include for-size(desktop-up) {
             font-size: 30px;
             line-height: 34px;
           }

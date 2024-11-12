@@ -1,4 +1,4 @@
-@use '../shared/css/variables';
+@use '../shared/css/variables' as *;
 @use '../shared/css/table';
 
 .amendments-page{
@@ -6,21 +6,21 @@
     padding: 0 16px;
     margin-top: 100px;
 
-    @include variables.for-size(tablet-portrait-up) {
+    @include for-size(tablet-portrait-up) {
       padding: 0;
     }
 
     .type {
       display: inline-block;
       padding-bottom: 24px;
-      color: variables.$white;
+      color: $white;
       font-size: 32px;
 
-      @include variables.for-size(tablet-portrait-up) {
+      @include for-size(tablet-portrait-up) {
         font-size: 42px;
       }
 
-      @include variables.bold;
+      @include bold;
     }
   }
 
@@ -38,7 +38,7 @@
 
   table {
     .incoming {
-      background: rgba(variables.$green-90, 0.7);
+      background: rgba($green-90, 0.7);
     }
 
     .eta-label {
@@ -49,11 +49,11 @@
     .name {
       max-width: 120px;
 
-      @include variables.for-size(tablet-portrait-up) {
+      @include for-size(tablet-portrait-up) {
         max-width: 180px;
       }
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         max-width: 280px;
       }
     }
@@ -62,7 +62,7 @@
       display: none;
       max-width: 120px;
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         display: table-cell;
         padding-right: 3%;
       }
@@ -74,7 +74,7 @@
       align-items: center;
       gap: 6px;
 
-      @include variables.for-size(tablet-portrait-up) {
+      @include for-size(tablet-portrait-up) {
         gap: 12px;
       }
 
@@ -93,9 +93,9 @@
         text-transform: uppercase;
 
         &.badge {
-          border: 1px solid variables.$black-30;
-          background-color: variables.$black-80;
-          color: variables.$black-30;
+          border: 1px solid $black-30;
+          background-color: $black-80;
+          color: $black-30;
         }
       }
     }
@@ -103,7 +103,7 @@
     .version, .enabled, .consensus {
       max-width: 70px;
       overflow-wrap: break-word;
-      @include variables.for-size(tablet-portrait-up) {
+      @include for-size(tablet-portrait-up) {
         max-width: 100px;
       }
     }
@@ -111,21 +111,21 @@
 
   .badge {
     margin: 0;
-    color: variables.$black-100;
+    color: $black-100;
     text-transform: uppercase;
 
     &.yes {
-      background-color: variables.$green-60;
+      background-color: $green-60;
     }
 
     &.no {
-      background-color: variables.$black-30;
+      background-color: $black-30;
     }
   }
 
   .voting {
     margin-left: 0;
-    color: variables.$yellow-50;
+    color: $yellow-50;
   }
 
   .voters,
@@ -133,7 +133,7 @@
     display: none;
     max-width: 70px;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       display: table-cell;
     }
   }
@@ -141,7 +141,7 @@
   .count {
     display: none;
 
-    @include variables.for-size(tablet-portrait-up) {
+    @include for-size(tablet-portrait-up) {
       display: table-cell;
     }
   }

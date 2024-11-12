@@ -1,5 +1,5 @@
 @use 'sass:color';
-@use '../../../shared/css/variables';
+@use '../../../shared/css/variables' as *;
 
 .transaction-table {
   width: 100%;
@@ -10,7 +10,7 @@
   list-style: none;
   table-layout: fixed;
 
-  @include variables.for-size(desktop-up) {
+  @include for-size(desktop-up) {
     font-size: 14px;
   }
 
@@ -18,11 +18,11 @@
     display: flex;
     align-items: stretch;
     padding: 12px 16px;
-    color: variables.$white;
+    color: $white;
     font-size: 14px;
     gap: 0 12px;
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       padding: 12px 32px;
     }
   }
@@ -38,8 +38,8 @@
   .col-type {
     flex: 2;
 
-    @include variables.semibold;
-    @include variables.for-size(desktop-up) {
+    @include semibold;
+    @include for-size(desktop-up) {
       width: 230px;
     }
   }
@@ -50,19 +50,19 @@
 
   .col-status {
     width: 50px;
-    @include variables.regular;
+    @include regular;
 
     .status {
       display: none;
     }
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       .status {
         display: initial;
       }
     }
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: auto;
       flex: 2 2;
     }
@@ -73,11 +73,11 @@
     flex: 3;
 
     .upper & {
-      color: variables.$black-70;
-      @include variables.medium;
+      color: $black-70;
+      @include medium;
     }
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       display: inline-block;
     }
   }
@@ -85,9 +85,9 @@
   .col-date {
     flex: 3;
     justify-content: right;
-    @include variables.medium;
+    @include medium;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 185px; // We know the width because dates can only be so big
       flex: none;
     }
@@ -96,14 +96,14 @@
   .details {
     min-height: 30px;
     padding: 32px;
-    background: rgba(variables.$black-70, 0.5);
-    color: variables.$black-40;
+    background: rgba($black-70, 0.5);
+    color: $black-40;
     font-size: 10px;
     line-height: 12px;
     text-transform: uppercase;
-    @include variables.regular;
+    @include regular;
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       font-size: 12px;
     }
 
@@ -137,7 +137,7 @@
     }
 
     .label {
-      @include variables.bold;
+      @include bold;
     }
 
     small {
@@ -162,11 +162,11 @@
 
     .partial-payment,
     .closed {
-      color: variables.$red-dark;
+      color: $red-dark;
     }
 
     .flag {
-      color: variables.$blue-purple-30;
+      color: $blue-purple-30;
     }
 
     .condition,
@@ -178,16 +178,16 @@
   .transaction-li {
     position: relative;
     display: block;
-    border-bottom: solid 1px variables.$black-70;
+    border-bottom: solid 1px $black-70;
     line-height: 20px;
 
     .transaction-address {
       overflow: hidden;
-      color: variables.$white;
+      color: $white;
       text-overflow: ellipsis;
     }
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       flex-direction: row;
       padding: 0;
     }
@@ -198,7 +198,7 @@
 
     &:hover {
       .upper {
-        background-color: rgba(variables.$black-70, 0.7);
+        background-color: rgba($black-70, 0.7);
       }
     }
   }
@@ -210,7 +210,7 @@
     gap: 0 12px;
     text-transform: uppercase;
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       padding: 12px 32px;
     }
 
@@ -219,15 +219,15 @@
     }
 
     .col {
-      color: variables.$black-50;
-      @include variables.bold;
+      color: $black-50;
+      @include bold;
     }
   }
 }
 
 .empty-transactions-message {
   padding: 16px;
-  color: variables.$black-40;
+  color: $black-40;
   font-size: 16px;
   text-align: center;
 }
@@ -236,5 +236,5 @@
   display: block;
   margin: 10px auto;
   outline: inherit;
-  @include variables.bold;
+  @include bold;
 }

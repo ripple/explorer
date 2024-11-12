@@ -1,11 +1,11 @@
-@use '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .metrics {
   overflow: hidden;
   padding: 10px 20px;
   text-align: center;
 
-  @include variables.for-size(tablet-landscape-up) {
+  @include for-size(tablet-landscape-up) {
     width: calc(100% - 124px);
     justify-content: space-between;
     padding: 0px 12px;
@@ -15,17 +15,17 @@
   .cell {
     display: inline-block;
     width: 100%;
-    color: variables.$white;
+    color: $white;
     font-size: 16px;
     text-align: center;
 
-    @include variables.for-size(tablet-landscape-up) {
+    @include for-size(tablet-landscape-up) {
       width: auto;
       min-width: 100px;
       margin: 15px 5px;
     }
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       min-width: 160px;
       margin: 15px 5px;
       font-size: 18px;
@@ -33,23 +33,23 @@
       text-align: right;
     }
 
-    @include variables.for-size(big-desktop-up) {
+    @include for-size(big-desktop-up) {
       margin: 20px 30px;
     }
 
     .label {
       display: inline-block;
       overflow: hidden;
-      color: variables.$black-40;
+      color: $black-40;
       float: left;
       font-size: 12px;
       line-height: 25px;
       text-overflow: ellipsis;
       text-transform: uppercase;
       white-space: nowrap;
-      @include variables.semibold;
+      @include semibold;
 
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         display: block;
         float: none;
         font-size: 10px;
@@ -65,9 +65,9 @@
       display: inline-block;
       float: right;
       letter-spacing: 0px;
-      @include variables.bold;
+      @include bold;
 
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         display: block;
         float: none;
       }
@@ -88,13 +88,13 @@
     height: 40px;
     flex-direction: row;
     align-items: center;
-    color: variables.$white;
+    color: $white;
     cursor: pointer;
     float: left;
     font-size: 10px;
     text-align: left;
     text-transform: uppercase;
-    @include variables.medium;
+    @include medium;
 
     .icon {
       width: 40px;
@@ -104,7 +104,7 @@
     }
 
     &:hover {
-      color: variables.$black-30;
+      color: $black-30;
     }
   }
 }
@@ -113,7 +113,7 @@
   display: flex;
   flex-direction: column;
   align-content: center;
-  @include variables.for-size(tablet-landscape-up) {
+  @include for-size(tablet-landscape-up) {
     flex-direction: row;
   }
 }

@@ -1,4 +1,4 @@
-@use '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 @use '../../shared/css/table';
 
 .header-container {
@@ -7,21 +7,21 @@
     flex-direction: column;
     padding-top: 64px;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       flex-direction: row;
       padding-top: 80px;
     }
 
     .details {
       width: 100%;
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         width: 490px;
       }
     }
 
     .settings {
       width: 100%;
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         width: 650px;
       }
     }
@@ -33,7 +33,7 @@
     justify-content: space-between;
     margin-top: 68px;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       flex-direction: row;
       margin-top: 80px;
     }
@@ -43,27 +43,27 @@
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 18px;
-      color: variables.$white;
+      color: $white;
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         flex-direction: column;
         margin-bottom: 0px;
       }
 
       .title {
         padding-bottom: 4px;
-        color: variables.$black-40;
+        color: $black-40;
         font-size: 14px;
         text-transform: uppercase;
-        @include variables.semibold;
+        @include semibold;
       }
 
       .value {
-        color: variables.$white;
+        color: $white;
         font-size: 18px;
         line-height: 22.5px;
         text-decoration: none;
-        @include variables.bold;
+        @include bold;
       }
     }
   }
@@ -81,11 +81,11 @@
 
     span {
       margin: 0px;
-      color: variables.$white;
+      color: $white;
       font-size: 32px;
-      @include variables.bold;
+      @include bold;
 
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         font-size: 42px;
       }
     }
@@ -108,7 +108,7 @@
     width: 100%;
     vertical-align: top;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 450px;
 
       &.second {
@@ -119,27 +119,27 @@
 
     .secondary {
       padding: 0px 8px;
-      border-bottom: 1px solid variables.$black-20;
+      border-bottom: 1px solid $black-20;
       margin-bottom: 20px;
-      color: variables.$black-90;
+      color: $black-90;
       font-size: 12px;
-      @include variables.bold;
+      @include bold;
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         border: none;
       }
 
       .title {
-        color: variables.$black-40;
+        color: $black-40;
         font-size: 14px;
         text-transform: uppercase;
-        @include variables.medium;
+        @include medium;
       }
 
       .label {
-        color: variables.$black-40;
+        color: $black-40;
         text-transform: uppercase;
-        @include variables.medium;
+        @include medium;
       }
 
       ul {
@@ -159,17 +159,17 @@
             text-transform: none;
             vertical-align: middle;
             white-space: nowrap;
-            @include variables.medium;
+            @include medium;
           }
 
           b {
-            color: variables.$white;
+            color: $white;
             word-break: break-all;
-            @include variables.bold;
+            @include bold;
           }
 
           &.flags {
-            color: variables.$blue-purple-30;
+            color: $blue-purple-30;
             font-style: italic;
           }
         }
@@ -216,7 +216,7 @@
             overflow: hidden;
             width: 285px;
             padding-right: 10px;
-            color: variables.$white;
+            color: $white;
             text-overflow: ellipsis;
             white-space: nowrap;
           }

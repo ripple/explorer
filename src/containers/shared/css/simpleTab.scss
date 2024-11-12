@@ -1,4 +1,4 @@
-@use 'variables';
+@use 'variables' as *;
 
 $index-width: 324px;
 
@@ -8,7 +8,7 @@ $index-width: 324px;
   .index {
     width: $index-width;
     padding: 16px;
-    border-left: 1px solid variables.$black-70;
+    border-left: 1px solid $black-70;
     margin-bottom: 60px;
     margin-left: -1px;
 
@@ -21,7 +21,7 @@ $index-width: 324px;
 
       .label {
         margin-bottom: 0;
-        color: variables.$black-40;
+        color: $black-40;
         font-size: 10px;
         line-height: 14px;
         text-transform: uppercase;
@@ -29,12 +29,12 @@ $index-width: 324px;
 
       .value {
         overflow: hidden;
-        color: variables.$white;
+        color: $white;
         font-size: 14px;
         line-height: 16px;
         text-overflow: ellipsis;
         white-space: nowrap;
-        @include variables.medium;
+        @include medium;
 
         &.account {
           font-size: 12px;
@@ -49,10 +49,10 @@ $index-width: 324px;
     font-size: 14px;
     line-height: 21px;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: calc(100% - $index-width);
       padding-right: 0;
-      border-right: 1px solid variables.$black-70;
+      border-right: 1px solid $black-70;
       margin-bottom: 60px;
     }
 
@@ -71,19 +71,19 @@ $index-width: 324px;
       flex-wrap: wrap;
       justify-content: space-between;
       padding: 15px 0;
-      border-bottom: 1px solid variables.$black-70;
+      border-bottom: 1px solid $black-70;
       gap: 0 5px;
 
-      @include variables.for-size(tablet-portrait-up) {
+      @include for-size(tablet-portrait-up) {
         padding: 15px 15px 15px 0;
       }
 
       .label {
-        color: variables.$white;
+        color: $white;
         text-transform: capitalize;
 
         &.unauthorize {
-          color: variables.$red-dark;
+          color: $red-dark;
         }
       }
 
@@ -96,15 +96,15 @@ $index-width: 324px;
       }
 
       .value {
-        @include variables.medium;
+        @include medium;
 
-        color: variables.$white;
+        color: $white;
         vertical-align: middle;
         word-break: break-word;
 
         &.date {
-          color: variables.$black-60;
-          @include variables.regular;
+          color: $black-60;
+          @include regular;
         }
       }
     }

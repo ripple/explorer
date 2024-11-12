@@ -1,4 +1,4 @@
-@use '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 /* Header */
 .header {
@@ -9,7 +9,7 @@
   width: 100%;
   flex-direction: column;
   padding: 16px;
-  background: variables.$black;
+  background: $black;
   gap: 8px;
 
   .topbar {

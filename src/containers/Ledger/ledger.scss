@@ -1,15 +1,15 @@
-@use '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 .ledger-page {
   margin: 0 auto;
 
-  @include variables.for-size(tablet-landscape-up) {
+  @include for-size(tablet-landscape-up) {
     width: 600px;
   }
-  @include variables.for-size(desktop-up) {
+  @include for-size(desktop-up) {
     width: 772px;
   }
-  @include variables.for-size(big-desktop-up) {
+  @include for-size(big-desktop-up) {
     width: 864px;
   }
 
@@ -21,7 +21,7 @@
     padding: 8px 4px;
     margin-top: 40px;
     margin-bottom: 60px;
-    color: variables.$black-40;
+    color: $black-40;
     font-size: 12px;
     letter-spacing: 0px;
     line-height: 15px;
@@ -29,12 +29,12 @@
     svg {
       position: relative;
       height: 8px;
-      color: variables.$black-40;
+      color: $black-40;
     }
 
     .previous {
       padding: 6px 16px;
-      border: 1px solid variables.$black-40;
+      border: 1px solid $black-40;
       border-radius: 100px;
       float: left;
 
@@ -44,13 +44,13 @@
 
       &:focus,
       &:hover {
-        background-color: variables.$black-70;
+        background-color: $black-70;
       }
     }
 
     .next {
       padding: 6px 16px;
-      border: 1px solid variables.$black-40;
+      border: 1px solid $black-40;
       border-radius: 100px;
       float: right;
 
@@ -60,7 +60,7 @@
 
       &:focus,
       &:hover {
-        background-color: variables.$black-70;
+        background-color: $black-70;
       }
     }
   }
@@ -72,7 +72,7 @@
       overflow: hidden;
       padding: 10px 8px;
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         padding: 10px 0px;
       }
 
@@ -81,7 +81,7 @@
         overflow: hidden;
         padding-top: 48px;
         margin: auto;
-        color: variables.$black-30;
+        color: $black-30;
         font-size: 12px;
         line-height: 18px;
         text-align: center;
@@ -90,20 +90,20 @@
       }
 
       .closed-date {
-        color: variables.$black-30;
+        color: $black-30;
         font-size: 10px;
 
-        @include variables.for-size(desktop-up) {
+        @include for-size(desktop-up) {
           float: right;
         }
       }
 
       .ledger-hash {
-        @include variables.for-size(desktop-up) {
+        @include for-size(desktop-up) {
           float: left;
         }
 
-        @include variables.for-size(big-desktop-up) {
+        @include for-size(big-desktop-up) {
           font-size: 12px;
         }
       }
@@ -113,22 +113,22 @@
         overflow: hidden;
 
         .title {
-          color: variables.$black-40;
+          color: $black-40;
           font-size: 10px;
           letter-spacing: 0px;
           line-height: 18px;
           text-transform: uppercase;
-          @include variables.medium;
+          @include medium;
 
-          @include variables.for-size(desktop-up) {
+          @include for-size(desktop-up) {
             font-size: 10px;
             line-height: 20px;
           }
         }
 
         .value {
-          color: variables.$white;
-          @include variables.bold;
+          color: $white;
+          @include bold;
         }
 
         .ledger-cols {
@@ -144,12 +144,12 @@
               text-align: left;
             }
 
-            @include variables.for-size(desktop-up) {
+            @include for-size(desktop-up) {
               width: auto;
               margin-right: 0px;
               margin-left: 40px;
             }
-            @include variables.for-size(big-desktop-up) {
+            @include for-size(big-desktop-up) {
               margin-right: 0px;
               margin-left: 40px;
             }
@@ -159,7 +159,7 @@
               font-size: 18px;
               line-height: 28px;
 
-              @include variables.for-size(desktop-up) {
+              @include for-size(desktop-up) {
                 margin-top: -8px;
                 font-size: 18px;
                 line-height: 36px;
@@ -188,7 +188,7 @@
     .col-type {
       width: 175px;
 
-      @include variables.for-size(big-desktop-up) {
+      @include for-size(big-desktop-up) {
         width: 210px;
       }
     }
@@ -197,7 +197,7 @@
       display: block;
       text-align: right; // on mobile it is the last column
 
-      @include variables.for-size(tablet-portrait-up) {
+      @include for-size(tablet-portrait-up) {
         text-align: left;
       }
     }
@@ -205,12 +205,12 @@
     .col-sequence {
       display: none;
 
-      @include variables.for-size(tablet-landscape-up) {
+      @include for-size(tablet-landscape-up) {
         display: inline-block;
         width: 85px;
       }
 
-      @include variables.for-size(desktop-up) {
+      @include for-size(desktop-up) {
         width: 100px;
       }
     }
@@ -219,7 +219,7 @@
       display: none;
       text-align: right;
 
-      @include variables.for-size(tablet-portrait-up) {
+      @include for-size(tablet-portrait-up) {
         display: inline-block;
         width: 100px;
       }
@@ -229,14 +229,14 @@
       .col-account {
         font-size: 10px;
 
-        @include variables.for-size(tablet-portrait-up) {
+        @include for-size(tablet-portrait-up) {
           font-size: 12px;
         }
       }
 
       .col-sequence,
       .col-fee {
-        color: variables.$black-40;
+        color: $black-40;
       }
     }
   }

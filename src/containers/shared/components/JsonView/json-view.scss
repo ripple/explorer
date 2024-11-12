@@ -1,32 +1,32 @@
-@use '../../css/variables';
+@use '../../css/variables' as *;
 @import 'react18-json-view/src/style.css';
 
 .json-view {
   overflow: hidden;
   margin-bottom: 40px;
-  color: variables.$black-10 !important;
+  color: $black-10 !important;
   font-size: 12px;
   letter-spacing: 0;
 
   svg {
     height: 11px !important;
-    color: variables.$black-10;
+    color: $black-10;
   }
 }
 
 .jv-button {
-  color: variables.$orange-50 !important;
+  color: $orange-50 !important;
   font-size: 14px;
 }
 
 .jv-indent {
-  border-left: 1px solid variables.$black-60;
+  border-left: 1px solid $black-60;
   margin: 4px;
 }
 
 /* stylelint-disable selector-class-pattern -- react18-json-view uses these */
 .json-view--boolean {
-  color: variables.$magenta-60 !important;
+  color: $magenta-60 !important;
 }
 
 .json-view--pair {
@@ -34,7 +34,7 @@
 }
 
 .json-view--property {
-  color: variables.$black-10 !important;
+  color: $black-10 !important;
 }
 
 .json-view--null,
@@ -42,17 +42,17 @@
   display: inline-block;
   padding: 1px 2px;
   border-radius: 3px;
-  background-color: variables.$black-60;
-  color: variables.$black-10 !important;
+  background-color: $black-60;
+  color: $black-10 !important;
   font-size: 11px;
 }
 
 .json-view--number {
-  color: variables.$green-30 !important;
+  color: $green-30 !important;
 }
 
 .json-view--string {
-  color: variables.$orange-50 !important;
+  color: $orange-50 !important;
 }
 
 /* stylelint-enable selector-class-pattern */

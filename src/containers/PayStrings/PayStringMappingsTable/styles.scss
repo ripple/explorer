@@ -1,4 +1,4 @@
-@use '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .paystring-table {
   .col-network,
@@ -11,33 +11,33 @@
   }
 
   .col-network {
-    @include variables.bold;
+    @include bold;
 
     width: 80px;
 
     &.paystring-type {
-      color: variables.$black-40;
+      color: $black-40;
     }
   }
 
   .col-environment {
     width: 80px;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 135px; //calc(100% - 440px);
     }
   }
 
   .col-address {
-    @include variables.medium;
+    @include medium;
   }
 
   .col-tag {
     width: 40px;
     text-align: right;
-    @include variables.medium;
+    @include medium;
 
-    @include variables.for-size(desktop-up) {
+    @include for-size(desktop-up) {
       width: 135px;
     }
   }

@@ -1,4 +1,4 @@
-@use '../../css/variables';
+@use '../../css/variables' as *;
 
 .dropdown {
   position: relative;
@@ -26,22 +26,22 @@
   overflow: hidden;
   min-width: max(100%, 160px);
   padding: 8px;
-  border: 1px solid variables.$black-80;
-  border-radius: variables.$border-radius;
+  border: 1px solid $black-80;
+  border-radius: $border-radius;
   margin-top: 5px;
-  background: rgba(variables.$black, 0.96);
+  background: rgba($black, 0.96);
 }
 
 .dropdown-item {
   padding: 12px 8px;
-  border-radius: calc(variables.$border-radius / 2);
+  border-radius: calc($border-radius / 2);
   font-weight: normal;
 
   @at-root {
     a#{&} {
       display: flex;
       align-items: center;
-      color: variables.$white;
+      color: $white;
       gap: 0 12px;
 
       &::after {
@@ -49,7 +49,7 @@
       }
 
       &:hover {
-        background: variables.$black-80;
+        background: $black-80;
         cursor: pointer;
       }
     }
@@ -59,12 +59,12 @@
     width: 100%;
     padding: 8px;
     border: none;
-    background: variables.$black-80;
-    color: variables.$white;
+    background: $black-80;
+    color: $white;
     font-size: inherit;
 
     &::placeholder {
-      color: variables.$black-40;
+      color: $black-40;
     }
   }
 

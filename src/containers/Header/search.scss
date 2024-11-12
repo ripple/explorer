@@ -1,4 +1,4 @@
-@use '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 .search-container {
   position: relative;
@@ -11,18 +11,18 @@
   input {
     width: 100%;
     padding: 8px 16px 8px 42px;
-    border: 1px solid variables.$black-50;
-    background: variables.$black url('../shared/images/search.svg') no-repeat 16px center;
+    border: 1px solid $black-50;
+    background: $black url('../shared/images/search.svg') no-repeat 16px center;
     background-size: 12px;
-    color: variables.$white;
+    color: $white;
     font-size: 14px;
     line-height: 24px;
     text-align: left;
     text-overflow: ellipsis;
-    @include variables.regular;
+    @include regular;
 
     &::placeholder {
-      color: variables.$white;
+      color: $white;
     }
   }
 }

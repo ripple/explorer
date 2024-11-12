@@ -1,11 +1,11 @@
-@use 'src/containers/shared/css/variables';
+@use 'src/containers/shared/css/variables' as *;
 
 .balance-selector {
   position: relative;
   display: block;
   width: 100%;
 
-  @include variables.for-size(tablet-landscape-up) {
+  @include for-size(tablet-landscape-up) {
     width: 280px;
   }
 
@@ -27,6 +27,6 @@
 
   .total-balance {
     margin-left: auto;
-    color: variables.$black-40;
+    color: $black-40;
   }
 }
