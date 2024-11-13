@@ -557,5 +557,9 @@
   "can_trade": "Can Trade",
   "can_transfer": "Can Transfer",
   "can_clawback": "Can Clawback",
-  "search_results_banner": "Token search by name and account is now available! Try searching for USD"
+  "search_results_banner": "Token search by name and account is now available! Try searching for USD",
+  "enable_amendment_name": "Amendment Name",
+  "amendment_status": "Amendment Status",
+  "expected_date": "Expected Date"
+
 }
