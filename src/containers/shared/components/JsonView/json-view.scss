@@ -1,4 +1,4 @@
-@import '../../css/variables';
+@use '../../css/variables' as *;
 @import 'react18-json-view/src/style.css';
 
 .json-view {

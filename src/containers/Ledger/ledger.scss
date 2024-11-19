@@ -1,4 +1,4 @@
-@import '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 .ledger-page {
   margin: 0 auto;

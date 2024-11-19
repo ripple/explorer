@@ -1,4 +1,8 @@
-@import '../shared/css/variables';
+@use '../shared/css/variables' as *;
+
+.search-container {
+  position: relative;
+}
 
 .search {
   display: inline-block;
@@ -23,9 +27,81 @@
   }
 }
 
+.search:not(:focus-within) .search-results {
+  display: none;
+}
+
 // Only show search bar when we know which network to query
 .header-no-network {
   .search {
     display: none;
   }
+}
+
+.normal {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.normal.fade-out {
+  opacity: 0;
+}
+
+.banner-search {
+  position: absolute;
+  top: 50px;
+  left: 10%;
+  width: 80%;
+  max-width: 600px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  background-color: $blue-purple-30 !important;
+  color: $black !important;
+
+  .banner-content {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .banner-button {
+    width: 5px;
+    height: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    border: none;
+    margin-top: -5px;
+    background: none;
+    color: inherit;
+  }
+
+  @media (width >= 1350px) {
+    top: -60px;
+  }
+  @media (1000px <= width < 1350px) {
+    top: -70px;
+  }
+  @media (900px <= width < 1000px) {
+    top: -80px;
+  }
+  @media (750px <= width < 900px) {
+    top: 60px;
+  }
+
+  @media (max-width: $tablet-portrait-upper-boundary){
+    left: 5%;
+    width: 90%;
+  }
+}
+
+.banner-search::after {
+  position: absolute;
+  top: 100%;
+  left: 30%;
+  border-width: 8px;
+  border-style: solid;
+  border-color: $blue-purple-30 transparent transparent transparent;
+  content: "";
+  transform: translateX(-50%);
 }
