@@ -41,12 +41,15 @@ async function fetchXRPLMetaTokens(offset) {
       },
     )
     .then((resp) => resp.data)
-    .catch((e) => log.error(e))
+    .catch((e) => {
+      log.error(e)
+      return { count: 0 }
+    })
 }
 
 async function cacheXRPLMetaTokens() {
   let offset = 0
-  let tokensDataBatch = []
+  let tokensDataBatch = {}
   const allTokensFetched = []
 
   tokensDataBatch = await fetchXRPLMetaTokens(0)

@@ -7,13 +7,14 @@ const RIPPLEDS = []
 process.env.VITE_RIPPLED_HOST?.split(',').forEach((host) => {
   if (host?.includes(':')) {
     RIPPLEDS.push(`wss://${host}`)
-  } else {
+  } else if (process.env.VITE_RIPPLED_WS_PORT) {
     RIPPLEDS.push(`wss://${host}:${process.env.VITE_RIPPLED_WS_PORT}`)
-    if (!['', '443', undefined].includes(process.env.VITE_RIPPLED_WS_PORT)) {
-      RIPPLEDS.push(`wss://${host}:443`)
-    }
+  } else {
+    RIPPLEDS.push(`wss://${host}`)
   }
 })
+
+console.log(RIPPLEDS)
 
 const RIPPLED_CLIENT = new XrplClient(RIPPLEDS, { tryAllNodes: true })
 // If there is a separate peer to peer server for admin requests, use it. Otherwise use the default url for everything.
