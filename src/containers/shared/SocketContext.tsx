@@ -29,11 +29,13 @@ function getSocket(rippledUrl?: string): ExplorerXrplClient {
 
     if (host?.includes(':')) {
       wsUrls.push(`${prefix}://${host}`)
+    } else if (process.env.VITE_RIPPLED_WS_PORT) {
+      wsUrls.push(`${prefix}://${host}:${process.env.VITE_RIPPLED_WS_PORT}`)
+      if (process.env.VITE_ENVIRONMENT === 'custom') {
+        wsUrls.push(`${prefix}://${host}`)
+      }
     } else {
-      wsUrls.push.apply(wsUrls, [
-        `${prefix}://${host}:${process.env.VITE_RIPPLED_WS_PORT}`,
-        `${prefix}://${host}:443`,
-      ])
+      wsUrls.push(`${prefix}://${host}`)
     }
   })
 
