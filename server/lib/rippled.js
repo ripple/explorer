@@ -4,12 +4,15 @@ const utils = require('./utils')
 const streams = require('./streams')
 
 const RIPPLEDS = []
-process.env.VITE_RIPPLED_HOST?.split(',').forEach((d) => {
-  const rippled = d.split(':')
-  RIPPLEDS.push(
-    `wss://${rippled[0]}:${rippled[1] || process.env.VITE_RIPPLED_WS_PORT}`,
-    `wss://${rippled[0]}`,
-  )
+process.env.VITE_RIPPLED_HOST?.split(',').forEach((host) => {
+  if (host?.includes(':')) {
+    RIPPLEDS.push(`wss://${host}`)
+  } else {
+    RIPPLEDS.push(`wss://${host}:${process.env.VITE_RIPPLED_WS_PORT}`)
+    if (!['', '443', undefined].includes(process.env.VITE_RIPPLED_WS_PORT)) {
+      RIPPLEDS.push(`wss://${host}:443`)
+    }
+  }
 })
 
 const RIPPLED_CLIENT = new XrplClient(RIPPLEDS, { tryAllNodes: true })
