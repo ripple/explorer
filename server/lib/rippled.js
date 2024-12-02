@@ -14,8 +14,6 @@ process.env.VITE_RIPPLED_HOST?.split(',').forEach((host) => {
   }
 })
 
-console.log(RIPPLEDS)
-
 const RIPPLED_CLIENT = new XrplClient(RIPPLEDS, { tryAllNodes: true })
 // If there is a separate peer to peer server for admin requests, use it. Otherwise use the default url for everything.
 const HAS_P2P_SOCKET =
