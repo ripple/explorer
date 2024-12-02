@@ -28,7 +28,7 @@ describe('getSocket', () => {
       const client = getSocket()
       expect(XrplClient).toHaveBeenNthCalledWith(
         1,
-        ['wss://somewhere.com:51233', 'wss://somewhere.com:443'],
+        ['wss://somewhere.com:51233'],
         {
           tryAllNodes: true,
         },
@@ -47,12 +47,7 @@ describe('getSocket', () => {
       const client = getSocket()
       expect(XrplClient).toHaveBeenNthCalledWith(
         1,
-        [
-          'wss://somewhere.com:51233',
-          'wss://somewhere.com:443',
-          'wss://elsewhere.com:51233',
-          'wss://elsewhere.com:443',
-        ],
+        ['wss://somewhere.com:51233', 'wss://elsewhere.com:51233'],
         {
           tryAllNodes: true,
         },
@@ -71,7 +66,7 @@ describe('getSocket', () => {
       const client = getSocket()
       expect(XrplClient).toHaveBeenNthCalledWith(
         1,
-        ['ws://somewhere.com:51233', 'ws://somewhere.com:443'],
+        ['ws://somewhere.com:51233'],
         {
           tryAllNodes: true,
         },
@@ -120,13 +115,9 @@ describe('getSocket', () => {
 
     it('should use ws when supplied entry is for a localhost', () => {
       const client = getSocket('localhost')
-      expect(XrplClient).toHaveBeenNthCalledWith(
-        1,
-        ['ws://localhost:51233', 'ws://localhost:443'],
-        {
-          tryAllNodes: true,
-        },
-      )
+      expect(XrplClient).toHaveBeenNthCalledWith(1, ['ws://localhost:51233'], {
+        tryAllNodes: true,
+      })
 
       expect((client as any).p2pSocket).not.toBeDefined()
     })
