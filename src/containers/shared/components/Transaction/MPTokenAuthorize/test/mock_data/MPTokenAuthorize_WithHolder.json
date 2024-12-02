@@ -3,7 +3,7 @@
     "Account": "rwfgw2dWqUAexB46z5QRq2dJcgTK9piw5w",
     "Fee": "10",
     "Flags": 2147483648,
-    "MPTokenHolder": "rK3bB9myvWoMaLbLnpksGx2Zz58BL225am",
+    "Holder": "rK3bB9myvWoMaLbLnpksGx2Zz58BL225am",
     "MPTokenIssuanceID": "0000130B63FC523E33FDF4D1318D8D484B0D1111098CFD0B",
     "Sequence": 4876,
     "SigningPubKey": "ED936E848B8E37D20991C2E1C5C76ABAEC0625D693CEB85BA495B58E16712DA627",
