@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import { useQuery } from 'react-query'
 import BarChartVersion from './BarChartVersion'
-import NetworkTabs from './NetworkTabs'
 import Streams from '../shared/components/Streams'
 import { Hexagons } from './Hexagons'
 import {
@@ -23,6 +22,7 @@ import {
 import NetworkContext from '../shared/NetworkContext'
 import { ledgerCompare } from './Nodes'
 import { Loader } from '../shared/components/Loader'
+import './css/style.scss'
 
 interface NodeStats {
   nodePercent: number
@@ -152,14 +152,9 @@ const handleNodeVersion = (version: string | undefined) => {
 }
 
 export const UpgradeStatus = () => {
-  const [vList, setVList] = useState<Record<string, ValidatorResponse>>({})
-  const [validations, setValidations] = useState<ValidatorResponse[]>([])
-  const [unlCount, setUnlCount] = useState(0)
   const [validatorAggregation, setValidatorAggregation] =
     useState<ValidatorAggregation>({})
   const [nodeAggregation, setNodeAggregation] = useState<NodeAggregation>({})
-  const { t } = useTranslation()
-  const language = useLanguage()
   const network = useContext(NetworkContext)
 
   useQuery(
@@ -200,10 +195,6 @@ export const UpgradeStatus = () => {
         validators.forEach((validator) => {
           newValidatorList[validator.signing_key] = validator
         })
-        setVList(newValidatorList)
-        setUnlCount(
-          validators.filter((validator) => Boolean(validator.unl)).length,
-        )
         setValidatorAggregation(aggregateValidators(validators))
         return Object.values(newValidatorList)
       })
@@ -254,48 +245,9 @@ export const UpgradeStatus = () => {
       )
   }
 
-  const updateValidators = (newValidations: StreamValidator[]) => {
-    setValidations(newValidations)
-    setVList((validatorList) => {
-      const newValidatorsList: Record<string, StreamValidator> = {
-        ...validatorList,
-      }
-      newValidations.forEach((validation) => {
-        if (validation.pubkey) {
-          newValidatorsList[validation.pubkey] = {
-            ...validatorList[validation.pubkey],
-            ledger_index: validation.ledger_index,
-            ledger_hash: validation.ledger_hash,
-          }
-        }
-      })
-      return newValidatorsList
-    })
-  }
-
-  const validatorCount = Object.keys(vList).length
-
   return (
     <div className="network-page">
-      <Streams validators={vList} updateValidators={updateValidators} />
-      {
-        // @ts-ignore - Work around for complex type assignment issues
-        <Hexagons data={validations} list={vList} />
-      }
-      <div className="stat">
-        <span>{t('validators_found')}: </span>
-        <span>
-          {localizeNumber(validatorCount, language)}
-          {unlCount !== 0 && (
-            <i>
-              {' '}
-              ({t('unl')}: {unlCount})
-            </i>
-          )}
-        </span>
-      </div>
       <div className="wrap">
-        <NetworkTabs selected="upgrade-status" />
         {Object.keys(validatorAggregation).length > 0 ||
         Object.keys(nodeAggregation).length > 0 ? (
           <div className="upgrade_status">

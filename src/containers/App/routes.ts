@@ -24,6 +24,20 @@ export const NETWORK_ROUTE: RouteDefinition<{
   path: '/network/:tab?',
 }
 
+export const NODES_ROUTE: RouteDefinition = {
+  path: '/network/nodes',
+}
+
+export const VALIDATORS_ROUTE: RouteDefinition<{
+  tab?: 'uptime' | 'voting'
+}> = {
+  path: '/network/validators/:tab?',
+}
+
+export const UPGRADE_STATUS_ROUTE: RouteDefinition = {
+  path: '/network/upgrade-status',
+}
+
 export const NFT_ROUTE: RouteDefinition<{
   id: string
   tab?: 'transactions' | 'buy-offers' | 'sell-offers'

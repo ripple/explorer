@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
-import NetworkTabs from './NetworkTabs'
+import { Helmet } from 'react-helmet-async'
 import Streams from '../shared/components/Streams'
 import ValidatorsTable from './ValidatorsTable'
 import Log from '../shared/log'
@@ -16,6 +16,10 @@ import { Hexagons } from './Hexagons'
 import { StreamValidator, ValidatorResponse } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 import { TooltipProvider } from '../shared/components/Tooltip'
+import './css/style.scss'
+import { VALIDATORS_ROUTE } from '../App/routes'
+import { useRouteParams } from '../shared/routing'
+import ValidatorsTabs from './ValidatorsTabs'
 
 export const Validators = () => {
   const language = useLanguage()
@@ -25,6 +29,7 @@ export const Validators = () => {
   const [metrics, setMetrics] = useState({})
   const [unlCount, setUnlCount] = useState(0)
   const network = useContext(NetworkContext)
+  const { tab = 'uptime' } = useRouteParams(VALIDATORS_ROUTE)
 
   useQuery(['fetchValidatorsData'], () => fetchData(), {
     refetchInterval: (returnedData, _) =>
@@ -92,6 +97,15 @@ export const Validators = () => {
   }
 
   const validatorCount = Object.keys(vList).length
+
+  const Body = {
+    uptime: (
+      <ValidatorsTable validators={Object.values(vList)} metrics={metrics} />
+    ),
+    voting: (
+      <ValidatorsTable validators={Object.values(vList)} metrics={metrics} />
+    ),
+  }[tab]
   return (
     <div className="network-page">
       {network && (
@@ -120,8 +134,9 @@ export const Validators = () => {
         </span>
       </div>
       <div className="wrap">
-        <NetworkTabs selected="validators" />
-        <ValidatorsTable validators={Object.values(vList)} metrics={metrics} />
+        <ValidatorsTabs selected={tab} />
+        <Helmet title={t('network')} />
+        {Body}
       </div>
     </div>
   )

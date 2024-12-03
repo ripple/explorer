@@ -4,6 +4,9 @@ import {
   AMENDMENTS_ROUTE,
   LEDGERS_ROUTE,
   NETWORK_ROUTE,
+  NODES_ROUTE,
+  UPGRADE_STATUS_ROUTE,
+  VALIDATORS_ROUTE,
   VALIDATOR_ROUTE,
 } from './routes'
 
@@ -24,19 +27,16 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
     current: (path: string) => isNetwork(path),
     children: [
       {
-        route: NETWORK_ROUTE,
+        route: NODES_ROUTE,
         title: 'nodes',
-        params: { tab: 'nodes' },
       },
       {
-        route: NETWORK_ROUTE,
+        route: VALIDATORS_ROUTE,
         title: 'validators',
-        params: { tab: 'validators' },
       },
       {
-        route: NETWORK_ROUTE,
+        route: UPGRADE_STATUS_ROUTE,
         title: 'upgrade_status',
-        params: { tab: 'upgrade-status' },
       },
       {
         route: AMENDMENTS_ROUTE,
