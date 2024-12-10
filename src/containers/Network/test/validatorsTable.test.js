@@ -2,7 +2,7 @@ import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18n/testConfig'
-import ValidatorsTable from '../ValidatorsTable'
+import { ValidatorsTable } from '../ValidatorsTable'
 import validators from './mockValidators.json'
 import metrics from './metrics.json'
 
@@ -23,7 +23,8 @@ describe('Validators table', () => {
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper({ validators, metrics })
+    const tab = 'uptime'
+    const wrapper = createWrapper({ validators, metrics, tab })
     expect(wrapper.find('tr').length).toBe(validators.length + 1)
     wrapper.unmount()
   })

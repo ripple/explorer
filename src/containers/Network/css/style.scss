@@ -39,4 +39,20 @@
     max-width: 1500px;
     margin: auto;
   }
+
+  .type {
+    display: inline-block;
+    margin-top: 80px;
+    margin-bottom: 32px;
+    margin-left: 16px;
+    margin-left: calc((100vw - 1500px) / 2);
+    margin-left: clamp(16px, calc((100vw - 1500px) / 2), calc((100vw - 1500px) / 2)); // Adjust based on wrap margin with min 16px
+    color: $white;
+    font-size: 32px;
+    @include for-size(tablet-portrait-up) {
+      font-size: 42px;
+    }
+
+    @include bold;
+  }
 }

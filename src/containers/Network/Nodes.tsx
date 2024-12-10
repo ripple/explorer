@@ -78,6 +78,7 @@ export const Nodes = () => {
 
   return (
     <div className="network-page">
+      <div className="type">{t('nodes')}</div>
       {
         // @ts-ignore - Work around for complex type assignment issues
         <Map locations={data?.locations} />

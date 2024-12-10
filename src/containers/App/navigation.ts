@@ -3,7 +3,6 @@ import { NavigationMenuAnyRoute } from '../Header/NavigationMenu'
 import {
   AMENDMENTS_ROUTE,
   LEDGERS_ROUTE,
-  NETWORK_ROUTE,
   NODES_ROUTE,
   UPGRADE_STATUS_ROUTE,
   VALIDATORS_ROUTE,
@@ -11,8 +10,10 @@ import {
 } from './routes'
 
 const isNetwork = (path) =>
-  path.indexOf(buildPath(NETWORK_ROUTE, {})) === 0 ||
-  path.indexOf(buildPath(VALIDATOR_ROUTE, { identifier: '' })) === 0
+  path.indexOf(buildPath(VALIDATOR_ROUTE, { identifier: '' })) === 0 ||
+  path.indexOf(buildPath(NODES_ROUTE, {})) === 0 ||
+  path.indexOf(buildPath(UPGRADE_STATUS_ROUTE, {})) === 0 ||
+  path.indexOf(buildPath(AMENDMENTS_ROUTE, {})) === 0
 
 // NOTE: for submenus, remove `path` field and add `children` array of objects
 export const navigationConfig: NavigationMenuAnyRoute[] = [
@@ -22,7 +23,6 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
     current: (path: string) => !isNetwork(path),
   },
   {
-    route: NETWORK_ROUTE,
     title: 'network',
     current: (path: string) => isNetwork(path),
     children: [

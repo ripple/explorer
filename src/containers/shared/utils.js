@@ -22,6 +22,7 @@ export const FETCH_INTERVAL_VHS_MILLIS = 60 * 1000 // 1 minute
 export const FETCH_INTERVAL_NODES_MILLIS = 60000
 export const FETCH_INTERVAL_ERROR_MILLIS = 300
 export const FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS = 60 * 1000
+export const FETCH_INTERVAL_FEE_SETTINGS_MILLIS = 10 * 60 * 1000 // 10 minutes
 
 export const DECIMAL_REGEX = /^\d+$/
 export const HASH256_REGEX = /[0-9A-Fa-f]{64}/i

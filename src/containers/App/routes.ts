@@ -18,12 +18,6 @@ export const LEDGER_ROUTE: RouteDefinition<{
   path: `/ledgers/:identifier`,
 }
 
-export const NETWORK_ROUTE: RouteDefinition<{
-  tab?: 'nodes' | 'validators' | 'upgrade-status'
-}> = {
-  path: '/network/:tab?',
-}
-
 export const NODES_ROUTE: RouteDefinition = {
   path: '/network/nodes',
 }

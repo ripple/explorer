@@ -1,24 +1,15 @@
 import { useState, useContext } from 'react'
-import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 import BarChartVersion from './BarChartVersion'
-import Streams from '../shared/components/Streams'
-import { Hexagons } from './Hexagons'
 import {
   FETCH_INTERVAL_MILLIS,
   FETCH_INTERVAL_ERROR_MILLIS,
-  localizeNumber,
   isEarlierVersion,
 } from '../shared/utils'
-import { useLanguage } from '../shared/hooks'
 import Log from '../shared/log'
-import {
-  NodeData,
-  NodeResponse,
-  StreamValidator,
-  ValidatorResponse,
-} from '../shared/vhsTypes'
+import { NodeData, NodeResponse, ValidatorResponse } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
 import { ledgerCompare } from './Nodes'
 import { Loader } from '../shared/components/Loader'
@@ -152,6 +143,7 @@ const handleNodeVersion = (version: string | undefined) => {
 }
 
 export const UpgradeStatus = () => {
+  const { t } = useTranslation()
   const [validatorAggregation, setValidatorAggregation] =
     useState<ValidatorAggregation>({})
   const [nodeAggregation, setNodeAggregation] = useState<NodeAggregation>({})
@@ -247,6 +239,7 @@ export const UpgradeStatus = () => {
 
   return (
     <div className="network-page">
+      <div className="type">{t('upgrade_status')}</div>
       <div className="wrap">
         {Object.keys(validatorAggregation).length > 0 ||
         Object.keys(nodeAggregation).length > 0 ? (
