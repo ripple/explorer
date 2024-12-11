@@ -1,4 +1,3 @@
-import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FeeSettings, StreamValidator } from '../shared/vhsTypes'
 import { RouteLink } from '../shared/routing'
@@ -8,41 +7,18 @@ import UpIcon from '../shared/images/ic_up.svg'
 import DownIcon from '../shared/images/ic_down.svg'
 import DomainLink from '../shared/components/DomainLink'
 import InfoIcon from '../shared/images/info.svg'
-import TooltipHover from '../shared/images/hover_question.svg'
 import { Loader } from '../shared/components/Loader'
 import './css/validatorsTable.scss'
 import { useLanguage } from '../shared/hooks'
 import { renderXRP } from '../shared/utils'
-import { Tooltip } from '../shared/components/Tooltip'
 
 const DROPS_TO_XRP_FACTOR = 1000000
-const TOOLTIP_VERTICAL_OFFSET = 20
 
 interface ValidatorsTableProps {
   validators: StreamValidator[]
   metrics: any
   tab: string
   feeSettings?: FeeSettings
-}
-
-const calculateBodyOffset = (): number => {
-  const bodyElement = document.querySelector(
-    '.network-page .wrap',
-  ) as HTMLElement
-  const headerElement = document.querySelector('.header') as HTMLElement
-  let offset = TOOLTIP_VERTICAL_OFFSET
-  let el: HTMLElement | null = bodyElement
-
-  while (el) {
-    offset += el.offsetTop
-    el = el.offsetParent as HTMLElement
-  }
-
-  if (headerElement) {
-    offset += headerElement.offsetHeight
-  }
-
-  return offset
 }
 
 const sortValidators = (data) => {
@@ -80,8 +56,6 @@ export const ValidatorsTable = (props: ValidatorsTableProps) => {
   const validators = rawValidators ? sortValidators(rawValidators) : undefined
   const { t } = useTranslation()
   const language = useLanguage()
-  const questionRef = useRef<Element>(null)
-  const [showToolTip, setShowToolTip] = useState(false)
 
   const renderDomain = (domain) => domain && <DomainLink domain={domain} />
 
@@ -204,14 +178,6 @@ export const ValidatorsTable = (props: ValidatorsTableProps) => {
               {' '}
               <th className="base">
                 <span>{t('base')}</span>
-                <span className="tooltip-icon">
-                  <TooltipHover
-                    ref={questionRef}
-                    onMouseOver={() => setShowToolTip(true)}
-                    onFocus={() => setShowToolTip(true)}
-                    onMouseOut={() => setShowToolTip(false)}
-                  />
-                </span>
               </th>
               <th className="owner">{t('owner')}</th>
               <th className="base_fee">{t('base_fee')}</th>
@@ -226,22 +192,5 @@ export const ValidatorsTable = (props: ValidatorsTableProps) => {
     <Loader />
   )
 
-  return (
-    <div className={`validators-table ${tab}-tab`}>
-      {content}
-      {showToolTip && questionRef.current && (
-        <Tooltip
-          tooltip={{
-            mode: 'description',
-            data: 'test-data',
-            x: questionRef.current.getBoundingClientRect().x,
-            y:
-              questionRef.current.getBoundingClientRect().y +
-              window.scrollY -
-              calculateBodyOffset(),
-          }}
-        />
-      )}
-    </div>
-  )
+  return <div className={`validators-table ${tab}-tab`}>{content}</div>
 }
