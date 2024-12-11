@@ -34,8 +34,6 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
 
   const { data } = tooltip
 
-  const renderDescriptionTooltip = () => <div className="desc">{t(data)}</div>
-
   const renderNegativeUnlTooltip = () =>
     data.nUnl.map((key) => {
       const short = key.substring(0, 8)
@@ -98,7 +96,6 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
   const { x, y, mode } = tooltip
   const style: CSSProperties = { top: y + PADDING_Y, left: x }
   const modeMap = {
-    description: renderDescriptionTooltip,
     validator: renderValidatorTooltip,
     tx: renderTxTooltip,
     nUnl: renderNegativeUnlTooltip,
