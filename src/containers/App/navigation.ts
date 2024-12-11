@@ -6,11 +6,10 @@ import {
   NODES_ROUTE,
   UPGRADE_STATUS_ROUTE,
   VALIDATORS_ROUTE,
-  VALIDATOR_ROUTE,
 } from './routes'
 
 const isNetwork = (path) =>
-  path.indexOf(buildPath(VALIDATOR_ROUTE, { identifier: '' })) === 0 ||
+  path.indexOf(buildPath(VALIDATORS_ROUTE, {})) === 0 ||
   path.indexOf(buildPath(NODES_ROUTE, {})) === 0 ||
   path.indexOf(buildPath(UPGRADE_STATUS_ROUTE, {})) === 0 ||
   path.indexOf(buildPath(AMENDMENTS_ROUTE, {})) === 0
