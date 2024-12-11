@@ -573,10 +573,11 @@ const getFeature = (rippledSocket, amendmentId) => {
 }
 
 const getMPTIssuance = (rippledSocket, tokenId) =>
-  query(rippledSocket, {
+  queryP2P(rippledSocket, {
     command: 'ledger_entry',
     mpt_issuance: tokenId,
     ledger_index: 'validated',
+    include_deleted: true,
   }).then((resp) => {
     if (
       resp.error === 'entryNotFound' ||
