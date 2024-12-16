@@ -531,6 +531,9 @@
   "asset_class": null,
   "trading_pairs": null,
   "deleted": null,
+  "holders": null,
+  "trustlines": null,
+  "website": null,
   "assets.mpt_tab_title": null,
   "assets.no_mpts_message": null,
   "transaction_type_name_MPTokenIssuanceCreate": null,
@@ -553,5 +556,9 @@
   "can_escrow": null,
   "can_trade": null,
   "can_transfer": null,
-  "can_clawback": null
+  "can_clawback": null,
+  "search_results_banner": null,
+  "enable_amendment_name": null,
+  "amendment_status": null,
+  "expected_date": null
 }

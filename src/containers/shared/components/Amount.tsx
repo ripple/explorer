@@ -29,7 +29,7 @@ export const Amount = ({
   const currency = typeof value === 'string' ? 'XRP' : value.currency
   const amount =
     typeof value === 'string' ? parseInt(value, 10) / XRP_BASE : value.amount
-  const isMPT = typeof value === 'string' ? false : value.isMPT
+  const isMPT = typeof value === 'string' ? false : value.isMPT ?? false
 
   const options = { ...CURRENCY_OPTIONS, currency }
 

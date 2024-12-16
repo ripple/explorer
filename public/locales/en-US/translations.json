@@ -21,7 +21,7 @@
   "explorer": "Explorer",
   "xrpl_org": "XRPL.org",
   "github": "GitHub",
-  "header.search.placeholder": "Search by Address, Ledger or Txn",
+  "header.search.placeholder": "Search by Token, Address, Ledger or Txn",
   "xrp": "XRP",
   "xrpl_explorer": "XRPL Explorer",
   "ledgers": "Ledgers",
@@ -540,6 +540,9 @@
   "asset_class": "Asset Class",
   "trading_pairs": "Trading Pairs",
   "deleted": "Deleted",
+  "holders": "HOLDERS: {{holders}}",
+  "trustlines": " TRUSTLINES: {{trustlines}}",
+  "website": "Wesbite",
   "mpt_issuance_id": "MPT Issuance ID",
   "asset_scale": "Asset Scale",
   "metadata": "Metadata",
@@ -553,5 +556,10 @@
   "can_escrow": "Can Escrow",
   "can_trade": "Can Trade",
   "can_transfer": "Can Transfer",
-  "can_clawback": "Can Clawback"
+  "can_clawback": "Can Clawback",
+  "search_results_banner": "Token search by name and account is now available! Try searching for USD",
+  "enable_amendment_name": "Amendment Name",
+  "amendment_status": "Amendment Status",
+  "expected_date": "Expected Date"
+
 }
