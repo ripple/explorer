@@ -7,7 +7,7 @@
     },
     "Fee": "10",
     "Flags": 2147483648,
-    "MPTokenHolder": "rUZTPFN7MBJkjiZ48rak6q7MbhT4ur2kAD",
+    "Holder": "rUZTPFN7MBJkjiZ48rak6q7MbhT4ur2kAD",
     "Sequence": 3432,
     "SigningPubKey": "ED0C1DE70A8762E6C98EC78CF13D278D6950ECDFE8E87BAD3732730845E2D9AB6A",
     "TransactionType": "Clawback",
