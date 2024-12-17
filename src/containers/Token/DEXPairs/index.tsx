@@ -169,7 +169,9 @@ export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
         <table>
           <thead>
             <tr>
-              <th className="pair-header">{t('pair')}</th>
+              <th className="pair-header" className="left-align">
+                {t('pair')}
+              </th>
               <th>{t('issuer')}</th>
               <th className="stats-header">{t('offer_range')}</th>
             </tr>
