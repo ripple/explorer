@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import { localizeNumber, formatLargeNumber } from '../../shared/utils'
 import Currency from '../../shared/components/Currency'
@@ -130,7 +129,7 @@ export const TokenHeader = ({
       CURRENCY_OPTIONS,
     )
     const obligationsBalance = formatLargeNumber(
-      Number.parseFloat(obligations || 0),
+      Number.parseFloat(obligations || '0'),
     )
 
     return (

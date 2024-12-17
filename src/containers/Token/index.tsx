@@ -48,7 +48,7 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
   </div>
 )
 
-export const Token: FC<{ error: string }> = () => {
+export const Token = () => {
   const rippledSocket = useContext(SocketContext)
   const { trackScreenLoaded } = useAnalytics()
   const { token = '' } = useRouteParams(TOKEN_ROUTE)
@@ -88,11 +88,13 @@ export const Token: FC<{ error: string }> = () => {
       {isTokenDataLoading ? (
         <Loader />
       ) : (
-        <TokenHeader
-          accountId={accountId}
-          currency={currency}
-          data={tokenData}
-        />
+        tokenData && (
+          <TokenHeader
+            accountId={accountId}
+            currency={currency}
+            data={tokenData}
+          />
+        )
       )}
       {accountId && tokenData && IS_MAINNET && (
         <DEXPairs accountId={accountId} currency={currency} />
