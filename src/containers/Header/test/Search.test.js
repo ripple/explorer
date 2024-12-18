@@ -2,12 +2,14 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import moxios from 'moxios'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 import { flushPromises } from '../../test/utils'
+import { queryClient } from '../../shared/QueryClient'
 
 describe('Search component', () => {
   const createWrapper = () => {
@@ -16,7 +18,9 @@ describe('Search component', () => {
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
           <Router>
-            <Search />
+            <QueryClientProvider client={queryClient}>
+              <Search />
+            </QueryClientProvider>
           </Router>
         </SocketContext.Provider>
       </I18nextProvider>,
