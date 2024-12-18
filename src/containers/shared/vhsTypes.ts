@@ -101,6 +101,15 @@ export interface StreamValidator extends ValidatorResponse {
   ledger_hash?: string
   pubkey?: string
   time?: string
+  base_fee?: number
+  reserve_base?: number
+  reserve_inc?: number
+}
+
+export interface FeeSettings {
+  base_fee: number
+  reserve_base: number
+  reserve_inc: number
 }
 
 export interface AmendmentData {
