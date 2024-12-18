@@ -1,10 +1,12 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfigEnglish'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 import { Header } from '../index'
+import { queryClient } from '../../shared/QueryClient'
 
 describe('Header component', () => {
   let client
@@ -13,7 +15,9 @@ describe('Header component', () => {
       <I18nextProvider i18n={i18n}>
         <Router>
           <SocketContext.Provider value={client}>
-            <Header />
+            <QueryClientProvider client={queryClient}>
+              <Header />
+            </QueryClientProvider>
           </SocketContext.Provider>
         </Router>
       </I18nextProvider>,

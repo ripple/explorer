@@ -1,7 +1,7 @@
-@import '../shared/css/variables';
-@import '../shared/css/table';
+@use '../shared/css/variables' as *;
+@use '../shared/css/table';
 
-.amendments-page{
+.amendments-page {
   .summary {
     padding: 0 16px;
     margin-top: 100px;
@@ -100,7 +100,9 @@
       }
     }
 
-    .version, .enabled, .consensus {
+    .version,
+    .enabled,
+    .consensus {
       max-width: 70px;
       overflow-wrap: break-word;
       @include for-size(tablet-portrait-up) {

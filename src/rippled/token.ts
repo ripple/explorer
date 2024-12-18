@@ -6,11 +6,13 @@ import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 const log = logger({ name: 'iou' })
 
 export interface TokenData {
+  name: string
   balance: string
   reserve: number
   sequence: number
+  gravatar: string
   rate?: number
-  obligations: string
+  obligations?: string
   domain?: string
   emailHash?: string
   previousLedger: number
@@ -60,8 +62,10 @@ async function getToken(
       previousTxn,
       previousLedger,
     }
-  } catch (error: any) {
-    log.error(error.toString())
+  } catch (error) {
+    if (error) {
+      log.error(error.toString())
+    }
     throw error
   }
 }

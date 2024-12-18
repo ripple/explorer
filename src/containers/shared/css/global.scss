@@ -1,7 +1,7 @@
 // ONLY GLOBAL CSS, KEEP IT TO MINIMAL
 // CSS SHOULD BE SCOPPED TO COMPONENT
-@import './variables';
-@import './form';
+@use 'variables' as *;
+@use 'form';
 
 /**
  * `current_symbols` is used for currency codes missing from other fonts, currently `u+e900` (XRP) and `u+e901` (BTC).

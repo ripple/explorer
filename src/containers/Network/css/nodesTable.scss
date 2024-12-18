@@ -1,5 +1,5 @@
-@import '../../shared/css/variables';
-@import '../../shared/css/table';
+@use '../../shared/css/variables' as *;
+@use '../../shared/css/table';
 
 .nodes-table {
   position: relative;
