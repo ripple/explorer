@@ -165,11 +165,11 @@ export const TokenHeader = ({
         <div className="bottom-container">
           <div className="details">
             <h2>{t('details')}</h2>
-            {renderDetails(data)}
+            {renderDetails()}
           </div>
           <div className="settings">
             <h2 className="title">{t('settings')}</h2>
-            {renderSettings(data)}
+            {renderSettings()}
           </div>
         </div>
       </div>

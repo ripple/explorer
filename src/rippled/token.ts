@@ -6,11 +6,9 @@ import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 const log = logger({ name: 'iou' })
 
 export interface TokenData {
-  name: string
   balance: string
   reserve: number
   sequence: number
-  gravatar: string
   rate?: number
   obligations?: string
   domain?: string
