@@ -20,13 +20,61 @@ import {
 } from './lib/rippled'
 import logger from './lib/logger'
 import { formatAccountInfo, formatSignerList } from './lib/utils'
+import type { ExplorerAmount } from '../containers/shared/types'
+import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
+
+interface XAddress {
+  classicAddress: string
+  tag: number | false
+  test: boolean
+}
+
+export interface AccountState {
+  account: string
+  balances: {
+    XRP: number
+  }
+  paychannels?: {
+    // eslint-disable-next-line camelcase
+    total_available: number
+    channels: any[]
+  }
+  escrows?: {
+    totalIn: number
+    totalOut: number
+  }
+  signerList?: {
+    signers: {
+      account: string
+      weight: number
+    }[]
+    quorum: number
+    maxSigners: number
+  }
+  info: {
+    reserve: number
+    sequence?: number
+    ticketCount: number
+    domain?: string
+    emailHash?: string
+    flags: string[]
+    nftMinter?: string
+  }
+  xAddress?: {
+    classicAddress: string
+    tag: number | boolean
+    test: boolean
+  }
+  deleted: boolean
+  hasBridge: boolean
+}
 
 const log = logger({ name: 'account balances' })
 
 const formatBalances = (info, data) => {
   const balances = { XRP: Number(info.Balance) / 1000000 }
   const { assets = {}, obligations = {} } = data
-  const tokens = []
+  const tokens: ExplorerAmount[] = []
 
   Object.keys(obligations).forEach((currency) => {
     if (!balances[currency]) {
@@ -56,11 +104,14 @@ const formatBalances = (info, data) => {
     tokens,
   }
 }
-const getAccountState = (account, rippledSocket) => {
+async function getAccountState(
+  account: string,
+  rippledSocket: ExplorerXrplClient,
+): Promise<AccountState> {
   // TODO: Retrieve balances for untagged X-address only? or display notice/warning
 
-  let classicAddress
-  let decomposedAddress = null
+  let classicAddress: string
+  let decomposedAddress: XAddress | null = null
 
   try {
     if (!isValidClassicAddress(account) && !isValidXAddress(account)) {
@@ -85,7 +136,7 @@ const getAccountState = (account, rippledSocket) => {
     } else {
       classicAddress = account
     }
-  } catch (error) {
+  } catch (error: any) {
     log.error(error.toString())
     throw error
   }
@@ -101,8 +152,7 @@ const getAccountState = (account, rippledSocket) => {
         getServerInfo(rippledSocket),
         getAccountBridges(rippledSocket, classicAddress),
       ]).then((data) => ({
-        account: info.Account,
-        ledger_index: info.ledger_index,
+        account: info.Account as string,
         info: formatAccountInfo(info, data[3].info.validated_ledger),
         balances: data[0].balances,
         tokens: data[0].tokens,
@@ -128,6 +178,9 @@ const getAccountState = (account, rippledSocket) => {
                 account: classicAddress,
                 deleted: true,
                 xAddress: decomposedAddress || undefined,
+                balances: { XRP: 0 },
+                hasBridge: false,
+                info: { reserve: 0, ticketCount: 0, flags: [] },
               }
             }
             throw error
