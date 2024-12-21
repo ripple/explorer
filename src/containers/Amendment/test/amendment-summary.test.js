@@ -57,7 +57,7 @@ describe('Amendments Page container', () => {
     wrapper.unmount()
   })
 
-  it('renders all parts for a voting amendment', async (done) => {
+  it('renders all parts for a voting amendment', async () => {
     moxios.stubRequest(
       `${process.env.VITE_DATA_URL}/amendment/vote/main/${MOCK_IDENTIFIER}`,
       {
@@ -200,10 +200,9 @@ describe('Amendments Page container', () => {
     ).toBe(4)
 
     wrapper.unmount()
-    done()
   })
 
-  it('renders 404 page on no match', async (done) => {
+  it('renders 404 page on no match', async () => {
     moxios.stubRequest(
       `${process.env.VITE_DATA_URL}/amendment/vote/main/${MOCK_IDENTIFIER}`,
       {
@@ -225,6 +224,5 @@ describe('Amendments Page container', () => {
 
     expect(wrapper.find('.no-match').length).toBe(1)
     wrapper.unmount()
-    done()
   })
 })

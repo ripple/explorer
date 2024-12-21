@@ -7,7 +7,8 @@ module.exports = {
   process(_src, filename) {
     const assetFilename = JSON.stringify(path.basename(filename))
 
-    return `const React = require('react');
+    return {
+      code: `const React = require('react');
       module.exports = React.forwardRef((props, ref) => {
         return {
           $$typeof: Symbol.for('react.element'),
@@ -18,6 +19,7 @@ module.exports = {
             children: ${assetFilename}
           })
         };
-      });`
+      });`,
+    }
   },
 }

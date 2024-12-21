@@ -75,23 +75,23 @@ describe('Testing hooks', () => {
     })
 
     it('renders all pairs', (done) => {
-      setImmediate(() => {
+      setTimeout(() => {
         wrapper.update()
         const allPairs = wrapper.find('.pair')
         // 3 from the mockTopEndpoint and 3 from hardcoded pairs
         expect(allPairs.length).toEqual(6)
         done()
-      })
+      }, 0)
     })
     it('renders all PairStats components', (done) => {
-      setImmediate(() => {
+      setTimeout(() => {
         wrapper.update()
         const allLows = wrapper.find('.low')
         const allHighs = wrapper.find('.high')
         expect(allLows.length).toEqual(12)
         expect(allHighs.length).toEqual(12)
         done()
-      })
+      }, 0)
     })
   })
 
@@ -106,13 +106,13 @@ describe('Testing hooks', () => {
     })
 
     it('renders on top tokens failure', (done) => {
-      // setImmediate will execute the callback immediately after all queued promise callbacks are executed
-      setImmediate(() => {
+      // setTimeout will execute the callback immediately after all queued promise callbacks are executed
+      setTimeout(() => {
         wrapper.update()
         const noTokensNode = wrapper.find('.no-pairs-message')
         expect(noTokensNode.length).toEqual(1)
         done()
-      })
+      }, 0)
     })
   })
 })
