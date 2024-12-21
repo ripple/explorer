@@ -15,9 +15,11 @@ describe('NetworkPicker component', () => {
   const createWrapper = (localNetworks?: string[]) => {
     let Picker
 
+    jest.unmock('../NetworkPicker')
     // Needed to test different env variable values.
     jest.isolateModules(() => {
-      ;({ NetworkPicker: Picker } = jest.requireActual('../NetworkPicker'))
+      const module = jest.requireActual('../NetworkPicker')
+      Picker = module.NetworkPicker
     })
 
     localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
