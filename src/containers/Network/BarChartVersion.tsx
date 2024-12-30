@@ -47,17 +47,21 @@ const CustomTooltip = ({
 }: TooltipProps<ValueType, NameType>) => {
   const { t } = useTranslation()
   if (active) {
+    const valCount = payload?.[0]?.payload?.validatorCount ?? 0
+    const valPercent = payload?.[0]?.payload?.validatorPercent.toFixed(2) ?? 0
+    const nodeCount = payload?.[0]?.payload?.nodeCount ?? 0
+    const nodePercent = payload?.[0]?.payload?.nodePercent.toFixed(2) ?? 0
     return (
       <div className="custom-tooltip">
         <p className="label">{t('version_display', { version: label })}</p>
         <p className="value">
           {t('validator_count', {
-            val_count: payload?.[0]?.payload?.validatorCount ?? 0,
+            val_count: `${valCount} (${valPercent}%)`,
           })}
         </p>
         <p className="value">
           {t('node_count', {
-            node_count: payload?.[0]?.payload?.nodeCount ?? 0,
+            node_count: `${nodeCount} (${nodePercent}%)`,
           })}
         </p>
       </div>
