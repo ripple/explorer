@@ -6,6 +6,9 @@ import { AMMBid } from './AMMBid'
 import { AMMVote } from './AMMVote'
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
+import { CredentialAcceptTransaction as CredentialAccept } from './.CredentialAccept'
+import { CredentialAcceptTransaction as CredentialCreate } from './.CredentialCreate'
+import { CredentialAcceptTransaction as CredentialDelete } from './.CredentialDelete'
 import { DIDSetTransaction as DIDSet } from './DIDSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
 import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
@@ -56,6 +59,9 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
   AccountSet,
   Clawback,
+  CredentialAccept,
+  CredentialCreate,
+  CredentialDelete,
   DIDSet,
   DepositPreauth,
   EnableAmendment,
