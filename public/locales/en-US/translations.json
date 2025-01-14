@@ -563,6 +563,9 @@
   "search_results_banner": "Token search by name and account is now available! Try searching for USD",
   "enable_amendment_name": "Amendment Name",
   "amendment_status": "Amendment Status",
-  "expected_date": "Expected Date"
+  "expected_date": "Expected Date",
+  "credential_type": "Credential Type",
+  "subject": "Subject",
+  "expiration": "Expiration"
 
 }

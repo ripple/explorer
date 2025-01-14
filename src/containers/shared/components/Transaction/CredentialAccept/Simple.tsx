@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { type CredentialAccept } from 'xrpl'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
@@ -8,23 +9,23 @@ const Simple: TransactionSimpleComponent = (
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { URI, DIDDocument, Attestation } = data.instructions
+  const { Account, Issuer, CredentialType } = data.instructions
 
   return (
     <>
-      {URI && (
-        <SimpleRow label={t('uri')} data-test="uri">
-          {convertHexToString(URI)}
+      {Account && (
+        <SimpleRow label={t('account')} data-test="account">
+          {convertHexToString(Account)}
         </SimpleRow>
       )}
-      {DIDDocument && (
-        <SimpleRow label={t('did_document')} data-test="did-document">
-          {convertHexToString(DIDDocument)}
+      {Issuer && (
+        <SimpleRow label={t('issuer')} data-test="issuer">
+          {convertHexToString(Issuer)}
         </SimpleRow>
       )}
-      {Attestation && (
-        <SimpleRow label={t('attestation')} data-test="attestation">
-          {convertHexToString(Attestation)}
+      {CredentialType && (
+        <SimpleRow label={t('credential_type')} data-test="credential-type">
+          {convertHexToString(CredentialType)}
         </SimpleRow>
       )}
     </>

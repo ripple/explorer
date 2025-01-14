@@ -554,5 +554,8 @@
   "search_results_banner": null,
   "enable_amendment_name": null,
   "amendment_status": null,
-  "expected_date": null
+  "expected_date": null,
+  "credential_type": null,
+  "subject": null,
+  "expiration": null
 }
