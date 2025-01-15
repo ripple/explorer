@@ -14,7 +14,6 @@ export enum TransactionCategory {
 }
 
 export enum TransactionAction {
-  ACCEPT = 'ACCEPT',
   CREATE = 'CREATE',
   CANCEL = 'CANCEL',
   FINISH = 'FINISH',

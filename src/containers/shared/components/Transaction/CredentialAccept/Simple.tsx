@@ -15,12 +15,12 @@ const Simple: TransactionSimpleComponent = (
     <>
       {Account && (
         <SimpleRow label={t('account')} data-test="account">
-          {convertHexToString(Account)}
+          {Account}
         </SimpleRow>
       )}
       {Issuer && (
         <SimpleRow label={t('issuer')} data-test="issuer">
-          {convertHexToString(Issuer)}
+          {Issuer}
         </SimpleRow>
       )}
       {CredentialType && (
