@@ -4,7 +4,7 @@
   "version": "1.5.0",
   "dependencies": {
     "@google-cloud/bigquery": "^7.9.1",
-    "@paystring/utils": "^2.0.0",
+    "@paystring/utils": "^1.3.0",
     "@redux-devtools/extension": "^3.3.0",
     "@rollup/plugin-inject": "^5.0.5",
     "@vitejs/plugin-react": "^4.2.1",
@@ -84,7 +84,7 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "jest-enzyme": "^7.1.0",
+    "jest-enzyme": "^4.2.0",
     "jest-websocket-mock": "^2.5.0",
     "lint-staged": "^15.2.10",
     "mock-socket": "^9.1.5",
@@ -103,7 +103,7 @@
     "stylelint-config-standard": "^34.0.0",
     "stylelint-prettier": "^4.1.0",
     "stylelint-scss": "^5.3.2",
-    "ts-jest": "^26.5.6",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5",
     "xrpl": "^3.1.0"
