@@ -561,5 +561,8 @@
   "enable_amendment_name": null,
   "amendment_status": null,
   "expected_date": null,
-  "credential_type": null
+  "credential_type": null,
+  "subject": null,
+  "expiration": null,
+  "domain_id": null
 }

@@ -9,8 +9,7 @@ const Simple: TransactionSimpleComponent = (
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { Account, Subject, CredentialType, Expiration, URI } =
-    data.instructions
+  const { Account, DomainID } = data.instructions
 
   return (
     <>
@@ -19,24 +18,9 @@ const Simple: TransactionSimpleComponent = (
           {Account}
         </SimpleRow>
       )}
-      {Subject && (
-        <SimpleRow label={t('subject')} data-test="subject">
-          {Subject}
-        </SimpleRow>
-      )}
-      {CredentialType && (
-        <SimpleRow label={t('credential_type')} data-test="credential-type">
-          {convertHexToString(CredentialType)}
-        </SimpleRow>
-      )}
-      {Expiration && (
-        <SimpleRow label={t('expiration')} data-test="expiration">
-          {Expiration}
-        </SimpleRow>
-      )}
-      {URI && (
-        <SimpleRow label={t('uri')} data-test="uri">
-          {convertHexToString(URI)}
+      {DomainID && (
+        <SimpleRow label={t('domain_id')} data-test="domain-id">
+          {Account}
         </SimpleRow>
       )}
     </>

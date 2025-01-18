@@ -566,6 +566,7 @@
   "expected_date": "Expected Date",
   "credential_type": "Credential Type",
   "subject": "Subject",
-  "expiration": "Expiration"
+  "expiration": "Expiration",
+  "domain_id": "Domain ID"
 
 }

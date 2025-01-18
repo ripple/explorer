@@ -559,5 +559,6 @@
   "expected_date": null,
   "credential_type": null,
   "subject": null,
-  "expiration": null
+  "expiration": null,
+  "domain_id": null
 }
