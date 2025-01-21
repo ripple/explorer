@@ -509,6 +509,17 @@ const getServerInfo = (rippledSocket) =>
     return resp
   })
 
+const getServerState = (rippledSocket) =>
+  query(rippledSocket, {
+    command: 'server_state',
+  }).then((resp) => {
+    if (resp.error !== undefined || resp.error_message !== undefined) {
+      throw new Error(resp.error_message || resp.error, 500)
+    }
+
+    return resp
+  })
+
 const getOffers = (
   rippledSocket,
   currencyCode,
@@ -654,6 +665,7 @@ export {
   getAccountTransactions,
   getNegativeUNL,
   getServerInfo,
+  getServerState,
   getOffers,
   getNFTInfo,
   getBuyNFToffers,
