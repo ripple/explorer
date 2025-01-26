@@ -34,8 +34,8 @@ export const Amount = ({
   const options = { ...CURRENCY_OPTIONS, currency }
 
   const renderAmount = (localizedAmount) => (
-    <span className="amount">
-      <span className="amount-localized">
+    <span className="amount" data-testid="amount">
+      <span className="amount-localized" data-testid="amount-localized">
         {modifier && <span className="amount-modifier">{modifier}</span>}
         {localizedAmount}
       </span>{' '}
