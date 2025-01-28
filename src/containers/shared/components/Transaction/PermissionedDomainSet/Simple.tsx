@@ -1,16 +1,15 @@
 import { useTranslation } from 'react-i18next'
-import { type CredentialCreate } from 'xrpl'
+import { type PermissionedDomainSet } from 'xrpl'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 
 const Simple: TransactionSimpleComponent = (
-  props: TransactionSimpleProps<CredentialCreate>,
+  props: TransactionSimpleProps<PermissionedDomainSet>,
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { Account, Subject, CredentialType, Expiration, URI } =
-    data.instructions
+  const { Account, DomainID, AcceptedCredentials } = data.instructions
 
   return (
     <>
@@ -19,26 +18,20 @@ const Simple: TransactionSimpleComponent = (
           {Account}
         </SimpleRow>
       )}
-      {Subject && (
-        <SimpleRow label={t('subject')} data-test="subject">
-          {Subject}
+      {DomainID && (
+        <SimpleRow label={t('domain_id')} data-test="domain-id">
+          {DomainID}
         </SimpleRow>
       )}
-      {CredentialType && (
-        <SimpleRow label={t('credential_type')} data-test="credential-type">
-          {convertHexToString(CredentialType)}
-        </SimpleRow>
-      )}
-      {Expiration && (
-        <SimpleRow label={t('expiration')} data-test="expiration">
-          {Expiration}
-        </SimpleRow>
-      )}
-      {URI && (
-        <SimpleRow label={t('uri')} data-test="uri">
-          {convertHexToString(URI)}
-        </SimpleRow>
-      )}
+      {AcceptedCredentials &&
+        AcceptedCredentials.map((credential) => (
+          <SimpleRow
+            label={t('accepted_credential')}
+            data-test="accepted-credential'"
+          >
+            {credential}
+          </SimpleRow>
+        ))}
     </>
   )
 }
