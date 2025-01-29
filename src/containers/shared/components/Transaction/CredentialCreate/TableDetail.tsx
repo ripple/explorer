@@ -31,7 +31,7 @@ export const TableDetail = ({
       {URI && (
         <div className="uri">
           <span className="label">{t('uri')}: </span>
-          <span className="case-sensitive">{URI}</span>
+          <span className="case-sensitive">{convertHexToString(URI)}</span>
         </div>
       )}
     </div>

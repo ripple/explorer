@@ -9,17 +9,12 @@ describe('CredentialCreate: Simple', () => {
     const wrapper = createWrapper(CredentialCreate)
     expectSimpleRowText(
       wrapper,
-      'account',
-      'r3ZenwRbVqtkqrZsP9BVxKS8iDu3EsCwyc',
+      'subject',
+      'r9U9hxv27pCb6G3kq26dZD1QVNRUcgcmF3',
     )
-    expectSimpleRowText(
-      wrapper,
-      'credential-type',
-      '4D7920746573742063726564656E7469616C',
-    )
-    expectSimpleRowText(wrapper, 'fee', '120')
-    expectSimpleRowText(wrapper, 'expiration', '')
-    expectSimpleRowText(wrapper, 'uri', '')
+    expectSimpleRowText(wrapper, 'credential-type', 'My test credential')
+    expectSimpleRowText(wrapper, 'expiration', '100')
+    expectSimpleRowText(wrapper, 'uri', 'testURI')
 
     wrapper.unmount()
   })
