@@ -8,6 +8,6 @@ import { Simple } from './Simple'
 
 export const CredentialAcceptTransaction: TransactionMapping = {
   Simple,
-  action: TransactionAction.ACCEPT,
+  action: TransactionAction.MODIFY,
   category: TransactionCategory.ACCOUNT,
 }

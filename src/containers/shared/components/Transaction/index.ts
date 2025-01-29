@@ -29,6 +29,8 @@ import { PaymentTransaction as Payment } from './Payment'
 import { PaymentChannelClaimTransaction as PaymentChannelClaim } from './PaymentChannelClaim'
 import { PaymentChannelCreateTransaction as PaymentChannelCreate } from './PaymentChannelCreate'
 import { PaymentChannelFundTransaction as PaymentChannelFund } from './PaymentChannelFund'
+import { PermissionedDomainDeleteTransaction as PermissionedDomainDelete } from './PermissionedDomainDelete'
+import { PermissionedDomainSetTransaction as PermissionedDomainSet } from './PermissionedDomainSet'
 import { SetFeeTransaction as SetFee } from './SetFee'
 import { SetHookTransaction as SetHook } from './SetHook'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
@@ -82,6 +84,8 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   PaymentChannelCreate,
   PaymentChannelClaim,
   PaymentChannelFund,
+  PermissionedDomainDelete,
+  PermissionedDomainSet,
   SetFee,
   SetHook,
   SetRegularKey,

@@ -6,8 +6,8 @@ import {
 
 import { Simple } from './Simple'
 
-export const CredentialCreateTransaction: TransactionMapping = {
+export const PermissionedDomainSetTransaction: TransactionMapping = {
   Simple,
-  action: TransactionAction.CREATE,
+  action: TransactionAction.MODIFY,
   category: TransactionCategory.ACCOUNT,
 }

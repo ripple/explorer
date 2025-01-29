@@ -567,6 +567,7 @@
   "credential_type": "Credential Type",
   "subject": "Subject",
   "expiration": "Expiration",
-  "domain_id": "Domain ID"
+  "domain_id": "Domain ID",
+  "accepted_credentials": "Accepted Credentials"
 
 }

@@ -23,15 +23,16 @@ const Simple: TransactionSimpleComponent = (
           {DomainID}
         </SimpleRow>
       )}
-      {AcceptedCredentials &&
-        AcceptedCredentials.map((credential) => (
-          <SimpleRow
-            label={t('accepted_credential')}
-            data-test="accepted-credential'"
-          >
-            {credential}
-          </SimpleRow>
-        ))}
+      {AcceptedCredentials && (
+        <SimpleRow
+          label={t('accepted_credentials')}
+          data-test="accepted-credentials"
+        >
+          {AcceptedCredentials.map((credential) => (
+            <div>{credential}</div>
+          ))}
+        </SimpleRow>
+      )}
     </>
   )
 }

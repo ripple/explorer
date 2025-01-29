@@ -561,5 +561,6 @@
   "credential_type": null,
   "subject": null,
   "expiration": null,
-  "domain_id": null
+  "domain_id": null,
+  "accepted_credentials": null
 }
