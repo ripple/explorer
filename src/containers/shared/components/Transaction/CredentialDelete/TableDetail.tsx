@@ -7,23 +7,28 @@ export const TableDetail = ({
   instructions,
 }: TransactionTableDetailProps<CredentialDelete>) => {
   const { t } = useTranslation()
-  const { Account, Subject, Issuer, CredentialType } = instructions
+  const {
+    Account: account,
+    Subject: subject,
+    Issuer: issuer,
+    CredentialType: credentialType,
+  } = instructions
   return (
     <div className="credentialDelete">
       <div className="subject">
         <span className="label">{t('subject')}: </span>
-        <span className="case-sensitive">{Subject || Account}</span>
+        <span className="case-sensitive">{subject || account}</span>
       </div>
 
       <div className="issuer">
         <span className="label">{t('issuer')}: </span>
-        <span className="case-sensitive">{Issuer || Account}</span>
+        <span className="case-sensitive">{issuer || account}</span>
       </div>
 
       <div className="credential-type">
         <span className="label">{t('credential_type')}: </span>
         <span className="case-sensitive">
-          {convertHexToString(CredentialType)}
+          {convertHexToString(credentialType)}
         </span>
       </div>
     </div>

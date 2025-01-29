@@ -9,22 +9,27 @@ const Simple: TransactionSimpleComponent = (
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { Account, Subject, CredentialType, Issuer } = data.instructions
+  const {
+    Account: account,
+    Subject: subject,
+    CredentialType: credentialType,
+    Issuer: issuer,
+  } = data.instructions
 
   return (
     <>
       <SimpleRow label={t('subject')} data-test="subject">
-        {Subject || Account}
+        {subject || account}
       </SimpleRow>
 
-      {Issuer && (
+      {issuer && (
         <SimpleRow label={t('issuer')} data-test="issuer">
-          {Issuer || Account}
+          {issuer || account}
         </SimpleRow>
       )}
 
       <SimpleRow label={t('credential_type')} data-test="credential-type">
-        {convertHexToString(CredentialType)}
+        {convertHexToString(credentialType)}
       </SimpleRow>
     </>
   )

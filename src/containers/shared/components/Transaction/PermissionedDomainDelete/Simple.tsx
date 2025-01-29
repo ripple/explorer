@@ -8,11 +8,11 @@ const Simple: TransactionSimpleComponent = (
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { DomainID } = data.instructions
+  const { DomainID: domainID } = data.instructions
 
   return (
     <SimpleRow label={t('domain_id')} data-test="domain-id">
-      {DomainID}
+      {dataomainID}
     </SimpleRow>
   )
 }

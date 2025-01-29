@@ -6,17 +6,20 @@ export const TableDetail = ({
   instructions,
 }: TransactionTableDetailProps<PermissionedDomainSet>) => {
   const { t } = useTranslation()
-  const { DomainID, AcceptedCredentials } = instructions
+  const { DomainID: domainID, AcceptedCredentials: acceptedCredentials } =
+    instructions
   return (
     <div className="permissionedDomainSet">
-      <div className="domainId">
-        <span className="label">{t('domain_id')}: </span>
-        <span className="case-sensitive">{DomainID}</span>
-      </div>
+      {domainID && (
+        <div className="domainId">
+          <span className="label">{t('domain_id')}: </span>
+          <span className="case-sensitive">{domainID}</span>
+        </div>
+      )}
 
       <div className="acceptedCredentials">
         <span className="label">{t('accepted_credentials')}: </span>
-        <span className="case-sensitive">{AcceptedCredentials}</span>
+        <span className="case-sensitive">{acceptedCredentials}</span>
       </div>
     </div>
   )

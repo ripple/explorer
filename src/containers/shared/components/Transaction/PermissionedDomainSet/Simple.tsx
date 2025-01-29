@@ -8,13 +8,14 @@ const Simple: TransactionSimpleComponent = (
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { DomainID, AcceptedCredentials } = data.instructions
+  const { DomainID: domainID, AcceptedCredentials: acceptedCredentials } =
+    data.instructions
 
   return (
     <>
-      {DomainID && (
+      {domainID && (
         <SimpleRow label={t('domain_id')} data-test="domain-id">
-          {DomainID}
+          {domainID}
         </SimpleRow>
       )}
 
@@ -22,7 +23,7 @@ const Simple: TransactionSimpleComponent = (
         label={t('accepted_credentials')}
         data-test="accepted-credentials"
       >
-        {AcceptedCredentials.map((credential) => (
+        {acceptedCredentials.map((credential) => (
           <div>{credential}</div>
         ))}
       </SimpleRow>

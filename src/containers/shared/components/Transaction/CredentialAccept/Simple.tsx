@@ -9,16 +9,16 @@ export const Simple: TransactionSimpleComponent = (
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { Issuer, CredentialType } = data.instructions
+  const { Issuer: issuer, CredentialType: credentialType } = data.instructions
 
   return (
     <>
       <SimpleRow label={t('issuer')} data-test="issuer">
-        {Issuer}
+        {issuer}
       </SimpleRow>
 
       <SimpleRow label={t('credential_type')} data-test="credential-type">
-        {convertHexToString(CredentialType)}
+        {convertHexToString(credentialType)}
       </SimpleRow>
     </>
   )
