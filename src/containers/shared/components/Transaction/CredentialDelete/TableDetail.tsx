@@ -1,19 +1,25 @@
 import { useTranslation } from 'react-i18next'
-import { type CredentialAccept } from 'xrpl'
+import { type CredentialDelete } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 
 export const TableDetail = ({
   instructions,
-}: TransactionTableDetailProps<CredentialAccept>) => {
+}: TransactionTableDetailProps<CredentialDelete>) => {
   const { t } = useTranslation()
-  const { Account, Issuer, CredentialType } = instructions
+  const { Account, Subject, Issuer, CredentialType } = instructions
   return (
     <div className="credential">
       {Account && (
         <div className="uri">
           <span className="label">{t('account')}: </span>
           <span className="case-sensitive">{Account}</span>
+        </div>
+      )}
+      {Subject && (
+        <div className="issuer">
+          <span className="label">{t('subject')}: </span>
+          <span className="case-sensitive">{Subject}</span>
         </div>
       )}
       {Issuer && (
