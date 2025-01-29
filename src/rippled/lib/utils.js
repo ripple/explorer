@@ -82,7 +82,6 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
   emailHash: info.EmailHash,
   flags: buildFlags(info.Flags, ACCOUNT_FLAGS),
   balance: info.Balance,
-  gravatar: info.urlgravatar,
   previousTxn: info.PreviousTxnID,
   previousLedger: info.PreviousTxnLgrSeq,
   nftMinter: info.NFTokenMinter,
