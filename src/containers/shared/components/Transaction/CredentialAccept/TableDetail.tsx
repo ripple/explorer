@@ -7,29 +7,20 @@ export const TableDetail = ({
   instructions,
 }: TransactionTableDetailProps<CredentialAccept>) => {
   const { t } = useTranslation()
-  const { Account, Issuer, CredentialType } = instructions
+  const { Issuer, CredentialType } = instructions
   return (
     <div className="credentialAccept">
-      {Account && (
-        <div className="account">
-          <span className="label">{t('account')}: </span>
-          <span className="case-sensitive">{Account}</span>
-        </div>
-      )}
-      {Issuer && (
-        <div className="issuer">
-          <span className="label">{t('issuer')}: </span>
-          <span className="case-sensitive">{Issuer}</span>
-        </div>
-      )}
-      {CredentialType && (
-        <div className="credential-type">
-          <span className="label">{t('credential_type')}: </span>
-          <span className="case-sensitive">
-            {convertHexToString(CredentialType)}
-          </span>
-        </div>
-      )}
+      <div className="issuer">
+        <span className="label">{t('issuer')}: </span>
+        <span className="case-sensitive">{Issuer}</span>
+      </div>
+
+      <div className="credential-type">
+        <span className="label">{t('credential_type')}: </span>
+        <span className="case-sensitive">
+          {convertHexToString(CredentialType)}
+        </span>
+      </div>
     </div>
   )
 }
