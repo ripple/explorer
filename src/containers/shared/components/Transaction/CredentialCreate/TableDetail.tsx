@@ -9,9 +9,9 @@ export const TableDetail = ({
   const { t } = useTranslation()
   const { Account, Subject, CredentialType, Expiration, URI } = instructions
   return (
-    <div className="credential">
+    <div className="credentialCreate">
       {Account && (
-        <div className="uri">
+        <div className="account">
           <span className="label">{t('account')}: </span>
           <span className="case-sensitive">{Account}</span>
         </div>
