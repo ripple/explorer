@@ -12,9 +12,11 @@ const Simple: TransactionSimpleComponent = (
 
   return (
     <>
-      <SimpleRow label={t('domain_id')} data-test="domain-id">
-        {DomainID}
-      </SimpleRow>
+      {DomainID && (
+        <SimpleRow label={t('domain_id')} data-test="domain-id">
+          {DomainID}
+        </SimpleRow>
+      )}
 
       <SimpleRow
         label={t('accepted_credentials')}

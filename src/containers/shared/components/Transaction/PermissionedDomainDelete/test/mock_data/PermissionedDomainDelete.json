@@ -66,15 +66,15 @@
     "TransactionResult ": "tesSUCCESS "
   },
   "tx_json ": {
-    "Account ": "rhBPeJFG9pxvU22AxkzBpt6zzyk89xhdr3 ",
-    "DomainID ": "F075484241C8FD27C750F1DD93E0B5E0A42D9ADFE5E7B2313DD927E3DE0DBA6E ",
+    "Account ": "rhBPeJFG9pxvU22AxkzBpt6zzyk89xhdr3",
+    "DomainID ": "F075484241C8FD27C750F1DD93E0B5E0A42D9ADFE5E7B2313DD927E3DE0DBA6E",
     "Fee ": "200 ",
     "Flags ": 0,
     "LastLedgerSequence ": 109,
     "NetworkID ": 63456,
     "Sequence ": 76,
     "SigningPubKey ": "ED0FD90553E43698CA5878F9AE1063AF1178728324356BFF116D3331B243F11FDD ",
-    "TransactionType ": "PermissionedDomainDelete ",
+    "TransactionType ": "PermissionedDomainDelete",
     "TxnSignature ": "9C248D71E6221DBBE2F65DB2D3B7B0B0DF8FA11057A60719CCBE6A257D6255068E39D82C740ED7B05B3C99A4A591DA59847C0222A6B5F8DC90C480D249F30E01 ",
     "date ": 790739500,
     "ledger_index ": 90
