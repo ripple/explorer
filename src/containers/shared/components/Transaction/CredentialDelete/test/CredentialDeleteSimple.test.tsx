@@ -7,18 +7,18 @@ const createWrapper = createSimpleWrapperFactory(Simple)
 describe('CredentialDelete: Simple', () => {
   it('renders', () => {
     const wrapper = createWrapper(CredentialDelete)
+
     expectSimpleRowText(
       wrapper,
-      'account',
-      'r3ZenwRbVqtkqrZsP9BVxKS8iDu3EsCwyc',
+      'subject',
+      'rU893VJVdc5W2kQ6gTCDieo8sNHiHyE7Rd',
     )
+    expectSimpleRowText(wrapper, 'issuer', 'rniD1P4EG6htqAiYTqBJhPDjCYZaAKH4Xa')
     expectSimpleRowText(
       wrapper,
       'credential-type',
       '4D7920746573742063726564656E7469616C',
     )
-    expectSimpleRowText(wrapper, 'subject', '120')
-    expectSimpleRowText(wrapper, 'issuer', '')
 
     wrapper.unmount()
   })
