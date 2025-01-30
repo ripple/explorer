@@ -157,6 +157,9 @@
   "transaction_type_name_CheckCancel": "Cancel·lar Check",
   "transaction_type_name_CheckCash": "Cobrar Check",
   "transaction_type_name_CheckCreate": "Crear de Check",
+  "transaction_type_name_CredentialAccept": null,
+  "transaction_type_name_CredentialCreate": null,
+  "transaction_type_name_CredentialDelete": null,
   "transaction_type_name_DIDDelete": "Eliminar DID",
   "transaction_type_name_DIDSet": "Establir DID",
   "transaction_type_name_DepositPreauth": "Preautoritzar Diposit",
@@ -178,6 +181,8 @@
   "transaction_type_name_PaymentChannelClaim": "Reclamar al Canal de Pagament",
   "transaction_type_name_PaymentChannelCreate": "Crear Canal de Pagament",
   "transaction_type_name_PaymentChannelFund": "Dipositar en Canal de Pagament",
+  "transaction_type_name_PermissionedDomainDelete": null,
+  "transaction_type_name_PermissionedDomainSet": null,
   "transaction_type_name_SetHook": "Establir Hook",
   "transaction_type_name_SetRegularKey": "Establir Clau Regular",
   "transaction_type_name_SignerListSet": "Etablir Llista de Signantst",
@@ -560,5 +565,10 @@
   "search_results_banner": null,
   "enable_amendment_name": null,
   "amendment_status": null,
-  "expected_date": null
+  "expected_date": null,
+  "credential_type": null,
+  "subject": null,
+  "expiration": null,
+  "domain_id": null,
+  "accepted_credentials": null
 }
