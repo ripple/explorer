@@ -4,7 +4,7 @@ import CredentialAccept from './mock_data/CredentialAccept.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
-describe('CredentialAccepr: Simple', () => {
+describe('CredentialAccept: Simple', () => {
   it('renders', () => {
     const wrapper = createWrapper(CredentialAccept)
     expectSimpleRowText(wrapper, 'issuer', 'rniD1P4EG6htqAiYTqBJhPDjCYZaAKH4Xa')
