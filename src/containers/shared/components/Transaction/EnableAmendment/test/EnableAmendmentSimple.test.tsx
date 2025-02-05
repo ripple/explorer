@@ -58,7 +58,7 @@ describe('EnableAmendment: Simple', () => {
     expectSimpleRowText(wrapper, 'status', 'Lost Majority')
     expectSimpleRowLabel(wrapper, 'version', 'Introduced In')
     expectSimpleRowText(wrapper, 'version', 'Loading')
-    expect(wrapper.find('[data-test="date"]')).not.toExist()
+    expect(wrapper.find('[data-testid="date"]')).not.toExist()
 
     await flushPromises()
     wrapper.update()
@@ -89,7 +89,7 @@ describe('EnableAmendment: Simple', () => {
 
     expectSimpleRowText(wrapper, 'name', 'ExpandedSignerList')
     expectSimpleRowText(wrapper, 'version', 'v1.9.1')
-    expect(wrapper.find('[data-test="name"] .value a')).toHaveProp(
+    expect(wrapper.find('[data-testid="name"] .value a')).toHaveProp(
       'href',
       '/amendment/B2A4DB846F0891BF2C76AB2F2ACC8F5B4EC64437135C6E56F3F859DE5FFD5856',
     )

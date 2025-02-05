@@ -16,30 +16,30 @@ export const Simple: TransactionSimpleComponent = ({
   return (
     <>
       {offerID && (
-        <SimpleRow label={t('offer_index')} data-test="offer-id">
+        <SimpleRow label={t('offer_index')} data-testid="offer-id">
           {offerID}
         </SimpleRow>
       )}
       <SimpleRow
         label={isSellOffer ? t('seller') : t('buyer')}
-        data-test="buyer-or-seller"
+        data-testid="buyer-or-seller"
       >
         <Account account={account} />
       </SimpleRow>
       {destination && (
-        <SimpleRow label={t('destination')} data-test="destination">
+        <SimpleRow label={t('destination')} data-testid="destination">
           <Account account={destination} />
         </SimpleRow>
       )}
       {!isSellOffer && owner && (
-        <SimpleRow label={t('owner')} data-test="owner">
+        <SimpleRow label={t('owner')} data-testid="owner">
           <Account account={owner} />
         </SimpleRow>
       )}
-      <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
+      <SimpleRow label={t('token_id')} className="dt" data-testid="token-id">
         <NFTokenLink tokenID={tokenID} />
       </SimpleRow>
-      <SimpleRow label={t('amount')} data-test="amount">
+      <SimpleRow label={t('amount')} data-testid="amount">
         <Amount value={amount} displayIssuer />
       </SimpleRow>
     </>

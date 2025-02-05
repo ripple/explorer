@@ -11,22 +11,22 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
   return (
     <>
       {ammAccountID && (
-        <SimpleRow label={t('amm_account_id')} data-test="account_id">
+        <SimpleRow label={t('amm_account_id')} data-testid="account_id">
           <Account account={ammAccountID} />
         </SimpleRow>
       )}
       {bidMin && (
-        <SimpleRow label={t('min_slot_price')} data-test="min_slot_price">
+        <SimpleRow label={t('min_slot_price')} data-testid="min_slot_price">
           <Amount value={bidMin} />
         </SimpleRow>
       )}
       {bidMax && (
-        <SimpleRow label={t('max_slot_price')} data-test="max_slot_price">
+        <SimpleRow label={t('max_slot_price')} data-testid="max_slot_price">
           <Amount value={bidMax} />
         </SimpleRow>
       )}
       {authAccounts && (
-        <SimpleRow label={t('auth_accounts')} data-test="auth_accounts">
+        <SimpleRow label={t('auth_accounts')} data-testid="auth_accounts">
           {authAccounts.map((accID: string) => (
             <Account account={accID} />
           ))}

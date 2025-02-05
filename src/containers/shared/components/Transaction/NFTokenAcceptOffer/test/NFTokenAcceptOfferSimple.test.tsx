@@ -68,7 +68,7 @@ describe('NFTokenAcceptOffer', () => {
       'token-id',
       '00081B581189F5687DBB7516339D6CCB5593D96622AD82DF08CFDA8600000A17',
     )
-    expect(wrapper.find('[data-test="offer-id"] .value').length).toBe(2)
+    expect(wrapper.find('[data-testid="offer-id"] .value').length).toBe(2)
     expectSimpleRowText(wrapper, 'amount', '\uE9002,500.00 XRP')
     expectSimpleRowText(wrapper, 'buyer', 'rNYKGnHrjSnKXQGgACciyCLg4xRcwWZixN')
     expectSimpleRowText(wrapper, 'seller', 'rnp9DA6H2tLH7YFkgpjoVREB2yccYv56Sg')
