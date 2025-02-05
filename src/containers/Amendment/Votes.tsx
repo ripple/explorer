@@ -47,11 +47,11 @@ export const Votes = ({ data, validators }: VotesProps) => {
     label: 'yeas' | 'nays',
     validatorsList: Array<validatorUNL>,
   ) => (
-    <div className={`votes-column ${label}`}>
+    <div className={`votes-column ${label}`} title="votes-column">
       <div className="label">{t(label)}</div>
       <div className="vals">
         {validatorsList.map((validator, index) => (
-          <div className="row" key={validator.pubkey}>
+          <div className="row" key={validator.pubkey} title="validator">
             <span className="index">{index + 1}</span>
             <span className="val">
               <RouteLink

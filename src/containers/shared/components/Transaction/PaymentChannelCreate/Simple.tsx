@@ -18,7 +18,7 @@ export const Simple = ({
 
   return (
     <>
-      <SimpleRow label={t('amount')} data-testid="amount">
+      <SimpleRow label={t('amount')} data-testid="channel-amount">
         <Amount value={amount} />
       </SimpleRow>
       <SimpleRow label={t('source')} data-testid="source">
@@ -39,7 +39,11 @@ export const Simple = ({
         </SimpleRow>
       )}
       {channel && (
-        <SimpleRow label={t('channel_id')} className="channel">
+        <SimpleRow
+          label={t('channel_id')}
+          className="channel"
+          data-testid="channel"
+        >
           {channel}
         </SimpleRow>
       )}

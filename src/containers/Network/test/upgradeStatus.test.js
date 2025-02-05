@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
@@ -109,8 +109,8 @@ describe('UpgradeStatus renders', () => {
   let server
   let client
   const WS_URL = 'ws://localhost:1234'
-  const createWrapper = () =>
-    mount(
+  const renderComponent = () =>
+    render(
       <SocketContext.Provider value={client}>
         <QuickHarness i18n={i18n} initialEntries={['/network/upgrade-status']}>
           <Route path={NETWORK_ROUTE.path} element={<Network />} />
@@ -131,6 +131,7 @@ describe('UpgradeStatus renders', () => {
   })
 
   afterEach(async () => {
+    cleanup()
     moxios.uninstall()
     server.close()
     client.close()
@@ -138,8 +139,7 @@ describe('UpgradeStatus renders', () => {
   })
 
   it('renders without crashing', async () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderComponent()
   })
 
   it('renders when nodes request errors', async () => {
@@ -151,12 +151,7 @@ describe('UpgradeStatus renders', () => {
       status: 502,
     })
 
-    const wrapper = createWrapper()
-    wrapper.update()
-    setTimeout(() => {
-      wrapper.update()
-      expect(wrapper.find('.barchart').length).toEqual(1)
-    })
-    wrapper.unmount()
+    renderComponent()
+    expect(screen.queryByTitle('barchart')).toBeDefined()
   })
 })

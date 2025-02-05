@@ -25,7 +25,7 @@ export const Ledgers = ({
   const isOnline = useIsOnline()
 
   return (
-    <div className="ledgers">
+    <div className="ledgers" title="ledgers">
       {isOnline && ledgers.length > 0 ? (
         <>
           <Legend />

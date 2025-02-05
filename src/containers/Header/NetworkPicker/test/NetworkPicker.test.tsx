@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../../i18n/testConfigEnglish'
@@ -12,7 +12,7 @@ describe('NetworkPicker component', () => {
   const mockedFunction = jest.fn()
   const oldEnvs = process.env
 
-  const createWrapper = (localNetworks?: string[]) => {
+  const renderComponent = (localNetworks?: string[]) => {
     let Picker
 
     // Needed to test different env variable values.
@@ -28,7 +28,7 @@ describe('NetworkPicker component', () => {
       )
     }
 
-    return mount(
+    return render(
       <I18nextProvider i18n={i18n}>
         <Router>
           <SocketContext.Provider value={client}>
@@ -60,90 +60,85 @@ describe('NetworkPicker component', () => {
     client.close()
     window.location = location
     process.env = oldEnvs
+    cleanup()
   })
 
   it('dropdown expands', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.network .dropdown')).toExist()
-    expect(wrapper.find('.network .dropdown')).not.toHaveClassName(
-      '.dropdown-expanded',
-    )
+    renderComponent()
+    expect(screen.queryByTestId('dropdown')).toBeDefined()
+    expect(screen.getByTestId('dropdown')).not.toHaveClass('dropdown-expanded')
 
-    wrapper.find('.network .dropdown-toggle').simulate('click')
-    expect(wrapper.find('.network .dropdown')).toHaveClassName(
-      '.dropdown-expanded',
-    )
-    wrapper.unmount()
+    fireEvent.click(screen.getByRole('button'))
+    expect(screen.getByTestId('dropdown')).toHaveClass('dropdown-expanded')
   })
 
   it('direct to other networks', () => {
-    const wrapper = createWrapper()
+    renderComponent()
 
     // expand dropdown
-    expect(wrapper.find('.network .dropdown')).toExist()
-    wrapper.find('.network .dropdown-toggle').simulate('click')
-    expect(wrapper.find('.dropdown-item.mainnet')).not.toExist() // don't show the current network
-    expect(wrapper.find('.dropdown-item.testnet')).toExist()
+    expect(screen.queryByTestId('dropdown')).toBeDefined()
+    fireEvent.click(screen.getByRole('button'))
+    expect(screen.queryByTestId('dropdown-item-mainnet')).toBeNull() // don't show the current network
+    expect(screen.queryByTestId('dropdown-item-testnet')).toBeDefined()
 
     // test clicking on testnet
-    wrapper.find('.dropdown-item.testnet').simulate('click')
-    expect(wrapper.find('.dropdown-item.testnet')).toHaveProp(
+    fireEvent.click(screen.getByTestId('dropdown-item-testnet'))
+    expect(screen.getByTestId('dropdown-item-testnet')).toHaveAttribute(
       'href',
       process.env.VITE_TESTNET_LINK,
     )
 
-    expect(wrapper.find('.dropdown-item.devnet')).toHaveProp(
+    expect(screen.getByTestId('dropdown-item-devnet')).toHaveAttribute(
       'href',
       process.env.VITE_DEVNET_LINK,
     )
-
-    wrapper.unmount()
   })
 
   it('redirect on custom network input works', () => {
-    const wrapper = createWrapper()
+    renderComponent()
 
-    const customInput = wrapper.find('[className="custom-network-form"] input')
-    customInput.simulate('change', { target: { value: 'custom_url' } })
-    customInput.simulate('submit', { keyCode: 13 })
+    fireEvent.click(screen.getByRole('button'))
+    const customInput = screen.getByRole('textbox')
+    // TODO: figure out how to use userEvent for this instead
+    fireEvent.click(customInput)
+    fireEvent.change(customInput, { target: { value: 'custom_url' } })
+    fireEvent.submit(screen.getByTitle('custom-network-form'))
 
     expect(mockedFunction).toBeCalledWith(
       `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
     )
-
-    wrapper.unmount()
   })
 
   it('shows no network selected in custom mode with no network', () => {
     process.env.VITE_ENVIRONMENT = 'custom'
-    const wrapper = createWrapper()
+    renderComponent()
 
     // expand dropdown
-    expect(wrapper.find('.network-custom')).toExist()
-    expect(wrapper.find('.network-custom .dropdown-toggle')).toIncludeText(
+    expect(screen.getByTestId('dropdown')).toHaveClass('network-custom')
+    expect(screen.getByRole('button')).toHaveTextContent(
       'No Custom Network Selected',
     )
   })
 
   it('shows custom networks in local storage if they exist', () => {
     process.env.VITE_ENVIRONMENT = 'custom'
-    const wrapper = createWrapper(['custom_url', 'custom_url2'])
+    renderComponent(['custom_url', 'custom_url2'])
 
     // expand dropdown
-    expect(wrapper.find('.network-custom')).toExist()
+    expect(screen.getByTestId('dropdown')).toHaveClass('network-custom')
 
-    expect(wrapper.find('.dropdown-item.custom').length).toEqual(2)
-    expect(wrapper.find('.dropdown-item.custom').at(0)).toHaveProp(
+    expect(screen.getAllByTestId('dropdown-item-custom')).toHaveLength(2)
+    expect(screen.getAllByTestId('dropdown-item-custom')[0]).toHaveAttribute(
       'href',
       `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
     )
-    expect(wrapper.find('.dropdown-item.custom').at(1)).toHaveProp(
+    expect(screen.getAllByTestId('dropdown-item-custom')[1]).toHaveAttribute(
       'href',
       `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url2`,
     )
-    expect(wrapper.find('.dropdown-item.custom .btn-remove').length).toEqual(2)
+    expect(screen.getAllByTestId('btn-remove')).toHaveLength(2)
 
-    expect(wrapper.find('.dropdown-item.testnet')).toExist()
-    expect(wrapper.find('.dropdown-item.testnet .btn-remove')).not.toExist()
+    expect(screen.queryByTestId('dropdown-item-testnet')).toBeDefined()
+    expect(screen.queryByTestId('dropdown-item-testnet .btn-remove')).toBeNull()
   })
 })

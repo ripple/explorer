@@ -1,21 +1,22 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { cleanup, screen } from '@testing-library/react'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockEscrowFinish from './mock_data/EscrowFinish.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
-describe('EscrowFinishTableDetail', () => {
+describe('EscrowFinish - TableDetail', () => {
+  afterEach(cleanup)
   it('renders EscrowFinish without crashing', () => {
-    const wrapper = createWrapper(mockEscrowFinish)
-    expect(wrapper.find('[data-testid="escrow-account"]')).toHaveText(
+    renderComponent(mockEscrowFinish)
+    expect(screen.getByTestId('escrow-account')).toHaveTextContent(
       `finish_escrowr4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8 -28`,
     )
-    expect(wrapper.find('[data-testid="escrow-amount"]')).toHaveText(
+    expect(screen.getByTestId('escrow-amount')).toHaveTextContent(
       `\uE9000.0154 XRP`,
     )
-    expect(wrapper.find('[data-testid="escrow-fullfillment"]')).toHaveText(
-      `fulfillment Fulfillment `,
+    expect(screen.getByTestId('escrow-fulfillment')).toHaveTextContent(
+      `fulfillment Fulfillment`,
     )
-    wrapper.unmount()
   })
 })
