@@ -78,6 +78,7 @@
   "not_found_default_title": "Page Not Found",
   "not_found_check_url": "Please double check your URL",
   "not_found": "Not found",
+  "breakdown": "Breakdown",
   "buy": "Buy",
   "sell": "Sell",
   "price": "Price",
@@ -560,6 +561,9 @@
   "search_results_banner": "Token search by name and account is now available! Try searching for USD",
   "enable_amendment_name": "Amendment Name",
   "amendment_status": "Amendment Status",
-  "expected_date": "Expected Date"
-
+  "expected_date": "Expected Date",
+  "graph_dependant_currency": "*Graph is dependant on the currency used.",
+  "incomplete_transaction": "Incomplete transaction",
+  "liquidity_source": "Liquidity Source",
+  "balance_changes": "Balance Changes"
 }
