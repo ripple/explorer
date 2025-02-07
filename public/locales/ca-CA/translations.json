@@ -75,6 +75,7 @@
   "not_found_default_title": "No s'ha trobat la pàgina",
   "not_found_check_url": "Si us plau, comproba l'URL",
   "not_found": "No s'ha trobat",
+  "breakdown": "Breakdown",
   "buy": "Compra",
   "sell": "Ven",
   "price": "Preu",
@@ -525,6 +526,7 @@
   "indicate_unl": "indica un validador en una UNL",
   "transaction_tokens_involved": "<Currency/> i <Currency2/>",
   "transaction_tokens_swapped": "<Currency/> per <Currency2/>",
+  "graph_dependent_currency": "*Graph is dependent on the currency used.",
   "oracle_document_id": null,
   "provider": null,
   "last_update_time": null,
@@ -560,5 +562,16 @@
   "search_results_banner": null,
   "enable_amendment_name": null,
   "amendment_status": null,
-  "expected_date": null
+  "expected_date": null,
+  "graph_dependant_currency": "*Graph is dependent on the currency used.",
+  "incomplete_transaction": "Incomplete transaction",
+  "liquidity_source": "Liquidity Source",
+  "balance_changes": "Balance Changes",
+  "direct": "direct",
+  "dex": "dex",
+  "amm": "amm",
+  "rippling": "rippling",
+  "sold": "sold",
+  "bought": "bought",
+  "no_cross": "The offer has not crossed anything yet"
 }
