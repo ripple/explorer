@@ -1,19 +1,23 @@
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfigEnglish'
 import { TransactionDescription } from '../DetailTab/Description'
 import Transaction from './mock_data/Transaction.json'
 import OfferCreateTicket from './mock_data/OfferCreateTicket.json'
 import EmittedPayment from './mock_data/EmittedPayment.json'
+import { queryClient } from '../../shared/QueryClient'
 
 describe('Description container', () => {
   const createWrapper = (data = {}) =>
     mount(
       <Router>
-        <I18nextProvider i18n={i18n}>
-          <TransactionDescription data={data} />
-        </I18nextProvider>
+        <QueryClientProvider client={queryClient}>
+          <I18nextProvider i18n={i18n}>
+            <TransactionDescription data={data} />
+          </I18nextProvider>
+        </QueryClientProvider>
       </Router>,
     )
 

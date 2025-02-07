@@ -44,7 +44,7 @@ describe('UNLModify: Simple', () => {
       <QuickHarness i18n={i18n}>
         <SimpleTab
           data={{
-            raw: mockUNLModifyDisable,
+            processed: mockUNLModifyDisable,
             summary: summarizeTransaction(mockUNLModifyDisable, true).details,
           }}
           width={800}

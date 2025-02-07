@@ -87,5 +87,11 @@ export default defineConfig({
         autoprefixer({}), // add options if needed
       ],
     },
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+        silenceDeprecations: ['mixed-decls'],
+      },
+    },
   },
 })

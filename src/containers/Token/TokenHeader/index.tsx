@@ -1,12 +1,6 @@
-import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { loadTokenState } from './actions'
-import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import { localizeNumber, formatLargeNumber } from '../../shared/utils'
-import SocketContext from '../../shared/SocketContext'
 import Currency from '../../shared/components/Currency'
 import { Account } from '../../shared/components/Account'
 import DomainLink from '../../shared/components/DomainLink'
@@ -14,6 +8,7 @@ import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { useLanguage } from '../../shared/hooks'
 import { LEDGER_ROUTE, TRANSACTION_ROUTE } from '../../App/routes'
 import { RouteLink } from '../../shared/routing'
+import { TokenData } from '../../../rippled/token'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -23,44 +18,21 @@ const CURRENCY_OPTIONS = {
 }
 
 interface TokenHeaderProps {
-  loading: boolean
   accountId: string
   currency: string
-  data: {
-    balance: string
-    reserve: number
-    sequence: number
-    rate: number
-    obligations: string
-    domain: string
-    emailHash: string
-    previousLedger: number
-    previousTxn: string
-    flags: string[]
-  }
-  actions: {
-    loadTokenState: typeof loadTokenState
-  }
+  data: TokenData
 }
 
-const TokenHeader = ({
-  actions,
+export const TokenHeader = ({
   accountId,
   currency,
   data,
-  loading,
 }: TokenHeaderProps) => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const rippledSocket = useContext(SocketContext)
-
-  useEffect(() => {
-    actions.loadTokenState(currency, accountId, rippledSocket)
-  }, [accountId, actions, currency, rippledSocket])
+  const { domain, rate, emailHash, previousLedger, previousTxn } = data
 
   const renderDetails = () => {
-    const { domain, rate, emailHash, previousLedger, previousTxn } = data
-
     const prevTxn = previousTxn && previousTxn.replace(/(.{20})..+/, '$1...')
     const abbrvEmail = emailHash && emailHash.replace(/(.{20})..+/, '$1...')
     return (
@@ -124,6 +96,8 @@ const TokenHeader = ({
       flags && flags.includes('lsfRequireAuth') ? 'true' : 'false'
     const requireDestTag =
       flags && flags.includes('lsfRequireDestTag') ? 'true' : 'false'
+    const clawback =
+      flags && flags.includes('lsfAllowTrustLineClawback') ? 'true' : 'false'
 
     return (
       <table className="token-table">
@@ -136,6 +110,7 @@ const TokenHeader = ({
           <TokenTableRow label="No freeze" value={noFreeze} />
           <TokenTableRow label="Require Auth" value={requireAuth} />
           <TokenTableRow label="Require Dest Tag" value={requireDestTag} />
+          <TokenTableRow label="Allow TrustLine Clawback" value={clawback} />
         </tbody>
       </table>
     )
@@ -153,7 +128,9 @@ const TokenHeader = ({
       language,
       CURRENCY_OPTIONS,
     )
-    const obligationsBalance = formatLargeNumber(Number.parseFloat(obligations))
+    const obligationsBalance = formatLargeNumber(
+      Number.parseFloat(obligations || '0'),
+    )
 
     return (
       <div className="section header-container">
@@ -198,7 +175,6 @@ const TokenHeader = ({
     )
   }
 
-  const { emailHash } = data
   return (
     <div className="box token-header">
       <div className="section box-header">
@@ -210,24 +186,7 @@ const TokenHeader = ({
           />
         )}
       </div>
-      <div className="box-content">
-        {loading ? <Loader /> : renderHeaderContent()}
-      </div>
+      <div className="box-content">{renderHeaderContent()}</div>
     </div>
   )
 }
-
-export default connect(
-  (state: any) => ({
-    loading: state.tokenHeader.loading,
-    data: state.tokenHeader.data,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(
-      {
-        loadTokenState,
-      },
-      dispatch,
-    ),
-  }),
-)(TokenHeader)

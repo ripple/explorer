@@ -4,7 +4,26 @@ import { getBalances, getAccountInfo, getServerInfo } from './lib/rippled'
 
 const log = logger({ name: 'iou' })
 
-const getToken = async (currencyCode, issuer, rippledSocket) => {
+export interface TokenData {
+  name: string
+  balance: string
+  reserve: number
+  sequence: number
+  gravatar: string
+  rate?: number
+  obligations?: string
+  domain?: string
+  emailHash?: string
+  previousLedger: number
+  previousTxn: string
+  flags: string[]
+}
+
+const getToken = async (
+  currencyCode,
+  issuer,
+  rippledSocket,
+): Promise<TokenData> => {
   try {
     log.info('fetching account info from rippled')
     const accountInfo = await getAccountInfo(rippledSocket, issuer)
@@ -47,7 +66,9 @@ const getToken = async (currencyCode, issuer, rippledSocket) => {
       previousLedger,
     }
   } catch (error) {
-    log.error(error.toString())
+    if (error) {
+      log.error(error.toString())
+    }
     throw error
   }
 }

@@ -4,11 +4,13 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
+import { QueryClientProvider } from 'react-query'
 import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfigEnglish'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 import { Header } from '../index'
+import { queryClient } from '../../shared/QueryClient'
 
 describe('Header component', () => {
   let client
@@ -22,7 +24,9 @@ describe('Header component', () => {
         <Router>
           <Provider store={store}>
             <SocketContext.Provider value={client}>
-              <Header />
+              <QueryClientProvider client={queryClient}>
+                <Header />
+              </QueryClientProvider>
             </SocketContext.Provider>
           </Provider>
         </Router>

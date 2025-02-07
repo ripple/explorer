@@ -120,6 +120,7 @@ $custom: $yellow-50;
 // Feature Sets
 $amm: $blue;
 $nft: $blue-purple;
+$mpt: $blue;
 
 // Currency colors
 $CURRENCY_DEFAULT: #aedbf7;
@@ -154,7 +155,7 @@ $XRP_XRP: #0a93eb;
 $XRP_CAD: #ca3103;
 $XRP_OTHERS: #f52a79;
 
-// Font wights
+// Font weights
 @mixin regular {
   font-weight: 400;
 }

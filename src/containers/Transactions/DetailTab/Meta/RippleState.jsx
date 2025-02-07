@@ -1,6 +1,9 @@
 import { Trans } from 'react-i18next'
 import { Account } from '../../../shared/components/Account'
-import { localizeNumber, computeBalanceChange } from '../../../shared/utils'
+import {
+  localizeNumber,
+  computeRippleStateBalanceChange,
+} from '../../../shared/utils'
 
 const render = (t, language, action, node, index) => {
   const {
@@ -11,7 +14,7 @@ const render = (t, language, action, node, index) => {
     currency,
     account,
     counterAccount,
-  } = computeBalanceChange(node)
+  } = computeRippleStateBalanceChange(node)
 
   const line1 = (
     <Trans i18nKey="transaction_balance_line_one">

@@ -27,7 +27,7 @@ describe(`Legend`, () => {
     expect(wrapper.find('.legend-heading')).toHaveLength(2)
     expect(wrapper.find('.legend-section')).toHaveLength(2)
     expect(wrapper.find(TransactionActionIcon)).toHaveLength(5)
-    expect(wrapper.find('.legend-category')).toHaveLength(7)
+    expect(wrapper.find('.legend-category')).toHaveLength(6)
     wrapper.unmount()
   })
   it(`renders open when localStorage entry 'explorer-legend-previous-interaction' is set to false`, () => {

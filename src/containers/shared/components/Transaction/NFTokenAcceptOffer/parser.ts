@@ -35,7 +35,7 @@ export const parser: TransactionParser<
 
     return {
       amount: formatAmount(buyOfferNode.Amount),
-      tokenID: buyOfferNode.NFTokenID,
+      tokenID: meta.nftoken_id,
       seller: sellOfferNode.Owner,
       buyer: buyOfferNode.Owner,
       acceptedOfferIDs,
@@ -51,7 +51,7 @@ export const parser: TransactionParser<
   }
 
   const amount = formatAmount(acceptedOfferNode.Amount)
-  const tokenID = acceptedOfferNode.NFTokenID
+  const tokenID = meta.nftoken_id
   const offerer = acceptedOfferNode.Owner
   const accepter = tx.Account
   const isSellOffer = determineIsSellOffer(acceptedOfferNode.Flags)

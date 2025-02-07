@@ -2,12 +2,14 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import moxios from 'moxios'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 import { flushPromises } from '../../test/utils'
+import { queryClient } from '../../shared/QueryClient'
 
 describe('Search component', () => {
   const createWrapper = () => {
@@ -16,7 +18,9 @@ describe('Search component', () => {
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
           <Router>
-            <Search />
+            <QueryClientProvider client={queryClient}>
+              <Search />
+            </QueryClientProvider>
           </Router>
         </SocketContext.Provider>
       </I18nextProvider>,
@@ -83,6 +87,8 @@ describe('Search component', () => {
 
     const nftoken =
       '000800011C7D8ED1D715A0017E41BF9499ECC17E7FB666320000099B00000000'
+
+    const mptoken = '00002AF2588C244FE5F74BF48B5C5E2823235B243AA34634'
     const invalidString = '123invalid'
 
     // mock getNFTInfo api to test transactions and nfts
@@ -167,6 +173,8 @@ describe('Search component', () => {
 
     // handle lower case ctid
     await testValue(ctid.toLowerCase(), `/transactions/${ctid}`)
+
+    await testValue(mptoken, `/mpt/${mptoken}`)
     wrapper.unmount()
   })
 

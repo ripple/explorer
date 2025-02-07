@@ -1,0 +1,76 @@
+{
+  "tx": {
+    "Account": "rpyShdZBMVC9p6tesouh97JEEWZgYGYTW1",
+    "Fee": "10",
+    "Flags": 2147483648,
+    "MPTokenIssuanceID": "0000071E15A457415B9A921957CA1958F0E3B8A049BE8627",
+    "Sequence": 1823,
+    "SigningPubKey": "ED31ED6E308C928DA72935A03526C3C5422353EB686908D3ADAD9D573921DBDFB5",
+    "TransactionType": "MPTokenIssuanceDestroy",
+    "TxnSignature": "432417F93E86710B50619E4B9EAA43A7F636546A70D4A854E619AF01108A400519A4022B7BABE4807263CDD7EB43217B9ABB8F9745B988981B1A556D11C83200",
+    "ctid": "C000072100000000",
+    "date": 1710968140000,
+    "hash": "undefined",
+    "inLedger": "undefined",
+    "ledger_index": "undefined",
+    "meta": "undefined",
+    "validated": "undefined",
+    "metaData": "undefined",
+    "status": "undefined"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rpyShdZBMVC9p6tesouh97JEEWZgYGYTW1",
+            "Balance": "99999980",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 1824
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "27F062565B9B9226F10C5AA25E1AD5C3E70A6A93FF2AB4851614A2C43D083850",
+          "PreviousFields": {
+            "Balance": "99999990",
+            "OwnerCount": 1,
+            "Sequence": 1823
+          },
+          "PreviousTxnID": "E6DFD28EDD7213F43B7D0DB1296D09460458709583BEEA29F17C2F63B4DA9FC4",
+          "PreviousTxnLgrSeq": 1824
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Issuer": "rpyShdZBMVC9p6tesouh97JEEWZgYGYTW1",
+            "OutstandingAmount": "0",
+            "OwnerNode": "0",
+            "PreviousTxnID": "E6DFD28EDD7213F43B7D0DB1296D09460458709583BEEA29F17C2F63B4DA9FC4",
+            "PreviousTxnLgrSeq": 1824,
+            "Sequence": 1822
+          },
+          "LedgerEntryType": "MPTokenIssuance",
+          "LedgerIndex": "9C882DA4DF7B92FC968A0ADCA8BAFB7842264F98A5E147348C6E6077EAB24AA8"
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rpyShdZBMVC9p6tesouh97JEEWZgYGYTW1",
+            "RootIndex": "B8124B2AD6A85560C73E1748E2C8B0E5C0871F4439F10B042DD7E4017D864287"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "B8124B2AD6A85560C73E1748E2C8B0E5C0871F4439F10B042DD7E4017D864287"
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "9EB556D18BFB67F31C8716C7F3CBBB070E1E7B120DEDDC423D25DFAD850BD93A",
+  "ledger_index": 1825,
+  "date": 1710968140000
+}

@@ -2,6 +2,7 @@ const api = require('express').Router()
 const getTokenDiscovery = require('./tokenDiscovery')
 const getHealth = require('./health')
 const getCurrentMetrics = require('./currentMetrics')
+const getTokensSearch = require('./tokens')
 
 if (process.env.VITE_ENVIRONMENT === 'mainnet') {
   api.use('/token/top', getTokenDiscovery)
@@ -13,6 +14,7 @@ if (process.env.VITE_ENVIRONMENT !== 'custom') {
   // these require a single hardcoded rippled node to connect to
   api.use('/health', getHealth)
   api.use('/metrics', getCurrentMetrics)
+  api.use('/tokens/search/:query', getTokensSearch)
 }
 
 module.exports = api

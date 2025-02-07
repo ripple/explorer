@@ -439,7 +439,8 @@
       }
     ],
     "TransactionIndex": 4,
-    "TransactionResult": "tesSUCCESS"
+    "TransactionResult": "tesSUCCESS",
+    "nftoken_id": "000800006203F49C21D5D6E022CB16DE3538F248662FC73C29ABA6A90000000D"
   },
   "hash": "21C60F255B29D0034B9EBA2ED1F7523635C61DED1D6BDBCFFD67703C45F7072D",
   "ledger_index": 1799495,
