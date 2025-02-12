@@ -1,0 +1,19 @@
+<svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="ic_up">
+<g id="Polygon 1" filter="url(#filter0_d_2034_1407)">
+<path d="M4.13397 2C4.51887 1.33333 5.48113 1.33333 5.86603 2L8.4641 6.5C8.849 7.16667 8.36788 8 7.59808 8H2.40192C1.63212 8 1.151 7.16667 1.5359 6.5L4.13397 2Z" fill="#19FF83"/>
+<path d="M4.56699 2.25C4.75944 1.91667 5.24056 1.91667 5.43301 2.25L8.03109 6.75C8.22354 7.08333 7.98298 7.5 7.59808 7.5H2.40192C2.01702 7.5 1.77646 7.08333 1.96891 6.75L4.56699 2.25Z" stroke="#00E66A"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_2034_1407" x="0.400391" y="1.5" width="9.19922" height="8.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="0.5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.898039 0 0 0 0 0.415686 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2034_1407"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2034_1407" result="shape"/>
+</filter>
+</defs>
+</svg>

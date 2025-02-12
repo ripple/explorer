@@ -2,12 +2,12 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
 import i18n from '../../../i18n/testConfig'
-import { Network } from '../index'
 import mockNodes from './mockNodes.json'
 import NetworkContext from '../../shared/NetworkContext'
 import countries from '../../../../public/countries.json'
 import { QuickHarness } from '../../test/utils'
-import { NETWORK_ROUTE } from '../../App/routes'
+import { NODES_ROUTE } from '../../App/routes'
+import { Nodes } from '../Nodes'
 
 jest.mock('usehooks-ts', () => ({
   useWindowSize: () => ({
@@ -21,7 +21,7 @@ describe('Nodes Page container', () => {
     mount(
       <NetworkContext.Provider value="main">
         <QuickHarness i18n={i18n} initialEntries={['/network/nodes']}>
-          <Route path={NETWORK_ROUTE.path} element={<Network />} />
+          <Route path={NODES_ROUTE.path} element={<Nodes />} />
         </QuickHarness>
       </NetworkContext.Provider>,
     )

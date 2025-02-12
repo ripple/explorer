@@ -3,13 +3,13 @@ import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfig'
-import { Network } from '../index'
 import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 import { QuickHarness } from '../../test/utils'
-import { NETWORK_ROUTE } from '../../App/routes'
+import { VALIDATORS_ROUTE } from '../../App/routes'
+import { Validators } from '../Validators'
 
 const WS_URL = 'ws://localhost:1234'
 
@@ -20,7 +20,7 @@ describe('Validators Tab container', () => {
     mount(
       <SocketContext.Provider value={client}>
         <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
-          <Route path={NETWORK_ROUTE.path} element={<Network />} />
+          <Route path={VALIDATORS_ROUTE.path} element={<Validators />} />
         </QuickHarness>
       </SocketContext.Provider>,
     )

@@ -3,16 +3,16 @@ import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfig'
-import { Network } from '../index'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 import { QuickHarness } from '../../test/utils'
-import { NETWORK_ROUTE } from '../../App/routes'
 import {
+  UpgradeStatus,
   aggregateData,
   aggregateNodes,
   aggregateValidators,
 } from '../UpgradeStatus'
+import { UPGRADE_STATUS_ROUTE } from '../../App/routes'
 
 const undefinedValidatorsData = [
   {
@@ -113,7 +113,7 @@ describe('UpgradeStatus renders', () => {
     mount(
       <SocketContext.Provider value={client}>
         <QuickHarness i18n={i18n} initialEntries={['/network/upgrade-status']}>
-          <Route path={NETWORK_ROUTE.path} element={<Network />} />
+          <Route path={UPGRADE_STATUS_ROUTE.path} element={<UpgradeStatus />} />
         </QuickHarness>
       </SocketContext.Provider>,
     )
