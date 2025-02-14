@@ -12,7 +12,7 @@ const Simple: TransactionSimpleComponent = (
 
   return (
     <SimpleRow label={t('domain_id')} data-test="domain-id">
-      {dataomainID}
+      {domainID}
     </SimpleRow>
   )
 }
