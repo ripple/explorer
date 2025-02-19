@@ -58,6 +58,21 @@ describe('Currency', () => {
     wrapper.unmount()
   })
 
+  it('handle fake XRP token', () => {
+    const wrapper = mount(
+      <BrowserRouter>
+        <Currency currency="5852500000000000000000000000000000000000" />
+        <Currency currency="XRP" issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" />
+      </BrowserRouter>,
+    )
+    const currency1 = wrapper.find('.currency').at(0)
+    const currency2 = wrapper.find('.currency').at(1)
+    expect(currency1.text()).toEqual('FakeXRP')
+    expect(currency2.text()).toEqual(
+      'FakeXRP.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
+    )
+  })
+
   it('displays the XRP symbol when rendering XRP', () => {
     const wrapper = mount(<Currency currency="XRP" />)
     expect(wrapper.find('.currency').text()).toEqual('\uE900 XRP')
