@@ -1,4 +1,4 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .network-page {
   // Needs additional bottom margin to break up table from the horizontal
