@@ -153,6 +153,7 @@
   "transaction_type_name_AMMWithdraw": "Treure AMM",
   "transaction_type_name_AMMVote": "Votar AMM",
   "transaction_type_name_AMMBid": "Pujar AMM",
+  "transaction_type_name_AMMClawback": null,
   "transaction_type_name_AccountSet": "Account Set",
   "transaction_type_name_CheckCancel": "Cancel·lar Check",
   "transaction_type_name_CheckCash": "Cobrar Check",
@@ -561,6 +562,5 @@
   "enable_amendment_name": null,
   "amendment_status": null,
   "expected_date": null,
-  "transaction_type_name_AMMClawback": null,
   "action_from_and": null
 }

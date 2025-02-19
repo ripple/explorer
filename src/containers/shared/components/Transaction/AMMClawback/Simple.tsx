@@ -9,11 +9,9 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
   const { amount2, amount, holder } = data.instructions
   return (
     <>
-      {holder && (
-        <SimpleRow label={t('holder')} data-test="holder">
-          <Account account={holder} />
-        </SimpleRow>
-      )}
+      <SimpleRow label={t('holder')} data-test="holder">
+        <Account account={holder} />
+      </SimpleRow>
       {amount && (
         <SimpleRow label={t('asset1')} data-test="asset1">
           <Amount value={amount} displayIssuer />

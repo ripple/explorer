@@ -156,6 +156,7 @@
   "transaction_type_name_AMMWithdraw": "AMM 출금",
   "transaction_type_name_AMMVote": "AMM 투표",
   "transaction_type_name_AMMBid": "AMM 입찰",
+  "transaction_type_name_AMMClawback": null,
   "transaction_type_name_AccountSet": "계정 설정",
   "transaction_type_name_CheckCancel": "수표 취소",
   "transaction_type_name_CheckCash": "수표 현금화",
@@ -555,6 +556,5 @@
   "enable_amendment_name": null,
   "amendment_status": null,
   "expected_date": null,
-  "transaction_type_name_AMMClawback": null,
   "action_from_and": null
 }

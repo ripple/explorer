@@ -8,7 +8,7 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
   const { amount2, amount, holder } = instructions
   if (amount2) {
     return (
-      <div className="ammClawback">
+      <div className="amm-clawback">
         <Trans i18nKey="action_from_and">
           <span className="label">{t('claws_back')}</span>
           <Amount value={amount} displayIssuer />
@@ -21,7 +21,7 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
     )
   }
   return (
-    <div className="ammClawback">
+    <div className="amm-clawback">
       <Trans i18nKey="action_from">
         <span className="label">{t('claws_back')}</span>
         <Amount value={amount} displayIssuer />
