@@ -58,19 +58,11 @@ describe('Currency', () => {
     wrapper.unmount()
   })
 
-  it('handle fake XRP token', () => {
+  it('handle non-standard currency decoded to equal or fewer than 3 characters', () => {
     const wrapper = mount(
-      <BrowserRouter>
-        <Currency currency="5852500000000000000000000000000000000000" />
-        <Currency currency="XRP" issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" />
-      </BrowserRouter>,
+      <Currency currency="5852500000000000000000000000000000000000" />,
     )
-    const currency1 = wrapper.find('.currency').at(0)
-    const currency2 = wrapper.find('.currency').at(1)
-    expect(currency1.text()).toEqual('FakeXRP')
-    expect(currency2.text()).toEqual(
-      'FakeXRP.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
-    )
+    expect(wrapper.find('.currency').text()).toEqual('FakeXRP')
   })
 
   it('displays the XRP symbol when rendering XRP', () => {

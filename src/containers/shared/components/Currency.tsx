@@ -47,10 +47,10 @@ const Currency = (props: Props) => {
         : currency
 
     if (
-      (currency?.length === NON_STANDARD_CODE_LENGTH || issuer) &&
-      currencyCode === 'XRP'
+      currency?.length === NON_STANDARD_CODE_LENGTH &&
+      currencyCode.length <= 3
     ) {
-      currencyCode = 'FakeXRP'
+      currencyCode = `Fake${currencyCode}`
     }
 
     let display = `${currencyCode}`
