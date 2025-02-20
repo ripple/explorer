@@ -567,6 +567,7 @@
   "amendment_status": "Amendment Status",
   "expected_date": "Expected Date",
   "credential_type": "Credential Type",
+  "credential_issuer": "Credential Issuer",
   "subject": "Subject",
   "expiration": "Expiration",
   "domain_id": "Domain ID",

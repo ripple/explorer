@@ -561,6 +561,7 @@
   "amendment_status": null,
   "expected_date": null,
   "credential_type": null,
+  "credential_issuer": null,
   "subject": null,
   "expiration": null,
   "domain_id": null,

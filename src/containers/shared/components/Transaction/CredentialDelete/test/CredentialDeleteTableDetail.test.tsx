@@ -8,11 +8,15 @@ describe('CredentialDeleteTableDetail ', () => {
   it('renders CredentialDeleteTableDetail', () => {
     const wrapper = createWrapper(mockCredentialDelete)
 
-    expect(wrapper.find('subject')).toEqual(
-      'rU893VJVdc5W2kQ6gTCDieo8sNHiHyE7Rd',
+    expect(wrapper.find('[data-test="subject"]')).toHaveText(
+      'subject: rwXChshgJHh6KwwXY8hN1iNAiuyzJkz7p6',
     )
-    expect(wrapper.find('issuer')).toEqual('rniD1P4EG6htqAiYTqBJhPDjCYZaAKH4Xa')
-    expect(wrapper.find('credential-type')).toEqual('My test credential')
+    expect(wrapper.find('[data-test="credential-type"]')).toHaveText(
+      'credential_type: My test credential',
+    )
+    expect(wrapper.find('[data-test="issuer"]')).toHaveText(
+      'issuer: rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi',
+    )
 
     wrapper.unmount()
   })

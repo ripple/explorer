@@ -8,26 +8,29 @@ const Simple: TransactionSimpleComponent = (
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { DomainID: domainID, AcceptedCredentials: acceptedCredentials } =
-    data.instructions
+  const { AcceptedCredentials: acceptedCredentials } = data.instructions
+
+  console.log(acceptedCredentials)
+  acceptedCredentials.map((credential) => {
+    console.log(credential.Credential.CredentialType)
+  })
 
   return (
-    <>
-      {domainID && (
-        <SimpleRow label={t('domain_id')} data-test="domain-id">
-          {domainID}
-        </SimpleRow>
-      )}
-
-      <SimpleRow
-        label={t('accepted_credentials')}
-        data-test="accepted-credentials"
-      >
-        {acceptedCredentials.map((credential) => (
-          <div>{credential}</div>
-        ))}
-      </SimpleRow>
-    </>
+    <SimpleRow
+      label={t('accepted_credentials')}
+      data-test="accepted-credentials"
+    >
+      {acceptedCredentials.map((credential) => (
+        <div>
+          <SimpleRow label={t('credential_type')} data-test="cred-type">
+            {credential.Credential.CredentialType}
+          </SimpleRow>
+          <SimpleRow label={t('credential_issuer')} data-test="cred-issuer">
+            {credential.Credential.Issuer}
+          </SimpleRow>
+        </div>
+      ))}
+    </SimpleRow>
   )
 }
 

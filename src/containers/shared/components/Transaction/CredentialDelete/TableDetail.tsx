@@ -14,18 +14,18 @@ export const TableDetail = ({
     CredentialType: credentialType,
   } = instructions
   return (
-    <div className="credentialDelete">
-      <div className="subject">
+    <div className="credential-delete">
+      <div data-test="subject">
         <span className="label">{t('subject')}: </span>
         <span className="case-sensitive">{subject || account}</span>
       </div>
 
-      <div className="issuer">
+      <div data-test="issuer">
         <span className="label">{t('issuer')}: </span>
         <span className="case-sensitive">{issuer || account}</span>
       </div>
 
-      <div className="credential-type">
+      <div data-test="credential-type">
         <span className="label">{t('credential_type')}: </span>
         <span className="case-sensitive">
           {convertHexToString(credentialType)}

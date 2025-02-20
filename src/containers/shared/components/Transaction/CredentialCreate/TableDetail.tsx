@@ -15,12 +15,12 @@ export const TableDetail = ({
   } = instructions
   return (
     <div className="credentialCreate">
-      <div className="issuer">
+      <div data-test="subject">
         <span className="label">{t('subject')}: </span>
         <span className="case-sensitive">{subject}</span>
       </div>
 
-      <div className="credential-type">
+      <div data-test="credential-type">
         <span className="label">{t('credential_type')}: </span>
         <span className="case-sensitive">
           {convertHexToString(credentialType)}
@@ -28,13 +28,13 @@ export const TableDetail = ({
       </div>
 
       {expiration && (
-        <div className="expiration">
+        <div data-test="expiration">
           <span className="label">{t('expiration')}: </span>
           <span className="case-sensitive">{expiration}</span>
         </div>
       )}
       {uri && (
-        <div className="uri">
+        <div data-test="uri">
           <span className="label">{t('uri')}: </span>
           <span className="case-sensitive">{convertHexToString(uri)}</span>
         </div>

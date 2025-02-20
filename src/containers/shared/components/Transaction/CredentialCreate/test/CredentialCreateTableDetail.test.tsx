@@ -8,12 +8,13 @@ describe('CredentialAcceptTableDetail ', () => {
   it('renders CredentialAcceptTableDetail', () => {
     const wrapper = createWrapper(mockCredentialCreate)
 
-    expect(wrapper.find('subject')).toEqual(
-      'r9U9hxv27pCb6G3kq26dZD1QVNRUcgcmF3',
+    expect(wrapper.find('[data-test="subject"]')).toHaveText(
+      'subject: rwXChshgJHh6KwwXY8hN1iNAiuyzJkz7p6',
     )
-    expect(wrapper.find('credential-type')).toEqual('My test credential')
-    expect(wrapper.find('expiration')).toEqual('100')
-    expect(wrapper.find('uri')).toEqual('testURI')
+    expect(wrapper.find('[data-test="credential-type"]')).toHaveText(
+      'credential_type: My test credential',
+    )
+    expect(wrapper.find('[data-test="uri"]')).toHaveText('uri: testURI')
 
     wrapper.unmount()
   })

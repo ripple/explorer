@@ -7,12 +7,8 @@ const createWrapper = createSimpleWrapperFactory(Simple)
 describe('CredentialAccept: Simple', () => {
   it('renders', () => {
     const wrapper = createWrapper(CredentialAccept)
-    expectSimpleRowText(wrapper, 'issuer', 'rniD1P4EG6htqAiYTqBJhPDjCYZaAKH4Xa')
-    expectSimpleRowText(
-      wrapper,
-      'credential-type',
-      '4D7920746573742063726564656E7469616C',
-    )
+    expectSimpleRowText(wrapper, 'issuer', 'rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi')
+    expectSimpleRowText(wrapper, 'credential-type', 'My test credential')
 
     wrapper.unmount()
   })

@@ -10,12 +10,12 @@ export const TableDetail = ({
   const { Issuer: issuer, CredentialType: credentialType } = instructions
   return (
     <div className="credentialAccept">
-      <div className="issuer">
+      <div data-test="issuer">
         <span className="label">{t('issuer')}: </span>
         <span className="case-sensitive">{issuer}</span>
       </div>
 
-      <div className="credential-type">
+      <div data-test="credential-type">
         <span className="label">{t('credential_type')}: </span>
         <span className="case-sensitive">
           {convertHexToString(credentialType)}

@@ -61,7 +61,7 @@
     "TransactionIndex": 0,
     "TransactionResult": "tesSUCCESS"
   },
-  "tx_json": {
+  "tx": {
     "AcceptedCredentials": [
       {
         "Credential": {

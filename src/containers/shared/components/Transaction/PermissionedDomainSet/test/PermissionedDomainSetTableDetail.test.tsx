@@ -4,16 +4,15 @@ import PermissionedDomainSet from './mock_data/PermissionedDomainSet.json'
 
 const createWrapper = createTableDetailWrapperFactory(TableDetail)
 
-describe('CredentialSetTableDetail', () => {
-  it('renders CredentialSetTableDetail', () => {
+describe('PermissionedDomainSetTableDetail', () => {
+  it('renders PermissionedDomainSetTableDetail', () => {
     const wrapper = createWrapper(PermissionedDomainSet)
 
-    expect(wrapper.find('domain_id')).toEqual(
-      'F075484241C8FD27C750F1DD93E0B5E0A42D9ADFE5E7B2313DD927E3DE0DBA6E',
+    expect(wrapper.find('[data-test="cred-type"]')).toHaveText(
+      'credential_type: 4964656E74697479446F63756D656E74',
     )
-
-    expect(wrapper.find('accepted_credentials')).toEqual(
-      'F075484241C8FD27C750F1DD93E0B5E0A42D9ADFE5E7B2313DD927E3DE0DBA6E',
+    expect(wrapper.find('[data-test="cred-issuer"]')).toHaveText(
+      'credential_issuer: rUVQzukKnGSw4qNjEvBxLxquaLaMwzVBab',
     )
 
     wrapper.unmount()

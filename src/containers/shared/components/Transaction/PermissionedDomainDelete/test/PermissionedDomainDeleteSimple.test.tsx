@@ -9,7 +9,7 @@ describe('PermissionedDomainDeleteSimple: Renders', () => {
     const wrapper = createWrapper(PermissionedDomainDelete)
     expectSimpleRowText(
       wrapper,
-      'domain_id',
+      'domain-id',
       'F075484241C8FD27C750F1DD93E0B5E0A42D9ADFE5E7B2313DD927E3DE0DBA6E',
     )
 

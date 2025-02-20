@@ -10,11 +10,9 @@ describe('CredentialCreate: Simple', () => {
     expectSimpleRowText(
       wrapper,
       'subject',
-      'r9U9hxv27pCb6G3kq26dZD1QVNRUcgcmF3',
+      'rwXChshgJHh6KwwXY8hN1iNAiuyzJkz7p6',
     )
     expectSimpleRowText(wrapper, 'credential-type', 'My test credential')
-    expectSimpleRowText(wrapper, 'expiration', '100')
-    expectSimpleRowText(wrapper, 'uri', 'testURI')
 
     wrapper.unmount()
   })

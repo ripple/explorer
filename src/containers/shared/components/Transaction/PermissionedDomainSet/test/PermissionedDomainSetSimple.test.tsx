@@ -7,15 +7,16 @@ const createWrapper = createSimpleWrapperFactory(Simple)
 describe('PermissionedDomainSetSimple: Renders', () => {
   it('renders', () => {
     const wrapper = createWrapper(PermissionedDomainSet)
+
     expectSimpleRowText(
       wrapper,
-      'domain_id',
-      'F075484241C8FD27C750F1DD93E0B5E0A42D9ADFE5E7B2313DD927E3DE0DBA6E',
+      'cred-type',
+      '4964656E74697479446F63756D656E74',
     )
     expectSimpleRowText(
       wrapper,
-      'accepted_credentials',
-      'F075484241C8FD27C750F1DD93E0B5E0A42D9ADFE5E7B2313DD927E3DE0DBA6E',
+      'cred-issuer',
+      'rUVQzukKnGSw4qNjEvBxLxquaLaMwzVBab',
     )
 
     wrapper.unmount()

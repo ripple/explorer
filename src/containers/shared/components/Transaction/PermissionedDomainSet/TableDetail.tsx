@@ -10,17 +10,22 @@ export const TableDetail = ({
     instructions
   return (
     <div className="permissionedDomainSet">
-      {domainID && (
-        <div className="domainId">
-          <span className="label">{t('domain_id')}: </span>
-          <span className="case-sensitive">{domainID}</span>
+      {acceptedCredentials.map((credential) => (
+        <div>
+          <div data-test="cred-type">
+            <span className="label">{t('credential_type')}: </span>
+            <span className="case-sensitive">
+              {credential.Credential.CredentialType}
+            </span>
+          </div>
+          <div data-test="cred-issuer">
+            <span className="label">{t('credential_issuer')}: </span>
+            <span className="case-sensitive">
+              {credential.Credential.Issuer}
+            </span>
+          </div>
         </div>
-      )}
-
-      <div className="acceptedCredentials">
-        <span className="label">{t('accepted_credentials')}: </span>
-        <span className="case-sensitive">{acceptedCredentials}</span>
-      </div>
+      ))}
     </div>
   )
 }
