@@ -153,6 +153,7 @@
   "transaction_type_name_AMMWithdraw": "Retirar AMM ",
   "transaction_type_name_AMMVote": "Votar AMM",
   "transaction_type_name_AMMBid": "Puja AMM",
+  "transaction_type_name_AMMClawback": null,
   "transaction_type_name_AccountSet": "Configurar Cuenta",
   "transaction_type_name_CheckCancel": "Cancelar Cheque",
   "transaction_type_name_CheckCash": "Cobrar Cheque",
@@ -568,4 +569,5 @@
   "expiration": null,
   "domain_id": null,
   "accepted_credentials": null
+  "action_from_and": null,
 }

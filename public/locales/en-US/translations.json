@@ -156,6 +156,7 @@
   "transaction_type_name_AMMWithdraw": "AMM Withdraw",
   "transaction_type_name_AMMVote": "AMM Vote",
   "transaction_type_name_AMMBid": "AMM Bid",
+  "transaction_type_name_AMMClawback": "AMMClawback",
   "transaction_type_name_AccountSet": "Account Set",
   "transaction_type_name_CheckCancel": "Check Cancel",
   "transaction_type_name_CheckCash": "Check Cash",
@@ -495,6 +496,7 @@
   "min_signer_quorum": "Minimum weight <0>{{quorum}}</0> required",
   "holder": "Holder",
   "action_from": "<0><0>{{action}}</0></0> <1><0>{{amount}}</0></1> from <3><0>{{destination}}</0></3>",
+  "action_from_and": "<0><0>{{action}}</0></0> <1><0>{{amount1}}</0></1> and <3><0>{{amount2}}</0></3> from <5><0>{{destination}}</0></5>",
   "claws_back": "Claws back",
   "claws_back_from": "<source/> claws back from <destination/>",
   "instruct_to_claw": "The max clawback amount is <amount/>",
@@ -571,6 +573,6 @@
   "subject": "Subject",
   "expiration": "Expiration",
   "domain_id": "Domain ID",
-  "accepted_credentials": "Accepted Credentials"
-
+  "accepted_credentials": "Accepted Credentials",
+  "expected_date": "Expected Date"
 }

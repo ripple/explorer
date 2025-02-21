@@ -154,6 +154,7 @@
   "transaction_type_name_AMMWithdraw": "Retrait depuis un AMM",
   "transaction_type_name_AMMVote": "Vote AMM",
   "transaction_type_name_AMMBid": "Offre AMM créée",
+  "transaction_type_name_AMMClawback": null,
   "transaction_type_name_AccountSet": "Compte défini",
   "transaction_type_name_CheckCancel": "Chèque annulé",
   "transaction_type_name_CheckCash": "Chèque remis",
@@ -568,5 +569,6 @@
   "subject": null,
   "expiration": null,
   "domain_id": null,
-  "accepted_credentials": null
+  "accepted_credentials": null,
+  "action_from_and": null
 }

@@ -154,6 +154,7 @@
   "transaction_type_name_AMMWithdraw": "AMMからの引出",
   "transaction_type_name_AMMVote": "AMMへの投票",
   "transaction_type_name_AMMBid": "AMMへの入札",
+  "transaction_type_name_AMMClawback": null,
   "transaction_type_name_AccountSet": "アカウント設定",
   "transaction_type_name_CheckCancel": "チェックの取消",
   "transaction_type_name_CheckCash": "チェックの現金化",
@@ -567,5 +568,6 @@
   "subject": null,
   "expiration": null,
   "domain_id": null,
-  "accepted_credentials": null
+  "accepted_credentials": null,
+  "action_from_and": null
 }
