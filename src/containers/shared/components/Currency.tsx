@@ -48,7 +48,7 @@ const Currency = (props: Props) => {
 
     if (
       currency?.length === NON_STANDARD_CODE_LENGTH &&
-      currencyCode.length <= 3
+      currencyCode.length === 3
     ) {
       currencyCode = `Fake${currencyCode}`
     }
