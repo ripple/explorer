@@ -10,11 +10,6 @@ const Simple: TransactionSimpleComponent = (
   const { data } = props
   const { AcceptedCredentials: acceptedCredentials } = data.instructions
 
-  console.log(acceptedCredentials)
-  acceptedCredentials.map((credential) => {
-    console.log(credential.Credential.CredentialType)
-  })
-
   return (
     <SimpleRow
       label={t('accepted_credentials')}

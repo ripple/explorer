@@ -6,8 +6,7 @@ export const TableDetail = ({
   instructions,
 }: TransactionTableDetailProps<PermissionedDomainSet>) => {
   const { t } = useTranslation()
-  const { DomainID: domainID, AcceptedCredentials: acceptedCredentials } =
-    instructions
+  const { AcceptedCredentials: acceptedCredentials } = instructions
   return (
     <div className="permissionedDomainSet">
       {acceptedCredentials.map((credential) => (
