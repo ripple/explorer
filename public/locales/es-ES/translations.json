@@ -158,6 +158,9 @@
   "transaction_type_name_CheckCancel": "Cancelar Cheque",
   "transaction_type_name_CheckCash": "Cobrar Cheque",
   "transaction_type_name_CheckCreate": "Crear Cheque",
+  "transaction_type_name_CredentialAccept": null,
+  "transaction_type_name_CredentialCreate": null,
+  "transaction_type_name_CredentialDelete": null,
   "transaction_type_name_DepositPreauth": "Preautorizar Depósito",
   "transaction_type_name_Error_Cases": "Casos de Error",
   "transaction_type_name_EscrowCancel": "Cancelar Depósito",
@@ -176,6 +179,8 @@
   "transaction_type_name_PaymentChannelClaim": "Reclamar Canal de Pago",
   "transaction_type_name_PaymentChannelCreate": "Crear Canal de Pago",
   "transaction_type_name_PaymentChannelFund": "Añadir Fondos a Canal de Pago",
+  "transaction_type_name_PermissionedDomainDelete": null,
+  "transaction_type_name_PermissionedDomainSet": null,
   "transaction_type_name_SetHook": "Añadir Hook",
   "transaction_type_name_SetRegularKey": "Configurar Clave Normal",
   "transaction_type_name_SignerListSet": "Configurar Lista de Firmantes",
@@ -558,5 +563,11 @@
   "enable_amendment_name": null,
   "amendment_status": null,
   "expected_date": null,
-  "action_from_and": null
+  "credential_type": null,
+  "credential_issuer": null,
+  "subject": null,
+  "expiration": null,
+  "domain_id": null,
+  "accepted_credentials": null
+  "action_from_and": null,
 }
