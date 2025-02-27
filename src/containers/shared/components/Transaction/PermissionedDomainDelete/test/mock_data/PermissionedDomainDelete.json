@@ -1,0 +1,83 @@
+{
+ "close_time_iso":"2025-01-21T01:51:40Z",
+ "ctid":"C000005A0000F7E0",
+ "hash":"1008A97884DD03C3B4812C53D01B2482F55B9C2E1E1323DE468B862BA002A771",
+ "ledger_hash":"E60EC716557B89B709B037D2AE8252A909020E31CAE0C4659FB2739F47997979",
+ "ledger_index": 90,
+ "meta": {
+   "AffectedNodes": [
+      {
+       "ModifiedNode": {
+         "FinalFields": {
+           "Account":"rhBPeJFG9pxvU22AxkzBpt6zzyk89xhdr3",
+           "Balance":"1999997599",
+           "Flags": 0,
+           "OwnerCount": 3,
+           "Sequence": 77
+          },
+         "LedgerEntryType":"AccountRoot",
+         "LedgerIndex":"5A8ABEB4FA540056A51E0D25177DB7E672E6D7E947DF5D347B9E1489D106F873",
+         "PreviousFields": {
+           "Balance":"1999997799",
+           "OwnerCount": 4,
+           "Sequence": 76
+          },
+         "PreviousTxnID":"676E4F1DF5DC4F9C2223DDE9999EF5A8392B310C49B84C7AB04BA10A6CDABFE4",
+         "PreviousTxnLgrSeq": 89
+        }
+      },
+      {
+       "ModifiedNode": {
+         "FinalFields": {
+           "Flags": 0,
+           "Owner":"rhBPeJFG9pxvU22AxkzBpt6zzyk89xhdr3",
+           "RootIndex":"D9B8A922B4C857D4BA2CED2870A54D0DF9A45F7D9F7A145B627E291CCBD73FEE"
+          },
+         "LedgerEntryType":"DirectoryNode",
+         "LedgerIndex":"D9B8A922B4C857D4BA2CED2870A54D0DF9A45F7D9F7A145B627E291CCBD73FEE",
+         "PreviousTxnID":"676E4F1DF5DC4F9C2223DDE9999EF5A8392B310C49B84C7AB04BA10A6CDABFE4",
+         "PreviousTxnLgrSeq": 89
+        }
+      },
+      {
+       "DeletedNode": {
+         "FinalFields": {
+           "AcceptedCredentials": [
+              {
+               "Credential": {
+                 "CredentialType":"4964656E74697479446F63756D656E74",
+                 "Issuer":"rhBPeJFG9pxvU22AxkzBpt6zzyk89xhdr3"
+                }
+              }
+            ],
+           "Flags": 0,
+           "Owner":"rhBPeJFG9pxvU22AxkzBpt6zzyk89xhdr3",
+           "OwnerNode":"0",
+           "PreviousTxnID":"676E4F1DF5DC4F9C2223DDE9999EF5A8392B310C49B84C7AB04BA10A6CDABFE4",
+           "PreviousTxnLgrSeq": 89,
+           "Sequence": 75
+          },
+         "LedgerEntryType":"PermissionedDomain",
+         "LedgerIndex":"F075484241C8FD27C750F1DD93E0B5E0A42D9ADFE5E7B2313DD927E3DE0DBA6E"
+        }
+      }
+    ],
+   "TransactionIndex": 0,
+   "TransactionResult":"tesSUCCESS"
+  },
+ "tx": {
+   "Account":"rhBPeJFG9pxvU22AxkzBpt6zzyk89xhdr3",
+   "DomainID":"F075484241C8FD27C750F1DD93E0B5E0A42D9ADFE5E7B2313DD927E3DE0DBA6E",
+   "Fee":"200",
+   "Flags": 0,
+   "LastLedgerSequence": 109,
+   "NetworkID": 63456,
+   "Sequence": 76,
+   "SigningPubKey":"ED0FD90553E43698CA5878F9AE1063AF1178728324356BFF116D3331B243F11FDD",
+   "TransactionType":"PermissionedDomainDelete",
+   "TxnSignature":"9C248D71E6221DBBE2F65DB2D3B7B0B0DF8FA11057A60719CCBE6A257D6255068E39D82C740ED7B05B3C99A4A591DA59847C0222A6B5F8DC90C480D249F30E01",
+   "date": 790739500,
+   "ledger_index": 90
+  },
+ "validated": true
+}

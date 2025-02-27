@@ -1,0 +1,86 @@
+{
+  "close_time_iso": "2025-01-19T02:21:39Z",
+  "ctid": "C00000400000F7E0",
+  "hash": "561E23C018C9D6B9A1C03F1AD90E2DEB57DEF5ADA0C3886004F3B1423948A9A7",
+  "ledger_hash": "D9408AA31B24A03E999C13FE93B0D43174FD1CC4BACE884B012E7FAB255BDEED",
+  "ledger_index": 64,
+  "meta": {
+    "AffectedNodes": [
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "PermissionedDomain",
+          "LedgerIndex": "1FF57AD569BC5258A4D3C5AAB77DDEBB68E286F72D8EAB49DEE3DD35C2C5A4AF",
+          "NewFields": {
+            "AcceptedCredentials": [
+              {
+                "Credential": {
+                  "CredentialType": "4964656E74697479446F63756D656E74",
+                  "Issuer": "rUVQzukKnGSw4qNjEvBxLxquaLaMwzVBab"
+                }
+              }
+            ],
+            "Owner": "rUVQzukKnGSw4qNjEvBxLxquaLaMwzVBab",
+            "Sequence": 50
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rUVQzukKnGSw4qNjEvBxLxquaLaMwzVBab",
+            "RootIndex": "3ECFCBD5393D4EBA88476B159B542BD7D2159D72BF35488ED294E90931567D93"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "3ECFCBD5393D4EBA88476B159B542BD7D2159D72BF35488ED294E90931567D93",
+          "PreviousTxnID": "E3A10DD121B54CB7D8922A77D26C9D766FD8A07850287F278F9313057D664DD4",
+          "PreviousTxnLgrSeq": 63
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rUVQzukKnGSw4qNjEvBxLxquaLaMwzVBab",
+            "Balance": "1999997799",
+            "Flags": 0,
+            "OwnerCount": 4,
+            "Sequence": 51
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "DBACFFF9DBF52B26633B4CED74BD43E8AEF09C20F46C80D83C3A3230BD4E3985",
+          "PreviousFields": {
+            "Balance": "1999997999",
+            "OwnerCount": 3,
+            "Sequence": 50
+          },
+          "PreviousTxnID": "E3A10DD121B54CB7D8922A77D26C9D766FD8A07850287F278F9313057D664DD4",
+          "PreviousTxnLgrSeq": 63
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "tx": {
+    "AcceptedCredentials": [
+      {
+        "Credential": {
+          "CredentialType": "4964656E74697479446F63756D656E74",
+          "Issuer": "rUVQzukKnGSw4qNjEvBxLxquaLaMwzVBab"
+        }
+      }
+    ],
+    "Account": "rUVQzukKnGSw4qNjEvBxLxquaLaMwzVBab",
+    "Fee": "200",
+    "Flags": 0,
+    "LastLedgerSequence": 83,
+    "NetworkID": 63456,
+    "Sequence": 50,
+    "SigningPubKey": "ED7EE9DDAFF54720AD642944B666CC359091F170BA49C084C3E59803ACDBB17647",
+    "TransactionType": "PermissionedDomainSet",
+    "TxnSignature": "B505D12FEDCBAEE792FE5317253E633C094F5D7D8B6D3C9A54B4EAF1F56B2D7F537356D1292A2BAFAE163343BD659F05BF8C916EBA0B10B54D78F20B33B93205",
+    "date": 790568499,
+    "ledger_index": 64
+  },
+  "validated": true
+}

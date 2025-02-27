@@ -7,6 +7,9 @@ import { AMMBid } from './AMMBid'
 import { AMMVote } from './AMMVote'
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
+import { CredentialAcceptTransaction as CredentialAccept } from './CredentialAccept'
+import { CredentialCreateTransaction as CredentialCreate } from './CredentialCreate'
+import { CredentialDeleteTransaction as CredentialDelete } from './CredentialDelete'
 import { DIDSetTransaction as DIDSet } from './DIDSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
 import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
@@ -27,6 +30,8 @@ import { PaymentTransaction as Payment } from './Payment'
 import { PaymentChannelClaimTransaction as PaymentChannelClaim } from './PaymentChannelClaim'
 import { PaymentChannelCreateTransaction as PaymentChannelCreate } from './PaymentChannelCreate'
 import { PaymentChannelFundTransaction as PaymentChannelFund } from './PaymentChannelFund'
+import { PermissionedDomainDeleteTransaction as PermissionedDomainDelete } from './PermissionedDomainDelete'
+import { PermissionedDomainSetTransaction as PermissionedDomainSet } from './PermissionedDomainSet'
 import { SetFeeTransaction as SetFee } from './SetFee'
 import { SetHookTransaction as SetHook } from './SetHook'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
@@ -57,6 +62,9 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
   AccountSet,
   Clawback,
+  CredentialAccept,
+  CredentialCreate,
+  CredentialDelete,
   DIDSet,
   DepositPreauth,
   EnableAmendment,
@@ -77,6 +85,8 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   PaymentChannelCreate,
   PaymentChannelClaim,
   PaymentChannelFund,
+  PermissionedDomainDelete,
+  PermissionedDomainSet,
   SetFee,
   SetHook,
   SetRegularKey,
