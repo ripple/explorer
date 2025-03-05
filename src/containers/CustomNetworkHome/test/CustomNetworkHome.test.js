@@ -1,8 +1,4 @@
 import { mount } from 'enzyme'
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
-import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import SidechainHome from '../index'
 import MockWsClient from '../../test/mockWsClient'
@@ -13,9 +9,6 @@ describe('SidechainHome page', () => {
   let client
   let wrapper
 
-  const middlewares = [thunk]
-  const mockStore = configureMockStore(middlewares)
-
   const createWrapper = (localNetworks = null) => {
     localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
     if (localNetworks) {
@@ -25,13 +18,10 @@ describe('SidechainHome page', () => {
       )
     }
 
-    const store = mockStore(initialState)
     return mount(
-      <Provider store={store}>
-        <QuickHarness i18n={i18n}>
-          <SidechainHome />
-        </QuickHarness>
-      </Provider>,
+      <QuickHarness i18n={i18n}>
+        <SidechainHome />
+      </QuickHarness>,
     )
   }
 
