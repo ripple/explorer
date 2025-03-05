@@ -28,17 +28,22 @@ const Currency = (props: Props) => {
     displaySymbol = true,
     isMPT = false,
   } = props
-  let content
+  let content: string
 
   if (isMPT) {
     const display = `MPT (${currency})`
-    content = link ? (
-      <RouteLink to={MPT_ROUTE} params={{ id: currency }}>
-        {display}
-      </RouteLink>
-    ) : (
-      display
-    )
+    if (link)
+      return (
+        <RouteLink
+          className="currency"
+          data-testid="currency"
+          to={MPT_ROUTE}
+          params={{ id: currency }}
+        >
+          {display}
+        </RouteLink>
+      )
+    content = display
   } else {
     let currencyCode =
       currency?.length === NON_STANDARD_CODE_LENGTH &&
@@ -64,17 +69,25 @@ const Currency = (props: Props) => {
       display += shortenIssuer ? issuer.substring(0, 4) : issuer
     }
 
-    content =
-      link && issuer ? (
-        <RouteLink to={TOKEN_ROUTE} params={{ token: `${currency}.${issuer}` }}>
+    if (link && issuer)
+      return (
+        <RouteLink
+          className="currency"
+          to={TOKEN_ROUTE}
+          data-testid="currency"
+          params={{ token: `${currency}.${issuer}` }}
+        >
           {display}
         </RouteLink>
-      ) : (
-        display
       )
+    content = display
   }
 
-  return <span className="currency">{content}</span>
+  return (
+    <span className="currency" data-testid="currency">
+      {content}
+    </span>
+  )
 }
 
 export const hexToString = (hex: string) => {
