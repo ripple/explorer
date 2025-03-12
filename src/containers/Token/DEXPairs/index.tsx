@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useContext } from 'react'
+import { useState, useRef, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import './styles.scss'
@@ -16,6 +16,7 @@ import Currency from '../../shared/components/Currency'
 import { Pair } from './types'
 import { TOKEN_ROUTE } from '../../App/routes'
 import { RouteLink } from '../../shared/routing'
+import { useQuery } from 'react-query'
 
 // Hard Coded Pairs that we always check for
 const pairsHardCoded = [
@@ -38,20 +39,20 @@ export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
 
-  useEffect(() => {
-    isMountedRef.current = true
-    const promises: Promise<any>[] = []
-    axios
-      .get(`/api/v1/token/top`)
-      .then((tokenRes) => {
+  useQuery(
+    ['dex-pairs', accountId, currency],
+    async () => {
+      isMountedRef.current = true
+      const promises: Promise<any>[] = []
+
+      try {
+        const tokenRes = await axios.get(`/api/v1/token/top`)
         let tokenList = tokenRes.data?.tokens
         if (tokenList) {
           tokenList = tokenList.map((element) => ({
             currency: element.currency,
             issuer: element.issuer,
           }))
-          // Limit to top 20 tokens so that page in reasonable amount of time.
-          // TODO: add "Load more pairs feature"
           tokenList = tokenList.slice(0, 20)
         } else {
           tokenList = []
@@ -67,7 +68,6 @@ export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
             )
           ) {
             promises.push(
-              // currency.accountId = "taker gets" token = "taker pays" pairs are "taker pays"/ "taker gets"
               getOffers(
                 currency,
                 accountId,
@@ -116,24 +116,32 @@ export const DEXPairs = ({ accountId, currency }: DexPairsProps) => {
             )
           }
         }
-        Promise.allSettled(promises).then(() => {
-          if (isMountedRef.current) {
-            setIsLoading(false)
-          }
-        })
-      })
-      .catch((err) => {
+
+        await Promise.allSettled(promises)
+        if (isMountedRef.current) {
+          setIsLoading(false)
+        }
+      } catch (err) {
         if (isMountedRef.current) {
           setIsError(true)
           setIsLoading(false)
         }
         Log.error(err)
         trackException(`Error getting top tokens from /api/v1/tokens/top`)
-      })
-    return () => {
-      isMountedRef.current = false
-    }
-  }, [accountId, currency, rippledSocket, trackException])
+      }
+
+      return () => {
+        isMountedRef.current = false
+      }
+    },
+    {
+      onSettled: () => {
+        if (isMountedRef.current) {
+          setIsLoading(false)
+        }
+      },
+    },
+  )
 
   function renderNoPairs() {
     return <div className="no-pairs-message">{t('no_pairs_message')}</div>
