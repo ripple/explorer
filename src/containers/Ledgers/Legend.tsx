@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWindowSize } from 'usehooks-ts'
+import { useQuery } from 'react-query'
 import {
   TransactionAction,
   TransactionCategory,
@@ -20,11 +21,12 @@ export const Legend = () => {
 
   // TODO: use global variables when we update places using width from redux.
   // Show legend by default when on desktop sizes
-  useEffect(() => {
+  useQuery(['legend-visibility', windowSize.width, previousInteraction], () => {
     if (previousInteraction === false) {
       setHidden(!(windowSize.width > 900))
     }
-  }, [previousInteraction, windowSize])
+    return null
+  })
 
   const actions = [
     TransactionAction.CREATE,

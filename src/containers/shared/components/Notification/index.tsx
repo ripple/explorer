@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
 import './styles.scss'
 
 type NotificationLevel = 'primary'
@@ -31,13 +32,21 @@ export const Notification = ({
   className,
 }: NotificationProps) => {
   const [dismissed, setDismissed] = useState(false)
-  useEffect(() => {
-    if (autoDismiss) {
-      setTimeout(() => {
-        setDismissed(true)
-      }, delay)
-    }
-  }, [autoDismiss, delay])
+
+  useQuery(
+    ['notification-auto-dismiss', autoDismiss, delay],
+    () => {
+      if (autoDismiss) {
+        setTimeout(() => {
+          setDismissed(true)
+        }, delay)
+      }
+      return null
+    },
+    {
+      cacheTime: 0,
+    },
+  )
 
   const classNames = ['notification', usage, `${level}-theme`, className].join(
     ' ',

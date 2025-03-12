@@ -1,5 +1,6 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { useLanguage } from '../../../hooks'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
@@ -24,19 +25,22 @@ export const Simple = ({ data }: TransactionSimpleProps<EnableAmendment>) => {
   })
   const rippledSocket = useContext(SocketContext)
 
-  useEffect(() => {
-    const amendmentId = data.instructions.Amendment
-    getFeature(rippledSocket, amendmentId).then((feature) => {
+  useQuery(
+    ['amendment-details', data.instructions.Amendment, rippledSocket],
+    async () => {
+      const amendmentId = data.instructions.Amendment
+      const feature = await getFeature(rippledSocket, amendmentId)
       const name =
         feature && feature[amendmentId] ? feature[amendmentId].name : ''
-      getRippledVersion(name).then((rippledVersion) => {
-        setAmendmentDetails({
-          name: name || states.unknown,
-          minRippledVersion: rippledVersion || states.unknown,
-        })
+      const rippledVersion = await getRippledVersion(name)
+
+      setAmendmentDetails({
+        name: name || states.unknown,
+        minRippledVersion: rippledVersion || states.unknown,
       })
-    })
-  }, [data.instructions.Amendment, rippledSocket])
+      return null
+    },
+  )
 
   let amendmentStatus = states.unknown
   let expectedDate: string | null = states.unknown

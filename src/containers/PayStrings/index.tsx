@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router'
 import { useQuery } from 'react-query'
@@ -26,13 +25,11 @@ export const PayString = () => {
     }),
   )
 
-  useEffect(() => {
+  useQuery(['screen-load', accountId], () => {
     trackScreenLoaded()
-
-    return () => {
-      window.scrollTo(0, 0)
-    }
-  }, [accountId, trackScreenLoaded])
+    window.scrollTo(0, 0)
+    return null
+  })
 
   const renderError = () => (
     <div className="paystring-page">
