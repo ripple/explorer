@@ -1,10 +1,4 @@
-import {
-  FC,
-  KeyboardEventHandler,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { FC, KeyboardEventHandler, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
@@ -41,6 +35,7 @@ import {
   MPT_ROUTE,
 } from '../App/routes'
 import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSearchResults'
+import { useQuery } from 'react-query'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
@@ -190,8 +185,22 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   const { t } = useTranslation()
   const socket = useContext(SocketContext)
   const navigate = useNavigate()
-
   const [currentSearchInput, setCurrentSearchInput] = useState('')
+  const [isBannerVisible, setIsBannerVisible] = useState(true)
+
+  useQuery(
+    ['banner-timeout'],
+    () => {
+      const timeoutId = setTimeout(() => {
+        setIsBannerVisible(false)
+      }, 10000) // Disappear after 10 seconds
+
+      return () => clearTimeout(timeoutId)
+    },
+    {
+      enabled: isBannerVisible,
+    },
+  )
 
   const handleSearch = async (id: string) => {
     const strippedId = id.replace(/^["']|["']$/g, '')
@@ -211,16 +220,6 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
       setCurrentSearchInput('')
     }
   }
-
-  const [isBannerVisible, setIsBannerVisible] = useState(true)
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsBannerVisible(false)
-    }, 10000) // Disappear after 10 seconds
-
-    return () => clearTimeout(timeoutId)
-  }, [])
 
   return (
     <>

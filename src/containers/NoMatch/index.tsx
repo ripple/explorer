@@ -1,6 +1,7 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
 import InfoIcon from '../shared/images/info.svg'
@@ -32,12 +33,13 @@ const NoMatch = ({
   const socket = useContext(SocketContext)
   const values = { connection: socket?.getState() }
 
-  useEffect(() => {
+  useQuery(['track-not-found', ...hints, title], () => {
     track('not_found', {
       description: `${title} -- ${hints.join(', ')}`,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps -- hints has to be spread to prevent this from running multiple times
-  }, [...hints, title, track])
+    return null
+  })
 
   const notFound = title.includes('not_found')
   const hintMsg = hints.map((hint) => (

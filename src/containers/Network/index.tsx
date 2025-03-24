@@ -1,6 +1,7 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
+import { useQuery } from 'react-query'
 import { NETWORK_ROUTE } from '../App/routes'
 import { useAnalytics } from '../shared/analytics'
 import { useRouteParams } from '../shared/routing'
@@ -17,9 +18,10 @@ export const Network = () => {
   const { tab = 'nodes' } = useRouteParams(NETWORK_ROUTE)
   const network = useContext(NetworkContext)
 
-  useEffect(() => {
+  useQuery(['screen-load', tab], () => {
     trackScreenLoaded()
-  }, [tab, trackScreenLoaded])
+    return null
+  })
 
   if (network === null) {
     return (

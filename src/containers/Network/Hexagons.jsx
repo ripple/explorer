@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useWindowSize } from 'usehooks-ts'
+import { useQuery } from 'react-query'
 
 import { hexbin } from 'd3-hexbin'
 import { Loader } from '../shared/components/Loader'
@@ -60,13 +61,14 @@ export const Hexagons = ({ list, data }) => {
     ])
     .radius(radius)
 
-  useEffect(() => {
+  useQuery(['prepare-hexagons', data, list, width, gridHeight, radius], () => {
     if (width > 0) {
       setHexagons((prevHexagons) =>
         prepareHexagons(data, list, gridHeight, radius, prevHexagons),
       )
     }
-  }, [data, list, width, gridHeight, radius])
+    return null
+  })
 
   const renderHexagon = (d, theHex) => {
     const { cookie, pubkey, ledger_hash: ledgerHash } = d

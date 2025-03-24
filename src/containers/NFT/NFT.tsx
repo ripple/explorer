@@ -1,6 +1,7 @@
-import { FC, PropsWithChildren, useEffect, useState } from 'react'
+import { FC, PropsWithChildren, useState } from 'react'
 import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
+import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import { NFTHeader } from './NFTHeader/NFTHeader'
 import { NFTTabs } from './NFTTabs/NFTTabs'
@@ -43,15 +44,14 @@ export const NFT = () => {
   const { id: tokenId = '' } = useParams<{ id: string }>()
   const [error, setError] = useState<number | null>(null)
 
-  useEffect(() => {
+  useQuery(['screen-load', tokenId], () => {
     trackScreenLoaded({
       nftoken_id: tokenId,
       issuer: parseIssuerFromNFTokenID(tokenId),
     })
-    return () => {
-      window.scrollTo(0, 0)
-    }
-  }, [tokenId, trackScreenLoaded])
+    window.scrollTo(0, 0)
+    return null
+  })
 
   const renderError = () => {
     const message = getErrorMessage(error)

@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Loader } from '../../shared/components/Loader'
@@ -40,11 +40,12 @@ export const MPTHeader = (props: Props) => {
     },
   )
 
-  useEffect(() => {
+  useQuery(['validate-token-id', tokenId], () => {
     if (!HASH192_REGEX.test(tokenId)) {
       setError(BAD_REQUEST)
     }
-  }, [setError, tokenId])
+    return null
+  })
 
   const showTooltip = (event: any, d: any) => {
     setTooltip({

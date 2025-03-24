@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
 
 function getStorageValue<T>(key: string, defaultValue: T): T | undefined {
   // getting stored value
@@ -15,10 +16,11 @@ export const useLocalStorage = <T>(
     getStorageValue(key, defaultValue),
   )
 
-  useEffect(() => {
+  useQuery(['local-storage', key, value], () => {
     // storing input name
     localStorage.setItem(key, JSON.stringify(value))
-  }, [key, value])
+    return null
+  })
 
   return [value, setValue]
 }

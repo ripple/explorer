@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -30,12 +30,11 @@ export const LedgersPage = () => {
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
 
-  useEffect(() => {
+  useQuery(['screen-load'], () => {
     trackScreenLoaded()
-    return () => {
-      window.scrollTo(0, 0)
-    }
-  }, [trackScreenLoaded])
+    window.scrollTo(0, 0)
+    return null
+  })
 
   const fetchValidators = () => {
     const url = `${process.env.VITE_DATA_URL}/validators/${network}`

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -76,9 +76,10 @@ export const Validator = () => {
     },
   )
 
-  useEffect(() => {
+  useQuery(['screen-load', identifier, tab], () => {
     trackScreenLoaded({ validator: identifier })
-  }, [identifier, tab, trackScreenLoaded])
+    return null
+  })
 
   function fetchValidatorReport(): Promise<ValidatorReport[]> {
     return axios

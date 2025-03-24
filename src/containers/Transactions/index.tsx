@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -79,24 +79,31 @@ export const Transaction = () => {
   )
   const { width } = useWindowSize()
 
-  useEffect(() => {
-    if (!data?.processed) return
+  useQuery(
+    ['transaction-screen-load', identifier, data?.processed, tab],
+    () => {
+      if (!data?.processed) return null
 
-    const type = data?.processed.tx.TransactionType
-    const status = data?.processed.meta.TransactionResult
+      const type = data.processed.tx.TransactionType
+      const status = data.processed.meta.TransactionResult
 
-    const transactionProperties: AnalyticsFields = {
-      transaction_action: getAction(type),
-      transaction_category: getCategory(type),
-      transaction_type: type,
-    }
+      const transactionProperties: AnalyticsFields = {
+        transaction_action: getAction(type),
+        transaction_category: getCategory(type),
+        transaction_type: type,
+      }
 
-    if (status !== SUCCESSFUL_TRANSACTION) {
-      transactionProperties.tec_code = status
-    }
+      if (status !== SUCCESSFUL_TRANSACTION) {
+        transactionProperties.tec_code = status
+      }
 
-    trackScreenLoaded(transactionProperties)
-  }, [identifier, data?.processed, tab, trackScreenLoaded])
+      trackScreenLoaded(transactionProperties)
+      return null
+    },
+    {
+      enabled: !!data?.processed,
+    },
+  )
 
   function renderSummary() {
     const type = data?.processed.tx.TransactionType

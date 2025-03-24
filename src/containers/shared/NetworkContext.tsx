@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
+import { useQuery } from 'react-query'
 import Log from './log'
 
 const ENV_NETWORK_MAP: Record<string, string> = {
@@ -34,19 +35,28 @@ export const NetworkProvider = ({
   const initialNetworkName = getNetworkName()
   const [networkName, setNetworkName] = useState(initialNetworkName)
 
-  useEffect(() => {
-    if (initialNetworkName == null && rippledUrl) {
-      axios
-        .get(`${process.env.VITE_DATA_URL}/get_network/${rippledUrl}`)
-        .then((resp) => resp.data)
-        .then((data) =>
+  useQuery(
+    ['get-network', initialNetworkName, rippledUrl],
+    async () => {
+      if (initialNetworkName == null && rippledUrl) {
+        try {
+          const resp = await axios.get(
+            `${process.env.VITE_DATA_URL}/get_network/${rippledUrl}`,
+          )
+          const data = resp.data
           setNetworkName(
             data.result && data.result === 'error' ? null : data.network,
-          ),
-        )
-        .catch((e) => Log.error(e))
-    }
-  }, [initialNetworkName, rippledUrl])
+          )
+        } catch (e) {
+          Log.error(e)
+        }
+      }
+      return null
+    },
+    {
+      enabled: initialNetworkName == null && !!rippledUrl,
+    },
+  )
 
   return (
     <NetworkContext.Provider value={networkName}>

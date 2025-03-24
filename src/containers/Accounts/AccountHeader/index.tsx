@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -13,6 +13,7 @@ import InfoIcon from '../../shared/images/info.svg'
 import { useLanguage } from '../../shared/hooks'
 import Currency from '../../shared/components/Currency'
 import DomainLink from '../../shared/components/DomainLink'
+import { useQuery } from 'react-query'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -83,9 +84,17 @@ const AccountHeader = (props: AccountHeaderProps) => {
     loading,
   } = props
   const { deleted } = data
-  useEffect(() => {
-    actions.loadAccountState(accountId, rippledSocket)
-  }, [accountId, actions, rippledSocket])
+
+  useQuery(
+    ['account-state', accountId],
+    () => {
+      actions.loadAccountState(accountId, rippledSocket)
+      return null
+    },
+    {
+      enabled: !!accountId && !!rippledSocket,
+    },
+  )
 
   function renderBalancesSelector() {
     const { balances = {} } = data

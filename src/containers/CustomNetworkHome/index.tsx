@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
@@ -7,6 +7,7 @@ import { useAnalytics } from '../shared/analytics'
 import './index.scss'
 import { useCustomNetworks } from '../shared/hooks'
 import { Header } from '../Header'
+import { useQuery } from 'react-query'
 
 const SidechainHome = () => {
   const { track, trackScreenLoaded } = useAnalytics()
@@ -14,9 +15,10 @@ const SidechainHome = () => {
   const [networkText, setNetworkText] = useState('')
   const [customNetworks = []] = useCustomNetworks()
 
-  useEffect(() => {
+  useQuery(['screen-load'], () => {
     trackScreenLoaded()
-  }, [trackScreenLoaded])
+    return null
+  })
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
