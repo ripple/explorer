@@ -40,11 +40,18 @@ const Currency = (props: Props) => {
       display
     )
   } else {
-    const currencyCode =
+    let currencyCode =
       currency?.length === NON_STANDARD_CODE_LENGTH &&
       currency?.substring(0, 2) !== LP_TOKEN_IDENTIFIER
         ? hexToString(currency)
         : currency
+
+    if (
+      currency?.length === NON_STANDARD_CODE_LENGTH &&
+      currencyCode.length === 3
+    ) {
+      currencyCode = `Fake${currencyCode}`
+    }
 
     let display = `${currencyCode}`
 
