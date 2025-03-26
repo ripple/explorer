@@ -53,6 +53,9 @@
 
 .json-view--string {
   color: $orange-50 !important;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 /* stylelint-enable selector-class-pattern */
