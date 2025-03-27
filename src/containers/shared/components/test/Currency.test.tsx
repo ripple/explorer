@@ -65,6 +65,13 @@ describe('Currency', () => {
     )
   })
 
+  it('handle non-standard currency decoded to equal or fewer than 3 characters', () => {
+    const wrapper = mount(
+      <Currency currency="5852500000000000000000000000000000000000" />,
+    )
+    expect(wrapper.find('.currency').text()).toEqual('FakeXRP')
+  })
+
   it('displays the XRP symbol when rendering XRP', () => {
     render(<Currency currency="XRP" />)
     const element = screen.getByTestId('currency')

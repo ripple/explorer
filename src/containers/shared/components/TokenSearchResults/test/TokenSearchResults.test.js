@@ -5,7 +5,7 @@ import testTokens from './mock_data/tokens.json'
 import SocketContext from '../../../SocketContext'
 import SearchResults from '../TokenSearchResults'
 import MockWsClient from '../../../../test/mockWsClient'
-import { QuickHarness } from '../../../../test/utils'
+import { QuickHarness, flushPromises } from '../../../../test/utils'
 
 const testQuery = 'test'
 
@@ -43,14 +43,18 @@ describe('Testing tokens search', () => {
     wrapper.unmount()
   })
 
-  it('renders without crashing', () => {
+  it('renders without crashing', async () => {
+    await flushPromises()
     wrapper.update()
+
     const searchMenu = wrapper.find('.search-results-menu')
     expect(searchMenu.length).toEqual(1)
   })
 
-  it('renders all tokens ', () => {
+  it('renders all tokens ', async () => {
+    await flushPromises()
     wrapper.update()
+
     const searchMenu = wrapper.find('.search-results-menu')
 
     expect(searchMenu.find('.search-results-header').at(0).html()).toEqual(
