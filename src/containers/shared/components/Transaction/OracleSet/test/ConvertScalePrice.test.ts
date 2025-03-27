@@ -1,4 +1,4 @@
-import { convertScaledPrice } from '../parser'
+import { convertScaledPrice } from '../../../../utils'
 
 const numberToHex = (number) => number.toString(16)
 describe('convertScaledPrice', () => {

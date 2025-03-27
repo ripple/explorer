@@ -1,5 +1,5 @@
-@import '../shared/css/variables';
-@import '../shared/css/table';
+@use '../shared/css/variables' as *;
+@use '../shared/css/table';
 
 .amendment-summary {
   width: 80%;
@@ -62,7 +62,7 @@
 
   .value {
     &.eta {
-      &.no{
+      &.no {
         color: $yellow-50 !important;
       }
     }

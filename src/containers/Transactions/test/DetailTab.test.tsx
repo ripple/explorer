@@ -1,6 +1,7 @@
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
+import { QueryClientProvider } from 'react-query'
 import Transaction from '../../shared/components/Transaction/EscrowCreate/test/mock_data/EscrowCreate.json'
 import FailedTransaction from '../../shared/components/Transaction/SignerListSet/test/mock_data/SignerListSet.json'
 import HookPayment from './mock_data/HookPayment.json'
@@ -8,14 +9,17 @@ import EmittedPayment from './mock_data/EmittedPayment.json'
 import { DetailTab } from '../DetailTab'
 import i18n from '../../../i18n/testConfigEnglish'
 import { convertHexToString } from '../../../rippled/lib/utils'
+import { queryClient } from '../../shared/QueryClient'
 
 describe('DetailTab container', () => {
   const createWrapper = (transaction: any = Transaction) =>
     mount(
       <Router>
-        <I18nextProvider i18n={i18n}>
-          <DetailTab data={transaction} />
-        </I18nextProvider>
+        <QueryClientProvider client={queryClient}>
+          <I18nextProvider i18n={i18n}>
+            <DetailTab data={transaction} />
+          </I18nextProvider>
+        </QueryClientProvider>
       </Router>,
     )
 

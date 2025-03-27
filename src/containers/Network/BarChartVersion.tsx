@@ -47,17 +47,21 @@ const CustomTooltip = ({
 }: TooltipProps<ValueType, NameType>) => {
   const { t } = useTranslation()
   if (active) {
+    const valCount = payload?.[0]?.payload?.validatorCount ?? 0
+    const valPercent = payload?.[0]?.payload?.validatorPercent.toFixed(2) ?? 0
+    const nodeCount = payload?.[0]?.payload?.nodeCount ?? 0
+    const nodePercent = payload?.[0]?.payload?.nodePercent.toFixed(2) ?? 0
     return (
       <div className="custom-tooltip">
         <p className="label">{t('version_display', { version: label })}</p>
         <p className="value">
-          {t('validators_count', {
-            vals_count: payload ? payload[0].payload.validatorsCount : 0,
+          {t('validator_count', {
+            val_count: `${valCount} (${valPercent}%)`,
           })}
         </p>
         <p className="value">
-          {t('nodes_count', {
-            nodes_count: payload ? payload[0].payload.nodesCount : 0,
+          {t('node_count', {
+            node_count: `${nodeCount} (${nodePercent}%)`,
           })}
         </p>
       </div>
@@ -162,7 +166,7 @@ const BarChartVersion = (props: Props) => {
             />
           </YAxis>
           <Bar
-            dataKey="validatorsPercent"
+            dataKey="validatorPercent"
             barSize={30}
             fill={PURPLE}
             radius={[4, 4, 0, 0]}
@@ -183,7 +187,7 @@ const BarChartVersion = (props: Props) => {
               ))}
           </Bar>
           <Bar
-            dataKey="nodesPercent"
+            dataKey="nodePercent"
             barSize={30}
             fill={PURPLE}
             radius={[4, 4, 0, 0]}

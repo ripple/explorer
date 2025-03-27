@@ -1,4 +1,4 @@
-@import '../../css/variables';
+@use '../../css/variables' as *;
 
 .dropdown {
   position: relative;

@@ -6,8 +6,8 @@ import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export const Description = ({ data }: TransactionDescriptionProps) => {
   const issuer = data.tx.Account
-  const holder = data.tx.Amount.issuer
   const amount = formatAmount(data.tx.Amount)
+  const holder = amount.isMPT ? data.tx.Holder : data.tx.Amount.issuer
   amount.issuer = issuer
   return (
     <>

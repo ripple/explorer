@@ -1,6 +1,6 @@
 @use 'sass:math';
 
-@import '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 $menu-toggle-size: 25px;
 $menu-toggle-line-spacing: math.div($menu-toggle-size, 4);

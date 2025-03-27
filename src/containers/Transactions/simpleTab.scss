@@ -1,4 +1,4 @@
-@import '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 $subdued-color: $black-40;
 
@@ -68,7 +68,7 @@ $subdued-color: $black-40;
           &.list {
             margin-bottom: 12px;
 
-            .one-line{
+            .one-line {
               justify-content: flex-end;
               margin: -1px 0px 0px;
             }

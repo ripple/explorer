@@ -1,7 +1,7 @@
 // ONLY GLOBAL CSS, KEEP IT TO MINIMAL
 // CSS SHOULD BE SCOPPED TO COMPONENT
-@import './variables';
-@import './form';
+@use 'variables' as *;
+@use 'form';
 
 /**
  * `current_symbols` is used for currency codes missing from other fonts, currently `u+e900` (XRP) and `u+e901` (BTC).
@@ -121,6 +121,7 @@ div.react-stockchart div {
 @include transaction-category(XCHAIN, $yellow, $yellow-30, $yellow-90);
 @include transaction-category(PSEUDO, $white, $white, $black-80);
 @include transaction-category(UNKNOWN, $black-50, $black-30, $black-90);
+@include transaction-category(MPT, $blue, $blue-30, $blue-90);
 
 .tx-result {
   &.success {

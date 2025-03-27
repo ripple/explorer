@@ -3,7 +3,7 @@ import { RouteDefinition } from '../shared/routing'
 export const ACCOUNT_ROUTE: RouteDefinition<{
   id?: string
   tab?: 'assets' | 'transactions'
-  assetType?: 'issued' | 'nfts'
+  assetType?: 'issued' | 'nfts' | 'mpts'
 }> = {
   path: '/accounts/:id?/:tab?/:assetType?',
 }
@@ -29,12 +29,6 @@ export const NFT_ROUTE: RouteDefinition<{
   tab?: 'transactions' | 'buy-offers' | 'sell-offers'
 }> = {
   path: '/nft/:id/:tab?',
-}
-
-export const PAYSTRING_ROUTE: RouteDefinition<{
-  id?: string
-}> = {
-  path: '/paystrings/:id?',
 }
 
 export const TOKEN_ROUTE: RouteDefinition<{
@@ -65,4 +59,10 @@ export const AMENDMENT_ROUTE: RouteDefinition<{
   identifier: string
 }> = {
   path: `/amendment/:identifier`,
+}
+
+export const MPT_ROUTE: RouteDefinition<{
+  id: string
+}> = {
+  path: '/mpt/:id',
 }

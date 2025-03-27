@@ -19,12 +19,12 @@ import {
   LEDGERS_ROUTE,
   NETWORK_ROUTE,
   NFT_ROUTE,
-  PAYSTRING_ROUTE,
   TOKEN_ROUTE,
   TRANSACTION_ROUTE,
   VALIDATOR_ROUTE,
   AMENDMENTS_ROUTE,
   AMENDMENT_ROUTE,
+  MPT_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
@@ -32,13 +32,13 @@ import { AccountsRouter } from '../Accounts/AccountsRouter'
 import { Transaction } from '../Transactions'
 import { Network } from '../Network'
 import { Validator } from '../Validators'
-import { PayString } from '../PayStrings'
-import Token from '../Token'
+import { Token } from '../Token'
 import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
 import { useCustomNetworks } from '../shared/hooks'
 import { Amendments } from '../Amendments'
 import { Amendment } from '../Amendment'
+import { MPT } from '../MPT/MPT'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -68,10 +68,10 @@ export const AppWrapper = () => {
     [NETWORK_ROUTE, Network],
     [AMENDMENTS_ROUTE, Amendments],
     [VALIDATOR_ROUTE, Validator],
-    [PAYSTRING_ROUTE, PayString],
     [TOKEN_ROUTE, Token],
     [NFT_ROUTE, NFT],
     [AMENDMENT_ROUTE, Amendment],
+    [MPT_ROUTE, MPT],
   ]
 
   const redirect = legacyRedirect(basename, location)
@@ -102,6 +102,14 @@ export const AppWrapper = () => {
                 />
                 <Route
                   path={updatePath('/ledgers')}
+                  element={<Navigate to={updatePath('/')} replace />}
+                />
+                <Route
+                  path={updatePath('/index.html')}
+                  element={<Navigate to={updatePath('/')} replace />}
+                />
+                <Route
+                  path={updatePath('/index.htm')}
                   element={<Navigate to={updatePath('/')} replace />}
                 />
                 {/* End: Redirects */}

@@ -61,4 +61,12 @@ describe('DomainLink', () => {
     )
     wrapper.unmount()
   })
+
+  it('handles domain link with protocol removal', () => {
+    const url = 'https://example.com/'
+    const wrapper = mount(<DomainLink domain={url} keepProtocol={false} />)
+    expect(wrapper.find('a').props().className).toEqual('domain')
+    expect(wrapper.find('a').text()).toEqual('example.com')
+    expect(wrapper.find('a').props().href).toEqual('https://example.com/')
+  })
 })

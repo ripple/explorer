@@ -1,4 +1,4 @@
-@import '../../shared/css/variables';
+@use '../../shared/css/variables' as *;
 
 .dex-pairs-container {
   padding: 64px 0 100px;

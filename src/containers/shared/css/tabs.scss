@@ -1,4 +1,4 @@
-@import './variables';
+@use 'variables' as *;
 
 .tabs {
   border-top: 1px solid $black-70;

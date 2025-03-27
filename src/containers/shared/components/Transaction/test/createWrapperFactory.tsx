@@ -3,6 +3,7 @@ import { ReactElement } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { i18n } from 'i18next'
+import { QueryClientProvider } from 'react-query'
 import defaultI18nConfig from '../../../../../i18n/testConfig'
 import summarizeTransaction from '../../../../../rippled/lib/txSummary'
 import {
@@ -10,6 +11,7 @@ import {
   TransactionSimpleComponent,
   TransactionTableDetailComponent,
 } from '../types'
+import { testQueryClient } from '../../../../test/QueryClient'
 
 /**
  * Methods that produce createWrapper function for tests
@@ -22,9 +24,11 @@ export function createWrapper(
   i18nConfig?: i18n,
 ): ReactWrapper {
   return mount(
-    <I18nextProvider i18n={i18nConfig || defaultI18nConfig}>
-      <BrowserRouter>{TestComponent}</BrowserRouter>
-    </I18nextProvider>,
+    <QueryClientProvider client={testQueryClient}>
+      <I18nextProvider i18n={i18nConfig || defaultI18nConfig}>
+        <BrowserRouter>{TestComponent}</BrowserRouter>
+      </I18nextProvider>
+    </QueryClientProvider>,
   )
 }
 
