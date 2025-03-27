@@ -9,20 +9,19 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  NODE_VERSION: 20.x
+
 jobs:
   lint:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -32,10 +31,10 @@ jobs:
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ matrix.node-version }}-build-
+            ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-
+            ${{ env.NODE_VERSION }}-build-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
@@ -46,16 +45,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -65,10 +60,10 @@ jobs:
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ matrix.node-version }}-build-
+            ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-
+            ${{ env.NODE_VERSION }}-build-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
@@ -86,16 +81,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -105,10 +96,10 @@ jobs:
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ matrix.node-version }}-build-
+            ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-
+            ${{ env.NODE_VERSION }}-build-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
@@ -119,16 +110,12 @@ jobs:
   typescript-check:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -138,10 +125,10 @@ jobs:
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ matrix.node-version }}-build-
+            ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-
+            ${{ env.NODE_VERSION }}-build-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
