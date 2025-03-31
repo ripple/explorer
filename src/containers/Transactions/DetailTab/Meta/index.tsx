@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import renderAccountRoot from './AccountRoot'
 import renderDirectoryNode from './DirectoryNode'
 import renderOffer from './Offer'
@@ -9,10 +9,23 @@ import renderMPToken from './MPToken'
 import renderMPTokenIssuance from './MPTokenIssuance'
 import { groupAffectedNodes } from '../../../shared/transactionUtils'
 import { useLanguage } from '../../../shared/hooks'
+import { RouteLink } from '../../../shared/routing'
+import { ENTRY_ROUTE } from '../../../App/routes'
 
 const renderDefault = (t, action, node, index) => (
   <li key={`${node.LedgerEntryType}_${index}`} className="meta-line">
-    {t('node_meta_type', { action })} <b>{node.LedgerEntryType}</b>
+    <Trans
+      i18nKey="node_meta_type"
+      values={{ action }}
+      components={{
+        Link: (
+          <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
+            {/* The inner text will be replaced by the content of <Link></Link> in the JSON */}
+          </RouteLink>
+        ),
+      }}
+    />{' '}
+    <b>{node.LedgerEntryType}</b>
   </li>
 )
 
@@ -20,7 +33,7 @@ export const TransactionMeta: FC<{ data: any }> = ({ data }) => {
   const language = useLanguage()
   const { t } = useTranslation()
 
-  const renderNodesMeta = (action, list, tx) => {
+  const renderNodesMeta = (action: string, list: any[], tx: any) => {
     const meta = list.map((node, index) => {
       switch (node.LedgerEntryType) {
         case 'AccountRoot':
