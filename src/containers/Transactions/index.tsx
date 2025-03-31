@@ -53,6 +53,7 @@ export const Transaction = () => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { trackException, trackScreenLoaded } = useAnalytics()
+
   const { isLoading, data, error, isError } = useQuery(
     ['transaction', identifier],
     () => {

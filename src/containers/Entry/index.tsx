@@ -117,14 +117,14 @@ export const Entry = () => {
       </>
     )
   }
-  console.log(data)
+  console.log(data, isError, error)
 
   let body
 
   if (isError) {
     const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
-  } else if (data != null) {
+  } else if (data?.index != null) {
     body = renderEntry()
   } else if (!id) {
     body = (
