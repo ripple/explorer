@@ -27,10 +27,11 @@ import {
   HASH192_REGEX,
 } from '../shared/utils'
 import './search.scss'
-import { getTransaction } from '../../rippled/lib/rippled'
+import { getNFTInfo, getTransaction } from '../../rippled/lib/rippled'
 import { buildPath } from '../shared/routing'
 import {
   ACCOUNT_ROUTE,
+  ENTRY_ROUTE,
   LEDGER_ROUTE,
   NFT_ROUTE,
   TOKEN_ROUTE,
@@ -42,10 +43,15 @@ import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSea
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
-    await getTransaction(rippledContext, id)
-    return 'transactions'
-  } catch (e) {
+    await getNFTInfo(rippledContext, id)
     return 'nft'
+  } catch (e) {
+    try {
+      await getTransaction(rippledContext, id)
+      return 'transactions'
+    } catch (e2) {
+      return 'entry'
+    }
   }
 }
 
@@ -77,6 +83,8 @@ const getRoute = async (
       path = buildPath(TRANSACTION_ROUTE, { identifier: id.toUpperCase() })
     } else if (type === 'nft') {
       path = buildPath(NFT_ROUTE, { id: id.toUpperCase() })
+    } else if (type === 'entry') {
+      path = buildPath(ENTRY_ROUTE, { id: id.toUpperCase() })
     }
 
     return {

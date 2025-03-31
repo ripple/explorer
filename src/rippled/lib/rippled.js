@@ -76,7 +76,7 @@ const getLedger = (rippledSocket, parameters) => {
 }
 
 // get ledger_entry
-const getLedgerEntry = (rippledSocket, { index }) => {
+const getLedgerEntry = (rippledSocket, index) => {
   const request = {
     command: 'ledger_entry',
     index,
