@@ -27,7 +27,7 @@ import {
   HASH192_REGEX,
 } from '../shared/utils'
 import './search.scss'
-import { getNFTInfo, getTransaction } from '../../rippled/lib/rippled'
+import { getLedgerEntry, getTransaction } from '../../rippled/lib/rippled'
 import { buildPath } from '../shared/routing'
 import {
   ACCOUNT_ROUTE,
@@ -43,14 +43,15 @@ import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSea
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {
-    await getNFTInfo(rippledContext, id)
-    return 'nft'
+    await getTransaction(rippledContext, id)
+    return 'transactions'
   } catch (e) {
     try {
-      await getTransaction(rippledContext, id)
-      return 'transactions'
-    } catch (e2) {
+      await getLedgerEntry(rippledContext, id)
       return 'entry'
+    } catch (e2) {
+      // TODO: better error message here
+      return 'nft'
     }
   }
 }

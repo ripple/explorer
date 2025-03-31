@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useTranslation } from 'react-i18next'
 import { transactionTypes } from '../../shared/components/Transaction'
-import { DefaultSimple } from '../../shared/components/Transaction/DefaultSimple'
+import { DefaultSimple } from './DefaultSimple'
 
 export const Simple: FC<{
   data: any

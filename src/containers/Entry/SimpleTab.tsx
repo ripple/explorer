@@ -1,13 +1,11 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { localizeDate, localizeNumber, BREAKPOINTS } from '../shared/utils'
 import { Account } from '../shared/components/Account'
 import { Sequence } from '../shared/components/Sequence'
 import { Simple } from './Simple'
 
 import { useLanguage } from '../shared/hooks'
 import { RouteLink } from '../shared/routing'
-import { CURRENCY_OPTIONS, XRP_BASE } from '../shared/transactionUtils'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
@@ -72,37 +70,37 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     </>
   )
 
-  const { processed } = data
-  const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' }
-  const time = localizeDate(new Date(processed.date), language, DATE_OPTIONS)
-  const ledgerIndex = processed.ledger_index
-  const fee = processed.tx.Fee
-    ? localizeNumber(
-        Number.parseFloat(processed.tx.Fee) / XRP_BASE,
-        language,
-        numberOptions,
-      )
-    : 0
+  const { node } = data
+  // const numberOptions = { ...CURRENCY_OPTIONS, currency: 'XRP' }
+  // const time = localizeDate(new Date(node.date), language, DATE_OPTIONS)
+  // const ledgerIndex = node.ledger_index
+  // const fee = node.tx.Fee
+  //   ? localizeNumber(
+  //       Number.parseFloat(node.tx.Fee) / XRP_BASE,
+  //       language,
+  //       numberOptions,
+  //     )
+  //   : 0
 
-  const rowIndex = renderRowIndex(
-    time,
-    ledgerIndex,
-    fee,
-    processed.tx.Account,
-    processed.tx.Sequence,
-    processed.tx.TicketSequence,
-    !!processed.tx.EmitDetails,
-  )
+  // const rowIndex = renderRowIndex(
+  //   time,
+  //   ledgerIndex,
+  //   fee,
+  //   node.tx.Account,
+  //   node.tx.Sequence,
+  //   node.tx.TicketSequence,
+  //   !!node.tx.EmitDetails,
+  // )
 
   return (
     <div className="simple-body simple-body-tx">
       <div className="rows">
-        <Simple type={processed.tx.TransactionType} data={data.summary} />
-        {width < BREAKPOINTS.landscape && rowIndex}
+        <Simple type={node.LedgerEntryType} data={data} />
+        {/* {width < BREAKPOINTS.landscape && rowIndex} */}
       </div>
-      {width >= BREAKPOINTS.landscape && (
+      {/* {width >= BREAKPOINTS.landscape && (
         <div className="index">{rowIndex}</div>
-      )}
+      )} */}
       <div className="clear" />
     </div>
   )

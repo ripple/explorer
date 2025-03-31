@@ -6,20 +6,12 @@ import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
-import {
-  NOT_FOUND,
-  BAD_REQUEST,
-  HASH256_REGEX,
-  CTID_REGEX,
-} from '../shared/utils'
+import { NOT_FOUND, BAD_REQUEST, HASH256_REGEX } from '../shared/utils'
 import { SimpleTab } from './SimpleTab'
 import './entry.scss'
-import { AnalyticsFields, useAnalytics } from '../shared/analytics'
+import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
-import { TxStatus } from '../shared/components/TxStatus'
-import { getAction, getCategory } from '../shared/components/Transaction'
 import { buildPath, useRouteParams } from '../shared/routing'
-import { SUCCESSFUL_TRANSACTION } from '../shared/transactionUtils'
 import { ENTRY_ROUTE } from '../App/routes'
 import { JsonView } from '../shared/components/JsonView'
 import { getLedgerEntry } from '../../rippled/lib/rippled'
@@ -52,12 +44,13 @@ export const Entry = () => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { trackException, trackScreenLoaded } = useAnalytics()
+
   const { isLoading, data, error, isError } = useQuery(['entry', id], () => {
     if (id === '') {
       return undefined
     }
-    if (HASH256_REGEX.test(id) || CTID_REGEX.test(id)) {
-      return getLedgerEntry(rippledSocket, { index: id }).catch(
+    if (HASH256_REGEX.test(id)) {
+      return getLedgerEntry(rippledSocket, id).catch(
         (ledgerEntryRequestError) => {
           const status = ledgerEntryRequestError.code
           trackException(
@@ -76,40 +69,22 @@ export const Entry = () => {
   const { width } = useWindowSize()
 
   useEffect(() => {
-    if (!data?.processed) return
+    trackScreenLoaded()
 
-    const type = data?.processed.tx.TransactionType
-    const status = data?.processed.meta.TransactionResult
-
-    const transactionProperties: AnalyticsFields = {
-      transaction_action: getAction(type),
-      transaction_category: getCategory(type),
-      transaction_type: type,
+    return () => {
+      window.scrollTo(0, 0)
     }
-
-    if (status !== SUCCESSFUL_TRANSACTION) {
-      transactionProperties.tec_code = status
-    }
-
-    trackScreenLoaded(transactionProperties)
-  }, [id, data?.processed, tab, trackScreenLoaded])
+  }, [tab, trackScreenLoaded])
 
   function renderSummary() {
-    const type = data?.processed.tx.TransactionType
+    const type = data?.node.LedgerEntryType
     return (
       <div className="summary">
         <div className="type">{type}</div>
-        <TxStatus status={data?.processed.meta.TransactionResult} />
-        <div className="txid" title={data?.processed.hash}>
+        <div className="txid" title={data?.index ?? id}>
           <div className="title">{t('hash')}: </div>
-          {data?.processed.hash}
+          {data?.index}
         </div>
-        {data?.processed.tx.ctid && (
-          <div className="txid" title={data.processed.tx.ctid}>
-            <div className="title">CTID: </div>
-            {data.processed.tx.ctid}
-          </div>
-        )}
       </div>
     )
   }
@@ -120,19 +95,21 @@ export const Entry = () => {
     return <Tabs tabs={tabs} selected={tab} path={mainPath} />
   }
 
-  function renderTransaction() {
+  function renderEntry() {
     if (!data) return undefined
+    console.log('renderEntry', data)
 
     let body
 
     switch (tab) {
       case 'raw':
-        body = <JsonView data={data.raw} />
+        body = <JsonView data={data.node} />
         break
       default:
         body = <SimpleTab data={data} width={width} />
         break
     }
+    console.log(body)
     return (
       <>
         {renderSummary()}
@@ -147,8 +124,8 @@ export const Entry = () => {
   if (isError) {
     const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
-  } else if (data?.processed && data?.processed.hash) {
-    body = renderTransaction()
+  } else if (data != null) {
+    body = renderEntry()
   } else if (!id) {
     body = (
       <NoMatch
