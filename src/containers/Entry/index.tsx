@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { useWindowSize } from 'usehooks-ts'
+import { useNavigate } from 'react-router'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
 import { Tabs } from '../shared/components/Tabs'
@@ -12,7 +13,7 @@ import './entry.scss'
 import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
 import { buildPath, useRouteParams } from '../shared/routing'
-import { ENTRY_ROUTE } from '../App/routes'
+import { ACCOUNT_ROUTE, ENTRY_ROUTE } from '../App/routes'
 import { JsonView } from '../shared/components/JsonView'
 import { getLedgerEntry } from '../../rippled/lib/rippled'
 
@@ -38,6 +39,7 @@ export const Entry = () => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { trackException, trackScreenLoaded } = useAnalytics()
+  const navigate = useNavigate()
 
   const { isLoading, data, error, isError } = useQuery(['entry', id], () => {
     if (id === '') {
@@ -122,6 +124,10 @@ export const Entry = () => {
     const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
   } else if (data?.index != null) {
+    if (data.node.LedgerEntryType === 'AccountRoot') {
+      const path = buildPath(ACCOUNT_ROUTE, { id: data.node.Account })
+      navigate(path)
+    }
     body = renderEntry()
   } else if (!id) {
     body = (
