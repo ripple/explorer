@@ -565,5 +565,13 @@
   "expiration": "Expiration",
   "domain_id": "Domain ID",
   "accepted_credentials": "Accepted Credentials",
-  "expected_date": "Expected Date"
+  "prev_ledger_index": "Previous Ledger Index",
+  "prev_tx_id": "Previous Modifying Transaction",
+  "entry_not_found": "Entry not found",
+  "entry_empty_title": "No entry hash supplied",
+  "entry_empty_hint": "Enter a entry hash in the search box",
+  "check_entry_id": "Please check your entry ID.",
+  "entry_short": "Entry",
+  "entry": "Entry",
+  "invalid_entry_id": "The entry ID is invalid"
 }

@@ -16,20 +16,14 @@ import { ENTRY_ROUTE } from '../App/routes'
 import { JsonView } from '../shared/components/JsonView'
 import { getLedgerEntry } from '../../rippled/lib/rippled'
 
-const WRONG_NETWORK = 406
-
 const ERROR_MESSAGES: Record<string, { title: string; hints: string[] }> = {}
 ERROR_MESSAGES[NOT_FOUND] = {
-  title: 'transaction_not_found',
-  hints: ['server_ledgers_hint', 'check_transaction_hash'],
+  title: 'entry_not_found',
+  hints: ['check_entry_id'],
 }
 ERROR_MESSAGES[BAD_REQUEST] = {
-  title: 'invalid_transaction_hash',
-  hints: ['check_transaction_hash'],
-}
-ERROR_MESSAGES[WRONG_NETWORK] = {
-  title: 'wrong_network',
-  hints: ['check_transaction_hash'],
+  title: 'invalid_entry_id',
+  hints: ['check_entry_id'],
 }
 ERROR_MESSAGES.default = {
   title: 'generic_error',
@@ -129,15 +123,15 @@ export const Entry = () => {
   } else if (!id) {
     body = (
       <NoMatch
-        title="transaction_empty_title"
-        hints={['transaction_empty_hint']}
+        title="entry_empty_title"
+        hints={['entry_empty_hint']}
         isError={false}
       />
     )
   }
   return (
-    <div className="transaction">
-      <Helmet title={`${t('transaction_short')} ${id.substring(0, 8)}...`} />
+    <div className="entry">
+      <Helmet title={`${t('entry_short')} ${id.substring(0, 8)}...`} />
       {isLoading && <Loader />}
       {body}
     </div>
