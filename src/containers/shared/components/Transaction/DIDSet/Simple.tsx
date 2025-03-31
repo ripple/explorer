@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next'
+import type { DIDSet } from 'xrpl'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
-import { DIDSet } from './types'
 
 const Simple: TransactionSimpleComponent = (
   props: TransactionSimpleProps<DIDSet>,
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { URI, DIDDocument, Attestation } = data.instructions
+  const { URI, DIDDocument, Data } = data.instructions
 
   return (
     <>
@@ -23,9 +23,9 @@ const Simple: TransactionSimpleComponent = (
           {convertHexToString(DIDDocument)}
         </SimpleRow>
       )}
-      {Attestation && (
-        <SimpleRow label={t('attestation')} data-test="attestation">
-          {convertHexToString(Attestation)}
+      {Data && (
+        <SimpleRow label={t('data')} data-test="data">
+          {convertHexToString(Data)}
         </SimpleRow>
       )}
     </>
