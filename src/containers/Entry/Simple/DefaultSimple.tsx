@@ -183,7 +183,6 @@ export interface EntrySimpleProps<I = any> {
 }
 
 export const DefaultSimple = ({ data }: EntrySimpleProps) => {
-  console.log(data)
   const uniqueData = Object.fromEntries(
     Object.entries(data.node).filter(
       ([key, value]) => !DEFAULT_ENTRY_ELEMENTS.includes(key) && value != null,

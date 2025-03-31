@@ -97,7 +97,6 @@ export const Entry = () => {
 
   function renderEntry() {
     if (!data) return undefined
-    console.log('renderEntry', data)
 
     let body
 
@@ -109,7 +108,6 @@ export const Entry = () => {
         body = <SimpleTab data={data} width={width} />
         break
     }
-    console.log(body)
     return (
       <>
         {renderSummary()}
