@@ -1,6 +1,6 @@
 @use '../shared/css/variables' as *;
 
-.transaction {
+.entry {
   position: relative;
   max-width: 912px;
   min-height: 600px;
@@ -35,7 +35,7 @@
       @include bold;
     }
 
-    .txid {
+    .id {
       .title {
         @include semibold;
       }

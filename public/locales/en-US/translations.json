@@ -573,5 +573,6 @@
   "check_entry_id": "Please check your entry ID.",
   "entry_short": "Entry",
   "entry": "Entry",
-  "invalid_entry_id": "The entry ID is invalid"
+  "invalid_entry_id": "The entry ID is invalid",
+  "id": "ID"
 }

@@ -76,8 +76,11 @@ export const Entry = () => {
       <div className="summary">
         <div className="type">{type}</div>
         {data?.deleted_ledger_index && 'DELETED'}
-        <div className="txid" title={data?.index ?? id}>
-          <div className="title">{t('hash')}: </div>
+        <div className="id" title={data?.index ?? id}>
+          <div className="title">
+            {t('id')}
+            {': '}{' '}
+          </div>
           {data?.index}
         </div>
       </div>
