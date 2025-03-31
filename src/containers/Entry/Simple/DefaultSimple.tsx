@@ -5,7 +5,6 @@ import { Amount } from '../../shared/components/Amount'
 import Currency from '../../shared/components/Currency'
 import { SimpleGroup } from '../../shared/components/Transaction/SimpleGroup'
 import { SimpleRow } from '../../shared/components/Transaction/SimpleRow'
-import { TransactionSimpleProps } from '../../shared/components/Transaction/types'
 
 const DEFAULT_ENTRY_ELEMENTS = [
   'Account',
@@ -16,6 +15,7 @@ const DEFAULT_ENTRY_ELEMENTS = [
   'PreviousTxnLgrSeq',
   'Flags',
   'LedgerIndex',
+  'OwnerNode',
 ]
 
 const displayKey = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1 $2')

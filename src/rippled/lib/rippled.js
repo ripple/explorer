@@ -76,11 +76,12 @@ const getLedger = (rippledSocket, parameters) => {
 }
 
 // get ledger_entry
-const getLedgerEntry = (rippledSocket, index) => {
+const getLedgerEntry = (rippledSocket, index, includeDeleted = false) => {
   const request = {
     command: 'ledger_entry',
     index,
     ledger_index: 'validated',
+    include_deleted: includeDeleted,
   }
 
   return query(rippledSocket, request).then((resp) => {

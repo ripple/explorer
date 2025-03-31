@@ -50,7 +50,7 @@ export const Entry = () => {
       return undefined
     }
     if (HASH256_REGEX.test(id)) {
-      return getLedgerEntry(rippledSocket, id).catch(
+      return getLedgerEntry(rippledSocket, id, true).catch(
         (ledgerEntryRequestError) => {
           const status = ledgerEntryRequestError.code
           trackException(
@@ -81,6 +81,7 @@ export const Entry = () => {
     return (
       <div className="summary">
         <div className="type">{type}</div>
+        {data?.deleted_ledger_index && 'DELETED'}
         <div className="txid" title={data?.index ?? id}>
           <div className="title">{t('hash')}: </div>
           {data?.index}
