@@ -12,7 +12,7 @@ import { useLanguage } from '../../../shared/hooks'
 import { RouteLink } from '../../../shared/routing'
 import { ENTRY_ROUTE } from '../../../App/routes'
 
-const renderDefault = (t, action, node, index) => (
+const renderDefault = (action, node, index) => (
   <li key={`${node.LedgerEntryType}_${index}`} className="meta-line">
     <Trans
       i18nKey="node_meta_type"
@@ -20,7 +20,7 @@ const renderDefault = (t, action, node, index) => (
       components={{
         Link: (
           <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
-            {/* The inner text will be replaced by the content of <Link></Link> in the JSON */}
+            {/* The inner text will be replaced by the content of <Link></Link> in translations.json */}
           </RouteLink>
         ),
       }}
@@ -51,7 +51,7 @@ export const TransactionMeta: FC<{ data: any }> = ({ data }) => {
         case 'MPToken':
           return renderMPToken(t, language, action, node, index)
         default:
-          return renderDefault(t, action, node, index)
+          return renderDefault(action, node, index)
       }
     })
 

@@ -116,7 +116,6 @@ export const Entry = () => {
       </>
     )
   }
-  console.log(data, isError, error)
 
   let body
 
