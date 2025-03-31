@@ -11,8 +11,15 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const { data } = props
-  const { amount, destination, condition, finishAfter, cancelAfter } =
-    data.instructions
+  const {
+    amount,
+    destination,
+    condition,
+    finishAfter,
+    cancelAfter,
+    finishFunction,
+    escrowData,
+  } = data.instructions
   const caDate = cancelAfter
     ? localizeDate(new Date(cancelAfter), language, DATE_OPTIONS)
     : null
@@ -43,6 +50,19 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       {finishAfter && (
         <SimpleRow label={t('finish_after')}>
           {faDate} {DATE_OPTIONS.timeZone}
+        </SimpleRow>
+      )}
+      {finishFunction && (
+        <SimpleRow
+          label={t('finish_function')}
+          data-test="escrow-finish-function"
+        >
+          {finishFunction}
+        </SimpleRow>
+      )}
+      {escrowData && (
+        <SimpleRow label={t('data')} data-test="escrow-data">
+          {escrowData}
         </SimpleRow>
       )}
     </>
