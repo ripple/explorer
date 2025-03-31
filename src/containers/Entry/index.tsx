@@ -13,7 +13,7 @@ import './entry.scss'
 import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
 import { buildPath, useRouteParams } from '../shared/routing'
-import { ACCOUNT_ROUTE, ENTRY_ROUTE } from '../App/routes'
+import { ACCOUNT_ROUTE, ENTRY_ROUTE, MPT_ROUTE } from '../App/routes'
 import { JsonView } from '../shared/components/JsonView'
 import { getLedgerEntry } from '../../rippled/lib/rippled'
 
@@ -125,6 +125,10 @@ export const Entry = () => {
   } else if (data?.index != null) {
     if (data.node.LedgerEntryType === 'AccountRoot') {
       const path = buildPath(ACCOUNT_ROUTE, { id: data.node.Account })
+      navigate(path)
+    }
+    if (data.node.LedgerEntryType === 'MPTokenIssuance') {
+      const path = buildPath(MPT_ROUTE, { id: data.node.mpt_issuance_id })
       navigate(path)
     }
     body = renderEntry()

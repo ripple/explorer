@@ -5,6 +5,8 @@ import { Amount } from '../../Amount'
 import { NFTokenAcceptOfferInstructions } from './types'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { NFTokenLink } from '../../NFTokenLink'
+import { ENTRY_ROUTE } from '../../../../App/routes'
+import { RouteLink } from '../../../routing'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -16,7 +18,9 @@ export const Simple: TransactionSimpleComponent = ({
     <>
       {acceptedOfferIDs.map((offer) => (
         <SimpleRow label={t('offer_index')} className="dt" data-test="offer-id">
-          {offer}
+          <RouteLink to={ENTRY_ROUTE} params={{ id: offer }}>
+            {offer}
+          </RouteLink>
         </SimpleRow>
       ))}
       {amount && seller && buyer && tokenID && (
