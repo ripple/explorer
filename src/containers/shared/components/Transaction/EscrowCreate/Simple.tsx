@@ -56,6 +56,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         <SimpleRow
           label={t('finish_function')}
           data-test="escrow-finish-function"
+          className="text-truncate"
         >
           {finishFunction}
         </SimpleRow>
