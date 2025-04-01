@@ -1,7 +1,7 @@
 {
   "tx": {
     "Account": "rsMvgKpm7cb5TMxt9XRGBXyyVWToBnDTBn",
-    "Attestation": "617474657374",
+    "Data": "617474657374",
     "DIDDocument": "646F63",
     "Fee": "10",
     "Flags": 2147483648,
@@ -21,7 +21,7 @@
           "LedgerIndex": "6DB3D8D5B4D76A0BCC1F009759D6FB80F32148194FF7F118B53C6141496F5EA1",
           "NewFields": {
             "Account": "rsMvgKpm7cb5TMxt9XRGBXyyVWToBnDTBn",
-            "Attestation": "617474657374",
+            "Data": "617474657374",
             "DIDDocument": "646F63",
             "URI": "6469645F6578616D706C65"
           }

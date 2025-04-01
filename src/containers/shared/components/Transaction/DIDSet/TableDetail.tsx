@@ -7,7 +7,7 @@ export const TableDetail = ({
   instructions,
 }: TransactionTableDetailProps<DIDSet>) => {
   const { t } = useTranslation()
-  const { URI, DIDDocument } = instructions
+  const { URI, DIDDocument, Data } = instructions
   return (
     <div className="didSet">
       {URI && (
@@ -16,12 +16,18 @@ export const TableDetail = ({
           <span className="case-sensitive">{convertHexToString(URI)}</span>
         </div>
       )}
-      {URI && (
+      {DIDDocument && (
         <div className="did-document">
           <span className="label">{t('did_document')}: </span>
           <span className="case-sensitive">
             {convertHexToString(DIDDocument)}
           </span>
+        </div>
+      )}
+      {Data && (
+        <div className="data">
+          <span className="label">{t('data')}: </span>
+          <span className="case-sensitive">{convertHexToString(Data)}</span>
         </div>
       )}
     </div>
