@@ -72,6 +72,21 @@ export const Entry = () => {
     }
   }, [tab, trackScreenLoaded])
 
+  useEffect(() => {
+    if (id != null && data?.index != null) {
+      if (data.node.LedgerEntryType === 'AccountRoot') {
+        const path = buildPath(ACCOUNT_ROUTE, { id: data.node.Account })
+        navigate(path)
+      } else if (data.node.LedgerEntryType === 'MPTokenIssuance') {
+        const path = buildPath(MPT_ROUTE, { id: data.node.mpt_issuance_id })
+        navigate(path)
+      } else if (data.node.LedgerEntryType === 'AMM') {
+        const path = buildPath(ACCOUNT_ROUTE, { id: data.node.Account })
+        navigate(path)
+      }
+    }
+  }, [id, data, navigate])
+
   function renderSummary() {
     const type = data?.node.LedgerEntryType
     return (
@@ -123,14 +138,6 @@ export const Entry = () => {
     const message = getErrorMessage(error)
     body = <NoMatch title={message.title} hints={message.hints} />
   } else if (data?.index != null) {
-    if (data.node.LedgerEntryType === 'AccountRoot') {
-      const path = buildPath(ACCOUNT_ROUTE, { id: data.node.Account })
-      navigate(path)
-    }
-    if (data.node.LedgerEntryType === 'MPTokenIssuance') {
-      const path = buildPath(MPT_ROUTE, { id: data.node.mpt_issuance_id })
-      navigate(path)
-    }
     body = renderEntry()
   } else if (!id) {
     body = (
