@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
+import type { DIDSet } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
-import { DIDSet } from './types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 
 export const TableDetail = ({
