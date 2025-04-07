@@ -17,6 +17,7 @@ module.exports = {
   moduleNameMapper: {
     'd3-hexbin': '<rootDir>/node_modules/d3-hexbin/build/d3-hexbin.min.js',
     d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
+    '^node:stream$': 'stream',
   },
   clearMocks: true,
   resetMocks: true,
@@ -34,19 +35,8 @@ module.exports = {
     '!testUtils/*',
   ],
   coverageThreshold: {
-    global: {
-      branches: 70,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
+    global: { branches: 70, functions: 80, lines: 80, statements: 80 },
   },
   coverageReporters: ['text', 'text-summary', 'html'],
-  globals: {
-    'ts-jest': {
-      diagnostics: {
-        warnOnly: true,
-      },
-    },
-  },
+  globals: { 'ts-jest': { diagnostics: { warnOnly: true } } },
 }
