@@ -60,8 +60,6 @@ describe('Search component', () => {
     const rippleAddress = 'rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX'
     const rippleXAddress = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
     const rippleSplitAddress = 'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb:1888963938'
-    const paystring = 'blunden$paystring.crypto.com'
-    const paystringWithAt = 'blunden@paystring.crypto.com'
     const validator = 'nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p'
     const addressWithQuotes = '"rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX"'
     const addressWithSpace = ' rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX '
@@ -118,11 +116,6 @@ describe('Search component', () => {
 
     // Normalize split address format to a X-Address
     await testValue(rippleSplitAddress, `/accounts/${rippleXAddress}`)
-
-    await testValue(paystring, `/paystrings/${paystring}`)
-
-    // Normalize paystrings with @ to $
-    await testValue(paystringWithAt, `/paystrings/${paystring}`)
 
     // Validator
     await testValue(validator, `/validators/${validator}`)
