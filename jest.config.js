@@ -17,7 +17,6 @@ module.exports = {
   moduleNameMapper: {
     'd3-hexbin': '<rootDir>/node_modules/d3-hexbin/build/d3-hexbin.min.js',
     d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
-    '^node:stream$': 'stream',
   },
   clearMocks: true,
   resetMocks: true,
