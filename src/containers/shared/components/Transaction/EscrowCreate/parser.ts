@@ -9,5 +9,9 @@ export function parser(tx: EscrowCreate) {
     condition: tx.Condition,
     cancelAfter: tx.CancelAfter ? convertRippleDate(tx.CancelAfter) : undefined,
     finishAfter: tx.FinishAfter ? convertRippleDate(tx.FinishAfter) : undefined,
+    // @ts-expect-error - due to Smart Escrows still being WIP
+    finishFunction: tx.FinishFunction,
+    // @ts-expect-error - due to Smart Escrows still being WIP
+    escrowData: tx.Data,
   }
 }
