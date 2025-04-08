@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run lint:ci
 
@@ -64,7 +64,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run test:ci
         env:
@@ -100,7 +100,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run build
 
@@ -129,6 +129,6 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run build-ts

@@ -102,6 +102,10 @@ $index-width: 324px;
         vertical-align: middle;
         word-break: break-word;
 
+        &.text-truncate {
+          @extend %truncate;
+        }
+
         &.date {
           color: $black-60;
           @include regular;
