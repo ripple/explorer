@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { IssuedCurrency } from '../../types'
+import type { IssuedCurrency } from 'xrpl'
 import { Account } from '../Account'
 import { Amount } from '../Amount'
 import Currency from '../Currency'

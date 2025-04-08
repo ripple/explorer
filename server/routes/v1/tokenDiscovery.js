@@ -36,7 +36,7 @@ async function getAccountInfo(issuer, currencyCode) {
   const domain = info.Domain
     ? Buffer.from(info.Domain, 'hex').toString()
     : undefined
-  return { domain, gravatar: info.urlgravatar, obligations }
+  return { domain, obligations }
 }
 
 async function getExchangeRate(issuer, currencyCode) {
@@ -101,11 +101,10 @@ async function getTokensList() {
       // eslint-disable-next-line no-await-in-loop -- okay here, helps run slower so we don't get rate limited
       const [accountInfo, exchangeRate] = await Promise.all(promises)
 
-      const { domain, gravatar, obligations } = accountInfo
+      const { domain, obligations } = accountInfo
       const newInfo = {
         ...rankedTokens[i],
         domain,
-        gravatar,
         obligations,
         exchangeRate,
       }
