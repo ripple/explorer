@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { isValidClassicAddress, isValidXAddress } from 'ripple-address-codec'
@@ -37,7 +37,7 @@ export const AccountHeader = ({
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
-  const { trackException, trackScreenLoaded } = useAnalytics()
+  const { trackException } = useAnalytics()
 
   const { data: accountState, isLoading } = useQuery(
     ['accountState', accountId],
