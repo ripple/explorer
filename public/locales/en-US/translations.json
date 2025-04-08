@@ -565,6 +565,6 @@
   "expiration": "Expiration",
   "domain_id": "Domain ID",
   "accepted_credentials": "Accepted Credentials",
-  "finish_function": "Finish Function",
-  "data": "Data"
+  "data": "Data",
+  "finish_function": "Finish Function"
 }

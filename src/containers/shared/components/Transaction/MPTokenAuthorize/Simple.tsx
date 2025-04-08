@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import type { MPTokenAuthorize } from 'xrpl'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
-import { MPTokenAuthorize } from './types'
 import { Account } from '../../Account'
 import { MPTokenLink } from '../../MPTokenLink'
 
