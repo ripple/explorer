@@ -296,12 +296,6 @@ describe('App container', () => {
           event: 'screen_view',
           network: 'mainnet',
         },
-        {
-          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
-          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
-          event: 'screen_view',
-          network: 'mainnet',
-        },
       ])
     })
   })
@@ -338,12 +332,6 @@ describe('App container', () => {
           event: 'screen_view',
           network: 'mainnet',
         },
-        {
-          page_path: '/accounts/r35jYntLwkrbc3edisgavDbEdNRSKgcQE6#ssss',
-          page_title: `xrpl_explorer | r35jYntLwkrb...`,
-          event: 'screen_view',
-          network: 'mainnet',
-        },
       ])
       expect(mockGetAccountInfo).toBeCalledWith(
         expect.anything(),
@@ -358,13 +346,6 @@ describe('App container', () => {
     return new Promise((r) => setTimeout(r, 10)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | XVVFXHFdehYh...`)
       expect(window.dataLayer).toEqual([
-        {
-          page_path:
-            '/accounts/XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG#ssss',
-          page_title: `xrpl_explorer | XVVFXHFdehYh...`,
-          event: 'screen_view',
-          network: 'mainnet',
-        },
         {
           page_path:
             '/accounts/XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG#ssss',
@@ -426,12 +407,6 @@ describe('App container', () => {
     return new Promise((r) => setTimeout(r, 10)).then(() => {
       expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
       expect(window.dataLayer).toEqual([
-        {
-          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
-          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
-          event: 'screen_view',
-          network: 'mainnet',
-        },
         {
           page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
           page_title: 'xrpl_explorer | rKV8HEL3vLc6...',

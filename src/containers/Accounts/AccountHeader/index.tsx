@@ -60,10 +60,6 @@ export const AccountHeader = ({
     },
   )
 
-  useEffect(() => {
-    trackScreenLoaded()
-  }, [trackScreenLoaded])
-
   function renderBalancesSelector(data: AccountState) {
     const { balances = {} } = data
     return (
