@@ -1,4 +1,4 @@
-import { SignerListSet } from '../../containers/shared/components/Transaction/SignerListSet/types'
+import type { SignerListSet } from 'xrpl'
 
 export const formatSignerList = (data: SignerListSet) => ({
   quorum: data.SignerQuorum,
