@@ -27,7 +27,6 @@ module.exports = {
     '!src/i18n/*',
     '!src/setupTests.js',
     '!src/setupProxy.js',
-    '!src/rootReducer.js',
     '!src/registerServiceWorker.js',
     '!src/containers/shared/images/*',
     '!src/containers/test/*',
@@ -35,19 +34,8 @@ module.exports = {
     '!testUtils/*',
   ],
   coverageThreshold: {
-    global: {
-      branches: 70,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
+    global: { branches: 70, functions: 80, lines: 80, statements: 80 },
   },
   coverageReporters: ['text', 'text-summary', 'html'],
-  globals: {
-    'ts-jest': {
-      diagnostics: {
-        warnOnly: true,
-      },
-    },
-  },
+  globals: { 'ts-jest': { diagnostics: { warnOnly: true } } },
 }

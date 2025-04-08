@@ -1,26 +1,9 @@
-import type { TransactionMetadata } from 'xrpl'
-import type { Memo } from 'xrpl/dist/npm/models/common'
-
-export interface IssuedCurrency {
-  currency: string
-  issuer: string
-}
-
-export interface XRP {
-  currency: 'XRP'
-  issuer: never
-}
-
-export type Currency = IssuedCurrency | XRP
-
-export interface IssuedCurrencyAmount extends IssuedCurrency {
-  value: string
-}
-
-export interface MPTAmount {
-  mpt_issuance_id: string
-  value: string
-}
+import type {
+  TransactionMetadata,
+  Memo,
+  IssuedCurrencyAmount,
+  MPTAmount,
+} from 'xrpl'
 
 export type Amount = IssuedCurrencyAmount | MPTAmount | string
 

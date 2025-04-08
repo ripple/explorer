@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import type { SignerListSet } from 'xrpl'
 import { Account } from '../../Account'
 import { TransactionDescriptionProps } from '../types'
-import { SignerListSet } from './types'
 
 export const Description = ({
   data,

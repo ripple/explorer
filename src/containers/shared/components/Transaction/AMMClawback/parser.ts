@@ -1,5 +1,5 @@
+import type { AMMClawback } from 'xrpl'
 import { findAssetAmount } from '../../../metaParser'
-import { AMMClawback } from './types'
 
 export function parser(tx: AMMClawback, meta: any) {
   const account = tx.Account
