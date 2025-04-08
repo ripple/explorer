@@ -1,9 +1,7 @@
+import type { XChainAddClaimAttestation } from 'xrpl'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { TransactionParser } from '../types'
-import {
-  XChainAddClaimAttestation,
-  XChainAddClaimAttestationInstructions,
-} from './types'
+import { XChainAddClaimAttestationInstructions } from './types'
 
 export const parser: TransactionParser<
   XChainAddClaimAttestation,

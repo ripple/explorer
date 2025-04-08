@@ -9,7 +9,7 @@ describe('DIDSet: Simple', () => {
     const wrapper = createWrapper(DIDSet)
     expectSimpleRowText(wrapper, 'uri', 'did_example')
     expectSimpleRowText(wrapper, 'did-document', 'doc')
-    expectSimpleRowText(wrapper, 'attestation', 'attest')
+    expectSimpleRowText(wrapper, 'data', 'attest')
     wrapper.unmount()
   })
 })

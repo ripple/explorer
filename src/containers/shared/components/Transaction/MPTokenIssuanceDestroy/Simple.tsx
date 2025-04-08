@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import type { MPTokenIssuanceDestroy } from 'xrpl'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
-import { MPTokenIssuanceDestroy } from './types'
 import { MPTokenLink } from '../../MPTokenLink'
 
 export const Simple: TransactionSimpleComponent = ({

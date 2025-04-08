@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next'
 import { encodeNodePublic } from 'ripple-address-codec'
 
 import { hexToBytes } from '@xrplf/isomorphic/utils'
+import type { UNLModify } from 'xrpl'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleProps } from '../types'
-import { UNLModify } from './types'
 import { RouteLink } from '../../../routing'
 import { VALIDATOR_ROUTE } from '../../../../App/routes'
 
