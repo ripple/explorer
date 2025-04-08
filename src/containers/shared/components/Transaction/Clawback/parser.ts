@@ -1,4 +1,5 @@
-import { Clawback, ClawbackInstructions } from './types'
+import type { Clawback } from 'xrpl'
+import { ClawbackInstructions } from './types'
 import { TransactionParser } from '../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import {

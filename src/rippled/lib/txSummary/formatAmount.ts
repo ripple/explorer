@@ -1,8 +1,5 @@
-import {
-  Amount,
-  ExplorerAmount,
-  MPTAmount,
-} from '../../../containers/shared/types'
+import type { MPTAmount } from 'xrpl'
+import { Amount, ExplorerAmount } from '../../../containers/shared/types'
 import { XRP_BASE } from '../utils'
 
 export const isMPTAmount = (amount: Amount): amount is MPTAmount =>
