@@ -565,6 +565,8 @@
   "expiration": "Expiration",
   "domain_id": "Domain ID",
   "accepted_credentials": "Accepted Credentials",
+  "data": "Data",
+  "finish_function": "Finish Function",
   "prev_ledger_index": "Previous Ledger Index",
   "prev_tx_id": "Previous Modifying Transaction",
   "entry_not_found": "Entry not found",

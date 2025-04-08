@@ -275,7 +275,7 @@ const getAccountPaychannels = async (
         return getChannels(resp.marker)
       }
 
-      return null
+      return undefined
     })
 
   await getChannels()
@@ -288,7 +288,7 @@ const getAccountPaychannels = async (
         channels,
         total_available: remaining / XRP_BASE,
       }
-    : null
+    : undefined
 }
 
 // get account escrows

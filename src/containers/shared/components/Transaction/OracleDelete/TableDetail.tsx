@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
+import type { OracleDelete } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
-import { OracleDelete } from './types'
 
 export const TableDetail = ({
   instructions: tx,

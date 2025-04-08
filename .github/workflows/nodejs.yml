@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.12]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run lint:ci
 
@@ -48,7 +48,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.12]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -72,7 +72,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run test:ci
         env:
@@ -88,7 +88,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.12]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -112,7 +112,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run build
 
@@ -121,7 +121,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.12]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -145,6 +145,6 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run build-ts
