@@ -2,11 +2,7 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { MemoryRouter } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
-import configureMockStore from 'redux-mock-store'
-import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
 import { XrplClient } from 'xrpl-client'
-import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
@@ -70,7 +66,6 @@ const mockXrplClient = XrplClient
 const mockGetAccountInfo = getAccountInfo
 
 describe('App container', () => {
-  const mockStore = configureMockStore([thunk])
   const createWrapper = (
     path = '/',
     localNetworks = [],
@@ -89,15 +84,12 @@ describe('App container', () => {
       )
     }
 
-    const store = mockStore(initialState)
     return mount(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[path]}>
-          <I18nextProvider i18n={i18n}>
-            <AppWrapper />
-          </I18nextProvider>
-        </MemoryRouter>
-      </Provider>,
+      <MemoryRouter initialEntries={[path]}>
+        <I18nextProvider i18n={i18n}>
+          <AppWrapper />
+        </I18nextProvider>
+      </MemoryRouter>,
     )
   }
 
