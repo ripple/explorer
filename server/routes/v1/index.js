@@ -1,12 +1,8 @@
 const api = require('express').Router()
-const getTokenDiscovery = require('./tokenDiscovery')
 const getHealth = require('./health')
 const getCurrentMetrics = require('./currentMetrics')
 const getTokensSearch = require('./tokens')
 
-if (process.env.VITE_ENVIRONMENT === 'mainnet') {
-  api.use('/token/top', getTokenDiscovery)
-}
 api.use('/healthz', (_req, res) => {
   res.status(200).send('success')
 })
