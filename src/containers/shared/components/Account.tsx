@@ -17,6 +17,7 @@ export const Account = (props: AccountProps) => {
       {link ? (
         <RouteLink
           className="account"
+          data-testid="account"
           title={parts[0]}
           to={ACCOUNT_ROUTE}
           params={{ id: parts[0] }}
@@ -24,11 +25,15 @@ export const Account = (props: AccountProps) => {
           {parts[0]}
         </RouteLink>
       ) : (
-        <span className="account" title={parts[0]}>
+        <span className="account" data-testid="account" title={parts[0]}>
           {parts[0]}
         </span>
       )}
-      {computedTag && <span className="dt">:{computedTag}</span>}
+      {computedTag && (
+        <span className="dt" data-testid="dt">
+          :{computedTag}
+        </span>
+      )}
     </>
   )
 }
