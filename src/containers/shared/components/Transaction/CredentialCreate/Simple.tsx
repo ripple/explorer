@@ -26,16 +26,16 @@ const Simple: TransactionSimpleComponent = (
 
   return (
     <>
-      <SimpleRow label={t('subject')} data-test="subject">
+      <SimpleRow label={t('subject')} data-testid="subject">
         {subject}
       </SimpleRow>
 
-      <SimpleRow label={t('credential_type')} data-test="credential-type">
+      <SimpleRow label={t('credential_type')} data-testid="credential-type">
         {convertHexToString(credentialType)}
       </SimpleRow>
 
       {expiration && (
-        <SimpleRow label={t('expiration')} data-test="expiration">
+        <SimpleRow label={t('expiration')} data-testid="expiration">
           {localizeDate(
             new Date(convertRippleDate(expiration) * MILLIS_PER_SECOND),
             language,
@@ -44,7 +44,7 @@ const Simple: TransactionSimpleComponent = (
         </SimpleRow>
       )}
       {uri && (
-        <SimpleRow label={t('uri')} data-test="uri">
+        <SimpleRow label={t('uri')} data-testid="uri">
           {convertHexToString(uri)}
         </SimpleRow>
       )}

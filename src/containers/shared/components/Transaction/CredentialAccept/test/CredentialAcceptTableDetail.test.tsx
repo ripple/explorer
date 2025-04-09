@@ -8,10 +8,10 @@ describe('CredentialAcceptTableDetail ', () => {
   it('renders CredentialAcceptTableDetail', () => {
     const wrapper = createWrapper(mockCredentialAccept)
 
-    expect(wrapper.find('[data-test="issuer"]')).toHaveText(
+    expect(wrapper.find('[data-testid="issuer"]')).toHaveText(
       'issuer: rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi',
     )
-    expect(wrapper.find('[data-test="credential-type"]')).toHaveText(
+    expect(wrapper.find('[data-testid="credential-type"]')).toHaveText(
       'credential_type: My test credential',
     )
 

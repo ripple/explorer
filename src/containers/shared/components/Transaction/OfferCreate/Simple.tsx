@@ -13,7 +13,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   return (
     <>
       <SimpleRow label={t('price')}>
-        <div className="amount" data-test="amount">
+        <div className="amount" data-testid="amount">
           {`${Number(price)}`}
           <div className="one-line">
             <Currency
@@ -30,14 +30,14 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
           </div>
         </div>
       </SimpleRow>
-      <SimpleRow label={t('buy')} data-test="amount-buy">
+      <SimpleRow label={t('buy')} data-testid="amount-buy">
         <Amount value={pays} />
       </SimpleRow>
-      <SimpleRow label={t('sell')} data-test="amount-sell">
+      <SimpleRow label={t('sell')} data-testid="amount-sell">
         <Amount value={gets} />
       </SimpleRow>
       {cancel && (
-        <SimpleRow label={t('cancel_offer')} data-test="cancel-id">
+        <SimpleRow label={t('cancel_offer')} data-testid="cancel-id">
           #{cancel}
         </SimpleRow>
       )}

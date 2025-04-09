@@ -29,16 +29,16 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
 
   return (
     <>
-      <SimpleRow label={t('escrow')} data-test="escrow-amount">
+      <SimpleRow label={t('escrow')} data-testid="escrow-amount">
         <Amount value={amount} />
       </SimpleRow>
       {destination && (
-        <SimpleRow label={t('destination')} data-test="escrow-destination">
+        <SimpleRow label={t('destination')} data-testid="escrow-destination">
           <Account account={destination} />
         </SimpleRow>
       )}
       {condition && (
-        <SimpleRow label={t('condition')} data-test="escrow-condition">
+        <SimpleRow label={t('condition')} data-testid="escrow-condition">
           {condition}
         </SimpleRow>
       )}
@@ -55,14 +55,14 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       {finishFunction && (
         <SimpleRow
           label={t('finish_function')}
-          data-test="escrow-finish-function"
+          data-testid="escrow-finish-function"
           className="text-truncate"
         >
           {finishFunction}
         </SimpleRow>
       )}
       {escrowData && (
-        <SimpleRow label={t('data')} data-test="escrow-data">
+        <SimpleRow label={t('data')} data-testid="escrow-data">
           {escrowData}
         </SimpleRow>
       )}

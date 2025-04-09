@@ -13,11 +13,11 @@ export const Simple: TransactionSimpleComponent = ({
 
   return (
     <>
-      <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
+      <SimpleRow label={t('token_id')} className="dt" data-testid="token-id">
         <NFTokenLink tokenID={NFTokenID} />
       </SimpleRow>
       {Owner && (
-        <SimpleRow label={t('owner')} data-test="owner">
+        <SimpleRow label={t('owner')} data-testid="owner">
           <Account account={Owner} />
         </SimpleRow>
       )}

@@ -13,14 +13,14 @@ const Simple: TransactionSimpleComponent = (
   return (
     <SimpleRow
       label={t('accepted_credentials')}
-      data-test="accepted-credentials"
+      data-testid="accepted-credentials"
     >
       {acceptedCredentials.map((credential) => (
         <div>
-          <SimpleRow label={t('credential_type')} data-test="cred-type">
+          <SimpleRow label={t('credential_type')} data-testid="cred-type">
             {credential.Credential.CredentialType}
           </SimpleRow>
-          <SimpleRow label={t('credential_issuer')} data-test="cred-issuer">
+          <SimpleRow label={t('credential_issuer')} data-testid="cred-issuer">
             {credential.Credential.Issuer}
           </SimpleRow>
         </div>

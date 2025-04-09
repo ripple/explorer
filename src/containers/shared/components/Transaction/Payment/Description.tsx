@@ -12,7 +12,7 @@ export const Description = ({ data }: TransactionDescriptionProps<Payment>) => {
 
   return (
     <>
-      <div data-test="from-to-line">
+      <div data-testid="from-to-line">
         <Trans
           i18nKey="payment_desc_line_1"
           components={{
@@ -22,17 +22,17 @@ export const Description = ({ data }: TransactionDescriptionProps<Payment>) => {
         />
       </div>
       {data.tx.SourceTag != null && (
-        <div data-test="source-tag-line">
+        <div data-testid="source-tag-line">
           {t('the_source_tag_is')}
           <b>{data.tx.SourceTag}</b>
         </div>
       )}
       {data.tx.DestinationTag != null && (
-        <div data-test="destination-tag-line">
+        <div data-testid="destination-tag-line">
           {t('the_destination_tag_is')} <b>{data.tx.DestinationTag}</b>
         </div>
       )}
-      <div data-test="amount-line">
+      <div data-testid="amount-line">
         {`${t('payment_desc_line_4')}${partial ? ' up to' : ''}`}{' '}
         <b>
           <Amount value={formatAmount(data.tx.Amount)} />
@@ -47,7 +47,7 @@ export const Description = ({ data }: TransactionDescriptionProps<Payment>) => {
         )}
       </div>
       {data?.meta?.delivered_amount && (
-        <div data-test="delivered-line">
+        <div data-testid="delivered-line">
           {t('payment_desc_line_6')}{' '}
           <b>
             <Amount value={formatAmount(data.meta.delivered_amount)} />
