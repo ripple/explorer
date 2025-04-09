@@ -15,6 +15,11 @@ jest.mock('../../../rippled', () => ({
   getToken: jest.fn(),
 }))
 
+jest.mock('../../../rippled', () => ({
+  __esModule: true,
+  getToken: jest.fn(),
+}))
+
 describe('Token container', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 
@@ -29,6 +34,10 @@ describe('Token container', () => {
       </QuickHarness>,
     )
   }
+
+  beforeEach(() => {
+    jest.resetModules()
+  })
 
   it('renders without crashing', () => {
     const wrapper = createWrapper()
