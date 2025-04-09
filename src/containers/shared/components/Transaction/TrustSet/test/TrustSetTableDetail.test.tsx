@@ -1,17 +1,18 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { cleanup } from '@testing-library/react'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockTrustSet from './mock_data/TrustSet.json'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
+const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('TrustSet: TableDetail', () => {
+  afterEach(cleanup)
   it('renders', () => {
-    const wrapper = createWrapper(mockTrustSet)
-    expect(wrapper.find('.label')).toHaveText('Set Trust Limit')
-    expect(wrapper.find('Amount')).toHaveText(
+    const { container } = renderComponent(mockTrustSet)
+    expect(container).toHaveTextContent('Set Trust Limit')
+    expect(container).toHaveTextContent(
       'CN¥1,000,000,000.00 CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA',
     )
-    wrapper.unmount()
   })
 })

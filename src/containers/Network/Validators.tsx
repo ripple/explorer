@@ -107,7 +107,7 @@ export const Validators = () => {
           <Hexagons data={validations} list={vList} />
         </TooltipProvider>
       }
-      <div className="stat">
+      <div className="stat" data-testid="stat">
         <span>{t('validators_found')}: </span>
         <span>
           {localizeNumber(validatorCount, language)}

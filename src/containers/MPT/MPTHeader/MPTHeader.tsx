@@ -63,7 +63,7 @@ export const MPTHeader = (props: Props) => {
     const { issuer } = data!
 
     return (
-      <div className="section mpt-header-container">
+      <div className="section mpt-header-container" data-testid="mpt-header">
         <div className="mpt-info-container">
           <div className="values">
             <div className="title">{t('issuer_address')}</div>
@@ -75,11 +75,11 @@ export const MPTHeader = (props: Props) => {
           </div>
         </div>
         <div className="mpt-bottom-container">
-          <div className="details">
+          <div className="details" title="details">
             <h2>{t('details')}</h2>
             <Details data={data!} />
           </div>
-          <div className="settings">
+          <div className="settings" title="settings">
             <h2 className="title">{t('settings')}</h2>
             <Settings flags={data!.flags!} />
           </div>
@@ -99,6 +99,7 @@ export const MPTHeader = (props: Props) => {
             </div>
             <div
               className="title-content"
+              title="title-content"
               onMouseOver={(e) => showTooltip(e, { tokenId })}
               onFocus={() => {}}
               onMouseLeave={hideTooltip}

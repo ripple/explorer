@@ -149,6 +149,7 @@ export const Map = ({ locations = undefined }: MapProps) => {
               fill={color(bin.length)}
               fillOpacity="1"
               className="node"
+              data-testid="node"
               onMouseOver={() => {
                 setTooltip({
                   count: bin.length,
@@ -165,7 +166,7 @@ export const Map = ({ locations = undefined }: MapProps) => {
           ))}
         </g>
         {tooltip && (
-          <g className="tooltip">
+          <g className="tooltip" data-testid="tooltip">
             <rect
               rx="2"
               ry="2"
@@ -185,7 +186,7 @@ export const Map = ({ locations = undefined }: MapProps) => {
 
   const { width, height } = getDimensions()
   return (
-    <div className="nodes-map" style={{ height }}>
+    <div className="nodes-map" style={{ height }} data-testid="nodes-map">
       {!locations && <Loader />}
       <svg width={propsWidth} height={height}>
         {locations && renderMap(width, height)}

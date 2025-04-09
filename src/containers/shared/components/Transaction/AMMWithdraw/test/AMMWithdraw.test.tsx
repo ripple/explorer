@@ -1,6 +1,7 @@
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowNotToExist,
   expectSimpleRowText,
 } from '../../test'
@@ -9,65 +10,63 @@ import withdrawUSDMock from './mock_data/withdraw_usd.json'
 import withdrawXRPMock from './mock_data/withdraw_xrp.json'
 import withdrawEpriceMock from './mock_data/withdraw_eprice.json'
 
+const renderComponent = createSimpleRenderFactory(Simple)
+
 describe('AMM Withdraw Tests', () => {
-  const createWrapper = createSimpleWrapperFactory(Simple)
+  afterEach(cleanup)
 
   it('renders from transaction', () => {
-    const wrapper = createWrapper(withdrawMock)
-    expectSimpleRowText(wrapper, 'asset1', '\uE9003,666.580862 XRP')
+    renderComponent(withdrawMock)
+    expectSimpleRowText(screen, 'asset1', '\uE9003,666.580862 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'asset2',
       '$4,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
-      wrapper,
+      screen,
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
   })
 
   it('renders transaction from usd only', () => {
-    const wrapper = createWrapper(withdrawUSDMock)
-    expectSimpleRowNotToExist(wrapper, 'asset1')
+    renderComponent(withdrawUSDMock)
+    expectSimpleRowNotToExist(screen, 'asset1')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'asset2',
       '$100.00 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
-      wrapper,
+      screen,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
   })
   it('renders transaction from XRP only', () => {
-    const wrapper = createWrapper(withdrawXRPMock)
-    expectSimpleRowNotToExist(wrapper, 'asset2')
-    expectSimpleRowText(wrapper, 'asset1', '\uE90099.99998 XRP')
+    renderComponent(withdrawXRPMock)
+    expectSimpleRowNotToExist(screen, 'asset2')
+    expectSimpleRowText(screen, 'asset1', '\uE90099.99998 XRP')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
   })
 
   it('renders transaction from eprice', () => {
-    const wrapper = createWrapper(withdrawEpriceMock)
-    expectSimpleRowNotToExist(wrapper, 'asset1')
+    renderComponent(withdrawEpriceMock)
+    expectSimpleRowNotToExist(screen, 'asset1')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'asset2',
       '$1,639.41097028 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
-      wrapper,
+      screen,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
   })
 })

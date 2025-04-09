@@ -35,6 +35,7 @@ export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
       className={`transaction-li anchor-mask tx-type ${tx.type} ${
         success ? 'success' : 'fail'
       }`}
+      title="tx-row"
     >
       <RouteLink
         to={TRANSACTION_ROUTE}
@@ -59,7 +60,7 @@ export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
         <div className="col col-date">{date}</div>
       </div>
       {tx.details && (
-        <div className="details">
+        <div className="details" title="tx-details">
           <TxDetails type={tx.type} instructions={tx.details.instructions} />
         </div>
       )}

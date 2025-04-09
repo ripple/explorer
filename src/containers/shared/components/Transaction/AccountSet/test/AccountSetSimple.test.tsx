@@ -1,6 +1,7 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 import { Simple } from '../Simple'
 import mockAccountSetWithDomain from './mock_data/AccountSetWithDomain.json'
 import mockAccountSetWithClearFlag from './mock_data/AccountSetWithClearFlag.json'
@@ -9,18 +10,18 @@ import mockAccountSetWithMessageKey from './mock_data/AccountSetWithMessageKey.j
 import mockAccountSetWithNFTokenMinter from './mock_data/AccountSetWithNFTokenMinter.json'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('AccountSet: Simple', () => {
+  afterEach(cleanup)
   it('renders tx that sets the domain', () => {
-    const wrapper = createWrapper(mockAccountSetWithDomain)
-    expectSimpleRowLabel(wrapper, 'domain', 'domain')
-    expectSimpleRowText(wrapper, 'domain', 'mduo13.com')
-    wrapper.unmount()
+    renderComponent(mockAccountSetWithDomain)
+    expectSimpleRowLabel(screen, 'domain', 'domain')
+    expectSimpleRowText(screen, 'domain', 'mduo13.com')
   })
 
   it('renders tx that sets the email hash', () => {
-    const wrapper = createWrapper({
+    renderComponent({
       ...mockAccountSetWithDomain,
       tx: {
         ...mockAccountSetWithDomain.tx,
@@ -29,59 +30,53 @@ describe('AccountSet: Simple', () => {
       },
     })
 
-    expectSimpleRowLabel(wrapper, 'email', 'email hash')
-    expectSimpleRowText(wrapper, 'email', '7AC3878BF42A5329698F468A6AAA03B9')
+    expectSimpleRowLabel(screen, 'email', 'email hash')
+    expectSimpleRowText(screen, 'email', '7AC3878BF42A5329698F468A6AAA03B9')
   })
 
   it('renders tx that clears a flag', () => {
-    const wrapper = createWrapper(mockAccountSetWithClearFlag)
-    expectSimpleRowLabel(wrapper, 'clear-flag', 'clear flag')
-    expectSimpleRowText(wrapper, 'clear-flag', 'asfGlobalFreeze')
-    wrapper.unmount()
+    renderComponent(mockAccountSetWithClearFlag)
+    expectSimpleRowLabel(screen, 'clear-flag', 'clear flag')
+    expectSimpleRowText(screen, 'clear-flag', 'asfGlobalFreeze')
   })
 
   it('renders tx that sets a flag', () => {
-    const wrapper = createWrapper(mockAccountSetWithSetFlag)
-    expectSimpleRowLabel(wrapper, 'set-flag', 'set flag')
-    expectSimpleRowText(wrapper, 'set-flag', 'asfRequireDest')
-    wrapper.unmount()
+    renderComponent(mockAccountSetWithSetFlag)
+    expectSimpleRowLabel(screen, 'set-flag', 'set flag')
+    expectSimpleRowText(screen, 'set-flag', 'asfRequireDest')
   })
 
   it('renders tx that clears a flag without a defined flag', () => {
-    const wrapper = createWrapper({
+    renderComponent({
       ...mockAccountSetWithClearFlag,
       tx: { ...mockAccountSetWithClearFlag.tx, ClearFlag: 45 },
     })
-    expectSimpleRowLabel(wrapper, 'clear-flag', 'clear flag')
-    expectSimpleRowText(wrapper, 'clear-flag', '45')
-    wrapper.unmount()
+    expectSimpleRowLabel(screen, 'clear-flag', 'clear flag')
+    expectSimpleRowText(screen, 'clear-flag', '45')
   })
 
   it('renders tx that sets a flag without a defined flag', () => {
-    const wrapper = createWrapper({
+    renderComponent({
       ...mockAccountSetWithSetFlag,
       tx: { ...mockAccountSetWithSetFlag.tx, SetFlag: 45 },
     })
-    expectSimpleRowLabel(wrapper, 'set-flag', 'set flag')
-    expectSimpleRowText(wrapper, 'set-flag', '45')
-    wrapper.unmount()
+    expectSimpleRowLabel(screen, 'set-flag', 'set flag')
+    expectSimpleRowText(screen, 'set-flag', '45')
   })
 
   it('renders tx that sets a message', () => {
-    const wrapper = createWrapper(mockAccountSetWithMessageKey)
-    expectSimpleRowLabel(wrapper, 'message', 'message key')
+    renderComponent(mockAccountSetWithMessageKey)
+    expectSimpleRowLabel(screen, 'message', 'message key')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'message',
       '020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA',
     )
-    wrapper.unmount()
   })
 
   it('renders tx that sets a minter', () => {
-    const wrapper = createWrapper(mockAccountSetWithNFTokenMinter)
-    expectSimpleRowLabel(wrapper, 'minter', 'NFT Minter')
-    expectSimpleRowText(wrapper, 'minter', 'rXMART8usFd5kABXCayoP6ZfB35b4v43t')
-    wrapper.unmount()
+    renderComponent(mockAccountSetWithNFTokenMinter)
+    expectSimpleRowLabel(screen, 'minter', 'NFT Minter')
+    expectSimpleRowText(screen, 'minter', 'rXMART8usFd5kABXCayoP6ZfB35b4v43t')
   })
 })

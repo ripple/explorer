@@ -1,27 +1,27 @@
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
-import { expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import transactionSuccess from './mock_data/MPTokenIssuanceCreate.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('MPTokenIssuanceCreate', () => {
+  afterEach(cleanup)
   it('handles MPTokenIssuanceCreate simple view ', () => {
-    const wrapper = createWrapper(transactionSuccess)
+    renderComponent(transactionSuccess)
 
     expectSimpleRowText(
-      wrapper,
+      screen,
       'mpt-issuance-id',
       '0000157844C3F3B57A8B579FEE1033CC8E8498729D063617',
     )
-    expectSimpleRowText(wrapper, 'mpt-asset-scale', '2')
-    expectSimpleRowText(wrapper, 'mpt-max-amount', '9223372036854775807')
+    expectSimpleRowText(screen, 'mpt-asset-scale', '2')
+    expectSimpleRowText(screen, 'mpt-max-amount', '9223372036854775807')
     expectSimpleRowText(
-      wrapper,
+      screen,
       'mpt-metadata',
       'https://ipfs.io/ipfs/QmZnjmB9Tk4xaA9E679ytrPXda3beWMLUnMB5RFj1eStLp',
     )
-    expectSimpleRowText(wrapper, 'mpt-fee', '0.010%')
-    wrapper.unmount()
+    expectSimpleRowText(screen, 'mpt-fee', '0.010%')
   })
 })

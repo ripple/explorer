@@ -1,36 +1,33 @@
+import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import mockOfferCreate from './mock_data/OfferCreate.json'
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createRenderFactory'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('OfferCreate: Simple', () => {
+  afterEach(cleanup)
   it('renders with an expiration and offer', () => {
-    const wrapper = createWrapper(mockOfferCreateWithCancel)
-    expect(wrapper.find('[data-testid="amount"] .one-line')).toHaveText(
-      '\uE900 XRP/CSC.rCSC',
-    )
-    expect(wrapper.find('[data-testid="cancel-id"] .value')).toHaveText(
-      '#44866443',
-    )
-    expect(wrapper.find('[data-testid="amount-buy"] .value')).toHaveText(
+    renderComponent(mockOfferCreateWithCancel)
+    expect(screen.getByTestId('price')).toHaveTextContent('\uE900 XRP/CSC.rCSC')
+    expect(screen.getByTestId('cancel-id')).toHaveTextContent('#44866443')
+    expect(screen.getByTestId('amount-buy')).toHaveTextContent(
       `\uE9001,764.293151 XRP`,
     )
-    expect(wrapper.find('[data-testid="amount-sell"] .value')).toHaveText(
+    expect(screen.getByTestId('amount-sell')).toHaveTextContent(
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
-    wrapper.unmount()
   })
 
   it('renders', () => {
-    const wrapper = createWrapper(mockOfferCreate)
+    renderComponent(mockOfferCreate)
 
-    expect(wrapper.find('[data-testid="offer-id"] .value')).not.toExist()
-    expect(wrapper.find('[data-testid="amount-buy"] .value')).toHaveText(
+    expect(screen.queryByTestId('offer-id')).toBeNull()
+    expect(screen.getByTestId('amount-buy')).toHaveTextContent(
       `\uE90024,755.081083 XRP`,
     )
-    expect(wrapper.find('[data-testid="amount-sell"] .value')).toHaveText(
+    expect(screen.getByTestId('amount-sell')).toHaveTextContent(
       `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
     )
   })
