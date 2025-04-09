@@ -57,7 +57,7 @@
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.17.6",
-    "@types/node": "^18.19.33",
+    "@types/node": "^22.14.0",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
@@ -138,7 +138,7 @@
   ],
   "prettier": "@xrplf/prettier-config",
   "engines": {
-    "node": ">=18.0.0 <19",
+    "node": ">=22.0.0 <23",
     "npm": ">=9.0.0 <11.0.0"
   }
 }
