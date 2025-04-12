@@ -1,11 +1,11 @@
-import type { TransactionMetadata } from 'xrpl'
+import type { TransactionMetadata, IssuedCurrencyAmount } from 'xrpl'
 import type {
   CreatedNode,
   DeletedNode,
   ModifiedNode,
   Node,
 } from 'xrpl/dist/npm/models/transactions/metadata'
-import { IssuedCurrencyAmount, Transaction } from './types'
+import { Transaction } from './types'
 import { localizeNumber, CURRENCY_OPTIONS } from './utils'
 
 export const SUCCESSFUL_TRANSACTION = 'tesSUCCESS'

@@ -37,7 +37,9 @@ export type TransactionDescriptionComponent = FC<TransactionDescriptionProps>
 
 export interface TransactionSimpleProps<I = any> {
   data: {
-    instructions: I
+    instructions: I & {
+      date: string
+    }
   }
 }
 export type TransactionSimpleComponent = FC<TransactionSimpleProps>

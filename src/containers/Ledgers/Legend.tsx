@@ -19,7 +19,6 @@ export const Legend = () => {
     useLocalStorage<boolean>(LEGEND_STORAGE_KEY, false)
   const [hidden, setHidden] = useState(previousInteraction)
 
-  // TODO: use global variables when we update places using width from redux.
   // Show legend by default when on desktop sizes
   useQuery(['legend-visibility', windowSize.width, previousInteraction], () => {
     if (previousInteraction === false) {

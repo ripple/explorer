@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
 import { TokenHeader } from './TokenHeader'
 import { TokenTransactionTable } from './TokenTransactionTable'
-import { DEXPairs } from './DEXPairs'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
@@ -17,8 +16,6 @@ import { useRouteParams } from '../shared/routing'
 import { getToken } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
 import { Loader } from '../shared/components/Loader'
-
-const IS_MAINNET = process.env.VITE_ENVIRONMENT === 'mainnet'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
@@ -93,9 +90,6 @@ export const Token = () => {
             data={tokenData}
           />
         )
-      )}
-      {accountId && tokenData && IS_MAINNET && (
-        <DEXPairs accountId={accountId} currency={currency} />
       )}
       {accountId && tokenData && (
         <div className="section">

@@ -311,15 +311,6 @@
   "get_account_state_failed": "Impossible de charger l'état du compte",
   "get_account_transactions_failed": "Impossible de charger les transactions du compte",
   "get_account_transactions_try": "Essayer de charger plus de transactions",
-  "resolve_paystring_failed": "Impossible d'utiliser la PayString",
-  "paystring_address_invalid": "(Non conforme)",
-  "paystring_address": "Adresse",
-  "paystring_empty_title": "Aucun PayString n'a été fourni.",
-  "paystring_empty_hint": "Entrez un PayString dans la barre de recherche",
-  "paystring_environment": "Environnement",
-  "paystring_explainer_blurb": "PayString est l'identifiant universel pour les paiements. Il utilise une norme simple et ouverte pour aider les utilisateurs à envoyer et recevoir facilement de l'argent - sur n'importe quel réseau de paiement - en utilisant un seul identifiant.",
-  "paystring_network": "Réseau",
-  "paystring_tag": "Étiquette",
   "pubkey": "clé publique",
   "node_pubkey": "clé publique de nœud",
   "ip": "adresse IP",
@@ -570,5 +561,6 @@
   "expiration": null,
   "domain_id": null,
   "accepted_credentials": null,
-  "action_from_and": null
+  "action_from_and": null,
+  "data": null
 }

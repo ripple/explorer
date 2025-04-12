@@ -1,7 +1,5 @@
-import {
-  MPTokenIssuanceCreate,
-  MPTokenIssuanceCreateInstructions,
-} from './types'
+import type { MPTokenIssuanceCreate } from 'xrpl'
+import { MPTokenIssuanceCreateInstructions } from './types'
 import { TransactionParser } from '../types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 
