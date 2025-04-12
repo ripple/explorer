@@ -1,5 +1,6 @@
 import classnames from 'classnames'
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import { ReactNode, useCallback, useRef, useState } from 'react'
+import { useQuery } from 'react-query'
 import ArrowIcon from '../../images/down_arrow.svg'
 import './dropdown.scss'
 
@@ -43,12 +44,10 @@ export const Dropdown = ({
     document.removeEventListener('click', globalClickListener)
   }, [])
 
-  useEffect(
-    (): (() => void) => () =>
-      // remove listener when cleaning up component
-      document.removeEventListener('click', globalClickListener),
-    [globalClickListener],
-  )
+  useQuery(['dropdown-cleanup', globalClickListener], () => () => {
+    // remove listener when cleaning up component
+    document.removeEventListener('click', globalClickListener)
+  })
 
   const toggleExpand = () => {
     // don't de-expand if clicking in the textbox

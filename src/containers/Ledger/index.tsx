@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -83,9 +83,10 @@ export const Ledger = () => {
     )
   })
 
-  useEffect(() => {
+  useQuery(['screen-load'], () => {
     trackScreenLoaded()
-  }, [trackScreenLoaded])
+    return null
+  })
 
   const renderNav = (data: any) => {
     const { ledger_index: LedgerIndex, ledger_hash: LedgerHash } = data

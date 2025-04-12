@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useContext, useEffect } from 'react'
+import { FC, PropsWithChildren, useContext } from 'react'
 import { useQuery } from 'react-query'
 import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '../../../shared/hooks'
@@ -105,24 +105,24 @@ export const AMMAccounts = () => {
       })
   })
 
-  useEffect(
-    () => () => {
-      window.scrollTo(0, 0)
+  useQuery(
+    ['track-screen-load', data],
+    () => {
+      if (!data) {
+        return null
+      }
+
+      trackScreenLoaded({
+        account_id: data.accountId,
+        asset1: `${hexToString(data.balance.currency)}.${data.balance.issuer}`,
+        asset2: `${hexToString(data.balance2.currency)}.${data.balance2.issuer}`,
+      })
+      return null
     },
-    [],
+    {
+      enabled: !!data,
+    },
   )
-
-  useEffect(() => {
-    if (!data) {
-      return
-    }
-
-    trackScreenLoaded({
-      account_id: data.accountId,
-      asset1: `${hexToString(data.balance.currency)}.${data.balance.issuer}`,
-      asset2: `${hexToString(data.balance2.currency)}.${data.balance2.issuer}`,
-    })
-  }, [data, trackScreenLoaded])
 
   const tabs = ['transactions']
 

@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useContext, useEffect } from 'react'
+import { FC, PropsWithChildren, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Helmet } from 'react-helmet-async'
@@ -60,16 +60,14 @@ export const Token = () => {
     queryFn: () => getToken(currency, accountId, rippledSocket),
   })
 
-  useEffect(() => {
+  useQuery(['screen-load', accountId, currency], () => {
     trackScreenLoaded({
       issuer: accountId,
       currency_code: currency,
     })
-
-    return () => {
-      window.scrollTo(0, 0)
-    }
-  }, [accountId, currency, trackScreenLoaded])
+    window.scrollTo(0, 0)
+    return null
+  })
 
   const renderError = () => {
     const message = getErrorMessage(tokenDataError)

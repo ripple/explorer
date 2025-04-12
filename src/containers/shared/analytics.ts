@@ -1,5 +1,6 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { useLocation } from 'react-router'
+import { useQuery } from 'react-query'
 
 /* eslint-disable camelcase -- GA uses underscores for the names */
 export type AnalyticsEventNames =
@@ -95,7 +96,8 @@ export const useAnalytics = () => {
 export const AnalyticsSetPath = () => {
   const { setGlobals } = useAnalytics()
   const { hash, pathname, search } = useLocation()
-  useEffect(() => {
+
+  useQuery(['analytics-set-path', hash, pathname, search], () => {
     // remove the custom mode's endpoint from the url path
     const url =
       (process.env.VITE_ENVIRONMENT === 'custom'
@@ -107,7 +109,8 @@ export const AnalyticsSetPath = () => {
     setGlobals({
       page_path: url,
     })
-  }, [hash, pathname, search, setGlobals])
+    return null
+  })
 
   return null
 }

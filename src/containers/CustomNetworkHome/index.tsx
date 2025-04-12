@@ -1,6 +1,7 @@
-import { KeyboardEvent, useEffect, useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
 import { useAnalytics } from '../shared/analytics'
@@ -14,9 +15,10 @@ const SidechainHome = () => {
   const [networkText, setNetworkText] = useState('')
   const [customNetworks = []] = useCustomNetworks()
 
-  useEffect(() => {
+  useQuery(['screen-load'], () => {
     trackScreenLoaded()
-  }, [trackScreenLoaded])
+    return null
+  })
 
   function switchMode(desiredLink: string) {
     const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK

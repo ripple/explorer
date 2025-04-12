@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useQuery } from 'react-query'
 import { AccountHeader } from './AccountHeader'
 import { AccountTransactionTable } from './AccountTransactionTable'
 import './styles.scss'
@@ -16,13 +17,11 @@ export const Accounts = () => {
   const [currencySelected, setCurrencySelected] = useState('XRP')
   const mainPath = buildPath(ACCOUNT_ROUTE, { id: accountId })
 
-  useEffect(() => {
+  useQuery(['screen-load', tab], () => {
     trackScreenLoaded()
-
-    return () => {
-      window.scrollTo(0, 0)
-    }
-  }, [tab, trackScreenLoaded])
+    window.scrollTo(0, 0)
+    return null
+  })
 
   const tabs = ['transactions', 'assets']
 
