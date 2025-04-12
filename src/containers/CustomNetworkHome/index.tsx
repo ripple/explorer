@@ -1,13 +1,13 @@
 import { KeyboardEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
 import { useAnalytics } from '../shared/analytics'
 import './index.scss'
 import { useCustomNetworks } from '../shared/hooks'
 import { Header } from '../Header'
-import { useQuery } from 'react-query'
 
 const SidechainHome = () => {
   const { track, trackScreenLoaded } = useAnalytics()

@@ -2,6 +2,7 @@ import { useState, useRef, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import './styles.scss'
+import { useQuery } from 'react-query'
 import { useAnalytics } from '../../shared/analytics'
 import Log from '../../shared/log'
 import { Loader } from '../../shared/components/Loader'
@@ -16,7 +17,6 @@ import Currency from '../../shared/components/Currency'
 import { Pair } from './types'
 import { TOKEN_ROUTE } from '../../App/routes'
 import { RouteLink } from '../../shared/routing'
-import { useQuery } from 'react-query'
 
 // Hard Coded Pairs that we always check for
 const pairsHardCoded = [

@@ -44,11 +44,9 @@ export const Dropdown = ({
     document.removeEventListener('click', globalClickListener)
   }, [])
 
-  useQuery(['dropdown-cleanup', globalClickListener], () => {
-    return () => {
-      // remove listener when cleaning up component
-      document.removeEventListener('click', globalClickListener)
-    }
+  useQuery(['dropdown-cleanup', globalClickListener], () => () => {
+    // remove listener when cleaning up component
+    document.removeEventListener('click', globalClickListener)
   })
 
   const toggleExpand = () => {

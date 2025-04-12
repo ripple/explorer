@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useQuery } from 'react-query'
 import AccountHeader from './AccountHeader'
 import { AccountTransactionTable } from './AccountTransactionTable'
 import './styles.scss'
@@ -8,7 +9,6 @@ import { Tabs } from '../shared/components/Tabs'
 import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
 import { buildPath, useRouteParams } from '../shared/routing'
 import { ACCOUNT_ROUTE } from '../App/routes'
-import { useQuery } from 'react-query'
 
 export const Accounts = () => {
   const { trackScreenLoaded } = useAnalytics()

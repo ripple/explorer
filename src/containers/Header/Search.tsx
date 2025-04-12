@@ -7,6 +7,7 @@ import {
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
+import { useQuery } from 'react-query'
 import CloseIcon from '../shared/images/close.png'
 
 import { useAnalytics } from '../shared/analytics'
@@ -35,7 +36,6 @@ import {
   MPT_ROUTE,
 } from '../App/routes'
 import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSearchResults'
-import { useQuery } from 'react-query'
 
 const determineHashType = async (id: string, rippledContext: XrplClient) => {
   try {

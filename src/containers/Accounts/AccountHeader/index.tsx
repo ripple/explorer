@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { useQuery } from 'react-query'
 import { loadAccountState } from './actions'
 import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
@@ -13,7 +14,6 @@ import InfoIcon from '../../shared/images/info.svg'
 import { useLanguage } from '../../shared/hooks'
 import Currency from '../../shared/components/Currency'
 import DomainLink from '../../shared/components/DomainLink'
-import { useQuery } from 'react-query'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',

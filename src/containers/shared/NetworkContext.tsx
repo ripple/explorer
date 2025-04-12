@@ -40,10 +40,9 @@ export const NetworkProvider = ({
     async () => {
       if (initialNetworkName == null && rippledUrl) {
         try {
-          const resp = await axios.get(
+          const { data } = await axios.get(
             `${process.env.VITE_DATA_URL}/get_network/${rippledUrl}`,
           )
-          const data = resp.data
           setNetworkName(
             data.result && data.result === 'error' ? null : data.network,
           )
