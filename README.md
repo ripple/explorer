@@ -84,5 +84,5 @@ When updating translation entires or adding new languages consult the guide [Tra
 ## React Documentation
 
 - Latest news in [react blog](https://reactjs.org/blog)
-- [React documentation](https://reactjs.org/docs)
+- [React documentation](https://react.dev)
 - [How to think in react](https://reactjs.org/docs/thinking-in-react.html) and break down components
