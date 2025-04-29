@@ -21,7 +21,7 @@ export const FETCH_INTERVAL_MILLIS = 5000
 export const FETCH_INTERVAL_VHS_MILLIS = 60 * 1000 // 1 minute
 export const FETCH_INTERVAL_NODES_MILLIS = 60000
 export const FETCH_INTERVAL_ERROR_MILLIS = 300
-export const FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS = 60 * 1000
+export const FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS = 60 * 1000 // 1 minute
 export const FETCH_INTERVAL_FEE_SETTINGS_MILLIS = 10 * 60 * 1000 // 10 minutes
 
 export const DECIMAL_REGEX = /^\d+$/
@@ -46,6 +46,8 @@ export const GREY_600 = '#656E81'
 export const GREY_800 = '#383D47'
 export const BLACK_600 = '#454549'
 export const MAGENTA_700 = '#B20058'
+
+export const DROPS_TO_XRP_FACTOR = 1000000.0
 
 export const BREAKPOINTS = {
   desktop: 1200,

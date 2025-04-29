@@ -10,9 +10,7 @@ import InfoIcon from '../shared/images/info.svg'
 import { Loader } from '../shared/components/Loader'
 import './css/validatorsTable.scss'
 import { useLanguage } from '../shared/hooks'
-import { renderXRP } from '../shared/utils'
-
-const DROPS_TO_XRP_FACTOR = 1000000
+import { DROPS_TO_XRP_FACTOR, renderXRP } from '../shared/utils'
 
 interface ValidatorsTableProps {
   validators: StreamValidator[]
@@ -59,14 +57,14 @@ export const ValidatorsTable = (props: ValidatorsTableProps) => {
 
   const renderDomain = (domain) => domain && <DomainLink domain={domain} />
 
-  const renderAgreement = (className, d) =>
-    d ? (
+  const renderAgreement = (className, agreement) =>
+    agreement ? (
       <td
-        className={`${className} score ${d.score < 1 ? 'missed' : ''}`}
-        title={t('missed_validations', { count: d.missed })}
+        className={`${className} score ${agreement.score < 1 ? 'missed' : ''}`}
+        title={t('missed_validations', { count: agreement.missed })}
       >
-        {Number.parseFloat(d.score).toFixed(5)}
-        {d.incomplete && <span title={t('incomplete')}>*</span>}
+        {Number.parseFloat(agreement.score).toFixed(5)}
+        {agreement.incomplete && <span title={t('incomplete')}>*</span>}
       </td>
     ) : (
       <td className={`${className} score`} />

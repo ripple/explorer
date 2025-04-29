@@ -82,15 +82,13 @@ export const Validators = () => {
 
   function fetchFeeSettingsData() {
     if (tab === 'voting') {
-      getServerState(rippledSocket)
-        .then((res) => res.state)
-        .then((state) => {
-          setFeeSettings({
-            base_fee: state.validated_ledger.base_fee,
-            reserve_base: state.validated_ledger.reserve_base,
-            reserve_inc: state.validated_ledger.reserve_inc,
-          })
+      getServerState(rippledSocket).then((res) => {
+        setFeeSettings({
+          base_fee: res.state.validated_ledger.base_fee,
+          reserve_base: res.state.validated_ledger.reserve_base,
+          reserve_inc: res.state.validated_ledger.reserve_inc,
         })
+      })
     }
   }
 

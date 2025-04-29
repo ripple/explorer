@@ -498,6 +498,7 @@ const getNegativeUNL = (rippledSocket) =>
     return resp
   })
 
+// get server info
 const getServerInfo = (rippledSocket) =>
   query(rippledSocket, {
     command: 'server_info',
@@ -509,6 +510,7 @@ const getServerInfo = (rippledSocket) =>
     return resp
   })
 
+// gets server state
 const getServerState = (rippledSocket) =>
   query(rippledSocket, {
     command: 'server_state',
