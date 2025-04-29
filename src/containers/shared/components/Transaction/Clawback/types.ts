@@ -1,10 +1,4 @@
-import { TransactionCommonFields } from '../types'
-import { Amount, ExplorerAmount } from '../../../types'
-
-export interface Clawback extends TransactionCommonFields {
-  Amount: Amount
-  MPTokenHolder?: string
-}
+import { ExplorerAmount } from '../../../types'
 
 export interface ClawbackInstructions {
   account: string

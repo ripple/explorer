@@ -39,12 +39,6 @@ export const NFT_ROUTE: RouteDefinition<{
   path: '/nft/:id/:tab?',
 }
 
-export const PAYSTRING_ROUTE: RouteDefinition<{
-  id?: string
-}> = {
-  path: '/paystrings/:id?',
-}
-
 export const TOKEN_ROUTE: RouteDefinition<{
   token: string
 }> = {

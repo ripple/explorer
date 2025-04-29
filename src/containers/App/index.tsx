@@ -18,7 +18,6 @@ import {
   LEDGER_ROUTE,
   LEDGERS_ROUTE,
   NFT_ROUTE,
-  PAYSTRING_ROUTE,
   TOKEN_ROUTE,
   TRANSACTION_ROUTE,
   VALIDATOR_ROUTE,
@@ -34,8 +33,7 @@ import { Ledger } from '../Ledger'
 import { AccountsRouter } from '../Accounts/AccountsRouter'
 import { Transaction } from '../Transactions'
 import { Validator } from '../Validators'
-import { PayString } from '../PayStrings'
-import Token from '../Token'
+import { Token } from '../Token'
 import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
 import { useCustomNetworks } from '../shared/hooks'
@@ -76,7 +74,6 @@ export const AppWrapper = () => {
     [UPGRADE_STATUS_ROUTE, UpgradeStatus],
     [AMENDMENTS_ROUTE, Amendments],
     [VALIDATOR_ROUTE, Validator],
-    [PAYSTRING_ROUTE, PayString],
     [TOKEN_ROUTE, Token],
     [NFT_ROUTE, NFT],
     [AMENDMENT_ROUTE, Amendment],

@@ -1,3 +1,4 @@
+import type { UNLModify } from 'xrpl'
 import {
   TransactionAction,
   TransactionCategory,
@@ -5,7 +6,6 @@ import {
 } from '../types'
 
 import { Simple } from './Simple'
-import { UNLModify } from './types'
 
 export const UNLModifyTransaction: TransactionMapping = {
   Simple,

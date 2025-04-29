@@ -1,4 +1,5 @@
-import { Clawback, ClawbackInstructions } from './types'
+import type { Clawback } from 'xrpl'
+import { ClawbackInstructions } from './types'
 import { TransactionParser } from '../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import {
@@ -14,7 +15,7 @@ export const parser: TransactionParser<Clawback, ClawbackInstructions> = (
   const amount = formatAmount(tx.Amount)
 
   if (amount.isMPT === true) {
-    const holder = tx.MPTokenHolder
+    const holder = tx.Holder
 
     const filteredMptNode = meta.AffectedNodes.filter(
       (node: any) => node.ModifiedNode?.LedgerEntryType === 'MPToken',

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import successIcon from '../../images/success.png'
 import { localizeDate } from '../../utils'
 import '../../css/tooltip.scss'
-import PayStringToolTip from '../../images/paystring_tooltip.svg'
 import { TxStatus } from '../TxStatus'
 import { TxLabel } from '../TxLabel'
 import { useLanguage } from '../../hooks'
@@ -84,13 +83,6 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
 
   const renderNFTId = () => <div className="nft">{data.tokenId}</div>
 
-  const renderPayStringToolTip = () => (
-    <>
-      <PayStringToolTip className="paystring-logo" alt="" />
-      {t('paystring_explainer_blurb')}
-    </>
-  )
-
   const renderMPTId = () => <div className="mpt">{data.tokenId}</div>
 
   const { x, y, mode } = tooltip
@@ -100,7 +92,6 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     tx: renderTxTooltip,
     nUnl: renderNegativeUnlTooltip,
     missing: renderMissingValidators,
-    paystring: renderPayStringToolTip,
     nftId: renderNFTId,
     mptId: renderMPTId,
   }

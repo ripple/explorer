@@ -27,14 +27,12 @@ import {
   HASH192_REGEX,
 } from '../shared/utils'
 import './search.scss'
-import { isValidPayString } from '../../rippled/payString'
 import { getTransaction } from '../../rippled/lib/rippled'
 import { buildPath } from '../shared/routing'
 import {
   ACCOUNT_ROUTE,
   LEDGER_ROUTE,
   NFT_ROUTE,
-  PAYSTRING_ROUTE,
   TOKEN_ROUTE,
   TRANSACTION_ROUTE,
   VALIDATOR_ROUTE,
@@ -96,17 +94,6 @@ const getRoute = async (
     return {
       type: 'accounts',
       path: buildPath(ACCOUNT_ROUTE, { id: normalizeAccount(id) }), // TODO: Consider a new path/page specific to X-addresses
-    }
-  }
-  if (isValidPayString(id) || isValidPayString(id.replace('@', '$'))) {
-    let normalizedId = id
-    if (!isValidPayString(id)) {
-      normalizedId = id.replace('@', '$')
-    }
-
-    return {
-      type: 'paystrings',
-      path: buildPath(PAYSTRING_ROUTE, { id: normalizedId }),
     }
   }
   if (
