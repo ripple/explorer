@@ -6,6 +6,7 @@ export function parser(tx: AMMClawback, meta: any) {
   const holder = tx.Holder
   const amount = findAssetAmount(meta, tx.Asset, tx)
   if (tx.Flags) {
+    // @ts-expect-error - MPT is not being supported for AMM transactions until https://github.com/XRPLF/rippled/pull/5285 is merged
     const amount2 = findAssetAmount(meta, tx.Asset2, tx)
     return {
       amount,

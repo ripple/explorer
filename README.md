@@ -1,3 +1,6 @@
+[![Release](https://img.shields.io/github/v/release/ripple/explorer.svg)](https://github.com/ripple/explorer/releases)
+[![License](https://img.shields.io/github/license/ripple/explorer)](https://github.com/ripple/explorer/blob/staging/LICENSE)
+
 # XRPL Explorer
 
 This repo contains the source code for the block explorer of the XRP Ledger hosted at livenet.xrpl.org.
@@ -84,5 +87,5 @@ When updating translation entires or adding new languages consult the guide [Tra
 ## React Documentation
 
 - Latest news in [react blog](https://reactjs.org/blog)
-- [React documentation](https://reactjs.org/docs)
+- [React documentation](https://react.dev)
 - [How to think in react](https://reactjs.org/docs/thinking-in-react.html) and break down components
