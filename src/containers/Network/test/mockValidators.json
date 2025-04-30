@@ -22,7 +22,10 @@
       "score": 0.98468,
       "missed": 120,
       "incomplete": true
-    }
+    },
+    "base_fee":10,
+    "reserve_base":1000000,
+    "reserve_inc":200000
   },
   {
     "master_key": "nHDaxUL87HiVszvCamVu4A3Gecq6LTxKkUVNdzf3nqmuSywgRqu4",
@@ -47,7 +50,10 @@
       "score": 0.98,
       "missed": 1,
       "incomplete": true
-    }
+    },
+    "base_fee": 200,
+    "reserve_base": 1000000,
+    "reserve_inc": 200000
   },
   {
     "master_key": "nHUroc3Q1ErBXs689SEi3nWEeM759Pn1LsZk27jMHJtiemHXVmJb",
@@ -97,6 +103,9 @@
       "score": 0.99964,
       "missed": 15,
       "incomplete": true
-    }
+    },
+    "base_fee": 12,
+    "reserve_base": 1000000,
+    "reserve_inc": 100000
   }
 ]
