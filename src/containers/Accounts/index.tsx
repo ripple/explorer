@@ -58,7 +58,7 @@ export const Accounts = () => {
   return (
     <div className="accounts-page section">
       <Helmet title={`${accountId.substring(0, 12)}...`} />
-      {account && (
+      {accountId && (
         <>
           <AccountHeader
             account={account}
@@ -74,7 +74,7 @@ export const Accounts = () => {
               hasTokensColumn={false}
             />
           )}
-          {tab === 'assets' && <AccountAssetTab account={account} />}
+          {tab === 'assets' && account && <AccountAssetTab account={account} />}
         </>
       )}
       {isLoading && <Loader />}
