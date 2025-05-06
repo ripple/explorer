@@ -58,7 +58,9 @@ export const AppWrapper = () => {
   const rippledUrl = mode === 'custom' ? location.pathname.split('/')[1] : ''
   const customBasename = mode === 'custom' ? `${rippledUrl}` : ''
   const basename =
-    window.location.href.charAt(-1) === '/' ? customBasename : `/${rippledUrl}`
+    window.location.href.charAt(-1) === '/'
+      ? customBasename
+      : `/${customBasename}`
   const updatePath = (path) => `${basename}${path}`
 
   if (rippledUrl && !customNetworks.includes(rippledUrl)) {
