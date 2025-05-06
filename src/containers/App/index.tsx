@@ -56,15 +56,15 @@ export const AppWrapper = () => {
     network: mode,
   })
   const rippledUrl = mode === 'custom' ? location.pathname.split('/')[-1] : ''
-  const customBasename = mode === 'custom' ? `${rippledUrl}` : ''
+  const basename = mode === 'custom' ? `${rippledUrl}` : ''
   // Check for trailing slash, changes depending on hosted environment
   console.log('split', location.pathname.split('/'))
   console.log('href', window.location.origin)
-  console.log('custombasename', customBasename)
+  // console.log('custombasename', customBasename)
   console.log('endswith', window.location.href.endsWith('/'))
-  const basename = window.location.href.endsWith('/')
-    ? customBasename
-    : `/${customBasename}`
+  // const basename = window.location.href.endsWith('/')
+  //   ? customBasename
+  //   : `/${customBasename}`
   console.log('basename', basename)
   const updatePath = (path) => {
     console.log('newpath', `${basename}${path}`)
