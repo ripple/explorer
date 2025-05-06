@@ -18,10 +18,18 @@ export const LEDGER_ROUTE: RouteDefinition<{
   path: `/ledgers/:identifier`,
 }
 
-export const NETWORK_ROUTE: RouteDefinition<{
-  tab?: 'nodes' | 'validators' | 'upgrade-status'
+export const NODES_ROUTE: RouteDefinition = {
+  path: '/network/nodes',
+}
+
+export const VALIDATORS_ROUTE: RouteDefinition<{
+  tab?: 'uptime' | 'voting'
 }> = {
-  path: '/network/:tab?',
+  path: '/network/validators/:tab?',
+}
+
+export const UPGRADE_STATUS_ROUTE: RouteDefinition = {
+  path: '/network/upgrade-status',
 }
 
 export const NFT_ROUTE: RouteDefinition<{

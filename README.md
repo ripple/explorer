@@ -1,3 +1,6 @@
+[![Release](https://img.shields.io/github/v/release/ripple/explorer.svg)](https://github.com/ripple/explorer/releases)
+[![License](https://img.shields.io/github/license/ripple/explorer)](https://github.com/ripple/explorer/blob/staging/LICENSE)
+
 # XRPL Explorer
 
 This repo contains the source code for the block explorer of the XRP Ledger hosted at livenet.xrpl.org.
@@ -13,22 +16,6 @@ The project requires node@22. Follow installation instructions on [nodejs.org](h
 (Recommended) Install using [nvm](https://github.com/nvm-sh/nvm).
 
 Make sure to use npm version 8+ by running `npm install -g npm@latest` after you install Node.
-
-### Google BigQuery Setup
-
-This setup is required for the Tokens page of the explorer to function:
-
-1.  [Select or create a Cloud Platform project][projects].
-1.  [Enable the Google BigQuery API][enable_api].
-1.  [Set up authentication with a service account][auth]
-
-Once you have completed these steps and generated the JSON key file, you must populate the following environment variables in the .env file with their corresponding values from the JSON key file:
-
-```
-GOOGLE_APP_PROJECT_ID=your-project-id
-GOOGLE_APP_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n...
-GOOGLE_APP_CLIENT_EMAIL=your-client-email
-```
 
 ### Copy example env
 
@@ -100,9 +87,5 @@ When updating translation entires or adding new languages consult the guide [Tra
 ## React Documentation
 
 - Latest news in [react blog](https://reactjs.org/blog)
-- [React documentation](https://reactjs.org/docs)
+- [React documentation](https://react.dev)
 - [How to think in react](https://reactjs.org/docs/thinking-in-react.html) and break down components
-
-[enable_api]: https://console.cloud.google.com/flows/enableapi?apiid=bigquery.googleapis.com
-[projects]: https://console.cloud.google.com/project
-[auth]: https://cloud.google.com/docs/authentication/getting-started

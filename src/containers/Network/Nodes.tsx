@@ -2,7 +2,6 @@ import { useContext } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
-import NetworkTabs from './NetworkTabs'
 import { Map } from './Map'
 import { NodesTable } from './NodesTable'
 import Log from '../shared/log'
@@ -15,6 +14,7 @@ import {
 import { useLanguage } from '../shared/hooks'
 import { NodeData, NodeResponse } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
+import './css/style.scss'
 
 export const ledgerCompare = (a: NodeData, b: NodeData) => {
   const aLedger = a.validated_ledger.ledger_index
@@ -78,6 +78,7 @@ export const Nodes = () => {
 
   return (
     <div className="network-page">
+      <div className="type">{t('nodes')}</div>
       {
         // @ts-ignore - Work around for complex type assignment issues
         <Map locations={data?.locations} />
@@ -99,7 +100,6 @@ export const Nodes = () => {
         )}
       </div>
       <div className="wrap">
-        <NetworkTabs selected="nodes" />
         <NodesTable nodes={data?.nodes} />
       </div>
     </div>

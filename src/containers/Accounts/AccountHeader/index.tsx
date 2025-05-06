@@ -1,19 +1,12 @@
-import { useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
-import { isValidClassicAddress, isValidXAddress } from 'ripple-address-codec'
-import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import { BalanceSelector } from './BalanceSelector/BalanceSelector'
 import { Account } from '../../shared/components/Account'
-import { BAD_REQUEST, localizeNumber } from '../../shared/utils'
-import SocketContext from '../../shared/SocketContext'
+import { localizeNumber } from '../../shared/utils'
 import InfoIcon from '../../shared/images/info.svg'
 import { useLanguage } from '../../shared/hooks'
 import Currency from '../../shared/components/Currency'
 import DomainLink from '../../shared/components/DomainLink'
-import { getAccountState } from '../../../rippled'
-import { useAnalytics } from '../../shared/analytics'
 import { AccountState } from '../../../rippled/accountState'
 
 const CURRENCY_OPTIONS = {
@@ -26,39 +19,18 @@ const CURRENCY_OPTIONS = {
 interface AccountHeaderProps {
   onSetCurrencySelected: (currency: string) => void
   currencySelected: string
+  account: any
   accountId: string
 }
 
 export const AccountHeader = ({
+  account,
   accountId,
   onSetCurrencySelected,
   currencySelected,
 }: AccountHeaderProps) => {
   const { t } = useTranslation()
-  const rippledSocket = useContext(SocketContext)
   const language = useLanguage()
-  const { trackException } = useAnalytics()
-
-  const { data: accountState, isLoading } = useQuery(
-    ['accountState', accountId],
-    () => {
-      if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
-        return Promise.reject(BAD_REQUEST)
-      }
-
-      return getAccountState(accountId, rippledSocket).catch(
-        (transactionRequestError) => {
-          const status = transactionRequestError.code
-          trackException(
-            `ledger ${accountId} --- ${JSON.stringify(
-              transactionRequestError,
-            )}`,
-          )
-          return Promise.reject(status)
-        },
-      )
-    },
-  )
 
   function renderBalancesSelector(data: AccountState) {
     const { balances = {} } = data
@@ -321,8 +293,8 @@ export const AccountHeader = ({
     )
   }
 
-  const xAddress = accountState?.xAddress ?? false
-  const hasBridge = accountState?.hasBridge ?? false
+  const xAddress = account?.xAddress ?? false
+  const hasBridge = account?.hasBridge ?? false
 
   return (
     <div className="box account-header">
@@ -334,8 +306,7 @@ export const AccountHeader = ({
         <h1 className={xAddress ? 'x-address' : 'classic'}>{accountId}</h1>
       </div>
       <div className="box-content">
-        {isLoading && <Loader />}
-        {accountState != null && renderHeaderContent(accountState)}
+        {account != null && renderHeaderContent(account)}
       </div>
     </div>
   )
