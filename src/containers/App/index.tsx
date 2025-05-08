@@ -56,8 +56,8 @@ export const AppWrapper = () => {
     network: mode,
   })
   const rippledUrl = mode === 'custom' ? location.pathname.split('/')[1] : ''
-  const basename = mode === 'custom' ? `${rippledUrl}` : ''
-  const updatePath = (path) => `${basename}/${path}`
+  const basename = mode === 'custom' ? `/${rippledUrl}` : ''
+  const updatePath = (path) => `${basename}${path}`
 
   if (rippledUrl && !customNetworks.includes(rippledUrl)) {
     setCustomNetworks(customNetworks.concat([rippledUrl]).sort())
