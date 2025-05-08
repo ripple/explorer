@@ -85,6 +85,8 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
 
   const renderMPTId = () => <div className="mpt">{data.tokenId}</div>
 
+  const renderText = () => <div className="desc">{data}</div>
+
   const { x, y, mode } = tooltip
   const style: CSSProperties = { top: y + PADDING_Y, left: x }
   const modeMap = {
@@ -94,6 +96,7 @@ export const Tooltip = ({ tooltip }: { tooltip?: TooltipInstance }) => {
     missing: renderMissingValidators,
     nftId: renderNFTId,
     mptId: renderMPTId,
+    text: renderText,
   }
 
   return modeMap[mode] ? (

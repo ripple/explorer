@@ -560,5 +560,12 @@
   "search_results_banner": "Token ကို အမည်နှင့် အကောင့်ဖြင့် ရှာဖွေခြင်း ယခု ရရှိနိုင်ပါပြီ! USD ဖြင့် ရှာကြည့်ပါ",
   "enable_amendment_name": "ပြင်ဆင်ချက် အမည်",
   "amendment_status": "ပြင်ဆင်ချက် အခြေအနေ",
-  "expected_date": "မျှော်မှန်းရက်စွဲ"
+  "expected_date": "မျှော်မှန်းရက်စွဲ",
+  "quorum_description": null,
+  "avg_fee_description": null,
+  "ledger_interval_description": null,
+  "txn_ledger_description": null,
+  "txn_sec_description": null,
+  "load_fee_description": null,
+  "nUnl_description": null
 }

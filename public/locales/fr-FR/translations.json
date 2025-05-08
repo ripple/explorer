@@ -563,5 +563,12 @@
   "domain_id": null,
   "accepted_credentials": null,
   "action_from_and": null,
-  "data": null
+  "data": null,
+  "quorum_description": null,
+  "avg_fee_description": null,
+  "ledger_interval_description": null,
+  "txn_ledger_description": null,
+  "txn_sec_description": null,
+  "load_fee_description": null,
+  "nUnl_description": null
 }
