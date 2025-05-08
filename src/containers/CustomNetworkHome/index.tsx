@@ -19,7 +19,7 @@ const SidechainHome = () => {
   }, [trackScreenLoaded])
 
   function switchMode(desiredLink: string) {
-    // Remove trailing slashes from custom network link
+    // Remove trailing slash from custom network link
     const customNetworkUrl =
       process.env.VITE_CUSTOMNETWORK_LINK?.charAt(
         process.env.VITE_CUSTOMNETWORK_LINK.length - 1,

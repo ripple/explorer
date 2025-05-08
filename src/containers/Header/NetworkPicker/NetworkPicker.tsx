@@ -12,7 +12,7 @@ export interface Network {
   url: string
 }
 
-// Remove trailing slashes from custom network link
+// Remove trailing slash from custom network link
 const CUSTOM_NETWORK_BASE_LINK =
   process.env.VITE_CUSTOMNETWORK_LINK?.charAt(
     process.env.VITE_CUSTOMNETWORK_LINK.length - 1,
@@ -132,7 +132,6 @@ export const NetworkPicker = () => {
     }
 
     trackNetworkSwitch('custom', newRippledUrl)
-
     window.location.assign(`${CUSTOM_NETWORK_BASE_LINK}/${newRippledUrl}`)
   }
 
