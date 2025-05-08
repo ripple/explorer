@@ -39,8 +39,7 @@
   "24H": "24H",
   "30D": "30J",
   "total_transactions": "# de Txns",
-  "total_fees": "Frais Totaux",
-  "async_component_timedout": "Le chargement du composant a pris plus de temps que prévu",
+  "total_fees": "Frais Totaux",\
   "async_component_failed": "Impossible de charger le composant",
   "account_not_found": "Compte non trouvé",
   "account_empty_title": "Aucun id de compte n'a été fourni",
