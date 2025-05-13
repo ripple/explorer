@@ -7,7 +7,7 @@ import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled/lib/rippled'
-import { flushPromises } from '../../test/utils'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
 import { Error } from '../../../rippled/lib/utils'
 
@@ -85,7 +85,7 @@ describe('App container', () => {
     }
 
     return mount(
-      <MemoryRouter initialEntries={[path]}>
+      <MemoryRouter initialEntries={[path]} future={V7_FUTURE_ROUTER_FLAGS}>
         <I18nextProvider i18n={i18n}>
           <AppWrapper />
         </I18nextProvider>

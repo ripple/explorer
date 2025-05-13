@@ -8,12 +8,13 @@ import {
 } from '../../shared/components/Transaction/test'
 import i18n from '../../../i18n/testConfigEnglish'
 import validator from './mock_data/validator.json'
+import { V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 
 describe('SimpleTab container', () => {
   const createWrapper = (width = 1200) =>
     mount(
       <I18nextProvider i18n={i18n}>
-        <Router>
+        <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <SimpleTab data={validator} width={width} />
         </Router>
       </I18nextProvider>,

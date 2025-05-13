@@ -12,12 +12,13 @@ import { expectSimpleRowText } from '../../shared/components/Transaction/test'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 import { queryClient } from '../../shared/QueryClient'
+import { V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 
 describe('SimpleTab container', () => {
   let client
   const createWrapper = (tx, width = 1200) =>
     mount(
-      <Router>
+      <Router future={V7_FUTURE_ROUTER_FLAGS}>
         <QueryClientProvider client={queryClient}>
           <I18nextProvider i18n={i18n}>
             <SocketContext.Provider value={client}>
