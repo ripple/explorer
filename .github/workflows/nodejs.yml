@@ -1,78 +1,70 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
+name: Explorer CI
 
 on:
   push:
-    branches: [ main, staging ]
+    branches: [main, staging]
   pull_request:
   workflow_dispatch:
+
+env:
+  NODE_VERSION: 22.x
 
 jobs:
   lint:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.12]
-
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache-nodemodules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ matrix.node-version }}-build-
+            ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-
+            ${{ env.NODE_VERSION }}-build-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run lint:ci
 
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.12]
-
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache-nodemodules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ matrix.node-version }}-build-
+            ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-
+            ${{ env.NODE_VERSION }}-build-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run test:ci
         env:
@@ -86,65 +78,57 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.12]
-
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache-nodemodules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ matrix.node-version }}-build-
+            ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-
+            ${{ env.NODE_VERSION }}-build-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run build
 
   typescript-check:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.12]
-
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache-nodemodules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.node-version }}-build-${{ env.cache-name }}-
-            ${{ matrix.node-version }}-build-
+            ${{ env.NODE_VERSION }}-build-${{ env.cache-name }}-
+            ${{ env.NODE_VERSION }}-build-
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
 
       - run: npm run build-ts

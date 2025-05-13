@@ -1,5 +1,5 @@
 @use 'sass:color';
-@import '../../../shared/css/variables';
+@use '../../../shared/css/variables' as *;
 
 .transaction-table {
   width: 100%;

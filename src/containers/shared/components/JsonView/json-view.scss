@@ -1,4 +1,4 @@
-@import '../../css/variables';
+@use '../../css/variables' as *;
 @import 'react18-json-view/src/style.css';
 
 .json-view {
@@ -53,6 +53,10 @@
 
 .json-view--string {
   color: $orange-50 !important;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 /* stylelint-enable selector-class-pattern */

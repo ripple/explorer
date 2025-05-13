@@ -274,7 +274,7 @@ const getAccountPaychannels = async (
         return getChannels(resp.marker)
       }
 
-      return null
+      return undefined
     })
 
   await getChannels()
@@ -287,7 +287,7 @@ const getAccountPaychannels = async (
         channels,
         total_available: remaining / XRP_BASE,
       }
-    : null
+    : undefined
 }
 
 // get account escrows
@@ -498,9 +498,22 @@ const getNegativeUNL = (rippledSocket) =>
     return resp
   })
 
+// get server info
 const getServerInfo = (rippledSocket) =>
   query(rippledSocket, {
     command: 'server_info',
+  }).then((resp) => {
+    if (resp.error !== undefined || resp.error_message !== undefined) {
+      throw new Error(resp.error_message || resp.error, 500)
+    }
+
+    return resp
+  })
+
+// gets server state
+const getServerState = (rippledSocket) =>
+  query(rippledSocket, {
+    command: 'server_state',
   }).then((resp) => {
     if (resp.error !== undefined || resp.error_message !== undefined) {
       throw new Error(resp.error_message || resp.error, 500)
@@ -573,10 +586,11 @@ const getFeature = (rippledSocket, amendmentId) => {
 }
 
 const getMPTIssuance = (rippledSocket, tokenId) =>
-  query(rippledSocket, {
+  queryP2P(rippledSocket, {
     command: 'ledger_entry',
     mpt_issuance: tokenId,
     ledger_index: 'validated',
+    include_deleted: true,
   }).then((resp) => {
     if (
       resp.error === 'entryNotFound' ||
@@ -653,6 +667,7 @@ export {
   getAccountTransactions,
   getNegativeUNL,
   getServerInfo,
+  getServerState,
   getOffers,
   getNFTInfo,
   getBuyNFToffers,

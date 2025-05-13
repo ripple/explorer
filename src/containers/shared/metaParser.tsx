@@ -1,6 +1,6 @@
+import type { BaseTransaction } from 'xrpl'
 import { XRP_BASE } from './transactionUtils'
 import { ExplorerAmount } from './types'
-import { TransactionCommonFields } from './components/Transaction/types'
 
 export const LedgerEntryTypes = {
   AccountRoot: 'AccountRoot',
@@ -59,7 +59,7 @@ changes.
 export function findAssetAmount(
   meta: any,
   asset: { currency: string; issuer?: string },
-  tx: TransactionCommonFields,
+  tx: BaseTransaction,
 ): ExplorerAmount | undefined {
   if (asset.currency === 'XRP') return findXRPAmount(meta, tx)
 
@@ -90,7 +90,7 @@ export function findAssetAmount(
 */
 function findXRPAmount(
   meta: any,
-  tx: TransactionCommonFields,
+  tx: BaseTransaction,
 ): ExplorerAmount | undefined {
   const xrp = findNodes(meta, LedgerEntryTypes.AccountRoot).filter(
     (n: any) =>

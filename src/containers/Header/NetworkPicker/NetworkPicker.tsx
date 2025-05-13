@@ -12,7 +12,13 @@ export interface Network {
   url: string
 }
 
-const CUSTOM_NETWORK_BASE_LINK = process.env.VITE_CUSTOMNETWORK_LINK
+// Remove trailing slash from custom network link
+const CUSTOM_NETWORK_BASE_LINK =
+  process.env.VITE_CUSTOMNETWORK_LINK?.charAt(
+    process.env.VITE_CUSTOMNETWORK_LINK.length - 1,
+  ) === '/'
+    ? process.env.VITE_CUSTOMNETWORK_LINK?.slice(0, -1)
+    : process.env.VITE_CUSTOMNETWORK_LINK
 const STATIC_ENV_LINKS: Record<string, string | undefined> = {
   mainnet: process.env.VITE_MAINNET_LINK,
   testnet: process.env.VITE_TESTNET_LINK,

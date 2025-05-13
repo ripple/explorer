@@ -3,7 +3,7 @@
     "Account": "rERyS9qtwky94UMMjjmbku3uo5aQwAoJ58",
     "Fee": "10",
     "Flags": 1,
-    "MPTokenHolder": "r9hF4e3e6kLuxLobPwfQa2wzXZMDvBDeUg",
+    "Holder": "r9hF4e3e6kLuxLobPwfQa2wzXZMDvBDeUg",
     "MPTokenIssuanceID": "00000BED9E4ADA3DCC1BE78683C4B623A74013818160590C",
     "Sequence": 3054,
     "SigningPubKey": "EDF73A1C528F5BFBD6FF2B05D0C71760D7D2DF1DE3496935612E47BCB440F28040",

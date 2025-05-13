@@ -41,10 +41,10 @@ const IssuerAddress: FC<{ token: any; onClick: any }> = ({ token, onClick }) =>
       className="issuer-link"
     >
       <div className="issuer-name">
-        {token.meta.issuer.name ? `${token.meta.issuer.name} (` : token.issuer}
+        {token.meta.issuer.name && `${token.meta.issuer.name} (`}
       </div>
       <div className="issuer-address truncate">{token.issuer}</div>
-      <div>)</div>
+      {token.meta.issuer.name && <div>)</div>}
     </Link>
   ) : null
 

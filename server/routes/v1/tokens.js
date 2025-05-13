@@ -41,12 +41,15 @@ async function fetchXRPLMetaTokens(offset) {
       },
     )
     .then((resp) => resp.data)
-    .catch((e) => log.error(e))
+    .catch((e) => {
+      log.error(e)
+      return { count: 0 }
+    })
 }
 
 async function cacheXRPLMetaTokens() {
   let offset = 0
-  let tokensDataBatch = []
+  let tokensDataBatch = {}
   const allTokensFetched = []
 
   tokensDataBatch = await fetchXRPLMetaTokens(0)
@@ -60,10 +63,11 @@ async function cacheXRPLMetaTokens() {
 
   cachedTokenSearchList.tokens = allTokensFetched.filter(
     (result) =>
-      result.metrics.trustlines > 50 &&
-      result.metrics.holders > 50 &&
-      result.metrics.marketcap > 0 &&
-      result.metrics.volume_7d > 0,
+      (result.metrics.trustlines > 50 &&
+        result.metrics.holders > 50 &&
+        result.metrics.marketcap > 0 &&
+        result.metrics.volume_7d > 0) ||
+      result.meta.issuer.trust_level === 3,
   )
   cachedTokenSearchList.last_updated = Date.now()
 
