@@ -51,6 +51,7 @@
       calc((100vw - 1500px) / 2),
       calc((100vw - 1500px) / 2)
     ); // Adjust based on wrap margin with min 16px
+
     color: $white;
     font-size: 32px;
     @include for-size(tablet-portrait-up) {
