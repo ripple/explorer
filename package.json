@@ -105,7 +105,8 @@
     "xrpl": "^4.2.5"
   },
   "resolutions": {
-    "jest-environment-jsdom": "29.3.1"
+    "jest-environment-jsdom": "29.3.1",
+    "rollup": "npm:@rollup/wasm-node"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,scss}": [
