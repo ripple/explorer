@@ -38,4 +38,5 @@ module.exports = {
   },
   coverageReporters: ['text', 'text-summary', 'html'],
   globals: { 'ts-jest': { diagnostics: { warnOnly: true } } },
+  verbatimModuleSyntax: false,
 }
