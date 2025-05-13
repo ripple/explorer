@@ -57,7 +57,6 @@ describe('NetworkPicker component', () => {
 
   afterEach(() => {
     client.close()
-    // @ts-expect-error - no idea why this errors here but is fine in CustomNetworkHome tests
     window.location = location
     process.env = oldEnvs
   })
