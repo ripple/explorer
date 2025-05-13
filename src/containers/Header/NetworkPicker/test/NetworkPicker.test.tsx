@@ -5,6 +5,7 @@ import i18n from '../../../../i18n/testConfigEnglish'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../../shared/hooks'
 import SocketContext from '../../../shared/SocketContext'
 import MockWsClient from '../../../test/mockWsClient'
+import { NetworkPicker } from '../NetworkPicker'
 
 describe('NetworkPicker component', () => {
   let client
@@ -13,12 +14,12 @@ describe('NetworkPicker component', () => {
   const oldEnvs = process.env
 
   const createWrapper = (localNetworks?: string[]) => {
-    let Picker
+    const Picker = NetworkPicker
 
     // Needed to test different env variable values.
-    jest.isolateModules(() => {
-      ;({ NetworkPicker: Picker } = jest.requireActual('../NetworkPicker'))
-    })
+    // jest.isolateModules(() => {
+    //   ;({ NetworkPicker: Picker } = jest.requireActual('../NetworkPicker'))
+    // })
 
     localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
     if (localNetworks) {
