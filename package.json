@@ -61,7 +61,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
+    "@typescript-eslint/parser": "^8.32.1",
     "babel-jest": "^29.7.0",
     "canvas": "^3.1.0",
     "cheerio": "1.0.0-rc.3",
