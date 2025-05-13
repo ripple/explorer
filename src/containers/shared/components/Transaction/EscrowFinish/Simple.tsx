@@ -52,7 +52,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       {computationAllowance && (
         <SimpleRow
           label={t('computation_allowance')}
-          data-test="computation_allowance"
+          data-test="computation-allowance"
         >
           {computationAllowance} {t('gas')}
         </SimpleRow>

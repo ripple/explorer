@@ -25,7 +25,7 @@ describe('EscrowFinishSimple', () => {
       `2C44A096646F815F9072D8FB3954B2B9025C21AE614CE96CB2D2C4907F9B2A1D`,
     )
     expect(
-      wrapper.find('[data-test="computation_allowance"] .value'),
+      wrapper.find('[data-test="computation-allowance"] .value'),
     ).toHaveText('1000000 gas')
     wrapper.unmount()
   })
