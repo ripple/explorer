@@ -1,26 +1,18 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../../shared/hooks'
 import SocketContext from '../../../shared/SocketContext'
 import MockWsClient from '../../../test/mockWsClient'
 import { NetworkPicker } from '../NetworkPicker'
+import { queryClient } from '../../../shared/QueryClient'
 
 describe('NetworkPicker component', () => {
   let client
-  const { location } = window
-  const mockedFunction = jest.fn()
-  const oldEnvs = process.env
 
-  const createWrapper = (localNetworks?: string[]) => {
-    const Picker = NetworkPicker
-
-    // Needed to test different env variable values.
-    // jest.isolateModules(() => {
-    //   ;({ NetworkPicker: Picker } = jest.requireActual('../NetworkPicker'))
-    // })
-
+  const createWrapper = (localNetworks: string[] = []) => {
     localStorage.removeItem(CUSTOM_NETWORKS_STORAGE_KEY)
     if (localNetworks) {
       localStorage.setItem(
@@ -31,19 +23,25 @@ describe('NetworkPicker component', () => {
 
     return mount(
       <I18nextProvider i18n={i18n}>
-        <Router>
-          <SocketContext.Provider value={client}>
-            <Picker />
-          </SocketContext.Provider>
-        </Router>
+        <SocketContext.Provider value={client}>
+          <Router>
+            <QueryClientProvider client={queryClient}>
+              <NetworkPicker />
+            </QueryClientProvider>
+          </Router>
+        </SocketContext.Provider>
       </I18nextProvider>,
     )
   }
 
+  const { location } = window
+  const mockedFunction = jest.fn()
+  const oldEnvs = process.env
+
   beforeEach(() => {
-    // @ts-ignore -- typescript does not like mocking window
+    // @ts-expect-error - no idea why this errors here but is fine in CustomNetworkHome tests
     delete window.location
-    // @ts-ignore -- typescript does not like mocking window
+    // @ts-expect-error - no idea why this errors here but is fine in CustomNetworkHome tests
     window.location = { assign: mockedFunction }
     process.env = {
       ...oldEnvs,
@@ -59,6 +57,7 @@ describe('NetworkPicker component', () => {
 
   afterEach(() => {
     client.close()
+    // @ts-expect-error - no idea why this errors here but is fine in CustomNetworkHome tests
     window.location = location
     process.env = oldEnvs
   })
