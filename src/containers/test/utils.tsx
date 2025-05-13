@@ -9,7 +9,7 @@ import { testQueryClient } from './QueryClient'
 import { AnalyticsSetPath } from '../shared/analytics'
 
 export function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
+  return new Promise((resolve) => setTimeout(resolve))
 }
 
 export const V7_FUTURE_ROUTER_FLAGS = {

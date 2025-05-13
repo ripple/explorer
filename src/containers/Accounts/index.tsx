@@ -16,13 +16,12 @@ import SocketContext from '../shared/SocketContext'
 import { Loader } from '../shared/components/Loader'
 
 export const Accounts = () => {
-  const { trackScreenLoaded } = useAnalytics()
+  const { trackScreenLoaded, trackException } = useAnalytics()
   const { id: accountId = '', tab = 'transactions' } =
     useRouteParams(ACCOUNT_ROUTE)
   const [currencySelected, setCurrencySelected] = useState('XRP')
   const mainPath = buildPath(ACCOUNT_ROUTE, { id: accountId })
   const rippledSocket = useContext(SocketContext)
-  const { trackException } = useAnalytics()
 
   const { data: account, isLoading } = useQuery(
     ['accountState', accountId],

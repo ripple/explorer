@@ -449,7 +449,7 @@ describe('App container', () => {
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
 
     delete process.env.VITE_CUSTOMNETWORK_LINK //  Clear current value
-    process.env.VITE_CUSTOMNETWORK_LINK = 'https://sidechain.xrpl.org' //  Manually add URL with no trailing slash
+    process.env.VITE_CUSTOMNETWORK_LINK = 'https://custom.xrpl.org' //  Manually add URL with no trailing slash
 
     const network = 's2.ripple.com'
     wrapper = createWrapper(`/${network}/`)
@@ -466,7 +466,7 @@ describe('App container', () => {
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
 
     delete process.env.VITE_CUSTOMNETWORK_LINK //  Clear current value
-    process.env.VITE_CUSTOMNETWORK_LINK = 'https://sidechain.xrpl.org/' //  Manually add URL with trailing slash
+    process.env.VITE_CUSTOMNETWORK_LINK = 'https://custom.xrpl.org/' //  Manually add URL with trailing slash
 
     const network = 's2.ripple.com'
     wrapper = createWrapper(`/${network}/`)
