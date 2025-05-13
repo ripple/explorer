@@ -5,13 +5,6 @@
   min-height: 150px;
 
   table {
-    .pubkey,
-    .score.h1,
-    .score.d30,
-    .fee {
-      display: none;
-    }
-
     .pubkey {
       max-width: 70px;
       @include for-size(tablet-portrait-up) {
@@ -83,6 +76,25 @@
       color: $orange-40;
     }
 
+    .fee-icon {
+      position: relative;
+      top: 1.5px;
+      margin-right: 4px;
+    }
+
+    .vote {
+      white-space: nowrap;
+    }
+  }
+
+  &.uptime-tab {
+    .pubkey,
+    .score.h1,
+    .score.d30,
+    .fee {
+      display: none;
+    }
+
     @include for-size(tablet-portrait-up) {
       .score.d30 {
         display: table-cell;
@@ -102,4 +114,32 @@
       }
     }
   }
+
+  &.voting-tab {
+    .pubkey,
+    .last-ledger,
+    .n-unl,
+    .version {
+      display: none;
+    }
+
+    @include for-size(tablet-portrait-up) {
+      .n-unl, .version {
+        display: table-cell;
+      }
+    }
+
+    @include for-size(tablet-landscape-up) {
+      .pubkey {
+        display: table-cell;
+      }
+    }
+
+    @include for-size(desktop-up) {
+      .last-ledger {
+        display: table-cell;
+      }
+    }
+  }
+
 }

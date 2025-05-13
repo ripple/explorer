@@ -2,11 +2,7 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import { MemoryRouter } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
-import configureMockStore from 'redux-mock-store'
-import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
 import { XrplClient } from 'xrpl-client'
-import { initialState } from '../../../rootReducer'
 import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
@@ -70,7 +66,6 @@ const mockXrplClient = XrplClient
 const mockGetAccountInfo = getAccountInfo
 
 describe('App container', () => {
-  const mockStore = configureMockStore([thunk])
   const createWrapper = (
     path = '/',
     localNetworks = [],
@@ -89,15 +84,12 @@ describe('App container', () => {
       )
     }
 
-    const store = mockStore(initialState)
     return mount(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[path]}>
-          <I18nextProvider i18n={i18n}>
-            <AppWrapper />
-          </I18nextProvider>
-        </MemoryRouter>
-      </Provider>,
+      <MemoryRouter initialEntries={[path]}>
+        <I18nextProvider i18n={i18n}>
+          <AppWrapper />
+        </I18nextProvider>
+      </MemoryRouter>,
     )
   }
 
@@ -452,9 +444,30 @@ describe('App container', () => {
     expect(document.title).toEqual(`xrpl_explorer`)
   })
 
-  it('renders custom mode ledgers', async () => {
+  it('renders custom mode ledgers without trailing slash', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+
+    delete process.env.VITE_CUSTOMNETWORK_LINK //  Clear current value
+    process.env.VITE_CUSTOMNETWORK_LINK = 'https://sidechain.xrpl.org' //  Manually add URL with no trailing slash
+
+    const network = 's2.ripple.com'
+    wrapper = createWrapper(`/${network}/`)
+    await flushPromises()
+    wrapper.update()
+    // Make sure the sockets aren't double initialized.
+    expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
+    expect(XrplClient).toHaveBeenCalledTimes(1)
+    expect(document.title).toEqual(`xrpl_explorer | ledgers`)
+  })
+
+  it('renders custom mode ledgers with trailing slash', async () => {
+    process.env.VITE_ENVIRONMENT = 'custom'
+    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+
+    delete process.env.VITE_CUSTOMNETWORK_LINK //  Clear current value
+    process.env.VITE_CUSTOMNETWORK_LINK = 'https://sidechain.xrpl.org/' //  Manually add URL with trailing slash
+
     const network = 's2.ripple.com'
     wrapper = createWrapper(`/${network}/`)
     await flushPromises()

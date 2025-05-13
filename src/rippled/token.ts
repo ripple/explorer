@@ -1,15 +1,14 @@
 import logger from './lib/logger'
 import { formatAccountInfo } from './lib/utils'
 import { getBalances, getAccountInfo, getServerInfo } from './lib/rippled'
+import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 
 const log = logger({ name: 'iou' })
 
 export interface TokenData {
-  name: string
   balance: string
   reserve: number
   sequence: number
-  gravatar: string
   rate?: number
   obligations?: string
   domain?: string
@@ -19,11 +18,11 @@ export interface TokenData {
   flags: string[]
 }
 
-const getToken = async (
-  currencyCode,
-  issuer,
-  rippledSocket,
-): Promise<TokenData> => {
+async function getToken(
+  currencyCode: string,
+  issuer: string,
+  rippledSocket: ExplorerXrplClient,
+): Promise<TokenData> {
   try {
     log.info('fetching account info from rippled')
     const accountInfo = await getAccountInfo(rippledSocket, issuer)
@@ -38,7 +37,6 @@ const getToken = async (
     }
 
     const {
-      name,
       reserve,
       sequence,
       rate,
@@ -46,13 +44,11 @@ const getToken = async (
       emailHash,
       balance,
       flags,
-      gravatar,
       previousTxn,
       previousLedger,
     } = formatAccountInfo(accountInfo, serverInfo.info.validated_ledger)
 
     return {
-      name,
       reserve,
       sequence,
       rate,
@@ -60,7 +56,6 @@ const getToken = async (
       emailHash,
       balance,
       flags,
-      gravatar,
       obligations,
       previousTxn,
       previousLedger,

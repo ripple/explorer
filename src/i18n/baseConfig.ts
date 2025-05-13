@@ -7,6 +7,7 @@ export const supportedLanguages = {
   'es-ES': 'Español',
   'fr-FR': 'Français',
   'ca-CA': 'Catalan',
+  'my-MM': 'မြန်မာ',
 }
 
 export const options: InitOptions = {

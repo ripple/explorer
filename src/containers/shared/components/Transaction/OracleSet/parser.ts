@@ -1,5 +1,5 @@
+import type { OracleSet } from 'xrpl'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
-import { OracleSet } from './types'
 import { convertScaledPrice } from '../../../utils'
 
 export function parser(tx: OracleSet) {

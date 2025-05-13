@@ -17,23 +17,22 @@ import {
   ACCOUNT_ROUTE,
   LEDGER_ROUTE,
   LEDGERS_ROUTE,
-  NETWORK_ROUTE,
   NFT_ROUTE,
-  PAYSTRING_ROUTE,
   TOKEN_ROUTE,
   TRANSACTION_ROUTE,
   VALIDATOR_ROUTE,
   AMENDMENTS_ROUTE,
   AMENDMENT_ROUTE,
   MPT_ROUTE,
+  NODES_ROUTE,
+  VALIDATORS_ROUTE,
+  UPGRADE_STATUS_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
 import { AccountsRouter } from '../Accounts/AccountsRouter'
 import { Transaction } from '../Transactions'
-import { Network } from '../Network'
 import { Validator } from '../Validators'
-import { PayString } from '../PayStrings'
 import { Token } from '../Token'
 import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
@@ -41,6 +40,9 @@ import { useCustomNetworks } from '../shared/hooks'
 import { Amendments } from '../Amendments'
 import { Amendment } from '../Amendment'
 import { MPT } from '../MPT/MPT'
+import { Nodes } from '../Network/Nodes'
+import { Validators } from '../Network/Validators'
+import { UpgradeStatus } from '../Network/UpgradeStatus'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -67,10 +69,11 @@ export const AppWrapper = () => {
     [LEDGER_ROUTE, Ledger],
     [ACCOUNT_ROUTE, AccountsRouter],
     [TRANSACTION_ROUTE, Transaction],
-    [NETWORK_ROUTE, Network],
+    [NODES_ROUTE, Nodes],
+    [VALIDATORS_ROUTE, Validators],
+    [UPGRADE_STATUS_ROUTE, UpgradeStatus],
     [AMENDMENTS_ROUTE, Amendments],
     [VALIDATOR_ROUTE, Validator],
-    [PAYSTRING_ROUTE, PayString],
     [TOKEN_ROUTE, Token],
     [NFT_ROUTE, NFT],
     [AMENDMENT_ROUTE, Amendment],
