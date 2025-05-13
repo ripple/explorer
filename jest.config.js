@@ -7,7 +7,7 @@ module.exports = {
   ],
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest',
+    '^.+\\.(ts|tsx)?$': ['ts-jest', { diagnostics: { warnOnly: true } }],
     '^.+\\.(js|jsx)$': 'babel-jest',
     '^.+\\.(svg)$': '<rootDir>/testUtils/svgTransform.js',
     '^.+\\.(css|scss)$': '<rootDir>/testUtils/cssTransform.js',
@@ -37,5 +37,4 @@ module.exports = {
     global: { branches: 70, functions: 80, lines: 80, statements: 80 },
   },
   coverageReporters: ['text', 'text-summary', 'html'],
-  globals: { 'ts-jest': { diagnostics: { warnOnly: true } } },
 }
