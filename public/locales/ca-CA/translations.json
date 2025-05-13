@@ -290,7 +290,7 @@
   "describe_finish_after": "Pot ser finalitzat després de",
   "escrow_completion_desc": "L'acompliment wa ser executat per",
   "escrow_completion_desc_2": "La quantitat posada en escrow de <1><0>{{amount}}</0></1> ha estat enviada a <3><0>{{destination}}</0></3>",
-  "escrow_finish_fullfillment_desc": "La condició de l'escrow és satisfeta per",
+  "escrow_finish_fulfillment_desc": "La condició de l'escrow és satisfeta per",
   "escrow_cancellation_desc": "La cancel·lació va ser executada per",
   "escrow_cancellation_desc_2": "La quantitat en escrow de <1><0>{{amount}}</0></1> ha estat retornada a <3><0>{{owner}}</0></3>",
   "escrow_after_transaction_cost": "després dels costos de transacció",
@@ -568,5 +568,6 @@
   "action_from_and": null,
   "data": null,
   "finish_function": null,
-  "computation_allowance": null
+  "computation_allowance": null,
+  "gas": null
 }

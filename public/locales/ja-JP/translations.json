@@ -288,7 +288,7 @@
   "describe_finish_after": "次の日時以降に終了可能です： ",
   "escrow_completion_desc": "次のアカウントにより執行が発動されました： ",
   "escrow_completion_desc_2": "エスクローされた <1><0>{{amount}}</0></1> は <3><0>{{destination}}</0></3> へ送金されました。",
-  "escrow_finish_fullfillment_desc": "次のアカウントにより履行されました： ",
+  "escrow_finish_fulfillment_desc": "次のアカウントにより履行されました： ",
   "escrow_cancellation_desc": "次のアカウントにり取り消しが執行されました： ",
   "escrow_cancellation_desc_2": "エスクローされた <1><0>{{amount}}</0></1> は <3><0>{{owner}}</0></3>　へ返金されました。",
   "escrow_after_transaction_cost": null,
@@ -564,5 +564,6 @@
   "action_from_and": null,
   "data": null,
   "finish_function": null,
-  "computation_allowance": null
+  "computation_allowance": null,
+  "gas": null
 }

@@ -24,7 +24,7 @@ export const TableDetail = (props: any) => {
         </div>
       )}
       {fulfillment && (
-        <div data-test="escrow-fullfillment">
+        <div data-test="escrow-fulfillment">
           <span className="label">{t('fulfillment')}</span>
           <span className="fulfillment"> {fulfillment} </span>
         </div>

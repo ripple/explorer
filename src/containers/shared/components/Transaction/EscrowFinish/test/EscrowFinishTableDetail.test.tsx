@@ -13,7 +13,7 @@ describe('EscrowFinishTableDetail', () => {
     expect(wrapper.find('[data-test="escrow-amount"]')).toHaveText(
       `\uE9000.0154 XRP`,
     )
-    expect(wrapper.find('[data-test="escrow-fullfillment"]')).toHaveText(
+    expect(wrapper.find('[data-test="escrow-fulfillment"]')).toHaveText(
       `fulfillment Fulfillment `,
     )
     wrapper.unmount()

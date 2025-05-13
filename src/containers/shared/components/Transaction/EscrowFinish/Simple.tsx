@@ -34,7 +34,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       {fulfillment && (
         <SimpleRow
           label={t('escrow_fulfillment')}
-          data-test="escrow-fullfillments"
+          data-test="escrow-fulfillments"
         >
           {fulfillment}
         </SimpleRow>
@@ -50,8 +50,11 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         </SimpleRow>
       )}
       {computationAllowance && (
-        <SimpleRow label={t('computation_allowance')}>
-          <Account account={computationAllowance} />
+        <SimpleRow
+          label={t('computation_allowance')}
+          data-test="computation_allowance"
+        >
+          {computationAllowance} {t('gas')}
         </SimpleRow>
       )}
       {previousTx && (

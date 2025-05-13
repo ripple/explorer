@@ -293,7 +293,7 @@
   "describe_finish_after": "၎င်းကို ပြီးဆုံးနိုင်သည့် အချိန်မှာ",
   "escrow_completion_desc": "ပြီးဆုံးခြင်းကို စတင်သူမှာ",
   "escrow_completion_desc_2": "Escrow ထားသော ပမာဏ <1><0>{{amount}}</0></1> ကို <3><0>{{destination}}</0></3> သို့ ပို့ဆောင်ခဲ့သည်",
-  "escrow_finish_fullfillment_desc": "Escrow စည်းကမ်းချက်ကို ဖြည့်ဆည်းသူမှာ",
+  "escrow_finish_fulfillment_desc": "Escrow စည်းကမ်းချက်ကို ဖြည့်ဆည်းသူမှာ",
   "escrow_cancellation_desc": "ပယ်ဖျက်ခြင်းကို စတင်သူမှာ",
   "escrow_cancellation_desc_2": "Escrow ထားသော ပမာဏ <1><0>{{amount}}</0></1> ကို <3><0>{{owner}}</0></3> သို့ ပြန်လည်ပေးပို့ခဲ့သည်",
   "escrow_after_transaction_cost": "ငွေလွှဲမှု ကုန်ကျစရိတ် နုတ်ပြီးနောက်",
@@ -562,5 +562,6 @@
   "amendment_status": "ပြင်ဆင်ချက် အခြေအနေ",
   "expected_date": "မျှော်မှန်းရက်စွဲ",
   "finish_function": null,
-  "computation_allowance": null
+  "computation_allowance": null,
+  "gas": null
 }
