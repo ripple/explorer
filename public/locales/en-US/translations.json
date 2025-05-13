@@ -567,5 +567,6 @@
   "domain_id": "Domain ID",
   "accepted_credentials": "Accepted Credentials",
   "data": "Data",
-  "finish_function": "Finish Function"
+  "finish_function": "Finish Function",
+  "computation_allowance": "Computation Allowance"
 }

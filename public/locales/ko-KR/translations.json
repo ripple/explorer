@@ -560,5 +560,7 @@
   "domain_id": null,
   "accepted_credentials": null,
   "action_from_and": null,
-  "data": null
+  "data": null,
+  "finish_function": null,
+  "computation_allowance": null
 }
