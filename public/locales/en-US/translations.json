@@ -568,6 +568,13 @@
   "accepted_credentials": "Accepted Credentials",
   "data": "Data",
   "finish_function": "Finish Function",
+  "quorum_description": "Min. number of trusted validations needed to confirm a ledger",
+  "avg_fee_description": "Avg. transaction fee across the past 50 ledgers",
+  "ledger_interval_description": "Avg. time between ledger closures over the past 50 ledgers",
+  "txn_ledger_description": "Avg. number of transactions per ledger over the past 50 ledgers",
+  "txn_sec_description": "Total transactions over the past 50 ledgers divided by the time it took to close them",
+  "load_fee_description": "Current reference transaction cost (base fee) for this ledger version",
+  "nUnl_description": "No. of validators in NegativeUNL (nUNL)",
   "computation_allowance": "Computation Allowance",
   "gas": "Gas"
 }
