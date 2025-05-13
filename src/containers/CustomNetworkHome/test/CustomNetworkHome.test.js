@@ -1,11 +1,11 @@
 import { mount } from 'enzyme'
 import i18n from '../../../i18n/testConfig'
-import SidechainHome from '../index'
+import CustomNetworkHome from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
 import { QuickHarness } from '../../test/utils'
 
-describe('SidechainHome page', () => {
+describe('CustomNetworkHome page', () => {
   let client
   let wrapper
 
@@ -20,7 +20,7 @@ describe('SidechainHome page', () => {
 
     return mount(
       <QuickHarness i18n={i18n}>
-        <SidechainHome />
+        <CustomNetworkHome />
       </QuickHarness>,
     )
   }
