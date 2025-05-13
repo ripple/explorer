@@ -64,7 +64,6 @@
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "babel-jest": "^29.7.0",
-    "canvas": "^2.11.2",
     "cheerio": "1.0.0-rc.3",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
