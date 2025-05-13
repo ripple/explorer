@@ -569,5 +569,5 @@
   "data": "Data",
   "finish_function": "Finish Function",
   "computation_allowance": "Computation Allowance",
-  "Gas": "Gas"
+  "gas": "Gas"
 }
