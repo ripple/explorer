@@ -3,7 +3,7 @@ const utils = require('./utils')
 const log = require('./logger')({ name: 'streams' })
 
 const PURGE_INTERVAL = 10 * 1000
-const MAX_AGE = 120 * 1000
+const MAX_AGE = 5 * 60 * 1000
 const ledgers = {}
 
 const currentMetric = {
@@ -78,7 +78,7 @@ const purge = () => {
 
 // update rolling metrics
 const updateMetrics = (baseFee) => {
-  const chain = organizeChain().slice(-100)
+  const chain = organizeChain().slice(-50)
 
   let time = 0
   let fees = 0

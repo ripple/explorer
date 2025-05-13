@@ -444,9 +444,30 @@ describe('App container', () => {
     expect(document.title).toEqual(`xrpl_explorer`)
   })
 
-  it('renders custom mode ledgers', async () => {
+  it('renders custom mode ledgers without trailing slash', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+
+    delete process.env.VITE_CUSTOMNETWORK_LINK //  Clear current value
+    process.env.VITE_CUSTOMNETWORK_LINK = 'https://sidechain.xrpl.org' //  Manually add URL with no trailing slash
+
+    const network = 's2.ripple.com'
+    wrapper = createWrapper(`/${network}/`)
+    await flushPromises()
+    wrapper.update()
+    // Make sure the sockets aren't double initialized.
+    expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
+    expect(XrplClient).toHaveBeenCalledTimes(1)
+    expect(document.title).toEqual(`xrpl_explorer | ledgers`)
+  })
+
+  it('renders custom mode ledgers with trailing slash', async () => {
+    process.env.VITE_ENVIRONMENT = 'custom'
+    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+
+    delete process.env.VITE_CUSTOMNETWORK_LINK //  Clear current value
+    process.env.VITE_CUSTOMNETWORK_LINK = 'https://sidechain.xrpl.org/' //  Manually add URL with trailing slash
+
     const network = 's2.ripple.com'
     wrapper = createWrapper(`/${network}/`)
     await flushPromises()
