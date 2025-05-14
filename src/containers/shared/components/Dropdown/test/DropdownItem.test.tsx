@@ -1,6 +1,5 @@
 import { mount } from 'enzyme'
 import { DropdownItem } from '../DropdownItem'
-import createSpy = jasmine.createSpy
 
 describe('DropdownItem', () => {
   describe(`prop: className`, () => {
@@ -14,7 +13,7 @@ describe('DropdownItem', () => {
 
   describe('prop: handler', () => {
     let wrapper
-    const handler = createSpy('handler')
+    const handler = jest.fn()
 
     beforeEach(() => {
       wrapper = mount(<DropdownItem handler={handler}>Hello</DropdownItem>)
