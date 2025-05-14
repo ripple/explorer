@@ -8,7 +8,7 @@ import './index.scss'
 import { useCustomNetworks } from '../shared/hooks'
 import { Header } from '../Header'
 
-const SidechainHome = () => {
+const CustomNetworkHome = () => {
   const { track, trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
   const [networkText, setNetworkText] = useState('')
@@ -83,4 +83,4 @@ const SidechainHome = () => {
   )
 }
 
-export default SidechainHome
+export default CustomNetworkHome
