@@ -151,7 +151,7 @@ export const LedgerMetrics = ({
                     },
                   )
                 }}
-                onMouseOut={() => hideTooltip()}
+                onMouseLeave={() => hideTooltip()}
               />
             </div>
           </div>
