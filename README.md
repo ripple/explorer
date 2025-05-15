@@ -1,4 +1,5 @@
 [![Release](https://img.shields.io/github/v/release/ripple/explorer.svg)](https://github.com/ripple/explorer/releases)
+[![Build](https://github.com/ripple/explorer/actions/workflows/nodejs.yml/badge.svg)](https://github.com/ripple/explorer/actions)
 [![License](https://img.shields.io/github/license/ripple/explorer)](https://github.com/ripple/explorer/blob/staging/LICENSE)
 
 # XRPL Explorer

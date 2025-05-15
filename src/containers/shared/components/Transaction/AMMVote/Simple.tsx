@@ -13,22 +13,22 @@ export const Simple = ({ data }: TransactionSimpleProps) => {
   return (
     <>
       {ammAccountID && (
-        <SimpleRow label={t('amm_account_id')} data-test="account_id">
+        <SimpleRow label={t('amm_account_id')} data-testid="account_id">
           <Account account={ammAccountID} />
         </SimpleRow>
       )}
       {amount && (
-        <SimpleRow label={t('asset1')} data-test="asset1">
+        <SimpleRow label={t('asset1')} data-testid="asset1">
           <Amount value={amount} />
         </SimpleRow>
       )}
       {amount2 && (
-        <SimpleRow label={t('asset2')} data-test="asset2">
+        <SimpleRow label={t('asset2')} data-testid="asset2">
           <Amount value={amount2} />
         </SimpleRow>
       )}
       {tf && (
-        <SimpleRow label={t('trading_fee')} data-test="trading_fee">
+        <SimpleRow label={t('trading_fee')} data-testid="trading_fee">
           {tf}%
         </SimpleRow>
       )}

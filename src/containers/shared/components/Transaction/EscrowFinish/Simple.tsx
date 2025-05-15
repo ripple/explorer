@@ -22,7 +22,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
 
   return (
     <>
-      <SimpleRow label={t('finish_escrow')} data-test="escrow-finish">
+      <SimpleRow label={t('finish_escrow')} data-testid="escrow-finish">
         <Account account={owner} />
         {` - ${sequence}`}
       </SimpleRow>
@@ -34,13 +34,13 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       {fulfillment && (
         <SimpleRow
           label={t('escrow_fulfillment')}
-          data-test="escrow-fulfillments"
+          data-testid="escrow-fulfillments"
         >
           {fulfillment}
         </SimpleRow>
       )}
       {amount.amount && (
-        <SimpleRow label={t('escrow_amount')} data-test="escrow-amount">
+        <SimpleRow label={t('escrow_amount')} data-testid="escrow-amount">
           <Amount value={amount} />
         </SimpleRow>
       )}
@@ -52,7 +52,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       {computationAllowance && (
         <SimpleRow
           label={t('computation_allowance')}
-          data-test="computation-allowance"
+          data-testid="computation-allowance"
         >
           {computationAllowance} {t('gas')}
         </SimpleRow>
@@ -61,7 +61,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
         <SimpleRow
           label={t('escrow_transaction')}
           className="tx"
-          data-test="escrow-tx"
+          data-testid="escrow-tx"
         >
           <RouteLink
             className="hash"

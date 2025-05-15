@@ -22,26 +22,26 @@ export const Description = ({
 
   return (
     <>
-      <div data-test="accounts-line">
+      <div data-testid="accounts-line">
         {`${t('the_account')} `}
         <Account account={tx.Account} tag={tx.SourceTag} />
         {` ${t('create_payment_channel')} `}
         <Account account={tx.Destination} tag={tx.DestinationTag} />
       </div>
       {node && (
-        <div data-test="channel-line">
+        <div data-testid="channel-line">
           {t('the_channel_id_is')}
           <span className="channel"> {node.LedgerIndex}</span>
         </div>
       )}
-      <div data-test="amount-line">
+      <div data-testid="amount-line">
         {t('the_channel_amount_is')}{' '}
         <b>
           <Amount value={tx.Amount} />
         </b>
       </div>
       {tx.SettleDelay && (
-        <div data-test="delay-line">
+        <div data-testid="delay-line">
           {t('channel_settle_delay')}{' '}
           <b>
             {localizeNumber(tx.SettleDelay, language)} {t('seconds')}
@@ -49,7 +49,7 @@ export const Description = ({
         </div>
       )}
       {tx.CancelAfter && (
-        <div data-test="cancel-line">
+        <div data-testid="cancel-line">
           {t('describe_cancel_after')}
           <span className="time">{` ${cancelAfter} ${DATE_OPTIONS.timeZone}`}</span>
         </div>

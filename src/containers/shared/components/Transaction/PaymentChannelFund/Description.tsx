@@ -12,12 +12,12 @@ export const Description = ({
 
   return (
     <>
-      <div data-test="channel-line">
+      <div data-testid="channel-line">
         {t('update_payment_channel')}{' '}
         <span className="channel">{data.tx.Channel}</span>
       </div>
       {data.tx.Amount && (
-        <div data-test="amount-line">
+        <div data-testid="amount-line">
           {t('increase_channel_amount_by')}{' '}
           <b>
             <Amount value={data.tx.Amount} />

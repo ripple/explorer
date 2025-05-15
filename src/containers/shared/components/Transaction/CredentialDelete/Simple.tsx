@@ -18,17 +18,17 @@ const Simple: TransactionSimpleComponent = (
 
   return (
     <>
-      <SimpleRow label={t('subject')} data-test="subject">
+      <SimpleRow label={t('subject')} data-testid="subject">
         {subject || account}
       </SimpleRow>
 
       {issuer && (
-        <SimpleRow label={t('issuer')} data-test="issuer">
+        <SimpleRow label={t('issuer')} data-testid="issuer">
           {issuer || account}
         </SimpleRow>
       )}
 
-      <SimpleRow label={t('credential_type')} data-test="credential-type">
+      <SimpleRow label={t('credential_type')} data-testid="credential-type">
         {convertHexToString(credentialType)}
       </SimpleRow>
     </>

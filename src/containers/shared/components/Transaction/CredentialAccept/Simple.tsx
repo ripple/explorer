@@ -13,11 +13,11 @@ export const Simple: TransactionSimpleComponent = (
 
   return (
     <>
-      <SimpleRow label={t('issuer')} data-test="issuer">
+      <SimpleRow label={t('issuer')} data-testid="issuer">
         {issuer}
       </SimpleRow>
 
-      <SimpleRow label={t('credential_type')} data-test="credential-type">
+      <SimpleRow label={t('credential_type')} data-testid="credential-type">
         {convertHexToString(credentialType)}
       </SimpleRow>
     </>

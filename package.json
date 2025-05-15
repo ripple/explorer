@@ -4,6 +4,8 @@
   "version": "1.5.0",
   "dependencies": {
     "@rollup/plugin-inject": "^5.0.5",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^12.1.5",
     "@vitejs/plugin-react": "^4.2.1",
     "@xrplf/isomorphic": "^1.0.0-beta.1",
     "@xrplf/prettier-config": "^1.9.1",
@@ -61,6 +63,8 @@
     "@types/node": "^22.14.0",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/testing-library__jest-dom": "^5.14.9",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "babel-jest": "^29.7.0",
@@ -101,7 +105,8 @@
     "xrpl": "^4.2.5"
   },
   "resolutions": {
-    "jest-environment-jsdom": "29.3.1"
+    "jest-environment-jsdom": "29.3.1",
+    "rollup": "npm:@rollup/wasm-node"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,scss}": [

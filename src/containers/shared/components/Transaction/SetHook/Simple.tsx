@@ -15,17 +15,17 @@ export const Simple = ({
 
   const renderHook = (hook: HookData) => (
     <SimpleGroup title={t('hook')} key={hook.HookHash || hook.CreateCode}>
-      <SimpleRow label={t('hash')} data-test="hook-hash">
+      <SimpleRow label={t('hash')} data-testid="hook-hash">
         {hook.HookHash ?? 'undefined'}
       </SimpleRow>
       {hook.HookOn && (
-        <SimpleRow label={t('triggered_on')} data-test="hook-on">
+        <SimpleRow label={t('triggered_on')} data-testid="hook-on">
           {/* // TODO: use the transaction badges here instead of just text */}
           {hookOnToTxList(hook.HookOn)?.join(', ') ?? <em>None</em>}
         </SimpleRow>
       )}
       {hook.HookGrants && (
-        <SimpleRow label={t('grant')} data-test="hook-grant">
+        <SimpleRow label={t('grant')} data-testid="hook-grant">
           {hook.HookGrants.map((hookGrant) => {
             const grant = hookGrant.HookGrant
             return (
@@ -38,17 +38,17 @@ export const Simple = ({
         </SimpleRow>
       )}
       {hook.HookNamespace && (
-        <SimpleRow label={t('namespace')} data-test="hook-namespace">
+        <SimpleRow label={t('namespace')} data-testid="hook-namespace">
           {hook.HookNamespace}
         </SimpleRow>
       )}
       {hook.Flags && (
-        <SimpleRow label={t('flags')} data-test="hook-flags">
+        <SimpleRow label={t('flags')} data-testid="hook-flags">
           <em>{buildHookFlags(hook.Flags).join(', ')}</em>
         </SimpleRow>
       )}
       {hook.HookApiVersion != null && (
-        <SimpleRow label={t('api_version')} data-test="hook-api-version">
+        <SimpleRow label={t('api_version')} data-testid="hook-api-version">
           {hook.HookApiVersion}
         </SimpleRow>
       )}

@@ -20,15 +20,15 @@ export const Description = ({
 
   return (
     <>
-      <div data-test="account-line">
+      <div data-testid="account-line">
         {t('transaction_initiated_by')} <Account account={data.tx.Account} />
       </div>
-      <div data-test="channel-line">
+      <div data-testid="channel-line">
         {t('update_payment_channel')}{' '}
         <span className="channel">{data.tx.Channel}</span>
       </div>
       {data.tx.Balance && (
-        <div data-test="balance-line">
+        <div data-testid="balance-line">
           {t('the_channel_balance_is')}
           <b>
             {' '}
@@ -50,7 +50,7 @@ export const Description = ({
         </div>
       )}
       {deleted && (
-        <div data-test="closed-line">
+        <div data-testid="closed-line">
           {t('payment_channel_closed_description')}
         </div>
       )}
