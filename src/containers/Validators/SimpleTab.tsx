@@ -36,7 +36,7 @@ export const SimpleTab: FC<{
     unl,
   }: ValidatorSupplemented) => {
     const unlRow = unl && (
-      <SimpleRow label="UNL" className="unl yes">
+      <SimpleRow label="UNL" className="unl yes" data-testid="unl">
         <img src={successIcon} alt={unl.toString()} /> {unl}
       </SimpleRow>
     )
@@ -70,13 +70,18 @@ export const SimpleTab: FC<{
   const rowIndex = renderRowIndex(data)
 
   return (
-    <div className="simple-body simple-body-validator">
+    <div
+      className="simple-body simple-body-validator"
+      data-testid="simple-body"
+    >
       <div className="rows">
         <Simple data={data} />
         {width < BREAKPOINTS.landscape && rowIndex}
       </div>
       {width >= BREAKPOINTS.landscape && (
-        <div className="index">{rowIndex}</div>
+        <div className="index" data-testid="index">
+          {rowIndex}
+        </div>
       )}
       <div className="clear" />
     </div>

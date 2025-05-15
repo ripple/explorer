@@ -110,7 +110,7 @@ export const Amendment = () => {
   } else if (data?.id && validators instanceof Array) {
     body = (
       <>
-        <div className="summary">
+        <div className="summary" title="summary">
           <div className="type">{t('amendment_summary')}</div>
         </div>
         <div className="simple-body">
@@ -124,7 +124,7 @@ export const Amendment = () => {
   }
 
   return (
-    <div className="amendment-summary">
+    <div className="amendment-summary" title="amendment-summary">
       {(isValidatorsLoading || isAmendmentLoading) && <Loader />}
       {body}
     </div>

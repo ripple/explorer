@@ -17,7 +17,10 @@ export const LedgerTransactionTable = ({
   return (
     <>
       <ol className="transaction-table">
-        <li className="transaction-li transaction-li-header">
+        <li
+          className="transaction-li transaction-li-header"
+          data-testid="transaction-li-header"
+        >
           <div className="col col-type">{t('transaction_type')}</div>
           <div className="col col-account">{t('account')}</div>
           <div className="col col-sequence">{t('sequence_number_short')}</div>
