@@ -22,29 +22,29 @@ export const Simple: TransactionSimpleComponent = ({
   return (
     <>
       {tokenID && (
-        <SimpleRow label={t('token_id')} data-test="token-id">
+        <SimpleRow label={t('token_id')} data-testid="token-id">
           <NFTokenLink tokenID={tokenID} />
         </SimpleRow>
       )}
       <SimpleRow
         label={t('token_taxon')}
         className="dt"
-        data-test="token-taxon"
+        data-testid="token-taxon"
       >
         {tokenTaxon}
       </SimpleRow>
       {uri && (
-        <SimpleRow label={t('uri')} className="dt" data-test="token-uri">
+        <SimpleRow label={t('uri')} className="dt" data-testid="token-uri">
           {uri}
         </SimpleRow>
       )}
       {transferFee && (
-        <SimpleRow label={t('transfer_fee')} data-test="token-fee">
+        <SimpleRow label={t('transfer_fee')} data-testid="token-fee">
           {formattedFee}
         </SimpleRow>
       )}
       {issuer && (
-        <SimpleRow label={t('issuer')} data-test="token-issuer">
+        <SimpleRow label={t('issuer')} data-testid="token-issuer">
           <Account account={issuer} />
         </SimpleRow>
       )}

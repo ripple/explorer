@@ -64,7 +64,7 @@ describe('AccountSet: Description', () => {
 
   it('renders tx that sets a message', () => {
     const wrapper = createWrapper(mockAccountSetWithMessageKey)
-    expect(wrapper.find('[data-test="message-key"]')).toHaveText(
+    expect(wrapper.find('[data-testid="message-key"]')).toHaveText(
       'It sets the account message key as 020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA',
     )
     wrapper.unmount()
@@ -72,7 +72,7 @@ describe('AccountSet: Description', () => {
 
   it('renders tx that sets a minter', () => {
     const wrapper = createWrapper(mockAccountSetWithNFTokenMinter)
-    expect(wrapper.find('[data-test="minter"]')).toHaveText(
+    expect(wrapper.find('[data-testid="minter"]')).toHaveText(
       'It sets rXMART8usFd5kABXCayoP6ZfB35b4v43t as the authorized minter for this account',
     )
     wrapper.unmount()

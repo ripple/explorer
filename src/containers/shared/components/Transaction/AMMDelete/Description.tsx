@@ -9,7 +9,7 @@ export const Description = ({
   const { Asset, Asset2 } = data.tx
 
   return (
-    <div data-test="amm-delete-description">
+    <div data-testid="amm-delete-description">
       <Trans
         i18nKey="amm_delete_description"
         components={{

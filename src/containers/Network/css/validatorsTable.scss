@@ -124,7 +124,8 @@
     }
 
     @include for-size(tablet-portrait-up) {
-      .n-unl, .version {
+      .n-unl,
+      .version {
         display: table-cell;
       }
     }
@@ -141,5 +142,4 @@
       }
     }
   }
-
 }

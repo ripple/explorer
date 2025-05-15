@@ -61,7 +61,7 @@ describe('Testing tokens search', () => {
       `<div class="search-results-header">tokens (1)</div>`,
     )
     expect(searchMenu.find('.currency').at(0).html()).toEqual(
-      `<span class="currency">SOLO</span>`,
+      `<span class="currency" data-testid="currency">SOLO</span>`,
     )
     expect(searchMenu.find('.issuer-name').at(0).html()).toEqual(
       `<div class="issuer-name">Sologenic (</div>`,

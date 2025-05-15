@@ -14,17 +14,17 @@ const Simple: TransactionSimpleComponent = (
   return (
     <>
       {URI && (
-        <SimpleRow label={t('uri')} data-test="uri">
+        <SimpleRow label={t('uri')} data-testid="uri">
           {convertHexToString(URI)}
         </SimpleRow>
       )}
       {DIDDocument && (
-        <SimpleRow label={t('did_document')} data-test="did-document">
+        <SimpleRow label={t('did_document')} data-testid="did-document">
           {convertHexToString(DIDDocument)}
         </SimpleRow>
       )}
       {Data && (
-        <SimpleRow label={t('data')} data-test="data">
+        <SimpleRow label={t('data')} data-testid="data">
           {convertHexToString(Data)}
         </SimpleRow>
       )}

@@ -8,7 +8,7 @@ describe('OfferCancel: Description', () => {
   it('renders', () => {
     const wrapper = createWrapper(offerCancel)
 
-    expect(wrapper.find('[data-test="cancel-line"]')).toHaveText(
+    expect(wrapper.find('[data-testid="cancel-line"]')).toHaveText(
       'offer_cancel_description15239384',
     )
   })

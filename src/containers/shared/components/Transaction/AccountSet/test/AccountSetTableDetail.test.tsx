@@ -70,7 +70,7 @@ describe('AccountSet: TableDetail', () => {
 
   it('renders tx that sets a minter', () => {
     const wrapper = createWrapper(mockAccountSetWithNFTokenMinter)
-    expect(wrapper.find('[data-test="minter"]')).toHaveText(
+    expect(wrapper.find('[data-testid="minter"]')).toHaveText(
       'NFT Minter: rXMART8usFd5kABXCayoP6ZfB35b4v43t',
     )
     wrapper.unmount()
