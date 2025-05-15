@@ -8,7 +8,7 @@ import './index.scss'
 import { useCustomNetworks } from '../shared/hooks'
 import { Header } from '../Header'
 
-const SidechainHome = () => {
+const CustomNetworkHome = () => {
   const { track, trackScreenLoaded } = useAnalytics()
   const { t } = useTranslation()
   const [networkText, setNetworkText] = useState('')
@@ -19,7 +19,14 @@ const SidechainHome = () => {
   }, [trackScreenLoaded])
 
   function switchMode(desiredLink: string) {
-    const customNetworkUrl = process.env.VITE_CUSTOMNETWORK_LINK
+    // Remove trailing slash from custom network link
+    const customNetworkUrl =
+      process.env.VITE_CUSTOMNETWORK_LINK?.charAt(
+        process.env.VITE_CUSTOMNETWORK_LINK.length - 1,
+      ) === '/'
+        ? process.env.VITE_CUSTOMNETWORK_LINK?.slice(0, -1)
+        : process.env.VITE_CUSTOMNETWORK_LINK
+
     const url = `${customNetworkUrl}/${desiredLink}`
 
     track('network_switch', {
@@ -76,4 +83,4 @@ const SidechainHome = () => {
   )
 }
 
-export default SidechainHome
+export default CustomNetworkHome

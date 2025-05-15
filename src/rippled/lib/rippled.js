@@ -498,9 +498,22 @@ const getNegativeUNL = (rippledSocket) =>
     return resp
   })
 
+// get server info
 const getServerInfo = (rippledSocket) =>
   query(rippledSocket, {
     command: 'server_info',
+  }).then((resp) => {
+    if (resp.error !== undefined || resp.error_message !== undefined) {
+      throw new Error(resp.error_message || resp.error, 500)
+    }
+
+    return resp
+  })
+
+// gets server state
+const getServerState = (rippledSocket) =>
+  query(rippledSocket, {
+    command: 'server_state',
   }).then((resp) => {
     if (resp.error !== undefined || resp.error_message !== undefined) {
       throw new Error(resp.error_message || resp.error, 500)
@@ -654,6 +667,7 @@ export {
   getAccountTransactions,
   getNegativeUNL,
   getServerInfo,
+  getServerState,
   getOffers,
   getNFTInfo,
   getBuyNFToffers,
