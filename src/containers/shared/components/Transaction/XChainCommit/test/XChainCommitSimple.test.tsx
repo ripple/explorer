@@ -16,19 +16,19 @@ describe('XChainCommitSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).toExist()
+    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(wrapper, 'send', '\uE90010.00 XRP')
     expectSimpleRowText(wrapper, 'claim-id', '4')
-    expect(wrapper.find(`[data-test="destination"]`)).not.toExist()
+    expect(wrapper.find(`[data-testid="destination"]`)).not.toExist()
   })
 
   it('renders failed tx', () => {
@@ -40,14 +40,14 @@ describe('XChainCommitSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(wrapper.find(`[data-test="locking-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       wrapper,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-test="issuing-chain-door"] a`)).not.toExist()
+    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
     expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(wrapper, 'send', '\uE90010,000.00 XRP')

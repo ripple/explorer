@@ -59,5 +59,6 @@
     border-radius: 4px;
     background: $black-60;
     filter: drop-shadow(0px 1px 2px $black-70);
+    pointer-events: none;
   }
 }

@@ -57,7 +57,7 @@ describe('AccountMPTRow', () => {
       '<td><a title="000017C2CE76E3E3328AE9E0D80CDD68BA72CC8D8D053DB6" class="" href="/mpt/000017C2CE76E3E3328AE9E0D80CDD68BA72CC8D8D053DB6">000017C2CE76E3E3328AE9E0D80CDD68BA72CC8D8D053DB6</a></td>',
     )
     expect(wrapper.find('td').at(1).html()).toBe(
-      '<td><a title="rKFgd9FNzwu7a7iVYa2Me4dmBC3zzUepSC" class="account" href="/accounts/rKFgd9FNzwu7a7iVYa2Me4dmBC3zzUepSC">rKFgd9FNzwu7a7iVYa2Me4dmBC3zzUepSC</a></td>',
+      '<td><a data-testid="account" title="rKFgd9FNzwu7a7iVYa2Me4dmBC3zzUepSC" class="account" href="/accounts/rKFgd9FNzwu7a7iVYa2Me4dmBC3zzUepSC">rKFgd9FNzwu7a7iVYa2Me4dmBC3zzUepSC</a></td>',
     )
     expect(wrapper.find('td').at(2).html()).toBe('<td class="right">0.100</td>')
     wrapper.unmount()

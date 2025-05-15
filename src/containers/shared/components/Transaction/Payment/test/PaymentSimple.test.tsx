@@ -49,7 +49,7 @@ describe('Payment: Simple', () => {
       `0.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZrpartial_payment_allowed`,
     )
 
-    expect(wrapper.find('[data-test="destination"]')).not.toExist()
+    expect(wrapper.find('[data-testid="destination"]')).not.toExist()
 
     wrapper.unmount()
   })

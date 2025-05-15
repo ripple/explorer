@@ -32,13 +32,16 @@ export const Simple: TransactionSimpleComponent = (
         issuingIssue={issuingIssue}
         bridgeOwner=""
       />
-      <SimpleRow label={t('send')} data-test="send">
+      <SimpleRow label={t('send')} data-testid="send">
         <Amount value={amount} />
       </SimpleRow>
-      <SimpleRow label={t('other_chain_source')} data-test="other_chain_source">
+      <SimpleRow
+        label={t('other_chain_source')}
+        data-testid="other_chain_source"
+      >
         <Account account={otherChainSource} link={false} />
       </SimpleRow>
-      <SimpleRow label={t('destination')} data-test="destination">
+      <SimpleRow label={t('destination')} data-testid="destination">
         <Account account={destination} />
       </SimpleRow>
     </>

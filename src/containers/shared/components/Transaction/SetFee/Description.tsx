@@ -8,7 +8,7 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
 
   return (
     <>
-      <div data-test="fees-line">
+      <div data-testid="fees-line">
         <Trans
           i18nKey="setfee_fees_description"
           components={{
@@ -16,7 +16,7 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
           }}
         />
       </div>
-      <div data-test="reserves-line">
+      <div data-testid="reserves-line">
         <Trans
           i18nKey="setfee_reserves_description"
           components={{
@@ -26,7 +26,7 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
         />
       </div>
       <br />
-      <div data-test="documentation-line">
+      <div data-testid="documentation-line">
         <Trans
           i18nKey="setfee_docs_description"
           components={[<a href="https://xrpl.org/fees.html">Fees</a>]}

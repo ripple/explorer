@@ -100,7 +100,7 @@ describe('NFTokenMint', () => {
       </I18nextProvider>,
     )
 
-    expect(wrapper.find('[data-test="token-issuer"] .value')).toExist()
+    expect(wrapper.find('[data-testid="token-issuer"] .value')).toExist()
     expectSimpleRowText(
       wrapper,
       'token-id',
@@ -145,7 +145,7 @@ describe('NFTokenMint', () => {
       'token-uri',
       convertHexToString(
         '516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463',
-      ),
+      ) as string,
     )
     wrapper.unmount()
   })
@@ -183,7 +183,7 @@ describe('NFTokenMint', () => {
       'token-uri',
       convertHexToString(
         '516D5071416B3677777577796A71654C476F64665253375156774677394346736A6D363375485661556438387463',
-      ),
+      ) as string,
     )
     wrapper.unmount()
   })

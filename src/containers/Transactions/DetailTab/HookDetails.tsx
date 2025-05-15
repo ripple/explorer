@@ -18,7 +18,7 @@ const renderHookParameterName = (name: string) => {
 const EmitDetails: FC<{ emitDetails: any }> = ({ emitDetails }) => {
   const { t } = useTranslation()
   return (
-    <div className="detail-subsection" data-test="emit-details">
+    <div className="detail-subsection" data-testid="emit-details">
       <div className="detail-subtitle">{t('emit_details')}</div>
       <li className="detail-line">
         <Trans
@@ -114,17 +114,17 @@ export const HookDetails: FC<{ data: { tx: any; meta: any } }> = ({ data }) => {
   if (!tx.EmitDetails && !tx.HookParameters && !meta.HookExecutions) return null
 
   return (
-    <div className="detail-section" data-test="hooks">
+    <div className="detail-section" data-testid="hooks">
       <div className="title">{t('hooks')}</div>
       {tx.EmitDetails && <EmitDetails emitDetails={tx.EmitDetails} />}
       {tx.HookParameters && (
-        <div className="detail-subsection" data-test="hook-params">
+        <div className="detail-subsection" data-testid="hook-params">
           <div className="detail-subtitle">{t('hook_parameters')}</div>
           {tx.HookParameters.map(HookParameter)}
         </div>
       )}
       {meta.HookExecutions && (
-        <div className="detail-subsection" data-test="hook-executions">
+        <div className="detail-subsection" data-testid="hook-executions">
           <div className="detail-subtitle">{t('hook_executions')}</div>
           {meta.HookExecutions.map(HookExecution)}
         </div>
