@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { testQueryClient } from '../../../test/QueryClient'
 import i18n from '../../../../i18n/testConfig'
 import { AccountHeader } from '..'
-import { flushPromises } from '../../../test/utils'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../../test/utils'
 
 const TEST_ADDRESS = 'rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv'
 const TEST_X_ADDRESS = 'XV3oNHx95sqdCkTDCBCVsVeuBmvh2dz5fTZvfw8UCcMVsfe'
@@ -14,7 +14,7 @@ describe('AccountHeader Actions', () => {
   const createWrapper = (account, accountId) =>
     mount(
       <QueryClientProvider client={testQueryClient}>
-        <BrowserRouter>
+        <BrowserRouter future={V7_FUTURE_ROUTER_FLAGS}>
           <I18nextProvider i18n={i18n}>
             <AccountHeader
               account={account}

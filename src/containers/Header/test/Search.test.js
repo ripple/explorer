@@ -8,7 +8,7 @@ import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
-import { flushPromises } from '../../test/utils'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 import { queryClient } from '../../shared/QueryClient'
 
 describe('Search component', () => {
@@ -17,7 +17,7 @@ describe('Search component', () => {
     return mount(
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
-          <Router>
+          <Router future={V7_FUTURE_ROUTER_FLAGS}>
             <QueryClientProvider client={queryClient}>
               <Search />
             </QueryClientProvider>
