@@ -23,9 +23,9 @@
       "missed": 120,
       "incomplete": true
     },
-    "base_fee":10,
-    "reserve_base":1000000,
-    "reserve_inc":200000
+    "base_fee": 10,
+    "reserve_base": 1000000,
+    "reserve_inc": 200000
   },
   {
     "master_key": "nHDaxUL87HiVszvCamVu4A3Gecq6LTxKkUVNdzf3nqmuSywgRqu4",

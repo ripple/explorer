@@ -17,7 +17,11 @@ export const Simple: TransactionSimpleComponent = ({
   return (
     <>
       {acceptedOfferIDs.map((offer) => (
-        <SimpleRow label={t('offer_index')} className="dt" data-test="offer-id">
+        <SimpleRow
+          label={t('offer_index')}
+          className="dt"
+          data-testid="offer-id"
+        >
           <RouteLink to={ENTRY_ROUTE} params={{ id: offer }}>
             {offer}
           </RouteLink>
@@ -25,16 +29,20 @@ export const Simple: TransactionSimpleComponent = ({
       ))}
       {amount && seller && buyer && tokenID && (
         <>
-          <SimpleRow label={t('seller')} data-test="seller">
+          <SimpleRow label={t('seller')} data-testid="seller">
             <Account account={seller} />
           </SimpleRow>
-          <SimpleRow label={t('buyer')} data-test="buyer">
+          <SimpleRow label={t('buyer')} data-testid="buyer">
             <Account account={buyer} />
           </SimpleRow>
-          <SimpleRow label={t('token_id')} className="dt" data-test="token-id">
+          <SimpleRow
+            label={t('token_id')}
+            className="dt"
+            data-testid="token-id"
+          >
             <NFTokenLink tokenID={tokenID} />
           </SimpleRow>
-          <SimpleRow label={t('amount')} data-test="amount">
+          <SimpleRow label={t('amount')} data-testid="amount">
             <Amount value={amount} displayIssuer />
           </SimpleRow>
         </>

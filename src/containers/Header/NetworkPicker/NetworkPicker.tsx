@@ -12,28 +12,28 @@ export interface Network {
   url: string
 }
 
-// Remove trailing slash from custom network link
-const CUSTOM_NETWORK_BASE_LINK =
-  process.env.VITE_CUSTOMNETWORK_LINK?.charAt(
-    process.env.VITE_CUSTOMNETWORK_LINK.length - 1,
-  ) === '/'
-    ? process.env.VITE_CUSTOMNETWORK_LINK?.slice(0, -1)
-    : process.env.VITE_CUSTOMNETWORK_LINK
-const STATIC_ENV_LINKS: Record<string, string | undefined> = {
-  mainnet: process.env.VITE_MAINNET_LINK,
-  testnet: process.env.VITE_TESTNET_LINK,
-  devnet: process.env.VITE_DEVNET_LINK,
-  xahau_mainnet: process.env.VITE_XAHAU_MAINNET_LINK,
-  xahau_testnet: process.env.VITE_XAHAU_TESTNET_LINK,
-}
-const currentMode: string = process.env.VITE_ENVIRONMENT || 'mainnet'
-
 export const NetworkPicker = () => {
   const { track } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
   const [newRippledUrl, setNewRippledUrl] = useState('')
   const [customNetworks = [], setCustomNetworks] = useCustomNetworks()
+
+  // Remove trailing slash from custom network link
+  const CUSTOM_NETWORK_BASE_LINK =
+    process.env.VITE_CUSTOMNETWORK_LINK?.charAt(
+      process.env.VITE_CUSTOMNETWORK_LINK.length - 1,
+    ) === '/'
+      ? process.env.VITE_CUSTOMNETWORK_LINK?.slice(0, -1)
+      : process.env.VITE_CUSTOMNETWORK_LINK
+  const STATIC_ENV_LINKS: Record<string, string | undefined> = {
+    mainnet: process.env.VITE_MAINNET_LINK,
+    testnet: process.env.VITE_TESTNET_LINK,
+    devnet: process.env.VITE_DEVNET_LINK,
+    xahau_mainnet: process.env.VITE_XAHAU_MAINNET_LINK,
+    xahau_testnet: process.env.VITE_XAHAU_TESTNET_LINK,
+  }
+  const currentMode: string = process.env.VITE_ENVIRONMENT || 'mainnet'
 
   const rippledUrl = rippledSocket?.rippledUrl
   const isCustom = currentMode === 'custom'

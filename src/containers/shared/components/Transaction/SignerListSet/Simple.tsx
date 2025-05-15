@@ -12,7 +12,7 @@ export const Simple = ({
 
   return signers?.length ? (
     <>
-      <SimpleRow label={t('signers')} data-test="signers">
+      <SimpleRow label={t('signers')} data-testid="signers">
         <ul className="signers">
           {signers.map((d) => (
             <li key={d.account}>
@@ -23,7 +23,7 @@ export const Simple = ({
           ))}
         </ul>
       </SimpleRow>
-      <SimpleRow label={t('quorum')} data-test="quorum">
+      <SimpleRow label={t('quorum')} data-testid="quorum">
         {quorum}
         <span className="label"> {t('out_of')} </span>
         {maxSigners}
