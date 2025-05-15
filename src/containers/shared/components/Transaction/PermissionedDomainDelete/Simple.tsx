@@ -11,7 +11,7 @@ const Simple: TransactionSimpleComponent = (
   const { DomainID: domainID } = data.instructions
 
   return (
-    <SimpleRow label={t('domain_id')} data-test="domain-id">
+    <SimpleRow label={t('domain_id')} data-testid="domain-id">
       {domainID}
     </SimpleRow>
   )

@@ -15,17 +15,17 @@ export const TableDetail = ({
   } = instructions
   return (
     <div className="credential-delete">
-      <div data-test="subject">
+      <div data-testid="subject">
         <span className="label">{t('subject')}: </span>
         <span className="case-sensitive">{subject || account}</span>
       </div>
 
-      <div data-test="issuer">
+      <div data-testid="issuer">
         <span className="label">{t('issuer')}: </span>
         <span className="case-sensitive">{issuer || account}</span>
       </div>
 
-      <div data-test="credential-type">
+      <div data-testid="credential-type">
         <span className="label">{t('credential_type')}: </span>
         <span className="case-sensitive">
           {convertHexToString(credentialType)}

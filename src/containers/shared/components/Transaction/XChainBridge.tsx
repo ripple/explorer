@@ -28,12 +28,15 @@ export const XChainBridge = (props: XChainBridgeProps) => {
 
   return (
     <SimpleGroup title={t('xchainbridge')}>
-      <SimpleRow label={t('locking_chain_door')} data-test="locking-chain-door">
+      <SimpleRow
+        label={t('locking_chain_door')}
+        data-testid="locking-chain-door"
+      >
         <Account account={lockingDoor} link={lockingDoor === bridgeOwner} />
       </SimpleRow>
       <SimpleRow
         label={t('locking_chain_issue')}
-        data-test="locking-chain-issue"
+        data-testid="locking-chain-issue"
       >
         <Currency
           issuer={lockingIssue.issuer}
@@ -41,12 +44,15 @@ export const XChainBridge = (props: XChainBridgeProps) => {
           link={lockingDoor === bridgeOwner}
         />
       </SimpleRow>
-      <SimpleRow label={t('issuing_chain_door')} data-test="issuing-chain-door">
+      <SimpleRow
+        label={t('issuing_chain_door')}
+        data-testid="issuing-chain-door"
+      >
         <Account account={issuingDoor} link={issuingDoor === bridgeOwner} />
       </SimpleRow>
       <SimpleRow
         label={t('issuing_chain_issue')}
-        data-test="issuing-chain-issue"
+        data-testid="issuing-chain-issue"
       >
         <Currency
           issuer={issuingIssue.issuer}
@@ -55,7 +61,7 @@ export const XChainBridge = (props: XChainBridgeProps) => {
         />
       </SimpleRow>
       {signatureReward && (
-        <SimpleRow label={t('signature_reward')} data-test="signature-reward">
+        <SimpleRow label={t('signature_reward')} data-testid="signature-reward">
           <Amount value={signatureReward} />
         </SimpleRow>
       )}
