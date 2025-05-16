@@ -5,7 +5,7 @@ export const ACCOUNT_ROUTE: RouteDefinition<{
   tab?: 'assets' | 'transactions'
   assetType?: 'issued' | 'nfts' | 'mpts'
 }> = {
-  path: '/accounts/:id?/:tab?/:assetType?',
+  path: '/accounts/:id/:tab?/:assetType?',
 }
 
 export const LEDGERS_ROUTE: RouteDefinition = {
@@ -49,7 +49,14 @@ export const TRANSACTION_ROUTE: RouteDefinition<{
   identifier: string
   tab?: 'simple' | 'detailed' | 'raw'
 }> = {
-  path: `/transactions/:identifier?/:tab?`,
+  path: `/transactions/:identifier/:tab?`,
+}
+
+export const ENTRY_ROUTE: RouteDefinition<{
+  id: string
+  tab?: 'simple' | 'raw'
+}> = {
+  path: `/entry/:id/:tab?`,
 }
 
 export const VALIDATOR_ROUTE: RouteDefinition<{

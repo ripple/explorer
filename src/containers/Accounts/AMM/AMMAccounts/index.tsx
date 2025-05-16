@@ -64,7 +64,7 @@ export const AMMAccounts = () => {
     */
     return getAccountInfo(rippledSocket, accountId)
       .then((accountInfo) =>
-        getLedgerEntry(rippledSocket, { index: accountInfo.AMMID })
+        getLedgerEntry(rippledSocket, accountInfo.AMMID)
           .then((ammLedgerEntry) => {
             asset1 = formatAsset(ammLedgerEntry.node.Asset)
             asset2 = formatAsset(ammLedgerEntry.node.Asset2)
