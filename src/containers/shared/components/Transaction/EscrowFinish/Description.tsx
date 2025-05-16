@@ -64,7 +64,7 @@ const Description: TransactionDescriptionComponent = (
       </Trans>
       {data.tx.Fulfillment && (
         <div>
-          {t('escrow_finish_fullfillment_desc')}
+          {t('escrow_finish_fulfillment_desc')}
           <span className="fulfillment"> {data.tx.Fulfillment}</span>
         </div>
       )}

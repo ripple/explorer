@@ -286,7 +286,7 @@
   "describe_finish_after": "Se puede finalizar tras",
   "escrow_completion_desc": "La finalización se descencadenó por",
   "escrow_completion_desc_2": "La cantidad depositada de <1><0>{{amount}}</0></1> fue enviada a <3><0>{{destination}}</0></3>",
-  "escrow_finish_fullfillment_desc": "La condición del depósito fue completada por",
+  "escrow_finish_fulfillment_desc": "La condición del depósito fue completada por",
   "escrow_cancellation_desc": "La cancelación fue producida por",
   "escrow_cancellation_desc_2": "La cantidad depositada de <1><0>{{amount}}</0></1> fue devuelta a <3><0>{{owner}}</0></3>",
   "escrow_after_transaction_cost": "tras el coste de transacción",
@@ -563,11 +563,14 @@
   "accepted_credentials": null,
   "action_from_and": null,
   "data": null,
+  "finish_function": null,
   "quorum_description": null,
   "avg_fee_description": null,
   "ledger_interval_description": null,
   "txn_ledger_description": null,
   "txn_sec_description": null,
   "load_fee_description": null,
-  "nUnl_description": null
+  "nUnl_description": null,
+  "computation_allowance": null,
+  "gas": null
 }

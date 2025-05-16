@@ -287,7 +287,7 @@
   "describe_finish_after": "다음 시점 이후에 완료할 수 있습니다",
   "escrow_completion_desc": "완료는 다음에 의해 발동되었습니다",
   "escrow_completion_desc_2": "에스크로에 보관된 <1><0>{{amount}}</0></1>이 <3><0>{{destination}}</0></3>에게 전달되었습니다",
-  "escrow_finish_fullfillment_desc": "에스크로의 조건은 다음에 의해 충족되었습니다.",
+  "escrow_finish_fulfillment_desc": "에스크로의 조건은 다음에 의해 충족되었습니다.",
   "escrow_cancellation_desc": "취소는 다음에 의해 발동되었습니다.",
   "escrow_cancellation_desc_2": "에스크로에 보관된 <1><0>{{amount}}</0></1>이 <3><0>{{destination}}</0></3>에게 반환되었습니다",
   "escrow_after_transaction_cost": "트랜잭션 비용을 제외한 금액",
@@ -561,11 +561,14 @@
   "accepted_credentials": null,
   "action_from_and": null,
   "data": null,
+  "finish_function": null,
   "quorum_description": null,
   "avg_fee_description": null,
   "ledger_interval_description": null,
   "txn_ledger_description": null,
   "txn_sec_description": null,
   "load_fee_description": null,
-  "nUnl_description": null
+  "nUnl_description": null,
+  "computation_allowance": null,
+  "gas": null
 }
