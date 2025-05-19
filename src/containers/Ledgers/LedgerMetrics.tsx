@@ -104,7 +104,6 @@ export const LedgerMetrics = ({
     .map((key) => {
       let content: any = null
 
-      const className = 'label'
       if (data[key] === undefined && key !== 'nUnl') {
         content = '--'
       } else if (key.includes('fee') && !isNaN(data[key])) {
@@ -119,7 +118,7 @@ export const LedgerMetrics = ({
           <div className="cell" key={key}>
             <div className="label-wrapper">
               {renderMetricIcon(key)}
-              <div className={className}>
+              <div className="label">
                 <span
                   className="text"
                   role="link"
@@ -156,7 +155,7 @@ export const LedgerMetrics = ({
         <div className="cell" key={key}>
           <div className="label-wrapper">
             {renderMetricIcon(key)}
-            <div className={className}>
+            <div className="label">
               <span className="text">
                 {t(key, { defaultValue: 'load_fee' })}
               </span>
