@@ -4,6 +4,8 @@ import {
   localizeNumber,
   computeRippleStateBalanceChange,
 } from '../../../shared/utils'
+import { RouteLink } from '../../../shared/routing'
+import { ENTRY_ROUTE } from '../../../App/routes'
 
 const render = (t, language, action, node, index) => {
   const {
@@ -19,7 +21,11 @@ const render = (t, language, action, node, index) => {
   const line1 = (
     <Trans i18nKey="transaction_balance_line_one">
       It {action} a <b>{currency}</b>
-      ripplestate node between
+      ripplestate
+      <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
+        node
+      </RouteLink>
+      between
       <Account account={account} />
       and
       <Account account={counterAccount} />
