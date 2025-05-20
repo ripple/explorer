@@ -8,7 +8,7 @@ import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionTable/te
 
 import { getAccountTransactions } from '../../../../rippled'
 import { testQueryClient } from '../../../test/QueryClient'
-import { flushPromises } from '../../../test/utils'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../../test/utils'
 import Mock = jest.Mock
 
 jest.mock('../../../../rippled', () => ({
@@ -29,7 +29,7 @@ describe('TokenTransactionsTable container', () => {
     return mount(
       <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
-          <Router>
+          <Router future={V7_FUTURE_ROUTER_FLAGS}>
             <TokenTransactionTable
               accountId={TEST_ACCOUNT_ID}
               currency={TEST_CURRENCY}
