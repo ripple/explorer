@@ -6,7 +6,7 @@ import { getAccountNFTs } from '../../../../rippled/lib/rippled'
 import { AccountNFTTable } from '../AccountNFTTable'
 import i18n from '../../../../i18n/testConfig'
 import { testQueryClient } from '../../../test/QueryClient'
-import { flushPromises } from '../../../test/utils'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../../test/utils'
 import Mock = jest.Mock
 
 jest.mock('../../../../rippled/lib/rippled', () => ({
@@ -38,7 +38,7 @@ describe('AccountNFTTable component', () => {
   const renderComponent = () =>
     render(
       <QueryClientProvider client={testQueryClient}>
-        <BrowserRouter>
+        <BrowserRouter future={V7_FUTURE_ROUTER_FLAGS}>
           <I18nextProvider i18n={i18n}>
             <AccountNFTTable accountId={TEST_ACCOUNT_ID} />
           </I18nextProvider>

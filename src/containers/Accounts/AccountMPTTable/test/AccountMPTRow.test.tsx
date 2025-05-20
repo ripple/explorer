@@ -6,7 +6,7 @@ import { AccountMPTRow } from '../AccountMPTTable'
 import i18n from '../../../../i18n/testConfig'
 import { testQueryClient } from '../../../test/QueryClient'
 import { getMPTIssuance } from '../../../../rippled/lib/rippled'
-import { flushPromises } from '../../../test/utils'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../../test/utils'
 
 import Mock = jest.Mock
 
@@ -30,7 +30,9 @@ describe('AccountMPTRow', () => {
     render(
       <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
-          <BrowserRouter>{component}</BrowserRouter>
+          <BrowserRouter future={V7_FUTURE_ROUTER_FLAGS}>
+            {component}
+          </BrowserRouter>
         </I18nextProvider>
       </QueryClientProvider>,
     )

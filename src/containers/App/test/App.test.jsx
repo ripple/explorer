@@ -7,7 +7,7 @@ import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled/lib/rippled'
-import { flushPromises } from '../../test/utils'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
 import { Error } from '../../../rippled/lib/utils'
 
@@ -85,7 +85,7 @@ describe('App container', () => {
     }
 
     return render(
-      <MemoryRouter initialEntries={[path]}>
+      <MemoryRouter initialEntries={[path]} future={V7_FUTURE_ROUTER_FLAGS}>
         <I18nextProvider i18n={i18n}>
           <AppWrapper />
         </I18nextProvider>
@@ -445,11 +445,10 @@ describe('App container', () => {
     process.env.VITE_CUSTOMNETWORK_LINK = 'https://custom.xrpl.org' //  Manually add URL with no trailing slash
 
     const network = 's2.ripple.com'
-    wrapper = createWrapper(`/${network}/`)
+    renderComponent(`/${network}/`)
     await flushPromises()
-    wrapper.update()
     // Make sure the sockets aren't double initialized.
-    expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
+    expect(screen.getByRole('banner')).not.toHaveClass('header-no-network')
     expect(XrplClient).toHaveBeenCalledTimes(1)
     expect(document.title).toEqual(`xrpl_explorer | ledgers`)
   })

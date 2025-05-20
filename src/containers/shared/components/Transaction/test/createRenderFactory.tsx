@@ -12,6 +12,7 @@ import {
   TransactionTableDetailComponent,
 } from '../types'
 import { testQueryClient } from '../../../../test/QueryClient'
+import { V7_FUTURE_ROUTER_FLAGS } from '../../../../test/utils'
 
 /**
  * Methods that produce renderComponent function for tests
@@ -26,7 +27,9 @@ export function renderComponent(
   return render(
     <QueryClientProvider client={testQueryClient}>
       <I18nextProvider i18n={i18nConfig || defaultI18nConfig}>
-        <BrowserRouter>{TestComponent}</BrowserRouter>
+        <BrowserRouter future={V7_FUTURE_ROUTER_FLAGS}>
+          {TestComponent}
+        </BrowserRouter>
       </I18nextProvider>
     </QueryClientProvider>,
   )
