@@ -82,6 +82,20 @@ export const LedgerMetrics = ({
     }
   }
 
+  const renderTextTooltip = (key: string) => (
+    <HoverIcon
+      className="hover"
+      onMouseOver={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        showTooltip('text', e, t(`${key}_description`, { defaultValue: '' }), {
+          x: rect.left + window.scrollX + rect.width / 2,
+          y: rect.top + window.scrollY - TOOLTIP_Y_OFFSET,
+        })
+      }}
+      onMouseLeave={() => hideTooltip()}
+    />
+  )
+
   if (data.load_fee === '--') {
     data.load_fee = data.base_fee || '--'
   }
@@ -90,7 +104,6 @@ export const LedgerMetrics = ({
     .map((key) => {
       let content: any = null
 
-      let className = 'label'
       if (data[key] === undefined && key !== 'nUnl') {
         content = '--'
       } else if (key.includes('fee') && !isNaN(data[key])) {
@@ -101,27 +114,36 @@ export const LedgerMetrics = ({
         return null
       } else if (key === 'nUnl') {
         content = data[key].length
-        className = 'label n-unl-metric'
         return (
-          <div
-            role="link"
-            className="cell"
-            onFocus={() => {}}
-            onBlur={() => {}}
-            onMouseOver={(e) => showTooltip('nUnl', e, { nUnl: data.nUnl })}
-            onMouseOut={() => hideTooltip()}
-            tabIndex={0}
-            key={key}
-          >
-            <a
-              key={`link ${key}`}
-              href="https://xrpl.org/negative-unl.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={className}
-            >
-              {t(key)}
-            </a>
+          <div className="cell" key={key}>
+            <div className="label-wrapper">
+              {renderMetricIcon(key)}
+              <div className="label">
+                <span
+                  className="text"
+                  role="link"
+                  onMouseOver={(e) =>
+                    showTooltip('nUnl', e, { nUnl: data.nUnl })
+                  }
+                  onMouseOut={() => hideTooltip()}
+                  onFocus={() => {}}
+                  onBlur={() => {}}
+                  tabIndex={0}
+                >
+                  <a
+                    key={`link ${key}`}
+                    href="https://xrpl.org/negative-unl.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="n-unl-metric"
+                  >
+                    {t(key)}
+                  </a>
+                </span>
+
+                {renderTextTooltip(key)}
+              </div>
+            </div>
             <span>{content}</span>
           </div>
         )
@@ -133,26 +155,11 @@ export const LedgerMetrics = ({
         <div className="cell" key={key}>
           <div className="label-wrapper">
             {renderMetricIcon(key)}
-            <div className={className}>
+            <div className="label">
               <span className="text">
                 {t(key, { defaultValue: 'load_fee' })}
               </span>
-              <HoverIcon
-                className="hover"
-                onMouseOver={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect()
-                  showTooltip(
-                    'text',
-                    e,
-                    t(`${key}_description`, { defaultValue: '' }),
-                    {
-                      x: rect.left + window.scrollX + rect.width / 2,
-                      y: rect.top + window.scrollY - TOOLTIP_Y_OFFSET,
-                    },
-                  )
-                }}
-                onMouseLeave={() => hideTooltip()}
-              />
+              {renderTextTooltip(key)}
             </div>
           </div>
           <span>{content}</span>
