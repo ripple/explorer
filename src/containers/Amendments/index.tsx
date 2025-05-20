@@ -46,7 +46,7 @@ export const Amendments = () => {
   return (
     <div className="amendments-page">
       <div className="wrap">
-        <div className="summary">
+        <div className="summary" title="summary">
           <div className="type">{t('amendments')}</div>
         </div>
         <AmendmentsTable amendments={data} />
