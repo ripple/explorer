@@ -161,6 +161,7 @@
   "transaction_type_name_CredentialAccept": null,
   "transaction_type_name_CredentialCreate": null,
   "transaction_type_name_CredentialDelete": null,
+  "transaction_type_name_DelegateSet": null,
   "transaction_type_name_DIDDelete": "Eliminar DID",
   "transaction_type_name_DIDSet": "Establir DID",
   "transaction_type_name_DepositPreauth": "Preautoritzar Diposit",
