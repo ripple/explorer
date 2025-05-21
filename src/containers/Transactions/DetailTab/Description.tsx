@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
 import { Sequence } from '../../shared/components/Sequence'
 import { transactionTypes } from '../../shared/components/Transaction'
+import { Account } from '../../shared/components/Account'
 
 export const TransactionDescription: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
@@ -29,6 +30,13 @@ export const TransactionDescription: FC<{ data: any }> = ({ data }) => {
           />
         </b>
       </div>
+      {data.tx.Delegate && (
+        <div data-testid="delegate">
+          {t('tx_delegated_to')}
+          {` `}
+          <Account account={data.tx.Delegate} />
+        </div>
+      )}
       {DescriptionComponent && <DescriptionComponent data={data} />}
     </div>
   )

@@ -163,6 +163,7 @@
   "transaction_type_name_CredentialAccept": null,
   "transaction_type_name_CredentialCreate": null,
   "transaction_type_name_CredentialDelete": null,
+  "transaction_type_name_DelegateSet": null,
   "transaction_type_name_DepositPreauth": "예치 인증",
   "transaction_type_name_Error_Cases": "오류 사례",
   "transaction_type_name_EscrowCancel": "에스크로 취소",
@@ -570,5 +571,8 @@
   "load_fee_description": null,
   "nUnl_description": null,
   "computation_allowance": null,
-  "gas": null
+  "gas": null,
+  "delegate": null,
+  "permissions": null,
+  "tx_delegated_to": null
 }

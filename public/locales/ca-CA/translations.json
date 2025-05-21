@@ -569,5 +569,8 @@
   "data": null,
   "finish_function": null,
   "computation_allowance": null,
-  "gas": null
+  "gas": null,
+  "delegate": null,
+  "permissions": null,
+  "tx_delegated_to": null
 }
