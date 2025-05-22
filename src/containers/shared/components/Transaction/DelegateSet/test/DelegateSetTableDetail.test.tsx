@@ -9,7 +9,7 @@ describe('DelegateSetTableDetail', () => {
   it('render DelegateSetTableDetail', () => {
     const wrapper = createWrapper(mockDelegateSet)
     expect(wrapper).toHaveText(
-      'delegate ' +
+      'Delegate ' +
         'Payment, AccountDomainSet permissions ' +
         'to ' +
         'rNRfqQc9b9ehXJJYVR6NqPPwrS26tWeB6N',
