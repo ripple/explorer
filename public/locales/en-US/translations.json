@@ -578,7 +578,8 @@
   "nUnl_description": "No. of validators in NegativeUNL (nUNL)",
   "computation_allowance": "Computation Allowance",
   "gas": "Gas",
-  "delegate": "delegate",
+  "delegate": "Delegate",
+  "permissions": "Permissions",
   "tx_delegated_to": "The transaction is delegated to <Account/>",
   "account_delegates_to": "<Account/> delegates <Permissions/> permissions to <Authorize/>",
   "delegate_to": "<Delegate/> <Permissions/> permissions to <Account/>"
