@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import { TransactionDescriptionProps } from '../types'
 import { DelegateSet } from './types'
 import { Account } from '../../Account'
@@ -6,7 +6,6 @@ import { Account } from '../../Account'
 export const Description = ({
   data,
 }: TransactionDescriptionProps<DelegateSet>) => {
-  const { t } = useTranslation()
   const { tx } = data
   const {
     Account: account,
@@ -14,22 +13,19 @@ export const Description = ({
     Permissions: permissions,
   } = tx
   return (
-    <>
-      <Account account={account} />
-      {` `}
-      <span>{t('delegate')}</span>
-      {` `}
-      <span className="flag">
-        {permissions
-          .map((permission) => permission.Permission.PermissionValue)
-          .join(', ')}
-      </span>
-      {` `}
-      <span>{t('permissions')}</span>
-      {` `}
-      <span>{t('to')}</span>
-      {` `}
-      <Account account={authorize} />
-    </>
+    <Trans
+      i18nKey="account_delegates_to"
+      components={{
+        Account: <Account account={account} />,
+        Permissions: (
+          <span className="flag">
+            {permissions
+              .map((permission) => permission.Permission.PermissionValue)
+              .join(', ')}
+          </span>
+        ),
+        Authorize: <Account account={authorize} />,
+      }}
+    />
   )
 }

@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import { FC } from 'react'
 import { Sequence } from '../../shared/components/Sequence'
 import { transactionTypes } from '../../shared/components/Transaction'
@@ -32,9 +32,10 @@ export const TransactionDescription: FC<{ data: any }> = ({ data }) => {
       </div>
       {data.tx.Delegate && (
         <div data-testid="delegate">
-          {t('tx_delegated_to')}
-          {` `}
-          <Account account={data.tx.Delegate} />
+          <Trans
+            i18nKey="tx_delegated_to"
+            components={{ Account: <Account account={data.tx.Delegate} /> }}
+          />
         </div>
       )}
       {DescriptionComponent && <DescriptionComponent data={data} />}

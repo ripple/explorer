@@ -9,7 +9,7 @@ describe('DelegateSet: Description', () => {
   it('renders', () => {
     const wrapper = createWrapper(mockDelegateSet)
     expect(wrapper).toHaveText(
-      'rfFLs8ZknoJKHCw7MtJKcs8GL81dqoDGRz delegate Payment, AccountDomainSet permissions to rNRfqQc9b9ehXJJYVR6NqPPwrS26tWeB6N',
+      'rfFLs8ZknoJKHCw7MtJKcs8GL81dqoDGRz delegates Payment, AccountDomainSet permissions to rNRfqQc9b9ehXJJYVR6NqPPwrS26tWeB6N',
     )
     wrapper.unmount()
   })
