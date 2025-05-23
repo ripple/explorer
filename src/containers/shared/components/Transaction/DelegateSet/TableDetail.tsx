@@ -13,7 +13,7 @@ export const TableDetail = ({
       <Trans
         i18nKey="delegate_to"
         components={{
-          Delegate: <span className="label">{t('delegate')}</span>,
+          DelegateLabel: <span className="label">{t('delegate')}</span>,
           Permissions: (
             <span className="flag">
               {Permissions.map(
