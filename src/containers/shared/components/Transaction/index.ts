@@ -10,6 +10,7 @@ import { AccountSetTransaction as AccountSet } from './AccountSet'
 import { CredentialAcceptTransaction as CredentialAccept } from './CredentialAccept'
 import { CredentialCreateTransaction as CredentialCreate } from './CredentialCreate'
 import { CredentialDeleteTransaction as CredentialDelete } from './CredentialDelete'
+import { DelegateSetTransaction as DelegateSet } from './DelegateSet'
 import { DIDSetTransaction as DIDSet } from './DIDSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
 import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
@@ -65,6 +66,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   CredentialAccept,
   CredentialCreate,
   CredentialDelete,
+  DelegateSet,
   DIDSet,
   DepositPreauth,
   EnableAmendment,
