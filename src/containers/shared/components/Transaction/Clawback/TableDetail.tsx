@@ -13,7 +13,7 @@ export const TableDetail = ({
   return (
     <div>
       {amount && holder && (
-        <div className="clawback">
+        <div className="clawback" data-testid="clawback">
           <Trans i18nKey="action_from">
             <span className="label">{t('claws_back')}</span>
             <Amount value={amount} displayIssuer />

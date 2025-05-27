@@ -76,6 +76,7 @@ export const Hexagons = ({ list, data }) => {
       <g
         key={`${pubkey}${cookie}${ledgerHash}`}
         transform={`translate(${d.x},${d.y})`}
+        data-testid="hexagon"
         className="hexagon updated"
         onMouseOver={(e) =>
           showTooltip('validator', e, { ...d, v: list[d.pubkey] })
@@ -106,7 +107,7 @@ export const Hexagons = ({ list, data }) => {
               strokeLinejoin="round"
             />
           </g>
-          <g className="hexagons">
+          <g className="hexagons" data-testid="hexagons">
             {hexagons.map((hexagon) => renderHexagon(hexagon, bin))}
           </g>
         </svg>
