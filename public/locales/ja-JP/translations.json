@@ -525,7 +525,7 @@
   "asset_class": "資産クラス",
   "trading_pairs": "取引ペア",
   "deleted": "削除",
-  "holders": "保有者: {{holders}}",
+  "holders_count": "保有者: {{holders}}",
   "trustlines": "トラストライン: {{trustlines}}",
   "website": "Webサイト",
   "assets.mpt_tab_title": null,

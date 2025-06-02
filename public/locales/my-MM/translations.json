@@ -541,7 +541,7 @@
   "asset_class": "ပိုင်ဆိုင်မှု အမျိုးအစား",
   "trading_pairs": "ရောင်းဝယ်မှု အတွဲများ",
   "deleted": "ဖျက်ထားသည်",
-  "holders": "ကိုင်ဆောင်သူများ: {{holders}}",
+  "holders_count": "ကိုင်ဆောင်သူများ: {{holders}}",
   "trustlines": "ယုံကြည်မှု လမ်းကြောင်းများ: {{trustlines}}",
   "website": "ဝဘ်ဆိုဒ်",
   "mpt_issuance_id": "MPT ထုတ်ဝေမှု ID",

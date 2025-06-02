@@ -526,7 +526,7 @@
   "asset_class": null,
   "trading_pairs": null,
   "deleted": null,
-  "holders": null,
+  "holders_count": null,
   "trustlines": null,
   "website": null,
   "assets.mpt_tab_title": null,

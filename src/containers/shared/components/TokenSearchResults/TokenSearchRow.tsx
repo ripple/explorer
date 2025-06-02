@@ -90,7 +90,7 @@ export const TokenSearchRow = ({
           />
         </div>
         <div className="metric-chip">
-          {t('holders', {
+          {t('holders_count', {
             holders: localizeNumber(token.metrics.holders),
           })}
         </div>

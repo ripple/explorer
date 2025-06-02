@@ -9,9 +9,10 @@ import { TokenSearchRow } from './TokenSearchRow'
 import SocketContext from '../../SocketContext'
 import Log from '../../log'
 import { getAccountLines } from '../../../../rippled/lib/rippled'
-import { FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS } from '../../utils'
-
-const ORACLE_ACCOUNT = 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx'
+import {
+  FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
+  ORACLE_ACCOUNT,
+} from '../../utils'
 
 interface SearchResultsProps {
   currentSearchValue: string

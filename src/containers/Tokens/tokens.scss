@@ -1,0 +1,60 @@
+@use '../shared/css/variables' as *;
+@use '../shared/css/table';
+
+.tokens-page {
+  overflow: auto;
+  width: 100%;
+  max-width: 1500px;
+  min-height: 150px;
+  margin: auto;
+  margin-top: 100px;
+
+  .metrics-wrapper {
+    display: flex;
+    gap: 32px;
+  }
+
+  .type {
+    display: inline-block;
+    padding-bottom: 24px;
+    color: $white;
+    font-size: 32px;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 42px;
+    }
+
+    @include bold;
+  }
+
+  .name {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    .icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .percent {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    .arrow {
+      width: 10px;
+      height: 10px;
+    }
+
+    &.increase {
+      color: $green-50;
+    }
+
+    &.decrease {
+      color: $orange-50;
+    }
+
+  }
+}

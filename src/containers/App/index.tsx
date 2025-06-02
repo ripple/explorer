@@ -27,6 +27,7 @@ import {
   NODES_ROUTE,
   VALIDATORS_ROUTE,
   UPGRADE_STATUS_ROUTE,
+  TOKENS_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
@@ -43,6 +44,7 @@ import { MPT } from '../MPT/MPT'
 import { Nodes } from '../Network/Nodes'
 import { Validators } from '../Network/Validators'
 import { UpgradeStatus } from '../Network/UpgradeStatus'
+import { Tokens } from '../Tokens'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -75,6 +77,7 @@ export const AppWrapper = () => {
     [AMENDMENTS_ROUTE, Amendments],
     [VALIDATOR_ROUTE, Validator],
     [TOKEN_ROUTE, Token],
+    [TOKENS_ROUTE, Tokens],
     [NFT_ROUTE, NFT],
     [AMENDMENT_ROUTE, Amendment],
     [MPT_ROUTE, MPT],

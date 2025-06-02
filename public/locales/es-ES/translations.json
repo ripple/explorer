@@ -525,7 +525,7 @@
   "asset_class": "Clase de Activo",
   "trading_pairs": "Pares de Comercio",
   "deleted": "Eliminado",
-  "holders": "Titulares: {{holders}}",
+  "holders_count": "Titulares: {{holders}}",
   "trustlines": "LÍNEAS DE CONFIANZA: {{trustlines}}",
   "website": "Sitio Web",
   "mpt_issuance_id": "ID de Emisión MPT",

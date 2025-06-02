@@ -77,6 +77,8 @@ const FORMAT_PRICE_DEFAULT_OPTIONS = {
   padding: 0,
 }
 
+export const ORACLE_ACCOUNT = 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx'
+
 export const isEarlierVersion = (source, target) => {
   if (source === target) return false
   if (source === 'N/A') return true

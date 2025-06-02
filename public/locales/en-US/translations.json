@@ -539,7 +539,7 @@
   "asset_class": "Asset Class",
   "trading_pairs": "Trading Pairs",
   "deleted": "Deleted",
-  "holders": "HOLDERS: {{holders}}",
+  "holders_count": "HOLDERS: {{holders}}",
   "trustlines": " TRUSTLINES: {{trustlines}}",
   "website": "Website",
   "mpt_issuance_id": "MPT Issuance ID",
@@ -582,5 +582,8 @@
   "permissions": "Permissions",
   "tx_delegated_to": "The transaction is delegated to <Account/>",
   "account_delegates_to": "<Account/> delegates <Permissions/> permissions to <Authorize/>",
-  "delegate_to": "<DelegateLabel/> <Permissions/> permissions to <Account/>"
+  "delegate_to": "<DelegateLabel/> <Permissions/> permissions to <Account/>",
+  "volume": "Volume",
+  "holders": "Holders",
+  "trades": "Trades"
 }
