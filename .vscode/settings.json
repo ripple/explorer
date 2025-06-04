@@ -80,6 +80,7 @@
     "Permissioned",
     "stylelint",
     "svgr",
+    "testid",
     "topojson",
     "trustlines",
     "Txns",

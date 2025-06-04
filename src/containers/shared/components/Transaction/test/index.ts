@@ -1,2 +1,2 @@
-export * from './createWrapperFactory'
+export * from './createRenderFactory'
 export * from './expectations'

@@ -36,7 +36,7 @@ export const Simple: TransactionSimpleComponent = (
       <SimpleRow label={t('destination')} data-testid="destination">
         <Account account={destination} />
       </SimpleRow>
-      <SimpleRow label={t('amount')} data-testid="amount">
+      <SimpleRow label={t('amount')} data-testid="claim-amount">
         <Amount value={amount} />
       </SimpleRow>
     </>
