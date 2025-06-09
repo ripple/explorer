@@ -83,9 +83,16 @@ const formatLedgers = (data) =>
           return a.time - b.time
         })
 
+        // Dedupe validations count using pubkey
+        const rawUnlEntries = h[1].filter(
+          (entry) => typeof entry.unl === 'string' && entry.unl.length > 0,
+        )
+        const pubkeyList = rawUnlEntries.map((entry) => entry.pubkey)
+        const dedupedTrustedCount = new Set(pubkeyList).size
+
         return {
           hash: h[0],
-          trusted_count: h[1].filter((d) => d.unl).length,
+          trusted_count: dedupedTrustedCount,
           validations: h[1],
           unselected: !validated && Boolean(ledger.ledger_hash),
           validated,
