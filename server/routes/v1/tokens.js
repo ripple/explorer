@@ -86,15 +86,13 @@ async function cacheXRPLMetaTokens() {
 
   // TEMP: Manually add OUSG for Ondo until token is KYCed
   const ondoToken = await tempFetchOndo()
-  ondoToken.currency = parseCurrency(ondoToken.currency)
   cachedTokenSearchList.tokens.push(ondoToken)
-
   cachedTokenSearchList.last_updated = Date.now()
 
   // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
-  cachedTokenSearchList.tokens.map((token) => ({
+  cachedTokenSearchList.tokens = cachedTokenSearchList.tokens.map((token) => ({
     ...token,
-    currency: parseCurrency(token.currency),
+    parsedCurrency: parseCurrency(token.currency),
   }))
 }
 
@@ -114,6 +112,7 @@ function queryTokens(tokenList, query) {
   return tokenList.filter(
     (token) =>
       token.currency?.toLowerCase().includes(sanitizedQuery) ||
+      token.parsedCurrency?.toLowerCase().includes(sanitizedQuery) ||
       token.meta?.token?.name?.toLowerCase().includes(sanitizedQuery) ||
       token.meta?.issuer?.name?.toLowerCase().includes(sanitizedQuery) ||
       token.issuer?.toLowerCase().startsWith(sanitizedQuery),
