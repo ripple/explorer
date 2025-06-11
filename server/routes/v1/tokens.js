@@ -54,7 +54,7 @@ async function tempFetchOndo(offset) {
     .get(
       `https://${process.env.XRPL_META_URL}/tokens?name_like=rHuiXXjHLpMP8ZE9sSQU5aADQVWDwv6h5p`,
     )
-    .then((resp) => resp.data.tokens[0])
+    .then((resp) => resp.data)
     .catch((e) => {
       log.error(e)
       return { count: 0 }
@@ -85,8 +85,8 @@ async function cacheXRPLMetaTokens() {
   )
 
   // TEMP: Manually add OUSG for Ondo until token is KYCed
-  const ondoToken = await tempFetchOndo()
-  cachedTokenSearchList.tokens.push(ondoToken)
+  const ondoTokens = await tempFetchOndo()
+  cachedTokenSearchList.tokens.push(...ondoTokens.tokens)
   cachedTokenSearchList.last_updated = Date.now()
 
   // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
