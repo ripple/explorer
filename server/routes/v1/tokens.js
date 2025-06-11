@@ -2,7 +2,7 @@ const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'tokens search' })
 
 const REFETCH_INTERVAL = 60 * 60 * 1000 // 1 hour
-const XRPLMETA_QUERY_LIMIT = 1000
+const XRPLMETA_QUERY_LIMIT = 100000
 const cachedTokenSearchList = { tokens: [], last_updated: null }
 
 const parseCurrency = (currency) => {
@@ -47,6 +47,20 @@ async function fetchXRPLMetaTokens(offset) {
     })
 }
 
+// TEMP: Manually add OUSG for Ondo until token is KYCed
+async function tempFetchOndo(offset) {
+  log.info(`caching OUSG token from ${process.env.XRPL_META_URL}`)
+  return axios
+    .get(
+      `https://${process.env.XRPL_META_URL}/tokens?name_like=rHuiXXjHLpMP8ZE9sSQU5aADQVWDwv6h5p`,
+    )
+    .then((resp) => resp.data.tokens[0])
+    .catch((e) => {
+      log.error(e)
+      return { count: 0 }
+    })
+}
+
 async function cacheXRPLMetaTokens() {
   let offset = 0
   let tokensDataBatch = {}
@@ -69,6 +83,12 @@ async function cacheXRPLMetaTokens() {
         result.metrics.volume_7d > 0) ||
       result.meta.issuer.trust_level === 3,
   )
+
+  // TEMP: Manually add OUSG for Ondo until token is KYCed
+  const ondoToken = await tempFetchOndo()
+  ondoToken.currency = parseCurrency(ondoToken.currency)
+  cachedTokenSearchList.tokens.push(ondoToken)
+
   cachedTokenSearchList.last_updated = Date.now()
 
   // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
