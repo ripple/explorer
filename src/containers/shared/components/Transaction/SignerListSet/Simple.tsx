@@ -15,7 +15,7 @@ export const Simple = ({
       <SimpleRow label={t('signers')} data-testid="signers">
         <ul className="signers">
           {signers.map((d) => (
-            <li key={d.account}>
+            <li key={d.account} data-testid="signer">
               <Account account={d.account} />
               <span className="label">{` ${t('weight')}: `}</span>
               <small>{d.weight}</small>

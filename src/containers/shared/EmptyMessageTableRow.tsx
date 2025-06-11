@@ -9,7 +9,7 @@ export const EmptyMessageTableRow = ({
   colSpan,
 }: EmptyMessageTableRowProps) => (
   <tr>
-    <td colSpan={colSpan} className="empty-message">
+    <td colSpan={colSpan} data-testid="empty-message" className="empty-message">
       {children}
     </td>
   </tr>

@@ -1,90 +1,88 @@
+import { cleanup, screen } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createTableDetailWrapperFactory } from '../../test/createWrapperFactory'
+import { createTableDetailRenderFactory } from '../../test/createRenderFactory'
 import { TableDetail } from '../TableDetail'
 import mockPaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import mockPaymentChannelClaimClosed from './mock_data/PaymentChannelClaimClosed.json'
 import mockPaymentChannelClaimCloseDenied from './mock_data/PaymentChannelClaimCloseDenied.json'
 import mockPaymentChannelClaimWithDestinationTag from './mock_data/PaymentChannelClaimWithDestinationTag.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
+const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('PaymentChannelClaim: TableDetail', () => {
+  afterEach(cleanup)
   it('renders a claim', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaim)
-    expect(wrapper.find('[data-testid="source"]')).toHaveText(
+    renderComponent(mockPaymentChannelClaim)
+    expect(screen.getByTestId('source')).toHaveTextContent(
       'sourcernNzy3iPc7gPEAJbAdXwxY1UTBamBqTYhR:1002539517',
     )
-    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
+    expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(wrapper.find('[data-testid="claimed"]')).toHaveText(
+    expect(screen.getByTestId('claimed')).toHaveTextContent(
       'claimed\uE9000.01 XRP (\uE90020.34284 XRP of \uE90070.00 XRP remaining)',
     )
-    expect(wrapper.find('[data-testid="channel-amount"]')).not.toExist()
-    expect(wrapper.find('[data-testid="renew"]')).not.toExist()
-    expect(wrapper.find('[data-testid="close-request"]')).not.toExist()
-    expect(wrapper.find('[data-testid="closed"]')).not.toExist()
-    wrapper.unmount()
+    expect(screen.queryByTestId('channel-amount')).toBeNull()
+    expect(screen.queryByTestId('renew')).toBeNull()
+    expect(screen.queryByTestId('close-request')).toBeNull()
+    expect(screen.queryByTestId('closed')).toBeNull()
   })
 
   it('renders tx with channel being closed', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimClosed)
-    expect(wrapper.find('[data-testid="source"]')).toHaveText(
+    renderComponent(mockPaymentChannelClaimClosed)
+    expect(screen.getByTestId('source')).toHaveTextContent(
       'sourcerH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B:2647131528',
     )
-    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
+    expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(wrapper.find('[data-testid="claimed"]')).not.toExist()
-    expect(wrapper.find('[data-testid="channel-amount"]')).toHaveText(
+    expect(screen.queryByTestId('claimed')).toBeNull()
+    expect(screen.getByTestId('channel-amount')).toHaveTextContent(
       'channel amount\uE90010.00 XRP',
     )
-    expect(wrapper.find('[data-testid="renew"]')).not.toExist()
-    expect(wrapper.find('[data-testid="close-request"]')).toHaveText(
+    expect(screen.queryByTestId('renew')).toBeNull()
+    expect(screen.getByTestId('close-request')).toHaveTextContent(
       'close channel request',
     )
-    expect(wrapper.find('[data-testid="closed"]')).toHaveText(
+    expect(screen.getByTestId('closed')).toHaveTextContent(
       'payment channel closed',
     )
-    wrapper.unmount()
   })
 
   it('renders tx requesting channel be closed but not closing it', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimCloseDenied)
-    expect(wrapper.find('[data-testid="source"]')).toHaveText(
+    renderComponent(mockPaymentChannelClaimCloseDenied)
+    expect(screen.getByTestId('source')).toHaveTextContent(
       'sourcerH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B:2647131528',
     )
-    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
+    expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expect(wrapper.find('[data-testid="claimed"]')).not.toExist()
-    expect(wrapper.find('[data-testid="channel-amount"]')).toHaveText(
+    expect(screen.queryByTestId('claimed')).toBeNull()
+    expect(screen.getByTestId('channel-amount')).toHaveTextContent(
       'channel amount\uE90010.00 XRP',
     )
-    expect(wrapper.find('[data-testid="renew"]')).not.toExist()
-    expect(wrapper.find('[data-testid="close-request"]')).toHaveText(
+    expect(screen.queryByTestId('renew')).toBeNull()
+    expect(screen.getByTestId('close-request')).toHaveTextContent(
       'close channel request',
     )
-    expect(wrapper.find('[data-testid="closed"]')).not.toExist()
-    wrapper.unmount()
+    expect(screen.queryByTestId('closed')).toBeNull()
   })
 
   it('renders tx with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimWithDestinationTag)
-    expect(wrapper.find('[data-testid="source"]')).toHaveText(
+    renderComponent(mockPaymentChannelClaimWithDestinationTag)
+    expect(screen.getByTestId('source')).toHaveTextContent(
       'sourcerN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
     )
-    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
+    expect(screen.getByTestId('destination')).toHaveTextContent(
       'destinationrf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn:20170428',
     )
-    expect(wrapper.find('[data-testid="claimed"]')).toHaveText(
+    expect(screen.getByTestId('claimed')).toHaveTextContent(
       'claimed\uE9001.00 XRP (\uE90099.00 XRP of \uE900100.00 XRP remaining)',
     )
-    expect(wrapper.find('[data-testid="channel-amount"]')).not.toExist()
-    expect(wrapper.find('[data-testid="renew"]')).not.toExist()
-    expect(wrapper.find('[data-testid="close-request"]')).not.toExist()
-    expect(wrapper.find('[data-testid="closed"]')).not.toExist()
-    wrapper.unmount()
+    expect(screen.queryByTestId('channel-amount')).toBeNull()
+    expect(screen.queryByTestId('renew')).toBeNull()
+    expect(screen.queryByTestId('close-request')).toBeNull()
+    expect(screen.queryByTestId('closed')).toBeNull()
   })
 })

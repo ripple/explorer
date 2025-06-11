@@ -152,7 +152,6 @@ describe('Amount', () => {
       isMPT: true,
     }
     renderComponent(<Amount value={value} displayIssuer={false} />)
-    screen.debug()
 
     expect(screen.getByTestId('amount-localized')).toHaveTextContent(
       '1,043.001',
