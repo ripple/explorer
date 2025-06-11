@@ -164,6 +164,7 @@
   "transaction_type_name_CredentialAccept": "Credential Accept",
   "transaction_type_name_CredentialCreate": "Credential Create",
   "transaction_type_name_CredentialDelete": "Credential Delete",
+  "transaction_type_name_DelegateSet": "Delegate Set",
   "transaction_type_name_DIDDelete": "DID Delete",
   "transaction_type_name_DIDSet": "DID Set",
   "transaction_type_name_DepositPreauth": "Deposit Preauth",
@@ -576,5 +577,10 @@
   "load_fee_description": "Current reference transaction cost (base fee) for this ledger version",
   "nUnl_description": "No. of validators in NegativeUNL (nUNL)",
   "computation_allowance": "Computation Allowance",
-  "gas": "Gas"
+  "gas": "Gas",
+  "delegate": "Delegate",
+  "permissions": "Permissions",
+  "tx_delegated_to": "The transaction is delegated to <Account/>",
+  "account_delegates_to": "<Account/> delegates <Permissions/> permissions to <Authorize/>",
+  "delegate_to": "<DelegateLabel/> <Permissions/> permissions to <Account/>"
 }

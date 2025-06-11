@@ -160,6 +160,7 @@
   "transaction_type_name_CheckCancel": "ချက် ပယ်ဖျက်ရန်",
   "transaction_type_name_CheckCash": "ချက် ငွေထုတ်ရန်",
   "transaction_type_name_CheckCreate": "ချက် ဖန်တီးရန်",
+  "transaction_type_name_DelegateSet": null,
   "transaction_type_name_DIDDelete": "DID ဖျက်ရန်",
   "transaction_type_name_DIDSet": "DID သတ်မှတ်ရန်",
   "transaction_type_name_DepositPreauth": "အပ်နှံမှု ကြိုခွင့်ပြုချက်",
@@ -570,5 +571,10 @@
   "load_fee_description": null,
   "nUnl_description": null,
   "computation_allowance": null,
-  "gas": null
+  "gas": null,
+  "delegate": null,
+  "permissions": null,
+  "tx_delegated_to": null,
+  "account_delegates_to": null,
+  "delegate_to": null
 }
