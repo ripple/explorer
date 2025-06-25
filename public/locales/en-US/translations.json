@@ -158,6 +158,7 @@
   "transaction_type_name_AMMBid": "AMM Bid",
   "transaction_type_name_AMMClawback": "AMMClawback",
   "transaction_type_name_AccountSet": "Account Set",
+  "transaction_type_name_Batch": "Batch",
   "transaction_type_name_CheckCancel": "Check Cancel",
   "transaction_type_name_CheckCash": "Check Cash",
   "transaction_type_name_CheckCreate": "Check Create",
@@ -582,5 +583,8 @@
   "permissions": "Permissions",
   "tx_delegated_to": "The transaction is delegated to <Account/>",
   "account_delegates_to": "<Account/> delegates <Permissions/> permissions to <Authorize/>",
-  "delegate_to": "<DelegateLabel/> <Permissions/> permissions to <Account/>"
+  "delegate_to": "<DelegateLabel/> <Permissions/> permissions to <Account/>",
+  "applied_transaction": "Applied Transaction",
+  "batch_transaction_count": "# of Batch Transactions",
+  "applied_transaction_count": "# of Applied Transactions"
 }

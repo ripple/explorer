@@ -29,6 +29,16 @@ export interface Ledger {
   txn_count: number
 }
 
+export interface LedgerSummary {
+  ledger_index: number
+  ledger_hash: string
+  parent_hash: string
+  close_time: number
+  total_xrp: number
+  total_fees: number
+  transactions: TransactionSummary[]
+}
+
 export interface ValidatorResponse {
   // eslint-disable-next-line camelcase -- from VHS
   signing_key: string

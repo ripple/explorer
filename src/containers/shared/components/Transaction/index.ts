@@ -7,6 +7,7 @@ import { AMMBid } from './AMMBid'
 import { AMMVote } from './AMMVote'
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
+import { BatchTransaction as Batch } from './Batch'
 import { CredentialAcceptTransaction as CredentialAccept } from './CredentialAccept'
 import { CredentialCreateTransaction as CredentialCreate } from './CredentialCreate'
 import { CredentialDeleteTransaction as CredentialDelete } from './CredentialDelete'
@@ -62,6 +63,7 @@ import {
 export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
   AccountSet,
+  Batch,
   Clawback,
   CredentialAccept,
   CredentialCreate,
