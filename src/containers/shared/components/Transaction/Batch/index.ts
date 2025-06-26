@@ -12,6 +12,6 @@ export const BatchTransaction: TransactionMapping = {
   Simple,
   TableDetail,
   action: TransactionAction.CREATE,
-  category: TransactionCategory.UNKNOWN,
+  category: TransactionCategory.OTHER,
   parser,
 }

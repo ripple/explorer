@@ -66,7 +66,7 @@
   "transaction_category_PAYMENT": "Paiement",
   "transaction_category_PSEUDO": "Pseudo-Tx",
   "transaction_category_XCHAIN": null,
-  "transaction_category_UNKNOWN": "Inconnue",
+  "transaction_category_OTHER": null,
   "transaction_legend_toggle_hide": "Masquer la légende",
   "transaction_legend_toggle_show": "Afficher la légende",
   "transactions.date_header": "Date/heure (UTC)",
@@ -156,6 +156,7 @@
   "transaction_type_name_AMMBid": "Offre AMM créée",
   "transaction_type_name_AMMClawback": null,
   "transaction_type_name_AccountSet": "Compte défini",
+  "transaction_type_name_Batch": null,
   "transaction_type_name_CheckCancel": "Chèque annulé",
   "transaction_type_name_CheckCash": "Chèque remis",
   "transaction_type_name_CheckCreate": "Chèque créé",
@@ -579,5 +580,10 @@
   "permissions": null,
   "tx_delegated_to": null,
   "account_delegates_to": null,
-  "delegate_to": null
+  "delegate_to": null,
+  "applied_transaction": null,
+  "batch_transaction_count": null,
+  "applied_transaction_count": null,
+  "batch_table_detail": null,
+  "batch": null
 }

@@ -122,4 +122,4 @@ export const getAction = (type: string): TransactionAction =>
   transactionTypes[type]?.action || TransactionAction.UNKNOWN
 
 export const getCategory = (type: string): TransactionCategory =>
-  transactionTypes[type]?.category || TransactionCategory.UNKNOWN
+  transactionTypes[type]?.category || TransactionCategory.OTHER

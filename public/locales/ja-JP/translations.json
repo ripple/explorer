@@ -66,7 +66,7 @@
   "transaction_category_PAYMENT": "支払い",
   "transaction_category_PSEUDO": "擬似Tx",
   "transaction_category_XCHAIN": null,
-  "transaction_category_UNKNOWN": "不明",
+  "transaction_category_OTHER": null,
   "transaction_legend_toggle_hide": "凡例を閉じる",
   "transaction_legend_toggle_show": "凡例を開く",
   "transactions.date_header": "日付/時刻 (UTC)",
@@ -156,6 +156,7 @@
   "transaction_type_name_AMMBid": "AMMへの入札",
   "transaction_type_name_AMMClawback": null,
   "transaction_type_name_AccountSet": "アカウント設定",
+  "transaction_type_name_Batch": null,
   "transaction_type_name_CheckCancel": "チェックの取消",
   "transaction_type_name_CheckCash": "チェックの現金化",
   "transaction_type_name_CheckCreate": "チェックの作成",
@@ -578,5 +579,10 @@
   "permissions": null,
   "tx_delegated_to": null,
   "account_delegates_to": null,
-  "delegate_to": null
+  "delegate_to": null,
+  "applied_transaction": null,
+  "batch_transaction_count": null,
+  "applied_transaction_count": null,
+  "batch_table_detail": null,
+  "batch": null
 }
