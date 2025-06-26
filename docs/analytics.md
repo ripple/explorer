@@ -5,7 +5,7 @@
 | network              | Which named network we are viewing                                 | `mainnet`, `testnet`, `devnet`, `amm-devnet`, `custom` , or more in the future | All pages                |
 | entrypoint           | The URI the explorer connects to for data                          |                                                                                | All pages                |
 | transaction_type     | The `TransactionType` field on a transaction                       |                                                                                | `/transactions/*`        |
-| transaction_category | An explorer specific grouping of transactions                      | `PAYMENT`, `DEX`, `NFT`, `ACCOUNT`, `PSEUDO`, `UNKNOWN`, or `XCHAIN`           | `/transactions/*`        |
+| transaction_category | An explorer specific grouping of transactions                      | `PAYMENT`, `DEX`, `NFT`, `ACCOUNT`, `PSEUDO`, `OTHER`, or `XCHAIN`             | `/transactions/*`        |
 | transaction_action   | An explorer specific grouping of transactions                      | `CREATE`, `MODIFY`, `FINISH`, `CANCEL`, or `SEND`                              | `/transactions/*`        |
 | tec_code             | The failure code for a transaction                                 |                                                                                | `/transactions/*`        |
 | account_id           |                                                                    |                                                                                | `/accounts/*`            |

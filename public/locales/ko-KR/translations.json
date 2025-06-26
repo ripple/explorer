@@ -70,7 +70,7 @@
   "transaction_type_name_Payment": "결제",
   "transaction_category_PSEUDO": "유사 트랜잭션",
   "transaction_category_XCHAIN": null,
-  "transaction_category_UNKNOWN": "알 수 없음",
+  "transaction_category_OTHER": null,
   "transaction_legend_toggle_hide": "범례 숨기기",
   "transaction_legend_toggle_show": "범례 보이기",
   "transactions.date_header": "날짜/시간 (UTC)",
@@ -156,6 +156,7 @@
   "transaction_type_name_AMMVote": "AMM 투표",
   "transaction_type_name_AMMBid": "AMM 입찰",
   "transaction_type_name_AMMClawback": null,
+  "transaction_type_name_Batch": null,
   "transaction_type_name_AccountSet": "계정 설정",
   "transaction_type_name_CheckCancel": "수표 취소",
   "transaction_type_name_CheckCash": "수표 현금화",
@@ -576,5 +577,10 @@
   "permissions": null,
   "tx_delegated_to": null,
   "account_delegates_to": null,
-  "delegate_to": null
+  "delegate_to": null,
+  "applied_transaction": null,
+  "batch_transaction_count": null,
+  "applied_transaction_count": null,
+  "batch_table_detail": null,
+  "batch": null
 }

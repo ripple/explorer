@@ -39,7 +39,7 @@ export const Legend = () => {
     TransactionCategory.NFT,
     TransactionCategory.ACCOUNT,
     TransactionCategory.PSEUDO,
-    TransactionCategory.UNKNOWN,
+    TransactionCategory.OTHER,
   ]
 
   return (
@@ -68,7 +68,7 @@ export const Legend = () => {
                 <div className="legend-category" />{' '}
                 {t(`transaction_category`, {
                   context: category,
-                  defaultValue: TransactionCategory.UNKNOWN,
+                  defaultValue: TransactionCategory.OTHER,
                 })}
               </div>
             ))}

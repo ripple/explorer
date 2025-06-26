@@ -32,6 +32,7 @@ export interface TransactionSummary {
   type: string
   result: string
   account: string
+  sequence: number
 }
 
 export interface AccountNFToken {

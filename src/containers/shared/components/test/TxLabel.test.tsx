@@ -26,7 +26,7 @@ describe('TxLabel', () => {
 
   it('renders with type that is not defined', () => {
     const wrapper = createWapper(<TxLabel type="WooCreate" />)
-    expect(wrapper.find('.tx-category-UNKNOWN')).toExist()
+    expect(wrapper.find('.tx-category-OTHER')).toExist()
     expect(wrapper).toContainReact(<TransactionUnknownIcon />)
     expect(wrapper.find('.tx-type-name')).toHaveText('WooCreate')
     wrapper.unmount()

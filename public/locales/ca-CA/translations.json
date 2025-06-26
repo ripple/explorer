@@ -65,7 +65,7 @@
   "transaction_category_NFT": "NFT",
   "transaction_category_PAYMENT": "Pagament",
   "transaction_category_PSUEDO": "Pseudo-Tx",
-  "transaction_category_UNKNOWN": "Desconegut",
+  "transaction_category_OTHER": null,
   "transaction_legend_toggle_hide": "Amaga la llegenda",
   "transaction_legend_toggle_show": "Mostra la llegenda",
   "transactions.date_header": "Data/hora (UTC)",
@@ -155,6 +155,7 @@
   "transaction_type_name_AMMBid": "Pujar AMM",
   "transaction_type_name_AMMClawback": null,
   "transaction_type_name_AccountSet": "Account Set",
+  "transaction_type_name_Batch": null,
   "transaction_type_name_CheckCancel": "Cancel·lar Check",
   "transaction_type_name_CheckCash": "Cobrar Check",
   "transaction_type_name_CheckCreate": "Crear de Check",
@@ -575,5 +576,10 @@
   "permissions": null,
   "tx_delegated_to": null,
   "account_delegates_to": null,
-  "delegate_to": null
+  "delegate_to": null,
+  "applied_transaction": null,
+  "batch_transaction_count": null,
+  "applied_transaction_count": null,
+  "batch_table_detail": null,
+  "batch": null
 }
