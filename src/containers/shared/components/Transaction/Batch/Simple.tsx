@@ -22,8 +22,6 @@ export const Simple: TransactionSimpleComponent = ({
       ledger_index: ledgerIndex,
     })
 
-    console.log(ledgerData)
-
     return ledgerData.transactions
       .filter((tx) =>
         batchTransactions.some(
