@@ -8,7 +8,6 @@ import { Account } from '../../Account'
 import { TRANSACTION_ROUTE } from '../../../../App/routes'
 import { RouteLink } from '../../../routing'
 import SocketContext from '../../../SocketContext'
-import getLedger from '../../../../../rippled/ledgers'
 import { LedgerSummary } from '../../../../Ledgers/types'
 
 export const Simple: TransactionSimpleComponent = ({
@@ -18,30 +17,32 @@ export const Simple: TransactionSimpleComponent = ({
   const rippledSocket = useContext(SocketContext)
   const { batchTransactions, batchSigners, ledgerIndex } = data.instructions
 
+  async function getAppliedBatchTx() {
+    const ledgerData: LedgerSummary = await getLedger(
+      ledgerIndex,
+      rippledSocket,
+    )
+
+    return ledgerData.transactions
+      .filter((tx) =>
+        batchTransactions.some(
+          (b) =>
+            b.Account === tx.account &&
+            b.TransactionType === tx.type &&
+            b.Sequence === tx.sequence,
+        ),
+      )
+      .map((tx) => ({
+        account: tx.account,
+        sequence: tx.sequence,
+        type: tx.type,
+        hash: tx.hash,
+      }))
+  }
+
   const { data: appliedTx = [] } = useQuery(
     ['appliedTx', ledgerIndex, batchTransactions],
-    async () => {
-      const ledgerData: LedgerSummary = await getLedger(
-        ledgerIndex,
-        rippledSocket,
-      )
-
-      return ledgerData.transactions
-        .filter((tx) =>
-          batchTransactions.some(
-            (b) =>
-              b.Account === tx.account &&
-              b.TransactionType === tx.type &&
-              b.Sequence === tx.sequence,
-          ),
-        )
-        .map((tx) => ({
-          account: tx.account,
-          sequence: tx.sequence,
-          type: tx.type,
-          hash: tx.hash,
-        }))
-    },
+    async () => getAppliedBatchTx(),
     {
       enabled: !!ledgerIndex && !!batchTransactions?.length && !!rippledSocket,
     },

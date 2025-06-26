@@ -586,5 +586,7 @@
   "delegate_to": "<DelegateLabel/> <Permissions/> permissions to <Account/>",
   "applied_transaction": "Applied Transaction",
   "batch_transaction_count": "# of Batch Transactions",
-  "applied_transaction_count": "# of Applied Transactions"
+  "applied_transaction_count": "# of Applied Transactions",
+  "batch_table_detail": "<BatchLabel/> {{batch_count}} transactions",
+  "batch": "Batch"
 }
