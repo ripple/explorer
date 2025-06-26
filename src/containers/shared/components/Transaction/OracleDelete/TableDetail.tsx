@@ -7,7 +7,7 @@ export const TableDetail = ({
 }: TransactionTableDetailProps<OracleDelete>) => {
   const { t } = useTranslation()
   return (
-    <div className="oracle-document-id">
+    <div className="oracle-document-id" data-testid="oracle-document-id">
       <span className="label">{t('oracle_document_id')}: </span>
       <span className="case-sensitive">{tx.OracleDocumentID}</span>
     </div>

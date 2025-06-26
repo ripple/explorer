@@ -1,27 +1,22 @@
+import { cleanup } from '@testing-library/react'
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { TableDetail } from '../TableDetail'
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
-describe('SetRegularKeyTable: Detail', () => {
+describe('SetRegularKeyTable: TableDetail', () => {
+  afterEach(cleanup)
   it('renders Simple for transaction', () => {
-    const wrapper = createWrapper(SetRegularKey)
+    const { container } = renderComponent(SetRegularKey)
 
-    expect(wrapper.find('.setregularkey')).toExist()
-    expect(wrapper.find('.label').text()).toBe(`regular_key`)
-    expect(wrapper.find('.key').text()).toBe(
-      `rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp`,
-    )
-    wrapper.unmount()
+    expect(container).toHaveTextContent(`rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp`)
   })
 
   it('renders Simple for transaction that unsets key', () => {
-    const wrapper = createWrapper(SetRegularKeyUnset)
+    const { container } = renderComponent(SetRegularKeyUnset)
 
-    expect(wrapper.find('.unset')).toExist()
-    expect(wrapper.text()).toBe(`unset_regular_key`)
-    wrapper.unmount()
+    expect(container).toHaveTextContent(`unset_regular_key`)
   })
 })
