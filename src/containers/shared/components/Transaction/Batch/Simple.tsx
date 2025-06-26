@@ -9,6 +9,7 @@ import { TRANSACTION_ROUTE } from '../../../../App/routes'
 import { RouteLink } from '../../../routing'
 import SocketContext from '../../../SocketContext'
 import { LedgerSummary } from '../../../../Ledgers/types'
+import { getLedger } from '../../../../../rippled'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -47,6 +48,7 @@ export const Simple: TransactionSimpleComponent = ({
       enabled: !!ledgerIndex && !!batchTransactions?.length && !!rippledSocket,
     },
   )
+
   const renderBatchTransaction = (tx) => (
     <SimpleGroup title={t('applied_transaction')}>
       <SimpleRow label={t('account')} data-testid="tx-account">

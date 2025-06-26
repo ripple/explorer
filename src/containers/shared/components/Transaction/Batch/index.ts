@@ -5,7 +5,7 @@ import {
 } from '../types'
 
 import { Simple } from './Simple'
-import { TableDetail } from './TableDetails'
+import { TableDetail } from './TableDetail'
 import { parser } from './parser'
 
 export const BatchTransaction: TransactionMapping = {
