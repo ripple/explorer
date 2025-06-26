@@ -2,7 +2,7 @@ import { mount } from 'enzyme'
 import { expectSimpleRowText } from '../../test'
 import { flushPromises, QuickHarness } from '../../../../../test/utils'
 import { Simple } from '../Simple'
-import * as rippled from '../../../../../../rippled'
+import * as rippled from '../../../../../../rippled/lib/rippled'
 import SocketContext from '../../../../SocketContext'
 import MockWsClient from '../../../../../test/mockWsClient'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
@@ -12,7 +12,7 @@ import Ledger from './mock_data/Ledger.json'
 import LedgerOneTx from './mock_data/LedgerOneTx.json'
 import Mock = jest.Mock
 
-jest.mock('../../../../../../rippled', () => ({
+jest.mock('../../../../../../rippled/lib/rippled', () => ({
   __esModule: true,
   getLedger: jest.fn(),
 }))
@@ -70,20 +70,20 @@ describe('Batch: Simple', () => {
     expectSimpleRowText(
       appliedTx2,
       'tx-account',
-      'rEizmA2JpsvJUrjhH9pZ4AAiN9ztiH4LeF',
+      'rBe5QUgwCdMTVXmc4jJwCNXgBsDa5LJFso',
     )
     expectSimpleRowText(appliedTx2, 'tx-type', 'Payment')
-    expectSimpleRowText(appliedTx2, 'tx-sequence', '3918587')
-    expectSimpleRowText(appliedTx2, 'tx-hash', 'F636E5...')
+    expectSimpleRowText(appliedTx2, 'tx-sequence', '3918588')
+    expectSimpleRowText(appliedTx2, 'tx-hash', 'ABE5B2...')
 
     expectSimpleRowText(
       appliedTx3,
       'tx-account',
-      'rBe5QUgwCdMTVXmc4jJwCNXgBsDa5LJFso',
+      'rEizmA2JpsvJUrjhH9pZ4AAiN9ztiH4LeF',
     )
     expectSimpleRowText(appliedTx3, 'tx-type', 'Payment')
-    expectSimpleRowText(appliedTx3, 'tx-sequence', '3918588')
-    expectSimpleRowText(appliedTx3, 'tx-hash', 'ABE5B2...')
+    expectSimpleRowText(appliedTx3, 'tx-sequence', '3918587')
+    expectSimpleRowText(appliedTx3, 'tx-hash', 'F636E5...')
 
     wrapper.unmount()
   })
