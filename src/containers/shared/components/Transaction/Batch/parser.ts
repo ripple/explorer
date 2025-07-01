@@ -1,5 +1,5 @@
 import type { Batch } from 'xrpl'
-import { hashSignedTx } from 'xrpl/dist/npm/utils/hashes/hashLedger'
+import { hashSignedTx } from './utils'
 
 export function parser(tx: Batch) {
   const batchTransactions = tx.RawTransactions.map((transaction) => ({
