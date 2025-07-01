@@ -581,9 +581,11 @@
   "tx_delegated_to": null,
   "account_delegates_to": null,
   "delegate_to": null,
-  "applied_transaction": null,
-  "batch_transaction_count": null,
-  "applied_transaction_count": null,
-  "batch_table_detail": null,
-  "batch": null
+  "inner_transaction": null,
+  "batch_table_detail_count": null,
+  "batch_table_detail_list": null,
+  "batch_description": null,
+  "batch": null,
+  "successful": null,
+  "failed": null
 }
