@@ -584,9 +584,11 @@
   "tx_delegated_to": "The transaction is delegated to <Account/>",
   "account_delegates_to": "<Account/> delegates <Permissions/> permissions to <Authorize/>",
   "delegate_to": "<DelegateLabel/> <Permissions/> permissions to <Account/>",
-  "applied_transaction": "Applied Transaction",
-  "batch_transaction_count": "# of Batch Transactions",
-  "applied_transaction_count": "# of Applied Transactions",
-  "batch_table_detail": "<BatchLabel/> {{batch_count}} transactions",
-  "batch": "Batch"
+  "inner_transaction": "Inner Transaction",
+  "batch_table_detail_count": "<BatchLabel/> {{batch_count}} transactions",
+  "batch_table_detail_list": "Applied Inner Transactions: <TxList/>",
+  "batch_description": "Batch Signers: <SignerList/>",
+  "batch": "Batch",
+  "successful": "Successful",
+  "failed": "Failed"
 }

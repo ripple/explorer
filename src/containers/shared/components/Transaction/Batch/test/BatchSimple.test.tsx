@@ -6,18 +6,16 @@ import * as rippled from '../../../../../../rippled/lib/rippled'
 import SocketContext from '../../../../SocketContext'
 import MockWsClient from '../../../../../test/mockWsClient'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
-import i18n from '../../../../../../i18n/testConfig'
+import i18n from '../../../../../../i18n/testConfigEnglish'
 import Batch from './mock_data/Batch.json'
-import Ledger from './mock_data/Ledger.json'
-import LedgerOneTx from './mock_data/LedgerOneTx.json'
-import Mock = jest.Mock
+import InnerTransaction from './mock_data/InnerTx.json'
 
 jest.mock('../../../../../../rippled/lib/rippled', () => ({
   __esModule: true,
-  getLedger: jest.fn(),
+  getTransaction: jest.fn(),
 }))
 
-const mockedGetLedger = rippled.getLedger as Mock
+const mockedGetTransaction = rippled.getTransaction as jest.Mock
 
 function createWrapper(tx: any, socketMock: any = {}) {
   const data = summarizeTransaction(tx, true)
@@ -38,11 +36,19 @@ describe('Batch: Simple', () => {
   })
   afterEach(() => {
     client.close()
-    mockedGetLedger.mockReset()
+    mockedGetTransaction.mockReset()
   })
 
-  it('renders - all tx applied', async () => {
-    mockedGetLedger.mockResolvedValue(Ledger)
+  it('renders', async () => {
+    mockedGetTransaction.mockImplementation((_, txId) => {
+      if (
+        txId ===
+        'EB5933399A49541B65552C5B5959AEECC520D10B946EC30F5A39B9EAA16C7D56'
+      ) {
+        return Promise.resolve(InnerTransaction)
+      }
+      return Promise.reject(new Error('transaction not found'))
+    })
 
     const wrapper = createWrapper(Batch, client)
 
@@ -51,66 +57,48 @@ describe('Batch: Simple', () => {
 
     expect(wrapper.find('.group')).toHaveLength(3)
 
-    const appliedTx1 = wrapper.find('.group').at(0)
-    const appliedTx2 = wrapper.find('.group').at(1)
-    const appliedTx3 = wrapper.find('.group').at(2)
-
-    expectSimpleRowText(wrapper, 'inner-count', '3')
-    expectSimpleRowText(wrapper, 'applied-count', '3')
+    const innerTx1 = wrapper.find('.group').at(0)
+    const innerTx2 = wrapper.find('.group').at(1)
+    const innerTx3 = wrapper.find('.group').at(2)
 
     expectSimpleRowText(
-      appliedTx1,
+      innerTx1,
       'tx-account',
-      'rGNaz5pSs432sVvaE5EqxAWBXKedHqQ9Rj',
+      'rGfNFbXcdrx1t7UDEzrJkPCVBRAR2o6HVc',
     )
-    expectSimpleRowText(appliedTx1, 'tx-type', 'Payment')
-    expectSimpleRowText(appliedTx1, 'tx-sequence', '3918585')
-    expectSimpleRowText(appliedTx1, 'tx-hash', '3EBD47...')
+    expectSimpleRowText(
+      innerTx1,
+      'tx-hash',
+      'EB5933399A49541B65552C5B5959AEECC520D10B946EC30F5A39B9EAA16C7D56',
+    )
+
+    expectSimpleRowText(innerTx1, 'tx-status', 'Successful')
 
     expectSimpleRowText(
-      appliedTx2,
+      innerTx2,
       'tx-account',
-      'rBe5QUgwCdMTVXmc4jJwCNXgBsDa5LJFso',
+      'rH84ztgQsQuUnZwaM3ujHjQQJYEf4NR59M',
     )
-    expectSimpleRowText(appliedTx2, 'tx-type', 'Payment')
-    expectSimpleRowText(appliedTx2, 'tx-sequence', '3918588')
-    expectSimpleRowText(appliedTx2, 'tx-hash', 'ABE5B2...')
+    expectSimpleRowText(
+      innerTx2,
+      'tx-hash',
+      'FD62E8028755E60A8529C76861FAF31A71C97AEAE4E1B27D2D3FAAD234272C11',
+    )
+
+    expectSimpleRowText(innerTx2, 'tx-status', 'Failed')
 
     expectSimpleRowText(
-      appliedTx3,
+      innerTx3,
       'tx-account',
-      'rEizmA2JpsvJUrjhH9pZ4AAiN9ztiH4LeF',
+      'rGPoXHWJgeSQow8NQYZgW6HT82GMwTLAaB',
     )
-    expectSimpleRowText(appliedTx3, 'tx-type', 'Payment')
-    expectSimpleRowText(appliedTx3, 'tx-sequence', '3918587')
-    expectSimpleRowText(appliedTx3, 'tx-hash', 'F636E5...')
-
-    wrapper.unmount()
-  })
-
-  it('renders - only one tx applied', async () => {
-    mockedGetLedger.mockResolvedValue(LedgerOneTx)
-
-    const wrapper = createWrapper(Batch, client)
-
-    await flushPromises()
-    wrapper.update()
-
-    expect(wrapper.find('.group')).toHaveLength(1)
-
-    const appliedTx1 = wrapper.find('.group').at(0)
-
-    expectSimpleRowText(wrapper, 'inner-count', '3')
-    expectSimpleRowText(wrapper, 'applied-count', '1')
-
     expectSimpleRowText(
-      appliedTx1,
-      'tx-account',
-      'rGNaz5pSs432sVvaE5EqxAWBXKedHqQ9Rj',
+      innerTx3,
+      'tx-hash',
+      'B7EB7E00B47E4CD57FECAB8E0EBAF5EB9471C66A3F80CB5C7D88856FAA7CD090',
     )
-    expectSimpleRowText(appliedTx1, 'tx-type', 'Payment')
-    expectSimpleRowText(appliedTx1, 'tx-sequence', '3918585')
-    expectSimpleRowText(appliedTx1, 'tx-hash', '3EBD47...')
+
+    expectSimpleRowText(innerTx3, 'tx-status', 'Failed')
 
     wrapper.unmount()
   })
