@@ -95,13 +95,6 @@ const formatTransaction = (tx) => {
   return {
     tx: {
       ...txn,
-      metaData: undefined,
-      meta: undefined,
-      hash: undefined,
-      inLedger: undefined,
-      ledger_index: undefined,
-      status: undefined,
-      validated: undefined,
       date: txn.date ? convertRippleDate(txn.date) : undefined,
     },
     meta: tx.meta || tx.metaData,

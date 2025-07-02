@@ -68,7 +68,7 @@
   "transaction_category_PAYMENT": "ငွေပေးချေမှု",
   "transaction_category_PSEUDO": "Pseudo-Tx",
   "transaction_category_XCHAIN": "XChain",
-  "transaction_category_UNKNOWN": "အမည်မသိ",
+  "transaction_category_OTHER": null,
   "transaction_legend_toggle_hide": "ရှင်းလင်းချက် ဖျောက်ရန်",
   "transaction_legend_toggle_show": "ရှင်းလင်းချက် ပြရန်",
   "transactions.date_header": "ရက်စွဲ/အချိန် (UTC)",
@@ -157,6 +157,7 @@
   "transaction_type_name_AMMVote": "AMM မဲပေးရန်",
   "transaction_type_name_AMMBid": "AMM လေလံဆွဲရန်",
   "transaction_type_name_AccountSet": "အကောင့် သတ်မှတ်ရန်",
+  "transaction_type_name_Batch": null,
   "transaction_type_name_CheckCancel": "ချက် ပယ်ဖျက်ရန်",
   "transaction_type_name_CheckCash": "ချက် ငွေထုတ်ရန်",
   "transaction_type_name_CheckCreate": "ချက် ဖန်တီးရန်",
@@ -576,5 +577,12 @@
   "permissions": null,
   "tx_delegated_to": null,
   "account_delegates_to": null,
-  "delegate_to": null
+  "delegate_to": null,
+  "inner_transaction": null,
+  "batch_table_detail_count": null,
+  "batch_table_detail_list": null,
+  "batch_description": null,
+  "batch": null,
+  "successful": null,
+  "failed": null
 }
