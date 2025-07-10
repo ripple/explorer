@@ -194,7 +194,7 @@ const getAllTokens = async (req, res) => {
     return res.status(200).json({
       result: 'success',
       updated: cachedTokenSearchList.last_updated,
-      tokens: tokensWithIndex,
+      tokens: tokensWithIndex.slice(0, 10),
       metrics,
     })
   } catch (error) {

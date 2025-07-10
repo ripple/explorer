@@ -585,5 +585,7 @@
   "delegate_to": "<DelegateLabel/> <Permissions/> permissions to <Account/>",
   "volume": "Volume",
   "holders": "Holders",
-  "trades": "Trades"
+  "trades": "Trades",
+  "no_of_tokens": "# of Tokens",
+  "volume_24h_total": "DEX Traded Volume (24H)"
 }

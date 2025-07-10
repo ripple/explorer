@@ -6,17 +6,40 @@
   width: 100%;
   max-width: 1500px;
   min-height: 150px;
+  padding-right: 150px;
+  padding-left: 150px;
   margin: auto;
   margin-top: 100px;
 
   .metrics-wrapper {
     display: flex;
+    margin-bottom: 40px;
     gap: 32px;
+
+    .metric {
+      flex-direction: column;
+      padding: 14px 20px;
+      border-radius: $border-radius;
+      background-color: $black-80;
+      gap: 6px;
+
+      .title {
+        color: $black-40;
+        line-height: 150%;
+        text-transform: uppercase;
+        @include semibold;
+      }
+
+      .val {
+        @include bold;
+      }
+
+    }
   }
 
   .type {
     display: inline-block;
-    padding-bottom: 24px;
+    margin-bottom: 80px;
     color: $white;
     font-size: 32px;
 
@@ -56,5 +79,68 @@
       color: $orange-50;
     }
 
+  }
+
+  .filter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 16px;
+
+    .filter-icon {
+      width: 24px;
+      height: 24px;
+      background-image: url('../shared/images/group.svg');
+    }
+
+    .filter-field {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      border: 1px solid $black-50;
+      border-radius: $border-radius;
+      background-color: $black;
+      color: $white;
+      gap: 8px;
+      text-transform: capitalize;
+      @include medium;
+
+      &:hover {
+        background-color: $black-70;
+      }
+
+      &.selected {
+        background-color: $white;
+        color: $black;
+
+        .item-icon {
+          filter: invert(1);
+        }
+      }
+    }
+
+    .icon-stablecoin {
+      width: 24px;
+      height: 24px;
+      background: url('../shared/images/stablecoin.svg');
+    }
+
+    .icon-rwa {
+      width: 24px;
+      height: 24px;
+      background: url('../shared/images/rwa.svg');
+    }
+
+    .icon-wrapped {
+      width: 24px;
+      height: 24px;
+      background: url('../shared/images/wrapped.svg');
+    }
+
+    .icon-memes {
+      width: 24px;
+      height: 24px;
+      background: url('../shared/images/memes.svg');
+    }
   }
 }
