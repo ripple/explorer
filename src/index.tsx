@@ -2,10 +2,13 @@ import { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
+import { Buffer } from 'buffer'
 import { unregister } from './registerServiceWorker'
 import './containers/shared/css/global.scss'
 import { AppWrapper } from './containers/App'
 import i18n from './i18n'
+
+window.Buffer = Buffer
 
 const renderApp = () => {
   ReactDOM.render(
