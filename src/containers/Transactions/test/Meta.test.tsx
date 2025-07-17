@@ -8,6 +8,7 @@ import OfferCreateWithMissingPreviousFields from '../../shared/components/Transa
 import PaymentChannelClaim from '../../shared/components/Transaction/PaymentChannelClaim/test/mock_data/PaymentChannelClaim.json'
 import DirectMPTPayment from './mock_data/DirectMPTPayment.json'
 import { TransactionMeta } from '../DetailTab/Meta'
+import OfferCreateWithPermissionedDomainID from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithPermissionedDomainID.json'
 
 describe('TransactionMeta container', () => {
   const createWrapper = (data: any = Transaction) =>
@@ -187,6 +188,13 @@ describe('TransactionMeta container', () => {
 
     expect(w.find('li').at(5).html()).toBe(
       '<li>Outstanding balance changed by<b>100</b>from<b>0</b>to<b>100</b></li>',
+    )
+  })
+
+  it(`renders OfferCreate Meta with a Permissioned Domain ID`, () => {
+    const w = createWrapper(OfferCreateWithPermissionedDomainID)
+    expect(w.html()).toContain(
+      'Permissioned Domain: 4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812',
     )
   })
 })

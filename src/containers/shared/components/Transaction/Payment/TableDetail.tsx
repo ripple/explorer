@@ -8,7 +8,8 @@ export const TableDetail = ({
   instructions,
 }: TransactionTableDetailProps<PaymentInstructions>) => {
   const { t } = useTranslation()
-  const { convert, amount, destination, partial, sourceTag } = instructions
+  const { convert, amount, destination, partial, sourceTag, domainID } =
+    instructions
 
   const renderPartial = () => (
     <div className="partial-payment">{t('partial_payment_allowed')}</div>
@@ -37,6 +38,13 @@ export const TableDetail = ({
           {t('source_tag')}
           {': '}
           <span>{sourceTag}</span>
+        </div>
+      )}
+      {domainID !== undefined && (
+        <div className="domain-id">
+          {t('domain_id')}
+          {': '}
+          <span>{domainID}</span>
         </div>
       )}
       {partial && renderPartial()}
