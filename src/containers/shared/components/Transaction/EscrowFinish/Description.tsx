@@ -8,6 +8,11 @@ import {
 } from '../types'
 import { RouteLink } from '../../../routing'
 import { TRANSACTION_ROUTE } from '../../../../App/routes'
+import { Amount } from '../../Amount'
+import {
+  formatAmount,
+  isXRP,
+} from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const Description: TransactionDescriptionComponent = (
   props: TransactionDescriptionProps<EscrowFinish>,
@@ -29,26 +34,26 @@ const Description: TransactionDescriptionComponent = (
         <Trans i18nKey="escrow_completion_desc_2">
           The escrowed amount of
           <b>
-            {normalizeAmount(deleted.FinalFields.Amount, language)}
-            <small>XRP</small>
+            <Amount value={formatAmount(deleted.FinalFields.Amount)} />
           </b>
           was delivered to
           <Account account={deleted.FinalFields.Destination} />
         </Trans>
-        {deleted.FinalFields.Destination === data.tx.Account && (
-          <span>
-            {' '}
-            (
-            <b>
-              {normalizeAmount(
-                deleted.FinalFields.Amount - parseInt(data.tx.Fee || '0', 10),
-                language,
-              )}
-              <small>XRP</small>
-            </b>{' '}
-            {t('escrow_after_transaction_cost')})
-          </span>
-        )}
+        {isXRP(deleted.FinalFields.Amount) &&
+          deleted.FinalFields.Destination === data.tx.Account && (
+            <span>
+              {' '}
+              (
+              <b>
+                {normalizeAmount(
+                  deleted.FinalFields.Amount - parseInt(data.tx.Fee || '0', 10),
+                  language,
+                )}
+                <small>XRP</small>
+              </b>{' '}
+              {t('escrow_after_transaction_cost')})
+            </span>
+          )}
       </div>
       <Trans i18nKey="escrow_created_by_desc">
         The escrow was created by

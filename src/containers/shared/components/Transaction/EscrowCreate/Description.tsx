@@ -1,6 +1,6 @@
 import { useTranslation, Trans } from 'react-i18next'
 import type { EscrowCreate } from 'xrpl'
-import { DATE_OPTIONS, normalizeAmount } from '../../../transactionUtils'
+import { DATE_OPTIONS } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import { localizeDate } from '../../../utils'
 import {
@@ -8,6 +8,8 @@ import {
   TransactionDescriptionProps,
 } from '../types'
 import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
+import { Amount } from '../../Amount'
+import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 const Description: TransactionDescriptionComponent = (
   props: TransactionDescriptionProps<EscrowCreate>,
@@ -47,8 +49,7 @@ const Description: TransactionDescriptionComponent = (
         {t('escrowed_amount')}
         <b>
           {' '}
-          {normalizeAmount(data.tx.Amount, language)}
-          <small>XRP</small>
+          <Amount value={formatAmount(data.tx.Amount)} />
         </b>
       </div>
       {data.tx.CancelAfter && (

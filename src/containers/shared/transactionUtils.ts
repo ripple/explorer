@@ -99,6 +99,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
 }
 
 export const ACCOUNT_FLAGS: Record<number, string> = {
+  17: 'asfAllowTrustLineLocking',
   16: 'asfAllowTrustLineClawback',
   15: 'asfDisallowIncomingTrustline',
   14: 'asfDisallowIncomingPayChan',

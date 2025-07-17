@@ -2,6 +2,9 @@ import type { MPTAmount } from 'xrpl'
 import { Amount, ExplorerAmount } from '../../../containers/shared/types'
 import { XRP_BASE } from '../utils'
 
+export const isXRP = (amount: Amount): boolean =>
+  typeof amount === 'string' || typeof amount === 'number'
+
 export const isMPTAmount = (amount: Amount): amount is MPTAmount =>
   (amount as MPTAmount).mpt_issuance_id !== undefined &&
   (amount as MPTAmount).value !== undefined
