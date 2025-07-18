@@ -1,13 +1,19 @@
 import { Simple } from '../Simple'
-import mockEscrowCreate from './mock_data/EscrowCreate.json'
+import mockEscrowCreateTests from './mock_data/EscrowCreate.json'
 import mockEscrowCreateFinishFunction from './mock_data/EscrowCreateFinishFunction.json'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
+function getTestByName(name: string) {
+  return mockEscrowCreateTests[name]
+}
+
 describe('EscrowCreateSimple', () => {
   it('renders with an expiration and offer', () => {
-    const wrapper = createWrapper(mockEscrowCreate)
+    const wrapper = createWrapper(
+      getTestByName('renders with an expiration and offer'),
+    )
     expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
       '\uE900997.50 XRP',
     )
@@ -19,6 +25,7 @@ describe('EscrowCreateSimple', () => {
     )
     wrapper.unmount()
   })
+
   it('renders with a smart escrow', () => {
     const wrapper = createWrapper(mockEscrowCreateFinishFunction)
     expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
@@ -42,5 +49,19 @@ describe('EscrowCreateSimple', () => {
       '70000000',
     )
     wrapper.unmount()
+  })
+
+  it('test IOU amount', () => {
+    const wrapper = createWrapper(getTestByName('test IOU amount'))
+    expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
+      '1.00 ZZZ.rDb2kD2sibG5cxhz3VAoRFkmhPrca4JtL8',
+    )
+  })
+
+  it('test MPT amount', () => {
+    const wrapper = createWrapper(getTestByName('test MPT amount'))
+    expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
+      '1.00 0044E48FC9FB70ADC1A604A5792643A38CA5887219C21C8C',
+    )
   })
 })
