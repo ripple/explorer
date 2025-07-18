@@ -18,6 +18,6 @@ export function parser(tx: any) {
     firstCurrency: invert ? counter : base,
     secondCurrency: invert ? base : counter,
     cancel: tx.OfferSequence,
-    domainID: tx.DomainID ?? null,
+    domainID: tx.DomainID,
   }
 }
