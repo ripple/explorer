@@ -27,7 +27,7 @@ describe('EscrowCreateDescription', () => {
   it('test XRP amount', () => {
     const wrapper = createWrapper(getTestByName('renders EscrowCreate'))
     expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
-      `It escrowed uE900997.50 XRP`,
+      `It escrowed \uE900997.50 XRP`,
     )
 
     wrapper.unmount()

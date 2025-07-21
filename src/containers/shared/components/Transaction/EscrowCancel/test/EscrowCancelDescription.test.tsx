@@ -31,7 +31,7 @@ describe('EscrowCancelDescription', () => {
       getTestByName('EscrowCancel having XRP escrowed'),
     )
     expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
-      `The escrowed amount of uE900135.79 XRP was returned to rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56 (uE900135.78999 XRP after transaction cost)`,
+      `The escrowed amount of \uE900135.79 XRP was returned to rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56 (\uE900135.78999 XRP after transaction cost)`,
     )
 
     wrapper.unmount()
