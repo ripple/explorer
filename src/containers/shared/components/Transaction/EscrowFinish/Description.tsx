@@ -1,6 +1,6 @@
 import { useTranslation, Trans } from 'react-i18next'
 import type { EscrowFinish } from 'xrpl'
-import { normalizeAmount, findNode } from '../../../transactionUtils'
+import { findNode } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import {
   TransactionDescriptionComponent,
@@ -17,8 +17,7 @@ import {
 const Description: TransactionDescriptionComponent = (
   props: TransactionDescriptionProps<EscrowFinish>,
 ) => {
-  const { t, i18n } = useTranslation()
-  const language = i18n.resolvedLanguage
+  const { t } = useTranslation()
   const { data } = props
   const deleted: any = findNode(data.meta, 'DeletedNode', 'Escrow')
 
@@ -30,7 +29,7 @@ const Description: TransactionDescriptionComponent = (
       <div>
         {t('escrow_completion_desc')} <Account account={data.tx.Account} />
       </div>
-      <div>
+      <div data-testid="amount-line">
         <Trans i18nKey="escrow_completion_desc_2">
           The escrowed amount of
           <b>
@@ -45,11 +44,12 @@ const Description: TransactionDescriptionComponent = (
               {' '}
               (
               <b>
-                {normalizeAmount(
-                  deleted.FinalFields.Amount - parseInt(data.tx.Fee || '0', 10),
-                  language,
-                )}
-                <small>XRP</small>
+                <Amount
+                  value={formatAmount(
+                    deleted.FinalFields.Amount -
+                      parseInt(data.tx.Fee || '0', 10),
+                  )}
+                />
               </b>{' '}
               {t('escrow_after_transaction_cost')})
             </span>

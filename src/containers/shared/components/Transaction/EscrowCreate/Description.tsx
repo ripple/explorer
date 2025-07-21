@@ -45,7 +45,7 @@ const Description: TransactionDescriptionComponent = (
           <span className="condition"> {data.tx.Condition}</span>
         </div>
       )}
-      <div>
+      <div data-testid="amount-line">
         {t('escrowed_amount')}
         <b>
           {' '}

@@ -1,14 +1,67 @@
-import EscrowFinish from './mock_data/EscrowFinish.json'
+import { useQuery } from 'react-query'
+import mockEscrowFinish from './mock_data/EscrowFinish.json'
 import { Description } from '../Description'
+import i18n from '../../../../../../i18n/testConfigEnglish'
 import { createDescriptionWrapperFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description)
+const createWrapper = createDescriptionWrapperFactory(Description, i18n)
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn(),
+}))
+
+function getTestByName(name: string) {
+  return mockEscrowFinish[name]
+}
 
 describe('EscrowFinishDescription', () => {
   it('renders description for EscrowFinish', () => {
-    const wrapper = createWrapper(EscrowFinish)
+    const wrapper = createWrapper(
+      getTestByName('EscrowFinish having XRP escrowed'),
+    )
     expect(wrapper.html()).toBe(
-      '<div>escrow_completion_desc <a data-testid="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" class="account" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a></div><div>The escrowed amount of<b>\uE9000.0154<small>XRP</small></b>was delivered to<a data-testid="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" class="account" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a><span> (<b>\uE9000.015388<small>XRP</small></b> escrow_after_transaction_cost)</span></div>The escrow was created by<a data-testid="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" class="account" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a>with transaction<a class="hash" href="/transactions/3E2E755FA75FF1020C39E2ECC407E9F1C0E49A7229EDD15FF93B9F869878F1CC">3E2E75...</a><div>escrow_finish_fulfillment_desc<span class="fulfillment"> Fulfillment</span></div>',
+      '<div>Completion was triggered by <a data-testid="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" class="account" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a></div><div data-testid="amount-line">The escrowed amount of <b><span class="amount" data-testid="amount"><span class="amount-localized" data-testid="amount-localized">0.0154</span> <span class="currency" data-testid="currency">XRP</span></span></b> was delivered to <a data-testid="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" class="account" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a><span> (<b><span class="amount" data-testid="amount"><span class="amount-localized" data-testid="amount-localized">0.015388</span> <span class="currency" data-testid="currency">XRP</span></span></b> after transaction cost)</span></div>The escrow was created by <a data-testid="account" title="r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8" class="account" href="/accounts/r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8">r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8</a> with transaction <a class="hash" href="/transactions/3E2E755FA75FF1020C39E2ECC407E9F1C0E49A7229EDD15FF93B9F869878F1CC">3E2E75...</a><div>The escrow condition is fulfilled by<span class="fulfillment"> Fulfillment</span></div>',
+    )
+    wrapper.unmount()
+  })
+
+  it('test XRP amount', () => {
+    const wrapper = createWrapper(
+      getTestByName('EscrowFinish having XRP escrowed'),
+    )
+    expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
+      `The escrowed amount of uE9000.0154 XRP was delivered to r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8 (uE9000.015388 XRP after transaction cost)`,
+    )
+
+    wrapper.unmount()
+  })
+
+  it('test IOU amount', () => {
+    const wrapper = createWrapper(
+      getTestByName('EscrowFinish having IOU escrowed'),
+    )
+    expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
+      'The escrowed amount of 1.00 ZZZ.rDb2kD2sibG5cxhz3VAoRFkmhPrca4JtL8 was delivered to rHVkbnz2ZLVUCPugCbLsXbCsayrJARLq1N',
+    )
+    wrapper.unmount()
+  })
+
+  it('test MPT amount', () => {
+    const data = {
+      assetScale: 4,
+    }
+
+    // @ts-ignore
+    useQuery.mockImplementation(() => ({
+      data,
+    }))
+
+    const wrapper = createWrapper(
+      getTestByName('EscrowFinish having MPT escrowed'),
+    )
+    expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
+      'The escrowed amount of 0.0001 MPT (0044E493C9FB70ADC1A604A5792643A38CA5887219C21C8C) was delivered to rHVkbnz2ZLVUCPugCbLsXbCsayrJARLq1N',
     )
     wrapper.unmount()
   })

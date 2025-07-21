@@ -1,7 +1,13 @@
+import { useQuery } from 'react-query'
 import { Simple } from '../Simple'
 import mockEscrowCreateTests from './mock_data/EscrowCreate.json'
 import mockEscrowCreateFinishFunction from './mock_data/EscrowCreateFinishFunction.json'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn(),
+}))
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
@@ -11,9 +17,7 @@ function getTestByName(name: string) {
 
 describe('EscrowCreateSimple', () => {
   it('renders with an expiration and offer', () => {
-    const wrapper = createWrapper(
-      getTestByName('renders with an expiration and offer'),
-    )
+    const wrapper = createWrapper(getTestByName('renders EscrowCreate'))
     expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
       '\uE900997.50 XRP',
     )
@@ -51,17 +55,37 @@ describe('EscrowCreateSimple', () => {
     wrapper.unmount()
   })
 
+  it('test XRP amount', () => {
+    const wrapper = createWrapper(getTestByName('renders EscrowCreate'))
+    expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
+      `\uE900997.50 XRP`,
+    )
+
+    wrapper.unmount()
+  })
+
   it('test IOU amount', () => {
     const wrapper = createWrapper(getTestByName('test IOU amount'))
     expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
       '1.00 ZZZ.rDb2kD2sibG5cxhz3VAoRFkmhPrca4JtL8',
     )
+    wrapper.unmount()
   })
 
   it('test MPT amount', () => {
+    const data = {
+      assetScale: 4,
+    }
+
+    // @ts-ignore
+    useQuery.mockImplementation(() => ({
+      data,
+    }))
+
     const wrapper = createWrapper(getTestByName('test MPT amount'))
     expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
-      '1.00 0044E48FC9FB70ADC1A604A5792643A38CA5887219C21C8C',
+      '0.0001 MPT (0044E48FC9FB70ADC1A604A5792643A38CA5887219C21C8C)',
     )
+    wrapper.unmount()
   })
 })

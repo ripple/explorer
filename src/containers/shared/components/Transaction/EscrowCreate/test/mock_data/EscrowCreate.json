@@ -1,5 +1,5 @@
 {
-  "renders with an expiration and offer": {
+  "renders EscrowCreate": {
     "hash": "27D43BD746193512ABD670DBE9C646F341BDCEDB0741CF862F64190E2851CAD1",
     "ledger_index": 37471281,
     "date": "2018-03-25T04:10:21+00:00",
