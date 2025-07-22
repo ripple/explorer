@@ -93,7 +93,7 @@ const Description: TransactionDescriptionComponent = (
       {data.tx.DomainID && (
         <div key="line5">
           {t('offer_create_desc_line_5')}
-          <b> Permissioned Domain: {data.tx.DomainID}</b>
+          <b>: {data.tx.DomainID}</b>
         </div>
       )}
     </>

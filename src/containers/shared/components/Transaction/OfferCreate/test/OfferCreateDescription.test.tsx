@@ -29,7 +29,7 @@ describe('OfferCreate: Description', () => {
     const wrapper = createWrapper(OfferCreateWithPermissionedDomainID)
 
     expect(wrapper.html()).toBe(
-      '<div>The account<a data-testid="account" title="rD7ShWxq6xRYWDSDfzhKbfaJDerxd7nnds" class="account" href="/accounts/rD7ShWxq6xRYWDSDfzhKbfaJDerxd7nnds">rD7ShWxq6xRYWDSDfzhKbfaJDerxd7nnds</a>offered to pay<b>\uE90017,588.363594<small>XRP</small></b>in order to receive<b>$10.00<small>USD</small></b></div><div>offer_create_desc_line_2<b><span> 0.00056856</span><small>XRP/USD</small></b></div><div>offer_create_desc_line_5<b> Permissioned Domain: 4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812</b></div>',
+      '<div>The account<a data-testid="account" title="rD7ShWxq6xRYWDSDfzhKbfaJDerxd7nnds" class="account" href="/accounts/rD7ShWxq6xRYWDSDfzhKbfaJDerxd7nnds">rD7ShWxq6xRYWDSDfzhKbfaJDerxd7nnds</a>offered to pay<b>\uE90017,588.363594<small>XRP</small></b>in order to receive<b>$10.00<small>USD</small></b></div><div>offer_create_desc_line_2<b><span> 0.00056856</span><small>XRP/USD</small></b></div><div>offer_create_desc_line_5<b> : 4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812</b></div>',
     )
     wrapper.unmount()
   })
