@@ -18,7 +18,9 @@ const render = (t, action, node, index) => {
           <Account account={fields.Owner} />
         </span>
       )}
-      {fields.DomainID && <span> Permissioned Domain: {fields.DomainID}</span>}
+      {fields.DomainID && (
+        <span> pertaining to the Permissioned Domain: {fields.DomainID}</span>
+      )}
     </li>
   )
 }
