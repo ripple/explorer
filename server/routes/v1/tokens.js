@@ -47,20 +47,6 @@ async function fetchXRPLMetaTokens(offset) {
     })
 }
 
-// TEMP: Manually add OUSG for Ondo until token is KYCed
-async function tempFetchOndo(offset) {
-  log.info(`caching OUSG token from ${process.env.XRPL_META_URL}`)
-  return axios
-    .get(
-      `https://${process.env.XRPL_META_URL}/tokens?name_like=rHuiXXjHLpMP8ZE9sSQU5aADQVWDwv6h5p`,
-    )
-    .then((resp) => resp.data)
-    .catch((e) => {
-      log.error(e)
-      return { count: 0 }
-    })
-}
-
 async function cacheXRPLMetaTokens() {
   let offset = 0
   let tokensDataBatch = {}
@@ -84,9 +70,6 @@ async function cacheXRPLMetaTokens() {
       result.meta.issuer.trust_level === 3,
   )
 
-  // TEMP: Manually add OUSG for Ondo until token is KYCed
-  const ondoTokens = await tempFetchOndo()
-  cachedTokenSearchList.tokens.push(...ondoTokens.tokens)
   cachedTokenSearchList.last_updated = Date.now()
 
   // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
