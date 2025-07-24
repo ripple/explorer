@@ -19,7 +19,9 @@ const render = (t, action, node, index) => {
         </span>
       )}
       {fields.DomainID && (
-        <span> pertaining to the Permissioned Domain: {fields.DomainID}</span>
+        <span>
+          {t('pertaining_to_the_Permissioned_Domain')}: {fields.DomainID}
+        </span>
       )}
     </li>
   )

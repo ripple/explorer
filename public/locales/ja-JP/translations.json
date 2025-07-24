@@ -578,6 +578,7 @@
   "gas": null,
   "delegate": null,
   "permissions": null,
+  "pertaining_to_the_Permissioned_Domain": null,
   "tx_delegated_to": null,
   "account_delegates_to": null,
   "delegate_to": null,

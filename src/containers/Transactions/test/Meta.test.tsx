@@ -194,7 +194,7 @@ describe('TransactionMeta container', () => {
   it(`renders OfferCreate Meta with a Permissioned Domain ID`, () => {
     const w = createWrapper(OfferCreateWithPermissionedDomainID)
     expect(w.html()).toContain(
-      'Permissioned Domain: 4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812',
+      'Domain: 4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812',
     )
   })
 })

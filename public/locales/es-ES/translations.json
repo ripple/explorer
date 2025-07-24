@@ -578,6 +578,7 @@
   "gas": null,
   "delegate": null,
   "permissions": null,
+  "pertaining_to_the_Permissioned_Domain": null,
   "tx_delegated_to": null,
   "inner_transaction": null,
   "batch_table_detail_count": null,

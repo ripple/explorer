@@ -582,6 +582,7 @@
   "gas": "Gas",
   "delegate": "Delegate",
   "permissions": "Permissions",
+  "pertaining_to_the_Permissioned_Domain": "pertaining to the Permissioned Domain",
   "tx_delegated_to": "The transaction is delegated to <Account/>",
   "account_delegates_to": "<Account/> delegates <Permissions/> permissions to <Authorize/>",
   "delegate_to": "<DelegateLabel/> <Permissions/> permissions to <Account/>",
