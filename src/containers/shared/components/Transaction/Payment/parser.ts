@@ -27,6 +27,7 @@ export const parser = (tx: any, meta: any): PaymentInstructions => {
       convert: max,
       destination,
       partial,
+      domainID: tx.DomainID,
     }
   }
 
@@ -36,5 +37,6 @@ export const parser = (tx: any, meta: any): PaymentInstructions => {
     destination: `${tx.Destination}${dt}`,
     sourceTag: tx.SourceTag,
     partial,
+    domainID: tx.DomainID,
   }
 }

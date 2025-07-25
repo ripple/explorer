@@ -76,6 +76,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00020000: 'tfImmediateOrCancel',
     0x00040000: 'tfFillOrKill',
     0x00080000: 'tfSell',
+    0x00100000: 'tfHybrid',
   },
   Payment: {
     0x00010000: 'tfNoDirectRipple',

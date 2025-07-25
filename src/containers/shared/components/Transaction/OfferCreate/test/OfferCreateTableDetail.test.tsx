@@ -2,6 +2,7 @@ import { TableDetail } from '../TableDetail'
 import mockOfferCreateInvertedCurrencies from './mock_data/OfferCreateInvertedCurrencies.json'
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import mockOfferCreate from './mock_data/OfferCreate.json'
+import mockOfferCreateWithPermissionedDomainID from './mock_data/OfferCreateWithPermissionedDomainID.json'
 import { createTableDetailWrapperFactory } from '../../test'
 
 const createWrapper = createTableDetailWrapperFactory(TableDetail)
@@ -45,6 +46,14 @@ describe('OfferCreate: TableDetail', () => {
 
     expect(wrapper.find('[data-testid="pair"]')).toHaveText(
       'price:0.346896 \uE900 XRP/USD.rvYA',
+    )
+  })
+
+  it(`renders offerCreate with a Permissioned Domain ID`, () => {
+    const wrapper = createWrapper(mockOfferCreateWithPermissionedDomainID)
+
+    expect(wrapper.find('[data-testid="domain-id"]')).toHaveText(
+      'domain_id: 4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812',
     )
   })
 })
