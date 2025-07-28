@@ -188,6 +188,12 @@
   "transaction_type_name_SignerListSet": "Configurar Lista de Firmantes",
   "transaction_type_name_TicketCreate": "Creación de Ticket",
   "transaction_type_name_TrustSet": "Configurar Confianza",
+  "transaction_type_name_VaultCreate": null,
+  "transaction_type_name_VaultSet": null,
+  "transaction_type_name_VaultDeposit": null,
+  "transaction_type_name_VaultWithdraw": null,
+  "transaction_type_name_VaultClawback": null,
+  "transaction_type_name_VaultDelete": null,
   "transaction_type_name_XChainAccountCreateCommit": "Commit de Creación de Cuenta XChain",
   "transaction_type_name_XChainAddAccountCreateAttestation": "Añadir Atestado de Creación de Cuenta XChain",
   "transaction_type_name_XChainAddClaimAttestation": "Añadir Atestado de Reclamo XChain",
@@ -584,5 +590,9 @@
   "batch_description": null,
   "batch": null,
   "successful": null,
-  "failed": null
+  "failed": null,
+  "asset": null,
+  "assets_maximum": null,
+  "mptoken_metadata": null,
+  "withdrawal_policy": null
 }

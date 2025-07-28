@@ -191,6 +191,12 @@
   "transaction_type_name_SignerListSet": "Etablir Llista de Signantst",
   "transaction_type_name_TicketCreate": "Crear tiquet",
   "transaction_type_name_TrustSet": "Establir Confiança",
+  "transaction_type_name_VaultCreate": null,
+  "transaction_type_name_VaultSet": null,
+  "transaction_type_name_VaultDeposit": null,
+  "transaction_type_name_VaultWithdraw": null,
+  "transaction_type_name_VaultClawback": null,
+  "transaction_type_name_VaultDelete": null,
   "transaction_type_name_XChainAccountCreateCommit": "Compromís de creació de compte XChain",
   "transaction_type_name_XChainAddAccountCreateAttestation": "Afegir confirmació de creació de compte XChain",
   "transaction_type_name_XChainAddClaimAttestation": "Afegir petició de confirmació XChain",
@@ -583,5 +589,9 @@
   "batch_description": null,
   "batch": null,
   "successful": null,
-  "failed": null
+  "failed": null,
+  "asset": null,
+  "assets_maximum": null,
+  "mptoken_metadata": null,
+  "withdrawal_policy": null
 }

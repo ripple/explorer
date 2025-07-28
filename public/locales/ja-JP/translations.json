@@ -190,6 +190,12 @@
   "transaction_type_name_SignerListSet": "署名者リスト設定",
   "transaction_type_name_TicketCreate": "チケットの作成",
   "transaction_type_name_TrustSet": "トラスト設定",
+  "transaction_type_name_VaultCreate": null,
+  "transaction_type_name_VaultSet": null,
+  "transaction_type_name_VaultDeposit": null,
+  "transaction_type_name_VaultWithdraw": null,
+  "transaction_type_name_VaultClawback": null,
+  "transaction_type_name_VaultDelete": null,
   "transaction_type_name_XChainAccountCreateCommit": null,
   "transaction_type_name_XChainAddAccountCreateAttestation": null,
   "transaction_type_name_XChainAddClaimAttestation": null,
@@ -586,5 +592,9 @@
   "batch_description": null,
   "batch": null,
   "successful": null,
-  "failed": null
+  "failed": null,
+  "asset": null,
+  "assets_maximum": null,
+  "mptoken_metadata": null,
+  "withdrawal_policy": null
 }

@@ -190,6 +190,12 @@
   "transaction_type_name_SignerListSet": "서명자 목록 설정",
   "transaction_type_name_TicketCreate": "티켓 생성",
   "transaction_type_name_TrustSet": "신뢰 설정",
+  "transaction_type_name_VaultCreate": null,
+  "transaction_type_name_VaultSet": null,
+  "transaction_type_name_VaultDeposit": null,
+  "transaction_type_name_VaultWithdraw": null,
+  "transaction_type_name_VaultClawback": null,
+  "transaction_type_name_VaultDelete": null,
   "transaction_type_name_XChainAccountCreateCommit": "XChain 계정 생성 커밋",
   "transaction_type_name_XChainAddAccountCreateAttestation": "XChain 계정 생성 인증 추가",
   "transaction_type_name_XChainAddClaimAttestation": "XChain 청구 인증 추가",
@@ -584,5 +590,9 @@
   "batch_description": null,
   "batch": null,
   "successful": null,
-  "failed": null
+  "failed": null,
+  "asset": null,
+  "assets_maximum": null,
+  "mptoken_metadata": null,
+  "withdrawal_policy": null
 }

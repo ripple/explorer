@@ -192,6 +192,12 @@
   "transaction_type_name_SignerListSet": "လက်မှတ်ထိုးသူစာရင်း သတ်မှတ်ရန်",
   "transaction_type_name_TicketCreate": "လက်မှတ် ဖန်တီးရန်",
   "transaction_type_name_TrustSet": "ယုံကြည်မှု သတ်မှတ်ရန်",
+  "transaction_type_name_VaultCreate": null,
+  "transaction_type_name_VaultSet": null,
+  "transaction_type_name_VaultDeposit": null,
+  "transaction_type_name_VaultWithdraw": null,
+  "transaction_type_name_VaultClawback": null,
+  "transaction_type_name_VaultDelete": null,
   "transaction_type_name_XChainAccountCreateCommit": "XChain အကောင့်ဖန်တီးမှု အတည်ပြုရန်",
   "transaction_type_name_XChainAddAccountCreateAttestation": "XChain အကောင့်ဖန်တီးမှု အထောက်အထား ထည့်ရန်",
   "transaction_type_name_XChainAddClaimAttestation": "XChain တောင်းဆိုမှု အထောက်အထား ထည့်ရန်",
@@ -584,5 +590,9 @@
   "batch_description": null,
   "batch": null,
   "successful": null,
-  "failed": null
+  "failed": null,
+  "asset": null,
+  "assets_maximum": null,
+  "mptoken_metadata": null,
+  "withdrawal_policy": null
 }

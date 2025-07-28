@@ -198,6 +198,12 @@
   "transaction_type_name_SignerListSet": "Signer List Set",
   "transaction_type_name_TicketCreate": "Ticket Create",
   "transaction_type_name_TrustSet": "Trust Set",
+  "transaction_type_name_VaultCreate": "Vault Create",
+  "transaction_type_name_VaultSet": "Vault Set",
+  "transaction_type_name_VaultDeposit": "Vault Deposit",
+  "transaction_type_name_VaultWithdraw": "Vault Withdraw",
+  "transaction_type_name_VaultClawback": "Vault Clawback",
+  "transaction_type_name_VaultDelete": "Vault Delete",
   "transaction_type_name_XChainAccountCreateCommit": "XChain Account Create Commit",
   "transaction_type_name_XChainAddAccountCreateAttestation": "XChain Add Account Create Attestation",
   "transaction_type_name_XChainAddClaimAttestation": "XChain Add Claim Attestation",
@@ -590,5 +596,9 @@
   "batch_description": "Batch Signers: <SignerList/>",
   "batch": "Batch",
   "successful": "Successful",
-  "failed": "Failed"
+  "failed": "Failed",
+  "asset": "Asset",
+  "assets_maximum": "Assets Maximum",
+  "mptoken_metadata": "MPToken Metadata",
+  "withdrawal_policy": "Withdrawal Policy"
 }
