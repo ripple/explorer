@@ -594,5 +594,6 @@
   "asset": null,
   "assets_maximum": null,
   "mptoken_metadata": null,
-  "withdrawal_policy": null
+  "withdrawal_policy": null,
+  "account_creates_vault": null
 }

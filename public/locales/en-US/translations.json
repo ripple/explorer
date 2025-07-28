@@ -600,5 +600,6 @@
   "asset": "Asset",
   "assets_maximum": "Assets Maximum",
   "mptoken_metadata": "MPToken Metadata",
-  "withdrawal_policy": "Withdrawal Policy"
+  "withdrawal_policy": "Withdrawal Policy",
+  "account_creates_vault": "<Account/> created a vault for <Asset/>"
 }
