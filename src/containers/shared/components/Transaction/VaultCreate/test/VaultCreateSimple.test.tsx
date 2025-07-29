@@ -16,11 +16,7 @@ describe('VaultCreate: Simple', () => {
       'asset',
       'USD.rJCPrRU8kcLfqCKob1j9EivLa4wG5pF4C2',
     )
-    expectSimpleRowText(
-      wrapper,
-      'assets_maximum',
-      '$500.00 USD.rJCPrRU8kcLfqCKob1j9EivLa4wG5pF4C2',
-    )
+    expectSimpleRowText(wrapper, 'assets_maximum', '500')
     expectSimpleRowText(wrapper, 'data', '7661756C74206D65746164617461')
     expectSimpleRowText(
       wrapper,

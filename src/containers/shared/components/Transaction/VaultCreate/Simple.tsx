@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { VaultCreate } from './types'
 import { SimpleRow } from '../SimpleRow'
-import { Amount } from '../../Amount'
 import Currency from '../../Currency'
 import { ExplorerAmount } from '../../../types'
 import { isValidJsonString } from '../../../utils'
@@ -21,17 +20,14 @@ export const Simple: TransactionSimpleComponent = (
     WithdrawalPolicy,
     DomainID,
   } = data.instructions
-  const assetsMax: ExplorerAmount | null = AssetsMaximum
-    ? { ...Asset, amount: AssetsMaximum }
-    : null
   return (
     <>
       <SimpleRow label={t('asset')} data-testid="asset">
         <Currency currency={Asset.currency} issuer={Asset.issuer} />
       </SimpleRow>
-      {assetsMax && (
+      {AssetsMaximum && (
         <SimpleRow label={t('assets_maximum')} data-testid="assets_maximum">
-          <Amount value={assetsMax} />
+          {AssetsMaximum}
         </SimpleRow>
       )}
       {Data && (
