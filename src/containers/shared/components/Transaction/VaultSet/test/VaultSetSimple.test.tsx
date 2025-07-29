@@ -16,7 +16,7 @@ describe('VaultSet: Simple', () => {
       'vault_id',
       '47148BAF6D14F8456F859A4DFCF2B2921512E44C5E1EADD72D34F33F6ED2AA00',
     )
-    expectSimpleRowText(wrapper, 'assets_maximum', '0.001 XRP')
+    expectSimpleRowText(wrapper, 'assets_maximum', '1000')
     expectSimpleRowText(wrapper, 'data', '75706461746564206D65746164617461')
     expectSimpleRowNotToExist(wrapper, 'domain_id')
     wrapper.unmount()

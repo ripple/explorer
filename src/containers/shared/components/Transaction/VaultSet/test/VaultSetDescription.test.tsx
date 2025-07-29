@@ -12,7 +12,7 @@ describe('VaultSet: Description', () => {
       `It sets the Vault Data to 75706461746564206D65746164617461`,
     )
     expect(wrapper.find('[data-testid="assets_maximum"]')).toHaveText(
-      `It sets the Vault Assets Maximum to 0.001 XRP`,
+      `It sets the Vault Assets Maximum to 1000`,
     )
     expect(wrapper.find('[data-testid="domain_id"]')).toEqual({})
     wrapper.unmount()
