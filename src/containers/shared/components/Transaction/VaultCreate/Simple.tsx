@@ -3,7 +3,6 @@ import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { VaultCreate } from './types'
 import { SimpleRow } from '../SimpleRow'
 import Currency from '../../Currency'
-import { ExplorerAmount } from '../../../types'
 import { isValidJsonString } from '../../../utils'
 import { JsonView } from '../../JsonView'
 
