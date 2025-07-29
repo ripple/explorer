@@ -609,5 +609,6 @@
   "set_vault_assets_maximum": "It sets the Vault Assets Maximum to <AssetsMaximum/>",
   "set_vault_domain_id": "It sets the Vault DomainID to <DomainID/>",
   "account_deposits_into_vault": "<Account/> deposits <Amount/> into Vault ID <VaultID/>",
-  "account_withdraws_from_vault": "<Account/> withdraws <Amount/> from Vault ID <VaultID/><Destination/>"
+  "account_withdraws_from_vault": "<Account/> withdraws <Amount/> from Vault ID <VaultID/><Destination/>",
+  "account_clawbacks_from_vault": "<Account/> clawbacks<Amount/> from <Holder/>"
 }

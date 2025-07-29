@@ -57,6 +57,7 @@ import { VaultCreateTransaction as VaultCreate } from './VaultCreate'
 import { VaultSetTransaction as VaultSet } from './VaultSet'
 import { VaultDepositTransaction as VaultDeposit } from './VaultDeposit'
 import { VaultWithdrawTransaction as VaultWithdraw } from './VaultWithdraw'
+import { VaultClawbackTransaction as VaultClawback } from './VaultClawback'
 
 import {
   TransactionAction,
@@ -124,6 +125,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   VaultSet,
   VaultDeposit,
   VaultWithdraw,
+  VaultClawback,
 }
 
 export const getAction = (type: string): TransactionAction =>
