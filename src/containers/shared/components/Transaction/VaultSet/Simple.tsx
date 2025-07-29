@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { VaultSet } from './types'
 import { SimpleRow } from '../SimpleRow'
-import { Amount } from '../../Amount'
 import { isValidJsonString } from '../../../utils'
 import { JsonView } from '../../JsonView'
 

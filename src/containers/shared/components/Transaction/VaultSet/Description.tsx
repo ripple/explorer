@@ -1,7 +1,6 @@
 import { Trans } from 'react-i18next'
 import { TransactionDescriptionProps } from '../types'
 import { VaultSet } from './types'
-import { Amount } from '../../Amount'
 import { isValidJsonString } from '../../../utils'
 import { JsonView } from '../../JsonView'
 
