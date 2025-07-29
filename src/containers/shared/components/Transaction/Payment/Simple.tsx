@@ -18,7 +18,7 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
   }
 
   const renderPayment = () => {
-    const { max, destination, sourceTag, partial } = data.instructions
+    const { max, destination, sourceTag, partial, domainID } = data.instructions
 
     return (
       <>
@@ -37,6 +37,12 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
         {sourceTag !== undefined && (
           <SimpleRow label={t('source_tag')} data-testid="source-tag">
             {sourceTag}
+          </SimpleRow>
+        )}
+        {/* Note: domainID is not relevant for self-destined payment transactions */}
+        {domainID !== undefined && (
+          <SimpleRow label={t('domain_id')} data-testid="domain-id">
+            {domainID}
           </SimpleRow>
         )}
         <SimpleRow label={t('destination')} data-testid="destination">

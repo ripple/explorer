@@ -76,6 +76,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00020000: 'tfImmediateOrCancel',
     0x00040000: 'tfFillOrKill',
     0x00080000: 'tfSell',
+    0x00100000: 'tfHybrid',
   },
   Payment: {
     0x00010000: 'tfNoDirectRipple',
@@ -92,6 +93,8 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00040000: 'tfClearNoRipple',
     0x00100000: 'tfSetFreeze',
     0x00200000: 'tfClearFreeze',
+    0x00400000: 'tfSetDeepFreeze',
+    0x00800000: 'tfClearDeepFreeze',
   },
   XChainModifyBridge: {
     0x00010000: 'tfClearAccountCreateAmount',
