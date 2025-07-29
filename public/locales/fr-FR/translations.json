@@ -607,5 +607,6 @@
   "set_vault_domain_id": null,
   "account_deposits_into_vault": null,
   "account_withdraws_from_vault": null,
-  "account_clawbacks_from_vault": null
+  "account_clawbacks_from_vault": null,
+  "account_deletes_vault": null
 }
