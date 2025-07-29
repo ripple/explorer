@@ -19,7 +19,7 @@ export const Simple: TransactionSimpleComponent = (
       </SimpleRow>
       {AssetsMaximum && (
         <SimpleRow label={t('assets_maximum')} data-testid="assets_maximum">
-          <Amount value={AssetsMaximum} />
+          {AssetsMaximum}
         </SimpleRow>
       )}
       {Data && (

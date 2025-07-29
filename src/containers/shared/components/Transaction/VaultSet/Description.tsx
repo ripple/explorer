@@ -35,7 +35,7 @@ export const Description = ({
           <Trans
             i18nKey="set_vault_assets_maximum"
             components={{
-              AssetsMaximum: <Amount value={assetsMaximum} />,
+              AssetsMaximum: <span>{assetsMaximum}</span>,
             }}
           />
         </div>
