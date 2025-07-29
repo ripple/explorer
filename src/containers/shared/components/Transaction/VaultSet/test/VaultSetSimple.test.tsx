@@ -13,23 +13,12 @@ describe('VaultSet: Simple', () => {
     const wrapper = createWrapper(mockVaultSet)
     expectSimpleRowText(
       wrapper,
-      'asset',
-      'USD.rJCPrRU8kcLfqCKob1j9EivLa4wG5pF4C2',
+      'vault_id',
+      '47148BAF6D14F8456F859A4DFCF2B2921512E44C5E1EADD72D34F33F6ED2AA00',
     )
-    expectSimpleRowText(
-      wrapper,
-      'assets_maximum',
-      '$500.00 USD.rJCPrRU8kcLfqCKob1j9EivLa4wG5pF4C2',
-    )
-    expectSimpleRowText(wrapper, 'data', '7661756C74206D65746164617461')
-    expectSimpleRowText(
-      wrapper,
-      'mptoken_metadata',
-      '7368617265206D65746164617461',
-    )
-    expectSimpleRowText(wrapper, 'withdrawal_policy', '1')
+    expectSimpleRowText(wrapper, 'assets_maximum', '0.001 XRP')
+    expectSimpleRowText(wrapper, 'data', '75706461746564206D65746164617461')
     expectSimpleRowNotToExist(wrapper, 'domain_id')
-
     wrapper.unmount()
   })
 })
