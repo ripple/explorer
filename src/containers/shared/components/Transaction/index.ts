@@ -55,6 +55,7 @@ import { UNLModifyTransaction as UNLModify } from './UNLModify'
 import { ClawbackTransaction as Clawback } from './Clawback'
 import { VaultCreateTransaction as VaultCreate } from './VaultCreate'
 import { VaultSetTransaction as VaultSet } from './VaultSet'
+import { VaultDepositTransaction as VaultDeposit } from './VaultDeposit'
 
 import {
   TransactionAction,
@@ -120,6 +121,7 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   UNLModify,
   VaultCreate,
   VaultSet,
+  VaultDeposit,
 }
 
 export const getAction = (type: string): TransactionAction =>

@@ -600,5 +600,6 @@
   "vault_id": null,
   "set_vault_data": null,
   "set_vault_assets_maximum": null,
-  "set_vault_domain_id": null
+  "set_vault_domain_id": null,
+  "account_deposits_into_vault": null
 }
