@@ -599,5 +599,9 @@
   "assets_maximum": null,
   "mptoken_metadata": null,
   "withdrawal_policy": null,
-  "account_creates_vault": null
+  "account_creates_vault": null,
+  "vault_id": null,
+  "set_vault_data": null,
+  "set_vault_assets_maximum": null,
+  "set_vault_domain_id": null
 }
