@@ -611,5 +611,6 @@
   "account_deposits_into_vault": "<Account/> deposits <Amount/> into Vault ID <VaultID/>",
   "account_withdraws_from_vault": "<Account/> withdraws <Amount/> from Vault ID <VaultID/><Destination/>",
   "account_clawbacks_from_vault": "<Account/> clawbacks<Amount/> from <Holder/>",
-  "account_deletes_vault": "<Account/> deleted a vault (<VaultID/>)"
+  "account_deletes_vault": "<Account/> deleted a vault (<VaultID/>)",
+  "vault_create_table_detail": "vault for <Asset/>"
 }
