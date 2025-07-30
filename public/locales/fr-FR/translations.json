@@ -609,5 +609,6 @@
   "account_withdraws_from_vault": null,
   "account_clawbacks_from_vault": null,
   "account_deletes_vault": null,
-  "vault_create_table_detail": null
+  "vault_create_table_detail": null,
+  "withdraws": null
 }
