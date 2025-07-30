@@ -17,10 +17,10 @@ export const Description = ({
         Account: <Account account={account} />,
         Holder: <Account account={holder} />,
         Amount: amount ? (
-          <>
+          <b>
             {' '}
             <Amount value={formatAmount(amount)} />
-          </>
+          </b>
         ) : (
           <span />
         ),

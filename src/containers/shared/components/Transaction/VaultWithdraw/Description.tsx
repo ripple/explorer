@@ -21,8 +21,12 @@ export const Description = ({
       i18nKey="account_withdraws_from_vault"
       components={{
         Account: <Account account={account} />,
-        Amount: <Amount value={formatAmount(amount)} />,
-        VaultID: <span>{vaultId}</span>,
+        Amount: (
+          <b>
+            <Amount value={formatAmount(amount)} />
+          </b>
+        ),
+        VaultID: <b>{vaultId}</b>,
         Destination: destination ? (
           <>
             <span> {t('to')} </span>

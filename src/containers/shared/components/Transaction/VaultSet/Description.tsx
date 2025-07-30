@@ -21,7 +21,7 @@ export const Description = ({
                   {isValidJsonString(Data) ? (
                     <JsonView data={JSON.parse(Data)} />
                   ) : (
-                    Data
+                    <b>{Data}</b>
                   )}
                 </div>
               ),
@@ -34,7 +34,7 @@ export const Description = ({
           <Trans
             i18nKey="set_vault_assets_maximum"
             components={{
-              AssetsMaximum: <span>{assetsMaximum}</span>,
+              AssetsMaximum: <b>{assetsMaximum}</b>,
             }}
           />
         </div>
