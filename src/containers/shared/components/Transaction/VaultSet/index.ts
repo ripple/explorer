@@ -5,10 +5,12 @@ import {
 } from '../types'
 import { Description } from './Description'
 import { Simple } from './Simple'
+import { TableDetail } from './TableDetail'
 
 export const VaultSetTransaction: TransactionMapping = {
   Description,
   Simple,
+  TableDetail,
   action: TransactionAction.MODIFY,
   category: TransactionCategory.OTHER,
 }
