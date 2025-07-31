@@ -12,7 +12,6 @@ import {
   renderXRP,
 } from '../shared/utils'
 import { useAnalytics } from '../shared/analytics'
-import { XRP_BASE } from '../shared/transactionUtils'
 
 import './votingTab.scss'
 import { RouteLink } from '../shared/routing'
@@ -89,15 +88,15 @@ export const VotingTab: FC<{
       <div className="metrics metrics-voting">
         <div className="cell">
           <div className="label">{t('base_fee')}</div>
-          <div>{renderXRP(validatorData.base_fee / XRP_BASE)}</div>
+          <div>{renderXRP(validatorData.base_fee)} drops</div>
         </div>
         <div className="cell">
           <div className="label">{t('account_reserve')}</div>
-          <div>{renderXRP(validatorData.reserve_base / XRP_BASE)}</div>
+          <div>{renderXRP(validatorData.reserve_base)} drops</div>
         </div>
         <div className="cell">
           <div className="label">{t('object_reserve')}</div>
-          <div>{renderXRP(validatorData.reserve_inc / XRP_BASE)}</div>
+          <div>{renderXRP(validatorData.reserve_inc)} drops</div>
         </div>
       </div>
       <div className="amendment-label">{t('amendments')}</div>

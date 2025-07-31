@@ -64,9 +64,15 @@ describe('VotingTab container', () => {
 
       // Render fees voting correctly
       expect(wrapper.find('.metrics .cell').length).toBe(3)
-      expect(wrapper.find('.metrics .cell').at(0).html()).toContain('0.00001')
-      expect(wrapper.find('.metrics .cell').at(1).html()).toContain('10.00')
-      expect(wrapper.find('.metrics .cell').at(2).html()).toContain('2.00')
+      expect(wrapper.find('.metrics .cell').at(0).html()).toContain(
+        '10.00 drops',
+      )
+      expect(wrapper.find('.metrics .cell').at(1).html()).toContain(
+        '10,000,000.00 drops',
+      )
+      expect(wrapper.find('.metrics .cell').at(2).html()).toContain(
+        '2,000,000.00 drops',
+      )
 
       // Render amendments correctly
       expect(wrapper.find('.amendment-label').length).toBe(1)
