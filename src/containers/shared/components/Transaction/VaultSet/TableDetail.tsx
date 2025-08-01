@@ -1,6 +1,6 @@
 import { t } from 'i18next'
+import type { VaultSet } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
-import { VaultSet } from './types'
 
 export const TableDetail = ({
   instructions,

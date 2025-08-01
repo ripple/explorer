@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
+import type { VaultSet } from 'xrpl'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
-import { VaultSet } from './types'
 import { SimpleRow } from '../SimpleRow'
 import { isValidJsonString } from '../../../utils'
 import { JsonView } from '../../JsonView'
