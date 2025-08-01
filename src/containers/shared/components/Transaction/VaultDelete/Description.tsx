@@ -1,6 +1,6 @@
 import { Trans } from 'react-i18next'
+import type { VaultDelete } from 'xrpl'
 import { TransactionDescriptionProps } from '../types'
-import { VaultDelete } from './types'
 import { Account } from '../../Account'
 
 export const Description = ({

@@ -1,6 +1,6 @@
 import { t } from 'i18next'
+import type { VaultDelete } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
-import { VaultDelete } from './types'
 
 export const TableDetail = ({
   instructions,

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
+import type { VaultDelete } from 'xrpl'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
-import { VaultDelete } from './types'
 import { SimpleRow } from '../SimpleRow'
 
 export const Simple: TransactionSimpleComponent = (
