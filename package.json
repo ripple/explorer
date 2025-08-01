@@ -70,7 +70,7 @@
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "babel-jest": "^29.7.0",
-    "cheerio": "1.0.0-rc.3",
+    "cheerio": "1.1.2",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
     "eslint": "^8.57.0",
