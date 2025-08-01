@@ -104,7 +104,7 @@
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5",
-    "xrpl": "^4.3.0"
+    "xrpl": "^4.4.0"
   },
   "resolutions": {
     "jest-environment-jsdom": "29.3.1",
