@@ -1,6 +1,6 @@
 import { Trans } from 'react-i18next'
+import type { VaultDeposit } from 'xrpl'
 import { TransactionDescriptionProps } from '../types'
-import { VaultDeposit } from './types'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'

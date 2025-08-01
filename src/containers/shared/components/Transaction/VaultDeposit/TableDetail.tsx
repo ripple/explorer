@@ -1,6 +1,6 @@
 import { t } from 'i18next'
+import type { VaultDeposit } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
-import { VaultDeposit } from './types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { Amount } from '../../Amount'
 
