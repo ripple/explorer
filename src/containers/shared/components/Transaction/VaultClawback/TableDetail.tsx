@@ -1,7 +1,7 @@
 import { t } from 'i18next'
 import { Trans } from 'react-i18next'
+import type { VaultClawback } from 'xrpl'
 import { TransactionTableDetailProps } from '../types'
-import { VaultClawback } from './types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
