@@ -79,11 +79,7 @@ export const Simple: TransactionSimpleComponent = (
           className="dt"
           data-testid="domain_id"
         >
-          {isValidJsonString(DomainID) ? (
-            <JsonView data={JSON.parse(DomainID)} />
-          ) : (
-            DomainID
-          )}
+          DomainID
         </SimpleRow>
       )}
     </>

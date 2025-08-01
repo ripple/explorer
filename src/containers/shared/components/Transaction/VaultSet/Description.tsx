@@ -44,15 +44,7 @@ export const Description = ({
           <Trans
             i18nKey="set_vault_domain_id"
             components={{
-              DomainID: (
-                <div>
-                  {isValidJsonString(domainId) ? (
-                    <JsonView data={JSON.parse(domainId)} />
-                  ) : (
-                    domainId
-                  )}
-                </div>
-              ),
+              DomainID: <b>{domainId}</b>,
             }}
           />
         </div>
