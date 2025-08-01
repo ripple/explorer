@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
+import type { VaultWithdraw } from 'xrpl'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
-import { VaultWithdraw } from './types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'

@@ -1,7 +1,7 @@
 import { Trans } from 'react-i18next'
 import { t } from 'i18next'
+import type { VaultWithdraw } from 'xrpl'
 import { TransactionDescriptionProps } from '../types'
-import { VaultWithdraw } from './types'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
