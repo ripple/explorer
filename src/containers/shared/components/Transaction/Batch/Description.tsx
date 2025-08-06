@@ -12,7 +12,8 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
       </span>
     ))
   }
-  return (
+
+  return Signers ? (
     <div data-testid="desc">
       <Trans
         i18nKey="batch_description"
@@ -21,5 +22,5 @@ export const Description = ({ data }: TransactionDescriptionProps) => {
         }}
       />
     </div>
-  )
+  ) : null
 }
