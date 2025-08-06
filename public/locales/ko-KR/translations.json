@@ -584,5 +584,6 @@
   "batch_description": null,
   "batch": null,
   "successful": null,
-  "failed": null
+  "failed": null,
+  "not-validated": null
 }
