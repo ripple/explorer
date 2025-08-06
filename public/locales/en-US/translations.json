@@ -592,5 +592,6 @@
   "batch_description": "Batch Signers: <SignerList/>",
   "batch": "Batch",
   "successful": "Successful",
-  "failed": "Failed"
+  "failed": "Failed (<Status/>)",
+  "not-validated": "Not Validated"
 }
