@@ -6,6 +6,7 @@ import Currency from '../../Currency'
 import { isValidJsonString } from '../../../utils'
 import { JsonView } from '../../JsonView'
 import { MPTokenLink } from '../../MPTokenLink'
+import { TX_FLAGS } from '../../../transactionUtils'
 
 export const Simple: TransactionSimpleComponent = (
   props: TransactionSimpleProps<VaultCreate>,
@@ -70,7 +71,7 @@ export const Simple: TransactionSimpleComponent = (
           label={t('withdrawal_policy')}
           data-testid="withdrawal_policy"
         >
-          {WithdrawalPolicy}
+          {TX_FLAGS.VaultCreate[WithdrawalPolicy] || WithdrawalPolicy}
         </SimpleRow>
       )}
       {DomainID && (

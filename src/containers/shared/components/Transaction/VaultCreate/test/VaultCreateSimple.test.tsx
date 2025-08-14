@@ -23,7 +23,11 @@ describe('VaultCreate: Simple', () => {
       'mptoken_metadata',
       '7368617265206D65746164617461',
     )
-    expectSimpleRowText(wrapper, 'withdrawal_policy', '1')
+    expectSimpleRowText(
+      wrapper,
+      'withdrawal_policy',
+      'vaultStrategyFirstComeFirstServe',
+    )
     expectSimpleRowNotToExist(wrapper, 'domain_id')
 
     wrapper.unmount()
