@@ -10,20 +10,26 @@ export const Description = ({
 }: TransactionDescriptionProps<VaultClawback>) => {
   const { tx } = data
   const { Account: account, Holder: holder, Amount: amount } = tx
-  return (
+  return amount ? (
     <Trans
       i18nKey="account_clawbacks_from_vault"
       components={{
         Account: <Account account={account} />,
         Holder: <Account account={holder} />,
-        Amount: amount ? (
+        Amount: (
           <b>
             {' '}
             <Amount value={formatAmount(amount)} />
           </b>
-        ) : (
-          <span />
         ),
+      }}
+    />
+  ) : (
+    <Trans
+      i18nKey="account_clawbacks_from_vault_amount_omitted"
+      components={{
+        Account: <Account account={account} />,
+        Holder: <Account account={holder} />,
       }}
     />
   )
