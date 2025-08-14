@@ -2,7 +2,8 @@
 import { useQuery } from 'react-query'
 import { useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Loader } from '../shared/components/Loader'
+// import { Loader } from '../shared/components/Loader'
+import axios from 'axios'
 import Log from '../shared/log'
 import { TokensTable } from './TokensTable'
 import {
@@ -53,14 +54,14 @@ export const Tokens = () => {
 
   console.log(filterField)
 
-  // const { data: tokensData = [] } = useQuery(
-  //   ['fetchTokens', sortField, sortOrder],
-  //   () => fetchTokens(),
-  //   {
-  //     refetchInterval: 60 * 1000,
-  //     onError: (error) => Log.error(error),
-  //   },
-  // )
+  const { data: tokensData = [] } = useQuery(
+    ['fetchTokens'],
+    () => fetchTokens(),
+    {
+      refetchInterval: 60 * 1000,
+      onError: (error) => Log.error(error),
+    },
+  )
   const { data: XRPUSDPrice = 0.0 } = useQuery(
     ['fetchXRPToUSDRate'],
     () => fetchXRPToUSDRate(),
@@ -88,18 +89,11 @@ export const Tokens = () => {
   }, [tokensData, filterField])
 
   console.log(filteredTokens)
-  // const fetchTokens = () =>
-  //   axios
-  //     .get('/api/v1/tokens', {
-  //       params: {
-  //         sort_by: sortField,
-  //         order: sortOrder,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log(response.data)
-  //       return response.data
-  //     })
+  const fetchTokens = () =>
+    axios.get('https://los.dev.ripplex.io/tokens').then((response) => {
+      console.log(response.data)
+      return response.data
+    })
   const fetchXRPToUSDRate = () =>
     getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1).then(
       (accountLines) => accountLines.lines[0]?.limit ?? 0.0,
