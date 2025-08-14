@@ -14,6 +14,8 @@ import NetworkContext from '../shared/NetworkContext'
 import { useIsOnline } from '../shared/SocketContext'
 import { TooltipProvider } from '../shared/components/Tooltip'
 import { SelectedValidatorProvider } from './useSelectedValidator'
+import { StreamsProvider } from '../shared/components/Streams/StreamsProvider'
+import { VHSValidatorsProvider } from '../shared/components/VHSValidators/VHSValidatorsProvider'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
 
@@ -73,30 +75,17 @@ export const LedgersPage = () => {
   const pause = () => setPaused(!paused)
 
   return (
-    <div className="ledgers-page">
-      <Helmet title={t('ledgers')} />
-      {isOnline && (
-        <Streams
-          validators={validators}
-          updateLedgers={setLedgers}
-          updateMetrics={setMetrics}
-        />
-      )}
-      <SelectedValidatorProvider>
-        <TooltipProvider>
-          <LedgerMetrics
-            data={metrics}
-            onPause={() => pause()}
-            paused={paused}
-          />
-        </TooltipProvider>
-        <Ledgers
-          ledgers={ledgers}
-          validators={validators}
-          unlCount={unlCount}
-          paused={paused}
-        />
-      </SelectedValidatorProvider>
-    </div>
+    <StreamsProvider>
+      <VHSValidatorsProvider>
+        <SelectedValidatorProvider>
+          <TooltipProvider>
+            <LedgerMetrics onPause={() => pause()} paused={paused} />
+          </TooltipProvider>
+          <TooltipProvider>
+            <Ledgers paused={paused} />
+          </TooltipProvider>
+        </SelectedValidatorProvider>
+      </VHSValidatorsProvider>
+    </StreamsProvider>
   )
 }

@@ -14,6 +14,7 @@ import HoverIcon from '../shared/images/hover.svg'
 import './css/ledgerMetrics.scss'
 import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
+import { useStreams } from '../shared/components/Streams/StreamsContext'
 
 const DEFAULTS = {
   load_fee: '--',
@@ -28,14 +29,13 @@ const DEFAULTS = {
 const TOOLTIP_Y_OFFSET = 180
 
 export const LedgerMetrics = ({
-  data: suppliedData,
   onPause,
   paused,
 }: {
-  data: any
   onPause: any
   paused: boolean
 }) => {
+  const { metrics: suppliedData } = useStreams()
   const data = { ...DEFAULTS, ...suppliedData }
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
   const { t } = useTranslation()

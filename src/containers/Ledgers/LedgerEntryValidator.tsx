@@ -1,35 +1,35 @@
+import classNames from 'classnames'
 import { useSelectedValidator } from './useSelectedValidator'
 import { useTooltip } from '../shared/components/Tooltip'
-import { ValidatorResponse } from './types'
+import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
 
 export const LedgerEntryValidator = ({
-  validator,
-  validators,
+  validation,
   index,
 }: {
-  validator: any
-  validators: { [pubkey: string]: ValidatorResponse }
+  validation: any
   index: number
 }) => {
+  const { validators } = useVHSValidators()
   const { showTooltip, hideTooltip } = useTooltip()
   const { selectedValidator, setSelectedValidator } = useSelectedValidator()
 
-  const trusted = validator.unl ? 'trusted' : ''
-  const unselected = selectedValidator ? 'unselected' : ''
-  const selected = selectedValidator === validator.pubkey ? 'selected' : ''
-  const className = `validation ${trusted} ${unselected} ${selected} ${validator.pubkey}`
-  const partial = validator.partial ? <div className="partial" /> : null
+  const className = classNames(
+    'validation',
+    validators?.[validation.validation_public_key]?.unl && 'trusted',
+    selectedValidator && 'unselected',
+    selectedValidator === validation.validation_public_key && 'selected',
+  )
 
   return (
     <div
-      key={`${validator.pubkey}_${validator.cookie}`}
       role="button"
       tabIndex={index}
       className={className}
       onMouseOver={(e) =>
         showTooltip('validator', e, {
-          ...validator,
-          v: validators[validator.pubkey],
+          ...validation,
+          v: validators?.[validation.validation_public_key],
         })
       }
       onFocus={() => {}}
@@ -37,11 +37,13 @@ export const LedgerEntryValidator = ({
       onMouseLeave={() => hideTooltip()}
       onClick={() =>
         setSelectedValidator(
-          selectedValidator === validator.pubkey ? undefined : validator.pubkey,
+          selectedValidator === validation.validation_public_key
+            ? undefined
+            : validation.validation_public_key,
         )
       }
     >
-      {partial}
+      {validation.partial && <div className="partial" />}
     </div>
   )
 }
