@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
-import type { ValidationStream } from 'xrpl'
 import { useTooltip } from '../shared/components/Tooltip'
 import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
+import { LedgerValidation } from '../shared/components/Streams/types'
 
 export const LedgerEntryHashTrustedCount = ({
   validations,
 }: {
-  validations: ValidationStream[]
+  validations: LedgerValidation[]
 }) => {
   const { t } = useTranslation()
   const { hideTooltip, showTooltip } = useTooltip()
@@ -32,7 +32,7 @@ export const LedgerEntryHashTrustedCount = ({
       missing: missing.map((v) => validators?.[v]),
       trustedCount: (unl?.length || 0) - missing.length,
     }
-  }, [unl, validations])
+  }, [unl, validations, validators])
 
   return status.trustedCount ? (
     <span

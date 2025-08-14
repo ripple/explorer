@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useRef, useState } from 'react'
+import { FC, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios'
 import type { LedgerStream, ValidationStream } from 'xrpl'
 import SocketContext from '../../SocketContext'
@@ -9,7 +9,7 @@ import Log from '../../log'
 import { getNegativeUNL, getQuorum } from '../../../../rippled'
 import { XRP_BASE } from '../../transactionUtils'
 import { StreamsContext } from './StreamsContext'
-import { Ledger } from './types'
+import { Ledger, LedgerHash } from './types'
 
 const THROTTLE = 200
 
@@ -172,10 +172,10 @@ export const StreamsProvider: FC = ({ children }) => {
     )
   }
 
-  const populateFromLedgerResponse = (ledger: Promise<any>) => {
+  const populateFromLedgerResponse = (ledger: any) => {
     const ledgerSummary = summarizeLedger(ledger)
     setLedgers((previousLedgers) => {
-      const ledger = Object.assign(
+      const newLedger = Object.assign(
         previousLedgers[ledgerSummary.ledger_index] ?? {},
         {
           txCount: ledgerSummary.transactions.length,
@@ -184,15 +184,15 @@ export const StreamsProvider: FC = ({ children }) => {
           totalFees: ledgerSummary.total_fees, // fix type
         },
       )
-      const matchingHashIndex = ledger?.hashes.findIndex(
+      const matchingHashIndex = newLedger?.hashes.findIndex(
         (hash) => hash.hash === ledgerSummary.ledger_hash,
       )
-      const matchingHash = ledger?.hashes[matchingHashIndex]
+      const matchingHash = newLedger?.hashes[matchingHashIndex]
       if (matchingHash) {
         matchingHash.validated = true
       }
-      if (ledger && matchingHash) {
-        ledger.hashes[matchingHashIndex] = {
+      if (newLedger && matchingHash) {
+        newLedger.hashes[matchingHashIndex] = {
           ...matchingHash,
         }
       }
@@ -229,10 +229,11 @@ export const StreamsProvider: FC = ({ children }) => {
         const matchingHashIndex = ledger?.hashes.findIndex(
           (hash) => hash.hash === validation.ledger_hash,
         )
-        let matchingHash = ledger?.hashes[matchingHashIndex]
+        let matchingHash = ledger?.hashes[matchingHashIndex] as LedgerHash
         if (!matchingHash) {
           matchingHash = {
             hash: validation.ledger_hash,
+            unselected: true,
             validated: false,
             validations: [],
             time: convertRippleDate(validation.signing_time),
@@ -302,19 +303,32 @@ export const StreamsProvider: FC = ({ children }) => {
     ledgersRef.current = ledgers
   }, [ledgers])
 
-  const value = {
-    ledgers,
-    validators,
-    metrics: {
-      load_fee: loadFee,
-      txn_sec: txnSec,
-      txn_ledger: txnLedger,
-      ledger_interval: ledgerInterval,
-      avg_fee: avgFee,
+  const value = useMemo(
+    () => ({
+      ledgers,
+      validators,
+      metrics: {
+        load_fee: loadFee,
+        txn_sec: txnSec,
+        txn_ledger: txnLedger,
+        ledger_interval: ledgerInterval,
+        avg_fee: avgFee,
+        quorum,
+        nUnl,
+      },
+    }),
+    [
+      ledgers,
+      validators,
+      loadFee,
+      txnSec,
+      txnLedger,
+      ledgerInterval,
+      avgFee,
       quorum,
       nUnl,
-    },
-  }
+    ],
+  )
 
   return (
     <StreamsContext.Provider value={value}>{children}</StreamsContext.Provider>

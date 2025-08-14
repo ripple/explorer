@@ -2,12 +2,13 @@ import classNames from 'classnames'
 import { useSelectedValidator } from './useSelectedValidator'
 import { useTooltip } from '../shared/components/Tooltip'
 import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
+import { LedgerValidation } from '../shared/components/Streams/types'
 
 export const LedgerEntryValidator = ({
   validation,
   index,
 }: {
-  validation: any
+  validation: LedgerValidation
   index: number
 }) => {
   const { validators } = useVHSValidators()

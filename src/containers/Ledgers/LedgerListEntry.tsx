@@ -36,7 +36,7 @@ export const LedgerListEntryInner = ({ ledger }: { ledger: Ledger }) => {
     : null
 
   return (
-    <div className="ledger" key={ledger.index}>
+    <div className="ledger">
       <div className="ledger-head">
         <LedgerIndex ledgerIndex={ledger.index} />
         <div className="close-time">{time}</div>

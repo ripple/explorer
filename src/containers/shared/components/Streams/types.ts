@@ -1,15 +1,19 @@
 import type { ValidationStream } from 'xrpl'
+import { TransactionSummary } from '../../types'
+
+export type LedgerValidation = ValidationStream & { partial?: boolean }
 
 export interface LedgerHash {
   hash: string
   validated: boolean
-  validations: ValidationStream[]
+  unselected: boolean
+  validations: LedgerValidation[]
   time: number
   cookie?: string
 }
 
 export interface Ledger {
-  transactions: any[]
+  transactions: TransactionSummary[]
   index: number
   hashes: LedgerHash[]
   seen: number
