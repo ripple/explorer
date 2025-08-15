@@ -2,8 +2,7 @@ const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'tokens search' })
 
 const REFETCH_INTERVAL = 60 * 60 * 1000 // 1 hour
-const XRPLMETA_QUERY_LIMIT = 1000
-const cachedTokenSearchList = { tokens: [], last_updated: null }
+const cachedTokenList = { tokens: [], last_updated: null }
 
 const parseCurrency = (currency) => {
   const NON_STANDARD_CODE_LENGTH = 40
@@ -27,19 +26,10 @@ const parseCurrency = (currency) => {
     : currency
 }
 
-async function fetchXRPLMetaTokens(offset) {
+async function fetchXRPLMetaTokens() {
   log.info(`caching tokens from ${process.env.XRPL_META_URL}`)
   return axios
-    .get(
-      `https://${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3&include_changes=true`,
-      {
-        params: {
-          sort_by: 'holders',
-          offset,
-          limit: XRPLMETA_QUERY_LIMIT,
-        },
-      },
-    )
+    .get(`https://los.dev.ripplex.io/tokens`)
     .then((resp) => resp.data)
     .catch((e) => {
       log.error(e)
@@ -48,36 +38,20 @@ async function fetchXRPLMetaTokens(offset) {
 }
 
 async function cacheXRPLMetaTokens() {
-  let offset = 0
-  let tokensDataBatch = {}
-  const allTokensFetched = []
+  const losTokens = await fetchXRPLMetaTokens()
+  console.log(`los tokens: ${losTokens.tokens.length}`)
 
-  tokensDataBatch = await fetchXRPLMetaTokens(0)
-  const { count } = tokensDataBatch
-  while (offset < count) {
-    allTokensFetched.push(...tokensDataBatch.tokens)
-    offset += XRPLMETA_QUERY_LIMIT
-    // eslint-disable-next-line no-await-in-loop
-    tokensDataBatch = await fetchXRPLMetaTokens(offset)
+  if (losTokens.tokens) {
+    cachedTokenList.tokens = losTokens.tokens
+
+    cachedTokenList.last_updated = Date.now()
+
+    // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
+    cachedTokenList.tokens.map((token) => ({
+      ...token,
+      currency: parseCurrency(token.currency),
+    }))
   }
-
-  cachedTokenSearchList.tokens = allTokensFetched.filter(
-    (result) =>
-      (result.metrics.trustlines > 50 &&
-        result.metrics.holders > 50 &&
-        result.metrics.marketcap > 0.1 &&
-        result.metrics.volume_7d > 0.1 &&
-        result.metrics.volume_7d / result.metrics.marketcap > 0.001) ||
-      result.meta.issuer.trust_level === 3,
-  )
-
-  cachedTokenSearchList.last_updated = Date.now()
-
-  // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
-  cachedTokenSearchList.tokens.map((token) => ({
-    ...token,
-    currency: parseCurrency(token.currency),
-  }))
 }
 
 function startCaching() {
@@ -96,9 +70,9 @@ function queryTokens(tokenList, query) {
   return tokenList.filter(
     (token) =>
       token.currency?.toLowerCase().includes(sanitizedQuery) ||
-      token.meta?.token?.name?.toLowerCase().includes(sanitizedQuery) ||
-      token.meta?.issuer?.name?.toLowerCase().includes(sanitizedQuery) ||
-      token.issuer?.toLowerCase().startsWith(sanitizedQuery),
+      token.name?.toLowerCase().includes(sanitizedQuery) ||
+      token.issuer_name?.toLowerCase().includes(sanitizedQuery) ||
+      token.issuer_account.toLowerCase().startsWith(sanitizedQuery),
   )
 }
 
@@ -110,14 +84,14 @@ const getTokensSearch = async (req, res) => {
   try {
     log.info('getting tokens list for search')
     const { query } = req.params
-    while (cachedTokenSearchList.tokens.length === 0) {
+    while (cachedTokenList.tokens.length === 0) {
       // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
       await sleep(1000)
     }
-    const queriedTokens = await queryTokens(cachedTokenSearchList.tokens, query)
+    const queriedTokens = await queryTokens(cachedTokenList.tokens, query)
     return res.status(200).json({
       result: 'success',
-      updated: cachedTokenSearchList.last_updated,
+      updated: cachedTokenList.last_updated,
       tokens: queriedTokens,
     })
   } catch (error) {
@@ -126,75 +100,33 @@ const getTokensSearch = async (req, res) => {
   }
 }
 
-const getSortValue = (token, field) => {
-  switch (field) {
-    case 'price':
-      return Number(token.metrics?.price ?? 0)
-    case 'holders':
-      return Number(token.metrics?.holders) ?? 0
-    case 'market_cap':
-    case 'marketcap':
-      return Number(token.metrics?.marketcap ?? 0)
-    case '24h':
-      return token.metrics?.changes?.['24h']?.price?.percent ?? 0
-    case 'volume':
-      return Number(token.metrics?.volume_24h ?? 0)
-    case 'trades':
-      return Number(token.metrics?.exchanges_24h) ?? 0
-    case 'issuer':
-      return token.issuer?.toLowerCase() ?? ''
-    default:
-      return 0
-  }
-}
-
-const sortTokens = (tokens, sortField, sortOrder) =>
-  [...tokens].sort((a, b) => {
-    const aVal = getSortValue(a, sortField)
-    const bVal = getSortValue(b, sortField)
-
-    if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
-    if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
-    return 0
-  })
-
 const getAllTokens = async (req, res) => {
   try {
     log.info('getting tokens list for search')
-    const sortField = req.query.sort_by || 'marketcap'
-    const sortOrder = req.query.order === 'asc' ? 'asc' : 'desc'
-    while (cachedTokenSearchList.tokens.length === 0) {
+    while (cachedTokenList.tokens.length === 0) {
       // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
       await sleep(1000)
     }
 
-    const sortedTokens = sortTokens(
-      cachedTokenSearchList.tokens,
-      sortField,
-      sortOrder,
-    )
-
-    const tokensWithIndex = sortedTokens.map((token, index) => ({
-      ...token,
-      index: index + 1,
-    }))
-
     const metrics = {
-      count: tokensWithIndex.length,
-      market_cap: tokensWithIndex.reduce(
-        (sum, token) => sum + Number(token.metrics?.marketcap || 0),
-        0,
-      ),
-      volume_24h: tokensWithIndex.reduce(
-        (sum, token) => sum + Number(token.metrics?.exchanges_24h || 0),
-        0,
-      ),
+      count: cachedTokenList.tokens.length.toFixed(6),
+      market_cap: cachedTokenList.tokens
+        .reduce((sum, token) => {
+          const cap = Number(token.market_cap) || 0
+          return cap > 0 ? sum + cap : sum // TODO: Remove this condition once holders API fixed
+        }, 0)
+        .toFixed(6),
+      volume_24h: cachedTokenList.tokens
+        .reduce((sum, token) => sum + Number(token.daily_volume || 0), 0)
+        .toFixed(6),
     }
+
+    log.info(cachedTokenList.tokens.length)
 
     return res.status(200).json({
       result: 'success',
-      updated: cachedTokenSearchList.last_updated,
-      tokens: tokensWithIndex.slice(0, 10),
+      updated: cachedTokenList.last_updated,
+      tokens: cachedTokenList.tokens,
       metrics,
     })
   } catch (error) {

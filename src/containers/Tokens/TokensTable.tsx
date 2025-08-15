@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
 import { Loader } from '../shared/components/Loader'
 import Currency from '../shared/components/Currency'
-import { XRPLMetaToken } from '../shared/xrplMetaTypes'
+import { LOSToken } from '../shared/losTypes'
 import { Account } from '../shared/components/Account'
 import UpIcon from '../shared/images/ic_up.svg'
 import DownIcon from '../shared/images/ic_down.svg'
@@ -11,7 +11,7 @@ import SortTableColumn from '../shared/components/SortColumn'
 type SortOrder = 'asc' | 'desc'
 
 interface TokensTableProps {
-  tokens: XRPLMetaToken[]
+  tokens: LOSToken[]
   xrpPrice: number
   sortField: string
   sortOrder: SortOrder
@@ -22,7 +22,7 @@ interface TokensTableProps {
 const DEFAULT_DECIMALS = 1
 const DEFAULT_EMPTY_VALUE = '--'
 
-const parseCurrencyAmount = (
+export const parseCurrencyAmount = (
   value: string,
   xrpPrice: number,
   decimals: number = DEFAULT_DECIMALS,
@@ -51,11 +51,14 @@ const parseAmount = (
 ): string => {
   const valueNumeric = Number(value)
 
-  if (valueNumeric >= 1000000) {
-    return `${formatDecimals(valueNumeric / 1000000, decimals)}M`
+  if (valueNumeric >= 1_000_000_000) {
+    return `${formatDecimals(valueNumeric / 1_000_000_000, decimals)}B`
   }
-  if (valueNumeric >= 1000) {
-    return `${formatDecimals(valueNumeric / 1000, decimals)}K`
+  if (valueNumeric >= 1_000_000) {
+    return `${formatDecimals(valueNumeric / 1_000_000, decimals)}M`
+  }
+  if (valueNumeric >= 1_000) {
+    return `${formatDecimals(valueNumeric / 1_000, decimals)}K`
   }
 
   return formatDecimals(valueNumeric)
@@ -97,48 +100,44 @@ export const TokensTable = ({
 }: TokensTableProps) => {
   const { t } = useTranslation()
 
-  const renderToken = (token: XRPLMetaToken) => (
+  const renderToken = (token: LOSToken) => (
     <tr>
       <td className="count">{token.index}</td>
       <td className="name">
-        <TokenLogo icon={token.meta.token.icon} />
+        <TokenLogo icon={token.icon} />
         <Currency currency={token.currency} />
       </td>
       <td className="issuer text-truncate">
-        <Account account={token.issuer} />
+        <Account account={token.issuer_account} />
       </td>
       <td className="price">
-        {token.metrics.price
-          ? parseCurrencyAmount(token.metrics.price, xrpPrice, 4)
+        {token.price
+          ? parseCurrencyAmount(token.price, xrpPrice, 4)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="24h">
-        {token.metrics.changes?.['24h']?.price?.percent ? (
-          <PriceChange
-            percent={token.metrics.changes?.['24h']?.price?.percent}
-          />
+        {token.price_change ? (
+          <PriceChange percent={token.price_change} />
         ) : (
           DEFAULT_EMPTY_VALUE
         )}
       </td>
       <td className="volume">
-        {token.metrics.volume_24h
-          ? parseCurrencyAmount(token.metrics.volume_24h, xrpPrice)
+        {token.daily_volume
+          ? parseCurrencyAmount(token.daily_volume, xrpPrice)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="trades">
-        {token.metrics.exchanges_24h
-          ? parseAmount(token.metrics.exchanges_24h)
+        {token.daily_trades
+          ? parseAmount(token.daily_trades)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="holders">
-        {token.metrics.holders
-          ? parseAmount(token.metrics.holders)
-          : DEFAULT_EMPTY_VALUE}
+        {token.holders ? parseAmount(token.holders) : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="market-cap">
-        {token.metrics.marketcap
-          ? parseCurrencyAmount(token.metrics.marketcap, xrpPrice)
+        {token.market_cap
+          ? parseCurrencyAmount(token.market_cap, xrpPrice)
           : DEFAULT_EMPTY_VALUE}
       </td>
     </tr>

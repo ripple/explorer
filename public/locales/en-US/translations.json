@@ -587,5 +587,9 @@
   "holders": "Holders",
   "trades": "Trades",
   "no_of_tokens": "# of Tokens",
-  "volume_24h_total": "DEX Traded Volume (24H)"
+  "volume_24h_total": "DEX Traded Volume (24H)",
+  "rwa": "RWA",
+  "stablecoin": "Stablecoin",
+  "wrapped": "Wrapped",
+  "memes": "Memes"
 }
