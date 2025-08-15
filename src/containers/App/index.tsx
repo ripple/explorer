@@ -132,7 +132,6 @@ export const AppWrapper = () => {
                   ))}
                   <Route path="*" element={<NoMatch />} />
                 </Route>
-                \{' '}
               </Routes>
               <Footer />
             </div>

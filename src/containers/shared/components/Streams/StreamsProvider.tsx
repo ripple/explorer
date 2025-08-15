@@ -178,6 +178,7 @@ export const StreamsProvider: FC = ({ children }) => {
       const newLedger = Object.assign(
         previousLedgers[ledgerSummary.ledger_index] ?? {},
         {
+          index: ledgerSummary.ledger_index,
           txCount: ledgerSummary.transactions.length,
           closeTime: convertRippleDate(ledgerSummary.ledger_time),
           transactions: ledgerSummary.transactions,
@@ -198,7 +199,7 @@ export const StreamsProvider: FC = ({ children }) => {
       }
 
       // eslint-disable-next-line no-param-reassign
-      previousLedgers[ledgerSummary.ledger_index] = ledger
+      previousLedgers[ledgerSummary.ledger_index] = newLedger
 
       return { ...previousLedgers }
     })
