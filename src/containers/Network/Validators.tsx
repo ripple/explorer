@@ -1,176 +1,125 @@
-import { useContext, useState } from 'react'
-import axios from 'axios'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
 import { Helmet } from 'react-helmet-async'
-import Streams from '../shared/components/Streams'
 import { ValidatorsTable } from './ValidatorsTable'
-import Log from '../shared/log'
-import {
-  localizeNumber,
-  FETCH_INTERVAL_MILLIS,
-  FETCH_INTERVAL_ERROR_MILLIS,
-  FETCH_INTERVAL_FEE_SETTINGS_MILLIS,
-} from '../shared/utils'
+import { localizeNumber } from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import { Hexagons } from './Hexagons'
-import {
-  FeeSettings,
-  StreamValidator,
-  ValidatorResponse,
-} from '../shared/vhsTypes'
-import NetworkContext from '../shared/NetworkContext'
+import { StreamValidator } from '../shared/vhsTypes'
 import { TooltipProvider } from '../shared/components/Tooltip'
 import './css/style.scss'
 import { VALIDATORS_ROUTE } from '../App/routes'
 import { useRouteParams } from '../shared/routing'
 import ValidatorsTabs from './ValidatorsTabs'
-import SocketContext from '../shared/SocketContext'
-import { getServerState } from '../../rippled/lib/rippled'
+import { useStreams } from '../shared/components/Streams/StreamsContext'
+import { StreamsProvider } from '../shared/components/Streams/StreamsProvider'
+import { VHSValidatorsProvider } from '../shared/components/VHSValidators/VHSValidatorsProvider'
+import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
 
 export const Validators = () => {
   const language = useLanguage()
   const { t } = useTranslation()
-  const [vList, setVList] = useState<Record<string, StreamValidator>>({})
-  const [validations, setValidations] = useState([])
-  const [metrics, setMetrics] = useState({})
-  const [unlCount, setUnlCount] = useState(0)
-  const [feeSettings, setFeeSettings] = useState<FeeSettings | undefined>(
-    undefined,
-  )
-  const network = useContext(NetworkContext)
-  const rippledSocket = useContext(SocketContext)
-  const { tab = 'uptime' } = useRouteParams(VALIDATORS_ROUTE)
+  const { validators: validatorsFromValidations, metrics } = useStreams()
+  const { validators: validatorsFromVHS, unl } = useVHSValidators()
+  const merged = useMemo(() => {
+    if (
+      !validatorsFromVHS ||
+      !(
+        validatorsFromValidations &&
+        Object.keys(validatorsFromValidations).length
+      )
+    ) {
+      return []
+    }
 
-  useQuery(['fetchValidatorsData'], () => fetchData(), {
-    refetchInterval: (returnedData, _) =>
-      returnedData == null
-        ? FETCH_INTERVAL_ERROR_MILLIS
-        : FETCH_INTERVAL_MILLIS,
-    refetchOnMount: true,
-    enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
-  })
-
-  useQuery(['fetchFeeSettingsData'], () => fetchFeeSettingsData(), {
-    refetchInterval: (returnedData, _) =>
-      returnedData == null
-        ? FETCH_INTERVAL_ERROR_MILLIS
-        : FETCH_INTERVAL_FEE_SETTINGS_MILLIS,
-    refetchOnMount: true,
-    enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
-  })
-
-  function mergeLatest(
-    validators: Record<string, ValidatorResponse>,
-    live: Record<string, StreamValidator>,
-  ): Record<string, StreamValidator> {
     const updated: Record<string, StreamValidator> = {}
-    const keys = new Set(Object.keys(validators).concat(Object.keys(live)))
+    const keys = new Set(
+      Object.keys(validatorsFromVHS).concat(
+        Object.keys(validatorsFromValidations),
+      ),
+    )
     keys.forEach((d: string) => {
-      const newData: StreamValidator = validators[d] || live[d]
-      if (newData.ledger_index == null && live[d] && live[d].ledger_index) {
+      const newData: StreamValidator =
+        validatorsFromVHS[d] || validatorsFromValidations[d]
+      if (
+        newData.ledger_index == null &&
+        validatorsFromValidations[d] &&
+        validatorsFromValidations[d].ledger_index
+      ) {
         // VHS uses `current_index` instead of `ledger_index`
         // If `ledger_index` isn't defined, then we're still using the VHS data,
         // instead of the Streams data
-        newData.ledger_index = live[d].ledger_index
-        newData.ledger_hash = live[d].ledger_hash
+        newData.ledger_index = validatorsFromValidations[d].ledger_index
       }
+      if (newData.current_index == null) {
+        newData.signing_key = validatorsFromValidations[d].pubkey
+      }
+      // latest hash and time comes from the validations stream
+      if (validatorsFromValidations[d]) {
+        newData.time = validatorsFromValidations[d].time
+        newData.ledger_hash = validatorsFromValidations[d].ledger_hash
+      }
+
       updated[d] = newData
     })
-    return updated
-  }
 
-  function fetchFeeSettingsData() {
-    if (tab === 'voting') {
-      getServerState(rippledSocket).then((res) => {
-        setFeeSettings({
-          base_fee: res.state.validated_ledger.base_fee,
-          reserve_base: res.state.validated_ledger.reserve_base,
-          reserve_inc: res.state.validated_ledger.reserve_inc,
-        })
-      })
-    }
-  }
+    return Object.values(updated)
+  }, [validatorsFromVHS, validatorsFromValidations])
 
-  function fetchData() {
-    const url = `${process.env.VITE_DATA_URL}/validators/${network}`
+  const validatorCount = useMemo(
+    () => merged && Object.keys(merged).length,
+    [merged],
+  )
 
-    return axios
-      .get(url)
-      .then((resp) => resp.data.validators)
-      .then((validators) => {
-        const newValidatorList: Record<string, ValidatorResponse> = {}
-        validators.forEach((v: ValidatorResponse) => {
-          newValidatorList[v.signing_key] = v
-        })
+  const { tab = 'uptime' } = useRouteParams(VALIDATORS_ROUTE)
 
-        setVList(() => mergeLatest(newValidatorList, vList))
-        setUnlCount(validators.filter((d: any) => Boolean(d.unl)).length)
-        return true // indicating success in getting the data
-      })
-      .catch((e) => Log.error(e))
-  }
+  //
+  // useQuery(['fetchFeeSettingsData'], () => fetchFeeSettingsData(), {
+  //   refetchInterval: (returnedData, _) =>
+  //     returnedData == null
+  //       ? FETCH_INTERVAL_ERROR_MILLIS
+  //       : FETCH_INTERVAL_FEE_SETTINGS_MILLIS,
+  //   refetchOnMount: true,
+  //   enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
+  // })
 
-  const updateValidators = (newValidations: StreamValidator[]) => {
-    // @ts-ignore - Work around type assignment for complex validation data types
-    setValidations(newValidations)
-    setVList((value) => {
-      const newValidatorsList: Record<string, StreamValidator> = { ...value }
-      newValidations.forEach((validation: any) => {
-        newValidatorsList[validation.pubkey] = {
-          ...value[validation.pubkey],
-          signing_key: validation.pubkey,
-          ledger_index: validation.ledger_index,
-          ledger_hash: validation.ledger_hash,
-        }
-      })
-      return mergeLatest(newValidatorsList, value)
-    })
-  }
-
-  const validatorCount = Object.keys(vList).length
+  // function fetchFeeSettingsData() {
+  //   if (tab === 'voting') {
+  //     getServerState(rippledSocket).then((res) => {
+  //       setFeeSettings({
+  //         base_fee: res.state.validated_ledger.base_fee,
+  //         reserve_base: res.state.validated_ledger.reserve_base,
+  //         reserve_inc: res.state.validated_ledger.reserve_inc,
+  //       })
+  //     })
+  //   }
+  // }
 
   const Body = {
     uptime: (
-      <ValidatorsTable
-        validators={Object.values(vList)}
-        metrics={metrics}
-        tab="uptime"
-      />
+      <ValidatorsTable validators={merged} metrics={metrics} tab="uptime" />
     ),
     voting: (
-      <ValidatorsTable
-        validators={Object.values(vList)}
-        metrics={metrics}
-        tab="voting"
-        feeSettings={feeSettings}
-      />
+      <ValidatorsTable validators={merged} metrics={metrics} tab="voting" />
     ),
   }[tab]
   return (
     <div className="network-page">
       <div className="type">{t('validators')}</div>
-      {network && (
-        <Streams
-          validators={vList}
-          updateValidators={updateValidators}
-          updateMetrics={setMetrics}
-        />
-      )}
       {
         // @ts-ignore - Work around for complex type assignment issues
         <TooltipProvider>
-          <Hexagons data={validations} list={vList} />
+          <Hexagons data={validatorsFromValidations} list={validatorsFromVHS} />
         </TooltipProvider>
       }
       <div className="stat">
         <span>{t('validators_found')}: </span>
         <span>
           {localizeNumber(validatorCount, language)}
-          {unlCount !== 0 && (
+          {unl?.length !== 0 && (
             <i>
               {' '}
-              ({t('unl')}: {unlCount})
+              ({t('unl')}: {unl?.length})
             </i>
           )}
         </span>
@@ -183,3 +132,11 @@ export const Validators = () => {
     </div>
   )
 }
+
+export const ValidatorsPage = () => (
+  <StreamsProvider>
+    <VHSValidatorsProvider>
+      <Validators />
+    </VHSValidatorsProvider>
+  </StreamsProvider>
+)

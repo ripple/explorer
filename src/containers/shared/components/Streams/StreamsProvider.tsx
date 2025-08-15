@@ -1,6 +1,7 @@
 import { FC, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios'
 import type { LedgerStream, ValidationStream } from 'xrpl'
+import { AnyJson } from 'xrpl-client'
 import SocketContext from '../../SocketContext'
 import { getLedger } from '../../../../rippled/lib/rippled'
 import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
@@ -10,6 +11,7 @@ import { getNegativeUNL, getQuorum } from '../../../../rippled'
 import { XRP_BASE } from '../../transactionUtils'
 import { StreamsContext } from './StreamsContext'
 import { Ledger, LedgerHash } from './types'
+import { StreamValidator } from '../../vhsTypes'
 
 const THROTTLE = 200
 
@@ -46,7 +48,9 @@ export const StreamsProvider: FC = ({ children }) => {
   const [ledgers, setLedgers] = useState<Record<number, Ledger>>([])
   const ledgersRef = useRef<Record<number, Ledger>>(ledgers)
   const firstLedgerRef = useRef<number>(0)
-  const [validators, setValidators] = useState<Record<number, any>>({})
+  const [validators, setValidators] = useState<Record<number, StreamValidator>>(
+    {},
+  )
   const validationQueue = useRef<ValidationStream[]>([])
   const socket = useContext(SocketContext)
 
@@ -278,8 +282,8 @@ export const StreamsProvider: FC = ({ children }) => {
         command: 'subscribe',
         streams: ['ledger', 'validations'],
       })
-      socket.on('ledger', onLedger as any)
-      socket.on('validation', onValidation as any)
+      socket.on('ledger', onLedger as (json: AnyJson) => void)
+      socket.on('validation', onValidation as (json: AnyJson) => void)
 
       // Load in the most recent validated ledger to prevent the page from being empty until the next validations come in.
       getLedger(socket, { ledger_index: 'validated' }).then(

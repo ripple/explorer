@@ -13,7 +13,7 @@ import { useLanguage } from '../shared/hooks'
 import { DROPS_TO_XRP_FACTOR, renderXRP } from '../shared/utils'
 
 interface ValidatorsTableProps {
-  validators: StreamValidator[]
+  validators?: StreamValidator[]
   metrics: any
   tab: string
   feeSettings?: FeeSettings

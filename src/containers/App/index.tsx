@@ -41,7 +41,7 @@ import { Amendments } from '../Amendments'
 import { Amendment } from '../Amendment'
 import { MPT } from '../MPT/MPT'
 import { Nodes } from '../Network/Nodes'
-import { Validators } from '../Network/Validators'
+import { ValidatorsPage } from '../Network/Validators'
 import { UpgradeStatus } from '../Network/UpgradeStatus'
 
 export const AppWrapper = () => {
@@ -70,7 +70,7 @@ export const AppWrapper = () => {
     [ACCOUNT_ROUTE, AccountsRouter],
     [TRANSACTION_ROUTE, Transaction],
     [NODES_ROUTE, Nodes],
-    [VALIDATORS_ROUTE, Validators],
+    [VALIDATORS_ROUTE, ValidatorsPage],
     [UPGRADE_STATUS_ROUTE, UpgradeStatus],
     [AMENDMENTS_ROUTE, Amendments],
     [VALIDATOR_ROUTE, Validator],
