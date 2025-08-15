@@ -70,9 +70,10 @@ function queryTokens(tokenList, query) {
   return tokenList.filter(
     (token) =>
       token.currency?.toLowerCase().includes(sanitizedQuery) ||
-      token.name?.toLowerCase().includes(sanitizedQuery) ||
-      token.issuer_name?.toLowerCase().includes(sanitizedQuery) ||
-      token.issuer_account.toLowerCase().startsWith(sanitizedQuery),
+      token.parsedCurrency?.toLowerCase().includes(sanitizedQuery) ||
+      token.meta?.token?.name?.toLowerCase().includes(sanitizedQuery) ||
+      token.meta?.issuer?.name?.toLowerCase().includes(sanitizedQuery) ||
+      token.issuer?.toLowerCase().startsWith(sanitizedQuery),
   )
 }
 

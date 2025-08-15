@@ -22,6 +22,7 @@ export const ACCOUNT_FLAGS = {
   0x10000000: 'lsfDisallowIncomingPayChan',
   0x20000000: 'lsfDisallowIncomingTrustline',
   0x80000000: 'lsfAllowTrustLineClawback',
+  0x40000000: 'lsfAllowTrustLineLocking',
 }
 const NFT_FLAGS = {
   0x00000001: 'lsfBurnable',
@@ -95,13 +96,6 @@ const formatTransaction = (tx) => {
   return {
     tx: {
       ...txn,
-      metaData: undefined,
-      meta: undefined,
-      hash: undefined,
-      inLedger: undefined,
-      ledger_index: undefined,
-      status: undefined,
-      validated: undefined,
       date: txn.date ? convertRippleDate(txn.date) : undefined,
     },
     meta: tx.meta || tx.metaData,

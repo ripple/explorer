@@ -74,6 +74,7 @@ jobs:
           VITE_MAINNET_LINK: mainnet.example.com
           VITE_TESTNET_LINK: testnet.example.com
           VITE_CUSTOMNETWORK_LINK: custom.example.com
+          VITE_DATA_URL: https://data.xrpl.org/v1/network
 
   build:
     runs-on: ubuntu-latest

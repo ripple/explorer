@@ -90,6 +90,12 @@ const Description: TransactionDescriptionComponent = (
         </div>
       )}
       {data.tx.Expiration && renderLine4()}
+      {data.tx.DomainID && (
+        <div key="line5">
+          {t('offer_create_desc_line_5')}
+          <b>: {data.tx.DomainID}</b>
+        </div>
+      )}
     </>
   )
 }

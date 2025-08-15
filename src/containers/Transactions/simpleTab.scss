@@ -81,6 +81,11 @@ $subdued-color: $black-40;
           list-style: none;
         }
 
+        &.flex-column {
+          display: flex;
+          flex-direction: column;
+        }
+
         &.partial,
         &.closed,
         &.unset {

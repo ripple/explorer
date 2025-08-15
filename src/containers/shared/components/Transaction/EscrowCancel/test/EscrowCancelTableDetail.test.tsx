@@ -10,7 +10,9 @@ const createWrapper = createTableDetailWrapperFactory(
 
 describe('EscrowCancelTableDetail', () => {
   it('renders EscrowCancel without crashing', () => {
-    const wrapper = createWrapper(mockEscrowCancel)
+    const wrapper = createWrapper(
+      mockEscrowCancel['EscrowCancel having XRP escrowed'],
+    )
     expect(wrapper).toHaveText(
       'cancel escrow rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56 - 9',
     )
