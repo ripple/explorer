@@ -96,6 +96,9 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00400000: 'tfSetDeepFreeze',
     0x00800000: 'tfClearDeepFreeze',
   },
+  VaultCreate: {
+    1: 'vaultStrategyFirstComeFirstServe',
+  },
   XChainModifyBridge: {
     0x00010000: 'tfClearAccountCreateAmount',
   },

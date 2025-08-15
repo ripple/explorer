@@ -1,0 +1,188 @@
+{
+  "close_time_iso": "2025-07-29T18:04:41Z",
+  "ctid": "C00626A700000C96",
+  "hash": "1C6B4A727D341E73A72FA5413B0B07284D789AB4B37E2472E1CCFA8154B86786",
+  "ledger_hash": "397ACCF91F8CF3FB26EF29872F5DD260A7FA2DB1F6852E2DC24FA90F3F616D4E",
+  "ledger_index": 403111,
+  "meta": {
+    "AffectedNodes": [
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Balance": {
+              "currency": "USD",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "0"
+            },
+            "Flags": 1048576,
+            "HighLimit": {
+              "currency": "USD",
+              "issuer": "r3gsrBk7HvrKecVHdkUmYywnMKahispvoY",
+              "value": "0"
+            },
+            "HighNode": "0",
+            "LowLimit": {
+              "currency": "USD",
+              "issuer": "r3r1vU5c2N5R7Ruv3v5daqfQ4MGzr9FZAZ",
+              "value": "0"
+            },
+            "LowNode": "0",
+            "PreviousTxnID": "37729284C0A01CA720EC2F96978D8577AB7057B348234905510E97665D649A87",
+            "PreviousTxnLgrSeq": 403109
+          },
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "009071D98F3BC8B763E7C89375504E810161BDE196C3FA3E225F131FF73659EC",
+          "PreviousFields": {
+            "Flags": 1114112
+          }
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "r3r1vU5c2N5R7Ruv3v5daqfQ4MGzr9FZAZ",
+            "PreviousTxnID": "E1D5E38683094008D77E120B704E94446FA762FE4A1B0CAA7423D208748DAEF2",
+            "PreviousTxnLgrSeq": 403102,
+            "RootIndex": "06120FA67193028575B03EE78F230318E8303C4708AD8BDEF9EFFE327D5FCFA3"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "06120FA67193028575B03EE78F230318E8303C4708AD8BDEF9EFFE327D5FCFA3"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "r3gsrBk7HvrKecVHdkUmYywnMKahispvoY",
+            "RootIndex": "0BBF6DF6E7E3B213C10F0E9A3E7550DE8F9CBD2A88D19FE8F2CEB5173ADA98F7"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "0BBF6DF6E7E3B213C10F0E9A3E7550DE8F9CBD2A88D19FE8F2CEB5173ADA98F7",
+          "PreviousTxnID": "E1D5E38683094008D77E120B704E94446FA762FE4A1B0CAA7423D208748DAEF2",
+          "PreviousTxnLgrSeq": 403102
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Account": "r3r1vU5c2N5R7Ruv3v5daqfQ4MGzr9FZAZ",
+            "Asset": {
+              "currency": "USD",
+              "issuer": "r3gsrBk7HvrKecVHdkUmYywnMKahispvoY"
+            },
+            "AssetsAvailable": "0",
+            "AssetsMaximum": "1000",
+            "AssetsTotal": "0",
+            "Data": "75706461746564206D65746164617461",
+            "Flags": 0,
+            "LossUnrealized": "0",
+            "Owner": "rLR12AgChXxLoQsuLCizNCgh5pt5jPheo1",
+            "OwnerNode": "0",
+            "PreviousTxnID": "37729284C0A01CA720EC2F96978D8577AB7057B348234905510E97665D649A87",
+            "PreviousTxnLgrSeq": 403109,
+            "Sequence": 403093,
+            "ShareMPTID": "000000014CF362539B39EF0FB60A5BC07247E9498609049D",
+            "WithdrawalPolicy": 1
+          },
+          "LedgerEntryType": "Vault",
+          "LedgerIndex": "2AA88C4CA646645E35E38B8D51CD2CA50BDE14A3F3FFE3838F2C8DCE95C2BABD"
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "Owner": "rLR12AgChXxLoQsuLCizNCgh5pt5jPheo1",
+            "PreviousTxnID": "E1D5E38683094008D77E120B704E94446FA762FE4A1B0CAA7423D208748DAEF2",
+            "PreviousTxnLgrSeq": 403102,
+            "RootIndex": "42C42D53D121FA35E66FDE1F2A326C3D0DE072321C719CF30B5009BC247D0CA0"
+          },
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "42C42D53D121FA35E66FDE1F2A326C3D0DE072321C719CF30B5009BC247D0CA0"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rLR12AgChXxLoQsuLCizNCgh5pt5jPheo1",
+            "Balance": "85000000",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 403096
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "BE2D185528E7B5A33A35E1ED9C902A8D7217B8DB0EAD0AF8F405B739DA1CFA35",
+          "PreviousFields": {
+            "Balance": "90000000",
+            "OwnerCount": 1,
+            "Sequence": 403095
+          },
+          "PreviousTxnID": "16D095B9D78138E4335CD48D67F3D2ABF72B4C704452A20AC26B86CF81BC5413",
+          "PreviousTxnLgrSeq": 403104
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Account": "r3r1vU5c2N5R7Ruv3v5daqfQ4MGzr9FZAZ",
+            "Balance": "0",
+            "Flags": 26214400,
+            "OwnerCount": 0,
+            "PreviousTxnID": "E1D5E38683094008D77E120B704E94446FA762FE4A1B0CAA7423D208748DAEF2",
+            "PreviousTxnLgrSeq": 403102,
+            "Sequence": 0,
+            "VaultID": "2AA88C4CA646645E35E38B8D51CD2CA50BDE14A3F3FFE3838F2C8DCE95C2BABD"
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "C2D6260E51B848509F5F984283170AA6032B302CAD5A7D72F8A8D427ED6AF127",
+          "PreviousFields": {
+            "OwnerCount": 2
+          }
+        }
+      },
+      {
+        "DeletedNode": {
+          "FinalFields": {
+            "Flags": 56,
+            "Issuer": "r3r1vU5c2N5R7Ruv3v5daqfQ4MGzr9FZAZ",
+            "MPTokenMetadata": "7368617265206D65746164617461",
+            "OutstandingAmount": "0",
+            "OwnerNode": "0",
+            "PreviousTxnID": "37729284C0A01CA720EC2F96978D8577AB7057B348234905510E97665D649A87",
+            "PreviousTxnLgrSeq": 403109,
+            "Sequence": 1
+          },
+          "LedgerEntryType": "MPTokenIssuance",
+          "LedgerIndex": "D6ADE074F02694A042C292F1381DCA59ABE8CD52BA8769D029C6ED83CB0B9113"
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "E4D60A5BAA8D59B7F390AE5ED245AE40C274352555D3E5EEE7F95F818EDDE3B6",
+          "PreviousTxnID": "37729284C0A01CA720EC2F96978D8577AB7057B348234905510E97665D649A87",
+          "PreviousTxnLgrSeq": 403109
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "tx": {
+    "Account": "rLR12AgChXxLoQsuLCizNCgh5pt5jPheo1",
+    "Fee": "5000000",
+    "Flags": 0,
+    "LastLedgerSequence": 403129,
+    "NetworkID": 3222,
+    "Sequence": 403095,
+    "SigningPubKey": "ED5AD76AF3C2D749B6C84474E05209FC3E5D87DE2599F7DE3E7E6F31D9D47FB691",
+    "TransactionType": "VaultDelete",
+    "TxnSignature": "D6A3F0AADD0ECEE2D51E051157EF582D8C1EFD84897A912557148FC963D9B93DFD725996F90ED2DF7F0922B34E47D28869E408EDD9F7CA2CEA681023EE57B70D",
+    "VaultID": "2AA88C4CA646645E35E38B8D51CD2CA50BDE14A3F3FFE3838F2C8DCE95C2BABD",
+    "ctid": "C00626A700000C96",
+    "date": 807127481,
+    "ledger_index": 403111
+  },
+  "validated": true
+}
