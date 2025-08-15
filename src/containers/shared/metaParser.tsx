@@ -25,29 +25,30 @@ export function getAMMAccountID(meta: any) {
 }
 
 export function getLPTokenAmount(meta: any) {
-  // TODO: possibility of bug if currency that isnt LP token has 03 at the start
-  const lpNode = findNodes(meta, LedgerEntryTypes.RippledState).filter(
-    (n: any) =>
-      (
-        n.FinalFields ||
-        n.NewFields ||
-        n.DeletedNode
-      )?.Balance.currency.substring(0, 2) === '03',
-  )[0]
-
-  if (lpNode) {
-    const balance = (lpNode.FinalFields ?? lpNode.NewFields).Balance
-    const amount = lpNode.FinalFields?.Balance
-      ? Math.abs(
-          Number(lpNode.FinalFields.Balance.value) -
-            Number(lpNode.PreviousFields.Balance.value),
-        )
-      : Number(lpNode.NewFields?.Balance.value)
-
-    return { issuer: balance.issuer, currency: balance.currency, amount }
+  const lpNode = findNodes(meta, LedgerEntryTypes.AMM)[0]
+  if (!lpNode) {
+    return undefined
   }
 
-  return undefined
+  const {
+    NewFields: newFields,
+    FinalFields: finalFields,
+    PreviousFields: previousFields,
+  } = lpNode
+
+  const fields = newFields ?? finalFields
+  const amount = newFields
+    ? Number(newFields.LPTokenBalance.value)
+    : Math.abs(
+        Number(finalFields.LPTokenBalance.value) -
+          Number(previousFields?.LPTokenBalance.value ?? 0),
+      )
+
+  return {
+    issuer: fields.issuer,
+    currency: fields.currency,
+    amount,
+  }
 }
 
 /*
@@ -103,7 +104,7 @@ function findXRPAmount(
       ? Number(xrp.FinalFields.Balance) - Number(xrp.PreviousFields.Balance)
       : Number(xrp?.NewFields?.Balance),
   )
-  balance -= Number(tx.Fee)
+  balance = Math.abs(balance - Number(tx.Fee))
 
   return balance && balance !== 0
     ? {
