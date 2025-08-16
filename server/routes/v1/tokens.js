@@ -27,9 +27,9 @@ const parseCurrency = (currency) => {
 }
 
 async function fetchXRPLMetaTokens() {
-  log.info(`caching tokens from ${process.env.VITE_LOS_URL}`)
+  log.info(`caching tokens from LOS`)
   return axios
-    .get(`${process.env.VITE_LOS_URL}/tokens`)
+    .get(`https://los.dev.ripplex.io/tokens`)
     .then((resp) => resp.data)
     .catch((e) => {
       log.error(e)
