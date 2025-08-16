@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Loader } from '../shared/components/Loader'
 import Currency from '../shared/components/Currency'
 import { LOSToken } from '../shared/losTypes'
@@ -99,16 +100,25 @@ export const TokensTable = ({
   setSortOrder,
 }: TokensTableProps) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   const renderToken = (token: LOSToken) => (
-    <tr>
+    <tr
+      className="clickable-row"
+      onClick={() =>
+        navigate(`/token/${token.currency}.${token.issuer_account}`)
+      }
+    >
       <td className="count">{token.index}</td>
       <td className="name">
         <TokenLogo icon={token.icon} />
         <Currency currency={token.currency} />
       </td>
       <td className="issuer text-truncate">
-        <Account account={token.issuer_account} />
+        <Account
+          account={token.issuer_account}
+          onClick={(e) => e.stopPropagation()}
+        />
       </td>
       <td className="price">
         {token.price

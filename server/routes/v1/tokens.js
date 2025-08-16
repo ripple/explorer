@@ -27,9 +27,9 @@ const parseCurrency = (currency) => {
 }
 
 async function fetchXRPLMetaTokens() {
-  log.info(`caching tokens from ${process.env.XRPL_META_URL}`)
+  log.info(`caching tokens from ${process.env.VITE_LOS_URL}`)
   return axios
-    .get(`https://los.dev.ripplex.io/tokens`)
+    .get(`${process.env.VITE_LOS_URL}/tokens`)
     .then((resp) => resp.data)
     .catch((e) => {
       log.error(e)
@@ -42,14 +42,16 @@ async function cacheXRPLMetaTokens() {
   console.log(`los tokens: ${losTokens.tokens.length}`)
 
   if (losTokens.tokens) {
-    cachedTokenList.tokens = losTokens.tokens
+    cachedTokenList.tokens = losTokens.tokens.sort(
+      (a, b) => Number(b.holders ?? 0) - Number(a.holders ?? 0),
+    )
 
     cachedTokenList.last_updated = Date.now()
 
     // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
     cachedTokenList.tokens.map((token) => ({
       ...token,
-      currency: parseCurrency(token.currency),
+      parseCurrency: parseCurrency(token.currency),
     }))
   }
 }
@@ -71,9 +73,9 @@ function queryTokens(tokenList, query) {
     (token) =>
       token.currency?.toLowerCase().includes(sanitizedQuery) ||
       token.parsedCurrency?.toLowerCase().includes(sanitizedQuery) ||
-      token.meta?.token?.name?.toLowerCase().includes(sanitizedQuery) ||
-      token.meta?.issuer?.name?.toLowerCase().includes(sanitizedQuery) ||
-      token.issuer?.toLowerCase().startsWith(sanitizedQuery),
+      token.name?.toLowerCase().includes(sanitizedQuery) ||
+      token.issuer_name?.toLowerCase().includes(sanitizedQuery) ||
+      token.issuer_account.toLowerCase().startsWith(sanitizedQuery),
   )
 }
 
@@ -110,7 +112,7 @@ const getAllTokens = async (req, res) => {
     }
 
     const metrics = {
-      count: cachedTokenList.tokens.length.toFixed(6),
+      count: cachedTokenList.tokens.length,
       market_cap: cachedTokenList.tokens
         .reduce((sum, token) => {
           const cap = Number(token.market_cap) || 0

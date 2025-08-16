@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { useQuery } from 'react-query'
 import { FC, useCallback, useContext, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-// import { Loader } from '../shared/components/Loader'
+import { Trans, useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import Log from '../shared/log'
 import { parseCurrencyAmount, TokensTable } from './TokensTable'
 import {
@@ -11,7 +11,6 @@ import {
 } from '../shared/utils'
 import { getAccountLines } from '../../rippled/lib/rippled'
 import SocketContext from '../shared/SocketContext'
-// import tokensData from './mockTokens.json'
 import './tokens.scss'
 import { Pagination } from '../shared/components/Pagination'
 import { Loader } from '../shared/components/Loader'
@@ -26,7 +25,7 @@ interface FilterProps {
 interface TokensData {
   tokens: LOSToken[]
   metrics: {
-    count: string
+    count: number
     market_cap: string
     volume_24h: string
   }
@@ -196,13 +195,13 @@ export const Tokens = () => {
           </div>
         </div>
       )}
-      <Filter
-        categories={filterCategories}
-        filterField={filterField}
-        setFilterField={setFilterField}
-      />
       {pagedTokens.length > 0 ? (
         <>
+          <Filter
+            categories={filterCategories}
+            filterField={filterField}
+            setFilterField={setFilterField}
+          />
           <TokensTable
             tokens={pagedTokens}
             xrpPrice={XRPUSDPrice}
@@ -211,6 +210,14 @@ export const Tokens = () => {
             sortOrder={sortOrder}
             setSortOrder={setSortOrder}
           />
+          <div className="footnote">
+            <Trans
+              i18nKey="tokens_footnote"
+              components={{
+                Link: <Link to="https://xrplmeta.org">XRPLMeta</Link>,
+              }}
+            />
+          </div>
           <Pagination
             totalItems={sortedTokens.length}
             currentPage={page}

@@ -601,6 +601,7 @@
   "stablecoin": "Stablecoin",
   "wrapped": "Wrapped",
   "memes": "Memes",
+  "tokens_footnote": "Only includes trust scores 1-3 using <Link/>'s methodology.",
   "inner_transaction": "Inner Transaction",
   "batch_table_detail_count": "<BatchLabel/> {{batch_count}} transactions",
   "batch_table_detail_list": "Applied Inner Transactions: <TxList/>",

@@ -11,6 +11,14 @@
   margin: auto;
   margin-top: 100px;
 
+  .clickable-row {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $black-70;
+    }
+  }
+
   .metrics-wrapper {
     display: flex;
     margin-bottom: 40px;
@@ -141,6 +149,16 @@
       width: 24px;
       height: 24px;
       background: url('../shared/images/memes.svg');
+    }
+  }
+
+  .footnote {
+    padding: 24px 0;
+    color: $black-40;
+    font-weight: 400;
+
+    a::after {
+      content: none !important;
     }
   }
 }
