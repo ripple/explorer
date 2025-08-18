@@ -11,6 +11,7 @@ interface SortTableProps {
   sortOrder: SortOrder
   setSortField: (field: string) => void
   setSortOrder: (order: SortOrder) => void
+  setPage: (page: number) => void
 }
 
 const SortTableColumn: React.FC<SortTableProps> = ({
@@ -20,6 +21,7 @@ const SortTableColumn: React.FC<SortTableProps> = ({
   sortOrder,
   setSortField,
   setSortOrder,
+  setPage,
 }) => {
   const handleClick = () => {
     if (sortField === field) {
@@ -28,6 +30,7 @@ const SortTableColumn: React.FC<SortTableProps> = ({
       setSortField(field)
       setSortOrder('desc')
     }
+    setPage(1)
   }
 
   return (

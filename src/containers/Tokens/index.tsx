@@ -20,6 +20,7 @@ interface FilterProps {
   categories: CategoryKey[]
   filterField: string
   setFilterField: (field: string) => void
+  setPage: (page: number) => void
 }
 
 interface TokensData {
@@ -38,6 +39,7 @@ const Filter: FC<FilterProps> = ({
   categories,
   filterField,
   setFilterField,
+  setPage,
 }) => {
   const { t } = useTranslation()
 
@@ -47,6 +49,7 @@ const Filter: FC<FilterProps> = ({
     } else {
       setFilterField(cat)
     }
+    setPage(1)
   }
 
   return (
@@ -75,6 +78,7 @@ export const Tokens = () => {
   const [page, setPage] = useState(1)
 
   const { t } = useTranslation()
+
   const filterCategories: CategoryKey[] = [
     'rwa',
     'stablecoin',
@@ -201,6 +205,7 @@ export const Tokens = () => {
             categories={filterCategories}
             filterField={filterField}
             setFilterField={setFilterField}
+            setPage={setPage}
           />
           <TokensTable
             tokens={pagedTokens}
@@ -209,6 +214,7 @@ export const Tokens = () => {
             setSortField={setSortField}
             sortOrder={sortOrder}
             setSortOrder={setSortOrder}
+            setPage={setPage}
           />
           <div className="footnote">
             <Trans

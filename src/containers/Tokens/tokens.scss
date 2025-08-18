@@ -109,6 +109,7 @@
       border-radius: $border-radius;
       background-color: $black;
       color: $white;
+      cursor: pointer;
       gap: 8px;
       text-transform: capitalize;
       @include medium;
@@ -120,6 +121,10 @@
       &.selected {
         background-color: $white;
         color: $black;
+
+        :hover {
+          color: $black;
+        }
 
         .item-icon {
           filter: invert(1);

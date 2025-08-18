@@ -87,12 +87,17 @@ export const Pagination = ({
   const canGoPrev = currentPage > 1
   const canGoNext = currentPage < totalPages
 
+  const handlePageChange = (page: number) => {
+    onPageChange(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <nav className={`pagination ${className}`} aria-label="Pagination">
       <button
         className="page-btn"
         type="button"
-        onClick={() => canGoPrev && onPageChange(1)}
+        onClick={() => canGoPrev && handlePageChange(1)}
         disabled={!canGoPrev}
       >
         <DoubleArrow className="prev" />
@@ -100,7 +105,7 @@ export const Pagination = ({
       <button
         className="page-btn"
         type="button"
-        onClick={() => canGoPrev && onPageChange(currentPage - 1)}
+        onClick={() => canGoPrev && handlePageChange(currentPage - 1)}
         disabled={!canGoPrev}
       >
         <Arrow className="prev" />
@@ -121,7 +126,7 @@ export const Pagination = ({
               <button
                 type="button"
                 className={`page-number ${page === currentPage ? 'active' : ''}`}
-                onClick={() => onPageChange(page)}
+                onClick={() => handlePageChange(page)}
               >
                 {page}
               </button>
@@ -133,7 +138,7 @@ export const Pagination = ({
       <button
         className="page-btn"
         type="button"
-        onClick={() => canGoNext && onPageChange(currentPage + 1)}
+        onClick={() => canGoNext && handlePageChange(currentPage + 1)}
         disabled={!canGoNext}
       >
         <Arrow className="next" />
@@ -141,7 +146,7 @@ export const Pagination = ({
       <button
         className="page-btn"
         type="button"
-        onClick={() => canGoNext && onPageChange(totalPages)}
+        onClick={() => canGoNext && handlePageChange(totalPages)}
         disabled={!canGoNext}
       >
         <DoubleArrow className="next" />

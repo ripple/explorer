@@ -18,6 +18,7 @@ interface TokensTableProps {
   sortOrder: SortOrder
   setSortField: (field: string) => void
   setSortOrder: (order: SortOrder) => void
+  setPage: (page: number) => void
 }
 
 const DEFAULT_DECIMALS = 1
@@ -98,6 +99,7 @@ export const TokensTable = ({
   setSortField,
   sortOrder,
   setSortOrder,
+  setPage,
 }: TokensTableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -118,6 +120,11 @@ export const TokensTable = ({
         <Account
           account={token.issuer_account}
           onClick={(e) => e.stopPropagation()}
+          displayText={
+            token.issuer_name
+              ? `${token.issuer_name} (${token.issuer_account})`
+              : `${token.issuer_account}`
+          }
         />
       </td>
       <td className="price">
@@ -166,6 +173,7 @@ export const TokensTable = ({
               setSortField={setSortField}
               sortOrder={sortOrder}
               setSortOrder={setSortOrder}
+              setPage={setPage}
             />
             <SortTableColumn
               field="price"
@@ -174,6 +182,7 @@ export const TokensTable = ({
               setSortField={setSortField}
               sortOrder={sortOrder}
               setSortOrder={setSortOrder}
+              setPage={setPage}
             />
             <SortTableColumn
               field="24h"
@@ -182,6 +191,7 @@ export const TokensTable = ({
               setSortField={setSortField}
               sortOrder={sortOrder}
               setSortOrder={setSortOrder}
+              setPage={setPage}
             />
             <SortTableColumn
               field="volume"
@@ -190,6 +200,7 @@ export const TokensTable = ({
               setSortField={setSortField}
               sortOrder={sortOrder}
               setSortOrder={setSortOrder}
+              setPage={setPage}
             />
             <SortTableColumn
               field="trades"
@@ -198,6 +209,7 @@ export const TokensTable = ({
               setSortField={setSortField}
               sortOrder={sortOrder}
               setSortOrder={setSortOrder}
+              setPage={setPage}
             />
             <SortTableColumn
               field="holders"
@@ -206,6 +218,7 @@ export const TokensTable = ({
               setSortField={setSortField}
               sortOrder={sortOrder}
               setSortOrder={setSortOrder}
+              setPage={setPage}
             />
             <SortTableColumn
               field="market_cap"
@@ -214,6 +227,7 @@ export const TokensTable = ({
               setSortField={setSortField}
               sortOrder={sortOrder}
               setSortOrder={setSortOrder}
+              setPage={setPage}
             />
           </tr>
         </thead>
