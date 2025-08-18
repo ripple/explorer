@@ -6,6 +6,7 @@ import { ValidatorResponse } from '../../vhsTypes'
 import Log from '../../log'
 import NetworkContext from '../../NetworkContext'
 import { VHSValidatorsHookResult } from './types'
+import { FETCH_INTERVAL_ERROR_MILLIS, FETCH_INTERVAL_MILLIS } from '../../utils'
 
 export const VHSValidatorsProvider: FC = ({ children }) => {
   const network = useContext(NetworkContext)
@@ -14,7 +15,10 @@ export const VHSValidatorsProvider: FC = ({ children }) => {
     ['fetchValidatorsData'],
     () => fetchVHSData(),
     {
-      refetchInterval: 0,
+      refetchInterval: (returnedData, _) =>
+        returnedData == null
+          ? FETCH_INTERVAL_ERROR_MILLIS
+          : FETCH_INTERVAL_MILLIS,
       refetchOnMount: true,
       enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
       initialData: {

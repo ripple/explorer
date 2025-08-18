@@ -2,6 +2,7 @@ import { FC, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios'
 import type { LedgerStream, ValidationStream } from 'xrpl'
 import { AnyJson } from 'xrpl-client'
+import { useQuery } from 'react-query'
 import SocketContext from '../../SocketContext'
 import { getLedger } from '../../../../rippled/lib/rippled'
 import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
@@ -15,14 +16,12 @@ import { StreamValidator } from '../../vhsTypes'
 
 const THROTTLE = 200
 
-// TODO: use useQuery
 const fetchMetrics = () =>
   axios
     .get('/api/v1/metrics')
     .then((result) => result.data)
     .catch((e) => Log.error(e))
 
-// TODO: use useQuery
 const fetchNegativeUNL = async (rippledSocket) =>
   getNegativeUNL(rippledSocket)
     .then((data) => {
@@ -35,7 +34,6 @@ const fetchNegativeUNL = async (rippledSocket) =>
       return []
     })
 
-// TODO: use useQuery
 const fetchQuorum = async (rippledSocket) =>
   getQuorum(rippledSocket)
     .then((data) => {
@@ -60,8 +58,14 @@ export const StreamsProvider: FC = ({ children }) => {
   const [txnLedger, setTxnLedger] = useState<string>('--')
   const [ledgerInterval, setLedgerInterval] = useState<string>('--')
   const [avgFee, setAvgFee] = useState<string>('--')
-  const [quorum, setQuorum] = useState<string>('--')
-  const [nUnl, setNUnl] = useState<string[]>([])
+  const { data: quorum, refetch: refetchQuorum } = useQuery(
+    'quorum',
+    fetchQuorum,
+  )
+  const { data: nUnl, refetch: refetchNUnl } = useQuery<string[]>(
+    'nUnl',
+    fetchNegativeUNL,
+  )
 
   function addLedger(index: number | string) {
     // Only add new ledgers that are newer than the last one added.
@@ -132,18 +136,6 @@ export const StreamsProvider: FC = ({ children }) => {
     setAvgFee(txWithFeesCount ? (fees / txWithFeesCount).toPrecision(4) : '--')
   }
 
-  function updateQuorum() {
-    fetchQuorum(socket).then((newQuorum) => {
-      setQuorum(newQuorum)
-    })
-  }
-
-  function updateNegativeUNL() {
-    fetchNegativeUNL(socket).then((newNUnl) => {
-      setNUnl(newNUnl)
-    })
-  }
-
   function onLedger(data: LedgerStream) {
     if (!ledgersRef.current[data.ledger_index]) {
       // The ledger closed, but we did not have an existing entry likely because the page just loaded and its
@@ -163,14 +155,13 @@ export const StreamsProvider: FC = ({ children }) => {
 
     // After each flag ledger we should check the UNL and quorum which are correlated and can only update every flag ledger.
     if (data.ledger_index % 256 === 0 || quorum === '--') {
-      updateNegativeUNL()
-      updateQuorum()
+      refetchNUnl()
+      refetchQuorum()
     }
 
     // TODO: Set fields before getting full ledger info
     // set validated hash
     // set closetime
-
     getLedger(socket, { ledger_hash: data.ledger_hash }).then(
       populateFromLedgerResponse,
     )
