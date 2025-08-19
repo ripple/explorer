@@ -62,7 +62,7 @@ export interface ValidatorResponse {
   // eslint-disable-next-line camelcase -- from VHS
   validation_public_key: string
   // eslint-disable-next-line camelcase -- from VHS
-  signing_key?: string
+  signing_key: string
   // eslint-disable-next-line camelcase -- from VHS
   master_key?: string
   revoked?: boolean

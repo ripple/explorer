@@ -67,7 +67,7 @@ export const Validators = () => {
         newData.ledger_index = validatorsFromValidations[d].ledger_index
       }
       if (newData.current_index == null) {
-        newData.signing_key = validatorsFromValidations[d].pubkey
+        newData.signing_key = validatorsFromValidations[d].signing_key
       }
       // latest hash and time comes from the validations stream
       if (validatorsFromValidations[d]) {

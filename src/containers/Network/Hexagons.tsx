@@ -81,7 +81,7 @@ export const Hexagons = ({
     .radius(radius)
 
   useEffect(() => {
-    if (width > 0) {
+    if (width > 0 && list) {
       setHexagons((prevHexagons) =>
         prepareHexagons(
           Object.values(data),
