@@ -7,7 +7,7 @@ import QuorumIcon from '../shared/images/quorum.svg'
 import FeeIcon from '../shared/images/fee.svg'
 import ClockIcon from '../shared/images/clock.svg'
 import ClockAltIcon from '../shared/images/clock_2.svg'
-import DecenTralizedIcon from '../shared/images/decentralized.svg'
+import DecentralizedIcon from '../shared/images/decentralized.svg'
 import CreditIcon from '../shared/images/finance_credit.svg'
 import UserIcon from '../shared/images/user.svg'
 import HoverIcon from '../shared/images/hover.svg'
@@ -70,7 +70,7 @@ export const LedgerMetrics = ({
       case 'ledger_interval':
         return <ClockIcon className={classname} />
       case 'txn_ledger':
-        return <DecenTralizedIcon className={classname} />
+        return <DecentralizedIcon className={classname} />
       case 'txn_sec':
         return <ClockAltIcon className={classname} />
       case 'load_fee':
