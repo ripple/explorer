@@ -113,7 +113,7 @@ export const LedgerMetrics = ({
       } else if (key === 'nUnl' && data[key]?.length === 0) {
         return null
       } else if (key === 'nUnl') {
-        content = data[key].length
+        content = data[key]?.length
         return (
           <div className="cell" key={key}>
             <div className="label-wrapper">

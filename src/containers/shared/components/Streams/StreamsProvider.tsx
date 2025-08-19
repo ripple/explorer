@@ -11,10 +11,11 @@ import Log from '../../log'
 import { getNegativeUNL, getQuorum } from '../../../../rippled'
 import { XRP_BASE } from '../../transactionUtils'
 import { StreamsContext } from './StreamsContext'
-import { Ledger, LedgerHash } from './types'
+import { Ledger, LedgerHash, RunningMetrics } from './types'
 import { StreamValidator } from '../../vhsTypes'
 
 const THROTTLE = 200
+const MAX_LEDGERS_SHOWN = 50
 
 const fetchMetrics = () =>
   axios
@@ -34,7 +35,7 @@ const fetchNegativeUNL = async (rippledSocket) =>
       return []
     })
 
-const fetchQuorum = async (rippledSocket) =>
+const fetchQuorum = async (rippledSocket): Promise<string> =>
   getQuorum(rippledSocket)
     .then((data) => {
       if (data === undefined) throw new Error('undefined quorum')
@@ -42,7 +43,18 @@ const fetchQuorum = async (rippledSocket) =>
     })
     .catch((e) => Log.error(e))
 
+const truncateLedgers = (ledgers: Record<string, Ledger>, count) =>
+  Object.entries(ledgers)
+    .sort((a, b) => parseInt(b[0], 10) - parseInt(a[0], 10))
+    .slice(0, count)
+    .reduce((accumulator, [index, ledger]) => {
+      accumulator[index] = ledger
+      return accumulator
+    }, {})
+
 export const StreamsProvider: FC = ({ children }) => {
+  // In custom mode we populate metrics from ledgers loaded into memory
+  const useServerMetrics = process.env.VITE_ENVIRONMENT !== 'custom'
   const [ledgers, setLedgers] = useState<Record<number, Ledger>>([])
   const ledgersRef = useRef<Record<number, Ledger>>(ledgers)
   const firstLedgerRef = useRef<number>(0)
@@ -53,19 +65,22 @@ export const StreamsProvider: FC = ({ children }) => {
   const socket = useContext(SocketContext)
 
   // metrics
-  const [loadFee, setLoadFee] = useState<string>('--')
-  const [txnSec, setTxnSec] = useState<string>('--')
-  const [txnLedger, setTxnLedger] = useState<string>('--')
-  const [ledgerInterval, setLedgerInterval] = useState<string>('--')
-  const [avgFee, setAvgFee] = useState<string>('--')
+  const [runningMetrics, setRunningMetrics] = useState<RunningMetrics>({})
+  const [loadFee, setLoadFee] = useState<string>()
   const { data: quorum, refetch: refetchQuorum } = useQuery(
     'quorum',
-    fetchQuorum,
+    () => fetchQuorum(socket),
+    { enabled: socket.getState().online },
   )
   const { data: nUnl, refetch: refetchNUnl } = useQuery<string[]>(
     'nUnl',
-    fetchNegativeUNL,
+    () => fetchNegativeUNL(socket),
+    { enabled: socket.getState().online },
   )
+  const { data: serverRunningMetrics, refetch: refetchServerRunningMetrics } =
+    useQuery<string[]>('runningMetrics', () => fetchMetrics(), {
+      enabled: socket.getState().online,
+    })
 
   function addLedger(index: number | string) {
     // Only add new ledgers that are newer than the last one added.
@@ -76,7 +91,6 @@ export const StreamsProvider: FC = ({ children }) => {
       return
     }
 
-    // TODO: only keep 20
     if (!(index in ledgers)) {
       setLedgers((previousLedgers) => ({
         [index]: {
@@ -86,19 +100,9 @@ export const StreamsProvider: FC = ({ children }) => {
           transactions: undefined,
           txCount: undefined,
         },
-        ...previousLedgers,
+        ...truncateLedgers(previousLedgers, MAX_LEDGERS_SHOWN - 1),
       }))
     }
-  }
-
-  // TODO: use useQuery
-  function updateMetricsFromServer() {
-    fetchMetrics().then((serverMetrics) => {
-      setTxnSec(serverMetrics.txn_sec)
-      setTxnLedger(serverMetrics.txn_ledger)
-      setAvgFee(serverMetrics.avg_fee)
-      setLedgerInterval(serverMetrics.ledger_interval)
-    })
   }
 
   function updateMetrics() {
@@ -130,10 +134,16 @@ export const StreamsProvider: FC = ({ children }) => {
       ledgerCount += 1
     })
 
-    setTxnSec(time ? ((txCount / time) * 1000).toFixed(2) : '--')
-    setTxnLedger(ledgerCount ? (txCount / ledgerCount).toFixed(2) : '--')
-    setLedgerInterval(timeCount ? (time / timeCount / 1000).toFixed(3) : '--')
-    setAvgFee(txWithFeesCount ? (fees / txWithFeesCount).toPrecision(4) : '--')
+    setRunningMetrics({
+      txn_ledger: ledgerCount ? (txCount / ledgerCount).toFixed(2) : undefined,
+      txn_sec: time ? ((txCount / time) * 1000).toFixed(2) : undefined,
+      avg_fee: txWithFeesCount
+        ? (fees / txWithFeesCount).toPrecision(4)
+        : undefined,
+      ledger_interval: timeCount
+        ? (time / timeCount / 1000).toFixed(3)
+        : undefined,
+    })
   }
 
   function onLedger(data: LedgerStream) {
@@ -143,18 +153,12 @@ export const StreamsProvider: FC = ({ children }) => {
       addLedger(data.ledger_index)
     }
 
-    if (process.env.VITE_ENVIRONMENT !== 'custom') {
-      // In custom mode we populate metrics from ledgers loaded into memory
-      updateMetricsFromServer()
-    } else {
-      // Make call to metrics tracked on the backend
-      updateMetrics()
-    }
+    useServerMetrics ? refetchServerRunningMetrics() : updateMetrics()
 
     setLoadFee((data.fee_base / XRP_BASE).toString())
 
     // After each flag ledger we should check the UNL and quorum which are correlated and can only update every flag ledger.
-    if (data.ledger_index % 256 === 0 || quorum === '--') {
+    if (data.ledger_index % 256 === 0 || !quorum) {
       refetchNUnl()
       refetchQuorum()
     }
@@ -304,23 +308,18 @@ export const StreamsProvider: FC = ({ children }) => {
       ledgers,
       validators,
       metrics: {
+        ...(useServerMetrics ? serverRunningMetrics : runningMetrics),
         load_fee: loadFee,
-        txn_sec: txnSec,
-        txn_ledger: txnLedger,
-        ledger_interval: ledgerInterval,
-        avg_fee: avgFee,
         quorum,
         nUnl,
       },
     }),
     [
       ledgers,
+      runningMetrics,
+      serverRunningMetrics,
       validators,
       loadFee,
-      txnSec,
-      txnLedger,
-      ledgerInterval,
-      avgFee,
       quorum,
       nUnl,
     ],

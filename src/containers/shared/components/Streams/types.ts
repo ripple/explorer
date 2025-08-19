@@ -22,13 +22,16 @@ export interface Ledger {
   totalFees: number
 }
 
-export interface Metrics {
-  load_fee?: string
+export interface RunningMetrics {
   txn_sec?: string
   txn_ledger?: string
   ledger_interval?: string
   avg_fee?: string
-  quorum?: string
-  nUnl?: string[]
+}
+
+export interface Metrics extends RunningMetrics {
   base_fee?: string
+  load_fee?: string
+  nUnl?: string[]
+  quorum?: string
 }
