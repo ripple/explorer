@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import SuccessIcon from '../shared/images/success.svg'
 import { LedgerEntryValidator } from './LedgerEntryValidator'
 import { LedgerEntryHashTrustedCount } from './LedgerEntryHashTrustedCount'
-import { LedgerHash } from '../shared/components/Streams/types'
+import { LedgerHash } from '../shared/components/Streams'
 
 export const LedgerEntryHash = ({ hash }: { hash: LedgerHash }) => {
   const { t } = useTranslation()

@@ -8,17 +8,10 @@ import { VALIDATOR_ROUTE } from '../App/routes'
 import { LedgerListEntry } from './LedgerListEntry'
 import { useSelectedValidator } from './useSelectedValidator'
 import { usePreviousWithPausing } from '../shared/hooks/usePreviousWithPausing'
-import { useStreams } from '../shared/components/Streams/StreamsContext'
-import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
-import { Ledger } from '../shared/components/Streams/types'
+import { useStreams, Ledger } from '../shared/components/Streams'
+import { useVHSValidators } from '../shared/components/VHSValidators'
 
-export const Ledgers = ({
-  paused,
-  unlCount,
-}: {
-  paused: boolean
-  unlCount?: number
-}) => {
+export const Ledgers = ({ paused }: { paused: boolean }) => {
   const { validators: validatorsFromVHS } = useVHSValidators()
   const { selectedValidator } = useSelectedValidator()
   const { ledgers } = useStreams()

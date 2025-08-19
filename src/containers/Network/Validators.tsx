@@ -1,26 +1,41 @@
-import { useMemo } from 'react'
+import './css/style.scss'
+
+import { useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
+import { useQuery } from 'react-query'
+import { getServerState } from '../../rippled/lib/rippled'
 import { ValidatorsTable } from './ValidatorsTable'
-import { localizeNumber } from '../shared/utils'
+import {
+  FETCH_INTERVAL_ERROR_MILLIS,
+  FETCH_INTERVAL_FEE_SETTINGS_MILLIS,
+  localizeNumber,
+} from '../shared/utils'
 import { useLanguage } from '../shared/hooks'
 import { Hexagons } from './Hexagons'
-import { StreamValidator } from '../shared/vhsTypes'
+import { FeeSettings, StreamValidator } from '../shared/vhsTypes'
 import { TooltipProvider } from '../shared/components/Tooltip'
-import './css/style.scss'
 import { VALIDATORS_ROUTE } from '../App/routes'
 import { useRouteParams } from '../shared/routing'
 import ValidatorsTabs from './ValidatorsTabs'
-import { useStreams } from '../shared/components/Streams/StreamsContext'
-import { StreamsProvider } from '../shared/components/Streams/StreamsProvider'
-import { VHSValidatorsProvider } from '../shared/components/VHSValidators/VHSValidatorsProvider'
-import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
+import { useStreams, StreamsProvider } from '../shared/components/Streams'
+import {
+  VHSValidatorsProvider,
+  useVHSValidators,
+} from '../shared/components/VHSValidators'
+import SocketContext from '../shared/SocketContext'
+import NetworkContext from '../shared/NetworkContext'
 
 export const Validators = () => {
+  const rippledSocket = useContext(SocketContext)
+  const network = useContext(NetworkContext)
+
   const language = useLanguage()
   const { t } = useTranslation()
   const { validators: validatorsFromValidations, metrics } = useStreams()
   const { validators: validatorsFromVHS, unl } = useVHSValidators()
+  const [feeSettings, setFeeSettings] = useState<FeeSettings>()
+
   const merged = useMemo(() => {
     if (
       !validatorsFromVHS ||
@@ -73,34 +88,38 @@ export const Validators = () => {
 
   const { tab = 'uptime' } = useRouteParams(VALIDATORS_ROUTE)
 
-  //
-  // useQuery(['fetchFeeSettingsData'], () => fetchFeeSettingsData(), {
-  //   refetchInterval: (returnedData, _) =>
-  //     returnedData == null
-  //       ? FETCH_INTERVAL_ERROR_MILLIS
-  //       : FETCH_INTERVAL_FEE_SETTINGS_MILLIS,
-  //   refetchOnMount: true,
-  //   enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
-  // })
+  useQuery(['fetchFeeSettingsData'], () => fetchFeeSettingsData(), {
+    refetchInterval: (returnedData, _) =>
+      returnedData == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_FEE_SETTINGS_MILLIS,
+    refetchOnMount: true,
+    enabled:
+      (process.env.VITE_ENVIRONMENT !== 'custom' || !!network) &&
+      tab === 'voting',
+  })
 
-  // function fetchFeeSettingsData() {
-  //   if (tab === 'voting') {
-  //     getServerState(rippledSocket).then((res) => {
-  //       setFeeSettings({
-  //         base_fee: res.state.validated_ledger.base_fee,
-  //         reserve_base: res.state.validated_ledger.reserve_base,
-  //         reserve_inc: res.state.validated_ledger.reserve_inc,
-  //       })
-  //     })
-  //   }
-  // }
+  function fetchFeeSettingsData() {
+    getServerState(rippledSocket).then((res) => {
+      setFeeSettings({
+        base_fee: res.state.validated_ledger.base_fee,
+        reserve_base: res.state.validated_ledger.reserve_base,
+        reserve_inc: res.state.validated_ledger.reserve_inc,
+      })
+    })
+  }
 
   const Body = {
     uptime: (
       <ValidatorsTable validators={merged} metrics={metrics} tab="uptime" />
     ),
     voting: (
-      <ValidatorsTable validators={merged} metrics={metrics} tab="voting" />
+      <ValidatorsTable
+        validators={merged}
+        metrics={metrics}
+        tab="voting"
+        feeSettings={feeSettings}
+      />
     ),
   }[tab]
   return (

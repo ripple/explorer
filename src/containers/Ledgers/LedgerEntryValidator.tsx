@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import { useSelectedValidator } from './useSelectedValidator'
 import { useTooltip } from '../shared/components/Tooltip'
-import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
-import { LedgerValidation } from '../shared/components/Streams/types'
+import { useVHSValidators } from '../shared/components/VHSValidators'
+import { LedgerValidation } from '../shared/components/Streams'
 
 export const LedgerEntryValidator = ({
   validation,

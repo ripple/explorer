@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import { useTooltip } from '../shared/components/Tooltip'
-import { useVHSValidators } from '../shared/components/VHSValidators/VHSValidatorsContext'
-import { LedgerValidation } from '../shared/components/Streams/types'
+import { useVHSValidators } from '../shared/components/VHSValidators'
+import { LedgerValidation } from '../shared/components/Streams'
 
 export const LedgerEntryHashTrustedCount = ({
   validations,

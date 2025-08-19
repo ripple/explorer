@@ -4,8 +4,8 @@ import { Ledgers } from './Ledgers'
 import { useAnalytics } from '../shared/analytics'
 import { TooltipProvider } from '../shared/components/Tooltip'
 import { SelectedValidatorProvider } from './useSelectedValidator'
-import { StreamsProvider } from '../shared/components/Streams/StreamsProvider'
-import { VHSValidatorsProvider } from '../shared/components/VHSValidators/VHSValidatorsProvider'
+import { StreamsProvider } from '../shared/components/Streams'
+import { VHSValidatorsProvider } from '../shared/components/VHSValidators'
 
 export const LedgersPage = () => {
   const { trackScreenLoaded } = useAnalytics()

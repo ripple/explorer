@@ -14,7 +14,7 @@ import HoverIcon from '../shared/images/hover.svg'
 import './css/ledgerMetrics.scss'
 import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
-import { useStreams } from '../shared/components/Streams/StreamsContext'
+import { useStreams } from '../shared/components/Streams'
 
 const DEFAULTS = {
   load_fee: '--',

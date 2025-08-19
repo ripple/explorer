@@ -9,7 +9,7 @@ import {
   TooltipProvider,
   useTooltip,
 } from '../shared/components/Tooltip'
-import { Ledger } from '../shared/components/Streams/types'
+import { Ledger } from '../shared/components/Streams'
 
 const SIGMA = '\u03A3'
 
