@@ -55,7 +55,9 @@ export const Ledgers = ({
             {Object.values(localLedgers ?? {})
               .reverse()
               .slice(0, 20)
-              ?.map((ledger) => <LedgerListEntry ledger={ledger} />)}
+              ?.map((ledger) => (
+                <LedgerListEntry ledger={ledger} key={ledger.index} />
+              ))}
           </div>
         </>
       ) : (
