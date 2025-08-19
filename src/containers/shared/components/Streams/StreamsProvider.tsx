@@ -197,10 +197,7 @@ export const StreamsProvider: FC = ({ children }) => {
         }
       }
 
-      // eslint-disable-next-line no-param-reassign
-      previousLedgers[ledgerSummary.ledger_index] = newLedger
-
-      return { ...previousLedgers }
+      return { ...previousLedgers, [ledgerSummary.ledger_index]: newLedger }
     })
   }
 
@@ -297,6 +294,7 @@ export const StreamsProvider: FC = ({ children }) => {
         socket.off('validation', onValidation)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- this should only run when the socket is connected or disconnected
   }, [socket])
 
   useEffect(() => {
@@ -315,6 +313,7 @@ export const StreamsProvider: FC = ({ children }) => {
       },
     }),
     [
+      useServerMetrics,
       ledgers,
       runningMetrics,
       serverRunningMetrics,
