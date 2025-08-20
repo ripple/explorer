@@ -108,7 +108,7 @@ export const StreamsProvider: FC = ({ children }) => {
   function updateMetrics() {
     const ledgerChain = Object.values(ledgers)
       .sort((a, b) => a.index - b.index)
-      .slice(-100)
+      .slice(-MAX_LEDGERS_SHOWN)
 
     let time = 0
     let fees = 0
