@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Loader } from '../shared/components/Loader'
 import Currency from '../shared/components/Currency'
 import { LOSToken } from '../shared/losTypes'
@@ -8,6 +7,8 @@ import { Account } from '../shared/components/Account'
 import UpIcon from '../shared/images/ic_up.svg'
 import DownIcon from '../shared/images/ic_down.svg'
 import SortTableColumn from '../shared/components/SortColumn'
+import { RouteLink } from '../shared/routing'
+import { TOKEN_ROUTE } from '../App/routes'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -59,7 +60,7 @@ const parseAmount = (
   if (valueNumeric >= 1_000_000) {
     return `${formatDecimals(valueNumeric / 1_000_000, decimals)}M`
   }
-  if (valueNumeric >= 1_000) {
+  if (valueNumeric >= 10_000) {
     return `${formatDecimals(valueNumeric / 1_000, decimals)}K`
   }
 
@@ -102,34 +103,35 @@ export const TokensTable = ({
   setPage,
 }: TokensTableProps) => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
   const renderToken = (token: LOSToken) => (
-    <tr
-      className="clickable-row"
-      onClick={() =>
-        navigate(`/token/${token.currency}.${token.issuer_account}`)
-      }
-    >
+    <tr>
       <td className="count">{token.index}</td>
       <td className="name">
         <TokenLogo icon={token.icon} />
-        <Currency currency={token.currency} />
+        <RouteLink
+          to={TOKEN_ROUTE}
+          params={{ token: `${token.currency}.${token.issuer_account}` }}
+          className="text-truncate"
+        >
+          <Currency currency={token.currency} />
+        </RouteLink>
       </td>
-      <td className="issuer text-truncate">
-        <Account
-          account={token.issuer_account}
-          onClick={(e) => e.stopPropagation()}
-          displayText={
-            token.issuer_name
-              ? `${token.issuer_name} (${token.issuer_account})`
-              : `${token.issuer_account}`
-          }
-        />
+      <td className="issuer">
+        <div className="issuer-content">
+          {token.issuer_name && `${token.issuer_name} (`}
+          <span className="text-truncate">
+            <Account
+              account={token.issuer_account}
+              onClick={(e) => e.stopPropagation()}
+            />
+          </span>
+          {token.issuer_name && `)`}
+        </div>
       </td>
       <td className="price">
         {token.price
-          ? parseCurrencyAmount(token.price, xrpPrice, 4)
+          ? parseCurrencyAmount(token.price, xrpPrice)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="24h">
@@ -159,80 +161,75 @@ export const TokensTable = ({
       </td>
     </tr>
   )
+
   return tokens.length > 0 ? (
     <div className="tokens-table">
-      <table className="basic">
-        <thead>
-          <tr>
-            <th className="count">#</th>
-            <th className="name">{t('name')}</th>
-            <SortTableColumn
-              field="issuer"
-              label={t('issuer')}
-              sortField={sortField}
-              setSortField={setSortField}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-              setPage={setPage}
-            />
-            <SortTableColumn
-              field="price"
-              label={t('price')}
-              sortField={sortField}
-              setSortField={setSortField}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-              setPage={setPage}
-            />
-            <SortTableColumn
-              field="24h"
-              label={t('24H')}
-              sortField={sortField}
-              setSortField={setSortField}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-              setPage={setPage}
-            />
-            <SortTableColumn
-              field="volume"
-              label={t('volume')}
-              sortField={sortField}
-              setSortField={setSortField}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-              setPage={setPage}
-            />
-            <SortTableColumn
-              field="trades"
-              label={t('trades')}
-              sortField={sortField}
-              setSortField={setSortField}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-              setPage={setPage}
-            />
-            <SortTableColumn
-              field="holders"
-              label={t('holders')}
-              sortField={sortField}
-              setSortField={setSortField}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-              setPage={setPage}
-            />
-            <SortTableColumn
-              field="market_cap"
-              label={t('market_cap')}
-              sortField={sortField}
-              setSortField={setSortField}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-              setPage={setPage}
-            />
-          </tr>
-        </thead>
-        <tbody>{tokens.map(renderToken)}</tbody>
-      </table>
+      <div className="table-wrap">
+        <table className="basic">
+          <thead>
+            <tr>
+              <th className="count sticky-1">#</th>
+              <th className="name-col sticky-2">{t('name')}</th>
+              <th className="issuer sticky-3">{t('issuer')}</th>
+              <SortTableColumn
+                field="price"
+                label={t('price')}
+                sortField={sortField}
+                setSortField={setSortField}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+              />
+              <SortTableColumn
+                field="24h"
+                label={t('24H')}
+                sortField={sortField}
+                setSortField={setSortField}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+              />
+              <SortTableColumn
+                field="volume"
+                label={t('volume')}
+                sortField={sortField}
+                setSortField={setSortField}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+              />
+              <SortTableColumn
+                field="trades"
+                label={t('trades')}
+                sortField={sortField}
+                setSortField={setSortField}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+              />
+              <SortTableColumn
+                field="holders"
+                label={t('holders')}
+                sortField={sortField}
+                setSortField={setSortField}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+              />
+              <SortTableColumn
+                field="market_cap"
+                label={t('market_cap')}
+                sortField={sortField}
+                setSortField={setSortField}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+              />
+            </tr>
+          </thead>
+          <tbody>{tokens.map(renderToken)}</tbody>
+        </table>
+      </div>
     </div>
   ) : (
     <Loader />

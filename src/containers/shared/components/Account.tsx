@@ -7,11 +7,10 @@ export interface AccountProps {
   link?: boolean
   tag?: number
   onClick?: MouseEventHandler<HTMLElement>
-  displayText?: string
 }
 
 export const Account = (props: AccountProps) => {
-  const { account, link = true, tag, onClick, displayText } = props
+  const { account, link = true, tag, onClick } = props
   const parts = account.split(':')
   const computedTag = tag || parts[1]
 
@@ -26,11 +25,11 @@ export const Account = (props: AccountProps) => {
           params={{ id: parts[0] }}
           onClick={onClick}
         >
-          {displayText || parts[0]}
+          {parts[0]}
         </RouteLink>
       ) : (
         <span className="account" data-testid="account" title={parts[0]}>
-          {displayText || parts[0]}
+          {parts[0]}
         </span>
       )}
       {computedTag && (

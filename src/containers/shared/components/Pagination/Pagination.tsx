@@ -9,6 +9,7 @@ type Props = {
   siblingCount?: number
   className?: string
   pageSize?: number
+  scrollToTop?: number
 }
 
 const DOTS = '…'
@@ -73,6 +74,7 @@ export const Pagination = ({
   siblingCount = 1,
   className = '',
   pageSize = 15,
+  scrollToTop = 100,
 }: Props) => {
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
   if (totalPages <= 1) return null
@@ -89,7 +91,7 @@ export const Pagination = ({
 
   const handlePageChange = (page: number) => {
     onPageChange(page)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: scrollToTop, behavior: 'auto' })
   }
 
   return (

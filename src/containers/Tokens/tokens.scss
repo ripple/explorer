@@ -2,21 +2,21 @@
 @use '../shared/css/table';
 
 .tokens-page {
-  overflow: auto;
+  overflow: visible;
   width: 100%;
   max-width: 1500px;
   min-height: 150px;
-  padding-right: 150px;
-  padding-left: 150px;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 40px;
+  @include for-size(desktop-up) {
+    padding-right: 150px;
+    padding-left: 150px;
+    margin: auto;
+    margin-top: 100px;
+  }
 
-  .clickable-row {
-    cursor: pointer;
-
-    &:hover {
-      background-color: $black-70;
-    }
+  .text-truncate {
+    @extend %truncate;
   }
 
   .metrics-wrapper {
@@ -51,22 +51,53 @@
     color: $white;
     font-size: 32px;
 
-    @include for-size(tablet-portrait-up) {
+    @include for-size(desktop-up) {
       font-size: 42px;
     }
 
     @include bold;
   }
 
+  .count {
+    position: sticky;
+  }
+
   .name {
+    position: sticky;
     display: inline-flex;
+    max-width: 120px;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
+    @include for-size(desktop-up) {
+      gap: 8px;
+    }
 
     .icon {
-      width: 24px;
-      height: 24px;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+
+      @include for-size(desktop-up) {
+        width: 24px;
+        height: 24px;
+      }
     }
+  }
+
+
+  .issuer {
+    max-width: 120px;
+    @include for-size(desktop-up) {
+      max-width: 240px;
+    }
+  }
+
+  .issuer-content {
+    display: inline-flex;
+    width: 100%;
+    min-width: 0;
+    align-items: center;
+    white-space: nowrap;
   }
 
   .percent {
