@@ -8,7 +8,8 @@ import MockWsClient from '../../../../../test/mockWsClient'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import Batch from './mock_data/Batch.json'
-import InnerTransaction from './mock_data/InnerTx.json'
+import InnerTransactionSuccessful from './mock_data/InnerTxSuccessful.json'
+import InnerTransactionFailed from './mock_data/InnerTxFailed.json'
 
 jest.mock('../../../../../../rippled/lib/rippled', () => ({
   __esModule: true,
@@ -45,7 +46,7 @@ describe('Batch: Simple', () => {
         txId ===
         'EB5933399A49541B65552C5B5959AEECC520D10B946EC30F5A39B9EAA16C7D56'
       ) {
-        return Promise.resolve(InnerTransaction)
+        return Promise.resolve(InnerTransactionSuccessful)
       }
       return Promise.reject(new Error('transaction not found'))
     })
@@ -85,7 +86,7 @@ describe('Batch: Simple', () => {
       'FD62E8028755E60A8529C76861FAF31A71C97AEAE4E1B27D2D3FAAD234272C11',
     )
 
-    expectSimpleRowText(innerTx2, 'tx-status', 'Failed')
+    expectSimpleRowText(innerTx2, 'tx-status', 'Failed (Not Validated)')
 
     expectSimpleRowText(
       innerTx3,
@@ -98,8 +99,38 @@ describe('Batch: Simple', () => {
       'B7EB7E00B47E4CD57FECAB8E0EBAF5EB9471C66A3F80CB5C7D88856FAA7CD090',
     )
 
-    expectSimpleRowText(innerTx3, 'tx-status', 'Failed')
+    expectSimpleRowText(innerTx3, 'tx-status', 'Failed (Not Validated)')
 
     wrapper.unmount()
+  })
+
+  it('show failed transaction', async () => {
+    mockedGetTransaction.mockImplementation((_, txId) => {
+      if (
+        txId ===
+        'EB5933399A49541B65552C5B5959AEECC520D10B946EC30F5A39B9EAA16C7D56'
+      ) {
+        return Promise.resolve(InnerTransactionFailed)
+      }
+      return Promise.reject(new Error('transaction not found'))
+    })
+    const wrapper = createWrapper(Batch, client)
+
+    await flushPromises()
+    wrapper.update()
+
+    const innerTx1 = wrapper.find('.group').at(0)
+    expectSimpleRowText(
+      innerTx1,
+      'tx-account',
+      'rGfNFbXcdrx1t7UDEzrJkPCVBRAR2o6HVc',
+    )
+    expectSimpleRowText(
+      innerTx1,
+      'tx-hash',
+      'EB5933399A49541B65552C5B5959AEECC520D10B946EC30F5A39B9EAA16C7D56',
+    )
+
+    expectSimpleRowText(innerTx1, 'tx-status', 'Failed (tecUNFUNDED_PAYMENT)')
   })
 })

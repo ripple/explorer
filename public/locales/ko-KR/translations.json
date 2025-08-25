@@ -593,6 +593,7 @@
   "batch": null,
   "successful": null,
   "failed": null,
+  "not-validated": null,
   "asset": null,
   "assets_maximum": null,
   "mptoken_metadata": null,
