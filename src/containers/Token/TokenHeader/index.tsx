@@ -10,6 +10,7 @@ import { LEDGER_ROUTE, TRANSACTION_ROUTE } from '../../App/routes'
 import { RouteLink } from '../../shared/routing'
 import { TokenData } from '../../../rippled/token'
 import { XRP_BASE } from '../../shared/transactionUtils'
+import { HeaderBoxes } from '../components/HeaderBoxes'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -174,6 +175,23 @@ export const TokenHeader = ({
     )
   }
 
+  const dummyOverviewData = {
+    price: '$0.00',
+    holders: 0,
+    trustlines: 0,
+    transfer_fee: '0%',
+    reputation_level: 'N/A',
+  }
+
+  const dummyMarketData = {
+    supply: '0',
+    circ_supply: '0',
+    market_cap: '$0.00',
+    volume_24h: '$0.00',
+    trades_24h: 0,
+    amm_tvl: '$0.00',
+  }
+
   return (
     <div className="box token-header">
       <div className="section box-header">
@@ -184,6 +202,12 @@ export const TokenHeader = ({
             src={`https://www.gravatar.com/avatar/${emailHash.toLowerCase()}`}
           />
         )}
+      </div>
+      <div className="section box-content">
+        <HeaderBoxes
+          overviewData={dummyOverviewData}
+          marketData={dummyMarketData}
+        />
       </div>
       <div className="box-content">{renderHeaderContent()}</div>
     </div>

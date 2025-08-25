@@ -726,16 +726,16 @@
   "amm_tvl": "AMM TVL",
   "token_page.general_overview": "General Overview",
   "token_page.price": "Price",
-  "token_page.holders": "Holders",
-  "token_page.trustlines": "Trustlines",
+  "token_page.holders": "# of Holders",
+  "token_page.trustlines": "# of Trustlines",
   "token_page.transfer_fee": "Transfer Fee",
   "token_page.reputation_level": "Reputation Level",
   "token_page.market_data": "Market Data",
   "token_page.supply": "Supply",
-  "token_page.circulating_supply": "Circulating Supply",
+  "token_page.circulating_supply": "Circ Supply",
   "token_page.market_cap": "Market Cap",
-  "token_page.volume_24h": "Volume (24H)",
-  "token_page.trades_24h": "Trades (24H)",
+  "token_page.volume_24h": "Traded Volume (24H)",
+  "token_page.trades_24h": "# of Trades (24H)",
   "token_page.amm_tvl": "AMM TVL"
 
 

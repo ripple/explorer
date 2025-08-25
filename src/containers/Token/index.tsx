@@ -17,6 +17,7 @@ import { getToken } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
 import { Loader } from '../shared/components/Loader'
 import { HeaderBoxes } from './components/HeaderBoxes'
+import Currency from '../shared/components/Currency'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
@@ -81,23 +82,6 @@ export const Token = () => {
     return <Page accountId={accountId}>{renderError()}</Page>
   }
 
-  const dummyOverviewData = {
-    price: '$0.00',
-    holders: 0,
-    trustlines: 0,
-    transfer_fee: '0%',
-    reputation_level: 'N/A',
-  }
-
-  const dummyMarketData = {
-    supply: '0',
-    circ_supply: '0',
-    market_cap: '$0.00',
-    volume_24h: '$0.00',
-    trades_24h: 0,
-    amm_tvl: '$0.00',
-  }
-
   return (
     <Page accountId={accountId}>
       {isTokenDataLoading ? (
@@ -111,10 +95,7 @@ export const Token = () => {
           />
         )
       )}
-      <HeaderBoxes
-        overviewData={dummyOverviewData}
-        marketData={dummyMarketData}
-      />
+
       {accountId && tokenData && (
         <div className="section">
           <h2>{t('token_transactions')}</h2>

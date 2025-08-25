@@ -3,29 +3,22 @@
 
 .header-boxes {
   display: flex;
-  flex-direction: row;
+  width: 100%;
+  flex-flow: row wrap;
+  justify-content: flex-start;
   margin-top: 64px;
   gap: 24px;
-
-  @include for-size(desktop-up) {
-    margin-top: 80px;
-  }
-
-  @include for-size(mobile-only) {
-    flex-direction: column;
-    gap: 16px;
-  }
 }
 
 .header-box {
   display: flex;
-  width: 382px;
+  width: 382px;     // ✅ fixed width
+  max-width: 382px;
+  flex: 0 0 auto;   // ✅ don’t grow/shrink, but still participate in flex layout
   flex-direction: column;
-  flex-shrink: 0;
   align-items: flex-start;
   padding: 16px;
-  border: 1px solid $black-70;
-  border-radius: 8px;
+  padding-left: 0px;
   gap: 8px;
 }
 
@@ -40,9 +33,35 @@
 
 .header-box-contents {
   padding: 16px;
-  border-radius: 16px;
+    border: 1px solid $black-70;
+  border-radius: 8px;
 }
 
 .header-box-item {
-  margin-bottom: 8px
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+  gap: 32px;
+
+
+  .item-name {
+    width: 180px;
+    color: $black-40;
+    // font-family: "Work Sans";
+    font-size: 14px;
+    font-style: normal;
+    line-height: 150%; /* 21px */
+    text-transform: uppercase;
+    @include semibold;
+  }
+
+  .item-value {
+     width: 130px;
+    color: $white;
+    //font-family: "Work Sans";
+    font-size: 14px;
+    font-style: normal;
+    line-height: 150%; /* 21px */
+    @include regular;
+  }
 }

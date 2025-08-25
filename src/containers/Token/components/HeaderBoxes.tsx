@@ -42,19 +42,24 @@ export const HeaderBoxes = ({
         </div>
         <div className="header-box-contents">
           <div className="header-box-item">
-            {t('token_page.price')}: {price}
+            <div className="item-name">{t('token_page.price')}:</div>
+            <div className="item-value">{price}</div>
           </div>
           <div className="header-box-item">
-            {t('token_page.holders')}: {holders}
+            <div className="item-name">{t('token_page.holders')}:</div>
+            <div className="item-value">{holders}</div>
           </div>
           <div className="header-box-item">
-            {t('token_page.trustlines')}: {trustlines}
+            <div className="item-name">{t('token_page.trustlines')}:</div>
+            <div className="item-value">{trustlines}</div>
           </div>
           <div className="header-box-item">
-            {t('token_page.transfer_fee')}: {transfer_fee}
+            <div className="item-name">{t('token_page.transfer_fee')}:</div>
+            <div className="item-value">{transfer_fee}</div>
           </div>
           <div className="header-box-item">
-            {t('token_page.reputation_level')}: {reputation_level}
+            <div className="item-name">{t('token_page.reputation_level')}:</div>
+            <div className="item-value">{reputation_level}</div>
           </div>
         </div>
       </div>
@@ -63,22 +68,30 @@ export const HeaderBoxes = ({
         <div className="header-box-title">{t('token_page.market_data')}</div>
         <div className="header-box-contents">
           <div className="header-box-item">
-            {t('token_page.supply')}: {supply}
+            <div className="item-name">{t('token_page.supply')}:</div>
+            <div className="item-value">{supply}</div>
           </div>
           <div className="header-box-item">
-            {t('token_page.circulating_supply')}: {circ_supply}
+            <div className="item-name">
+              {t('token_page.circulating_supply')}:
+            </div>
+            <div className="item-value">{circ_supply}</div>
           </div>
           <div className="header-box-item">
-            {t('token_page.market_cap')}: {market_cap}
+            <div className="item-name">{t('token_page.market_cap')}:</div>
+            <div className="item-value">{market_cap}</div>
           </div>
           <div className="header-box-item">
-            {t('token_page.volume_24h')}: {volume_24h}
+            <div className="item-name">{t('token_page.volume_24h')}:</div>
+            <div className="item-value">{volume_24h}</div>
           </div>
           <div className="header-box-item">
-            {t('token_page.trades_24h')}: {trades_24h}
+            <div className="item-name">{t('token_page.trades_24h')}:</div>
+            <div className="item-value">{trades_24h}</div>
           </div>
           <div className="header-box-item">
-            {t('token_page.amm_tvl')}: {amm_tvl}
+            <div className="item-name">{t('token_page.amm_tvl')}:</div>
+            <div className="item-value">{amm_tvl}</div>
           </div>
         </div>
       </div>
