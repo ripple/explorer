@@ -716,5 +716,14 @@
   "account_page_asset_table_no_iou": "No IOUs found",
   "account_page_asset_table_no_lptoken": "No LP Tokens found",
   "account_page_asset_table_no_mpt": "No MPTs found",
-  "account_page_asset_table_no_nft": "No NFTs found"
+  "account_page_asset_table_no_nft": "No NFTs found",
+  "general_overview": "General Overview",
+  "reputation_level": "Reputation Level",
+  "market_data": "Market Data",
+  "supply": "Supply",
+  "circulating_supply": "Circulating Supply",
+  "trades_24h": "Trades (24H)",
+  "amm_tvl": "AMM TVL"
+
+
 }

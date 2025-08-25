@@ -693,5 +693,12 @@
   "account_page_asset_table_no_iou": null,
   "account_page_asset_table_no_lptoken": null,
   "account_page_asset_table_no_mpt": null,
-  "account_page_asset_table_no_nft": null
+  "account_page_asset_table_no_nft": null,
+  "general_overview": null,
+  "reputation_level": null,
+  "market_data": null,
+  "supply": null,
+  "circulating_supply": null,
+  "trades_24h": null,
+  "amm_tvl": null
 }

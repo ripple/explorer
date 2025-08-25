@@ -1,0 +1,25 @@
+@use '../../shared/css/variables' as *;
+@use '../../shared/css/table';
+
+.header-box {
+  border: 1px solid $black-70;
+  border-radius: 8px;
+}
+
+.header-box-title {
+  margin-bottom: 21px;
+  color: $white;
+  //font-family: "Work Sans";
+  font-size: 20px;
+  line-height: 125%; /* 25px */
+  @include bold;
+}
+
+.header-box-contents {
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.header-box-item {
+  margin-bottom: 8px
+}
