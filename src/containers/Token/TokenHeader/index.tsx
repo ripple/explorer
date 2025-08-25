@@ -11,6 +11,7 @@ import { RouteLink } from '../../shared/routing'
 import { TokenData } from '../../../rippled/token'
 import { XRP_BASE } from '../../shared/transactionUtils'
 import { HeaderBoxes } from '../components/HeaderBoxes'
+import { FC } from 'react'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -192,16 +193,84 @@ export const TokenHeader = ({
     amm_tvl: '$0.00',
   }
 
+  const dummyToken = {
+    currency: 'USD',
+    issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+    meta: {
+      token: {
+        asset_class: 'rwa',
+        asset_subclass: 'stablecoin',
+        desc: "Bitstamp's USD is a fully backed U.S. Dollar IOU on the XRPL. It can be redeemed into real Dollars on bitstamp.net. For support, visit their website or X @BitstampSupport",
+        icon: 'https://s1.xrplmeta.org/icon/C676A0DE05.png',
+        name: 'US Dollar',
+        trust_level: 3,
+        urls: [
+          {
+            url: 'https://bitstamp.net',
+            type: 'website',
+          },
+          {
+            url: 'https://x.com/Bitstamp',
+            type: 'social',
+          },
+        ],
+      },
+      issuer: {
+        domain: 'bitstamp.net',
+        icon: 'https://s1.xrplmeta.org/icon/DDDEC1BEED.png',
+        kyc: true,
+        name: 'Bitstamp',
+        trust_level: 3,
+      },
+    },
+    metrics: {
+      trustlines: 25859,
+      holders: 7453,
+      supply: '10837710.3517544',
+      marketcap: '3553768.87652062',
+      price: '0.327907718621149',
+      volume_24h: '364.052800999997',
+      volume_7d: '17631.4027129997',
+      exchanges_24h: '132',
+      exchanges_7d: '1206',
+      takers_24h: '30',
+      takers_7d: '62',
+    },
+  }
+
+  const TokenName: FC<{ token: any }> = ({ token }) =>
+    token && token.meta?.token.name ? (
+      <div className="token-name">
+        (
+        {token.meta.token.name
+          .trim()
+          .toUpperCase()
+          .replace('(', '')
+          .replace(')', '')}
+        )
+      </div>
+    ) : null
+
+  const tokenLogo = 'https://s1.xrplmeta.org/icon/03DDEF3C9D.png'
   return (
     <div className="box token-header">
+      <div className="section token-indicator">
+        <div className="token-label">Token</div>
+        <div className="category-pill">
+          <div className="category-text">IOU</div>
+        </div>
+      </div>
       <div className="section box-header">
-        <Currency currency={currency} />
-        {emailHash && (
+        {tokenLogo && (
           <img
+            className="token-logo"
             alt={`${currency} logo`}
-            src={`https://www.gravatar.com/avatar/${emailHash.toLowerCase()}`}
+            src={tokenLogo}
           />
         )}
+        <Currency currency={currency} />
+        <span className="issuer-separator">&nbsp;</span>
+        <TokenName token={dummyToken} />
       </div>
       <div className="section box-content">
         <HeaderBoxes
@@ -209,7 +278,7 @@ export const TokenHeader = ({
           marketData={dummyMarketData}
         />
       </div>
-      <div className="box-content">{renderHeaderContent()}</div>
+      {/* <div className="box-content">{renderHeaderContent()}</div> */}
     </div>
   )
 }

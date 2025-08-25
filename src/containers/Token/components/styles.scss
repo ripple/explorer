@@ -12,9 +12,9 @@
 
 .header-box {
   display: flex;
-  width: 382px;     // ✅ fixed width
+  width: 382px;
   max-width: 382px;
-  flex: 0 0 auto;   // ✅ don’t grow/shrink, but still participate in flex layout
+  flex: 0 0 auto;
   flex-direction: column;
   align-items: flex-start;
   padding: 16px;

@@ -14,7 +14,7 @@ describe('Testing tokens search', () => {
   let wrapper
 
   const createWrapper = () => {
-    const searchURL = `/api/v1/tokens/search/${testQuery}`
+    const searchURL = `/api/v1/tokens//${testQuery}`
     moxios.stubRequest(searchURL, {
       status: 200,
       response: testTokens,

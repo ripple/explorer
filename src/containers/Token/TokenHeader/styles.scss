@@ -69,14 +69,22 @@
   }
 }
 
+  .token-name {
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 112.5%; /* 47.25px */
+  }
+
+
 .token-header {
+  margin-top: 80px;
   margin-bottom: 16px;
 
   .box-header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 106px;
     text-align: left;
 
     span {
@@ -233,4 +241,50 @@
       }
     }
   }
+
+  .token-logo {
+    width: 48px;
+    min-width:48px;
+    height: 48px;
+    min-height: 48px;
+    border-radius: 48px;
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+
+  .token-indicator {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 12px;
+
+  .token-label {
+    color: $black-40;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 21px */
+    text-transform: uppercase;
+  }
+
+  .category-pill {
+    border: 1px solid $white;
+    border-radius: 100px;
+    background: $black-80;
+
+    .category-text {
+      padding: 4px 12px;
+      color: $white;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 150%; /* 18px */
+      text-transform: uppercase;
+    }
+
+  }
+  }
+
+
 }
