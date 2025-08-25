@@ -1,9 +1,32 @@
 @use '../../shared/css/variables' as *;
 @use '../../shared/css/table';
 
+.header-boxes {
+  display: flex;
+  flex-direction: row;
+  margin-top: 64px;
+  gap: 24px;
+
+  @include for-size(desktop-up) {
+    margin-top: 80px;
+  }
+
+  @include for-size(mobile-only) {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
 .header-box {
+  display: flex;
+  width: 382px;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: flex-start;
+  padding: 16px;
   border: 1px solid $black-70;
   border-radius: 8px;
+  gap: 8px;
 }
 
 .header-box-title {
