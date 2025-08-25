@@ -24,7 +24,10 @@ interface HeaderBoxesProps {
   marketData: MarketData
 }
 
-export const HeaderBoxes = ({ overviewData, marketData }): HeaderBoxesProps => {
+export const HeaderBoxes = ({
+  overviewData,
+  marketData,
+}: HeaderBoxesProps): JSX.Element => {
   const { t } = useTranslation()
   const { price, holders, trustlines, transfer_fee, reputation_level } =
     overviewData
