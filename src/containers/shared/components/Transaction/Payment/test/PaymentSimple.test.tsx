@@ -12,6 +12,7 @@ import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 import mockPaymentMPT from './mock_data/PaymentMPT.json'
+import mockPermDomainID from './mock_data/PaymentWithPermDomainID.json'
 
 jest.mock('react-query', () => ({
   ...jest.requireActual('react-query'),
@@ -146,6 +147,19 @@ describe('Payment: Simple', () => {
       'destination',
       `rw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu`,
     )
+
+    wrapper.unmount()
+  })
+
+  it(`renders with Permissioned Domain ID`, () => {
+    const wrapper = createWrapper(mockPermDomainID)
+
+    expectSimpleRowText(
+      wrapper,
+      'domain-id',
+      `D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02`,
+    )
+    expectSimpleRowLabel(wrapper, 'domain-id', `domain_id`)
 
     wrapper.unmount()
   })
