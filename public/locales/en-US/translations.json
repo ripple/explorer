@@ -725,6 +725,7 @@
   "trades_24h": "Trades (24H)",
   "amm_tvl": "AMM TVL",
   "token_page.general_overview": "General Overview",
+  "token_page.issuer": "Issuer",
   "token_page.price": "Price",
   "token_page.holders": "# of Holders",
   "token_page.trustlines": "# of Trustlines",

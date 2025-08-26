@@ -1,8 +1,10 @@
 import { useTranslation } from 'react-i18next'
 
 import './styles.scss'
+import { Link } from 'react-router-dom'
 
 export interface OverviewData {
+  issuer: string
   price: string
   holders: number
   trustlines: number
@@ -29,10 +31,19 @@ export const HeaderBoxes = ({
   marketData,
 }: HeaderBoxesProps): JSX.Element => {
   const { t } = useTranslation()
-  const { price, holders, trustlines, transfer_fee, reputation_level } =
+  const { issuer, price, holders, trustlines, transfer_fee, reputation_level } =
     overviewData
   const { supply, circ_supply, market_cap, volume_24h, trades_24h, amm_tvl } =
     marketData
+
+  function truncateXrplAddress(address, startLength = 6, endLength = 6) {
+    if (!address || address.length <= startLength + endLength) {
+      return address // nothing to truncate
+    }
+    const start = address.slice(0, startLength)
+    const end = address.slice(-endLength)
+    return `${start}...${end}`
+  }
 
   return (
     <div className="header-boxes">
@@ -41,6 +52,16 @@ export const HeaderBoxes = ({
           {t('token_page.general_overview')}
         </div>
         <div className="header-box-contents">
+          <div className="header-box-item">
+            <div className="item-name">{t('token_page.issuer')}:</div>
+            <Link
+              to={`/accounts/${issuer}`}
+              replace
+              className="item-value account-link"
+            >
+              {truncateXrplAddress(issuer)}
+            </Link>
+          </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.price')}:</div>
             <div className="item-value">{price}</div>
@@ -59,7 +80,9 @@ export const HeaderBoxes = ({
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.reputation_level')}:</div>
-            <div className="item-value">{reputation_level}</div>
+            <div className="item-value">
+              <div className="reputation-level">{reputation_level}</div>
+            </div>
           </div>
         </div>
       </div>

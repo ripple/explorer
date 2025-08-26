@@ -64,4 +64,24 @@
     line-height: 150%; /* 21px */
     @include regular;
   }
+
+  .account-link {
+    color: $green-30;
+    text-decoration: none;
+
+    &:hover {
+      color: $green-50;
+    }
+  }
+
+  .reputation-level {
+    display: inline-block;
+    padding: 0px 12px;
+    border: 1px solid $green-60;
+    border-radius: 100px;
+    background-color: $green-50;
+    color: $black-100;
+    font-size: 12px;
+    @include semibold;
+  }
 }

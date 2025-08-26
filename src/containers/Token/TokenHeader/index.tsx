@@ -178,11 +178,12 @@ export const TokenHeader = ({
   }
 
   const dummyOverviewData = {
+    issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
     price: '$0.00',
     holders: 0,
     trustlines: 0,
     transfer_fee: '0%',
-    reputation_level: 'N/A',
+    reputation_level: 3,
   }
 
   const dummyMarketData = {

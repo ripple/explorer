@@ -6,7 +6,7 @@ import { useAnalytics } from '../../shared/analytics'
 import SocketContext from '../../shared/SocketContext'
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
 import { getAccountTransactions } from '../../../rippled'
-import { TxTablePicker } from './TxTablePicker/TxTablePicker'
+import { TxTablePicker } from '../components/TxTablePicker/TxTablePicker'
 
 export interface TokenTransactionsTableProps {
   accountId: string
