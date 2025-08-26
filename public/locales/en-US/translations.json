@@ -736,7 +736,12 @@
   "token_page.market_cap": "Market Cap",
   "token_page.volume_24h": "Traded Volume (24H)",
   "token_page.trades_24h": "# of Trades (24H)",
-  "token_page.amm_tvl": "AMM TVL"
+  "token_page.amm_tvl": "AMM TVL",
+  "token_page.all_tx": "All Token Transactions",
+  "token_page.dex_tx": "DEX Trades",
+  "token_page.transfers_tx": "Transfers",
+  "token_page.holders_table": "Holders"
+
 
 
 }

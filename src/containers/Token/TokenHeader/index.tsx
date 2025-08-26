@@ -12,6 +12,7 @@ import { TokenData } from '../../../rippled/token'
 import { XRP_BASE } from '../../shared/transactionUtils'
 import { HeaderBoxes } from '../components/HeaderBoxes'
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 
 const CURRENCY_OPTIONS = {
   style: 'currency',
@@ -252,6 +253,7 @@ export const TokenHeader = ({
     ) : null
 
   const tokenLogo = 'https://s1.xrplmeta.org/icon/03DDEF3C9D.png'
+  const tokenURL = `https://bitstamp.net`
   return (
     <div className="box token-header">
       <div className="section token-indicator">
@@ -271,6 +273,12 @@ export const TokenHeader = ({
         <Currency currency={currency} />
         <span className="issuer-separator">&nbsp;</span>
         <TokenName token={dummyToken} />
+        {tokenURL && (
+          <div className="issuer-ext-link">
+            <img className="issuer-ext-link-icon" src="/globe.svg" />
+            <DomainLink domain={tokenURL} keepProtocol={false} />
+          </div>
+        )}
       </div>
       <div className="section box-content">
         <HeaderBoxes

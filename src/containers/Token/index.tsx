@@ -98,7 +98,6 @@ export const Token = () => {
 
       {accountId && tokenData && (
         <div className="section">
-          <h2>{t('token_transactions')}</h2>
           <TokenTransactionTable accountId={accountId} currency={currency} />
         </div>
       )}

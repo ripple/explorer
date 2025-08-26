@@ -1,0 +1,45 @@
+@use '../../../shared/css/variables' as *;
+@use '../../../shared/css/table';
+
+.tx-table-picker {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 24px;
+  gap: 16px;
+
+  .tx-table-picker-button {
+    all: unset;
+    padding-top: 24px;
+    border: none;
+    margin-right: 16px;
+    background-color: none;
+    color: $black-40;
+    cursor: pointer;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
+    @include regular;
+
+    &.active {
+      padding-top: 21px;
+      border-top: 3px solid $white;
+      color: $white;
+      @include bold;
+    }
+  }
+
+  .tx-table-picker-button:hover {
+      color: $white;
+      @include bold;
+    }
+
+}
+
+.full-width-line {
+    width: 100%;            /* stretch full width */
+    border: none;           /* remove default browser styles */
+    border-top: 1px solid $black-70; /* line color/thickness */
+    margin-bottom: 0px;    /* spacing */
+    color: $black-70;
+  }

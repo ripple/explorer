@@ -81,6 +81,25 @@
   margin-top: 80px;
   margin-bottom: 16px;
 
+  .issuer-ext-link {
+    padding: 8px 16px;
+    border: 1px solid $green-30;
+    border-radius: 8px;
+    margin-left: auto;
+    font-size: 14px;
+
+
+  }
+
+  .issuer-ext-link-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      color: $green-30;
+      object-fit: contain;
+      vertical-align: middle
+    }
+
   .box-header {
     display: flex;
     flex-direction: row;
@@ -101,7 +120,7 @@
     img {
       width: 24px;
       height: 24px;
-      margin-left: 16px;
+      // margin-left: 16px;
       object-fit: contain;
     }
   }

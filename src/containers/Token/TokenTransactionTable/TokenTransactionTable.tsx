@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
 
@@ -6,6 +6,7 @@ import { useAnalytics } from '../../shared/analytics'
 import SocketContext from '../../shared/SocketContext'
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
 import { getAccountTransactions } from '../../../rippled'
+import { TxTablePicker } from './TxTablePicker/TxTablePicker'
 
 export interface TokenTransactionsTableProps {
   accountId: string
@@ -46,13 +47,33 @@ export const TokenTransactionTable = ({
     },
   )
 
+  const [tablePickerState, setTablePickerState] = useState('all')
+  console.log('tablePickerState', tablePickerState)
+
   return (
-    <TransactionTable
-      transactions={data?.pages?.map((page: any) => page.transactions).flat()}
-      loading={loading}
-      emptyMessage={t(error?.message || ('' as any))}
-      onLoadMore={() => fetchNextPage()}
-      hasAdditionalResults={hasNextPage}
-    />
+    <div>
+      <TxTablePicker
+        tablePickerState={tablePickerState}
+        setTablePickerState={setTablePickerState}
+      />
+
+      {tablePickerState === 'all' && (
+        <TransactionTable
+          transactions={data?.pages
+            ?.map((page: any) => page.transactions)
+            .flat()}
+          loading={loading}
+          emptyMessage={t(error?.message || ('' as any))}
+          onLoadMore={() => fetchNextPage()}
+          hasAdditionalResults={hasNextPage}
+        />
+      )}
+
+      {tablePickerState === 'dex' && <div>DEX</div>}
+
+      {tablePickerState === 'transfers' && <div>TRANSFERS</div>}
+
+      {tablePickerState === 'holders' && <div>HOLDERS</div>}
+    </div>
   )
 }
