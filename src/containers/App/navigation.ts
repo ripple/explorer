@@ -26,6 +26,11 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
     title: 'explorer',
     current: (path: string) => isLedgers(path),
   },
+  process.env.VITE_ENVIRONMENT === 'mainnet' && {
+    route: TOKENS_ROUTE,
+    title: 'tokens',
+    current: (path: string) => isTokens(path),
+  },
   {
     title: 'network',
     current: (path: string) => isNetwork(path),
@@ -51,11 +56,6 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
         current: (path: string) => isNetwork(path),
       },
     ],
-  },
-  process.env.VITE_ENVIRONMENT === 'mainnet' && {
-    route: TOKENS_ROUTE,
-    title: 'tokens',
-    current: (path: string) => isTokens(path),
   },
   {
     link: 'https://xrpl.org',

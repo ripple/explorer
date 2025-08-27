@@ -29,7 +29,7 @@ const parseCurrency = (currency) => {
 async function fetchXRPLMetaTokens() {
   log.info(`caching tokens from LOS`)
   return axios
-    .get(`https://los.dev.ripplex.io/tokens`)
+    .get(`https://los.dev.ripplex.io/trusted-tokens`)
     .then((resp) => resp.data)
     .catch((e) => {
       log.error(e)
@@ -39,7 +39,7 @@ async function fetchXRPLMetaTokens() {
 
 async function cacheXRPLMetaTokens() {
   const losTokens = await fetchXRPLMetaTokens()
-  console.log(`los tokens: ${losTokens.tokens.length}`)
+  log.info(`Fetched ${losTokens.tokens.length} tokens from LOS...`)
 
   if (losTokens.tokens) {
     cachedTokenList.tokens = losTokens.tokens.sort(
