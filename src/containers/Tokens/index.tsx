@@ -15,6 +15,8 @@ import './tokens.scss'
 import { Pagination } from '../shared/components/Pagination'
 import { Loader } from '../shared/components/Loader'
 import { LOSToken } from '../shared/losTypes'
+import { Tooltip, useTooltip } from '../shared/components/Tooltip'
+import HoverIcon from '../shared/images/hover.svg'
 
 interface FilterProps {
   categories: CategoryKey[]
@@ -33,6 +35,8 @@ interface TokensData {
 }
 
 type CategoryKey = 'rwa' | 'stablecoin' | 'wrapped' | 'memes'
+
+const TOOLTIP_Y_OFFSET = 80
 
 const PAGE_SIZE = 15
 const Filter: FC<FilterProps> = ({
@@ -76,6 +80,7 @@ export const Tokens = () => {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [filterField, setFilterField] = useState('')
   const [page, setPage] = useState(1)
+  const { tooltip, showTooltip, hideTooltip } = useTooltip()
 
   const { t } = useTranslation()
 
@@ -120,6 +125,20 @@ export const Tokens = () => {
     )
   }, [tokensData, filterField])
 
+  const renderTextTooltip = (key: string) => (
+    <HoverIcon
+      className="hover"
+      onMouseOver={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        showTooltip('text', e, t(`${key}_description`, { defaultValue: '' }), {
+          x: rect.left + window.scrollX + rect.width / 2,
+          y: rect.top + window.scrollY - TOOLTIP_Y_OFFSET,
+        })
+      }}
+      onMouseLeave={() => hideTooltip()}
+    />
+  )
+
   const getSortValue = (token, field) => {
     switch (field) {
       case 'price':
@@ -135,8 +154,8 @@ export const Tokens = () => {
         return Number(token.daily_volume ?? 0)
       case 'trades':
         return Number(token.daily_trades) ?? 0
-      case 'issuer':
-        return token.issuer_account.toLowerCase() ?? ''
+      case 'tvl':
+        return token.tvl_xrp ?? 0
       default:
         return 0
     }
@@ -178,6 +197,7 @@ export const Tokens = () => {
     }))
   return (
     <div className="tokens-page">
+      <Tooltip tooltip={tooltip} />
       <div className="type">{t('tokens')}</div>
       {tokensData?.metrics && (
         <div className="metrics-wrapper">
@@ -186,13 +206,19 @@ export const Tokens = () => {
             <div className="val">{tokensData.metrics.count}</div>
           </div>
           <div className="metric">
-            <div className="title">{t('market_cap')}</div>
+            <div className="title">
+              <span>{t('market_cap')}</span>
+              {renderTextTooltip('market_cap')}
+            </div>
             <div className="val">
               {parseCurrencyAmount(tokensData.metrics.market_cap, XRPUSDPrice)}
             </div>
           </div>
           <div className="metric">
-            <div className="title">{t('volume_24h_total')}</div>
+            <div className="title">
+              <span>{t('volume_24h_total')}</span>
+              {renderTextTooltip('volume_24h_total')}
+            </div>
             <div className="val">
               {parseCurrencyAmount(tokensData.metrics.volume_24h, XRPUSDPrice)}
             </div>

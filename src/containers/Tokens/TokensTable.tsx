@@ -26,7 +26,7 @@ const DEFAULT_DECIMALS = 1
 const DEFAULT_EMPTY_VALUE = '--'
 
 export const parseCurrencyAmount = (
-  value: string,
+  value: string | number,
   xrpPrice: number,
   decimals: number = DEFAULT_DECIMALS,
 ): string => {
@@ -154,6 +154,11 @@ export const TokensTable = ({
       <td className="holders">
         {token.holders ? parseAmount(token.holders) : DEFAULT_EMPTY_VALUE}
       </td>
+      <td className="tvl">
+        {token.tvl_xrp
+          ? parseCurrencyAmount(token.tvl_xrp, xrpPrice)
+          : DEFAULT_EMPTY_VALUE}
+      </td>
       <td className="market-cap">
         {token.market_cap
           ? parseCurrencyAmount(token.market_cap, xrpPrice)
@@ -168,9 +173,9 @@ export const TokensTable = ({
         <table className="basic">
           <thead>
             <tr>
-              <th className="count sticky-1">#</th>
-              <th className="name-col sticky-2">{t('name')}</th>
-              <th className="issuer sticky-3">{t('issuer')}</th>
+              <th className="count">#</th>
+              <th className="name-col">{t('name')}</th>
+              <th className="issuer">{t('issuer')}</th>
               <SortTableColumn
                 field="price"
                 label={t('price')}
@@ -188,6 +193,7 @@ export const TokensTable = ({
                 sortOrder={sortOrder}
                 setSortOrder={setSortOrder}
                 setPage={setPage}
+                tooltip
               />
               <SortTableColumn
                 field="volume"
@@ -197,6 +203,7 @@ export const TokensTable = ({
                 sortOrder={sortOrder}
                 setSortOrder={setSortOrder}
                 setPage={setPage}
+                tooltip
               />
               <SortTableColumn
                 field="trades"
@@ -206,6 +213,7 @@ export const TokensTable = ({
                 sortOrder={sortOrder}
                 setSortOrder={setSortOrder}
                 setPage={setPage}
+                tooltip
               />
               <SortTableColumn
                 field="holders"
@@ -215,6 +223,16 @@ export const TokensTable = ({
                 sortOrder={sortOrder}
                 setSortOrder={setSortOrder}
                 setPage={setPage}
+              />
+              <SortTableColumn
+                field="tvl"
+                label={t('tvl')}
+                sortField={sortField}
+                setSortField={setSortField}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+                tooltip
               />
               <SortTableColumn
                 field="market_cap"

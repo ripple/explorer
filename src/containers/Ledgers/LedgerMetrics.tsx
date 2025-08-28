@@ -25,7 +25,7 @@ const DEFAULTS = {
   nUnl: [],
 }
 
-const TOOLTIP_Y_OFFSET = 180
+const TOOLTIP_Y_OFFSET = 70
 
 export const LedgerMetrics = ({
   data: suppliedData,
