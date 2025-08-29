@@ -1,31 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import { SimpleRow } from '../SimpleRow'
+import { SimpleGroup } from '../SimpleGroup'
 import { TransactionSimpleProps } from '../types'
 import { DepositPreauth, CredentialAuth } from './types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
-
-const renderCredentials = (credentials: CredentialAuth[], t: any) => {
-  return (
-    <>
-      {credentials.map((cred, index) => (
-        <div key={`${cred.Issuer}-${cred.CredentialType}`}>
-          <SimpleRow 
-            label={index === 0 ? t('credential_issuer') : ''} 
-            data-testid={`credential-issuer-${index}`}
-          >
-            {cred.Issuer}
-          </SimpleRow>
-          <SimpleRow 
-            label={index === 0 ? t('credential_type') : ''} 
-            data-testid={`credential-type-${index}`}
-          >
-            {convertHexToString(cred.CredentialType)}
-          </SimpleRow>
-        </div>
-      ))}
-    </>
-  )
-}
 
 export const Simple = ({ data }: TransactionSimpleProps<DepositPreauth>) => {
   const { t } = useTranslation()
@@ -49,23 +27,47 @@ export const Simple = ({ data }: TransactionSimpleProps<DepositPreauth>) => {
 
   if (AuthorizeCredentials && AuthorizeCredentials.length > 0) {
     return (
-      <>
-        <SimpleRow label={t('authorize')} data-testid="authorize-credentials-label">
-          {t('accepted_credentials')}
-        </SimpleRow>
-        {renderCredentials(AuthorizeCredentials, t)}
-      </>
+      <SimpleGroup title={`${t('authorize')} ${t('accepted_credentials')}`}>
+        {AuthorizeCredentials.map((cred, index) => (
+          <div key={`${cred.Issuer}-${cred.CredentialType}`}>
+            <SimpleRow 
+              label={t('credential_issuer')} 
+              data-testid={`credential-issuer-${index}`}
+            >
+              {cred.Issuer}
+            </SimpleRow>
+            <SimpleRow 
+              label={t('credential_type')} 
+              data-testid={`credential-type-${index}`}
+            >
+              {convertHexToString(cred.CredentialType)}
+            </SimpleRow>
+          </div>
+        ))}
+      </SimpleGroup>
     )
   }
 
   if (UnauthorizeCredentials && UnauthorizeCredentials.length > 0) {
     return (
-      <>
-        <SimpleRow label={t('unauthorize')} data-testid="unauthorize-credentials-label">
-          {t('accepted_credentials')}
-        </SimpleRow>
-        {renderCredentials(UnauthorizeCredentials, t)}
-      </>
+      <SimpleGroup title={`${t('unauthorize')} ${t('accepted_credentials')}`}>
+        {UnauthorizeCredentials.map((cred, index) => (
+          <div key={`${cred.Issuer}-${cred.CredentialType}`}>
+            <SimpleRow 
+              label={t('credential_issuer')} 
+              data-testid={`credential-issuer-${index}`}
+            >
+              {cred.Issuer}
+            </SimpleRow>
+            <SimpleRow 
+              label={t('credential_type')} 
+              data-testid={`credential-type-${index}`}
+            >
+              {convertHexToString(cred.CredentialType)}
+            </SimpleRow>
+          </div>
+        ))}
+      </SimpleGroup>
     )
   }
 

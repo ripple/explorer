@@ -2,14 +2,25 @@ import { CredentialAuth, DepositPreauth } from './types'
 
 // Transform the nested XRPL credential structure to flat CredentialAuth objects
 const transformCredentials = (credentials: any[]): CredentialAuth[] => {
-  return credentials.map((item) => ({
-    Issuer: item.Credential.Issuer,
-    CredentialType: item.Credential.CredentialType,
-  }))
+  return credentials.map((item) => {
+    // Check if it's nested (has Credential wrapper) or already flat
+    if (item.Credential) {
+      return {
+        Issuer: item.Credential.Issuer,
+        CredentialType: item.Credential.CredentialType,
+      }
+    } else {
+      // Already flat, return as-is
+      return {
+        Issuer: item.Issuer,
+        CredentialType: item.CredentialType,
+      }
+    }
+  })
 }
 
 export const parser = (tx: any): DepositPreauth => {
-  // Handle AuthorizeCredentials with nested structure
+  // Handle AuthorizeCredentials (both nested and flat structures)
   if (tx.AuthorizeCredentials) {
     return {
       ...tx,
@@ -17,7 +28,7 @@ export const parser = (tx: any): DepositPreauth => {
     } as DepositPreauth
   }
 
-  // Handle UnauthorizeCredentials with nested structure
+  // Handle UnauthorizeCredentials (both nested and flat structures)
   if (tx.UnauthorizeCredentials) {
     return {
       ...tx,
