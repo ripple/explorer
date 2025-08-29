@@ -19,7 +19,8 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
   }
 
   const renderPayment = () => {
-    const { max, destination, sourceTag, partial, domainID, credentialIDs } = data.instructions
+    const { max, destination, sourceTag, partial, domainID, credentialIDs } =
+      data.instructions
 
     return (
       <>
