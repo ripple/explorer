@@ -6,10 +6,12 @@ import {
 
 import { Simple } from './Simple'
 import { Description } from './Description'
+import { parser } from './parser'
 
 export const DepositPreauthTransaction: TransactionMapping = {
   Description,
   Simple,
+  parser,
   action: TransactionAction.MODIFY,
   category: TransactionCategory.ACCOUNT,
 }
