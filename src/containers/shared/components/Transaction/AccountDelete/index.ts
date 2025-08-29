@@ -16,5 +16,6 @@ export const AccountDeleteTransaction: TransactionMapping = {
   Simple,
   action: TransactionAction.CANCEL,
   category: TransactionCategory.ACCOUNT,
-  parser: (tx: AccountDeleteWithCredentials): AccountDeleteWithCredentials => tx,
+  parser: (tx: AccountDeleteWithCredentials): AccountDeleteWithCredentials =>
+    tx,
 }

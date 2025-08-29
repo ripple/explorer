@@ -11,7 +11,9 @@ interface AccountDeleteWithCredentials extends AccountDelete {
   CredentialIDs?: string[]
 }
 
-export const Simple = ({ data }: TransactionSimpleProps<AccountDeleteWithCredentials>) => {
+export const Simple = ({
+  data,
+}: TransactionSimpleProps<AccountDeleteWithCredentials>) => {
   const { t } = useTranslation()
   const tx = data.instructions
 
