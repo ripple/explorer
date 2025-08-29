@@ -572,6 +572,7 @@
   "expiration": "Expiration",
   "domain_id": "Domain ID",
   "accepted_credentials": "Accepted Credentials",
+  "credential_ids": "Credential IDs",
   "data": "Data",
   "finish_function": "Finish Function",
   "quorum_description": "Min. number of trusted validations needed to confirm a ledger",

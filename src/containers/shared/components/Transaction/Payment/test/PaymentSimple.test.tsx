@@ -13,6 +13,7 @@ import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 import mockPaymentMPT from './mock_data/PaymentMPT.json'
 import mockPermDomainID from './mock_data/PaymentWithPermDomainID.json'
+import mockPaymentWithCredentialIDs from './mock_data/PaymentWithCredentialIDs.json'
 
 jest.mock('react-query', () => ({
   ...jest.requireActual('react-query'),
@@ -160,6 +161,37 @@ describe('Payment: Simple', () => {
       `D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02`,
     )
     expectSimpleRowLabel(wrapper, 'domain-id', `domain_id`)
+
+    wrapper.unmount()
+  })
+
+  it('renders with CredentialIDs', () => {
+    const wrapper = createWrapper(mockPaymentWithCredentialIDs)
+
+    expectSimpleRowText(wrapper, 'amount', `\uE9002,421.8268 XRP`)
+    expectSimpleRowLabel(wrapper, 'amount', `send`)
+
+    expectSimpleRowText(
+      wrapper,
+      'destination',
+      `rHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
+    )
+
+    // Check first credential ID
+    expectSimpleRowText(
+      wrapper,
+      'credential-id-0',
+      '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955',
+    )
+    expectSimpleRowLabel(wrapper, 'credential-id-0', 'credential_ids')
+
+    // Check second credential ID (should have empty label)
+    expectSimpleRowText(
+      wrapper,
+      'credential-id-1',
+      '8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
+    )
+    expectSimpleRowLabel(wrapper, 'credential-id-1', '')
 
     wrapper.unmount()
   })

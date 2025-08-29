@@ -21,5 +21,6 @@ export function parser(tx: EscrowFinish, meta: TransactionMetadata) {
     condition: escrow.Condition,
     fulfillment: tx.Fulfillment,
     computationAllowance: tx.ComputationAllowance,
+    credentialIDs: (tx as any).CredentialIDs, // Cast to any to include CredentialIDs
   }
 }
