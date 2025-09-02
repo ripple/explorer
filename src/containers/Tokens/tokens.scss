@@ -8,28 +8,28 @@
   min-height: 150px;
   margin: auto;
   margin-top: 40px;
-  @include for-size(desktop-up) {
-    padding-right: 150px;
-    padding-left: 150px;
-    margin: auto;
-    margin-top: 100px;
-  }
 
   .text-truncate {
     @extend %truncate;
   }
 
   .metrics-wrapper {
-    display: flex;
+    padding: 16px 16px 4px;
+    border: 1px solid $black-60;
+    margin-right: 24px;
     margin-bottom: 40px;
-    gap: 32px;
+    margin-left: 24px;
+    background-color: $black-80;
+    font-size: 12px;
 
     .metric {
-      flex-direction: column;
-      padding: 14px 20px;
-      border-radius: $border-radius;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
       background-color: $black-80;
       gap: 6px;
+      white-space: nowrap;
 
       .title {
         display: flex;
@@ -39,7 +39,7 @@
         line-height: 150%;
         text-transform: uppercase;
         white-space: nowrap;
-        @include semibold;
+        @include bold;
       }
 
       .val {
@@ -52,12 +52,9 @@
   .type {
     display: inline-block;
     margin-bottom: 80px;
+    margin-left: 24px;
     color: $white;
     font-size: 32px;
-
-    @include for-size(desktop-up) {
-      font-size: 42px;
-    }
 
     @include bold;
   }
@@ -126,28 +123,39 @@
 
   .filter {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     margin-bottom: 40px;
-    gap: 16px;
+    margin-left: 24px;
+    gap: 12px;
 
     .filter-icon {
       width: 24px;
       height: 24px;
+      flex-shrink: 0;
       background-image: url('../shared/images/group.svg');
     }
 
     .filter-field {
       display: flex;
+      flex: 0 0 auto;
       align-items: center;
-      padding: 8px 16px;
+      padding: 6px 12px;
       border: 1px solid $black-50;
       border-radius: $border-radius;
       background-color: $black;
       color: $white;
       cursor: pointer;
+      font-size: 12px;
       gap: 8px;
       text-transform: capitalize;
       @include medium;
+
+      .item-icon {
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+      }
 
       &:hover {
         background-color: $black-70;
@@ -168,26 +176,18 @@
     }
 
     .icon-stablecoin {
-      width: 24px;
-      height: 24px;
       background: url('../shared/images/stablecoin.svg');
     }
 
     .icon-rwa {
-      width: 24px;
-      height: 24px;
       background: url('../shared/images/rwa.svg');
     }
 
     .icon-wrapped {
-      width: 24px;
-      height: 24px;
       background: url('../shared/images/wrapped.svg');
     }
 
     .icon-memes {
-      width: 24px;
-      height: 24px;
       background: url('../shared/images/memes.svg');
     }
   }
@@ -195,10 +195,69 @@
   .footnote {
     padding: 24px 0;
     color: $black-40;
+    font-size: 12px;
     font-weight: 400;
 
     a::after {
       content: none !important;
+    }
+  }
+
+  @include for-size(tablet-landscape-up) {
+    padding-right: 24px;
+    padding-left: 24px;
+
+    .metrics-wrapper{
+      display: flex;
+      padding: 0;
+      border: none;
+      margin-right: 0;
+      margin-left: 0;
+      background-color: transparent;
+      gap: 32px;
+
+      .metric {
+        display: block !important;
+        flex-direction: column;
+        padding: 14px 20px;
+        border-radius: $border-radius;
+        margin-bottom: 0;
+        @include semibold;
+      }
+    }
+
+    .type {
+      margin-left: 0;
+    }
+
+    .filter {
+      margin-left: 0;
+    }
+  }
+
+  @include for-size(desktop-up) {
+    padding-right: 150px;
+    padding-left: 150px;
+    margin: auto;
+    margin-top: 100px;
+
+    .metrics-wrapper {
+      font-size: 16px;
+    }
+
+    .filter {
+      .filter-field {
+        padding: 8px 16px;
+        font-size: 16px;
+      }
+    }
+
+    .footnote {
+      font-size: 16px;
+    }
+
+    .type {
+      margin-left: auto;
     }
   }
 }
