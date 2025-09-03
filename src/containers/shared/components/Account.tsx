@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 import { RouteLink } from '../routing'
 import { ACCOUNT_ROUTE } from '../../App/routes'
 
@@ -7,10 +7,11 @@ export interface AccountProps {
   link?: boolean
   tag?: number
   onClick?: MouseEventHandler<HTMLElement>
+  displayText?: ReactNode
 }
 
 export const Account = (props: AccountProps) => {
-  const { account, link = true, tag, onClick } = props
+  const { account, link = true, tag, onClick, displayText } = props
   const parts = account.split(':')
   const computedTag = tag || parts[1]
 
@@ -25,11 +26,11 @@ export const Account = (props: AccountProps) => {
           params={{ id: parts[0] }}
           onClick={onClick}
         >
-          {parts[0]}
+          {displayText ?? parts[0]}
         </RouteLink>
       ) : (
         <span className="account" data-testid="account" title={parts[0]}>
-          {parts[0]}
+          {displayText ?? parts[0]}
         </span>
       )}
       {computedTag && (

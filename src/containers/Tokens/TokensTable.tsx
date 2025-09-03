@@ -93,6 +93,16 @@ const PriceChange: FC<{ percent: number }> = ({ percent }) => (
   </div>
 )
 
+const splitHeadTail = (issuerAccount: string, tailLen = 3) => {
+  const [addr] = issuerAccount.split(':')
+  if (!addr) return { head: '', tail: '' }
+  if (addr.length <= tailLen) return { head: '', tail: addr }
+  return {
+    head: addr.slice(0, addr.length - tailLen),
+    tail: addr.slice(-tailLen),
+  }
+}
+
 export const TokensTable = ({
   tokens,
   xrpPrice,
@@ -103,6 +113,26 @@ export const TokensTable = ({
   setPage,
 }: TokensTableProps) => {
   const { t } = useTranslation()
+
+  const renderIssuer = (token: LOSToken) => {
+    const { head, tail } = splitHeadTail(token.issuer_account, 3)
+    return (
+      <div className="issuer-content">
+        {token.issuer_name && `${token.issuer_name} (`}
+        <Account
+          account={token.issuer_account}
+          onClick={(e) => e.stopPropagation()}
+          displayText={
+            <span className="addr-wrap">
+              <span className="addr-head text-truncate">{head}</span>
+              <span className="addr-tail">{tail}</span>
+            </span>
+          }
+        />
+        {token.issuer_name && `)`}
+      </div>
+    )
+  }
 
   const renderToken = (token: LOSToken) => (
     <tr>
@@ -117,18 +147,7 @@ export const TokensTable = ({
           <Currency currency={token.currency} />
         </RouteLink>
       </td>
-      <td className="issuer">
-        <div className="issuer-content">
-          {token.issuer_name && `${token.issuer_name} (`}
-          <span className="text-truncate">
-            <Account
-              account={token.issuer_account}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </span>
-          {token.issuer_name && `)`}
-        </div>
-      </td>
+      <td className="issuer">{renderIssuer(token)}</td>
       <td className="price">
         {token.price
           ? parseCurrencyAmount(token.price, xrpPrice)
