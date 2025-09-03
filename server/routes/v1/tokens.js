@@ -122,6 +122,20 @@ const getAllTokens = async (req, res) => {
       volume_24h: cachedTokenList.tokens
         .reduce((sum, token) => sum + Number(token.daily_volume || 0), 0)
         .toFixed(6),
+      rwa: cachedTokenList.tokens
+        .reduce((sum, token) => {
+          const cap = Number(token.market_cap) || 0
+          return token.asset_class === 'rwa' && cap > 0 ? sum + cap : sum
+        }, 0)
+        .toFixed(6),
+      stablecoin: cachedTokenList.tokens
+        .reduce((sum, token) => {
+          const cap = Number(token.market_cap) || 0
+          return token.asset_subclass === 'stablecoin' && cap > 0
+            ? sum + cap
+            : sum
+        }, 0)
+        .toFixed(6),
     }
 
     log.info(cachedTokenList.tokens.length)

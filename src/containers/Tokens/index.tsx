@@ -31,6 +31,8 @@ interface TokensData {
     count: number
     market_cap: string
     volume_24h: string
+    rwa: string
+    stablecoin: string
   }
 }
 
@@ -221,6 +223,24 @@ export const Tokens = () => {
             </div>
             <div className="val">
               {parseCurrencyAmount(tokensData.metrics.volume_24h, XRPUSDPrice)}
+            </div>
+          </div>
+          <div className="metric">
+            <div className="title">
+              <span>{t('rwa')}</span>
+              {renderTextTooltip('rwa')}
+            </div>
+            <div className="val">
+              {parseCurrencyAmount(tokensData.metrics.rwa, XRPUSDPrice)}
+            </div>
+          </div>
+          <div className="metric">
+            <div className="title">
+              <span>{t('stablecoin')}</span>
+              {renderTextTooltip('stablecoin')}
+            </div>
+            <div className="val">
+              {parseCurrencyAmount(tokensData.metrics.stablecoin, XRPUSDPrice)}
             </div>
           </div>
         </div>
