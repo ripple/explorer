@@ -166,9 +166,11 @@ export const StreamsProvider: FC = ({ children }) => {
     // TODO: Set fields before getting full ledger info
     // set validated hash
     // set closetime
-    getLedger(socket, { ledger_hash: data.ledger_hash }).then(
-      populateFromLedgerResponse,
-    )
+    getLedger(socket, { ledger_hash: data.ledger_hash })
+      .then(populateFromLedgerResponse)
+      .catch((error) => {
+        Log.error(error)
+      })
   }
 
   const populateFromLedgerResponse = (ledger: any) => {
@@ -278,9 +280,11 @@ export const StreamsProvider: FC = ({ children }) => {
       socket.on('validation', onValidation as (json: AnyJson) => void)
 
       // Load in the most recent validated ledger to prevent the page from being empty until the next validations come in.
-      getLedger(socket, { ledger_index: 'validated' }).then(
-        populateFromLedgerResponse,
-      )
+      getLedger(socket, { ledger_index: 'validated' })
+        .then(populateFromLedgerResponse)
+        .catch((error) => {
+          Log.error(error)
+        })
     }
 
     return () => {
