@@ -150,6 +150,9 @@ describe('Ledgers Page container', () => {
     server.send(prevLedgerMessage)
     await sleep(260)
     wrapper.update()
+    expect(wrapper.exists()).toBe(true)
+    expect(wrapper.find('.ledgers').length).toBe(1)
+    expect(wrapper.find('.ledger-list').length).toBe(1)
     expect(wrapper.find('.ledger').length).toBe(1)
 
     server.send(validationMessage)

@@ -2,6 +2,7 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
@@ -11,9 +12,9 @@ import { QuickHarness } from '../../test/utils'
 import { VALIDATORS_ROUTE } from '../../App/routes'
 import { Validators } from '../Validators'
 import { StreamsProvider } from '../../shared/components/Streams'
-import { QueryClientProvider } from 'react-query'
 import { queryClient } from '../../shared/QueryClient'
 import { VHSValidatorsProvider } from '../../shared/components/VHSValidators'
+
 const WS_URL = 'ws://localhost:1234'
 
 describe('Validators Tab container', () => {

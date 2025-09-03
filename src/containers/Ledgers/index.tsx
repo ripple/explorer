@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 import { LedgerMetrics } from './LedgerMetrics'
 import { Ledgers } from './Ledgers'
 import { useAnalytics } from '../shared/analytics'
@@ -6,8 +8,6 @@ import { TooltipProvider } from '../shared/components/Tooltip'
 import { SelectedValidatorProvider } from './useSelectedValidator'
 import { StreamsProvider } from '../shared/components/Streams'
 import { VHSValidatorsProvider } from '../shared/components/VHSValidators'
-import { Helmet } from 'react-helmet-async'
-import { useTranslation } from 'react-i18next'
 
 export const LedgersPage = () => {
   const { trackScreenLoaded } = useAnalytics()
