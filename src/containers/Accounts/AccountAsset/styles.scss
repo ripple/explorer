@@ -1,0 +1,183 @@
+@use '../../shared/css/variables' as *;
+
+.account-asset {
+  padding: 24px 0px;
+}
+
+.account-asset-title {
+  @include bold;
+
+  margin: 0 0 20px;
+  font-size: 20px;
+
+  /* Only the second account-asset-title gets extra bottom margin */
+  &:nth-of-type(2) {
+    margin-top: 24px;
+  }
+}
+
+.account-asset-tabs {
+  display: flex;
+  height: 30px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  border-radius: 100px;
+  margin-bottom: 15px;
+  background: $black-80;
+  gap: 10px;
+}
+
+.account-asset-tab {
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.account-asset-tab:hover {
+  border-color: rgb(255 255 255 / 3%);
+  background: rgb(255 255 255 / 2%);
+}
+
+.account-asset-tab.is-active {
+  @include bold;
+
+  padding: 4px 14px;
+  border: 1px solid $green-50;
+  background: $black-90;
+  color: $black-0;
+}
+
+.account-asset-table {
+  background: transparent;
+
+  /* Allow horizontal scrolling if the table is wider than its parent */
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}
+
+.account-asset-table-wrapper-fixed .account-asset-table {
+  overflow: auto;               /* Vertical scroll when overflowing, keep horizontal if needed */
+  max-height: 270px;            /* Fixed viewport height for the table area */
+  background: transparent;
+  -webkit-overflow-scrolling: touch;
+
+  /* Custom scroll bars */
+  scrollbar-color: rgb(255 255 255 / 20%) transparent;
+  scrollbar-width: thin; /* Firefox */
+
+  /* WebKit */
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 2px solid transparent; /* create padding effect */
+    border-radius: 6px;
+    background: rgb(255 255 255 / 20%);
+    background-clip: padding-box;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgb(255 255 255 / 12%);
+  }
+}
+
+.account-asset-table table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: separate;
+  color: var(--text);
+}
+
+.account-asset-table thead th {
+  @include semibold;
+
+  /* Make header sticky for scrollable tables */
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  padding: 10px 12px;
+  backdrop-filter: blur(100px); /* As table rows scroll under the header, they appear blurred behind it */
+  color: $black-50;
+  font-size: 12px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.account-asset-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid $black-80; /* Table row separator */
+  color: $black-0;
+  font-size: 14px;
+  text-align: left;
+
+  &.empty-message {
+    padding: 16px;
+    color: $black-40;
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+/* Add border-top to the first row to separate header from body */
+.account-asset-table tbody tr:first-child td {
+  border-top: 1px solid $black-80;
+}
+
+/* Fee column in orange */
+.account-asset-table tbody td.transfer-fee,
+.account-asset-table tbody td.transfer-fee * {
+  color: $orange-50;
+}
+
+@media (max-width: $phone-upper-boundary) {
+  .account-asset-tabs {
+    display: grid;
+    height: auto;
+    align-items: stretch;
+    padding: 4px;
+    border-radius: 12px;
+    gap: 4px;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+  }
+
+  .account-asset-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    border-radius: 100px;
+    background: transparent;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  /* Allow more height for scrollable tables on small screen */
+  .account-asset-table-wrapper-fixed .account-asset-table {
+    max-height: 400px;
+  }
+}
+
+/* Clock icon styles */
+.future-feature {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+
+  .clock-icon {
+    width: px;
+    height: 16px;
+    color: $black-50;
+  }
+}

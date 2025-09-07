@@ -265,6 +265,7 @@ const getAccountPaychannels = async (
         throw new Error(resp.error_message, 500)
       }
 
+      // This isn't working, resp.marker isn't empty, but we don't enter this if block
       if (!resp.account_objects.length) {
         return undefined
       }
@@ -278,10 +279,12 @@ const getAccountPaychannels = async (
     })
 
   await getChannels()
+
   const channels = list.map((c) => {
     remaining += c.Amount - c.Balance
     return formatPaychannel(c)
   })
+
   return channels.length
     ? {
         channels,
@@ -347,7 +350,6 @@ const getBalances = (rippledSocket, account, ledgerIndex = 'validated') =>
     if (resp.error_message) {
       throw new Error(resp.error_message, 500)
     }
-
     return resp
   })
 
@@ -396,6 +398,41 @@ const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) =>
     account,
     marker: marker || undefined,
     limit,
+  }).then((resp) => {
+    console.log(`getAccountNFTs - [${new Date().toISOString()}]`)
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
+  })
+
+const getNFTsIssuedByAccount = (
+  rippledSocket,
+  issuer,
+  marker = '',
+  limit = 20,
+) =>
+  query(rippledSocket, {
+    command: 'nfts_by_issuer',
+    issuer,
+    marker: marker || undefined,
+    limit,
+  }).then((resp) => {
+    console.log(`getNFTsIssuedByAccount - [${new Date().toISOString()}]`)
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
   })
 
 const getNFTInfo = (rippledSocket, tokenId) =>
@@ -413,27 +450,42 @@ const getNFTInfo = (rippledSocket, tokenId) =>
     return resp
   })
 
-const getNFToffers = (
+const getNFToffers = async (
   offerCmd,
   rippledSocket,
   tokenId,
   limit = 50,
   marker = '',
-) =>
-  query(rippledSocket, {
-    command: offerCmd,
-    nft_id: tokenId,
-    limit,
-    marker: marker !== '' ? marker : undefined,
-  }).then((resp) => {
+) => {
+  const allOffers = []
+  let currentMarker = marker
+
+  do {
+    // eslint-disable-next-line no-await-in-loop
+    const resp = await query(rippledSocket, {
+      command: offerCmd,
+      nft_id: tokenId,
+      limit,
+      marker: currentMarker !== '' ? currentMarker : undefined,
+    })
+    console.log(offerCmd)
+
+    // The NFT does not have any offers (note that object refers to the offer rather than the NFT itself).
     if (resp.error === 'objectNotFound') {
-      throw new Error('NFT not found', 404)
+      console.warn(`The NFT ${tokenId} does not have any offers`)
+      break
     }
+
     if (resp.error_message) {
       throw new Error(resp.error_message, 500)
     }
-    return resp
-  })
+
+    allOffers.push(...(resp.offers || []))
+    currentMarker = resp.marker
+  } while (currentMarker)
+
+  return { offers: allOffers }
+}
 
 const getBuyNFToffers = (rippledSocket, tokenId, limit = 50, marker = '') =>
   getNFToffers('nft_buy_offers', rippledSocket, tokenId, limit, marker)
@@ -551,8 +603,6 @@ const getOffers = (
     return resp
   })
 
-// AMM Additions
-
 const getAMMInfo = (rippledSocket, asset, asset2) => {
   const request = {
     command: 'amm_info',
@@ -562,8 +612,36 @@ const getAMMInfo = (rippledSocket, asset, asset2) => {
   }
 
   return query(rippledSocket, request).then((resp) => {
-    if (resp.error_message || !resp.validated) {
-      throw new Error('Failed to get amm info', 404)
+    if (resp.error_message) {
+      throw new Error(resp.error_message)
+    }
+
+    if (!resp.validated) {
+      throw new Error(
+        'Ledger is not validated. The response data is pending and might change',
+      )
+    }
+
+    return resp
+  })
+}
+
+const getAMMInfoByAMMAccount = (rippledSocket, ammAccount) => {
+  const request = {
+    command: 'amm_info',
+    amm_account: ammAccount,
+    ledger_index: 'validated',
+  }
+
+  return query(rippledSocket, request).then((resp) => {
+    if (resp.error_message) {
+      throw new Error(resp.error_message)
+    }
+
+    if (!resp.validated) {
+      throw new Error(
+        'Ledger is not validated. The response data is pending and might change',
+      )
     }
 
     return resp
@@ -597,12 +675,13 @@ const getMPTIssuance = (rippledSocket, tokenId) =>
       resp.error === 'lgrNotFound' ||
       resp.error === 'objectNotFound'
     ) {
-      throw new Error('MPT not found', 404)
+      throw new Error('MPT Issuance not found', 404)
     }
 
     if (resp.error_message) {
       throw new Error(resp.error_message, 500)
     }
+
     return resp
   })
 
@@ -611,6 +690,7 @@ const getAccountMPTs = (
   account,
   marker = '',
   ledgerIndex = 'validated',
+  limit = 400,
 ) =>
   query(rippledSocket, {
     command: 'account_objects',
@@ -618,13 +698,15 @@ const getAccountMPTs = (
     ledger_index: ledgerIndex,
     type: 'mptoken',
     marker: marker || undefined,
-    limit: 400,
+    limit,
   }).then((resp) => {
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404)
     }
+
     if (resp.error === 'invalidParams') {
-      return undefined
+      // For example, "error_message": "Required field 'account' missing"
+      throw new Error(resp.error_message, 400)
     }
 
     if (resp.error_message) {
@@ -634,17 +716,52 @@ const getAccountMPTs = (
     return resp
   })
 
-const getAccountLines = (rippledSocket, account, limit) =>
+const getAccountObjects = (
+  rippledSocket,
+  account,
+  objectType,
+  marker = '',
+  ledgerIndex = 'validated',
+  limit = 400,
+) =>
   query(rippledSocket, {
-    command: 'account_lines',
+    command: 'account_objects',
     account,
+    ledger_index: ledgerIndex,
+    type: objectType,
+    marker: marker || undefined,
     limit,
   }).then((resp) => {
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404)
     }
+
     if (resp.error === 'invalidParams') {
-      return undefined
+      // For example, "error_message": "Required field 'account' missing"
+      throw new Error(resp.error_message, 400)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
+  })
+
+const getAccountLines = (rippledSocket, account, limit, marker = '') =>
+  query(rippledSocket, {
+    command: 'account_lines',
+    account,
+    limit,
+    marker: marker || undefined,
+  }).then((resp) => {
+    console.log(`account_lines  - [${new Date().toISOString()}]`)
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+    if (resp.error === 'invalidParams') {
+      // For example, "error_message": "Required field 'account' missing"
+      throw new Error(resp.error_message, 400)
     }
 
     if (resp.error_message) {
@@ -663,6 +780,8 @@ export {
   getAccountPaychannels,
   getAccountBridges,
   getAccountNFTs,
+  getAccountObjects,
+  getNFTsIssuedByAccount,
   getBalances,
   getAccountTransactions,
   getNegativeUNL,
@@ -674,6 +793,7 @@ export {
   getSellNFToffers,
   getNFTTransactions,
   getAMMInfo,
+  getAMMInfoByAMMAccount,
   getFeature,
   getMPTIssuance,
   getAccountMPTs,

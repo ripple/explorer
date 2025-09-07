@@ -23,8 +23,6 @@ export const AccountAssetTab = ({ account }: Props) => {
   function switchAsset(event: ChangeEvent<HTMLInputElement>) {
     return navigate(`/accounts/${accountId}/assets/${event.target.value}`)
   }
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  if (account.deleted) return <></>
   return (
     <>
       <div className="radio-group">

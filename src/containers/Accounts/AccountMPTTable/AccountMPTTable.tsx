@@ -9,10 +9,7 @@ import { getAccountMPTs, getMPTIssuance } from '../../../rippled/lib/rippled'
 import { Account } from '../../shared/components/Account'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
 import { MPTokenLink } from '../../shared/components/MPTokenLink'
-import {
-  formatMPTokenInfo,
-  formatMPTIssuanceInfo,
-} from '../../../rippled/lib/utils'
+import { formatMPToken, formatMPTIssuance } from '../../../rippled/lib/utils'
 import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
 import { convertScaledPrice } from '../../shared/utils'
 
@@ -27,7 +24,7 @@ export const AccountMPTRow = ({ mpt }: any) => {
     ['getMPTIssuanceScale', mpt.mptIssuanceID],
     async () => {
       const info = await getMPTIssuance(rippledSocket, mpt.mptIssuanceID)
-      return formatMPTIssuanceInfo(info)
+      return formatMPTIssuance(info.node)
     },
     {
       onError: (e: any) => {
@@ -98,7 +95,7 @@ export const AccountMPTTable = ({ accountId }: AccountMPTTableProps) => {
 
   const mpts = pages?.pages
     .flatMap((page: any) => page.account_objects)
-    .map((mpt) => formatMPTokenInfo(mpt))
+    .map((mpt) => formatMPToken(mpt))
 
   return (
     <div className="section nodes-table">

@@ -9,7 +9,7 @@ import { BAD_REQUEST, HASH192_REGEX } from '../../shared/utils'
 import { Account } from '../../shared/components/Account'
 import { useAnalytics } from '../../shared/analytics'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
-import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
+import { formatMPTIssuance } from '../../../rippled/lib/utils'
 import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
 import { Details } from './Details'
 import { Settings } from './Settings'
@@ -30,7 +30,7 @@ export const MPTHeader = (props: Props) => {
     ['getMPTIssuance', tokenId],
     async () => {
       const info = await getMPTIssuance(rippledSocket, tokenId)
-      return formatMPTIssuanceInfo(info)
+      return formatMPTIssuance(info.node)
     },
     {
       onError: (e: any) => {

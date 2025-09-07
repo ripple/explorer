@@ -37,7 +37,7 @@ export interface NFTFormattedInfo {
 }
 
 /**
- * Values returned by 'formatMPTIssuanceInfo' from /src/rippled/lib/utils.js
+ * Values returned by 'formatMPTIssuance' from /src/rippled/lib/utils.js
  */
 export interface MPTIssuanceFormattedInfo {
   issuer: string

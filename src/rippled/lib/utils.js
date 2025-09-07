@@ -70,8 +70,9 @@ const buildFlags = (flags, flagMap) => {
 }
 
 const formatAccountInfo = (info, serverInfoValidated) => ({
+  accountTransactionID: info.AccountTxnID,
   sequence: info.Sequence,
-  ticketCount: info.TicketCount,
+  ticketCount: info.TicketCount ?? 0,
   ownerCount: info.OwnerCount,
   reserve: serverInfoValidated.reserve_base_xrp
     ? serverInfoValidated.reserve_base_xrp +
@@ -135,24 +136,24 @@ const formatNFTInfo = (info) => ({
   warnings: info.warnings,
 })
 
-const formatMPTIssuanceInfo = (info) => ({
-  issuer: info.node.Issuer,
-  assetScale: info.node.AssetScale,
-  maxAmt: info.node.MaximumAmount
-    ? BigInt(info.node.MaximumAmount).toString(10)
+const formatMPTIssuance = (info) => ({
+  issuer: info.Issuer,
+  assetScale: info.AssetScale,
+  maxAmt: info.MaximumAmount
+    ? BigInt(info.MaximumAmount).toString(10)
     : undefined, // default is undefined because the default maxAmt is the largest 63-bit int
-  outstandingAmt: info.node.OutstandingAmount
-    ? BigInt(info.node.OutstandingAmount).toString(10)
+  outstandingAmt: info.OutstandingAmount
+    ? BigInt(info.OutstandingAmount).toString(10)
     : '0',
-  transferFee: info.node.TransferFee,
-  sequence: info.node.Sequence,
-  metadata: info.node.MPTokenMetadata
-    ? decodeHex(info.node.MPTokenMetadata)
-    : info.node.MPTokenMetadata,
-  flags: buildFlags(info.node.Flags, MPT_ISSUANCE_FLAGS),
+  transferFee: info.TransferFee,
+  sequence: info.Sequence,
+  metadata: info.MPTokenMetadata
+    ? decodeHex(info.MPTokenMetadata)
+    : info.MPTokenMetadata,
+  flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
 })
 
-const formatMPTokenInfo = (info) => ({
+const formatMPToken = (info) => ({
   account: info.Account,
   flags: buildFlags(info.Flags, MPTOKEN_FLAGS),
   mptIssuanceID: info.MPTokenIssuanceID,
@@ -161,6 +162,32 @@ const formatMPTokenInfo = (info) => ({
   ),
   mptAmount: info.MPTAmount ? info.MPTAmount.toString(10) : '0',
 })
+
+const shortenAccount = (addr = '') =>
+  addr.length > 12 ? `${addr.slice(0, 7)}...${addr.slice(-5)}` : addr
+
+const shortenDomain = (domain = '') =>
+  domain.length > 26 ? `${domain.slice(0, 15)}...${domain.slice(-11)}` : domain
+
+const shortenNFTTokenID = (nftTokenID = '') =>
+  nftTokenID.length > 20
+    ? `${nftTokenID.slice(0, 10)}...${nftTokenID.slice(-10)}`
+    : nftTokenID
+
+const shortenMPTID = (mptTokenID = '') =>
+  mptTokenID.length > 20
+    ? `${mptTokenID.slice(0, 10)}...${mptTokenID.slice(-10)}`
+    : mptTokenID
+
+const formatTransferFee = (transferFee) => {
+  if (!transferFee) {
+    return '0'
+  }
+
+  const feePercentage = transferFee / 1000
+
+  return feePercentage.toFixed(3)
+}
 
 export {
   XRP_BASE,
@@ -171,6 +198,11 @@ export {
   formatAccountInfo,
   convertHexToString,
   formatNFTInfo,
-  formatMPTIssuanceInfo,
-  formatMPTokenInfo,
+  formatMPTIssuance,
+  formatMPToken,
+  formatTransferFee,
+  shortenAccount,
+  shortenDomain,
+  shortenNFTTokenID,
+  shortenMPTID,
 }

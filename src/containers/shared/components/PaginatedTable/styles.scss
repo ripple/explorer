@@ -1,0 +1,58 @@
+@use '../../css/variables' as *;
+
+.table-pagination {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0 0;
+  gap: 3px;
+}
+
+/* Page numbers + chevrons */
+.table-pg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: $black-50;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.table-pg-btn:hover {
+  background: rgb(255 255 255 / 3%);
+  color: $black-0;
+}
+
+.table-pg-btn.is-active {
+  background: rgb(22 163 74 / 6%);
+  color: $green-30;
+}
+
+/* Larger green chevrons for first/prev/next/last */
+.table-pg-btn[aria-label="First page"],
+.table-pg-btn[aria-label="Previous page"],
+.table-pg-btn[aria-label="Next page"],
+.table-pg-btn[aria-label="Last page"] {
+  padding: 0 5px;
+  color: $green-30;
+  font-size: 25px;
+}
+
+/* Disabled state */
+.table-pg-btn:disabled {
+  background: transparent;
+  color: $black-50;
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+/* Ellipsis */
+.table-pg-ellipsis {
+  padding: 0 6px;
+  color: $black-50;
+  font-size: 15px;
+}
