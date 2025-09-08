@@ -603,6 +603,8 @@
   "volume_description": "USD value of all order book trades in the last 24h",
   "trades_description": "Number of order book trades in the last 24h",
   "tvl_description": "USD value of token in AMMs",
+  "stablecoin_description": "Market cap of all trusted tokens with stablecoin subclass",
+  "rwa_description": "Market cap of all trusted tokens with real-world assets (rwa) subclass",
   "rwa": "RWA",
   "stablecoin": "Stablecoin",
   "wrapped": "Wrapped",

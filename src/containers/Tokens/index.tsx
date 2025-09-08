@@ -36,7 +36,7 @@ interface TokensData {
   }
 }
 
-type CategoryKey = 'rwa' | 'stablecoin' | 'wrapped' | 'memes'
+type CategoryKey = 'rwa' | 'stablecoin' | 'wrapped'
 
 const TOOLTIP_Y_OFFSET = 80
 
@@ -86,12 +86,7 @@ export const Tokens = () => {
 
   const { t } = useTranslation()
 
-  const filterCategories: CategoryKey[] = [
-    'rwa',
-    'stablecoin',
-    'wrapped',
-    'memes',
-  ]
+  const filterCategories: CategoryKey[] = ['rwa', 'stablecoin', 'wrapped']
 
   const { data: tokensData } = useQuery<TokensData>(
     ['fetchTokens'],
