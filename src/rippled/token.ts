@@ -2,6 +2,8 @@ import logger from './lib/logger'
 import { formatAccountInfo } from './lib/utils'
 import { getBalances, getAccountInfo, getServerInfo } from './lib/rippled'
 import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
+import axios from 'axios'
+import { LOSToken } from '../containers/shared/losTypes'
 
 const log = logger({ name: 'iou' })
 
@@ -18,48 +20,51 @@ export interface TokenData {
   flags: string[]
 }
 
+const getLOSTokenInfo = (currency, issuer): Promise<any> => {
+  return axios
+    .get(`https://los.dev.ripplex.io/tokens/${currency}.${issuer}`)
+    .then((resp) => {
+      if (resp.status !== 200) {
+        throw new Error(resp.data)
+      }
+
+      return resp.data
+    })
+}
+
 async function getToken(
   currencyCode: string,
   issuer: string,
-  rippledSocket: ExplorerXrplClient,
-): Promise<TokenData> {
+  // rippledSocket: ExplorerXrplClient,
+): Promise<LOSToken> {
   try {
-    log.info('fetching account info from rippled')
-    const accountInfo = await getAccountInfo(rippledSocket, issuer)
-    const serverInfo = await getServerInfo(rippledSocket)
+    // log.info('fetching account info from rippled')
+    // const accountInfo = await getAccountInfo(rippledSocket, issuer)
+    // const serverInfo = await getServerInfo(rippledSocket)
 
-    log.info('fetching gateway_balances from rippled')
-    const balances = await getBalances(rippledSocket, issuer)
-    const obligations =
-      balances?.obligations && balances.obligations[currencyCode.toUpperCase()]
-    if (!obligations) {
-      throw new Error('Currency not issued by account')
-    }
-
-    const {
-      reserve,
-      sequence,
-      rate,
-      domain,
-      emailHash,
-      balance,
-      flags,
-      previousTxn,
-      previousLedger,
-    } = formatAccountInfo(accountInfo, serverInfo.info.validated_ledger)
-
-    return {
-      reserve,
-      sequence,
-      rate,
-      domain,
-      emailHash,
-      balance,
-      flags,
-      obligations,
-      previousTxn,
-      previousLedger,
-    }
+    log.info('fetching token data from LOS')
+    return getLOSTokenInfo(currencyCode, issuer).then((tokenResponse) => {
+      const losToken: LOSToken = {
+        currency: tokenResponse.currency,
+        issuer_account: tokenResponse.currency,
+        daily_trades: tokenResponse.number_of_trades,
+        icon: tokenResponse.icon,
+        ttl: tokenResponse.ttl,
+        social_links: tokenResponse.social_links,
+        trustlines: tokenResponse.number_of_trustlines,
+        transfer_fee: tokenResponse.transfer_fee,
+        issuer_domain: tokenResponse.issuer_domain,
+        issuer_name: tokenResponse.issuer_name,
+        market_cap: tokenResponse.market_cap,
+        holders: tokenResponse.number_of_holders,
+        daily_volume: tokenResponse.daily_volume,
+        supply: tokenResponse.supply,
+        trust_level: tokenResponse.trust_level,
+        price: tokenResponse.price,
+        index: tokenResponse.index || -1,
+      }
+      return losToken
+    })
   } catch (error) {
     if (error) {
       log.error(error.toString())

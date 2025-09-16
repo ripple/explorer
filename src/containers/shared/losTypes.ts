@@ -1,3 +1,7 @@
+interface SocialLink {
+  type: string
+  url: string
+}
 export interface LOSToken {
   currency: string
   issuer_account: string
@@ -8,8 +12,9 @@ export interface LOSToken {
   daily_trades?: string
   icon?: string
   ttl?: number
-  social_links?: string[]
+  social_links?: SocialLink[]
   trustlines: number
+  transfer_fee?: number
   issuer_domain?: string
   issuer_name?: string
   tvl_xrp?: number

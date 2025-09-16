@@ -741,7 +741,14 @@
   "token_page.all_tx": "All Token Transactions",
   "token_page.dex_tx": "DEX Trades",
   "token_page.transfers_tx": "Transfers",
-  "token_page.holders_table": "Holders"
+  "token_page.holders_table": "Holders",
+  "tx_hash" : "Tx Hash",
+  "timestamp" : "Timestamp",
+  "amount_in" : "Amount In",
+  "amount_out" : "Amount Out",
+  "rate" : "Rate"
+
+
 
 
 

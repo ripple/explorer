@@ -1,0 +1,6 @@
+@use '../../../shared/css/variables' as *;
+@use '../../../shared/css/table';
+
+  .text-truncate {
+    @extend %truncate;
+  }

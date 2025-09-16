@@ -9,8 +9,9 @@
 
   .tx-table-picker-button {
     all: unset;
-    padding-top: 24px;
+    padding-top: 21px; // keep consistent baseline
     border: none;
+    border-top: 3px solid transparent; // reserve space so active doesn't shift
     margin-right: 16px;
     background-color: none;
     color: $black-40;
@@ -25,14 +26,23 @@
       padding-top: 21px;
       border-top: 3px solid $white;
       color: $white;
-      @include bold;
     }
+
+    &.active,
+&:hover {
+  color: $white;
+  text-shadow:
+    0.02em 0   currentcolor,
+   -0.02em 0   currentcolor,
+    0   0.02em currentcolor,
+    0  -0.02em currentcolor;
+
+  /* keep font-weight normal to avoid reflow */
+}
+
+
   }
 
-  .tx-table-picker-button:hover {
-      color: $white;
-      @include bold;
-    }
 
 }
 

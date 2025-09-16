@@ -1,0 +1,26 @@
+@use '../../../shared/css/variables' as *;
+@use '../../../shared/css/table';
+
+.action-pill {
+    // display: inline-block;
+    // padding: 0px 12px;
+    // border: 1px solid $green-60;
+    // border-radius: 100px;
+    // background-color: $green-50;
+    // color: $black-100;
+    // font-size: 12px;
+    // @include semibold;
+
+    display: flex;
+    align-items: center;
+    padding: 2px 12px;
+    padding-right: 0px;
+    border: 1px solid $green-60;
+    border-radius: 100px;
+    margin-right: 12px;
+    background: $green-80;
+    gap: 8px;
+    text-transform: uppercase;
+
+    @include semibold;
+  }

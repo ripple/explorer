@@ -74,6 +74,20 @@
     font-style: normal;
     font-weight: 700;
     line-height: 112.5%; /* 47.25px */
+    text-transform: lowercase;
+
+  }
+
+  .token-name::first-letter {
+    text-transform: uppercase;   /* then uppercase the first letter */
+  }
+
+  .token-issuer-wrap {
+    display: flex;
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 112.5%; /* 47.25px */
   }
 
 
@@ -87,7 +101,6 @@
     border-radius: 8px;
     margin-left: auto;
     font-size: 14px;
-
 
   }
 

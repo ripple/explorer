@@ -1,0 +1,176 @@
+import { useTranslation } from 'react-i18next'
+import { FC } from 'react'
+import UpIcon from '../../../shared/images/ic_up.svg'
+import DownIcon from '../../../shared/images/ic_down.svg'
+import { Account } from '../../../shared/components/Account'
+import SortTableColumn from '../../../shared/components/SortColumn'
+import { Loader } from '../../../shared/components/Loader'
+import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
+import { Link } from 'react-router-dom'
+import { Amount } from '../../../shared/components/Amount'
+
+type SortOrder = 'asc' | 'desc'
+
+interface SocialLink {
+  type: string
+  url: string
+}
+
+export interface XRPLHolder {
+  rank: number
+  account: string
+  num_tokens: number
+  percent_supply: number
+  value_usd: number
+  last_active: number //format ripple epoch time
+}
+
+interface HoldersTableProps {
+  holders: XRPLHolder[]
+  // xrpPrice: number
+  // setPage: (page: number) => void
+}
+
+const DEFAULT_DECIMALS = 1
+const DEFAULT_EMPTY_VALUE = '--'
+
+export const parseCurrencyAmount = (
+  value: string,
+  xrpPrice: number,
+  decimals: number = DEFAULT_DECIMALS,
+): string => {
+  const usdValue = Number(value) * xrpPrice
+  return `$${parseAmount(usdValue, decimals)}`
+}
+
+const formatDecimals = (
+  val: number,
+  decimals: number = DEFAULT_DECIMALS,
+): string => {
+  const rounded = Number(val.toFixed(decimals))
+
+  if (rounded === 0 && val !== 0) {
+    const str = val.toPrecision(1)
+    return Number(str).toString()
+  }
+
+  return val.toFixed(decimals).replace(/\.?0+$/, '')
+}
+
+const parseAmount = (
+  value: string | number,
+  decimals: number = DEFAULT_DECIMALS,
+): string => {
+  const valueNumeric = Number(value)
+
+  if (valueNumeric >= 1_000_000_000) {
+    return `${formatDecimals(valueNumeric / 1_000_000_000, decimals)}B`
+  }
+  if (valueNumeric >= 1_000_000) {
+    return `${formatDecimals(valueNumeric / 1_000_000, decimals)}M`
+  }
+  if (valueNumeric >= 10_000) {
+    return `${formatDecimals(valueNumeric / 1_000, decimals)}K`
+  }
+
+  return formatDecimals(valueNumeric)
+}
+
+const parsePercent = (percent: number): string => `${percent.toFixed(2)}%`
+
+const TokenLogo: FC<{ icon: string | undefined }> = ({ icon }) =>
+  icon ? (
+    <object data={icon} className="icon">
+      <div className="icon" />
+    </object>
+  ) : (
+    <div className="icon no-logo" />
+  )
+
+const PriceChange: FC<{ percent: number }> = ({ percent }) => (
+  <div className={`percent ${percent > 0 ? 'increase' : 'decrease'}`}>
+    <div className="amount">
+      {percent > 0
+        ? parsePercent(percent)
+        : parsePercent(percent).replace('-', '')}
+    </div>
+    {percent > 0 ? (
+      <UpIcon className="arrow" />
+    ) : (
+      <DownIcon className="arrow" />
+    )}
+  </div>
+)
+
+function truncateString(address, startLength = 6, endLength = 6) {
+  if (!address || address.length <= startLength + endLength) {
+    return address // nothing to truncate
+  }
+  const start = address.slice(0, startLength)
+  const end = address.slice(-endLength)
+  return `${start}...${end}`
+}
+
+export const HoldersTable = ({
+  holders,
+  // setPage,
+}: HoldersTableProps) => {
+  const { t } = useTranslation()
+
+  const renderHolder = (holder: XRPLHolder) => (
+    <tr>
+      <td className="holder-rank">{holder.rank || DEFAULT_EMPTY_VALUE}</td>
+      <td className="tx-hash">
+        <Link to={`/account/${holder.account}`}>
+          {truncateString(holder.account)}
+        </Link>
+      </td>
+      <td className="tx-ledger">
+        {holder.num_tokens
+          ? parseAmount(holder.num_tokens, 2)
+          : DEFAULT_EMPTY_VALUE}
+      </td>
+      <td className="tx-percent-supply">
+        {holder.percent_supply
+          ? parsePercent(holder.percent_supply)
+          : DEFAULT_EMPTY_VALUE}
+      </td>
+      <td className="tx-value">${holder.value_usd.toLocaleString()}</td>
+      <td className="tx-last-active">
+        {new Date(convertRippleDate(holder.last_active)).toLocaleString(
+          'en-US',
+          {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          },
+        )}
+      </td>
+    </tr>
+  )
+
+  return holders.length > 0 ? (
+    <div className="holders-table">
+      <div className="table-wrap">
+        <table className="basic">
+          <thead>
+            <tr>
+              <th className="count sticky-1">Rank</th>
+              <th className="name-col sticky-2">{t('account')}</th>
+              <th className="name-col sticky-2"># of Tokens</th>
+              <th className="name-col sticky-2">% of Supply</th>
+              <th className="name-col sticky-2">Value</th>
+              <th className="name-col sticky-2">Last Active</th>
+            </tr>
+          </thead>
+          <tbody>{holders.map(renderHolder)}</tbody>
+        </table>
+      </div>
+    </div>
+  ) : (
+    <Loader />
+  )
+}
