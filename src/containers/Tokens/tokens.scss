@@ -234,6 +234,7 @@
 
     .metrics-wrapper{
       display: flex;
+      flex-wrap: wrap;
       padding: 0;
       border: none;
       margin-right: 0;
@@ -283,6 +284,7 @@
 
     .type {
       margin-left: auto;
+      font-size: 42px;
     }
   }
 }
