@@ -37,8 +37,8 @@ const SortTableColumn: React.FC<SortTableProps> = ({
       onMouseOver={(e) => {
         const rect = e.currentTarget.getBoundingClientRect()
         showTooltip('text', e, t(`${key}_description`, { defaultValue: '' }), {
-          x: rect.left + window.scrollX + rect.width / 2,
-          y: rect.top + window.scrollY - yOffset,
+          x: rect.left + rect.width / 2,
+          y: rect.top - yOffset,
         })
       }}
       onMouseLeave={() => hideTooltip()}

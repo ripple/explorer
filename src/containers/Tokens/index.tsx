@@ -128,8 +128,8 @@ export const Tokens = () => {
       onMouseOver={(e) => {
         const rect = e.currentTarget.getBoundingClientRect()
         showTooltip('text', e, t(`${key}_description`, { defaultValue: '' }), {
-          x: rect.left + window.scrollX + rect.width / 2,
-          y: rect.top + window.scrollY - TOOLTIP_Y_OFFSET,
+          x: rect.left + rect.width / 2,
+          y: rect.top - TOOLTIP_Y_OFFSET,
         })
       }}
       onMouseLeave={() => hideTooltip()}
