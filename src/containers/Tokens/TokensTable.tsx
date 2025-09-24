@@ -48,6 +48,50 @@ const formatDecimals = (
   return val.toFixed(decimals).replace(/\.?0+$/, '')
 }
 
+let measureCanvas: HTMLCanvasElement | null = null
+
+function getMeasureCanvas(): HTMLCanvasElement {
+  if (!measureCanvas) {
+    measureCanvas = document.createElement('canvas')
+  }
+  return measureCanvas
+}
+
+function middleEllipsize(el: HTMLElement, tailLen = 3) {
+  let { full } = el.dataset
+  if (!full) {
+    full = el.textContent ?? ''
+    // eslint-disable-next-line no-param-reassign -- Safe reassignment.
+    el.dataset.full = full
+  }
+  if (!full) return
+
+  const style = getComputedStyle(el)
+  const font = `${style.fontStyle} ${style.fontVariant} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
+  const ctx = getMeasureCanvas().getContext('2d')!
+  ctx.font = font
+
+  const wTarget = el.getBoundingClientRect().width
+  const ell = '…'
+  const tail = full.slice(-tailLen)
+
+  if (ctx.measureText(full).width <= wTarget) {
+    // eslint-disable-next-line no-param-reassign -- Safe reassignment.
+    el.textContent = full
+    return
+  }
+
+  let lo = 0
+  let hi = full.length - tailLen
+  while (lo < hi) {
+    const mid = Math.ceil((lo + hi) / 2)
+    const w = ctx.measureText(full.slice(0, mid) + ell + tail).width
+    w <= wTarget ? (lo = mid) : (hi = mid - 1)
+  }
+  // eslint-disable-next-line no-param-reassign -- Safe reassignment.
+  el.textContent = full.slice(0, lo) + ell + tail
+}
+
 const parseAmount = (
   value: string | number,
   decimals: number = DEFAULT_DECIMALS,
@@ -93,16 +137,6 @@ const PriceChange: FC<{ percent: number }> = ({ percent }) => (
   </div>
 )
 
-const splitHeadTail = (issuerAccount: string, tailLen = 3) => {
-  const [addr] = issuerAccount.split(':')
-  if (!addr) return { head: '', tail: '' }
-  if (addr.length <= tailLen) return { head: '', tail: addr }
-  return {
-    head: addr.slice(0, addr.length - tailLen),
-    tail: addr.slice(-tailLen),
-  }
-}
-
 export const TokensTable = ({
   tokens,
   xrpPrice,
@@ -114,25 +148,29 @@ export const TokensTable = ({
 }: TokensTableProps) => {
   const { t } = useTranslation()
 
-  const renderIssuer = (token: LOSToken) => {
-    const { head, tail } = splitHeadTail(token.issuer_account, 3)
-    return (
-      <div className="issuer-content">
-        {token.issuer_name && `${token.issuer_name} (`}
-        <Account
-          account={token.issuer_account}
-          onClick={(e) => e.stopPropagation()}
-          displayText={
-            <span className="addr-wrap">
-              <span className="addr-head text-truncate">{head}</span>
-              <span className="addr-tail">{tail}</span>
-            </span>
-          }
-        />
-        {token.issuer_name && `)`}
-      </div>
-    )
-  }
+  const renderIssuer = (token: LOSToken) => (
+    <div className="issuer-content">
+      {token.issuer_name && `${token.issuer_name} (`}
+      <Account
+        account={token.issuer_account}
+        onClick={(e) => e.stopPropagation()}
+        displayText={
+          <span
+            ref={(node) => {
+              if (!node) return
+              middleEllipsize(node, 3)
+              new ResizeObserver(() => middleEllipsize(node, 3)).observe(node)
+            }}
+            className="addr middle-ellipsis"
+            title={token.issuer_account}
+          >
+            {token.issuer_account}
+          </span>
+        }
+      />
+      {token.issuer_name && `)`}
+    </div>
+  )
 
   const renderToken = (token: LOSToken) => (
     <tr>

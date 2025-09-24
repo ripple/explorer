@@ -19,19 +19,13 @@
     min-width: 0;
   }
 
-  .addr-wrap {
-    display: inline-flex;
-    min-width: 0;
-    gap: 0;
-  }
-
-  .addr-head {
+  .addr.middle-ellipsis {
+    display: inline-block;
     overflow: hidden;
-    min-width: 0;
-    flex: 0 1 auto;
-    text-overflow: ellipsis;
+    max-width: 100%;
     white-space: nowrap;
   }
+
 
   .addr-tail {
     flex: 0 0 auto;
