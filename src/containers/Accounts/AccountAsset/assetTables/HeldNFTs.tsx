@@ -16,7 +16,12 @@ const fetchAccountHeldNFTs = async (
     let marker = ''
     do {
       // eslint-disable-next-line no-await-in-loop
-      const response = await getAccountNFTs(rippledSocket, accountId, marker, 5)
+      const response = await getAccountNFTs(
+        rippledSocket,
+        accountId,
+        marker,
+        10,
+      )
       if (response.account_nfts) {
         allNFTs.push(...response.account_nfts)
       }

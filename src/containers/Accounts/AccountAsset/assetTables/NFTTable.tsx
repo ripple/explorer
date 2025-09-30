@@ -69,7 +69,6 @@ export const NFTTable = ({
 
   const basicNFTs = useMemo(() => nftsQuery.data ?? [], [nftsQuery.data])
 
-  // Helper function to process XRP offers
   const processXRPOffers = useCallback(
     (offers: any[], sortAscending: boolean) => {
       const xrpOffers = offers.filter(
@@ -90,11 +89,10 @@ export const NFTTable = ({
     [],
   )
 
-  // Helper function to fetch offers
   const fetchOffers = useCallback(
     async (fetchFn: Function, nftId: string) => {
       try {
-        const response = await fetchFn(rippledSocket, nftId, 10)
+        const response = await fetchFn(rippledSocket, nftId, 50)
         return response.offers && response.offers.length > 0
           ? response.offers
           : []
@@ -125,7 +123,6 @@ export const NFTTable = ({
     [processXRPOffers, fetchOffers],
   )
 
-  // Helper function to batch process NFT offers
   const batchProcessNFTOffers = useCallback(
     async (nftsToFetch: NFTBasic[]) => {
       if (nftsToFetch.length === 0) return
@@ -133,25 +130,29 @@ export const NFTTable = ({
       setIsLoadingOffers(true)
 
       try {
-        // Fetch all NFT offers concurrently using Promise.all
-        const nftsPromises = nftsToFetch.map((nft) => fetchOffersForNFT(nft))
-        const nftsResults = await Promise.all(nftsPromises)
+        // Fetch NFT offers sequentially to avoid being throttled
+        for (const nft of nftsToFetch) {
+          try {
+            // eslint-disable-next-line no-await-in-loop
+            const nftWithOffers = await fetchOffersForNFT(nft)
 
-        // Update all NFTs at once
-        setNFTs((prev) =>
-          prev.map((prevNft) => {
-            const updatedNft = nftsResults.find(
-              (nft) => nft.nftId === prevNft.nftId,
+            // Update NFT immediately as offers are fetched
+            setNFTs((prev) =>
+              prev.map((prevNft) =>
+                prevNft.nftId === nftWithOffers.nftId ? nftWithOffers : prevNft,
+              ),
             )
-            return updatedNft || prevNft
-          }),
-        )
 
-        // Mark all NFTs as fetched
-        const nftIds = nftsToFetch.map((nft) => nft.nftId)
-        setFetchedNFTs((prev) => new Set([...prev, ...nftIds]))
+            // Mark as fetched
+            setFetchedNFTs((prev) => new Set([...prev, nft.nftId]))
+          } catch (error) {
+            // Handle individual NFT errors, continue with others
+            // eslint-disable-next-line no-console
+            console.error(`Error fetching offers for NFT ${nft.nftId}:`, error)
+          }
+        }
       } catch (error) {
-        // Silently handle batch processing errors
+        console.error(error)
       }
 
       setIsLoadingOffers(false)

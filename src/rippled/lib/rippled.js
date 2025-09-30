@@ -755,7 +755,6 @@ const getAccountLines = (rippledSocket, account, limit, marker = '') =>
     limit,
     marker: marker || undefined,
   }).then((resp) => {
-    console.log(`account_lines  - [${new Date().toISOString()}]`)
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404)
     }
