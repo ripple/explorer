@@ -3,8 +3,12 @@ import { MPTokenIssuanceCreateInstructions } from './types'
 import { TransactionParser } from '../types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 
+type MPTokenIssuanceCreateWithDynamic = MPTokenIssuanceCreate & {
+  MutableFlags?: number
+}
+
 export const parser: TransactionParser<
-  MPTokenIssuanceCreate,
+  MPTokenIssuanceCreateWithDynamic,
   MPTokenIssuanceCreateInstructions
 > = (tx, meta) => ({
   issuanceID: meta.mpt_issuance_id,
@@ -16,4 +20,5 @@ export const parser: TransactionParser<
   maxAmount: tx.MaximumAmount
     ? BigInt(tx.MaximumAmount).toString(10)
     : undefined,
+  mutableFlags: tx.MutableFlags,
 })

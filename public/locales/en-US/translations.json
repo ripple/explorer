@@ -617,5 +617,6 @@
   "vault_create_table_detail": "vault for <Asset/>",
   "withdraws": "withdraws",
   "deletes": "deletes",
-  "vault_delete_table_detail": "vault with id"
+  "vault_delete_table_detail": "vault with id",
+  "mutable_flags": "Mutable Flags"
 }

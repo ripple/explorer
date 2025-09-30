@@ -7,12 +7,22 @@ import { isValidJsonString, localizeNumber } from '../../../utils'
 import { MPTokenLink } from '../../MPTokenLink'
 import { JsonView } from '../../JsonView'
 import './styles.scss'
+import {
+  buildMPTMutateFlags,
+  MPTOKEN_ISSUANCE_CREATE_MUTABLE_FLAGS,
+} from '../../../transactionUtils'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<MPTokenIssuanceCreateInstructions>) => {
-  const { issuanceID, metadata, assetScale, transferFee, maxAmount } =
-    data.instructions
+  const {
+    issuanceID,
+    metadata,
+    assetScale,
+    transferFee,
+    maxAmount,
+    mutableFlags,
+  } = data.instructions
   const { t } = useTranslation()
   const language = useLanguage()
   const formattedFee =
@@ -49,6 +59,20 @@ export const Simple: TransactionSimpleComponent = ({
           data-testid="mpt-max-amount"
         >
           {maxAmount}
+        </SimpleRow>
+      )}
+      {mutableFlags && (
+        <SimpleRow
+          label={t('mutable_flags')}
+          className="dt"
+          data-test-id="mpt-mutable-flags"
+        >
+          <em>
+            {buildMPTMutateFlags(
+              mutableFlags,
+              MPTOKEN_ISSUANCE_CREATE_MUTABLE_FLAGS,
+            ).join(', ')}
+          </em>
         </SimpleRow>
       )}
       {metadata && (

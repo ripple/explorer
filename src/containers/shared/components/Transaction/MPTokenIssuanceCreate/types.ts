@@ -4,4 +4,5 @@ export interface MPTokenIssuanceCreateInstructions {
   transferFee?: number
   assetScale?: number
   maxAmount?: string
+  mutableFlags?: number
 }

@@ -123,6 +123,32 @@ export const ACCOUNT_FLAGS: Record<number, string> = {
   1: 'asfRequireDest',
 }
 
+export const MPTOKEN_ISSUANCE_CREATE_MUTABLE_FLAGS: Record<number, string> = {
+  2: 'tfMPTCanMutateCanLock	',
+  4: 'tfMPTCanMutateRequireAuth	',
+  8: 'tfMPTCanMutateCanEscrow',
+  16: 'tfMPTCanMutateCanTrade',
+  32: 'tfMPTCanMutateCanTransfer',
+  64: 'tfMPTCanMutateCanClawback',
+  65536: 'tfMPTCanMutateMetadata',
+  131072: 'tfMPTCanMutateTransferFee',
+}
+
+export const MPTOKEN_ISSUANCE_SET_MUTABLE_FLAGS: Record<number, string> = {
+  1: 'tfMPTSetCanLock',
+  2: 'tfMPTClearCanLock',
+  4: 'tfMPTSetRequireAuth',
+  8: 'tfMPTClearRequireAuth',
+  16: 'tfMPTSetCanEscrow',
+  32: 'tfMPTClearCanEscrow',
+  64: 'tfMPTSetCanTrade',
+  128: 'tfMPTClearCanTrade',
+  256: 'tfMPTSetCanTransfer',
+  512: 'tfMPTClearCanTransfer',
+  1024: 'tfMPTSetCanClawback',
+  2048: 'tfMPTClearCanClawback',
+}
+
 export const HOOK_FLAGS: Record<number, string> = {
   0x00000001: 'hsfOverride',
   0x00000010: 'hsfNSDelete',
@@ -238,6 +264,21 @@ export function buildHookFlags(flags: number): string[] {
       const int = parseInt(bin, 2)
       // const type = i < 8 ? 'universal' : (i < 16 ? 'type_specific' : 'reserved');
       return value === '1' ? HOOK_FLAGS[int] || hex32(int) : undefined
+    })
+    .filter((d) => Boolean(d)) as string[]
+}
+
+export function buildMPTMutateFlags(
+  flags: number,
+  flagMap: Record<number, string>,
+): string[] {
+  const bits = zeroPad((flags || 0).toString(2), 32).split('')
+
+  return bits
+    .map((value, i) => {
+      const bin = zeroPad(1, 32 - i, true)
+      const int = parseInt(bin, 2)
+      return value === '1' ? flagMap[int] || hex32(int) : undefined
     })
     .filter((d) => Boolean(d)) as string[]
 }
