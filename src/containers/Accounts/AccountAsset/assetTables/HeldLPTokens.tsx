@@ -18,46 +18,43 @@ import {
 } from '../../../../rippled/lib/rippled'
 import { XRP_BASE } from '../../../shared/transactionUtils'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
+import logger from '../../../../rippled/lib/logger'
+
+const log = logger({ name: 'HeldLPTokens' })
 
 const fetchAccountHeldLPTokens = async (rippledSocket, accountId) => {
-  try {
-    const balancesResponse = await getBalances(rippledSocket, accountId)
-    if (!balancesResponse.assets) {
-      return [] // No assets held, so no LP tokens
-    }
+  log.info(`Finding LP Tokens via 'gatewayBalance' for account ${accountId}`)
+  const balancesResponse = await getBalances(rippledSocket, accountId)
 
-    const lpTokens: any[] = []
+  const lpTokens: any[] = []
+  for (const [issuerAccount, assets] of Object.entries(
+    balancesResponse?.assets || {},
+  )) {
+    for (const asset of assets as any[]) {
+      // Filter assets with currency code starting with '03' and process them one by one
+      // Reference: https://xrpl.org/docs/concepts/tokens/decentralized-exchange/automated-market-makers#lp-token-currency-codes
+      if (asset.currency && asset.currency.startsWith('03')) {
+        // eslint-disable-next-line no-await-in-loop
+        const result = await processLPTokenAsset(
+          rippledSocket,
+          issuerAccount,
+          asset,
+        )
 
-    // Filter assets with currency code starting with '03' and process them one by one
-    // Reference: https://xrpl.org/docs/concepts/tokens/decentralized-exchange/automated-market-makers#lp-token-currency-codes
-    for (const [issuerAccount, assets] of Object.entries(
-      balancesResponse.assets,
-    )) {
-      for (const asset of assets as any[]) {
-        if (asset.currency && asset.currency.startsWith('03')) {
-          // eslint-disable-next-line no-await-in-loop
-          const result = await processLPTokenAsset(
-            rippledSocket,
-            issuerAccount,
-            asset,
-          )
-
-          if (result) {
-            lpTokens.push(result)
-          }
+        if (result) {
+          lpTokens.push(result)
         }
       }
     }
-
-    return lpTokens
-  } catch (error) {
-    console.error(error)
-    return []
   }
+
+  log.info(`Found ${lpTokens.length} LP Tokens`)
+  return lpTokens
 }
 
 const processLPTokenAsset = async (rippledSocket, issuerAccount, asset) => {
   try {
+    log.info(`Fetching AMM pool for account ${issuerAccount}`)
     const ammInfoResponse = await getAMMInfoByAMMAccount(
       rippledSocket,
       issuerAccount,
@@ -117,7 +114,7 @@ const processLPTokenAsset = async (rippledSocket, issuerAccount, asset) => {
       share: sharePercentage,
     }
   } catch (error) {
-    console.error(error)
+    log.error(`Error fetching AMM pool: ${JSON.stringify(error)}`)
     return null
   }
 }

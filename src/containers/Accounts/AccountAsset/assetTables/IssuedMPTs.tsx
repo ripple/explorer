@@ -15,6 +15,9 @@ import {
 } from '../../../../rippled/lib/utils'
 import { localizeNumber } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
+import logger from '../../../../rippled/lib/logger'
+
+const log = logger({ name: 'IssuedMPTs' })
 
 interface IssuedMPTsProps {
   accountId: string
@@ -25,23 +28,33 @@ const fetchAccountIssuedMPTs = async (
   accountId: string,
   rippledSocket: any,
 ) => {
+  log.info(`Fetching MPT Issuances for account ${accountId}`)
+
   const mptIssuances: any[] = []
   let marker = ''
   do {
-    // eslint-disable-next-line no-await-in-loop
-    const response = await getAccountObjects(
-      rippledSocket,
-      accountId,
-      'mpt_issuance',
-      marker,
-    )
-    if (!response?.account_objects) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const response = await getAccountObjects(
+        rippledSocket,
+        accountId,
+        'mpt_issuance',
+        marker,
+      )
+      if (!response?.account_objects) {
+        break
+      }
+
+      mptIssuances.push(...response.account_objects)
+      marker = response.marker || ''
+    } catch (error) {
+      log.error(`Error fetching MPT issuances: ${JSON.stringify(error)}`)
+      // Break the loop on error to avoid infinite retry
       break
     }
-
-    mptIssuances.push(...response.account_objects)
-    marker = response.marker || ''
   } while (marker)
+
+  log.info(`Successfully fetched ${mptIssuances.length} MPT Issuances`)
 
   // Format the MPT issuances
   const issuedMPTs = mptIssuances.map((mptIssuance: any) => {

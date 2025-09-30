@@ -21,6 +21,9 @@ import { XRP_BASE } from '../../../shared/transactionUtils'
 import { localizeNumber } from '../../../shared/utils'
 import { XRP_SMALL_BALANCE_CURRENCY_OPTIONS } from '../../../shared/CurrencyOptions'
 import { useLanguage } from '../../../shared/hooks'
+import logger from '../../../../rippled/lib/logger'
+
+const log = logger({ name: 'NFTTable' })
 
 const PAGE_SIZE = 10
 
@@ -62,7 +65,7 @@ export const NFTTable = ({
   const [fetchedNFTs, setFetchedNFTs] = useState<Set<string>>(new Set())
   const [isLoadingOffers, setIsLoadingOffers] = useState(false)
 
-  // Fetch basic NFT data first
+  // Fetch and show basic NFT data first
   const nftsQuery = useQuery([queryKey, accountId], () =>
     fetchNFTs(accountId, rippledSocket),
   )
@@ -75,7 +78,9 @@ export const NFTTable = ({
         (offer: any) => typeof offer.amount === 'string',
       )
 
-      if (xrpOffers.length === 0) return null
+      if (xrpOffers.length === 0) {
+        return null
+      }
 
       const sortedOffers = xrpOffers.sort((a: any, b: any) => {
         const amountA = parseInt(a.amount, 10)
@@ -97,7 +102,11 @@ export const NFTTable = ({
           ? response.offers
           : []
       } catch (error) {
-        console.error(error)
+        if (error.code === 404 && error.message === 'notFound') {
+          log.warn(`No offers returned from ${fetchFn.name} for NFT ${nftId}`)
+        } else {
+          log.error(error)
+        }
         return []
       }
     },
@@ -106,53 +115,48 @@ export const NFTTable = ({
 
   const fetchOffersForNFT = useCallback(
     async (nft: NFTBasic): Promise<NFT> => {
-      try {
-        // Get sell offers to calculate lowest ask (XRP only)
-        const sellOffers = await fetchOffers(getSellNFToffers, nft.nftId)
-        const lowestAsk = processXRPOffers(sellOffers, true) // ascending for lowest
+      // Get sell offers to calculate lowest ask (XRP only)
+      const sellOffers = await fetchOffers(getSellNFToffers, nft.nftId)
+      const lowestAsk = processXRPOffers(sellOffers, true) // ascending for lowest
 
-        // Get buy offers to calculate highest bid (XRP only)
-        const buyOffers = await fetchOffers(getBuyNFToffers, nft.nftId)
-        const highestBid = processXRPOffers(buyOffers, false) // descending for highest
+      // Get buy offers to calculate highest bid (XRP only)
+      const buyOffers = await fetchOffers(getBuyNFToffers, nft.nftId)
+      const highestBid = processXRPOffers(buyOffers, false) // descending for highest
 
-        return { ...nft, lowestAsk, highestBid }
-      } catch (error) {
-        return { ...nft, lowestAsk: null, highestBid: null }
-      }
+      return { ...nft, lowestAsk, highestBid }
     },
     [processXRPOffers, fetchOffers],
   )
 
   const batchProcessNFTOffers = useCallback(
     async (nftsToFetch: NFTBasic[]) => {
-      if (nftsToFetch.length === 0) return
+      if (nftsToFetch.length === 0) {
+        return
+      }
 
       setIsLoadingOffers(true)
 
-      try {
-        // Fetch NFT offers sequentially to avoid being throttled
-        for (const nft of nftsToFetch) {
-          try {
-            // eslint-disable-next-line no-await-in-loop
-            const nftWithOffers = await fetchOffersForNFT(nft)
+      // Fetch NFT offers sequentially to avoid being throttled
+      for (const nft of nftsToFetch) {
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          const nftWithOffers = await fetchOffersForNFT(nft)
 
-            // Update NFT immediately as offers are fetched
-            setNFTs((prev) =>
-              prev.map((prevNft) =>
-                prevNft.nftId === nftWithOffers.nftId ? nftWithOffers : prevNft,
-              ),
-            )
+          // Update NFT immediately as offers are fetched
+          setNFTs((prev) =>
+            prev.map((prevNft) =>
+              prevNft.nftId === nftWithOffers.nftId ? nftWithOffers : prevNft,
+            ),
+          )
 
-            // Mark as fetched
-            setFetchedNFTs((prev) => new Set([...prev, nft.nftId]))
-          } catch (error) {
-            // Handle individual NFT errors, continue with others
-            // eslint-disable-next-line no-console
-            console.error(`Error fetching offers for NFT ${nft.nftId}:`, error)
-          }
+          // Mark as fetched
+          setFetchedNFTs((prev) => new Set([...prev, nft.nftId]))
+        } catch (error) {
+          // Handle individual NFT errors, continue with others
+          log.error(
+            `Error fetching offers for NFT ${nft.nftId}: ${JSON.stringify(error)}`,
+          )
         }
-      } catch (error) {
-        console.error(error)
       }
 
       setIsLoadingOffers(false)
@@ -196,7 +200,7 @@ export const NFTTable = ({
 
   const tableStructure = (paginatedRows: any[]) => {
     // Fetch offers for visible NFTs when page changes
-    // Only fetch if there are NFTs that haven't been fetched yet
+    // Only fetch if there are NFTs, for which we haven't fetched offers yet
     if (paginatedRows.length > 0) {
       const unfetchedNFTs = paginatedRows.filter(
         (nft) => !fetchedNFTs.has(nft.nftId),

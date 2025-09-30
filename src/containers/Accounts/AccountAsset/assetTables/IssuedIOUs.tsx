@@ -8,10 +8,15 @@ import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 
 interface IssuedIOUsProps {
   accountId: string
+  account: any
   onCountChange?: (count: number) => void
 }
 
-export const IssuedIOUs = ({ accountId, onCountChange }: IssuedIOUsProps) => {
+export const IssuedIOUs = ({
+  accountId,
+  account,
+  onCountChange,
+}: IssuedIOUsProps) => {
   const { t } = useTranslation()
 
   const issuedIOUsQ = useQuery('issuedIOUs', getIssuedIOUs)

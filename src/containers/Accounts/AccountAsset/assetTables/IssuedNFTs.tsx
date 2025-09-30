@@ -1,6 +1,9 @@
 import { getNFTsIssuedByAccount } from '../../../../rippled/lib/rippled'
 import { formatTransferFee } from '../../../../rippled/lib/utils'
 import { NFTTable, NFTBasic } from './NFTTable'
+import logger from '../../../../rippled/lib/logger'
+
+const log = logger({ name: 'IssuedNFTs' })
 
 interface IssuedNFTsProps {
   accountId: string
@@ -12,6 +15,7 @@ const fetchAccountIssuedNFTs = async (
   rippledSocket: any,
 ): Promise<NFTBasic[]> => {
   try {
+    log.info(`Fetching issued NFTs for account ${accountId}`)
     const allNFTs: any[] = []
     let marker = ''
     do {
@@ -23,19 +27,23 @@ const fetchAccountIssuedNFTs = async (
         25,
       )
       if (response.nfts) {
-        console.log('Fetched account NFTs: ', response.nfts.length)
         allNFTs.push(...response.nfts)
+        if (allNFTs.length % 200 === 0) {
+          log.info(`${allNFTs.length} issued NFTs fetched`)
+        }
       }
+
       marker = response.marker || ''
     } while (marker)
 
+    log.info(`Successfully fetched ${allNFTs.length} issued NFTs`)
     return allNFTs.map((nft) => ({
       nftId: nft.nft_id,
       url: nft.uri ? Buffer.from(nft.uri, 'hex').toString('utf8') : '',
       fee: formatTransferFee(nft.transfer_fee),
     }))
   } catch (error) {
-    console.error(error)
+    log.error(`Error fetching issued NFTs: ${JSON.stringify(error)}`)
     return []
   }
 }

@@ -397,9 +397,8 @@ const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) =>
     command: 'account_nfts',
     account,
     marker: marker || undefined,
-    limit,
+    limit, // Not `limit` of NFTs, but `limit` pages of NFTs
   }).then((resp) => {
-    console.log(`getAccountNFTs - [${new Date().toISOString()}]`)
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404)
     }
@@ -423,7 +422,6 @@ const getNFTsIssuedByAccount = (
     marker: marker || undefined,
     limit,
   }).then((resp) => {
-    console.log(`getNFTsIssuedByAccount - [${new Date().toISOString()}]`)
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404)
     }
@@ -468,12 +466,10 @@ const getNFToffers = async (
       limit,
       marker: currentMarker !== '' ? currentMarker : undefined,
     })
-    console.log(offerCmd)
 
     // The NFT does not have any offers (note that object refers to the offer rather than the NFT itself).
     if (resp.error === 'objectNotFound') {
-      console.warn(`The NFT ${tokenId} does not have any offers`)
-      break
+      throw new Error(resp.error_message, 404)
     }
 
     if (resp.error_message) {

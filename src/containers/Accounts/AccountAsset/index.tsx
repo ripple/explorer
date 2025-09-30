@@ -39,11 +39,13 @@ function TabButton({
 
 interface AccountAssetProps {
   accountId: string
+  account?: any
   xrpToUSDRate: number
 }
 
 export default function AccountAsset({
   accountId,
+  account,
   xrpToUSDRate,
 }: AccountAssetProps) {
   const lang = useLanguage()
@@ -225,6 +227,7 @@ export default function AccountAsset({
       >
         <IssuedIOUs
           accountId={accountId}
+          account={account}
           onCountChange={updateIssuedIOUCount}
         />
       </div>

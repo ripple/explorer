@@ -18,6 +18,9 @@ import SocketContext from '../../../shared/SocketContext'
 import ClockIcon from '../../../shared/images/clock-icon.svg'
 import { localizeNumber } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
+import logger from '../../../../rippled/lib/logger'
+
+const log = logger({ name: 'HeldMPTs' })
 
 interface HeldMPTsProps {
   accountId: string
@@ -25,31 +28,39 @@ interface HeldMPTsProps {
 }
 
 const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
+  log.info(`Fetching MPTs for account ${accountId}`)
+
   const mpts: any[] = []
   let marker = ''
   do {
-    // eslint-disable-next-line no-await-in-loop
-    const response = await getAccountMPTs(rippledSocket, accountId, marker)
-    if (!response?.account_objects) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const response = await getAccountMPTs(rippledSocket, accountId, marker)
+      if (!response?.account_objects) {
+        break
+      }
+
+      mpts.push(...response.account_objects)
+      marker = response.marker || ''
+    } catch (error) {
+      log.error(`Error fetching MPTs: ${JSON.stringify(error)}`)
+      // Break the loop on error to avoid infinite retry
       break
     }
-
-    mpts.push(...response.account_objects)
-    marker = response.marker || ''
   } while (marker)
 
+  log.info(`Successfully fetched ${mpts.length} MPTs`)
+
   // Format and filter MPTs
-  const formattedMPTs = mpts
+  const positiveBalanceMPTs = mpts
     .map((mpToken: any) => formatMPToken(mpToken))
     .filter((mpToken: any) => parseInt(mpToken.mptAmount || '0', 10) > 0)
-
-  if (formattedMPTs.length === 0) {
-    return []
-  }
+  log.info(`${positiveBalanceMPTs.length} MPTs with positive MPTAmount`)
 
   // For each MPTokenIssuanceID, call getMPTIssuance and format the response
-  const issuancePromises = formattedMPTs.map(async (mpToken: any) => {
+  const mptIssuancePromises = positiveBalanceMPTs.map(async (mpToken: any) => {
     try {
+      log.info(`Fetching MPT issuance for token ${mpToken.mptIssuanceID}`)
       const mptIssuanceResponse = await getMPTIssuance(
         rippledSocket,
         mpToken.mptIssuanceID,
@@ -61,12 +72,17 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
         mptIssuance: formattedMPTIssuance,
       }
     } catch (error) {
-      console.error(error)
+      log.error(
+        `Error fetching MPT issuance for token ${mpToken.mptIssuanceID}: ${JSON.stringify(error)}`,
+      )
       return { mptIssuanceId: mpToken.mptIssuanceID, mptIssuance: null }
     }
   })
 
-  const mptIssuanceResults = await Promise.all(issuancePromises)
+  const mptIssuanceResults = await Promise.all(mptIssuancePromises)
+  log.info(
+    `Successfully fetched ${mptIssuanceResults.length} MPT issuances for ${positiveBalanceMPTs.length} MPTs`,
+  )
   const mptIssuanceIdToIssuance = new Map()
   mptIssuanceResults.forEach((result) => {
     if (result && result.mptIssuance) {
@@ -75,7 +91,7 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
   })
 
   // Combine MPToken and MPTIssuance data
-  const combinedMPTs = formattedMPTs.map((mpToken: any) => {
+  const combinedMPTs = positiveBalanceMPTs.map((mpToken: any) => {
     const mptIssuance = mptIssuanceIdToIssuance.get(mpToken.mptIssuanceID)
 
     return {

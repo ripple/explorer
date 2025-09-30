@@ -68,6 +68,7 @@ export const Accounts = () => {
               <AccountAsset
                 // Use account.account since `accountId` could be an extended account
                 accountId={account.account}
+                account={account}
                 xrpToUSDRate={xrpToUSDRate}
               />
             </>
