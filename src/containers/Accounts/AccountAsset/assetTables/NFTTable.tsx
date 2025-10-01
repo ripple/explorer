@@ -39,7 +39,7 @@ export interface NFT {
   nftId: string
   issuer?: string
   url: string
-  fee: string
+  transferFee: string
   lowestAsk?: number
   highestBid?: number
 }
@@ -256,7 +256,7 @@ export const NFTTable = ({
                       '--'
                     )}
                   </td>
-                  <td className="transfer-fee">{nft.fee}%</td>
+                  <td className="transfer-fee">{nft.transferFee}%</td>
                   <td>
                     {nft.lowestAsk
                       ? localizeNumber(

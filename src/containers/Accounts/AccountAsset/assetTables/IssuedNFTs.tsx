@@ -40,7 +40,7 @@ const fetchAccountIssuedNFTs = async (
     return allNFTs.map((nft) => ({
       nftId: nft.nft_id,
       url: nft.uri ? Buffer.from(nft.uri, 'hex').toString('utf8') : '',
-      fee: formatTransferFee(nft.transfer_fee),
+      transferFee: formatTransferFee(nft.transfer_fee),
     }))
   } catch (error) {
     log.error(`Error fetching issued NFTs: ${JSON.stringify(error)}`)

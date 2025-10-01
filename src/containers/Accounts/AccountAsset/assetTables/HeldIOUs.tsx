@@ -6,7 +6,12 @@ import Currency, {
 } from '../../../shared/components/Currency'
 import { Loader } from '../../../shared/components/Loader'
 import { Account } from '../../../shared/components/Account'
-import { shortenAccount } from '../../../../rippled/lib/utils'
+import {
+  ACCOUNT_FLAGS,
+  buildFlags,
+  formatTransferFee,
+  shortenAccount,
+} from '../../../../rippled/lib/utils'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { RouteLink } from '../../../shared/routing'
 import { TOKEN_ROUTE } from '../../../App/routes'
@@ -43,8 +48,8 @@ interface IOU {
   balance: number
   priceInXRP: number
   assetClass?: string
-  transferFee?: string
-  frozen: boolean
+  transferFee?: string | null
+  frozen?: string
 }
 
 const fetchAccountHeldIOUs = async (
@@ -98,7 +103,8 @@ const fetchAccountHeldIOUs = async (
   // Filter for positive balances and exclude LP tokens
   const positiveBalanceLines = allTrustLines.filter(
     (line: any) =>
-      parseFloat(line.balance) > 0 && !line.currency.startsWith('03'),
+      parseFloat(line.balance) > 0 &&
+      !line.currency.startsWith(LP_TOKEN_IDENTIFIER),
   )
   log.info(
     `${positiveBalanceLines.length} IOU trust lines with positive balances`,
@@ -146,8 +152,6 @@ const fetchAccountHeldIOUs = async (
     }
   }
 
-  log.info(allTokens)
-
   // Combine all data (without transfer fees and Global freeze status for now)
   const iouData: IOU[] = positiveBalanceLines.map((line: any) => {
     const tokenId = `${line.currency}.${line.account}`
@@ -162,7 +166,7 @@ const fetchAccountHeldIOUs = async (
       priceInXRP: token?.price ? parseFloat(token.price) : 0,
       assetClass: token?.asset_class || null,
       transferFee: null,
-      frozen: line.freeze || line.freeze_peer || false, // Basic freeze info from trust line
+      frozen: line.freeze || line.freeze_peer ? 'Trustline' : '--',
     }
   })
 
@@ -178,7 +182,7 @@ export const HeldIOUs = ({
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const [progressiveUpdates, setProgressiveUpdates] = useState<
-    Record<string, { fee: string; frozen: boolean }>
+    Record<string, { transferFee: string; accountGlobalFrozen: boolean }>
   >({})
 
   const heldIOUsQuery = useQuery(['heldIOUs', accountId], () =>
@@ -196,11 +200,14 @@ export const HeldIOUs = ({
   }, [heldIOUsQuery.data, xrpToUSDRate])
 
   // Apply progressive updates to the base data
-  const ious = sortedIOUs.map((token) => ({
-    ...token,
-    transferFee: progressiveUpdates[token.issuer]?.fee || token.transferFee,
-    frozen: progressiveUpdates[token.issuer]?.frozen ?? token.frozen,
-  }))
+  const ious = sortedIOUs.map((token) => {
+    const progressiveUpdate = progressiveUpdates[token.issuer]
+    return {
+      ...token,
+      transferFee: progressiveUpdate?.transferFee || token.transferFee,
+      frozen: progressiveUpdate?.accountGlobalFrozen ? 'Global' : token.frozen,
+    }
+  })
 
   // Progressive fetching of issuer info for transfer fee and Global freeze status
   const fetchIssuerInfoProgressively = useCallback(async () => {
@@ -213,19 +220,20 @@ export const HeldIOUs = ({
       try {
         log.info(`Fetching account information for account ${issuer}`)
         // eslint-disable-next-line no-await-in-loop
-        const issuerInfo = await getAccountInfo(rippledSocket, issuer)
+        const accountInfo = await getAccountInfo(rippledSocket, issuer)
 
-        const transferFee = issuerInfo?.TransferRate
-          ? ((issuerInfo.TransferRate - 1000000000) / 10000000).toFixed(2)
-          : '0'
+        const transferFee = formatTransferFee(accountInfo?.TransferRate, 'IOU')
 
-        const globalFrozen = !!(issuerInfo?.Flags & 0x00400000)
+        const accountGlobalFrozen = buildFlags(
+          accountInfo?.Flags,
+          ACCOUNT_FLAGS,
+        ).includes('lsfGlobalFreeze')
 
         setProgressiveUpdates((prev) => ({
           ...prev,
           [issuer]: {
-            fee: `${transferFee}%`,
-            frozen: globalFrozen,
+            transferFee: `${transferFee}%`,
+            accountGlobalFrozen,
           },
         }))
       } catch (error) {
@@ -326,7 +334,7 @@ export const HeldIOUs = ({
                 </td>
                 <td className="asset-class">{token.assetClass || '--'}</td>
                 <td className="transfer-fee">{token.transferFee || '--'}</td>
-                <td>{token.frozen ? 'Yes' : 'No'}</td>
+                <td>{token.frozen}</td>
               </tr>
             ))
           )}

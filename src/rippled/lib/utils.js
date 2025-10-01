@@ -5,6 +5,7 @@ import { formatSignerList } from './formatSignerList'
 import { decodeHex } from '../../containers/shared/transactionUtils'
 
 const XRP_BASE = 1000000
+const THOUSAND = 1000
 const BILLION = 1000000000
 
 export const ACCOUNT_FLAGS = {
@@ -57,7 +58,7 @@ const zeroPad = (num, size, back = false) => {
   return s
 }
 
-const buildFlags = (flags, flagMap) => {
+export const buildFlags = (flags, flagMap) => {
   const bits = zeroPad((flags || 0).toString(2), 32).split('')
 
   return bits
@@ -67,6 +68,25 @@ const buildFlags = (flags, flagMap) => {
       return value === '1' ? flagMap[int] || hex32(int) : undefined
     })
     .filter((d) => Boolean(d))
+}
+
+const formatTransferFee = (transferFee, tokenType = '') => {
+  if (!transferFee) {
+    return '0'
+  }
+
+  // https://xrpl.org/docs/concepts/tokens/fungible-tokens/transfer-fees#technical-details
+  if (tokenType === 'IOU') {
+    const transferFeePercentage = (100 * (transferFee - BILLION)) / BILLION
+    return parseFloat(transferFeePercentage.toFixed(7)).toString()
+  }
+
+  // For MPT and NFT
+  // MTP: https://xrpl.org/docs/references/protocol/data-types/nftoken#transferfee
+  // NFT: https://xrpl.org/docs/concepts/tokens/fungible-tokens/multi-purpose-tokens#transfer-fees
+  const transferFeePercentage = transferFee / THOUSAND
+
+  return parseFloat(transferFeePercentage.toFixed(3)).toString()
 }
 
 const formatAccountInfo = (info, serverInfoValidated) => ({
@@ -79,7 +99,7 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
       info.OwnerCount * serverInfoValidated.reserve_inc_xrp
     : undefined,
   tick: info.TickSize,
-  rate: info.TransferRate ? (info.TransferRate - BILLION) / BILLION : undefined,
+  rate: formatTransferFee(info.TransferRate, 'IOU'),
   domain: info.Domain ? hexToString(info.Domain) : undefined,
   emailHash: info.EmailHash,
   flags: buildFlags(info.Flags, ACCOUNT_FLAGS),
@@ -178,16 +198,6 @@ const shortenMPTID = (mptTokenID = '') =>
   mptTokenID.length > 20
     ? `${mptTokenID.slice(0, 10)}...${mptTokenID.slice(-10)}`
     : mptTokenID
-
-const formatTransferFee = (transferFee) => {
-  if (!transferFee) {
-    return '0'
-  }
-
-  const feePercentage = transferFee / 1000
-
-  return feePercentage.toFixed(3)
-}
 
 export {
   XRP_BASE,

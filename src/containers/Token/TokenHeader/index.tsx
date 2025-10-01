@@ -45,9 +45,7 @@ export const TokenHeader = ({
               value={<DomainLink domain={domain} />}
             />
           )}
-          {rate && (
-            <TokenTableRow label={t('fee_rate')} value={`${rate * 100}%`} />
-          )}
+          <TokenTableRow label={t('fee_rate')} value={`${rate}%`} />
           {previousLedger && (
             <TokenTableRow
               label={t('last_ledger')}
