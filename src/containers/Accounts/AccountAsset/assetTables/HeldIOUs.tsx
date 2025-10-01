@@ -149,7 +149,9 @@ const fetchAccountHeldIOUs = async (
       )
     }
   }
-
+  log.info(
+    `Successfully fetched LOS data for ${Object.keys(allTokens).length} held IOUs`,
+  )
   // Combine all data (without transfer fees and Global freeze status for now)
   const iouData: IOU[] = positiveBalanceLines.map((line: any) => {
     const tokenId = `${line.currency}.${line.account}`
