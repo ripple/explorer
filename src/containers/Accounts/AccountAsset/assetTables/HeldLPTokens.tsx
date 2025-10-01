@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import { Loader } from '../../../shared/components/Loader'
 import SocketContext from '../../../shared/SocketContext'
-import Currency from '../../../shared/components/Currency'
+import Currency, {
+  LP_TOKEN_IDENTIFIER,
+} from '../../../shared/components/Currency'
 import { shortenAccount } from '../../../../rippled/lib/utils'
 import { Account } from '../../../shared/components/Account'
 import {
@@ -11,7 +13,7 @@ import {
   USD_SMALL_BALANCE_CURRENCY_OPTIONS,
 } from '../../../shared/CurrencyOptions'
 import { useLanguage } from '../../../shared/hooks'
-import { localizeNumber } from '../../../shared/utils'
+import { CURRENCY_OPTIONS, localizeNumber } from '../../../shared/utils'
 import {
   getBalances,
   getAMMInfoByAMMAccount,
@@ -31,9 +33,7 @@ const fetchAccountHeldLPTokens = async (rippledSocket, accountId) => {
     balancesResponse?.assets || {},
   )) {
     for (const asset of assets as any[]) {
-      // Filter assets with currency code starting with '03' and process them one by one
-      // Reference: https://xrpl.org/docs/concepts/tokens/decentralized-exchange/automated-market-makers#lp-token-currency-codes
-      if (asset.currency && asset.currency.startsWith('03')) {
+      if (asset.currency && asset.currency.startsWith(LP_TOKEN_IDENTIFIER)) {
         // eslint-disable-next-line no-await-in-loop
         const result = await processLPTokenAsset(
           rippledSocket,
@@ -137,7 +137,11 @@ export const HeldLPTokens = ({
   const heldLPTokensQuery = useQuery(['heldLPTokens', accountId], () =>
     fetchAccountHeldLPTokens(rippledSocket, accountId),
   )
-  const lpTokenData = heldLPTokensQuery.data ?? []
+
+  const lpTokenData = useMemo(
+    () => heldLPTokensQuery.data ?? [],
+    [heldLPTokensQuery.data],
+  )
 
   // Two-tier sort: 1) XRP pairs first, 2) within XRP pairs, sort by USD value descending
   const rows = lpTokenData.sort((a, b) => {
@@ -218,7 +222,9 @@ export const HeldLPTokens = ({
                     link={false}
                   />
                 </td>
-                <td>{localizeNumber(row.lpTokenBalance, lang)}</td>
+                <td>
+                  {localizeNumber(row.lpTokenBalance, lang, CURRENCY_OPTIONS)}
+                </td>
                 <td>
                   {row.currency1 === 'XRP' || row.currency2 === 'XRP'
                     ? (() => {

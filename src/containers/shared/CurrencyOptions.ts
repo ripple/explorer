@@ -26,5 +26,5 @@ export const USD_SMALL_BALANCE_CURRENCY_OPTIONS = {
   style: 'currency',
   currency: 'USD',
   minimumFractionDigits: 2,
-  maximumFractionDigits: 4,
+  maximumFractionDigits: 6,
 }

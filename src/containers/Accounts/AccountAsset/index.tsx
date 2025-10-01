@@ -160,7 +160,11 @@ export default function AccountAsset({
         className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
         style={{ display: heldTab === 'iou' ? 'block' : 'none' }}
       >
-        <HeldIOUs accountId={accountId} onCountChange={updateHeldIOUCount} />
+        <HeldIOUs
+          accountId={accountId}
+          xrpToUSDRate={xrpToUSDRate}
+          onCountChange={updateHeldIOUCount}
+        />
       </div>
       <div
         className="account-asset-table-wrapper account-asset-table-wrapper-fixed"

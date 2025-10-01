@@ -140,6 +140,31 @@
   color: $orange-50;
 }
 
+.account-asset-table tbody td.asset-class {
+  text-transform: uppercase;
+}
+
+/* Token icon styling */
+.token {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .token-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Token link styling */
+.account-asset-table tbody td a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 @media (max-width: $phone-upper-boundary) {
   .account-asset-tabs {
     display: grid;

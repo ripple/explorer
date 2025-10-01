@@ -5,6 +5,8 @@ import Currency from '../../../shared/components/Currency'
 import { Loader } from '../../../shared/components/Loader'
 import { getIssuedIOUs } from '../api'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
+import { localizeNumber } from '../../../shared/utils'
+import { useLanguage } from '../../../shared/hooks'
 
 interface IssuedIOUsProps {
   accountId: string
@@ -17,6 +19,7 @@ export const IssuedIOUs = ({
   account,
   onCountChange,
 }: IssuedIOUsProps) => {
+  const lang = useLanguage()
   const { t } = useTranslation()
 
   const issuedIOUsQ = useQuery('issuedIOUs', getIssuedIOUs)
@@ -59,7 +62,7 @@ export const IssuedIOUs = ({
                 <td>
                   <Currency currency={token.code} />
                 </td>
-                <td>{token.price}</td>
+                <td>{localizeNumber(token.price, lang)}</td>
                 <td>{token.trustlines}</td>
                 <td>{token.holders}</td>
                 <td className="right">{token.supply}</td>
