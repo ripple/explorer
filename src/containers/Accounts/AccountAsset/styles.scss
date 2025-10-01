@@ -62,7 +62,7 @@
 
 .account-asset-table-wrapper-fixed .account-asset-table {
   overflow: auto;               /* Vertical scroll when overflowing, keep horizontal if needed */
-  max-height: 270px;            /* Fixed viewport height for the table area */
+  max-height: 255px;            /* Fixed viewport height for the table area */
   background: transparent;
   -webkit-overflow-scrolling: touch;
 

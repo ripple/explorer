@@ -47,8 +47,8 @@ interface IOU {
   issuerName: string
   balance: number
   priceInXRP: number
-  assetClass?: string
-  transferFee?: string | null
+  assetClass: string
+  transferFee?: string
   frozen?: string
 }
 
@@ -59,16 +59,16 @@ const fetchAccountHeldIOUs = async (
   log.info(`Finding held IOUs via 'gatewayBalance' for account ${accountId}`)
   const balancesResponse = await getBalances(rippledSocket, accountId)
 
-  const nonLPTokens: any[] = []
+  const iouTokens: any[] = []
   for (const assets of Object.values(balancesResponse?.assets || {})) {
     for (const asset of assets as any[]) {
       if (asset.currency && !asset.currency.startsWith(LP_TOKEN_IDENTIFIER)) {
-        nonLPTokens.push(asset.currency)
+        iouTokens.push(asset.currency)
       }
     }
   }
-  if (nonLPTokens.length === 0) {
-    // No non-LP token IOUs held, return empty array
+  if (iouTokens.length === 0) {
+    // No IOUs held, return empty array
     return []
   }
 
@@ -143,11 +143,9 @@ const fetchAccountHeldIOUs = async (
           }, {}) || {}
         allTokens = { ...allTokens, ...tokens }
       }
-    } catch (tokenError) {
+    } catch (error) {
       log.error(
-        `Error fetching token batch ${i / LOS_TOKEN_API_BATCH_SIZE + 1}: ${
-          tokenError instanceof Error ? tokenError.message : tokenError
-        }`,
+        `Error batch-get tokens[${tokenIds.join(', ')}]. Error: ${JSON.stringify(error)}`,
       )
     }
   }
@@ -164,8 +162,8 @@ const fetchAccountHeldIOUs = async (
       issuerName: token?.issuer_name,
       balance: parseFloat(line.balance),
       priceInXRP: token?.price ? parseFloat(token.price) : 0,
-      assetClass: token?.asset_class || null,
-      transferFee: null,
+      assetClass: token?.asset_class || '--',
+      transferFee: '--',
       frozen: line.freeze || line.freeze_peer ? 'Trustline' : '--',
     }
   })
@@ -332,7 +330,7 @@ export const HeldIOUs = ({
                     return localizeNumber(balanceUSD, lang, currencyOptions)
                   })()}
                 </td>
-                <td className="asset-class">{token.assetClass || '--'}</td>
+                <td className="asset-class">{token.assetClass}</td>
                 <td className="transfer-fee">{token.transferFee || '--'}</td>
                 <td>{token.frozen}</td>
               </tr>

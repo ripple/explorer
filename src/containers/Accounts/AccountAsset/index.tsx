@@ -232,6 +232,7 @@ export default function AccountAsset({
         <IssuedIOUs
           accountId={accountId}
           account={account}
+          xrpToUSDRate={xrpToUSDRate}
           onCountChange={updateIssuedIOUCount}
         />
       </div>
