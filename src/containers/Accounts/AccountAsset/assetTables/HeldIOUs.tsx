@@ -123,7 +123,7 @@ const fetchAccountHeldIOUs = async (
     try {
       // eslint-disable-next-line no-await-in-loop
       const apiResponse = await fetch(
-        `${process.env.VITE_LOS_URL}/tokens/batch-get`,
+        `https://los.dev.ripplex.io/tokens/batch-get`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
