@@ -30,16 +30,9 @@ const PAGE_SIZE = 10
 interface NFTTableWithOffersProps {
   accountId: string
   onCountChange?: (count: number) => void
-  fetchNFTs: (rippledSocket: any, accountId: string) => Promise<NFTBasic[]>
+  fetchNFTs: (rippledSocket: any, accountId: string) => Promise<NFT[]>
   queryKey: string
   showIssuer?: boolean
-}
-
-export interface NFTBasic {
-  nftId: string
-  issuer?: string
-  url: string
-  fee: string
 }
 
 export interface NFT {
@@ -47,8 +40,8 @@ export interface NFT {
   issuer?: string
   url: string
   fee: string
-  lowestAsk: number | null
-  highestBid: number | null
+  lowestAsk?: number
+  highestBid?: number
 }
 
 export const NFTTable = ({
@@ -79,7 +72,7 @@ export const NFTTable = ({
       )
 
       if (xrpOffers.length === 0) {
-        return null
+        return undefined
       }
 
       const sortedOffers = xrpOffers.sort((a: any, b: any) => {
@@ -101,7 +94,7 @@ export const NFTTable = ({
         return response.offers && response.offers.length > 0
           ? response.offers
           : []
-      } catch (error) {
+      } catch (error: any) {
         if (error.code === 404 && error.message === 'notFound') {
           log.warn(`No offers returned from ${fetchFn.name} for NFT ${nftId}`)
         } else {
@@ -114,7 +107,7 @@ export const NFTTable = ({
   )
 
   const fetchOffersForNFT = useCallback(
-    async (nft: NFTBasic): Promise<NFT> => {
+    async (nft: NFT): Promise<NFT> => {
       // Get sell offers to calculate lowest ask (XRP only)
       const sellOffers = await fetchOffers(getSellNFToffers, nft.nftId)
       const lowestAsk = processXRPOffers(sellOffers, true) // ascending for lowest
@@ -129,7 +122,7 @@ export const NFTTable = ({
   )
 
   const batchProcessNFTOffers = useCallback(
-    async (nftsToFetch: NFTBasic[]) => {
+    async (nftsToFetch: NFT[]) => {
       if (nftsToFetch.length === 0) {
         return
       }
@@ -167,11 +160,11 @@ export const NFTTable = ({
   // Initialize NFTs when basic data loads
   useEffect(() => {
     if (basicNFTs.length > 0) {
-      // Initialize all NFTs with null lowest ask and highest bid
+      // Initialize all NFTs with undefined lowest ask and highest bid
       const initialNFTs = basicNFTs.map((nft) => ({
         ...nft,
-        lowestAsk: null,
-        highestBid: null,
+        lowestAsk: undefined,
+        highestBid: undefined,
       }))
       setNFTs(initialNFTs)
 

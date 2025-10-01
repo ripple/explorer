@@ -1,6 +1,6 @@
 import { getNFTsIssuedByAccount } from '../../../../rippled/lib/rippled'
 import { formatTransferFee } from '../../../../rippled/lib/utils'
-import { NFTTable, NFTBasic } from './NFTTable'
+import { NFTTable, NFT } from './NFTTable'
 import logger from '../../../../rippled/lib/logger'
 
 const log = logger({ name: 'IssuedNFTs' })
@@ -13,7 +13,7 @@ interface IssuedNFTsProps {
 const fetchAccountIssuedNFTs = async (
   accountId: string,
   rippledSocket: any,
-): Promise<NFTBasic[]> => {
+): Promise<NFT[]> => {
   try {
     log.info(`Fetching issued NFTs for account ${accountId}`)
     const allNFTs: any[] = []
