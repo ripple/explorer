@@ -24,7 +24,7 @@ const log = logger({ name: 'HeldMPTs' })
 
 interface HeldMPTsProps {
   accountId: string
-  onCountChange?: (count: number) => void
+  onChange?: (data: { count: number; isLoading: boolean }) => void
 }
 
 const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
@@ -118,7 +118,7 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
   return combinedMPTs
 }
 
-export const HeldMPTs = ({ accountId, onCountChange }: HeldMPTsProps) => {
+export const HeldMPTs = ({ accountId, onChange }: HeldMPTsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
@@ -128,12 +128,12 @@ export const HeldMPTs = ({ accountId, onCountChange }: HeldMPTsProps) => {
   )
   const rows = heldMPTsQuery.data ?? []
 
-  // Communicate count back to parent
+  // Communicate count and loading state back to parent
   useEffect(() => {
-    if (onCountChange) {
-      onCountChange(rows.length)
+    if (onChange) {
+      onChange({ count: rows.length, isLoading: heldMPTsQuery.isLoading })
     }
-  }, [rows.length, onCountChange])
+  }, [rows.length, heldMPTsQuery.isLoading, onChange])
 
   if (heldMPTsQuery.isLoading) {
     return <Loader />

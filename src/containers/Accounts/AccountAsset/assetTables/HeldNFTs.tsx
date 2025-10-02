@@ -7,7 +7,7 @@ const log = logger({ name: 'HeldNFTs' })
 
 interface HeldNFTsProps {
   accountId: string
-  onCountChange?: (count: number) => void
+  onChange?: (data: { count: number; isLoading: boolean }) => void
 }
 
 const fetchAccountHeldNFTs = async (
@@ -47,10 +47,10 @@ const fetchAccountHeldNFTs = async (
   }
 }
 
-export const HeldNFTs = ({ accountId, onCountChange }: HeldNFTsProps) => (
+export const HeldNFTs = ({ accountId, onChange }: HeldNFTsProps) => (
   <NFTTable
     accountId={accountId}
-    onCountChange={onCountChange}
+    onChange={onChange}
     fetchNFTs={fetchAccountHeldNFTs}
     queryKey="heldNFTs"
     showIssuer

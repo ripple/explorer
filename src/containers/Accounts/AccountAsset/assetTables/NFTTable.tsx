@@ -29,7 +29,7 @@ const PAGE_SIZE = 10
 
 interface NFTTableWithOffersProps {
   accountId: string
-  onCountChange?: (count: number) => void
+  onChange?: (data: { count: number; isLoading: boolean }) => void
   fetchNFTs: (rippledSocket: any, accountId: string) => Promise<NFT[]>
   queryKey: string
   showIssuer?: boolean
@@ -46,7 +46,7 @@ export interface NFT {
 
 export const NFTTable = ({
   accountId,
-  onCountChange,
+  onChange,
   fetchNFTs,
   queryKey,
   showIssuer = false,
@@ -180,12 +180,12 @@ export const NFTTable = ({
     }
   }, [basicNFTs, batchProcessNFTOffers])
 
-  // Communicate total count back to parent
+  // Communicate count and loading state back to parent
   useEffect(() => {
-    if (onCountChange) {
-      onCountChange(nfts.length)
+    if (onChange) {
+      onChange({ count: nfts.length, isLoading: nftsQuery.isLoading })
     }
-  }, [nfts.length, onCountChange])
+  }, [nfts.length, nftsQuery.isLoading, onChange])
 
   if (nftsQuery.isLoading) {
     return <Loader />

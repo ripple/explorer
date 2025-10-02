@@ -37,7 +37,7 @@ const LOS_TOKEN_API_BATCH_SIZE = 100
 interface HeldIOUsProps {
   accountId: string
   xrpToUSDRate: number
-  onCountChange?: (count: number) => void
+  onChange?: (data: { count: number; isLoading: boolean }) => void
 }
 
 interface IOU {
@@ -176,7 +176,7 @@ const fetchAccountHeldIOUs = async (
 export const HeldIOUs = ({
   accountId,
   xrpToUSDRate,
-  onCountChange,
+  onChange,
 }: HeldIOUsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
@@ -251,12 +251,12 @@ export const HeldIOUs = ({
     }
   }, [sortedIOUs.length, fetchIssuerInfoProgressively])
 
-  // Communicate count back to parent
+  // Communicate count and loading state back to parent
   useEffect(() => {
-    if (onCountChange) {
-      onCountChange(ious.length)
+    if (onChange) {
+      onChange({ count: ious.length, isLoading: heldIOUsQuery.isLoading })
     }
-  }, [ious.length, onCountChange])
+  }, [ious.length, heldIOUsQuery.isLoading, onChange])
 
   if (heldIOUsQuery.isLoading) {
     return <Loader />

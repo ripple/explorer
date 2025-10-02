@@ -24,7 +24,7 @@ interface IssuedIOUsProps {
   accountId: string
   account: any
   xrpToUSDRate: number
-  onCountChange?: (count: number) => void
+  onChange?: (data: { count: number; isLoading: boolean }) => void
 }
 
 interface IOU {
@@ -126,7 +126,7 @@ export const IssuedIOUs = ({
   accountId,
   account,
   xrpToUSDRate,
-  onCountChange,
+  onChange,
 }: IssuedIOUsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
@@ -146,12 +146,15 @@ export const IssuedIOUs = ({
     })
   }, [issuedIOUsQuery.data, xrpToUSDRate])
 
-  // Communicate count back to parent
+  // Communicate count and loading state back to parent
   useEffect(() => {
-    if (onCountChange) {
-      onCountChange(sortedIOUs.length)
+    if (onChange) {
+      onChange({
+        count: sortedIOUs.length,
+        isLoading: issuedIOUsQuery.isLoading,
+      })
     }
-  }, [sortedIOUs.length, onCountChange])
+  }, [sortedIOUs.length, issuedIOUsQuery.isLoading, onChange])
 
   if (issuedIOUsQuery.isLoading) {
     return <Loader />

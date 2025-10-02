@@ -1,6 +1,8 @@
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import './styles.scss'
 import { useTranslation } from 'react-i18next'
+import { localizeNumber } from '../../shared/utils'
+import { useLanguage } from '../../shared/hooks'
 import { HeldIOUs } from './assetTables/HeldIOUs'
 import { HeldMPTs } from './assetTables/HeldMPTs'
 import { HeldLPTokens } from './assetTables/HeldLPTokens'
@@ -8,8 +10,6 @@ import { HeldNFTs } from './assetTables/HeldNFTs'
 import { IssuedIOUs } from './assetTables/IssuedIOUs'
 import { IssuedMPTs } from './assetTables/IssuedMPTs'
 import { IssuedNFTs } from './assetTables/IssuedNFTs'
-import { useLanguage } from '../../shared/hooks'
-import { localizeNumber } from '../../shared/utils'
 
 type HeldAssetTabKey = 'iou' | 'mpt' | 'lptoken' | 'nft'
 type IssuedAssetTabKey = 'iou' | 'mpt' | 'nft'
@@ -18,10 +18,12 @@ function TabButton({
   label,
   active,
   onClick,
+  loading = false,
 }: {
   label: string
   active?: boolean
   onClick?: () => void
+  loading?: boolean
 }) {
   return (
     <button
@@ -32,7 +34,13 @@ function TabButton({
       onClick={onClick}
       title={label}
     >
-      {label}
+      {loading ? (
+        <span>
+          {label.replace(/\(\d+\)/, '')} (<span className="loading-spinner" />)
+        </span>
+      ) : (
+        label
+      )}
     </button>
   )
 }
@@ -52,62 +60,82 @@ export default function AccountAsset({
   const { t } = useTranslation()
 
   // Counts managed by individual table components
-  const [heldCounts, setHeldCounts] = useState({
-    iou: 0,
-    mpt: 0,
-    lptoken: 0,
-    nft: 0,
+  const [counts, setCounts] = useState({
+    heldIou: 0,
+    heldMpt: 0,
+    heldLptoken: 0,
+    heldNft: 0,
+    issuedIou: 0,
+    issuedMpt: 0,
+    issuedNft: 0,
   })
 
-  const [issuedCounts, setIssuedCounts] = useState({
-    iou: 0,
-    mpt: 0,
-    nft: 0,
+  // Loading states - start as true, set to false when we get data
+  const [loading, setLoading] = useState({
+    heldIou: true,
+    heldMpt: true,
+    heldLptoken: true,
+    heldNft: true,
+    issuedIou: true,
+    issuedMpt: true,
+    issuedNft: true,
   })
 
-  // Functions to update counts (need useCallback for stable refs)
-  const updateHeldCount = useCallback(
-    (type: keyof typeof heldCounts, count: number) => {
-      setHeldCounts((prev) => ({ ...prev, [type]: count }))
+  // Stable update functions for each asset type
+  const updateHeldIOUs = useCallback(
+    ({ count, isLoading }: { count: number; isLoading: boolean }) => {
+      setCounts((prev) => ({ ...prev, heldIou: count }))
+      setLoading((prev) => ({ ...prev, heldIou: isLoading }))
     },
     [],
   )
-  const updateIssuedCount = useCallback(
-    (type: keyof typeof issuedCounts, count: number) => {
-      setIssuedCounts((prev) => ({ ...prev, [type]: count }))
+
+  const updateHeldMPTs = useCallback(
+    ({ count, isLoading }: { count: number; isLoading: boolean }) => {
+      setCounts((prev) => ({ ...prev, heldMpt: count }))
+      setLoading((prev) => ({ ...prev, heldMpt: isLoading }))
     },
     [],
   )
 
-  // Specific update functions for each type (need useCallback for stable refs)
-  const updateHeldIOUCount = useCallback(
-    (count: number) => updateHeldCount('iou', count),
-    [updateHeldCount],
-  )
-  const updateHeldMPTokenCount = useCallback(
-    (count: number) => updateHeldCount('mpt', count),
-    [updateHeldCount],
-  )
-  const updateHeldLPTokenCount = useCallback(
-    (count: number) => updateHeldCount('lptoken', count),
-    [updateHeldCount],
-  )
-  const updateHeldNFTCount = useCallback(
-    (count: number) => updateHeldCount('nft', count),
-    [updateHeldCount],
+  const updateHeldLPTokens = useCallback(
+    ({ count, isLoading }: { count: number; isLoading: boolean }) => {
+      setCounts((prev) => ({ ...prev, heldLptoken: count }))
+      setLoading((prev) => ({ ...prev, heldLptoken: isLoading }))
+    },
+    [],
   )
 
-  const updateIssuedIOUCount = useCallback(
-    (count: number) => updateIssuedCount('iou', count),
-    [updateIssuedCount],
+  const updateHeldNFTs = useCallback(
+    ({ count, isLoading }: { count: number; isLoading: boolean }) => {
+      setCounts((prev) => ({ ...prev, heldNft: count }))
+      setLoading((prev) => ({ ...prev, heldNft: isLoading }))
+    },
+    [],
   )
-  const updateIssuedMPTokenCount = useCallback(
-    (count: number) => updateIssuedCount('mpt', count),
-    [updateIssuedCount],
+
+  const updateIssuedIOUs = useCallback(
+    ({ count, isLoading }: { count: number; isLoading: boolean }) => {
+      setCounts((prev) => ({ ...prev, issuedIou: count }))
+      setLoading((prev) => ({ ...prev, issuedIou: isLoading }))
+    },
+    [],
   )
-  const updateIssuedNFTCount = useCallback(
-    (count: number) => updateIssuedCount('nft', count),
-    [updateIssuedCount],
+
+  const updateIssuedMPTs = useCallback(
+    ({ count, isLoading }: { count: number; isLoading: boolean }) => {
+      setCounts((prev) => ({ ...prev, issuedMpt: count }))
+      setLoading((prev) => ({ ...prev, issuedMpt: isLoading }))
+    },
+    [],
+  )
+
+  const updateIssuedNFTs = useCallback(
+    ({ count, isLoading }: { count: number; isLoading: boolean }) => {
+      setCounts((prev) => ({ ...prev, issuedNft: count }))
+      setLoading((prev) => ({ ...prev, issuedNft: isLoading }))
+    },
+    [],
   )
 
   // Tabs state
@@ -127,31 +155,47 @@ export default function AccountAsset({
       >
         <TabButton
           label={t('account_page_asset_tab_iou', {
-            count: localizeNumber(heldCounts.iou, lang),
-          })}
+            count: counts.heldIou,
+          }).replace(
+            counts.heldIou.toString(),
+            localizeNumber(counts.heldIou, lang) || '0',
+          )}
           active={heldTab === 'iou'}
           onClick={() => setHeldTab('iou')}
+          loading={loading.heldIou}
         />
         <TabButton
           label={t('account_page_asset_tab_mpt', {
-            count: localizeNumber(heldCounts.mpt, lang),
-          })}
+            count: counts.heldMpt,
+          }).replace(
+            counts.heldMpt.toString(),
+            localizeNumber(counts.heldMpt, lang) || '0',
+          )}
           active={heldTab === 'mpt'}
           onClick={() => setHeldTab('mpt')}
+          loading={loading.heldMpt}
         />
         <TabButton
           label={t('account_page_asset_tab_lptoken', {
-            count: localizeNumber(heldCounts.lptoken, lang),
-          })}
+            count: counts.heldLptoken,
+          }).replace(
+            counts.heldLptoken.toString(),
+            localizeNumber(counts.heldLptoken, lang) || '0',
+          )}
           active={heldTab === 'lptoken'}
           onClick={() => setHeldTab('lptoken')}
+          loading={loading.heldLptoken}
         />
         <TabButton
           label={t('account_page_asset_tab_nft', {
-            count: localizeNumber(heldCounts.nft, lang),
-          })}
+            count: counts.heldNft,
+          }).replace(
+            counts.heldNft.toString(),
+            localizeNumber(counts.heldNft, lang) || '0',
+          )}
           active={heldTab === 'nft'}
           onClick={() => setHeldTab('nft')}
+          loading={loading.heldNft}
         />
       </div>
 
@@ -163,17 +207,14 @@ export default function AccountAsset({
         <HeldIOUs
           accountId={accountId}
           xrpToUSDRate={xrpToUSDRate}
-          onCountChange={updateHeldIOUCount}
+          onChange={updateHeldIOUs}
         />
       </div>
       <div
         className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
         style={{ display: heldTab === 'mpt' ? 'block' : 'none' }}
       >
-        <HeldMPTs
-          accountId={accountId}
-          onCountChange={updateHeldMPTokenCount}
-        />
+        <HeldMPTs accountId={accountId} onChange={updateHeldMPTs} />
       </div>
       <div
         className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
@@ -181,7 +222,7 @@ export default function AccountAsset({
       >
         <HeldLPTokens
           accountId={accountId}
-          onCountChange={updateHeldLPTokenCount}
+          onChange={updateHeldLPTokens}
           xrpToUSDRate={xrpToUSDRate}
         />
       </div>
@@ -189,7 +230,7 @@ export default function AccountAsset({
         className="account-asset-table-wrapper"
         style={{ display: heldTab === 'nft' ? 'block' : 'none' }}
       >
-        <HeldNFTs accountId={accountId} onCountChange={updateHeldNFTCount} />
+        <HeldNFTs accountId={accountId} onChange={updateHeldNFTs} />
       </div>
 
       {/* Assets Issued */}
@@ -203,24 +244,36 @@ export default function AccountAsset({
       >
         <TabButton
           label={t('account_page_asset_tab_iou', {
-            count: localizeNumber(issuedCounts.iou, lang),
-          })}
+            count: counts.issuedIou,
+          }).replace(
+            counts.issuedIou.toString(),
+            localizeNumber(counts.issuedIou, lang) || '0',
+          )}
           active={issuedTab === 'iou'}
           onClick={() => setIssuedTab('iou')}
+          loading={loading.issuedIou}
         />
         <TabButton
           label={t('account_page_asset_tab_mpt', {
-            count: localizeNumber(issuedCounts.mpt, lang),
-          })}
+            count: counts.issuedMpt,
+          }).replace(
+            counts.issuedMpt.toString(),
+            localizeNumber(counts.issuedMpt, lang) || '0',
+          )}
           active={issuedTab === 'mpt'}
           onClick={() => setIssuedTab('mpt')}
+          loading={loading.issuedMpt}
         />
         <TabButton
           label={t('account_page_asset_tab_nft', {
-            count: localizeNumber(issuedCounts.nft, lang),
-          })}
+            count: counts.issuedNft,
+          }).replace(
+            counts.issuedNft.toString(),
+            localizeNumber(counts.issuedNft, lang) || '0',
+          )}
           active={issuedTab === 'nft'}
           onClick={() => setIssuedTab('nft')}
+          loading={loading.issuedNft}
         />
       </div>
 
@@ -233,26 +286,20 @@ export default function AccountAsset({
           accountId={accountId}
           account={account}
           xrpToUSDRate={xrpToUSDRate}
-          onCountChange={updateIssuedIOUCount}
+          onChange={updateIssuedIOUs}
         />
       </div>
       <div
         className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
         style={{ display: issuedTab === 'mpt' ? 'block' : 'none' }}
       >
-        <IssuedMPTs
-          accountId={accountId}
-          onCountChange={updateIssuedMPTokenCount}
-        />
+        <IssuedMPTs accountId={accountId} onChange={updateIssuedMPTs} />
       </div>
       <div
         className="account-asset-table-wrapper"
         style={{ display: issuedTab === 'nft' ? 'block' : 'none' }}
       >
-        <IssuedNFTs
-          accountId={accountId}
-          onCountChange={updateIssuedNFTCount}
-        />
+        <IssuedNFTs accountId={accountId} onChange={updateIssuedNFTs} />
       </div>
     </section>
   )

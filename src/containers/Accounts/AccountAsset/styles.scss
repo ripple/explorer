@@ -52,6 +52,27 @@
   color: $black-0;
 }
 
+// Loading spinner for tab buttons
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
 .account-asset-table {
   background: transparent;
 

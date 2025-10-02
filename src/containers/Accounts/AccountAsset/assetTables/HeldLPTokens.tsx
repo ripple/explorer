@@ -122,13 +122,13 @@ const processLPTokenAsset = async (rippledSocket, issuerAccount, asset) => {
 interface HeldLPTokensProps {
   accountId: string
   xrpToUSDRate: number
-  onCountChange?: (count: number) => void
+  onChange?: (data: { count: number; isLoading: boolean }) => void
 }
 
 export const HeldLPTokens = ({
   accountId,
   xrpToUSDRate,
-  onCountChange,
+  onChange,
 }: HeldLPTokensProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
@@ -167,12 +167,12 @@ export const HeldLPTokens = ({
     return 0
   })
 
-  // Communicate count back to parent
+  // Communicate count and loading state back to parent
   useEffect(() => {
-    if (onCountChange) {
-      onCountChange(rows.length)
+    if (onChange) {
+      onChange({ count: rows.length, isLoading: heldLPTokensQuery.isLoading })
     }
-  }, [rows.length, onCountChange])
+  }, [rows.length, heldLPTokensQuery.isLoading, onChange])
 
   if (heldLPTokensQuery.isLoading) {
     return <Loader />

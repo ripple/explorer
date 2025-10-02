@@ -21,7 +21,7 @@ const log = logger({ name: 'IssuedMPTs' })
 
 interface IssuedMPTsProps {
   accountId: string
-  onCountChange?: (count: number) => void
+  onChange?: (data: { count: number; isLoading: boolean }) => void
 }
 
 const fetchAccountIssuedMPTs = async (
@@ -75,7 +75,7 @@ const fetchAccountIssuedMPTs = async (
   return issuedMPTs
 }
 
-export const IssuedMPTs = ({ accountId, onCountChange }: IssuedMPTsProps) => {
+export const IssuedMPTs = ({ accountId, onChange }: IssuedMPTsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
@@ -85,12 +85,12 @@ export const IssuedMPTs = ({ accountId, onCountChange }: IssuedMPTsProps) => {
   )
   const rows = issuedMPTsQuery.data ?? []
 
-  // Communicate count back to parent
+  // Communicate count and loading state back to parent
   useEffect(() => {
-    if (onCountChange) {
-      onCountChange(rows.length)
+    if (onChange) {
+      onChange({ count: rows.length, isLoading: issuedMPTsQuery.isLoading })
     }
-  }, [rows.length, onCountChange])
+  }, [rows.length, issuedMPTsQuery.isLoading, onChange])
 
   if (issuedMPTsQuery.isLoading) {
     return <Loader />
