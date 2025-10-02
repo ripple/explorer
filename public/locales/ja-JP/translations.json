@@ -1,9 +1,6 @@
 {
   "action": "アクション",
   "assets": "資産",
-  "assets.nft_tab_title": "非代替性トークン",
-  "assets.issued_tab_title": "発行済み通貨",
-  "assets.no_issued_message": "トークンが見つかりません。",
   "assets.no_nfts_message": "NFTが見つかりません。",
   "network": "ネットワーク",
   "amendments": "Amendment",
@@ -536,7 +533,6 @@
   "holders": "保有者: {{holders}}",
   "trustlines": "トラストライン: {{trustlines}}",
   "website": "Webサイト",
-  "assets.mpt_tab_title": null,
   "assets.no_mpts_message": null,
   "transaction_type_name_MPTokenIssuanceCreate": null,
   "transaction_type_name_MPTokenIssuanceDestroy": null,

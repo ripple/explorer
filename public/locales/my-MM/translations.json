@@ -1,10 +1,6 @@
 {
   "action": "လုပ်ဆောင်ချက်",
   "assets": "ပိုင်ဆိုင်မှုများ",
-  "assets.nft_tab_title": "မတူညီသော Tokens များ",
-  "assets.mpt_tab_title": "ရည်ရွယ်ချက်များစွာသုံး Tokens များ",
-  "assets.issued_tab_title": "ထုတ်ပြန်ထားသော Tokens များ",
-  "assets.no_issued_message": "Token များ မတွေ့ရှိပါ။",
   "assets.no_nfts_message": "NFT များ မတွေ့ရှိပါ။",
   "assets.no_mpts_message": "MPT များ မတွေ့ရှိပါ။",
   "network": "ကွန်ယက်",
