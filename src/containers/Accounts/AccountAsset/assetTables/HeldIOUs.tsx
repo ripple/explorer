@@ -23,15 +23,9 @@ import {
 } from '../../../../rippled/lib/rippled'
 import logger from '../../../../rippled/lib/logger'
 import DefaultTokenIcon from '../../../shared/images/default_token_icon.svg'
-import { CURRENCY_OPTIONS, localizeNumber } from '../../../shared/utils'
+
 import { useLanguage } from '../../../shared/hooks'
-import {
-  USD_CURRENCY_OPTIONS,
-  USD_SMALL_BALANCE_CURRENCY_OPTIONS,
-  USD_EXTRA_SMALL_BALANCE_CURRENCY_OPTIONS,
-  NUMBER_DEFAULT_OPTIONS,
-  NUMBER_SMALL_OPTIONS,
-} from '../../../shared/NumberFormattingOptions'
+import { calculateFormattedUsdBalance } from '../../../shared/NumberFormattingUtils'
 
 const log = logger({ name: 'HeldIOUs' })
 
@@ -286,60 +280,56 @@ export const HeldIOUs = ({
               {t('account_page_asset_table_no_iou')}
             </EmptyMessageTableRow>
           ) : (
-            ious.map((token) => (
-              <tr key={`${token.tokenCode}-${token.issuer}-${token.balance}`}>
-                <td>
-                  <RouteLink
-                    to={TOKEN_ROUTE}
-                    params={{ token: `${token.tokenCode}.${token.issuer}` }}
-                  >
-                    <div className="token">
-                      {token.tokenIcon ? (
-                        <img
-                          src={token.tokenIcon}
-                          alt={token.tokenCode}
-                          className="token-icon"
-                        />
-                      ) : (
-                        <DefaultTokenIcon className="token-icon" />
-                      )}
-                      <Currency currency={token.tokenCode} />
-                    </div>
-                  </RouteLink>
-                </td>
-                <td>
-                  <Account
-                    shortAccount={
-                      token.issuerName || shortenAccount(token.issuer)
-                    }
-                    account={token.issuer}
-                  />
-                </td>
-                <td>
-                  {(() => {
-                    const usdPrice = token.priceInXRP * xrpToUSDRate
-                    const currencyOptions =
-                      usdPrice < 1 ? CURRENCY_OPTIONS : USD_CURRENCY_OPTIONS
-                    return localizeNumber(usdPrice, lang, currencyOptions)
-                  })()}
-                </td>
-                <td>{localizeNumber(token.balance, lang, CURRENCY_OPTIONS)}</td>
-                <td>
-                  {(() => {
-                    const balanceUSD =
-                      token.priceInXRP * token.balance * xrpToUSDRate
-                    const currencyOptions =
-                      balanceUSD < 1
-                        ? USD_SMALL_BALANCE_CURRENCY_OPTIONS
-                        : USD_CURRENCY_OPTIONS
-                    return localizeNumber(balanceUSD, lang, currencyOptions)
-                  })()}
-                </td>
-                <td className="asset-class">{token.assetClass}</td>
-                <td className="transfer-fee">{token.transferFee || '--'}</td>
-                <td>{token.frozen}</td>
-              </tr>
-            ))
+            ious.map((token) => {
+              const {
+                formattedUsdPrice,
+                formattedBalance,
+                formattedBalanceUsd,
+              } = calculateFormattedUsdBalance(
+                token.balance,
+                token.priceInXRP,
+                xrpToUSDRate,
+                lang,
+              )
+
+              return (
+                <tr key={`${token.tokenCode}-${token.issuer}-${token.balance}`}>
+                  <td>
+                    <RouteLink
+                      to={TOKEN_ROUTE}
+                      params={{ token: `${token.tokenCode}.${token.issuer}` }}
+                    >
+                      <div className="token">
+                        {token.tokenIcon ? (
+                          <img
+                            src={token.tokenIcon}
+                            alt={token.tokenCode}
+                            className="token-icon"
+                          />
+                        ) : (
+                          <DefaultTokenIcon className="token-icon" />
+                        )}
+                        <Currency currency={token.tokenCode} />
+                      </div>
+                    </RouteLink>
+                  </td>
+                  <td>
+                    <Account
+                      shortAccount={
+                        token.issuerName || shortenAccount(token.issuer)
+                      }
+                      account={token.issuer}
+                    />
+                  </td>
+                  <td>{formattedUsdPrice}</td>
+                  <td>{formattedBalance}</td>
+                  <td>{formattedBalanceUsd}</td>
+                  <td className="asset-class">{token.assetClass}</td>
+                  <td className="transfer-fee">{token.transferFee || '--'}</td>
+                  <td>{token.frozen}</td>
+                </tr>
+              )
+            })
           )}
         </tbody>
       </table>

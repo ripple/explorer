@@ -9,11 +9,11 @@ import Currency, {
 import { shortenAccount } from '../../../../rippled/lib/utils'
 import { Account } from '../../../shared/components/Account'
 import {
-  USD_CURRENCY_OPTIONS,
-  USD_SMALL_BALANCE_CURRENCY_OPTIONS,
-} from '../../../shared/NumberFormattingOptions'
+  formatTokenBalance,
+  formatUsdBalance,
+} from '../../../shared/NumberFormattingUtils'
 import { useLanguage } from '../../../shared/hooks'
-import { CURRENCY_OPTIONS, localizeNumber } from '../../../shared/utils'
+
 import {
   getBalances,
   getAMMInfoByAMMAccount,
@@ -201,50 +201,53 @@ export const HeldLPTokens = ({
               {t('account_page_asset_table_no_lptoken')}
             </EmptyMessageTableRow>
           ) : (
-            rows.map((row) => (
-              <tr key={`${row.ammInstance}`}>
-                <td>
-                  <Account
-                    account={row.ammInstance}
-                    shortAccount={shortenAccount(row.ammInstance)}
-                  />
-                </td>
-                <td>
-                  <Currency
-                    currency={row.currency1}
-                    displaySymbol={false}
-                    link={false}
-                  />
-                  /
-                  <Currency
-                    currency={row.currency2}
-                    displaySymbol={false}
-                    link={false}
-                  />
-                </td>
-                <td>
-                  {localizeNumber(row.lpTokenBalance, lang, CURRENCY_OPTIONS)}
-                </td>
-                <td>
-                  {row.currency1 === 'XRP' || row.currency2 === 'XRP'
-                    ? (() => {
-                        const balanceUSD =
-                          row.lpTokenBalance *
-                          row.lpTokenPriceInXRP *
-                          xrpToUSDRate
-                        const currencyOptions =
-                          balanceUSD < 1
-                            ? USD_SMALL_BALANCE_CURRENCY_OPTIONS
-                            : USD_CURRENCY_OPTIONS
-                        return localizeNumber(balanceUSD, lang, currencyOptions)
-                      })()
-                    : '--'}
-                </td>
-                <td>
-                  {row.share < 1 ? row.share.toFixed(4) : row.share.toFixed(2)}%
-                </td>
-              </tr>
-            ))
+            rows.map((row) => {
+              // Calculate display values using utility functions
+              const formattedBalance = formatTokenBalance(
+                row.lpTokenBalance,
+                lang,
+              )
+
+              // Format USD Balance (only for XRP pairs)
+              let formattedBalanceUsd = '--'
+              if (row.currency1 === 'XRP' || row.currency2 === 'XRP') {
+                const balanceUSD =
+                  row.lpTokenBalance * row.lpTokenPriceInXRP * xrpToUSDRate
+                formattedBalanceUsd = formatUsdBalance(balanceUSD, lang)
+              }
+
+              return (
+                <tr key={`${row.ammInstance}`}>
+                  <td>
+                    <Account
+                      account={row.ammInstance}
+                      shortAccount={shortenAccount(row.ammInstance)}
+                    />
+                  </td>
+                  <td>
+                    <Currency
+                      currency={row.currency1}
+                      displaySymbol={false}
+                      link={false}
+                    />
+                    /
+                    <Currency
+                      currency={row.currency2}
+                      displaySymbol={false}
+                      link={false}
+                    />
+                  </td>
+                  <td>{formattedBalance}</td>
+                  <td>{formattedBalanceUsd}</td>
+                  <td>
+                    {row.share < 1
+                      ? row.share.toFixed(4)
+                      : row.share.toFixed(2)}
+                    %
+                  </td>
+                </tr>
+              )
+            })
           )}
         </tbody>
       </table>

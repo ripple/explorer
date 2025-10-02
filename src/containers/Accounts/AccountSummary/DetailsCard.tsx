@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { localizeNumber } from '../../shared/utils'
-import { XRP_SMALL_BALANCE_CURRENCY_OPTIONS } from '../../shared/NumberFormattingOptions'
+import { XRP_SMALL_BALANCE_CURRENCY_OPTIONS } from '../../shared/NumberFormattingUtils'
 import { Account } from '../../shared/components/Account'
 
 interface DetailsCardProps {

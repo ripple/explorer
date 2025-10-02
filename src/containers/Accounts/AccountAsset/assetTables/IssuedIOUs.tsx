@@ -12,9 +12,12 @@ import SocketContext from '../../../shared/SocketContext'
 import { getBalances } from '../../../../rippled/lib/rippled'
 import logger from '../../../../rippled/lib/logger'
 import DefaultTokenIcon from '../../../shared/images/default_token_icon.svg'
-import { CURRENCY_OPTIONS, localizeNumber } from '../../../shared/utils'
+import { localizeNumber } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
-import { USD_CURRENCY_OPTIONS } from '../../../shared/NumberFormattingOptions'
+import {
+  formatUsdPrice,
+  formatTokenBalance,
+} from '../../../shared/NumberFormattingUtils'
 
 const log = logger({ name: 'IssuedIOUs' })
 
@@ -202,17 +205,10 @@ export const IssuedIOUs = ({
                     </div>
                   </RouteLink>
                 </td>
-                <td>
-                  {(() => {
-                    const usdPrice = token.priceInXRP * xrpToUSDRate
-                    const currencyOptions =
-                      usdPrice < 1 ? CURRENCY_OPTIONS : USD_CURRENCY_OPTIONS
-                    return localizeNumber(usdPrice, lang, currencyOptions)
-                  })()}
-                </td>
+                <td>{formatUsdPrice(token.priceInXRP * xrpToUSDRate, lang)}</td>
                 <td>{localizeNumber(token.trustlines, lang)}</td>
                 <td>{localizeNumber(token.holders, lang)}</td>
-                <td>{localizeNumber(token.supply, lang, CURRENCY_OPTIONS)}</td>
+                <td>{formatTokenBalance(token.supply, lang)}</td>
                 <td className="asset-class">{token.assetClass}</td>
                 <td className="transfer-fee">{token.transferFee}</td>
                 <td>{token.frozen}</td>
