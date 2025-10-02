@@ -109,13 +109,26 @@ const fetchAccountIssuedIOUs = async (
     const tokenId = `${currency}.${accountId}`
     const token = allTokens[tokenId]
 
+    // Use obligation value from gateway balance as supply since it excludes frozen balances
+    const obligationSupply = balancesResponse?.obligations?.[currency]
+      ? parseFloat(balancesResponse.obligations[currency])
+      : 0
+
+    const apiSupply = token?.supply ? parseFloat(token.supply) : 0
+    if (apiSupply > obligationSupply) {
+      const diff = apiSupply - obligationSupply
+      log.info(
+        `Supply for ${currency}: GatewayBalance=${obligationSupply}, API=${apiSupply}, Likely Frozen=${diff}`,
+      )
+    }
+
     return {
       tokenCode: currency,
       tokenIcon: token?.icon,
       priceInXRP: token?.price ? parseFloat(token.price) : 0,
       trustlines: token?.number_of_trustlines || 0,
       holders: token?.number_of_holders || 0,
-      supply: token?.supply || 0, // This including locked balance (see rcA8X3TVMST1n3CJeAdGk1RdRCHii7N2h)
+      supply: obligationSupply,
       assetClass: token?.asset_class || '--',
       transferFee: `${transferFee}%`,
       frozen: accountGlobalFreeze ? 'Global' : '--',
