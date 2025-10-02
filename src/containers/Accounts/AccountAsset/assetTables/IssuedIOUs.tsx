@@ -26,14 +26,13 @@ const LOS_TOKEN_API_BATCH_SIZE = 100
 interface IssuedIOUsProps {
   accountId: string
   account: any
-  xrpToUSDRate: number
   onChange?: (data: { count: number; isLoading: boolean }) => void
 }
 
 interface IOU {
   tokenCode: string
   tokenIcon?: string
-  priceInXRP: number
+  priceInUSD: number
   trustlines: number
   holders: number
   supply: number
@@ -125,7 +124,7 @@ const fetchAccountIssuedIOUs = async (
     return {
       tokenCode: currency,
       tokenIcon: token?.icon,
-      priceInXRP: token?.price ? parseFloat(token.price) : 0,
+      priceInUSD: token?.price_usd ? parseFloat(token.price_usd) : 0,
       trustlines: token?.number_of_trustlines || 0,
       holders: token?.number_of_holders || 0,
       supply: obligationSupply,
@@ -141,7 +140,6 @@ const fetchAccountIssuedIOUs = async (
 export const IssuedIOUs = ({
   accountId,
   account,
-  xrpToUSDRate,
   onChange,
 }: IssuedIOUsProps) => {
   const lang = useLanguage()
@@ -155,12 +153,8 @@ export const IssuedIOUs = ({
   // Sort by USD price
   const sortedIOUs = useMemo(() => {
     const data = issuedIOUsQuery.data || []
-    return [...data].sort((a, b) => {
-      const aBalanceUSD = a.priceInXRP * xrpToUSDRate
-      const bBalanceUSD = b.priceInXRP * xrpToUSDRate
-      return bBalanceUSD - aBalanceUSD
-    })
-  }, [issuedIOUsQuery.data, xrpToUSDRate])
+    return [...data].sort((a, b) => b.priceInUSD - a.priceInUSD)
+  }, [issuedIOUsQuery.data])
 
   // Communicate count and loading state back to parent
   useEffect(() => {
@@ -218,7 +212,7 @@ export const IssuedIOUs = ({
                     </div>
                   </RouteLink>
                 </td>
-                <td>{formatUsdPrice(token.priceInXRP * xrpToUSDRate, lang)}</td>
+                <td>{formatUsdPrice(token.priceInUSD, lang)}</td>
                 <td>{localizeNumber(token.trustlines, lang)}</td>
                 <td>{localizeNumber(token.holders, lang)}</td>
                 <td>{formatTokenBalance(token.supply, lang)}</td>

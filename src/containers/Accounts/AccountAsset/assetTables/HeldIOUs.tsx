@@ -29,11 +29,11 @@ import { calculateFormattedUsdBalance } from '../../../shared/NumberFormattingUt
 
 const log = logger({ name: 'HeldIOUs' })
 
+// The LOS Token API has a batch size limit of 100; larger requests will be rejected.
 const LOS_TOKEN_API_BATCH_SIZE = 100
 
 interface HeldIOUsProps {
   accountId: string
-  xrpToUSDRate: number
   onChange?: (data: { count: number; isLoading: boolean }) => void
 }
 
@@ -43,7 +43,7 @@ interface IOU {
   issuer: string
   issuerName: string
   balance: number
-  priceInXRP: number
+  priceInUSD: number
   assetClass: string
   transferFee?: string
   frozen?: string
@@ -160,7 +160,7 @@ const fetchAccountHeldIOUs = async (
       issuer: line.account,
       issuerName: token?.issuer_name,
       balance: parseFloat(line.balance),
-      priceInXRP: token?.price ? parseFloat(token.price) : 0,
+      priceInUSD: token?.price_usd ? parseFloat(token.price_usd) : 0,
       assetClass: token?.asset_class || '--',
       transferFee: '--',
       frozen: line.freeze || line.freeze_peer ? 'Trustline' : '--',
@@ -170,11 +170,7 @@ const fetchAccountHeldIOUs = async (
   return iouData
 }
 
-export const HeldIOUs = ({
-  accountId,
-  xrpToUSDRate,
-  onChange,
-}: HeldIOUsProps) => {
+export const HeldIOUs = ({ accountId, onChange }: HeldIOUsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
@@ -189,12 +185,10 @@ export const HeldIOUs = ({
   // Get data and sort by USD balance in one step
   const sortedIOUs = useMemo(() => {
     const data = heldIOUsQuery.data || []
-    return [...data].sort((a, b) => {
-      const aBalanceUSD = a.priceInXRP * a.balance * xrpToUSDRate
-      const bBalanceUSD = b.priceInXRP * b.balance * xrpToUSDRate
-      return bBalanceUSD - aBalanceUSD
-    })
-  }, [heldIOUsQuery.data, xrpToUSDRate])
+    return [...data].sort(
+      (a, b) => b.priceInUSD * b.balance - a.priceInUSD * a.balance,
+    )
+  }, [heldIOUsQuery.data])
 
   // Apply progressive updates to the base data
   const ious = sortedIOUs.map((token) => {
@@ -287,8 +281,7 @@ export const HeldIOUs = ({
                 formattedBalanceUsd,
               } = calculateFormattedUsdBalance(
                 token.balance,
-                token.priceInXRP,
-                xrpToUSDRate,
+                token.priceInUSD,
                 lang,
               )
 

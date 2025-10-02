@@ -114,15 +114,13 @@ export const formatTokenBalance = (balance: number, lang: string): string => {
  * Three-step calculation for USD balance to ensure mathematical consistency
  * Formats USD price, formats token balance, then calculates USD balance using displayed values
  * @param tokenBalance - The token balance
- * @param priceInXrp - Price in XRP
- * @param xrpToUsdRate - XRP to USD conversion rate
+ * @param priceInUSD - Price in USD
  * @param lang - Language for localization
  * @returns Object with formatted USD price, token balance, and calculated USD balance
  */
 export const calculateFormattedUsdBalance = (
   tokenBalance: number,
-  priceInXrp: number,
-  xrpToUsdRate: number,
+  priceInUSD: number,
   lang: string,
 ): {
   formattedUsdPrice: string
@@ -133,10 +131,9 @@ export const calculateFormattedUsdBalance = (
   let formattedBalance = '--'
   let formattedBalanceUsd = '--'
 
-  if (priceInXrp !== 0) {
+  if (priceInUSD !== 0) {
     // Step 1: Format USD Price
-    const rawUsdPrice = priceInXrp * xrpToUsdRate
-    formattedUsdPrice = formatUsdPrice(rawUsdPrice, lang)
+    formattedUsdPrice = formatUsdPrice(priceInUSD, lang)
     const displayedUsdPrice = parseFloat(
       (formattedUsdPrice || '0').replace(/[$,]/g, ''), // Removes dollar signs and commas from USD prices like "$4,321.30" → "4321.30"
     )
