@@ -465,7 +465,6 @@
     .properties {
       .properties-header {
         gap: 8px;
-        h3 { font-size: 18px; }
         .properties-toggle { padding: 4px; }
 
         .properties-arrow {
@@ -495,6 +494,14 @@
         .flag-item, .signer-item {
           padding: 10px;
         }
+      }
+    }
+  }
+
+  @media (max-width: $tablet-portrait-upper-boundary) {
+    .properties {
+      .properties-header {
+        h3 { font-size: 18px; }
       }
     }
   }

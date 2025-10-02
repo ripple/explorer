@@ -3,6 +3,7 @@ import './styles.scss'
 import { useTranslation } from 'react-i18next'
 import { localizeNumber } from '../../shared/utils'
 import { useLanguage } from '../../shared/hooks'
+import ArrowIcon from '../../shared/images/down_arrow.svg'
 import { HeldIOUs } from './assetTables/HeldIOUs'
 import { HeldMPTs } from './assetTables/HeldMPTs'
 import { HeldLPTokens } from './assetTables/HeldLPTokens'
@@ -142,164 +143,204 @@ export default function AccountAsset({
   const [heldTab, setHeldTab] = useState<HeldAssetTabKey>('iou')
   const [issuedTab, setIssuedTab] = useState<IssuedAssetTabKey>('iou')
 
+  // Collapse state - default to expanded (true means open)
+  const [heldSectionOpen, setHeldSectionOpen] = useState(true)
+  const [issuedSectionOpen, setIssuedSectionOpen] = useState(true)
+
   return (
     <section className="account-asset">
       {/* Assets Held */}
-      <h3 className="account-asset-title">
-        {t('account_page_asset_held_title')}
-      </h3>
-      <div
-        className="account-asset-tabs"
-        role="tablist"
-        aria-label="Assets Held Tabs"
-      >
-        <TabButton
-          label={t('account_page_asset_tab_iou', {
-            count: counts.heldIou,
-          }).replace(
-            counts.heldIou.toString(),
-            localizeNumber(counts.heldIou, lang) || '0',
-          )}
-          active={heldTab === 'iou'}
-          onClick={() => setHeldTab('iou')}
-          loading={loading.heldIou}
-        />
-        <TabButton
-          label={t('account_page_asset_tab_mpt', {
-            count: counts.heldMpt,
-          }).replace(
-            counts.heldMpt.toString(),
-            localizeNumber(counts.heldMpt, lang) || '0',
-          )}
-          active={heldTab === 'mpt'}
-          onClick={() => setHeldTab('mpt')}
-          loading={loading.heldMpt}
-        />
-        <TabButton
-          label={t('account_page_asset_tab_lptoken', {
-            count: counts.heldLptoken,
-          }).replace(
-            counts.heldLptoken.toString(),
-            localizeNumber(counts.heldLptoken, lang) || '0',
-          )}
-          active={heldTab === 'lptoken'}
-          onClick={() => setHeldTab('lptoken')}
-          loading={loading.heldLptoken}
-        />
-        <TabButton
-          label={t('account_page_asset_tab_nft', {
-            count: counts.heldNft,
-          }).replace(
-            counts.heldNft.toString(),
-            localizeNumber(counts.heldNft, lang) || '0',
-          )}
-          active={heldTab === 'nft'}
-          onClick={() => setHeldTab('nft')}
-          loading={loading.heldNft}
-        />
+      <div className="asset-section-header">
+        <h3 className="account-asset-title">
+          {t('account_page_asset_held_title')}
+        </h3>
+        <button
+          type="button"
+          className="asset-section-toggle"
+          onClick={() => setHeldSectionOpen((s) => !s)}
+          aria-expanded={heldSectionOpen}
+          aria-label="Toggle assets held section"
+        >
+          <ArrowIcon
+            className={`asset-section-arrow ${heldSectionOpen ? 'open' : ''}`}
+          />
+        </button>
       </div>
+      <div
+        className="account-asset-content"
+        style={{ display: heldSectionOpen ? 'block' : 'none' }}
+      >
+        <div
+          className="account-asset-tabs"
+          role="tablist"
+          aria-label="Assets Held Tabs"
+        >
+          <TabButton
+            label={t('account_page_asset_tab_iou', {
+              count: counts.heldIou,
+            }).replace(
+              counts.heldIou.toString(),
+              localizeNumber(counts.heldIou, lang) || '0',
+            )}
+            active={heldTab === 'iou'}
+            onClick={() => setHeldTab('iou')}
+            loading={loading.heldIou}
+          />
+          <TabButton
+            label={t('account_page_asset_tab_mpt', {
+              count: counts.heldMpt,
+            }).replace(
+              counts.heldMpt.toString(),
+              localizeNumber(counts.heldMpt, lang) || '0',
+            )}
+            active={heldTab === 'mpt'}
+            onClick={() => setHeldTab('mpt')}
+            loading={loading.heldMpt}
+          />
+          <TabButton
+            label={t('account_page_asset_tab_lptoken', {
+              count: counts.heldLptoken,
+            }).replace(
+              counts.heldLptoken.toString(),
+              localizeNumber(counts.heldLptoken, lang) || '0',
+            )}
+            active={heldTab === 'lptoken'}
+            onClick={() => setHeldTab('lptoken')}
+            loading={loading.heldLptoken}
+          />
+          <TabButton
+            label={t('account_page_asset_tab_nft', {
+              count: counts.heldNft,
+            }).replace(
+              counts.heldNft.toString(),
+              localizeNumber(counts.heldNft, lang) || '0',
+            )}
+            active={heldTab === 'nft'}
+            onClick={() => setHeldTab('nft')}
+            loading={loading.heldNft}
+          />
+        </div>
 
-      {/* Render all components to fetch data, but only show active tab */}
-      <div
-        className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
-        style={{ display: heldTab === 'iou' ? 'block' : 'none' }}
-      >
-        <HeldIOUs
-          accountId={accountId}
-          xrpToUSDRate={xrpToUSDRate}
-          onChange={updateHeldIOUs}
-        />
-      </div>
-      <div
-        className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
-        style={{ display: heldTab === 'mpt' ? 'block' : 'none' }}
-      >
-        <HeldMPTs accountId={accountId} onChange={updateHeldMPTs} />
-      </div>
-      <div
-        className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
-        style={{ display: heldTab === 'lptoken' ? 'block' : 'none' }}
-      >
-        <HeldLPTokens
-          accountId={accountId}
-          onChange={updateHeldLPTokens}
-          xrpToUSDRate={xrpToUSDRate}
-        />
-      </div>
-      <div
-        className="account-asset-table-wrapper"
-        style={{ display: heldTab === 'nft' ? 'block' : 'none' }}
-      >
-        <HeldNFTs accountId={accountId} onChange={updateHeldNFTs} />
+        {/* Render all components to fetch data, but only show active tab */}
+        <div
+          className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
+          style={{ display: heldTab === 'iou' ? 'block' : 'none' }}
+        >
+          <HeldIOUs
+            accountId={accountId}
+            xrpToUSDRate={xrpToUSDRate}
+            onChange={updateHeldIOUs}
+          />
+        </div>
+        <div
+          className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
+          style={{ display: heldTab === 'mpt' ? 'block' : 'none' }}
+        >
+          <HeldMPTs accountId={accountId} onChange={updateHeldMPTs} />
+        </div>
+        <div
+          className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
+          style={{ display: heldTab === 'lptoken' ? 'block' : 'none' }}
+        >
+          <HeldLPTokens
+            accountId={accountId}
+            onChange={updateHeldLPTokens}
+            xrpToUSDRate={xrpToUSDRate}
+          />
+        </div>
+        <div
+          className="account-asset-table-wrapper"
+          style={{ display: heldTab === 'nft' ? 'block' : 'none' }}
+        >
+          <HeldNFTs accountId={accountId} onChange={updateHeldNFTs} />
+        </div>
       </div>
 
       {/* Assets Issued */}
-      <h3 className="account-asset-title">
-        {t('account_page_asset_issued_title')}
-      </h3>
-      <div
-        className="account-asset-tabs"
-        role="tablist"
-        aria-label="Assets Issued Tabs"
-      >
-        <TabButton
-          label={t('account_page_asset_tab_iou', {
-            count: counts.issuedIou,
-          }).replace(
-            counts.issuedIou.toString(),
-            localizeNumber(counts.issuedIou, lang) || '0',
-          )}
-          active={issuedTab === 'iou'}
-          onClick={() => setIssuedTab('iou')}
-          loading={loading.issuedIou}
-        />
-        <TabButton
-          label={t('account_page_asset_tab_mpt', {
-            count: counts.issuedMpt,
-          }).replace(
-            counts.issuedMpt.toString(),
-            localizeNumber(counts.issuedMpt, lang) || '0',
-          )}
-          active={issuedTab === 'mpt'}
-          onClick={() => setIssuedTab('mpt')}
-          loading={loading.issuedMpt}
-        />
-        <TabButton
-          label={t('account_page_asset_tab_nft', {
-            count: counts.issuedNft,
-          }).replace(
-            counts.issuedNft.toString(),
-            localizeNumber(counts.issuedNft, lang) || '0',
-          )}
-          active={issuedTab === 'nft'}
-          onClick={() => setIssuedTab('nft')}
-          loading={loading.issuedNft}
-        />
+      <div className="asset-section-header">
+        <h3 className="account-asset-title">
+          {t('account_page_asset_issued_title')}
+        </h3>
+        <button
+          type="button"
+          className="asset-section-toggle"
+          onClick={() => setIssuedSectionOpen((s) => !s)}
+          aria-expanded={issuedSectionOpen}
+          aria-label="Toggle assets issued section"
+        >
+          <ArrowIcon
+            className={`asset-section-arrow ${issuedSectionOpen ? 'open' : ''}`}
+          />
+        </button>
       </div>
+      <div
+        className="account-asset-content"
+        style={{ display: issuedSectionOpen ? 'block' : 'none' }}
+      >
+        <div
+          className="account-asset-tabs"
+          role="tablist"
+          aria-label="Assets Issued Tabs"
+        >
+          <TabButton
+            label={t('account_page_asset_tab_iou', {
+              count: counts.issuedIou,
+            }).replace(
+              counts.issuedIou.toString(),
+              localizeNumber(counts.issuedIou, lang) || '0',
+            )}
+            active={issuedTab === 'iou'}
+            onClick={() => setIssuedTab('iou')}
+            loading={loading.issuedIou}
+          />
+          <TabButton
+            label={t('account_page_asset_tab_mpt', {
+              count: counts.issuedMpt,
+            }).replace(
+              counts.issuedMpt.toString(),
+              localizeNumber(counts.issuedMpt, lang) || '0',
+            )}
+            active={issuedTab === 'mpt'}
+            onClick={() => setIssuedTab('mpt')}
+            loading={loading.issuedMpt}
+          />
+          <TabButton
+            label={t('account_page_asset_tab_nft', {
+              count: counts.issuedNft,
+            }).replace(
+              counts.issuedNft.toString(),
+              localizeNumber(counts.issuedNft, lang) || '0',
+            )}
+            active={issuedTab === 'nft'}
+            onClick={() => setIssuedTab('nft')}
+            loading={loading.issuedNft}
+          />
+        </div>
 
-      {/* Render all components to fetch data, but only show active tab */}
-      <div
-        className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
-        style={{ display: issuedTab === 'iou' ? 'block' : 'none' }}
-      >
-        <IssuedIOUs
-          accountId={accountId}
-          account={account}
-          xrpToUSDRate={xrpToUSDRate}
-          onChange={updateIssuedIOUs}
-        />
-      </div>
-      <div
-        className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
-        style={{ display: issuedTab === 'mpt' ? 'block' : 'none' }}
-      >
-        <IssuedMPTs accountId={accountId} onChange={updateIssuedMPTs} />
-      </div>
-      <div
-        className="account-asset-table-wrapper"
-        style={{ display: issuedTab === 'nft' ? 'block' : 'none' }}
-      >
-        <IssuedNFTs accountId={accountId} onChange={updateIssuedNFTs} />
+        {/* Render all components to fetch data, but only show active tab */}
+        <div
+          className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
+          style={{ display: issuedTab === 'iou' ? 'block' : 'none' }}
+        >
+          <IssuedIOUs
+            accountId={accountId}
+            account={account}
+            xrpToUSDRate={xrpToUSDRate}
+            onChange={updateIssuedIOUs}
+          />
+        </div>
+        <div
+          className="account-asset-table-wrapper account-asset-table-wrapper-fixed"
+          style={{ display: issuedTab === 'mpt' ? 'block' : 'none' }}
+        >
+          <IssuedMPTs accountId={accountId} onChange={updateIssuedMPTs} />
+        </div>
+        <div
+          className="account-asset-table-wrapper"
+          style={{ display: issuedTab === 'nft' ? 'block' : 'none' }}
+        >
+          <IssuedNFTs accountId={accountId} onChange={updateIssuedNFTs} />
+        </div>
       </div>
     </section>
   )

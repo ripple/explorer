@@ -7,12 +7,45 @@
 .account-asset-title {
   @include bold;
 
-  margin: 0 0 20px;
   font-size: 20px;
+}
 
-  /* Only the second account-asset-title gets extra bottom margin */
-  &:nth-of-type(2) {
-    margin-top: 24px;
+.asset-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 24px 0 20px;
+  gap: 2px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  .account-asset-title {
+    margin: 0;
+  }
+
+  .asset-section-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .asset-section-arrow {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    transform-origin: center;
+    transition: transform 180ms ease;
+  }
+
+  .asset-section-arrow.open {
+    transform: rotate(180deg);
   }
 }
 
@@ -211,6 +244,12 @@
   /* Allow more height for scrollable tables on small screen */
   .account-asset-table-wrapper-fixed .account-asset-table {
     max-height: 400px;
+  }
+}
+
+@media (max-width: $tablet-portrait-upper-boundary) {
+  .account-asset-title {
+    font-size: 18px;
   }
 }
 
