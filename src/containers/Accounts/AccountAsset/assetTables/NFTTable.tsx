@@ -19,7 +19,7 @@ import {
 import DomainLink from '../../../shared/components/DomainLink'
 import { XRP_BASE } from '../../../shared/transactionUtils'
 import { localizeNumber } from '../../../shared/utils'
-import { XRP_SMALL_BALANCE_CURRENCY_OPTIONS } from '../../../shared/CurrencyOptions'
+import { XRP_SMALL_BALANCE_CURRENCY_OPTIONS } from '../../../shared/NumberFormattingOptions'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
 

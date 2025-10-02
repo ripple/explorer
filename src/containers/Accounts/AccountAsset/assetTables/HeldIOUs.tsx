@@ -28,7 +28,10 @@ import { useLanguage } from '../../../shared/hooks'
 import {
   USD_CURRENCY_OPTIONS,
   USD_SMALL_BALANCE_CURRENCY_OPTIONS,
-} from '../../../shared/CurrencyOptions'
+  USD_EXTRA_SMALL_BALANCE_CURRENCY_OPTIONS,
+  NUMBER_DEFAULT_OPTIONS,
+  NUMBER_SMALL_OPTIONS,
+} from '../../../shared/NumberFormattingOptions'
 
 const log = logger({ name: 'HeldIOUs' })
 

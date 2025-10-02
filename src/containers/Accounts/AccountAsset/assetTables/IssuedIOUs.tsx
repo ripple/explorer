@@ -14,7 +14,7 @@ import logger from '../../../../rippled/lib/logger'
 import DefaultTokenIcon from '../../../shared/images/default_token_icon.svg'
 import { CURRENCY_OPTIONS, localizeNumber } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
-import { USD_CURRENCY_OPTIONS } from '../../../shared/CurrencyOptions'
+import { USD_CURRENCY_OPTIONS } from '../../../shared/NumberFormattingOptions'
 
 const log = logger({ name: 'IssuedIOUs' })
 

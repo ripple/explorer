@@ -26,5 +26,27 @@ export const USD_SMALL_BALANCE_CURRENCY_OPTIONS = {
   style: 'currency',
   currency: 'USD',
   minimumFractionDigits: 2,
-  maximumFractionDigits: 6,
+  maximumFractionDigits: 4,
+}
+
+// Higher precision for small (<0.0001 USD) balances
+export const USD_EXTRA_SMALL_BALANCE_CURRENCY_OPTIONS = {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 8,
+}
+
+export const NUMBER_DEFAULT_OPTIONS = {
+  style: 'decimal',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+  useGrouping: true,
+}
+
+export const NUMBER_SMALL_OPTIONS = {
+  style: 'decimal',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 4,
+  useGrouping: true,
 }

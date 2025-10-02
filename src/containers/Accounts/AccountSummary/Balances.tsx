@@ -9,7 +9,7 @@ import ReserveIcon from '../../shared/images/xrp_reserve_balance_icon.svg'
 import {
   XRP_CURRENCY_OPTIONS,
   USD_CURRENCY_OPTIONS,
-} from '../../shared/CurrencyOptions'
+} from '../../shared/NumberFormattingOptions'
 
 interface BalancesProps {
   account: any

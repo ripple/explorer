@@ -11,7 +11,7 @@ import { Account } from '../../../shared/components/Account'
 import {
   USD_CURRENCY_OPTIONS,
   USD_SMALL_BALANCE_CURRENCY_OPTIONS,
-} from '../../../shared/CurrencyOptions'
+} from '../../../shared/NumberFormattingOptions'
 import { useLanguage } from '../../../shared/hooks'
 import { CURRENCY_OPTIONS, localizeNumber } from '../../../shared/utils'
 import {
