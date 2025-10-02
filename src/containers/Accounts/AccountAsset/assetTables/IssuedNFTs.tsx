@@ -24,7 +24,7 @@ const fetchAccountIssuedNFTs = async (
         rippledSocket,
         accountId,
         marker,
-        25,
+        50,
       )
       if (response.nfts) {
         allNFTs.push(...response.nfts)
