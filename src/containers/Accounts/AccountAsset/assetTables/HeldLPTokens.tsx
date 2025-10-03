@@ -6,13 +6,13 @@ import SocketContext from '../../../shared/SocketContext'
 import Currency, {
   LP_TOKEN_IDENTIFIER,
 } from '../../../shared/components/Currency'
-import { shortenAccount } from '../../../../rippled/lib/utils'
 import { Account } from '../../../shared/components/Account'
 import {
   formatTokenBalance,
   formatUsdBalance,
 } from '../../../shared/NumberFormattingUtils'
 import { useLanguage } from '../../../shared/hooks'
+import { shortenAccount } from '../../../shared/utils'
 
 import {
   getBalances,

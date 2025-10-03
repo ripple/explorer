@@ -11,14 +11,14 @@ import {
 } from '../../../../rippled/lib/rippled'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { NFTokenLink } from '../../../shared/components/NFTokenLink'
+import DomainLink from '../../../shared/components/DomainLink'
+import { XRP_BASE } from '../../../shared/transactionUtils'
 import {
+  localizeNumber,
   shortenAccount,
   shortenDomain,
   shortenNFTTokenID,
-} from '../../../../rippled/lib/utils'
-import DomainLink from '../../../shared/components/DomainLink'
-import { XRP_BASE } from '../../../shared/transactionUtils'
-import { localizeNumber } from '../../../shared/utils'
+} from '../../../shared/utils'
 import { XRP_SMALL_BALANCE_CURRENCY_OPTIONS } from '../../../shared/NumberFormattingUtils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'

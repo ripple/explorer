@@ -10,12 +10,12 @@ import {
   ACCOUNT_FLAGS,
   buildFlags,
   formatTransferFee,
-  shortenAccount,
 } from '../../../../rippled/lib/utils'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { RouteLink } from '../../../shared/routing'
 import { TOKEN_ROUTE } from '../../../App/routes'
 import SocketContext from '../../../shared/SocketContext'
+import { shortenAccount } from '../../../shared/utils'
 import {
   getBalances,
   getAccountLines,

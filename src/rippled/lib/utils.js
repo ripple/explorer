@@ -183,22 +183,6 @@ const formatMPToken = (info) => ({
   mptAmount: info.MPTAmount ? info.MPTAmount.toString(10) : '0',
 })
 
-const shortenAccount = (addr = '') =>
-  addr.length > 12 ? `${addr.slice(0, 7)}...${addr.slice(-5)}` : addr
-
-const shortenDomain = (domain = '') =>
-  domain.length > 26 ? `${domain.slice(0, 15)}...${domain.slice(-11)}` : domain
-
-const shortenNFTTokenID = (nftTokenID = '') =>
-  nftTokenID.length > 20
-    ? `${nftTokenID.slice(0, 10)}...${nftTokenID.slice(-10)}`
-    : nftTokenID
-
-const shortenMPTID = (mptTokenID = '') =>
-  mptTokenID.length > 20
-    ? `${mptTokenID.slice(0, 10)}...${mptTokenID.slice(-10)}`
-    : mptTokenID
-
 export {
   XRP_BASE,
   RippledError as Error,
@@ -211,8 +195,4 @@ export {
   formatMPTIssuance,
   formatMPToken,
   formatTransferFee,
-  shortenAccount,
-  shortenDomain,
-  shortenNFTTokenID,
-  shortenMPTID,
 }

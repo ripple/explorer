@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../shared/components/Account'
-import { shortenAccount } from '../../../rippled/lib/utils'
+import { shortenAccount } from '../../shared/utils'
 
 interface Signer {
   account: string

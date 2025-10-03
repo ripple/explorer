@@ -10,13 +10,11 @@ import {
   formatMPTIssuance,
   formatMPToken,
   formatTransferFee,
-  shortenAccount,
-  shortenMPTID,
 } from '../../../../rippled/lib/utils'
 import { getAccountMPTs, getMPTIssuance } from '../../../../rippled/lib/rippled'
 import SocketContext from '../../../shared/SocketContext'
 import ClockIcon from '../../../shared/images/clock-icon.svg'
-import { localizeNumber } from '../../../shared/utils'
+import { localizeNumber, shortenAccount, shortenMPTID } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
 

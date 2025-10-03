@@ -11,9 +11,8 @@ import SocketContext from '../../../shared/SocketContext'
 import {
   formatMPTIssuance,
   formatTransferFee,
-  shortenMPTID,
 } from '../../../../rippled/lib/utils'
-import { localizeNumber } from '../../../shared/utils'
+import { localizeNumber, shortenMPTID } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
 
