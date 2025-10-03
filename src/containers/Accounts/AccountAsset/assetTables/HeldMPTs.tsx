@@ -7,16 +7,25 @@ import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { Account } from '../../../shared/components/Account'
 import {
+  Tooltip,
+  useTooltip,
+  TooltipProvider,
+} from '../../../shared/components/Tooltip'
+import {
   formatMPTIssuance,
   formatMPToken,
   formatTransferFee,
 } from '../../../../rippled/lib/utils'
 import { getAccountMPTs, getMPTIssuance } from '../../../../rippled/lib/rippled'
 import SocketContext from '../../../shared/SocketContext'
-import ClockIcon from '../../../shared/images/clock-icon.svg'
-import { localizeNumber, shortenAccount, shortenMPTID } from '../../../shared/utils'
+import {
+  localizeNumber,
+  shortenAccount,
+  shortenMPTID,
+} from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
+import { FutureDataIcon } from '../FutureDataIcon'
 
 const log = logger({ name: 'HeldMPTs' })
 
@@ -116,10 +125,11 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
   return combinedMPTs
 }
 
-export const HeldMPTs = ({ accountId, onChange }: HeldMPTsProps) => {
+const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
+  const { tooltip } = useTooltip()
 
   const heldMPTsQuery = useQuery(['heldMPTs', accountId], () =>
     fetchAccountHeldMPTs(accountId, rippledSocket),
@@ -139,6 +149,7 @@ export const HeldMPTs = ({ accountId, onChange }: HeldMPTsProps) => {
 
   return (
     <div className="account-asset-table">
+      <Tooltip tooltip={tooltip} />
       <table>
         <thead>
           <tr>
@@ -166,18 +177,7 @@ export const HeldMPTs = ({ accountId, onChange }: HeldMPTsProps) => {
                     {shortenMPTID(token.tokenId)}
                   </RouteLink>
                 </td>
-                <td>
-                  {token.ticker ? (
-                    token.ticker
-                  ) : (
-                    <span
-                      className="future-feature"
-                      title="This data will be provided in a forthcoming release."
-                    >
-                      <ClockIcon className="clock-icon" />
-                    </span>
-                  )}
-                </td>
+                <td>{token.ticker ? token.ticker : <FutureDataIcon />}</td>
                 <td>
                   <Account
                     account={token.issuer}
@@ -188,33 +188,14 @@ export const HeldMPTs = ({ accountId, onChange }: HeldMPTsProps) => {
                   )}
                 </td>
                 <td>
-                  <span
-                    className="future-feature"
-                    title="This data will be provided in a forthcoming release."
-                  >
-                    <ClockIcon className="clock-icon" />
-                  </span>
+                  <FutureDataIcon />
                 </td>
                 <td>{localizeNumber(token.balance, lang)}</td>
                 <td>
-                  <span
-                    className="future-feature"
-                    title="This data will be provided in a forthcoming release."
-                  >
-                    <ClockIcon className="clock-icon" />
-                  </span>
+                  <FutureDataIcon />
                 </td>
                 <td>
-                  {token.assetClass ? (
-                    token.assetClass
-                  ) : (
-                    <span
-                      className="future-feature"
-                      title="This data will be provided in a forthcoming release."
-                    >
-                      <ClockIcon className="clock-icon" />
-                    </span>
-                  )}
+                  {token.assetClass ? token.assetClass : <FutureDataIcon />}
                 </td>
                 <td className="transfer-fee">{token.transferFee}%</td>
                 <td>
@@ -239,3 +220,9 @@ export const HeldMPTs = ({ accountId, onChange }: HeldMPTsProps) => {
     </div>
   )
 }
+
+export const HeldMPTs = ({ accountId, onChange }: HeldMPTsProps) => (
+  <TooltipProvider>
+    <HeldMPTsContent accountId={accountId} onChange={onChange} />
+  </TooltipProvider>
+)

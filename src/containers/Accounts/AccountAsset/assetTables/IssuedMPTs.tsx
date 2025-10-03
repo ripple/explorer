@@ -5,7 +5,12 @@ import { RouteLink } from '../../../shared/routing'
 import { MPT_ROUTE } from '../../../App/routes'
 import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
-import ClockIcon from '../../../shared/images/clock-icon.svg'
+import { FutureDataIcon } from '../FutureDataIcon'
+import {
+  Tooltip,
+  useTooltip,
+  TooltipProvider,
+} from '../../../shared/components/Tooltip'
 import { getAccountObjects } from '../../../../rippled/lib/rippled'
 import SocketContext from '../../../shared/SocketContext'
 import {
@@ -74,10 +79,11 @@ const fetchAccountIssuedMPTs = async (
   return issuedMPTs
 }
 
-export const IssuedMPTs = ({ accountId, onChange }: IssuedMPTsProps) => {
+const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
+  const { tooltip } = useTooltip()
 
   const issuedMPTsQuery = useQuery(['issuedMPTs', accountId], () =>
     fetchAccountIssuedMPTs(accountId, rippledSocket),
@@ -97,6 +103,7 @@ export const IssuedMPTs = ({ accountId, onChange }: IssuedMPTsProps) => {
 
   return (
     <div className="account-asset-table">
+      <Tooltip tooltip={tooltip} />
       <table>
         <thead>
           <tr>
@@ -123,29 +130,14 @@ export const IssuedMPTs = ({ accountId, onChange }: IssuedMPTsProps) => {
                   </RouteLink>
                 </td>
                 <td>
-                  <span
-                    className="future-feature"
-                    title="This data will be provided in a forthcoming release."
-                  >
-                    <ClockIcon className="clock-icon" />
-                  </span>
+                  <FutureDataIcon />
                 </td>
                 <td>
-                  <span
-                    className="future-feature"
-                    title="This data will be provided in a forthcoming release."
-                  >
-                    <ClockIcon className="clock-icon" />
-                  </span>
+                  <FutureDataIcon />
                 </td>
                 <td>{localizeNumber(token.supply, lang)}</td>
                 <td>
-                  <span
-                    className="future-feature"
-                    title="This data will be provided in a forthcoming release."
-                  >
-                    <ClockIcon className="clock-icon" />
-                  </span>
+                  <FutureDataIcon />
                 </td>
                 <td className="transfer-fee">{token.transferFee}%</td>
                 <td>
@@ -161,3 +153,9 @@ export const IssuedMPTs = ({ accountId, onChange }: IssuedMPTsProps) => {
     </div>
   )
 }
+
+export const IssuedMPTs = ({ accountId, onChange }: IssuedMPTsProps) => (
+  <TooltipProvider>
+    <IssuedMPTsContent accountId={accountId} onChange={onChange} />
+  </TooltipProvider>
+)

@@ -1,0 +1,14 @@
+@use '../../shared/css/variables' as *;
+
+.future-data {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+
+  .clock-icon {
+    width: px;
+    height: 16px;
+    color: $black-50;
+  }
+}
