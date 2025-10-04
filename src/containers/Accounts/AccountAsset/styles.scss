@@ -180,6 +180,11 @@
     color: $black-40;
     font-size: 16px;
     text-align: center;
+
+    @media (max-width: $tablet-portrait-upper-boundary) {
+      padding: 12px 14px;
+      font-size: 14px;
+    }
   }
 }
 

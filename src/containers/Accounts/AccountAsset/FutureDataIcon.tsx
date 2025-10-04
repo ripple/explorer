@@ -2,6 +2,9 @@ import ClockIcon from '../../shared/images/clock-icon.svg'
 import { useTooltip } from '../../shared/components/Tooltip'
 import './FutureDataIcon.scss'
 
+const TOOLTIP_X_OFFSET = 10
+const TOOLTIP_Y_OFFSET = -120
+
 interface FutureDataIconProps {
   message?: string
 }
@@ -21,8 +24,8 @@ export const FutureDataIcon = ({
     const rect = e.currentTarget.getBoundingClientRect()
     showTooltip('text', e as any, message, {
       // The tooltip position is adjusted to appear below and slightly to the right of the icon
-      x: rect.left + window.scrollX + 10,
-      y: rect.top + window.scrollY - 120,
+      x: rect.left + window.scrollX + TOOLTIP_X_OFFSET,
+      y: rect.top + window.scrollY + TOOLTIP_Y_OFFSET,
     })
   }
 
