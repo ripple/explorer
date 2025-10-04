@@ -26,11 +26,18 @@ const log = logger({ name: 'HeldLPTokens' })
 
 const fetchAccountHeldLPTokens = async (rippledSocket, accountId) => {
   log.info(`Finding LP Tokens via 'gatewayBalance' for account ${accountId}`)
-  const balancesResponse = await getBalances(rippledSocket, accountId)
-
+  let balancesResponse
+  try {
+    balancesResponse = await getBalances(rippledSocket, accountId)
+  } catch (error) {
+    log.error(
+      `Error calling gatewayBalances for account ${accountId}: ${JSON.stringify(error)}`,
+    )
+    return []
+  }
   const lpTokens: any[] = []
   for (const [issuerAccount, assets] of Object.entries(
-    balancesResponse?.assets || {},
+    balancesResponse?.assets ?? {},
   )) {
     for (const asset of assets as any[]) {
       if (asset.currency && asset.currency.startsWith(LP_TOKEN_IDENTIFIER)) {

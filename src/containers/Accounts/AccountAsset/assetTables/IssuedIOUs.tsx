@@ -47,8 +47,15 @@ const fetchAccountIssuedIOUs = async (
   account: any,
 ): Promise<IOU[]> => {
   log.info(`Finding issued IOUs via 'gatewayBalance' for account ${accountId}`)
-  const balancesResponse = await getBalances(rippledSocket, accountId)
-
+  let balancesResponse
+  try {
+    balancesResponse = await getBalances(rippledSocket, accountId)
+  } catch (error) {
+    log.error(
+      `Error calling gatewayBalances for account ${accountId}: ${JSON.stringify(error)}`,
+    )
+    return []
+  }
   const iouTokens: string[] = []
   if (balancesResponse?.obligations) {
     for (const currency of Object.keys(balancesResponse.obligations)) {

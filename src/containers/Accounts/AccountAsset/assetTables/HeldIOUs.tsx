@@ -53,11 +53,19 @@ const fetchAccountHeldIOUs = async (
   rippledSocket: any,
   accountId: string,
 ): Promise<IOU[]> => {
-  log.info(`Finding held IOUs via 'gatewayBalance' for account ${accountId}`)
-  const balancesResponse = await getBalances(rippledSocket, accountId)
+  log.info(`Finding held IOUs via 'gatewayBalances' for account ${accountId}`)
+  let balancesResponse
+  try {
+    balancesResponse = await getBalances(rippledSocket, accountId)
+  } catch (error) {
+    log.error(
+      `Error calling gatewayBalances for account ${accountId}: ${JSON.stringify(error)}`,
+    )
+    return []
+  }
 
   const iouTokens: any[] = []
-  for (const assets of Object.values(balancesResponse?.assets || {})) {
+  for (const assets of Object.values(balancesResponse?.assets ?? {})) {
     for (const asset of assets as any[]) {
       if (asset.currency && !asset.currency.startsWith(LP_TOKEN_IDENTIFIER)) {
         iouTokens.push(asset.currency)
