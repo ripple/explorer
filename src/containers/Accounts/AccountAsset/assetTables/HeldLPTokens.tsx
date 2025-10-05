@@ -48,6 +48,8 @@ const fetchAccountHeldLPTokens = async (rippledSocket, accountId) => {
           asset,
         )
 
+        // The currency code of an IOU could start with `LP_TOKEN_IDENTIFIER` as well,
+        // but `result` will be null since getAMMInfoByAMMAccount will throw an exception
         if (result) {
           lpTokens.push(result)
         }
@@ -60,69 +62,67 @@ const fetchAccountHeldLPTokens = async (rippledSocket, accountId) => {
 }
 
 const processLPTokenAsset = async (rippledSocket, issuerAccount, asset) => {
+  log.info(`Fetching AMM pool for account ${issuerAccount}`)
+  let ammInfoResponse
   try {
-    log.info(`Fetching AMM pool for account ${issuerAccount}`)
-    const ammInfoResponse = await getAMMInfoByAMMAccount(
-      rippledSocket,
-      issuerAccount,
-    )
-
-    if (!ammInfoResponse.amm) {
-      return null
-    }
-
-    const ammData = ammInfoResponse.amm
-
-    // Calculate share percentage
-    const accountLPTokenBalance = parseFloat(asset.value)
-    const ammLPTokenBalance = parseFloat(ammData.lp_token?.value || 0)
-    const sharePercentage =
-      ammLPTokenBalance > 0
-        ? (100 * accountLPTokenBalance) / ammLPTokenBalance
-        : 0
-
-    const isAmount1XRP = typeof ammData.amount === 'string'
-    const isAmount2XRP = typeof ammData.amount2 === 'string'
-
-    // Calculate LP Token price in XRP only when one of the assets is XRP
-    let lpTokenPriceInXRP = 0
-    if (isAmount1XRP || isAmount2XRP) {
-      const xrpAmount = isAmount1XRP
-        ? parseFloat(ammData.amount) / XRP_BASE
-        : parseFloat(ammData.amount2) / XRP_BASE
-
-      if (ammLPTokenBalance > 0 && xrpAmount > 0) {
-        // Price per LP token = (XRP in pool * 2) / total LP tokens
-        // We multiply by 2 because LP token represents share of both assets
-        lpTokenPriceInXRP = (xrpAmount * 2) / ammLPTokenBalance
-      }
-    }
-
-    let currency1
-    let currency2
-    if (isAmount1XRP && !isAmount2XRP) {
-      currency1 = 'XRP'
-      currency2 = ammData.amount2.currency
-    } else if (!isAmount1XRP && isAmount2XRP) {
-      currency1 = 'XRP'
-      currency2 = ammData.amount.currency
-    } else {
-      // Both are tokens (no XRP)
-      currency1 = ammData.amount.currency
-      currency2 = ammData.amount2.currency
-    }
-
-    return {
-      ammInstance: issuerAccount,
-      currency1,
-      currency2,
-      lpTokenBalance: accountLPTokenBalance,
-      lpTokenPriceInXRP,
-      share: sharePercentage,
-    }
+    ammInfoResponse = await getAMMInfoByAMMAccount(rippledSocket, issuerAccount)
   } catch (error) {
     log.error(`Error fetching AMM pool: ${JSON.stringify(error)}`)
     return null
+  }
+
+  if (!ammInfoResponse.amm) {
+    return null
+  }
+
+  const ammData = ammInfoResponse.amm
+
+  // Calculate share percentage
+  const accountLPTokenBalance = parseFloat(asset.value)
+  const ammLPTokenBalance = parseFloat(ammData.lp_token?.value || 0)
+  const sharePercentage =
+    ammLPTokenBalance > 0
+      ? (100 * accountLPTokenBalance) / ammLPTokenBalance
+      : 0
+
+  const isAmount1XRP = typeof ammData.amount === 'string'
+  const isAmount2XRP = typeof ammData.amount2 === 'string'
+
+  // Calculate LP Token price in XRP only when one of the assets is XRP
+  let lpTokenPriceInXRP = 0
+  if (isAmount1XRP || isAmount2XRP) {
+    const xrpAmount = isAmount1XRP
+      ? parseFloat(ammData.amount) / XRP_BASE
+      : parseFloat(ammData.amount2) / XRP_BASE
+
+    if (ammLPTokenBalance > 0 && xrpAmount > 0) {
+      // Price per LP token = (XRP in pool * 2) / total LP tokens
+      // We multiply by 2 because LP token represents share of both assets
+      lpTokenPriceInXRP = (xrpAmount * 2) / ammLPTokenBalance
+    }
+  }
+
+  let currency1
+  let currency2
+  if (isAmount1XRP && !isAmount2XRP) {
+    currency1 = 'XRP'
+    currency2 = ammData.amount2.currency
+  } else if (!isAmount1XRP && isAmount2XRP) {
+    currency1 = 'XRP'
+    currency2 = ammData.amount.currency
+  } else {
+    // Both are tokens (no XRP)
+    currency1 = ammData.amount.currency
+    currency2 = ammData.amount2.currency
+  }
+
+  return {
+    ammInstance: issuerAccount,
+    currency1,
+    currency2,
+    lpTokenBalance: accountLPTokenBalance,
+    lpTokenPriceInXRP,
+    share: sharePercentage,
   }
 }
 
