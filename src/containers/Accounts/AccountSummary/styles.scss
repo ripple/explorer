@@ -307,13 +307,6 @@
       background: $black-90;
       gap: 16px;
 
-      .details-title {
-        margin-bottom: 8px;
-        color: $black-0;
-        font-size: 20px;
-        @include semibold;
-      }
-
       .details-list {
         display: grid;
         gap: 8px;
@@ -387,7 +380,6 @@
       .details-card {
         padding: 16px;
       }
-      .details-title { font-size: 18px; }
 
       .details-list {
         /* Keep as grid instead of flex to maintain alignment */
@@ -502,6 +494,10 @@
     .properties {
       .properties-header {
         h3 { font-size: 18px; }
+      }
+
+      .properties-grid .card-header .header-title {
+        font-size: 18px;
       }
     }
   }

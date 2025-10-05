@@ -178,14 +178,13 @@ const getTransaction = (rippledSocket, txId) => {
   })
 }
 
-// get account info
-const getAccountInfo = (rippledSocket, account) =>
+const getAccountInfo = (rippledSocket, account, includeSignerLists = true) =>
   query(rippledSocket, {
     command: 'account_info',
     api_version: 1,
     account,
     ledger_index: 'validated',
-    signer_lists: true,
+    signer_lists: includeSignerLists,
   }).then((resp) => {
     if (resp.error === 'actNotFound') {
       throw new Error('account not found', 404)

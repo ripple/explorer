@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { useEffect, useContext, useMemo } from 'react'
-import Currency, {
-  LP_TOKEN_IDENTIFIER,
-} from '../../../shared/components/Currency'
+import Currency from '../../../shared/components/Currency'
 import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { RouteLink } from '../../../shared/routing'
@@ -56,14 +54,11 @@ const fetchAccountIssuedIOUs = async (
     )
     return []
   }
-  const iouTokens: string[] = []
-  if (balancesResponse?.obligations) {
-    for (const currency of Object.keys(balancesResponse.obligations)) {
-      if (!currency.startsWith(LP_TOKEN_IDENTIFIER)) {
-        iouTokens.push(currency)
-      }
-    }
-  }
+
+  // We don't need to filter out LP tokens because if an account issued an LP token,
+  // it would be an AMM account and would be displayed on the AMM account page
+  // instead of a regular account page
+  const iouTokens: string[] = Object.keys(balancesResponse?.obligations ?? {})
   if (iouTokens.length === 0) {
     // No IOUs issued by this account, return empty array
     return []

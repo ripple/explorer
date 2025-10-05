@@ -59,15 +59,44 @@ const fetchAccountHeldIOUs = async (
     balancesResponse = await getBalances(rippledSocket, accountId)
   } catch (error) {
     log.error(
-      `Error calling gatewayBalances for account ${accountId}: ${JSON.stringify(error)}`,
+      `Error calling 'gatewayBalances' for account ${accountId}: ${JSON.stringify(error)}`,
     )
     return []
   }
 
+  // Identify LP tokens by checking if it starts with '03' and the issuer account is an AMM account
+  const lpTokens = new Set<string>()
+  const assetsByIssuer = Object.entries(balancesResponse?.assets ?? {})
+  for (const [issuer, assets] of assetsByIssuer) {
+    const potentialLPTokenAssets = (assets as any[]).filter((asset) =>
+      asset.currency?.startsWith(LP_TOKEN_IDENTIFIER),
+    )
+
+    if (potentialLPTokenAssets.length > 0) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const accountInfo = await getAccountInfo(rippledSocket, issuer, false)
+        if (accountInfo?.AMMID) {
+          for (const asset of potentialLPTokenAssets) {
+            lpTokens.add(asset.currency)
+          }
+        }
+      } catch (error) {
+        log.warn(
+          `Error fetching account info for issuer ${issuer}: ${JSON.stringify(error)}`,
+        )
+        // If we can't fetch account info, assume it's not an AMM to be safe
+      }
+    }
+  }
+
+  log.info(`Found ${lpTokens.size} LP Tokens`)
+
+  // Collect all non-LP tokens
   const iouTokens: any[] = []
   for (const assets of Object.values(balancesResponse?.assets ?? {})) {
     for (const asset of assets as any[]) {
-      if (asset.currency && !asset.currency.startsWith(LP_TOKEN_IDENTIFIER)) {
+      if (asset.currency && !lpTokens.has(asset.currency)) {
         iouTokens.push(asset.currency)
       }
     }
@@ -76,6 +105,10 @@ const fetchAccountHeldIOUs = async (
     // No IOUs held, return empty array
     return []
   }
+
+  log.info(
+    `Identified ${lpTokens.size} LP tokens, proceeding with ${iouTokens.length} IOU currencies`,
+  )
 
   // Get all trust lines using account_lines with pagination
   const allTrustLines: any[] = []
@@ -105,11 +138,9 @@ const fetchAccountHeldIOUs = async (
   } while (marker)
   log.info(`Found ${allTrustLines.length} trust lines`)
 
-  // Filter for positive balances and exclude LP tokens
+  // Filter for positive balances and exclude LP tokens (using the identified LP token set)
   const positiveBalanceLines = allTrustLines.filter(
-    (line: any) =>
-      parseFloat(line.balance) > 0 &&
-      !line.currency.startsWith(LP_TOKEN_IDENTIFIER),
+    (line: any) => parseFloat(line.balance) > 0 && !lpTokens.has(line.currency),
   )
   log.info(
     `${positiveBalanceLines.length} IOU trust lines with positive balances`,
@@ -219,7 +250,7 @@ export const HeldIOUs = ({ accountId, onChange }: HeldIOUsProps) => {
       try {
         log.info(`Fetching account information for account ${issuer}`)
         // eslint-disable-next-line no-await-in-loop
-        const accountInfo = await getAccountInfo(rippledSocket, issuer)
+        const accountInfo = await getAccountInfo(rippledSocket, issuer, false)
 
         const transferFee = formatTransferFee(accountInfo?.TransferRate, 'IOU')
 
