@@ -599,12 +599,11 @@ const getOffers = (
     return resp
   })
 
-const getAMMInfo = (rippledSocket, asset, asset2) => {
+const getAMMInfo = (rippledSocket, params) => {
   const request = {
     command: 'amm_info',
-    asset,
-    asset2,
     ledger_index: 'validated',
+    ...params,
   }
 
   return query(rippledSocket, request).then((resp) => {
@@ -622,27 +621,11 @@ const getAMMInfo = (rippledSocket, asset, asset2) => {
   })
 }
 
-const getAMMInfoByAMMAccount = (rippledSocket, ammAccount) => {
-  const request = {
-    command: 'amm_info',
-    amm_account: ammAccount,
-    ledger_index: 'validated',
-  }
+const getAMMInfoByAssets = (rippledSocket, asset, asset2) =>
+  getAMMInfo(rippledSocket, { asset, asset2 })
 
-  return query(rippledSocket, request).then((resp) => {
-    if (resp.error_message) {
-      throw new Error(resp.error_message)
-    }
-
-    if (!resp.validated) {
-      throw new Error(
-        'Ledger is not validated. The response data is pending and might change',
-      )
-    }
-
-    return resp
-  })
-}
+const getAMMInfoByAMMAccount = (rippledSocket, ammAccount) =>
+  getAMMInfo(rippledSocket, { amm_account: ammAccount })
 
 // get feature
 const getFeature = (rippledSocket, amendmentId) => {
@@ -787,7 +770,7 @@ export {
   getBuyNFToffers,
   getSellNFToffers,
   getNFTTransactions,
-  getAMMInfo,
+  getAMMInfoByAssets,
   getAMMInfoByAMMAccount,
   getFeature,
   getMPTIssuance,
