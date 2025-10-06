@@ -12,16 +12,11 @@ interface Props {
   account: any
 }
 
-let assetTypes = ['issued', 'nft']
+const assetTypes = ['issued', 'nft', 'mpt']
 
 export const AccountAssetTab = ({ account }: Props) => {
   const { id: accountId = '', assetType = assetTypes[0] } =
     useRouteParams(ACCOUNT_ROUTE)
-
-  const supportsMPT = ['mpt_sandbox', 'devnet'].includes(
-    process.env.VITE_ENVIRONMENT as string,
-  )
-  if (supportsMPT) assetTypes = ['issued', 'nft', 'mpt']
 
   const navigate = useNavigate()
   const { t } = useTranslation()

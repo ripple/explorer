@@ -9,12 +9,14 @@ describe('CredentialAcceptTableDetail ', () => {
     const wrapper = createWrapper(mockCredentialCreate)
 
     expect(wrapper.find('[data-testid="subject"]')).toHaveText(
-      'subject: rwXChshgJHh6KwwXY8hN1iNAiuyzJkz7p6',
+      'subject: rDeEwcsbGz4GXyGpyRuQo9vRGGT269Jmjk',
     )
     expect(wrapper.find('[data-testid="credential-type"]')).toHaveText(
-      'credential_type: My test credential',
+      'credential_type: VerifiedAccount',
     )
-    expect(wrapper.find('[data-testid="uri"]')).toHaveText('uri: testURI')
+    expect(wrapper.find('[data-testid="expiration"]')).toHaveText(
+      'expiration: 844523610',
+    )
 
     wrapper.unmount()
   })
