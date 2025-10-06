@@ -7,6 +7,7 @@ import { useAnalytics } from '../../shared/analytics'
 import SocketContext from '../../shared/SocketContext'
 
 import { getAccountTransactions } from '../../../rippled'
+import './styles.scss'
 
 export interface AccountTransactionsTableProps {
   accountId: string
