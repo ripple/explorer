@@ -44,7 +44,6 @@ const fetchAccountIssuedIOUs = async (
   accountId: string,
   account: any,
 ): Promise<IOU[]> => {
-  log.info(`Finding issued IOUs via 'gatewayBalance' for account ${accountId}`)
   let balancesResponse
   try {
     balancesResponse = await getBalances(rippledSocket, accountId)
@@ -63,7 +62,6 @@ const fetchAccountIssuedIOUs = async (
     // No IOUs issued by this account, return empty array
     return []
   }
-  log.info(`Found ${iouTokens.length} issued IOUs`)
 
   // Batch get token data from LOS Token API
   const allTokenIds = iouTokens.map((currency) => `${currency}.${accountId}`)
@@ -99,9 +97,6 @@ const fetchAccountIssuedIOUs = async (
       )
     }
   }
-  log.info(
-    `Successfully fetched LOS data for ${Object.keys(allTokens).length} issued IOUs`,
-  )
 
   const transferFee = account?.info?.rate
   const accountGlobalFreeze = account?.info?.flags?.includes('lsfGlobalFreeze')
@@ -118,7 +113,7 @@ const fetchAccountIssuedIOUs = async (
     const apiSupply = token?.supply ? parseFloat(token.supply) : 0
     if (apiSupply > obligationSupply) {
       const diff = apiSupply - obligationSupply
-      log.info(
+      log.warn(
         `Supply for ${currency}: GatewayBalance=${obligationSupply}, API=${apiSupply}, Likely Frozen=${diff}`,
       )
     }

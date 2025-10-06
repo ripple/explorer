@@ -15,7 +15,6 @@ const fetchAccountHeldNFTs = async (
   rippledSocket: any,
 ): Promise<NFT[]> => {
   try {
-    log.info(`Fetching held NFTs for account ${accountId}`)
     const allNFTs: any[] = []
     let marker = ''
     do {
@@ -28,13 +27,11 @@ const fetchAccountHeldNFTs = async (
       )
       if (response.account_nfts) {
         allNFTs.push(...response.account_nfts)
-        log.info(`${allNFTs.length} held NFTs fetched`)
       }
 
       marker = response.marker || ''
     } while (marker)
 
-    log.info(`Successfully fetched ${allNFTs.length} held NFTs`)
     return allNFTs.map((nft) => ({
       nftId: nft.NFTokenID,
       issuer: nft.Issuer,

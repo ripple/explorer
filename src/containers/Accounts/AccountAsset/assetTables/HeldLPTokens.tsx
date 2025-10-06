@@ -25,7 +25,6 @@ import logger from '../../../../rippled/lib/logger'
 const log = logger({ name: 'HeldLPTokens' })
 
 const fetchAccountHeldLPTokens = async (rippledSocket, accountId) => {
-  log.info(`Finding LP Tokens via 'gatewayBalance' for account ${accountId}`)
   let balancesResponse
   try {
     balancesResponse = await getBalances(rippledSocket, accountId)
@@ -57,12 +56,10 @@ const fetchAccountHeldLPTokens = async (rippledSocket, accountId) => {
     }
   }
 
-  log.info(`Found ${lpTokens.length} LP Tokens`)
   return lpTokens
 }
 
 const processLPTokenAsset = async (rippledSocket, issuerAccount, asset) => {
-  log.info(`Fetching AMM pool for account ${issuerAccount}`)
   let ammInfoResponse
   try {
     ammInfoResponse = await getAMMInfoByAMMAccount(rippledSocket, issuerAccount)

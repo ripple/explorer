@@ -32,8 +32,6 @@ const fetchAccountIssuedMPTs = async (
   accountId: string,
   rippledSocket: any,
 ) => {
-  log.info(`Fetching MPT Issuances for account ${accountId}`)
-
   const mptIssuances: any[] = []
   let marker = ''
   do {
@@ -57,8 +55,6 @@ const fetchAccountIssuedMPTs = async (
       break
     }
   } while (marker)
-
-  log.info(`Successfully fetched ${mptIssuances.length} MPT Issuances`)
 
   // Format the MPT issuances
   const issuedMPTs = mptIssuances.map((mptIssuance: any) => {

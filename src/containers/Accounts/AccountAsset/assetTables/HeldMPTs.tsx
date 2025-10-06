@@ -35,8 +35,6 @@ interface HeldMPTsProps {
 }
 
 const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
-  log.info(`Fetching MPTs for account ${accountId}`)
-
   const mpts: any[] = []
   let marker = ''
   do {
@@ -56,18 +54,14 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
     }
   } while (marker)
 
-  log.info(`Successfully fetched ${mpts.length} MPTs`)
-
   // Format and filter MPTs
   const positiveBalanceMPTs = mpts
     .map((mpToken: any) => formatMPToken(mpToken))
     .filter((mpToken: any) => parseInt(mpToken.mptAmount || '0', 10) > 0)
-  log.info(`${positiveBalanceMPTs.length} MPTs with positive MPTAmount`)
 
   // For each MPTokenIssuanceID, call getMPTIssuance and format the response
   const mptIssuancePromises = positiveBalanceMPTs.map(async (mpToken: any) => {
     try {
-      log.info(`Fetching MPT issuance for token ${mpToken.mptIssuanceID}`)
       const mptIssuanceResponse = await getMPTIssuance(
         rippledSocket,
         mpToken.mptIssuanceID,
@@ -87,9 +81,6 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
   })
 
   const mptIssuanceResults = await Promise.all(mptIssuancePromises)
-  log.info(
-    `Successfully fetched ${mptIssuanceResults.length} MPT issuances for ${positiveBalanceMPTs.length} MPTs`,
-  )
   const mptIssuanceIdToIssuance = new Map()
   mptIssuanceResults.forEach((result) => {
     if (result && result.mptIssuance) {

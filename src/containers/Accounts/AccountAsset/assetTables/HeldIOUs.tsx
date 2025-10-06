@@ -53,7 +53,6 @@ const fetchAccountHeldIOUs = async (
   rippledSocket: any,
   accountId: string,
 ): Promise<IOU[]> => {
-  log.info(`Finding held IOUs via 'gatewayBalances' for account ${accountId}`)
   let balancesResponse
   try {
     balancesResponse = await getBalances(rippledSocket, accountId)
@@ -64,7 +63,7 @@ const fetchAccountHeldIOUs = async (
     return []
   }
 
-  // Identify LP tokens by checking if it starts with '03' and the issuer account is an AMM account
+  // Identify LP tokens by checking if it starts with '03' and its issuer account is an AMM account
   const lpTokens = new Set<string>()
   const assetsByIssuer = Object.entries(balancesResponse?.assets ?? {})
   for (const [issuer, assets] of assetsByIssuer) {
@@ -90,8 +89,6 @@ const fetchAccountHeldIOUs = async (
     }
   }
 
-  log.info(`Found ${lpTokens.size} LP Tokens`)
-
   // Collect all non-LP tokens
   const iouTokens: any[] = []
   for (const assets of Object.values(balancesResponse?.assets ?? {})) {
@@ -105,10 +102,6 @@ const fetchAccountHeldIOUs = async (
     // No IOUs held, return empty array
     return []
   }
-
-  log.info(
-    `Identified ${lpTokens.size} LP tokens, proceeding with ${iouTokens.length} IOU currencies`,
-  )
 
   // Get all trust lines using account_lines with pagination
   const allTrustLines: any[] = []
@@ -136,15 +129,12 @@ const fetchAccountHeldIOUs = async (
       break
     }
   } while (marker)
-  log.info(`Found ${allTrustLines.length} trust lines`)
 
   // Filter for positive balances and exclude LP tokens (using the identified LP token set)
   const positiveBalanceLines = allTrustLines.filter(
     (line: any) => parseFloat(line.balance) > 0 && !lpTokens.has(line.currency),
   )
-  log.info(
-    `${positiveBalanceLines.length} IOU trust lines with positive balances`,
-  )
+
   if (positiveBalanceLines.length === 0) {
     return []
   }
@@ -185,9 +175,7 @@ const fetchAccountHeldIOUs = async (
       )
     }
   }
-  log.info(
-    `Successfully fetched LOS data for ${Object.keys(allTokens).length} held IOUs`,
-  )
+
   // Combine all data (without transfer fees and Global freeze status for now)
   const iouData: IOU[] = positiveBalanceLines.map((line: any) => {
     const tokenId = `${line.currency}.${line.account}`
@@ -248,7 +236,6 @@ export const HeldIOUs = ({ accountId, onChange }: HeldIOUsProps) => {
     const uniqueIssuers = [...new Set(sortedIOUs.map((line) => line.issuer))]
     for (const issuer of uniqueIssuers) {
       try {
-        log.info(`Fetching account information for account ${issuer}`)
         // eslint-disable-next-line no-await-in-loop
         const accountInfo = await getAccountInfo(rippledSocket, issuer, false)
 
