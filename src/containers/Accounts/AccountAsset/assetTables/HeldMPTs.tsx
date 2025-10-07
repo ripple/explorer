@@ -99,7 +99,7 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
       issuer: mptIssuance?.issuer || '',
       issuerName: mptIssuance?.metadata?.IssuerName || null,
       assetClass: mptIssuance?.metadata?.AssetClass || null,
-      transferFee: formatTransferFee(mptIssuance?.transferFee),
+      transferFee: formatTransferFee(mptIssuance?.transferFee, 'MPT'),
       locked: (() => {
         if (mptIssuance?.flags?.includes('lsfMPTLocked')) {
           return 'Global'

@@ -70,7 +70,7 @@ export const buildFlags = (flags, flagMap) => {
     .filter((d) => Boolean(d))
 }
 
-const formatTransferFee = (transferFee, tokenType = '') => {
+const formatTransferFee = (transferFee, tokenType) => {
   if (!transferFee) {
     return '0'
   }
@@ -81,12 +81,14 @@ const formatTransferFee = (transferFee, tokenType = '') => {
     return parseFloat(transferFeePercentage.toFixed(7)).toString()
   }
 
-  // For MPT and NFT
   // MTP: https://xrpl.org/docs/references/protocol/data-types/nftoken#transferfee
   // NFT: https://xrpl.org/docs/concepts/tokens/fungible-tokens/multi-purpose-tokens#transfer-fees
-  const transferFeePercentage = transferFee / THOUSAND
+  if (tokenType === 'NFT' || tokenType === 'MPT') {
+    const transferFeePercentage = transferFee / THOUSAND
+    return parseFloat(transferFeePercentage.toFixed(3)).toString()
+  }
 
-  return parseFloat(transferFeePercentage.toFixed(3)).toString()
+  throw new Error(`Unsupported Token type: ${tokenType}`)
 }
 
 const formatAccountInfo = (info, serverInfoValidated) => ({

@@ -36,7 +36,7 @@ const fetchAccountHeldNFTs = async (
       nftId: nft.NFTokenID,
       issuer: nft.Issuer,
       url: nft.URI ? Buffer.from(nft.URI, 'hex').toString('utf8') : '',
-      transferFee: formatTransferFee(nft.TransferFee),
+      transferFee: formatTransferFee(nft.TransferFee, 'NFT'),
     }))
   } catch (error) {
     log.error(`Error fetching held NFTs: ${JSON.stringify(error)}`)

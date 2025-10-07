@@ -65,7 +65,7 @@ const fetchAccountIssuedMPTs = async (
       ticker: formattedIssuance?.metadata?.Ticker || null,
       supply: formattedIssuance?.outstandingAmt || '0',
       assetClass: formattedIssuance?.metadata?.AssetClass || null,
-      transferFee: formatTransferFee(formattedIssuance?.transferFee),
+      transferFee: formatTransferFee(formattedIssuance?.transferFee, 'MPT'),
       locked: formattedIssuance?.flags?.includes('lsfMPTLocked')
         ? 'Global'
         : '',
