@@ -1,5 +1,13 @@
 import { localizeNumber } from './utils'
 
+/**
+ * Thresholds for determining formatting precision.
+ * Adjust these values as needed to match product or UX requirements.
+ */
+const USD_REGULAR_BALANCE_LOWER_BOUND = 1
+const USD_SMALL_BALANCE_LOWER_BOUND = 0.0001
+const TOKEN_BALANCE_LARGE_LOWER_BOUND = 999
+
 // Standard display for most XRP amounts (2 decimals)
 export const XRP_CURRENCY_OPTIONS = {
   style: 'currency',
@@ -65,9 +73,9 @@ export const formatUsdPrice = (price: number, lang: string): string => {
   }
 
   let options
-  if (price >= 1) {
+  if (price >= USD_REGULAR_BALANCE_LOWER_BOUND) {
     options = USD_CURRENCY_OPTIONS
-  } else if (price >= 0.0001) {
+  } else if (price >= USD_SMALL_BALANCE_LOWER_BOUND) {
     options = USD_SMALL_BALANCE_CURRENCY_OPTIONS
   } else {
     options = USD_EXTRA_SMALL_BALANCE_CURRENCY_OPTIONS
@@ -88,9 +96,9 @@ export const formatUsdBalance = (balance: number, lang: string): string => {
   }
 
   let options
-  if (balance >= 1) {
+  if (balance >= USD_REGULAR_BALANCE_LOWER_BOUND) {
     options = USD_CURRENCY_OPTIONS
-  } else if (balance >= 0.0001) {
+  } else if (balance >= USD_SMALL_BALANCE_LOWER_BOUND) {
     options = USD_SMALL_BALANCE_CURRENCY_OPTIONS
   } else {
     options = USD_EXTRA_SMALL_BALANCE_CURRENCY_OPTIONS
@@ -106,7 +114,10 @@ export const formatUsdBalance = (balance: number, lang: string): string => {
  * @returns Formatted balance string
  */
 export const formatTokenBalance = (balance: number, lang: string): string => {
-  const options = balance > 999 ? NUMBER_DEFAULT_OPTIONS : NUMBER_SMALL_OPTIONS
+  const options =
+    balance > TOKEN_BALANCE_LARGE_LOWER_BOUND
+      ? NUMBER_DEFAULT_OPTIONS
+      : NUMBER_SMALL_OPTIONS
   return localizeNumber(balance, lang, options) || '0'
 }
 
