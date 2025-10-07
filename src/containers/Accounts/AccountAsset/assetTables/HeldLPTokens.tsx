@@ -225,7 +225,7 @@ export const HeldLPTokens = ({
                   <td>
                     <Account
                       account={row.ammInstance}
-                      shortAccount={shortenAccount(row.ammInstance)}
+                      displayText={shortenAccount(row.ammInstance)}
                     />
                   </td>
                   <td>

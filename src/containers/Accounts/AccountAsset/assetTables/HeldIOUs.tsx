@@ -334,7 +334,7 @@ export const HeldIOUs = ({ accountId, onChange }: HeldIOUsProps) => {
                   </td>
                   <td>
                     <Account
-                      shortAccount={
+                      displayText={
                         token.issuerName || shortenAccount(token.issuer)
                       }
                       account={token.issuer}

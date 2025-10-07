@@ -241,7 +241,7 @@ export const NFTTable = ({
                   {showIssuer && nft.issuer && (
                     <td>
                       <Account
-                        shortAccount={shortenAccount(nft.issuer)}
+                        displayText={shortenAccount(nft.issuer)}
                         account={nft.issuer}
                       />
                     </td>

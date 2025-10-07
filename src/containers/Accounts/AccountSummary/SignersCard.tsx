@@ -23,7 +23,7 @@ const SignersCard = ({ signers }: SignersCardProps) => {
             <div className="signer-address">
               <Account
                 account={signer.account}
-                shortAccount={shortenAccount(signer.account)}
+                displayText={shortenAccount(signer.account)}
               />
             </div>
             {signer.weight !== undefined && (

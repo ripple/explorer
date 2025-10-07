@@ -172,11 +172,10 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
                 <td>
                   <Account
                     account={token.issuer}
-                    shortAccount={shortenAccount(token.issuer)}
+                    displayText={
+                      token.issuerName || shortenAccount(token.issuer)
+                    }
                   />
-                  {token.issuerName && (
-                    <div className="issuer-name">{token.issuerName}</div>
-                  )}
                 </td>
                 <td>
                   <FutureDataIcon />
