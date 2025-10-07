@@ -84,6 +84,7 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
   const issuedMPTsQuery = useQuery(['issuedMPTs', accountId], () =>
     fetchAccountIssuedMPTs(accountId, rippledSocket),
   )
+  // TODO: When MPT Dex is live, sort MPTs based on USD price
   const rows = issuedMPTsQuery.data ?? []
 
   // Communicate count and loading state back to parent

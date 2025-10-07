@@ -125,6 +125,7 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
   const heldMPTsQuery = useQuery(['heldMPTs', accountId], () =>
     fetchAccountHeldMPTs(accountId, rippledSocket),
   )
+  // TODO: When MPT Dex is live, sort MPTs based on USD balances
   const rows = heldMPTsQuery.data ?? []
 
   // Communicate count and loading state back to parent

@@ -96,7 +96,7 @@ export const NFTTable = ({
           : []
       } catch (error: any) {
         if (error.code === 404 && error.message === 'notFound') {
-          log.warn(`No offers returned from ${fetchFn.name} for NFT ${nftId}`)
+          // This means there is no offer for the given NFT
         } else {
           log.error(error)
         }
