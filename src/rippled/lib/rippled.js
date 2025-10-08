@@ -352,7 +352,6 @@ const getBalances = (rippledSocket, account, ledgerIndex = 'validated') =>
     return resp
   })
 
-// get account transactions
 const getAccountTransactions = (
   rippledSocket,
   account,
