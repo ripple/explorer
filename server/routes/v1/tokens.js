@@ -115,22 +115,16 @@ const getAllTokens = async (req, res) => {
       count: cachedTokenList.tokens.length,
       market_cap: cachedTokenList.tokens
         .reduce((sum, token) => {
-          const cap = Number(token.market_cap) || 0
+          const cap = Number(token.market_cap_usd) || 0
           return cap > 0 ? sum + cap : sum // TODO: Remove this condition once holders API fixed
         }, 0)
         .toFixed(6),
       volume_24h: cachedTokenList.tokens
-        .reduce((sum, token) => sum + Number(token.daily_volume || 0), 0)
-        .toFixed(6),
-      rwa: cachedTokenList.tokens
-        .reduce((sum, token) => {
-          const cap = Number(token.market_cap) || 0
-          return token.asset_class === 'rwa' && cap > 0 ? sum + cap : sum
-        }, 0)
+        .reduce((sum, token) => sum + Number(token.daily_volume_usd || 0), 0)
         .toFixed(6),
       stablecoin: cachedTokenList.tokens
         .reduce((sum, token) => {
-          const cap = Number(token.market_cap) || 0
+          const cap = Number(token.market_cap_usd) || 0
           return token.asset_subclass === 'stablecoin' && cap > 0
             ? sum + cap
             : sum
