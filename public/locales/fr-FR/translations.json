@@ -614,5 +614,21 @@
   "vault_create_table_detail": null,
   "withdraws": null,
   "deletes": null,
-  "vault_delete_table_detail": null
+  "vault_delete_table_detail": null,
+  "volume": null,
+  "holders": null,
+  "trades": null,
+  "no_of_tokens": null,
+  "volume_24h_total": null,
+  "volume_24h_total_description": null,
+  "market_cap_metric_description": null,
+  "market_cap_description": null,
+  "24h_description": null,
+  "volume_description": null,
+  "trades_description": null,
+  "tvl_description": null,
+  "stablecoin_description": null,
+  "stablecoin": null,
+  "wrapped": null,
+  "tokens_footnote": null
 }
