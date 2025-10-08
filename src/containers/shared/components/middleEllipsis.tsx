@@ -2,9 +2,14 @@ import { useLayoutEffect, useRef } from 'react'
 
 const originals = new WeakMap<HTMLElement, string>()
 let measureCanvas: HTMLCanvasElement | null = null
-function getCtx() {
-  if (!measureCanvas) measureCanvas = document.createElement('canvas')
-  return measureCanvas.getContext('2d')!
+
+function getCtx(): CanvasRenderingContext2D | null {
+  try {
+    if (!measureCanvas) measureCanvas = document.createElement('canvas')
+    return measureCanvas.getContext('2d')
+  } catch {
+    return null
+  }
 }
 
 function measureAndSet(el: HTMLElement, tailLen = 3) {
@@ -15,17 +20,33 @@ function measureAndSet(el: HTMLElement, tailLen = 3) {
   }
   if (!full) return
 
-  const style = getComputedStyle(el)
-  const font = `${style.fontStyle} ${style.fontVariant} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
+  // If no layout info, bail to full text
+  const rect = el.getBoundingClientRect?.()
+  const targetW = rect?.width ?? 0
+  if (!targetW || Number.isNaN(targetW)) {
+    // eslint-disable-next-line no-param-reassign -- Safe assignment
+    if (el.textContent !== full) el.textContent = full
+    return
+  }
+
   const ctx = getCtx()
+  if (!ctx) {
+    // eslint-disable-next-line no-param-reassign -- Safe assignment
+    if (el.textContent !== full) el.textContent = full
+    return
+  }
+
+  const style = getComputedStyle?.(el)
+  const font = style
+    ? `${style.fontStyle} ${style.fontVariant} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
+    : ''
   ctx.font = font
 
-  const targetW = el.getBoundingClientRect().width
   const ell = '…'
   const tail = full.slice(-tailLen)
 
   if (ctx.measureText(full).width <= targetW) {
-    // eslint-disable-next-line no-param-reassign -- safe reassignment.
+    // eslint-disable-next-line no-param-reassign -- Safe assignment
     if (el.textContent !== full) el.textContent = full
     return
   }
@@ -38,16 +59,24 @@ function measureAndSet(el: HTMLElement, tailLen = 3) {
     w <= targetW ? (lo = mid) : (hi = mid - 1)
   }
   const truncated = full.slice(0, lo) + ell + tail
-  // eslint-disable-next-line no-param-reassign -- safe reassignment.
+  // eslint-disable-next-line no-param-reassign -- Safe assignment
   if (el.textContent !== truncated) el.textContent = truncated
 }
 
 export function attachMiddleEllipsis(el: HTMLElement, tailLen = 3) {
   const run = () => measureAndSet(el, tailLen)
-  if ((document as any).fonts?.ready) {
-    ;(document as any).fonts.ready.then(run).catch(run)
+
+  // fonts.ready is optional in JSDOM/SSR
+  const fontsReady = (document as any)?.fonts?.ready
+  if (fontsReady && typeof fontsReady.then === 'function') {
+    fontsReady.then(run).catch(run)
   } else {
     run()
+  }
+
+  // If ResizeObserver is missing (JSDOM), just do a one-shot
+  if (typeof (globalThis as any).ResizeObserver === 'undefined') {
+    return () => {}
   }
 
   const ro = new ResizeObserver(run)
@@ -93,10 +122,7 @@ export function AddressMiddleEllipsis({
 
     el.setAttribute('data-full', text)
     const detach = attachMiddleEllipsis(el, tailLen)
-
-    return () => {
-      detach()
-    }
+    return () => detach()
   }, [text, tailLen])
 
   return (

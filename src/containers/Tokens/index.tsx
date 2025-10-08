@@ -169,6 +169,7 @@ export const Tokens = () => {
       ...token,
       index: start + idx + 1,
     }))
+
   return (
     <div className="tokens-page">
       <Tooltip tooltip={tooltip} />
