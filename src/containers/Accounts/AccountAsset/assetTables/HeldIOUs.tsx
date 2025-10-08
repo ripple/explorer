@@ -63,43 +63,17 @@ const fetchAccountHeldIOUs = async (
     return []
   }
 
-  // Identify LP tokens by checking if it starts with '03' and its issuer account is an AMM account
-  const lpTokens = new Set<string>()
-  const assetsByIssuer = Object.entries(balancesResponse?.assets ?? {})
-  for (const [issuer, assets] of assetsByIssuer) {
-    const potentialLPTokenAssets = (assets as any[]).filter((asset) =>
-      asset.currency?.startsWith(LP_TOKEN_IDENTIFIER),
-    )
-
-    if (potentialLPTokenAssets.length > 0) {
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        const accountInfo = await getAccountInfo(rippledSocket, issuer, false)
-        if (accountInfo?.AMMID) {
-          for (const asset of potentialLPTokenAssets) {
-            lpTokens.add(asset.currency)
-          }
-        }
-      } catch (error) {
-        log.warn(
-          `Error fetching account info for issuer ${issuer}: ${JSON.stringify(error)}`,
-        )
-        // If we can't fetch account info, assume it's not an AMM to be safe
-      }
-    }
-  }
-
-  // Collect all non-LP tokens
-  const iouTokens: any[] = []
+  // Collect all tokens, whether they are LP Tokens or IOUs
+  const assetTokens: any[] = []
   for (const assets of Object.values(balancesResponse?.assets ?? {})) {
     for (const asset of assets as any[]) {
-      if (asset.currency && !lpTokens.has(asset.currency)) {
-        iouTokens.push(asset.currency)
+      if (asset.currency) {
+        assetTokens.push(asset.currency)
       }
     }
   }
-  if (iouTokens.length === 0) {
-    // No IOUs held, return empty array
+  if (assetTokens.length === 0) {
+    // No tokens held, return empty array
     return []
   }
 
@@ -130,9 +104,9 @@ const fetchAccountHeldIOUs = async (
     }
   } while (marker)
 
-  // Filter for positive balances and exclude LP tokens (using the identified LP token set)
+  // Keep positive balances only (no LP token filtering at this stage)
   const positiveBalanceLines = allTrustLines.filter(
-    (line: any) => parseFloat(line.balance) > 0 && !lpTokens.has(line.currency),
+    (line: any) => parseFloat(line.balance) > 0,
   )
 
   if (positiveBalanceLines.length === 0) {
@@ -143,7 +117,7 @@ const fetchAccountHeldIOUs = async (
   const allTokenIds = positiveBalanceLines.map(
     (line: any) => `${line.currency}.${line.account}`,
   )
-  let allTokens: Record<string, any> = {}
+  let allTokensFromLOS: Record<string, any> = {}
   for (let i = 0; i < allTokenIds.length; i += LOS_TOKEN_API_BATCH_SIZE) {
     const tokenIds = allTokenIds.slice(i, i + LOS_TOKEN_API_BATCH_SIZE)
     try {
@@ -160,14 +134,14 @@ const fetchAccountHeldIOUs = async (
       if (apiResponse.ok) {
         // eslint-disable-next-line no-await-in-loop
         const responseBody = await apiResponse.json()
-        const tokens =
+        const tokensFromLOS =
           responseBody.tokens?.reduce((acc: any, token: any) => {
             acc[`${token.currency}.${token.issuer_account}`] = {
               ...token,
             }
             return acc
           }, {}) || {}
-        allTokens = { ...allTokens, ...tokens }
+        allTokensFromLOS = { ...allTokensFromLOS, ...tokensFromLOS }
       }
     } catch (error) {
       log.error(
@@ -177,9 +151,9 @@ const fetchAccountHeldIOUs = async (
   }
 
   // Combine all data (without transfer fees and Global freeze status for now)
-  const iouData: IOU[] = positiveBalanceLines.map((line: any) => {
+  const tokens: IOU[] = positiveBalanceLines.map((line: any) => {
     const tokenId = `${line.currency}.${line.account}`
-    const token = allTokens[tokenId]
+    const token = allTokensFromLOS[tokenId]
 
     return {
       tokenCode: line.currency,
@@ -194,31 +168,51 @@ const fetchAccountHeldIOUs = async (
     }
   })
 
-  return iouData
+  return tokens
 }
 
+/**
+ * Held IOUs rendering flow:
+ * 1. Initially display all tokens whose currency codes don't start with `03` (since `03` may indicate LP tokens).
+ * 2. After confirming a `03` token is not an LP token, add it to the table.
+ * 3. Progressively enrich each token row with transfer fee and account-level freeze status as that data loads.
+ */
 export const HeldIOUs = ({ accountId, onChange }: HeldIOUsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
+
   const [progressiveUpdates, setProgressiveUpdates] = useState<
     Record<string, { transferFee: string; accountGlobalFrozen: boolean }>
   >({})
+  const [confirmedNonLPTokens, setConfirmedNonLPTokens] = useState<Set<string>>(
+    new Set(),
+  )
+  const [lpTokenCheckComplete, setLpTokenCheckComplete] = useState(false)
 
   const heldIOUsQuery = useQuery(['heldIOUs', accountId], () =>
     fetchAccountHeldIOUs(rippledSocket, accountId),
   )
 
-  // Get data and sort by USD balance in one step
+  // Filter out ALL '03' tokens initially, then add back confirmed non-LP tokens
   const sortedIOUs = useMemo(() => {
     const data = heldIOUsQuery.data || []
-    return [...data].sort(
+    const filteredData = data.filter((token) => {
+      // If it starts with '03', only include if confirmed as non-LP
+      if (token.tokenCode.startsWith(LP_TOKEN_IDENTIFIER)) {
+        return confirmedNonLPTokens.has(token.tokenCode)
+      }
+      // Include all non-'03' tokens
+      return true
+    })
+
+    return [...filteredData].sort(
       (a, b) => b.priceInUSD * b.balance - a.priceInUSD * a.balance,
     )
-  }, [heldIOUsQuery.data])
+  }, [heldIOUsQuery.data, confirmedNonLPTokens])
 
-  // Apply progressive updates to the base data
-  const ious = sortedIOUs.map((token) => {
+  // Apply progressive updates to the base IOU token data
+  const iouTokens = sortedIOUs.map((token) => {
     const progressiveUpdate = progressiveUpdates[token.issuer]
     return {
       ...token,
@@ -227,8 +221,8 @@ export const HeldIOUs = ({ accountId, onChange }: HeldIOUsProps) => {
     }
   })
 
-  // Progressive fetching of issuer info for transfer fee and Global freeze status
-  const fetchIssuerInfoProgressively = useCallback(async () => {
+  // Progressive fetching of account info with transfer fee and Global freeze status
+  const fetchAccountInfoProgressively = useCallback(async () => {
     if (sortedIOUs.length === 0) {
       return
     }
@@ -261,19 +255,88 @@ export const HeldIOUs = ({ accountId, onChange }: HeldIOUsProps) => {
     }
   }, [sortedIOUs, rippledSocket])
 
-  // Start progressive updates after initial data is loaded
-  useEffect(() => {
-    if (sortedIOUs.length > 0) {
-      fetchIssuerInfoProgressively()
+  // Identify non-LP tokens - check which '03' tokens are regular IOUs (not LP tokens)
+  const identifyNonLPTokensProgressively = useCallback(async () => {
+    if (!heldIOUsQuery.data || heldIOUsQuery.data.length === 0) {
+      setLpTokenCheckComplete(true)
+      return
     }
-  }, [sortedIOUs.length, fetchIssuerInfoProgressively])
+
+    // Group tokens by issuer to minimize getAccountInfo calls
+    const tokensByIssuer = new Map<string, string[]>()
+    for (const token of heldIOUsQuery.data) {
+      if (token.tokenCode.startsWith(LP_TOKEN_IDENTIFIER)) {
+        const tokens = tokensByIssuer.get(token.issuer) || []
+        tokens.push(token.tokenCode)
+        tokensByIssuer.set(token.issuer, tokens)
+      }
+    }
+
+    for (const [issuer, tokenCodes] of tokensByIssuer.entries()) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const accountInfo = await getAccountInfo(rippledSocket, issuer, false)
+
+        // If the issuer does NOT have an AMMID, these are regular IOUs (non-LP tokens)
+        if (!accountInfo.AMMID) {
+          setConfirmedNonLPTokens((prev) => {
+            const newSet = new Set(prev)
+            for (const tokenCode of tokenCodes) {
+              newSet.add(tokenCode)
+            }
+            return newSet
+          })
+        }
+      } catch (error) {
+        log.warn(
+          `Error checking if issuer ${issuer} is AMM account: ${JSON.stringify(error)}`,
+        )
+        // If we can't fetch account info, assume it's not an AMM to be safe
+        // Add these tokens to the confirmed non-LP list
+        setConfirmedNonLPTokens((prev) => {
+          const newSet = new Set(prev)
+          for (const tokenCode of tokenCodes) {
+            newSet.add(tokenCode)
+          }
+          return newSet
+        })
+      }
+    }
+
+    setLpTokenCheckComplete(true)
+  }, [heldIOUsQuery.data, rippledSocket])
+
+  // Start identifying non-LP tokens immediately after initial data loads
+  useEffect(() => {
+    if (heldIOUsQuery.data && heldIOUsQuery.data.length > 0) {
+      identifyNonLPTokensProgressively()
+    } else if (heldIOUsQuery.data && heldIOUsQuery.data.length === 0) {
+      setLpTokenCheckComplete(true)
+    }
+  }, [heldIOUsQuery.data, identifyNonLPTokensProgressively])
+
+  // Begin progressive updates once the LP token check is complete (we now have the final IOU list)
+  useEffect(() => {
+    if (lpTokenCheckComplete && sortedIOUs.length > 0) {
+      fetchAccountInfoProgressively()
+    }
+  }, [lpTokenCheckComplete, sortedIOUs.length, fetchAccountInfoProgressively])
 
   // Communicate count and loading state back to parent
+  // Keep loading state true until LP token checks are complete
   useEffect(() => {
     if (onChange) {
-      onChange({ count: ious.length, isLoading: heldIOUsQuery.isLoading })
+      onChange({
+        count: iouTokens.length,
+        isLoading: heldIOUsQuery.isLoading || !lpTokenCheckComplete,
+      })
     }
-  }, [ious.length, heldIOUsQuery.isLoading, onChange])
+  }, [
+    iouTokens.length,
+    heldIOUsQuery.isLoading,
+    lpTokenCheckComplete,
+    onChange,
+  ])
 
   if (heldIOUsQuery.isLoading) {
     return <Loader />
@@ -295,12 +358,12 @@ export const HeldIOUs = ({ accountId, onChange }: HeldIOUsProps) => {
           </tr>
         </thead>
         <tbody>
-          {ious.length === 0 ? (
+          {iouTokens.length === 0 ? (
             <EmptyMessageTableRow colSpan={9}>
               {t('account_page_asset_table_no_iou')}
             </EmptyMessageTableRow>
           ) : (
-            ious.map((token) => {
+            iouTokens.map((token) => {
               const {
                 formattedUsdPrice,
                 formattedBalance,

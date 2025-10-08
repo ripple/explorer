@@ -211,16 +211,21 @@ describe('HeldIOUs', () => {
 
   it('shows all tokens including token starting with `03` whose issuer is not an AMM account', async () => {
     // Override the mock to make `03` token issuer NOT an AMM account
-    mockedGetAccountInfo.mockImplementation((_, accountId) => {
+    // Add a delay to simulate async checking and test progressive reveal
+    mockedGetAccountInfo.mockImplementation((_, accountId): Promise<any> => {
       if (accountId === 'rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w') {
-        // NOT an AMM account (no AMMID)
-        return Promise.resolve({
-          TransferRate: 1020000000, // 2% transfer fee
-          Flags: 0x00400000, // lsfGlobalFreeze
-          AMMID: undefined, // This makes it NOT an AMM account
+        // NOT an AMM account (no AMMID) - but with a delay
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              TransferRate: 1020000000, // 2% transfer fee
+              Flags: 0x00400000, // lsfGlobalFreeze
+              AMMID: undefined, // This makes it NOT an AMM account
+            })
+          }, 100) // 100ms delay to simulate network request
         })
       }
-      // Regular accounts
+      // Regular accounts - immediate response
       return Promise.resolve(mockAccountInfo)
     })
 
@@ -233,14 +238,39 @@ describe('HeldIOUs', () => {
     // Verify all column headers are displayed
     await verifyColumnHeaders()
 
-    // Wait for tokens to load
+    // Wait for initial tokens to load (non-03 tokens)
     await waitFor(() => {
       expect(screen.getByText('USD')).toBeInTheDocument()
     })
 
-    // Get all table rows (excluding header)
-    const rows = screen.getAllByRole('row')
-    const dataRows = rows.slice(1) // Skip header row
+    // Get initial table rows (excluding header)
+    let rows = screen.getAllByRole('row')
+    let dataRows = rows.slice(1)
+
+    // Initially, we should only have 3 tokens (USD, EUR, BTC)
+    // The `03` token should be hidden until confirmed as non-LP
+    expect(dataRows).toHaveLength(3)
+    expect(
+      screen.queryByText(
+        '03AD8B0558D3C1FC1E7B1C0A0DB0C88D904D500FFE68DE154997F9CC9C999999',
+      ),
+    ).not.toBeInTheDocument()
+
+    // Now wait for the `03` token to appear after confirmation
+    await waitFor(
+      () => {
+        expect(
+          screen.getByText(
+            '03AD8B0558D3C1FC1E7B1C0A0DB0C88D904D500FFE68DE154997F9CC9C999999',
+          ),
+        ).toBeInTheDocument()
+      },
+      { timeout: 5000 },
+    )
+
+    // Get all table rows again (should now include the `03` token)
+    rows = screen.getAllByRole('row')
+    dataRows = rows.slice(1) // Skip header row
 
     // Verify we have 4 token rows (sorted by Balance USD descending)
     expect(dataRows).toHaveLength(4)
