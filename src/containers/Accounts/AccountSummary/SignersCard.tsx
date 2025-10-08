@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../shared/components/Account'
-import { shortenAccount } from '../../shared/utils'
+import { localizeNumber, shortenAccount } from '../../shared/utils'
 
 interface Signer {
   account: string
-  weight?: number
+  weight?: number // Individual weight values cannot exceed 2^16-1.
 }
 
 interface SignersCardProps {
@@ -28,7 +28,8 @@ const SignersCard = ({ signers }: SignersCardProps) => {
             </div>
             {signer.weight !== undefined && (
               <div className="signer-weight">
-                {t('account_page_signer_weight')} {signer.weight}
+                {t('account_page_signer_weight')}{' '}
+                {localizeNumber(signer.weight)}
               </div>
             )}
           </div>

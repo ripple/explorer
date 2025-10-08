@@ -73,7 +73,7 @@ const FlagsCard = ({ account }: FlagsCardProps) => {
         description: t(
           'account_flag_description_lsf_disallow_incoming_trustline',
         ),
-        enabled: !accountFlags.includes('lsfDisallowIncomingTrustline'),
+        enabled: accountFlags.includes('lsfDisallowIncomingTrustline'),
       },
       {
         key: 'lsfDisallowIncomingPayChannel',
@@ -81,7 +81,7 @@ const FlagsCard = ({ account }: FlagsCardProps) => {
         description: t(
           'account_flag_description_lsf_disallow_incoming_pay_chan',
         ),
-        enabled: !accountFlags.includes('lsfDisallowIncomingPayChannel'),
+        enabled: accountFlags.includes('lsfDisallowIncomingPayChannel'),
       },
       {
         key: 'lsfDisallowIncomingNFTokenOffer',
@@ -89,7 +89,7 @@ const FlagsCard = ({ account }: FlagsCardProps) => {
         description: t(
           'account_flag_description_lsf_disallow_incoming_nft_token_offer',
         ),
-        enabled: !accountFlags.includes('lsfDisallowIncomingNFTokenOffer'),
+        enabled: accountFlags.includes('lsfDisallowIncomingNFTokenOffer'),
       },
       {
         key: 'asfAuthorizedNFTokenMinter',
@@ -105,7 +105,7 @@ const FlagsCard = ({ account }: FlagsCardProps) => {
         key: 'lsfDisallowIncomingCheck',
         title: t('account_flag_title_lsf_disallow_incoming_check'),
         description: t('account_flag_description_lsf_disallow_incoming_check'),
-        enabled: !accountFlags.includes('lsfDisallowIncomingCheck'),
+        enabled: accountFlags.includes('lsfDisallowIncomingCheck'),
       },
       {
         key: 'lsfDepositAuth',

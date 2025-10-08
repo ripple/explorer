@@ -630,7 +630,7 @@
   "account_flag_title_lsf_deposit_auth": "Deposit Authorization",
   "account_flag_title_asf_account_txn_id": "Track Account Latest Transaction",
   "account_flag_description_lsf_global_freeze": "Freeze all assets issued by this account.",
-  "account_flag_description_lsf_disable_master": "Disallow use of the master key pair.",
+  "account_flag_description_lsf_disable_master": "Allow use of the master key pair.",
   "account_flag_description_lsf_default_ripple": "Enable rippling on this account's trust lines by default.",
   "account_flag_description_lsf_allow_trustline_clawback": "Allow account to claw back tokens it has issued.",
   "account_flag_description_lsf_require_destination_tag": "Require a destination tag to send transactions to this account.",
