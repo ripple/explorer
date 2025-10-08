@@ -344,7 +344,7 @@ describe('AccountAsset Component', () => {
 
   describe('Component Integration', () => {
     it('renders all held asset components simultaneously', async () => {
-      render(
+      const { container } = render(
         <TestWrapper>
           <AccountAsset
             accountId="rTest123"
@@ -360,10 +360,21 @@ describe('AccountAsset Component', () => {
         expect(mockedGetAccountMPTs).toHaveBeenCalled()
         expect(mockedGetAccountNFTs).toHaveBeenCalled()
       })
+
+      // Verify all 4 held asset table wrappers and asset tables are rendered
+      const allSections = container.querySelectorAll('.account-asset-content')
+      const heldSection = allSections[0] // First section (Held)
+      const heldWrappers = heldSection.querySelectorAll(
+        '.account-asset-table-wrapper',
+      )
+      expect(heldWrappers.length).toBe(4)
+
+      const heldTables = heldSection.querySelectorAll('.account-asset-table')
+      expect(heldTables.length).toBe(4)
     })
 
     it('renders all issued asset components simultaneously', async () => {
-      render(
+      const { container } = render(
         <TestWrapper>
           <AccountAsset
             accountId="rTest123"
@@ -378,6 +389,19 @@ describe('AccountAsset Component', () => {
         expect(mockedGetAccountObjects).toHaveBeenCalled()
         expect(mockedGetNFTsIssuedByAccount).toHaveBeenCalled()
       })
+
+      // Verify all 3 issued asset table wrappers and asset tables are rendered
+      const allSections = container.querySelectorAll('.account-asset-content')
+      const issuedSection = allSections[1] // Second section (Issued)
+      const issuedWrappers = issuedSection.querySelectorAll(
+        '.account-asset-table-wrapper',
+      )
+      expect(issuedWrappers.length).toBe(3)
+
+      const issuedTables = issuedSection.querySelectorAll(
+        '.account-asset-table',
+      )
+      expect(issuedTables.length).toBe(3)
     })
 
     it('passes accountId to all child components', async () => {
