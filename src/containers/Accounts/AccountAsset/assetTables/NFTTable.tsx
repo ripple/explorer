@@ -27,10 +27,10 @@ const log = logger({ name: 'NFTTable' })
 
 const PAGE_SIZE = 10
 
-interface NFTTableWithOffersProps {
+interface NFTTableProps {
   accountId: string
   onChange?: (data: { count: number; isLoading: boolean }) => void
-  fetchNFTs: (rippledSocket: any, accountId: string) => Promise<NFT[]>
+  fetchNFTs: (accountId: string, rippledSocket: any) => Promise<NFT[]>
   queryKey: string
   showIssuer?: boolean
 }
@@ -50,7 +50,7 @@ export const NFTTable = ({
   fetchNFTs,
   queryKey,
   showIssuer = false,
-}: NFTTableWithOffersProps) => {
+}: NFTTableProps) => {
   const { t } = useTranslation()
   const lang = useLanguage()
   const rippledSocket = useContext(SocketContext)

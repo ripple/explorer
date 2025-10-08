@@ -2,12 +2,13 @@
  * Values returned by 'formatAccountInfo' from /src/rippled/lib/utils.js
  */
 export interface AccountFormattedInfo {
+  accountTransactionID?: string
   sequence?: number
   ticketCount?: number
   ownerCount?: number
   reserve?: number
   tick?: number
-  rate?: number
+  rate?: string
   domain?: string
   emailHash?: string
   flags?: string[]
