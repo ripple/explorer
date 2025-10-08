@@ -5,10 +5,7 @@ import { QueryClientProvider } from 'react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
 import { HeldMPTs } from '../assetTables/HeldMPTs'
-import {
-  getAccountMPTs,
-  getMPTIssuance,
-} from '../../../../rippled/lib/rippled'
+import { getAccountMPTs, getMPTIssuance } from '../../../../rippled/lib/rippled'
 import { queryClient } from '../../../shared/QueryClient'
 import Mock = jest.Mock
 

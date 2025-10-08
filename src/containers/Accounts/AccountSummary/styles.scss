@@ -307,6 +307,20 @@
       background: $black-90;
       gap: 16px;
 
+      /* Only first two details side by side, rest full width */
+      .details-box {
+        display: flex;
+        min-width: 0;
+        flex: 1 1 180px;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid $black-70;
+        border-radius: 8px;
+        background: $black-80;
+        gap: 12px;
+      }
+
       .details-list {
         display: grid;
         gap: 8px;
@@ -326,20 +340,6 @@
         > .details-box:nth-child(n+3) {
           grid-column: 1 / span 2;
         }
-      }
-
-      /* Only first two details side by side, rest full width */
-      .details-box {
-        display: flex;
-        min-width: 0;
-        flex: 1 1 180px;
-        flex-direction: row;
-        align-items: center;
-        padding: 10px;
-        border: 1px solid $black-70;
-        border-radius: 8px;
-        background: $black-80;
-        gap: 12px;
       }
 
       .details-label {
