@@ -114,10 +114,10 @@ export const Pagination = ({
       </button>
 
       <ul className="page-list">
-        {paginationRange.map((item, idx) => {
+        {paginationRange.map((item) => {
           if (item === DOTS) {
             return (
-              <li key={`dots-${idx}`} className="page-ellipsis">
+              <li key="dots" className="page-ellipsis">
                 {DOTS}
               </li>
             )
