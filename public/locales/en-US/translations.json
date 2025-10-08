@@ -601,7 +601,7 @@
   "market_cap_metric_description": "Circulating supply multiplied by price of all trusted tokens",
   "market_cap_description": "Circulating supply multiplied by price",
   "24h_description": "Price change over the past 24h",
-  "volume_description": "USD value of all order book trades in the last 24h",
+  "volume_description": "Total USD value of all DEX trades in the past 24h",
   "trades_description": "Number of DEX trades executed in the past 24h",
   "tvl_description": "USD value of token in AMMs",
   "stablecoin_description": "Market cap of all trusted tokens classified as stablecoins",
