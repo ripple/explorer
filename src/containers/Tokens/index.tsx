@@ -1,16 +1,10 @@
 import axios from 'axios'
 import { useQuery } from 'react-query'
-import { FC, useCallback, useContext, useMemo, useState } from 'react'
+import { FC, useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Log from '../shared/log'
 import { parseCurrencyAmount, TokensTable } from './TokensTable'
-import {
-  FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
-  ORACLE_ACCOUNT,
-} from '../shared/utils'
-import { getAccountLines } from '../../rippled/lib/rippled'
-import SocketContext from '../shared/SocketContext'
 import './tokens.scss'
 import { Pagination } from '../shared/components/Pagination'
 import { Loader } from '../shared/components/Loader'
@@ -31,12 +25,11 @@ interface TokensData {
     count: number
     market_cap: string
     volume_24h: string
-    rwa: string
     stablecoin: string
   }
 }
 
-type CategoryKey = 'rwa' | 'stablecoin' | 'wrapped'
+type CategoryKey = 'stablecoin' | 'wrapped'
 
 const TOOLTIP_Y_OFFSET = 80
 
@@ -77,7 +70,6 @@ const Filter: FC<FilterProps> = ({
 }
 
 export const Tokens = () => {
-  const rippledSocket = useContext(SocketContext)
   const [sortField, setSortField] = useState('market_cap')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [filterField, setFilterField] = useState('')
@@ -86,7 +78,7 @@ export const Tokens = () => {
 
   const { t } = useTranslation()
 
-  const filterCategories: CategoryKey[] = ['rwa', 'stablecoin', 'wrapped']
+  const filterCategories: CategoryKey[] = ['stablecoin', 'wrapped']
 
   const { data: tokensData } = useQuery<TokensData>(
     ['fetchTokens'],
@@ -94,17 +86,6 @@ export const Tokens = () => {
     {
       refetchInterval: 60 * 1000,
       onError: (error) => Log.error(error),
-    },
-  )
-  const { data: XRPUSDPrice = 0.0 } = useQuery(
-    ['fetchXRPToUSDRate'],
-    () => fetchXRPToUSDRate(),
-    {
-      refetchInterval: FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
-      onError: (error) => {
-        Log.error(error)
-        return 0.0
-      },
     },
   )
 
@@ -180,10 +161,6 @@ export const Tokens = () => {
       tokens: response.data.tokens,
       metrics: response.data.metrics,
     }))
-  const fetchXRPToUSDRate = () =>
-    getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1).then(
-      (accountLines) => accountLines.lines[0]?.limit ?? 0.0,
-    )
   const start = (page - 1) * PAGE_SIZE
 
   const pagedTokens = sortedTokens
@@ -205,10 +182,10 @@ export const Tokens = () => {
           <div className="metric">
             <div className="title">
               <span>{t('market_cap')}</span>
-              {renderTextTooltip('market_cap')}
+              {renderTextTooltip('market_cap_metric')}
             </div>
             <div className="val">
-              {parseCurrencyAmount(tokensData.metrics.market_cap, XRPUSDPrice)}
+              {parseCurrencyAmount(tokensData.metrics.market_cap)}
             </div>
           </div>
           <div className="metric">
@@ -217,16 +194,7 @@ export const Tokens = () => {
               {renderTextTooltip('volume_24h_total')}
             </div>
             <div className="val">
-              {parseCurrencyAmount(tokensData.metrics.volume_24h, XRPUSDPrice)}
-            </div>
-          </div>
-          <div className="metric">
-            <div className="title">
-              <span>{t('rwa')}</span>
-              {renderTextTooltip('rwa')}
-            </div>
-            <div className="val">
-              {parseCurrencyAmount(tokensData.metrics.rwa, XRPUSDPrice)}
+              {parseCurrencyAmount(tokensData.metrics.volume_24h)}
             </div>
           </div>
           <div className="metric">
@@ -235,7 +203,7 @@ export const Tokens = () => {
               {renderTextTooltip('stablecoin')}
             </div>
             <div className="val">
-              {parseCurrencyAmount(tokensData.metrics.stablecoin, XRPUSDPrice)}
+              {parseCurrencyAmount(tokensData.metrics.stablecoin)}
             </div>
           </div>
         </div>
@@ -250,7 +218,6 @@ export const Tokens = () => {
           />
           <TokensTable
             tokens={pagedTokens}
-            xrpPrice={XRPUSDPrice}
             sortField={sortField}
             setSortField={setSortField}
             sortOrder={sortOrder}

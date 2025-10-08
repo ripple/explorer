@@ -13,12 +13,16 @@ export interface LOSToken {
   issuer_domain?: string
   issuer_name?: string
   tvl_xrp?: number
+  tvl_usd?: string
   market_cap?: string
+  market_cap_usd?: string
   holders?: number
   circ_supply?: string
   daily_volume?: string
+  daily_volume_usd?: string
   supply?: string
   trust_level?: number
   price?: string
+  price_usd?: string
   index: number
 }

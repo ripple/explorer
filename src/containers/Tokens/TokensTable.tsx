@@ -9,12 +9,12 @@ import DownIcon from '../shared/images/ic_down.svg'
 import SortTableColumn from '../shared/components/SortColumn'
 import { RouteLink } from '../shared/routing'
 import { TOKEN_ROUTE } from '../App/routes'
+import { AddressMiddleEllipsis } from '../shared/components/middleEllipsis'
 
 type SortOrder = 'asc' | 'desc'
 
 interface TokensTableProps {
   tokens: LOSToken[]
-  xrpPrice: number
   sortField: string
   sortOrder: SortOrder
   setSortField: (field: string) => void
@@ -27,12 +27,8 @@ const DEFAULT_EMPTY_VALUE = '--'
 
 export const parseCurrencyAmount = (
   value: string | number,
-  xrpPrice: number,
   decimals: number = DEFAULT_DECIMALS,
-): string => {
-  const usdValue = Number(value) * xrpPrice
-  return `$${parseAmount(usdValue, decimals)}`
-}
+): string => `$${parseAmount(value, decimals)}`
 
 const formatDecimals = (
   val: number,
@@ -46,50 +42,6 @@ const formatDecimals = (
   }
 
   return val.toFixed(decimals).replace(/\.?0+$/, '')
-}
-
-let measureCanvas: HTMLCanvasElement | null = null
-
-function getMeasureCanvas(): HTMLCanvasElement {
-  if (!measureCanvas) {
-    measureCanvas = document.createElement('canvas')
-  }
-  return measureCanvas
-}
-
-function middleEllipsize(el: HTMLElement, tailLen = 3) {
-  let { full } = el.dataset
-  if (!full) {
-    full = el.textContent ?? ''
-    // eslint-disable-next-line no-param-reassign -- Safe reassignment.
-    el.dataset.full = full
-  }
-  if (!full) return
-
-  const style = getComputedStyle(el)
-  const font = `${style.fontStyle} ${style.fontVariant} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
-  const ctx = getMeasureCanvas().getContext('2d')!
-  ctx.font = font
-
-  const wTarget = el.getBoundingClientRect().width
-  const ell = '…'
-  const tail = full.slice(-tailLen)
-
-  if (ctx.measureText(full).width <= wTarget) {
-    // eslint-disable-next-line no-param-reassign -- Safe reassignment.
-    el.textContent = full
-    return
-  }
-
-  let lo = 0
-  let hi = full.length - tailLen
-  while (lo < hi) {
-    const mid = Math.ceil((lo + hi) / 2)
-    const w = ctx.measureText(full.slice(0, mid) + ell + tail).width
-    w <= wTarget ? (lo = mid) : (hi = mid - 1)
-  }
-  // eslint-disable-next-line no-param-reassign -- Safe reassignment.
-  el.textContent = full.slice(0, lo) + ell + tail
 }
 
 const parseAmount = (
@@ -139,7 +91,6 @@ const PriceChange: FC<{ percent: number }> = ({ percent }) => (
 
 export const TokensTable = ({
   tokens,
-  xrpPrice,
   sortField,
   setSortField,
   sortOrder,
@@ -150,25 +101,15 @@ export const TokensTable = ({
 
   const renderIssuer = (token: LOSToken) => (
     <div className="issuer-content">
-      {token.issuer_name && `${token.issuer_name} (`}
+      {token.issuer_name && `${token.issuer_name}-`}
+
       <Account
         account={token.issuer_account}
         onClick={(e) => e.stopPropagation()}
         displayText={
-          <span
-            ref={(node) => {
-              if (!node) return
-              middleEllipsize(node, 3)
-              new ResizeObserver(() => middleEllipsize(node, 3)).observe(node)
-            }}
-            className="addr middle-ellipsis"
-            title={token.issuer_account}
-          >
-            {token.issuer_account}
-          </span>
+          <AddressMiddleEllipsis text={token.issuer_account} tailLen={3} />
         }
       />
-      {token.issuer_name && `)`}
     </div>
   )
 
@@ -187,10 +128,11 @@ export const TokensTable = ({
       </td>
       <td className="issuer">{renderIssuer(token)}</td>
       <td className="price">
-        {token.price
-          ? parseCurrencyAmount(token.price, xrpPrice)
+        {token.price_usd && Number(token.price_usd) !== 0
+          ? parseCurrencyAmount(token.price_usd)
           : DEFAULT_EMPTY_VALUE}
       </td>
+
       <td className="24h">
         {token.price_change ? (
           <PriceChange percent={token.price_change} />
@@ -199,8 +141,8 @@ export const TokensTable = ({
         )}
       </td>
       <td className="volume">
-        {token.daily_volume
-          ? parseCurrencyAmount(token.daily_volume, xrpPrice)
+        {token.daily_volume_usd
+          ? parseCurrencyAmount(token.daily_volume_usd)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="trades">
@@ -212,13 +154,15 @@ export const TokensTable = ({
         {token.holders ? parseAmount(token.holders) : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="tvl">
-        {token.tvl_xrp
-          ? parseCurrencyAmount(token.tvl_xrp, xrpPrice)
+        {token.tvl_usd
+          ? parseCurrencyAmount(token.tvl_usd)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="market-cap">
-        {token.market_cap
-          ? parseCurrencyAmount(token.market_cap, xrpPrice)
+        {token.market_cap_usd &&
+        token.price_usd &&
+        Number(token.price_usd) !== 0
+          ? parseCurrencyAmount(token.market_cap_usd)
           : DEFAULT_EMPTY_VALUE}
       </td>
     </tr>
@@ -299,6 +243,7 @@ export const TokensTable = ({
                 sortOrder={sortOrder}
                 setSortOrder={setSortOrder}
                 setPage={setPage}
+                tooltip
               />
             </tr>
           </thead>
