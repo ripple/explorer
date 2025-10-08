@@ -13,7 +13,7 @@ import DefaultTokenIcon from '../../../shared/images/default_token_icon.svg'
 import { localizeNumber } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
 import {
-  formatUsdPrice,
+  formatUsdValue,
   formatTokenBalance,
 } from '../../../shared/NumberFormattingUtils'
 
@@ -209,7 +209,7 @@ export const IssuedIOUs = ({
                     </div>
                   </RouteLink>
                 </td>
-                <td>{formatUsdPrice(token.priceInUSD, lang)}</td>
+                <td>{formatUsdValue(token.priceInUSD, lang)}</td>
                 <td>{localizeNumber(token.trustlines, lang)}</td>
                 <td>{localizeNumber(token.holders, lang)}</td>
                 <td>{formatTokenBalance(token.supply, lang)}</td>

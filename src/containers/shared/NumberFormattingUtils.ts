@@ -62,49 +62,26 @@ export const NUMBER_SMALL_OPTIONS = {
 }
 
 /**
- * Formats USD prices with tiered precision based on value
- * @param price - The USD price to format
+ * Formats USD values (price or balance) with tiered precision based on value
+ * @param value - The USD value to format
  * @param lang - Language for localization
- * @returns Formatted USD price string or '--' for zero prices
+ * @returns Formatted USD string or '--' for zero values
  */
-export const formatUsdPrice = (price: number, lang: string): string => {
-  if (price === 0) {
+export const formatUsdValue = (value: number, lang: string): string => {
+  if (value === 0) {
     return '--'
   }
 
   let options
-  if (price >= USD_REGULAR_BALANCE_LOWER_BOUND) {
+  if (value >= USD_REGULAR_BALANCE_LOWER_BOUND) {
     options = USD_CURRENCY_OPTIONS
-  } else if (price >= USD_SMALL_BALANCE_LOWER_BOUND) {
+  } else if (value >= USD_SMALL_BALANCE_LOWER_BOUND) {
     options = USD_SMALL_BALANCE_CURRENCY_OPTIONS
   } else {
     options = USD_EXTRA_SMALL_BALANCE_CURRENCY_OPTIONS
   }
 
-  return localizeNumber(price, lang, options) || '--'
-}
-
-/**
- * Formats USD balances with tiered precision based on value
- * @param balance - The USD balance to format
- * @param lang - Language for localization
- * @returns Formatted USD balance string or '--' for zero balances
- */
-export const formatUsdBalance = (balance: number, lang: string): string => {
-  if (balance === 0) {
-    return '--'
-  }
-
-  let options
-  if (balance >= USD_REGULAR_BALANCE_LOWER_BOUND) {
-    options = USD_CURRENCY_OPTIONS
-  } else if (balance >= USD_SMALL_BALANCE_LOWER_BOUND) {
-    options = USD_SMALL_BALANCE_CURRENCY_OPTIONS
-  } else {
-    options = USD_EXTRA_SMALL_BALANCE_CURRENCY_OPTIONS
-  }
-
-  return localizeNumber(balance, lang, options) || '--'
+  return localizeNumber(value, lang, options) || '--'
 }
 
 /**
@@ -144,7 +121,7 @@ export const calculateFormattedUsdBalance = (
 
   if (priceInUSD !== 0) {
     // Step 1: Format USD Price
-    formattedUsdPrice = formatUsdPrice(priceInUSD, lang)
+    formattedUsdPrice = formatUsdValue(priceInUSD, lang)
     const displayedUsdPrice = parseFloat(
       (formattedUsdPrice || '0').replace(/[$,]/g, ''), // Removes dollar signs and commas from USD prices like "$4,321.30" → "4321.30"
     )
@@ -157,7 +134,7 @@ export const calculateFormattedUsdBalance = (
 
     // Step 3: Calculate USD Balance using displayed values
     const calculatedBalanceUSD = displayedUsdPrice * displayedBalance
-    formattedBalanceUsd = formatUsdBalance(calculatedBalanceUSD, lang)
+    formattedBalanceUsd = formatUsdValue(calculatedBalanceUSD, lang)
   } else {
     // If no price, still format the balance
     formattedBalance = formatTokenBalance(tokenBalance, lang)

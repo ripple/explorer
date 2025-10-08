@@ -8,8 +8,8 @@ import Currency, {
 } from '../../../shared/components/Currency'
 import { Account } from '../../../shared/components/Account'
 import {
+  formatUsdValue,
   formatTokenBalance,
-  formatUsdBalance,
 } from '../../../shared/NumberFormattingUtils'
 import { useLanguage } from '../../../shared/hooks'
 import { shortenAccount } from '../../../shared/utils'
@@ -217,7 +217,7 @@ export const HeldLPTokens = ({
               if (row.currency1 === 'XRP' || row.currency2 === 'XRP') {
                 const balanceUSD =
                   row.lpTokenBalance * row.lpTokenPriceInXRP * xrpToUSDRate
-                formattedBalanceUsd = formatUsdBalance(balanceUSD, lang)
+                formattedBalanceUsd = formatUsdValue(balanceUSD, lang)
               }
 
               return (

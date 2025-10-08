@@ -116,8 +116,8 @@ describe('rippled utils:', () => {
 
       it('should handle high precision values for IOU tokens', () => {
         // Test with a value that needs rounding to 7 decimal places
-        const transferFee = 1000000000 + 12345678 // should result in 0.1234568%
-        expect(formatTransferFee(transferFee, 'IOU')).toBe('0.1234568')
+        const transferFee = 1000000000 + 12345678 // should result in 1.2345678%
+        expect(formatTransferFee(transferFee, 'IOU')).toBe('1.2345678')
       })
 
       it('should handle very small transfer fees for IOU tokens', () => {
