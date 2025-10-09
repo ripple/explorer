@@ -11,27 +11,50 @@ import {
   DexTradeTable,
   LOSDEXTransaction,
 } from '../components/DexTradeTable/DexTradeTable'
-import { HoldersTable } from '../components/HoldersTable/HoldersTable'
+import {
+  HoldersTable,
+  XRPLHolder,
+} from '../components/HoldersTable/HoldersTable'
 import {
   LOSTransfer,
   TransfersTable,
 } from '../components/TransfersTable/TransfersTable'
 import { TokenHoldersData } from '../../../rippled/holders'
+import { DexTradesData, TransfersData } from '../../../rippled/tokenTx'
+import { LOSToken } from '../../shared/losTypes'
 
 export interface TokenTransactionsTableProps {
   accountId: string
   currency: string
   holdersData?: TokenHoldersData
   isHoldersDataLoading: boolean
+  dexTrades?: DexTradesData
+  isDexTradesLoading: boolean
+  transfers?: TransfersData
+  isTransfersLoading: boolean
+  xrpUSDRate: string
+  tokenData: LOSToken
 }
 
 export const TokenTransactionTable = ({
   accountId,
   currency,
+  holdersData,
+  isHoldersDataLoading,
+  dexTrades,
+  isDexTradesLoading,
+  transfers,
+  isTransfersLoading,
+  xrpUSDRate,
+  tokenData,
 }: TokenTransactionsTableProps) => {
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
+
+  console.log('Holders data in Tx table:', holdersData)
+  console.log('Dex trades data in Tx table:', dexTrades)
+  console.log('Transfers data in Tx table:', transfers)
 
   const {
     data,
@@ -66,7 +89,7 @@ export const TokenTransactionTable = ({
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount_in: '123',
@@ -76,7 +99,7 @@ export const TokenTransactionTable = ({
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount_in: '123',
@@ -86,7 +109,7 @@ export const TokenTransactionTable = ({
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount_in: '123',
@@ -96,7 +119,7 @@ export const TokenTransactionTable = ({
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount_in: '123',
@@ -106,7 +129,7 @@ export const TokenTransactionTable = ({
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount_in: '123',
@@ -116,7 +139,7 @@ export const TokenTransactionTable = ({
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount_in: '123',
@@ -126,7 +149,7 @@ export const TokenTransactionTable = ({
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount_in: '123',
@@ -136,7 +159,7 @@ export const TokenTransactionTable = ({
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount_in: '123',
@@ -146,7 +169,7 @@ export const TokenTransactionTable = ({
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount_in: '123',
@@ -162,7 +185,7 @@ export const TokenTransactionTable = ({
       num_tokens: 123456789,
       percent_supply: 12.34,
       value_usd: 123456,
-      last_active: 123456789, //format ripple epoch time
+      last_active: 123456789, // format ripple epoch time
     },
     {
       rank: 2,
@@ -170,7 +193,7 @@ export const TokenTransactionTable = ({
       num_tokens: 456789,
       percent_supply: 12.34,
       value_usd: 123456,
-      last_active: 123456789, //format ripple epoch time
+      last_active: 123456789, // format ripple epoch time
     },
     {
       rank: 3,
@@ -178,7 +201,7 @@ export const TokenTransactionTable = ({
       num_tokens: 56789,
       percent_supply: 12.34,
       value_usd: 123456,
-      last_active: 123456789, //format ripple epoch time
+      last_active: 123456789, // format ripple epoch time
     },
     {
       rank: 4,
@@ -186,7 +209,7 @@ export const TokenTransactionTable = ({
       num_tokens: 6789,
       percent_supply: 12.34,
       value_usd: 123456,
-      last_active: 123456789, //format ripple epoch time
+      last_active: 123456789, // format ripple epoch time
     },
     {
       rank: 5,
@@ -194,7 +217,7 @@ export const TokenTransactionTable = ({
       num_tokens: 789,
       percent_supply: 12.34,
       value_usd: 123456,
-      last_active: 123456789, //format ripple epoch time
+      last_active: 123456789, // format ripple epoch time
     },
     {
       rank: 6,
@@ -202,7 +225,7 @@ export const TokenTransactionTable = ({
       num_tokens: 89,
       percent_supply: 12.34,
       value_usd: 123456,
-      last_active: 123456789, //format ripple epoch time
+      last_active: 123456789, // format ripple epoch time
     },
   ]
 
@@ -211,7 +234,7 @@ export const TokenTransactionTable = ({
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
       action: 'Payment',
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount: '123',
@@ -220,7 +243,7 @@ export const TokenTransactionTable = ({
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
       action: 'Payment',
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount: '234',
@@ -229,12 +252,23 @@ export const TokenTransactionTable = ({
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
       ledger: 9012123980,
       action: 'Payment',
-      timestamp: 1231090, //format ripple epoch time
+      timestamp: 1231090, // format ripple epoch time
       from: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       to: 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
       amount: '345',
     },
   ]
+
+  // assign rank to each holder and calculate USD value
+  const XRPUSDPrice = Number(xrpUSDRate) || 0
+  const holdersFormatted: XRPLHolder[] =
+    holdersData?.holders.map((holder, index) => ({
+      ...holder,
+      rank: index + 1,
+      value_usd: holder.balance * Number(tokenData?.price) * XRPUSDPrice,
+    })) || []
+
+  console.log('Formatted holders data:', holdersFormatted)
 
   return (
     <div>
@@ -264,7 +298,10 @@ export const TokenTransactionTable = ({
       )}
 
       {tablePickerState === 'holders' && (
-        <HoldersTable holders={dummyHolders} />
+        <HoldersTable
+          isHoldersDataLoading={isHoldersDataLoading}
+          holders={holdersFormatted}
+        />
       )}
     </div>
   )

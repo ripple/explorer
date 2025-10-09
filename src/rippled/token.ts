@@ -1,11 +1,8 @@
-import logger from './lib/logger'
-import { formatAccountInfo } from './lib/utils'
-import { getBalances, getAccountInfo, getServerInfo } from './lib/rippled'
-import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 import axios from 'axios'
+import logger from './lib/logger'
 import { LOSToken } from '../containers/shared/losTypes'
 
-const log = logger({ name: 'iou' })
+const log = logger({ name: 'iou-token' })
 
 export interface TokenData {
   balance: string
@@ -20,9 +17,9 @@ export interface TokenData {
   flags: string[]
 }
 
-const getLOSTokenInfo = (currency, issuer): Promise<any> => {
-  return axios
-    .get(`https://los.dev.ripplex.io/tokens/${currency}.${issuer}`)
+const getLOSTokenInfo = (currency, issuer): Promise<any> =>
+  axios
+    .get(`${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`)
     .then((resp) => {
       if (resp.status !== 200) {
         throw new Error(resp.data)
@@ -30,18 +27,12 @@ const getLOSTokenInfo = (currency, issuer): Promise<any> => {
 
       return resp.data
     })
-}
 
 async function getToken(
   currencyCode: string,
   issuer: string,
-  // rippledSocket: ExplorerXrplClient,
 ): Promise<LOSToken> {
   try {
-    // log.info('fetching account info from rippled')
-    // const accountInfo = await getAccountInfo(rippledSocket, issuer)
-    // const serverInfo = await getServerInfo(rippledSocket)
-
     log.info('fetching token data from LOS')
     return getLOSTokenInfo(currencyCode, issuer).then((tokenResponse) => {
       const losToken: LOSToken = {

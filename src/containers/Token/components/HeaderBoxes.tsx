@@ -26,12 +26,16 @@ interface HeaderBoxesProps {
   overviewData: OverviewData
   marketData: MarketData
   xrpUSDRate: string
+  isHoldersDataLoading?: boolean
+  isAmmTvlLoading?: boolean
 }
 
 export const HeaderBoxes = ({
   overviewData,
   marketData,
   xrpUSDRate,
+  isHoldersDataLoading,
+  isAmmTvlLoading,
 }: HeaderBoxesProps): JSX.Element => {
   const { t } = useTranslation()
   const { issuer, price, holders, trustlines, transfer_fee, reputation_level } =
@@ -117,19 +121,29 @@ export const HeaderBoxes = ({
           <div className="header-box-item">
             <div className="item-name">{t('token_page.supply')}:</div>
             <div className="item-value">
-              {formatDecimals(Number(supply), 2)}
+              {Number(formatDecimals(Number(supply), 2)).toLocaleString()}
             </div>
           </div>
           <div className="header-box-item">
             <div className="item-name">
               {t('token_page.circulating_supply')}:
             </div>
-            <div className="item-value">{circ_supply}</div>
+            <div className="item-value">
+              {!isHoldersDataLoading
+                ? Number(
+                    formatDecimals(Number(circ_supply), 2),
+                  ).toLocaleString()
+                : 'Loading...'}
+            </div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.market_cap')}:</div>
             <div className="item-value">
-              {Number(formatDecimals(Number(market_cap), 2)).toLocaleString()}
+              {!isHoldersDataLoading
+                ? formatPrice(
+                    Number(circ_supply) * (Number(price) * Number(xrpUSDRate)),
+                  )
+                : 'Loading...'}
             </div>
           </div>
           <div className="header-box-item">
@@ -146,7 +160,11 @@ export const HeaderBoxes = ({
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.amm_tvl')}:</div>
-            <div className="item-value">{amm_tvl}</div>
+            <div className="item-value">
+              {isAmmTvlLoading
+                ? 'Loading...'
+                : Number(amm_tvl).toLocaleString()}
+            </div>
           </div>
         </div>
       </div>

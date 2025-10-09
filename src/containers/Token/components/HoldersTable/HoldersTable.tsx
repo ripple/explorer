@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import UpIcon from '../../../shared/images/ic_up.svg'
 import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
 import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
 import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
-import { Link } from 'react-router-dom'
 import { Amount } from '../../../shared/components/Amount'
 
 type SortOrder = 'asc' | 'desc'
@@ -19,14 +19,15 @@ interface SocialLink {
 export interface XRPLHolder {
   rank: number
   account: string
-  num_tokens: number
-  percent_supply: number
+  balance: number
+  percent: number
   value_usd: number
-  last_active: number //format ripple epoch time
+  // last_active: number // format ripple epoch time
 }
 
 interface HoldersTableProps {
   holders: XRPLHolder[]
+  isHoldersDataLoading?: boolean
   // xrpPrice: number
   // setPage: (page: number) => void
 }
@@ -113,6 +114,7 @@ function truncateString(address, startLength = 6, endLength = 6) {
 
 export const HoldersTable = ({
   holders,
+  isHoldersDataLoading,
   // setPage,
 }: HoldersTableProps) => {
   const { t } = useTranslation()
@@ -126,17 +128,13 @@ export const HoldersTable = ({
         </Link>
       </td>
       <td className="tx-ledger">
-        {holder.num_tokens
-          ? parseAmount(holder.num_tokens, 2)
-          : DEFAULT_EMPTY_VALUE}
+        {holder.balance ? parseAmount(holder.balance, 2) : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="tx-percent-supply">
-        {holder.percent_supply
-          ? parsePercent(holder.percent_supply)
-          : DEFAULT_EMPTY_VALUE}
+        {holder.percent ? parsePercent(holder.percent) : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="tx-value">${holder.value_usd.toLocaleString()}</td>
-      <td className="tx-last-active">
+      {/* <td className="tx-last-active">
         {new Date(convertRippleDate(holder.last_active)).toLocaleString(
           'en-US',
           {
@@ -148,7 +146,7 @@ export const HoldersTable = ({
             second: '2-digit',
           },
         )}
-      </td>
+      </td> */}
     </tr>
   )
 
@@ -163,7 +161,6 @@ export const HoldersTable = ({
               <th className="name-col sticky-2"># of Tokens</th>
               <th className="name-col sticky-2">% of Supply</th>
               <th className="name-col sticky-2">Value</th>
-              <th className="name-col sticky-2">Last Active</th>
             </tr>
           </thead>
           <tbody>{holders.map(renderHolder)}</tbody>

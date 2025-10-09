@@ -30,45 +30,60 @@ const CURRENCY_OPTIONS = {
 interface TokenHeaderProps {
   accountId: string
   currency: string
-  data: LOSToken
+  tokenData: LOSToken
   xrpUSDRate: string
   holdersData?: TokenHoldersData
   isHoldersDataLoading: boolean
+  ammTvlData?: number
+  isAmmTvlLoading: boolean
 }
 
 export const TokenHeader = ({
   accountId,
   currency,
-  data,
+  tokenData,
   xrpUSDRate,
   holdersData,
   isHoldersDataLoading,
+  ammTvlData,
+  isAmmTvlLoading,
 }: TokenHeaderProps) => {
   const language = useLanguage()
   const { t } = useTranslation()
 
-  console.log('Token data:', data)
+  console.log('Token data:', tokenData)
 
+  console.log('Holders data:', holdersData)
+
+  console.log('AMM TVL data:', ammTvlData)
+
+  let circSupply = holdersData?.totalSupply || Number(tokenData.supply) || 0
+  let i = 0
+  while (holdersData && holdersData.holders[i].percent >= 20) {
+    circSupply -= holdersData.holders[i].balance
+    i += 1
+  }
   const overviewData: OverviewData = {
-    issuer: data.issuer_name || data.issuer_account,
-    price: data.price || '---',
-    holders: data.holders || 0,
-    trustlines: data.trustlines || 0,
-    transfer_fee: data.transfer_fee || 0,
+    issuer: tokenData.issuer_name || tokenData.issuer_account,
+    price: tokenData.price || '---',
+    holders: tokenData.holders || 0,
+    trustlines: tokenData.trustlines || 0,
+    transfer_fee: tokenData.transfer_fee || 0,
     reputation_level: 3,
   }
 
   const marketData: MarketData = {
-    supply: data.supply || '',
-    circ_supply: data.circ_supply || '',
-    market_cap: data.market_cap || '',
-    volume_24h: data.daily_volume || '',
-    trades_24h: data.daily_trades || '',
-    amm_tvl: '$0.00',
+    supply: holdersData?.totalSupply.toString() || tokenData.supply || '',
+    circ_supply: circSupply.toString() || tokenData.circ_supply || '',
+    market_cap: tokenData.market_cap || '',
+    volume_24h: tokenData.daily_volume || '',
+    trades_24h: tokenData.daily_trades || '',
+    amm_tvl: ammTvlData?.toString() || 'n/a',
   }
 
-  const tokenLogo = data.icon || 'https://s1.xrplmeta.org/icon/03DDEF3C9D.png'
-  const tokenURL = data.issuer_domain || `https://bitstamp.net`
+  const tokenLogo =
+    tokenData.icon || 'https://s1.xrplmeta.org/icon/03DDEF3C9D.png'
+  const tokenURL = tokenData.issuer_domain || `https://bitstamp.net`
   return (
     <div className="box token-header">
       <div className="section token-indicator">
@@ -87,11 +102,11 @@ export const TokenHeader = ({
         )}
         <Currency currency={currency} />
         <span className="issuer-separator">&nbsp;</span>
-        {data.issuer_name && (
+        {tokenData.issuer_name && (
           <div className="token-issuer-wrap">
             <span className="paren">(</span>
             <div className="token-name">
-              {data.issuer_name
+              {tokenData.issuer_name
                 .trim()
                 .toUpperCase()
                 .replace('(', '')
@@ -103,7 +118,7 @@ export const TokenHeader = ({
 
         {tokenURL && (
           <div className="issuer-ext-link">
-            <img className="issuer-ext-link-icon" src="/globe.svg" />
+            <img className="issuer-ext-link-icon" src="/globe.svg" alt="" />
             <DomainLink domain={tokenURL} keepProtocol={false} />
           </div>
         )}
@@ -113,6 +128,8 @@ export const TokenHeader = ({
           xrpUSDRate={xrpUSDRate}
           overviewData={overviewData}
           marketData={marketData}
+          isHoldersDataLoading={isHoldersDataLoading}
+          isAmmTvlLoading={isAmmTvlLoading}
         />
       </div>
     </div>

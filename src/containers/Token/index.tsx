@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren, useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import Log from '../shared/log'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
+import Log from '../shared/log'
 import { TokenHeader } from './TokenHeader'
 import { TokenTransactionTable } from './TokenTransactionTable'
 import NoMatch from '../NoMatch'
@@ -13,6 +13,7 @@ import {
   BAD_REQUEST,
   ORACLE_ACCOUNT,
   FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
+  DROPS_TO_XRP_FACTOR,
 } from '../shared/utils'
 import { useAnalytics } from '../shared/analytics'
 import { ErrorMessages } from '../shared/Interfaces'
@@ -21,8 +22,9 @@ import { useRouteParams } from '../shared/routing'
 import { getToken } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
 import { Loader } from '../shared/components/Loader'
-import { getAccountLines } from '../../rippled/lib/rippled'
+import { getAccountLines, getAMMInfo } from '../../rippled/lib/rippled'
 import getTokenHolders from '../../rippled/holders'
+import { getDexTrades, getTransfers } from '../../rippled/tokenTx'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
@@ -57,6 +59,7 @@ export const Token = () => {
   const { token = '' } = useRouteParams(TOKEN_ROUTE)
   const [currency, accountId] = token.split('.')
 
+  // get basic token stats and info
   const {
     data: tokenData,
     error: tokenDataError,
@@ -66,6 +69,7 @@ export const Token = () => {
     queryFn: () => getToken(currency, accountId),
   })
 
+  // get top holders information for calculations and holders table
   const {
     data: holdersData,
     error: holdersError,
@@ -75,12 +79,12 @@ export const Token = () => {
     queryFn: () => getTokenHolders(currency, accountId),
   })
 
+  // get XRP to USD rate
   const rippledSocket = useContext(SocketContext)
   const fetchXRPToUSDRate = () =>
     getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1).then(
       (accountLines) => accountLines.lines[0]?.limit ?? 0.0,
     )
-
   const { data: XRPUSDPrice = 0.0 } = useQuery(
     ['fetchXRPToUSDRate'],
     () => fetchXRPToUSDRate(),
@@ -92,6 +96,44 @@ export const Token = () => {
       },
     },
   )
+
+  // get dex trades and transfers for tables
+  const {
+    data: dexTrades,
+    error: dexTradesError,
+    isLoading: isDexTradesLoading,
+  } = useQuery({
+    queryKey: ['dexTrades', currency, accountId],
+    queryFn: () => getDexTrades(currency, accountId),
+  })
+  const {
+    data: transfers,
+    error: transfersError,
+    isLoading: isTransfersLoading,
+  } = useQuery({
+    queryKey: ['transfers', currency, accountId],
+    queryFn: () => getTransfers(currency, accountId),
+  })
+
+  // get amm info for TVL calculation
+  // note: only fetch xrp-<token> amm info to simplify API calls for most tokens
+  const fetchAmmInfo = () =>
+    getAMMInfo(
+      rippledSocket,
+      { currency: 'XRP' },
+      { currency, issuer: accountId },
+    ).then(
+      (data) =>
+        (Number(data.amm.amount) / DROPS_TO_XRP_FACTOR) * XRPUSDPrice * 2,
+    )
+  const {
+    data: ammTvlData,
+    error: ammTvlError,
+    isLoading: isAmmTvlLoading,
+  } = useQuery({
+    queryKey: ['ammTvl', currency, accountId],
+    queryFn: () => fetchAmmInfo(),
+  })
 
   useEffect(() => {
     trackScreenLoaded({
@@ -122,11 +164,12 @@ export const Token = () => {
           <TokenHeader
             accountId={accountId}
             currency={currency}
-            data={tokenData}
-            //holdersData={holdersData}
+            tokenData={tokenData}
             xrpUSDRate={XRPUSDPrice.toString()}
             holdersData={holdersData}
             isHoldersDataLoading={isHoldersDataLoading}
+            ammTvlData={ammTvlData}
+            isAmmTvlLoading={isAmmTvlLoading}
           />
         )
       )}
@@ -138,6 +181,12 @@ export const Token = () => {
             isHoldersDataLoading
             accountId={accountId}
             currency={currency}
+            dexTrades={dexTrades}
+            isDexTradesLoading={isDexTradesLoading}
+            transfers={transfers}
+            isTransfersLoading={isTransfersLoading}
+            xrpUSDRate={XRPUSDPrice.toString()}
+            tokenData={tokenData}
           />
         </div>
       )}
