@@ -10,6 +10,7 @@ import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 import './styles.scss'
 import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
+import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -48,41 +49,6 @@ export const parseCurrencyAmount = (
   const usdValue = Number(value) * xrpPrice
   return `$${parseAmount(usdValue, decimals)}`
 }
-
-const formatDecimals = (
-  val: number,
-  decimals: number = DEFAULT_DECIMALS,
-): string => {
-  const rounded = Number(val.toFixed(decimals))
-
-  if (rounded === 0 && val !== 0) {
-    const str = val.toPrecision(1)
-    return Number(str).toString()
-  }
-
-  return val.toFixed(decimals).replace(/\.?0+$/, '')
-}
-
-const parseAmount = (
-  value: string | number,
-  decimals: number = DEFAULT_DECIMALS,
-): string => {
-  const valueNumeric = Number(value)
-
-  if (valueNumeric >= 1_000_000_000) {
-    return `${formatDecimals(valueNumeric / 1_000_000_000, decimals)}B`
-  }
-  if (valueNumeric >= 1_000_000) {
-    return `${formatDecimals(valueNumeric / 1_000_000, decimals)}M`
-  }
-  if (valueNumeric >= 10_000) {
-    return `${formatDecimals(valueNumeric / 1_000, decimals)}K`
-  }
-
-  return formatDecimals(valueNumeric)
-}
-
-const parsePercent = (percent: number): string => `${percent.toFixed(2)}%`
 
 const TokenLogo: FC<{ icon: string | undefined }> = ({ icon }) =>
   icon ? (
@@ -159,9 +125,7 @@ export const TransfersTable = ({
           <Account account={tx.to} onClick={(e) => e.stopPropagation()} />
         </span>
       </td>
-      <td className="tx-amount">
-        {Number(formatDecimals(Number(tx.amount), 2)).toLocaleString()}
-      </td>
+      <td className="tx-amount">{parseAmount(tx.amount, 2)}</td>
     </tr>
   )
 

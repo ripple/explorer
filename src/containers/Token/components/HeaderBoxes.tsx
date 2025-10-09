@@ -7,8 +7,8 @@ import { formatPrice } from '../../shared/utils'
 import {
   truncateString,
   shouldShowLoadingSpinner,
-  formatCirculatingSupply,
 } from '../utils/tokenCalculations'
+import { parseAmount, parsePercent } from '../../Tokens/TokensTable'
 
 export interface OverviewData {
   issuer: string
@@ -56,10 +56,10 @@ export const HeaderBoxes = ({
     const xrpRate = Number(xrpUSDRate) || 0
 
     return {
-      formattedCircSupply: formatCirculatingSupply(circSupplyNum),
+      formattedCircSupply: parseAmount(circSupplyNum, 2),
       marketCap:
         circSupplyNum && priceNum && xrpRate
-          ? formatPrice(circSupplyNum * priceNum * xrpRate)
+          ? `$${parseAmount(circSupplyNum * priceNum * xrpRate, 2)}`
           : null,
     }
   }, [circ_supply, price, xrpUSDRate])
@@ -75,21 +75,6 @@ export const HeaderBoxes = ({
     }),
     [isHoldersDataLoading, circ_supply, isAmmTvlLoading, amm_tvl],
   )
-
-  const DEFAULT_DECIMALS = 1
-  const formatDecimals = (
-    val: number,
-    decimals: number = DEFAULT_DECIMALS,
-  ): string => {
-    const rounded = Number(val.toFixed(decimals))
-
-    if (rounded === 0 && val !== 0) {
-      const str = val.toPrecision(1)
-      return Number(str).toString()
-    }
-
-    return val.toFixed(decimals).replace(/\.?0+$/, '')
-  }
 
   return (
     <div className="header-boxes">
@@ -116,15 +101,15 @@ export const HeaderBoxes = ({
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.holders')}:</div>
-            <div className="item-value">{holders.toLocaleString()}</div>
+            <div className="item-value">{parseAmount(holders)}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.trustlines')}:</div>
-            <div className="item-value">{trustlines.toLocaleString()}</div>
+            <div className="item-value">{parseAmount(trustlines)}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.transfer_fee')}:</div>
-            <div className="item-value">{formatDecimals(transfer_fee, 2)}%</div>
+            <div className="item-value">{parsePercent(transfer_fee)}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.reputation_level')}:</div>
@@ -144,9 +129,7 @@ export const HeaderBoxes = ({
         <div className="header-box-contents">
           <div className="header-box-item">
             <div className="item-name">{t('token_page.supply')}:</div>
-            <div className="item-value">
-              {Number(formatDecimals(Number(supply), 2)).toLocaleString()}
-            </div>
+            <div className="item-value">{parseAmount(supply, 2)}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">
@@ -172,15 +155,11 @@ export const HeaderBoxes = ({
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.volume_24h')}:</div>
-            <div className="item-value">
-              {Number(formatDecimals(Number(volume_24h), 2)).toLocaleString()}
-            </div>
+            <div className="item-value">{parseAmount(volume_24h, 2)}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.trades_24h')}:</div>
-            <div className="item-value">
-              {Number(trades_24h).toLocaleString()}
-            </div>
+            <div className="item-value">{parseAmount(trades_24h)}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.amm_tvl')}:</div>
@@ -188,7 +167,7 @@ export const HeaderBoxes = ({
               {loadingStates.ammTvlLoading ? (
                 <span className="loading-spinner" />
               ) : (
-                formatPrice(Number(amm_tvl))
+                `$${parseAmount(amm_tvl, 2)}`
               )}
             </div>
           </div>
