@@ -9,7 +9,7 @@ export interface TokenData {
   balance: string
   reserve: number
   sequence: number
-  rate?: number
+  rate?: string
   obligations?: string
   domain?: string
   emailHash?: string

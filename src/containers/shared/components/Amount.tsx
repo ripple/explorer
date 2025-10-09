@@ -7,7 +7,7 @@ import Currency from './Currency'
 import { ExplorerAmount } from '../types'
 import { MPTIssuanceFormattedInfo } from '../Interfaces'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
-import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
+import { formatMPTIssuance } from '../../../rippled/lib/utils'
 import SocketContext from '../SocketContext'
 import { useAnalytics } from '../analytics'
 
@@ -57,7 +57,7 @@ export const Amount = ({
       ['getMPTIssuanceScale', mptID],
       async () => {
         const info = await getMPTIssuance(rippledSocket, mptID)
-        return formatMPTIssuanceInfo(info)
+        return formatMPTIssuance(info.node)
       },
       {
         onError: (e: any) => {
