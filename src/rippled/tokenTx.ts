@@ -7,11 +7,22 @@ export interface TransfersData {}
 
 export interface DexTradesData {}
 
-const getTokenTx = (currency, issuer, transactionType): Promise<any> =>
-  axios
-    .get(
-      `${process.env.VITE_LOS_URL}/transactions?token=${currency}.${issuer}&transactionType=${transactionType}&size=20`,
-    )
+const getTokenTx = (
+  currency: string,
+  issuer: string,
+  transactionType: string,
+  from: number = 0,
+  size: number = 10,
+): Promise<any> => {
+  const params = new URLSearchParams({
+    token: `${currency}.${issuer}`,
+    transactionType,
+    from: from.toString(),
+    size: size.toString(),
+  })
+
+  return axios
+    .get(`${process.env.VITE_LOS_URL}/transactions?${params.toString()}`)
     .then((resp) => {
       if (resp.status !== 200) {
         throw new Error(resp.data)
@@ -21,14 +32,18 @@ const getTokenTx = (currency, issuer, transactionType): Promise<any> =>
 
       return resp.data
     })
+}
 
 export async function getDexTrades(
   currencyCode: string,
   issuer: string,
+  from: number = 0,
+  size: number = 10,
 ): Promise<any> {
   try {
     log.info('fetching dex trades data from LOS')
-    return getTokenTx(currencyCode, issuer, 'dex-trade').then(
+    console.log('START DEX TRADE FETCH')
+    return getTokenTx(currencyCode, issuer, 'dex-trade', from, size).then(
       (dexTradesResponse) => dexTradesResponse as any,
     )
   } catch (error) {
@@ -42,10 +57,13 @@ export async function getDexTrades(
 export async function getTransfers(
   currencyCode: string,
   issuer: string,
+  from: number = 0,
+  size: number = 10,
 ): Promise<any> {
   try {
     log.info('fetching transfers data from LOS')
-    return getTokenTx(currencyCode, issuer, 'transfers').then(
+    console.log('START TRANSFERS FETCH')
+    return getTokenTx(currencyCode, issuer, 'transfers', from, size).then(
       (transfersResponse) => transfersResponse as any,
     )
   } catch (error) {

@@ -78,7 +78,7 @@ export const TokenHeader = ({
     market_cap: tokenData.market_cap || '',
     volume_24h: tokenData.daily_volume || '',
     trades_24h: tokenData.daily_trades || '',
-    amm_tvl: ammTvlData?.toString() || 'n/a',
+    amm_tvl: ammTvlData?.toString() || '',
   }
 
   const tokenLogo =

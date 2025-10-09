@@ -34,6 +34,16 @@ export interface TokenTransactionsTableProps {
   isTransfersLoading: boolean
   xrpUSDRate: string
   tokenData: LOSToken
+  holdersPage: number
+  setHoldersPage: (page: number) => void
+  holdersPageSize: number
+  transfersPage: number
+  setTransfersPage: (page: number) => void
+  transfersPageSize: number
+  dexTradesPage: number
+  setDexTradesPage: (page: number) => void
+  dexTradesPageSize: number
+  totalDexTrades: number
 }
 
 export const TokenTransactionTable = ({
@@ -47,6 +57,16 @@ export const TokenTransactionTable = ({
   isTransfersLoading,
   xrpUSDRate,
   tokenData,
+  holdersPage,
+  setHoldersPage,
+  holdersPageSize,
+  transfersPage,
+  setTransfersPage,
+  transfersPageSize,
+  dexTradesPage,
+  setDexTradesPage,
+  dexTradesPageSize,
+  totalDexTrades,
 }: TokenTransactionsTableProps) => {
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
@@ -263,7 +283,7 @@ export const TokenTransactionTable = ({
   holdersFormatted =
     holdersData?.holders.map((holder, index) => ({
       ...holder,
-      rank: index + 1,
+      rank: (holdersPage - 1) * holdersPageSize + index + 1,
       value_usd: holder.balance * Number(tokenData?.price) * XRPUSDPrice,
     })) || []
   console.log('Formatted holders data:', holdersFormatted)
@@ -330,13 +350,33 @@ export const TokenTransactionTable = ({
       )}
 
       {tablePickerState === 'dex' && (
-        <DexTradeTable transactions={dexTradesFormatted} />
+        <>
+          {console.log('Rendering DexTradeTable with:', {
+            dexTrades,
+            isDexTradesLoading,
+            totalDexTrades,
+            dexTradesPage,
+            dexTradesPageSize,
+          })}
+          <DexTradeTable
+            transactions={dexTrades}
+            isLoading={isDexTradesLoading}
+            totalTrades={totalDexTrades}
+            currentPage={dexTradesPage}
+            onPageChange={setDexTradesPage}
+            pageSize={dexTradesPageSize}
+          />
+        </>
       )}
 
       {tablePickerState === 'transfers' && (
         <TransfersTable
           transactions={transfersFormatted}
           isTransfersLoading={isTransfersLoading}
+          totalTransfers={transfers?.total || 0}
+          currentPage={transfersPage}
+          onPageChange={setTransfersPage}
+          pageSize={transfersPageSize}
         />
       )}
 
@@ -344,6 +384,10 @@ export const TokenTransactionTable = ({
         <HoldersTable
           isHoldersDataLoading={isHoldersDataLoading}
           holders={holdersFormatted}
+          totalHolders={holdersData?.totalHolders || 0}
+          currentPage={holdersPage}
+          onPageChange={setHoldersPage}
+          pageSize={holdersPageSize}
         />
       )}
     </div>

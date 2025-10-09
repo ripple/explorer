@@ -9,6 +9,8 @@ import { Loader } from '../../../shared/components/Loader'
 import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 import './styles.scss'
 import { Amount } from '../../../shared/components/Amount'
+import { Pagination } from '../../../shared/components/Pagination'
+import { ExplorerAmount } from '../../../shared/types'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -23,15 +25,18 @@ export interface LOSDEXTransaction {
   timestamp: number // format ripple epoch time
   from: string
   to: string
-  amount_in: string
-  amount_out: string
-  rate: number // probably just calc on spot
+  amount_in: ExplorerAmount
+  amount_out: ExplorerAmount
+  rate: number | null // probably just calc on spot
 }
 
 interface DexTradeTableProps {
   transactions: LOSDEXTransaction[]
-  // xrpPrice: number
-  // setPage: (page: number) => void
+  isLoading?: boolean
+  totalTrades: number
+  currentPage: number
+  onPageChange: (page: number) => void
+  pageSize: number
 }
 
 const DEFAULT_DECIMALS = 1
@@ -116,9 +121,22 @@ function truncateString(address, startLength = 6, endLength = 6) {
 
 export const DexTradeTable = ({
   transactions,
-  // setPage,
+  isLoading,
+  totalTrades,
+  currentPage,
+  onPageChange,
+  pageSize,
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
+
+  console.log('DexTradeTable props:', {
+    transactions: transactions?.length,
+    isLoading,
+    totalTrades,
+    currentPage,
+    pageSize,
+    transactionsData: transactions,
+  })
 
   const renderTransaction = (tx: LOSDEXTransaction) => (
     <tr>
@@ -168,27 +186,46 @@ export const DexTradeTable = ({
     </tr>
   )
 
-  return transactions.length > 0 ? (
+  // Temporary debug return
+  return (
     <div className="tokens-table">
-      <div className="table-wrap">
-        <table className="basic">
-          <thead>
-            <tr>
-              <th className="count sticky-1">{t('tx_hash')}</th>
-              <th className="name-col sticky-2">{t('ledger')}</th>
-              <th className="name-col sticky-2">{t('timestamp')}</th>
-              <th className="name-col sticky-2">{t('from')}</th>
-              <th className="name-col sticky-2">{t('to')}</th>
-              <th className="name-col sticky-2">{t('amount_in')}</th>
-              <th className="name-col sticky-2">{t('amount_out')}</th>
-              <th className="name-col sticky-2">{t('rate')}</th>
-            </tr>
-          </thead>
-          <tbody>{transactions.map(renderTransaction)}</tbody>
-        </table>
-      </div>
+      {isLoading && <Loader />}
+
+      {!isLoading && transactions && transactions.length > 0 && (
+        <div className="table-wrap">
+          <table className="basic">
+            <thead>
+              <tr>
+                <th className="count sticky-1">{t('tx_hash')}</th>
+                <th className="name-col sticky-2">{t('ledger')}</th>
+                <th className="name-col sticky-2">{t('timestamp')}</th>
+                <th className="name-col sticky-2">{t('from')}</th>
+                <th className="name-col sticky-2">{t('to')}</th>
+                <th className="name-col sticky-2">{t('amount_in')}</th>
+                <th className="name-col sticky-2">{t('amount_out')}</th>
+                <th className="name-col sticky-2">{t('rate')}</th>
+              </tr>
+            </thead>
+            <tbody>{transactions.map(renderTransaction)}</tbody>
+          </table>
+        </div>
+      )}
+
+      {!isLoading && totalTrades > 0 && (
+        <Pagination
+          totalItems={totalTrades}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+          pageSize={pageSize}
+        />
+      )}
+
+      {!isLoading && (!transactions || transactions.length === 0) && (
+        <div>
+          No dex trades found (transactions:{' '}
+          {transactions?.length || 'undefined'})
+        </div>
+      )}
     </div>
-  ) : (
-    <Loader />
   )
 }

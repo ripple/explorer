@@ -9,6 +9,7 @@ import { Loader } from '../../../shared/components/Loader'
 import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 import './styles.scss'
 import { Amount } from '../../../shared/components/Amount'
+import { Pagination } from '../../../shared/components/Pagination'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -30,8 +31,10 @@ export interface LOSTransfer {
 interface TransfersTableProps {
   transactions: LOSTransfer[]
   isTransfersLoading?: boolean
-  // xrpPrice: number
-  // setPage: (page: number) => void
+  totalTransfers: number
+  currentPage: number
+  onPageChange: (page: number) => void
+  pageSize: number
 }
 
 const DEFAULT_DECIMALS = 1
@@ -117,7 +120,10 @@ function truncateString(address, startLength = 6, endLength = 6) {
 export const TransfersTable = ({
   transactions,
   isTransfersLoading,
-  // setPage,
+  totalTransfers,
+  currentPage,
+  onPageChange,
+  pageSize,
 }: TransfersTableProps) => {
   const { t } = useTranslation()
 
@@ -159,7 +165,7 @@ export const TransfersTable = ({
     </tr>
   )
 
-  return transactions.length > 0 ? (
+  return transactions.length > 0 || isTransfersLoading ? (
     <div className="tokens-table">
       <div className="table-wrap">
         <table className="basic">
@@ -174,11 +180,29 @@ export const TransfersTable = ({
               <th className="name-col sticky-2">{t('amount')}</th>
             </tr>
           </thead>
-          <tbody>{transactions.map(renderTransaction)}</tbody>
+          <tbody>
+            {isTransfersLoading ? (
+              <tr>
+                <td colSpan={7}>
+                  <Loader />
+                </td>
+              </tr>
+            ) : (
+              transactions.map(renderTransaction)
+            )}
+          </tbody>
         </table>
       </div>
+      {!isTransfersLoading && (
+        <Pagination
+          totalItems={totalTransfers}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+          pageSize={pageSize}
+        />
+      )}
     </div>
   ) : (
-    <Loader />
+    <div>No transfers found</div>
   )
 }

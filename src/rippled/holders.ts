@@ -13,10 +13,15 @@ export interface TokenHoldersData {
   }>
 }
 
-const getTokenHoldersInfo = (currency, issuer): Promise<any> =>
+const getTokenHoldersInfo = (
+  currency: string,
+  issuer: string,
+  limit: number = 100,
+  offset: number = 0,
+): Promise<any> =>
   axios
     .get(
-      `https://s1.xrplmeta.org/token/${currency}:${issuer}/holders?limit=100`,
+      `https://s1.xrplmeta.org/token/${currency}:${issuer}/holders?limit=${limit}&offset=${offset}`,
     )
     .then((resp) => {
       if (resp.status !== 200) {
@@ -29,11 +34,13 @@ const getTokenHoldersInfo = (currency, issuer): Promise<any> =>
 async function getTokenHolders(
   currencyCode: string,
   issuer: string,
+  limit: number = 100,
+  offset: number = 0,
   // rippledSocket: ExplorerXrplClient,
 ): Promise<TokenHoldersData> {
   try {
     log.info('fetching holders data from XRPLMeta')
-    return getTokenHoldersInfo(currencyCode, issuer).then(
+    return getTokenHoldersInfo(currencyCode, issuer, limit, offset).then(
       (holdersResponse) => holdersResponse as TokenHoldersData,
     )
   } catch (error) {

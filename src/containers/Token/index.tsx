@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useContext, useEffect } from 'react'
+import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
@@ -25,6 +25,10 @@ import { Loader } from '../shared/components/Loader'
 import { getAccountLines, getAMMInfo } from '../../rippled/lib/rippled'
 import getTokenHolders from '../../rippled/holders'
 import { getDexTrades, getTransfers } from '../../rippled/tokenTx'
+import {
+  dexTradesPaginationService,
+  DexTrade,
+} from '../../services/dexTradesPagination'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
@@ -59,6 +63,18 @@ export const Token = () => {
   const { token = '' } = useRouteParams(TOKEN_ROUTE)
   const [currency, accountId] = token.split('.')
 
+  // pagination state for holders table
+  const [holdersPage, setHoldersPage] = useState(1)
+  const holdersPageSize = 20
+
+  // pagination state for transfers table
+  const [transfersPage, setTransfersPage] = useState(1)
+  const transfersPageSize = 10
+
+  // pagination state for dex trades table
+  const [dexTradesPage, setDexTradesPage] = useState(1)
+  const dexTradesPageSize = 10
+
   // get basic token stats and info
   const {
     data: tokenData,
@@ -75,8 +91,11 @@ export const Token = () => {
     error: holdersError,
     isLoading: isHoldersDataLoading,
   } = useQuery({
-    queryKey: ['holders', currency, accountId],
-    queryFn: () => getTokenHolders(currency, accountId),
+    queryKey: ['holders', currency, accountId, holdersPage],
+    queryFn: () => {
+      const offset = (holdersPage - 1) * holdersPageSize
+      return getTokenHolders(currency, accountId, holdersPageSize, offset)
+    },
   })
 
   // get XRP to USD rate
@@ -97,22 +116,117 @@ export const Token = () => {
     },
   )
 
-  // get dex trades and transfers for tables
-  const {
-    data: dexTrades,
-    error: dexTradesError,
-    isLoading: isDexTradesLoading,
-  } = useQuery({
-    queryKey: ['dexTrades', currency, accountId],
-    queryFn: () => getDexTrades(currency, accountId),
+  // get dex trades with pagination service
+  const [dexTradesData, setDexTradesData] = useState<{
+    trades: DexTrade[]
+    totalTrades: number
+    isLoading: boolean
+  }>({
+    trades: [],
+    totalTrades: 0,
+    isLoading: false,
   })
+
+  useEffect(() => {
+    console.log('DexTrades useEffect triggered with:', {
+      currency,
+      accountId,
+      dexTradesPage,
+      dexTradesPageSize,
+    })
+    const fetchDexTrades = async () => {
+      if (!currency || !accountId) {
+        console.log('Missing currency or accountId:', { currency, accountId })
+        return
+      }
+
+      console.log('Fetching dex trades for:', {
+        currency,
+        accountId,
+        dexTradesPage,
+        dexTradesPageSize,
+      })
+
+      // Set loading state
+      setDexTradesData((prev) => ({ ...prev, isLoading: true }))
+
+      try {
+        // Temporary direct API call for debugging
+        console.log('Making direct API call...')
+        const directResult = await getDexTrades(currency, accountId, 0, 10)
+        console.log('Direct API result:', directResult)
+
+        // Simple transformation for testing
+        const testTrades: DexTrade[] = []
+        if (directResult && directResult.results) {
+          directResult.results.forEach((transaction: any) => {
+            if (
+              transaction.dex_trades &&
+              Array.isArray(transaction.dex_trades)
+            ) {
+              transaction.dex_trades.forEach((trade: any) => {
+                testTrades.push({
+                  hash: transaction.hash,
+                  ledger: transaction.ledger_index,
+                  timestamp: transaction.timestamp,
+                  from: trade.from,
+                  to: trade.to,
+                  rate:
+                    trade.amount_out && Number(trade.amount_out.value) !== 0
+                      ? Number(trade.amount_in.value) /
+                        Number(trade.amount_out.value)
+                      : null,
+                  amount_in: {
+                    currency: trade.amount_in.currency,
+                    issuer: trade.amount_in.issuer,
+                    amount: Number(trade.amount_in.value),
+                  },
+                  amount_out: {
+                    currency: trade.amount_out.currency,
+                    issuer: trade.amount_out.issuer,
+                    amount: Number(trade.amount_out.value),
+                  },
+                })
+              })
+            }
+          })
+        }
+
+        console.log('Test trades:', testTrades)
+        setDexTradesData({
+          trades: testTrades,
+          totalTrades: directResult?.total || 0,
+          isLoading: false,
+        })
+      } catch (error) {
+        console.error('Error fetching dex trades:', error)
+        setDexTradesData({
+          trades: [],
+          totalTrades: 0,
+          isLoading: false,
+        })
+      }
+    }
+
+    fetchDexTrades()
+  }, [currency, accountId, dexTradesPage, dexTradesPageSize])
+
+  // get transfers for tables
   const {
     data: transfers,
     error: transfersError,
     isLoading: isTransfersLoading,
   } = useQuery({
-    queryKey: ['transfers', currency, accountId],
-    queryFn: () => getTransfers(currency, accountId),
+    queryKey: ['transfers', currency, accountId, transfersPage],
+    queryFn: () => {
+      const from = (transfersPage - 1) * transfersPageSize
+      return getTransfers(currency, accountId, from, transfersPageSize).then(
+        (data) => {
+          console.log('END transfers fetch:', data)
+          return data
+        },
+      )
+    },
   })
 
   // get amm info for TVL calculation
@@ -122,17 +236,25 @@ export const Token = () => {
       rippledSocket,
       { currency: 'XRP' },
       { currency, issuer: accountId },
-    ).then(
-      (data) =>
-        (Number(data.amm.amount) / DROPS_TO_XRP_FACTOR) * XRPUSDPrice * 2,
-    )
+    ).then((data) => {
+      console.log('ENDED AMM fetch:', data)
+      console.log('AMM USE XRPUSDPrice:', XRPUSDPrice)
+      console.log('AMM USE amm amt:', Number(data.amm.amount))
+
+      return (Number(data.amm.amount) / DROPS_TO_XRP_FACTOR) * XRPUSDPrice * 2
+    })
   const {
     data: ammTvlData,
     error: ammTvlError,
     isLoading: isAmmTvlLoading,
   } = useQuery({
     queryKey: ['ammTvl', currency, accountId],
-    queryFn: () => fetchAmmInfo(),
+    queryFn: () =>
+      fetchAmmInfo().then((data) => {
+        console.log('END AMM TVL fetch:', data)
+        return data
+      }),
+    enabled: !!XRPUSDPrice, // only fetch if we have a valid XRP to USD price
   })
 
   useEffect(() => {
@@ -178,15 +300,25 @@ export const Token = () => {
         <div className="section">
           <TokenTransactionTable
             holdersData={holdersData}
-            isHoldersDataLoading
+            isHoldersDataLoading={isHoldersDataLoading}
             accountId={accountId}
             currency={currency}
-            dexTrades={dexTrades}
-            isDexTradesLoading={isDexTradesLoading}
+            dexTrades={dexTradesData.trades}
+            isDexTradesLoading={dexTradesData.isLoading}
             transfers={transfers}
             isTransfersLoading={isTransfersLoading}
             xrpUSDRate={XRPUSDPrice.toString()}
             tokenData={tokenData}
+            holdersPage={holdersPage}
+            setHoldersPage={setHoldersPage}
+            holdersPageSize={holdersPageSize}
+            transfersPage={transfersPage}
+            setTransfersPage={setTransfersPage}
+            transfersPageSize={transfersPageSize}
+            dexTradesPage={dexTradesPage}
+            setDexTradesPage={setDexTradesPage}
+            dexTradesPageSize={dexTradesPageSize}
+            totalDexTrades={dexTradesData.totalTrades}
           />
         </div>
       )}

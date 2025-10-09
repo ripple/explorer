@@ -8,6 +8,7 @@ import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
 import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 import { Amount } from '../../../shared/components/Amount'
+import { Pagination } from '../../../shared/components/Pagination'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -28,8 +29,10 @@ export interface XRPLHolder {
 interface HoldersTableProps {
   holders: XRPLHolder[]
   isHoldersDataLoading?: boolean
-  // xrpPrice: number
-  // setPage: (page: number) => void
+  totalHolders: number
+  currentPage: number
+  onPageChange: (page: number) => void
+  pageSize: number
 }
 
 const DEFAULT_DECIMALS = 1
@@ -115,7 +118,10 @@ function truncateString(address, startLength = 6, endLength = 6) {
 export const HoldersTable = ({
   holders,
   isHoldersDataLoading,
-  // setPage,
+  totalHolders,
+  currentPage,
+  onPageChange,
+  pageSize,
 }: HoldersTableProps) => {
   const { t } = useTranslation()
 
@@ -150,7 +156,7 @@ export const HoldersTable = ({
     </tr>
   )
 
-  return holders.length > 0 ? (
+  return holders.length > 0 || isHoldersDataLoading ? (
     <div className="holders-table">
       <div className="table-wrap">
         <table className="basic">
@@ -163,11 +169,29 @@ export const HoldersTable = ({
               <th className="name-col sticky-2">Value</th>
             </tr>
           </thead>
-          <tbody>{holders.map(renderHolder)}</tbody>
+          <tbody>
+            {isHoldersDataLoading ? (
+              <tr>
+                <td colSpan={5}>
+                  <Loader />
+                </td>
+              </tr>
+            ) : (
+              holders.map(renderHolder)
+            )}
+          </tbody>
         </table>
       </div>
+      {!isHoldersDataLoading && (
+        <Pagination
+          totalItems={totalHolders}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+          pageSize={pageSize}
+        />
+      )}
     </div>
   ) : (
-    <Loader />
+    <div>No holders found</div>
   )
 }
