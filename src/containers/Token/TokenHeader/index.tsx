@@ -28,10 +28,14 @@ export const TokenHeader = ({
   isAmmTvlLoading,
 }: TokenHeaderProps) => {
   let circSupply = holdersData?.totalSupply || Number(tokenData.supply) || 0
-  let i = 0
-  while (holdersData && holdersData.holders[i].percent >= 20) {
-    circSupply -= holdersData.holders[i].balance
-    i += 1
+
+  // For stablecoins, don't subtract large percentage holders from circulating supply
+  if (tokenData.asset_subclass !== 'stablecoin') {
+    let i = 0
+    while (holdersData && holdersData.holders[i].percent >= 20) {
+      circSupply -= holdersData.holders[i].balance
+      i += 1
+    }
   }
   const overviewData: OverviewData = {
     issuer: tokenData.issuer_name || tokenData.issuer_account,

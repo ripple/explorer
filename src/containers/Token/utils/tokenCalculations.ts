@@ -23,12 +23,24 @@ const formatDecimals = (
 
 /**
  * Calculates the circulating supply from holders data or token supply
+ * For stablecoins, doesn't subtract large percentage holders
  */
 export const calculateCirculatingSupply = (
   holdersData: TokenHoldersData | undefined,
   tokenData: LOSToken,
 ): number => {
-  return holdersData?.totalSupply || Number(tokenData.supply) || 0
+  let circSupply = holdersData?.totalSupply || Number(tokenData.supply) || 0
+
+  // For stablecoins, don't subtract large percentage holders from circulating supply
+  if (tokenData.asset_subclass !== 'stablecoin' && holdersData) {
+    let i = 0
+    while (holdersData.holders[i] && holdersData.holders[i].percent >= 20) {
+      circSupply -= holdersData.holders[i].balance
+      i += 1
+    }
+  }
+
+  return circSupply
 }
 
 /**
@@ -38,23 +50,19 @@ export const calculateMarketCap = (
   circulatingSupply: number,
   price: string,
   xrpUSDRate: string,
-): number => {
-  return Number(circulatingSupply) * Number(price) * Number(xrpUSDRate)
-}
+): number => Number(circulatingSupply) * Number(price) * Number(xrpUSDRate)
 
 /**
  * Formats circulating supply for display
  */
-export const formatCirculatingSupply = (circulatingSupply: number): string => {
-  return Number(formatDecimals(circulatingSupply, 2)).toLocaleString()
-}
+export const formatCirculatingSupply = (circulatingSupply: number): string =>
+  Number(formatDecimals(circulatingSupply, 2)).toLocaleString()
 
 /**
  * Formats market cap for display with currency symbol
  */
-export const formatMarketCap = (marketCap: number): string => {
-  return formatPrice(marketCap)
-}
+export const formatMarketCap = (marketCap: number): string =>
+  formatPrice(marketCap)
 
 /**
  * Truncates a string (typically addresses) for display
@@ -76,9 +84,7 @@ export const truncateString = (
 export const shouldShowLoadingSpinner = (
   isLoading: boolean | undefined,
   value: string | number | undefined,
-): boolean => {
-  return !!isLoading || !value || value === ''
-}
+): boolean => !!isLoading || !value || value === ''
 
 /**
  * Validates if token data is complete for calculations
@@ -86,9 +92,7 @@ export const shouldShowLoadingSpinner = (
 export const isTokenDataComplete = (
   tokenData: LOSToken | undefined,
   holdersData: TokenHoldersData | undefined,
-): boolean => {
-  return !!(tokenData && (holdersData?.totalSupply || tokenData.supply))
-}
+): boolean => !!(tokenData && (holdersData?.totalSupply || tokenData.supply))
 
 /**
  * Calculates AMM TVL in USD
@@ -97,6 +101,4 @@ export const calculateAmmTvl = (
   ammAmount: number,
   dropsToXrpFactor: number,
   xrpUSDPrice: number,
-): number => {
-  return (ammAmount / dropsToXrpFactor) * xrpUSDPrice * 2
-}
+): number => (ammAmount / dropsToXrpFactor) * xrpUSDPrice * 2

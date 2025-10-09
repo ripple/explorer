@@ -38,7 +38,10 @@ async function getToken(
     return getLOSTokenInfo(currencyCode, issuer).then((tokenResponse) => {
       const losToken: LOSToken = {
         currency: tokenResponse.currency,
-        issuer_account: tokenResponse.currency,
+        issuer_account: tokenResponse.issuer_account,
+        name: tokenResponse.token_name,
+        asset_class: tokenResponse.asset_class,
+        asset_subclass: tokenResponse.asset_subclass,
         daily_trades: tokenResponse.number_of_trades,
         icon: tokenResponse.icon,
         ttl: tokenResponse.ttl,
