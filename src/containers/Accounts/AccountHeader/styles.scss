@@ -1,308 +1,133 @@
 @use '../../shared/css/variables' as *;
 
 .account-header {
-  margin-bottom: 16px;
+  padding: 50px 0 30px;
 
-  .title {
-    padding-bottom: 4px;
-    color: $black-40;
-    font-size: 14px;
-    text-transform: uppercase;
-    @include semibold;
-  }
+  .deleted-banner {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    border: 1px solid $orange-50;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    background: $black-90;
+    gap: 12px;
 
-  .box-header {
-    margin-top: 106px;
-    margin-bottom: 80px;
-
-    .title {
+    .deleted-label {
       display: flex;
-      flex-direction: row;
+      max-width: 180px;
       align-items: center;
-    }
-
-    h1 {
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .badge {
-      border: 1px solid $yellow-50;
-      background: $yellow-50;
-      box-shadow: 0 1px 1px $yellow-80;
-      color: $black;
-    }
-
-    .classic {
-      margin: 0;
-      color: $white;
-      font-size: 20px;
-      @include bold;
-
-      @include for-size(tablet-landscape-up) {
-        font-size: 24px;
-      }
-
-      @include for-size(desktop-up) {
-        font-size: 36px;
-      }
-    }
-
-    .currency-pair {
-      display: inline-block;
-      padding: 5px;
-      border-width: thin;
-      border-style: solid;
-      border-color: $black-70;
-      margin: 0;
-      margin-left: 12px;
-      color: $white;
-      font-size: 16px;
-      text-transform: none;
+      padding: 3px 12px;
+      border: 1px solid $orange-50;
+      border-radius: 100px;
+      margin-bottom: 8px;
+      background: $orange-80;
+      color: $black-0;
+      font-size: 12px;
       @include semibold;
 
-      @include for-size(tablet-landscape-up) {
-        font-size: 10px;
-      }
+      gap: 10px;
+      text-transform: uppercase;
 
-      @include for-size(desktop-up) {
-        font-size: 20px;
+      .deleted-info-icon {
+        width: 16px;
+        height: 16px;
+        margin-right: 3px;
       }
     }
 
-    .amm {
-      display: inline-block;
-      padding-right: 10px;
-      border-bottom: none;
+    .deleted-message {
       margin: 0;
-      color: $white;
-      font-size: 18px;
+      color: $black-0;
+      font-size: 16px;
+    }
+  }
+
+  .address-panel {
+    display: flex;
+    height: auto;
+    box-sizing: border-box;
+    flex: none;
+    flex-direction: column;
+    flex-grow: 0;
+    align-items: flex-start;
+    align-self: stretch;
+    order: 0;
+    padding: 25px;
+    border: 1px solid $black-70;
+    border-radius: 8px;
+    background: $black-90;
+    gap: 10px;
+
+    .address-label {
+      color: $black-40;
+      font-size: 14px;
+      @include semibold;
+
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .address-value {
+      display: inline-flex;
+      align-items: center;
+      color: $black-0;
+      font-size: 24px;
       @include bold;
 
-      @include for-size(tablet-landscape-up) {
-        font-size: 10px;
-      }
-
-      @include for-size(desktop-up) {
-        font-size: 23px;
-      }
-    }
-  }
-
-  .x-address {
-    margin: 0;
-    color: $white;
-    font-size: 14px;
-    @include bold;
-
-    @include for-size(tablet-landscape-up) {
-      font-size: 18px;
+      line-height: 1;
+      word-break: break-all;
     }
 
-    @include for-size(desktop-up) {
-      font-size: 36px;
-    }
-  }
-
-  .box-content {
-    min-height: 100px;
-    padding-bottom: 20px;
-  }
-
-  .info-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-top: 68px;
-
-    @include for-size(desktop-up) {
-      flex-direction: row;
-      margin-top: 80px;
-    }
-
-    .values {
+    .domain {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-bottom: 18px;
-      color: $white;
 
-      @include for-size(desktop-up) {
-        flex-direction: column;
-        margin-bottom: 0;
-      }
-
-      .value {
-        color: $white;
-        font-size: 18px;
-        line-height: 22.5px;
-        text-decoration: none;
-        @include bold;
-      }
-    }
-  }
-
-  .lower-header {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-
-    @include for-size(desktop-up) {
-      flex-direction: row;
-    }
-  }
-
-  .column {
-    display: inline-block;
-    width: 100%;
-    vertical-align: top;
-
-    @include for-size(desktop-up) {
-      width: 50%;
-
-      &.first {
-        padding-right: calc(50% - clamp(47.5%, 500px, 50%));
-      }
-
-      &.second {
-        padding-left: calc(50% - clamp(47.5%, 500px, 50%));
-        text-align: right;
-      }
-    }
-
-    .secondary {
-      padding: 0;
-      margin-bottom: 20px;
-      font-size: 12px;
-      @include bold;
-
-      @include for-size(desktop-up) {
-        border: none;
-      }
-
-      .label {
+      .domain-label {
+        margin-right: 8px;
         color: $black-40;
-        text-align: left;
-        text-transform: uppercase;
-        @include medium;
+        font-size: 14px;
+        line-height: 1;
       }
 
-      ul {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        list-style: none;
+      a {
+        font-size: 14px;
+        line-height: 1;
+        word-break: break-all;
+      }
+    }
 
-        li {
-          padding: 1px;
-          vertical-align: top;
+    .classic-address {
+      display: flex;
 
-          a {
-            display: inline-block;
-            text-transform: none;
-            vertical-align: middle;
-            @include medium;
-            @extend %truncate;
-          }
-
-          b {
-            color: $white;
-            word-break: break-all;
-            @include bold;
-          }
-
-          &.flags {
-            color: $blue-purple-30;
-            font-style: italic;
-          }
-        }
+      .classic-address-label {
+        margin-right: 8px;
+        color: $black-40;
+        font-size: 14px;
+        line-height: 1;
       }
 
-      &.x-address ul {
-        width: 100%;
+      a {
+        font-size: 14px;
+        line-height: 1;
+        word-break: break-all;
+      }
+    }
 
-        li {
-          display: flex;
-          justify-content: space-between;
+    .address-tag {
+      display: flex;
 
-          @media (width >= 450px) {
-            display: block;
-          }
-
-          .tag {
-            font-weight: 500;
-          }
-
-          .network {
-            font-weight: 500;
-          }
-
-          &.tag-info {
-            padding-top: 14px;
-            font-size: 14px;
-          }
-        }
+      .address-tag-label {
+        margin-right: 8px;
+        color: $black-40;
+        font-size: 14px;
+        line-height: 1;
       }
 
-      &.balance {
-        .value {
-          margin: -4px 0 5px -0.1em;
-          color: $white;
-          font-size: 26px;
-          line-height: 30px;
-          @include regular;
-          @include for-size(desktop-up) {
-            font-size: 30px;
-            line-height: 34px;
-          }
-          @extend %truncate;
-        }
-
-        .balance-selector-container {
-          position: relative;
-          margin-top: 10px;
-        }
-      }
-
-      &.signer-list {
-        display: block;
-        font-weight: 500;
-
-        h2 {
-          text-align: left;
-        }
-
-        ul {
-          li {
-            display: flex;
-
-            .label {
-              padding-right: 15px;
-              text-align: left;
-              white-space: nowrap;
-            }
-
-            .value {
-              overflow: hidden;
-              margin-left: auto;
-              font-weight: inherit;
-              text-overflow: ellipsis;
-            }
-
-            .account {
-              display: block;
-              font-weight: inherit;
-              @extend %truncate;
-            }
-
-            .weight {
-              overflow: inherit;
-              text-align: right;
-              text-overflow: inherit;
-              white-space: nowrap;
-            }
-          }
-        }
+      .address-tag-value {
+        color: $black-0;
+        font-size: 14px;
+        line-height: 1;
+        word-break: break-all;
       }
     }
   }

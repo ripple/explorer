@@ -22,7 +22,6 @@ describe('AccountTransactionsTable container', () => {
   const createWrapper = (
     getAccountTransactionsImpl: () => Promise<any> = () =>
       new Promise(() => {}),
-    currencySelected: string = '',
     state = { hasToken: false },
   ) => {
     ;(getAccountTransactions as Mock).mockImplementation(
@@ -33,7 +32,6 @@ describe('AccountTransactionsTable container', () => {
         <AccountTransactionTable
           accountId={TEST_ACCOUNT_ID}
           hasTokensColumn={state.hasToken}
-          currencySelected={currencySelected}
         />
       </QuickHarness>,
     )
@@ -85,7 +83,6 @@ describe('AccountTransactionsTable container', () => {
     await flushPromises()
     component.update()
 
-    expect(component.find('.load-more-btn')).not.toExist()
     expect(component.find('.transaction-table')).toExist()
     expect(component.find('.empty-transactions-message')).toHaveText(
       'get_account_transactions_failed',
@@ -94,28 +91,9 @@ describe('AccountTransactionsTable container', () => {
     component.unmount()
   })
 
-  it('renders try loading more message when no filtered results show but there is a marker', async () => {
-    const component = createWrapper(
-      () => Promise.resolve(TEST_TRANSACTIONS_DATA),
-      'EUR',
-    )
-
-    await flushPromises()
-    component.update()
-
-    expect(component.find('.load-more-btn')).toExist()
-    expect(component.find('.transaction-table')).toExist()
-    expect(component.find('.empty-transactions-message')).toHaveText(
-      'get_account_transactions_try',
-    )
-    expect(component.find(Link).length).toBe(0)
-    component.unmount()
-  })
-
   it('renders dynamic content with transaction data and token column', async () => {
     const component = createWrapper(
       () => Promise.resolve(TEST_TRANSACTIONS_DATA),
-      undefined,
       { hasToken: true },
     )
 
@@ -148,28 +126,9 @@ describe('AccountTransactionsTable container', () => {
     await flushPromises()
     component.update()
 
-    expect(component.find('.load-more-btn')).not.toExist()
     expect(component.find('.transaction-table')).toExist()
     expect(component.find('.empty-transactions-message')).toHaveText(
       'get_account_transactions_failed',
-    )
-    expect(component.find(Link).length).toBe(0)
-    component.unmount()
-  })
-
-  it('renders try loading more message when no filtered results show but there is a marker', async () => {
-    const component = createWrapper(
-      () => Promise.resolve(TEST_TRANSACTIONS_DATA),
-      'EUR',
-    )
-
-    await flushPromises()
-    component.update()
-
-    expect(component.find('.load-more-btn')).toExist()
-    expect(component.find('.transaction-table')).toExist()
-    expect(component.find('.empty-transactions-message')).toHaveText(
-      'get_account_transactions_try',
     )
     expect(component.find(Link).length).toBe(0)
     component.unmount()
