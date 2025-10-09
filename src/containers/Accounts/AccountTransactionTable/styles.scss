@@ -1,0 +1,13 @@
+@use '../../shared/css/variables' as *;
+
+.transactions-header {
+  @include bold;
+
+  font-size: 20px;
+}
+
+@media (max-width: $tablet-portrait-upper-boundary) {
+  .transactions-header {
+    font-size: 18px;
+  }
+}

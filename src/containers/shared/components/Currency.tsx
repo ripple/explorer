@@ -4,7 +4,8 @@ import { TOKEN_ROUTE, MPT_ROUTE } from '../../App/routes'
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
 const XRP = 'XRP'
-const LP_TOKEN_IDENTIFIER = '03'
+// https://xrpl.org/docs/concepts/tokens/decentralized-exchange/automated-market-makers#lp-token-currency-codes
+export const LP_TOKEN_IDENTIFIER = '03'
 
 export interface Props {
   issuer?: string
