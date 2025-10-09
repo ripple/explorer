@@ -61,7 +61,7 @@ const mockBalancesResponse = {
         currency:
           '03AD8B0558D3C1FC1E7B1C0A0DB0C88D904D500FFE68DE154997F9CC9C999999',
         value: '1000',
-      }, // LP Token
+      },
     ],
   },
 }
@@ -125,6 +125,13 @@ const mockLOSTokenResponse = {
       issuer_name: 'Bitstamp',
       price_usd: '45000.00',
       asset_class: 'Cryptocurrency',
+    },
+    {
+      currency:
+        '03AD8B0558D3C1FC1E7B1C0A0DB0C88D904D500FFE68DE154997F9CC9C999999',
+      issuer_account: 'rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w',
+      price_usd: '1.00',
+      asset_class: 'RWA',
     },
   ],
 }
@@ -192,7 +199,7 @@ describe('HeldIOUs', () => {
     // Set up getAccountInfo mock to handle different account types
     mockedGetAccountInfo.mockImplementation((_, accountId) => {
       if (accountId === 'rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w') {
-        // LP token issuer - make it an AMM account by default to exclude LP tokens
+        // LP token issuer - make it an AMM account by default make tokens starting with `03` LP tokens
         return Promise.resolve({
           TransferRate: undefined,
           Flags: 0,
@@ -214,7 +221,6 @@ describe('HeldIOUs', () => {
     // Add a delay to simulate async checking and test progressive reveal
     mockedGetAccountInfo.mockImplementation((_, accountId): Promise<any> => {
       if (accountId === 'rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w') {
-        // NOT an AMM account (no AMMID) - but with a delay
         return new Promise((resolve) => {
           setTimeout(() => {
             resolve({
@@ -225,6 +231,7 @@ describe('HeldIOUs', () => {
           }, 100) // 100ms delay to simulate network request
         })
       }
+
       // Regular accounts - immediate response
       return Promise.resolve(mockAccountInfo)
     })
@@ -275,20 +282,34 @@ describe('HeldIOUs', () => {
     // Verify we have 4 token rows (sorted by Balance USD descending)
     expect(dataRows).toHaveLength(4)
 
-    // Verify USD token data in first row (highest balance USD: $100.50)
-    const usdRow = dataRows[0]
+    // / Verify `03` non-lp token data in first row (highest balance USD: $1,000.00)
+    const nonLPTokenRow = dataRows[0]
+    expect(nonLPTokenRow).toHaveTextContent(
+      '03AD8B0558D3C1FC1E7B1C0A0DB0C88D904D500FFE68DE154997F9CC9C999999',
+    )
+    expect(nonLPTokenRow).toHaveTextContent('rLNaPoK...4dc6w')
+    expect(nonLPTokenRow).toHaveTextContent('$1.00')
+    expect(nonLPTokenRow).toHaveTextContent('1,000')
+    expect(nonLPTokenRow).toHaveTextContent('$1,000.00')
+    expect(nonLPTokenRow).toHaveTextContent('RWA')
+    // Initial state shows -- for both transfer fee and frozen (no trustline freeze)
+    const nonLPTokenPlaceholders = nonLPTokenRow.textContent?.match(/--/g) || []
+    expect(nonLPTokenPlaceholders.length).toBe(2)
+
+    // Verify USD token data in second row (highest balance USD: $100.50)
+    const usdRow = dataRows[1]
     expect(usdRow).toHaveTextContent('USD')
     expect(usdRow).toHaveTextContent('Gatehub')
     expect(usdRow).toHaveTextContent('$1.00')
     expect(usdRow).toHaveTextContent('100.5')
     expect(usdRow).toHaveTextContent('$100.50')
-    expect(usdRow).toHaveTextContent('Currency')
+
     // Initial state shows -- for both transfer fee and frozen (no trustline freeze)
     const usdPlaceholders = usdRow.textContent?.match(/--/g) || []
     expect(usdPlaceholders.length).toBe(2)
 
-    // Verify EUR token data in second row (second highest: $55.28)
-    const eurRow = dataRows[1]
+    // Verify EUR token data in third row (second highest: $55.28)
+    const eurRow = dataRows[2]
     expect(eurRow).toHaveTextContent('EUR')
     expect(eurRow).toHaveTextContent('Gatehub')
     expect(eurRow).toHaveTextContent('$1.10')
@@ -299,8 +320,8 @@ describe('HeldIOUs', () => {
     const eurPlaceholders = eurRow.textContent?.match(/--/g) || []
     expect(eurPlaceholders.length).toBe(2)
 
-    // Verify BTC token data in third row (third highest: $45.00)
-    const btcRow = dataRows[2]
+    // Verify BTC token data in fourth row (third highest: $45.00)
+    const btcRow = dataRows[3]
     expect(btcRow).toHaveTextContent('BTC')
     expect(btcRow).toHaveTextContent('Bitstamp')
     expect(btcRow).toHaveTextContent('$45,000.00')
@@ -312,19 +333,6 @@ describe('HeldIOUs', () => {
     // Only 1 placeholder for transfer fee (frozen shows Trustline, not --)
     const btcPlaceholders = btcRow.textContent?.match(/--/g) || []
     expect(btcPlaceholders.length).toBe(1)
-
-    // Verify `03` token data in fourth row (no Balance USD info, missing LOS data)
-    const lpTokenRow = dataRows[3]
-    expect(lpTokenRow).toHaveTextContent(
-      '03AD8B0558D3C1FC1E7B1C0A0DB0C88D904D500FFE68DE154997F9CC9C999999',
-    )
-    expect(lpTokenRow).toHaveTextContent('rLNaPoK...4dc6w')
-    expect(lpTokenRow).toHaveTextContent('1,000')
-
-    // Verify placeholders for missing data (no LOS token info for LP token)
-    // Initial state: Price USD, Balance USD, Asset Class, Transfer Fee, Frozen all show --
-    const lpTokenPlaceholders = lpTokenRow.textContent?.match(/--/g) || []
-    expect(lpTokenPlaceholders.length).toBe(5)
   })
 
   it('excludes LP tokens whose issuer is an AMM account', async () => {
