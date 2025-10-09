@@ -126,7 +126,7 @@ export const HoldersTable = ({
   const { t } = useTranslation()
 
   const renderHolder = (holder: XRPLHolder) => (
-    <tr>
+    <tr key={`${holder.account}-${holder.rank}`}>
       <td className="holder-rank">{holder.rank || DEFAULT_EMPTY_VALUE}</td>
       <td className="tx-hash">
         <Link to={`/account/${holder.account}`}>

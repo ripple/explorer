@@ -96,22 +96,50 @@
   margin-bottom: 16px;
 
   .issuer-ext-link {
+    display: flex;
+    align-items: center;
     padding: 8px 16px;
     border: 1px solid $green-30;
     border-radius: 8px;
     margin-left: auto;
-    font-size: 14px;
+    color: $green-30 !important;
+    font-size: 14px !important;
+    text-decoration: none;
+    transition: all 0.2s ease;
 
+    * {
+      color: $green-30 !important;
+    }
+
+    &:hover {
+      border-color: $green-50;
+      background-color: rgba($green-30, 0.1);
+      color: $green-50 !important;
+
+      * {
+        color: $green-50 !important;
+      }
+
+      .issuer-ext-link-text {
+        color: $green-50 !important;
+      }
+    }
   }
 
   .issuer-ext-link-icon {
-      width: 24px;
-      height: 24px;
-      margin-right: 8px;
-      color: $green-30;
-      object-fit: contain;
-      vertical-align: middle
-    }
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-right: 8px;
+    object-fit: contain;
+  }
+
+  .issuer-ext-link-text {
+    color: $green-30 !important;
+    font-size: 14px !important;
+    font-weight: normal;
+    text-decoration: none !important;
+  }
 
   .box-header {
     display: flex;

@@ -1,5 +1,5 @@
-import { getDexTrades } from '../rippled/tokenTx'
-import { ExplorerAmount } from '../containers/shared/types'
+import { getDexTrades } from '../../../rippled/tokenTx'
+import { ExplorerAmount } from '../../shared/types'
 
 export interface DexTrade {
   hash: string
@@ -62,25 +62,11 @@ class DexTradesPaginationService {
     this.isLoadingCache.set(cacheKey, true)
 
     try {
-      console.log('Fetching API page:', apiPage, 'with params:', {
-        currency,
-        issuer,
-        from: apiPage * 10,
-        size: 10,
-      })
       const response = await getDexTrades(currency, issuer, apiPage * 10, 10)
       const trades: DexTrade[] = []
 
-      console.log('API response:', response)
-
       if (response && response.results) {
-        console.log('Processing', response.results.length, 'transactions')
-        response.results.forEach((transaction: any, index: number) => {
-          console.log(`Transaction ${index}:`, {
-            hash: transaction.hash,
-            dex_trades_count: transaction.dex_trades?.length || 0,
-            dex_trades: transaction.dex_trades,
-          })
+        response.results.forEach((transaction: any) => {
           if (transaction.dex_trades && Array.isArray(transaction.dex_trades)) {
             transaction.dex_trades.forEach((trade: any) => {
               trades.push(this.formatDexTrade(trade, transaction))
@@ -88,8 +74,6 @@ class DexTradesPaginationService {
           }
         })
       }
-
-      console.log('Formatted trades:', trades.length, trades)
 
       // Update cache
       const existingTrades = this.cache.get(cacheKey) || []
@@ -109,13 +93,6 @@ class DexTradesPaginationService {
     page: number,
     pageSize: number = 10,
   ): Promise<DexTradesPaginationResult> {
-    console.log('getDexTradesPage called with:', {
-      currency,
-      issuer,
-      page,
-      pageSize,
-    })
-
     const cacheKey = this.getCacheKey(currency, issuer)
     const startIndex = (page - 1) * pageSize
     const endIndex = startIndex + pageSize
@@ -124,16 +101,6 @@ class DexTradesPaginationService {
     let totalTrades = this.totalTradesCache.get(cacheKey) || 0
     const currentApiPage = this.apiPageCache.get(cacheKey) || 0
     const isLoading = this.isLoadingCache.get(cacheKey) || false
-
-    console.log('Cache state:', {
-      cacheKey,
-      allTradesCount: allTrades.length,
-      totalTrades,
-      currentApiPage,
-      isLoading,
-      startIndex,
-      endIndex,
-    })
 
     // Check if we need to fetch more data
     while (allTrades.length < endIndex && !isLoading) {
@@ -171,7 +138,6 @@ class DexTradesPaginationService {
       isLoading: this.isLoadingCache.get(cacheKey) || false,
     }
 
-    console.log('getDexTradesPage returning:', result)
     return result
   }
 

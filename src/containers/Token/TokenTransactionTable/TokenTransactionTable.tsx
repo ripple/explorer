@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
 
@@ -20,7 +20,6 @@ import {
   TransfersTable,
 } from '../components/TransfersTable/TransfersTable'
 import { TokenHoldersData } from '../../../rippled/holders'
-import { DexTradesData, TransfersData } from '../../../rippled/tokenTx'
 import { LOSToken } from '../../shared/losTypes'
 
 export interface TokenTransactionsTableProps {
@@ -72,10 +71,6 @@ export const TokenTransactionTable = ({
   const rippledSocket = useContext(SocketContext)
   const { t } = useTranslation()
 
-  console.log('Holders data in Tx table:', holdersData)
-  console.log('Dex trades data in Tx table:', dexTrades)
-  console.log('Transfers data in Tx table:', transfers)
-
   const {
     data,
     error,
@@ -103,7 +98,6 @@ export const TokenTransactionTable = ({
   )
 
   const [tablePickerState, setTablePickerState] = useState('all')
-  console.log('tablePickerState', tablePickerState)
 
   const dummyDEXTransactions: LOSDEXTransaction[] = [
     {
@@ -286,7 +280,6 @@ export const TokenTransactionTable = ({
       rank: (holdersPage - 1) * holdersPageSize + index + 1,
       value_usd: holder.balance * Number(tokenData?.price) * XRPUSDPrice,
     })) || []
-  console.log('Formatted holders data:', holdersFormatted)
 
   let transfersFormatted: LOSTransfer[] = []
   transfersFormatted =
@@ -299,7 +292,6 @@ export const TokenTransactionTable = ({
       to: transfer.destination,
       amount: transfer.amount,
     })) || []
-  console.log('Formatted transfers data:', transfersFormatted)
 
   let dexTradesFormatted: LOSDEXTransaction[] = []
   if (dexTrades && dexTrades.results) {
@@ -328,7 +320,6 @@ export const TokenTransactionTable = ({
       )
       .flat()
   }
-  console.log('Formatted dex trades data:', dexTradesFormatted)
 
   return (
     <div>
@@ -350,23 +341,14 @@ export const TokenTransactionTable = ({
       )}
 
       {tablePickerState === 'dex' && (
-        <>
-          {console.log('Rendering DexTradeTable with:', {
-            dexTrades,
-            isDexTradesLoading,
-            totalDexTrades,
-            dexTradesPage,
-            dexTradesPageSize,
-          })}
-          <DexTradeTable
-            transactions={dexTrades}
-            isLoading={isDexTradesLoading}
-            totalTrades={totalDexTrades}
-            currentPage={dexTradesPage}
-            onPageChange={setDexTradesPage}
-            pageSize={dexTradesPageSize}
-          />
-        </>
+        <DexTradeTable
+          transactions={dexTrades}
+          isLoading={isDexTradesLoading}
+          totalTrades={totalDexTrades}
+          currentPage={dexTradesPage}
+          onPageChange={setDexTradesPage}
+          pageSize={dexTradesPageSize}
+        />
       )}
 
       {tablePickerState === 'transfers' && (

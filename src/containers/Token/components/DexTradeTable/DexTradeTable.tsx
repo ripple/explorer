@@ -129,17 +129,8 @@ export const DexTradeTable = ({
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
 
-  console.log('DexTradeTable props:', {
-    transactions: transactions?.length,
-    isLoading,
-    totalTrades,
-    currentPage,
-    pageSize,
-    transactionsData: transactions,
-  })
-
   const renderTransaction = (tx: LOSDEXTransaction) => (
-    <tr>
+    <tr key={`${tx.hash}-${tx.ledger}`}>
       <td className="tx-hash">
         <Link to={`/transactions/${tx.hash}`}>{truncateString(tx.hash)}</Link>
       </td>

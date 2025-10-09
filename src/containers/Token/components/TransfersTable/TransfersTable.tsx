@@ -128,7 +128,7 @@ export const TransfersTable = ({
   const { t } = useTranslation()
 
   const renderTransaction = (tx: LOSTransfer) => (
-    <tr>
+    <tr key={`${tx.hash}-${tx.ledger}`}>
       <td className="tx-hash">
         <Link to={`/transactions/${tx.hash}`}>{truncateString(tx.hash)}</Link>
       </td>

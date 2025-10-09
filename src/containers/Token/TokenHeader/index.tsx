@@ -1,17 +1,5 @@
-import { useTranslation } from 'react-i18next'
 import './styles.scss'
-import { FC } from 'react'
-import { Link } from 'react-router-dom'
-import { localizeNumber, formatLargeNumber } from '../../shared/utils'
 import Currency from '../../shared/components/Currency'
-import { Account } from '../../shared/components/Account'
-import DomainLink from '../../shared/components/DomainLink'
-import { TokenTableRow } from '../../shared/components/TokenTableRow'
-import { useLanguage } from '../../shared/hooks'
-import { LEDGER_ROUTE, TRANSACTION_ROUTE } from '../../App/routes'
-import { RouteLink } from '../../shared/routing'
-import { TokenData } from '../../../rippled/token'
-import { XRP_BASE } from '../../shared/transactionUtils'
 import {
   HeaderBoxes,
   MarketData,
@@ -20,15 +8,7 @@ import {
 import { LOSToken } from '../../shared/losTypes'
 import { TokenHoldersData } from '../../../rippled/holders'
 
-const CURRENCY_OPTIONS = {
-  style: 'currency',
-  currency: 'XRP',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 6,
-}
-
 interface TokenHeaderProps {
-  accountId: string
   currency: string
   tokenData: LOSToken
   xrpUSDRate: string
@@ -39,7 +19,6 @@ interface TokenHeaderProps {
 }
 
 export const TokenHeader = ({
-  accountId,
   currency,
   tokenData,
   xrpUSDRate,
@@ -48,15 +27,6 @@ export const TokenHeader = ({
   ammTvlData,
   isAmmTvlLoading,
 }: TokenHeaderProps) => {
-  const language = useLanguage()
-  const { t } = useTranslation()
-
-  console.log('Token data:', tokenData)
-
-  console.log('Holders data:', holdersData)
-
-  console.log('AMM TVL data:', ammTvlData)
-
   let circSupply = holdersData?.totalSupply || Number(tokenData.supply) || 0
   let i = 0
   while (holdersData && holdersData.holders[i].percent >= 20) {
@@ -117,10 +87,19 @@ export const TokenHeader = ({
         )}
 
         {tokenURL && (
-          <div className="issuer-ext-link">
+          <a
+            className="issuer-ext-link"
+            href={
+              tokenURL.startsWith('http') ? tokenURL : `https://${tokenURL}`
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img className="issuer-ext-link-icon" src="/globe.svg" alt="" />
-            <DomainLink domain={tokenURL} keepProtocol={false} />
-          </div>
+            <span className="issuer-ext-link-text">
+              {tokenURL.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+            </span>
+          </a>
         )}
       </div>
       <div className="section box-content">

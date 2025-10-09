@@ -1,8 +1,14 @@
 import { useTranslation } from 'react-i18next'
+import { useMemo } from 'react'
 
 import './styles.scss'
 import { Link } from 'react-router-dom'
-import { formatLargeNumber, formatPrice } from '../../shared/utils'
+import { formatPrice } from '../../shared/utils'
+import {
+  truncateString,
+  shouldShowLoadingSpinner,
+  formatCirculatingSupply,
+} from '../utils/tokenCalculations'
 
 export interface OverviewData {
   issuer: string
@@ -43,14 +49,32 @@ export const HeaderBoxes = ({
   const { supply, circ_supply, market_cap, volume_24h, trades_24h, amm_tvl } =
     marketData
 
-  function truncateString(address, startLength = 6, endLength = 6) {
-    if (!address || address.length <= startLength + endLength) {
-      return address // nothing to truncate
+  // Memoized calculations for performance
+  const marketCalculations = useMemo(() => {
+    const circSupplyNum = Number(circ_supply) || 0
+    const priceNum = Number(price) || 0
+    const xrpRate = Number(xrpUSDRate) || 0
+
+    return {
+      formattedCircSupply: formatCirculatingSupply(circSupplyNum),
+      marketCap:
+        circSupplyNum && priceNum && xrpRate
+          ? formatPrice(circSupplyNum * priceNum * xrpRate)
+          : null,
     }
-    const start = address.slice(0, startLength)
-    const end = address.slice(-endLength)
-    return `${start}...${end}`
-  }
+  }, [circ_supply, price, xrpUSDRate])
+
+  // Memoized loading states
+  const loadingStates = useMemo(
+    () => ({
+      circSupplyLoading: shouldShowLoadingSpinner(
+        isHoldersDataLoading,
+        circ_supply,
+      ),
+      ammTvlLoading: shouldShowLoadingSpinner(isAmmTvlLoading, amm_tvl),
+    }),
+    [isHoldersDataLoading, circ_supply, isAmmTvlLoading, amm_tvl],
+  )
 
   const DEFAULT_DECIMALS = 1
   const formatDecimals = (
@@ -129,21 +153,21 @@ export const HeaderBoxes = ({
               {t('token_page.circulating_supply')}:
             </div>
             <div className="item-value">
-              {!isHoldersDataLoading
-                ? Number(
-                    formatDecimals(Number(circ_supply), 2),
-                  ).toLocaleString()
-                : 'Loading...'}
+              {loadingStates.circSupplyLoading ? (
+                <span className="loading-spinner" />
+              ) : (
+                marketCalculations.formattedCircSupply
+              )}
             </div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.market_cap')}:</div>
             <div className="item-value">
-              {!isHoldersDataLoading
-                ? formatPrice(
-                    Number(circ_supply) * (Number(price) * Number(xrpUSDRate)),
-                  )
-                : 'Loading...'}
+              {loadingStates.circSupplyLoading ? (
+                <span className="loading-spinner" />
+              ) : (
+                marketCalculations.marketCap || '--'
+              )}
             </div>
           </div>
           <div className="header-box-item">
@@ -161,9 +185,11 @@ export const HeaderBoxes = ({
           <div className="header-box-item">
             <div className="item-name">{t('token_page.amm_tvl')}:</div>
             <div className="item-value">
-              {isAmmTvlLoading
-                ? 'Loading...'
-                : Number(amm_tvl).toLocaleString()}
+              {loadingStates.ammTvlLoading ? (
+                <span className="loading-spinner" />
+              ) : (
+                formatPrice(Number(amm_tvl))
+              )}
             </div>
           </div>
         </div>
