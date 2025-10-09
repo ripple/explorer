@@ -236,14 +236,15 @@
           }
 
           .flag-status {
+            min-width: 85px; // Ensures YES/NO and ENABLED/DISABLED have the same width
             padding: 6px 10px;
             border-radius: 999px;
             font-size: 12px;
-            @include semibold;
-
             letter-spacing: 0.06em;
+            text-align: center;
             text-transform: uppercase;
             white-space: nowrap;
+            @include semibold;
           }
 
           .flag-status.enabled {

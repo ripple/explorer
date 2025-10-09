@@ -29,7 +29,7 @@ const FlagsCard = ({ account }: FlagsCardProps) => {
         key: 'lsfDisableMaster',
         title: t('account_flag_title_lsf_disable_master'),
         description: t('account_flag_description_lsf_disable_master'),
-        enabled: !accountFlags.includes('lsfDisableMaster'),
+        enabled: accountFlags.includes('lsfDisableMaster'),
       },
       {
         key: 'lsfDefaultRipple',
@@ -139,9 +139,14 @@ const FlagsCard = ({ account }: FlagsCardProps) => {
             <div
               className={`flag-status ${flag.enabled ? 'enabled' : 'disabled'}`}
             >
-              {flag.enabled
-                ? t('account_page_flag_status_enabled')
-                : t('account_page_flag_status_disabled')}
+              {(() => {
+                if (flag.key === 'lsfDisableMaster') {
+                  return flag.enabled ? t('yes') : t('no')
+                }
+                return flag.enabled
+                  ? t('account_page_flag_status_enabled')
+                  : t('account_page_flag_status_disabled')
+              })()}
             </div>
           </div>
         ))}

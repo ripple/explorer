@@ -43,7 +43,7 @@ describe('FlagsCard Component', () => {
     })
   })
 
-  describe('Flag Status - Enabled/Disabled', () => {
+  describe('Flag Status - Enabled(Yes)/Disabled(No)', () => {
     it('shows lsfGlobalFreeze as enabled when flag is present', () => {
       const account = {
         info: {
@@ -61,6 +61,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('Global Freeze'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfGlobalFreeze as disabled when flag is not present', () => {
@@ -80,28 +81,10 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('Global Freeze'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
-    it('shows lsfDisableMaster as enabled (inverted) when flag is NOT present', () => {
-      const account = {
-        info: {
-          flags: [],
-        },
-      }
-
-      const { container } = render(
-        <TestWrapper>
-          <FlagsCard account={account} />
-        </TestWrapper>,
-      )
-
-      const flag = Array.from(container.querySelectorAll('.flag-item')).find(
-        (item) => item.textContent?.includes('Master Key'),
-      )
-      expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
-    })
-
-    it('shows lsfDisableMaster as disabled (inverted) when flag IS present', () => {
+    it('shows lsfDisableMaster as enabled with "Yes" when flag is present', () => {
       const account = {
         info: {
           flags: ['lsfDisableMaster'],
@@ -117,7 +100,28 @@ describe('FlagsCard Component', () => {
       const flag = Array.from(container.querySelectorAll('.flag-item')).find(
         (item) => item.textContent?.includes('Master Key'),
       )
+      expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Yes')
+    })
+
+    it('shows lsfDisableMaster as disabled with "No" when flag is not present', () => {
+      const account = {
+        info: {
+          flags: [],
+        },
+      }
+
+      const { container } = render(
+        <TestWrapper>
+          <FlagsCard account={account} />
+        </TestWrapper>,
+      )
+
+      const flag = Array.from(container.querySelectorAll('.flag-item')).find(
+        (item) => item.textContent?.includes('Master Key'),
+      )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('No')
     })
 
     it('shows lsfDefaultRipple as enabled when flag is present', () => {
@@ -137,6 +141,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('Rippling'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfDefaultRipple as disabled when flag is not present', () => {
@@ -156,6 +161,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('Rippling'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfAllowTrustLineClawback as enabled when flag is present', () => {
@@ -175,6 +181,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('Clawback'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfAllowTrustLineClawback as disabled when flag is not present', () => {
@@ -194,6 +201,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('Clawback'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfRequireDestTag as enabled when flag is present', () => {
@@ -213,6 +221,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('Require Destination Tag'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfRequireDestTag as disabled when flag is not present', () => {
@@ -232,6 +241,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('Require Destination Tag'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfNoFreeze as enabled when flag is present', () => {
@@ -251,6 +261,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('No Freeze'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfNoFreeze as disabled when flag is not present', () => {
@@ -270,6 +281,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('No Freeze'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfRequireAuth as enabled when flag is present', () => {
@@ -291,6 +303,7 @@ describe('FlagsCard Component', () => {
           'Require Authorization',
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfRequireAuth as disabled when flag is not present', () => {
@@ -312,6 +325,7 @@ describe('FlagsCard Component', () => {
           'Require Authorization',
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfDisallowXRP as enabled when flag is present', () => {
@@ -331,6 +345,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('No XRP Allowed'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfDisallowXRP as disabled when flag is not present', () => {
@@ -350,6 +365,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('No XRP Allowed'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfDisallowIncomingTrustline as enabled when flag is present', () => {
@@ -366,9 +382,10 @@ describe('FlagsCard Component', () => {
       )
 
       const flag = Array.from(container.querySelectorAll('.flag-item')).find(
-        (item) => item.textContent?.includes('No Trustlines Allowed'),
+        (item) => item.textContent?.includes('Block Trustlines'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfDisallowIncomingTrustline as disabled when flag is not present', () => {
@@ -385,9 +402,10 @@ describe('FlagsCard Component', () => {
       )
 
       const flag = Array.from(container.querySelectorAll('.flag-item')).find(
-        (item) => item.textContent?.includes('No Trustlines Allowed'),
+        (item) => item.textContent?.includes('Block Trustlines'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfDisallowIncomingPayChannel as enabled when flag is present', () => {
@@ -404,9 +422,10 @@ describe('FlagsCard Component', () => {
       )
 
       const flag = Array.from(container.querySelectorAll('.flag-item')).find(
-        (item) => item.textContent?.includes('No Payment Channels Allowed'),
+        (item) => item.textContent?.includes('Block Payment Channels'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfDisallowIncomingPayChannel as disabled when flag is not present', () => {
@@ -423,9 +442,10 @@ describe('FlagsCard Component', () => {
       )
 
       const flag = Array.from(container.querySelectorAll('.flag-item')).find(
-        (item) => item.textContent?.includes('No Payment Channels Allowed'),
+        (item) => item.textContent?.includes('Block Payment Channels'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfDisallowIncomingNFTokenOffer as enabled when flag is present', () => {
@@ -442,9 +462,10 @@ describe('FlagsCard Component', () => {
       )
 
       const flag = Array.from(container.querySelectorAll('.flag-item')).find(
-        (item) => item.textContent?.includes('No NFT Offers Allowed'),
+        (item) => item.textContent?.includes('Block NFT Offers'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfDisallowIncomingNFTokenOffer as disabled when flag is not present', () => {
@@ -461,9 +482,10 @@ describe('FlagsCard Component', () => {
       )
 
       const flag = Array.from(container.querySelectorAll('.flag-item')).find(
-        (item) => item.textContent?.includes('No NFT Offers Allowed'),
+        (item) => item.textContent?.includes('Block NFT Offers'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows asfAuthorizedNFTokenMinter as enabled when nftMinter field is present', () => {
@@ -484,6 +506,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('NFT Minter'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows asfAuthorizedNFTokenMinter as disabled when nftMinter field is not present', () => {
@@ -503,6 +526,7 @@ describe('FlagsCard Component', () => {
         (item) => item.textContent?.includes('NFT Minter'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfDisallowIncomingCheck as enabled when flag is present', () => {
@@ -519,9 +543,10 @@ describe('FlagsCard Component', () => {
       )
 
       const flag = Array.from(container.querySelectorAll('.flag-item')).find(
-        (item) => item.textContent?.includes('No Checks Allowed'),
+        (item) => item.textContent?.includes('Block Checks'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfDisallowIncomingCheck as disabled when flag is not present', () => {
@@ -538,9 +563,10 @@ describe('FlagsCard Component', () => {
       )
 
       const flag = Array.from(container.querySelectorAll('.flag-item')).find(
-        (item) => item.textContent?.includes('No Checks Allowed'),
+        (item) => item.textContent?.includes('Block Checks'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows lsfDepositAuth as enabled when flag is present', () => {
@@ -562,6 +588,7 @@ describe('FlagsCard Component', () => {
           'Deposit Authorization',
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows lsfDepositAuth as disabled when flag is not present', () => {
@@ -583,6 +610,7 @@ describe('FlagsCard Component', () => {
           'Deposit Authorization',
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
 
     it('shows asfAccountTxnID as enabled when accountTransactionID field is present', () => {
@@ -604,6 +632,7 @@ describe('FlagsCard Component', () => {
           item.textContent?.includes('Track Account Latest Transaction'),
       )
       expect(flag?.querySelector('.flag-status.enabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Enabled')
     })
 
     it('shows asfAccountTxnID as disabled when accountTransactionID field is not present', () => {
@@ -624,6 +653,7 @@ describe('FlagsCard Component', () => {
           item.textContent?.includes('Track Account Latest Transaction'),
       )
       expect(flag?.querySelector('.flag-status.disabled')).toBeInTheDocument()
+      expect(flag?.querySelector('.flag-status')).toHaveTextContent('Disabled')
     })
   })
 
