@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import UpIcon from '../../../shared/images/ic_up.svg'
 import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
 import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
 import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
-import { Link } from 'react-router-dom'
 import './styles.scss'
 import { Amount } from '../../../shared/components/Amount'
 
@@ -20,7 +20,7 @@ interface SocialLink {
 export interface LOSDEXTransaction {
   hash: string
   ledger: number
-  timestamp: number //format ripple epoch time
+  timestamp: number // format ripple epoch time
   from: string
   to: string
   amount_in: string
@@ -141,19 +141,27 @@ export const DexTradeTable = ({
       </td>
       <td className="tx-from">
         <span className="text-truncate">
-          <Account account={tx.from} onClick={(e) => e.stopPropagation()} />
+          <Account
+            displayText={truncateString(tx.from)}
+            account={tx.from}
+            onClick={(e) => e.stopPropagation()}
+          />
         </span>
       </td>
       <td className="tx-to">
         <span className="text-truncate">
-          <Account account={tx.to} onClick={(e) => e.stopPropagation()} />
+          <Account
+            displayText={truncateString(tx.to)}
+            account={tx.to}
+            onClick={(e) => e.stopPropagation()}
+          />
         </span>
       </td>
       <td className="tx-amount-in">
-        <Amount value={tx.amount_in}></Amount>
+        <Amount value={tx.amount_in} displayIssuer={false} />
       </td>
       <td className="tx-amount-out">
-        <Amount value={tx.amount_out}></Amount>
+        <Amount value={tx.amount_out} displayIssuer={false} />
       </td>
 
       <td className="tx-amount-rate">{tx.rate}</td>

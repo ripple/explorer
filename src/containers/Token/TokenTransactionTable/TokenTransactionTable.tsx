@@ -28,9 +28,9 @@ export interface TokenTransactionsTableProps {
   currency: string
   holdersData?: TokenHoldersData
   isHoldersDataLoading: boolean
-  dexTrades?: DexTradesData
+  dexTrades?: any
   isDexTradesLoading: boolean
-  transfers?: TransfersData
+  transfers?: any
   isTransfersLoading: boolean
   xrpUSDRate: string
   tokenData: LOSToken
@@ -177,7 +177,6 @@ export const TokenTransactionTable = ({
       rate: 0.5, // probably just calc on spot
     },
   ]
-
   const dummyHolders = [
     {
       rank: 1,
@@ -228,7 +227,6 @@ export const TokenTransactionTable = ({
       last_active: 123456789, // format ripple epoch time
     },
   ]
-
   const dummyTransfers: LOSTransfer[] = [
     {
       hash: '1A9FF30C6ADC165002425F764A3D87743F1674853D0D32DC123DF55D6438DEE0:OEQWIJRF',
@@ -261,14 +259,56 @@ export const TokenTransactionTable = ({
 
   // assign rank to each holder and calculate USD value
   const XRPUSDPrice = Number(xrpUSDRate) || 0
-  const holdersFormatted: XRPLHolder[] =
+  let holdersFormatted: XRPLHolder[] = []
+  holdersFormatted =
     holdersData?.holders.map((holder, index) => ({
       ...holder,
       rank: index + 1,
       value_usd: holder.balance * Number(tokenData?.price) * XRPUSDPrice,
     })) || []
-
   console.log('Formatted holders data:', holdersFormatted)
+
+  let transfersFormatted: LOSTransfer[] = []
+  transfersFormatted =
+    transfers?.results.map((transfer) => ({
+      hash: transfer.hash,
+      ledger: transfer.ledger_index,
+      action: transfer.type,
+      timestamp: transfer.timestamp, // format ripple epoch time
+      from: transfer.account,
+      to: transfer.destination,
+      amount: transfer.amount,
+    })) || []
+  console.log('Formatted transfers data:', transfersFormatted)
+
+  let dexTradesFormatted: LOSDEXTransaction[] = []
+  if (dexTrades && dexTrades.results) {
+    dexTradesFormatted = dexTrades.results
+      .map((result: any) =>
+        (result.dex_trades || []).map((trade: any) => ({
+          ...trade,
+          hash: result.hash,
+          ledger: result.ledger_index,
+          timestamp: result.timestamp,
+          rate:
+            trade.amount_out && Number(trade.amount_out.value) !== 0
+              ? Number(trade.amount_in.value) / Number(trade.amount_out.value)
+              : null,
+          amount_in: {
+            currency: trade.amount_in.currency,
+            issuer: trade.amount_in.issuer,
+            amount: trade.amount_in.value,
+          },
+          amount_out: {
+            currency: trade.amount_out.currency,
+            issuer: trade.amount_out.issuer,
+            amount: trade.amount_out.value,
+          },
+        })),
+      )
+      .flat()
+  }
+  console.log('Formatted dex trades data:', dexTradesFormatted)
 
   return (
     <div>
@@ -290,11 +330,14 @@ export const TokenTransactionTable = ({
       )}
 
       {tablePickerState === 'dex' && (
-        <DexTradeTable transactions={dummyDEXTransactions} />
+        <DexTradeTable transactions={dexTradesFormatted} />
       )}
 
       {tablePickerState === 'transfers' && (
-        <TransfersTable transactions={dummyTransfers} />
+        <TransfersTable
+          transactions={transfersFormatted}
+          isTransfersLoading={isTransfersLoading}
+        />
       )}
 
       {tablePickerState === 'holders' && (

@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import UpIcon from '../../../shared/images/ic_up.svg'
 import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
 import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
 import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
-import { Link } from 'react-router-dom'
 import './styles.scss'
 import { Amount } from '../../../shared/components/Amount'
 
@@ -21,7 +21,7 @@ export interface LOSTransfer {
   hash: string
   ledger: number
   action: string
-  timestamp: number //format ripple epoch time
+  timestamp: number // format ripple epoch time
   from: string
   to: string
   amount: string
@@ -29,6 +29,7 @@ export interface LOSTransfer {
 
 interface TransfersTableProps {
   transactions: LOSTransfer[]
+  isTransfersLoading?: boolean
   // xrpPrice: number
   // setPage: (page: number) => void
 }
@@ -115,6 +116,7 @@ function truncateString(address, startLength = 6, endLength = 6) {
 
 export const TransfersTable = ({
   transactions,
+  isTransfersLoading,
   // setPage,
 }: TransfersTableProps) => {
   const { t } = useTranslation()
@@ -152,7 +154,7 @@ export const TransfersTable = ({
         </span>
       </td>
       <td className="tx-amount">
-        <Amount value={tx.amount}></Amount>
+        {Number(formatDecimals(Number(tx.amount), 2)).toLocaleString()}
       </td>
     </tr>
   )
