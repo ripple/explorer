@@ -214,13 +214,33 @@ describe('JsonView', () => {
         '.json-view-expand-button',
       ) as HTMLButtonElement
 
-      // Initially collapsed (should show some collapsed indicators)
-      // Click to expand
+      // Initially collapsed (collapsed=5) - some nested content is visible but deeply nested values are not
+      expect(screen.getByText('FinalFields')).toBeInTheDocument()
+      expect(screen.getByText('PreviousFields')).toBeInTheDocument()
+      // But the actual balance values should be collapsed
+      expect(screen.queryByText(/41797929/)).not.toBeInTheDocument()
+      expect(screen.queryByText(/41797979/)).not.toBeInTheDocument()
+
+      // Click to expand (collapsed=false)
       fireEvent.click(expandButton)
 
-      // After expansion, more nested content should be visible
+      // After expansion, all deeply nested content should be visible including balance values
       expect(screen.getByText('ModifiedNode')).toBeInTheDocument()
       expect(screen.getByText('FinalFields')).toBeInTheDocument()
+      expect(screen.getByText('PreviousFields')).toBeInTheDocument()
+      expect(screen.getAllByText('Balance').length).toBeGreaterThan(0)
+      expect(screen.getByText(/41797929/)).toBeInTheDocument()
+      expect(screen.getByText(/41797979/)).toBeInTheDocument()
+      expect(screen.getAllByText('OwnerCount').length).toBeGreaterThan(0)
+
+      // Click to collapse again (collapsed=5)
+      fireEvent.click(expandButton)
+
+      // After collapsing, deeply nested values should be hidden again
+      expect(screen.getByText('FinalFields')).toBeInTheDocument() // Still visible at level 5
+      expect(screen.getByText('PreviousFields')).toBeInTheDocument() // Still visible at level 5
+      expect(screen.queryByText(/41797929/)).not.toBeInTheDocument() // Hidden beyond level 5
+      expect(screen.queryByText(/41797979/)).not.toBeInTheDocument() // Hidden beyond level 5
     })
   })
 })
