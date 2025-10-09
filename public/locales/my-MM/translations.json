@@ -237,6 +237,8 @@
   "history": "မှတ်တမ်း",
   "voting": "Voting",
   "raw": "Raw",
+  "expand_all": null,
+  "collapse_all": null,
   "try_detailed_raw": "Try `Detailed` or `Raw` view",
   "account": "Account",
   "transaction_cost": "Transaction Cost",

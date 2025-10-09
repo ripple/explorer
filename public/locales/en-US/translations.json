@@ -243,6 +243,8 @@
   "history": "History",
   "voting": "Voting",
   "raw": "Raw",
+  "expand_all": "Expand All",
+  "collapse_all": "Collapse All",
   "try_detailed_raw": "Try `Detailed` or `Raw` view",
   "account": "Account",
   "transaction_cost": "Transaction Cost",

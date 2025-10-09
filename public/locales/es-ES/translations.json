@@ -233,6 +233,8 @@
   "history": "Histórico",
   "voting": null,
   "raw": "En Bruto",
+  "expand_all": null,
+  "collapse_all": null,
   "try_detailed_raw": "Prueba las vistas `Detallado` o `En Bruto`",
   "account": "Cuenta",
   "transaction_cost": "Coste de la Transacción",
