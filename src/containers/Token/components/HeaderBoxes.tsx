@@ -155,7 +155,9 @@ export const HeaderBoxes = ({
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.volume_24h')}:</div>
-            <div className="item-value">{parseAmount(volume_24h, 2)}</div>
+            <div className="item-value">
+              {`$${parseAmount(Number(volume_24h) * Number(xrpUSDRate), 2)}`}
+            </div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.trades_24h')}:</div>
