@@ -21,17 +21,20 @@ const getTokenTx = (
     size: size.toString(),
   })
 
-  return axios
-    .get(`${process.env.VITE_LOS_URL}/transactions?${params.toString()}`)
-    .then((resp) => {
-      if (resp.status !== 200) {
-        throw new Error(resp.data)
-      }
+  return (
+    axios
+      // .get(`${process.env.VITE_LOS_URL}/transactions?${params.toString()}`)
+      .get(`https://los.prod.ripplex.io/transactions?${params.toString()}`) // TEMP FOR DEV TEST
+      .then((resp) => {
+        if (resp.status !== 200) {
+          throw new Error(resp.data)
+        }
 
-      console.log('Token Tx response:', resp.data)
+        console.log('Token Tx response:', resp.data)
 
-      return resp.data
-    })
+        return resp.data
+      })
+  )
 }
 
 export async function getDexTrades(
