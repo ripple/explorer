@@ -401,3 +401,19 @@ export function convertScaledPrice(assetPrice, scale) {
     ? `${integerPart}.${fractionalPart.toString().padStart(scale, '0')}`
     : `${integerPart}`
 }
+
+export const shortenAccount = (addr = '') =>
+  addr.length > 12 ? `${addr.slice(0, 7)}...${addr.slice(-5)}` : addr
+
+export const shortenDomain = (domain = '') =>
+  domain.length > 26 ? `${domain.slice(0, 15)}...${domain.slice(-11)}` : domain
+
+export const shortenNFTTokenID = (nftTokenID = '') =>
+  nftTokenID.length > 20
+    ? `${nftTokenID.slice(0, 10)}...${nftTokenID.slice(-10)}`
+    : nftTokenID
+
+export const shortenMPTID = (mptTokenID = '') =>
+  mptTokenID.length > 20
+    ? `${mptTokenID.slice(0, 10)}...${mptTokenID.slice(-10)}`
+    : mptTokenID

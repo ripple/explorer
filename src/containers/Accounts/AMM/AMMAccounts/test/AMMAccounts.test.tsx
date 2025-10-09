@@ -12,7 +12,7 @@ import { ACCOUNT_ROUTE } from '../../../../App/routes'
 function setSpy(accountInfo: any, getLedgerEntry: any, ammInfo: any) {
   const spyAccountInfo = jest.spyOn(rippled, 'getAccountInfo')
   const spyLedgerEntry = jest.spyOn(rippled, 'getLedgerEntry')
-  const spyInfo = jest.spyOn(rippled, 'getAMMInfo')
+  const spyInfo = jest.spyOn(rippled, 'getAMMInfoByAssets')
   spyAccountInfo.mockReturnValue(
     new Promise((resolve) => {
       resolve(accountInfo)

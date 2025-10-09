@@ -1,4 +1,4 @@
-import { formatAccountInfo, formatNFTInfo } from '../utils'
+import { formatAccountInfo, formatNFTInfo, formatTransferFee } from '../utils'
 
 describe('rippled utils:', () => {
   describe('formatNFTInfo', () => {
@@ -87,6 +87,87 @@ describe('rippled utils:', () => {
       expect(result.flags.sort()).toEqual(
         ['lsfDefaultRipple', 'lsfAllowTrustLineLocking'].sort(),
       )
+    })
+  })
+
+  describe('formatTransferFee', () => {
+    describe('when no transfer fee is provided', () => {
+      it('should return "0" for null', () => {
+        expect(formatTransferFee(null)).toBe('0')
+      })
+
+      it('should return "0" for undefined', () => {
+        expect(formatTransferFee(undefined)).toBe('0')
+      })
+
+      it('should return "0" for 0', () => {
+        expect(formatTransferFee(0)).toBe('0')
+      })
+    })
+
+    describe('when tokenType is "IOU"', () => {
+      it('should calculate percentage for IOU tokens using billion-based formula', () => {
+        // 0.5% transfer fee: 1000000000 + (1000000000 * 0.005) = 1005000000
+        expect(formatTransferFee(1005000000, 'IOU')).toBe('0.5')
+
+        // 10% transfer fee: 1000000000 + (1000000000 * 0.1) = 1100000000
+        expect(formatTransferFee(1100000000, 'IOU')).toBe('10')
+      })
+
+      it('should handle high precision values for IOU tokens', () => {
+        // Test with a value that needs rounding to 7 decimal places
+        const transferFee = 1000000000 + 12345678 // should result in 1.2345678%
+        expect(formatTransferFee(transferFee, 'IOU')).toBe('1.2345678')
+      })
+
+      it('should handle very small transfer fees for IOU tokens', () => {
+        const billion = 1000000000
+        const transferFee = billion + 1 // 0.0000001%
+        expect(formatTransferFee(transferFee, 'IOU')).toBe('1e-7') // JavaScript converts very small numbers to scientific notation
+      })
+    })
+
+    describe('when tokenType is "MPT" or "NFT"', () => {
+      it('should calculate percentage for MPT tokens using thousand-based formula', () => {
+        // 0.5% transfer fee
+        expect(formatTransferFee(5, 'MPT')).toBe('0.005')
+
+        // 10% transfer fee
+        expect(formatTransferFee(100, 'MPT')).toBe('0.1')
+      })
+
+      it('should calculate percentage for NFT tokens using thousand-based formula', () => {
+        expect(formatTransferFee(5, 'NFT')).toBe('0.005')
+        expect(formatTransferFee(100, 'NFT')).toBe('0.1')
+      })
+
+      it('should handle high precision values for MPT/NFT tokens', () => {
+        // Test with a value that needs rounding to 3 decimal places
+        expect(formatTransferFee(1234, 'MPT')).toBe('1.234')
+        expect(formatTransferFee(1235, 'NFT')).toBe('1.235') // Test rounding
+      })
+
+      it('should handle very small transfer fees for MPT/NFT tokens', () => {
+        expect(formatTransferFee(1, 'MPT')).toBe('0.001')
+        expect(formatTransferFee(0.5, 'NFT')).toBe('0.001') // Should round to 3 decimal places
+      })
+    })
+
+    describe('edge cases', () => {
+      it('should throw error for unsupported token types', () => {
+        expect(() => formatTransferFee(100, 'XRP')).toThrow(
+          'Unsupported Token type: XRP',
+        )
+        expect(() => formatTransferFee(100, 'INVALID')).toThrow(
+          'Unsupported Token type: INVALID',
+        )
+        expect(() => formatTransferFee(100, '')).toThrow(
+          'Unsupported Token type: ',
+        )
+        expect(() => formatTransferFee(100, null)).toThrow(
+          'Unsupported Token type: null',
+        )
+      })
     })
   })
 })
