@@ -70,7 +70,7 @@
 }
 
   .token-name {
-    margin: 0 4px;
+    margin: 0;
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
@@ -78,12 +78,10 @@
     text-transform: lowercase;
 
     @include for-size(tablet-portrait-up) {
-      margin: 0 6px;
       font-size: 32px;
     }
 
     @include for-size(tablet-landscape-up) {
-      margin: 0 8px;
       font-size: 42px;
     }
   }
@@ -93,14 +91,14 @@
   }
 
   .issuer-separator {
-    margin: 0 4px;
+    margin: 0 1px;
 
     @include for-size(tablet-portrait-up) {
-      margin: 0 6px;
+      margin: 0 2px;
     }
 
     @include for-size(desktop-up) {
-      margin: 0 8px;
+      margin: 0 1px;
     }
   }
 
@@ -121,7 +119,7 @@
     }
 
     .paren {
-      margin: 0 2px;
+      margin: 0;
       color: $black-40;
     }
   }
@@ -224,11 +222,11 @@
     @include for-size(tablet-portrait-up) {
       flex-flow: row wrap;
       align-items: center;
-      gap: 4px;
+      gap: 1px;
     }
 
     @include for-size(desktop-up) {
-      gap: 6px;
+      gap: 1px;
     }
 
     span {
