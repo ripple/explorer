@@ -322,7 +322,7 @@ export const TokenTransactionTable = ({
   }
 
   return (
-    <div>
+    <div className="token-transaction-table-container">
       <TxTablePicker
         tablePickerState={tablePickerState}
         setTablePickerState={setTablePickerState}

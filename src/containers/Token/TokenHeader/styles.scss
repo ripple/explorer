@@ -70,42 +70,97 @@
 }
 
   .token-name {
-    font-size: 42px;
+    margin: 0 4px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
-    line-height: 112.5%; /* 47.25px */
+    line-height: 112.5%;
     text-transform: lowercase;
 
+    @include for-size(tablet-portrait-up) {
+      margin: 0 6px;
+      font-size: 32px;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      margin: 0 8px;
+      font-size: 42px;
+    }
   }
 
   .token-name::first-letter {
-    text-transform: uppercase;   /* then uppercase the first letter */
+    text-transform: uppercase;
+  }
+
+  .issuer-separator {
+    margin: 0 4px;
+
+    @include for-size(tablet-portrait-up) {
+      margin: 0 6px;
+    }
+
+    @include for-size(desktop-up) {
+      margin: 0 8px;
+    }
   }
 
   .token-issuer-wrap {
     display: flex;
-    font-size: 42px;
+    align-items: center;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
-    line-height: 112.5%; /* 47.25px */
+    line-height: 112.5%;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 32px;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      font-size: 42px;
+    }
+
+    .paren {
+      margin: 0 2px;
+      color: $black-40;
+    }
   }
 
 
 .token-header {
-  margin-top: 80px;
+  margin-top: 40px;
   margin-bottom: 16px;
+
+  @include for-size(tablet-portrait-up) {
+    margin-top: 60px;
+  }
+
+  @include for-size(desktop-up) {
+    margin-top: 80px;
+  }
 
   .issuer-ext-link {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
-    padding: 8px 16px;
+    align-self: flex-start;
+    padding: 8px 12px;
     border: 1px solid $green-30;
     border-radius: 8px;
-    margin-left: auto;
+    margin-top: 8px;
+    margin-left: 0;
     color: $green-30 !important;
-    font-size: 14px !important;
+    font-size: 12px !important;
     text-decoration: none;
     transition: all 0.2s ease;
+
+    @include for-size(tablet-portrait-up) {
+      align-self: center;
+      padding: 8px 16px;
+      margin-top: 0;
+      margin-left: 0;
+      font-size: 14px !important;
+    }
 
     * {
       color: $green-30 !important;
@@ -143,15 +198,48 @@
 
   .box-header {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
     text-align: left;
+
+    @include for-size(tablet-portrait-up) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    @include for-size(desktop-up) {
+      gap: 24px;
+    }
+  }
+
+  .token-info-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    @include for-size(tablet-portrait-up) {
+      flex-flow: row wrap;
+      align-items: center;
+      gap: 4px;
+    }
+
+    @include for-size(desktop-up) {
+      gap: 6px;
+    }
 
     span {
       margin: 0px;
       color: $white;
-      font-size: 32px;
+      font-size: 24px;
       @include bold;
+
+      @include for-size(tablet-portrait-up) {
+        font-size: 32px;
+      }
 
       @include for-size(tablet-landscape-up) {
         font-size: 42px;
@@ -161,7 +249,6 @@
     img {
       width: 24px;
       height: 24px;
-      // margin-left: 16px;
       object-fit: contain;
     }
   }
@@ -303,13 +390,30 @@
   }
 
   .token-logo {
-    width: 48px;
-    min-width:48px;
-    height: 48px;
-    min-height: 48px;
-    border-radius: 48px;
-    margin-right: 10px;
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    min-height: 32px;
+    border-radius: 32px;
+    margin-right: 8px;
     margin-left: 0px;
+
+    @include for-size(tablet-portrait-up) {
+      width: 40px;
+      min-width: 40px;
+      height: 40px;
+      min-height: 40px;
+      border-radius: 40px;
+      margin-right: 10px;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      width: 48px;
+      min-width: 48px;
+      height: 48px;
+      min-height: 48px;
+      border-radius: 48px;
+    }
   }
 
   .token-indicator {

@@ -1,25 +1,59 @@
 @use '../../shared/css/variables' as *;
 @use '../../shared/css/table';
+@import './tables-mobile';
 
 .header-boxes {
   display: flex;
   width: 100%;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-  margin-top: 64px;
+  flex-direction: column;
+  margin-top: 32px;
   gap: 24px;
+
+  @include for-size(tablet-landscape-up) {
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin-top: 48px;
+    gap: 24px;
+  }
+
+  @include for-size(desktop-up) {
+    margin-top: 64px;
+    gap: 24px;
+  }
 }
 
 .header-box {
   display: flex;
-  width: 382px;
-  max-width: 382px;
-  flex: 0 0 auto;
+  overflow: visible;
+  width: 100%;
+  min-height: 0; // Prevent flex item overflow
   flex-direction: column;
+  flex-shrink: 0;
   align-items: flex-start;
-  padding: 16px;
-  padding-left: 0px;
+  padding: 16px 0;
   gap: 8px;
+
+  @include for-size(tablet-landscape-up) {
+    width: calc(50% - 12px);
+    max-width: 382px;
+    flex: 0 0 calc(50% - 12px);
+  }
+
+  @include for-size(desktop-up) {
+    width: 382px;
+    max-width: 382px;
+    flex: 0 0 382px;
+    padding: 16px 0;
+  }
+
+  // Ensure no overlap between boxes
+  &:not(:last-child) {
+    margin-bottom: 8px;
+
+    @include for-size(tablet-landscape-up) {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .header-box-title {
@@ -32,37 +66,64 @@
 }
 
 .header-box-contents {
+  width: 100%;
+  box-sizing: border-box;
   padding: 16px;
-    border: 1px solid $black-70;
+  border: 1px solid $black-70;
   border-radius: 8px;
 }
 
 .header-box-item {
   display: flex;
-  flex-direction: row;
-  margin-bottom: 8px;
-  gap: 32px;
+  flex-direction: column;
+  margin-bottom: 12px;
+  gap: 4px;
 
+  @include for-size(tablet-portrait-up) {
+    flex-direction: row;
+    margin-bottom: 8px;
+    gap: 16px;
+  }
+
+  @include for-size(desktop-up) {
+    gap: 32px;
+  }
 
   .item-name {
-    width: 180px;
+    width: 100%;
     color: $black-40;
-    // font-family: "Work Sans";
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
-    line-height: 150%; /* 21px */
+    line-height: 150%;
     text-transform: uppercase;
     @include semibold;
+
+    @include for-size(tablet-portrait-up) {
+      width: 140px;
+      font-size: 13px;
+    }
+
+    @include for-size(desktop-up) {
+      width: 180px;
+      font-size: 14px;
+    }
   }
 
   .item-value {
-     width: 130px;
+    width: 100%;
     color: $white;
-    //font-family: "Work Sans";
     font-size: 14px;
     font-style: normal;
-    line-height: 150%; /* 21px */
+    line-height: 150%;
     @include regular;
+
+    @include for-size(tablet-portrait-up) {
+      width: 120px;
+    }
+
+    @include for-size(desktop-up) {
+      width: 130px;
+    }
   }
 
   .account-link {

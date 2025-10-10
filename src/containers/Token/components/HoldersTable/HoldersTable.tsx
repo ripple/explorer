@@ -10,6 +10,7 @@ import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
 import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
+import '../tables-mobile.scss'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -139,7 +140,9 @@ export const HoldersTable = ({
             {isHoldersDataLoading ? (
               <tr>
                 <td colSpan={5}>
-                  <Loader />
+                  <div className="mobile-loading">
+                    <Loader />
+                  </div>
                 </td>
               </tr>
             ) : (

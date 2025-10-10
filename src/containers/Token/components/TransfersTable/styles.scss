@@ -2,25 +2,26 @@
 @use '../../../shared/css/table';
 
 .action-pill {
-    // display: inline-block;
-    // padding: 0px 12px;
-    // border: 1px solid $green-60;
-    // border-radius: 100px;
-    // background-color: $green-50;
-    // color: $black-100;
-    // font-size: 12px;
-    // @include semibold;
-
     display: flex;
     align-items: center;
-    padding: 2px 12px;
-    padding-right: 0px;
+    justify-content: center;
+    padding: 3px 8px;
     border: 1px solid $green-60;
     border-radius: 100px;
-    margin-right: 12px;
-    background: $green-80;
-    gap: 8px;
+    background-color: $green-70;
+    color: $white;
+    font-size: 12px;
     text-transform: uppercase;
+    white-space: nowrap;
 
     @include semibold;
   }
+
+// Add spacing between action and timestamp columns
+.tx-action {
+  padding-right: 16px;
+
+  @include for-size(phone-only) {
+    padding-right: 12px;
+  }
+}

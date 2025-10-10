@@ -67,28 +67,30 @@ export const TokenHeader = ({
         </div>
       </div>
       <div className="section box-header">
-        {tokenLogo && (
-          <img
-            className="token-logo"
-            alt={`${currency} logo`}
-            src={tokenLogo}
-          />
-        )}
-        <Currency currency={currency} />
-        <span className="issuer-separator">&nbsp;</span>
-        {tokenData.issuer_name && (
-          <div className="token-issuer-wrap">
-            <span className="paren">(</span>
-            <div className="token-name">
-              {tokenData.issuer_name
-                .trim()
-                .toUpperCase()
-                .replace('(', '')
-                .replace(')', '')}
+        <div className="token-info-group">
+          {tokenLogo && (
+            <img
+              className="token-logo"
+              alt={`${currency} logo`}
+              src={tokenLogo}
+            />
+          )}
+          <Currency currency={currency} />
+          <span className="issuer-separator">&nbsp;</span>
+          {tokenData.issuer_name && (
+            <div className="token-issuer-wrap">
+              <span className="paren">(</span>
+              <div className="token-name">
+                {tokenData.issuer_name
+                  .trim()
+                  .toUpperCase()
+                  .replace('(', '')
+                  .replace(')', '')}
+              </div>
+              <span className="paren">)</span>
             </div>
-            <span className="paren">)</span>
-          </div>
-        )}
+          )}
+        </div>
 
         {tokenURL && (
           <a

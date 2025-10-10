@@ -4,28 +4,89 @@
 .tx-table-picker {
   display: flex;
   flex-direction: row;
-  margin-bottom: 24px;
-  gap: 16px;
+  margin-bottom: 16px;
+  gap: 8px;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+
+  // Custom scrollbar styling for mobile
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: $black-60;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: $black-50;
+  }
+
+  // Hide scrollbar on mobile for cleaner look
+  @include for-size(phone-only) {
+    -ms-overflow-style: none; // IE/Edge
+    scrollbar-width: none; // Firefox
+
+    &::-webkit-scrollbar {
+      display: none; // Chrome/Safari
+    }
+  }
+
+  @include for-size(tablet-portrait-up) {
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+
+  @include for-size(desktop-up) {
+    margin-bottom: 24px;
+    gap: 16px;
+  }
 
   .tx-table-picker-button {
     all: unset;
-    padding-top: 21px; // keep consistent baseline
+    padding-top: 16px;
     border: none;
-    border-top: 3px solid transparent; // reserve space so active doesn't shift
-    margin-right: 16px;
+    border-top: 3px solid transparent;
+    margin-right: 8px;
     background-color: none;
     color: $black-40;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 400;
-    line-height: 150%; /* 21px */
+    line-height: 150%;
+    white-space: nowrap;
     @include regular;
 
-    &.active {
+    @include for-size(tablet-portrait-up) {
+      padding-top: 18px;
+      margin-right: 12px;
+      font-size: 13px;
+    }
+
+    @include for-size(desktop-up) {
       padding-top: 21px;
+      margin-right: 16px;
+      font-size: 14px;
+    }
+
+    &.active {
+      padding-top: 16px;
       border-top: 3px solid $white;
       color: $white;
+
+      @include for-size(tablet-portrait-up) {
+        padding-top: 18px;
+      }
+
+      @include for-size(desktop-up) {
+        padding-top: 21px;
+      }
     }
 
     &.active,

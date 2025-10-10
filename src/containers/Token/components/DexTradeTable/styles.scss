@@ -1,6 +1,15 @@
 @use '../../../shared/css/variables' as *;
 @use '../../../shared/css/table';
 
-  .text-truncate {
-    @extend %truncate;
+.text-truncate {
+  @extend %truncate;
+}
+
+// Add spacing between action and timestamp columns
+.tx-action {
+  padding-right: 16px;
+
+  @include for-size(phone-only) {
+    padding-right: 12px;
   }
+}

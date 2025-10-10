@@ -6,11 +6,12 @@ import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
 import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
-import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 import './styles.scss'
+import '../tables-mobile.scss'
 import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
 import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
+import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -106,14 +107,7 @@ export const TransfersTable = ({
         <div className="action-pill">{tx.action}</div>
       </td>
       <td className="tx-timestamp">
-        {new Date(convertRippleDate(tx.timestamp)).toLocaleString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        })}
+        <ResponsiveTimestamp timestamp={tx.timestamp} />
       </td>
       <td className="tx-from">
         <span className="text-truncate">

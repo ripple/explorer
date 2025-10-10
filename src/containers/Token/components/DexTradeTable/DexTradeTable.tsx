@@ -6,12 +6,16 @@ import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
 import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
-import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 import './styles.scss'
-import { Amount } from '../../../shared/components/Amount'
+import '../tables-mobile.scss'
 import { Pagination } from '../../../shared/components/Pagination'
 import { ExplorerAmount } from '../../../shared/types'
-import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
+import {
+  parseAmount,
+  parsePercent,
+  formatDecimals,
+} from '../../../Tokens/TokensTable'
+import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -105,14 +109,7 @@ export const DexTradeTable = ({
         <Link to={`/ledgers/${tx.ledger}`}>{tx.ledger}</Link>
       </td>
       <td className="tx-timestamp">
-        {new Date(convertRippleDate(tx.timestamp)).toLocaleString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        })}
+        <ResponsiveTimestamp timestamp={tx.timestamp} />
       </td>
       <td className="tx-from">
         <span className="text-truncate">
@@ -133,13 +130,15 @@ export const DexTradeTable = ({
         </span>
       </td>
       <td className="tx-amount-in">
-        <Amount value={tx.amount_in} displayIssuer={false} />
+        {formatDecimals(Number(tx.amount_in.amount), 6)}
       </td>
       <td className="tx-amount-out">
-        <Amount value={tx.amount_out} displayIssuer={false} />
+        {formatDecimals(Number(tx.amount_out.amount), 6)}
       </td>
 
-      <td className="tx-amount-rate">{tx.rate}</td>
+      <td className="tx-amount-rate">
+        {tx.rate ? formatDecimals(tx.rate, 6) : DEFAULT_EMPTY_VALUE}
+      </td>
     </tr>
   )
 
