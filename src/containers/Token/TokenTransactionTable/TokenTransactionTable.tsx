@@ -294,31 +294,10 @@ export const TokenTransactionTable = ({
     })) || []
 
   let dexTradesFormatted: LOSDEXTransaction[] = []
-  if (dexTrades && dexTrades.results) {
-    dexTradesFormatted = dexTrades.results
-      .map((result: any) =>
-        (result.dex_trades || []).map((trade: any) => ({
-          ...trade,
-          hash: result.hash,
-          ledger: result.ledger_index,
-          timestamp: result.timestamp,
-          rate:
-            trade.amount_out && Number(trade.amount_out.value) !== 0
-              ? Number(trade.amount_in.value) / Number(trade.amount_out.value)
-              : null,
-          amount_in: {
-            currency: trade.amount_in.currency,
-            issuer: trade.amount_in.issuer,
-            amount: trade.amount_in.value,
-          },
-          amount_out: {
-            currency: trade.amount_out.currency,
-            issuer: trade.amount_out.issuer,
-            amount: trade.amount_out.value,
-          },
-        })),
-      )
-      .flat()
+  console.log('dexTrades', dexTrades)
+  if (dexTrades && Array.isArray(dexTrades)) {
+    // dexTrades is already formatted array from pagination service
+    dexTradesFormatted = dexTrades
   }
 
   return (
@@ -342,7 +321,7 @@ export const TokenTransactionTable = ({
 
       {tablePickerState === 'dex' && (
         <DexTradeTable
-          transactions={dexTrades}
+          transactions={dexTradesFormatted}
           isLoading={isDexTradesLoading}
           totalTrades={totalDexTrades}
           currentPage={dexTradesPage}

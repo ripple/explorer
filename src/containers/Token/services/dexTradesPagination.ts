@@ -10,6 +10,8 @@ export interface DexTrade {
   amount_in: ExplorerAmount
   amount_out: ExplorerAmount
   rate: number | null
+  type?: string
+  subtype?: string
 }
 
 export interface DexTradesPaginationResult {
@@ -21,8 +23,11 @@ export interface DexTradesPaginationResult {
 
 class DexTradesPaginationService {
   private cache: Map<string, DexTrade[]> = new Map()
+
   private totalTradesCache: Map<string, number> = new Map()
+
   private apiPageCache: Map<string, number> = new Map() // tracks which API page we're on
+
   private isLoadingCache: Map<string, boolean> = new Map()
 
   private getCacheKey(currency: string, issuer: string): string {
@@ -30,12 +35,15 @@ class DexTradesPaginationService {
   }
 
   private formatDexTrade(trade: any, transaction: any): DexTrade {
+    console.log('formatDexTrade', trade, transaction)
     return {
       hash: transaction.hash,
       ledger: transaction.ledger_index,
       timestamp: transaction.timestamp,
       from: trade.from,
       to: trade.to,
+      type: trade.type,
+      subtype: trade.subtype,
       rate:
         trade.amount_out && Number(trade.amount_out.value) !== 0
           ? Number(trade.amount_in.value) / Number(trade.amount_out.value)

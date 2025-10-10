@@ -33,6 +33,8 @@ export interface LOSDEXTransaction {
   amount_in: ExplorerAmount
   amount_out: ExplorerAmount
   rate: number | null // probably just calc on spot
+  type?: string
+  subtype?: string
 }
 
 interface DexTradeTableProps {
@@ -111,6 +113,8 @@ export const DexTradeTable = ({
       <td className="tx-timestamp">
         <ResponsiveTimestamp timestamp={tx.timestamp} />
       </td>
+      <td className="tx-type">{tx.type || DEFAULT_EMPTY_VALUE}</td>
+      <td className="tx-subtype">{tx.subtype || DEFAULT_EMPTY_VALUE}</td>
       <td className="tx-from">
         <span className="text-truncate">
           <Account
@@ -155,6 +159,8 @@ export const DexTradeTable = ({
                 <th className="count sticky-1">{t('tx_hash')}</th>
                 <th className="name-col sticky-2">{t('ledger')}</th>
                 <th className="name-col sticky-2">{t('timestamp')}</th>
+                <th className="name-col sticky-2">Type</th>
+                <th className="name-col sticky-2">Subtype</th>
                 <th className="name-col sticky-2">{t('from')}</th>
                 <th className="name-col sticky-2">{t('to')}</th>
                 <th className="name-col sticky-2">{t('amount_in')}</th>
