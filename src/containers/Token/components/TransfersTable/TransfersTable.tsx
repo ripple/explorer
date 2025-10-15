@@ -27,7 +27,11 @@ export interface LOSTransfer {
   timestamp: number // format ripple epoch time
   from: string
   to: string
-  amount: string
+  amount: {
+    currency: string
+    issuer: string
+    value: string
+  }
 }
 
 interface TransfersTableProps {
@@ -119,7 +123,7 @@ export const TransfersTable = ({
           <Account account={tx.to} onClick={(e) => e.stopPropagation()} />
         </span>
       </td>
-      <td className="tx-amount">{parseAmount(tx.amount, 2)}</td>
+      <td className="tx-amount">{parseAmount(tx.amount.value, 2)}</td>
     </tr>
   )
 
