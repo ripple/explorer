@@ -19,8 +19,7 @@ export interface TokenData {
 
 const getLOSTokenInfo = (currency, issuer): Promise<any> =>
   axios
-    // .get(`${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`)
-    .get(`https://los.prod.ripplex.io/tokens/${currency}.${issuer}`) // TEMP FOR DEV TEST
+    .get(`${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`)
     .then((resp) => {
       if (resp.status !== 200) {
         throw new Error(resp.data)
