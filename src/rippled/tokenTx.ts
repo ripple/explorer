@@ -63,7 +63,7 @@ export async function getTransfers(
   try {
     log.info('fetching transfers data from LOS')
     console.log('START TRANSFERS FETCH')
-    return getTokenTx(currencyCode, issuer, 'transfers', from, size).then(
+    return getTokenTx(currencyCode, issuer, 'transfer', from, size).then(
       (transfersResponse) => transfersResponse as any,
     )
   } catch (error) {
