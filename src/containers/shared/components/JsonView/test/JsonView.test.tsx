@@ -99,11 +99,11 @@ describe('JsonView', () => {
       expect(controls).toBeInTheDocument()
     })
 
-    it('displays "Expand All" text initially', () => {
+    it('displays "Expand" text initially', () => {
       renderComponent(<JsonView data={mockData} showExpandButton />)
 
       const expandButton = document.querySelector('.json-view-expand-button')
-      expect(expandButton).toHaveTextContent('Expand All')
+      expect(expandButton).toHaveTextContent('Expand')
     })
 
     it('toggles button text when clicked', () => {
@@ -113,23 +113,23 @@ describe('JsonView', () => {
         '.json-view-expand-button',
       ) as HTMLButtonElement
 
-      // Initially shows "Expand All"
-      expect(expandButton).toHaveTextContent('Expand All')
-      expect(expandButton).toHaveAttribute('aria-label', 'Expand All')
+      // Initially shows "Expand"
+      expect(expandButton).toHaveTextContent('Expand')
+      expect(expandButton).toHaveAttribute('aria-label', 'Expand')
 
       // Click to expand
       fireEvent.click(expandButton)
 
-      // Should now show "Collapse All"
-      expect(expandButton).toHaveTextContent('Collapse All')
-      expect(expandButton).toHaveAttribute('aria-label', 'Collapse All')
+      // Should now show "Collapse"
+      expect(expandButton).toHaveTextContent('Collapse')
+      expect(expandButton).toHaveAttribute('aria-label', 'Collapse')
 
       // Click again to collapse
       fireEvent.click(expandButton)
 
-      // Should be back to "Expand All"
-      expect(expandButton).toHaveTextContent('Expand All')
-      expect(expandButton).toHaveAttribute('aria-label', 'Expand All')
+      // Should be back to "Expand"
+      expect(expandButton).toHaveTextContent('Expand')
+      expect(expandButton).toHaveAttribute('aria-label', 'Expand')
     })
 
     it('renders SVG icons', () => {

@@ -29,10 +29,10 @@ export const JsonView = ({ data, showExpandButton = false }: JsonViewProps) => {
             type="button"
             className="json-view-expand-button"
             onClick={handleExpandToggle}
-            aria-label={isExpanded ? t('collapse_all') : t('expand_all')}
+            aria-label={isExpanded ? t('collapse') : t('expand')}
           >
             <Icon width={24} height={24} />
-            {isExpanded ? t('collapse_all') : t('expand_all')}
+            {isExpanded ? t('collapse') : t('expand')}
           </button>
         </div>
       )}
