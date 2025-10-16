@@ -113,7 +113,7 @@ export const HoldersTable = ({
     <tr key={`${holder.account}-${holder.rank}`}>
       <td className="holder-rank">{holder.rank || DEFAULT_EMPTY_VALUE}</td>
       <td className="tx-hash">
-        <Link to={`/account/${holder.account}`}>
+        <Link to={`/accounts/${holder.account}`}>
           {truncateString(holder.account)}
         </Link>
       </td>

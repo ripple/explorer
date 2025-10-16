@@ -55,9 +55,11 @@
 
   &.tooltip-text {
     position: fixed;
-    max-width: 300px;
+    z-index: 9999;
+    max-width: calc(100vw - 32px);
     border: 1px solid $black-80;
     border-radius: 4px;
+    margin: 0 16px;
     background: $black-60;
     filter: drop-shadow(0px 1px 2px $black-70);
     pointer-events: none;
