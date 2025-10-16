@@ -760,10 +760,8 @@
   "token_page.dex_no_trades": "No dex trades found",
   "token_page.transfers_data_notice": "Data displayed is from 7/1/2025, 12:00:00 AM UTC onwards",
   "token_page.transfers_no_transfers": "No transfers found",
-  "token_page.price_less_than": "< $0.0001"
-
-
-
-
+  "token_page.price_less_than": "< $0.0001",
+  "token_page.token_label": "Token",
+  "token_page.category_text": "IOU"
 
 }

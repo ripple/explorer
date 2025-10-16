@@ -733,5 +733,7 @@
   "token_page.dex_no_trades": null,
   "token_page.transfers_data_notice": null,
   "token_page.transfers_no_transfers": null,
-  "token_page.price_less_than": null
+  "token_page.price_less_than": null,
+  "token_page.token_label": null,
+  "token_page.category_text": null
 }

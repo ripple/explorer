@@ -1,4 +1,5 @@
 import './styles.scss'
+import { useTranslation } from 'react-i18next'
 import Currency from '../../shared/components/Currency'
 import {
   HeaderBoxes,
@@ -27,6 +28,7 @@ export const TokenHeader = ({
   ammTvlData,
   isAmmTvlLoading,
 }: TokenHeaderProps) => {
+  const { t } = useTranslation()
   let circSupply = holdersData?.totalSupply || Number(tokenData.supply) || 0
 
   // For stablecoins, don't subtract large percentage holders from circulating supply
@@ -60,9 +62,9 @@ export const TokenHeader = ({
   return (
     <div className="box token-header">
       <div className="section token-indicator">
-        <div className="token-label">Token</div>
+        <div className="token-label">{t('token_page.token_label')}</div>
         <div className="category-pill">
-          <div className="category-text">IOU</div>
+          <div className="category-text">{t('token_page.category_text')}</div>
         </div>
       </div>
       <div className="section box-header">
