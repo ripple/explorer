@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import UpIcon from '../../../shared/images/ic_up.svg'
 import DownIcon from '../../../shared/images/ic_down.svg'
@@ -35,6 +35,7 @@ interface HoldersTableProps {
   currentPage: number
   onPageChange: (page: number) => void
   pageSize: number
+  scrollRef?: React.RefObject<HTMLDivElement>
 }
 
 const DEFAULT_DECIMALS = 1
@@ -89,8 +90,23 @@ export const HoldersTable = ({
   currentPage,
   onPageChange,
   pageSize,
+  scrollRef,
 }: HoldersTableProps) => {
   const { t } = useTranslation()
+
+  // Scroll to top of table container when page changes
+  useEffect(() => {
+    if (scrollRef?.current && !isHoldersDataLoading) {
+      const containerTop =
+        scrollRef.current.getBoundingClientRect().top + window.scrollY
+      // Subtract 100px to show headers and tabs above the table
+      window.scrollTo({ top: containerTop - 100, behavior: 'smooth' })
+    }
+  }, [currentPage, isHoldersDataLoading, scrollRef])
+
+  const handlePageChange = (page: number) => {
+    onPageChange(page)
+  }
 
   const renderHolder = (holder: XRPLHolder) => (
     <tr key={`${holder.account}-${holder.rank}`}>
@@ -133,7 +149,7 @@ export const HoldersTable = ({
               <th className="name-col sticky-2">{t('account')}</th>
               <th className="name-col sticky-2"># of Tokens</th>
               <th className="name-col sticky-2">% of Supply</th>
-              <th className="name-col sticky-2">Value</th>
+              <th className="name-col sticky-2">USD Value</th>
             </tr>
           </thead>
           <tbody>
@@ -155,8 +171,9 @@ export const HoldersTable = ({
         <Pagination
           totalItems={totalHolders}
           currentPage={currentPage}
-          onPageChange={onPageChange}
+          onPageChange={handlePageChange}
           pageSize={pageSize}
+          scrollToTop={null}
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
 
@@ -98,6 +98,12 @@ export const TokenTransactionTable = ({
   )
 
   const [tablePickerState, setTablePickerState] = useState('all')
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // Reset table picker state when token changes
+  useEffect(() => {
+    setTablePickerState('all')
+  }, [currency, accountId])
 
   // assign rank to each holder and calculate USD value
   const XRPUSDPrice = Number(xrpUSDRate) || 0
@@ -136,10 +142,13 @@ export const TokenTransactionTable = ({
   }
 
   return (
-    <div className="token-transaction-table-container">
+    <div className="token-transaction-table-container" ref={containerRef}>
       <TxTablePicker
         tablePickerState={tablePickerState}
         setTablePickerState={setTablePickerState}
+        onHoldersTabClick={() => setHoldersPage(1)}
+        onTransfersTabClick={() => setTransfersPage(1)}
+        onDexTabClick={() => setDexTradesPage(1)}
       />
 
       {tablePickerState === 'all' && (
@@ -162,6 +171,7 @@ export const TokenTransactionTable = ({
           currentPage={dexTradesPage}
           onPageChange={setDexTradesPage}
           pageSize={dexTradesPageSize}
+          scrollRef={containerRef}
         />
       )}
 
@@ -173,6 +183,7 @@ export const TokenTransactionTable = ({
           currentPage={transfersPage}
           onPageChange={setTransfersPage}
           pageSize={transfersPageSize}
+          scrollRef={containerRef}
         />
       )}
 
@@ -184,6 +195,7 @@ export const TokenTransactionTable = ({
           currentPage={holdersPage}
           onPageChange={setHoldersPage}
           pageSize={holdersPageSize}
+          scrollRef={containerRef}
         />
       )}
     </div>

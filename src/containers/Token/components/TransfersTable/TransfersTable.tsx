@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import UpIcon from '../../../shared/images/ic_up.svg'
 import DownIcon from '../../../shared/images/ic_down.svg'
@@ -12,6 +12,7 @@ import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
 import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
+import { ExplorerAmount } from '../../../shared/types'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -41,6 +42,7 @@ interface TransfersTableProps {
   currentPage: number
   onPageChange: (page: number) => void
   pageSize: number
+  scrollRef?: React.RefObject<HTMLDivElement>
 }
 
 const DEFAULT_DECIMALS = 1
@@ -95,8 +97,19 @@ export const TransfersTable = ({
   currentPage,
   onPageChange,
   pageSize,
+  scrollRef,
 }: TransfersTableProps) => {
   const { t } = useTranslation()
+
+  // Scroll to top of table container when page changes
+  useEffect(() => {
+    if (scrollRef?.current && !isTransfersLoading) {
+      const containerTop =
+        scrollRef.current.getBoundingClientRect().top + window.scrollY
+      // Subtract 100px to show headers and tabs above the table
+      window.scrollTo({ top: containerTop - 100, behavior: 'smooth' })
+    }
+  }, [currentPage, isTransfersLoading, scrollRef])
 
   const renderTransaction = (tx: LOSTransfer) => (
     <tr key={`${tx.hash}-${tx.ledger}`}>
@@ -123,7 +136,16 @@ export const TransfersTable = ({
           <Account account={tx.to} onClick={(e) => e.stopPropagation()} />
         </span>
       </td>
-      <td className="tx-amount">{parseAmount(tx.amount.value, 2)}</td>
+      <td className="tx-amount">
+        <Amount
+          value={{
+            currency: tx.amount.currency,
+            issuer: tx.amount.issuer,
+            amount: tx.amount.value,
+          }}
+          displayIssuer={false}
+        />
+      </td>
     </tr>
   )
 
@@ -161,6 +183,7 @@ export const TransfersTable = ({
           currentPage={currentPage}
           onPageChange={onPageChange}
           pageSize={pageSize}
+          scrollToTop={null}
         />
       )}
     </div>

@@ -9,7 +9,7 @@ type Props = {
   siblingCount?: number
   className?: string
   pageSize?: number
-  scrollToTop?: number
+  scrollToTop?: number | null
 }
 
 const DOTS = '…'
@@ -91,7 +91,9 @@ export const Pagination = ({
 
   const handlePageChange = (page: number) => {
     onPageChange(page)
-    window.scrollTo({ top: scrollToTop, behavior: 'auto' })
+    if (scrollToTop !== null && scrollToTop !== undefined) {
+      window.scrollTo({ top: scrollToTop, behavior: 'auto' })
+    }
   }
 
   return (

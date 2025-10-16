@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { capitalize } from 'lodash'
 import UpIcon from '../../../shared/images/ic_up.svg'
@@ -17,6 +17,7 @@ import {
   formatDecimals,
 } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
+import { Amount } from '../../../shared/components/Amount'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -45,6 +46,7 @@ interface DexTradeTableProps {
   currentPage: number
   onPageChange: (page: number) => void
   pageSize: number
+  scrollRef?: React.RefObject<HTMLDivElement>
 }
 
 const DEFAULT_DECIMALS = 1
@@ -99,8 +101,19 @@ export const DexTradeTable = ({
   currentPage,
   onPageChange,
   pageSize,
+  scrollRef,
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
+
+  // Scroll to top of table container when page changes
+  useEffect(() => {
+    if (scrollRef?.current && !isLoading) {
+      const containerTop =
+        scrollRef.current.getBoundingClientRect().top + window.scrollY
+      // Subtract 100px to show headers and tabs above the table
+      window.scrollTo({ top: containerTop - 100, behavior: 'smooth' })
+    }
+  }, [currentPage, isLoading, scrollRef])
 
   console.log('[DexTradeTable] Rendering with:', {
     transactionsLength: transactions?.length,
@@ -178,10 +191,24 @@ export const DexTradeTable = ({
         </span>
       </td>
       <td className="tx-amount-in">
-        {formatDecimals(Number(tx.amount_in.amount), 6)}
+        <Amount
+          value={{
+            currency: tx.amount_in.currency,
+            issuer: tx.amount_in.issuer,
+            amount: formatDecimals(Number(tx.amount_in.amount), 6),
+          }}
+          displayIssuer={false}
+        />
       </td>
       <td className="tx-amount-out">
-        {formatDecimals(Number(tx.amount_out.amount), 6)}
+        <Amount
+          value={{
+            currency: tx.amount_out.currency,
+            issuer: tx.amount_out.issuer,
+            amount: formatDecimals(Number(tx.amount_out.amount), 6),
+          }}
+          displayIssuer={false}
+        />
       </td>
 
       <td className="tx-amount-rate">
@@ -234,6 +261,7 @@ export const DexTradeTable = ({
                 currentPage={currentPage}
                 onPageChange={onPageChange}
                 pageSize={pageSize}
+                scrollToTop={null}
               />
             </>
           )}

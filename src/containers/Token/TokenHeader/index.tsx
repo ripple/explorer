@@ -29,7 +29,7 @@ export const TokenHeader = ({
 }: TokenHeaderProps) => {
   let circSupply = holdersData?.totalSupply || Number(tokenData.supply) || 0
 
-  console.log('subclass', tokenData.asset_subclass)
+  console.log('subclass', tokenData)
   // For stablecoins, don't subtract large percentage holders from circulating supply
   if (tokenData.asset_subclass !== 'stablecoin') {
     let i = 0

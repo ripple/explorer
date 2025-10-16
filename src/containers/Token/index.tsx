@@ -192,6 +192,13 @@ export const Token = () => {
     enabled: !!XRPUSDPrice, // only fetch if we have a valid XRP to USD price
   })
 
+  // Reset pagination when token changes
+  useEffect(() => {
+    setHoldersPage(1)
+    setTransfersPage(1)
+    setDexTradesPage(1)
+  }, [currency, accountId])
+
   useEffect(() => {
     trackScreenLoaded({
       issuer: accountId,

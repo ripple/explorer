@@ -74,6 +74,14 @@ export const HeaderBoxes = ({
     [isHoldersDataLoading, circ_supply, isAmmTvlLoading, amm_tvl],
   )
 
+  const formattedPrice = useMemo(() => {
+    const normPrice = Number(price) * Number(xrpUSDRate)
+    if (normPrice < 0.0001) {
+      return '< $0.0001'
+    }
+    return formatPrice(normPrice)
+  }, [price, xrpUSDRate])
+
   return (
     <div className="header-boxes">
       <div className="header-box">
@@ -93,9 +101,7 @@ export const HeaderBoxes = ({
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.price')}:</div>
-            <div className="item-value">
-              {formatPrice(Number(price) * Number(xrpUSDRate))}
-            </div>
+            <div className="item-value">{formattedPrice}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.holders')}:</div>
@@ -154,12 +160,16 @@ export const HeaderBoxes = ({
           <div className="header-box-item">
             <div className="item-name">{t('token_page.volume_24h')}:</div>
             <div className="item-value">
-              {`$${parseAmount(Number(volume_24h) * Number(xrpUSDRate), 2)}`}
+              {Number(volume_24h) > 0
+                ? `$${parseAmount(Number(volume_24h) * Number(xrpUSDRate), 2)}`
+                : '--'}
             </div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.trades_24h')}:</div>
-            <div className="item-value">{parseAmount(trades_24h)}</div>
+            <div className="item-value">
+              {Number(trades_24h) > 0 ? parseAmount(trades_24h) : '--'}
+            </div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.amm_tvl')}:</div>

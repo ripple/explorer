@@ -1,7 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import './styles.scss'
 
-export const TxTablePicker = ({ tablePickerState, setTablePickerState }) => {
+export const TxTablePicker = ({
+  tablePickerState,
+  setTablePickerState,
+  onHoldersTabClick,
+  onTransfersTabClick,
+  onDexTabClick,
+}) => {
   const { t } = useTranslation()
 
   return (
@@ -16,19 +22,28 @@ export const TxTablePicker = ({ tablePickerState, setTablePickerState }) => {
         </button>
         <button
           className={`tx-table-picker-button ${tablePickerState === 'dex' ? 'active' : ''}`}
-          onClick={() => setTablePickerState('dex')}
+          onClick={() => {
+            setTablePickerState('dex')
+            onDexTabClick?.()
+          }}
         >
           {t('token_page.dex_tx')}
         </button>
         <button
           className={`tx-table-picker-button ${tablePickerState === 'transfers' ? 'active' : ''}`}
-          onClick={() => setTablePickerState('transfers')}
+          onClick={() => {
+            setTablePickerState('transfers')
+            onTransfersTabClick?.()
+          }}
         >
           {t('token_page.transfers_tx')}
         </button>
         <button
           className={`tx-table-picker-button ${tablePickerState === 'holders' ? 'active' : ''}`}
-          onClick={() => setTablePickerState('holders')}
+          onClick={() => {
+            setTablePickerState('holders')
+            onHoldersTabClick?.()
+          }}
         >
           {t('token_page.holders_table')}
         </button>
