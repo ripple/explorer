@@ -1,6 +1,17 @@
 @use '../../../shared/css/variables' as *;
 @use '../../../shared/css/table';
 
+.data-notice {
+  padding: 12px 16px;
+  border-radius: 2px;
+  border-left: 4px solid $yellow;
+  margin-bottom: 16px;
+  background-color: rgb(255 193 7 / 15%);
+  color: $black-30;
+  font-size: 13px;
+  line-height: 16px;
+}
+
 .action-pill {
     display: flex;
     align-items: center;

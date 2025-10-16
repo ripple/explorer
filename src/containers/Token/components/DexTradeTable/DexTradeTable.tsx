@@ -241,6 +241,9 @@ export const DexTradeTable = ({
 
       {!isLoading && transactions && transactions.length > 0 && (
         <>
+          <div className="data-notice">
+            Data displayed is from 7/1/2025, 12:00:00 AM UTC onwards
+          </div>
           <div className="table-wrap">
             <table className="basic" key={`dex-table-page-${currentPage}`}>
               <thead>
@@ -255,7 +258,7 @@ export const DexTradeTable = ({
                     <span className="sort-header">
                       {t('amount_in')}
                       {renderTextTooltip(
-                        'The amount of tokens sent in the trade',
+                        'The amount of tokens received by the "To" account in the trade',
                       )}
                     </span>
                   </th>
@@ -263,7 +266,7 @@ export const DexTradeTable = ({
                     <span className="sort-header">
                       {t('amount_out')}
                       {renderTextTooltip(
-                        'The amount of tokens received in the trade',
+                        'The amount of tokens sent out by the "To" account in the trade',
                       )}
                     </span>
                   </th>
