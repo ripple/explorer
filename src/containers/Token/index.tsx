@@ -44,8 +44,8 @@ const ERROR_MESSAGES: ErrorMessages = {
   },
 }
 
-const getErrorMessage = (error) =>
-  ERROR_MESSAGES[error] || ERROR_MESSAGES.default
+const getErrorMessage = (error: unknown) =>
+  ERROR_MESSAGES[error as string | number] || ERROR_MESSAGES.default
 
 const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
   accountId,
@@ -136,24 +136,12 @@ export const Token = () => {
           dexTradesPageSize,
         )
 
-        console.log('[Token] Setting dex trades data:', {
-          tradesLength: result.trades.length,
-          totalTrades: result.totalTrades,
-          page: dexTradesPage,
-          pageSize: dexTradesPageSize,
-          startIndex: (dexTradesPage - 1) * dexTradesPageSize,
-          endIndex: dexTradesPage * dexTradesPageSize,
-          firstTradeHash: result.trades[0]?.hash,
-          lastTradeHash: result.trades[result.trades.length - 1]?.hash,
-        })
-
         setDexTradesData({
           trades: result.trades,
           totalTrades: result.totalTrades,
           isLoading: result.isLoading,
         })
       } catch (error) {
-        console.error('Error fetching dex trades:', error)
         setDexTradesData({
           trades: [],
           totalTrades: 0,

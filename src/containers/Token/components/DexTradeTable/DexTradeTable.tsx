@@ -1,10 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import UpIcon from '../../../shared/images/ic_up.svg'
-import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
-import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
 import { useTooltip, Tooltip } from '../../../shared/components/Tooltip'
 import HoverIcon from '../../../shared/images/hover.svg'
@@ -12,21 +9,11 @@ import './styles.scss'
 import '../tables-mobile.scss'
 import { Pagination } from '../../../shared/components/Pagination'
 import { ExplorerAmount } from '../../../shared/types'
-import {
-  parseAmount,
-  parsePercent,
-  formatDecimals,
-} from '../../../Tokens/TokensTable'
+import { formatDecimals } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { Amount } from '../../../shared/components/Amount'
 import { formatAndLocalizeNumberWith2DecimalsWithFallback } from '../../utils/numberFormatting'
-
-type SortOrder = 'asc' | 'desc'
-
-interface SocialLink {
-  type: string
-  url: string
-}
+import { truncateString } from '../../utils/stringFormatting'
 
 export interface LOSDEXTransaction {
   hash: string
@@ -51,26 +38,7 @@ interface DexTradeTableProps {
   scrollRef?: React.RefObject<HTMLDivElement>
 }
 
-const DEFAULT_DECIMALS = 1
-const DEFAULT_EMPTY_VALUE = '--'
-
-export const parseCurrencyAmount = (
-  value: string,
-  xrpPrice: number,
-  decimals: number = DEFAULT_DECIMALS,
-): string => {
-  const usdValue = Number(value) * xrpPrice
-  return `$${parseAmount(usdValue, decimals)}`
-}
-
-function truncateString(address, startLength = 6, endLength = 6) {
-  if (!address || address.length <= startLength + endLength) {
-    return address // nothing to truncate
-  }
-  const start = address.slice(0, startLength)
-  const end = address.slice(-endLength)
-  return `${start}...${end}`
-}
+const DEFAULT_EMPTY_VALUE = '--' // Used in formatDexType
 
 export const DexTradeTable = ({
   transactions,
@@ -94,39 +62,10 @@ export const DexTradeTable = ({
     }
   }, [currentPage, isLoading, scrollRef])
 
-  console.log('[DexTradeTable] Rendering with:', {
-    transactionsLength: transactions?.length,
-    isLoading,
-    totalTrades,
-    currentPage,
-    pageSize,
-    firstHash: transactions?.[0]?.hash,
-    lastHash: transactions?.[transactions.length - 1]?.hash,
-  })
-
-  // Count actual rows being rendered
-  const rowCount = transactions?.length || 0
-  console.log(`[DexTradeTable] Will render ${rowCount} rows in tbody`)
-
-  // Check for duplicates
-  if (transactions && transactions.length > 0) {
-    const hashes = transactions.map((tx) => `${tx.hash}-${tx.ledger}`)
-    const uniqueHashes = new Set(hashes)
-    if (uniqueHashes.size !== hashes.length) {
-      console.warn(
-        `[DexTradeTable] DUPLICATE ROWS DETECTED! ${hashes.length} rows but only ${uniqueHashes.size} unique`,
-      )
-      const duplicates = hashes.filter(
-        (hash, index) => hashes.indexOf(hash) !== index,
-      )
-      console.warn('[DexTradeTable] Duplicate hashes:', duplicates)
-    }
-  }
-
   const renderTextTooltip = (tooltipText: string, yOffset = 60) => (
     <HoverIcon
       className="hover"
-      onMouseOver={(e) => {
+      onMouseOver={(e: React.MouseEvent<SVGSVGElement>) => {
         const rect = e.currentTarget.getBoundingClientRect()
         showTooltip('text', e, tooltipText, {
           x: rect.left - 10,
@@ -257,31 +196,19 @@ export const DexTradeTable = ({
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((tx, idx) => {
-                  console.log(
-                    `[DexTradeTable] Rendering row ${idx + 1}/${transactions.length}: ${tx.hash}`,
-                  )
-                  return renderTransaction(tx, idx)
-                })}
+                {transactions.map((tx, idx) => renderTransaction(tx, idx))}
               </tbody>
             </table>
           </div>
 
-          {console.log(
-            '[DexTradeTable] Checking pagination: totalTrades=',
-            totalTrades,
-          )}
           {totalTrades > 0 && (
-            <>
-              {console.log('[DexTradeTable] Rendering pagination')}
-              <Pagination
-                totalItems={totalTrades}
-                currentPage={currentPage}
-                onPageChange={onPageChange}
-                pageSize={pageSize}
-                scrollToTop={null}
-              />
-            </>
+            <Pagination
+              totalItems={totalTrades}
+              currentPage={currentPage}
+              onPageChange={onPageChange}
+              pageSize={pageSize}
+              scrollToTop={null}
+            />
           )}
         </>
       )}

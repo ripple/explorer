@@ -1,30 +1,15 @@
 import { useTranslation } from 'react-i18next'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import UpIcon from '../../../shared/images/ic_up.svg'
-import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
-import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
 import './styles.scss'
 import '../tables-mobile.scss'
 import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
-import {
-  formatDecimals,
-  parseAmount,
-  parsePercent,
-} from '../../../Tokens/TokensTable'
+import { formatDecimals } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
-import { ExplorerAmount } from '../../../shared/types'
 import { truncateString } from '../../utils/stringFormatting'
-
-type SortOrder = 'asc' | 'desc'
-
-interface SocialLink {
-  type: string
-  url: string
-}
 
 export interface LOSTransfer {
   hash: string
@@ -49,42 +34,6 @@ interface TransfersTableProps {
   pageSize: number
   scrollRef?: React.RefObject<HTMLDivElement>
 }
-
-const DEFAULT_DECIMALS = 1
-const DEFAULT_EMPTY_VALUE = '--'
-
-export const parseCurrencyAmount = (
-  value: string,
-  xrpPrice: number,
-  decimals: number = DEFAULT_DECIMALS,
-): string => {
-  const usdValue = Number(value) * xrpPrice
-  return `$${parseAmount(usdValue, decimals)}`
-}
-
-const TokenLogo: FC<{ icon: string | undefined }> = ({ icon }) =>
-  icon ? (
-    <object data={icon} className="icon">
-      <div className="icon" />
-    </object>
-  ) : (
-    <div className="icon no-logo" />
-  )
-
-const PriceChange: FC<{ percent: number }> = ({ percent }) => (
-  <div className={`percent ${percent > 0 ? 'increase' : 'decrease'}`}>
-    <div className="amount">
-      {percent > 0
-        ? parsePercent(percent)
-        : parsePercent(percent).replace('-', '')}
-    </div>
-    {percent > 0 ? (
-      <UpIcon className="arrow" />
-    ) : (
-      <DownIcon className="arrow" />
-    )}
-  </div>
-)
 
 export const TransfersTable = ({
   transactions,

@@ -117,7 +117,7 @@ export const TokenTransactionTable = ({
 
   let transfersFormatted: LOSTransfer[] = []
   transfersFormatted =
-    transfers?.results.map((transfer) => ({
+    transfers?.results.map((transfer: any) => ({
       hash: transfer.hash,
       ledger: transfer.ledger_index,
       action: transfer.type,
@@ -128,17 +128,9 @@ export const TokenTransactionTable = ({
     })) || []
 
   let dexTradesFormatted: LOSDEXTransaction[] = []
-  console.log('[TokenTransactionTable] dexTrades received:', {
-    length: dexTrades?.length,
-    isArray: Array.isArray(dexTrades),
-    dexTrades,
-  })
   if (dexTrades && Array.isArray(dexTrades)) {
     // dexTrades is already formatted array from pagination service
     dexTradesFormatted = dexTrades
-    console.log('[TokenTransactionTable] dexTradesFormatted:', {
-      length: dexTradesFormatted.length,
-    })
   }
 
   return (

@@ -1,24 +1,12 @@
 import { useTranslation } from 'react-i18next'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import UpIcon from '../../../shared/images/ic_up.svg'
-import DownIcon from '../../../shared/images/ic_down.svg'
-import { Account } from '../../../shared/components/Account'
-import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
-import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
-import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
 import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
 import './styles.scss'
 import '../tables-mobile.scss'
-
-type SortOrder = 'asc' | 'desc'
-
-interface SocialLink {
-  type: string
-  url: string
-}
+import { truncateString } from '../../utils/stringFormatting'
 
 export interface XRPLHolder {
   rank: number
@@ -26,7 +14,6 @@ export interface XRPLHolder {
   balance: number
   percent: number
   value_usd: number
-  // last_active: number // format ripple epoch time
 }
 
 interface HoldersTableProps {
@@ -39,50 +26,7 @@ interface HoldersTableProps {
   scrollRef?: React.RefObject<HTMLDivElement>
 }
 
-const DEFAULT_DECIMALS = 1
-const DEFAULT_EMPTY_VALUE = '--'
-
-export const parseCurrencyAmount = (
-  value: string,
-  xrpPrice: number,
-  decimals: number = DEFAULT_DECIMALS,
-): string => {
-  const usdValue = Number(value) * xrpPrice
-  return `$${parseAmount(usdValue, decimals)}`
-}
-
-const TokenLogo: FC<{ icon: string | undefined }> = ({ icon }) =>
-  icon ? (
-    <object data={icon} className="icon">
-      <div className="icon" />
-    </object>
-  ) : (
-    <div className="icon no-logo" />
-  )
-
-const PriceChange: FC<{ percent: number }> = ({ percent }) => (
-  <div className={`percent ${percent > 0 ? 'increase' : 'decrease'}`}>
-    <div className="amount">
-      {percent > 0
-        ? parsePercent(percent)
-        : parsePercent(percent).replace('-', '')}
-    </div>
-    {percent > 0 ? (
-      <UpIcon className="arrow" />
-    ) : (
-      <DownIcon className="arrow" />
-    )}
-  </div>
-)
-
-function truncateString(address, startLength = 6, endLength = 6) {
-  if (!address || address.length <= startLength + endLength) {
-    return address // nothing to truncate
-  }
-  const start = address.slice(0, startLength)
-  const end = address.slice(-endLength)
-  return `${start}...${end}`
-}
+const DEFAULT_EMPTY_VALUE = '--' // Used in renderHolder
 
 export const HoldersTable = ({
   holders,
@@ -104,10 +48,6 @@ export const HoldersTable = ({
       window.scrollTo({ top: containerTop - 100, behavior: 'smooth' })
     }
   }, [currentPage, isHoldersDataLoading, scrollRef])
-
-  const handlePageChange = (page: number) => {
-    onPageChange(page)
-  }
 
   const renderHolder = (holder: XRPLHolder) => (
     <tr key={`${holder.account}-${holder.rank}`}>
@@ -172,7 +112,7 @@ export const HoldersTable = ({
         <Pagination
           totalItems={totalHolders}
           currentPage={currentPage}
-          onPageChange={handlePageChange}
+          onPageChange={onPageChange}
           pageSize={pageSize}
           scrollToTop={null}
         />
