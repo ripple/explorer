@@ -15,12 +15,14 @@ export interface AmountProps {
   value: ExplorerAmount | string
   displayIssuer?: boolean
   modifier?: `+` | '-' | '~' // value to put in front of the currency symbol and number
+  shortenIssuer?: boolean
 }
 
 export const Amount = ({
   displayIssuer = true,
   modifier,
   value,
+  shortenIssuer = false,
 }: AmountProps) => {
   const language = useLanguage()
   const rippledSocket = useContext(SocketContext)
@@ -31,7 +33,15 @@ export const Amount = ({
     typeof value === 'string' ? parseInt(value, 10) / XRP_BASE : value.amount
   const isMPT = typeof value === 'string' ? false : (value.isMPT ?? false)
 
-  const options = { ...CURRENCY_OPTIONS, currency }
+  const options =
+    currency === 'XRP'
+      ? { ...CURRENCY_OPTIONS, currency }
+      : {
+          style: 'decimal',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 20,
+          useGrouping: true,
+        }
 
   const renderAmount = (localizedAmount) => (
     <span className="amount" data-testid="amount">
@@ -45,6 +55,7 @@ export const Amount = ({
         link
         displaySymbol={false}
         isMPT={isMPT}
+        shortenIssuer={shortenIssuer}
       />
     </span>
   )

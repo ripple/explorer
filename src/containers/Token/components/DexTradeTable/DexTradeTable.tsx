@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { FC, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { capitalize } from 'lodash'
 import UpIcon from '../../../shared/images/ic_up.svg'
 import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
@@ -63,30 +62,6 @@ export const parseCurrencyAmount = (
   const usdValue = Number(value) * xrpPrice
   return `$${parseAmount(usdValue, decimals)}`
 }
-
-const TokenLogo: FC<{ icon: string | undefined }> = ({ icon }) =>
-  icon ? (
-    <object data={icon} className="icon">
-      <div className="icon" />
-    </object>
-  ) : (
-    <div className="icon no-logo" />
-  )
-
-const PriceChange: FC<{ percent: number }> = ({ percent }) => (
-  <div className={`percent ${percent > 0 ? 'increase' : 'decrease'}`}>
-    <div className="amount">
-      {percent > 0
-        ? parsePercent(percent)
-        : parsePercent(percent).replace('-', '')}
-    </div>
-    {percent > 0 ? (
-      <UpIcon className="arrow" />
-    ) : (
-      <DownIcon className="arrow" />
-    )}
-  </div>
-)
 
 function truncateString(address, startLength = 6, endLength = 6) {
   if (!address || address.length <= startLength + endLength) {
@@ -172,7 +147,7 @@ export const DexTradeTable = ({
     if (type === 'amm') {
       return 'AMM'
     }
-    return capitalize(type)
+    return type
   }
 
   const renderTransaction = (tx: LOSDEXTransaction, idx: number) => (
@@ -188,7 +163,7 @@ export const DexTradeTable = ({
         <ResponsiveTimestamp timestamp={tx.timestamp} />
       </td>
       <td className="tx-type">
-        {formatDexType(tx.type) || DEFAULT_EMPTY_VALUE}
+        {tx.type ? formatDexType(tx.type) : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="tx-from">
         <span className="text-truncate">
@@ -215,7 +190,8 @@ export const DexTradeTable = ({
             issuer: tx.amount_in.issuer,
             amount: formatDecimals(Number(tx.amount_in.amount), 2),
           }}
-          displayIssuer={false}
+          displayIssuer
+          shortenIssuer
         />
       </td>
       <td className="tx-amount-out">
@@ -225,7 +201,8 @@ export const DexTradeTable = ({
             issuer: tx.amount_out.issuer,
             amount: formatDecimals(Number(tx.amount_out.amount), 2),
           }}
-          displayIssuer={false}
+          displayIssuer
+          shortenIssuer
         />
       </td>
 
