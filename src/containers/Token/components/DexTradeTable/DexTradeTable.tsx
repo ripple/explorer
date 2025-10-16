@@ -20,6 +20,7 @@ import {
 } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { Amount } from '../../../shared/components/Amount'
+import { formatAndLocalizeNumberWith2DecimalsWithFallback } from '../../utils/numberFormatting'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -153,7 +154,7 @@ export const DexTradeTable = ({
       onMouseOver={(e) => {
         const rect = e.currentTarget.getBoundingClientRect()
         showTooltip('text', e, tooltipText, {
-          x: rect.left + rect.width / 2,
+          x: rect.left - 10,
           y: rect.top - yOffset,
         })
       }}
@@ -174,8 +175,8 @@ export const DexTradeTable = ({
     return capitalize(type)
   }
 
-  const renderTransaction = (tx: LOSDEXTransaction) => (
-    <tr key={`${tx.hash}-${tx.ledger}`}>
+  const renderTransaction = (tx: LOSDEXTransaction, idx: number) => (
+    <tr key={`${tx.hash}-${tx.ledger}-${idx}`}>
       <td className="tx-hash">
         <Link to={`/transactions/${tx.hash}`}>{truncateString(tx.hash)}</Link>
       </td>
@@ -212,7 +213,7 @@ export const DexTradeTable = ({
           value={{
             currency: tx.amount_in.currency,
             issuer: tx.amount_in.issuer,
-            amount: formatDecimals(Number(tx.amount_in.amount), 6),
+            amount: formatDecimals(Number(tx.amount_in.amount), 2),
           }}
           displayIssuer={false}
         />
@@ -222,14 +223,14 @@ export const DexTradeTable = ({
           value={{
             currency: tx.amount_out.currency,
             issuer: tx.amount_out.issuer,
-            amount: formatDecimals(Number(tx.amount_out.amount), 6),
+            amount: formatDecimals(Number(tx.amount_out.amount), 2),
           }}
           displayIssuer={false}
         />
       </td>
 
       <td className="tx-amount-rate">
-        {tx.rate ? formatDecimals(tx.rate, 6) : DEFAULT_EMPTY_VALUE}
+        {formatAndLocalizeNumberWith2DecimalsWithFallback(tx.rate)}
       </td>
     </tr>
   )
@@ -283,7 +284,7 @@ export const DexTradeTable = ({
                   console.log(
                     `[DexTradeTable] Rendering row ${idx + 1}/${transactions.length}: ${tx.hash}`,
                   )
-                  return renderTransaction(tx)
+                  return renderTransaction(tx, idx)
                 })}
               </tbody>
             </table>

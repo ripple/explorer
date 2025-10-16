@@ -4,11 +4,9 @@ import { useMemo } from 'react'
 import './styles.scss'
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../../shared/utils'
-import {
-  truncateString,
-  shouldShowLoadingSpinner,
-} from '../utils/tokenCalculations'
+import { shouldShowLoadingSpinner } from '../utils/tokenCalculations'
 import { parseAmount, parsePercent } from '../../Tokens/TokensTable'
+import { truncateString } from '../utils/stringFormatting'
 
 export interface OverviewData {
   issuer: string

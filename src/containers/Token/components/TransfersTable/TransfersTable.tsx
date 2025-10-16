@@ -10,9 +10,14 @@ import './styles.scss'
 import '../tables-mobile.scss'
 import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
-import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
+import {
+  formatDecimals,
+  parseAmount,
+  parsePercent,
+} from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { ExplorerAmount } from '../../../shared/types'
+import { truncateString } from '../../utils/stringFormatting'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -81,15 +86,6 @@ const PriceChange: FC<{ percent: number }> = ({ percent }) => (
   </div>
 )
 
-function truncateString(address, startLength = 6, endLength = 6) {
-  if (!address || address.length <= startLength + endLength) {
-    return address // nothing to truncate
-  }
-  const start = address.slice(0, startLength)
-  const end = address.slice(-endLength)
-  return `${start}...${end}`
-}
-
 export const TransfersTable = ({
   transactions,
   isTransfersLoading,
@@ -149,7 +145,7 @@ export const TransfersTable = ({
           value={{
             currency: tx.amount.currency,
             issuer: tx.amount.issuer,
-            amount: tx.amount.value,
+            amount: formatDecimals(Number(tx.amount.value), 2),
           }}
           displayIssuer={false}
         />

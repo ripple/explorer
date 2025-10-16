@@ -59,26 +59,6 @@ export const formatCirculatingSupply = (circulatingSupply: number): string =>
   Number(formatDecimals(circulatingSupply, 2)).toLocaleString()
 
 /**
- * Formats market cap for display with currency symbol
- */
-export const formatMarketCap = (marketCap: number): string =>
-  formatPrice(marketCap)
-
-/**
- * Truncates a string (typically addresses) for display
- */
-export const truncateString = (
-  address: string,
-  startLength: number = 6,
-  endLength: number = 6,
-): string => {
-  if (!address || address.length <= startLength + endLength) {
-    return address
-  }
-  return `${address.slice(0, startLength)}...${address.slice(-endLength)}`
-}
-
-/**
  * Checks if loading state should show spinner for market data
  */
 export const shouldShowLoadingSpinner = (
