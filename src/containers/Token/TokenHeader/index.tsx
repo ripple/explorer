@@ -39,7 +39,7 @@ export const TokenHeader = ({
   }
   const overviewData: OverviewData = {
     issuer: tokenData.issuer_name || tokenData.issuer_account,
-    price: tokenData.price || '---',
+    price: tokenData.price || '0',
     holders: tokenData.holders || 0,
     trustlines: tokenData.trustlines || 0,
     transfer_fee: tokenData.transfer_fee || 0,
