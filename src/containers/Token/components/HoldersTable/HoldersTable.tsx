@@ -10,6 +10,7 @@ import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
 import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
+import './styles.scss'
 import '../tables-mobile.scss'
 
 type SortOrder = 'asc' | 'desc'

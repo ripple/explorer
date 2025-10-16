@@ -128,12 +128,20 @@ export const TransfersTable = ({
       </td>
       <td className="tx-from">
         <span className="text-truncate">
-          <Account account={tx.from} onClick={(e) => e.stopPropagation()} />
+          <Account
+            account={tx.from}
+            displayText={truncateString(tx.from)}
+            onClick={(e) => e.stopPropagation()}
+          />
         </span>
       </td>
       <td className="tx-to">
         <span className="text-truncate">
-          <Account account={tx.to} onClick={(e) => e.stopPropagation()} />
+          <Account
+            account={tx.to}
+            displayText={truncateString(tx.to)}
+            onClick={(e) => e.stopPropagation()}
+          />
         </span>
       </td>
       <td className="tx-amount">
