@@ -31,7 +31,6 @@
 
 // Add spacing between action and timestamp columns
 .tx-action {
-  width: 90px;
   padding-right: 16px;
 
   @include for-size(phone-only) {
@@ -39,29 +38,39 @@
   }
 }
 
-// Fix column widths for transfers table
-.tx-hash {
-  width: 120px;
-  min-width: 120px;
-}
+// Scoped styles for transfers table to prevent conflicts with other tables
+.tokens-table {
+  table.basic {
+    // Fix column widths for transfers table with equal spacing
+    .tx-hash {
+      width: 130px;
+      min-width: 130px;
+    }
 
-.tx-ledger {
-  width: 90px;
-  min-width: 90px;
-}
+    .tx-ledger {
+      width: 110px;
+      min-width: 110px;
+    }
 
-.tx-timestamp {
-  width: 160px;
-  min-width: 160px;
-}
+    .tx-action {
+      width: 110px;
+      min-width: 110px;
+    }
 
-.tx-from,
-.tx-to {
-  width: 140px;
-  min-width: 140px;
-}
+    .tx-timestamp {
+      width: 160px;
+      min-width: 160px;
+    }
 
-.tx-amount {
-  width: 140px;
-  min-width: 140px;
+    .tx-from,
+    .tx-to {
+      width: 130px;
+      min-width: 130px;
+    }
+
+    .tx-amount {
+      width: 130px;
+      min-width: 130px;
+    }
+  }
 }
