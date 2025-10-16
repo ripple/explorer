@@ -233,6 +233,8 @@
   "history": "Història",
   "voting": "Votant",
   "raw": "Raw",
+  "expand": "Expandir",
+  "collapse": "Contraure",
   "simple_not_supported": "Visió `Simple` no suportada encara per",
   "try_detailed_raw": "Intenta visió `Detallada` o `Raw`",
   "account": "Compte",

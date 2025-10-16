@@ -232,6 +232,8 @@
   "history": "Histoire",
   "voting": null,
   "raw": "Brut",
+  "expand": "Développer",
+  "collapse": "Réduire",
   "try_detailed_raw": "Essayez la \"Vue détaillée\" ou la \"Vue brute\"",
   "account": "Compte",
   "transaction_cost": "Coût de transaction",
