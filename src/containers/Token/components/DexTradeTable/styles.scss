@@ -25,9 +25,45 @@
   }
 }
 
-// Fix column widths for amount columns to prevent wrapping
-.tx-amount-in,
-.tx-amount-out {
-  width: 140px;
-  min-width: 140px;
+// Scoped styles for dex trade table to prevent conflicts with other tables
+.tokens-table {
+  table.basic {
+    // Fix column widths for dex trade table to prevent wrapping and ensure consistent spacing
+    .tx-hash {
+      width: 120px;
+      min-width: 120px;
+    }
+
+    .tx-ledger {
+      width: 80px;
+      min-width: 80px;
+    }
+
+    .tx-timestamp {
+      width: 200px;
+      min-width: 200px;
+    }
+
+    .tx-type {
+      width: 100px;
+      min-width: 100px;
+    }
+
+    .tx-from,
+    .tx-to {
+      width: 140px;
+      min-width: 140px;
+    }
+
+    .tx-amount-in,
+    .tx-amount-out {
+      width: 140px;
+      min-width: 140px;
+    }
+
+    .tx-amount-rate {
+      width: 100px;
+      min-width: 100px;
+    }
+  }
 }
