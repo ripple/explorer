@@ -7,6 +7,8 @@ import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
 import SortTableColumn from '../../../shared/components/SortColumn'
 import { Loader } from '../../../shared/components/Loader'
+import { useTooltip, Tooltip } from '../../../shared/components/Tooltip'
+import HoverIcon from '../../../shared/images/hover.svg'
 import './styles.scss'
 import '../tables-mobile.scss'
 import { Pagination } from '../../../shared/components/Pagination'
@@ -104,6 +106,7 @@ export const DexTradeTable = ({
   scrollRef,
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
+  const { tooltip, showTooltip, hideTooltip } = useTooltip()
 
   // Scroll to top of table container when page changes
   useEffect(() => {
@@ -143,6 +146,20 @@ export const DexTradeTable = ({
       console.warn('[DexTradeTable] Duplicate hashes:', duplicates)
     }
   }
+
+  const renderTextTooltip = (tooltipText: string, yOffset = 60) => (
+    <HoverIcon
+      className="hover"
+      onMouseOver={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        showTooltip('text', e, tooltipText, {
+          x: rect.left + rect.width / 2,
+          y: rect.top - yOffset,
+        })
+      }}
+      onMouseLeave={() => hideTooltip()}
+    />
+  )
 
   const formatDexType = (type: string) => {
     if (!type) {
@@ -219,6 +236,7 @@ export const DexTradeTable = ({
 
   return (
     <div className="tokens-table">
+      <Tooltip tooltip={tooltip} />
       {isLoading && <Loader />}
 
       {!isLoading && transactions && transactions.length > 0 && (
@@ -233,9 +251,28 @@ export const DexTradeTable = ({
                   <th className="name-col sticky-2">Type</th>
                   <th className="name-col sticky-2">{t('from')}</th>
                   <th className="name-col sticky-2">{t('to')}</th>
-                  <th className="name-col sticky-2">{t('amount_in')}</th>
-                  <th className="name-col sticky-2">{t('amount_out')}</th>
-                  <th className="name-col sticky-2">{t('rate')}</th>
+                  <th className="name-col sticky-2">
+                    <span className="sort-header">
+                      {t('amount_in')}
+                      {renderTextTooltip(
+                        'The amount of tokens sent in the trade',
+                      )}
+                    </span>
+                  </th>
+                  <th className="name-col sticky-2">
+                    <span className="sort-header">
+                      {t('amount_out')}
+                      {renderTextTooltip(
+                        'The amount of tokens received in the trade',
+                      )}
+                    </span>
+                  </th>
+                  <th className="name-col sticky-2">
+                    <span className="sort-header">
+                      {t('rate')}
+                      {renderTextTooltip('Amount In / Amount Out')}
+                    </span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
