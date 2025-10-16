@@ -37,7 +37,7 @@ interface TransfersTableProps {
 
 export const TransfersTable = ({
   transactions,
-  isTransfersLoading,
+  isTransfersLoading = false,
   totalTransfers,
   currentPage,
   onPageChange,

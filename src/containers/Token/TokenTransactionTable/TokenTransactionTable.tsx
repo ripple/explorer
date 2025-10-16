@@ -97,7 +97,9 @@ export const TokenTransactionTable = ({
     },
   )
 
-  const [tablePickerState, setTablePickerState] = useState('all')
+  const [tablePickerState, setTablePickerState] = useState<
+    'all' | 'dex' | 'transfers' | 'holders'
+  >('all')
   const containerRef = useRef<HTMLDivElement>(null)
 
   // Reset table picker state when token changes
@@ -105,33 +107,29 @@ export const TokenTransactionTable = ({
     setTablePickerState('all')
   }, [currency, accountId])
 
-  // assign rank to each holder and calculate USD value
+  // Format data for tables
   const XRPUSDPrice = Number(xrpUSDRate) || 0
-  let holdersFormatted: XRPLHolder[] = []
-  holdersFormatted =
+
+  const holdersFormatted: XRPLHolder[] =
     holdersData?.holders.map((holder, index) => ({
       ...holder,
       rank: (holdersPage - 1) * holdersPageSize + index + 1,
       value_usd: holder.balance * Number(tokenData?.price) * XRPUSDPrice,
     })) || []
 
-  let transfersFormatted: LOSTransfer[] = []
-  transfersFormatted =
+  const transfersFormatted: LOSTransfer[] =
     transfers?.results.map((transfer: any) => ({
       hash: transfer.hash,
       ledger: transfer.ledger_index,
       action: transfer.type,
-      timestamp: transfer.timestamp, // format ripple epoch time
+      timestamp: transfer.timestamp,
       from: transfer.account,
       to: transfer.destination,
       amount: transfer.amount,
     })) || []
 
-  let dexTradesFormatted: LOSDEXTransaction[] = []
-  if (dexTrades && Array.isArray(dexTrades)) {
-    // dexTrades is already formatted array from pagination service
-    dexTradesFormatted = dexTrades
-  }
+  // dexTrades is already formatted array from pagination service
+  const dexTradesFormatted: LOSDEXTransaction[] = dexTrades || []
 
   return (
     <div className="token-transaction-table-container" ref={containerRef}>

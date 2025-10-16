@@ -26,11 +26,11 @@ interface HoldersTableProps {
   scrollRef?: React.RefObject<HTMLDivElement>
 }
 
-const DEFAULT_EMPTY_VALUE = '--' // Used in renderHolder
+const DEFAULT_EMPTY_VALUE = '--'
 
 export const HoldersTable = ({
   holders,
-  isHoldersDataLoading,
+  isHoldersDataLoading = false,
   totalHolders,
   currentPage,
   onPageChange,

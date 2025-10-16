@@ -19,6 +19,24 @@ interface TokenHeaderProps {
   isAmmTvlLoading: boolean
 }
 
+const calculateCirculatingSupply = (
+  tokenData: LOSToken,
+  holdersData: TokenHoldersData | undefined,
+): number => {
+  let circSupply = holdersData?.totalSupply || Number(tokenData.supply) || 0
+
+  // For stablecoins, don't subtract large percentage holders from circulating supply
+  if (tokenData.asset_subclass !== 'stablecoin' && holdersData) {
+    holdersData.holders.forEach((holder) => {
+      if (holder.percent >= 20) {
+        circSupply -= holder.balance
+      }
+    })
+  }
+
+  return circSupply
+}
+
 export const TokenHeader = ({
   currency,
   tokenData,
@@ -29,16 +47,7 @@ export const TokenHeader = ({
   isAmmTvlLoading,
 }: TokenHeaderProps) => {
   const { t } = useTranslation()
-  let circSupply = holdersData?.totalSupply || Number(tokenData.supply) || 0
-
-  // For stablecoins, don't subtract large percentage holders from circulating supply
-  if (tokenData.asset_subclass !== 'stablecoin') {
-    let i = 0
-    while (holdersData && holdersData.holders[i].percent >= 20) {
-      circSupply -= holdersData.holders[i].balance
-      i += 1
-    }
-  }
+  const circSupply = calculateCirculatingSupply(tokenData, holdersData)
   const overviewData: OverviewData = {
     issuer: tokenData.issuer_name || tokenData.issuer_account,
     price: tokenData.price || '0',

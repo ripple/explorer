@@ -38,11 +38,11 @@ interface DexTradeTableProps {
   scrollRef?: React.RefObject<HTMLDivElement>
 }
 
-const DEFAULT_EMPTY_VALUE = '--' // Used in formatDexType
+const DEFAULT_EMPTY_VALUE = '--'
 
 export const DexTradeTable = ({
   transactions,
-  isLoading,
+  isLoading = false,
   totalTrades,
   currentPage,
   onPageChange,

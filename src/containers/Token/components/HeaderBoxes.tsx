@@ -39,8 +39,8 @@ export const HeaderBoxes = ({
   overviewData,
   marketData,
   xrpUSDRate,
-  isHoldersDataLoading,
-  isAmmTvlLoading,
+  isHoldersDataLoading = false,
+  isAmmTvlLoading = false,
 }: HeaderBoxesProps): JSX.Element => {
   const { t } = useTranslation()
   const {
@@ -53,7 +53,6 @@ export const HeaderBoxes = ({
   const {
     supply,
     circ_supply: circSupply,
-    market_cap: marketCap,
     volume_24h: volume24h,
     trades_24h: trades24h,
     amm_tvl: ammTvl,

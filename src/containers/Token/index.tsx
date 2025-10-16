@@ -28,6 +28,7 @@ import {
   DexTrade,
   dexTradesPaginationService,
 } from './services/dexTradesPagination'
+import { PAGINATION_CONFIG, INITIAL_PAGE } from './constants'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
@@ -62,17 +63,10 @@ export const Token = () => {
   const { token = '' } = useRouteParams(TOKEN_ROUTE)
   const [currency, accountId] = token.split('.')
 
-  // pagination state for holders table
-  const [holdersPage, setHoldersPage] = useState(1)
-  const holdersPageSize = 20
-
-  // pagination state for transfers table
-  const [transfersPage, setTransfersPage] = useState(1)
-  const transfersPageSize = 10
-
-  // pagination state for dex trades table
-  const [dexTradesPage, setDexTradesPage] = useState(1)
-  const dexTradesPageSize = 10
+  // Pagination state
+  const [holdersPage, setHoldersPage] = useState(INITIAL_PAGE)
+  const [transfersPage, setTransfersPage] = useState(INITIAL_PAGE)
+  const [dexTradesPage, setDexTradesPage] = useState(INITIAL_PAGE)
 
   // get basic token stats and info
   const {
@@ -88,8 +82,13 @@ export const Token = () => {
   const { data: holdersData, isLoading: isHoldersDataLoading } = useQuery({
     queryKey: ['holders', currency, accountId, holdersPage],
     queryFn: () => {
-      const offset = (holdersPage - 1) * holdersPageSize
-      return getTokenHolders(currency, accountId, holdersPageSize, offset)
+      const offset = (holdersPage - 1) * PAGINATION_CONFIG.HOLDERS_PAGE_SIZE
+      return getTokenHolders(
+        currency,
+        accountId,
+        PAGINATION_CONFIG.HOLDERS_PAGE_SIZE,
+        offset,
+      )
     },
   })
 
@@ -133,7 +132,7 @@ export const Token = () => {
           currency,
           accountId,
           dexTradesPage,
-          dexTradesPageSize,
+          PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE,
         )
 
         setDexTradesData({
@@ -151,14 +150,19 @@ export const Token = () => {
     }
 
     fetchDexTrades()
-  }, [currency, accountId, dexTradesPage, dexTradesPageSize])
+  }, [currency, accountId, dexTradesPage])
 
   // get transfers for tables
   const { data: transfers, isLoading: isTransfersLoading } = useQuery({
     queryKey: ['transfers', currency, accountId, transfersPage],
     queryFn: () => {
-      const from = (transfersPage - 1) * transfersPageSize
-      return getTransfers(currency, accountId, from, transfersPageSize)
+      const from = (transfersPage - 1) * PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE
+      return getTransfers(
+        currency,
+        accountId,
+        from,
+        PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
+      )
     },
   })
 
@@ -240,13 +244,13 @@ export const Token = () => {
             tokenData={tokenData}
             holdersPage={holdersPage}
             setHoldersPage={setHoldersPage}
-            holdersPageSize={holdersPageSize}
+            holdersPageSize={PAGINATION_CONFIG.HOLDERS_PAGE_SIZE}
             transfersPage={transfersPage}
             setTransfersPage={setTransfersPage}
-            transfersPageSize={transfersPageSize}
+            transfersPageSize={PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE}
             dexTradesPage={dexTradesPage}
             setDexTradesPage={setDexTradesPage}
-            dexTradesPageSize={dexTradesPageSize}
+            dexTradesPageSize={PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE}
             totalDexTrades={dexTradesData.totalTrades}
           />
         </div>

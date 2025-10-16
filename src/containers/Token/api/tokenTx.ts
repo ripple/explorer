@@ -3,16 +3,12 @@ import logger from '../../../rippled/lib/logger'
 
 const log = logger({ name: 'iou-tokenTx' })
 
-export interface TransfersData {}
-
-export interface DexTradesData {}
-
-const getTokenTx = (
+const fetchTokenTransactions = (
   currency: string,
   issuer: string,
   transactionType: string,
-  from: number = 0,
-  size: number = 10,
+  from: number,
+  size: number,
 ): Promise<any> => {
   const params = new URLSearchParams({
     token: `${currency}.${issuer}`,
@@ -23,15 +19,7 @@ const getTokenTx = (
 
   return axios
     .get(`${process.env.VITE_LOS_URL}/transactions?${params.toString()}`)
-    .then((resp) => {
-      if (resp.status !== 200) {
-        throw new Error(resp.data)
-      }
-
-      console.log('Token Tx response:', resp.data)
-
-      return resp.data
-    })
+    .then((resp) => resp.data)
 }
 
 export async function getDexTrades(
@@ -42,13 +30,9 @@ export async function getDexTrades(
 ): Promise<any> {
   try {
     log.info('fetching dex trades data from LOS')
-    return getTokenTx(currencyCode, issuer, 'dex-trade', from, size).then(
-      (dexTradesResponse) => dexTradesResponse as any,
-    )
+    return fetchTokenTransactions(currencyCode, issuer, 'dex-trade', from, size)
   } catch (error) {
-    if (error) {
-      log.error(error.toString())
-    }
+    log.error(`Failed to fetch dex trades ${currencyCode}.${issuer}: ${error}`)
     throw error
   }
 }
@@ -61,13 +45,9 @@ export async function getTransfers(
 ): Promise<any> {
   try {
     log.info('fetching transfers data from LOS')
-    return getTokenTx(currencyCode, issuer, 'transfer', from, size).then(
-      (transfersResponse) => transfersResponse as any,
-    )
+    return fetchTokenTransactions(currencyCode, issuer, 'transfer', from, size)
   } catch (error) {
-    if (error) {
-      log.error(error.toString())
-    }
+    log.error(`Failed to fetch transfers ${currencyCode}.${issuer}: ${error}`)
     throw error
   }
 }

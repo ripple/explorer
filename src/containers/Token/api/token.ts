@@ -16,17 +16,31 @@ export interface TokenData {
   previousTxn: string
   flags: string[]
 }
+const fetchTokenInfo = (currency: string, issuer: string): Promise<any> =>
+  axios.get(`${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`)
 
-const getLOSTokenInfo = (currency, issuer): Promise<any> =>
-  axios
-    .get(`${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`)
-    .then((resp) => {
-      if (resp.status !== 200) {
-        throw new Error(resp.data)
-      }
-
-      return resp.data
-    })
+const mapTokenResponse = (response: any): LOSToken => ({
+  currency: response.currency,
+  issuer_account: response.issuer_account,
+  name: response.token_name,
+  asset_class: response.asset_class,
+  asset_subclass: response.asset_subclass,
+  daily_trades: response.number_of_trades,
+  icon: response.icon,
+  ttl: response.ttl,
+  social_links: response.social_links,
+  trustlines: response.number_of_trustlines,
+  transfer_fee: response.transfer_fee,
+  issuer_domain: response.issuer_domain,
+  issuer_name: response.issuer_name,
+  market_cap: response.market_cap,
+  holders: response.number_of_holders,
+  daily_volume: response.daily_volume,
+  supply: response.supply,
+  trust_level: response.trust_level,
+  price: response.price,
+  index: response.index || -1,
+})
 
 async function getToken(
   currencyCode: string,
@@ -34,35 +48,10 @@ async function getToken(
 ): Promise<LOSToken> {
   try {
     log.info('fetching token data from LOS')
-    return getLOSTokenInfo(currencyCode, issuer).then((tokenResponse) => {
-      const losToken: LOSToken = {
-        currency: tokenResponse.currency,
-        issuer_account: tokenResponse.issuer_account,
-        name: tokenResponse.token_name,
-        asset_class: tokenResponse.asset_class,
-        asset_subclass: tokenResponse.asset_subclass,
-        daily_trades: tokenResponse.number_of_trades,
-        icon: tokenResponse.icon,
-        ttl: tokenResponse.ttl,
-        social_links: tokenResponse.social_links,
-        trustlines: tokenResponse.number_of_trustlines,
-        transfer_fee: tokenResponse.transfer_fee,
-        issuer_domain: tokenResponse.issuer_domain,
-        issuer_name: tokenResponse.issuer_name,
-        market_cap: tokenResponse.market_cap,
-        holders: tokenResponse.number_of_holders,
-        daily_volume: tokenResponse.daily_volume,
-        supply: tokenResponse.supply,
-        trust_level: tokenResponse.trust_level,
-        price: tokenResponse.price,
-        index: tokenResponse.index || -1,
-      }
-      return losToken
-    })
+    const response = await fetchTokenInfo(currencyCode, issuer)
+    return mapTokenResponse(response.data)
   } catch (error) {
-    if (error) {
-      log.error(error.toString())
-    }
+    log.error(`Failed to fetch token ${currencyCode}.${issuer}: ${error}`)
     throw error
   }
 }

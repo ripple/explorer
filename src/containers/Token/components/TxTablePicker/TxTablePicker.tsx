@@ -1,13 +1,23 @@
 import { useTranslation } from 'react-i18next'
 import './styles.scss'
 
+type TableType = 'all' | 'dex' | 'transfers' | 'holders'
+
+interface TxTablePickerProps {
+  tablePickerState: TableType
+  setTablePickerState: (state: TableType) => void
+  onHoldersTabClick?: () => void
+  onTransfersTabClick?: () => void
+  onDexTabClick?: () => void
+}
+
 export const TxTablePicker = ({
   tablePickerState,
   setTablePickerState,
   onHoldersTabClick,
   onTransfersTabClick,
   onDexTabClick,
-}) => {
+}: TxTablePickerProps) => {
   const { t } = useTranslation()
 
   return (
