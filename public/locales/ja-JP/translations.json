@@ -719,5 +719,19 @@
   "supply": null,
   "circulating_supply": null,
   "trades_24h": null,
-  "amm_tvl": null
+  "amm_tvl": null,
+  "token_page.holders_rank": null,
+  "token_page.holders_num_tokens": null,
+  "token_page.holders_percent_supply": null,
+  "token_page.holders_usd_value": null,
+  "token_page.holders_no_holders": null,
+  "token_page.dex_type": null,
+  "token_page.dex_amount_in_tooltip": null,
+  "token_page.dex_amount_out_tooltip": null,
+  "token_page.dex_rate_tooltip": null,
+  "token_page.dex_data_notice": null,
+  "token_page.dex_no_trades": null,
+  "token_page.transfers_data_notice": null,
+  "token_page.transfers_no_transfers": null,
+  "token_page.price_less_than": null
 }

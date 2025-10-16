@@ -86,11 +86,17 @@ export const HoldersTable = ({
         <table className="basic">
           <thead>
             <tr>
-              <th className="count sticky-1">Rank</th>
+              <th className="count sticky-1">{t('token_page.holders_rank')}</th>
               <th className="name-col sticky-2">{t('account')}</th>
-              <th className="name-col sticky-2"># of Tokens</th>
-              <th className="name-col sticky-2">% of Supply</th>
-              <th className="name-col sticky-2">USD Value</th>
+              <th className="name-col sticky-2">
+                {t('token_page.holders_num_tokens')}
+              </th>
+              <th className="name-col sticky-2">
+                {t('token_page.holders_percent_supply')}
+              </th>
+              <th className="name-col sticky-2">
+                {t('token_page.holders_usd_value')}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -119,6 +125,6 @@ export const HoldersTable = ({
       )}
     </div>
   ) : (
-    <div>No holders found</div>
+    <div>{t('token_page.holders_no_holders')}</div>
   )
 }

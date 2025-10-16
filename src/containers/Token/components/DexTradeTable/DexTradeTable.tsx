@@ -158,9 +158,7 @@ export const DexTradeTable = ({
 
       {!isLoading && transactions && transactions.length > 0 && (
         <>
-          <div className="data-notice">
-            Data displayed is from 7/1/2025, 12:00:00 AM UTC onwards
-          </div>
+          <div className="data-notice">{t('token_page.dex_data_notice')}</div>
           <div className="table-wrap">
             <table className="basic" key={`dex-table-page-${currentPage}`}>
               <thead>
@@ -168,29 +166,29 @@ export const DexTradeTable = ({
                   <th className="count sticky-1">{t('tx_hash')}</th>
                   <th className="name-col sticky-2">{t('ledger')}</th>
                   <th className="name-col sticky-2">{t('timestamp')}</th>
-                  <th className="name-col sticky-2">Type</th>
+                  <th className="name-col sticky-2">
+                    {t('token_page.dex_type')}
+                  </th>
                   <th className="name-col sticky-2">{t('from')}</th>
                   <th className="name-col sticky-2">{t('to')}</th>
                   <th className="name-col sticky-2">
                     <span className="sort-header">
                       {t('amount_in')}
-                      {renderTextTooltip(
-                        'The amount of tokens received by the "To" account in the trade',
-                      )}
+                      {renderTextTooltip(t('token_page.dex_amount_in_tooltip'))}
                     </span>
                   </th>
                   <th className="name-col sticky-2">
                     <span className="sort-header">
                       {t('amount_out')}
                       {renderTextTooltip(
-                        'The amount of tokens sent out by the "To" account in the trade',
+                        t('token_page.dex_amount_out_tooltip'),
                       )}
                     </span>
                   </th>
                   <th className="name-col sticky-2">
                     <span className="sort-header">
                       {t('rate')}
-                      {renderTextTooltip('Amount In / Amount Out')}
+                      {renderTextTooltip(t('token_page.dex_rate_tooltip'))}
                     </span>
                   </th>
                 </tr>
@@ -215,7 +213,7 @@ export const DexTradeTable = ({
 
       {!isLoading && (!transactions || transactions.length === 0) && (
         <div>
-          No dex trades found (transactions:{' '}
+          {t('token_page.dex_no_trades')} (transactions:{' '}
           {transactions?.length || 'undefined'})
         </div>
       )}

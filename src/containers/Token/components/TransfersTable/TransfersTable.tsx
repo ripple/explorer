@@ -104,9 +104,7 @@ export const TransfersTable = ({
 
   return transactions.length > 0 || isTransfersLoading ? (
     <div className="tokens-table">
-      <div className="data-notice">
-        Data displayed is from 7/1/2025, 12:00:00 AM UTC onwards
-      </div>
+      <div className="data-notice">{t('token_page.transfers_data_notice')}</div>
       <div className="table-wrap">
         <table className="basic">
           <thead>
@@ -144,6 +142,6 @@ export const TransfersTable = ({
       )}
     </div>
   ) : (
-    <div>No transfers found</div>
+    <div>{t('token_page.transfers_no_transfers')}</div>
   )
 }

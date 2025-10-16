@@ -92,10 +92,10 @@ export const HeaderBoxes = ({
       return DEFAULT_EMPTY_VALUE
     }
     if (normPrice < 0.0001) {
-      return '< $0.0001'
+      return t('token_page.price_less_than')
     }
     return formatPrice(normPrice)
-  }, [price, xrpUSDRate])
+  }, [price, xrpUSDRate, t])
 
   return (
     <div className="header-boxes">

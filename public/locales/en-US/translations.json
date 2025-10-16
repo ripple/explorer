@@ -746,7 +746,21 @@
   "timestamp" : "Timestamp (UTC)",
   "amount_in" : "Amount In",
   "amount_out" : "Amount Out",
-  "rate" : "Rate"
+  "rate" : "Rate",
+  "token_page.holders_rank": "Rank",
+  "token_page.holders_num_tokens": "# of Tokens",
+  "token_page.holders_percent_supply": "% of Supply",
+  "token_page.holders_usd_value": "USD Value",
+  "token_page.holders_no_holders": "No holders found",
+  "token_page.dex_type": "Type",
+  "token_page.dex_amount_in_tooltip": "The amount of tokens received by the \"To\" account in the trade",
+  "token_page.dex_amount_out_tooltip": "The amount of tokens sent out by the \"To\" account in the trade",
+  "token_page.dex_rate_tooltip": "Amount In / Amount Out",
+  "token_page.dex_data_notice": "Data displayed is from 7/1/2025, 12:00:00 AM UTC onwards",
+  "token_page.dex_no_trades": "No dex trades found",
+  "token_page.transfers_data_notice": "Data displayed is from 7/1/2025, 12:00:00 AM UTC onwards",
+  "token_page.transfers_no_transfers": "No transfers found",
+  "token_page.price_less_than": "< $0.0001"
 
 
 
