@@ -1,6 +1,6 @@
 import axios from 'axios'
-import logger from './lib/logger'
-import { LOSToken } from '../containers/shared/losTypes'
+import logger from '../../../rippled/lib/logger'
+import { LOSToken } from '../../shared/losTypes'
 
 const log = logger({ name: 'iou-token' })
 

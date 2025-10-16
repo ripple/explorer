@@ -22,8 +22,8 @@ import { Loader } from '../shared/components/Loader'
 import { getToken } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
 import { getAccountLines, getAMMInfo } from '../../rippled/lib/rippled'
-import getTokenHolders from '../../rippled/holders'
-import { getTransfers } from '../../rippled/tokenTx'
+import getTokenHolders from './api/holders'
+import { getTransfers } from './api/tokenTx'
 import {
   DexTrade,
   dexTradesPaginationService,

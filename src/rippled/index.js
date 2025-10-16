@@ -4,7 +4,7 @@ import getLedger from './ledgers'
 import getTransaction from './transactions'
 import getQuorum from './quorum'
 import getNegativeUNL from './nUNL'
-import getToken from './token'
+import getToken from '../containers/Token/api/token'
 import getOffers from './offers'
 
 import { getAccountInfo, getAMMInfoByAssets } from './lib/rippled'

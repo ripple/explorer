@@ -19,7 +19,7 @@ import {
   LOSTransfer,
   TransfersTable,
 } from '../components/TransfersTable/TransfersTable'
-import { TokenHoldersData } from '../../../rippled/holders'
+import { TokenHoldersData } from '../api/holders'
 import { LOSToken } from '../../shared/losTypes'
 
 export interface TokenTransactionsTableProps {

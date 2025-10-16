@@ -1,5 +1,5 @@
 import axios from 'axios'
-import logger from './lib/logger'
+import logger from '../../../rippled/lib/logger'
 
 const log = logger({ name: 'iou' })
 

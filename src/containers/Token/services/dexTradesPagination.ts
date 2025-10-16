@@ -1,4 +1,4 @@
-import { getDexTrades } from '../../../rippled/tokenTx'
+import { getDexTrades } from '../api/tokenTx'
 import { ExplorerAmount } from '../../shared/types'
 
 export interface DexTrade {

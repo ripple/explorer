@@ -1,5 +1,5 @@
 import { LOSToken } from '../../shared/losTypes'
-import { TokenHoldersData } from '../../../rippled/holders'
+import { TokenHoldersData } from '../api/holders'
 
 export interface TokenPageProps {
   accountId: string

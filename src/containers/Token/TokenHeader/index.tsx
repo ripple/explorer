@@ -6,7 +6,7 @@ import {
   OverviewData,
 } from '../components/HeaderBoxes'
 import { LOSToken } from '../../shared/losTypes'
-import { TokenHoldersData } from '../../../rippled/holders'
+import { TokenHoldersData } from '../api/holders'
 
 interface TokenHeaderProps {
   currency: string

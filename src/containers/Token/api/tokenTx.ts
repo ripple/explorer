@@ -1,5 +1,5 @@
 import axios from 'axios'
-import logger from './lib/logger'
+import logger from '../../../rippled/lib/logger'
 
 const log = logger({ name: 'iou-tokenTx' })
 
@@ -42,7 +42,6 @@ export async function getDexTrades(
 ): Promise<any> {
   try {
     log.info('fetching dex trades data from LOS')
-    console.log('START DEX TRADE FETCH')
     return getTokenTx(currencyCode, issuer, 'dex-trade', from, size).then(
       (dexTradesResponse) => dexTradesResponse as any,
     )
@@ -62,7 +61,6 @@ export async function getTransfers(
 ): Promise<any> {
   try {
     log.info('fetching transfers data from LOS')
-    console.log('START TRANSFERS FETCH')
     return getTokenTx(currencyCode, issuer, 'transfer', from, size).then(
       (transfersResponse) => transfersResponse as any,
     )
