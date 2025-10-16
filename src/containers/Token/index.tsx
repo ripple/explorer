@@ -23,8 +23,11 @@ import { getToken } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
 import { getAccountLines, getAMMInfo } from '../../rippled/lib/rippled'
 import getTokenHolders from '../../rippled/holders'
-import { getDexTrades, getTransfers } from '../../rippled/tokenTx'
-import { DexTrade } from './services/dexTradesPagination'
+import { getTransfers } from '../../rippled/tokenTx'
+import {
+  DexTrade,
+  dexTradesPaginationService,
+} from './services/dexTradesPagination'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
@@ -125,56 +128,32 @@ export const Token = () => {
         return
       }
 
-      // Set loading state
-      setDexTradesData((prev) => ({ ...prev, isLoading: true }))
-
       try {
-        const directResult = await getDexTrades(currency, accountId, 0, 10)
+        const result = await dexTradesPaginationService.getDexTradesPage(
+          currency,
+          accountId,
+          dexTradesPage,
+          dexTradesPageSize,
+        )
 
-        // Transform API response to DexTrade format
-        const testTrades: DexTrade[] = []
-        if (directResult && directResult.results) {
-          directResult.results.forEach((transaction: any) => {
-            if (
-              transaction.dex_trades &&
-              Array.isArray(transaction.dex_trades)
-            ) {
-              transaction.dex_trades.forEach((trade: any) => {
-                testTrades.push({
-                  hash: transaction.hash,
-                  ledger: transaction.ledger_index,
-                  timestamp: transaction.timestamp,
-                  from: trade.from,
-                  to: trade.to,
-                  type: trade.type || '--',
-                  subtype: trade.subtype || '--',
-                  rate:
-                    trade.amount_out && Number(trade.amount_out.value) !== 0
-                      ? Number(trade.amount_in.value) /
-                        Number(trade.amount_out.value)
-                      : null,
-                  amount_in: {
-                    currency: trade.amount_in.currency,
-                    issuer: trade.amount_in.issuer,
-                    amount: Number(trade.amount_in.value),
-                  },
-                  amount_out: {
-                    currency: trade.amount_out.currency,
-                    issuer: trade.amount_out.issuer,
-                    amount: Number(trade.amount_out.value),
-                  },
-                })
-              })
-            }
-          })
-        }
+        console.log('[Token] Setting dex trades data:', {
+          tradesLength: result.trades.length,
+          totalTrades: result.totalTrades,
+          page: dexTradesPage,
+          pageSize: dexTradesPageSize,
+          startIndex: (dexTradesPage - 1) * dexTradesPageSize,
+          endIndex: dexTradesPage * dexTradesPageSize,
+          firstTradeHash: result.trades[0]?.hash,
+          lastTradeHash: result.trades[result.trades.length - 1]?.hash,
+        })
 
         setDexTradesData({
-          trades: testTrades,
-          totalTrades: directResult?.total || 0,
-          isLoading: false,
+          trades: result.trades,
+          totalTrades: result.totalTrades,
+          isLoading: result.isLoading,
         })
       } catch (error) {
+        console.error('Error fetching dex trades:', error)
         setDexTradesData({
           trades: [],
           totalTrades: 0,

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
+import { capitalize } from 'lodash'
 import UpIcon from '../../../shared/images/ic_up.svg'
 import DownIcon from '../../../shared/images/ic_down.svg'
 import { Account } from '../../../shared/components/Account'
@@ -101,6 +102,48 @@ export const DexTradeTable = ({
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
 
+  console.log('[DexTradeTable] Rendering with:', {
+    transactionsLength: transactions?.length,
+    isLoading,
+    totalTrades,
+    currentPage,
+    pageSize,
+    firstHash: transactions?.[0]?.hash,
+    lastHash: transactions?.[transactions.length - 1]?.hash,
+  })
+
+  // Count actual rows being rendered
+  const rowCount = transactions?.length || 0
+  console.log(`[DexTradeTable] Will render ${rowCount} rows in tbody`)
+
+  // Check for duplicates
+  if (transactions && transactions.length > 0) {
+    const hashes = transactions.map((tx) => `${tx.hash}-${tx.ledger}`)
+    const uniqueHashes = new Set(hashes)
+    if (uniqueHashes.size !== hashes.length) {
+      console.warn(
+        `[DexTradeTable] DUPLICATE ROWS DETECTED! ${hashes.length} rows but only ${uniqueHashes.size} unique`,
+      )
+      const duplicates = hashes.filter(
+        (hash, index) => hashes.indexOf(hash) !== index,
+      )
+      console.warn('[DexTradeTable] Duplicate hashes:', duplicates)
+    }
+  }
+
+  const formatDexType = (type: string) => {
+    if (!type) {
+      return DEFAULT_EMPTY_VALUE
+    }
+    if (type === 'orderBook') {
+      return 'Orderbook'
+    }
+    if (type === 'amm') {
+      return 'AMM'
+    }
+    return capitalize(type)
+  }
+
   const renderTransaction = (tx: LOSDEXTransaction) => (
     <tr key={`${tx.hash}-${tx.ledger}`}>
       <td className="tx-hash">
@@ -113,8 +156,9 @@ export const DexTradeTable = ({
       <td className="tx-timestamp">
         <ResponsiveTimestamp timestamp={tx.timestamp} />
       </td>
-      <td className="tx-type">{tx.type || DEFAULT_EMPTY_VALUE}</td>
-      <td className="tx-subtype">{tx.subtype || DEFAULT_EMPTY_VALUE}</td>
+      <td className="tx-type">
+        {formatDexType(tx.type) || DEFAULT_EMPTY_VALUE}
+      </td>
       <td className="tx-from">
         <span className="text-truncate">
           <Account
@@ -146,40 +190,54 @@ export const DexTradeTable = ({
     </tr>
   )
 
-  // Temporary debug return
   return (
     <div className="tokens-table">
       {isLoading && <Loader />}
 
       {!isLoading && transactions && transactions.length > 0 && (
-        <div className="table-wrap">
-          <table className="basic">
-            <thead>
-              <tr>
-                <th className="count sticky-1">{t('tx_hash')}</th>
-                <th className="name-col sticky-2">{t('ledger')}</th>
-                <th className="name-col sticky-2">{t('timestamp')}</th>
-                <th className="name-col sticky-2">Type</th>
-                <th className="name-col sticky-2">Subtype</th>
-                <th className="name-col sticky-2">{t('from')}</th>
-                <th className="name-col sticky-2">{t('to')}</th>
-                <th className="name-col sticky-2">{t('amount_in')}</th>
-                <th className="name-col sticky-2">{t('amount_out')}</th>
-                <th className="name-col sticky-2">{t('rate')}</th>
-              </tr>
-            </thead>
-            <tbody>{transactions.map(renderTransaction)}</tbody>
-          </table>
-        </div>
-      )}
+        <>
+          <div className="table-wrap">
+            <table className="basic" key={`dex-table-page-${currentPage}`}>
+              <thead>
+                <tr>
+                  <th className="count sticky-1">{t('tx_hash')}</th>
+                  <th className="name-col sticky-2">{t('ledger')}</th>
+                  <th className="name-col sticky-2">{t('timestamp')}</th>
+                  <th className="name-col sticky-2">Type</th>
+                  <th className="name-col sticky-2">{t('from')}</th>
+                  <th className="name-col sticky-2">{t('to')}</th>
+                  <th className="name-col sticky-2">{t('amount_in')}</th>
+                  <th className="name-col sticky-2">{t('amount_out')}</th>
+                  <th className="name-col sticky-2">{t('rate')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transactions.map((tx, idx) => {
+                  console.log(
+                    `[DexTradeTable] Rendering row ${idx + 1}/${transactions.length}: ${tx.hash}`,
+                  )
+                  return renderTransaction(tx)
+                })}
+              </tbody>
+            </table>
+          </div>
 
-      {!isLoading && totalTrades > 0 && (
-        <Pagination
-          totalItems={totalTrades}
-          currentPage={currentPage}
-          onPageChange={onPageChange}
-          pageSize={pageSize}
-        />
+          {console.log(
+            '[DexTradeTable] Checking pagination: totalTrades=',
+            totalTrades,
+          )}
+          {totalTrades > 0 && (
+            <>
+              {console.log('[DexTradeTable] Rendering pagination')}
+              <Pagination
+                totalItems={totalTrades}
+                currentPage={currentPage}
+                onPageChange={onPageChange}
+                pageSize={pageSize}
+              />
+            </>
+          )}
+        </>
       )}
 
       {!isLoading && (!transactions || transactions.length === 0) && (

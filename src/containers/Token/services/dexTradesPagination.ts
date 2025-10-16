@@ -24,18 +24,23 @@ export interface DexTradesPaginationResult {
 class DexTradesPaginationService {
   private cache: Map<string, DexTrade[]> = new Map()
 
-  private totalTradesCache: Map<string, number> = new Map()
+  private apiOffsetCache: Map<string, number> = new Map() // tracks the offset for the next API call
 
-  private apiPageCache: Map<string, number> = new Map() // tracks which API page we're on
+  private fetchingCache: Map<string, Promise<void>> = new Map() // tracks in-flight requests
 
-  private isLoadingCache: Map<string, boolean> = new Map()
+  private hasReachedEndCache: Map<string, boolean> = new Map() // tracks if we've fetched all available data
+
+  private readonly BATCH_SIZE = 200 // Fetch 200 transactions at a time from API
+
+  private readonly PAGE_SIZE = 10 // Display 10 trades per page
+
+  private readonly PREFETCH_THRESHOLD = 0.8 // Prefetch when 80% through cache
 
   private getCacheKey(currency: string, issuer: string): string {
     return `${currency}:${issuer}`
   }
 
   private formatDexTrade(trade: any, transaction: any): DexTrade {
-    console.log('formatDexTrade', trade, transaction)
     return {
       hash: transaction.hash,
       ledger: transaction.ledger_index,
@@ -64,86 +69,143 @@ class DexTradesPaginationService {
   private async fetchMoreTrades(
     currency: string,
     issuer: string,
-    apiPage: number,
-  ): Promise<{ trades: DexTrade[]; total: number }> {
+  ): Promise<void> {
     const cacheKey = this.getCacheKey(currency, issuer)
-    this.isLoadingCache.set(cacheKey, true)
 
-    try {
-      const response = await getDexTrades(currency, issuer, apiPage * 10, 10)
-      const trades: DexTrade[] = []
+    // Get the current offset for the next batch
+    const offset = this.apiOffsetCache.get(cacheKey) || 0
 
-      if (response && response.results) {
-        response.results.forEach((transaction: any) => {
-          if (transaction.dex_trades && Array.isArray(transaction.dex_trades)) {
-            transaction.dex_trades.forEach((trade: any) => {
-              trades.push(this.formatDexTrade(trade, transaction))
-            })
-          }
-        })
-      }
+    console.log(
+      `[DexTradesPagination] Fetching batch from offset ${offset} for ${cacheKey}`,
+    )
 
-      // Update cache
-      const existingTrades = this.cache.get(cacheKey) || []
-      this.cache.set(cacheKey, [...existingTrades, ...trades])
-      this.totalTradesCache.set(cacheKey, response?.total || 0)
-      this.apiPageCache.set(cacheKey, apiPage)
+    // Fetch 200 transactions at a time
+    const response = await getDexTrades(
+      currency,
+      issuer,
+      offset,
+      this.BATCH_SIZE,
+    )
+    const trades: DexTrade[] = []
 
-      return { trades, total: response?.total || 0 }
-    } finally {
-      this.isLoadingCache.set(cacheKey, false)
+    if (response && response.results) {
+      response.results.forEach((transaction: any) => {
+        if (transaction.dex_trades && Array.isArray(transaction.dex_trades)) {
+          transaction.dex_trades.forEach((trade: any) => {
+            trades.push(this.formatDexTrade(trade, transaction))
+          })
+        }
+      })
     }
+
+    console.log('Fetched more trades:', trades.length)
+
+    // Update cache
+    const existingTrades = this.cache.get(cacheKey) || []
+    const updatedTrades = [...existingTrades, ...trades]
+    this.cache.set(cacheKey, updatedTrades)
+
+    // Update offset for next fetch
+    this.apiOffsetCache.set(cacheKey, offset + this.BATCH_SIZE)
+
+    // If we got fewer trades than requested, we've reached the end
+    if (trades.length === 0) {
+      this.hasReachedEndCache.set(cacheKey, true)
+    }
+
+    console.log(
+      `[DexTradesPagination] Fetched ${trades.length} dex trades. Cache now has ${updatedTrades.length} total dex trades.`,
+    )
   }
 
   async getDexTradesPage(
     currency: string,
     issuer: string,
     page: number,
-    pageSize: number = 10,
+    pageSize: number = this.PAGE_SIZE,
   ): Promise<DexTradesPaginationResult> {
     const cacheKey = this.getCacheKey(currency, issuer)
-    const startIndex = (page - 1) * pageSize
-    const endIndex = startIndex + pageSize
+    // Ensure pageSize is valid
+    const validPageSize = pageSize && pageSize > 0 ? pageSize : this.PAGE_SIZE
+    const startIndex = (page - 1) * validPageSize
+    const endIndex = startIndex + validPageSize
 
     let allTrades = this.cache.get(cacheKey) || []
-    let totalTrades = this.totalTradesCache.get(cacheKey) || 0
-    const currentApiPage = this.apiPageCache.get(cacheKey) || 0
-    const isLoading = this.isLoadingCache.get(cacheKey) || false
+    const hasReachedEnd = this.hasReachedEndCache.get(cacheKey) || false
 
-    // Check if we need to fetch more data
-    while (allTrades.length < endIndex && !isLoading) {
-      const nextApiPage = Math.floor(allTrades.length / 10) // Estimate which API page to fetch
+    console.log(
+      `[DexTradesPagination] Getting page ${page} for ${cacheKey}. Cache size: ${allTrades.length}, Has reached end: ${hasReachedEnd}`,
+    )
 
-      // Avoid fetching the same page multiple times
-      if (nextApiPage <= currentApiPage) {
-        break
-      }
-
-      const { trades: newTrades, total } = await this.fetchMoreTrades(
-        currency,
-        issuer,
-        nextApiPage,
+    // If cache is empty, fetch the initial batch
+    if (allTrades.length === 0) {
+      console.log(
+        `[DexTradesPagination] Cache empty, fetching initial batch for ${cacheKey}`,
       )
-
+      await this.fetchMoreTrades(currency, issuer)
       allTrades = this.cache.get(cacheKey) || []
-      totalTrades = total
+    }
 
-      // If we got no new trades, we've reached the end
-      if (newTrades.length === 0) {
-        break
+    // Make a snapshot of the cache size BEFORE prefetch to ensure consistent slicing
+    const cacheSizeBeforePrefetch = allTrades.length
+
+    // Check if we're approaching the end of the cache and need to prefetch
+    const cacheThreshold = cacheSizeBeforePrefetch * this.PREFETCH_THRESHOLD
+    if (endIndex > cacheThreshold && !hasReachedEnd) {
+      // Prefetch next batch in the background (don't await)
+      const existingFetch = this.fetchingCache.get(cacheKey)
+      if (!existingFetch) {
+        console.log(
+          `[DexTradesPagination] Approaching end of cache (${endIndex} > ${cacheThreshold}). Prefetching next batch for ${cacheKey}`,
+        )
+        const fetchPromise = this.fetchMoreTrades(currency, issuer).finally(
+          () => {
+            this.fetchingCache.delete(cacheKey)
+          },
+        )
+        this.fetchingCache.set(cacheKey, fetchPromise)
       }
     }
 
     // Get the trades for the requested page
-    const pageTrades = allTrades.slice(startIndex, endIndex)
-    const hasMore =
-      allTrades.length > endIndex || allTrades.length < totalTrades
+    // Use the snapshot size to ensure we don't get affected by concurrent prefetch
+    const pageTrades = allTrades.slice(
+      startIndex,
+      Math.min(endIndex, cacheSizeBeforePrefetch),
+    )
+    // hasMore is true if there are more trades after this page
+    const hasMore = endIndex < allTrades.length
+
+    // Check if cache grew during this call
+    const cacheSizeAfter = this.cache.get(cacheKey)?.length || 0
+    if (cacheSizeAfter > cacheSizeBeforePrefetch) {
+      console.warn(
+        `[DexTradesPagination] CACHE GREW during getDexTradesPage! Before: ${cacheSizeBeforePrefetch}, After: ${cacheSizeAfter}. Sliced from snapshot to prevent issues.`,
+      )
+    }
+
+    console.log(
+      `[DexTradesPagination] Slicing from ${startIndex} to ${endIndex} (pageSize=${validPageSize}). Returning ${pageTrades.length} trades for page ${page}. Has more: ${hasMore}`,
+    )
+
+    if (pageTrades.length > validPageSize) {
+      console.warn(
+        `[DexTradesPagination] WARNING: Returning ${pageTrades.length} trades but pageSize is ${validPageSize}!`,
+      )
+    }
+
+    // Verify the slice is correct
+    if (pageTrades.length !== validPageSize && endIndex < allTrades.length) {
+      console.warn(
+        `[DexTradesPagination] SLICE MISMATCH: Expected ${validPageSize} trades but got ${pageTrades.length}. startIndex=${startIndex}, endIndex=${endIndex}, allTrades.length=${allTrades.length}`,
+      )
+    }
 
     const result = {
       trades: pageTrades,
-      totalTrades,
+      totalTrades: allTrades.length,
       hasMore,
-      isLoading: this.isLoadingCache.get(cacheKey) || false,
+      isLoading: false,
     }
 
     return result
@@ -153,25 +215,20 @@ class DexTradesPaginationService {
     if (currency && issuer) {
       const cacheKey = this.getCacheKey(currency, issuer)
       this.cache.delete(cacheKey)
-      this.totalTradesCache.delete(cacheKey)
-      this.apiPageCache.delete(cacheKey)
-      this.isLoadingCache.delete(cacheKey)
+      this.apiOffsetCache.delete(cacheKey)
+      this.fetchingCache.delete(cacheKey)
+      this.hasReachedEndCache.delete(cacheKey)
     } else {
       this.cache.clear()
-      this.totalTradesCache.clear()
-      this.apiPageCache.clear()
-      this.isLoadingCache.clear()
+      this.apiOffsetCache.clear()
+      this.fetchingCache.clear()
+      this.hasReachedEndCache.clear()
     }
   }
 
   getCachedTradesCount(currency: string, issuer: string): number {
     const cacheKey = this.getCacheKey(currency, issuer)
     return this.cache.get(cacheKey)?.length || 0
-  }
-
-  getTotalTrades(currency: string, issuer: string): number {
-    const cacheKey = this.getCacheKey(currency, issuer)
-    return this.totalTradesCache.get(cacheKey) || 0
   }
 }
 

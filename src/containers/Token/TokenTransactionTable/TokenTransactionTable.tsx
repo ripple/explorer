@@ -122,10 +122,17 @@ export const TokenTransactionTable = ({
     })) || []
 
   let dexTradesFormatted: LOSDEXTransaction[] = []
-  console.log('dexTrades', dexTrades)
+  console.log('[TokenTransactionTable] dexTrades received:', {
+    length: dexTrades?.length,
+    isArray: Array.isArray(dexTrades),
+    dexTrades,
+  })
   if (dexTrades && Array.isArray(dexTrades)) {
     // dexTrades is already formatted array from pagination service
     dexTradesFormatted = dexTrades
+    console.log('[TokenTransactionTable] dexTradesFormatted:', {
+      length: dexTradesFormatted.length,
+    })
   }
 
   return (

@@ -16,7 +16,6 @@ export interface OverviewData {
   holders: number
   trustlines: number
   transfer_fee: number
-  reputation_level: number
 }
 
 export interface MarketData {
@@ -44,8 +43,7 @@ export const HeaderBoxes = ({
   isAmmTvlLoading,
 }: HeaderBoxesProps): JSX.Element => {
   const { t } = useTranslation()
-  const { issuer, price, holders, trustlines, transfer_fee, reputation_level } =
-    overviewData
+  const { issuer, price, holders, trustlines, transfer_fee } = overviewData
   const { supply, circ_supply, market_cap, volume_24h, trades_24h, amm_tvl } =
     marketData
 
@@ -111,7 +109,7 @@ export const HeaderBoxes = ({
             <div className="item-name">{t('token_page.transfer_fee')}:</div>
             <div className="item-value">{parsePercent(transfer_fee)}</div>
           </div>
-          <div className="header-box-item">
+          {/* <div className="header-box-item">
             <div className="item-name">{t('token_page.reputation_level')}:</div>
             <div className="item-value">
               {reputation_level > 0 ? (
@@ -120,7 +118,7 @@ export const HeaderBoxes = ({
                 <div>--</div>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
