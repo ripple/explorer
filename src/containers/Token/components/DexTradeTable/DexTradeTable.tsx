@@ -7,7 +7,7 @@ import { useTooltip, Tooltip } from '../../../shared/components/Tooltip'
 import HoverIcon from '../../../shared/images/hover.svg'
 import './styles.scss'
 import '../tables-mobile.scss'
-import { CursorPagination } from '../../../shared/components/CursorPagination'
+import { Pagination } from '../../../shared/components/Pagination'
 import { ExplorerAmount } from '../../../shared/types'
 import { formatDecimals } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
@@ -93,7 +93,7 @@ export const DexTradeTable = ({
       return DEFAULT_EMPTY_VALUE
     }
     if (type === 'orderBook') {
-      return 'Orderbook'
+      return 'Order Book'
     }
     if (type === 'amm') {
       return 'AMM'
@@ -216,12 +216,13 @@ export const DexTradeTable = ({
           </div>
 
           {(hasMore || hasPrevPage) && (
-            <CursorPagination
+            <Pagination
               currentPage={currentPage}
               onPageChange={onPageChange}
-              hasNextPage={hasMore}
-              hasPrevPage={hasPrevPage}
+              totalItems={totalTrades}
+              pageSize={pageSize}
               scrollToTop={null}
+              showLastPage={!hasMore}
             />
           )}
         </>

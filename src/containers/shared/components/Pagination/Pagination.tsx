@@ -10,6 +10,7 @@ type Props = {
   className?: string
   pageSize?: number
   scrollToTop?: number | null
+  showLastPage?: boolean
 }
 
 const DOTS = '…'
@@ -24,11 +25,13 @@ function getPaginationRange({
   siblingCount,
   currentPage,
   pageSize,
+  showLastPage = true,
 }: {
   totalItems: number
   siblingCount: number
   currentPage: number
   pageSize: number
+  showLastPage?: boolean
 }) {
   const totalPageCount = Math.max(1, Math.ceil(totalItems / pageSize))
   const totalPageNumbers = siblingCount * 2 + 5
@@ -45,6 +48,31 @@ function getPaginationRange({
 
   const firstPageIndex = 1
   const lastPageIndex = totalPageCount
+
+  // If showLastPage is false, don't show the last page or the dots leading to it
+  if (!showLastPage) {
+    if (!showLeftDots) {
+      const leftItemCount = 3 + 2 * siblingCount
+      const leftRange = range(1, leftItemCount)
+      return [...leftRange, DOTS]
+    }
+
+    if (showLeftDots) {
+      const rightItemCount = 3 + 2 * siblingCount
+      const rightRange = range(
+        leftSiblingIndex,
+        Math.min(rightSiblingIndex, totalPageCount),
+      )
+      return [firstPageIndex, DOTS, ...rightRange]
+    }
+
+    return [
+      firstPageIndex,
+      DOTS,
+      ...range(leftSiblingIndex, rightSiblingIndex),
+      DOTS,
+    ]
+  }
 
   if (!showLeftDots && showRightDots) {
     const leftItemCount = 3 + 2 * siblingCount
@@ -75,6 +103,7 @@ export const Pagination = ({
   className = '',
   pageSize = 15,
   scrollToTop = 100,
+  showLastPage = true,
 }: Props) => {
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
   if (totalPages <= 1) return null
@@ -84,6 +113,7 @@ export const Pagination = ({
     siblingCount,
     currentPage,
     pageSize,
+    showLastPage,
   })
 
   const canGoPrev = currentPage > 1
@@ -147,14 +177,16 @@ export const Pagination = ({
       >
         <Arrow className="next" />
       </button>
-      <button
-        className="page-btn"
-        type="button"
-        onClick={() => canGoNext && handlePageChange(totalPages)}
-        disabled={!canGoNext}
-      >
-        <DoubleArrow className="next" />
-      </button>
+      {showLastPage && (
+        <button
+          className="page-btn"
+          type="button"
+          onClick={() => canGoNext && handlePageChange(totalPages)}
+          disabled={!canGoNext}
+        >
+          <DoubleArrow className="next" />
+        </button>
+      )}
     </nav>
   )
 }

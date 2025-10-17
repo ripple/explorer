@@ -6,7 +6,7 @@ import { Loader } from '../../../shared/components/Loader'
 import './styles.scss'
 import '../tables-mobile.scss'
 import { Amount } from '../../../shared/components/Amount'
-import { CursorPagination } from '../../../shared/components/CursorPagination'
+import { Pagination } from '../../../shared/components/Pagination'
 import { formatDecimals } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { truncateString } from '../../utils/stringFormatting'
@@ -159,12 +159,13 @@ export const TransfersTable = ({
             </table>
           </div>
           {(hasMore || hasPrevPage) && (
-            <CursorPagination
+            <Pagination
               currentPage={currentPage}
               onPageChange={onPageChange}
-              hasNextPage={hasMore}
-              hasPrevPage={hasPrevPage}
+              totalItems={totalTransfers}
+              pageSize={pageSize}
               scrollToTop={null}
+              showLastPage={!hasMore}
             />
           )}
         </>
