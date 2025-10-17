@@ -1,0 +1,80 @@
+@use '../../css/variables.scss' as *;
+
+.cursor-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+  color: white;
+  gap: 12px;
+  user-select: none;
+
+  .page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 4px;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+
+    &:hover:not(:disabled) {
+      opacity: 1;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+  }
+
+  .page-info {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+    gap: 3px;
+    opacity: 0.85;
+
+    .current-page {
+      color: white;
+      font-weight: 600;
+    }
+  }
+
+  .prev {
+    transform: rotate(180deg);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .first-page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -6px;
+
+    svg {
+      margin-right: -4px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .first-page {
+    transform: rotate(180deg);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+}

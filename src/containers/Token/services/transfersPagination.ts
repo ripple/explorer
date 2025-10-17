@@ -1,28 +1,15 @@
-import { getDexTrades } from '../api/tokenTx'
-import { ExplorerAmount } from '../../shared/types'
+import { getTransfers } from '../api/tokenTx'
+import { LOSTransfer } from '../components/TransfersTable/TransfersTable'
 
-export interface DexTrade {
-  hash: string
-  ledger: number
-  timestamp: number
-  from: string
-  to: string
-  amount_in: ExplorerAmount
-  amount_out: ExplorerAmount
-  rate: number | null
-  type?: string
-  subtype?: string
-}
-
-export interface DexTradesPaginationResult {
-  trades: DexTrade[]
-  totalTrades: number
+export interface TransfersPaginationResult {
+  transfers: LOSTransfer[]
+  totalTransfers: number
   hasMore: boolean
   isLoading: boolean
 }
 
-class DexTradesPaginationService {
-  private cache: Map<string, DexTrade[]> = new Map()
+class TransfersPaginationService {
+  private cache: Map<string, LOSTransfer[]> = new Map()
 
   private nextCursorCache: Map<string, any> = new Map() // tracks the next cursor for forward pagination
 
@@ -36,7 +23,7 @@ class DexTradesPaginationService {
 
   private readonly BATCH_SIZE = 200 // Fetch 200 transactions at a time from API
 
-  private readonly PAGE_SIZE = 10 // Display 10 trades per page
+  private readonly PAGE_SIZE = 10 // Display 10 transfers per page
 
   private readonly PREFETCH_THRESHOLD = 0.8 // Prefetch when 80% through cache
 
@@ -45,34 +32,7 @@ class DexTradesPaginationService {
     return `${currency}:${issuer}`
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private formatDexTrade(trade: any, transaction: any): DexTrade {
-    return {
-      hash: transaction.hash,
-      ledger: transaction.ledger_index,
-      timestamp: transaction.timestamp,
-      from: trade.from,
-      to: trade.to,
-      type: trade.type,
-      subtype: trade.subtype,
-      rate:
-        trade.amount_out && Number(trade.amount_out.value) !== 0
-          ? Number(trade.amount_in.value) / Number(trade.amount_out.value)
-          : null,
-      amount_in: {
-        currency: trade.amount_in.currency,
-        issuer: trade.amount_in.issuer,
-        amount: Number(trade.amount_in.value),
-      },
-      amount_out: {
-        currency: trade.amount_out.currency,
-        issuer: trade.amount_out.issuer,
-        amount: Number(trade.amount_out.value),
-      },
-    }
-  }
-
-  private async fetchMoreTrades(
+  private async fetchMoreTransfers(
     currency: string,
     issuer: string,
     direction: string = 'next',
@@ -86,32 +46,36 @@ class DexTradesPaginationService {
         : this.nextCursorCache.get(cacheKey)
 
     // Fetch 200 transactions at a time
-    const response = await getDexTrades(
+    const response = await getTransfers(
       currency,
       issuer,
       this.BATCH_SIZE,
       cursor,
       direction,
     )
-    const trades: DexTrade[] = []
+    const transfers: LOSTransfer[] = []
 
     if (response && response.results) {
       response.results.forEach((transaction: any) => {
-        if (transaction.dex_trades && Array.isArray(transaction.dex_trades)) {
-          transaction.dex_trades.forEach((trade: any) => {
-            trades.push(this.formatDexTrade(trade, transaction))
-          })
-        }
+        transfers.push({
+          hash: transaction.hash,
+          ledger: transaction.ledger_index,
+          action: transaction.type,
+          timestamp: transaction.timestamp,
+          from: transaction.account,
+          to: transaction.destination,
+          amount: transaction.amount,
+        })
       })
     }
 
     // Update cache based on direction
-    const existingTrades = this.cache.get(cacheKey) || []
-    const updatedTrades =
+    const existingTransfers = this.cache.get(cacheKey) || []
+    const updatedTransfers =
       direction === 'prev'
-        ? [...trades, ...existingTrades] // Prepend for backward pagination
-        : [...existingTrades, ...trades] // Append for forward pagination
-    this.cache.set(cacheKey, updatedTrades)
+        ? [...transfers, ...existingTransfers] // Prepend for backward pagination
+        : [...existingTransfers, ...transfers] // Append for forward pagination
+    this.cache.set(cacheKey, updatedTransfers)
 
     // Update cursors for next fetch
     if (direction === 'prev') {
@@ -126,8 +90,8 @@ class DexTradesPaginationService {
       this.hasReachedEndCache.set(cacheKey, true)
     }
 
-    // If we got fewer trades than requested, we've reached the end/start
-    if (trades.length === 0) {
+    // If we got fewer transfers than requested, we've reached the end/start
+    if (transfers.length === 0) {
       if (direction === 'prev') {
         this.hasReachedStartCache.set(cacheKey, true)
       } else {
@@ -136,29 +100,29 @@ class DexTradesPaginationService {
     }
   }
 
-  async getDexTradesPage(
+  async getTransfersPage(
     currency: string,
     issuer: string,
     page: number,
     pageSize: number = this.PAGE_SIZE,
-  ): Promise<DexTradesPaginationResult> {
+  ): Promise<TransfersPaginationResult> {
     const cacheKey = this.getCacheKey(currency, issuer)
     // Ensure pageSize is valid
     const validPageSize = pageSize && pageSize > 0 ? pageSize : this.PAGE_SIZE
     const startIndex = (page - 1) * validPageSize
     const endIndex = startIndex + validPageSize
 
-    let allTrades = this.cache.get(cacheKey) || []
+    let allTransfers = this.cache.get(cacheKey) || []
     const hasReachedEnd = this.hasReachedEndCache.get(cacheKey) || false
 
     // If cache is empty, fetch the initial batch
-    if (allTrades.length === 0) {
-      await this.fetchMoreTrades(currency, issuer)
-      allTrades = this.cache.get(cacheKey) || []
+    if (allTransfers.length === 0) {
+      await this.fetchMoreTransfers(currency, issuer)
+      allTransfers = this.cache.get(cacheKey) || []
     }
 
     // Make a snapshot of the cache size BEFORE prefetch to ensure consistent slicing
-    const cacheSizeBeforePrefetch = allTrades.length
+    const cacheSizeBeforePrefetch = allTransfers.length
 
     // Check if we're approaching the end of the cache and need to prefetch
     const cacheThreshold = cacheSizeBeforePrefetch * this.PREFETCH_THRESHOLD
@@ -166,7 +130,7 @@ class DexTradesPaginationService {
       // Prefetch next batch in the background (don't await)
       const existingFetch = this.fetchingCache.get(cacheKey)
       if (!existingFetch) {
-        const fetchPromise = this.fetchMoreTrades(currency, issuer).finally(
+        const fetchPromise = this.fetchMoreTransfers(currency, issuer).finally(
           () => {
             this.fetchingCache.delete(cacheKey)
           },
@@ -175,18 +139,18 @@ class DexTradesPaginationService {
       }
     }
 
-    // Get the trades for the requested page
+    // Get the transfers for the requested page
     // Use the snapshot size to ensure we don't get affected by concurrent prefetch
-    const pageTrades = allTrades.slice(
+    const pageTransfers = allTransfers.slice(
       startIndex,
       Math.min(endIndex, cacheSizeBeforePrefetch),
     )
-    // hasMore is true if there are more trades after this page
-    const hasMore = endIndex < allTrades.length
+    // hasMore is true if there are more transfers after this page
+    const hasMore = endIndex < allTransfers.length
 
     const result = {
-      trades: pageTrades,
-      totalTrades: allTrades.length,
+      transfers: pageTransfers,
+      totalTransfers: allTransfers.length,
       hasMore,
       isLoading: false,
     }
@@ -213,11 +177,11 @@ class DexTradesPaginationService {
     }
   }
 
-  getCachedTradesCount(currency: string, issuer: string): number {
+  getCachedTransfersCount(currency: string, issuer: string): number {
     const cacheKey = this.getCacheKey(currency, issuer)
     return this.cache.get(cacheKey)?.length || 0
   }
 }
 
 // Export a singleton instance
-export const dexTradesPaginationService = new DexTradesPaginationService()
+export const transfersPaginationService = new TransfersPaginationService()

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Account } from '../../../shared/components/Account'
 import { Loader } from '../../../shared/components/Loader'
@@ -7,7 +7,7 @@ import { useTooltip, Tooltip } from '../../../shared/components/Tooltip'
 import HoverIcon from '../../../shared/images/hover.svg'
 import './styles.scss'
 import '../tables-mobile.scss'
-import { Pagination } from '../../../shared/components/Pagination'
+import { CursorPagination } from '../../../shared/components/CursorPagination'
 import { ExplorerAmount } from '../../../shared/types'
 import { formatDecimals } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
@@ -36,6 +36,8 @@ interface DexTradeTableProps {
   onPageChange: (page: number) => void
   pageSize: number
   scrollRef?: React.RefObject<HTMLDivElement>
+  hasMore?: boolean
+  hasPrevPage?: boolean
 }
 
 const DEFAULT_EMPTY_VALUE = '--'
@@ -48,19 +50,29 @@ export const DexTradeTable = ({
   onPageChange,
   pageSize,
   scrollRef,
+  hasMore = false,
+  hasPrevPage = false,
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
+  const tableRef = useRef<HTMLTableElement>(null)
 
-  // Scroll to top of table container when page changes
+  // Scroll to top of table when page changes
   useEffect(() => {
-    if (scrollRef?.current && !isLoading) {
-      const containerTop =
-        scrollRef.current.getBoundingClientRect().top + window.scrollY
-      // Subtract 100px to show headers and tabs above the table
-      window.scrollTo({ top: containerTop - 100, behavior: 'smooth' })
+    if (!isLoading) {
+      // Use double requestAnimationFrame to ensure scroll happens after DOM updates
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const tableContainer = tableRef.current?.closest('.tokens-table')
+          if (tableContainer) {
+            const rect = tableContainer.getBoundingClientRect()
+            const scrollTop = window.scrollY + rect.top - 120 // Scroll higher to show table headers
+            window.scrollTo({ top: scrollTop, behavior: 'smooth' })
+          }
+        })
+      })
     }
-  }, [currentPage, isLoading, scrollRef])
+  }, [currentPage, isLoading])
 
   const renderTextTooltip = (tooltipText: string, yOffset = 60) => (
     <HoverIcon
@@ -160,7 +172,11 @@ export const DexTradeTable = ({
         <>
           <div className="data-notice">{t('token_page.dex_data_notice')}</div>
           <div className="table-wrap">
-            <table className="basic" key={`dex-table-page-${currentPage}`}>
+            <table
+              className="basic"
+              key={`dex-table-page-${currentPage}`}
+              ref={tableRef}
+            >
               <thead>
                 <tr>
                   <th className="count sticky-1">{t('tx_hash')}</th>
@@ -199,12 +215,12 @@ export const DexTradeTable = ({
             </table>
           </div>
 
-          {totalTrades > 0 && (
-            <Pagination
-              totalItems={totalTrades}
+          {(hasMore || hasPrevPage) && (
+            <CursorPagination
               currentPage={currentPage}
               onPageChange={onPageChange}
-              pageSize={pageSize}
+              hasNextPage={hasMore}
+              hasPrevPage={hasPrevPage}
               scrollToTop={null}
             />
           )}
@@ -212,10 +228,7 @@ export const DexTradeTable = ({
       )}
 
       {!isLoading && (!transactions || transactions.length === 0) && (
-        <div>
-          {t('token_page.dex_no_trades')} (transactions:{' '}
-          {transactions?.length || 'undefined'})
-        </div>
+        <div>{t('token_page.dex_no_trades')}</div>
       )}
     </div>
   )

@@ -43,6 +43,11 @@ export interface TokenTransactionsTableProps {
   setDexTradesPage: (page: number) => void
   dexTradesPageSize: number
   totalDexTrades: number
+  totalTransfers?: number
+  dexTradesHasMore?: boolean
+  dexTradesHasPrevPage?: boolean
+  transfersHasMore?: boolean
+  transfersHasPrevPage?: boolean
 }
 
 export const TokenTransactionTable = ({
@@ -66,6 +71,11 @@ export const TokenTransactionTable = ({
   setDexTradesPage,
   dexTradesPageSize,
   totalDexTrades,
+  totalTransfers = 0,
+  dexTradesHasMore = false,
+  dexTradesHasPrevPage = false,
+  transfersHasMore = false,
+  transfersHasPrevPage = false,
 }: TokenTransactionsTableProps) => {
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
@@ -117,16 +127,8 @@ export const TokenTransactionTable = ({
       value_usd: holder.balance * Number(tokenData?.price) * XRPUSDPrice,
     })) || []
 
-  const transfersFormatted: LOSTransfer[] =
-    transfers?.results.map((transfer: any) => ({
-      hash: transfer.hash,
-      ledger: transfer.ledger_index,
-      action: transfer.type,
-      timestamp: transfer.timestamp,
-      from: transfer.account,
-      to: transfer.destination,
-      amount: transfer.amount,
-    })) || []
+  // transfers is already formatted array from pagination service
+  const transfersFormatted: LOSTransfer[] = transfers || []
 
   // dexTrades is already formatted array from pagination service
   const dexTradesFormatted: LOSDEXTransaction[] = dexTrades || []
@@ -162,6 +164,8 @@ export const TokenTransactionTable = ({
           onPageChange={setDexTradesPage}
           pageSize={dexTradesPageSize}
           scrollRef={containerRef}
+          hasMore={dexTradesHasMore}
+          hasPrevPage={dexTradesHasPrevPage}
         />
       )}
 
@@ -169,11 +173,13 @@ export const TokenTransactionTable = ({
         <TransfersTable
           transactions={transfersFormatted}
           isTransfersLoading={isTransfersLoading}
-          totalTransfers={transfers?.total || 0}
+          totalTransfers={totalTransfers}
           currentPage={transfersPage}
           onPageChange={setTransfersPage}
           pageSize={transfersPageSize}
           scrollRef={containerRef}
+          hasMore={transfersHasMore}
+          hasPrevPage={transfersHasPrevPage}
         />
       )}
 

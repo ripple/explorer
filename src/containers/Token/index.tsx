@@ -23,11 +23,11 @@ import { getToken } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
 import { getAccountLines, getAMMInfo } from '../../rippled/lib/rippled'
 import getTokenHolders from './api/holders'
-import { getTransfers } from './api/tokenTx'
 import {
   DexTrade,
   dexTradesPaginationService,
 } from './services/dexTradesPagination'
+import { transfersPaginationService } from './services/transfersPagination'
 import { PAGINATION_CONFIG, INITIAL_PAGE } from './constants'
 
 const ERROR_MESSAGES: ErrorMessages = {
@@ -115,10 +115,29 @@ export const Token = () => {
     trades: DexTrade[]
     totalTrades: number
     isLoading: boolean
+    hasMore: boolean
+    hasPrevPage: boolean
   }>({
     trades: [],
     totalTrades: 0,
-    isLoading: false,
+    isLoading: true,
+    hasMore: false,
+    hasPrevPage: false,
+  })
+
+  // get transfers with pagination service
+  const [transfersData, setTransfersData] = useState<{
+    transfers: any[]
+    totalTransfers: number
+    isLoading: boolean
+    hasMore: boolean
+    hasPrevPage: boolean
+  }>({
+    transfers: [],
+    totalTransfers: 0,
+    isLoading: true,
+    hasMore: false,
+    hasPrevPage: false,
   })
 
   useEffect(() => {
@@ -139,12 +158,16 @@ export const Token = () => {
           trades: result.trades,
           totalTrades: result.totalTrades,
           isLoading: result.isLoading,
+          hasMore: result.hasMore,
+          hasPrevPage: dexTradesPage > 1,
         })
       } catch (error) {
         setDexTradesData({
           trades: [],
           totalTrades: 0,
           isLoading: false,
+          hasMore: false,
+          hasPrevPage: dexTradesPage > 1,
         })
       }
     }
@@ -152,19 +175,41 @@ export const Token = () => {
     fetchDexTrades()
   }, [currency, accountId, dexTradesPage])
 
-  // get transfers for tables
-  const { data: transfers, isLoading: isTransfersLoading } = useQuery({
-    queryKey: ['transfers', currency, accountId, transfersPage],
-    queryFn: () => {
-      const from = (transfersPage - 1) * PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE
-      return getTransfers(
-        currency,
-        accountId,
-        from,
-        PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
-      )
-    },
-  })
+  // get transfers with pagination service
+  useEffect(() => {
+    const fetchTransfers = async () => {
+      if (!currency || !accountId) {
+        return
+      }
+
+      try {
+        const result = await transfersPaginationService.getTransfersPage(
+          currency,
+          accountId,
+          transfersPage,
+          PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
+        )
+
+        setTransfersData({
+          transfers: result.transfers,
+          totalTransfers: result.totalTransfers,
+          isLoading: result.isLoading,
+          hasMore: result.hasMore,
+          hasPrevPage: transfersPage > 1,
+        })
+      } catch (error) {
+        setTransfersData({
+          transfers: [],
+          totalTransfers: 0,
+          isLoading: false,
+          hasMore: false,
+          hasPrevPage: transfersPage > 1,
+        })
+      }
+    }
+
+    fetchTransfers()
+  }, [currency, accountId, transfersPage])
 
   // get amm info for TVL calculation
   // note: only fetch xrp-<token> amm info to simplify API calls for most tokens
@@ -238,8 +283,8 @@ export const Token = () => {
             currency={currency}
             dexTrades={dexTradesData.trades}
             isDexTradesLoading={dexTradesData.isLoading}
-            transfers={transfers}
-            isTransfersLoading={isTransfersLoading}
+            transfers={transfersData.transfers}
+            isTransfersLoading={transfersData.isLoading}
             xrpUSDRate={XRPUSDPrice.toString()}
             tokenData={tokenData}
             holdersPage={holdersPage}
@@ -252,6 +297,11 @@ export const Token = () => {
             setDexTradesPage={setDexTradesPage}
             dexTradesPageSize={PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE}
             totalDexTrades={dexTradesData.totalTrades}
+            totalTransfers={transfersData.totalTransfers}
+            dexTradesHasMore={dexTradesData.hasMore}
+            dexTradesHasPrevPage={dexTradesData.hasPrevPage}
+            transfersHasMore={transfersData.hasMore}
+            transfersHasPrevPage={transfersData.hasPrevPage}
           />
         </div>
       )}
