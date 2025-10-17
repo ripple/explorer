@@ -80,6 +80,10 @@ export const Token = () => {
     'desc',
   )
 
+  // Refresh counters to trigger re-fetches
+  const [dexTradesRefreshCount, setDexTradesRefreshCount] = useState(0)
+  const [transfersRefreshCount, setTransfersRefreshCount] = useState(0)
+
   // get basic token stats and info
   const {
     data: tokenData,
@@ -205,6 +209,7 @@ export const Token = () => {
     dexTradesPage,
     dexTradesSortField,
     dexTradesSortOrder,
+    dexTradesRefreshCount,
   ])
 
   // Handle sort changes for transfers - reset to page 1, clear cache, and set loading state
@@ -261,7 +266,33 @@ export const Token = () => {
     transfersPage,
     transfersSortField,
     transfersSortOrder,
+    transfersRefreshCount,
   ])
+
+  // Refresh handlers - reset to page 1, clear cache, and set loading state
+  const handleRefreshDexTrades = () => {
+    setDexTradesPage(INITIAL_PAGE)
+    setDexTradesData((prev) => ({ ...prev, isLoading: true }))
+    dexTradesPaginationService.clearCache(
+      currency,
+      accountId,
+      dexTradesSortField,
+      dexTradesSortOrder,
+    )
+    setDexTradesRefreshCount((prev) => prev + 1)
+  }
+
+  const handleRefreshTransfers = () => {
+    setTransfersPage(INITIAL_PAGE)
+    setTransfersData((prev) => ({ ...prev, isLoading: true }))
+    transfersPaginationService.clearCache(
+      currency,
+      accountId,
+      transfersSortField,
+      transfersSortOrder,
+    )
+    setTransfersRefreshCount((prev) => prev + 1)
+  }
 
   // get amm info for TVL calculation
   // note: only fetch xrp-<token> amm info to simplify API calls for most tokens
@@ -362,6 +393,8 @@ export const Token = () => {
             setTransfersSortField={setTransfersSortField}
             transfersSortOrder={transfersSortOrder}
             setTransfersSortOrder={setTransfersSortOrder}
+            onRefreshDexTrades={handleRefreshDexTrades}
+            onRefreshTransfers={handleRefreshTransfers}
           />
         </div>
       )}

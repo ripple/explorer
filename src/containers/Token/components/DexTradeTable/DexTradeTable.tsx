@@ -43,6 +43,7 @@ interface DexTradeTableProps {
   setSortField?: (field: string) => void
   sortOrder?: 'asc' | 'desc'
   setSortOrder?: (order: 'asc' | 'desc') => void
+  onRefresh?: () => void
 }
 
 const DEFAULT_EMPTY_VALUE = '--'
@@ -61,6 +62,7 @@ export const DexTradeTable = ({
   setSortField,
   sortOrder,
   setSortOrder,
+  onRefresh,
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
@@ -192,7 +194,17 @@ export const DexTradeTable = ({
 
       {!isLoading && transactions && transactions.length > 0 && (
         <>
-          <div className="data-notice">{t('token_page.dex_data_notice')}</div>
+          <div className="notice-with-controls">
+            <div className="data-notice">{t('token_page.dex_data_notice')}</div>
+            <button
+              type="button"
+              className="refresh-button"
+              onClick={onRefresh}
+              title="Refresh data"
+            >
+              ↻
+            </button>
+          </div>
           <div className="table-wrap">
             <table
               className="basic"

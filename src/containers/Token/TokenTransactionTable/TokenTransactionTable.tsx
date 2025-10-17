@@ -56,6 +56,8 @@ export interface TokenTransactionsTableProps {
   setTransfersSortField?: (field: string) => void
   transfersSortOrder?: 'asc' | 'desc'
   setTransfersSortOrder?: (order: 'asc' | 'desc') => void
+  onRefreshDexTrades?: () => void
+  onRefreshTransfers?: () => void
 }
 
 export const TokenTransactionTable = ({
@@ -92,6 +94,8 @@ export const TokenTransactionTable = ({
   setTransfersSortField,
   transfersSortOrder,
   setTransfersSortOrder,
+  onRefreshDexTrades,
+  onRefreshTransfers,
 }: TokenTransactionsTableProps) => {
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
@@ -165,7 +169,7 @@ export const TokenTransactionTable = ({
             ?.map((page: any) => page.transactions)
             .flat()}
           loading={loading}
-          emptyMessage={t(error?.message || ('' as any))}
+          emptyMessage={error?.message ? t(error.message as any) : ''}
           onLoadMore={() => fetchNextPage()}
           hasAdditionalResults={hasNextPage}
         />
@@ -186,6 +190,7 @@ export const TokenTransactionTable = ({
           setSortField={setDexTradesSortField}
           sortOrder={dexTradesSortOrder}
           setSortOrder={setDexTradesSortOrder}
+          onRefresh={onRefreshDexTrades}
         />
       )}
 
@@ -204,6 +209,7 @@ export const TokenTransactionTable = ({
           setSortField={setTransfersSortField}
           sortOrder={transfersSortOrder}
           setSortOrder={setTransfersSortOrder}
+          onRefresh={onRefreshTransfers}
         />
       )}
 

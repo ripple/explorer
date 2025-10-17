@@ -40,6 +40,7 @@ interface TransfersTableProps {
   setSortField?: (field: string) => void
   sortOrder?: 'asc' | 'desc'
   setSortOrder?: (order: 'asc' | 'desc') => void
+  onRefresh?: () => void
 }
 
 export const TransfersTable = ({
@@ -56,6 +57,7 @@ export const TransfersTable = ({
   setSortField,
   sortOrder,
   setSortOrder,
+  onRefresh,
 }: TransfersTableProps) => {
   const { t } = useTranslation()
   const tableRef = useRef<HTMLTableElement>(null)
@@ -161,8 +163,18 @@ export const TransfersTable = ({
 
       {!isTransfersLoading && transactions && transactions.length > 0 && (
         <>
-          <div className="data-notice">
-            {t('token_page.transfers_data_notice')}
+          <div className="notice-with-controls">
+            <div className="data-notice">
+              {t('token_page.transfers_data_notice')}
+            </div>
+            <button
+              type="button"
+              className="refresh-button"
+              onClick={onRefresh}
+              title="Refresh data"
+            >
+              ↻
+            </button>
           </div>
           <div className="table-wrap">
             <table className="basic" ref={tableRef}>
