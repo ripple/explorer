@@ -48,6 +48,14 @@ export interface TokenTransactionsTableProps {
   dexTradesHasPrevPage?: boolean
   transfersHasMore?: boolean
   transfersHasPrevPage?: boolean
+  dexTradesSortField?: string
+  setDexTradesSortField?: (field: string) => void
+  dexTradesSortOrder?: 'asc' | 'desc'
+  setDexTradesSortOrder?: (order: 'asc' | 'desc') => void
+  transfersSortField?: string
+  setTransfersSortField?: (field: string) => void
+  transfersSortOrder?: 'asc' | 'desc'
+  setTransfersSortOrder?: (order: 'asc' | 'desc') => void
 }
 
 export const TokenTransactionTable = ({
@@ -76,6 +84,14 @@ export const TokenTransactionTable = ({
   dexTradesHasPrevPage = false,
   transfersHasMore = false,
   transfersHasPrevPage = false,
+  dexTradesSortField,
+  setDexTradesSortField,
+  dexTradesSortOrder,
+  setDexTradesSortOrder,
+  transfersSortField,
+  setTransfersSortField,
+  transfersSortOrder,
+  setTransfersSortOrder,
 }: TokenTransactionsTableProps) => {
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
@@ -166,6 +182,10 @@ export const TokenTransactionTable = ({
           scrollRef={containerRef}
           hasMore={dexTradesHasMore}
           hasPrevPage={dexTradesHasPrevPage}
+          sortField={dexTradesSortField}
+          setSortField={setDexTradesSortField}
+          sortOrder={dexTradesSortOrder}
+          setSortOrder={setDexTradesSortOrder}
         />
       )}
 
@@ -180,6 +200,10 @@ export const TokenTransactionTable = ({
           scrollRef={containerRef}
           hasMore={transfersHasMore}
           hasPrevPage={transfersHasPrevPage}
+          sortField={transfersSortField}
+          setSortField={setTransfersSortField}
+          sortOrder={transfersSortOrder}
+          setSortOrder={setTransfersSortOrder}
         />
       )}
 

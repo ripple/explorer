@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Account } from '../../../shared/components/Account'
 import { Loader } from '../../../shared/components/Loader'
+import ArrowIcon from '../../../shared/images/down_arrow.svg'
 import './styles.scss'
 import '../tables-mobile.scss'
 import { Amount } from '../../../shared/components/Amount'
@@ -35,6 +36,10 @@ interface TransfersTableProps {
   scrollRef?: React.RefObject<HTMLDivElement>
   hasMore?: boolean
   hasPrevPage?: boolean
+  sortField?: string
+  setSortField?: (field: string) => void
+  sortOrder?: 'asc' | 'desc'
+  setSortOrder?: (order: 'asc' | 'desc') => void
 }
 
 export const TransfersTable = ({
@@ -47,6 +52,10 @@ export const TransfersTable = ({
   scrollRef,
   hasMore = false,
   hasPrevPage = false,
+  sortField,
+  setSortField,
+  sortOrder,
+  setSortOrder,
 }: TransfersTableProps) => {
   const { t } = useTranslation()
   const tableRef = useRef<HTMLTableElement>(null)
@@ -67,6 +76,19 @@ export const TransfersTable = ({
       })
     }
   }, [currentPage, isTransfersLoading])
+
+  const handleTimestampSort = () => {
+    if (setSortField && setSortOrder) {
+      if (sortField === 'timestamp') {
+        // Toggle sort order
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+      } else {
+        // Set to timestamp field with desc order
+        setSortField('timestamp')
+        setSortOrder('desc')
+      }
+    }
+  }
 
   const renderTransaction = (tx: LOSTransfer) => {
     // Safely handle missing fields
@@ -149,7 +171,20 @@ export const TransfersTable = ({
                   <th className="count sticky-1">{t('tx_hash')}</th>
                   <th className="name-col sticky-2">{t('ledger')}</th>
                   <th className="name-col sticky-2">{t('action')}</th>
-                  <th className="name-col sticky-2">{t('timestamp')}</th>
+                  <th
+                    className="name-col sticky-2"
+                    onClick={handleTimestampSort}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <span className="sort-header">
+                      {t('timestamp')}
+                      {sortField === 'timestamp' && (
+                        <ArrowIcon
+                          className={`arrow ${sortOrder === 'asc' ? 'asc' : 'desc'}`}
+                        />
+                      )}
+                    </span>
+                  </th>
                   <th className="name-col sticky-2">{t('from')}</th>
                   <th className="name-col sticky-2">{t('to')}</th>
                   <th className="name-col sticky-2">{t('amount')}</th>

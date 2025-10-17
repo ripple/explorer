@@ -10,6 +10,8 @@ const fetchTokenTransactions = (
   size: number,
   searchAfter?: any,
   direction?: string,
+  sortField?: string,
+  sortOrder?: string,
 ): Promise<any> => {
   const params = new URLSearchParams({
     token: `${currency}.${issuer}`,
@@ -27,6 +29,15 @@ const fetchTokenTransactions = (
     params.append('direction', direction)
   }
 
+  // Add sort parameters if provided
+  if (sortField) {
+    params.append('sort_field', sortField)
+  }
+
+  if (sortOrder) {
+    params.append('sort_order', sortOrder)
+  }
+
   return axios
     .get(`${process.env.VITE_LOS_URL}/transactions?${params.toString()}`)
     .then((resp) => resp.data)
@@ -38,6 +49,8 @@ export async function getDexTrades(
   size?: number,
   searchAfter?: any,
   direction?: string,
+  sortField?: string,
+  sortOrder?: string,
 ): Promise<any> {
   try {
     log.info('fetching dex trades data from LOS')
@@ -48,6 +61,8 @@ export async function getDexTrades(
       size ?? 10,
       searchAfter,
       direction,
+      sortField,
+      sortOrder,
     )
   } catch (error) {
     log.error(`Failed to fetch dex trades ${currencyCode}.${issuer}: ${error}`)
@@ -61,6 +76,8 @@ export async function getTransfers(
   size?: number,
   searchAfter?: any,
   direction?: string,
+  sortField?: string,
+  sortOrder?: string,
 ): Promise<any> {
   try {
     log.info('fetching transfers data from LOS')
@@ -71,6 +88,8 @@ export async function getTransfers(
       size ?? 10,
       searchAfter,
       direction,
+      sortField,
+      sortOrder,
     )
   } catch (error) {
     log.error(`Failed to fetch transfers ${currencyCode}.${issuer}: ${error}`)

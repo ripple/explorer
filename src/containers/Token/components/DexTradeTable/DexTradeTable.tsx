@@ -5,6 +5,7 @@ import { Account } from '../../../shared/components/Account'
 import { Loader } from '../../../shared/components/Loader'
 import { useTooltip, Tooltip } from '../../../shared/components/Tooltip'
 import HoverIcon from '../../../shared/images/hover.svg'
+import ArrowIcon from '../../../shared/images/down_arrow.svg'
 import './styles.scss'
 import '../tables-mobile.scss'
 import { Pagination } from '../../../shared/components/Pagination'
@@ -38,6 +39,10 @@ interface DexTradeTableProps {
   scrollRef?: React.RefObject<HTMLDivElement>
   hasMore?: boolean
   hasPrevPage?: boolean
+  sortField?: string
+  setSortField?: (field: string) => void
+  sortOrder?: 'asc' | 'desc'
+  setSortOrder?: (order: 'asc' | 'desc') => void
 }
 
 const DEFAULT_EMPTY_VALUE = '--'
@@ -52,6 +57,10 @@ export const DexTradeTable = ({
   scrollRef,
   hasMore = false,
   hasPrevPage = false,
+  sortField,
+  setSortField,
+  sortOrder,
+  setSortOrder,
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
@@ -99,6 +108,19 @@ export const DexTradeTable = ({
       return 'AMM'
     }
     return type
+  }
+
+  const handleTimestampSort = () => {
+    if (setSortField && setSortOrder) {
+      if (sortField === 'timestamp') {
+        // Toggle sort order
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+      } else {
+        // Set to timestamp field with desc order
+        setSortField('timestamp')
+        setSortOrder('desc')
+      }
+    }
   }
 
   const renderTransaction = (tx: LOSDEXTransaction, idx: number) => (
@@ -181,7 +203,20 @@ export const DexTradeTable = ({
                 <tr>
                   <th className="count sticky-1">{t('tx_hash')}</th>
                   <th className="name-col sticky-2">{t('ledger')}</th>
-                  <th className="name-col sticky-2">{t('timestamp')}</th>
+                  <th
+                    className="name-col sticky-2"
+                    onClick={handleTimestampSort}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <span className="sort-header">
+                      {t('timestamp')}
+                      {sortField === 'timestamp' && (
+                        <ArrowIcon
+                          className={`arrow ${sortOrder === 'asc' ? 'asc' : 'desc'}`}
+                        />
+                      )}
+                    </span>
+                  </th>
                   <th className="name-col sticky-2">
                     {t('token_page.dex_type')}
                   </th>

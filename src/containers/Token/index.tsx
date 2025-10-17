@@ -68,6 +68,18 @@ export const Token = () => {
   const [transfersPage, setTransfersPage] = useState(INITIAL_PAGE)
   const [dexTradesPage, setDexTradesPage] = useState(INITIAL_PAGE)
 
+  // Sort state - default to timestamp desc (newest first)
+  const [dexTradesSortField, setDexTradesSortField] =
+    useState<string>('timestamp')
+  const [dexTradesSortOrder, setDexTradesSortOrder] = useState<'asc' | 'desc'>(
+    'desc',
+  )
+  const [transfersSortField, setTransfersSortField] =
+    useState<string>('timestamp')
+  const [transfersSortOrder, setTransfersSortOrder] = useState<'asc' | 'desc'>(
+    'desc',
+  )
+
   // get basic token stats and info
   const {
     data: tokenData,
@@ -140,6 +152,18 @@ export const Token = () => {
     hasPrevPage: false,
   })
 
+  // Handle sort changes - reset to page 1, clear cache, and set loading state
+  useEffect(() => {
+    setDexTradesPage(INITIAL_PAGE)
+    setDexTradesData((prev) => ({ ...prev, isLoading: true }))
+    dexTradesPaginationService.clearCache(
+      currency,
+      accountId,
+      dexTradesSortField,
+      dexTradesSortOrder,
+    )
+  }, [dexTradesSortField, dexTradesSortOrder, currency, accountId])
+
   useEffect(() => {
     const fetchDexTrades = async () => {
       if (!currency || !accountId) {
@@ -152,6 +176,8 @@ export const Token = () => {
           accountId,
           dexTradesPage,
           PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE,
+          dexTradesSortField,
+          dexTradesSortOrder,
         )
 
         setDexTradesData({
@@ -173,7 +199,25 @@ export const Token = () => {
     }
 
     fetchDexTrades()
-  }, [currency, accountId, dexTradesPage])
+  }, [
+    currency,
+    accountId,
+    dexTradesPage,
+    dexTradesSortField,
+    dexTradesSortOrder,
+  ])
+
+  // Handle sort changes for transfers - reset to page 1, clear cache, and set loading state
+  useEffect(() => {
+    setTransfersPage(INITIAL_PAGE)
+    setTransfersData((prev) => ({ ...prev, isLoading: true }))
+    transfersPaginationService.clearCache(
+      currency,
+      accountId,
+      transfersSortField,
+      transfersSortOrder,
+    )
+  }, [transfersSortField, transfersSortOrder, currency, accountId])
 
   // get transfers with pagination service
   useEffect(() => {
@@ -188,6 +232,8 @@ export const Token = () => {
           accountId,
           transfersPage,
           PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
+          transfersSortField,
+          transfersSortOrder,
         )
 
         setTransfersData({
@@ -209,7 +255,13 @@ export const Token = () => {
     }
 
     fetchTransfers()
-  }, [currency, accountId, transfersPage])
+  }, [
+    currency,
+    accountId,
+    transfersPage,
+    transfersSortField,
+    transfersSortOrder,
+  ])
 
   // get amm info for TVL calculation
   // note: only fetch xrp-<token> amm info to simplify API calls for most tokens
@@ -302,6 +354,14 @@ export const Token = () => {
             dexTradesHasPrevPage={dexTradesData.hasPrevPage}
             transfersHasMore={transfersData.hasMore}
             transfersHasPrevPage={transfersData.hasPrevPage}
+            dexTradesSortField={dexTradesSortField}
+            setDexTradesSortField={setDexTradesSortField}
+            dexTradesSortOrder={dexTradesSortOrder}
+            setDexTradesSortOrder={setDexTradesSortOrder}
+            transfersSortField={transfersSortField}
+            setTransfersSortField={setTransfersSortField}
+            transfersSortOrder={transfersSortOrder}
+            setTransfersSortOrder={setTransfersSortOrder}
           />
         </div>
       )}

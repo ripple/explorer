@@ -41,8 +41,14 @@ class DexTradesPaginationService {
   private readonly PREFETCH_THRESHOLD = 0.8 // Prefetch when 80% through cache
 
   // eslint-disable-next-line class-methods-use-this
-  private getCacheKey(currency: string, issuer: string): string {
-    return `${currency}:${issuer}`
+  private getCacheKey(
+    currency: string,
+    issuer: string,
+    sortField?: string,
+    sortOrder?: string,
+  ): string {
+    const sortPart = sortField ? `:${sortField}:${sortOrder}` : ''
+    return `${currency}:${issuer}${sortPart}`
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -75,9 +81,11 @@ class DexTradesPaginationService {
   private async fetchMoreTrades(
     currency: string,
     issuer: string,
+    sortField?: string,
+    sortOrder?: string,
     direction: string = 'next',
   ): Promise<void> {
-    const cacheKey = this.getCacheKey(currency, issuer)
+    const cacheKey = this.getCacheKey(currency, issuer, sortField, sortOrder)
 
     // Get the current cursor based on direction
     const cursor =
@@ -92,6 +100,8 @@ class DexTradesPaginationService {
       this.BATCH_SIZE,
       cursor,
       direction,
+      sortField,
+      sortOrder,
     )
     const trades: DexTrade[] = []
 
@@ -140,9 +150,11 @@ class DexTradesPaginationService {
     currency: string,
     issuer: string,
     page: number,
-    pageSize: number = this.PAGE_SIZE,
+    pageSize?: number,
+    sortField?: string,
+    sortOrder?: string,
   ): Promise<DexTradesPaginationResult> {
-    const cacheKey = this.getCacheKey(currency, issuer)
+    const cacheKey = this.getCacheKey(currency, issuer, sortField, sortOrder)
     // Ensure pageSize is valid
     const validPageSize = pageSize && pageSize > 0 ? pageSize : this.PAGE_SIZE
     const startIndex = (page - 1) * validPageSize
@@ -153,7 +165,7 @@ class DexTradesPaginationService {
 
     // If cache is empty, fetch the initial batch
     if (allTrades.length === 0) {
-      await this.fetchMoreTrades(currency, issuer)
+      await this.fetchMoreTrades(currency, issuer, sortField, sortOrder)
       allTrades = this.cache.get(cacheKey) || []
     }
 
@@ -166,11 +178,14 @@ class DexTradesPaginationService {
       // Prefetch next batch in the background (don't await)
       const existingFetch = this.fetchingCache.get(cacheKey)
       if (!existingFetch) {
-        const fetchPromise = this.fetchMoreTrades(currency, issuer).finally(
-          () => {
-            this.fetchingCache.delete(cacheKey)
-          },
-        )
+        const fetchPromise = this.fetchMoreTrades(
+          currency,
+          issuer,
+          sortField,
+          sortOrder,
+        ).finally(() => {
+          this.fetchingCache.delete(cacheKey)
+        })
         this.fetchingCache.set(cacheKey, fetchPromise)
       }
     }
@@ -194,9 +209,14 @@ class DexTradesPaginationService {
     return result
   }
 
-  clearCache(currency?: string, issuer?: string): void {
+  clearCache(
+    currency?: string,
+    issuer?: string,
+    sortField?: string,
+    sortOrder?: string,
+  ): void {
     if (currency && issuer) {
-      const cacheKey = this.getCacheKey(currency, issuer)
+      const cacheKey = this.getCacheKey(currency, issuer, sortField, sortOrder)
       this.cache.delete(cacheKey)
       this.nextCursorCache.delete(cacheKey)
       this.prevCursorCache.delete(cacheKey)
