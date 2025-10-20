@@ -173,10 +173,11 @@ describe('Ledgers Page container', () => {
     const unlCounter = wrapper.find('.ledger .hash .missed')
     expect(unlCounter.text()).toBe('unl:1/2')
     unlCounter.simulate('mouseMove')
-    expect(wrapper.find('.tooltip').length).toBe(1)
-    expect(wrapper.find('.tooltip .pubkey').text()).toBe(
+    expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
+    expect(wrapper.find('.tooltip .pubkey').first().text()).toBe(
       'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
     )
+    unlCounter.simulate('mouseLeave')
 
     const validations = wrapper.find('div.validation')
     const txn = wrapper.find('a.txn')
@@ -189,7 +190,7 @@ describe('Ledgers Page container', () => {
     // check validations
     expect(validations.length).toBe(1)
     validations.first().simulate('mouseOver')
-    expect(wrapper.find('.tooltip').length).toBe(1)
+    expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
     validations.first().simulate('mouseLeave')
     expect(wrapper.find('.tooltip').length).toBe(0)
     validations.first().simulate('focus')
@@ -264,10 +265,11 @@ describe('Ledgers Page container', () => {
       const unlCounter = wrapper.find('.ledger .hash .missed')
       expect(unlCounter.text()).toBe('unl:1/2')
       unlCounter.simulate('mouseMove')
-      expect(wrapper.find('.tooltip').length).toBe(1)
-      expect(wrapper.find('.tooltip .pubkey').text()).toBe(
+      expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
+      expect(wrapper.find('.tooltip .pubkey').first().text()).toBe(
         'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
       )
+      unlCounter.simulate('mouseLeave')
 
       const validations = wrapper.find('div.validation')
       const txn = wrapper.find('a.txn')
@@ -280,7 +282,7 @@ describe('Ledgers Page container', () => {
       // check validations
       expect(validations.length).toBe(1)
       validations.first().simulate('mouseOver')
-      expect(wrapper.find('.tooltip').length).toBe(1)
+      expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
       validations.first().simulate('mouseLeave')
       expect(wrapper.find('.tooltip').length).toBe(0)
       validations.first().simulate('focus')

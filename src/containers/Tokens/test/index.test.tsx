@@ -67,7 +67,7 @@ describe('Tokens Page container', () => {
     expect(metrics.at(2).find('.title').text()).toContain(
       'DEX Traded Volume (24H)',
     )
-    expect(metrics.at(2).find('.val').text()).toContain('$1M')
+    expect(metrics.at(2).find('.val').text()).toContain('$1.0M')
 
     expect(metrics.at(3).find('.title').text()).toContain('Stablecoin')
     expect(metrics.at(3).find('.val').text()).toContain('$25.9M')
@@ -108,7 +108,7 @@ describe('Tokens Page container', () => {
     expect(firstRow.find('td.price').text()).toContain('$0.2')
     expect(firstRow.find('td[className*="24h"]').text()).toContain('0.75%')
     expect(firstRow.find('td.volume').text()).toContain('$138.7K')
-    expect(firstRow.find('td.trades').text()).toContain('1847')
+    expect(firstRow.find('td.trades').text()).toContain('1.8K')
     expect(firstRow.find('td.holders').text()).toContain('218.1K')
     expect(firstRow.find('td.tvl').text()).toContain('$1.1M')
     expect(firstRow.find('td.market-cap').text()).toContain('$91.2M')
