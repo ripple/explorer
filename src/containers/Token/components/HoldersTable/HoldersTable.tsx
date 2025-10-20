@@ -24,7 +24,6 @@ interface HoldersTableProps {
   currentPage: number
   onPageChange: (page: number) => void
   pageSize: number
-  scrollRef?: React.RefObject<HTMLDivElement>
 }
 
 export const HoldersTable = ({
@@ -34,7 +33,6 @@ export const HoldersTable = ({
   currentPage,
   onPageChange,
   pageSize,
-  scrollRef,
 }: HoldersTableProps) => {
   const { t } = useTranslation()
   const tableRef = useRef<HTMLTableElement>(null)
@@ -75,7 +73,7 @@ export const HoldersTable = ({
   )
 
   return holders.length > 0 || isHoldersDataLoading ? (
-    <div className="holders-table">
+    <div className="tokens-table">
       <div className="table-wrap">
         <table className="basic" ref={tableRef}>
           <thead>

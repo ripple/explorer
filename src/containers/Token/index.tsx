@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
 import Log from '../shared/log'
 import { TokenHeader } from './TokenHeader'
-import { TokenTransactionTable } from './TokenTransactionTable'
+import { TokenTablePicker } from './TokenTablePicker'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
@@ -359,41 +359,52 @@ export const Token = () => {
 
       {accountId && tokenData && (
         <div className="section">
-          <TokenTransactionTable
-            holdersData={holdersData}
-            isHoldersDataLoading={isHoldersDataLoading}
+          <TokenTablePicker
             accountId={accountId}
             currency={currency}
-            dexTrades={dexTradesData.trades}
-            isDexTradesLoading={dexTradesData.isLoading}
-            transfers={transfersData.transfers}
-            isTransfersLoading={transfersData.isLoading}
             xrpUSDRate={XRPUSDPrice.toString()}
             tokenData={tokenData}
-            holdersPage={holdersPage}
-            setHoldersPage={setHoldersPage}
-            holdersPageSize={PAGINATION_CONFIG.HOLDERS_PAGE_SIZE}
-            transfersPage={transfersPage}
-            setTransfersPage={setTransfersPage}
-            transfersPageSize={PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE}
-            dexTradesPage={dexTradesPage}
-            setDexTradesPage={setDexTradesPage}
-            dexTradesPageSize={PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE}
-            totalDexTrades={dexTradesData.totalTrades}
-            totalTransfers={transfersData.totalTransfers}
-            dexTradesHasMore={dexTradesData.hasMore}
-            dexTradesHasPrevPage={dexTradesData.hasPrevPage}
-            transfersHasMore={transfersData.hasMore}
-            transfersHasPrevPage={transfersData.hasPrevPage}
-            dexTradesSortField={dexTradesSortField}
-            setDexTradesSortField={setDexTradesSortField}
-            dexTradesSortOrder={dexTradesSortOrder}
-            setDexTradesSortOrder={setDexTradesSortOrder}
-            transfersSortField={transfersSortField}
-            setTransfersSortField={setTransfersSortField}
-            transfersSortOrder={transfersSortOrder}
-            setTransfersSortOrder={setTransfersSortOrder}
+            holdersData={holdersData}
+            holdersPagination={{
+              currentPage: holdersPage,
+              setCurrentPage: setHoldersPage,
+              pageSize: PAGINATION_CONFIG.HOLDERS_PAGE_SIZE,
+              total: holdersData?.totalHolders || 0,
+            }}
+            holdersLoading={isHoldersDataLoading}
+            dexTradesData={dexTradesData.trades}
+            dexTradesPagination={{
+              currentPage: dexTradesPage,
+              setCurrentPage: setDexTradesPage,
+              pageSize: PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE,
+              total: dexTradesData.totalTrades,
+              hasMore: dexTradesData.hasMore,
+              hasPrevPage: dexTradesData.hasPrevPage,
+            }}
+            dexTradesSorting={{
+              sortField: dexTradesSortField,
+              setSortField: setDexTradesSortField,
+              sortOrder: dexTradesSortOrder,
+              setSortOrder: setDexTradesSortOrder,
+            }}
+            dexTradesLoading={dexTradesData.isLoading}
             onRefreshDexTrades={handleRefreshDexTrades}
+            transfersData={transfersData.transfers}
+            transfersPagination={{
+              currentPage: transfersPage,
+              setCurrentPage: setTransfersPage,
+              pageSize: PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
+              total: transfersData.totalTransfers,
+              hasMore: transfersData.hasMore,
+              hasPrevPage: transfersData.hasPrevPage,
+            }}
+            transfersSorting={{
+              sortField: transfersSortField,
+              setSortField: setTransfersSortField,
+              sortOrder: transfersSortOrder,
+              setSortOrder: setTransfersSortOrder,
+            }}
+            transfersLoading={transfersData.isLoading}
             onRefreshTransfers={handleRefreshTransfers}
           />
         </div>

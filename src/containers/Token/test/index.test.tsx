@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom'
 import i18n from '../../../i18n/testConfig'
 import { Token } from '../index'
 import { TokenHeader } from '../TokenHeader'
-import { TokenTransactionTable } from '../TokenTransactionTable'
+import { TokenTablePicker } from '../TokenTablePicker'
 import { flushPromises, QuickHarness } from '../../test/utils'
 import { TOKEN_ROUTE } from '../../App/routes'
 import mockAccount from '../../Accounts/test/mockAccountState.json'
@@ -49,7 +49,7 @@ describe('Token container', () => {
     await flushPromises()
     wrapper.update()
     expect(wrapper.find(TokenHeader).length).toBe(1)
-    expect(wrapper.find(TokenTransactionTable).length).toBe(1)
+    expect(wrapper.find(TokenTablePicker).length).toBe(1)
     wrapper.unmount()
   })
 })
