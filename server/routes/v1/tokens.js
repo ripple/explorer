@@ -46,12 +46,38 @@ const calculateMetrics = (tokens) => ({
 })
 
 async function fetchTokens() {
-  log.info(`caching tokens from LOS`)
+  const url = `${process.env.VITE_LOS_URL}/trusted-tokens`
+  log.info(`Fetching tokens from: ${url}`)
+
   return axios
-    .get(`${process.env.VITE_LOS_URL}/trusted-tokens`)
-    .then((resp) => resp.data)
+    .get(url, {
+      timeout: 30000,
+    })
+    .then((resp) => {
+      log.info(
+        `Successfully fetched tokens, status: ${resp.status}, count: ${resp.data?.tokens?.length || 0}`,
+      )
+      return resp.data
+    })
     .catch((e) => {
-      log.error(e)
+      if (e.code === 'ECONNABORTED') {
+        log.error(`Request timeout after 30 seconds for ${url}`)
+      } else if (e.response) {
+        log.error(`Failed to fetch tokens from ${url}:`, {
+          status: e.response.status,
+          statusText: e.response.statusText,
+          data: e.response.data,
+        })
+      } else if (e.request) {
+        log.error(`No response received from ${url}:`, {
+          message: e.message,
+          code: e.code,
+        })
+      } else {
+        log.error(`Error setting up request to ${url}:`, {
+          message: e.message,
+        })
+      }
       return { count: 0 }
     })
 }
@@ -69,7 +95,7 @@ async function cacheTokens() {
     cachedTokenList.last_updated = Date.now()
 
     // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
-    cachedTokenList.tokens.map((token) => ({
+    cachedTokenList.tokens = cachedTokenList.tokens.map((token) => ({
       ...token,
       parsedCurrency: parseCurrency(token.currency),
     }))
@@ -93,16 +119,43 @@ function startCaching() {
 startCaching()
 
 function queryTokens(tokenList, query) {
-  const sanitizedQuery = query.toLowerCase()
+  if (!tokenList || !Array.isArray(tokenList) || !query) {
+    return []
+  }
 
-  return tokenList.filter(
-    (token) =>
-      token.currency?.toLowerCase().includes(sanitizedQuery) ||
-      token.parsedCurrency?.toLowerCase().includes(sanitizedQuery) ||
-      token.name?.toLowerCase().includes(sanitizedQuery) ||
-      token.issuer_name?.toLowerCase().includes(sanitizedQuery) ||
-      token.issuer_account.toLowerCase().startsWith(sanitizedQuery),
-  )
+  const sanitizedQuery = query.toLowerCase().trim()
+  if (!sanitizedQuery) {
+    return []
+  }
+
+  return tokenList.filter((token) => {
+    try {
+      const currencyMatch = token.currency
+        ?.toLowerCase()
+        .includes(sanitizedQuery)
+      const parsedCurrencyMatch = token.parsedCurrency
+        ?.toLowerCase()
+        .includes(sanitizedQuery)
+      const nameMatch = token.name?.toLowerCase().includes(sanitizedQuery)
+      const issuerNameMatch = token.issuer_name
+        ?.toLowerCase()
+        .includes(sanitizedQuery)
+      const issuerAccountStartsMatch = token.issuer_account
+        ?.toLowerCase()
+        .startsWith(sanitizedQuery)
+
+      return (
+        currencyMatch ||
+        parsedCurrencyMatch ||
+        nameMatch ||
+        issuerNameMatch ||
+        issuerAccountStartsMatch
+      )
+    } catch (error) {
+      log.error(`Error filtering token: ${error.message}`, { token })
+      return false
+    }
+  })
 }
 
 function sleep(ms) {
