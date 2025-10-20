@@ -88,7 +88,10 @@
 
 
   .issuer {
-    max-width: 120px;
+    max-width: 140px;
+    @include for-size(tablet-landscape-up) {
+      max-width: 200px;
+    }
     @include for-size(desktop-up) {
       max-width: 240px;
     }
@@ -96,10 +99,26 @@
 
   .issuer-content {
     display: flex;
+    overflow: hidden;
     width: 100%;
     min-width: 0;
     align-items: center;
+    text-overflow: ellipsis;
     white-space: nowrap;
+
+    .issuer-name {
+      overflow: hidden;
+      max-width: 60%;
+      flex-shrink: 0;
+      text-overflow: ellipsis;
+    }
+
+    .account {
+      overflow: hidden;
+      min-width: 0;
+      flex-shrink: 1;
+      text-overflow: ellipsis;
+    }
   }
 
   .percent {

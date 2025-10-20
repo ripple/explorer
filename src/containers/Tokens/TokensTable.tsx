@@ -65,13 +65,14 @@ export const TokensTable = ({
 
   const renderIssuer = (token: LOSToken) => (
     <div className="issuer-content">
-      {token.issuer_name && `${token.issuer_name} (`}
-
+      {token.issuer_name && (
+        <span className="issuer-name">{token.issuer_name} (</span>
+      )}
       <Account
         account={token.issuer_account}
         displayText={shortenAccount(token.issuer_account)}
       />
-      {token.issuer_name && `)`}
+      {token.issuer_name && <span>)</span>}
     </div>
   )
 
@@ -88,7 +89,7 @@ export const TokensTable = ({
           <Currency currency={token.currency} />
         </RouteLink>
       </td>
-      <td className="issuer">{renderIssuer(token)}</td>
+      <td className="issuer text-truncate">{renderIssuer(token)}</td>
       <td className="price">
         {token.price_usd && Number(token.price_usd) !== 0
           ? parseCurrencyAmount(token.price_usd)
