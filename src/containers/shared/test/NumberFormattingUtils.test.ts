@@ -2,6 +2,9 @@ import {
   formatUsdValue,
   formatTokenBalance,
   calculateFormattedUsdBalance,
+  parseAmount,
+  parseCurrencyAmount,
+  parsePercent,
 } from '../NumberFormattingUtils'
 
 describe('NumberFormattingUtils', () => {
@@ -173,6 +176,61 @@ describe('NumberFormattingUtils', () => {
     it('handles very large numbers', () => {
       expect(formatUsdValue(1000000, lang)).toBe('$1,000,000.00')
       expect(formatTokenBalance(999999999, lang)).toBe('999,999,999')
+    })
+  })
+
+  describe('parseAmount', () => {
+    it('formats billions', () => {
+      expect(parseAmount(1500000000)).toBe('1.5B')
+      expect(parseAmount(12345678901)).toBe('12.3B')
+    })
+
+    it('formats millions', () => {
+      expect(parseAmount(1500000)).toBe('1.5M')
+      expect(parseAmount(12345678)).toBe('12.3M')
+    })
+
+    it('formats thousands', () => {
+      expect(parseAmount(15000)).toBe('15.0K')
+      expect(parseAmount(123456)).toBe('123.5K')
+    })
+
+    it('formats small numbers without suffix', () => {
+      expect(parseAmount(9999)).toBe('10.0K') // formatLargeNumber rounds 9999 to 10K
+      expect(parseAmount(123.45)).toBe('123.5')
+      expect(parseAmount(0)).toBe('0.0')
+    })
+
+    it('handles string inputs', () => {
+      expect(parseAmount('1500000')).toBe('1.5M')
+      expect(parseAmount('123.45')).toBe('123.5')
+    })
+  })
+
+  describe('parseCurrencyAmount', () => {
+    it('formats currency with dollar sign', () => {
+      expect(parseCurrencyAmount(1500000)).toBe('$1.5M')
+      expect(parseCurrencyAmount(123.45)).toBe('$123.5')
+      expect(parseCurrencyAmount(0)).toBe('$0.0')
+    })
+
+    it('handles string inputs', () => {
+      expect(parseCurrencyAmount('1500000')).toBe('$1.5M')
+      expect(parseCurrencyAmount('123.45')).toBe('$123.5')
+    })
+  })
+
+  describe('parsePercent', () => {
+    it('formats percentages with % sign', () => {
+      expect(parsePercent(12.345)).toBe('12.35%')
+      expect(parsePercent(0)).toBe('0.00%')
+      expect(parsePercent(-5.67)).toBe('-5.67%')
+    })
+
+    it('always shows 2 decimal places', () => {
+      expect(parsePercent(12)).toBe('12.00%')
+      expect(parsePercent(12.1)).toBe('12.10%')
+      expect(parsePercent(12.999)).toBe('13.00%')
     })
   })
 })

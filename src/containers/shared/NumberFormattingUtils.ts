@@ -1,4 +1,4 @@
-import { localizeNumber } from './utils'
+import { localizeNumber, formatLargeNumber } from './utils'
 
 /**
  * Thresholds for determining formatting precision.
@@ -146,3 +146,39 @@ export const calculateFormattedUsdBalance = (
     formattedBalanceUsd,
   }
 }
+
+/**
+ * Formats large numbers with K/M/B suffixes for compact table display
+ * @param value - The numeric value to format
+ * @param decimals - Number of decimal places (default: 1)
+ * @returns Formatted string with appropriate suffix (K, M, B)
+ */
+export const parseAmount = (
+  value: string | number,
+  decimals: number = 1,
+): string => {
+  const valueNumeric = Number(value)
+  const formatted = formatLargeNumber(valueNumeric, decimals)
+
+  // Convert object format to string format
+  return formatted.unit ? `${formatted.num}${formatted.unit}` : formatted.num
+}
+
+/**
+ * Formats currency amounts with dollar sign and K/M/B suffixes for compact table display
+ * @param value - The numeric value to format as currency
+ * @param decimals - Number of decimal places (default: 1)
+ * @returns Formatted currency string with $ prefix and K/M/B suffix
+ */
+export const parseCurrencyAmount = (
+  value: string | number,
+  decimals: number = 1,
+): string => `$${parseAmount(value, decimals)}`
+
+/**
+ * Formats percentage values with % suffix
+ * @param percent - The percentage value to format
+ * @returns Formatted percentage string with % suffix
+ */
+export const parsePercent = (percent: number): string =>
+  `${percent.toFixed(2)}%`
