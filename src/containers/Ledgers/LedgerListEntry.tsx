@@ -5,11 +5,7 @@ import { LEDGER_ROUTE } from '../App/routes'
 import { Amount } from '../shared/components/Amount'
 import { LedgerEntryHash } from './LedgerEntryHash'
 import { LedgerEntryTransactions } from './LedgerEntryTransactions'
-import {
-  Tooltip,
-  TooltipProvider,
-  useTooltip,
-} from '../shared/components/Tooltip'
+import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 
 const SIGMA = '\u03A3'
 
@@ -89,11 +85,9 @@ export const LedgerListEntry = ({
   unlCount?: number
   validators: { [pubkey: string]: ValidatorResponse }
 }) => (
-  <TooltipProvider>
-    <LedgerListEntryInner
-      ledger={ledger}
-      validators={validators}
-      unlCount={unlCount}
-    />
-  </TooltipProvider>
+  <LedgerListEntryInner
+    ledger={ledger}
+    validators={validators}
+    unlCount={unlCount}
+  />
 )

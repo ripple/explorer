@@ -6,11 +6,7 @@ import { MPT_ROUTE } from '../../../App/routes'
 import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { FutureDataIcon } from '../FutureDataIcon'
-import {
-  Tooltip,
-  useTooltip,
-  TooltipProvider,
-} from '../../../shared/components/Tooltip'
+import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
 import { getAccountObjects } from '../../../../rippled/lib/rippled'
 import SocketContext from '../../../shared/SocketContext'
 import {
@@ -152,7 +148,5 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
 }
 
 export const IssuedMPTs = ({ accountId, onChange }: IssuedMPTsProps) => (
-  <TooltipProvider>
-    <IssuedMPTsContent accountId={accountId} onChange={onChange} />
-  </TooltipProvider>
+  <IssuedMPTsContent accountId={accountId} onChange={onChange} />
 )

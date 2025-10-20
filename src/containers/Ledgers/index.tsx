@@ -12,7 +12,7 @@ import { Ledger, ValidatorResponse } from './types'
 import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
 import { useIsOnline } from '../shared/SocketContext'
-import { TooltipProvider } from '../shared/components/Tooltip'
+
 import { SelectedValidatorProvider } from './useSelectedValidator'
 
 const FETCH_INTERVAL_MILLIS = 5 * 60 * 1000
@@ -83,13 +83,7 @@ export const LedgersPage = () => {
         />
       )}
       <SelectedValidatorProvider>
-        <TooltipProvider>
-          <LedgerMetrics
-            data={metrics}
-            onPause={() => pause()}
-            paused={paused}
-          />
-        </TooltipProvider>
+        <LedgerMetrics data={metrics} onPause={() => pause()} paused={paused} />
         <Ledgers
           ledgers={ledgers}
           validators={validators}
