@@ -13,18 +13,22 @@ import { ExplorerAmount } from '../../../shared/types'
 import { formatDecimals } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { Amount } from '../../../shared/components/Amount'
-import { formatAndLocalizeNumberWith2DecimalsWithFallback } from '../../utils/numberFormatting'
+import {
+  format2Decimals,
+  getAmountAsNumber,
+  DEFAULT_EMPTY_VALUE,
+} from '../../utils/numberFormatting'
 import { truncateString } from '../../utils/stringFormatting'
 
 export interface LOSDEXTransaction {
   hash: string
   ledger: number
-  timestamp: number // format ripple epoch time
+  timestamp: number
   from: string
   to: string
   amount_in: ExplorerAmount
   amount_out: ExplorerAmount
-  rate: number | null // probably just calc on spot
+  rate: number | null
   type?: string
   subtype?: string
 }
@@ -45,8 +49,6 @@ interface DexTradeTableProps {
   setSortOrder?: (order: 'asc' | 'desc') => void
   onRefresh?: () => void
 }
-
-const DEFAULT_EMPTY_VALUE = '--'
 
 export const DexTradeTable = ({
   transactions,
@@ -118,7 +120,7 @@ export const DexTradeTable = ({
         // Toggle sort order
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
       } else {
-        // Set to timestamp field with desc order
+        // Set to timestamp field with desc order by default
         setSortField('timestamp')
         setSortOrder('desc')
       }
@@ -163,7 +165,7 @@ export const DexTradeTable = ({
           value={{
             currency: tx.amount_in.currency,
             issuer: tx.amount_in.issuer,
-            amount: formatDecimals(Number(tx.amount_in.amount), 2),
+            amount: formatDecimals(getAmountAsNumber(tx.amount_in), 2),
           }}
           displayIssuer
           shortenIssuer
@@ -174,16 +176,14 @@ export const DexTradeTable = ({
           value={{
             currency: tx.amount_out.currency,
             issuer: tx.amount_out.issuer,
-            amount: formatDecimals(Number(tx.amount_out.amount), 2),
+            amount: formatDecimals(getAmountAsNumber(tx.amount_out), 2),
           }}
           displayIssuer
           shortenIssuer
         />
       </td>
 
-      <td className="tx-amount-rate">
-        {formatAndLocalizeNumberWith2DecimalsWithFallback(tx.rate)}
-      </td>
+      <td className="tx-amount-rate">{format2Decimals(tx.rate)}</td>
     </tr>
   )
 

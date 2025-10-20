@@ -7,6 +7,7 @@ import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
 import './styles.scss'
 import '../tables-mobile.scss'
 import { truncateString } from '../../utils/stringFormatting'
+import { DEFAULT_EMPTY_VALUE } from '../../utils/numberFormatting'
 
 export interface XRPLHolder {
   rank: number
@@ -25,8 +26,6 @@ interface HoldersTableProps {
   pageSize: number
   scrollRef?: React.RefObject<HTMLDivElement>
 }
-
-const DEFAULT_EMPTY_VALUE = '--'
 
 export const HoldersTable = ({
   holders,
@@ -72,19 +71,6 @@ export const HoldersTable = ({
         {holder.percent ? parsePercent(holder.percent) : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="tx-value">${parseAmount(holder.value_usd, 2)}</td>
-      {/* <td className="tx-last-active">
-        {new Date(convertRippleDate(holder.last_active)).toLocaleString(
-          'en-US',
-          {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-          },
-        )}
-      </td> */}
     </tr>
   )
 

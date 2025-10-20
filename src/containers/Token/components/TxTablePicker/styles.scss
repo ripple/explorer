@@ -90,16 +90,16 @@
     }
 
     &.active,
-&:hover {
-  color: $white;
-  text-shadow:
-    0.02em 0   currentcolor,
-   -0.02em 0   currentcolor,
-    0   0.02em currentcolor,
-    0  -0.02em currentcolor;
+    &:hover {
+      color: $white;
+      text-shadow:
+        0.02em 0   currentcolor,
+      -0.02em 0   currentcolor,
+        0   0.02em currentcolor,
+        0  -0.02em currentcolor;
 
-  /* keep font-weight normal to avoid reflow */
-}
+      /* keep font-weight normal to avoid reflow */
+    }
 
 
   }

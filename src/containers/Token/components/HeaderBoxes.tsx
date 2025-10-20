@@ -7,6 +7,7 @@ import { formatPrice } from '../../shared/utils'
 import { shouldShowLoadingSpinner } from '../utils/tokenCalculations'
 import { parseAmount, parsePercent } from '../../Tokens/TokensTable'
 import { truncateString } from '../utils/stringFormatting'
+import { DEFAULT_EMPTY_VALUE } from '../utils/numberFormatting'
 
 export interface OverviewData {
   issuer: string
@@ -32,8 +33,6 @@ interface HeaderBoxesProps {
   isHoldersDataLoading?: boolean
   isAmmTvlLoading?: boolean
 }
-
-const DEFAULT_EMPTY_VALUE = '--'
 
 export const HeaderBoxes = ({
   overviewData,

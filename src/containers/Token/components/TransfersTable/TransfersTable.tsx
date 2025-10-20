@@ -11,12 +11,16 @@ import { Pagination } from '../../../shared/components/Pagination'
 import { formatDecimals } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { truncateString } from '../../utils/stringFormatting'
+import {
+  getAmountAsNumber,
+  DEFAULT_EMPTY_VALUE,
+} from '../../utils/numberFormatting'
 
 export interface LOSTransfer {
   hash: string
   ledger: number
   action: string
-  timestamp: number // format ripple epoch time
+  timestamp: number
   from: string
   to: string
   amount: {
@@ -85,7 +89,7 @@ export const TransfersTable = ({
         // Toggle sort order
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
       } else {
-        // Set to timestamp field with desc order
+        // Set to timestamp field with desc order by default
         setSortField('timestamp')
         setSortOrder('desc')
       }
@@ -94,8 +98,8 @@ export const TransfersTable = ({
 
   const renderTransaction = (tx: LOSTransfer) => {
     // Safely handle missing fields
-    const fromAddress = tx.from || '--'
-    const toAddress = tx.to || '--'
+    const fromAddress = tx.from || DEFAULT_EMPTY_VALUE
+    const toAddress = tx.to || DEFAULT_EMPTY_VALUE
     const hasValidAmount = tx.amount && tx.amount.currency && tx.amount.issuer
 
     return (
@@ -115,27 +119,27 @@ export const TransfersTable = ({
         </td>
         <td className="tx-from">
           <span className="text-truncate">
-            {fromAddress !== '--' ? (
+            {fromAddress !== DEFAULT_EMPTY_VALUE ? (
               <Account
                 account={fromAddress}
                 displayText={truncateString(fromAddress)}
                 onClick={(e) => e.stopPropagation()}
               />
             ) : (
-              '--'
+              DEFAULT_EMPTY_VALUE
             )}
           </span>
         </td>
         <td className="tx-to">
           <span className="text-truncate">
-            {toAddress !== '--' ? (
+            {toAddress !== DEFAULT_EMPTY_VALUE ? (
               <Account
                 account={toAddress}
                 displayText={truncateString(toAddress)}
                 onClick={(e) => e.stopPropagation()}
               />
             ) : (
-              '--'
+              DEFAULT_EMPTY_VALUE
             )}
           </span>
         </td>
@@ -145,12 +149,19 @@ export const TransfersTable = ({
               value={{
                 currency: tx.amount.currency,
                 issuer: tx.amount.issuer,
-                amount: formatDecimals(Number(tx.amount.value), 2),
+                amount: formatDecimals(
+                  getAmountAsNumber({
+                    currency: tx.amount.currency,
+                    issuer: tx.amount.issuer,
+                    amount: tx.amount.value,
+                  }),
+                  2,
+                ),
               }}
               displayIssuer={false}
             />
           ) : (
-            '--'
+            DEFAULT_EMPTY_VALUE
           )}
         </td>
       </tr>
