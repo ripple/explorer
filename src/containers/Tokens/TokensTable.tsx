@@ -9,7 +9,7 @@ import DownIcon from '../shared/images/ic_down.svg'
 import SortTableColumn from '../shared/components/SortColumn'
 import { RouteLink } from '../shared/routing'
 import { TOKEN_ROUTE } from '../App/routes'
-import { AddressMiddleEllipsis } from '../shared/components/middleEllipsis'
+import { shortenAccount } from '../shared/utils'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -101,15 +101,13 @@ export const TokensTable = ({
 
   const renderIssuer = (token: LOSToken) => (
     <div className="issuer-content">
-      {token.issuer_name && `${token.issuer_name}-`}
+      {token.issuer_name && `${token.issuer_name} (`}
 
       <Account
         account={token.issuer_account}
-        onClick={(e) => e.stopPropagation()}
-        displayText={
-          <AddressMiddleEllipsis text={token.issuer_account} tailLen={3} />
-        }
+        displayText={shortenAccount(token.issuer_account)}
       />
+      {token.issuer_name && `)`}
     </div>
   )
 

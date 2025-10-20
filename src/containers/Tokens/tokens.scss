@@ -13,25 +13,6 @@
     @extend %truncate;
   }
 
-  .issuer-content > .account {
-    display: flex;
-    overflow: hidden;
-    min-width: 0;
-    flex: 1 1 auto;
-  }
-
-  .addr.middle-ellipsis {
-    display: block;
-    overflow: hidden;
-    width: 100%;
-    white-space: nowrap;
-  }
-
-
-  .addr-tail {
-    flex: 0 0 auto;
-  }
-
 
   .metrics-wrapper {
     padding: 16px 16px 4px;
