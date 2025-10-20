@@ -66,7 +66,7 @@ export const TokenHeader = ({
   }
 
   const tokenLogo = tokenData.icon
-  const tokenURL = tokenData.issuer_domain || `https://bitstamp.net`
+  const tokenURL = tokenData.issuer_domain
   return (
     <div className="box token-header">
       <div className="section token-indicator">
