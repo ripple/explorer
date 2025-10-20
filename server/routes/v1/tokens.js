@@ -2,7 +2,7 @@ const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'tokens search' })
 
 const REFETCH_INTERVAL = 60 * 60 * 1000 // 1 hour
-const cachedTokenList = { tokens: [], last_updated: null }
+const cachedTokenList = { tokens: [], last_updated: null, metrics: null }
 
 const parseCurrency = (currency) => {
   const NON_STANDARD_CODE_LENGTH = 40
@@ -25,6 +25,25 @@ const parseCurrency = (currency) => {
     ? hexToString(currency)
     : currency
 }
+
+const calculateMetrics = (tokens) => ({
+  count: tokens.length,
+  market_cap: tokens
+    .reduce((sum, token) => {
+      const cap = Number(token.market_cap_usd) || 0
+      return cap > 0 ? sum + cap : sum
+    }, 0)
+    .toFixed(6),
+  volume_24h: tokens
+    .reduce((sum, token) => sum + Number(token.daily_volume_usd || 0), 0)
+    .toFixed(6),
+  stablecoin: tokens
+    .reduce((sum, token) => {
+      const cap = Number(token.market_cap_usd) || 0
+      return token.asset_subclass === 'stablecoin' && cap > 0 ? sum + cap : sum
+    }, 0)
+    .toFixed(6),
+})
 
 async function fetchTokens() {
   log.info(`caching tokens from LOS`)
@@ -54,6 +73,10 @@ async function cacheTokens() {
       ...token,
       parsedCurrency: parseCurrency(token.currency),
     }))
+
+    // Calculate and cache metrics
+    cachedTokenList.metrics = calculateMetrics(cachedTokenList.tokens)
+    log.info(`Cached metrics for ${cachedTokenList.metrics.count} tokens`)
   } else {
     log.warn('Failed to fetch tokens from LOS, using stale cached data')
   }
@@ -114,34 +137,13 @@ const getAllTokens = async (req, res) => {
       await sleep(1000)
     }
 
-    const metrics = {
-      count: cachedTokenList.tokens.length,
-      market_cap: cachedTokenList.tokens
-        .reduce((sum, token) => {
-          const cap = Number(token.market_cap_usd) || 0
-          return cap > 0 ? sum + cap : sum // TODO: Remove this condition once holders API fixed
-        }, 0)
-        .toFixed(6),
-      volume_24h: cachedTokenList.tokens
-        .reduce((sum, token) => sum + Number(token.daily_volume_usd || 0), 0)
-        .toFixed(6),
-      stablecoin: cachedTokenList.tokens
-        .reduce((sum, token) => {
-          const cap = Number(token.market_cap_usd) || 0
-          return token.asset_subclass === 'stablecoin' && cap > 0
-            ? sum + cap
-            : sum
-        }, 0)
-        .toFixed(6),
-    }
-
     log.info(cachedTokenList.tokens.length)
 
     return res.status(200).json({
       result: 'success',
       updated: cachedTokenList.last_updated,
       tokens: cachedTokenList.tokens,
-      metrics,
+      metrics: cachedTokenList.metrics,
     })
   } catch (error) {
     log.error(error)
