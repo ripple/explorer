@@ -412,6 +412,10 @@
       min-height: 48px;
       border-radius: 48px;
     }
+
+    &.no-logo {
+      background-color: $black-50;
+    }
   }
 
   .token-indicator {

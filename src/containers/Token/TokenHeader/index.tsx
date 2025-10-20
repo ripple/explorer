@@ -65,8 +65,7 @@ export const TokenHeader = ({
     amm_tvl: ammTvlData?.toString() || '',
   }
 
-  const tokenLogo =
-    tokenData.icon || 'https://s1.xrplmeta.org/icon/03DDEF3C9D.png'
+  const tokenLogo = tokenData.icon
   const tokenURL = tokenData.issuer_domain || `https://bitstamp.net`
   return (
     <div className="box token-header">
@@ -78,12 +77,14 @@ export const TokenHeader = ({
       </div>
       <div className="section box-header">
         <div className="token-info-group">
-          {tokenLogo && (
+          {tokenLogo ? (
             <img
               className="token-logo"
               alt={`${currency} logo`}
               src={tokenLogo}
             />
+          ) : (
+            <div className="token-logo no-logo" />
           )}
           <Currency currency={currency} />
           <span className="issuer-separator">&nbsp;</span>
