@@ -26,7 +26,7 @@ const parseCurrency = (currency) => {
     : currency
 }
 
-async function fetchXRPLMetaTokens() {
+async function fetchTokens() {
   log.info(`caching tokens from LOS`)
   return axios
     .get(`${process.env.VITE_LOS_URL}/trusted-tokens`)
@@ -37,11 +37,12 @@ async function fetchXRPLMetaTokens() {
     })
 }
 
-async function cacheXRPLMetaTokens() {
-  const losTokens = await fetchXRPLMetaTokens()
-  log.info(`Fetched ${losTokens.tokens.length} tokens from LOS...`)
+async function cacheTokens() {
+  const losTokens = await fetchTokens()
 
   if (losTokens.tokens) {
+    log.info(`Fetched ${losTokens.tokens.length} tokens from LOS...`)
+
     cachedTokenList.tokens = losTokens.tokens.sort(
       (a, b) => Number(b.holders ?? 0) - Number(a.holders ?? 0),
     )
@@ -53,6 +54,8 @@ async function cacheXRPLMetaTokens() {
       ...token,
       parsedCurrency: parseCurrency(token.currency),
     }))
+  } else {
+    log.warn('Failed to fetch tokens from LOS, using stale cached data')
   }
 }
 
@@ -60,8 +63,8 @@ function startCaching() {
   if (process.env.VITE_ENVIRONMENT !== 'mainnet') {
     return
   }
-  cacheXRPLMetaTokens()
-  setInterval(() => cacheXRPLMetaTokens(), REFETCH_INTERVAL)
+  cacheTokens()
+  setInterval(() => cacheTokens(), REFETCH_INTERVAL)
 }
 
 startCaching()
