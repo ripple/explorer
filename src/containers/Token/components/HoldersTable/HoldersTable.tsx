@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Loader } from '../../../shared/components/Loader'
 import { Pagination } from '../../../shared/components/Pagination'
@@ -38,16 +38,24 @@ export const HoldersTable = ({
   scrollRef,
 }: HoldersTableProps) => {
   const { t } = useTranslation()
+  const tableRef = useRef<HTMLTableElement>(null)
 
-  // Scroll to top of table container when page changes
+  // Scroll to top of table when page changes
   useEffect(() => {
-    if (scrollRef?.current && !isHoldersDataLoading) {
-      const containerTop =
-        scrollRef.current.getBoundingClientRect().top + window.scrollY
-      // Subtract 100px to show headers and tabs above the table
-      window.scrollTo({ top: containerTop - 100, behavior: 'smooth' })
+    if (!isHoldersDataLoading) {
+      // Use double requestAnimationFrame to ensure scroll happens after DOM updates
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const tableContainer = tableRef.current?.closest('.tokens-table')
+          if (tableContainer) {
+            const rect = tableContainer.getBoundingClientRect()
+            const scrollTop = window.scrollY + rect.top - 200 // Scroll higher to show tabs and table headers
+            window.scrollTo({ top: scrollTop, behavior: 'smooth' })
+          }
+        })
+      })
     }
-  }, [currentPage, isHoldersDataLoading, scrollRef])
+  }, [currentPage, isHoldersDataLoading])
 
   const renderHolder = (holder: XRPLHolder) => (
     <tr key={`${holder.account}-${holder.rank}`}>
@@ -83,7 +91,7 @@ export const HoldersTable = ({
   return holders.length > 0 || isHoldersDataLoading ? (
     <div className="holders-table">
       <div className="table-wrap">
-        <table className="basic">
+        <table className="basic" ref={tableRef}>
           <thead>
             <tr>
               <th className="count sticky-1">{t('token_page.holders_rank')}</th>

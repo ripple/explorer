@@ -77,7 +77,7 @@ export const DexTradeTable = ({
           const tableContainer = tableRef.current?.closest('.tokens-table')
           if (tableContainer) {
             const rect = tableContainer.getBoundingClientRect()
-            const scrollTop = window.scrollY + rect.top - 120 // Scroll higher to show table headers
+            const scrollTop = window.scrollY + rect.top - 200 // Scroll higher to show tabs and table headers
             window.scrollTo({ top: scrollTop, behavior: 'smooth' })
           }
         })

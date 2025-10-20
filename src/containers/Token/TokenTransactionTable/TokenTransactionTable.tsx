@@ -137,6 +137,24 @@ export const TokenTransactionTable = ({
     setTablePickerState('all')
   }, [currency, accountId])
 
+  // Scroll to top of table container when loading more transactions
+  useEffect(() => {
+    if (!loading && containerRef?.current && tablePickerState === 'all') {
+      // Use double requestAnimationFrame to ensure scroll happens after DOM updates
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const tableContainer =
+            containerRef.current?.querySelector('.transaction-table')
+          if (tableContainer) {
+            const rect = tableContainer.getBoundingClientRect()
+            const scrollTop = window.scrollY + rect.top - 200 // Scroll higher to show tabs and table headers
+            window.scrollTo({ top: scrollTop, behavior: 'smooth' })
+          }
+        })
+      })
+    }
+  }, [loading, tablePickerState])
+
   // Format data for tables
   const XRPUSDPrice = Number(xrpUSDRate) || 0
 
