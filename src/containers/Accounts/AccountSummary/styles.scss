@@ -397,9 +397,11 @@
         padding: 12px;
         gap: 8px;
       }
+
       .details-label {
         font-size: 12px;
       }
+
       .details-value {
         font-size: 14px;
       }
@@ -466,6 +468,7 @@
     .properties {
       .properties-header {
         gap: 8px;
+
         .properties-toggle {
           padding: 4px;
         }
@@ -489,6 +492,7 @@
         .flags-card {
           grid-column: auto;
         }
+
         .signers-card {
           grid-column: auto;
         }
