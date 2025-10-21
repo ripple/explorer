@@ -1,11 +1,9 @@
-import { mount } from 'enzyme'
+import { render, screen, waitFor } from '@testing-library/react'
 import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfig'
 import { Accounts } from '../index'
-import { AccountHeader } from '../AccountHeader'
-import { AccountTransactionTable } from '../AccountTransactionTable'
 import mockAccountState from './mockAccountState.json'
-import { QuickHarness, flushPromises } from '../../test/utils'
+import { QuickHarness } from '../../test/utils'
 import { ACCOUNT_ROUTE } from '../../App/routes'
 import { getAccountState } from '../../../rippled'
 import Mock = jest.Mock
@@ -16,13 +14,37 @@ jest.mock('../../../rippled', () => ({
   getAccountTransactions: jest.fn(() => []),
 }))
 
+jest.mock('../AccountHeader', () => ({
+  __esModule: true,
+  default: () => <div data-testid="account-header">Account Header</div>,
+}))
+
+jest.mock('../AccountSummary', () => ({
+  __esModule: true,
+  AccountSummary: () => (
+    <div data-testid="account-summary">Account Summary</div>
+  ),
+}))
+
+jest.mock('../AccountAsset', () => ({
+  __esModule: true,
+  default: () => <div data-testid="account-asset">Account Asset</div>,
+}))
+
+jest.mock('../AccountTransactionTable', () => ({
+  __esModule: true,
+  AccountTransactionTable: () => (
+    <div data-testid="account-transaction-table">Account Transaction Table</div>
+  ),
+}))
+
 const mockedGetAccountState = getAccountState as Mock
 
 describe('Account container', () => {
   const TEST_ACCOUNT_ID = 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM'
 
-  const createWrapper = () =>
-    mount(
+  const renderComponent = () =>
+    render(
       <QuickHarness
         i18n={i18n}
         initialEntries={[`/accounts/${TEST_ACCOUNT_ID}`]}
@@ -32,12 +54,12 @@ describe('Account container', () => {
     )
 
   beforeEach(() => {
-    jest.resetModules()
+    jest.clearAllMocks()
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    const { unmount } = renderComponent()
+    unmount()
   })
 
   it('renders static parts', async () => {
@@ -45,13 +67,15 @@ describe('Account container', () => {
       Promise.resolve(mockAccountState),
     )
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
+    renderComponent()
 
-    expect(wrapper.find(AccountHeader).length).toBe(1)
-    expect(wrapper.find(AccountTransactionTable).length).toBe(1)
-    wrapper.find('.balance-selector button').simulate('click')
-    wrapper.unmount()
+    await waitFor(() => {
+      expect(screen.getByTestId('account-header')).toBeInTheDocument()
+      expect(screen.getByTestId('account-summary')).toBeInTheDocument()
+      expect(screen.getByTestId('account-asset')).toBeInTheDocument()
+      expect(
+        screen.getByTestId('account-transaction-table'),
+      ).toBeInTheDocument()
+    })
   })
 })

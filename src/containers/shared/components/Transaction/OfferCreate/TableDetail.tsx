@@ -5,7 +5,7 @@ import Currency from '../../Currency'
 export const TableDetail = (props: any) => {
   const { t } = useTranslation()
   const { instructions } = props
-  const { gets, pays, price, firstCurrency, secondCurrency, cancel } =
+  const { gets, pays, price, firstCurrency, secondCurrency, cancel, domainID } =
     instructions
 
   return pays && gets ? (
@@ -41,6 +41,12 @@ export const TableDetail = (props: any) => {
           <span className="label">{t('cancel_offer')}</span>
           {` #`}
           <span className="sequence">{cancel}</span>
+        </div>
+      )}
+      {domainID && (
+        <div className="label" data-testid="domain-id">
+          <span className="label">{t('domain_id')}: </span>
+          <span className="case-sensitive">{domainID}</span>
         </div>
       )}
     </div>

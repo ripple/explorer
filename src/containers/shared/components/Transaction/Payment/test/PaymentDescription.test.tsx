@@ -7,6 +7,7 @@ import mockPaymentDestinationTag from './mock_data/PaymentWithDestinationTag.jso
 import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
+import mockPermDomainID from './mock_data/PaymentWithPermDomainID.json'
 import { createDescriptionWrapperFactory } from '../../test'
 
 const createWrapper = createDescriptionWrapperFactory(Description, i18n)
@@ -116,5 +117,13 @@ describe('Payment: Description', () => {
     )
 
     wrapper.unmount()
+  })
+
+  it(`renders with Permissioned Domain ID`, () => {
+    const wrapper = createWrapper(mockPermDomainID)
+
+    expect(wrapper.find('[data-testid="domain-id-line"]')).toHaveText(
+      `Domain ID: D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02`,
+    )
   })
 })

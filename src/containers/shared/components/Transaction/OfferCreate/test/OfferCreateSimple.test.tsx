@@ -1,6 +1,7 @@
 import { Simple } from '../Simple'
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import mockOfferCreate from './mock_data/OfferCreate.json'
+import mockOfferCreateWithPermissionedDomainID from './mock_data/OfferCreateWithPermissionedDomainID.json'
 import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
@@ -32,6 +33,14 @@ describe('OfferCreate: Simple', () => {
     )
     expect(wrapper.find('[data-testid="amount-sell"] .value')).toHaveText(
       `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
+    )
+  })
+
+  it(`renders offerCreate with a Permissioned Domain ID`, () => {
+    const wrapper = createWrapper(mockOfferCreateWithPermissionedDomainID)
+
+    expect(wrapper.find('[data-testid="domain-id"] .value')).toHaveText(
+      '4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812',
     )
   })
 })

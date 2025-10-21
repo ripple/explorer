@@ -6,6 +6,7 @@ import mockPaymentDestinationTag from './mock_data/PaymentWithDestinationTag.jso
 import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
+import mockPermDomainID from './mock_data/PaymentWithPermDomainID.json'
 
 const createWrapper = createTableDetailWrapperFactory(TableDetail)
 
@@ -71,5 +72,13 @@ describe('Payment: TableDetail', () => {
     expect(wrapper.find('.st')).toHaveText('source_tag: 20648')
 
     wrapper.unmount()
+  })
+
+  it(`renders with Permissioned Domain ID`, () => {
+    const wrapper = createWrapper(mockPermDomainID)
+
+    expect(wrapper.find('.domain-id')).toHaveText(
+      `domain_id: D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02`,
+    )
   })
 })

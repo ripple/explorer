@@ -10,7 +10,7 @@ export enum TransactionCategory {
   XCHAIN = 'XCHAIN',
   MPT = 'MPT',
   PSEUDO = 'PSEUDO',
-  UNKNOWN = 'UNKNOWN',
+  OTHER = 'OTHER',
 }
 
 export enum TransactionAction {

@@ -7,9 +7,11 @@ import { AMMBid } from './AMMBid'
 import { AMMVote } from './AMMVote'
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
+import { BatchTransaction as Batch } from './Batch'
 import { CredentialAcceptTransaction as CredentialAccept } from './CredentialAccept'
 import { CredentialCreateTransaction as CredentialCreate } from './CredentialCreate'
 import { CredentialDeleteTransaction as CredentialDelete } from './CredentialDelete'
+import { DelegateSetTransaction as DelegateSet } from './DelegateSet'
 import { DIDSetTransaction as DIDSet } from './DIDSet'
 import { DepositPreauthTransaction as DepositPreauth } from './DepositPreauth'
 import { EnableAmendmentTransaction as EnableAmendment } from './EnableAmendment'
@@ -51,6 +53,12 @@ import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
 import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { UNLModifyTransaction as UNLModify } from './UNLModify'
 import { ClawbackTransaction as Clawback } from './Clawback'
+import { VaultCreateTransaction as VaultCreate } from './VaultCreate'
+import { VaultSetTransaction as VaultSet } from './VaultSet'
+import { VaultDepositTransaction as VaultDeposit } from './VaultDeposit'
+import { VaultWithdrawTransaction as VaultWithdraw } from './VaultWithdraw'
+import { VaultClawbackTransaction as VaultClawback } from './VaultClawback'
+import { VaultDeleteTransaction as VaultDelete } from './VaultDelete'
 
 import {
   TransactionAction,
@@ -61,10 +69,12 @@ import {
 export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
   AccountSet,
+  Batch,
   Clawback,
   CredentialAccept,
   CredentialCreate,
   CredentialDelete,
+  DelegateSet,
   DIDSet,
   DepositPreauth,
   EnableAmendment,
@@ -112,10 +122,16 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AMMClawback,
   TrustSet,
   UNLModify,
+  VaultCreate,
+  VaultSet,
+  VaultDeposit,
+  VaultWithdraw,
+  VaultClawback,
+  VaultDelete,
 }
 
 export const getAction = (type: string): TransactionAction =>
   transactionTypes[type]?.action || TransactionAction.UNKNOWN
 
 export const getCategory = (type: string): TransactionCategory =>
-  transactionTypes[type]?.category || TransactionCategory.UNKNOWN
+  transactionTypes[type]?.category || TransactionCategory.OTHER
