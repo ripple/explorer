@@ -7,17 +7,16 @@ import { useAnalytics } from '../../shared/analytics'
 import SocketContext from '../../shared/SocketContext'
 
 import { getAccountTransactions } from '../../../rippled'
+import './styles.scss'
 
 export interface AccountTransactionsTableProps {
   accountId: string
-  currencySelected?: string
   hasTokensColumn: boolean
 }
 
 export const AccountTransactionTable = ({
   accountId,
   hasTokensColumn,
-  currencySelected = 'XRP',
 }: AccountTransactionsTableProps) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
@@ -49,40 +48,32 @@ export const AccountTransactionTable = ({
     },
   )
 
-  const filterTransactions = () => {
-    let processedTransactions = data?.pages?.reduce((txArray, page: any) => {
-      if (page.transactions) {
-        return txArray.concat(page.transactions)
-      }
-      return txArray
-    }, [])
+  const transactions =
+    data?.pages?.reduce(
+      (allTransactions: any[], page: any) =>
+        page.transactions
+          ? allTransactions.concat(page.transactions)
+          : allTransactions,
+      [],
+    ) || []
 
-    if (currencySelected !== 'XRP') {
-      processedTransactions = processedTransactions?.filter(
-        (tx) =>
-          !currencySelected ||
-          (currencySelected &&
-            JSON.stringify(tx).includes(
-              `"currency":"${currencySelected.toUpperCase()}"`,
-            )),
-      )
-    }
-    return processedTransactions
-  }
-
-  const transactions = filterTransactions()
-  const tryLoading = transactions?.length === 0 && data?.pages[0]?.transactions
+  const tryLoading = transactions.length === 0 && data?.pages[0]?.transactions
   const emptyMessage = tryLoading
     ? 'get_account_transactions_try'
     : error?.message
   return (
-    <TransactionTable
-      transactions={transactions}
-      loading={loading}
-      hasTokensColumn={hasTokensColumn}
-      emptyMessage={emptyMessage && t(emptyMessage as any)}
-      onLoadMore={() => fetchNextPage()}
-      hasAdditionalResults={hasNextPage}
-    />
+    <div className="transactions-section">
+      <div className="transactions-header">
+        <h3>{t('transactions')}</h3>
+      </div>
+      <TransactionTable
+        transactions={transactions}
+        loading={loading}
+        hasTokensColumn={hasTokensColumn}
+        emptyMessage={emptyMessage && t(emptyMessage as any)}
+        onLoadMore={() => fetchNextPage()}
+        hasAdditionalResults={hasNextPage}
+      />
+    </div>
   )
 }

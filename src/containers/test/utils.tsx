@@ -9,7 +9,12 @@ import { testQueryClient } from './QueryClient'
 import { AnalyticsSetPath } from '../shared/analytics'
 
 export function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve))
+  return new Promise((resolve) => setTimeout(resolve))
+}
+
+export const V7_FUTURE_ROUTER_FLAGS = {
+  v7_startTransition: true,
+  v7_relativeSplatPath: true,
 }
 
 // @ts-ignore
@@ -24,7 +29,10 @@ export const QuickHarness: FC<
   <QueryClientProvider client={testQueryClient}>
     <I18nextProvider i18n={i18nConfig}>
       <HelmetProvider>
-        <MemoryRouter initialEntries={initialEntries}>
+        <MemoryRouter
+          initialEntries={initialEntries}
+          future={V7_FUTURE_ROUTER_FLAGS}
+        >
           <AnalyticsSetPath />
           {isValidElement(children) && children?.type === Route ? (
             <Routes>{children}</Routes>

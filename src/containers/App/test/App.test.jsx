@@ -7,7 +7,7 @@ import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled/lib/rippled'
-import { flushPromises } from '../../test/utils'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
 import { Error } from '../../../rippled/lib/utils'
 
@@ -85,7 +85,7 @@ describe('App container', () => {
     }
 
     return mount(
-      <MemoryRouter initialEntries={[path]}>
+      <MemoryRouter initialEntries={[path]} future={V7_FUTURE_ROUTER_FLAGS}>
         <I18nextProvider i18n={i18n}>
           <AppWrapper />
         </I18nextProvider>
@@ -333,7 +333,7 @@ describe('App container', () => {
           network: 'mainnet',
         },
       ])
-      expect(mockGetAccountInfo).toBeCalledWith(
+      expect(mockGetAccountInfo).toHaveBeenCalledWith(
         expect.anything(),
         'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6',
       )
@@ -354,7 +354,7 @@ describe('App container', () => {
           network: 'mainnet',
         },
       ])
-      expect(mockGetAccountInfo).toBeCalledWith(
+      expect(mockGetAccountInfo).toHaveBeenCalledWith(
         expect.anything(),
         'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb',
       )
@@ -444,9 +444,30 @@ describe('App container', () => {
     expect(document.title).toEqual(`xrpl_explorer`)
   })
 
-  it('renders custom mode ledgers', async () => {
+  it('renders custom mode ledgers without trailing slash', async () => {
     process.env.VITE_ENVIRONMENT = 'custom'
     delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+
+    delete process.env.VITE_CUSTOMNETWORK_LINK //  Clear current value
+    process.env.VITE_CUSTOMNETWORK_LINK = 'https://custom.xrpl.org' //  Manually add URL with no trailing slash
+
+    const network = 's2.ripple.com'
+    wrapper = createWrapper(`/${network}/`)
+    await flushPromises()
+    wrapper.update()
+    // Make sure the sockets aren't double initialized.
+    expect(wrapper.find('header')).not.toHaveClassName('header-no-network')
+    expect(XrplClient).toHaveBeenCalledTimes(1)
+    expect(document.title).toEqual(`xrpl_explorer | ledgers`)
+  })
+
+  it('renders custom mode ledgers with trailing slash', async () => {
+    process.env.VITE_ENVIRONMENT = 'custom'
+    delete process.env.VITE_P2P_RIPPLED_HOST //  For custom as there is no p2p.
+
+    delete process.env.VITE_CUSTOMNETWORK_LINK //  Clear current value
+    process.env.VITE_CUSTOMNETWORK_LINK = 'https://custom.xrpl.org/' //  Manually add URL with trailing slash
+
     const network = 's2.ripple.com'
     wrapper = createWrapper(`/${network}/`)
     await flushPromises()

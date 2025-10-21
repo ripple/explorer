@@ -4,7 +4,10 @@ import { MemoryRouter } from 'react-router'
 import { QueryClientProvider } from 'react-query'
 import i18n from '../../../../../../i18n/testConfig'
 import { AMMAccountHeader, AmmDataType } from '../AMMAccountHeader'
-import { flushPromises } from '../../../../../test/utils'
+import {
+  flushPromises,
+  V7_FUTURE_ROUTER_FLAGS,
+} from '../../../../../test/utils'
 import { queryClient } from '../../../../../shared/QueryClient'
 
 describe('AMM Account Header', () => {
@@ -14,7 +17,10 @@ describe('AMM Account Header', () => {
     mount(
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
-          <MemoryRouter initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}>
+          <MemoryRouter
+            initialEntries={[`accounts/${TEST_ACCOUNT_ID}`]}
+            future={V7_FUTURE_ROUTER_FLAGS}
+          >
             <AMMAccountHeader data={state} />
           </MemoryRouter>
         </I18nextProvider>

@@ -7,7 +7,7 @@ import Currency from './Currency'
 import { ExplorerAmount } from '../types'
 import { MPTIssuanceFormattedInfo } from '../Interfaces'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
-import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
+import { formatMPTIssuance } from '../../../rippled/lib/utils'
 import SocketContext from '../SocketContext'
 import { useAnalytics } from '../analytics'
 
@@ -34,8 +34,8 @@ export const Amount = ({
   const options = { ...CURRENCY_OPTIONS, currency }
 
   const renderAmount = (localizedAmount) => (
-    <span className="amount">
-      <span className="amount-localized">
+    <span className="amount" data-testid="amount">
+      <span className="amount-localized" data-testid="amount-localized">
         {modifier && <span className="amount-modifier">{modifier}</span>}
         {localizedAmount}
       </span>{' '}
@@ -57,7 +57,7 @@ export const Amount = ({
       ['getMPTIssuanceScale', mptID],
       async () => {
         const info = await getMPTIssuance(rippledSocket, mptID)
-        return formatMPTIssuanceInfo(info)
+        return formatMPTIssuance(info.node)
       },
       {
         onError: (e: any) => {

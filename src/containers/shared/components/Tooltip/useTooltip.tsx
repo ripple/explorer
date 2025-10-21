@@ -17,6 +17,7 @@ export interface TooltipContextType {
     mode: string,
     event: MouseEvent<HTMLElement> | MouseEvent<SVGGElement>,
     data: any,
+    positionOverride?: { x: number; y: number },
   ) => void
 }
 
@@ -34,18 +35,21 @@ export const TooltipProvider: FC = ({ children }) => {
     mode: string,
     event: MouseEvent<HTMLElement | SVGGElement>,
     data: any,
+    positionOverride?: { x: number; y: number },
   ) => {
     setTooltip({
       data,
       mode,
       x:
-        event.currentTarget instanceof HTMLElement
+        positionOverride?.x ??
+        (event.currentTarget instanceof HTMLElement
           ? event.currentTarget.offsetLeft
-          : event.nativeEvent.offsetX,
+          : event.nativeEvent.offsetX),
       y:
-        event.currentTarget instanceof HTMLElement
+        positionOverride?.y ??
+        (event.currentTarget instanceof HTMLElement
           ? event.currentTarget.offsetTop
-          : event.nativeEvent.offsetY,
+          : event.nativeEvent.offsetY),
     })
   }
 

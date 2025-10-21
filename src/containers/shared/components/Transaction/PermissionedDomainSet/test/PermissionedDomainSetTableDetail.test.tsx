@@ -8,10 +8,10 @@ describe('PermissionedDomainSetTableDetail', () => {
   it('renders PermissionedDomainSetTableDetail', () => {
     const wrapper = createWrapper(PermissionedDomainSet)
 
-    expect(wrapper.find('[data-test="cred-type"]')).toHaveText(
+    expect(wrapper.find('[data-testid="cred-type"]')).toHaveText(
       'credential_type: 4964656E74697479446F63756D656E74',
     )
-    expect(wrapper.find('[data-test="cred-issuer"]')).toHaveText(
+    expect(wrapper.find('[data-testid="cred-issuer"]')).toHaveText(
       'credential_issuer: rUVQzukKnGSw4qNjEvBxLxquaLaMwzVBab',
     )
 

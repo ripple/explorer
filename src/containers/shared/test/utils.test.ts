@@ -7,6 +7,10 @@ import {
   localizeDate,
   durationToHuman,
   formatAsset,
+  shortenAccount,
+  shortenDomain,
+  shortenNFTTokenID,
+  shortenMPTID,
 } from '../utils'
 
 describe('utils', () => {
@@ -172,5 +176,57 @@ describe('AMM utils format asset', () => {
     const formatted = formatAsset(asset)
 
     expect(formatted).toEqual({ currency: 'USD', issuer: 'your mom' })
+  })
+})
+
+describe('Shorten utils', () => {
+  describe('shortenAccount', () => {
+    it('shortens long account addresses', () => {
+      const longAccount = 'rN7n7otQDd6FczFgLdlqtyMVrn5f4W01dn'
+      expect(shortenAccount(longAccount)).toBe('rN7n7ot...W01dn')
+    })
+
+    it('returns short account addresses unchanged', () => {
+      const shortAccount = 'rShortAddr'
+      expect(shortenAccount(shortAccount)).toBe(shortAccount)
+    })
+  })
+
+  describe('shortenDomain', () => {
+    it('shortens long domain names', () => {
+      const longDomain = 'verylongdomainnamethatexceedslimit.com'
+      expect(shortenDomain(longDomain)).toBe('verylongdomainn...dslimit.com')
+    })
+
+    it('returns short domain names unchanged', () => {
+      const shortDomain = 'example.com'
+      expect(shortenDomain(shortDomain)).toBe(shortDomain)
+    })
+  })
+
+  describe('shortenNFTTokenID', () => {
+    it('shortens long NFT token IDs', () => {
+      const longTokenID =
+        '000827103B94ECBB7BF0A0A6ED62B3607801A27B65F4B11F5E1D5E8A3F3D8E9A'
+      expect(shortenNFTTokenID(longTokenID)).toBe('000827103B...8A3F3D8E9A')
+    })
+
+    it('returns short NFT token IDs unchanged', () => {
+      const shortTokenID = '000827103B94ECBB7BF0'
+      expect(shortenNFTTokenID(shortTokenID)).toBe(shortTokenID)
+    })
+  })
+
+  describe('shortenMPTID', () => {
+    it('shortens long MPT token IDs', () => {
+      const longMPTID =
+        '00000000A8B71A79C3CE4E8A3F3D8E9A5BEB9D7C6F4B11F5E1D5E8A3F3D8E9A'
+      expect(shortenMPTID(longMPTID)).toBe('00000000A8...8A3F3D8E9A')
+    })
+
+    it('returns short MPT token IDs unchanged', () => {
+      const shortMPTID = '00000000A8B71A79C3CE'
+      expect(shortenMPTID(shortMPTID)).toBe(shortMPTID)
+    })
   })
 })

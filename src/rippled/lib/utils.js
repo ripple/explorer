@@ -5,6 +5,7 @@ import { formatSignerList } from './formatSignerList'
 import { decodeHex } from '../../containers/shared/transactionUtils'
 
 const XRP_BASE = 1000000
+const THOUSAND = 1000
 const BILLION = 1000000000
 
 export const ACCOUNT_FLAGS = {
@@ -22,6 +23,7 @@ export const ACCOUNT_FLAGS = {
   0x10000000: 'lsfDisallowIncomingPayChan',
   0x20000000: 'lsfDisallowIncomingTrustline',
   0x80000000: 'lsfAllowTrustLineClawback',
+  0x40000000: 'lsfAllowTrustLineLocking',
 }
 const NFT_FLAGS = {
   0x00000001: 'lsfBurnable',
@@ -56,7 +58,7 @@ const zeroPad = (num, size, back = false) => {
   return s
 }
 
-const buildFlags = (flags, flagMap) => {
+export const buildFlags = (flags, flagMap) => {
   const bits = zeroPad((flags || 0).toString(2), 32).split('')
 
   return bits
@@ -68,16 +70,38 @@ const buildFlags = (flags, flagMap) => {
     .filter((d) => Boolean(d))
 }
 
+const formatTransferFee = (transferFee, tokenType) => {
+  if (!transferFee) {
+    return '0'
+  }
+
+  // https://xrpl.org/docs/concepts/tokens/fungible-tokens/transfer-fees#technical-details
+  if (tokenType === 'IOU') {
+    const transferFeePercentage = (100 * (transferFee - BILLION)) / BILLION
+    return parseFloat(transferFeePercentage.toFixed(7)).toString()
+  }
+
+  // MTP: https://xrpl.org/docs/references/protocol/data-types/nftoken#transferfee
+  // NFT: https://xrpl.org/docs/concepts/tokens/fungible-tokens/multi-purpose-tokens#transfer-fees
+  if (tokenType === 'NFT' || tokenType === 'MPT') {
+    const transferFeePercentage = transferFee / THOUSAND
+    return parseFloat(transferFeePercentage.toFixed(3)).toString()
+  }
+
+  throw new Error(`Unsupported Token type: ${tokenType}`)
+}
+
 const formatAccountInfo = (info, serverInfoValidated) => ({
+  accountTransactionID: info.AccountTxnID,
   sequence: info.Sequence,
-  ticketCount: info.TicketCount,
+  ticketCount: info.TicketCount ?? 0,
   ownerCount: info.OwnerCount,
   reserve: serverInfoValidated.reserve_base_xrp
     ? serverInfoValidated.reserve_base_xrp +
       info.OwnerCount * serverInfoValidated.reserve_inc_xrp
     : undefined,
   tick: info.TickSize,
-  rate: info.TransferRate ? (info.TransferRate - BILLION) / BILLION : undefined,
+  rate: formatTransferFee(info.TransferRate, 'IOU'),
   domain: info.Domain ? hexToString(info.Domain) : undefined,
   emailHash: info.EmailHash,
   flags: buildFlags(info.Flags, ACCOUNT_FLAGS),
@@ -95,13 +119,6 @@ const formatTransaction = (tx) => {
   return {
     tx: {
       ...txn,
-      metaData: undefined,
-      meta: undefined,
-      hash: undefined,
-      inLedger: undefined,
-      ledger_index: undefined,
-      status: undefined,
-      validated: undefined,
       date: txn.date ? convertRippleDate(txn.date) : undefined,
     },
     meta: tx.meta || tx.metaData,
@@ -141,24 +158,24 @@ const formatNFTInfo = (info) => ({
   warnings: info.warnings,
 })
 
-const formatMPTIssuanceInfo = (info) => ({
-  issuer: info.node.Issuer,
-  assetScale: info.node.AssetScale,
-  maxAmt: info.node.MaximumAmount
-    ? BigInt(info.node.MaximumAmount).toString(10)
+const formatMPTIssuance = (info) => ({
+  issuer: info.Issuer,
+  assetScale: info.AssetScale,
+  maxAmt: info.MaximumAmount
+    ? BigInt(info.MaximumAmount).toString(10)
     : undefined, // default is undefined because the default maxAmt is the largest 63-bit int
-  outstandingAmt: info.node.OutstandingAmount
-    ? BigInt(info.node.OutstandingAmount).toString(10)
+  outstandingAmt: info.OutstandingAmount
+    ? BigInt(info.OutstandingAmount).toString(10)
     : '0',
-  transferFee: info.node.TransferFee,
-  sequence: info.node.Sequence,
-  metadata: info.node.MPTokenMetadata
-    ? decodeHex(info.node.MPTokenMetadata)
-    : info.node.MPTokenMetadata,
-  flags: buildFlags(info.node.Flags, MPT_ISSUANCE_FLAGS),
+  transferFee: info.TransferFee,
+  sequence: info.Sequence,
+  metadata: info.MPTokenMetadata
+    ? decodeHex(info.MPTokenMetadata)
+    : info.MPTokenMetadata,
+  flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
 })
 
-const formatMPTokenInfo = (info) => ({
+const formatMPToken = (info) => ({
   account: info.Account,
   flags: buildFlags(info.Flags, MPTOKEN_FLAGS),
   mptIssuanceID: info.MPTokenIssuanceID,
@@ -177,6 +194,7 @@ export {
   formatAccountInfo,
   convertHexToString,
   formatNFTInfo,
-  formatMPTIssuanceInfo,
-  formatMPTokenInfo,
+  formatMPTIssuance,
+  formatMPToken,
+  formatTransferFee,
 }

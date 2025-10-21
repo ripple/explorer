@@ -2,10 +2,11 @@ import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
-import Transaction from '../../shared/components/Transaction/EscrowCreate/test/mock_data/EscrowCreate.json'
+import Transaction from './mock_data/EscrowCreate.json'
 import FailedTransaction from '../../shared/components/Transaction/SignerListSet/test/mock_data/SignerListSet.json'
 import HookPayment from './mock_data/HookPayment.json'
 import EmittedPayment from './mock_data/EmittedPayment.json'
+import TrustSet from './mock_data/TrustSet.json'
 import { DetailTab } from '../DetailTab'
 import i18n from '../../../i18n/testConfigEnglish'
 import { convertHexToString } from '../../../rippled/lib/utils'
@@ -55,32 +56,34 @@ describe('DetailTab container', () => {
 
   it('renders failed transaction', () => {
     const wrapper = createWrapper(FailedTransaction)
-    expect(wrapper.find('.detail-section[data-test="status"]').text()).toEqual(
+    expect(
+      wrapper.find('.detail-section[data-testid="status"]').text(),
+    ).toEqual(
       expect.stringContaining(
         'This transaction failed with a status code of tecINSUFFICIENT_RESERVE, and validated in ledger 37375929 on',
       ),
     )
     expect(
-      wrapper.find('.detail-section[data-test="status"] .fail').text(),
+      wrapper.find('.detail-section[data-testid="status"] .fail').text(),
     ).toEqual('tecINSUFFICIENT_RESERVE')
     wrapper.unmount()
   })
 
   it('renders hooks section', () => {
     const wrapper = createWrapper(HookPayment)
-    expect(wrapper.find('.detail-section[data-test="hooks"]')).toHaveLength(1)
+    expect(wrapper.find('.detail-section[data-testid="hooks"]')).toHaveLength(1)
 
-    const hooksWrapper = wrapper.find('.detail-section[data-test="hooks"]')
+    const hooksWrapper = wrapper.find('.detail-section[data-testid="hooks"]')
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="emit-details"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="emit-details"]'),
     ).toHaveLength(0)
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="hook-params"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="hook-params"]'),
     ).toHaveLength(1)
     const paramWrapper = hooksWrapper.find(
-      '.detail-subsection[data-test="hook-params"]',
+      '.detail-subsection[data-testid="hook-params"]',
     )
     expect(paramWrapper.find('li')).toHaveLength(2)
     expect(paramWrapper.find('li').at(0)).toHaveText('EVR2: evnHostUpdateReg')
@@ -89,10 +92,10 @@ describe('DetailTab container', () => {
     )
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="hook-executions"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="hook-executions"]'),
     ).toHaveLength(1)
     const execWrapper = hooksWrapper.find(
-      '.detail-subsection[data-test="hook-executions"]',
+      '.detail-subsection[data-testid="hook-executions"]',
     )
     expect(execWrapper.find('li')).toHaveLength(1)
     expect(execWrapper.find('.detail-line')).toHaveLength(4)
@@ -115,15 +118,15 @@ describe('DetailTab container', () => {
 
   it('renders hooks section for emitted tx', () => {
     const wrapper = createWrapper(EmittedPayment)
-    expect(wrapper.find('.detail-section[data-test="hooks"]')).toHaveLength(1)
+    expect(wrapper.find('.detail-section[data-testid="hooks"]')).toHaveLength(1)
 
-    const hooksWrapper = wrapper.find('.detail-section[data-test="hooks"]')
+    const hooksWrapper = wrapper.find('.detail-section[data-testid="hooks"]')
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="emit-details"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="emit-details"]'),
     ).toHaveLength(1)
     const emitWrapper = hooksWrapper.find(
-      '.detail-subsection[data-test="emit-details"]',
+      '.detail-subsection[data-testid="emit-details"]',
     )
     expect(emitWrapper.find('.detail-line')).toHaveLength(4)
     expect(emitWrapper.find('.detail-line').at(0)).toHaveText(
@@ -142,14 +145,14 @@ describe('DetailTab container', () => {
     expect(emitWrapper.find('.detail-line').at(3).find('a')).toExist()
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="hook-params"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="hook-params"]'),
     ).toHaveLength(0)
 
     expect(
-      hooksWrapper.find('.detail-subsection[data-test="hook-executions"]'),
+      hooksWrapper.find('.detail-subsection[data-testid="hook-executions"]'),
     ).toHaveLength(1)
     const execWrapper = hooksWrapper.find(
-      '.detail-subsection[data-test="hook-executions"]',
+      '.detail-subsection[data-testid="hook-executions"]',
     )
     expect(execWrapper.find('li')).toHaveLength(1)
     expect(execWrapper.find('.detail-line')).toHaveLength(4)
@@ -166,5 +169,30 @@ describe('DetailTab container', () => {
     expect(execWrapper.find('.detail-line').at(3)).toHaveText(
       'Emitted 0 transactions',
     )
+  })
+
+  it('renders flags', () => {
+    const wrapper = createWrapper(TrustSet)
+    const expectedFlags = new Set([
+      'tfFullyCanonicalSig',
+      'tfSetDeepFreeze',
+      'tfSetFreeze',
+      'tfSetAuth',
+    ])
+
+    expect(wrapper.contains(<div className="title">Flags</div>)).toBe(true)
+
+    expect(wrapper.find('.detail-section .flags').children()).toHaveLength(
+      expectedFlags.size,
+    )
+
+    const renderedFlags = wrapper
+      .find('.detail-section .flags')
+      .children()
+      .map((node) => node.text())
+
+    expect(new Set(renderedFlags)).toEqual(expectedFlags)
+
+    wrapper.unmount()
   })
 })

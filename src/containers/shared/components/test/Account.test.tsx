@@ -1,104 +1,100 @@
-import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
+import { cleanup, render, screen } from '@testing-library/react'
 import i18n from '../../../../i18n/testConfig'
 import { Account } from '../Account'
 
-const createWrapper = (component: JSX.Element) =>
-  mount(
+const renderComponent = (component: JSX.Element) =>
+  render(
     <I18nextProvider i18n={i18n}>
       <BrowserRouter>{component}</BrowserRouter>
     </I18nextProvider>,
   )
 
+const ACCOUNT = 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt'
+const ACCOUNT_PLUS_DT = `${ACCOUNT}:381702`
+
 describe('Account', () => {
+  afterEach(cleanup)
   it('should render with a link', () => {
-    const wrapper = createWrapper(
-      <Account account="rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt" />,
-    )
-    const anchor = wrapper.find('a')
-    expect(anchor).toHaveClassName('account')
-    expect(anchor).toHaveText('rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(anchor).toHaveProp(
-      'href',
-      '/accounts/rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt',
-    )
-    expect(anchor).toHaveProp('title', 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(wrapper.find('.dt')).not.toExist()
-    wrapper.unmount()
+    renderComponent(<Account account={ACCOUNT} />)
+    const element = screen.getByTestId('account')
+    expect(element).toHaveClass('account')
+    expect(element).toHaveTextContent(ACCOUNT)
+    expect(element).toHaveAttribute('href', `/accounts/${ACCOUNT}`)
+    expect(element).toHaveAttribute('title', ACCOUNT)
+    expect(screen.queryByTestId('dt')).toBeNull()
   })
   it('should render without a link', () => {
-    const wrapper = createWrapper(
-      <Account account="rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt" link={false} />,
-    )
-    const address = wrapper.find('.account').hostNodes()
-    expect(address).toHaveText('rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(address).not.toHaveDisplayName('a')
-    expect(address).toHaveProp('title', 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(wrapper.find('.dt')).not.toExist()
-    wrapper.unmount()
+    renderComponent(<Account account={ACCOUNT} link={false} />)
+    const element = screen.getByTestId('account')
+    expect(element).toHaveTextContent(ACCOUNT)
+    expect(element).not.toHaveAttribute('href')
+    expect(element).toHaveAttribute('title', ACCOUNT)
+    expect(screen.queryByTestId('dt')).toBeNull()
   })
 
   it('should render with a destination tag', () => {
-    const wrapper = createWrapper(
-      <Account account="rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt:381702" />,
-    )
-    const anchor = wrapper.find('a')
-    expect(anchor).toHaveClassName('account')
-    expect(anchor).toHaveText('rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(anchor).toHaveProp(
-      'href',
-      '/accounts/rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt',
-    )
-    expect(anchor).toHaveProp('title', 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(wrapper.find('.dt')).toHaveText(':381702')
-    wrapper.unmount()
+    renderComponent(<Account account={ACCOUNT_PLUS_DT} />)
+    const element = screen.getByTestId('account')
+    expect(element).toHaveClass('account')
+    expect(element).toHaveTextContent(ACCOUNT)
+    expect(element).toHaveAttribute('href', `/accounts/${ACCOUNT}`)
+    expect(element).toHaveAttribute('title', ACCOUNT)
+    expect(screen.queryByTestId('dt')).toHaveTextContent(':381702')
   })
 
   it('should render with a destination tag and no link', () => {
-    const wrapper = createWrapper(
-      <Account
-        account="rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt:381702"
-        link={false}
-      />,
-    )
-    const address = wrapper.find('.account')
-    expect(address).toHaveText('rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(address).not.toHaveDisplayName('a')
-    expect(address).toHaveProp('title', 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(wrapper.find('.dt')).toHaveText(':381702')
-    wrapper.unmount()
+    renderComponent(<Account account={ACCOUNT_PLUS_DT} link={false} />)
+    const element = screen.getByTestId('account')
+    expect(element).toHaveClass('account')
+    expect(element).toHaveTextContent(ACCOUNT)
+    expect(element).not.toHaveAttribute('href')
+    expect(element).toHaveAttribute('title', ACCOUNT)
+    expect(screen.queryByTestId('dt')).toHaveTextContent(':381702')
   })
 
   it('should render with a destination tag supplied separately', () => {
-    const wrapper = createWrapper(
-      <Account account="rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt" tag={123} />,
-    )
-    const anchor = wrapper.find('a')
-    expect(anchor).toHaveClassName('account')
-    expect(anchor).toHaveText('rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(anchor).toHaveProp(
-      'href',
-      '/accounts/rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt',
-    )
-    expect(anchor).toHaveProp('title', 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(wrapper.find('.dt')).toHaveText(':123')
-    wrapper.unmount()
+    renderComponent(<Account account={ACCOUNT} tag={123} />)
+    const element = screen.getByTestId('account')
+    expect(element).toHaveClass('account')
+    expect(element).toHaveTextContent(ACCOUNT)
+    expect(element).toHaveAttribute('href', `/accounts/${ACCOUNT}`)
+    expect(element).toHaveAttribute('title', ACCOUNT)
+    expect(screen.queryByTestId('dt')).toHaveTextContent(':123')
   })
 
   it('should render with a destination tag supplied separately and no link', () => {
-    const wrapper = createWrapper(
+    renderComponent(<Account account={ACCOUNT} tag={123} link={false} />)
+    const element = screen.getByTestId('account')
+    expect(element).toHaveTextContent(ACCOUNT)
+    expect(element).not.toHaveAttribute('href')
+    expect(element).toHaveAttribute('title', ACCOUNT)
+    expect(screen.queryByTestId('dt')).toHaveTextContent(':123')
+  })
+
+  it('should render with displayText', () => {
+    renderComponent(
+      <Account account={ACCOUNT} displayText="Custom Display Name" />,
+    )
+    const element = screen.getByTestId('account')
+    expect(element).toHaveClass('account')
+    expect(element).toHaveTextContent('Custom Display Name')
+    expect(element).toHaveAttribute('href', `/accounts/${ACCOUNT}`)
+    expect(element).toHaveAttribute('title', ACCOUNT)
+  })
+
+  it('should render with displayText and no link', () => {
+    renderComponent(
       <Account
-        account="rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt"
-        tag={123}
+        account={ACCOUNT}
+        displayText="Custom Display Name"
         link={false}
       />,
     )
-    const address = wrapper.find('.account')
-    expect(address).toHaveText('rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(address).not.toHaveDisplayName('a')
-    expect(address).toHaveProp('title', 'rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt')
-    expect(wrapper.find('.dt')).toHaveText(':123')
-    wrapper.unmount()
+    const element = screen.getByTestId('account')
+    expect(element).toHaveTextContent('Custom Display Name')
+    expect(element).not.toHaveAttribute('href')
+    expect(element).toHaveAttribute('title', ACCOUNT)
   })
 })

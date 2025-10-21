@@ -11,7 +11,7 @@ import { convertRippleDate } from '../../../rippled/lib/convertRippleDate'
 const MAX_LEDGER_COUNT = 15
 
 const PURGE_INTERVAL = 10 * 1000
-const MAX_AGE = 90 * 1000
+const MAX_AGE = 5 * 60 * 1000
 
 const throttle = (func, limit) => {
   let inThrottle
@@ -83,9 +83,16 @@ const formatLedgers = (data) =>
           return a.time - b.time
         })
 
+        // Dedupe validations count using pubkey
+        const rawUnlEntries = h[1].filter(
+          (entry) => typeof entry.unl === 'string' && entry.unl.length > 0,
+        )
+        const pubkeyList = rawUnlEntries.map((entry) => entry.pubkey)
+        const dedupedTrustedCount = new Set(pubkeyList).size
+
         return {
           hash: h[0],
-          trusted_count: h[1].filter((d) => d.unl).length,
+          trusted_count: dedupedTrustedCount,
           validations: h[1],
           unselected: !validated && Boolean(ledger.ledger_hash),
           validated,
@@ -423,7 +430,8 @@ class Streams extends Component {
 
   // update rolling metrics
   updateMetrics(baseFee) {
-    const ledgerChain = this.organizeChain().slice(-100)
+    const ledgerChain = this.organizeChain().slice(-50)
+    Log.info(ledgerChain.length)
 
     let time = 0
     let fees = 0

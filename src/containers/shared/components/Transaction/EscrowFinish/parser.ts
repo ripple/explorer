@@ -20,5 +20,6 @@ export function parser(tx: EscrowFinish, meta: TransactionMetadata) {
         : undefined,
     condition: escrow.Condition,
     fulfillment: tx.Fulfillment,
+    computationAllowance: tx.ComputationAllowance,
   }
 }

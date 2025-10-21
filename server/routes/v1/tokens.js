@@ -2,7 +2,7 @@ const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'tokens search' })
 
 const REFETCH_INTERVAL = 60 * 60 * 1000 // 1 hour
-const XRPLMETA_QUERY_LIMIT = 1000
+const XRPLMETA_QUERY_LIMIT = 100000
 const cachedTokenSearchList = { tokens: [], last_updated: null }
 
 const parseCurrency = (currency) => {
@@ -69,12 +69,13 @@ async function cacheXRPLMetaTokens() {
         result.metrics.volume_7d > 0) ||
       result.meta.issuer.trust_level === 3,
   )
+
   cachedTokenSearchList.last_updated = Date.now()
 
   // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
-  cachedTokenSearchList.tokens.map((token) => ({
+  cachedTokenSearchList.tokens = cachedTokenSearchList.tokens.map((token) => ({
     ...token,
-    currency: parseCurrency(token.currency),
+    parsedCurrency: parseCurrency(token.currency),
   }))
 }
 
@@ -94,6 +95,7 @@ function queryTokens(tokenList, query) {
   return tokenList.filter(
     (token) =>
       token.currency?.toLowerCase().includes(sanitizedQuery) ||
+      token.parsedCurrency?.toLowerCase().includes(sanitizedQuery) ||
       token.meta?.token?.name?.toLowerCase().includes(sanitizedQuery) ||
       token.meta?.issuer?.name?.toLowerCase().includes(sanitizedQuery) ||
       token.issuer?.toLowerCase().startsWith(sanitizedQuery),

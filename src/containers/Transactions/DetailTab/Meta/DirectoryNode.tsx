@@ -24,6 +24,11 @@ const render = (
           <Account account={fields.Owner} />
         </span>
       )}
+      {fields.DomainID && (
+        <span>
+          {t('pertaining_to_the_Permissioned_Domain')}: {fields.DomainID}
+        </span>
+      )}
     </li>
   )
 }
