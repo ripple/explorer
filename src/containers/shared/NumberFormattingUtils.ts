@@ -7,6 +7,8 @@ import { localizeNumber, formatLargeNumber } from './utils'
 const USD_REGULAR_BALANCE_LOWER_BOUND = 1
 const USD_SMALL_BALANCE_LOWER_BOUND = 0.0001
 const TOKEN_BALANCE_LARGE_LOWER_BOUND = 999
+const SIGNIFICANT_FIGURES_SMALL_NUMBERS = 2
+const THRESHOLD_SMALL_NUMBERS = 0.0001
 
 // Standard display for most XRP amounts (2 decimals)
 export const XRP_CURRENCY_OPTIONS = {
@@ -148,37 +150,71 @@ export const calculateFormattedUsdBalance = (
 }
 
 /**
- * Formats large numbers with K/M/B suffixes for compact table display
+ * Formats numbers to 2 significant figures for small values, with K/M/B suffixes for large values
  * @param value - The numeric value to format
- * @param decimals - Number of decimal places (default: 1)
- * @returns Formatted string with appropriate suffix (K, M, B)
+ * @param decimals - Number of decimal places for large numbers
+ * @returns Formatted string with appropriate handling for small and large numbers
  */
 export const parseAmount = (
   value: string | number,
   decimals: number = 1,
 ): string => {
   const valueNumeric = Number(value)
-  const formatted = formatLargeNumber(valueNumeric, decimals)
 
-  // Convert object format to string format
+  // Handle scientific notation (contains 'e')
+  if (valueNumeric.toString().includes('e')) {
+    return '<0.0001'
+  }
+
+  // Handle small numbers
+  if (valueNumeric > 0 && valueNumeric < THRESHOLD_SMALL_NUMBERS) {
+    return '<0.0001'
+  }
+
+  if (valueNumeric > 0 && valueNumeric < 1) {
+    const formatted = valueNumeric.toPrecision(
+      SIGNIFICANT_FIGURES_SMALL_NUMBERS,
+    )
+    const result = parseFloat(formatted)
+
+    if (result >= 1) {
+      return result.toFixed(1)
+    }
+
+    return formatted
+  }
+
+  // Use existing formatLargeNumber for numbers >= 1
+  const formatted = formatLargeNumber(valueNumeric, decimals)
   return formatted.unit ? `${formatted.num}${formatted.unit}` : formatted.num
 }
 
 /**
- * Formats currency amounts with dollar sign and K/M/B suffixes for compact table display
+ * Formats currency amounts with dollar sign
  * @param value - The numeric value to format as currency
- * @param decimals - Number of decimal places (default: 1)
- * @returns Formatted currency string with $ prefix and K/M/B suffix
+ * @param decimals - Number of decimal places for large numbers
+ * @returns Formatted currency string with $ prefix
  */
 export const parseCurrencyAmount = (
   value: string | number,
   decimals: number = 1,
-): string => `$${parseAmount(value, decimals)}`
+): string => {
+  const formatted = parseAmount(value, decimals)
+
+  // Handle the special case for threshold values
+  if (formatted === '<0.0001') {
+    return '<$0.0001'
+  }
+
+  return `$${formatted}`
+}
 
 /**
  * Formats percentage values with % suffix
  * @param percent - The percentage value to format
+ * @param decimals - Number of decimal places for large numbers
+ *
  * @returns Formatted percentage string with % suffix
  */
-export const parsePercent = (percent: number): string =>
-  `${percent.toFixed(2)}%`
+export const parsePercent = (percent: number, decimals: number = 2): string =>
+  `${parseAmount(percent, decimals)}%`

@@ -201,9 +201,32 @@ describe('NumberFormattingUtils', () => {
       expect(parseAmount(0)).toBe('0.0')
     })
 
+    it('handles very small numbers with <0.0001 threshold', () => {
+      expect(parseAmount(0.00005)).toBe('<0.0001')
+      expect(parseAmount(0.000001)).toBe('<0.0001')
+      expect(parseAmount(0.0000999)).toBe('<0.0001')
+    })
+
+    it('handles scientific notation numbers', () => {
+      expect(parseAmount(1e-10)).toBe('<0.0001')
+      expect(parseAmount(1.5e-8)).toBe('<0.0001')
+      expect(parseAmount(9.99e-7)).toBe('<0.0001')
+    })
+
+    it('formats small numbers with 2 significant figures', () => {
+      expect(parseAmount(0.0004231)).toBe('0.00042')
+      expect(parseAmount(0.0001)).toBe('0.00010')
+      expect(parseAmount(0.00123)).toBe('0.0012')
+      expect(parseAmount(0.0567)).toBe('0.057')
+      expect(parseAmount(0.123)).toBe('0.12')
+      expect(parseAmount(0.999)).toBe('1.0')
+    })
+
     it('handles string inputs', () => {
       expect(parseAmount('1500000')).toBe('1.5M')
       expect(parseAmount('123.45')).toBe('123.5')
+      expect(parseAmount('0.0004231')).toBe('0.00042')
+      expect(parseAmount('0.00005')).toBe('<0.0001')
     })
   })
 
@@ -214,9 +237,17 @@ describe('NumberFormattingUtils', () => {
       expect(parseCurrencyAmount(0)).toBe('$0.0')
     })
 
+    it('handles very small currency amounts', () => {
+      expect(parseCurrencyAmount(0.00005)).toBe('<$0.0001')
+      expect(parseCurrencyAmount(0.0004231)).toBe('$0.00042')
+      expect(parseCurrencyAmount(0.00123)).toBe('$0.0012')
+    })
+
     it('handles string inputs', () => {
       expect(parseCurrencyAmount('1500000')).toBe('$1.5M')
       expect(parseCurrencyAmount('123.45')).toBe('$123.5')
+      expect(parseCurrencyAmount('0.0004231')).toBe('$0.00042')
+      expect(parseCurrencyAmount('0.00005')).toBe('<$0.0001')
     })
   })
 

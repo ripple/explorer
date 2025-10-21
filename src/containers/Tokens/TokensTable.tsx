@@ -104,27 +104,27 @@ export const TokensTable = ({
         )}
       </td>
       <td className="volume">
-        {token.daily_volume_usd
+        {token.daily_volume_usd && Number(token.daily_volume_usd) !== 0
           ? parseCurrencyAmount(token.daily_volume_usd)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="trades">
-        {token.daily_trades
+        {token.daily_trades && Number(token.daily_trades) !== 0
           ? parseAmount(token.daily_trades)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="holders">
-        {token.holders ? parseAmount(token.holders) : DEFAULT_EMPTY_VALUE}
+        {token.holders && Number(token.holders) !== 0
+          ? parseAmount(token.holders)
+          : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="tvl">
-        {token.tvl_usd
+        {token.tvl_usd && Number(token.tvl_usd) !== 0
           ? parseCurrencyAmount(token.tvl_usd)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="market-cap">
-        {token.market_cap_usd &&
-        token.price_usd &&
-        Number(token.price_usd) !== 0
+        {token.market_cap_usd && Number(token.market_cap_usd) !== 0
           ? parseCurrencyAmount(token.market_cap_usd)
           : DEFAULT_EMPTY_VALUE}
       </td>
