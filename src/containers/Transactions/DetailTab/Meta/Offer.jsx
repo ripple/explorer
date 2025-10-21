@@ -181,22 +181,16 @@ const render = (t, language, action, node, index, tx) => {
         components={{
           Currency: (
             <Currency
-              currency={
-                (invert ? tx.TakerGets.currency : tx.TakerPays.currency) ||
-                'XRP'
-              }
-              issuer={invert ? tx.TakerGets.issuer : tx.TakerPays.issuer}
+              currency={(invert ? getsCurrency : paysCurrency) || 'XRP'}
+              issuer={invert ? tx.TakerGets?.issuer : tx.TakerPays?.issuer}
               displaySymbol={false}
               shortenIssuer
             />
           ),
           Currency2: (
             <Currency
-              currency={
-                (invert ? tx.TakerPays.currency : tx.TakerGets.currency) ||
-                'XRP'
-              }
-              issuer={invert ? tx.TakerPays.issuer : tx.TakerGets.issuer}
+              currency={(invert ? paysCurrency : getsCurrency) || 'XRP'}
+              issuer={invert ? tx.TakerPays?.issuer : tx.TakerGets?.issuer}
               displaySymbol={false}
               shortenIssuer
             />

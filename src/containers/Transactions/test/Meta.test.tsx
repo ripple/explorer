@@ -64,7 +64,7 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(7).html()).toBe(
-      '<li class="meta-line">It modified a <b>XRP/CNY</b>owned by<a data-testid="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" class="account" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a>with sequence # <b>1181517</b><ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE900470.31823</b>to<b>\uE900419.993914</b></li><li class="meta-line"><span class="field">TakerGets </span><b>CNY</b>.<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a> decreased by<b>CN¥224.7141103</b>from<b>CN¥2,100.12079671</b>to<b>CN¥1,875.40668641</b></li></ul></li>',
+      '<li class="meta-line">offer_node_meta<ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b><span class="currency" data-testid="currency">XRP</span></b> decreased by<b>\uE90050.324316</b>from<b>\uE900470.31823</b>to<b>\uE900419.993914</b></li><li class="meta-line"><span class="field">TakerGets </span><b><a data-testid="currency" class="currency" href="/token/CNY.rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">CNY.rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a></b> decreased by<b>CN¥224.7141103</b>from<b>CN¥2,100.12079671</b>to<b>CN¥1,875.40668641</b></li></ul></li>',
     )
 
     expect(w.find('li').at(8).html()).toBe(
@@ -72,15 +72,15 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(9).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerPays </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE900470.31823</b>to<b>\uE900419.993914</b></li>',
+      '<li class="meta-line"><span class="field">TakerPays </span><b><span class="currency" data-testid="currency">XRP</span></b> decreased by<b>\uE90050.324316</b>from<b>\uE900470.31823</b>to<b>\uE900419.993914</b></li>',
     )
 
     expect(w.find('li').at(10).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerGets </span><b>CNY</b>.<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a> decreased by<b>CN¥224.7141103</b>from<b>CN¥2,100.12079671</b>to<b>CN¥1,875.40668641</b></li>',
+      '<li class="meta-line"><span class="field">TakerGets </span><b><a data-testid="currency" class="currency" href="/token/CNY.rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">CNY.rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a></b> decreased by<b>CN¥224.7141103</b>from<b>CN¥2,100.12079671</b>to<b>CN¥1,875.40668641</b></li>',
     )
 
     expect(w.find('li').at(11).html()).toBe(
-      '<li class="meta-line">It modified a <b>XRP/CNY</b>owned by<a data-testid="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" class="account" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a>with sequence # <b>5804</b><ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b>CNY</b>.<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a> decreased by<b>CN¥225.45293634</b>from<b>CN¥12,589.58241408</b>to<b>CN¥12,364.12947774</b></li><li class="meta-line"><span class="field">TakerGets </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE9002,810.174646</b>to<b>\uE9002,759.85033</b></li></ul></li>',
+      '<li class="meta-line">offer_node_meta<ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b><a data-testid="currency" class="currency" href="/token/CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a></b> decreased by<b>CN¥225.45293634</b>from<b>CN¥12,589.58241408</b>to<b>CN¥12,364.12947774</b></li><li class="meta-line"><span class="field">TakerGets </span><b><span class="currency" data-testid="currency">XRP</span></b> decreased by<b>50.324316</b>from<b>2,810.174646</b>to<b>2,759.85033</b></li></ul></li>',
     )
 
     expect(w.find('li').at(12).html()).toBe(
@@ -88,15 +88,15 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(13).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerPays </span><b>CNY</b>.<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a> decreased by<b>CN¥225.45293634</b>from<b>CN¥12,589.58241408</b>to<b>CN¥12,364.12947774</b></li>',
+      '<li class="meta-line"><span class="field">TakerPays </span><b><a data-testid="currency" class="currency" href="/token/CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">CNY.razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a></b> decreased by<b>CN¥225.45293634</b>from<b>CN¥12,589.58241408</b>to<b>CN¥12,364.12947774</b></li>',
     )
 
     expect(w.find('li').at(14).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerGets </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE9002,810.174646</b>to<b>\uE9002,759.85033</b></li>',
+      '<li class="meta-line"><span class="field">TakerGets </span><b><span class="currency" data-testid="currency">XRP</span></b> decreased by<b>50.324316</b>from<b>2,810.174646</b>to<b>2,759.85033</b></li>',
     )
 
     expect(w.find('li').at(15).html()).toBe(
-      '<li class="meta-line">It modified a <b>CNY</b>ripplestate node between<a data-testid="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" class="account" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a>and<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a><ul class="meta-line"><li>Balance changed by<b>CN¥225.45293634</b>from<b>CN¥187,682.19557797</b>to<b>CN¥187,907.64851431</b></li></ul></li>',
+      '<li class="meta-line">It modified a <b><span class="currency" data-testid="currency">CNY</span></b>RippleState node between<a data-testid="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" class="account" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a>and<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a><ul class="meta-line"><li>Balance changed by<b>CN¥225.45293634</b>from<b>CN¥187,682.19557797</b>to<b>CN¥187,907.64851431</b></li></ul></li>',
     )
 
     expect(w.find('li').at(16).html()).toBe(
@@ -104,7 +104,7 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(17).html()).toBe(
-      '<li class="meta-line">It modified a <b>CNY</b>ripplestate node between<a data-testid="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" class="account" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a>and<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a><ul class="meta-line"><li>Balance changed by<b>CN¥224.7141103</b>from<b>CN¥68,093.01974027</b>to<b>CN¥68,317.73385057</b></li></ul></li>',
+      '<li class="meta-line">It modified a <b><span class="currency" data-testid="currency">CNY</span></b>RippleState node between<a data-testid="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" class="account" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a>and<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a><ul class="meta-line"><li>Balance changed by<b>CN¥224.7141103</b>from<b>CN¥68,093.01974027</b>to<b>CN¥68,317.73385057</b></li></ul></li>',
     )
 
     expect(w.find('li').at(18).html()).toBe(
@@ -112,7 +112,7 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(19).html()).toBe(
-      '<li class="meta-line">It modified a <b>CNY</b>ripplestate node between<a data-testid="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" class="account" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a>and<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a><ul class="meta-line"><li>Balance changed by<b>-CN¥224.7141103</b>from<b>CN¥9,605.02284129</b>to<b>CN¥9,380.30873099</b></li></ul></li>',
+      '<li class="meta-line">It modified a <b><span class="currency" data-testid="currency">CNY</span></b>RippleState node between<a data-testid="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" class="account" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a>and<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a><ul class="meta-line"><li>Balance changed by<b>-CN¥224.7141103</b>from<b>CN¥9,605.02284129</b>to<b>CN¥9,380.30873099</b></li></ul></li>',
     )
 
     expect(w.find('li').at(20).html()).toBe(
@@ -120,7 +120,7 @@ describe('TransactionMeta container', () => {
     )
 
     expect(w.find('li').at(21).html()).toBe(
-      '<li class="meta-line">It modified a <b>CNY</b>ripplestate node between<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a>and<a data-testid="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" class="account" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a><ul class="meta-line"><li>Balance changed by<b>CN¥225.90384221</b>from<b>-CN¥225.90384221</b>to<b>CN¥0.00</b></li></ul></li>',
+      '<li class="meta-line">It modified a <b><span class="currency" data-testid="currency">CNY</span></b>RippleState node between<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a>and<a data-testid="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" class="account" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a><ul class="meta-line"><li>Balance changed by<b>CN¥225.90384221</b>from<b>-CN¥225.90384221</b>to<b>CN¥0.00</b></li></ul></li>',
     )
 
     expect(w.find('li').at(22).html()).toBe(
