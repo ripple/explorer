@@ -2,25 +2,25 @@ import { useContext, useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
 
-import { useAnalytics } from '../shared/analytics'
-import SocketContext from '../shared/SocketContext'
-import { TransactionTable } from '../shared/components/TransactionTable/TransactionTable'
-import { getAccountTransactions } from '../../rippled'
-import { TxTablePicker } from './components/TxTablePicker/TxTablePicker'
+import { useAnalytics } from '../../shared/analytics'
+import SocketContext from '../../shared/SocketContext'
+import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
+import { getAccountTransactions } from '../../../rippled'
+import { TxTablePicker } from '../components/TxTablePicker/TxTablePicker'
 import {
   DexTradeTable,
   LOSDEXTransaction,
-} from './components/DexTradeTable/DexTradeTable'
+} from '../components/DexTradeTable/DexTradeTable'
 import {
   HoldersTable,
   XRPLHolder,
-} from './components/HoldersTable/HoldersTable'
+} from '../components/HoldersTable/HoldersTable'
 import {
   LOSTransfer,
   TransfersTable,
-} from './components/TransfersTable/TransfersTable'
-import { TokenHoldersData } from './api/holders'
-import { LOSToken } from '../shared/losTypes'
+} from '../components/TransfersTable/TransfersTable'
+import { TokenHoldersData } from '../api/holders'
+import { LOSToken } from '../../shared/losTypes'
 
 /**
  * Pagination state for a single table

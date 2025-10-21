@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
 import Log from '../shared/log'
 import { TokenHeader } from './TokenHeader'
-import { TokenTablePicker } from './TokenTablePicker'
+import { TokenTablePicker } from './TokenTablePicker/TokenTablePicker'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'

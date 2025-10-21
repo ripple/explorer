@@ -2,24 +2,31 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
-import i18n from '../../../../i18n/testConfig'
-import { TokenTransactionTable } from '../index'
-import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionTable/test/mockTransactions.json'
+import i18n from '../../../i18n/testConfig'
+import { TokenTablePicker } from './TokenTablePicker'
+import TEST_TRANSACTIONS_DATA from '../../Accounts/AccountTransactionTable/test/mockTransactions.json'
 
-import { getAccountTransactions } from '../../../../rippled'
-import { testQueryClient } from '../../../test/QueryClient'
-import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../../test/utils'
+import { getAccountTransactions } from '../../../rippled'
+import { testQueryClient } from '../../test/QueryClient'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 import Mock = jest.Mock
 
-jest.mock('../../../../rippled', () => ({
+jest.mock('../../rippled', () => ({
   __esModule: true,
   getAccountTransactions: jest.fn(),
 }))
 
 const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 const TEST_CURRENCY = 'abc'
+const TEST_TOKEN_DATA = {
+  currency: TEST_CURRENCY,
+  issuer_account: TEST_ACCOUNT_ID,
+  trustlines: 100,
+  index: 0,
+  price: '1.0',
+}
 
-describe('TokenTransactionsTable container', () => {
+describe('TokenTablePicker container', () => {
   const createWrapper = (
     getAccountTransactionsImpl = () => new Promise(() => {}),
   ) => {
@@ -30,9 +37,47 @@ describe('TokenTransactionsTable container', () => {
       <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
           <Router future={V7_FUTURE_ROUTER_FLAGS}>
-            <TokenTransactionTable
+            <TokenTablePicker
               accountId={TEST_ACCOUNT_ID}
               currency={TEST_CURRENCY}
+              xrpUSDRate="1.0"
+              tokenData={TEST_TOKEN_DATA}
+              holdersData={undefined}
+              holdersPagination={{
+                currentPage: 1,
+                setCurrentPage: jest.fn(),
+                pageSize: 20,
+                total: 0,
+              }}
+              holdersLoading={false}
+              dexTradesData={[]}
+              dexTradesPagination={{
+                currentPage: 1,
+                setCurrentPage: jest.fn(),
+                pageSize: 10,
+                total: 0,
+              }}
+              dexTradesSorting={{
+                sortField: 'timestamp',
+                setSortField: jest.fn(),
+                sortOrder: 'desc',
+                setSortOrder: jest.fn(),
+              }}
+              dexTradesLoading={false}
+              transfersData={[]}
+              transfersPagination={{
+                currentPage: 1,
+                setCurrentPage: jest.fn(),
+                pageSize: 10,
+                total: 0,
+              }}
+              transfersSorting={{
+                sortField: 'timestamp',
+                setSortField: jest.fn(),
+                sortOrder: 'desc',
+                setSortOrder: jest.fn(),
+              }}
+              transfersLoading={false}
             />
           </Router>
         </I18nextProvider>

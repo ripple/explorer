@@ -200,7 +200,7 @@ export const DexTradeTable = ({
               type="button"
               className="refresh-button"
               onClick={onRefresh}
-              title="Refresh data"
+              title={t('refresh_data')}
             >
               ↻
             </button>

@@ -762,6 +762,7 @@
   "token_page.transfers_no_transfers": "No transfers found",
   "token_page.price_less_than": "< $0.0001",
   "token_page.token_label": "Token",
-  "token_page.category_text": "IOU"
+  "token_page.category_text": "IOU",
+  "refresh_data": "Refresh data"
 
 }
