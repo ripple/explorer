@@ -5,6 +5,7 @@ import './styles.scss'
 import { shortenAccount } from '../../shared/utils'
 import {
   parseAmount,
+  parseCurrencyAmount,
   parseIntegerAmount,
   parsePercent,
   parsePrice,
@@ -80,13 +81,15 @@ export const HeaderBoxes = ({
     const circSupplyNum = Number(circSupply) || 0
     const priceNum = Number(price) || 0
     const xrpRate = Number(xrpUSDRate) || 0
-    const parsedVolume = parsePrice(Number(volume24h) * Number(xrpUSDRate))
+    const parsedVolume = parseCurrencyAmount(
+      Number(volume24h) * Number(xrpUSDRate),
+    )
 
     return {
       formattedCircSupply: parseAmount(circSupplyNum, 2),
       marketCap:
         circSupplyNum && priceNum && xrpRate
-          ? parsePrice(circSupplyNum * priceNum * xrpRate)
+          ? parseCurrencyAmount(circSupplyNum * priceNum * xrpRate)
           : null,
       parsedVolume,
     }
@@ -201,7 +204,7 @@ export const HeaderBoxes = ({
               ) : (
                 <Account
                   account={ammAccount}
-                  displayText={parsePrice(ammTvl)}
+                  displayText={parseCurrencyAmount(ammTvl)}
                 />
               )}
             </div>

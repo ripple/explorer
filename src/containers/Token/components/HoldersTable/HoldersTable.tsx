@@ -6,6 +6,8 @@ import './styles.scss'
 import '../tables-mobile.scss'
 import {
   parseAmount,
+  parseCurrencyAmount,
+  parseIntegerAmount,
   parsePercent,
   parsePrice,
 } from '../../../shared/NumberFormattingUtils'
@@ -66,9 +68,9 @@ export const HoldersTable = ({
           displayText={shortenAccount(holder.account)}
         />
       </td>
-      <td className="tx-ledger">{parseAmount(holder.balance)}</td>
+      <td className="tx-ledger">{parseIntegerAmount(holder.balance)}</td>
       <td className="tx-percent-supply">{parsePercent(holder.percent)}</td>
-      <td className="tx-value">{parsePrice(holder.value_usd)}</td>
+      <td className="tx-value">{parseCurrencyAmount(holder.value_usd)}</td>
     </tr>
   )
 

@@ -62,8 +62,8 @@ class DexTradesPaginationService {
       type: trade.type,
       subtype: trade.subtype,
       rate:
-        trade.amount_out && Number(trade.amount_out.value) !== 0
-          ? Number(trade.amount_in.value) / Number(trade.amount_out.value)
+        trade.amount_in && Number(trade.amount_in.value) !== 0
+          ? Number(trade.amount_out.value) / Number(trade.amount_in.value)
           : null,
       amount_in: {
         currency: trade.amount_in.currency,

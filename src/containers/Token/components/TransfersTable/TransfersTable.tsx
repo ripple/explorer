@@ -139,18 +139,7 @@ export const TransfersTable = ({
           </span>
         </td>
         <td className="tx-amount">
-          {hasValidAmount ? (
-            <Amount
-              value={{
-                currency: tx.amount.currency,
-                issuer: tx.amount.issuer,
-                amount: parseAmount(tx.amount.value),
-              }}
-              displayIssuer={false}
-            />
-          ) : (
-            '--'
-          )}
+          {hasValidAmount ? parseAmount(tx.amount.value) : '--'}
         </td>
       </tr>
     )

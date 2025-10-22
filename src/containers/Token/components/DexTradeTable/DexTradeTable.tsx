@@ -12,6 +12,7 @@ import { Pagination } from '../../../shared/components/Pagination'
 import { ExplorerAmount } from '../../../shared/types'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { Amount } from '../../../shared/components/Amount'
+import Currency from '../../../shared/components/Currency'
 import { truncateString } from '../../utils/stringFormatting'
 import { shortenAccount } from '../../../shared/utils'
 import { parseAmount } from '../../../shared/NumberFormattingUtils'
@@ -169,7 +170,20 @@ export const DexTradeTable = ({
         />
       </td>
 
-      <td className="tx-amount-rate">{parseAmount(tx.rate)}</td>
+      <td className="tx-amount-rate">
+        1{' '}
+        <Currency
+          currency={String(tx.amount_in.currency)}
+          link={false}
+          displaySymbol={false}
+        />{' '}
+        = {parseAmount(tx.rate)}{' '}
+        <Currency
+          currency={String(tx.amount_out.currency)}
+          link={false}
+          displaySymbol={false}
+        />
+      </td>
     </tr>
   )
 
