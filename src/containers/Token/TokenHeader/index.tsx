@@ -8,6 +8,7 @@ import {
 } from '../components/HeaderBoxes'
 import { LOSToken } from '../../shared/losTypes'
 import { TokenHoldersData } from '../api/holders'
+import GlobeSvg from '../../shared/images/globe.svg'
 
 interface TokenHeaderProps {
   currency: string
@@ -57,7 +58,7 @@ export const TokenHeader = ({
   }
 
   const marketData: MarketData = {
-    supply: holdersData?.totalSupply.toString() || tokenData.supply || '',
+    supply: holdersData?.totalSupply?.toString() || tokenData.supply || '',
     circ_supply: circSupply.toString() || tokenData.circ_supply || '',
     market_cap: tokenData.market_cap || '',
     volume_24h: tokenData.daily_volume || '',
@@ -112,7 +113,7 @@ export const TokenHeader = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img className="issuer-ext-link-icon" src="/globe.svg" alt="" />
+            <GlobeSvg className="issuer-ext-link-icon" />
             <span className="issuer-ext-link-text">
               {tokenURL.replace(/^https?:\/\//, '').replace(/\/$/, '')}
             </span>

@@ -3,11 +3,14 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Loader } from '../../../shared/components/Loader'
 import { Pagination } from '../../../shared/components/Pagination'
-import { parseAmount, parsePercent } from '../../../Tokens/TokensTable'
 import './styles.scss'
 import '../tables-mobile.scss'
 import { truncateString } from '../../utils/stringFormatting'
 import { DEFAULT_EMPTY_VALUE } from '../../utils/numberFormatting'
+import {
+  parseAmount,
+  parsePercent,
+} from '../../../shared/NumberFormattingUtils'
 
 export interface XRPLHolder {
   rank: number

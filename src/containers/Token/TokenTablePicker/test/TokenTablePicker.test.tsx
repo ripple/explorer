@@ -2,13 +2,13 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
-import i18n from '../../../i18n/testConfig'
-import { TokenTablePicker } from './TokenTablePicker'
-import TEST_TRANSACTIONS_DATA from '../../Accounts/AccountTransactionTable/test/mockTransactions.json'
+import i18n from '../../../../i18n/testConfig'
+import { TokenTablePicker } from '../TokenTablePicker'
+import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionTable/test/mockTransactions.json'
 
-import { getAccountTransactions } from '../../../rippled'
-import { testQueryClient } from '../../test/QueryClient'
-import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
+import { getAccountTransactions } from '../../../../rippled'
+import { testQueryClient } from '../../../test/QueryClient'
+import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../../test/utils'
 import Mock = jest.Mock
 
 jest.mock('../../rippled', () => ({

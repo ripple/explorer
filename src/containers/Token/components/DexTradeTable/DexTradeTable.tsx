@@ -10,7 +10,6 @@ import './styles.scss'
 import '../tables-mobile.scss'
 import { Pagination } from '../../../shared/components/Pagination'
 import { ExplorerAmount } from '../../../shared/types'
-import { formatDecimals } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { Amount } from '../../../shared/components/Amount'
 import {
@@ -165,7 +164,7 @@ export const DexTradeTable = ({
           value={{
             currency: tx.amount_in.currency,
             issuer: tx.amount_in.issuer,
-            amount: formatDecimals(getAmountAsNumber(tx.amount_in), 2),
+            amount: getAmountAsNumber(tx.amount_in),
           }}
           displayIssuer
           shortenIssuer
@@ -176,7 +175,7 @@ export const DexTradeTable = ({
           value={{
             currency: tx.amount_out.currency,
             issuer: tx.amount_out.issuer,
-            amount: formatDecimals(getAmountAsNumber(tx.amount_out), 2),
+            amount: getAmountAsNumber(tx.amount_out),
           }}
           displayIssuer
           shortenIssuer

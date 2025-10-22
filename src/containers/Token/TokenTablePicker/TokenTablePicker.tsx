@@ -169,7 +169,7 @@ export const TokenTablePicker = ({
   const XRPUSDPrice = Number(xrpUSDRate) || 0
 
   const holdersFormatted: XRPLHolder[] =
-    holdersData?.holders.map((holder, index) => ({
+    holdersData?.holders?.map((holder, index) => ({
       ...holder,
       rank:
         (holdersPagination.currentPage - 1) * holdersPagination.pageSize +

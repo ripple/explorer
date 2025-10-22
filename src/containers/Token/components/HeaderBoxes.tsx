@@ -5,9 +5,9 @@ import './styles.scss'
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../../shared/utils'
 import { shouldShowLoadingSpinner } from '../utils/tokenCalculations'
-import { parseAmount, parsePercent } from '../../Tokens/TokensTable'
 import { truncateString } from '../utils/stringFormatting'
 import { DEFAULT_EMPTY_VALUE } from '../utils/numberFormatting'
+import { parseAmount, parsePercent } from '../../shared/NumberFormattingUtils'
 
 export interface OverviewData {
   issuer: string
@@ -90,7 +90,7 @@ export const HeaderBoxes = ({
       return DEFAULT_EMPTY_VALUE
     }
     if (normPrice < 0.0001) {
-      return t('token_page.price_less_than')
+      return '< $0.0001'
     }
     return formatPrice(normPrice)
   }, [price, xrpUSDRate, t])

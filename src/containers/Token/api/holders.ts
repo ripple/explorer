@@ -21,7 +21,7 @@ const fetchTokenHoldersInfo = (
 ): Promise<TokenHoldersData> =>
   axios
     .get(
-      `https://s1.xrplmeta.org/token/${currency}:${issuer}/holders?limit=${limit}&offset=${offset}`,
+      `${process.env.XRPL_META_URL}/token/${currency}:${issuer}/holders?limit=${limit}&offset=${offset}`,
     )
     .then((resp) => resp.data)
 

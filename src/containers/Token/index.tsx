@@ -21,7 +21,7 @@ import { useRouteParams } from '../shared/routing'
 import { Loader } from '../shared/components/Loader'
 import { getToken } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
-import { getAccountLines, getAMMInfo } from '../../rippled/lib/rippled'
+import { getAccountLines, getAMMInfoByAssets } from '../../rippled/lib/rippled'
 import getTokenHolders from './api/holders'
 import {
   DexTrade,
@@ -297,7 +297,7 @@ export const Token = () => {
   // get amm info for TVL calculation
   // note: only fetch xrp-<token> amm info to simplify API calls for most tokens
   const fetchAmmInfo = () =>
-    getAMMInfo(
+    getAMMInfoByAssets(
       rippledSocket,
       { currency: 'XRP' },
       { currency, issuer: accountId },

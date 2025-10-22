@@ -8,7 +8,6 @@ import './styles.scss'
 import '../tables-mobile.scss'
 import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
-import { formatDecimals } from '../../../Tokens/TokensTable'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { truncateString } from '../../utils/stringFormatting'
 import {
@@ -149,14 +148,11 @@ export const TransfersTable = ({
               value={{
                 currency: tx.amount.currency,
                 issuer: tx.amount.issuer,
-                amount: formatDecimals(
-                  getAmountAsNumber({
-                    currency: tx.amount.currency,
-                    issuer: tx.amount.issuer,
-                    amount: tx.amount.value,
-                  }),
-                  2,
-                ),
+                amount: getAmountAsNumber({
+                  currency: tx.amount.currency,
+                  issuer: tx.amount.issuer,
+                  amount: tx.amount.value,
+                }),
               }}
               displayIssuer={false}
             />
