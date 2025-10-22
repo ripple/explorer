@@ -213,10 +213,10 @@ export const DexTradeTable = ({
             >
               <thead>
                 <tr>
-                  <th className="count sticky-1">{t('tx_hash')}</th>
-                  <th className="name-col sticky-2">{t('ledger')}</th>
+                  <th className="count">{t('tx_hash')}</th>
+                  <th className="name-col">{t('ledger')}</th>
                   <th
-                    className="name-col sticky-2"
+                    className="name-col"
                     onClick={handleTimestampSort}
                     style={{ cursor: 'pointer' }}
                   >
@@ -229,18 +229,16 @@ export const DexTradeTable = ({
                       )}
                     </span>
                   </th>
-                  <th className="name-col sticky-2">
-                    {t('token_page.dex_type')}
-                  </th>
-                  <th className="name-col sticky-2">{t('from')}</th>
-                  <th className="name-col sticky-2">{t('to')}</th>
-                  <th className="name-col sticky-2">
+                  <th className="name-col">{t('token_page.dex_type')}</th>
+                  <th className="name-col ">{t('from')}</th>
+                  <th className="name-col">{t('to')}</th>
+                  <th className="name-col ">
                     <span className="sort-header">
                       {t('amount_in')}
                       {renderTextTooltip(t('token_page.dex_amount_in_tooltip'))}
                     </span>
                   </th>
-                  <th className="name-col sticky-2">
+                  <th className="name-col ">
                     <span className="sort-header">
                       {t('amount_out')}
                       {renderTextTooltip(
@@ -248,7 +246,7 @@ export const DexTradeTable = ({
                       )}
                     </span>
                   </th>
-                  <th className="name-col sticky-2">
+                  <th className="name-col">
                     <span className="sort-header">
                       {t('rate')}
                       {renderTextTooltip(t('token_page.dex_rate_tooltip'))}

@@ -62,18 +62,28 @@
   table.basic {
     // Fix column widths for dex trade table to prevent wrapping and ensure consistent spacing
     .tx-hash {
-      width: 120px;
-      min-width: 120px;
+      width: 100px;
+      min-width: 100px;
     }
 
     .tx-ledger {
-      width: 80px;
-      min-width: 80px;
+      width: 45px;
+      min-width: 45px;
+      padding: 15px 0px;
+
+      @include for-size(tablet-portrait-up) {
+        padding: 15px 0px;
+      }
     }
 
     .tx-timestamp {
       width: 200px;
       min-width: 200px;
+      padding: 15px 5px;
+
+      @include for-size(tablet-portrait-up) {
+        padding: 15px 5px 15px 0px;
+      }
     }
 
     .tx-type {
@@ -94,8 +104,8 @@
     }
 
     .tx-amount-rate {
-      width: 100px;
-      min-width: 100px;
+      width: 165px;
+      min-width: 165px;
     }
   }
 }

@@ -80,17 +80,13 @@ export const HoldersTable = ({
         <table className="basic" ref={tableRef}>
           <thead>
             <tr>
-              <th className="count sticky-1">{t('token_page.holders_rank')}</th>
-              <th className="name-col sticky-2">{t('account')}</th>
-              <th className="name-col sticky-2">
-                {t('token_page.holders_num_tokens')}
-              </th>
-              <th className="name-col sticky-2">
+              <th className="count">{t('token_page.holders_rank')}</th>
+              <th className="name-col">{t('account')}</th>
+              <th className="name-col">{t('token_page.holders_num_tokens')}</th>
+              <th className="name-col">
                 {t('token_page.holders_percent_supply')}
               </th>
-              <th className="name-col sticky-2">
-                {t('token_page.holders_usd_value')}
-              </th>
+              <th className="name-col">{t('token_page.holders_usd_value')}</th>
             </tr>
           </thead>
           <tbody>
