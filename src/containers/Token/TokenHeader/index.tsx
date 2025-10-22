@@ -24,9 +24,7 @@ const calculateCirculatingSupply = (
   tokenData: LOSToken,
   holdersData: TokenHoldersData | undefined,
 ): number => {
-  console.log('tokenData', tokenData)
   if (tokenData.circ_supply) {
-    console.log('Using API-provided circ supply', tokenData.circ_supply)
     return Number(tokenData.circ_supply)
   }
   let circSupply = Number(tokenData.supply) || holdersData?.totalSupply || 0
