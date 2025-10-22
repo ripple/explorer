@@ -4,6 +4,8 @@ import {
   calculateFormattedUsdBalance,
   parseAmount,
   parseCurrencyAmount,
+  parseIntegerAmount,
+  parsePrice,
   parsePercent,
 } from '../NumberFormattingUtils'
 
@@ -190,78 +192,156 @@ describe('NumberFormattingUtils', () => {
       expect(parseAmount(12345678)).toBe('12.3M')
     })
 
-    it('formats thousands', () => {
+    it('formats thousands (>= 10,000) with abbreviations', () => {
       expect(parseAmount(15000)).toBe('15.0K')
       expect(parseAmount(123456)).toBe('123.5K')
+      expect(parseAmount(10000)).toBe('10.0K')
     })
 
-    it('formats small numbers without suffix', () => {
-      expect(parseAmount(9999)).toBe('10.0K') // formatLargeNumber rounds 9999 to 10K
-      expect(parseAmount(123.45)).toBe('123.5')
-      expect(parseAmount(0)).toBe('0.0')
+    it('formats medium numbers (1 to 9,999) with 2 decimal places and commas', () => {
+      expect(parseAmount(9999)).toBe('9,999.00')
+      expect(parseAmount(1234.5)).toBe('1,234.50')
+      expect(parseAmount(123.45)).toBe('123.45')
+      expect(parseAmount(1)).toBe('1.00')
     })
 
-    it('handles very small numbers with <0.0001 threshold', () => {
-      expect(parseAmount(0.00005)).toBe('<0.0001')
-      expect(parseAmount(0.000001)).toBe('<0.0001')
-      expect(parseAmount(0.0000999)).toBe('<0.0001')
+    it('handles zero', () => {
+      expect(parseAmount(0)).toBe('0.00')
+    })
+
+    it('handles very small numbers with < 0.0001 threshold', () => {
+      expect(parseAmount(0.000001)).toBe('< 0.0001')
+      expect(parseAmount(0.0000999)).toBe('< 0.0001')
     })
 
     it('handles scientific notation numbers', () => {
-      expect(parseAmount(1e-10)).toBe('<0.0001')
-      expect(parseAmount(1.5e-8)).toBe('<0.0001')
-      expect(parseAmount(9.99e-7)).toBe('<0.0001')
+      expect(parseAmount(1e-10)).toBe('< 0.0001')
     })
 
-    it('formats small numbers with 2 significant figures', () => {
-      expect(parseAmount(0.0004231)).toBe('0.00042')
-      expect(parseAmount(0.0001)).toBe('0.00010')
-      expect(parseAmount(0.00123)).toBe('0.0012')
-      expect(parseAmount(0.0567)).toBe('0.057')
-      expect(parseAmount(0.123)).toBe('0.12')
-      expect(parseAmount(0.999)).toBe('1.0')
+    it('formats small numbers (< 1) with 4 decimal places', () => {
+      expect(parseAmount(0.0004231)).toBe('0.0004')
+      expect(parseAmount(0.0001)).toBe('0.0001')
+      expect(parseAmount(0.999)).toBe('0.9990')
     })
 
     it('handles string inputs', () => {
       expect(parseAmount('1500000')).toBe('1.5M')
-      expect(parseAmount('123.45')).toBe('123.5')
-      expect(parseAmount('0.0004231')).toBe('0.00042')
-      expect(parseAmount('0.00005')).toBe('<0.0001')
+      expect(parseAmount('9999')).toBe('9,999.00')
+      expect(parseAmount('0.0004231')).toBe('0.0004')
+      expect(parseAmount('0.00005')).toBe('< 0.0001')
     })
   })
 
   describe('parseCurrencyAmount', () => {
     it('formats currency with dollar sign', () => {
       expect(parseCurrencyAmount(1500000)).toBe('$1.5M')
-      expect(parseCurrencyAmount(123.45)).toBe('$123.5')
-      expect(parseCurrencyAmount(0)).toBe('$0.0')
+      expect(parseCurrencyAmount(9999)).toBe('$9,999.00')
+      expect(parseCurrencyAmount(123.45)).toBe('$123.45')
+      expect(parseCurrencyAmount(0)).toBe('$0.00')
     })
 
-    it('handles very small currency amounts', () => {
-      expect(parseCurrencyAmount(0.00005)).toBe('<$0.0001')
-      expect(parseCurrencyAmount(0.0004231)).toBe('$0.00042')
-      expect(parseCurrencyAmount(0.00123)).toBe('$0.0012')
+    it('handles very small currency amounts with non-breaking space', () => {
+      expect(parseCurrencyAmount(0.00005)).toBe('<\u00A0$0.0001')
+      expect(parseCurrencyAmount(0.0004231)).toBe('$0.0004')
     })
 
     it('handles string inputs', () => {
       expect(parseCurrencyAmount('1500000')).toBe('$1.5M')
-      expect(parseCurrencyAmount('123.45')).toBe('$123.5')
-      expect(parseCurrencyAmount('0.0004231')).toBe('$0.00042')
-      expect(parseCurrencyAmount('0.00005')).toBe('<$0.0001')
+      expect(parseCurrencyAmount('9999')).toBe('$9,999.00')
+      expect(parseCurrencyAmount('0.0004231')).toBe('$0.0004')
+      expect(parseCurrencyAmount('0.00005')).toBe('<\u00A0$0.0001')
+    })
+  })
+
+  describe('parseIntegerAmount', () => {
+    it('formats large integers (>= 10,000) with abbreviations', () => {
+      expect(parseIntegerAmount(1500000)).toBe('1.5M')
+      expect(parseIntegerAmount(150000)).toBe('150.0K')
+      expect(parseIntegerAmount(2300000000)).toBe('2.3B')
+      expect(parseIntegerAmount(12345)).toBe('12.3K')
+      expect(parseIntegerAmount(10000)).toBe('10.0K')
+    })
+
+    it('formats smaller integers (< 10,000) with commas', () => {
+      expect(parseIntegerAmount(9999)).toBe('9,999')
+      expect(parseIntegerAmount(1234)).toBe('1,234')
+      expect(parseIntegerAmount(123)).toBe('123')
+    })
+
+    it('handles zero', () => {
+      expect(parseIntegerAmount(0)).toBe('0')
+    })
+
+    it('rounds decimal values to integers', () => {
+      expect(parseIntegerAmount(123.7)).toBe('124')
+      expect(parseIntegerAmount(123.4)).toBe('123')
+    })
+
+    it('handles string inputs', () => {
+      expect(parseIntegerAmount('12345')).toBe('12.3K')
+      expect(parseIntegerAmount('1500000')).toBe('1.5M')
+      expect(parseIntegerAmount('9999')).toBe('9,999')
+    })
+  })
+
+  describe('parsePrice', () => {
+    it('formats very large prices (>= $1M) with abbreviations and 2 decimal places', () => {
+      expect(parsePrice(1500000)).toBe('$1.50M')
+      expect(parsePrice(2300000000)).toBe('$2.30B')
+    })
+
+    it('formats high prices (>= $10,000) with no decimal places', () => {
+      expect(parsePrice(99999)).toBe('$99,999')
+      expect(parsePrice(50000)).toBe('$50,000')
+    })
+
+    it('formats regular prices (1 to 9,999) with 2 decimal places and commas', () => {
+      expect(parsePrice(9999)).toBe('$9,999.00')
+      expect(parsePrice(1)).toBe('$1.00')
+    })
+
+    it('formats small prices (< 1) with 4 decimal places', () => {
+      expect(parsePrice(0.9999)).toBe('$0.9999')
+      expect(parsePrice(0.0001)).toBe('$0.0001')
+    })
+
+    it('handles very small prices with threshold', () => {
+      expect(parsePrice(0.00005)).toBe('<\u00A0$0.0001')
+      expect(parsePrice(0.000001)).toBe('<\u00A0$0.0001')
+    })
+
+    it('handles zero', () => {
+      expect(parsePrice(0)).toBe('$0.00')
+    })
+
+    it('handles string inputs', () => {
+      expect(parsePrice('1500000')).toBe('$1.50M')
+      expect(parsePrice('12345')).toBe('$12,345')
+      expect(parsePrice('0.1234')).toBe('$0.1234')
     })
   })
 
   describe('parsePercent', () => {
-    it('formats percentages with % sign', () => {
+    it('formats percentages with % sign and 2 decimal places', () => {
       expect(parsePercent(12.345)).toBe('12.35%')
-      expect(parsePercent(0)).toBe('0.00%')
+      expect(parsePercent(12.34)).toBe('12.34%')
       expect(parsePercent(-5.67)).toBe('-5.67%')
     })
 
-    it('always shows 2 decimal places', () => {
+    it('handles very small percentages (< 0.01%)', () => {
+      expect(parsePercent(0.005)).toBe('0.00%')
+      expect(parsePercent(0.009)).toBe('0.00%')
+      expect(parsePercent(-0.005)).toBe('0.00%')
+    })
+
+    it('handles regular percentages', () => {
+      expect(parsePercent(0.01)).toBe('0.01%')
+      expect(parsePercent(0.1)).toBe('0.10%')
       expect(parsePercent(12)).toBe('12.00%')
-      expect(parsePercent(12.1)).toBe('12.10%')
-      expect(parsePercent(12.999)).toBe('13.00%')
+    })
+
+    it('handles zero', () => {
+      expect(parsePercent(0)).toBe('0.00%')
     })
   })
 })

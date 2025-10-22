@@ -217,44 +217,95 @@ export const getLocalizedCurrencySymbol = (
   return formatted.split('1')[0].trim()
 }
 
-export const formatLargeNumber = (d = 0, digits = 4) => {
+/**
+ * Formats small numbers (< 1) with 4 decimal places, showing trailing zeros
+ * @param value - The numeric value to format (should be < 1)
+ * @param lang - Language for localization
+ * @returns Formatted string with 4 decimal places
+ */
+export const formatSmallNumber = (value, lang = 'en-US', digits = 4) => {
+  if (value === 0)
+    return localizeNumber(0, lang, {
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits,
+    })
+  if (value < 0.0001) return '< 0.0001'
+  return localizeNumber(value, lang, {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  })
+}
+
+export const formatLargeNumber = (d = 0, digits = 1, lang = 'en-US') => {
+  // For numbers >= 10,000 (5 digits), use abbreviations with 1 decimal place
+  if (d >= 10000) {
+    if (d >= QUADRILLION) {
+      return {
+        num: localizeNumber(d / QUADRILLION, lang, {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
+        }),
+        unit: 'Q',
+      }
+    }
+
+    if (d >= TRILLION) {
+      return {
+        num: localizeNumber(d / TRILLION, lang, {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
+        }),
+        unit: 'T',
+      }
+    }
+
+    if (d >= BILLION) {
+      return {
+        num: localizeNumber(d / BILLION, lang, {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
+        }),
+        unit: 'B',
+      }
+    }
+
+    if (d >= MILLION) {
+      return {
+        num: localizeNumber(d / MILLION, lang, {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
+        }),
+        unit: 'M',
+      }
+    }
+
+    if (d >= THOUSAND) {
+      return {
+        num: localizeNumber(d / THOUSAND, lang, {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
+        }),
+        unit: 'K',
+      }
+    }
+  }
+
+  // For numbers < 10,000 (less than 5 digits), show full number with 2 decimal places and commas
+  if (d >= 1) {
+    return {
+      num: localizeNumber(d, lang, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+      unit: '',
+    }
+  }
+
+  // For numbers < 1, this should not be used (use formatSmallNumber instead)
+  // But keeping legacy behavior for compatibility
   let variableDigits = digits
   let numberOfZeros = 0
   let numberCopy = d
-  if (d >= QUADRILLION) {
-    return {
-      num: (d / QUADRILLION).toFixed(digits),
-      unit: 'Q',
-    }
-  }
-
-  if (d >= TRILLION) {
-    return {
-      num: (d / TRILLION).toFixed(digits),
-      unit: 'T',
-    }
-  }
-
-  if (d >= BILLION) {
-    return {
-      num: (d / BILLION).toFixed(digits),
-      unit: 'B',
-    }
-  }
-
-  if (d >= MILLION) {
-    return {
-      num: (d / MILLION).toFixed(digits),
-      unit: 'M',
-    }
-  }
-
-  if (d >= THOUSAND) {
-    return {
-      num: (d / THOUSAND).toFixed(digits),
-      unit: 'K',
-    }
-  }
 
   while (numberCopy < 1 && variableDigits < 20) {
     numberCopy *= 10

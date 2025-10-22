@@ -1,4 +1,4 @@
-import { localizeNumber, formatLargeNumber } from './utils'
+import { localizeNumber, formatLargeNumber, formatSmallNumber } from './utils'
 
 /**
  * Thresholds for determining formatting precision.
@@ -7,8 +7,6 @@ import { localizeNumber, formatLargeNumber } from './utils'
 const USD_REGULAR_BALANCE_LOWER_BOUND = 1
 const USD_SMALL_BALANCE_LOWER_BOUND = 0.0001
 const TOKEN_BALANCE_LARGE_LOWER_BOUND = 999
-const SIGNIFICANT_FIGURES_SMALL_NUMBERS = 2
-const THRESHOLD_SMALL_NUMBERS = 0.0001
 
 // Standard display for most XRP amounts (2 decimals)
 export const XRP_CURRENCY_OPTIONS = {
@@ -150,71 +148,152 @@ export const calculateFormattedUsdBalance = (
 }
 
 /**
- * Formats numbers to 2 significant figures for small values, with K/M/B suffixes for large values
+ * Formats numbers according to the general rules:
+ * - Small numbers (< 1): 4 decimal places with trailing zeros
+ * - Large numbers (>= 10,000): abbreviate with 1 decimal place and suffix (K, M, B)
+ * - Medium numbers (1 to 9,999): full number with 2 decimal places and commas
  * @param value - The numeric value to format
- * @param decimals - Number of decimal places for large numbers
- * @returns Formatted string with appropriate handling for small and large numbers
+ * @param decimals - Number of decimal places for abbreviated numbers (default: 1)
+ * @param lang - Language for localization (default: 'en-US')
+ * @returns Formatted string
  */
 export const parseAmount = (
   value: string | number,
   decimals: number = 1,
+  lang: string = 'en-US',
 ): string => {
   const valueNumeric = Number(value)
 
-  // Handle scientific notation (contains 'e')
-  if (valueNumeric.toString().includes('e')) {
-    return '<0.0001'
+  if (valueNumeric === 0) {
+    return (
+      localizeNumber(0, lang, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }) || '0.00'
+    )
   }
 
-  // Handle small numbers
-  if (valueNumeric > 0 && valueNumeric < THRESHOLD_SMALL_NUMBERS) {
-    return '<0.0001'
+  if (valueNumeric.toString().includes('e')) {
+    return '< 0.0001'
   }
 
   if (valueNumeric > 0 && valueNumeric < 1) {
-    const formatted = valueNumeric.toPrecision(
-      SIGNIFICANT_FIGURES_SMALL_NUMBERS,
-    )
-    const result = parseFloat(formatted)
-
-    if (result >= 1) {
-      return result.toFixed(1)
-    }
-
-    return formatted
+    return formatSmallNumber(valueNumeric, lang) || '0.0000'
   }
 
-  // Use existing formatLargeNumber for numbers >= 1
-  const formatted = formatLargeNumber(valueNumeric, decimals)
-  return formatted.unit ? `${formatted.num}${formatted.unit}` : formatted.num
+  const formatted = formatLargeNumber(valueNumeric, decimals, lang)
+  return formatted.unit
+    ? `${formatted.num || '0'}${formatted.unit}`
+    : formatted.num || '0'
 }
 
 /**
- * Formats currency amounts with dollar sign
+ * Formats currency amounts with dollar sign prefix
  * @param value - The numeric value to format as currency
- * @param decimals - Number of decimal places for large numbers
+ * @param decimals - Number of decimal places for abbreviated numbers (default: 1)
  * @returns Formatted currency string with $ prefix
  */
 export const parseCurrencyAmount = (
   value: string | number,
   decimals: number = 1,
+  lang: string = 'en-US',
 ): string => {
-  const formatted = parseAmount(value, decimals)
+  const formatted = parseAmount(value, decimals, lang)
 
-  // Handle the special case for threshold values
-  if (formatted === '<0.0001') {
-    return '<$0.0001'
+  if (formatted === '< 0.0001') {
+    return '<\u00A0$0.0001'
   }
 
   return `$${formatted}`
 }
 
 /**
- * Formats percentage values with % suffix
+ * Formats integer values with 0 decimal places
+ * @param value - The numeric value to format as integer
+ * @param lang - Language for localization (default: 'en-US')
+ * @returns Formatted integer string with commas for thousands separators
+ */
+export const parseIntegerAmount = (
+  value: string | number,
+  lang: string = 'en-US',
+): string => {
+  const valueNumeric = Number(value)
+
+  if (valueNumeric === 0) {
+    return '0'
+  }
+
+  // For large numbers (>= 10,000), use abbreviations with 1 decimal place
+  if (valueNumeric >= 10000) {
+    const formatted = formatLargeNumber(valueNumeric, 1, lang)
+    return formatted.unit
+      ? `${formatted.num || '0'}${formatted.unit}`
+      : formatted.num || '0'
+  }
+
+  // For smaller numbers, show full integer with commas
+  return (
+    localizeNumber(Math.round(valueNumeric), lang, { useGrouping: true }) ||
+    Math.round(valueNumeric).toString()
+  )
+}
+
+/**
+ * Formats price values with special rules:
+ * - For prices >= $10,000: no decimal places
+ * - For very large prices (>= $1,000,000): abbreviate with 2 decimal places
+ * - Otherwise: use standard currency formatting
+ * @param value - The price value to format
+ * @param lang - Language for localization (default: 'en-US')
+ * @returns Formatted price string with $ prefix
+ */
+export const parsePrice = (
+  value: string | number,
+  lang: string = 'en-US',
+): string => {
+  const valueNumeric = Number(value)
+
+  if (valueNumeric === 0) {
+    return `$${localizeNumber(0, lang, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}`
+  }
+
+  if (valueNumeric > 0 && valueNumeric < 0.0001) {
+    return '<\u00A0$0.0001'
+  }
+
+  if (valueNumeric > 0 && valueNumeric < 1) {
+    return `$${formatSmallNumber(valueNumeric, lang) || '0.0000'}`
+  }
+
+  if (valueNumeric >= 1000000) {
+    const formatted = formatLargeNumber(valueNumeric, 2, lang)
+    return `$${formatted.num || '0'}${formatted.unit}`
+  }
+
+  if (valueNumeric >= 10000) {
+    return `$${localizeNumber(Math.round(valueNumeric), lang, { useGrouping: true }) || Math.round(valueNumeric).toString()}`
+  }
+
+  return `$${
+    localizeNumber(valueNumeric, lang, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }) || valueNumeric.toFixed(2)
+  }`
+}
+
+/**
+ * Formats percentage values with % suffix and 2 decimal places
+ * Returns "0.00%" for deviations less than 0.01%
  * @param percent - The percentage value to format
- * @param decimals - Number of decimal places for large numbers
- *
  * @returns Formatted percentage string with % suffix
  */
-export const parsePercent = (percent: number, decimals: number = 2): string =>
-  `${parseAmount(percent, decimals)}%`
+export const parsePercent = (percent: number, digits = 2): string => {
+  // Handle very small percentages
+  if (Math.abs(percent) < 0.01) {
+    return '0.00%'
+  }
+
+  // Use 2 decimal places for percentages
+  return `${percent.toFixed(digits)}%`
+}

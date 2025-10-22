@@ -12,8 +12,9 @@ import { TOKEN_ROUTE } from '../App/routes'
 import { shortenAccount } from '../shared/utils'
 import {
   parseCurrencyAmount,
-  parseAmount,
   parsePercent,
+  parseIntegerAmount,
+  parsePrice,
 } from '../shared/NumberFormattingUtils'
 
 type SortOrder = 'asc' | 'desc'
@@ -92,7 +93,7 @@ export const TokensTable = ({
       <td className="issuer text-truncate">{renderIssuer(token)}</td>
       <td className="price">
         {token.price_usd && Number(token.price_usd) !== 0
-          ? parseCurrencyAmount(token.price_usd)
+          ? parsePrice(token.price_usd)
           : DEFAULT_EMPTY_VALUE}
       </td>
 
@@ -110,12 +111,12 @@ export const TokensTable = ({
       </td>
       <td className="trades">
         {token.daily_trades && Number(token.daily_trades) !== 0
-          ? parseAmount(token.daily_trades)
+          ? parseIntegerAmount(token.daily_trades)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="holders">
         {token.holders && Number(token.holders) !== 0
-          ? parseAmount(token.holders)
+          ? parseIntegerAmount(token.holders)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="tvl">
