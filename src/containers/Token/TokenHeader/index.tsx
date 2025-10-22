@@ -24,7 +24,12 @@ const calculateCirculatingSupply = (
   tokenData: LOSToken,
   holdersData: TokenHoldersData | undefined,
 ): number => {
-  let circSupply = holdersData?.totalSupply || Number(tokenData.supply) || 0
+  console.log('tokenData', tokenData)
+  if (tokenData.circ_supply) {
+    console.log('Using API-provided circ supply', tokenData.circ_supply)
+    return Number(tokenData.circ_supply)
+  }
+  let circSupply = Number(tokenData.supply) || holdersData?.totalSupply || 0
 
   // For stablecoins, don't subtract large percentage holders from circulating supply
   if (tokenData.asset_subclass !== 'stablecoin' && holdersData) {
@@ -62,10 +67,12 @@ export const TokenHeader = ({
     supply: holdersData?.totalSupply?.toString() || tokenData.supply || '',
     circ_supply: circSupply.toString() || tokenData.circ_supply || '',
     market_cap: tokenData.market_cap || '',
+    market_cap_usd: tokenData.market_cap_usd,
     volume_24h: tokenData.daily_volume || '',
     trades_24h: tokenData.daily_trades || '',
     amm_tvl: ammTvlData?.tvl.toString() || '',
     amm_account: ammTvlData?.account || '',
+    tvl_usd: tokenData.tvl_usd,
   }
 
   const tokenLogo = tokenData.icon

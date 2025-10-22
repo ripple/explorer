@@ -34,12 +34,15 @@ const mapTokenResponse = (response: any): LOSToken => ({
   issuer_domain: response.issuer_domain,
   issuer_name: response.issuer_name,
   market_cap: response.market_cap,
+  market_cap_usd: response.market_cap_usd,
   holders: response.number_of_holders,
   daily_volume: response.daily_volume,
   supply: response.supply,
   trust_level: response.trust_level,
   price: response.price,
+  tvl_usd: response.tvl_usd,
   index: response.index || -1,
+  circ_supply: response.circ_supply,
 })
 
 async function getToken(

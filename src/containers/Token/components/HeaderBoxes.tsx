@@ -25,10 +25,12 @@ export interface MarketData {
   supply: string
   circ_supply: string
   market_cap: string
+  market_cap_usd?: string
   volume_24h: string
   trades_24h: string
   amm_tvl: string
   amm_account: string
+  tvl_usd?: string
 }
 
 interface HeaderBoxesProps {
@@ -74,6 +76,8 @@ export const HeaderBoxes = ({
     trades_24h: trades24h,
     amm_tvl: ammTvl,
     amm_account: ammAccount,
+    market_cap_usd: marketCapUsd,
+    tvl_usd: tvlUsd,
   } = marketData
 
   // Memoized calculations for performance
@@ -85,15 +89,20 @@ export const HeaderBoxes = ({
       Number(volume24h) * Number(xrpUSDRate),
     )
 
+    // Use market_cap_usd if provided, otherwise calculate it
+    let marketCap: string | null = null
+    if (marketCapUsd) {
+      marketCap = parseCurrencyAmount(marketCapUsd)
+    } else if (circSupplyNum && priceNum && xrpRate) {
+      marketCap = parseCurrencyAmount(circSupplyNum * priceNum * xrpRate)
+    }
+
     return {
       formattedCircSupply: parseAmount(circSupplyNum, 2),
-      marketCap:
-        circSupplyNum && priceNum && xrpRate
-          ? parseCurrencyAmount(circSupplyNum * priceNum * xrpRate)
-          : null,
+      marketCap,
       parsedVolume,
     }
-  }, [circSupply, price, volume24h, xrpUSDRate])
+  }, [circSupply, price, volume24h, xrpUSDRate, marketCapUsd])
 
   // Memoized loading states
   const loadingStates = useMemo(
@@ -204,7 +213,11 @@ export const HeaderBoxes = ({
               ) : (
                 <Account
                   account={ammAccount}
-                  displayText={parseCurrencyAmount(ammTvl)}
+                  displayText={
+                    tvlUsd
+                      ? parseCurrencyAmount(tvlUsd)
+                      : parseCurrencyAmount(ammTvl)
+                  }
                 />
               )}
             </div>
