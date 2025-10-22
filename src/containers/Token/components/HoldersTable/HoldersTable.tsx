@@ -1,17 +1,16 @@
 import { useTranslation } from 'react-i18next'
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import { Loader } from '../../../shared/components/Loader'
 import { Pagination } from '../../../shared/components/Pagination'
 import './styles.scss'
 import '../tables-mobile.scss'
-import { truncateString } from '../../utils/stringFormatting'
-import { DEFAULT_EMPTY_VALUE } from '../../utils/numberFormatting'
 import {
   parseAmount,
   parsePercent,
+  parsePrice,
 } from '../../../shared/NumberFormattingUtils'
 import { shortenAccount } from '../../../shared/utils'
+import { Account } from '../../../shared/components/Account'
 
 export interface XRPLHolder {
   rank: number
@@ -60,19 +59,16 @@ export const HoldersTable = ({
 
   const renderHolder = (holder: XRPLHolder) => (
     <tr key={`${holder.account}-${holder.rank}`}>
-      <td className="holder-rank">{holder.rank || DEFAULT_EMPTY_VALUE}</td>
+      <td className="holder-rank">{holder.rank}</td>
       <td className="tx-hash">
-        <Link to={`/accounts/${holder.account}`}>
-          {shortenAccount(holder.account)}
-        </Link>
+        <Account
+          account={holder.account}
+          displayText={shortenAccount(holder.account)}
+        />
       </td>
-      <td className="tx-ledger">
-        {holder.balance ? parseAmount(holder.balance, 2) : DEFAULT_EMPTY_VALUE}
-      </td>
-      <td className="tx-percent-supply">
-        {holder.percent ? parsePercent(holder.percent) : DEFAULT_EMPTY_VALUE}
-      </td>
-      <td className="tx-value">${parseAmount(holder.value_usd, 2)}</td>
+      <td className="tx-ledger">{parseAmount(holder.balance)}</td>
+      <td className="tx-percent-supply">{parsePercent(holder.percent)}</td>
+      <td className="tx-value">{parsePrice(holder.value_usd)}</td>
     </tr>
   )
 

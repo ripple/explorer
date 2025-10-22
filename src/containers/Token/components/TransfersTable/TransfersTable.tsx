@@ -10,11 +10,8 @@ import { Amount } from '../../../shared/components/Amount'
 import { Pagination } from '../../../shared/components/Pagination'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { truncateString } from '../../utils/stringFormatting'
-import {
-  getAmountAsNumber,
-  DEFAULT_EMPTY_VALUE,
-} from '../../utils/numberFormatting'
 import { shortenAccount } from '../../../shared/utils'
+import { parseAmount } from '../../../shared/NumberFormattingUtils'
 
 export interface LOSTransfer {
   hash: string
@@ -98,8 +95,8 @@ export const TransfersTable = ({
 
   const renderTransaction = (tx: LOSTransfer) => {
     // Safely handle missing fields
-    const fromAddress = tx.from || DEFAULT_EMPTY_VALUE
-    const toAddress = tx.to || DEFAULT_EMPTY_VALUE
+    const fromAddress = tx.from || '--'
+    const toAddress = tx.to || '--'
     const hasValidAmount = tx.amount && tx.amount.currency && tx.amount.issuer
 
     return (
@@ -119,27 +116,25 @@ export const TransfersTable = ({
         </td>
         <td className="tx-from">
           <span className="text-truncate">
-            {fromAddress !== DEFAULT_EMPTY_VALUE ? (
+            {fromAddress !== '--' ? (
               <Account
                 account={fromAddress}
                 displayText={shortenAccount(fromAddress)}
-                onClick={(e) => e.stopPropagation()}
               />
             ) : (
-              DEFAULT_EMPTY_VALUE
+              '--'
             )}
           </span>
         </td>
         <td className="tx-to">
           <span className="text-truncate">
-            {toAddress !== DEFAULT_EMPTY_VALUE ? (
+            {toAddress !== '--' ? (
               <Account
                 account={toAddress}
                 displayText={shortenAccount(toAddress)}
-                onClick={(e) => e.stopPropagation()}
               />
             ) : (
-              DEFAULT_EMPTY_VALUE
+              '--'
             )}
           </span>
         </td>
@@ -149,16 +144,12 @@ export const TransfersTable = ({
               value={{
                 currency: tx.amount.currency,
                 issuer: tx.amount.issuer,
-                amount: getAmountAsNumber({
-                  currency: tx.amount.currency,
-                  issuer: tx.amount.issuer,
-                  amount: tx.amount.value,
-                }),
+                amount: parseAmount(tx.amount.value),
               }}
               displayIssuer={false}
             />
           ) : (
-            DEFAULT_EMPTY_VALUE
+            '--'
           )}
         </td>
       </tr>

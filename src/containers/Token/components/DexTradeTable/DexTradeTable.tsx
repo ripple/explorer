@@ -12,13 +12,9 @@ import { Pagination } from '../../../shared/components/Pagination'
 import { ExplorerAmount } from '../../../shared/types'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { Amount } from '../../../shared/components/Amount'
-import {
-  format2Decimals,
-  getAmountAsNumber,
-  DEFAULT_EMPTY_VALUE,
-} from '../../utils/numberFormatting'
 import { truncateString } from '../../utils/stringFormatting'
 import { shortenAccount } from '../../../shared/utils'
+import { parseAmount } from '../../../shared/NumberFormattingUtils'
 
 export interface LOSDEXTransaction {
   hash: string
@@ -28,7 +24,7 @@ export interface LOSDEXTransaction {
   to: string
   amount_in: ExplorerAmount
   amount_out: ExplorerAmount
-  rate: number | null
+  rate: number
   type?: string
   subtype?: string
 }
@@ -40,7 +36,6 @@ interface DexTradeTableProps {
   currentPage: number
   onPageChange: (page: number) => void
   pageSize: number
-  scrollRef?: React.RefObject<HTMLDivElement>
   hasMore?: boolean
   hasPrevPage?: boolean
   sortField?: string
@@ -57,7 +52,6 @@ export const DexTradeTable = ({
   currentPage,
   onPageChange,
   pageSize,
-  scrollRef,
   hasMore = false,
   hasPrevPage = false,
   sortField,
@@ -101,9 +95,9 @@ export const DexTradeTable = ({
     />
   )
 
-  const formatDexType = (type: string) => {
+  const formatDexType = (type: string | undefined) => {
     if (!type) {
-      return DEFAULT_EMPTY_VALUE
+      return '--'
     }
     if (type === 'orderBook') {
       return 'Order Book'
@@ -139,25 +133,15 @@ export const DexTradeTable = ({
       <td className="tx-timestamp">
         <ResponsiveTimestamp timestamp={tx.timestamp} />
       </td>
-      <td className="tx-type">
-        {tx.type ? formatDexType(tx.type) : DEFAULT_EMPTY_VALUE}
-      </td>
+      <td className="tx-type">{formatDexType(tx.type)}</td>
       <td className="tx-from">
         <span className="text-truncate">
-          <Account
-            displayText={shortenAccount(tx.from)}
-            account={tx.from}
-            onClick={(e) => e.stopPropagation()}
-          />
+          <Account displayText={shortenAccount(tx.from)} account={tx.from} />
         </span>
       </td>
       <td className="tx-to">
         <span className="text-truncate">
-          <Account
-            displayText={shortenAccount(tx.to)}
-            account={tx.to}
-            onClick={(e) => e.stopPropagation()}
-          />
+          <Account displayText={shortenAccount(tx.to)} account={tx.to} />
         </span>
       </td>
       <td className="tx-amount-in">
@@ -165,10 +149,11 @@ export const DexTradeTable = ({
           value={{
             currency: tx.amount_in.currency,
             issuer: tx.amount_in.issuer,
-            amount: getAmountAsNumber(tx.amount_in),
+            amount: parseAmount(tx.amount_in.amount),
           }}
           displayIssuer
           shortenIssuer
+          displayCurrency={String(tx.amount_in.currency) !== 'XRP'}
         />
       </td>
       <td className="tx-amount-out">
@@ -176,14 +161,15 @@ export const DexTradeTable = ({
           value={{
             currency: tx.amount_out.currency,
             issuer: tx.amount_out.issuer,
-            amount: getAmountAsNumber(tx.amount_out),
+            amount: parseAmount(tx.amount_out.amount),
           }}
           displayIssuer
           shortenIssuer
+          displayCurrency={String(tx.amount_out.currency) !== 'XRP'}
         />
       </td>
 
-      <td className="tx-amount-rate">{format2Decimals(tx.rate)}</td>
+      <td className="tx-amount-rate">{parseAmount(tx.rate)}</td>
     </tr>
   )
 

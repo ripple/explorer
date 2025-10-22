@@ -16,6 +16,7 @@ export interface AmountProps {
   displayIssuer?: boolean
   modifier?: `+` | '-' | '~' // value to put in front of the currency symbol and number
   shortenIssuer?: boolean
+  displayCurrency?: boolean
 }
 
 export const Amount = ({
@@ -23,10 +24,16 @@ export const Amount = ({
   modifier,
   value,
   shortenIssuer = false,
+  displayCurrency = true,
 }: AmountProps) => {
   const language = useLanguage()
   const rippledSocket = useContext(SocketContext)
   const { trackException } = useAnalytics()
+
+  // Handle the special case where amount is '< 0.0001' string
+  const isSmallAmountString =
+    typeof value === 'object' && value.amount === '< 0.0001'
+
   const issuer = typeof value === 'string' ? undefined : value.issuer
   const currency = typeof value === 'string' ? 'XRP' : value.currency
   const amount =
@@ -43,20 +50,25 @@ export const Amount = ({
           useGrouping: true,
         }
 
-  const renderAmount = (localizedAmount) => (
+  const renderAmount = (localizedAmount: any) => (
     <span className="amount" data-testid="amount">
       <span className="amount-localized" data-testid="amount-localized">
         {modifier && <span className="amount-modifier">{modifier}</span>}
         {localizedAmount}
-      </span>{' '}
-      <Currency
-        issuer={displayIssuer ? issuer : ''}
-        currency={currency}
-        link
-        displaySymbol={false}
-        isMPT={isMPT}
-        shortenIssuer={shortenIssuer}
-      />
+      </span>
+      {displayCurrency && (
+        <>
+          {' '}
+          <Currency
+            issuer={displayIssuer ? issuer : ''}
+            currency={currency}
+            link
+            displaySymbol={false}
+            isMPT={isMPT}
+            shortenIssuer={shortenIssuer}
+          />
+        </>
+      )}
     </span>
   )
 
@@ -77,6 +89,11 @@ export const Amount = ({
         enabled: isMPT,
       },
     ) || {}
+
+  // Handle the special case where amount is '< 0.0001'
+  if (isSmallAmountString) {
+    return renderAmount('< 0.0001')
+  }
 
   // if amount is MPT type, we need to fetch the scale from the MPTokenIssuance
   // object so we can show the scaled amount

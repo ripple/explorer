@@ -301,10 +301,10 @@ export const Token = () => {
       rippledSocket,
       { currency: 'XRP' },
       { currency, issuer: accountId },
-    ).then(
-      (data) =>
-        (Number(data.amm.amount) / DROPS_TO_XRP_FACTOR) * XRPUSDPrice * 2,
-    )
+    ).then((data) => ({
+      tvl: (Number(data.amm.amount) / DROPS_TO_XRP_FACTOR) * XRPUSDPrice * 2,
+      account: data.amm.account,
+    }))
 
   const { data: ammTvlData, isLoading: isAmmTvlLoading } = useQuery({
     queryKey: ['ammTvl', currency, accountId],

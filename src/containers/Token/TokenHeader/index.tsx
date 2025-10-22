@@ -16,7 +16,7 @@ interface TokenHeaderProps {
   xrpUSDRate: string
   holdersData?: TokenHoldersData
   isHoldersDataLoading: boolean
-  ammTvlData?: number
+  ammTvlData?: { tvl: number; account: string }
   isAmmTvlLoading: boolean
 }
 
@@ -51,6 +51,7 @@ export const TokenHeader = ({
   const circSupply = calculateCirculatingSupply(tokenData, holdersData)
   const overviewData: OverviewData = {
     issuer: tokenData.issuer_name || tokenData.issuer_account,
+    issuer_account: tokenData.issuer_account,
     price: tokenData.price || '0',
     holders: tokenData.holders || 0,
     trustlines: tokenData.trustlines || 0,
@@ -63,7 +64,8 @@ export const TokenHeader = ({
     market_cap: tokenData.market_cap || '',
     volume_24h: tokenData.daily_volume || '',
     trades_24h: tokenData.daily_trades || '',
-    amm_tvl: ammTvlData?.toString() || '',
+    amm_tvl: ammTvlData?.tvl.toString() || '',
+    amm_account: ammTvlData?.account || '',
   }
 
   const tokenLogo = tokenData.icon
