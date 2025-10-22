@@ -18,6 +18,7 @@ import {
   DEFAULT_EMPTY_VALUE,
 } from '../../utils/numberFormatting'
 import { truncateString } from '../../utils/stringFormatting'
+import { shortenAccount } from '../../../shared/utils'
 
 export interface LOSDEXTransaction {
   hash: string
@@ -144,7 +145,7 @@ export const DexTradeTable = ({
       <td className="tx-from">
         <span className="text-truncate">
           <Account
-            displayText={truncateString(tx.from)}
+            displayText={shortenAccount(tx.from)}
             account={tx.from}
             onClick={(e) => e.stopPropagation()}
           />
@@ -153,7 +154,7 @@ export const DexTradeTable = ({
       <td className="tx-to">
         <span className="text-truncate">
           <Account
-            displayText={truncateString(tx.to)}
+            displayText={shortenAccount(tx.to)}
             account={tx.to}
             onClick={(e) => e.stopPropagation()}
           />

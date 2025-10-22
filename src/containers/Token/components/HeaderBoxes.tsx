@@ -3,11 +3,12 @@ import { useMemo } from 'react'
 
 import './styles.scss'
 import { Link } from 'react-router-dom'
-import { formatPrice } from '../../shared/utils'
+import { formatPrice, shortenAccount } from '../../shared/utils'
 import { shouldShowLoadingSpinner } from '../utils/tokenCalculations'
 import { truncateString } from '../utils/stringFormatting'
 import { DEFAULT_EMPTY_VALUE } from '../utils/numberFormatting'
 import { parseAmount, parsePercent } from '../../shared/NumberFormattingUtils'
+import { Account } from '../../shared/components/Account'
 
 export interface OverviewData {
   issuer: string
@@ -104,13 +105,9 @@ export const HeaderBoxes = ({
         <div className="header-box-contents">
           <div className="header-box-item">
             <div className="item-name">{t('token_page.issuer')}:</div>
-            <Link
-              to={`/accounts/${issuer}`}
-              replace
-              className="item-value account-link"
-            >
-              {truncateString(issuer)}
-            </Link>
+            <div className="item-value account-link">
+              <Account account={issuer} displayText={shortenAccount(issuer)} />
+            </div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.price')}:</div>

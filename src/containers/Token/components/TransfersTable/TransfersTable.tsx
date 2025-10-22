@@ -14,6 +14,7 @@ import {
   getAmountAsNumber,
   DEFAULT_EMPTY_VALUE,
 } from '../../utils/numberFormatting'
+import { shortenAccount } from '../../../shared/utils'
 
 export interface LOSTransfer {
   hash: string
@@ -121,7 +122,7 @@ export const TransfersTable = ({
             {fromAddress !== DEFAULT_EMPTY_VALUE ? (
               <Account
                 account={fromAddress}
-                displayText={truncateString(fromAddress)}
+                displayText={shortenAccount(fromAddress)}
                 onClick={(e) => e.stopPropagation()}
               />
             ) : (
@@ -134,7 +135,7 @@ export const TransfersTable = ({
             {toAddress !== DEFAULT_EMPTY_VALUE ? (
               <Account
                 account={toAddress}
-                displayText={truncateString(toAddress)}
+                displayText={shortenAccount(toAddress)}
                 onClick={(e) => e.stopPropagation()}
               />
             ) : (

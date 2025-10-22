@@ -11,6 +11,7 @@ import {
   parseAmount,
   parsePercent,
 } from '../../../shared/NumberFormattingUtils'
+import { shortenAccount } from '../../../shared/utils'
 
 export interface XRPLHolder {
   rank: number
@@ -62,7 +63,7 @@ export const HoldersTable = ({
       <td className="holder-rank">{holder.rank || DEFAULT_EMPTY_VALUE}</td>
       <td className="tx-hash">
         <Link to={`/accounts/${holder.account}`}>
-          {truncateString(holder.account)}
+          {shortenAccount(holder.account)}
         </Link>
       </td>
       <td className="tx-ledger">
