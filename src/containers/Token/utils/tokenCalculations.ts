@@ -34,7 +34,5 @@ export const calculateCirculatingSupply = (
  * @param circSupply - The circulating supply number
  * @returns Formatted circulating supply string
  */
-export const formatCirculatingSupply = (circSupply: number): string => {
-  return parseAmount(circSupply)
-}
-
+export const formatCirculatingSupply = (circSupply: number): string =>
+  parseAmount(circSupply)

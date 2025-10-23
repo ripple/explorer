@@ -3,8 +3,8 @@ import { formatPrice } from '../../shared/utils'
 import { TokenHoldersData } from '../api/holders'
 import { LOSToken } from '../../shared/losTypes'
 import {
-  formatCirculatingSupply,
   calculateCirculatingSupply,
+  formatCirculatingSupply,
 } from '../utils/tokenCalculations'
 
 interface MarketCalculations {
