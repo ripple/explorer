@@ -296,9 +296,9 @@ export const Token = () => {
 
   // Reset pagination when token changes
   useEffect(() => {
-    setHoldersPage(1)
-    setTransfersPage(1)
-    setDexTradesPage(1)
+    setHoldersPage(INITIAL_PAGE)
+    setTransfersPage(INITIAL_PAGE)
+    setDexTradesPage(INITIAL_PAGE)
   }, [currency, accountId])
 
   useEffect(() => {
