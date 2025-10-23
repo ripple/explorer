@@ -166,11 +166,11 @@ export const TransfersTable = ({
             <table className="basic" ref={tableRef}>
               <thead>
                 <tr>
-                  <th className="count">{t('tx_hash')}</th>
-                  <th className="name-col">{t('ledger')}</th>
-                  <th className="name-col">{t('action')}</th>
+                  <th className="tx-hash">{t('tx_hash')}</th>
+                  <th className="tx-ledger">{t('ledger')}</th>
+                  <th className="tx-action">{t('action')}</th>
                   <th
-                    className="name-col"
+                    className="tx-timestamp"
                     onClick={handleTimestampSort}
                     style={{ cursor: 'pointer' }}
                   >
@@ -183,9 +183,9 @@ export const TransfersTable = ({
                       )}
                     </span>
                   </th>
-                  <th className="name-col">{t('from')}</th>
-                  <th className="name-col">{t('to')}</th>
-                  <th className="name-col">{t('amount')}</th>
+                  <th className="tx-from">{t('from')}</th>
+                  <th className="tx-to">{t('to')}</th>
+                  <th className="tx-amount">{t('amount')}</th>
                 </tr>
               </thead>
               <tbody>{transactions.map(renderTransaction)}</tbody>

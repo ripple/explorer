@@ -212,10 +212,10 @@ export const DexTradeTable = ({
             >
               <thead>
                 <tr>
-                  <th className="count">{t('tx_hash')}</th>
-                  <th className="name-col">{t('ledger')}</th>
+                  <th className="tx-hash">{t('tx_hash')}</th>
+                  <th className="tx-ledger">{t('ledger')}</th>
                   <th
-                    className="name-col"
+                    className="tx-timestamp"
                     onClick={handleTimestampSort}
                     style={{ cursor: 'pointer' }}
                   >
@@ -228,16 +228,16 @@ export const DexTradeTable = ({
                       )}
                     </span>
                   </th>
-                  <th className="name-col">{t('token_page.dex_type')}</th>
-                  <th className="name-col ">{t('from')}</th>
-                  <th className="name-col">{t('to')}</th>
-                  <th className="name-col ">
+                  <th className="tx-type">{t('token_page.dex_type')}</th>
+                  <th className="tx-from">{t('from')}</th>
+                  <th className="tx-to">{t('to')}</th>
+                  <th className="tx-amount-in">
                     <span className="sort-header">
                       {t('amount_in')}
                       {renderTextTooltip(t('token_page.dex_amount_in_tooltip'))}
                     </span>
                   </th>
-                  <th className="name-col ">
+                  <th className="tx-amount-out">
                     <span className="sort-header">
                       {t('amount_out')}
                       {renderTextTooltip(
@@ -245,7 +245,7 @@ export const DexTradeTable = ({
                       )}
                     </span>
                   </th>
-                  <th className="name-col">
+                  <th className="tx-amount-rate">
                     <span className="sort-header">
                       {t('rate')}
                       {renderTextTooltip(t('token_page.dex_rate_tooltip'))}

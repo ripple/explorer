@@ -78,13 +78,15 @@ export const HoldersTable = ({
         <table className="basic" ref={tableRef}>
           <thead>
             <tr>
-              <th className="count">{t('token_page.holders_rank')}</th>
-              <th className="name-col">{t('account')}</th>
-              <th className="name-col">{t('token_page.holders_num_tokens')}</th>
-              <th className="name-col">
+              <th className="holder-rank">{t('token_page.holders_rank')}</th>
+              <th className="tx-hash">{t('account')}</th>
+              <th className="tx-ledger">
+                {t('token_page.holders_num_tokens')}
+              </th>
+              <th className="tx-percent-supply">
                 {t('token_page.holders_percent_supply')}
               </th>
-              <th className="name-col">{t('token_page.holders_usd_value')}</th>
+              <th className="tx-value">{t('token_page.holders_usd_value')}</th>
             </tr>
           </thead>
           <tbody>
