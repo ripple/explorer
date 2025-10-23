@@ -10,7 +10,7 @@ import { Amount } from '../../shared/components/Amount'
 import '../../shared/components/TransactionTable/styles.scss' // Reuse load-more-btn
 import { formatAmount } from '../../../rippled/lib/txSummary/formatAmount'
 import { LoadMoreButton } from '../../shared/LoadMoreButton'
-import { ACCOUNT_ROUTE } from '../../App/routes'
+import { ACCOUNT_ROUTE, ENTRY_ROUTE } from '../../App/routes'
 import { RouteLink } from '../../shared/routing'
 
 interface Props {
@@ -55,7 +55,9 @@ export const Offers = (props: Props) => {
     return (
       <tr key={offerIndex}>
         <td className="offer-id text-truncate" title={offerIndex}>
-          {offerIndex}
+          <RouteLink to={ENTRY_ROUTE} params={{ id: offerIndex }}>
+            {offerIndex}
+          </RouteLink>
         </td>
         <td className="owner text-truncate">
           <RouteLink to={ACCOUNT_ROUTE} params={{ id: owner }}>

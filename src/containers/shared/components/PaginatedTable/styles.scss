@@ -33,10 +33,10 @@
 }
 
 /* Larger green chevrons for first/prev/next/last */
-.table-pg-btn[aria-label="First page"],
-.table-pg-btn[aria-label="Previous page"],
-.table-pg-btn[aria-label="Next page"],
-.table-pg-btn[aria-label="Last page"] {
+.table-pg-btn[aria-label='First page'],
+.table-pg-btn[aria-label='Previous page'],
+.table-pg-btn[aria-label='Next page'],
+.table-pg-btn[aria-label='Last page'] {
   padding: 0 5px;
   color: $green-30;
   font-size: 25px;

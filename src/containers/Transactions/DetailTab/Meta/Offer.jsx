@@ -7,6 +7,8 @@ import {
 } from '../../../shared/transactionUtils'
 import { localizeNumber } from '../../../shared/utils'
 import { Account } from '../../../shared/components/Account'
+import { ENTRY_ROUTE } from '../../../App/routes'
+import { RouteLink } from '../../../shared/routing'
 
 const normalize = (value, currency) =>
   currency === 'XRP' ? (value / XRP_BASE).toString() : value
@@ -176,7 +178,10 @@ const render = (t, language, action, node, index, tx) => {
   return (
     <li key={`offer_node_meta_${index}`} className="meta-line">
       <Trans i18nKey="offer_node_meta">
-        It {action} a <b>{pair}</b>
+        It {action} a <b>{pair}</b> offer
+        <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
+          node
+        </RouteLink>
         owned by
         <Account account={fields.Account} />
         with sequence # <b>{{ sequence: fields.Sequence }}</b>
