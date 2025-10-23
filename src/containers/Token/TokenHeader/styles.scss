@@ -5,7 +5,7 @@
     margin: 0;
     font-size: 24px;
     font-style: normal;
-    font-weight: 700;
+    @include bold;
     line-height: 112.5%;
     text-transform: lowercase;
 
