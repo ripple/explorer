@@ -238,7 +238,7 @@
       color: $white;
       font-size: 12px;
       font-style: normal;
-      font-weight: 600;
+      @include semibold;
       line-height: 150%; /* 18px */
       text-transform: uppercase;
     }
