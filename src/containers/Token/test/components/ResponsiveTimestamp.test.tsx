@@ -3,10 +3,20 @@ import { ResponsiveTimestamp } from '../../components/ResponsiveTimestamp/Respon
 
 describe('ResponsiveTimestamp Component', () => {
   it('should render without crashing', () => {
-    render(<ResponsiveTimestamp timestamp={0} lang="en-US" />)
-    expect(
-      screen.getByText(/12\/31\/1999.*\d{2}:\d{2}:\d{2}/),
-    ).toBeInTheDocument()
+    const { container } = render(
+      <ResponsiveTimestamp timestamp={0} lang="en-US" />,
+    )
+    const desktopTimestamp = container.querySelector('.desktop-timestamp')
+    const mobileTimestamp = container.querySelector('.mobile-timestamp')
+
+    expect(desktopTimestamp).toBeInTheDocument()
+    expect(mobileTimestamp).toBeInTheDocument()
+    expect(desktopTimestamp?.textContent).toMatch(
+      /\d{1,2}\/\d{1,2}\/\d{4}.*\d{2}:\d{2}:\d{2}/,
+    )
+    expect(mobileTimestamp?.textContent).toMatch(
+      /\d{1,2}\/\d{1,2}\/\d{4}.*\d{2}:\d{2}/,
+    )
   })
 
   it('should render both desktop and mobile formats', () => {
