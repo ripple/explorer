@@ -391,11 +391,6 @@ export const Token = () => {
           />
         </div>
       )}
-      {!accountId && (
-        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-          <h2>Enter an account ID in the search box</h2>
-        </div>
-      )}
     </Page>
   )
 }

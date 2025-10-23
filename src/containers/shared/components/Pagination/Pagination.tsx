@@ -58,7 +58,6 @@ function getPaginationRange({
     }
 
     if (showLeftDots) {
-      const rightItemCount = 3 + 2 * siblingCount
       const rightRange = range(
         leftSiblingIndex,
         Math.min(rightSiblingIndex, totalPageCount),

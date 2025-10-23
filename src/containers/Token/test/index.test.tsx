@@ -8,7 +8,7 @@ import { flushPromises, QuickHarness } from '../../test/utils'
 import { TOKEN_ROUTE } from '../../App/routes'
 import mockAccount from '../../Accounts/test/mockAccountState.json'
 import Mock = jest.Mock
-import { getToken } from '../../../rippled'
+import getToken from '../api/token'
 
 jest.mock('../../../rippled', () => ({
   __esModule: true,
