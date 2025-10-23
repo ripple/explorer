@@ -5,8 +5,8 @@ import { useInfiniteQuery } from 'react-query'
 import { useAnalytics } from '../../shared/analytics'
 import SocketContext from '../../shared/SocketContext'
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
+import { Tabs } from '../../shared/components/Tabs'
 import { getAccountTransactions } from '../../../rippled'
-import { TxTablePicker } from '../components/TxTablePicker/TxTablePicker'
 import {
   DexTradeTable,
   LOSDEXTransaction,
@@ -23,6 +23,7 @@ import { TokenHoldersData } from '../api/holders'
 import { LOSToken } from '../../shared/losTypes'
 import { TablePaginationState } from '../hooks/usePaginationState'
 import { TableSortingState } from '../hooks/useSortingState'
+import './styles.scss'
 
 // Re-export for backward compatibility
 export type { TablePaginationState, TableSortingState }
@@ -247,21 +248,41 @@ export const TokenTablePicker = ({
     />
   )
 
+  const tabs = [
+    { id: 'all', labelKey: 'token_page.all_tx' },
+    {
+      id: 'dex',
+      labelKey: 'token_page.dex_tx',
+      onTabClick: () =>
+        resetTablePagination(dexTradesPagination.setCurrentPage),
+    },
+    {
+      id: 'transfers',
+      labelKey: 'token_page.transfers_tx',
+      onTabClick: () =>
+        resetTablePagination(transfersPagination.setCurrentPage),
+    },
+    {
+      id: 'holders',
+      labelKey: 'token_page.holders_table',
+      onTabClick: () => resetTablePagination(holdersPagination.setCurrentPage),
+    },
+  ]
+
   return (
     <div className="token-transaction-table-container" ref={containerRef}>
-      <TxTablePicker
-        tablePickerState={tablePickerState}
-        setTablePickerState={setTablePickerState}
-        onHoldersTabClick={() =>
-          resetTablePagination(holdersPagination.setCurrentPage)
-        }
-        onTransfersTabClick={() =>
-          resetTablePagination(transfersPagination.setCurrentPage)
-        }
-        onDexTabClick={() =>
-          resetTablePagination(dexTradesPagination.setCurrentPage)
-        }
-      />
+      <hr className="full-width-line" />
+      <div className="tx-table-picker">
+        <Tabs
+          tabs={tabs}
+          selected={tablePickerState}
+          onTabChange={(tabId) =>
+            setTablePickerState(
+              tabId as 'all' | 'dex' | 'transfers' | 'holders',
+            )
+          }
+        />
+      </div>
 
       {tablePickerState === 'all' && renderTransactionTable()}
 
