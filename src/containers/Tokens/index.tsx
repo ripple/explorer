@@ -125,7 +125,7 @@ export const Tokens = () => {
       case 'holders':
         return Number(token.holders) ?? 0
       case 'market_cap':
-        return Number(token.market_cap ?? 0)
+        return Number(token.market_cap_usd ?? 0)
       case '24h':
         return token.price_change ?? 0
       case 'volume':

@@ -1,7 +1,7 @@
 const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'tokens search' })
 
-const REFETCH_INTERVAL = 60 * 60 * 1000 // 1 hour
+const REFETCH_INTERVAL = 10 * 60 * 1000 // 10 minutes
 const cachedTokenList = { tokens: [], last_updated: null, metrics: null }
 
 const parseCurrency = (currency) => {
