@@ -64,7 +64,9 @@ jest.mock('../../../shared/components/Pagination', () => ({
     if (totalPages <= 1) return null
     return (
       <div>
-        <button onClick={() => onPageChange(2)}>Next Page</button>
+        <button type="button" onClick={() => onPageChange(2)}>
+          Next Page
+        </button>
       </div>
     )
   },
@@ -127,8 +129,6 @@ const mockDexTrades: LOSDEXTransaction[] = [
 
 describe('DexTradeTable Component', () => {
   const mockOnPageChange = jest.fn()
-  const mockSetSortField = jest.fn()
-  const mockSetSortOrder = jest.fn()
   const mockOnRefresh = jest.fn()
 
   beforeEach(() => {
