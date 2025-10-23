@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
+import moxios from 'moxios'
 import i18n from '../../../i18n/testConfigEnglish'
 import { TokenHeader } from '../TokenHeader/index'
 import { LOSToken } from '../../shared/losTypes'
@@ -76,6 +77,14 @@ const mockHoldersData: TokenHoldersData = {
 }
 
 describe('TokenHeader Component', () => {
+  beforeEach(() => {
+    moxios.install()
+  })
+
+  afterEach(() => {
+    moxios.uninstall()
+  })
+
   it('renders without crashing', () => {
     render(
       <TestWrapper>

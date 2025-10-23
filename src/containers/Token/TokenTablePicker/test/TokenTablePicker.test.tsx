@@ -2,6 +2,7 @@ import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
+import moxios from 'moxios'
 import i18n from '../../../../i18n/testConfig'
 import { TokenTablePicker } from '../TokenTablePicker'
 import TEST_TRANSACTIONS_DATA from '../../../Accounts/AccountTransactionTable/test/mockTransactions.json'
@@ -76,6 +77,14 @@ const mockTransfers = [
 ]
 
 describe('TokenTablePicker container', () => {
+  beforeEach(() => {
+    moxios.install()
+  })
+
+  afterEach(() => {
+    moxios.uninstall()
+  })
+
   const createWrapper = (
     getAccountTransactionsImpl = () => new Promise(() => {}),
     overrides: any = {},
