@@ -59,6 +59,13 @@
 
 // Scoped styles for dex trade table to prevent conflicts with other tables
 .tokens-table {
+  // Custom tooltip styling for dex trade table
+  .tooltip.tooltip-text {
+    z-index: 9999;
+    max-width: calc(100vw - 32px);
+    margin: 0 16px;
+  }
+
   table.basic {
     // Fix column widths for dex trade table to prevent wrapping and ensure consistent spacing
     .tx-hash {
