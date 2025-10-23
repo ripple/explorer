@@ -54,6 +54,7 @@
   }
 
   &.tooltip-text {
+    position: fixed;
     max-width: 300px;
     border: 1px solid $black-80;
     border-radius: 4px;
