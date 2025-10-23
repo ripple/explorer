@@ -1,62 +1,40 @@
 import { useTranslation } from 'react-i18next'
-import { useMemo } from 'react'
 
 import './styles.scss'
 import { shortenAccount } from '../../shared/utils'
-import {
-  parseAmount,
-  parseCurrencyAmount,
-  parseIntegerAmount,
-  parsePercent,
-  parsePrice,
-} from '../../shared/NumberFormattingUtils'
 import { Account } from '../../shared/components/Account'
 
 export interface OverviewData {
   issuer: string
   issuer_account: string
-  price: string
-  holders: number
-  trustlines: number
-  transfer_fee: number
+  price: string // Pre-formatted price string
+  holders: string // Pre-formatted holders count
+  trustlines: string // Pre-formatted trustlines count
+  transfer_fee: string // Pre-formatted transfer fee or '--'
 }
 
 export interface MarketData {
-  supply: string
-  circ_supply: string
-  market_cap: string
-  market_cap_usd?: string
-  volume_24h: string
-  trades_24h: string
-  amm_tvl: string
-  amm_account: string
-  tvl_usd?: string
+  supply: string // Pre-formatted supply
+  circ_supply: string // Pre-formatted circulating supply
+  market_cap: string // Pre-formatted market cap or empty string
+  market_cap_usd?: string // Raw USD value (for reference)
+  volume_24h: string // Pre-formatted volume or '--'
+  trades_24h: string // Pre-formatted trades count or '--'
+  amm_tvl: string // Pre-formatted AMM TVL or empty string
+  amm_account: string // AMM account address
+  tvl_usd?: string // Pre-formatted TVL USD or empty string
 }
 
 interface HeaderBoxesProps {
   overviewData: OverviewData
   marketData: MarketData
-  xrpUSDRate: string
   isHoldersDataLoading?: boolean
   isAmmTvlLoading?: boolean
 }
 
-/**
- * Determines if a loading spinner should be displayed for market data
- * Shows spinner if data is loading or if the value is empty/falsy
- * @param isLoading - Whether data is currently loading
- * @param value - The data value to check
- * @returns true if spinner should be shown, false otherwise
- */
-const shouldShowLoadingSpinner = (
-  isLoading: boolean | undefined,
-  value: string | number | undefined,
-): boolean => !!isLoading || !value || value === ''
-
 export const HeaderBoxes = ({
   overviewData,
   marketData,
-  xrpUSDRate,
   isHoldersDataLoading = false,
   isAmmTvlLoading = false,
 }: HeaderBoxesProps): JSX.Element => {
@@ -76,50 +54,8 @@ export const HeaderBoxes = ({
     trades_24h: trades24h,
     amm_tvl: ammTvl,
     amm_account: ammAccount,
-    market_cap_usd: marketCapUsd,
     tvl_usd: tvlUsd,
   } = marketData
-
-  // Memoized calculations for performance
-  const marketCalculations = useMemo(() => {
-    const circSupplyNum = Number(circSupply) || 0
-    const priceNum = Number(price) || 0
-    const xrpRate = Number(xrpUSDRate) || 0
-    const parsedVolume = parseCurrencyAmount(
-      Number(volume24h) * Number(xrpUSDRate),
-    )
-
-    // Use market_cap_usd if provided, otherwise calculate it
-    let marketCap: string | null = null
-    if (marketCapUsd) {
-      marketCap = parseCurrencyAmount(marketCapUsd)
-    } else if (circSupplyNum && priceNum && xrpRate) {
-      marketCap = parseCurrencyAmount(circSupplyNum * priceNum * xrpRate)
-    }
-
-    return {
-      formattedCircSupply: parseAmount(circSupplyNum),
-      marketCap,
-      parsedVolume,
-    }
-  }, [circSupply, price, volume24h, xrpUSDRate, marketCapUsd])
-
-  // Memoized loading states
-  const loadingStates = useMemo(
-    () => ({
-      circSupplyLoading: shouldShowLoadingSpinner(
-        isHoldersDataLoading,
-        circSupply,
-      ),
-      ammTvlLoading: shouldShowLoadingSpinner(isAmmTvlLoading, ammTvl),
-    }),
-    [isHoldersDataLoading, circSupply, isAmmTvlLoading, ammTvl],
-  )
-
-  const formattedPrice = useMemo(() => {
-    const normPrice = Number(price) * Number(xrpUSDRate)
-    return parsePrice(normPrice)
-  }, [price, xrpUSDRate])
 
   return (
     <div className="header-boxes">
@@ -139,23 +75,19 @@ export const HeaderBoxes = ({
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.price')}:</div>
-            <div className="item-value">{formattedPrice}</div>
+            <div className="item-value">{price}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.holders')}:</div>
-            <div className="item-value">{parseIntegerAmount(holders)}</div>
+            <div className="item-value">{holders}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.trustlines')}:</div>
-            <div className="item-value">{parseIntegerAmount(trustlines)}</div>
+            <div className="item-value">{trustlines}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.transfer_fee')}:</div>
-            <div className="item-value">
-              {parsePercent(transferFee) !== '0.00%'
-                ? parsePercent(transferFee)
-                : '--'}
-            </div>
+            <div className="item-value">{transferFee}</div>
           </div>
         </div>
       </div>
@@ -165,60 +97,45 @@ export const HeaderBoxes = ({
         <div className="header-box-contents">
           <div className="header-box-item">
             <div className="item-name">{t('token_page.supply')}:</div>
-            <div className="item-value">{parseAmount(supply)}</div>
+            <div className="item-value">{supply}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">
               {t('token_page.circulating_supply')}:
             </div>
             <div className="item-value">
-              {loadingStates.circSupplyLoading ? (
+              {isHoldersDataLoading ? (
                 <span className="loading-spinner" />
               ) : (
-                marketCalculations.formattedCircSupply
+                circSupply
               )}
             </div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.market_cap')}:</div>
             <div className="item-value">
-              {loadingStates.circSupplyLoading ? (
+              {isHoldersDataLoading ? (
                 <span className="loading-spinner" />
               ) : (
-                marketCalculations.marketCap
+                marketData.market_cap
               )}
             </div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.volume_24h')}:</div>
-            <div className="item-value">
-              {marketCalculations.parsedVolume !== '$0.00'
-                ? marketCalculations.parsedVolume
-                : '--'}
-            </div>
+            <div className="item-value">{volume24h}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.trades_24h')}:</div>
-            <div className="item-value">
-              {parseIntegerAmount(trades24h) !== '0'
-                ? parseIntegerAmount(trades24h)
-                : '--'}
-            </div>
+            <div className="item-value">{trades24h}</div>
           </div>
           <div className="header-box-item">
             <div className="item-name">{t('token_page.amm_tvl')}:</div>
             <div className="item-value">
-              {loadingStates.ammTvlLoading ? (
+              {isAmmTvlLoading ? (
                 <span className="loading-spinner" />
               ) : (
-                <Account
-                  account={ammAccount}
-                  displayText={
-                    tvlUsd
-                      ? parseCurrencyAmount(tvlUsd)
-                      : parseCurrencyAmount(ammTvl)
-                  }
-                />
+                <Account account={ammAccount} displayText={tvlUsd || ammTvl} />
               )}
             </div>
           </div>

@@ -214,7 +214,6 @@ export const TokenTablePicker = ({
           currentPage={dexTradesPagination.currentPage}
           onPageChange={dexTradesPagination.setCurrentPage}
           pageSize={dexTradesPagination.pageSize}
-          scrollRef={containerRef}
           hasMore={dexTradesPagination.hasMore}
           hasPrevPage={dexTradesPagination.hasPrevPage}
           sortField={dexTradesSorting.sortField}
