@@ -213,15 +213,17 @@ table.basic {
         font-size: 12px;
       }
 
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
       &:hover:not(:disabled) {
         border-color: $green-30;
         background: rgba($green-30, 0.1);
       }
 
-      &:disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
-      }
+
 
       &.active {
         border-color: $green-30;
