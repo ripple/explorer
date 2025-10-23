@@ -293,4 +293,3 @@ describe('useMarketCalculations', () => {
     expect(result.current.circSupply).not.toEqual(firstResult.circSupply)
   })
 })
-

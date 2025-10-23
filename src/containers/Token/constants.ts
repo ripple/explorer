@@ -11,4 +11,3 @@ export const PAGINATION_CONFIG = {
  * Initial pagination state
  */
 export const INITIAL_PAGE = 1
-

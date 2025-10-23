@@ -5,7 +5,11 @@ export type TableType = 'all' | 'dex' | 'transfers' | 'holders'
 
 interface TabConfig {
   id: TableType
-  labelKey: string
+  labelKey:
+    | 'token_page.all_tx'
+    | 'token_page.dex_tx'
+    | 'token_page.transfers_tx'
+    | 'token_page.holders_table'
   onTabClick?: () => void
 }
 
@@ -53,6 +57,7 @@ export const TxTablePicker = ({
         {tabs.map((tab) => (
           <button
             key={tab.id}
+            type="button"
             className={`tx-table-picker-button ${tablePickerState === tab.id ? 'active' : ''}`}
             onClick={() => handleTabClick(tab)}
           >

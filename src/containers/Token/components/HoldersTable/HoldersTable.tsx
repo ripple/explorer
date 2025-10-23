@@ -5,11 +5,9 @@ import { Pagination } from '../../../shared/components/Pagination'
 import './styles.scss'
 import '../tables-mobile.scss'
 import {
-  parseAmount,
   parseCurrencyAmount,
   parseIntegerAmount,
   parsePercent,
-  parsePrice,
 } from '../../../shared/NumberFormattingUtils'
 import { shortenAccount } from '../../../shared/utils'
 import { Account } from '../../../shared/components/Account'
