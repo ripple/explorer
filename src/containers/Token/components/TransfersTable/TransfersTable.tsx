@@ -10,6 +10,7 @@ import { Pagination } from '../../../shared/components/Pagination'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { shortenAccount, shortenTxHash } from '../../../shared/utils'
 import { parseAmount } from '../../../shared/NumberFormattingUtils'
+import { useLanguage } from '../../../shared/hooks'
 
 export interface LOSTransfer {
   hash: string
@@ -59,6 +60,7 @@ export const TransfersTable = ({
   onRefresh,
 }: TransfersTableProps) => {
   const { t } = useTranslation()
+  const language = useLanguage()
   const tableRef = useRef<HTMLTableElement>(null)
 
   // Scroll to top of table when page changes
@@ -110,7 +112,7 @@ export const TransfersTable = ({
           <div className="action-pill">{tx.action}</div>
         </td>
         <td className="tx-timestamp">
-          <ResponsiveTimestamp timestamp={tx.timestamp} />
+          <ResponsiveTimestamp timestamp={tx.timestamp} lang={language} />
         </td>
         <td className="tx-from">
           <span className="text-truncate">

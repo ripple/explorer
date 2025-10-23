@@ -4,15 +4,17 @@ import './styles.scss'
 
 interface ResponsiveTimestampProps {
   timestamp: number
+  lang: string
 }
 
 export const ResponsiveTimestamp: FC<ResponsiveTimestampProps> = ({
   timestamp,
+  lang,
 }) => {
   const date = new Date(convertRippleDate(timestamp))
 
   // Desktop format: "12/15/2023, 10:30:45 AM"
-  const desktopFormat = date.toLocaleString('en-US', {
+  const desktopFormat = date.toLocaleString(lang, {
     month: '2-digit',
     day: '2-digit',
     year: 'numeric',
@@ -22,7 +24,7 @@ export const ResponsiveTimestamp: FC<ResponsiveTimestampProps> = ({
   })
 
   // Mobile format: "12/15/2023 10:30"
-  const mobileFormat = date.toLocaleString('en-US', {
+  const mobileFormat = date.toLocaleString(lang, {
     month: '2-digit',
     day: '2-digit',
     year: 'numeric',

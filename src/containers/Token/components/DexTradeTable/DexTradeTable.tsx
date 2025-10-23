@@ -15,6 +15,7 @@ import { Amount } from '../../../shared/components/Amount'
 import Currency from '../../../shared/components/Currency'
 import { shortenAccount, shortenTxHash } from '../../../shared/utils'
 import { parseAmount } from '../../../shared/NumberFormattingUtils'
+import { useLanguage } from '../../../shared/hooks'
 
 export interface LOSDEXTransaction {
   hash: string
@@ -61,6 +62,7 @@ export const DexTradeTable = ({
   onRefresh,
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
+  const language = useLanguage()
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
   const tableRef = useRef<HTMLTableElement>(null)
 
@@ -131,7 +133,7 @@ export const DexTradeTable = ({
         <Link to={`/ledgers/${tx.ledger}`}>{tx.ledger}</Link>
       </td>
       <td className="tx-timestamp">
-        <ResponsiveTimestamp timestamp={tx.timestamp} />
+        <ResponsiveTimestamp timestamp={tx.timestamp} lang={language} />
       </td>
       <td className="tx-type">{formatDexType(tx.type)}</td>
       <td className="tx-from">
