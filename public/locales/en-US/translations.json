@@ -606,6 +606,7 @@
   "stablecoin": "Stablecoin",
   "wrapped": "Wrapped",
   "tokens_footnote": "*This table includes only tokens with XRPL Meta trust levels 1-3. Learn more in <Link/>.",
+  "xrplmeta_guidelines": "XRPL Meta's guidelines",
   "inner_transaction": "Inner Transaction",
   "batch_table_detail_count": "<BatchLabel/> {{batch_count}} transactions",
   "batch_table_detail_list": "Applied Inner Transactions: <TxList/>",

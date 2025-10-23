@@ -166,9 +166,11 @@ const getTokensSearch = async (req, res) => {
   try {
     log.info('getting tokens list for search')
     const { query } = req.params
-    while (cachedTokenList.tokens.length === 0) {
+    let timeoutLimit = 10
+    while (cachedTokenList.tokens.length === 0 && timeoutLimit > 0) {
       // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
       await sleep(1000)
+      timeoutLimit -= 1
     }
     const queriedTokens = await queryTokens(cachedTokenList.tokens, query)
     return res.status(200).json({

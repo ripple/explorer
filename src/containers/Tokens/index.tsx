@@ -230,9 +230,7 @@ export const Tokens = () => {
               i18nKey="tokens_footnote"
               components={{
                 Link: (
-                  <Link to="https://xrplmeta.org">
-                    XRPL Meta&apos;s guidelines
-                  </Link>
+                  <Link to="https://xrplmeta.org">{` ${t('xrplmeta_guidelines')}`}</Link>
                 ),
               }}
             />
