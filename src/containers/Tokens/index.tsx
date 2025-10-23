@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useQuery } from 'react-query'
-import { FC, useCallback, useMemo, useState } from 'react'
+import { FC, useCallback, useMemo, useState, useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Log from '../shared/log'
@@ -12,6 +12,7 @@ import { Loader } from '../shared/components/Loader'
 import { LOSToken } from '../shared/losTypes'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import HoverIcon from '../shared/images/hover.svg'
+import { useAnalytics } from '../shared/analytics'
 
 interface FilterProps {
   categories: CategoryKey[]
@@ -78,6 +79,12 @@ export const Tokens = () => {
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
 
   const { t } = useTranslation()
+  const { trackScreenLoaded, trackException } = useAnalytics()
+
+  // Track page load
+  useEffect(() => {
+    trackScreenLoaded()
+  }, [trackScreenLoaded])
 
   const filterCategories: CategoryKey[] = ['stablecoin', 'wrapped']
 
@@ -86,7 +93,10 @@ export const Tokens = () => {
     () => fetchTokens(),
     {
       refetchInterval: 60 * 1000,
-      onError: (error) => Log.error(error),
+      onError: (error) => {
+        Log.error(error)
+        trackException(`tokens fetch --- ${JSON.stringify(error)}`)
+      },
     },
   )
 

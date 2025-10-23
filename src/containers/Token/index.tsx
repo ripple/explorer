@@ -53,7 +53,7 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 )
 
 export const Token = () => {
-  const { trackScreenLoaded } = useAnalytics()
+  const { trackScreenLoaded, trackException } = useAnalytics()
   const { token = '' } = useRouteParams(TOKEN_ROUTE)
   const [currency, accountId] = token.split('.')
 
@@ -87,6 +87,15 @@ export const Token = () => {
     queryKey: ['token', currency, accountId],
     queryFn: () => getToken(currency, accountId),
   })
+
+  // Track token data API errors
+  useEffect(() => {
+    if (tokenDataError) {
+      trackException(
+        `token ${currency}.${accountId} --- ${JSON.stringify(tokenDataError)}`,
+      )
+    }
+  }, [tokenDataError, currency, accountId, trackException])
 
   // get top holders information for calculations and holders table
   const { data: holdersData, isLoading: isHoldersDataLoading } = useQuery({
@@ -174,6 +183,9 @@ export const Token = () => {
           hasPrevPage: dexTradesPage > 1,
         })
       } catch (error) {
+        trackException(
+          `dex trades ${currency}.${accountId} --- ${JSON.stringify(error)}`,
+        )
         setDexTradesData({
           trades: [],
           totalTrades: 0,
@@ -192,6 +204,7 @@ export const Token = () => {
     dexTradesSortField,
     dexTradesSortOrder,
     dexTradesRefreshCount,
+    trackException,
   ])
 
   // Handle sort changes for transfers - reset to page 1, clear cache, and set loading state
@@ -231,6 +244,9 @@ export const Token = () => {
           hasPrevPage: transfersPage > 1,
         })
       } catch (error) {
+        trackException(
+          `transfers ${currency}.${accountId} --- ${JSON.stringify(error)}`,
+        )
         setTransfersData({
           transfers: [],
           totalTransfers: 0,
@@ -249,6 +265,7 @@ export const Token = () => {
     transfersSortField,
     transfersSortOrder,
     transfersRefreshCount,
+    trackException,
   ])
 
   // Refresh handlers - reset to page 1, clear cache, and set loading state
