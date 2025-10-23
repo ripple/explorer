@@ -472,4 +472,4 @@ export const shortenMPTID = (mptTokenID = '') =>
     : mptTokenID
 
 export const shortenTxHash = (txHash = '') =>
-  txHash.length > 12 ? `${txHash.slice(0, 6)}...${txHash.slice(6)}` : txHash
+  txHash.length > 12 ? `${txHash.slice(0, 6)}...${txHash.slice(-6)}` : txHash
