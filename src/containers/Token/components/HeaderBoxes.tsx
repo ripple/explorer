@@ -98,7 +98,7 @@ export const HeaderBoxes = ({
     }
 
     return {
-      formattedCircSupply: parseAmount(circSupplyNum, 2),
+      formattedCircSupply: parseAmount(circSupplyNum),
       marketCap,
       parsedVolume,
     }
