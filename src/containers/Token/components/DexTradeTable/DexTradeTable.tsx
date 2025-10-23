@@ -13,8 +13,7 @@ import { ExplorerAmount } from '../../../shared/types'
 import { ResponsiveTimestamp } from '../ResponsiveTimestamp'
 import { Amount } from '../../../shared/components/Amount'
 import Currency from '../../../shared/components/Currency'
-import { truncateString } from '../../utils/stringFormatting'
-import { shortenAccount } from '../../../shared/utils'
+import { shortenAccount, shortenTxHash } from '../../../shared/utils'
 import { parseAmount } from '../../../shared/NumberFormattingUtils'
 
 export interface LOSDEXTransaction {
@@ -125,7 +124,7 @@ export const DexTradeTable = ({
   const renderTransaction = (tx: LOSDEXTransaction, idx: number) => (
     <tr key={`${tx.hash}-${tx.ledger}-${idx}`}>
       <td className="tx-hash">
-        <Link to={`/transactions/${tx.hash}`}>{truncateString(tx.hash)}</Link>
+        <Link to={`/transactions/${tx.hash}`}>{shortenTxHash(tx.hash)}</Link>
       </td>
 
       <td className="tx-ledger">
