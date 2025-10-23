@@ -1,8 +1,8 @@
-jest.mock('axios')
-
 import axios from 'axios'
 import getToken from '../../api/token'
 import { LOSToken } from '../../../shared/losTypes'
+
+jest.mock('axios')
 
 describe('Token API', () => {
   const mockAxios = axios as jest.Mocked<typeof axios>
@@ -26,7 +26,7 @@ describe('Token API', () => {
       name: 'US Dollar',
       asset_class: 'currency',
       asset_subclass: 'stablecoin',
-      daily_trades: 1000,
+      daily_trades: '1000',
       icon: 'https://example.com/icon.png',
       ttl: 3600,
       social_links: [],
@@ -39,7 +39,7 @@ describe('Token API', () => {
       holders: 500,
       daily_volume: '50000',
       supply: '1000000',
-      trust_level: 'high',
+      trust_level: 1,
       price: '1.00',
       tvl_usd: '100000',
       index: 0,
@@ -66,7 +66,7 @@ describe('Token API', () => {
         number_of_holders: 500,
         daily_volume: '50000',
         supply: '1000000',
-        trust_level: 'high',
+        trust_level: 1,
         price: '1.00',
         tvl_usd: '100000',
         index: 0,
@@ -102,7 +102,7 @@ describe('Token API', () => {
         number_of_holders: 250,
         daily_volume: '25000',
         supply: '500000',
-        trust_level: 'medium',
+        trust_level: 1,
         price: '1.10',
         tvl_usd: '50000',
         circ_supply: '400000',
@@ -181,7 +181,7 @@ describe('Token API', () => {
         number_of_holders: 5000,
         daily_volume: '500000',
         supply: '5000000',
-        trust_level: 'very_high',
+        trust_level: 1,
         price: '1.50',
         tvl_usd: '1000000',
         index: 1,

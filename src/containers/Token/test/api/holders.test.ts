@@ -1,7 +1,7 @@
-jest.mock('axios')
-
 import axios from 'axios'
 import getTokenHolders, { TokenHoldersData } from '../../api/holders'
+
+jest.mock('axios')
 
 describe('Token Holders API', () => {
   const mockAxios = axios as jest.Mocked<typeof axios>

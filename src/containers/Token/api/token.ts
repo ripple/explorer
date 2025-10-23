@@ -25,7 +25,9 @@ const mapTokenResponse = (response: any): LOSToken => ({
   name: response.token_name || undefined,
   asset_class: response.asset_class,
   asset_subclass: response.asset_subclass,
-  daily_trades: response.number_of_trades || undefined,
+  daily_trades: response.number_of_trades
+    ? String(response.number_of_trades)
+    : undefined,
   icon: response.icon,
   ttl: response.ttl,
   social_links: response.social_links,
