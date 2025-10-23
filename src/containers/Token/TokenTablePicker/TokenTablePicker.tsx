@@ -180,75 +180,96 @@ export const TokenTablePicker = ({
   // dexTrades is already formatted array from pagination service
   const dexTradesFormatted: LOSDEXTransaction[] = dexTradesData || []
 
+  // Helper to reset pagination to page 1
+  const resetTablePagination = (setCurrentPage: (page: number) => void) => {
+    setCurrentPage(1)
+  }
+
+  // Helper to render transaction table
+  const renderTransactionTable = () => (
+    <TransactionTable
+      transactions={data?.pages?.map((page: any) => page.transactions).flat()}
+      loading={loading}
+      emptyMessage={error?.message ? t(error.message as any) : ''}
+      onLoadMore={() => fetchNextPage()}
+      hasAdditionalResults={hasNextPage}
+    />
+  )
+
+  // Helper to render dex trades table
+  const renderDexTradesTable = () => (
+    <DexTradeTable
+      transactions={dexTradesFormatted}
+      isLoading={dexTradesLoading}
+      totalTrades={dexTradesPagination.total}
+      currentPage={dexTradesPagination.currentPage}
+      onPageChange={dexTradesPagination.setCurrentPage}
+      pageSize={dexTradesPagination.pageSize}
+      hasMore={dexTradesPagination.hasMore}
+      hasPrevPage={dexTradesPagination.hasPrevPage}
+      sortField={dexTradesSorting.sortField}
+      setSortField={dexTradesSorting.setSortField}
+      sortOrder={dexTradesSorting.sortOrder}
+      setSortOrder={dexTradesSorting.setSortOrder}
+      onRefresh={onRefreshDexTrades}
+    />
+  )
+
+  // Helper to render transfers table
+  const renderTransfersTable = () => (
+    <TransfersTable
+      transactions={transfersFormatted}
+      isTransfersLoading={transfersLoading}
+      totalTransfers={transfersPagination.total}
+      currentPage={transfersPagination.currentPage}
+      onPageChange={transfersPagination.setCurrentPage}
+      pageSize={transfersPagination.pageSize}
+      scrollRef={containerRef}
+      hasMore={transfersPagination.hasMore}
+      hasPrevPage={transfersPagination.hasPrevPage}
+      sortField={transfersSorting.sortField}
+      setSortField={transfersSorting.setSortField}
+      sortOrder={transfersSorting.sortOrder}
+      setSortOrder={transfersSorting.setSortOrder}
+      onRefresh={onRefreshTransfers}
+    />
+  )
+
+  // Helper to render holders table
+  const renderHoldersTable = () => (
+    <HoldersTable
+      isHoldersDataLoading={holdersLoading}
+      holders={holdersFormatted}
+      totalHolders={holdersPagination.total}
+      currentPage={holdersPagination.currentPage}
+      onPageChange={holdersPagination.setCurrentPage}
+      pageSize={holdersPagination.pageSize}
+    />
+  )
+
   return (
     <div className="token-transaction-table-container" ref={containerRef}>
       <TxTablePicker
         tablePickerState={tablePickerState}
         setTablePickerState={setTablePickerState}
-        onHoldersTabClick={() => holdersPagination.setCurrentPage(1)}
-        onTransfersTabClick={() => transfersPagination.setCurrentPage(1)}
-        onDexTabClick={() => dexTradesPagination.setCurrentPage(1)}
+        onHoldersTabClick={() =>
+          resetTablePagination(holdersPagination.setCurrentPage)
+        }
+        onTransfersTabClick={() =>
+          resetTablePagination(transfersPagination.setCurrentPage)
+        }
+        onDexTabClick={() =>
+          resetTablePagination(dexTradesPagination.setCurrentPage)
+        }
       />
 
-      {tablePickerState === 'all' && (
-        <TransactionTable
-          transactions={data?.pages
-            ?.map((page: any) => page.transactions)
-            .flat()}
-          loading={loading}
-          emptyMessage={error?.message ? t(error.message as any) : ''}
-          onLoadMore={() => fetchNextPage()}
-          hasAdditionalResults={hasNextPage}
-        />
-      )}
+      {tablePickerState === 'all' && renderTransactionTable()}
 
-      {tablePickerState === 'dex' && (
-        <DexTradeTable
-          transactions={dexTradesFormatted}
-          isLoading={dexTradesLoading}
-          totalTrades={dexTradesPagination.total}
-          currentPage={dexTradesPagination.currentPage}
-          onPageChange={dexTradesPagination.setCurrentPage}
-          pageSize={dexTradesPagination.pageSize}
-          hasMore={dexTradesPagination.hasMore}
-          hasPrevPage={dexTradesPagination.hasPrevPage}
-          sortField={dexTradesSorting.sortField}
-          setSortField={dexTradesSorting.setSortField}
-          sortOrder={dexTradesSorting.sortOrder}
-          setSortOrder={dexTradesSorting.setSortOrder}
-          onRefresh={onRefreshDexTrades}
-        />
-      )}
+      {tablePickerState === 'dex' && renderDexTradesTable()}
 
-      {tablePickerState === 'transfers' && (
-        <TransfersTable
-          transactions={transfersFormatted}
-          isTransfersLoading={transfersLoading}
-          totalTransfers={transfersPagination.total}
-          currentPage={transfersPagination.currentPage}
-          onPageChange={transfersPagination.setCurrentPage}
-          pageSize={transfersPagination.pageSize}
-          scrollRef={containerRef}
-          hasMore={transfersPagination.hasMore}
-          hasPrevPage={transfersPagination.hasPrevPage}
-          sortField={transfersSorting.sortField}
-          setSortField={transfersSorting.setSortField}
-          sortOrder={transfersSorting.sortOrder}
-          setSortOrder={transfersSorting.setSortOrder}
-          onRefresh={onRefreshTransfers}
-        />
-      )}
+      {tablePickerState === 'transfers' && renderTransfersTable()}
 
-      {tablePickerState === 'holders' && (
-        <HoldersTable
-          isHoldersDataLoading={holdersLoading}
-          holders={holdersFormatted}
-          totalHolders={holdersPagination.total}
-          currentPage={holdersPagination.currentPage}
-          onPageChange={holdersPagination.setCurrentPage}
-          pageSize={holdersPagination.pageSize}
-        />
-      )}
+      {tablePickerState === 'holders' && renderHoldersTable()}
     </div>
   )
 }
