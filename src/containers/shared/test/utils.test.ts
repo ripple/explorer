@@ -37,7 +37,7 @@ describe('utils', () => {
   })
 
   it('formatLargeNumber format numbers correctly', () => {
-    expect(formatLargeNumber()).toEqual({ num: '0.0000', unit: '' })
+    expect(formatLargeNumber()).toEqual({ num: '0.0', unit: '' })
     expect(formatLargeNumber(2000000000000)).toEqual({
       num: '2.0000',
       unit: 'T',
