@@ -753,7 +753,7 @@
   "token_page.holders_usd_value": "USD Value",
   "token_page.holders_no_holders": "No holders found",
   "token_page.dex_type": "Type",
-  "token_page.dex_amount_in_tooltip": "The amount of tokens received by the \"To\" account in the trade",
+  "token_page.dex_amount_in_tooltip": "The amount of tokens sent by the \"FROM\" account in the trade",
   "token_page.dex_amount_out_tooltip": "The amount of tokens sent out by the \"To\" account in the trade",
   "token_page.dex_rate_tooltip": "Amount Out / Amount In",
   "token_page.dex_data_notice": "Data displayed is from 7/1/2025, 12:00:00 AM UTC onwards",
