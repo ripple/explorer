@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useRef } from 'react'
+import { useContext, useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery } from 'react-query'
 
@@ -21,28 +21,11 @@ import {
 } from '../components/TransfersTable/TransfersTable'
 import { TokenHoldersData } from '../api/holders'
 import { LOSToken } from '../../shared/losTypes'
+import { TablePaginationState } from '../hooks/usePaginationState'
+import { TableSortingState } from '../hooks/useSortingState'
 
-/**
- * Pagination state for a single table
- */
-export interface TablePaginationState {
-  currentPage: number
-  setCurrentPage: (page: number) => void
-  pageSize: number
-  total: number
-  hasMore?: boolean
-  hasPrevPage?: boolean
-}
-
-/**
- * Sorting state for a single table
- */
-export interface TableSortingState {
-  sortField?: string
-  setSortField?: (field: string) => void
-  sortOrder?: 'asc' | 'desc'
-  setSortOrder?: (order: 'asc' | 'desc') => void
-}
+// Re-export for backward compatibility
+export type { TablePaginationState, TableSortingState }
 
 /**
  * Data and loading state for a single table
@@ -147,36 +130,49 @@ export const TokenTablePicker = ({
       // Skip scroll on initial render
       if (isInitialRender.current) {
         isInitialRender.current = false
-        return
+        return undefined
       }
 
-      // Use double requestAnimationFrame to ensure scroll happens after DOM updates
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const tableContainer =
-            containerRef.current?.querySelector('.transaction-table')
-          if (tableContainer) {
-            const rect = tableContainer.getBoundingClientRect()
-            const scrollTop = window.scrollY + rect.top - 200 // Scroll higher to show tabs and table headers
-            window.scrollTo({ top: scrollTop, behavior: 'smooth' })
-          }
-        })
+      // Use requestAnimationFrame to ensure scroll happens after DOM updates
+      const animationFrameId = requestAnimationFrame(() => {
+        const tableContainer =
+          containerRef.current?.querySelector('.transaction-table')
+        if (tableContainer) {
+          const rect = tableContainer.getBoundingClientRect()
+          const scrollTop = window.scrollY + rect.top - 200 // Scroll higher to show tabs and table headers
+          window.scrollTo({ top: scrollTop, behavior: 'smooth' })
+        }
       })
+
+      // Cleanup animation frame if component unmounts
+      return () => {
+        cancelAnimationFrame(animationFrameId)
+      }
     }
+    return undefined
   }, [loading, tablePickerState])
 
   // Format data for tables
   const XRPUSDPrice = Number(xrpUSDRate) || 0
 
-  const holdersFormatted: XRPLHolder[] =
-    holdersData?.holders?.map((holder, index) => ({
-      ...holder,
-      rank:
-        (holdersPagination.currentPage - 1) * holdersPagination.pageSize +
-        index +
-        1,
-      value_usd: holder.balance * Number(tokenData?.price) * XRPUSDPrice,
-    })) || []
+  const holdersFormatted: XRPLHolder[] = useMemo(
+    () =>
+      holdersData?.holders?.map((holder, index) => ({
+        ...holder,
+        rank:
+          (holdersPagination.currentPage - 1) * holdersPagination.pageSize +
+          index +
+          1,
+        value_usd: holder.balance * Number(tokenData?.price) * XRPUSDPrice,
+      })) || [],
+    [
+      holdersData,
+      holdersPagination.currentPage,
+      holdersPagination.pageSize,
+      tokenData?.price,
+      XRPUSDPrice,
+    ],
+  )
 
   // transfers is already formatted array from pagination service
   const transfersFormatted: LOSTransfer[] = transfersData || []
