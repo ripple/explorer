@@ -125,12 +125,14 @@ class TransfersPaginationService {
     const endIndex = startIndex + validPageSize
 
     let allTransfers = this.cache.get(cacheKey) || []
-    const hasReachedEnd = this.hasReachedEndCache.get(cacheKey) || false
+    let hasReachedEnd = this.hasReachedEndCache.get(cacheKey) || false
 
     // If cache is empty, fetch the initial batch
     if (allTransfers.length === 0) {
       await this.fetchMoreTransfers(currency, issuer, sortField, sortOrder)
       allTransfers = this.cache.get(cacheKey) || []
+      // Update hasReachedEnd after fetching
+      hasReachedEnd = this.hasReachedEndCache.get(cacheKey) || false
     }
 
     // Make a snapshot of the cache size BEFORE prefetch to ensure consistent slicing

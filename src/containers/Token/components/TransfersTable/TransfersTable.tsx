@@ -33,7 +33,6 @@ interface TransfersTableProps {
   currentPage: number
   onPageChange: (page: number) => void
   pageSize: number
-  scrollRef?: React.RefObject<HTMLDivElement>
   hasMore?: boolean
   hasPrevPage?: boolean
   sortField?: string
@@ -50,7 +49,6 @@ export const TransfersTable = ({
   currentPage,
   onPageChange,
   pageSize,
-  scrollRef,
   hasMore = false,
   hasPrevPage = false,
   sortField,

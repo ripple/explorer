@@ -162,8 +162,8 @@ export const TokenHeader = ({
                 {tokenData.issuer_name
                   .trim()
                   .toUpperCase()
-                  .replace('(', '')
-                  .replace(')', '')}
+                  .replace(/\(/g, '')
+                  .replace(/\)/g, '')}
               </div>
               <span className="paren">)</span>
             </div>

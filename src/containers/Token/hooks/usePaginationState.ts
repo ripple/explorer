@@ -17,9 +17,9 @@ export interface TablePaginationState {
  */
 export const usePaginationState = (
   pageSize: number,
-  hasMore?: boolean,
-  hasPrevPage?: boolean,
   total: number = 0,
+  hasMore: boolean | undefined = undefined,
+  hasPrevPage: boolean | undefined = undefined,
 ): TablePaginationState => {
   const [currentPage, setCurrentPage] = useState(1)
 

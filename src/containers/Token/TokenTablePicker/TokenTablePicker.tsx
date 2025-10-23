@@ -225,7 +225,6 @@ export const TokenTablePicker = ({
       currentPage={transfersPagination.currentPage}
       onPageChange={transfersPagination.setCurrentPage}
       pageSize={transfersPagination.pageSize}
-      scrollRef={containerRef}
       hasMore={transfersPagination.hasMore}
       hasPrevPage={transfersPagination.hasPrevPage}
       sortField={transfersSorting.sortField}

@@ -161,12 +161,14 @@ class DexTradesPaginationService {
     const endIndex = startIndex + validPageSize
 
     let allTrades = this.cache.get(cacheKey) || []
-    const hasReachedEnd = this.hasReachedEndCache.get(cacheKey) || false
+    let hasReachedEnd = this.hasReachedEndCache.get(cacheKey) || false
 
     // If cache is empty, fetch the initial batch
     if (allTrades.length === 0) {
       await this.fetchMoreTrades(currency, issuer, sortField, sortOrder)
       allTrades = this.cache.get(cacheKey) || []
+      // Update hasReachedEnd after fetching
+      hasReachedEnd = this.hasReachedEndCache.get(cacheKey) || false
     }
 
     // Make a snapshot of the cache size BEFORE prefetch to ensure consistent slicing

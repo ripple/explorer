@@ -1,29 +1,7 @@
-import { renderHook } from '@testing-library/react'
+import { renderHook } from '@testing-library/react-hooks'
 import { useMarketCalculations } from '../../hooks/useMarketCalculations'
 import { TokenHoldersData } from '../../api/holders'
 import { LOSToken } from '../../../shared/losTypes'
-
-jest.mock('../../utils/tokenCalculations', () => ({
-  calculateCirculatingSupply: jest.fn((holdersData, tokenData) => {
-    if (tokenData.circ_supply) return Number(tokenData.circ_supply)
-    if (tokenData.supply) return Number(tokenData.supply)
-    return holdersData?.totalSupply || 0
-  }),
-  formatCirculatingSupply: jest.fn((value) => {
-    if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`
-    if (value >= 1000) return `${(value / 1000).toFixed(1)}K`
-    return String(value)
-  }),
-}))
-
-jest.mock('../../shared/utils', () => ({
-  formatPrice: jest.fn((value) => {
-    if (value === 0) return '--'
-    if (value >= 1000000) return `$${(value / 1000000).toFixed(2)}M`
-    if (value >= 1000) return `$${(value / 1000).toFixed(2)}K`
-    return `$${value.toFixed(2)}`
-  }),
-}))
 
 describe('useMarketCalculations', () => {
   const mockTokenData: LOSToken = {

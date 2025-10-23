@@ -1,4 +1,4 @@
-import { parseAmount } from '../../shared/NumberFormattingUtils'
+import { parseIntegerAmount } from '../../shared/NumberFormattingUtils'
 import { TokenHoldersData } from '../api/holders'
 import { LOSToken } from '../../shared/losTypes'
 
@@ -35,4 +35,4 @@ export const calculateCirculatingSupply = (
  * @returns Formatted circulating supply string
  */
 export const formatCirculatingSupply = (circSupply: number): string =>
-  parseAmount(circSupply)
+  parseIntegerAmount(circSupply)
