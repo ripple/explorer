@@ -1,19 +1,12 @@
 import { FC, PropsWithChildren, useState, useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
-import Log from '../shared/log'
 import { TokenHeader } from './TokenHeader'
 import { TokenTablePicker } from './TokenTablePicker/TokenTablePicker'
 import NoMatch from '../NoMatch'
 
 import './styles.scss'
-import {
-  NOT_FOUND,
-  BAD_REQUEST,
-  ORACLE_ACCOUNT,
-  FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
-  DROPS_TO_XRP_FACTOR,
-} from '../shared/utils'
+import { NOT_FOUND, BAD_REQUEST, DROPS_TO_XRP_FACTOR } from '../shared/utils'
 import { useAnalytics } from '../shared/analytics'
 import { ErrorMessages } from '../shared/Interfaces'
 import { TOKEN_ROUTE } from '../App/routes'
@@ -21,7 +14,7 @@ import { useRouteParams } from '../shared/routing'
 import { Loader } from '../shared/components/Loader'
 import { getToken } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
-import { getAccountLines, getAMMInfoByAssets } from '../../rippled/lib/rippled'
+import { getAMMInfoByAssets } from '../../rippled/lib/rippled'
 import getTokenHolders from './api/holders'
 import {
   DexTrade,
@@ -29,6 +22,7 @@ import {
 } from './services/dexTradesPagination'
 import { transfersPaginationService } from './services/transfersPagination'
 import { PAGINATION_CONFIG, INITIAL_PAGE } from './constants'
+import { useXRPToUSDRate } from '../shared/hooks/useXRPToUSDRate'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
@@ -109,22 +103,10 @@ export const Token = () => {
   })
 
   // get XRP to USD rate
+  const XRPUSDPrice = useXRPToUSDRate()
+
+  // get rippled socket for AMM info
   const rippledSocket = useContext(SocketContext)
-  const fetchXRPToUSDRate = () =>
-    getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1).then(
-      (accountLines) => accountLines.lines[0]?.limit ?? 0.0,
-    )
-  const { data: XRPUSDPrice = 0.0 } = useQuery(
-    ['fetchXRPToUSDRate'],
-    () => fetchXRPToUSDRate(),
-    {
-      refetchInterval: FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
-      onError: (error) => {
-        Log.error(error)
-        return 0.0
-      },
-    },
-  )
 
   // get dex trades with pagination service
   const [dexTradesData, setDexTradesData] = useState<{
