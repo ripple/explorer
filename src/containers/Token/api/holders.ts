@@ -33,7 +33,7 @@ async function getTokenHolders(
 ): Promise<TokenHoldersData> {
   try {
     log.info('fetching holders data from XRPLMeta')
-    return fetchTokenHoldersInfo(currencyCode, issuer, limit, offset)
+    return await fetchTokenHoldersInfo(currencyCode, issuer, limit, offset)
   } catch (error) {
     log.error(
       `Failed to fetch token holders ${currencyCode}.${issuer}: ${error}`,
