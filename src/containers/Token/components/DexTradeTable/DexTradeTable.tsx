@@ -25,7 +25,7 @@ export interface LOSDEXTransaction {
   to: string
   amount_in: ExplorerAmount
   amount_out: ExplorerAmount
-  rate: number
+  rate: number | null
   type?: string
   subtype?: string
 }
@@ -177,7 +177,7 @@ export const DexTradeTable = ({
           link={false}
           displaySymbol={false}
         />{' '}
-        = {parseAmount(tx.rate)}{' '}
+        = {tx.rate !== null ? parseAmount(tx.rate) : '--'}{' '}
         <Currency
           currency={String(tx.amount_out.currency)}
           link={false}

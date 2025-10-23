@@ -12,7 +12,6 @@ import { ErrorMessages } from '../shared/Interfaces'
 import { TOKEN_ROUTE } from '../App/routes'
 import { useRouteParams } from '../shared/routing'
 import { Loader } from '../shared/components/Loader'
-import { getToken } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
 import { getAMMInfoByAssets } from '../../rippled/lib/rippled'
 import getTokenHolders from './api/holders'
@@ -23,6 +22,7 @@ import {
 import { transfersPaginationService } from './services/transfersPagination'
 import { PAGINATION_CONFIG, INITIAL_PAGE } from './constants'
 import { useXRPToUSDRate } from '../shared/hooks/useXRPToUSDRate'
+import getToken from './api/token'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
