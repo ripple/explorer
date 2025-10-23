@@ -50,6 +50,7 @@ jest.mock('../../../shared/NumberFormattingUtils', () => ({
   formatLargeNumber: (value: number, decimals: number, lang: string) => ({
     num: value.toFixed(decimals),
     unit: '',
+    lang,
   }),
   parseIntegerAmount: (amount: any) => {
     if (amount === 0) return '0'

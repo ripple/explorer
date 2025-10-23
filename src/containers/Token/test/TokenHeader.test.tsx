@@ -49,14 +49,17 @@ const mockTokenData: LOSToken = {
   transfer_fee: 0.5,
   supply: '1000000',
   circ_supply: '800000',
+  currency: 'USD',
+  index: 0,
   daily_volume: '50000',
-  daily_trades: 1234,
-  market_cap_usd: 400000,
-  tvl_usd: 100000,
+  daily_trades: '1234',
+  market_cap_usd: '400000',
+  tvl_usd: '100000',
   asset_subclass: 'stablecoin',
 }
 
 const mockHoldersData: TokenHoldersData = {
+  totalHolders: 2,
   holders: [
     {
       account: 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
