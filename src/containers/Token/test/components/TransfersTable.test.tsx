@@ -170,6 +170,7 @@ describe('TransfersTable Component', () => {
       </TestWrapper>,
     )
     expect(screen.getByText(/no transfers/i)).toBeInTheDocument()
+    expect(screen.getByText('no_info.svg')).toBeInTheDocument()
   })
 
   it('calls onPageChange when pagination is triggered', () => {

@@ -57,6 +57,8 @@ export const HeaderBoxes = ({
     tvl_usd: tvlUsd,
   } = marketData
 
+  const shouldShowAccountLink = !!(tvlUsd || ammTvl) && ammAccount
+
   return (
     <div className="header-boxes">
       <div className="header-box">
@@ -132,11 +134,16 @@ export const HeaderBoxes = ({
           <div className="header-box-item">
             <div className="item-name">{t('token_page.amm_tvl')}:</div>
             <div className="item-value">
-              {isAmmTvlLoading ? (
-                <span className="loading-spinner" />
-              ) : (
-                <Account account={ammAccount} displayText={tvlUsd || ammTvl} />
-              )}
+              {isAmmTvlLoading && <span className="loading-spinner" />}
+              {!isAmmTvlLoading &&
+                (shouldShowAccountLink ? (
+                  <Account
+                    account={ammAccount}
+                    displayText={tvlUsd || ammTvl}
+                  />
+                ) : (
+                  '--'
+                ))}
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { Loader } from '../../../shared/components/Loader'
 import { useTooltip, Tooltip } from '../../../shared/components/Tooltip'
 import HoverIcon from '../../../shared/images/hover.svg'
 import ArrowIcon from '../../../shared/images/down_arrow.svg'
+import NoInfo from '../../../shared/images/no_info.svg'
 import './styles.scss'
 import '../tables-mobile.scss'
 import { Pagination } from '../../../shared/components/Pagination'
@@ -275,7 +276,12 @@ export const DexTradeTable = ({
       )}
 
       {!isLoading && (!transactions || transactions.length === 0) && (
-        <div>{t('token_page.dex_no_trades')}</div>
+        <div className="empty-state-message">
+          <NoInfo className="empty-state-icon" alt="No data" />
+          <div className="empty-state-text">
+            {t('token_page.dex_no_trades')}
+          </div>
+        </div>
       )}
     </div>
   )

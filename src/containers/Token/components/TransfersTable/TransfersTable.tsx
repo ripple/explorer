@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Account } from '../../../shared/components/Account'
 import { Loader } from '../../../shared/components/Loader'
 import ArrowIcon from '../../../shared/images/down_arrow.svg'
+import NoInfo from '../../../shared/images/no_info.svg'
 import './styles.scss'
 import '../tables-mobile.scss'
 import { Pagination } from '../../../shared/components/Pagination'
@@ -205,7 +206,12 @@ export const TransfersTable = ({
       )}
 
       {!isTransfersLoading && (!transactions || transactions.length === 0) && (
-        <div>{t('token_page.transfers_no_transfers')}</div>
+        <div className="empty-state-message">
+          <NoInfo className="empty-state-icon" alt="No data" />
+          <div className="empty-state-text">
+            {t('token_page.transfers_no_transfers')}
+          </div>
+        </div>
       )}
     </div>
   )
