@@ -1,0 +1,26 @@
+@use '../css/variables' as *;
+
+// Empty state message styling
+.empty-state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: $black-40;
+  text-align: center;
+
+  .empty-state-icon {
+    width: 126px;
+    height: 137px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .empty-state-text {
+    color: $black-60;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
