@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import NoInfo from '../images/no_info.svg'
-import '../css/emptyStateMessage.scss'
+import NoInfo from '../../images/no_info.svg'
+import './emptyStateMessage.scss'
 
 interface EmptyStateMessageProps {
   message: ReactNode
