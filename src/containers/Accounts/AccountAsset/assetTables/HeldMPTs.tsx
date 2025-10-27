@@ -6,11 +6,7 @@ import { MPT_ROUTE } from '../../../App/routes'
 import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { Account } from '../../../shared/components/Account'
-import {
-  Tooltip,
-  useTooltip,
-  TooltipProvider,
-} from '../../../shared/components/Tooltip'
+import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
 import {
   formatMPTIssuance,
   formatMPToken,
@@ -213,7 +209,5 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
 }
 
 export const HeldMPTs = ({ accountId, onChange }: HeldMPTsProps) => (
-  <TooltipProvider>
-    <HeldMPTsContent accountId={accountId} onChange={onChange} />
-  </TooltipProvider>
+  <HeldMPTsContent accountId={accountId} onChange={onChange} />
 )

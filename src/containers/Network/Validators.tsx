@@ -20,7 +20,7 @@ import {
   ValidatorResponse,
 } from '../shared/vhsTypes'
 import NetworkContext from '../shared/NetworkContext'
-import { TooltipProvider } from '../shared/components/Tooltip'
+
 import './css/style.scss'
 import { VALIDATORS_ROUTE } from '../App/routes'
 import { useRouteParams } from '../shared/routing'
@@ -159,9 +159,7 @@ export const Validators = () => {
       )}
       {
         // @ts-ignore - Work around for complex type assignment issues
-        <TooltipProvider>
-          <Hexagons data={validations} list={vList} />
-        </TooltipProvider>
+        <Hexagons data={validations} list={vList} />
       }
       <div className="stat">
         <span>{t('validators_found')}: </span>
