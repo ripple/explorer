@@ -199,7 +199,8 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('No dex trades found')).toBeInTheDocument()
+    expect(screen.getByText(/no dex trades found/i)).toBeInTheDocument()
+    expect(screen.getByText('no_info.svg')).toBeInTheDocument()
   })
 
   it('calls onPageChange when pagination is triggered', () => {

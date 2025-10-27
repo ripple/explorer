@@ -549,7 +549,6 @@
   "can_trade": "Puede Comerciar",
   "can_transfer": "Puede Transferir",
   "can_clawback": "Puede Recuperar",
-  "search_results_banner": "¡La búsqueda de tokens por nombre y cuenta ya está disponible! Intenta buscar USD",
   "assets.no_mpts_message": null,
   "transaction_type_name_MPTokenIssuanceCreate": null,
   "transaction_type_name_MPTokenIssuanceDestroy": null,

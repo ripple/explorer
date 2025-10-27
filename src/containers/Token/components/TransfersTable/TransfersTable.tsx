@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Account } from '../../../shared/components/Account'
 import { Loader } from '../../../shared/components/Loader'
+import { EmptyStateMessage } from '../../../shared/components/EmptyStateMessage'
 import ArrowIcon from '../../../shared/images/down_arrow.svg'
 import './styles.scss'
 import '../tables-mobile.scss'
@@ -205,7 +206,7 @@ export const TransfersTable = ({
       )}
 
       {!isTransfersLoading && (!transactions || transactions.length === 0) && (
-        <div>{t('token_page.transfers_no_transfers')}</div>
+        <EmptyStateMessage message={t('token_page.transfers_no_transfers')} />
       )}
     </div>
   )

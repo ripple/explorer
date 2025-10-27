@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Account } from '../../../shared/components/Account'
 import { Loader } from '../../../shared/components/Loader'
+import { EmptyStateMessage } from '../../../shared/components/EmptyStateMessage'
 import { useTooltip, Tooltip } from '../../../shared/components/Tooltip'
 import HoverIcon from '../../../shared/images/hover.svg'
 import ArrowIcon from '../../../shared/images/down_arrow.svg'
@@ -275,7 +276,7 @@ export const DexTradeTable = ({
       )}
 
       {!isLoading && (!transactions || transactions.length === 0) && (
-        <div>{t('token_page.dex_no_trades')}</div>
+        <EmptyStateMessage message={t('token_page.dex_no_trades')} />
       )}
     </div>
   )

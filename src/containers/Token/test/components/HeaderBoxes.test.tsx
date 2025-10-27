@@ -250,4 +250,56 @@ describe('HeaderBoxes Component', () => {
     )
     expect(screen.getByText('$0.00')).toBeInTheDocument()
   })
+
+  it('displays -- when both amm_tvl and tvl_usd are empty', () => {
+    const dataWithoutTvl: MarketData = {
+      ...mockMarketData,
+      amm_tvl: '',
+      tvl_usd: '',
+    }
+    render(
+      <TestWrapper>
+        <HeaderBoxes
+          overviewData={mockOverviewData}
+          marketData={dataWithoutTvl}
+        />
+      </TestWrapper>,
+    )
+    expect(screen.getByText('--')).toBeInTheDocument()
+  })
+
+  it('displays tvl_usd when available', () => {
+    const dataWithTvlUsd: MarketData = {
+      ...mockMarketData,
+      amm_tvl: '',
+      tvl_usd: '$50,000',
+    }
+    render(
+      <TestWrapper>
+        <HeaderBoxes
+          overviewData={mockOverviewData}
+          marketData={dataWithTvlUsd}
+        />
+      </TestWrapper>,
+    )
+    const tvlElements = screen.getAllByText('$50,000')
+    expect(tvlElements.length).toBeGreaterThan(0)
+  })
+
+  it('displays amm_tvl when tvl_usd is not available', () => {
+    const dataWithAmmTvl: MarketData = {
+      ...mockMarketData,
+      amm_tvl: '$75,000',
+      tvl_usd: '',
+    }
+    render(
+      <TestWrapper>
+        <HeaderBoxes
+          overviewData={mockOverviewData}
+          marketData={dataWithAmmTvl}
+        />
+      </TestWrapper>,
+    )
+    expect(screen.getByText('$75,000')).toBeInTheDocument()
+  })
 })
