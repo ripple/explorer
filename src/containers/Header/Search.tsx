@@ -148,26 +148,6 @@ const normalizeAccount = (id: string) => {
   return id
 }
 
-const SearchBanner: FC<{ setIsBannerVisible: (visible: boolean) => void }> = ({
-  setIsBannerVisible,
-}) => {
-  const { t } = useTranslation()
-  return (
-    <div className="banner-search">
-      <div className="banner-content">
-        <div>{t('search_results_banner')}</div>
-        <button
-          className="banner-button"
-          type="button"
-          onClick={() => setIsBannerVisible(false)}
-        >
-          <img src={CloseIcon} alt="close-icon" width={10} height={10} />
-        </button>
-      </div>
-    </div>
-  )
-}
-
 export interface SearchProps {
   callback?: Function
 }
@@ -210,25 +190,20 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
   }, [])
 
   return (
-    <>
-      {process.env.VITE_ENVIRONMENT === 'mainnet' && isBannerVisible && (
-        <SearchBanner setIsBannerVisible={setIsBannerVisible} />
-      )}
-      <div className="search">
-        <input
-          type="text"
-          placeholder={t('header.search.placeholder')}
-          onKeyDown={onKeyDown}
-          value={currentSearchInput}
-          onChange={(e) => setCurrentSearchInput(e.target.value)}
+    <div className="search">
+      <input
+        type="text"
+        placeholder={t('header.search.placeholder')}
+        onKeyDown={onKeyDown}
+        value={currentSearchInput}
+        onChange={(e) => setCurrentSearchInput(e.target.value)}
+      />
+      {process.env.VITE_ENVIRONMENT === 'mainnet' && (
+        <TokenSearchResults
+          setCurrentSearchInput={setCurrentSearchInput}
+          currentSearchValue={currentSearchInput}
         />
-        {process.env.VITE_ENVIRONMENT === 'mainnet' && (
-          <TokenSearchResults
-            setCurrentSearchInput={setCurrentSearchInput}
-            currentSearchValue={currentSearchInput}
-          />
-        )}
-      </div>
-    </>
+      )}
+    </div>
   )
 }
