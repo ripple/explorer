@@ -1,10 +1,4 @@
-import {
-  FC,
-  KeyboardEventHandler,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { KeyboardEventHandler, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { XrplClient } from 'xrpl-client'
@@ -13,7 +7,6 @@ import {
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
-import CloseIcon from '../shared/images/close.png'
 
 import { useAnalytics } from '../shared/analytics'
 import SocketContext from '../shared/SocketContext'
@@ -178,16 +171,6 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
       setCurrentSearchInput('')
     }
   }
-
-  const [isBannerVisible, setIsBannerVisible] = useState(true)
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsBannerVisible(false)
-    }, 10000) // Disappear after 10 seconds
-
-    return () => clearTimeout(timeoutId)
-  }, [])
 
   return (
     <div className="search">
