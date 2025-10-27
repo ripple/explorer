@@ -12,4 +12,3 @@ export const EmptyStateMessage = ({ message }: EmptyStateMessageProps) => (
     <div className="empty-state-text">{message}</div>
   </div>
 )
-
