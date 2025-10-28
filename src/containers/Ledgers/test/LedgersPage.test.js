@@ -71,7 +71,7 @@ class MockWsClient extends BaseMockWsClient {
   }
 }
 
-const WS_URL = 'ws://localhost:1234'
+const WS_URL = 'wss://fakenode.ripple.com:51233'
 
 describe('Ledgers Page container', () => {
   let server
@@ -146,9 +146,7 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.validation').length).toBe(0)
     expect(wrapper.find('.txn').length).toBe(0)
 
-    await sleep(250)
     server.send(prevLedgerMessage)
-    await sleep(260)
     wrapper.update()
     expect(wrapper.exists()).toBe(true)
     expect(wrapper.find('.ledgers').length).toBe(1)
@@ -158,10 +156,14 @@ describe('Ledgers Page container', () => {
     server.send(validationMessage)
     await flushPromises()
     wrapper.update()
+    await flushPromises()
+    sleep(220)
+    await flushPromises()
+    wrapper.update()
+    wrapper.update()
     expect(wrapper.find('.validation').length).toBe(1)
 
     server.send(ledgerMessage)
-    await sleep(250)
     wrapper.update()
     expect(wrapper.find('.ledger').length).toBe(2)
 
