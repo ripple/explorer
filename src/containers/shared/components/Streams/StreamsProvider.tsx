@@ -299,7 +299,7 @@ export const StreamsProvider: FC = ({ children }) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- this should only run when the socket is connected or disconnected
-  }, [socket?.getState()?.online])
+  }, [])
 
   useEffect(() => {
     ledgersRef.current = ledgers
