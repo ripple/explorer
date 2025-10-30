@@ -15,7 +15,7 @@ import { TOKEN_ROUTE } from '../App/routes'
 import { useRouteParams } from '../shared/routing'
 import SocketContext from '../shared/SocketContext'
 import { Loader } from '../shared/components/Loader'
-import getToken from '../Token/api/token'
+import getToken from '../../rippled/token'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
