@@ -84,6 +84,7 @@ export const StreamsProvider: FC = ({ children }) => {
 
   function addLedger(index: number | string) {
     // Only add new ledgers that are newer than the last one added.
+    Log.trace(`Processing ledger index: ${index}`, 'StreamsProvider.addLedger')
     if (!firstLedgerRef.current) {
       firstLedgerRef.current = Number(index)
     }
@@ -147,6 +148,10 @@ export const StreamsProvider: FC = ({ children }) => {
   }
 
   function onLedger(data: LedgerStream) {
+    Log.trace(
+      `Processing ledger data: ${JSON.stringify(data)}`,
+      'StreamsProvider.onLedger',
+    )
     if (!ledgersRef.current[data.ledger_index]) {
       // The ledger closed, but we did not have an existing entry likely because the page just loaded and its
       // validations came in before we connected to the websocket.
@@ -174,18 +179,33 @@ export const StreamsProvider: FC = ({ children }) => {
   }
 
   const populateFromLedgerResponse = (ledger: any) => {
+    Log.trace(
+      `Processing ledger: ${JSON.stringify(ledger)}`,
+      'StreamsProvider.populateFromLedgerResponse',
+    )
     const ledgerSummary = summarizeLedger(ledger)
-    setLedgers((previousLedgers) => {
-      const newLedger = Object.assign(
-        previousLedgers[ledgerSummary.ledger_index] ?? {},
-        {
-          index: ledgerSummary.ledger_index,
-          txCount: ledgerSummary.transactions.length,
-          closeTime: convertRippleDate(ledgerSummary.ledger_time),
-          transactions: ledgerSummary.transactions,
-          totalFees: ledgerSummary.total_fees, // fix type
-        },
+    let idx: number
+    // legacy rippled clients (prior to v1.12.0) populate `seqNum` field instead of `ledger_index`
+    if (!Number.isNaN(Number(ledgerSummary.ledger_index))) {
+      idx = Number(ledgerSummary.ledger_index)
+    } else {
+      idx = Number(ledger.seqNum)
+    }
+    if (Number.isNaN(idx)) {
+      Log.error(
+        `Unable to typecast ledger-index to number type: ${ledgerSummary.ledger_index}`,
+        'StreamsProvider.populateFromLedgerResponse',
       )
+      return
+    }
+    setLedgers((previousLedgers) => {
+      const newLedger = Object.assign(previousLedgers[idx] ?? { hashes: [] }, {
+        index: idx,
+        txCount: ledgerSummary.transactions.length,
+        closeTime: convertRippleDate(ledgerSummary.ledger_time),
+        transactions: ledgerSummary.transactions,
+        totalFees: ledgerSummary.total_fees, // fix type
+      })
       const matchingHashIndex = newLedger?.hashes.findIndex(
         (hash) => hash.hash === ledgerSummary.ledger_hash,
       )
@@ -199,11 +219,15 @@ export const StreamsProvider: FC = ({ children }) => {
         }
       }
 
-      return { ...previousLedgers, [ledgerSummary.ledger_index]: newLedger }
+      return { ...previousLedgers, [idx]: newLedger }
     })
   }
 
   const onValidation = (data: ValidationStream) => {
+    Log.trace(
+      `Processing validation data: ${JSON.stringify(data)}`,
+      'StreamsProvider.onValidation',
+    )
     if (!ledgersRef.current[Number(data.ledger_index)]) {
       addLedger(data.ledger_index)
     }
@@ -214,6 +238,10 @@ export const StreamsProvider: FC = ({ children }) => {
 
   // Process validations in chunks to make re-renders more manageable.
   function processValidationQueue() {
+    Log.trace(
+      `Processing validation queue: ${JSON.stringify(validationQueue.current)}`,
+      'StreamsProvider.processValidationQueue',
+    )
     setTimeout(processValidationQueue, THROTTLE)
 
     if (validationQueue.current.length < 1) {

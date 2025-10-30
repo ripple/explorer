@@ -38,7 +38,7 @@ export const LedgerEntryHashTrustedCount = ({
     <span
       tabIndex={0}
       role="button"
-      className={status.trustedCount < status.missing.length ? 'missed' : ''}
+      className={status.missing.length > 0 ? 'missed' : ''}
       onMouseMove={(e) => {
         const { missing } = status
 

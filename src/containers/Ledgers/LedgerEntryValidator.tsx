@@ -20,6 +20,7 @@ export const LedgerEntryValidator = ({
     validators?.[validation.validation_public_key]?.unl && 'trusted',
     selectedValidator && 'unselected',
     selectedValidator === validation.validation_public_key && 'selected',
+    validation.validation_public_key,
   )
 
   return (
