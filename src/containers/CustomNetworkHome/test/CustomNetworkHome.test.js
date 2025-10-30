@@ -76,7 +76,7 @@ describe('CustomNetworkHome page', () => {
         key: 'Enter',
         currentTarget: { value: 'custom_url' },
       })
-      expect(mockedFunction).toBeCalledWith(
+      expect(mockedFunction).toHaveBeenCalledWith(
         `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
       wrapper.unmount()

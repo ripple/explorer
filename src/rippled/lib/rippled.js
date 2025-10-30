@@ -56,6 +56,9 @@ const getLedger = (rippledSocket, parameters) => {
   }
 
   return query(rippledSocket, request).then((resp) => {
+    if (!resp) {
+      throw new Error(`No response from rippled: ${JSON.stringify(resp)}`, 500)
+    }
     if (resp.error_message === 'ledgerNotFound') {
       throw new Error('ledger not found', 404)
     }
