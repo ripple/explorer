@@ -39,7 +39,7 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
   accountId,
   children,
 }) => (
-  <div className="token-page">
+  <div className="token-page-non-main">
     <Helmet title={`${accountId.substring(0, 12)}...`} />
     {children}
   </div>

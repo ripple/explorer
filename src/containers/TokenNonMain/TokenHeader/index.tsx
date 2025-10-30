@@ -175,7 +175,7 @@ export const TokenHeader = ({
   }
 
   return (
-    <div className="box token-header">
+    <div className="box token-header-non-main">
       <div className="section box-header">
         <Currency currency={currency} />
         {emailHash && (
