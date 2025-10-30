@@ -45,6 +45,7 @@ import { Nodes } from '../Network/Nodes'
 import { Validators } from '../Network/Validators'
 import { UpgradeStatus } from '../Network/UpgradeStatus'
 import { Tokens } from '../Tokens'
+import { TokenNonMain } from '../TokenNonMain'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -76,7 +77,7 @@ export const AppWrapper = () => {
     [UPGRADE_STATUS_ROUTE, UpgradeStatus],
     [AMENDMENTS_ROUTE, Amendments],
     [VALIDATOR_ROUTE, Validator],
-    [TOKEN_ROUTE, Token],
+    [TOKEN_ROUTE, mode === 'mainnet' ? Token : TokenNonMain],
     [TOKENS_ROUTE, Tokens],
     [NFT_ROUTE, NFT],
     [AMENDMENT_ROUTE, Amendment],
