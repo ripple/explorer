@@ -4,10 +4,9 @@ import getLedger from './ledgers'
 import getTransaction from './transactions'
 import getQuorum from './quorum'
 import getNegativeUNL from './nUNL'
-import getToken from './token'
 import getOffers from './offers'
 
-import { getAccountInfo, getAMMInfo } from './lib/rippled'
+import { getAccountInfo, getAMMInfoByAssets } from './lib/rippled'
 
 export {
   getAccountInfo,
@@ -17,7 +16,6 @@ export {
   getTransaction,
   getQuorum,
   getNegativeUNL,
-  getToken,
   getOffers,
-  getAMMInfo,
+  getAMMInfoByAssets,
 }

@@ -26,7 +26,7 @@ const DEFAULTS = {
   nUnl: [],
 }
 
-const TOOLTIP_Y_OFFSET = 180
+const TOOLTIP_Y_OFFSET = 70
 
 export const LedgerMetrics = ({
   onPause,
@@ -88,8 +88,8 @@ export const LedgerMetrics = ({
       onMouseOver={(e) => {
         const rect = e.currentTarget.getBoundingClientRect()
         showTooltip('text', e, t(`${key}_description`, { defaultValue: '' }), {
-          x: rect.left + window.scrollX + rect.width / 2,
-          y: rect.top + window.scrollY - TOOLTIP_Y_OFFSET,
+          x: rect.left + rect.width / 2,
+          y: rect.top - TOOLTIP_Y_OFFSET,
         })
       }}
       onMouseLeave={() => hideTooltip()}

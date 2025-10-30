@@ -5,51 +5,51 @@ import { Amount } from '../Amount'
 import { localizeNumber } from '../../utils'
 import Currency from '../Currency'
 import DomainLink from '../DomainLink'
+import { LOSToken } from '../../losTypes'
 
 const parsePrice = (dollarPrice: string, xrpPrice: number): number => {
   const parsedDollar = Number(dollarPrice)
   return Number((parsedDollar * xrpPrice).toFixed(6))
 }
 
-const TokenLogo: FC<{ token: any }> = ({ token }) =>
-  token && token.meta?.token.icon ? (
-    <object data={token.meta.token.icon} className="result-row-icon">
+const DEFAULT_VALUE = '--'
+
+const TokenLogo: FC<{ token: LOSToken }> = ({ token }) =>
+  token && token.icon ? (
+    <object data={token.icon} className="result-row-icon">
       <div className="result-row-icon" />
     </object>
   ) : (
     <div className="result-row-icon no-logo" />
   )
 
-const TokenName: FC<{ token: any }> = ({ token }) =>
-  token && token.meta?.token.name ? (
+const TokenName: FC<{ token: LOSToken }> = ({ token }) =>
+  token && token.name ? (
     <div>
-      (
-      {token.meta.token.name
-        .trim()
-        .toUpperCase()
-        .replace('(', '')
-        .replace(')', '')}
-      )
+      ({token.name.trim().toUpperCase().replace('(', '').replace(')', '')})
     </div>
   ) : null
 
-const IssuerAddress: FC<{ token: any; onClick: any }> = ({ token, onClick }) =>
-  token && (token.issuer || token.meta?.issuer) ? (
+const IssuerAddress: FC<{ token: LOSToken; onClick: any }> = ({
+  token,
+  onClick,
+}) =>
+  token && token.issuer_account ? (
     <Link
-      to={`/accounts/${token.issuer}`}
+      to={`/accounts/${token.issuer_account}`}
       onClick={onClick}
       className="issuer-link"
     >
       <div className="issuer-name">
-        {token.meta.issuer.name && `${token.meta.issuer.name} (`}
+        {token.issuer_name && `${token.issuer_name} (`}
       </div>
-      <div className="issuer-address truncate">{token.issuer}</div>
-      {token.meta.issuer.name && <div>)</div>}
+      <div className="issuer-address truncate">{token.issuer_account}</div>
+      {token.issuer_name && <div>)</div>}
     </Link>
   ) : null
 
 interface SearchResultRowProps {
-  token: any
+  token: LOSToken
   onClick: () => void
   xrpPrice: number
 }
@@ -63,7 +63,7 @@ export const TokenSearchRow = ({
 
   return (
     <Link
-      to={`/token/${token.currency}.${token.issuer}`}
+      to={`/token/${token.currency}.${token.issuer_account}`}
       className="search-result-row"
       onClick={onClick}
     >
@@ -78,25 +78,29 @@ export const TokenSearchRow = ({
           <TokenName token={token} />
         </div>
         <div className="metric-chip">
-          <Amount
-            value={{
-              currency: 'USD',
-              amount: parsePrice(token.metrics.price, xrpPrice),
-            }}
-            displayIssuer={false}
-            modifier={
-              parsePrice(token.metrics.price, xrpPrice) === 0 ? '~' : undefined
-            }
-          />
+          {token.price ? (
+            <Amount
+              value={{
+                currency: 'USD',
+                amount: parsePrice(token.price, xrpPrice),
+              }}
+              displayIssuer={false}
+              modifier={
+                parsePrice(token.price, xrpPrice) === 0 ? '~' : undefined
+              }
+            />
+          ) : (
+            <div className="no-price">{DEFAULT_VALUE}</div>
+          )}
         </div>
         <div className="metric-chip">
-          {t('holders', {
-            holders: localizeNumber(token.metrics.holders),
+          {t('holders_count', {
+            holders: localizeNumber(token.holders),
           })}
         </div>
         <div className="metric-chip">
           {t('trustlines', {
-            trustlines: localizeNumber(token.metrics.trustlines),
+            trustlines: localizeNumber(token.trustlines),
           })}
         </div>
       </div>
@@ -105,14 +109,11 @@ export const TokenSearchRow = ({
         <IssuerAddress token={token} onClick={onClick} />
       </div>
       <div className="result-website-line">
-        {token.meta.issuer.domain && (
+        {token.issuer_domain && (
           <>
             <div>{t('website')}:</div>
             <div className="result-domain-link">
-              <DomainLink
-                domain={token.meta.issuer.domain}
-                keepProtocol={false}
-              />
+              <DomainLink domain={token.issuer_domain} keepProtocol={false} />
             </div>
           </>
         )}

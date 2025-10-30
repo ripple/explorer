@@ -72,4 +72,29 @@ describe('Account', () => {
     expect(element).toHaveAttribute('title', ACCOUNT)
     expect(screen.queryByTestId('dt')).toHaveTextContent(':123')
   })
+
+  it('should render with displayText', () => {
+    renderComponent(
+      <Account account={ACCOUNT} displayText="Custom Display Name" />,
+    )
+    const element = screen.getByTestId('account')
+    expect(element).toHaveClass('account')
+    expect(element).toHaveTextContent('Custom Display Name')
+    expect(element).toHaveAttribute('href', `/accounts/${ACCOUNT}`)
+    expect(element).toHaveAttribute('title', ACCOUNT)
+  })
+
+  it('should render with displayText and no link', () => {
+    renderComponent(
+      <Account
+        account={ACCOUNT}
+        displayText="Custom Display Name"
+        link={false}
+      />,
+    )
+    const element = screen.getByTestId('account')
+    expect(element).toHaveTextContent('Custom Display Name')
+    expect(element).not.toHaveAttribute('href')
+    expect(element).toHaveAttribute('title', ACCOUNT)
+  })
 })
