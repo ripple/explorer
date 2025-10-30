@@ -177,7 +177,9 @@ export const TokenHeader = ({
   return (
     <div className="box token-header-non-main">
       <div className="section box-header">
-        <Currency currency={currency} />
+        <h1>
+          <Currency currency={currency} />
+        </h1>
         {emailHash && (
           <img
             alt={`${currency} logo`}
