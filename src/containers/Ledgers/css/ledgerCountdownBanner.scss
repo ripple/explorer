@@ -1,15 +1,17 @@
+@use '../../shared/css/variables' as *;
+
 .ledger-countdown-banner {
   padding: 12px 20px;
-  border-radius: 8px;
+  border-radius: $border-radius;
   margin: 0 20px 15px;
   animation: slideDown 0.5s ease-out;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, $blue-purple-40 0%, $blue-purple-70 100%);
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
-  color: white;
+  color: $white;
 
   &.celebration {
     animation: pulse 2s ease-in-out infinite;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, $magenta-40 0%, $magenta-70 100%);
   }
 
   .banner-content {
@@ -47,7 +49,8 @@
     h2 {
       margin: 0 0 4px;
       font-size: 16px;
-      font-weight: 600;
+      @include semibold;
+
       letter-spacing: 0.5px;
 
       @media (width <= 768px) {
@@ -58,7 +61,8 @@
     p {
       margin: 0;
       font-size: 12px;
-      font-weight: 300;
+      @include regular;
+
       opacity: 0.95;
     }
   }
@@ -84,7 +88,8 @@
 
     .label {
       font-size: 10px;
-      font-weight: 500;
+      @include medium;
+
       letter-spacing: 0.5px;
       opacity: 0.85;
       text-transform: uppercase;
@@ -93,7 +98,8 @@
     .value {
       font-family: 'Courier New', monospace;
       font-size: 13px;
-      font-weight: 600;
+      @include semibold;
+
       letter-spacing: 0.5px;
 
       @media (width <= 768px) {
