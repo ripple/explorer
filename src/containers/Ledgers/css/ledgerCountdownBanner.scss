@@ -4,7 +4,7 @@
   padding: 12px 20px;
   border-radius: $border-radius;
   margin: 0 20px 15px;
-  animation: slideDown 0.5s ease-out;
+  animation: slide-down 0.5s ease-out;
   background: linear-gradient(135deg, $blue-purple-40 0%, $blue-purple-70 100%);
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   color: $white;
@@ -109,7 +109,7 @@
   }
 }
 
-@keyframes slideDown {
+@keyframes slide-down {
   from {
     opacity: 0;
     transform: translateY(-20px);

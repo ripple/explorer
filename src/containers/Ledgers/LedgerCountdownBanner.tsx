@@ -45,7 +45,7 @@ export const LedgerCountdownBanner = ({
 
     const newCountdown = calculateCountdown(currentLedger)
     setCountdown(newCountdown)
-    setIsReached(newCountdown.ledgersRemaining === 0)
+    setIsReached(true)
   }, [currentLedger])
 
   if (!countdown) {
