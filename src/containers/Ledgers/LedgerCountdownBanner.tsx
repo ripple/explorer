@@ -45,7 +45,7 @@ export const LedgerCountdownBanner = ({
 
     const newCountdown = calculateCountdown(currentLedger)
     setCountdown(newCountdown)
-    setIsReached(newCountdown.ledgersRemaining === 0)
+    setIsReached(true)
   }, [currentLedger])
 
   if (!countdown) {
@@ -59,7 +59,7 @@ export const LedgerCountdownBanner = ({
           <span className="celebration-icon">🎉</span>
           <div className="banner-text">
             <h2>XRPL has reached 100 million ledgers!</h2>
-            <p>A historic milestone for the XRP Ledger network</p>
+            <p>A historic milestone for the XRP Ledger</p>
           </div>
           <span className="celebration-icon">🎉</span>
         </div>
