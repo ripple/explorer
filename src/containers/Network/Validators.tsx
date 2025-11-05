@@ -14,7 +14,6 @@ import {
 import { useLanguage } from '../shared/hooks'
 import { Hexagons } from './Hexagons'
 import { FeeSettings, StreamValidator } from '../shared/vhsTypes'
-import { TooltipProvider } from '../shared/components/Tooltip'
 import { VALIDATORS_ROUTE } from '../App/routes'
 import { useRouteParams } from '../shared/routing'
 import ValidatorsTabs from './ValidatorsTabs'
@@ -127,9 +126,7 @@ export const Validators = () => {
       <div className="type">{t('validators')}</div>
       {
         // @ts-ignore - Work around for complex type assignment issues
-        <TooltipProvider>
           <Hexagons data={validatorsFromValidations} list={validatorsFromVHS} />
-        </TooltipProvider>
       }
       <div className="stat">
         <span>{t('validators_found')}: </span>
