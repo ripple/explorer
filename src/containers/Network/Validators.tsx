@@ -126,7 +126,7 @@ export const Validators = () => {
       <div className="type">{t('validators')}</div>
       {
         // @ts-ignore - Work around for complex type assignment issues
-          <Hexagons data={validatorsFromValidations} list={validatorsFromVHS} />
+        <Hexagons data={validatorsFromValidations} list={validatorsFromVHS} />
       }
       <div className="stat">
         <span>{t('validators_found')}: </span>

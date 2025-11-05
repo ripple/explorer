@@ -51,11 +51,11 @@ const sortValidators = (data) => {
 
 export const ValidatorsTable = (props: ValidatorsTableProps) => {
   const { validators: rawValidators, metrics, tab, feeSettings } = props
-  const validators = rawValidators ? sortValidators(rawValidators.filter(v => v.master_key || v.signing_key || v.pubkey)) : undefined
-  const illDefinedValidators = rawValidators?.filter(v => !v.master_key && !v.signing_key && !v.pubkey)
-  if (illDefinedValidators && illDefinedValidators.length > 0) {
-    console.log('WARN: validators without a well-defined master key, signing key or a validation_public_key', illDefinedValidators)
-  }
+  const validators = rawValidators
+    ? sortValidators(
+        rawValidators.filter((v) => v.master_key || v.signing_key || v.pubkey),
+      )
+    : undefined
   const { t } = useTranslation()
   const language = useLanguage()
 

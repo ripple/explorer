@@ -28,8 +28,8 @@ export const LedgersPage = () => {
       <StreamsProvider>
         <VHSValidatorsProvider>
           <SelectedValidatorProvider>
-              <LedgerMetrics onPause={() => pause()} paused={paused} />
-              <Ledgers paused={paused} />
+            <LedgerMetrics onPause={() => pause()} paused={paused} />
+            <Ledgers paused={paused} />
           </SelectedValidatorProvider>
         </VHSValidatorsProvider>
       </StreamsProvider>
