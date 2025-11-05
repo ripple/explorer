@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './css/ledgerCountdownBanner.scss'
 
 const TARGET_LEDGER = 100_000_000
-const SECONDS_PER_LEDGER = 3
+const SECONDS_PER_LEDGER = 3.9
 
 interface CountdownTime {
   ledgersRemaining: number
