@@ -8,6 +8,7 @@ import { FETCH_INTERVAL_ERROR_MILLIS } from '../shared/utils'
 import Streams from '../shared/components/Streams'
 import { LedgerMetrics } from './LedgerMetrics'
 import { Ledgers } from './Ledgers'
+import { LedgerCountdownBanner } from './LedgerCountdownBanner'
 import { Ledger, ValidatorResponse } from './types'
 import { useAnalytics } from '../shared/analytics'
 import NetworkContext from '../shared/NetworkContext'
@@ -26,6 +27,9 @@ export const LedgersPage = () => {
   const [paused, setPaused] = useState(false)
   const [metrics, setMetrics] = useState(undefined)
   const [unlCount, setUnlCount] = useState<number | undefined>(undefined)
+  const [currentLedgerIndex, setCurrentLedgerIndex] = useState<
+    number | undefined
+  >(undefined)
   const { isOnline } = useIsOnline()
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
@@ -72,6 +76,14 @@ export const LedgersPage = () => {
 
   const pause = () => setPaused(!paused)
 
+  // Extract current ledger index from the ledgers array
+  useEffect(() => {
+    if (ledgers.length > 0) {
+      const maxLedger = Math.max(...ledgers.map((l) => l.ledger_index || 0))
+      setCurrentLedgerIndex(maxLedger)
+    }
+  }, [ledgers])
+
   return (
     <div className="ledgers-page">
       <Helmet title={t('ledgers')} />
@@ -83,6 +95,7 @@ export const LedgersPage = () => {
         />
       )}
       <SelectedValidatorProvider>
+        <LedgerCountdownBanner currentLedger={currentLedgerIndex} />
         <LedgerMetrics data={metrics} onPause={() => pause()} paused={paused} />
         <Ledgers
           ledgers={ledgers}

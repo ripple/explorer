@@ -1,0 +1,144 @@
+@use '../../shared/css/variables' as *;
+
+.ledger-countdown-banner {
+  padding: 12px 20px;
+  border-radius: $border-radius;
+  margin: 0 20px 15px;
+  animation: slide-down 0.5s ease-out;
+  background: linear-gradient(135deg, $blue-purple-40 0%, $blue-purple-70 100%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  color: $white;
+
+  &.celebration {
+    animation: pulse 2s ease-in-out infinite;
+    background: linear-gradient(135deg, $magenta-40 0%, $magenta-70 100%);
+  }
+
+  .banner-content {
+    display: flex;
+    max-width: 1200px;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    gap: 12px;
+
+    @media (width <= 768px) {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+
+  .celebration-icon {
+    flex-shrink: 0;
+    animation: bounce 1s ease-in-out infinite;
+    font-size: 24px;
+
+    &:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    @media (width <= 768px) {
+      font-size: 20px;
+    }
+  }
+
+  .banner-text {
+    flex: 1;
+    text-align: center;
+
+    h2 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      @include semibold;
+
+      letter-spacing: 0.5px;
+
+      @media (width <= 768px) {
+        font-size: 14px;
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: 12px;
+      @include regular;
+
+      opacity: 0.95;
+    }
+  }
+
+  .countdown-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 4px;
+    gap: 20px;
+
+    @media (width <= 768px) {
+      gap: 12px;
+    }
+  }
+
+  .ledger-count,
+  .time-estimate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+
+    .label {
+      font-size: 10px;
+      @include medium;
+
+      letter-spacing: 0.5px;
+      opacity: 0.85;
+      text-transform: uppercase;
+    }
+
+    .value {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      @include semibold;
+
+      letter-spacing: 0.5px;
+
+      @media (width <= 768px) {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  }
+
+  50% {
+    box-shadow: 0 4px 20px rgb(245 87 108 / 40%);
+  }
+}

@@ -61,7 +61,7 @@
     "@types/create-hash": "^1.2.6",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^26.0.24",
-    "@types/lodash": "^4.17.6",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^22.14.0",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.9",
