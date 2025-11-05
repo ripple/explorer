@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { LedgerMetrics } from './LedgerMetrics'
 import { Ledgers } from './Ledgers'
+import { LedgerCountdownBanner } from './LedgerCountdownBanner'
+import { Ledger, ValidatorResponse } from './types'
 import { useAnalytics } from '../shared/analytics'
 import { SelectedValidatorProvider } from './useSelectedValidator'
 import { StreamsProvider } from '../shared/components/Streams'
@@ -11,6 +13,9 @@ import { VHSValidatorsProvider } from '../shared/components/VHSValidators'
 export const LedgersPage = () => {
   const { trackScreenLoaded } = useAnalytics()
   const [paused, setPaused] = useState(false)
+  const [currentLedgerIndex, setCurrentLedgerIndex] = useState<
+    number | undefined
+  >(undefined)
 
   useEffect(() => {
     trackScreenLoaded()
@@ -22,12 +27,21 @@ export const LedgersPage = () => {
   const pause = () => setPaused(!paused)
   const { t } = useTranslation()
 
+  // Extract current ledger index from the ledgers array
+  useEffect(() => {
+    if (ledgers.length > 0) {
+      const maxLedger = Math.max(...ledgers.map((l) => l.ledger_index || 0))
+      setCurrentLedgerIndex(maxLedger)
+    }
+  }, [ledgers])
+
   return (
     <div className="ledgers-page">
       <Helmet title={t('ledgers')} />
       <StreamsProvider>
         <VHSValidatorsProvider>
           <SelectedValidatorProvider>
+              <LedgerCountdownBanner currentLedger={currentLedgerIndex} />
               <LedgerMetrics onPause={() => pause()} paused={paused} />
               <Ledgers paused={paused} />
           </SelectedValidatorProvider>
