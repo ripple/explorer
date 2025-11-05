@@ -51,7 +51,11 @@ const sortValidators = (data) => {
 
 export const ValidatorsTable = (props: ValidatorsTableProps) => {
   const { validators: rawValidators, metrics, tab, feeSettings } = props
-  const validators = rawValidators ? sortValidators(rawValidators) : undefined
+  const validators = rawValidators ? sortValidators(rawValidators.filter(v => v.master_key || v.signing_key || v.pubkey)) : undefined
+  const illDefinedValidators = rawValidators?.filter(v => !v.master_key && !v.signing_key && !v.pubkey)
+  if (illDefinedValidators && illDefinedValidators.length > 0) {
+    console.log('WARN: validators without a well-defined master key, signing key or a validation_public_key', illDefinedValidators)
+  }
   const { t } = useTranslation()
   const language = useLanguage()
 
@@ -93,7 +97,8 @@ export const ValidatorsTable = (props: ValidatorsTableProps) => {
   const renderValidator = (d) => {
     const color = d.ledger_hash ? `#${d.ledger_hash.substring(0, 6)}` : ''
     const trusted = d.unl ? 'yes' : 'no'
-    const pubkey = d.master_key || d.signing_key
+    // Note: Validator information is obtained from VHS and subscription Stream. The latter type uses pubkey as an alias for validation_public_key field (which is the signing key of the validator)
+    const pubkey = d.master_key || d.signing_key || d.pubkey
     const onNegativeUnl = metrics.nUnl && metrics.nUnl.includes(pubkey)
     const nUnl = onNegativeUnl ? 'yes' : 'no'
     const ledgerIndex = d.ledger_index ?? d.current_index
