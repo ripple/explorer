@@ -260,7 +260,7 @@ export const StreamsProvider: FC = ({ children }) => {
         if (!matchingHash) {
           matchingHash = {
             hash: validation.ledger_hash,
-            unselected: true,
+            unselected: false,
             validated: false,
             validations: [],
             time: convertRippleDate(validation.signing_time),
