@@ -80,6 +80,8 @@
   "ledger_index": "Ledger Index",
   "to": "to",
   "from": "from",
+  "request": "Request",
+  "terms": "Terms",
   "send": "Send",
   "delivered": "Delivered",
   "cancel_offer": "Cancel Offer",
@@ -791,6 +793,14 @@
   "token_page.transfers_no_transfers": "No transfers found",
   "token_page.token_label": "Token",
   "token_page.category_text": "IOU",
-  "refresh_data": "Refresh data"
-
+  "refresh_data": "Refresh data",
+  "claw_back": "claw back",
+  "withdraw": "withdraw",
+  "delete": "delete",
+  "rates": "rates",
+  "loan_broker_rates_detail": "<ManagementFeeRate/><CoverRateMinimum/><CoverRateLiquidation/>",
+  "loan_rates_detail": "<InterestRate/><LateInterestRate/><OverpaymentFee/>",
+  "loan_fees_detail": "<LoanOriginationFee/><LoanServiceFee/>",
+  "loan_terms_detail": "<PaymentTotal/><PaymentInterval/><GracePeriod/>",
+  "no_limit": "No Limit"
 }
