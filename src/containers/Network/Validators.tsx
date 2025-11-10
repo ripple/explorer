@@ -25,7 +25,7 @@ import {
 import SocketContext from '../shared/SocketContext'
 import NetworkContext from '../shared/NetworkContext'
 
-export const Validators = () => {
+export const ValidatorsData = () => {
   const rippledSocket = useContext(SocketContext)
   const network = useContext(NetworkContext)
 
@@ -149,10 +149,10 @@ export const Validators = () => {
   )
 }
 
-export const ValidatorsPage = () => (
+export const Validators = () => (
   <StreamsProvider>
     <VHSValidatorsProvider>
-      <Validators />
+      <ValidatorsData />
     </VHSValidatorsProvider>
   </StreamsProvider>
 )
