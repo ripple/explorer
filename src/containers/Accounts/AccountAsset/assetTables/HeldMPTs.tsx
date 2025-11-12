@@ -18,6 +18,7 @@ import {
   localizeNumber,
   shortenAccount,
   shortenMPTID,
+  convertScaledPrice,
 } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
@@ -93,7 +94,11 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
       // MPT balance must be scaled by the appropriate asset_scale exponent.
       // Please refer to this documentation for more details:
       // https://xrpl.org/docs/references/protocol/transactions/types/mptokenissuancecreate#mptokenissuancecreate-fields
-      balance: mpToken.mptAmount * 10 ** -(mptIssuance?.assetScale ?? 0),
+      // balance: mpToken.mptAmount * 10 ** -(mptIssuance?.assetScale ?? 0),
+      balance: convertScaledPrice(
+        Number(mpToken.mptAmount).toString(16),
+        mptIssuance?.assetScale ?? 0,
+      ),
       ticker: mptIssuance?.metadata?.Ticker || null,
       issuer: mptIssuance?.issuer || '',
       issuerName: mptIssuance?.metadata?.IssuerName || null,

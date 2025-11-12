@@ -44,6 +44,7 @@ const mockMPTIssuancesResponse = {
       OutstandingAmount: '1000000',
       TransferFee: 5000,
       Flags: 0,
+      AssetScale: 2,
       MPTokenMetadata: {
         Ticker: 'USD',
         AssetClass: 'Stablecoin',
@@ -54,6 +55,7 @@ const mockMPTIssuancesResponse = {
       OutstandingAmount: '500000',
       TransferFee: 10000,
       Flags: 1, // lsfMPTLocked
+      AssetScale: 0,
       MPTokenMetadata: {
         Ticker: 'EUR',
         AssetClass: 'Currency',
@@ -64,6 +66,7 @@ const mockMPTIssuancesResponse = {
       OutstandingAmount: '250000',
       TransferFee: 15000,
       Flags: 0,
+      AssetScale: 0,
       MPTokenMetadata: {
         Ticker: 'BTC',
         AssetClass: 'Cryptocurrency',
@@ -158,7 +161,7 @@ describe('IssuedMPTs', () => {
     // Verify USD MPT data in first row
     const usdRow = dataRows[0]
     expect(usdRow).toHaveTextContent('000004C463...5D00000001')
-    expect(usdRow).toHaveTextContent('1,000,000') // supply
+    expect(usdRow).toHaveTextContent('10,000') // supply
     expect(usdRow).toHaveTextContent('5%') // transfer fee
     expect(usdRow).toHaveTextContent('--') // not locked
 
