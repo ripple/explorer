@@ -3,13 +3,16 @@
 
 .json-view-container {
   position: relative;
+
+  &.show-background {
+    padding: 24px;
+    background-color: $black-80;
+  }
 }
 
 .json-view {
   overflow: hidden;
-  padding: 24px;
   margin-bottom: 40px;
-  background-color: $black-80;
   color: $black-10 !important;
   font-size: 12px;
   letter-spacing: 0;
