@@ -90,7 +90,10 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
 
     return {
       tokenId: mpToken.mptIssuanceID,
-      balance: mpToken.mptAmount,
+      // MPT balance must be scaled by the appropriate asset_scale exponent.
+      // Please refer to this documentation for more details:
+      // https://xrpl.org/docs/references/protocol/transactions/types/mptokenissuancecreate#mptokenissuancecreate-fields
+      balance: mpToken.mptAmount * 10 ** -(mptIssuance?.assetScale ?? 0),
       ticker: mptIssuance?.metadata?.Ticker || null,
       issuer: mptIssuance?.issuer || '',
       issuerName: mptIssuance?.metadata?.IssuerName || null,
