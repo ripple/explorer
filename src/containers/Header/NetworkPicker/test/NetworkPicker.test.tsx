@@ -106,7 +106,7 @@ describe('NetworkPicker component', () => {
     customInput.simulate('change', { target: { value: 'custom_url' } })
     customInput.simulate('submit', { keyCode: 13 })
 
-    expect(mockedFunction).toBeCalledWith(
+    expect(mockedFunction).toHaveBeenCalledWith(
       `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
     )
 

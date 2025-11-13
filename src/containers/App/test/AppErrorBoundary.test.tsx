@@ -24,6 +24,6 @@ describe('<AppErrorBoundary> component', () => {
         <ProblemChild />
       </AppErrorBoundary>,
     )
-    expect(analytics.trackException).toBeCalledWith(expect.anything())
+    expect(analytics.trackException).toHaveBeenCalledWith(expect.anything())
   })
 })
