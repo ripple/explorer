@@ -65,6 +65,7 @@ const mockMPTIssuanceResponses = {
       Issuer: 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
       TransferFee: 5000,
       Flags: 0,
+      AssetScale: 2,
       MPTokenMetadata: {
         Ticker: 'USD',
         IssuerName: 'Gatehub',
@@ -77,6 +78,7 @@ const mockMPTIssuanceResponses = {
       Issuer: 'rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w',
       TransferFee: 10000,
       Flags: 1, // lsfMPTLocked (Global)
+      AssetScale: 0,
       MPTokenMetadata: {
         Ticker: 'EUR',
         IssuerName: 'Bitstamp',
@@ -89,6 +91,7 @@ const mockMPTIssuanceResponses = {
       Issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
       TransferFee: 15000,
       Flags: 0,
+      AssetScale: 0,
       MPTokenMetadata: {
         Ticker: 'BTC',
         IssuerName: 'Kraken',
@@ -194,7 +197,8 @@ describe('HeldMPTs', () => {
     const usdRow = dataRows[0]
     expect(usdRow).toHaveTextContent('000004C463...5D00000001')
     expect(usdRow).toHaveTextContent('rN7n7ot...6fzRH') // issuer
-    expect(usdRow).toHaveTextContent('1,000,000') // balance
+    // Note: The MPT balance is scaled by the appropriate (10 ^ -asset_scale) multiplicative factor.
+    expect(usdRow).toHaveTextContent('10,000') // balance
     expect(usdRow).toHaveTextContent('5%') // transfer fee
     expect(usdRow).toHaveTextContent('Individual') // locked status
 
