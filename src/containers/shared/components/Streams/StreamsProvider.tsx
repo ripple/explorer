@@ -168,9 +168,8 @@ export const StreamsProvider: FC = ({ children }) => {
       refetchQuorum()
     }
 
-    // TODO: Set fields before getting full ledger info
-    // set validated hash
-    // set closetime
+    // use ledger_hash to fetch the complete ledger info from the rippled server.
+    // other fields (like close_time) can be obtained from the response of the `ledger` RPC.
     getLedger(socket, { ledger_hash: data.ledger_hash })
       .then(populateFromLedgerResponse)
       .catch((error) => {
@@ -204,6 +203,8 @@ export const StreamsProvider: FC = ({ children }) => {
         txCount: ledgerSummary.transactions.length,
         closeTime: convertRippleDate(ledgerSummary.ledger_time),
         transactions: ledgerSummary.transactions,
+        // Note: Ledger.totalFees is of `number` (primitive javascript) type, whereas ledgerSummary.total_fees is of `Number` type.
+        // Both of these types are compatible with each other: https://stackoverflow.com/questions/67155108/what-is-the-difference-between-number-and-number-in-typescript
         totalFees: ledgerSummary.total_fees, // fix type
       })
       const matchingHashIndex = newLedger?.hashes.findIndex(
