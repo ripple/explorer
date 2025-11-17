@@ -2,6 +2,7 @@ import { mount } from 'enzyme'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
@@ -10,6 +11,9 @@ import MockWsClient from '../../test/mockWsClient'
 import { QuickHarness } from '../../test/utils'
 import { VALIDATORS_ROUTE } from '../../App/routes'
 import { Validators } from '../Validators'
+import { StreamsProvider } from '../../shared/components/Streams'
+import { queryClient } from '../../shared/QueryClient'
+import { VHSValidatorsProvider } from '../../shared/components/VHSValidators'
 
 const WS_URL = 'ws://localhost:1234'
 
@@ -19,9 +23,18 @@ describe('Validators Tab container', () => {
   const createWrapper = () =>
     mount(
       <SocketContext.Provider value={client}>
-        <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
-          <Route path={VALIDATORS_ROUTE.path} element={<Validators />} />
-        </QuickHarness>
+        <QueryClientProvider client={queryClient}>
+          <VHSValidatorsProvider>
+            <StreamsProvider>
+              <QuickHarness
+                i18n={i18n}
+                initialEntries={['/network/validators']}
+              >
+                <Route path={VALIDATORS_ROUTE.path} element={<Validators />} />
+              </QuickHarness>
+            </StreamsProvider>
+          </VHSValidatorsProvider>
+        </QueryClientProvider>
       </SocketContext.Provider>,
     )
 
@@ -54,7 +67,7 @@ describe('Validators Tab container', () => {
 
     expect(wrapper.find('.validators').length).toBe(1)
     expect(wrapper.find('.stat').html()).toBe(
-      '<div class="stat"><span>validators_found: </span><span>0</span></div>',
+      '<div class="stat"><span>validators_found: </span><span>0<i> (unl: )</i></span></div>',
     )
     expect(wrapper.find('.validators-table').length).toBe(1)
 
