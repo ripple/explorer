@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useWindowSize } from 'usehooks-ts'
 
 import { hexbin } from 'd3-hexbin'
 import { Loader } from '../shared/components/Loader'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import './css/hexagons.scss'
+import { ValidatorResponse } from '../shared/vhsTypes'
 
 const MAX_WIDTH = 1200
 const getDimensions = (width) => ({
@@ -14,7 +14,21 @@ const getDimensions = (width) => ({
   radius: Math.min(width, MAX_WIDTH) / 25,
 })
 
-const prepareHexagons = (data, list, height, radius, prev = []) => {
+type Hexagon = {
+  cookie?: string
+  pubkey?: string
+  ledger_hash: string
+  x: number
+  y: number
+}
+
+const prepareHexagons = (
+  data,
+  list: Record<string, ValidatorResponse>,
+  height: number,
+  radius: number,
+  prev: Hexagon[] = [],
+) => {
   const maxRows = Math.ceil(height / ((radius * 3) / 2))
   const hexWidth = radius * Math.sqrt(3)
   let row = 0
@@ -41,16 +55,22 @@ const prepareHexagons = (data, list, height, radius, prev = []) => {
       ...pos,
       ...list[d.pubkey],
       prev:
-        prev[i] && prev[i].ledger_hash !== d.ledger_hash
-          ? prev[i].ledger_hash.substring(0, 6)
+        prev[i] && prev[i]?.ledger_hash !== d.ledger_hash
+          ? prev[i]?.ledger_hash.substr(0, 6)
           : undefined,
     }
   })
 }
 
-export const Hexagons = ({ list, data }) => {
+export const Hexagons = ({
+  list,
+  data,
+}: {
+  data: any
+  list?: Record<string, ValidatorResponse>
+}) => {
   const { width } = useWindowSize()
-  const [hexagons, setHexagons] = useState([])
+  const [hexagons, setHexagons] = useState<Hexagon[]>([])
   const { width: gridWidth, height: gridHeight, radius } = getDimensions(width)
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
   const bin = hexbin()
@@ -61,16 +81,22 @@ export const Hexagons = ({ list, data }) => {
     .radius(radius)
 
   useEffect(() => {
-    if (width > 0) {
+    if (width > 0 && list) {
       setHexagons((prevHexagons) =>
-        prepareHexagons(data, list, gridHeight, radius, prevHexagons),
+        prepareHexagons(
+          Object.values(data),
+          list,
+          gridHeight,
+          radius,
+          prevHexagons,
+        ),
       )
     }
   }, [data, list, width, gridHeight, radius])
 
   const renderHexagon = (d, theHex) => {
     const { cookie, pubkey, ledger_hash: ledgerHash } = d
-    const fill = `#${ledgerHash.substring(0, 6)}`
+    const fill = `#${ledgerHash.substr(0, 6)}`
     const strokeWidth = theHex.radius() / 16
     return (
       <g
@@ -78,7 +104,7 @@ export const Hexagons = ({ list, data }) => {
         transform={`translate(${d.x},${d.y})`}
         className="hexagon updated"
         onMouseOver={(e) =>
-          showTooltip('validator', e, { ...d, v: list[d.pubkey] })
+          showTooltip('validator', e, { ...d, v: list?.[d.pubkey] })
         }
         onFocus={() => {}}
         onMouseLeave={hideTooltip}
@@ -115,9 +141,4 @@ export const Hexagons = ({ list, data }) => {
       <Tooltip tooltip={tooltip} />
     </div>
   )
-}
-
-Hexagons.propTypes = {
-  list: PropTypes.shape({}).isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired, // eslint-disable-line
 }
