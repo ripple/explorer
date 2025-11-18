@@ -18,6 +18,7 @@ import {
   localizeNumber,
   shortenAccount,
   shortenMPTID,
+  convertScaledPrice,
 } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
@@ -90,7 +91,10 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
 
     return {
       tokenId: mpToken.mptIssuanceID,
-      balance: mpToken.mptAmount,
+      balance: convertScaledPrice(
+        Number(mpToken.mptAmount).toString(16),
+        mptIssuance?.assetScale ?? 0,
+      ),
       ticker: mptIssuance?.metadata?.Ticker || null,
       issuer: mptIssuance?.issuer || '',
       issuerName: mptIssuance?.metadata?.IssuerName || null,

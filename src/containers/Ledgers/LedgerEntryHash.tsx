@@ -2,26 +2,15 @@ import { useTranslation } from 'react-i18next'
 import SuccessIcon from '../shared/images/success.svg'
 import { LedgerEntryValidator } from './LedgerEntryValidator'
 import { LedgerEntryHashTrustedCount } from './LedgerEntryHashTrustedCount'
-import { ValidatorResponse } from './types'
+import { LedgerHash } from '../shared/components/Streams'
 
-export const LedgerEntryHash = ({
-  hash,
-  unlCount,
-  validators,
-}: {
-  hash: any
-  unlCount?: number
-  validators: { [pubkey: string]: ValidatorResponse }
-}) => {
+export const LedgerEntryHash = ({ hash }: { hash: LedgerHash }) => {
   const { t } = useTranslation()
   const shortHash = hash.hash.substring(0, 6)
   const barStyle = { background: `#${shortHash}` }
   const validated = hash.validated && <SuccessIcon className="validated" />
   return (
-    <div
-      className={`hash ${hash.unselected ? 'unselected' : ''}`}
-      key={hash.hash}
-    >
+    <div className={`hash ${hash.unselected ? 'unselected' : ''}`}>
       <div className="bar" style={barStyle} />
       <div className="ledger-hash">
         <div className="hash-concat">{hash.hash.substring(0, 6)}</div>
@@ -32,17 +21,12 @@ export const LedgerEntryHash = ({
           <div>{t('total')}:</div>
           <b>{hash.validations.length}</b>
         </div>
-        <LedgerEntryHashTrustedCount
-          hash={hash}
-          unlCount={unlCount}
-          validators={validators}
-        />
+        <LedgerEntryHashTrustedCount validations={hash.validations} />
       </div>
       <div className="validations">
         {hash.validations.map((validation, i) => (
           <LedgerEntryValidator
-            validators={validators}
-            validator={validation}
+            validation={validation}
             index={i}
             key={validation.cookie}
           />
