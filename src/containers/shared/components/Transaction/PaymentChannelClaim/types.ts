@@ -11,4 +11,5 @@ export interface PaymentChannelClaimInstructions {
   renew?: boolean
   close?: boolean
   deleted?: boolean
+  credentialIDs?: string[]
 }

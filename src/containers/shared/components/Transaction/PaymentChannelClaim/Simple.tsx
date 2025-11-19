@@ -4,6 +4,7 @@ import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { TransactionSimpleProps } from '../types'
 import { PaymentChannelClaimInstructions } from './types'
+import { CredentialIDs } from '../CredentialIDs'
 
 export const Simple = ({
   data,
@@ -19,6 +20,7 @@ export const Simple = ({
     renew,
     close,
     deleted,
+    credentialIDs,
   } = data.instructions
   const dParts = destination.split(':')
   const sParts = source.split(':')
@@ -71,6 +73,9 @@ export const Simple = ({
         <SimpleRow label="" className="closed" data-testid="closed">
           {t('payment_channel_closed')}
         </SimpleRow>
+      )}
+      {credentialIDs && credentialIDs.length > 0 && (
+        <CredentialIDs credentialIDs={credentialIDs} />
       )}
     </>
   )
