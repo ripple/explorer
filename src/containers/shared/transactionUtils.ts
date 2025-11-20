@@ -47,6 +47,18 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00040000: 'tfUntilFailure',
     0x00080000: 'tfIndependent',
   },
+  LoanSet: {
+    0x00010000: 'tfLoanOverpayment',
+  },
+  LoanManage: {
+    0x00010000: 'tfLoanDefault',
+    0x00020000: 'tfLoanImpair',
+    0x00040000: 'tfLoanUnimpair',
+  },
+  LoanPay: {
+    0x00010000: 'tfLoanOverpayment',
+    0x00020000: 'tfLoanFullPayment',
+  },
   MPTokenAuthorize: {
     0x00000001: 'tfMPTUnauthorize',
   },

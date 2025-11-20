@@ -9,9 +9,14 @@ import ExpandAllIcon from '../../images/expand_all.svg'
 interface JsonViewProps {
   data: any
   showExpandButton?: boolean
+  showBackground?: boolean
 }
 
-export const JsonView = ({ data, showExpandButton = false }: JsonViewProps) => {
+export const JsonView = ({
+  data,
+  showExpandButton = false,
+  showBackground = false,
+}: JsonViewProps) => {
   const { t } = useTranslation()
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -22,7 +27,9 @@ export const JsonView = ({ data, showExpandButton = false }: JsonViewProps) => {
   const Icon = isExpanded ? CollapseAllIcon : ExpandAllIcon
 
   return (
-    <div className="json-view-container">
+    <div
+      className={`json-view-container ${showBackground ? 'show-background' : ''}`}
+    >
       {showExpandButton && (
         <div className="json-view-controls">
           <button
