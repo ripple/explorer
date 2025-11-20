@@ -1,68 +1,68 @@
 {
-  "close_time_iso":"2025-07-17T02:25:45Z",
-  "ctid":"C0000DB400000000",
-  "hash":"777CC3B0ED9A1A673C420AD594FF18888697F41850B5B8BE41E79A694DF3DD92",
-  "ledger_hash":"E52B5E1FA25C0AE68C48C9BB8F675EAD32D0529B308F9A9679327F377A9DB975",
-  "ledger_index":3508,
-  "meta":{
-    "AffectedNodes":[
-        {
-          "ModifiedNode":{
-              "FinalFields":{
-                "Account":"rH6ydZEEw1W5ZDqkvAk1bke4ZowPruoqyq",
-                "Balance":"399997040",
-                "Flags":0,
-                "OwnerCount":2,
-                "Sequence":3498
-              },
-              "LedgerEntryType":"AccountRoot",
-              "LedgerIndex":"81010CF8EF0F2BD3265FE224AAED1255CBBDFAE5214AC279302B279CDCBDA142",
-              "PreviousFields":{
-                "Balance":"399998280",
-                "Sequence":3497
-              },
-              "PreviousTxnID":"9B43B469D76BBD06731F6F151AD97A441D76F6A7361BE122B8FE1D03404F686D",
-              "PreviousTxnLgrSeq":3507
-          }
-        },
-        {
-          "ModifiedNode":{
-              "FinalFields":{
-                "Account":"rpuLuDBt44msP6f7oppAVsKJoUMaMAvnrF",
-                "Balance":"400001280",
-                "Flags":0,
-                "OwnerCount":2,
-                "Sequence":3498
-              },
-              "LedgerEntryType":"AccountRoot",
-              "LedgerIndex":"D81C23D4E6CF1942E42264DA67EDF98CB98363104D0E06E152E7A745121DF5AE",
-              "PreviousFields":{
-                "Balance":"400000280"
-              },
-              "PreviousTxnID":"9B43B469D76BBD06731F6F151AD97A441D76F6A7361BE122B8FE1D03404F686D",
-              "PreviousTxnLgrSeq":3507
-          }
+  "close_time_iso": "2025-07-17T02:25:45Z",
+  "ctid": "C0000DB400000000",
+  "hash": "777CC3B0ED9A1A673C420AD594FF18888697F41850B5B8BE41E79A694DF3DD92",
+  "ledger_hash": "E52B5E1FA25C0AE68C48C9BB8F675EAD32D0529B308F9A9679327F377A9DB975",
+  "ledger_index": 3508,
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rH6ydZEEw1W5ZDqkvAk1bke4ZowPruoqyq",
+            "Balance": "399997040",
+            "Flags": 0,
+            "OwnerCount": 2,
+            "Sequence": 3498
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "81010CF8EF0F2BD3265FE224AAED1255CBBDFAE5214AC279302B279CDCBDA142",
+          "PreviousFields": {
+            "Balance": "399998280",
+            "Sequence": 3497
+          },
+          "PreviousTxnID": "9B43B469D76BBD06731F6F151AD97A441D76F6A7361BE122B8FE1D03404F686D",
+          "PreviousTxnLgrSeq": 3507
         }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rpuLuDBt44msP6f7oppAVsKJoUMaMAvnrF",
+            "Balance": "400001280",
+            "Flags": 0,
+            "OwnerCount": 2,
+            "Sequence": 3498
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "D81C23D4E6CF1942E42264DA67EDF98CB98363104D0E06E152E7A745121DF5AE",
+          "PreviousFields": {
+            "Balance": "400000280"
+          },
+          "PreviousTxnID": "9B43B469D76BBD06731F6F151AD97A441D76F6A7361BE122B8FE1D03404F686D",
+          "PreviousTxnLgrSeq": 3507
+        }
+      }
     ],
-    "TransactionIndex":0,
-    "TransactionResult":"tesSUCCESS",
-    "delivered_amount":"1000"
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS",
+    "delivered_amount": "1000"
   },
-  "tx":{
-    "Account":"rH6ydZEEw1W5ZDqkvAk1bke4ZowPruoqyq",
-    "Amount":"1000",
-    "Destination":"rpuLuDBt44msP6f7oppAVsKJoUMaMAvnrF",
-    "DomainID":"D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02",
-    "Fee":"240",
-    "Flags":0,
-    "LastLedgerSequence":3527,
-    "Sequence":3497,
-    "SigningPubKey":"EDAD68C65420D3738D936A3542D8DB8232670F9F38F6649B158F0AD6590FC2B403",
-    "TransactionType":"Payment",
-    "TxnSignature":"1F7CC0297BCF0D1DA60C8C0AD53F2D78E493C179E51E0B59B7F9C74B9CA686C672B91C2BB45D530FB06EA906AF6E8D9EB67C28C11C0C2D8EB9503A198AA8B80B",
-    "ctid":"C0000DB400000000",
-    "date":806034345,
-    "ledger_index":3508
+  "tx": {
+    "Account": "rH6ydZEEw1W5ZDqkvAk1bke4ZowPruoqyq",
+    "Amount": "1000",
+    "Destination": "rpuLuDBt44msP6f7oppAVsKJoUMaMAvnrF",
+    "DomainID": "D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02",
+    "Fee": "240",
+    "Flags": 0,
+    "LastLedgerSequence": 3527,
+    "Sequence": 3497,
+    "SigningPubKey": "EDAD68C65420D3738D936A3542D8DB8232670F9F38F6649B158F0AD6590FC2B403",
+    "TransactionType": "Payment",
+    "TxnSignature": "1F7CC0297BCF0D1DA60C8C0AD53F2D78E493C179E51E0B59B7F9C74B9CA686C672B91C2BB45D530FB06EA906AF6E8D9EB67C28C11C0C2D8EB9503A198AA8B80B",
+    "ctid": "C0000DB400000000",
+    "date": 806034345,
+    "ledger_index": 3508
   },
-  "validated":true
+  "validated": true
 }
