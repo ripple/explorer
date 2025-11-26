@@ -6,14 +6,7 @@ import { TransactionSimpleProps } from '../types'
 import { Account } from '../../Account'
 import { CredentialIDs } from '../CredentialIDs'
 
-// Extend the AccountDelete type to include CredentialIDs
-interface AccountDeleteWithCredentials extends AccountDelete {
-  CredentialIDs?: string[]
-}
-
-export const Simple = ({
-  data,
-}: TransactionSimpleProps<AccountDeleteWithCredentials>) => {
+export const Simple = ({ data }: TransactionSimpleProps<AccountDelete>) => {
   const { t } = useTranslation()
   const tx = data.instructions
 
