@@ -110,7 +110,7 @@ export const LedgerMetrics = ({
         content = renderXRP(data[key], language)
       } else if (key === 'ledger_interval' && data[key] !== '--') {
         content = `${data[key]} ${t('seconds_short')}`
-      } else if (key === 'nUnl' && data[key]?.length === 0) {
+      } else if (key === 'nUnl' && (!data[key] || data[key]?.length === 0)) {
         return null
       } else if (key === 'nUnl') {
         content = data[key]?.length
