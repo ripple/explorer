@@ -144,7 +144,7 @@ export const LedgerMetrics = ({
                 {renderTextTooltip(key)}
               </div>
             </div>
-            <span>{content}</span>
+            <span>{content ?? '--'}</span>
           </div>
         )
       } else {
