@@ -7,6 +7,7 @@ import i18n from '../../../i18n/testConfig'
 import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
 import SocketContext from '../../shared/SocketContext'
+import NetworkContext from '../../shared/NetworkContext'
 import MockWsClient from '../../test/mockWsClient'
 import { QuickHarness } from '../../test/utils'
 import { VALIDATORS_ROUTE } from '../../App/routes'
@@ -22,11 +23,13 @@ describe('Validators Tab container', () => {
   const createWrapper = () =>
     mount(
       <SocketContext.Provider value={client}>
-        <QueryClientProvider client={queryClient}>
-          <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
-            <Route path={VALIDATORS_ROUTE.path} element={<Validators />} />
-          </QuickHarness>
-        </QueryClientProvider>
+        <NetworkContext.Provider value="main">
+          <QueryClientProvider client={queryClient}>
+            <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
+              <Route path={VALIDATORS_ROUTE.path} element={<Validators />} />
+            </QuickHarness>
+          </QueryClientProvider>
+        </NetworkContext.Provider>
       </SocketContext.Provider>,
     )
 
