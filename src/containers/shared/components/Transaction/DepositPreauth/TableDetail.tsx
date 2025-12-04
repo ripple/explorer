@@ -40,7 +40,7 @@ export const TableDetail = ({
           {t('authorize')} {t('accepted_credentials')}
         </span>
         <div className="credentials">
-          {AuthorizeCredentials.map((cred, index) => (
+          {AuthorizeCredentials.map((cred) => (
             <div
               key={`${cred.Issuer}-${cred.CredentialType}`}
               className="credential"
@@ -65,7 +65,7 @@ export const TableDetail = ({
           {t('unauthorize')} {t('accepted_credentials')}
         </span>
         <div className="credentials">
-          {UnauthorizeCredentials.map((cred, index) => (
+          {UnauthorizeCredentials.map((cred) => (
             <div
               key={`${cred.Issuer}-${cred.CredentialType}`}
               className="credential"
