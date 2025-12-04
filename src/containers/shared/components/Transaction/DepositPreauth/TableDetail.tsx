@@ -36,10 +36,15 @@ export const TableDetail = ({
   if (AuthorizeCredentials && AuthorizeCredentials.length > 0) {
     return (
       <div className="deposit-preauth">
-        <span className="label">{t('authorize')} {t('accepted_credentials')}</span>
+        <span className="label">
+          {t('authorize')} {t('accepted_credentials')}
+        </span>
         <div className="credentials">
           {AuthorizeCredentials.map((cred, index) => (
-            <div key={`${cred.Issuer}-${cred.CredentialType}`} className="credential">
+            <div
+              key={`${cred.Issuer}-${cred.CredentialType}`}
+              className="credential"
+            >
               <span className="credential-type">
                 {convertHexToString(cred.CredentialType)}
               </span>
@@ -56,10 +61,15 @@ export const TableDetail = ({
   if (UnauthorizeCredentials && UnauthorizeCredentials.length > 0) {
     return (
       <div className="deposit-preauth">
-        <span className="label">{t('unauthorize')} {t('accepted_credentials')}</span>
+        <span className="label">
+          {t('unauthorize')} {t('accepted_credentials')}
+        </span>
         <div className="credentials">
           {UnauthorizeCredentials.map((cred, index) => (
-            <div key={`${cred.Issuer}-${cred.CredentialType}`} className="credential">
+            <div
+              key={`${cred.Issuer}-${cred.CredentialType}`}
+              className="credential"
+            >
               <span className="credential-type">
                 {convertHexToString(cred.CredentialType)}
               </span>
@@ -75,4 +85,3 @@ export const TableDetail = ({
 
   return null
 }
-
