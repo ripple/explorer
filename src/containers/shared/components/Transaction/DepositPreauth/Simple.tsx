@@ -35,6 +35,9 @@ export const Simple = ({ data }: TransactionSimpleProps<DepositPreauth>) => {
       <SimpleGroup title={`${t('authorize')} ${t('accepted_credentials')}`}>
         {AuthorizeCredentials.map((cred, index) => (
           <div key={`${cred.Issuer}-${cred.CredentialType}`}>
+            {index > 0 && (
+              <div style={{ borderTop: '1px solid #444', margin: '12px 0' }} />
+            )}
             <SimpleRow
               label={t('credential_issuer')}
               data-testid={`credential-issuer-${index}`}
@@ -58,6 +61,9 @@ export const Simple = ({ data }: TransactionSimpleProps<DepositPreauth>) => {
       <SimpleGroup title={`${t('unauthorize')} ${t('accepted_credentials')}`}>
         {UnauthorizeCredentials.map((cred, index) => (
           <div key={`${cred.Issuer}-${cred.CredentialType}`}>
+            {index > 0 && (
+              <div style={{ borderTop: '1px solid #444', margin: '12px 0' }} />
+            )}
             <SimpleRow
               label={t('credential_issuer')}
               data-testid={`credential-issuer-${index}`}

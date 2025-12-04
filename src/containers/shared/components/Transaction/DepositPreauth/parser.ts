@@ -20,18 +20,22 @@ const transformCredentials = (credentials: any[]): CredentialAuth[] =>
 export const parser = (tx: any): DepositPreauth => {
   // Handle AuthorizeCredentials (both nested and flat structures)
   if (tx.AuthorizeCredentials) {
-    return {
-      ...tx,
+    const { Authorize, Unauthorize, ...rest } = tx
+    const result = {
+      ...rest,
       AuthorizeCredentials: transformCredentials(tx.AuthorizeCredentials),
     } as DepositPreauth
+    return result
   }
 
   // Handle UnauthorizeCredentials (both nested and flat structures)
   if (tx.UnauthorizeCredentials) {
-    return {
-      ...tx,
+    const { Authorize, Unauthorize, ...rest } = tx
+    const result = {
+      ...rest,
       UnauthorizeCredentials: transformCredentials(tx.UnauthorizeCredentials),
     } as DepositPreauth
+    return result
   }
 
   // For Authorize/Unauthorize fields (string-based), pass through unchanged
