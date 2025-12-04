@@ -568,6 +568,7 @@
   "expiration": null,
   "domain_id": null,
   "accepted_credentials": null,
+  "credential_ids": null,
   "action_from_and": null,
   "data": null,
   "finish_function": null,

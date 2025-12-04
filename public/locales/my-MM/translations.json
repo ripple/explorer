@@ -731,6 +731,7 @@
   "expiration": null,
   "domain_id": null,
   "accepted_credentials": null,
+  "credential_ids": null,
   "data": null,
   "token_page.general_overview": null,
   "token_page.issuer": null,
