@@ -9,9 +9,6 @@ export const Simple: TransactionSimpleComponent = ({
   const { t } = useTranslation()
   const { loanBrokerID, amount, calculatedAmount } = data.instructions
 
-  // Use calculated amount if available, otherwise use the original amount
-  const displayAmount = calculatedAmount || amount
-
   return (
     <>
       {loanBrokerID && (
@@ -19,9 +16,9 @@ export const Simple: TransactionSimpleComponent = ({
           {loanBrokerID}
         </SimpleRow>
       )}
-      {displayAmount && (
+      {calculatedAmount && (
         <SimpleRow label={t('amount')} data-testid="amount">
-          <Amount value={displayAmount} />
+          <Amount value={calculatedAmount} />
         </SimpleRow>
       )}
     </>
