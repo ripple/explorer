@@ -7,7 +7,7 @@ export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps) => {
   const { t } = useTranslation()
-  const { loanBrokerID, amount, calculatedAmount } = data.instructions
+  const { loanBrokerID, calculatedAmount } = data.instructions
 
   return (
     <>
