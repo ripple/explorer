@@ -6,18 +6,18 @@ import { MPT_ROUTE } from '../../../App/routes'
 import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { FutureDataIcon } from '../FutureDataIcon'
-import {
-  Tooltip,
-  useTooltip,
-  TooltipProvider,
-} from '../../../shared/components/Tooltip'
+import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
 import { getAccountObjects } from '../../../../rippled/lib/rippled'
 import SocketContext from '../../../shared/SocketContext'
 import {
   formatMPTIssuance,
   formatTransferFee,
 } from '../../../../rippled/lib/utils'
-import { localizeNumber, shortenMPTID } from '../../../shared/utils'
+import {
+  localizeNumber,
+  shortenMPTID,
+  convertScaledPrice,
+} from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
 
@@ -63,7 +63,10 @@ const fetchAccountIssuedMPTs = async (
     return {
       tokenId: mptIssuance.mpt_issuance_id,
       ticker: formattedIssuance?.metadata?.Ticker || null,
-      supply: formattedIssuance?.outstandingAmt || '0',
+      supply: convertScaledPrice(
+        Number(formattedIssuance?.outstandingAmt || 0).toString(16),
+        formattedIssuance?.assetScale || 0,
+      ),
       assetClass: formattedIssuance?.metadata?.AssetClass || null,
       transferFee: formatTransferFee(formattedIssuance?.transferFee, 'MPT'),
       locked: formattedIssuance?.flags?.includes('lsfMPTLocked')
@@ -152,7 +155,5 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
 }
 
 export const IssuedMPTs = ({ accountId, onChange }: IssuedMPTsProps) => (
-  <TooltipProvider>
-    <IssuedMPTsContent accountId={accountId} onChange={onChange} />
-  </TooltipProvider>
+  <IssuedMPTsContent accountId={accountId} onChange={onChange} />
 )

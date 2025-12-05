@@ -6,11 +6,7 @@ import { MPT_ROUTE } from '../../../App/routes'
 import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { Account } from '../../../shared/components/Account'
-import {
-  Tooltip,
-  useTooltip,
-  TooltipProvider,
-} from '../../../shared/components/Tooltip'
+import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
 import {
   formatMPTIssuance,
   formatMPToken,
@@ -22,6 +18,7 @@ import {
   localizeNumber,
   shortenAccount,
   shortenMPTID,
+  convertScaledPrice,
 } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
@@ -94,7 +91,10 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
 
     return {
       tokenId: mpToken.mptIssuanceID,
-      balance: mpToken.mptAmount,
+      balance: convertScaledPrice(
+        Number(mpToken.mptAmount).toString(16),
+        mptIssuance?.assetScale ?? 0,
+      ),
       ticker: mptIssuance?.metadata?.Ticker || null,
       issuer: mptIssuance?.issuer || '',
       issuerName: mptIssuance?.metadata?.IssuerName || null,
@@ -213,7 +213,5 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
 }
 
 export const HeldMPTs = ({ accountId, onChange }: HeldMPTsProps) => (
-  <TooltipProvider>
-    <HeldMPTsContent accountId={accountId} onChange={onChange} />
-  </TooltipProvider>
+  <HeldMPTsContent accountId={accountId} onChange={onChange} />
 )

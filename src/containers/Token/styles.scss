@@ -1,9 +1,34 @@
-@use '../shared/css/variables';
+@use '../shared/css/variables' as *;
 
 .token-page {
   width: 100%;
+  padding: 0 16px;
+
+  @include for-size(tablet-portrait-up) {
+    padding: 0 24px;
+  }
+
+  @include for-size(desktop-up) {
+    padding: 0 32px;
+  }
+
+  @include for-size(big-desktop-up) {
+    padding: 0 48px;
+  }
 
   .loader {
     min-height: 100px;
+  }
+
+  .section {
+    margin-top: 24px;
+
+    @include for-size(tablet-portrait-up) {
+      margin-top: 32px;
+    }
+
+    @include for-size(desktop-up) {
+      margin-top: 40px;
+    }
   }
 }

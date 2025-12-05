@@ -1,0 +1,290 @@
+@use '../../shared/css/variables' as *;
+
+// Mobile-responsive table styles for Token tables
+
+// Base table styles
+table.basic {
+    width: 100%;
+    font-size: 14px;
+
+    @include for-size(phone-only) {
+      font-size: 12px;
+    }
+
+    th, td {
+      padding: 8px 12px;
+
+      @include for-size(phone-only) {
+        padding: 6px 8px;
+      }
+
+      @include for-size(tablet-portrait-up) {
+        padding: 10px 16px;
+      }
+    }
+
+    // Mobile-specific column adjustments
+    @include for-size(phone-only) {
+      .count {
+        width: 50px;
+        min-width: 50px;
+      }
+
+      .name-col {
+        min-width: 120px;
+      }
+
+      .tx-account {
+        min-width: 140px;
+      }
+
+      .tx-ledger {
+        min-width: 100px;
+      }
+
+      .tx-percent-supply {
+        min-width: 80px;
+      }
+
+      .tx-value {
+        min-width: 100px;
+      }
+
+      .tx-amount {
+        min-width: 100px;
+      }
+
+      .tx-hash {
+        min-width: 120px;
+      }
+
+      .tx-timestamp {
+        min-width: 140px;
+      }
+
+      .tx-from, .tx-to {
+        min-width: 120px;
+      }
+
+      .tx-rate {
+        min-width: 100px;
+      }
+    }
+  }
+
+// Specific styles for each table type
+.holders-table,
+.transfers-table,
+.dex-trades-table {
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: $black-60;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: $black-50;
+  }
+
+  // Hide scrollbar on mobile for cleaner look
+  @include for-size(phone-only) {
+    padding: 0 16px;
+    margin: 0 -16px;
+    -ms-overflow-style: none; // IE/Edge
+    scrollbar-width: none; // Firefox
+
+    &::-webkit-scrollbar {
+      display: none; // Chrome/Safari
+    }
+  }
+
+  .table-wrap {
+    min-width: 100%;
+
+    @include for-size(phone-only) {
+      min-width: 600px; // Force horizontal scroll on mobile for better UX
+    }
+  }
+}
+
+// Token transaction table container
+.token-transaction-table-container {
+  width: 100%;
+
+  @include for-size(phone-only) {
+    padding: 0 16px;
+    margin: 0 -16px;
+  }
+}
+
+// Mobile card-style layout alternative (optional)
+@include for-size(phone-only) {
+  .mobile-card-view {
+    display: none; // Hidden by default, can be toggled
+
+    .card-item {
+      padding: 16px;
+      border: 1px solid $black-70;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      background: $black-90;
+
+      .card-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .label {
+          color: $black-40;
+          font-size: 12px;
+          text-transform: uppercase;
+          @include semibold;
+        }
+
+        .value {
+          color: $white;
+          font-size: 14px;
+          @include regular;
+
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+// Pagination mobile styles
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+  gap: 16px;
+
+  @include for-size(tablet-portrait-up) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .pagination-info {
+    color: $black-40;
+    font-size: 14px;
+
+    @include for-size(phone-only) {
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    button {
+      padding: 8px 12px;
+      border: 1px solid $black-70;
+      border-radius: 4px;
+      background: $black-90;
+      color: $white;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+
+      @include for-size(phone-only) {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
+      &:hover:not(:disabled) {
+        border-color: $green-30;
+        background: rgba($green-30, 0.1);
+      }
+
+
+
+      &.active {
+        border-color: $green-30;
+        background: $green-30;
+        color: $black-100;
+      }
+    }
+  }
+}
+
+// Loading states for mobile
+.mobile-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+
+  @include for-size(phone-only) {
+    padding: 30px 16px;
+  }
+}
+
+// Empty states for mobile
+.mobile-empty-state {
+  padding: 40px 20px;
+  color: $black-40;
+  text-align: center;
+
+  @include for-size(phone-only) {
+    padding: 30px 16px;
+    font-size: 14px;
+  }
+
+  .empty-icon {
+    margin-bottom: 16px;
+    font-size: 48px;
+    opacity: 0.5;
+
+    @include for-size(phone-only) {
+      margin-bottom: 12px;
+      font-size: 36px;
+    }
+  }
+
+  .empty-title {
+    margin-bottom: 8px;
+    color: $white;
+    font-size: 18px;
+    @include semibold;
+
+    @include for-size(phone-only) {
+      font-size: 16px;
+    }
+  }
+
+  .empty-description {
+    font-size: 14px;
+    line-height: 1.5;
+
+    @include for-size(phone-only) {
+      font-size: 12px;
+    }
+  }
+}

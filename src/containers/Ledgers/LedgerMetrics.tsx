@@ -7,13 +7,14 @@ import QuorumIcon from '../shared/images/quorum.svg'
 import FeeIcon from '../shared/images/fee.svg'
 import ClockIcon from '../shared/images/clock.svg'
 import ClockAltIcon from '../shared/images/clock_2.svg'
-import DecenTralizedIcon from '../shared/images/decentralized.svg'
+import DecentralizedIcon from '../shared/images/decentralized.svg'
 import CreditIcon from '../shared/images/finance_credit.svg'
 import UserIcon from '../shared/images/user.svg'
 import HoverIcon from '../shared/images/hover.svg'
 import './css/ledgerMetrics.scss'
 import { useIsOnline } from '../shared/SocketContext'
 import { useLanguage } from '../shared/hooks'
+import { useStreams } from '../shared/components/Streams'
 
 const DEFAULTS = {
   load_fee: '--',
@@ -25,17 +26,16 @@ const DEFAULTS = {
   nUnl: [],
 }
 
-const TOOLTIP_Y_OFFSET = 180
+const TOOLTIP_Y_OFFSET = 70
 
 export const LedgerMetrics = ({
-  data: suppliedData,
   onPause,
   paused,
 }: {
-  data: any
   onPause: any
   paused: boolean
 }) => {
+  const { metrics: suppliedData } = useStreams()
   const data = { ...DEFAULTS, ...suppliedData }
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
   const { t } = useTranslation()
@@ -70,7 +70,7 @@ export const LedgerMetrics = ({
       case 'ledger_interval':
         return <ClockIcon className={classname} />
       case 'txn_ledger':
-        return <DecenTralizedIcon className={classname} />
+        return <DecentralizedIcon className={classname} />
       case 'txn_sec':
         return <ClockAltIcon className={classname} />
       case 'load_fee':
@@ -88,8 +88,8 @@ export const LedgerMetrics = ({
       onMouseOver={(e) => {
         const rect = e.currentTarget.getBoundingClientRect()
         showTooltip('text', e, t(`${key}_description`, { defaultValue: '' }), {
-          x: rect.left + window.scrollX + rect.width / 2,
-          y: rect.top + window.scrollY - TOOLTIP_Y_OFFSET,
+          x: rect.left + rect.width / 2,
+          y: rect.top - TOOLTIP_Y_OFFSET,
         })
       }}
       onMouseLeave={() => hideTooltip()}
@@ -113,7 +113,7 @@ export const LedgerMetrics = ({
       } else if (key === 'nUnl' && data[key]?.length === 0) {
         return null
       } else if (key === 'nUnl') {
-        content = data[key].length
+        content = data[key]?.length
         return (
           <div className="cell" key={key}>
             <div className="label-wrapper">
