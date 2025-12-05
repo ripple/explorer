@@ -1,7 +1,6 @@
 import { LoanSet } from './types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 import { parsePercent } from '../../../NumberFormattingUtils'
-import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { isValidJsonString, ONE_TENTH_BASIS_POINT } from '../../../utils'
 
 export function parser(tx: LoanSet) {
@@ -10,22 +9,14 @@ export function parser(tx: LoanSet) {
   return {
     loanBrokerID: tx.LoanBrokerID,
     counterparty: tx.Counterparty,
-    principalRequested: formatAmount(tx.PrincipalRequested),
+    principalRequestedRaw: tx.PrincipalRequested,
     paymentTotal: tx.PaymentTotal,
     paymentInterval: tx.PaymentInterval,
     gracePeriod: tx.GracePeriod,
-    loanOriginationFee: tx.LoanOriginationFee
-      ? formatAmount(tx.LoanOriginationFee)
-      : undefined,
-    loanServiceFee: tx.LoanServiceFee
-      ? formatAmount(tx.LoanServiceFee)
-      : undefined,
-    latePaymentFee: tx.LatePaymentFee
-      ? formatAmount(tx.LatePaymentFee)
-      : undefined,
-    closePaymentFee: tx.ClosePaymentFee
-      ? formatAmount(tx.ClosePaymentFee)
-      : undefined,
+    loanOriginationFeeRaw: tx.LoanOriginationFee,
+    loanServiceFeeRaw: tx.LoanServiceFee,
+    latePaymentFeeRaw: tx.LatePaymentFee,
+    closePaymentFeeRaw: tx.ClosePaymentFee,
     dataFromHex,
     dataAsJson:
       dataFromHex && isValidJsonString(dataFromHex)

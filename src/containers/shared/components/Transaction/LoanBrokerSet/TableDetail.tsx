@@ -1,16 +1,37 @@
 import { useTranslation, Trans } from 'react-i18next'
+import { useContext } from 'react'
+import { useQuery } from 'react-query'
 import { TransactionTableDetailProps } from '../types'
 import { Amount } from '../../Amount'
+import SocketContext from '../../../SocketContext'
+import { getVaultAsset } from '../utils/vaultUtils'
+import { formatAmountWithAsset } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
   const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
   const {
     vaultID,
-    debtMaximum,
+    debtMaximumRaw,
     managementFeeRatePercent,
     coverRateMinimumPercent,
     coverRateLiquidationPercent,
   } = instructions
+
+  // Fetch Vault asset information to format DebtMaximum correctly
+  const { data: vaultAsset } = useQuery(
+    ['vaultAsset', vaultID],
+    () => getVaultAsset(rippledSocket, vaultID),
+    {
+      enabled: !!vaultID && !!rippledSocket,
+    },
+  )
+
+  // Format DebtMaximum with correct currency
+  const debtMaximum =
+    vaultAsset && debtMaximumRaw !== undefined
+      ? formatAmountWithAsset(debtMaximumRaw, vaultAsset)
+      : undefined
 
   return (
     <div className="loan-broker-set">

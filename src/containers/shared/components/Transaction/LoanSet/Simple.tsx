@@ -1,23 +1,30 @@
 import { useTranslation } from 'react-i18next'
+import { useContext } from 'react'
+import { useQuery } from 'react-query'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
 import { durationToAccurateHuman } from '../../../utils'
 import { JsonView } from '../../JsonView'
+import SocketContext from '../../../SocketContext'
+import { getVaultAssetFromLoanBroker } from '../utils/vaultUtils'
+import { formatAmountWithAsset } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps) => {
   const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
+
   const {
     loanBrokerID,
     counterparty,
-    principalRequested,
-    loanOriginationFee,
-    loanServiceFee,
-    latePaymentFee,
-    closePaymentFee,
+    principalRequestedRaw,
+    loanOriginationFeeRaw,
+    loanServiceFeeRaw,
+    latePaymentFeeRaw,
+    closePaymentFeeRaw,
     paymentTotal,
     paymentInterval,
     gracePeriod,
@@ -30,6 +37,39 @@ export const Simple: TransactionSimpleComponent = ({
     overpaymentFeePercent,
   } = data.instructions
 
+  // Fetch Vault asset information from LoanBroker
+  const { data: vaultAsset } = useQuery(
+    ['vaultAssetFromLoanBroker', loanBrokerID],
+    () => getVaultAssetFromLoanBroker(rippledSocket, loanBrokerID),
+    { enabled: !!loanBrokerID && !!rippledSocket },
+  )
+
+  // Format amounts with correct currency
+  const principalRequested =
+    vaultAsset && principalRequestedRaw !== undefined
+      ? formatAmountWithAsset(principalRequestedRaw, vaultAsset)
+      : undefined
+
+  const loanOriginationFee =
+    vaultAsset && loanOriginationFeeRaw !== undefined
+      ? formatAmountWithAsset(loanOriginationFeeRaw, vaultAsset)
+      : undefined
+
+  const loanServiceFee =
+    vaultAsset && loanServiceFeeRaw !== undefined
+      ? formatAmountWithAsset(loanServiceFeeRaw, vaultAsset)
+      : undefined
+
+  const latePaymentFee =
+    vaultAsset && latePaymentFeeRaw !== undefined
+      ? formatAmountWithAsset(latePaymentFeeRaw, vaultAsset)
+      : undefined
+
+  const closePaymentFee =
+    vaultAsset && closePaymentFeeRaw !== undefined
+      ? formatAmountWithAsset(closePaymentFeeRaw, vaultAsset)
+      : undefined
+
   return (
     <>
       <SimpleRow label={t('loan_broker_id')} data-testid="loan-broker-id">
@@ -40,12 +80,14 @@ export const Simple: TransactionSimpleComponent = ({
           <Account account={counterparty} />
         </SimpleRow>
       )}
-      <SimpleRow
-        label={t('principal_requested')}
-        data-testid="principal-requested"
-      >
-        <Amount value={principalRequested} />
-      </SimpleRow>
+      {principalRequested && (
+        <SimpleRow
+          label={t('principal_requested')}
+          data-testid="principal-requested"
+        >
+          <Amount value={principalRequested} />
+        </SimpleRow>
+      )}
       {interestRatePercent && (
         <SimpleRow label={t('interest_rate')} data-testid="interest-rate">
           {interestRatePercent}

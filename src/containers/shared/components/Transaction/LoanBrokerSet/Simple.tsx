@@ -1,23 +1,44 @@
 import { useTranslation } from 'react-i18next'
+import { useContext } from 'react'
+import { useQuery } from 'react-query'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { JsonView } from '../../JsonView'
+import SocketContext from '../../../SocketContext'
+import { getVaultAsset } from '../utils/vaultUtils'
+import { formatAmountWithAsset } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps) => {
   const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
   const {
     vaultID,
     loanBrokerID,
-    debtMaximum,
+    debtMaximumRaw,
     dataFromHex,
     dataAsJson,
     managementFeeRatePercent,
     coverRateMinimumPercent,
     coverRateLiquidationPercent,
   } = data.instructions
+
+  // Fetch Vault asset information to format DebtMaximum correctly
+  const { data: vaultAsset } = useQuery(
+    ['vaultAsset', vaultID],
+    () => getVaultAsset(rippledSocket, vaultID),
+    {
+      enabled: !!vaultID && !!rippledSocket,
+    },
+  )
+
+  // Format DebtMaximum with correct currency
+  const debtMaximum =
+    vaultAsset && debtMaximumRaw !== undefined
+      ? formatAmountWithAsset(debtMaximumRaw, vaultAsset)
+      : undefined
 
   return (
     <>

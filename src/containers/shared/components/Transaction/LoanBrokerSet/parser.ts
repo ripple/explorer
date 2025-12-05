@@ -1,7 +1,6 @@
 import { LoanBrokerSet } from './types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 import { parsePercent } from '../../../NumberFormattingUtils'
-import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { isValidJsonString, ONE_TENTH_BASIS_POINT } from '../../../utils'
 
 export function parser(tx: LoanBrokerSet) {
@@ -10,8 +9,8 @@ export function parser(tx: LoanBrokerSet) {
   return {
     vaultID: tx.VaultID,
     loanBrokerID: tx.LoanBrokerID,
-    debtMaximum:
-      tx.DebtMaximum !== undefined ? formatAmount(tx.DebtMaximum) : undefined,
+    // Pass raw DebtMaximum value - components will format with correct currency
+    debtMaximumRaw: tx.DebtMaximum,
     dataFromHex,
     dataAsJson:
       dataFromHex && isValidJsonString(dataFromHex)
