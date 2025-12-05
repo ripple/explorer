@@ -556,7 +556,7 @@
   "transaction_type_name_MPTokenAuthorize": null,
   "transaction_outstanding_balance_line_two": null,
   "transaction_mptoken_line_one": null,
-  "transaction_mpt_issuance_line_one":null,
+  "transaction_mpt_issuance_line_one": null,
   "mpt_issuance_id": null,
   "asset_scale": null,
   "metadata": null,

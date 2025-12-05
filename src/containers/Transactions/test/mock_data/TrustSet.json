@@ -1,140 +1,140 @@
 {
-    "tx": {
-        "Account": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
-        "Fee": "10",
-        "Flags": 2152792064,
-        "LimitAmount": {
-            "currency": "EQT",
-            "issuer": "rBeb4FLPG4XUwxdnnEztTLK6Zd9mxhDQ6E",
-            "value": "0"
-        },
-        "Sequence": 9198426,
-        "SigningPubKey": "025CE5B77DBE302A3CF37D23DD2478A5F36349108BB4652422D858DAFE72284282",
-        "SourceTag": 608402356,
-        "TransactionType": "TrustSet",
-        "TxnSignature": "30440220537A17DA2BD39101DE1978067CA17469E40D898ED7D2E360B8865A784F4E0B9602205A4BE189A12DA11C8D2F452FBF0CE1EBC6EC6FE44EAD0E198C66B8B1DF04ACB1",
-        "ctid": "C08C5FEE00010001",
-        "date": 1753466092000,
-        "hash": "F7F89216FDB0135847BB4966607ACCABF7555302DC8143D2E1C71FEA9249AF3E",
-        "inLedger": 9199598,
-        "ledger_index": 9199598,
-        "meta": {
-            "AffectedNodes": [
-                {
-                    "ModifiedNode": {
-                        "FinalFields": {
-                            "Balance": {
-                                "currency": "EQT",
-                                "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
-                                "value": "1"
-                            },
-                            "Flags": 77266944,
-                            "HighLimit": {
-                                "currency": "EQT",
-                                "issuer": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
-                                "value": "0"
-                            },
-                            "HighNode": "0",
-                            "LowLimit": {
-                                "currency": "EQT",
-                                "issuer": "rBeb4FLPG4XUwxdnnEztTLK6Zd9mxhDQ6E",
-                                "value": "100000"
-                            },
-                            "LowNode": "0"
-                        },
-                        "LedgerEntryType": "RippleState",
-                        "LedgerIndex": "66C42DF2F527BA73BE6AD7E20A5BBC81A39A0A9DD9AE21FE7E3FC6EDA8593E88",
-                        "PreviousFields": {
-                            "Flags": 1638400
-                        },
-                        "PreviousTxnID": "0CEFFA595E230BED9BD23E0A32B594DB0781AE5C4315FC8BA673B278001F0163",
-                        "PreviousTxnLgrSeq": 9199409
-                    }
-                },
-                {
-                    "ModifiedNode": {
-                        "FinalFields": {
-                            "Account": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
-                            "Balance": "21999940",
-                            "Flags": 2156134400,
-                            "OwnerCount": 2,
-                            "Sequence": 9198427
-                        },
-                        "LedgerEntryType": "AccountRoot",
-                        "LedgerIndex": "C1C8011AE06D1DD364D7091702BAE8DAF921235FD7E462DAAF00F59D9353E580",
-                        "PreviousFields": {
-                            "Balance": "21999950",
-                            "OwnerCount": 1,
-                            "Sequence": 9198426
-                        },
-                        "PreviousTxnID": "7A85D2343EB6A7C8D10088351B59210213A0616B353CA841B4806A7024CED8B7",
-                        "PreviousTxnLgrSeq": 9199406
-                    }
-                }
-            ],
-            "TransactionIndex": 1,
-            "TransactionResult": "tesSUCCESS"
-        },
-        "validated": true
+  "tx": {
+    "Account": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
+    "Fee": "10",
+    "Flags": 2152792064,
+    "LimitAmount": {
+      "currency": "EQT",
+      "issuer": "rBeb4FLPG4XUwxdnnEztTLK6Zd9mxhDQ6E",
+      "value": "0"
     },
-    "meta": {
-        "AffectedNodes": [
-            {
-                "ModifiedNode": {
-                    "FinalFields": {
-                        "Balance": {
-                            "currency": "EQT",
-                            "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
-                            "value": "1"
-                        },
-                        "Flags": 77266944,
-                        "HighLimit": {
-                            "currency": "EQT",
-                            "issuer": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
-                            "value": "0"
-                        },
-                        "HighNode": "0",
-                        "LowLimit": {
-                            "currency": "EQT",
-                            "issuer": "rBeb4FLPG4XUwxdnnEztTLK6Zd9mxhDQ6E",
-                            "value": "100000"
-                        },
-                        "LowNode": "0"
-                    },
-                    "LedgerEntryType": "RippleState",
-                    "LedgerIndex": "66C42DF2F527BA73BE6AD7E20A5BBC81A39A0A9DD9AE21FE7E3FC6EDA8593E88",
-                    "PreviousFields": {
-                        "Flags": 1638400
-                    },
-                    "PreviousTxnID": "0CEFFA595E230BED9BD23E0A32B594DB0781AE5C4315FC8BA673B278001F0163",
-                    "PreviousTxnLgrSeq": 9199409
-                }
-            },
-            {
-                "ModifiedNode": {
-                    "FinalFields": {
-                        "Account": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
-                        "Balance": "21999940",
-                        "Flags": 2156134400,
-                        "OwnerCount": 2,
-                        "Sequence": 9198427
-                    },
-                    "LedgerEntryType": "AccountRoot",
-                    "LedgerIndex": "C1C8011AE06D1DD364D7091702BAE8DAF921235FD7E462DAAF00F59D9353E580",
-                    "PreviousFields": {
-                        "Balance": "21999950",
-                        "OwnerCount": 1,
-                        "Sequence": 9198426
-                    },
-                    "PreviousTxnID": "7A85D2343EB6A7C8D10088351B59210213A0616B353CA841B4806A7024CED8B7",
-                    "PreviousTxnLgrSeq": 9199406
-                }
-            }
-        ],
-        "TransactionIndex": 1,
-        "TransactionResult": "tesSUCCESS"
-    },
+    "Sequence": 9198426,
+    "SigningPubKey": "025CE5B77DBE302A3CF37D23DD2478A5F36349108BB4652422D858DAFE72284282",
+    "SourceTag": 608402356,
+    "TransactionType": "TrustSet",
+    "TxnSignature": "30440220537A17DA2BD39101DE1978067CA17469E40D898ED7D2E360B8865A784F4E0B9602205A4BE189A12DA11C8D2F452FBF0CE1EBC6EC6FE44EAD0E198C66B8B1DF04ACB1",
+    "ctid": "C08C5FEE00010001",
+    "date": 1753466092000,
     "hash": "F7F89216FDB0135847BB4966607ACCABF7555302DC8143D2E1C71FEA9249AF3E",
+    "inLedger": 9199598,
     "ledger_index": 9199598,
-    "date": 1753466092000
+    "meta": {
+      "AffectedNodes": [
+        {
+          "ModifiedNode": {
+            "FinalFields": {
+              "Balance": {
+                "currency": "EQT",
+                "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+                "value": "1"
+              },
+              "Flags": 77266944,
+              "HighLimit": {
+                "currency": "EQT",
+                "issuer": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
+                "value": "0"
+              },
+              "HighNode": "0",
+              "LowLimit": {
+                "currency": "EQT",
+                "issuer": "rBeb4FLPG4XUwxdnnEztTLK6Zd9mxhDQ6E",
+                "value": "100000"
+              },
+              "LowNode": "0"
+            },
+            "LedgerEntryType": "RippleState",
+            "LedgerIndex": "66C42DF2F527BA73BE6AD7E20A5BBC81A39A0A9DD9AE21FE7E3FC6EDA8593E88",
+            "PreviousFields": {
+              "Flags": 1638400
+            },
+            "PreviousTxnID": "0CEFFA595E230BED9BD23E0A32B594DB0781AE5C4315FC8BA673B278001F0163",
+            "PreviousTxnLgrSeq": 9199409
+          }
+        },
+        {
+          "ModifiedNode": {
+            "FinalFields": {
+              "Account": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
+              "Balance": "21999940",
+              "Flags": 2156134400,
+              "OwnerCount": 2,
+              "Sequence": 9198427
+            },
+            "LedgerEntryType": "AccountRoot",
+            "LedgerIndex": "C1C8011AE06D1DD364D7091702BAE8DAF921235FD7E462DAAF00F59D9353E580",
+            "PreviousFields": {
+              "Balance": "21999950",
+              "OwnerCount": 1,
+              "Sequence": 9198426
+            },
+            "PreviousTxnID": "7A85D2343EB6A7C8D10088351B59210213A0616B353CA841B4806A7024CED8B7",
+            "PreviousTxnLgrSeq": 9199406
+          }
+        }
+      ],
+      "TransactionIndex": 1,
+      "TransactionResult": "tesSUCCESS"
+    },
+    "validated": true
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Balance": {
+              "currency": "EQT",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "1"
+            },
+            "Flags": 77266944,
+            "HighLimit": {
+              "currency": "EQT",
+              "issuer": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
+              "value": "0"
+            },
+            "HighNode": "0",
+            "LowLimit": {
+              "currency": "EQT",
+              "issuer": "rBeb4FLPG4XUwxdnnEztTLK6Zd9mxhDQ6E",
+              "value": "100000"
+            },
+            "LowNode": "0"
+          },
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "66C42DF2F527BA73BE6AD7E20A5BBC81A39A0A9DD9AE21FE7E3FC6EDA8593E88",
+          "PreviousFields": {
+            "Flags": 1638400
+          },
+          "PreviousTxnID": "0CEFFA595E230BED9BD23E0A32B594DB0781AE5C4315FC8BA673B278001F0163",
+          "PreviousTxnLgrSeq": 9199409
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rLwNAmcqi7ipSZ5cUc6zXZMjwEddr2yc8x",
+            "Balance": "21999940",
+            "Flags": 2156134400,
+            "OwnerCount": 2,
+            "Sequence": 9198427
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "C1C8011AE06D1DD364D7091702BAE8DAF921235FD7E462DAAF00F59D9353E580",
+          "PreviousFields": {
+            "Balance": "21999950",
+            "OwnerCount": 1,
+            "Sequence": 9198426
+          },
+          "PreviousTxnID": "7A85D2343EB6A7C8D10088351B59210213A0616B353CA841B4806A7024CED8B7",
+          "PreviousTxnLgrSeq": 9199406
+        }
+      }
+    ],
+    "TransactionIndex": 1,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "F7F89216FDB0135847BB4966607ACCABF7555302DC8143D2E1C71FEA9249AF3E",
+  "ledger_index": 9199598,
+  "date": 1753466092000
 }
