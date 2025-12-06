@@ -1,10 +1,11 @@
 import logger from './lib/logger'
 import { Error } from './lib/utils'
 import { getServerInfo } from './lib/rippled'
+import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 
 const log = logger({ name: 'quorum' })
 
-const getQuorum = (rippledSocket) => {
+const getQuorum = (rippledSocket: ExplorerXrplClient): Promise<number> => {
   log.info(`fetching server_info from rippled`)
 
   return getServerInfo(rippledSocket)
@@ -20,7 +21,7 @@ const getQuorum = (rippledSocket) => {
 
       return quorum
     })
-    .catch((error) => {
+    .catch((error: any) => {
       log.error(error.toString())
       throw error
     })

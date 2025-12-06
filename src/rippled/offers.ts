@@ -1,19 +1,26 @@
 import logger from './lib/logger'
-
 import { getOffers } from './lib/rippled'
+import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 
 const log = logger({ name: 'offers' })
 
+export interface OrderBook {
+  offers: any[]
+  averageExchangeRate?: number
+  highestExchangeRate?: number
+  lowestExchangeRate?: number
+}
+
 const getBookOffers = async (
-  currencyCode,
-  issuerAddress,
-  pairCurrencyCode,
-  pairIssuerAddress,
-  rippledSocket,
-) => {
+  currencyCode: string,
+  issuerAddress: string,
+  pairCurrencyCode: string,
+  pairIssuerAddress: string,
+  rippledSocket: ExplorerXrplClient,
+): Promise<OrderBook> => {
   try {
     // log.info('fetching book offers from rippled')
-    let orderBook = await getOffers(
+    let orderBook: any = await getOffers(
       rippledSocket,
       currencyCode,
       issuerAddress,
@@ -42,7 +49,8 @@ const getBookOffers = async (
     const averageExchangeRate = rateSum / offers.length
 
     offers.sort(
-      (offerA, offerB) => offerA.PreviousTxnLgrSeq - offerB.PreviousTxnLgrSeq,
+      (offerA: any, offerB: any) =>
+        offerA.PreviousTxnLgrSeq - offerB.PreviousTxnLgrSeq,
     )
 
     orderBook = {
@@ -54,7 +62,7 @@ const getBookOffers = async (
     }
 
     return orderBook
-  } catch (error) {
+  } catch (error: any) {
     log.error(error.toString())
     throw error
   }

@@ -16,20 +16,30 @@ import { formatTransaction } from './lib/utils'
 import { getAccountTransactions as getAccountTxs } from './lib/rippled'
 import summarize from './lib/txSummary'
 import logger from './lib/logger'
+import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 
 const log = logger({ name: 'account transactions' })
 
-const getAccountTransactions = async (
-  account,
-  currency,
-  marker,
-  limit,
-  rippledSocket,
-) => {
+export interface AccountTransactionsResult {
+  transactions: any[]
+  marker?: any
+}
+
+const getAccountTransactions = (
+  account: string,
+  currency: string | undefined,
+  marker: any,
+  limit: number | undefined,
+  rippledSocket: ExplorerXrplClient,
+): Promise<AccountTransactionsResult> => {
   // TODO: Retrieve txs for untagged X-address only?
 
-  let classicAddress
-  let decomposedAddress = null
+  let classicAddress: string
+  let decomposedAddress: {
+    classicAddress: string
+    tag: number | false
+    test: boolean
+  } | null = null
 
   try {
     if (!isValidClassicAddress(account) && !isValidXAddress(account)) {
@@ -54,7 +64,7 @@ const getAccountTransactions = async (
     } else {
       classicAddress = account
     }
-  } catch (error) {
+  } catch (error: any) {
     log.error(error.toString())
     throw error
   }
@@ -63,12 +73,12 @@ const getAccountTransactions = async (
   return getAccountTxs(rippledSocket, classicAddress, limit, marker)
     .then((data) => {
       const transactions = data.transactions
-        .map((tx) => {
+        .map((tx: any) => {
           const txn = formatTransaction(tx)
           return summarize(txn, true)
         })
         .filter(
-          (tx) =>
+          (tx: any) =>
             !currency ||
             (currency &&
               JSON.stringify(tx).includes(
@@ -80,8 +90,7 @@ const getAccountTransactions = async (
         marker: data.marker,
       }
     })
-    .then((d) => d)
-    .catch((error) => {
+    .catch((error: any) => {
       log.error(error.toString())
       throw error
     })
