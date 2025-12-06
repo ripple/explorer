@@ -26,14 +26,18 @@ const getInstructions = (tx: Transaction, meta: TransactionMetadata) => {
 }
 
 const summarizeTransaction = (d: any, details = false): TransactionSummary => {
-  const summary = {
+  const summary: TransactionSummary = {
     hash: d.hash,
     ctid: d.ctid,
     type: d.tx.TransactionType,
     result: d.meta.TransactionResult,
     account: d.tx.Account,
   }
-  if (details === false) return summary
+
+  if (!details) {
+    return summary
+  }
+
   return {
     ...summary,
     index: Number(d.meta.TransactionIndex),
@@ -42,11 +46,9 @@ const summarizeTransaction = (d: any, details = false): TransactionSummary => {
     ticketSequence: d.tx.TicketSequence,
     isHook: !!d.tx.EmitDetails,
     date: d.date,
-    details: details
-      ? {
-          instructions: getInstructions(d.tx, d.meta),
-        }
-      : undefined,
+    details: {
+      instructions: getInstructions(d.tx, d.meta),
+    },
   }
 }
 
