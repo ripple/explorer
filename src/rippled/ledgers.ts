@@ -5,10 +5,10 @@ import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 
 const log = logger({ name: 'ledgers' })
 
-const getLedger = (
+const getLedger = async (
   identifier: string | number,
   rippledSocket: ExplorerXrplClient,
-) => {
+): Promise<any> => {
   const parameters: any = {}
   if (!isNaN(Number(identifier))) {
     parameters.ledger_index = Number(identifier)
@@ -22,13 +22,13 @@ const getLedger = (
   }
 
   log.info(`get ledger: ${JSON.stringify(parameters)}`)
-  return getRippledLedger(rippledSocket, parameters)
-    .then((ledger) => summarizeLedger(ledger, true))
-    .then((data) => data)
-    .catch((error: any) => {
-      log.error(error.toString())
-      throw error
-    })
+  try {
+    const ledger = await getRippledLedger(rippledSocket, parameters)
+    return summarizeLedger(ledger, true)
+  } catch (error: any) {
+    log.error(error.toString())
+    throw error
+  }
 }
 
 export default getLedger
