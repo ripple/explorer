@@ -11,12 +11,12 @@ const getQuorum = (rippledSocket: ExplorerXrplClient): Promise<number> => {
   return getServerInfo(rippledSocket)
     .then((result) => {
       if (result === undefined || result.info === undefined) {
-        throw new Error('Undefined result from getServerInfo()')
+        throw new Error('Undefined result from getServerInfo()', 500)
       }
 
       const quorum = result.info.validation_quorum
       if (quorum === undefined) {
-        throw new Error('Undefined validation_quorum')
+        throw new Error('Undefined validation_quorum', 500)
       }
 
       return quorum

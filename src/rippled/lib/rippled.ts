@@ -1,7 +1,7 @@
 import type { XrplClient } from 'xrpl-client'
 
-import { CTID_REGEX, HASH256_REGEX } from '../../containers/shared/utils'
 import type { ExplorerXrplClient } from '../../containers/shared/SocketContext'
+import { CTID_REGEX, HASH256_REGEX } from '../../containers/shared/utils'
 import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
 
@@ -664,12 +664,13 @@ const getAMMInfo = (
 
   return query(rippledSocket, request).then((resp) => {
     if (resp.error_message) {
-      throw new Error(resp.error_message)
+      throw new Error(resp.error_message, 500)
     }
 
     if (!resp.validated) {
       throw new Error(
         'Ledger is not validated. The response data is pending and might change',
+        500,
       )
     }
 

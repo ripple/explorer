@@ -185,7 +185,7 @@ export function groupAffectedNodes(trans: Transaction) {
   return group
 }
 
-export function decodeHex(hex: string) {
+export function decodeHex(hex: string): string {
   let str = ''
   for (let i = 0; i < hex.length; i += 2) {
     const v = parseInt(hex.substring(i, i + 2), 16)
