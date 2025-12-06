@@ -2,8 +2,9 @@ import { Trans } from 'react-i18next'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../../../shared/transactionUtils'
 import { localizeNumber } from '../../../shared/utils'
 import { Account } from '../../../shared/components/Account'
+import type { MetaRenderFunction } from './types'
 
-const render = (t, language, action, node, index) => {
+const render: MetaRenderFunction = (t, language, action, node, index) => {
   const fields = node.FinalFields || node.NewFields || { Balance: 0 }
   const prev = node.PreviousFields || { Balance: 0 }
   const change = (fields.Balance - prev.Balance) / XRP_BASE
