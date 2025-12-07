@@ -60,13 +60,21 @@ export function parser(tx: LoanBrokerCoverClawback, meta: any) {
             }
           }
         } else if (tx.Amount === undefined) {
-          // Amount is undefined, infer currency from RippleState changes in metadata
+          // Amount is undefined, infer currency from RippleState or MPToken changes in metadata
           const rippleStateNode = meta.AffectedNodes?.find(
             (node: any) =>
               (node.ModifiedNode &&
                 node.ModifiedNode.LedgerEntryType === 'RippleState') ||
               (node.CreatedNode &&
                 node.CreatedNode.LedgerEntryType === 'RippleState'),
+          )
+
+          const mpTokenNode = meta.AffectedNodes?.find(
+            (node: any) =>
+              (node.ModifiedNode &&
+                node.ModifiedNode.LedgerEntryType === 'MPToken') ||
+              (node.CreatedNode &&
+                node.CreatedNode.LedgerEntryType === 'MPToken'),
           )
 
           if (rippleStateNode) {
@@ -90,8 +98,24 @@ export function parser(tx: LoanBrokerCoverClawback, meta: any) {
               // Fallback to XRP
               calculatedAmount = Math.floor(clawbackAmount * 1000000).toString()
             }
+          } else if (mpTokenNode) {
+            const tokenData =
+              mpTokenNode.ModifiedNode || mpTokenNode.CreatedNode
+            const mpTokenIssuanceID =
+              tokenData.FinalFields?.MPTokenIssuanceID ||
+              tokenData.NewFields?.MPTokenIssuanceID
+
+            if (mpTokenIssuanceID) {
+              calculatedAmount = {
+                mpt_issuance_id: mpTokenIssuanceID,
+                value: clawbackAmount.toString(),
+              }
+            } else {
+              // Fallback to XRP
+              calculatedAmount = Math.floor(clawbackAmount * 1000000).toString()
+            }
           } else {
-            // No RippleState found, assume XRP
+            // No RippleState or MPToken found, assume XRP
             calculatedAmount = Math.floor(clawbackAmount * 1000000).toString()
           }
         } else {
