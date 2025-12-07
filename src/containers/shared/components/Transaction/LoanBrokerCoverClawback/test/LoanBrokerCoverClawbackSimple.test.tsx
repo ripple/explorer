@@ -1,8 +1,15 @@
+import { useQuery } from 'react-query'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import LoanBrokerCoverClawback from './mock_data/LoanBrokerCoverClawback.json'
 import LoanBrokerCoverClawbackZeroAmount from './mock_data/LoanBrokerCoverClawbackZeroAmount.json'
 import LoanBrokerCoverClawbackNoAmount from './mock_data/LoanBrokerCoverClawbackNoAmount.json'
+import LoanBrokerCoverClawbackMPT from './mock_data/LoanBrokerCoverClawbackMPT.json'
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn(),
+}))
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
@@ -48,6 +55,27 @@ describe('LoanBrokerCoverClawback: Simple', () => {
       wrapper,
       'amount',
       '$4.94151169 USD.rh2z5N9avJKVKvWFXyayEMqd7ABqo7Disx',
+    )
+    wrapper.unmount()
+  })
+
+  it('renders with calculated MPT amount when Amount is undefined', () => {
+    ;(useQuery as jest.Mock).mockImplementation(() => ({
+      data: {
+        assetScale: 2,
+      },
+    }))
+
+    const wrapper = createWrapper(LoanBrokerCoverClawbackMPT)
+    expectSimpleRowText(
+      wrapper,
+      'loan-broker-id',
+      '358A255D294C9F5653686E90640F7EA922CBB26149EDD0AF8A02569BFC9412DC',
+    )
+    expectSimpleRowText(
+      wrapper,
+      'amount',
+      '4.94 MPT (0004E8D60726C960436D88F20FFC2A873665CE675789E255)',
     )
     wrapper.unmount()
   })

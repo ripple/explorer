@@ -42,7 +42,26 @@ export function parser(tx: LoanBrokerCoverClawback, meta: any) {
 
         // CoverRateMinimum is in 1/10th basis points, so divide by 100000
         const requiredCover = debtTotal * (coverRateMinimum / 100000)
-        const clawbackAmount = Math.max(0, coverAvailable - requiredCover)
+        let clawbackAmount = Math.max(0, coverAvailable - requiredCover)
+
+        // For MPT, calculate actual clawback from MPToken balance changes
+        const mpTokenNode = meta.AffectedNodes?.find(
+          (node: any) =>
+            node.ModifiedNode &&
+            node.ModifiedNode.LedgerEntryType === 'MPToken',
+        )
+
+        if (mpTokenNode) {
+          const tokenData = mpTokenNode.ModifiedNode
+          const previousAmount = parseFloat(
+            tokenData.PreviousFields?.MPTAmount || '0',
+          )
+          const finalAmount = parseFloat(
+            tokenData.FinalFields?.MPTAmount || '0',
+          )
+          // Clawback amount is the reduction in MPTAmount
+          clawbackAmount = Math.max(0, previousAmount - finalAmount)
+        }
 
         if (typeof tx.Amount === 'object') {
           if ('issuer' in tx.Amount) {
@@ -69,7 +88,7 @@ export function parser(tx: LoanBrokerCoverClawback, meta: any) {
                 node.CreatedNode.LedgerEntryType === 'RippleState'),
           )
 
-          const mpTokenNode = meta.AffectedNodes?.find(
+          const mpTokenNodeForInference = meta.AffectedNodes?.find(
             (node: any) =>
               (node.ModifiedNode &&
                 node.ModifiedNode.LedgerEntryType === 'MPToken') ||
@@ -98,9 +117,10 @@ export function parser(tx: LoanBrokerCoverClawback, meta: any) {
               // Fallback to XRP
               calculatedAmount = Math.floor(clawbackAmount * 1000000).toString()
             }
-          } else if (mpTokenNode) {
+          } else if (mpTokenNodeForInference) {
             const tokenData =
-              mpTokenNode.ModifiedNode || mpTokenNode.CreatedNode
+              mpTokenNodeForInference.ModifiedNode ||
+              mpTokenNodeForInference.CreatedNode
             const mpTokenIssuanceID =
               tokenData.FinalFields?.MPTokenIssuanceID ||
               tokenData.NewFields?.MPTokenIssuanceID
