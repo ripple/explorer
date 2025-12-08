@@ -33,6 +33,9 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
       ? formatAmountWithAsset(debtMaximumRaw, vaultAsset)
       : undefined
 
+  // Determine if we should show DebtMaximum field
+  const shouldShowDebtMaximum = debtMaximumRaw !== undefined
+
   return (
     <div className="loan-broker-set">
       <div className="vault-id">
@@ -79,14 +82,16 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
         </div>
       )}
 
-      <div className="debt-maximum">
-        <span className="label">{t('debt_maximum')}: </span>
-        {debtMaximum && debtMaximum.amount !== 0 ? (
-          <Amount value={debtMaximum} />
-        ) : (
-          <span>{t('no_limit')}</span>
-        )}
-      </div>
+      {shouldShowDebtMaximum && (
+        <div className="debt-maximum">
+          <span className="label">{t('debt_maximum')}: </span>
+          {debtMaximumRaw === '0' ? (
+            <span>{t('no_limit')}</span>
+          ) : (
+            debtMaximum && <Amount value={debtMaximum} />
+          )}
+        </div>
+      )}
     </div>
   )
 }

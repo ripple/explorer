@@ -58,13 +58,15 @@ export const Simple: TransactionSimpleComponent = ({
           {managementFeeRatePercent}
         </SimpleRow>
       )}
-      <SimpleRow label={t('debt_maximum')} data-testid="debt-maximum">
-        {debtMaximum && debtMaximum.amount !== 0 ? (
-          <Amount value={debtMaximum} />
-        ) : (
-          <span>{t('no_limit')}</span>
-        )}
-      </SimpleRow>
+      {debtMaximumRaw !== undefined && (
+        <SimpleRow label={t('debt_maximum')} data-testid="debt-maximum">
+          {debtMaximumRaw === '0' ? (
+            <span>{t('no_limit')}</span>
+          ) : (
+            debtMaximum && <Amount value={debtMaximum} />
+          )}
+        </SimpleRow>
+      )}
       {coverRateMinimumPercent && (
         <SimpleRow
           label={t('cover_rate_minimum')}
