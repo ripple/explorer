@@ -801,5 +801,6 @@
   "loan_rates_detail": "<InterestRate/><LateInterestRate/><OverpaymentFee/>",
   "loan_fees_detail": "<LoanOriginationFee/><LoanServiceFee/>",
   "loan_terms_detail": "<PaymentTotal/><PaymentInterval/><GracePeriod/>",
-  "no_limit": "No Limit"
+  "no_limit": "No Limit",
+  "first_loss_capital": "first-loss capital"
 }

@@ -778,5 +778,6 @@
   "loan_rates_detail": null,
   "loan_fees_detail": null,
   "loan_terms_detail": null,
-  "no_limit": null
+  "no_limit": null,
+  "first_loss_capital": null
 }

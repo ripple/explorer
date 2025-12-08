@@ -15,7 +15,7 @@ export const TableDetail = ({
       <span className="label">{t('transaction_action_SEND')}</span>
       <Amount value={formatAmount(amount)} />
       <span>
-        {t('to')} {t('loan_broker_id')}
+        {t('first_loss_capital')} {t('to')} {t('loan_broker_id')}
       </span>
       <span className="case-sensitive">
         <b>{LoanBrokerID}</b>

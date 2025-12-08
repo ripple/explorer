@@ -13,7 +13,8 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
       <span className="label">{t('claws_back')}</span>
       {displayAmount && <Amount value={displayAmount} />}
       <span>
-        {t('from')} {t('loan_broker_id')} <b>{loanBrokerID} </b>
+        {t('first_loss_capital')} {t('from')} {t('loan_broker_id')}{' '}
+        <b>{loanBrokerID} </b>
       </span>
     </div>
   )

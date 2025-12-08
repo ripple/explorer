@@ -15,6 +15,7 @@ export const TableDetail = ({
     <div className="loan-broker-cover-withdraw">
       <span className="label">{t('withdraw')}</span>
       <Amount value={formatAmount(amount)} />
+      <span>{t('first_loss_capital')}</span>
       {Destination && (
         <>
           <span>{t('to')}</span>
