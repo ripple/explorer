@@ -6,7 +6,7 @@ import {
   getLocalizedCurrencySymbol,
   localizeDate,
   durationToHuman,
-  durationToAccurateHuman,
+  formatDurationDetailed,
   formatAsset,
   shortenAccount,
   shortenDomain,
@@ -163,25 +163,28 @@ describe('utils', () => {
     expect(durationToHuman(300000000)).toBe('9.51 yr.')
   })
 
-  test('duration to accurate human', () => {
+  test('format duration detailed', () => {
     // Basic cases
-    expect(durationToAccurateHuman(0)).toBe('0s')
-    expect(durationToAccurateHuman(30)).toBe('30s')
-    expect(durationToAccurateHuman(60)).toBe('1min')
-    expect(durationToAccurateHuman(3600)).toBe('1hr')
-    expect(durationToAccurateHuman(86400)).toBe('1d')
-    expect(durationToAccurateHuman(3665)).toBe('1hr.1min.5s')
-    expect(durationToAccurateHuman(90061)).toBe('1d.1hr.1min.1s')
-    expect(durationToAccurateHuman(7200 + 180 + 5)).toBe('2hr.3min.5s')
-    expect(durationToAccurateHuman(604800 + 14400 + 180 + 5)).toBe(
+    expect(formatDurationDetailed(0)).toBe('0s')
+    expect(formatDurationDetailed(30)).toBe('30s')
+    expect(formatDurationDetailed(60)).toBe('1min')
+    expect(formatDurationDetailed(3600)).toBe('1hr')
+    expect(formatDurationDetailed(86400)).toBe('1d')
+    expect(formatDurationDetailed(3665)).toBe('1hr.1min.5s')
+    expect(formatDurationDetailed(90061)).toBe('1d.1hr.1min.1s')
+    expect(formatDurationDetailed(7200 + 180 + 5)).toBe('2hr.3min.5s')
+    expect(formatDurationDetailed(604800 + 14400 + 180 + 5)).toBe(
       '7d.4hr.3min.5s',
     )
-    expect(durationToAccurateHuman(31536000 + 86400 + 3600)).toBe('1yr.1d.1hr')
-    expect(durationToAccurateHuman(2629746)).toBe('30d.10hr.29min.6s')
+    expect(formatDurationDetailed(31536000 + 86400 + 3600)).toBe('1yr.1d.1hr')
+    expect(formatDurationDetailed(2629746)).toBe('30d.10hr.29min.6s')
 
     // Test maxUnits parameter
-    expect(durationToAccurateHuman(90061, 2)).toBe('1d.1hr')
-    expect(durationToAccurateHuman(90061, 3)).toBe('1d.1hr.1min')
+    expect(formatDurationDetailed(90061, 2)).toBe('1d.1hr')
+    expect(formatDurationDetailed(90061, 3)).toBe('1d.1hr.1min')
+
+    // Test negative values (should handle absolute value)
+    expect(formatDurationDetailed(-3665)).toBe('1hr.1min.5s')
   })
 })
 

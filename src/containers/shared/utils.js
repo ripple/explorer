@@ -358,7 +358,23 @@ export const durationToHuman = (s, decimal = 2) => {
   return `${d.num.toFixed(decimal)} ${d.unit}`
 }
 
-export const durationToAccurateHuman = (totalSeconds, maxUnits = 4) => {
+/**
+ * Converts a duration in seconds to a human-readable format with multiple time units.
+ *
+ * This function breaks down a duration into its constituent time units (years, months, days,
+ * hours, minutes, seconds) and formats them in a compact, dot-separated format.
+ *
+ * @param {number} totalSeconds - The duration in seconds to convert
+ * @param {number} maxUnits - Maximum number of time units to include in the output (default: 4)
+ * @returns {string} A formatted duration string (e.g., "1d.2hr.30min.15s")
+ *
+ * @example
+ * formatDurationDetailed(3665) // Returns "1hr.1min.5s"
+ * formatDurationDetailed(90061) // Returns "1d.1hr.1min.1s"
+ * formatDurationDetailed(90061, 2) // Returns "1d.1hr" (limited to 2 units)
+ * formatDurationDetailed(0) // Returns "0s"
+ */
+export const formatDurationDetailed = (totalSeconds, maxUnits = 4) => {
   const seconds = Math.abs(totalSeconds)
   const units = []
 

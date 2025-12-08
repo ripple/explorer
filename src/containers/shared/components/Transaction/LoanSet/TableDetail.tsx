@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { TransactionTableDetailProps } from '../types'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
-import { durationToAccurateHuman } from '../../../utils'
+import { formatDurationDetailed } from '../../../utils'
 import SocketContext from '../../../SocketContext'
 import { getVaultAssetFromLoanBroker } from '../utils/vaultUtils'
 import { formatAmountWithAsset } from '../../../../../rippled/lib/txSummary/formatAmount'
@@ -158,7 +158,7 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
                 paymentInterval !== undefined ? (
                   <span>
                     {t('payment_interval')}{' '}
-                    {durationToAccurateHuman(paymentInterval)}
+                    {formatDurationDetailed(paymentInterval)}
                     {gracePeriod !== undefined && ', '}
                   </span>
                 ) : (
@@ -167,7 +167,7 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
               GracePeriod:
                 gracePeriod !== undefined ? (
                   <span>
-                    {t('grace_period')} {durationToAccurateHuman(gracePeriod)}
+                    {t('grace_period')} {formatDurationDetailed(gracePeriod)}
                   </span>
                 ) : (
                   <span />

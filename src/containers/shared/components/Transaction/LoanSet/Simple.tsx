@@ -5,7 +5,7 @@ import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
-import { durationToAccurateHuman } from '../../../utils'
+import { formatDurationDetailed } from '../../../utils'
 import { JsonView } from '../../JsonView'
 import SocketContext from '../../../SocketContext'
 import { getVaultAssetFromLoanBroker } from '../utils/vaultUtils'
@@ -100,12 +100,12 @@ export const Simple: TransactionSimpleComponent = ({
       )}
       {paymentInterval !== undefined && (
         <SimpleRow label={t('payment_interval')} data-testid="payment-interval">
-          {durationToAccurateHuman(paymentInterval)}
+          {formatDurationDetailed(paymentInterval)}
         </SimpleRow>
       )}
       {gracePeriod !== undefined && (
         <SimpleRow label={t('grace_period')} data-testid="grace-period">
-          {durationToAccurateHuman(gracePeriod)}
+          {formatDurationDetailed(gracePeriod)}
         </SimpleRow>
       )}
       {loanOriginationFee && (
