@@ -59,11 +59,11 @@ describe('LoanSet: Simple', () => {
       'close-payment-fee',
       '$1.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
     )
-    expectSimpleRowText(wrapper, 'overpayment-fee', '0.50%')
-    expectSimpleRowText(wrapper, 'interest-rate', '0.50%')
-    expectSimpleRowText(wrapper, 'late-interest-rate', '1.00%')
-    expectSimpleRowText(wrapper, 'close-interest-rate', '0.20%')
-    expectSimpleRowText(wrapper, 'overpayment-interest-rate', '0.30%')
+    expectSimpleRowText(wrapper, 'overpayment-fee', '0.500%')
+    expectSimpleRowText(wrapper, 'interest-rate', '0.500%')
+    expectSimpleRowText(wrapper, 'late-interest-rate', '1.000%')
+    expectSimpleRowText(wrapper, 'close-interest-rate', '0.200%')
+    expectSimpleRowText(wrapper, 'overpayment-interest-rate', '0.003%')
     expectSimpleRowText(wrapper, 'data', '{meta: "LoanSet Metadata"}')
     wrapper.unmount()
   })

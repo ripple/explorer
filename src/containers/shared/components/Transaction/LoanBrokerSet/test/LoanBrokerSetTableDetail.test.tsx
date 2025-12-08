@@ -23,8 +23,10 @@ describe('LoanBrokerSetTableDetail', () => {
 
     const wrapper = createWrapper(LoanBrokerSet)
 
-    expect(wrapper.find('.debt-maximum')).toHaveText(
-      'Debt Maximum: $100,000,000,000.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
+    expect(wrapper.find('.loan-broker-set')).toHaveText(
+      'Vault ID: AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7' +
+        'rates: Management Fee Rate 1.000%, Cover Rate Minimum 1.000%, Cover Rate Liquidation 5.000%' +
+        'Debt Maximum: $100,000.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
     )
 
     wrapper.unmount()

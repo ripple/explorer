@@ -4,7 +4,7 @@
     "CoverRateLiquidation": 5000,
     "CoverRateMinimum": 1000,
     "Data": "7B226D657461223A224C6F616E42726F6B6572204D65746164617461227D",
-    "DebtMaximum": "1000000000000000e-4",
+    "DebtMaximum": "100000",
     "Fee": "2000000",
     "Flags": 0,
     "LastLedgerSequence": 291183,

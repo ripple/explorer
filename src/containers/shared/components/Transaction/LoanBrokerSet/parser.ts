@@ -1,7 +1,12 @@
 import { LoanBrokerSet } from './types'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 import { parsePercent } from '../../../NumberFormattingUtils'
-import { isValidJsonString, ONE_TENTH_BASIS_POINT } from '../../../utils'
+import {
+  isValidJsonString,
+  ONE_TENTH_BASIS_POINT,
+  ONE_TENTH_BASIS_POINT_CUTOFF,
+  ONE_TENTH_BASIS_POINT_DIGITS,
+} from '../../../utils'
 
 export function parser(tx: LoanBrokerSet) {
   const dataFromHex = tx.Data ? convertHexToString(tx.Data) : undefined
@@ -18,15 +23,27 @@ export function parser(tx: LoanBrokerSet) {
         : undefined,
     managementFeeRatePercent:
       tx.ManagementFeeRate !== undefined
-        ? parsePercent(tx.ManagementFeeRate / ONE_TENTH_BASIS_POINT)
+        ? parsePercent(
+            tx.ManagementFeeRate / ONE_TENTH_BASIS_POINT,
+            ONE_TENTH_BASIS_POINT_DIGITS,
+            ONE_TENTH_BASIS_POINT_CUTOFF,
+          )
         : undefined,
     coverRateMinimumPercent:
       tx.CoverRateMinimum !== undefined
-        ? parsePercent(tx.CoverRateMinimum / ONE_TENTH_BASIS_POINT)
+        ? parsePercent(
+            tx.CoverRateMinimum / ONE_TENTH_BASIS_POINT,
+            ONE_TENTH_BASIS_POINT_DIGITS,
+            ONE_TENTH_BASIS_POINT_CUTOFF,
+          )
         : undefined,
     coverRateLiquidationPercent:
       tx.CoverRateLiquidation !== undefined
-        ? parsePercent(tx.CoverRateLiquidation / ONE_TENTH_BASIS_POINT)
+        ? parsePercent(
+            tx.CoverRateLiquidation / ONE_TENTH_BASIS_POINT,
+            ONE_TENTH_BASIS_POINT_DIGITS,
+            ONE_TENTH_BASIS_POINT_CUTOFF,
+          )
         : undefined,
   }
 }

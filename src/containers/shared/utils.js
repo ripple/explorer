@@ -50,6 +50,8 @@ export const MAGENTA_700 = '#B20058'
 export const DROPS_TO_XRP_FACTOR = 1000000.0
 
 export const ONE_TENTH_BASIS_POINT = 1000
+export const ONE_TENTH_BASIS_POINT_DIGITS = 3
+export const ONE_TENTH_BASIS_POINT_CUTOFF = 0.001
 
 export const BREAKPOINTS = {
   desktop: 1200,

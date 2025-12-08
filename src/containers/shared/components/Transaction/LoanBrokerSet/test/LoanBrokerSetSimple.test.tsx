@@ -27,15 +27,15 @@ describe('LoanBrokerSet: Simple', () => {
       'vault-id',
       'AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7',
     )
-    expectSimpleRowText(wrapper, 'management-fee-rate', '1.00%')
+    expectSimpleRowText(wrapper, 'management-fee-rate', '1.000%')
 
     expectSimpleRowText(
       wrapper,
       'debt-maximum',
-      '$100,000,000,000.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
+      '$100,000.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
     )
-    expectSimpleRowText(wrapper, 'cover-rate-minimum', '1.00%')
-    expectSimpleRowText(wrapper, 'cover-rate-liquidation', '5.00%')
+    expectSimpleRowText(wrapper, 'cover-rate-minimum', '1.000%')
+    expectSimpleRowText(wrapper, 'cover-rate-liquidation', '5.000%')
     expectSimpleRowText(wrapper, 'data', '{meta: "LoanBroker Metadata"}')
     wrapper.unmount()
   })
@@ -54,10 +54,10 @@ describe('LoanBrokerSet: Simple', () => {
       'vault-id',
       'AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7',
     )
-    expectSimpleRowText(wrapper, 'management-fee-rate', '1.00%')
+    expectSimpleRowText(wrapper, 'management-fee-rate', '1.000%')
     expectSimpleRowText(wrapper, 'debt-maximum', 'No Limit')
-    expectSimpleRowText(wrapper, 'cover-rate-minimum', '1.00%')
-    expectSimpleRowText(wrapper, 'cover-rate-liquidation', '5.00%')
+    expectSimpleRowText(wrapper, 'cover-rate-minimum', '1.000%')
+    expectSimpleRowText(wrapper, 'cover-rate-liquidation', '5.000%')
     expectSimpleRowText(wrapper, 'data', '{meta: "LoanBroker Metadata"}')
     wrapper.unmount()
   })

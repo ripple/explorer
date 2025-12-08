@@ -21,7 +21,7 @@
     "LoanServiceFee": "0.1",
     "NetworkID": 3222,
     "OverpaymentFee": 500,
-    "OverpaymentInterestRate": 300,
+    "OverpaymentInterestRate": 3,
     "PaymentInterval": 2592000,
     "PaymentTotal": 12,
     "PrincipalRequested": "10",
