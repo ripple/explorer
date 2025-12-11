@@ -19,7 +19,7 @@ const summarizeLedger = (ledger: any, txDetails: boolean = false) => {
     return summarizeTransaction(d, txDetails)
   })
 
-  // eslint-disable-next-line camelcase - TODO: fix later
+  // eslint-disable-next-line camelcase -- TODO: fix later
   const total_fees =
     ledger.transactions.reduce(
       (sum: number, tx: any) => sum + Number(tx.Fee),
@@ -32,8 +32,8 @@ const summarizeLedger = (ledger: any, txDetails: boolean = false) => {
     ledger_hash: ledger.ledger_hash,
     parent_hash: ledger.parent_hash,
     close_time: convertRippleDate(ledger.close_time),
-    // eslint-disable-next-line camelcase -- TODO: fix later
     total_xrp: ledger.total_coins / XRP_BASE,
+    // eslint-disable-next-line camelcase -- TODO: fix later
     total_fees,
     transactions: transactions.sort((a: any, b: any) => a.index - b.index),
   }
