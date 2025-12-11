@@ -5,6 +5,17 @@ import { LoanBrokerCoverClawback } from './types'
 const XRPL_NEUTRAL_ISSUER = 'rrrrrrrrrrrrrrrrrrrrBZbvji'
 
 export function parser(tx: LoanBrokerCoverClawback, meta: any) {
+  // LoanBrokerCoverClawback cannot clawback XRP according to XLS-66 specification
+  // If tx.Amount is a string (XRP), just return it as-is without processing
+  if (typeof tx.Amount === 'string') {
+    return {
+      loanBrokerID: tx.LoanBrokerID,
+      amount: formatAmount(tx.Amount),
+      calculatedAmount: formatAmount(tx.Amount),
+      loanBrokerData: undefined,
+    }
+  }
+
   const loanBrokerNode = meta.AffectedNodes?.find(
     (node: any) =>
       (node.ModifiedNode &&
@@ -30,7 +41,6 @@ export function parser(tx: LoanBrokerCoverClawback, meta: any) {
       // Amount = CoverAvailable - (DebtTotal * CoverRateMinimum)
       if (
         !tx.Amount ||
-        (typeof tx.Amount === 'string' && tx.Amount === '0') ||
         (typeof tx.Amount === 'object' && tx.Amount.value === '0')
       ) {
         const previousFields = nodeData.PreviousFields
@@ -113,9 +123,6 @@ export function parser(tx: LoanBrokerCoverClawback, meta: any) {
                     : balance.issuer,
                 value: clawbackAmount.toString(),
               }
-            } else {
-              // Fallback to XRP
-              calculatedAmount = Math.floor(clawbackAmount * 1000000).toString()
             }
           } else if (mpTokenNodeForInference) {
             const tokenData =
@@ -130,17 +137,8 @@ export function parser(tx: LoanBrokerCoverClawback, meta: any) {
                 mpt_issuance_id: mpTokenIssuanceID,
                 value: clawbackAmount.toString(),
               }
-            } else {
-              // Fallback to XRP
-              calculatedAmount = Math.floor(clawbackAmount * 1000000).toString()
             }
-          } else {
-            // No RippleState or MPToken found, assume XRP
-            calculatedAmount = Math.floor(clawbackAmount * 1000000).toString()
           }
-        } else {
-          // For XRP amounts, convert to drops
-          calculatedAmount = Math.floor(clawbackAmount * 1000000).toString()
         }
       }
     }
