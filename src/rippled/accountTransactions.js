@@ -67,14 +67,19 @@ const getAccountTransactions = async (
           const txn = formatTransaction(tx)
           return summarize(txn, true)
         })
-        .filter(
-          (tx) =>
-            !currency ||
-            (currency &&
-              JSON.stringify(tx).includes(
-                `"currency":"${currency.toUpperCase()}"`,
-              )),
-        )
+        .filter((tx) => {
+          // No filter - return all transactions
+          if (!currency) {
+            return true
+          }
+
+          // Filter by currency (IOU) or MPT issuance ID (passed as currency)
+          const txString = JSON.stringify(tx)
+          return (
+            txString.includes(`"currency":"${currency.toUpperCase()}"`) ||
+            txString.includes(`"${currency}"`)
+          )
+        })
       return {
         transactions,
         marker: data.marker,

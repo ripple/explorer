@@ -1,0 +1,9 @@
+@use '../../../shared/css/variables' as *;
+@use '../../../shared/css/table';
+
+// Import Token table picker styles for consistency
+@import '../../IOU/TablePicker/styles';
+
+.mpt-transaction-table-container {
+  width: 100%;
+}

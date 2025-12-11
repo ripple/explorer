@@ -1,0 +1,26 @@
+@use '../../shared/css/variables' as *;
+
+.mpt-page {
+  width: 100%;
+
+  .loader {
+    min-height: 100px;
+  }
+
+  .section {
+    margin-top: 24px;
+
+    @include for-size(tablet-portrait-up) {
+      margin-top: 32px;
+    }
+
+    @include for-size(desktop-up) {
+      margin-top: 40px;
+    }
+  }
+}
+
+.mpt-warning {
+  font-size: 14px;
+  text-align: center;
+}

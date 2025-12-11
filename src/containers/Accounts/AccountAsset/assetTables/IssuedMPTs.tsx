@@ -64,7 +64,7 @@ const fetchAccountIssuedMPTs = async (
       tokenId: mptIssuance.mpt_issuance_id,
       ticker: formattedIssuance?.metadata?.Ticker || null,
       supply: convertScaledPrice(
-        Number(formattedIssuance?.outstandingAmt || 0).toString(16),
+        BigInt(formattedIssuance?.outstandingAmt) || 0,
         formattedIssuance?.assetScale || 0,
       ),
       assetClass: formattedIssuance?.metadata?.AssetClass || null,

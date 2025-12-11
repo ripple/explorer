@@ -92,7 +92,7 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
     return {
       tokenId: mpToken.mptIssuanceID,
       balance: convertScaledPrice(
-        Number(mpToken.mptAmount).toString(16),
+        BigInt(mpToken.mptAmount),
         mptIssuance?.assetScale ?? 0,
       ),
       ticker: mptIssuance?.metadata?.Ticker || null,

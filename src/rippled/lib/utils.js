@@ -3,6 +3,10 @@ import { encodeAccountID } from 'ripple-address-codec'
 import { convertRippleDate } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
 import { decodeHex } from '../../containers/shared/transactionUtils'
+import {
+  isMPTokenMetadataCompliant,
+  parseMPTokenMetadata,
+} from '../../containers/shared/mptUtils'
 
 const XRP_BASE = 1000000
 const THOUSAND = 1000
@@ -158,22 +162,25 @@ const formatNFTInfo = (info) => ({
   warnings: info.warnings,
 })
 
-const formatMPTIssuance = (info) => ({
-  issuer: info.Issuer,
-  assetScale: info.AssetScale,
-  maxAmt: info.MaximumAmount
-    ? BigInt(info.MaximumAmount).toString(10)
-    : undefined, // default is undefined because the default maxAmt is the largest 63-bit int
-  outstandingAmt: info.OutstandingAmount
-    ? BigInt(info.OutstandingAmount).toString(10)
-    : '0',
-  transferFee: info.TransferFee,
-  sequence: info.Sequence,
-  metadata: info.MPTokenMetadata
-    ? decodeHex(info.MPTokenMetadata)
-    : info.MPTokenMetadata,
-  flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
-})
+const formatMPTIssuance = (info) => {
+  const rawMetadataHex = info.MPTokenMetadata
+
+  return {
+    issuer: info.Issuer,
+    assetScale: info.AssetScale,
+    maxAmt: info.MaximumAmount
+      ? BigInt(info.MaximumAmount).toString(10)
+      : undefined, // default is undefined because the default maxAmt is the largest 63-bit int
+    outstandingAmt: info.OutstandingAmount
+      ? BigInt(info.OutstandingAmount).toString(10)
+      : '0',
+    transferFee: info.TransferFee,
+    sequence: info.Sequence,
+    parsedMetadata: parseMPTokenMetadata(rawMetadataHex),
+    isMetadataCompliant: isMPTokenMetadataCompliant(rawMetadataHex),
+    flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
+  }
+}
 
 const formatMPToken = (info) => ({
   account: info.Account,

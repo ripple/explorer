@@ -1,0 +1,243 @@
+@use '../../../shared/css/variables' as *;
+@use '../../../shared/css/table';
+
+.issuer-name {
+    margin: 0;
+    font-size: 24px;
+    font-style: normal;
+    @include bold;
+
+    line-height: 112.5%;
+    text-transform: lowercase;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 32px;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      font-size: 42px;
+    }
+  }
+
+  .issuer-name::first-letter {
+    text-transform: uppercase;
+  }
+
+  .token-issuer-wrap {
+    display: flex;
+    align-items: center;
+    margin-left: 2px;
+    font-size: 24px;
+    font-style: normal;
+    @include bold;
+
+    line-height: 112.5%;
+
+    @include for-size(tablet-portrait-up) {
+      margin-left: 3px;
+      font-size: 32px;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      margin-left: 5px;
+      font-size: 42px;
+    }
+
+    .paren {
+      margin: 0;
+    }
+  }
+
+
+.token-header {
+  margin-top: 40px;
+  margin-bottom: 16px;
+
+  @include for-size(tablet-portrait-up) {
+    margin-top: 60px;
+  }
+
+  @include for-size(desktop-up) {
+    margin-top: 80px;
+  }
+
+  .issuer-ext-link {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    align-self: flex-start;
+    padding: 8px 12px;
+    border: 1px solid $green-30;
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-left: 0;
+    color: $green-30 !important;
+    font-size: 12px !important;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    @include for-size(tablet-portrait-up) {
+      align-self: center;
+      padding: 8px 16px;
+      margin-top: 0;
+      margin-left: 0;
+      font-size: 14px !important;
+    }
+
+    * {
+      color: $green-30 !important;
+    }
+
+    &:hover {
+      border-color: $green-50;
+      background-color: rgba($green-30, 0.1);
+      color: $green-50 !important;
+
+      * {
+        color: $green-50 !important;
+      }
+
+      .issuer-ext-link-text {
+        color: $green-50 !important;
+      }
+    }
+  }
+
+  .issuer-ext-link-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-right: 8px;
+    object-fit: contain;
+  }
+
+  .box-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    text-align: left;
+
+    @include for-size(tablet-portrait-up) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    @include for-size(desktop-up) {
+      gap: 24px;
+    }
+  }
+
+  .token-info-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    @include for-size(tablet-portrait-up) {
+      flex-flow: row wrap;
+      align-items: center;
+      gap: 1px;
+    }
+
+    @include for-size(desktop-up) {
+      gap: 1px;
+    }
+
+    span {
+      margin: 0px;
+      color: $white;
+      font-size: 24px;
+      @include bold;
+
+      @include for-size(tablet-portrait-up) {
+        font-size: 32px;
+      }
+
+      @include for-size(tablet-landscape-up) {
+        font-size: 42px;
+      }
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+  }
+
+  .box-content {
+    min-height: 100px;
+    padding-bottom: 20px;
+  }
+
+  .token-logo {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    min-height: 32px;
+    border-radius: 32px;
+    margin-right: 8px;
+    margin-left: 0px;
+
+    @include for-size(tablet-portrait-up) {
+      width: 40px;
+      min-width: 40px;
+      height: 40px;
+      min-height: 40px;
+      border-radius: 40px;
+      margin-right: 10px;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      width: 48px;
+      min-width: 48px;
+      height: 48px;
+      min-height: 48px;
+      border-radius: 48px;
+    }
+
+    &.no-logo {
+      background-color: $black-50;
+    }
+  }
+
+  .token-indicator {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 12px;
+
+  .token-label {
+    color: $black-40;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 21px */
+    text-transform: uppercase;
+  }
+
+  .category-pill {
+    border: 1px solid $white;
+    border-radius: 100px;
+    background: $black-80;
+
+    .category-text {
+      padding: 4px 12px;
+      color: $white;
+      font-size: 12px;
+      font-style: normal;
+      @include semibold;
+
+      line-height: 150%; /* 18px */
+      text-transform: uppercase;
+    }
+
+  }
+  }
+
+
+}

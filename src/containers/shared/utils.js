@@ -441,11 +441,29 @@ export const renderXRP = (d, language) => {
   return localizeNumber(d, language, options)
 }
 
-// Convert scaled price (assetPrice) in hex string to original price using formula:
-// originalPrice = assetPrice / 10**scale
-// More details: https://github.com/XRPLF/XRPL-Standards/tree/master/XLS-47d-PriceOracles
+/**
+ * Converts a scaled integer to a its original value and return it as a string.
+ * Formula: originalPrice = assetPrice / 10^scale
+ *
+ * @param {string | number | bigint} assetPrice - The scaled value.
+ *   - string: interpreted as hex (for Price Oracles - XLS-0047)
+ *   - number: interpreted as decimal
+ *   - bigint: interpreted as decimal (for MPT amounts, which can be > Number.MAX_SAFE_INTEGER)
+ * @param {number} scale - The number of decimal places.
+ * @returns {string} The formatted decimal string.
+ *
+ * @example
+ * convertScaledPrice("5f5e100", 6)  // "100" (hex string from Oracle)
+ * convertScaledPrice(1000000, 6)    // "1" (number from MPT)
+ *
+ * @see https://github.com/XRPLF/XRPL-Standards/tree/master/XLS-0047-PriceOracles
+ */
 export function convertScaledPrice(assetPrice, scale) {
-  const scaledPriceInBigInt = BigInt(`0x${assetPrice}`)
+  const scaledPriceInBigInt =
+    typeof assetPrice === 'string'
+      ? BigInt(`0x${assetPrice}`)
+      : BigInt(assetPrice)
+
   const divisor = BigInt(10 ** scale)
   const integerPart = scaledPriceInBigInt / divisor
   const remainder = scaledPriceInBigInt % divisor
@@ -458,17 +476,27 @@ export function convertScaledPrice(assetPrice, scale) {
 export const shortenAccount = (addr = '') =>
   addr.length > 12 ? `${addr.slice(0, 7)}...${addr.slice(-5)}` : addr
 
-export const shortenDomain = (domain = '') =>
-  domain.length > 26 ? `${domain.slice(0, 15)}...${domain.slice(-11)}` : domain
+export const shortenDomain = (
+  domain = '',
+  prefixLength = 15,
+  suffixLength = 11,
+) =>
+  domain.length > prefixLength + suffixLength
+    ? `${domain.slice(0, prefixLength)}...${domain.slice(-suffixLength)}`
+    : domain
 
 export const shortenNFTTokenID = (nftTokenID = '') =>
   nftTokenID.length > 20
     ? `${nftTokenID.slice(0, 10)}...${nftTokenID.slice(-10)}`
     : nftTokenID
 
-export const shortenMPTID = (mptTokenID = '') =>
-  mptTokenID.length > 20
-    ? `${mptTokenID.slice(0, 10)}...${mptTokenID.slice(-10)}`
+export const shortenMPTID = (
+  mptTokenID = '',
+  prefixLength = 10,
+  suffixLength = 10,
+) =>
+  mptTokenID.length > prefixLength + suffixLength
+    ? `${mptTokenID.slice(0, prefixLength)}...${mptTokenID.slice(-suffixLength)}`
     : mptTokenID
 
 export const shortenTxHash = (txHash = '') =>
