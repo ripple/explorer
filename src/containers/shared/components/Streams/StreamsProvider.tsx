@@ -55,7 +55,7 @@ const truncateLedgers = (ledgers: Record<string, Ledger>, count) =>
 export const StreamsProvider: FC = ({ children }) => {
   // In custom mode we populate metrics from ledgers loaded into memory
   const useServerMetrics = process.env.VITE_ENVIRONMENT !== 'custom'
-  const [ledgers, setLedgers] = useState<Record<number, Ledger>>([])
+  const [ledgers, setLedgers] = useState<Record<number, Ledger>>({})
   const ledgersRef = useRef<Record<number, Ledger>>(ledgers)
   const firstLedgerRef = useRef<number>(0)
   const [validators, setValidators] = useState<Record<number, StreamValidator>>(
@@ -78,9 +78,7 @@ export const StreamsProvider: FC = ({ children }) => {
     { enabled: socket.getState().online },
   )
   const { data: serverRunningMetrics, refetch: refetchServerRunningMetrics } =
-    useQuery<string[]>('runningMetrics', () => fetchMetrics(), {
-      enabled: socket.getState().online,
-    })
+    useQuery<string[]>('runningMetrics', () => fetchMetrics())
 
   function addLedger(index: number | string) {
     // Only add new ledgers that are newer than the last one added.

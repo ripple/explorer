@@ -147,11 +147,12 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.txn').length).toBe(0)
 
     server.send(prevLedgerMessage)
+    await sleep(260)
     wrapper.update()
     expect(wrapper.exists()).toBe(true)
     expect(wrapper.find('.ledgers').length).toBe(1)
     expect(wrapper.find('.ledger-list').length).toBe(1)
-    expect(wrapper.find('.ledger').length).toBe(1)
+    expect(wrapper.find('.ledger').length).toBe(2)
 
     server.send(validationMessage)
     // validation-messages are processed in batches every 200 ms
