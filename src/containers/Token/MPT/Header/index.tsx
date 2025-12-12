@@ -90,27 +90,28 @@ export const Header = (props: Props) => {
     outstandingAmt,
     transferFee,
     flags,
-    parsedMetadata,
-    isMetadataCompliant,
+    rawMPTMetadata,
+    parsedMPTMetadata,
+    isMPTMetadataCompliant,
   } = data
-  const ticker = parsedMetadata?.ticker as string | undefined
-  const logoUrl = parsedMetadata?.icon as string | undefined
-  const issuerName = parsedMetadata?.issuer_name as string | undefined
-  const uris = parsedMetadata?.uris as MetadataUri[] | undefined
-  const additionalInfo = parsedMetadata?.additional_info as
+  const ticker = parsedMPTMetadata?.ticker as string | undefined
+  const logoUrl = parsedMPTMetadata?.icon as string | undefined
+  const issuerName = parsedMPTMetadata?.issuer_name as string | undefined
+  const uris = parsedMPTMetadata?.uris as MetadataUri[] | undefined
+  const additionalInfo = parsedMPTMetadata?.additional_info as
     | string
     | Record<string, unknown>
     | undefined
-  const showMetadataWarning = !isMetadataCompliant
-  // Only show MPT ID if ticker exists (since we show ticker in header, need to show ID somewhere)
-  const showMptId = !!ticker
+  const showMPTMetadataWarning = !isMPTMetadataCompliant
+  // Only show MPT issuance ID if ticker exists (since we show ticker in header, need to show ID somewhere)
+  const showMPTIssuanceId = !!ticker
 
   // Get all URIs for dropdown, filtering out items without uri
   const allUris = (uris || []).filter((u) => u.uri)
 
   return (
     <div className="box mpt-header">
-      {showMetadataWarning && (
+      {showMPTMetadataWarning && (
         <div className="section metadata-warning">
           <InfoIcon className="warning-icon" aria-hidden="true" />
           <div className="warning-message">
@@ -237,7 +238,7 @@ export const Header = (props: Props) => {
             transferFee={transferFee}
             assetScale={assetScale}
             mptIssuanceId={mptIssuanceId}
-            showMptId={showMptId}
+            showMptId={showMPTIssuanceId}
             holdersCount={holdersCount}
             holdersLoading={holdersLoading}
           />
@@ -248,7 +249,11 @@ export const Header = (props: Props) => {
           />
           <Settings flags={flags} />
           {additionalInfo && <AdditionalInfo additionalInfo={additionalInfo} />}
-          {parsedMetadata && <Metadata decodedMetadata={parsedMetadata} />}
+          {(parsedMPTMetadata || rawMPTMetadata) && (
+            <Metadata
+              decodedMPTMetadata={(parsedMPTMetadata || rawMPTMetadata)!}
+            />
+          )}
         </div>
       </div>
     </div>

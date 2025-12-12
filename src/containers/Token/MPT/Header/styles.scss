@@ -16,7 +16,7 @@
 
   .metadata-warning {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     padding: 25px;
     border: 1px solid $orange-50;
     border-radius: 8px;
@@ -502,6 +502,15 @@
           top: 16px;
           left: 16px;
         }
+      }
+
+      .metadata-string {
+        padding: 16px;
+        font-family: monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-wrap: break-word;
       }
     }
   }

@@ -13,7 +13,8 @@ const data = {
   outstandingAmt: '64',
   transferFee: 3,
   sequence: 3949,
-  metadata: 'https://www.google.com/',
+  rawMPTMetadata: 'https://www.google.com/',
+  isMPTMetadataCompliant: true,
   flags: ['lsfMPTCanClawback', 'lsfMPTCanTransfer'],
 }
 
@@ -79,8 +80,8 @@ describe('MPT header container', () => {
   it('renders metadata warning when metadata is not compliant', async () => {
     const dataWithNonCompliantMetadata = {
       ...data,
-      isMetadataCompliant: false,
-      parsedMetadata: {},
+      isMPTMetadataCompliant: false,
+      parsedMPTMetadata: {},
     }
     useQuery.mockImplementation(() => ({
       data: dataWithNonCompliantMetadata,
@@ -113,8 +114,8 @@ describe('MPT header container', () => {
   it('does not render metadata warning when metadata is compliant', async () => {
     const dataWithCompliantMetadata = {
       ...data,
-      isMetadataCompliant: true,
-      parsedMetadata: {},
+      isMPTMetadataCompliant: true,
+      parsedMPTMetadata: {},
     }
     useQuery.mockImplementation(() => ({
       data: dataWithCompliantMetadata,

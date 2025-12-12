@@ -107,8 +107,9 @@ export interface FormattedMPTIssuance {
   outstandingAmt?: string
   flags?: string[]
   transferFee?: number
-  parsedMetadata?: Record<string, unknown>
-  isMetadataCompliant: boolean
+  rawMPTMetadata?: string
+  parsedMPTMetadata?: Record<string, unknown>
+  isMPTMetadataCompliant: boolean
 }
 
 export interface ErrorMessage {

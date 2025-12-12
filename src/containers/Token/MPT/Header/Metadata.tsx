@@ -2,17 +2,24 @@ import { useTranslation } from 'react-i18next'
 import { JsonView } from '../../../shared/components/JsonView'
 
 interface MetadataProps {
-  decodedMetadata: Record<string, unknown>
+  decodedMPTMetadata: Record<string, unknown> | string
 }
 
-export const Metadata = ({ decodedMetadata }: MetadataProps): JSX.Element => {
+export const Metadata = ({
+  decodedMPTMetadata,
+}: MetadataProps): JSX.Element => {
   const { t } = useTranslation()
+  const isString = typeof decodedMPTMetadata === 'string'
 
   return (
     <div className="header-box metadata-box">
       <div className="header-box-title">{t('mpt_page.metadata')}</div>
       <div className="header-box-contents metadata-json">
-        <JsonView data={decodedMetadata} showExpandButton />
+        {isString ? (
+          <div className="metadata-string">{decodedMPTMetadata}</div>
+        ) : (
+          <JsonView data={decodedMPTMetadata} showExpandButton />
+        )}
       </div>
     </div>
   )

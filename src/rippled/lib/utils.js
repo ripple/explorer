@@ -4,8 +4,8 @@ import { convertRippleDate } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
 import { decodeHex } from '../../containers/shared/transactionUtils'
 import {
-  isMPTokenMetadataCompliant,
-  parseMPTokenMetadata,
+  isMPTokenMetadataCompliant as isMPTMetadataCompliant,
+  parseMPTokenMetadata as parseMPTMetadata,
 } from '../../containers/shared/mptUtils'
 
 const XRP_BASE = 1000000
@@ -164,6 +164,9 @@ const formatNFTInfo = (info) => ({
 
 const formatMPTIssuance = (info) => {
   const rawMetadataHex = info.MPTokenMetadata
+  const rawMPTMetadata = rawMetadataHex
+    ? hexToString(rawMetadataHex)
+    : undefined
 
   return {
     issuer: info.Issuer,
@@ -176,8 +179,9 @@ const formatMPTIssuance = (info) => {
       : '0',
     transferFee: info.TransferFee,
     sequence: info.Sequence,
-    parsedMPTMetadata: parseMPTokenMetadata(rawMetadataHex),
-    isMPTMetadataCompliant: isMPTokenMetadataCompliant(rawMetadataHex),
+    rawMPTMetadata,
+    parsedMPTMetadata: parseMPTMetadata(rawMetadataHex),
+    isMPTMetadataCompliant: isMPTMetadataCompliant(rawMetadataHex),
     flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
   }
 }
