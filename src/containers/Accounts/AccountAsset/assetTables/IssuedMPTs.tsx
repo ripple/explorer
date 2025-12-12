@@ -13,13 +13,10 @@ import {
   formatMPTIssuance,
   formatTransferFee,
 } from '../../../../rippled/lib/utils'
-import {
-  localizeNumber,
-  shortenMPTID,
-  convertScaledPrice,
-} from '../../../shared/utils'
+import { shortenMPTID, convertScaledPrice } from '../../../shared/utils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
+import { parseAmount } from '../../../shared/NumberFormattingUtils'
 
 const log = logger({ name: 'IssuedMPTs' })
 
@@ -59,15 +56,16 @@ const fetchAccountIssuedMPTs = async (
   // Format the MPT issuances
   const issuedMPTs = mptIssuances.map((mptIssuance: any) => {
     const formattedIssuance = formatMPTIssuance(mptIssuance)
+    const { parsedMPTMetadata } = formattedIssuance
 
     return {
       tokenId: mptIssuance.mpt_issuance_id,
-      ticker: formattedIssuance?.metadata?.Ticker || null,
+      ticker: (parsedMPTMetadata?.ticker as string) || null,
       supply: convertScaledPrice(
         BigInt(formattedIssuance?.outstandingAmt) || 0,
         formattedIssuance?.assetScale || 0,
       ),
-      assetClass: formattedIssuance?.metadata?.AssetClass || null,
+      assetClass: (parsedMPTMetadata?.asset_class as string) || null,
       transferFee: formatTransferFee(formattedIssuance?.transferFee, 'MPT'),
       locked: formattedIssuance?.flags?.includes('lsfMPTLocked')
         ? 'Global'
@@ -129,15 +127,13 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
                     {shortenMPTID(token.tokenId)}
                   </RouteLink>
                 </td>
+                <td>{token.ticker ? token.ticker : '--'}</td>
                 <td>
                   <FutureDataIcon />
                 </td>
+                <td>{parseAmount(token.supply, 1, lang)}</td>
                 <td>
-                  <FutureDataIcon />
-                </td>
-                <td>{localizeNumber(token.supply, lang)}</td>
-                <td>
-                  <FutureDataIcon />
+                  {token.assetClass ? token.assetClass.toUpperCase() : '--'}
                 </td>
                 <td className="transfer-fee">{token.transferFee}%</td>
                 <td>

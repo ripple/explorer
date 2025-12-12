@@ -176,8 +176,8 @@ const formatMPTIssuance = (info) => {
       : '0',
     transferFee: info.TransferFee,
     sequence: info.Sequence,
-    parsedMetadata: parseMPTokenMetadata(rawMetadataHex),
-    isMetadataCompliant: isMPTokenMetadataCompliant(rawMetadataHex),
+    parsedMPTMetadata: parseMPTokenMetadata(rawMetadataHex),
+    isMPTMetadataCompliant: isMPTokenMetadataCompliant(rawMetadataHex),
     flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
   }
 }
