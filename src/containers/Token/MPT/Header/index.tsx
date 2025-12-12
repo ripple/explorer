@@ -48,7 +48,7 @@ export const Header = (props: Props) => {
     holdersCount,
     holdersLoading,
   } = props
-  const [showSocialDropdown, setShowSocialDropdown] = useState(false)
+  const [showURLDropdown, setShowURLDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export const Header = (props: Props) => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setShowSocialDropdown(false)
+        setShowURLDropdown(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -187,34 +187,24 @@ export const Header = (props: Props) => {
           <div className="header-actions">
             <div className="links-dropdown-container" ref={dropdownRef}>
               <div className="links-dropdown-trigger">
-                <a
+                <GlobeSvg className="links-dropdown-icon" />
+                <DomainLink
                   className="links-dropdown-main-link"
-                  href={
-                    allUris[0].uri.startsWith('http')
-                      ? allUris[0].uri
-                      : `https://${allUris[0].uri}`
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <GlobeSvg className="links-dropdown-icon" />
-                  <span className="links-dropdown-text">
-                    {allUris[0].uri
-                      .replace(/^https?:\/\//, '')
-                      .replace(/\/$/, '')}
-                  </span>
-                </a>
+                  domain={allUris[0].uri}
+                  displayDomain={shortenDomain(allUris[0].uri, 12, 7)}
+                  keepProtocol={false}
+                />
                 {allUris.length > 1 && (
                   <button
                     type="button"
                     className="dropdown-toggle-button"
-                    onClick={() => setShowSocialDropdown(!showSocialDropdown)}
+                    onClick={() => setShowURLDropdown(!showURLDropdown)}
                   >
                     <DownArrow className="dropdown-arrow" />
                   </button>
                 )}
               </div>
-              {showSocialDropdown && allUris.length > 1 && (
+              {showURLDropdown && allUris.length > 1 && (
                 <div className="links-dropdown-menu">
                   {allUris.slice(1).map((uriItem) => (
                     <DomainLink
@@ -222,6 +212,7 @@ export const Header = (props: Props) => {
                       className="links-dropdown-item"
                       domain={uriItem.uri}
                       displayDomain={shortenDomain(uriItem.uri, 12, 7)}
+                      keepProtocol={false}
                     />
                   ))}
                 </div>
