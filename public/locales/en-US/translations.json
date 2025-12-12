@@ -706,7 +706,7 @@
   "account_page_asset_table_column_lowest_ask": "Lowest Ask",
   "account_page_asset_table_column_price_usd": "Price (USD)",
   "account_page_asset_table_column_share": "Share (%)",
-  "account_page_asset_table_column_supply": "Supply",
+  "account_page_asset_table_column_circulating_supply": "Circ Supply",
   "account_page_asset_table_column_ticker": "Ticker",
   "account_page_asset_table_column_token_id": "Token ID",
   "account_page_asset_table_column_transfer_fee": "Transfer Fee",

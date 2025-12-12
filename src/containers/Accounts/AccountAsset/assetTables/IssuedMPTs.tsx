@@ -108,7 +108,7 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
             <th>{t('account_page_asset_table_column_token_id')}</th>
             <th>{t('account_page_asset_table_column_ticker')}</th>
             <th>{t('account_page_asset_table_column_price_usd')}</th>
-            <th>{t('account_page_asset_table_column_supply')}</th>
+            <th>{t('account_page_asset_table_column_circulating_supply')}</th>
             <th>{t('account_page_asset_table_column_asset_class')}</th>
             <th>{t('account_page_asset_table_column_transfer_fee')}</th>
             <th>{t('account_page_asset_table_column_locked')}</th>
