@@ -34,7 +34,7 @@ import { Ledger } from '../Ledger'
 import { AccountsRouter } from '../Accounts/AccountsRouter'
 import { Transaction } from '../Transactions'
 import { Validator } from '../Validators'
-import { Token } from '../Token/IOU'
+import { IOU } from '../Token/IOU'
 import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
 import { useCustomNetworks } from '../shared/hooks'
@@ -77,7 +77,7 @@ export const AppWrapper = () => {
     [UPGRADE_STATUS_ROUTE, UpgradeStatus],
     [AMENDMENTS_ROUTE, Amendments],
     [VALIDATOR_ROUTE, Validator],
-    [TOKEN_ROUTE, mode === 'mainnet' ? Token : TokenNonMain],
+    [TOKEN_ROUTE, mode === 'mainnet' ? IOU : TokenNonMain],
     [TOKENS_ROUTE, Tokens],
     [NFT_ROUTE, NFT],
     [AMENDMENT_ROUTE, Amendment],

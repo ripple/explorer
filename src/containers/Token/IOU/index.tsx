@@ -53,7 +53,7 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
   </div>
 )
 
-export const Token = () => {
+export const IOU = () => {
   const { trackScreenLoaded, trackException } = useAnalytics()
   const { token = '' } = useRouteParams(TOKEN_ROUTE)
   const [currency, accountId] = token.split('.')
