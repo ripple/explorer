@@ -16,7 +16,7 @@ import { FormattedMPTIssuance } from '../../../shared/Interfaces'
 import { GeneralOverview } from './GeneralOverview'
 import { MarketData } from './MarketData'
 import { Settings } from './Settings'
-import { AdditionalInfo } from './AdditionalInfo'
+
 import { Metadata } from './Metadata'
 import GlobeSvg from '../../../shared/images/globe.svg'
 import DefaultTokenIcon from '../../../shared/images/default_token_icon.svg'
@@ -98,10 +98,7 @@ export const Header = (props: Props) => {
   const logoUrl = parsedMPTMetadata?.icon as string | undefined
   const issuerName = parsedMPTMetadata?.issuer_name as string | undefined
   const uris = parsedMPTMetadata?.uris as MetadataUri[] | undefined
-  const additionalInfo = parsedMPTMetadata?.additional_info as
-    | string
-    | Record<string, unknown>
-    | undefined
+
   const showMPTMetadataWarning = !isMPTMetadataCompliant
   // Only show MPT issuance ID if ticker exists (since we show ticker in header, need to show ID somewhere)
   const showMPTIssuanceId = !!ticker
@@ -239,7 +236,6 @@ export const Header = (props: Props) => {
             assetScale={assetScale}
           />
           <Settings flags={flags} />
-          {additionalInfo && <AdditionalInfo additionalInfo={additionalInfo} />}
           {(parsedMPTMetadata || rawMPTMetadata) && (
             <Metadata
               decodedMPTMetadata={(parsedMPTMetadata || rawMPTMetadata)!}
