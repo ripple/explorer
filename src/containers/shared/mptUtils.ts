@@ -214,29 +214,28 @@ const MPT_META_ALL_FIELDS = [
           messages.push(
             `${this.long}/${this.compact}: should be an array of objects each with uri/u, category/c, and title/t properties.`,
           )
-          continue
-        }
-
-        // Check for both long and compact forms in the same URI object
-        for (const uriField of MPT_META_URI_FIELDS) {
-          if (
-            uriObj[uriField.long] != null &&
-            uriObj[uriField.compact] != null
-          ) {
-            messages.push(
-              `${this.long}/${this.compact}: should not have both ${uriField.long} and ${uriField.compact} fields.`,
-            )
-            break
+        } else {
+          // Check for both long and compact forms in the same URI object
+          for (const uriField of MPT_META_URI_FIELDS) {
+            if (
+              uriObj[uriField.long] != null &&
+              uriObj[uriField.compact] != null
+            ) {
+              messages.push(
+                `${this.long}/${this.compact}: should not have both ${uriField.long} and ${uriField.compact} fields.`,
+              )
+              break
+            }
           }
-        }
 
-        const uri = uriObj.uri ?? uriObj.u
-        const category = uriObj.category ?? uriObj.c
-        const title = uriObj.title ?? uriObj.t
-        if (!isString(uri) || !isString(category) || !isString(title)) {
-          messages.push(
-            `${this.long}/${this.compact}: should be an array of objects each with uri/u, category/c, and title/t properties.`,
-          )
+          const uri = uriObj.uri ?? uriObj.u
+          const category = uriObj.category ?? uriObj.c
+          const title = uriObj.title ?? uriObj.t
+          if (!isString(uri) || !isString(category) || !isString(title)) {
+            messages.push(
+              `${this.long}/${this.compact}: should be an array of objects each with uri/u, category/c, and title/t properties.`,
+            )
+          }
         }
       }
       return messages

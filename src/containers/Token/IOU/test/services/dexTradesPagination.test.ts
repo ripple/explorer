@@ -22,8 +22,7 @@ describe('DexTradesPaginationService', () => {
       })
 
       const result = await dexTradesPaginationService.getDexTradesPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
       )
 
@@ -55,8 +54,7 @@ describe('DexTradesPaginationService', () => {
       })
 
       const result = await dexTradesPaginationService.getDexTradesPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
       )
 
@@ -71,11 +69,10 @@ describe('DexTradesPaginationService', () => {
         next_cursor: null,
       })
 
-      await dexTradesPaginationService.getDexTradesPage('USD', 'rIssuer', 1)
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 1)
 
       expect(mockGetDexTrades).toHaveBeenCalledWith(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         200,
         undefined,
         'next',
@@ -90,7 +87,7 @@ describe('DexTradesPaginationService', () => {
         next_cursor: null,
       })
 
-      await dexTradesPaginationService.getDexTradesPage('USD', 'rIssuer', 1, 20)
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 1, 20)
 
       expect(mockGetDexTrades).toHaveBeenCalled()
     })
@@ -116,8 +113,7 @@ describe('DexTradesPaginationService', () => {
       })
 
       const result1 = await dexTradesPaginationService.getDexTradesPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
         10,
       )
@@ -148,10 +144,10 @@ describe('DexTradesPaginationService', () => {
         next_cursor: null,
       })
 
-      await dexTradesPaginationService.getDexTradesPage('USD', 'rIssuer', 1)
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 1)
       const callCount1 = mockGetDexTrades.mock.calls.length
 
-      await dexTradesPaginationService.getDexTradesPage('USD', 'rIssuer', 1)
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 1)
       const callCount2 = mockGetDexTrades.mock.calls.length
 
       // Should not fetch again for same page
@@ -165,8 +161,7 @@ describe('DexTradesPaginationService', () => {
       })
 
       await dexTradesPaginationService.getDexTradesPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
         10,
         'timestamp',
@@ -174,8 +169,7 @@ describe('DexTradesPaginationService', () => {
       )
 
       expect(mockGetDexTrades).toHaveBeenCalledWith(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         200,
         undefined,
         'next',
@@ -205,8 +199,7 @@ describe('DexTradesPaginationService', () => {
       })
 
       const result = await dexTradesPaginationService.getDexTradesPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
         10,
       )
@@ -216,17 +209,17 @@ describe('DexTradesPaginationService', () => {
   })
 
   describe('clearCache', () => {
-    it('clears cache for specific currency and issuer', async () => {
+    it('clears cache for specific tokenId', async () => {
       mockGetDexTrades.mockResolvedValue({
         results: [],
         next_cursor: null,
       })
 
-      await dexTradesPaginationService.getDexTradesPage('USD', 'rIssuer', 1)
-      dexTradesPaginationService.clearCache('USD', 'rIssuer')
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 1)
+      dexTradesPaginationService.clearCache('USD.rIssuer')
 
       const count1 = mockGetDexTrades.mock.calls.length
-      await dexTradesPaginationService.getDexTradesPage('USD', 'rIssuer', 1)
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 1)
       const count2 = mockGetDexTrades.mock.calls.length
 
       expect(count2).toBeGreaterThan(count1)
@@ -238,11 +231,11 @@ describe('DexTradesPaginationService', () => {
         next_cursor: null,
       })
 
-      await dexTradesPaginationService.getDexTradesPage('USD', 'rIssuer', 1)
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 1)
       dexTradesPaginationService.clearCache()
 
       const count1 = mockGetDexTrades.mock.calls.length
-      await dexTradesPaginationService.getDexTradesPage('USD', 'rIssuer', 1)
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 1)
       const count2 = mockGetDexTrades.mock.calls.length
 
       expect(count2).toBeGreaterThan(count1)
@@ -250,11 +243,9 @@ describe('DexTradesPaginationService', () => {
   })
 
   describe('getCachedTradesCount', () => {
-    it('returns 0 for uncached currency', () => {
-      const count = dexTradesPaginationService.getCachedTradesCount(
-        'USD',
-        'rIssuer',
-      )
+    it('returns 0 for uncached tokenId', () => {
+      const count =
+        dexTradesPaginationService.getCachedTradesCount('USD.rIssuer')
       expect(count).toBe(0)
     })
 
@@ -278,11 +269,9 @@ describe('DexTradesPaginationService', () => {
         next_cursor: null,
       })
 
-      await dexTradesPaginationService.getDexTradesPage('USD', 'rIssuer', 1)
-      const count = dexTradesPaginationService.getCachedTradesCount(
-        'USD',
-        'rIssuer',
-      )
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 1)
+      const count =
+        dexTradesPaginationService.getCachedTradesCount('USD.rIssuer')
 
       expect(count).toBe(5)
     })
@@ -296,8 +285,7 @@ describe('DexTradesPaginationService', () => {
       })
 
       const result = await dexTradesPaginationService.getDexTradesPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
         0,
       )
@@ -312,25 +300,20 @@ describe('DexTradesPaginationService', () => {
       })
 
       const result = await dexTradesPaginationService.getDexTradesPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         -1,
       )
 
       expect(result).toBeDefined()
     })
 
-    it('handles empty currency', async () => {
+    it('handles empty tokenId', async () => {
       mockGetDexTrades.mockResolvedValue({
         results: [],
         next_cursor: null,
       })
 
-      const result = await dexTradesPaginationService.getDexTradesPage(
-        '',
-        'rIssuer',
-        1,
-      )
+      const result = await dexTradesPaginationService.getDexTradesPage('', 1)
 
       expect(result).toBeDefined()
     })

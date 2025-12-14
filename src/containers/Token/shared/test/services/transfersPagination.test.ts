@@ -22,8 +22,7 @@ describe('TransfersPaginationService', () => {
       })
 
       const result = await transfersPaginationService.getTransfersPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
       )
 
@@ -51,8 +50,7 @@ describe('TransfersPaginationService', () => {
       })
 
       const result = await transfersPaginationService.getTransfersPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
       )
 
@@ -67,11 +65,10 @@ describe('TransfersPaginationService', () => {
         next_cursor: null,
       })
 
-      await transfersPaginationService.getTransfersPage('USD', 'rIssuer', 1)
+      await transfersPaginationService.getTransfersPage('USD.rIssuer', 1)
 
       expect(mockGetTransfers).toHaveBeenCalledWith(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         200,
         undefined,
         'next',
@@ -86,7 +83,7 @@ describe('TransfersPaginationService', () => {
         next_cursor: null,
       })
 
-      await transfersPaginationService.getTransfersPage('USD', 'rIssuer', 1, 20)
+      await transfersPaginationService.getTransfersPage('USD.rIssuer', 1, 20)
 
       expect(mockGetTransfers).toHaveBeenCalled()
     })
@@ -108,8 +105,7 @@ describe('TransfersPaginationService', () => {
       })
 
       const result1 = await transfersPaginationService.getTransfersPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
         10,
       )
@@ -136,10 +132,10 @@ describe('TransfersPaginationService', () => {
         next_cursor: null,
       })
 
-      await transfersPaginationService.getTransfersPage('USD', 'rIssuer', 1)
+      await transfersPaginationService.getTransfersPage('USD.rIssuer', 1)
       const callCount1 = mockGetTransfers.mock.calls.length
 
-      await transfersPaginationService.getTransfersPage('USD', 'rIssuer', 1)
+      await transfersPaginationService.getTransfersPage('USD.rIssuer', 1)
       const callCount2 = mockGetTransfers.mock.calls.length
 
       // Should not fetch again for same page
@@ -153,8 +149,7 @@ describe('TransfersPaginationService', () => {
       })
 
       await transfersPaginationService.getTransfersPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
         10,
         'timestamp',
@@ -162,8 +157,7 @@ describe('TransfersPaginationService', () => {
       )
 
       expect(mockGetTransfers).toHaveBeenCalledWith(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         200,
         undefined,
         'next',
@@ -189,8 +183,7 @@ describe('TransfersPaginationService', () => {
       })
 
       const result = await transfersPaginationService.getTransfersPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
         10,
       )
@@ -200,17 +193,17 @@ describe('TransfersPaginationService', () => {
   })
 
   describe('clearCache', () => {
-    it('clears cache for specific currency and issuer', async () => {
+    it('clears cache for specific tokenId', async () => {
       mockGetTransfers.mockResolvedValue({
         results: [],
         next_cursor: null,
       })
 
-      await transfersPaginationService.getTransfersPage('USD', 'rIssuer', 1)
-      transfersPaginationService.clearCache('USD', 'rIssuer')
+      await transfersPaginationService.getTransfersPage('USD.rIssuer', 1)
+      transfersPaginationService.clearCache('USD.rIssuer')
 
       const count1 = mockGetTransfers.mock.calls.length
-      await transfersPaginationService.getTransfersPage('USD', 'rIssuer', 1)
+      await transfersPaginationService.getTransfersPage('USD.rIssuer', 1)
       const count2 = mockGetTransfers.mock.calls.length
 
       expect(count2).toBeGreaterThan(count1)
@@ -222,11 +215,11 @@ describe('TransfersPaginationService', () => {
         next_cursor: null,
       })
 
-      await transfersPaginationService.getTransfersPage('USD', 'rIssuer', 1)
+      await transfersPaginationService.getTransfersPage('USD.rIssuer', 1)
       transfersPaginationService.clearCache()
 
       const count1 = mockGetTransfers.mock.calls.length
-      await transfersPaginationService.getTransfersPage('USD', 'rIssuer', 1)
+      await transfersPaginationService.getTransfersPage('USD.rIssuer', 1)
       const count2 = mockGetTransfers.mock.calls.length
 
       expect(count2).toBeGreaterThan(count1)
@@ -234,11 +227,9 @@ describe('TransfersPaginationService', () => {
   })
 
   describe('getCachedTransfersCount', () => {
-    it('returns 0 for uncached currency', () => {
-      const count = transfersPaginationService.getCachedTransfersCount(
-        'USD',
-        'rIssuer',
-      )
+    it('returns 0 for uncached tokenId', () => {
+      const count =
+        transfersPaginationService.getCachedTransfersCount('USD.rIssuer')
       expect(count).toBe(0)
     })
 
@@ -258,11 +249,9 @@ describe('TransfersPaginationService', () => {
         next_cursor: null,
       })
 
-      await transfersPaginationService.getTransfersPage('USD', 'rIssuer', 1)
-      const count = transfersPaginationService.getCachedTransfersCount(
-        'USD',
-        'rIssuer',
-      )
+      await transfersPaginationService.getTransfersPage('USD.rIssuer', 1)
+      const count =
+        transfersPaginationService.getCachedTransfersCount('USD.rIssuer')
 
       expect(count).toBe(5)
     })
@@ -284,16 +273,14 @@ describe('TransfersPaginationService', () => {
       })
 
       await transfersPaginationService.getTransfersPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
         10,
         'timestamp',
         'asc',
       )
       const count = transfersPaginationService.getCachedTransfersCount(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         'timestamp',
         'asc',
       )
@@ -310,8 +297,7 @@ describe('TransfersPaginationService', () => {
       })
 
       const result = await transfersPaginationService.getTransfersPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1,
         0,
       )
@@ -326,25 +312,20 @@ describe('TransfersPaginationService', () => {
       })
 
       const result = await transfersPaginationService.getTransfersPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         -1,
       )
 
       expect(result).toBeDefined()
     })
 
-    it('handles empty currency', async () => {
+    it('handles empty tokenId', async () => {
       mockGetTransfers.mockResolvedValue({
         results: [],
         next_cursor: null,
       })
 
-      const result = await transfersPaginationService.getTransfersPage(
-        '',
-        'rIssuer',
-        1,
-      )
+      const result = await transfersPaginationService.getTransfersPage('', 1)
 
       expect(result).toBeDefined()
     })
@@ -356,8 +337,7 @@ describe('TransfersPaginationService', () => {
       })
 
       const result = await transfersPaginationService.getTransfersPage(
-        'USD',
-        'rIssuer',
+        'USD.rIssuer',
         1000,
       )
 

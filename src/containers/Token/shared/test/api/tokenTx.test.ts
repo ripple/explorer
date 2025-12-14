@@ -38,7 +38,7 @@ describe('Token Transactions API', () => {
     it('should fetch dex trades with default parameters', async () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockDexTradesResponse })
 
-      const result = await getDexTrades('USD', 'rIssuer123')
+      const result = await getDexTrades('USD.rIssuer123')
 
       expect(result).toEqual(mockDexTradesResponse)
       expect(mockAxios.get).toHaveBeenCalledWith(
@@ -55,7 +55,7 @@ describe('Token Transactions API', () => {
     it('should fetch dex trades with custom size', async () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockDexTradesResponse })
 
-      await getDexTrades('USD', 'rIssuer123', 50)
+      await getDexTrades('USD.rIssuer123', 50)
 
       expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('size=50'),
@@ -66,7 +66,7 @@ describe('Token Transactions API', () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockDexTradesResponse })
 
       const searchAfter = ['value1', 'value2']
-      await getDexTrades('USD', 'rIssuer123', 10, searchAfter)
+      await getDexTrades('USD.rIssuer123', 10, searchAfter)
 
       expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('search_after='),
@@ -76,7 +76,7 @@ describe('Token Transactions API', () => {
     it('should include direction parameter when provided', async () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockDexTradesResponse })
 
-      await getDexTrades('USD', 'rIssuer123', 10, undefined, 'prev')
+      await getDexTrades('USD.rIssuer123', 10, undefined, 'prev')
 
       expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('direction=prev'),
@@ -87,8 +87,7 @@ describe('Token Transactions API', () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockDexTradesResponse })
 
       await getDexTrades(
-        'USD',
-        'rIssuer123',
+        'USD.rIssuer123',
         10,
         undefined,
         undefined,
@@ -108,7 +107,7 @@ describe('Token Transactions API', () => {
       const error = new Error('Network error')
       mockAxios.get.mockRejectedValueOnce(error)
 
-      await expect(getDexTrades('USD', 'rIssuer123')).rejects.toThrow(
+      await expect(getDexTrades('USD.rIssuer123')).rejects.toThrow(
         'Network error',
       )
     })
@@ -121,7 +120,7 @@ describe('Token Transactions API', () => {
 
       mockAxios.get.mockResolvedValueOnce({ data: emptyResponse })
 
-      const result = await getDexTrades('USD', 'rIssuer123')
+      const result = await getDexTrades('USD.rIssuer123')
 
       expect(result.transactions).toEqual([])
     })
@@ -147,7 +146,7 @@ describe('Token Transactions API', () => {
     it('should fetch transfers with default parameters', async () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockTransfersResponse })
 
-      const result = await getTransfers('USD', 'rIssuer123')
+      const result = await getTransfers('USD.rIssuer123')
 
       expect(result).toEqual(mockTransfersResponse)
       expect(mockAxios.get).toHaveBeenCalledWith(
@@ -164,7 +163,7 @@ describe('Token Transactions API', () => {
     it('should fetch transfers with custom size', async () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockTransfersResponse })
 
-      await getTransfers('USD', 'rIssuer123', 25)
+      await getTransfers('USD.rIssuer123', 25)
 
       expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('size=25'),
@@ -175,15 +174,7 @@ describe('Token Transactions API', () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockTransfersResponse })
 
       const searchAfter = ['val1', 'val2']
-      await getTransfers(
-        'EUR',
-        'rEUR',
-        20,
-        searchAfter,
-        'next',
-        'amount',
-        'asc',
-      )
+      await getTransfers('EUR.rEUR', 20, searchAfter, 'next', 'amount', 'asc')
 
       expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('token=EUR.rEUR'),
@@ -209,7 +200,7 @@ describe('Token Transactions API', () => {
       const error = new Error('Network error')
       mockAxios.get.mockRejectedValueOnce(error)
 
-      await expect(getTransfers('USD', 'rIssuer123')).rejects.toThrow(
+      await expect(getTransfers('USD.rIssuer123')).rejects.toThrow(
         'Network error',
       )
     })
@@ -222,7 +213,7 @@ describe('Token Transactions API', () => {
 
       mockAxios.get.mockResolvedValueOnce({ data: emptyResponse })
 
-      const result = await getTransfers('USD', 'rIssuer123')
+      const result = await getTransfers('USD.rIssuer123')
 
       expect(result.transactions).toEqual([])
     })
@@ -231,28 +222,28 @@ describe('Token Transactions API', () => {
       const timeoutError = new Error('timeout of 5000ms exceeded')
       mockAxios.get.mockRejectedValueOnce(timeoutError)
 
-      await expect(getDexTrades('USD', 'rIssuer123')).rejects.toThrow('timeout')
+      await expect(getDexTrades('USD.rIssuer123')).rejects.toThrow('timeout')
     })
 
     it('should handle timeout errors for transfers', async () => {
       const timeoutError = new Error('timeout of 5000ms exceeded')
       mockAxios.get.mockRejectedValueOnce(timeoutError)
 
-      await expect(getTransfers('USD', 'rIssuer123')).rejects.toThrow('timeout')
+      await expect(getTransfers('USD.rIssuer123')).rejects.toThrow('timeout')
     })
 
     it('should handle server errors for dex trades', async () => {
       const serverError = new Error('500 Internal Server Error')
       mockAxios.get.mockRejectedValueOnce(serverError)
 
-      await expect(getDexTrades('USD', 'rIssuer123')).rejects.toThrow()
+      await expect(getDexTrades('USD.rIssuer123')).rejects.toThrow()
     })
 
     it('should handle server errors for transfers', async () => {
       const serverError = new Error('500 Internal Server Error')
       mockAxios.get.mockRejectedValueOnce(serverError)
 
-      await expect(getTransfers('USD', 'rIssuer123')).rejects.toThrow()
+      await expect(getTransfers('USD.rIssuer123')).rejects.toThrow()
     })
 
     it('should handle large transaction lists', async () => {
@@ -267,7 +258,7 @@ describe('Token Transactions API', () => {
 
       mockAxios.get.mockResolvedValueOnce({ data: largeResponse })
 
-      const result = await getTransfers('USD', 'rIssuer123')
+      const result = await getTransfers('USD.rIssuer123')
 
       expect(result.transactions.length).toBe(1000)
     })
@@ -276,15 +267,7 @@ describe('Token Transactions API', () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockTransfersResponse })
 
       const searchAfter = ['val1', 'val2']
-      await getTransfers(
-        'EUR',
-        'rEUR',
-        50,
-        searchAfter,
-        'prev',
-        'amount',
-        'asc',
-      )
+      await getTransfers('EUR.rEUR', 50, searchAfter, 'prev', 'amount', 'asc')
 
       expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('token=EUR.rEUR'),
@@ -306,7 +289,7 @@ describe('Token Transactions API', () => {
     it('should handle null search_after parameter', async () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockTransfersResponse })
 
-      await getTransfers('USD', 'rIssuer123', 10, null)
+      await getTransfers('USD.rIssuer123', 10, null)
 
       expect(mockAxios.get).toHaveBeenCalled()
     })
@@ -315,8 +298,7 @@ describe('Token Transactions API', () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockTransfersResponse })
 
       await getTransfers(
-        'USD',
-        'rIssuer123',
+        'USD.rIssuer123',
         10,
         undefined,
         undefined,
