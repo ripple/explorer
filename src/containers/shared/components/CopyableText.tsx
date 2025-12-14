@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface CopyableTextProps {
   text: string
@@ -11,6 +12,7 @@ export const CopyableText = ({
   displayText,
   className,
 }: CopyableTextProps) => {
+  const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
 
   const handleCopy = () => {
@@ -27,7 +29,7 @@ export const CopyableText = ({
       title="Click to copy"
     >
       {displayText}
-      {copied && <span className="copied-tooltip">Copied</span>}
+      {copied && <span className="copied-tooltip">{t('copied')}</span>}
     </button>
   )
 }

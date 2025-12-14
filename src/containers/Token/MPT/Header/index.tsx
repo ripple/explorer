@@ -129,9 +129,9 @@ export const Header = (props: Props) => {
         </div>
       )}
       <div className="section token-indicator">
-        <div className="token-label">{t('mpt_page.token_label')}</div>
+        <div className="token-label">{t('token')}</div>
         <div className="category-pill">
-          <div className="category-text">{t('mpt_page.category_text')}</div>
+          <div className="category-text">{t('token_type.mpt')}</div>
         </div>
       </div>
       <div className="section box-header">

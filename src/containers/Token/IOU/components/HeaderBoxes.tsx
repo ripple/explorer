@@ -83,7 +83,7 @@ export const HeaderBoxes = ({
             <div className="item-value">{holders}</div>
           </div>
           <div className="header-box-item">
-            <div className="item-name">{t('token_page.trustlines')}</div>
+            <div className="item-name">{t('iou_page.trustlines')}</div>
             <div className="item-value">{trustlines}</div>
           </div>
           <div className="header-box-item">

@@ -128,16 +128,16 @@ export const TablePicker = ({
   )
 
   const tabs = [
-    { id: 'all', labelKey: 'mpt_page.all_tx' },
+    { id: 'all', labelKey: 'token_page.all_tx' },
     {
       id: 'transfers',
-      labelKey: 'mpt_page.transfers_tx',
+      labelKey: 'token_page.transfers_tx',
       onTabClick: () =>
         resetTablePagination(transfersPagination.setCurrentPage),
     },
     {
       id: 'holders',
-      labelKey: 'mpt_page.holders_table',
+      labelKey: 'token_page.holders_table',
       onTabClick: () => resetTablePagination(holdersPagination.setCurrentPage),
     },
   ]

@@ -16,44 +16,44 @@ export const Settings = ({ flags = [] }: Props): JSX.Element => {
   const flagItems: FlagItem[] = [
     {
       key: 'locked',
-      label: t('mpt_page.locked'),
+      label: t('locked'),
       enabled: flags.includes('lsfMPTLocked'),
     },
     {
       key: 'canLock',
-      label: t('mpt_page.can_lock'),
+      label: t('can_lock'),
       enabled: flags.includes('lsfMPTCanLock'),
     },
     {
       key: 'requireAuth',
-      label: t('mpt_page.require_auth'),
+      label: t('require_auth'),
       enabled: flags.includes('lsfMPTRequireAuth'),
     },
     {
       key: 'canEscrow',
-      label: t('mpt_page.can_escrow'),
+      label: t('can_escrow'),
       enabled: flags.includes('lsfMPTCanEscrow'),
     },
     {
       key: 'canTrade',
-      label: t('mpt_page.can_trade'),
+      label: t('can_trade'),
       enabled: flags.includes('lsfMPTCanTrade'),
     },
     {
       key: 'canTransfer',
-      label: t('mpt_page.can_transfer'),
+      label: t('can_transfer'),
       enabled: flags.includes('lsfMPTCanTransfer'),
     },
     {
       key: 'canClawback',
-      label: t('mpt_page.can_clawback'),
+      label: t('can_clawback'),
       enabled: flags.includes('lsfMPTCanClawback'),
     },
   ]
 
   return (
     <div className="header-box settings-box">
-      <div className="header-box-title">{t('mpt_page.settings')}</div>
+      <div className="header-box-title">{t('settings')}</div>
       <div className="header-box-contents">
         {flagItems.map((flag) => (
           <div className="header-box-item" key={flag.key}>

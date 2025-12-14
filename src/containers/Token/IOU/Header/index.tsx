@@ -138,9 +138,9 @@ export const Header = ({
   return (
     <div className="box token-header iou">
       <div className="section token-indicator">
-        <div className="token-label">{t('token_page.token_label')}</div>
+        <div className="token-label">{t('token')}</div>
         <div className="category-pill">
-          <div className="category-text">{t('token_page.category_text')}</div>
+          <div className="category-text">{t('token_type.iou')}</div>
         </div>
       </div>
       <div className="section box-header">

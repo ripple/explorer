@@ -25,30 +25,30 @@ export const MarketData = ({
 
   return (
     <div className="header-box">
-      <div className="header-box-title">{t('mpt_page.market_data')}</div>
+      <div className="header-box-title">{t('token_page.market_data')}</div>
       <div className="header-box-contents">
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.supply')}</div>
+          <div className="item-name">{t('token_page.supply')}</div>
           <div className="item-value">{formattedSupply}</div>
         </div>
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.circ_supply')}</div>
+          <div className="item-name">{t('token_page.circulating_supply')}</div>
           <div className="item-value">{formattedCircSupply}</div>
         </div>
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.market_cap')}</div>
+          <div className="item-name">{t('token_page.market_cap')}</div>
           <div className="item-value">--</div>
         </div>
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.volume_24h')}</div>
+          <div className="item-name">{t('token_page.volume_24h')}</div>
           <div className="item-value">--</div>
         </div>
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.trades_24h')}</div>
+          <div className="item-name">{t('token_page.trades_24h')}</div>
           <div className="item-value">--</div>
         </div>
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.amm_tvl')}</div>
+          <div className="item-name">{t('token_page.amm_tvl')}</div>
           <div className="item-value">--</div>
         </div>
       </div>

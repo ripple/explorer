@@ -13,7 +13,7 @@ export const Metadata = ({
 
   return (
     <div className="header-box metadata-box">
-      <div className="header-box-title">{t('mpt_page.metadata')}</div>
+      <div className="header-box-title">{t('metadata')}</div>
       <div className="header-box-contents metadata-json">
         {isString ? (
           <div className="metadata-string">{decodedMPTMetadata}</div>

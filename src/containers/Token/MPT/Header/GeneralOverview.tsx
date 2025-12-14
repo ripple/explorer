@@ -32,10 +32,10 @@ export const GeneralOverview = ({
 
   return (
     <div className="header-box">
-      <div className="header-box-title">{t('mpt_page.general_overview')}</div>
+      <div className="header-box-title">{t('token_page.general_overview')}</div>
       <div className="header-box-contents">
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.issuer')}</div>
+          <div className="item-name">{t('token_page.issuer')}</div>
           <div className="item-value account-link">
             <Account
               account={issuer}
@@ -44,11 +44,11 @@ export const GeneralOverview = ({
           </div>
         </div>
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.price')}</div>
+          <div className="item-name">{t('token_page.price')}</div>
           <div className="item-value">--</div>
         </div>
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.holders')}</div>
+          <div className="item-name">{t('token_page.holders')}</div>
           <div className="item-value">
             {holdersLoading ? (
               <span className="loading-spinner" />
@@ -58,18 +58,18 @@ export const GeneralOverview = ({
           </div>
         </div>
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.transfer_fee')}</div>
+          <div className="item-name">{t('token_page.transfer_fee')}</div>
           <div className="item-value">
             {(transferFee && parsePercent(transferFee / 1000, 3)) ?? '--'}
           </div>
         </div>
         <div className="header-box-item">
-          <div className="item-name">{t('mpt_page.asset_scale')}</div>
+          <div className="item-name">{t('asset_scale')}</div>
           <div className="item-value">{assetScale ?? 0}</div>
         </div>
         {showMptIssuanceId && (
           <div className="header-box-item">
-            <div className="item-name">{t('mpt_page.mpt_issuance_id')}</div>
+            <div className="item-name">{t('mpt_issuance_id')}</div>
             <div className="item-value mpt-id-copyable">
               <CopyableText
                 text={mptIssuanceId.toUpperCase()}
