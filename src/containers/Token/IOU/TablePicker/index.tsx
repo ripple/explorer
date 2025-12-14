@@ -20,7 +20,6 @@ import { TokenHoldersData } from '../api/holders'
 import { LOSToken } from '../../../shared/losTypes'
 import { TablePaginationState } from '../../shared/hooks/usePaginationState'
 import { TableSortingState } from '../../shared/hooks/useSortingState'
-import './styles.scss'
 
 // Re-export for backward compatibility
 export type { TablePaginationState, TableSortingState }

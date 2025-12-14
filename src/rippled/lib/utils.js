@@ -163,9 +163,9 @@ const formatNFTInfo = (info) => ({
 })
 
 const formatMPTIssuance = (info) => {
-  const rawMetadataHex = info.MPTokenMetadata
-  const rawMPTMetadata = rawMetadataHex
-    ? hexToString(rawMetadataHex)
+  const rawMPTMetadataHex = info.MPTokenMetadata
+  const rawMPTMetadata = rawMPTMetadataHex
+    ? hexToString(rawMPTMetadataHex)
     : undefined
 
   return {
@@ -180,8 +180,8 @@ const formatMPTIssuance = (info) => {
     transferFee: info.TransferFee,
     sequence: info.Sequence,
     rawMPTMetadata,
-    parsedMPTMetadata: parseMPTMetadata(rawMetadataHex),
-    isMPTMetadataCompliant: isMPTMetadataCompliant(rawMetadataHex),
+    parsedMPTMetadata: parseMPTMetadata(rawMPTMetadataHex),
+    isMPTMetadataCompliant: isMPTMetadataCompliant(rawMPTMetadataHex),
     flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
   }
 }

@@ -27,8 +27,7 @@ export const CopyableText = ({
       title="Click to copy"
     >
       {displayText}
-      {copied && <span className="copied-tooltip">Copied!</span>}
+      {copied && <span className="copied-tooltip">Copied</span>}
     </button>
   )
 }
-

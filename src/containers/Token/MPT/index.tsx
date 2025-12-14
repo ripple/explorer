@@ -49,7 +49,7 @@ const Page: FC<PropsWithChildren<{ mptIssuanceId: string }>> = ({
   mptIssuanceId,
   children,
 }) => (
-  <div className="mpt-page">
+  <div className="token-page">
     <Helmet title={`MPT ${shortenMPTID(mptIssuanceId)}`} />
     {children}
   </div>

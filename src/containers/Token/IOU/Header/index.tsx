@@ -1,6 +1,6 @@
-import './styles.scss'
 import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
+import './styles.scss'
 import Currency from '../../../shared/components/Currency'
 import {
   HeaderBoxes,
@@ -9,6 +9,7 @@ import {
 } from '../components/HeaderBoxes'
 import { LOSToken } from '../../../shared/losTypes'
 import { TokenHoldersData } from '../api/holders'
+import DomainLink from '../../../shared/components/DomainLink'
 import GlobeSvg from '../../../shared/images/globe.svg'
 import {
   parseAmount,
@@ -135,7 +136,7 @@ export const Header = ({
   }, [circSupply, tokenData, xrpRate, ammTvlData, holdersData])
 
   return (
-    <div className="box token-header">
+    <div className="box token-header iou">
       <div className="section token-indicator">
         <div className="token-label">{t('token_page.token_label')}</div>
         <div className="category-pill">
@@ -170,23 +171,16 @@ export const Header = ({
         </div>
 
         {tokenData.issuer_domain && (
-          <a
-            className="issuer-ext-link"
-            href={
-              tokenData.issuer_domain.startsWith('http')
-                ? tokenData.issuer_domain
-                : `https://${tokenData.issuer_domain}`
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <GlobeSvg className="issuer-ext-link-icon" />
-            <span className="issuer-ext-link-text">
-              {tokenData.issuer_domain
-                .replace(/^https?:\/\//, '')
-                .replace(/\/$/, '')}
-            </span>
-          </a>
+          <div className="header-actions">
+            <div className="domain-link-container">
+              <GlobeSvg className="domain-link-icon" />
+              <DomainLink
+                className="domain-link"
+                domain={tokenData.issuer_domain}
+                keepProtocol={false}
+              />
+            </div>
+          </div>
         )}
       </div>
       <div className="section box-content">

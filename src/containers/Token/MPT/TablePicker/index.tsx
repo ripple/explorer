@@ -15,7 +15,6 @@ import {
 import { TablePaginationState } from '../../shared/hooks/usePaginationState'
 import { TableSortingState } from '../../shared/hooks/useSortingState'
 import { convertScaledPrice } from '../../../shared/utils'
-import './styles.scss'
 
 export interface TablePickerProps {
   mptIssuanceId: string
@@ -144,7 +143,7 @@ export const TablePicker = ({
   ]
 
   return (
-    <div className="mpt-transaction-table-container">
+    <div className="token-transaction-table-container">
       <hr className="full-width-line" />
       <div className="tx-table-picker">
         <Tabs

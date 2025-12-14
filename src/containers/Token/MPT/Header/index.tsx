@@ -5,11 +5,9 @@ import './styles.scss'
 import {
   BAD_REQUEST,
   HASH192_REGEX,
-  shortenAccount,
   shortenDomain,
   shortenMPTID,
 } from '../../../shared/utils'
-import { Account } from '../../../shared/components/Account'
 import { CopyableText } from '../../../shared/components/CopyableText'
 import DomainLink from '../../../shared/components/DomainLink'
 import { FormattedMPTIssuance } from '../../../shared/Interfaces'
@@ -73,7 +71,7 @@ export const Header = (props: Props) => {
 
   if (loading) {
     return (
-      <div className="box mpt-header">
+      <div className="box token-header mpt">
         <Loader />
       </div>
     )
@@ -107,7 +105,7 @@ export const Header = (props: Props) => {
   const allUris = (uris || []).filter((u) => u.uri)
 
   return (
-    <div className="box mpt-header">
+    <div className="box token-header mpt">
       {showMPTMetadataWarning && (
         <div className="section metadata-warning">
           <InfoIcon className="warning-icon" aria-hidden="true" />
@@ -143,38 +141,25 @@ export const Header = (props: Props) => {
               className="token-logo"
               alt={`${ticker || mptIssuanceId} logo`}
               src={logoUrl}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-                e.currentTarget.nextElementSibling?.classList.remove('hidden')
-              }}
             />
           ) : (
             <DefaultTokenIcon className="token-logo no-logo" />
           )}
           {ticker ? (
-            <span className="token-code">{ticker.toUpperCase()}</span>
+            <span>{ticker.toUpperCase()}</span>
           ) : (
-            <span className="token-code mpt-id-copyable">
+            <span className="mpt-id-copyable">
               <CopyableText
                 text={mptIssuanceId.toUpperCase()}
                 displayText={shortenMPTID(mptIssuanceId)}
               />
             </span>
           )}
-          {/* Show issuer name if available, otherwise show shortened account if ticker exists */}
-          {(issuerName || ticker) && (
+          {/* Show issuer name if available */}
+          {issuerName && (
             <div className="token-issuer-wrap">
               <span className="paren">(</span>
-              {issuerName ? (
-                <span className="issuer-name">{issuerName}</span>
-              ) : (
-                <div className="issuer-link">
-                  <Account
-                    account={issuer}
-                    displayText={shortenAccount(issuer)}
-                  />
-                </div>
-              )}
+              <span className="issuer-name">{issuerName}</span>
               <span className="paren">)</span>
             </div>
           )}
@@ -182,25 +167,26 @@ export const Header = (props: Props) => {
 
         {allUris.length > 0 && (
           <div className="header-actions">
-            <div className="links-dropdown-container" ref={dropdownRef}>
-              <div className="links-dropdown-trigger">
-                <GlobeSvg className="links-dropdown-icon" />
-                <DomainLink
-                  className="links-dropdown-main-link"
-                  domain={allUris[0].uri}
-                  displayDomain={shortenDomain(allUris[0].uri, 12, 7)}
-                  keepProtocol={false}
-                />
-                {allUris.length > 1 && (
-                  <button
-                    type="button"
-                    className="dropdown-toggle-button"
-                    onClick={() => setShowURLDropdown(!showURLDropdown)}
-                  >
-                    <DownArrow className="dropdown-arrow" />
-                  </button>
-                )}
-              </div>
+            <div
+              className="domain-link-container links-dropdown-container"
+              ref={dropdownRef}
+            >
+              <GlobeSvg className="domain-link-icon" />
+              <DomainLink
+                className="domain-link"
+                domain={allUris[0].uri}
+                displayDomain={shortenDomain(allUris[0].uri, 12, 7)}
+                keepProtocol={false}
+              />
+              {allUris.length > 1 && (
+                <button
+                  type="button"
+                  className="dropdown-toggle-button"
+                  onClick={() => setShowURLDropdown(!showURLDropdown)}
+                >
+                  <DownArrow className="dropdown-arrow" />
+                </button>
+              )}
               {showURLDropdown && allUris.length > 1 && (
                 <div className="links-dropdown-menu">
                   {allUris.slice(1).map((uriItem) => (

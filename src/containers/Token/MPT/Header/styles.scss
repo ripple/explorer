@@ -1,19 +1,20 @@
 @use '../../../shared/css/variables' as *;
-@use '../../../shared/css/table';
-@import '../../IOU/styles';
 
-.mpt-header {
-  margin-top: 40px;
-  margin-bottom: 16px;
+// =============================================================================
+// MPT HEADER - MPT-specific header styles only
+// All shared styles are in src/containers/Token/shared/styles.scss
+// =============================================================================
 
-  @include for-size(tablet-portrait-up) {
-    margin-top: 60px;
+.token-header.mpt {
+  // MPT-specific category pill variant ($mpt color)
+  .token-indicator {
+    .category-pill {
+      border: 1px solid $mpt;
+      background: $mpt;
+    }
   }
 
-  @include for-size(desktop-up) {
-    margin-top: 80px;
-  }
-
+  // MPT metadata warning banner
   .metadata-warning {
     display: flex;
     align-items: center;
@@ -50,274 +51,9 @@
     }
   }
 
-  .token-indicator {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 12px;
-    gap: 12px;
-
-    .token-label {
-      color: $black-40;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 150%;
-      text-transform: uppercase;
-    }
-
-    .category-pill {
-      border: 1px solid $mpt;
-      border-radius: 100px;
-      background: $mpt;
-
-      .category-text {
-        padding: 4px 12px;
-        color: $white;
-        font-size: 12px;
-        font-style: normal;
-        line-height: 150%;
-        text-transform: uppercase;
-        @include semibold;
-      }
-    }
-  }
-
-  .box-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    text-align: left;
-
-    @include for-size(tablet-portrait-up) {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    @include for-size(desktop-up) {
-      gap: 24px;
-    }
-  }
-
-  .token-info-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-
-    @include for-size(tablet-portrait-up) {
-      flex-flow: row wrap;
-      align-items: center;
-      gap: 1px;
-    }
-
-    @include for-size(desktop-up) {
-      gap: 1px;
-    }
-
-    .token-code {
-      margin: 0;
-      color: $white;
-      font-size: 24px;
-      font-style: normal;
-      line-height: 112.5%;
-      word-break: break-all;
-      @include bold;
-
-      @include for-size(tablet-portrait-up) {
-        font-size: 32px;
-      }
-
-      @include for-size(tablet-landscape-up) {
-        font-size: 42px;
-      }
-
-      &.mpt-id-copyable {
-        .copy-button {
-          position: relative;
-          padding: 0;
-          border: none;
-          background: none;
-          color: $white;
-          cursor: pointer;
-          font-family: inherit;
-          font-size: inherit;
-          font-weight: inherit;
-
-          &:hover {
-            color: $green-30;
-          }
-
-          .copied-tooltip {
-            position: absolute;
-            z-index: 1000;
-            top: -32px;
-            left: 50%;
-            padding: 8px 12px;
-            border-radius: 2px;
-            background: rgb(0 0 0 / 90%);
-            color: white;
-            font-size: 13px;
-            font-weight: normal;
-            line-height: 16px;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            @include medium;
-          }
-        }
-      }
-    }
-
-    .token-issuer-wrap {
-      display: flex;
-      align-items: center;
-      margin-left: 2px;
-      font-size: 24px;
-      font-style: normal;
-      line-height: 112.5%;
-      @include bold;
-
-      @include for-size(tablet-portrait-up) {
-        margin-left: 3px;
-        font-size: 32px;
-      }
-
-      @include for-size(tablet-landscape-up) {
-        margin-left: 5px;
-        font-size: 42px;
-      }
-
-      .paren {
-        margin: 0;
-      }
-
-      .issuer-link {
-        color: $green-30;
-      }
-    }
-  }
-
-  .token-logo {
-    width: 32px;
-    min-width: 32px;
-    height: 32px;
-    min-height: 32px;
-    border-radius: 32px;
-    margin-right: 8px;
-    margin-left: 0;
-
-    @include for-size(tablet-portrait-up) {
-      width: 40px;
-      min-width: 40px;
-      height: 40px;
-      min-height: 40px;
-      border-radius: 40px;
-      margin-right: 10px;
-    }
-
-    @include for-size(tablet-landscape-up) {
-      width: 48px;
-      min-width: 48px;
-      height: 48px;
-      min-height: 48px;
-      border-radius: 48px;
-    }
-
-    &.no-logo {
-      background-color: $black-50;
-    }
-  }
-
-  .header-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-
-    @include for-size(tablet-portrait-up) {
-      flex-direction: row;
-      align-items: center;
-      gap: 12px;
-    }
-  }
-
-  .issuer-ext-link {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    align-self: flex-start;
-    padding: 8px 12px;
-    border: 1px solid $green-30;
-    border-radius: 8px;
-    color: $green-30 !important;
-    font-size: 12px !important;
-    text-decoration: none;
-    transition: all 0.2s ease;
-
-    @include for-size(tablet-portrait-up) {
-      align-self: center;
-      padding: 8px 16px;
-      font-size: 14px !important;
-    }
-
-    * {
-      color: $green-30 !important;
-    }
-
-    &:hover {
-      border-color: $green-50;
-      background-color: rgba($green-30, 0.1);
-      color: $green-50 !important;
-
-      * {
-        color: $green-50 !important;
-      }
-    }
-  }
-
-  .issuer-ext-link-icon {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    margin-right: 8px;
-    object-fit: contain;
-  }
-
+  // MPT-specific dropdown styles (base styles are in shared/styles.scss)
   .links-dropdown-container {
     position: relative;
-    width: 225px;
-  }
-
-  .links-dropdown-main-link {
-    display: flex;
-    align-items: center;
-    color: $green-30;
-    font-size: inherit;
-    gap: 4px;
-    text-decoration: none;
-    transition: color 0.2s ease;
-
-    .links-dropdown-icon {
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
-    }
-
-    .links-dropdown-text {
-      color: $green-30;
-      transition: color 0.2s ease;
-    }
-
-    &:hover {
-      color: $green-50;
-
-      .links-dropdown-text {
-        color: $green-50;
-      }
-    }
   }
 
   .dropdown-toggle-button {
@@ -339,30 +75,9 @@
     }
   }
 
-  .links-dropdown-trigger {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    border: 1px solid $green-30;
-    border-radius: 8px;
-    background: transparent;
-    color: $green-30;
-    font-size: 12px;
-    transition: all 0.2s ease;
-
-    @include for-size(tablet-portrait-up) {
-      padding: 8px 16px;
-      font-size: 14px;
-    }
-
-    &:hover {
-      border-color: $green-50;
-      background-color: rgba($green-30, 0.1);
-
-      .dropdown-arrow path {
-        fill: $green-50;
-      }
+  .domain-link-container:hover {
+    .dropdown-arrow path {
+      fill: $green-50;
     }
   }
 
@@ -371,8 +86,8 @@
     z-index: 100;
     top: 100%;
     right: 0;
+    left: 0;
     display: flex;
-    width: 225px;
     flex-direction: column;
     padding: 8px 0;
     border: 1px solid $green-30;
@@ -395,32 +110,7 @@
     }
   }
 
-  .box-content {
-    min-height: 100px;
-    padding-bottom: 20px;
-  }
-
-  // Header boxes styling
-  .header-boxes {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    margin-top: 32px;
-    gap: 24px;
-
-    @include for-size(tablet-landscape-up) {
-      flex-flow: row wrap;
-      justify-content: flex-start;
-      margin-top: 48px;
-      gap: 24px;
-    }
-
-    @include for-size(desktop-up) {
-      margin-top: 64px;
-      gap: 24px;
-    }
-  }
-
+  // MPT-specific description value styling
   .description-value {
     max-width: 300px;
     word-wrap: break-word;
@@ -490,7 +180,6 @@
 
       .json-view {
         padding: 16px;
-        border-radius: 0;
         margin-bottom: 0;
       }
 
@@ -512,6 +201,47 @@
         white-space: pre-wrap;
         word-wrap: break-word;
       }
+    }
+  }
+}
+
+// =============================================================================
+// COPYABLE ID STYLING (MPT-specific)
+// =============================================================================
+
+.mpt-id-copyable {
+  word-break: break-all;
+
+  .copy-button {
+    position: relative;
+    padding: 0;
+    border: none;
+    background: none;
+    color: $white;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+
+    &:hover {
+      color: $green-30;
+    }
+
+    .copied-tooltip {
+      position: absolute;
+      z-index: 1000;
+      top: -32px;
+      left: 50%;
+      padding: 8px 12px;
+      border-radius: 2px;
+      background: rgb(0 0 0 / 90%);
+      color: white;
+      font-size: 13px;
+      font-weight: normal;
+      line-height: 16px;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      @include medium;
     }
   }
 }
