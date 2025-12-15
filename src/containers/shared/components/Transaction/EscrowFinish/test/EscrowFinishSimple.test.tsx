@@ -91,14 +91,10 @@ describe('EscrowFinishSimple', () => {
     )
     expect(wrapper.find('[data-testid="credential-id-0"]')).toExist()
     expect(wrapper.find('[data-testid="credential-id-1"]')).toExist()
-    expect(
-      wrapper.find('[data-testid="credential-id-0"] .value'),
-    ).toHaveText(
+    expect(wrapper.find('[data-testid="credential-id-0"] .value')).toHaveText(
       '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955',
     )
-    expect(
-      wrapper.find('[data-testid="credential-id-1"] .value'),
-    ).toHaveText(
+    expect(wrapper.find('[data-testid="credential-id-1"] .value')).toHaveText(
       '8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
     )
     wrapper.unmount()

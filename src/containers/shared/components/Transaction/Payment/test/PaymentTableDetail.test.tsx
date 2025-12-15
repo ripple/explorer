@@ -87,7 +87,9 @@ describe('Payment: TableDetail', () => {
     const wrapper = createWrapper(mockPaymentCredentialIDs)
 
     expect(wrapper.find('.credential-ids')).toExist()
-    expect(wrapper.find('.credential-ids .label')).toHaveText('credential_ids: ')
+    expect(wrapper.find('.credential-ids .label')).toHaveText(
+      'credential_ids: ',
+    )
     expect(wrapper.find('.credential-id').length).toBe(2)
     expect(wrapper.find('.credential-id').at(0)).toHaveText(
       '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955',
