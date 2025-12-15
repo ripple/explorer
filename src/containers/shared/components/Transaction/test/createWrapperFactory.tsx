@@ -13,6 +13,8 @@ import {
 } from '../types'
 import { testQueryClient } from '../../../../test/QueryClient'
 import { V7_FUTURE_ROUTER_FLAGS } from '../../../../test/utils'
+import SocketContext from '../../../SocketContext'
+import MockWsClient from '../../../../test/mockWsClient'
 
 /**
  * Methods that produce createWrapper function for tests
@@ -23,12 +25,17 @@ import { V7_FUTURE_ROUTER_FLAGS } from '../../../../test/utils'
 export function createWrapper(
   TestComponent: ReactElement,
   i18nConfig?: i18n,
+  socketMock?: any,
 ): ReactWrapper {
+  const mockSocket = socketMock || new MockWsClient()
+
   return mount(
     <QueryClientProvider client={testQueryClient}>
       <I18nextProvider i18n={i18nConfig || defaultI18nConfig}>
         <BrowserRouter future={V7_FUTURE_ROUTER_FLAGS}>
-          {TestComponent}
+          <SocketContext.Provider value={mockSocket}>
+            {TestComponent}
+          </SocketContext.Provider>
         </BrowserRouter>
       </I18nextProvider>
     </QueryClientProvider>,
@@ -47,23 +54,33 @@ export function createDescriptionWrapperFactory(
 export function createSimpleWrapperFactory(
   Simple: TransactionSimpleComponent,
   i18nConfig?: i18n,
+  socketMock?: any,
 ): (tx: any) => ReactWrapper {
   return function createSimpleWrapper(tx: any) {
     const data = summarizeTransaction(tx, true)
-    return createWrapper(<Simple data={data.details!} />, i18nConfig)
+    const mockSocket = socketMock || new MockWsClient()
+
+    return createWrapper(
+      <Simple data={data.details!} />,
+      i18nConfig,
+      mockSocket,
+    )
   }
 }
 
 export function createTableDetailWrapperFactory(
   TableDetail: TransactionTableDetailComponent,
   i18nConfig?: i18n,
+  socketMock?: any,
 ): (tx: any) => ReactWrapper {
   return function createTableDetailWrapper(tx: any) {
     const data = summarizeTransaction(tx, true)
+    const mockSocket = socketMock || new MockWsClient()
 
     return createWrapper(
       <TableDetail instructions={data.details!.instructions} />,
       i18nConfig,
+      mockSocket,
     )
   }
 }
