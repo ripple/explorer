@@ -25,7 +25,7 @@ describe('CopyableText', () => {
   const createWrapper = (props: { text: string; displayText: string }) =>
     mount(
       <I18nextProvider i18n={i18n}>
-        <CopyableText {...props} />
+        <CopyableText text={props.text} displayText={props.displayText} />
       </I18nextProvider>,
     )
 

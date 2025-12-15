@@ -13,7 +13,7 @@ jest.mock('../../../../shared/utils', () => ({
   },
 }))
 
-const mockGetMPTHolders = jest.mocked(getMPTHolders)
+const mockGetMPTHolders = getMPTHolders as jest.Mock
 
 describe('MPT Holders API', () => {
   const mockSocket = {}

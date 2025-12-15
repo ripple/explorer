@@ -90,7 +90,7 @@ describe('IssuedMPTs', () => {
     })
     expect(screen.getByText('Ticker')).toBeInTheDocument()
     expect(screen.getByText('Price (USD)')).toBeInTheDocument()
-    expect(screen.getByText('Supply')).toBeInTheDocument()
+    expect(screen.getByText('Circ Supply')).toBeInTheDocument()
     expect(screen.getByText('Asset Class')).toBeInTheDocument()
     expect(screen.getByText('Transfer Fee')).toBeInTheDocument()
     expect(screen.getByText('Locked')).toBeInTheDocument()
