@@ -2,27 +2,27 @@ import { render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import moxios from 'moxios'
-import i18n from '../../../../i18n/testConfigEnglish'
-import { Header } from '../Header/index'
-import { LOSToken } from '../../../shared/losTypes'
-import { TokenHoldersData } from '../api/holders'
+import i18n from '../../../../../i18n/testConfigEnglish'
+import { Header } from '../../Header'
+import { LOSToken } from '../../../../shared/losTypes'
+import { TokenHoldersData } from '../../api/holders'
 
-jest.mock('../../../shared/components/Currency', () => ({
+jest.mock('../../../../shared/components/Currency', () => ({
   __esModule: true,
   default: ({ currency }: { currency: string }) => <div>{currency}</div>,
 }))
 
-jest.mock('../HeaderBoxes', () => ({
+jest.mock('../../components/HeaderBoxes', () => ({
   HeaderBoxes: () => <div>HeaderBoxes</div>,
 }))
 
-jest.mock('../../../shared/components/Account', () => ({
+jest.mock('../../../../shared/components/Account', () => ({
   Account: ({ displayText }: { displayText: string }) => (
     <div>{displayText}</div>
   ),
 }))
 
-jest.mock('../../../shared/utils', () => ({
+jest.mock('../../../../shared/utils', () => ({
   shortenAccount: (account: string) => account.substring(0, 10),
   localizeNumber: (num: number) => num.toString(),
   formatLargeNumber: (d: number, digits: number = 1) => {

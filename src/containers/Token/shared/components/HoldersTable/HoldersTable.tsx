@@ -8,7 +8,6 @@ import '../tables-mobile.scss'
 import {
   parseAmount,
   parseCurrencyAmount,
-  parseIntegerAmount,
   parsePercent,
 } from '../../../../shared/NumberFormattingUtils'
 import { shortenAccount } from '../../../../shared/utils'
@@ -59,13 +58,6 @@ export const HoldersTable = ({
     }
   }, [currentPage, isHoldersDataLoading])
 
-  const formatBalance = (balance: number | string): string => {
-    if (typeof balance === 'string') {
-      return parseAmount(balance)
-    }
-    return parseIntegerAmount(balance)
-  }
-
   const renderHolder = (holder: XRPLHolder) => (
     <tr key={`${holder.account}-${holder.rank}`}>
       <td className="holder-rank">{holder.rank}</td>
@@ -75,7 +67,7 @@ export const HoldersTable = ({
           displayText={shortenAccount(holder.account)}
         />
       </td>
-      <td className="tx-ledger">{formatBalance(holder.balance)}</td>
+      <td className="tx-ledger">{parseAmount(holder.balance)}</td>
       <td className="tx-percent-supply">{parsePercent(holder.percent)}</td>
       <td className="tx-value">
         {holder.value_usd === null

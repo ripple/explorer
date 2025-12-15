@@ -20,13 +20,11 @@ export interface LOSTransfer {
   timestamp: number
   from: string
   to: string
-  amount:
-    | {
-        currency: string
-        issuer: string
-        value: string
-      }
-    | string
+  amount: {
+    currency: string
+    issuer: string
+    value: string
+  }
 }
 
 interface TransfersTableProps {
@@ -43,10 +41,6 @@ interface TransfersTableProps {
   sortOrder?: 'asc' | 'desc'
   setSortOrder?: (order: 'asc' | 'desc') => void
   onRefresh?: () => void
-  /** Custom notice message shown above the table. Defaults to token_page.transfers_data_notice */
-  noticeMessage?: string
-  /** Custom empty state message. Defaults to token_page.transfers_no_transfers */
-  emptyMessage?: string
 }
 
 export const TransfersTable = ({
@@ -63,8 +57,6 @@ export const TransfersTable = ({
   sortOrder,
   setSortOrder,
   onRefresh,
-  noticeMessage,
-  emptyMessage,
 }: TransfersTableProps) => {
   const { t } = useTranslation()
   const language = useLanguage()
@@ -100,22 +92,11 @@ export const TransfersTable = ({
     }
   }
 
-  const getAmountDisplay = (amount: LOSTransfer['amount']): string => {
-    if (!amount) return '--'
-    if (typeof amount === 'string') {
-      return parseAmount(amount)
-    }
-    // Object format with currency/issuer/value
-    if (amount.currency && amount.issuer && amount.value) {
-      return parseAmount(amount.value)
-    }
-    return '--'
-  }
-
   const renderTransaction = (tx: LOSTransfer) => {
     // Safely handle missing fields
     const fromAddress = tx.from || '--'
     const toAddress = tx.to || '--'
+    const hasValidAmount = tx.amount && tx.amount.currency && tx.amount.issuer
 
     return (
       <tr key={`${tx.hash}-${tx.ledger}`}>
@@ -156,7 +137,9 @@ export const TransfersTable = ({
             )}
           </span>
         </td>
-        <td className="tx-amount">{getAmountDisplay(tx.amount)}</td>
+        <td className="tx-amount">
+          {hasValidAmount ? parseAmount(tx.amount.value) : '--'}
+        </td>
       </tr>
     )
   }
@@ -169,7 +152,7 @@ export const TransfersTable = ({
         <>
           <div className="notice-with-controls">
             <div className="data-notice">
-              {noticeMessage ?? t('token_page.transfers_data_notice')}
+              {t('token_page.transfers_data_notice')}
             </div>
             <button
               type="button"
@@ -223,9 +206,7 @@ export const TransfersTable = ({
       )}
 
       {!isTransfersLoading && (!transactions || transactions.length === 0) && (
-        <EmptyStateMessage
-          message={emptyMessage ?? t('token_page.transfers_no_transfers')}
-        />
+        <EmptyStateMessage message={t('token_page.transfers_no_transfers')} />
       )}
     </div>
   )

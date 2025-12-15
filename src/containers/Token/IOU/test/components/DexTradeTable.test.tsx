@@ -7,22 +7,22 @@ import {
   LOSDEXTransaction,
 } from '../../components/DexTradeTable/DexTradeTable'
 
-jest.mock('../../../shared/components/Account', () => ({
+jest.mock('../../../../shared/components/Account', () => ({
   Account: ({ displayText }: { displayText: string }) => (
     <span data-testid="account">{displayText}</span>
   ),
 }))
 
-jest.mock('../../../shared/components/Amount', () => ({
+jest.mock('../../../../shared/components/Amount', () => ({
   Amount: ({ value }: any) => <div>{value.amount}</div>,
 }))
 
-jest.mock('../../../shared/components/Currency', () => ({
+jest.mock('../../../../shared/components/Currency', () => ({
   __esModule: true,
   default: ({ currency }: { currency: string }) => <div>{currency}</div>,
 }))
 
-jest.mock('../../../shared/components/Tooltip', () => ({
+jest.mock('../../../../shared/components/Tooltip', () => ({
   useTooltip: () => ({
     tooltip: null,
     showTooltip: jest.fn(),
@@ -31,7 +31,7 @@ jest.mock('../../../shared/components/Tooltip', () => ({
   Tooltip: () => null,
 }))
 
-jest.mock('../../../shared/utils', () => ({
+jest.mock('../../../../shared/utils', () => ({
   shortenAccount: (account: string) =>
     account.length > 12
       ? `${account.slice(0, 7)}...${account.slice(-5)}`
@@ -40,7 +40,7 @@ jest.mock('../../../shared/utils', () => ({
     hash.length > 12 ? `${hash.slice(0, 6)}...${hash.slice(-6)}` : hash,
 }))
 
-jest.mock('../../../shared/hooks', () => ({
+jest.mock('../../../../shared/hooks', () => ({
   useLanguage: () => 'en',
 }))
 
@@ -50,7 +50,7 @@ jest.mock('../../../shared/components/ResponsiveTimestamp', () => ({
   ),
 }))
 
-jest.mock('../../../shared/components/Pagination', () => ({
+jest.mock('../../../../shared/components/Pagination', () => ({
   Pagination: ({
     onPageChange,
     totalItems,
@@ -72,11 +72,11 @@ jest.mock('../../../shared/components/Pagination', () => ({
   },
 }))
 
-jest.mock('../../../shared/components/Loader', () => ({
+jest.mock('../../../../shared/components/Loader', () => ({
   Loader: () => <div>Loading...</div>,
 }))
 
-jest.mock('../../../shared/NumberFormattingUtils', () => ({
+jest.mock('../../../../shared/NumberFormattingUtils', () => ({
   parseAmount: (amount: any) => String(amount),
 }))
 
@@ -147,7 +147,6 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    // Verify tx hash is rendered (shortened to first 6 + last 6 chars with ... in between)
     expect(screen.getByText('E3FE6E...1B4879')).toBeInTheDocument()
   })
 
@@ -163,7 +162,6 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    // Verify accounts are rendered (they are shortened to first 7 + last 5 chars with ... in between)
     const accounts = screen.getAllByTestId('account')
     expect(accounts.length).toBeGreaterThanOrEqual(2)
     expect(accounts[0]).toHaveTextContent('rN7n7ot...6fzRH')
@@ -320,7 +318,6 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    // Check that the rate cell in tbody contains '--'
     const rateCell = container.querySelector('tbody tr .tx-amount-rate')
     expect(rateCell?.textContent).toContain('--')
   })
@@ -343,7 +340,6 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    // When type is undefined, formatDexType returns '--'
     const typeCell = container.querySelector('tbody tr .tx-type')
     expect(typeCell?.textContent).toBe('--')
   })
@@ -409,7 +405,6 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    // Verify account is rendered (shortened to first 7 + last 5 chars with ... in between)
     const accounts = screen.getAllByTestId('account')
     expect(accounts[0]).toHaveTextContent('rN7n7ot...6fzRH')
     expect(accounts[1]).toHaveTextContent('rLNaPoK...4dc6w')

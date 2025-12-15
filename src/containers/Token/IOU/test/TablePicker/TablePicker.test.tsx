@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import moxios from 'moxios'
 import i18n from '../../../../../i18n/testConfig'
-import { TablePicker } from '..'
+import { TablePicker } from '../../TablePicker'
 import TEST_TRANSACTIONS_DATA from '../../../../Accounts/AccountTransactionTable/test/mockTransactions.json'
 
 import { getAccountTransactions } from '../../../../../rippled'

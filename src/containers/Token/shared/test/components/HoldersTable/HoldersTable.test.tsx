@@ -1,26 +1,26 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
-import i18n from '../../../../../i18n/testConfigEnglish'
+import i18n from '../../../../../../i18n/testConfigEnglish'
 import {
   HoldersTable,
   XRPLHolder,
-} from '../../components/HoldersTable/HoldersTable'
+} from '../../../components/HoldersTable/HoldersTable'
 
-jest.mock('../../../../shared/components/Account', () => ({
+jest.mock('../../../../../shared/components/Account', () => ({
   Account: ({ displayText }: { displayText: string }) => (
     <span data-testid="account">{displayText}</span>
   ),
 }))
 
-jest.mock('../../../../shared/utils', () => ({
+jest.mock('../../../../../shared/utils', () => ({
   shortenAccount: (account: string) =>
     account.length > 12
       ? `${account.slice(0, 7)}...${account.slice(-5)}`
       : account,
 }))
 
-jest.mock('../../../shared/components/Pagination', () => ({
+jest.mock('../../../../../shared/components/Pagination', () => ({
   Pagination: ({
     onPageChange,
     totalItems,
@@ -42,11 +42,11 @@ jest.mock('../../../shared/components/Pagination', () => ({
   },
 }))
 
-jest.mock('../../../shared/components/Loader', () => ({
+jest.mock('../../../../../shared/components/Loader', () => ({
   Loader: () => <div>Loading...</div>,
 }))
 
-jest.mock('../../../shared/NumberFormattingUtils', () => ({
+jest.mock('../../../../../shared/NumberFormattingUtils', () => ({
   formatLargeNumber: (value: number, decimals: number, lang: string) => ({
     num: value.toFixed(decimals),
     unit: '',
@@ -58,6 +58,7 @@ jest.mock('../../../shared/NumberFormattingUtils', () => ({
   },
   parsePercent: (percent: any) => `${percent}%`,
   parseCurrencyAmount: (amount: any) => `$${amount}`,
+  parseAmount: (amount: any) => String(amount),
 }))
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (

@@ -8,13 +8,13 @@ import {
   MarketData,
 } from '../../components/HeaderBoxes'
 
-jest.mock('../../../shared/components/Account', () => ({
+jest.mock('../../../../shared/components/Account', () => ({
   Account: ({ displayText }: { displayText: string }) => (
     <div>{displayText}</div>
   ),
 }))
 
-jest.mock('../../../shared/utils', () => ({
+jest.mock('../../../../shared/utils', () => ({
   shortenAccount: (account: string) => account.substring(0, 10),
 }))
 

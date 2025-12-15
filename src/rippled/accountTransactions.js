@@ -1,11 +1,3 @@
-/**
- * Page path: /accounts/:id?
- *
- * API path: /api/v1/account_transactions/<address>?marker=<marker>
- *
- * Part 2 of 2
- */
-
 import {
   isValidClassicAddress,
   isValidXAddress,

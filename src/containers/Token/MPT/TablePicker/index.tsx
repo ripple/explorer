@@ -81,18 +81,20 @@ export const TablePicker = ({
     />
   )
 
-  // Transform transfer amounts using assetScale (similar to IOU pattern)
+  // Transform transfer amount.value using assetScale
   const transfersFormatted: LOSTransfer[] = useMemo(() => {
     if (!transfersData) {
       return []
     }
     return transfersData.map((transfer) => ({
       ...transfer,
-      // Convert amount using assetScale
-      amount:
-        typeof transfer.amount === 'string'
-          ? convertScaledPrice(BigInt(transfer.amount), assetScale ?? 0)
-          : transfer.amount,
+      amount: {
+        ...transfer.amount,
+        value: convertScaledPrice(
+          BigInt(transfer.amount.value),
+          assetScale ?? 0,
+        ),
+      },
     }))
   }, [transfersData, assetScale])
 
