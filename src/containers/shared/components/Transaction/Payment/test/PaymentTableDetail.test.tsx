@@ -7,6 +7,7 @@ import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 import mockPermDomainID from './mock_data/PaymentWithPermDomainID.json'
+import mockPaymentCredentialIDs from './mock_data/PaymentWithCredentialIDs.json'
 
 const createWrapper = createTableDetailWrapperFactory(TableDetail)
 
@@ -80,5 +81,21 @@ describe('Payment: TableDetail', () => {
     expect(wrapper.find('.domain-id')).toHaveText(
       `domain_id: D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02`,
     )
+  })
+
+  it('renders with CredentialIDs', () => {
+    const wrapper = createWrapper(mockPaymentCredentialIDs)
+
+    expect(wrapper.find('.credential-ids')).toExist()
+    expect(wrapper.find('.credential-ids .label')).toHaveText('credential_ids: ')
+    expect(wrapper.find('.credential-id').length).toBe(2)
+    expect(wrapper.find('.credential-id').at(0)).toHaveText(
+      '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955',
+    )
+    expect(wrapper.find('.credential-id').at(1)).toHaveText(
+      '8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
+    )
+
+    wrapper.unmount()
   })
 })

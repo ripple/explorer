@@ -3,6 +3,7 @@ import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockEscrowFinish from './mock_data/EscrowFinish.json'
 import mockEscrowFinishCompAllow from './mock_data/EscrowFinishComputationAllowance.json'
+import mockEscrowFinishCredentialIDs from './mock_data/EscrowFinishWithCredentialIDs.json'
 
 const createWrapper = createSimpleWrapperFactory(Simple)
 
@@ -79,6 +80,26 @@ describe('EscrowFinishSimple', () => {
     )
     expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
       '0.0001 MPT (0044E493C9FB70ADC1A604A5792643A38CA5887219C21C8C)',
+    )
+    wrapper.unmount()
+  })
+
+  it('renders with CredentialIDs', () => {
+    const wrapper = createWrapper(mockEscrowFinishCredentialIDs)
+    expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
+      `\uE9000.0154 XRP`,
+    )
+    expect(wrapper.find('[data-testid="credential-id-0"]')).toExist()
+    expect(wrapper.find('[data-testid="credential-id-1"]')).toExist()
+    expect(
+      wrapper.find('[data-testid="credential-id-0"] .value'),
+    ).toHaveText(
+      '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955',
+    )
+    expect(
+      wrapper.find('[data-testid="credential-id-1"] .value'),
+    ).toHaveText(
+      '8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
     )
     wrapper.unmount()
   })
