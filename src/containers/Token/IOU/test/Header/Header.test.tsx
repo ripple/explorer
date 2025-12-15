@@ -31,6 +31,8 @@ jest.mock('../../../../shared/utils', () => ({
     return { num: d.toString(), unit: '' }
   },
   formatSmallNumber: (value: number) => value.toFixed(4),
+  shortenDomain: (domain: string) => domain,
+  stripHttpProtocol: (url: string) => url.replace(/^https?:\/\//, ''),
 }))
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (

@@ -11,6 +11,7 @@ import {
   shortenDomain,
   shortenNFTTokenID,
   shortenMPTID,
+  stripHttpProtocol,
 } from '../utils'
 
 describe('utils', () => {
@@ -189,6 +190,22 @@ describe('Shorten utils', () => {
     it('returns short account addresses unchanged', () => {
       const shortAccount = 'rShortAddr'
       expect(shortenAccount(shortAccount)).toBe(shortAccount)
+    })
+  })
+
+  describe('stripHttpProtocol', () => {
+    it('strips https:// protocol', () => {
+      expect(stripHttpProtocol('https://www.example.com')).toBe(
+        'www.example.com',
+      )
+    })
+
+    it('strips http:// protocol', () => {
+      expect(stripHttpProtocol('http://example.com')).toBe('example.com')
+    })
+
+    it('returns domain unchanged if no protocol', () => {
+      expect(stripHttpProtocol('example.com')).toBe('example.com')
     })
   })
 

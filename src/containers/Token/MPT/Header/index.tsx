@@ -7,6 +7,7 @@ import {
   HASH192_REGEX,
   shortenDomain,
   shortenMPTID,
+  stripHttpProtocol,
 } from '../../../shared/utils'
 import { CopyableText } from '../../../shared/components/CopyableText'
 import DomainLink from '../../../shared/components/DomainLink'
@@ -175,8 +176,11 @@ export const Header = (props: Props) => {
               <DomainLink
                 className="domain-link"
                 domain={allUris[0].uri}
-                displayDomain={shortenDomain(allUris[0].uri, 12, 7)}
-                keepProtocol={false}
+                displayDomain={shortenDomain(
+                  stripHttpProtocol(allUris[0].uri),
+                  12,
+                  7,
+                )}
               />
               {allUris.length > 1 && (
                 <button
@@ -194,7 +198,11 @@ export const Header = (props: Props) => {
                       key={`${uriItem.uri}-${uriItem.category}-${uriItem.title}`}
                       className="links-dropdown-item"
                       domain={uriItem.uri}
-                      displayDomain={shortenDomain(uriItem.uri, 12, 7)}
+                      displayDomain={shortenDomain(
+                        stripHttpProtocol(uriItem.uri),
+                        12,
+                        7,
+                      )}
                       keepProtocol={false}
                     />
                   ))}

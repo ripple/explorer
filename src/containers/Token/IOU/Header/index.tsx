@@ -18,6 +18,7 @@ import {
   parsePercent,
   parsePrice,
 } from '../../../shared/NumberFormattingUtils'
+import { shortenDomain, stripHttpProtocol } from '../../../shared/utils'
 
 interface HeaderProps {
   currency: string
@@ -177,7 +178,11 @@ export const Header = ({
               <DomainLink
                 className="domain-link"
                 domain={tokenData.issuer_domain}
-                keepProtocol={false}
+                displayDomain={shortenDomain(
+                  stripHttpProtocol(tokenData.issuer_domain),
+                  12,
+                  7,
+                )}
               />
             </div>
           </div>
