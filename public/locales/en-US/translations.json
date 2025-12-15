@@ -757,5 +757,6 @@
   "token_type.mpt": "MPT",
   "iou_page.trustlines": "# of Trustlines",
   "mpt_page.metadata_warning": "This MPT does not have metadata, or its metadata does not follow the <a>recommended metadata standards</a>. As a result, general overview and market data will be limited.",
-  "copied": "Copied"
+  "copied": "Copied",
+  "click_to_copy": "Click to copy"
 }

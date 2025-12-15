@@ -70,7 +70,7 @@ export const GeneralOverview = ({
         {showMptIssuanceId && (
           <div className="header-box-item">
             <div className="item-name">{t('mpt_issuance_id')}</div>
-            <div className="item-value mpt-id-copyable">
+            <div className="item-value">
               <CopyableText
                 text={mptIssuanceId.toUpperCase()}
                 displayText={shortenMPTID(mptIssuanceId, 8, 6)}

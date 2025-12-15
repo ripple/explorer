@@ -762,5 +762,6 @@
   "token_type.mpt": null,
   "iou_page.trustlines": null,
   "mpt_page.metadata_warning": null,
-  "copied": null
+  "copied": null,
+  "click_to_copy": null
 }

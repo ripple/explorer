@@ -148,7 +148,7 @@ export const Header = (props: Props) => {
           {ticker ? (
             <span>{ticker.toUpperCase()}</span>
           ) : (
-            <span className="mpt-id-copyable">
+            <span className="mpt-id">
               <CopyableText
                 text={mptIssuanceId.toUpperCase()}
                 displayText={shortenMPTID(mptIssuanceId)}
