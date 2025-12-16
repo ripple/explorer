@@ -49,6 +49,10 @@ export const MAGENTA_700 = '#B20058'
 
 export const DROPS_TO_XRP_FACTOR = 1000000.0
 
+export const ONE_TENTH_BASIS_POINT = 1000
+export const ONE_TENTH_BASIS_POINT_DIGITS = 3
+export const ONE_TENTH_BASIS_POINT_CUTOFF = 0.001
+
 export const BREAKPOINTS = {
   desktop: 1200,
   landscape: 900,
@@ -354,6 +358,56 @@ export const durationToHuman = (s, decimal = 2) => {
   }
 
   return `${d.num.toFixed(decimal)} ${d.unit}`
+}
+
+/**
+ * Converts a duration in seconds to a human-readable format with multiple time units.
+ *
+ * This function breaks down a duration into its constituent time units (years, months, days,
+ * hours, minutes, seconds) and formats them in a compact, dot-separated format.
+ *
+ * @param {number} totalSeconds - The duration in seconds to convert
+ * @param {number} maxUnits - Maximum number of time units to include in the output (default: 4)
+ * @returns {string} A formatted duration string (e.g., "1d.2hr.30min.15s")
+ *
+ * @example
+ * formatDurationDetailed(3665) // Returns "1hr.1min.5s"
+ * formatDurationDetailed(90061) // Returns "1d.1hr.1min.1s"
+ * formatDurationDetailed(90061, 2) // Returns "1d.1hr" (limited to 2 units)
+ * formatDurationDetailed(0) // Returns "0s"
+ */
+export const formatDurationDetailed = (totalSeconds, maxUnits = 4) => {
+  const seconds = Math.abs(totalSeconds)
+  const units = []
+
+  // Define time units in descending order
+  const timeUnits = [
+    { name: 'yr', value: 365 * 24 * 60 * 60 },
+    { name: 'mo', value: 30.44 * 24 * 60 * 60 }, // Average month length
+    { name: 'd', value: 24 * 60 * 60 },
+    { name: 'hr', value: 60 * 60 },
+    { name: 'min', value: 60 },
+    { name: 's', value: 1 },
+  ]
+
+  let remaining = Math.floor(seconds)
+
+  for (const unit of timeUnits) {
+    if (remaining >= unit.value && units.length < maxUnits) {
+      const count = Math.floor(remaining / unit.value)
+      if (count > 0) {
+        units.push(`${count}${unit.name}`)
+        remaining -= count * unit.value
+      }
+    }
+  }
+
+  // If no units were added (e.g., 0 seconds), return "0s"
+  if (units.length === 0) {
+    return '0s'
+  }
+
+  return units.join('.')
 }
 
 export const removeRoutes = (routes, ...routesToRemove) =>

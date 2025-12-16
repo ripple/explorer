@@ -1,0 +1,31 @@
+import { useQuery } from 'react-query'
+import { createTableDetailWrapperFactory } from '../../test'
+import { TableDetail } from '../TableDetail'
+import i18n from '../../../../../../i18n/testConfigEnglish'
+import LoanSet from './mock_data/LoanSet.json'
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn(),
+}))
+
+const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
+
+describe('LoanSetTableDetail', () => {
+  it('renders with all loan details', () => {
+    // Mock useQuery to return the vault asset information
+    ;(useQuery as jest.Mock).mockReturnValue({
+      data: { currency: 'USD', issuer: 'ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7' },
+      isLoading: false,
+      error: null,
+    })
+
+    const wrapper = createWrapper(LoanSet)
+
+    expect(wrapper.find('.loan-set')).toHaveText(
+      'Loan Broker ID: 7B3AF305C92293AF3F01088298E354E7B649F963427FA4B7F5414EF1383CB80BRequest: $10.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7 from rH4absn9JcB8m943YRMNJpuR9HQs56hkr8Rates: Interest Rate 0.500%, Late Interest Rate 1.000%, Overpayment Fee 0.500%Fees: Loan Origination Fee $1.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7, Loan Service Fee $0.10 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7Terms: 12 Payment Total, Payment Interval 30d, Grace Period 7d',
+    )
+
+    wrapper.unmount()
+  })
+})

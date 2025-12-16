@@ -776,6 +776,58 @@ const getMPTHolders = (rippledSocket, mptIssuanceId, limit = 20, marker = '') =>
     return resp
   })
 
+// get Vault object by VaultID
+const getVault = (rippledSocket, vaultId) =>
+  query(rippledSocket, {
+    command: 'ledger_entry',
+    index: vaultId,
+    ledger_index: 'validated',
+  }).then((resp) => {
+    if (resp.error === 'entryNotFound') {
+      throw new Error('Vault not found', 404)
+    }
+
+    if (resp.error_message === 'invalidParams') {
+      throw new Error('invalidParams for ledger_entry', 404)
+    }
+
+    if (resp.error_message === 'lgrNotFound') {
+      throw new Error('invalid ledger index/hash', 400)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp.node
+  })
+
+// get LoanBroker object by LoanBrokerID
+const getLoanBroker = (rippledSocket, loanBrokerId) =>
+  query(rippledSocket, {
+    command: 'ledger_entry',
+    index: loanBrokerId,
+    ledger_index: 'validated',
+  }).then((resp) => {
+    if (resp.error === 'entryNotFound') {
+      throw new Error('LoanBroker not found', 404)
+    }
+
+    if (resp.error_message === 'invalidParams') {
+      throw new Error('invalidParams for ledger_entry', 404)
+    }
+
+    if (resp.error_message === 'lgrNotFound') {
+      throw new Error('invalid ledger index/hash', 400)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp.node
+  })
+
 export {
   getLedger,
   getLedgerEntry,
@@ -804,4 +856,6 @@ export {
   getMPTHolders,
   getAccountMPTs,
   getAccountLines,
+  getVault,
+  getLoanBroker,
 }

@@ -19,11 +19,11 @@ export const Ledgers = ({ paused }: { paused: boolean }) => {
     ledgers,
     paused,
   )
-  const isOnline = useIsOnline()
+  const { isOnline } = useIsOnline()
 
   return (
     <div className="ledgers">
-      {isOnline && ledgers ? (
+      {isOnline && Object.keys(ledgers).length > 0 ? (
         <>
           <Legend />
           <div className="control">
