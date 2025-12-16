@@ -4,7 +4,7 @@ import { getNFTTransactions as getNFTTxs } from './lib/rippled'
 import { formatTransaction } from './lib/utils'
 import summarize from './lib/txSummary'
 import logger from './lib/logger'
-import { ExplorerXrplClient } from '../containers/shared/SocketContext'
+import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 
 const log = logger({ name: 'NFT transactions' })
 export const getNFTTransactions = (
