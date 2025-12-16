@@ -13,16 +13,8 @@ export const CredentialIDs = ({ credentialIDs }: CredentialIDsProps) => {
   }
 
   return (
-    <>
-      {credentialIDs.map((credentialID, index) => (
-        <SimpleRow
-          key={credentialID}
-          label={index === 0 ? t('credential_ids') : ''}
-          data-testid={`credential-id-${index}`}
-        >
-          {credentialID}
-        </SimpleRow>
-      ))}
-    </>
+    <SimpleRow label={t('credential_ids')} data-testid="credential-ids">
+      {credentialIDs.join(', ')}
+    </SimpleRow>
   )
 }

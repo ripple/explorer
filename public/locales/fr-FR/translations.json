@@ -320,6 +320,8 @@
   "set_nftoken_minter_description": "Définit <0>{{account}}</0> comme le forgeur autorisé pour ce compte.",
   "deposit_auth": "Autorise <1><0>{{account}}</0></1> à envoyer des paiements vers ce compte.",
   "deposit_unauth": "Supprime l'autorisation pour <1><0>{{account}}</0></1> d'envoyer des paiements à ce compte.",
+  "deposit_auth_credentials": null,
+  "deposit_unauth_credentials": null,
   "invalid_xrpl_address": "Adresse XRPL invalide",
   "loading": "Chargement en cours",
   "get_ledger_failed": "Impossible de charger le registre",
