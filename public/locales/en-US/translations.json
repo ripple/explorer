@@ -332,6 +332,8 @@
   "set_nftoken_minter_description": "It sets <0>{{account}}</0> as the authorized minter for this account",
   "deposit_auth": "It authorizes <1><0>{{account}}</0></1> to send payments to this account",
   "deposit_unauth": "It removes the authorization for <1><0>{{account}}</0></1> to send payments to this account",
+  "deposit_auth_credentials": "It authorizes the following credentials:",
+  "deposit_unauth_credentials": "It removes the authorization for the following credentials:",
   "invalid_xrpl_address": "Invalid XRPL address",
   "loading": "Loading",
   "get_ledger_failed": "Unable to load ledger",

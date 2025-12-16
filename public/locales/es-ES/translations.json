@@ -318,6 +318,8 @@
   "set_nftoken_minter_description": "Se establece a <0>{{account}}</0> como el acuñador autorizado para esta cuenta",
   "deposit_auth": "Se autoriza a <1><0>{{account}}</0></1> a enviar pagos a esta cuenta",
   "deposit_unauth": "Se elimina la autorización a <1><0>{{account}}</0></1> para enviar pagos a esta cuenta",
+  "deposit_auth_credentials": null,
+  "deposit_unauth_credentials": null,
   "invalid_xrpl_address": "Dirección XRPL inválida",
   "loading": "Cargando",
   "get_ledger_failed": "No ha sido posible cargar el libro contable",
