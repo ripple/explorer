@@ -1,0 +1,19 @@
+@use '../../../../shared/css/variables' as *;
+
+.responsive-timestamp {
+  .desktop-timestamp {
+    display: inline;
+
+    @include for-size(phone-only) {
+      display: none;
+    }
+  }
+
+  .mobile-timestamp {
+    display: none;
+
+    @include for-size(phone-only) {
+      display: inline;
+    }
+  }
+}

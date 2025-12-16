@@ -15,7 +15,6 @@ import {
 import { getAccountMPTs, getMPTIssuance } from '../../../../rippled/lib/rippled'
 import SocketContext from '../../../shared/SocketContext'
 import {
-  localizeNumber,
   shortenAccount,
   shortenMPTID,
   convertScaledPrice,
@@ -23,6 +22,7 @@ import {
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
 import { FutureDataIcon } from '../FutureDataIcon'
+import { parseAmount } from '../../../shared/NumberFormattingUtils'
 
 const log = logger({ name: 'HeldMPTs' })
 
@@ -88,17 +88,18 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
   // Combine MPToken and MPTIssuance data
   const combinedMPTs = positiveBalanceMPTs.map((mpToken: any) => {
     const mptIssuance = mptIssuanceIdToIssuance.get(mpToken.mptIssuanceID)
+    const { parsedMPTMetadata } = mptIssuance ?? {}
 
     return {
       tokenId: mpToken.mptIssuanceID,
       balance: convertScaledPrice(
-        Number(mpToken.mptAmount).toString(16),
+        BigInt(mpToken.mptAmount),
         mptIssuance?.assetScale ?? 0,
       ),
-      ticker: mptIssuance?.metadata?.Ticker || null,
+      ticker: (parsedMPTMetadata?.ticker as string) || null,
       issuer: mptIssuance?.issuer || '',
-      issuerName: mptIssuance?.metadata?.IssuerName || null,
-      assetClass: mptIssuance?.metadata?.AssetClass || null,
+      issuerName: (parsedMPTMetadata?.issuer_name as string) || null,
+      assetClass: (parsedMPTMetadata?.asset_class as string) || null,
       transferFee: formatTransferFee(mptIssuance?.transferFee, 'MPT'),
       locked: (() => {
         if (mptIssuance?.flags?.includes('lsfMPTLocked')) {
@@ -169,7 +170,7 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
                     {shortenMPTID(token.tokenId)}
                   </RouteLink>
                 </td>
-                <td>{token.ticker ? token.ticker : <FutureDataIcon />}</td>
+                <td>{token.ticker ? token.ticker : '--'}</td>
                 <td>
                   <Account
                     account={token.issuer}
@@ -181,12 +182,12 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
                 <td>
                   <FutureDataIcon />
                 </td>
-                <td>{localizeNumber(token.balance, lang)}</td>
+                <td>{parseAmount(token.balance, 1, lang)}</td>
                 <td>
                   <FutureDataIcon />
                 </td>
                 <td>
-                  {token.assetClass ? token.assetClass : <FutureDataIcon />}
+                  {token.assetClass ? token.assetClass.toUpperCase() : '--'}
                 </td>
                 <td className="transfer-fee">{token.transferFee}%</td>
                 <td>

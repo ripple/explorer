@@ -5,7 +5,7 @@ import { useLanguage } from '../hooks'
 import { localizeNumber, convertScaledPrice } from '../utils'
 import Currency from './Currency'
 import { ExplorerAmount } from '../types'
-import { MPTIssuanceFormattedInfo } from '../Interfaces'
+import { FormattedMPTIssuance } from '../Interfaces'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { formatMPTIssuance } from '../../../rippled/lib/utils'
 import SocketContext from '../SocketContext'
@@ -68,7 +68,7 @@ export const Amount = ({
 
   // fetch MPTIssuance only if isMPT is true
   const { data: mptIssuanceData } =
-    useQuery<MPTIssuanceFormattedInfo>(
+    useQuery<FormattedMPTIssuance>(
       ['getMPTIssuanceScale', mptID],
       async () => {
         const info = await getMPTIssuance(rippledSocket, mptID)

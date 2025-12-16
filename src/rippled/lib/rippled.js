@@ -750,6 +750,32 @@ const getAccountLines = (rippledSocket, account, limit, marker = '') =>
     return resp
   })
 
+/**
+ * Fetches MPT holders using the mpt_holders Clio method
+ * @see https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/clio-methods/mpt_holders
+ */
+const getMPTHolders = (rippledSocket, mptIssuanceId, limit = 20, marker = '') =>
+  queryP2P(rippledSocket, {
+    command: 'mpt_holders',
+    mpt_issuance_id: mptIssuanceId,
+    limit,
+    marker: marker || undefined,
+  }).then((resp) => {
+    if (resp.error === 'objectNotFound') {
+      throw new Error('MPT Issuance not found', 404)
+    }
+
+    if (resp.error === 'invalidParams') {
+      throw new Error(resp.error_message, 400)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
+  })
+
 // get Vault object by VaultID
 const getVault = (rippledSocket, vaultId) =>
   query(rippledSocket, {
@@ -827,6 +853,7 @@ export {
   getAMMInfoByAMMAccount,
   getFeature,
   getMPTIssuance,
+  getMPTHolders,
   getAccountMPTs,
   getAccountLines,
   getVault,
