@@ -18,7 +18,7 @@ export const Metadata = ({
         {isString ? (
           <div className="metadata-string">{decodedMPTMetadata}</div>
         ) : (
-          <JsonView data={decodedMPTMetadata} showExpandButton />
+          <JsonView data={decodedMPTMetadata} showExpandButton showBackground />
         )}
       </div>
     </div>
