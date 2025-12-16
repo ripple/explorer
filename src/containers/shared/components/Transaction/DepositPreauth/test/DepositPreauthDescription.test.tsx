@@ -31,9 +31,9 @@ describe('DepositPreauth: Description', () => {
     const wrapper = createWrapper(mockDepositPreauthAuthorizeCredentials)
     const html = wrapper.html()
     expect(html).toContain('It authorizes the following credentials:')
-    expect(html).toContain('4B5943')
+    expect(html).toContain('KYC')
     expect(html).toContain('rISABEL')
-    expect(html).toContain('4944')
+    expect(html).toContain('ID')
     expect(html).toContain('rTRUSTED')
     wrapper.unmount()
   })
@@ -44,7 +44,7 @@ describe('DepositPreauth: Description', () => {
     expect(html).toContain(
       'It removes the authorization for the following credentials:',
     )
-    expect(html).toContain('4B5943')
+    expect(html).toContain('KYC')
     expect(html).toContain('rISABEL')
     wrapper.unmount()
   })
