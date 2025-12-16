@@ -328,7 +328,7 @@ describe('NumberFormattingUtils', () => {
       expect(parsePercent(-5.67)).toBe('-5.67%')
     })
 
-    it('handles very small percentages (< 0.01%)', () => {
+    it('handles very small percentages (< 0.01%) with default cutoff', () => {
       expect(parsePercent(0.005)).toBe('0.00%')
       expect(parsePercent(0.009)).toBe('0.00%')
       expect(parsePercent(-0.005)).toBe('0.00%')
@@ -342,6 +342,21 @@ describe('NumberFormattingUtils', () => {
 
     it('handles zero', () => {
       expect(parsePercent(0)).toBe('0.00%')
+    })
+
+    it('handles custom cutoff for very small percentages', () => {
+      expect(parsePercent(0.0001, 4, 0.0001)).toBe('0.0001%')
+      expect(parsePercent(0.0005, 4, 0.0001)).toBe('0.0005%')
+      expect(parsePercent(0.001, 4, 0.0001)).toBe('0.0010%')
+      expect(parsePercent(0.005, 4, 0.0001)).toBe('0.0050%')
+      expect(parsePercent(0.00005, 4, 0.0001)).toBe('0.0000%')
+      expect(parsePercent(0.00009, 4, 0.0001)).toBe('0.0000%')
+    })
+
+    it('handles custom digits parameter', () => {
+      expect(parsePercent(12.3456, 4)).toBe('12.3456%')
+      expect(parsePercent(12.3456, 1)).toBe('12.3%')
+      expect(parsePercent(12.3456, 0)).toBe('12%')
     })
   })
 })

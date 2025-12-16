@@ -750,6 +750,84 @@ const getAccountLines = (rippledSocket, account, limit, marker = '') =>
     return resp
   })
 
+/**
+ * Fetches MPT holders using the mpt_holders Clio method
+ * @see https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/clio-methods/mpt_holders
+ */
+const getMPTHolders = (rippledSocket, mptIssuanceId, limit = 20, marker = '') =>
+  queryP2P(rippledSocket, {
+    command: 'mpt_holders',
+    mpt_issuance_id: mptIssuanceId,
+    limit,
+    marker: marker || undefined,
+  }).then((resp) => {
+    if (resp.error === 'objectNotFound') {
+      throw new Error('MPT Issuance not found', 404)
+    }
+
+    if (resp.error === 'invalidParams') {
+      throw new Error(resp.error_message, 400)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp
+  })
+
+// get Vault object by VaultID
+const getVault = (rippledSocket, vaultId) =>
+  query(rippledSocket, {
+    command: 'ledger_entry',
+    index: vaultId,
+    ledger_index: 'validated',
+  }).then((resp) => {
+    if (resp.error === 'entryNotFound') {
+      throw new Error('Vault not found', 404)
+    }
+
+    if (resp.error_message === 'invalidParams') {
+      throw new Error('invalidParams for ledger_entry', 404)
+    }
+
+    if (resp.error_message === 'lgrNotFound') {
+      throw new Error('invalid ledger index/hash', 400)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp.node
+  })
+
+// get LoanBroker object by LoanBrokerID
+const getLoanBroker = (rippledSocket, loanBrokerId) =>
+  query(rippledSocket, {
+    command: 'ledger_entry',
+    index: loanBrokerId,
+    ledger_index: 'validated',
+  }).then((resp) => {
+    if (resp.error === 'entryNotFound') {
+      throw new Error('LoanBroker not found', 404)
+    }
+
+    if (resp.error_message === 'invalidParams') {
+      throw new Error('invalidParams for ledger_entry', 404)
+    }
+
+    if (resp.error_message === 'lgrNotFound') {
+      throw new Error('invalid ledger index/hash', 400)
+    }
+
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    return resp.node
+  })
+
 export {
   getLedger,
   getLedgerEntry,
@@ -775,6 +853,9 @@ export {
   getAMMInfoByAMMAccount,
   getFeature,
   getMPTIssuance,
+  getMPTHolders,
   getAccountMPTs,
   getAccountLines,
+  getVault,
+  getLoanBroker,
 }
