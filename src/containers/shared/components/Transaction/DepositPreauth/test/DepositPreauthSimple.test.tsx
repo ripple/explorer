@@ -37,7 +37,7 @@ describe('DepositPreauth: Simple', () => {
 
     // Check that SimpleGroup is rendered
     expect(wrapper.find('.group')).toHaveLength(2)
-    expect(wrapper.find('.group-title')).toHaveLength(1)
+    expect(wrapper.find('.groups-title')).toHaveLength(1)
 
     // Check first credential
     expectSimpleRowText(wrapper, 'credential-issuer-0', 'rISABEL......')
