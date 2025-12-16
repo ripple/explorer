@@ -283,17 +283,23 @@ export const parsePrice = (
 }
 
 /**
- * Formats percentage values with % suffix and 2 decimal places
- * Returns "0.00%" for deviations less than 0.01%
+ * Formats percentage values with % suffix and configurable decimal places and cutoff
+ *
  * @param percent - The percentage value to format
+ * @param digits - Number of decimal places to display (default: 2)
+ * @param cutoff - Minimum percentage value to display (default: 0.01 for 0.01%)
  * @returns Formatted percentage string with % suffix
  */
-export const parsePercent = (percent: number, digits = 2): string => {
-  // Handle very small percentages
-  if (Math.abs(percent) < 0.01) {
-    return '0.00%'
+export const parsePercent = (
+  percent: number,
+  digits = 2,
+  cutoff = 0.01,
+): string => {
+  // Handle very small percentages below the cutoff
+  if (Math.abs(percent) < cutoff) {
+    return `${(0.0).toFixed(digits)}%`
   }
 
-  // Use 2 decimal places for percentages
+  // Use specified decimal places for percentages
   return `${percent.toFixed(digits)}%`
 }

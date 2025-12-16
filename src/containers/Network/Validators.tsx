@@ -36,42 +36,30 @@ export const ValidatorsData = () => {
   const [feeSettings, setFeeSettings] = useState<FeeSettings>()
 
   const merged = useMemo(() => {
+    const fromVHS = validatorsFromVHS ?? {}
+    const fromStream = validatorsFromValidations ?? {}
+
     if (
-      !validatorsFromVHS ||
-      !(
-        validatorsFromValidations &&
-        Object.keys(validatorsFromValidations).length
-      )
+      Object.keys(fromVHS).length === 0 &&
+      Object.keys(fromStream).length === 0
     ) {
       return []
     }
 
     const updated: Record<string, StreamValidator> = {}
-    const keys = new Set(
-      Object.keys(validatorsFromVHS).concat(
-        Object.keys(validatorsFromValidations),
-      ),
-    )
+    const keys = new Set(Object.keys(fromVHS).concat(Object.keys(fromStream)))
     keys.forEach((d: string) => {
-      const newData: StreamValidator =
-        validatorsFromVHS[d] || validatorsFromValidations[d]
+      const newData: StreamValidator = fromVHS[d] ?? fromStream[d]
       if (
         newData.ledger_index == null &&
-        validatorsFromValidations[d] &&
-        validatorsFromValidations[d].ledger_index
+        fromStream[d] &&
+        fromStream[d].ledger_index
       ) {
         // VHS uses `current_index` instead of `ledger_index`
         // If `ledger_index` isn't defined, then we're still using the VHS data,
         // instead of the Streams data
-        newData.ledger_index = validatorsFromValidations[d].ledger_index
-      }
-      if (newData.current_index == null) {
-        newData.signing_key = validatorsFromValidations[d].signing_key
-      }
-      // latest hash and time comes from the validations stream
-      if (validatorsFromValidations[d]) {
-        newData.time = validatorsFromValidations[d].time
-        newData.ledger_hash = validatorsFromValidations[d].ledger_hash
+        newData.ledger_index = fromStream[d].ledger_index
+        newData.ledger_hash = fromStream[d].ledger_hash
       }
 
       updated[d] = newData
