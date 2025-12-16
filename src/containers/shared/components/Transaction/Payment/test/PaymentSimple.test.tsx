@@ -177,21 +177,13 @@ describe('Payment: Simple', () => {
       `rHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
     )
 
-    // Check first credential ID
+    // Check credential IDs as comma-separated list
     expectSimpleRowText(
       wrapper,
-      'credential-id-0',
-      '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955',
+      'credential-ids',
+      '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955, 8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
     )
-    expectSimpleRowLabel(wrapper, 'credential-id-0', 'credential_ids')
-
-    // Check second credential ID (should have empty label)
-    expectSimpleRowText(
-      wrapper,
-      'credential-id-1',
-      '8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
-    )
-    expectSimpleRowLabel(wrapper, 'credential-id-1', '')
+    expectSimpleRowLabel(wrapper, 'credential-ids', 'credential_ids')
 
     wrapper.unmount()
   })
