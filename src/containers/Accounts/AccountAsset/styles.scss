@@ -115,8 +115,8 @@
 }
 
 .account-asset-table-wrapper-fixed .account-asset-table {
-  overflow: auto;               /* Vertical scroll when overflowing, keep horizontal if needed */
-  max-height: 255px;            /* Fixed viewport height for the table area */
+  overflow: auto; /* Vertical scroll when overflowing, keep horizontal if needed */
+  max-height: 255px; /* Fixed viewport height for the table area */
   background: transparent;
   -webkit-overflow-scrolling: touch;
 
@@ -161,7 +161,10 @@
   z-index: 2;
   top: 0;
   padding: 10px 12px;
-  backdrop-filter: blur(100px); /* As table rows scroll under the header, they appear blurred behind it */
+  backdrop-filter: blur(
+    100px
+  ); /* As table rows scroll under the header, they appear blurred behind it */
+
   color: $black-50;
   font-size: 12px;
   text-align: left;

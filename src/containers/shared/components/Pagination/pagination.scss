@@ -1,9 +1,8 @@
 @use '../../css/variables.scss' as *;
 
-
 .pagination {
   display: flex;
-  align-items: center;     /* vertical centering (optional) */
+  align-items: center; /* vertical centering (optional) */
   justify-content: center; /* horizontal centering */
   margin: 24px 0;
   color: $black-50;

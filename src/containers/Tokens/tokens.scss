@@ -13,7 +13,6 @@
     @extend %truncate;
   }
 
-
   .metrics-wrapper {
     padding: 16px 16px 4px;
     border: 1px solid $black-60;
@@ -46,7 +45,6 @@
       .val {
         @include bold;
       }
-
     }
   }
 
@@ -85,7 +83,6 @@
       }
     }
   }
-
 
   .issuer {
     max-width: 140px;
@@ -138,7 +135,6 @@
     &.decrease {
       color: $orange-50;
     }
-
   }
 
   .filter {
@@ -227,7 +223,7 @@
     padding-right: 24px;
     padding-left: 24px;
 
-    .metrics-wrapper{
+    .metrics-wrapper {
       display: flex;
       flex-wrap: wrap;
       padding: 0;
@@ -250,7 +246,6 @@
     table.basic {
       font-size: 14px;
     }
-
 
     .type {
       margin-left: 0;

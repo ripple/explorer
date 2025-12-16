@@ -1,0 +1,23 @@
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-illegal-windows-names
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-yaml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: forbid-submodules
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: 5ba47274f9b181bce26a5150a725577f3c336011 # frozen: v3.6.2
+    hooks:
+      - id: prettier
+        args: [--no-semi]
