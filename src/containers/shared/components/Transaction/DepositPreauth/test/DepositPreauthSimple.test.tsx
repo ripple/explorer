@@ -36,7 +36,7 @@ describe('DepositPreauth: Simple', () => {
     const wrapper = createWrapper(mockDepositPreauthAuthorizeCredentials)
 
     // Check that SimpleGroup is rendered
-    expect(wrapper.find('.group')).toHaveLength(1)
+    expect(wrapper.find('.group')).toHaveLength(2)
     expect(wrapper.find('.group-title')).toHaveLength(1)
 
     // Check first credential
@@ -59,7 +59,7 @@ describe('DepositPreauth: Simple', () => {
 
     // Check that SimpleGroup is rendered
     expect(wrapper.find('.group')).toHaveLength(1)
-    expect(wrapper.find('.group-title')).toHaveLength(1)
+    expect(wrapper.find('.groups-title')).toHaveLength(1)
 
     expectSimpleRowText(wrapper, 'credential-issuer-0', 'rISABEL......')
     expectSimpleRowLabel(wrapper, 'credential-issuer-0', 'credential_issuer')
