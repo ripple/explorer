@@ -557,3 +557,30 @@ export const shortenMPTID = (
 
 export const shortenTxHash = (txHash = '') =>
   txHash.length > 12 ? `${txHash.slice(0, 6)}...${txHash.slice(-6)}` : txHash
+
+/**
+ * Converts URLs to HTTP/HTTPS format, handling IPFS URLs and plain domains
+ * @param {string} url - The URL to convert (can be ipfs://, https://, http://, or plain domain)
+ * @returns {string} The converted HTTP/HTTPS URL
+ */
+export const convertToHttpURL = (url) => {
+  if (!url) {
+    return url
+  }
+
+  // Handle IPFS URLs - convert to HTTP
+  if (url.startsWith('ipfs://')) {
+    return url.replace('ipfs://', 'https://ipfs.io/ipfs/')
+  }
+
+  // Matches a protocol (e.g. 'http://' or 'https://') at the start of a string
+  const PROTOCOL_REGEX = /^([a-z][a-z0-9+\-.]*):\/\//
+
+  // If URL already has a protocol, return as is
+  if (PROTOCOL_REGEX.test(url)) {
+    return url
+  }
+
+  // Otherwise, assume it's a plain domain and add https://
+  return `https://${url}`
+}
