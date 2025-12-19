@@ -115,6 +115,21 @@ describe('MPT Header component', () => {
     wrapper.unmount()
   })
 
+  it('displays logo URL without protocol by prefixing https', () => {
+    const dataWithNoProtocolUrl = {
+      ...mockMPTData,
+      parsedMPTMetadata: {
+        ...mockMPTData.parsedMPTMetadata,
+        icon: 'example.com/logo.png',
+      },
+    }
+    const wrapper = createWrapper({ data: dataWithNoProtocolUrl })
+    const logo = wrapper.find('img.token-logo')
+    expect(logo.length).toBe(1)
+    expect(logo.prop('src')).toBe('https://example.com/logo.png')
+    wrapper.unmount()
+  })
+
   it('displays default logo when no icon', () => {
     const wrapper = createWrapper({ data: mockMPTDataNoMetadata })
     expect(wrapper.find('.token-logo.no-logo').length).toBeGreaterThanOrEqual(1)
