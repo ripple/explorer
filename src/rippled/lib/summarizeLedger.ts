@@ -2,9 +2,21 @@ import summarizeTransaction from './txSummary'
 import { convertRippleDate } from './convertRippleDate'
 import { formatTransaction, XRP_BASE } from './utils'
 
-const summarizeLedger = (ledger, txDetails = false) => {
-  const summary = {
+interface LedgerSummary {
+  ledger_index: number
+  ledger_time: number
+  ledger_hash: string
+  parent_hash: string
+  close_time: number
+  total_xrp: number
+  total_fees: number
+  transactions: any[]
+}
+
+const summarizeLedger = (ledger, txDetails: boolean = false) => {
+  const summary: LedgerSummary = {
     ledger_index: Number(ledger.ledger_index),
+    ledger_time: ledger.close_time,
     ledger_hash: ledger.ledger_hash,
     parent_hash: ledger.parent_hash,
     close_time: convertRippleDate(ledger.close_time),

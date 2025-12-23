@@ -21,7 +21,7 @@ describe('NFTokenMint', () => {
       <I18nextProvider i18n={i18n}>
         <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <NFTokenMint
-            data={summarizeTransaction(transactionModified2, true).details}
+            data={summarizeTransaction(transactionModified2, true).details!}
           />
         </Router>
       </I18nextProvider>,
@@ -45,7 +45,7 @@ describe('NFTokenMint', () => {
         <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <NFTokenMint
             data={
-              summarizeTransaction(transactionModified1Created1, true).details
+              summarizeTransaction(transactionModified1Created1, true).details!
             }
           />
         </Router>
@@ -70,7 +70,7 @@ describe('NFTokenMint', () => {
         <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <NFTokenMint
             data={
-              summarizeTransaction(transactionModified2Created1, true).details
+              summarizeTransaction(transactionModified2Created1, true).details!
             }
           />
         </Router>
@@ -94,7 +94,7 @@ describe('NFTokenMint', () => {
       <I18nextProvider i18n={i18n}>
         <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <NFTokenMint
-            data={summarizeTransaction(transactionWithIssuer, true).details}
+            data={summarizeTransaction(transactionWithIssuer, true).details!}
           />
         </Router>
       </I18nextProvider>,
@@ -127,7 +127,7 @@ describe('NFTokenMint', () => {
         <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <NFTokenMint
             data={
-              summarizeTransaction(transactionModified4Created1, true).details
+              summarizeTransaction(transactionModified4Created1, true).details!
             }
           />
         </Router>
@@ -155,7 +155,7 @@ describe('NFTokenMint', () => {
       <I18nextProvider i18n={i18n}>
         <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <NFTokenMint
-            data={summarizeTransaction(transactionNullURI, true).details}
+            data={summarizeTransaction(transactionNullURI, true).details!}
           />
         </Router>
       </I18nextProvider>,
@@ -170,7 +170,7 @@ describe('NFTokenMint', () => {
       <I18nextProvider i18n={i18n}>
         <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <NFTokenMint
-            data={summarizeTransaction(transactionFailed, true).details}
+            data={summarizeTransaction(transactionFailed, true).details!}
           />
         </Router>
       </I18nextProvider>,

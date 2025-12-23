@@ -15,7 +15,7 @@ describe('NFTokenCancelOffer', () => {
         <I18nextProvider i18n={i18n}>
           <Router>
             <NFTokenCancelOffer
-              data={summarizeTransaction(transaction, true).details}
+              data={summarizeTransaction(transaction, true).details!}
             />
           </Router>
         </I18nextProvider>

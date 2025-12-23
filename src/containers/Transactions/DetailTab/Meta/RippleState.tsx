@@ -4,8 +4,9 @@ import {
   localizeNumber,
   computeRippleStateBalanceChange,
 } from '../../../shared/utils'
+import type { MetaRenderFunction } from './types'
 
-const render = (t, language, action, node, index) => {
+const render: MetaRenderFunction = (_t, language, action, node, index) => {
   const {
     change,
     numberOption,

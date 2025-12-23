@@ -1,3 +1,6 @@
+import type { XrplClient } from 'xrpl-client'
+
+import type { ExplorerXrplClient } from '../../containers/shared/SocketContext'
 import { CTID_REGEX, HASH256_REGEX } from '../../containers/shared/utils'
 import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
@@ -5,7 +8,7 @@ import { Error, XRP_BASE, convertRippleDate } from './utils'
 const N_UNL_INDEX =
   '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244'
 
-const formatEscrow = (d) => ({
+const formatEscrow = (d: any) => ({
   id: d.index,
   account: d.Account,
   destination: d.Destination,
@@ -15,7 +18,7 @@ const formatEscrow = (d) => ({
   finishAfter: d.FinishAfter ? convertRippleDate(d.FinishAfter) : undefined,
 })
 
-const formatPaychannel = (d) => ({
+const formatPaychannel = (d: any) => ({
   id: d.index,
   account: d.Account,
   destination: d.Destination,
@@ -24,30 +27,39 @@ const formatPaychannel = (d) => ({
   settleDelay: d.SettleDelay,
 })
 
-const executeQuery = async (rippledSocket, params) =>
-  rippledSocket.send(params).catch((error) => {
+const executeQuery = async (
+  rippledSocket: XrplClient,
+  params: any,
+): Promise<any> =>
+  rippledSocket.send(params).catch((error: any) => {
     const message =
       error.response && error.response.error_message
         ? error.response.error_message
         : error.toString()
     const code =
       error.response && error.response.status ? error.response.status : 500
-    throw new Error(`URL: ${rippledSocket.endpoint} - ${message}`, code)
+    throw new Error(message, code)
   })
 
 // generic RPC query
-function query(rippledSocket, options) {
+function query(rippledSocket: ExplorerXrplClient, options: any): Promise<any> {
   return executeQuery(rippledSocket, options)
 }
 
 // If there is a separate peer to peer (not reporting mode) server for admin requests, use it.
 // Otherwise use the default rippledSocket for everything.
-function queryP2P(rippledSocket, options) {
+function queryP2P(
+  rippledSocket: ExplorerXrplClient,
+  options: any,
+): Promise<any> {
   return executeQuery(rippledSocket.p2pSocket ?? rippledSocket, options)
 }
 
 // get ledger
-const getLedger = (rippledSocket, parameters) => {
+const getLedger = (
+  rippledSocket: ExplorerXrplClient,
+  parameters: any,
+): Promise<any> => {
   const request = {
     command: 'ledger',
     ...parameters,
@@ -79,7 +91,10 @@ const getLedger = (rippledSocket, parameters) => {
 }
 
 // get ledger_entry
-const getLedgerEntry = (rippledSocket, { index }) => {
+const getLedgerEntry = (
+  rippledSocket: ExplorerXrplClient,
+  { index }: { index: string },
+): Promise<any> => {
   const request = {
     command: 'ledger_entry',
     index,
@@ -143,8 +158,11 @@ const getLedgerEntry = (rippledSocket, { index }) => {
 }
 
 // get transaction
-const getTransaction = (rippledSocket, txId) => {
-  const params = {
+const getTransaction = (
+  rippledSocket: ExplorerXrplClient,
+  txId: string,
+): Promise<any> => {
+  const params: any = {
     command: 'tx',
   }
   if (HASH256_REGEX.test(txId)) {
@@ -181,7 +199,11 @@ const getTransaction = (rippledSocket, txId) => {
   })
 }
 
-const getAccountInfo = (rippledSocket, account, includeSignerLists = true) =>
+const getAccountInfo = (
+  rippledSocket: ExplorerXrplClient,
+  account: string | unknown,
+  includeSignerLists: boolean = true,
+): Promise<any> =>
   query(rippledSocket, {
     command: 'account_info',
     api_version: 1,
@@ -203,7 +225,11 @@ const getAccountInfo = (rippledSocket, account, includeSignerLists = true) =>
   })
 
 // get account escrows
-const getAccountEscrows = (rippledSocket, account, ledgerIndex = 'validated') =>
+const getAccountEscrows = (
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  ledgerIndex: string | number = 'validated',
+): Promise<any> =>
   query(rippledSocket, {
     command: 'account_objects',
     account,
@@ -223,8 +249,8 @@ const getAccountEscrows = (rippledSocket, account, ledgerIndex = 'validated') =>
       return undefined
     }
 
-    const escrows = { in: [], out: [], total: 0, totalIn: 0, totalOut: 0 }
-    resp.account_objects.forEach((d) => {
+    const escrows: any = { in: [], out: [], total: 0, totalIn: 0, totalOut: 0 }
+    resp.account_objects.forEach((d: any) => {
       const amount = Number(d.Amount)
       escrows.total += amount
       if (account === d.Destination) {
@@ -244,13 +270,13 @@ const getAccountEscrows = (rippledSocket, account, ledgerIndex = 'validated') =>
 
 // get account paychannels
 const getAccountPaychannels = async (
-  rippledSocket,
-  account,
-  ledgerIndex = 'validated',
-) => {
-  const list = []
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  ledgerIndex: string | number = 'validated',
+): Promise<any> => {
+  const list: any[] = []
   let remaining = 0
-  const getChannels = (marker) =>
+  const getChannels = (marker?: any): Promise<any> =>
     query(rippledSocket, {
       command: 'account_objects',
       marker,
@@ -296,7 +322,11 @@ const getAccountPaychannels = async (
 }
 
 // get account escrows
-const getAccountBridges = (rippledSocket, account, ledgerIndex = 'validated') =>
+const getAccountBridges = (
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  ledgerIndex: string | number = 'validated',
+): Promise<any> =>
   query(rippledSocket, {
     command: 'account_objects',
     account,
@@ -322,7 +352,7 @@ const getAccountBridges = (rippledSocket, account, ledgerIndex = 'validated') =>
     }
 
     if (resp.account_objects.length >= 1) {
-      return resp.account_objects.map((bridge) => ({
+      return resp.account_objects.map((bridge: any) => ({
         lockingChainDoor: bridge.XChainBridge.LockingChainDoor,
         lockingChainIssue: bridge.XChainBridge.LockingChainIssue,
         issuingChainDoor: bridge.XChainBridge.IssuingChainDoor,
@@ -339,7 +369,11 @@ const getAccountBridges = (rippledSocket, account, ledgerIndex = 'validated') =>
   })
 
 // get Token balance summary
-const getBalances = (rippledSocket, account, ledgerIndex = 'validated') =>
+const getBalances = (
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  ledgerIndex: string | number = 'validated',
+): Promise<any> =>
   queryP2P(rippledSocket, {
     command: 'gateway_balances',
     account,
@@ -356,11 +390,11 @@ const getBalances = (rippledSocket, account, ledgerIndex = 'validated') =>
   })
 
 const getAccountTransactions = (
-  rippledSocket,
-  account,
-  limit = 20,
-  marker = '',
-) => {
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  limit: number = 20,
+  marker: string = '',
+): Promise<any> => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
   const seq = parseInt(markerComponents[1], 10)
@@ -393,7 +427,12 @@ const getAccountTransactions = (
   })
 }
 
-const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) =>
+const getAccountNFTs = (
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  marker: string = '',
+  limit: number = 20,
+): Promise<any> =>
   query(rippledSocket, {
     command: 'account_nfts',
     account,
@@ -412,11 +451,11 @@ const getAccountNFTs = (rippledSocket, account, marker = '', limit = 20) =>
   })
 
 const getNFTsIssuedByAccount = (
-  rippledSocket,
-  issuer,
-  marker = '',
-  limit = 20,
-) =>
+  rippledSocket: ExplorerXrplClient,
+  issuer: string,
+  marker: string = '',
+  limit: number = 20,
+): Promise<any> =>
   query(rippledSocket, {
     command: 'nfts_by_issuer',
     issuer,
@@ -434,7 +473,10 @@ const getNFTsIssuedByAccount = (
     return resp
   })
 
-const getNFTInfo = (rippledSocket, tokenId) =>
+const getNFTInfo = (
+  rippledSocket: ExplorerXrplClient,
+  tokenId: string,
+): Promise<any> =>
   queryP2P(rippledSocket, {
     command: 'nft_info',
     api_version: 2,
@@ -450,14 +492,14 @@ const getNFTInfo = (rippledSocket, tokenId) =>
   })
 
 const getNFToffers = async (
-  offerCmd,
-  rippledSocket,
-  tokenId,
-  limit = 50,
-  marker = '',
-) => {
-  const allOffers = []
-  let currentMarker = marker
+  offerCmd: string,
+  rippledSocket: ExplorerXrplClient,
+  tokenId: string,
+  limit: number = 50,
+  marker: string = '',
+): Promise<any> => {
+  const allOffers: any[] = []
+  let currentMarker: string | undefined = marker
 
   do {
     // eslint-disable-next-line no-await-in-loop
@@ -484,19 +526,29 @@ const getNFToffers = async (
   return { offers: allOffers }
 }
 
-const getBuyNFToffers = (rippledSocket, tokenId, limit = 50, marker = '') =>
+const getBuyNFToffers = (
+  rippledSocket: ExplorerXrplClient,
+  tokenId: string,
+  limit: number = 50,
+  marker: string = '',
+): Promise<any> =>
   getNFToffers('nft_buy_offers', rippledSocket, tokenId, limit, marker)
 
-const getSellNFToffers = (rippledSocket, tokenId, limit = 50, marker = '') =>
+const getSellNFToffers = (
+  rippledSocket: ExplorerXrplClient,
+  tokenId: string,
+  limit: number = 50,
+  marker: string = '',
+): Promise<any> =>
   getNFToffers('nft_sell_offers', rippledSocket, tokenId, limit, marker)
 
 const getNFTTransactions = (
-  rippledSocket,
-  tokenId,
-  limit = 20,
-  marker = '',
-  forward = false,
-) => {
+  rippledSocket: ExplorerXrplClient,
+  tokenId: string,
+  limit: number = 20,
+  marker: string = '',
+  forward: boolean = false,
+): Promise<any> => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
   const seq = parseInt(markerComponents[1], 10)
@@ -527,7 +579,7 @@ const getNFTTransactions = (
   })
 }
 
-const getNegativeUNL = (rippledSocket) =>
+const getNegativeUNL = (rippledSocket: ExplorerXrplClient): Promise<any> =>
   query(rippledSocket, {
     command: 'ledger_entry',
     index: N_UNL_INDEX,
@@ -548,7 +600,7 @@ const getNegativeUNL = (rippledSocket) =>
   })
 
 // get server info
-const getServerInfo = (rippledSocket) =>
+const getServerInfo = (rippledSocket: ExplorerXrplClient): Promise<any> =>
   query(rippledSocket, {
     command: 'server_info',
   }).then((resp) => {
@@ -560,7 +612,7 @@ const getServerInfo = (rippledSocket) =>
   })
 
 // gets server state
-const getServerState = (rippledSocket) =>
+const getServerState = (rippledSocket: ExplorerXrplClient): Promise<any> =>
   query(rippledSocket, {
     command: 'server_state',
   }).then((resp) => {
@@ -572,12 +624,12 @@ const getServerState = (rippledSocket) =>
   })
 
 const getOffers = (
-  rippledSocket,
-  currencyCode,
-  issuerAddress,
-  pairCurrencyCode,
-  pairIssuerAddress,
-) =>
+  rippledSocket: ExplorerXrplClient,
+  currencyCode: string,
+  issuerAddress: string,
+  pairCurrencyCode: string,
+  pairIssuerAddress: string,
+): Promise<any> =>
   query(rippledSocket, {
     command: 'book_offers',
     taker_gets: {
@@ -600,7 +652,10 @@ const getOffers = (
     return resp
   })
 
-const getAMMInfo = (rippledSocket, params) => {
+const getAMMInfo = (
+  rippledSocket: ExplorerXrplClient,
+  params: any,
+): Promise<any> => {
   const request = {
     command: 'amm_info',
     ledger_index: 'validated',
@@ -609,12 +664,13 @@ const getAMMInfo = (rippledSocket, params) => {
 
   return query(rippledSocket, request).then((resp) => {
     if (resp.error_message) {
-      throw new Error(resp.error_message)
+      throw new Error(resp.error_message, 500)
     }
 
     if (!resp.validated) {
       throw new Error(
         'Ledger is not validated. The response data is pending and might change',
+        500,
       )
     }
 
@@ -622,14 +678,22 @@ const getAMMInfo = (rippledSocket, params) => {
   })
 }
 
-const getAMMInfoByAssets = (rippledSocket, asset, asset2) =>
-  getAMMInfo(rippledSocket, { asset, asset2 })
+const getAMMInfoByAssets = (
+  rippledSocket: ExplorerXrplClient,
+  asset: any,
+  asset2: any,
+): Promise<any> => getAMMInfo(rippledSocket, { asset, asset2 })
 
-const getAMMInfoByAMMAccount = (rippledSocket, ammAccount) =>
-  getAMMInfo(rippledSocket, { amm_account: ammAccount })
+const getAMMInfoByAMMAccount = (
+  rippledSocket: ExplorerXrplClient,
+  ammAccount: string,
+): Promise<any> => getAMMInfo(rippledSocket, { amm_account: ammAccount })
 
 // get feature
-const getFeature = (rippledSocket, amendmentId) => {
+const getFeature = (
+  rippledSocket: ExplorerXrplClient,
+  amendmentId: string,
+): Promise<any> => {
   const request = {
     command: 'feature',
     feature: amendmentId,
@@ -643,7 +707,10 @@ const getFeature = (rippledSocket, amendmentId) => {
   })
 }
 
-const getMPTIssuance = (rippledSocket, tokenId) =>
+const getMPTIssuance = (
+  rippledSocket: ExplorerXrplClient,
+  tokenId: string | null,
+): Promise<any> =>
   queryP2P(rippledSocket, {
     command: 'ledger_entry',
     mpt_issuance: tokenId,
@@ -666,12 +733,12 @@ const getMPTIssuance = (rippledSocket, tokenId) =>
   })
 
 const getAccountMPTs = (
-  rippledSocket,
-  account,
-  marker = '',
-  ledgerIndex = 'validated',
-  limit = 400,
-) =>
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  marker: string = '',
+  ledgerIndex: string | number = 'validated',
+  limit: number = 400,
+): Promise<any> =>
   query(rippledSocket, {
     command: 'account_objects',
     account,
@@ -697,13 +764,13 @@ const getAccountMPTs = (
   })
 
 const getAccountObjects = (
-  rippledSocket,
-  account,
-  objectType,
-  marker = '',
-  ledgerIndex = 'validated',
-  limit = 400,
-) =>
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  objectType: string,
+  marker: string = '',
+  ledgerIndex: string | number = 'validated',
+  limit: number = 400,
+): Promise<any> =>
   query(rippledSocket, {
     command: 'account_objects',
     account,
@@ -728,7 +795,12 @@ const getAccountObjects = (
     return resp
   })
 
-const getAccountLines = (rippledSocket, account, limit, marker = '') =>
+const getAccountLines = (
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  limit: number,
+  marker: string = '',
+): Promise<any> =>
   query(rippledSocket, {
     command: 'account_lines',
     account,

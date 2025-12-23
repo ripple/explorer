@@ -1,8 +1,9 @@
 import { hexToString, hexToBytes } from '@xrplf/isomorphic/utils'
 import { encodeAccountID } from 'ripple-address-codec'
+
+import { decodeHex } from '../../containers/shared/transactionUtils'
 import { convertRippleDate } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
-import { decodeHex } from '../../containers/shared/transactionUtils'
 import {
   isMPTokenMetadataCompliant as isMPTMetadataCompliant,
   parseMPTokenMetadata as parseMPTMetadata,
@@ -12,7 +13,9 @@ const XRP_BASE = 1000000
 const THOUSAND = 1000
 const BILLION = 1000000000
 
-export const ACCOUNT_FLAGS = {
+type FlagMap = Record<number, string>
+
+export const ACCOUNT_FLAGS: FlagMap = {
   0x00010000: 'lsfPasswordSpent',
   0x00020000: 'lsfRequireDestTag',
   0x00040000: 'lsfRequireAuth',
@@ -29,12 +32,12 @@ export const ACCOUNT_FLAGS = {
   0x80000000: 'lsfAllowTrustLineClawback',
   0x40000000: 'lsfAllowTrustLineLocking',
 }
-const NFT_FLAGS = {
+const NFT_FLAGS: FlagMap = {
   0x00000001: 'lsfBurnable',
   0x00000002: 'lsfOnlyXRP',
   0x00000008: 'lsfTransferable',
 }
-const MPT_ISSUANCE_FLAGS = {
+const MPT_ISSUANCE_FLAGS: FlagMap = {
   0x00000001: 'lsfMPTLocked',
   0x00000002: 'lsfMPTCanLock',
   0x00000004: 'lsfMPTRequireAuth',
@@ -43,17 +46,21 @@ const MPT_ISSUANCE_FLAGS = {
   0x00000020: 'lsfMPTCanTransfer',
   0x00000040: 'lsfMPTCanClawback',
 }
-const MPTOKEN_FLAGS = {
+const MPTOKEN_FLAGS: FlagMap = {
   0x00000001: 'lsfMPTLocked',
   0x00000002: 'lsfMPTAuthorized',
 }
-const hex32 = (d) => {
+const hex32 = (d: number): string => {
   const int = d & 0xffffffff
   const hex = int.toString(16).toUpperCase()
   return `0x${`00000000${hex}`.slice(-8)}`
 }
 
-const zeroPad = (num, size, back = false) => {
+const zeroPad = (
+  num: number | string,
+  size: number,
+  back: boolean = false,
+): string => {
   let s = String(num)
   while (s.length < (size || 2)) {
     s = back ? `${s}0` : `0${s}`
@@ -62,7 +69,10 @@ const zeroPad = (num, size, back = false) => {
   return s
 }
 
-export const buildFlags = (flags, flagMap) => {
+export const buildFlags = (
+  flags: number | undefined,
+  flagMap: FlagMap,
+): string[] => {
   const bits = zeroPad((flags || 0).toString(2), 32).split('')
 
   return bits
@@ -71,10 +81,15 @@ export const buildFlags = (flags, flagMap) => {
       const int = parseInt(bin, 2)
       return value === '1' ? flagMap[int] || hex32(int) : undefined
     })
-    .filter((d) => Boolean(d))
+    .filter((d): d is string => Boolean(d))
 }
 
-const formatTransferFee = (transferFee, tokenType) => {
+type TokenType = 'IOU' | 'NFT' | 'MPT'
+
+const formatTransferFee = (
+  transferFee: number | null | undefined,
+  tokenType: TokenType,
+): string => {
   if (!transferFee) {
     return '0'
   }
@@ -95,15 +110,57 @@ const formatTransferFee = (transferFee, tokenType) => {
   throw new Error(`Unsupported Token type: ${tokenType}`)
 }
 
-const formatAccountInfo = (info, serverInfoValidated) => ({
+interface AccountInfo {
+  AccountTxnID?: string
+  Sequence: number
+  TicketCount?: number
+  OwnerCount: number
+  TickSize?: number
+  TransferRate?: number
+  Domain?: string
+  EmailHash?: string
+  Flags: number
+  Balance: string
+  PreviousTxnID: string
+  PreviousTxnLgrSeq: number
+  NFTokenMinter?: string
+}
+
+interface ServerInfoValidated {
+  reserve_base_xrp?: number
+  reserve_inc_xrp?: number
+}
+
+interface FormattedAccountInfo {
+  accountTransactionID?: string
+  sequence: number
+  ticketCount: number
+  ownerCount: number
+  reserve?: number
+  tick?: number
+  rate: string
+  domain?: string
+  emailHash?: string
+  flags: string[]
+  balance: string
+  previousTxn: string
+  previousLedger: number
+  nftMinter?: string
+}
+
+const formatAccountInfo = (
+  info: AccountInfo,
+  serverInfoValidated: ServerInfoValidated,
+): FormattedAccountInfo => ({
   accountTransactionID: info.AccountTxnID,
   sequence: info.Sequence,
   ticketCount: info.TicketCount ?? 0,
   ownerCount: info.OwnerCount,
-  reserve: serverInfoValidated.reserve_base_xrp
-    ? serverInfoValidated.reserve_base_xrp +
-      info.OwnerCount * serverInfoValidated.reserve_inc_xrp
-    : undefined,
+  reserve:
+    serverInfoValidated.reserve_base_xrp && serverInfoValidated.reserve_inc_xrp
+      ? serverInfoValidated.reserve_base_xrp +
+        info.OwnerCount * serverInfoValidated.reserve_inc_xrp
+      : undefined,
   tick: info.TickSize,
   rate: formatTransferFee(info.TransferRate, 'IOU'),
   domain: info.Domain ? hexToString(info.Domain) : undefined,
@@ -115,7 +172,7 @@ const formatAccountInfo = (info, serverInfoValidated) => ({
   nftMinter: info.NFTokenMinter,
 })
 
-const formatTransaction = (tx) => {
+const formatTransaction = (tx: any): any => {
   // `tx` is the property for some v1 arrays of transactions such as account_tx and `tx_json` is used in v2 for all
   const txn = tx.tx || tx.tx_json || tx
   // `hash` is up a level on v2 responses objects
@@ -132,20 +189,57 @@ const formatTransaction = (tx) => {
   }
 }
 
-function RippledError(message, code) {
-  if (Error.captureStackTrace) {
-    Error.captureStackTrace(this, this.constructor)
+class RippledError extends Error {
+  code: number
+
+  constructor(message: string, code: number) {
+    super(message)
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor)
+    }
+    this.name = this.constructor.name
+    this.code = code
   }
-  this.name = this.constructor.name
-  this.message = message
-  this.code = code
 }
 
-function convertHexToString(hex, encoding = 'utf8') {
+function convertHexToString(hex: string | undefined): string | undefined {
   return hex ? hexToString(hex) : undefined
 }
 
-const formatNFTInfo = (info) => ({
+interface NFTInfo {
+  nft_id: string
+  ledger_index: number
+  owner: string
+  is_burned: boolean
+  flags: number
+  transfer_fee: number
+  issuer: string
+  nft_taxon: number
+  nft_serial?: number
+  nft_sequence?: number
+  uri: string
+  validated: boolean
+  status?: string
+  warnings?: any[]
+}
+
+interface FormattedNFTInfo {
+  NFTId: string
+  ledgerIndex: number
+  owner: string
+  isBurned: boolean
+  flags: string[]
+  transferFee: number
+  issuer: string
+  NFTTaxon: number
+  NFTSerial: number
+  uri: string
+  validated: boolean
+  status?: string
+  warnings?: any[]
+}
+
+const formatNFTInfo = (info: NFTInfo): FormattedNFTInfo => ({
   NFTId: info.nft_id,
   ledgerIndex: info.ledger_index,
   owner: info.owner,
@@ -155,14 +249,39 @@ const formatNFTInfo = (info) => ({
   issuer: info.issuer,
   NFTTaxon: info.nft_taxon,
   // TODO: remove `nft_sequence` support after clio update has been fully rolled out.
-  NFTSerial: info.nft_serial ?? info.nft_sequence,
+  NFTSerial: info.nft_serial ?? info.nft_sequence ?? 0,
   uri: info.nft_serial ? decodeHex(info.uri) : info.uri,
   validated: info.validated,
   status: info.status,
   warnings: info.warnings,
 })
 
-const formatMPTIssuance = (info) => {
+interface MPTIssuanceInfo {
+  Issuer: string
+  AssetScale: number
+  MaximumAmount?: string
+  OutstandingAmount?: string
+  TransferFee: number
+  Sequence: number
+  MPTokenMetadata?: string
+  Flags: number
+}
+
+interface FormattedMPTIssuance {
+  issuer: string
+  assetScale: number
+  maxAmt?: string
+  outstandingAmt: string
+  transferFee: number
+  sequence: number
+  metadata?: any
+  flags: string[]
+  rawMPTMetadata?: string
+  parsedMPTMetadata?: Record<string, unknown>
+  isMPTMetadataCompliant: boolean
+}
+
+const formatMPTIssuance = (info: MPTIssuanceInfo): FormattedMPTIssuance => {
   const rawMPTMetadataHex = info.MPTokenMetadata
   const rawMPTMetadata = rawMPTMetadataHex
     ? hexToString(rawMPTMetadataHex)
@@ -186,7 +305,22 @@ const formatMPTIssuance = (info) => {
   }
 }
 
-const formatMPToken = (info) => ({
+interface MPTokenInfo {
+  Account: string
+  Flags: number
+  MPTokenIssuanceID: string
+  MPTAmount?: bigint
+}
+
+interface FormattedMPToken {
+  account: string
+  flags: string[]
+  mptIssuanceID: string
+  mptIssuer: string
+  mptAmount: string
+}
+
+const formatMPToken = (info: MPTokenInfo): FormattedMPToken => ({
   account: info.Account,
   flags: buildFlags(info.Flags, MPTOKEN_FLAGS),
   mptIssuanceID: info.MPTokenIssuanceID,

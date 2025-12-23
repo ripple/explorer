@@ -6,10 +6,7 @@ import getQuorum from './quorum'
 import getNegativeUNL from './nUNL'
 import getOffers from './offers'
 
-import { getAccountInfo, getAMMInfoByAssets } from './lib/rippled'
-
 export {
-  getAccountInfo,
   getAccountState,
   getAccountTransactions,
   getLedger,
@@ -17,5 +14,6 @@ export {
   getQuorum,
   getNegativeUNL,
   getOffers,
-  getAMMInfoByAssets,
 }
+
+export { getAccountInfo, getAMMInfoByAssets } from './lib/rippled'

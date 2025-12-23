@@ -36,7 +36,7 @@ export interface AccountState {
   }
   info: {
     accountTransactionID?: string
-    reserve: number
+    reserve?: number
     sequence?: number
     ticketCount: number
     domain?: string

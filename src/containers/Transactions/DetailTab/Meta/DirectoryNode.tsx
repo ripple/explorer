@@ -1,6 +1,7 @@
 import { Account } from '../../../shared/components/Account'
+import type { DirectoryNodeRenderFunction } from './types'
 
-const render = (t, action, node, index) => {
+const render: DirectoryNodeRenderFunction = (t, action, node, index) => {
   const fields = node.FinalFields || node.NewFields
   return (
     <li key={`directory_${index}`} className="meta-line">
