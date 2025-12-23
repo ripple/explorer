@@ -1,11 +1,3 @@
-/**
- * Page path: /accounts/:id?
- *
- * API path: /api/v1/account_transactions/<address>?marker=<marker>
- *
- * Part 2 of 2
- */
-
 import {
   isValidClassicAddress,
   isValidXAddress,
@@ -77,14 +69,19 @@ const getAccountTransactions = (
           const txn = formatTransaction(tx)
           return summarize(txn, true)
         })
-        .filter(
-          (tx: any) =>
-            !currency ||
-            (currency &&
-              JSON.stringify(tx).includes(
-                `"currency":"${currency.toUpperCase()}"`,
-              )),
-        )
+        .filter((tx: any) => {
+          // No filter - return all transactions
+          if (!currency) {
+            return true
+          }
+
+          // Filter by currency (IOU) or MPT issuance ID (passed as currency)
+          const txString = JSON.stringify(tx)
+          return (
+            txString.includes(`"currency":"${currency.toUpperCase()}"`) ||
+            txString.includes(`"${currency}"`)
+          )
+        })
       return {
         transactions,
         marker: data.marker,

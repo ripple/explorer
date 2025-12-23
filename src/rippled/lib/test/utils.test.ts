@@ -1,4 +1,9 @@
-import { formatAccountInfo, formatNFTInfo, formatTransferFee } from '../utils'
+import {
+  formatAccountInfo,
+  formatNFTInfo,
+  formatTransferFee,
+  formatMPTIssuance,
+} from '../utils'
 
 describe('rippled utils:', () => {
   describe('formatNFTInfo', () => {
@@ -168,6 +173,47 @@ describe('rippled utils:', () => {
           'Unsupported Token type: null',
         )
       })
+    })
+  })
+
+  describe('formatMPTIssuance', () => {
+    it('should format all MPT issuance fields correctly', () => {
+      // Hex-encoded JSON: {"t":"USD","in":"Test Issuer"}
+      const metadataHex =
+        '7b2274223a22555344222c22696e223a225465737420497373756572227d'
+      const mptIssuanceData: any = {
+        Issuer: 'rMPTTestAccount123456789',
+        AssetScale: 6,
+        MaximumAmount: '1000000000000',
+        OutstandingAmount: '500000000000',
+        TransferFee: 500,
+        Sequence: 1,
+        Flags: 0x7f, // All flags
+        MPTokenMetadata: metadataHex,
+      }
+
+      const result = formatMPTIssuance(mptIssuanceData)
+
+      expect(result.issuer).toBe('rMPTTestAccount123456789')
+      expect(result.assetScale).toBe(6)
+      expect(result.maxAmt).toBe('1000000000000')
+      expect(result.outstandingAmt).toBe('500000000000')
+      expect(result.transferFee).toBe(500)
+      expect(result.sequence).toBe(1)
+      expect(result.flags).toContain('lsfMPTLocked')
+      expect(result.flags).toContain('lsfMPTCanLock')
+      expect(result.flags).toContain('lsfMPTRequireAuth')
+      expect(result.flags).toContain('lsfMPTCanEscrow')
+      expect(result.flags).toContain('lsfMPTCanTrade')
+      expect(result.flags).toContain('lsfMPTCanTransfer')
+      expect(result.flags).toContain('lsfMPTCanClawback')
+      expect(result.rawMPTMetadata).toBe('{"t":"USD","in":"Test Issuer"}')
+      expect(result.parsedMPTMetadata).toEqual({
+        ticker: 'USD',
+        issuer_name: 'Test Issuer',
+      })
+      // isMPTMetadataCompliant is false because the test metadata doesn't meet full XLS-89 requirements
+      expect(result.isMPTMetadataCompliant).toBe(false)
     })
   })
 })

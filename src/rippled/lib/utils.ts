@@ -4,6 +4,10 @@ import { encodeAccountID } from 'ripple-address-codec'
 import { decodeHex } from '../../containers/shared/transactionUtils'
 import { convertRippleDate } from './convertRippleDate'
 import { formatSignerList } from './formatSignerList'
+import {
+  isMPTokenMetadataCompliant as isMPTMetadataCompliant,
+  parseMPTokenMetadata as parseMPTMetadata,
+} from '../../containers/shared/mptUtils'
 
 const XRP_BASE = 1000000
 const THOUSAND = 1000
@@ -272,24 +276,34 @@ interface FormattedMPTIssuance {
   sequence: number
   metadata?: any
   flags: string[]
+  rawMPTMetadata?: string
+  parsedMPTMetadata?: Record<string, unknown>
+  isMPTMetadataCompliant: boolean
 }
 
-const formatMPTIssuance = (info: MPTIssuanceInfo): FormattedMPTIssuance => ({
-  issuer: info.Issuer,
-  assetScale: info.AssetScale,
-  maxAmt: info.MaximumAmount
-    ? BigInt(info.MaximumAmount).toString(10)
-    : undefined, // default is undefined because the default maxAmt is the largest 63-bit int
-  outstandingAmt: info.OutstandingAmount
-    ? BigInt(info.OutstandingAmount).toString(10)
-    : '0',
-  transferFee: info.TransferFee,
-  sequence: info.Sequence,
-  metadata: info.MPTokenMetadata
-    ? decodeHex(info.MPTokenMetadata)
-    : info.MPTokenMetadata,
-  flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
-})
+const formatMPTIssuance = (info: MPTIssuanceInfo): FormattedMPTIssuance => {
+  const rawMPTMetadataHex = info.MPTokenMetadata
+  const rawMPTMetadata = rawMPTMetadataHex
+    ? hexToString(rawMPTMetadataHex)
+    : undefined
+
+  return {
+    issuer: info.Issuer,
+    assetScale: info.AssetScale,
+    maxAmt: info.MaximumAmount
+      ? BigInt(info.MaximumAmount).toString(10)
+      : undefined, // default is undefined because the default maxAmt is the largest 63-bit int
+    outstandingAmt: info.OutstandingAmount
+      ? BigInt(info.OutstandingAmount).toString(10)
+      : '0',
+    transferFee: info.TransferFee,
+    sequence: info.Sequence,
+    rawMPTMetadata,
+    parsedMPTMetadata: parseMPTMetadata(rawMPTMetadataHex),
+    isMPTMetadataCompliant: isMPTMetadataCompliant(rawMPTMetadataHex),
+    flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
+  }
+}
 
 interface MPTokenInfo {
   Account: string

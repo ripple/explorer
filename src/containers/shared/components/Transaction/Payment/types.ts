@@ -8,4 +8,5 @@ export interface PaymentInstructions {
   destination: string
   sourceTag?: number
   domainID?: string
+  credentialIDs?: string[]
 }

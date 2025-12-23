@@ -28,6 +28,7 @@ export const parser = (tx: any, meta: any): PaymentInstructions => {
       destination,
       partial,
       domainID: tx.DomainID,
+      credentialIDs: tx.CredentialIDs,
     }
   }
 
@@ -38,5 +39,6 @@ export const parser = (tx: any, meta: any): PaymentInstructions => {
     sourceTag: tx.SourceTag,
     partial,
     domainID: tx.DomainID,
+    credentialIDs: tx.CredentialIDs,
   }
 }
