@@ -6,6 +6,7 @@ import mockPaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import mockPaymentChannelClaimClosed from './mock_data/PaymentChannelClaimClosed.json'
 import mockPaymentChannelClaimCloseDenied from './mock_data/PaymentChannelClaimCloseDenied.json'
 import mockPaymentChannelClaimWithDestinationTag from './mock_data/PaymentChannelClaimWithDestinationTag.json'
+import mockPaymentChannelClaimWithCredentialIDs from './mock_data/PaymentChannelClaimWithCredentialIDs.json'
 import {
   expectSimpleRowLabel,
   expectSimpleRowNotToExist,
@@ -118,6 +119,22 @@ describe('PaymentChannelClaim: Simple', () => {
     expectSimpleRowNotToExist(wrapper, 'renew')
     expectSimpleRowNotToExist(wrapper, 'close-request')
     expectSimpleRowNotToExist(wrapper, 'closed')
+    wrapper.unmount()
+  })
+
+  it('renders tx with CredentialIDs', () => {
+    const wrapper = createWrapper(mockPaymentChannelClaimWithCredentialIDs)
+    expectSimpleRowText(wrapper, 'amount', '\uE90070.00 XRP')
+    expectSimpleRowText(wrapper, 'claimed', '\uE9000.01 XRP')
+    expectSimpleRowText(wrapper, 'total', '\uE90049.65716 XRP')
+    expect(wrapper.find('[data-testid="credential-id-0"]')).toExist()
+    expect(wrapper.find('[data-testid="credential-id-1"]')).toExist()
+    expect(wrapper.find('[data-testid="credential-id-0"] .value')).toHaveText(
+      '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955',
+    )
+    expect(wrapper.find('[data-testid="credential-id-1"] .value')).toHaveText(
+      '8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
+    )
     wrapper.unmount()
   })
 })

@@ -49,6 +49,10 @@ export const MAGENTA_700 = '#B20058'
 
 export const DROPS_TO_XRP_FACTOR = 1000000.0
 
+export const ONE_TENTH_BASIS_POINT = 1000
+export const ONE_TENTH_BASIS_POINT_DIGITS = 3
+export const ONE_TENTH_BASIS_POINT_CUTOFF = 0.001
+
 export const BREAKPOINTS = {
   desktop: 1200,
   landscape: 900,
@@ -356,6 +360,56 @@ export const durationToHuman = (s, decimal = 2) => {
   return `${d.num.toFixed(decimal)} ${d.unit}`
 }
 
+/**
+ * Converts a duration in seconds to a human-readable format with multiple time units.
+ *
+ * This function breaks down a duration into its constituent time units (years, months, days,
+ * hours, minutes, seconds) and formats them in a compact, dot-separated format.
+ *
+ * @param {number} totalSeconds - The duration in seconds to convert
+ * @param {number} maxUnits - Maximum number of time units to include in the output (default: 4)
+ * @returns {string} A formatted duration string (e.g., "1d.2hr.30min.15s")
+ *
+ * @example
+ * formatDurationDetailed(3665) // Returns "1hr.1min.5s"
+ * formatDurationDetailed(90061) // Returns "1d.1hr.1min.1s"
+ * formatDurationDetailed(90061, 2) // Returns "1d.1hr" (limited to 2 units)
+ * formatDurationDetailed(0) // Returns "0s"
+ */
+export const formatDurationDetailed = (totalSeconds, maxUnits = 4) => {
+  const seconds = Math.abs(totalSeconds)
+  const units = []
+
+  // Define time units in descending order
+  const timeUnits = [
+    { name: 'yr', value: 365 * 24 * 60 * 60 },
+    { name: 'mo', value: 30.44 * 24 * 60 * 60 }, // Average month length
+    { name: 'd', value: 24 * 60 * 60 },
+    { name: 'hr', value: 60 * 60 },
+    { name: 'min', value: 60 },
+    { name: 's', value: 1 },
+  ]
+
+  let remaining = Math.floor(seconds)
+
+  for (const unit of timeUnits) {
+    if (remaining >= unit.value && units.length < maxUnits) {
+      const count = Math.floor(remaining / unit.value)
+      if (count > 0) {
+        units.push(`${count}${unit.name}`)
+        remaining -= count * unit.value
+      }
+    }
+  }
+
+  // If no units were added (e.g., 0 seconds), return "0s"
+  if (units.length === 0) {
+    return '0s'
+  }
+
+  return units.join('.')
+}
+
 export const removeRoutes = (routes, ...routesToRemove) =>
   routes.filter((route) => !routesToRemove.includes(route.title))
 
@@ -441,11 +495,29 @@ export const renderXRP = (d, language) => {
   return localizeNumber(d, language, options)
 }
 
-// Convert scaled price (assetPrice) in hex string to original price using formula:
-// originalPrice = assetPrice / 10**scale
-// More details: https://github.com/XRPLF/XRPL-Standards/tree/master/XLS-47d-PriceOracles
+/**
+ * Converts a scaled integer to a its original value and return it as a string.
+ * Formula: originalPrice = assetPrice / 10^scale
+ *
+ * @param {string | number | bigint} assetPrice - The scaled value.
+ *   - string: interpreted as hex (for Price Oracles - XLS-0047)
+ *   - number: interpreted as decimal
+ *   - bigint: interpreted as decimal (for MPT amounts, which can be > Number.MAX_SAFE_INTEGER)
+ * @param {number} scale - The number of decimal places.
+ * @returns {string} The formatted decimal string.
+ *
+ * @example
+ * convertScaledPrice("5f5e100", 6)  // "100" (hex string from Oracle)
+ * convertScaledPrice(1000000, 6)    // "1" (number from MPT)
+ *
+ * @see https://github.com/XRPLF/XRPL-Standards/tree/master/XLS-0047-PriceOracles
+ */
 export function convertScaledPrice(assetPrice, scale) {
-  const scaledPriceInBigInt = BigInt(`0x${assetPrice}`)
+  const scaledPriceInBigInt =
+    typeof assetPrice === 'string'
+      ? BigInt(`0x${assetPrice}`)
+      : BigInt(assetPrice)
+
   const divisor = BigInt(10 ** scale)
   const integerPart = scaledPriceInBigInt / divisor
   const remainder = scaledPriceInBigInt % divisor
@@ -458,17 +530,29 @@ export function convertScaledPrice(assetPrice, scale) {
 export const shortenAccount = (addr = '') =>
   addr.length > 12 ? `${addr.slice(0, 7)}...${addr.slice(-5)}` : addr
 
-export const shortenDomain = (domain = '') =>
-  domain.length > 26 ? `${domain.slice(0, 15)}...${domain.slice(-11)}` : domain
+export const stripHttpProtocol = (url = '') => url.replace(/^https?:\/\//, '')
+
+export const shortenDomain = (
+  domain = '',
+  prefixLength = 15,
+  suffixLength = 11,
+) =>
+  domain.length > prefixLength + suffixLength
+    ? `${domain.slice(0, prefixLength)}...${domain.slice(-suffixLength)}`
+    : domain
 
 export const shortenNFTTokenID = (nftTokenID = '') =>
   nftTokenID.length > 20
     ? `${nftTokenID.slice(0, 10)}...${nftTokenID.slice(-10)}`
     : nftTokenID
 
-export const shortenMPTID = (mptTokenID = '') =>
-  mptTokenID.length > 20
-    ? `${mptTokenID.slice(0, 10)}...${mptTokenID.slice(-10)}`
+export const shortenMPTID = (
+  mptTokenID = '',
+  prefixLength = 10,
+  suffixLength = 10,
+) =>
+  mptTokenID.length > prefixLength + suffixLength
+    ? `${mptTokenID.slice(0, prefixLength)}...${mptTokenID.slice(-suffixLength)}`
     : mptTokenID
 
 export const shortenTxHash = (txHash = '') =>

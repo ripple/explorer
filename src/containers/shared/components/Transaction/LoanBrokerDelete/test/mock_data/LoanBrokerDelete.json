@@ -1,0 +1,73 @@
+{
+  "tx": {
+    "Account": "rfS5JMvtQk6w5tZbwpSnpx15U8qrXWW8yi",
+    "Fee": "2000000",
+    "Flags": 0,
+    "LastLedgerSequence": 291197,
+    "LoanBrokerID": "7B3AF305C92293AF3F01088298E354E7B649F963427FA4B7F5414EF1383CB80B",
+    "NetworkID": 3222,
+    "Sequence": 291161,
+    "SigningPubKey": "ED99153B1435C4D98191569187E7AF9DF00319794C1A82366E6E2F87B741BA1BBA",
+    "TransactionType": "LoanBrokerDelete",
+    "TxnSignature": "F77378990FFB053BBFA43EDDE314E45FA0E2A340C398B0043F98C92A38A214C9575F3C6A18B7870EC2B46AED705303377639128A7F808AF1E51FA23A6B6A450F",
+    "ctid": "C004716A00000C96",
+    "date": 1762469402000,
+    "hash": "3B331E0A610E56EB0CA4943F374C445780C041414B05E8BDDD5E27EE86D6BA75",
+    "inLedger": 291178,
+    "ledger_index": 291178,
+    "meta": {
+      "AffectedNodes": [
+        {
+          "ModifiedNode": {
+            "FinalFields": {
+              "Account": "rfS5JMvtQk6w5tZbwpSnpx15U8qrXWW8yi",
+              "Balance": "78000000",
+              "Flags": 0,
+              "OwnerCount": 5,
+              "Sequence": 291162
+            },
+            "LedgerEntryType": "AccountRoot",
+            "LedgerIndex": "D3A16624DDD503F0F01A1C777E597D3513B30E06576BD5DB5C59FBC604BCEBFC",
+            "PreviousFields": {
+              "Balance": "80000000",
+              "Sequence": 291161
+            },
+            "PreviousTxnID": "04139F851E529667FE6038628B9ED7960C8225BBCA0E16512C6CB4E22A2FD0BA",
+            "PreviousTxnLgrSeq": 291176
+          }
+        }
+      ],
+      "TransactionIndex": 0,
+      "TransactionResult": "tesSUCCESS"
+    },
+    "validated": true
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rfS5JMvtQk6w5tZbwpSnpx15U8qrXWW8yi",
+            "Balance": "78000000",
+            "Flags": 0,
+            "OwnerCount": 5,
+            "Sequence": 291162
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "D3A16624DDD503F0F01A1C777E597D3513B30E06576BD5DB5C59FBC604BCEBFC",
+          "PreviousFields": {
+            "Balance": "80000000",
+            "Sequence": 291161
+          },
+          "PreviousTxnID": "04139F851E529667FE6038628B9ED7960C8225BBCA0E16512C6CB4E22A2FD0BA",
+          "PreviousTxnLgrSeq": 291176
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "3B331E0A610E56EB0CA4943F374C445780C041414B05E8BDDD5E27EE86D6BA75",
+  "ledger_index": 291178,
+  "date": 1762469402000
+}

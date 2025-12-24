@@ -40,7 +40,7 @@ export interface NFTFormattedInfo {
 /**
  * Values returned by 'formatMPTIssuance' from /src/rippled/lib/utils.js
  */
-export interface MPTIssuanceFormattedInfo {
+export interface FormattedMPTIssuance {
   issuer: string
   sequence: number
   assetScale?: number
@@ -48,7 +48,9 @@ export interface MPTIssuanceFormattedInfo {
   outstandingAmt?: string
   flags?: string[]
   transferFee?: number
-  metadata?: string
+  rawMPTMetadata?: string
+  parsedMPTMetadata?: Record<string, unknown>
+  isMPTMetadataCompliant: boolean
 }
 
 export interface ErrorMessage {
