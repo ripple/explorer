@@ -338,7 +338,7 @@
           grid-row: 1;
         }
 
-        > .details-box:nth-child(n+3) {
+        > .details-box:nth-child(n + 3) {
           grid-column: 1 / span 2;
         }
       }
@@ -371,7 +371,7 @@
         }
 
         /* Ensure all boxes span full width in grid */
-        > .details-box:nth-child(n+3) {
+        > .details-box:nth-child(n + 3) {
           grid-column: 1;
         }
       }
@@ -397,8 +397,14 @@
         padding: 12px;
         gap: 8px;
       }
-      .details-label { font-size: 12px; }
-      .details-value { font-size: 14px; }
+
+      .details-label {
+        font-size: 12px;
+      }
+
+      .details-value {
+        font-size: 14px;
+      }
     }
 
     /* Extra narrow screens - force better text wrapping */
@@ -442,12 +448,16 @@
         flex: none;
       }
 
-      .xrp, .usd, .reserve {
+      .xrp,
+      .usd,
+      .reserve {
         height: auto;
         padding: 20px;
       }
 
-      .balance-value { font-size: 18px; }
+      .balance-value {
+        font-size: 18px;
+      }
 
       .balance-icon {
         width: 20px;
@@ -458,7 +468,10 @@
     .properties {
       .properties-header {
         gap: 8px;
-        .properties-toggle { padding: 4px; }
+
+        .properties-toggle {
+          padding: 4px;
+        }
 
         .properties-arrow {
           width: 16px;
@@ -476,15 +489,22 @@
           padding: 16px;
         }
 
-        .flags-card { grid-column: auto; }
-        .signers-card { grid-column: auto; }
+        .flags-card {
+          grid-column: auto;
+        }
 
-        .flags-list, .signers-list {
+        .signers-card {
+          grid-column: auto;
+        }
+
+        .flags-list,
+        .signers-list {
           max-height: calc(5 * 64px);
           padding-inline: 4px;
         }
 
-        .flag-item, .signer-item {
+        .flag-item,
+        .signer-item {
           padding: 10px;
         }
       }
@@ -494,7 +514,9 @@
   @media (max-width: $tablet-portrait-upper-boundary) {
     .properties {
       .properties-header {
-        h3 { font-size: 18px; }
+        h3 {
+          font-size: 18px;
+        }
       }
 
       .properties-grid .card-header .header-title {
