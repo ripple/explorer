@@ -1,12 +1,7 @@
-import { TFunction } from 'i18next'
 import { Account } from '../../../shared/components/Account'
+import type { DirectoryNodeRenderFunction } from './types'
 
-const render = (
-  t: TFunction<'translations', undefined>,
-  action: string,
-  node: any,
-  index: number,
-) => {
+const render: DirectoryNodeRenderFunction = (t, action, node, index) => {
   const fields = node.FinalFields || node.NewFields
   return (
     <li key={`directory_${index}`} className="meta-line">

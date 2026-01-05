@@ -3,10 +3,13 @@ import { hexToBytes } from '@xrplf/isomorphic/utils'
 
 import { getNegativeUNL as getRippledNegativeUNL } from './lib/rippled'
 import logger from './lib/logger'
+import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 
 const log = logger({ name: 'nunl' })
 
-const getNegativeUNL = (rippledSocket) => {
+const getNegativeUNL = (
+  rippledSocket: ExplorerXrplClient,
+): Promise<string[]> => {
   log.info(`getting nUNL from rippled`)
 
   return getRippledNegativeUNL(rippledSocket)
@@ -19,13 +22,13 @@ const getNegativeUNL = (rippledSocket) => {
       const validators = result.node.DisabledValidators
       if (validators !== undefined) {
         return validators
-          .map((obj) => obj.DisabledValidator.PublicKey)
-          .map((key) => encodeNodePublic(hexToBytes(key)))
+          .map((obj: any) => obj.DisabledValidator.PublicKey)
+          .map((key: string) => encodeNodePublic(hexToBytes(key)))
       }
 
       return []
     })
-    .catch((error) => {
+    .catch((error: any) => {
       log.error(error.toString())
       throw error
     })

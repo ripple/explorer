@@ -1,7 +1,6 @@
 import { KeyboardEventHandler, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { XrplClient } from 'xrpl-client'
 import {
   isValidClassicAddress,
   isValidXAddress,
@@ -9,7 +8,7 @@ import {
 } from 'ripple-address-codec'
 
 import { useAnalytics } from '../shared/analytics'
-import SocketContext from '../shared/SocketContext'
+import SocketContext, { ExplorerXrplClient } from '../shared/SocketContext'
 import {
   CURRENCY_REGEX,
   DECIMAL_REGEX,
@@ -33,7 +32,10 @@ import {
 } from '../App/routes'
 import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSearchResults'
 
-const determineHashType = async (id: string, rippledContext: XrplClient) => {
+const determineHashType = async (
+  id: string,
+  rippledContext: ExplorerXrplClient,
+) => {
   try {
     await getTransaction(rippledContext, id)
     return 'transactions'
@@ -47,7 +49,7 @@ const separators = /[.:+-]/
 
 const getRoute = async (
   id: string,
-  rippledContext: XrplClient,
+  rippledContext: ExplorerXrplClient,
 ): Promise<{ type: string; path: string } | null> => {
   if (DECIMAL_REGEX.test(id)) {
     return {

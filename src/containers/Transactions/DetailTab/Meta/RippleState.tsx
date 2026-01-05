@@ -5,8 +5,9 @@ import {
   computeRippleStateBalanceChange,
 } from '../../../shared/utils'
 import Currency from '../../../shared/components/Currency'
+import type { MetaRenderFunction } from './types'
 
-const render = (t, language, action, node, index) => {
+const render: MetaRenderFunction = (_t, language, action, node, index) => {
   const {
     change,
     numberOption,

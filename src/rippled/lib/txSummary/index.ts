@@ -1,13 +1,31 @@
+import type { Transaction, TransactionMetadata } from 'xrpl'
 import { transactionTypes } from '../../../containers/shared/components/Transaction'
 import { defaultParser } from '../../../containers/shared/components/Transaction/defaultParser'
 
-const getInstructions = (tx, meta) => {
+export interface TransactionSummary {
+  hash: string
+  ctid: string
+  type: string
+  result: string
+  account: string
+  index?: number
+  fee?: number
+  sequence?: number
+  ticketSequence?: number
+  isHook?: boolean
+  date?: string
+  details?: {
+    instructions: any
+  }
+}
+
+const getInstructions = (tx: Transaction, meta: TransactionMetadata) => {
   const type = tx.TransactionType
   const parser = transactionTypes[type]?.parser || defaultParser
   return parser(tx, meta)
 }
 
-const summarizeTransaction = (d, details = false) => {
+const summarizeTransaction = (d: any, details = false): TransactionSummary => {
   const summary = {
     hash: d.hash,
     ctid: d.ctid,

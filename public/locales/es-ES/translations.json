@@ -567,7 +567,7 @@
   "transaction_type_name_MPTokenAuthorize": null,
   "transaction_outstanding_balance_line_two": null,
   "transaction_mptoken_line_one": null,
-  "transaction_mpt_issuance_line_one":null,
+  "transaction_mpt_issuance_line_one": null,
   "enable_amendment_name": null,
   "amendment_status": null,
   "expected_date": null,
