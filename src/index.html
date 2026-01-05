@@ -1,54 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="theme-color" content="#ffffff">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="google-site-verification" content="k8jb6KQfitguHqeR97svoRnnsgzvs3a0FliHbESVDk4" />
-  <meta name="description" content="Discover the XRP Ledger with this open source explorer. Check account balances, transactions, validators, nodes and analyze blockchain activity.">
-  <!--
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="google-site-verification"
+      content="k8jb6KQfitguHqeR97svoRnnsgzvs3a0FliHbESVDk4"
+    />
+    <meta
+      name="description"
+      content="Discover the XRP Ledger with this open source explorer. Check account balances, transactions, validators, nodes and analyze blockchain activity."
+    />
+    <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-  <link rel="manifest" href="/manifest.json">
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link href="../public/apple-touch-icon.png" rel="apple-touch-icon" />
-  <link href="../public/android-icon.png" rel="icon" sizes="192×192" />
-  <link href="../public/favicon.ico" type="image/x-icon" rel="icon" sizes="64x64 32x32 24x24 16x16" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link href="../public/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link href="../public/android-icon.png" rel="icon" sizes="192×192" />
+    <link
+      href="../public/favicon.ico"
+      type="image/x-icon"
+      rel="icon"
+      sizes="64x64 32x32 24x24 16x16"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
 
-  <title>XRPL Explorer</title>
-  <!-- Google Tag Manager -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-  </script>
-  <% if(VITE_OSANO_ID) { %>
+    <title>XRPL Explorer</title>
+    <!-- Google Tag Manager -->
+    <script>
+      window.dataLayer = window.dataLayer || []
+    </script>
+    <% if(VITE_OSANO_ID) { %>
     <script src="https://cmp.osano.com/<%- VITE_OSANO_ID -%>/osano.js"></script>
-  <% } %>
-  <% if (VITE_GTM_ID) { %>
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','<%- VITE_GTM_ID -%>');
-  </script>
-  <% } %>
-  <!-- End Google Tag Manager -->
-</head>
+    <% } %> <% if (VITE_GTM_ID) { %>
+    <script>
+      ;(function (w, d, s, l, i) {
+        w[l] = w[l] || []
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : ''
+        j.async = true
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+        f.parentNode.insertBefore(j, f)
+      })(window, document, 'script', 'dataLayer', '<%- VITE_GTM_ID -%>')
+    </script>
+    <% } %>
+    <!-- End Google Tag Manager -->
+  </head>
 
-<body>
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
-  <div class="xrpl-explorer" id="xrpl-explorer"></div>
-  <script type="module" src="./index.tsx"></script>
-  <!--
+  <body>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <div class="xrpl-explorer" id="xrpl-explorer"></div>
+    <script type="module" src="./index.tsx"></script>
+    <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -58,5 +76,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
+  </body>
 </html>
