@@ -28,6 +28,7 @@ export const parser = (
     totalClaimed: tx.Balance ? formatAmount(tx.Balance) : undefined,
     renew: hasRenew(typeof tx.Flags === 'number' ? tx.Flags : 0) || undefined,
     close: hasClose(typeof tx.Flags === 'number' ? tx.Flags : 0) || undefined,
+    credentialIDs: (tx as any).CredentialIDs, // Cast to any to include CredentialIDs
   }
 
   if (node) {

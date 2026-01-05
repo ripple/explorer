@@ -15,7 +15,6 @@ export const LedgerEntryTransaction = ({
 
   return (
     <RouteLink
-      key={transaction.hash}
       className={classNames(
         `txn transaction-type transaction-dot bg`,
         `tx-category-${getCategory(transaction.type)}`,

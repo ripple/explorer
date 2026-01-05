@@ -1,0 +1,39 @@
+@use '../../css/variables' as *;
+
+.copy-button {
+  position: relative;
+  padding: 0;
+  border: none;
+  background: none;
+  color: $white;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+
+  &:hover,
+  &:focus {
+    color: $green-30;
+  }
+
+  .copy-tooltip {
+    position: absolute;
+    z-index: 1000;
+    top: -32px;
+    left: 50%;
+    padding: 8px 12px;
+    border-radius: 2px;
+    background: rgb(0 0 0 / 90%);
+    color: white;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 16px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    @include medium;
+
+    &.copied {
+      color: $green-30;
+    }
+  }
+}

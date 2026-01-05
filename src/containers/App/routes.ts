@@ -70,6 +70,10 @@ export const AMENDMENTS_ROUTE: RouteDefinition = {
   path: '/amendments',
 }
 
+export const TOKENS_ROUTE: RouteDefinition = {
+  path: '/tokens',
+}
+
 export const AMENDMENT_ROUTE: RouteDefinition<{
   identifier: string
 }> = {

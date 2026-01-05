@@ -1,0 +1,637 @@
+@use '../../shared/css/variables' as *;
+
+// =============================================================================
+// TOKEN PAGE - Shared styles for IOU and MPT token pages
+// =============================================================================
+
+// Page container - used by both IOU and MPT token pages
+.token-page {
+  width: 100%;
+  padding: 0 16px;
+
+  @include for-size(tablet-portrait-up) {
+    padding: 0 24px;
+  }
+
+  @include for-size(desktop-up) {
+    padding: 0 32px;
+  }
+
+  @include for-size(big-desktop-up) {
+    padding: 0 48px;
+  }
+
+  .loader {
+    min-height: 100px;
+  }
+
+  .section {
+    margin-top: 24px;
+
+    @include for-size(tablet-portrait-up) {
+      margin-top: 32px;
+    }
+
+    @include for-size(desktop-up) {
+      margin-top: 40px;
+    }
+  }
+
+  // Issuer name styling (scoped here to avoid conflicts with /tokens list page)
+  .issuer-name {
+    margin: 0;
+    font-size: 24px;
+    font-style: normal;
+    line-height: 112.5%;
+    text-transform: lowercase;
+    @include bold;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 32px;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      font-size: 42px;
+    }
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+}
+
+// =============================================================================
+// TOKEN HEADER - Shared header styles
+// =============================================================================
+
+// Base header wrapper
+.token-header {
+  margin-top: 40px;
+  margin-bottom: 16px;
+
+  @include for-size(tablet-portrait-up) {
+    margin-top: 60px;
+  }
+
+  @include for-size(desktop-up) {
+    margin-top: 80px;
+  }
+}
+
+// Token indicator and category pill
+.token-indicator {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 12px;
+
+  .token-label {
+    color: $black-40;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    text-transform: uppercase;
+  }
+
+  .category-pill {
+    border-radius: 100px;
+
+    .category-text {
+      padding: 4px 12px;
+      color: $white;
+      font-size: 12px;
+      font-style: normal;
+      line-height: 150%;
+      text-transform: uppercase;
+      @include semibold;
+    }
+  }
+}
+
+// Box header layout
+.box-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  text-align: left;
+
+  @include for-size(tablet-portrait-up) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  @include for-size(desktop-up) {
+    gap: 24px;
+  }
+}
+
+// Token info group (logo + name/ticker + issuer)
+.token-info-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+
+  @include for-size(tablet-portrait-up) {
+    flex-flow: row wrap;
+    align-items: center;
+    gap: 1px;
+  }
+
+  @include for-size(desktop-up) {
+    gap: 1px;
+  }
+
+  span {
+    margin: 0;
+    color: $white;
+    font-size: 24px;
+    @include bold;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 32px;
+    }
+
+    @include for-size(tablet-landscape-up) {
+      font-size: 42px;
+    }
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+}
+
+// Token logo
+.token-logo {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  min-height: 32px;
+  border-radius: 32px;
+  margin-right: 8px;
+  margin-left: 0;
+
+  @include for-size(tablet-portrait-up) {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    border-radius: 40px;
+    margin-right: 10px;
+  }
+
+  @include for-size(tablet-landscape-up) {
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    min-height: 48px;
+    border-radius: 48px;
+  }
+
+  &.no-logo {
+    background-color: $black-50;
+  }
+}
+
+// Token issuer wrapper
+.token-issuer-wrap {
+  display: flex;
+  align-items: center;
+  margin-left: 2px;
+  font-size: 24px;
+  font-style: normal;
+  line-height: 112.5%;
+  @include bold;
+
+  @include for-size(tablet-portrait-up) {
+    margin-left: 3px;
+    font-size: 32px;
+  }
+
+  @include for-size(tablet-landscape-up) {
+    margin-left: 5px;
+    font-size: 42px;
+  }
+
+  .paren {
+    margin: 0;
+  }
+}
+
+// Box content area
+.box-content {
+  min-height: 100px;
+  padding-bottom: 20px;
+}
+
+// =============================================================================
+// HEADER BOXES - Info boxes in header area
+// =============================================================================
+
+.header-boxes {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-top: 32px;
+  gap: 24px;
+
+  @include for-size(tablet-landscape-up) {
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin-top: 48px;
+    gap: 24px;
+  }
+
+  @include for-size(desktop-up) {
+    margin-top: 64px;
+    gap: 24px;
+  }
+}
+
+.header-box {
+  display: flex;
+  overflow: visible;
+  width: 100%;
+  min-height: 0;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: flex-start;
+  gap: 8px;
+
+  @include for-size(tablet-landscape-up) {
+    width: calc(50% - 12px);
+    max-width: 382px;
+    flex: 0 0 calc(50% - 12px);
+  }
+
+  @include for-size(desktop-up) {
+    width: 382px;
+    max-width: 382px;
+    flex: 0 0 382px;
+  }
+}
+
+.header-box-title {
+  margin-bottom: 21px;
+  color: $white;
+  font-size: 20px;
+  line-height: 125%;
+  @include bold;
+}
+
+.header-box-contents {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid $black-70;
+  border-radius: 8px;
+}
+
+.header-box-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+  gap: 4px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @include for-size(tablet-portrait-up) {
+    flex-direction: row;
+    margin-bottom: 8px;
+    gap: 16px;
+  }
+
+  @include for-size(desktop-up) {
+    gap: 32px;
+  }
+
+  .item-name {
+    width: 100%;
+    color: $black-40;
+    font-size: 12px;
+    font-style: normal;
+    line-height: 150%;
+    text-transform: uppercase;
+    @include semibold;
+
+    @include for-size(tablet-portrait-up) {
+      width: 140px;
+      font-size: 13px;
+    }
+
+    @include for-size(desktop-up) {
+      width: 180px;
+      font-size: 14px;
+    }
+  }
+
+  .item-value {
+    width: 100%;
+    color: $white;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 150%;
+    @include regular;
+
+    @include for-size(tablet-portrait-up) {
+      width: 120px;
+    }
+
+    @include for-size(desktop-up) {
+      width: 130px;
+    }
+  }
+
+  .account-link {
+    color: $green-30;
+    text-decoration: none;
+
+    &:hover {
+      color: $green-50;
+    }
+  }
+}
+
+// =============================================================================
+// LOADING SPINNER
+// =============================================================================
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+// =============================================================================
+// HEADER ACTIONS - Container for domain links
+// =============================================================================
+
+.header-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+
+  @include for-size(tablet-portrait-up) {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+.domain-link-container {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid $green-30;
+  border-radius: 8px;
+  background: transparent;
+  color: $green-30;
+  font-size: 12px;
+  gap: 8px;
+  transition: all 0.2s ease;
+
+  @include for-size(tablet-portrait-up) {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  &:hover {
+    border-color: $green-50;
+    background-color: rgba($green-30, 0.1);
+  }
+}
+
+.domain-link-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: $green-30;
+}
+
+.domain-link {
+  display: flex;
+  align-items: center;
+  color: $green-30;
+  font-size: inherit;
+  gap: 4px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $green-50;
+  }
+}
+
+// =============================================================================
+// TABLE PICKER - Tabs for switching between tables
+// =============================================================================
+
+.tx-table-picker {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 16px;
+  gap: 8px;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+
+  // Custom scrollbar styling for mobile
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: $black-60;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: $black-50;
+  }
+
+  // Hide scrollbar on mobile for cleaner look
+  @include for-size(phone-only) {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @include for-size(tablet-portrait-up) {
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+
+  @include for-size(desktop-up) {
+    margin-bottom: 24px;
+    gap: 16px;
+  }
+
+  // Override shared tabs styles for tx-table-picker
+  .tabs {
+    display: flex;
+    flex-direction: row;
+    border-top: none;
+    margin: 0;
+    font-size: 14px;
+    gap: inherit;
+
+    button,
+    a {
+      all: unset;
+      padding-top: 16px;
+      border: none;
+      border-top: 3px solid transparent;
+      margin-right: 8px;
+      background-color: none;
+      color: $black-40;
+      cursor: pointer;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 150%;
+      white-space: nowrap;
+      @include regular;
+
+      @include for-size(tablet-portrait-up) {
+        padding-top: 18px;
+        margin-right: 12px;
+        font-size: 13px;
+      }
+
+      @include for-size(desktop-up) {
+        padding-top: 21px;
+        margin-right: 16px;
+        font-size: 14px;
+      }
+
+      &.selected {
+        padding-top: 16px;
+        border-top: 3px solid $white;
+        color: $white;
+
+        @include for-size(tablet-portrait-up) {
+          padding-top: 18px;
+        }
+
+        @include for-size(desktop-up) {
+          padding-top: 21px;
+        }
+      }
+
+      &.selected,
+      &:hover {
+        color: $white;
+        @include regular;
+      }
+    }
+  }
+}
+
+.full-width-line {
+  width: 100%;
+  border: none;
+  border-top: 1px solid $black-70;
+  margin-bottom: 0;
+  color: $black-70;
+}
+
+// =============================================================================
+// NOTICE WITH CONTROLS - Data notice with refresh button
+// =============================================================================
+
+.notice-with-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+
+  .data-notice {
+    width: fit-content;
+    padding: 12px 16px;
+    border-radius: 2px;
+    border-left: 4px solid $yellow;
+    margin: 0;
+    background-color: rgb(255 193 7 / 15%);
+    color: $black-30;
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .refresh-button {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    border: 1px solid $green-60;
+    border-radius: 4px;
+    background-color: transparent;
+    color: $green-60;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: $green-60;
+      background-color: $green-70;
+      color: $white;
+    }
+
+    &:active {
+      background-color: $green-60;
+    }
+  }
+}
+
+// =============================================================================
+// ACTION PILL - Used in tables for action labels
+// =============================================================================
+
+.action-pill {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  border: 1px solid $green-60;
+  border-radius: 100px;
+  background-color: $green-70;
+  color: $white;
+  font-size: 12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  @include semibold;
+}

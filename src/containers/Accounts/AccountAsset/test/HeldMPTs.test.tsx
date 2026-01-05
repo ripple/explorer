@@ -65,11 +65,13 @@ const mockMPTIssuanceResponses = {
       Issuer: 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
       TransferFee: 5000,
       Flags: 0,
-      MPTokenMetadata: {
-        Ticker: 'USD',
-        IssuerName: 'Gatehub',
-        AssetClass: 'Stablecoin',
-      },
+      AssetScale: 2,
+      // Hex-encoded JSON: {"ticker":"USD","issuer_name":"Gatehub","asset_class":"other","name":"USD Token","icon":"https://example.com/usd.png"}
+      MPTokenMetadata:
+        '7B227469636B6572223A22555344222C22697373756572' +
+        '5F6E616D65223A22476174656875622' +
+        '22C2261737365745F636C617373223A226F74686572222C226E616D65223A22555344' +
+        '20546F6B656E222C2269636F6E223A2268747470733A2F2F6578616D706C652E636F6D2F7573642E706E67227D',
     },
   },
   '000004C463C52827307480341125DA65C267105D00000002': {
@@ -77,11 +79,13 @@ const mockMPTIssuanceResponses = {
       Issuer: 'rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w',
       TransferFee: 10000,
       Flags: 1, // lsfMPTLocked (Global)
-      MPTokenMetadata: {
-        Ticker: 'EUR',
-        IssuerName: 'Bitstamp',
-        AssetClass: 'Currency',
-      },
+      AssetScale: 0,
+      // Hex-encoded JSON: {"ticker":"EUR","issuer_name":"Bitstamp","asset_class":"other","name":"EUR Token","icon":"https://example.com/eur.png"}
+      MPTokenMetadata:
+        '7B227469636B6572223A22455552222C22697373756572' +
+        '5F6E616D65223A2242697473' +
+        '74616D70222C2261737365745F636C617373223A226F74686572222C226E616D65223A22455552' +
+        '20546F6B656E222C2269636F6E223A2268747470733A2F2F6578616D706C652E636F6D2F6575722E706E67227D',
     },
   },
   '000004C463C52827307480341125DA65C267105D00000003': {
@@ -89,11 +93,13 @@ const mockMPTIssuanceResponses = {
       Issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
       TransferFee: 15000,
       Flags: 0,
-      MPTokenMetadata: {
-        Ticker: 'BTC',
-        IssuerName: 'Kraken',
-        AssetClass: 'Cryptocurrency',
-      },
+      AssetScale: 0,
+      // Hex-encoded JSON: {"ticker":"BTC","issuer_name":"Kraken","asset_class":"other","name":"BTC Token","icon":"https://example.com/btc.png"}
+      MPTokenMetadata:
+        '7B227469636B6572223A22425443222C22697373756572' +
+        '5F6E616D65223A224B72616B' +
+        '656E222C2261737365745F636C617373223A226F74686572222C226E616D65223A22425443' +
+        '20546F6B656E222C2269636F6E223A2268747470733A2F2F6578616D706C652E636F6D2F6274632E706E67227D',
     },
   },
 }
@@ -193,30 +199,37 @@ describe('HeldMPTs', () => {
     // Verify USD MPT data in first row
     const usdRow = dataRows[0]
     expect(usdRow).toHaveTextContent('000004C463...5D00000001')
-    expect(usdRow).toHaveTextContent('rN7n7ot...6fzRH') // issuer
-    expect(usdRow).toHaveTextContent('1,000,000') // balance
+    expect(usdRow).toHaveTextContent('USD') // ticker
+    expect(usdRow).toHaveTextContent('Gatehub') // issuer name
+    // Note: The MPT balance is scaled by the appropriate (10 ^ -asset_scale) multiplicative factor.
+    expect(usdRow).toHaveTextContent('10.0K') // balance (formatted with parseAmount)
+    expect(usdRow).toHaveTextContent('OTHER') // asset class (uppercase)
     expect(usdRow).toHaveTextContent('5%') // transfer fee
     expect(usdRow).toHaveTextContent('Individual') // locked status
 
     // Verify EUR MPT data in second row
     const eurRow = dataRows[1]
     expect(eurRow).toHaveTextContent('000004C463...5D00000002')
-    expect(eurRow).toHaveTextContent('rLNaPoK...4dc6w') // issuer
-    expect(eurRow).toHaveTextContent('500,000') // balance
+    expect(eurRow).toHaveTextContent('EUR') // ticker
+    expect(eurRow).toHaveTextContent('Bitstamp') // issuer name
+    expect(eurRow).toHaveTextContent('500.0K') // balance (formatted with parseAmount)
+    expect(eurRow).toHaveTextContent('OTHER') // asset class (uppercase)
     expect(eurRow).toHaveTextContent('10%') // transfer fee
     expect(eurRow).toHaveTextContent('Global') // locked status
 
     // Verify BTC MPT data in third row
     const btcRow = dataRows[2]
     expect(btcRow).toHaveTextContent('000004C463...5D00000003')
-    expect(btcRow).toHaveTextContent('rvYAfWj...bs59B') // issuer
-    expect(btcRow).toHaveTextContent('250,000') // balance
+    expect(btcRow).toHaveTextContent('BTC') // ticker
+    expect(btcRow).toHaveTextContent('Kraken') // issuer name
+    expect(btcRow).toHaveTextContent('250.0K') // balance (formatted with parseAmount)
+    expect(btcRow).toHaveTextContent('OTHER') // asset class (uppercase)
     expect(btcRow).toHaveTextContent('15%') // transfer fee
     expect(btcRow).toHaveTextContent('--') // not locked
 
-    // Verify FutureDataIcon appears for Ticker, Price (USD), Balance (USD), and Asset Class columns
-    // Each MPT has 4 FutureDataIcons (ticker, price USD, balance USD, asset class) = 3 MPTs * 4 icons = 12 total
+    // Verify FutureDataIcon appears for Price (USD) and Balance (USD) columns only
+    // Each MPT has 2 FutureDataIcons (price USD, balance USD) = 3 MPTs * 2 icons = 6 total
     const futureDataIcons = document.querySelectorAll('.future-data')
-    expect(futureDataIcons).toHaveLength(12)
+    expect(futureDataIcons).toHaveLength(6)
   })
 })

@@ -9,9 +9,11 @@ import { TokenSearchRow } from './TokenSearchRow'
 import SocketContext from '../../SocketContext'
 import Log from '../../log'
 import { getAccountLines } from '../../../../rippled/lib/rippled'
-import { FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS } from '../../utils'
-
-const ORACLE_ACCOUNT = 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx'
+import {
+  FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
+  ORACLE_ACCOUNT,
+} from '../../utils'
+import { LOSToken } from '../../losTypes'
 
 interface SearchResultsProps {
   currentSearchValue: string
@@ -38,7 +40,7 @@ const SearchResults = ({
     },
   )
 
-  const { data: tokens = [] } = useQuery(
+  const { data: tokens = [] } = useQuery<LOSToken[]>(
     ['fetchTokens', currentSearchValue],
     () => fetchTokens(),
     {
@@ -85,7 +87,7 @@ const SearchResults = ({
           token={token}
           onClick={onLinkClick}
           xrpPrice={XRPUSDPrice}
-          key={`${token.currency}.${token.issuer}`}
+          key={`${token.currency}.${token.issuer_account}`}
         />
       ))}
     </div>

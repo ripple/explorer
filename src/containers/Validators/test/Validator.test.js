@@ -138,7 +138,7 @@ describe('Validator container', () => {
     })
     await flushPromises()
     await flushPromises()
-    expect(getLedger).toBeCalledTimes(1)
+    expect(getLedger).toHaveBeenCalledTimes(1)
     expect(getLedger).toHaveBeenCalledWith('12345', undefined)
     expect(document.title).toBe('Validator test.example.com')
     wrapper.unmount()
@@ -185,7 +185,7 @@ describe('Validator container', () => {
 
     wrapper.update()
 
-    expect(getLedger).toBeCalledWith('12345', undefined)
+    expect(getLedger).toHaveBeenCalledWith('12345', undefined)
     expect(document.title).toBe('Validator test.example.com')
     // test ledger-time isn't updated
     const lastLedgerDateTime = wrapper.find(`[data-testid="ledger-time"]`)
