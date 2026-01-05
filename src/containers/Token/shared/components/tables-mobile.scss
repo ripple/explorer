@@ -4,73 +4,75 @@
 
 // Base table styles
 table.basic {
-    width: 100%;
-    font-size: 14px;
+  width: 100%;
+  font-size: 14px;
+
+  @include for-size(phone-only) {
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 8px 12px;
 
     @include for-size(phone-only) {
-      font-size: 12px;
+      padding: 6px 8px;
     }
 
-    th, td {
-      padding: 8px 12px;
-
-      @include for-size(phone-only) {
-        padding: 6px 8px;
-      }
-
-      @include for-size(tablet-portrait-up) {
-        padding: 10px 16px;
-      }
-    }
-
-    // Mobile-specific column adjustments
-    @include for-size(phone-only) {
-      .count {
-        width: 50px;
-        min-width: 50px;
-      }
-
-      .name-col {
-        min-width: 120px;
-      }
-
-      .tx-account {
-        min-width: 140px;
-      }
-
-      .tx-ledger {
-        min-width: 100px;
-      }
-
-      .tx-percent-supply {
-        min-width: 80px;
-      }
-
-      .tx-value {
-        min-width: 100px;
-      }
-
-      .tx-amount {
-        min-width: 100px;
-      }
-
-      .tx-hash {
-        min-width: 120px;
-      }
-
-      .tx-timestamp {
-        min-width: 140px;
-      }
-
-      .tx-from, .tx-to {
-        min-width: 120px;
-      }
-
-      .tx-rate {
-        min-width: 100px;
-      }
+    @include for-size(tablet-portrait-up) {
+      padding: 10px 16px;
     }
   }
+
+  // Mobile-specific column adjustments
+  @include for-size(phone-only) {
+    .count {
+      width: 50px;
+      min-width: 50px;
+    }
+
+    .name-col {
+      min-width: 120px;
+    }
+
+    .tx-account {
+      min-width: 140px;
+    }
+
+    .tx-ledger {
+      min-width: 100px;
+    }
+
+    .tx-percent-supply {
+      min-width: 80px;
+    }
+
+    .tx-value {
+      min-width: 100px;
+    }
+
+    .tx-amount {
+      min-width: 100px;
+    }
+
+    .tx-hash {
+      min-width: 120px;
+    }
+
+    .tx-timestamp {
+      min-width: 140px;
+    }
+
+    .tx-from,
+    .tx-to {
+      min-width: 120px;
+    }
+
+    .tx-rate {
+      min-width: 100px;
+    }
+  }
+}
 
 // Specific styles for each table type
 .holders-table,
@@ -222,8 +224,6 @@ table.basic {
         border-color: $green-30;
         background: rgba($green-30, 0.1);
       }
-
-
 
       &.active {
         border-color: $green-30;
