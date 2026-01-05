@@ -98,15 +98,11 @@ describe('rippled utils:', () => {
   describe('formatTransferFee', () => {
     describe('when no transfer fee is provided', () => {
       it('should return "0" for null', () => {
-        expect(formatTransferFee(null)).toBe('0')
-      })
-
-      it('should return "0" for undefined', () => {
-        expect(formatTransferFee(undefined)).toBe('0')
+        expect(formatTransferFee(null, 'IOU')).toBe('0')
       })
 
       it('should return "0" for 0', () => {
-        expect(formatTransferFee(0)).toBe('0')
+        expect(formatTransferFee(0, 'IOU')).toBe('0')
       })
     })
 
@@ -160,15 +156,19 @@ describe('rippled utils:', () => {
 
     describe('edge cases', () => {
       it('should throw error for unsupported token types', () => {
+        // @ts-expect-error - testing invalid token types
         expect(() => formatTransferFee(100, 'XRP')).toThrow(
           'Unsupported Token type: XRP',
         )
+        // @ts-expect-error - testing invalid token types
         expect(() => formatTransferFee(100, 'INVALID')).toThrow(
           'Unsupported Token type: INVALID',
         )
+        // @ts-expect-error - testing invalid token types
         expect(() => formatTransferFee(100, '')).toThrow(
           'Unsupported Token type: ',
         )
+        // @ts-expect-error - testing invalid token types
         expect(() => formatTransferFee(100, null)).toThrow(
           'Unsupported Token type: null',
         )

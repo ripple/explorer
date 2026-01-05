@@ -7,12 +7,18 @@ import {
 } from '../../../shared/transactionUtils'
 import { localizeNumber } from '../../../shared/utils'
 import { Account } from '../../../shared/components/Account'
+import type { MetaRenderFunctionWithTx, MetaNode } from './types'
 
-const normalize = (value, currency) =>
-  currency === 'XRP' ? (value / XRP_BASE).toString() : value
+const normalize = (value: number | string, currency: string): string =>
+  currency === 'XRP' ? (Number(value) / XRP_BASE).toString() : String(value)
 
-const renderChanges = (t, language, node, index) => {
-  const meta = []
+const renderChanges = (
+  _t: any,
+  language: string,
+  node: MetaNode,
+  index: number,
+) => {
+  const meta: JSX.Element[] = []
   const final = node.FinalFields
   const prev = node?.PreviousFields
   const paysCurrency = final.TakerPays.currency || 'XRP'
@@ -104,8 +110,15 @@ const renderChanges = (t, language, node, index) => {
   return <Fragment key={`renderOfferChangesMeta_${index}`}>{meta}</Fragment>
 }
 
-const render = (t, language, action, node, index, tx) => {
-  const lines = []
+const render: MetaRenderFunctionWithTx = (
+  t,
+  language,
+  action,
+  node,
+  index,
+  tx,
+) => {
+  const lines: JSX.Element[] = []
   const fields = node.FinalFields || node.NewFields
   const paysCurrency = fields.TakerPays.currency || 'XRP'
   const getsCurrency = fields.TakerGets.currency || 'XRP'
