@@ -12,24 +12,23 @@ export interface TransactionData {
   raw: any
 }
 
-const getTransaction = (
+const getTransaction = async (
   transactionId: string,
   rippledSocket: ExplorerXrplClient,
 ): Promise<TransactionData> => {
   log.info(`get tx: ${transactionId}`)
-  return getRippledTransaction(rippledSocket, transactionId)
-    .then((data) => {
-      const formattedTransaction = formatTransaction(data)
-      return {
-        summary: summarizeTransaction(formattedTransaction, true).details,
-        processed: formattedTransaction,
-        raw: data,
-      }
-    })
-    .catch((error: any) => {
-      log.error(error.toString())
-      throw error
-    })
+  try {
+    const data = await getRippledTransaction(rippledSocket, transactionId)
+    const formattedTransaction = formatTransaction(data)
+    return {
+      summary: summarizeTransaction(formattedTransaction, true).details,
+      processed: formattedTransaction,
+      raw: data,
+    }
+  } catch (error: any) {
+    log.error(error.toString())
+    throw error
+  }
 }
 
 export default getTransaction

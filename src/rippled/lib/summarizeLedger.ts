@@ -13,7 +13,19 @@ interface LedgerSummary {
   transactions: any[]
 }
 
-const summarizeLedger = (ledger, txDetails: boolean = false) => {
+const summarizeLedger = (ledger: any, txDetails: boolean = false) => {
+  const transactions = ledger.transactions.map((tx: any) => {
+    const d = formatTransaction(tx)
+    return summarizeTransaction(d, txDetails)
+  })
+
+  // eslint-disable-next-line camelcase -- TODO: fix later
+  const total_fees =
+    ledger.transactions.reduce(
+      (sum: number, tx: any) => sum + Number(tx.Fee),
+      0,
+    ) / XRP_BASE
+
   const summary: LedgerSummary = {
     ledger_index: Number(ledger.ledger_index),
     ledger_time: ledger.close_time,
@@ -21,18 +33,11 @@ const summarizeLedger = (ledger, txDetails: boolean = false) => {
     parent_hash: ledger.parent_hash,
     close_time: convertRippleDate(ledger.close_time),
     total_xrp: ledger.total_coins / XRP_BASE,
-    total_fees: 0,
-    transactions: [],
+    // eslint-disable-next-line camelcase -- TODO: fix later
+    total_fees,
+    transactions: transactions.sort((a: any, b: any) => a.index - b.index),
   }
 
-  ledger.transactions.forEach((tx) => {
-    const d = formatTransaction(tx)
-    summary.total_fees += Number(tx.Fee)
-    summary.transactions.push(summarizeTransaction(d, txDetails))
-  })
-
-  summary.transactions.sort((a, b) => a.index - b.index)
-  Object.assign(summary, { total_fees: summary.total_fees / XRP_BASE })
   return summary
 }
 
