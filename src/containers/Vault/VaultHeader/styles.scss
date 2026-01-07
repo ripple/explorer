@@ -1,119 +1,24 @@
 @use '../../shared/css/variables' as *;
 @use '../../shared/css/table';
 
-.vault-header-container {
-  .vault-bottom-container {
-    display: flex;
-    flex-direction: column;
-    padding-top: 64px;
-
-    @include for-size(desktop-up) {
-      flex-direction: row;
-      padding-top: 80px;
-    }
-
-    .details {
-      width: 100%;
-    }
-  }
-
-  .vault-info-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-top: 68px;
-
-    @include for-size(desktop-up) {
-      flex-direction: row;
-      margin-top: 80px;
-    }
-
-    .values {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-bottom: 18px;
-      color: $white;
-
-      @include for-size(desktop-up) {
-        flex-direction: column;
-        margin-bottom: 0;
-      }
-
-      .title {
-        padding-bottom: 4px;
-        margin-bottom: 4.5px;
-        color: $black-40;
-        font-size: 14px;
-        text-transform: uppercase;
-        @include semibold;
-      }
-
-      .value {
-        display: flex;
-
-        .vault-owner {
-          margin: auto;
-          color: $white;
-          font-size: 18px;
-          font-style: normal;
-          line-height: 125%;
-          text-align: right;
-          text-decoration: none;
-          @include bold;
-        }
-      }
-    }
-  }
-}
-
-.vault-token-header {
+.vault-section {
   width: 100%;
-  margin-bottom: 16px;
+  padding: 0 24px;
 
-  .vault-box-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 0;
-    text-align: left;
-
-    .title-content {
-      overflow: hidden;
-      width: 100%;
-      min-width: 0;
-      min-height: 0;
-      padding-top: 0;
-      margin-top: 0;
-      margin-bottom: 0;
-      color: $white;
-      font-size: 24px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      @include bold;
-    }
-
-    .token-title {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding-bottom: 4px;
-      color: $black-40;
-      font-size: 14px;
-      text-transform: uppercase;
-
-      @include semibold;
-
-      .badge {
-        background: $green;
-        color: $white;
-      }
-    }
+  @include for-size(desktop-up) {
+    padding: 0 64px;
   }
 
-  .box-content {
-    min-height: 100px;
-    padding-bottom: 20px;
+  .vault-section-title {
+    margin: 0 0 16px 0;
+    color: $white;
+    font-size: 24px;
+    @include bold;
+  }
+
+  .vault-section-divider {
+    margin-bottom: 24px;
+    background: $black-70;
   }
 }
 
