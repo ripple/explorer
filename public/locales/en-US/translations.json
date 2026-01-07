@@ -803,5 +803,20 @@
   "loan_fees_detail": "<LoanOriginationFee/><LoanServiceFee/>",
   "loan_terms_detail": "<PaymentTotal/><PaymentInterval/><GracePeriod/>",
   "no_limit": "No Limit",
-  "first_loss_capital": "first-loss capital"
+  "first_loss_capital": "first-loss capital",
+  "vault": "Vault",
+  "vault_not_found": "Vault not found",
+  "invalid_vault_id": "Invalid vault ID",
+  "check_vault_id": "Please check the vault ID",
+  "private_vault": "Private Vault",
+  "total_value_locked": "Total Value Locked (TVL)",
+  "mpt_shares": "MPT Shares",
+  "assets_available": "Assets Available",
+  "unrealized_loss": "Unrealized Loss",
+  "other_data": "Other Data",
+  "max_total_supply": "Max Total Supply",
+  "available_to_borrow": "Available to Borrow",
+  "not_available": "Not available",
+  "stranded": "Stranded",
+  "first_come_first_served": "First Come First Served"
 }
