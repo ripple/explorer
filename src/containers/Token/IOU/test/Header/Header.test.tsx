@@ -129,7 +129,7 @@ describe('Header Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('TEST ISSUER')).toBeInTheDocument()
+    expect(screen.getByText('(TEST ISSUER)')).toBeInTheDocument()
   })
 
   it('displays issuer domain link when available', () => {
@@ -351,7 +351,7 @@ describe('Header Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('TEST ISSUER NAME')).toBeInTheDocument()
+    expect(screen.getByText('(TEST ISSUER NAME)')).toBeInTheDocument()
   })
 
   it('handles missing issuer name', () => {
