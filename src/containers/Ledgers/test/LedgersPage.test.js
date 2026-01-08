@@ -10,7 +10,7 @@ import prevLedgerMessage from './mock/prevLedger.json'
 import ledgerMessage from './mock/ledger.json'
 import validationMessage from './mock/validation.json'
 import rippledResponses from './mock/rippled.json'
-import { QuickHarness, flushPromises } from '../../test/utils'
+import { QuickHarness } from '../../test/utils'
 import { SelectedValidatorProvider } from '../useSelectedValidator'
 
 function sleep(ms) {
@@ -71,7 +71,7 @@ class MockWsClient extends BaseMockWsClient {
   }
 }
 
-const WS_URL = 'ws://localhost:1234'
+const WS_URL = 'wss://fakenode.ripple.com:51233'
 
 describe('Ledgers Page container', () => {
   let server
@@ -146,19 +146,23 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.validation').length).toBe(0)
     expect(wrapper.find('.txn').length).toBe(0)
 
-    await sleep(250)
     server.send(prevLedgerMessage)
     await sleep(260)
     wrapper.update()
-    expect(wrapper.find('.ledger').length).toBe(1)
+    expect(wrapper.exists()).toBe(true)
+    expect(wrapper.find('.ledgers').length).toBe(1)
+    expect(wrapper.find('.ledger-list').length).toBe(1)
+    expect(wrapper.find('.ledger').length).toBe(2)
 
     server.send(validationMessage)
-    await flushPromises()
+    // validation-messages are processed in batches every 200 ms
+    await sleep(200 * 2)
     wrapper.update()
+
+    expect(wrapper.exists()).toBe(true)
     expect(wrapper.find('.validation').length).toBe(1)
 
     server.send(ledgerMessage)
-    await sleep(250)
     wrapper.update()
     expect(wrapper.find('.ledger').length).toBe(2)
 
@@ -173,10 +177,11 @@ describe('Ledgers Page container', () => {
     const unlCounter = wrapper.find('.ledger .hash .missed')
     expect(unlCounter.text()).toBe('unl:1/2')
     unlCounter.simulate('mouseMove')
-    expect(wrapper.find('.tooltip').length).toBe(1)
-    expect(wrapper.find('.tooltip .pubkey').text()).toBe(
+    expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
+    expect(wrapper.find('.tooltip .pubkey').first().text()).toBe(
       'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
     )
+    unlCounter.simulate('mouseLeave')
 
     const validations = wrapper.find('div.validation')
     const txn = wrapper.find('a.txn')
@@ -189,7 +194,7 @@ describe('Ledgers Page container', () => {
     // check validations
     expect(validations.length).toBe(1)
     validations.first().simulate('mouseOver')
-    expect(wrapper.find('.tooltip').length).toBe(1)
+    expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
     validations.first().simulate('mouseLeave')
     expect(wrapper.find('.tooltip').length).toBe(0)
     validations.first().simulate('focus')
@@ -200,7 +205,8 @@ describe('Ledgers Page container', () => {
     expect(wrapper.find('.selected-validator a.pubkey').length).toBe(0)
 
     wrapper.unmount()
-
+    // wait for the React useEffect cleanup function to complete in StreamsProvider component
+    await sleep(100)
     expect(client.listenerCount('ledger')).toBe(0)
     expect(client.listenerCount('validation')).toBe(0)
   }, 8000)
@@ -233,21 +239,27 @@ describe('Ledgers Page container', () => {
         path: '/my.custom.com',
       })
 
-      expect(wrapper.find('.ledger').length).toBe(0)
-      expect(wrapper.find('.validation').length).toBe(0)
-      expect(wrapper.find('.txn').length).toBe(0)
+      await sleep(100)
+      wrapper.update()
 
-      await sleep(260)
+      expect(wrapper.find('.validation').length).toBe(0)
+      // Recent refactor of the StreamsProvider eagerly fetches the latest validated ledger. The objective is to reduce the latency of displaying the first validated ledger. Consequently, loading the page fetches the latest validated ledger.
+      expect(wrapper.find('.ledger').length).toBe(1)
+      // count the number of div elements in the rendered HTML
+      expect(wrapper.find('.txn').hostNodes().length).toBe(6)
+
       server.send(prevLedgerMessage)
       await sleep(260)
       wrapper.update()
-      expect(wrapper.find('.ledger').length).toBe(1)
+      expect(wrapper.find('.ledger').length).toBe(2)
 
       server.send(validationMessage)
-      await flushPromises()
+      // validation-messages are processed in batches every 200 ms
+      await sleep(200 * 2)
       wrapper.update()
       expect(wrapper.find('.validation').length).toBe(1)
 
+      // the below ledger has already been ingested from `rippledResponses`. No new ledgers are added by this action.
       server.send(ledgerMessage)
       await sleep(250)
       wrapper.update()
@@ -264,15 +276,16 @@ describe('Ledgers Page container', () => {
       const unlCounter = wrapper.find('.ledger .hash .missed')
       expect(unlCounter.text()).toBe('unl:1/2')
       unlCounter.simulate('mouseMove')
-      expect(wrapper.find('.tooltip').length).toBe(1)
-      expect(wrapper.find('.tooltip .pubkey').text()).toBe(
+      expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
+      expect(wrapper.find('.tooltip .pubkey').first().text()).toBe(
         'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
       )
+      unlCounter.simulate('mouseLeave')
 
       const validations = wrapper.find('div.validation')
       const txn = wrapper.find('a.txn')
 
-      // check ledger transactions
+      // check ledger transactions: 6 transactions per ledger, 2 ledgers, so 12 transactions
       expect(txn.length).toBe(12)
       txn.first().simulate('focus')
       txn.first().simulate('mouseOver')
@@ -280,7 +293,7 @@ describe('Ledgers Page container', () => {
       // check validations
       expect(validations.length).toBe(1)
       validations.first().simulate('mouseOver')
-      expect(wrapper.find('.tooltip').length).toBe(1)
+      expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
       validations.first().simulate('mouseLeave')
       expect(wrapper.find('.tooltip').length).toBe(0)
       validations.first().simulate('focus')

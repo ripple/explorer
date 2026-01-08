@@ -1,0 +1,63 @@
+{
+  "account_info": {
+    "result": {
+      "account_data": {
+        "Account": "rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv",
+        "Balance": "123456000",
+        "Flags": 0,
+        "LedgerEntryType": "AccountRoot",
+        "OwnerCount": 0,
+        "PreviousTxnID": "6B6F2CA1633A22247058E988372BA9EFFFC5BF10212230B67341CA32DC9D4A82",
+        "PreviousTxnLgrSeq": 68990183,
+        "Sequence": 2148991,
+        "index": "C3B625B296E95A21D7BBBB7E3D343AF423B463B87B5D56EE7F79C8E16A47A6F5",
+        "signer_lists": []
+      },
+      "ledger_hash": "43C4195B2C90423771E6C5DF4AED11BF3D77FFD1E8A153A489E5B00C96318FCA",
+      "ledger_index": 68990183,
+      "validated": true
+    },
+    "status": "success",
+    "type": "response"
+  },
+  "account_objects": {
+    "result": {
+      "account": "rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv",
+      "account_objects": [],
+      "ledger_current_index": 24402380,
+      "validated": false
+    },
+    "status": "success",
+    "type": "response"
+  },
+  "gateway_balances": {
+    "result": {
+      "account": "rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv",
+      "ledger_hash": "F4023C801B8B4D05F16EFE5D8C4C3C14D02354AABBB94151F581A6BF0E04C20B",
+      "ledger_index": 24402706,
+      "obligations": {
+        "ABC": "100"
+      },
+      "validated": true
+    },
+    "status": "success",
+    "type": "response"
+  },
+  "server_info": {
+    "result": {
+      "info": {
+        "validated_ledger": {
+          "age": 1,
+          "base_fee_xrp": 0.00001,
+          "hash": "EA01E248FCA5CFD33A3393DA5EBCCD9219BA8DB6AF6DC28A3B0A968604F46A76",
+          "reserve_base_xrp": 10,
+          "reserve_inc_xrp": 2,
+          "seq": 24402729
+        },
+        "validation_quorum": 5
+      }
+    },
+    "status": "success",
+    "type": "response"
+  }
+}

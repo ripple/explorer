@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
+import DelegatePayment from './mock_data/DelegatePayment.json'
 import { SimpleTab } from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18n/testConfig'
@@ -58,5 +59,26 @@ describe('SimpleTab container', () => {
     )
     expectSimpleRowText(screen, 'sequence', '31030')
     expectSimpleRowText(screen, 'tx-cost', '\uE9000.15')
+  })
+
+  it('renders simple tab information with delegate', () => {
+    const wrapper = createWrapper(DelegatePayment)
+    expect(wrapper.find('.simple-body').length).toBe(1)
+    expect(wrapper.find('a').length).toBe(4)
+    expectSimpleRowText(wrapper, 'tx-date', '5/20/2025, 6:23:20 PM')
+    expectSimpleRowText(wrapper, 'ledger-index', '2947137')
+    expectSimpleRowText(
+      wrapper,
+      'account',
+      'rfFLs8ZknoJKHCw7MtJKcs8GL81dqoDGRz',
+    )
+    expectSimpleRowText(
+      wrapper,
+      'delegate',
+      'rNRfqQc9b9ehXJJYVR6NqPPwrS26tWeB6N',
+    )
+    expectSimpleRowText(wrapper, 'sequence', '2947132')
+    expectSimpleRowText(wrapper, 'tx-cost', '\uE9000.000001')
+    wrapper.unmount()
   })
 })

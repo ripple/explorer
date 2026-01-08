@@ -322,7 +322,7 @@ describe('App container', () => {
           network: 'mainnet',
         },
       ])
-      expect(mockGetAccountInfo).toBeCalledWith(
+      expect(mockGetAccountInfo).toHaveBeenCalledWith(
         expect.anything(),
         'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6',
       )
@@ -343,7 +343,7 @@ describe('App container', () => {
           network: 'mainnet',
         },
       ])
-      expect(mockGetAccountInfo).toBeCalledWith(
+      expect(mockGetAccountInfo).toHaveBeenCalledWith(
         expect.anything(),
         'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb',
       )

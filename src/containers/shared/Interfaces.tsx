@@ -2,12 +2,13 @@
  * Values returned by 'formatAccountInfo' from /src/rippled/lib/utils.js
  */
 export interface AccountFormattedInfo {
+  accountTransactionID?: string
   sequence?: number
   ticketCount?: number
   ownerCount?: number
   reserve?: number
   tick?: number
-  rate?: number
+  rate?: string
   domain?: string
   emailHash?: string
   flags?: string[]
@@ -37,9 +38,9 @@ export interface NFTFormattedInfo {
 }
 
 /**
- * Values returned by 'formatMPTIssuanceInfo' from /src/rippled/lib/utils.js
+ * Values returned by 'formatMPTIssuance' from /src/rippled/lib/utils.js
  */
-export interface MPTIssuanceFormattedInfo {
+export interface FormattedMPTIssuance {
   issuer: string
   sequence: number
   assetScale?: number
@@ -47,7 +48,9 @@ export interface MPTIssuanceFormattedInfo {
   outstandingAmt?: string
   flags?: string[]
   transferFee?: number
-  metadata?: string
+  rawMPTMetadata?: string
+  parsedMPTMetadata?: Record<string, unknown>
+  isMPTMetadataCompliant: boolean
 }
 
 export interface ErrorMessage {

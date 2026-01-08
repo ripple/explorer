@@ -1,0 +1,17 @@
+@use 'variables' as *;
+
+.sort-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  vertical-align: middle;
+
+  .arrow {
+    width: 16px;
+    height: 16px;
+
+    &.asc {
+      transform: rotate(180deg);
+    }
+  }
+}

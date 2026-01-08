@@ -1,0 +1,80 @@
+{
+  "close_time_iso": "2025-07-28T15:55:32Z",
+  "ctid": "C005AC1F00000C96",
+  "hash": "E2AB3949F9A631B2C31BC8DF18F98BCD1B0FF9BF926C1864FF43560E67EFF011",
+  "ledger_hash": "8CF6E10DC61FF65C4B98B2DDE2A0656B3641790637802F49B25EBD49DB41F9AC",
+  "ledger_index": 371743,
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rpKtkZCSwsae7ZtonSR8o85ZP1GvqVzAuw",
+            "Asset": {
+              "currency": "USD",
+              "issuer": "rHn1ezxvdeoeLpqzFC1HX72WRZkz3rkrWJ"
+            },
+            "AssetsAvailable": "0",
+            "AssetsMaximum": "1000",
+            "AssetsTotal": "0",
+            "Data": "75706461746564206D65746164617461",
+            "Flags": 0,
+            "LossUnrealized": "0",
+            "Owner": "rLGsxBVz897uvV65y63FueQcJ3uKs6dV5y",
+            "OwnerNode": "0",
+            "Sequence": 371733,
+            "ShareMPTID": "000000010E8AD00F08548712886AE47C160A87B6F7F15A27",
+            "WithdrawalPolicy": 1
+          },
+          "LedgerEntryType": "Vault",
+          "LedgerIndex": "47148BAF6D14F8456F859A4DFCF2B2921512E44C5E1EADD72D34F33F6ED2AA00",
+          "PreviousFields": {
+            "AssetsMaximum": "500",
+            "Data": "7661756C74206D65746164617461"
+          },
+          "PreviousTxnID": "72F0DBFAF6F3BAB986D76AA7339B890ACB2266260F6C6ED70EC6FFC9FA853BE9",
+          "PreviousTxnLgrSeq": 371742
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rLGsxBVz897uvV65y63FueQcJ3uKs6dV5y",
+            "Balance": "90000000",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 371735
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "DB0E420F3B8D24A91B34C2DC8B15F9E39AA45EE830CB64CDA461C8A74C389C04",
+          "PreviousFields": {
+            "Balance": "95000000",
+            "Sequence": 371734
+          },
+          "PreviousTxnID": "72F0DBFAF6F3BAB986D76AA7339B890ACB2266260F6C6ED70EC6FFC9FA853BE9",
+          "PreviousTxnLgrSeq": 371742
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "tx": {
+    "Account": "rLGsxBVz897uvV65y63FueQcJ3uKs6dV5y",
+    "AssetsMaximum": "1000",
+    "Data": "75706461746564206D65746164617461",
+    "Fee": "5000000",
+    "Flags": 0,
+    "LastLedgerSequence": 371762,
+    "NetworkID": 3222,
+    "Sequence": 371734,
+    "SigningPubKey": "EDEE722FE7746F8D30007EAC64C7E00D82F633BDB1D7B7D8764A64779ED0BC35D6",
+    "TransactionType": "VaultSet",
+    "TxnSignature": "DCB0B0F2EC3650CDED8EA00FC09EB542AF6840ABB5EC74AE094103749E53174F571F5522EF0CBE78DA5C5D3EA1DC29277A9C68CF2ABD67EC84C9772E1BFB3A0C",
+    "VaultID": "47148BAF6D14F8456F859A4DFCF2B2921512E44C5E1EADD72D34F33F6ED2AA00",
+    "ctid": "C005AC1F00000C96",
+    "date": 807033332,
+    "ledger_index": 371743
+  },
+  "validated": true
+}

@@ -11,6 +11,7 @@ import depositXRP from './mock_data/deposit_xrp.json'
 import depositEprice from './mock_data/deposit_eprice.json'
 import depositNonXRP from './mock_data/deposit_nonxrp.json'
 import depositFail from './mock_data/deposit_fail.json'
+import depositLPToken from './mock_data/deposit_lptoken.json'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
@@ -101,5 +102,11 @@ describe('AMM Deposit Tests', () => {
     expectSimpleRowNotToExist(screen, 'asset1')
     expectSimpleRowNotToExist(screen, 'asset2')
     expectSimpleRowNotToExist(screen, 'account_id')
+  })
+
+  it('renders LP Tokens properly', () => {
+    const wrapper = createWrapper(depositLPToken)
+    expectSimpleRowText(wrapper, 'lp_tokens', '4,279,342.4')
+    wrapper.unmount()
   })
 })

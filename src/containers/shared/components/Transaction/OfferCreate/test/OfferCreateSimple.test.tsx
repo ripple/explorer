@@ -1,34 +1,46 @@
-import { cleanup, screen } from '@testing-library/react'
 import { Simple } from '../Simple'
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import mockOfferCreate from './mock_data/OfferCreate.json'
-import { createSimpleRenderFactory } from '../../test/createRenderFactory'
+import mockOfferCreateWithPermissionedDomainID from './mock_data/OfferCreateWithPermissionedDomainID.json'
+import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
 
-const renderComponent = createSimpleRenderFactory(Simple)
+const createWrapper = createSimpleWrapperFactory(Simple)
 
 describe('OfferCreate: Simple', () => {
-  afterEach(cleanup)
   it('renders with an expiration and offer', () => {
-    renderComponent(mockOfferCreateWithCancel)
-    expect(screen.getByTestId('price')).toHaveTextContent('\uE900 XRP/CSC.rCSC')
-    expect(screen.getByTestId('cancel-id')).toHaveTextContent('#44866443')
-    expect(screen.getByTestId('amount-buy')).toHaveTextContent(
+    const wrapper = createWrapper(mockOfferCreateWithCancel)
+    expect(wrapper.find('[data-testid="amount"] .one-line')).toHaveText(
+      '\uE900 XRP/CSC.rCSC',
+    )
+    expect(wrapper.find('[data-testid="cancel-id"] .value')).toHaveText(
+      '#44866443',
+    )
+    expect(wrapper.find('[data-testid="amount-buy"] .value')).toHaveText(
       `\uE9001,764.293151 XRP`,
     )
-    expect(screen.getByTestId('amount-sell')).toHaveTextContent(
+    expect(wrapper.find('[data-testid="amount-sell"] .value')).toHaveText(
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
+    wrapper.unmount()
   })
 
   it('renders', () => {
-    renderComponent(mockOfferCreate)
+    const wrapper = createWrapper(mockOfferCreate)
 
-    expect(screen.queryByTestId('offer-id')).toBeNull()
-    expect(screen.getByTestId('amount-buy')).toHaveTextContent(
+    expect(wrapper.find('[data-testid="offer-id"] .value')).not.toExist()
+    expect(wrapper.find('[data-testid="amount-buy"] .value')).toHaveText(
       `\uE90024,755.081083 XRP`,
     )
-    expect(screen.getByTestId('amount-sell')).toHaveTextContent(
+    expect(wrapper.find('[data-testid="amount-sell"] .value')).toHaveText(
       `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
+    )
+  })
+
+  it(`renders offerCreate with a Permissioned Domain ID`, () => {
+    const wrapper = createWrapper(mockOfferCreateWithPermissionedDomainID)
+
+    expect(wrapper.find('[data-testid="domain-id"] .value')).toHaveText(
+      '4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812',
     )
   })
 })

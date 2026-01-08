@@ -1,0 +1,11 @@
+@use '../../../shared/css/variables' as *;
+
+// IOU-specific category pill variant (white border)
+.token-header.iou {
+  .token-indicator {
+    .category-pill {
+      border: 1px solid $white;
+      background: $black-80;
+    }
+  }
+}

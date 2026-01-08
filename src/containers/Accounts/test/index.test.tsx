@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import { Route } from 'react-router'
 import userEvent from '@testing-library/user-event'
 import i18n from '../../../i18n/testConfig'
@@ -13,6 +13,30 @@ jest.mock('../../../rippled', () => ({
   __esModule: true,
   getAccountState: jest.fn(),
   getAccountTransactions: jest.fn(() => []),
+}))
+
+jest.mock('../AccountHeader', () => ({
+  __esModule: true,
+  default: () => <div data-testid="account-header">Account Header</div>,
+}))
+
+jest.mock('../AccountSummary', () => ({
+  __esModule: true,
+  AccountSummary: () => (
+    <div data-testid="account-summary">Account Summary</div>
+  ),
+}))
+
+jest.mock('../AccountAsset', () => ({
+  __esModule: true,
+  default: () => <div data-testid="account-asset">Account Asset</div>,
+}))
+
+jest.mock('../AccountTransactionTable', () => ({
+  __esModule: true,
+  AccountTransactionTable: () => (
+    <div data-testid="account-transaction-table">Account Transaction Table</div>
+  ),
 }))
 
 const mockedGetAccountState = getAccountState as Mock
@@ -31,7 +55,7 @@ describe('Account container', () => {
     )
 
   beforeEach(() => {
-    jest.resetModules()
+    jest.clearAllMocks()
   })
 
   afterEach(cleanup)
@@ -46,8 +70,14 @@ describe('Account container', () => {
     )
 
     renderComponent()
-    expect(screen.getByTitle('account-header')).toBeDefined()
-    expect(screen.getByTitle('transaction-table')).toBeDefined()
-    userEvent.click(screen.getByRole('button'))
+
+    await waitFor(() => {
+      expect(screen.getByTestId('account-header')).toBeInTheDocument()
+      expect(screen.getByTestId('account-summary')).toBeInTheDocument()
+      expect(screen.getByTestId('account-asset')).toBeInTheDocument()
+      expect(
+        screen.getByTestId('account-transaction-table'),
+      ).toBeInTheDocument()
+    })
   })
 })

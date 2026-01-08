@@ -9,6 +9,7 @@ import withdrawMock from './mock_data/withdraw.json'
 import withdrawUSDMock from './mock_data/withdraw_usd.json'
 import withdrawXRPMock from './mock_data/withdraw_xrp.json'
 import withdrawEpriceMock from './mock_data/withdraw_eprice.json'
+import withdrawAll from './mock_data/withdraw_all.json'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
@@ -68,5 +69,18 @@ describe('AMM Withdraw Tests', () => {
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
+  })
+
+  it('renders LP Tokens properly', () => {
+    const wrapper = createWrapper(withdrawAll)
+    expectSimpleRowText(wrapper, 'lp_tokens', '4.77')
+    wrapper.unmount()
+  })
+
+  it('renders positive XRP amount even if transaction fee is greater than XRP taken out of AMM', () => {
+    const wrapper = createWrapper(withdrawAll)
+    expectSimpleRowNotToExist(wrapper, 'asset2')
+    expectSimpleRowText(wrapper, 'asset1', '\uE9000.000005 XRP')
+    wrapper.unmount()
   })
 })

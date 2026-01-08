@@ -1,22 +1,14 @@
-import {
-  FC,
-  KeyboardEventHandler,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { KeyboardEventHandler, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { XrplClient } from 'xrpl-client'
 import {
   isValidClassicAddress,
   isValidXAddress,
   classicAddressToXAddress,
 } from 'ripple-address-codec'
-import CloseIcon from '../shared/images/close.png'
 
 import { useAnalytics } from '../shared/analytics'
-import SocketContext from '../shared/SocketContext'
+import SocketContext, { ExplorerXrplClient } from '../shared/SocketContext'
 import {
   CURRENCY_REGEX,
   DECIMAL_REGEX,
@@ -40,7 +32,10 @@ import {
 } from '../App/routes'
 import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSearchResults'
 
-const determineHashType = async (id: string, rippledContext: XrplClient) => {
+const determineHashType = async (
+  id: string,
+  rippledContext: ExplorerXrplClient,
+) => {
   try {
     await getTransaction(rippledContext, id)
     return 'transactions'
@@ -54,7 +49,7 @@ const separators = /[.:+-]/
 
 const getRoute = async (
   id: string,
-  rippledContext: XrplClient,
+  rippledContext: ExplorerXrplClient,
 ): Promise<{ type: string; path: string } | null> => {
   if (DECIMAL_REGEX.test(id)) {
     return {
@@ -148,26 +143,6 @@ const normalizeAccount = (id: string) => {
   return id
 }
 
-const SearchBanner: FC<{ setIsBannerVisible: (visible: boolean) => void }> = ({
-  setIsBannerVisible,
-}) => {
-  const { t } = useTranslation()
-  return (
-    <div className="banner-search">
-      <div className="banner-content">
-        <div>{t('search_results_banner')}</div>
-        <button
-          className="banner-button"
-          type="button"
-          onClick={() => setIsBannerVisible(false)}
-        >
-          <img src={CloseIcon} alt="close-icon" width={10} height={10} />
-        </button>
-      </div>
-    </div>
-  )
-}
-
 export interface SearchProps {
   callback?: Function
 }
@@ -199,36 +174,21 @@ export const Search = ({ callback = () => {} }: SearchProps) => {
     }
   }
 
-  const [isBannerVisible, setIsBannerVisible] = useState(true)
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsBannerVisible(false)
-    }, 10000) // Disappear after 10 seconds
-
-    return () => clearTimeout(timeoutId)
-  }, [])
-
   return (
-    <>
-      {process.env.VITE_ENVIRONMENT === 'mainnet' && isBannerVisible && (
-        <SearchBanner setIsBannerVisible={setIsBannerVisible} />
-      )}
-      <div className="search" data-testid="search">
-        <input
-          type="text"
-          placeholder={t('header.search.placeholder')}
-          onKeyDown={onKeyDown}
-          value={currentSearchInput}
-          onChange={(e) => setCurrentSearchInput(e.target.value)}
+    <div className="search">
+      <input
+        type="text"
+        placeholder={t('header.search.placeholder')}
+        onKeyDown={onKeyDown}
+        value={currentSearchInput}
+        onChange={(e) => setCurrentSearchInput(e.target.value)}
+      />
+      {process.env.VITE_ENVIRONMENT === 'mainnet' && (
+        <TokenSearchResults
+          setCurrentSearchInput={setCurrentSearchInput}
+          currentSearchValue={currentSearchInput}
         />
-        {process.env.VITE_ENVIRONMENT === 'mainnet' && (
-          <TokenSearchResults
-            setCurrentSearchInput={setCurrentSearchInput}
-            currentSearchValue={currentSearchInput}
-          />
-        )}
-      </div>
-    </>
+      )}
+    </div>
   )
 }

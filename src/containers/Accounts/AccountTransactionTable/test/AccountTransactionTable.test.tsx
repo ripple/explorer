@@ -23,7 +23,6 @@ describe('AccountTransactionsTable container', () => {
   const renderComponent = (
     getAccountTransactionsImpl: () => Promise<any> = () =>
       new Promise(() => {}),
-    currencySelected: string = '',
     state = { hasToken: false },
   ) => {
     ;(getAccountTransactions as Mock).mockImplementation(
@@ -34,7 +33,6 @@ describe('AccountTransactionsTable container', () => {
         <AccountTransactionTable
           accountId={TEST_ACCOUNT_ID}
           hasTokensColumn={state.hasToken}
-          currencySelected={currencySelected}
         />
       </QuickHarness>,
     )
@@ -82,19 +80,8 @@ describe('AccountTransactionsTable container', () => {
     expect(screen.queryAllByRole('link')).toHaveLength(0)
   })
 
-  it('renders try loading more message when no filtered results show but there is a marker', async () => {
-    renderComponent(() => Promise.resolve(TEST_TRANSACTIONS_DATA), 'EUR')
-
-    await flushPromises()
-
-    expect(screen.getByRole('button')).toBeDefined()
-    expect(screen.getAllByTitle('transaction-table')).toBeDefined()
-    expect(screen.queryByText('get_account_transactions_try')).toBeDefined()
-    expect(screen.queryAllByRole('link')).toHaveLength(0)
-  })
-
   it('renders dynamic content with transaction data and token column', async () => {
-    renderComponent(() => Promise.resolve(TEST_TRANSACTIONS_DATA), undefined, {
+    renderComponent(() => Promise.resolve(TEST_TRANSACTIONS_DATA), {
       hasToken: true,
     })
 
@@ -114,16 +101,5 @@ describe('AccountTransactionsTable container', () => {
       undefined,
       undefined,
     )
-  })
-
-  it('renders try loading more message when no filtered results show but there is a marker', async () => {
-    renderComponent(() => Promise.resolve(TEST_TRANSACTIONS_DATA), 'EUR')
-
-    await flushPromises()
-
-    expect(screen.getByRole('button')).toBeDefined()
-    expect(screen.getByTitle('transaction-table')).toBeDefined()
-    expect(screen.queryByText('get_account_transactions_try')).toBeDefined()
-    expect(screen.queryAllByRole('link')).toHaveLength(0)
   })
 })

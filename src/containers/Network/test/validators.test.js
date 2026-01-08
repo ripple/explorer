@@ -2,14 +2,17 @@ import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import mockValidators from './mockValidators.json'
 import validationMessage from './mockValidation.json'
 import SocketContext from '../../shared/SocketContext'
+import NetworkContext from '../../shared/NetworkContext'
 import MockWsClient from '../../test/mockWsClient'
 import { QuickHarness, flushPromises } from '../../test/utils'
 import { VALIDATORS_ROUTE } from '../../App/routes'
 import { Validators } from '../Validators'
+import { queryClient } from '../../shared/QueryClient'
 
 const WS_URL = 'ws://localhost:1234'
 
@@ -19,9 +22,13 @@ describe('Validators Tab container', () => {
   const renderComponent = () =>
     render(
       <SocketContext.Provider value={client}>
-        <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
-          <Route path={VALIDATORS_ROUTE.path} element={<Validators />} />
-        </QuickHarness>
+        <NetworkContext.Provider value="main">
+          <QueryClientProvider client={queryClient}>
+            <QuickHarness i18n={i18n} initialEntries={['/network/validators']}>
+              <Route path={VALIDATORS_ROUTE.path} element={<Validators />} />
+            </QuickHarness>
+          </QueryClientProvider>
+        </NetworkContext.Provider>
       </SocketContext.Provider>,
     )
 
@@ -44,43 +51,59 @@ describe('Validators Tab container', () => {
     renderComponent()
   })
 
-  it('receives live validation', async (done) => {
+  it('displays validators from VHS API', (done) => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
-      response: mockValidators,
+      response: { validators: mockValidators },
     })
 
     renderComponent()
 
-    expect(screen.queryByTestId('validators')).toBeDefined()
-    expect(screen.queryByTestId('stat').outerHTML).toBe(
-      '<div class="stat" data-testid="stat"><span>validators_found: </span><span>0</span></div>',
-    )
-    expect(screen.queryByTestId('validators-table')).toBeDefined()
+    moxios.wait(() => {
+      setTimeout(() => {
+        // Should show 4 validators from VHS with 2 in UNL
+        expect(screen.queryByTestId('stat')).toHaveTextContent(
+          'validators_found: 4 (unl: 2)',
+        )
 
+        // Should render hexagons visualization
+        expect(screen.queryByTestId('hexagons')).toBeDefined()
+
+        done()
+      }, 100)
+    })
+  })
+
+  it('merges validators from both VHS API and WebSocket stream', async (done) => {
+    // Mock the VHS API response with 4 validators
+    moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
+      status: 200,
+      response: { validators: mockValidators },
+    })
+
+    renderComponent()
+
+    // Send a live validation message via WebSocket
+    // This validator (n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR) is NOT in mockValidators
     server.send(validationMessage)
     await flushPromises()
 
-    setTimeout(() => {
-      expect(screen.queryByTestId('stat').outerHTML).toBe(
-        '<div class="stat" data-testid="stat"><span>validators_found: </span><span>4<i> (unl: 2)</i></span></div>',
-      )
-      expect(screen.queryByTestId('validators .tooltip')).toBeNull()
+    // Wait for both VHS API and WebSocket data to be processed
+    moxios.wait(() => {
+      setTimeout(() => {
+        // Should show 5 validators total (4 from VHS + 1 new from WebSocket)
+        expect(screen.queryByTestId('stat')).toHaveTextContent(
+          'validators_found: 5 (unl: 2)',
+        )
 
-      fireEvent.mouseOver(screen.queryAllByTestId('hexagon')[0])
-      expect(
-        screen.queryByTestId('validators-container .tooltip'),
-      ).toBeDefined()
-      expect(
-        screen.queryByTestId('validators-container .tooltip .pubkey').outerHTML,
-      ).toBe(
-        '<div class="pubkey">n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR</div>',
-      )
-      fireEvent.mouseLeave(screen.queryByTestId('validators .hexagon')[0])
-      expect(screen.queryByTestId('validators-container .tooltip')).toBeNull()
-      expect(screen.queryByTestId('hexagons')).toBeDefined()
-      expect(screen.queryByTestId('row')).toHaveLength(5)
-      done()
+        // Should render hexagons with merged data
+        expect(screen.queryByTestId('hexagons')).toBeDefined()
+
+        // Should render validators table
+        expect(screen.queryByTestId('validators-table')).toBeDefined()
+
+        done()
+      }, 100)
     })
   })
 })

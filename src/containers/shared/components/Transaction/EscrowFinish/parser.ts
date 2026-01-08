@@ -20,7 +20,7 @@ export function parser(tx: EscrowFinish, meta: TransactionMetadata) {
         : undefined,
     condition: escrow.Condition,
     fulfillment: tx.Fulfillment,
-    // @ts-expect-error - due to Smart Escrows still being WIP
     computationAllowance: tx.ComputationAllowance,
+    credentialIDs: (tx as any).CredentialIDs, // Cast to any to include CredentialIDs
   }
 }

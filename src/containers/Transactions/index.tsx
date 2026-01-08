@@ -134,7 +134,7 @@ export const Transaction = () => {
         body = <DetailTab data={data.processed} />
         break
       case 'raw':
-        body = <JsonView data={data.raw} />
+        body = <JsonView data={data.raw} showExpandButton showBackground />
         break
       default:
         body = <SimpleTab data={data} width={width} />

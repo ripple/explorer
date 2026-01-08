@@ -103,7 +103,7 @@ describe('NetworkPicker component', () => {
     fireEvent.change(customInput, { target: { value: 'custom_url' } })
     fireEvent.submit(screen.getByTitle('custom-network-form'))
 
-    expect(mockedFunction).toBeCalledWith(
+    expect(mockedFunction).toHaveBeenCalledWith(
       `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
     )
   })

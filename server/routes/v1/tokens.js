@@ -1,9 +1,8 @@
 const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'tokens search' })
 
-const REFETCH_INTERVAL = 60 * 60 * 1000 // 1 hour
-const XRPLMETA_QUERY_LIMIT = 1000
-const cachedTokenSearchList = { tokens: [], last_updated: null }
+const REFETCH_INTERVAL = 10 * 60 * 1000 // 10 minutes
+const cachedTokenList = { tokens: [], last_updated: null, metrics: null }
 
 const parseCurrency = (currency) => {
   const NON_STANDARD_CODE_LENGTH = 40
@@ -27,99 +26,187 @@ const parseCurrency = (currency) => {
     : currency
 }
 
-async function fetchXRPLMetaTokens(offset) {
-  log.info(`caching tokens from ${process.env.XRPL_META_URL}`)
+const calculateMetrics = (tokens) => ({
+  count: tokens.length,
+  market_cap: tokens
+    .reduce((sum, token) => {
+      const cap = Number(token.market_cap_usd) || 0
+      return cap > 0 ? sum + cap : sum
+    }, 0)
+    .toFixed(6),
+  volume_24h: tokens
+    .reduce((sum, token) => sum + Number(token.daily_volume_usd || 0), 0)
+    .toFixed(6),
+  stablecoin: tokens
+    .reduce((sum, token) => {
+      const cap = Number(token.market_cap_usd) || 0
+      return token.asset_subclass === 'stablecoin' && cap > 0 ? sum + cap : sum
+    }, 0)
+    .toFixed(6),
+})
+
+async function fetchTokens() {
+  const url = `${process.env.VITE_LOS_URL}/trusted-tokens`
+  log.info(`Fetching tokens from: ${url}`)
+
   return axios
-    .get(
-      `https://${process.env.XRPL_META_URL}/tokens?trust_level=1&trust_level=2&trust_level=3`,
-      {
-        params: {
-          sort_by: 'holders',
-          offset,
-          limit: XRPLMETA_QUERY_LIMIT,
-        },
-      },
-    )
-    .then((resp) => resp.data)
+    .get(url, {
+      timeout: 30000,
+    })
+    .then((resp) => {
+      log.info(
+        `Successfully fetched tokens, status: ${resp.status}, count: ${resp.data?.tokens?.length || 0}`,
+      )
+      return resp.data
+    })
     .catch((e) => {
-      log.error(e)
+      if (e.code === 'ECONNABORTED') {
+        log.error(`Request timeout after 30 seconds for ${url}`)
+      } else if (e.response) {
+        log.error(`Failed to fetch tokens from ${url}:`, {
+          status: e.response.status,
+          statusText: e.response.statusText,
+          data: e.response.data,
+        })
+      } else if (e.request) {
+        log.error(`No response received from ${url}:`, {
+          message: e.message,
+          code: e.code,
+        })
+      } else {
+        log.error(`Error setting up request to ${url}:`, {
+          message: e.message,
+        })
+      }
       return { count: 0 }
     })
 }
 
-async function cacheXRPLMetaTokens() {
-  let offset = 0
-  let tokensDataBatch = {}
-  const allTokensFetched = []
+async function cacheTokens() {
+  const losTokens = await fetchTokens()
 
-  tokensDataBatch = await fetchXRPLMetaTokens(0)
-  const { count } = tokensDataBatch
-  while (offset < count) {
-    allTokensFetched.push(...tokensDataBatch.tokens)
-    offset += XRPLMETA_QUERY_LIMIT
-    // eslint-disable-next-line no-await-in-loop
-    tokensDataBatch = await fetchXRPLMetaTokens(offset)
+  if (losTokens.tokens) {
+    log.info(`Fetched ${losTokens.tokens.length} tokens from LOS...`)
+
+    cachedTokenList.tokens = losTokens.tokens.sort(
+      (a, b) => Number(b.holders ?? 0) - Number(a.holders ?? 0),
+    )
+
+    cachedTokenList.last_updated = Date.now()
+
+    // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
+    cachedTokenList.tokens = cachedTokenList.tokens.map((token) => ({
+      ...token,
+      parsedCurrency: parseCurrency(token.currency),
+    }))
+
+    // Calculate and cache metrics
+    cachedTokenList.metrics = calculateMetrics(cachedTokenList.tokens)
+    log.info(`Cached metrics for ${cachedTokenList.metrics.count} tokens`)
+  } else {
+    log.warn('Failed to fetch tokens from LOS, using stale cached data')
   }
-
-  cachedTokenSearchList.tokens = allTokensFetched.filter(
-    (result) =>
-      (result.metrics.trustlines > 50 &&
-        result.metrics.holders > 50 &&
-        result.metrics.marketcap > 0 &&
-        result.metrics.volume_7d > 0) ||
-      result.meta.issuer.trust_level === 3,
-  )
-  cachedTokenSearchList.last_updated = Date.now()
-
-  // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
-  cachedTokenSearchList.tokens.map((token) => ({
-    ...token,
-    currency: parseCurrency(token.currency),
-  }))
 }
 
 function startCaching() {
   if (process.env.VITE_ENVIRONMENT !== 'mainnet') {
     return
   }
-  cacheXRPLMetaTokens()
-  setInterval(() => cacheXRPLMetaTokens(), REFETCH_INTERVAL)
+  cacheTokens()
+  setInterval(() => cacheTokens(), REFETCH_INTERVAL)
 }
 
 startCaching()
 
 function queryTokens(tokenList, query) {
-  const sanitizedQuery = query.toLowerCase()
+  if (!tokenList || !Array.isArray(tokenList) || !query) {
+    return []
+  }
 
-  return tokenList.filter(
-    (token) =>
-      token.currency?.toLowerCase().includes(sanitizedQuery) ||
-      token.meta?.token?.name?.toLowerCase().includes(sanitizedQuery) ||
-      token.meta?.issuer?.name?.toLowerCase().includes(sanitizedQuery) ||
-      token.issuer?.toLowerCase().startsWith(sanitizedQuery),
-  )
+  const sanitizedQuery = query.toLowerCase().trim()
+  if (!sanitizedQuery) {
+    return []
+  }
+
+  return tokenList.filter((token) => {
+    try {
+      const currencyMatch = token.currency
+        ?.toLowerCase()
+        .includes(sanitizedQuery)
+      const parsedCurrencyMatch = token.parsedCurrency
+        ?.toLowerCase()
+        .includes(sanitizedQuery)
+      const nameMatch = token.name?.toLowerCase().includes(sanitizedQuery)
+      const issuerNameMatch = token.issuer_name
+        ?.toLowerCase()
+        .includes(sanitizedQuery)
+      const issuerAccountStartsMatch = token.issuer_account
+        ?.toLowerCase()
+        .startsWith(sanitizedQuery)
+
+      return (
+        currencyMatch ||
+        parsedCurrencyMatch ||
+        nameMatch ||
+        issuerNameMatch ||
+        issuerAccountStartsMatch
+      )
+    } catch (error) {
+      log.error(`Error filtering token: ${error.message}`, { token })
+      return false
+    }
+  })
 }
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-module.exports = async (req, res) => {
+const getTokensSearch = async (req, res) => {
   try {
     log.info('getting tokens list for search')
     const { query } = req.params
-    while (cachedTokenSearchList.tokens.length === 0) {
+    let timeoutLimit = 10
+    while (cachedTokenList.tokens.length === 0 && timeoutLimit > 0) {
       // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
       await sleep(1000)
+      timeoutLimit -= 1
     }
-    const queriedTokens = await queryTokens(cachedTokenSearchList.tokens, query)
+    const queriedTokens = await queryTokens(cachedTokenList.tokens, query)
     return res.status(200).json({
       result: 'success',
-      updated: cachedTokenSearchList.last_updated,
+      updated: cachedTokenList.last_updated,
       tokens: queriedTokens,
     })
   } catch (error) {
     log.error(error)
     return res.status(error.code || 500).json({ message: error.message })
   }
+}
+
+const getAllTokens = async (req, res) => {
+  try {
+    log.info('getting tokens list for search')
+    while (cachedTokenList.tokens.length === 0) {
+      // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
+      await sleep(1000)
+    }
+
+    log.info(cachedTokenList.tokens.length)
+
+    return res.status(200).json({
+      result: 'success',
+      updated: cachedTokenList.last_updated,
+      tokens: cachedTokenList.tokens,
+      metrics: cachedTokenList.metrics,
+    })
+  } catch (error) {
+    log.error(error)
+    return res.status(error.code || 500).json({ message: error.message })
+  }
+}
+
+module.exports = {
+  getTokensSearch,
+  getAllTokens,
 }

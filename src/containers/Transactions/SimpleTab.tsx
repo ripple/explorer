@@ -37,6 +37,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     ledgerIndex,
     fee,
     account,
+    delegate,
     sequence,
     ticketSequence,
     isHook,
@@ -56,6 +57,11 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
       {account && (
         <SimpleRow label={t('account')} data-testid="tx-account">
           <Account account={account} />
+        </SimpleRow>
+      )}
+      {delegate && (
+        <SimpleRow label={t('delegate')} data-testid="delegate">
+          <Account account={delegate} />
         </SimpleRow>
       )}
       <SimpleRow label={t('sequence_number')} data-testid="sequence">
@@ -89,6 +95,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     ledgerIndex,
     fee,
     processed.tx.Account,
+    processed.tx.Delegate,
     processed.tx.Sequence,
     processed.tx.TicketSequence,
     !!processed.tx.EmitDetails,

@@ -8,32 +8,31 @@ import { VALIDATOR_ROUTE } from '../App/routes'
 import { LedgerListEntry } from './LedgerListEntry'
 import { useSelectedValidator } from './useSelectedValidator'
 import { usePreviousWithPausing } from '../shared/hooks/usePreviousWithPausing'
+import { useStreams, Ledger } from '../shared/components/Streams'
+import { useVHSValidators } from '../shared/components/VHSValidators'
 
-export const Ledgers = ({
-  paused,
-  ledgers = [],
-  unlCount,
-  validators = {},
-}: {
-  paused: boolean
-  ledgers: any[]
-  unlCount?: number
-  validators: any
-}) => {
+export const Ledgers = ({ paused }: { paused: boolean }) => {
+  const { validators: validatorsFromVHS } = useVHSValidators()
   const { selectedValidator } = useSelectedValidator()
-  const localLedgers = usePreviousWithPausing(ledgers, paused)
-  const isOnline = useIsOnline()
+  const { ledgers } = useStreams()
+  const localLedgers = usePreviousWithPausing<Record<number, Ledger>>(
+    ledgers,
+    paused,
+  )
+  const { isOnline } = useIsOnline()
 
   return (
-    <div className="ledgers" title="ledgers">
-      {isOnline && ledgers.length > 0 ? (
+    <div className="ledgers">
+      {isOnline && Object.keys(ledgers).length > 0 ? (
         <>
           <Legend />
           <div className="control">
-            {selectedValidator && (
+            {selectedValidator && validatorsFromVHS && (
               <div className="selected-validator">
-                {validators[selectedValidator].domain && (
-                  <DomainLink domain={validators[selectedValidator].domain} />
+                {validatorsFromVHS[selectedValidator].domain && (
+                  <DomainLink
+                    domain={validatorsFromVHS[selectedValidator].domain}
+                  />
                 )}
                 <RouteLink
                   to={VALIDATOR_ROUTE}
@@ -46,14 +45,12 @@ export const Ledgers = ({
             )}
           </div>
           <div className="ledger-list">
-            {localLedgers?.map((ledger) => (
-              <LedgerListEntry
-                ledger={ledger}
-                key={ledger.ledger_index}
-                unlCount={unlCount}
-                validators={validators}
-              />
-            ))}
+            {Object.values(localLedgers ?? {})
+              .reverse()
+              .slice(0, 20)
+              ?.map((ledger) => (
+                <LedgerListEntry ledger={ledger} key={ledger.index} />
+              ))}
           </div>
         </>
       ) : (

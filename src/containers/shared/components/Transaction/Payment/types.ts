@@ -7,4 +7,6 @@ export interface PaymentInstructions {
   convert?: ExplorerAmount
   destination: string
   sourceTag?: number
+  domainID?: string
+  credentialIDs?: string[]
 }

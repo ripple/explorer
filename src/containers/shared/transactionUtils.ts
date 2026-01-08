@@ -41,6 +41,24 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00200000: 'tfOneAssetLPToken',
     0x00400000: 'tfLimitLPToken',
   },
+  Batch: {
+    0x00010000: 'tfAllOrNothing',
+    0x00020000: 'fOnlyOne',
+    0x00040000: 'tfUntilFailure',
+    0x00080000: 'tfIndependent',
+  },
+  LoanSet: {
+    0x00010000: 'tfLoanOverpayment',
+  },
+  LoanManage: {
+    0x00010000: 'tfLoanDefault',
+    0x00020000: 'tfLoanImpair',
+    0x00040000: 'tfLoanUnimpair',
+  },
+  LoanPay: {
+    0x00010000: 'tfLoanOverpayment',
+    0x00020000: 'tfLoanFullPayment',
+  },
   MPTokenAuthorize: {
     0x00000001: 'tfMPTUnauthorize',
   },
@@ -70,6 +88,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00020000: 'tfImmediateOrCancel',
     0x00040000: 'tfFillOrKill',
     0x00080000: 'tfSell',
+    0x00100000: 'tfHybrid',
   },
   Payment: {
     0x00010000: 'tfNoDirectRipple',
@@ -86,6 +105,11 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00040000: 'tfClearNoRipple',
     0x00100000: 'tfSetFreeze',
     0x00200000: 'tfClearFreeze',
+    0x00400000: 'tfSetDeepFreeze',
+    0x00800000: 'tfClearDeepFreeze',
+  },
+  VaultCreate: {
+    1: 'vaultStrategyFirstComeFirstServe',
   },
   XChainModifyBridge: {
     0x00010000: 'tfClearAccountCreateAmount',
@@ -93,6 +117,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
 }
 
 export const ACCOUNT_FLAGS: Record<number, string> = {
+  17: 'asfAllowTrustLineLocking',
   16: 'asfAllowTrustLineClawback',
   15: 'asfDisallowIncomingTrustline',
   14: 'asfDisallowIncomingPayChan',
@@ -172,7 +197,7 @@ export function groupAffectedNodes(trans: Transaction) {
   return group
 }
 
-export function decodeHex(hex: string) {
+export function decodeHex(hex: string): string {
   let str = ''
   for (let i = 0; i < hex.length; i += 2) {
     const v = parseInt(hex.substring(i, i + 2), 16)

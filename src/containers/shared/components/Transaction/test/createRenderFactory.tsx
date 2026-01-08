@@ -13,6 +13,8 @@ import {
 } from '../types'
 import { testQueryClient } from '../../../../test/QueryClient'
 import { V7_FUTURE_ROUTER_FLAGS } from '../../../../test/utils'
+import SocketContext from '../../../SocketContext'
+import MockWsClient from '../../../../test/mockWsClient'
 
 /**
  * Methods that produce renderComponent function for tests
@@ -23,12 +25,17 @@ import { V7_FUTURE_ROUTER_FLAGS } from '../../../../test/utils'
 export function renderComponent(
   TestComponent: ReactElement,
   i18nConfig?: i18n,
+  socketMock?: any,
 ): RenderResult {
+  const mockSocket = socketMock || new MockWsClient()
+
   return render(
     <QueryClientProvider client={testQueryClient}>
       <I18nextProvider i18n={i18nConfig || defaultI18nConfig}>
         <BrowserRouter future={V7_FUTURE_ROUTER_FLAGS}>
-          {TestComponent}
+          <SocketContext.Provider value={mockSocket}>
+            {TestComponent}
+          </SocketContext.Provider>
         </BrowserRouter>
       </I18nextProvider>
     </QueryClientProvider>,
@@ -47,16 +54,22 @@ export function createDescriptionRenderFactory(
 export function createSimpleRenderFactory(
   Simple: TransactionSimpleComponent,
   i18nConfig?: i18n,
+  socketMock?: any,
 ): (tx: any) => RenderResult {
   return function createSimpleWrapper(tx: any) {
     const data = summarizeTransaction(tx, true)
-    return renderComponent(<Simple data={data.details!} />, i18nConfig)
+    return renderComponent(
+      <Simple data={data.details!} />,
+      i18nConfig,
+      socketMock,
+    )
   }
 }
 
 export function createTableDetailRenderFactory(
   TableDetail: TransactionTableDetailComponent,
   i18nConfig?: i18n,
+  socketMock?: any,
 ): (tx: any) => RenderResult {
   return function createTableDetailWrapper(tx: any) {
     const data = summarizeTransaction(tx, true)
@@ -64,6 +77,7 @@ export function createTableDetailRenderFactory(
     return renderComponent(
       <TableDetail instructions={data.details!.instructions} />,
       i18nConfig,
+      socketMock,
     )
   }
 }

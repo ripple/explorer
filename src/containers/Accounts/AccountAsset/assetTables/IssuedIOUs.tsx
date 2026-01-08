@@ -1,0 +1,226 @@
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+import { useEffect, useContext, useMemo } from 'react'
+import Currency from '../../../shared/components/Currency'
+import { Loader } from '../../../shared/components/Loader'
+import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
+import { RouteLink } from '../../../shared/routing'
+import { TOKEN_ROUTE } from '../../../App/routes'
+import SocketContext from '../../../shared/SocketContext'
+import { getBalances } from '../../../../rippled/lib/rippled'
+import logger from '../../../../rippled/lib/logger'
+import DefaultTokenIcon from '../../../shared/images/default_token_icon.svg'
+import { localizeNumber } from '../../../shared/utils'
+import { useLanguage } from '../../../shared/hooks'
+import {
+  formatUsdValue,
+  formatTokenBalance,
+} from '../../../shared/NumberFormattingUtils'
+
+const log = logger({ name: 'IssuedIOUs' })
+
+const LOS_TOKEN_API_BATCH_SIZE = 100
+
+interface IssuedIOUsProps {
+  accountId: string
+  account: any
+  onChange?: (data: { count: number; isLoading: boolean }) => void
+}
+
+interface IOU {
+  tokenCode: string
+  tokenIcon?: string
+  priceInUSD: number
+  trustlines: number
+  holders: number
+  supply: number
+  assetClass: string
+  transferFee: string
+  frozen: string
+}
+
+const fetchAccountIssuedIOUs = async (
+  rippledSocket: any,
+  accountId: string,
+  account: any,
+): Promise<IOU[]> => {
+  let balancesResponse
+  try {
+    balancesResponse = await getBalances(rippledSocket, accountId)
+  } catch (error) {
+    log.error(
+      `Error calling gatewayBalances for account ${accountId}: ${JSON.stringify(error)}`,
+    )
+    return []
+  }
+
+  // We don't need to filter out LP tokens because if an account issued an LP token,
+  // it would be an AMM account and would be displayed on the AMM account page
+  // instead of a regular account page
+  const iouTokens: string[] = Object.keys(balancesResponse?.obligations ?? {})
+  if (iouTokens.length === 0) {
+    // No IOUs issued by this account, return empty array
+    return []
+  }
+
+  // Batch get token data from LOS Token API
+  const allTokenIds = iouTokens.map((currency) => `${currency}.${accountId}`)
+  let allTokens: Record<string, any> = {}
+  for (let i = 0; i < allTokenIds.length; i += LOS_TOKEN_API_BATCH_SIZE) {
+    const tokenIds = allTokenIds.slice(i, i + LOS_TOKEN_API_BATCH_SIZE)
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const apiResponse = await fetch(
+        `${process.env.VITE_LOS_URL}/tokens/batch-get`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tokenIds }),
+        },
+      )
+
+      if (apiResponse.ok) {
+        // eslint-disable-next-line no-await-in-loop
+        const responseBody = await apiResponse.json()
+        const tokens =
+          responseBody.tokens?.reduce((acc: any, token: any) => {
+            acc[`${token.currency}.${token.issuer_account}`] = {
+              ...token,
+            }
+            return acc
+          }, {}) || {}
+        allTokens = { ...allTokens, ...tokens }
+      }
+    } catch (error) {
+      log.error(
+        `Error batch-get tokens[${tokenIds.join(', ')}]. Error: ${JSON.stringify(error)}`,
+      )
+    }
+  }
+
+  const transferFee = account?.info?.rate
+  const accountGlobalFreeze = account?.info?.flags?.includes('lsfGlobalFreeze')
+
+  const iouData: IOU[] = iouTokens.map((currency: string) => {
+    const tokenId = `${currency}.${accountId}`
+    const token = allTokens[tokenId]
+
+    // Use obligation value from gateway balance as supply since it excludes frozen balances
+    const obligationSupply = balancesResponse?.obligations?.[currency]
+      ? parseFloat(balancesResponse.obligations[currency])
+      : 0
+
+    const apiSupply = token?.supply ? parseFloat(token.supply) : 0
+    if (apiSupply > obligationSupply) {
+      const diff = apiSupply - obligationSupply
+      log.warn(
+        `Supply for ${currency}: GatewayBalance=${obligationSupply}, API=${apiSupply}, Likely Frozen=${diff}`,
+      )
+    }
+
+    return {
+      tokenCode: currency,
+      tokenIcon: token?.icon,
+      priceInUSD: token?.price_usd ? parseFloat(token.price_usd) : 0,
+      trustlines: token?.number_of_trustlines || 0,
+      holders: token?.number_of_holders || 0,
+      supply: obligationSupply,
+      assetClass: token?.asset_class || '--',
+      transferFee: `${transferFee}%`,
+      frozen: accountGlobalFreeze ? 'Global' : '--',
+    }
+  })
+
+  return iouData
+}
+
+export const IssuedIOUs = ({
+  accountId,
+  account,
+  onChange,
+}: IssuedIOUsProps) => {
+  const lang = useLanguage()
+  const { t } = useTranslation()
+  const rippledSocket = useContext(SocketContext)
+
+  const issuedIOUsQuery = useQuery(['issuedIOUs', accountId], () =>
+    fetchAccountIssuedIOUs(rippledSocket, accountId, account),
+  )
+
+  // Sort by USD price
+  const sortedIOUs = useMemo(() => {
+    const data = issuedIOUsQuery.data || []
+    return [...data].sort((a, b) => b.priceInUSD - a.priceInUSD)
+  }, [issuedIOUsQuery.data])
+
+  // Communicate count and loading state back to parent
+  useEffect(() => {
+    if (onChange) {
+      onChange({
+        count: sortedIOUs.length,
+        isLoading: issuedIOUsQuery.isLoading,
+      })
+    }
+  }, [sortedIOUs.length, issuedIOUsQuery.isLoading, onChange])
+
+  if (issuedIOUsQuery.isLoading) {
+    return <Loader />
+  }
+
+  return (
+    <div className="account-asset-table">
+      <table>
+        <thead>
+          <tr>
+            <th>{t('account_page_asset_table_column_currency_code')}</th>
+            <th>{t('account_page_asset_table_column_price_usd')}</th>
+            <th>{t('account_page_asset_table_column_trustlines')}</th>
+            <th>{t('account_page_asset_table_column_holders')}</th>
+            <th>{t('account_page_asset_table_column_circulating_supply')}</th>
+            <th>{t('account_page_asset_table_column_asset_class')}</th>
+            <th>{t('account_page_asset_table_column_transfer_fee')}</th>
+            <th>{t('account_page_asset_table_column_frozen')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedIOUs.length === 0 ? (
+            <EmptyMessageTableRow colSpan={8}>
+              {t('account_page_asset_table_no_iou')}
+            </EmptyMessageTableRow>
+          ) : (
+            sortedIOUs.map((token) => (
+              <tr key={`${token.tokenCode}-${token.supply}`}>
+                <td>
+                  <RouteLink
+                    to={TOKEN_ROUTE}
+                    params={{ token: `${token.tokenCode}.${accountId}` }}
+                  >
+                    <div className="token">
+                      {token.tokenIcon ? (
+                        <img
+                          src={token.tokenIcon}
+                          alt={token.tokenCode}
+                          className="token-icon"
+                        />
+                      ) : (
+                        <DefaultTokenIcon className="token-icon" />
+                      )}
+                      <Currency currency={token.tokenCode} />
+                    </div>
+                  </RouteLink>
+                </td>
+                <td>{formatUsdValue(token.priceInUSD, lang)}</td>
+                <td>{localizeNumber(token.trustlines, lang)}</td>
+                <td>{localizeNumber(token.holders, lang)}</td>
+                <td>{formatTokenBalance(token.supply, lang)}</td>
+                <td className="asset-class">{token.assetClass}</td>
+                <td className="transfer-fee">{token.transferFee}</td>
+                <td>{token.frozen}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  )
+}

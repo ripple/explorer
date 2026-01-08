@@ -1,6 +1,15 @@
 @use '../../css/variables' as *;
 @import 'react18-json-view/src/style.css';
 
+.json-view-container {
+  position: relative;
+
+  &.show-background {
+    padding: 24px;
+    background-color: $black-80;
+  }
+}
+
 .json-view {
   overflow: hidden;
   margin-bottom: 40px;
@@ -8,9 +17,60 @@
   font-size: 12px;
   letter-spacing: 0;
 
+  @include for-size(phone-only) {
+    padding-top: 85px;
+  }
+
   svg {
     height: 11px !important;
     color: $black-10;
+  }
+}
+
+.json-view-controls {
+  position: absolute;
+  z-index: 10;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  height: auto;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: 4px;
+
+  @include for-size(phone-only) {
+    position: absolute;
+    top: 24px;
+    right: auto;
+    left: 24px;
+    justify-content: flex-start;
+    padding-top: 0;
+  }
+}
+
+.json-view-expand-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 16px;
+  border: 1px solid $white;
+  border-radius: 100px;
+  background: transparent;
+  color: $white;
+  cursor: pointer;
+  font-size: 12px;
+  font-style: normal;
+  gap: 10px;
+  line-height: 150%;
+  transition: all 0.2s ease;
+  @include regular;
+
+  &:hover {
+    background: $black-70;
+  }
+
+  &:focus {
+    outline: none;
   }
 }
 
