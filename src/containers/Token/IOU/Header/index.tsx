@@ -158,15 +158,15 @@ export const Header = ({
           <Currency currency={currency} />
           {tokenData.issuer_name && (
             <div className="token-issuer-wrap">
-              <span className="paren">(</span>
-              <div className="issuer-name">
+              <span className="issuer-name">
+                (
                 {tokenData.issuer_name
                   .trim()
                   .toUpperCase()
                   .replace(/\(/g, '')
                   .replace(/\)/g, '')}
-              </div>
-              <span className="paren">)</span>
+                )
+              </span>
             </div>
           )}
         </div>
