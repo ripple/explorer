@@ -1,9 +1,10 @@
+import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Logo from '../shared/images/XRPLedger.svg'
 import './footer.scss'
 
-const Footer = () => {
+const Footer: FC = () => {
   const { t } = useTranslation()
 
   return (

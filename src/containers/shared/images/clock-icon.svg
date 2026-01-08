@@ -1,39 +1,39 @@
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- Solid 3/4 circle (270 degrees) - from 3 o'clock going counter-clockwise to 12 o'clock -->
-  <path 
-    d="M 22 12 A 10 10 0 1 1 12 2" 
-    fill="none" 
-    stroke="currentColor" 
-    stroke-width="2.5" 
+  <path
+    d="M 22 12 A 10 10 0 1 1 12 2"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
     stroke-linecap="round"
   />
   <!-- Dotted quarter circle (90 degrees) - exactly 3 dots from 12 o'clock to 3 o'clock -->
-  <path 
-    d="M 12 2 A 10 10 0 0 1 22 12" 
-    fill="none" 
-    stroke="currentColor" 
-    stroke-width="2.5" 
+  <path
+    d="M 12 2 A 10 10 0 0 1 22 12"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
     stroke-linecap="round"
     stroke-dasharray="1.5 3.8"
     stroke-dashoffset="0"
   />
   <!-- Clock hands -->
-  <line 
-    x1="12" 
-    y1="12" 
-    x2="12" 
-    y2="7" 
-    stroke="currentColor" 
-    stroke-width="2" 
-    stroke-linecap="round" 
+  <line
+    x1="12"
+    y1="12"
+    x2="12"
+    y2="7"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
   />
-  <line 
-    x1="12" 
-    y1="12" 
-    x2="15" 
-    y2="12" 
-    stroke="currentColor" 
-    stroke-width="2" 
-    stroke-linecap="round" 
+  <line
+    x1="12"
+    y1="12"
+    x2="15"
+    y2="12"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
   />
 </svg>

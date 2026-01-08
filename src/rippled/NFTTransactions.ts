@@ -1,14 +1,14 @@
-import { XrplClient } from 'xrpl-client'
 import { encodeAccountID } from 'ripple-address-codec'
 import { hexToBytes } from '@xrplf/isomorphic/utils'
 import { getNFTTransactions as getNFTTxs } from './lib/rippled'
 import { formatTransaction } from './lib/utils'
 import summarize from './lib/txSummary'
 import logger from './lib/logger'
+import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 
 const log = logger({ name: 'NFT transactions' })
 export const getNFTTransactions = (
-  rippledSocket: XrplClient,
+  rippledSocket: ExplorerXrplClient,
   tokenId: string,
   limit?: number,
   marker?: string,
@@ -32,7 +32,7 @@ export const getNFTTransactions = (
 
 // Get the oldest NFT tx by having the 'forward' param set to true
 export const getOldestNFTTransaction = (
-  rippledSocket: XrplClient,
+  rippledSocket: ExplorerXrplClient,
   tokenId: string,
 ) =>
   getNFTTxs(rippledSocket, tokenId, 1, '', true)

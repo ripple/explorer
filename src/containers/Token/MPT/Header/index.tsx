@@ -8,6 +8,8 @@ import {
   shortenDomain,
   shortenMPTID,
   stripHttpProtocol,
+  convertToHttpURL,
+  shortenAccount,
 } from '../../../shared/utils'
 import { CopyableText } from '../../../shared/components/CopyableText'
 import DomainLink from '../../../shared/components/DomainLink'
@@ -102,6 +104,9 @@ export const Header = (props: Props) => {
   // Only show MPT issuance ID if ticker exists (since we show ticker in header, need to show ID somewhere)
   const showMPTIssuanceId = !!ticker
 
+  // Convert logo URL to HTTP/HTTPS format (handles IPFS URLs)
+  const RenderedLogoUrl = logoUrl ? convertToHttpURL(logoUrl) : undefined
+
   // Get all URIs for dropdown, filtering out items without uri
   const allUris = (uris || []).filter((u) => u.uri)
 
@@ -137,11 +142,11 @@ export const Header = (props: Props) => {
       </div>
       <div className="section box-header">
         <div className="token-info-group">
-          {logoUrl ? (
+          {RenderedLogoUrl ? (
             <img
               className="token-logo"
               alt={`${ticker || mptIssuanceId} logo`}
-              src={logoUrl}
+              src={RenderedLogoUrl}
             />
           ) : (
             <DefaultTokenIcon className="token-logo no-logo" />
@@ -159,9 +164,9 @@ export const Header = (props: Props) => {
           {/* Show issuer name if available */}
           {issuerName && (
             <div className="token-issuer-wrap">
-              <span className="paren">(</span>
-              <span className="issuer-name">{issuerName}</span>
-              <span className="paren">)</span>
+              <span className="issuer-name">
+                ({shortenAccount(issuerName)})
+              </span>
             </div>
           )}
         </div>

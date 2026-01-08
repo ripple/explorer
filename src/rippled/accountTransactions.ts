@@ -8,20 +8,30 @@ import { formatTransaction } from './lib/utils'
 import { getAccountTransactions as getAccountTxs } from './lib/rippled'
 import summarize from './lib/txSummary'
 import logger from './lib/logger'
+import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
 
 const log = logger({ name: 'account transactions' })
 
+export interface AccountTransactionsResult {
+  transactions: any[]
+  marker?: any
+}
+
 const getAccountTransactions = async (
-  account,
-  currency,
-  marker,
-  limit,
-  rippledSocket,
-) => {
+  account: string,
+  currency: string | undefined,
+  marker: any,
+  limit: number | undefined,
+  rippledSocket: ExplorerXrplClient,
+): Promise<AccountTransactionsResult> => {
   // TODO: Retrieve txs for untagged X-address only?
 
-  let classicAddress
-  let decomposedAddress = null
+  let classicAddress: string
+  let decomposedAddress: {
+    classicAddress: string
+    tag: number | false
+    test: boolean
+  } | null = null
 
   try {
     if (!isValidClassicAddress(account) && !isValidXAddress(account)) {
@@ -46,42 +56,45 @@ const getAccountTransactions = async (
     } else {
       classicAddress = account
     }
-  } catch (error) {
+  } catch (error: any) {
     log.error(error.toString())
     throw error
   }
 
   log.info(`get transactions: ${account} -> ${classicAddress}`)
-  return getAccountTxs(rippledSocket, classicAddress, limit, marker)
-    .then((data) => {
-      const transactions = data.transactions
-        .map((tx) => {
-          const txn = formatTransaction(tx)
-          return summarize(txn, true)
-        })
-        .filter((tx) => {
-          // No filter - return all transactions
-          if (!currency) {
-            return true
-          }
+  try {
+    const data = await getAccountTxs(
+      rippledSocket,
+      classicAddress,
+      limit,
+      marker,
+    )
+    const transactions = data.transactions
+      .map((tx: any) => {
+        const txn = formatTransaction(tx)
+        return summarize(txn, true)
+      })
+      .filter((tx: any) => {
+        // No filter - return all transactions
+        if (!currency) {
+          return true
+        }
 
-          // Filter by currency (IOU) or MPT issuance ID (passed as currency)
-          const txString = JSON.stringify(tx)
-          return (
-            txString.includes(`"currency":"${currency.toUpperCase()}"`) ||
-            txString.includes(`"${currency}"`)
-          )
-        })
-      return {
-        transactions,
-        marker: data.marker,
-      }
-    })
-    .then((d) => d)
-    .catch((error) => {
-      log.error(error.toString())
-      throw error
-    })
+        // Filter by currency (IOU) or MPT issuance ID (passed as currency)
+        const txString = JSON.stringify(tx)
+        return (
+          txString.includes(`"currency":"${currency.toUpperCase()}"`) ||
+          txString.includes(`"${currency}"`)
+        )
+      })
+    return {
+      transactions,
+      marker: data.marker,
+    }
+  } catch (error: any) {
+    log.error(error.toString())
+    throw error
+  }
 }
 
 export default getAccountTransactions
