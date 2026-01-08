@@ -12,6 +12,7 @@ interface VaultData {
   Asset?: {
     currency: string
     issuer?: string
+    mpt_issuance_id?: string
   }
   AssetsTotal?: string
   AssetsAvailable?: string
@@ -22,6 +23,7 @@ interface VaultData {
   PseudoAccount?: string
   WithdrawalPolicy?: number
   Data?: string
+  ShareMPTID?: string
 }
 
 interface Props {
@@ -36,13 +38,20 @@ const VAULT_FLAGS = {
 
 // Withdrawal policy values from XLS-65d spec
 const WITHDRAWAL_POLICIES: { [key: number]: string } = {
-  0: 'stranded',
   1: 'first_come_first_served',
 }
 
-const formatAsset = (asset: VaultData['Asset']): string => {
+const formatAsset = (asset: VaultData['Asset']): string | React.ReactNode => {
   if (!asset) return '-'
   if (asset.currency === 'XRP') return 'XRP'
+  if (asset.mpt_issuance_id) {
+    const truncatedId = `${asset.mpt_issuance_id.substring(0, 8)}...${asset.mpt_issuance_id.substring(asset.mpt_issuance_id.length - 6)}`
+    return (
+      <RouteLink to={MPT_ROUTE} params={{ id: asset.mpt_issuance_id }}>
+        {truncatedId}
+      </RouteLink>
+    )
+  }
   return asset.currency
 }
 
@@ -88,11 +97,11 @@ export const Details = ({ data, vaultId }: Props) => {
     AssetsTotal: assetsTotal,
     AssetsAvailable: assetsAvailable,
     AssetsMaximum: assetsMaximum,
-    MPTIssuanceID: mptIssuanceId,
     Flags: flags,
     LossUnrealized: lossUnrealized,
     WithdrawalPolicy: withdrawalPolicy,
     Data: vaultDataRaw,
+    ShareMPTID: vaultShareMptId,
   } = data
 
   const isPrivate =
@@ -105,14 +114,14 @@ export const Details = ({ data, vaultId }: Props) => {
     const policyKey = WITHDRAWAL_POLICIES[withdrawalPolicy]
     if (!policyKey) return String(withdrawalPolicy)
     // Use type assertion for dynamic translation keys
-    return t(policyKey as 'stranded' | 'first_come_first_served')
+    return t(policyKey as 'first_come_first_served')
   }
 
   const renderMPTSharesLink = () => {
-    if (!mptIssuanceId) return '-'
-    const truncatedId = `${mptIssuanceId.substring(0, 8)}...${mptIssuanceId.substring(mptIssuanceId.length - 6)}`
+    if (!vaultShareMptId) return '-'
+    const truncatedId = `${vaultShareMptId.substring(0, 8)}...${vaultShareMptId.substring(vaultShareMptId.length - 6)}`
     return (
-      <RouteLink to={MPT_ROUTE} params={{ id: mptIssuanceId }}>
+      <RouteLink to={MPT_ROUTE} params={{ id: vaultShareMptId }}>
         {truncatedId}
       </RouteLink>
     )

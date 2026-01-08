@@ -5,6 +5,7 @@ import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import { VaultHeader } from './VaultHeader'
 import { VaultTransactions } from './VaultTransactions'
+import { VaultLoans } from './VaultLoans'
 import { Loader } from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
 import { getVault } from '../../rippled/lib/rippled'
@@ -84,6 +85,7 @@ export const Vault = () => {
 
   // Get the account ID for transactions (PseudoAccount or Owner)
   const transactionAccountId = vaultData?.PseudoAccount || vaultData?.Owner
+  console.log('incoming vault data', vaultData)
 
   return (
     <Page vaultId={vaultId}>
@@ -96,6 +98,12 @@ export const Vault = () => {
       {vaultId && !loading && vaultData && (
         <>
           <VaultHeader data={vaultData} vaultId={vaultId} />
+          {transactionAccountId && (
+            <VaultLoans
+              vaultId={vaultId}
+              vaultPseudoAccount={transactionAccountId}
+            />
+          )}
           {transactionAccountId && (
             <VaultTransactions accountId={transactionAccountId} />
           )}

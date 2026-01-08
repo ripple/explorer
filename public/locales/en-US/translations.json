@@ -817,6 +817,11 @@
   "max_total_supply": "Max Total Supply",
   "available_to_borrow": "Available to Borrow",
   "not_available": "Not available",
-  "stranded": "Stranded",
-  "first_come_first_served": "First Come First Served"
+  "first_come_first_served": "First Come First Served",
+  "loans": "Loans",
+  "loan_broker": "Loan Broker",
+  "loan_broker_id": "Loan Broker ID",
+  "management_fee": "Management Fee",
+  "cover_rate_minimum": "Cover Rate Minimum",
+  "cover_rate_liquidation": "Cover Rate Liquidation"
 }
