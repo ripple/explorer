@@ -145,6 +145,7 @@ export const Details = ({ data, vaultId }: Props) => {
           </tbody>
         </table>
       </div>
+      {/* TODO: handle soeDEFAULT fields in this section with zero (or any other appropriate values) */}
       <div className="details-column">
         <table className="token-table">
           <tbody>
@@ -153,6 +154,7 @@ export const Details = ({ data, vaultId }: Props) => {
               label={t('total_value_locked')}
               value={formatAmount(assetsTotal, asset, language)}
             />
+            {/* TODO: If the asset is specified as XRP in drops, divide the value by 10 ^ 6 */}
             <TokenTableRow
               label={t('max_total_supply')}
               value={formatAmount(assetsMaximum, asset, language)}

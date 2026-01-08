@@ -870,6 +870,8 @@ const getVault = (rippledSocket, vaultId) =>
       throw new Error(resp.error_message, 500)
     }
 
+    console.log('resp', resp)
+
     return resp.node
   })
 

@@ -1,8 +1,13 @@
-import { FC, PropsWithChildren, useEffect, useState } from 'react'
+import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
+import { useQuery } from 'react-query'
 import NoMatch from '../NoMatch'
 import { VaultHeader } from './VaultHeader'
+import { VaultTransactions } from './VaultTransactions'
+import { Loader } from '../shared/components/Loader'
+import SocketContext from '../shared/SocketContext'
+import { getVault } from '../../rippled/lib/rippled'
 import { useAnalytics } from '../shared/analytics'
 import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
@@ -38,9 +43,22 @@ const Page: FC<PropsWithChildren<{ vaultId: string }>> = ({
 )
 
 export const Vault = () => {
-  const { trackScreenLoaded } = useAnalytics()
+  const { trackScreenLoaded, trackException } = useAnalytics()
   const { id: vaultId = '' } = useParams<{ id: string }>()
   const [error, setError] = useState<number | null>(null)
+  const rippledSocket = useContext(SocketContext)
+
+  const { data: vaultData, isFetching: loading } = useQuery(
+    ['getVault', vaultId],
+    async () => getVault(rippledSocket, vaultId),
+    {
+      enabled: !!vaultId,
+      onError: (e: any) => {
+        trackException(`Vault ${vaultId} --- ${JSON.stringify(e)}`)
+        setError(e.code)
+      },
+    },
+  )
 
   useEffect(() => {
     trackScreenLoaded({
@@ -64,13 +82,24 @@ export const Vault = () => {
     return <Page vaultId={vaultId}>{renderError()}</Page>
   }
 
+  // Get the account ID for transactions (PseudoAccount or Owner)
+  const transactionAccountId = vaultData?.PseudoAccount || vaultData?.Owner
+
   return (
     <Page vaultId={vaultId}>
-      {vaultId && <VaultHeader vaultId={vaultId} setError={setError} />}
       {!vaultId && (
         <div className="vault-warning">
           <h2>Enter a Vault ID in the search box</h2>
         </div>
+      )}
+      {vaultId && loading && <Loader />}
+      {vaultId && !loading && vaultData && (
+        <>
+          <VaultHeader data={vaultData} vaultId={vaultId} />
+          {transactionAccountId && (
+            <VaultTransactions accountId={transactionAccountId} />
+          )}
+        </>
       )}
     </Page>
   )

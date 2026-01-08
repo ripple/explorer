@@ -1,42 +1,31 @@
-import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
-import { Loader } from '../../shared/components/Loader'
-import SocketContext from '../../shared/SocketContext'
-import { getVault } from '../../../rippled/lib/rippled'
-import { useAnalytics } from '../../shared/analytics'
 import { Details } from './Details'
 import './styles.scss'
 
-interface Props {
-  vaultId: string
-  setError: (error: number | null) => void
+interface VaultData {
+  Owner?: string
+  Asset?: {
+    currency: string
+    issuer?: string
+  }
+  AssetsTotal?: string
+  AssetsAvailable?: string
+  AssetsMaximum?: string
+  MPTIssuanceID?: string
+  Flags?: number
+  LossUnrealized?: string
+  PseudoAccount?: string
+  WithdrawalPolicy?: number
+  Data?: string
 }
 
-export const VaultHeader = (props: Props) => {
+interface Props {
+  data: VaultData
+  vaultId: string
+}
+
+export const VaultHeader = ({ data, vaultId }: Props) => {
   const { t } = useTranslation()
-  const { vaultId, setError } = props
-  const rippledSocket = useContext(SocketContext)
-  const { trackException } = useAnalytics()
-
-  const { data, isFetching: loading } = useQuery(
-    ['getVault', vaultId],
-    async () => getVault(rippledSocket, vaultId),
-    {
-      onError: (e: any) => {
-        trackException(`Vault ${vaultId} --- ${JSON.stringify(e)}`)
-        setError(e.code)
-      },
-    },
-  )
-
-  if (loading) {
-    return <Loader />
-  }
-
-  if (!data) {
-    return null
-  }
 
   return (
     <div className="vault-section">
