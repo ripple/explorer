@@ -13,6 +13,7 @@ import {
   shortenNFTTokenID,
   shortenMPTID,
   stripHttpProtocol,
+  convertToHttpURL,
 } from '../utils'
 
 describe('utils', () => {
@@ -269,6 +270,40 @@ describe('Shorten utils', () => {
     it('returns short MPT token IDs unchanged', () => {
       const shortMPTID = '00000000A8B71A79C3CE'
       expect(shortenMPTID(shortMPTID)).toBe(shortMPTID)
+    })
+  })
+
+  describe('convertToHttpUrl', () => {
+    it('converts IPFS URLs to HTTP URLs', () => {
+      expect(
+        convertToHttpURL(
+          'ipfs://QmXhvvWs3HaFkJvDuYvanj2pv31yFQGJewfEhfme1Sv47Y',
+        ),
+      ).toBe(
+        'https://ipfs.io/ipfs/QmXhvvWs3HaFkJvDuYvanj2pv31yFQGJewfEhfme1Sv47Y',
+      )
+    })
+
+    it('preserves https:// URLs as-is', () => {
+      expect(convertToHttpURL('https://example.com/logo.png')).toBe(
+        'https://example.com/logo.png',
+      )
+    })
+
+    it('adds https:// to plain domain URLs', () => {
+      expect(convertToHttpURL('logo.svgcdn.com/logos/openai-icon.png')).toBe(
+        'https://logo.svgcdn.com/logos/openai-icon.png',
+      )
+    })
+
+    it('handles empty strings', () => {
+      expect(convertToHttpURL('')).toBe('')
+    })
+
+    it('handles other protocols', () => {
+      expect(convertToHttpURL('ftp://example.com/file.txt')).toBe(
+        'ftp://example.com/file.txt',
+      )
     })
   })
 })
