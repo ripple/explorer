@@ -34,15 +34,16 @@ export const decodeBrokerName = (
 
 /**
  * Format a rate value from 1/10th basis points to percentage string
- * e.g., 50 (1/10th bps) -> "0.50%"
+ * e.g., 50 (1/10th bps) -> "0.05%"
  */
 export const formatRate = (rate: number | undefined): string => {
-  if (rate === undefined) return '-'
+  // the default value for ManagementFeeRate, CoverRateLiquidation and CoverRateMinimum is 0
+  if (rate === undefined) return '0.000%'
 
   // Convert from 1/10th basis points to percentage
   // 1 basis point = 0.01%, 1/10th basis point = 0.001%
   const percentage = rate / ONE_TENTH_BASIS_POINT
 
-  // Format with appropriate decimal places
-  return `${percentage.toFixed(2)}%`
+  // The field must be able to display up to 3 decimal places
+  return `${percentage.toFixed(3)}%`
 }

@@ -75,6 +75,8 @@ export const VaultLoans = ({ vaultId, vaultPseudoAccount }: Props) => {
     return null
   }
 
+  console.log('loanBrokers data: ', loanBrokers)
+
   const selectedBroker = loanBrokers[selectedBrokerIndex]
 
   return (

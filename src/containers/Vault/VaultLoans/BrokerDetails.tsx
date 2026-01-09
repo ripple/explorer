@@ -24,7 +24,9 @@ export const BrokerDetails = ({ broker }: Props) => {
   const brokerName = decodeBrokerName(broker.Data, 0)
 
   const formatCoverAvailable = (amount: string | undefined): string => {
-    if (!amount) return '-'
+    // the default value for CoverAvailable is 0
+    if (!amount)
+      return localizeNumber(0, language)
     const num = Number(amount)
     if (Number.isNaN(num)) return amount
     return localizeNumber(num, language, {
@@ -57,6 +59,7 @@ export const BrokerDetails = ({ broker }: Props) => {
         <div className="metric">
           <span className="metric-label">{t('first_loss_capital')}</span>
           <span className="metric-value">
+            {/* TODO: Investigate why one of the loan brokers display a cover of 15k -- there is a bug somewhere */}
             {formatCoverAvailable(broker.CoverAvailable)}
           </span>
         </div>

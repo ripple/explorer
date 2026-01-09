@@ -870,8 +870,6 @@ const getVault = (rippledSocket, vaultId) =>
       throw new Error(resp.error_message, 500)
     }
 
-    console.log('resp', resp)
-
     return resp.node
   })
 
@@ -924,8 +922,6 @@ const getAccountLoans = async (
   if (resp.error_message) {
     throw new Error(resp.error_message, 500)
   }
-
-  console.log('resp', resp)
 
   if (!resp.account_objects.length) {
     return undefined

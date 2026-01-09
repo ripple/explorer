@@ -14,6 +14,7 @@ interface Props {
 export const BrokerTabs = ({ brokers, selectedIndex, onSelect }: Props) => (
   <div className="broker-tabs">
     {brokers.map((broker, index) => {
+      // TODO: Explore the necessity of alpha, beta and gamma in the names of brokers. If necessary, change the below numeric system.
       const name = decodeBrokerName(broker.Data, index)
       const isSelected = index === selectedIndex
       return (
