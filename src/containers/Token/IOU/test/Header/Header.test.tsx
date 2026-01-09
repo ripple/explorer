@@ -118,7 +118,7 @@ describe('Header Component', () => {
   })
 
   it('displays issuer name when available', () => {
-    render(
+    const { container } = render(
       <TestWrapper>
         <Header
           currency="USD"
@@ -129,7 +129,9 @@ describe('Header Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('(TEST ISSUER)')).toBeInTheDocument()
+    const issuerNameSpan = container.querySelector('.issuer-name')
+    expect(issuerNameSpan).toBeInTheDocument()
+    expect(issuerNameSpan?.textContent).toBe('TEST ISSUER')
   })
 
   it('displays issuer domain link when available', () => {
@@ -340,7 +342,7 @@ describe('Header Component', () => {
       ...mockTokenData,
       issuer_name: '(Test) Issuer (Name)',
     }
-    render(
+    const { container } = render(
       <TestWrapper>
         <Header
           currency="USD"
@@ -351,7 +353,10 @@ describe('Header Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('(TEST ISSUER NAME)')).toBeInTheDocument()
+
+    const issuerNameSpan = container.querySelector('.issuer-name')
+    expect(issuerNameSpan).toBeInTheDocument()
+    expect(issuerNameSpan?.textContent).toBe('TEST ISSUER NAME')
   })
 
   it('handles missing issuer name', () => {
