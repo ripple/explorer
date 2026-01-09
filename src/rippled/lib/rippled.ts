@@ -841,6 +841,7 @@ const getMPTHolders = (rippledSocket, mptIssuanceId, limit = 20, marker = '') =>
     }
 
     if (resp.error_message) {
+      console.log('error response for the getMPTHolders request: ', resp)
       throw new Error(resp.error_message, 500)
     }
 

@@ -1,0 +1,92 @@
+import { useTranslation } from 'react-i18next'
+import { Account } from '../../shared/components/Account'
+import { useLanguage } from '../../shared/hooks'
+import { localizeNumber } from '../../shared/utils'
+
+interface Holder {
+  account: string
+  mpt_amount: string
+}
+
+interface Props {
+  holders: Holder[]
+  totalSupply: string | undefined
+  assetsTotal: string | undefined
+  startRank: number
+}
+
+// Format large numbers with M/K suffixes
+const formatCompactNumber = (num: number, language: string): string => {
+  if (num >= 1_000_000) {
+    return `${localizeNumber(num / 1_000_000, language, { maximumFractionDigits: 1 })}M`
+  }
+  if (num >= 1_000) {
+    return `${localizeNumber(num / 1_000, language, { maximumFractionDigits: 1 })}K`
+  }
+  return localizeNumber(num, language, { maximumFractionDigits: 2 })
+}
+
+export const DepositorTable = ({
+  holders,
+  totalSupply,
+  assetsTotal,
+  startRank,
+}: Props) => {
+  const { t } = useTranslation()
+  const language = useLanguage()
+
+  const totalSupplyNum = totalSupply ? Number(totalSupply) : 0
+
+  // Calculate the value of each holder's share
+  // Value = (holder's tokens / total supply) * total assets in vault
+  const calculateValue = (holderAmount: string): string => {
+    const amount = Number(holderAmount)
+    if (!totalSupplyNum || !assetsTotal) return '-'
+    const assetsTotalNum = Number(assetsTotal)
+    if (Number.isNaN(assetsTotalNum) || assetsTotalNum === 0) return '-'
+
+    // Proportional value: (holder tokens / total supply) * total assets
+    const value = (amount / totalSupplyNum) * assetsTotalNum
+    return `$${formatCompactNumber(value, language)}`
+  }
+
+  const calculatePercentOfSupply = (holderAmount: string): string => {
+    if (!totalSupplyNum) return '-'
+    const amount = Number(holderAmount)
+    const percent = (amount / totalSupplyNum) * 100
+    return `${localizeNumber(percent, language, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`
+  }
+
+  return (
+    <table className="depositor-table">
+      <thead>
+        <tr>
+          <th>{t('rank')}</th>
+          <th>{t('account')}</th>
+          <th>{t('lp_tokens')}</th>
+          <th>{t('percent_of_supply')}</th>
+          <th>{t('value')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {holders.map((holder, index) => (
+          <tr key={holder.account}>
+            <td className="rank-cell">{startRank + index}</td>
+            <td className="account-cell">
+              <Account account={holder.account} />
+            </td>
+            <td className="tokens-cell">
+              {formatCompactNumber(Number(holder.mpt_amount), language)}
+            </td>
+            <td className="percent-cell">
+              {calculatePercentOfSupply(holder.mpt_amount)}
+            </td>
+            <td className="value-cell">
+              {calculateValue(holder.mpt_amount)}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}

@@ -6,6 +6,7 @@ import NoMatch from '../NoMatch'
 import { VaultHeader } from './VaultHeader'
 import { VaultTransactions } from './VaultTransactions'
 import { VaultLoans } from './VaultLoans'
+import { VaultDepositors } from './VaultDepositors'
 import { Loader } from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
 import { getVault } from '../../rippled/lib/rippled'
@@ -102,6 +103,13 @@ export const Vault = () => {
             <VaultLoans
               vaultId={vaultId}
               vaultPseudoAccount={transactionAccountId}
+            />
+          )}
+          {vaultData?.ShareMPTID && (
+            <VaultDepositors
+              shareMptId={vaultData.ShareMPTID}
+              totalSupply={vaultData.ShareTotal}
+              assetsTotal={vaultData.AssetsTotal}
             />
           )}
           {transactionAccountId && (

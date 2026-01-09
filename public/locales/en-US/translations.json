@@ -823,5 +823,10 @@
   "loan_broker_id": "Loan Broker ID",
   "management_fee": "Management Fee",
   "cover_rate_minimum": "Cover Rate Minimum",
-  "cover_rate_liquidation": "Cover Rate Liquidation"
+  "cover_rate_liquidation": "Cover Rate Liquidation",
+  "depositors": "Depositors",
+  "rank": "Rank",
+  "lp_tokens": "# of LP Tokens",
+  "percent_of_supply": "% of Supply",
+  "value": "Value"
 }
