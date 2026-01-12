@@ -19,6 +19,7 @@ describe('getSocket', () => {
 
   describe('server defined entrypoint', () => {
     beforeEach(() => {
+      process.env.VITE_ENVIRONMENT = 'mainnet'
       process.env.VITE_RIPPLED_HOST = 'somewhere.com'
       process.env.VITE_P2P_RIPPLED_HOST = 'cli-somewhere.com'
       process.env.VITE_RIPPLED_WS_PORT = '51233'
