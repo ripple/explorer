@@ -103,6 +103,7 @@ export const Vault = () => {
             <VaultLoans
               vaultId={vaultId}
               vaultPseudoAccount={transactionAccountId}
+              assetCurrency={vaultData?.Asset?.currency}
             />
           )}
           {vaultData?.ShareMPTID && (

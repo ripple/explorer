@@ -132,3 +132,224 @@
     }
   }
 }
+
+// Broker Loans Table Styles
+.broker-loans-table {
+  margin-top: 32px;
+  border-top: 1px solid $black-70;
+  padding-top: 24px;
+}
+
+.broker-loans-loading,
+.broker-loans-empty {
+  padding: 32px;
+  text-align: center;
+  color: $black-40;
+}
+
+.loans-table-header {
+  display: grid;
+  grid-template-columns: 1.5fr 1.2fr 1.5fr 1fr 1.5fr 0.8fr;
+  gap: 16px;
+  padding: 16px 8px;
+  border-bottom: 1px solid $black-70;
+
+  .header-cell {
+    color: $black-40;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    @include bold;
+  }
+}
+
+.loans-table-body {
+  .loan-row {
+    border-bottom: 1px solid $black-70;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.expanded {
+      background: rgba($black-70, 0.3);
+    }
+  }
+}
+
+.loan-row-main {
+  display: grid;
+  grid-template-columns: 1.5fr 1.2fr 1.5fr 1fr 1.5fr 0.8fr;
+  gap: 16px;
+  padding: 16px 8px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: rgba($black-70, 0.5);
+  }
+
+  .loan-cell {
+    display: flex;
+    align-items: center;
+    color: $white;
+    font-size: 14px;
+
+    &.loan-id {
+      gap: 8px;
+
+      .expand-icon {
+        width: 12px;
+        height: 12px;
+        transition: transform 0.2s;
+        fill: $black-40;
+
+        &.rotated {
+          transform: rotate(180deg);
+        }
+      }
+
+      .loan-id-text {
+        color: $green;
+        font-family: monospace;
+      }
+    }
+
+    &.borrower {
+      .account {
+        color: $green;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    &.status {
+      gap: 8px;
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+
+      &.status-current {
+        color: $green;
+
+        .status-dot {
+          background: $green;
+        }
+      }
+
+      &.status-default {
+        color: #ff6b6b;
+
+        .status-dot {
+          background: #ff6b6b;
+        }
+      }
+
+      &.status-paid-off {
+        color: $black-40;
+
+        .status-dot {
+          background: $black-40;
+        }
+      }
+    }
+  }
+}
+
+.loan-row-details {
+  padding: 16px 32px 24px;
+  background: rgba($black-70, 0.5);
+
+  .details-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 24px;
+    margin-bottom: 16px;
+
+    @include for-size(desktop-up) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .detail-item {
+    .detail-label {
+      display: block;
+      color: $black-40;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .detail-value {
+      color: $white;
+      font-size: 14px;
+    }
+  }
+}
+
+// Pagination Styles
+.loans-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 24px 0;
+
+  .pagination-btn {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid $black-60;
+    border-radius: 4px;
+    background: transparent;
+    color: $white;
+    font-size: 14px;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s;
+
+    &:hover:not(:disabled) {
+      background: $black-70;
+      border-color: $black-40;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &.active {
+      background: $green;
+      border-color: $green;
+      color: $black;
+      @include bold;
+    }
+
+    &.prev,
+    &.next,
+    &.last {
+      font-weight: bold;
+    }
+  }
+
+  .pagination-ellipsis {
+    padding: 0 8px;
+    color: $black-40;
+  }
+}

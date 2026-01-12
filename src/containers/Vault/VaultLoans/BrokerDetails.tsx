@@ -2,10 +2,12 @@ import { useTranslation } from 'react-i18next'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
-import { decodeBrokerName, formatRate } from './utils'
+import { formatRate } from './utils'
+import { BrokerLoansTable } from './BrokerLoansTable'
 
 interface LoanBrokerData {
   index: string
+  Account: string
   Data?: string
   ManagementFeeRate?: number
   CoverAvailable?: string
@@ -15,21 +17,20 @@ interface LoanBrokerData {
 
 interface Props {
   broker: LoanBrokerData
+  currency?: string
 }
 
-export const BrokerDetails = ({ broker }: Props) => {
+export const BrokerDetails = ({ broker, currency }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
 
-  const brokerName = decodeBrokerName(broker.Data, 0)
-
   const formatCoverAvailable = (amount: string | undefined): string => {
+    const lang = language ?? 'en-US'
     // the default value for CoverAvailable is 0
-    if (!amount)
-      return localizeNumber(0, language)
+    if (!amount) return localizeNumber(0, lang)
     const num = Number(amount)
     if (Number.isNaN(num)) return amount
-    return localizeNumber(num, language, {
+    return localizeNumber(num, lang, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })
@@ -37,11 +38,6 @@ export const BrokerDetails = ({ broker }: Props) => {
 
   return (
     <div className="broker-details-card">
-      <div className="broker-header">
-        <span className="broker-label">{t('loan_broker')}</span>
-        <h3 className="broker-name">{brokerName}</h3>
-      </div>
-
       <div className="broker-id-row">
         <span className="broker-id-label">{t('loan_broker_id')}</span>
         <div className="broker-id-value">
@@ -76,6 +72,12 @@ export const BrokerDetails = ({ broker }: Props) => {
           </span>
         </div>
       </div>
+
+      <BrokerLoansTable
+        brokerAccount={broker.Account}
+        loanBrokerId={broker.index}
+        currency={currency}
+      />
     </div>
   )
 }

@@ -28,9 +28,10 @@ interface LoanBrokerData {
 interface Props {
   vaultId: string
   vaultPseudoAccount: string
+  assetCurrency?: string
 }
 
-export const VaultLoans = ({ vaultId, vaultPseudoAccount }: Props) => {
+export const VaultLoans = ({ vaultId, vaultPseudoAccount, assetCurrency }: Props) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
@@ -88,7 +89,9 @@ export const VaultLoans = ({ vaultId, vaultPseudoAccount }: Props) => {
         selectedIndex={selectedBrokerIndex}
         onSelect={setSelectedBrokerIndex}
       />
-      {selectedBroker && <BrokerDetails broker={selectedBroker} />}
+      {selectedBroker && (
+        <BrokerDetails broker={selectedBroker} currency={assetCurrency} />
+      )}
     </div>
   )
 }
