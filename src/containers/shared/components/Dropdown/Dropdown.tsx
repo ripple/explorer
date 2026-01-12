@@ -66,6 +66,7 @@ export const Dropdown = ({
         expanded && 'dropdown-expanded',
         className,
       )}
+      data-testid="dropdown"
     >
       <button
         className="btn dropdown-toggle"
@@ -84,6 +85,7 @@ export const Dropdown = ({
         role="menu"
         tabIndex={0}
         aria-hidden={!expanded}
+        data-testid="dropdown-menu"
       >
         {children}
       </div>
