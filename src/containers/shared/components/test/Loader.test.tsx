@@ -5,7 +5,7 @@ import { Loader } from '../Loader'
 
 describe('Loader', () => {
   afterEach(cleanup)
-  it('renders correctly ', () => {
+  it('renders correctly', () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Loader />

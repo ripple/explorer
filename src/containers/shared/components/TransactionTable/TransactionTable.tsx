@@ -43,8 +43,7 @@ export const TransactionTable: TransactionTableComponent = ({
         <li className="transaction-li transaction-li-header">
           {hasTokensColumn && (
             <div className="col col-token" title="col-token">
-              {' '}
-              {t('token')}{' '}
+              {t('token')}
             </div>
           )}
           <div className="col col-account">{t('account')}</div>

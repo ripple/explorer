@@ -41,7 +41,7 @@ describe('TxStatus', () => {
     )
   })
 
-  it('renders failure correctly without message in shorthand mode ', () => {
+  it('renders failure correctly without message in shorthand mode', () => {
     renderComponent(<TxStatus status="tecPATH_DRY" shorthand />)
     expect(screen.queryByText('Fail')).toBeNull()
     expect(screen.getByTitle('status')).toBeDefined()
