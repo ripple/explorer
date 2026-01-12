@@ -39,7 +39,7 @@ describe('<Notification />', () => {
       action,
     })
 
-    expect(screen.getByRole('button')).toBeInTheDocument()
+    expect(screen.getByRole('button')).toBeDefined()
   })
 
   it('should render its message', () => {

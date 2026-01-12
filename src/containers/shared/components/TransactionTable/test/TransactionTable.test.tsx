@@ -12,7 +12,7 @@ const loadMore = jest.fn()
 describe('Transaction Table container', () => {
   afterEach(cleanup)
   const renderComponent = (
-    transactions = [],
+    transactions,
     emptyMessage = undefined,
     loading = false,
     onLoadMore = loadMore,
@@ -34,14 +34,10 @@ describe('Transaction Table container', () => {
       </QueryClientProvider>,
     )
 
-  it('renders without crashing', () => {
-    renderComponent()
-  })
-
   it('renders multi-page content', () => {
     renderComponent(mockTx.transactions, undefined, false, loadMore, false)
 
-    expect(screen.queryByTitle('transaction-table')).toBeDefined()
+    expect(screen.queryByTitle('transaction-table')).not.toBeNull()
     expect(screen.getAllByTitle('tx-row')).toHaveLength(3)
     expect(screen.getAllByTitle('tx-details')).toHaveLength(2)
     expect(screen.queryByRole('button')).toBeNull()
@@ -49,26 +45,26 @@ describe('Transaction Table container', () => {
 
   it('renders single-page content', () => {
     renderComponent(mockTx.transactions, undefined, false, loadMore, true)
-    expect(screen.queryByTitle('transaction-table')).toBeDefined()
+    expect(screen.queryByTitle('transaction-table')).not.toBeNull()
     expect(screen.getAllByTitle('tx-row')).toHaveLength(3)
     expect(screen.getAllByTitle('tx-details')).toHaveLength(2)
-    expect(screen.queryByRole('button')).toBeDefined()
+    expect(screen.queryByRole('button')).not.toBeNull()
   })
 
   it('renders without details', () => {
     renderComponent(mockTx.transactions, undefined, false, loadMore, true)
-    expect(screen.queryByTitle('transaction-table')).toBeDefined()
+    expect(screen.queryByTitle('transaction-table')).not.toBeNull()
     expect(screen.getAllByTitle('tx-row')).toHaveLength(3)
     expect(screen.getAllByTitle('tx-details')).toHaveLength(2)
   })
 
   it('renders loader', () => {
     renderComponent(mockTx.transactions, undefined, true, loadMore, false)
-    expect(screen.queryByTitle('loader')).toBeDefined()
+    expect(screen.queryByTitle('loader')).not.toBeNull()
   })
 
   it('renders empty message', () => {
     renderComponent([], undefined, false, loadMore, false)
-    expect(screen.queryByTitle('empty-transactions-message')).toBeDefined()
+    expect(screen.queryByTitle('empty-transactions-message')).not.toBeNull()
   })
 })

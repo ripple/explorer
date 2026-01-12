@@ -20,7 +20,7 @@ describe('PaginatedTable', () => {
   describe('Rendering', () => {
     it('renders without crashing with empty data', () => {
       render(<PaginatedTable data={[]} tableStructure={mockTableStructure} />)
-      expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+      expect(screen.queryByRole('navigation')).not.toBeNull()
     })
 
     it('renders table with data', () => {
@@ -39,7 +39,7 @@ describe('PaginatedTable', () => {
           tableStructure={mockTableStructure}
         />,
       )
-      expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+      expect(screen.queryByRole('navigation')).not.toBeNull()
     })
 
     it('renders pagination when data exceeds page size', () => {

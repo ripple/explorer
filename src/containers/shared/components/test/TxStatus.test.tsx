@@ -14,7 +14,7 @@ describe('TxStatus', () => {
       </I18nextProvider>,
     )
 
-  it('renders success correctly ', () => {
+  it('renders success correctly', () => {
     const { container } = renderComponent(<TxStatus status="tesSUCCESS" />)
     expect(container).toHaveTextContent('Success')
     expect(screen.getByTitle('status')).toBeDefined()

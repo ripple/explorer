@@ -65,7 +65,6 @@ describe('Dropdown', () => {
           Outside
         </button>
       </div>,
-      // { attachTo: sandbox },
     )
     expect(screen.getByTestId('dropdown')).not.toHaveClass('dropdown-expanded')
 

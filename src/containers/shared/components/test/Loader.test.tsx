@@ -11,6 +11,6 @@ describe('Loader', () => {
         <Loader />
       </I18nextProvider>,
     )
-    expect(screen.queryByTitle('loader')).toBeDefined()
+    expect(screen.queryByTitle('loader')).not.toBeNull()
   })
 })

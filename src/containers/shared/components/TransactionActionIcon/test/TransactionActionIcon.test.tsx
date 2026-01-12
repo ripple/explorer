@@ -4,12 +4,12 @@ import { TransactionAction } from '../../Transaction/types'
 
 describe('TransactionActionIcon', () => {
   afterEach(cleanup)
-  it('renders with an action specified ', () => {
+  it('renders with an action specified', () => {
     render(<TransactionActionIcon action={TransactionAction.CREATE} />)
     expect(screen.getByTitle('tx-create')).toBeDefined()
   })
 
-  it('renders with type specified ', () => {
+  it('renders with type specified', () => {
     render(<TransactionActionIcon type="Payment" />)
     expect(screen.getByTitle('tx-send')).toBeDefined()
   })

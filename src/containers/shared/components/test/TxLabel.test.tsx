@@ -7,7 +7,7 @@ describe('TxLabel', () => {
   const renderComponent = (component: any) =>
     render(<I18nextProvider i18n={i18n}>{component}</I18nextProvider>)
 
-  it('renders with an action specified ', () => {
+  it('renders with an action specified', () => {
     renderComponent(<TxLabel type="Payment" />)
     expect(screen.getByTitle('tx-label')).toBeDefined()
     expect(screen.getByTitle('tx-label')).toHaveClass('tx-category-PAYMENT')

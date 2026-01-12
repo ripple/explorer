@@ -22,6 +22,7 @@ describe('DropdownItem', () => {
 
     it('renders as an anchor tag', () => {
       expect(item.tagName).toBe('A')
+      expect(item).toHaveAttribute('href', 'http://google.com')
     })
 
     it('executes handler on click', () => {
