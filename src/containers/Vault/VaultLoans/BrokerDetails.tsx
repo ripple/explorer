@@ -41,7 +41,7 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
       <div className="broker-id-row">
         <span className="broker-id-label">{t('loan_broker_id')}</span>
         <div className="broker-id-value">
-          <CopyableText text={broker.index} displayText={broker.index} />
+          <CopyableText text={broker.index} displayText={broker.index} showCopyIcon />
         </div>
       </div>
 
