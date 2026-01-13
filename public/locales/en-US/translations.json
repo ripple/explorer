@@ -811,7 +811,7 @@
   "check_vault_id": "Please check the vault ID",
   "private_vault": "Private Vault",
   "total_value_locked": "Total Value Locked (TVL)",
-  "mpt_shares": "MPT Shares",
+  "shares": "Shares",
   "assets_available": "Assets Available",
   "unrealized_loss": "Unrealized Loss",
   "other_data": "Other Data",

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { Account } from '../../shared/components/Account'
+import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
 import { RouteLink } from '../../shared/routing'
@@ -132,7 +133,16 @@ export const Details = ({ data, vaultId }: Props) => {
       <div className="details-column">
         <table className="token-table">
           <tbody>
-            <TokenTableRow label={t('vault_id')} value={vaultId} />
+            <TokenTableRow
+              label={t('vault_id')}
+              value={
+                <CopyableText
+                  text={vaultId}
+                  displayText={`${vaultId.substring(0, 8)}...${vaultId.substring(vaultId.length - 6)}`}
+                  showCopyIcon
+                />
+              }
+            />
             {owner && (
               <TokenTableRow
                 label={t('owner')}
@@ -145,7 +155,7 @@ export const Details = ({ data, vaultId }: Props) => {
             />
             <TokenTableRow
               label={t('data')}
-              value={decodedData || t('not_available')}
+              value={decodedData || '-'}
             />
             <TokenTableRow
               label={t('withdrawal_policy')}
@@ -166,10 +176,10 @@ export const Details = ({ data, vaultId }: Props) => {
             {/* TODO: If the asset is specified as XRP in drops, divide the value by 10 ^ 6 */}
             <TokenTableRow
               label={t('max_total_supply')}
-              value={formatAmount(assetsMaximum, asset, language)}
+              value={formatAmount(assetsMaximum ?? 'No Limit on Capacity of the Vault', asset, language) }
             />
             <TokenTableRow
-              label={t('mpt_shares')}
+              label={t('shares')}
               value={renderMPTSharesLink()}
             />
             <TokenTableRow
