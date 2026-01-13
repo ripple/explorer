@@ -86,7 +86,19 @@ export const Vault = () => {
 
   // Get the account ID for transactions (PseudoAccount or Owner)
   const transactionAccountId = vaultData?.PseudoAccount || vaultData?.Owner
-  console.log('incoming vault data', vaultData)
+
+  // Get display-friendly currency string from asset
+  const getAssetCurrencyDisplay = () => {
+    const asset = vaultData?.Asset
+    if (!asset) return ''
+    if (asset.currency === 'XRP') return 'XRP'
+    if (asset.currency) return asset.currency
+    if (asset.mpt_issuance_id) {
+      // For MPT, show truncated ID
+      return `MPT (${asset.mpt_issuance_id.substring(0, 6)}...)`
+    }
+    return ''
+  }
 
   return (
     <Page vaultId={vaultId}>
@@ -103,7 +115,7 @@ export const Vault = () => {
             <VaultLoans
               vaultId={vaultId}
               vaultPseudoAccount={transactionAccountId}
-              assetCurrency={vaultData?.Asset?.currency}
+              assetCurrency={getAssetCurrencyDisplay()}
             />
           )}
           {vaultData?.ShareMPTID && (
