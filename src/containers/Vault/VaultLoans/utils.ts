@@ -47,12 +47,12 @@ export const formatPaymentInterval = (seconds: number): string => {
  */
 export const formatLoanStatus = (
   flags: number,
-  principalOutstanding: string | number,
+  totalLoanValueOutstanding: string | number,
 ): { status: string; colorClass: string } => {
   const outstanding =
-    typeof principalOutstanding === 'string'
-      ? Number(principalOutstanding)
-      : principalOutstanding
+    typeof totalLoanValueOutstanding === 'string'
+      ? Number(totalLoanValueOutstanding)
+      : totalLoanValueOutstanding
 
   // Check if loan is paid off (no outstanding balance)
   if (outstanding === 0) {

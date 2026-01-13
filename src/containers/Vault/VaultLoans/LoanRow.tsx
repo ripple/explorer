@@ -48,7 +48,7 @@ export const LoanRow = ({ loan, currency = '' }: Props) => {
 
   const { status, colorClass } = formatLoanStatus(
     loan.Flags,
-    loan.TotalValueOutstanding,
+    loan.TotalValueOutstanding ?? 0,
   )
 
   const formatAmount = (amount: string | number): string => {
@@ -93,13 +93,14 @@ export const LoanRow = ({ loan, currency = '' }: Props) => {
           <Account account={loan.Borrower} displayText={truncateId(loan.Borrower, 7, 4)} />
         </div>
         <div className="loan-cell amount-requested">
-          {formatAmount(loan.TotalValueOutstanding)}
+          {/*  Note: TotalValueOutstanding is has a DEFAULT configuration in XRPL. Its absence indicates a value of 0. */}
+          {formatAmount(loan.TotalValueOutstanding ?? 0)}
         </div>
         <div className="loan-cell interest-rate">
           {formatRate(loan.InterestRate)}
         </div>
         <div className="loan-cell outstanding-balance">
-          {formatAmount(loan.TotalValueOutstanding)}
+          {formatAmount(loan.TotalValueOutstanding ?? 0)}
         </div>
         <div className={`loan-cell status ${colorClass}`}>
           <span className="status-dot" />
