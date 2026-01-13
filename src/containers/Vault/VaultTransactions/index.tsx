@@ -55,13 +55,13 @@ export const VaultTransactions = ({ accountId }: Props) => {
     <div className="vault-transactions-section">
       <h2 className="vault-transactions-title">{t('transactions')}</h2>
       <div className="vault-transactions-divider" />
-      {/* TODO: Is the Amount field relevant for all transaction-types? VaultCreate, VaultDelete, VaultSet, LoanSet etc */}
       <TransactionTable
         transactions={transactions}
         loading={loading}
         emptyMessage={error?.message ? t(error.message as any) : undefined}
         onLoadMore={() => fetchNextPage()}
         hasAdditionalResults={hasNextPage}
+        hasAmountColumn
       />
     </div>
   )

@@ -12,6 +12,7 @@ export type TransactionTableProps = HTMLAttributes<HTMLElement> & {
   onLoadMore?: MouseEventHandler
   hasAdditionalResults?: boolean
   hasTokensColumn?: boolean
+  hasAmountColumn?: boolean
 }
 
 type TransactionTableComponent = FunctionComponent<TransactionTableProps> & {}
@@ -23,6 +24,7 @@ export const TransactionTable: TransactionTableComponent = ({
   onLoadMore = () => {},
   transactions = [],
   hasTokensColumn,
+  hasAmountColumn,
 }: TransactionTableProps) => {
   const { t } = useTranslation()
 
@@ -30,6 +32,7 @@ export const TransactionTable: TransactionTableComponent = ({
     <TransactionTableRow
       tx={tx}
       hasTokensColumn={hasTokensColumn}
+      hasAmountColumn={hasAmountColumn}
       key={tx.hash}
     />
   )
@@ -46,6 +49,9 @@ export const TransactionTable: TransactionTableComponent = ({
           )}
           <div className="col col-account">{t('account')}</div>
           <div className="col col-type">{t('transaction_type')}</div>
+          {hasAmountColumn && (
+            <div className="col col-amount">{t('amount')}</div>
+          )}
           <div className="col col-status">{t('status')}</div>
           <div className="col col-date">{t('transactions.date_header')}</div>
         </li>

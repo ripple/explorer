@@ -44,6 +44,11 @@
     }
   }
 
+  .col-amount {
+    flex: 2;
+    @include medium;
+  }
+
   .col-token {
     width: 40px;
   }
