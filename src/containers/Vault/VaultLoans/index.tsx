@@ -72,8 +72,15 @@ export const VaultLoans = ({ vaultId, vaultPseudoAccount, assetCurrency }: Props
   }
 
   if (!loanBrokers || loanBrokers.length === 0) {
-    // TODO: If there are no loan brokers, what is the expected behavior?
-    return null
+    return (
+      <div className="vault-loans-section">
+        <h2 className="vault-loans-title">{t('loans')}</h2>
+        <div className="vault-loans-divider" />
+        <div className="no-loan-brokers-message">
+          {t('no_loan_brokers_message')}
+        </div>
+      </div>
+    )
   }
 
   console.log('loanBrokers data: ', loanBrokers)

@@ -19,6 +19,18 @@
   .vault-depositors-divider {
     background: $black-70;
   }
+
+  .no-depositors-message {
+    padding: 32px;
+    text-align: center;
+    color: $black-40;
+  }
+
+  .depositors-error-message {
+    padding: 32px;
+    text-align: center;
+    color: #ff6b6b;
+  }
 }
 
 .depositor-table {

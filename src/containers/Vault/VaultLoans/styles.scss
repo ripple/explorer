@@ -141,7 +141,8 @@
 }
 
 .broker-loans-loading,
-.broker-loans-empty {
+.broker-loans-empty,
+.no-loan-brokers-message {
   padding: 32px;
   text-align: center;
   color: $black-40;

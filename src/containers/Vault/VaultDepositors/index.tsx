@@ -27,7 +27,7 @@ export const VaultDepositors = ({
 
   const pageSize = 5
 
-  const { data, isFetching: loading } = useQuery(
+  const { data, isFetching: loading, error } = useQuery<any, Error>(
     ['getVaultDepositors', shareMptId, currentPage],
     async () => {
       const marker = markers[currentPage]
@@ -51,7 +51,36 @@ export const VaultDepositors = ({
     },
   )
 
-  console.log('vault MPT shares holders: ', data)
+  if (error) {
+    console.error(
+      `[VaultDepositors] Failed to fetch depositors for MPT ${shareMptId}:`,
+      error.message || error,
+    )
+    return (
+      <div className="vault-depositors-section">
+        <h2 className="vault-depositors-title">{t('depositors')}</h2>
+        <div className="vault-depositors-divider" />
+        <div className="depositors-error-message">
+          {t('depositors_fetch_error' as any)}
+        </div>
+      </div>
+    )
+  }
+
+  if (!data && !loading) {
+    console.warn(
+      `[VaultDepositors] No data returned for MPT ${shareMptId}. This may indicate a Clio node issue.`,
+    )
+    return (
+      <div className="vault-depositors-section">
+        <h2 className="vault-depositors-title">{t('depositors')}</h2>
+        <div className="vault-depositors-divider" />
+        <div className="no-depositors-message">
+          {t('no_depositors_message' as any)}
+        </div>
+      </div>
+    )
+  }
 
   const holders = data?.mpt_holders || []
   const hasNextPage = !!data?.marker
