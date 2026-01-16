@@ -1,19 +1,19 @@
-import { expectSimpleRowText, createSimpleWrapperFactory } from '../../test'
+import { expectSimpleRowText, createSimpleRenderFactory } from '../../test'
 import { Simple } from '../Simple'
 import mockDelegateSet from './mock_data/DelegateSet.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('DelegateSet: Simple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockDelegateSet)
+    const { container, unmount } = renderComponent(mockDelegateSet)
     expectSimpleRowText(
-      wrapper,
+      container,
       'authorize',
       'rNRfqQc9b9ehXJJYVR6NqPPwrS26tWeB6N',
     )
-    expectSimpleRowText(wrapper, 'permissions', 'PaymentAccountDomainSet')
+    expectSimpleRowText(container, 'permissions', 'PaymentAccountDomainSet')
 
-    wrapper.unmount()
+    unmount()
   })
 })

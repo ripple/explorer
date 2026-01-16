@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { useInfiniteQuery, QueryClientProvider } from 'react-query'
@@ -42,8 +42,8 @@ jest.mock('react-query', () => ({
 const fetchOffers = jest.fn()
 
 describe('NFT Offers container', () => {
-  const createWrapper = () =>
-    mount(
+  const renderOffers = () =>
+    render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <I18nextProvider i18n={i18n}>
@@ -63,8 +63,7 @@ describe('NFT Offers container', () => {
       isFetching: false,
       error: {},
     }))
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderOffers()
   })
 
   it('renders table content', () => {
@@ -73,26 +72,21 @@ describe('NFT Offers container', () => {
       isFetching: false,
       error: {},
     }))
-    const wrapper = createWrapper()
-    expect(wrapper.find('tr').length).toEqual(3)
-    expect(wrapper.find('Link').length).toEqual(2)
-    expect(wrapper.text().includes('0.000043')).toBe(true)
+    const { container } = renderOffers()
+    expect(container.querySelectorAll('tr').length).toEqual(3)
+    expect(container.querySelectorAll('a').length).toEqual(2)
+    expect(container.textContent.includes('0.000043')).toBe(true)
     expect(
-      wrapper
-        .text()
-        .includes(
-          '04A971FB801C8EDD9B839F5814A7996441303C1E9BB112BFC239A803D614AA23',
-        ),
+      container.textContent.includes(
+        '04A971FB801C8EDD9B839F5814A7996441303C1E9BB112BFC239A803D614AA23',
+      ),
     ).toBe(true)
     expect(
-      wrapper
-        .text()
-        .includes(
-          '0758BE16FBC30B823F4C80E46378F7FEA4CCE3115EB9637F73211ADD1E17C298',
-        ),
+      container.textContent.includes(
+        '0758BE16FBC30B823F4C80E46378F7FEA4CCE3115EB9637F73211ADD1E17C298',
+      ),
     ).toBe(true)
-    expect(wrapper.find('.load-more-btn').length).toEqual(0)
-    wrapper.unmount()
+    expect(container.querySelectorAll('.load-more-btn').length).toEqual(0)
   })
 
   it('renders loader', () => {
@@ -101,9 +95,8 @@ describe('NFT Offers container', () => {
       isFetching: true,
       error: {},
     }))
-    const wrapper = createWrapper()
-    expect(wrapper.find('Loader').length).toEqual(1)
-    wrapper.unmount()
+    const { container } = renderOffers()
+    expect(container.querySelectorAll('.loader').length).toEqual(1)
   })
 
   it('renders no information warning when there is no data', () => {
@@ -112,9 +105,8 @@ describe('NFT Offers container', () => {
       isFetching: false,
       error: {},
     }))
-    const wrapper = createWrapper()
-    expect(wrapper.find('.no-info-content').length).toEqual(1)
-    wrapper.unmount()
+    const { container } = renderOffers()
+    expect(container.querySelectorAll('.no-info-content').length).toEqual(1)
   })
 
   it('renders load more button', () => {
@@ -124,8 +116,7 @@ describe('NFT Offers container', () => {
       error: {},
       hasNextPage: true,
     }))
-    const wrapper = createWrapper()
-    expect(wrapper.find('.load-more-btn').length).toEqual(1)
-    wrapper.unmount()
+    const { container } = renderOffers()
+    expect(container.querySelectorAll('.load-more-btn').length).toEqual(1)
   })
 })

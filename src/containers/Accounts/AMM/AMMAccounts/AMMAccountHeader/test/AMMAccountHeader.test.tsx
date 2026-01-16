@@ -1,20 +1,17 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter } from 'react-router'
 import { QueryClientProvider } from 'react-query'
 import i18n from '../../../../../../i18n/testConfig'
 import { AMMAccountHeader, AmmDataType } from '../AMMAccountHeader'
-import {
-  flushPromises,
-  V7_FUTURE_ROUTER_FLAGS,
-} from '../../../../../test/utils'
+import { V7_FUTURE_ROUTER_FLAGS } from '../../../../../test/utils'
 import { queryClient } from '../../../../../shared/QueryClient'
 
 describe('AMM Account Header', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 
-  const createWrapper = (state: AmmDataType) =>
-    mount(
+  const renderAMMAccountHeader = (state: AmmDataType) =>
+    render(
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
           <MemoryRouter
@@ -37,19 +34,18 @@ describe('AMM Account Header', () => {
       language: 'en-US',
     }
 
-    const wrapper = createWrapper(state)
-    await flushPromises()
-    wrapper.update()
-    expect(wrapper.find(AMMAccountHeader).length).toBe(1)
-    expect(wrapper.find('.box-header .title').length).toBe(1)
-    expect(wrapper.find('.currency-pair').length).toBe(1)
-    expect(wrapper.text().includes('500')).toBe(true)
-    expect(wrapper.text().includes('0.01%')).toBe(true)
-    expect(wrapper.text().includes('XRP.hi/USD.hi')).toBe(true)
-    expect(wrapper.text().includes('\uE9001,000')).toBe(true)
-    expect(wrapper.text().includes('9,000')).toBe(true)
-    expect(wrapper.text().includes('rTEST_ACCOUNT')).toBe(true)
-
-    wrapper.unmount()
+    const { container } = renderAMMAccountHeader(state)
+    await waitFor(() => {
+      // AMMAccountHeader renders with class 'account-header'
+      expect(container.querySelectorAll('.account-header').length).toBe(1)
+    })
+    expect(container.querySelectorAll('.box-header .title').length).toBe(1)
+    expect(container.querySelectorAll('.currency-pair').length).toBe(1)
+    expect(container.textContent).toContain('500')
+    expect(container.textContent).toContain('0.01%')
+    expect(container.textContent).toContain('XRP.hi/USD.hi')
+    expect(container.textContent).toContain('\uE9001,000')
+    expect(container.textContent).toContain('9,000')
+    expect(container.textContent).toContain('rTEST_ACCOUNT')
   })
 })

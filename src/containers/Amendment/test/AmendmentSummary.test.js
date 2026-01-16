@@ -1,10 +1,10 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
 import { Amendment } from '..'
 import i18n from '../../../i18n/testConfig'
 import NetworkContext from '../../shared/NetworkContext'
-import { QuickHarness, flushPromises } from '../../test/utils'
+import { QuickHarness } from '../../test/utils'
 import { AMENDMENT_ROUTE } from '../../App/routes'
 import votingAmendment from './mockVotingAmendment.json'
 import validators from './mockValidatorsList.json'
@@ -20,8 +20,8 @@ jest.mock('usehooks-ts', () => ({
 const MOCK_IDENTIFIER = votingAmendment.amendment.id
 
 describe('Amendments Page container', () => {
-  const createWrapper = () =>
-    mount(
+  const renderAmendment = () =>
+    render(
       <NetworkContext.Provider value="main">
         <QuickHarness
           i18n={i18n}
@@ -53,8 +53,7 @@ describe('Amendments Page container', () => {
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderAmendment()
   })
 
   it('renders all parts for a voting amendment', async () => {
@@ -71,135 +70,82 @@ describe('Amendments Page container', () => {
       response: validators,
     })
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    await flushPromises()
-    await flushPromises()
-    wrapper.update()
-    expect(wrapper.find('.amendment-summary .summary .type').length).toBe(1)
+    const { container } = renderAmendment()
 
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(0)
-        .find('.value')
-        .html(),
-    ).toBe('<div class="value">mock-name</div>')
+    await waitFor(() => {
+      expect(
+        container.querySelector('.amendment-summary .summary .type'),
+      ).toBeInTheDocument()
+    })
 
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(1)
-        .find('.value')
-        .html(),
-    ).toBe('<div class="value">mock-amendment-id</div>')
+    const rows = container.querySelectorAll(
+      '.amendment-summary .simple-body .rows .row',
+    )
 
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(2)
-        .find('.value')
-        .html(),
-    ).toBe(
+    expect(rows[0].querySelector('.value').outerHTML).toBe(
+      '<div class="value">mock-name</div>',
+    )
+
+    expect(rows[1].querySelector('.value').outerHTML).toBe(
+      '<div class="value">mock-amendment-id</div>',
+    )
+
+    expect(rows[2].querySelector('.value').outerHTML).toBe(
       '<div class="value"><a href="https://github.com/XRPLF/rippled/releases/tag/1.12.0" target="_blank">v1.12.0</a></div>',
     )
 
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(3)
-        .find('.value')
-        .html(),
-    ).toBe('<div class="value">3/4</div>')
+    expect(rows[3].querySelector('.value').outerHTML).toBe(
+      '<div class="value">3/4</div>',
+    )
 
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(4)
-        .find('.value a')
-        .html(),
-    ).toBe(
+    expect(rows[4].querySelector('.value a').outerHTML).toBe(
       '<a href="https://xrpl.org/known-amendments.html#mock-name" target="_blank">https://xrpl.org/known-amendments.html#mock-name</a>',
     )
 
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(5)
-        .find('.value .badge')
-        .html(),
-    ).toBe('<div class="badge voting">not enabled</div>')
+    expect(rows[5].querySelector('.value .badge').outerHTML).toBe(
+      '<div class="badge voting">not enabled</div>',
+    )
+
+    expect(rows[6].querySelector('.value').outerHTML).toBe(
+      '<div class="value">2</div>',
+    )
+
+    expect(rows[7].querySelector('.value').outerHTML).toBe(
+      '<div class="value">4</div>',
+    )
+
+    expect(rows[8].querySelector('.value').outerHTML).toBe(
+      '<div class="value">1</div>',
+    )
+
+    expect(rows[9].querySelector('.value').outerHTML).toBe(
+      '<div class="value">3</div>',
+    )
+
+    expect(rows[10].querySelector('.value').outerHTML).toBe(
+      '<div class="value eta no">voting</div>',
+    )
+
+    expect(rows[11].querySelector('.value').outerHTML).toBe(
+      '<div class="value badge consensus">25%</div>',
+    )
 
     expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(6)
-        .find('.value')
-        .html(),
-    ).toBe('<div class="value">2</div>')
+      container.querySelectorAll('.amendment-summary .barchart').length,
+    ).toBe(1)
 
     expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(7)
-        .find('.value')
-        .html(),
-    ).toBe('<div class="value">4</div>')
-
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(8)
-        .find('.value')
-        .html(),
-    ).toBe('<div class="value">1</div>')
-
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(9)
-        .find('.value')
-        .html(),
-    ).toBe('<div class="value">3</div>')
-
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(10)
-        .find('.value')
-        .html(),
-    ).toBe('<div class="value eta no">voting</div>')
-
-    expect(
-      wrapper
-        .find('.amendment-summary .simple-body .rows .row')
-        .at(11)
-        .find('.value')
-        .html(),
-    ).toBe('<div class="value badge consensus">25%</div>')
-
-    expect(wrapper.find('.amendment-summary .barchart').length).toBe(1)
-
-    expect(
-      wrapper.find('.amendment-summary .votes .votes-columns .votes-column')
-        .length,
+      container.querySelectorAll(
+        '.amendment-summary .votes .votes-columns .votes-column',
+      ).length,
     ).toBe(2)
 
-    expect(
-      wrapper
-        .find('.amendment-summary .votes .votes-columns .votes-column')
-        .at(0)
-        .find('.vals .row').length,
-    ).toBe(2)
+    const votesColumns = container.querySelectorAll(
+      '.amendment-summary .votes .votes-columns .votes-column',
+    )
 
-    expect(
-      wrapper
-        .find('.amendment-summary .votes .votes-columns .votes-column')
-        .at(1)
-        .find('.vals .row').length,
-    ).toBe(4)
-
-    wrapper.unmount()
+    expect(votesColumns[0].querySelectorAll('.vals .row').length).toBe(2)
+    expect(votesColumns[1].querySelectorAll('.vals .row').length).toBe(4)
   })
 
   it('renders 404 page on no match', async () => {
@@ -216,13 +162,10 @@ describe('Amendments Page container', () => {
       response: validators,
     })
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    await flushPromises()
-    await flushPromises()
-    wrapper.update()
+    const { container } = renderAmendment()
 
-    expect(wrapper.find('.no-match').length).toBe(1)
-    wrapper.unmount()
+    await waitFor(() => {
+      expect(container.querySelector('.no-match')).toBeInTheDocument()
+    })
   })
 })

@@ -1,23 +1,23 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockCredentialDelete from './mock_data/CredentialDelete.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('CredentialDeleteTableDetail ', () => {
   it('renders CredentialDeleteTableDetail', () => {
-    const wrapper = createWrapper(mockCredentialDelete)
+    const { container, unmount } = renderComponent(mockCredentialDelete)
 
-    expect(wrapper.find('[data-testid="subject"]')).toHaveText(
+    expect(container.querySelector('[data-testid="subject"]')).toHaveTextContent(
       'subject: rwXChshgJHh6KwwXY8hN1iNAiuyzJkz7p6',
     )
-    expect(wrapper.find('[data-testid="credential-type"]')).toHaveText(
+    expect(container.querySelector('[data-testid="credential-type"]')).toHaveTextContent(
       'credential_type: My test credential',
     )
-    expect(wrapper.find('[data-testid="issuer"]')).toHaveText(
+    expect(container.querySelector('[data-testid="issuer"]')).toHaveTextContent(
       'issuer: rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi',
     )
 
-    wrapper.unmount()
+    unmount()
   })
 })

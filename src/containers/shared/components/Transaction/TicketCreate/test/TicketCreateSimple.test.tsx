@@ -1,13 +1,13 @@
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import TicketCreate from './mock_data/TicketCreate.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('TicketCreate: Simple', () => {
   it('renders ticket count', () => {
-    const wrapper = createWrapper(TicketCreate)
-    expectSimpleRowText(wrapper, 'ticket-count', '1')
-    wrapper.unmount()
+    const { container, unmount } = renderComponent(TicketCreate)
+    expectSimpleRowText(container, 'ticket-count', '1')
+    unmount()
   })
 })

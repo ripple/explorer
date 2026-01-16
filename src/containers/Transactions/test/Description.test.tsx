@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
@@ -11,8 +11,8 @@ import DelegatePayment from './mock_data/DelegatePayment.json'
 import { queryClient } from '../../shared/QueryClient'
 
 describe('Description container', () => {
-  const createWrapper = (data = {}) =>
-    mount(
+  const renderDescription = (data = {}) =>
+    render(
       <Router>
         <QueryClientProvider client={queryClient}>
           <I18nextProvider i18n={i18n}>
@@ -23,36 +23,33 @@ describe('Description container', () => {
     )
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderDescription()
   })
 
   it('renders transaction', () => {
-    const wrapper = createWrapper(Transaction)
-    wrapper.unmount()
+    renderDescription(Transaction)
   })
 
   it('renders sequence number with ticket', () => {
-    const wrapper = createWrapper(OfferCreateTicket)
-    expect(wrapper.find(`[data-testid="sequence"]`)).toHaveText(
-      '79469284 (a Ticket was used for this Transaction)',
-    )
-    wrapper.unmount()
+    const { container } = renderDescription(OfferCreateTicket)
+    expect(
+      container.querySelector('[data-testid="sequence"]'),
+    ).toHaveTextContent('79469284 (a Ticket was used for this Transaction)')
   })
 
   it('renders sequence number with hook', () => {
-    const wrapper = createWrapper(EmittedPayment)
-    expect(wrapper.find(`[data-testid="sequence"]`)).toHaveText(
-      '0 (this Transaction was emitted by a Hook)',
-    )
-    wrapper.unmount()
+    const { container } = renderDescription(EmittedPayment)
+    expect(
+      container.querySelector('[data-testid="sequence"]'),
+    ).toHaveTextContent('0 (this Transaction was emitted by a Hook)')
   })
 
   it('renders delegate', () => {
-    const wrapper = createWrapper(DelegatePayment)
-    expect(wrapper.find(`[data-testid="delegate"]`)).toHaveText(
+    const { container } = renderDescription(DelegatePayment)
+    expect(
+      container.querySelector('[data-testid="delegate"]'),
+    ).toHaveTextContent(
       'The transaction is delegated to rNRfqQc9b9ehXJJYVR6NqPPwrS26tWeB6N',
     )
-    wrapper.unmount()
   })
 })

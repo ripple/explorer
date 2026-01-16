@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import LoanBrokerCoverClawback from './mock_data/LoanBrokerCoverClawback.json'
 import LoanBrokerCoverClawbackZeroAmount from './mock_data/LoanBrokerCoverClawbackZeroAmount.json'
@@ -11,52 +11,52 @@ jest.mock('react-query', () => ({
   useQuery: jest.fn(),
 }))
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('LoanBrokerCoverClawback: Simple', () => {
   it('renders with explicit amount', () => {
-    const wrapper = createWrapper(LoanBrokerCoverClawback)
+    const { container, unmount } = renderComponent(LoanBrokerCoverClawback)
     expectSimpleRowText(
-      wrapper,
+      container,
       'loan-broker-id',
       '7B3AF305C92293AF3F01088298E354E7B649F963427FA4B7F5414EF1383CB80B',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'amount',
       '$5.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with calculated amount when Amount is 0', () => {
-    const wrapper = createWrapper(LoanBrokerCoverClawbackZeroAmount)
+    const { container, unmount } = renderComponent(LoanBrokerCoverClawbackZeroAmount)
     expectSimpleRowText(
-      wrapper,
+      container,
       'loan-broker-id',
       '7B3AF305C92293AF3F01088298E354E7B649F963427FA4B7F5414EF1383CB80B',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'amount',
       '$14.95 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with calculated amount when Amount is undefined (real transaction)', () => {
-    const wrapper = createWrapper(LoanBrokerCoverClawbackNoAmount)
+    const { container, unmount } = renderComponent(LoanBrokerCoverClawbackNoAmount)
     expectSimpleRowText(
-      wrapper,
+      container,
       'loan-broker-id',
       '693FCCFB835B322B2714107323EAC727D710DF827030B3935E0A6B62D15B1EEC',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'amount',
       '$4.94151169 USD.rh2z5N9avJKVKvWFXyayEMqd7ABqo7Disx',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with calculated MPT amount when Amount is undefined', () => {
@@ -66,17 +66,17 @@ describe('LoanBrokerCoverClawback: Simple', () => {
       },
     }))
 
-    const wrapper = createWrapper(LoanBrokerCoverClawbackMPT)
+    const { container, unmount } = renderComponent(LoanBrokerCoverClawbackMPT)
     expectSimpleRowText(
-      wrapper,
+      container,
       'loan-broker-id',
       '358A255D294C9F5653686E90640F7EA922CBB26149EDD0AF8A02569BFC9412DC',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'amount',
       '4.94 MPT (0004E8D60726C960436D88F20FFC2A873665CE675789E255)',
     )
-    wrapper.unmount()
+    unmount()
   })
 })
