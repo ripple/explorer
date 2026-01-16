@@ -13,7 +13,11 @@ describe('CredentialCreate: Simple', () => {
       'rDeEwcsbGz4GXyGpyRuQo9vRGGT269Jmjk',
     )
     expectSimpleRowText(container, 'credential-type', 'VerifiedAccount')
-    expectSimpleRowText(container, 'expiration', 'October 5, 2026 at 1:53:30 PM')
+    expectSimpleRowText(
+      container,
+      'expiration',
+      'October 5, 2026 at 1:53:30 PM',
+    )
 
     unmount()
   })

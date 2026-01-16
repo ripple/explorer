@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
 import { BAD_REQUEST } from '../../shared/utils'

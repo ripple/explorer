@@ -13,7 +13,9 @@ const renderComponent = createDescriptionRenderFactory(Description, i18n)
 describe('AccountSet: Description', () => {
   it('renders tx that sets the domain', () => {
     const { container, unmount } = renderComponent(mockAccountSetWithDomain)
-    expect(container).toHaveTextContent('It sets the account domain as mduo13.com')
+    expect(container).toHaveTextContent(
+      'It sets the account domain as mduo13.com',
+    )
     unmount()
   })
 
@@ -34,13 +36,17 @@ describe('AccountSet: Description', () => {
 
   it('renders tx that clears a flag', () => {
     const { container, unmount } = renderComponent(mockAccountSetWithClearFlag)
-    expect(container).toHaveTextContent('It clears the account flag asfGlobalFreeze')
+    expect(container).toHaveTextContent(
+      'It clears the account flag asfGlobalFreeze',
+    )
     unmount()
   })
 
   it('renders tx that sets a flag', () => {
     const { container, unmount } = renderComponent(mockAccountSetWithSetFlag)
-    expect(container).toHaveTextContent('It sets the account flag asfRequireDest')
+    expect(container).toHaveTextContent(
+      'It sets the account flag asfRequireDest',
+    )
     unmount()
   })
 
@@ -64,14 +70,18 @@ describe('AccountSet: Description', () => {
 
   it('renders tx that sets a message', () => {
     const { container, unmount } = renderComponent(mockAccountSetWithMessageKey)
-    expect(container.querySelector('[data-testid="message-key"]')).toHaveTextContent(
+    expect(
+      container.querySelector('[data-testid="message-key"]'),
+    ).toHaveTextContent(
       'It sets the account message key as 020000000000000000000000000941C216565D33C8A8ACD1A33C359E84D652D1DA',
     )
     unmount()
   })
 
   it('renders tx that sets a minter', () => {
-    const { container, unmount } = renderComponent(mockAccountSetWithNFTokenMinter)
+    const { container, unmount } = renderComponent(
+      mockAccountSetWithNFTokenMinter,
+    )
     expect(container.querySelector('[data-testid="minter"]')).toHaveTextContent(
       'It sets rXMART8usFd5kABXCayoP6ZfB35b4v43t as the authorized minter for this account',
     )

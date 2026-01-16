@@ -7,7 +7,11 @@ const renderComponent = createSimpleRenderFactory(Simple)
 describe('CredentialAccept: Simple', () => {
   it('renders', () => {
     const { container, unmount } = renderComponent(CredentialAccept)
-    expectSimpleRowText(container, 'issuer', 'rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi')
+    expectSimpleRowText(
+      container,
+      'issuer',
+      'rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi',
+    )
     expectSimpleRowText(container, 'credential-type', 'My test credential')
 
     unmount()

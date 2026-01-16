@@ -8,7 +8,7 @@ const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('XChainModifyBridgeSimple', () => {
   it('renders', () => {
-    const { container, unmount } = renderComponent(mockXChainModifyBridge)
+    const { container } = renderComponent(mockXChainModifyBridge)
 
     // check XChainBridge parts
     expectSimpleRowText(
@@ -16,21 +16,27 @@ describe('XChainModifyBridgeSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(container.querySelector('[data-testid="locking-chain-door"] a')).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).not.toBeInTheDocument()
     expectSimpleRowText(container, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       container,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(container.querySelector('[data-testid="issuing-chain-door"] a')).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).toBeInTheDocument()
     expectSimpleRowText(container, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(container, 'signature-reward', '\uE9000.01 XRP')
   })
 
   it('renders MinAccountCreateAmount', () => {
-    const { container, unmount } = renderComponent(mockXChainModifyBridgeMinAccountCreateAmount)
+    const { container } = renderComponent(
+      mockXChainModifyBridgeMinAccountCreateAmount,
+    )
 
     // check XChainBridge parts
     expectSimpleRowText(
@@ -38,14 +44,18 @@ describe('XChainModifyBridgeSimple', () => {
       'locking-chain-door',
       'rnBnyot2gCJywLxLzfHQX2dUJqZ6oghUFp',
     )
-    expect(container.querySelector('[data-testid="locking-chain-door"] a')).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).toBeInTheDocument()
     expectSimpleRowText(container, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       container,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(container.querySelector('[data-testid="issuing-chain-door"] a')).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).not.toBeInTheDocument()
     expectSimpleRowText(container, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(
@@ -56,7 +66,7 @@ describe('XChainModifyBridgeSimple', () => {
   })
 
   it('renders failed transaction', () => {
-    const { container, unmount } = renderComponent(mockXChainModifyBridgeNoEntry)
+    const { container } = renderComponent(mockXChainModifyBridgeNoEntry)
 
     // check XChainBridge parts
     expectSimpleRowText(
@@ -64,14 +74,18 @@ describe('XChainModifyBridgeSimple', () => {
       'locking-chain-door',
       'r3rhWeE31Jt5sWmi4QiGLMZnY3ENgqw96W',
     )
-    expect(container.querySelector('[data-testid="locking-chain-door"] a')).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).not.toBeInTheDocument()
     expectSimpleRowText(container, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       container,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(container.querySelector('[data-testid="issuing-chain-door"] a')).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).toBeInTheDocument()
     expectSimpleRowText(container, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(container, 'signature-reward', '\uE9000.0001 XRP')

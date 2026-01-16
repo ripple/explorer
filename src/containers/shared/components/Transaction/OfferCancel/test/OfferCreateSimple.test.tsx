@@ -6,7 +6,7 @@ const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('OfferCancel: Simple', () => {
   it('renders', () => {
-    const { container, unmount } = renderComponent(offerCancel)
+    const { container } = renderComponent(offerCancel)
 
     expectSimpleRowText(container, 'cancel', '#15239384')
   })

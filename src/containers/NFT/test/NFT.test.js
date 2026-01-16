@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { Route } from 'react-router-dom'
 import { NFT } from '../NFT'
 import i18n from '../../../i18n/testConfig'

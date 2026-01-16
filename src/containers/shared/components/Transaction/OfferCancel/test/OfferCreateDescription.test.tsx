@@ -6,10 +6,10 @@ const renderComponent = createDescriptionRenderFactory(Description)
 
 describe('OfferCancel: Description', () => {
   it('renders', () => {
-    const { container, unmount } = renderComponent(offerCancel)
+    const { container } = renderComponent(offerCancel)
 
-    expect(container.querySelector('[data-testid="cancel-line"]')).toHaveTextContent(
-      'offer_cancel_description15239384',
-    )
+    expect(
+      container.querySelector('[data-testid="cancel-line"]'),
+    ).toHaveTextContent('offer_cancel_description15239384')
   })
 })

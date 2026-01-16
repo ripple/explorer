@@ -22,7 +22,9 @@ describe('AccountDelete: Simple', () => {
   })
 
   it('renders with destination tag', () => {
-    const { container, unmount } = renderComponent(mockAccountDeleteWithDestinationTag)
+    const { container, unmount } = renderComponent(
+      mockAccountDeleteWithDestinationTag,
+    )
     expectSimpleRowText(
       container,
       'destination',
@@ -32,7 +34,9 @@ describe('AccountDelete: Simple', () => {
   })
 
   it('renders with CredentialIDs', () => {
-    const { container, unmount } = renderComponent(mockAccountDeleteWithCredentialIDs)
+    const { container, unmount } = renderComponent(
+      mockAccountDeleteWithCredentialIDs,
+    )
 
     expectSimpleRowText(
       container,

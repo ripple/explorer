@@ -30,7 +30,9 @@ describe('EscrowFinishDescription', () => {
     const { container, unmount } = renderComponent(
       getTestByName('EscrowFinish having XRP escrowed'),
     )
-    expect(container.querySelector('[data-testid="amount-line"]')).toHaveTextContent(
+    expect(
+      container.querySelector('[data-testid="amount-line"]'),
+    ).toHaveTextContent(
       `The escrowed amount of \uE9000.0154 XRP was delivered to r4UDXF4nL7Tgss8uQxn39cCocd8GnGyXS8 (\uE9000.015388 XRP after transaction cost)`,
     )
 
@@ -41,7 +43,9 @@ describe('EscrowFinishDescription', () => {
     const { container, unmount } = renderComponent(
       getTestByName('EscrowFinish having IOU escrowed'),
     )
-    expect(container.querySelector('[data-testid="amount-line"]')).toHaveTextContent(
+    expect(
+      container.querySelector('[data-testid="amount-line"]'),
+    ).toHaveTextContent(
       'The escrowed amount of 1.00 ZZZ.rDb2kD2sibG5cxhz3VAoRFkmhPrca4JtL8 was delivered to rHVkbnz2ZLVUCPugCbLsXbCsayrJARLq1N',
     )
     unmount()
@@ -60,7 +64,9 @@ describe('EscrowFinishDescription', () => {
     const { container, unmount } = renderComponent(
       getTestByName('EscrowFinish having MPT escrowed'),
     )
-    expect(container.querySelector('[data-testid="amount-line"]')).toHaveTextContent(
+    expect(
+      container.querySelector('[data-testid="amount-line"]'),
+    ).toHaveTextContent(
       'The escrowed amount of 0.0001 MPT (0044E493C9FB70ADC1A604A5792643A38CA5887219C21C8C) was delivered to rHVkbnz2ZLVUCPugCbLsXbCsayrJARLq1N',
     )
     unmount()

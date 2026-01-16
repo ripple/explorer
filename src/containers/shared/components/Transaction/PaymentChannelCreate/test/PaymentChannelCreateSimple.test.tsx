@@ -42,7 +42,9 @@ describe('PaymentChannelCreate: Simple', () => {
   })
 
   it('renders failed tx', () => {
-    const { container, unmount } = renderComponent(mockPaymentChannelCreateFailed)
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelCreateFailed,
+    )
     expectSimpleRowText(container, 'amount', '\uE90010.00 XRP')
     expectSimpleRowText(
       container,
@@ -60,9 +62,15 @@ describe('PaymentChannelCreate: Simple', () => {
   })
 
   it('renders tx with destination tag', () => {
-    const { container, unmount } = renderComponent(mockPaymentChannelCreateWithDestinationTag)
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelCreateWithDestinationTag,
+    )
     expectSimpleRowText(container, 'amount', '\uE900100.00 XRP')
-    expectSimpleRowText(container, 'source', 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH')
+    expectSimpleRowText(
+      container,
+      'source',
+      'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
+    )
     expectSimpleRowText(
       container,
       'destination',

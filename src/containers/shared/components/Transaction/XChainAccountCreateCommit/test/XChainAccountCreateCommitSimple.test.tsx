@@ -8,7 +8,7 @@ const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('XChainAccountCreateCommitSimple', () => {
   it('renders', () => {
-    const { container, unmount } = renderComponent(mockXChainAccountCreateCommit)
+    const { container } = renderComponent(mockXChainAccountCreateCommit)
 
     // check XChainBridge parts
     expectSimpleRowText(
@@ -16,14 +16,18 @@ describe('XChainAccountCreateCommitSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(container.querySelector('[data-testid="locking-chain-door"] a')).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).toBeInTheDocument()
     expectSimpleRowText(container, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       container,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(container.querySelector('[data-testid="issuing-chain-door"] a')).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).not.toBeInTheDocument()
     expectSimpleRowText(container, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(container, 'send', '\uE90010.00 XRP')
@@ -32,11 +36,13 @@ describe('XChainAccountCreateCommitSimple', () => {
       'destination',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
-    expect(container.querySelector('[data-testid="destination"] a')).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="destination"] a'),
+    ).not.toBeInTheDocument()
   })
 
   it('renders failed transaction', () => {
-    const { container, unmount } = renderComponent(
+    const { container } = renderComponent(
       mockXChainAccountCreateCommitInsufficientFunds,
     )
 
@@ -46,14 +52,18 @@ describe('XChainAccountCreateCommitSimple', () => {
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(container.querySelector('[data-testid="locking-chain-door"] a')).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).not.toBeInTheDocument()
     expectSimpleRowText(container, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
       container,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(container.querySelector('[data-testid="issuing-chain-door"] a')).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).not.toBeInTheDocument()
     expectSimpleRowText(container, 'issuing-chain-issue', '\uE900 XRP')
 
     expectSimpleRowText(container, 'send', '\uE9001,000.00 XRP')
@@ -62,6 +72,8 @@ describe('XChainAccountCreateCommitSimple', () => {
       'destination',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
-    expect(container.querySelector('[data-testid="destination"] a')).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="destination"] a'),
+    ).not.toBeInTheDocument()
   })
 })

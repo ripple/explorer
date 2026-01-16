@@ -16,7 +16,11 @@ const renderComponent = createSimpleRenderFactory(Simple)
 describe('Clawback', () => {
   it('handles Clawback simple view ', () => {
     const { container, unmount } = renderComponent(transaction)
-    expectSimpleRowText(container, 'holder', 'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP')
+    expectSimpleRowText(
+      container,
+      'holder',
+      'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP',
+    )
     expectSimpleRowText(
       container,
       'amount',
@@ -35,7 +39,11 @@ describe('Clawback', () => {
       data,
     }))
     const { container, unmount } = renderComponent(transactionMPT)
-    expectSimpleRowText(container, 'holder', 'rUZTPFN7MBJkjiZ48rak6q7MbhT4ur2kAD')
+    expectSimpleRowText(
+      container,
+      'holder',
+      'rUZTPFN7MBJkjiZ48rak6q7MbhT4ur2kAD',
+    )
     expectSimpleRowText(
       container,
       'amount',
@@ -47,7 +55,11 @@ describe('Clawback', () => {
 
   it('handles failed Clawback simple view ', () => {
     const { container, unmount } = renderComponent(transactionFailure)
-    expectSimpleRowText(container, 'holder', 'rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9')
+    expectSimpleRowText(
+      container,
+      'holder',
+      'rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9',
+    )
     expectSimpleRowText(
       container,
       'amount',
@@ -67,7 +79,11 @@ describe('Clawback', () => {
     }))
     const { container, unmount } = renderComponent(transactionMPTFailure)
 
-    expectSimpleRowText(container, 'holder', 'r9rAqX8Jjo4uACsimYDVsy5thHDPivujqf')
+    expectSimpleRowText(
+      container,
+      'holder',
+      'r9rAqX8Jjo4uACsimYDVsy5thHDPivujqf',
+    )
     expectSimpleRowText(
       container,
       'amount',

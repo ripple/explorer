@@ -14,31 +14,41 @@ describe('PaymentChannelCreate: TableDetail', () => {
     expect(container.querySelector('[data-testid="source"]')).toHaveTextContent(
       'sourcerJnQrhRTXutuSwtrwxYiTkHn4Dtp8sF2LM:2460331042',
     )
-    expect(container.querySelector('[data-testid="destination"]')).toHaveTextContent(
-      'destinationrUXYat4hW2M87gHoqKK7fC4cqrT9C6V7d7',
+    expect(
+      container.querySelector('[data-testid="destination"]'),
+    ).toHaveTextContent('destinationrUXYat4hW2M87gHoqKK7fC4cqrT9C6V7d7')
+    expect(container.querySelector('[data-testid="amount"]')).toHaveTextContent(
+      '\uE9001.00 XRP',
     )
-    expect(container.querySelector('[data-testid="amount"]')).toHaveTextContent('\uE9001.00 XRP')
     unmount()
   })
 
   it('renders failed tx', () => {
-    const { container, unmount } = renderComponent(mockPaymentChannelCreateFailed)
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelCreateFailed,
+    )
     expect(container.querySelector('[data-testid="source"]')).toHaveTextContent(
       'sourcerMphibGfHpLDU4DzVCspzLYVuMNpmzN6n8:2810223114',
     )
-    expect(container.querySelector('[data-testid="destination"]')).toHaveTextContent(
-      'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
+    expect(
+      container.querySelector('[data-testid="destination"]'),
+    ).toHaveTextContent('destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN')
+    expect(container.querySelector('[data-testid="amount"]')).toHaveTextContent(
+      '\uE90010.00 XRP',
     )
-    expect(container.querySelector('[data-testid="amount"]')).toHaveTextContent('\uE90010.00 XRP')
     unmount()
   })
 
   it('renders tx with destination tag', () => {
-    const { container, unmount } = renderComponent(mockPaymentChannelCreateWithDestinationTag)
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelCreateWithDestinationTag,
+    )
     expect(container.querySelector('[data-testid="source"]')).toHaveTextContent(
       'sourcerN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
     )
-    expect(container.querySelector('[data-testid="destination"]')).toHaveTextContent(
+    expect(
+      container.querySelector('[data-testid="destination"]'),
+    ).toHaveTextContent(
       'destinationrf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn:20170428',
     )
     expect(container.querySelector('[data-testid="amount"]')).toHaveTextContent(

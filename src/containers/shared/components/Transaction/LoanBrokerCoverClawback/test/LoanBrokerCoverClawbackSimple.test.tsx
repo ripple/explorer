@@ -30,7 +30,9 @@ describe('LoanBrokerCoverClawback: Simple', () => {
   })
 
   it('renders with calculated amount when Amount is 0', () => {
-    const { container, unmount } = renderComponent(LoanBrokerCoverClawbackZeroAmount)
+    const { container, unmount } = renderComponent(
+      LoanBrokerCoverClawbackZeroAmount,
+    )
     expectSimpleRowText(
       container,
       'loan-broker-id',
@@ -45,7 +47,9 @@ describe('LoanBrokerCoverClawback: Simple', () => {
   })
 
   it('renders with calculated amount when Amount is undefined (real transaction)', () => {
-    const { container, unmount } = renderComponent(LoanBrokerCoverClawbackNoAmount)
+    const { container, unmount } = renderComponent(
+      LoanBrokerCoverClawbackNoAmount,
+    )
     expectSimpleRowText(
       container,
       'loan-broker-id',

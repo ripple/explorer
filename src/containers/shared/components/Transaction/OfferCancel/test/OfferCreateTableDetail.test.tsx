@@ -6,7 +6,7 @@ const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('OfferCancel: TableDetail', () => {
   it('renders', () => {
-    const { container, unmount } = renderComponent(offerCancel)
+    const { container } = renderComponent(offerCancel)
 
     expect(container).toHaveTextContent('cancel_offer #15239384')
   })

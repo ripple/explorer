@@ -6,7 +6,7 @@ const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('DIDDelete: Simple', () => {
   it('renders', () => {
-    const { container, unmount } = renderComponent(DIDDelete)
+    const { unmount } = renderComponent(DIDDelete)
     unmount()
   })
 })

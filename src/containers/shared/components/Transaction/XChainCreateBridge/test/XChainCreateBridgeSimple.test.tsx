@@ -38,7 +38,7 @@ describe('XChainCreateBridgeSimple', () => {
   })
 
   it('renders IOU bridge', () => {
-    const { container, unmount } = renderComponent(mockXChainCreateBridgeIOU)
+    const { container } = renderComponent(mockXChainCreateBridgeIOU)
 
     // check XChainBridge parts
     expectSimpleRowText(
@@ -77,7 +77,7 @@ describe('XChainCreateBridgeSimple', () => {
   })
 
   it('renders failed tx', () => {
-    const { container, unmount } = renderComponent(mockXChainCreateBridgeFailed)
+    const { container } = renderComponent(mockXChainCreateBridgeFailed)
 
     // check XChainBridge parts
     expectSimpleRowText(

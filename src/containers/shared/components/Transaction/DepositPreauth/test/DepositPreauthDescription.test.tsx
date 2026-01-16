@@ -20,7 +20,9 @@ describe('DepositPreauth: Description', () => {
   })
 
   it('renders description for unauthorize', () => {
-    const { container, unmount } = renderComponent(mockDepositPreauthUnauthorize)
+    const { container, unmount } = renderComponent(
+      mockDepositPreauthUnauthorize,
+    )
     expect(container.innerHTML).toBe(
       `<div>It removes the authorization for <a data-testid="account" title="rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM" class="account" href="/accounts/rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM">rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM</a> to send payments to this account</div>`,
     )
@@ -28,7 +30,9 @@ describe('DepositPreauth: Description', () => {
   })
 
   it('renders description for authorize credentials', () => {
-    const { container, unmount } = renderComponent(mockDepositPreauthAuthorizeCredentials)
+    const { container, unmount } = renderComponent(
+      mockDepositPreauthAuthorizeCredentials,
+    )
     const html = container.innerHTML
     expect(html).toContain('It authorizes the following credentials:')
     expect(html).toContain('KYC')
@@ -39,7 +43,9 @@ describe('DepositPreauth: Description', () => {
   })
 
   it('renders description for unauthorize credentials', () => {
-    const { container, unmount } = renderComponent(mockDepositPreauthUnauthorizeCredentials)
+    const { container, unmount } = renderComponent(
+      mockDepositPreauthUnauthorizeCredentials,
+    )
     const html = container.innerHTML
     expect(html).toContain(
       'It removes the authorization for the following credentials:',

@@ -1,11 +1,7 @@
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { Simple } from '../Simple'
-import {
-  createSimpleRenderFactory,
-  expectSimpleRowLabel,
-  expectSimpleRowText,
-} from '../../test'
+import { createSimpleRenderFactory } from '../../test'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { HistoryTab } from '../HistoryTab'
 import history from './mock_data/history.json'

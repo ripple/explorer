@@ -11,9 +11,9 @@ describe('CredentialAcceptTableDetail ', () => {
     expect(container.querySelector('[data-testid="issuer"]')).toHaveTextContent(
       'issuer: rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi',
     )
-    expect(container.querySelector('[data-testid="credential-type"]')).toHaveTextContent(
-      'credential_type: My test credential',
-    )
+    expect(
+      container.querySelector('[data-testid="credential-type"]'),
+    ).toHaveTextContent('credential_type: My test credential')
 
     unmount()
   })

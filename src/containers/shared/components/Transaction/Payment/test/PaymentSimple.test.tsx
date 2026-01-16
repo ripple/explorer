@@ -51,7 +51,9 @@ describe('Payment: Simple', () => {
       `0.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZrpartial_payment_allowed`,
     )
 
-    expect(container.querySelector('[data-testid="destination"]')).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="destination"]'),
+    ).not.toBeInTheDocument()
 
     unmount()
   })

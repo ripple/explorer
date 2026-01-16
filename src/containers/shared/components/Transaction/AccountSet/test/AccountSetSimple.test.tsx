@@ -20,7 +20,7 @@ describe('AccountSet: Simple', () => {
   })
 
   it('renders tx that sets the email hash', () => {
-    const { container, unmount } = renderComponent({
+    const { container } = renderComponent({
       ...mockAccountSetWithDomain,
       tx: {
         ...mockAccountSetWithDomain.tx,
@@ -79,9 +79,15 @@ describe('AccountSet: Simple', () => {
   })
 
   it('renders tx that sets a minter', () => {
-    const { container, unmount } = renderComponent(mockAccountSetWithNFTokenMinter)
+    const { container, unmount } = renderComponent(
+      mockAccountSetWithNFTokenMinter,
+    )
     expectSimpleRowLabel(container, 'minter', 'NFT Minter')
-    expectSimpleRowText(container, 'minter', 'rXMART8usFd5kABXCayoP6ZfB35b4v43t')
+    expectSimpleRowText(
+      container,
+      'minter',
+      'rXMART8usFd5kABXCayoP6ZfB35b4v43t',
+    )
     unmount()
   })
 })

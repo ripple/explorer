@@ -12,7 +12,11 @@ describe('VaultClawback: Simple', () => {
       'vault_id',
       'CFE74C9608553E8BCA771DF600E96937768B9EEA7BAD3AD22BB2793A4494ABF9',
     )
-    expectSimpleRowText(container, 'holder', 'raMUwNw4u59UU9WWpqZYYEj77y8yZhC6Wp')
+    expectSimpleRowText(
+      container,
+      'holder',
+      'raMUwNw4u59UU9WWpqZYYEj77y8yZhC6Wp',
+    )
     expectSimpleRowText(
       container,
       'amount',

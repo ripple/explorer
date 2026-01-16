@@ -26,7 +26,9 @@ describe('AccountSet: TableDetail', () => {
         EmailHash: '7AC3878BF42A5329698F468A6AAA03B9',
       },
     })
-    expect(container).toHaveTextContent('email hash: 7AC3878BF42A5329698F468A6AAA03B9')
+    expect(container).toHaveTextContent(
+      'email hash: 7AC3878BF42A5329698F468A6AAA03B9',
+    )
     unmount()
   })
 
@@ -69,7 +71,9 @@ describe('AccountSet: TableDetail', () => {
   })
 
   it('renders tx that sets a minter', () => {
-    const { container, unmount } = renderComponent(mockAccountSetWithNFTokenMinter)
+    const { container, unmount } = renderComponent(
+      mockAccountSetWithNFTokenMinter,
+    )
     expect(container.querySelector('[data-testid="minter"]')).toHaveTextContent(
       'NFT Minter: rXMART8usFd5kABXCayoP6ZfB35b4v43t',
     )

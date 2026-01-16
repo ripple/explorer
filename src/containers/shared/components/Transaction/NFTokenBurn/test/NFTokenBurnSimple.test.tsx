@@ -28,7 +28,11 @@ describe('NFTokenBurn', () => {
       'token-id',
       '00090000DF7682C6F61329B887798E2ABB518BF1C923F4010000099B00000000',
     )
-    expectSimpleRowText(container, 'owner', 'rH3Jr1zwADrokm2niuJLEAD5NuoVwBvzpk')
+    expectSimpleRowText(
+      container,
+      'owner',
+      'rH3Jr1zwADrokm2niuJLEAD5NuoVwBvzpk',
+    )
     unmount()
   })
 })

@@ -78,7 +78,7 @@ describe('Payment: TableDetail', () => {
   })
 
   it(`renders with Permissioned Domain ID`, () => {
-    const { container, unmount } = renderComponent(mockPermDomainID)
+    const { container } = renderComponent(mockPermDomainID)
 
     expect(container.querySelector('.domain-id')).toHaveTextContent(
       `domain_id: D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02`,
