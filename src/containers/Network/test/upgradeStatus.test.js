@@ -4,6 +4,7 @@ import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfig'
 import SocketContext from '../../shared/SocketContext'
+import NetworkContext from '../../shared/NetworkContext'
 import MockWsClient from '../../test/mockWsClient'
 import { QuickHarness } from '../../test/utils'
 import {
@@ -112,9 +113,17 @@ describe('UpgradeStatus renders', () => {
   const renderUpgradeStatus = () =>
     render(
       <SocketContext.Provider value={client}>
-        <QuickHarness i18n={i18n} initialEntries={['/network/upgrade-status']}>
-          <Route path={UPGRADE_STATUS_ROUTE.path} element={<UpgradeStatus />} />
-        </QuickHarness>
+        <NetworkContext.Provider value="main">
+          <QuickHarness
+            i18n={i18n}
+            initialEntries={['/network/upgrade-status']}
+          >
+            <Route
+              path={UPGRADE_STATUS_ROUTE.path}
+              element={<UpgradeStatus />}
+            />
+          </QuickHarness>
+        </NetworkContext.Provider>
       </SocketContext.Provider>,
     )
 
@@ -151,11 +160,8 @@ describe('UpgradeStatus renders', () => {
     })
 
     const { container } = renderUpgradeStatus()
-    await waitFor(
-      () => {
-        expect(container.querySelectorAll('.barchart').length).toEqual(1)
-      },
-      { timeout: 3000 },
-    )
+    await waitFor(() => {
+      expect(container.querySelectorAll('.barchart').length).toEqual(1)
+    })
   })
 })
