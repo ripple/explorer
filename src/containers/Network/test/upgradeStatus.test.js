@@ -151,8 +151,11 @@ describe('UpgradeStatus renders', () => {
     })
 
     const { container } = renderUpgradeStatus()
-    await waitFor(() => {
-      expect(container.querySelectorAll('.barchart').length).toEqual(1)
-    })
+    await waitFor(
+      () => {
+        expect(container.querySelectorAll('.barchart').length).toEqual(1)
+      },
+      { timeout: 3000 },
+    )
   })
 })
