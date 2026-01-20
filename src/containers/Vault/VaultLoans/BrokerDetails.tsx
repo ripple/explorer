@@ -13,6 +13,8 @@ interface LoanBrokerData {
   CoverAvailable?: string
   CoverRateMinimum?: number
   CoverRateLiquidation?: number
+  DebtTotal?: string
+  DebtMaximum?: string
 }
 
 interface Props {
@@ -24,24 +26,57 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
 
-  const formatCoverAvailable = (amount: string | undefined): string => {
-    const lang = language ?? 'en-US'
-    // the default value for CoverAvailable is 0
-    if (!amount) return localizeNumber(0, lang)
+  const lang = language ?? 'en-US'
+
+  /**
+   * Format large numbers with K (thousands) or M (millions) suffixes
+   */
+  const formatCompactAmount = (amount: string | undefined, includeCurrency = true): string => {
+    if (!amount) return includeCurrency ? `0 ${currency}` : '0'
     const num = Number(amount)
     if (Number.isNaN(num)) return amount
-    return localizeNumber(num, lang, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })
+
+    let formattedNum: string
+    if (num >= 1_000_000) {
+      const millions = num / 1_000_000
+      formattedNum = `${localizeNumber(millions, lang, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      })}M`
+    } else if (num >= 1_000) {
+      const thousands = num / 1_000
+      formattedNum = `${localizeNumber(thousands, lang, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      })}K`
+    } else {
+      formattedNum = String(localizeNumber(num, lang, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      }))
+    }
+
+    return includeCurrency ? `${formattedNum} ${currency}` : formattedNum
   }
 
   return (
     <div className="broker-details-card">
-      <div className="broker-id-row">
-        <span className="broker-id-label">{t('loan_broker_id')}</span>
-        <div className="broker-id-value">
-          <CopyableText text={broker.index} displayText={broker.index} showCopyIcon />
+      <div className="broker-top-row">
+        <div className="broker-id-section">
+          <span className="broker-id-label">{t('loan_broker_id')}</span>
+          <div className="broker-id-value">
+            <CopyableText text={broker.index} displayText={broker.index} showCopyIcon />
+          </div>
+        </div>
+        <div className="broker-debt-section">
+          <div className="debt-metric">
+            <span className="metric-label">{t('total_debt')}</span>
+            <span className="metric-value">{formatCompactAmount(broker.DebtTotal)}</span>
+          </div>
+          <div className="debt-metric">
+            <span className="metric-label">{t('maximum_debt')}</span>
+            <span className="metric-value">{formatCompactAmount(broker.DebtMaximum)}</span>
+          </div>
         </div>
       </div>
 
@@ -55,8 +90,7 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
         <div className="metric">
           <span className="metric-label">{t('first_loss_capital')}</span>
           <span className="metric-value">
-            {/* TODO: Investigate why one of the loan brokers display a cover of 15k -- there is a bug somewhere */}
-            {formatCoverAvailable(broker.CoverAvailable)}
+            {formatCompactAmount(broker.CoverAvailable)}
           </span>
         </div>
         <div className="metric">

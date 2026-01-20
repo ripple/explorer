@@ -60,7 +60,11 @@ const formatAsset = (asset: VaultData['Asset']): string | React.ReactNode => {
   return asset.currency
 }
 
-const formatAmount = (
+/**
+ * Format large numbers with K (thousands) or M (millions) suffixes
+ * e.g., 12500000 -> "12.5M", 200000 -> "200K"
+ */
+const formatCompactAmount = (
   amount: string | undefined,
   asset: VaultData['Asset'],
   language: string,
@@ -68,12 +72,30 @@ const formatAmount = (
   if (!amount) return '-'
   const num = Number(amount)
   if (Number.isNaN(num)) return amount
-  const formatted = localizeNumber(num, language, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 6,
-  })
+
   const currency = asset?.currency === 'XRP' ? 'XRP' : asset?.currency || ''
-  return `${formatted} ${currency}`
+
+  let formattedNum: string
+  if (num >= 1_000_000) {
+    const millions = num / 1_000_000
+    formattedNum = `${localizeNumber(millions, language, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    })}M`
+  } else if (num >= 1_000) {
+    const thousands = num / 1_000
+    formattedNum = `${localizeNumber(thousands, language, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    })}K`
+  } else {
+    formattedNum = String(localizeNumber(num, language, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }))
+  }
+
+  return `${formattedNum} ${currency}`
 }
 
 // Decode the Data field from hex to UTF-8 if needed
@@ -205,11 +227,11 @@ export const Details = ({ data, vaultId }: Props) => {
             <TokenTableRow label={t('asset')} value={formatAsset(asset)} />
             <TokenTableRow
               label={t('total_value_locked')}
-              value={formatAmount(assetsTotal, asset, language)}
+              value={formatCompactAmount(assetsTotal, asset, language)}
             />
             <TokenTableRow
               label={t('max_total_supply')}
-              value={formatAmount(assetsMaximum ?? 'No Limit on Capacity of the Vault', asset, language) }
+              value={assetsMaximum ? formatCompactAmount(assetsMaximum, asset, language) : t('no_limit')}
             />
             <TokenTableRow
               label={t('shares')}
@@ -217,11 +239,11 @@ export const Details = ({ data, vaultId }: Props) => {
             />
             <TokenTableRow
               label={t('available_to_borrow')}
-              value={formatAmount(assetsAvailable, asset, language)}
+              value={formatCompactAmount(assetsAvailable, asset, language)}
             />
             <TokenTableRow
               label={t('unrealized_loss')}
-              value={formatAmount(lossUnrealized, asset, language)}
+              value={formatCompactAmount(lossUnrealized, asset, language)}
             />
           </tbody>
         </table>

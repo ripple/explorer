@@ -78,30 +78,59 @@
     }
   }
 
-  .broker-id-row {
+  .broker-top-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
     margin-bottom: 24px;
     padding-bottom: 24px;
     border-bottom: 1px solid $black-70;
 
-    .broker-id-label {
-      display: block;
-      color: $black-40;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
+    @include for-size(desktop-up) {
+      grid-template-columns: repeat(4, 1fr);
     }
 
-    .broker-id-value {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .broker-id-section {
+      @include for-size(desktop-up) {
+        grid-column: span 2;
+      }
 
-      .broker-id {
+      .broker-id-label {
+        display: block;
+        color: $black-40;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+      }
+
+      .broker-id-value {
+        display: flex;
+        align-items: center;
+        gap: 8px;
         color: $white;
         font-size: 14px;
-        font-family: monospace;
         word-break: break-all;
+      }
+    }
+
+    .broker-debt-section {
+      display: contents;
+
+      .debt-metric {
+        .metric-label {
+          display: block;
+          color: $black-40;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 8px;
+        }
+
+        .metric-value {
+          color: $white;
+          font-size: 16px;
+        }
       }
     }
   }

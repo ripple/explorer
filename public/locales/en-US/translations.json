@@ -823,6 +823,8 @@
   "loans": "Loans",
   "loan_broker": "Loan Broker",
   "loan_broker_id": "Loan Broker ID",
+  "total_debt": "Total Debt",
+  "maximum_debt": "Maximum Debt",
   "management_fee": "Management Fee",
   "cover_rate_minimum": "Cover Rate Minimum",
   "cover_rate_liquidation": "Cover Rate Liquidation",
