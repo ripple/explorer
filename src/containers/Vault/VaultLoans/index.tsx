@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery, useQueries } from 'react-query'
 import SocketContext from '../../shared/SocketContext'
 import { getAccountObjects } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
@@ -85,6 +85,33 @@ export const VaultLoans = ({ vaultId, vaultPseudoAccount, assetCurrency }: Props
 
   console.log('loanBrokers data: ', loanBrokers)
 
+  // Fetch loan counts for each broker
+  const loanCountQueries = useQueries(
+    loanBrokers.map((broker) => ({
+      queryKey: ['getBrokerLoanCount', broker.Account, broker.index],
+      queryFn: async () => {
+        const resp = await getAccountObjects(
+          rippledSocket,
+          broker.Account,
+          'loan',
+        )
+        const loans = resp?.account_objects?.filter(
+          (obj: any) => obj.LoanBrokerID === broker.index,
+        )
+        return { brokerId: broker.index, count: loans?.length ?? 0 }
+      },
+      enabled: !!broker.Account && !!broker.index,
+    })),
+  )
+
+  // Build a map of broker ID to loan count
+  const loanCountMap: Record<string, number> = {}
+  loanCountQueries.forEach((query) => {
+    if (query.data) {
+      loanCountMap[query.data.brokerId] = query.data.count
+    }
+  })
+
   const selectedBroker = loanBrokers[selectedBrokerIndex]
 
   return (
@@ -95,6 +122,7 @@ export const VaultLoans = ({ vaultId, vaultPseudoAccount, assetCurrency }: Props
         brokers={loanBrokers}
         selectedIndex={selectedBrokerIndex}
         onSelect={setSelectedBrokerIndex}
+        loanCountMap={loanCountMap}
       />
       {selectedBroker && (
         <BrokerDetails broker={selectedBroker} currency={assetCurrency} />
