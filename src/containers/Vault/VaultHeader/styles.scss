@@ -37,3 +37,24 @@
     min-width: 0;
   }
 }
+
+.private-vault-toggle {
+  display: inline-flex;
+  gap: 8px;
+
+  .toggle-pill {
+    padding: 4px 16px;
+    border: 1px solid $black-50;
+    border-radius: 16px;
+    color: $black-50;
+    font-size: 12px;
+    text-transform: uppercase;
+    @include medium;
+
+    &.active {
+      background: $green;
+      border-color: $green;
+      color: $black;
+    }
+  }
+}

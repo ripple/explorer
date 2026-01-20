@@ -1,4 +1,6 @@
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { Account } from '../../shared/components/Account'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
@@ -6,6 +8,8 @@ import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
 import { RouteLink } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
+import SocketContext from '../../shared/SocketContext'
+import { getLedgerEntry } from '../../../rippled/lib/rippled'
 import './styles.scss'
 
 interface VaultData {
@@ -91,6 +95,7 @@ const decodeVaultData = (data: string | undefined): string | undefined => {
 export const Details = ({ data, vaultId }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
+  const rippledSocket = useContext(SocketContext)
 
   const {
     Owner: owner,
@@ -104,6 +109,21 @@ export const Details = ({ data, vaultId }: Props) => {
     Data: vaultDataRaw,
     ShareMPTID: vaultShareMptId,
   } = data
+
+  // Fetch MPTokenIssuance to get the DomainID (vault credential)
+  const { data: mptIssuanceData } = useQuery(
+    ['getMPTIssuance', vaultShareMptId],
+    async () => {
+      if (!vaultShareMptId) return null
+      const resp = await getLedgerEntry(rippledSocket, { index: vaultShareMptId })
+      return resp?.node
+    },
+    {
+      enabled: !!vaultShareMptId,
+    },
+  )
+
+  const vaultCredential = mptIssuanceData?.DomainID
 
   const isPrivate =
     flags !== undefined && (flags & VAULT_FLAGS.lsfPrivate) !== 0
@@ -151,8 +171,23 @@ export const Details = ({ data, vaultId }: Props) => {
             )}
             <TokenTableRow
               label={t('private_vault')}
-              value={isPrivate ? t('yes') : t('no')}
+              value={
+                <div className="private-vault-toggle">
+                  <span className={`toggle-pill ${isPrivate ? 'active' : ''}`}>
+                    {t('yes')}
+                  </span>
+                  <span className={`toggle-pill ${!isPrivate ? 'active' : ''}`}>
+                    {t('no')}
+                  </span>
+                </div>
+              }
             />
+            {vaultCredential && (
+              <TokenTableRow
+                label={t('perm_domain_id')}
+                value={vaultCredential}
+              />
+            )}
             <TokenTableRow
               label={t('data')}
               value={decodedData || '-'}

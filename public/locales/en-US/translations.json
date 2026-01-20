@@ -810,6 +810,7 @@
   "invalid_vault_id": "Invalid vault ID",
   "check_vault_id": "Please check the vault ID",
   "private_vault": "Private Vault",
+  "perm_domain_id": "Permissioned Domain ID",
   "total_value_locked": "Total Value Locked (TVL)",
   "shares": "Shares",
   "assets_available": "Assets Available",

@@ -61,33 +61,9 @@ export const VaultLoans = ({ vaultId, vaultPseudoAccount, assetCurrency }: Props
     },
   )
 
-  if (loading) {
-    return (
-      <div className="vault-loans-section">
-        <h2 className="vault-loans-title">{t('loans')}</h2>
-        <div className="vault-loans-divider" />
-        <Loader />
-      </div>
-    )
-  }
-
-  if (!loanBrokers || loanBrokers.length === 0) {
-    return (
-      <div className="vault-loans-section">
-        <h2 className="vault-loans-title">{t('loans')}</h2>
-        <div className="vault-loans-divider" />
-        <div className="no-loan-brokers-message">
-          {t('no_loan_brokers_message')}
-        </div>
-      </div>
-    )
-  }
-
-  console.log('loanBrokers data: ', loanBrokers)
-
-  // Fetch loan counts for each broker
+  // Fetch loan counts for each broker - must be called before any early returns
   const loanCountQueries = useQueries(
-    loanBrokers.map((broker) => ({
+    (loanBrokers ?? []).map((broker) => ({
       queryKey: ['getBrokerLoanCount', broker.Account, broker.index],
       queryFn: async () => {
         const resp = await getAccountObjects(
@@ -111,6 +87,30 @@ export const VaultLoans = ({ vaultId, vaultPseudoAccount, assetCurrency }: Props
       loanCountMap[query.data.brokerId] = query.data.count
     }
   })
+
+  if (loading) {
+    return (
+      <div className="vault-loans-section">
+        <h2 className="vault-loans-title">{t('loans')}</h2>
+        <div className="vault-loans-divider" />
+        <Loader />
+      </div>
+    )
+  }
+
+  if (!loanBrokers || loanBrokers.length === 0) {
+    return (
+      <div className="vault-loans-section">
+        <h2 className="vault-loans-title">{t('loans')}</h2>
+        <div className="vault-loans-divider" />
+        <div className="no-loan-brokers-message">
+          {t('no_loan_brokers_message')}
+        </div>
+      </div>
+    )
+  }
+
+  console.log('loanBrokers data: ', loanBrokers)
 
   const selectedBroker = loanBrokers[selectedBrokerIndex]
 
