@@ -3,7 +3,7 @@ import { TxStatus } from '../TxStatus'
 import { TxDetails } from '../TxDetails'
 import { Amount } from '../Amount'
 import { formatAmount } from '../../../../rippled/lib/txSummary/formatAmount'
-import { localizeDate } from '../../utils'
+import { localizeDate, shortenTxHash } from '../../utils'
 import './styles.scss'
 import { useLanguage } from '../../hooks'
 import TxToken from '../TxToken'
@@ -26,12 +26,14 @@ export interface Props {
   tx: any
   hasTokensColumn?: boolean
   hasAmountColumn?: boolean
+  hasHashColumn?: boolean
 }
 
 export const TransactionTableRow = ({
   tx,
   hasTokensColumn,
   hasAmountColumn,
+  hasHashColumn,
 }: Props) => {
   const language = useLanguage()
   const success = tx.result === 'tesSUCCESS'
@@ -49,6 +51,11 @@ export const TransactionTableRow = ({
         className="mask-overlay"
       />
       <div className="upper">
+        {hasHashColumn && (
+          <div className="col col-hash" title={tx.hash}>
+            {shortenTxHash(tx.hash)}
+          </div>
+        )}
         {hasTokensColumn && (
           <div className="col col-token">
             <TxToken tx={tx} />

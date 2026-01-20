@@ -62,6 +62,7 @@ export const VaultTransactions = ({ accountId }: Props) => {
         onLoadMore={() => fetchNextPage()}
         hasAdditionalResults={hasNextPage}
         hasAmountColumn
+        hasHashColumn
       />
     </div>
   )

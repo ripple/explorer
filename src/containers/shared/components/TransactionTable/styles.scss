@@ -73,6 +73,12 @@
     }
   }
 
+  .col-hash {
+    flex: 2;
+    color: $green;
+    @include medium;
+  }
+
   .col-account {
     display: none;
     flex: 3;
