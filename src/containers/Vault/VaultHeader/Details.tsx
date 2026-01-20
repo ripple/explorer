@@ -225,10 +225,10 @@ export const Details = ({ data, vaultId }: Props) => {
         <table className="token-table">
           <tbody>
             <TokenTableRow label={t('asset')} value={formatAsset(asset)} />
-            <TokenTableRow
+            {<TokenTableRow
               label={t('total_value_locked')}
-              value={formatCompactAmount(assetsTotal, asset, language)}
-            />
+              value={(asset?.currency === 'XRP' || asset?.currency === 'RLUSD') ? formatCompactAmount(assetsTotal, asset, language) : '--'}
+            />}
             <TokenTableRow
               label={t('max_total_supply')}
               value={assetsMaximum ? formatCompactAmount(assetsMaximum, asset, language) : t('no_limit')}
