@@ -1,9 +1,16 @@
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
-import { formatRate } from './utils'
+import SocketContext from '../../shared/SocketContext'
+import { getAccountObjects } from '../../../rippled/lib/rippled'
+import { useAnalytics } from '../../shared/analytics'
+import { Loader } from '../../shared/components/Loader'
+import { formatRate, LSF_LOAN_DEFAULT } from './utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
+import WarningIcon from '../../shared/images/warning.svg'
 
 interface LoanBrokerData {
   index: string
@@ -25,8 +32,35 @@ interface Props {
 export const BrokerDetails = ({ broker, currency }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
+  const rippledSocket = useContext(SocketContext)
+  const { trackException } = useAnalytics()
 
   const lang = language ?? 'en-US'
+
+  // Fetch loans for this broker (used for both table display and default check)
+  const { data: loans, isFetching: loansLoading } = useQuery(
+    ['getBrokerLoans', broker.Account, broker.index],
+    async () => {
+      const resp = await getAccountObjects(rippledSocket, broker.Account, 'loan')
+      return resp?.account_objects?.filter(
+        (obj: any) => obj.LoanBrokerID === broker.index,
+      )
+    },
+    {
+      enabled: !!broker.Account && !!broker.index,
+      onError: (e: any) => {
+        trackException(
+          `BrokerLoans ${broker.Account} --- ${JSON.stringify(e)}`,
+        )
+      },
+    },
+  )
+
+  // Check if any loan has the default flag
+  const hasDefaultedLoan = loans?.some(
+    // eslint-disable-next-line no-bitwise
+    (loan: any) => (loan.Flags ?? 0) & LSF_LOAN_DEFAULT,
+  )
 
   /**
    * Format large numbers with K (thousands) or M (millions) suffixes
@@ -107,11 +141,23 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
         </div>
       </div>
 
-      <BrokerLoansTable
-        brokerAccount={broker.Account}
-        loanBrokerId={broker.index}
-        currency={currency}
-      />
+      {loansLoading ? (
+        <div className="broker-loans-loading">
+          <Loader />
+        </div>
+      ) : (
+        <BrokerLoansTable
+          loans={loans}
+          currency={currency}
+        />
+      )}
+
+      {hasDefaultedLoan && (
+        <div className="broker-default-banner">
+          <WarningIcon className="warning-icon" />
+          <span>{t('loan_default_detected')}</span>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,10 +1,5 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
-import SocketContext from '../../shared/SocketContext'
-import { getAccountObjects } from '../../../rippled/lib/rippled'
-import { useAnalytics } from '../../shared/analytics'
-import { Loader } from '../../shared/components/Loader'
 import { LoanRow, LoanData } from './LoanRow'
 import { LSF_LOAN_DEFAULT, LSF_LOAN_IMPAIRED } from './utils'
 import FilterIcon from '../../shared/images/filter.svg'
@@ -14,52 +9,17 @@ const ITEMS_PER_PAGE = 10
 type LoanFilter = 'all' | 'default' | 'impaired'
 
 interface Props {
-  brokerAccount: string
-  loanBrokerId: string
+  loans: LoanData[] | undefined
   currency?: string
 }
 
 export const BrokerLoansTable = ({
-  brokerAccount,
-  loanBrokerId,
+  loans,
   currency = '',
 }: Props) => {
   const { t } = useTranslation()
-  const { trackException } = useAnalytics()
-  const rippledSocket = useContext(SocketContext)
   const [currentPage, setCurrentPage] = useState(1)
   const [filter, setFilter] = useState<LoanFilter>('all')
-
-  const { data: loans, isFetching: loading } = useQuery<LoanData[] | undefined>(
-    ['getBrokerLoans', brokerAccount, loanBrokerId],
-    async () => {
-      const resp = await getAccountObjects(
-        rippledSocket,
-        brokerAccount,
-        'loan',
-      )
-      // Filter loans by LoanBrokerID to ensure only loans for this broker
-      return resp?.account_objects?.filter(
-        (obj: LoanData) => obj.LoanBrokerID === loanBrokerId,
-      )
-    },
-    {
-      enabled: !!brokerAccount && !!loanBrokerId,
-      onError: (e: any) => {
-        trackException(
-          `BrokerLoans ${brokerAccount} --- ${JSON.stringify(e)}`,
-        )
-      },
-    },
-  )
-
-  if (loading) {
-    return (
-      <div className="broker-loans-loading">
-        <Loader />
-      </div>
-    )
-  }
 
   if (!loans || loans.length === 0) {
     return (

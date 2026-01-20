@@ -160,6 +160,29 @@
       }
     }
   }
+
+  // Default loan warning banner
+  .broker-default-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: rgba(139, 69, 19, 0.6);
+    border-radius: 8px;
+
+    .warning-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: #ffd700;
+    }
+
+    span {
+      color: $white;
+      font-size: 14px;
+    }
+  }
 }
 
 // Broker Loans Table Styles
