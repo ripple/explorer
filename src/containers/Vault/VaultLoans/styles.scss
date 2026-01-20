@@ -169,6 +169,55 @@
   padding-top: 24px;
 }
 
+// Loans Filter Bar
+.loans-filter-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  .filter-buttons {
+    display: flex;
+    gap: 8px;
+
+    .filter-btn {
+      padding: 6px 16px;
+      border: 1px solid $black-60;
+      border-radius: 16px;
+      background: transparent;
+      color: $white;
+      font-size: 13px;
+      cursor: pointer;
+      transition:
+        background-color 0.2s,
+        border-color 0.2s;
+
+      &:hover {
+        border-color: $black-40;
+      }
+
+      &.active {
+        background: $green;
+        border-color: $green;
+        color: $black;
+        @include bold;
+      }
+    }
+
+    .filter-indicator {
+      display: flex;
+      align-items: center;
+
+      .filter-icon {
+        width: 16px;
+        height: 16px;
+        fill: $black-40;
+      }
+    }
+  }
+}
+
 .broker-loans-loading,
 .broker-loans-empty,
 .no-loan-brokers-message {

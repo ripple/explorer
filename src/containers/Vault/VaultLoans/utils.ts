@@ -4,8 +4,8 @@ import { convertRippleDate } from '../../../rippled/lib/convertRippleDate'
 const ONE_TENTH_BASIS_POINT = 1000
 
 // Loan flag constants from XLS-66 spec
-const LSF_LOAN_DEFAULT = 0x00010000
-const LSF_LOAN_IMPAIRED = 0x00020000
+export const LSF_LOAN_DEFAULT = 0x00010000
+export const LSF_LOAN_IMPAIRED = 0x00020000
 
 /**
  * Format a rate value from 1/10th basis points to percentage string

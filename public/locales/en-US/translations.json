@@ -834,6 +834,7 @@
   "status": "Status",
   "loan_status_current": "Current",
   "loan_status_default": "Default",
+  "all_loans": "All Loans",
   "loan_status_impaired": "Impaired",
   "loan_status_paid_off": "Paid Off",
   "next_due_date": "Next Due Date",
