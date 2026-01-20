@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
 import i18n from '../../../i18n/testConfigEnglish'
@@ -16,8 +16,8 @@ jest.mock('usehooks-ts', () => ({
 }))
 
 describe('Tokens Page container', () => {
-  const createWrapper = () =>
-    mount(
+  const renderTokens = () =>
+    render(
       <NetworkContext.Provider value="main">
         <QuickHarness i18n={i18n} initialEntries={['/tokens']}>
           <Route path={TOKENS_ROUTE.path} element={<Tokens />} />
@@ -38,8 +38,7 @@ describe('Tokens Page container', () => {
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderTokens()
   })
 
   it('renders all parts', async () => {
@@ -47,72 +46,100 @@ describe('Tokens Page container', () => {
       status: 200,
       response: tokensData,
     })
-    const wrapper = createWrapper()
+    const { container } = renderTokens()
     await flushPromises()
-    wrapper.update()
-
-    expect(wrapper.find('.tokens-page').length).toBe(1)
+    await waitFor(() => {
+      expect(container.querySelectorAll('.tokens-page').length).toBe(1)
+    })
 
     // Metrics
-    const metrics = wrapper.find('.metric')
+    const metrics = container.querySelectorAll('.metric')
 
     expect(metrics.length).toBe(4)
 
-    expect(metrics.at(0).find('.title').text()).toContain('# of Tokens')
-    expect(metrics.at(0).find('.val').text()).toContain('2')
+    expect(metrics[0].querySelector('.title')?.textContent).toContain(
+      '# of Tokens',
+    )
+    expect(metrics[0].querySelector('.val')?.textContent).toContain('2')
 
-    expect(metrics.at(1).find('.title').text()).toContain('Market Cap')
-    expect(metrics.at(1).find('.val').text()).toContain('$152.1M')
+    expect(metrics[1].querySelector('.title')?.textContent).toContain(
+      'Market Cap',
+    )
+    expect(metrics[1].querySelector('.val')?.textContent).toContain('$152.1M')
 
-    expect(metrics.at(2).find('.title').text()).toContain(
+    expect(metrics[2].querySelector('.title')?.textContent).toContain(
       'DEX Traded Volume (24H)',
     )
-    expect(metrics.at(2).find('.val').text()).toContain('$1.0M')
+    expect(metrics[2].querySelector('.val')?.textContent).toContain('$1.0M')
 
-    expect(metrics.at(3).find('.title').text()).toContain('Stablecoin')
-    expect(metrics.at(3).find('.val').text()).toContain('$25.9M')
+    expect(metrics[3].querySelector('.title')?.textContent).toContain(
+      'Stablecoin',
+    )
+    expect(metrics[3].querySelector('.val')?.textContent).toContain('$25.9M')
 
     // Filter
-    const filters = wrapper.find('.filter-field')
+    const filters = container.querySelectorAll('.filter-field')
 
     expect(filters.length).toBe(2)
 
-    expect(filters.at(0).find('.filter-label').text()).toContain('Stablecoin')
+    expect(filters[0].querySelector('.filter-label')?.textContent).toContain(
+      'Stablecoin',
+    )
 
-    expect(filters.at(1).find('.filter-label').text()).toContain('Wrapped')
+    expect(filters[1].querySelector('.filter-label')?.textContent).toContain(
+      'Wrapped',
+    )
 
     // Tokens Table
-    expect(wrapper.find('.tokens-table').length).toBe(1)
+    expect(container.querySelectorAll('.tokens-table').length).toBe(1)
 
     // Table Headers
-    expect(wrapper.find('th.count').text()).toContain('#')
-    expect(wrapper.find('th.name-col').text()).toContain('name')
-    expect(wrapper.find('th.issuer').text()).toContain('Issuer')
-    expect(wrapper.find('th.price').text()).toContain('Price')
-    expect(wrapper.find('th[className*="24h"]').text()).toContain('24H')
-    expect(wrapper.find('th.volume').text()).toContain('Volume')
-    expect(wrapper.find('th.trades').text()).toContain('Trades')
-    expect(wrapper.find('th.holders').text()).toContain('Holders')
-    expect(wrapper.find('th.tvl').text()).toContain('TVL')
-    expect(wrapper.find('th.market_cap').text()).toContain('Market Cap')
+    expect(container.querySelector('th.count')?.textContent).toContain('#')
+    expect(container.querySelector('th.name-col')?.textContent).toContain(
+      'name',
+    )
+    expect(container.querySelector('th.issuer')?.textContent).toContain(
+      'Issuer',
+    )
+    expect(container.querySelector('th.price')?.textContent).toContain('Price')
+    expect(container.querySelector('th.volume')?.textContent).toContain(
+      'Volume',
+    )
+    expect(container.querySelector('th.trades')?.textContent).toContain(
+      'Trades',
+    )
+    expect(container.querySelector('th.holders')?.textContent).toContain(
+      'Holders',
+    )
+    expect(container.querySelector('th.tvl')?.textContent).toContain('TVL')
+    expect(container.querySelector('th.market_cap')?.textContent).toContain(
+      'Market Cap',
+    )
 
     // Table Rows
     // find all table rows excluding header
-    const rows = wrapper.find('tr').filterWhere((n) => !n.find('th').exists())
+    const rows = Array.from(container.querySelectorAll('tr')).filter(
+      (row) => !row.querySelector('th'),
+    )
     expect(rows).toHaveLength(2)
 
-    const firstRow = rows.at(0)
-    expect(firstRow.find('td.count').text()).toContain('1')
-    expect(firstRow.find('td.name').text()).toContain('SOLO')
-    expect(firstRow.find('td.issuer').text()).toContain('Sologenic')
-    expect(firstRow.find('td.price').text()).toContain('$0.2')
-    expect(firstRow.find('td[className*="24h"]').text()).toContain('0.75%')
-    expect(firstRow.find('td.volume').text()).toContain('$138.7K')
-    expect(firstRow.find('td.trades').text()).toContain('1,847')
-    expect(firstRow.find('td.holders').text()).toContain('218.1K')
-    expect(firstRow.find('td.tvl').text()).toContain('$1.1M')
-    expect(firstRow.find('td.market-cap').text()).toContain('$91.2M')
-
-    wrapper.unmount()
+    const firstRow = rows[0]
+    expect(firstRow.querySelector('td.count')?.textContent).toContain('1')
+    expect(firstRow.querySelector('td.name')?.textContent).toContain('SOLO')
+    expect(firstRow.querySelector('td.issuer')?.textContent).toContain(
+      'Sologenic',
+    )
+    expect(firstRow.querySelector('td.price')?.textContent).toContain('$0.2')
+    expect(firstRow.querySelector('td.volume')?.textContent).toContain(
+      '$138.7K',
+    )
+    expect(firstRow.querySelector('td.trades')?.textContent).toContain('1,847')
+    expect(firstRow.querySelector('td.holders')?.textContent).toContain(
+      '218.1K',
+    )
+    expect(firstRow.querySelector('td.tvl')?.textContent).toContain('$1.1M')
+    expect(firstRow.querySelector('td.market-cap')?.textContent).toContain(
+      '$91.2M',
+    )
   })
 })

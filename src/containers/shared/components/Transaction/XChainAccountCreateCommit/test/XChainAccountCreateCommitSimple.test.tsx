@@ -1,67 +1,79 @@
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockXChainAccountCreateCommit from './mock_data/XChainAccountCreateCommit.json'
 import mockXChainAccountCreateCommitInsufficientFunds from './mock_data/XChainAccountCreateCommitInsufficientFunds.json'
 import { expectSimpleRowText } from '../../test/expectations'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('XChainAccountCreateCommitSimple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockXChainAccountCreateCommit)
+    const { container } = renderComponent(mockXChainAccountCreateCommit)
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      container,
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).toBeInTheDocument()
+    expectSimpleRowText(container, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
+    expect(
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).not.toBeInTheDocument()
+    expectSimpleRowText(container, 'issuing-chain-issue', '\uE900 XRP')
 
-    expectSimpleRowText(wrapper, 'send', '\uE90010.00 XRP')
+    expectSimpleRowText(container, 'send', '\uE90010.00 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
-    expect(wrapper.find(`[data-testid="destination"] a`)).not.toExist()
+    expect(
+      container.querySelector('[data-testid="destination"] a'),
+    ).not.toBeInTheDocument()
   })
 
   it('renders failed transaction', () => {
-    const wrapper = createWrapper(
+    const { container } = renderComponent(
       mockXChainAccountCreateCommitInsufficientFunds,
     )
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      container,
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).not.toBeInTheDocument()
+    expectSimpleRowText(container, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
+    expect(
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).not.toBeInTheDocument()
+    expectSimpleRowText(container, 'issuing-chain-issue', '\uE900 XRP')
 
-    expectSimpleRowText(wrapper, 'send', '\uE9001,000.00 XRP')
+    expectSimpleRowText(container, 'send', '\uE9001,000.00 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       'raFcdz1g8LWJDJWJE2ZKLRGdmUmsTyxaym',
     )
-    expect(wrapper.find(`[data-testid="destination"] a`)).not.toExist()
+    expect(
+      container.querySelector('[data-testid="destination"] a'),
+    ).not.toBeInTheDocument()
   })
 })

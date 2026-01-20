@@ -1,29 +1,29 @@
 import SetRegularKey from './mock_data/SetRegularKey.json'
 import SetRegularKeyUnset from './mock_data/SetRegularKeyUnsetKey.json'
 import { Simple } from '../Simple'
-import { SimpleRow } from '../../SimpleRow'
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('SetRegularKey: Simple', () => {
   it('renders Simple for transaction', () => {
-    const wrapper = createWrapper(SetRegularKey)
-    const keyRow = wrapper.find(SimpleRow)
+    const { container, unmount } = renderComponent(SetRegularKey)
 
-    expect(keyRow.prop('label')).toBe(`regular_key`)
-    expect(keyRow.find('.value').text()).toBe(
-      `rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp`,
+    // The SimpleRow doesn't have a data-testid, so we use the row structure
+    const row = container.querySelector('.row')
+    expect(row?.querySelector('.label')).toHaveTextContent('regular_key')
+    expect(row?.querySelector('.value')).toHaveTextContent(
+      'rULyyLRoZ47P33Vapew67VoiRqPrZ2ejbp',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders Simple for transaction that unsets key', () => {
-    const wrapper = createWrapper(SetRegularKeyUnset)
-    const keyRow = wrapper.find(SimpleRow)
+    const { container, unmount } = renderComponent(SetRegularKeyUnset)
 
-    expect(keyRow.prop('label')).toBe('')
-    expect(keyRow.find('.unset').hostNodes().text()).toBe(`unset_regular_key`)
-    wrapper.unmount()
+    expect(container.querySelector('.unset')).toHaveTextContent(
+      'unset_regular_key',
+    )
+    unmount()
   })
 })

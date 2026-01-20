@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../../../i18n/testConfig'
@@ -9,8 +9,8 @@ const TEST_MPT_ID = '00000004A407AF5856CCF3C42619DAA925813FC955C72983'
 const TEST_ISSUER = 'rTestIssuer123456789012345678901234'
 
 describe('GeneralOverview component', () => {
-  const createWrapper = (props: any = {}) =>
-    mount(
+  const renderComponent = (props: any = {}) =>
+    render(
       <I18nextProvider i18n={i18n}>
         <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <GeneralOverview
@@ -28,72 +28,61 @@ describe('GeneralOverview component', () => {
     )
 
   it('renders header box', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.header-box').length).toBe(1)
-    expect(wrapper.find('.header-box-title').text()).toBe(
+    const { container } = renderComponent()
+    expect(container.querySelectorAll('.header-box')).toHaveLength(1)
+    expect(container.querySelector('.header-box-title')).toHaveTextContent(
       'token_page.general_overview',
     )
-    wrapper.unmount()
   })
 
   it('displays issuer account', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.account-link').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container.querySelectorAll('.account-link')).toHaveLength(1)
   })
 
   it('displays issuer name when provided', () => {
-    const wrapper = createWrapper({ issuerName: 'Test Issuer' })
-    expect(wrapper.text()).toContain('Test Issuer')
-    wrapper.unmount()
+    const { container } = renderComponent({ issuerName: 'Test Issuer' })
+    expect(container).toHaveTextContent('Test Issuer')
   })
 
   it('displays transfer fee when provided', () => {
-    const wrapper = createWrapper({ transferFee: 1000 })
+    const { container } = renderComponent({ transferFee: 1000 })
     // transferFee 1000 / 1000 = 1, formatted as percent = 1.000%
-    expect(wrapper.text()).toContain('1.000%')
-    wrapper.unmount()
+    expect(container).toHaveTextContent('1.000%')
   })
 
   it('displays -- when no transfer fee', () => {
-    const wrapper = createWrapper({ transferFee: undefined })
-    expect(wrapper.text()).toContain('--')
-    wrapper.unmount()
+    const { container } = renderComponent({ transferFee: undefined })
+    expect(container).toHaveTextContent('--')
   })
 
   it('displays asset scale', () => {
-    const wrapper = createWrapper({ assetScale: 6 })
-    expect(wrapper.text()).toContain('6')
-    wrapper.unmount()
+    const { container } = renderComponent({ assetScale: 6 })
+    expect(container).toHaveTextContent('6')
   })
 
   it('displays 0 for undefined asset scale', () => {
-    const wrapper = createWrapper({ assetScale: undefined })
-    expect(wrapper.text()).toContain('0')
-    wrapper.unmount()
+    const { container } = renderComponent({ assetScale: undefined })
+    expect(container).toHaveTextContent('0')
   })
 
   it('displays holders count', () => {
-    const wrapper = createWrapper({ holdersCount: 1234 })
-    expect(wrapper.text()).toContain('1,234')
-    wrapper.unmount()
+    const { container } = renderComponent({ holdersCount: 1234 })
+    expect(container).toHaveTextContent('1,234')
   })
 
   it('shows loading spinner when holdersLoading', () => {
-    const wrapper = createWrapper({ holdersLoading: true })
-    expect(wrapper.find('.loading-spinner').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent({ holdersLoading: true })
+    expect(container.querySelectorAll('.loading-spinner')).toHaveLength(1)
   })
 
   it('shows MPT issuance ID when showMptId is true', () => {
-    const wrapper = createWrapper({ showMptId: true })
-    expect(wrapper.text()).toContain('mpt_issuance_id')
-    wrapper.unmount()
+    const { container } = renderComponent({ showMptId: true })
+    expect(container).toHaveTextContent('mpt_issuance_id')
   })
 
   it('hides MPT issuance ID when showMptId is false', () => {
-    const wrapper = createWrapper({ showMptId: false })
-    expect(wrapper.text()).not.toContain('mpt_issuance_id')
-    wrapper.unmount()
+    const { container } = renderComponent({ showMptId: false })
+    expect(container).not.toHaveTextContent('mpt_issuance_id')
   })
 })

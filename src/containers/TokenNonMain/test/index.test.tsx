@@ -1,9 +1,7 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import { Route } from 'react-router-dom'
 import i18n from '../../../i18n/testConfig'
 import { TokenNonMain } from '../index'
-import { TokenHeader } from '../TokenHeader'
-import { TokenTransactionTable } from '../TokenTransactionTable'
 import { flushPromises, QuickHarness } from '../../test/utils'
 import { TOKEN_ROUTE } from '../../App/routes'
 import mockAccount from '../../Accounts/test/mockAccountState.json'
@@ -18,9 +16,9 @@ jest.mock('../../../rippled/token', () => ({
 describe('Token container', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 
-  const createWrapper = (getAccountImpl = () => new Promise(() => {})) => {
+  const renderTokenNonMain = (getAccountImpl = () => new Promise(() => {})) => {
     ;(getToken as Mock).mockImplementation(getAccountImpl)
-    return mount(
+    return render(
       <QuickHarness
         i18n={i18n}
         initialEntries={[`/token/USD.${TEST_ACCOUNT_ID}`]}
@@ -35,16 +33,19 @@ describe('Token container', () => {
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderTokenNonMain()
   })
 
   it('renders static parts', async () => {
-    const wrapper = createWrapper(() => Promise.resolve(mockAccount))
+    const { container } = renderTokenNonMain(() => Promise.resolve(mockAccount))
     await flushPromises()
-    wrapper.update()
-    expect(wrapper.find(TokenHeader).length).toBe(1)
-    expect(wrapper.find(TokenTransactionTable).length).toBe(1)
-    wrapper.unmount()
+    await waitFor(() => {
+      // TokenHeader renders with class 'token-header-non-main'
+      expect(container.querySelectorAll('.token-header-non-main').length).toBe(
+        1,
+      )
+    })
+    // TokenTransactionTable renders with class 'transaction-table'
+    expect(container.querySelectorAll('.transaction-table').length).toBe(1)
   })
 })

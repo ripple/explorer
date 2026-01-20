@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { useQuery, QueryClientProvider } from 'react-query'
@@ -31,8 +31,8 @@ jest.mock('react-query', () => ({
 const setError = jest.fn()
 
 describe('NFT header container', () => {
-  const createWrapper = () =>
-    mount(
+  const renderNFTHeader = () =>
+    render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <I18nextProvider i18n={i18n}>
@@ -50,8 +50,7 @@ describe('NFT header container', () => {
       data,
       isFetching: false,
     }))
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderNFTHeader()
   })
 
   it('renders NFT content', async () => {
@@ -59,23 +58,22 @@ describe('NFT header container', () => {
       data,
       isFetching: false,
     }))
-    const wrapper = createWrapper()
+    const { container } = renderNFTHeader()
 
     expect(
-      wrapper
-        .text()
-        .includes(
-          '0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000C',
-        ),
+      container.textContent.includes(
+        '0000000025CC40A6A240DB42512BA22826B903A785EE2FA512C5D5A70000000C',
+      ),
     ).toBe(true)
-    expect(wrapper.text().includes('rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W')).toBe(
-      true,
-    )
-    expect(wrapper.find('Settings').length).toBe(1)
-    expect(wrapper.find('Details').length).toBe(1)
-    wrapper.find('.title-content').first().simulate('mouseOver')
-    expect(wrapper.find('.tooltip').length).toBe(1)
-    wrapper.unmount()
+    expect(
+      container.textContent.includes('rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W'),
+    ).toBe(true)
+    expect(container.querySelectorAll('.settings').length).toBe(1)
+    expect(container.querySelectorAll('.details').length).toBe(1)
+    fireEvent.mouseOver(container.querySelector('.title-content'))
+    await waitFor(() => {
+      expect(container.querySelectorAll('.tooltip').length).toBe(1)
+    })
   })
 
   it('renders loader', async () => {
@@ -84,8 +82,7 @@ describe('NFT header container', () => {
       isFetching: true,
       error: {},
     }))
-    const wrapper = createWrapper()
-    expect(wrapper.find('Loader').length).toEqual(1)
-    wrapper.unmount()
+    const { container } = renderNFTHeader()
+    expect(container.querySelectorAll('.loader').length).toEqual(1)
   })
 })

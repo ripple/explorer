@@ -1,33 +1,34 @@
 import mockSignerListSetClear from './mock_data/SignerListSetClear.json'
 import mockSignerListSet from './mock_data/SignerListSet.json'
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
-const createWrapper = createDescriptionWrapperFactory(Description)
+const renderComponent = createDescriptionRenderFactory(Description)
 
 describe('SignerListSet: Description', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockSignerListSet)
+    const { container, unmount } = renderComponent(mockSignerListSet)
 
-    expect(wrapper.find('div').at(0).text()).toEqual(
+    expect(container.querySelector('div')).toHaveTextContent(
       'set_signer_list_description:',
     )
 
-    const signers = wrapper.find('.signers li')
-    expect(signers.at(0)).toHaveText(
+    const signers = container.querySelectorAll('.signers li')
+    expect(signers[0]).toHaveTextContent(
       'rK8MWkYVgHR6VmPH6WpWcvVce9evvMpKSv - weight: 2',
     )
-    expect(signers.at(1)).toHaveText(
+    expect(signers[1]).toHaveTextContent(
       'rLoRH7XuBgz2kTP1ACkoyVYk9hsLggVvbP - weight: 1',
     )
-    expect(signers.at(2)).toHaveText(
+    expect(signers[2]).toHaveTextContent(
       'rL6SsrxyVp1JLNEZsX1hFWHcP2iJcZJ2dy - weight: 1',
     )
+    unmount()
   })
 
   it('renders when signer list is cleared', () => {
-    const wrapper = createWrapper(mockSignerListSetClear)
-    expect(wrapper).toHaveText('unset_signer_list_description')
-    wrapper.unmount()
+    const { container, unmount } = renderComponent(mockSignerListSetClear)
+    expect(container).toHaveTextContent('unset_signer_list_description')
+    unmount()
   })
 })

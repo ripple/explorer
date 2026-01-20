@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
@@ -54,14 +54,14 @@ describe('MPT TablePicker container', () => {
     moxios.uninstall()
   })
 
-  const createWrapper = (
+  const renderComponent = (
     getAccountTransactionsImpl = () => new Promise(() => {}),
     overrides: any = {},
   ) => {
     ;(getAccountTransactions as jest.Mock).mockImplementation(
       getAccountTransactionsImpl,
     )
-    return mount(
+    return render(
       <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
           <Router future={V7_FUTURE_ROUTER_FLAGS}>
@@ -108,20 +108,20 @@ describe('MPT TablePicker container', () => {
   }
 
   it('renders transaction table container', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.token-transaction-table-container').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(
+      container.querySelectorAll('.token-transaction-table-container'),
+    ).toHaveLength(1)
   })
 
   it('renders loader when fetching data', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.loader').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container.querySelectorAll('.loader')).toHaveLength(1)
   })
 
   it('renders with holders data', () => {
     const setCurrentPage = jest.fn()
-    const wrapper = createWrapper(() => new Promise(() => {}), {
+    const { container } = renderComponent(() => new Promise(() => {}), {
       holdersData: mockHolders,
       holdersPagination: {
         currentPage: 1,
@@ -130,14 +130,15 @@ describe('MPT TablePicker container', () => {
         total: 100,
       },
     })
-    expect(wrapper.find('.token-transaction-table-container').length).toBe(1)
-    wrapper.unmount()
+    expect(
+      container.querySelectorAll('.token-transaction-table-container'),
+    ).toHaveLength(1)
   })
 
   it('renders with transfers data', () => {
     const setSortField = jest.fn()
     const setSortOrder = jest.fn()
-    const wrapper = createWrapper(() => new Promise(() => {}), {
+    const { container } = renderComponent(() => new Promise(() => {}), {
       transfersData: mockTransfers,
       transfersPagination: {
         currentPage: 1,
@@ -154,16 +155,18 @@ describe('MPT TablePicker container', () => {
         setSortOrder,
       },
     })
-    expect(wrapper.find('.token-transaction-table-container').length).toBe(1)
-    wrapper.unmount()
+    expect(
+      container.querySelectorAll('.token-transaction-table-container'),
+    ).toHaveLength(1)
   })
 
   it('renders with loading states', () => {
-    const wrapper = createWrapper(() => new Promise(() => {}), {
+    const { container } = renderComponent(() => new Promise(() => {}), {
       holdersLoading: true,
       transfersLoading: true,
     })
-    expect(wrapper.find('.token-transaction-table-container').length).toBe(1)
-    wrapper.unmount()
+    expect(
+      container.querySelectorAll('.token-transaction-table-container'),
+    ).toHaveLength(1)
   })
 })

@@ -1,28 +1,25 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18n/testConfig'
 import Footer from '../index'
 
 describe('Footer component', () => {
-  const createWrapper = () =>
-    mount(
+  const renderFooter = () =>
+    render(
       <I18nextProvider i18n={i18n}>
         <Footer />
       </I18nextProvider>,
     )
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderFooter()
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.logo').length).toEqual(1)
-    expect(wrapper.find('.copyright').length).toEqual(1)
-    expect(wrapper.find('.footer-link').length).toEqual(12)
-    expect(wrapper.find('.footer-section-header').length).toEqual(3)
-
-    wrapper.unmount()
+    const { container } = renderFooter()
+    expect(container.querySelectorAll('.logo')).toHaveLength(1)
+    expect(container.querySelectorAll('.copyright')).toHaveLength(1)
+    expect(container.querySelectorAll('.footer-link')).toHaveLength(12)
+    expect(container.querySelectorAll('.footer-section-header')).toHaveLength(3)
   })
 })

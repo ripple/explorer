@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { HelmetProvider } from 'react-helmet-async'
 import MockWsClient from '../../test/mockWsClient'
@@ -8,10 +8,10 @@ import NoMatch from '../index'
 
 /* eslint-disable react/jsx-props-no-spreading */
 describe('NoMatch container', () => {
-  const createWrapper = (props = {}) => {
+  const renderNoMatch = (props = {}) => {
     const client = new MockWsClient() as unknown as ExplorerXrplClient
 
-    return mount(
+    return render(
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
           <HelmetProvider>
@@ -21,21 +21,17 @@ describe('NoMatch container', () => {
       </I18nextProvider>,
     )
   }
+
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderNoMatch()
   })
 
   it('renders default messages and parts', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.uh-oh').length).toBe(1)
-    expect(wrapper.find('.uh-oh').text()).toBe('UH-OH!')
-    expect(wrapper.find('.title').length).toBe(1)
-    expect(wrapper.find('.title').text()).toBe('Page Not Found')
-    expect(wrapper.find('.hint').length).toBe(1)
-    expect(wrapper.find('.hint').text()).toBe('Please double check your URL')
-    expect(wrapper.find('.warning').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderNoMatch()
+    expect(screen.getByText('UH-OH!')).toBeInTheDocument()
+    expect(screen.getByText('Page Not Found')).toBeInTheDocument()
+    expect(screen.getByText('Please double check your URL')).toBeInTheDocument()
+    expect(container.querySelector('.warning')).toBeInTheDocument()
   })
 
   it('renders correct messages from props', () => {
@@ -43,16 +39,14 @@ describe('NoMatch container', () => {
       title: 'props_title',
       hints: ['props_hint_1', 'props_hint_2'],
     }
-    const wrapper = createWrapper(params)
-    expect(wrapper.find('.uh-oh').length).toBe(1)
-    expect(wrapper.find('.uh-oh').text()).toBe('UH-OH!')
-    expect(wrapper.find('.title').length).toBe(1)
-    expect(wrapper.find('.title').text()).toBe('props_title')
-    expect(wrapper.find('.hint').length).toBe(2)
-    expect(wrapper.find('.hint').first().text()).toBe('props_hint_1')
-    expect(wrapper.find('.hint').last().text()).toBe('props_hint_2')
-    expect(wrapper.find('.warning').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderNoMatch(params)
+    expect(screen.getByText('UH-OH!')).toBeInTheDocument()
+    expect(screen.getByText('props_title')).toBeInTheDocument()
+    const hints = container.querySelectorAll('.hint')
+    expect(hints).toHaveLength(2)
+    expect(hints[0]).toHaveTextContent('props_hint_1')
+    expect(hints[1]).toHaveTextContent('props_hint_2')
+    expect(container.querySelector('.warning')).toBeInTheDocument()
   })
 
   it('does not render warning or uhoh when not an error', () => {
@@ -61,13 +55,14 @@ describe('NoMatch container', () => {
       hints: ['props_hint_1', 'props_hint_2'],
       isError: false,
     }
-    const wrapper = createWrapper(params)
-    expect(wrapper.find('.uh-oh')).not.toExist()
-    expect(wrapper.find('.title').text()).toBe('props_title')
-    expect(wrapper.find('.hint').length).toBe(2)
-    expect(wrapper.find('.hint').first().text()).toBe('props_hint_1')
-    expect(wrapper.find('.hint').last().text()).toBe('props_hint_2')
-    expect(wrapper.find('.warning')).not.toExist()
+    const { container } = renderNoMatch(params)
+    expect(container.querySelector('.uh-oh')).not.toBeInTheDocument()
+    expect(screen.getByText('props_title')).toBeInTheDocument()
+    const hints = container.querySelectorAll('.hint')
+    expect(hints).toHaveLength(2)
+    expect(hints[0]).toHaveTextContent('props_hint_1')
+    expect(hints[1]).toHaveTextContent('props_hint_2')
+    expect(container.querySelector('.warning')).not.toBeInTheDocument()
   })
 
   it('renders custom warning', () => {
@@ -76,8 +71,8 @@ describe('NoMatch container', () => {
       hints: ['props_hint_1', 'props_hint_2'],
       warning: 'be_warned',
     }
-    const wrapper = createWrapper(params)
-    expect(wrapper.find('.warning span')).toHaveText('be_warned')
+    renderNoMatch(params)
+    expect(screen.getByText('be_warned')).toBeInTheDocument()
   })
 
   it('renders connection state', () => {
@@ -91,7 +86,7 @@ describe('NoMatch container', () => {
       title: 'props_title',
       hints: ['test:hint_test'],
     }
-    const wrapper = createWrapper(params)
-    expect(wrapper.find('.hint')).toHaveText('Version: 1.9.4')
+    renderNoMatch(params)
+    expect(screen.getByText('Version: 1.9.4')).toBeInTheDocument()
   })
 })
