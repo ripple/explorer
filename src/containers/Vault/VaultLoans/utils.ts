@@ -5,7 +5,7 @@ const ONE_TENTH_BASIS_POINT = 1000
 
 // Loan flag constants from XLS-66 spec
 const LSF_LOAN_DEFAULT = 0x00010000
-// const LSF_LOAN_IMPAIRED = 0x00020000
+const LSF_LOAN_IMPAIRED = 0x00020000
 
 /**
  * Format a rate value from 1/10th basis points to percentage string
@@ -63,6 +63,12 @@ export const formatLoanStatus = (
   // eslint-disable-next-line no-bitwise
   if (flags & LSF_LOAN_DEFAULT) {
     return { status: 'loan_status_default', colorClass: 'status-default' }
+  }
+
+  // Check if loan is impaired
+  // eslint-disable-next-line no-bitwise
+  if (flags & LSF_LOAN_IMPAIRED) {
+    return { status: 'loan_status_impaired', colorClass: 'status-impaired' }
   }
 
   // Otherwise loan is current

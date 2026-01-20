@@ -256,6 +256,14 @@
         }
       }
 
+      &.status-impaired {
+        color: #ffa500;
+
+        .status-dot {
+          background: #ffa500;
+        }
+      }
+
       &.status-paid-off {
         color: $black-40;
 
