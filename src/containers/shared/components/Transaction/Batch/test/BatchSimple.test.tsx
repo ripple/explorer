@@ -1,6 +1,6 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import { expectSimpleRowText } from '../../test'
-import { flushPromises, QuickHarness } from '../../../../../test/utils'
+import { QuickHarness } from '../../../../../test/utils'
 import { Simple } from '../Simple'
 import * as rippled from '../../../../../../rippled/lib/rippled'
 import SocketContext from '../../../../SocketContext'
@@ -18,9 +18,9 @@ jest.mock('../../../../../../rippled/lib/rippled', () => ({
 
 const mockedGetTransaction = rippled.getTransaction as jest.Mock
 
-function createWrapper(tx: any, socketMock: any = {}) {
+function renderComponent(tx: any, socketMock: any = {}) {
   const data = summarizeTransaction(tx, true)
-  return mount(
+  return render(
     <QuickHarness i18n={i18n}>
       <SocketContext.Provider value={socketMock}>
         <Simple data={data.details!} />
@@ -51,16 +51,16 @@ describe('Batch: Simple', () => {
       return Promise.reject(new Error('transaction not found'))
     })
 
-    const wrapper = createWrapper(Batch, client)
+    const { container } = renderComponent(Batch, client)
 
-    await flushPromises()
-    wrapper.update()
+    await waitFor(() => {
+      expect(container.querySelectorAll('.group')).toHaveLength(3)
+    })
 
-    expect(wrapper.find('.group')).toHaveLength(3)
-
-    const innerTx1 = wrapper.find('.group').at(0)
-    const innerTx2 = wrapper.find('.group').at(1)
-    const innerTx3 = wrapper.find('.group').at(2)
+    const groups = container.querySelectorAll('.group')
+    const innerTx1 = groups[0]
+    const innerTx2 = groups[1]
+    const innerTx3 = groups[2]
 
     expectSimpleRowText(
       innerTx1,
@@ -100,8 +100,6 @@ describe('Batch: Simple', () => {
     )
 
     expectSimpleRowText(innerTx3, 'tx-status', 'Failed (Not Validated)')
-
-    wrapper.unmount()
   })
 
   it('show failed transaction', async () => {
@@ -114,12 +112,13 @@ describe('Batch: Simple', () => {
       }
       return Promise.reject(new Error('transaction not found'))
     })
-    const wrapper = createWrapper(Batch, client)
+    const { container } = renderComponent(Batch, client)
 
-    await flushPromises()
-    wrapper.update()
+    await waitFor(() => {
+      expect(container.querySelectorAll('.group')).toHaveLength(3)
+    })
 
-    const innerTx1 = wrapper.find('.group').at(0)
+    const innerTx1 = container.querySelectorAll('.group')[0]
     expectSimpleRowText(
       innerTx1,
       'tx-account',

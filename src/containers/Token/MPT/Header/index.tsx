@@ -9,6 +9,7 @@ import {
   shortenMPTID,
   stripHttpProtocol,
   convertToHttpURL,
+  shortenAccount,
 } from '../../../shared/utils'
 import { CopyableText } from '../../../shared/components/CopyableText'
 import DomainLink from '../../../shared/components/DomainLink'
@@ -163,9 +164,8 @@ export const Header = (props: Props) => {
           {/* Show issuer name if available */}
           {issuerName && (
             <div className="token-issuer-wrap">
-              <span className="paren">(</span>
-              <span className="issuer-name">{issuerName}</span>
-              <span className="paren">)</span>
+              (<span className="issuer-name">{shortenAccount(issuerName)}</span>
+              )
             </div>
           )}
         </div>

@@ -39,7 +39,7 @@ export const GeneralOverview = ({
           <div className="item-value account-link">
             <Account
               account={issuer}
-              displayText={issuerName || shortenAccount(issuer)}
+              displayText={shortenAccount(issuerName) || shortenAccount(issuer)}
             />
           </div>
         </div>

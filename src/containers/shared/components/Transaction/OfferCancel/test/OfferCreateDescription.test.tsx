@@ -1,15 +1,15 @@
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 import { Description } from '../Description'
 import offerCancel from './mock_data/OfferCancel.json'
 
-const createWrapper = createDescriptionWrapperFactory(Description)
+const renderComponent = createDescriptionRenderFactory(Description)
 
 describe('OfferCancel: Description', () => {
   it('renders', () => {
-    const wrapper = createWrapper(offerCancel)
+    const { container } = renderComponent(offerCancel)
 
-    expect(wrapper.find('[data-testid="cancel-line"]')).toHaveText(
-      'offer_cancel_description15239384',
-    )
+    expect(
+      container.querySelector('[data-testid="cancel-line"]'),
+    ).toHaveTextContent('offer_cancel_description15239384')
   })
 })

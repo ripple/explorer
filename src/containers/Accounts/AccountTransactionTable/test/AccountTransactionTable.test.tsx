@@ -1,5 +1,5 @@
-import { mount } from 'enzyme'
-import { Link } from 'react-router-dom'
+import { render, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import i18n from '../../../../i18n/testConfig'
 import { AccountTransactionTable } from '../index'
 import TEST_TRANSACTIONS_DATA from './mockTransactions.json'
@@ -19,7 +19,7 @@ describe('AccountTransactionsTable container', () => {
     jest.resetModules()
   })
 
-  const createWrapper = (
+  const renderComponent = (
     getAccountTransactionsImpl: () => Promise<any> = () =>
       new Promise(() => {}),
     state = { hasToken: false },
@@ -27,7 +27,7 @@ describe('AccountTransactionsTable container', () => {
     ;(getAccountTransactions as Mock).mockImplementation(
       getAccountTransactionsImpl,
     )
-    return mount(
+    return render(
       <QuickHarness i18n={i18n}>
         <AccountTransactionTable
           accountId={TEST_ACCOUNT_ID}
@@ -38,34 +38,31 @@ describe('AccountTransactionsTable container', () => {
   }
 
   it('renders static parts', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.transaction-table').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container.querySelector('.transaction-table')).toBeInTheDocument()
   })
 
   it('renders loader when fetching data', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.loader').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container.querySelector('.loader')).toBeInTheDocument()
   })
 
   it('renders dynamic content with transaction data', async () => {
-    const component = createWrapper(() =>
+    const { container } = renderComponent(() =>
       Promise.resolve(TEST_TRANSACTIONS_DATA),
     )
 
     await flushPromises()
-    component.update()
 
-    expect(component.find('.col-token').length).toBe(0)
-    expect(component.find('.load-more-btn').length).toBe(1)
-    expect(component.find('.transaction-table').length).toBe(1)
-    expect(component.find('.transaction-li.transaction-li-header').length).toBe(
-      1,
-    )
-    expect(component.find(Link).length).toBe(60)
+    expect(container.querySelector('.col-token')).not.toBeInTheDocument()
+    expect(container.querySelector('.load-more-btn')).toBeInTheDocument()
+    expect(container.querySelector('.transaction-table')).toBeInTheDocument()
+    expect(
+      container.querySelector('.transaction-li.transaction-li-header'),
+    ).toBeInTheDocument()
+    expect(container.querySelectorAll('a')).toHaveLength(60)
 
-    component.find('.load-more-btn').simulate('click')
+    await userEvent.click(container.querySelector('.load-more-btn')!)
     expect(getAccountTransactions).toHaveBeenCalledWith(
       TEST_ACCOUNT_ID,
       undefined,
@@ -73,42 +70,41 @@ describe('AccountTransactionsTable container', () => {
       undefined,
       undefined,
     )
-
-    component.unmount()
   })
 
   it('renders error message when request fails', async () => {
-    const component = createWrapper(() => Promise.reject())
+    const { container } = renderComponent(() => Promise.reject())
 
     await flushPromises()
-    component.update()
 
-    expect(component.find('.transaction-table')).toExist()
-    expect(component.find('.empty-transactions-message')).toHaveText(
-      'get_account_transactions_failed',
-    )
-    expect(component.find(Link).length).toBe(0)
-    component.unmount()
+    await waitFor(() => {
+      expect(container.querySelector('.transaction-table')).toBeInTheDocument()
+      expect(
+        container.querySelector('.empty-transactions-message'),
+      ).toHaveTextContent('get_account_transactions_failed')
+      expect(container.querySelectorAll('a')).toHaveLength(0)
+    })
   })
 
   it('renders dynamic content with transaction data and token column', async () => {
-    const component = createWrapper(
+    const { container } = renderComponent(
       () => Promise.resolve(TEST_TRANSACTIONS_DATA),
       { hasToken: true },
     )
 
     await flushPromises()
-    component.update()
 
-    expect(component.find('.col-token').length).toBeGreaterThan(0)
-    expect(component.find('.load-more-btn').length).toBe(1)
-    expect(component.find('.transaction-table').length).toBe(1)
-    expect(component.find('.transaction-li.transaction-li-header').length).toBe(
-      1,
-    )
-    expect(component.find(Link).length).toBe(60)
+    await waitFor(() => {
+      expect(container.querySelectorAll('.col-token').length).toBeGreaterThan(0)
+    })
+    expect(container.querySelector('.load-more-btn')).toBeInTheDocument()
+    expect(container.querySelector('.transaction-table')).toBeInTheDocument()
+    expect(
+      container.querySelector('.transaction-li.transaction-li-header'),
+    ).toBeInTheDocument()
+    expect(container.querySelectorAll('a')).toHaveLength(60)
 
-    component.find('.load-more-btn').simulate('click')
+    await userEvent.click(container.querySelector('.load-more-btn')!)
     expect(getAccountTransactions).toHaveBeenCalledWith(
       TEST_ACCOUNT_ID,
       undefined,
@@ -116,21 +112,19 @@ describe('AccountTransactionsTable container', () => {
       undefined,
       undefined,
     )
-
-    component.unmount()
   })
 
-  it('renders error message when request fails', async () => {
-    const component = createWrapper(() => Promise.reject())
+  it('renders error message when request fails with token column', async () => {
+    const { container } = renderComponent(() => Promise.reject())
 
     await flushPromises()
-    component.update()
 
-    expect(component.find('.transaction-table')).toExist()
-    expect(component.find('.empty-transactions-message')).toHaveText(
-      'get_account_transactions_failed',
-    )
-    expect(component.find(Link).length).toBe(0)
-    component.unmount()
+    await waitFor(() => {
+      expect(container.querySelector('.transaction-table')).toBeInTheDocument()
+      expect(
+        container.querySelector('.empty-transactions-message'),
+      ).toHaveTextContent('get_account_transactions_failed')
+      expect(container.querySelectorAll('a')).toHaveLength(0)
+    })
   })
 })

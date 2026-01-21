@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../../../i18n/testConfig'
@@ -41,8 +41,8 @@ const mockMPTDataNoMetadata = {
 }
 
 describe('MPT Header component', () => {
-  const createWrapper = (props: any = {}) =>
-    mount(
+  const renderComponent = (props: any = {}) =>
+    render(
       <I18nextProvider i18n={i18n}>
         <Router future={V7_FUTURE_ROUTER_FLAGS}>
           <Header
@@ -58,61 +58,52 @@ describe('MPT Header component', () => {
     )
 
   it('renders loader when loading', () => {
-    const wrapper = createWrapper({ loading: true })
-    expect(wrapper.find('.loader').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent({ loading: true })
+    expect(container.querySelectorAll('.loader')).toHaveLength(1)
   })
 
   it('returns null when no data and not loading', () => {
-    const wrapper = createWrapper({ data: undefined, loading: false })
-    expect(wrapper.find('.token-header').length).toBe(0)
-    wrapper.unmount()
+    const { container } = renderComponent({ data: undefined, loading: false })
+    expect(container.querySelectorAll('.token-header')).toHaveLength(0)
   })
 
   it('renders header with MPT data', () => {
-    const wrapper = createWrapper({ data: mockMPTData })
-    expect(wrapper.find('.token-header.mpt').length).toBe(1)
-    expect(wrapper.find('.token-indicator').length).toBe(1)
-    expect(wrapper.find('.box-header').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTData })
+    expect(container.querySelectorAll('.token-header.mpt')).toHaveLength(1)
+    expect(container.querySelectorAll('.token-indicator')).toHaveLength(1)
+    expect(container.querySelectorAll('.box-header')).toHaveLength(1)
   })
 
   it('displays ticker when available', () => {
-    const wrapper = createWrapper({ data: mockMPTData })
-    expect(wrapper.text()).toContain('TEST')
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTData })
+    expect(container).toHaveTextContent('TEST')
   })
 
   it('displays issuer name when available', () => {
-    const wrapper = createWrapper({ data: mockMPTData })
-    expect(wrapper.text()).toContain('Test Issuer')
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTData })
+    expect(container).toHaveTextContent('Test Issuer')
   })
 
   it('displays shortened MPT ID when no ticker', () => {
-    const wrapper = createWrapper({ data: mockMPTDataNoMetadata })
-    expect(wrapper.find('.mpt-id').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTDataNoMetadata })
+    expect(container.querySelectorAll('.mpt-id')).toHaveLength(1)
   })
 
   it('shows metadata warning when not compliant', () => {
-    const wrapper = createWrapper({ data: mockMPTDataNoMetadata })
-    expect(wrapper.find('.metadata-warning').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTDataNoMetadata })
+    expect(container.querySelectorAll('.metadata-warning')).toHaveLength(1)
   })
 
   it('does not show metadata warning when compliant', () => {
-    const wrapper = createWrapper({ data: mockMPTData })
-    expect(wrapper.find('.metadata-warning').length).toBe(0)
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTData })
+    expect(container.querySelectorAll('.metadata-warning')).toHaveLength(0)
   })
 
   it('displays logo when available', () => {
-    const wrapper = createWrapper({ data: mockMPTData })
-    const logo = wrapper.find('img.token-logo')
-    expect(logo.length).toBe(1)
-    expect(logo.prop('src')).toBe('https://example.com/icon.png')
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTData })
+    const logo = container.querySelector('img.token-logo')
+    expect(logo).not.toBeNull()
+    expect(logo).toHaveAttribute('src', 'https://example.com/icon.png')
   })
 
   it('displays logo URL without protocol by prefixing https', () => {
@@ -123,51 +114,49 @@ describe('MPT Header component', () => {
         icon: 'example.com/logo.png',
       },
     }
-    const wrapper = createWrapper({ data: dataWithNoProtocolUrl })
-    const logo = wrapper.find('img.token-logo')
-    expect(logo.length).toBe(1)
-    expect(logo.prop('src')).toBe('https://example.com/logo.png')
-    wrapper.unmount()
+    const { container } = renderComponent({ data: dataWithNoProtocolUrl })
+    const logo = container.querySelector('img.token-logo')
+    expect(logo).not.toBeNull()
+    expect(logo).toHaveAttribute('src', 'https://example.com/logo.png')
   })
 
   it('displays default logo when no icon', () => {
-    const wrapper = createWrapper({ data: mockMPTDataNoMetadata })
-    expect(wrapper.find('.token-logo.no-logo').length).toBeGreaterThanOrEqual(1)
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTDataNoMetadata })
+    expect(
+      container.querySelectorAll('.token-logo.no-logo').length,
+    ).toBeGreaterThanOrEqual(1)
   })
 
   it('renders domain link when URIs available', () => {
-    const wrapper = createWrapper({ data: mockMPTData })
-    expect(wrapper.find('.domain-link-container').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTData })
+    expect(container.querySelectorAll('.domain-link-container')).toHaveLength(1)
   })
 
   it('calls setError for invalid MPT ID', () => {
     const setError = jest.fn()
-    const wrapper = createWrapper({
+    renderComponent({
       data: mockMPTData,
       setError,
     })
     // Valid ID, setError should not be called with BAD_REQUEST
-    wrapper.setProps({})
-    wrapper.unmount()
+    // No setProps equivalent in RTL, just verify render doesn't throw
   })
 
   it('renders GeneralOverview component', () => {
-    const wrapper = createWrapper({ data: mockMPTData, holdersCount: 100 })
-    expect(wrapper.find('.header-box').length).toBeGreaterThan(0)
-    wrapper.unmount()
+    const { container } = renderComponent({
+      data: mockMPTData,
+      holdersCount: 100,
+    })
+    expect(container.querySelectorAll('.header-box').length).toBeGreaterThan(0)
   })
 
   it('renders Settings component with flags', () => {
-    const wrapper = createWrapper({ data: mockMPTData })
-    expect(wrapper.text()).toContain('can_transfer')
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTData })
+    expect(container).toHaveTextContent('can_transfer')
   })
 
   it('renders Metadata component when metadata exists', () => {
-    const wrapper = createWrapper({ data: mockMPTData })
-    expect(wrapper.find('.metadata-box').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderComponent({ data: mockMPTData })
+    expect(container.querySelectorAll('.metadata-box')).toHaveLength(1)
   })
 })

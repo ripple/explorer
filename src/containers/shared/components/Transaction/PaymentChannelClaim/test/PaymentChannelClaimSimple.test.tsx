@@ -1,6 +1,6 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockPaymentChannelClaim from './mock_data/PaymentChannelClaim.json'
 import mockPaymentChannelClaimClosed from './mock_data/PaymentChannelClaimClosed.json'
@@ -13,128 +13,148 @@ import {
   expectSimpleRowText,
 } from '../../test'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('PaymentChannelClaim: Simple', () => {
   it('renders a claim', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaim)
-    expectSimpleRowLabel(wrapper, 'amount', 'channel amount')
-    expectSimpleRowText(wrapper, 'amount', '\uE90070.00 XRP')
-    expectSimpleRowLabel(wrapper, 'claimed', 'amount claimed')
-    expectSimpleRowText(wrapper, 'claimed', '\uE9000.01 XRP')
-    expectSimpleRowLabel(wrapper, 'total', 'total claimed')
-    expectSimpleRowText(wrapper, 'total', '\uE90049.65716 XRP')
-    expectSimpleRowLabel(wrapper, 'source', 'source')
+    const { container, unmount } = renderComponent(mockPaymentChannelClaim)
+    expectSimpleRowLabel(container, 'amount', 'channel amount')
+    expectSimpleRowText(container, 'amount', '\uE90070.00 XRP')
+    expectSimpleRowLabel(container, 'claimed', 'amount claimed')
+    expectSimpleRowText(container, 'claimed', '\uE9000.01 XRP')
+    expectSimpleRowLabel(container, 'total', 'total claimed')
+    expectSimpleRowText(container, 'total', '\uE90049.65716 XRP')
+    expectSimpleRowLabel(container, 'source', 'source')
     expectSimpleRowText(
-      wrapper,
+      container,
       'source',
       'rnNzy3iPc7gPEAJbAdXwxY1UTBamBqTYhR:1002539517',
     )
-    expectSimpleRowLabel(wrapper, 'destination', 'destination')
+    expectSimpleRowLabel(container, 'destination', 'destination')
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       'rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
-    expectSimpleRowLabel(wrapper, '.channel', 'Channel ID')
+    expectSimpleRowLabel(container, '.channel', 'Channel ID')
     expectSimpleRowText(
-      wrapper,
+      container,
       '.channel',
       '50107651E7163E294CE0EAD8A20BF7CC046304480FCC9C74A49FFAB3F46FB98E',
     )
-    expectSimpleRowNotToExist(wrapper, 'renew')
-    expectSimpleRowNotToExist(wrapper, 'close-request')
-    expectSimpleRowNotToExist(wrapper, 'closed')
-    wrapper.unmount()
+    expectSimpleRowNotToExist(container, 'renew')
+    expectSimpleRowNotToExist(container, 'close-request')
+    expectSimpleRowNotToExist(container, 'closed')
+    unmount()
   })
 
   it('renders tx with channel being closed', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimClosed)
-    expectSimpleRowText(wrapper, 'amount', '\uE90010.00 XRP')
-    expectSimpleRowNotToExist(wrapper, 'claimed')
-    expectSimpleRowText(wrapper, 'total', '\uE9000.34 XRP')
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelClaimClosed,
+    )
+    expectSimpleRowText(container, 'amount', '\uE90010.00 XRP')
+    expectSimpleRowNotToExist(container, 'claimed')
+    expectSimpleRowText(container, 'total', '\uE9000.34 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'source',
       'rH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B:2647131528',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       'rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       '.channel',
       '3BDB4F92432BCEB2385D3BAA60E8AAEC9B552890A240AEE4AA9E88C9E6C517E8',
     )
-    expectSimpleRowNotToExist(wrapper, 'renew')
-    expectSimpleRowText(wrapper, 'close-request', 'close channel request')
-    expectSimpleRowText(wrapper, 'closed', 'payment channel closed')
-    wrapper.unmount()
+    expectSimpleRowNotToExist(container, 'renew')
+    expectSimpleRowText(container, 'close-request', 'close channel request')
+    expectSimpleRowText(container, 'closed', 'payment channel closed')
+    unmount()
   })
 
   it('renders tx requesting channel be closed but not closing it', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimCloseDenied)
-    expectSimpleRowText(wrapper, 'amount', '\uE90010.00 XRP')
-    expectSimpleRowNotToExist(wrapper, 'claimed')
-    expectSimpleRowNotToExist(wrapper, 'total')
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelClaimCloseDenied,
+    )
+    expectSimpleRowText(container, 'amount', '\uE90010.00 XRP')
+    expectSimpleRowNotToExist(container, 'claimed')
+    expectSimpleRowNotToExist(container, 'total')
     expectSimpleRowText(
-      wrapper,
+      container,
       'source',
       'rH11fDGhbVH5NVXNXkGAMTmfWhUHjCtA3B:2647131528',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       'rK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       '.channel',
       '3BDB4F92432BCEB2385D3BAA60E8AAEC9B552890A240AEE4AA9E88C9E6C517E8',
     )
-    expectSimpleRowNotToExist(wrapper, 'renew')
-    expectSimpleRowText(wrapper, 'close-request', 'close channel request')
-    expectSimpleRowNotToExist(wrapper, 'closed')
-    wrapper.unmount()
+    expectSimpleRowNotToExist(container, 'renew')
+    expectSimpleRowText(container, 'close-request', 'close channel request')
+    expectSimpleRowNotToExist(container, 'closed')
+    unmount()
   })
 
   it('renders tx with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimWithDestinationTag)
-    expectSimpleRowText(wrapper, 'amount', '\uE900100.00 XRP')
-    expectSimpleRowText(wrapper, 'claimed', '\uE9001.00 XRP')
-    expectSimpleRowText(wrapper, 'total', '\uE9001.00 XRP')
-    expectSimpleRowText(wrapper, 'source', 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH')
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelClaimWithDestinationTag,
+    )
+    expectSimpleRowText(container, 'amount', '\uE900100.00 XRP')
+    expectSimpleRowText(container, 'claimed', '\uE9001.00 XRP')
+    expectSimpleRowText(container, 'total', '\uE9001.00 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
+      'source',
+      'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
+    )
+    expectSimpleRowText(
+      container,
       'destination',
       'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn:20170428',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       '.channel',
       '5DB01B7FFED6B67E6B0414DED11E051D2EE2B7619CE0EAA6286D67A3A4D5BDB3',
     )
-    expectSimpleRowNotToExist(wrapper, 'renew')
-    expectSimpleRowNotToExist(wrapper, 'close-request')
-    expectSimpleRowNotToExist(wrapper, 'closed')
-    wrapper.unmount()
+    expectSimpleRowNotToExist(container, 'renew')
+    expectSimpleRowNotToExist(container, 'close-request')
+    expectSimpleRowNotToExist(container, 'closed')
+    unmount()
   })
 
   it('renders tx with CredentialIDs', () => {
-    const wrapper = createWrapper(mockPaymentChannelClaimWithCredentialIDs)
-    expectSimpleRowText(wrapper, 'amount', '\uE90070.00 XRP')
-    expectSimpleRowText(wrapper, 'claimed', '\uE9000.01 XRP')
-    expectSimpleRowText(wrapper, 'total', '\uE90049.65716 XRP')
-    expect(wrapper.find('[data-testid="credential-id-0"]')).toExist()
-    expect(wrapper.find('[data-testid="credential-id-1"]')).toExist()
-    expect(wrapper.find('[data-testid="credential-id-0"] .value')).toHaveText(
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelClaimWithCredentialIDs,
+    )
+    expectSimpleRowText(container, 'amount', '\uE90070.00 XRP')
+    expectSimpleRowText(container, 'claimed', '\uE9000.01 XRP')
+    expectSimpleRowText(container, 'total', '\uE90049.65716 XRP')
+    expect(
+      container.querySelector('[data-testid="credential-id-0"]'),
+    ).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="credential-id-1"]'),
+    ).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-testid="credential-id-0"] .value'),
+    ).toHaveTextContent(
       '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955',
     )
-    expect(wrapper.find('[data-testid="credential-id-1"] .value')).toHaveText(
+    expect(
+      container.querySelector('[data-testid="credential-id-1"] .value'),
+    ).toHaveTextContent(
       '8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
     )
-    wrapper.unmount()
+    unmount()
   })
 })

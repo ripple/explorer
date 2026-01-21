@@ -3,57 +3,70 @@ import mockOfferCreateInvertedCurrencies from './mock_data/OfferCreateInvertedCu
 import mockOfferCreateWithCancel from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import mockOfferCreate from './mock_data/OfferCreate.json'
 import mockOfferCreateWithPermissionedDomainID from './mock_data/OfferCreateWithPermissionedDomainID.json'
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('OfferCreate: TableDetail', () => {
   it('renders with an expiration and offer', () => {
-    const wrapper = createWrapper(mockOfferCreateWithCancel)
+    const { container, unmount } = renderComponent(mockOfferCreateWithCancel)
 
-    expect(wrapper.find('[data-testid="pair"]')).toHaveText(
+    expect(container.querySelector('[data-testid="pair"]')).toHaveTextContent(
       'price:612.518 \uE900 XRP/CSC.rCSC',
     )
-    expect(wrapper.find('[data-testid="cancel-id"]')).toHaveText(
-      'cancel_offer #44866443',
-    )
-    expect(wrapper.find('[data-testid="amount-buy"]')).toHaveText(
-      `\uE9001,764.293151 XRP`,
-    )
-    expect(wrapper.find('[data-testid="amount-sell"]')).toHaveText(
+    expect(
+      container.querySelector('[data-testid="cancel-id"]'),
+    ).toHaveTextContent('cancel_offer #44866443')
+    // Amount components are rendered in order: price (in pair), buy, sell
+    // Skip the first one (price) and check buy/sell
+    const amounts = container.querySelectorAll('[data-testid="amount"]')
+    expect(amounts[1]).toHaveTextContent(`\uE9001,764.293151 XRP`)
+    expect(amounts[2]).toHaveTextContent(
       `1,080,661.95882 CSC.rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr`,
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders', () => {
-    const wrapper = createWrapper(mockOfferCreate)
+    const { container, unmount } = renderComponent(mockOfferCreate)
 
-    expect(wrapper.find('[data-testid="pair"]')).toHaveText(
+    expect(container.querySelector('[data-testid="pair"]')).toHaveTextContent(
       'price:0.00207696 \uE900 XRP/BCH.rcyS',
     )
-    expect(wrapper.find('[data-testid="offer-id"]')).not.toExist()
-    expect(wrapper.find('[data-testid="amount-buy"]')).toHaveText(
-      `\uE90024,755.081083 XRP`,
-    )
-    expect(wrapper.find('[data-testid="amount-sell"]')).toHaveText(
+    expect(
+      container.querySelector('[data-testid="offer-id"]'),
+    ).not.toBeInTheDocument()
+    // Amount components are rendered in order: price (in pair), buy, sell
+    // Skip the first one (price) and check buy/sell
+    const amounts = container.querySelectorAll('[data-testid="amount"]')
+    expect(amounts[1]).toHaveTextContent(`\uE90024,755.081083 XRP`)
+    expect(amounts[2]).toHaveTextContent(
       `51.41523894 BCH.rcyS4CeCZVYvTiKcxj6Sx32ibKwcDHLds`,
     )
+    unmount()
   })
 
   it('renders inverted currencies', () => {
-    const wrapper = createWrapper(mockOfferCreateInvertedCurrencies)
+    const { container, unmount } = renderComponent(
+      mockOfferCreateInvertedCurrencies,
+    )
 
-    expect(wrapper.find('[data-testid="pair"]')).toHaveText(
+    expect(container.querySelector('[data-testid="pair"]')).toHaveTextContent(
       'price:0.346896 \uE900 XRP/USD.rvYA',
     )
+    unmount()
   })
 
   it(`renders offerCreate with a Permissioned Domain ID`, () => {
-    const wrapper = createWrapper(mockOfferCreateWithPermissionedDomainID)
+    const { container, unmount } = renderComponent(
+      mockOfferCreateWithPermissionedDomainID,
+    )
 
-    expect(wrapper.find('[data-testid="domain-id"]')).toHaveText(
+    expect(
+      container.querySelector('[data-testid="domain-id"]'),
+    ).toHaveTextContent(
       'domain_id: 4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812',
     )
+    unmount()
   })
 })

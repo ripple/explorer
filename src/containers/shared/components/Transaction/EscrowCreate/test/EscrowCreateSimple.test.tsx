@@ -2,14 +2,14 @@ import { useQuery } from 'react-query'
 import { Simple } from '../Simple'
 import mockEscrowCreateTests from './mock_data/EscrowCreate.json'
 import mockEscrowCreateFinishFunction from './mock_data/EscrowCreateFinishFunction.json'
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createWrapperFactory'
 
 jest.mock('react-query', () => ({
   ...jest.requireActual('react-query'),
   useQuery: jest.fn(),
 }))
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 function getTestByName(name: string) {
   return mockEscrowCreateTests[name]
@@ -17,30 +17,36 @@ function getTestByName(name: string) {
 
 describe('EscrowCreateSimple', () => {
   it('renders with an expiration and offer', () => {
-    const wrapper = createWrapper(getTestByName('renders EscrowCreate'))
-    expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
-      '\uE900997.50 XRP',
+    const { container, unmount } = renderComponent(
+      getTestByName('renders EscrowCreate'),
     )
     expect(
-      wrapper.find('[data-testid="escrow-destination"] .value'),
-    ).toHaveText('rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q')
-    expect(wrapper.find('[data-testid="escrow-condition"] .value')).toHaveText(
+      container.querySelector('[data-testid="escrow-amount"] .value'),
+    ).toHaveTextContent('\uE900997.50 XRP')
+    expect(
+      container.querySelector('[data-testid="escrow-destination"] .value'),
+    ).toHaveTextContent('rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q')
+    expect(
+      container.querySelector('[data-testid="escrow-condition"] .value'),
+    ).toHaveTextContent(
       'A0258020886F982742772F414243855DC13B348FC78FB3D5119412C8A6480114E36A4451810120',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with a smart escrow', () => {
-    const wrapper = createWrapper(mockEscrowCreateFinishFunction)
-    expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
-      '\uE9000.10 XRP',
+    const { container, unmount } = renderComponent(
+      mockEscrowCreateFinishFunction,
     )
     expect(
-      wrapper.find('[data-testid="escrow-destination"] .value'),
-    ).toHaveText('rQE6iDVinSGsk9jdGS8rbwHste1VkhyCo6')
+      container.querySelector('[data-testid="escrow-amount"] .value'),
+    ).toHaveTextContent('\uE9000.10 XRP')
     expect(
-      wrapper.find('[data-testid="escrow-finish-function"] .value'),
-    ).toHaveText(
+      container.querySelector('[data-testid="escrow-destination"] .value'),
+    ).toHaveTextContent('rQE6iDVinSGsk9jdGS8rbwHste1VkhyCo6')
+    expect(
+      container.querySelector('[data-testid="escrow-finish-function"] .value'),
+    ).toHaveTextContent(
       '0061736D0100000001690F60037F7F7F017F60027F7F017F60017F0060027F7F0060057F7F7F7F' +
         '7F017F6000017F60037E7F7F017F60057F7F7F7F7F0060037F7F7F0060067F7F7F7F7F7F017F' +
         '600B7F7F7F7F7F7F7F7F7F7F7F017F60017F017F60047F7F7F7F0060000060057F7E7E7E7E00' +
@@ -49,27 +55,31 @@ describe('EscrowCreateSimple', () => {
         '656C64000108686F73745F6C6962136765744C6564676572456E7472794669656C6400040868' +
         '6F73745F6C696213676574506172656E744C656467657254696D650005035453020',
     )
-    expect(wrapper.find('[data-testid="escrow-data"] .value')).toHaveText(
-      '70000000',
-    )
-    wrapper.unmount()
+    expect(
+      container.querySelector('[data-testid="escrow-data"] .value'),
+    ).toHaveTextContent('70000000')
+    unmount()
   })
 
   it('test XRP amount', () => {
-    const wrapper = createWrapper(getTestByName('renders EscrowCreate'))
-    expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
-      `\uE900997.50 XRP`,
+    const { container, unmount } = renderComponent(
+      getTestByName('renders EscrowCreate'),
     )
+    expect(
+      container.querySelector('[data-testid="escrow-amount"] .value'),
+    ).toHaveTextContent(`\uE900997.50 XRP`)
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('test IOU amount', () => {
-    const wrapper = createWrapper(getTestByName('test IOU amount'))
-    expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
-      '1.00 ZZZ.rDb2kD2sibG5cxhz3VAoRFkmhPrca4JtL8',
+    const { container, unmount } = renderComponent(
+      getTestByName('test IOU amount'),
     )
-    wrapper.unmount()
+    expect(
+      container.querySelector('[data-testid="escrow-amount"] .value'),
+    ).toHaveTextContent('1.00 ZZZ.rDb2kD2sibG5cxhz3VAoRFkmhPrca4JtL8')
+    unmount()
   })
 
   it('test MPT amount', () => {
@@ -82,10 +92,14 @@ describe('EscrowCreateSimple', () => {
       data,
     }))
 
-    const wrapper = createWrapper(getTestByName('test MPT amount'))
-    expect(wrapper.find('[data-testid="escrow-amount"] .value')).toHaveText(
+    const { container, unmount } = renderComponent(
+      getTestByName('test MPT amount'),
+    )
+    expect(
+      container.querySelector('[data-testid="escrow-amount"] .value'),
+    ).toHaveTextContent(
       '0.0001 MPT (0044E48FC9FB70ADC1A604A5792643A38CA5887219C21C8C)',
     )
-    wrapper.unmount()
+    unmount()
   })
 })
