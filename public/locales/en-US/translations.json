@@ -69,6 +69,7 @@
   "transaction_legend_toggle_show": "Show Legend",
   "transactions.date_header": "Date/time (UTC)",
   "no_transactions_message": "No transactions found.",
+  "get_vault_transactions_failed": "Unable to load vault transactions at this time.",
   "retry_action": "Retry...",
   "uh_oh": "UH-OH!",
   "not_found_default_title": "Page Not Found",
