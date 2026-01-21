@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { Simple } from '../Simple'
 import LoanBrokerSet from './mock_data/LoanBrokerSet.json'
@@ -11,7 +11,7 @@ jest.mock('react-query', () => ({
   useQuery: jest.fn(),
 }))
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
 describe('LoanBrokerSet: Simple', () => {
   it('renders', () => {
@@ -22,23 +22,23 @@ describe('LoanBrokerSet: Simple', () => {
       error: null,
     })
 
-    const wrapper = createWrapper(LoanBrokerSet)
+    const { container, unmount } = renderComponent(LoanBrokerSet)
     expectSimpleRowText(
-      wrapper,
+      container,
       'vault-id',
       'AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7',
     )
-    expectSimpleRowText(wrapper, 'management-fee-rate', '1.000%')
+    expectSimpleRowText(container, 'management-fee-rate', '1.000%')
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'debt-maximum',
       '$100,000.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
     )
-    expectSimpleRowText(wrapper, 'cover-rate-minimum', '1.000%')
-    expectSimpleRowText(wrapper, 'cover-rate-liquidation', '5.000%')
-    expectSimpleRowText(wrapper, 'data', '{meta: "LoanBroker Metadata"}')
-    wrapper.unmount()
+    expectSimpleRowText(container, 'cover-rate-minimum', '1.000%')
+    expectSimpleRowText(container, 'cover-rate-liquidation', '5.000%')
+    expectSimpleRowText(container, 'data', '{meta: "LoanBroker Metadata"}')
+    unmount()
   })
 
   it('renders with zero debt maximum showing No Limit', () => {
@@ -49,18 +49,18 @@ describe('LoanBrokerSet: Simple', () => {
       error: null,
     })
 
-    const wrapper = createWrapper(LoanBrokerSetZeroDebt)
+    const { container, unmount } = renderComponent(LoanBrokerSetZeroDebt)
     expectSimpleRowText(
-      wrapper,
+      container,
       'vault-id',
       'AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7',
     )
-    expectSimpleRowText(wrapper, 'management-fee-rate', '1.000%')
-    expectSimpleRowText(wrapper, 'debt-maximum', 'No Limit')
-    expectSimpleRowText(wrapper, 'cover-rate-minimum', '1.000%')
-    expectSimpleRowText(wrapper, 'cover-rate-liquidation', '5.000%')
-    expectSimpleRowText(wrapper, 'data', '{meta: "LoanBroker Metadata"}')
-    wrapper.unmount()
+    expectSimpleRowText(container, 'management-fee-rate', '1.000%')
+    expectSimpleRowText(container, 'debt-maximum', 'No Limit')
+    expectSimpleRowText(container, 'cover-rate-minimum', '1.000%')
+    expectSimpleRowText(container, 'cover-rate-liquidation', '5.000%')
+    expectSimpleRowText(container, 'data', '{meta: "LoanBroker Metadata"}')
+    unmount()
   })
 
   it('renders partial update without showing omitted DebtMaximum field', () => {
@@ -71,20 +71,22 @@ describe('LoanBrokerSet: Simple', () => {
       error: null,
     })
 
-    const wrapper = createWrapper(LoanBrokerSetPartialUpdate)
+    const { container, unmount } = renderComponent(LoanBrokerSetPartialUpdate)
     expectSimpleRowText(
-      wrapper,
+      container,
       'vault-id',
       'AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7',
     )
-    expectSimpleRowText(wrapper, 'management-fee-rate', '1.000%')
-    expectSimpleRowText(wrapper, 'cover-rate-minimum', '1.000%')
-    expectSimpleRowText(wrapper, 'cover-rate-liquidation', '5.000%')
-    expectSimpleRowText(wrapper, 'data', '{meta: "LoanBroker Metadata"}')
+    expectSimpleRowText(container, 'management-fee-rate', '1.000%')
+    expectSimpleRowText(container, 'cover-rate-minimum', '1.000%')
+    expectSimpleRowText(container, 'cover-rate-liquidation', '5.000%')
+    expectSimpleRowText(container, 'data', '{meta: "LoanBroker Metadata"}')
 
     // DebtMaximum should not be shown since it was omitted from the transaction
-    expect(wrapper.find('[data-testid="debt-maximum"]')).toHaveLength(0)
+    expect(
+      container.querySelector('[data-testid="debt-maximum"]'),
+    ).not.toBeInTheDocument()
 
-    wrapper.unmount()
+    unmount()
   })
 })

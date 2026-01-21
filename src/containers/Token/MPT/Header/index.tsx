@@ -164,9 +164,8 @@ export const Header = (props: Props) => {
           {/* Show issuer name if available */}
           {issuerName && (
             <div className="token-issuer-wrap">
-              <span className="issuer-name">
-                ({shortenAccount(issuerName)})
-              </span>
+              (<span className="issuer-name">{shortenAccount(issuerName)}</span>
+              )
             </div>
           )}
         </div>

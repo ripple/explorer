@@ -2,14 +2,14 @@ import { useQuery } from 'react-query'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import mockEscrowCreateTests from './mock_data/EscrowCreate.json'
 import { Description } from '../Description'
-import { createDescriptionWrapperFactory } from '../../test'
+import { createDescriptionRenderFactory } from '../../test'
 
 jest.mock('react-query', () => ({
   ...jest.requireActual('react-query'),
   useQuery: jest.fn(),
 }))
 
-const createWrapper = createDescriptionWrapperFactory(Description, i18n)
+const renderComponent = createDescriptionRenderFactory(Description, i18n)
 
 function getTestByName(name: string) {
   return mockEscrowCreateTests[name]
@@ -17,29 +17,37 @@ function getTestByName(name: string) {
 
 describe('EscrowCreateDescription', () => {
   it('renders description for EscrowCreate', () => {
-    const wrapper = createWrapper(getTestByName('renders EscrowCreate'))
-    expect(wrapper.html()).toBe(
+    const { container, unmount } = renderComponent(
+      getTestByName('renders EscrowCreate'),
+    )
+    expect(container.innerHTML).toBe(
       'The escrow is from <a data-testid="account" title="rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q" class="account" href="/accounts/rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q">rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q</a> to <a data-testid="account" title="rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q" class="account" href="/accounts/rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q">rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q</a><div>The escrow has a fulfillment condition of<span class="condition"> A0258020886F982742772F414243855DC13B348FC78FB3D5119412C8A6480114E36A4451810120</span></div><div data-testid="amount-line">It escrowed<b> <span class="amount" data-testid="amount"><span class="amount-localized" data-testid="amount-localized">997.50</span> <span class="currency" data-testid="currency">XRP</span></span></b></div><div>It can be cancelled after<span class="time"> March 1, 2020 at 8:54:20 AM UTC</span></div><div>It can be finished after<span class="time"> March 1, 2020 at 9:01:00 AM UTC</span></div>',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('test XRP amount', () => {
-    const wrapper = createWrapper(getTestByName('renders EscrowCreate'))
-    expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
-      `It escrowed \uE900997.50 XRP`,
+    const { container, unmount } = renderComponent(
+      getTestByName('renders EscrowCreate'),
     )
+    expect(
+      container.querySelector('[data-testid="amount-line"]'),
+    ).toHaveTextContent(`It escrowed \uE900997.50 XRP`)
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('test IOU amount', () => {
-    const wrapper = createWrapper(getTestByName('test IOU amount'))
-    expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
+    const { container, unmount } = renderComponent(
+      getTestByName('test IOU amount'),
+    )
+    expect(
+      container.querySelector('[data-testid="amount-line"]'),
+    ).toHaveTextContent(
       `It escrowed 1.00 ZZZ.rDb2kD2sibG5cxhz3VAoRFkmhPrca4JtL8`,
     )
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('test MPT amount', () => {
@@ -52,11 +60,15 @@ describe('EscrowCreateDescription', () => {
       data,
     }))
 
-    const wrapper = createWrapper(getTestByName('test MPT amount'))
-    expect(wrapper.find('[data-testid="amount-line"]')).toHaveText(
+    const { container, unmount } = renderComponent(
+      getTestByName('test MPT amount'),
+    )
+    expect(
+      container.querySelector('[data-testid="amount-line"]'),
+    ).toHaveTextContent(
       `It escrowed 0.0001 MPT (0044E48FC9FB70ADC1A604A5792643A38CA5887219C21C8C)`,
     )
 
-    wrapper.unmount()
+    unmount()
   })
 })

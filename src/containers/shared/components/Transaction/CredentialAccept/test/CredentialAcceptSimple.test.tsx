@@ -1,15 +1,19 @@
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import CredentialAccept from './mock_data/CredentialAccept.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('CredentialAccept: Simple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(CredentialAccept)
-    expectSimpleRowText(wrapper, 'issuer', 'rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi')
-    expectSimpleRowText(wrapper, 'credential-type', 'My test credential')
+    const { container, unmount } = renderComponent(CredentialAccept)
+    expectSimpleRowText(
+      container,
+      'issuer',
+      'rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi',
+    )
+    expectSimpleRowText(container, 'credential-type', 'My test credential')
 
-    wrapper.unmount()
+    unmount()
   })
 })

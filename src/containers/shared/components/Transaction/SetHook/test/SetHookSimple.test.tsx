@@ -1,20 +1,21 @@
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockSetHook from './mock_data/SetHook.json'
 import mockSetHook2 from './mock_data/SetHook2.json'
 import mockSetHookFailure from './mock_data/SetHookFailure.json'
 import { expectSimpleRowText } from '../../test/expectations'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('SetHookSimple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockSetHook)
+    const { container } = renderComponent(mockSetHook)
 
-    expect(wrapper.find('.group')).toHaveLength(2)
+    const groups = container.querySelectorAll('.group')
+    expect(groups).toHaveLength(2)
 
-    const hook1 = wrapper.find('.group').at(0)
-    const hook2 = wrapper.find('.group').at(1)
+    const hook1 = groups[0]
+    const hook2 = groups[1]
 
     expectSimpleRowText(
       hook1,
@@ -46,11 +47,12 @@ describe('SetHookSimple', () => {
   })
 
   it('renders a different SetHook tx', () => {
-    const wrapper = createWrapper(mockSetHook2)
+    const { container } = renderComponent(mockSetHook2)
 
-    expect(wrapper.find('.group')).toHaveLength(1)
+    const groups = container.querySelectorAll('.group')
+    expect(groups).toHaveLength(1)
 
-    const hook = wrapper.find('.group').at(0)
+    const hook = groups[0]
 
     expectSimpleRowText(
       hook,
@@ -58,34 +60,38 @@ describe('SetHookSimple', () => {
       '548BBB700F5841C2D41E227456E8A80E6A6335D1149BA3B5FF745A00CC0EBECE',
     )
 
-    expect(hook.find('.grant')).toHaveLength(2)
+    const grants = hook.querySelectorAll('.grant')
+    expect(grants).toHaveLength(2)
 
-    const grant1 = hook.find('.grant').at(0)
-    const grant2 = hook.find('.grant').at(1)
+    const grant1 = grants[0]
+    const grant2 = grants[1]
 
-    expect(grant1.find('.hash')).toHaveText(
+    expect(grant1.querySelector('.hash')).toHaveTextContent(
       '096A70632BBB67488F4804AE55604A01F52226BD556E3589270D0D30C9A6AF81',
     )
-    expect(grant1.find('.account').at(0)).toHaveText(
+    expect(grant1.querySelector('.account')).toHaveTextContent(
       'rQUhXd7sopuga3taru3jfvc1BgVbscrb1X',
     )
-    expect(grant1.find(`.account a`)).toExist()
+    // .account IS the link itself (an anchor element with class account)
+    expect(grant1.querySelector('a.account')).toBeInTheDocument()
 
-    expect(grant2.find('.hash')).toHaveText(
+    expect(grant2.querySelector('.hash')).toHaveTextContent(
       '3F47684053E1A653E54EAC1C5F50BCBAF7F69078CEFB5846BB046CE44B8ECDC2',
     )
-    expect(grant2.find('.account').at(0)).toHaveText(
+    expect(grant2.querySelector('.account')).toHaveTextContent(
       'raPSFU999HcwpyRojdNh2i96T22gY9fgxL',
     )
-    expect(grant2.find(`.account a`)).toExist()
+    // .account IS the link itself (an anchor element with class account)
+    expect(grant2.querySelector('a.account')).toBeInTheDocument()
   })
 
   it('renders a failed SetHook tx', () => {
-    const wrapper = createWrapper(mockSetHookFailure)
+    const { container } = renderComponent(mockSetHookFailure)
 
-    expect(wrapper.find('.group')).toHaveLength(1)
+    const groups = container.querySelectorAll('.group')
+    expect(groups).toHaveLength(1)
 
-    const hook = wrapper.find('.group').at(0)
+    const hook = groups[0]
 
     expectSimpleRowText(hook, 'hook-hash', 'undefined')
 

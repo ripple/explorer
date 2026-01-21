@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, waitFor, screen } from '@testing-library/react'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import { Route } from 'react-router'
@@ -20,8 +20,8 @@ describe('Validators Tab container', () => {
   let server
   let client
 
-  const createWrapper = () =>
-    mount(
+  const renderValidators = () =>
+    render(
       <SocketContext.Provider value={client}>
         <NetworkContext.Provider value="main">
           <QueryClientProvider client={queryClient}>
@@ -48,79 +48,52 @@ describe('Validators Tab container', () => {
   })
 
   it('renders without crashing', async () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderValidators()
   })
 
-  it('displays validators from VHS API', (done) => {
+  it('displays validators from VHS API', async () => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
       response: { validators: mockValidators },
     })
 
-    const wrapper = createWrapper()
+    const { container } = renderValidators()
 
-    moxios.wait(() => {
-      setTimeout(() => {
-        wrapper.update()
-
-        // Should show 4 validators from VHS with 2 in UNL
-        expect(wrapper.find('.stat').text()).toEqual(
-          'validators_found: 4 (unl: 2)',
-        )
-
-        // Should render hexagons visualization
-        expect(wrapper.find('.hexagons').length).toBe(1)
-
-        wrapper.unmount()
-        done()
-      }, 100)
+    await waitFor(() => {
+      expect(container.querySelector('.stat').textContent).toEqual(
+        'validators_found: 4 (unl: 2)',
+      )
     })
+
+    expect(container.querySelectorAll('.hexagons').length).toBe(1)
   })
 
-  it('merges validators from both VHS API and WebSocket stream', (done) => {
-    // Mock the VHS API response with 4 validators
+  it('merges validators from both VHS API and WebSocket stream', async () => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
       status: 200,
       response: { validators: mockValidators },
     })
 
-    const wrapper = createWrapper()
+    const { container } = renderValidators()
 
-    // Send a live validation message via WebSocket
-    // This validator (n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR) is NOT in mockValidators
     server.send(validationMessage)
 
-    // Wait for both VHS API and WebSocket data to be processed
-    moxios.wait(() => {
-      setTimeout(() => {
-        wrapper.update()
-
-        // Should show 5 validators total (4 from VHS + 1 new from WebSocket)
-        // Note: The validation_public_key in mockValidation.json is different from all signing_keys in mockValidators.json
-        expect(wrapper.find('.stat').text()).toEqual(
-          'validators_found: 5 (unl: 2)',
-        )
-
-        // Should render hexagons with merged data
-        expect(wrapper.find('.hexagons').length).toBe(1)
-
-        // Should render validators table
-        expect(wrapper.find('.validators-table').length).toBe(1)
-
-        // Check table has 5 data rows (4 from VHS + 1 from WebSocket)
-        const tableRows = wrapper.find('.validators-table table tbody tr')
-        expect(tableRows.length).toBe(5)
-
-        // Verify that the WebSocket validator is in the table
-        const tableText = wrapper.find('.validators-table').text()
-        expect(tableText).toContain(
-          'n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-        )
-
-        wrapper.unmount()
-        done()
-      }, 100)
+    await waitFor(() => {
+      expect(container.querySelector('.stat').textContent).toEqual(
+        'validators_found: 5 (unl: 2)',
+      )
     })
+
+    expect(container.querySelectorAll('.hexagons').length).toBe(1)
+    expect(container.querySelectorAll('.validators-table').length).toBe(1)
+
+    const tableRows = container.querySelectorAll(
+      '.validators-table table tbody tr',
+    )
+    expect(tableRows.length).toBe(5)
+
+    expect(
+      screen.getByText('n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR'),
+    ).toBeInTheDocument()
   })
 })

@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
 import i18n from '../../../i18n/testConfig'
@@ -76,8 +76,8 @@ const WS_URL = 'wss://fakenode.ripple.com:51233'
 describe('Ledgers Page container', () => {
   let server
   let client
-  const createWrapper = (props = { network: 'main', path: '/' }) =>
-    mount(
+  const renderLedgersPage = (props = { network: 'main', path: '/' }) =>
+    render(
       <SelectedValidatorProvider>
         <SocketContext.Provider value={client}>
           <NetworkContext.Provider value={props.network}>
@@ -100,6 +100,7 @@ describe('Ledgers Page container', () => {
   })
 
   afterEach(() => {
+    cleanup()
     process.env = oldEnvs
     moxios.uninstall()
     client.close()
@@ -108,8 +109,7 @@ describe('Ledgers Page container', () => {
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderLedgersPage()
   })
 
   it('renders all parts', () => {
@@ -118,9 +118,8 @@ describe('Ledgers Page container', () => {
       response: [],
     })
 
-    const wrapper = createWrapper()
-    expect(wrapper.find('.ledgers').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderLedgersPage()
+    expect(container.querySelectorAll('.ledgers').length).toBe(1)
   })
 
   it('receives messages from streams', async () => {
@@ -140,72 +139,84 @@ describe('Ledgers Page container', () => {
       ledger_interval: '3.850',
       avg_fee: '0.001882',
     })
-    const wrapper = createWrapper()
+    const { container, unmount } = renderLedgersPage()
 
-    expect(wrapper.find('.ledger').length).toBe(0)
-    expect(wrapper.find('.validation').length).toBe(0)
-    expect(wrapper.find('.txn').length).toBe(0)
+    expect(container.querySelectorAll('.ledger').length).toBe(0)
+    expect(container.querySelectorAll('.validation').length).toBe(0)
+    expect(container.querySelectorAll('.txn').length).toBe(0)
 
     server.send(prevLedgerMessage)
     await sleep(260)
-    wrapper.update()
-    expect(wrapper.exists()).toBe(true)
-    expect(wrapper.find('.ledgers').length).toBe(1)
-    expect(wrapper.find('.ledger-list').length).toBe(1)
-    expect(wrapper.find('.ledger').length).toBe(2)
+    expect(container.querySelectorAll('.ledgers').length).toBe(1)
+    expect(container.querySelectorAll('.ledger-list').length).toBe(1)
+    expect(container.querySelectorAll('.ledger').length).toBe(2)
 
     server.send(validationMessage)
-    // validation-messages are processed in batches every 200 ms
     await sleep(200 * 2)
-    wrapper.update()
 
-    expect(wrapper.exists()).toBe(true)
-    expect(wrapper.find('.validation').length).toBe(1)
+    expect(container.querySelectorAll('.validation').length).toBe(1)
 
     server.send(ledgerMessage)
-    wrapper.update()
-    expect(wrapper.find('.ledger').length).toBe(2)
+    expect(container.querySelectorAll('.ledger').length).toBe(2)
 
     server.send({ type: 'invalid' })
     server.send(null)
-    wrapper.update()
 
-    expect(wrapper.find('.ledger').length).toBe(2)
-    expect(wrapper.find('.selected-validator .pubkey').length).toBe(0)
-    expect(wrapper.find('.tooltip').length).toBe(0)
+    expect(container.querySelectorAll('.ledger').length).toBe(2)
+    expect(
+      container.querySelectorAll('.selected-validator .pubkey').length,
+    ).toBe(0)
+    expect(container.querySelectorAll('.tooltip').length).toBe(0)
 
-    const unlCounter = wrapper.find('.ledger .hash .missed')
-    expect(unlCounter.text()).toBe('unl:1/2')
-    unlCounter.simulate('mouseMove')
-    expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
-    expect(wrapper.find('.tooltip .pubkey').first().text()).toBe(
+    const unlCounter = container.querySelector('.ledger .hash .missed')
+    expect(unlCounter.textContent).toBe('unl:1/2')
+    fireEvent.mouseMove(unlCounter)
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll('.tooltip').length,
+      ).toBeGreaterThanOrEqual(1)
+    })
+    expect(container.querySelector('.tooltip .pubkey').textContent).toBe(
       'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
     )
-    unlCounter.simulate('mouseLeave')
+    fireEvent.mouseLeave(unlCounter)
 
-    const validations = wrapper.find('div.validation')
-    const txn = wrapper.find('a.txn')
+    const validations = container.querySelectorAll('div.validation')
+    const txn = container.querySelectorAll('a.txn')
 
-    // check ledger transactions
     expect(txn.length).toBe(12)
-    txn.first().simulate('focus')
-    txn.first().simulate('mouseOver')
+    fireEvent.focus(txn[0])
+    fireEvent.mouseOver(txn[0])
 
-    // check validations
     expect(validations.length).toBe(1)
-    validations.first().simulate('mouseOver')
-    expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
-    validations.first().simulate('mouseLeave')
-    expect(wrapper.find('.tooltip').length).toBe(0)
-    validations.first().simulate('focus')
-    expect(wrapper.find('.selected-validator a.pubkey').length).toBe(0)
-    validations.first().simulate('click') // set selected
-    expect(wrapper.find('.selected-validator a.pubkey').length).toBe(1)
-    validations.first().simulate('click') // unset selected
-    expect(wrapper.find('.selected-validator a.pubkey').length).toBe(0)
+    fireEvent.mouseOver(validations[0])
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll('.tooltip').length,
+      ).toBeGreaterThanOrEqual(1)
+    })
+    fireEvent.mouseLeave(validations[0])
+    await waitFor(() => {
+      expect(container.querySelectorAll('.tooltip').length).toBe(0)
+    })
+    fireEvent.focus(validations[0])
+    expect(
+      container.querySelectorAll('.selected-validator a.pubkey').length,
+    ).toBe(0)
+    fireEvent.click(validations[0])
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll('.selected-validator a.pubkey').length,
+      ).toBe(1)
+    })
+    fireEvent.click(validations[0])
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll('.selected-validator a.pubkey').length,
+      ).toBe(0)
+    })
 
-    wrapper.unmount()
-    // wait for the React useEffect cleanup function to complete in StreamsProvider component
+    unmount()
     await sleep(100)
     expect(client.listenerCount('ledger')).toBe(0)
     expect(client.listenerCount('validation')).toBe(0)
@@ -234,80 +245,92 @@ describe('Ledgers Page container', () => {
         },
       )
 
-      const wrapper = createWrapper({
+      const { container, unmount } = renderLedgersPage({
         network: customNetwork,
         path: '/my.custom.com',
       })
 
       await sleep(100)
-      wrapper.update()
 
-      expect(wrapper.find('.validation').length).toBe(0)
-      // Recent refactor of the StreamsProvider eagerly fetches the latest validated ledger. The objective is to reduce the latency of displaying the first validated ledger. Consequently, loading the page fetches the latest validated ledger.
-      expect(wrapper.find('.ledger').length).toBe(1)
-      // count the number of div elements in the rendered HTML
-      expect(wrapper.find('.txn').hostNodes().length).toBe(6)
+      expect(container.querySelectorAll('.validation').length).toBe(0)
+      expect(container.querySelectorAll('.ledger').length).toBe(1)
+      expect(container.querySelectorAll('.txn').length).toBe(6)
 
       server.send(prevLedgerMessage)
       await sleep(260)
-      wrapper.update()
-      expect(wrapper.find('.ledger').length).toBe(2)
+      expect(container.querySelectorAll('.ledger').length).toBe(2)
 
       server.send(validationMessage)
-      // validation-messages are processed in batches every 200 ms
       await sleep(200 * 2)
-      wrapper.update()
-      expect(wrapper.find('.validation').length).toBe(1)
+      expect(container.querySelectorAll('.validation').length).toBe(1)
 
-      // the below ledger has already been ingested from `rippledResponses`. No new ledgers are added by this action.
       server.send(ledgerMessage)
       await sleep(250)
-      wrapper.update()
-      expect(wrapper.find('.ledger').length).toBe(2)
+      expect(container.querySelectorAll('.ledger').length).toBe(2)
 
       server.send({ type: 'invalid' })
       server.send(null)
-      wrapper.update()
 
-      expect(wrapper.find('.ledger').length).toBe(2)
-      expect(wrapper.find('.selected-validator .pubkey').length).toBe(0)
-      expect(wrapper.find('.tooltip').length).toBe(0)
+      expect(container.querySelectorAll('.ledger').length).toBe(2)
+      expect(
+        container.querySelectorAll('.selected-validator .pubkey').length,
+      ).toBe(0)
+      expect(container.querySelectorAll('.tooltip').length).toBe(0)
 
-      const unlCounter = wrapper.find('.ledger .hash .missed')
-      expect(unlCounter.text()).toBe('unl:1/2')
-      unlCounter.simulate('mouseMove')
-      expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
-      expect(wrapper.find('.tooltip .pubkey').first().text()).toBe(
+      const unlCounter = container.querySelector('.ledger .hash .missed')
+      expect(unlCounter.textContent).toBe('unl:1/2')
+      fireEvent.mouseMove(unlCounter)
+      await waitFor(() => {
+        expect(
+          container.querySelectorAll('.tooltip').length,
+        ).toBeGreaterThanOrEqual(1)
+      })
+      expect(container.querySelector('.tooltip .pubkey').textContent).toBe(
         'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
       )
-      unlCounter.simulate('mouseLeave')
+      fireEvent.mouseLeave(unlCounter)
 
-      const validations = wrapper.find('div.validation')
-      const txn = wrapper.find('a.txn')
+      const validations = container.querySelectorAll('div.validation')
+      const txn = container.querySelectorAll('a.txn')
 
-      // check ledger transactions: 6 transactions per ledger, 2 ledgers, so 12 transactions
       expect(txn.length).toBe(12)
-      txn.first().simulate('focus')
-      txn.first().simulate('mouseOver')
+      fireEvent.focus(txn[0])
+      fireEvent.mouseOver(txn[0])
 
-      // check validations
       expect(validations.length).toBe(1)
-      validations.first().simulate('mouseOver')
-      expect(wrapper.find('.tooltip').length).toBeGreaterThanOrEqual(1)
-      validations.first().simulate('mouseLeave')
-      expect(wrapper.find('.tooltip').length).toBe(0)
-      validations.first().simulate('focus')
-      expect(wrapper.find('.selected-validator .pubkey').length).toBe(0)
-      validations.first().simulate('click') // set selected
-      expect(wrapper.find('.selected-validator a.pubkey').length).toBe(1)
-      expect(wrapper.find('.selected-validator a.pubkey')).toHaveProp(
-        'href',
-        '/validators/n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR',
-      )
-      validations.first().simulate('click') // unset selected
-      expect(wrapper.find('.selected-validator .pubkey').length).toBe(0)
+      fireEvent.mouseOver(validations[0])
+      await waitFor(() => {
+        expect(
+          container.querySelectorAll('.tooltip').length,
+        ).toBeGreaterThanOrEqual(1)
+      })
+      fireEvent.mouseLeave(validations[0])
+      await waitFor(() => {
+        expect(container.querySelectorAll('.tooltip').length).toBe(0)
+      })
+      fireEvent.focus(validations[0])
+      expect(
+        container.querySelectorAll('.selected-validator .pubkey').length,
+      ).toBe(0)
+      fireEvent.click(validations[0])
+      await waitFor(() => {
+        expect(
+          container.querySelectorAll('.selected-validator a.pubkey').length,
+        ).toBe(1)
+      })
+      expect(
+        container
+          .querySelector('.selected-validator a.pubkey')
+          .getAttribute('href'),
+      ).toBe('/validators/n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR')
+      fireEvent.click(validations[0])
+      await waitFor(() => {
+        expect(
+          container.querySelectorAll('.selected-validator .pubkey').length,
+        ).toBe(0)
+      })
 
-      wrapper.unmount()
+      unmount()
     }, 8000)
   })
 })

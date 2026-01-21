@@ -1,49 +1,59 @@
 import i18n from '../../../../../../i18n/testConfigEnglish'
 
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import mockPaymentChannelCreate from './mock_data/PaymentChannelCreate.json'
 import mockPaymentChannelCreateFailed from './mock_data/PaymentChannelCreateFailed.json'
 import mockPaymentChannelCreateWithDestinationTag from './mock_data/PaymentChannelCreateWithDestinationTag.json'
 import { TableDetail } from '../TableDetail'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
+const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('PaymentChannelCreate: TableDetail', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreate)
-    expect(wrapper.find('[data-testid="source"]')).toHaveText(
+    const { container, unmount } = renderComponent(mockPaymentChannelCreate)
+    expect(container.querySelector('[data-testid="source"]')).toHaveTextContent(
       'sourcerJnQrhRTXutuSwtrwxYiTkHn4Dtp8sF2LM:2460331042',
     )
-    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
-      'destinationrUXYat4hW2M87gHoqKK7fC4cqrT9C6V7d7',
+    expect(
+      container.querySelector('[data-testid="destination"]'),
+    ).toHaveTextContent('destinationrUXYat4hW2M87gHoqKK7fC4cqrT9C6V7d7')
+    expect(container.querySelector('[data-testid="amount"]')).toHaveTextContent(
+      '\uE9001.00 XRP',
     )
-    expect(wrapper.find('[data-testid="amount"]')).toHaveText('\uE9001.00 XRP')
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreateFailed)
-    expect(wrapper.find('[data-testid="source"]')).toHaveText(
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelCreateFailed,
+    )
+    expect(container.querySelector('[data-testid="source"]')).toHaveTextContent(
       'sourcerMphibGfHpLDU4DzVCspzLYVuMNpmzN6n8:2810223114',
     )
-    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
-      'destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN',
+    expect(
+      container.querySelector('[data-testid="destination"]'),
+    ).toHaveTextContent('destinationrK6g2UYc4GpQH8DYdPG7wywyQbxkJpQTTN')
+    expect(container.querySelector('[data-testid="amount"]')).toHaveTextContent(
+      '\uE90010.00 XRP',
     )
-    expect(wrapper.find('[data-testid="amount"]')).toHaveText('\uE90010.00 XRP')
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders tx with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentChannelCreateWithDestinationTag)
-    expect(wrapper.find('[data-testid="source"]')).toHaveText(
+    const { container, unmount } = renderComponent(
+      mockPaymentChannelCreateWithDestinationTag,
+    )
+    expect(container.querySelector('[data-testid="source"]')).toHaveTextContent(
       'sourcerN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
     )
-    expect(wrapper.find('[data-testid="destination"]')).toHaveText(
+    expect(
+      container.querySelector('[data-testid="destination"]'),
+    ).toHaveTextContent(
       'destinationrf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn:20170428',
     )
-    expect(wrapper.find('[data-testid="amount"]')).toHaveText(
+    expect(container.querySelector('[data-testid="amount"]')).toHaveTextContent(
       '\uE900100.00 XRP',
     )
-    wrapper.unmount()
+    unmount()
   })
 })
