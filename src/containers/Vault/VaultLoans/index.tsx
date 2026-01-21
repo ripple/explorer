@@ -55,7 +55,7 @@ export const VaultLoans = ({ vaultId, vaultPseudoAccount, assetCurrency }: Props
       enabled: !!vaultPseudoAccount,
       onError: (e: any) => {
         trackException(
-          `Vault loans ${vaultPseudoAccount} --- ${JSON.stringify(e)}`,
+          `Error fetching Loan Brokers for account ${vaultPseudoAccount} --- ${JSON.stringify(e)}`,
         )
       },
     },
