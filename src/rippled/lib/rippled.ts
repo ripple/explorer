@@ -869,6 +869,11 @@ const getVault = (rippledSocket, vaultId) =>
       throw new Error('invalid ledger index/hash', 400)
     }
 
+    // Handle invalid vault ID format (e.g., non-hex string like "1234")
+    if (resp.error_message?.includes('not hex string')) {
+      throw new Error('Invalid vault ID format', 400)
+    }
+
     if (resp.error_message) {
       throw new Error(resp.error_message, 500)
     }

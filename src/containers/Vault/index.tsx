@@ -30,7 +30,7 @@ const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
 }
 
 const DEFAULT_ERROR: ErrorMessage = {
-  title: 'generic_error',
+  title: 'get_vault_failed',
   hints: ['not_your_fault'],
 }
 
@@ -60,7 +60,9 @@ export const Vault = () => {
     {
       enabled: !!vaultId,
       onError: (e: any) => {
-        trackException(`Vault ${vaultId} --- ${JSON.stringify(e)}`)
+        trackException(
+          `Error fetching Vault data for vault ID ${vaultId} --- ${JSON.stringify(e)}`,
+        )
         setError(e.code)
       },
     },

@@ -811,6 +811,7 @@
   "vault_not_found": "Vault not found",
   "invalid_vault_id": "Invalid vault ID",
   "check_vault_id": "Please check the vault ID",
+  "get_vault_failed": "Unable to load vault information at this time. Please try again later.",
   "private_vault": "Private Vault",
   "perm_domain_id": "Permissioned Domain ID",
   "total_value_locked": "Total Value Locked (TVL)",
