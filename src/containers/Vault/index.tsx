@@ -2,17 +2,20 @@ import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 import NoMatch from '../NoMatch'
 import { VaultHeader } from './VaultHeader'
 import { VaultTransactions } from './VaultTransactions'
 import { VaultLoans } from './VaultLoans'
 import { VaultDepositors } from './VaultDepositors'
 import { Loader } from '../shared/components/Loader'
+import { CopyableText } from '../shared/components/CopyableText/CopyableText'
 import SocketContext from '../shared/SocketContext'
 import { getVault } from '../../rippled/lib/rippled'
 import { useAnalytics } from '../shared/analytics'
 import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
+import { decodeVaultData } from './utils'
 import './styles.scss'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
@@ -45,6 +48,7 @@ const Page: FC<PropsWithChildren<{ vaultId: string }>> = ({
 )
 
 export const Vault = () => {
+  const { t } = useTranslation()
   const { trackScreenLoaded, trackException } = useAnalytics()
   const { id: vaultId = '' } = useParams<{ id: string }>()
   const [error, setError] = useState<number | null>(null)
@@ -110,6 +114,15 @@ export const Vault = () => {
       {vaultId && loading && <Loader />}
       {vaultId && !loading && vaultData && (
         <>
+          <div className="vault-title-section">
+            <h1 className="vault-title">
+              {decodeVaultData(vaultData.Data) || t('yield_pool')}
+            </h1>
+            <div className="vault-title-id">
+              <span className="vault-title-id-label">{t('vault_id')}:</span>
+              <CopyableText text={vaultId} displayText={vaultId} showCopyIcon />
+            </div>
+          </div>
           <VaultHeader data={vaultData} vaultId={vaultId} />
           {transactionAccountId && (
             <VaultLoans

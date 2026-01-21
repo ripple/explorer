@@ -13,3 +13,38 @@
   font-size: 14px;
   text-align: center;
 }
+
+.vault-title-section {
+  padding: 0 24px;
+  margin-bottom: 32px;
+
+  @include for-size(desktop-up) {
+    padding: 0 64px;
+  }
+
+  .vault-title {
+    margin: 0 0 16px 0;
+    color: $white;
+    font-size: 36px;
+    @include bold;
+
+    @include for-size(desktop-up) {
+      font-size: 48px;
+    }
+  }
+
+  .vault-title-id {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $white;
+    font-size: 14px;
+
+    .vault-title-id-label {
+      color: $black-40;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+  }
+}

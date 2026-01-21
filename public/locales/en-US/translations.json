@@ -635,6 +635,7 @@
   "withdrawal_policy": "Withdrawal Policy",
   "account_creates_vault": "<Account/> created a vault for <Asset/>",
   "vault_id": "Vault ID",
+  "yield_pool": "Yield Pool",
   "loan_broker_id": "Loan Broker ID",
   "loan_id": "Loan ID",
   "management_fee_rate": "Management Fee Rate",
