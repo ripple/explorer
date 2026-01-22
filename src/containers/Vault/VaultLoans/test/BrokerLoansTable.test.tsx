@@ -701,6 +701,35 @@ describe('BrokerLoansTable Component', () => {
       expect(elementsWithCurrency.length).toBeGreaterThan(0)
     })
 
+    it('renders correctly with non-XRP/non-RLUSD currency', () => {
+      // Test with EUR - an arbitrary IOU currency that is neither XRP nor RLUSD
+      // This ensures the component handles any currency type correctly
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_EUR_1',
+          PrincipalOutstanding: '5000',
+          TotalValueOutstanding: '5250',
+        }),
+      ]
+
+      const { container } = render(
+        <TestWrapper>
+          <BrokerLoansTable loans={loans} currency="EUR" />
+        </TestWrapper>,
+      )
+
+      // Table should render with loan row
+      expect(container.querySelector('.loan-row')).toBeInTheDocument()
+
+      // Currency should appear in the amount columns
+      const elementsWithCurrency = screen.getAllByText(/EUR/)
+      expect(elementsWithCurrency.length).toBeGreaterThan(0)
+
+      // Verify XRP and USD do not appear - ensures EUR is used throughout
+      expect(screen.queryByText(/XRP/)).not.toBeInTheDocument()
+      expect(screen.queryByText(/USD/)).not.toBeInTheDocument()
+    })
+
     it('defaults to empty string when currency not provided', () => {
       const loans = [createMockLoan()]
 

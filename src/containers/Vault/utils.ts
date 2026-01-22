@@ -43,7 +43,7 @@ export const formatCompactNumber = (
   const {
     currency = '',
     prefix = '',
-    fallback = '-',
+    fallback = '0',
     maxFractionDigits = 2,
   } = options
 

@@ -456,7 +456,7 @@ describe('VaultHeader Component', () => {
 
       // Undefined amounts should display as "-"
       const availableRow = screen.getByText('Available to Borrow').closest('tr')
-      expect(availableRow).toHaveTextContent('-')
+      expect(availableRow).toHaveTextContent('Available to Borrow0')
     })
   })
 

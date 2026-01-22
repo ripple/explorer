@@ -196,6 +196,43 @@ describe('VaultLoans Component', () => {
         ).toBeInTheDocument()
       })
     })
+
+    it('renders correctly with non-XRP/non-RLUSD asset currency', async () => {
+      // Test with EUR - a currency that is neither XRP nor RLUSD
+      // This ensures the component handles arbitrary IOU currencies
+      const broker = createMockBroker({
+        index: 'BROKER_EUR',
+        VaultID: 'TEST_VAULT_ID',
+        DebtTotal: '25000',
+        DebtMaximum: '500000',
+      })
+
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker] })
+        .mockResolvedValue({ account_objects: [] })
+
+      const TestWrapper = createTestWrapper(queryClient)
+      render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            assetCurrency="EUR"
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        // Component should render with EUR currency in debt amounts
+        expect(screen.getByText('Total Debt')).toBeInTheDocument()
+        expect(screen.getByText('25K EUR')).toBeInTheDocument()
+        expect(screen.getByText('500K EUR')).toBeInTheDocument()
+
+        // Verify XRP and USD do not appear - ensures EUR is used throughout
+        expect(screen.queryByText(/XRP/)).not.toBeInTheDocument()
+        expect(screen.queryByText(/USD/)).not.toBeInTheDocument()
+      })
+    })
   })
 
   /**
