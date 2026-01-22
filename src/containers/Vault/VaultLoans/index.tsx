@@ -110,8 +110,6 @@ export const VaultLoans = ({ vaultId, vaultPseudoAccount, assetCurrency }: Props
     )
   }
 
-  console.log('loanBrokers data: ', loanBrokers)
-
   const selectedBroker = loanBrokers[selectedBrokerIndex]
 
   return (

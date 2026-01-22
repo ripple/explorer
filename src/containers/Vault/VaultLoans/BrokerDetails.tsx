@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useLanguage } from '../../shared/hooks'
-import { localizeNumber } from '../../shared/utils'
 import SocketContext from '../../shared/SocketContext'
 import { getAccountObjects } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
 import { Loader } from '../../shared/components/Loader'
 import { formatRate, LSF_LOAN_DEFAULT } from './utils'
+import { formatCompactNumber } from '../utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
 import WarningIcon from '../../shared/images/warning.svg'
 
@@ -62,36 +62,8 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
     (loan: any) => (loan.Flags ?? 0) & LSF_LOAN_DEFAULT,
   )
 
-  /**
-   * Format large numbers with K (thousands) or M (millions) suffixes
-   */
-  const formatCompactAmount = (amount: string | undefined, includeCurrency = true): string => {
-    if (!amount) return includeCurrency ? `0 ${currency}` : '0'
-    const num = Number(amount)
-    if (Number.isNaN(num)) return amount
-
-    let formattedNum: string
-    if (num >= 1_000_000) {
-      const millions = num / 1_000_000
-      formattedNum = `${localizeNumber(millions, lang, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      })}M`
-    } else if (num >= 1_000) {
-      const thousands = num / 1_000
-      formattedNum = `${localizeNumber(thousands, lang, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      })}K`
-    } else {
-      formattedNum = String(localizeNumber(num, lang, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      }))
-    }
-
-    return includeCurrency ? `${formattedNum} ${currency}` : formattedNum
-  }
+  const formatAmount = (amount: string | undefined): string =>
+    formatCompactNumber(amount, lang, { currency, fallback: `0 ${currency || ''}`.trim() })
 
   return (
     <div className="broker-details-card">
@@ -105,11 +77,11 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
         <div className="broker-debt-section">
           <div className="debt-metric">
             <span className="metric-label">{t('total_debt')}</span>
-            <span className="metric-value">{formatCompactAmount(broker.DebtTotal)}</span>
+            <span className="metric-value">{formatAmount(broker.DebtTotal)}</span>
           </div>
           <div className="debt-metric">
             <span className="metric-label">{t('maximum_debt')}</span>
-            <span className="metric-value">{formatCompactAmount(broker.DebtMaximum)}</span>
+            <span className="metric-value">{formatAmount(broker.DebtMaximum)}</span>
           </div>
         </div>
       </div>
@@ -124,7 +96,7 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
         <div className="metric">
           <span className="metric-label">{t('first_loss_capital')}</span>
           <span className="metric-value">
-            {formatCompactAmount(broker.CoverAvailable)}
+            {formatAmount(broker.CoverAvailable)}
           </span>
         </div>
         <div className="metric">

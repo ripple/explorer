@@ -44,7 +44,6 @@ export const LoanRow = ({ loan, currency = '' }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const [expanded, setExpanded] = useState(false)
-  console.log('incoming loan data', loan)
 
   const { status, colorClass } = formatLoanStatus(
     loan.Flags,

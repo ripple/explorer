@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Account } from '../../shared/components/Account'
 import { useLanguage } from '../../shared/hooks'
 import { localizeNumber } from '../../shared/utils'
+import { formatCompactNumber } from '../utils'
 
 interface Holder {
   account: string
@@ -13,17 +14,6 @@ interface Props {
   totalSupply: string | undefined
   assetsTotal: string | undefined
   startRank: number
-}
-
-// Format large numbers with M/K suffixes
-const formatCompactNumber = (num: number, language: string): string => {
-  if (num >= 1_000_000) {
-    return `${localizeNumber(num / 1_000_000, language, { maximumFractionDigits: 1 })}M`
-  }
-  if (num >= 1_000) {
-    return `${localizeNumber(num / 1_000, language, { maximumFractionDigits: 1 })}K`
-  }
-  return localizeNumber(num, language, { maximumFractionDigits: 2 })
 }
 
 export const DepositorTable = ({
@@ -47,7 +37,7 @@ export const DepositorTable = ({
 
     // Proportional value: (holder tokens / total supply) * total assets
     const value = (amount / totalSupplyNum) * assetsTotalNum
-    return `$${formatCompactNumber(value, language)}`
+    return formatCompactNumber(value, language, { prefix: '$' })
   }
 
   const calculatePercentOfSupply = (holderAmount: string): string => {
@@ -76,7 +66,7 @@ export const DepositorTable = ({
               <Account account={holder.account} />
             </td>
             <td className="tokens-cell">
-              {formatCompactNumber(Number(holder.mpt_amount), language)}
+              {formatCompactNumber(holder.mpt_amount, language)}
             </td>
             <td className="percent-cell">
               {calculatePercentOfSupply(holder.mpt_amount)}

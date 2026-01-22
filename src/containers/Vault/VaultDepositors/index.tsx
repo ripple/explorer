@@ -52,31 +52,24 @@ export const VaultDepositors = ({
   )
 
   if (error) {
-    console.error(
-      `[VaultDepositors] Failed to fetch depositors for MPT ${shareMptId}:`,
-      error.message || error,
-    )
     return (
       <div className="vault-depositors-section">
         <h2 className="vault-depositors-title">{t('depositors')}</h2>
         <div className="vault-depositors-divider" />
         <div className="depositors-error-message">
-          {t('depositors_fetch_error' as any)}
+          {t('generic_error')}
         </div>
       </div>
     )
   }
 
   if (!data && !loading) {
-    console.warn(
-      `[VaultDepositors] No data returned for MPT ${shareMptId}. This may indicate a Clio node issue.`,
-    )
     return (
       <div className="vault-depositors-section">
         <h2 className="vault-depositors-title">{t('depositors')}</h2>
         <div className="vault-depositors-divider" />
         <div className="no-depositors-message">
-          {t('no_depositors_message' as any)}
+          {t('no_depositors_message')}
         </div>
       </div>
     )
@@ -109,13 +102,14 @@ export const VaultDepositors = ({
   }
 
   // TODO: Test this method with a working instance of Clio.
-  // TODO: Finalize the expected visual design in case of an error/single-holder of the said vault's MPTs.
   if (!holders || holders.length === 0) {
     return (
       <div className="vault-depositors-section">
         <h2 className="vault-depositors-title">{t('depositors')}</h2>
         <div className="vault-depositors-divider" />
-        { }
+        <div className="no-depositors-message">
+          {t('no_depositors_message')}
+        </div>
       </div>
     )
   }

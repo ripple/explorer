@@ -5,12 +5,11 @@ import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { Account } from '../../shared/components/Account'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useLanguage } from '../../shared/hooks'
-import { localizeNumber } from '../../shared/utils'
 import { RouteLink } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getLedgerEntry } from '../../../rippled/lib/rippled'
-import { decodeVaultData } from '../utils'
+import { decodeVaultData, formatCompactNumber } from '../utils'
 import './styles.scss'
 
 interface VaultData {
@@ -61,43 +60,8 @@ const formatAsset = (asset: VaultData['Asset']): string | React.ReactNode => {
   return asset.currency
 }
 
-/**
- * Format large numbers with K (thousands) or M (millions) suffixes
- * e.g., 12500000 -> "12.5M", 200000 -> "200K"
- */
-const formatCompactAmount = (
-  amount: string | undefined,
-  asset: VaultData['Asset'],
-  language: string,
-): string => {
-  if (!amount) return '-'
-  const num = Number(amount)
-  if (Number.isNaN(num)) return amount
-
-  const currency = asset?.currency === 'XRP' ? 'XRP' : asset?.currency || ''
-
-  let formattedNum: string
-  if (num >= 1_000_000) {
-    const millions = num / 1_000_000
-    formattedNum = `${localizeNumber(millions, language, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    })}M`
-  } else if (num >= 1_000) {
-    const thousands = num / 1_000
-    formattedNum = `${localizeNumber(thousands, language, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    })}K`
-  } else {
-    formattedNum = String(localizeNumber(num, language, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    }))
-  }
-
-  return `${formattedNum} ${currency}`
-}
+const getAssetCurrency = (asset: VaultData['Asset']): string =>
+  asset?.currency === 'XRP' ? 'XRP' : asset?.currency || ''
 
 export const Details = ({ data, vaultId }: Props) => {
   const { t } = useTranslation()
@@ -212,11 +176,11 @@ export const Details = ({ data, vaultId }: Props) => {
             <TokenTableRow label={t('asset')} value={formatAsset(asset)} />
             {<TokenTableRow
               label={t('total_value_locked')}
-              value={(asset?.currency === 'XRP' || asset?.currency === 'RLUSD') ? formatCompactAmount(assetsTotal, asset, language) : '--'}
+              value={(asset?.currency === 'XRP' || asset?.currency === 'RLUSD') ? formatCompactNumber(assetsTotal, language, { currency: getAssetCurrency(asset) }) : '--'}
             />}
             <TokenTableRow
               label={t('max_total_supply')}
-              value={assetsMaximum ? formatCompactAmount(assetsMaximum, asset, language) : t('no_limit')}
+              value={assetsMaximum ? formatCompactNumber(assetsMaximum, language, { currency: getAssetCurrency(asset) }) : t('no_limit')}
             />
             <TokenTableRow
               label={t('shares')}
@@ -224,11 +188,11 @@ export const Details = ({ data, vaultId }: Props) => {
             />
             <TokenTableRow
               label={t('available_to_borrow')}
-              value={formatCompactAmount(assetsAvailable, asset, language)}
+              value={formatCompactNumber(assetsAvailable, language, { currency: getAssetCurrency(asset) })}
             />
             <TokenTableRow
               label={t('unrealized_loss')}
-              value={formatCompactAmount(lossUnrealized, asset, language)}
+              value={formatCompactNumber(lossUnrealized, language, { currency: getAssetCurrency(asset) })}
             />
           </tbody>
         </table>
