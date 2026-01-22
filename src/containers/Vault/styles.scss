@@ -17,9 +17,16 @@
 .vault-title-section {
   padding: 0 24px;
   margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 
   @include for-size(desktop-up) {
     padding: 0 64px;
+  }
+
+  .vault-title-left {
+    flex: 1;
   }
 
   .vault-title {
@@ -45,6 +52,56 @@
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 0.5px;
+    }
+  }
+}
+
+.currency-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid $black-40;
+  border-radius: 20px;
+  padding: 4px;
+  background: transparent;
+
+  .toggle-option {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 16px;
+    background: transparent;
+    color: $black-40;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    @include medium;
+
+    &:hover {
+      color: $white;
+    }
+
+    &.active {
+      color: $green;
+      background: transparent;
+    }
+  }
+
+  .toggle-help {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 1px solid $black-40;
+    border-radius: 50%;
+    color: $black-40;
+    font-size: 12px;
+    margin-left: 8px;
+    cursor: help;
+
+    &:hover {
+      border-color: $white;
+      color: $white;
     }
   }
 }

@@ -28,6 +28,12 @@ import Mock = jest.Mock
 // Mock the rippled library to control API responses
 jest.mock('../../../../rippled/lib/rippled')
 
+// Mock the XRP to USD rate hook
+const mockXRPToUSDRate = jest.fn()
+jest.mock('../../../shared/hooks/useXRPToUSDRate', () => ({
+  useXRPToUSDRate: () => mockXRPToUSDRate(),
+}))
+
 const mockedGetLedgerEntry = getLedgerEntry as Mock
 
 // Mock socket client - represents the WebSocket connection to rippled
@@ -62,6 +68,9 @@ describe('VaultHeader Component', () => {
 
     // Default mock: no MPT issuance data (vault credential)
     mockedGetLedgerEntry.mockResolvedValue({ node: null })
+
+    // Default mock: XRP to USD rate of 2.0 for predictable conversion tests
+    mockXRPToUSDRate.mockReturnValue(2.0)
   })
 
   /**
@@ -80,7 +89,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123DEF456" />
+          <VaultHeader data={vaultData} vaultId="ABC123DEF456" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -98,7 +107,7 @@ describe('VaultHeader Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123DEF456" />
+          <VaultHeader data={vaultData} vaultId="ABC123DEF456" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -118,7 +127,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId={vaultId} />
+          <VaultHeader data={vaultData} vaultId={vaultId} displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -141,7 +150,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -173,7 +182,7 @@ describe('VaultHeader Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -202,7 +211,7 @@ describe('VaultHeader Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -225,7 +234,7 @@ describe('VaultHeader Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -244,7 +253,7 @@ describe('VaultHeader Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -272,7 +281,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -293,7 +302,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -314,7 +323,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -335,7 +344,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -366,7 +375,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -386,7 +395,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -405,7 +414,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -423,7 +432,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -441,7 +450,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -472,7 +481,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -491,7 +500,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -508,7 +517,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -534,7 +543,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -552,7 +561,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -569,7 +578,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -601,7 +610,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -625,7 +634,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -646,7 +655,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -673,7 +682,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -695,7 +704,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -721,7 +730,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -738,7 +747,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -764,7 +773,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -782,7 +791,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -800,7 +809,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -821,7 +830,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -838,7 +847,7 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId={longVaultId} />
+          <VaultHeader data={vaultData} vaultId={longVaultId} displayCurrency="xrp" />
         </TestWrapper>,
       )
 
@@ -855,12 +864,84 @@ describe('VaultHeader Component', () => {
 
       render(
         <TestWrapper>
-          <VaultHeader data={vaultData} vaultId="ABC123" />
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="xrp" />
         </TestWrapper>,
       )
 
       // Should display the original string when parsing fails
       expect(screen.getByText('not-a-number')).toBeInTheDocument()
+    })
+  })
+
+  /**
+   * =========================================
+   * SECTION 12: Currency Toggle Conversion Tests
+   * =========================================
+   * Tests that verify TVL conversion between native currency and USD
+   * when the user toggles the currency display option.
+   *
+   * Conversion rules:
+   * - XRP: Multiply by XRP/USD exchange rate
+   * - RLUSD: 1:1 with USD (stablecoin)
+   * - Other currencies: Show "--" (no conversion available)
+   */
+  describe('Currency Toggle Conversion', () => {
+    it('converts XRP TVL to USD using exchange rate when displayCurrency is "usd"', () => {
+      // Mock XRP/USD rate of 2.5
+      mockXRPToUSDRate.mockReturnValue(2.5)
+
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        AssetsTotal: '1000000', // 1 million XRP
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="usd" />
+        </TestWrapper>,
+      )
+
+      // 1,000,000 XRP * 2.5 = 2,500,000 USD = "$ 2.5M USD"
+      // formatCompactNumber joins [prefix, formattedNum, currency] with spaces
+      expect(screen.getByText('$ 2.5M USD')).toBeInTheDocument()
+    })
+
+    it('displays RLUSD TVL as USD with 1:1 conversion when displayCurrency is "usd"', () => {
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'RLUSD' },
+        AssetsTotal: '5000000', // 5 million RLUSD
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="usd" />
+        </TestWrapper>,
+      )
+
+      // RLUSD is a stablecoin pegged 1:1 to USD
+      // 5,000,000 RLUSD = "$ 5M USD"
+      expect(screen.getByText('$ 5M USD')).toBeInTheDocument()
+    })
+
+    it('displays "--" for unsupported currencies when displayCurrency is "usd"', () => {
+      // EUR is not XRP or RLUSD, so we don't have a USD conversion rate
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'EUR', issuer: 'rIssuerAccount123' },
+        AssetsTotal: '1000000', // 1 million EUR
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader data={vaultData} vaultId="ABC123" displayCurrency="usd" />
+        </TestWrapper>,
+      )
+
+      // No conversion rate available for EUR -> USD, so TVL shows "--"
+      const tvlRow = screen.getByText('Total Value Locked (TVL)').closest('tr')
+      expect(tvlRow).toHaveTextContent('--')
     })
   })
 })

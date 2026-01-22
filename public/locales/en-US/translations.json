@@ -855,5 +855,6 @@
   "rank": "Rank",
   "lp_tokens": "# of LP Tokens",
   "percent_of_supply": "% of Supply",
-  "value": "Value"
+  "value": "Value",
+  "currency_toggle_help": "Toggle to view values in XRP or USD"
 }

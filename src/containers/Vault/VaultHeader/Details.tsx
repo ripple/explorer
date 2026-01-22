@@ -5,11 +5,13 @@ import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { Account } from '../../shared/components/Account'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useLanguage } from '../../shared/hooks'
+import { useXRPToUSDRate } from '../../shared/hooks/useXRPToUSDRate'
 import { RouteLink } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getLedgerEntry } from '../../../rippled/lib/rippled'
 import { decodeVaultData, formatCompactNumber } from '../utils'
+import { DisplayCurrency } from '../CurrencyToggle'
 import './styles.scss'
 
 interface VaultData {
@@ -34,6 +36,7 @@ interface VaultData {
 interface Props {
   data: VaultData
   vaultId: string
+  displayCurrency: DisplayCurrency
 }
 
 // Vault flags from XLS-65d spec
@@ -63,10 +66,11 @@ const formatAsset = (asset: VaultData['Asset']): string | React.ReactNode => {
 const getAssetCurrency = (asset: VaultData['Asset']): string =>
   asset?.currency === 'XRP' ? 'XRP' : asset?.currency || ''
 
-export const Details = ({ data, vaultId }: Props) => {
+export const Details = ({ data, vaultId, displayCurrency }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const rippledSocket = useContext(SocketContext)
+  const xrpToUsdRate = useXRPToUSDRate()
 
   const {
     Owner: owner,
@@ -80,6 +84,30 @@ export const Details = ({ data, vaultId }: Props) => {
     Data: vaultDataRaw,
     ShareMPTID: vaultShareMptId,
   } = data
+
+  // Supported USD conversion rates by currency
+  // - XRP: Live exchange rate from oracle
+  // - RLUSD: Stablecoin pegged 1:1 with USD
+  // - Other currencies: No conversion available (returns undefined)
+  const usdRates: Record<string, number> = {
+    XRP: xrpToUsdRate,
+    RLUSD: 1,
+  }
+
+  // Converts amount to USD if displayCurrency is 'usd', otherwise returns as-is
+  const convertToDisplayCurrency = (amount: string | undefined): string | undefined => {
+    if (!amount || displayCurrency === 'xrp') return amount
+
+    const numAmount = Number(amount)
+    if (Number.isNaN(numAmount)) return amount
+
+    const rate = usdRates[asset?.currency ?? '']
+    return rate !== undefined ? String(numAmount * rate) : undefined
+  }
+
+  // Returns 'USD' when showing USD values, otherwise the vault's asset currency
+  const getDisplayCurrencyLabel = (): string =>
+    displayCurrency === 'usd' ? 'USD' : getAssetCurrency(asset)
 
   // Fetch MPTokenIssuance to get the DomainID (vault credential)
   const { data: mptIssuanceData } = useQuery(
@@ -174,10 +202,21 @@ export const Details = ({ data, vaultId }: Props) => {
         <table className="token-table">
           <tbody>
             <TokenTableRow label={t('asset')} value={formatAsset(asset)} />
-            {<TokenTableRow
+            <TokenTableRow
               label={t('total_value_locked')}
-              value={(asset?.currency === 'XRP' || asset?.currency === 'RLUSD') ? formatCompactNumber(assetsTotal, language, { currency: getAssetCurrency(asset) }) : '--'}
-            />}
+              value={(() => {
+                // Only show TVL for XRP or RLUSD vaults
+                if (asset?.currency !== 'XRP' && asset?.currency !== 'RLUSD') {
+                  return '--'
+                }
+                const convertedAmount = convertToDisplayCurrency(assetsTotal)
+                if (!convertedAmount) return '--'
+                return formatCompactNumber(convertedAmount, language, {
+                  currency: getDisplayCurrencyLabel(),
+                  prefix: displayCurrency === 'usd' ? '$' : ''
+                })
+              })()}
+            />
             <TokenTableRow
               label={t('max_total_supply')}
               value={assetsMaximum ? formatCompactNumber(assetsMaximum, language, { currency: getAssetCurrency(asset) }) : t('no_limit')}

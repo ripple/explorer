@@ -8,8 +8,10 @@ import { VaultHeader } from './VaultHeader'
 import { VaultTransactions } from './VaultTransactions'
 import { VaultLoans } from './VaultLoans'
 import { VaultDepositors } from './VaultDepositors'
+import { CurrencyToggle, DisplayCurrency } from './CurrencyToggle'
 import { Loader } from '../shared/components/Loader'
 import { CopyableText } from '../shared/components/CopyableText/CopyableText'
+import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import SocketContext from '../shared/SocketContext'
 import { getVault } from '../../rippled/lib/rippled'
 import { useAnalytics } from '../shared/analytics'
@@ -52,7 +54,9 @@ export const Vault = () => {
   const { trackScreenLoaded, trackException } = useAnalytics()
   const { id: vaultId = '' } = useParams<{ id: string }>()
   const [error, setError] = useState<number | null>(null)
+  const [displayCurrency, setDisplayCurrency] = useState<DisplayCurrency>('xrp')
   const rippledSocket = useContext(SocketContext)
+  const { tooltip } = useTooltip()
 
   const { data: vaultData, isFetching: loading } = useQuery(
     ['getVault', vaultId],
@@ -117,15 +121,26 @@ export const Vault = () => {
       {vaultId && !loading && vaultData && (
         <>
           <div className="vault-title-section">
-            <h1 className="vault-title">
-              {decodeVaultData(vaultData.Data) || t('yield_pool')}
-            </h1>
-            <div className="vault-title-id">
-              <span className="vault-title-id-label">{t('vault_id')}:</span>
-              <CopyableText text={vaultId} displayText={vaultId} showCopyIcon />
+            <div className="vault-title-left">
+              <h1 className="vault-title">
+                {decodeVaultData(vaultData.Data) || t('yield_pool')}
+              </h1>
+              <div className="vault-title-id">
+                <span className="vault-title-id-label">{t('vault_id')}:</span>
+                <CopyableText text={vaultId} displayText={vaultId} showCopyIcon />
+              </div>
             </div>
+            <CurrencyToggle
+              nativeCurrency={getAssetCurrencyDisplay() || 'XRP'}
+              selected={displayCurrency}
+              onToggle={setDisplayCurrency}
+            />
           </div>
-          <VaultHeader data={vaultData} vaultId={vaultId} />
+          <VaultHeader
+            data={vaultData}
+            vaultId={vaultId}
+            displayCurrency={displayCurrency}
+          />
           {transactionAccountId && (
             <VaultLoans
               vaultId={vaultId}
@@ -145,6 +160,7 @@ export const Vault = () => {
           )}
         </>
       )}
+      <Tooltip tooltip={tooltip} />
     </Page>
   )
 }
