@@ -45,7 +45,7 @@ export const VaultDepositors = ({
       },
       onError: (e: any) => {
         trackException(
-          `Vault depositors ${shareMptId} --- ${JSON.stringify(e)}`,
+          `Error fetching Vault depositors ${shareMptId} --- ${JSON.stringify(e)}`,
         )
       },
     },
@@ -57,7 +57,7 @@ export const VaultDepositors = ({
         <h2 className="vault-depositors-title">{t('depositors')}</h2>
         <div className="vault-depositors-divider" />
         <div className="depositors-error-message">
-          {t('generic_error')}
+          {t('depositors_fetch_error')}
         </div>
       </div>
     )
