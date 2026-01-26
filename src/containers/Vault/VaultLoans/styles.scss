@@ -2,15 +2,15 @@
 
 .vault-loans-section {
   width: 100%;
-  margin-top: 48px;
   padding: 0 24px;
+  margin-top: 48px;
 
   @include for-size(desktop-up) {
     padding: 0 64px;
   }
 
   .vault-loans-title {
-    margin: 0 0 16px 0;
+    margin: 0 0 16px;
     color: $white;
     font-size: 24px;
     @include bold;
@@ -25,8 +25,8 @@
 .broker-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
   margin-bottom: 24px;
+  gap: 12px;
 
   .broker-tab {
     padding: 10px 20px;
@@ -34,8 +34,8 @@
     border-radius: 24px;
     background: transparent;
     color: $white;
-    font-size: 14px;
     cursor: pointer;
+    font-size: 14px;
     transition:
       background-color 0.2s,
       border-color 0.2s;
@@ -45,8 +45,8 @@
     }
 
     &.selected {
-      background: $green;
       border-color: $green;
+      background: $green;
       color: $black;
       @include bold;
     }
@@ -54,20 +54,20 @@
 }
 
 .broker-details-card {
-  background: $black-80;
-  border-radius: 8px;
   padding: 24px;
+  border-radius: 8px;
+  background: $black-80;
 
   .broker-header {
     margin-bottom: 24px;
 
     .broker-label {
       display: block;
+      margin-bottom: 4px;
       color: $black-40;
       font-size: 12px;
-      text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 4px;
+      text-transform: uppercase;
     }
 
     .broker-name {
@@ -78,13 +78,39 @@
     }
   }
 
+  .broker-metrics {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(2, 1fr);
+
+    @include for-size(desktop-up) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .metric {
+      .metric-label {
+        display: block;
+        margin-bottom: 8px;
+        color: $black-40;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .metric-value {
+        color: $white;
+        font-size: 16px;
+      }
+    }
+  }
+
   .broker-top-row {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-    margin-bottom: 24px;
     padding-bottom: 24px;
     border-bottom: 1px solid $black-70;
+    margin-bottom: 24px;
+    gap: 24px;
+    grid-template-columns: 1fr;
 
     @include for-size(desktop-up) {
       grid-template-columns: repeat(4, 1fr);
@@ -97,19 +123,19 @@
 
       .broker-id-label {
         display: block;
+        margin-bottom: 8px;
         color: $black-40;
         font-size: 12px;
-        text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 8px;
+        text-transform: uppercase;
       }
 
       .broker-id-value {
         display: flex;
         align-items: center;
-        gap: 8px;
         color: $white;
         font-size: 14px;
+        gap: 8px;
         word-break: break-all;
       }
     }
@@ -120,11 +146,11 @@
       .debt-metric {
         .metric-label {
           display: block;
+          margin-bottom: 8px;
           color: $black-40;
           font-size: 12px;
-          text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-bottom: 8px;
+          text-transform: uppercase;
         }
 
         .metric-value {
@@ -135,41 +161,15 @@
     }
   }
 
-  .broker-metrics {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-
-    @include for-size(desktop-up) {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    .metric {
-      .metric-label {
-        display: block;
-        color: $black-40;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 8px;
-      }
-
-      .metric-value {
-        color: $white;
-        font-size: 16px;
-      }
-    }
-  }
-
   // Default loan warning banner
   .broker-default-banner {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-top: 24px;
     padding: 16px 20px;
-    background: rgba(139, 69, 19, 0.6);
     border-radius: 8px;
+    margin-top: 24px;
+    background: rgb(139 69 19 / 60%);
+    gap: 12px;
 
     .warning-icon {
       width: 20px;
@@ -187,18 +187,18 @@
 
 // Broker Loans Table Styles
 .broker-loans-table {
-  margin-top: 32px;
-  border-top: 1px solid $black-70;
   padding-top: 24px;
+  border-top: 1px solid $black-70;
+  margin-top: 32px;
 }
 
 // Loans Filter Bar
 .loans-filter-bar {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  gap: 12px;
+  justify-content: flex-end;
   margin-bottom: 16px;
+  gap: 12px;
 
   .filter-buttons {
     display: flex;
@@ -210,8 +210,8 @@
       border-radius: 16px;
       background: transparent;
       color: $white;
-      font-size: 13px;
       cursor: pointer;
+      font-size: 13px;
       transition:
         background-color 0.2s,
         border-color 0.2s;
@@ -221,8 +221,8 @@
       }
 
       &.active {
-        background: $green;
         border-color: $green;
+        background: $green;
         color: $black;
         @include bold;
       }
@@ -245,22 +245,22 @@
 .broker-loans-empty,
 .no-loan-brokers-message {
   padding: 32px;
-  text-align: center;
   color: $black-40;
+  text-align: center;
 }
 
 .loans-table-header {
   display: grid;
-  grid-template-columns: 1.5fr 1.2fr 1.5fr 1fr 1.5fr 0.8fr;
-  gap: 16px;
   padding: 16px 8px;
   border-bottom: 1px solid $black-70;
+  gap: 16px;
+  grid-template-columns: 1.5fr 1.2fr 1.5fr 1fr 1.5fr 0.8fr;
 
   .header-cell {
     color: $black-40;
     font-size: 11px;
-    text-transform: uppercase;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
     @include bold;
   }
 }
@@ -281,14 +281,14 @@
 
 .loan-row-main {
   display: grid;
-  grid-template-columns: 1.5fr 1.2fr 1.5fr 1fr 1.5fr 0.8fr;
-  gap: 16px;
-  padding: 16px 8px;
   width: 100%;
-  background: transparent;
+  padding: 16px 8px;
   border: none;
-  text-align: left;
+  background: transparent;
   cursor: pointer;
+  gap: 16px;
+  grid-template-columns: 1.5fr 1.2fr 1.5fr 1fr 1.5fr 0.8fr;
+  text-align: left;
   transition: background-color 0.2s;
 
   &:hover {
@@ -307,8 +307,8 @@
       .expand-icon {
         width: 12px;
         height: 12px;
-        transition: transform 0.2s;
         fill: $black-40;
+        transition: transform 0.2s;
 
         &.rotated {
           transform: rotate(180deg);
@@ -382,9 +382,9 @@
 
   .details-row {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px 24px;
     margin-bottom: 16px;
+    gap: 16px 24px;
+    grid-template-columns: repeat(2, 1fr);
 
     @include for-size(desktop-up) {
       grid-template-columns: repeat(5, 1fr);
@@ -398,11 +398,11 @@
   .detail-item {
     .detail-label {
       display: block;
+      margin-bottom: 4px;
       color: $black-40;
       font-size: 11px;
-      text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 4px;
+      text-transform: uppercase;
     }
 
     .detail-value {
@@ -415,10 +415,10 @@
 // Pagination Styles
 .loans-pagination {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
   padding: 24px 0;
+  gap: 4px;
 
   .pagination-btn {
     min-width: 32px;
@@ -428,25 +428,25 @@
     border-radius: 4px;
     background: transparent;
     color: $white;
-    font-size: 14px;
     cursor: pointer;
+    font-size: 14px;
     transition:
       background-color 0.2s,
       border-color 0.2s;
 
-    &:hover:not(:disabled) {
-      background: $black-70;
-      border-color: $black-40;
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
     }
 
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    &:hover:not(:disabled) {
+      border-color: $black-40;
+      background: $black-70;
     }
 
     &.active {
-      background: $green;
       border-color: $green;
+      background: $green;
       color: $black;
       @include bold;
     }

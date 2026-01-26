@@ -15,11 +15,11 @@
 }
 
 .vault-title-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   padding: 0 24px;
   margin-bottom: 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
 
   @include for-size(desktop-up) {
     padding: 0 64px;
@@ -30,7 +30,7 @@
   }
 
   .vault-title {
-    margin: 0 0 16px 0;
+    margin: 0 0 16px;
     color: $white;
     font-size: 36px;
     @include bold;
@@ -43,15 +43,15 @@
   .vault-title-id {
     display: flex;
     align-items: center;
-    gap: 8px;
     color: $white;
     font-size: 14px;
+    gap: 8px;
 
     .vault-title-id-label {
       color: $black-40;
-      text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
   }
 }
@@ -59,11 +59,11 @@
 .currency-toggle {
   display: flex;
   align-items: center;
-  gap: 4px;
+  padding: 4px;
   border: 1px solid $black-40;
   border-radius: 20px;
-  padding: 4px;
   background: transparent;
+  gap: 4px;
 
   .toggle-option {
     padding: 6px 16px;
@@ -71,8 +71,8 @@
     border-radius: 16px;
     background: transparent;
     color: $black-40;
-    font-size: 14px;
     cursor: pointer;
+    font-size: 14px;
     transition: all 0.2s ease;
     @include medium;
 
@@ -81,23 +81,23 @@
     }
 
     &.active {
-      color: $green;
       background: transparent;
+      color: $green;
     }
   }
 
   .toggle-help {
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 24px;
     height: 24px;
+    align-items: center;
+    justify-content: center;
     border: 1px solid $black-40;
     border-radius: 50%;
-    color: $black-40;
-    font-size: 12px;
     margin-left: 8px;
+    color: $black-40;
     cursor: help;
+    font-size: 12px;
 
     &:hover {
       border-color: $white;

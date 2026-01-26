@@ -2,15 +2,15 @@
 
 .vault-depositors-section {
   width: 100%;
-  margin-top: 48px;
   padding: 0 24px;
+  margin-top: 48px;
 
   @include for-size(desktop-up) {
     padding: 0 64px;
   }
 
   .vault-depositors-title {
-    margin: 0 0 16px 0;
+    margin: 0 0 16px;
     color: $white;
     font-size: 24px;
     @include bold;
@@ -22,14 +22,14 @@
 
   .no-depositors-message {
     padding: 32px;
-    text-align: center;
     color: $black-40;
+    text-align: center;
   }
 
   .depositors-error-message {
     padding: 32px;
-    text-align: center;
     color: #ff6b6b;
+    text-align: center;
   }
 }
 
@@ -47,9 +47,9 @@
       color: $black-40;
       font-size: 12px;
       font-weight: normal;
+      letter-spacing: 0.5px;
       text-align: left;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
 
       &:first-child {
         padding-left: 0;
@@ -120,9 +120,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-top: 24px;
   padding: 16px 0;
+  margin-top: 24px;
+  gap: 16px;
 
   .pagination-btn {
     padding: 8px 16px;
@@ -130,18 +130,18 @@
     border-radius: 4px;
     background: transparent;
     color: $white;
-    font-size: 14px;
     cursor: pointer;
+    font-size: 14px;
     transition: all 0.2s;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.3;
+    }
 
     &:hover:not(:disabled) {
       border-color: $green;
       color: $green;
-    }
-
-    &:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
     }
   }
 
