@@ -39,21 +39,17 @@ export const TransactionTableRow = ({
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
 
-  const renderTxWithFormattedAmount = ({ amount }) => (
-    <Amount value={amount} displayIssuer={false} />
-  )
-
-  const renderTxWithoutFormattedAmount = ({ amount }) => (
-    <Amount value={formatAmount(amount)} displayIssuer={false} />
-  )
-
-  // Determine which amount renderer to use, avoiding nested ternary
+  // Determine which amount renderer to use
   const renderAmount = () => {
+    // Pre-formatted amount (lowercase 'amount')
     if (tx.details?.instructions?.amount) {
-      return renderTxWithFormattedAmount(tx.details.instructions.amount)
+      const { amount } = tx.details.instructions
+      return <Amount value={amount} displayIssuer={false} />
     }
+    // Raw amount that needs formatting (uppercase 'Amount')
     if (tx.details?.instructions?.Amount) {
-      return renderTxWithoutFormattedAmount(tx.details.instructions.Amount)
+      const amount = tx.details.instructions.Amount
+      return <Amount value={formatAmount(amount)} displayIssuer={false} />
     }
     return null
   }

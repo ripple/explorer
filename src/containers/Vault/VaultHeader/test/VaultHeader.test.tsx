@@ -34,6 +34,20 @@ jest.mock('../../../shared/hooks/useXRPToUSDRate', () => ({
   useXRPToUSDRate: () => mockXRPToUSDRate(),
 }))
 
+// Mock the token to USD rate hook
+const mockTokenToUSDRate = jest.fn()
+jest.mock('../../../shared/hooks/useTokenToUSDRate', () => ({
+  useTokenToUSDRate: (token: any) => {
+    const result = mockTokenToUSDRate(token)
+    // Return object structure if mockTokenToUSDRate returns a number
+    if (typeof result === 'number') {
+      return { rate: result, isAvailable: result > 0, isLoading: false }
+    }
+    // Otherwise return the result as-is (for custom mock implementations)
+    return result
+  },
+}))
+
 const mockedGetLedgerEntry = getLedgerEntry as Mock
 
 // Mock socket client - represents the WebSocket connection to rippled
@@ -73,6 +87,17 @@ describe('VaultHeader Component', () => {
 
     // Default mock: XRP to USD rate of 2.0 for predictable conversion tests
     mockXRPToUSDRate.mockReturnValue(2.0)
+
+    // Default mock: Token to USD rate based on asset type
+    // XRP: 2.0 (same as XRP to USD rate)
+    // RLUSD: 1.0 (stablecoin pegged 1:1 to USD)
+    // Other: 0 (no conversion available)
+    mockTokenToUSDRate.mockImplementation((token: any) => {
+      if (!token) return 0
+      if (token.currency === 'XRP') return 2.0
+      if (token.currency === 'RLUSD') return 1.0
+      return 0
+    })
   })
 
   /**
@@ -929,8 +954,9 @@ describe('VaultHeader Component', () => {
       expect(screen.getByText('2.5M RLUSD')).toBeInTheDocument()
     })
 
-    it('displays "--" for unsupported currency TVL', () => {
-      // TVL calculation is not supported for arbitrary currencies
+    it('displays TVL in native currency for unsupported currencies', () => {
+      // TVL is shown in native currency even for arbitrary currencies
+      // when displayCurrency is 'xrp' (native mode)
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: { currency: 'UNKNOWN' },
@@ -947,8 +973,8 @@ describe('VaultHeader Component', () => {
         </TestWrapper>,
       )
 
-      const tvlRow = screen.getByText('Total Value Locked (TVL)').closest('tr')
-      expect(tvlRow).toHaveTextContent('--')
+      // In native mode, TVL is shown in the asset's currency
+      expect(screen.getByText('1M UNKNOWN')).toBeInTheDocument()
     })
   })
 
@@ -1035,6 +1061,10 @@ describe('VaultHeader Component', () => {
     it('converts XRP TVL to USD using exchange rate when displayCurrency is "usd"', () => {
       // Mock XRP/USD rate of 2.5
       mockXRPToUSDRate.mockReturnValue(2.5)
+      mockTokenToUSDRate.mockImplementation((token: any) => {
+        if (token?.currency === 'XRP') return 2.5
+        return 0
+      })
 
       const vaultData = {
         Owner: 'rTestOwner',

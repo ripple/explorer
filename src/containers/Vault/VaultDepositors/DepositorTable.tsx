@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../shared/components/Account'
 import { useLanguage } from '../../shared/hooks'
+import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { localizeNumber } from '../../shared/utils'
+import { DisplayCurrency } from '../CurrencyToggle'
 import { formatCompactNumber } from '../utils'
 
 interface Holder {
@@ -9,11 +11,19 @@ interface Holder {
   mpt_amount: string
 }
 
+interface AssetInfo {
+  currency: string
+  issuer?: string
+  mpt_issuance_id?: string
+}
+
 interface Props {
   holders: Holder[]
   totalSupply: string | undefined
   assetsTotal: string | undefined
   startRank: number
+  displayCurrency: DisplayCurrency
+  asset?: AssetInfo
 }
 
 export const DepositorTable = ({
@@ -21,11 +31,18 @@ export const DepositorTable = ({
   totalSupply,
   assetsTotal,
   startRank,
+  displayCurrency,
+  asset,
 }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
+  const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
 
   const totalSupplyNum = totalSupply ? Number(totalSupply) : 0
+
+  // Get the display currency label
+  const getDisplayCurrencyLabel = (): string =>
+    displayCurrency === 'usd' ? 'USD' : asset?.currency || ''
 
   // Calculate the value of each holder's share
   // Value = (holder's tokens / total supply) * total assets in vault
@@ -36,8 +53,23 @@ export const DepositorTable = ({
     if (Number.isNaN(assetsTotalNum) || assetsTotalNum === 0) return '-'
 
     // Proportional value: (holder tokens / total supply) * total assets
-    const value = (amount / totalSupplyNum) * assetsTotalNum
-    return formatCompactNumber(value, language, { prefix: '$' })
+    let value = (amount / totalSupplyNum) * assetsTotalNum
+
+    // Convert to USD if needed
+    if (displayCurrency === 'usd') {
+      if (tokenToUsdRate > 0) {
+        value *= tokenToUsdRate
+        return formatCompactNumber(value, language, {
+          prefix: '$',
+          currency: 'USD',
+        })
+      }
+      return '--'
+    }
+
+    return formatCompactNumber(value, language, {
+      currency: getDisplayCurrencyLabel(),
+    })
   }
 
   const calculatePercentOfSupply = (holderAmount: string): string => {

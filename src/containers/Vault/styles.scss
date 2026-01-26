@@ -76,13 +76,22 @@
     transition: all 0.2s ease;
     @include medium;
 
-    &:hover {
+    &:hover:not(.disabled) {
       color: $white;
     }
 
     &.active {
       background: transparent;
       color: $green;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+
+      &:hover {
+        color: $black-40;
+      }
     }
   }
 

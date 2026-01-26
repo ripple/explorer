@@ -21,7 +21,12 @@ import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
 import { VaultLoans } from '../index'
 import { getAccountObjects } from '../../../../rippled/lib/rippled'
+import { DisplayCurrency } from '../../CurrencyToggle'
 import Mock = jest.Mock
+
+// Default test props
+const defaultDisplayCurrency: DisplayCurrency = 'xrp'
+const defaultAsset = { currency: 'XRP' }
 
 // Mock the rippled library to control API responses
 jest.mock('../../../../rippled/lib/rippled', () => ({
@@ -163,6 +168,8 @@ describe('VaultLoans Component', () => {
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
             assetCurrency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -186,6 +193,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -218,6 +227,8 @@ describe('VaultLoans Component', () => {
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
             assetCurrency="EUR"
+            displayCurrency={defaultDisplayCurrency}
+            asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
           />
         </TestWrapper>,
       )
@@ -256,6 +267,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -278,6 +291,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -306,6 +321,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -329,6 +346,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -372,6 +391,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -405,6 +426,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -432,6 +455,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -473,6 +498,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -526,6 +553,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -553,6 +582,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -587,6 +618,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -615,6 +648,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -644,6 +679,8 @@ describe('VaultLoans Component', () => {
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
             assetCurrency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -678,6 +715,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -703,7 +742,12 @@ describe('VaultLoans Component', () => {
       const TestWrapper = createTestWrapper(queryClient)
       render(
         <TestWrapper>
-          <VaultLoans vaultId="TEST_VAULT_ID" vaultPseudoAccount="" />
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount=""
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -723,6 +767,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount={testAccount}
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )
@@ -758,6 +804,8 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TARGET_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
           />
         </TestWrapper>,
       )

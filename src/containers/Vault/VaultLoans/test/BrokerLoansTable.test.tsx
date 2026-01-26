@@ -16,10 +16,30 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { QueryClientProvider, QueryClient } from 'react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
 import { BrokerLoansTable } from '../BrokerLoansTable'
 import { LoanData } from '../LoanRow'
 import { LSF_LOAN_DEFAULT, LSF_LOAN_IMPAIRED } from '../utils'
+import { DisplayCurrency } from '../../CurrencyToggle'
+
+// Default test props
+const defaultDisplayCurrency: DisplayCurrency = 'xrp'
+const defaultAsset = { currency: 'XRP' }
+
+/**
+ * Creates a fresh QueryClient for each test
+ */
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        staleTime: 0,
+        cacheTime: 0,
+      },
+    },
+  })
 
 /**
  * TestWrapper Component
@@ -27,12 +47,18 @@ import { LSF_LOAN_DEFAULT, LSF_LOAN_IMPAIRED } from '../utils'
  * BrokerLoansTable needs:
  * - I18nextProvider: For translated text (filter buttons, headers, empty message)
  * - Router: For Account links in LoanRow
+ * - QueryClientProvider: For useTokenToUSDRate hook in LoanRow
  */
-const TestWrapper = ({ children }: { children: React.ReactNode }) => (
-  <I18nextProvider i18n={i18n}>
-    <Router>{children}</Router>
-  </I18nextProvider>
-)
+const TestWrapper = ({ children }: { children: React.ReactNode }) => {
+  const queryClient = createTestQueryClient()
+  return (
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
+        <Router>{children}</Router>
+      </QueryClientProvider>
+    </I18nextProvider>
+  )
+}
 
 /**
  * Mock loan data generator
@@ -85,7 +111,12 @@ describe('BrokerLoansTable Component', () => {
     it('displays empty message when loans array is empty', () => {
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={[]} currency="XRP" />
+          <BrokerLoansTable
+            loans={[]}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -97,7 +128,12 @@ describe('BrokerLoansTable Component', () => {
     it('displays empty message when loans is undefined', () => {
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={undefined} currency="XRP" />
+          <BrokerLoansTable
+            loans={undefined}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -109,7 +145,12 @@ describe('BrokerLoansTable Component', () => {
     it('does not render filter bar when no loans exist', () => {
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={[]} currency="XRP" />
+          <BrokerLoansTable
+            loans={[]}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -121,7 +162,12 @@ describe('BrokerLoansTable Component', () => {
     it('does not render pagination when no loans exist', () => {
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={[]} currency="XRP" />
+          <BrokerLoansTable
+            loans={[]}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -143,7 +189,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -168,7 +219,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -182,7 +238,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -201,7 +262,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -219,7 +285,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -243,7 +314,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -262,7 +338,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -288,7 +369,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -313,7 +399,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -337,7 +428,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -372,7 +468,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -387,7 +488,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -400,7 +506,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -415,7 +526,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -428,7 +544,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -441,7 +562,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -462,7 +588,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -479,7 +610,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -500,7 +636,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -517,7 +658,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -533,7 +679,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -550,7 +701,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -576,7 +732,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -591,7 +752,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -618,7 +784,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -645,7 +816,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -674,7 +850,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -689,7 +870,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="XRP" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="XRP"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
         </TestWrapper>,
       )
 
@@ -714,7 +900,12 @@ describe('BrokerLoansTable Component', () => {
 
       render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="RLUSD" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="RLUSD"
+            displayCurrency={defaultDisplayCurrency}
+            asset={{ currency: 'RLUSD', issuer: 'rTestIssuer' }}
+          />
         </TestWrapper>,
       )
 
@@ -737,7 +928,12 @@ describe('BrokerLoansTable Component', () => {
 
       const { container } = render(
         <TestWrapper>
-          <BrokerLoansTable loans={loans} currency="EUR" />
+          <BrokerLoansTable
+            loans={loans}
+            currency="EUR"
+            displayCurrency={defaultDisplayCurrency}
+            asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
+          />
         </TestWrapper>,
       )
 
@@ -760,7 +956,11 @@ describe('BrokerLoansTable Component', () => {
       expect(() =>
         render(
           <TestWrapper>
-            <BrokerLoansTable loans={loans} />
+            <BrokerLoansTable
+              loans={loans}
+              displayCurrency={defaultDisplayCurrency}
+              asset={defaultAsset}
+            />
           </TestWrapper>,
         ),
       ).not.toThrow()

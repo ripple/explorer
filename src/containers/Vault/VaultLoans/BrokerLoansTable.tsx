@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { DisplayCurrency } from '../CurrencyToggle'
 import { LoanRow, LoanData } from './LoanRow'
 import { LSF_LOAN_DEFAULT, LSF_LOAN_IMPAIRED } from './utils'
 import FilterIcon from '../../shared/images/filter.svg'
@@ -8,12 +9,25 @@ const ITEMS_PER_PAGE = 10
 
 type LoanFilter = 'all' | 'default' | 'impaired'
 
+interface AssetInfo {
+  currency: string
+  issuer?: string
+  mpt_issuance_id?: string
+}
+
 interface Props {
   loans: LoanData[] | undefined
   currency?: string
+  displayCurrency: DisplayCurrency
+  asset?: AssetInfo
 }
 
-export const BrokerLoansTable = ({ loans, currency = '' }: Props) => {
+export const BrokerLoansTable = ({
+  loans,
+  currency = '',
+  displayCurrency,
+  asset,
+}: Props) => {
   const { t } = useTranslation()
   const [currentPage, setCurrentPage] = useState(1)
   const [filter, setFilter] = useState<LoanFilter>('all')
@@ -140,7 +154,13 @@ export const BrokerLoansTable = ({ loans, currency = '' }: Props) => {
 
       <div className="loans-table-body">
         {paginatedLoans.map((loan) => (
-          <LoanRow key={loan.index} loan={loan} currency={currency} />
+          <LoanRow
+            key={loan.index}
+            loan={loan}
+            currency={currency}
+            displayCurrency={displayCurrency}
+            asset={asset}
+          />
         ))}
       </div>
 

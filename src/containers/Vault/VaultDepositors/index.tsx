@@ -5,19 +5,30 @@ import SocketContext from '../../shared/SocketContext'
 import { getMPTHolders } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
 import { Loader } from '../../shared/components/Loader'
+import { DisplayCurrency } from '../CurrencyToggle'
 import { DepositorTable } from './DepositorTable'
 import './styles.scss'
+
+interface AssetInfo {
+  currency: string
+  issuer?: string
+  mpt_issuance_id?: string
+}
 
 interface Props {
   shareMptId: string
   totalSupply: string | undefined
   assetsTotal: string | undefined
+  displayCurrency: DisplayCurrency
+  asset?: AssetInfo
 }
 
 export const VaultDepositors = ({
   shareMptId,
   totalSupply,
   assetsTotal,
+  displayCurrency,
+  asset,
 }: Props) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
@@ -132,6 +143,8 @@ export const VaultDepositors = ({
         totalSupply={totalSupply}
         assetsTotal={assetsTotal}
         startRank={currentPage * pageSize + 1}
+        displayCurrency={displayCurrency}
+        asset={asset}
       />
       <div className="pagination">
         <button

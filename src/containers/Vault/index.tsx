@@ -15,6 +15,7 @@ import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import SocketContext from '../shared/SocketContext'
 import { getVault } from '../../rippled/lib/rippled'
 import { useAnalytics } from '../shared/analytics'
+import { useTokenToUSDRate } from '../shared/hooks/useTokenToUSDRate'
 import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
 import { decodeVaultData } from './utils'
@@ -71,6 +72,11 @@ export const Vault = () => {
       },
     },
   )
+
+  // Check if USD conversion is available for this token
+  // Must be called before any early returns to satisfy React hooks rules
+  const { isAvailable: usdAvailable, isLoading: usdLoading } =
+    useTokenToUSDRate(vaultData?.Asset)
 
   useEffect(() => {
     trackScreenLoaded({
@@ -138,6 +144,8 @@ export const Vault = () => {
               nativeCurrency={getAssetCurrencyDisplay() || 'XRP'}
               selected={displayCurrency}
               onToggle={setDisplayCurrency}
+              usdDisabled={!usdAvailable}
+              usdLoading={usdLoading}
             />
           </div>
           <VaultHeader
@@ -150,6 +158,8 @@ export const Vault = () => {
               vaultId={vaultId}
               vaultPseudoAccount={transactionAccountId}
               assetCurrency={getAssetCurrencyDisplay()}
+              displayCurrency={displayCurrency}
+              asset={vaultData.Asset}
             />
           )}
           {vaultData?.ShareMPTID && (
@@ -157,6 +167,8 @@ export const Vault = () => {
               shareMptId={vaultData.ShareMPTID}
               totalSupply={vaultData.ShareTotal}
               assetsTotal={vaultData.AssetsTotal}
+              displayCurrency={displayCurrency}
+              asset={vaultData.Asset}
             />
           )}
           {transactionAccountId && (

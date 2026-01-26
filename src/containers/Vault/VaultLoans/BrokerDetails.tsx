@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useLanguage } from '../../shared/hooks'
+import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import SocketContext from '../../shared/SocketContext'
 import { getAccountObjects } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
 import { Loader } from '../../shared/components/Loader'
+import { DisplayCurrency } from '../CurrencyToggle'
 import { formatRate, LSF_LOAN_DEFAULT } from './utils'
 import { formatCompactNumber } from '../utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
@@ -24,18 +26,46 @@ interface LoanBrokerData {
   DebtMaximum?: string
 }
 
+interface AssetInfo {
+  currency: string
+  issuer?: string
+  mpt_issuance_id?: string
+}
+
 interface Props {
   broker: LoanBrokerData
   currency?: string
+  displayCurrency: DisplayCurrency
+  asset?: AssetInfo
 }
 
-export const BrokerDetails = ({ broker, currency }: Props) => {
+export const BrokerDetails = ({
+  broker,
+  currency,
+  displayCurrency,
+  asset,
+}: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const rippledSocket = useContext(SocketContext)
   const { trackException } = useAnalytics()
+  const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
 
   const lang = language ?? 'en-US'
+
+  // Convert amount to display currency (USD or native)
+  const convertToDisplayCurrency = (
+    amount: string | undefined,
+  ): string | undefined => {
+    if (!amount || displayCurrency === 'xrp') return amount
+    const numAmount = Number(amount)
+    if (Number.isNaN(numAmount)) return amount
+    return tokenToUsdRate > 0 ? String(numAmount * tokenToUsdRate) : undefined
+  }
+
+  // Get the display currency label
+  const getDisplayCurrencyLabel = (): string =>
+    displayCurrency === 'usd' ? 'USD' : currency || ''
 
   // Fetch loans for this broker (used for both table display and default check)
   const { data: loans, isFetching: loansLoading } = useQuery(
@@ -64,11 +94,18 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
     (loan: any) => (loan.Flags ?? 0) & LSF_LOAN_DEFAULT,
   )
 
-  const formatAmount = (amount: string | undefined): string =>
-    formatCompactNumber(amount, lang, {
-      currency,
-      fallback: `0 ${currency || ''}`.trim(),
+  const formatAmount = (amount: string | undefined): string => {
+    const convertedAmount = convertToDisplayCurrency(amount)
+    const currencyLabel = getDisplayCurrencyLabel()
+    if (convertedAmount === undefined && displayCurrency === 'usd') {
+      return '--'
+    }
+    return formatCompactNumber(convertedAmount ?? amount, lang, {
+      currency: currencyLabel,
+      prefix: displayCurrency === 'usd' ? '$' : '',
+      fallback: `0 ${currencyLabel}`.trim(),
     })
+  }
 
   return (
     <div className="broker-details-card">
@@ -131,7 +168,12 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
           <Loader />
         </div>
       ) : (
-        <BrokerLoansTable loans={loans} currency={currency} />
+        <BrokerLoansTable
+          loans={loans}
+          currency={currency}
+          displayCurrency={displayCurrency}
+          asset={asset}
+        />
       )}
 
       {hasDefaultedLoan && (

@@ -56,6 +56,11 @@ jest.mock('../../NoMatch', () => ({
   ),
 }))
 
+// Mock useTokenToUSDRate hook
+jest.mock('../../shared/hooks/useTokenToUSDRate', () => ({
+  useTokenToUSDRate: () => ({ rate: 2.0, isAvailable: true, isLoading: false }),
+}))
+
 // Mock child components to avoid testing their internals
 jest.mock('../VaultHeader', () => ({
   VaultHeader: ({ vaultId }: { vaultId: string }) => (

@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../shared/components/Account'
 import { useLanguage } from '../../shared/hooks'
+import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { localizeNumber } from '../../shared/utils'
+import { DisplayCurrency } from '../CurrencyToggle'
 import {
   formatRate,
   formatPaymentInterval,
@@ -35,14 +37,28 @@ export interface LoanData {
   PaymentTotal?: number
 }
 
+interface AssetInfo {
+  currency: string
+  issuer?: string
+  mpt_issuance_id?: string
+}
+
 interface Props {
   loan: LoanData
   currency?: string
+  displayCurrency: DisplayCurrency
+  asset?: AssetInfo
 }
 
-export const LoanRow = ({ loan, currency = '' }: Props) => {
+export const LoanRow = ({
+  loan,
+  currency = '',
+  displayCurrency,
+  asset,
+}: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
+  const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
   const [expanded, setExpanded] = useState(false)
 
   const { status, colorClass } = formatLoanStatus(
@@ -50,13 +66,28 @@ export const LoanRow = ({ loan, currency = '' }: Props) => {
     loan.TotalValueOutstanding ?? 0,
   )
 
+  // Get the display currency label
+  const getDisplayCurrencyLabel = (): string =>
+    displayCurrency === 'usd' ? 'USD' : currency
+
   const formatAmount = (amount: string | number): string => {
     const num = typeof amount === 'string' ? Number(amount) : amount
     if (Number.isNaN(num)) return String(amount)
-    return `${localizeNumber(num, language, {
+
+    // Convert to USD if needed
+    let displayNum = num
+    if (displayCurrency === 'usd' && tokenToUsdRate > 0) {
+      displayNum = num * tokenToUsdRate
+    } else if (displayCurrency === 'usd' && tokenToUsdRate === 0) {
+      return '--'
+    }
+
+    const prefix = displayCurrency === 'usd' ? '$' : ''
+    const currencyLabel = getDisplayCurrencyLabel()
+    return `${prefix}${localizeNumber(displayNum, language, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    })} ${currency}`
+    })} ${currencyLabel}`
   }
 
   const formatFee = (fee: string | number): string => {
@@ -65,10 +96,21 @@ export const LoanRow = ({ loan, currency = '' }: Props) => {
     const num = typeof fee === 'string' ? Number(fee) : fee
     if (Number.isNaN(num)) return String(fee)
     if (num === 0) return '0'
-    return `${localizeNumber(num, language, {
+
+    // Convert to USD if needed
+    let displayNum = num
+    if (displayCurrency === 'usd' && tokenToUsdRate > 0) {
+      displayNum = num * tokenToUsdRate
+    } else if (displayCurrency === 'usd' && tokenToUsdRate === 0) {
+      return '--'
+    }
+
+    const prefix = displayCurrency === 'usd' ? '$' : ''
+    const currencyLabel = getDisplayCurrencyLabel()
+    return `${prefix}${localizeNumber(displayNum, language, {
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,
-    })} ${currency}`
+    })} ${currencyLabel}`
   }
 
   const formatGracePeriod = (seconds: number): string => {

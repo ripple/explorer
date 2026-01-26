@@ -5,6 +5,7 @@ import SocketContext from '../../shared/SocketContext'
 import { getAccountObjects } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
 import { Loader } from '../../shared/components/Loader'
+import { DisplayCurrency } from '../CurrencyToggle'
 import { BrokerTabs } from './BrokerTabs'
 import { BrokerDetails } from './BrokerDetails'
 import './styles.scss'
@@ -25,16 +26,26 @@ interface LoanBrokerData {
   OwnerCount?: number
 }
 
+interface AssetInfo {
+  currency: string
+  issuer?: string
+  mpt_issuance_id?: string
+}
+
 interface Props {
   vaultId: string
   vaultPseudoAccount: string
   assetCurrency?: string
+  displayCurrency: DisplayCurrency
+  asset?: AssetInfo
 }
 
 export const VaultLoans = ({
   vaultId,
   vaultPseudoAccount,
   assetCurrency,
+  displayCurrency,
+  asset,
 }: Props) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
@@ -127,7 +138,12 @@ export const VaultLoans = ({
         loanCountMap={loanCountMap}
       />
       {selectedBroker && (
-        <BrokerDetails broker={selectedBroker} currency={assetCurrency} />
+        <BrokerDetails
+          broker={selectedBroker}
+          currency={assetCurrency}
+          displayCurrency={displayCurrency}
+          asset={asset}
+        />
       )}
     </div>
   )
