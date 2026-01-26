@@ -95,7 +95,9 @@ export const Details = ({ data, vaultId, displayCurrency }: Props) => {
   }
 
   // Converts amount to USD if displayCurrency is 'usd', otherwise returns as-is
-  const convertToDisplayCurrency = (amount: string | undefined): string | undefined => {
+  const convertToDisplayCurrency = (
+    amount: string | undefined,
+  ): string | undefined => {
     if (!amount || displayCurrency === 'xrp') return amount
 
     const numAmount = Number(amount)
@@ -114,7 +116,9 @@ export const Details = ({ data, vaultId, displayCurrency }: Props) => {
     ['getMPTIssuance', vaultShareMptId],
     async () => {
       if (!vaultShareMptId) return null
-      const resp = await getLedgerEntry(rippledSocket, { index: vaultShareMptId })
+      const resp = await getLedgerEntry(rippledSocket, {
+        index: vaultShareMptId,
+      })
       return resp?.node
     },
     {
@@ -187,10 +191,7 @@ export const Details = ({ data, vaultId, displayCurrency }: Props) => {
                 value={vaultCredential}
               />
             )}
-            <TokenTableRow
-              label={t('data')}
-              value={decodedData || '-'}
-            />
+            <TokenTableRow label={t('data')} value={decodedData || '-'} />
             <TokenTableRow
               label={t('withdrawal_policy')}
               value={getWithdrawalPolicyText()}
@@ -213,25 +214,32 @@ export const Details = ({ data, vaultId, displayCurrency }: Props) => {
                 if (!convertedAmount) return '--'
                 return formatCompactNumber(convertedAmount, language, {
                   currency: getDisplayCurrencyLabel(),
-                  prefix: displayCurrency === 'usd' ? '$' : ''
+                  prefix: displayCurrency === 'usd' ? '$' : '',
                 })
               })()}
             />
             <TokenTableRow
               label={t('max_total_supply')}
-              value={assetsMaximum ? formatCompactNumber(assetsMaximum, language, { currency: getAssetCurrency(asset) }) : t('no_limit')}
+              value={
+                assetsMaximum
+                  ? formatCompactNumber(assetsMaximum, language, {
+                      currency: getAssetCurrency(asset),
+                    })
+                  : t('no_limit')
+              }
             />
-            <TokenTableRow
-              label={t('shares')}
-              value={renderMPTSharesLink()}
-            />
+            <TokenTableRow label={t('shares')} value={renderMPTSharesLink()} />
             <TokenTableRow
               label={t('available_to_borrow')}
-              value={formatCompactNumber(assetsAvailable, language, { currency: getAssetCurrency(asset) })}
+              value={formatCompactNumber(assetsAvailable, language, {
+                currency: getAssetCurrency(asset),
+              })}
             />
             <TokenTableRow
               label={t('unrealized_loss')}
-              value={formatCompactNumber(lossUnrealized, language, { currency: getAssetCurrency(asset) })}
+              value={formatCompactNumber(lossUnrealized, language, {
+                currency: getAssetCurrency(asset),
+              })}
             />
           </tbody>
         </table>

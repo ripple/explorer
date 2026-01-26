@@ -1,6 +1,6 @@
 import { Simple } from '../Simple'
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowNotToExist,
   expectSimpleRowText,
 } from '../../test'
@@ -13,103 +13,103 @@ import depositFail from './mock_data/deposit_fail.json'
 import depositLPToken from './mock_data/deposit_lptoken.json'
 
 describe('AMM Deposit Tests', () => {
-  const createWrapper = createSimpleWrapperFactory(Simple)
+  const renderComponent = createSimpleRenderFactory(Simple)
 
   it('renders with both assets', () => {
-    const wrapper = createWrapper(depositBothAssets)
-    expectSimpleRowText(wrapper, 'asset1', '\uE90010,997.290462 XRP')
+    const { container, unmount } = renderComponent(depositBothAssets)
+    expectSimpleRowText(container, 'asset1', '\uE90010,997.290462 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'asset2',
       '$10,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders only with USD', () => {
-    const wrapper = createWrapper(depositUSD)
-    expectSimpleRowNotToExist(wrapper, 'asset1')
+    const { container, unmount } = renderComponent(depositUSD)
+    expectSimpleRowNotToExist(container, 'asset1')
     expectSimpleRowText(
-      wrapper,
+      container,
       'asset2',
       '$2,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders only with XRP', () => {
-    const wrapper = createWrapper(depositXRP)
-    expectSimpleRowText(wrapper, 'asset1', '\uE9001,000.00 XRP')
+    const { container, unmount } = renderComponent(depositXRP)
+    expectSimpleRowText(container, 'asset1', '\uE9001,000.00 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with eprice', () => {
-    const wrapper = createWrapper(depositEprice)
-    expectSimpleRowNotToExist(wrapper, 'asset1')
+    const { container, unmount } = renderComponent(depositEprice)
+    expectSimpleRowNotToExist(container, 'asset1')
     expectSimpleRowText(
-      wrapper,
+      container,
       'asset2',
       '$1,000.00 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'effective_price',
       '$0.10 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with both assets non XRP', () => {
-    const wrapper = createWrapper(depositNonXRP)
+    const { container, unmount } = renderComponent(depositNonXRP)
     expectSimpleRowText(
-      wrapper,
+      container,
       'asset1',
       '€500.00 EUR.rEaiyQKvxYWmh7q9mvSm11kZmKx92HZdmr',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'asset2',
       '$500.00 USD.rEaiyQKvxYWmh7q9mvSm11kZmKx92HZdmr',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'account_id',
       'rEJ1X5BoSmHqa5h6TSVvYrHAzFmyxGqNic',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('deposit shouldnt crash with tx that changes fee', () => {
-    const wrapper = createWrapper(depositFail)
-    expectSimpleRowNotToExist(wrapper, 'asset1')
-    expectSimpleRowNotToExist(wrapper, 'asset2')
-    expectSimpleRowNotToExist(wrapper, 'account_id')
-    wrapper.unmount()
+    const { container, unmount } = renderComponent(depositFail)
+    expectSimpleRowNotToExist(container, 'asset1')
+    expectSimpleRowNotToExist(container, 'asset2')
+    expectSimpleRowNotToExist(container, 'account_id')
+    unmount()
   })
 
   it('renders LP Tokens properly', () => {
-    const wrapper = createWrapper(depositLPToken)
-    expectSimpleRowText(wrapper, 'lp_tokens', '4,279,342.4')
-    wrapper.unmount()
+    const { container, unmount } = renderComponent(depositLPToken)
+    expectSimpleRowText(container, 'lp_tokens', '4,279,342.4')
+    unmount()
   })
 })

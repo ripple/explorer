@@ -267,9 +267,7 @@ describe('VaultTransactions Component', () => {
 
       // The TransactionTable shows a default empty message
       await waitFor(() => {
-        expect(
-          screen.getByText('No transactions found.'),
-        ).toBeInTheDocument()
+        expect(screen.getByText('No transactions found.')).toBeInTheDocument()
       })
     })
 
@@ -772,14 +770,12 @@ describe('VaultTransactions Component', () => {
 
       // Should show empty message, not crash
       await waitFor(() => {
-        expect(
-          screen.getByText('No transactions found.'),
-        ).toBeInTheDocument()
+        expect(screen.getByText('No transactions found.')).toBeInTheDocument()
       })
     })
 
     it('handles very long account IDs', async () => {
-      const longAccountId = 'r' + 'A'.repeat(50)
+      const longAccountId = `r${'A'.repeat(50)}`
       mockedGetAccountTransactions.mockResolvedValue({
         transactions: [],
         marker: undefined,

@@ -320,9 +320,7 @@ describe('VaultLoans Component', () => {
     it('displays empty message when brokers exist but none match vaultId', async () => {
       // Return brokers that don't match the requested vaultId
       mockedGetAccountObjects.mockResolvedValue({
-        account_objects: [
-          createMockBroker({ VaultID: 'DIFFERENT_VAULT_ID' }),
-        ],
+        account_objects: [createMockBroker({ VaultID: 'DIFFERENT_VAULT_ID' })],
       })
 
       const TestWrapper = createTestWrapper(queryClient)
@@ -668,7 +666,10 @@ describe('VaultLoans Component', () => {
    */
   describe('Error Handling', () => {
     it('tracks exception when loan broker fetch fails', async () => {
-      const errorResponse = { code: 'NETWORK_ERROR', message: 'Connection failed' }
+      const errorResponse = {
+        code: 'NETWORK_ERROR',
+        message: 'Connection failed',
+      }
       mockedGetAccountObjects.mockRejectedValue(errorResponse)
 
       const TestWrapper = createTestWrapper(queryClient)
@@ -683,7 +684,9 @@ describe('VaultLoans Component', () => {
 
       await waitFor(() => {
         expect(mockTrackException).toHaveBeenCalledWith(
-          expect.stringContaining('Error fetching Loan Brokers for account rTestPseudoAccount'),
+          expect.stringContaining(
+            'Error fetching Loan Brokers for account rTestPseudoAccount',
+          ),
         )
       })
     })
@@ -700,10 +703,7 @@ describe('VaultLoans Component', () => {
       const TestWrapper = createTestWrapper(queryClient)
       render(
         <TestWrapper>
-          <VaultLoans
-            vaultId="TEST_VAULT_ID"
-            vaultPseudoAccount=""
-          />
+          <VaultLoans vaultId="TEST_VAULT_ID" vaultPseudoAccount="" />
         </TestWrapper>,
       )
 

@@ -1,4 +1,4 @@
-import { mount, ReactWrapper } from 'enzyme'
+import { render, RenderResult } from '@testing-library/react'
 import { ReactElement } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
@@ -17,19 +17,18 @@ import SocketContext from '../../../SocketContext'
 import MockWsClient from '../../../../test/mockWsClient'
 
 /**
- * Methods that produce createWrapper function for tests
+ * Renders a component with all necessary providers for testing
  * @param TestComponent - react component to test
  * @param i18nConfig - i18next configuration to use instead of the default which outputs the key as the value
  */
-
-export function createWrapper(
+export function renderWithProviders(
   TestComponent: ReactElement,
   i18nConfig?: i18n,
   socketMock?: any,
-): ReactWrapper {
+): RenderResult {
   const mockSocket = socketMock || new MockWsClient()
 
-  return mount(
+  return render(
     <QueryClientProvider client={testQueryClient}>
       <I18nextProvider i18n={i18nConfig || defaultI18nConfig}>
         <BrowserRouter future={V7_FUTURE_ROUTER_FLAGS}>
@@ -42,25 +41,25 @@ export function createWrapper(
   )
 }
 
-export function createDescriptionWrapperFactory(
+export function createDescriptionRenderFactory(
   Description: TransactionDescriptionComponent,
   i18nConfig?: i18n,
-): (tx: any) => ReactWrapper {
-  return function createDescriptionWrapper(tx: any) {
-    return createWrapper(<Description data={tx} />, i18nConfig)
+): (tx: any) => RenderResult {
+  return function renderDescription(tx: any) {
+    return renderWithProviders(<Description data={tx} />, i18nConfig)
   }
 }
 
-export function createSimpleWrapperFactory(
+export function createSimpleRenderFactory(
   Simple: TransactionSimpleComponent,
   i18nConfig?: i18n,
   socketMock?: any,
-): (tx: any) => ReactWrapper {
-  return function createSimpleWrapper(tx: any) {
+): (tx: any) => RenderResult {
+  return function renderSimple(tx: any) {
     const data = summarizeTransaction(tx, true)
     const mockSocket = socketMock || new MockWsClient()
 
-    return createWrapper(
+    return renderWithProviders(
       <Simple data={data.details!} />,
       i18nConfig,
       mockSocket,
@@ -68,16 +67,16 @@ export function createSimpleWrapperFactory(
   }
 }
 
-export function createTableDetailWrapperFactory(
+export function createTableDetailRenderFactory(
   TableDetail: TransactionTableDetailComponent,
   i18nConfig?: i18n,
   socketMock?: any,
-): (tx: any) => ReactWrapper {
-  return function createTableDetailWrapper(tx: any) {
+): (tx: any) => RenderResult {
+  return function renderTableDetail(tx: any) {
     const data = summarizeTransaction(tx, true)
     const mockSocket = socketMock || new MockWsClient()
 
-    return createWrapper(
+    return renderWithProviders(
       <TableDetail instructions={data.details!.instructions} />,
       i18nConfig,
       mockSocket,

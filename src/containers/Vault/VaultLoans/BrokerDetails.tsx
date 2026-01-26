@@ -41,7 +41,11 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
   const { data: loans, isFetching: loansLoading } = useQuery(
     ['getBrokerLoans', broker.Account, broker.index],
     async () => {
-      const resp = await getAccountObjects(rippledSocket, broker.Account, 'loan')
+      const resp = await getAccountObjects(
+        rippledSocket,
+        broker.Account,
+        'loan',
+      )
       return resp?.account_objects?.filter(
         (obj: any) => obj.LoanBrokerID === broker.index,
       )
@@ -49,9 +53,7 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
     {
       enabled: !!broker.Account && !!broker.index,
       onError: (e: any) => {
-        trackException(
-          `BrokerLoans ${broker.Account} --- ${JSON.stringify(e)}`,
-        )
+        trackException(`BrokerLoans ${broker.Account} --- ${JSON.stringify(e)}`)
       },
     },
   )
@@ -63,7 +65,10 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
   )
 
   const formatAmount = (amount: string | undefined): string =>
-    formatCompactNumber(amount, lang, { currency, fallback: `0 ${currency || ''}`.trim() })
+    formatCompactNumber(amount, lang, {
+      currency,
+      fallback: `0 ${currency || ''}`.trim(),
+    })
 
   return (
     <div className="broker-details-card">
@@ -71,17 +76,25 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
         <div className="broker-id-section">
           <span className="broker-id-label">{t('loan_broker_id')}</span>
           <div className="broker-id-value">
-            <CopyableText text={broker.index} displayText={broker.index} showCopyIcon />
+            <CopyableText
+              text={broker.index}
+              displayText={broker.index}
+              showCopyIcon
+            />
           </div>
         </div>
         <div className="broker-debt-section">
           <div className="debt-metric">
             <span className="metric-label">{t('total_debt')}</span>
-            <span className="metric-value">{formatAmount(broker.DebtTotal)}</span>
+            <span className="metric-value">
+              {formatAmount(broker.DebtTotal)}
+            </span>
           </div>
           <div className="debt-metric">
             <span className="metric-label">{t('maximum_debt')}</span>
-            <span className="metric-value">{formatAmount(broker.DebtMaximum)}</span>
+            <span className="metric-value">
+              {formatAmount(broker.DebtMaximum)}
+            </span>
           </div>
         </div>
       </div>
@@ -118,10 +131,7 @@ export const BrokerDetails = ({ broker, currency }: Props) => {
           <Loader />
         </div>
       ) : (
-        <BrokerLoansTable
-          loans={loans}
-          currency={currency}
-        />
+        <BrokerLoansTable loans={loans} currency={currency} />
       )}
 
       {hasDefaultedLoan && (

@@ -39,6 +39,25 @@ export const TransactionTableRow = ({
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
 
+  const renderTxWithFormattedAmount = ({ amount }) => (
+    <Amount value={amount} displayIssuer={false} />
+  )
+
+  const renderTxWithoutFormattedAmount = ({ amount }) => (
+    <Amount value={formatAmount(amount)} displayIssuer={false} />
+  )
+
+  // Determine which amount renderer to use, avoiding nested ternary
+  const renderAmount = () => {
+    if (tx.details?.instructions?.amount) {
+      return renderTxWithFormattedAmount(tx.details.instructions.amount)
+    }
+    if (tx.details?.instructions?.Amount) {
+      return renderTxWithoutFormattedAmount(tx.details.instructions.Amount)
+    }
+    return null
+  }
+
   return (
     <li
       className={`transaction-li anchor-mask tx-type ${tx.type} ${
@@ -68,13 +87,7 @@ export const TransactionTableRow = ({
           <TxLabel type={tx.type} />
         </div>
         {hasAmountColumn && (
-          <div className="col col-amount">
-            {tx.details?.instructions?.amount ? (
-              <Amount value={tx.details.instructions.amount} displayIssuer={false} />
-            ) : tx.details?.instructions?.Amount ? (
-              <Amount value={formatAmount(tx.details.instructions.Amount)} displayIssuer={false} />
-            ) : null}
-          </div>
+          <div className="col col-amount">{renderAmount()}</div>
         )}
         <div className="col col-status">
           <TxStatus status={tx.result} />

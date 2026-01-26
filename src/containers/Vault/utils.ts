@@ -3,7 +3,9 @@ import { localizeNumber } from '../shared/utils'
 /**
  * Decode the Data field from hex to UTF-8 if needed
  */
-export const decodeVaultData = (data: string | undefined): string | undefined => {
+export const decodeVaultData = (
+  data: string | undefined,
+): string | undefined => {
   if (!data) return undefined
 
   // Try to decode hex string to UTF-8

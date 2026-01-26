@@ -27,11 +27,20 @@ export const VaultDepositors = ({
 
   const pageSize = 5
 
-  const { data, isFetching: loading, error } = useQuery<any, Error>(
+  const {
+    data,
+    isFetching: loading,
+    error,
+  } = useQuery<any, Error>(
     ['getVaultDepositors', shareMptId, currentPage],
     async () => {
       const marker = markers[currentPage]
-      const resp = await getMPTHolders(rippledSocket, shareMptId, pageSize, marker || '')
+      const resp = await getMPTHolders(
+        rippledSocket,
+        shareMptId,
+        pageSize,
+        marker || '',
+      )
       return resp
     },
     {

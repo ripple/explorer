@@ -47,9 +47,7 @@ export const TransactionTable: TransactionTableComponent = ({
     <>
       <ol className="transaction-table">
         <li className="transaction-li transaction-li-header">
-          {hasHashColumn && (
-            <div className="col col-hash">{t('tx_hash')}</div>
-          )}
+          {hasHashColumn && <div className="col col-hash">{t('tx_hash')}</div>}
           {hasTokensColumn && (
             <div className="col col-token"> {t('token')} </div>
           )}

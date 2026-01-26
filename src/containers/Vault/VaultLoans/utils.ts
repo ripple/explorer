@@ -98,7 +98,11 @@ export const formatRippleDate = (
  * Truncate a string (like loan ID or address) to show start and end
  * e.g., "4F5E6D7...890AB"
  */
-export const truncateId = (id: string, startChars = 7, endChars = 5): string => {
+export const truncateId = (
+  id: string,
+  startChars = 7,
+  endChars = 5,
+): string => {
   if (!id || id.length <= startChars + endChars + 3) return id
   return `${id.slice(0, startChars)}...${id.slice(-endChars)}`
 }

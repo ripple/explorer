@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
 import i18n from '../../../i18n/testConfigEnglish'
@@ -22,8 +22,8 @@ describe('VotingTab container', () => {
     identifier: validator.signing_key,
     tab: 'voting',
   })
-  const createWrapper = () =>
-    mount(
+  const renderVotingTab = () =>
+    render(
       <NetworkContext.Provider value="main">
         <QuickHarness i18n={i18n} initialEntries={[path]}>
           <Route
@@ -47,44 +47,34 @@ describe('VotingTab container', () => {
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderVotingTab()
   })
 
-  it('renders voting tab information', (done) => {
+  it('renders voting tab information', async () => {
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/amendments/vote/main`, {
       status: 200,
       response: amendments,
     })
 
-    const wrapper = createWrapper()
+    const { container } = renderVotingTab()
 
-    setTimeout(() => {
-      wrapper.update()
-
-      // Render fees voting correctly
-      expect(wrapper.find('.metrics .cell').length).toBe(3)
-      expect(wrapper.find('.metrics .cell').at(0).html()).toContain('0.00001')
-      expect(wrapper.find('.metrics .cell').at(1).html()).toContain('10.00')
-      expect(wrapper.find('.metrics .cell').at(2).html()).toContain('2.00')
-
-      // Render amendments correctly
-      expect(wrapper.find('.amendment-label').length).toBe(1)
-      expect(wrapper.find('.voting-amendment .rows').length).toBe(2)
-      expect(wrapper.find('.voting-amendment .rows').at(0).html()).toContain(
-        'AMM',
-      )
-      expect(wrapper.find('.voting-amendment .rows').at(0).html()).toContain(
-        'Nay',
-      )
-      expect(wrapper.find('.voting-amendment .rows').at(1).html()).toContain(
-        'Clawback',
-      )
-      expect(wrapper.find('.voting-amendment .rows').at(1).html()).toContain(
-        'Yea',
-      )
-      wrapper.unmount()
-      done()
+    await waitFor(() => {
+      expect(container.querySelectorAll('.metrics .cell').length).toBe(3)
     })
+
+    // Render fees voting correctly
+    const cells = container.querySelectorAll('.metrics .cell')
+    expect(cells[0].innerHTML).toContain('0.00001')
+    expect(cells[1].innerHTML).toContain('10.00')
+    expect(cells[2].innerHTML).toContain('2.00')
+
+    // Render amendments correctly
+    expect(container.querySelectorAll('.amendment-label').length).toBe(1)
+    const rows = container.querySelectorAll('.voting-amendment .rows')
+    expect(rows.length).toBe(2)
+    expect(rows[0].innerHTML).toContain('AMM')
+    expect(rows[0].innerHTML).toContain('Nay')
+    expect(rows[1].innerHTML).toContain('Clawback')
+    expect(rows[1].innerHTML).toContain('Yea')
   })
 })

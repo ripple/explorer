@@ -13,10 +13,7 @@ interface Props {
   currency?: string
 }
 
-export const BrokerLoansTable = ({
-  loans,
-  currency = '',
-}: Props) => {
+export const BrokerLoansTable = ({ loans, currency = '' }: Props) => {
   const { t } = useTranslation()
   const [currentPage, setCurrentPage] = useState(1)
   const [filter, setFilter] = useState<LoanFilter>('all')
@@ -123,17 +120,21 @@ export const BrokerLoansTable = ({
             {t('loan_status_impaired')}
           </button>
           <div className="filter-indicator">
-          <FilterIcon className="filter-icon" />
-        </div>
+            <FilterIcon className="filter-icon" />
+          </div>
         </div>
       </div>
 
       <div className="loans-table-header">
         <div className="header-cell loan-id">{t('loan_id')}</div>
         <div className="header-cell borrower">{t('borrower')}</div>
-        <div className="header-cell amount-requested">{t('amount_requested')}</div>
+        <div className="header-cell amount-requested">
+          {t('amount_requested')}
+        </div>
         <div className="header-cell interest-rate">{t('interest_rate')}</div>
-        <div className="header-cell outstanding-balance">{t('outstanding_balance')}</div>
+        <div className="header-cell outstanding-balance">
+          {t('outstanding_balance')}
+        </div>
         <div className="header-cell status">{t('status')}</div>
       </div>
 

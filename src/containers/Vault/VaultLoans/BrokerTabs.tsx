@@ -1,4 +1,3 @@
-
 interface LoanBrokerData {
   index: string
   Data?: string
@@ -11,7 +10,12 @@ interface Props {
   loanCountMap: Record<string, number>
 }
 
-export const BrokerTabs = ({ brokers, selectedIndex, onSelect, loanCountMap }: Props) => (
+export const BrokerTabs = ({
+  brokers,
+  selectedIndex,
+  onSelect,
+  loanCountMap,
+}: Props) => (
   <div className="broker-tabs">
     {brokers.map((broker, index) => {
       const name = `Broker ${index + 1}`

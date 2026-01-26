@@ -66,7 +66,10 @@ const createMockLoan = (overrides: Partial<LoanData> = {}): LoanData => ({
 /**
  * Helper to generate multiple loans
  */
-const createMockLoans = (count: number, overrides: Partial<LoanData> = {}): LoanData[] =>
+const createMockLoans = (
+  count: number,
+  overrides: Partial<LoanData> = {},
+): LoanData[] =>
   Array.from({ length: count }, (_, i) =>
     createMockLoan({ index: `LOAN_${i + 1}`, ...overrides }),
   )
@@ -110,7 +113,9 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      expect(container.querySelector('.loans-filter-bar')).not.toBeInTheDocument()
+      expect(
+        container.querySelector('.loans-filter-bar'),
+      ).not.toBeInTheDocument()
     })
 
     it('does not render pagination when no loans exist', () => {
@@ -120,7 +125,9 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      expect(container.querySelector('.loans-pagination')).not.toBeInTheDocument()
+      expect(
+        container.querySelector('.loans-pagination'),
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -173,7 +180,7 @@ describe('BrokerLoansTable Component', () => {
     it('All Loans filter is active by default', () => {
       const loans = [createMockLoan()]
 
-      const { container } = render(
+      render(
         <TestWrapper>
           <BrokerLoansTable loans={loans} currency="XRP" />
         </TestWrapper>,
@@ -261,7 +268,9 @@ describe('BrokerLoansTable Component', () => {
 
       // Click Default filter button (in the filter-buttons container)
       const filterButtons = container.querySelector('.filter-buttons')
-      const defaultBtn = filterButtons?.querySelector('.filter-btn:nth-child(2)')
+      const defaultBtn = filterButtons?.querySelector(
+        '.filter-btn:nth-child(2)',
+      )
       fireEvent.click(defaultBtn!)
 
       // Only 2 defaulted loans should be displayed
@@ -285,7 +294,9 @@ describe('BrokerLoansTable Component', () => {
 
       // Click Impaired filter button (3rd button in filter-buttons)
       const filterButtons = container.querySelector('.filter-buttons')
-      const impairedBtn = filterButtons?.querySelector('.filter-btn:nth-child(3)')
+      const impairedBtn = filterButtons?.querySelector(
+        '.filter-btn:nth-child(3)',
+      )
       fireEvent.click(impairedBtn!)
 
       // Only 2 impaired loans should be displayed
@@ -308,7 +319,9 @@ describe('BrokerLoansTable Component', () => {
 
       // Click Default filter button - no loans match
       const filterButtons = container.querySelector('.filter-buttons')
-      const defaultBtn = filterButtons?.querySelector('.filter-btn:nth-child(2)')
+      const defaultBtn = filterButtons?.querySelector(
+        '.filter-btn:nth-child(2)',
+      )
       fireEvent.click(defaultBtn!)
 
       // No loan rows should be displayed
@@ -329,8 +342,12 @@ describe('BrokerLoansTable Component', () => {
       )
 
       const filterButtons = container.querySelector('.filter-buttons')
-      const defaultBtn = filterButtons?.querySelector('.filter-btn:nth-child(2)')
-      const allLoansBtn = filterButtons?.querySelector('.filter-btn:nth-child(1)')
+      const defaultBtn = filterButtons?.querySelector(
+        '.filter-btn:nth-child(2)',
+      )
+      const allLoansBtn = filterButtons?.querySelector(
+        '.filter-btn:nth-child(1)',
+      )
 
       // Apply Default filter
       fireEvent.click(defaultBtn!)
@@ -359,7 +376,9 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      expect(container.querySelector('.loans-pagination')).not.toBeInTheDocument()
+      expect(
+        container.querySelector('.loans-pagination'),
+      ).not.toBeInTheDocument()
     })
 
     it('shows pagination when loans exceed one page', () => {
@@ -609,7 +628,9 @@ describe('BrokerLoansTable Component', () => {
 
       // Change filter to Default using specific selector
       const filterButtons = container.querySelector('.filter-buttons')
-      const defaultBtn = filterButtons?.querySelector('.filter-btn:nth-child(2)')
+      const defaultBtn = filterButtons?.querySelector(
+        '.filter-btn:nth-child(2)',
+      )
       fireEvent.click(defaultBtn!)
 
       // Should be back on page 1 (filter reset pagination)
@@ -635,7 +656,9 @@ describe('BrokerLoansTable Component', () => {
       fireEvent.click(screen.getByText('Default'))
 
       // Pagination should disappear (only 5 loans fit on one page)
-      expect(container.querySelector('.loans-pagination')).not.toBeInTheDocument()
+      expect(
+        container.querySelector('.loans-pagination'),
+      ).not.toBeInTheDocument()
     })
   })
 

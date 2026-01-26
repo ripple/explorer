@@ -31,7 +31,11 @@ interface Props {
   assetCurrency?: string
 }
 
-export const VaultLoans = ({ vaultId, vaultPseudoAccount, assetCurrency }: Props) => {
+export const VaultLoans = ({
+  vaultId,
+  vaultPseudoAccount,
+  assetCurrency,
+}: Props) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)

@@ -37,7 +37,7 @@ const DEFAULT_ERROR: ErrorMessage = {
 }
 
 const getErrorMessage = (error: number | null) =>
-  error ? ERROR_MESSAGES[error] ?? DEFAULT_ERROR : DEFAULT_ERROR
+  error ? (ERROR_MESSAGES[error] ?? DEFAULT_ERROR) : DEFAULT_ERROR
 
 const Page: FC<PropsWithChildren<{ vaultId: string }>> = ({
   vaultId,
@@ -127,7 +127,11 @@ export const Vault = () => {
               </h1>
               <div className="vault-title-id">
                 <span className="vault-title-id-label">{t('vault_id')}:</span>
-                <CopyableText text={vaultId} displayText={vaultId} showCopyIcon />
+                <CopyableText
+                  text={vaultId}
+                  displayText={vaultId}
+                  showCopyIcon
+                />
               </div>
             </div>
             <CurrencyToggle

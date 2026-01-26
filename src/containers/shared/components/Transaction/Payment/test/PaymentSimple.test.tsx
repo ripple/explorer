@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowLabel,
   expectSimpleRowText,
 } from '../../test'
@@ -20,108 +20,110 @@ jest.mock('react-query', () => ({
   useQuery: jest.fn(),
 }))
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('Payment: Simple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockPayment)
+    const { container, unmount } = renderComponent(mockPayment)
 
-    expectSimpleRowText(wrapper, 'amount', `\uE9002,421.8268 XRP`)
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowText(container, 'amount', `\uE9002,421.8268 XRP`)
+    expectSimpleRowLabel(container, 'amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       `rHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
     )
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with failed partial conversion', () => {
-    const wrapper = createWrapper(mockPaymentConvert)
+    const { container, unmount } = renderComponent(mockPaymentConvert)
 
-    expectSimpleRowLabel(wrapper, 'max', `convert_maximum`)
-    expectSimpleRowText(wrapper, 'max', `\uE9001,140.00 XRP`)
+    expectSimpleRowLabel(container, 'max', `convert_maximum`)
+    expectSimpleRowText(container, 'max', `\uE9001,140.00 XRP`)
 
-    expectSimpleRowLabel(wrapper, 'amount', `convert_to`)
+    expectSimpleRowLabel(container, 'amount', `convert_to`)
     expectSimpleRowText(
-      wrapper,
+      container,
       'amount',
       `0.00 YCN.r8HgVGenRTAiNSM5iqt9PX2D2EczFZhZrpartial_payment_allowed`,
     )
 
-    expect(wrapper.find('[data-testid="destination"]')).not.toExist()
+    expect(
+      container.querySelector('[data-testid="destination"]'),
+    ).not.toBeInTheDocument()
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with destination tag', () => {
-    const wrapper = createWrapper(mockPaymentDestinationTag)
+    const { container, unmount } = renderComponent(mockPaymentDestinationTag)
 
-    expectSimpleRowText(wrapper, 'amount', `\uE9001,531.267 XRP`)
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowText(container, 'amount', `\uE9001,531.267 XRP`)
+    expectSimpleRowLabel(container, 'amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       `rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt:381702`,
     )
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with send max', () => {
-    const wrapper = createWrapper(mockPaymentSendMax)
+    const { container, unmount } = renderComponent(mockPaymentSendMax)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'max',
       `17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA`,
     )
-    expectSimpleRowLabel(wrapper, 'max', `using_at_most`)
+    expectSimpleRowLabel(container, 'max', `using_at_most`)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'amount',
       `17,366,599.150289 XRdoge.rLqUC2eCPohYvJCEBJ77eCCqVL2uEiczjA`,
     )
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowLabel(container, 'amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       `rprcTynT68nYdKzDTefAZG9HjSHiYcnP4b:0`,
     )
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with partial', () => {
-    const wrapper = createWrapper(mockPaymentPartial)
+    const { container, unmount } = renderComponent(mockPaymentPartial)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'amount',
       `0.00104196 xCoin.rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFipartial_payment_allowed`,
     )
-    expectSimpleRowLabel(wrapper, 'amount', `delivered`)
+    expectSimpleRowLabel(container, 'amount', `delivered`)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       `rMQ4oGC8fasuJwfdrfknFTttDbf8cR3D2j:0`,
     )
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with SourceTag', () => {
-    const wrapper = createWrapper(mockPaymentSourceTag)
+    const { container, unmount } = renderComponent(mockPaymentSourceTag)
 
-    expectSimpleRowText(wrapper, 'source-tag', `20648`)
+    expectSimpleRowText(container, 'source-tag', `20648`)
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders direct MPT payment', () => {
@@ -134,63 +136,63 @@ describe('Payment: Simple', () => {
       data,
     }))
 
-    const wrapper = createWrapper(mockPaymentMPT)
+    const { container, unmount } = renderComponent(mockPaymentMPT)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'amount',
       `0.1 MPT (000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F)`,
     )
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowLabel(container, 'amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       `rw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu`,
     )
 
-    wrapper.unmount()
+    unmount()
   })
 
   it(`renders with Permissioned Domain ID`, () => {
-    const wrapper = createWrapper(mockPermDomainID)
+    const { container, unmount } = renderComponent(mockPermDomainID)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'domain-id',
       `D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02`,
     )
-    expectSimpleRowLabel(wrapper, 'domain-id', `domain_id`)
+    expectSimpleRowLabel(container, 'domain-id', `domain_id`)
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with CredentialIDs', () => {
-    const wrapper = createWrapper(mockPaymentWithCredentialIDs)
+    const { container, unmount } = renderComponent(mockPaymentWithCredentialIDs)
 
-    expectSimpleRowText(wrapper, 'amount', `\uE9002,421.8268 XRP`)
-    expectSimpleRowLabel(wrapper, 'amount', `send`)
+    expectSimpleRowText(container, 'amount', `\uE9002,421.8268 XRP`)
+    expectSimpleRowLabel(container, 'amount', `send`)
 
     expectSimpleRowText(
-      wrapper,
+      container,
       'destination',
       `rHoPwMC75KVUhBMeV3uDMybKG5JND74teh`,
     )
 
     // Check credential IDs as individual rows
     expectSimpleRowText(
-      wrapper,
+      container,
       'credential-id-0',
       '7B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A955',
     )
-    expectSimpleRowLabel(wrapper, 'credential-id-0', 'credential_ids')
+    expectSimpleRowLabel(container, 'credential-id-0', 'credential_ids')
     expectSimpleRowText(
-      wrapper,
+      container,
       'credential-id-1',
       '8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
     )
-    expectSimpleRowLabel(wrapper, 'credential-id-1', '')
+    expectSimpleRowLabel(container, 'credential-id-1', '')
 
-    wrapper.unmount()
+    unmount()
   })
 })

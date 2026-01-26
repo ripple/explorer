@@ -61,7 +61,7 @@ export const LoanRow = ({ loan, currency = '' }: Props) => {
 
   const formatFee = (fee: string | number): string => {
     // this method is used with fields which have a soeDEFAULT configuration. If they are not specified, display 0.
-    if(!fee) return '0'
+    if (!fee) return '0'
     const num = typeof fee === 'string' ? Number(fee) : fee
     if (Number.isNaN(num)) return String(fee)
     if (num === 0) return '0'
@@ -89,7 +89,10 @@ export const LoanRow = ({ loan, currency = '' }: Props) => {
           <span className="loan-id-text">{truncateId(loan.index)}</span>
         </div>
         <div className="loan-cell borrower">
-          <Account account={loan.Borrower} displayText={truncateId(loan.Borrower, 7, 4)} />
+          <Account
+            account={loan.Borrower}
+            displayText={truncateId(loan.Borrower, 7, 4)}
+          />
         </div>
         <div className="loan-cell amount-requested">
           {/*  Note: TotalValueOutstanding is has a DEFAULT configuration in XRPL. Its absence indicates a value of 0. */}

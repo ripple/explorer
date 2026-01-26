@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transaction from './mock_data/Clawback.json'
 import transactionFailure from './mock_data/Clawback_Failure.json'
@@ -11,18 +11,22 @@ jest.mock('react-query', () => ({
   useQuery: jest.fn(),
 }))
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('Clawback', () => {
   it('handles Clawback simple view ', () => {
-    const wrapper = createWrapper(transaction)
-    expectSimpleRowText(wrapper, 'holder', 'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP')
+    const { container, unmount } = renderComponent(transaction)
     expectSimpleRowText(
-      wrapper,
+      container,
+      'holder',
+      'rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP',
+    )
+    expectSimpleRowText(
+      container,
       'amount',
       '3,840.00 FOO.rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('handles MPT Clawback simple view ', () => {
@@ -34,26 +38,34 @@ describe('Clawback', () => {
     useQuery.mockImplementation(() => ({
       data,
     }))
-    const wrapper = createWrapper(transactionMPT)
-    expectSimpleRowText(wrapper, 'holder', 'rUZTPFN7MBJkjiZ48rak6q7MbhT4ur2kAD')
+    const { container, unmount } = renderComponent(transactionMPT)
     expectSimpleRowText(
-      wrapper,
+      container,
+      'holder',
+      'rUZTPFN7MBJkjiZ48rak6q7MbhT4ur2kAD',
+    )
+    expectSimpleRowText(
+      container,
       'amount',
       '0.05 MPT (00000D668E702F54A27C42EF98C13B0787D1766CC9162A47)',
     )
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('handles failed Clawback simple view ', () => {
-    const wrapper = createWrapper(transactionFailure)
-    expectSimpleRowText(wrapper, 'holder', 'rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9')
+    const { container, unmount } = renderComponent(transactionFailure)
     expectSimpleRowText(
-      wrapper,
+      container,
+      'holder',
+      'rDZ713igKfedN4hhY6SjQse4Mv3ZrBxnn9',
+    )
+    expectSimpleRowText(
+      container,
       'amount',
       '4,840.00 FOO.rscBWQpyZEmQvupeB1quu7Ky8YX4f5CHDP',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('handles failed MPT Clawback simple view ', () => {
@@ -65,14 +77,18 @@ describe('Clawback', () => {
     useQuery.mockImplementation(() => ({
       data,
     }))
-    const wrapper = createWrapper(transactionMPTFailure)
+    const { container, unmount } = renderComponent(transactionMPTFailure)
 
-    expectSimpleRowText(wrapper, 'holder', 'r9rAqX8Jjo4uACsimYDVsy5thHDPivujqf')
     expectSimpleRowText(
-      wrapper,
+      container,
+      'holder',
+      'r9rAqX8Jjo4uACsimYDVsy5thHDPivujqf',
+    )
+    expectSimpleRowText(
+      container,
       'amount',
       '0.05 MPT (000010952ECE2AFC727F1C67EF568F360A2D92CB7C29FF7C)',
     )
-    wrapper.unmount()
+    unmount()
   })
 })

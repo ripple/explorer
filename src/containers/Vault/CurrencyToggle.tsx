@@ -10,7 +10,11 @@ interface Props {
   onToggle: (currency: DisplayCurrency) => void
 }
 
-export const CurrencyToggle = ({ nativeCurrency, selected, onToggle }: Props) => {
+export const CurrencyToggle = ({
+  nativeCurrency,
+  selected,
+  onToggle,
+}: Props) => {
   const { t } = useTranslation()
   const { showTooltip, hideTooltip } = useTooltip()
 

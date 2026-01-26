@@ -71,9 +71,7 @@ export const DepositorTable = ({
             <td className="percent-cell">
               {calculatePercentOfSupply(holder.mpt_amount)}
             </td>
-            <td className="value-cell">
-              {calculateValue(holder.mpt_amount)}
-            </td>
+            <td className="value-cell">{calculateValue(holder.mpt_amount)}</td>
           </tr>
         ))}
       </tbody>

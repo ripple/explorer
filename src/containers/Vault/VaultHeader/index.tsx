@@ -33,7 +33,11 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
     <div className="vault-section">
       <h2 className="vault-section-title">{t('vault')}</h2>
       <div className="vault-section-divider" />
-      <Details data={data} vaultId={vaultId} displayCurrency={displayCurrency} />
+      <Details
+        data={data}
+        vaultId={vaultId}
+        displayCurrency={displayCurrency}
+      />
     </div>
   )
 }
