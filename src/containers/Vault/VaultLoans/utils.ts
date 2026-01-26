@@ -42,13 +42,22 @@ export const formatPaymentInterval = (seconds: number): string => {
 }
 
 /**
+ * Valid translation keys for loan status
+ */
+export type LoanStatusKey =
+  | 'loan_status_paid_off'
+  | 'loan_status_default'
+  | 'loan_status_impaired'
+  | 'loan_status_current'
+
+/**
  * Determine loan status based on flags and outstanding balance
  * Returns status key for translation and color class
  */
 export const formatLoanStatus = (
   flags: number,
   totalLoanValueOutstanding: string | number,
-): { status: string; colorClass: string } => {
+): { status: LoanStatusKey; colorClass: string } => {
   const outstanding =
     typeof totalLoanValueOutstanding === 'string'
       ? Number(totalLoanValueOutstanding)
