@@ -62,10 +62,6 @@ export const BrokerDetails = ({
     return tokenToUsdRate > 0 ? String(numAmount * tokenToUsdRate) : undefined
   }
 
-  // Get the display currency label
-  const getDisplayCurrencyLabel = (): string =>
-    displayCurrency === 'USD' ? 'USD' : currency || ''
-
   // Fetch loans for this broker (used for both table display and default check)
   const { data: loans, isFetching: loansLoading } = useQuery(
     ['getBrokerLoans', broker.Account, broker.index],
@@ -89,20 +85,19 @@ export const BrokerDetails = ({
 
   // Check if any loan has the default flag
   const hasDefaultedLoan = loans?.some(
-    // eslint-disable-next-line no-bitwise
+    // eslint-disable-next-line no-bitwise, required to check the status of the loan
     (loan: any) => (loan.Flags ?? 0) & LSF_LOAN_DEFAULT,
   )
 
   const formatAmount = (amount: string | undefined): string => {
     const convertedAmount = convertToDisplayCurrency(amount)
-    const currencyLabel = getDisplayCurrencyLabel()
     if (convertedAmount === undefined && displayCurrency === 'usd') {
       return '--'
     }
     return formatCompactNumber(convertedAmount ?? amount, lang, {
-      currency: currencyLabel,
+      currency: currency,
       prefix: displayCurrency === 'usd' ? '$' : '',
-      fallback: `0 ${currencyLabel}`.trim(),
+      fallback: `0 ${currency}`.trim(),
     })
   }
 
