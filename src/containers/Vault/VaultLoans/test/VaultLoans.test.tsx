@@ -21,11 +21,10 @@ import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
 import { VaultLoans } from '../index'
 import { getAccountObjects } from '../../../../rippled/lib/rippled'
-import { DisplayCurrency } from '../../CurrencyToggle'
 import Mock = jest.Mock
 
 // Default test props
-const defaultDisplayCurrency: DisplayCurrency = 'xrp'
+const defaultDisplayCurrency = 'XRP'
 const defaultAsset = { currency: 'XRP' }
 
 // Mock the rippled library to control API responses

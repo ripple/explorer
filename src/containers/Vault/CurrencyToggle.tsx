@@ -2,12 +2,12 @@ import { useTranslation } from 'react-i18next'
 import { useTooltip } from '../shared/components/Tooltip'
 import './styles.scss'
 
-export type DisplayCurrency = 'xrp' | 'usd'
+const USD = 'USD'
 
 interface Props {
   nativeCurrency: string // e.g., "XRP" or "RLUSD"
-  selected: DisplayCurrency
-  onToggle: (currency: DisplayCurrency) => void
+  selected: string // The currently selected currency (nativeCurrency or "USD")
+  onToggle: (currency: string) => void
   usdDisabled?: boolean // Disable USD option when no price is available
   usdLoading?: boolean // Show loading state while fetching price
 }
@@ -24,7 +24,7 @@ export const CurrencyToggle = ({
 
   const handleUsdClick = () => {
     if (!usdDisabled && !usdLoading) {
-      onToggle('usd')
+      onToggle(USD)
     }
   }
 
@@ -34,12 +34,15 @@ export const CurrencyToggle = ({
     return ''
   }
 
+  // Native is selected when selected is not USD (handles empty initial state)
+  const isNativeSelected = selected !== USD
+
   return (
     <div className="currency-toggle">
       <button
         type="button"
-        className={`toggle-option ${selected === 'xrp' ? 'active' : ''}`}
-        onClick={() => onToggle('xrp')}
+        className={`toggle-option ${isNativeSelected ? 'active' : ''}`}
+        onClick={() => onToggle(nativeCurrency)}
       >
         {nativeCurrency}
       </button>
@@ -53,11 +56,11 @@ export const CurrencyToggle = ({
       >
         <button
           type="button"
-          className={`toggle-option ${selected === 'usd' ? 'active' : ''} ${usdDisabled || usdLoading ? 'disabled' : ''}`}
+          className={`toggle-option ${!isNativeSelected ? 'active' : ''} ${usdDisabled || usdLoading ? 'disabled' : ''}`}
           onClick={handleUsdClick}
           disabled={usdDisabled || usdLoading}
         >
-          {usdLoading ? '...' : 'USD'}
+          {usdLoading ? '...' : USD}
         </button>
       </span>
       <span

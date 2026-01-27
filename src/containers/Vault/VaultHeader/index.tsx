@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { Details } from './Details'
-import { DisplayCurrency } from '../CurrencyToggle'
 import './styles.scss'
 
 interface VaultData {
@@ -23,7 +22,7 @@ interface VaultData {
 interface Props {
   data: VaultData
   vaultId: string
-  displayCurrency: DisplayCurrency
+  displayCurrency: string
 }
 
 export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {

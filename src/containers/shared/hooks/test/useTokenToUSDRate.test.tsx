@@ -12,7 +12,11 @@ const mockFetch = jest.fn()
 global.fetch = mockFetch
 
 const createWrapper =
-  (queryClient = new QueryClient({ defaultOptions: { queries: { retry: 0 } } })) =>
+  (
+    queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: 0 } },
+    }),
+  ) =>
   ({ children }: { children: React.ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
@@ -26,10 +30,17 @@ describe('useTokenToUSDRate', () => {
 
   describe('Special Currencies', () => {
     it('returns XRP/USD rate directly for XRP', () => {
-      const { result } = renderHook(() => useTokenToUSDRate({ currency: 'XRP' }), {
-        wrapper: createWrapper(),
+      const { result } = renderHook(
+        () => useTokenToUSDRate({ currency: 'XRP' }),
+        {
+          wrapper: createWrapper(),
+        },
+      )
+      expect(result.current).toEqual({
+        rate: 2.5,
+        isAvailable: true,
+        isLoading: false,
       })
-      expect(result.current).toEqual({ rate: 2.5, isAvailable: true, isLoading: false })
     })
 
     it('returns 1:1 rate for RLUSD stablecoin', () => {
@@ -37,7 +48,11 @@ describe('useTokenToUSDRate', () => {
         () => useTokenToUSDRate({ currency: 'RLUSD', issuer: 'rSomeIssuer' }),
         { wrapper: createWrapper() },
       )
-      expect(result.current).toEqual({ rate: 1, isAvailable: true, isLoading: false })
+      expect(result.current).toEqual({
+        rate: 1,
+        isAvailable: true,
+        isLoading: false,
+      })
     })
   })
 
@@ -55,7 +70,11 @@ describe('useTokenToUSDRate', () => {
 
       await waitFor(() => expect(result.current.isLoading).toBe(false))
       // 0.5 XRP * $2.50/XRP = $1.25
-      expect(result.current).toEqual({ rate: 1.25, isAvailable: true, isLoading: false })
+      expect(result.current).toEqual({
+        rate: 1.25,
+        isAvailable: true,
+        isLoading: false,
+      })
       expect(mockFetch).toHaveBeenCalledWith(
         'https://s1.xrplmeta.org/token/USD%3ArIssuer123',
       )
@@ -75,7 +94,11 @@ describe('useTokenToUSDRate', () => {
       )
 
       await waitFor(() => expect(result.current.isLoading).toBe(false))
-      expect(result.current).toEqual({ rate: 0, isAvailable: false, isLoading: false })
+      expect(result.current).toEqual({
+        rate: 0,
+        isAvailable: false,
+        isLoading: false,
+      })
     })
 
     it('returns unavailable when API request fails', async () => {
@@ -90,7 +113,11 @@ describe('useTokenToUSDRate', () => {
       )
 
       await waitFor(() => expect(result.current.isLoading).toBe(false))
-      expect(result.current).toEqual({ rate: 0, isAvailable: false, isLoading: false })
+      expect(result.current).toEqual({
+        rate: 0,
+        isAvailable: false,
+        isLoading: false,
+      })
     })
 
     it('returns unavailable for token without issuer', () => {
@@ -98,7 +125,11 @@ describe('useTokenToUSDRate', () => {
         () => useTokenToUSDRate({ currency: 'FOO' }), // No issuer
         { wrapper: createWrapper() },
       )
-      expect(result.current).toEqual({ rate: 0, isAvailable: false, isLoading: false })
+      expect(result.current).toEqual({
+        rate: 0,
+        isAvailable: false,
+        isLoading: false,
+      })
       expect(mockFetch).not.toHaveBeenCalled()
     })
   })
@@ -112,7 +143,11 @@ describe('useTokenToUSDRate', () => {
         { wrapper: createWrapper() },
       )
 
-      expect(result.current).toEqual({ rate: 1.5, isAvailable: true, isLoading: false })
+      expect(result.current).toEqual({
+        rate: 1.5,
+        isAvailable: true,
+        isLoading: false,
+      })
       expect(mockFetch).not.toHaveBeenCalled()
     })
   })

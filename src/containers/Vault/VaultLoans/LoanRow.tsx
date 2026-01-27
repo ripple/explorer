@@ -4,7 +4,6 @@ import { Account } from '../../shared/components/Account'
 import { useLanguage } from '../../shared/hooks'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { localizeNumber } from '../../shared/utils'
-import { DisplayCurrency } from '../CurrencyToggle'
 import {
   formatRate,
   formatPaymentInterval,
@@ -46,7 +45,7 @@ interface AssetInfo {
 interface Props {
   loan: LoanData
   currency?: string
-  displayCurrency: DisplayCurrency
+  displayCurrency: string
   asset?: AssetInfo
 }
 
@@ -68,7 +67,7 @@ export const LoanRow = ({
 
   // Get the display currency label
   const getDisplayCurrencyLabel = (): string =>
-    displayCurrency === 'usd' ? 'USD' : currency
+    displayCurrency === 'USD' ? 'USD' : currency
 
   const formatAmount = (amount: string | number): string => {
     const num = typeof amount === 'string' ? Number(amount) : amount
@@ -76,13 +75,13 @@ export const LoanRow = ({
 
     // Convert to USD if needed
     let displayNum = num
-    if (displayCurrency === 'usd' && tokenToUsdRate > 0) {
+    if (displayCurrency === 'USD' && tokenToUsdRate > 0) {
       displayNum = num * tokenToUsdRate
-    } else if (displayCurrency === 'usd' && tokenToUsdRate === 0) {
+    } else if (displayCurrency === 'USD' && tokenToUsdRate === 0) {
       return '--'
     }
 
-    const prefix = displayCurrency === 'usd' ? '$' : ''
+    const prefix = displayCurrency === 'USD' ? '$' : ''
     const currencyLabel = getDisplayCurrencyLabel()
     return `${prefix}${localizeNumber(displayNum, language, {
       minimumFractionDigits: 2,
@@ -99,13 +98,13 @@ export const LoanRow = ({
 
     // Convert to USD if needed
     let displayNum = num
-    if (displayCurrency === 'usd' && tokenToUsdRate > 0) {
+    if (displayCurrency === 'USD' && tokenToUsdRate > 0) {
       displayNum = num * tokenToUsdRate
-    } else if (displayCurrency === 'usd' && tokenToUsdRate === 0) {
+    } else if (displayCurrency === 'USD' && tokenToUsdRate === 0) {
       return '--'
     }
 
-    const prefix = displayCurrency === 'usd' ? '$' : ''
+    const prefix = displayCurrency === 'USD' ? '$' : ''
     const currencyLabel = getDisplayCurrencyLabel()
     return `${prefix}${localizeNumber(displayNum, language, {
       minimumFractionDigits: 0,

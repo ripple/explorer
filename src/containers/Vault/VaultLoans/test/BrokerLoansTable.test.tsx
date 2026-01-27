@@ -21,10 +21,9 @@ import i18n from '../../../../i18n/testConfigEnglish'
 import { BrokerLoansTable } from '../BrokerLoansTable'
 import { LoanData } from '../LoanRow'
 import { LSF_LOAN_DEFAULT, LSF_LOAN_IMPAIRED } from '../utils'
-import { DisplayCurrency } from '../../CurrencyToggle'
 
 // Default test props
-const defaultDisplayCurrency: DisplayCurrency = 'xrp'
+const defaultDisplayCurrency = 'XRP'
 const defaultAsset = { currency: 'XRP' }
 
 /**

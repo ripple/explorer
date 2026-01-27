@@ -3,7 +3,6 @@ import { Account } from '../../shared/components/Account'
 import { useLanguage } from '../../shared/hooks'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { localizeNumber } from '../../shared/utils'
-import { DisplayCurrency } from '../CurrencyToggle'
 import { formatCompactNumber } from '../utils'
 
 interface Holder {
@@ -22,7 +21,7 @@ interface Props {
   totalSupply: string | undefined
   assetsTotal: string | undefined
   startRank: number
-  displayCurrency: DisplayCurrency
+  displayCurrency: string
   asset?: AssetInfo
 }
 
@@ -42,7 +41,7 @@ export const DepositorTable = ({
 
   // Get the display currency label
   const getDisplayCurrencyLabel = (): string =>
-    displayCurrency === 'usd' ? 'USD' : asset?.currency || ''
+    displayCurrency === 'USD' ? 'USD' : asset?.currency || ''
 
   // Calculate the value of each holder's share
   // Value = (holder's tokens / total supply) * total assets in vault
@@ -56,7 +55,7 @@ export const DepositorTable = ({
     let value = (amount / totalSupplyNum) * assetsTotalNum
 
     // Convert to USD if needed
-    if (displayCurrency === 'usd') {
+    if (displayCurrency === 'USD') {
       if (tokenToUsdRate > 0) {
         value *= tokenToUsdRate
         return formatCompactNumber(value, language, {

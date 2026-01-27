@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DisplayCurrency } from '../CurrencyToggle'
 import { LoanRow, LoanData } from './LoanRow'
 import { LSF_LOAN_DEFAULT, LSF_LOAN_IMPAIRED } from './utils'
 import FilterIcon from '../../shared/images/filter.svg'
@@ -18,7 +17,7 @@ interface AssetInfo {
 interface Props {
   loans: LoanData[] | undefined
   currency?: string
-  displayCurrency: DisplayCurrency
+  displayCurrency: string
   asset?: AssetInfo
 }
 

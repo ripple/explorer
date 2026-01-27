@@ -8,7 +8,7 @@ import { VaultHeader } from './VaultHeader'
 import { VaultTransactions } from './VaultTransactions'
 import { VaultLoans } from './VaultLoans'
 import { VaultDepositors } from './VaultDepositors'
-import { CurrencyToggle, DisplayCurrency } from './CurrencyToggle'
+import { CurrencyToggle } from './CurrencyToggle'
 import { Loader } from '../shared/components/Loader'
 import { CopyableText } from '../shared/components/CopyableText/CopyableText'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
@@ -55,7 +55,7 @@ export const Vault = () => {
   const { trackScreenLoaded, trackException } = useAnalytics()
   const { id: vaultId = '' } = useParams<{ id: string }>()
   const [error, setError] = useState<number | null>(null)
-  const [displayCurrency, setDisplayCurrency] = useState<DisplayCurrency>('xrp')
+  const [displayCurrency, setDisplayCurrency] = useState<string>('')
   const rippledSocket = useContext(SocketContext)
   const { tooltip } = useTooltip()
 
@@ -107,7 +107,6 @@ export const Vault = () => {
   const getAssetCurrencyDisplay = () => {
     const asset = vaultData?.Asset
     if (!asset) return ''
-    if (asset.currency === 'XRP') return 'XRP'
     if (asset.currency) return asset.currency
     if (asset.mpt_issuance_id) {
       // For MPT, show truncated ID
@@ -141,7 +140,7 @@ export const Vault = () => {
               </div>
             </div>
             <CurrencyToggle
-              nativeCurrency={getAssetCurrencyDisplay() || 'XRP'}
+              nativeCurrency={getAssetCurrencyDisplay()}
               selected={displayCurrency}
               onToggle={setDisplayCurrency}
               usdDisabled={!usdAvailable}

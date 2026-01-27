@@ -5,7 +5,6 @@ import SocketContext from '../../shared/SocketContext'
 import { getAccountObjects } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
 import { Loader } from '../../shared/components/Loader'
-import { DisplayCurrency } from '../CurrencyToggle'
 import { BrokerTabs } from './BrokerTabs'
 import { BrokerDetails } from './BrokerDetails'
 import './styles.scss'
@@ -36,7 +35,7 @@ interface Props {
   vaultId: string
   vaultPseudoAccount: string
   assetCurrency?: string
-  displayCurrency: DisplayCurrency
+  displayCurrency: string
   asset?: AssetInfo
 }
 

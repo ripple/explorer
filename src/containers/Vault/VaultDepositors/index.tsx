@@ -5,7 +5,6 @@ import SocketContext from '../../shared/SocketContext'
 import { getMPTHolders } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
 import { Loader } from '../../shared/components/Loader'
-import { DisplayCurrency } from '../CurrencyToggle'
 import { DepositorTable } from './DepositorTable'
 import './styles.scss'
 
@@ -19,7 +18,7 @@ interface Props {
   shareMptId: string
   totalSupply: string | undefined
   assetsTotal: string | undefined
-  displayCurrency: DisplayCurrency
+  displayCurrency: string
   asset?: AssetInfo
 }
 

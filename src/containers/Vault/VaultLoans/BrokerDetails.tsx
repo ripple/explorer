@@ -8,7 +8,6 @@ import SocketContext from '../../shared/SocketContext'
 import { getAccountObjects } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
 import { Loader } from '../../shared/components/Loader'
-import { DisplayCurrency } from '../CurrencyToggle'
 import { formatRate, LSF_LOAN_DEFAULT } from './utils'
 import { formatCompactNumber } from '../utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
@@ -35,7 +34,7 @@ interface AssetInfo {
 interface Props {
   broker: LoanBrokerData
   currency?: string
-  displayCurrency: DisplayCurrency
+  displayCurrency: string
   asset?: AssetInfo
 }
 
@@ -57,7 +56,7 @@ export const BrokerDetails = ({
   const convertToDisplayCurrency = (
     amount: string | undefined,
   ): string | undefined => {
-    if (!amount || displayCurrency === 'xrp') return amount
+    if (!amount || displayCurrency !== 'USD') return amount
     const numAmount = Number(amount)
     if (Number.isNaN(numAmount)) return amount
     return tokenToUsdRate > 0 ? String(numAmount * tokenToUsdRate) : undefined
@@ -65,7 +64,7 @@ export const BrokerDetails = ({
 
   // Get the display currency label
   const getDisplayCurrencyLabel = (): string =>
-    displayCurrency === 'usd' ? 'USD' : currency || ''
+    displayCurrency === 'USD' ? 'USD' : currency || ''
 
   // Fetch loans for this broker (used for both table display and default check)
   const { data: loans, isFetching: loansLoading } = useQuery(

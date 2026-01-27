@@ -11,7 +11,6 @@ import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getLedgerEntry } from '../../../rippled/lib/rippled'
 import { decodeVaultData, formatCompactNumber } from '../utils'
-import { DisplayCurrency } from '../CurrencyToggle'
 import './styles.scss'
 
 interface VaultData {
@@ -36,7 +35,7 @@ interface VaultData {
 interface Props {
   data: VaultData
   vaultId: string
-  displayCurrency: DisplayCurrency
+  displayCurrency: string
 }
 
 // Vault flags from XLS-65d spec
@@ -85,11 +84,11 @@ export const Details = ({ data, vaultId, displayCurrency }: Props) => {
     ShareMPTID: vaultShareMptId,
   } = data
 
-  // Converts amount to USD if displayCurrency is 'usd', otherwise returns as-is
+  // Converts amount to USD if displayCurrency is 'USD', otherwise returns as-is
   const convertToDisplayCurrency = (
     amount: string | undefined,
   ): string | undefined => {
-    if (!amount || displayCurrency === 'xrp') return amount
+    if (!amount || displayCurrency !== 'USD') return amount
 
     const numAmount = Number(amount)
     if (Number.isNaN(numAmount)) return amount
@@ -99,7 +98,7 @@ export const Details = ({ data, vaultId, displayCurrency }: Props) => {
 
   // Returns 'USD' when showing USD values, otherwise the vault's asset currency
   const getDisplayCurrencyLabel = (): string =>
-    displayCurrency === 'usd' ? 'USD' : getAssetCurrency(asset)
+    displayCurrency === 'USD' ? 'USD' : getAssetCurrency(asset)
 
   // Fetch MPTokenIssuance to get the DomainID (vault credential)
   const { data: mptIssuanceData } = useQuery(

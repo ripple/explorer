@@ -16,7 +16,7 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18n/testConfigEnglish'
-import { CurrencyToggle, DisplayCurrency } from '../CurrencyToggle'
+import { CurrencyToggle } from '../CurrencyToggle'
 
 // Mock the useTooltip hook
 const mockShowTooltip = jest.fn()
@@ -57,8 +57,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="ABC"
-            // Keshava TODO: The selected value needs to be updated from XRP.
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -74,7 +73,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -90,7 +89,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -106,7 +105,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="RLUSD"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -130,7 +129,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -147,7 +146,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="usd"
+            selected="USD"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -164,7 +163,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="usd"
+            selected="USD"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -181,7 +180,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -206,14 +205,14 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="usd"
+            selected="USD"
             onToggle={onToggle}
           />
         </TestWrapper>,
       )
 
       fireEvent.click(screen.getByText('XRP'))
-      expect(onToggle).toHaveBeenCalledWith('xrp')
+      expect(onToggle).toHaveBeenCalledWith('XRP')
     })
 
     it('calls onToggle with "usd" when USD button is clicked', () => {
@@ -223,14 +222,14 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
       )
 
       fireEvent.click(screen.getByText('USD'))
-      expect(onToggle).toHaveBeenCalledWith('usd')
+      expect(onToggle).toHaveBeenCalledWith('USD')
     })
 
     it('allows clicking native currency button even when already selected', () => {
@@ -240,14 +239,14 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
       )
 
       fireEvent.click(screen.getByText('XRP'))
-      expect(onToggle).toHaveBeenCalledWith('xrp')
+      expect(onToggle).toHaveBeenCalledWith('XRP')
     })
   })
 
@@ -265,7 +264,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdDisabled
           />
@@ -283,7 +282,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdDisabled
           />
@@ -301,7 +300,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdDisabled
           />
@@ -319,7 +318,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="usd"
+            selected="USD"
             onToggle={onToggle}
             usdDisabled
           />
@@ -327,7 +326,7 @@ describe('CurrencyToggle Component', () => {
       )
 
       fireEvent.click(screen.getByText('XRP'))
-      expect(onToggle).toHaveBeenCalledWith('xrp')
+      expect(onToggle).toHaveBeenCalledWith('XRP')
     })
 
     it('shows unavailable tooltip on hover when USD is disabled', () => {
@@ -337,7 +336,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdDisabled
           />
@@ -363,7 +362,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdDisabled
           />
@@ -394,7 +393,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdLoading
           />
@@ -412,7 +411,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdLoading
           />
@@ -430,7 +429,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdLoading
           />
@@ -448,7 +447,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdLoading
           />
@@ -466,7 +465,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdLoading
           />
@@ -500,7 +499,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -523,7 +522,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -551,7 +550,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -569,7 +568,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdDisabled={false}
           />
@@ -587,7 +586,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -609,7 +608,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdDisabled={false}
             usdLoading={false}
@@ -618,7 +617,7 @@ describe('CurrencyToggle Component', () => {
       )
 
       fireEvent.click(screen.getByText('USD'))
-      expect(onToggle).toHaveBeenCalledWith('usd')
+      expect(onToggle).toHaveBeenCalledWith('USD')
     })
   })
 
@@ -636,7 +635,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="MPT (ABC123...)"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -652,7 +651,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
             usdDisabled
             usdLoading
@@ -679,8 +678,8 @@ describe('CurrencyToggle Component', () => {
     })
 
     it('maintains correct state after multiple toggles', () => {
-      const selections: DisplayCurrency[] = []
-      const onToggle = (currency: DisplayCurrency) => {
+      const selections: string[] = []
+      const onToggle = (currency: string) => {
         selections.push(currency)
       }
 
@@ -688,7 +687,7 @@ describe('CurrencyToggle Component', () => {
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="xrp"
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -696,25 +695,25 @@ describe('CurrencyToggle Component', () => {
 
       // Click USD
       fireEvent.click(screen.getByText('USD'))
-      expect(selections).toContain('usd')
+      expect(selections).toContain('USD')
 
       // Rerender with USD selected
       rerender(
         <TestWrapper>
           <CurrencyToggle
             nativeCurrency="XRP"
-            selected="usd"
+            selected="USD"
             onToggle={onToggle}
           />
         </TestWrapper>,
       )
 
-      // Click XRP
+      // Click native currency button
       fireEvent.click(screen.getByText('XRP'))
-      expect(selections).toContain('xrp')
+      expect(selections).toContain('XRP')
 
       // Both currencies should have been toggled
-      expect(selections).toEqual(['usd', 'xrp'])
+      expect(selections).toEqual(['USD', 'XRP'])
     })
   })
 })
