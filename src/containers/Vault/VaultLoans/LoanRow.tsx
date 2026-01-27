@@ -65,10 +65,6 @@ export const LoanRow = ({
     loan.TotalValueOutstanding ?? 0,
   )
 
-  // Get the display currency label
-  const getDisplayCurrencyLabel = (): string =>
-    displayCurrency === 'USD' ? 'USD' : currency
-
   const formatAmount = (amount: string | number): string => {
     const num = typeof amount === 'string' ? Number(amount) : amount
     if (Number.isNaN(num)) return String(amount)
@@ -82,11 +78,10 @@ export const LoanRow = ({
     }
 
     const prefix = displayCurrency === 'USD' ? '$' : ''
-    const currencyLabel = getDisplayCurrencyLabel()
     return `${prefix}${localizeNumber(displayNum, language, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    })} ${currencyLabel}`
+    })} ${currency}`
   }
 
   const formatFee = (fee: string | number): string => {
@@ -105,11 +100,10 @@ export const LoanRow = ({
     }
 
     const prefix = displayCurrency === 'USD' ? '$' : ''
-    const currencyLabel = getDisplayCurrencyLabel()
     return `${prefix}${localizeNumber(displayNum, language, {
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,
-    })} ${currencyLabel}`
+    })} ${currency}`
   }
 
   const formatGracePeriod = (seconds: number): string => {
