@@ -904,37 +904,6 @@ const getLoanBroker = (rippledSocket, loanBrokerId) =>
     return resp.node
   })
 
-// get account loans
-const getAccountLoans = async (
-  rippledSocket: ExplorerXrplClient,
-  account: string,
-  ledgerIndex: string | number = 'validated',
-): Promise<any> => {
-  const resp = await query(rippledSocket, {
-    command: 'account_objects',
-    account,
-    ledger_index: ledgerIndex,
-    type: 'loan',
-    limit: 400,
-  })
-  if (resp.error === 'actNotFound') {
-    throw new Error('account not found', 404)
-  }
-  if (resp.error === 'invalidParams') {
-    return undefined
-  }
-
-  if (resp.error_message) {
-    throw new Error(resp.error_message, 500)
-  }
-
-  if (!resp.account_objects.length) {
-    return undefined
-  }
-
-  return resp.account_objects
-}
-
 export {
   getLedger,
   getLedgerEntry,
@@ -943,7 +912,6 @@ export {
   getAccountEscrows,
   getAccountPaychannels,
   getAccountBridges,
-  getAccountLoans,
   getAccountNFTs,
   getAccountObjects,
   getNFTsIssuedByAccount,

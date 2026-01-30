@@ -1,13 +1,7 @@
-import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useLanguage } from '../../shared/hooks'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
-import SocketContext from '../../shared/SocketContext'
-import { getAccountObjects } from '../../../rippled/lib/rippled'
-import { useAnalytics } from '../../shared/analytics'
-import { Loader } from '../../shared/components/Loader'
 import { formatRate, LSF_LOAN_DEFAULT } from './utils'
 import { formatCompactNumber } from '../utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
@@ -36,6 +30,7 @@ interface Props {
   currency?: string
   displayCurrency: string
   asset?: AssetInfo
+  loans?: any[]
 }
 
 export const BrokerDetails = ({
@@ -43,11 +38,10 @@ export const BrokerDetails = ({
   currency,
   displayCurrency,
   asset,
+  loans,
 }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
-  const rippledSocket = useContext(SocketContext)
-  const { trackException } = useAnalytics()
   const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
 
   const lang = language ?? 'en-US'
@@ -61,27 +55,6 @@ export const BrokerDetails = ({
     if (Number.isNaN(numAmount)) return amount
     return tokenToUsdRate > 0 ? String(numAmount * tokenToUsdRate) : undefined
   }
-
-  // Fetch loans for this broker (used for both table display and default check)
-  const { data: loans, isFetching: loansLoading } = useQuery(
-    ['getBrokerLoans', broker.Account, broker.index],
-    async () => {
-      const resp = await getAccountObjects(
-        rippledSocket,
-        broker.Account,
-        'loan',
-      )
-      return resp?.account_objects?.filter(
-        (obj: any) => obj.LoanBrokerID === broker.index,
-      )
-    },
-    {
-      enabled: !!broker.Account && !!broker.index,
-      onError: (e: any) => {
-        trackException(`BrokerLoans ${broker.Account} --- ${JSON.stringify(e)}`)
-      },
-    },
-  )
 
   // Check if any loan has the default flag
   const hasDefaultedLoan = loans?.some(
@@ -157,18 +130,12 @@ export const BrokerDetails = ({
         </div>
       </div>
 
-      {loansLoading ? (
-        <div className="broker-loans-loading">
-          <Loader />
-        </div>
-      ) : (
-        <BrokerLoansTable
-          loans={loans}
-          currency={currency}
-          displayCurrency={displayCurrency}
-          asset={asset}
-        />
-      )}
+      <BrokerLoansTable
+        loans={loans}
+        currency={currency}
+        displayCurrency={displayCurrency}
+        asset={asset}
+      />
 
       {hasDefaultedLoan && (
         <div className="broker-default-banner">

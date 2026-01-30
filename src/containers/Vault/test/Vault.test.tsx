@@ -475,26 +475,6 @@ describe('Vault Component', () => {
       })
     })
 
-    it('renders VaultLoans with Owner when PseudoAccount missing', async () => {
-      const vaultData = createMockVaultData({
-        PseudoAccount: undefined,
-        Owner: 'rOwnerAccount789',
-      })
-      mockedGetVault.mockResolvedValue(vaultData)
-
-      const TestWrapper = createTestWrapper(queryClient, 'TEST_VAULT_ID')
-      render(
-        <TestWrapper>
-          <Vault />
-        </TestWrapper>,
-      )
-
-      await waitFor(() => {
-        const loansComponent = screen.getByTestId('vault-loans')
-        expect(loansComponent).toHaveTextContent('rOwnerAccount789')
-      })
-    })
-
     it('does not render VaultLoans when no account ID available', async () => {
       const vaultData = createMockVaultData({
         PseudoAccount: undefined,

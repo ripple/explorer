@@ -75,10 +75,11 @@ export const VaultLoans = ({
     },
   )
 
-  // Fetch loan counts for each broker - must be called before any early returns
-  const loanCountQueries = useQueries(
+  // Fetch loans for each broker - must be called before any early returns
+  // This data is shared with BrokerDetails to avoid duplicate API calls
+  const brokerLoansQueries = useQueries(
     (loanBrokers ?? []).map((broker) => ({
-      queryKey: ['getBrokerLoanCount', broker.Account, broker.index],
+      queryKey: ['getBrokerLoans', broker.Account, broker.index],
       queryFn: async () => {
         const resp = await getAccountObjects(
           rippledSocket,
@@ -88,17 +89,19 @@ export const VaultLoans = ({
         const loans = resp?.account_objects?.filter(
           (obj: any) => obj.LoanBrokerID === broker.index,
         )
-        return { brokerId: broker.index, count: loans?.length ?? 0 }
+        return { brokerId: broker.index, loans: loans ?? [] }
       },
       enabled: !!broker.Account && !!broker.index,
     })),
   )
 
-  // Build a map of broker ID to loan count
+  // Build maps of broker ID to loans and loan counts
+  const brokerLoansMap: Record<string, any[]> = {}
   const loanCountMap: Record<string, number> = {}
-  loanCountQueries.forEach((query) => {
+  brokerLoansQueries.forEach((query) => {
     if (query.data) {
-      loanCountMap[query.data.brokerId] = query.data.count
+      brokerLoansMap[query.data.brokerId] = query.data.loans
+      loanCountMap[query.data.brokerId] = query.data.loans.length
     }
   })
 
@@ -142,6 +145,7 @@ export const VaultLoans = ({
           currency={assetCurrency}
           displayCurrency={displayCurrency}
           asset={asset}
+          loans={brokerLoansMap[selectedBroker.index]}
         />
       )}
     </div>
