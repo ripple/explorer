@@ -5,16 +5,15 @@ import Log from '../log'
 const FETCH_INTERVAL_MILLIS = 60 * 1000 // 1 minute
 
 /**
- * Fetches token price from xrplmeta.org API
+ * Fetches token price from LOS API
  * The API returns the price of the token in XRP
  */
 const fetchTokenPriceInXRP = async (
   currency: string,
   issuer: string,
 ): Promise<number> => {
-  const identifier = `${currency}:${issuer}`
   const response = await fetch(
-    `https://s1.xrplmeta.org/token/${encodeURIComponent(identifier)}`,
+    `${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`,
   )
 
   if (!response.ok) {
@@ -22,7 +21,7 @@ const fetchTokenPriceInXRP = async (
   }
 
   const data = await response.json()
-  return data?.metrics?.price ?? 0
+  return Number(data?.price) || 0
 }
 
 interface TokenInfo {
@@ -38,7 +37,7 @@ interface TokenToUSDRateResult {
 
 /**
  * Returns the current exchange rate for a token to USD.
- * First fetches the token price in XRP from xrplmeta.org,
+ * First fetches the token price in XRP from LOS API,
  * then converts to USD using the XRP to USD rate.
  *
  * @param token - The token info containing currency and optional issuer

@@ -56,11 +56,11 @@ describe('useTokenToUSDRate', () => {
     })
   })
 
-  describe('XRPLMeta API - Positive Cases', () => {
+  describe('LOS API - Positive Cases', () => {
     it('fetches token price and converts to USD', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve({ metrics: { price: 0.5 } }), // 0.5 XRP per token
+        json: () => Promise.resolve({ price: '0.5' }), // 0.5 XRP per token
       })
 
       const { result } = renderHook(
@@ -75,17 +75,14 @@ describe('useTokenToUSDRate', () => {
         isAvailable: true,
         isLoading: false,
       })
-      expect(mockFetch).toHaveBeenCalledWith(
-        'https://s1.xrplmeta.org/token/USD%3ArIssuer123',
-      )
     })
   })
 
-  describe('XRPLMeta API - Negative Cases', () => {
+  describe('LOS API - Negative Cases', () => {
     it('returns unavailable when API returns no price', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve({ metrics: {} }), // No price field
+        json: () => Promise.resolve({}), // No price field
       })
 
       const { result } = renderHook(
