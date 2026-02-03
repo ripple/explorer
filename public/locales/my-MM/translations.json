@@ -38,7 +38,6 @@
   "30D": "၃၀ရက်",
   "total_transactions": "ငွေလွှဲမှု အရေအတွက်",
   "total_fees": "စုစုပေါင်း အခကြေးငွေ",
-  "async_component_timedout": "ကော်မပိုနင့် ဖွင့်ရန် မျှော်လင့်ထားသည်ထက် ပိုကြာနေပါသည်",
   "async_component_failed": "ကော်မပိုနင့် ဖွင့်၍မရပါ",
   "account_not_found": "အကောင့် မတွေ့ရှိပါ",
   "account_empty_title": "အကောင့် ID ထည့်သွင်းထားခြင်း မရှိပါ",
