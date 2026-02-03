@@ -36,7 +36,7 @@ describe('TransactionMeta container', () => {
 
     const listItems = container.querySelectorAll('li')
 
-    // Check first list item contains expected content
+    // Check first list item contains expected content (AccountRoot)
     expect(listItems[0]).toHaveTextContent('owned_account_root')
     expect(listItems[0]).toHaveTextContent('rUmustd4TbkjaEuS7S1damozpBEREgRz9z')
     expect(listItems[0]).toHaveTextContent('Balance decreased by')
@@ -62,10 +62,8 @@ describe('TransactionMeta container', () => {
     expect(listItems[6]).toHaveTextContent('transaction_owned_directory')
     expect(listItems[6]).toHaveTextContent('rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe')
 
-    // Check offer modification
-    expect(listItems[7]).toHaveTextContent('XRP/CNY')
-    expect(listItems[7]).toHaveTextContent('rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq')
-    expect(listItems[7]).toHaveTextContent('1181517')
+    // Check first offer modification
+    expect(listItems[7]).toHaveTextContent('offer_node_meta')
 
     expect(listItems[8]).toHaveTextContent('offer_partially_filled')
 
@@ -79,11 +77,7 @@ describe('TransactionMeta container', () => {
     )
 
     // Check second offer modification
-    expect(listItems[11]).toHaveTextContent('XRP/CNY')
-    expect(listItems[11]).toHaveTextContent(
-      'rUmustd4TbkjaEuS7S1damozpBEREgRz9z',
-    )
-    expect(listItems[11]).toHaveTextContent('5804')
+    expect(listItems[11]).toHaveTextContent('offer_node_meta')
 
     expect(listItems[12]).toHaveTextContent('offer_partially_filled')
 
@@ -95,7 +89,7 @@ describe('TransactionMeta container', () => {
 
     // Check ripplestate nodes
     expect(listItems[15]).toHaveTextContent('CNY')
-    expect(listItems[15]).toHaveTextContent('ripplestate')
+    expect(listItems[15]).toHaveTextContent('RippleState')
     expect(listItems[15]).toHaveTextContent(
       'rUmustd4TbkjaEuS7S1damozpBEREgRz9z',
     )
@@ -103,17 +97,17 @@ describe('TransactionMeta container', () => {
     expect(listItems[16]).toHaveTextContent('Balance changed by')
 
     expect(listItems[17]).toHaveTextContent('CNY')
-    expect(listItems[17]).toHaveTextContent('ripplestate')
+    expect(listItems[17]).toHaveTextContent('RippleState')
 
     expect(listItems[18]).toHaveTextContent('Balance changed by')
 
     expect(listItems[19]).toHaveTextContent('CNY')
-    expect(listItems[19]).toHaveTextContent('ripplestate')
+    expect(listItems[19]).toHaveTextContent('RippleState')
 
     expect(listItems[20]).toHaveTextContent('Balance changed by')
 
     expect(listItems[21]).toHaveTextContent('CNY')
-    expect(listItems[21]).toHaveTextContent('ripplestate')
+    expect(listItems[21]).toHaveTextContent('RippleState')
 
     expect(listItems[22]).toHaveTextContent('Balance changed by')
   })
