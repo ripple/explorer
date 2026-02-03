@@ -18,7 +18,7 @@ import { useAnalytics } from '../shared/analytics'
 import { useTokenToUSDRate } from '../shared/hooks/useTokenToUSDRate'
 import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
-import { decodeVaultData } from './utils'
+import { parseVaultName } from './utils'
 import './styles.scss'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
@@ -123,7 +123,7 @@ export const Vault = () => {
           <div className="vault-title-section">
             <div className="vault-title-left">
               <h1 className="vault-title">
-                {decodeVaultData(vaultData.Data) || t('yield_pool')}
+                {parseVaultName(vaultData.Data) || t('yield_pool')}
               </h1>
               <div className="vault-title-id">
                 <span className="vault-title-id-label">{t('vault_id')}:</span>

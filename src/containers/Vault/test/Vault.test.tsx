@@ -352,9 +352,9 @@ describe('Vault Component', () => {
    */
   describe('Title Section', () => {
     it('displays decoded vault name from Data field', async () => {
-      // "Hello Vault" encoded as hex
+      // {"n":"Hello Vault"} encoded as hex (JSON convention for vault name)
       const vaultData = createMockVaultData({
-        Data: '48656c6c6f205661756c74',
+        Data: '7b226e223a2248656c6c6f205661756c74227d',
       })
       mockedGetVault.mockResolvedValue(vaultData)
 

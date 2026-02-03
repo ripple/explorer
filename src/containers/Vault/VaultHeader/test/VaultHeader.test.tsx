@@ -635,6 +635,89 @@ describe('VaultHeader Component', () => {
 
   /**
    * =========================================
+   * SECTION 5b: Website Display Tests
+   * =========================================
+   * The vault's Data field can contain JSON with a "w" (website) field.
+   * When present, the website should be displayed as a clickable link.
+   */
+  describe('Website Display', () => {
+    it('displays website link when Data contains valid JSON with "w" key', () => {
+      // {"n":"Test Vault","w":"example.com"} encoded as hex
+      const jsonData = JSON.stringify({ n: 'Test Vault', w: 'example.com' })
+      const hexData = Buffer.from(jsonData).toString('hex')
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        Data: hexData,
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      // Website label and link should be displayed
+      expect(screen.getByText('Website')).toBeInTheDocument()
+      const websiteLink = screen.getByRole('link', { name: 'example.com' })
+      expect(websiteLink).toHaveAttribute('href', 'https://example.com')
+      expect(websiteLink).toHaveAttribute('target', '_blank')
+    })
+
+    it('does not display website row when Data is valid JSON but missing "w" key', () => {
+      // {"n":"Test Vault"} encoded as hex (no website field)
+      const jsonData = JSON.stringify({ n: 'Test Vault' })
+      const hexData = Buffer.from(jsonData).toString('hex')
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        Data: hexData,
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      // Website row should not be present
+      expect(screen.queryByText('Website')).not.toBeInTheDocument()
+    })
+
+    it('does not display website row when Data is not valid JSON', () => {
+      // "Hello Vault" encoded as hex (plain text, not JSON)
+      const hexData = Buffer.from('Hello Vault').toString('hex')
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        Data: hexData,
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      // Website row should not be present
+      expect(screen.queryByText('Website')).not.toBeInTheDocument()
+    })
+  })
+
+  /**
+   * =========================================
    * SECTION 6: Withdrawal Policy Tests
    * =========================================
    * Withdrawal policies define how depositors can withdraw funds.

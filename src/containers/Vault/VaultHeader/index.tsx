@@ -10,7 +10,7 @@ import { RouteLink } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getLedgerEntry } from '../../../rippled/lib/rippled'
-import { decodeVaultData, formatCompactNumber } from '../utils'
+import { decodeVaultData, formatCompactNumber, parseVaultWebsite } from '../utils'
 import './styles.scss'
 import { shortenMPTID } from '../../shared/utils'
 
@@ -121,6 +121,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
     flags !== undefined && (flags & VAULT_FLAGS.lsfPrivate) !== 0
 
   const decodedData = decodeVaultData(vaultDataRaw)
+  const vaultWebsite = parseVaultWebsite(vaultDataRaw)
 
   const getWithdrawalPolicyText = () => {
     if (withdrawalPolicy === undefined) return '-'
@@ -185,6 +186,24 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 <TokenTableRow
                   label={t('perm_domain_id')}
                   value={vaultCredential}
+                />
+              )}
+              {vaultWebsite && (
+                <TokenTableRow
+                  label={t('website')}
+                  value={
+                    <a
+                      href={
+                        vaultWebsite.startsWith('http')
+                          ? vaultWebsite
+                          : `https://${vaultWebsite}`
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {vaultWebsite}
+                    </a>
+                  }
                 />
               )}
               <TokenTableRow label={t('data')} value={decodedData || '-'} />
