@@ -460,8 +460,8 @@ describe('VaultHeader Component', () => {
 
       // Numbers >= 1,000,000 should display with M suffix
       // Verify exact formatted values: 12,500,000 -> "12.5M XRP", 5,000,000 -> "5M XRP"
-      expect(screen.getByText('12.5M XRP')).toBeInTheDocument()
-      expect(screen.getByText('5M XRP')).toBeInTheDocument()
+      expect(screen.getByText('12.50M XRP')).toBeInTheDocument()
+      expect(screen.getByText('5.00M XRP')).toBeInTheDocument()
     })
 
     it('formats thousands with K suffix', () => {
@@ -484,8 +484,8 @@ describe('VaultHeader Component', () => {
 
       // Numbers >= 1,000 but < 1,000,000 should display with K suffix
       // Verify exact formatted values: 250,000 -> "250K XRP", 75,000 -> "75K XRP"
-      expect(screen.getByText('250K XRP')).toBeInTheDocument()
-      expect(screen.getByText('75K XRP')).toBeInTheDocument()
+      expect(screen.getByText('250.00K XRP')).toBeInTheDocument()
+      expect(screen.getByText('75.00K XRP')).toBeInTheDocument()
     })
 
     it('displays small numbers without suffix', () => {
@@ -507,7 +507,7 @@ describe('VaultHeader Component', () => {
 
       // Numbers < 1,000 should display as-is without K/M suffix
       // Verify exact formatted value: 500 -> "500 XRP"
-      expect(screen.getByText('500 XRP')).toBeInTheDocument()
+      expect(screen.getByText('500.00 XRP')).toBeInTheDocument()
     })
 
     it('includes currency code in formatted amounts', () => {
@@ -529,7 +529,7 @@ describe('VaultHeader Component', () => {
 
       // Amount should include the currency code
       // Verify exact formatted value: 1,000,000 RLUSD -> "1M RLUSD"
-      expect(screen.getByText('1M RLUSD')).toBeInTheDocument()
+      expect(screen.getByText('1.00M RLUSD')).toBeInTheDocument()
     })
 
     it('displays dash for undefined amounts', () => {
@@ -961,7 +961,7 @@ describe('VaultHeader Component', () => {
       )
 
       expect(screen.getByText('Max Total Supply')).toBeInTheDocument()
-      expect(screen.getByText(/10M XRP/)).toBeInTheDocument()
+      expect(screen.getByText(/10.00M XRP/)).toBeInTheDocument()
     })
 
     it('displays "No Limit" when AssetsMaximum is not set', () => {
@@ -1013,7 +1013,7 @@ describe('VaultHeader Component', () => {
 
       expect(screen.getByText('Total Value Locked (TVL)')).toBeInTheDocument()
       // Verify exact TVL value: 5,000,000 -> "5M XRP"
-      expect(screen.getByText('5M XRP')).toBeInTheDocument()
+      expect(screen.getByText('5.00M XRP')).toBeInTheDocument()
     })
 
     it('displays TVL for RLUSD vaults', () => {
@@ -1033,8 +1033,8 @@ describe('VaultHeader Component', () => {
         </TestWrapper>,
       )
 
-      // Verify exact TVL value: 2,500,000 -> "2.5M RLUSD"
-      expect(screen.getByText('2.5M RLUSD')).toBeInTheDocument()
+      // Verify exact TVL value: 2,500,000 -> "2.50M RLUSD"
+      expect(screen.getByText('2.50M RLUSD')).toBeInTheDocument()
     })
 
     it('displays TVL in native currency for unsupported currencies', () => {
@@ -1057,7 +1057,7 @@ describe('VaultHeader Component', () => {
       )
 
       // In native mode, TVL is shown in the asset's currency
-      expect(screen.getByText('1M UNKNOWN')).toBeInTheDocument()
+      expect(screen.getByText('1.00M UNKNOWN')).toBeInTheDocument()
     })
   })
 
@@ -1165,9 +1165,9 @@ describe('VaultHeader Component', () => {
         </TestWrapper>,
       )
 
-      // 1,000,000 XRP * 2.5 = 2,500,000 USD = "2.5M USD"
-      // formatCompactNumber joins [prefix, formattedNum, currency] with spaces
-      expect(screen.getByText('2.5M USD')).toBeInTheDocument()
+      // 1,000,000 XRP * 2.5 = 2,500,000 USD = "2.50M USD"
+      // formatAmount joins [prefix, formattedNum, currency] with spaces
+      expect(screen.getByText('2.50M USD')).toBeInTheDocument()
     })
 
     it('displays RLUSD TVL as USD with 1:1 conversion when displayCurrency is "usd"', () => {
@@ -1188,8 +1188,8 @@ describe('VaultHeader Component', () => {
       )
 
       // RLUSD is a stablecoin pegged 1:1 to USD
-      // 5,000,000 RLUSD = "5M USD"
-      expect(screen.getByText('5M USD')).toBeInTheDocument()
+      // 5,000,000 RLUSD = "5.00M USD"
+      expect(screen.getByText('5.00M USD')).toBeInTheDocument()
     })
 
     it('convert native currency EUR into USD displayed currency', () => {
@@ -1215,7 +1215,7 @@ describe('VaultHeader Component', () => {
       )
 
       const tvlRow = screen.getByText('Total Value Locked (TVL)').closest('tr')
-      expect(tvlRow).toHaveTextContent('Total Value Locked (TVL)2M USD')
+      expect(tvlRow).toHaveTextContent('Total Value Locked (TVL)2.00M USD')
     })
   })
 })

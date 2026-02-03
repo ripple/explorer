@@ -3,7 +3,7 @@ import { Account } from '../../shared/components/Account'
 import { useLanguage } from '../../shared/hooks'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { localizeNumber } from '../../shared/utils'
-import { formatCompactNumber } from '../utils'
+import { formatAmount } from '../utils'
 
 interface Holder {
   account: string
@@ -58,7 +58,7 @@ export const DepositorTable = ({
     if (displayCurrency === 'USD') {
       if (tokenToUsdRate > 0) {
         value *= tokenToUsdRate
-        return formatCompactNumber(value, language, {
+        return formatAmount(value, language, {
           prefix: '$',
           currency: 'USD',
         })
@@ -66,7 +66,7 @@ export const DepositorTable = ({
       return '--'
     }
 
-    return formatCompactNumber(value, language, {
+    return formatAmount(value, language, {
       currency: getDisplayCurrencyLabel(),
     })
   }
@@ -97,7 +97,7 @@ export const DepositorTable = ({
               <Account account={holder.account} />
             </td>
             <td className="tokens-cell">
-              {formatCompactNumber(holder.mpt_amount, language)}
+              {formatAmount(holder.mpt_amount, language)}
             </td>
             <td className="percent-cell">
               {calculatePercentOfSupply(holder.mpt_amount)}

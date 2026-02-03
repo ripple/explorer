@@ -3,7 +3,7 @@ import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useLanguage } from '../../shared/hooks'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { formatRate, LSF_LOAN_DEFAULT } from './utils'
-import { formatCompactNumber } from '../utils'
+import { formatAmount } from '../utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
 import WarningIcon from '../../shared/images/warning.svg'
 
@@ -62,12 +62,12 @@ export const BrokerDetails = ({
     (loan: any) => (loan.Flags ?? 0) & LSF_LOAN_DEFAULT,
   )
 
-  const formatAmount = (amount: string | undefined): string => {
+  const formatBrokerAmount = (amount: string | undefined): string => {
     const convertedAmount = convertToDisplayCurrency(amount)
     if (convertedAmount === undefined && displayCurrency === 'usd') {
       return '--'
     }
-    return formatCompactNumber(convertedAmount ?? amount, lang, {
+    return formatAmount(convertedAmount ?? amount, lang, {
       currency,
       prefix: displayCurrency === 'usd' ? '$' : '',
       fallback: `0 ${currency}`.trim(),
@@ -91,13 +91,13 @@ export const BrokerDetails = ({
           <div className="debt-metric">
             <span className="metric-label">{t('total_debt')}</span>
             <span className="metric-value">
-              {formatAmount(broker.DebtTotal)}
+              {formatBrokerAmount(broker.DebtTotal)}
             </span>
           </div>
           <div className="debt-metric">
             <span className="metric-label">{t('maximum_debt')}</span>
             <span className="metric-value">
-              {formatAmount(broker.DebtMaximum)}
+              {formatBrokerAmount(broker.DebtMaximum)}
             </span>
           </div>
         </div>
@@ -113,7 +113,7 @@ export const BrokerDetails = ({
         <div className="metric">
           <span className="metric-label">{t('first_loss_capital')}</span>
           <span className="metric-value">
-            {formatAmount(broker.CoverAvailable)}
+            {formatBrokerAmount(broker.CoverAvailable)}
           </span>
         </div>
         <div className="metric">

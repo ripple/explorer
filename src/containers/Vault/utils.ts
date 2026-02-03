@@ -1,4 +1,4 @@
-import { localizeNumber } from '../shared/utils'
+import { formatLargeNumber } from '../shared/utils'
 
 /**
  * Decode the Data field from hex to UTF-8 if needed
@@ -82,33 +82,26 @@ export const parseVaultWebsite = (
 }
 
 /**
- * Format large numbers with K (thousands) or M (millions) suffixes
- * e.g., 12500000 -> "12.5M", 200000 -> "200K"
+ * Format large numbers with K, M, B, T suffixes using formatLargeNumber
+ * e.g., 12500000 -> "12.5M XRP", 200000 -> "200K USD"
  *
  * @param value - The number or string value to format
  * @param language - Locale string for number formatting
  * @param options - Optional configuration
  * @param options.currency - Currency suffix to append (e.g., "XRP")
  * @param options.prefix - Prefix to prepend (e.g., "$")
- * @param options.fallback - Value to return if input is invalid (default: "-")
- * @param options.maxFractionDigits - Maximum fraction digits (default: 2)
+ * @param options.fallback - Value to return if input is invalid (default: "0")
  */
-export const formatCompactNumber = (
+export const formatAmount = (
   value: string | number | undefined,
   language: string,
   options: {
     currency?: string
     prefix?: string
     fallback?: string
-    maxFractionDigits?: number
   } = {},
 ): string => {
-  const {
-    currency = '',
-    prefix = '',
-    fallback = '0',
-    maxFractionDigits = 2,
-  } = options
+  const { currency = '', prefix = '', fallback = '0' } = options
 
   if (value === undefined || value === null || value === '') {
     return fallback
@@ -119,26 +112,7 @@ export const formatCompactNumber = (
     return String(value)
   }
 
-  let formattedNum: string
-  if (num >= 1_000_000) {
-    formattedNum = `${localizeNumber(num / 1_000_000, language, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: maxFractionDigits,
-    })}M`
-  } else if (num >= 1_000) {
-    formattedNum = `${localizeNumber(num / 1_000, language, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: maxFractionDigits,
-    })}K`
-  } else {
-    formattedNum = String(
-      localizeNumber(num, language, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: maxFractionDigits,
-      }),
-    )
-  }
-
-  const parts = [prefix, formattedNum, currency].filter(Boolean)
-  return parts.join(currency ? ' ' : '')
+  const { num: formattedNum, unit } = formatLargeNumber(num, 2, language)
+  const parts = [prefix, `${formattedNum}${unit}`, currency].filter(Boolean)
+  return parts.join(' ')
 }

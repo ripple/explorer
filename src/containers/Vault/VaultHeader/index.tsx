@@ -10,9 +10,9 @@ import { RouteLink } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getLedgerEntry } from '../../../rippled/lib/rippled'
-import { decodeVaultData, formatCompactNumber, parseVaultWebsite } from '../utils'
-import './styles.scss'
+import { decodeVaultData, formatAmount, parseVaultWebsite } from '../utils'
 import { shortenMPTID } from '../../shared/utils'
+import './styles.scss'
 
 interface VaultData {
   Owner?: string
@@ -228,21 +228,17 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   ) {
                     return '--'
                   }
-                  return formatCompactNumber(
-                    convertedAmount ?? assetsTotal,
-                    language,
-                    {
-                      currency: getDisplayCurrencyLabel(),
-                      prefix: displayCurrency === 'usd' ? '$' : '',
-                    },
-                  )
+                  return formatAmount(convertedAmount ?? assetsTotal, language, {
+                    currency: getDisplayCurrencyLabel(),
+                    prefix: displayCurrency === 'usd' ? '$' : '',
+                  })
                 })()}
               />
               <TokenTableRow
                 label={t('max_total_supply')}
                 value={
                   assetsMaximum
-                    ? formatCompactNumber(assetsMaximum, language, {
+                    ? formatAmount(assetsMaximum, language, {
                         currency: getAssetCurrency(asset),
                       })
                     : t('no_limit')
@@ -254,13 +250,13 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               />
               <TokenTableRow
                 label={t('available_to_borrow')}
-                value={formatCompactNumber(assetsAvailable, language, {
+                value={formatAmount(assetsAvailable, language, {
                   currency: getAssetCurrency(asset),
                 })}
               />
               <TokenTableRow
                 label={t('unrealized_loss')}
-                value={formatCompactNumber(lossUnrealized, language, {
+                value={formatAmount(lossUnrealized, language, {
                   currency: getAssetCurrency(asset),
                 })}
               />

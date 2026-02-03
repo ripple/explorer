@@ -235,8 +235,8 @@ describe('VaultLoans Component', () => {
       await waitFor(() => {
         // Component should render with EUR currency in debt amounts
         expect(screen.getByText('Total Debt')).toBeInTheDocument()
-        expect(screen.getByText('25K EUR')).toBeInTheDocument()
-        expect(screen.getByText('500K EUR')).toBeInTheDocument()
+        expect(screen.getByText('25.00K EUR')).toBeInTheDocument()
+        expect(screen.getByText('500.00K EUR')).toBeInTheDocument()
 
         // Verify XRP and USD do not appear - ensures EUR is used throughout
         expect(screen.queryByText(/XRP/)).not.toBeInTheDocument()
@@ -687,9 +687,9 @@ describe('VaultLoans Component', () => {
       await waitFor(() => {
         expect(screen.getByText('Total Debt')).toBeInTheDocument()
         expect(screen.getByText('Maximum Debt')).toBeInTheDocument()
-        // Amounts are formatted with compact notation (50K, 1M)
-        expect(screen.getByText('50K XRP')).toBeInTheDocument()
-        expect(screen.getByText('1M XRP')).toBeInTheDocument()
+        // Amounts are formatted with compact notation (50.00K, 1.00M)
+        expect(screen.getByText('50.00K XRP')).toBeInTheDocument()
+        expect(screen.getByText('1.00M XRP')).toBeInTheDocument()
       })
     })
   })
