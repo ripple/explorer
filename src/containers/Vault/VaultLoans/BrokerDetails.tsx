@@ -58,7 +58,7 @@ export const BrokerDetails = ({
 
   // Check if any loan has the default flag
   const hasDefaultedLoan = loans?.some(
-    // eslint-disable-next-line no-bitwise, required to check the status of the loan
+    // eslint-disable-next-line no-bitwise -- required to check the status of the loan
     (loan: any) => (loan.Flags ?? 0) & LSF_LOAN_DEFAULT,
   )
 
@@ -68,7 +68,7 @@ export const BrokerDetails = ({
       return '--'
     }
     return formatCompactNumber(convertedAmount ?? amount, lang, {
-      currency: currency,
+      currency,
       prefix: displayCurrency === 'usd' ? '$' : '',
       fallback: `0 ${currency}`.trim(),
     })

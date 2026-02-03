@@ -56,14 +56,30 @@ export const VaultLoans = ({
   >(
     ['getVaultLoanBrokers', vaultPseudoAccount],
     async () => {
-      const resp = await getAccountObjects(
-        rippledSocket,
-        vaultPseudoAccount,
-        'loan_broker',
-      )
-      return resp?.account_objects?.filter(
-        (obj: LoanBrokerData) => obj.VaultID === vaultId,
-      )
+      const allBrokers: LoanBrokerData[] = []
+      let marker: string | undefined
+
+      do {
+        // eslint-disable-next-line no-await-in-loop
+        const resp = await getAccountObjects(
+          rippledSocket,
+          vaultPseudoAccount,
+          'loan_broker',
+          marker,
+        )
+
+        if (!resp?.account_objects) {
+          break
+        }
+
+        const vaultBrokers = resp.account_objects.filter(
+          (obj: LoanBrokerData) => obj.VaultID === vaultId,
+        )
+        allBrokers.push(...vaultBrokers)
+        marker = resp.marker
+      } while (marker)
+
+      return allBrokers
     },
     {
       enabled: !!vaultPseudoAccount,
@@ -77,19 +93,35 @@ export const VaultLoans = ({
 
   // Fetch loans for each broker - must be called before any early returns
   // This data is shared with BrokerDetails to avoid duplicate API calls
+  // Paginates through all results using marker
   const brokerLoansQueries = useQueries(
     (loanBrokers ?? []).map((broker) => ({
       queryKey: ['getBrokerLoans', broker.Account, broker.index],
       queryFn: async () => {
-        const resp = await getAccountObjects(
-          rippledSocket,
-          broker.Account,
-          'loan',
-        )
-        const loans = resp?.account_objects?.filter(
-          (obj: any) => obj.LoanBrokerID === broker.index,
-        )
-        return { brokerId: broker.index, loans: loans ?? [] }
+        const allLoans: any[] = []
+        let marker: string | undefined
+
+        do {
+          // eslint-disable-next-line no-await-in-loop
+          const resp = await getAccountObjects(
+            rippledSocket,
+            broker.Account,
+            'loan',
+            marker,
+          )
+
+          if (!resp?.account_objects) {
+            break
+          }
+
+          const brokerLoans = resp.account_objects.filter(
+            (obj: any) => obj.LoanBrokerID === broker.index,
+          )
+          allLoans.push(...brokerLoans)
+          marker = resp.marker
+        } while (marker)
+
+        return { brokerId: broker.index, loans: allLoans }
       },
       enabled: !!broker.Account && !!broker.index,
     })),

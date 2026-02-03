@@ -168,10 +168,14 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 label={t('private_vault')}
                 value={
                   <div className="private-vault-toggle">
-                    <span className={`toggle-pill ${isPrivate ? 'active' : ''}`}>
+                    <span
+                      className={`toggle-pill ${isPrivate ? 'active' : ''}`}
+                    >
                       {t('yes')}
                     </span>
-                    <span className={`toggle-pill ${!isPrivate ? 'active' : ''}`}>
+                    <span
+                      className={`toggle-pill ${!isPrivate ? 'active' : ''}`}
+                    >
                       {t('no')}
                     </span>
                   </div>
@@ -225,7 +229,10 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                     : t('no_limit')
                 }
               />
-              <TokenTableRow label={t('shares')} value={renderMPTSharesLink()} />
+              <TokenTableRow
+                label={t('shares')}
+                value={renderMPTSharesLink()}
+              />
               <TokenTableRow
                 label={t('available_to_borrow')}
                 value={formatCompactNumber(assetsAvailable, language, {

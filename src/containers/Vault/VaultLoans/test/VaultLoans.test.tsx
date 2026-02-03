@@ -777,6 +777,7 @@ describe('VaultLoans Component', () => {
           mockSocket,
           testAccount,
           'loan_broker',
+          undefined,
         )
       })
     })
