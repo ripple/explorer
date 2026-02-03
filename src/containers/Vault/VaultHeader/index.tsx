@@ -228,10 +228,14 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   ) {
                     return '--'
                   }
-                  return formatAmount(convertedAmount ?? assetsTotal, language, {
-                    currency: getDisplayCurrencyLabel(),
-                    prefix: displayCurrency === 'usd' ? '$' : '',
-                  })
+                  return formatAmount(
+                    convertedAmount ?? assetsTotal,
+                    language,
+                    {
+                      currency: getDisplayCurrencyLabel(),
+                      prefix: displayCurrency === 'usd' ? '$' : '',
+                    },
+                  )
                 })()}
               />
               <TokenTableRow

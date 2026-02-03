@@ -58,7 +58,11 @@ const parseVaultDataJson = (
  * Returns the name (n field) if the data is valid JSON with a name field,
  * otherwise returns undefined.
  */
-export const parseVaultName = (data: string | undefined): string | undefined => {
+export const parseVaultName = (
+  data: string | undefined,
+): string | undefined => {
+  if (!data) return undefined
+
   const parsed = parseVaultDataJson(data)
   if (parsed && typeof parsed.n === 'string' && parsed.n.trim()) {
     return parsed.n.trim()
