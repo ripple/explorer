@@ -117,11 +117,6 @@ export const Vault = () => {
 
   return (
     <Page vaultId={vaultId}>
-      {!vaultId && (
-        <div className="vault-warning">
-          <h2>Enter a Vault ID in the search box</h2>
-        </div>
-      )}
       {vaultId && loading && <Loader />}
       {vaultId && !loading && vaultData && (
         <>

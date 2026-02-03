@@ -185,20 +185,6 @@ describe('Vault Component', () => {
    * =========================================
    */
   describe('No Vault ID State', () => {
-    it('displays warning when no vault ID provided', async () => {
-      // Render without vault ID in URL
-      const TestWrapper = createTestWrapper(queryClient, '')
-      render(
-        <TestWrapper>
-          <Vault />
-        </TestWrapper>,
-      )
-
-      expect(
-        screen.getByText('Enter a Vault ID in the search box'),
-      ).toBeInTheDocument()
-    })
-
     it('does not fetch vault data when no ID provided', () => {
       const TestWrapper = createTestWrapper(queryClient, '')
       render(
