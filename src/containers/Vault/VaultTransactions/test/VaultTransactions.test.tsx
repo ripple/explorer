@@ -167,8 +167,8 @@ describe('VaultTransactions Component', () => {
       })
     })
 
-    it('renders table headers with hash and amount columns', async () => {
-      // VaultTransactions passes hasHashColumn and hasAmountColumn as true
+    it('renders table headers with hash column', async () => {
+      // VaultTransactions passes hasHashColumn as true
       mockedGetAccountTransactions.mockResolvedValue({
         transactions: [],
         marker: undefined,
@@ -187,7 +187,6 @@ describe('VaultTransactions Component', () => {
         expect(screen.getByText('Tx Hash')).toBeInTheDocument()
         expect(screen.getByText('Account')).toBeInTheDocument()
         expect(screen.getByText('Transaction Type')).toBeInTheDocument()
-        expect(screen.getByText('Amount')).toBeInTheDocument()
         expect(screen.getByText('Status')).toBeInTheDocument()
         expect(screen.getByText('Date/time (UTC)')).toBeInTheDocument()
       })

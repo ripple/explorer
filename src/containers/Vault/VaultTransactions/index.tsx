@@ -61,7 +61,6 @@ export const VaultTransactions = ({ accountId }: Props) => {
         emptyMessage={error?.message ? t(error.message as any) : undefined}
         onLoadMore={() => fetchNextPage()}
         hasAdditionalResults={hasNextPage}
-        hasAmountColumn
         hasHashColumn
       />
     </div>

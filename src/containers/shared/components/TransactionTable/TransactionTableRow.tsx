@@ -1,8 +1,6 @@
 import { TxLabel } from '../TxLabel'
 import { TxStatus } from '../TxStatus'
 import { TxDetails } from '../TxDetails'
-import { Amount } from '../Amount'
-import { formatAmount } from '../../../../rippled/lib/txSummary/formatAmount'
 import { localizeDate, shortenTxHash } from '../../utils'
 import './styles.scss'
 import { useLanguage } from '../../hooks'
@@ -25,34 +23,17 @@ const DATE_OPTIONS = {
 export interface Props {
   tx: any
   hasTokensColumn?: boolean
-  hasAmountColumn?: boolean
   hasHashColumn?: boolean
 }
 
 export const TransactionTableRow = ({
   tx,
   hasTokensColumn,
-  hasAmountColumn,
   hasHashColumn,
 }: Props) => {
   const language = useLanguage()
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
-
-  // Determine which amount renderer to use
-  const renderAmount = () => {
-    // Pre-formatted amount (lowercase 'amount')
-    if (tx.details?.instructions?.amount) {
-      const { amount } = tx.details.instructions
-      return <Amount value={amount} displayIssuer={false} />
-    }
-    // Raw amount that needs formatting (uppercase 'Amount')
-    if (tx.details?.instructions?.Amount) {
-      const amount = tx.details.instructions.Amount
-      return <Amount value={formatAmount(amount)} displayIssuer={false} />
-    }
-    return null
-  }
 
   return (
     <li
@@ -82,9 +63,6 @@ export const TransactionTableRow = ({
         <div className={`col col-type tx-type ${tx.type}`}>
           <TxLabel type={tx.type} />
         </div>
-        {hasAmountColumn && (
-          <div className="col col-amount">{renderAmount()}</div>
-        )}
         <div className="col col-status">
           <TxStatus status={tx.result} />
         </div>
