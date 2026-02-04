@@ -13,13 +13,15 @@ import { Loader } from '../shared/components/Loader'
 import { CopyableText } from '../shared/components/CopyableText/CopyableText'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import SocketContext from '../shared/SocketContext'
-import { getVault } from '../../rippled/lib/rippled'
+import { getMPTIssuance, getVault } from '../../rippled/lib/rippled'
 import { useAnalytics } from '../shared/analytics'
 import { useTokenToUSDRate } from '../shared/hooks/useTokenToUSDRate'
 import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
 import { parseVaultName } from './utils'
 import './styles.scss'
+import { hexToString } from '../shared/components/Currency'
+import { parseMPTokenMetadata } from '../shared/mptUtils'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
   [NOT_FOUND]: {
@@ -73,6 +75,26 @@ export const Vault = () => {
     },
   )
 
+  const { data: mptIssuanceData } = useQuery(
+    ['getMPTIssuance', vaultData?.Asset?.mpt_issuance_id],
+    async () => {
+      const resp = await getMPTIssuance(
+        rippledSocket,
+        vaultData.Asset.mpt_issuance_id,
+      )
+      return resp?.node
+    },
+    {
+      enabled: !!vaultData?.Asset?.mpt_issuance_id,
+      onError: (e: any) => {
+        trackException(
+          `Error fetching MPT Issuance data for MPT ID ${vaultData?.Asset?.mpt_issuance_id} --- ${JSON.stringify(e)}`,
+        )
+        setError(e.code)
+      },
+    },
+  )
+
   // Check if USD conversion is available for this token
   // Must be called before any early returns to satisfy React hooks rules
   const { isAvailable: usdAvailable, isLoading: usdLoading } =
@@ -104,12 +126,17 @@ export const Vault = () => {
   const transactionAccountId = vaultData?.PseudoAccount
 
   // Get display-friendly currency string from asset
-  const getAssetCurrencyDisplay = () => {
+  const getAssetCurrencyDisplay = (): string => {
     const asset = vaultData?.Asset
     if (!asset) return ''
-    if (asset.currency) return asset.currency
+    if (asset.currency) return hexToString(asset.currency)
     if (asset.mpt_issuance_id) {
-      // For MPT, show truncated ID
+      // For MPT, show ticker from metadata or truncated ID as fallback
+      const metadata = parseMPTokenMetadata(mptIssuanceData?.MPTokenMetadata)
+      const ticker = metadata?.ticker
+      if (typeof ticker === 'string') {
+        return ticker
+      }
       return `MPT (${asset.mpt_issuance_id.substring(0, 6)}...)`
     }
     return ''
