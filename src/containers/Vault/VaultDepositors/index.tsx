@@ -1,11 +1,12 @@
-import { useContext, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import SocketContext from '../../shared/SocketContext'
-import { getMPTHolders } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
 import { Loader } from '../../shared/components/Loader'
-import { DepositorTable } from './DepositorTable'
+import { HoldersTable } from '../../Token/shared/components/HoldersTable/HoldersTable'
+import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
+import { fetchAllVaultDepositors } from './api/depositors'
 import './styles.scss'
 
 interface AssetInfo {
@@ -18,50 +19,46 @@ interface Props {
   shareMptId: string
   totalSupply: string | undefined
   assetsTotal: string | undefined
-  displayCurrency: string
   asset?: AssetInfo
 }
+
+const PAGE_SIZE = 10
 
 export const VaultDepositors = ({
   shareMptId,
   totalSupply,
   assetsTotal,
-  displayCurrency,
   asset,
 }: Props) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [markers, setMarkers] = useState<(string | undefined)[]>([undefined])
+  const [currentPage, setCurrentPage] = useState(1)
 
-  const pageSize = 5
+  const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
 
   const {
     data,
     isFetching: loading,
     error,
-  } = useQuery<any, Error>(
-    ['getVaultDepositors', shareMptId, currentPage],
-    async () => {
-      const marker = markers[currentPage]
-      const resp = await getMPTHolders(
+  } = useQuery(
+    [
+      'getVaultDepositors',
+      shareMptId,
+      totalSupply,
+      assetsTotal,
+      tokenToUsdRate,
+    ],
+    async () =>
+      fetchAllVaultDepositors(
         rippledSocket,
         shareMptId,
-        pageSize,
-        marker || '',
-      )
-      return resp
-    },
+        totalSupply,
+        assetsTotal,
+        tokenToUsdRate,
+      ),
     {
       enabled: !!shareMptId,
-      keepPreviousData: true,
-      onSuccess: (resp) => {
-        // Store marker for next page if it exists and we haven't stored it yet
-        if (resp?.marker && markers.length === currentPage + 1) {
-          setMarkers((prev) => [...prev, resp.marker])
-        }
-      },
       onError: (e: any) => {
         trackException(
           `Error fetching Vault depositors ${shareMptId} --- ${JSON.stringify(e)}`,
@@ -69,6 +66,17 @@ export const VaultDepositors = ({
       },
     },
   )
+
+  // Client-side pagination
+  const paginatedDepositors = useMemo(() => {
+    if (!data?.depositors) {
+      return []
+    }
+
+    const start = (currentPage - 1) * PAGE_SIZE
+    const end = start + PAGE_SIZE
+    return data.depositors.slice(start, end)
+  }, [data?.depositors, currentPage])
 
   if (error) {
     return (
@@ -82,35 +90,7 @@ export const VaultDepositors = ({
     )
   }
 
-  if (!data && !loading) {
-    return (
-      <div className="vault-depositors-section">
-        <h2 className="vault-depositors-title">{t('depositors')}</h2>
-        <div className="vault-depositors-divider" />
-        <div className="no-depositors-message">
-          {t('no_depositors_message')}
-        </div>
-      </div>
-    )
-  }
-
-  const holders = data?.mpt_holders || []
-  const hasNextPage = !!data?.marker
-  const hasPrevPage = currentPage > 0
-
-  const handleNextPage = () => {
-    if (hasNextPage) {
-      setCurrentPage((prev) => prev + 1)
-    }
-  }
-
-  const handlePrevPage = () => {
-    if (hasPrevPage) {
-      setCurrentPage((prev) => prev - 1)
-    }
-  }
-
-  if (loading && holders.length === 0) {
+  if (loading && !data) {
     return (
       <div className="vault-depositors-section">
         <h2 className="vault-depositors-title">{t('depositors')}</h2>
@@ -120,8 +100,7 @@ export const VaultDepositors = ({
     )
   }
 
-  // TODO: Test this method with a working instance of Clio.
-  if (!holders || holders.length === 0) {
+  if (!data || data.depositors.length === 0) {
     return (
       <div className="vault-depositors-section">
         <h2 className="vault-depositors-title">{t('depositors')}</h2>
@@ -133,37 +112,19 @@ export const VaultDepositors = ({
     )
   }
 
+  // TODO: Test the visual appearance of this table after Clio API mpt_holders is implemented
   return (
     <div className="vault-depositors-section">
       <h2 className="vault-depositors-title">{t('depositors')}</h2>
       <div className="vault-depositors-divider" />
-      <DepositorTable
-        holders={holders}
-        totalSupply={totalSupply}
-        assetsTotal={assetsTotal}
-        startRank={currentPage * pageSize + 1}
-        displayCurrency={displayCurrency}
-        asset={asset}
+      <HoldersTable
+        holders={paginatedDepositors}
+        isHoldersDataLoading={loading}
+        totalHolders={data.totalDepositors}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        pageSize={PAGE_SIZE}
       />
-      <div className="pagination">
-        <button
-          type="button"
-          className="pagination-btn"
-          onClick={handlePrevPage}
-          disabled={!hasPrevPage}
-        >
-          &lt;
-        </button>
-        <span className="pagination-info">{currentPage + 1}</span>
-        <button
-          type="button"
-          className="pagination-btn"
-          onClick={handleNextPage}
-          disabled={!hasNextPage}
-        >
-          &gt;
-        </button>
-      </div>
     </div>
   )
 }

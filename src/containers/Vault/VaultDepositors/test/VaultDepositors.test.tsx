@@ -6,11 +6,11 @@ import { QueryClientProvider, QueryClient } from 'react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
 import { VaultDepositors } from '../index'
-import { getMPTHolders } from '../../../../rippled/lib/rippled'
+import { fetchAllVaultDepositors } from '../api/depositors'
 import Mock = jest.Mock
 
-jest.mock('../../../../rippled/lib/rippled', () => ({
-  getMPTHolders: jest.fn(),
+jest.mock('../api/depositors', () => ({
+  fetchAllVaultDepositors: jest.fn(),
 }))
 
 jest.mock('../../../shared/analytics', () => ({
@@ -21,7 +21,7 @@ jest.mock('../../../shared/hooks/useTokenToUSDRate', () => ({
   useTokenToUSDRate: () => ({ rate: 1.5, isAvailable: true, isLoading: false }),
 }))
 
-const mockedGetMPTHolders = getMPTHolders as Mock
+const mockedFetchAllDepositors = fetchAllVaultDepositors as Mock
 const mockSocket = {} as any
 
 const createQueryClient = () =>
@@ -35,32 +35,28 @@ const TestWrapper =
     <I18nextProvider i18n={i18n}>
       <Router>
         <SocketContext.Provider value={mockSocket}>
-          <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
         </SocketContext.Provider>
       </Router>
     </I18nextProvider>
   )
 
-const defaultProps = {
-  shareMptId: 'TEST_MPT_ID',
-  totalSupply: '1000000',
-  assetsTotal: '500000',
-  displayCurrency: 'USD',
-  asset: { currency: 'XRP' },
-}
+const shareMptId = 'TEST_MPT_ID'
+const totalSupply = '1000000'
+const assetsTotal = '500000'
+const asset = { currency: 'XRP' }
 
-const mockHolders = [
-  { account: 'rAccount1', mpt_amount: '500000' },
-  { account: 'rAccount2', mpt_amount: '300000' },
-  { account: 'rAccount3', mpt_amount: '100000' },
-  { account: 'rAccount4', mpt_amount: '50000' },
-  { account: 'rAccount5', mpt_amount: '50000' },
-]
-
-const mockHoldersPage2 = [
-  { account: 'rAccount6', mpt_amount: '25000' },
-  { account: 'rAccount7', mpt_amount: '20000' },
-]
+// Generate mock depositors for pagination testing (PAGE_SIZE = 10)
+const createMockDepositors = (count: number) =>
+  Array.from({ length: count }, (_, i) => ({
+    rank: i + 1,
+    account: `rAccount${i + 1}`,
+    balance: `${(100 - i) * 1000}`,
+    percent: (100 - i) / 10,
+    value_usd: (100 - i) * 100,
+  }))
 
 describe('VaultDepositors', () => {
   beforeEach(() => {
@@ -68,20 +64,32 @@ describe('VaultDepositors', () => {
   })
 
   it('renders loading state', () => {
-    mockedGetMPTHolders.mockReturnValue(new Promise(() => {}))
-    render(<VaultDepositors {...defaultProps} />, {
-      wrapper: TestWrapper(createQueryClient()),
-    })
+    mockedFetchAllDepositors.mockReturnValue(new Promise(() => {}))
+    render(
+      <VaultDepositors
+        shareMptId={shareMptId}
+        totalSupply={totalSupply}
+        assetsTotal={assetsTotal}
+        asset={asset}
+      />,
+      { wrapper: TestWrapper(createQueryClient()) },
+    )
 
     expect(screen.getByText('Depositors')).toBeInTheDocument()
     expect(screen.getByAltText('Loading')).toBeInTheDocument()
   })
 
   it('renders error state', async () => {
-    mockedGetMPTHolders.mockRejectedValue(new Error('API Error'))
-    render(<VaultDepositors {...defaultProps} />, {
-      wrapper: TestWrapper(createQueryClient()),
-    })
+    mockedFetchAllDepositors.mockRejectedValue(new Error('API Error'))
+    render(
+      <VaultDepositors
+        shareMptId={shareMptId}
+        totalSupply={totalSupply}
+        assetsTotal={assetsTotal}
+        asset={asset}
+      />,
+      { wrapper: TestWrapper(createQueryClient()) },
+    )
 
     await waitFor(() => {
       expect(
@@ -91,10 +99,19 @@ describe('VaultDepositors', () => {
   })
 
   it('renders empty state when no depositors', async () => {
-    mockedGetMPTHolders.mockResolvedValue({ mpt_holders: [] })
-    render(<VaultDepositors {...defaultProps} />, {
-      wrapper: TestWrapper(createQueryClient()),
+    mockedFetchAllDepositors.mockResolvedValue({
+      depositors: [],
+      totalDepositors: 0,
     })
+    render(
+      <VaultDepositors
+        shareMptId={shareMptId}
+        totalSupply={totalSupply}
+        assetsTotal={assetsTotal}
+        asset={asset}
+      />,
+      { wrapper: TestWrapper(createQueryClient()) },
+    )
 
     await waitFor(() => {
       expect(screen.getByText(/No depositors found/i)).toBeInTheDocument()
@@ -102,59 +119,72 @@ describe('VaultDepositors', () => {
   })
 
   it('renders depositors table with data', async () => {
-    mockedGetMPTHolders.mockResolvedValue({ mpt_holders: mockHolders })
-    render(<VaultDepositors {...defaultProps} />, {
-      wrapper: TestWrapper(createQueryClient()),
+    mockedFetchAllDepositors.mockResolvedValue({
+      depositors: createMockDepositors(5),
+      totalDepositors: 5,
     })
+    render(
+      <VaultDepositors
+        shareMptId={shareMptId}
+        totalSupply={totalSupply}
+        assetsTotal={assetsTotal}
+        asset={asset}
+      />,
+      { wrapper: TestWrapper(createQueryClient()) },
+    )
 
     await waitFor(() => {
       expect(screen.getByText('rAccount1')).toBeInTheDocument()
-      expect(screen.getByText('rAccount2')).toBeInTheDocument()
+      expect(screen.getByText('rAccount5')).toBeInTheDocument()
     })
   })
 
-  it('handles pagination with next/prev buttons', async () => {
-    mockedGetMPTHolders
-      .mockResolvedValueOnce({ mpt_holders: mockHolders, marker: 'page2marker' })
-      .mockResolvedValueOnce({ mpt_holders: mockHoldersPage2 })
-
-    render(<VaultDepositors {...defaultProps} />, {
-      wrapper: TestWrapper(createQueryClient()),
+  it('handles pagination when more than 10 depositors', async () => {
+    // 15 depositors = 2 pages (10 + 5)
+    mockedFetchAllDepositors.mockResolvedValue({
+      depositors: createMockDepositors(15),
+      totalDepositors: 15,
     })
+    render(
+      <VaultDepositors
+        shareMptId={shareMptId}
+        totalSupply={totalSupply}
+        assetsTotal={assetsTotal}
+        asset={asset}
+      />,
+      { wrapper: TestWrapper(createQueryClient()) },
+    )
 
-    // Page 1: 5 holders displayed
+    // Page 1: first 10 depositors
     await waitFor(() => {
-      expect(screen.getByText('rAccount1')).toBeInTheDocument()
-      expect(screen.getByText('rAccount2')).toBeInTheDocument()
-      expect(screen.getByText('rAccount3')).toBeInTheDocument()
-      expect(screen.getByText('rAccount4')).toBeInTheDocument()
-      expect(screen.getByText('rAccount5')).toBeInTheDocument()
+      for (let i = 1; i <= 10; i += 1) {
+        expect(screen.getByText(`rAccount${i}`)).toBeInTheDocument()
+      }
     })
+    expect(screen.queryByText('rAccount11')).not.toBeInTheDocument()
 
-    // Page 1: prev disabled, next enabled
-    const prevBtn = screen.getByText('<')
-    const nextBtn = screen.getByText('>')
-    expect(prevBtn).toBeDisabled()
-    expect(nextBtn).not.toBeDisabled()
+    // Click page 2
+    const page2Button = screen.getByRole('button', { name: '2' })
+    fireEvent.click(page2Button)
 
-    // Go to next page
-    fireEvent.click(nextBtn)
-
-    // Page 2: different holders displayed
+    // Page 2: depositors 11-15
     await waitFor(() => {
-      expect(screen.getByText('rAccount6')).toBeInTheDocument()
-      expect(screen.getByText('rAccount7')).toBeInTheDocument()
+      expect(screen.getByText('rAccount11')).toBeInTheDocument()
+      expect(screen.getByText('rAccount15')).toBeInTheDocument()
     })
-
-    // Page 2: prev enabled
-    expect(prevBtn).not.toBeDisabled()
   })
 
   it('disables query when shareMptId is empty', () => {
-    render(<VaultDepositors {...defaultProps} shareMptId="" />, {
-      wrapper: TestWrapper(createQueryClient()),
-    })
+    render(
+      <VaultDepositors
+        shareMptId=""
+        totalSupply={totalSupply}
+        assetsTotal={assetsTotal}
+        asset={asset}
+      />,
+      { wrapper: TestWrapper(createQueryClient()) },
+    )
 
-    expect(mockedGetMPTHolders).not.toHaveBeenCalled()
+    expect(mockedFetchAllDepositors).not.toHaveBeenCalled()
   })
 })

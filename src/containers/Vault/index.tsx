@@ -161,7 +161,6 @@ export const Vault = () => {
               shareMptId={vaultData.ShareMPTID}
               totalSupply={vaultData.ShareTotal}
               assetsTotal={vaultData.AssetsTotal}
-              displayCurrency={displayCurrency}
               asset={vaultData.Asset}
             />
           )}
