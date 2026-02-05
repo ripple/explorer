@@ -202,7 +202,7 @@ describe('VaultHeader Component', () => {
 
       // Owner value should display the exact account address as link text
       // The Account component displays the full address for short accounts
-      const ownerLink = screen.getByRole('link', { name: owner })
+      const ownerLink = screen.getByRole('link', { name: `${owner.slice(0, 8)}...${owner.slice(-4)}` })
       expect(ownerLink.getAttribute('href')).toBe(`/accounts/${owner}`)
     })
   })
@@ -597,15 +597,17 @@ describe('VaultHeader Component', () => {
         Data: rawData,
       }
 
-      expect(() => render(
-        <TestWrapper>
-          <VaultHeader
-            data={vaultData}
-            vaultId="ABC123"
-            displayCurrency="XRP"
-          />
-        </TestWrapper>,
-      )).toThrow('Invalid hex string')
+      expect(() =>
+        render(
+          <TestWrapper>
+            <VaultHeader
+              data={vaultData}
+              vaultId="ABC123"
+              displayCurrency="XRP"
+            />
+          </TestWrapper>,
+        ),
+      ).toThrow('Invalid hex string')
     })
 
     it('displays dash when Data is undefined', () => {

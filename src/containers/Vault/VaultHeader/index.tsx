@@ -13,7 +13,7 @@ import { parseVaultWebsite } from '../utils'
 import { shortenMPTID } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
-import {parseAmount} from '../../shared/NumberFormattingUtils'
+import { parseAmount } from '../../shared/NumberFormattingUtils'
 import { convertHexToString } from '../../../rippled/lib/utils'
 
 interface VaultData {
@@ -167,7 +167,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               {owner && (
                 <TokenTableRow
                   label={t('owner')}
-                  value={<Account account={owner} />}
+                  value={<Account account={owner} displayText={`${owner.slice(0, 8)}...${owner.slice(-4)}`}/>}
                 />
               )}
               <TokenTableRow
