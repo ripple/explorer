@@ -541,7 +541,7 @@ describe('BrokerLoansTable Component', () => {
     it('Previous button is disabled on first page', () => {
       const loans = createMockLoans(25)
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <BrokerLoansTable
             loans={loans}
@@ -552,14 +552,16 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      const prevBtn = screen.getByRole('button', { name: 'Previous page' })
+      // The Pagination component has prev buttons as the first two .page-btn elements
+      const pageButtons = container.querySelectorAll('.page-btn')
+      const prevBtn = pageButtons[1] // Second button is single prev (first is double prev)
       expect(prevBtn).toBeDisabled()
     })
 
     it('Next button is enabled on first page when more pages exist', () => {
       const loans = createMockLoans(25)
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <BrokerLoansTable
             loans={loans}
@@ -570,7 +572,9 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      const nextBtn = screen.getByRole('button', { name: 'Next page' })
+      // The Pagination component has next buttons as the last two .page-btn elements
+      const pageButtons = container.querySelectorAll('.page-btn')
+      const nextBtn = pageButtons[2] // Third button is single next
       expect(nextBtn).not.toBeDisabled()
     })
   })
@@ -585,7 +589,7 @@ describe('BrokerLoansTable Component', () => {
     it('clicking Next navigates to next page', () => {
       const loans = createMockLoans(25)
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <BrokerLoansTable
             loans={loans}
@@ -596,8 +600,9 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Click Next
-      fireEvent.click(screen.getByRole('button', { name: 'Next page' }))
+      // Click Next (third .page-btn)
+      const pageButtons = container.querySelectorAll('.page-btn')
+      fireEvent.click(pageButtons[2])
 
       // Page 2 should now be active
       const page2Btn = screen.getByRole('button', { name: '2' })
@@ -607,7 +612,7 @@ describe('BrokerLoansTable Component', () => {
     it('clicking Previous navigates to previous page', () => {
       const loans = createMockLoans(25)
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <BrokerLoansTable
             loans={loans}
@@ -618,11 +623,13 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Go to page 2 first
-      fireEvent.click(screen.getByRole('button', { name: 'Next page' }))
+      // Go to page 2 first (click Next - third .page-btn)
+      let pageButtons = container.querySelectorAll('.page-btn')
+      fireEvent.click(pageButtons[2])
 
-      // Click Previous
-      fireEvent.click(screen.getByRole('button', { name: 'Previous page' }))
+      // Click Previous (second .page-btn)
+      pageButtons = container.querySelectorAll('.page-btn')
+      fireEvent.click(pageButtons[1])
 
       // Page 1 should be active again
       const page1Btn = screen.getByRole('button', { name: '1' })
@@ -633,7 +640,7 @@ describe('BrokerLoansTable Component', () => {
       // 25 loans = 3 pages
       const loans = createMockLoans(25)
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <BrokerLoansTable
             loans={loans}
@@ -644,8 +651,9 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Click Last
-      fireEvent.click(screen.getByRole('button', { name: 'Last page' }))
+      // Click Last (fourth .page-btn - double arrow next)
+      const pageButtons = container.querySelectorAll('.page-btn')
+      fireEvent.click(pageButtons[3])
 
       // Page 3 should be active
       const page3Btn = screen.getByRole('button', { name: '3' })
@@ -676,7 +684,7 @@ describe('BrokerLoansTable Component', () => {
     it('Next button is disabled on last page', () => {
       const loans = createMockLoans(25)
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <BrokerLoansTable
             loans={loans}
@@ -687,18 +695,19 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Go to last page
-      fireEvent.click(screen.getByRole('button', { name: 'Last page' }))
+      // Go to last page (click Last - fourth .page-btn)
+      let pageButtons = container.querySelectorAll('.page-btn')
+      fireEvent.click(pageButtons[3])
 
-      // Next should be disabled
-      const nextBtn = screen.getByRole('button', { name: 'Next page' })
-      expect(nextBtn).toBeDisabled()
+      // Next should be disabled (third .page-btn)
+      pageButtons = container.querySelectorAll('.page-btn')
+      expect(pageButtons[2]).toBeDisabled()
     })
 
     it('Last button is disabled on last page', () => {
       const loans = createMockLoans(25)
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <BrokerLoansTable
             loans={loans}
@@ -709,12 +718,13 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Go to last page
-      fireEvent.click(screen.getByRole('button', { name: 'Last page' }))
+      // Go to last page (click Last - fourth .page-btn)
+      let pageButtons = container.querySelectorAll('.page-btn')
+      fireEvent.click(pageButtons[3])
 
-      // Last should be disabled
-      const lastBtn = screen.getByRole('button', { name: 'Last page' })
-      expect(lastBtn).toBeDisabled()
+      // Last should be disabled (fourth .page-btn)
+      pageButtons = container.querySelectorAll('.page-btn')
+      expect(pageButtons[3]).toBeDisabled()
     })
   })
 
@@ -740,8 +750,8 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Should have ellipsis element
-      const ellipsis = container.querySelectorAll('.pagination-ellipsis')
+      // Should have ellipsis element (Pagination component uses .page-ellipsis)
+      const ellipsis = container.querySelectorAll('.page-ellipsis')
       expect(ellipsis.length).toBeGreaterThan(0)
     })
 
@@ -792,8 +802,9 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Navigate to page 2
-      fireEvent.click(screen.getByRole('button', { name: 'Next page' }))
+      // Navigate to page 2 (click Next - third .page-btn)
+      const pageButtons = container.querySelectorAll('.page-btn')
+      fireEvent.click(pageButtons[2])
       expect(screen.getByRole('button', { name: '2' })).toHaveClass('active')
 
       // Change filter to Default using specific selector
@@ -878,8 +889,9 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Go to last page
-      fireEvent.click(screen.getByRole('button', { name: 'Last page' }))
+      // Go to last page (click Last - fourth .page-btn)
+      const pageButtons = container.querySelectorAll('.page-btn')
+      fireEvent.click(pageButtons[3])
 
       // Should show 5 loans on page 3
       const rows = container.querySelectorAll('.loan-row')
