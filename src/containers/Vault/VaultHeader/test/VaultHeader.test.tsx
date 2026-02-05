@@ -22,7 +22,7 @@ import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
 import { VaultHeader } from '../index'
 import { queryClient } from '../../../shared/QueryClient'
-import { getLedgerEntry } from '../../../../rippled/lib/rippled'
+import { getMPTIssuance } from '../../../../rippled/lib/rippled'
 import Mock = jest.Mock
 
 // Mock the rippled library to control API responses
@@ -48,7 +48,7 @@ jest.mock('../../../shared/hooks/useTokenToUSDRate', () => ({
   },
 }))
 
-const mockedGetLedgerEntry = getLedgerEntry as Mock
+const mockedGetMPTIssuance = getMPTIssuance as Mock
 
 // Mock socket client - represents the WebSocket connection to rippled
 const mockSocket = {} as any
@@ -83,7 +83,7 @@ describe('VaultHeader Component', () => {
     cleanup()
 
     // Default mock: no MPT issuance data (vault credential)
-    mockedGetLedgerEntry.mockResolvedValue({ node: null })
+    mockedGetMPTIssuance.mockResolvedValue({ node: null })
 
     // Default mock: XRP to USD rate of 2.0 for predictable conversion tests
     mockXRPToUSDRate.mockReturnValue(2.0)
@@ -800,12 +800,12 @@ describe('VaultHeader Component', () => {
   describe('Vault Credential Display', () => {
     it('displays vault credential when DomainID is present', async () => {
       const domainId = 'credential123abc'
-      mockedGetLedgerEntry.mockResolvedValue({
+      mockedGetMPTIssuance.mockResolvedValue({
         node: { DomainID: domainId },
       })
 
       const vaultData = {
-        Owner: 'rTestOwner',
+        Account: 'rTestAccount',
         Asset: { currency: 'XRP' },
         ShareMPTID: 'shareMptId123',
       }
@@ -828,7 +828,7 @@ describe('VaultHeader Component', () => {
     })
 
     it('does not display credential row when DomainID is absent', async () => {
-      mockedGetLedgerEntry.mockResolvedValue({
+      mockedGetMPTIssuance.mockResolvedValue({
         node: {}, // No DomainID
       })
 
@@ -873,8 +873,8 @@ describe('VaultHeader Component', () => {
         </TestWrapper>,
       )
 
-      // getLedgerEntry should not be called without ShareMPTID
-      expect(mockedGetLedgerEntry).not.toHaveBeenCalled()
+      // getMPTIssuance should not be called without ShareMPTID
+      expect(mockedGetMPTIssuance).not.toHaveBeenCalled()
     })
   })
 
