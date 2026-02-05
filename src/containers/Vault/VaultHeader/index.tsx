@@ -9,11 +9,12 @@ import { RouteLink } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
-import { decodeVaultData, parseVaultWebsite } from '../utils'
+import { parseVaultWebsite } from '../utils'
 import { shortenMPTID } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
 import {parseAmount} from '../../shared/NumberFormattingUtils'
+import { convertHexToString } from '../../../rippled/lib/utils'
 
 interface VaultData {
   Owner?: string
@@ -124,7 +125,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const isPrivate =
     flags !== undefined && (flags & VAULT_FLAGS.lsfPrivate) !== 0
 
-  const decodedData = decodeVaultData(vaultDataRaw)
+  const decodedData = convertHexToString(vaultDataRaw)
   const vaultWebsite = parseVaultWebsite(vaultDataRaw)
 
   const getWithdrawalPolicyText = () => {

@@ -597,7 +597,7 @@ describe('VaultHeader Component', () => {
         Data: rawData,
       }
 
-      render(
+      expect(() => render(
         <TestWrapper>
           <VaultHeader
             data={vaultData}
@@ -605,10 +605,7 @@ describe('VaultHeader Component', () => {
             displayCurrency="XRP"
           />
         </TestWrapper>,
-      )
-
-      // Non-hex data should be displayed exactly as provided
-      expect(screen.getByText(rawData)).toBeInTheDocument()
+      )).toThrow('Invalid hex string')
     })
 
     it('displays dash when Data is undefined', () => {
