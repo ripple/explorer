@@ -4,16 +4,16 @@ import { useQuery } from 'react-query'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { Account } from '../../shared/components/Account'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
-import { useLanguage } from '../../shared/hooks'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { RouteLink } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
-import { decodeVaultData, formatAmount, parseVaultWebsite } from '../utils'
+import { decodeVaultData, parseVaultWebsite } from '../utils'
 import { shortenMPTID } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
+import {parseAmount} from '../../shared/NumberFormattingUtils'
 
 interface VaultData {
   Owner?: string
@@ -68,7 +68,6 @@ const getAssetCurrency = (asset: VaultData['Asset']): string =>
 
 export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const { t } = useTranslation()
-  const language = useLanguage()
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
   const { rate: tokenToUsdRate } = useTokenToUSDRate(data.Asset)
@@ -233,23 +232,16 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   ) {
                     return '--'
                   }
-                  return formatAmount(
-                    convertedAmount ?? assetsTotal,
-                    language,
-                    {
-                      currency: getDisplayCurrencyLabel(),
-                      prefix: displayCurrency === 'usd' ? '$' : '',
-                    },
-                  )
+                  const amount = convertedAmount ?? assetsTotal
+                  if (amount === undefined) return '--'
+                  return `${parseAmount(amount, 2)} ${getDisplayCurrencyLabel()}`
                 })()}
               />
               <TokenTableRow
                 label={t('max_total_supply')}
                 value={
                   assetsMaximum
-                    ? formatAmount(assetsMaximum, language, {
-                        currency: getAssetCurrency(asset),
-                      })
+                    ? `${parseAmount(assetsMaximum, 2)} ${getAssetCurrency(asset)}`
                     : t('no_limit')
                 }
               />
@@ -259,15 +251,11 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               />
               <TokenTableRow
                 label={t('available_to_borrow')}
-                value={formatAmount(assetsAvailable, language, {
-                  currency: getAssetCurrency(asset),
-                })}
+                value={`${parseAmount(assetsAvailable ?? '0', 2)} ${getAssetCurrency(asset)}`}
               />
               <TokenTableRow
                 label={t('unrealized_loss')}
-                value={formatAmount(lossUnrealized, language, {
-                  currency: getAssetCurrency(asset),
-                })}
+                value={`${parseAmount(lossUnrealized ?? 0, 2)} ${getAssetCurrency(asset)}`}
               />
             </tbody>
           </table>

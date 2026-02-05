@@ -1,11 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
-import { useLanguage } from '../../shared/hooks'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { formatRate, LSF_LOAN_DEFAULT } from './utils'
-import { formatAmount } from '../utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
 import WarningIcon from '../../shared/images/warning.svg'
+import { parseAmount } from '../../shared/NumberFormattingUtils'
 
 interface LoanBrokerData {
   index: string
@@ -41,10 +40,7 @@ export const BrokerDetails = ({
   loans,
 }: Props) => {
   const { t } = useTranslation()
-  const language = useLanguage()
   const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
-
-  const lang = language ?? 'en-US'
 
   // Convert amount to display currency (USD or native)
   const convertToDisplayCurrency = (
@@ -67,11 +63,10 @@ export const BrokerDetails = ({
     if (convertedAmount === undefined && displayCurrency === 'usd') {
       return '--'
     }
-    return formatAmount(convertedAmount ?? amount, lang, {
-      currency,
-      prefix: displayCurrency === 'usd' ? '$' : '',
-      fallback: `0 ${currency}`.trim(),
-    })
+
+    if (convertedAmount !== undefined) return `${parseAmount(convertedAmount, 2)} ${currency}`
+    else if (amount !== undefined) return `${parseAmount(amount, 2)} ${currency}`
+    else return '--'
   }
 
   return (

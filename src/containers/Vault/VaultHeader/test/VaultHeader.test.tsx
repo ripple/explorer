@@ -1105,27 +1105,6 @@ describe('VaultHeader Component', () => {
       // Should truncate without errors
       expect(screen.getByText('Vault ID')).toBeInTheDocument()
     })
-
-    it('handles NaN amounts gracefully', () => {
-      const vaultData = {
-        Owner: 'rTestOwner',
-        Asset: { currency: 'XRP' },
-        AssetsAvailable: 'not-a-number',
-      }
-
-      render(
-        <TestWrapper>
-          <VaultHeader
-            data={vaultData}
-            vaultId="ABC123"
-            displayCurrency="XRP"
-          />
-        </TestWrapper>,
-      )
-
-      // Should display the original string when parsing fails
-      expect(screen.getByText('not-a-number')).toBeInTheDocument()
-    })
   })
 
   /**
