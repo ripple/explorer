@@ -134,10 +134,13 @@ const createTestWrapper = (queryClient: QueryClient, vaultId: string = '') => {
 
 /**
  * Mock vault data generator
+ *
+ * Note: The Vault ledger object uses `Account` for the pseudo-account ID
+ * (not `PseudoAccount`). This matches the XRPL Vault ledger entry structure.
  */
 const createMockVaultData = (overrides: any = {}) => ({
   Owner: 'rOwnerAccount123',
-  PseudoAccount: 'rPseudoAccount456',
+  Account: 'rPseudoAccount456', // Vault's pseudo-account
   Asset: { currency: 'XRP' },
   AssetsTotal: '1000000',
   AssetsAvailable: '500000',
@@ -441,9 +444,9 @@ describe('Vault Component', () => {
       })
     })
 
-    it('renders VaultLoans with PseudoAccount when available', async () => {
+    it('renders VaultLoans with Account when available', async () => {
       const vaultData = createMockVaultData({
-        PseudoAccount: 'rPseudoAccount123',
+        Account: 'rPseudoAccount123',
         Owner: 'rOwner456',
       })
       mockedGetVault.mockResolvedValue(vaultData)
@@ -458,14 +461,14 @@ describe('Vault Component', () => {
       await waitFor(() => {
         const loansComponent = screen.getByTestId('vault-loans')
         expect(loansComponent).toBeInTheDocument()
-        // Should use PseudoAccount (preferred over Owner)
+        // Should use Account (pseudo-account)
         expect(loansComponent).toHaveTextContent('rPseudoAccount123')
       })
     })
 
     it('does not render VaultLoans when no account ID available', async () => {
       const vaultData = createMockVaultData({
-        PseudoAccount: undefined,
+        Account: undefined,
         Owner: undefined,
       })
       mockedGetVault.mockResolvedValue(vaultData)
@@ -526,7 +529,7 @@ describe('Vault Component', () => {
 
     it('renders VaultTransactions when account ID exists', async () => {
       const vaultData = createMockVaultData({
-        PseudoAccount: 'rPseudoAccount123',
+        Account: 'rPseudoAccount123',
       })
       mockedGetVault.mockResolvedValue(vaultData)
 
@@ -542,6 +545,33 @@ describe('Vault Component', () => {
         expect(transactionsComponent).toBeInTheDocument()
         expect(transactionsComponent).toHaveTextContent('rPseudoAccount123')
       })
+    })
+
+    it('renders all child components when vault data has required fields', async () => {
+      // Default mock data includes: PseudoAccount, ShareMPTID, Asset - all required for full rendering
+      mockedGetVault.mockResolvedValue(createMockVaultData())
+
+      const TestWrapper = createTestWrapper(queryClient, 'TEST_VAULT_ID')
+      render(
+        <TestWrapper>
+          <Vault />
+        </TestWrapper>,
+      )
+
+      // Wait for vault data to load and all components to render
+      await waitFor(() => {
+        // VaultHeader always renders when vault data exists
+        expect(screen.getByTestId('vault-header')).toBeInTheDocument()
+      })
+
+      // VaultLoans renders when PseudoAccount exists
+      expect(screen.getByTestId('vault-loans')).toBeInTheDocument()
+
+      // VaultDepositors renders when ShareMPTID exists
+      expect(screen.getByTestId('vault-depositors')).toBeInTheDocument()
+
+      // VaultTransactions renders when PseudoAccount exists
+      expect(screen.getByTestId('vault-transactions')).toBeInTheDocument()
     })
   })
 

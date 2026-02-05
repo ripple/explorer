@@ -122,8 +122,8 @@ export const Vault = () => {
     return <Page vaultId={vaultId}>{renderError()}</Page>
   }
 
-  // Get the account ID for transactions (PseudoAccount or Owner)
-  const transactionAccountId = vaultData?.PseudoAccount
+  // Get the Vault's (Pseudo)Account ID for transactions
+  const transactionAccountId = vaultData?.Account
 
   // Get display-friendly currency string from asset
   const getAssetCurrencyDisplay = (): string => {

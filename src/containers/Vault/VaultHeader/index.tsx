@@ -9,10 +9,11 @@ import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { RouteLink } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
-import { getLedgerEntry } from '../../../rippled/lib/rippled'
+import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { decodeVaultData, formatAmount, parseVaultWebsite } from '../utils'
 import { shortenMPTID } from '../../shared/utils'
 import './styles.scss'
+import { useAnalytics } from '../../shared/analytics'
 
 interface VaultData {
   Owner?: string
@@ -68,6 +69,7 @@ const getAssetCurrency = (asset: VaultData['Asset']): string =>
 export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
+  const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
   const { rate: tokenToUsdRate } = useTokenToUSDRate(data.Asset)
 
@@ -105,13 +107,16 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
     ['getMPTIssuance', vaultShareMptId],
     async () => {
       if (!vaultShareMptId) return null
-      const resp = await getLedgerEntry(rippledSocket, {
-        index: vaultShareMptId,
-      })
+      const resp = await getMPTIssuance(rippledSocket, vaultShareMptId)
       return resp?.node
     },
     {
       enabled: !!vaultShareMptId,
+      onError: (e: any) => {
+        trackException(
+          `Error fetching MPT Issuance data for MPT ID ${vaultShareMptId} --- ${JSON.stringify(e)}`,
+        )
+      },
     },
   )
 
