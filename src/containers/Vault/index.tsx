@@ -7,7 +7,6 @@ import NoMatch from '../NoMatch'
 import { VaultHeader } from './VaultHeader'
 import { VaultTransactions } from './VaultTransactions'
 import { VaultLoans } from './VaultLoans'
-import { VaultDepositors } from './VaultDepositors'
 import { CurrencyToggle } from './CurrencyToggle'
 import { Loader } from '../shared/components/Loader'
 import { CopyableText } from '../shared/components/CopyableText/CopyableText'
@@ -183,14 +182,7 @@ export const Vault = () => {
               asset={vaultData.Asset}
             />
           )}
-          {vaultData?.ShareMPTID && (
-            <VaultDepositors
-              shareMptId={vaultData.ShareMPTID}
-              totalSupply={vaultData.ShareTotal}
-              assetsTotal={vaultData.AssetsTotal}
-              asset={vaultData.Asset}
-            />
-          )}
+          {/* TODO: Include the VaultDepositors component here once Clio APIs are available */}
           {transactionAccountId && (
             <VaultTransactions accountId={transactionAccountId} />
           )}

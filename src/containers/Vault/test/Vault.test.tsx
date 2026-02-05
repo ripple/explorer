@@ -487,25 +487,26 @@ describe('Vault Component', () => {
       expect(screen.queryByTestId('vault-loans')).not.toBeInTheDocument()
     })
 
-    it('renders VaultDepositors when ShareMPTID exists', async () => {
-      const vaultData = createMockVaultData({
-        ShareMPTID: 'SHARE_MPT_123',
-      })
-      mockedGetVault.mockResolvedValue(vaultData)
+    // TODO: Uncomment this when VaultDepositors made available
+    // it('renders VaultDepositors when ShareMPTID exists', async () => {
+    //   const vaultData = createMockVaultData({
+    //     ShareMPTID: 'SHARE_MPT_123',
+    //   })
+    //   mockedGetVault.mockResolvedValue(vaultData)
 
-      const TestWrapper = createTestWrapper(queryClient, 'TEST_VAULT_ID')
-      render(
-        <TestWrapper>
-          <Vault />
-        </TestWrapper>,
-      )
+    //   const TestWrapper = createTestWrapper(queryClient, 'TEST_VAULT_ID')
+    //   render(
+    //     <TestWrapper>
+    //       <Vault />
+    //     </TestWrapper>,
+    //   )
 
-      await waitFor(() => {
-        const depositorsComponent = screen.getByTestId('vault-depositors')
-        expect(depositorsComponent).toBeInTheDocument()
-        expect(depositorsComponent).toHaveTextContent('SHARE_MPT_123')
-      })
-    })
+    //   await waitFor(() => {
+    //     const depositorsComponent = screen.getByTestId('vault-depositors')
+    //     expect(depositorsComponent).toBeInTheDocument()
+    //     expect(depositorsComponent).toHaveTextContent('SHARE_MPT_123')
+    //   })
+    // })
 
     it('does not render VaultDepositors when ShareMPTID missing', async () => {
       const vaultData = createMockVaultData({
@@ -567,8 +568,9 @@ describe('Vault Component', () => {
       // VaultLoans renders when PseudoAccount exists
       expect(screen.getByTestId('vault-loans')).toBeInTheDocument()
 
-      // VaultDepositors renders when ShareMPTID exists
-      expect(screen.getByTestId('vault-depositors')).toBeInTheDocument()
+      // TODO: Uncomment this when VaultDepositors made available
+      // // VaultDepositors renders when ShareMPTID exists
+      // expect(screen.getByTestId('vault-depositors')).toBeInTheDocument()
 
       // VaultTransactions renders when PseudoAccount exists
       expect(screen.getByTestId('vault-transactions')).toBeInTheDocument()
