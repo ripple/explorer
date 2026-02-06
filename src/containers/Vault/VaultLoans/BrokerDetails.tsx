@@ -26,7 +26,6 @@ interface AssetInfo {
 
 interface Props {
   broker: LoanBrokerData
-  currency?: string
   displayCurrency: string
   asset?: AssetInfo
   loans?: any[]
@@ -34,11 +33,12 @@ interface Props {
 
 export const BrokerDetails = ({
   broker,
-  currency,
   displayCurrency,
   asset,
   loans,
 }: Props) => {
+  // Derive currency string from asset for amount formatting
+  const currency = asset?.currency
   const { t } = useTranslation()
   const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
 

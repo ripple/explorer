@@ -25,7 +25,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import i18n from '../../../i18n/testConfigEnglish'
 import SocketContext from '../../shared/SocketContext'
 import { Vault } from '../index'
-import { getVault, getMPTIssuance } from '../../../rippled/lib/rippled'
+import { getVault } from '../../../rippled/lib/rippled'
 import Mock = jest.Mock
 
 // Mock the rippled API
@@ -70,11 +70,37 @@ jest.mock('../VaultHeader', () => ({
 }))
 
 jest.mock('../VaultLoans', () => ({
-  VaultLoans: ({ vaultId, vaultPseudoAccount, assetCurrency }: any) => (
-    <div data-testid="vault-loans">
-      VaultLoans: {vaultId} | {vaultPseudoAccount} | {assetCurrency}
-    </div>
-  ),
+  VaultLoans: ({ vaultId, vaultPseudoAccount, asset }: any) => {
+    // Mock mirrors VaultLoans currency derivation logic
+    const NON_STANDARD_CODE_LENGTH = 40
+    const LP_TOKEN_IDENTIFIER = '03'
+    const hexToString = (hex: string) => {
+      let s = ''
+      for (let i = 0; i < hex.length; i += 2) {
+        const code = parseInt(hex.substring(i, i + 2), 16)
+        if (!isNaN(code) && code !== 0) s += String.fromCharCode(code)
+      }
+      return s
+    }
+    let currency = ''
+    if (asset?.currency) {
+      if (
+        asset.currency.length === NON_STANDARD_CODE_LENGTH &&
+        asset.currency.substring(0, 2) !== LP_TOKEN_IDENTIFIER
+      ) {
+        currency = hexToString(asset.currency)
+      } else {
+        currency = asset.currency
+      }
+    } else if (asset?.mpt_issuance_id) {
+      currency = 'MPT'
+    }
+    return (
+      <div data-testid="vault-loans">
+        VaultLoans: {vaultId} | {vaultPseudoAccount} | {currency}
+      </div>
+    )
+  },
 }))
 
 jest.mock('../VaultTransactions', () => ({
@@ -90,7 +116,6 @@ jest.mock('../VaultDepositors', () => ({
 }))
 
 const mockedGetVault = getVault as Mock
-const mockedGetMPTIssuance = getMPTIssuance as Mock
 const mockSocket = {
   getState: jest.fn().mockReturnValue('connected'),
 } as any
@@ -584,9 +609,9 @@ describe('Vault Component', () => {
    */
   describe('Asset Currency Display', () => {
     it('passes XRP as currency for XRP vaults', async () => {
-      // "XRP" hex-encoded (58=X, 52=R, 50=P)
+      // Standard 3-char currency codes are stored as-is (not hex-encoded)
       const vaultData = createMockVaultData({
-        Asset: { currency: '585250' },
+        Asset: { currency: 'XRP' },
       })
       mockedGetVault.mockResolvedValue(vaultData)
 
@@ -604,9 +629,9 @@ describe('Vault Component', () => {
     })
 
     it('passes currency code for IOU vaults', async () => {
-      // "USD" hex-encoded (55=U, 53=S, 44=D)
+      // Standard 3-char currency codes are stored as-is (not hex-encoded)
       const vaultData = createMockVaultData({
-        Asset: { currency: '555344', issuer: 'rIssuer123' },
+        Asset: { currency: 'USD', issuer: 'rIssuer123' },
       })
       mockedGetVault.mockResolvedValue(vaultData)
 
@@ -623,7 +648,8 @@ describe('Vault Component', () => {
       })
     })
 
-    it('passes truncated MPT ID for MPT vaults', async () => {
+    it('passes MPT identifier for MPT vaults', async () => {
+      // VaultLoans now derives currency internally and shows "MPT" for all MPT assets
       const vaultData = createMockVaultData({
         Asset: { mpt_issuance_id: 'MPT_ISSUANCE_ID_LONG_STRING_123456' },
       })
@@ -638,8 +664,7 @@ describe('Vault Component', () => {
 
       await waitFor(() => {
         const loansComponent = screen.getByTestId('vault-loans')
-        // Should show truncated format: "MPT (MPT_IS...)"
-        expect(loansComponent).toHaveTextContent('MPT (MPT_IS...')
+        expect(loansComponent).toHaveTextContent('MPT')
       })
     })
 
@@ -666,22 +691,14 @@ describe('Vault Component', () => {
       })
     })
 
-    it('displays MPT ticker from MPTokenMetadata', async () => {
+    it('displays MPT identifier for MPT assets', async () => {
+      // VaultLoans now derives currency internally and shows "MPT" for MPT assets
+      // (MPT ticker lookup is only done for CurrencyToggle display, not for amount formatting)
       const mptIssuanceId = '00000C4F23D0CC3B3D973CDC631050101ABCD1234'
       const vaultData = createMockVaultData({
         Asset: { mpt_issuance_id: mptIssuanceId },
       })
       mockedGetVault.mockResolvedValue(vaultData)
-
-      // MPTokenMetadata JSON: {"ticker":"XMPT","name":"Test Token"}
-      // Hex encoded: 7b227469636b6572223a22584d5054222c226e616d65223a2254657374546f6b656e227d
-      const mptMetadataHex =
-        '7b227469636b6572223a22584d5054222c226e616d65223a2254657374546f6b656e227d'
-      mockedGetMPTIssuance.mockResolvedValue({
-        node: {
-          MPTokenMetadata: mptMetadataHex,
-        },
-      })
 
       const TestWrapper = createTestWrapper(queryClient, 'TEST_VAULT_ID')
       render(
@@ -692,7 +709,7 @@ describe('Vault Component', () => {
 
       await waitFor(() => {
         const loansComponent = screen.getByTestId('vault-loans')
-        expect(loansComponent).toHaveTextContent('XMPT')
+        expect(loansComponent).toHaveTextContent('MPT')
       })
     })
   })

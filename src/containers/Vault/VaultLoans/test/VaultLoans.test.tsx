@@ -166,7 +166,6 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
-            assetCurrency="XRP"
             displayCurrency={defaultDisplayCurrency}
             asset={defaultAsset}
           />
@@ -225,7 +224,6 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
-            assetCurrency="EUR"
             displayCurrency={defaultDisplayCurrency}
             asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
           />
@@ -677,7 +675,6 @@ describe('VaultLoans Component', () => {
           <VaultLoans
             vaultId="TEST_VAULT_ID"
             vaultPseudoAccount="rTestPseudoAccount"
-            assetCurrency="XRP"
             displayCurrency={defaultDisplayCurrency}
             asset={defaultAsset}
           />

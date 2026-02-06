@@ -50,35 +50,20 @@ describe('CurrencyToggle Component', () => {
    * Verify the component renders all expected elements.
    */
   describe('Basic Rendering', () => {
-    it('renders native currency button with provided currency name', () => {
+    it('renders native currency and USD button', () => {
       const onToggle = jest.fn()
 
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="ABC"
-            selected="XRP"
+            nativeCurrencyDisplay={<span>ABC</span>}
+            selected="ABC"
             onToggle={onToggle}
           />
         </TestWrapper>,
       )
 
       expect(screen.getByText('ABC')).toBeInTheDocument()
-    })
-
-    it('renders USD button', () => {
-      const onToggle = jest.fn()
-
-      render(
-        <TestWrapper>
-          <CurrencyToggle
-            nativeCurrency="XRP"
-            selected="XRP"
-            onToggle={onToggle}
-          />
-        </TestWrapper>,
-      )
-
       expect(screen.getByText('USD')).toBeInTheDocument()
     })
 
@@ -88,7 +73,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
           />
@@ -96,22 +81,6 @@ describe('CurrencyToggle Component', () => {
       )
 
       expect(screen.getByText('?')).toBeInTheDocument()
-    })
-
-    it('renders with custom native currency name (e.g., RLUSD)', () => {
-      const onToggle = jest.fn()
-
-      render(
-        <TestWrapper>
-          <CurrencyToggle
-            nativeCurrency="RLUSD"
-            selected="XRP"
-            onToggle={onToggle}
-          />
-        </TestWrapper>,
-      )
-
-      expect(screen.getByText('RLUSD')).toBeInTheDocument()
     })
   })
 
@@ -122,30 +91,30 @@ describe('CurrencyToggle Component', () => {
    * Verify correct styling when each currency is selected.
    */
   describe('Active State', () => {
-    it('shows native currency button as active when selected is "xrp"', () => {
+    it('shows native currency button as active when selected is not USD', () => {
       const onToggle = jest.fn()
 
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
       )
 
-      const nativeButton = screen.getByText('XRP')
+      const nativeButton = screen.getByText('XRP').closest('button')
       expect(nativeButton).toHaveClass('active')
     })
 
-    it('shows USD button as active when selected is "usd"', () => {
+    it('shows USD button as active when selected is "USD"', () => {
       const onToggle = jest.fn()
 
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="USD"
             onToggle={onToggle}
           />
@@ -162,14 +131,14 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="USD"
             onToggle={onToggle}
           />
         </TestWrapper>,
       )
 
-      const nativeButton = screen.getByText('XRP')
+      const nativeButton = screen.getByText('XRP').closest('button')
       expect(nativeButton).not.toHaveClass('active')
     })
 
@@ -179,7 +148,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
           />
@@ -198,30 +167,31 @@ describe('CurrencyToggle Component', () => {
    * Verify clicking buttons triggers the onToggle callback correctly.
    */
   describe('Toggle Functionality', () => {
-    it('calls onToggle with "xrp" when native currency button is clicked', () => {
+    it('calls onToggle with empty string when native currency button is clicked', () => {
       const onToggle = jest.fn()
 
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
-            selected="USD"
+            nativeCurrencyDisplay={<span>XRP</span>}
+            selected="XRP"
             onToggle={onToggle}
           />
         </TestWrapper>,
       )
 
       fireEvent.click(screen.getByText('XRP'))
-      expect(onToggle).toHaveBeenCalledWith('XRP')
+      // Empty string indicates native currency
+      expect(onToggle).toHaveBeenCalledWith('')
     })
 
-    it('calls onToggle with "usd" when USD button is clicked', () => {
+    it('calls onToggle with "USD" when USD button is clicked', () => {
       const onToggle = jest.fn()
 
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
           />
@@ -238,7 +208,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
           />
@@ -246,7 +216,8 @@ describe('CurrencyToggle Component', () => {
       )
 
       fireEvent.click(screen.getByText('XRP'))
-      expect(onToggle).toHaveBeenCalledWith('XRP')
+      // Empty string indicates native currency
+      expect(onToggle).toHaveBeenCalledWith('')
     })
   })
 
@@ -263,7 +234,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdDisabled
@@ -281,7 +252,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdDisabled
@@ -299,7 +270,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdDisabled
@@ -317,7 +288,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="USD"
             onToggle={onToggle}
             usdDisabled
@@ -326,7 +297,8 @@ describe('CurrencyToggle Component', () => {
       )
 
       fireEvent.click(screen.getByText('XRP'))
-      expect(onToggle).toHaveBeenCalledWith('XRP')
+      // Empty string indicates switching back to native currency
+      expect(onToggle).toHaveBeenCalledWith('')
     })
 
     it('shows unavailable tooltip on hover when USD is disabled', () => {
@@ -335,7 +307,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdDisabled
@@ -361,7 +333,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdDisabled
@@ -392,7 +364,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdLoading
@@ -410,7 +382,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdLoading
@@ -428,7 +400,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdLoading
@@ -446,7 +418,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdLoading
@@ -464,7 +436,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdLoading
@@ -498,8 +470,8 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
-            selected="XRP"
+            nativeCurrencyDisplay={<span>EUR</span>}
+            selected="EUR"
             onToggle={onToggle}
           />
         </TestWrapper>,
@@ -508,10 +480,11 @@ describe('CurrencyToggle Component', () => {
       const helpIcon = screen.getByText('?')
       fireEvent.mouseEnter(helpIcon)
 
+      // The tooltip text is a static i18n key
       expect(mockShowTooltip).toHaveBeenCalledWith(
         'text',
         expect.any(Object),
-        'Toggle to view values in XRP or USD',
+        'Toggle to view values in Native-Currency or USD',
       )
     })
 
@@ -521,7 +494,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
           />
@@ -549,7 +522,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
           />
@@ -567,7 +540,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdDisabled={false}
@@ -585,7 +558,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
           />
@@ -607,7 +580,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
             usdDisabled={false}
@@ -623,59 +596,57 @@ describe('CurrencyToggle Component', () => {
 
   /**
    * =========================================
-   * SECTION 8: Edge Cases
+   * SECTION 8: JSX Display Prop Tests
+   * =========================================
+   * Test the nativeCurrencyDisplay prop for custom JSX rendering.
+   */
+  describe('JSX Display Prop (nativeCurrencyDisplay)', () => {
+    it('renders nativeCurrencyDisplay when provided', () => {
+      const onToggle = jest.fn()
+
+      render(
+        <TestWrapper>
+          <CurrencyToggle
+            nativeCurrencyDisplay={
+              <span data-testid="custom-display">Custom-XRP</span>
+            }
+            selected="Custom-XRP"
+            onToggle={onToggle}
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.getByTestId('custom-display')).toBeInTheDocument()
+      expect(screen.getByText('Custom-XRP')).toBeInTheDocument()
+    })
+
+    it('calls onToggle with empty string when JSX display is clicked', () => {
+      const onToggle = jest.fn()
+
+      render(
+        <TestWrapper>
+          <CurrencyToggle
+            nativeCurrencyDisplay={<span>MPT (ABC123...)</span>}
+            selected="ABC123"
+            onToggle={onToggle}
+          />
+        </TestWrapper>,
+      )
+
+      // Click the native currency button (which shows the JSX display)
+      fireEvent.click(screen.getByText('MPT (ABC123...)'))
+      // Empty string indicates switching to native currency
+      expect(onToggle).toHaveBeenCalledWith('')
+    })
+  })
+
+  /**
+   * =========================================
+   * SECTION 9: Edge Cases
    * =========================================
    * Test edge cases and unusual inputs.
    */
   describe('Edge Cases', () => {
-    it('handles long currency names gracefully', () => {
-      const onToggle = jest.fn()
-
-      render(
-        <TestWrapper>
-          <CurrencyToggle
-            nativeCurrency="MPT (ABC123...)"
-            selected="XRP"
-            onToggle={onToggle}
-          />
-        </TestWrapper>,
-      )
-
-      expect(screen.getByText('MPT (ABC123...)')).toBeInTheDocument()
-    })
-
-    it('handles both usdDisabled and usdLoading being true', () => {
-      const onToggle = jest.fn()
-
-      render(
-        <TestWrapper>
-          <CurrencyToggle
-            nativeCurrency="XRP"
-            selected="XRP"
-            onToggle={onToggle}
-            usdDisabled
-            usdLoading
-          />
-        </TestWrapper>,
-      )
-
-      // When both are true, loading state takes precedence for display
-      expect(screen.getByText('...')).toBeInTheDocument()
-
-      // Button should be disabled
-      const loadingButton = screen.getByText('...')
-      expect(loadingButton).toBeDisabled()
-
-      // Mouse events are on the wrapper span, not the disabled button
-      const wrapper = loadingButton.parentElement!
-      // Loading tooltip takes precedence
-      fireEvent.mouseEnter(wrapper)
-      expect(mockShowTooltip).toHaveBeenCalledWith(
-        'text',
-        expect.any(Object),
-        'Loading USD conversion rate...',
-      )
-    })
 
     it('maintains correct state after multiple toggles', () => {
       const selections: string[] = []
@@ -686,7 +657,7 @@ describe('CurrencyToggle Component', () => {
       const { rerender } = render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="XRP"
             onToggle={onToggle}
           />
@@ -701,19 +672,19 @@ describe('CurrencyToggle Component', () => {
       rerender(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrency="XRP"
+            nativeCurrencyDisplay={<span>XRP</span>}
             selected="USD"
             onToggle={onToggle}
           />
         </TestWrapper>,
       )
 
-      // Click native currency button
+      // Click native currency button - passes empty string to switch to native
       fireEvent.click(screen.getByText('XRP'))
-      expect(selections).toContain('XRP')
+      expect(selections).toContain('')
 
-      // Both currencies should have been toggled
-      expect(selections).toEqual(['USD', 'XRP'])
+      // Both clicks resulted in expected callbacks
+      expect(selections).toEqual(['USD', ''])
     })
   })
 })

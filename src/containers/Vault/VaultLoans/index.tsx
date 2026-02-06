@@ -34,7 +34,6 @@ interface AssetInfo {
 interface Props {
   vaultId: string
   vaultPseudoAccount: string
-  assetCurrency?: string
   displayCurrency: string
   asset?: AssetInfo
 }
@@ -42,7 +41,6 @@ interface Props {
 export const VaultLoans = ({
   vaultId,
   vaultPseudoAccount,
-  assetCurrency,
   displayCurrency,
   asset,
 }: Props) => {
@@ -174,7 +172,6 @@ export const VaultLoans = ({
       {selectedBroker && (
         <BrokerDetails
           broker={selectedBroker}
-          currency={assetCurrency}
           displayCurrency={displayCurrency}
           asset={asset}
           loans={brokerLoansMap[selectedBroker.index]}

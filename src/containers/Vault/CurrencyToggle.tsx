@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTooltip } from '../shared/components/Tooltip'
 import './styles.scss'
@@ -5,7 +6,7 @@ import './styles.scss'
 const USD = 'USD'
 
 interface Props {
-  nativeCurrency: string // e.g., "XRP" or "RLUSD"
+  nativeCurrencyDisplay?: ReactNode // Optional JSX for button display (defaults to nativeCurrency)
   selected: string // The currently selected currency (nativeCurrency or "USD")
   onToggle: (currency: string) => void
   usdDisabled?: boolean // Disable USD option when no price is available
@@ -13,7 +14,7 @@ interface Props {
 }
 
 export const CurrencyToggle = ({
-  nativeCurrency,
+  nativeCurrencyDisplay,
   selected,
   onToggle,
   usdDisabled = false,
@@ -42,9 +43,9 @@ export const CurrencyToggle = ({
       <button
         type="button"
         className={`toggle-option ${isNativeSelected ? 'active' : ''}`}
-        onClick={() => onToggle(nativeCurrency)}
+        onClick={() => onToggle('')}
       >
-        {nativeCurrency}
+        {nativeCurrencyDisplay}
       </button>
       <span
         className="toggle-option-wrapper"
