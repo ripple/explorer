@@ -843,7 +843,7 @@
   "no_loans_message": "No loans found for this broker.",
   "loan_default_detected": "Loan default detected in this broker.",
   "no_loan_brokers_message": "No loan brokers have been set up for this vault.",
-  "depositors_fetch_error": "Unable to fetch depositors information from Clio node at this time.",
+  "depositors_fetch_error": "Unable to fetch depositors information",
   "no_depositors_message": "No depositors found for this vault.",
   "depositors": "Depositors",
   "percent_of_supply": "% of Supply",
