@@ -39,38 +39,40 @@ export const CurrencyToggle = ({
   const isNativeSelected = selected !== USD
 
   return (
-    <div className="currency-toggle">
-      <button
-        type="button"
-        className={`toggle-option ${isNativeSelected ? 'active' : ''}`}
-        onClick={() => onToggle('')}
-      >
-        {nativeCurrencyDisplay}
-      </button>
-      <span
-        className="toggle-option-wrapper"
-        onMouseEnter={(e) => {
-          const tooltip = getUsdTooltip()
-          if (tooltip) showTooltip('text', e, tooltip)
-        }}
-        onMouseLeave={hideTooltip}
-      >
+    <div className="currency-toggle-wrapper">
+      <div className="currency-toggle">
         <button
           type="button"
-          className={`toggle-option ${!isNativeSelected ? 'active' : ''} ${usdDisabled || usdLoading ? 'disabled' : ''}`}
-          onClick={handleUsdClick}
-          disabled={usdDisabled || usdLoading}
+          className={`toggle-option ${isNativeSelected ? 'active' : ''}`}
+          onClick={() => onToggle('')}
         >
-          {usdLoading ? '...' : USD}
+          {nativeCurrencyDisplay}
         </button>
-      </span>
+        <span
+          className="toggle-option-wrapper"
+          onMouseEnter={(e) => {
+            const tooltip = getUsdTooltip()
+            if (tooltip) showTooltip('text', e, tooltip)
+          }}
+          onMouseLeave={hideTooltip}
+        >
+          <button
+            type="button"
+            className={`toggle-option ${!isNativeSelected ? 'active' : ''} ${usdDisabled || usdLoading ? 'disabled' : ''}`}
+            onClick={handleUsdClick}
+            disabled={usdDisabled || usdLoading}
+          >
+            {usdLoading ? '...' : USD}
+          </button>
+        </span>
+      </div>
       <span
-        className="toggle-help"
-        onMouseEnter={(e) => showTooltip('text', e, t('currency_toggle_help'))}
-        onMouseLeave={hideTooltip}
-      >
-        ?
-      </span>
+          className="toggle-help"
+          onMouseEnter={(e) => showTooltip('text', e, t('currency_toggle_help'))}
+          onMouseLeave={hideTooltip}
+        >
+          ?
+        </span>
     </div>
   )
 }
