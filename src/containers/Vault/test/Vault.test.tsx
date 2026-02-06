@@ -27,6 +27,7 @@ import SocketContext from '../../shared/SocketContext'
 import { Vault } from '../index'
 import { getVault } from '../../../rippled/lib/rippled'
 import Mock = jest.Mock
+import { shortenVaultID } from '../../shared/utils'
 
 // Mock the rippled API
 jest.mock('../../../rippled/lib/rippled', () => ({
@@ -446,7 +447,7 @@ describe('Vault Component', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Vault ID:')).toBeInTheDocument()
-        expect(screen.getByText(testVaultId)).toBeInTheDocument()
+        expect(screen.getByText(shortenVaultID(testVaultId))).toBeInTheDocument()
 
         // Verify CopyableText component is rendered with copy icon
         const copyableWrapper = container.querySelector(
