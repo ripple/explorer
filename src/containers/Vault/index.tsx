@@ -26,6 +26,7 @@ import { ErrorMessage } from '../shared/Interfaces'
 import { parseVaultName } from './utils'
 import './styles.scss'
 import { renderAssetCurrency } from './utils'
+import {shortenVaultID} from '../shared/utils'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
   [NOT_FOUND]: {
@@ -51,7 +52,7 @@ const Page: FC<PropsWithChildren<{ vaultId: string }>> = ({
   children,
 }) => (
   <div className="vault-page section">
-    <Helmet title={`Vault ${vaultId.substring(0, 12)}...`} />
+    <Helmet title={`Vault ${shortenVaultID(vaultId)}`} />
     {children}
   </div>
 )

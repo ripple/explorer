@@ -584,3 +584,12 @@ export const convertToHttpURL = (url) => {
   // Otherwise, assume it's a plain domain and add https://
   return `https://${url}`
 }
+
+/**
+ * Truncates the vaultID to ensure better readability
+ * @param {string} vaultID - The complete VaultID obtained from XRPL on-chain data
+ * @returns {string} The truncated VaultID
+ */
+export const shortenVaultID = (vaultID) => {
+  return vaultID.substring(0, 8) + '...' + vaultID.substring(vaultID.length - 6)
+}

@@ -15,6 +15,7 @@ import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
 import { convertHexToString } from '../../../rippled/lib/utils'
+import { shortenVaultID, shortenAccount } from '../../shared/utils'
 
 interface VaultData {
   Owner?: string
@@ -159,7 +160,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 value={
                   <CopyableText
                     text={vaultId}
-                    displayText={`${vaultId.substring(0, 8)}...${vaultId.substring(vaultId.length - 6)}`}
+                    displayText={`${shortenVaultID(vaultId)}`}
                     showCopyIcon
                   />
                 }
@@ -167,7 +168,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               {owner && (
                 <TokenTableRow
                   label={t('owner')}
-                  value={<Account account={owner} displayText={`${owner.slice(0, 8)}...${owner.slice(-4)}`}/>}
+                  value={<Account account={owner} displayText={`${shortenAccount(owner)}`}/>}
                 />
               )}
               <TokenTableRow
