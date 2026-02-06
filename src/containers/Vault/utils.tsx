@@ -1,7 +1,5 @@
-import { convertHexToString } from "../../rippled/lib/utils"
-import {
-  ReactNode,
-} from 'react'
+import { ReactNode } from 'react'
+import { convertHexToString } from '../../rippled/lib/utils'
 import Currency from '../shared/components/Currency'
 
 /**
@@ -70,7 +68,11 @@ export const parseVaultWebsite = (
 }
 
 // Render Currency component for display in toggle button
-export const renderAssetCurrency = (asset: { currency: string, issuer?: string, mpt_issuance_id?: string }): ReactNode => {
+export const renderAssetCurrency = (asset: {
+  currency: string
+  issuer?: string
+  mpt_issuance_id?: string
+}): ReactNode => {
   // const asset = vaultData?.Asset
   if (!asset) return null
 
@@ -79,7 +81,9 @@ export const renderAssetCurrency = (asset: { currency: string, issuer?: string, 
   }
 
   if (asset.currency) {
-    return <Currency currency={asset.currency} issuer={asset.issuer} link={false} />
+    return (
+      <Currency currency={asset.currency} issuer={asset.issuer} link={false} />
+    )
   }
 
   return null

@@ -64,9 +64,10 @@ export const BrokerDetails = ({
       return '--'
     }
 
-    if (convertedAmount !== undefined) return `${parseAmount(convertedAmount, 2)} ${currency}`
-    else if (amount !== undefined) return `${parseAmount(amount, 2)} ${currency}`
-    else return '--'
+    if (convertedAmount !== undefined)
+      return `${parseAmount(convertedAmount, 2)} ${currency}`
+    if (amount !== undefined) return `${parseAmount(amount, 2)} ${currency}`
+    return '--'
   }
 
   return (

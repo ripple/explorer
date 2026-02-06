@@ -10,12 +10,15 @@ import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { parseVaultWebsite } from '../utils'
-import { shortenMPTID } from '../../shared/utils'
+import {
+  shortenMPTID,
+  shortenVaultID,
+  shortenAccount,
+} from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
 import { convertHexToString } from '../../../rippled/lib/utils'
-import { shortenVaultID, shortenAccount } from '../../shared/utils'
 
 interface VaultData {
   Owner?: string
@@ -168,7 +171,12 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               {owner && (
                 <TokenTableRow
                   label={t('owner')}
-                  value={<Account account={owner} displayText={`${shortenAccount(owner)}`}/>}
+                  value={
+                    <Account
+                      account={owner}
+                      displayText={`${shortenAccount(owner)}`}
+                    />
+                  }
                 />
               )}
               <TokenTableRow

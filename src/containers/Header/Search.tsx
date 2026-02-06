@@ -47,8 +47,7 @@ const determineHashType = async (
   try {
     await getVault(rippledContext, id)
     return 'vault'
-  }
-  catch (e) {
+  } catch (e) {
     return 'nft'
   }
 }
@@ -82,7 +81,7 @@ const getRoute = async (
     } else if (type === 'nft') {
       path = buildPath(NFT_ROUTE, { id: id.toUpperCase() })
     } else if (type === 'vault') {
-      path = buildPath(VAULT_ROUTE, {id: id.toUpperCase()})
+      path = buildPath(VAULT_ROUTE, { id: id.toUpperCase() })
     }
 
     return {

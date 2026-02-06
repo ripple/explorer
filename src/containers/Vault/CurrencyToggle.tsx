@@ -67,12 +67,12 @@ export const CurrencyToggle = ({
         </span>
       </div>
       <span
-          className="toggle-help"
-          onMouseEnter={(e) => showTooltip('text', e, t('currency_toggle_help'))}
-          onMouseLeave={hideTooltip}
-        >
-          ?
-        </span>
+        className="toggle-help"
+        onMouseEnter={(e) => showTooltip('text', e, t('currency_toggle_help'))}
+        onMouseLeave={hideTooltip}
+      >
+        ?
+      </span>
     </div>
   )
 }

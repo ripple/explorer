@@ -1,10 +1,4 @@
-import {
-  FC,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
@@ -21,12 +15,10 @@ import SocketContext from '../shared/SocketContext'
 import { getVault } from '../../rippled/lib/rippled'
 import { useAnalytics } from '../shared/analytics'
 import { useTokenToUSDRate } from '../shared/hooks/useTokenToUSDRate'
-import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
+import { NOT_FOUND, BAD_REQUEST, shortenVaultID } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
-import { parseVaultName } from './utils'
+import { parseVaultName, renderAssetCurrency } from './utils'
 import './styles.scss'
-import { renderAssetCurrency } from './utils'
-import {shortenVaultID} from '../shared/utils'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
   [NOT_FOUND]: {

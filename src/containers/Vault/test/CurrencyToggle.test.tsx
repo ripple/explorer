@@ -647,7 +647,6 @@ describe('CurrencyToggle Component', () => {
    * Test edge cases and unusual inputs.
    */
   describe('Edge Cases', () => {
-
     it('maintains correct state after multiple toggles', () => {
       const selections: string[] = []
       const onToggle = (currency: string) => {

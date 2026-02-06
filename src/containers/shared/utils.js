@@ -590,6 +590,5 @@ export const convertToHttpURL = (url) => {
  * @param {string} vaultID - The complete VaultID obtained from XRPL on-chain data
  * @returns {string} The truncated VaultID
  */
-export const shortenVaultID = (vaultID) => {
-  return vaultID.substring(0, 8) + '...' + vaultID.substring(vaultID.length - 6)
-}
+export const shortenVaultID = (vaultID) =>
+  `${vaultID.substring(0, 8)}...${vaultID.substring(vaultID.length - 6)}`

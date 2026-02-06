@@ -86,7 +86,8 @@ describe('Search component', () => {
 
     const mptoken = '00002AF2588C244FE5F74BF48B5C5E2823235B243AA34634'
     const invalidString = '123invalid'
-    const vaultID = "5C60E9B76EECC8262DB29276B32B99F05B7A7DE66D6968B5959BB9E4E397643D"
+    const vaultID =
+      '5C60E9B76EECC8262DB29276B32B99F05B7A7DE66D6968B5959BB9E4E397643D'
 
     // mock getNFTInfo api to test transactions and nfts
     const mockAPI = jest.spyOn(rippled, 'getTransaction')
