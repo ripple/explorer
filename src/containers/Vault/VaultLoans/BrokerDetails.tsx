@@ -5,6 +5,7 @@ import { formatRate, LSF_LOAN_DEFAULT } from './utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
 import WarningIcon from '../../shared/images/warning.svg'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
+import { shortenLoanBrokerID, shortenMPTID } from '../../shared/utils'
 
 interface LoanBrokerData {
   index: string
@@ -37,8 +38,6 @@ export const BrokerDetails = ({
   asset,
   loans,
 }: Props) => {
-  // Derive currency string from asset for amount formatting
-  const currency = asset?.currency
   const { t } = useTranslation()
   const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
 
@@ -65,8 +64,8 @@ export const BrokerDetails = ({
     }
 
     if (convertedAmount !== undefined)
-      return `${parseAmount(convertedAmount, 2)} ${currency}`
-    if (amount !== undefined) return `${parseAmount(amount, 2)} ${currency}`
+      return `${parseAmount(convertedAmount, 2)}`
+    if (amount !== undefined) return `${parseAmount(amount, 2)}`
     return '--'
   }
 
@@ -78,7 +77,7 @@ export const BrokerDetails = ({
           <div className="broker-id-value">
             <CopyableText
               text={broker.index}
-              displayText={broker.index}
+              displayText={shortenLoanBrokerID(broker.index)}
               showCopyIcon
             />
           </div>
@@ -87,13 +86,13 @@ export const BrokerDetails = ({
           <div className="debt-metric">
             <span className="metric-label">{t('total_debt')}</span>
             <span className="metric-value">
-              {formatBrokerAmount(broker.DebtTotal)}
+              {formatBrokerAmount(broker.DebtTotal)} {asset?.currency ?? 'MPT (' + shortenMPTID(asset?.mpt_issuance_id) + ')'}
             </span>
           </div>
           <div className="debt-metric">
             <span className="metric-label">{t('maximum_debt')}</span>
             <span className="metric-value">
-              {formatBrokerAmount(broker.DebtMaximum)}
+              {formatBrokerAmount(broker.DebtMaximum)} {asset?.currency ?? 'MPT (' + shortenMPTID(asset?.mpt_issuance_id) + ')'}
             </span>
           </div>
         </div>
@@ -109,7 +108,7 @@ export const BrokerDetails = ({
         <div className="metric">
           <span className="metric-label">{t('first_loss_capital')}</span>
           <span className="metric-value">
-            {formatBrokerAmount(broker.CoverAvailable)}
+            {formatBrokerAmount(broker.CoverAvailable)} {asset?.currency ?? 'MPT (' + shortenMPTID(asset?.mpt_issuance_id) + ')'}
           </span>
         </div>
         <div className="metric">
@@ -128,7 +127,7 @@ export const BrokerDetails = ({
 
       <BrokerLoansTable
         loans={loans}
-        currency={currency}
+        currency={asset?.currency ?? shortenMPTID(asset?.mpt_issuance_id)}
         displayCurrency={displayCurrency}
         asset={asset}
       />

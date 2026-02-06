@@ -558,6 +558,9 @@ export const shortenMPTID = (
 export const shortenTxHash = (txHash = '') =>
   txHash.length > 12 ? `${txHash.slice(0, 6)}...${txHash.slice(-6)}` : txHash
 
+export const shortenLoanBrokerID = (loanBrokerID = '') =>
+  loanBrokerID.length > 12 ? `${loanBrokerID.slice(0, 6)}...${loanBrokerID.slice(-6)}` : loanBrokerID
+
 /**
  * Converts URLs to HTTP/HTTPS format, handling IPFS URLs and plain domains
  * @param {string} url - The URL to convert (can be ipfs://, https://, http://, or plain domain)
