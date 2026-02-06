@@ -202,7 +202,7 @@ describe('VaultHeader Component', () => {
 
       // Owner value should display the exact account address as link text
       // The Account component displays the full address for short accounts
-      const ownerLink = screen.getByRole('link', { name: `${owner.slice(0, 8)}...${owner.slice(-4)}` })
+      const ownerLink = screen.getByRole('link', { name: `${owner.slice(0, 7)}...${owner.slice(-5)}` })
       expect(ownerLink.getAttribute('href')).toBe(`/accounts/${owner}`)
     })
   })
