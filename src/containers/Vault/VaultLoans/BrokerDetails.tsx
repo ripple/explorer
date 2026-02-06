@@ -55,7 +55,7 @@ export const BrokerDetails = ({
   // Check if any loan has the default flag
   const hasDefaultedLoan = loans?.some(
     // eslint-disable-next-line no-bitwise -- required to check the status of the loan
-    (loan: any) => (loan.Flags ?? 0) & LSF_LOAN_DEFAULT,
+    (loan: any) => loan.TotalValueOutstanding > 0 && ((loan.Flags ?? 0) & LSF_LOAN_DEFAULT),
   )
 
   const formatBrokerAmount = (amount: string | undefined): string => {
