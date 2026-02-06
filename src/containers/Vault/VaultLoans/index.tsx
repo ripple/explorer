@@ -157,6 +157,8 @@ export const VaultLoans = ({
     )
   }
 
+  loanBrokers.sort((a: LoanBrokerData, b: LoanBrokerData) => loanCountMap[b.index] - loanCountMap[a.index])
+
   const selectedBroker = loanBrokers[selectedBrokerIndex]
 
   return (

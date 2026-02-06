@@ -464,6 +464,81 @@ describe('VaultLoans Component', () => {
         expect(selectedTab).toHaveTextContent('Broker 1')
       })
     })
+
+    it('displays broker tabs in descending order of loan count', async () => {
+      // Create brokers - broker1 has fewer loans, broker2 has more loans
+      const broker1 = createMockBroker({
+        index: 'BROKER_FEW_LOANS',
+        VaultID: 'TEST_VAULT_ID',
+        Account: 'rBrokerAccount1',
+      })
+      const broker2 = createMockBroker({
+        index: 'BROKER_MANY_LOANS',
+        VaultID: 'TEST_VAULT_ID',
+        Account: 'rBrokerAccount2',
+      })
+      const broker3 = createMockBroker({
+        index: 'BROKER_TOO_MANY_LOANS',
+        VaultID: 'TEST_VAULT_ID',
+        Account: 'rBrokerAccount3',
+      })
+
+      // Create loans - broker1 has 1 loan, broker2 has 5 loans
+      const broker1Loans = [
+        createMockLoan({ LoanBrokerID: 'BROKER_FEW_LOANS' }),
+      ]
+      const broker2Loans = [
+        createMockLoan({ LoanBrokerID: 'BROKER_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_MANY_LOANS' }),
+      ]
+      const broker3Loans = [
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+        createMockLoan({ LoanBrokerID: 'BROKER_TOO_MANY_LOANS' }),
+      ]
+
+      // Mock returns brokers in order [broker1, broker2] (broker1 first)
+      // But after sorting by loan count, broker2 should appear first
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker1, broker2, broker3] }) // brokers
+        .mockResolvedValueOnce({ account_objects: broker1Loans }) // loans for broker1
+        .mockResolvedValueOnce({ account_objects: broker2Loans }) // loans for broker2
+        .mockResolvedValueOnce({ account_objects: broker3Loans }) // loans for broker2
+
+      const TestWrapper = createTestWrapper(queryClient)
+      const { container } = render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        const tabs = container.querySelectorAll('.broker-tab')
+        expect(tabs.length).toBe(3)
+
+        // First tab should be broker with 10 loans (sorted descending by loan count)
+        expect(tabs[0]).toHaveTextContent('Broker 1 (10)')
+        // Second tab should be broker with 5 loans
+        expect(tabs[1]).toHaveTextContent('Broker 2 (5)')
+        // Second tab should be broker with 1 loan
+        expect(tabs[2]).toHaveTextContent('Broker 3 (1)')
+      })
+    })
   })
 
   /**
