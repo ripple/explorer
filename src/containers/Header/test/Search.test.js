@@ -86,9 +86,11 @@ describe('Search component', () => {
 
     const mptoken = '00002AF2588C244FE5F74BF48B5C5E2823235B243AA34634'
     const invalidString = '123invalid'
+    const vaultID = "5C60E9B76EECC8262DB29276B32B99F05B7A7DE66D6968B5959BB9E4E397643D"
 
     // mock getNFTInfo api to test transactions and nfts
     const mockAPI = jest.spyOn(rippled, 'getTransaction')
+    const mockGetVault = jest.spyOn(rippled, 'getVault')
 
     const testValue = async (searchInput, expectedPath) => {
       input.value = searchInput
@@ -168,6 +170,11 @@ describe('Search component', () => {
     await testValue(ctid.toLowerCase(), `/transactions/${ctid}`)
 
     await testValue(mptoken, `/mpt/${mptoken}`)
+
+    // Mock the API to simulate circumstances where the ledger-object is a vault and not a transaction
+    mockAPI.mockRejectedValue()
+    mockGetVault.mockResolvedValue()
+    await testValue(vaultID, `/vault/${vaultID}`)
   })
 
   // TODO: Add custom search tests
