@@ -50,7 +50,7 @@ const Page: FC<PropsWithChildren<{ vaultId: string }>> = ({
   vaultId,
   children,
 }) => (
-  <div className="vault-page">
+  <div className="vault-page section">
     <Helmet title={`Vault ${vaultId.substring(0, 12)}...`} />
     {children}
   </div>
@@ -96,7 +96,7 @@ export const Vault = () => {
   const renderError = () => {
     const message = getErrorMessage(error)
     return (
-      <div className="vault-page">
+      <div className="vault-page section">
         <NoMatch title={message.title} hints={message.hints} />
       </div>
     )

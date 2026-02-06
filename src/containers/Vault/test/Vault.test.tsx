@@ -207,6 +207,23 @@ describe('Vault Component', () => {
         expect(container.querySelector('.vault-page')).toBeInTheDocument()
       })
     })
+
+    it('applies section class for max-width constraints', async () => {
+      mockedGetVault.mockResolvedValue(createMockVaultData())
+
+      const TestWrapper = createTestWrapper(queryClient, 'TEST_VAULT_ID')
+      const { container } = render(
+        <TestWrapper>
+          <Vault />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        const vaultPage = container.querySelector('.vault-page')
+        expect(vaultPage).toBeInTheDocument()
+        expect(vaultPage).toHaveClass('section')
+      })
+    })
   })
 
   /**
