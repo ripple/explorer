@@ -54,7 +54,8 @@ export const BrokerDetails = ({
   // Check if any loan has the default flag
   const hasDefaultedLoan = loans?.some(
     // eslint-disable-next-line no-bitwise -- required to check the status of the loan
-    (loan: any) => loan.TotalValueOutstanding > 0 && ((loan.Flags ?? 0) & LSF_LOAN_DEFAULT),
+    (loan: any) =>
+      loan.TotalValueOutstanding > 0 && (loan.Flags ?? 0) & LSF_LOAN_DEFAULT,
   )
 
   const formatBrokerAmount = (amount: string | undefined): string => {
@@ -86,13 +87,17 @@ export const BrokerDetails = ({
           <div className="debt-metric">
             <span className="metric-label">{t('total_debt')}</span>
             <span className="metric-value">
-              {formatBrokerAmount(broker.DebtTotal)} {asset?.currency ?? 'MPT (' + shortenMPTID(asset?.mpt_issuance_id) + ')'}
+              {formatBrokerAmount(broker.DebtTotal)}{' '}
+              {asset?.currency ??
+                `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
             </span>
           </div>
           <div className="debt-metric">
             <span className="metric-label">{t('maximum_debt')}</span>
             <span className="metric-value">
-              {formatBrokerAmount(broker.DebtMaximum)} {asset?.currency ?? 'MPT (' + shortenMPTID(asset?.mpt_issuance_id) + ')'}
+              {formatBrokerAmount(broker.DebtMaximum)}{' '}
+              {asset?.currency ??
+                `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
             </span>
           </div>
         </div>
@@ -108,7 +113,8 @@ export const BrokerDetails = ({
         <div className="metric">
           <span className="metric-label">{t('first_loss_capital')}</span>
           <span className="metric-value">
-            {formatBrokerAmount(broker.CoverAvailable)} {asset?.currency ?? 'MPT (' + shortenMPTID(asset?.mpt_issuance_id) + ')'}
+            {formatBrokerAmount(broker.CoverAvailable)}{' '}
+            {asset?.currency ?? `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
           </span>
         </div>
         <div className="metric">

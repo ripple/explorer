@@ -45,11 +45,17 @@ export const BrokerLoansTable = ({
     if (filter === 'all') return true
     if (filter === 'default') {
       // eslint-disable-next-line no-bitwise
-      return Number(loan.TotalValueOutstanding) > 0 && (loan.Flags ?? 0) & LSF_LOAN_DEFAULT
+      return (
+        Number(loan.TotalValueOutstanding) > 0 &&
+        (loan.Flags ?? 0) & LSF_LOAN_DEFAULT
+      )
     }
     if (filter === 'impaired') {
       // eslint-disable-next-line no-bitwise
-      return Number(loan.TotalValueOutstanding) > 0 && (loan.Flags ?? 0) & LSF_LOAN_IMPAIRED
+      return (
+        Number(loan.TotalValueOutstanding) > 0 &&
+        (loan.Flags ?? 0) & LSF_LOAN_IMPAIRED
+      )
     }
     return true
   })
