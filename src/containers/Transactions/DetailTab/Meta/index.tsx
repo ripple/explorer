@@ -12,7 +12,7 @@ import { useLanguage } from '../../../shared/hooks'
 import { RouteLink } from '../../../shared/routing'
 import { ENTRY_ROUTE } from '../../../App/routes'
 
-const renderDefault = (action, node, index) => (
+const renderDefault = (action: string, node: any, index: number) => (
   <li key={`${node.LedgerEntryType}_${index}`} className="meta-line">
     <Trans
       i18nKey="node_meta_type"

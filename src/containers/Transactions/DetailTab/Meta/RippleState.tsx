@@ -6,6 +6,7 @@ import {
 } from '../../../shared/utils'
 import { RouteLink } from '../../../shared/routing'
 import { ENTRY_ROUTE } from '../../../App/routes'
+import Currency from '../../../shared/components/Currency'
 import type { MetaRenderFunction } from './types'
 
 const render: MetaRenderFunction = (_t, language, action, node, index) => {
@@ -20,17 +21,20 @@ const render: MetaRenderFunction = (_t, language, action, node, index) => {
   } = computeRippleStateBalanceChange(node)
 
   const line1 = (
-    <Trans i18nKey="transaction_balance_line_one">
-      It {action} a <b>{currency}</b>
-      ripplestate
-      <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
-        node
-      </RouteLink>
-      between
-      <Account account={account} />
-      and
-      <Account account={counterAccount} />
-    </Trans>
+    <Trans
+      i18nKey="transaction_balance_line_one"
+      values={{ action }}
+      components={{
+        Currency: <Currency currency={currency} />,
+        Link: (
+          <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
+            {/* Content from i18n */}
+          </RouteLink>
+        ),
+        Account: <Account account={account} />,
+        CounterAccount: <Account account={counterAccount} />,
+      }}
+    />
   )
 
   const line2 = change ? (
