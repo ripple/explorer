@@ -51,9 +51,7 @@ jest.mock('../../NoMatch', () => ({
   default: ({ title, hints }: { title: string; hints?: string[] }) => (
     <div data-testid="no-match">
       <div data-testid="no-match-title">{title}</div>
-      {hints?.map((hint) => (
-        <div data-testid="no-match-hint">{hint}</div>
-      ))}
+      {hints?.map((hint) => <div data-testid="no-match-hint">{hint}</div>)}
     </div>
   ),
 }))
