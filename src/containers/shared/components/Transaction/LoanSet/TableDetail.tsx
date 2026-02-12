@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { TransactionTableDetailProps } from '../types'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
-import { formatDurationDetailed } from '../../../utils'
+import { formatDurationDetailed, shortenLoanBrokerID } from '../../../utils'
 import SocketContext from '../../../SocketContext'
 import { getVaultAssetFromLoanBroker } from '../utils/vaultUtils'
 import { formatAmountWithAsset } from '../../../../../rippled/lib/txSummary/formatAmount'
@@ -55,7 +55,7 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
       <div className="loan-broker">
         <span className="label">{t('loan_broker_id')}: </span>
         <span className="case-sensitive">
-          <b>{loanBrokerID}</b>
+          <b>{shortenLoanBrokerID(loanBrokerID)}</b>
         </span>
       </div>
 

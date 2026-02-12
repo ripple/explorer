@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { TransactionTableDetailProps } from '../types'
 import { LoanManage } from './types'
+import { shortenLoanID } from '../../../utils'
 
 export const TableDetail = ({
   instructions,
@@ -12,7 +13,7 @@ export const TableDetail = ({
     <div className="loan-manage">
       <span>{t('loan_id')}</span>
       <span className="case-sensitive">
-        <b>{LoanID}</b>
+        <b>{shortenLoanID(LoanID)}</b>
       </span>
     </div>
   )

@@ -190,6 +190,7 @@
   padding-top: 24px;
   border-top: 1px solid $black-70;
   margin-top: 32px;
+  overflow-x: auto;
 }
 
 // Loans Filter Bar
@@ -251,6 +252,7 @@
 
 .loans-table-header {
   display: grid;
+  min-width: 750px;
   padding: 16px 8px;
   border-bottom: 1px solid $black-70;
   gap: 16px;
@@ -282,6 +284,7 @@
 .loan-row-main {
   display: grid;
   width: 100%;
+  min-width: 750px;
   padding: 16px 8px;
   border: none;
   background: transparent;

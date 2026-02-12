@@ -19,4 +19,8 @@
   .vault-transactions-divider {
     background: $black-70;
   }
+
+  .transaction-table {
+    overflow-x: auto;
+  }
 }
