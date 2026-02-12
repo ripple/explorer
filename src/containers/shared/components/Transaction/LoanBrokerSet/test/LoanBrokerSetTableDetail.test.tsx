@@ -25,7 +25,7 @@ describe('LoanBrokerSetTableDetail', () => {
     const { container, unmount } = renderComponent(LoanBrokerSet)
 
     expect(container.querySelector('.loan-broker-set')).toHaveTextContent(
-      'Vault ID: AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7' +
+      'Vault ID: AE7952AF...9654D7' +
         'rates: Management Fee Rate 1.000%, Cover Rate Minimum 1.000%, Cover Rate Liquidation 5.000%' +
         'Debt Maximum: $100,000.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
     )
@@ -61,7 +61,7 @@ describe('LoanBrokerSetTableDetail', () => {
     const { container, unmount } = renderComponent(LoanBrokerSetPartialUpdate)
 
     expect(container.querySelector('.loan-broker-set')).toHaveTextContent(
-      'Vault ID: AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7' +
+      'Vault ID: AE7952AF...9654D7' +
         'rates: Management Fee Rate 1.000%, Cover Rate Minimum 1.000%, Cover Rate Liquidation 5.000%',
     )
 

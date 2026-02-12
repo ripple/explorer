@@ -10,7 +10,7 @@ describe('LoanDeleteTableDetail', () => {
     const { container, unmount } = renderComponent(LoanDelete)
 
     expect(container.querySelector('.loan-delete')).toHaveTextContent(
-      'deletesLoan ID28375E885D1F8E46502B1A6FA44B9E2EFC15244F467010082BE314AE6224CD66',
+      'deletesLoan ID28375E...24CD66',
     )
 
     unmount()
