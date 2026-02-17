@@ -16,12 +16,15 @@
 
 .vault-title-section {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   padding: 0 24px;
   margin-bottom: 32px;
+  gap: 16px;
 
   @include for-size(desktop-up) {
+    flex-wrap: nowrap;
     padding: 0 64px;
   }
 
@@ -97,24 +100,5 @@
         color: $black-40;
       }
     }
-  }
-}
-
-.toggle-help {
-  display: flex;
-  width: 28px;
-  height: 28px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid $black-50;
-  border-radius: 50%;
-  background: $black-20;
-  color: $black-50;
-  cursor: pointer;
-  font-size: 16px;
-
-  &:hover {
-    border-color: $white;
-    color: $white;
   }
 }

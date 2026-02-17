@@ -67,7 +67,9 @@ export const CurrencyToggle = ({
             {usdLoading ? '...' : USD}
           </button>
           {usdLoading && renderTextTooltip('currency_toggle_loading')}
-          {!usdLoading && usdDisabled && renderTextTooltip('currency_toggle_unavailable')}
+          {!usdLoading &&
+            usdDisabled &&
+            renderTextTooltip('currency_toggle_unavailable')}
         </span>
       </div>
       {renderTextTooltip('currency_toggle')}
