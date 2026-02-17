@@ -222,7 +222,22 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   }
                 />
               )}
-              <TokenTableRow label={t('data')} value={<Metadata decodedMPTMetadata={(() => { if (!decodedData) return '-'; try { return JSON.parse(decodedData) } catch { return decodedData } })()} displayMetadataTitle={false} />} />
+              <TokenTableRow
+                label={t('data')}
+                value={
+                  <Metadata
+                    decodedMPTMetadata={(() => {
+                      if (!decodedData) return '-'
+                      try {
+                        return JSON.parse(decodedData)
+                      } catch {
+                        return decodedData
+                      }
+                    })()}
+                    displayMetadataTitle={false}
+                  />
+                }
+              />
               <TokenTableRow
                 label={t('withdrawal_policy')}
                 value={getWithdrawalPolicyText()}

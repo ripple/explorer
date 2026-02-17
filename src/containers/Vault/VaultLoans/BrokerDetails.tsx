@@ -118,7 +118,8 @@ export const BrokerDetails = ({
           <span className="metric-label">{t('first_loss_capital')}</span>
           <span className="metric-value">
             {formatBrokerAmount(broker.CoverAvailable)}{' '}
-            {getCurrencySymbol(asset?.currency) ?? `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
+            {getCurrencySymbol(asset?.currency) ??
+              `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
           </span>
         </div>
         <div className="metric">
@@ -137,7 +138,10 @@ export const BrokerDetails = ({
 
       <BrokerLoansTable
         loans={loans}
-        currency={getCurrencySymbol(asset?.currency) ?? shortenMPTID(asset?.mpt_issuance_id)}
+        currency={
+          getCurrencySymbol(asset?.currency) ??
+          shortenMPTID(asset?.mpt_issuance_id)
+        }
         displayCurrency={displayCurrency}
         asset={asset}
       />

@@ -8,14 +8,16 @@ interface MetadataProps {
 
 export const Metadata = ({
   decodedMPTMetadata,
-  displayMetadataTitle = true
+  displayMetadataTitle = true,
 }: MetadataProps): JSX.Element => {
   const { t } = useTranslation()
   const isString = typeof decodedMPTMetadata === 'string'
 
   return (
     <div className="header-box metadata-box">
-      {displayMetadataTitle && <div className="header-box-title">{t('metadata')}</div>}
+      {displayMetadataTitle && (
+        <div className="header-box-title">{t('metadata')}</div>
+      )}
       <div className="header-box-contents metadata-json">
         {isString ? (
           <div className="metadata-string">{decodedMPTMetadata}</div>
