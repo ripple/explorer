@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTooltip } from '../shared/components/Tooltip'
 import './styles.scss'
+import HoverIcon from '../shared/images/hover.svg'
 
 const USD = 'USD'
 
@@ -23,16 +24,24 @@ export const CurrencyToggle = ({
   const { t } = useTranslation()
   const { showTooltip, hideTooltip } = useTooltip()
 
+  const renderTextTooltip = (key: string) => (
+    <HoverIcon
+      className="hover"
+      onMouseOver={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        showTooltip('text', e, t(`${key}_description`, { defaultValue: '' }), {
+          x: rect.left + rect.width / 2,
+          y: rect.top - 70,
+        })
+      }}
+      onMouseLeave={() => hideTooltip()}
+    />
+  )
+
   const handleUsdClick = () => {
     if (!usdDisabled && !usdLoading) {
       onToggle(USD)
     }
-  }
-
-  const getUsdTooltip = () => {
-    if (usdLoading) return t('currency_toggle_loading')
-    if (usdDisabled) return t('currency_toggle_unavailable')
-    return ''
   }
 
   // Native is selected when selected is not USD (handles empty initial state)
@@ -48,14 +57,7 @@ export const CurrencyToggle = ({
         >
           {nativeCurrencyDisplay}
         </button>
-        <span
-          className="toggle-option-wrapper"
-          onMouseEnter={(e) => {
-            const tooltip = getUsdTooltip()
-            if (tooltip) showTooltip('text', e, tooltip)
-          }}
-          onMouseLeave={hideTooltip}
-        >
+        <span className="toggle-option-wrapper">
           <button
             type="button"
             className={`toggle-option ${!isNativeSelected ? 'active' : ''} ${usdDisabled || usdLoading ? 'disabled' : ''}`}
@@ -64,15 +66,11 @@ export const CurrencyToggle = ({
           >
             {usdLoading ? '...' : USD}
           </button>
+          {usdLoading && renderTextTooltip('currency_toggle_loading')}
+          {!usdLoading && usdDisabled && renderTextTooltip('currency_toggle_unavailable')}
         </span>
       </div>
-      <span
-        className="toggle-help"
-        onMouseEnter={(e) => showTooltip('text', e, t('currency_toggle_help'))}
-        onMouseLeave={hideTooltip}
-      >
-        ?
-      </span>
+      {renderTextTooltip('currency_toggle')}
     </div>
   )
 }
