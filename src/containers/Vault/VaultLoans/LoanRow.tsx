@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Account } from '../../shared/components/Account'
 import { useLanguage } from '../../shared/hooks'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
-import { localizeNumber } from '../../shared/utils'
+import { parseAmount } from '../../shared/NumberFormattingUtils'
 import {
   formatRate,
   formatPaymentInterval,
@@ -78,10 +78,7 @@ export const LoanRow = ({
     }
 
     const prefix = displayCurrency === 'USD' ? '$' : ''
-    return `${prefix}${localizeNumber(displayNum, language, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })} ${currency}`
+    return `${prefix}${parseAmount(displayNum, 1, language)} ${currency}`
   }
 
   const formatFee = (fee: string | number): string => {
@@ -100,10 +97,7 @@ export const LoanRow = ({
     }
 
     const prefix = displayCurrency === 'USD' ? '$' : ''
-    return `${prefix}${localizeNumber(displayNum, language, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    })} ${currency}`
+    return `${prefix}${parseAmount(displayNum, 1, language)} ${currency}`
   }
 
   const formatGracePeriod = (seconds: number): string => {

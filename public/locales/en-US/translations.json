@@ -848,7 +848,7 @@
   "depositors": "Depositors",
   "percent_of_supply": "% of Supply",
   "value": "Value",
-  "currency_toggle_help": "Toggle to view values in Native-Currency or USD",
+  "currency_toggle_help": "Toggle to view values in native-currency or USD",
   "currency_toggle_loading": "Loading USD conversion rate...",
   "currency_toggle_unavailable": "USD conversion not available for this token"
 }

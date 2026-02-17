@@ -36,21 +36,21 @@ describe('VaultLoans Utils', () => {
   describe('formatRate', () => {
     it('converts 1/10th basis points to percentage', () => {
       // 500 / 1000 = 0.5%
-      expect(formatRate(500)).toBe('0.500%')
+      expect(formatRate(500)).toBe('0.50%')
     })
 
     it('handles zero rate', () => {
-      expect(formatRate(0)).toBe('0.000%')
+      expect(formatRate(0)).toBe('0.00%')
     })
 
     it('handles small rates (less than 1 basis point)', () => {
       // 1 / 1000 = 0.001%
-      expect(formatRate(1)).toBe('0.001%')
+      expect(formatRate(1)).toBe('0.00%')
     })
 
     it('handles large rates', () => {
       // 10000 / 1000 = 10%
-      expect(formatRate(10000)).toBe('10.000%')
+      expect(formatRate(10000)).toBe('10.00%')
     })
 
     it('returns default value for undefined rate', () => {
@@ -60,9 +60,9 @@ describe('VaultLoans Utils', () => {
 
     it('formats with exactly 3 decimal places', () => {
       // Ensures consistent formatting regardless of value
-      expect(formatRate(1000)).toBe('1.000%')
-      expect(formatRate(1500)).toBe('1.500%')
-      expect(formatRate(1234)).toBe('1.234%')
+      expect(formatRate(1000)).toBe('1.00%')
+      expect(formatRate(1500)).toBe('1.50%')
+      expect(formatRate(1234)).toBe('1.23%')
     })
   })
 

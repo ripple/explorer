@@ -19,8 +19,8 @@ export const formatRate = (rate: number | undefined): string => {
   // 1 basis point = 0.01%, 1/10th basis point = 0.001%
   const percentage = rate / ONE_TENTH_BASIS_POINT
 
-  // The field must be able to display up to 3 decimal places
-  return `${percentage.toFixed(3)}%`
+  // The field must be able to display up to 2 decimal places
+  return `${percentage.toFixed(2)}%`
 }
 
 /**
