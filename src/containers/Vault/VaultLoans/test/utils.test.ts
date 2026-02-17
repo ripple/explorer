@@ -54,8 +54,8 @@ describe('VaultLoans Utils', () => {
     })
 
     it('returns default value for undefined rate', () => {
-      // Default ManagementFeeRate, CoverRateMinimum, etc. is 0
-      expect(formatRate(undefined)).toBe('0.000%')
+      // Default ManagementFeeRate, CoverRateMinimum, etc. is 0 or `--`
+      expect(formatRate(undefined)).toBe('--')
     })
 
     it('formats with exactly 3 decimal places', () => {

@@ -448,7 +448,7 @@ describe('Vault Component', () => {
       await waitFor(() => {
         expect(screen.getByText('Vault ID:')).toBeInTheDocument()
         expect(
-          screen.getByText(shortenVaultID(testVaultId)),
+          screen.getByText(testVaultId),
         ).toBeInTheDocument()
 
         // Verify CopyableText component is rendered with copy icon

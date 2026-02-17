@@ -12,8 +12,8 @@ export const LSF_LOAN_IMPAIRED = 0x00020000
  * e.g., 50 (1/10th bps) -> "0.05%"
  */
 export const formatRate = (rate: number | undefined): string => {
-  // the default value for ManagementFeeRate, CoverRateLiquidation and CoverRateMinimum is 0
-  if (rate === undefined) return '0.000%'
+  // the default value for ManagementFeeRate, CoverRateLiquidation and CoverRateMinimum is 0, displayed as `--`
+  if (rate === undefined) return '--'
 
   // Convert from 1/10th basis points to percentage
   // 1 basis point = 0.01%, 1/10th basis point = 0.001%

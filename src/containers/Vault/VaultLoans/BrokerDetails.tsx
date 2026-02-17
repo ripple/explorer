@@ -5,7 +5,11 @@ import { formatRate, LSF_LOAN_DEFAULT } from './utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
 import WarningIcon from '../../shared/images/warning.svg'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
-import { shortenLoanBrokerID, shortenMPTID } from '../../shared/utils'
+import {
+  shortenLoanBrokerID,
+  shortenMPTID,
+  getCurrencySymbol,
+} from '../../shared/utils'
 
 interface LoanBrokerData {
   index: string
@@ -88,7 +92,7 @@ export const BrokerDetails = ({
             <span className="metric-label">{t('total_debt')}</span>
             <span className="metric-value">
               {formatBrokerAmount(broker.DebtTotal)}{' '}
-              {asset?.currency ??
+              {getCurrencySymbol(asset?.currency) ??
                 `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
             </span>
           </div>
@@ -96,7 +100,7 @@ export const BrokerDetails = ({
             <span className="metric-label">{t('maximum_debt')}</span>
             <span className="metric-value">
               {formatBrokerAmount(broker.DebtMaximum)}{' '}
-              {asset?.currency ??
+              {getCurrencySymbol(asset?.currency) ??
                 `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
             </span>
           </div>
@@ -114,7 +118,7 @@ export const BrokerDetails = ({
           <span className="metric-label">{t('first_loss_capital')}</span>
           <span className="metric-value">
             {formatBrokerAmount(broker.CoverAvailable)}{' '}
-            {asset?.currency ?? `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
+            {getCurrencySymbol(asset?.currency) ?? `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
           </span>
         </div>
         <div className="metric">
@@ -133,7 +137,7 @@ export const BrokerDetails = ({
 
       <BrokerLoansTable
         loans={loans}
-        currency={asset?.currency ?? shortenMPTID(asset?.mpt_issuance_id)}
+        currency={getCurrencySymbol(asset?.currency) ?? shortenMPTID(asset?.mpt_issuance_id)}
         displayCurrency={displayCurrency}
         asset={asset}
       />

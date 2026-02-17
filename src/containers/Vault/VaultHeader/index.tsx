@@ -14,6 +14,7 @@ import {
   shortenMPTID,
   shortenVaultID,
   shortenAccount,
+  getCurrencySymbol,
 } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
@@ -58,7 +59,7 @@ const WITHDRAWAL_POLICIES: { [key: number]: string } = {
 
 const formatAsset = (asset: VaultData['Asset']): string | React.ReactNode => {
   if (!asset) return '-'
-  if (asset.currency === 'XRP') return 'XRP'
+  if (asset.currency === 'XRP') return getCurrencySymbol('XRP')
   if (asset.mpt_issuance_id) {
     return (
       <RouteLink to={MPT_ROUTE} params={{ id: asset.mpt_issuance_id }}>
@@ -70,7 +71,7 @@ const formatAsset = (asset: VaultData['Asset']): string | React.ReactNode => {
 }
 
 const getAssetCurrency = (asset: VaultData['Asset']): string =>
-  asset?.currency === 'XRP' ? 'XRP' : asset?.currency || ''
+  asset?.currency === 'XRP' ? '\uE900' : asset?.currency || ''
 
 export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const { t } = useTranslation()
@@ -221,7 +222,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   }
                 />
               )}
-              <TokenTableRow label={t('data')} value={<Metadata decodedMPTMetadata={decodedData ? JSON.parse(decodedData) : '-'} displayMetadataTitle={false} />} />
+              <TokenTableRow label={t('data')} value={<Metadata decodedMPTMetadata={(() => { if (!decodedData) return '-'; try { return JSON.parse(decodedData) } catch { return decodedData } })()} displayMetadataTitle={false} />} />
               <TokenTableRow
                 label={t('withdrawal_policy')}
                 value={getWithdrawalPolicyText()}

@@ -12,6 +12,9 @@ const EXOTIC_SYMBOLS = {
   ETH: '\uE902',
 }
 
+export const getCurrencySymbol = (currency) =>
+  EXOTIC_SYMBOLS[currency] || currency
+
 export const TITLE_LENGTH = 77
 export const NOT_FOUND = 404
 export const SERVER_ERROR = 500
