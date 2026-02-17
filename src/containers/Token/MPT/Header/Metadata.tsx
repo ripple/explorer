@@ -3,7 +3,7 @@ import { JsonView } from '../../../shared/components/JsonView'
 
 interface MetadataProps {
   decodedMPTMetadata: Record<string, unknown> | string
-  displayMetadataTitle: boolean
+  displayMetadataTitle?: boolean
 }
 
 export const Metadata = ({
