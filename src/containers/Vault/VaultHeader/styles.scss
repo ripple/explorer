@@ -38,6 +38,48 @@
   }
 }
 
+// Override the MPT-page Metadata styles to fit inside a table row
+.vault-details-container .header-box.metadata-box {
+  width: 100%;
+  max-width: 100%;
+  flex: initial;
+  gap: 0;
+
+  // Strip the outer wrapper — the JsonView container provides its own box
+  .header-box-contents {
+    padding: 0;
+    border: none;
+  }
+
+  .metadata-json {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .json-view-container {
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .json-view {
+    margin-bottom: 0;
+
+    @include for-size(phone-only) {
+      padding-top: 0;
+    }
+  }
+
+  // Hide the Expand button — vault data is small enough to show fully
+  .json-view-controls {
+    display: none;
+  }
+
+  .metadata-string {
+    padding: 0;
+    font-size: 13px;
+  }
+}
+
 .private-vault-toggle {
   display: inline-flex;
   gap: 8px;

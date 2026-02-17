@@ -116,7 +116,7 @@ export const Vault = () => {
                 <span className="vault-title-id-label">{t('vault_id')}:</span>
                 <CopyableText
                   text={vaultId}
-                  displayText={shortenVaultID(vaultId)}
+                  displayText={vaultId}
                   showCopyIcon
                 />
               </div>

@@ -3,17 +3,19 @@ import { JsonView } from '../../../shared/components/JsonView'
 
 interface MetadataProps {
   decodedMPTMetadata: Record<string, unknown> | string
+  displayMetadataTitle: boolean
 }
 
 export const Metadata = ({
   decodedMPTMetadata,
+  displayMetadataTitle = true
 }: MetadataProps): JSX.Element => {
   const { t } = useTranslation()
   const isString = typeof decodedMPTMetadata === 'string'
 
   return (
     <div className="header-box metadata-box">
-      <div className="header-box-title">{t('metadata')}</div>
+      {displayMetadataTitle && <div className="header-box-title">{t('metadata')}</div>}
       <div className="header-box-contents metadata-json">
         {isString ? (
           <div className="metadata-string">{decodedMPTMetadata}</div>

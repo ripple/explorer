@@ -19,6 +19,7 @@ import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
 import { convertHexToString } from '../../../rippled/lib/utils'
+import { Metadata } from '../../Token/MPT/Header/Metadata'
 
 interface VaultData {
   Owner?: string
@@ -220,7 +221,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   }
                 />
               )}
-              <TokenTableRow label={t('data')} value={decodedData || '-'} />
+              <TokenTableRow label={t('data')} value={<Metadata decodedMPTMetadata={decodedData ? JSON.parse(decodedData) : '-'} displayMetadataTitle={false} />} />
               <TokenTableRow
                 label={t('withdrawal_policy')}
                 value={getWithdrawalPolicyText()}
