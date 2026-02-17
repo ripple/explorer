@@ -905,12 +905,10 @@ describe('VaultHeader Component', () => {
         </TestWrapper>,
       )
 
-      // Should display truncated ID: first 8 chars + "..." + last 6 chars
-      // expectedTruncated = "SHARE123...DEF12"
-      const expectedTruncated = `${shareMptId.substring(0, 8)}...${shareMptId.substring(shareMptId.length - 6)}`
-
       // Verify link is present and href is correct
-      const sharesLink = screen.getByRole('link', { name: expectedTruncated })
+      const sharesLink = screen.getByRole('link', {
+        name: `MPT (${shareMptId})`,
+      })
       expect(sharesLink.getAttribute('href')).toBe(`/mpt/${shareMptId}`)
     })
 

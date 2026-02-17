@@ -111,7 +111,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
 
   // Fetch MPTokenIssuance to get the DomainID (vault credential)
   const { data: mptIssuanceData } = useQuery(
-    ['getMPTIssuance', vaultShareMptId],
+    ['getVaultShareMPTIssuance', vaultShareMptId],
     async () => {
       if (!vaultShareMptId) return null
       const resp = await getMPTIssuance(rippledSocket, vaultShareMptId)
@@ -145,9 +145,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
 
   const renderMPTSharesLink = () => {
     if (!vaultShareMptId) return '-'
-    return (
-      <Currency currency={vaultShareMptId} isMPT={true} link={true} />
-    )
+    return <Currency currency={vaultShareMptId} isMPT link />
   }
 
   return (

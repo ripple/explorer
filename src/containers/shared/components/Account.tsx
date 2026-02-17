@@ -10,7 +10,6 @@ export interface AccountProps {
 
 export const Account = (props: AccountProps) => {
   const { account, displayText, link = true, tag } = props
-  console.log(props)
   const parts = account.split(':')
   const computedTag = tag || parts[1]
 
