@@ -11,6 +11,7 @@ import {
   getCurrencySymbol,
 } from '../../shared/utils'
 
+// TODO: Use types from xrpl.js instead of hand-writing it.
 interface LoanBrokerData {
   index: string
   Account: string

@@ -70,7 +70,7 @@ describe('CurrencyToggle Component', () => {
     it('renders help icon', () => {
       const onToggle = jest.fn()
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <CurrencyToggle
             nativeCurrencyDisplay={<span>XRP</span>}
@@ -80,7 +80,9 @@ describe('CurrencyToggle Component', () => {
         </TestWrapper>,
       )
 
-      expect(screen.getByText('?')).toBeInTheDocument()
+      expect(
+        container.querySelector('.currency-toggle-wrapper > .hover'),
+      ).toBeInTheDocument()
     })
   })
 
@@ -304,7 +306,7 @@ describe('CurrencyToggle Component', () => {
     it('shows unavailable tooltip on hover when USD is disabled', () => {
       const onToggle = jest.fn()
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <CurrencyToggle
             nativeCurrencyDisplay={<span>XRP</span>}
@@ -315,22 +317,26 @@ describe('CurrencyToggle Component', () => {
         </TestWrapper>,
       )
 
-      const usdButton = screen.getByText('USD')
-      // Mouse events are on the wrapper span, not the disabled button
-      const wrapper = usdButton.parentElement!
-      fireEvent.mouseEnter(wrapper)
+      const hoverIcon = container.querySelector(
+        '.toggle-option-wrapper .hover',
+      )!
+      fireEvent.mouseOver(hoverIcon)
 
       expect(mockShowTooltip).toHaveBeenCalledWith(
         'text',
         expect.any(Object),
         'USD conversion not available for this token',
+        expect.objectContaining({
+          x: expect.any(Number),
+          y: expect.any(Number),
+        }),
       )
     })
 
     it('hides tooltip on mouse leave', () => {
       const onToggle = jest.fn()
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <CurrencyToggle
             nativeCurrencyDisplay={<span>XRP</span>}
@@ -341,11 +347,11 @@ describe('CurrencyToggle Component', () => {
         </TestWrapper>,
       )
 
-      const usdButton = screen.getByText('USD')
-      // Mouse events are on the wrapper span, not the disabled button
-      const wrapper = usdButton.parentElement!
-      fireEvent.mouseEnter(wrapper)
-      fireEvent.mouseLeave(wrapper)
+      const hoverIcon = container.querySelector(
+        '.toggle-option-wrapper .hover',
+      )!
+      fireEvent.mouseOver(hoverIcon)
+      fireEvent.mouseLeave(hoverIcon)
 
       expect(mockHideTooltip).toHaveBeenCalled()
     })
@@ -433,7 +439,7 @@ describe('CurrencyToggle Component', () => {
     it('shows loading tooltip on hover when loading', () => {
       const onToggle = jest.fn()
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <CurrencyToggle
             nativeCurrencyDisplay={<span>XRP</span>}
@@ -444,15 +450,19 @@ describe('CurrencyToggle Component', () => {
         </TestWrapper>,
       )
 
-      const loadingButton = screen.getByText('...')
-      // Mouse events are on the wrapper span, not the disabled button
-      const wrapper = loadingButton.parentElement!
-      fireEvent.mouseEnter(wrapper)
+      const hoverIcon = container.querySelector(
+        '.toggle-option-wrapper .hover',
+      )!
+      fireEvent.mouseOver(hoverIcon)
 
       expect(mockShowTooltip).toHaveBeenCalledWith(
         'text',
         expect.any(Object),
         'Loading USD conversion rate...',
+        expect.objectContaining({
+          x: expect.any(Number),
+          y: expect.any(Number),
+        }),
       )
     })
   })
@@ -467,7 +477,7 @@ describe('CurrencyToggle Component', () => {
     it('shows help tooltip on hover', () => {
       const onToggle = jest.fn()
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <CurrencyToggle
             nativeCurrencyDisplay={<span>EUR</span>}
@@ -477,21 +487,26 @@ describe('CurrencyToggle Component', () => {
         </TestWrapper>,
       )
 
-      const helpIcon = screen.getByText('?')
-      fireEvent.mouseEnter(helpIcon)
+      const helpIcon = container.querySelector(
+        '.currency-toggle-wrapper > .hover',
+      )!
+      fireEvent.mouseOver(helpIcon)
 
-      // The tooltip text is a static i18n key
       expect(mockShowTooltip).toHaveBeenCalledWith(
         'text',
         expect.any(Object),
         'Toggle to view values in native-currency or USD',
+        expect.objectContaining({
+          x: expect.any(Number),
+          y: expect.any(Number),
+        }),
       )
     })
 
     it('hides help tooltip on mouse leave', () => {
       const onToggle = jest.fn()
 
-      render(
+      const { container } = render(
         <TestWrapper>
           <CurrencyToggle
             nativeCurrencyDisplay={<span>XRP</span>}
@@ -501,8 +516,10 @@ describe('CurrencyToggle Component', () => {
         </TestWrapper>,
       )
 
-      const helpIcon = screen.getByText('?')
-      fireEvent.mouseEnter(helpIcon)
+      const helpIcon = container.querySelector(
+        '.currency-toggle-wrapper > .hover',
+      )!
+      fireEvent.mouseOver(helpIcon)
       fireEvent.mouseLeave(helpIcon)
 
       expect(mockHideTooltip).toHaveBeenCalled()
