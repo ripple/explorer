@@ -484,7 +484,7 @@ describe('CurrencyToggle Component', () => {
       expect(mockShowTooltip).toHaveBeenCalledWith(
         'text',
         expect.any(Object),
-        'Toggle to view values in Native-Currency or USD',
+        'Toggle to view values in native-currency or USD',
       )
     })
 
