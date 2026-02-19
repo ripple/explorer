@@ -63,15 +63,16 @@ export const BrokerDetails = ({
       loan.TotalValueOutstanding > 0 && (loan.Flags ?? 0) & LSF_LOAN_DEFAULT,
   )
 
-  const formatBrokerAmount = (amount: string | undefined): string => {
+  const formatBrokerAmount = (amount: string | undefined, asset: AssetInfo | undefined): string => {
     const convertedAmount = convertToDisplayCurrency(amount)
     if (convertedAmount === undefined && displayCurrency === 'usd') {
       return '--'
     }
 
-    if (convertedAmount !== undefined)
-      return `${parseAmount(convertedAmount, 2)}`
-    if (amount !== undefined) return `${parseAmount(amount, 2)}`
+    const finalDisplayAmount = convertedAmount ?? amount
+    if(finalDisplayAmount !== undefined)
+      return `${parseAmount(finalDisplayAmount, 2)}` + ' ' + (getCurrencySymbol(asset?.currency) ??
+    `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`)
     return '--'
   }
 
@@ -92,17 +93,13 @@ export const BrokerDetails = ({
           <div className="debt-metric">
             <span className="metric-label">{t('total_debt')}</span>
             <span className="metric-value">
-              {formatBrokerAmount(broker.DebtTotal)}{' '}
-              {getCurrencySymbol(asset?.currency) ??
-                `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
+              {formatBrokerAmount(broker.DebtTotal, asset)}
             </span>
           </div>
           <div className="debt-metric">
             <span className="metric-label">{t('maximum_debt')}</span>
             <span className="metric-value">
-              {formatBrokerAmount(broker.DebtMaximum)}{' '}
-              {getCurrencySymbol(asset?.currency) ??
-                `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
+              {formatBrokerAmount(broker.DebtMaximum, asset)}
             </span>
           </div>
         </div>
@@ -118,9 +115,7 @@ export const BrokerDetails = ({
         <div className="metric">
           <span className="metric-label">{t('first_loss_capital')}</span>
           <span className="metric-value">
-            {formatBrokerAmount(broker.CoverAvailable)}{' '}
-            {getCurrencySymbol(asset?.currency) ??
-              `MPT (${shortenMPTID(asset?.mpt_issuance_id)})`}
+            {formatBrokerAmount(broker.CoverAvailable, asset)}
           </span>
         </div>
         <div className="metric">

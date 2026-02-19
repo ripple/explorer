@@ -553,7 +553,7 @@ describe('VaultHeader Component', () => {
 
       // Undefined amounts should display as "0"
       const availableRow = screen.getByText('Available to Borrow').closest('tr')
-      expect(availableRow).toHaveTextContent('Available to Borrow0')
+      expect(availableRow).toHaveTextContent('Available to Borrow--')
     })
   })
 

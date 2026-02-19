@@ -265,16 +265,23 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   }
                   const amount = convertedAmount ?? assetsTotal
                   if (amount === undefined) return '--'
+                  if (['0', '0.00', '0.0000'].includes(parseAmount(amount ?? '0', 2)))
+                    return '--'
                   return `${parseAmount(amount, 2)} ${getDisplayCurrencyLabel()}`
                 })()}
               />
               <TokenTableRow
                 label={t('max_total_supply')}
-                value={
-                  assetsMaximum
-                    ? `${parseAmount(assetsMaximum, 2)} ${getAssetCurrency(asset)}`
-                    : t('no_limit')
-                }
+                value={(() => {
+                  if (assetsMaximum === undefined)
+                    return t('no_limit')
+
+                  const parsedAmt = parseAmount(assetsMaximum, 2)
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
+                    return '--'
+
+                  return parsedAmt + ' ' + getAssetCurrency(asset)
+                })()}
               />
               <TokenTableRow
                 label={t('shares')}
@@ -282,11 +289,21 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               />
               <TokenTableRow
                 label={t('available_to_borrow')}
-                value={`${parseAmount(assetsAvailable ?? '0', 2)} ${getAssetCurrency(asset)}`}
+                value={(() => {
+                  const parsedAmt = parseAmount(assetsAvailable ?? '0', 2)
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
+                    return '--'
+                  return parsedAmt + ' ' + getAssetCurrency(asset)
+                })()}
               />
               <TokenTableRow
                 label={t('unrealized_loss')}
-                value={`${parseAmount(lossUnrealized ?? 0, 2)} ${getAssetCurrency(asset)}`}
+                value={(() => {
+                  const parsedAmt = parseAmount(lossUnrealized ?? '0', 2)
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
+                    return '--'
+                  return parsedAmt + ' ' + getAssetCurrency(asset)
+                })()}
               />
             </tbody>
           </table>
