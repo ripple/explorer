@@ -267,6 +267,11 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   if (amount === undefined) return '--'
                   if (['0', '0.00', '0.0000'].includes(parseAmount(amount ?? '0', 2)))
                     return '--'
+                  // Note: As per the NumberFormat policy, prices in the range of [10_000, 1M] do not display decimal values
+                  // Very large prices (greater than 1M must have two decimal places)
+                  if (Number(amount) < 1000000 && Number(amount) >= 10000)
+                    return `${parseAmount(amount, 0)} ${getDisplayCurrencyLabel()}`
+
                   return `${parseAmount(amount, 2)} ${getDisplayCurrencyLabel()}`
                 })()}
               />

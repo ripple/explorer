@@ -22,7 +22,6 @@ import SocketContext from '../../../shared/SocketContext'
 import { VaultLoans } from '../index'
 import { getAccountObjects } from '../../../../rippled/lib/rippled'
 import Mock = jest.Mock
-import { shortenLoanBrokerID } from '../../../shared/utils'
 
 // Default test props
 const defaultDisplayCurrency = 'XRP'
@@ -730,7 +729,7 @@ describe('VaultLoans Component', () => {
       await waitFor(() => {
         expect(screen.getByText('Loan Broker ID')).toBeInTheDocument()
         expect(
-          screen.getByText(shortenLoanBrokerID(brokerId)),
+          screen.getByText(brokerId),
         ).toBeInTheDocument()
       })
     })

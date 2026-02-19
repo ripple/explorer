@@ -6,7 +6,6 @@ import { BrokerLoansTable } from './BrokerLoansTable'
 import WarningIcon from '../../shared/images/warning.svg'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
 import {
-  shortenLoanBrokerID,
   shortenMPTID,
   getCurrencySymbol,
 } from '../../shared/utils'
