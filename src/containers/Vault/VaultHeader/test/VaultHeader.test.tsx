@@ -402,7 +402,7 @@ describe('VaultHeader Component', () => {
       )
 
       // Should be a link to the MPT page with exact truncated text
-      const mptLink = screen.getByRole('link', { name: 'MPT (' + mptId + ')' })
+      const mptLink = screen.getByRole('link', { name: `MPT (${mptId})` })
       expect(mptLink.getAttribute('href')).toBe(`/mpt/${mptId}`)
     })
 

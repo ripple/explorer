@@ -10,10 +10,7 @@ import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { parseVaultWebsite } from '../utils'
-import {
-  shortenVaultID,
-  shortenAccount,
-} from '../../shared/utils'
+import { shortenVaultID, shortenAccount } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
@@ -63,7 +60,11 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
-  const { rate: tokenToUsdRate } = useTokenToUSDRate(data.Asset)
+  const { rate: tokenToUsdRate } = useTokenToUSDRate(
+    data.Asset?.currency
+      ? { currency: data.Asset.currency, issuer: data.Asset.issuer }
+      : undefined,
+  )
 
   const {
     Owner: owner,
@@ -271,7 +272,11 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   }
                   const amount = convertedAmount ?? assetsTotal
                   if (amount === undefined) return '--'
-                  if (['0', '0.00', '0.0000'].includes(parseAmount(amount ?? '0', 2)))
+                  if (
+                    ['0', '0.00', '0.0000'].includes(
+                      parseAmount(amount ?? '0', 2),
+                    )
+                  )
                     return '--'
                   // Note: As per the NumberFormat policy, prices in the range of [10_000, 1M] do not display decimal values
                   // Very large prices (greater than 1M must have two decimal places)
@@ -284,14 +289,12 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               <TokenTableRow
                 label={t('max_total_supply')}
                 value={(() => {
-                  if (assetsMaximum === undefined)
-                    return t('no_limit')
+                  if (assetsMaximum === undefined) return t('no_limit')
 
                   const parsedAmt = parseAmount(assetsMaximum, 2)
-                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
-                    return '--'
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
 
-                  return parsedAmt + ' ' + getAssetCurrency(asset)
+                  return `${parsedAmt} ${getAssetCurrency(asset)}`
                 })()}
               />
               <TokenTableRow
@@ -302,18 +305,16 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 label={t('available_to_borrow')}
                 value={(() => {
                   const parsedAmt = parseAmount(assetsAvailable ?? '0', 2)
-                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
-                    return '--'
-                  return parsedAmt + ' ' + getAssetCurrency(asset)
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
+                  return `${parsedAmt} ${getAssetCurrency(asset)}`
                 })()}
               />
               <TokenTableRow
                 label={t('unrealized_loss')}
                 value={(() => {
                   const parsedAmt = parseAmount(lossUnrealized ?? '0', 2)
-                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
-                    return '--'
-                  return parsedAmt + ' ' + getAssetCurrency(asset)
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
+                  return `${parsedAmt} ${getAssetCurrency(asset)}`
                 })()}
               />
             </tbody>

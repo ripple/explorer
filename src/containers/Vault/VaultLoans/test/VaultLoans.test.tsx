@@ -728,9 +728,7 @@ describe('VaultLoans Component', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Loan Broker ID')).toBeInTheDocument()
-        expect(
-          screen.getByText(brokerId),
-        ).toBeInTheDocument()
+        expect(screen.getByText(brokerId)).toBeInTheDocument()
       })
     })
 
