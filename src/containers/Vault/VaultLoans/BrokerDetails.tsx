@@ -84,7 +84,7 @@ export const BrokerDetails = ({
           <div className="broker-id-value">
             <CopyableText
               text={broker.index}
-              displayText={shortenLoanBrokerID(broker.index)}
+              displayText={broker.index}
               showCopyIcon
             />
           </div>
