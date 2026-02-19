@@ -825,6 +825,6 @@
   "currency_toggle_help": null,
   "currency_toggle_loading": null,
   "currency_toggle_unavailable": null,
-  "yield_pool": null,
+  "single_asset_vault": null,
   "full_payment_fee": null
 }

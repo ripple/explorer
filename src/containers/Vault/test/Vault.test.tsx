@@ -429,7 +429,7 @@ describe('Vault Component', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByText('Yield Pool')).toBeInTheDocument()
+        expect(screen.getByText('Single Asset Vault')).toBeInTheDocument()
       })
     })
 

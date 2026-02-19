@@ -907,7 +907,7 @@ describe('VaultHeader Component', () => {
 
       // Verify link is present and href is correct
       const sharesLink = screen.getByRole('link', {
-        name: `MPT (${shareMptId})`,
+        name: shareMptId,
       })
       expect(sharesLink.getAttribute('href')).toBe(`/mpt/${shareMptId}`)
     })

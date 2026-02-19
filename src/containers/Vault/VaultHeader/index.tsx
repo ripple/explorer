@@ -21,7 +21,6 @@ import { useAnalytics } from '../../shared/analytics'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
 import { convertHexToString } from '../../../rippled/lib/utils'
 import { Metadata } from '../../Token/MPT/Header/Metadata'
-import Currency from '../../shared/components/Currency'
 
 interface VaultData {
   Owner?: string
@@ -145,7 +144,16 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
 
   const renderMPTSharesLink = () => {
     if (!vaultShareMptId) return '-'
-    return <Currency currency={vaultShareMptId} isMPT link />
+    return (
+      <RouteLink
+        className="currency"
+        data-testid="currency"
+        to={MPT_ROUTE}
+        params={{ id: vaultShareMptId }}
+      >
+        {vaultShareMptId}
+      </RouteLink>
+    )
   }
 
   return (

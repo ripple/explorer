@@ -110,7 +110,7 @@ export const Vault = () => {
           <div className="vault-title-section">
             <div className="vault-title-left">
               <h1 className="vault-title">
-                {parseVaultName(vaultData.Data) || t('yield_pool')}
+                {parseVaultName(vaultData.Data) || t('single_asset_vault')}
               </h1>
               <div className="vault-title-id">
                 <span className="vault-title-id-label">{t('vault_id')}:</span>
