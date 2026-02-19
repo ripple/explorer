@@ -375,8 +375,10 @@ describe('VaultHeader Component', () => {
         </TestWrapper>,
       )
 
-      // Verify the exact currency code is displayed
-      expect(screen.getByText('USD')).toBeInTheDocument()
+      // Verify the exact currency code is displayed and issuer is hidden
+      const currencyEl = screen.getByTestId('currency')
+      expect(currencyEl).toHaveTextContent('USD')
+      expect(currencyEl).not.toHaveTextContent('rIssuerAccount123')
     })
 
     it('displays truncated MPT ID as a link for MPT vaults', () => {
@@ -385,7 +387,6 @@ describe('VaultHeader Component', () => {
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: {
-          currency: 'MPT',
           mpt_issuance_id: mptId,
         },
       }
@@ -400,12 +401,8 @@ describe('VaultHeader Component', () => {
         </TestWrapper>,
       )
 
-      // MPT ID should be truncated: first 8 chars + "..." + last 6 chars
-      const expectedTruncated = `${mptId.substring(0, 8)}...${mptId.substring(mptId.length - 6)}`
-      // expectedTruncated = "00001234...ABCDEF"
-
       // Should be a link to the MPT page with exact truncated text
-      const mptLink = screen.getByRole('link', { name: expectedTruncated })
+      const mptLink = screen.getByRole('link', { name: 'MPT (' + mptId + ')' })
       expect(mptLink.getAttribute('href')).toBe(`/mpt/${mptId}`)
     })
 
@@ -427,7 +424,7 @@ describe('VaultHeader Component', () => {
 
       // Should display "-" as fallback
       const assetRow = screen.getByText('Asset').closest('tr')
-      expect(assetRow).toHaveTextContent('-')
+      expect(assetRow).toHaveTextContent('AssetUnknown Currency Error')
     })
   })
 

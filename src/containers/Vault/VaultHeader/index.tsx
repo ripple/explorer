@@ -11,21 +11,20 @@ import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { parseVaultWebsite } from '../utils'
 import {
-  shortenMPTID,
   shortenVaultID,
   shortenAccount,
-  getCurrencySymbol,
 } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
 import { convertHexToString } from '../../../rippled/lib/utils'
 import { Metadata } from '../../Token/MPT/Header/Metadata'
+import Currency from '../../shared/components/Currency'
 
 interface VaultData {
   Owner?: string
   Asset?: {
-    currency: string
+    currency?: string
     issuer?: string
     mpt_issuance_id?: string
   }
@@ -55,19 +54,6 @@ const VAULT_FLAGS = {
 // Withdrawal policy values from XLS-65d spec
 const WITHDRAWAL_POLICIES: { [key: number]: string } = {
   1: 'first_come_first_served',
-}
-
-const formatAsset = (asset: VaultData['Asset']): string | React.ReactNode => {
-  if (!asset) return '-'
-  if (asset.currency === 'XRP') return getCurrencySymbol('XRP')
-  if (asset.mpt_issuance_id) {
-    return (
-      <RouteLink to={MPT_ROUTE} params={{ id: asset.mpt_issuance_id }}>
-        {shortenMPTID(asset.mpt_issuance_id, 8, 6)}
-      </RouteLink>
-    )
-  }
-  return asset.currency
 }
 
 const getAssetCurrency = (asset: VaultData['Asset']): string =>
@@ -252,7 +238,27 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
         <div className="details-column">
           <table className="token-table">
             <tbody>
-              <TokenTableRow label={t('asset')} value={formatAsset(asset)} />
+              <TokenTableRow
+                label={t('asset')}
+                value={
+                  asset?.currency === 'XRP' ? (
+                    getAssetCurrency(asset)
+                  ) : (
+                    <Currency
+                      currency={
+                        asset?.currency ??
+                        asset?.mpt_issuance_id ??
+                        'Unknown Currency Error'
+                      }
+                      link
+                      issuer={asset?.issuer}
+                      isMPT={asset?.mpt_issuance_id !== undefined}
+                      shortenIssuer
+                      hideIssuer
+                    />
+                  )
+                }
+              />
               <TokenTableRow
                 label={t('total_value_locked')}
                 value={(() => {

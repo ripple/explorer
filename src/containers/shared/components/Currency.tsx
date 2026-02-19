@@ -14,6 +14,7 @@ export interface Props {
   shortenIssuer?: boolean
   displaySymbol?: boolean
   isMPT?: boolean
+  hideIssuer?: boolean
 }
 
 /*
@@ -28,6 +29,7 @@ const Currency = (props: Props) => {
     shortenIssuer = false,
     displaySymbol = true,
     isMPT = false,
+    hideIssuer = false,
   } = props
   let content: string
 
@@ -65,7 +67,7 @@ const Currency = (props: Props) => {
       display = `\uE900 ${display}`
     }
 
-    if (issuer) {
+    if (issuer && !hideIssuer) {
       display += '.'
       display += shortenIssuer ? issuer.substring(0, 4) : issuer
     }
