@@ -82,7 +82,12 @@ export const renderAssetCurrency = (asset: {
 
   if (asset.currency) {
     return (
-      <Currency currency={asset.currency} issuer={asset.issuer} link={false} />
+      <Currency
+        currency={asset.currency}
+        issuer={asset.issuer}
+        link={false}
+        hideIssuer
+      />
     )
   }
 
