@@ -669,7 +669,7 @@ describe('VaultLoans Component', () => {
 
   /**
    * =========================================
-   * SECTION 7: BrokerDetails Display Tests
+   * SECTION 7.1: BrokerDetails Display Tests
    * =========================================
    * When a broker is selected, its details should be displayed.
    */
@@ -760,8 +760,78 @@ describe('VaultLoans Component', () => {
         expect(screen.getByText('Total Debt')).toBeInTheDocument()
         expect(screen.getByText('Maximum Debt')).toBeInTheDocument()
         // Amounts are formatted with compact notation (50.00K, 1.00M)
-        expect(screen.getByText('50.00K \uE900')).toBeInTheDocument()
-        expect(screen.getByText('1.00M \uE900')).toBeInTheDocument()
+        expect(screen.getByText('\uE900 50.00K')).toBeInTheDocument()
+        expect(screen.getByText('\uE900 1.00M')).toBeInTheDocument()
+      })
+    })
+  })
+
+  /**
+   * =========================================
+   * SECTION 7.2: BrokerDetails Display Tests with Exotic Vault asset-type
+   * =========================================
+   * When a broker is selected, its details should be displayed.
+   */
+  describe('BrokerDetails Display with BTC Exotic Currency Symbol', () => {
+    it('displays total debt and maximum debt metrics with BTC Exotic Currency Symbol', async () => {
+      const broker = createMockBroker({
+        index: 'BROKER_123',
+        VaultID: 'TEST_VAULT_ID',
+        DebtTotal: '50000',
+        DebtMaximum: '1000000',
+      })
+
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker] })
+        .mockResolvedValue({ account_objects: [] })
+
+      const TestWrapper = createTestWrapper(queryClient)
+      render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency="BTC"
+            asset={{ currency: 'BTC' }}
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        // Amounts are formatted with compact notation (50.00K, 1.00M)
+        expect(screen.getByText('\u20BF 50.00K')).toBeInTheDocument()
+        expect(screen.getByText('\u20BF 1.00M')).toBeInTheDocument()
+      })
+    })
+
+    it('displays total debt and maximum debt metrics with ETH Exotic Currency Symbol', async () => {
+      const broker = createMockBroker({
+        index: 'BROKER_123',
+        VaultID: 'TEST_VAULT_ID',
+        DebtTotal: '50000',
+        DebtMaximum: '1000000',
+      })
+
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker] })
+        .mockResolvedValue({ account_objects: [] })
+
+      const TestWrapper = createTestWrapper(queryClient)
+      render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency="ETH"
+            asset={{ currency: 'ETH' }}
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        // Amounts are formatted with compact notation (50.00K, 1.00M)
+        expect(screen.getByText('\uE902 50.00K')).toBeInTheDocument()
+        expect(screen.getByText('\uE902 1.00M')).toBeInTheDocument()
       })
     })
   })

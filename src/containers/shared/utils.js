@@ -6,11 +6,16 @@ const QUADRILLION = TRILLION * THOUSAND
 
 const TRADING_FEE_TOTAL = 1000
 
-const EXOTIC_SYMBOLS = {
+export const EXOTIC_SYMBOLS = {
   BTC: '\u20BF',
   XRP: '\uE900',
   ETH: '\uE902',
 }
+
+export const isCurrencyExoticSymbol = (currency) =>
+  currency !== undefined &&
+  typeof currency === 'string' &&
+  Object.keys(EXOTIC_SYMBOLS).includes(currency)
 
 export const getCurrencySymbol = (currency) =>
   EXOTIC_SYMBOLS[currency] || currency

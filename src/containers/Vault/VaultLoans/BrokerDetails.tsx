@@ -5,7 +5,11 @@ import { formatRate, LSF_LOAN_DEFAULT } from './utils'
 import { BrokerLoansTable } from './BrokerLoansTable'
 import WarningIcon from '../../shared/images/warning.svg'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
-import { shortenMPTID, getCurrencySymbol } from '../../shared/utils'
+import {
+  shortenMPTID,
+  getCurrencySymbol,
+  isCurrencyExoticSymbol,
+} from '../../shared/utils'
 
 // TODO: Use types from xrpl.js instead of hand-writing it.
 interface LoanBrokerData {
@@ -69,14 +73,21 @@ export const BrokerDetails = ({
     }
 
     const finalDisplayAmount = convertedAmount ?? amount
-    if (finalDisplayAmount !== undefined)
+    if (finalDisplayAmount !== undefined) {
+      if (
+        inputAsset?.currency &&
+        isCurrencyExoticSymbol(inputAsset?.currency)
+      ) {
+        return `${getCurrencySymbol(inputAsset?.currency)} ${parseAmount(finalDisplayAmount, 2)}`
+      }
       return (
         `${parseAmount(finalDisplayAmount, 2)}` +
         ` ${
-          getCurrencySymbol(inputAsset?.currency) ??
+          inputAsset?.currency ??
           `MPT (${shortenMPTID(inputAsset?.mpt_issuance_id)})`
         }`
       )
+    }
     return '--'
   }
 
@@ -144,6 +155,10 @@ export const BrokerDetails = ({
         }
         displayCurrency={displayCurrency}
         asset={asset}
+        isCurrencySpecialSymbol={
+          asset?.currency !== undefined &&
+          isCurrencyExoticSymbol(asset?.currency)
+        }
       />
 
       {hasDefaultedLoan && (

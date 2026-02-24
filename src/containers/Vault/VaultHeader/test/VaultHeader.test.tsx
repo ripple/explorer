@@ -459,8 +459,8 @@ describe('VaultHeader Component', () => {
 
       // Numbers >= 1,000,000 should display with M suffix
       // Verify exact formatted values: 12,500,000 -> "12.5M XRP", 5,000,000 -> "5M XRP"
-      expect(screen.getByText('12.50M \uE900')).toBeInTheDocument()
-      expect(screen.getByText('5.00M \uE900')).toBeInTheDocument()
+      expect(screen.getByText('\uE900 12.50M')).toBeInTheDocument()
+      expect(screen.getByText('\uE900 5.00M')).toBeInTheDocument()
     })
 
     it('formats thousands with K suffix', () => {
@@ -483,8 +483,8 @@ describe('VaultHeader Component', () => {
 
       // Numbers >= 1,000 but < 1,000,000 should display with K suffix
       // Verify exact formatted values: 250,000 -> "250K XRP", 75,000 -> "75K XRP"
-      expect(screen.getByText('250.00K \uE900')).toBeInTheDocument()
-      expect(screen.getByText('75.00K \uE900')).toBeInTheDocument()
+      expect(screen.getByText('\uE900 250.00K')).toBeInTheDocument()
+      expect(screen.getByText('\uE900 75.00K')).toBeInTheDocument()
     })
 
     it('displays small numbers without suffix', () => {
@@ -506,7 +506,7 @@ describe('VaultHeader Component', () => {
 
       // Numbers < 1,000 should display as-is without K/M suffix
       // Verify exact formatted value: 500 -> "500 XRP"
-      expect(screen.getByText('500.00 \uE900')).toBeInTheDocument()
+      expect(screen.getByText('\uE900 500.00')).toBeInTheDocument()
     })
 
     it('includes currency code in formatted amounts', () => {
@@ -957,7 +957,7 @@ describe('VaultHeader Component', () => {
       )
 
       expect(screen.getByText('Max Total Supply')).toBeInTheDocument()
-      expect(screen.getByText(/10.00M \uE900/)).toBeInTheDocument()
+      expect(screen.getByText(/\uE900 10.00M/)).toBeInTheDocument()
     })
 
     it('displays "No Limit" when AssetsMaximum is not set', () => {
@@ -1009,7 +1009,7 @@ describe('VaultHeader Component', () => {
 
       expect(screen.getByText('Total Value Locked (TVL)')).toBeInTheDocument()
       // Verify exact TVL value: 5,000,000 -> "5M XRP"
-      expect(screen.getByText('5.00M \uE900')).toBeInTheDocument()
+      expect(screen.getByText('\uE900 5.00M')).toBeInTheDocument()
     })
 
     it('displays TVL for RLUSD vaults', () => {
@@ -1142,7 +1142,7 @@ describe('VaultHeader Component', () => {
 
       // 1,000,000 XRP * 2.5 = 2,500,000 USD = "2.50M USD"
       // formatAmount joins [prefix, formattedNum, currency] with spaces
-      expect(screen.getByText('2.50M USD')).toBeInTheDocument()
+      expect(screen.getByText('USD 2.50M')).toBeInTheDocument()
     })
 
     it('displays RLUSD TVL as USD with 1:1 conversion when displayCurrency is "usd"', () => {

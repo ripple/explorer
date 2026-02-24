@@ -21,6 +21,7 @@ import i18n from '../../../../i18n/testConfigEnglish'
 import { BrokerLoansTable } from '../BrokerLoansTable'
 import { LoanData } from '../LoanRow'
 import { LSF_LOAN_DEFAULT, LSF_LOAN_IMPAIRED } from '../utils'
+import { isCurrencyExoticSymbol } from '../../../shared/utils'
 
 // Default test props
 const defaultDisplayCurrency = 'XRP'
@@ -953,6 +954,41 @@ describe('BrokerLoansTable Component', () => {
 
       // Currency should appear in the amount columns
       const elementsWithCurrency = screen.getAllByText(/EUR/)
+      expect(elementsWithCurrency.length).toBeGreaterThan(0)
+
+      // Verify XRP and USD do not appear - ensures EUR is used throughout
+      expect(screen.queryByText(/XRP/)).not.toBeInTheDocument()
+      expect(screen.queryByText(/USD/)).not.toBeInTheDocument()
+    })
+
+    it(`Render the BrokerLoans table with BTC exotic currency`, () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_BTC_1',
+          PrincipalOutstanding: '5000',
+          TotalValueOutstanding: '5250',
+        }),
+      ]
+
+      const btcAsset = { currency: 'BTC', issuer: 'rTestIssuer' }
+
+      const { container } = render(
+        <TestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency={btcAsset.currency}
+            displayCurrency={btcAsset.currency}
+            asset={btcAsset}
+            isCurrencySpecialSymbol={isCurrencyExoticSymbol(btcAsset.currency)}
+          />
+        </TestWrapper>,
+      )
+
+      // Table should render with loan row
+      expect(container.querySelector('.loan-row')).toBeInTheDocument()
+
+      // Currency should appear in the amount columns
+      const elementsWithCurrency = screen.getAllByText(/\u20BF 5,250.00/)
       expect(elementsWithCurrency.length).toBeGreaterThan(0)
 
       // Verify XRP and USD do not appear - ensures EUR is used throughout

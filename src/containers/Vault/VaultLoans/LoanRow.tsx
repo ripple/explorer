@@ -12,6 +12,7 @@ import {
   truncateId,
 } from './utils'
 import ExpandIcon from '../../shared/images/down_arrow.svg'
+import { getCurrencySymbol } from '../../shared/utils'
 
 export interface LoanData {
   index: string
@@ -47,6 +48,7 @@ interface Props {
   currency?: string
   displayCurrency: string
   asset?: AssetInfo
+  isCurrencySpecialSymbol?: boolean
 }
 
 export const LoanRow = ({
@@ -54,6 +56,7 @@ export const LoanRow = ({
   currency = '',
   displayCurrency,
   asset,
+  isCurrencySpecialSymbol = false,
 }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
@@ -78,6 +81,8 @@ export const LoanRow = ({
     }
 
     const prefix = displayCurrency === 'USD' ? '$' : ''
+    if (isCurrencySpecialSymbol)
+      return `${getCurrencySymbol(currency)} ${prefix}${parseAmount(displayNum, 1, language)}`
     return `${prefix}${parseAmount(displayNum, 1, language)} ${currency}`
   }
 
@@ -97,6 +102,8 @@ export const LoanRow = ({
     }
 
     const prefix = displayCurrency === 'USD' ? '$' : ''
+    if (isCurrencySpecialSymbol)
+      return `${getCurrencySymbol(currency)} ${prefix}${parseAmount(displayNum, 1, language)}`
     return `${prefix}${parseAmount(displayNum, 1, language)} ${currency}`
   }
 
