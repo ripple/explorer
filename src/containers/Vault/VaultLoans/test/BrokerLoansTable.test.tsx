@@ -13,15 +13,25 @@
  * - Loan row rendering
  */
 
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { QueryClientProvider, QueryClient } from 'react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
+import SocketContext from '../../../shared/SocketContext'
 import { BrokerLoansTable } from '../BrokerLoansTable'
 import { LoanData } from '../LoanRow'
+import { getLedgerEntry } from '../../../../rippled/lib/rippled'
 import { LSF_LOAN_DEFAULT, LSF_LOAN_IMPAIRED } from '../utils'
 import { isCurrencyExoticSymbol } from '../../../shared/utils'
+import Mock = jest.Mock
+
+jest.mock('../../../../rippled/lib/rippled', () => ({
+  getLedgerEntry: jest.fn(),
+}))
+
+const mockedGetLedgerEntry = getLedgerEntry as Mock
+const mockSocket = {} as any
 
 // Default test props
 const defaultDisplayCurrency = 'XRP'
@@ -55,6 +65,25 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => {
     <I18nextProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
         <Router>{children}</Router>
+      </QueryClientProvider>
+    </I18nextProvider>
+  )
+}
+
+/**
+ * SocketTestWrapper Component
+ *
+ * Like TestWrapper but includes SocketContext.Provider so that the
+ * originalPrincipal useQuery (enabled: !!rippledSocket) actually fires.
+ */
+const SocketTestWrapper = ({ children }: { children: React.ReactNode }) => {
+  const queryClient = createTestQueryClient()
+  return (
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
+        <SocketContext.Provider value={mockSocket}>
+          <Router>{children}</Router>
+        </SocketContext.Provider>
       </QueryClientProvider>
     </I18nextProvider>
   )
@@ -936,7 +965,7 @@ describe('BrokerLoansTable Component', () => {
       const loanRow = container.querySelector('.loan-row')!
       const amountRequested = loanRow.querySelector('.amount-requested')
       const outstandingBalance = loanRow.querySelector('.outstanding-balance')
-      expect(amountRequested).toHaveTextContent('5,250.00 EUR')
+      expect(amountRequested).toHaveTextContent('5,000.00 EUR')
       expect(outstandingBalance).toHaveTextContent('5,250.00 EUR')
     })
 
@@ -1003,7 +1032,7 @@ describe('BrokerLoansTable Component', () => {
       const loanRow = container.querySelector('.loan-row')!
       const amountRequested = loanRow.querySelector('.amount-requested')
       const outstandingBalance = loanRow.querySelector('.outstanding-balance')
-      expect(amountRequested).toHaveTextContent('$7,875.00 USD')
+      expect(amountRequested).toHaveTextContent('$7,500.00 USD')
       expect(outstandingBalance).toHaveTextContent('$7,875.00 USD')
     })
 
@@ -1025,11 +1054,11 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Verify the amount-requested and outstanding-balance cells display EUR values
+      // Verify the amount-requested and outstanding-balance cells display values
       const loanRow = container.querySelector('.loan-row')!
       const amountRequested = loanRow.querySelector('.amount-requested')
       const outstandingBalance = loanRow.querySelector('.outstanding-balance')
-      expect(amountRequested).toHaveTextContent('\uE900 10.5K')
+      expect(amountRequested).toHaveTextContent('\uE900 10.0K')
       expect(outstandingBalance).toHaveTextContent('\uE900 10.5K')
     })
 
@@ -1051,12 +1080,221 @@ describe('BrokerLoansTable Component', () => {
         </TestWrapper>,
       )
 
-      // Verify the amount-requested and outstanding-balance cells display EUR values
+      // Verify the amount-requested and outstanding-balance cells display values
       const loanRow = container.querySelector('.loan-row')!
       const amountRequested = loanRow.querySelector('.amount-requested')
       const outstandingBalance = loanRow.querySelector('.outstanding-balance')
-      expect(amountRequested).toHaveTextContent('$15.8K USD')
+      expect(amountRequested).toHaveTextContent('$15.0K USD')
       expect(outstandingBalance).toHaveTextContent('$15.8K USD')
+    })
+  })
+
+  /**
+   * =========================================
+   * SECTION 11: Original Principal Traversal Tests
+   * =========================================
+   * Test the ledger history traversal that fetches the original loan principal.
+   * These tests use SocketTestWrapper to enable the useQuery that calls getLedgerEntry.
+   */
+  describe('Original Principal Traversal', () => {
+    beforeEach(() => {
+      mockedGetLedgerEntry.mockReset()
+    })
+
+    it('traverses multiple ledger entries to find original principal', async () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_TRAVERSAL',
+          PreviousTxnLgrSeq: 300,
+          PrincipalOutstanding: '8000',
+          TotalValueOutstanding: '8500',
+        }),
+      ]
+
+      mockedGetLedgerEntry
+        .mockResolvedValueOnce({
+          node: { PreviousTxnLgrSeq: 200, PrincipalOutstanding: '9000' },
+        })
+        .mockResolvedValueOnce({
+          node: { PreviousTxnLgrSeq: 100, PrincipalOutstanding: '10000' },
+        })
+        .mockRejectedValueOnce(new Error('ledger entry not found'))
+
+      const { container } = render(
+        <SocketTestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency="EUR"
+            displayCurrency="EUR"
+            asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
+          />
+        </SocketTestWrapper>,
+      )
+
+      await waitFor(() => {
+        const loanRow = container.querySelector('.loan-row')!
+        const amountRequested = loanRow.querySelector('.amount-requested')
+        expect(amountRequested).toHaveTextContent('10.0K EUR')
+      })
+
+      const loanRow = container.querySelector('.loan-row')!
+      const outstandingBalance = loanRow.querySelector('.outstanding-balance')
+      expect(outstandingBalance).toHaveTextContent('8,500.00 EUR')
+    })
+
+    it('falls back to PrincipalOutstanding when first fetch throws (loan created one tx ago)', async () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_SINGLE_STEP',
+          PreviousTxnLgrSeq: 150,
+          PrincipalOutstanding: '9500',
+          TotalValueOutstanding: '9800',
+        }),
+      ]
+
+      mockedGetLedgerEntry.mockRejectedValueOnce(
+        new Error('ledger entry not found'),
+      )
+
+      const { container } = render(
+        <SocketTestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency="EUR"
+            displayCurrency="EUR"
+            asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
+          />
+        </SocketTestWrapper>,
+      )
+
+      await waitFor(() => {
+        const loanRow = container.querySelector('.loan-row')!
+        const amountRequested = loanRow.querySelector('.amount-requested')
+        expect(amountRequested).toHaveTextContent('9,500.00 EUR')
+      })
+    })
+
+    it('uses PrincipalOutstanding directly when no PreviousTxnLgrSeq exists', async () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_NO_PREV',
+          PrincipalOutstanding: '10000',
+          TotalValueOutstanding: '10500',
+        }),
+      ]
+
+      const { container } = render(
+        <SocketTestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency="EUR"
+            displayCurrency="EUR"
+            asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
+          />
+        </SocketTestWrapper>,
+      )
+
+      await waitFor(() => {
+        const loanRow = container.querySelector('.loan-row')!
+        const amountRequested = loanRow.querySelector('.amount-requested')
+        expect(amountRequested).toHaveTextContent('10.0K EUR')
+      })
+
+      expect(mockedGetLedgerEntry).not.toHaveBeenCalled()
+    })
+
+    it('falls back to PrincipalOutstanding on generic error', async () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_ERROR',
+          PreviousTxnLgrSeq: 300,
+          PrincipalOutstanding: '8000',
+          TotalValueOutstanding: '8500',
+        }),
+      ]
+
+      mockedGetLedgerEntry.mockRejectedValue(new Error('network error'))
+
+      const { container } = render(
+        <SocketTestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency="EUR"
+            displayCurrency="EUR"
+            asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
+          />
+        </SocketTestWrapper>,
+      )
+
+      await waitFor(() => {
+        const loanRow = container.querySelector('.loan-row')!
+        const amountRequested = loanRow.querySelector('.amount-requested')
+        expect(amountRequested).toHaveTextContent('8,000.00 EUR')
+      })
+    })
+
+    it('stops traversal when PreviousTxnLgrSeq does not change (prevents infinite loop)', async () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_SAME_SEQ',
+          PreviousTxnLgrSeq: 200,
+          PrincipalOutstanding: '8000',
+          TotalValueOutstanding: '8500',
+        }),
+      ]
+
+      // Returns the same PreviousTxnLgrSeq — the guard should break the loop
+      mockedGetLedgerEntry.mockResolvedValue({
+        node: { PreviousTxnLgrSeq: 200, PrincipalOutstanding: '9000' },
+      })
+
+      const { container } = render(
+        <SocketTestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency="EUR"
+            displayCurrency="EUR"
+            asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
+          />
+        </SocketTestWrapper>,
+      )
+
+      await waitFor(() => {
+        const loanRow = container.querySelector('.loan-row')!
+        const amountRequested = loanRow.querySelector('.amount-requested')
+        expect(amountRequested).toHaveTextContent('9,000.00 EUR')
+      })
+
+      expect(mockedGetLedgerEntry).toHaveBeenCalledTimes(1)
+    })
+
+    it('shows loading state while traversal is in progress', () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_LOADING',
+          PreviousTxnLgrSeq: 300,
+          PrincipalOutstanding: '8000',
+          TotalValueOutstanding: '8500',
+        }),
+      ]
+
+      // Never-resolving promise to keep the query in loading state
+      mockedGetLedgerEntry.mockReturnValue(new Promise(() => {}))
+
+      const { container } = render(
+        <SocketTestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency="EUR"
+            displayCurrency="EUR"
+            asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
+          />
+        </SocketTestWrapper>,
+      )
+
+      const loanRow = container.querySelector('.loan-row')!
+      const amountRequested = loanRow.querySelector('.amount-requested')
+      expect(amountRequested).toHaveTextContent('--')
     })
   })
 })

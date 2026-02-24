@@ -93,11 +93,12 @@ const getLedger = async (
 const getLedgerEntry = async (
   rippledSocket: ExplorerXrplClient,
   { index }: { index: string },
+  ledgerIndex?: number,
 ): Promise<any> => {
   const request = {
     command: 'ledger_entry',
     index,
-    ledger_index: 'validated',
+    ledger_index: ledgerIndex ?? 'validated',
   }
 
   const resp = await query(rippledSocket, request)

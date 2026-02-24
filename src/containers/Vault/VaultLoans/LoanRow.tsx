@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { Account } from '../../shared/components/Account'
+import SocketContext from '../../shared/SocketContext'
 import { useLanguage } from '../../shared/hooks'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
+import { getLedgerEntry } from '../../../rippled/lib/rippled'
 import {
   formatRate,
   formatPaymentInterval,
@@ -18,7 +21,6 @@ export interface LoanData {
   index: string
   Borrower: string
   LoanBrokerID: string
-  PrincipalOutstanding: string
   TotalValueOutstanding: string
   InterestRate: number
   LateInterestRate: number
@@ -35,6 +37,8 @@ export interface LoanData {
   NextPaymentDueDate: number
   Flags: number
   PaymentTotal?: number
+  PreviousTxnLgrSeq?: number
+  PrincipalOutstanding?: string
 }
 
 interface AssetInfo {
@@ -60,8 +64,47 @@ export const LoanRow = ({
 }: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
+  const rippledSocket = useContext(SocketContext)
   const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
   const [expanded, setExpanded] = useState(false)
+
+  const { data: originalPrincipal, isLoading: isPrincipalLoading } = useQuery(
+    ['originalPrincipal', loan.index],
+    async () => {
+      if (!loan.PreviousTxnLgrSeq) return loan.PrincipalOutstanding ?? null
+
+      let lastSuccessful: any = null
+      let currentSeq = loan.PreviousTxnLgrSeq
+      const MAX_ITERATIONS = 100
+
+      for (let i = 0; i < MAX_ITERATIONS; i += 1) {
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          const resp = await getLedgerEntry(
+            rippledSocket,
+            { index: loan.index },
+            currentSeq - 1,
+          )
+          lastSuccessful = resp.node
+          if (currentSeq === resp.node.PreviousTxnLgrSeq) break
+          currentSeq = resp.node.PreviousTxnLgrSeq
+        } catch {
+          // entryNotFound means we've gone past creation — last success is the creation state
+          break
+        }
+      }
+
+      return (
+        lastSuccessful?.PrincipalOutstanding ??
+        loan.PrincipalOutstanding ??
+        null
+      )
+    },
+    {
+      staleTime: Infinity,
+      enabled: !!rippledSocket,
+    },
+  )
 
   const { status, colorClass } = formatLoanStatus(
     loan.Flags,
@@ -131,8 +174,9 @@ export const LoanRow = ({
           />
         </div>
         <div className="loan-cell amount-requested">
-          {/*  Note: TotalValueOutstanding is has a DEFAULT configuration in XRPL. Its absence indicates a value of 0. */}
-          {formatAmount(loan.TotalValueOutstanding ?? 0)}
+          {isPrincipalLoading
+            ? '--'
+            : formatAmount(originalPrincipal ?? loan.PrincipalOutstanding ?? 0)}
         </div>
         <div className="loan-cell interest-rate">
           {formatRate(loan.InterestRate)}
