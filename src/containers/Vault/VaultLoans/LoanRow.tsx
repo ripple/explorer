@@ -81,9 +81,9 @@ export const LoanRow = ({
     }
 
     const prefix = displayCurrency === 'USD' ? '$' : ''
-    if (isCurrencySpecialSymbol)
-      return `${getCurrencySymbol(currency)} ${prefix}${parseAmount(displayNum, 1, language)}`
-    return `${prefix}${parseAmount(displayNum, 1, language)} ${currency}`
+    if (isCurrencySpecialSymbol && displayCurrency !== 'USD')
+      return `${getCurrencySymbol(currency)} ${parseAmount(displayNum, 1, language)}`
+    return `${prefix}${parseAmount(displayNum, 1, language)} ${displayCurrency}`
   }
 
   const formatFee = (fee: string | number): string => {
@@ -103,8 +103,8 @@ export const LoanRow = ({
 
     const prefix = displayCurrency === 'USD' ? '$' : ''
     if (isCurrencySpecialSymbol)
-      return `${getCurrencySymbol(currency)} ${prefix}${parseAmount(displayNum, 1, language)}`
-    return `${prefix}${parseAmount(displayNum, 1, language)} ${currency}`
+      return `${getCurrencySymbol(currency)} ${parseAmount(displayNum, 1, language)}`
+    return `${prefix}${parseAmount(displayNum, 1, language)} ${displayCurrency}`
   }
 
   const formatGracePeriod = (seconds: number): string => {

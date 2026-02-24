@@ -40,6 +40,18 @@ jest.mock('../../../shared/analytics', () => ({
   }),
 }))
 
+// Mock the token to USD rate hook
+const mockTokenToUSDRate = jest.fn()
+jest.mock('../../../shared/hooks/useTokenToUSDRate', () => ({
+  useTokenToUSDRate: (token: any) => {
+    const result = mockTokenToUSDRate(token)
+    if (typeof result === 'number') {
+      return { rate: result, isAvailable: result > 0, isLoading: false }
+    }
+    return result
+  },
+}))
+
 const mockedGetAccountObjects = getAccountObjects as Mock
 
 // Mock socket client - represents the WebSocket connection to rippled
@@ -140,6 +152,14 @@ describe('VaultLoans Component', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     queryClient = createTestQueryClient()
+
+    // Default mock: XRP = 1.5, RLUSD = 1.0, others = 0 (no conversion)
+    mockTokenToUSDRate.mockImplementation((token: any) => {
+      if (!token) return 0
+      if (token.currency === 'XRP') return 1.5
+      if (token.currency === 'RLUSD') return 1.0
+      return 0
+    })
   })
 
   afterEach(() => {
@@ -232,13 +252,18 @@ describe('VaultLoans Component', () => {
 
       await waitFor(() => {
         // Component should render with EUR currency in debt amounts
-        expect(screen.getByText('Total Debt')).toBeInTheDocument()
-        expect(screen.getByText('25.00K EUR')).toBeInTheDocument()
-        expect(screen.getByText('500.00K EUR')).toBeInTheDocument()
-
-        // Verify XRP and USD do not appear - ensures EUR is used throughout
-        expect(screen.queryByText(/XRP/)).not.toBeInTheDocument()
-        expect(screen.queryByText(/USD/)).not.toBeInTheDocument()
+        const totalDebtMetric = screen
+          .getByText('Total Debt')
+          .closest('.debt-metric')
+        expect(
+          totalDebtMetric?.querySelector('.metric-value'),
+        ).toHaveTextContent('25.00K EUR')
+        const maxDebtMetric = screen
+          .getByText('Maximum Debt')
+          .closest('.debt-metric')
+        expect(maxDebtMetric?.querySelector('.metric-value')).toHaveTextContent(
+          '500.00K EUR',
+        )
       })
     })
   })
@@ -757,11 +782,148 @@ describe('VaultLoans Component', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByText('Total Debt')).toBeInTheDocument()
-        expect(screen.getByText('Maximum Debt')).toBeInTheDocument()
         // Amounts are formatted with compact notation (50.00K, 1.00M)
-        expect(screen.getByText('\uE900 50.00K')).toBeInTheDocument()
-        expect(screen.getByText('\uE900 1.00M')).toBeInTheDocument()
+        const totalDebtMetric = screen
+          .getByText('Total Debt')
+          .closest('.debt-metric')
+        expect(
+          totalDebtMetric?.querySelector('.metric-value'),
+        ).toHaveTextContent('\uE900 50.00K')
+        const maxDebtMetric = screen
+          .getByText('Maximum Debt')
+          .closest('.debt-metric')
+        expect(maxDebtMetric?.querySelector('.metric-value')).toHaveTextContent(
+          '\uE900 1.00M',
+        )
+      })
+    })
+
+    it(`display BrokerDetails card: XRP-denominated Loan in USD Currency`, async () => {
+      const broker = createMockBroker({
+        index: 'BROKER_123',
+        VaultID: 'TEST_VAULT_ID',
+        DebtTotal: '50000',
+        DebtMaximum: '1000000',
+      })
+
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker] })
+        .mockResolvedValue({ account_objects: [] })
+
+      const TestWrapper = createTestWrapper(queryClient)
+      render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency="USD"
+            asset={defaultAsset}
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        // Amounts are formatted with compact notation (50.00K, 1.00M)
+        const totalDebtMetric = screen
+          .getByText('Total Debt')
+          .closest('.debt-metric')
+        expect(
+          totalDebtMetric?.querySelector('.metric-value'),
+        ).toHaveTextContent('$75.00K USD')
+        const maxDebtMetric = screen
+          .getByText('Maximum Debt')
+          .closest('.debt-metric')
+        expect(maxDebtMetric?.querySelector('.metric-value')).toHaveTextContent(
+          '$1.50M USD',
+        )
+      })
+    })
+    it(`display BrokerDetails card: IOU-denominated Loan in USD Currency`, async () => {
+      const broker = createMockBroker({
+        index: 'BROKER_123',
+        VaultID: 'TEST_VAULT_ID',
+        DebtTotal: '50000',
+        DebtMaximum: '1000000',
+      })
+
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker] })
+        .mockResolvedValue({ account_objects: [] })
+
+      const TestWrapper = createTestWrapper(queryClient)
+      render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency="USD"
+            asset={{ currency: 'AUD' }}
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        // Note: This test validates the case where USD conversion is not available
+        const totalDebtMetric = screen
+          .getByText('Total Debt')
+          .closest('.debt-metric')
+        expect(
+          totalDebtMetric?.querySelector('.metric-value'),
+        ).toHaveTextContent('--')
+        const maxDebtMetric = screen
+          .getByText('Maximum Debt')
+          .closest('.debt-metric')
+        expect(maxDebtMetric?.querySelector('.metric-value')).toHaveTextContent(
+          '--',
+        )
+      })
+    })
+
+    it(`display BrokerDetails card: <Exotic Currency> BTC-denominated Loan in USD Currency`, async () => {
+      // Mock BTC to USD rate so conversion is available
+      mockTokenToUSDRate.mockImplementation((token: any) => {
+        if (!token) return 0
+        if (token.currency === 'BTC') return 1.5
+        return 0
+      })
+
+      const broker = createMockBroker({
+        index: 'BROKER_123',
+        VaultID: 'TEST_VAULT_ID',
+        DebtTotal: '50000',
+        DebtMaximum: '1000000',
+      })
+
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker] })
+        .mockResolvedValue({ account_objects: [] })
+
+      const TestWrapper = createTestWrapper(queryClient)
+      render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency="USD"
+            asset={{ currency: 'BTC' }}
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        // BTC 50,000 * 1.5 = 75,000 USD, BTC 1,000,000 * 1.5 = 1,500,000 USD
+        const totalDebtMetric = screen
+          .getByText('Total Debt')
+          .closest('.debt-metric')
+        expect(
+          totalDebtMetric?.querySelector('.metric-value'),
+        ).toHaveTextContent('$75.00K USD')
+        const maxDebtMetric = screen
+          .getByText('Maximum Debt')
+          .closest('.debt-metric')
+        expect(maxDebtMetric?.querySelector('.metric-value')).toHaveTextContent(
+          '$1.50M USD',
+        )
       })
     })
   })
@@ -799,8 +961,18 @@ describe('VaultLoans Component', () => {
 
       await waitFor(() => {
         // Amounts are formatted with compact notation (50.00K, 1.00M)
-        expect(screen.getByText('\u20BF 50.00K')).toBeInTheDocument()
-        expect(screen.getByText('\u20BF 1.00M')).toBeInTheDocument()
+        const totalDebtMetric = screen
+          .getByText('Total Debt')
+          .closest('.debt-metric')
+        expect(
+          totalDebtMetric?.querySelector('.metric-value'),
+        ).toHaveTextContent('\u20BF 50.00K')
+        const maxDebtMetric = screen
+          .getByText('Maximum Debt')
+          .closest('.debt-metric')
+        expect(maxDebtMetric?.querySelector('.metric-value')).toHaveTextContent(
+          '\u20BF 1.00M',
+        )
       })
     })
 
@@ -830,8 +1002,18 @@ describe('VaultLoans Component', () => {
 
       await waitFor(() => {
         // Amounts are formatted with compact notation (50.00K, 1.00M)
-        expect(screen.getByText('\uE902 50.00K')).toBeInTheDocument()
-        expect(screen.getByText('\uE902 1.00M')).toBeInTheDocument()
+        const totalDebtMetric = screen
+          .getByText('Total Debt')
+          .closest('.debt-metric')
+        expect(
+          totalDebtMetric?.querySelector('.metric-value'),
+        ).toHaveTextContent('\uE902 50.00K')
+        const maxDebtMetric = screen
+          .getByText('Maximum Debt')
+          .closest('.debt-metric')
+        expect(maxDebtMetric?.querySelector('.metric-value')).toHaveTextContent(
+          '\uE902 1.00M',
+        )
       })
     })
   })

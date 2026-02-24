@@ -68,12 +68,15 @@ export const BrokerDetails = ({
     inputAsset: AssetInfo | undefined,
   ): string => {
     const convertedAmount = convertToDisplayCurrency(amount)
-    if (convertedAmount === undefined && displayCurrency === 'usd') {
+    if (convertedAmount === undefined && displayCurrency === 'USD') {
       return '--'
     }
 
     const finalDisplayAmount = convertedAmount ?? amount
     if (finalDisplayAmount !== undefined) {
+      if (displayCurrency === 'USD') {
+        return `$${parseAmount(finalDisplayAmount, 2)} USD`
+      }
       if (
         inputAsset?.currency &&
         isCurrencyExoticSymbol(inputAsset?.currency)

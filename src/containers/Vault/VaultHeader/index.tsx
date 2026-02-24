@@ -270,7 +270,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   const convertedAmount = convertToDisplayCurrency(assetsTotal)
                   if (
                     convertedAmount === undefined &&
-                    displayCurrency === 'usd'
+                    displayCurrency === 'USD'
                   ) {
                     return '--'
                   }
@@ -284,15 +284,23 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                     return '--'
                   // Note: As per the NumberFormat policy, prices in the range of [10_000, 1M] do not display decimal values
                   // Very large prices (greater than 1M must have two decimal places)
+                  const displayedCurrency: string = getDisplayCurrencyLabel()
                   if (Number(amount) < 1000000 && Number(amount) >= 10000) {
-                    if (isCurrencyExoticSymbol(asset?.currency))
-                      return `${getDisplayCurrencyLabel()} ${parseAmount(amount, 0)}`
-                    return `${parseAmount(amount, 0)} ${getDisplayCurrencyLabel()}`
+                    if (
+                      isCurrencyExoticSymbol(asset?.currency) &&
+                      displayedCurrency !== 'USD'
+                    )
+                      return `${getCurrencySymbol(asset?.currency)} ${parseAmount(amount, 0)}`
+                    // All USD denominated amounts are prefixed by `$` symbol
+                    return `${displayedCurrency === 'USD' ? '$' : ''}${parseAmount(amount, 0)} ${displayedCurrency}`
                   }
 
-                  if (isCurrencyExoticSymbol(asset?.currency))
-                    return `${getDisplayCurrencyLabel()} ${parseAmount(amount, 2)}`
-                  return `${parseAmount(amount, 2)} ${getDisplayCurrencyLabel()}`
+                  if (
+                    isCurrencyExoticSymbol(asset?.currency) &&
+                    displayedCurrency !== 'USD'
+                  )
+                    return `${getCurrencySymbol(asset?.currency)} ${parseAmount(amount, 2)}`
+                  return `${displayedCurrency === 'USD' ? '$' : ''}${parseAmount(amount, 2)} ${displayedCurrency}`
                 })()}
               />
               <TokenTableRow
@@ -303,9 +311,13 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   const parsedAmt = parseAmount(assetsMaximum, 2)
                   if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
 
-                  if (isCurrencyExoticSymbol(asset?.currency))
+                  const displayedCurrency: string = getDisplayCurrencyLabel()
+                  if (
+                    isCurrencyExoticSymbol(asset?.currency) &&
+                    displayedCurrency !== 'USD'
+                  )
                     return `${getCurrencySymbol(asset?.currency)} ${parsedAmt}`
-                  return `${parsedAmt} ${getCurrencySymbol(asset?.currency ?? asset?.mpt_issuance_id)}`
+                  return `${displayedCurrency === 'USD' ? '$' : ''}${parsedAmt} ${displayedCurrency}`
                 })()}
               />
               <TokenTableRow
@@ -317,9 +329,14 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 value={(() => {
                   const parsedAmt = parseAmount(assetsAvailable ?? '0', 2)
                   if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
-                  if (isCurrencyExoticSymbol(asset?.currency))
+
+                  const displayedCurrency: string = getDisplayCurrencyLabel()
+                  if (
+                    isCurrencyExoticSymbol(asset?.currency) &&
+                    displayedCurrency !== 'USD'
+                  )
                     return `${getCurrencySymbol(asset?.currency)} ${parsedAmt}`
-                  return `${parsedAmt} ${getCurrencySymbol(asset?.currency ?? asset?.mpt_issuance_id)}`
+                  return `${displayedCurrency === 'USD' ? '$' : ''}${parsedAmt} ${displayedCurrency}`
                 })()}
               />
               <TokenTableRow
@@ -327,9 +344,14 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 value={(() => {
                   const parsedAmt = parseAmount(lossUnrealized ?? '0', 2)
                   if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
-                  if (isCurrencyExoticSymbol(asset?.currency))
+
+                  const displayedCurrency: string = getDisplayCurrencyLabel()
+                  if (
+                    isCurrencyExoticSymbol(asset?.currency) &&
+                    displayedCurrency !== 'USD'
+                  )
                     return `${getCurrencySymbol(asset?.currency)} ${parsedAmt}`
-                  return `${parsedAmt} ${getCurrencySymbol(asset?.currency ?? asset?.mpt_issuance_id)}`
+                  return `${displayedCurrency === 'USD' ? '$' : ''}${parsedAmt} ${displayedCurrency}`
                 })()}
               />
             </tbody>

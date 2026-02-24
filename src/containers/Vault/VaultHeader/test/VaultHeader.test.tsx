@@ -1142,7 +1142,7 @@ describe('VaultHeader Component', () => {
 
       // 1,000,000 XRP * 2.5 = 2,500,000 USD = "2.50M USD"
       // formatAmount joins [prefix, formattedNum, currency] with spaces
-      expect(screen.getByText('USD 2.50M')).toBeInTheDocument()
+      expect(screen.getByText('$2.50M USD')).toBeInTheDocument()
     })
 
     it('displays RLUSD TVL as USD with 1:1 conversion when displayCurrency is "usd"', () => {
@@ -1164,7 +1164,7 @@ describe('VaultHeader Component', () => {
 
       // RLUSD is a stablecoin pegged 1:1 to USD
       // 5,000,000 RLUSD = "5.00M USD"
-      expect(screen.getByText('5.00M USD')).toBeInTheDocument()
+      expect(screen.getByText('$5.00M USD')).toBeInTheDocument()
     })
 
     it('convert native currency EUR into USD displayed currency', () => {
@@ -1190,7 +1190,7 @@ describe('VaultHeader Component', () => {
       )
 
       const tvlRow = screen.getByText('Total Value Locked (TVL)').closest('tr')
-      expect(tvlRow).toHaveTextContent('Total Value Locked (TVL)2.00M USD')
+      expect(tvlRow).toHaveTextContent('Total Value Locked (TVL)$2.00M USD')
     })
   })
 })

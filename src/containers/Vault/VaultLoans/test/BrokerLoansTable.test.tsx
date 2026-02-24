@@ -906,28 +906,8 @@ describe('BrokerLoansTable Component', () => {
    * =========================================
    * Verify currency is passed through to LoanRow.
    */
-  describe('Currency Prop', () => {
-    it('passes currency to loan rows', () => {
-      const loans = [createMockLoan({ TotalValueOutstanding: '1000' })]
-
-      render(
-        <TestWrapper>
-          <BrokerLoansTable
-            loans={loans}
-            currency="RLUSD"
-            displayCurrency={defaultDisplayCurrency}
-            asset={{ currency: 'RLUSD', issuer: 'rTestIssuer' }}
-          />
-        </TestWrapper>,
-      )
-
-      // The amount cells should include the currency (amount-requested and outstanding-balance)
-      // Using getAllByText since currency appears in multiple columns
-      const elementsWithCurrency = screen.getAllByText(/RLUSD/)
-      expect(elementsWithCurrency.length).toBeGreaterThan(0)
-    })
-
-    it('renders correctly with non-XRP/non-RLUSD currency', () => {
+  describe('Currency Prop tests', () => {
+    it('renders correctly with non-XRP/non-USD currency', () => {
       // Test with EUR - an arbitrary IOU currency that is neither XRP nor RLUSD
       // This ensures the component handles any currency type correctly
       const loans = [
@@ -943,7 +923,7 @@ describe('BrokerLoansTable Component', () => {
           <BrokerLoansTable
             loans={loans}
             currency="EUR"
-            displayCurrency={defaultDisplayCurrency}
+            displayCurrency="EUR"
             asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
           />
         </TestWrapper>,
@@ -952,13 +932,12 @@ describe('BrokerLoansTable Component', () => {
       // Table should render with loan row
       expect(container.querySelector('.loan-row')).toBeInTheDocument()
 
-      // Currency should appear in the amount columns
-      const elementsWithCurrency = screen.getAllByText(/EUR/)
-      expect(elementsWithCurrency.length).toBeGreaterThan(0)
-
-      // Verify XRP and USD do not appear - ensures EUR is used throughout
-      expect(screen.queryByText(/XRP/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/USD/)).not.toBeInTheDocument()
+      // Verify the amount-requested and outstanding-balance cells display EUR values
+      const loanRow = container.querySelector('.loan-row')!
+      const amountRequested = loanRow.querySelector('.amount-requested')
+      const outstandingBalance = loanRow.querySelector('.outstanding-balance')
+      expect(amountRequested).toHaveTextContent('5,250.00 EUR')
+      expect(outstandingBalance).toHaveTextContent('5,250.00 EUR')
     })
 
     it(`Render the BrokerLoans table with BTC exotic currency`, () => {
@@ -996,21 +975,88 @@ describe('BrokerLoansTable Component', () => {
       expect(screen.queryByText(/USD/)).not.toBeInTheDocument()
     })
 
-    it('defaults to empty string when currency not provided', () => {
+    it(`display a BTC-denominated Loan in USD currency`, () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_BTC_1',
+          PrincipalOutstanding: '5000',
+          TotalValueOutstanding: '5250',
+        }),
+      ]
+
+      const btcAsset = { currency: 'BTC', issuer: 'rTestIssuer' }
+
+      const { container } = render(
+        <TestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency={btcAsset.currency}
+            displayCurrency="USD"
+            asset={btcAsset}
+            isCurrencySpecialSymbol={isCurrencyExoticSymbol(btcAsset.currency)}
+          />
+        </TestWrapper>,
+      )
+
+      // Table should render with loan row
+      expect(container.querySelector('.loan-row')).toBeInTheDocument()
+      const loanRow = container.querySelector('.loan-row')!
+      const amountRequested = loanRow.querySelector('.amount-requested')
+      const outstandingBalance = loanRow.querySelector('.outstanding-balance')
+      expect(amountRequested).toHaveTextContent('$7,875.00 USD')
+      expect(outstandingBalance).toHaveTextContent('$7,875.00 USD')
+    })
+
+    it('display a XRP-denominated Loan in XRP currency', () => {
       const loans = [createMockLoan()]
 
-      // This should not throw - currency defaults to ''
-      expect(() =>
-        render(
-          <TestWrapper>
-            <BrokerLoansTable
-              loans={loans}
-              displayCurrency={defaultDisplayCurrency}
-              asset={defaultAsset}
-            />
-          </TestWrapper>,
-        ),
-      ).not.toThrow()
+      // This should not throw - currency defaults to XRP because XRP is the asset of the Vault.
+      const { container } = render(
+        <TestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency={defaultAsset.currency}
+            displayCurrency={defaultDisplayCurrency}
+            asset={defaultAsset}
+            isCurrencySpecialSymbol={isCurrencyExoticSymbol(
+              defaultAsset.currency,
+            )}
+          />
+        </TestWrapper>,
+      )
+
+      // Verify the amount-requested and outstanding-balance cells display EUR values
+      const loanRow = container.querySelector('.loan-row')!
+      const amountRequested = loanRow.querySelector('.amount-requested')
+      const outstandingBalance = loanRow.querySelector('.outstanding-balance')
+      expect(amountRequested).toHaveTextContent('\uE900 10.5K')
+      expect(outstandingBalance).toHaveTextContent('\uE900 10.5K')
+    })
+
+    it(`display a XRP-denominated Loan in USD currency`, () => {
+      const loans = [createMockLoan()]
+
+      // This should not throw - currency defaults to XRP because XRP is the asset of the Vault.
+      const { container } = render(
+        <TestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency={defaultAsset.currency}
+            displayCurrency="USD"
+            asset={defaultAsset}
+            isCurrencySpecialSymbol={isCurrencyExoticSymbol(
+              defaultAsset.currency,
+            )}
+          />
+        </TestWrapper>,
+      )
+
+      // Verify the amount-requested and outstanding-balance cells display EUR values
+      const loanRow = container.querySelector('.loan-row')!
+      const amountRequested = loanRow.querySelector('.amount-requested')
+      const outstandingBalance = loanRow.querySelector('.outstanding-balance')
+      expect(amountRequested).toHaveTextContent('$15.8K USD')
+      expect(outstandingBalance).toHaveTextContent('$15.8K USD')
     })
   })
 })
