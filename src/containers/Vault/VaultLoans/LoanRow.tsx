@@ -49,7 +49,7 @@ interface AssetInfo {
 
 interface Props {
   loan: LoanData
-  currency?: string
+  currency: string
   displayCurrency: string
   asset?: AssetInfo
   isCurrencySpecialSymbol?: boolean
@@ -57,7 +57,7 @@ interface Props {
 
 export const LoanRow = ({
   loan,
-  currency = '',
+  currency,
   displayCurrency,
   asset,
   isCurrencySpecialSymbol = false,

@@ -15,7 +15,13 @@ import SocketContext from '../shared/SocketContext'
 import { getVault } from '../../rippled/lib/rippled'
 import { useAnalytics } from '../shared/analytics'
 import { useTokenToUSDRate } from '../shared/hooks/useTokenToUSDRate'
-import { NOT_FOUND, BAD_REQUEST, shortenVaultID } from '../shared/utils'
+import {
+  NOT_FOUND,
+  BAD_REQUEST,
+  shortenVaultID,
+  getCurrencySymbol,
+  shortenMPTID,
+} from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
 import { parseVaultName, renderAssetCurrency } from './utils'
 import './styles.scss'
@@ -77,6 +83,12 @@ export const Vault = () => {
   const { isAvailable: usdAvailable, isLoading: usdLoading } =
     useTokenToUSDRate(vaultData?.Asset)
 
+  // Compute native currency label from vault asset
+  const nativeCurrency =
+    getCurrencySymbol(vaultData?.Asset?.currency) ??
+    shortenMPTID(vaultData?.Asset?.mpt_issuance_id) ??
+    ''
+
   useEffect(() => {
     trackScreenLoaded({
       vault_id: vaultId,
@@ -85,6 +97,13 @@ export const Vault = () => {
       window.scrollTo(0, 0)
     }
   }, [vaultId, trackScreenLoaded])
+
+  // Set displayCurrency to native currency once vault data loads
+  useEffect(() => {
+    if (nativeCurrency && !displayCurrency) {
+      setDisplayCurrency(nativeCurrency)
+    }
+  }, [nativeCurrency]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderError = () => {
     const message = getErrorMessage(error)
@@ -124,7 +143,7 @@ export const Vault = () => {
             <CurrencyToggle
               nativeCurrencyDisplay={renderAssetCurrency(vaultData?.Asset)}
               selected={displayCurrency}
-              onToggle={setDisplayCurrency}
+              onToggle={(val) => setDisplayCurrency(val || nativeCurrency)}
               usdDisabled={!usdAvailable}
               usdLoading={usdLoading}
             />
@@ -132,13 +151,13 @@ export const Vault = () => {
           <VaultHeader
             data={vaultData}
             vaultId={vaultId}
-            displayCurrency={displayCurrency}
+            displayCurrency={displayCurrency || nativeCurrency}
           />
           {transactionAccountId && (
             <VaultLoans
               vaultId={vaultId}
               vaultPseudoAccount={transactionAccountId}
-              displayCurrency={displayCurrency}
+              displayCurrency={displayCurrency || nativeCurrency}
               asset={vaultData.Asset}
             />
           )}

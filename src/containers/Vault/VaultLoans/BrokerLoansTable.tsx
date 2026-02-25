@@ -17,7 +17,7 @@ interface AssetInfo {
 
 interface Props {
   loans: LoanData[] | undefined
-  currency?: string
+  currency: string
   displayCurrency: string
   asset?: AssetInfo
   isCurrencySpecialSymbol?: boolean
@@ -25,7 +25,7 @@ interface Props {
 
 export const BrokerLoansTable = ({
   loans,
-  currency = '',
+  currency,
   displayCurrency,
   asset,
   isCurrencySpecialSymbol = false,
@@ -33,6 +33,7 @@ export const BrokerLoansTable = ({
   const { t } = useTranslation()
   const [currentPage, setCurrentPage] = useState(1)
   const [filter, setFilter] = useState<LoanFilter>('all')
+  const effectiveDisplayCurrency = displayCurrency || currency
 
   if (!loans || loans.length === 0) {
     return (
@@ -123,7 +124,7 @@ export const BrokerLoansTable = ({
             key={loan.index}
             loan={loan}
             currency={currency}
-            displayCurrency={displayCurrency}
+            displayCurrency={effectiveDisplayCurrency}
             asset={asset}
             isCurrencySpecialSymbol={isCurrencySpecialSymbol}
           />

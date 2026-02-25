@@ -1297,4 +1297,77 @@ describe('BrokerLoansTable Component', () => {
       expect(amountRequested).toHaveTextContent('--')
     })
   })
+
+  /**
+   * =========================================
+   * SECTION 12: Currency Display Regression Tests
+   * =========================================
+   * Guard against empty displayCurrency reaching LoanRow, which causes
+   * amounts to render without a currency label (e.g., "5,000.00 " with
+   * trailing space). This was triggered by MPT token vaults where
+   * CurrencyToggle passes '' on native currency click.
+   */
+  describe('Currency Display Regression', () => {
+    const MPT_ID = '00000001A407AF5856CEFF0100000000000000000000000000000000'
+    const SHORTENED_MPT = '00000001A4...0000000000'
+
+    it('empty displayCurrency produces amounts with trailing space and no currency label', () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_EMPTY_DC',
+          PrincipalOutstanding: '5000',
+          TotalValueOutstanding: '5250',
+        }),
+      ]
+
+      const { container } = render(
+        <TestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency="EUR"
+            displayCurrency=""
+            asset={{ currency: 'EUR', issuer: 'rTestIssuer' }}
+          />
+        </TestWrapper>,
+      )
+
+      const loanRow = container.querySelector('.loan-row')!
+      const amountRequested = loanRow.querySelector('.amount-requested')
+      const outstandingBalance = loanRow.querySelector('.outstanding-balance')
+
+      expect(amountRequested?.textContent).toBe('5,000.00 EUR')
+      expect(outstandingBalance?.textContent).toBe('5,250.00 EUR')
+    })
+
+    it('MPT token displays amounts with shortened MPTID suffix', () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_MPT_NATIVE',
+          PrincipalOutstanding: '5000',
+          TotalValueOutstanding: '5250',
+        }),
+      ]
+
+      const { container } = render(
+        <TestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency={SHORTENED_MPT}
+            displayCurrency={SHORTENED_MPT}
+            asset={{
+              currency: undefined as any,
+              mpt_issuance_id: MPT_ID,
+            }}
+          />
+        </TestWrapper>,
+      )
+
+      const loanRow = container.querySelector('.loan-row')!
+      const amountRequested = loanRow.querySelector('.amount-requested')
+      const outstandingBalance = loanRow.querySelector('.outstanding-balance')
+
+      expect(amountRequested).toHaveTextContent(`5,000.00 ${SHORTENED_MPT}`)
+      expect(outstandingBalance).toHaveTextContent(`5,250.00 ${SHORTENED_MPT}`)
+    })
+  })
 })
