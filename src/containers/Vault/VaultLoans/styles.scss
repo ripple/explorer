@@ -1,0 +1,466 @@
+@use '../../shared/css/variables' as *;
+
+.vault-loans-section {
+  width: 100%;
+  padding: 0 24px;
+  margin-top: 48px;
+
+  @include for-size(desktop-up) {
+    padding: 0 64px;
+  }
+
+  .vault-loans-title {
+    margin: 0 0 16px;
+    color: $white;
+    font-size: 24px;
+    @include bold;
+  }
+
+  .vault-loans-divider {
+    margin-bottom: 24px;
+    background: $black-70;
+  }
+}
+
+.broker-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  gap: 12px;
+
+  .broker-tab {
+    padding: 10px 20px;
+    border: 1px solid $black-60;
+    border-radius: 24px;
+    background: transparent;
+    color: $white;
+    cursor: pointer;
+    font-size: 14px;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s;
+
+    &:hover {
+      border-color: $black-40;
+    }
+
+    &.selected {
+      border-color: $green;
+      background: $green;
+      color: $black;
+      @include bold;
+    }
+  }
+}
+
+.broker-details-card {
+  padding: 24px;
+  border-radius: 8px;
+  background: $black-80;
+
+  .broker-header {
+    margin-bottom: 24px;
+
+    .broker-label {
+      display: block;
+      margin-bottom: 4px;
+      color: $black-40;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .broker-name {
+      margin: 0;
+      color: $white;
+      font-size: 20px;
+      @include bold;
+    }
+  }
+
+  .broker-metrics {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(2, 1fr);
+
+    @include for-size(desktop-up) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .metric {
+      .metric-label {
+        display: block;
+        margin-bottom: 8px;
+        color: $black-40;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .metric-value {
+        color: $white;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .broker-top-row {
+    display: grid;
+    padding-bottom: 24px;
+    border-bottom: 1px solid $black-70;
+    margin-bottom: 24px;
+    gap: 24px;
+    grid-template-columns: 1fr;
+
+    @include for-size(desktop-up) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .broker-id-section {
+      @include for-size(desktop-up) {
+        grid-column: span 2;
+      }
+
+      .broker-id-label {
+        display: block;
+        margin-bottom: 8px;
+        color: $black-40;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .broker-id-value {
+        display: flex;
+        align-items: center;
+        color: $white;
+        font-size: 16px;
+        gap: 8px;
+        word-break: break-all;
+      }
+    }
+
+    .broker-debt-section {
+      display: contents;
+
+      .debt-metric {
+        .metric-label {
+          display: block;
+          margin-bottom: 8px;
+          color: $black-40;
+          font-size: 12px;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+        }
+
+        .metric-value {
+          color: $white;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  // Default loan warning banner
+  .broker-default-banner {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-top: 24px;
+    background: rgb(139 69 19 / 60%);
+    gap: 12px;
+
+    .warning-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: #ffd700;
+    }
+
+    span {
+      color: $white;
+      font-size: 14px;
+    }
+  }
+}
+
+// Broker Loans Table Styles
+.broker-loans-table {
+  padding-top: 24px;
+  border-top: 1px solid $black-70;
+  margin-top: 32px;
+  overflow-x: auto;
+}
+
+// Loans Filter Bar
+.loans-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  gap: 12px;
+
+  .filter-buttons {
+    display: flex;
+    gap: 8px;
+
+    .filter-btn {
+      padding: 6px 16px;
+      border: 1px solid $black-60;
+      border-radius: 16px;
+      background: transparent;
+      color: $white;
+      cursor: pointer;
+      font-size: 13px;
+      transition:
+        background-color 0.2s,
+        border-color 0.2s;
+
+      &:hover {
+        border-color: $black-40;
+      }
+
+      &.active {
+        border-color: $green;
+        background: $green;
+        color: $black;
+        @include bold;
+      }
+    }
+
+    .filter-indicator {
+      display: flex;
+      align-items: center;
+
+      .filter-icon {
+        width: 16px;
+        height: 16px;
+        fill: $black-40;
+      }
+    }
+  }
+}
+
+.broker-loans-loading,
+.broker-loans-empty,
+.no-loan-brokers-message {
+  padding: 32px;
+  color: $black-40;
+  text-align: center;
+}
+
+.loans-table-header {
+  display: grid;
+  min-width: 750px;
+  padding: 16px 8px;
+  border-bottom: 1px solid $black-70;
+  gap: 16px;
+  grid-template-columns: 1.5fr 1.2fr 1.5fr 1fr 1.5fr 0.8fr;
+
+  .header-cell {
+    color: $black-40;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+}
+
+.loans-table-body {
+  .loan-row {
+    border-bottom: 1px solid $black-70;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.expanded {
+      background: rgba($black-70, 0.3);
+    }
+  }
+}
+
+.loan-row-main {
+  display: grid;
+  width: 100%;
+  min-width: 750px;
+  padding: 16px 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  gap: 16px;
+  grid-template-columns: 1.5fr 1.2fr 1.5fr 1fr 1.5fr 0.8fr;
+  text-align: left;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: rgba($black-70, 0.5);
+  }
+
+  .loan-cell {
+    display: flex;
+    align-items: center;
+    color: $white;
+    font-size: 14px;
+
+    &.loan-id {
+      gap: 8px;
+
+      .expand-icon {
+        width: 12px;
+        height: 12px;
+        fill: $black-40;
+        transition: transform 0.2s;
+
+        &.rotated {
+          transform: rotate(180deg);
+        }
+      }
+
+      .loan-id-text {
+        color: $white;
+      }
+    }
+
+    &.borrower {
+      .account {
+        color: $green;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    &.status {
+      gap: 8px;
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+
+      &.status-current {
+        color: $green;
+
+        .status-dot {
+          background: $green;
+        }
+      }
+
+      &.status-default {
+        color: #ff6b6b;
+
+        .status-dot {
+          background: #ff6b6b;
+        }
+      }
+
+      &.status-impaired {
+        color: #ffa500;
+
+        .status-dot {
+          background: #ffa500;
+        }
+      }
+
+      &.status-paid-off {
+        color: $black-40;
+
+        .status-dot {
+          background: $black-40;
+        }
+      }
+    }
+  }
+}
+
+.loan-row-details {
+  padding: 16px 32px 24px;
+  background: rgba($black-70, 0.5);
+
+  .details-row {
+    display: grid;
+    margin-bottom: 16px;
+    gap: 16px 24px;
+    grid-template-columns: repeat(2, 1fr);
+
+    @include for-size(desktop-up) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .detail-item {
+    .detail-label {
+      display: block;
+      margin-bottom: 4px;
+      color: $black-40;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .detail-value {
+      color: $white;
+      font-size: 14px;
+    }
+  }
+}
+
+// Pagination Styles
+.loans-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0;
+  gap: 4px;
+
+  .pagination-btn {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid $black-60;
+    border-radius: 4px;
+    background: transparent;
+    color: $white;
+    cursor: pointer;
+    font-size: 14px;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    &:hover:not(:disabled) {
+      border-color: $black-40;
+      background: $black-70;
+    }
+
+    &.active {
+      border-color: $green;
+      background: $green;
+      color: $black;
+      @include bold;
+    }
+
+    &.prev,
+    &.next,
+    &.last {
+      font-weight: bold;
+    }
+  }
+
+  .pagination-ellipsis {
+    padding: 0 8px;
+    color: $black-40;
+  }
+}

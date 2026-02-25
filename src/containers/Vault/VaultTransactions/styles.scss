@@ -1,0 +1,26 @@
+@use '../../shared/css/variables' as *;
+
+.vault-transactions-section {
+  width: 100%;
+  padding: 0 24px;
+  margin-top: 48px;
+
+  @include for-size(desktop-up) {
+    padding: 0 64px;
+  }
+
+  .vault-transactions-title {
+    margin: 0 0 16px;
+    color: $white;
+    font-size: 24px;
+    @include bold;
+  }
+
+  .vault-transactions-divider {
+    background: $black-70;
+  }
+
+  .transaction-table {
+    overflow-x: auto;
+  }
+}

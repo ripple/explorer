@@ -12,6 +12,7 @@ export type TransactionTableProps = HTMLAttributes<HTMLElement> & {
   onLoadMore?: MouseEventHandler
   hasAdditionalResults?: boolean
   hasTokensColumn?: boolean
+  hasHashColumn?: boolean
 }
 
 type TransactionTableComponent = FunctionComponent<TransactionTableProps> & {}
@@ -23,6 +24,7 @@ export const TransactionTable: TransactionTableComponent = ({
   onLoadMore = () => {},
   transactions = [],
   hasTokensColumn,
+  hasHashColumn,
 }: TransactionTableProps) => {
   const { t } = useTranslation()
 
@@ -30,6 +32,7 @@ export const TransactionTable: TransactionTableComponent = ({
     <TransactionTableRow
       tx={tx}
       hasTokensColumn={hasTokensColumn}
+      hasHashColumn={hasHashColumn}
       key={tx.hash}
     />
   )
@@ -41,6 +44,7 @@ export const TransactionTable: TransactionTableComponent = ({
     <>
       <ol className="transaction-table">
         <li className="transaction-li transaction-li-header">
+          {hasHashColumn && <div className="col col-hash">{t('tx_hash')}</div>}
           {hasTokensColumn && (
             <div className="col col-token"> {t('token')} </div>
           )}

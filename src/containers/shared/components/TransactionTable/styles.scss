@@ -44,6 +44,11 @@
     }
   }
 
+  .col-amount {
+    flex: 2;
+    @include medium;
+  }
+
   .col-token {
     width: 40px;
   }
@@ -66,6 +71,12 @@
       width: auto;
       flex: 2 2;
     }
+  }
+
+  .col-hash {
+    flex: 2;
+    color: $green;
+    @include medium;
   }
 
   .col-account {

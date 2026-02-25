@@ -29,6 +29,7 @@ export interface AnalyticsFields {
   search_category?: string
   validator?: string
   mpt_issuance_id?: string
+  vault_id?: string
 
   description?: string
   page_title?: string

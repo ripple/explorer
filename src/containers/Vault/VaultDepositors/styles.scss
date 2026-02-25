@@ -1,0 +1,152 @@
+@use '../../shared/css/variables' as *;
+
+.vault-depositors-section {
+  width: 100%;
+  padding: 0 24px;
+  margin-top: 48px;
+
+  @include for-size(desktop-up) {
+    padding: 0 64px;
+  }
+
+  .vault-depositors-title {
+    margin: 0 0 16px;
+    color: $white;
+    font-size: 24px;
+    @include bold;
+  }
+
+  .vault-depositors-divider {
+    background: $black-70;
+  }
+
+  .no-depositors-message {
+    padding: 32px;
+    color: $black-40;
+    text-align: center;
+  }
+
+  .depositors-error-message {
+    padding: 32px;
+    color: #ff6b6b;
+    text-align: center;
+  }
+}
+
+.depositor-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    tr {
+      border-bottom: 1px solid $black-70;
+    }
+
+    th {
+      padding: 16px 12px;
+      color: $black-40;
+      font-size: 12px;
+      font-weight: normal;
+      letter-spacing: 0.5px;
+      text-align: left;
+      text-transform: uppercase;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $black-80;
+
+      &:hover {
+        background: rgba($white, 0.02);
+      }
+    }
+
+    td {
+      padding: 16px 12px;
+      color: $white;
+      font-size: 14px;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+
+  .rank-cell {
+    width: 80px;
+    color: $black-40;
+  }
+
+  .account-cell {
+    min-width: 150px;
+
+    a {
+      color: $green;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .tokens-cell {
+    min-width: 120px;
+  }
+
+  .percent-cell {
+    min-width: 100px;
+  }
+
+  .value-cell {
+    min-width: 100px;
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+  margin-top: 24px;
+  gap: 16px;
+
+  .pagination-btn {
+    padding: 8px 16px;
+    border: 1px solid $black-60;
+    border-radius: 4px;
+    background: transparent;
+    color: $white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.3;
+    }
+
+    &:hover:not(:disabled) {
+      border-color: $green;
+      color: $green;
+    }
+  }
+
+  .pagination-info {
+    color: $white;
+    font-size: 14px;
+  }
+}

@@ -6,11 +6,19 @@ const QUADRILLION = TRILLION * THOUSAND
 
 const TRADING_FEE_TOTAL = 1000
 
-const EXOTIC_SYMBOLS = {
+export const EXOTIC_SYMBOLS = {
   BTC: '\u20BF',
   XRP: '\uE900',
   ETH: '\uE902',
 }
+
+export const isCurrencyExoticSymbol = (currency) =>
+  currency !== undefined &&
+  typeof currency === 'string' &&
+  Object.keys(EXOTIC_SYMBOLS).includes(currency)
+
+export const getCurrencySymbol = (currency) =>
+  EXOTIC_SYMBOLS[currency] || currency
 
 export const TITLE_LENGTH = 77
 export const NOT_FOUND = 404
@@ -558,6 +566,14 @@ export const shortenMPTID = (
 export const shortenTxHash = (txHash = '') =>
   txHash.length > 12 ? `${txHash.slice(0, 6)}...${txHash.slice(-6)}` : txHash
 
+export const shortenLoanBrokerID = (loanBrokerID = '') =>
+  loanBrokerID.length > 12
+    ? `${loanBrokerID.slice(0, 6)}...${loanBrokerID.slice(-6)}`
+    : loanBrokerID
+
+export const shortenLoanID = (loanID = '') =>
+  loanID.length > 12 ? `${loanID.slice(0, 6)}...${loanID.slice(-6)}` : loanID
+
 /**
  * Converts URLs to HTTP/HTTPS format, handling IPFS URLs and plain domains
  * @param {string} url - The URL to convert (can be ipfs://, https://, http://, or plain domain)
@@ -584,3 +600,11 @@ export const convertToHttpURL = (url) => {
   // Otherwise, assume it's a plain domain and add https://
   return `https://${url}`
 }
+
+/**
+ * Truncates the vaultID to ensure better readability
+ * @param {string} vaultID - The complete VaultID obtained from XRPL on-chain data
+ * @returns {string} The truncated VaultID
+ */
+export const shortenVaultID = (vaultID) =>
+  `${vaultID.substring(0, 8)}...${vaultID.substring(vaultID.length - 6)}`

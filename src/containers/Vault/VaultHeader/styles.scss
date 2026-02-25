@@ -1,0 +1,102 @@
+@use '../../shared/css/variables' as *;
+@use '../../shared/css/table';
+
+.vault-section {
+  width: 100%;
+  padding: 0 24px;
+
+  @include for-size(desktop-up) {
+    padding: 0 64px;
+  }
+
+  .vault-section-title {
+    margin: 0 0 16px;
+    color: $white;
+    font-size: 24px;
+    @include bold;
+  }
+
+  .vault-section-divider {
+    margin-bottom: 24px;
+    background: $black-70;
+  }
+}
+
+.vault-details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @include for-size(desktop-up) {
+    flex-direction: row;
+    gap: 80px;
+  }
+
+  .details-column {
+    min-width: 0;
+    flex: 1;
+  }
+}
+
+// Override the MPT-page Metadata styles to fit inside a table row
+.vault-details-container .header-box.metadata-box {
+  width: 100%;
+  max-width: 100%;
+  flex: initial;
+  gap: 0;
+
+  // Strip the outer wrapper — the JsonView container provides its own box
+  .header-box-contents {
+    padding: 0;
+    border: none;
+  }
+
+  .metadata-json {
+    overflow: visible;
+    max-height: none;
+  }
+
+  .json-view-container {
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .json-view {
+    margin-bottom: 0;
+
+    @include for-size(phone-only) {
+      padding-top: 0;
+    }
+  }
+
+  // Hide the Expand button — vault data is small enough to show fully
+  .json-view-controls {
+    display: none;
+  }
+
+  .metadata-string {
+    padding: 0;
+    font-size: 13px;
+  }
+}
+
+.private-vault-toggle {
+  display: inline-flex;
+  gap: 8px;
+
+  .toggle-pill {
+    padding: 4px 16px;
+    border: 1px solid $black-50;
+    border-radius: 16px;
+    color: $black-50;
+    font-size: 12px;
+    text-transform: uppercase;
+    @include medium;
+
+    &.active {
+      border-color: $green;
+      background: $green;
+      color: $black;
+    }
+  }
+}

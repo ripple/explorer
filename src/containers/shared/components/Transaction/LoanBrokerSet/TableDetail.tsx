@@ -6,6 +6,7 @@ import { Amount } from '../../Amount'
 import SocketContext from '../../../SocketContext'
 import { getVaultAsset } from '../utils/vaultUtils'
 import { formatAmountWithAsset } from '../../../../../rippled/lib/txSummary/formatAmount'
+import { shortenVaultID } from '../../../utils'
 
 export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
   const { t } = useTranslation()
@@ -41,7 +42,7 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
       <div className="vault-id">
         <span className="label">{t('vault_id')}: </span>
         <span className="case-sensitive">
-          <b>{vaultID}</b>
+          <b>{shortenVaultID(vaultID)}</b>
         </span>
       </div>
 
