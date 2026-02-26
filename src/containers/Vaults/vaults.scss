@@ -1,0 +1,247 @@
+@use '../shared/css/variables' as *;
+@use '../shared/css/table';
+
+.vaults-page {
+  overflow: visible;
+  width: 100%;
+  max-width: 1500px;
+  min-height: 150px;
+  margin: auto;
+  margin-top: 40px;
+
+  .text-truncate {
+    @extend %truncate;
+  }
+
+  .metrics-wrapper {
+    display: grid;
+    padding: 0;
+    margin-right: 24px;
+    margin-bottom: 40px;
+    margin-left: 24px;
+    font-size: 12px;
+    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 20px;
+      border-radius: $border-radius;
+      background-color: $black-70;
+      gap: 8px;
+
+      .title {
+        display: flex;
+        align-items: center;
+        color: $black-40;
+        font-size: 12px;
+        gap: 6px;
+        line-height: 150%;
+        text-transform: uppercase;
+        @include bold;
+
+        .hover {
+          width: 14px;
+          height: 14px;
+          cursor: pointer;
+        }
+      }
+
+      .val {
+        color: $white;
+        font-size: 20px;
+        @include bold;
+      }
+    }
+  }
+
+  .type {
+    display: inline-block;
+    margin-bottom: 80px;
+    margin-left: 24px;
+    color: $white;
+    font-size: 32px;
+
+    @include bold;
+  }
+
+  .count {
+    position: sticky;
+  }
+
+  .name {
+    position: sticky;
+    display: inline-flex;
+    max-width: 150px;
+    align-items: center;
+    gap: 4px;
+    @include for-size(desktop-up) {
+      gap: 8px;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+
+      @include for-size(desktop-up) {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .no-logo {
+      border-radius: 50%;
+      background-color: $black-50;
+    }
+  }
+
+  .vault-id {
+    max-width: 120px;
+    @include for-size(desktop-up) {
+      max-width: 150px;
+    }
+  }
+
+  .website-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    .external-icon {
+      width: 16px;
+      height: 16px;
+      fill: $black-40;
+      transition: fill 0.2s ease;
+    }
+
+    &:hover .external-icon {
+      fill: $white;
+    }
+  }
+
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 40px;
+    margin-left: 24px;
+    gap: 12px;
+
+    .filter-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      background-image: url('../shared/images/group.svg');
+    }
+
+    .filter-field {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      padding: 6px 12px;
+      border: 1px solid $black-50;
+      border-radius: $border-radius;
+      background-color: $black;
+      color: $white;
+      cursor: pointer;
+      font-size: 12px;
+      gap: 8px;
+      text-transform: capitalize;
+      @include medium;
+
+      .item-icon {
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+      }
+
+      &:hover {
+        background-color: $black-70;
+      }
+
+      &.selected {
+        background-color: $white;
+        color: $black;
+
+        :hover {
+          color: $black;
+        }
+
+        .item-icon {
+          filter: invert(1);
+        }
+      }
+    }
+
+    .icon-all {
+      background: url('../shared/images/group.svg');
+    }
+
+    .icon-xrp {
+      background: url('../shared/images/xrp_balance_icon.svg');
+    }
+
+    .icon-stablecoin {
+      background: url('../shared/images/stablecoin.svg');
+    }
+  }
+
+  @include for-size(tablet-landscape-up) {
+    padding-right: 24px;
+    padding-left: 24px;
+
+    .metrics-wrapper {
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    table.basic {
+      font-size: 14px;
+    }
+
+    .type {
+      margin-left: 0;
+    }
+
+    .filter {
+      margin-left: 0;
+    }
+  }
+
+  @include for-size(desktop-up) {
+    padding-right: 150px;
+    padding-left: 150px;
+    margin: auto;
+    margin-top: 100px;
+
+    .metrics-wrapper {
+      gap: 24px;
+
+      .metric {
+        padding: 20px 24px;
+
+        .title {
+          font-size: 13px;
+        }
+
+        .val {
+          font-size: 24px;
+        }
+      }
+    }
+
+    .filter {
+      .filter-field {
+        padding: 8px 16px;
+        font-size: 16px;
+      }
+    }
+
+    .type {
+      margin-left: auto;
+      font-size: 42px;
+    }
+  }
+}

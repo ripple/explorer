@@ -7,6 +7,7 @@ import {
   TOKENS_ROUTE,
   UPGRADE_STATUS_ROUTE,
   VALIDATORS_ROUTE,
+  VAULTS_ROUTE,
 } from './routes'
 
 const isNetwork = (path) =>
@@ -19,6 +20,8 @@ const isLedgers = (path: string) => path === '/'
 
 const isTokens = (path) => path.indexOf(buildPath(TOKENS_ROUTE, {})) === 0
 
+const isVaults = (path) => path.indexOf(buildPath(VAULTS_ROUTE, {})) === 0
+
 // NOTE: for submenus, remove `path` field and add `children` array of objects
 export const navigationConfig: NavigationMenuAnyRoute[] = [
   {
@@ -30,6 +33,13 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
     route: TOKENS_ROUTE,
     title: 'tokens',
     current: (path: string) => isTokens(path),
+  },
+  (process.env.VITE_ENVIRONMENT === 'mainnet' ||
+    process.env.VITE_ENVIRONMENT === 'devnet' ||
+    process.env.VITE_ENVIRONMENT === 'testnet') && {
+    route: VAULTS_ROUTE,
+    title: 'vaults',
+    current: (path: string) => isVaults(path),
   },
   {
     title: 'network',

@@ -1,0 +1,49 @@
+@use '../shared/css/variables' as *;
+
+.vault-page {
+  width: 100%;
+  max-width: 1500px;
+  margin: auto;
+  margin-top: 40px;
+  padding: 24px;
+
+  .vault-header {
+    margin-bottom: 40px;
+
+    h1 {
+      color: $black-40;
+      font-size: 14px;
+      text-transform: uppercase;
+      @include bold;
+    }
+
+    .vault-id {
+      color: $white;
+      font-size: 24px;
+      word-break: break-all;
+      @include semibold;
+    }
+  }
+
+  .vault-content {
+    color: $black-40;
+    font-size: 16px;
+  }
+
+  @include for-size(desktop-up) {
+    margin-top: 100px;
+    padding-right: 150px;
+    padding-left: 150px;
+
+    .vault-header {
+      h1 {
+        font-size: 16px;
+      }
+
+      .vault-id {
+        font-size: 32px;
+      }
+    }
+  }
+}
+
