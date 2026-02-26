@@ -7,6 +7,8 @@ import { SimpleRow } from '../SimpleRow'
 import { useLanguage } from '../../../hooks'
 import { TransactionSimpleProps } from '../types'
 import { PaymentChannelCreateInstructions } from './types'
+import { RouteLink } from '../../../routing'
+import { ENTRY_ROUTE } from '../../../../App/routes'
 
 export const Simple = ({
   data,
@@ -40,7 +42,9 @@ export const Simple = ({
       )}
       {channel && (
         <SimpleRow label={t('channel_id')} className="channel">
-          {channel}
+          <RouteLink to={ENTRY_ROUTE} params={{ id: channel }}>
+            {channel}
+          </RouteLink>
         </SimpleRow>
       )}
     </>

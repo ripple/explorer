@@ -24,6 +24,7 @@ import {
   AMENDMENTS_ROUTE,
   AMENDMENT_ROUTE,
   MPT_ROUTE,
+  ENTRY_ROUTE,
   NODES_ROUTE,
   VALIDATORS_ROUTE,
   UPGRADE_STATUS_ROUTE,
@@ -39,6 +40,7 @@ import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
 import { useCustomNetworks } from '../shared/hooks'
 import { Amendments } from '../Amendments'
+import { Entry } from '../Entry'
 import { Amendment } from '../Amendment'
 import { MPT } from '../Token/MPT'
 import { Nodes } from '../Network/Nodes'
@@ -71,6 +73,7 @@ export const AppWrapper = () => {
     [LEDGERS_ROUTE, Ledgers],
     [LEDGER_ROUTE, Ledger],
     [ACCOUNT_ROUTE, AccountsRouter],
+    [ENTRY_ROUTE, Entry],
     [TRANSACTION_ROUTE, Transaction],
     [NODES_ROUTE, Nodes],
     [VALIDATORS_ROUTE, Validators],

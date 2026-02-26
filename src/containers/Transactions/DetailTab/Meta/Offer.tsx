@@ -7,6 +7,8 @@ import {
 } from '../../../shared/transactionUtils'
 import { localizeNumber } from '../../../shared/utils'
 import { Account } from '../../../shared/components/Account'
+import { ENTRY_ROUTE } from '../../../App/routes'
+import { RouteLink } from '../../../shared/routing'
 import Currency from '../../../shared/components/Currency'
 import type { MetaRenderFunctionWithTx, MetaNode } from './types'
 
@@ -209,6 +211,11 @@ const render: MetaRenderFunctionWithTx = (
             />
           ),
           Account: <Account account={fields.Account} />,
+          Link: (
+            <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
+              {/* Content from i18n */}
+            </RouteLink>
+          ),
         }}
       />
       <ul>{lines}</ul>

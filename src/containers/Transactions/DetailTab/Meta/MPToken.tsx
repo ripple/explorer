@@ -1,6 +1,8 @@
 import { Trans } from 'react-i18next'
 import { Account } from '../../../shared/components/Account'
 import { computeMPTokenBalanceChange } from '../../../shared/utils'
+import { RouteLink } from '../../../shared/routing'
+import { ENTRY_ROUTE } from '../../../App/routes'
 import type { MetaRenderFunction } from './types'
 
 const render: MetaRenderFunction = (_t, _language, action, node, index) => {
@@ -12,7 +14,11 @@ const render: MetaRenderFunction = (_t, _language, action, node, index) => {
 
   const line1 = (
     <Trans i18nKey="transaction_mptoken_line_one">
-      It {action} an MPToken node of
+      It {action} an MPToken
+      <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
+        node
+      </RouteLink>
+      of
       <Account account={account} />
     </Trans>
   )

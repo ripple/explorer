@@ -2,6 +2,8 @@ import { Trans } from 'react-i18next'
 import { CURRENCY_OPTIONS } from '../../../shared/transactionUtils'
 import { localizeNumber } from '../../../shared/utils'
 import { Account } from '../../../shared/components/Account'
+import { RouteLink } from '../../../shared/routing'
+import { ENTRY_ROUTE } from '../../../App/routes'
 import type { MetaRenderFunction } from './types'
 
 const MILLION = 1000000
@@ -15,7 +17,11 @@ const render: MetaRenderFunction = (_t, language, action, node, index) => {
 
   const line1 = (
     <Trans i18nKey="paychannel_node_line1">
-      It {action} a PayChannel node from
+      It {action} a PayChannel
+      <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
+        node
+      </RouteLink>
+      from
       <Account account={fields.Account} />
       to
       <Account account={fields.Destination} />

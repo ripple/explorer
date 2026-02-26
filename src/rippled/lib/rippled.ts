@@ -92,64 +92,66 @@ const getLedger = async (
 // get ledger_entry
 const getLedgerEntry = async (
   rippledSocket: ExplorerXrplClient,
-  { index }: { index: string },
+  index: string,
+  includeDeleted: boolean = false,
 ): Promise<any> => {
   const request = {
     command: 'ledger_entry',
     index,
     ledger_index: 'validated',
+    include_deleted: includeDeleted,
   }
 
   const resp = await query(rippledSocket, request)
-  if (resp.error_message === 'entryNotFound') {
+  if (resp.error === 'entryNotFound') {
     throw new Error('ledger entry not found', 404)
   }
 
-  if (resp.error_message === 'invalidParams') {
+  if (resp.error === 'invalidParams') {
     throw new Error('invalidParams for ledger_entry', 404)
   }
 
-  if (resp.error_message === 'lgrNotFound') {
+  if (resp.error === 'lgrNotFound') {
     throw new Error('invalid ledger index/hash', 400)
   }
 
-  if (resp.error_message === 'malformedAddress') {
+  if (resp.error === 'malformedAddress') {
     throw new Error(
       'The ledger_entry request improperly specified an Address field.',
       404,
     )
   }
 
-  if (resp.error_message === 'malformedCurrency') {
+  if (resp.error === 'malformedCurrency') {
     throw new Error(
       'The ledger_entry request improperly specified a Currency Code field.',
       404,
     )
   }
 
-  if (resp.error_message === 'malformedOwner') {
+  if (resp.error === 'malformedOwner') {
     throw new Error(
       'The ledger_entry request improperly specified the escrow.owner sub-field.',
       404,
     )
   }
 
-  if (resp.error_message === 'malformedRequest') {
+  if (resp.error === 'malformedRequest') {
     throw new Error(
       'The ledger_entry request provided an invalid combination of fields, or provided the wrong type for one or more fields.',
       404,
     )
   }
 
-  if (resp.error_message === 'unknownOption') {
+  if (resp.error === 'unknownOption') {
     throw new Error(
       'The fields provided in the ledger_entry request did not match any of the expected request formats.',
       404,
     )
   }
 
-  if (resp.error_message) {
-    throw new Error(resp.error_message, 500)
+  if (resp.error) {
+    throw new Error(resp.error, 500)
   }
 
   return resp

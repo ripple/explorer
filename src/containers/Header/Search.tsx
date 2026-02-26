@@ -19,10 +19,11 @@ import {
   HASH192_REGEX,
 } from '../shared/utils'
 import './search.scss'
-import { getTransaction } from '../../rippled/lib/rippled'
+import { getLedgerEntry, getTransaction } from '../../rippled/lib/rippled'
 import { buildPath } from '../shared/routing'
 import {
   ACCOUNT_ROUTE,
+  ENTRY_ROUTE,
   LEDGER_ROUTE,
   NFT_ROUTE,
   TOKEN_ROUTE,
@@ -40,7 +41,13 @@ const determineHashType = async (
     await getTransaction(rippledContext, id)
     return 'transactions'
   } catch (e) {
-    return 'nft'
+    try {
+      await getLedgerEntry(rippledContext, id)
+      return 'entry'
+    } catch (e2) {
+      // TODO: better error message here
+      return 'nft'
+    }
   }
 }
 
@@ -72,6 +79,8 @@ const getRoute = async (
       path = buildPath(TRANSACTION_ROUTE, { identifier: id.toUpperCase() })
     } else if (type === 'nft') {
       path = buildPath(NFT_ROUTE, { id: id.toUpperCase() })
+    } else if (type === 'entry') {
+      path = buildPath(ENTRY_ROUTE, { id: id.toUpperCase() })
     }
 
     return {

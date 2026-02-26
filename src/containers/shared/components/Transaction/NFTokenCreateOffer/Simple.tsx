@@ -5,6 +5,8 @@ import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { NFTokenCreateOfferInstructions } from './types'
 import { NFTokenLink } from '../../NFTokenLink'
+import { ENTRY_ROUTE } from '../../../../App/routes'
+import { RouteLink } from '../../../routing'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
@@ -17,7 +19,9 @@ export const Simple: TransactionSimpleComponent = ({
     <>
       {offerID && (
         <SimpleRow label={t('offer_index')} data-testid="offer-id">
-          {offerID}
+          <RouteLink to={ENTRY_ROUTE} params={{ id: offerID }}>
+            {offerID}
+          </RouteLink>
         </SimpleRow>
       )}
       <SimpleRow
