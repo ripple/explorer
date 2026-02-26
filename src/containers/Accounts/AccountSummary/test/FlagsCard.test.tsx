@@ -25,7 +25,7 @@ describe('FlagsCard Component', () => {
       expect(screen.getByText('Flags')).toBeInTheDocument()
     })
 
-    it('renders all 15 flag items', () => {
+    it('renders all 16 flag items', () => {
       const account = {
         info: {
           flags: [],
@@ -39,7 +39,7 @@ describe('FlagsCard Component', () => {
       )
 
       const flagItems = container.querySelectorAll('.flag-item')
-      expect(flagItems.length).toBe(15)
+      expect(flagItems.length).toBe(16)
     })
   })
 
@@ -730,7 +730,7 @@ describe('FlagsCard Component', () => {
 
       expect(screen.getByText('Flags')).toBeInTheDocument()
       const flagItems = container.querySelectorAll('.flag-item')
-      expect(flagItems.length).toBe(15)
+      expect(flagItems.length).toBe(16)
     })
 
     it('handles missing info object', () => {
@@ -744,7 +744,7 @@ describe('FlagsCard Component', () => {
 
       expect(screen.getByText('Flags')).toBeInTheDocument()
       const flagItems = container.querySelectorAll('.flag-item')
-      expect(flagItems.length).toBe(15)
+      expect(flagItems.length).toBe(16)
     })
 
     it('handles empty account object', () => {
@@ -762,7 +762,7 @@ describe('FlagsCard Component', () => {
 
       expect(screen.getByText('Flags')).toBeInTheDocument()
       const flagItems = container.querySelectorAll('.flag-item')
-      expect(flagItems.length).toBe(15)
+      expect(flagItems.length).toBe(16)
     })
   })
 })
