@@ -2,87 +2,108 @@ import { Simple } from '../Simple'
 import mockXChainCreateBridge from './mock_data/XChainCreateBridge.json'
 import mockXChainCreateBridgeFailed from './mock_data/XChainCreateBridgeFailed.json'
 import mockXChainCreateBridgeIOU from './mock_data/XChainCreateBridgeIOU.json'
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('XChainCreateBridgeSimple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockXChainCreateBridge)
+    const { container, unmount } = renderComponent(mockXChainCreateBridge)
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      container,
       'locking-chain-door',
       'rGQLcxzT3Po9PsCk5Lj9uK7S1juThii9cR',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).not.toBeInTheDocument()
+    expectSimpleRowText(container, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
-
-    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
     expect(
-      wrapper.find(`[data-testid="min-create-account-amount"]`),
-    ).not.toExist()
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).toBeInTheDocument()
+    expectSimpleRowText(container, 'issuing-chain-issue', '\uE900 XRP')
+
+    expectSimpleRowText(container, 'signature-reward', '\uE9000.0001 XRP')
+    expect(
+      container.querySelector('[data-testid="min-create-account-amount"]'),
+    ).not.toBeInTheDocument()
+    unmount()
   })
 
   it('renders IOU bridge', () => {
-    const wrapper = createWrapper(mockXChainCreateBridgeIOU)
+    const { container } = renderComponent(mockXChainCreateBridgeIOU)
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      container,
       'locking-chain-door',
       'ratAutb3katzezbXX3LsX4sk4vmvhNucac',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).not.toExist()
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).not.toBeInTheDocument()
     expectSimpleRowText(
-      wrapper,
+      container,
       'locking-chain-issue',
       'USD.rNhm2aTLEnSdcWQ7d6PZ5F7TX5skM7wkAS',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'issuing-chain-door',
       'rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).toExist()
+    expect(
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).toBeInTheDocument()
     expectSimpleRowText(
-      wrapper,
+      container,
       'issuing-chain-issue',
       'USD.rBkRN2VHVWJVKqfnh1TovLkXo7vLP7oBcq',
     )
 
-    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
-    expectSimpleRowText(wrapper, 'min-account-create-amount', '\uE9005.00 XRP')
+    expectSimpleRowText(container, 'signature-reward', '\uE9000.0001 XRP')
+    expectSimpleRowText(
+      container,
+      'min-account-create-amount',
+      '\uE9005.00 XRP',
+    )
   })
 
   it('renders failed tx', () => {
-    const wrapper = createWrapper(mockXChainCreateBridgeFailed)
+    const { container } = renderComponent(mockXChainCreateBridgeFailed)
 
     // check XChainBridge parts
     expectSimpleRowText(
-      wrapper,
+      container,
       'locking-chain-door',
       'rNFrsx478pH42Vy5w4KN9Hcyh8SDrVmCfd',
     )
-    expect(wrapper.find(`[data-testid="locking-chain-door"] a`)).toExist()
-    expectSimpleRowText(wrapper, 'locking-chain-issue', '\uE900 XRP')
+    expect(
+      container.querySelector('[data-testid="locking-chain-door"] a'),
+    ).toBeInTheDocument()
+    expectSimpleRowText(container, 'locking-chain-issue', '\uE900 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'issuing-chain-door',
       'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',
     )
-    expect(wrapper.find(`[data-testid="issuing-chain-door"] a`)).not.toExist()
-    expectSimpleRowText(wrapper, 'issuing-chain-issue', '\uE900 XRP')
+    expect(
+      container.querySelector('[data-testid="issuing-chain-door"] a'),
+    ).not.toBeInTheDocument()
+    expectSimpleRowText(container, 'issuing-chain-issue', '\uE900 XRP')
 
-    expectSimpleRowText(wrapper, 'signature-reward', '\uE9000.0001 XRP')
-    expectSimpleRowText(wrapper, 'min-account-create-amount', '\uE9005.00 XRP')
+    expectSimpleRowText(container, 'signature-reward', '\uE9000.0001 XRP')
+    expectSimpleRowText(
+      container,
+      'min-account-create-amount',
+      '\uE9005.00 XRP',
+    )
   })
 })

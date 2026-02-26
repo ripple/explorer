@@ -1,6 +1,6 @@
 import { Simple } from '../Simple'
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowNotToExist,
   expectSimpleRowText,
 } from '../../test'
@@ -11,77 +11,77 @@ import withdrawEpriceMock from './mock_data/withdraw_eprice.json'
 import withdrawAll from './mock_data/withdraw_all.json'
 
 describe('AMM Withdraw Tests', () => {
-  const createWrapper = createSimpleWrapperFactory(Simple)
+  const renderComponent = createSimpleRenderFactory(Simple)
 
   it('renders from transaction', () => {
-    const wrapper = createWrapper(withdrawMock)
-    expectSimpleRowText(wrapper, 'asset1', '\uE9003,666.580862 XRP')
+    const { container, unmount } = renderComponent(withdrawMock)
+    expectSimpleRowText(container, 'asset1', '\uE9003,666.580862 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'asset2',
       '$4,000.00 USD.rhpHaFggC92ELty3n3yDEtuFgWxXWkUFET',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'account_id',
       'rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders transaction from usd only', () => {
-    const wrapper = createWrapper(withdrawUSDMock)
-    expectSimpleRowNotToExist(wrapper, 'asset1')
+    const { container, unmount } = renderComponent(withdrawUSDMock)
+    expectSimpleRowNotToExist(container, 'asset1')
     expectSimpleRowText(
-      wrapper,
+      container,
       'asset2',
       '$100.00 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
+    unmount()
   })
   it('renders transaction from XRP only', () => {
-    const wrapper = createWrapper(withdrawXRPMock)
-    expectSimpleRowNotToExist(wrapper, 'asset2')
-    expectSimpleRowText(wrapper, 'asset1', '\uE90099.99998 XRP')
+    const { container, unmount } = renderComponent(withdrawXRPMock)
+    expectSimpleRowNotToExist(container, 'asset2')
+    expectSimpleRowText(container, 'asset1', '\uE90099.99998 XRP')
     expectSimpleRowText(
-      wrapper,
+      container,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders transaction from eprice', () => {
-    const wrapper = createWrapper(withdrawEpriceMock)
-    expectSimpleRowNotToExist(wrapper, 'asset1')
+    const { container, unmount } = renderComponent(withdrawEpriceMock)
+    expectSimpleRowNotToExist(container, 'asset1')
     expectSimpleRowText(
-      wrapper,
+      container,
       'asset2',
       '$1,639.41097028 USD.rA3nNmhWKRZvcsA89DxTRbV62JiaSZWdy',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'account_id',
       'rHrzrzVHSyunKzW3JLgSaLcsxfwVLPVV97',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders LP Tokens properly', () => {
-    const wrapper = createWrapper(withdrawAll)
-    expectSimpleRowText(wrapper, 'lp_tokens', '4.77')
-    wrapper.unmount()
+    const { container, unmount } = renderComponent(withdrawAll)
+    expectSimpleRowText(container, 'lp_tokens', '4.77')
+    unmount()
   })
 
   it('renders positive XRP amount even if transaction fee is greater than XRP taken out of AMM', () => {
-    const wrapper = createWrapper(withdrawAll)
-    expectSimpleRowNotToExist(wrapper, 'asset2')
-    expectSimpleRowText(wrapper, 'asset1', '\uE9000.000005 XRP')
-    wrapper.unmount()
+    const { container, unmount } = renderComponent(withdrawAll)
+    expectSimpleRowNotToExist(container, 'asset2')
+    expectSimpleRowText(container, 'asset1', '\uE9000.000005 XRP')
+    unmount()
   })
 })

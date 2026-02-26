@@ -1,12 +1,9 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import { Route } from 'react-router'
 import i18n from '../../../../../i18n/testConfig'
 import * as rippled from '../../../../../rippled/lib/rippled'
-import NoMatch from '../../../../NoMatch'
-import { AMMAccountHeader } from '../AMMAccountHeader/AMMAccountHeader'
-import { AccountTransactionTable } from '../../../AccountTransactionTable'
 import { AMMAccounts } from '../index'
-import { flushPromises, QuickHarness } from '../../../../test/utils'
+import { QuickHarness } from '../../../../test/utils'
 import { ACCOUNT_ROUTE } from '../../../../App/routes'
 
 function setSpy(accountInfo: any, getLedgerEntry: any, ammInfo: any) {
@@ -128,8 +125,8 @@ describe('AMM Account Page', () => {
     validated: false,
   }
 
-  const createWrapper = () =>
-    mount(
+  const renderAMMAccounts = () =>
+    render(
       <QuickHarness
         i18n={i18n}
         initialEntries={[`/accounts/${TEST_ACCOUNT_ID}`]}
@@ -141,24 +138,24 @@ describe('AMM Account Page', () => {
   it('renders AMM account page', async () => {
     setSpy(accountInfo, ledgerEntry, ammInfo)
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
-    expect(wrapper.find(AMMAccountHeader).length).toBe(1)
-    expect(wrapper.find(AccountTransactionTable).length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderAMMAccounts()
+    await waitFor(() => {
+      // AMMAccountHeader renders with class 'account-header'
+      expect(container.querySelectorAll('.account-header').length).toBe(1)
+    })
+    // AccountTransactionTable renders with class 'transactions-section'
+    expect(container.querySelectorAll('.transactions-section').length).toBe(1)
   })
 
   it('shows error when amm info data is formatted incorrectly', async () => {
     setSpy(accountInfo, ledgerEntry, 'ammInfo')
 
-    const wrapper = await createWrapper()
-    await flushPromises()
-    wrapper.update()
-    expect(wrapper.find(AMMAccountHeader).length).toBe(0)
-    expect(wrapper.find(AccountTransactionTable).length).toBe(0)
-    expect(wrapper.find(NoMatch).length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderAMMAccounts()
+    await waitFor(() => {
+      expect(container.querySelectorAll('.no-match').length).toBe(1)
+    })
+    expect(container.querySelectorAll('.account-header').length).toBe(0)
+    expect(container.querySelectorAll('.transactions-section').length).toBe(0)
   })
 
   it('shows error when account_info has no AMMID', async () => {
@@ -190,12 +187,11 @@ describe('AMM Account Page', () => {
 
     setSpy(badAccountInfo, badLedgerEntry, ammInfo)
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
-    expect(wrapper.find(AMMAccountHeader).length).toBe(0)
-    expect(wrapper.find(AccountTransactionTable).length).toBe(0)
-    expect(wrapper.find(NoMatch).length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderAMMAccounts()
+    await waitFor(() => {
+      expect(container.querySelectorAll('.no-match').length).toBe(1)
+    })
+    expect(container.querySelectorAll('.account-header').length).toBe(0)
+    expect(container.querySelectorAll('.transactions-section').length).toBe(0)
   })
 })

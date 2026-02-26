@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
 import { Route } from 'react-router-dom'
 import { BAD_REQUEST } from '../../shared/utils'
@@ -19,7 +19,7 @@ jest.mock('../../../rippled', () => ({
 }))
 
 describe('Validator container', () => {
-  const createWrapper = (props = {}) => {
+  const renderValidator = (props = {}) => {
     const defaultGetLedgerImpl = () =>
       new Promise(
         () => {},
@@ -27,7 +27,7 @@ describe('Validator container', () => {
       )
     getLedger.mockImplementation(props.getLedgerImpl || defaultGetLedgerImpl)
 
-    return mount(
+    return render(
       <NetworkContext.Provider value={props.network || 'main'}>
         <QuickHarness
           i18n={testConfigEnglish}
@@ -48,15 +48,13 @@ describe('Validator container', () => {
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.validator').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderValidator()
+    expect(container.querySelector('.validator')).toBeInTheDocument()
   })
 
   it('renders loading', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.loader').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderValidator()
+    expect(container.querySelector('.loader')).toBeInTheDocument()
   })
 
   it('sets title to domain', async () => {
@@ -71,11 +69,10 @@ describe('Validator container', () => {
         },
       },
     )
-    const wrapper = createWrapper()
+    renderValidator()
     await flushPromises()
     await flushPromises()
     expect(document.title).toBe('Validator example.com')
-    wrapper.unmount()
   })
 
   it('sets title to master_key', async () => {
@@ -89,11 +86,10 @@ describe('Validator container', () => {
         },
       },
     )
-    const wrapper = createWrapper()
+    renderValidator()
     await flushPromises()
     await flushPromises()
     expect(document.title).toBe('Validator foo...')
-    wrapper.unmount()
   })
 
   it('sets title to signing_key', async () => {
@@ -107,11 +103,10 @@ describe('Validator container', () => {
         },
       },
     )
-    const wrapper = createWrapper()
+    renderValidator()
     await flushPromises()
     await flushPromises()
     expect(document.title).toBe('Validator bar...')
-    wrapper.unmount()
   })
 
   it('fetches ledger hash if not provided', async () => {
@@ -133,7 +128,7 @@ describe('Validator container', () => {
         last_ledger_time: 123456789,
       },
     }
-    const wrapper = createWrapper({
+    renderValidator({
       getLedgerImpl: () => Promise.resolve(ledger),
     })
     await flushPromises()
@@ -141,7 +136,6 @@ describe('Validator container', () => {
     expect(getLedger).toHaveBeenCalledTimes(1)
     expect(getLedger).toHaveBeenCalledWith('12345', undefined)
     expect(document.title).toBe('Validator test.example.com')
-    wrapper.unmount()
   })
 
   it('renders 404 page on no match', async () => {
@@ -152,12 +146,12 @@ describe('Validator container', () => {
         response: { error: 'something went wrong' },
       },
     )
-    const wrapper = createWrapper()
+    const { container } = renderValidator()
     await flushPromises()
     await flushPromises()
-    wrapper.update()
-    expect(wrapper.find('.no-match').length).toBe(1)
-    wrapper.unmount()
+    await waitFor(() => {
+      expect(container.querySelector('.no-match')).toBeInTheDocument()
+    })
   })
 
   it('displays all details except last ledger date/time on ledger 404 error', async () => {
@@ -176,24 +170,24 @@ describe('Validator container', () => {
     const notFoundError = new Error('Ledger not found')
     notFoundError.response = { status: 404 }
 
-    const wrapper = createWrapper({
+    const { container } = renderValidator({
       getLedgerImpl: () => Promise.reject(notFoundError),
     })
 
     await flushPromises()
     await flushPromises()
 
-    wrapper.update()
-
     expect(getLedger).toHaveBeenCalledWith('12345', undefined)
     expect(document.title).toBe('Validator test.example.com')
     // test ledger-time isn't updated
-    const lastLedgerDateTime = wrapper.find(`[data-testid="ledger-time"]`)
-    expect(lastLedgerDateTime).not.toExist()
+    expect(
+      container.querySelector('[data-testid="ledger-time"]'),
+    ).not.toBeInTheDocument()
     // test ledger-index stays the same
-    const lastLedgerIndex = wrapper.find(`[data-testid="ledger-index"]`)
-    expect(lastLedgerIndex).toExist()
-    expect(lastLedgerIndex.find('.value')).toHaveText('12345')
-    wrapper.unmount()
+    const lastLedgerIndex = container.querySelector(
+      '[data-testid="ledger-index"]',
+    )
+    expect(lastLedgerIndex).toBeInTheDocument()
+    expect(lastLedgerIndex.querySelector('.value')).toHaveTextContent('12345')
   })
 })

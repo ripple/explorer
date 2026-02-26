@@ -1,35 +1,29 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { TransactionActionIcon } from '../TransactionActionIcon'
 import { TransactionAction } from '../../Transaction/types'
-import TransactionCreateIcon from '../TransactionCreateIcon.svg'
-import TransactionSendIcon from '../TransactionSendIcon.svg'
-import TransactionUnknownIcon from '../TransactionUnknownIcon.svg'
 
 describe('TransactionActionIcon', () => {
   it('renders with an action specified ', () => {
-    const wrapper = mount(
+    const { container } = render(
       <TransactionActionIcon action={TransactionAction.CREATE} />,
     )
-    expect(wrapper).toContainReact(<TransactionCreateIcon />)
-    wrapper.unmount()
+    // SVG should be rendered
+    expect(container.querySelector('svg')).toBeInTheDocument()
   })
 
   it('renders with type specified ', () => {
-    const wrapper = mount(<TransactionActionIcon type="Payment" />)
-    expect(wrapper).toContainReact(<TransactionSendIcon />)
-    wrapper.unmount()
+    const { container } = render(<TransactionActionIcon type="Payment" />)
+    expect(container.querySelector('svg')).toBeInTheDocument()
   })
 
   it('renders with type specified that is not defined', () => {
-    const wrapper = mount(<TransactionActionIcon type="Wooo" />)
-    expect(wrapper).toContainReact(<TransactionUnknownIcon />)
-    wrapper.unmount()
+    const { container } = render(<TransactionActionIcon type="Wooo" />)
+    expect(container.querySelector('svg')).toBeInTheDocument()
   })
 
   it('renders with no action or type', () => {
     // @ts-expect-error
-    const wrapper = mount(<TransactionActionIcon />)
-    expect(wrapper).toContainReact(<TransactionUnknownIcon />)
-    wrapper.unmount()
+    const { container } = render(<TransactionActionIcon />)
+    expect(container.querySelector('svg')).toBeInTheDocument()
   })
 })

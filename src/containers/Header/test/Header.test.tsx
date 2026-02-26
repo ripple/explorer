@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, cleanup } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
@@ -9,12 +9,13 @@ import { Header } from '../index'
 import { queryClient } from '../../shared/QueryClient'
 
 describe('Header component', () => {
-  let client
-  const createWrapper = () =>
-    mount(
+  let client: MockWsClient
+
+  const renderHeader = () =>
+    render(
       <I18nextProvider i18n={i18n}>
         <Router>
-          <SocketContext.Provider value={client}>
+          <SocketContext.Provider value={client as any}>
             <QueryClientProvider client={queryClient}>
               <Header />
             </QueryClientProvider>
@@ -29,18 +30,17 @@ describe('Header component', () => {
 
   afterEach(() => {
     client.close()
+    cleanup()
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderHeader()
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.search').length).toEqual(1)
-    expect(wrapper.find('.navbar-brand').hostNodes().length).toEqual(1)
-    expect(wrapper.find('.network').hostNodes().length).toEqual(1)
-    wrapper.unmount()
+    const { container } = renderHeader()
+    expect(container.querySelectorAll('.search').length).toEqual(1)
+    expect(container.querySelectorAll('.navbar-brand').length).toEqual(1)
+    expect(container.querySelectorAll('.network').length).toEqual(1)
   })
 })

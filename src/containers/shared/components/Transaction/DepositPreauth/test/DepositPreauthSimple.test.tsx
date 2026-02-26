@@ -1,5 +1,5 @@
 import {
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowText,
   expectSimpleRowLabel,
 } from '../../test'
@@ -9,63 +9,69 @@ import mockDepositPreauthUnauthorize from './mock_data/DepositPreauthUnauthorize
 import mockDepositPreauthAuthorizeCredentials from './mock_data/DepositPreauthAuthorizeCredentials.json'
 import mockDepositPreauthUnauthorizeCredentials from './mock_data/DepositPreauthUnauthorizeCredentials.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('DepositPreauth: Simple', () => {
   it('renders authorized', () => {
-    const wrapper = createWrapper(mockDepositPreauth)
+    const { container, unmount } = renderComponent(mockDepositPreauth)
     expectSimpleRowText(
-      wrapper,
+      container,
       'authorize',
       'rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders unauthorized', () => {
-    const wrapper = createWrapper(mockDepositPreauthUnauthorize)
+    const { container, unmount } = renderComponent(
+      mockDepositPreauthUnauthorize,
+    )
     expectSimpleRowText(
-      wrapper,
+      container,
       'unauthorize',
       'rDJFnv5sEfp42LMFiX3mVQKczpFTdxYDzM',
     )
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders authorize credentials', () => {
-    const wrapper = createWrapper(mockDepositPreauthAuthorizeCredentials)
+    const { container, unmount } = renderComponent(
+      mockDepositPreauthAuthorizeCredentials,
+    )
 
     // Check that SimpleGroup is rendered
-    expect(wrapper.find('.group')).toHaveLength(2)
-    expect(wrapper.find('.groups-title')).toHaveLength(1)
+    expect(container.querySelectorAll('.group')).toHaveLength(2)
+    expect(container.querySelectorAll('.groups-title')).toHaveLength(1)
 
     // Check first credential
-    expectSimpleRowText(wrapper, 'credential-issuer-0', 'rISABEL......')
-    expectSimpleRowLabel(wrapper, 'credential-issuer-0', 'credential_issuer')
-    expectSimpleRowText(wrapper, 'credential-type-0', 'KYC') // 4B5943 hex decodes to "KYC"
-    expectSimpleRowLabel(wrapper, 'credential-type-0', 'credential_type')
+    expectSimpleRowText(container, 'credential-issuer-0', 'rISABEL......')
+    expectSimpleRowLabel(container, 'credential-issuer-0', 'credential_issuer')
+    expectSimpleRowText(container, 'credential-type-0', 'KYC') // 4B5943 hex decodes to "KYC"
+    expectSimpleRowLabel(container, 'credential-type-0', 'credential_type')
 
     // Check second credential
-    expectSimpleRowText(wrapper, 'credential-issuer-1', 'rTRUSTED.....')
-    expectSimpleRowLabel(wrapper, 'credential-issuer-1', 'credential_issuer')
-    expectSimpleRowText(wrapper, 'credential-type-1', 'ID') // 4944 hex decodes to "ID"
-    expectSimpleRowLabel(wrapper, 'credential-type-1', 'credential_type')
+    expectSimpleRowText(container, 'credential-issuer-1', 'rTRUSTED.....')
+    expectSimpleRowLabel(container, 'credential-issuer-1', 'credential_issuer')
+    expectSimpleRowText(container, 'credential-type-1', 'ID') // 4944 hex decodes to "ID"
+    expectSimpleRowLabel(container, 'credential-type-1', 'credential_type')
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders unauthorize credentials', () => {
-    const wrapper = createWrapper(mockDepositPreauthUnauthorizeCredentials)
+    const { container, unmount } = renderComponent(
+      mockDepositPreauthUnauthorizeCredentials,
+    )
 
     // Check that SimpleGroup is rendered
-    expect(wrapper.find('.group')).toHaveLength(1)
-    expect(wrapper.find('.groups-title')).toHaveLength(1)
+    expect(container.querySelectorAll('.group')).toHaveLength(1)
+    expect(container.querySelectorAll('.groups-title')).toHaveLength(1)
 
-    expectSimpleRowText(wrapper, 'credential-issuer-0', 'rISABEL......')
-    expectSimpleRowLabel(wrapper, 'credential-issuer-0', 'credential_issuer')
-    expectSimpleRowText(wrapper, 'credential-type-0', 'KYC') // 4B5943 hex decodes to "KYC"
-    expectSimpleRowLabel(wrapper, 'credential-type-0', 'credential_type')
+    expectSimpleRowText(container, 'credential-issuer-0', 'rISABEL......')
+    expectSimpleRowLabel(container, 'credential-issuer-0', 'credential_issuer')
+    expectSimpleRowText(container, 'credential-type-0', 'KYC') // 4B5943 hex decodes to "KYC"
+    expectSimpleRowLabel(container, 'credential-type-0', 'credential_type')
 
-    wrapper.unmount()
+    unmount()
   })
 })

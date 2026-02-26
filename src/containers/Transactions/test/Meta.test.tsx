@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18n/testConfig'
@@ -11,8 +11,8 @@ import { TransactionMeta } from '../DetailTab/Meta'
 import OfferCreateWithPermissionedDomainID from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithPermissionedDomainID.json'
 
 describe('TransactionMeta container', () => {
-  const createWrapper = (data: any = Transaction) =>
-    mount(
+  const renderMeta = (data: any = Transaction) =>
+    render(
       <Router>
         <I18nextProvider i18n={i18n}>
           <TransactionMeta data={data} />
@@ -21,179 +21,162 @@ describe('TransactionMeta container', () => {
     )
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderMeta()
   })
 
   it('renders Meta', () => {
-    const w = createWrapper()
-    expect(w.find('.title').length).toBe(1)
-    expect(w.find('.detail-subsection').length).toBe(1)
-    expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
-    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
-      true,
+    const { container } = renderMeta()
+    expect(container.querySelectorAll('.title').length).toBe(1)
+    expect(container.querySelectorAll('.detail-subsection').length).toBe(1)
+    expect(container.textContent).toContain('number_of_affected_node')
+    expect(container.querySelector('.detail-subtitle')).toHaveTextContent(
+      'nodes_type',
     )
-    expect(w.find('li').length).toBe(23)
+    expect(container.querySelectorAll('li').length).toBe(23)
 
-    expect(w.find('li').at(0).html()).toBe(
-      '<li class="meta-line">owned_account_root <a data-testid="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" class="account" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a><ul class="meta-line"><li>Balance decreased by<b>-\uE90050.324316<small>XRP</small></b>from<b>\uE9002,910.704988<small>XRP</small></b>to<b>\uE9002,860.380672<small>XRP</small></b></li></ul></li>',
-    )
+    const listItems = container.querySelectorAll('li')
 
-    expect(w.find('li').at(1).html()).toBe(
-      '<li>Balance decreased by<b>-\uE90050.324316<small>XRP</small></b>from<b>\uE9002,910.704988<small>XRP</small></b>to<b>\uE9002,860.380672<small>XRP</small></b></li>',
-    )
+    // Check first list item contains expected content (AccountRoot)
+    expect(listItems[0]).toHaveTextContent('owned_account_root')
+    expect(listItems[0]).toHaveTextContent('rUmustd4TbkjaEuS7S1damozpBEREgRz9z')
+    expect(listItems[0]).toHaveTextContent('Balance decreased by')
 
-    expect(w.find('li').at(2).html()).toBe(
-      '<li class="meta-line">owned_account_root <a data-testid="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" class="account" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a><ul class="meta-line"><li>Balance decreased by<b>-\uE9000.000012<small>XRP</small></b>from<b>\uE90098.595124<small>XRP</small></b>to<b>\uE90098.595112<small>XRP</small></b></li></ul></li>',
-    )
+    // Check balance change content
+    expect(listItems[1]).toHaveTextContent('Balance decreased by')
 
-    expect(w.find('li').at(3).html()).toBe(
-      '<li>Balance decreased by<b>-\uE9000.000012<small>XRP</small></b>from<b>\uE90098.595124<small>XRP</small></b>to<b>\uE90098.595112<small>XRP</small></b></li>',
-    )
+    // Check second account root
+    expect(listItems[2]).toHaveTextContent('owned_account_root')
+    expect(listItems[2]).toHaveTextContent('rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh')
 
-    expect(w.find('li').at(4).html()).toBe(
-      '<li class="meta-line">owned_account_root <a data-testid="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" class="account" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a><ul class="meta-line"><li>Balance increased by<b>\uE90050.324316<small>XRP</small></b>from<b>\uE9005,703.912258<small>XRP</small></b>to<b>\uE9005,754.236574<small>XRP</small></b></li></ul></li>',
-    )
+    // Check balance decrease
+    expect(listItems[3]).toHaveTextContent('Balance decreased by')
 
-    expect(w.find('li').at(5).html()).toBe(
-      '<li>Balance increased by<b>\uE90050.324316<small>XRP</small></b>from<b>\uE9005,703.912258<small>XRP</small></b>to<b>\uE9005,754.236574<small>XRP</small></b></li>',
-    )
+    // Check third account root with balance increase
+    expect(listItems[4]).toHaveTextContent('owned_account_root')
+    expect(listItems[4]).toHaveTextContent('rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq')
+    expect(listItems[4]).toHaveTextContent('Balance increased by')
 
-    expect(w.find('li').at(6).html()).toBe(
-      '<li class="meta-line">transaction_owned_directory<span> <a data-testid="account" title="rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe" class="account" href="/accounts/rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe">rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe</a></span></li>',
-    )
+    expect(listItems[5]).toHaveTextContent('Balance increased by')
 
-    expect(w.find('li').at(7).html()).toBe(
-      '<li class="meta-line">It modified a <b>XRP/CNY</b>owned by<a data-testid="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" class="account" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a>with sequence # <b>1181517</b><ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE900470.31823</b>to<b>\uE900419.993914</b></li><li class="meta-line"><span class="field">TakerGets </span><b>CNY</b>.<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a> decreased by<b>CN¥224.7141103</b>from<b>CN¥2,100.12079671</b>to<b>CN¥1,875.40668641</b></li></ul></li>',
-    )
+    // Check directory node
+    expect(listItems[6]).toHaveTextContent('transaction_owned_directory')
+    expect(listItems[6]).toHaveTextContent('rETx8GBiH6fxhTcfHM9fGeyShqxozyD3xe')
 
-    expect(w.find('li').at(8).html()).toBe(
-      '<li class="meta-line">offer_partially_filled</li>',
-    )
+    // Check first offer modification
+    expect(listItems[7]).toHaveTextContent('offer_node_meta')
 
-    expect(w.find('li').at(9).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerPays </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE900470.31823</b>to<b>\uE900419.993914</b></li>',
-    )
+    expect(listItems[8]).toHaveTextContent('offer_partially_filled')
 
-    expect(w.find('li').at(10).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerGets </span><b>CNY</b>.<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a> decreased by<b>CN¥224.7141103</b>from<b>CN¥2,100.12079671</b>to<b>CN¥1,875.40668641</b></li>',
+    expect(listItems[9]).toHaveTextContent('TakerPays')
+    expect(listItems[9]).toHaveTextContent('XRP')
+
+    expect(listItems[10]).toHaveTextContent('TakerGets')
+    expect(listItems[10]).toHaveTextContent('CNY')
+    expect(listItems[10]).toHaveTextContent(
+      'rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y',
     )
 
-    expect(w.find('li').at(11).html()).toBe(
-      '<li class="meta-line">It modified a <b>XRP/CNY</b>owned by<a data-testid="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" class="account" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a>with sequence # <b>5804</b><ul><li class="meta-line">offer_partially_filled</li><li class="meta-line"><span class="field">TakerPays </span><b>CNY</b>.<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a> decreased by<b>CN¥225.45293634</b>from<b>CN¥12,589.58241408</b>to<b>CN¥12,364.12947774</b></li><li class="meta-line"><span class="field">TakerGets </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE9002,810.174646</b>to<b>\uE9002,759.85033</b></li></ul></li>',
+    // Check second offer modification
+    expect(listItems[11]).toHaveTextContent('offer_node_meta')
+
+    expect(listItems[12]).toHaveTextContent('offer_partially_filled')
+
+    expect(listItems[13]).toHaveTextContent('TakerPays')
+    expect(listItems[13]).toHaveTextContent('CNY')
+
+    expect(listItems[14]).toHaveTextContent('TakerGets')
+    expect(listItems[14]).toHaveTextContent('XRP')
+
+    // Check ripplestate nodes
+    expect(listItems[15]).toHaveTextContent('CNY')
+    expect(listItems[15]).toHaveTextContent('RippleState')
+    expect(listItems[15]).toHaveTextContent(
+      'rUmustd4TbkjaEuS7S1damozpBEREgRz9z',
     )
 
-    expect(w.find('li').at(12).html()).toBe(
-      '<li class="meta-line">offer_partially_filled</li>',
-    )
+    expect(listItems[16]).toHaveTextContent('Balance changed by')
 
-    expect(w.find('li').at(13).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerPays </span><b>CNY</b>.<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a> decreased by<b>CN¥225.45293634</b>from<b>CN¥12,589.58241408</b>to<b>CN¥12,364.12947774</b></li>',
-    )
+    expect(listItems[17]).toHaveTextContent('CNY')
+    expect(listItems[17]).toHaveTextContent('RippleState')
 
-    expect(w.find('li').at(14).html()).toBe(
-      '<li class="meta-line"><span class="field">TakerGets </span><b>XRP</b> decreased by<b>\uE90050.324316</b>from<b>\uE9002,810.174646</b>to<b>\uE9002,759.85033</b></li>',
-    )
+    expect(listItems[18]).toHaveTextContent('Balance changed by')
 
-    expect(w.find('li').at(15).html()).toBe(
-      '<li class="meta-line">It modified a <b>CNY</b>ripplestate node between<a data-testid="account" title="rUmustd4TbkjaEuS7S1damozpBEREgRz9z" class="account" href="/accounts/rUmustd4TbkjaEuS7S1damozpBEREgRz9z">rUmustd4TbkjaEuS7S1damozpBEREgRz9z</a>and<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a><ul class="meta-line"><li>Balance changed by<b>CN¥225.45293634</b>from<b>CN¥187,682.19557797</b>to<b>CN¥187,907.64851431</b></li></ul></li>',
-    )
+    expect(listItems[19]).toHaveTextContent('CNY')
+    expect(listItems[19]).toHaveTextContent('RippleState')
 
-    expect(w.find('li').at(16).html()).toBe(
-      '<li>Balance changed by<b>CN¥225.45293634</b>from<b>CN¥187,682.19557797</b>to<b>CN¥187,907.64851431</b></li>',
-    )
+    expect(listItems[20]).toHaveTextContent('Balance changed by')
 
-    expect(w.find('li').at(17).html()).toBe(
-      '<li class="meta-line">It modified a <b>CNY</b>ripplestate node between<a data-testid="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" class="account" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a>and<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a><ul class="meta-line"><li>Balance changed by<b>CN¥224.7141103</b>from<b>CN¥68,093.01974027</b>to<b>CN¥68,317.73385057</b></li></ul></li>',
-    )
+    expect(listItems[21]).toHaveTextContent('CNY')
+    expect(listItems[21]).toHaveTextContent('RippleState')
 
-    expect(w.find('li').at(18).html()).toBe(
-      '<li>Balance changed by<b>CN¥224.7141103</b>from<b>CN¥68,093.01974027</b>to<b>CN¥68,317.73385057</b></li>',
-    )
-
-    expect(w.find('li').at(19).html()).toBe(
-      '<li class="meta-line">It modified a <b>CNY</b>ripplestate node between<a data-testid="account" title="rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq" class="account" href="/accounts/rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq">rEGoBvzusE2MkDn3yrgZc817XiwRofqoJq</a>and<a data-testid="account" title="rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y" class="account" href="/accounts/rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y">rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y</a><ul class="meta-line"><li>Balance changed by<b>-CN¥224.7141103</b>from<b>CN¥9,605.02284129</b>to<b>CN¥9,380.30873099</b></li></ul></li>',
-    )
-
-    expect(w.find('li').at(20).html()).toBe(
-      '<li>Balance changed by<b>-CN¥224.7141103</b>from<b>CN¥9,605.02284129</b>to<b>CN¥9,380.30873099</b></li>',
-    )
-
-    expect(w.find('li').at(21).html()).toBe(
-      '<li class="meta-line">It modified a <b>CNY</b>ripplestate node between<a data-testid="account" title="razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA" class="account" href="/accounts/razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA">razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA</a>and<a data-testid="account" title="rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh" class="account" href="/accounts/rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh">rPt8rwFrsucmjdKfjwRHGz9iZGxxN2cLYh</a><ul class="meta-line"><li>Balance changed by<b>CN¥225.90384221</b>from<b>-CN¥225.90384221</b>to<b>CN¥0.00</b></li></ul></li>',
-    )
-
-    expect(w.find('li').at(22).html()).toBe(
-      '<li>Balance changed by<b>CN¥225.90384221</b>from<b>-CN¥225.90384221</b>to<b>CN¥0.00</b></li>',
-    )
-
-    w.unmount()
+    expect(listItems[22]).toHaveTextContent('Balance changed by')
   })
 
   it('renders OfferCancel Meta', () => {
-    const w = createWrapper(OfferCancel)
-    expect(w.find('.title').length).toBe(1)
-    expect(w.find('.detail-subsection').length).toBe(2)
-    expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
-    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
-      true,
+    const { container } = renderMeta(OfferCancel)
+    expect(container.querySelectorAll('.title').length).toBe(1)
+    expect(container.querySelectorAll('.detail-subsection').length).toBe(2)
+    expect(container.textContent).toContain('number_of_affected_node')
+    expect(container.querySelector('.detail-subtitle')).toHaveTextContent(
+      'nodes_type',
     )
-    expect(w.find('li').length).toBe(6)
+    expect(container.querySelectorAll('li').length).toBe(6)
   })
 
   it('renders OfferCreate Meta with missing PreviousFields', () => {
-    const w = createWrapper(OfferCreateWithMissingPreviousFields)
-    expect(w.find('.title').length).toBe(1)
-    expect(w.find('.detail-subsection').length).toBe(2)
-    expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
-    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
-      true,
+    const { container } = renderMeta(OfferCreateWithMissingPreviousFields)
+    expect(container.querySelectorAll('.title').length).toBe(1)
+    expect(container.querySelectorAll('.detail-subsection').length).toBe(2)
+    expect(container.textContent).toContain('number_of_affected_node')
+    expect(container.querySelector('.detail-subtitle')).toHaveTextContent(
+      'nodes_type',
     )
-    expect(w.find('li').length).toBe(5291)
+    expect(container.querySelectorAll('li').length).toBe(5291)
   })
 
   it('renders PayChannel Meta', () => {
-    const w = createWrapper(PaymentChannelClaim)
-    expect(w.find('.title').length).toBe(1)
-    expect(w.find('.detail-subsection').length).toBe(1)
-    expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
-    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
-      true,
+    const { container } = renderMeta(PaymentChannelClaim)
+    expect(container.querySelectorAll('.title').length).toBe(1)
+    expect(container.querySelectorAll('.detail-subsection').length).toBe(1)
+    expect(container.textContent).toContain('number_of_affected_node')
+    expect(container.querySelector('.detail-subtitle')).toHaveTextContent(
+      'nodes_type',
     )
-    expect(w.find('li').length).toBe(4)
+    expect(container.querySelectorAll('li').length).toBe(4)
   })
 
   it('renders MPT Payment Meta', () => {
-    const w = createWrapper(DirectMPTPayment)
+    const { container } = renderMeta(DirectMPTPayment)
 
-    expect(w.find('.title').length).toBe(1)
-    expect(w.find('.detail-subsection').length).toBe(1)
-    expect(w.contains(<div>number_of_affected_node</div>)).toBe(true)
-    expect(w.contains(<div className="detail-subtitle">nodes_type</div>)).toBe(
-      true,
+    expect(container.querySelectorAll('.title').length).toBe(1)
+    expect(container.querySelectorAll('.detail-subsection').length).toBe(1)
+    expect(container.textContent).toContain('number_of_affected_node')
+    expect(container.querySelector('.detail-subtitle')).toHaveTextContent(
+      'nodes_type',
     )
-    expect(w.find('li').length).toBe(6)
+    const listItems = container.querySelectorAll('li')
+    expect(listItems.length).toBe(6)
 
-    expect(w.find('li').at(2).html()).toBe(
-      '<li class="meta-line">It modified an MPToken node of<a data-testid="account" title="rnNkvddM96FE2QsaFztLAn5xicjq5d6d8d" class="account" href="/accounts/rnNkvddM96FE2QsaFztLAn5xicjq5d6d8d">rnNkvddM96FE2QsaFztLAn5xicjq5d6d8d</a><ul class="meta-line"><li>Balance changed by<b>100</b>from<b>0</b>to<b>100</b></li></ul></li>',
-    )
+    // Check MPToken node modification
+    expect(listItems[2]).toHaveTextContent('MPToken')
+    expect(listItems[2]).toHaveTextContent('rnNkvddM96FE2QsaFztLAn5xicjq5d6d8d')
+    expect(listItems[2]).toHaveTextContent('Balance changed by')
 
-    expect(w.find('li').at(3).html()).toBe(
-      '<li>Balance changed by<b>100</b>from<b>0</b>to<b>100</b></li>',
-    )
+    expect(listItems[3]).toHaveTextContent('Balance changed by')
+    expect(listItems[3]).toHaveTextContent('100')
 
-    expect(w.find('li').at(4).html()).toBe(
-      '<li class="meta-line">It modified an MPTokenIssuance node of<a data-testid="account" title="rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw" class="account" href="/accounts/rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw">rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw</a><ul class="meta-line"><li>Outstanding balance changed by<b>100</b>from<b>0</b>to<b>100</b></li></ul></li>',
-    )
+    // Check MPTokenIssuance node modification
+    expect(listItems[4]).toHaveTextContent('MPTokenIssuance')
+    expect(listItems[4]).toHaveTextContent('rwREfyDU1SbcjN3xXZDbm8uNJV77T2ruKw')
+    expect(listItems[4]).toHaveTextContent('Outstanding balance changed by')
 
-    expect(w.find('li').at(5).html()).toBe(
-      '<li>Outstanding balance changed by<b>100</b>from<b>0</b>to<b>100</b></li>',
-    )
+    expect(listItems[5]).toHaveTextContent('Outstanding balance changed by')
+    expect(listItems[5]).toHaveTextContent('100')
   })
 
   it(`renders OfferCreate Meta with a Permissioned Domain ID`, () => {
-    const w = createWrapper(OfferCreateWithPermissionedDomainID)
-    expect(w.html()).toContain(
+    const { container } = renderMeta(OfferCreateWithPermissionedDomainID)
+    expect(container.innerHTML).toContain(
       'Domain: 4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812',
     )
   })

@@ -1,11 +1,11 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../../../i18n/testConfig'
 import { MarketData } from '../../Header/MarketData'
 
 describe('MarketData component', () => {
-  const createWrapper = (props: any = {}) =>
-    mount(
+  const renderComponent = (props: any = {}) =>
+    render(
       <I18nextProvider i18n={i18n}>
         <MarketData
           maxAmt={props.maxAmt}
@@ -16,88 +16,77 @@ describe('MarketData component', () => {
     )
 
   it('renders header box', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.header-box').length).toBe(1)
-    expect(wrapper.find('.header-box-title').text()).toBe(
+    const { container } = renderComponent()
+    expect(container.querySelectorAll('.header-box')).toHaveLength(1)
+    expect(container.querySelector('.header-box-title')).toHaveTextContent(
       'token_page.market_data',
     )
-    wrapper.unmount()
   })
 
   it('displays supply label', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.text()).toContain('token_page.supply')
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container).toHaveTextContent('token_page.supply')
   })
 
   it('displays circulating supply label', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.text()).toContain('token_page.circulating_supply')
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container).toHaveTextContent('token_page.circulating_supply')
   })
 
   it('displays formatted max amount with scale 0', () => {
-    const wrapper = createWrapper({
+    const { container } = renderComponent({
       maxAmt: '1000000',
       assetScale: 0,
     })
     // parseAmount abbreviates large numbers
-    expect(wrapper.text()).toContain('1.0M')
-    wrapper.unmount()
+    expect(container).toHaveTextContent('1.0M')
   })
 
   it('displays formatted max amount with scale 2', () => {
-    const wrapper = createWrapper({
+    const { container } = renderComponent({
       maxAmt: '100000000',
       assetScale: 2,
     })
     // 100000000 with scale 2 = 1000000, formatted as 1.0M
-    expect(wrapper.text()).toContain('1.0M')
-    wrapper.unmount()
+    expect(container).toHaveTextContent('1.0M')
   })
 
   it('displays formatted outstanding amount', () => {
-    const wrapper = createWrapper({
+    const { container } = renderComponent({
       outstandingAmt: '5000000',
       assetScale: 0,
     })
     // parseAmount abbreviates large numbers
-    expect(wrapper.text()).toContain('5.0M')
-    wrapper.unmount()
+    expect(container).toHaveTextContent('5.0M')
   })
 
   it('displays 0 for undefined amounts', () => {
-    const wrapper = createWrapper({
+    const { container } = renderComponent({
       maxAmt: undefined,
       outstandingAmt: undefined,
       assetScale: undefined,
     })
-    expect(wrapper.text()).toContain('0')
-    wrapper.unmount()
+    expect(container).toHaveTextContent('0')
   })
 
   it('displays market cap placeholder', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.text()).toContain('token_page.market_cap')
-    expect(wrapper.text()).toContain('--')
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container).toHaveTextContent('token_page.market_cap')
+    expect(container).toHaveTextContent('--')
   })
 
   it('displays volume 24h placeholder', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.text()).toContain('token_page.volume_24h')
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container).toHaveTextContent('token_page.volume_24h')
   })
 
   it('displays trades 24h placeholder', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.text()).toContain('token_page.trades_24h')
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container).toHaveTextContent('token_page.trades_24h')
   })
 
   it('displays AMM TVL placeholder', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.text()).toContain('token_page.amm_tvl')
-    wrapper.unmount()
+    const { container } = renderComponent()
+    expect(container).toHaveTextContent('token_page.amm_tvl')
   })
 })

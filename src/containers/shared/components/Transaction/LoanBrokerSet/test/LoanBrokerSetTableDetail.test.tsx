@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import i18n from '../../../../../../i18n/testConfigEnglish'
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import LoanBrokerSet from './mock_data/LoanBrokerSet.json'
 import LoanBrokerSetPartialUpdate from './mock_data/LoanBrokerSetPartialUpdate.json'
@@ -11,7 +11,7 @@ jest.mock('react-query', () => ({
   useQuery: jest.fn(),
 }))
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail, i18n)
+const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
 describe('LoanBrokerSetTableDetail', () => {
   it('renders with non-zero debt maximum', () => {
@@ -22,15 +22,15 @@ describe('LoanBrokerSetTableDetail', () => {
       error: null,
     })
 
-    const wrapper = createWrapper(LoanBrokerSet)
+    const { container, unmount } = renderComponent(LoanBrokerSet)
 
-    expect(wrapper.find('.loan-broker-set')).toHaveText(
+    expect(container.querySelector('.loan-broker-set')).toHaveTextContent(
       'Vault ID: AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7' +
         'rates: Management Fee Rate 1.000%, Cover Rate Minimum 1.000%, Cover Rate Liquidation 5.000%' +
         'Debt Maximum: $100,000.00 USD.ra8dG1xwi5dQTJx1fRNCc8gjSAdQMX3vV7',
     )
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders with zero debt maximum showing No Limit', () => {
@@ -41,11 +41,13 @@ describe('LoanBrokerSetTableDetail', () => {
       error: null,
     })
 
-    const wrapper = createWrapper(LoanBrokerSetZeroDebt)
+    const { container, unmount } = renderComponent(LoanBrokerSetZeroDebt)
 
-    expect(wrapper.find('.debt-maximum')).toHaveText('Debt Maximum: No Limit')
+    expect(container.querySelector('.debt-maximum')).toHaveTextContent(
+      'Debt Maximum: No Limit',
+    )
 
-    wrapper.unmount()
+    unmount()
   })
 
   it('renders partial update without showing omitted DebtMaximum field', () => {
@@ -56,16 +58,16 @@ describe('LoanBrokerSetTableDetail', () => {
       error: null,
     })
 
-    const wrapper = createWrapper(LoanBrokerSetPartialUpdate)
+    const { container, unmount } = renderComponent(LoanBrokerSetPartialUpdate)
 
-    expect(wrapper.find('.loan-broker-set')).toHaveText(
+    expect(container.querySelector('.loan-broker-set')).toHaveTextContent(
       'Vault ID: AE7952AFEE76456A1ECA877E1797E9FF842E7FD87D1F2C856B7B1EE10C9654D7' +
         'rates: Management Fee Rate 1.000%, Cover Rate Minimum 1.000%, Cover Rate Liquidation 5.000%',
     )
 
     // DebtMaximum should not be shown since it was omitted from the transaction
-    expect(wrapper.find('.debt-maximum')).toHaveLength(0)
+    expect(container.querySelector('.debt-maximum')).not.toBeInTheDocument()
 
-    wrapper.unmount()
+    unmount()
   })
 })
