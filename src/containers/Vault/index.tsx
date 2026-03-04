@@ -78,8 +78,6 @@ export const Vault = () => {
     },
   )
 
-  console.log('vaultData: ', vaultData)
-
   // Check if USD conversion is available for this token
   // Must be called before any early returns to satisfy React hooks rules
   const { isAvailable: usdAvailable, isLoading: usdLoading } =
