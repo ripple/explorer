@@ -52,7 +52,7 @@ export const CurrencyToggle = ({
       <div className="currency-toggle">
         <button
           type="button"
-          className={`toggle-option ${isNativeSelected ? 'active' : ''}`}
+          className={`toggle-option ${isNativeSelected ? 'active' : ''} ${usdDisabled || usdLoading ? 'disabled' : ''}`}
           onClick={() => onToggle('')}
         >
           {nativeCurrencyDisplay}
@@ -72,7 +72,8 @@ export const CurrencyToggle = ({
             renderTextTooltip('currency_toggle_unavailable')}
         </span>
       </div>
-      {renderTextTooltip('currency_toggle')}
+      {/* Only show tooltip if USD currency conversion data is available */}
+      {!usdLoading && !usdDisabled && renderTextTooltip('currency_toggle')}
     </div>
   )
 }

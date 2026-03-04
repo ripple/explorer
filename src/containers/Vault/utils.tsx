@@ -77,7 +77,14 @@ export const renderAssetCurrency = (asset: {
   if (!asset) return null
 
   if (asset.mpt_issuance_id) {
-    return <Currency currency={asset.mpt_issuance_id} isMPT link={false} />
+    return (
+      <Currency
+        currency={asset.mpt_issuance_id}
+        isMPT
+        link={false}
+        shortenMPTIssuanceID
+      />
+    )
   }
 
   if (asset.currency) {
