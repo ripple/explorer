@@ -79,7 +79,7 @@ describe('LoanBrokerCoverClawback: Simple', () => {
     expectSimpleRowText(
       container,
       'amount',
-      '4.94 MPT (0004E8D60726C960436D88F20FFC2A873665CE675789E255)',
+      '4.94 0004E8D60726C960436D88F20FFC2A873665CE675789E255',
     )
     unmount()
   })

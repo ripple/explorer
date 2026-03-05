@@ -68,15 +68,22 @@ export const parseVaultWebsite = (
 }
 
 // Render Currency component for display in toggle button
-export const renderAssetCurrency = (asset: {
-  currency: string
-  issuer?: string
-  mpt_issuance_id?: string
-}): ReactNode => {
+// When mptTicker is provided, display it directly instead of the MPT ID
+export const renderAssetCurrency = (
+  asset: {
+    currency: string
+    issuer?: string
+    mpt_issuance_id?: string
+  },
+  mptTicker?: string,
+): ReactNode => {
   // const asset = vaultData?.Asset
   if (!asset) return null
 
   if (asset.mpt_issuance_id) {
+    if (mptTicker) {
+      return <span>{mptTicker}</span>
+    }
     return (
       <Currency
         currency={asset.mpt_issuance_id}

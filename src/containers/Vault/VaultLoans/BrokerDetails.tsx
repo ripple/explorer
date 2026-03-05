@@ -86,8 +86,7 @@ export const BrokerDetails = ({
       return (
         `${parseAmount(finalDisplayAmount, 2)}` +
         ` ${
-          inputAsset?.currency ??
-          `MPT (${shortenMPTID(inputAsset?.mpt_issuance_id)})`
+          inputAsset?.currency ?? `${shortenMPTID(inputAsset?.mpt_issuance_id)}`
         }`
       )
     }

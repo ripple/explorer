@@ -37,7 +37,7 @@ const Currency = (props: Props) => {
   let content: string
 
   if (isMPT) {
-    const display = `MPT (${shortenMPTIssuanceID ? shortenMPTID(currency) : currency})`
+    const display = `${shortenMPTIssuanceID ? shortenMPTID(currency) : currency}`
     if (link)
       return (
         <RouteLink

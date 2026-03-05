@@ -643,7 +643,7 @@ describe('CurrencyToggle Component', () => {
       render(
         <TestWrapper>
           <CurrencyToggle
-            nativeCurrencyDisplay={<span>MPT (ABC123...)</span>}
+            nativeCurrencyDisplay={<span>ABC123...</span>}
             selected="ABC123"
             onToggle={onToggle}
           />
@@ -651,7 +651,7 @@ describe('CurrencyToggle Component', () => {
       )
 
       // Click the native currency button (which shows the JSX display)
-      fireEvent.click(screen.getByText('MPT (ABC123...)'))
+      fireEvent.click(screen.getByText('ABC123...'))
       // Empty string indicates switching to native currency
       expect(onToggle).toHaveBeenCalledWith('')
     })
@@ -659,7 +659,122 @@ describe('CurrencyToggle Component', () => {
 
   /**
    * =========================================
-   * SECTION 9: Edge Cases
+   * SECTION 9: MPT Ticker Display Tests
+   * =========================================
+   * When an MPT asset has XLS-89 metadata with a ticker symbol,
+   * the toggle should display the ticker (e.g., "VTKN") instead
+   * of the truncated MPT ID (e.g., "000086F0...234DE").
+   */
+  describe('MPT Ticker Display', () => {
+    it('displays MPT ticker symbol when available', () => {
+      const onToggle = jest.fn()
+
+      render(
+        <TestWrapper>
+          <CurrencyToggle
+            nativeCurrencyDisplay={<span>VTKN</span>}
+            selected="VTKN"
+            onToggle={onToggle}
+          />
+        </TestWrapper>,
+      )
+
+      // Ticker should appear as the native currency button text
+      expect(screen.getByText('VTKN')).toBeInTheDocument()
+      // Should NOT show an MPT ID format
+      expect(screen.queryByText(/MPT \(/)).not.toBeInTheDocument()
+    })
+
+    it('shows MPT ticker as active when selected', () => {
+      const onToggle = jest.fn()
+
+      render(
+        <TestWrapper>
+          <CurrencyToggle
+            nativeCurrencyDisplay={<span>VTKN</span>}
+            selected="VTKN"
+            onToggle={onToggle}
+          />
+        </TestWrapper>,
+      )
+
+      const tickerButton = screen.getByText('VTKN').closest('button')
+      expect(tickerButton).toHaveClass('active')
+    })
+
+    it('calls onToggle with empty string when MPT ticker button is clicked', () => {
+      const onToggle = jest.fn()
+
+      render(
+        <TestWrapper>
+          <CurrencyToggle
+            nativeCurrencyDisplay={<span>VTKN</span>}
+            selected="USD"
+            onToggle={onToggle}
+          />
+        </TestWrapper>,
+      )
+
+      fireEvent.click(screen.getByText('VTKN'))
+      expect(onToggle).toHaveBeenCalledWith('')
+    })
+
+    it('falls back to truncated MPT ID when ticker is not available', () => {
+      const onToggle = jest.fn()
+
+      render(
+        <TestWrapper>
+          <CurrencyToggle
+            nativeCurrencyDisplay={<span>000086F0...234DE</span>}
+            selected=""
+            onToggle={onToggle}
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.getByText('000086F0...234DE')).toBeInTheDocument()
+    })
+
+    it('toggles between MPT ticker and USD correctly', () => {
+      const selections: string[] = []
+      const onToggle = (currency: string) => {
+        selections.push(currency)
+      }
+
+      const { rerender } = render(
+        <TestWrapper>
+          <CurrencyToggle
+            nativeCurrencyDisplay={<span>VTKN</span>}
+            selected="VTKN"
+            onToggle={onToggle}
+          />
+        </TestWrapper>,
+      )
+
+      // Click USD
+      fireEvent.click(screen.getByText('USD'))
+      expect(selections).toEqual(['USD'])
+
+      // Rerender with USD selected
+      rerender(
+        <TestWrapper>
+          <CurrencyToggle
+            nativeCurrencyDisplay={<span>VTKN</span>}
+            selected="USD"
+            onToggle={onToggle}
+          />
+        </TestWrapper>,
+      )
+
+      // Click ticker to switch back
+      fireEvent.click(screen.getByText('VTKN'))
+      expect(selections).toEqual(['USD', ''])
+    })
+  })
+
+  /**
+   * =========================================
+   * SECTION 10: Edge Cases
    * =========================================
    * Test edge cases and unusual inputs.
    */

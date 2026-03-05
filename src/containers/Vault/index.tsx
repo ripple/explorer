@@ -12,9 +12,10 @@ import { Loader } from '../shared/components/Loader'
 import { CopyableText } from '../shared/components/CopyableText/CopyableText'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import SocketContext from '../shared/SocketContext'
-import { getVault } from '../../rippled/lib/rippled'
+import { getVault, getMPTIssuance } from '../../rippled/lib/rippled'
 import { useAnalytics } from '../shared/analytics'
 import { useTokenToUSDRate } from '../shared/hooks/useTokenToUSDRate'
+import { parseMPTokenMetadata } from '../shared/mptUtils'
 import {
   NOT_FOUND,
   BAD_REQUEST,
@@ -83,9 +84,32 @@ export const Vault = () => {
   const { isAvailable: usdAvailable, isLoading: usdLoading } =
     useTokenToUSDRate(vaultData?.Asset)
 
+  // Fetch MPT issuance data to extract ticker from metadata
+  const mptIssuanceId = vaultData?.Asset?.mpt_issuance_id
+  const { data: assetMptIssuanceData } = useQuery(
+    ['getVaultAssetMPTIssuance', mptIssuanceId],
+    async () => {
+      if (!mptIssuanceId) return null
+      const resp = await getMPTIssuance(rippledSocket, mptIssuanceId)
+      return resp?.node
+    },
+    {
+      enabled: !!mptIssuanceId,
+      onError: (e: any) => {
+        trackException(
+          `Error fetching MPT Issuance data for vault asset MPT ID ${mptIssuanceId} --- ${JSON.stringify(e)}`,
+        )
+      },
+    },
+  )
+
+  const mptTicker = parseMPTokenMetadata(assetMptIssuanceData?.MPTokenMetadata)
+    ?.ticker as string | undefined
+
   // Compute native currency label from vault asset
   const nativeCurrency =
     getCurrencySymbol(vaultData?.Asset?.currency) ??
+    mptTicker ??
     shortenMPTID(vaultData?.Asset?.mpt_issuance_id) ??
     ''
 
@@ -141,7 +165,10 @@ export const Vault = () => {
               </div>
             </div>
             <CurrencyToggle
-              nativeCurrencyDisplay={renderAssetCurrency(vaultData?.Asset)}
+              nativeCurrencyDisplay={renderAssetCurrency(
+                vaultData?.Asset,
+                mptTicker,
+              )}
               selected={displayCurrency}
               onToggle={(val) => setDisplayCurrency(val || nativeCurrency)}
               usdDisabled={!usdAvailable}

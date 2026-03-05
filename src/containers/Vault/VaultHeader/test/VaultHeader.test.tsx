@@ -402,7 +402,7 @@ describe('VaultHeader Component', () => {
       )
 
       // Should be a link to the MPT page with exact truncated text
-      const mptLink = screen.getByRole('link', { name: `MPT (${mptId})` })
+      const mptLink = screen.getByRole('link', { name: `${mptId}` })
       expect(mptLink.getAttribute('href')).toBe(`/mpt/${mptId}`)
     })
 
@@ -980,7 +980,7 @@ describe('VaultHeader Component', () => {
 
       // Should fall back to showing the MPT ID
       await waitFor(() => {
-        const mptLink = screen.getByRole('link', { name: `MPT (${mptId})` })
+        const mptLink = screen.getByRole('link', { name: `${mptId}` })
         expect(mptLink).toBeInTheDocument()
       })
     })
@@ -1008,7 +1008,7 @@ describe('VaultHeader Component', () => {
       )
 
       await waitFor(() => {
-        const mptLink = screen.getByRole('link', { name: `MPT (${mptId})` })
+        const mptLink = screen.getByRole('link', { name: `${mptId}` })
         expect(mptLink).toBeInTheDocument()
       })
     })
