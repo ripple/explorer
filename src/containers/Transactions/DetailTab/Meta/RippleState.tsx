@@ -25,8 +25,8 @@ const render: MetaRenderFunction = (_t, language, action, node, index) => {
       RippleState{' '}
       <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
         node
-      </RouteLink>
-      {' '}between
+      </RouteLink>{' '}
+      between
       <Account account={account} />
       and
       <Account account={counterAccount} />
