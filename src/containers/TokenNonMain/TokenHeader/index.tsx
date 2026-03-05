@@ -59,17 +59,19 @@ export const TokenHeader = ({
               }
             />
           )}
-          <TokenTableRow
-            label={t('last_affecting_transaction')}
-            value={
-              <RouteLink
-                to={TRANSACTION_ROUTE}
-                params={{ identifier: previousTxn }}
-              >
-                {prevTxn}
-              </RouteLink>
-            }
-          />
+          {previousTxn && (
+            <TokenTableRow
+              label={t('last_affecting_transaction')}
+              value={
+                <RouteLink
+                  to={TRANSACTION_ROUTE}
+                  params={{ identifier: previousTxn }}
+                >
+                  {prevTxn}
+                </RouteLink>
+              }
+            />
+          )}
           {emailHash && (
             <TokenTableRow label={t('email_hash')} value={abbrvEmail} />
           )}
