@@ -77,7 +77,7 @@ describe('EscrowCreateTableDetail', () => {
       getTestByName('test MPT amount'),
     )
     expect(container.querySelector('[data-testid="amount"]')).toHaveTextContent(
-      `0.0001 MPT (0044E48FC9FB70ADC1A604A5792643A38CA5887219C21C8C)`,
+      `0.0001 0044E48FC9FB70ADC1A604A5792643A38CA5887219C21C8C`,
     )
 
     unmount()

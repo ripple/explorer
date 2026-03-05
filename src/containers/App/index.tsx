@@ -24,6 +24,7 @@ import {
   AMENDMENTS_ROUTE,
   AMENDMENT_ROUTE,
   MPT_ROUTE,
+  VAULT_ROUTE,
   NODES_ROUTE,
   VALIDATORS_ROUTE,
   UPGRADE_STATUS_ROUTE,
@@ -46,6 +47,7 @@ import { Validators } from '../Network/Validators'
 import { UpgradeStatus } from '../Network/UpgradeStatus'
 import { Tokens } from '../Tokens'
 import { TokenNonMain } from '../TokenNonMain'
+import { Vault } from '../Vault'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -82,6 +84,7 @@ export const AppWrapper = () => {
     [NFT_ROUTE, NFT],
     [AMENDMENT_ROUTE, Amendment],
     [MPT_ROUTE, MPT],
+    [VAULT_ROUTE, Vault],
   ]
 
   const redirect = legacyRedirect(basename, location)

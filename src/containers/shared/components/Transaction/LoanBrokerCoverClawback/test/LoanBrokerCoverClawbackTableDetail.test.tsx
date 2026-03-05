@@ -68,7 +68,7 @@ describe('LoanBrokerCoverClawbackTableDetail', () => {
     expect(
       container.querySelector('.loan-broker-cover-clawback'),
     ).toHaveTextContent(
-      'Claws back4.94 MPT (0004E8D60726C960436D88F20FFC2A873665CE675789E255)first-loss capital from Loan Broker ID 358A255D294C9F5653686E90640F7EA922CBB26149EDD0AF8A02569BFC9412DC',
+      'Claws back4.94 0004E8D60726C960436D88F20FFC2A873665CE675789E255first-loss capital from Loan Broker ID 358A255D294C9F5653686E90640F7EA922CBB26149EDD0AF8A02569BFC9412DC',
     )
 
     unmount()

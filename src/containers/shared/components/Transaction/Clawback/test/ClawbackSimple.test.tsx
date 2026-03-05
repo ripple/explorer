@@ -47,7 +47,7 @@ describe('Clawback', () => {
     expectSimpleRowText(
       container,
       'amount',
-      '0.05 MPT (00000D668E702F54A27C42EF98C13B0787D1766CC9162A47)',
+      '0.05 00000D668E702F54A27C42EF98C13B0787D1766CC9162A47',
     )
 
     unmount()
@@ -87,7 +87,7 @@ describe('Clawback', () => {
     expectSimpleRowText(
       container,
       'amount',
-      '0.05 MPT (000010952ECE2AFC727F1C67EF568F360A2D92CB7C29FF7C)',
+      '0.05 000010952ECE2AFC727F1C67EF568F360A2D92CB7C29FF7C',
     )
     unmount()
   })
