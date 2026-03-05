@@ -878,6 +878,182 @@ describe('VaultHeader Component', () => {
 
   /**
    * =========================================
+   * SECTION 7b: MPT Asset Ticker from Metadata Tests
+   * =========================================
+   * When the vault asset is an MPT, the component fetches the MPTokenIssuance
+   * to extract XLS-89 metadata. If a ticker is present, it should be displayed
+   * instead of the raw MPT ID.
+   */
+  describe('MPT Asset Ticker from Metadata', () => {
+    it('displays ticker from MPT metadata instead of MPT ID', async () => {
+      const mptId = '00001234ABCD5678EF90ABCDEF1234567890ABCDEF'
+      const mptMetadata = { ticker: 'VTKN', name: 'Vault Token' }
+      const mptMetadataHex = Buffer.from(JSON.stringify(mptMetadata))
+        .toString('hex')
+        .toUpperCase()
+
+      mockedGetMPTIssuance.mockResolvedValue({
+        node: { MPTokenMetadata: mptMetadataHex },
+      })
+
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { mpt_issuance_id: mptId },
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      // After metadata loads, ticker "VTKN" should appear in the Asset row
+      await waitFor(() => {
+        const assetRow = screen.getByText('Asset').closest('tr')
+        expect(assetRow).toHaveTextContent('VTKN')
+      })
+    })
+
+    it('displays ticker from compact metadata form', async () => {
+      const mptId = '00001234ABCD5678EF90ABCDEF1234567890ABCDEF'
+      // Compact form uses "t" for ticker
+      const mptMetadata = { t: 'USD', n: 'US Dollar Token' }
+      const mptMetadataHex = Buffer.from(JSON.stringify(mptMetadata))
+        .toString('hex')
+        .toUpperCase()
+
+      mockedGetMPTIssuance.mockResolvedValue({
+        node: { MPTokenMetadata: mptMetadataHex },
+      })
+
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { mpt_issuance_id: mptId },
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        const assetRow = screen.getByText('Asset').closest('tr')
+        expect(assetRow).toHaveTextContent('USD')
+      })
+    })
+
+    it('falls back to MPT ID when metadata has no ticker', async () => {
+      const mptId = '00001234ABCD5678EF90ABCDEF1234567890ABCDEF'
+      // Metadata without ticker field
+      const mptMetadata = { name: 'Some Token' }
+      const mptMetadataHex = Buffer.from(JSON.stringify(mptMetadata))
+        .toString('hex')
+        .toUpperCase()
+
+      mockedGetMPTIssuance.mockResolvedValue({
+        node: { MPTokenMetadata: mptMetadataHex },
+      })
+
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { mpt_issuance_id: mptId },
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      // Should fall back to showing the MPT ID
+      await waitFor(() => {
+        const mptLink = screen.getByRole('link', { name: `MPT (${mptId})` })
+        expect(mptLink).toBeInTheDocument()
+      })
+    })
+
+    it('falls back to MPT ID when no MPTokenMetadata field exists', async () => {
+      const mptId = '00001234ABCD5678EF90ABCDEF1234567890ABCDEF'
+
+      mockedGetMPTIssuance.mockResolvedValue({
+        node: {}, // No MPTokenMetadata
+      })
+
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { mpt_issuance_id: mptId },
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        const mptLink = screen.getByRole('link', { name: `MPT (${mptId})` })
+        expect(mptLink).toBeInTheDocument()
+      })
+    })
+
+    it('uses ticker in currency label for amount displays', async () => {
+      const mptId = '00001234ABCD5678EF90ABCDEF1234567890ABCDEF'
+      const mptMetadata = {
+        ticker: 'VTKN',
+        name: 'Vault Token',
+        asset_class: 'defi',
+        issuer_name: 'Test Issuer',
+      }
+      const mptMetadataHex = Buffer.from(JSON.stringify(mptMetadata))
+        .toString('hex')
+        .toUpperCase()
+
+      mockedGetMPTIssuance.mockResolvedValue({
+        node: { MPTokenMetadata: mptMetadataHex },
+      })
+
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { mpt_issuance_id: mptId },
+        AssetsAvailable: '5000',
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      // The ticker should appear as the currency label in amount fields
+      await waitFor(() => {
+        expect(screen.getByText('5,000.00 VTKN')).toBeInTheDocument()
+      })
+    })
+  })
+
+  /**
+   * =========================================
    * SECTION 8: Shares (MPT) Link Tests
    * =========================================
    * Vault shares are represented as MPTs. The ShareMPTID should

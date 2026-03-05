@@ -22,6 +22,7 @@ import { parseAmount } from '../../shared/NumberFormattingUtils'
 import { convertHexToString } from '../../../rippled/lib/utils'
 import { Metadata } from '../../Token/MPT/Header/Metadata'
 import Currency from '../../shared/components/Currency'
+import { parseMPTokenMetadata } from '../../shared/mptUtils'
 
 interface VaultData {
   Owner?: string
@@ -93,11 +94,35 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
     return tokenToUsdRate > 0 ? String(numAmount * tokenToUsdRate) : undefined
   }
 
+  const { data: vaultAssetMptIssuanceData } = useQuery(
+    ['getVaultAssetMPTIssuance', asset?.mpt_issuance_id],
+    async () => {
+      if (!asset?.mpt_issuance_id) return null
+      const resp = await getMPTIssuance(rippledSocket, asset?.mpt_issuance_id)
+      return resp?.node
+    },
+    {
+      enabled: !!asset?.mpt_issuance_id,
+      onError: (e: any) => {
+        trackException(
+          `Error fetching MPT Issuance data for the Vault Asset MPT ID ${asset?.mpt_issuance_id} --- ${JSON.stringify(e)}`,
+        )
+      },
+    },
+  )
+
+  const parsedAssetMptMetadata = parseMPTokenMetadata(
+    vaultAssetMptIssuanceData?.MPTokenMetadata,
+  )
+  const mptTicker = parsedAssetMptMetadata?.ticker as string | undefined
+
   // Returns 'USD' when showing USD values, otherwise the vault's asset currency
   const getDisplayCurrencyLabel = (): string =>
     displayCurrency === 'USD'
       ? 'USD'
-      : getCurrencySymbol(asset?.currency ?? asset?.mpt_issuance_id)
+      : getCurrencySymbol(
+          asset?.currency ?? mptTicker ?? asset?.mpt_issuance_id,
+        )
 
   // Fetch MPTokenIssuance to get the DomainID (vault credential)
   const { data: mptIssuanceData } = useQuery(
@@ -252,6 +277,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                     <Currency
                       currency={
                         asset?.currency ??
+                        mptTicker ??
                         asset?.mpt_issuance_id ??
                         'Unknown Currency Error'
                       }
