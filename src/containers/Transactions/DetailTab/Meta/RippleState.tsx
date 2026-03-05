@@ -4,7 +4,8 @@ import {
   localizeNumber,
   computeRippleStateBalanceChange,
 } from '../../../shared/utils'
-import Currency from '../../../shared/components/Currency'
+import { RouteLink } from '../../../shared/routing'
+import { ENTRY_ROUTE } from '../../../App/routes'
 import type { MetaRenderFunction } from './types'
 
 const render: MetaRenderFunction = (_t, language, action, node, index) => {
@@ -20,11 +21,12 @@ const render: MetaRenderFunction = (_t, language, action, node, index) => {
 
   const line1 = (
     <Trans i18nKey="transaction_balance_line_one">
-      It {action} a{' '}
-      <b>
-        <Currency currency={currency} />
-      </b>
-      RippleState node between
+      It {action} a <b>{currency}</b>
+      RippleState{' '}
+      <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
+        node
+      </RouteLink>{' '}
+      between
       <Account account={account} />
       and
       <Account account={counterAccount} />

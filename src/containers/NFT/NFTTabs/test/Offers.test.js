@@ -74,7 +74,7 @@ describe('NFT Offers container', () => {
     }))
     const { container } = renderOffers()
     expect(container.querySelectorAll('tr').length).toEqual(3)
-    expect(container.querySelectorAll('a').length).toEqual(2)
+    expect(container.querySelectorAll('a').length).toEqual(4)
     expect(container.textContent.includes('0.000043')).toBe(true)
     expect(
       container.textContent.includes(

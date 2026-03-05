@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import { useTranslation } from 'react-i18next'
-import { TFunction } from 'i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import renderAccountRoot from './AccountRoot'
 import renderDirectoryNode from './DirectoryNode'
 import renderOffer from './Offer'
@@ -10,15 +9,23 @@ import renderMPToken from './MPToken'
 import renderMPTokenIssuance from './MPTokenIssuance'
 import { groupAffectedNodes } from '../../../shared/transactionUtils'
 import { useLanguage } from '../../../shared/hooks'
+import { RouteLink } from '../../../shared/routing'
+import { ENTRY_ROUTE } from '../../../App/routes'
 
-const renderDefault = (
-  t: TFunction<'translations', undefined>,
-  action: string,
-  node: any,
-  index: number,
-) => (
+const renderDefault = (action: string, node: any, index: number) => (
   <li key={`${node.LedgerEntryType}_${index}`} className="meta-line">
-    {t('node_meta_type', { action })} <b>{node.LedgerEntryType}</b>
+    <Trans
+      i18nKey="node_meta_type"
+      values={{ action }}
+      components={{
+        Link: (
+          <RouteLink to={ENTRY_ROUTE} params={{ id: node.LedgerIndex }}>
+            {/* The inner text will be replaced by the content of <Link></Link> in translations.json */}
+          </RouteLink>
+        ),
+      }}
+    />{' '}
+    <b>{node.LedgerEntryType}</b>
   </li>
 )
 
@@ -44,7 +51,7 @@ export const TransactionMeta: FC<{ data: any }> = ({ data }) => {
         case 'MPToken':
           return renderMPToken(t, language, action, node, index)
         default:
-          return renderDefault(t, action, node, index)
+          return renderDefault(action, node, index)
       }
     })
 
