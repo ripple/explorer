@@ -122,9 +122,10 @@ export const Vault = () => {
     }
   }, [vaultId, trackScreenLoaded])
 
-  // Set displayCurrency to native currency once vault data loads
+  // Set displayCurrency to native currency once vault data loads,
+  // and update it when the MPIssuance ticker resolves (unless user has toggled to USD)
   useEffect(() => {
-    if (nativeCurrency && !displayCurrency) {
+    if (nativeCurrency && (!displayCurrency || displayCurrency !== 'USD')) {
       setDisplayCurrency(nativeCurrency)
     }
   }, [nativeCurrency]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -186,6 +187,7 @@ export const Vault = () => {
               vaultPseudoAccount={transactionAccountId}
               displayCurrency={displayCurrency || nativeCurrency}
               asset={vaultData.Asset}
+              mptTicker={mptTicker}
             />
           )}
           {/* TODO: Include the VaultDepositors component here once Clio APIs are available */}

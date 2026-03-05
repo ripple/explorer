@@ -35,6 +35,7 @@ interface Props {
   displayCurrency: string
   asset?: AssetInfo
   loans?: any[]
+  mptTicker?: string
 }
 
 export const BrokerDetails = ({
@@ -42,6 +43,7 @@ export const BrokerDetails = ({
   displayCurrency,
   asset,
   loans,
+  mptTicker,
 }: Props) => {
   const { t } = useTranslation()
   const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
@@ -86,7 +88,9 @@ export const BrokerDetails = ({
       return (
         `${parseAmount(finalDisplayAmount, 2)}` +
         ` ${
-          inputAsset?.currency ?? `${shortenMPTID(inputAsset?.mpt_issuance_id)}`
+          inputAsset?.currency ??
+          mptTicker ??
+          `${shortenMPTID(inputAsset?.mpt_issuance_id)}`
         }`
       )
     }
@@ -153,6 +157,7 @@ export const BrokerDetails = ({
         loans={loans}
         currency={
           getCurrencySymbol(asset?.currency) ??
+          mptTicker ??
           shortenMPTID(asset?.mpt_issuance_id)
         }
         displayCurrency={displayCurrency}

@@ -1370,4 +1370,98 @@ describe('BrokerLoansTable Component', () => {
       expect(outstandingBalance).toHaveTextContent(`5,250.00 ${SHORTENED_MPT}`)
     })
   })
+
+  /**
+   * =========================================
+   * SECTION 13: MPT Ticker Display in LoanRow
+   * =========================================
+   * When the vault asset is an MPT with XLS-89 metadata containing a ticker,
+   * the ticker should be used as the currency label in loan amounts instead
+   * of the shortened MPT ID.
+   */
+  describe('MPT Ticker Display in LoanRow', () => {
+    const MPT_ID = '00000001A407AF5856CEFF0100000000000000000000000000000000'
+    const MPT_TICKER = 'VTKN'
+
+    it('displays MPT ticker in amount columns instead of shortened MPT ID', () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_MPT_TICKER',
+          PrincipalOutstanding: '5000',
+          TotalValueOutstanding: '5250',
+        }),
+      ]
+
+      const { container } = render(
+        <TestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency={MPT_TICKER}
+            displayCurrency={MPT_TICKER}
+            asset={{
+              currency: undefined as any,
+              mpt_issuance_id: MPT_ID,
+            }}
+          />
+        </TestWrapper>,
+      )
+
+      const loanRow = container.querySelector('.loan-row')!
+      const amountRequested = loanRow.querySelector('.amount-requested')
+      const outstandingBalance = loanRow.querySelector('.outstanding-balance')
+
+      expect(amountRequested).toHaveTextContent('5,000.00 VTKN')
+      expect(amountRequested).not.toHaveTextContent('00000001A4')
+      expect(outstandingBalance).toHaveTextContent('5,250.00 VTKN')
+      expect(outstandingBalance).not.toHaveTextContent('00000001A4')
+    })
+
+    it('displays ticker in expanded loan detail fees', async () => {
+      const loans = [
+        createMockLoan({
+          index: 'LOAN_MPT_FEES',
+          LoanOriginationFee: '100',
+          LoanServiceFee: '50',
+        }),
+      ]
+
+      const { container } = render(
+        <SocketTestWrapper>
+          <BrokerLoansTable
+            loans={loans}
+            currency={MPT_TICKER}
+            displayCurrency={MPT_TICKER}
+            asset={{
+              currency: undefined as any,
+              mpt_issuance_id: MPT_ID,
+            }}
+          />
+        </SocketTestWrapper>,
+      )
+
+      // Expand the loan row
+      const loanButton = container.querySelector('.loan-row-main')!
+      fireEvent.click(loanButton)
+
+      await waitFor(() => {
+        const details = container.querySelector('.loan-row-details')
+        expect(details).toBeInTheDocument()
+
+        // Fee values should use the ticker
+        const originationFee = screen
+          .getByText('Loan Origination Fee')
+          .closest('.detail-item')
+        expect(
+          originationFee?.querySelector('.detail-value'),
+        ).toHaveTextContent('100.00 VTKN')
+
+        const serviceFee = screen
+          .getByText('Loan Service Fee')
+          .closest('.detail-item')
+        expect(serviceFee?.querySelector('.detail-value')).toHaveTextContent(
+          '50.00 VTKN',
+        )
+      })
+    })
+  })
 })

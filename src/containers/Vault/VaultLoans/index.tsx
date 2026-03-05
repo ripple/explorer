@@ -36,6 +36,7 @@ interface Props {
   vaultPseudoAccount: string
   displayCurrency: string
   asset?: AssetInfo
+  mptTicker?: string
 }
 
 export const VaultLoans = ({
@@ -43,6 +44,7 @@ export const VaultLoans = ({
   vaultPseudoAccount,
   displayCurrency,
   asset,
+  mptTicker,
 }: Props) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
@@ -180,6 +182,7 @@ export const VaultLoans = ({
           displayCurrency={displayCurrency}
           asset={asset}
           loans={brokerLoansMap[selectedBroker.index]}
+          mptTicker={mptTicker}
         />
       )}
     </div>

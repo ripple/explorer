@@ -1020,6 +1020,130 @@ describe('VaultLoans Component', () => {
 
   /**
    * =========================================
+   * SECTION 7.3: BrokerDetails Display with MPT Ticker
+   * =========================================
+   * When the vault asset is an MPT with XLS-89 metadata containing a ticker,
+   * the ticker should be used as the currency label instead of the shortened MPT ID.
+   */
+  describe('BrokerDetails Display with MPT Ticker', () => {
+    const mptIssuanceId = '000086F070A052C270F902E0AD5B795B2DC3C9F4B113E86EF'
+
+    it('displays MPT ticker in debt amounts instead of shortened MPT ID', async () => {
+      const broker = createMockBroker({
+        index: 'BROKER_MPT',
+        VaultID: 'TEST_VAULT_ID',
+        DebtTotal: '50000',
+        DebtMaximum: '1000000',
+      })
+
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker] })
+        .mockResolvedValue({ account_objects: [] })
+
+      const TestWrapper = createTestWrapper(queryClient)
+      render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency="VTKN"
+            asset={{ mpt_issuance_id: mptIssuanceId } as any}
+            mptTicker="VTKN"
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        const totalDebtMetric = screen
+          .getByText('Total Debt')
+          .closest('.debt-metric')
+        const totalDebtValue =
+          totalDebtMetric?.querySelector('.metric-value')?.textContent
+        expect(totalDebtValue).toContain('50.00K VTKN')
+        expect(totalDebtValue).not.toContain('000086F0')
+
+        const maxDebtMetric = screen
+          .getByText('Maximum Debt')
+          .closest('.debt-metric')
+        const maxDebtValue =
+          maxDebtMetric?.querySelector('.metric-value')?.textContent
+        expect(maxDebtValue).toContain('1.00M VTKN')
+        expect(maxDebtValue).not.toContain('000086F0')
+      })
+    })
+
+    it('falls back to shortened MPT ID when ticker is not provided', async () => {
+      const broker = createMockBroker({
+        index: 'BROKER_MPT_3',
+        VaultID: 'TEST_VAULT_ID',
+        DebtTotal: '500',
+      })
+
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker] })
+        .mockResolvedValue({ account_objects: [] })
+
+      const TestWrapper = createTestWrapper(queryClient)
+      render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency={mptIssuanceId}
+            asset={{ mpt_issuance_id: mptIssuanceId } as any}
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        const totalDebtMetric = screen
+          .getByText('Total Debt')
+          .closest('.debt-metric')
+        const metricValue =
+          totalDebtMetric?.querySelector('.metric-value')?.textContent
+
+        // Should contain the shortened MPT ID since no ticker is provided
+        expect(metricValue).toContain('000086F0')
+      })
+    })
+
+    it('displays MPT ticker in first loss capital metric', async () => {
+      const broker = createMockBroker({
+        index: 'BROKER_MPT_4',
+        VaultID: 'TEST_VAULT_ID',
+        CoverAvailable: '25000',
+      })
+
+      mockedGetAccountObjects
+        .mockResolvedValueOnce({ account_objects: [broker] })
+        .mockResolvedValue({ account_objects: [] })
+
+      const TestWrapper = createTestWrapper(queryClient)
+      render(
+        <TestWrapper>
+          <VaultLoans
+            vaultId="TEST_VAULT_ID"
+            vaultPseudoAccount="rTestPseudoAccount"
+            displayCurrency="VTKN"
+            asset={{ mpt_issuance_id: mptIssuanceId } as any}
+            mptTicker="VTKN"
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        const flcMetric = screen
+          .getByText('first-loss capital')
+          .closest('.metric')
+        expect(flcMetric?.querySelector('.metric-value')).toHaveTextContent(
+          '25.00K VTKN',
+        )
+      })
+    })
+  })
+
+  /**
+   * =========================================
    * SECTION 8: Error Handling Tests
    * =========================================
    * When API calls fail, errors should be tracked.
