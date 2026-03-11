@@ -10,20 +10,9 @@ import { Loader } from '../shared/components/Loader'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import HoverIcon from '../shared/images/hover.svg'
 import { useAnalytics } from '../shared/analytics'
+import type { VaultData } from './types'
 
-export interface VaultData {
-  vault_id: string
-  name: string
-  asset_currency: string
-  asset_issuer: string
-  asset_issuer_name: string
-  tvl_usd: number
-  outstanding_loans_usd: number
-  utilization_ratio: number
-  avg_interest_rate: number
-  website: string
-  asset_category: string
-}
+export type { VaultData }
 
 interface VaultsMetrics {
   total_value_locked: number

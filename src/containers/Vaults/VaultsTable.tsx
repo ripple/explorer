@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { Loader } from '../shared/components/Loader'
-import { VaultData } from './index'
-import { parseCurrencyAmount, parsePercent } from '../shared/NumberFormattingUtils'
+import type { VaultData } from './types'
+import {
+  parseCurrencyAmount,
+  parsePercent,
+} from '../shared/NumberFormattingUtils'
 import { shortenAccount } from '../shared/utils'
 import ExternalLink from '../shared/images/external_link.svg'
 import ArrowIcon from '../shared/images/down_arrow.svg'
@@ -71,17 +74,27 @@ export const VaultsTable = ({
     <tr key={vault.vault_id}>
       <td className="rank">{vault.index}</td>
       <td className="vault-id">
-        <span className="green-link vault-id-long">{shortenAccount(vault.vault_id)}</span>
-        <span className="green-link vault-id-short">{shortenVaultIdShort(vault.vault_id)}</span>
+        <span className="green-link vault-id-long">
+          {shortenAccount(vault.vault_id)}
+        </span>
+        <span className="green-link vault-id-short">
+          {shortenVaultIdShort(vault.vault_id)}
+        </span>
       </td>
       <td className="name text-truncate">{vault.name}</td>
       <td className="asset text-truncate">
-        <span className={vault.asset_currency === 'XRP' ? 'green-link' : 'green-link'}>
+        <span
+          className={
+            vault.asset_currency === 'XRP' ? 'green-link' : 'green-link'
+          }
+        >
           {formatAssetDisplay(vault)}
         </span>
       </td>
       <td className="tvl right">
-        {vault.tvl_usd ? parseCurrencyAmount(vault.tvl_usd) : DEFAULT_EMPTY_VALUE}
+        {vault.tvl_usd
+          ? parseCurrencyAmount(vault.tvl_usd)
+          : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="outstanding-loans right">
         {vault.outstanding_loans_usd != null
@@ -126,9 +139,18 @@ export const VaultsTable = ({
               <th className="name-col">{t('name')}</th>
               <th className="asset">{t('vaults_table_asset')}</th>
               {renderSortHeader('tvl_usd', t('vaults_table_tvl'))}
-              {renderSortHeader('outstanding_loans_usd', t('vaults_table_outstanding_loans'))}
-              {renderSortHeader('utilization_ratio', t('vaults_table_utilization_ratio'))}
-              {renderSortHeader('avg_interest_rate', t('vaults_table_avg_interest_rate'))}
+              {renderSortHeader(
+                'outstanding_loans_usd',
+                t('vaults_table_outstanding_loans'),
+              )}
+              {renderSortHeader(
+                'utilization_ratio',
+                t('vaults_table_utilization_ratio'),
+              )}
+              {renderSortHeader(
+                'avg_interest_rate',
+                t('vaults_table_avg_interest_rate'),
+              )}
               <th className="website">{t('vaults_table_website')}</th>
             </tr>
           </thead>
