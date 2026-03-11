@@ -1,7 +1,7 @@
 import { TxLabel } from '../TxLabel'
 import { TxStatus } from '../TxStatus'
 import { TxDetails } from '../TxDetails'
-import { localizeDate } from '../../utils'
+import { localizeDate, shortenTxHash } from '../../utils'
 import './styles.scss'
 import { useLanguage } from '../../hooks'
 import TxToken from '../TxToken'
@@ -23,9 +23,14 @@ const DATE_OPTIONS = {
 export interface Props {
   tx: any
   hasTokensColumn?: boolean
+  hasHashColumn?: boolean
 }
 
-export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
+export const TransactionTableRow = ({
+  tx,
+  hasTokensColumn,
+  hasHashColumn,
+}: Props) => {
   const language = useLanguage()
   const success = tx.result === 'tesSUCCESS'
   const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
@@ -42,6 +47,11 @@ export const TransactionTableRow = ({ tx, hasTokensColumn }: Props) => {
         className="mask-overlay"
       />
       <div className="upper">
+        {hasHashColumn && (
+          <div className="col col-hash" title={tx.hash}>
+            {shortenTxHash(tx.hash)}
+          </div>
+        )}
         {hasTokensColumn && (
           <div className="col col-token">
             <TxToken tx={tx} />

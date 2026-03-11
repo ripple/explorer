@@ -4,6 +4,7 @@ import { TransactionTableDetailProps } from '../types'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
+import { shortenVaultID } from '../../../utils'
 
 export const TableDetail = ({
   instructions,
@@ -18,7 +19,7 @@ export const TableDetail = ({
       <span className="label">{t('withdraws')}</span>
       <Amount value={formatAmount(amount)} />
       <span>{`${t('from')} ${t('vault_id')}`}</span>
-      <b>{vaultId}</b>
+      <b>{shortenVaultID(vaultId)}</b>
       {destination && (
         <>
           <span>${t('to')}</span> <Account account={destination} />

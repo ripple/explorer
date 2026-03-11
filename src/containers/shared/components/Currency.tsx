@@ -1,5 +1,6 @@
 import { RouteLink } from '../routing'
 import { TOKEN_ROUTE, MPT_ROUTE } from '../../App/routes'
+import { shortenMPTID } from '../utils'
 
 // https://xrpl.org/currency-formats.html#nonstandard-currency-codes
 const NON_STANDARD_CODE_LENGTH = 40
@@ -14,6 +15,8 @@ export interface Props {
   shortenIssuer?: boolean
   displaySymbol?: boolean
   isMPT?: boolean
+  hideIssuer?: boolean
+  shortenMPTIssuanceID?: boolean
 }
 
 /*
@@ -28,11 +31,13 @@ const Currency = (props: Props) => {
     shortenIssuer = false,
     displaySymbol = true,
     isMPT = false,
+    hideIssuer = false,
+    shortenMPTIssuanceID = false,
   } = props
   let content: string
 
   if (isMPT) {
-    const display = `MPT (${currency})`
+    const display = `${shortenMPTIssuanceID ? shortenMPTID(currency) : currency}`
     if (link)
       return (
         <RouteLink
@@ -65,7 +70,7 @@ const Currency = (props: Props) => {
       display = `\uE900 ${display}`
     }
 
-    if (issuer) {
+    if (issuer && !hideIssuer) {
       display += '.'
       display += shortenIssuer ? issuer.substring(0, 4) : issuer
     }

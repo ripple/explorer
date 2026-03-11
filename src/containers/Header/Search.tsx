@@ -19,7 +19,7 @@ import {
   HASH192_REGEX,
 } from '../shared/utils'
 import './search.scss'
-import { getTransaction } from '../../rippled/lib/rippled'
+import { getTransaction, getVault } from '../../rippled/lib/rippled'
 import { buildPath } from '../shared/routing'
 import {
   ACCOUNT_ROUTE,
@@ -29,6 +29,7 @@ import {
   TRANSACTION_ROUTE,
   VALIDATOR_ROUTE,
   MPT_ROUTE,
+  VAULT_ROUTE,
 } from '../App/routes'
 import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSearchResults'
 
@@ -39,6 +40,13 @@ const determineHashType = async (
   try {
     await getTransaction(rippledContext, id)
     return 'transactions'
+  } catch (e) {
+    // This ledger-index does not correspond to a transaction
+  }
+
+  try {
+    await getVault(rippledContext, id)
+    return 'vault'
   } catch (e) {
     return 'nft'
   }
@@ -64,7 +72,7 @@ const getRoute = async (
     }
   }
   if (HASH256_REGEX.test(id)) {
-    // Transactions and NFTs share the same syntax
+    // Transactions, NFTs and Vaults share the same syntax
     // We must make an api call to ensure if it's one or the other
     const type = await determineHashType(id, rippledContext)
     let path
@@ -72,6 +80,8 @@ const getRoute = async (
       path = buildPath(TRANSACTION_ROUTE, { identifier: id.toUpperCase() })
     } else if (type === 'nft') {
       path = buildPath(NFT_ROUTE, { id: id.toUpperCase() })
+    } else if (type === 'vault') {
+      path = buildPath(VAULT_ROUTE, { id: id.toUpperCase() })
     }
 
     return {

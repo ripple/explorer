@@ -92,7 +92,7 @@ describe('Currency', () => {
     const mpt = screen.getByTestId('currency')
 
     expect(mpt).toHaveTextContent(
-      'MPT (00000BDE5B4F868ECE457207E2C1750065987730B8839E0D)',
+      '00000BDE5B4F868ECE457207E2C1750065987730B8839E0D',
     )
     expect(mpt).toHaveAttribute(
       'href',

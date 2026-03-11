@@ -141,7 +141,7 @@ describe('Payment: Simple', () => {
     expectSimpleRowText(
       container,
       'amount',
-      `0.1 MPT (000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F)`,
+      `0.1 000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F`,
     )
     expectSimpleRowLabel(container, 'amount', `send`)
 

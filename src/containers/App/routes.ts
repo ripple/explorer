@@ -78,3 +78,9 @@ export const MPT_ROUTE: RouteDefinition<{
 }> = {
   path: '/mpt/:id',
 }
+
+export const VAULT_ROUTE: RouteDefinition<{
+  id: string
+}> = {
+  path: '/vault/:id',
+}

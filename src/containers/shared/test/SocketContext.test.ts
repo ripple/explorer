@@ -22,6 +22,8 @@ describe('getSocket', () => {
       process.env.VITE_RIPPLED_HOST = 'somewhere.com'
       process.env.VITE_P2P_RIPPLED_HOST = 'cli-somewhere.com'
       process.env.VITE_RIPPLED_WS_PORT = '51233'
+      delete process.env.VITE_INSECURE_WS
+      delete process.env.VITE_ENVIRONMENT
     })
 
     it('should instantiate with environment variables', () => {
@@ -92,6 +94,8 @@ describe('getSocket', () => {
       delete process.env.VITE_RIPPLED_HOST
       delete process.env.VITE_P2P_RIPPLED_HOST
       process.env.VITE_RIPPLED_WS_PORT = '51233'
+      delete process.env.VITE_INSECURE_WS
+      delete process.env.VITE_ENVIRONMENT
     })
 
     it('should use ignore VITE_RIPPLED_WS_PORT when supplied entry point has a port', () => {
