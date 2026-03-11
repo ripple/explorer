@@ -35,6 +35,10 @@
   .details-column {
     min-width: 0;
     flex: 1;
+
+    .token-table {
+      margin-top: 0;
+    }
   }
 }
 
