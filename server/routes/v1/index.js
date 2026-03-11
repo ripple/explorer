@@ -2,6 +2,7 @@ const api = require('express').Router()
 const getHealth = require('./health')
 const getCurrentMetrics = require('./currentMetrics')
 const { getTokensSearch, getAllTokens } = require('./tokens')
+const { getVaults, getVaultsAggregateStats } = require('./vaults')
 
 api.use('/healthz', (_req, res) => {
   res.status(200).send('success')
@@ -12,6 +13,8 @@ if (process.env.VITE_ENVIRONMENT !== 'custom') {
   api.use('/metrics', getCurrentMetrics)
   api.use('/tokens/search/:query', getTokensSearch)
   api.use('/tokens', getAllTokens)
+  api.get('/vaults/aggregate-statistics', getVaultsAggregateStats)
+  api.get('/vaults', getVaults)
 }
 
 module.exports = api

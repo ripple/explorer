@@ -65,11 +65,9 @@ export const fetchVaultsList = (params: {
   }
 
   return axios
-    .get(`${process.env.VITE_LOS_URL}/vaults?${queryParams.toString()}`)
+    .get(`/api/v1/vaults?${queryParams.toString()}`)
     .then((resp) => resp.data)
 }
 
 export const fetchVaultsAggregateStats = (): Promise<VaultsMetrics> =>
-  axios
-    .get(`${process.env.VITE_LOS_URL}/vaults/aggregate-statistics`)
-    .then((resp) => resp.data)
+  axios.get('/api/v1/vaults/aggregate-statistics').then((resp) => resp.data)
