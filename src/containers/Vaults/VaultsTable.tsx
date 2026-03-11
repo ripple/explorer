@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Loader } from '../shared/components/Loader'
+import { RouteLink } from '../shared/routing'
+import { TOKEN_ROUTE } from '../App/routes'
 import type { VaultData } from './types'
 import {
   parseCurrencyAmount,
@@ -83,13 +85,19 @@ export const VaultsTable = ({
       </td>
       <td className="name text-truncate">{vault.name}</td>
       <td className="asset text-truncate">
-        <span
-          className={
-            vault.asset_currency === 'XRP' ? 'green-link' : 'green-link'
-          }
-        >
-          {formatAssetDisplay(vault)}
-        </span>
+        {vault.asset_currency !== 'XRP' && vault.asset_issuer ? (
+          <RouteLink
+            to={TOKEN_ROUTE}
+            params={{
+              token: `${vault.asset_currency}.${vault.asset_issuer}`,
+            }}
+            className="green-link"
+          >
+            {formatAssetDisplay(vault)}
+          </RouteLink>
+        ) : (
+          <span>{formatAssetDisplay(vault)}</span>
+        )}
       </td>
       <td className="tvl right">
         {vault.tvl_usd

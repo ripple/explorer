@@ -38,7 +38,6 @@
       margin-bottom: 12px;
       background-color: $black-80;
       gap: 6px;
-      white-space: nowrap;
 
       .title {
         display: flex;
@@ -47,7 +46,6 @@
         gap: 8px;
         line-height: 150%;
         text-transform: uppercase;
-        white-space: nowrap;
         @include semibold;
 
         .hover {
@@ -130,6 +128,11 @@
       background-image: url('../shared/images/search.svg');
       background-repeat: no-repeat;
       background-size: contain;
+    }
+
+    &:hover,
+    &:focus-within {
+      background-color: rgba($black-80, 0.5);
     }
 
     &:focus-within {
