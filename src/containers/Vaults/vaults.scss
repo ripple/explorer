@@ -1,0 +1,315 @@
+@use '../shared/css/variables' as *;
+@use '../shared/css/table';
+
+.vaults-page {
+  overflow: visible;
+  width: 100%;
+  max-width: 1500px;
+  min-height: 150px;
+  margin: auto;
+  margin-top: 40px;
+
+  .text-truncate {
+    @extend %truncate;
+  }
+
+  .type {
+    display: inline-block;
+    margin-bottom: 80px;
+    margin-left: 24px;
+    color: $white;
+    font-size: 32px;
+    @include bold;
+  }
+
+  .metrics-wrapper {
+    padding: 16px 16px 4px;
+    border: 1px solid $black-60;
+    margin-right: 24px;
+    margin-bottom: 40px;
+    margin-left: 24px;
+    background-color: $black-80;
+    font-size: 12px;
+
+    .metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      background-color: $black-80;
+      gap: 6px;
+      white-space: nowrap;
+
+      .title {
+        display: flex;
+        align-items: center;
+        color: $black-40;
+        gap: 8px;
+        line-height: 150%;
+        text-transform: uppercase;
+        white-space: nowrap;
+        @include semibold;
+      }
+
+      .val {
+        color: $white;
+        font-size: 18px;
+        @include bold;
+      }
+    }
+  }
+
+  .vaults-controls {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+    margin-left: 24px;
+    gap: 16px;
+  }
+
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+
+    .filter-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      background-image: url('../shared/images/group.svg');
+    }
+
+    .filter-field {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      padding: 6px 12px;
+      border: 1px solid $black-50;
+      border-radius: $border-radius;
+      background-color: $black;
+      color: $white;
+      cursor: pointer;
+      font-size: 12px;
+      gap: 8px;
+      @include medium;
+
+      &:hover {
+        background-color: $black-70;
+      }
+
+      &.selected {
+        background-color: $white;
+        color: $black;
+
+        &:hover {
+          color: $black;
+        }
+      }
+    }
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border: 1px solid $black-50;
+    border-radius: $border-radius;
+    gap: 16px;
+
+    .search-icon {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+      background-image: url('../shared/images/search.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: $white;
+      font-size: 14px;
+      letter-spacing: 0.14px;
+      outline: none;
+
+      &::placeholder {
+        color: $black-50;
+      }
+    }
+  }
+
+  .vaults-table {
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table.basic {
+      font-size: 14px;
+
+      th {
+        font-size: 12px;
+        @include semibold;
+
+        &.rank {
+          width: 40px;
+        }
+
+        &.vault-id {
+          width: 120px;
+        }
+
+        &.name-col {
+          width: 160px;
+        }
+
+        &.asset {
+          width: 144px;
+        }
+
+        &.tvl_usd,
+        &.outstanding_loans_usd,
+        &.utilization_ratio,
+        &.avg_interest_rate {
+          text-align: right;
+        }
+
+        &.website {
+          width: 64px;
+        }
+      }
+
+      td {
+        &.rank {
+          width: 40px;
+        }
+
+        &.vault-id {
+          width: 120px;
+        }
+
+        &.name {
+          max-width: 160px;
+        }
+
+        &.asset {
+          max-width: 144px;
+        }
+
+        &.website {
+          width: 64px;
+        }
+      }
+    }
+
+    .green-link {
+      color: $green-30;
+      cursor: pointer;
+    }
+
+    .website-link {
+      display: inline-flex;
+      align-items: center;
+      color: $green-30;
+
+      &::after {
+        content: none !important;
+      }
+    }
+
+    .external-link-icon {
+      width: 15px;
+      height: 15px;
+
+      path {
+        fill: $green-30;
+      }
+    }
+  }
+
+  .footnote {
+    padding: 24px 0;
+    color: $black-40;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  @include for-size(tablet-landscape-up) {
+    padding-right: 24px;
+    padding-left: 24px;
+
+    .type {
+      margin-left: 0;
+    }
+
+    .metrics-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      border: none;
+      margin-right: 0;
+      margin-left: 0;
+      background-color: transparent;
+      gap: 32px;
+
+      .metric {
+        display: block !important;
+        flex: 1 1 calc(33.333% - 32px);
+        min-width: 200px;
+        padding: 14px 20px;
+        border-radius: $border-radius;
+        margin-bottom: 0;
+        background-color: $black-80;
+
+        .title {
+          margin-bottom: 6px;
+          font-size: 14px;
+        }
+
+        .val {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .vaults-controls {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 0;
+    }
+
+    .search-bar {
+      width: 400px;
+    }
+
+    table.basic {
+      font-size: 14px;
+    }
+  }
+
+  @include for-size(desktop-up) {
+    padding-right: 150px;
+    padding-left: 150px;
+    margin: auto;
+    margin-top: 100px;
+
+    .type {
+      margin-left: auto;
+      font-size: 42px;
+    }
+
+    .filter {
+      .filter-field {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+    }
+
+    .footnote {
+      font-size: 14px;
+    }
+  }
+}

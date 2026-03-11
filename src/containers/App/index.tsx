@@ -29,6 +29,7 @@ import {
   VALIDATORS_ROUTE,
   UPGRADE_STATUS_ROUTE,
   TOKENS_ROUTE,
+  VAULTS_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
@@ -48,6 +49,7 @@ import { UpgradeStatus } from '../Network/UpgradeStatus'
 import { Tokens } from '../Tokens'
 import { TokenNonMain } from '../TokenNonMain'
 import { Vault } from '../Vault'
+import { Vaults } from '../Vaults'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -85,6 +87,7 @@ export const AppWrapper = () => {
     [AMENDMENT_ROUTE, Amendment],
     [MPT_ROUTE, MPT],
     [VAULT_ROUTE, Vault],
+    [VAULTS_ROUTE, Vaults],
   ]
 
   const redirect = legacyRedirect(basename, location)
