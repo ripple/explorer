@@ -49,6 +49,12 @@
         text-transform: uppercase;
         white-space: nowrap;
         @include semibold;
+
+        .hover {
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+        }
       }
 
       .val {
@@ -124,6 +130,10 @@
       background-image: url('../shared/images/search.svg');
       background-repeat: no-repeat;
       background-size: contain;
+    }
+
+    &:focus-within {
+      border-color: $blue-purple-40;
     }
 
     input {
