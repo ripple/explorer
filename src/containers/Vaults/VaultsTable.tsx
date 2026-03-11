@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { Loader } from '../shared/components/Loader'
-import SortTableColumn from '../shared/components/SortColumn'
 import { VaultData } from './index'
 import { parseCurrencyAmount, parsePercent } from '../shared/NumberFormattingUtils'
 import { shortenAccount } from '../shared/utils'
 import ExternalLink from '../shared/images/external_link.svg'
+import ArrowIcon from '../shared/images/down_arrow.svg'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -18,6 +18,9 @@ interface VaultsTableProps {
 }
 
 const DEFAULT_EMPTY_VALUE = '--'
+
+const shortenVaultIdShort = (id: string): string =>
+  id.length > 10 ? `${id.slice(0, 5)}...${id.slice(-3)}` : id
 
 const formatAssetDisplay = (vault: VaultData): string => {
   if (vault.asset_currency === 'XRP') return 'XRP'
@@ -37,11 +40,39 @@ export const VaultsTable = ({
 }: VaultsTableProps) => {
   const { t } = useTranslation()
 
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortOrder('desc')
+    }
+    setPage(1)
+  }
+
+  const renderSortHeader = (field: string, label: string) => {
+    const isActive = sortField === field
+    return (
+      <th
+        className={`${field} sortable ${isActive ? 'active' : ''}`}
+        onClick={() => handleSort(field)}
+      >
+        <span className="sort-header">
+          {label}
+          <ArrowIcon
+            className={`arrow ${isActive && sortOrder === 'asc' ? 'asc' : 'desc'}`}
+          />
+        </span>
+      </th>
+    )
+  }
+
   const renderVaultRow = (vault: VaultData & { index: number }) => (
     <tr key={vault.vault_id}>
       <td className="rank">{vault.index}</td>
-      <td className="vault-id text-truncate">
-        <span className="green-link">{shortenAccount(vault.vault_id)}</span>
+      <td className="vault-id">
+        <span className="green-link vault-id-long">{shortenAccount(vault.vault_id)}</span>
+        <span className="green-link vault-id-short">{shortenVaultIdShort(vault.vault_id)}</span>
       </td>
       <td className="name text-truncate">{vault.name}</td>
       <td className="asset text-truncate">
@@ -94,42 +125,10 @@ export const VaultsTable = ({
               <th className="vault-id">{t('vaults_table_vault_id')}</th>
               <th className="name-col">{t('name')}</th>
               <th className="asset">{t('vaults_table_asset')}</th>
-              <SortTableColumn
-                field="tvl_usd"
-                label={t('vaults_table_tvl')}
-                sortField={sortField}
-                setSortField={setSortField}
-                sortOrder={sortOrder}
-                setSortOrder={setSortOrder}
-                setPage={setPage}
-              />
-              <SortTableColumn
-                field="outstanding_loans_usd"
-                label={t('vaults_table_outstanding_loans')}
-                sortField={sortField}
-                setSortField={setSortField}
-                sortOrder={sortOrder}
-                setSortOrder={setSortOrder}
-                setPage={setPage}
-              />
-              <SortTableColumn
-                field="utilization_ratio"
-                label={t('vaults_table_utilization_ratio')}
-                sortField={sortField}
-                setSortField={setSortField}
-                sortOrder={sortOrder}
-                setSortOrder={setSortOrder}
-                setPage={setPage}
-              />
-              <SortTableColumn
-                field="avg_interest_rate"
-                label={t('vaults_table_avg_interest_rate')}
-                sortField={sortField}
-                setSortField={setSortField}
-                sortOrder={sortOrder}
-                setSortOrder={setSortOrder}
-                setPage={setPage}
-              />
+              {renderSortHeader('tvl_usd', t('vaults_table_tvl'))}
+              {renderSortHeader('outstanding_loans_usd', t('vaults_table_outstanding_loans'))}
+              {renderSortHeader('utilization_ratio', t('vaults_table_utilization_ratio'))}
+              {renderSortHeader('avg_interest_rate', t('vaults_table_avg_interest_rate'))}
               <th className="website">{t('vaults_table_website')}</th>
             </tr>
           </thead>

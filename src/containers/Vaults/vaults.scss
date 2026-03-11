@@ -142,8 +142,9 @@
       background: transparent;
       color: $white;
       font-size: 14px;
+      line-height: 24px;
       letter-spacing: 0.14px;
-      outline: none;
+      outline: none !important;
 
       &::placeholder {
         color: $black-50;
@@ -157,6 +158,8 @@
     }
 
     table.basic {
+      min-width: 900px;
+      table-layout: fixed;
       font-size: 14px;
 
       th {
@@ -164,52 +167,82 @@
         @include semibold;
 
         &.rank {
-          width: 40px;
+          width: 3%;
         }
 
         &.vault-id {
-          width: 120px;
+          width: 13%;
         }
 
         &.name-col {
-          width: 160px;
+          width: 15%;
         }
 
         &.asset {
-          width: 144px;
+          width: 13%;
         }
 
         &.tvl_usd,
         &.outstanding_loans_usd,
         &.utilization_ratio,
         &.avg_interest_rate {
+          width: 11%;
           text-align: right;
         }
 
         &.website {
-          width: 64px;
+          width: 6%;
+          text-align: center;
+        }
+
+        &.sortable {
+          cursor: pointer;
+
+          .sort-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            vertical-align: middle;
+
+            .arrow {
+              width: 12px;
+              height: 12px;
+              opacity: 0.4;
+
+              &.asc {
+                transform: rotate(180deg);
+              }
+            }
+          }
+
+          &.active {
+            color: $white;
+
+            .arrow {
+              opacity: 1;
+            }
+          }
         }
       }
 
       td {
-        &.rank {
-          width: 40px;
+        &.name,
+        &.asset {
+          @extend %truncate;
         }
 
         &.vault-id {
-          width: 120px;
-        }
+          .vault-id-long {
+            display: none;
+          }
 
-        &.name {
-          max-width: 160px;
-        }
-
-        &.asset {
-          max-width: 144px;
+          .vault-id-short {
+            display: inline;
+          }
         }
 
         &.website {
-          width: 64px;
+          text-align: center;
         }
       }
     }
@@ -297,6 +330,16 @@
 
     table.basic {
       font-size: 14px;
+    }
+
+    .vaults-table table.basic td.vault-id {
+      .vault-id-long {
+        display: inline;
+      }
+
+      .vault-id-short {
+        display: none;
+      }
     }
   }
 
