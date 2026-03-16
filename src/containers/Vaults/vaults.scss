@@ -113,6 +113,38 @@
     }
   }
 
+  .controls-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .refresh-button {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid $black-50;
+    border-radius: $border-radius;
+    background-color: transparent;
+    color: $white;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: rgba($black-80, 0.5);
+    }
+
+    &:active {
+      background-color: $black-70;
+    }
+  }
+
   .search-bar {
     display: flex;
     align-items: center;
@@ -152,6 +184,23 @@
       &::placeholder {
         color: $black-50;
       }
+    }
+  }
+
+  .vaults-table-section {
+    position: relative;
+
+    .table-loader-overlay {
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba($black, 0.5);
     }
   }
 
@@ -327,7 +376,7 @@
       margin-left: 0;
     }
 
-    .search-bar {
+    .controls-right .search-bar {
       width: 400px;
     }
 

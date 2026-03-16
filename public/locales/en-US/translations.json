@@ -879,5 +879,6 @@
   "vaults_table_utilization_ratio": "Utilization Ratio",
   "vaults_table_avg_interest_rate": "Avg. Interest Rate",
   "vaults_table_website": "Website",
+  "vaults_no_results": "No vaults found.",
   "vaults_disclaimer": "Only vaults utilizing Trust Level 3 assets (based on the XRPL Meta Trust Score) are displayed. All USD values are calculated using verified prices from these reputable assets."
 }

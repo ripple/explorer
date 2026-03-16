@@ -17,6 +17,10 @@ const getVaults = async (req, res) => {
     log.info(`Fetching vaults from: ${url}`)
 
     const resp = await axios.get(url, { timeout: 30000 })
+    console.log(
+      '[LOS] GET /vaults response:',
+      JSON.stringify(resp.data, null, 2),
+    )
     return res.status(200).json(resp.data)
   } catch (error) {
     log.error('Failed to fetch vaults:', error.message)
@@ -32,6 +36,10 @@ const getVaultsAggregateStats = async (_req, res) => {
     log.info(`Fetching vault aggregate stats from: ${url}`)
 
     const resp = await axios.get(url, { timeout: 30000 })
+    console.log(
+      '[LOS] GET /vaults/aggregate-statistics response:',
+      JSON.stringify(resp.data, null, 2),
+    )
     return res.status(200).json(resp.data)
   } catch (error) {
     log.error('Failed to fetch vault aggregate stats:', error.message)

@@ -20,6 +20,7 @@ interface VaultsTableProps {
   setSortField: (field: string) => void
   setSortOrder: (order: SortOrder) => void
   setPage: (page: number) => void
+  xrpToUSDRate: number
 }
 
 const DEFAULT_EMPTY_VALUE = '--'
@@ -35,6 +36,9 @@ const formatAssetDisplay = (vault: VaultData): string => {
   return `${vault.asset_currency} (${issuerDisplay})`
 }
 
+const toUsd = (vault: VaultData, amount: number, xrpToUSDRate: number): number =>
+  vault.asset_currency === 'XRP' ? amount * xrpToUSDRate : amount
+
 export const VaultsTable = ({
   vaults,
   sortField,
@@ -42,6 +46,7 @@ export const VaultsTable = ({
   sortOrder,
   setSortOrder,
   setPage,
+  xrpToUSDRate,
 }: VaultsTableProps) => {
   const { t } = useTranslation()
 
@@ -76,12 +81,12 @@ export const VaultsTable = ({
     <tr key={vault.vault_id}>
       <td className="rank">{vault.index}</td>
       <td className="vault-id">
-        <span className="green-link vault-id-long">
+        <a href={`/vault/${vault.vault_id}`} className="green-link vault-id-long">
           {shortenAccount(vault.vault_id)}
-        </span>
-        <span className="green-link vault-id-short">
+        </a>
+        <a href={`/vault/${vault.vault_id}`} className="green-link vault-id-short">
           {shortenVaultIdShort(vault.vault_id)}
-        </span>
+        </a>
       </td>
       <td className="name text-truncate">{vault.name}</td>
       <td className="asset text-truncate">
@@ -101,12 +106,12 @@ export const VaultsTable = ({
       </td>
       <td className="tvl right">
         {vault.tvl_usd
-          ? parseCurrencyAmount(vault.tvl_usd)
+          ? parseCurrencyAmount(toUsd(vault, vault.tvl_usd, xrpToUSDRate))
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="outstanding-loans right">
         {vault.outstanding_loans_usd != null
-          ? parseCurrencyAmount(vault.outstanding_loans_usd)
+          ? parseCurrencyAmount(toUsd(vault, vault.outstanding_loans_usd, xrpToUSDRate))
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="utilization right">
@@ -122,7 +127,7 @@ export const VaultsTable = ({
       <td className="website">
         {vault.website ? (
           <a
-            href={vault.website}
+            href={vault.website.match(/^https?:\/\//) ? vault.website : `https://${vault.website}`}
             target="_blank"
             rel="noopener noreferrer"
             className="website-link"
@@ -136,7 +141,7 @@ export const VaultsTable = ({
     </tr>
   )
 
-  return vaults.length > 0 ? (
+  return (
     <div className="vaults-table">
       <div className="table-wrap">
         <table className="basic">
@@ -162,11 +167,19 @@ export const VaultsTable = ({
               <th className="website">{t('vaults_table_website')}</th>
             </tr>
           </thead>
-          <tbody>{vaults.map(renderVaultRow)}</tbody>
+          <tbody>
+            {vaults.length > 0 ? (
+              vaults.map(renderVaultRow)
+            ) : (
+              <tr>
+                <td colSpan={9} className="empty-message">
+                  {t('vaults_no_results')}
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
     </div>
-  ) : (
-    <Loader />
   )
 }

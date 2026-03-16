@@ -10,6 +10,7 @@ import { Loader } from '../shared/components/Loader'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import HoverIcon from '../shared/images/hover.svg'
 import { useAnalytics } from '../shared/analytics'
+import { useXRPToUSDRate } from '../shared/hooks/useXRPToUSDRate'
 import type { VaultData } from './types'
 import { fetchVaultsList, fetchVaultsAggregateStats } from './api'
 import type { VaultsMetrics, VaultsListResponse } from './api'
@@ -33,12 +34,15 @@ export const Vaults = () => {
 
   const { t } = useTranslation()
   const { trackScreenLoaded, trackException } = useAnalytics()
+  const xrpToUSDRate = useXRPToUSDRate()
 
   const [metrics, setMetrics] = useState<VaultsMetrics | null>(null)
   const [vaultsResponse, setVaultsResponse] =
     useState<VaultsListResponse | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [metricsLoading, setMetricsLoading] = useState(true)
+  const [tableLoading, setTableLoading] = useState(true)
+  const [initialLoaded, setInitialLoaded] = useState(false)
+  const metricsLoadedRef = useRef(false)
+  const tableLoadedRef = useRef(false)
 
   const searchTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
@@ -46,17 +50,25 @@ export const Vaults = () => {
     trackScreenLoaded()
   }, [trackScreenLoaded])
 
+  const markInitialLoaded = () => {
+    if (metricsLoadedRef.current && tableLoadedRef.current) {
+      setInitialLoaded(true)
+    }
+  }
+
   // Fetch aggregate stats once on mount
   useEffect(() => {
     fetchVaultsAggregateStats()
       .then((data) => {
         setMetrics(data)
-        setMetricsLoading(false)
+        metricsLoadedRef.current = true
+        markInitialLoaded()
       })
       .catch((error) => {
         Log.error(error)
         trackException(`vaults stats fetch --- ${JSON.stringify(error)}`)
-        setMetricsLoading(false)
+        metricsLoadedRef.current = true
+        markInitialLoaded()
       })
   }, [trackException])
 
@@ -79,7 +91,7 @@ export const Vaults = () => {
 
   // Fetch vaults list whenever params change
   const fetchVaults = useCallback(() => {
-    setLoading(true)
+    setTableLoading(true)
     fetchVaultsList({
       page,
       size: PAGE_SIZE,
@@ -90,12 +102,16 @@ export const Vaults = () => {
     })
       .then((data) => {
         setVaultsResponse(data)
-        setLoading(false)
+        setTableLoading(false)
+        tableLoadedRef.current = true
+        markInitialLoaded()
       })
       .catch((error) => {
         Log.error(error)
         trackException(`vaults list fetch --- ${JSON.stringify(error)}`)
-        setLoading(false)
+        setTableLoading(false)
+        tableLoadedRef.current = true
+        markInitialLoaded()
       })
   }, [page, sortField, sortOrder, filterField, debouncedSearch, trackException])
 
@@ -151,66 +167,72 @@ export const Vaults = () => {
     setPage(1)
   }
 
+  if (!initialLoaded) {
+    return (
+      <div className="vaults-page">
+        <Helmet title={t('vaults')} />
+        <div className="type">{t('vaults')}</div>
+        <Loader />
+      </div>
+    )
+  }
+
   return (
     <div className="vaults-page">
       <Helmet title={t('vaults')} />
       <Tooltip tooltip={tooltip} />
       <div className="type">{t('vaults')}</div>
-      {metricsLoading ? (
-        <Loader />
-      ) : (
-        metrics && (
-          <div className="metrics-wrapper">
-            <div className="metric">
-              <div className="title">
-                <span>{t('vaults_tvl')}</span>
-                {renderTextTooltip('vaults_tvl')}
-              </div>
-              <div className="val">
-                {parseCurrencyAmount(metrics.tvl_total)}
-              </div>
+      {metrics && (
+        <div className="metrics-wrapper">
+          <div className="metric">
+            <div className="title">
+              <span>{t('vaults_tvl')}</span>
+              {renderTextTooltip('vaults_tvl')}
             </div>
-            <div className="metric">
-              <div className="title">
-                <span>{t('vaults_outstanding_loans')}</span>
-                {renderTextTooltip('vaults_outstanding_loans')}
-              </div>
-              <div className="val">
-                {parseCurrencyAmount(metrics.debt_total)}
-              </div>
-            </div>
-            <div className="metric">
-              <div className="title">
-                <span>{t('vaults_loans_originated')}</span>
-                {renderTextTooltip('vaults_loans_originated')}
-              </div>
-              <div className="val">
-                {parseCurrencyAmount(metrics.loans_originated)}
-              </div>
-            </div>
-            <div className="metric">
-              <div className="title">
-                <span>{t('vaults_avg_interest_rate')}</span>
-                {renderTextTooltip('vaults_avg_interest_rate')}
-              </div>
-              <div className="val">{metrics.avg_interest_rate.toFixed(1)}%</div>
-            </div>
-            <div className="metric">
-              <div className="title">
-                <span>{t('vaults_num_vaults')}</span>
-                {renderTextTooltip('vaults_num_vaults')}
-              </div>
-              <div className="val">{metrics.active_vaults}</div>
-            </div>
-            <div className="metric">
-              <div className="title">
-                <span>{t('vaults_utilization_ratio')}</span>
-                {renderTextTooltip('vaults_utilization_ratio')}
-              </div>
-              <div className="val">{metrics.utilization_ratio.toFixed(1)}%</div>
+            <div className="val">
+              {parseCurrencyAmount(metrics.tvl_total)}
             </div>
           </div>
-        )
+          <div className="metric">
+            <div className="title">
+              <span>{t('vaults_outstanding_loans')}</span>
+              {renderTextTooltip('vaults_outstanding_loans')}
+            </div>
+            <div className="val">
+              {parseCurrencyAmount(metrics.debt_total)}
+            </div>
+          </div>
+          <div className="metric">
+            <div className="title">
+              <span>{t('vaults_loans_originated')}</span>
+              {renderTextTooltip('vaults_loans_originated')}
+            </div>
+            <div className="val">
+              {parseCurrencyAmount(metrics.loans_originated)}
+            </div>
+          </div>
+          <div className="metric">
+            <div className="title">
+              <span>{t('vaults_avg_interest_rate')}</span>
+              {renderTextTooltip('vaults_avg_interest_rate')}
+            </div>
+            <div className="val">{metrics.avg_interest_rate.toFixed(1)}%</div>
+          </div>
+          <div className="metric">
+            <div className="title">
+              <span>{t('vaults_num_vaults')}</span>
+              {renderTextTooltip('vaults_num_vaults')}
+            </div>
+            <div className="val">{metrics.active_vaults}</div>
+          </div>
+          <div className="metric">
+            <div className="title">
+              <span>{t('vaults_utilization_ratio')}</span>
+              {renderTextTooltip('vaults_utilization_ratio')}
+            </div>
+            <div className="val">{metrics.utilization_ratio.toFixed(1)}%</div>
+          </div>
+        </div>
       )}
       <div className="vaults-controls">
         <div className="filter">
@@ -226,37 +248,49 @@ export const Vaults = () => {
             </button>
           ))}
         </div>
-        <div className="search-bar">
-          <div className="search-icon" />
-          <input
-            type="text"
-            placeholder={t('vaults_search_placeholder')}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+        <div className="controls-right">
+          <button
+            type="button"
+            className="refresh-button"
+            onClick={fetchVaults}
+            title={t('refresh_data')}
+          >
+            ↻
+          </button>
+          <div className="search-bar">
+            <div className="search-icon" />
+            <input
+              type="text"
+              placeholder={t('vaults_search_placeholder')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </div>
       </div>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <VaultsTable
-            vaults={vaults}
-            sortField={sortField}
-            setSortField={handleSortFieldChange}
-            sortOrder={sortOrder}
-            setSortOrder={handleSortOrderChange}
-            setPage={setPage}
-          />
-          <div className="footnote">{t('vaults_disclaimer')}</div>
-          <Pagination
-            totalItems={totalItems}
-            currentPage={page}
-            onPageChange={setPage}
-            pageSize={PAGE_SIZE}
-          />
-        </>
-      )}
+      <div className="vaults-table-section">
+        {tableLoading && (
+          <div className="table-loader-overlay">
+            <Loader />
+          </div>
+        )}
+        <VaultsTable
+          vaults={vaults}
+          sortField={sortField}
+          setSortField={handleSortFieldChange}
+          sortOrder={sortOrder}
+          setSortOrder={handleSortOrderChange}
+          setPage={setPage}
+          xrpToUSDRate={xrpToUSDRate}
+        />
+        <div className="footnote">{t('vaults_disclaimer')}</div>
+        <Pagination
+          totalItems={totalItems}
+          currentPage={page}
+          onPageChange={setPage}
+          pageSize={PAGE_SIZE}
+        />
+      </div>
     </div>
   )
 }
