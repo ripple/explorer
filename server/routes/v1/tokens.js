@@ -206,7 +206,59 @@ const getAllTokens = async (req, res) => {
   }
 }
 
+const batchGetTokens = async (req, res) => {
+  try {
+    const { tokenIds } = req.body
+
+    if (!tokenIds || !Array.isArray(tokenIds)) {
+      return res.status(400).json({ error: 'tokenIds must be an array' })
+    }
+
+    log.info(`Batch fetching ${tokenIds.length} tokens`)
+
+    const url = `${process.env.VITE_LOS_URL}/tokens/batch-get`
+    const response = await axios.post(url, { tokenIds })
+
+    log.info(`Successfully fetched batch tokens`)
+
+    return res.status(200).json(response.data)
+  } catch (error) {
+    log.error(`Failed to batch fetch tokens: ${error.message}`)
+    return res.status(error.response?.status || 500).json({
+      error: error.message,
+      details: error.response?.data
+    })
+  }
+}
+
+const getTokenById = async (req, res) => {
+  try {
+    const { tokenId } = req.params
+
+    if (!tokenId) {
+      return res.status(400).json({ error: 'tokenId is required' })
+    }
+
+    log.info(`Fetching token: ${tokenId}`)
+
+    const url = `${process.env.VITE_LOS_URL}/tokens/${tokenId}`
+    const response = await axios.get(url)
+
+    log.info(`Successfully fetched token: ${tokenId}`)
+
+    return res.status(200).json(response.data)
+  } catch (error) {
+    log.error(`Failed to fetch token ${req.params.tokenId}: ${error.message}`)
+    return res.status(error.response?.status || 500).json({
+      error: error.message,
+      details: error.response?.data
+    })
+  }
+}
+
 module.exports = {
   getTokensSearch,
   getAllTokens,
+  batchGetTokens,
+  getTokenById,
 }
