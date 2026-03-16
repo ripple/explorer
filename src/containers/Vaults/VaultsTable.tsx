@@ -116,7 +116,7 @@ export const VaultsTable = ({
       </td>
       <td className="utilization right">
         {vault.utilization_ratio != null
-          ? parsePercent(vault.utilization_ratio)
+          ? parsePercent(vault.utilization_ratio * 100)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="interest-rate right">

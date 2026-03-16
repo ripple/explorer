@@ -230,7 +230,7 @@ export const Vaults = () => {
               <span>{t('vaults_utilization_ratio')}</span>
               {renderTextTooltip('vaults_utilization_ratio')}
             </div>
-            <div className="val">{metrics.utilization_ratio.toFixed(1)}%</div>
+            <div className="val">{(metrics.utilization_ratio * 100).toFixed(1)}%</div>
           </div>
         </div>
       )}
