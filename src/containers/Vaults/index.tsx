@@ -190,7 +190,7 @@ export const Vaults = () => {
               {renderTextTooltip('vaults_tvl')}
             </div>
             <div className="val">
-              {parseCurrencyAmount(metrics.tvl_total)}
+              {parseCurrencyAmount(metrics.tvl_total * xrpToUSDRate)}
             </div>
           </div>
           <div className="metric">
@@ -199,7 +199,7 @@ export const Vaults = () => {
               {renderTextTooltip('vaults_outstanding_loans')}
             </div>
             <div className="val">
-              {parseCurrencyAmount(metrics.debt_total)}
+              {parseCurrencyAmount(metrics.debt_total * xrpToUSDRate)}
             </div>
           </div>
           <div className="metric">
@@ -208,7 +208,7 @@ export const Vaults = () => {
               {renderTextTooltip('vaults_loans_originated')}
             </div>
             <div className="val">
-              {parseCurrencyAmount(metrics.loans_originated)}
+              {parseCurrencyAmount(metrics.loans_originated * xrpToUSDRate)}
             </div>
           </div>
           <div className="metric">
