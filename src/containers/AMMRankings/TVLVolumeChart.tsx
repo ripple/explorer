@@ -1,18 +1,10 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  Tooltip,
-  TooltipProps,
-  ResponsiveContainer,
-  CartesianGrid,
-} from 'recharts'
+import { TooltipProps } from 'recharts'
 import { HistoricalDataPoint } from './api'
-import { parseCurrencyAmount, parseAmount } from '../shared/NumberFormattingUtils'
+import { parseCurrencyAmount } from '../shared/NumberFormattingUtils'
 import { useTooltip } from '../shared/components/Tooltip'
+import { DualAxisAreaChart, AxisConfig } from '../shared/components/DualAxisAreaChart'
 
 interface TVLVolumeChartProps {
   data: HistoricalDataPoint[]
@@ -106,8 +98,21 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
       currencyMode === 'usd' ? point.trading_volume_usd : point.trading_volume_xrp,
   }))
 
-  // Show ~6 ticks across the x-axis
-  const tickInterval = chartData.length > 6 ? Math.floor(chartData.length / 5) : 0
+  const leftAxis: AxisConfig = {
+    dataKey: 'tvl',
+    label: 'TVL',
+    color: TVL_COLOR,
+    formatter: (value: number) => formatTVLTick(value, currencyMode),
+    show: showTVL,
+  }
+
+  const rightAxis: AxisConfig = {
+    dataKey: 'volume',
+    label: 'Volume',
+    color: VOLUME_COLOR,
+    formatter: (value: number) => formatVolumeTick(value, currencyMode),
+    show: showVolume,
+  }
 
   return (
     <div className="tvl-volume-chart-container">
@@ -127,93 +132,14 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
         </div>
       </div>
 
-      <ResponsiveContainer width="100%" height={340}>
-        <AreaChart
-          data={chartData}
-          margin={{ top: 10, right: 50, left: 50, bottom: 0 }}
-        >
-          <defs>
-            <linearGradient id="tvlGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={TVL_COLOR} stopOpacity={0.5} />
-              <stop offset="100%" stopColor={TVL_COLOR} stopOpacity={0.5} />
-            </linearGradient>
-            <linearGradient id="volumeGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={VOLUME_COLOR} stopOpacity={0.5} />
-              <stop offset="100%" stopColor={VOLUME_COLOR} stopOpacity={0.5} />
-            </linearGradient>
-          </defs>
-          <CartesianGrid
-            strokeDasharray="0"
-            stroke="#333"
-            vertical={false}
-            horizontal={true}
-          />
-          <XAxis
-            dataKey="date"
-            stroke="#555"
-            tick={{ fill: '#888', fontSize: 13 }}
-            interval={tickInterval}
-            tickFormatter={(value) => formatDateTick(value, timeRange)}
-            tickLine={false}
-          />
-          <YAxis
-            yAxisId="left"
-            stroke="#555"
-            tick={{ fill: '#888', fontSize: 13 }}
-            tickFormatter={(value) => formatTVLTick(value, currencyMode)}
-            tickLine={false}
-            label={{
-              value: 'TVL',
-              angle: -90,
-              position: 'insideLeft',
-              style: { fill: '#fff', fontSize: 13, textAnchor: 'middle' },
-              dx: -25,
-            }}
-          />
-          <YAxis
-            yAxisId="right"
-            orientation="right"
-            stroke="#555"
-            tick={{ fill: '#888', fontSize: 13 }}
-            tickFormatter={(value) => formatVolumeTick(value, currencyMode)}
-            tickLine={false}
-            label={{
-              value: 'Volume',
-              angle: 90,
-              position: 'insideRight',
-              style: { fill: '#fff', fontSize: 13, textAnchor: 'middle' },
-              dx: 25,
-            }}
-          />
-          <Tooltip content={<CustomTooltip />} />
-          {showTVL && (
-            <Area
-              yAxisId="left"
-              type="monotone"
-              dataKey="tvl"
-              stroke="none"
-              strokeWidth={0}
-              fill="url(#tvlGradient)"
-              dot={false}
-              name={t('tvl')}
-              isAnimationActive={false}
-            />
-          )}
-          {showVolume && (
-            <Area
-              yAxisId="right"
-              type="monotone"
-              dataKey="volume"
-              stroke="none"
-              strokeWidth={0}
-              fill="url(#volumeGradient)"
-              dot={false}
-              name={t('volume')}
-              isAnimationActive={false}
-            />
-          )}
-        </AreaChart>
-      </ResponsiveContainer>
+      <DualAxisAreaChart
+        data={chartData}
+        xAxisKey="date"
+        xAxisFormatter={(value) => formatDateTick(value, timeRange)}
+        leftAxis={leftAxis}
+        rightAxis={rightAxis}
+        tooltipContent={CustomTooltip}
+      />
 
       <div className="chart-legend">
         <div
