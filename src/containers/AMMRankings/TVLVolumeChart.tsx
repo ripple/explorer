@@ -1,0 +1,240 @@
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  TooltipProps,
+  ResponsiveContainer,
+  CartesianGrid,
+} from 'recharts'
+import { HistoricalDataPoint } from './api'
+import { parseCurrencyAmount, parseAmount } from '../shared/NumberFormattingUtils'
+import { useTooltip } from '../shared/components/Tooltip'
+
+interface TVLVolumeChartProps {
+  data: HistoricalDataPoint[]
+  timeRange: string
+  setTimeRange: (range: string) => void
+  showTVL: boolean
+  showVolume: boolean
+  currencyMode: 'usd' | 'xrp'
+}
+
+type ValueType = number | string | Array<number | string>
+type NameType = number | string
+
+const TIME_RANGES = ['1D', '1M', '6M', '1Y', '5Y']
+
+// TVL = green, Volume = purple (matching spec)
+const TVL_COLOR = '#32E685'
+const VOLUME_COLOR = '#7919FF'
+
+const formatDateTick = (value: string, timeRange: string): string => {
+  const date = new Date(value)
+  if (timeRange === '1D') {
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+  }
+  if (timeRange === '5Y') {
+    return date.toLocaleDateString('en-US', { year: '2-digit' })
+  }
+  return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
+}
+
+const formatTVLTick = (value: number, currencyMode: 'usd' | 'xrp'): string => {
+  const prefix = currencyMode === 'usd' ? '$' : ''
+
+  if (value === 0) return `${prefix}0`
+  if (value >= 1000000) return `${prefix}${(value / 1000000).toFixed(1)}M`
+  if (value >= 1000) return `${prefix}${(value / 1000).toFixed(0)}K`
+  return `${prefix}${value.toFixed(0)}`
+}
+
+const formatVolumeTick = (value: number, currencyMode: 'usd' | 'xrp'): string => {
+  const prefix = currencyMode === 'usd' ? '$' : ''
+
+  if (value === 0) return `${prefix}0`
+  if (value >= 1000000) return `${prefix}${(value / 1000000).toFixed(1)}M`
+  if (value >= 1000) return `${prefix}${(value / 1000).toFixed(0)}K`
+  return `${prefix}${value.toFixed(0)}`
+}
+
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+}: TooltipProps<ValueType, NameType>) => {
+  const { t } = useTranslation()
+  if (active && payload && payload.length > 0) {
+    const date = new Date(label)
+    const formattedDate = date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    })
+    return (
+      <div className="chart-tooltip">
+        <p className="tooltip-label">{formattedDate}</p>
+        {payload.map((entry, index) => (
+          <p key={index} className="tooltip-value" style={{ color: entry.color }}>
+            {entry.name}: {parseCurrencyAmount(String(entry.value ?? 0))}
+          </p>
+        ))}
+      </div>
+    )
+  }
+  return null
+}
+
+export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
+  data,
+  timeRange,
+  setTimeRange,
+  showTVL,
+  showVolume,
+  currencyMode,
+}) => {
+  const { t } = useTranslation()
+  const { showTooltip, hideTooltip } = useTooltip()
+
+  const chartData = data.map((point) => ({
+    date: point.date,
+    tvl: currencyMode === 'usd' ? point.tvl_usd : point.tvl_xrp,
+    volume:
+      currencyMode === 'usd' ? point.trading_volume_usd : point.trading_volume_xrp,
+  }))
+
+  // Show ~6 ticks across the x-axis
+  const tickInterval = chartData.length > 6 ? Math.floor(chartData.length / 5) : 0
+
+  return (
+    <div className="tvl-volume-chart-container">
+      <div className="chart-header">
+        <h2 className="chart-title">{t('tvl_and_volume')}</h2>
+        <div className="time-filters">
+          {TIME_RANGES.map((range) => (
+            <button
+              key={range}
+              className={`time-filter ${timeRange === range ? 'active' : ''}`}
+              onClick={() => setTimeRange(range)}
+              type="button"
+            >
+              {range}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <ResponsiveContainer width="100%" height={340}>
+        <AreaChart
+          data={chartData}
+          margin={{ top: 10, right: 50, left: 50, bottom: 0 }}
+        >
+          <defs>
+            <linearGradient id="tvlGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={TVL_COLOR} stopOpacity={0.5} />
+              <stop offset="100%" stopColor={TVL_COLOR} stopOpacity={0.5} />
+            </linearGradient>
+            <linearGradient id="volumeGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={VOLUME_COLOR} stopOpacity={0.5} />
+              <stop offset="100%" stopColor={VOLUME_COLOR} stopOpacity={0.5} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid
+            strokeDasharray="0"
+            stroke="#333"
+            vertical={false}
+            horizontal={true}
+          />
+          <XAxis
+            dataKey="date"
+            stroke="#555"
+            tick={{ fill: '#888', fontSize: 13 }}
+            interval={tickInterval}
+            tickFormatter={(value) => formatDateTick(value, timeRange)}
+            tickLine={false}
+          />
+          <YAxis
+            yAxisId="left"
+            stroke="#555"
+            tick={{ fill: '#888', fontSize: 13 }}
+            tickFormatter={(value) => formatTVLTick(value, currencyMode)}
+            tickLine={false}
+            label={{
+              value: 'TVL',
+              angle: -90,
+              position: 'insideLeft',
+              style: { fill: '#fff', fontSize: 13, textAnchor: 'middle' },
+              dx: -25,
+            }}
+          />
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+            stroke="#555"
+            tick={{ fill: '#888', fontSize: 13 }}
+            tickFormatter={(value) => formatVolumeTick(value, currencyMode)}
+            tickLine={false}
+            label={{
+              value: 'Volume',
+              angle: 90,
+              position: 'insideRight',
+              style: { fill: '#fff', fontSize: 13, textAnchor: 'middle' },
+              dx: 25,
+            }}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          {showTVL && (
+            <Area
+              yAxisId="left"
+              type="monotone"
+              dataKey="tvl"
+              stroke="none"
+              strokeWidth={0}
+              fill="url(#tvlGradient)"
+              dot={false}
+              name={t('tvl')}
+              isAnimationActive={false}
+            />
+          )}
+          {showVolume && (
+            <Area
+              yAxisId="right"
+              type="monotone"
+              dataKey="volume"
+              stroke="none"
+              strokeWidth={0}
+              fill="url(#volumeGradient)"
+              dot={false}
+              name={t('volume')}
+              isAnimationActive={false}
+            />
+          )}
+        </AreaChart>
+      </ResponsiveContainer>
+
+      <div className="chart-legend">
+        <div
+          className="legend-item"
+          onMouseOver={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect()
+            showTooltip('text', e, t('tvl_tooltip'), {
+              x: rect.left + rect.width / 2,
+              y: rect.top - 60,
+            })
+          }}
+          onMouseLeave={() => hideTooltip()}
+        >
+          <span className="legend-color tvl-color" />
+          <span className="legend-text">{t('tvl')}</span>
+        </div>
+        <div className="legend-item">
+          <span className="legend-color volume-color" />
+          <span className="legend-text">{t('volume')}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
