@@ -1,0 +1,9 @@
+{
+  "tvl_total": 8000000,
+  "debt_total": 3700000,
+  "active_vaults": 42,
+  "avg_interest_rate": 4.50,
+  "utilization_ratio": 0.4625,
+  "loans_originated": 15000000,
+  "last_updated": "2026-03-17T00:00:00Z"
+}
