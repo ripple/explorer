@@ -88,7 +88,7 @@ export const VaultsTable = ({
           {shortenVaultIdShort(vault.vault_id)}
         </a>
       </td>
-      <td className="name text-truncate">{vault.name}</td>
+      <td className="name text-truncate">{vault.name || DEFAULT_EMPTY_VALUE}</td>
       <td className="asset">
         {vault.asset_currency !== 'XRP' && vault.asset_issuer ? (
           <RouteLink
