@@ -174,15 +174,34 @@
     input {
       width: 100%;
       border: none;
+      border-radius: 0;
       background: transparent;
       color: $white;
       font-size: 14px;
       line-height: 24px;
       letter-spacing: 0.14px;
       outline: none !important;
+      -webkit-appearance: none;
 
       &::placeholder {
         color: $black-50;
+      }
+    }
+
+    .search-clear {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+      color: $black-40;
+      cursor: pointer;
+      font-size: 12px;
+
+      &:hover {
+        color: $white;
       }
     }
   }
@@ -278,9 +297,12 @@
       }
 
       td {
-        &.name,
-        &.asset {
+        &.name {
           @extend %truncate;
+        }
+
+        &.asset {
+          white-space: nowrap;
         }
 
         &.vault-id {
@@ -303,6 +325,7 @@
       color: $green-30;
       cursor: pointer;
     }
+
 
     .website-link {
       display: inline-flex;

@@ -89,7 +89,7 @@ export const VaultsTable = ({
         </a>
       </td>
       <td className="name text-truncate">{vault.name}</td>
-      <td className="asset text-truncate">
+      <td className="asset">
         {vault.asset_currency !== 'XRP' && vault.asset_issuer ? (
           <RouteLink
             to={TOKEN_ROUTE}

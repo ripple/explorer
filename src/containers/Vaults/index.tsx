@@ -216,14 +216,14 @@ export const Vaults = () => {
               <span>{t('vaults_avg_interest_rate')}</span>
               {renderTextTooltip('vaults_avg_interest_rate')}
             </div>
-            <div className="val">{metrics.avg_interest_rate.toFixed(1)}%</div>
+            <div className="val">{metrics.avg_interest_rate.toFixed(2)}%</div>
           </div>
           <div className="metric">
             <div className="title">
               <span>{t('vaults_num_vaults')}</span>
               {renderTextTooltip('vaults_num_vaults')}
             </div>
-            <div className="val">{metrics.active_vaults}</div>
+            <div className="val">{metrics.active_vaults.toLocaleString()}</div>
           </div>
           <div className="metric">
             <div className="title">
@@ -265,6 +265,15 @@ export const Vaults = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+            {searchQuery && (
+              <button
+                type="button"
+                className="search-clear"
+                onClick={() => setSearchQuery('')}
+              >
+                ✕
+              </button>
+            )}
           </div>
         </div>
       </div>
