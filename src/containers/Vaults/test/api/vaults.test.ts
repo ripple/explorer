@@ -1,5 +1,9 @@
 import axios from 'axios'
-import { fetchVaultsList, fetchVaultsAggregateStats, fetchVaultAssetPrices } from '../../api'
+import {
+  fetchVaultsList,
+  fetchVaultsAggregateStats,
+  fetchVaultAssetPrices,
+} from '../../api'
 
 jest.mock('axios')
 
@@ -307,9 +311,7 @@ describe('Vaults API', () => {
       const result = await fetchVaultAssetPrices()
 
       expect(result).toEqual(mockPricesResponse)
-      expect(mockAxios.get).toHaveBeenCalledWith(
-        '/api/v1/vaults/asset-prices',
-      )
+      expect(mockAxios.get).toHaveBeenCalledWith('/api/v1/vaults/asset-prices')
     })
 
     it('should return prices map and lastUpdated', async () => {

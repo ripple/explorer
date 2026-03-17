@@ -130,13 +130,20 @@ export const VaultsTable = ({
       </td>
       <td className="tvl right">
         {vault.tvl_usd
-          ? parseCurrencyAmount(toUsd(vault, vault.tvl_usd, xrpToUSDRate, assetPrices))
+          ? parseCurrencyAmount(
+              toUsd(vault, vault.tvl_usd, xrpToUSDRate, assetPrices),
+            )
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="outstanding-loans right">
         {vault.outstanding_loans_usd != null
           ? parseCurrencyAmount(
-              toUsd(vault, vault.outstanding_loans_usd, xrpToUSDRate, assetPrices),
+              toUsd(
+                vault,
+                vault.outstanding_loans_usd,
+                xrpToUSDRate,
+                assetPrices,
+              ),
             )
           : DEFAULT_EMPTY_VALUE}
       </td>

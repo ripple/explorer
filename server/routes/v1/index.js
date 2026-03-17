@@ -2,7 +2,11 @@ const api = require('express').Router()
 const getHealth = require('./health')
 const getCurrentMetrics = require('./currentMetrics')
 const { getTokensSearch, getAllTokens } = require('./tokens')
-const { getVaults, getVaultsAggregateStats, getVaultAssetPrices } = require('./vaults')
+const {
+  getVaults,
+  getVaultsAggregateStats,
+  getVaultAssetPrices,
+} = require('./vaults')
 
 api.use('/healthz', (_req, res) => {
   res.status(200).send('success')

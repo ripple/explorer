@@ -27,7 +27,9 @@ async function fetchAssetPrices() {
           if (xrpPrice > 0) {
             const key = `${token.currency}.${token.issuer_account}`
             prices[key] = xrpPrice
-            log.info(`Price for ${token.name || token.currency}: ${xrpPrice} XRP`)
+            log.info(
+              `Price for ${token.name || token.currency}: ${xrpPrice} XRP`,
+            )
           }
         } catch (e) {
           log.error(`Failed to fetch price for ${token.currency}: ${e.message}`)
