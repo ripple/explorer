@@ -23,10 +23,10 @@ export interface VaultsListResponse {
 
 // Maps frontend sort field names to API sort_by param values
 const SORT_FIELD_MAP: Record<string, string> = {
-  tvl_usd: 'assets_total',
-  outstanding_loans_usd: 'outstanding_loans',
-  avg_interest_rate: 'average_interest_rate',
-  utilization_ratio: 'utilization_ratio',
+  'tvl-usd': 'assets_total',
+  'outstanding-loans-usd': 'outstanding_loans',
+  'avg-interest-rate': 'average_interest_rate',
+  'utilization-ratio': 'utilization_ratio',
 }
 
 // Maps frontend filter keys to API asset_type param values
@@ -79,20 +79,22 @@ export const fetchVaultsList = (params: {
     queryParams.set('name_like', params.searchQuery.trim())
   }
 
-  return axios
-    .get(`/api/v1/vaults?${queryParams.toString()}`)
-    .then((resp) => {
-      console.log('[LOS] GET /vaults response:', resp.data)
-      const data = resp.data
-      return {
-        ...data,
-        results: (data.results || []).map(mapVault),
-      }
-    })
+  return axios.get(`/api/v1/vaults?${queryParams.toString()}`).then((resp) => {
+    const { data } = resp
+    return {
+      ...data,
+      results: (data.results || []).map(mapVault),
+    }
+  })
 }
 
 export const fetchVaultsAggregateStats = (): Promise<VaultsMetrics> =>
-  axios.get('/api/v1/vaults/aggregate-statistics').then((resp) => {
-    console.log('[LOS] GET /vaults/aggregate-statistics response:', resp.data)
-    return resp.data
-  })
+  axios.get('/api/v1/vaults/aggregate-statistics').then((resp) => resp.data)
+
+export interface AssetPricesResponse {
+  prices: Record<string, number> // "currency.issuer" → XRP price
+  lastUpdated: number | null
+}
+
+export const fetchVaultAssetPrices = (): Promise<AssetPricesResponse> =>
+  axios.get('/api/v1/vaults/asset-prices').then((resp) => resp.data)

@@ -121,11 +121,11 @@
 
   .refresh-button {
     display: flex;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
     padding: 0;
     border: 1px solid $black-50;
     border-radius: $border-radius;
@@ -175,13 +175,13 @@
       width: 100%;
       border: none;
       border-radius: 0;
+      appearance: none;
       background: transparent;
       color: $white;
       font-size: 14px;
-      line-height: 24px;
       letter-spacing: 0.14px;
+      line-height: 24px;
       outline: none !important;
-      -webkit-appearance: none;
 
       &::placeholder {
         color: $black-50;
@@ -212,14 +212,11 @@
     .table-loader-overlay {
       position: absolute;
       z-index: 10;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       background-color: rgba($black, 0.5);
+      inset: 0;
     }
   }
 
@@ -230,8 +227,8 @@
 
     table.basic {
       min-width: 900px;
-      table-layout: fixed;
       font-size: 14px;
+      table-layout: fixed;
 
       th {
         font-size: 12px;
@@ -253,10 +250,10 @@
           width: 13%;
         }
 
-        &.tvl_usd,
-        &.outstanding_loans_usd,
-        &.utilization_ratio,
-        &.avg_interest_rate {
+        &.tvl-usd,
+        &.outstanding-loans-usd,
+        &.utilization-ratio,
+        &.avg-interest-rate {
           width: 11%;
           text-align: right;
         }
@@ -326,7 +323,6 @@
       cursor: pointer;
     }
 
-
     .website-link {
       display: inline-flex;
       align-items: center;
@@ -374,8 +370,8 @@
 
       .metric {
         display: block !important;
-        flex: 1 1 calc(33.333% - 32px);
         min-width: 200px;
+        flex: 1 1 calc(33.333% - 32px);
         padding: 14px 20px;
         border-radius: $border-radius;
         margin-bottom: 0;

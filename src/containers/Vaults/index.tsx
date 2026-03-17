@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import Log from '../shared/log'
 import { VaultsTable } from './VaultsTable'
@@ -12,7 +12,11 @@ import HoverIcon from '../shared/images/hover.svg'
 import { useAnalytics } from '../shared/analytics'
 import { useXRPToUSDRate } from '../shared/hooks/useXRPToUSDRate'
 import type { VaultData } from './types'
-import { fetchVaultsList, fetchVaultsAggregateStats } from './api'
+import {
+  fetchVaultsList,
+  fetchVaultsAggregateStats,
+  fetchVaultAssetPrices,
+} from './api'
 import type { VaultsMetrics, VaultsListResponse } from './api'
 
 export type { VaultData }
@@ -22,9 +26,10 @@ type FilterCategory = '' | 'xrp' | 'stablecoin'
 const TOOLTIP_Y_OFFSET = 80
 const PAGE_SIZE = 20
 const SEARCH_DEBOUNCE_MS = 400
+const PRICE_REFETCH_INTERVAL = 5 * 60 * 1000 // 5 minutes
 
 export const Vaults = () => {
-  const [sortField, setSortField] = useState('tvl_usd')
+  const [sortField, setSortField] = useState('tvl-usd')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [filterField, setFilterField] = useState<FilterCategory>('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -39,6 +44,7 @@ export const Vaults = () => {
   const [metrics, setMetrics] = useState<VaultsMetrics | null>(null)
   const [vaultsResponse, setVaultsResponse] =
     useState<VaultsListResponse | null>(null)
+  const [assetPrices, setAssetPrices] = useState<Record<string, number>>({})
   const [tableLoading, setTableLoading] = useState(true)
   const [initialLoaded, setInitialLoaded] = useState(false)
   const metricsLoadedRef = useRef(false)
@@ -71,6 +77,18 @@ export const Vaults = () => {
         markInitialLoaded()
       })
   }, [trackException])
+
+  // Fetch and periodically refresh asset prices from xrplmeta
+  useEffect(() => {
+    const loadPrices = () => {
+      fetchVaultAssetPrices()
+        .then((data) => setAssetPrices(data.prices))
+        .catch((error) => Log.error(error))
+    }
+    loadPrices()
+    const interval = setInterval(loadPrices, PRICE_REFETCH_INTERVAL)
+    return () => clearInterval(interval)
+  }, [])
 
   // Debounce search input
   useEffect(() => {
@@ -230,7 +248,9 @@ export const Vaults = () => {
               <span>{t('vaults_utilization_ratio')}</span>
               {renderTextTooltip('vaults_utilization_ratio')}
             </div>
-            <div className="val">{(metrics.utilization_ratio * 100).toFixed(1)}%</div>
+            <div className="val">
+              {(metrics.utilization_ratio * 100).toFixed(1)}%
+            </div>
           </div>
         </div>
       )}
@@ -291,8 +311,20 @@ export const Vaults = () => {
           setSortOrder={handleSortOrderChange}
           setPage={setPage}
           xrpToUSDRate={xrpToUSDRate}
+          assetPrices={assetPrices}
         />
-        <div className="footnote">{t('vaults_disclaimer')}</div>
+        <div className="footnote">
+          <Trans i18nKey="vaults_disclaimer">
+            {/* eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/control-has-associated-label */}
+            <a
+              href="https://xrplmeta.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              XRPL Meta
+            </a>
+          </Trans>
+        </div>
         <Pagination
           totalItems={totalItems}
           currentPage={page}

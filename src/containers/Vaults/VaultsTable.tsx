@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { Loader } from '../shared/components/Loader'
 import { RouteLink } from '../shared/routing'
 import { TOKEN_ROUTE } from '../App/routes'
 import type { VaultData } from './types'
@@ -21,6 +20,7 @@ interface VaultsTableProps {
   setSortOrder: (order: SortOrder) => void
   setPage: (page: number) => void
   xrpToUSDRate: number
+  assetPrices: Record<string, number>
 }
 
 const DEFAULT_EMPTY_VALUE = '--'
@@ -36,8 +36,23 @@ const formatAssetDisplay = (vault: VaultData): string => {
   return `${vault.asset_currency} (${issuerDisplay})`
 }
 
-const toUsd = (vault: VaultData, amount: number, xrpToUSDRate: number): number =>
-  vault.asset_currency === 'XRP' ? amount * xrpToUSDRate : amount
+const toUsd = (
+  vault: VaultData,
+  amount: number,
+  xrpToUSDRate: number,
+  assetPrices: Record<string, number>,
+): number => {
+  if (vault.asset_currency === 'XRP') {
+    return amount * xrpToUSDRate
+  }
+  // Look up the asset's XRP price from xrplmeta, then convert to USD
+  const key = `${vault.asset_currency}.${vault.asset_issuer}`
+  const xrpPrice = assetPrices[key]
+  if (xrpPrice) {
+    return amount * xrpPrice * xrpToUSDRate
+  }
+  return amount
+}
 
 export const VaultsTable = ({
   vaults,
@@ -47,6 +62,7 @@ export const VaultsTable = ({
   setSortOrder,
   setPage,
   xrpToUSDRate,
+  assetPrices,
 }: VaultsTableProps) => {
   const { t } = useTranslation()
 
@@ -81,14 +97,22 @@ export const VaultsTable = ({
     <tr key={vault.vault_id}>
       <td className="rank">{vault.index}</td>
       <td className="vault-id">
-        <a href={`/vault/${vault.vault_id}`} className="green-link vault-id-long">
+        <a
+          href={`/vault/${vault.vault_id}`}
+          className="green-link vault-id-long"
+        >
           {shortenAccount(vault.vault_id)}
         </a>
-        <a href={`/vault/${vault.vault_id}`} className="green-link vault-id-short">
+        <a
+          href={`/vault/${vault.vault_id}`}
+          className="green-link vault-id-short"
+        >
           {shortenVaultIdShort(vault.vault_id)}
         </a>
       </td>
-      <td className="name text-truncate">{vault.name || DEFAULT_EMPTY_VALUE}</td>
+      <td className="name text-truncate">
+        {vault.name || DEFAULT_EMPTY_VALUE}
+      </td>
       <td className="asset">
         {vault.asset_currency !== 'XRP' && vault.asset_issuer ? (
           <RouteLink
@@ -106,12 +130,14 @@ export const VaultsTable = ({
       </td>
       <td className="tvl right">
         {vault.tvl_usd
-          ? parseCurrencyAmount(toUsd(vault, vault.tvl_usd, xrpToUSDRate))
+          ? parseCurrencyAmount(toUsd(vault, vault.tvl_usd, xrpToUSDRate, assetPrices))
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="outstanding-loans right">
         {vault.outstanding_loans_usd != null
-          ? parseCurrencyAmount(toUsd(vault, vault.outstanding_loans_usd, xrpToUSDRate))
+          ? parseCurrencyAmount(
+              toUsd(vault, vault.outstanding_loans_usd, xrpToUSDRate, assetPrices),
+            )
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="utilization right">
@@ -127,7 +153,11 @@ export const VaultsTable = ({
       <td className="website">
         {vault.website ? (
           <a
-            href={vault.website.match(/^https?:\/\//) ? vault.website : `https://${vault.website}`}
+            href={
+              vault.website.match(/^https?:\/\//)
+                ? vault.website
+                : `https://${vault.website}`
+            }
             target="_blank"
             rel="noopener noreferrer"
             className="website-link"
@@ -151,17 +181,17 @@ export const VaultsTable = ({
               <th className="vault-id">{t('vaults_table_vault_id')}</th>
               <th className="name-col">{t('name')}</th>
               <th className="asset">{t('vaults_table_asset')}</th>
-              {renderSortHeader('tvl_usd', t('vaults_table_tvl'))}
+              {renderSortHeader('tvl-usd', t('vaults_table_tvl'))}
               {renderSortHeader(
-                'outstanding_loans_usd',
+                'outstanding-loans-usd',
                 t('vaults_table_outstanding_loans'),
               )}
               {renderSortHeader(
-                'utilization_ratio',
+                'utilization-ratio',
                 t('vaults_table_utilization_ratio'),
               )}
               {renderSortHeader(
-                'avg_interest_rate',
+                'avg-interest-rate',
                 t('vaults_table_avg_interest_rate'),
               )}
               <th className="website">{t('vaults_table_website')}</th>

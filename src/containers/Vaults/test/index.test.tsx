@@ -32,10 +32,21 @@ describe('Vaults Page container', () => {
 
   const oldEnvs = process.env
 
+  const mockAssetPrices = {
+    prices: {
+      '524C555344000000000000000000000000000000.rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De': 0.35,
+    },
+    lastUpdated: Date.now(),
+  }
+
   const stubVaultsApis = () => {
     moxios.stubRequest('/api/v1/vaults/aggregate-statistics', {
       status: 200,
       response: aggregateStats,
+    })
+    moxios.stubRequest('/api/v1/vaults/asset-prices', {
+      status: 200,
+      response: mockAssetPrices,
     })
     moxios.stubRequest(/\/api\/v1\/vaults\?/, {
       status: 200,
@@ -131,17 +142,17 @@ describe('Vaults Page container', () => {
       'name',
     )
     expect(container.querySelector('th.asset')?.textContent).toContain('Asset')
-    expect(container.querySelector('th.tvl_usd')?.textContent).toContain(
+    expect(container.querySelector('th.tvl-usd')?.textContent).toContain(
       'TVL (USD)',
     )
     expect(
-      container.querySelector('th.outstanding_loans_usd')?.textContent,
+      container.querySelector('th.outstanding-loans-usd')?.textContent,
     ).toContain('Outstanding Loans')
     expect(
-      container.querySelector('th.utilization_ratio')?.textContent,
+      container.querySelector('th.utilization-ratio')?.textContent,
     ).toContain('Utilization Ratio')
     expect(
-      container.querySelector('th.avg_interest_rate')?.textContent,
+      container.querySelector('th.avg-interest-rate')?.textContent,
     ).toContain('Avg. Interest Rate')
     expect(container.querySelector('th.website')?.textContent).toContain(
       'Website',
@@ -171,19 +182,19 @@ describe('Vaults Page container', () => {
       '5.25%',
     )
 
-    // Row 2: RLUSD vault (non-XRP, so TVL stays $3.0M)
+    // Row 2: RLUSD vault (price=0.35 XRP, xrpToUSDRate=2.0)
+    // TVL: 3,000,000 * 0.35 * 2 = $2.1M
+    // Outstanding loans: 1,200,000 * 0.35 * 2 = $840.0K
     const secondRow = rows[1]
     expect(secondRow.querySelector('td.rank')?.textContent).toContain('2')
     expect(secondRow.querySelector('td.name')?.textContent).toContain(
       'RLUSD Stable Vault',
     )
-    expect(secondRow.querySelector('td.asset')?.textContent).toContain(
-      'Ripple',
-    )
-    expect(secondRow.querySelector('td.tvl')?.textContent).toContain('$3.0M')
+    expect(secondRow.querySelector('td.asset')?.textContent).toContain('Ripple')
+    expect(secondRow.querySelector('td.tvl')?.textContent).toContain('$2.1M')
     expect(
       secondRow.querySelector('td.outstanding-loans')?.textContent,
-    ).toContain('$1.2M')
+    ).toContain('$840.0K')
     expect(secondRow.querySelector('td.utilization')?.textContent).toContain(
       '40.00%',
     )
@@ -213,6 +224,10 @@ describe('Vaults Page container', () => {
     moxios.stubRequest('/api/v1/vaults/aggregate-statistics', {
       status: 200,
       response: aggregateStats,
+    })
+    moxios.stubRequest('/api/v1/vaults/asset-prices', {
+      status: 200,
+      response: mockAssetPrices,
     })
     moxios.stubRequest(/\/api\/v1\/vaults\?/, {
       status: 200,
@@ -275,7 +290,11 @@ describe('Vaults Page container', () => {
       expect(container.querySelector('.footnote')).toBeTruthy()
     })
     expect(container.querySelector('.footnote')?.textContent).toContain(
-      'Trust Level 3',
+      'Trust Level ≥1',
     )
+    const link = container.querySelector('.footnote a') as HTMLAnchorElement
+    expect(link).toBeTruthy()
+    expect(link.textContent).toBe('XRPL Meta')
+    expect(link.href).toBe('https://xrplmeta.org/')
   })
 })

@@ -1,18 +1,10 @@
 import axios from 'axios'
-import { fetchVaultsList, fetchVaultsAggregateStats } from '../../api'
+import { fetchVaultsList, fetchVaultsAggregateStats, fetchVaultAssetPrices } from '../../api'
 
 jest.mock('axios')
 
 describe('Vaults API', () => {
   const mockAxios = axios as jest.Mocked<typeof axios>
-
-  beforeAll(() => {
-    jest.spyOn(console, 'log').mockImplementation(() => {})
-  })
-
-  afterAll(() => {
-    jest.restoreAllMocks()
-  })
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -49,7 +41,7 @@ describe('Vaults API', () => {
       const result = await fetchVaultsList({
         page: 1,
         size: 20,
-        sortField: 'tvl_usd',
+        sortField: 'tvl-usd',
         sortOrder: 'desc',
         assetType: '',
         searchQuery: '',
@@ -74,7 +66,7 @@ describe('Vaults API', () => {
       await fetchVaultsList({
         page: 1,
         size: 20,
-        sortField: 'tvl_usd',
+        sortField: 'tvl-usd',
         sortOrder: 'desc',
         assetType: '',
         searchQuery: '',
@@ -85,7 +77,7 @@ describe('Vaults API', () => {
       )
     })
 
-    it('should map outstanding_loans_usd sort field', async () => {
+    it('should map outstanding-loans-usd sort field', async () => {
       mockAxios.get.mockResolvedValueOnce({
         data: { ...mockApiResponse, results: [] },
       })
@@ -93,7 +85,7 @@ describe('Vaults API', () => {
       await fetchVaultsList({
         page: 1,
         size: 20,
-        sortField: 'outstanding_loans_usd',
+        sortField: 'outstanding-loans-usd',
         sortOrder: 'asc',
         assetType: '',
         searchQuery: '',
@@ -115,7 +107,7 @@ describe('Vaults API', () => {
       await fetchVaultsList({
         page: 1,
         size: 20,
-        sortField: 'tvl_usd',
+        sortField: 'tvl-usd',
         sortOrder: 'desc',
         assetType: 'stablecoin',
         searchQuery: '',
@@ -134,7 +126,7 @@ describe('Vaults API', () => {
       await fetchVaultsList({
         page: 1,
         size: 20,
-        sortField: 'tvl_usd',
+        sortField: 'tvl-usd',
         sortOrder: 'desc',
         assetType: '',
         searchQuery: '',
@@ -153,7 +145,7 @@ describe('Vaults API', () => {
       await fetchVaultsList({
         page: 1,
         size: 20,
-        sortField: 'tvl_usd',
+        sortField: 'tvl-usd',
         sortOrder: 'desc',
         assetType: '',
         searchQuery: 'lending',
@@ -172,7 +164,7 @@ describe('Vaults API', () => {
       await fetchVaultsList({
         page: 1,
         size: 20,
-        sortField: 'tvl_usd',
+        sortField: 'tvl-usd',
         sortOrder: 'desc',
         assetType: '',
         searchQuery: '  vault  ',
@@ -191,7 +183,7 @@ describe('Vaults API', () => {
       await fetchVaultsList({
         page: 1,
         size: 20,
-        sortField: 'tvl_usd',
+        sortField: 'tvl-usd',
         sortOrder: 'desc',
         assetType: '',
         searchQuery: '   ',
@@ -210,7 +202,7 @@ describe('Vaults API', () => {
       await fetchVaultsList({
         page: 3,
         size: 10,
-        sortField: 'tvl_usd',
+        sortField: 'tvl-usd',
         sortOrder: 'desc',
         assetType: '',
         searchQuery: '',
@@ -232,7 +224,7 @@ describe('Vaults API', () => {
       const result = await fetchVaultsList({
         page: 1,
         size: 20,
-        sortField: 'tvl_usd',
+        sortField: 'tvl-usd',
         sortOrder: 'desc',
         assetType: '',
         searchQuery: '',
@@ -249,7 +241,7 @@ describe('Vaults API', () => {
         fetchVaultsList({
           page: 1,
           size: 20,
-          sortField: 'tvl_usd',
+          sortField: 'tvl-usd',
           sortOrder: 'desc',
           assetType: '',
           searchQuery: '',
@@ -297,6 +289,43 @@ describe('Vaults API', () => {
       mockAxios.get.mockRejectedValueOnce(new Error('Server error'))
 
       await expect(fetchVaultsAggregateStats()).rejects.toThrow('Server error')
+    })
+  })
+
+  describe('fetchVaultAssetPrices', () => {
+    const mockPricesResponse = {
+      prices: {
+        'USD.rIssuer123': 0.35,
+        'EUR.rIssuer456': 0.38,
+      },
+      lastUpdated: 1710000000000,
+    }
+
+    it('should fetch asset prices successfully', async () => {
+      mockAxios.get.mockResolvedValueOnce({ data: mockPricesResponse })
+
+      const result = await fetchVaultAssetPrices()
+
+      expect(result).toEqual(mockPricesResponse)
+      expect(mockAxios.get).toHaveBeenCalledWith(
+        '/api/v1/vaults/asset-prices',
+      )
+    })
+
+    it('should return prices map and lastUpdated', async () => {
+      mockAxios.get.mockResolvedValueOnce({ data: mockPricesResponse })
+
+      const result = await fetchVaultAssetPrices()
+
+      expect(result).toHaveProperty('prices')
+      expect(result).toHaveProperty('lastUpdated')
+      expect(result.prices['USD.rIssuer123']).toBe(0.35)
+    })
+
+    it('should propagate network errors', async () => {
+      mockAxios.get.mockRejectedValueOnce(new Error('Server error'))
+
+      await expect(fetchVaultAssetPrices()).rejects.toThrow('Server error')
     })
   })
 })
