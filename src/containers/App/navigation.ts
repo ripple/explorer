@@ -9,6 +9,7 @@ import {
   VALIDATORS_ROUTE,
   VAULTS_ROUTE,
 } from './routes'
+import { FEATURE_VAULTS_PAGE } from './featureFlags'
 
 const isNetwork = (path) =>
   path.indexOf(buildPath(VALIDATORS_ROUTE, {})) === 0 ||
@@ -34,11 +35,12 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
     title: 'tokens',
     current: (path: string) => isTokens(path),
   },
-  process.env.VITE_ENVIRONMENT === 'mainnet' && {
-    route: VAULTS_ROUTE,
-    title: 'vaults',
-    current: (path: string) => isVaults(path),
-  },
+  FEATURE_VAULTS_PAGE &&
+    process.env.VITE_ENVIRONMENT === 'mainnet' && {
+      route: VAULTS_ROUTE,
+      title: 'vaults',
+      current: (path: string) => isVaults(path),
+    },
   {
     title: 'network',
     current: (path: string) => isNetwork(path),
