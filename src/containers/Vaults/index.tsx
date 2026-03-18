@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
+import { useQuery } from 'react-query'
 import Log from '../shared/log'
 import { VaultsTable } from './VaultsTable'
 import { parseCurrencyAmount } from '../shared/NumberFormattingUtils'
@@ -17,7 +18,6 @@ import {
   fetchVaultsAggregateStats,
   fetchVaultAssetPrices,
 } from './api'
-import type { VaultsMetrics, VaultsListResponse } from './api'
 
 export type { VaultData }
 
@@ -41,54 +41,59 @@ export const Vaults = () => {
   const { trackScreenLoaded, trackException } = useAnalytics()
   const xrpToUSDRate = useXRPToUSDRate()
 
-  const [metrics, setMetrics] = useState<VaultsMetrics | null>(null)
-  const [vaultsResponse, setVaultsResponse] =
-    useState<VaultsListResponse | null>(null)
-  const [assetPrices, setAssetPrices] = useState<Record<string, number>>({})
-  const [tableLoading, setTableLoading] = useState(true)
-  const [initialLoaded, setInitialLoaded] = useState(false)
-  const metricsLoadedRef = useRef(false)
-  const tableLoadedRef = useRef(false)
-
   const searchTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
   useEffect(() => {
     trackScreenLoaded()
   }, [trackScreenLoaded])
 
-  const markInitialLoaded = () => {
-    if (metricsLoadedRef.current && tableLoadedRef.current) {
-      setInitialLoaded(true)
-    }
-  }
-
   // Fetch aggregate stats once on mount
-  useEffect(() => {
-    fetchVaultsAggregateStats()
-      .then((data) => {
-        setMetrics(data)
-        metricsLoadedRef.current = true
-        markInitialLoaded()
-      })
-      .catch((error) => {
+  const { data: metrics } = useQuery(
+    ['vaultsAggregateStats'],
+    fetchVaultsAggregateStats,
+    {
+      onError: (error) => {
         Log.error(error)
         trackException(`vaults stats fetch --- ${JSON.stringify(error)}`)
-        metricsLoadedRef.current = true
-        markInitialLoaded()
-      })
-  }, [trackException])
+      },
+    },
+  )
 
   // Fetch and periodically refresh asset prices from xrplmeta
-  useEffect(() => {
-    const loadPrices = () => {
-      fetchVaultAssetPrices()
-        .then((data) => setAssetPrices(data.prices))
-        .catch((error) => Log.error(error))
-    }
-    loadPrices()
-    const interval = setInterval(loadPrices, PRICE_REFETCH_INTERVAL)
-    return () => clearInterval(interval)
-  }, [])
+  const { data: assetPricesData } = useQuery(
+    ['vaultAssetPrices'],
+    fetchVaultAssetPrices,
+    {
+      refetchInterval: PRICE_REFETCH_INTERVAL,
+      onError: (error) => Log.error(error),
+    },
+  )
+  const assetPrices = assetPricesData?.prices ?? {}
+
+  // Fetch vaults list whenever params change
+  const {
+    data: vaultsResponse,
+    isLoading: tableLoading,
+    refetch: refetchVaults,
+  } = useQuery(
+    ['vaultsList', page, sortField, sortOrder, filterField, debouncedSearch],
+    () =>
+      fetchVaultsList({
+        page,
+        size: PAGE_SIZE,
+        sortField,
+        sortOrder,
+        assetType: filterField,
+        searchQuery: debouncedSearch,
+      }),
+    {
+      keepPreviousData: true,
+      onError: (error) => {
+        Log.error(error)
+        trackException(`vaults list fetch --- ${JSON.stringify(error)}`)
+      },
+    },
+  )
 
   // Debounce search input
   useEffect(() => {
@@ -106,36 +111,6 @@ export const Vaults = () => {
       }
     }
   }, [searchQuery])
-
-  // Fetch vaults list whenever params change
-  const fetchVaults = useCallback(() => {
-    setTableLoading(true)
-    fetchVaultsList({
-      page,
-      size: PAGE_SIZE,
-      sortField,
-      sortOrder,
-      assetType: filterField,
-      searchQuery: debouncedSearch,
-    })
-      .then((data) => {
-        setVaultsResponse(data)
-        setTableLoading(false)
-        tableLoadedRef.current = true
-        markInitialLoaded()
-      })
-      .catch((error) => {
-        Log.error(error)
-        trackException(`vaults list fetch --- ${JSON.stringify(error)}`)
-        setTableLoading(false)
-        tableLoadedRef.current = true
-        markInitialLoaded()
-      })
-  }, [page, sortField, sortOrder, filterField, debouncedSearch, trackException])
-
-  useEffect(() => {
-    fetchVaults()
-  }, [fetchVaults])
 
   const renderTextTooltip = (key: string) => (
     <HoverIcon
@@ -185,7 +160,7 @@ export const Vaults = () => {
     setPage(1)
   }
 
-  if (!initialLoaded) {
+  if (!metrics && !vaultsResponse) {
     return (
       <div className="vaults-page">
         <Helmet title={t('vaults')} />
@@ -272,7 +247,7 @@ export const Vaults = () => {
           <button
             type="button"
             className="refresh-button"
-            onClick={fetchVaults}
+            onClick={() => refetchVaults()}
             title={t('refresh_data')}
           >
             ↻
