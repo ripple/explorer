@@ -344,10 +344,7 @@
   }
 
   .footnote {
-    padding: 24px 0;
-    color: $black-40;
-    font-size: 12px;
-    font-weight: 400;
+    @include footnote;
   }
 
   @include for-size(tablet-landscape-up) {
@@ -432,8 +429,5 @@
       }
     }
 
-    .footnote {
-      font-size: 14px;
-    }
   }
 }
