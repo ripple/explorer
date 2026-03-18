@@ -16,6 +16,7 @@ interface SortTableProps {
   setSortOrder: (order: SortOrder) => void
   setPage: (page: number) => void
   tooltip?: boolean
+  alwaysShowArrow?: boolean
 }
 
 const SortTableColumn: React.FC<SortTableProps> = ({
@@ -27,6 +28,7 @@ const SortTableColumn: React.FC<SortTableProps> = ({
   setSortOrder,
   setPage,
   tooltip = false,
+  alwaysShowArrow = false,
 }) => {
   const { showTooltip, hideTooltip } = useTooltip()
   const { t } = useTranslation()
@@ -55,18 +57,21 @@ const SortTableColumn: React.FC<SortTableProps> = ({
     setPage(1)
   }
 
+  const isActive = sortField === field
+  const showArrow = isActive || alwaysShowArrow
+
   return (
     <th
-      className={`${field} ${tooltip ? 'has-tooltip' : ''}`}
+      className={`${field} ${tooltip ? 'has-tooltip' : ''} ${isActive ? 'active' : ''}`}
       onClick={handleClick}
       style={{ cursor: 'pointer' }}
     >
       <span className="sort-header">
         {label}
         {tooltip && renderTextTooltip(field)}
-        {sortField === field && (
+        {showArrow && (
           <ArrowIcon
-            className={`arrow ${sortOrder === 'asc' ? 'asc' : 'desc'}`}
+            className={`arrow ${isActive && sortOrder === 'asc' ? 'asc' : 'desc'}`}
           />
         )}
       </span>

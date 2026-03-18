@@ -8,7 +8,7 @@ import {
 } from '../shared/NumberFormattingUtils'
 import { shortenAccount } from '../shared/utils'
 import ExternalLink from '../shared/images/external_link.svg'
-import ArrowIcon from '../shared/images/down_arrow.svg'
+import SortTableColumn from '../shared/components/SortColumn'
 
 type SortOrder = 'asc' | 'desc'
 
@@ -65,33 +65,6 @@ export const VaultsTable = ({
   assetPrices,
 }: VaultsTableProps) => {
   const { t } = useTranslation()
-
-  const handleSort = (field: string) => {
-    if (sortField === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-    } else {
-      setSortField(field)
-      setSortOrder('desc')
-    }
-    setPage(1)
-  }
-
-  const renderSortHeader = (field: string, label: string) => {
-    const isActive = sortField === field
-    return (
-      <th
-        className={`${field} sortable ${isActive ? 'active' : ''}`}
-        onClick={() => handleSort(field)}
-      >
-        <span className="sort-header">
-          {label}
-          <ArrowIcon
-            className={`arrow ${isActive && sortOrder === 'asc' ? 'asc' : 'desc'}`}
-          />
-        </span>
-      </th>
-    )
-  }
 
   const renderVaultRow = (vault: VaultData & { index: number }) => (
     <tr key={vault.vault_id}>
@@ -188,19 +161,46 @@ export const VaultsTable = ({
               <th className="vault-id">{t('vaults_table_vault_id')}</th>
               <th className="name-col">{t('name')}</th>
               <th className="asset">{t('vaults_table_asset')}</th>
-              {renderSortHeader('tvl-usd', t('vaults_table_tvl'))}
-              {renderSortHeader(
-                'outstanding-loans-usd',
-                t('vaults_table_outstanding_loans'),
-              )}
-              {renderSortHeader(
-                'utilization-ratio',
-                t('vaults_table_utilization_ratio'),
-              )}
-              {renderSortHeader(
-                'avg-interest-rate',
-                t('vaults_table_avg_interest_rate'),
-              )}
+              <SortTableColumn
+                field="tvl-usd"
+                label={t('vaults_table_tvl')}
+                sortField={sortField}
+                sortOrder={sortOrder}
+                setSortField={setSortField}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+                alwaysShowArrow
+              />
+              <SortTableColumn
+                field="outstanding-loans-usd"
+                label={t('vaults_table_outstanding_loans')}
+                sortField={sortField}
+                sortOrder={sortOrder}
+                setSortField={setSortField}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+                alwaysShowArrow
+              />
+              <SortTableColumn
+                field="utilization-ratio"
+                label={t('vaults_table_utilization_ratio')}
+                sortField={sortField}
+                sortOrder={sortOrder}
+                setSortField={setSortField}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+                alwaysShowArrow
+              />
+              <SortTableColumn
+                field="avg-interest-rate"
+                label={t('vaults_table_avg_interest_rate')}
+                sortField={sortField}
+                sortOrder={sortOrder}
+                setSortField={setSortField}
+                setSortOrder={setSortOrder}
+                setPage={setPage}
+                alwaysShowArrow
+              />
               <th className="website">{t('vaults_table_website')}</th>
             </tr>
           </thead>

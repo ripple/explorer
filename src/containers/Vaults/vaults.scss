@@ -263,30 +263,20 @@
           text-align: center;
         }
 
-        &.sortable {
-          cursor: pointer;
-
-          .sort-header {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            vertical-align: middle;
-
-            .arrow {
-              width: 12px;
-              height: 12px;
-              opacity: 0.4;
-
-              &.asc {
-                transform: rotate(180deg);
-              }
-            }
+        &.tvl-usd,
+        &.outstanding-loans-usd,
+        &.utilization-ratio,
+        &.avg-interest-rate {
+          .sort-header .arrow {
+            width: 12px;
+            height: 12px;
+            opacity: 0.4;
           }
 
           &.active {
             color: $white;
 
-            .arrow {
+            .sort-header .arrow {
               opacity: 1;
             }
           }
