@@ -30,26 +30,8 @@ async function fetchAssetPrices() {
               `Price for ${token.name || token.currency}: ${xrpPrice} XRP`,
             )
           }
-        } catch (losErr) {
-          log.error(
-            `LOS price fetch failed for ${token.currency}: ${losErr.message}, trying xrplmeta`,
-          )
-          try {
-            const metaUrl = `${process.env.XRPLMETA_URL}/token/${token.currency}:${token.issuer_account}`
-            const metaResp = await axios.get(metaUrl, { timeout: 10000 })
-            const xrpPrice = Number(metaResp.data?.metrics?.price) || 0
-            if (xrpPrice > 0) {
-              const key = `${token.currency}.${token.issuer_account}`
-              prices[key] = xrpPrice
-              log.info(
-                `Price for ${token.name || token.currency} (via xrplmeta): ${xrpPrice} XRP`,
-              )
-            }
-          } catch (metaErr) {
-            log.error(
-              `Failed to fetch price for ${token.currency}: ${metaErr.message}`,
-            )
-          }
+        } catch (e) {
+          log.error(`Failed to fetch price for ${token.currency}: ${e.message}`)
         }
       }),
     )
