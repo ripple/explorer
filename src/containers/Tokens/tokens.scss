@@ -209,10 +209,7 @@
   }
 
   .footnote {
-    padding: 24px 0;
-    color: $black-40;
-    font-size: 12px;
-    font-weight: 400;
+    @include footnote;
 
     a::after {
       content: none !important;
@@ -271,10 +268,6 @@
         padding: 8px 16px;
         font-size: 16px;
       }
-    }
-
-    .footnote {
-      font-size: 16px;
     }
 
     .type {

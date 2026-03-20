@@ -202,3 +202,14 @@ $XRP_OTHERS: #f52a79;
     }
   }
 }
+
+@mixin footnote {
+  padding: 24px 0;
+  color: $black-40;
+  font-size: 12px;
+  font-weight: 400;
+
+  @include for-size(desktop-up) {
+    font-size: 16px;
+  }
+}

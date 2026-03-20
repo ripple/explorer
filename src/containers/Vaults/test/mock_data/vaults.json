@@ -1,0 +1,36 @@
+{
+  "total": 2,
+  "page": 1,
+  "size": 20,
+  "sort_by": "assets_total",
+  "sort_order": "desc",
+  "asset_type": "all",
+  "results": [
+    {
+      "vault_id": "ABC123DEF456GHI789JKL012MNO345PQR678STU901VWX234YZA567BCD890EFG",
+      "name": "XRP Lending Vault",
+      "asset_currency": "XRP",
+      "asset_issuer": "",
+      "asset_issuer_name": "",
+      "assets_total": 5000000,
+      "outstanding_loans": 2500000,
+      "utilization_ratio": 0.5,
+      "average_interest_rate": 5.25,
+      "website": "https://example.com",
+      "asset_category": "xrp"
+    },
+    {
+      "vault_id": "ZYX987WVU654TSR321QPO098NML765KJI432HGF109EDC876BAZ543YXW210VUT",
+      "name": "RLUSD Stable Vault",
+      "asset_currency": "524C555344000000000000000000000000000000",
+      "asset_issuer": "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De",
+      "asset_issuer_name": "Ripple",
+      "assets_total": 3000000,
+      "outstanding_loans": 1200000,
+      "utilization_ratio": 0.4,
+      "average_interest_rate": 3.75,
+      "website": "ripple.com",
+      "asset_category": "stablecoin"
+    }
+  ]
+}
