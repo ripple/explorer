@@ -1,1 +1,1 @@
-export const FEATURE_VAULTS_PAGE = true
+export const FEATURE_VAULTS_PAGE = false
