@@ -2,7 +2,12 @@ const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'vaults' })
 
 const PRICE_REFETCH_INTERVAL = 5 * 60 * 1000 // 5 minutes
+const VAULTS_REFETCH_INTERVAL = 2 * 60 * 1000 // 2 minutes
+const AGG_STATS_REFETCH_INTERVAL = 10 * 60 * 1000 // 10 minutes
+
 const cachedPrices = { prices: {}, lastUpdated: null }
+const cachedAggStats = { data: null, lastUpdated: null }
+const cachedVaults = new Map() // key: query string, value: { data, lastUpdated }
 
 async function fetchAssetPrices() {
   try {
@@ -44,15 +49,46 @@ async function fetchAssetPrices() {
   }
 }
 
-function startPriceCaching() {
+async function fetchAggregateStats() {
+  try {
+    const url = `${process.env.VITE_LOS_URL}/vaults/aggregate-statistics`
+    log.info(`Fetching vault aggregate stats from: ${url}`)
+    const resp = await axios.get(url, { timeout: 30000 })
+    cachedAggStats.data = resp.data
+    cachedAggStats.lastUpdated = Date.now()
+    log.info('Cached vault aggregate stats')
+  } catch (e) {
+    log.error(`Failed to fetch vault aggregate stats: ${e.message}`)
+  }
+}
+
+async function fetchVaultsList() {
+  try {
+    // Fetch the default view (first page, sorted by TVL desc) to warm the cache
+    const url = `${process.env.VITE_LOS_URL}/vaults?page=1&size=20&sort_by=assets_total&sort_order=desc`
+    log.info(`Refreshing vaults list cache from: ${url}`)
+    const resp = await axios.get(url, { timeout: 30000 })
+    const cacheKey = 'page=1&size=20&sort_by=assets_total&sort_order=desc'
+    cachedVaults.set(cacheKey, { data: resp.data, lastUpdated: Date.now() })
+    log.info('Cached default vaults list')
+  } catch (e) {
+    log.error(`Failed to refresh vaults list cache: ${e.message}`)
+  }
+}
+
+function startCaching() {
   if (process.env.VITE_ENVIRONMENT !== 'mainnet') {
     return
   }
   fetchAssetPrices()
+  fetchAggregateStats()
+  fetchVaultsList()
   setInterval(() => fetchAssetPrices(), PRICE_REFETCH_INTERVAL)
+  setInterval(() => fetchAggregateStats(), AGG_STATS_REFETCH_INTERVAL)
+  setInterval(() => fetchVaultsList(), VAULTS_REFETCH_INTERVAL)
 }
 
-startPriceCaching()
+startCaching()
 
 const getVaultAssetPrices = async (_req, res) => {
   try {
@@ -87,11 +123,17 @@ const getVaults = async (req, res) => {
     if (assetType) params.set('asset_type', assetType)
     if (nameLike) params.set('name_like', nameLike)
 
-    const url = `${process.env.VITE_LOS_URL}/vaults?${params.toString()}`
+    const cacheKey = params.toString()
+    const cached = cachedVaults.get(cacheKey)
+    if (cached && Date.now() - cached.lastUpdated < VAULTS_REFETCH_INTERVAL) {
+      return res.status(200).json(cached.data)
+    }
+
+    const url = `${process.env.VITE_LOS_URL}/vaults?${cacheKey}`
     log.info(`Fetching vaults from: ${url}`)
 
     const resp = await axios.get(url, { timeout: 30000 })
-    log.info('[LOS] GET /vaults response:', JSON.stringify(resp.data, null, 2))
+    cachedVaults.set(cacheKey, { data: resp.data, lastUpdated: Date.now() })
     return res.status(200).json(resp.data)
   } catch (error) {
     log.error('Failed to fetch vaults:', error.message)
@@ -103,14 +145,16 @@ const getVaults = async (req, res) => {
 
 const getVaultsAggregateStats = async (_req, res) => {
   try {
+    if (cachedAggStats.data) {
+      return res.status(200).json(cachedAggStats.data)
+    }
+
+    // Cache not yet populated (e.g. first request before background fetch completes)
     const url = `${process.env.VITE_LOS_URL}/vaults/aggregate-statistics`
     log.info(`Fetching vault aggregate stats from: ${url}`)
-
     const resp = await axios.get(url, { timeout: 30000 })
-    log.info(
-      '[LOS] GET /vaults/aggregate-statistics response:',
-      JSON.stringify(resp.data, null, 2),
-    )
+    cachedAggStats.data = resp.data
+    cachedAggStats.lastUpdated = Date.now()
     return res.status(200).json(resp.data)
   } catch (error) {
     log.error('Failed to fetch vault aggregate stats:', error.message)
