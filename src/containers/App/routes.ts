@@ -84,3 +84,7 @@ export const VAULT_ROUTE: RouteDefinition<{
 }> = {
   path: '/vault/:id',
 }
+
+export const VAULTS_ROUTE: RouteDefinition = {
+  path: '/vaults',
+}
