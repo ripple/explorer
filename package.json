@@ -104,7 +104,7 @@
   },
   "resolutions": {
     "jest-environment-jsdom": "29.3.1",
-    "rollup": "npm:@rollup/wasm-node"
+    "rollup": "npm:@rollup/wasm-node@^4.59.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,scss}": [
