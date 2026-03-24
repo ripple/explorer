@@ -56,9 +56,7 @@ describe('AMMDelete: Description', () => {
 
     expect(
       container.querySelector('[data-testid="amm-delete-description"]'),
-    ).toHaveTextContent(
-      'Attempted to delete the AMM for \uE900 XRP and XMPT.',
-    )
+    ).toHaveTextContent('Attempted to delete the AMM for \uE900 XRP and XMPT.')
     expect(container.querySelector('a')).toHaveAttribute(
       'href',
       '/mpt/000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',

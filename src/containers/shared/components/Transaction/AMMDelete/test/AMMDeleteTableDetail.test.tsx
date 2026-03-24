@@ -53,9 +53,7 @@ describe('AMMDelete: TableDetail', () => {
     expect(container.querySelector('[data-testid="asset2"]')).toHaveTextContent(
       'Asset 2XMPT',
     )
-    expect(
-      container.querySelector('[data-testid="asset2"] a'),
-    ).toHaveAttribute(
+    expect(container.querySelector('[data-testid="asset2"] a')).toHaveAttribute(
       'href',
       '/mpt/000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
     )

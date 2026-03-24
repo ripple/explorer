@@ -82,7 +82,12 @@ describe('AMMClawback: TableDetail', () => {
     })
     const { container, unmount } = renderComponent(mockAMMClawbackMPT)
     expect(container).toHaveTextContent(
-      'claws_back' + '260 XGLD' + 'and' + '100 XUSD' + 'from' + 'r4eWC5DixP74dpk7FDzXcap1BJ2NaoUeZN',
+      'claws_back' +
+        '260 XGLD' +
+        'and' +
+        '100 XUSD' +
+        'from' +
+        'r4eWC5DixP74dpk7FDzXcap1BJ2NaoUeZN',
     )
     unmount()
   })
