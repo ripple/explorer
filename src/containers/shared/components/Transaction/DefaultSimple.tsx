@@ -29,14 +29,26 @@ const DEFAULT_TX_ELEMENTS = [
 
 const displayKey = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1 $2')
 
-const isCurrency = (value: any) =>
+const isMPTAsset = (value: any) =>
   typeof value === 'object' &&
-  Object.keys(value).length <= 2 &&
-  (value.issuer == null || typeof value.issuer === 'string') &&
-  typeof value.currency === 'string'
+  typeof value.mpt_issuance_id === 'string' &&
+  !value.value
+
+const isMPTAmount = (value: any) =>
+  typeof value === 'object' &&
+  typeof value.mpt_issuance_id === 'string' &&
+  typeof value.value === 'string'
+
+const isCurrency = (value: any) =>
+  isMPTAsset(value) ||
+  (typeof value === 'object' &&
+    Object.keys(value).length <= 2 &&
+    (value.issuer == null || typeof value.issuer === 'string') &&
+    typeof value.currency === 'string')
 
 const isAmount = (amount: any, key: any = null) =>
   key === 'Amount' ||
+  isMPTAmount(amount) ||
   (typeof amount === 'object' &&
     Object.keys(amount).length === 3 &&
     typeof amount.issuer === 'string' &&
@@ -111,7 +123,11 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
         label={displayKey(key)}
         data-testid={key}
       >
-        <Currency currency={value.currency} issuer={value.issuer} />
+        <Currency
+          currency={value.mpt_issuance_id || value.currency}
+          issuer={value.issuer}
+          isMPT={!!value.mpt_issuance_id}
+        />
       </SimpleRow>
     )
   }

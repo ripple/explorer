@@ -1,4 +1,3 @@
-import { useQuery } from 'react-query'
 import {
   createSimpleRenderFactory,
   expectSimpleRowLabel,
@@ -14,15 +13,20 @@ import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 import mockPaymentMPT from './mock_data/PaymentMPT.json'
 import mockPermDomainID from './mock_data/PaymentWithPermDomainID.json'
 import mockPaymentWithCredentialIDs from './mock_data/PaymentWithCredentialIDs.json'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
 }))
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('Payment: Simple', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('renders', () => {
     const { container, unmount } = renderComponent(mockPayment)
 
@@ -131,10 +135,9 @@ describe('Payment: Simple', () => {
       assetScale: 3,
     }
 
-    // @ts-ignore
-    useQuery.mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data,
-    }))
+    })
 
     const { container, unmount } = renderComponent(mockPaymentMPT)
 

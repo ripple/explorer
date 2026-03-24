@@ -10,6 +10,11 @@ import DirectMPTPayment from './mock_data/DirectMPTPayment.json'
 import { TransactionMeta } from '../DetailTab/Meta'
 import OfferCreateWithPermissionedDomainID from '../../shared/components/Transaction/OfferCreate/test/mock_data/OfferCreateWithPermissionedDomainID.json'
 
+jest.mock('../../shared/hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../shared/hooks/useMPTIssuance'),
+  useMPTIssuance: () => ({ data: undefined }),
+}))
+
 describe('TransactionMeta container', () => {
   const renderMeta = (data: any = Transaction) =>
     render(

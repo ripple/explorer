@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useLocalStorage } from './useLocalStorage'
 
 export * from './useLocalStorage'
+export * from './useMPTIssuance'
 
 export const useLanguage = () =>
   useTranslation().i18n.resolvedLanguage || 'en-US'

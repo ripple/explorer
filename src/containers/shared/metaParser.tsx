@@ -5,6 +5,7 @@ import { ExplorerAmount } from './types'
 export const LedgerEntryTypes = {
   AccountRoot: 'AccountRoot',
   RippledState: 'RippleState',
+  MPToken: 'MPToken',
   AMM: 'AMM',
 }
 // TODO: fix fee logic - filter out the fee only nodes - make sure fee isnt included in xrp deposits/withdraws
@@ -59,9 +60,14 @@ changes.
  */
 export function findAssetAmount(
   meta: any,
-  asset: { currency: string; issuer?: string },
+  asset: { currency?: string; issuer?: string; mpt_issuance_id?: string },
   tx: BaseTransaction,
 ): ExplorerAmount | undefined {
+  // Handle MPT assets
+  if (asset.mpt_issuance_id) {
+    return findMPTAmount(meta, asset.mpt_issuance_id)
+  }
+
   if (asset.currency === 'XRP') return findXRPAmount(meta, tx)
 
   const assetNode = findNodeWithAsset(
@@ -78,7 +84,7 @@ export function findAssetAmount(
     : Number(assetNode?.NewFields?.Balance)
 
   return amount
-    ? { currency: asset.currency, issuer: asset.issuer, amount }
+    ? { currency: asset.currency!, issuer: asset.issuer, amount }
     : undefined
 }
 
@@ -89,6 +95,30 @@ export function findAssetAmount(
   i.e. if we deposit into the amm, the amm balance will go up by the same amount that the account balance decreases,
   therefore it doesnt matter which node we use.
 */
+function findMPTAmount(
+  meta: any,
+  mptIssuanceId: string,
+): ExplorerAmount | undefined {
+  const mptNodes = findNodes(meta, LedgerEntryTypes.MPToken).filter(
+    (n: any) =>
+      (n.FinalFields?.MPTokenIssuanceID || n.NewFields?.MPTokenIssuanceID) ===
+      mptIssuanceId,
+  )
+
+  if (mptNodes.length === 0) return undefined
+
+  const node = mptNodes[0]
+  const amount =
+    node.FinalFields?.MPTAmount != null
+      ? Math.abs(
+          Number(node.FinalFields.MPTAmount) -
+            Number(node.PreviousFields?.MPTAmount ?? 0),
+        )
+      : Number(node.NewFields?.MPTAmount ?? 0)
+
+  return amount ? { currency: mptIssuanceId, amount, isMPT: true } : undefined
+}
+
 function findXRPAmount(
   meta: any,
   tx: BaseTransaction,
@@ -117,7 +147,7 @@ function findXRPAmount(
 export function findNodeWithAsset(
   meta: any,
   entryType: string,
-  asset: { currency: string; issuer?: string; amount?: number },
+  asset: { currency?: string; issuer?: string; amount?: number },
 ) {
   return findNodes(meta, entryType)?.filter(
     (n: any) =>

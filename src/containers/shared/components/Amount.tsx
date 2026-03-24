@@ -1,15 +1,8 @@
-import { useQuery } from 'react-query'
-import { useContext } from 'react'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
-import { useLanguage } from '../hooks'
+import { useLanguage, useMPTIssuance } from '../hooks'
 import { localizeNumber, convertScaledPrice } from '../utils'
 import Currency from './Currency'
 import { ExplorerAmount } from '../types'
-import { FormattedMPTIssuance } from '../Interfaces'
-import { getMPTIssuance } from '../../../rippled/lib/rippled'
-import { formatMPTIssuance } from '../../../rippled/lib/utils'
-import SocketContext from '../SocketContext'
-import { useAnalytics } from '../analytics'
 
 export interface AmountProps {
   value: ExplorerAmount | string
@@ -27,8 +20,6 @@ export const Amount = ({
   displayCurrency = true,
 }: AmountProps) => {
   const language = useLanguage()
-  const rippledSocket = useContext(SocketContext)
-  const { trackException } = useAnalytics()
 
   // Handle the special case where amount is '< 0.0001' string
   const isSmallAmountString =
@@ -41,6 +32,9 @@ export const Amount = ({
   const isMPT = typeof value === 'string' ? false : (value.isMPT ?? false)
 
   const options = { ...CURRENCY_OPTIONS, currency }
+
+  const mptID = isMPT ? (value as ExplorerAmount).currency : null
+  const { data: mptIssuanceData } = useMPTIssuance(mptID, isMPT)
 
   const renderAmount = (localizedAmount: any) => (
     <span className="amount" data-testid="amount">
@@ -63,24 +57,6 @@ export const Amount = ({
       )}
     </span>
   )
-
-  const mptID = isMPT ? (value as ExplorerAmount).currency : null
-
-  // fetch MPTIssuance only if isMPT is true
-  const { data: mptIssuanceData } =
-    useQuery<FormattedMPTIssuance>(
-      ['getMPTIssuanceScale', mptID],
-      async () => {
-        const info = await getMPTIssuance(rippledSocket, mptID)
-        return formatMPTIssuance(info.node)
-      },
-      {
-        onError: (e: any) => {
-          trackException(`mptIssuance ${mptID} --- ${JSON.stringify(e)}`)
-        },
-        enabled: isMPT,
-      },
-    ) || {}
 
   // Handle the special case where amount is '< 0.0001'
   if (isSmallAmountString) {
