@@ -100,9 +100,7 @@ describe('OfferCreate: Simple', () => {
     const { container } = renderComponent(mockOfferCreateMPTPayIOU)
     expect(
       container.querySelector('[data-testid="amount-buy"] .value'),
-    ).toHaveTextContent(
-      '500 000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
-    )
+    ).toHaveTextContent('500 000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F')
     expect(
       container.querySelector('[data-testid="amount-sell"] .value'),
     ).toHaveTextContent('100')
