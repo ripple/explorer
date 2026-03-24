@@ -22,17 +22,11 @@ function getTokenPair(
   ) {
     const first =
       amount?.amount && amount.amount !== fee ? (
-        <Currency
-          currency={amount.currency}
-          isMPT={amount.isMPT}
-        />
+        <Currency currency={amount.currency} isMPT={amount.isMPT} />
       ) : undefined
     const second =
       amount2?.amount && amount2.amount !== fee ? (
-        <Currency
-          currency={amount2.currency}
-          isMPT={amount2.isMPT}
-        />
+        <Currency currency={amount2.currency} isMPT={amount2.isMPT} />
       ) : undefined
 
     if (first && second) {
