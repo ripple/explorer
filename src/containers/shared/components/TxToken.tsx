@@ -25,7 +25,6 @@ function getTokenPair(
         <Currency
           currency={amount.currency}
           isMPT={amount.isMPT}
-          shortenMPTIssuanceID
         />
       ) : undefined
     const second =
@@ -33,7 +32,6 @@ function getTokenPair(
         <Currency
           currency={amount2.currency}
           isMPT={amount2.isMPT}
-          shortenMPTIssuanceID
         />
       ) : undefined
 

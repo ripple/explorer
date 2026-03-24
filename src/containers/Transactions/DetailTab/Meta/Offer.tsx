@@ -64,7 +64,6 @@ const renderChanges = (
             issuer={getIssuer(final.TakerPays)}
             isMPT={paysIsMPT}
             displaySymbol={false}
-            shortenMPTIssuanceID
           />
         </b>{' '}
         <Trans i18nKey="decreased_from_to">
@@ -105,7 +104,6 @@ const renderChanges = (
             issuer={getIssuer(final.TakerGets)}
             isMPT={getsIsMPT}
             displaySymbol={false}
-            shortenMPTIssuanceID
           />
         </b>{' '}
         <Trans i18nKey="decreased_from_to">
@@ -230,7 +228,6 @@ const render: MetaRenderFunctionWithTx = (
               isMPT={invert ? getsIsMPT : paysIsMPT}
               displaySymbol={false}
               shortenIssuer
-              shortenMPTIssuanceID
             />
           ),
           Currency2: (
@@ -242,7 +239,6 @@ const render: MetaRenderFunctionWithTx = (
               isMPT={invert ? paysIsMPT : getsIsMPT}
               displaySymbol={false}
               shortenIssuer
-              shortenMPTIssuanceID
             />
           ),
           Account: <Account account={fields.Account} />,

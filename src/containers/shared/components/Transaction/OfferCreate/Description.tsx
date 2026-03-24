@@ -51,7 +51,6 @@ const Description: TransactionDescriptionComponent = (
           issuer={getsAsset.issuer}
           isMPT={getsAsset.isMPT}
           displaySymbol={false}
-          shortenMPTIssuanceID
         />
         /
         <Currency
@@ -59,7 +58,6 @@ const Description: TransactionDescriptionComponent = (
           issuer={paysAsset.issuer}
           isMPT={paysAsset.isMPT}
           displaySymbol={false}
-          shortenMPTIssuanceID
         />
       </small>
     )
@@ -71,7 +69,6 @@ const Description: TransactionDescriptionComponent = (
           issuer={paysAsset.issuer}
           isMPT={paysAsset.isMPT}
           displaySymbol={false}
-          shortenMPTIssuanceID
         />
         /
         <Currency
@@ -79,7 +76,6 @@ const Description: TransactionDescriptionComponent = (
           issuer={getsAsset.issuer}
           isMPT={getsAsset.isMPT}
           displaySymbol={false}
-          shortenMPTIssuanceID
         />
       </small>
     )

@@ -21,7 +21,6 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
               issuer={firstCurrency.issuer}
               isMPT={firstCurrency.isMPT}
               shortenIssuer
-              shortenMPTIssuanceID
             />
             /
             <Currency
@@ -29,7 +28,6 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
               issuer={secondCurrency.issuer}
               isMPT={secondCurrency.isMPT}
               shortenIssuer
-              shortenMPTIssuanceID
             />
           </div>
         </div>
