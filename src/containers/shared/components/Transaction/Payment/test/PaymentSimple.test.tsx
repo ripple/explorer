@@ -157,6 +157,28 @@ describe('Payment: Simple', () => {
     unmount()
   })
 
+  it('renders direct MPT payment with ticker', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: {
+        assetScale: 3,
+        parsedMPTMetadata: { ticker: 'XMPT' },
+      },
+    })
+
+    const { container, unmount } = renderComponent(mockPaymentMPT)
+
+    expectSimpleRowText(container, 'amount', `0.1 XMPT`)
+    expectSimpleRowLabel(container, 'amount', `send`)
+
+    expectSimpleRowText(
+      container,
+      'destination',
+      `rw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu`,
+    )
+
+    unmount()
+  })
+
   it(`renders with Permissioned Domain ID`, () => {
     const { container, unmount } = renderComponent(mockPermDomainID)
 
