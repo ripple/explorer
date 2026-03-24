@@ -78,7 +78,7 @@ export const TokensTable = ({
   )
 
   const renderToken = (token: LOSToken) => (
-    <tr>
+    <tr key={`${token.currency}.${token.issuer_account}`}>
       <td className="count">{token.index}</td>
       <td className="name">
         <TokenLogo icon={token.icon} />
