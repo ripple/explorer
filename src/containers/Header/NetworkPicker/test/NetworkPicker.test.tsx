@@ -58,7 +58,7 @@ describe('NetworkPicker component', () => {
 
   afterEach(() => {
     client.close()
-    window.location = location
+    window.location.assign(location.href)
     process.env = oldEnvs
   })
 
