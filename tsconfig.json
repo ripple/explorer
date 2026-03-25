@@ -19,7 +19,7 @@
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["jest", "@testing-library/jest-dom"],
+    "types": ["jest"],
     "typeRoots": ["./node_modules/@types", "./@types"],
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
