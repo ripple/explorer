@@ -58,6 +58,7 @@ describe('NetworkPicker component', () => {
 
   afterEach(() => {
     client.close()
+    // @ts-expect-error - restoring original location after test override
     window.location = location
     process.env = oldEnvs
   })
