@@ -27,22 +27,25 @@ import {
   NODES_ROUTE,
   VALIDATORS_ROUTE,
   UPGRADE_STATUS_ROUTE,
+  TOKENS_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
 import { AccountsRouter } from '../Accounts/AccountsRouter'
 import { Transaction } from '../Transactions'
 import { Validator } from '../Validators'
-import { Token } from '../Token'
+import { IOU } from '../Token/IOU'
 import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
 import { useCustomNetworks } from '../shared/hooks'
 import { Amendments } from '../Amendments'
 import { Amendment } from '../Amendment'
-import { MPT } from '../MPT/MPT'
+import { MPT } from '../Token/MPT'
 import { Nodes } from '../Network/Nodes'
 import { Validators } from '../Network/Validators'
 import { UpgradeStatus } from '../Network/UpgradeStatus'
+import { Tokens } from '../Tokens'
+import { TokenNonMain } from '../TokenNonMain'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -74,7 +77,8 @@ export const AppWrapper = () => {
     [UPGRADE_STATUS_ROUTE, UpgradeStatus],
     [AMENDMENTS_ROUTE, Amendments],
     [VALIDATOR_ROUTE, Validator],
-    [TOKEN_ROUTE, Token],
+    [TOKEN_ROUTE, mode === 'mainnet' ? IOU : TokenNonMain],
+    [TOKENS_ROUTE, Tokens],
     [NFT_ROUTE, NFT],
     [AMENDMENT_ROUTE, Amendment],
     [MPT_ROUTE, MPT],
@@ -132,7 +136,6 @@ export const AppWrapper = () => {
                   ))}
                   <Route path="*" element={<NoMatch />} />
                 </Route>
-                \{' '}
               </Routes>
               <Footer />
             </div>

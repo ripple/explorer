@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { Notification } from '../index'
 
 /* eslint-disable react/jsx-props-no-spreading */
@@ -13,63 +13,58 @@ const VALID_USAGES = [
 ]
 const notificationLevels = ['primary', 'secondary', 'ghost']
 const message = 'A catchy message'
-const renderComponent = (props) => mount(<Notification {...props} />)
+const renderComponent = (props) => render(<Notification {...props} />)
 
 describe('<Notification />', () => {
   it('should render with custom className', () => {
     const className = 'test-class'
-    const wrapper = renderComponent({
+    const { container } = renderComponent({
       message,
       className,
     })
 
-    expect(wrapper.hasClass(className)).toEqual(true)
+    expect(container.firstChild).toHaveClass(className)
   })
 
   it('should render the action button', () => {
-    const action = <button type="button" />
-    const wrapper = renderComponent({
+    const { container } = renderComponent({
       message,
-      action,
+      action: <button type="button" data-testid="action-btn" />,
     })
 
-    expect(wrapper.containsMatchingElement(action)).toEqual(true)
+    expect(container.querySelector('button')).toBeInTheDocument()
   })
 
   it('should render its message', () => {
-    const wrapper = renderComponent({
+    const { container } = renderComponent({
       message,
     })
 
-    expect(wrapper).toHaveText(message)
+    expect(container).toHaveTextContent(message)
   })
 
   // test all notification levels
-  notificationLevels.map((level) => {
+  notificationLevels.forEach((level) => {
     it(`should accept level prop of ${level}`, () => {
-      const wrapper = renderComponent({
+      const { container } = renderComponent({
         level,
         message,
       })
-      const wrapperProps = wrapper.props()
 
-      expect(wrapperProps.level).toEqual(level)
+      expect(container.querySelector('.notification')).toHaveClass(
+        `${level}-theme`,
+      )
     })
-
-    return false
   })
 
   // test all notification usages
-  VALID_USAGES.map((usage) => {
+  VALID_USAGES.forEach((usage) => {
     it(`should render with usage prop of ${usage}`, () => {
-      const wrapper = renderComponent({
+      const { container } = renderComponent({
         usage,
         message,
       })
-      const wrapperProps = wrapper.props()
-      expect(wrapperProps.usage).toEqual(usage)
+      expect(container.querySelector('.notification')).toHaveClass(usage)
     })
-
-    return false
   })
 })

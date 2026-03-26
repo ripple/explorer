@@ -11,9 +11,9 @@ interface FutureDataIconProps {
 /**
  * Displays an icon with a tooltip indicating that the associated data will be available in a future release.
  *
- * Note: For the tooltip functionality to work, ensure that:
- * 1. The parent component is wrapped with `<TooltipProvider>`.
- * 2. A `<Tooltip tooltip={tooltip} />` component is rendered within the component tree.
+ * Note: For the tooltip functionality to work, ensure that a `<Tooltip tooltip={tooltip} />`
+ * component is rendered within the component tree. The TooltipProvider is available globally
+ * from the App component.
  */
 export const FutureDataIcon = ({
   message = 'This data will be provided in a future release.',

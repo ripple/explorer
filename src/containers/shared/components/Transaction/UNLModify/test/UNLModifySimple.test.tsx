@@ -1,7 +1,7 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { expectSimpleRowLabel, expectSimpleRowText } from '../../test'
-import { createSimpleWrapperFactory } from '../../test/createWrapperFactory'
+import { createSimpleRenderFactory } from '../../test/createWrapperFactory'
 
 import { Simple } from '../Simple'
 import mockUNLModifyEnable from './mock_data/UNLModifyEnable.json'
@@ -10,37 +10,35 @@ import { SimpleTab } from '../../../../../Transactions/SimpleTab'
 import { QuickHarness } from '../../../../../test/utils'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 
-const createWrapper = createSimpleWrapperFactory(Simple, i18n)
+const renderSimple = createSimpleRenderFactory(Simple, i18n)
 
 describe('UNLModify: Simple', () => {
   it('renders tx that enables a validator', () => {
-    const wrapper = createWrapper(mockUNLModifyEnable)
-    expectSimpleRowLabel(wrapper, 'validator', 'Validator')
+    const { container } = renderSimple(mockUNLModifyEnable)
+    expectSimpleRowLabel(container, 'validator', 'Validator')
     expectSimpleRowText(
-      wrapper,
+      container,
       'validator',
       'nHUXeusfwk61c4xJPneb9Lgy7Ga6DVaVLEyB29ftUdt9k2KxD6Hw',
     )
-    expectSimpleRowLabel(wrapper, 'action', 'action')
-    expectSimpleRowText(wrapper, 'action', 'ENABLE')
-    wrapper.unmount()
+    expectSimpleRowLabel(container, 'action', 'action')
+    expectSimpleRowText(container, 'action', 'ENABLE')
   })
 
   it('renders tx that disables a validator', () => {
-    const wrapper = createWrapper(mockUNLModifyDisable)
-    expectSimpleRowLabel(wrapper, 'validator', 'Validator')
+    const { container } = renderSimple(mockUNLModifyDisable)
+    expectSimpleRowLabel(container, 'validator', 'Validator')
     expectSimpleRowText(
-      wrapper,
+      container,
       'validator',
       'nHUXeusfwk61c4xJPneb9Lgy7Ga6DVaVLEyB29ftUdt9k2KxD6Hw',
     )
-    expectSimpleRowLabel(wrapper, 'action', 'action')
-    expectSimpleRowText(wrapper, 'action', 'DISABLE')
-    wrapper.unmount()
+    expectSimpleRowLabel(container, 'action', 'action')
+    expectSimpleRowText(container, 'action', 'DISABLE')
   })
 
   it('renders tx with correct account and sequence', () => {
-    const wrapper = mount(
+    const { container } = render(
       <QuickHarness i18n={i18n}>
         <SimpleTab
           data={{
@@ -51,10 +49,10 @@ describe('UNLModify: Simple', () => {
         />
       </QuickHarness>,
     )
-    expect(wrapper.find('[data-testid="account"]')).not.toExist()
-    expectSimpleRowLabel(wrapper, 'sequence', 'Sequence Number')
-    expectSimpleRowText(wrapper, 'sequence', '0')
-
-    wrapper.unmount()
+    expect(
+      container.querySelector('[data-testid="account"]'),
+    ).not.toBeInTheDocument()
+    expectSimpleRowLabel(container, 'sequence', 'Sequence Number')
+    expectSimpleRowText(container, 'sequence', '0')
   })
 })

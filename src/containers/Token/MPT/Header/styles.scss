@@ -1,0 +1,210 @@
+@use '../../../shared/css/variables' as *;
+
+// =============================================================================
+// MPT HEADER - MPT-specific header styles only
+// All shared styles are in src/containers/Token/shared/styles.scss
+// =============================================================================
+
+.token-header.mpt {
+  // MPT-specific category pill variant ($mpt color)
+  .token-indicator {
+    .category-pill {
+      border: 1px solid $mpt;
+      background: $mpt;
+    }
+  }
+
+  // MPT metadata warning banner
+  .metadata-warning {
+    display: flex;
+    align-items: center;
+    padding: 25px;
+    border: 1px solid $orange-50;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    background: $orange-90;
+    gap: 12px;
+
+    .warning-icon {
+      width: 16px;
+      min-width: 16px;
+      height: 16px;
+      min-height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .warning-message {
+      margin: 0;
+      color: $black-0;
+      font-size: 16px;
+      line-height: 1.5;
+
+      a {
+        color: $black-0;
+        text-decoration: underline;
+
+        &:hover {
+          color: $orange-30;
+        }
+      }
+    }
+  }
+
+  .mpt-id {
+    word-break: break-all;
+  }
+
+  // MPT-specific dropdown styles (base styles are in shared/styles.scss)
+  .links-dropdown-container {
+    position: relative;
+  }
+
+  .dropdown-toggle-button {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    .dropdown-arrow {
+      width: 12px;
+      height: 12px;
+
+      path {
+        fill: $green-30;
+        transition: fill 0.2s ease;
+      }
+    }
+  }
+
+  .domain-link-container:hover {
+    .dropdown-arrow path {
+      fill: $green-50;
+    }
+  }
+
+  .links-dropdown-menu {
+    position: absolute;
+    z-index: 100;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    border: 1px solid $green-30;
+    border-radius: 8px;
+    margin-top: 4px;
+    background: $black-80;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 30%);
+
+    .links-dropdown-item {
+      padding: 8px 16px;
+      color: $green-30;
+      font-size: 14px;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba($green-30, 0.1);
+        color: $green-50;
+      }
+    }
+  }
+
+  // MPT-specific description value styling
+  .description-value {
+    max-width: 300px;
+    word-wrap: break-word;
+  }
+
+  // Settings box flag status styling
+  .settings-box {
+    .flag-status {
+      min-width: 85px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-align: center;
+      text-transform: uppercase;
+      white-space: nowrap;
+      @include semibold;
+
+      &.enabled {
+        background: $green-50;
+        color: $black-100;
+      }
+
+      &.disabled {
+        background: $black-50;
+        color: $black-0;
+      }
+    }
+  }
+
+  // Metadata box takes full width
+  .metadata-box {
+    @include for-size(tablet-landscape-up) {
+      width: 100%;
+      max-width: 100%;
+      flex: 0 0 100%;
+    }
+
+    .metadata-json {
+      max-height: 250px;
+      overflow-y: auto;
+      scrollbar-color: rgb(255 255 255 / 20%) transparent;
+
+      /* Firefox */
+      scrollbar-width: thin;
+
+      /* WebKit */
+      &::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border: 2px solid transparent; /* create padding effect */
+        border-radius: 6px;
+        background: rgb(255 255 255 / 20%);
+        background-clip: padding-box;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: rgb(255 255 255 / 12%);
+      }
+
+      .json-view {
+        padding: 16px;
+        margin-bottom: 0;
+      }
+
+      .json-view-controls {
+        top: 16px;
+        right: 16px;
+
+        @include for-size(phone-only) {
+          top: 16px;
+          left: 16px;
+        }
+      }
+
+      .metadata-string {
+        padding: 16px;
+        font-family: monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+    }
+  }
+}

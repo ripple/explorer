@@ -1,59 +1,48 @@
-import { mount } from 'enzyme'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Dropdown } from '../Dropdown'
 
 describe('Dropdown', () => {
-  let sandbox
-
-  beforeAll(() => {
-    sandbox = document.createElement('div')
-    document.body.appendChild(sandbox)
-  })
-
-  afterAll(() => {
-    if (sandbox) {
-      document.body.removeChild(sandbox)
-    }
-  })
-
   describe('prop: title', () => {
     it('renders when it is jsx', () => {
       const title = <span className="title-component">Woo</span>
-      const wrapper = mount(<Dropdown title={title}>Menu Contents</Dropdown>)
-      expect(wrapper.find('.title-component')).toExist()
-      expect(wrapper.find('.title-component')).toHaveText('Woo')
-      wrapper.unmount()
+      render(<Dropdown title={title}>Menu Contents</Dropdown>)
+      expect(screen.getByText('Woo')).toBeInTheDocument()
+      expect(screen.getByText('Woo')).toHaveClass('title-component')
     })
+
     it('renders when it is a string', () => {
       const title = 'Woo'
-      const wrapper = mount(<Dropdown title={title}>Menu Contents</Dropdown>)
-      expect(wrapper.find('.dropdown-toggle')).toIncludeText(title)
-      wrapper.unmount()
+      render(<Dropdown title={title}>Menu Contents</Dropdown>)
+      expect(screen.getByRole('button')).toHaveTextContent(title)
     })
   })
+
   describe(`prop: className`, () => {
     it('renders with custom className', () => {
-      const wrapper = mount(
+      const { container } = render(
         <Dropdown title="Woo" className="dropdown-custom">
           Menu Contents
         </Dropdown>,
       )
-      expect(wrapper.find('.dropdown')).toHaveClassName('dropdown-custom')
-      wrapper.unmount()
+      expect(container.querySelector('.dropdown')).toHaveClass(
+        'dropdown-custom',
+      )
     })
   })
 
-  it('shows menu when clicking toggle', () => {
-    const wrapper = mount(<Dropdown title="Woo">Menu Contents</Dropdown>)
-    expect(wrapper.find('.dropdown')).not.toHaveClassName('dropdown-expanded')
-    wrapper.find('.dropdown-toggle').simulate('click')
-    expect(wrapper.find('.dropdown')).toHaveClassName('dropdown-expanded')
-    wrapper.find('.dropdown-toggle').simulate('click')
-    expect(wrapper.find('.dropdown')).not.toHaveClassName('dropdown-expanded')
-    wrapper.unmount()
+  it('shows menu when clicking toggle', async () => {
+    const { container } = render(<Dropdown title="Woo">Menu Contents</Dropdown>)
+    const dropdown = container.querySelector('.dropdown')
+    expect(dropdown).not.toHaveClass('dropdown-expanded')
+    await userEvent.click(screen.getByRole('button'))
+    expect(dropdown).toHaveClass('dropdown-expanded')
+    await userEvent.click(screen.getByRole('button'))
+    expect(dropdown).not.toHaveClass('dropdown-expanded')
   })
 
-  it('hides menu when clicking toggle outside the component', () => {
-    const wrapper = mount(
+  it('hides menu when clicking toggle outside the component', async () => {
+    const { container } = render(
       <div className="container">
         <Dropdown title="Woo">
           <div className="child">Menu Contents</div>
@@ -62,30 +51,26 @@ describe('Dropdown', () => {
           Outside
         </button>
       </div>,
-      { attachTo: sandbox },
     )
-    expect(wrapper.find('.dropdown')).not.toHaveClassName('dropdown-expanded')
-    wrapper.find('.dropdown-toggle').simulate('click')
-    expect(wrapper.find('.dropdown')).toHaveClassName('dropdown-expanded')
-    wrapper.find('.child').getDOMNode<HTMLElement>().click() // simulate does not bubble
-    wrapper.update()
-    expect(wrapper.find('.dropdown')).toHaveClassName('dropdown-expanded')
-    wrapper.find('.outside').getDOMNode<HTMLElement>().click() // simulate does not bubble
-    wrapper.update()
-    expect(wrapper.find('.dropdown')).not.toHaveClassName('dropdown-expanded')
-    wrapper.unmount()
+    const dropdown = container.querySelector('.dropdown')
+    expect(dropdown).not.toHaveClass('dropdown-expanded')
+    await userEvent.click(screen.getByRole('button', { name: /woo/i }))
+    expect(dropdown).toHaveClass('dropdown-expanded')
+    await userEvent.click(screen.getByText('Menu Contents'))
+    expect(dropdown).toHaveClass('dropdown-expanded')
+    await userEvent.click(screen.getByRole('button', { name: /outside/i }))
+    expect(dropdown).not.toHaveClass('dropdown-expanded')
   })
 
-  it('adds aria roles', () => {
-    const wrapper = mount(<Dropdown title="Woo">Menu Contents</Dropdown>)
-    const toggle = wrapper.find('.dropdown-toggle')
-    const menu = wrapper.find('.dropdown-menu')
-    expect(toggle).toHaveProp('aria-haspopup', 'true')
-    expect(toggle).toHaveProp('tabIndex', 0)
-    expect(menu).toHaveProp('role', 'menu')
-    expect(menu).toHaveProp('tabIndex', 0)
-    toggle.simulate('click')
-    expect(wrapper.find('.dropdown-toggle')).toHaveProp('aria-expanded', true)
-    expect(wrapper.find('.dropdown-menu')).toHaveProp('aria-hidden', false)
+  it('adds aria roles', async () => {
+    const { container } = render(<Dropdown title="Woo">Menu Contents</Dropdown>)
+    const toggle = screen.getByRole('button')
+    const menu = container.querySelector('.dropdown-menu')
+    expect(toggle).toHaveAttribute('aria-haspopup', 'true')
+    expect(toggle).toHaveAttribute('tabIndex', '0')
+    expect(menu).toHaveAttribute('tabIndex', '0')
+    await userEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(menu).toHaveAttribute('aria-hidden', 'false')
   })
 })

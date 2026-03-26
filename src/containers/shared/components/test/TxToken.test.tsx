@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../../i18n/testConfigEnglish'
 import TxToken from '../TxToken'
@@ -11,34 +11,34 @@ import paymentMock from '../Transaction/Payment/test/mock_data/Payment.json'
 import summarizeTransaction from '../../../../rippled/lib/txSummary'
 
 describe('TxToken', () => {
-  const createWrapper = (transaction: any) =>
-    mount(
+  const renderTxToken = (transaction: any) =>
+    render(
       <I18nextProvider i18n={i18n}>
         <TxToken tx={summarizeTransaction(transaction, true)} />
       </I18nextProvider>,
     )
 
   it('to render for a Payment transaction', () => {
-    const wrapper = createWrapper(paymentMock)
+    const { container } = renderTxToken(paymentMock)
 
-    expect(wrapper).toHaveText('\uE900 XRP')
+    expect(container).toHaveTextContent('\uE900 XRP')
   })
 
   it('to render for a NON Payment transaction with only issued currency', () => {
-    const wrapper = createWrapper(withdrawUSDMock)
+    const { container } = renderTxToken(withdrawUSDMock)
 
-    expect(wrapper).toHaveText('USD')
+    expect(container).toHaveTextContent('USD')
   })
 
   it('to render for a NON Payment transaction with only XRP', () => {
-    const wrapper = createWrapper(withdrawXRPMock)
+    const { container } = renderTxToken(withdrawXRPMock)
 
-    expect(wrapper).toHaveText('\uE900 XRP')
+    expect(container).toHaveTextContent('\uE900 XRP')
   })
 
   it('to render for a NON Payment transaction with multiple amounts', () => {
-    const wrapper = createWrapper(withdrawMock)
+    const { container } = renderTxToken(withdrawMock)
 
-    expect(wrapper).toHaveText('\uE900 XRP and USD')
+    expect(container).toHaveTextContent('\uE900 XRP and USD')
   })
 })

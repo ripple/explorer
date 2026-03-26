@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { Details } from '../Details'
@@ -25,8 +25,8 @@ describe('NFT Details container', () => {
     domain: '123456',
   }
 
-  const createWrapper = (data = dataDefault) =>
-    mount(
+  const renderDetails = (data = dataDefault) =>
+    render(
       <I18nextProvider i18n={i18n}>
         <BrowserRouter>
           <Details data={data} />
@@ -35,21 +35,19 @@ describe('NFT Details container', () => {
     )
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderDetails()
   })
 
   it('renders defined fields', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.row').length).toEqual(7)
-    expect(wrapper.text()).toEqual(
+    const { container } = renderDetails()
+    expect(container.querySelectorAll('.row').length).toEqual(7)
+    expect(container.textContent).toEqual(
       expect.stringContaining(
         'ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi',
       ),
     )
-    expect(wrapper.text()).toEqual(
+    expect(container.textContent).toEqual(
       expect.stringContaining('rhSigFwZ9UnbiKbpaco8aSQUsNFXJVz51W'),
     )
-    wrapper.unmount()
   })
 })

@@ -83,8 +83,11 @@
   }
 
   .col-date {
-    flex: 3;
+    overflow: visible;
+    flex: 0 0 auto;
     justify-content: right;
+    text-overflow: clip;
+    white-space: normal;
     @include medium;
 
     @include for-size(desktop-up) {

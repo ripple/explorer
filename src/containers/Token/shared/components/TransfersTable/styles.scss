@@ -1,0 +1,54 @@
+@use '../../../../shared/css/variables' as *;
+@use '../../../../shared/css/table';
+
+// =============================================================================
+// TRANSFERS TABLE - Component-specific styles
+// Shared styles (.notice-with-controls, .action-pill) are in
+// src/containers/Token/shared/styles.scss
+// =============================================================================
+
+// Add spacing between action and timestamp columns
+.tx-action {
+  padding-right: 16px;
+
+  @include for-size(phone-only) {
+    padding-right: 12px;
+  }
+}
+
+// Scoped styles for transfers table to prevent conflicts with other tables
+.tokens-table {
+  table.basic {
+    // Fix column widths for transfers table with equal spacing
+    .tx-hash {
+      width: 130px;
+      min-width: 130px;
+    }
+
+    .tx-ledger {
+      width: 110px;
+      min-width: 110px;
+    }
+
+    .tx-action {
+      width: 110px;
+      min-width: 110px;
+    }
+
+    .tx-timestamp {
+      width: 160px;
+      min-width: 160px;
+    }
+
+    .tx-from,
+    .tx-to {
+      width: 130px;
+      min-width: 130px;
+    }
+
+    .tx-amount {
+      width: 130px;
+      min-width: 130px;
+    }
+  }
+}

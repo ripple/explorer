@@ -7,7 +7,7 @@ const log = logger({ name: 'iou' })
 
 export interface TokenData {
   balance: string
-  reserve: number
+  reserve?: number
   sequence: number
   rate?: string
   obligations?: string

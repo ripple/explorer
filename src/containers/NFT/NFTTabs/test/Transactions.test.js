@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { useInfiniteQuery, QueryClientProvider } from 'react-query'
@@ -12,8 +12,8 @@ jest.mock('react-query', () => ({
 }))
 
 describe('NFT Offers container', () => {
-  const createWrapper = () =>
-    mount(
+  const renderTransactions = () =>
+    render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <I18nextProvider i18n={i18n}>
@@ -29,8 +29,7 @@ describe('NFT Offers container', () => {
       isFetching: false,
       error: {},
     }))
-    const wrapper = createWrapper()
-    expect(wrapper.find('TransactionTable').length).toEqual(1)
-    wrapper.unmount()
+    const { container } = renderTransactions()
+    expect(container.querySelectorAll('.transaction-table').length).toEqual(1)
   })
 })

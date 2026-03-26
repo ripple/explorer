@@ -1,0 +1,69 @@
+@use '../../css/variables.scss' as *;
+
+.pagination {
+  display: flex;
+  align-items: center; /* vertical centering (optional) */
+  justify-content: center; /* horizontal centering */
+  margin: 24px 0;
+  color: $black-50;
+  gap: 8px;
+  user-select: none;
+
+  .page-list {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .page-number,
+  .page-btn,
+  .page-ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-number,
+  .page-btn {
+    padding: 2px 6px;
+    border: none;
+    background: none;
+    color: $black-50;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.85;
+  }
+
+  .page-number.active {
+    color: $green-30;
+  }
+
+  .page-btn[disabled] {
+    display: none;
+  }
+
+  .page-ellipsis {
+    padding: 0 2px;
+    opacity: 0.6;
+  }
+
+  .page-size {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+    gap: 6px;
+    opacity: 0.85;
+  }
+
+  .prev {
+    transform: rotate(180deg);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}

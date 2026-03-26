@@ -1,0 +1,82 @@
+@use '../../../../shared/css/variables' as *;
+@use '../../../../shared/css/table';
+
+// =============================================================================
+// DEX TRADE TABLE - Component-specific styles
+// Shared styles (.notice-with-controls, .action-pill) are in
+// src/containers/Token/shared/styles.scss
+// =============================================================================
+
+.text-truncate {
+  @extend %truncate;
+}
+
+// Add spacing between action and timestamp columns
+.tx-action {
+  padding-right: 16px;
+
+  @include for-size(phone-only) {
+    padding-right: 12px;
+  }
+}
+
+// Scoped styles for dex trade table to prevent conflicts with other tables
+.tokens-table {
+  // Custom tooltip styling for dex trade table
+  .tooltip.tooltip-text {
+    z-index: 9999;
+    max-width: calc(100vw - 32px);
+    margin: 0 16px;
+  }
+
+  table.basic {
+    // Fix column widths for dex trade table to prevent wrapping and ensure consistent spacing
+    .tx-hash {
+      width: 100px;
+      min-width: 100px;
+    }
+
+    th:nth-child(2),
+    .tx-ledger {
+      width: 80px;
+      min-width: 80px;
+      padding: 15px 5px;
+
+      @include for-size(desktop-up) {
+        padding: 15px 5px !important;
+      }
+    }
+
+    .tx-timestamp {
+      width: 200px;
+      min-width: 200px;
+      padding: 15px 5px;
+
+      @include for-size(tablet-portrait-up) {
+        padding: 15px 5px 15px 0px;
+      }
+    }
+
+    .tx-type {
+      width: 100px;
+      min-width: 100px;
+    }
+
+    .tx-from,
+    .tx-to {
+      width: 140px;
+      min-width: 140px;
+    }
+
+    .tx-amount-in,
+    .tx-amount-out {
+      width: 140px;
+      min-width: 140px;
+    }
+
+    .tx-amount-rate {
+      width: 165px;
+      min-width: 165px;
+    }
+  }
+}

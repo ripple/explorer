@@ -7,6 +7,17 @@ module.exports = {
     'prettier',
   ],
   plugins: ['jsx-a11y', 'prettier', 'import'],
+  settings: {
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './tsconfig.json',
+      },
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
   env: {
     browser: true,
     node: true,

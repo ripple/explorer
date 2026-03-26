@@ -44,6 +44,12 @@ const FlagsCard = ({ account }: FlagsCardProps) => {
         enabled: accountFlags.includes('lsfAllowTrustLineClawback'),
       },
       {
+        key: 'lsfAllowTrustLineLocking',
+        title: t('account_flag_title_lsf_allow_trustline_locking'),
+        description: t('account_flag_description_lsf_allow_trustline_locking'),
+        enabled: accountFlags.includes('lsfAllowTrustLineLocking'),
+      },
+      {
         key: 'lsfRequireDestTag',
         title: t('account_flag_title_lsf_require_destination_tag'),
         description: t('account_flag_description_lsf_require_destination_tag'),

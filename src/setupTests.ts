@@ -1,8 +1,5 @@
 import 'dotenv/config'
-import 'jest-enzyme'
 import '@testing-library/jest-dom/extend-expect'
-import { configure } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-17-updated'
 
 import { TextEncoder, TextDecoder } from 'util'
 
@@ -16,8 +13,6 @@ window.localStorage = window.localStorage || {
   },
   removeItem: (key) => delete mockStorage[key],
 }
-// @ts-expect-error
-configure({ adapter: new Adapter() })
 
 jest.spyOn(console, 'error')
 // @ts-expect-error

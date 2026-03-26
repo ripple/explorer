@@ -1,20 +1,20 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockCredentialAccept from './mock_data/CredentialAccept.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('CredentialAcceptTableDetail ', () => {
   it('renders CredentialAcceptTableDetail', () => {
-    const wrapper = createWrapper(mockCredentialAccept)
+    const { container, unmount } = renderComponent(mockCredentialAccept)
 
-    expect(wrapper.find('[data-testid="issuer"]')).toHaveText(
+    expect(container.querySelector('[data-testid="issuer"]')).toHaveTextContent(
       'issuer: rL6bethyyyphLye6A8WHhw1KxDZrwiqCmi',
     )
-    expect(wrapper.find('[data-testid="credential-type"]')).toHaveText(
-      'credential_type: My test credential',
-    )
+    expect(
+      container.querySelector('[data-testid="credential-type"]'),
+    ).toHaveTextContent('credential_type: My test credential')
 
-    wrapper.unmount()
+    unmount()
   })
 })

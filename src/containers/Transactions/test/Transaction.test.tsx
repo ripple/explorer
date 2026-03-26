@@ -1,13 +1,12 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import { Route } from 'react-router'
 import mockTransaction from './mock_data/Transaction.json'
 import mockTransactionSummary from './mock_data/TransactionSummary.json'
 import i18n from '../../../i18n/testConfig'
 import { Transaction } from '../index'
-import { TxStatus } from '../../shared/components/TxStatus'
 import { getTransaction } from '../../../rippled'
 import { Error as RippledError } from '../../../rippled/lib/utils'
-import { flushPromises, QuickHarness } from '../../test/utils'
+import { QuickHarness } from '../../test/utils'
 import Mock = jest.Mock
 
 jest.mock('../../../rippled', () => {
@@ -27,11 +26,11 @@ window.location.assign(
 )
 
 describe('Transaction container', () => {
-  const createWrapper = (
+  const renderTransaction = (
     hash = '50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774',
     tab = 'simple',
   ) =>
-    mount(
+    render(
       <QuickHarness
         i18n={i18n}
         initialEntries={[`/transactions/${hash}/${tab}`]}
@@ -47,14 +46,12 @@ describe('Transaction container', () => {
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderTransaction()
   })
 
   it('renders loading', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.loader').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderTransaction()
+    expect(container.querySelectorAll('.loader').length).toBe(1)
   })
 
   it('renders 404 page on no match', async () => {
@@ -62,46 +59,45 @@ describe('Transaction container', () => {
       Promise.reject(new RippledError('transaction not found', 404)),
     )
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
-    expect(wrapper.find('.no-match .title')).toHaveText('transaction_not_found')
-    expect(wrapper.find('.no-match .hint').at(0)).toHaveText(
-      'server_ledgers_hint',
-    )
-    expect(wrapper.find('.no-match .hint').at(1)).toHaveText(
-      'check_transaction_hash',
-    )
-    wrapper.unmount()
+    const { container } = renderTransaction()
+    await waitFor(() => {
+      expect(container.querySelector('.no-match .title')).toHaveTextContent(
+        'transaction_not_found',
+      )
+    })
+    const hints = container.querySelectorAll('.no-match .hint')
+    expect(hints[0]).toHaveTextContent('server_ledgers_hint')
+    expect(hints[1]).toHaveTextContent('check_transaction_hash')
   })
 
   it('renders invalid hash page', async () => {
-    const wrapper = createWrapper('aaaa')
-    await flushPromises()
-    wrapper.update()
-    expect(wrapper.find('.no-match .title')).toHaveText(
-      'invalid_transaction_hash',
+    const { container } = renderTransaction('aaaa')
+    await waitFor(() => {
+      expect(container.querySelector('.no-match .title')).toHaveTextContent(
+        'invalid_transaction_hash',
+      )
+    })
+    expect(container.querySelector('.no-match .hint')).toHaveTextContent(
+      'check_transaction_hash',
     )
-    expect(wrapper.find('.no-match .hint')).toHaveText('check_transaction_hash')
-    wrapper.unmount()
   })
 
   it('renders error page', async () => {
     mockedGetTransaction.mockImplementation(() =>
       Promise.reject(new RippledError('transaction not validated', 500)),
     )
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
-
-    expect(wrapper.find('.no-match .title')).toHaveText('generic_error')
-    expect(wrapper.find('.no-match .hint')).toHaveText('not_your_fault')
-    wrapper.unmount()
+    const { container } = renderTransaction()
+    await waitFor(() => {
+      expect(container.querySelector('.no-match .title')).toHaveTextContent(
+        'generic_error',
+      )
+    })
+    expect(container.querySelector('.no-match .hint')).toHaveTextContent(
+      'not_your_fault',
+    )
   })
 
   describe('with results', () => {
-    let wrapper
-
     beforeEach(async () => {
       const transaction = {
         processed: mockTransaction,
@@ -114,53 +110,50 @@ describe('Transaction container', () => {
     })
 
     it('renders summary section', async () => {
-      wrapper = createWrapper(mockTransaction.hash)
-      await flushPromises()
-      wrapper.update()
+      const { container } = renderTransaction(mockTransaction.hash)
+      await waitFor(() => {
+        expect(container.querySelectorAll('.transaction').length).toBe(1)
+      })
 
-      expect(wrapper.find('.transaction').length).toBe(1)
-      const summary = wrapper.find('.summary')
-      expect(summary.length).toBe(1)
-      expect(summary.contains(<div className="type">OfferCreate</div>)).toBe(
-        true,
-      )
+      const summary = container.querySelector('.summary')
+      expect(summary).toBeInTheDocument()
+      expect(summary?.querySelector('.type')).toHaveTextContent('OfferCreate')
 
-      // console.log(wrapper.debug())
-      expect(wrapper.find('.txid').length).toBe(2)
-      expect(wrapper.find('.txid').at(0).text()).toBe(
-        `hash: ${mockTransaction.hash}`,
+      const txids = container.querySelectorAll('.txid')
+      expect(txids.length).toBe(2)
+      expect(txids[0]).toHaveTextContent(`hash: ${mockTransaction.hash}`)
+      expect(txids[1]).toHaveTextContent(`CTID: ${mockTransaction.tx.ctid}`)
+      // TxStatus component renders success class for tesSUCCESS
+      expect(summary?.querySelector('.tx-status.success')).toBeInTheDocument()
+      expect(container.querySelectorAll('.tabs').length).toBe(1)
+      const tabs = container.querySelectorAll('a.tab')
+      expect(tabs.length).toBe(3)
+      expect(tabs[0].getAttribute('title')).toBe('simple')
+      expect(tabs[1].getAttribute('title')).toBe('detailed')
+      expect(tabs[2].getAttribute('title')).toBe('raw')
+      expect(container.querySelector('a.tab.selected')).toHaveTextContent(
+        'simple',
       )
-      expect(wrapper.find('.txid').at(1).text()).toBe(
-        `CTID: ${mockTransaction.tx.ctid}`,
-      )
-      expect(summary.contains(<TxStatus status="tesSUCCESS" />)).toBe(true)
-      expect(wrapper.find('.tabs').length).toBe(1)
-      expect(wrapper.find('a.tab').length).toBe(3)
-      expect(wrapper.find('a.tab').at(0).props().title).toBe('simple')
-      expect(wrapper.find('a.tab').at(1).props().title).toBe('detailed')
-      expect(wrapper.find('a.tab').at(2).props().title).toBe('raw')
-      expect(wrapper.find('a.tab.selected').text()).toEqual('simple')
-      wrapper.unmount()
     })
 
     it('renders detailed tab', async () => {
-      wrapper = createWrapper(mockTransaction.hash, 'detailed')
-      await flushPromises()
-      wrapper.update()
-
-      expect(wrapper.find('a.tab.selected').text()).toEqual('detailed')
-      expect(wrapper.find('.detail-body').length).toBe(1)
-      wrapper.unmount()
+      const { container } = renderTransaction(mockTransaction.hash, 'detailed')
+      await waitFor(() => {
+        expect(container.querySelector('a.tab.selected')).toHaveTextContent(
+          'detailed',
+        )
+      })
+      expect(container.querySelectorAll('.detail-body').length).toBe(1)
     })
 
     it('renders raw tab', async () => {
-      wrapper = createWrapper(mockTransaction.hash, 'raw')
-      await flushPromises()
-      wrapper.update()
-
-      expect(wrapper.find('a.tab.selected').text()).toEqual('raw')
-      expect(wrapper.find('.json-view').length).toBe(1)
-      wrapper.unmount()
+      const { container } = renderTransaction(mockTransaction.hash, 'raw')
+      await waitFor(() => {
+        expect(container.querySelector('a.tab.selected')).toHaveTextContent(
+          'raw',
+        )
+      })
+      expect(container.querySelectorAll('.json-view').length).toBe(1)
     })
   })
 })

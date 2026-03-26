@@ -5,6 +5,7 @@ import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { RouteLink } from '../../../routing'
 import { TRANSACTION_ROUTE } from '../../../../App/routes'
+import { CredentialIDs } from '../CredentialIDs'
 
 const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation()
@@ -18,6 +19,7 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
     condition,
     fulfillment,
     computationAllowance,
+    credentialIDs,
   } = data.instructions
 
   return (
@@ -71,6 +73,9 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
             {previousTx}
           </RouteLink>
         </SimpleRow>
+      )}
+      {credentialIDs && credentialIDs.length > 0 && (
+        <CredentialIDs credentialIDs={credentialIDs} />
       )}
     </>
   )

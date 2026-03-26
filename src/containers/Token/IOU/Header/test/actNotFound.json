@@ -1,0 +1,17 @@
+{
+  "account": "rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv",
+  "error": "actNotFound",
+  "error_code": 19,
+  "error_message": "Account not found.",
+  "ledger_hash": "97992DBB4ED350B572B39D0026604943ACC84A3E5967454147253CB317551891",
+  "ledger_index": 68989958,
+  "request": {
+    "account": "rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv",
+    "command": "account_info",
+    "ledger_index": "validated",
+    "queue": false,
+    "signer_lists": false,
+    "strict": false
+  },
+  "validated": true
+}

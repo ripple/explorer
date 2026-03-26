@@ -1,35 +1,35 @@
 import {
   expectSimpleRowText,
-  createSimpleWrapperFactory,
+  createSimpleRenderFactory,
   expectSimpleRowNotToExist,
 } from '../../test'
 import { Simple } from '../Simple'
 import mockVaultCreate from './mock_data/VaultCreate.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('VaultCreate: Simple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(mockVaultCreate)
+    const { container, unmount } = renderComponent(mockVaultCreate)
     expectSimpleRowText(
-      wrapper,
+      container,
       'asset',
       'USD.rJCPrRU8kcLfqCKob1j9EivLa4wG5pF4C2',
     )
-    expectSimpleRowText(wrapper, 'assets_maximum', '500')
-    expectSimpleRowText(wrapper, 'data', '7661756C74206D65746164617461')
+    expectSimpleRowText(container, 'assets_maximum', '500')
+    expectSimpleRowText(container, 'data', '7661756C74206D65746164617461')
     expectSimpleRowText(
-      wrapper,
+      container,
       'mptoken_metadata',
       '7368617265206D65746164617461',
     )
     expectSimpleRowText(
-      wrapper,
+      container,
       'withdrawal_policy',
       'vaultStrategyFirstComeFirstServe',
     )
-    expectSimpleRowNotToExist(wrapper, 'domain_id')
+    expectSimpleRowNotToExist(container, 'domain_id')
 
-    wrapper.unmount()
+    unmount()
   })
 })

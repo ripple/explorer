@@ -6,11 +6,14 @@ import {
   getLocalizedCurrencySymbol,
   localizeDate,
   durationToHuman,
+  formatDurationDetailed,
   formatAsset,
   shortenAccount,
   shortenDomain,
   shortenNFTTokenID,
   shortenMPTID,
+  stripHttpProtocol,
+  convertToHttpURL,
 } from '../utils'
 
 describe('utils', () => {
@@ -37,14 +40,14 @@ describe('utils', () => {
   })
 
   it('formatLargeNumber format numbers correctly', () => {
-    expect(formatLargeNumber()).toEqual({ num: '0.0000', unit: '' })
+    expect(formatLargeNumber()).toEqual({ num: '0.0', unit: '' })
     expect(formatLargeNumber(2000000000000)).toEqual({
-      num: '2.0000',
+      num: '2.0',
       unit: 'T',
     })
-    expect(formatLargeNumber(3300000000)).toEqual({ num: '3.3000', unit: 'B' })
-    expect(formatLargeNumber(44400000)).toEqual({ num: '44.4000', unit: 'M' })
-    expect(formatLargeNumber(555500)).toEqual({ num: '555.5000', unit: 'K' })
+    expect(formatLargeNumber(3300000000)).toEqual({ num: '3.3', unit: 'B' })
+    expect(formatLargeNumber(44400000)).toEqual({ num: '44.4', unit: 'M' })
+    expect(formatLargeNumber(555500)).toEqual({ num: '555.5', unit: 'K' })
     expect(formatLargeNumber(66.666, 2)).toEqual({ num: '66.67', unit: '' })
   })
 
@@ -161,6 +164,30 @@ describe('utils', () => {
     expect(durationToHuman(30000000)).toBe('11.38 mo.')
     expect(durationToHuman(300000000)).toBe('9.51 yr.')
   })
+
+  test('format duration detailed', () => {
+    // Basic cases
+    expect(formatDurationDetailed(0)).toBe('0s')
+    expect(formatDurationDetailed(30)).toBe('30s')
+    expect(formatDurationDetailed(60)).toBe('1min')
+    expect(formatDurationDetailed(3600)).toBe('1hr')
+    expect(formatDurationDetailed(86400)).toBe('1d')
+    expect(formatDurationDetailed(3665)).toBe('1hr.1min.5s')
+    expect(formatDurationDetailed(90061)).toBe('1d.1hr.1min.1s')
+    expect(formatDurationDetailed(7200 + 180 + 5)).toBe('2hr.3min.5s')
+    expect(formatDurationDetailed(604800 + 14400 + 180 + 5)).toBe(
+      '7d.4hr.3min.5s',
+    )
+    expect(formatDurationDetailed(31536000 + 86400 + 3600)).toBe('1yr.1d.1hr')
+    expect(formatDurationDetailed(2629746)).toBe('30d.10hr.29min.6s')
+
+    // Test maxUnits parameter
+    expect(formatDurationDetailed(90061, 2)).toBe('1d.1hr')
+    expect(formatDurationDetailed(90061, 3)).toBe('1d.1hr.1min')
+
+    // Test negative values (should handle absolute value)
+    expect(formatDurationDetailed(-3665)).toBe('1hr.1min.5s')
+  })
 })
 
 describe('AMM utils format asset', () => {
@@ -189,6 +216,22 @@ describe('Shorten utils', () => {
     it('returns short account addresses unchanged', () => {
       const shortAccount = 'rShortAddr'
       expect(shortenAccount(shortAccount)).toBe(shortAccount)
+    })
+  })
+
+  describe('stripHttpProtocol', () => {
+    it('strips https:// protocol', () => {
+      expect(stripHttpProtocol('https://www.example.com')).toBe(
+        'www.example.com',
+      )
+    })
+
+    it('strips http:// protocol', () => {
+      expect(stripHttpProtocol('http://example.com')).toBe('example.com')
+    })
+
+    it('returns domain unchanged if no protocol', () => {
+      expect(stripHttpProtocol('example.com')).toBe('example.com')
     })
   })
 
@@ -227,6 +270,40 @@ describe('Shorten utils', () => {
     it('returns short MPT token IDs unchanged', () => {
       const shortMPTID = '00000000A8B71A79C3CE'
       expect(shortenMPTID(shortMPTID)).toBe(shortMPTID)
+    })
+  })
+
+  describe('convertToHttpUrl', () => {
+    it('converts IPFS URLs to HTTP URLs', () => {
+      expect(
+        convertToHttpURL(
+          'ipfs://QmXhvvWs3HaFkJvDuYvanj2pv31yFQGJewfEhfme1Sv47Y',
+        ),
+      ).toBe(
+        'https://ipfs.io/ipfs/QmXhvvWs3HaFkJvDuYvanj2pv31yFQGJewfEhfme1Sv47Y',
+      )
+    })
+
+    it('preserves https:// URLs as-is', () => {
+      expect(convertToHttpURL('https://example.com/logo.png')).toBe(
+        'https://example.com/logo.png',
+      )
+    })
+
+    it('adds https:// to plain domain URLs', () => {
+      expect(convertToHttpURL('logo.svgcdn.com/logos/openai-icon.png')).toBe(
+        'https://logo.svgcdn.com/logos/openai-icon.png',
+      )
+    })
+
+    it('handles empty strings', () => {
+      expect(convertToHttpURL('')).toBe('')
+    })
+
+    it('handles other protocols', () => {
+      expect(convertToHttpURL('ftp://example.com/file.txt')).toBe(
+        'ftp://example.com/file.txt',
+      )
     })
   })
 })

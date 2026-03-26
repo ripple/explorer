@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, cleanup, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
 import i18n from '../../../../../i18n/testConfig'
 import testTokens from './mock_data/tokens.json'
@@ -11,15 +11,14 @@ const testQuery = 'test'
 
 describe('Testing tokens search', () => {
   let client
-  let wrapper
 
-  const createWrapper = () => {
+  const renderSearchResults = () => {
     const searchURL = `/api/v1/tokens/search/${testQuery}`
     moxios.stubRequest(searchURL, {
       status: 200,
       response: testTokens,
     })
-    return mount(
+    return render(
       <QuickHarness i18n={i18n}>
         <SocketContext.Provider value={client}>
           <SearchResults
@@ -34,45 +33,52 @@ describe('Testing tokens search', () => {
   beforeEach(() => {
     moxios.install()
     client = new MockWsClient()
-    wrapper = createWrapper()
   })
 
   afterEach(() => {
     client.close()
     moxios.uninstall()
-    wrapper.unmount()
+    cleanup()
   })
 
   it('renders without crashing', async () => {
+    const { container } = renderSearchResults()
     await flushPromises()
-    wrapper.update()
 
-    const searchMenu = wrapper.find('.search-results-menu')
+    const searchMenu = container.querySelectorAll('.search-results-menu')
     expect(searchMenu.length).toEqual(1)
   })
 
   it('renders all tokens ', async () => {
+    const { container } = renderSearchResults()
     await flushPromises()
-    wrapper.update()
 
-    const searchMenu = wrapper.find('.search-results-menu')
+    await waitFor(() => {
+      expect(
+        container.querySelector('.search-results-menu .search-results-header'),
+      ).toBeInTheDocument()
+    })
 
-    expect(searchMenu.find('.search-results-header').at(0).html()).toEqual(
+    const searchMenu = container.querySelector('.search-results-menu')
+
+    expect(searchMenu.querySelector('.search-results-header').outerHTML).toBe(
       `<div class="search-results-header">tokens (1)</div>`,
     )
-    expect(searchMenu.find('.currency').at(0).html()).toEqual(
+    expect(searchMenu.querySelector('.currency').outerHTML).toBe(
       `<span class="currency" data-testid="currency">SOLO</span>`,
     )
-    expect(searchMenu.find('.issuer-name').at(0).html()).toEqual(
+    expect(searchMenu.querySelector('.issuer-name').outerHTML).toBe(
       `<div class="issuer-name">Sologenic (</div>`,
     )
-    expect(searchMenu.find('.issuer-address').at(0).html()).toEqual(
+    expect(searchMenu.querySelector('.issuer-address').outerHTML).toBe(
       `<div class="issuer-address truncate">rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz</div>`,
     )
     expect(
-      searchMenu.find('.search-result-row').at(0).find('.metric-chip').length,
+      searchMenu
+        .querySelector('.search-result-row')
+        .querySelectorAll('.metric-chip').length,
     ).toEqual(3)
-    expect(searchMenu.find('.domain').at(0).html()).toEqual(
+    expect(searchMenu.querySelector('.domain').outerHTML).toBe(
       `<a class="domain" rel="noopener noreferrer" target="_blank" href="https://sologenic.com">sologenic.com</a>`,
     )
   })
