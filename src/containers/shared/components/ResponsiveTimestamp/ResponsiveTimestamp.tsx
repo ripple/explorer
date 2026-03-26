@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
+import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
 import './styles.scss'
 
 interface ResponsiveTimestampProps {

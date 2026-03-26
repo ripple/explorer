@@ -1,26 +1,23 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
-import i18n from '../../../../../../i18n/testConfigEnglish'
-import {
-  HoldersTable,
-  XRPLHolder,
-} from '../../../components/HoldersTable/HoldersTable'
+import i18n from '../../../../../i18n/testConfigEnglish'
+import { HoldersTable, XRPLHolder } from '../HoldersTable'
 
-jest.mock('../../../../../shared/components/Account', () => ({
+jest.mock('../../Account', () => ({
   Account: ({ displayText }: { displayText: string }) => (
     <span data-testid="account">{displayText}</span>
   ),
 }))
 
-jest.mock('../../../../../shared/utils', () => ({
+jest.mock('../../../utils', () => ({
   shortenAccount: (account: string) =>
     account.length > 12
       ? `${account.slice(0, 7)}...${account.slice(-5)}`
       : account,
 }))
 
-jest.mock('../../../../../shared/components/Pagination', () => ({
+jest.mock('../../Pagination', () => ({
   Pagination: ({
     onPageChange,
     totalItems,
@@ -42,11 +39,11 @@ jest.mock('../../../../../shared/components/Pagination', () => ({
   },
 }))
 
-jest.mock('../../../../../shared/components/Loader', () => ({
+jest.mock('../../Loader', () => ({
   Loader: () => <div>Loading...</div>,
 }))
 
-jest.mock('../../../../../shared/NumberFormattingUtils', () => ({
+jest.mock('../../../NumberFormattingUtils', () => ({
   formatLargeNumber: (value: number, decimals: number, lang: string) => ({
     num: value.toFixed(decimals),
     unit: '',
