@@ -10,7 +10,6 @@ import {
   CartesianGrid,
 } from 'recharts'
 
-/** Configuration for a single Y-axis and its associated area series. */
 export interface AxisConfig {
   dataKey: string
   label: string
@@ -19,10 +18,6 @@ export interface AxisConfig {
   show: boolean
 }
 
-/**
- * A recharts AreaChart with two Y-axes (left + right), gradient fills,
- * and configurable axis formatting.
- */
 export interface DualAxisAreaChartProps {
   data: any[]
   xAxisKey: string

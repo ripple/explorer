@@ -61,11 +61,19 @@ export const AMMDepositWithdrawTable: FC<AMMDepositWithdrawTableProps> = ({
     type === 'deposit' ? t('lp_tokens_received') : t('lp_tokens_redeemed')
 
   const renderAssetAmount = (asset: AMMDepositWithdrawTx['asset']) => {
-    if (!asset || Number(asset.amount) === 0) {
-      return '--'
-    }
-
-    return <Amount value={asset} displayIssuer shortenIssuer useParseAmount />
+    if (!asset) return '--'
+    return (
+      <Amount
+        value={{
+          currency: asset.currency,
+          issuer: asset.issuer,
+          amount: parseAmount(asset.amount),
+        }}
+        displayIssuer
+        shortenIssuer
+        displayCurrency={String(asset.currency) !== 'XRP'}
+      />
+    )
   }
 
   const renderTransaction = (tx: AMMDepositWithdrawTx) => (
@@ -105,7 +113,7 @@ export const AMMDepositWithdrawTable: FC<AMMDepositWithdrawTableProps> = ({
       {!isLoading && transactions.length > 0 && (
         <>
           <div className="notice-with-controls">
-            <div className="data-notice">{t('data_available_from_notice')}</div>
+            <div className="data-notice">{t('token_page.dex_data_notice')}</div>
           </div>
           <div className="table-wrap">
             <table className="basic" ref={tableRef}>

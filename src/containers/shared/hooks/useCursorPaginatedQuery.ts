@@ -1,17 +1,20 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
+import { useQuery } from 'react-query'
 import {
   CursorPaginationService,
   PaginationResult,
 } from '../services/CursorPaginationService'
 
 interface UseCursorPaginatedQueryOptions<T> {
+  /** Unique query key prefix */
+  queryKey: string
   /** The pagination service instance */
   service: CursorPaginationService<T>
   /** Identifier passed to the service (e.g., token ID, AMM account ID) */
   id: string
   /** Items per page */
   pageSize: number
-  /** Whether fetching is enabled */
+  /** Whether the query is enabled */
   enabled?: boolean
   /** Initial sort field */
   initialSortField?: string
@@ -32,16 +35,14 @@ interface UseCursorPaginatedQueryResult<T> {
 }
 
 /**
- * React bridge for CursorPaginationService. Manages page/sort/refresh state
- * and data fetching so each consumer doesn't duplicate ~70 lines of
- * useState/useEffect/useCallback boilerplate.
+ * Hook that wraps CursorPaginationService with react-query,
+ * handling sort/page/refresh state automatically.
  *
- * Used by IOU (2), MPT (1), and AMM Pool (3) pages.
- *
- * Page changes keep previous data visible (no loading flash).
- * Sort changes and refresh show a loader because the cache is cleared.
+ * On sort change: resets page to 1 and clears the service cache.
+ * On refresh: clears cache, resets page, and forces a refetch.
  */
 export function useCursorPaginatedQuery<T>({
+  queryKey,
   service,
   id,
   pageSize,
@@ -55,14 +56,11 @@ export function useCursorPaginatedQuery<T>({
     initialSortOrder,
   )
   const [refreshCount, setRefreshCount] = useState(0)
-  const [data, setData] = useState<PaginationResult<T>>()
-  const [isLoading, setIsLoading] = useState(true)
 
   const setSortField = useCallback(
     (field: string) => {
       setSortFieldState(field)
       setPage(1)
-      setIsLoading(true)
       service.clearCache()
     },
     [service],
@@ -72,7 +70,6 @@ export function useCursorPaginatedQuery<T>({
     (order: 'asc' | 'desc') => {
       setSortOrderState(order)
       setPage(1)
-      setIsLoading(true)
       service.clearCache()
     },
     [service],
@@ -81,36 +78,14 @@ export function useCursorPaginatedQuery<T>({
   const refresh = useCallback(() => {
     service.clearCache()
     setPage(1)
-    setIsLoading(true)
     setRefreshCount((c) => c + 1)
   }, [service])
 
-  useEffect(() => {
-    if (!enabled) {
-      return undefined
-    }
-
-    let cancelled = false
-
-    service
-      .getPage(id, page, pageSize, sortField, sortOrder)
-      .then((result) => {
-        if (!cancelled) {
-          setData(result)
-          setIsLoading(false)
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setData(undefined)
-          setIsLoading(false)
-        }
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [enabled, service, id, page, pageSize, sortField, sortOrder, refreshCount])
+  const { data, isLoading } = useQuery(
+    [queryKey, id, page, sortField, sortOrder, refreshCount],
+    () => service.getPage(id, page, pageSize, sortField, sortOrder),
+    { enabled },
+  )
 
   return {
     data,

@@ -1,4 +1,4 @@
-import { FC, useState, useCallback, useContext, useMemo } from 'react'
+import { FC, useState, useCallback, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useInfiniteQuery } from 'react-query'
 import { Tabs } from '../../shared/components/Tabs'
@@ -21,7 +21,6 @@ import { AMMDepositWithdrawTable } from './AMMDepositWithdrawTable'
 import { AMMDepositWithdrawTx, FormattedBalance } from '../types'
 import getTokenHolders from '../../Token/IOU/api/holders'
 
-const BATCH_SIZE = 200
 const PAGE_SIZE = 10
 
 // Format DEX trade from LOS /dex-trades response
@@ -62,17 +61,13 @@ const buildFormatDepositWithdraw =
     const responseAssets = [tx.amm?.asset1, tx.amm?.asset2].filter(Boolean)
 
     const matchAsset = (target: FormattedBalance | null) => {
-      if (!target) {
-        return null
-      }
+      if (!target) return null
       const found = responseAssets.find(
         (a: any) =>
           a.currency === target.currency &&
           (a.issuer ?? null) === (target.issuer ?? null),
       )
-      if (!found) {
-        return null
-      }
+      if (!found) return null
       return {
         currency: found.currency,
         issuer: found.issuer ?? undefined,
@@ -93,14 +88,19 @@ const buildFormatDepositWithdraw =
     }
   }
 
-// DEX trades pagination — format function doesn't depend on pool assets
+// Create pagination service instances for each tab
 const dexTradesPagination = new CursorPaginationService<LOSDEXTransaction>({
   fetchFn: (id, size, cursor, direction, sortField, sortOrder) =>
     fetchAMMDexTrades(id, size, cursor, direction, sortField, sortOrder),
   formatFn: formatDexTrade,
-  batchSize: BATCH_SIZE,
+  batchSize: 100,
   pageSize: PAGE_SIZE,
 })
+
+let depositsPagination: CursorPaginationService<AMMDepositWithdrawTx> | null =
+  null
+let withdrawalsPagination: CursorPaginationService<AMMDepositWithdrawTx> | null =
+  null
 
 interface AMMPoolTablePickerProps {
   ammAccountId: string
@@ -110,7 +110,6 @@ interface AMMPoolTablePickerProps {
   asset1: FormattedBalance | null
   asset2: FormattedBalance | null
   tvlUsd?: number
-  isDeleted?: boolean
 }
 
 export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
@@ -121,40 +120,31 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
   asset1,
   asset2,
   tvlUsd,
-  isDeleted = false,
 }) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
   const [activeTab, setActiveTab] = useState(tab || 'transactions')
 
-  // Recreate pagination services when assets change so that the formatFn
-  // captures the current pool's currencies for correct asset column matching.
-  const depositsPagination = useMemo(
-    () =>
-      new CursorPaginationService<AMMDepositWithdrawTx>({
-        fetchFn: (id, size, cursor, direction) =>
-          fetchAMMTransactions(id, 'AMMDeposit', size, cursor, direction),
-        formatFn: buildFormatDepositWithdraw(asset1, asset2),
-        batchSize: BATCH_SIZE,
-        pageSize: PAGE_SIZE,
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [asset1?.currency, asset1?.issuer, asset2?.currency, asset2?.issuer],
-  )
-
-  const withdrawalsPagination = useMemo(
-    () =>
-      new CursorPaginationService<AMMDepositWithdrawTx>({
-        fetchFn: (id, size, cursor, direction) =>
-          fetchAMMTransactions(id, 'AMMWithdraw', size, cursor, direction),
-        formatFn: buildFormatDepositWithdraw(asset1, asset2),
-        batchSize: BATCH_SIZE,
-        pageSize: PAGE_SIZE,
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [asset1?.currency, asset1?.issuer, asset2?.currency, asset2?.issuer],
-  )
+  // Lazily create pagination services with the correct asset ordering
+  if (!depositsPagination) {
+    depositsPagination = new CursorPaginationService<AMMDepositWithdrawTx>({
+      fetchFn: (id, size, cursor, direction) =>
+        fetchAMMTransactions(id, 'AMMDeposit', size, cursor, direction),
+      formatFn: buildFormatDepositWithdraw(asset1, asset2),
+      batchSize: 100,
+      pageSize: PAGE_SIZE,
+    })
+  }
+  if (!withdrawalsPagination) {
+    withdrawalsPagination = new CursorPaginationService<AMMDepositWithdrawTx>({
+      fetchFn: (id, size, cursor, direction) =>
+        fetchAMMTransactions(id, 'AMMWithdraw', size, cursor, direction),
+      formatFn: buildFormatDepositWithdraw(asset1, asset2),
+      batchSize: 100,
+      pageSize: PAGE_SIZE,
+    })
+  }
 
   // All Transactions — fetch via rippled account_tx
   const {
@@ -196,6 +186,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
 
   // DEX Trades — using shared hook
   const dexTrades = useCursorPaginatedQuery({
+    queryKey: 'ammDexTrades',
     service: dexTradesPagination,
     id: ammAccountId,
     pageSize: PAGE_SIZE,
@@ -204,6 +195,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
 
   // Deposits — using shared hook
   const deposits = useCursorPaginatedQuery({
+    queryKey: 'ammDeposits',
     service: depositsPagination,
     id: ammAccountId,
     pageSize: PAGE_SIZE,
@@ -212,6 +204,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
 
   // Withdrawals — using shared hook
   const withdrawals = useCursorPaginatedQuery({
+    queryKey: 'ammWithdrawals',
     service: withdrawalsPagination!,
     id: ammAccountId,
     pageSize: PAGE_SIZE,
@@ -262,7 +255,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
           { id: 'dex-trades', labelKey: 'dex_trades' },
           { id: 'deposits', labelKey: 'deposits' },
           { id: 'withdrawals', labelKey: 'withdrawals' },
-          ...(!isDeleted ? [{ id: 'holders', labelKey: 'holders' }] : []),
+          { id: 'holders', labelKey: 'holders' },
         ]
       : []),
   ]
