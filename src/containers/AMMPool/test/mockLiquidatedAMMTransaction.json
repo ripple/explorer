@@ -1,0 +1,66 @@
+{
+  "transactions": [
+    {
+      "tx": {
+        "Account": "rsWRnby4f9QzarQQs3MpRhBncUgKUC56Ff",
+        "TransactionType": "AMMWithdraw",
+        "hash": "E9D07AA35B1C37ACE4D7D3235619243ACAD612754F824AAE253C36F13BF17DFC"
+      },
+      "meta": {
+        "AffectedNodes": [
+          {
+            "DeletedNode": {
+              "FinalFields": {
+                "Account": "rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL",
+                "Asset": { "currency": "XRP" },
+                "Asset2": {
+                  "currency": "504958454C530000000000000000000000000000",
+                  "issuer": "rNEQb5e4DZUJG48xKPstDWjmm1PQ4fcUfZ"
+                },
+                "AuctionSlot": {
+                  "Account": "rsWRnby4f9QzarQQs3MpRhBncUgKUC56Ff",
+                  "Expiration": 827698230,
+                  "Price": {
+                    "currency": "0370963F20A61AF3C6E5D674EAAEE3E65C0BDC9F",
+                    "issuer": "rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL",
+                    "value": "0"
+                  }
+                },
+                "Flags": 0,
+                "LPTokenBalance": {
+                  "currency": "0370963F20A61AF3C6E5D674EAAEE3E65C0BDC9F",
+                  "issuer": "rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL",
+                  "value": "2764439179.245265"
+                },
+                "VoteSlots": [
+                  {
+                    "VoteEntry": {
+                      "Account": "rsWRnby4f9QzarQQs3MpRhBncUgKUC56Ff",
+                      "VoteWeight": 100000
+                    }
+                  }
+                ]
+              },
+              "LedgerEntryType": "AMM",
+              "LedgerIndex": "0422F98444F7B068C7EC6EEDAF11380E6A146F091639A29E09B3399C1F8A5341"
+            }
+          },
+          {
+            "ModifiedNode": {
+              "FinalFields": {
+                "Account": "rsWRnby4f9QzarQQs3MpRhBncUgKUC56Ff",
+                "Balance": "171889002"
+              },
+              "LedgerEntryType": "AccountRoot",
+              "LedgerIndex": "8CCDDB1D59E72EBD937C297CC9487F0FCDCA146C8CFE9EB360788594E72649B9"
+            }
+          }
+        ],
+        "TransactionResult": "tesSUCCESS"
+      },
+      "validated": true,
+      "date": 827617760,
+      "ledger_index": 103072853
+    }
+  ]
+}
