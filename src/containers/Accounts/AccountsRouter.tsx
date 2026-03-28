@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import { useParams } from 'react-router'
+import { Navigate } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import {
   isValidClassicAddress,
   isValidXAddress,
   xAddressToClassicAddress,
 } from 'ripple-address-codec'
-import { AMMAccounts } from './AMM/AMMAccounts'
 import SocketContext from '../shared/SocketContext'
 import { getAccountInfo } from '../../rippled/lib/rippled'
 import NoMatch from '../NoMatch'
@@ -15,6 +15,8 @@ import { ERROR_MESSAGES } from './Errors'
 import { Loader } from '../shared/components/Loader'
 import { Error } from '../../rippled/lib/utils'
 import { BAD_REQUEST } from '../shared/utils'
+import { buildPath } from '../shared/routing'
+import { AMM_POOL_ROUTE } from '../App/routes'
 
 const getErrorMessage = (error: any) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -46,7 +48,12 @@ export const AccountsRouter = () => {
       getAccountInfo(rippledSocket, classicAddress)
         .then((data: any) => {
           if (data.AMMID) {
-            return <AMMAccounts />
+            return (
+              <Navigate
+                to={buildPath(AMM_POOL_ROUTE, { id: classicAddress })}
+                replace
+              />
+            )
           }
           return <Accounts />
         })

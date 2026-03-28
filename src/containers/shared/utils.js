@@ -214,6 +214,17 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
   return new Intl.DateTimeFormat(lang, options).format(date)
 }
 
+export const DATE_OPTIONS_NUMERIC = {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour12: true,
+  timeZone: 'UTC',
+}
+
 export const getLocalizedCurrencySymbol = (
   lang = 'en-US',
   currency = 'USD',
@@ -429,6 +440,7 @@ export const formatAsset = (asset) =>
         issuer: asset.issuer,
       }
 
+// For AMM, the trading fee is in units of 1/100,000; a value of 1 is equivalent to a 0.001% fee.
 export const formatTradingFee = (tradingFee) =>
   tradingFee !== undefined
     ? localizeNumber(tradingFee / TRADING_FEE_TOTAL, 'en-US', {
@@ -608,3 +620,6 @@ export const convertToHttpURL = (url) => {
  */
 export const shortenVaultID = (vaultID) =>
   `${vaultID.substring(0, 8)}...${vaultID.substring(vaultID.length - 6)}`
+
+export const shortenLPToken = (lpToken) =>
+  `${lpToken.substring(0, 10)}...${lpToken.substring(lpToken.length - 7)}`

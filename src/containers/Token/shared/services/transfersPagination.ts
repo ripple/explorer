@@ -22,7 +22,7 @@ const formatTransfer = (transaction: any): LOSTransfer => ({
   amount: transaction.amount,
 })
 
-const paginationService = new CursorPaginationService<LOSTransfer>({
+export const paginationService = new CursorPaginationService<LOSTransfer>({
   fetchFn: getTransfers,
   formatFn: formatTransfer,
   batchSize: 100,
