@@ -1,0 +1,484 @@
+@use '../shared/css/variables' as *;
+@use '../shared/css/table';
+@use '../shared/css/data-tables-notice';
+
+$tvl-color: #32e685;
+$volume-color: #7919ff;
+
+.amm-pool-page {
+  .loader {
+    min-height: 100px;
+  }
+}
+
+// ============================================================
+// Header: "AMM Pool [CRYPTO.rRbi/XRP]"
+// ============================================================
+.amm-pool-header {
+  display: flex;
+  align-items: center;
+  padding-top: 50px;
+  margin-bottom: 32px;
+
+  .amm-pool-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .amm-pool-title {
+    margin: 0;
+    color: $white;
+    font-size: 28px;
+    @include bold;
+  }
+
+  // Pill badge for token pair
+  .amm-pool-token-badge {
+    display: flex;
+    align-items: center;
+    padding: 6px 14px;
+    border: 1px solid $black-60;
+    border-radius: 20px;
+    color: $white;
+    font-size: 14px;
+    gap: 2px;
+    @include medium;
+  }
+
+  .badge-separator {
+    margin: 0 2px;
+    color: $black-40;
+  }
+
+  .asset-link {
+    color: $green-30;
+    text-decoration: none;
+
+    &:hover {
+      color: $green;
+    }
+  }
+}
+
+// ============================================================
+// Info Cards: three-column grid
+// ============================================================
+.amm-pool-info-cards {
+  display: grid;
+  margin-bottom: 40px;
+  gap: 16px;
+  grid-template-columns: 1fr;
+
+  @include for-size(desktop-up) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.amm-pool-info-card {
+  padding: 20px 24px;
+  border: 1px solid $black-70;
+  border-radius: 12px;
+  background: $black-100;
+
+  .info-card-title {
+    display: flex;
+    align-items: center;
+    margin: 0 0 20px;
+    color: $white;
+    font-size: 16px;
+    gap: 8px;
+    @include semibold;
+  }
+
+  .info-card-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .info-card-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .info-card-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .info-card-label {
+    display: flex;
+    align-items: center;
+    color: $black-40;
+    font-size: 13px;
+    text-transform: uppercase;
+    @include semibold;
+
+    .hover {
+      width: 14px;
+      height: 14px;
+      margin-left: 4px;
+      cursor: default;
+    }
+  }
+
+  .info-card-value {
+    color: $white;
+    font-size: 13px;
+    text-align: right;
+    word-break: break-all;
+    @include medium;
+
+    &-green {
+      color: $green;
+    }
+
+    &-orange {
+      color: $orange;
+    }
+
+    &-link {
+      color: $green;
+
+      a {
+        color: $green;
+      }
+    }
+  }
+
+  .info-card-subtitle {
+    margin-top: 6px;
+    color: $black-40;
+    font-size: 12px;
+    @include regular;
+  }
+}
+
+// ============================================================
+// Chart section: title + controls above, chart card below
+// ============================================================
+.tvl-volume-section {
+  margin-bottom: 50px;
+
+  .chart-section-title {
+    padding-bottom: 0;
+    border-bottom: none;
+    margin: 0 0 20px;
+    color: $white;
+    font-size: 18px;
+    @include semibold;
+  }
+
+  // ── Controls row: toggle + checkboxes (matching AMM Rankings page) ──
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 20px;
+  }
+
+  .currency-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .currency-label {
+    color: $black-40;
+    font-size: 14px;
+    @include medium;
+
+    &.active {
+      color: $white;
+      @include bold;
+    }
+  }
+
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    cursor: pointer;
+
+    input {
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      border-radius: 20px;
+      background-color: $blue;
+      inset: 0;
+      transition: background-color 0.2s;
+
+      &::before {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: $white;
+        content: '';
+        transition: transform 0.2s;
+      }
+    }
+
+    input:checked + .toggle-slider::before {
+      transform: translateX(16px);
+    }
+  }
+
+  .filter-checkbox {
+    display: flex;
+    align-items: center;
+    color: $white;
+    cursor: pointer;
+    font-size: 14px;
+    gap: 8px;
+    @include medium;
+
+    input[type='checkbox'] {
+      display: none;
+    }
+
+    .checkbox-custom {
+      position: relative;
+      display: flex;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid $green-60;
+      border-radius: 4px;
+      background-color: transparent;
+      transition: all 0.2s;
+
+      &::after {
+        position: absolute;
+        display: none;
+        width: 4px;
+        height: 8px;
+        border: solid $black-100;
+        border-width: 0 2px 2px 0;
+        margin-top: -2px;
+        content: '';
+        transform: rotate(45deg);
+      }
+    }
+
+    &:hover .checkbox-custom {
+      border-color: $green;
+    }
+
+    input[type='checkbox']:checked + .checkbox-custom {
+      border-color: $blue;
+      background-color: $blue;
+
+      &::after {
+        display: block;
+      }
+    }
+  }
+}
+
+.tvl-volume-chart-container {
+  padding: 30px 24px 16px;
+  border: 1px solid $black-70;
+  border-radius: $border-radius;
+  background-color: $black-80;
+
+  .chart-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+  }
+
+  .time-filters {
+    display: flex;
+    padding-right: 50px;
+    gap: 6px;
+
+    .time-filter {
+      padding: 4px 12px;
+      border: 1px solid $black-60;
+      border-radius: $border-radius;
+      background-color: $black;
+      color: $black-40;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.15s;
+      @include medium;
+
+      &:hover {
+        border-color: $black-50;
+        background-color: $black-80;
+        color: $white;
+      }
+
+      &.active {
+        border-color: $blue;
+        background-color: $blue;
+        color: $white;
+        @include bold;
+      }
+    }
+  }
+
+  .chart-tooltip {
+    padding: 10px 14px;
+    border: 1px solid $black-60;
+    border-radius: $border-radius;
+    background: $black-80;
+
+    .tooltip-label {
+      margin: 0 0 6px;
+      color: $black-40;
+      font-size: 12px;
+    }
+
+    .tooltip-value {
+      margin: 2px 0;
+      font-size: 13px;
+      @include semibold;
+    }
+  }
+
+  .chart-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    gap: 24px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    color: $white;
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  .legend-color {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border-radius: 3px;
+
+    &.tvl-color {
+      background: $tvl-color;
+    }
+
+    &.volume-color {
+      background: $volume-color;
+    }
+  }
+}
+
+// ============================================================
+// Tables section (matching IOU Token page tab style)
+// ============================================================
+.amm-pool-tables {
+  .full-width-line {
+    width: 100%;
+    border: none;
+    border-top: 1px solid $black-70;
+    margin-bottom: 0;
+    color: $black-70;
+  }
+
+  .tx-table-picker {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 16px;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+
+    @include for-size(tablet-portrait-up) {
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    @include for-size(desktop-up) {
+      margin-bottom: 24px;
+      gap: 16px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-direction: row;
+      border-top: none;
+      margin: 0;
+      font-size: 14px;
+      gap: inherit;
+
+      button,
+      a {
+        all: unset;
+        padding-top: 16px;
+        border: none;
+        border-top: 3px solid transparent;
+        margin-right: 8px;
+        color: $black-40;
+        cursor: pointer;
+        font-size: 12px;
+        font-style: normal;
+        line-height: 150%;
+        white-space: nowrap;
+        @include regular;
+
+        @include for-size(tablet-portrait-up) {
+          padding-top: 18px;
+          margin-right: 12px;
+          font-size: 13px;
+        }
+
+        @include for-size(desktop-up) {
+          padding-top: 21px;
+          margin-right: 16px;
+          font-size: 14px;
+        }
+
+        &.selected {
+          padding-top: 16px;
+          border-top: 3px solid $white;
+          color: $white;
+
+          @include for-size(tablet-portrait-up) {
+            padding-top: 18px;
+          }
+
+          @include for-size(desktop-up) {
+            padding-top: 21px;
+          }
+        }
+
+        &.selected,
+        &:hover {
+          color: $white;
+          @include regular;
+        }
+      }
+    }
+  }
+}
+
+.amm-deposit-withdraw-table {
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .text-truncate {
+    @extend %truncate;
+  }
+}

@@ -16,11 +16,9 @@ import { Loader } from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
 import { getAMMInfoByAssets } from '../../../rippled/lib/rippled'
 import getTokenHolders from './api/holders'
-import {
-  DexTrade,
-  dexTradesPaginationService,
-} from './services/dexTradesPagination'
-import { transfersPaginationService } from '../shared/services/transfersPagination'
+import { paginationService as dexTradesPaginationService } from './services/dexTradesPagination'
+import { paginationService as transfersPaginationService } from '../shared/services/transfersPagination'
+import { useCursorPaginatedQuery } from '../../shared/hooks/useCursorPaginatedQuery'
 import { PAGINATION_CONFIG, INITIAL_PAGE } from '../shared/constants'
 import { useXRPToUSDRate } from '../../shared/hooks/useXRPToUSDRate'
 import getToken from './api/token'
@@ -58,26 +56,8 @@ export const IOU = () => {
   const { token = '' } = useRouteParams(TOKEN_ROUTE)
   const [currency, accountId] = token.split('.')
 
-  // Pagination state
+  // Holders pagination
   const [holdersPage, setHoldersPage] = useState(INITIAL_PAGE)
-  const [transfersPage, setTransfersPage] = useState(INITIAL_PAGE)
-  const [dexTradesPage, setDexTradesPage] = useState(INITIAL_PAGE)
-
-  // Sort state - default to timestamp desc (newest first)
-  const [dexTradesSortField, setDexTradesSortField] =
-    useState<string>('timestamp')
-  const [dexTradesSortOrder, setDexTradesSortOrder] = useState<'asc' | 'desc'>(
-    'desc',
-  )
-  const [transfersSortField, setTransfersSortField] =
-    useState<string>('timestamp')
-  const [transfersSortOrder, setTransfersSortOrder] = useState<'asc' | 'desc'>(
-    'desc',
-  )
-
-  // Refresh counters to trigger re-fetches
-  const [dexTradesRefreshCount, setDexTradesRefreshCount] = useState(0)
-  const [transfersRefreshCount, setTransfersRefreshCount] = useState(0)
 
   // get basic token stats and info
   const {
@@ -118,175 +98,24 @@ export const IOU = () => {
   // get rippled socket for AMM info
   const rippledSocket = useContext(SocketContext)
 
-  // get dex trades with pagination service
-  const [dexTradesData, setDexTradesData] = useState<{
-    trades: DexTrade[]
-    totalTrades: number
-    isLoading: boolean
-    hasMore: boolean
-    hasPrevPage: boolean
-  }>({
-    trades: [],
-    totalTrades: 0,
-    isLoading: true,
-    hasMore: false,
-    hasPrevPage: false,
+  // DEX Trades — using shared hook
+  const tokenId = `${currency}.${accountId}`
+  const dexTrades = useCursorPaginatedQuery({
+    queryKey: 'tokenDexTrades',
+    service: dexTradesPaginationService,
+    id: tokenId,
+    pageSize: PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE,
+    enabled: !!currency && !!accountId,
   })
 
-  // get transfers with pagination service
-  const [transfersData, setTransfersData] = useState<{
-    transfers: any[]
-    totalTransfers: number
-    isLoading: boolean
-    hasMore: boolean
-    hasPrevPage: boolean
-  }>({
-    transfers: [],
-    totalTransfers: 0,
-    isLoading: true,
-    hasMore: false,
-    hasPrevPage: false,
+  // Transfers — using shared hook
+  const transfers = useCursorPaginatedQuery({
+    queryKey: 'tokenTransfers',
+    service: transfersPaginationService,
+    id: tokenId,
+    pageSize: PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
+    enabled: !!currency && !!accountId,
   })
-
-  // Handle sort changes - reset to page 1, clear cache, and set loading state
-  useEffect(() => {
-    setDexTradesPage(INITIAL_PAGE)
-    setDexTradesData((prev) => ({ ...prev, isLoading: true }))
-    dexTradesPaginationService.clearCache(
-      `${currency}.${accountId}`,
-      dexTradesSortField,
-      dexTradesSortOrder,
-    )
-  }, [dexTradesSortField, dexTradesSortOrder, currency, accountId])
-
-  useEffect(() => {
-    const fetchDexTrades = async () => {
-      if (!currency || !accountId) {
-        return
-      }
-
-      try {
-        const result = await dexTradesPaginationService.getDexTradesPage(
-          `${currency}.${accountId}`,
-          dexTradesPage,
-          PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE,
-          dexTradesSortField,
-          dexTradesSortOrder,
-        )
-
-        setDexTradesData({
-          trades: result.trades,
-          totalTrades: result.totalTrades,
-          isLoading: result.isLoading,
-          hasMore: result.hasMore,
-          hasPrevPage: dexTradesPage > 1,
-        })
-      } catch (error) {
-        trackException(
-          `dex trades ${currency}.${accountId} --- ${JSON.stringify(error)}`,
-        )
-        setDexTradesData({
-          trades: [],
-          totalTrades: 0,
-          isLoading: false,
-          hasMore: false,
-          hasPrevPage: dexTradesPage > 1,
-        })
-      }
-    }
-
-    fetchDexTrades()
-  }, [
-    currency,
-    accountId,
-    dexTradesPage,
-    dexTradesSortField,
-    dexTradesSortOrder,
-    dexTradesRefreshCount,
-    trackException,
-  ])
-
-  // Handle sort changes for transfers - reset to page 1, clear cache, and set loading state
-  useEffect(() => {
-    setTransfersPage(INITIAL_PAGE)
-    setTransfersData((prev) => ({ ...prev, isLoading: true }))
-    transfersPaginationService.clearCache(
-      `${currency}.${accountId}`,
-      transfersSortField,
-      transfersSortOrder,
-    )
-  }, [transfersSortField, transfersSortOrder, currency, accountId])
-
-  // get transfers with pagination service
-  useEffect(() => {
-    const fetchTransfers = async () => {
-      if (!currency || !accountId) {
-        return
-      }
-
-      try {
-        const result = await transfersPaginationService.getTransfersPage(
-          `${currency}.${accountId}`,
-          transfersPage,
-          PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
-          transfersSortField,
-          transfersSortOrder,
-        )
-
-        setTransfersData({
-          transfers: result.transfers,
-          totalTransfers: result.totalTransfers,
-          isLoading: result.isLoading,
-          hasMore: result.hasMore,
-          hasPrevPage: transfersPage > 1,
-        })
-      } catch (error) {
-        trackException(
-          `transfers ${currency}.${accountId} --- ${JSON.stringify(error)}`,
-        )
-        setTransfersData({
-          transfers: [],
-          totalTransfers: 0,
-          isLoading: false,
-          hasMore: false,
-          hasPrevPage: transfersPage > 1,
-        })
-      }
-    }
-
-    fetchTransfers()
-  }, [
-    currency,
-    accountId,
-    transfersPage,
-    transfersSortField,
-    transfersSortOrder,
-    transfersRefreshCount,
-    trackException,
-  ])
-
-  // Refresh handlers - reset to page 1, clear cache, and set loading state
-  const handleRefreshDexTrades = () => {
-    setDexTradesPage(INITIAL_PAGE)
-    setDexTradesData((prev) => ({ ...prev, isLoading: true }))
-    dexTradesPaginationService.clearCache(
-      `${currency}.${accountId}`,
-      dexTradesSortField,
-      dexTradesSortOrder,
-    )
-    setDexTradesRefreshCount((prev) => prev + 1)
-  }
-
-  const handleRefreshTransfers = () => {
-    setTransfersPage(INITIAL_PAGE)
-    setTransfersData((prev) => ({ ...prev, isLoading: true }))
-    transfersPaginationService.clearCache(
-      `${currency}.${accountId}`,
-      transfersSortField,
-      transfersSortOrder,
-    )
-    setTransfersRefreshCount((prev) => prev + 1)
-  }
 
   // get amm info for TVL calculation
   // note: only fetch xrp-<token> amm info to simplify API calls for most tokens
@@ -309,8 +138,6 @@ export const IOU = () => {
   // Reset pagination when token changes
   useEffect(() => {
     setHoldersPage(INITIAL_PAGE)
-    setTransfersPage(INITIAL_PAGE)
-    setDexTradesPage(INITIAL_PAGE)
   }, [currency, accountId])
 
   useEffect(() => {
@@ -366,40 +193,40 @@ export const IOU = () => {
               total: holdersData?.totalHolders || 0,
             }}
             holdersLoading={isHoldersDataLoading}
-            dexTradesData={dexTradesData.trades}
+            dexTradesData={dexTrades.data?.items || []}
             dexTradesPagination={{
-              currentPage: dexTradesPage,
-              setCurrentPage: setDexTradesPage,
+              currentPage: dexTrades.page,
+              setCurrentPage: dexTrades.setPage,
               pageSize: PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE,
-              total: dexTradesData.totalTrades,
-              hasMore: dexTradesData.hasMore,
-              hasPrevPage: dexTradesData.hasPrevPage,
+              total: dexTrades.data?.totalItems || 0,
+              hasMore: dexTrades.data?.hasMore || false,
+              hasPrevPage: dexTrades.page > 1,
             }}
             dexTradesSorting={{
-              sortField: dexTradesSortField,
-              setSortField: setDexTradesSortField,
-              sortOrder: dexTradesSortOrder,
-              setSortOrder: setDexTradesSortOrder,
+              sortField: dexTrades.sortField,
+              setSortField: dexTrades.setSortField,
+              sortOrder: dexTrades.sortOrder,
+              setSortOrder: dexTrades.setSortOrder,
             }}
-            dexTradesLoading={dexTradesData.isLoading}
-            onRefreshDexTrades={handleRefreshDexTrades}
-            transfersData={transfersData.transfers}
+            dexTradesLoading={dexTrades.isLoading}
+            onRefreshDexTrades={dexTrades.refresh}
+            transfersData={transfers.data?.items || []}
             transfersPagination={{
-              currentPage: transfersPage,
-              setCurrentPage: setTransfersPage,
+              currentPage: transfers.page,
+              setCurrentPage: transfers.setPage,
               pageSize: PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
-              total: transfersData.totalTransfers,
-              hasMore: transfersData.hasMore,
-              hasPrevPage: transfersData.hasPrevPage,
+              total: transfers.data?.totalItems || 0,
+              hasMore: transfers.data?.hasMore || false,
+              hasPrevPage: transfers.page > 1,
             }}
             transfersSorting={{
-              sortField: transfersSortField,
-              setSortField: setTransfersSortField,
-              sortOrder: transfersSortOrder,
-              setSortOrder: setTransfersSortOrder,
+              sortField: transfers.sortField,
+              setSortField: transfers.setSortField,
+              sortOrder: transfers.sortOrder,
+              setSortOrder: transfers.setSortOrder,
             }}
-            transfersLoading={transfersData.isLoading}
-            onRefreshTransfers={handleRefreshTransfers}
+            transfersLoading={transfers.isLoading}
+            onRefreshTransfers={transfers.refresh}
           />
         </div>
       )}
