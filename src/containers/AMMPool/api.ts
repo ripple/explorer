@@ -40,18 +40,10 @@ export const fetchAMMDexTrades = async (
     size: (size ?? 100).toString(),
     type: 'amm',
   })
-  if (searchAfter) {
-    params.append('search_after', JSON.stringify(searchAfter))
-  }
-  if (direction) {
-    params.append('direction', direction)
-  }
-  if (sortField) {
-    params.append('sort_field', sortField)
-  }
-  if (sortOrder) {
-    params.append('sort_order', sortOrder)
-  }
+  if (searchAfter) params.append('search_after', JSON.stringify(searchAfter))
+  if (direction) params.append('direction', direction)
+  if (sortField) params.append('sort_field', sortField)
+  if (sortOrder) params.append('sort_order', sortOrder)
 
   const response = await axios.get(`${LOS_URL}/dex-trades?${params.toString()}`)
   return response.data
@@ -70,12 +62,8 @@ export const fetchAMMTransactions = async (
     type,
     size: (size ?? 100).toString(),
   })
-  if (searchAfter) {
-    params.append('search_after', JSON.stringify(searchAfter))
-  }
-  if (direction) {
-    params.append('direction', direction)
-  }
+  if (searchAfter) params.append('search_after', JSON.stringify(searchAfter))
+  if (direction) params.append('direction', direction)
 
   const response = await axios.get(
     `${LOS_URL}/v2/transactions?${params.toString()}`,

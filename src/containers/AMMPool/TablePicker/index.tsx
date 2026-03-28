@@ -61,17 +61,13 @@ const buildFormatDepositWithdraw =
     const responseAssets = [tx.amm?.asset1, tx.amm?.asset2].filter(Boolean)
 
     const matchAsset = (target: FormattedBalance | null) => {
-      if (!target) {
-        return null
-      }
+      if (!target) return null
       const found = responseAssets.find(
         (a: any) =>
           a.currency === target.currency &&
           (a.issuer ?? null) === (target.issuer ?? null),
       )
-      if (!found) {
-        return null
-      }
+      if (!found) return null
       return {
         currency: found.currency,
         issuer: found.issuer ?? undefined,
@@ -114,7 +110,6 @@ interface AMMPoolTablePickerProps {
   asset1: FormattedBalance | null
   asset2: FormattedBalance | null
   tvlUsd?: number
-  isLiquidated?: boolean
 }
 
 export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
@@ -125,7 +120,6 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
   asset1,
   asset2,
   tvlUsd,
-  isLiquidated = false,
 }) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
@@ -261,7 +255,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
           { id: 'dex-trades', labelKey: 'dex_trades' },
           { id: 'deposits', labelKey: 'deposits' },
           { id: 'withdrawals', labelKey: 'withdrawals' },
-          ...(!isLiquidated ? [{ id: 'holders', labelKey: 'holders' }] : []),
+          { id: 'holders', labelKey: 'holders' },
         ]
       : []),
   ]

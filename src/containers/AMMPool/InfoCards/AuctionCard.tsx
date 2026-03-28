@@ -50,9 +50,7 @@ const calcReplacementCost = (
   lpTokenBalance: string | undefined,
   tradingFee: number,
 ): number | null => {
-  if (!lpTokenBalance) {
-    return null
-  }
+  if (!lpTokenBalance) return null
 
   const fee = tradingFee / 100000
   const M = (Number(lpTokenBalance) * fee) / 25
@@ -93,16 +91,10 @@ export const AuctionCard: FC<AuctionCardProps> = ({
     : '--'
 
   const getLPTokenUSD = (lpValue: number | string | undefined) => {
-    if (lpValue == null) {
-      return null
-    }
+    if (lpValue == null) return null
     const num = Number(lpValue)
-    if (num === 0) {
-      return 0
-    }
-    if (!lpTokenBalance || tvlUsd == null) {
-      return null
-    }
+    if (num === 0) return 0
+    if (!lpTokenBalance || tvlUsd == null) return null
     return (num / Number(lpTokenBalance)) * tvlUsd
   }
 
