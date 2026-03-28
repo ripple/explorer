@@ -920,5 +920,6 @@
   "balance": "Balance",
   "lp_token_currency_code": "LP Token",
   "asset_2": "Asset 2",
-  "usd_value": "USD Value"
+  "usd_value": "USD Value",
+  "amm_pool_liquidated": "This AMM pool has been fully liquidated. All assets have been withdrawn and the pool is no longer active. Historical transaction data is still available below."
 }
