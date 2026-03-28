@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react'
+import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { TooltipProps } from 'recharts'
@@ -8,7 +8,7 @@ import {
 } from '../shared/components/DualAxisAreaChart'
 import { Loader } from '../shared/components/Loader'
 import { useTooltip } from '../shared/components/Tooltip'
-import { parseCurrencyAmount } from '../shared/NumberFormattingUtils'
+import { parseAmount } from '../shared/NumberFormattingUtils'
 import { fetchAMMHistoricalTrends } from './api'
 
 interface TVLVolumeChartProps {
@@ -21,42 +21,26 @@ const TIME_RANGES = ['1W', '1M', '6M', '1Y', '5Y'] as const
 const TVL_COLOR = '#32E685'
 const VOLUME_COLOR = '#7919FF'
 
-/** Filter 5Y data to match the selected time range */
-const filterDataByTimeRange = (data: any[], timeRange: string): any[] => {
-  if (!data.length || timeRange === '5Y') return data
-  const now = new Date()
-  let cutoff: Date
-  switch (timeRange) {
-    case '1W':
-      cutoff = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-      break
-    case '1M':
-      cutoff = new Date(now)
-      cutoff.setMonth(cutoff.getMonth() - 1)
-      break
-    case '6M':
-      cutoff = new Date(now)
-      cutoff.setMonth(cutoff.getMonth() - 6)
-      break
-    case '1Y':
-      cutoff = new Date(now)
-      cutoff.setFullYear(cutoff.getFullYear() - 1)
-      break
-    default:
-      return data
-  }
-  return data.filter((point) => new Date(point.date) >= cutoff)
-}
-
 const formatDateTick = (value: string, timeRange: string): string => {
   const date = new Date(value)
   if (timeRange === '5Y') {
-    return date.toLocaleDateString('en-US', { year: '2-digit' })
+    return date.toLocaleDateString('en-US', {
+      year: '2-digit',
+      timeZone: 'UTC',
+    })
   }
   if (timeRange === '1W') {
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      timeZone: 'UTC',
+    })
   }
-  return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    year: '2-digit',
+    timeZone: 'UTC',
+  })
 }
 
 const formatCurrencyTick = (
@@ -70,36 +54,6 @@ const formatCurrencyTick = (
   return `${prefix}${value.toFixed(0)}`
 }
 
-const CustomTooltip = ({
-  active,
-  payload,
-  label,
-}: TooltipProps<number | string, string>) => {
-  if (active && payload && payload.length > 0) {
-    const date = new Date(label as string)
-    const formattedDate = date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    })
-    return (
-      <div className="chart-tooltip">
-        <p className="tooltip-label">{formattedDate}</p>
-        {payload.map((entry) => (
-          <p
-            key={`${entry.name}-${entry.dataKey}`}
-            className="tooltip-value"
-            style={{ color: entry.color }}
-          >
-            {entry.name}: {parseCurrencyAmount(String(entry.value ?? 0))}
-          </p>
-        ))}
-      </div>
-    )
-  }
-  return null
-}
-
 export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
   ammAccountId,
   displayCurrency,
@@ -111,19 +65,51 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
   const [showTVL, setShowTVL] = useState(true)
   const [showVolume, setShowVolume] = useState(true)
 
-  // Fetch 5Y data once and filter client-side for other ranges
+  const formatTooltipValue = (value: number | string) => {
+    const num = Number(value)
+    const formatted = parseAmount(num)
+    return displayCurrency === 'usd' ? `$${formatted}` : `${formatted} XRP`
+  }
+
+  const renderTooltip = ({
+    active,
+    payload,
+    label,
+  }: TooltipProps<number | string, string>) => {
+    if (active && payload && payload.length > 0) {
+      const date = new Date(label as string)
+      const formattedDate = date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: 'UTC',
+      })
+      return (
+        <div className="chart-tooltip">
+          <p className="tooltip-label">{formattedDate}</p>
+          {payload.map((entry) => (
+            <p
+              key={`${entry.name}-${entry.dataKey}`}
+              className="tooltip-value"
+              style={{ color: entry.color }}
+            >
+              {entry.name}: {formatTooltipValue(entry.value ?? 0)}
+            </p>
+          ))}
+        </div>
+      )
+    }
+    return null
+  }
+
+  // Fetch data per time range from the API (each range may include different latest data)
   const { data: trendsData, isLoading } = useQuery(
-    ['ammHistoricalTrends', ammAccountId],
-    () => fetchAMMHistoricalTrends(ammAccountId, '5Y'),
-    { enabled: !!ammAccountId },
+    ['ammHistoricalTrends', ammAccountId, timeRange],
+    () => fetchAMMHistoricalTrends(ammAccountId, timeRange),
+    { enabled: !!ammAccountId, staleTime: 5 * 60 * 1000 },
   )
 
-  const filteredData = useMemo(
-    () => filterDataByTimeRange(trendsData?.data_points || [], timeRange),
-    [trendsData, timeRange],
-  )
-
-  const chartData = filteredData.map((point: any) => ({
+  const chartData = (trendsData?.data_points || []).map((point: any) => ({
     date: point.date,
     tvl: displayCurrency === 'usd' ? point.tvl_usd : point.tvl_xrp,
     volume:
@@ -226,7 +212,7 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
             xAxisFormatter={(value) => formatDateTick(value, timeRange)}
             leftAxis={leftAxis}
             rightAxis={rightAxis}
-            tooltipContent={CustomTooltip}
+            tooltipContent={renderTooltip}
           />
         )}
 
