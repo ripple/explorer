@@ -1,18 +1,7 @@
 import { renderHook, act } from '@testing-library/react-hooks'
 import { waitFor } from '@testing-library/react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { CursorPaginationService } from '../../services/CursorPaginationService'
 import { useCursorPaginatedQuery } from '../useCursorPaginatedQuery'
-
-const createWrapper =
-  (
-    queryClient = new QueryClient({
-      defaultOptions: { queries: { retry: false } },
-    }),
-  ) =>
-  ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  )
 
 describe('useCursorPaginatedQuery', () => {
   let mockService: CursorPaginationService<any>
@@ -35,15 +24,12 @@ describe('useCursorPaginatedQuery', () => {
   })
 
   it('fetches page 1 on initial render', async () => {
-    const { result } = renderHook(
-      () =>
-        useCursorPaginatedQuery({
-          queryKey: 'test',
-          service: mockService,
-          id: 'testId',
-          pageSize: 10,
-        }),
-      { wrapper: createWrapper() },
+    const { result } = renderHook(() =>
+      useCursorPaginatedQuery({
+        service: mockService,
+        id: 'testId',
+        pageSize: 10,
+      }),
     )
 
     await waitFor(() => {
@@ -63,17 +49,14 @@ describe('useCursorPaginatedQuery', () => {
   })
 
   it('uses custom initial sort field and order', async () => {
-    const { result } = renderHook(
-      () =>
-        useCursorPaginatedQuery({
-          queryKey: 'test',
-          service: mockService,
-          id: 'testId',
-          pageSize: 10,
-          initialSortField: 'amount',
-          initialSortOrder: 'asc',
-        }),
-      { wrapper: createWrapper() },
+    const { result } = renderHook(() =>
+      useCursorPaginatedQuery({
+        service: mockService,
+        id: 'testId',
+        pageSize: 10,
+        initialSortField: 'amount',
+        initialSortOrder: 'asc',
+      }),
     )
 
     await waitFor(() => {
@@ -86,44 +69,36 @@ describe('useCursorPaginatedQuery', () => {
   })
 
   it('does not fetch when disabled', () => {
-    renderHook(
-      () =>
-        useCursorPaginatedQuery({
-          queryKey: 'test',
-          service: mockService,
-          id: 'testId',
-          pageSize: 10,
-          enabled: false,
-        }),
-      { wrapper: createWrapper() },
+    renderHook(() =>
+      useCursorPaginatedQuery({
+        service: mockService,
+        id: 'testId',
+        pageSize: 10,
+        enabled: false,
+      }),
     )
 
     expect(mockGetPage).not.toHaveBeenCalled()
   })
 
   it('resets page to 1 and clears cache when sort field changes', async () => {
-    const { result } = renderHook(
-      () =>
-        useCursorPaginatedQuery({
-          queryKey: 'test-sort',
-          service: mockService,
-          id: 'testId',
-          pageSize: 10,
-        }),
-      { wrapper: createWrapper() },
+    const { result } = renderHook(() =>
+      useCursorPaginatedQuery({
+        service: mockService,
+        id: 'testId',
+        pageSize: 10,
+      }),
     )
 
     await waitFor(() => {
       expect(result.current.data).toBeDefined()
     })
 
-    // Navigate to page 2
     act(() => {
       result.current.setPage(2)
     })
     expect(result.current.page).toBe(2)
 
-    // Change sort field — should reset to page 1 and clear cache
     act(() => {
       result.current.setSortField('amount')
     })
@@ -134,15 +109,12 @@ describe('useCursorPaginatedQuery', () => {
   })
 
   it('resets page to 1 and clears cache when sort order changes', async () => {
-    const { result } = renderHook(
-      () =>
-        useCursorPaginatedQuery({
-          queryKey: 'test-order',
-          service: mockService,
-          id: 'testId',
-          pageSize: 10,
-        }),
-      { wrapper: createWrapper() },
+    const { result } = renderHook(() =>
+      useCursorPaginatedQuery({
+        service: mockService,
+        id: 'testId',
+        pageSize: 10,
+      }),
     )
 
     await waitFor(() => {
@@ -163,15 +135,12 @@ describe('useCursorPaginatedQuery', () => {
   })
 
   it('clears cache and resets page on refresh', async () => {
-    const { result } = renderHook(
-      () =>
-        useCursorPaginatedQuery({
-          queryKey: 'test-refresh',
-          service: mockService,
-          id: 'testId',
-          pageSize: 10,
-        }),
-      { wrapper: createWrapper() },
+    const { result } = renderHook(() =>
+      useCursorPaginatedQuery({
+        service: mockService,
+        id: 'testId',
+        pageSize: 10,
+      }),
     )
 
     await waitFor(() => {
@@ -190,22 +159,43 @@ describe('useCursorPaginatedQuery', () => {
     expect(mockClearCache).toHaveBeenCalled()
   })
 
-  it('returns loading state while fetching', () => {
-    // Make getPage hang (never resolve)
-    mockGetPage.mockReturnValue(new Promise(() => {}))
-
-    const { result } = renderHook(
-      () =>
-        useCursorPaginatedQuery({
-          queryKey: 'test-loading',
-          service: mockService,
-          id: 'testId',
-          pageSize: 10,
-        }),
-      { wrapper: createWrapper() },
+  it('shows loading on sort change', async () => {
+    const { result } = renderHook(() =>
+      useCursorPaginatedQuery({
+        service: mockService,
+        id: 'testId',
+        pageSize: 10,
+      }),
     )
 
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false)
+    })
+
+    act(() => {
+      result.current.setSortField('amount')
+    })
+
     expect(result.current.isLoading).toBe(true)
-    expect(result.current.data).toBeUndefined()
+  })
+
+  it('shows loading on refresh', async () => {
+    const { result } = renderHook(() =>
+      useCursorPaginatedQuery({
+        service: mockService,
+        id: 'testId',
+        pageSize: 10,
+      }),
+    )
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false)
+    })
+
+    act(() => {
+      result.current.refresh()
+    })
+
+    expect(result.current.isLoading).toBe(true)
   })
 })

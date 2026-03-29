@@ -188,7 +188,6 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
 
   // DEX Trades — using shared hook
   const dexTrades = useCursorPaginatedQuery({
-    queryKey: 'ammDexTrades',
     service: dexTradesPagination,
     id: ammAccountId,
     pageSize: PAGE_SIZE,
@@ -197,7 +196,6 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
 
   // Deposits — using shared hook
   const deposits = useCursorPaginatedQuery({
-    queryKey: 'ammDeposits',
     service: depositsPagination,
     id: ammAccountId,
     pageSize: PAGE_SIZE,
@@ -206,7 +204,6 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
 
   // Withdrawals — using shared hook
   const withdrawals = useCursorPaginatedQuery({
-    queryKey: 'ammWithdrawals',
     service: withdrawalsPagination!,
     id: ammAccountId,
     pageSize: PAGE_SIZE,

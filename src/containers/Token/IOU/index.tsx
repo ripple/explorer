@@ -101,7 +101,6 @@ export const IOU = () => {
   // DEX Trades — using shared hook
   const tokenId = `${currency}.${accountId}`
   const dexTrades = useCursorPaginatedQuery({
-    queryKey: 'tokenDexTrades',
     service: dexTradesPaginationService,
     id: tokenId,
     pageSize: PAGINATION_CONFIG.DEX_TRADES_PAGE_SIZE,
@@ -110,7 +109,6 @@ export const IOU = () => {
 
   // Transfers — using shared hook
   const transfers = useCursorPaginatedQuery({
-    queryKey: 'tokenTransfers',
     service: transfersPaginationService,
     id: tokenId,
     pageSize: PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
