@@ -24,7 +24,8 @@ import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { formatMPTIssuance } from '../../../rippled/lib/utils'
 import { fetchAllMPTHolders } from './api/holders'
-import { transfersPaginationService } from '../shared/services/transfersPagination'
+import { paginationService as transfersPaginationService } from '../shared/services/transfersPagination'
+import { useCursorPaginatedQuery } from '../../shared/hooks/useCursorPaginatedQuery'
 import { PAGINATION_CONFIG, INITIAL_PAGE } from '../shared/constants'
 
 const ERROR_MESSAGES: ErrorMessages = {
@@ -64,30 +65,6 @@ export const MPT = () => {
   // Holders pagination state
   const [holdersPage, setHoldersPage] = useState(INITIAL_PAGE)
   const holdersPageSize = PAGINATION_CONFIG.HOLDERS_PAGE_SIZE
-
-  // Transfers pagination state
-  const [transfersPage, setTransfersPage] = useState(INITIAL_PAGE)
-  const transfersPageSize = PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE
-  const [transfersSortField, setTransfersSortField] = useState('timestamp')
-  const [transfersSortOrder, setTransfersSortOrder] = useState<'asc' | 'desc'>(
-    'desc',
-  )
-  const [transfersRefreshCount, setTransfersRefreshCount] = useState(0)
-
-  // Transfers data state
-  const [transfersData, setTransfersData] = useState<{
-    transfers: any[]
-    totalTransfers: number
-    isLoading: boolean
-    hasMore: boolean
-    hasPrevPage: boolean
-  }>({
-    transfers: [],
-    totalTransfers: 0,
-    isLoading: true,
-    hasMore: false,
-    hasPrevPage: false,
-  })
 
   // Fetch MPT issuance data
   const { data: mptokenIssuance, isFetching: mptLoading } =
@@ -134,73 +111,13 @@ export const MPT = () => {
     return holdersData.holders.slice(start, end)
   }, [holdersData?.holders, holdersPage, holdersPageSize])
 
-  // Handle sort changes for transfers - reset to page 1, clear cache, and set loading state
-  useEffect(() => {
-    setTransfersPage(INITIAL_PAGE)
-    setTransfersData((prev) => ({ ...prev, isLoading: true }))
-    transfersPaginationService.clearCache(
-      mptIssuanceId,
-      transfersSortField,
-      transfersSortOrder,
-    )
-  }, [transfersSortField, transfersSortOrder, mptIssuanceId])
-
-  // Fetch transfers with pagination service
-  useEffect(() => {
-    const fetchTransfers = async () => {
-      if (!mptIssuanceId) {
-        return
-      }
-
-      try {
-        const result = await transfersPaginationService.getTransfersPage(
-          mptIssuanceId,
-          transfersPage,
-          PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
-          transfersSortField,
-          transfersSortOrder,
-        )
-
-        setTransfersData({
-          transfers: result.transfers,
-          totalTransfers: result.totalTransfers,
-          isLoading: result.isLoading,
-          hasMore: result.hasMore,
-          hasPrevPage: transfersPage > 1,
-        })
-      } catch (err) {
-        trackException(`transfers ${mptIssuanceId} --- ${JSON.stringify(err)}`)
-        setTransfersData({
-          transfers: [],
-          totalTransfers: 0,
-          isLoading: false,
-          hasMore: false,
-          hasPrevPage: transfersPage > 1,
-        })
-      }
-    }
-
-    fetchTransfers()
-  }, [
-    mptIssuanceId,
-    transfersPage,
-    transfersSortField,
-    transfersSortOrder,
-    transfersRefreshCount,
-    trackException,
-  ])
-
-  // Refresh handler for transfers
-  const handleRefreshTransfers = () => {
-    setTransfersPage(INITIAL_PAGE)
-    setTransfersData((prev) => ({ ...prev, isLoading: true }))
-    transfersPaginationService.clearCache(
-      mptIssuanceId,
-      transfersSortField,
-      transfersSortOrder,
-    )
-    setTransfersRefreshCount((prev) => prev + 1)
-  }
+  // Transfers — using shared hook
+  const transfers = useCursorPaginatedQuery({
+    service: transfersPaginationService,
+    id: mptIssuanceId,
+    pageSize: PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
+    enabled: !!mptIssuanceId,
+  })
 
   // Track page view
   useEffect(() => {
@@ -256,23 +173,23 @@ export const MPT = () => {
               total: holdersData?.totalHolders || 0,
             }}
             holdersLoading={holdersLoading}
-            transfersData={transfersData.transfers}
+            transfersData={transfers.data?.items || []}
             transfersPagination={{
-              currentPage: transfersPage,
-              setCurrentPage: setTransfersPage,
-              pageSize: transfersPageSize,
-              total: transfersData.totalTransfers,
-              hasMore: transfersData.hasMore,
-              hasPrevPage: transfersData.hasPrevPage,
+              currentPage: transfers.page,
+              setCurrentPage: transfers.setPage,
+              pageSize: PAGINATION_CONFIG.TRANSFERS_PAGE_SIZE,
+              total: transfers.data?.totalItems || 0,
+              hasMore: transfers.data?.hasMore || false,
+              hasPrevPage: transfers.page > 1,
             }}
             transfersSorting={{
-              sortField: transfersSortField,
-              setSortField: setTransfersSortField,
-              sortOrder: transfersSortOrder,
-              setSortOrder: setTransfersSortOrder,
+              sortField: transfers.sortField,
+              setSortField: transfers.setSortField,
+              sortOrder: transfers.sortOrder,
+              setSortOrder: transfers.setSortOrder,
             }}
-            transfersLoading={transfersData.isLoading}
-            onRefreshTransfers={handleRefreshTransfers}
+            transfersLoading={transfers.isLoading}
+            onRefreshTransfers={transfers.refresh}
           />
         </div>
       )}
