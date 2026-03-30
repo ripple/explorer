@@ -151,26 +151,18 @@ export const DexTradeTable = ({
       </td>
       <td className="tx-amount-in">
         <Amount
-          value={{
-            currency: tx.amount_in.currency,
-            issuer: tx.amount_in.issuer,
-            amount: parseAmount(tx.amount_in.amount),
-          }}
+          value={tx.amount_in}
           displayIssuer
           shortenIssuer
-          displayCurrency={String(tx.amount_in.currency) !== 'XRP'}
+          useParseAmount
         />
       </td>
       <td className="tx-amount-out">
         <Amount
-          value={{
-            currency: tx.amount_out.currency,
-            issuer: tx.amount_out.issuer,
-            amount: parseAmount(tx.amount_out.amount),
-          }}
+          value={tx.amount_out}
           displayIssuer
           shortenIssuer
-          displayCurrency={String(tx.amount_out.currency) !== 'XRP'}
+          useParseAmount
         />
       </td>
 

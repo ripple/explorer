@@ -61,19 +61,11 @@ export const AMMDepositWithdrawTable: FC<AMMDepositWithdrawTableProps> = ({
     type === 'deposit' ? t('lp_tokens_received') : t('lp_tokens_redeemed')
 
   const renderAssetAmount = (asset: AMMDepositWithdrawTx['asset']) => {
-    if (!asset) return '--'
-    return (
-      <Amount
-        value={{
-          currency: asset.currency,
-          issuer: asset.issuer,
-          amount: parseAmount(asset.amount),
-        }}
-        displayIssuer
-        shortenIssuer
-        displayCurrency={String(asset.currency) !== 'XRP'}
-      />
-    )
+    if (!asset || Number(asset.amount) === 0) {
+      return '--'
+    }
+
+    return <Amount value={asset} displayIssuer shortenIssuer useParseAmount />
   }
 
   const renderTransaction = (tx: AMMDepositWithdrawTx) => (
