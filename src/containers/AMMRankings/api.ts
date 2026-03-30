@@ -56,11 +56,11 @@ export interface HistoricalTrendsResponse {
 }
 
 /**
- * Fetch token icon from LOS for a single token via Express proxy
+ * Fetch token icon from LOS for a single token directly (client-side)
  */
 const fetchTokenIcon = async (currency: string, issuer: string): Promise<string | undefined> => {
   try {
-    const response = await axios.get(`/api/v1/tokens/${currency}.${issuer}`)
+    const response = await axios.get(`${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`)
     return response.data?.icon
   } catch (error) {
     // Silently fail - icon is optional

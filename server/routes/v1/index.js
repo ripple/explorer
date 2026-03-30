@@ -22,8 +22,6 @@ if (process.env.VITE_ENVIRONMENT !== 'custom') {
   api.use('/health', getHealth)
   api.use('/metrics', getCurrentMetrics)
   api.use('/tokens/search/:query', getTokensSearch)
-  api.post('/tokens/batch-get', batchGetTokens)
-  api.use('/tokens/:tokenId', getTokenById)
   api.use('/tokens', getAllTokens)
   api.get('/vaults/aggregate-statistics', getVaultsAggregateStats)
   api.get('/vaults/asset-prices', getVaultAssetPrices)
