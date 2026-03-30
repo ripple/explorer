@@ -8,12 +8,11 @@ import { TooltipProvider } from '../../shared/components/Tooltip'
 import * as api from '../api'
 
 // ResizeObserver is not available in jsdom (required by recharts ResponsiveContainer)
+function MockResizeObserver() {
+  return { observe: jest.fn(), unobserve: jest.fn(), disconnect: jest.fn() }
+}
 beforeAll(() => {
-  global.ResizeObserver = class {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  }
+  global.ResizeObserver = MockResizeObserver as unknown as typeof ResizeObserver
 })
 
 jest.mock('../api')
@@ -50,18 +49,25 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
 })
 
-const renderComponent = (
-  props: Partial<Parameters<typeof TVLVolumeChart>[0]> = {},
-) =>
+interface RenderProps {
+  ammAccountId?: string
+  displayCurrency?: 'usd' | 'xrp'
+  setDisplayCurrency?: (currency: 'usd' | 'xrp') => void
+}
+
+const renderComponent = ({
+  ammAccountId = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG',
+  displayCurrency = 'usd',
+  setDisplayCurrency = jest.fn(),
+}: RenderProps = {}) =>
   render(
     <QueryClientProvider client={queryClient}>
       <I18nextProvider i18n={i18n}>
         <TooltipProvider>
           <TVLVolumeChart
-            ammAccountId="rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG"
-            displayCurrency="usd"
-            setDisplayCurrency={jest.fn()}
-            {...props}
+            ammAccountId={ammAccountId}
+            displayCurrency={displayCurrency}
+            setDisplayCurrency={setDisplayCurrency}
           />
         </TooltipProvider>
       </I18nextProvider>

@@ -4,24 +4,54 @@ import { I18nextProvider } from 'react-i18next'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import { AMMDepositWithdrawTable } from '../TablePicker/AMMDepositWithdrawTable'
+import { AMMDepositWithdrawTx } from '../types'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
 })
 
-const renderComponent = (props: any) =>
+interface RenderProps {
+  transactions?: AMMDepositWithdrawTx[]
+  isLoading?: boolean
+  totalItems?: number
+  currentPage?: number
+  onPageChange?: (page: number) => void
+  pageSize?: number
+  hasMore?: boolean
+  type?: 'deposit' | 'withdraw'
+}
+
+const renderComponent = ({
+  transactions = [],
+  isLoading = false,
+  totalItems = 20,
+  currentPage = 1,
+  onPageChange = jest.fn(),
+  pageSize = 10,
+  hasMore = true,
+  type = 'deposit',
+}: RenderProps = {}) =>
   render(
     <QueryClientProvider client={queryClient}>
       <I18nextProvider i18n={i18n}>
         <MemoryRouter>
-          <AMMDepositWithdrawTable {...props} />
+          <AMMDepositWithdrawTable
+            transactions={transactions}
+            isLoading={isLoading}
+            totalItems={totalItems}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+            pageSize={pageSize}
+            hasMore={hasMore}
+            type={type}
+          />
         </MemoryRouter>
       </I18nextProvider>
     </QueryClientProvider>,
   )
 
 describe('AMMDepositWithdrawTable', () => {
-  const mockTransactions = [
+  const mockTransactions: AMMDepositWithdrawTx[] = [
     {
       hash: 'ABC123DEF456ABC123DEF456ABC123DEF456ABC123DEF456ABC123DEF456ABCD',
       ledger: 100141108,
@@ -48,19 +78,8 @@ describe('AMMDepositWithdrawTable', () => {
     },
   ]
 
-  const defaultProps = {
-    transactions: mockTransactions,
-    isLoading: false,
-    totalItems: 20,
-    currentPage: 1,
-    onPageChange: jest.fn(),
-    pageSize: 10,
-    hasMore: true,
-    type: 'deposit' as const,
-  }
-
   it('renders column headers', () => {
-    renderComponent(defaultProps)
+    renderComponent({ transactions: mockTransactions })
     expect(screen.getByText('tx_hash')).toBeInTheDocument()
     expect(screen.getByText('ledger')).toBeInTheDocument()
     expect(screen.getByText('timestamp')).toBeInTheDocument()
@@ -72,57 +91,50 @@ describe('AMMDepositWithdrawTable', () => {
   })
 
   it('shows lp_tokens_redeemed for withdraw type', () => {
-    renderComponent({ ...defaultProps, type: 'withdraw' })
+    renderComponent({ transactions: mockTransactions, type: 'withdraw' })
     expect(screen.getByText('lp_tokens_redeemed')).toBeInTheDocument()
   })
 
   it('renders transaction rows', () => {
-    const { container } = renderComponent(defaultProps)
+    const { container } = renderComponent({ transactions: mockTransactions })
     const rows = container.querySelectorAll('tbody tr')
     expect(rows.length).toBe(2)
   })
 
   it('shows -- for missing asset (single-asset deposit)', () => {
-    renderComponent(defaultProps)
+    renderComponent({ transactions: mockTransactions })
     const rows = document.querySelectorAll('tbody tr')
     expect(rows[1].querySelector('.tx-asset')).toHaveTextContent('--')
   })
 
   it('shows -- for missing USD value', () => {
-    renderComponent(defaultProps)
+    renderComponent({ transactions: mockTransactions })
     const rows = document.querySelectorAll('tbody tr')
     expect(rows[1].querySelector('.tx-usd-value')).toHaveTextContent('--')
   })
 
   it('renders data notice banner', () => {
-    renderComponent(defaultProps)
+    renderComponent({ transactions: mockTransactions })
     expect(document.querySelector('.data-notice')).toBeInTheDocument()
   })
 
   it('shows loader when loading', () => {
-    const { container } = renderComponent({
-      ...defaultProps,
-      isLoading: true,
-    })
+    const { container } = renderComponent({ isLoading: true })
     expect(container.querySelector('.loader')).toBeInTheDocument()
   })
 
   it('shows empty message when no deposit transactions', () => {
-    renderComponent({ ...defaultProps, transactions: [] })
+    renderComponent()
     expect(screen.getByText('no_deposits')).toBeInTheDocument()
   })
 
   it('shows withdrawal empty message for withdraw type', () => {
-    renderComponent({
-      ...defaultProps,
-      transactions: [],
-      type: 'withdraw',
-    })
+    renderComponent({ type: 'withdraw' })
     expect(screen.getByText('no_withdrawals')).toBeInTheDocument()
   })
 
   it('renders ledger as a link', () => {
-    renderComponent(defaultProps)
+    renderComponent({ transactions: mockTransactions })
     const ledgerLink = screen.getByText('100141108')
     expect(ledgerLink.closest('a')).toHaveAttribute(
       'href',
