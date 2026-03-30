@@ -25,7 +25,7 @@ const formatTransfer = (transaction: any): LOSTransfer => ({
 export const paginationService = new CursorPaginationService<LOSTransfer>({
   fetchFn: getTransfers,
   formatFn: formatTransfer,
-  batchSize: 100,
+  batchSize: 200,
   pageSize: 10,
 })
 

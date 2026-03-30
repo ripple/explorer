@@ -69,7 +69,7 @@ describe('TransfersPaginationService', () => {
 
       expect(mockGetTransfers).toHaveBeenCalledWith(
         'USD.rIssuer',
-        100,
+        200,
         undefined,
         'next',
         undefined,
@@ -158,7 +158,7 @@ describe('TransfersPaginationService', () => {
 
       expect(mockGetTransfers).toHaveBeenCalledWith(
         'USD.rIssuer',
-        100,
+        200,
         undefined,
         'next',
         'timestamp',
