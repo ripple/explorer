@@ -52,7 +52,7 @@ const formatDexTrade = (trade: any): DexTrade => ({
 export const paginationService = new CursorPaginationService<DexTrade>({
   fetchFn: getDexTrades,
   formatFn: formatDexTrade,
-  batchSize: 100,
+  batchSize: 200,
   pageSize: 10,
 })
 

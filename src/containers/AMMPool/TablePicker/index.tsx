@@ -93,7 +93,7 @@ const dexTradesPagination = new CursorPaginationService<LOSDEXTransaction>({
   fetchFn: (id, size, cursor, direction, sortField, sortOrder) =>
     fetchAMMDexTrades(id, size, cursor, direction, sortField, sortOrder),
   formatFn: formatDexTrade,
-  batchSize: 100,
+  batchSize: 200,
   pageSize: PAGE_SIZE,
 })
 
@@ -134,7 +134,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
       fetchFn: (id, size, cursor, direction) =>
         fetchAMMTransactions(id, 'AMMDeposit', size, cursor, direction),
       formatFn: buildFormatDepositWithdraw(asset1, asset2),
-      batchSize: 100,
+      batchSize: 200,
       pageSize: PAGE_SIZE,
     })
   }
@@ -143,7 +143,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
       fetchFn: (id, size, cursor, direction) =>
         fetchAMMTransactions(id, 'AMMWithdraw', size, cursor, direction),
       formatFn: buildFormatDepositWithdraw(asset1, asset2),
-      batchSize: 100,
+      batchSize: 200,
       pageSize: PAGE_SIZE,
     })
   }
