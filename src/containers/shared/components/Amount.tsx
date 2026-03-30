@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
 import { useLanguage } from '../hooks'
 import { localizeNumber, convertScaledPrice } from '../utils'
+import { parseAmount } from '../NumberFormattingUtils'
 import Currency from './Currency'
 import { ExplorerAmount } from '../types'
 import { FormattedMPTIssuance } from '../Interfaces'
@@ -17,6 +18,8 @@ export interface AmountProps {
   modifier?: `+` | '-' | '~' // value to put in front of the currency symbol and number
   shortenIssuer?: boolean
   displayCurrency?: boolean
+  /** Format amount with parseAmount. XRP shows icon + amount, IOU/MPT shows amount + currency. */
+  useParseAmount?: boolean
 }
 
 export const Amount = ({
@@ -25,6 +28,7 @@ export const Amount = ({
   value,
   shortenIssuer = false,
   displayCurrency = true,
+  useParseAmount: useParsed = false,
 }: AmountProps) => {
   const language = useLanguage()
   const rippledSocket = useContext(SocketContext)
@@ -100,6 +104,10 @@ export const Amount = ({
       return renderAmount(localizeNumber(scaledAmount, language, {}, true))
     }
     return null
+  }
+
+  if (useParsed) {
+    return renderAmount(parseAmount(amount, 1, language))
   }
 
   return renderAmount(localizeNumber(amount, language, options))
