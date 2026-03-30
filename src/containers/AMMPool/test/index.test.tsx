@@ -30,9 +30,7 @@ jest.mock('../InfoCards/BasicInfoCard', () => ({
 }))
 
 jest.mock('../InfoCards/MarketDataCard', () => ({
-  MarketDataCard: () => (
-    <div data-testid="market-data-card">Market Data</div>
-  ),
+  MarketDataCard: () => <div data-testid="market-data-card">Market Data</div>,
 }))
 
 jest.mock('../InfoCards/AuctionCard', () => ({
@@ -44,9 +42,7 @@ jest.mock('../TVLVolumeChart', () => ({
 }))
 
 jest.mock('../TablePicker', () => ({
-  AMMPoolTablePicker: () => (
-    <div data-testid="table-picker">Table Picker</div>
-  ),
+  AMMPoolTablePicker: () => <div data-testid="table-picker">Table Picker</div>,
 }))
 
 const mockGetAMMInfo = rippled.getAMMInfoByAMMAccount as jest.Mock
@@ -81,10 +77,7 @@ const mockAmmInfoResponse = {
 describe('AMMPool Page', () => {
   const renderComponent = (ammAccountId = TEST_AMM_ID) =>
     render(
-      <QuickHarness
-        i18n={i18n}
-        initialEntries={[`/amm/${ammAccountId}`]}
-      >
+      <QuickHarness i18n={i18n} initialEntries={[`/amm/${ammAccountId}`]}>
         <Route path={AMM_POOL_ROUTE.path} element={<AMMPool />} />
       </QuickHarness>,
     )
@@ -186,9 +179,7 @@ describe('AMMPool Page', () => {
     renderComponent('rNonExistentAMM')
 
     await waitFor(() => {
-      expect(
-        screen.queryByTestId('amm-pool-header'),
-      ).not.toBeInTheDocument()
+      expect(screen.queryByTestId('amm-pool-header')).not.toBeInTheDocument()
     })
   })
 })

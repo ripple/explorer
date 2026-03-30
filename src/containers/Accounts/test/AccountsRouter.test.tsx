@@ -27,14 +27,8 @@ describe('AccountsRouter', () => {
 
   const renderRouter = (accountId: string) =>
     render(
-      <QuickHarness
-        i18n={i18n}
-        initialEntries={[`/accounts/${accountId}`]}
-      >
-        <Route
-          path={ACCOUNT_ROUTE.path}
-          element={<AccountsRouter />}
-        />
+      <QuickHarness i18n={i18n} initialEntries={[`/accounts/${accountId}`]}>
+        <Route path={ACCOUNT_ROUTE.path} element={<AccountsRouter />} />
       </QuickHarness>,
     )
 
@@ -52,9 +46,7 @@ describe('AccountsRouter', () => {
 
     await waitFor(() => {
       // Navigate component redirects, so the Accounts page should NOT render
-      expect(
-        screen.queryByTestId('accounts-page'),
-      ).not.toBeInTheDocument()
+      expect(screen.queryByTestId('accounts-page')).not.toBeInTheDocument()
     })
   })
 
@@ -106,9 +98,7 @@ describe('AccountsRouter', () => {
     await waitFor(() => {
       expect(mockDetectLiquidatedAMM).toHaveBeenCalled()
       // Navigate component redirects, so Accounts page should NOT render
-      expect(
-        screen.queryByTestId('accounts-page'),
-      ).not.toBeInTheDocument()
+      expect(screen.queryByTestId('accounts-page')).not.toBeInTheDocument()
     })
   })
 
@@ -132,9 +122,7 @@ describe('AccountsRouter', () => {
 
     await waitFor(() => {
       // Should show NoMatch error for malformed address
-      expect(
-        screen.queryByTestId('accounts-page'),
-      ).not.toBeInTheDocument()
+      expect(screen.queryByTestId('accounts-page')).not.toBeInTheDocument()
     })
   })
 })

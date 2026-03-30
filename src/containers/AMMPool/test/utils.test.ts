@@ -45,10 +45,7 @@ describe('detectLiquidatedAMM', () => {
   it('calls account_tx with limit=1', async () => {
     mockSocket.send.mockResolvedValue(mockLiquidatedTx)
 
-    await detectLiquidatedAMM(
-      mockSocket,
-      'rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL',
-    )
+    await detectLiquidatedAMM(mockSocket, 'rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL')
 
     expect(mockSocket.send).toHaveBeenCalledWith({
       command: 'account_tx',
