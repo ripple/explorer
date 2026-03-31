@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import i18n from '../../../i18n/testConfig'
-import { AMMDepositWithdrawTable } from '../TablePicker/AMMDepositWithdrawTable'
-import { AMMDepositWithdrawTx } from '../types'
+import i18n from '../../../../i18n/testConfig'
+import { AMMDepositWithdrawTable } from '../AMMDepositWithdrawTable'
+import { AMMDepositWithdrawTx } from '../../types'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },

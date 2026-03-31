@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../../../i18n/testConfig'
-import { AuctionCard } from '../InfoCards/AuctionCard'
+import i18n from '../../../../i18n/testConfig'
+import { AuctionCard } from '../AuctionCard'
 
-jest.mock('../../shared/images/auction_icon.svg', () => ({
+jest.mock('../../../shared/images/auction_icon.svg', () => ({
   __esModule: true,
   default: () => <svg data-testid="auction-icon" />,
 }))

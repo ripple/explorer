@@ -2,10 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import i18n from '../../../i18n/testConfig'
+import i18n from '../../../../i18n/testConfig'
 import { TVLVolumeChart } from '../TVLVolumeChart'
-import { TooltipProvider } from '../../shared/components/Tooltip'
-import * as api from '../api'
+import { TooltipProvider } from '../../../shared/components/Tooltip'
+import * as api from '../../api'
 
 // ResizeObserver is not available in jsdom (required by recharts ResponsiveContainer)
 function MockResizeObserver() {
@@ -15,7 +15,7 @@ beforeAll(() => {
   global.ResizeObserver = MockResizeObserver as unknown as typeof ResizeObserver
 })
 
-jest.mock('../api')
+jest.mock('../../api')
 
 const mockFetchHistoricalTrends = api.fetchAMMHistoricalTrends as jest.Mock
 
