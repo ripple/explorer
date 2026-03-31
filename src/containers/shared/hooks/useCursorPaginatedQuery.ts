@@ -32,12 +32,14 @@ interface UseCursorPaginatedQueryResult<T> {
 }
 
 /**
- * Hook that wraps CursorPaginationService, handling page/sort/refresh
- * state and data fetching.
+ * React bridge for CursorPaginationService. Manages page/sort/refresh state
+ * and data fetching so each consumer doesn't duplicate ~70 lines of
+ * useState/useEffect/useCallback boilerplate.
  *
- * Page changes fetch data without showing a loader (previous data stays
- * visible). Sort changes and refresh show a loader because the cache
- * is cleared.
+ * Used by IOU (2), MPT (1), and AMM Pool (3) pages.
+ *
+ * Page changes keep previous data visible (no loading flash).
+ * Sort changes and refresh show a loader because the cache is cleared.
  */
 export function useCursorPaginatedQuery<T>({
   service,
@@ -84,7 +86,9 @@ export function useCursorPaginatedQuery<T>({
   }, [service])
 
   useEffect(() => {
-    if (!enabled) return undefined
+    if (!enabled) {
+      return undefined
+    }
 
     let cancelled = false
 
