@@ -18,7 +18,7 @@ import { AuctionCard } from './InfoCards/AuctionCard'
 import { AMMPoolTablePicker } from './TablePicker'
 import { TVLVolumeChart } from './TVLVolumeChart'
 import { fetchAMMPoolData, fetchAMMCreatedTimestamp } from './api'
-import { detectLiquidatedAMM, LiquidatedAMMData } from './utils'
+import { getLiquidatedAMMData, LiquidatedAMMData } from './utils'
 import { FormattedBalance } from './types'
 import './styles.scss'
 
@@ -56,7 +56,9 @@ const orderAssets = (
   b1: FormattedBalance | null,
   b2: FormattedBalance | null,
 ): [FormattedBalance | null, FormattedBalance | null] => {
-  if (b1 && b2 && b1.currency === 'XRP') return [b2, b1]
+  if (b1 && b2 && b1.currency === 'XRP') {
+    return [b2, b1]
+  }
   return [b1, b2]
 }
 
@@ -111,7 +113,7 @@ export const AMMPool = () => {
   const ammInfoFailed = !ammInfoLoading && !ammInfo && !!ammAccountId
   const { data: liquidatedData, isFetching: liquidatedLoading } = useQuery(
     ['ammLiquidated', ammAccountId],
-    () => detectLiquidatedAMM(rippledSocket, ammAccountId),
+    () => getLiquidatedAMMData(rippledSocket, ammAccountId),
     {
       enabled: ammInfoFailed,
       onError: () => {
@@ -192,7 +194,6 @@ export const AMMPool = () => {
       issuer: liquidatedData.lpToken.issuer,
       value: liquidatedData.lpToken.value,
     }
-    auctionSlot = liquidatedData.auctionSlot
   }
 
   const [asset1, asset2] = orderAssets(balance1, balance2)
