@@ -1,7 +1,7 @@
 import { render, fireEvent, act } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../../../../i18n/testConfigEnglish'
-import { CopyableText } from '../CopyableText'
+import i18n from '../../../../../i18n/testConfigEnglish'
+import { CopyableText } from '..'
 
 // Mock clipboard API
 const mockWriteText = jest.fn()

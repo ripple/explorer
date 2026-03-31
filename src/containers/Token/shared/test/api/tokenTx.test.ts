@@ -20,32 +20,31 @@ describe('Token Transactions API', () => {
 
   describe('getDexTrades', () => {
     const mockDexTradesResponse = {
-      transactions: [
+      results: [
         {
-          hash: 'tx1',
-          type: 'dex-trade',
+          tx_hash: 'tx1',
           timestamp: 1234567890,
-        },
-        {
-          hash: 'tx2',
-          type: 'dex-trade',
-          timestamp: 1234567891,
+          from: 'rABC',
+          to: 'rDEF',
+          type: 'orderBook',
+          amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+          amount_out: { currency: 'XRP', issuer: null, value: '50' },
         },
       ],
-      search_after: ['value1', 'value2'],
+      next_cursor: [1234567890, 'tx1'],
     }
 
-    it('should fetch dex trades with default parameters', async () => {
+    it('should fetch dex trades from /dex-trades endpoint with default parameters', async () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockDexTradesResponse })
 
       const result = await getDexTrades('USD.rIssuer123')
 
       expect(result).toEqual(mockDexTradesResponse)
       expect(mockAxios.get).toHaveBeenCalledWith(
-        expect.stringContaining('token=USD.rIssuer123'),
+        expect.stringContaining('/dex-trades?'),
       )
       expect(mockAxios.get).toHaveBeenCalledWith(
-        expect.stringContaining('transactionType=dex-trade'),
+        expect.stringContaining('token=USD.rIssuer123'),
       )
       expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('size=10'),
@@ -112,48 +111,50 @@ describe('Token Transactions API', () => {
       )
     })
 
-    it('should handle empty transaction list', async () => {
+    it('should handle empty results list', async () => {
       const emptyResponse = {
-        transactions: [],
-        search_after: null,
+        results: [],
+        next_cursor: null,
       }
 
       mockAxios.get.mockResolvedValueOnce({ data: emptyResponse })
 
       const result = await getDexTrades('USD.rIssuer123')
 
-      expect(result.transactions).toEqual([])
+      expect(result.results).toEqual([])
     })
   })
 
   describe('getTransfers', () => {
     const mockTransfersResponse = {
-      transactions: [
+      results: [
         {
           hash: 'tx1',
-          type: 'transfer',
+          type: 'Payment',
           timestamp: 1234567890,
-        },
-        {
-          hash: 'tx2',
-          type: 'transfer',
-          timestamp: 1234567891,
+          account: 'rABC',
+          destination: 'rDEF',
+          amount: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+          is_transfer: true,
         },
       ],
-      search_after: ['value1', 'value2'],
+      next_cursor: [1234567890, 'tx1'],
     }
 
-    it('should fetch transfers with default parameters', async () => {
+    it('should fetch transfers from /v2/transactions endpoint with default parameters', async () => {
       mockAxios.get.mockResolvedValueOnce({ data: mockTransfersResponse })
 
       const result = await getTransfers('USD.rIssuer123')
 
       expect(result).toEqual(mockTransfersResponse)
       expect(mockAxios.get).toHaveBeenCalledWith(
+        expect.stringContaining('/v2/transactions?'),
+      )
+      expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('token=USD.rIssuer123'),
       )
       expect(mockAxios.get).toHaveBeenCalledWith(
-        expect.stringContaining('transactionType=transfer'),
+        expect.stringContaining('is_transfer=true'),
       )
       expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('size=10'),
@@ -180,7 +181,7 @@ describe('Token Transactions API', () => {
         expect.stringContaining('token=EUR.rEUR'),
       )
       expect(mockAxios.get).toHaveBeenCalledWith(
-        expect.stringContaining('transactionType=transfer'),
+        expect.stringContaining('is_transfer=true'),
       )
       expect(mockAxios.get).toHaveBeenCalledWith(
         expect.stringContaining('size=20'),
@@ -205,17 +206,17 @@ describe('Token Transactions API', () => {
       )
     })
 
-    it('should handle empty transaction list', async () => {
+    it('should handle empty results list', async () => {
       const emptyResponse = {
-        transactions: [],
-        search_after: null,
+        results: [],
+        next_cursor: null,
       }
 
       mockAxios.get.mockResolvedValueOnce({ data: emptyResponse })
 
       const result = await getTransfers('USD.rIssuer123')
 
-      expect(result.transactions).toEqual([])
+      expect(result.results).toEqual([])
     })
 
     it('should handle timeout errors for dex trades', async () => {
@@ -246,21 +247,25 @@ describe('Token Transactions API', () => {
       await expect(getTransfers('USD.rIssuer123')).rejects.toThrow()
     })
 
-    it('should handle large transaction lists', async () => {
+    it('should handle large results lists', async () => {
       const largeResponse = {
-        transactions: Array.from({ length: 1000 }, (_, i) => ({
+        results: Array.from({ length: 1000 }, (_, i) => ({
           hash: `tx${i}`,
-          type: 'transfer',
+          type: 'Payment',
           timestamp: 1234567890 + i,
+          account: 'rABC',
+          destination: 'rDEF',
+          amount: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+          is_transfer: true,
         })),
-        search_after: ['value1', 'value2'],
+        next_cursor: ['value1', 'value2'],
       }
 
       mockAxios.get.mockResolvedValueOnce({ data: largeResponse })
 
       const result = await getTransfers('USD.rIssuer123')
 
-      expect(result.transactions.length).toBe(1000)
+      expect(result.results.length).toBe(1000)
     })
 
     it('should handle all optional parameters together', async () => {

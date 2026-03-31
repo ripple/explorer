@@ -26,7 +26,7 @@ jest.mock('../../../../../shared/hooks', () => ({
   useLanguage: () => 'en',
 }))
 
-jest.mock('../../../components/ResponsiveTimestamp', () => ({
+jest.mock('../../../../../shared/components/ResponsiveTimestamp', () => ({
   ResponsiveTimestamp: ({ timestamp }: { timestamp: number }) => (
     <div>{new Date(timestamp * 1000).toISOString()}</div>
   ),

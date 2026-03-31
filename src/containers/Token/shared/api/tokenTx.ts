@@ -3,20 +3,13 @@ import logger from '../../../../rippled/lib/logger'
 
 const log = logger({ name: 'tokenTx' })
 
-const fetchTokenTransactions = (
-  tokenId: string,
-  transactionType: string,
-  size: number,
+const buildPaginationAndSortParams = (
   searchAfter?: any,
   direction?: string,
   sortField?: string,
   sortOrder?: string,
-): Promise<any> => {
-  const params = new URLSearchParams({
-    token: tokenId,
-    transactionType,
-    size: size.toString(),
-  })
+): URLSearchParams => {
+  const params = new URLSearchParams()
 
   // Add search_after (cursor) if provided
   if (searchAfter) {
@@ -37,9 +30,7 @@ const fetchTokenTransactions = (
     params.append('sort_order', sortOrder)
   }
 
-  return axios
-    .get(`${process.env.VITE_LOS_URL}/transactions?${params.toString()}`)
-    .then((resp) => resp.data)
+  return params
 }
 
 export async function getDexTrades(
@@ -51,16 +42,22 @@ export async function getDexTrades(
   sortOrder?: string,
 ): Promise<any> {
   try {
-    log.info('fetching dex trades data from LOS')
-    return fetchTokenTransactions(
-      tokenId,
-      'dex-trade',
-      size ?? 10,
+    log.info('Fetching dex trades data from LOS')
+    const params = new URLSearchParams({
+      token: tokenId,
+      size: (size ?? 10).toString(),
+    })
+    const paginationParams = buildPaginationAndSortParams(
       searchAfter,
       direction,
       sortField,
       sortOrder,
     )
+    paginationParams.forEach((value, key) => params.append(key, value))
+
+    return axios
+      .get(`${process.env.VITE_LOS_URL}/dex-trades?${params.toString()}`)
+      .then((resp) => resp.data)
   } catch (error) {
     log.error(`Failed to fetch dex trades for ${tokenId}: ${error}`)
     throw error
@@ -76,16 +73,23 @@ export async function getTransfers(
   sortOrder?: string,
 ): Promise<any> {
   try {
-    log.info('fetching transfers data from LOS')
-    return fetchTokenTransactions(
-      tokenId,
-      'transfer',
-      size ?? 10,
+    log.info('Fetching transfers data from LOS')
+    const params = new URLSearchParams({
+      token: tokenId,
+      is_transfer: 'true',
+      size: (size ?? 10).toString(),
+    })
+    const paginationParams = buildPaginationAndSortParams(
       searchAfter,
       direction,
       sortField,
       sortOrder,
     )
+    paginationParams.forEach((value, key) => params.append(key, value))
+
+    return axios
+      .get(`${process.env.VITE_LOS_URL}/v2/transactions?${params.toString()}`)
+      .then((resp) => resp.data)
   } catch (error) {
     log.error(`Failed to fetch transfers for ${tokenId}: ${error}`)
     throw error

@@ -34,17 +34,13 @@ describe('DexTradesPaginationService', () => {
     it('fetches and returns trades on first page', async () => {
       const mockTrades = [
         {
-          hash: 'hash1',
+          tx_hash: 'hash1',
           ledger_index: 100,
           timestamp: 1000,
-          dex_trades: [
-            {
-              from: 'rFrom1',
-              to: 'rTo1',
-              amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
-              amount_out: { currency: 'XRP', issuer: '', value: '50' },
-            },
-          ],
+          from: 'rFrom1',
+          to: 'rTo1',
+          amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+          amount_out: { currency: 'XRP', issuer: '', value: '50' },
         },
       ]
 
@@ -73,7 +69,7 @@ describe('DexTradesPaginationService', () => {
 
       expect(mockGetDexTrades).toHaveBeenCalledWith(
         'USD.rIssuer',
-        200,
+        100,
         undefined,
         'next',
         undefined,
@@ -94,17 +90,13 @@ describe('DexTradesPaginationService', () => {
 
     it('handles multiple pages correctly', async () => {
       const mockTrades = Array.from({ length: 200 }, (_, i) => ({
-        hash: `hash${i}`,
+        tx_hash: `hash${i}`,
         ledger_index: 100 + i,
         timestamp: 1000 + i,
-        dex_trades: [
-          {
-            from: `rFrom${i}`,
-            to: `rTo${i}`,
-            amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
-            amount_out: { currency: 'XRP', issuer: '', value: '50' },
-          },
-        ],
+        from: `rFrom${i}`,
+        to: `rTo${i}`,
+        amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+        amount_out: { currency: 'XRP', issuer: '', value: '50' },
       }))
 
       mockGetDexTrades.mockResolvedValue({
@@ -125,17 +117,13 @@ describe('DexTradesPaginationService', () => {
     it('caches trades between calls', async () => {
       const mockTrades = [
         {
-          hash: 'hash1',
+          tx_hash: 'hash1',
           ledger_index: 100,
           timestamp: 1000,
-          dex_trades: [
-            {
-              from: 'rFrom1',
-              to: 'rTo1',
-              amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
-              amount_out: { currency: 'XRP', issuer: '', value: '50' },
-            },
-          ],
+          from: 'rFrom1',
+          to: 'rTo1',
+          amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+          amount_out: { currency: 'XRP', issuer: '', value: '50' },
         },
       ]
 
@@ -170,7 +158,7 @@ describe('DexTradesPaginationService', () => {
 
       expect(mockGetDexTrades).toHaveBeenCalledWith(
         'USD.rIssuer',
-        200,
+        100,
         undefined,
         'next',
         'timestamp',
@@ -180,17 +168,13 @@ describe('DexTradesPaginationService', () => {
 
     it('returns correct hasMore flag', async () => {
       const mockTrades = Array.from({ length: 200 }, (_, i) => ({
-        hash: `hash${i}`,
+        tx_hash: `hash${i}`,
         ledger_index: 100 + i,
         timestamp: 1000 + i,
-        dex_trades: [
-          {
-            from: `rFrom${i}`,
-            to: `rTo${i}`,
-            amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
-            amount_out: { currency: 'XRP', issuer: '', value: '50' },
-          },
-        ],
+        from: `rFrom${i}`,
+        to: `rTo${i}`,
+        amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+        amount_out: { currency: 'XRP', issuer: '', value: '50' },
       }))
 
       mockGetDexTrades.mockResolvedValue({
@@ -205,6 +189,50 @@ describe('DexTradesPaginationService', () => {
       )
 
       expect(result.hasMore).toBe(true)
+    })
+
+    it('awaits in-flight prefetch when page exceeds cache', async () => {
+      // First batch: 100 trades with a next_cursor
+      const batch1 = Array.from({ length: 100 }, (_, i) => ({
+        tx_hash: `hash${i}`,
+        ledger_index: 100 + i,
+        timestamp: 1000 + i,
+        from: `rFrom${i}`,
+        to: `rTo${i}`,
+        amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+        amount_out: { currency: 'XRP', issuer: '', value: '50' },
+      }))
+
+      // Second batch: 100 more trades
+      const batch2 = Array.from({ length: 100 }, (_, i) => ({
+        tx_hash: `hash${100 + i}`,
+        ledger_index: 200 + i,
+        timestamp: 2000 + i,
+        from: `rFrom${100 + i}`,
+        to: `rTo${100 + i}`,
+        amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+        amount_out: { currency: 'XRP', issuer: '', value: '50' },
+      }))
+
+      mockGetDexTrades
+        .mockResolvedValueOnce({ results: batch1, next_cursor: 'cursor1' })
+        .mockResolvedValueOnce({ results: batch2, next_cursor: null })
+
+      // Page 8 triggers initial fetch (batch1) and prefetch at 70% threshold
+      // (endIndex 80 > 100 * 0.7 = 70)
+      await dexTradesPaginationService.getDexTradesPage('USD.rIssuer', 8, 10)
+
+      // Page 11 is beyond cache (100 items), should await prefetch and return data
+      const result = await dexTradesPaginationService.getDexTradesPage(
+        'USD.rIssuer',
+        11,
+        10,
+      )
+
+      // Page 11 returned a full page, not empty — prefetch was awaited
+      expect(result.trades.length).toBe(10)
+      // First item is from batch2 (hash100–hash199), confirming data came from the prefetched batch
+      expect(result.trades[0].hash).toBe('hash100')
     })
   })
 
@@ -251,17 +279,13 @@ describe('DexTradesPaginationService', () => {
 
     it('returns correct count after fetching', async () => {
       const mockTrades = Array.from({ length: 5 }, (_, i) => ({
-        hash: `hash${i}`,
+        tx_hash: `hash${i}`,
         ledger_index: 100 + i,
         timestamp: 1000 + i,
-        dex_trades: [
-          {
-            from: `rFrom${i}`,
-            to: `rTo${i}`,
-            amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
-            amount_out: { currency: 'XRP', issuer: '', value: '50' },
-          },
-        ],
+        from: `rFrom${i}`,
+        to: `rTo${i}`,
+        amount_in: { currency: 'USD', issuer: 'rIssuer', value: '100' },
+        amount_out: { currency: 'XRP', issuer: '', value: '50' },
       }))
 
       mockGetDexTrades.mockResolvedValue({
