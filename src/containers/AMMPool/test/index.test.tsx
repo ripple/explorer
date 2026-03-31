@@ -17,18 +17,36 @@ jest.mock('../api', () => ({
   fetchAMMTransactions: jest.fn().mockResolvedValue({ data: [], total: 0 }),
 }))
 
-// TVLVolumeChart must be mocked — it uses useQuery() + recharts (won't render in jsdom)
-jest.mock('../../shared/components/TVLVolumeChart', () => ({
+jest.mock('../AMMPoolHeader', () => ({
+  AMMPoolHeader: ({ asset1, asset2 }: any) => (
+    <div data-testid="amm-pool-header">
+      {asset1?.currency}/{asset2?.currency}
+    </div>
+  ),
+}))
+
+jest.mock('../InfoCards/BasicInfoCard', () => ({
+  BasicInfoCard: () => <div data-testid="basic-info-card">Basic Info</div>,
+}))
+
+jest.mock('../InfoCards/MarketDataCard', () => ({
+  MarketDataCard: () => <div data-testid="market-data-card">Market Data</div>,
+}))
+
+jest.mock('../InfoCards/AuctionCard', () => ({
+  AuctionCard: () => <div data-testid="auction-card">Auction</div>,
+}))
+
+jest.mock('../TVLVolumeChart', () => ({
   TVLVolumeChart: () => <div data-testid="tvl-volume-chart">Chart</div>,
 }))
 
-// AMMPoolTablePicker must be mocked — it uses useQuery(), useInfiniteQuery(), SocketContext, useAnalytics()
 jest.mock('../TablePicker', () => ({
   AMMPoolTablePicker: () => <div data-testid="table-picker">Table Picker</div>,
 }))
 
 const mockGetAMMInfo = rippled.getAMMInfoByAMMAccount as jest.Mock
-const mockDetectDeleted = ammUtils.getDeletedAMMData as jest.Mock
+const mockDetectLiquidated = ammUtils.getLiquidatedAMMData as jest.Mock
 
 const TEST_AMM_ID = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG'
 
@@ -67,7 +85,7 @@ describe('AMMPool Page', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     process.env.VITE_ENVIRONMENT = 'mainnet'
-    mockDetectDeleted.mockResolvedValue(null)
+    mockDetectLiquidated.mockResolvedValue(null)
   })
 
   it('renders header and cards for an active AMM pool', async () => {
@@ -76,9 +94,9 @@ describe('AMMPool Page', () => {
     renderComponent()
 
     await waitFor(() => {
-      expect(document.querySelector('.amm-pool-header')).toBeInTheDocument()
-      expect(screen.getByText('basic_info')).toBeInTheDocument()
-      expect(screen.getByText('auction')).toBeInTheDocument()
+      expect(screen.getByTestId('amm-pool-header')).toBeInTheDocument()
+      expect(screen.getByTestId('basic-info-card')).toBeInTheDocument()
+      expect(screen.getByTestId('auction-card')).toBeInTheDocument()
       expect(screen.getByTestId('table-picker')).toBeInTheDocument()
     })
   })
@@ -89,17 +107,16 @@ describe('AMMPool Page', () => {
     renderComponent()
 
     await waitFor(() => {
-      const header = document.querySelector('.amm-pool-header')
-      expect(header).toBeInTheDocument()
+      const header = screen.getByTestId('amm-pool-header')
       // XRP should be asset2 (right side)
-      expect(header!.textContent).toContain('/XRP')
+      expect(header.textContent).toContain('/XRP')
     })
   })
 
-  it('shows deleted banner for a deleted AMM pool', async () => {
+  it('shows liquidated banner for a liquidated AMM pool', async () => {
     mockGetAMMInfo.mockRejectedValue({ code: 35 })
-    mockDetectDeleted.mockResolvedValue({
-      account: 'rDeletedAMM',
+    mockDetectLiquidated.mockResolvedValue({
+      account: 'rLiquidatedAMM',
       asset: { currency: 'XRP' },
       asset2: {
         currency: '504958454C530000000000000000000000000000',
@@ -107,31 +124,31 @@ describe('AMMPool Page', () => {
       },
       lpToken: {
         currency: '0370963F20A61AF3C6E5D674EAAEE3E65C0BDC9F',
-        issuer: 'rDeletedAMM',
+        issuer: 'rLiquidatedAMM',
         value: '0',
       },
-      deletionDate: 827617760,
+      liquidationDate: 827617760,
     })
 
-    renderComponent('rDeletedAMM')
+    renderComponent('rLiquidatedAMM')
 
     await waitFor(() => {
-      expect(document.querySelector('.amm-pool-header')).toBeInTheDocument()
-      expect(screen.getByText('basic_info')).toBeInTheDocument()
+      expect(screen.getByTestId('amm-pool-header')).toBeInTheDocument()
+      expect(screen.getByTestId('basic-info-card')).toBeInTheDocument()
       expect(screen.getByTestId('table-picker')).toBeInTheDocument()
     })
 
     // Liquidated banner should be shown
     await waitFor(() => {
-      const banner = document.querySelector('.amm-deleted-banner')
+      const banner = document.querySelector('.amm-liquidated-banner')
       expect(banner).toBeInTheDocument()
     })
   })
 
-  it('hides auction card for deleted pools', async () => {
+  it('hides auction card for liquidated pools', async () => {
     mockGetAMMInfo.mockRejectedValue({ code: 35 })
-    mockDetectDeleted.mockResolvedValue({
-      account: 'rDeletedAMM',
+    mockDetectLiquidated.mockResolvedValue({
+      account: 'rLiquidatedAMM',
       asset: { currency: 'XRP' },
       asset2: {
         currency: '504958454C530000000000000000000000000000',
@@ -139,30 +156,30 @@ describe('AMMPool Page', () => {
       },
       lpToken: {
         currency: '0370963F20A61AF3C6E5D674EAAEE3E65C0BDC9F',
-        issuer: 'rDeletedAMM',
+        issuer: 'rLiquidatedAMM',
         value: '0',
       },
-      deletionDate: 827617760,
+      liquidationDate: 827617760,
     })
 
-    renderComponent('rDeletedAMM')
+    renderComponent('rLiquidatedAMM')
 
     await waitFor(() => {
-      expect(screen.getByText('basic_info')).toBeInTheDocument()
+      expect(screen.getByTestId('basic-info-card')).toBeInTheDocument()
     })
 
-    // Auction card should not be rendered for deleted pools
-    expect(screen.queryByText('auction')).not.toBeInTheDocument()
+    // Auction card should not be rendered for liquidated pools
+    expect(screen.queryByTestId('auction-card')).not.toBeInTheDocument()
   })
 
-  it('shows error when both amm_info and deletion detection fail', async () => {
+  it('shows error when both amm_info and liquidation detection fail', async () => {
     mockGetAMMInfo.mockRejectedValue({ code: 404 })
-    mockDetectDeleted.mockResolvedValue(null)
+    mockDetectLiquidated.mockResolvedValue(null)
 
     renderComponent('rNonExistentAMM')
 
     await waitFor(() => {
-      expect(document.querySelector('.amm-pool-header')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('amm-pool-header')).not.toBeInTheDocument()
     })
   })
 })

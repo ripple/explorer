@@ -1,13 +1,10 @@
-import { useState, useCallback } from 'react'
-import { useQuery } from 'react-query'
+import { useState, useCallback, useEffect } from 'react'
 import {
   CursorPaginationService,
   PaginationResult,
 } from '../services/CursorPaginationService'
 
 interface UseCursorPaginatedQueryOptions<T> {
-  /** Unique query key prefix */
-  queryKey: string
   /** The pagination service instance */
   service: CursorPaginationService<T>
   /** Identifier passed to the service (e.g., token ID, AMM account ID) */
@@ -35,14 +32,16 @@ interface UseCursorPaginatedQueryResult<T> {
 }
 
 /**
- * Hook that wraps CursorPaginationService with react-query,
- * handling sort/page/refresh state automatically.
+ * React bridge for CursorPaginationService. Manages page/sort/refresh state
+ * and data fetching so each consumer doesn't duplicate ~70 lines of
+ * useState/useEffect/useCallback boilerplate.
  *
- * On sort change: resets page to 1 and clears the service cache.
- * On refresh: clears cache, resets page, and forces a refetch.
+ * Used by IOU (2), MPT (1), and AMM Pool (3) pages.
+ *
+ * Page changes keep previous data visible (no loading flash).
+ * Sort changes and refresh show a loader because the cache is cleared.
  */
 export function useCursorPaginatedQuery<T>({
-  queryKey,
   service,
   id,
   pageSize,
@@ -56,6 +55,8 @@ export function useCursorPaginatedQuery<T>({
     initialSortOrder,
   )
   const [refreshCount, setRefreshCount] = useState(0)
+  const [data, setData] = useState<PaginationResult<T> | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(true)
 
   const setSortField = useCallback(
     (field: string) => {
@@ -81,11 +82,32 @@ export function useCursorPaginatedQuery<T>({
     setRefreshCount((c) => c + 1)
   }, [service])
 
-  const { data, isLoading } = useQuery(
-    [queryKey, id, page, sortField, sortOrder, refreshCount],
-    () => service.getPage(id, page, pageSize, sortField, sortOrder),
-    { enabled },
-  )
+  useEffect(() => {
+    if (!enabled) {
+      return undefined
+    }
+
+    let cancelled = false
+
+    service
+      .getPage(id, page, pageSize, sortField, sortOrder)
+      .then((result) => {
+        if (!cancelled) {
+          setData(result)
+          setIsLoading(false)
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setData(undefined)
+          setIsLoading(false)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [enabled, service, id, page, pageSize, sortField, sortOrder, refreshCount])
 
   return {
     data,

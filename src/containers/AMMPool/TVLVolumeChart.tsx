@@ -64,9 +64,15 @@ const formatCurrencyTick = (
   currencyMode: 'usd' | 'xrp',
 ): string => {
   const prefix = currencyMode === 'usd' ? '$' : ''
-  if (value === 0) return `${prefix}0`
-  if (value >= 1000000) return `${prefix}${(value / 1000000).toFixed(1)}M`
-  if (value >= 1000) return `${prefix}${(value / 1000).toFixed(0)}K`
+  if (value === 0) {
+    return `${prefix}0`
+  }
+  if (value >= 1000000) {
+    return `${prefix}${(value / 1000000).toFixed(1)}M`
+  }
+  if (value >= 1000) {
+    return `${prefix}${(value / 1000).toFixed(0)}K`
+  }
   return `${prefix}${value.toFixed(0)}`
 }
 

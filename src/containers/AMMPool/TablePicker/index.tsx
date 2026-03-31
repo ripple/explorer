@@ -61,13 +61,17 @@ const buildFormatDepositWithdraw =
     const responseAssets = [tx.amm?.asset1, tx.amm?.asset2].filter(Boolean)
 
     const matchAsset = (target: FormattedBalance | null) => {
-      if (!target) return null
+      if (!target) {
+        return null
+      }
       const found = responseAssets.find(
         (a: any) =>
           a.currency === target.currency &&
           (a.issuer ?? null) === (target.issuer ?? null),
       )
-      if (!found) return null
+      if (!found) {
+        return null
+      }
       return {
         currency: found.currency,
         issuer: found.issuer ?? undefined,

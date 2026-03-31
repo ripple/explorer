@@ -17,11 +17,11 @@ jest.mock('../index', () => ({
 }))
 
 const mockGetAccountInfo = rippled.getAccountInfo as jest.Mock
-const mockDetectDeletedAMM = ammUtils.getDeletedAMMData as jest.Mock
+const mockDetectLiquidatedAMM = ammUtils.getLiquidatedAMMData as jest.Mock
 
 describe('AccountsRouter', () => {
   const ACTIVE_AMM_ACCOUNT = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG'
-  const DELETED_AMM_ACCOUNT = 'raxKnsu4ea6xoehws1tyvc7W2XPM5VcmJp'
+  const LIQUIDATED_AMM_ACCOUNT = 'raxKnsu4ea6xoehws1tyvc7W2XPM5VcmJp'
   const REGULAR_ACCOUNT = 'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM'
   const DELETED_ACCOUNT = 'rwGBCTYmPQ8NrfDVL5DdzS3aBbiXtbwngA'
 
@@ -66,7 +66,7 @@ describe('AccountsRouter', () => {
   it('renders Accounts page for a deleted non-AMM account', async () => {
     const error = new RippledError('Account not found', 404)
     mockGetAccountInfo.mockRejectedValue(error)
-    mockDetectDeletedAMM.mockResolvedValue(null)
+    mockDetectLiquidatedAMM.mockResolvedValue(null)
 
     renderRouter(DELETED_ACCOUNT)
 
@@ -75,11 +75,11 @@ describe('AccountsRouter', () => {
     })
   })
 
-  it('redirects to /amm/:id for a deleted AMM pool', async () => {
+  it('redirects to /amm/:id for a liquidated AMM pool', async () => {
     const error = new RippledError('Account not found', 404)
     mockGetAccountInfo.mockRejectedValue(error)
-    mockDetectDeletedAMM.mockResolvedValue({
-      account: DELETED_AMM_ACCOUNT,
+    mockDetectLiquidatedAMM.mockResolvedValue({
+      account: LIQUIDATED_AMM_ACCOUNT,
       asset: { currency: 'XRP' },
       asset2: {
         currency: '504958454C530000000000000000000000000000',
@@ -87,22 +87,22 @@ describe('AccountsRouter', () => {
       },
       lpToken: {
         currency: '0370963F20A61AF3C6E5D674EAAEE3E65C0BDC9F',
-        issuer: DELETED_AMM_ACCOUNT,
+        issuer: LIQUIDATED_AMM_ACCOUNT,
         value: '2764439179.245265',
       },
-      deletionDate: 827617760,
+      liquidationDate: 827617760,
     })
 
-    renderRouter(DELETED_AMM_ACCOUNT)
+    renderRouter(LIQUIDATED_AMM_ACCOUNT)
 
     await waitFor(() => {
-      expect(mockDetectDeletedAMM).toHaveBeenCalled()
+      expect(mockDetectLiquidatedAMM).toHaveBeenCalled()
       // Navigate component redirects, so Accounts page should NOT render
       expect(screen.queryByTestId('accounts-page')).not.toBeInTheDocument()
     })
   })
 
-  it('calls getDeletedAMMData only when account_info returns 404', async () => {
+  it('calls getLiquidatedAMMData only when account_info returns 404', async () => {
     mockGetAccountInfo.mockResolvedValue({
       Account: REGULAR_ACCOUNT,
       Balance: '1000000000',
@@ -114,7 +114,7 @@ describe('AccountsRouter', () => {
       expect(screen.getByTestId('accounts-page')).toBeInTheDocument()
     })
 
-    expect(mockDetectDeletedAMM).not.toHaveBeenCalled()
+    expect(mockDetectLiquidatedAMM).not.toHaveBeenCalled()
   })
 
   it('shows error for invalid account ID', async () => {
