@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../../../i18n/testConfig'
-import { BasicInfoCard } from '../InfoCards/BasicInfoCard'
+import i18n from '../../../../i18n/testConfig'
+import { BasicInfoCard } from '../BasicInfoCard'
 
 const defaults = {
   ammAccountId: 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG',

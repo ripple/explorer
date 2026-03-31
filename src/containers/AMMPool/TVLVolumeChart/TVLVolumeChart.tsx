@@ -5,11 +5,13 @@ import { TooltipProps } from 'recharts'
 import {
   DualAxisAreaChart,
   AxisConfig,
-} from '../shared/components/DualAxisAreaChart'
-import { Loader } from '../shared/components/Loader'
-import { useTooltip } from '../shared/components/Tooltip'
-import { parseAmount } from '../shared/NumberFormattingUtils'
-import { fetchAMMHistoricalTrends } from './api'
+} from '../../shared/components/DualAxisAreaChart'
+import { Loader } from '../../shared/components/Loader'
+import { useTooltip } from '../../shared/components/Tooltip'
+import { parseAmount } from '../../shared/NumberFormattingUtils'
+import { CurrencySwitch } from '../../shared/components/CurrencySwitch'
+import { fetchAMMHistoricalTrends } from '../api'
+import './styles.scss'
 
 interface TVLVolumeChartProps {
   ammAccountId: string
@@ -144,31 +146,16 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
     <div className="tvl-volume-section">
       <h2 className="chart-section-title">{t('tvl_and_volume')}</h2>
 
-      {/* Controls row: toggle + checkboxes (matching AMM Rankings page) */}
+      {/* Controls row: toggle + checkboxes */}
       <div className="controls">
-        <div className="currency-toggle-wrapper">
-          <span
-            className={`currency-label ${displayCurrency === 'usd' ? 'active' : ''}`}
-          >
-            USD
-          </span>
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="toggle-switch" aria-label="Toggle currency">
-            <input
-              type="checkbox"
-              checked={displayCurrency === 'xrp'}
-              onChange={() =>
-                setDisplayCurrency(displayCurrency === 'usd' ? 'xrp' : 'usd')
-              }
-            />
-            <span className="toggle-slider" />
-          </label>
-          <span
-            className={`currency-label ${displayCurrency === 'xrp' ? 'active' : ''}`}
-          >
-            XRP
-          </span>
-        </div>
+        <CurrencySwitch
+          leftLabel="USD"
+          rightLabel="XRP"
+          selected={displayCurrency === 'usd' ? 'USD' : 'XRP'}
+          onChange={(value) =>
+            setDisplayCurrency(value === 'USD' ? 'usd' : 'xrp')
+          }
+        />
 
         <label className="filter-checkbox" htmlFor="tvl-checkbox">
           <input
@@ -192,7 +179,6 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
         </label>
       </div>
 
-      {/* Chart container (matching AMM Rankings page structure) */}
       <div className="tvl-volume-chart-container">
         <div className="chart-header">
           <div className="time-filters">
