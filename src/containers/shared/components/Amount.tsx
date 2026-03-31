@@ -18,7 +18,7 @@ export interface AmountProps {
   modifier?: `+` | '-' | '~' // value to put in front of the currency symbol and number
   shortenIssuer?: boolean
   displayCurrency?: boolean
-  /** Format amount with parseAmount. XRP shows icon + amount, IOU/MPT shows amount + currency. */
+  /** Format amount with parseAmount instead of localizeNumber. */
   useParseAmount?: boolean
 }
 

@@ -46,7 +46,7 @@ jest.mock('../TablePicker', () => ({
 }))
 
 const mockGetAMMInfo = rippled.getAMMInfoByAMMAccount as jest.Mock
-const mockDetectLiquidated = ammUtils.detectLiquidatedAMM as jest.Mock
+const mockDetectLiquidated = ammUtils.getLiquidatedAMMData as jest.Mock
 
 const TEST_AMM_ID = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG'
 

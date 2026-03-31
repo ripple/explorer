@@ -17,7 +17,7 @@ jest.mock('../index', () => ({
 }))
 
 const mockGetAccountInfo = rippled.getAccountInfo as jest.Mock
-const mockDetectLiquidatedAMM = ammUtils.detectLiquidatedAMM as jest.Mock
+const mockDetectLiquidatedAMM = ammUtils.getLiquidatedAMMData as jest.Mock
 
 describe('AccountsRouter', () => {
   const ACTIVE_AMM_ACCOUNT = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG'
@@ -102,7 +102,7 @@ describe('AccountsRouter', () => {
     })
   })
 
-  it('calls detectLiquidatedAMM only when account_info returns 404', async () => {
+  it('calls getLiquidatedAMMData only when account_info returns 404', async () => {
     mockGetAccountInfo.mockResolvedValue({
       Account: REGULAR_ACCOUNT,
       Balance: '1000000000',

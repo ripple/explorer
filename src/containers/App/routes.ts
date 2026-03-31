@@ -91,12 +91,7 @@ export const VAULTS_ROUTE: RouteDefinition = {
 
 export const AMM_POOL_ROUTE: RouteDefinition<{
   id: string
-  tab?:
-    | 'transactions'
-    | 'dex-trades'
-    | 'deposits'
-    | 'withdrawals'
-    | 'top-holders'
+  tab?: 'transactions' | 'dex-trades' | 'deposits' | 'withdrawals' | 'holders'
 }> = {
   path: '/amm/:id/:tab?',
 }
