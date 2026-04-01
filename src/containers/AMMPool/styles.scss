@@ -30,27 +30,51 @@
 
   .amm-pool-header-left {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+
+    @include for-size(desktop-up) {
+      gap: 16px;
+    }
   }
 
   .amm-pool-title {
     margin: 0;
     color: $white;
-    font-size: 36px;
+    font-size: 24px;
     @include bold;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 30px;
+    }
+
+    @include for-size(desktop-up) {
+      font-size: 36px;
+    }
   }
 
   .amm-pool-token-badge {
     display: flex;
     align-items: center;
-    padding: 8px;
+    padding: 6px;
     border: 1px solid $black-70;
     border-radius: 8px;
     color: $white;
-    font-size: 18px;
-    gap: 8px;
+    font-size: 14px;
+    gap: 4px;
     @include bold;
+
+    @include for-size(tablet-portrait-up) {
+      padding: 8px;
+      font-size: 16px;
+      gap: 6px;
+    }
+
+    @include for-size(desktop-up) {
+      font-size: 18px;
+      gap: 8px;
+    }
   }
 
   .badge-separator {
@@ -74,10 +98,15 @@
 .amm-pool-info-cards {
   display: grid;
   margin-bottom: 40px;
-  gap: 32px;
+  gap: 16px;
   grid-template-columns: 1fr;
 
+  @include for-size(tablet-portrait-up) {
+    gap: 24px;
+  }
+
   @include for-size(desktop-up) {
+    gap: 32px;
     grid-template-columns: repeat(3, 1fr);
   }
 }

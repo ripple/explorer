@@ -3,12 +3,20 @@
 .currency-switch {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+
+  @include for-size(tablet-portrait-up) {
+    gap: 12px;
+  }
 
   .currency-label {
     color: $black-40;
-    font-size: 16px;
+    font-size: 14px;
     @include medium;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 16px;
+    }
 
     &.active {
       color: $white;
@@ -19,11 +27,17 @@
   .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 40px;
-    height: 24px;
+    width: 36px;
+    height: 20px;
     cursor: pointer;
 
+    @include for-size(desktop-up) {
+      width: 40px;
+      height: 24px;
+    }
+
     input {
+      position: absolute;
       width: 0;
       height: 0;
       opacity: 0;
@@ -40,12 +54,17 @@
         position: absolute;
         top: 3px;
         left: 3px;
-        width: 18px;
-        height: 18px;
+        width: 14px;
+        height: 14px;
         border-radius: 50%;
         background-color: $white;
         content: '';
         transition: transform 0.2s;
+
+        @include for-size(desktop-up) {
+          width: 18px;
+          height: 18px;
+        }
       }
     }
 

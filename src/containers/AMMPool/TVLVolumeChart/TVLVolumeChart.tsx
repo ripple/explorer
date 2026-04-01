@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
+import { useWindowSize } from 'usehooks-ts'
 import { TooltipProps } from 'recharts'
 import {
   DualAxisAreaChart,
@@ -31,7 +32,7 @@ const formatDateTick = (value: string, timeRange: string): string => {
       timeZone: 'UTC',
     })
   }
-  if (timeRange === '1W') {
+  if (timeRange === '1W' || timeRange === '1M') {
     return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -69,9 +70,16 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
 }) => {
   const { t } = useTranslation()
   const { showTooltip, hideTooltip } = useTooltip()
+  const { width: windowWidth = 1200 } = useWindowSize()
   const [timeRange, setTimeRange] = useState<string>('6M')
   const [showTVL, setShowTVL] = useState(true)
   const [showVolume, setShowVolume] = useState(true)
+
+  const isSmallScreen = windowWidth < 600
+  const chartMargin = isSmallScreen
+    ? { top: 10, right: 10, left: 10, bottom: 0 }
+    : { top: 10, right: 50, left: 50, bottom: 0 }
+  const chartTickFontSize = isSmallScreen ? 10 : 13
 
   const formatTooltipValue = (value: number | string) => {
     const num = Number(value)
@@ -205,6 +213,8 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
             leftAxis={leftAxis}
             rightAxis={rightAxis}
             tooltipContent={renderTooltip}
+            margin={chartMargin}
+            tickFontSize={chartTickFontSize}
           />
         )}
 

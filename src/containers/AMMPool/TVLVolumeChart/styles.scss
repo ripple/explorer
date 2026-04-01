@@ -9,10 +9,19 @@ $volume-color: #7919ff;
   .chart-section-title {
     padding-bottom: 0;
     border-bottom: none;
-    margin: 0 0 20px;
+    margin: 0 0 16px;
     color: $white;
-    font-size: 20px;
+    font-size: 16px;
     @include bold;
+
+    @include for-size(tablet-portrait-up) {
+      margin: 0 0 20px;
+      font-size: 18px;
+    }
+
+    @include for-size(desktop-up) {
+      font-size: 20px;
+    }
   }
 
   // ── Controls row: toggle + checkboxes ──
@@ -20,8 +29,17 @@ $volume-color: #7919ff;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 16px;
-    gap: 42px;
+    margin-bottom: 12px;
+    gap: 16px;
+
+    @include for-size(tablet-portrait-up) {
+      margin-bottom: 16px;
+      gap: 24px;
+    }
+
+    @include for-size(desktop-up) {
+      gap: 42px;
+    }
   }
 
   .filter-checkbox {
@@ -29,9 +47,14 @@ $volume-color: #7919ff;
     align-items: center;
     color: $white;
     cursor: pointer;
-    font-size: 16px;
-    gap: 12px;
+    font-size: 14px;
+    gap: 8px;
     @include medium;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 16px;
+      gap: 12px;
+    }
 
     input[type='checkbox'] {
       display: none;
@@ -40,8 +63,8 @@ $volume-color: #7919ff;
     .checkbox-custom {
       position: relative;
       display: flex;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
       align-items: center;
       justify-content: center;
@@ -49,6 +72,11 @@ $volume-color: #7919ff;
       border-radius: 4px;
       background-color: transparent;
       transition: all 0.2s;
+
+      @include for-size(desktop-up) {
+        width: 24px;
+        height: 24px;
+      }
 
       &::after {
         position: absolute;
@@ -79,35 +107,57 @@ $volume-color: #7919ff;
 }
 
 .tvl-volume-chart-container {
-  padding: 32px;
+  padding: 16px 12px;
   border: 1px solid $black-60;
   border-radius: $border-radius;
   background-color: $black-80;
 
+  @include for-size(desktop-up) {
+    padding: 32px;
+  }
+
   .chart-header {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+
+    @include for-size(desktop-up) {
+      margin-bottom: 24px;
+    }
   }
 
   .time-filters {
     display: flex;
-    gap: 16px;
+    gap: 8px;
+
+    @include for-size(tablet-portrait-up) {
+      gap: 12px;
+    }
+
+    @include for-size(desktop-up) {
+      gap: 16px;
+    }
 
     .time-filter {
       display: flex;
-      width: 50px;
+      width: 40px;
       align-items: center;
       justify-content: center;
-      padding: 8px;
+      padding: 6px;
       border: 1px solid $black-50;
       border-radius: $border-radius;
       background-color: $black;
       color: $white;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 12px;
       transition: all 0.15s;
       @include regular;
+
+      @include for-size(tablet-portrait-up) {
+        width: 50px;
+        padding: 8px;
+        font-size: 14px;
+      }
 
       &:hover {
         border-color: $black-40;
@@ -153,15 +203,25 @@ $volume-color: #7919ff;
     display: flex;
     align-items: center;
     color: $white;
-    font-size: 13px;
-    gap: 8px;
+    font-size: 11px;
+    gap: 6px;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 13px;
+      gap: 8px;
+    }
   }
 
   .legend-color {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     flex-shrink: 0;
     border-radius: 3px;
+
+    @include for-size(tablet-portrait-up) {
+      width: 14px;
+      height: 14px;
+    }
 
     &.tvl-color {
       background: $tvl-color;
