@@ -72,6 +72,7 @@
   "not_found_default_title": "No s'ha trobat la pàgina",
   "not_found_check_url": "Si us plau, comproba l'URL",
   "not_found": "No s'ha trobat",
+  "hash_not_found": null,
   "buy": "Compra",
   "sell": "Ven",
   "price": "Preu",
