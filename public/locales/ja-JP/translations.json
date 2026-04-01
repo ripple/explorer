@@ -470,6 +470,7 @@
   "last_affecting_transaction": "最新の関連トランザクション",
   "Version": "バージョン",
   "increased_by": null,
+  "lp_token_balance": "LPトークン残高",
   "trading_fee": "取引手数料",
   "tvl": "TVM",
   "account_address": "アカウントアドレス",
