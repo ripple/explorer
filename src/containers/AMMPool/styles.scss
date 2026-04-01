@@ -125,7 +125,7 @@
 // ============================================================
 .amm-pool-info-cards {
   display: grid;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   gap: 16px;
   grid-template-columns: 1fr;
 
@@ -140,7 +140,7 @@
 }
 
 .amm-pool-info-card {
-  padding: 32px;
+  padding: 24px;
   border: 1px solid $black-60;
   border-radius: 8px;
   background: $black-80;
@@ -148,7 +148,7 @@
   .info-card-title {
     display: flex;
     align-items: center;
-    margin: 0 0 24px;
+    margin: 0 0 16px;
     color: $white;
     font-size: 20px;
     gap: 8px;
@@ -164,7 +164,7 @@
   .info-card-rows {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
 
   .info-card-row {
