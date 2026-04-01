@@ -1,10 +1,17 @@
-import { render, fireEvent, act } from '@testing-library/react'
+import { render, fireEvent, act, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  MemoryRouter,
+  Routes,
+  Route,
+} from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import moxios from 'moxios'
 import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import { Search } from '../Search'
+import SearchResult from '../../SearchResult'
 import * as rippled from '../../../rippled/lib/rippled'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
@@ -89,9 +96,11 @@ describe('Search component', () => {
     const vaultID =
       '5C60E9B76EECC8262DB29276B32B99F05B7A7DE66D6968B5959BB9E4E397643D'
 
-    // mock getNFTInfo api to test transactions and nfts
+    // mock APIs to test hash disambiguation
     const mockAPI = jest.spyOn(rippled, 'getTransaction')
     const mockGetVault = jest.spyOn(rippled, 'getVault')
+    const mockGetLedger = jest.spyOn(rippled, 'getLedger')
+    const mockGetNFTInfo = jest.spyOn(rippled, 'getNFTInfo')
 
     const testValue = async (searchInput, expectedPath) => {
       input.value = searchInput
@@ -151,9 +160,10 @@ describe('Search component', () => {
     await testValue(token2VariantMinus, `/token/${token2}`)
 
     // Returns a response upon a valid nft_id, redirect to NFT
-    mockAPI.mockImplementation(() => {
-      throw new Error('Tx not found', 404)
-    })
+    mockAPI.mockRejectedValue(new Error('Tx not found'))
+    mockGetVault.mockRejectedValue(new Error('not found'))
+    mockGetLedger.mockRejectedValue(new Error('not found'))
+    mockGetNFTInfo.mockResolvedValue({ nft_id: nftoken })
     await testValue(nftoken, `/nft/${nftoken}`)
 
     await testValue(invalidString, `/search/${invalidString}`)
@@ -176,6 +186,64 @@ describe('Search component', () => {
     mockAPI.mockRejectedValue()
     mockGetVault.mockResolvedValue()
     await testValue(vaultID, `/vault/${vaultID}`)
+
+    // Ledger hash found: tx fails, vault fails, ledger succeeds
+    const ledgerHash =
+      'A1B2C3D4E5F6A1B2C3D4E5F6A1B2C3D4E5F6A1B2C3D4E5F6A1B2C3D4E5F6A1B2'
+    mockAPI.mockRejectedValue(new Error('not found'))
+    mockGetVault.mockRejectedValue(new Error('not found'))
+    mockGetLedger.mockResolvedValue({ ledger_index: 100 })
+    await testValue(ledgerHash, `/ledgers/${ledgerHash}`)
+
+    // All lookups fail: navigates to /search/:hash with error message
+    const unknownHash =
+      'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'
+    mockAPI.mockRejectedValue(new Error('not found'))
+    mockGetVault.mockRejectedValue(new Error('not found'))
+    mockGetLedger.mockRejectedValue(new Error('not found'))
+    mockGetNFTInfo.mockRejectedValue(new Error('not found'))
+    await testValue(unknownHash, `/search/${unknownHash}`)
+  })
+
+  it('displays hash_not_found when all hash lookups fail', async () => {
+    const client = new MockWsClient()
+    const { container } = render(
+      <HelmetProvider>
+        <I18nextProvider i18n={i18n}>
+          <SocketContext.Provider value={client}>
+            <MemoryRouter
+              initialEntries={['/']}
+              future={V7_FUTURE_ROUTER_FLAGS}
+            >
+              <QueryClientProvider client={queryClient}>
+                <Routes>
+                  <Route path="/" element={<Search />} />
+                  <Route path="/search/:id" element={<SearchResult />} />
+                </Routes>
+              </QueryClientProvider>
+            </MemoryRouter>
+          </SocketContext.Provider>
+        </I18nextProvider>
+      </HelmetProvider>,
+    )
+
+    jest
+      .spyOn(rippled, 'getTransaction')
+      .mockRejectedValue(new Error('not found'))
+    jest.spyOn(rippled, 'getVault').mockRejectedValue(new Error('not found'))
+    jest.spyOn(rippled, 'getLedger').mockRejectedValue(new Error('not found'))
+    jest.spyOn(rippled, 'getNFTInfo').mockRejectedValue(new Error('not found'))
+
+    const input = container.querySelector('.search input')
+    const unknownHash =
+      'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'
+    input.value = unknownHash
+    await act(async () => {
+      fireEvent.keyDown(input, { key: 'Enter' })
+      await flushPromises()
+    })
+
+    expect(screen.getByText('hash_not_found')).toBeTruthy()
   })
 
   // TODO: Add custom search tests

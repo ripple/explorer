@@ -19,7 +19,12 @@ import {
   HASH192_REGEX,
 } from '../shared/utils'
 import './search.scss'
-import { getTransaction, getVault } from '../../rippled/lib/rippled'
+import {
+  getTransaction,
+  getVault,
+  getLedger,
+  getNFTInfo,
+} from '../../rippled/lib/rippled'
 import { buildPath } from '../shared/routing'
 import {
   ACCOUNT_ROUTE,
@@ -30,26 +35,43 @@ import {
   VALIDATOR_ROUTE,
   MPT_ROUTE,
   VAULT_ROUTE,
+  SEARCH_RESULT_ROUTE,
 } from '../App/routes'
 import TokenSearchResults from '../shared/components/TokenSearchResults/TokenSearchResults'
 
 const determineHashType = async (
   id: string,
   rippledContext: ExplorerXrplClient,
-) => {
+): Promise<string | null> => {
   try {
     await getTransaction(rippledContext, id)
     return 'transactions'
   } catch (e) {
-    // This ledger-index does not correspond to a transaction
+    // Not a transaction
   }
 
   try {
     await getVault(rippledContext, id)
     return 'vault'
   } catch (e) {
-    return 'nft'
+    // Not a vault
   }
+
+  try {
+    await getLedger(rippledContext, { ledger_hash: id.toUpperCase() })
+    return 'ledgers'
+  } catch (e) {
+    // Not a ledger
+  }
+
+  try {
+    await getNFTInfo(rippledContext, id)
+    return 'nft'
+  } catch (e) {
+    // Not an NFT either
+  }
+
+  return null
 }
 
 // separator for currency formats
@@ -72,8 +94,8 @@ const getRoute = async (
     }
   }
   if (HASH256_REGEX.test(id)) {
-    // Transactions, NFTs and Vaults share the same syntax
-    // We must make an api call to ensure if it's one or the other
+    // Transactions, NFTs, Vaults, and Ledger-Hashes share the same 256-bit hash syntax.
+    // We must make api calls to determine which type it is.
     const type = await determineHashType(id, rippledContext)
     let path
     if (type === 'transactions') {
@@ -82,6 +104,15 @@ const getRoute = async (
       path = buildPath(NFT_ROUTE, { id: id.toUpperCase() })
     } else if (type === 'vault') {
       path = buildPath(VAULT_ROUTE, { id: id.toUpperCase() })
+    } else if (type === 'ledgers') {
+      path = buildPath(LEDGER_ROUTE, { identifier: id.toUpperCase() })
+    }
+
+    if (type === null) {
+      return {
+        type: 'hash_not_found',
+        path: buildPath(SEARCH_RESULT_ROUTE, { id: id.toUpperCase() }),
+      }
     }
 
     return {

@@ -73,6 +73,7 @@
   "not_found_default_title": "ページが見つかりません",
   "not_found_check_url": "URLを再確認してください",
   "not_found": "見つかりません",
+  "hash_not_found": null,
   "buy": "買い",
   "sell": "売り",
   "price": "価格",
