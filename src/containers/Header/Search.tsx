@@ -43,35 +43,21 @@ const determineHashType = async (
   id: string,
   rippledContext: ExplorerXrplClient,
 ): Promise<string | null> => {
-  try {
-    await getTransaction(rippledContext, id)
-    return 'transactions'
-  } catch (e) {
-    // Not a transaction
-  }
+  const lookups: Promise<string>[] = [
+    getTransaction(rippledContext, id).then(() => 'transactions'),
+    getVault(rippledContext, id).then(() => 'vault'),
+    getLedger(rippledContext, { ledger_hash: id.toUpperCase() }).then(
+      () => 'ledgers',
+    ),
+    getNFTInfo(rippledContext, id).then(() => 'nft'),
+  ]
 
-  try {
-    await getVault(rippledContext, id)
-    return 'vault'
-  } catch (e) {
-    // Not a vault
-  }
-
-  try {
-    await getLedger(rippledContext, { ledger_hash: id.toUpperCase() })
-    return 'ledgers'
-  } catch (e) {
-    // Not a ledger
-  }
-
-  try {
-    await getNFTInfo(rippledContext, id)
-    return 'nft'
-  } catch (e) {
-    // Not an NFT either
-  }
-
-  return null
+  // Note: Owing to ledger-semantics, it is assumed that the ledger-index is unique. Two ledger-objects will not have identical ID, except with an astronomically small probability.
+  const results = await Promise.allSettled(lookups)
+  const match = results.find(
+    (r): r is PromiseFulfilledResult<string> => r.status === 'fulfilled',
+  )
+  return match?.value ?? null
 }
 
 // separator for currency formats

@@ -132,9 +132,7 @@ describe('Search component', () => {
     // Validator
     await testValue(validator, `/validators/${validator}`)
 
-    mockAPI.mockImplementation(() => {
-      '123'
-    })
+    mockAPI.mockResolvedValue('123')
     await testValue(hash, `/transactions/${hash}`)
 
     await testValue(ctid, `/transactions/${ctid}`)
@@ -169,9 +167,7 @@ describe('Search component', () => {
     await testValue(invalidString, `/search/${invalidString}`)
 
     // ensure strings are trimmed
-    mockAPI.mockImplementation(() => {
-      '123'
-    })
+    mockAPI.mockResolvedValue('123')
     await testValue(` ${hash} `, `/transactions/${hash}`)
 
     // handle lower case tx hash
