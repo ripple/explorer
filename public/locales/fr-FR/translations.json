@@ -470,6 +470,8 @@
   "last_affecting_transaction": "Dernière transaction affectée",
   "Version": "Version",
   "increased_by": "augmenté de",
+  "lp_token_balance": "Solde du jeton LP",
+  "token_balance": "Solde du jeton",
   "trading_fee": "Commission",
   "tvl": "TVL",
   "account_address": "Adresse du compte",
