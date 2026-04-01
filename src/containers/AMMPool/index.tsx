@@ -20,6 +20,7 @@ import { TVLVolumeChart } from './TVLVolumeChart'
 import { fetchAMMPoolData, fetchAMMCreatedTimestamp } from './api'
 import { getLiquidatedAMMData, LiquidatedAMMData } from './utils'
 import { FormattedBalance } from './types'
+import InfoIcon from '../shared/images/info-duotone.svg'
 import './styles.scss'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
@@ -208,7 +209,16 @@ export const AMMPool = () => {
 
           {isLiquidated && (
             <div className="amm-liquidated-banner">
-              {t('amm_pool_liquidated')}
+              <div className="liquidated-label">
+                <InfoIcon
+                  className="liquidated-info-icon"
+                  aria-hidden="true"
+                />
+                {t('amm_pool_liquidated_label')}
+              </div>
+              <div className="liquidated-message">
+                {t('amm_pool_liquidated_text')}
+              </div>
             </div>
           )}
 

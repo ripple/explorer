@@ -11,14 +11,42 @@
 // ============================================================
 // Header: "AMM Pool [CRYPTO.rRbi/XRP]"
 .amm-liquidated-banner {
-  padding: 12px 16px;
-  border-radius: 4px;
-  border-left: 4px solid $orange;
-  margin-bottom: 24px;
-  background-color: rgb(255 103 25 / 10%);
-  color: $black-30;
-  font-size: 14px;
-  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  border: 1px solid $orange-50;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  background: $black-90;
+  gap: 12px;
+
+  .liquidated-label {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    padding: 3px 12px;
+    border: 1px solid $orange-50;
+    border-radius: 100px;
+    background: $orange-80;
+    color: $black-0;
+    font-size: 12px;
+    gap: 10px;
+    text-transform: uppercase;
+    @include semibold;
+
+    .liquidated-info-icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 3px;
+    }
+  }
+
+  .liquidated-message {
+    margin: 0;
+    color: $black-0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
 }
 
 // ============================================================
