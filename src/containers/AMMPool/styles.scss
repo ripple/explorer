@@ -31,27 +31,26 @@
   .amm-pool-header-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
   }
 
   .amm-pool-title {
     margin: 0;
     color: $white;
-    font-size: 28px;
+    font-size: 36px;
     @include bold;
   }
 
-  // Pill badge for token pair
   .amm-pool-token-badge {
     display: flex;
     align-items: center;
-    padding: 6px 14px;
-    border: 1px solid $black-60;
-    border-radius: 20px;
+    padding: 8px;
+    border: 1px solid $black-70;
+    border-radius: 8px;
     color: $white;
-    font-size: 14px;
-    gap: 2px;
-    @include medium;
+    font-size: 18px;
+    gap: 8px;
+    @include bold;
   }
 
   .badge-separator {
@@ -75,7 +74,7 @@
 .amm-pool-info-cards {
   display: grid;
   margin-bottom: 40px;
-  gap: 16px;
+  gap: 32px;
   grid-template-columns: 1fr;
 
   @include for-size(desktop-up) {
@@ -84,45 +83,56 @@
 }
 
 .amm-pool-info-card {
-  padding: 20px 24px;
-  border: 1px solid $black-70;
-  border-radius: 12px;
-  background: $black-100;
+  padding: 32px;
+  border: 1px solid $black-60;
+  border-radius: 8px;
+  background: $black-80;
 
   .info-card-title {
     display: flex;
     align-items: center;
-    margin: 0 0 20px;
+    margin: 0 0 24px;
     color: $white;
-    font-size: 16px;
+    font-size: 20px;
     gap: 8px;
-    @include semibold;
+    @include bold;
   }
 
   .info-card-icon {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
   }
 
   .info-card-rows {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
   }
 
   .info-card-row {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 8px;
+    gap: 4px;
+
+    &:not(:last-child)::after {
+      display: none;
+    }
+  }
+
+  .info-card-separator {
+    width: 100%;
+    height: 1px;
+    background: $black-60;
   }
 
   .info-card-label {
     display: flex;
     align-items: center;
     color: $black-40;
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 1.5;
     text-transform: uppercase;
     @include semibold;
 
@@ -136,10 +146,11 @@
 
   .info-card-value {
     color: $white;
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 1.5;
     text-align: right;
     word-break: break-all;
-    @include medium;
+    @include regular;
 
     &-green {
       color: $green;
@@ -150,18 +161,19 @@
     }
 
     &-link {
-      color: $green;
+      color: $green-30;
 
       a {
-        color: $green;
+        color: $green-30;
       }
     }
   }
 
   .info-card-subtitle {
-    margin-top: 6px;
+    margin-top: 4px;
     color: $black-40;
     font-size: 12px;
+    line-height: 1.5;
     @include regular;
   }
 }

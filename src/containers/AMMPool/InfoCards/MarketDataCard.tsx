@@ -84,6 +84,7 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
           <span className="info-card-label">{t('tvl')}</span>
           <span className="info-card-value">{parseCurrencyAmount(tvl)}</span>
         </div>
+        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">
             {t('volume_24h')}
@@ -91,6 +92,7 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
           </span>
           <span className="info-card-value">{parseCurrencyAmount(volume)}</span>
         </div>
+        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">
             {t('fees_24h')}
@@ -98,6 +100,7 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
           </span>
           <span className="info-card-value">{parseCurrencyAmount(fees)}</span>
         </div>
+        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">
             {t('apr_24h')}
@@ -108,38 +111,47 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
           </span>
         </div>
         {balance1 && (
-          <div className="info-card-row">
-            <BalanceLabel
-              currency={balance1.currency}
-              issuer={balance1.issuer}
-            />
-            <span className="info-card-value">
-              {parseAmount(balance1.amount)}
-            </span>
-          </div>
+          <>
+            <div className="info-card-separator" />
+            <div className="info-card-row">
+              <BalanceLabel
+                currency={balance1.currency}
+                issuer={balance1.issuer}
+              />
+              <span className="info-card-value">
+                {parseAmount(balance1.amount)}
+              </span>
+            </div>
+          </>
         )}
         {balance2 && (
-          <div className="info-card-row">
-            <BalanceLabel
-              currency={balance2.currency}
-              issuer={balance2.issuer}
-            />
-            <span className="info-card-value">
-              {parseAmount(balance2.amount)}
-            </span>
-          </div>
+          <>
+            <div className="info-card-separator" />
+            <div className="info-card-row">
+              <BalanceLabel
+                currency={balance2.currency}
+                issuer={balance2.issuer}
+              />
+              <span className="info-card-value">
+                {parseAmount(balance2.amount)}
+              </span>
+            </div>
+          </>
         )}
         {lpTokenBalance && (
-          <div className="info-card-row">
-            <span className="info-card-label">{t('lp_tokens')}</span>
-            <span className="info-card-value">
-              <div>{parseAmount(lpTokenBalance)}</div>
-              <div className="info-card-subtitle">
-                {parseIntegerAmount(losData.liquidity_provider_count)}{' '}
-                {t('liquidity_providers')}
-              </div>
-            </span>
-          </div>
+          <>
+            <div className="info-card-separator" />
+            <div className="info-card-row">
+              <span className="info-card-label">{t('lp_tokens')}</span>
+              <span className="info-card-value">
+                <div>{parseAmount(lpTokenBalance)}</div>
+                <div className="info-card-subtitle">
+                  {parseIntegerAmount(losData.liquidity_provider_count)}{' '}
+                  {t('liquidity_providers')}
+                </div>
+              </span>
+            </div>
+          </>
         )}
       </div>
     </div>

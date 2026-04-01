@@ -11,8 +11,8 @@ $volume-color: #7919ff;
     border-bottom: none;
     margin: 0 0 20px;
     color: $white;
-    font-size: 18px;
-    @include semibold;
+    font-size: 20px;
+    @include bold;
   }
 
   // ── Controls row: toggle + checkboxes ──
@@ -21,7 +21,7 @@ $volume-color: #7919ff;
     flex-wrap: wrap;
     align-items: center;
     margin-bottom: 16px;
-    gap: 20px;
+    gap: 42px;
   }
 
   .filter-checkbox {
@@ -29,8 +29,8 @@ $volume-color: #7919ff;
     align-items: center;
     color: $white;
     cursor: pointer;
-    font-size: 14px;
-    gap: 8px;
+    font-size: 16px;
+    gap: 12px;
     @include medium;
 
     input[type='checkbox'] {
@@ -40,8 +40,8 @@ $volume-color: #7919ff;
     .checkbox-custom {
       position: relative;
       display: flex;
-      width: 18px;
-      height: 18px;
+      width: 24px;
+      height: 24px;
       flex-shrink: 0;
       align-items: center;
       justify-content: center;
@@ -53,8 +53,8 @@ $volume-color: #7919ff;
       &::after {
         position: absolute;
         display: none;
-        width: 4px;
-        height: 8px;
+        width: 5px;
+        height: 10px;
         border: solid $black-100;
         border-width: 0 2px 2px 0;
         margin-top: -2px;
@@ -79,37 +79,39 @@ $volume-color: #7919ff;
 }
 
 .tvl-volume-chart-container {
-  padding: 30px 24px 16px;
-  border: 1px solid $black-70;
+  padding: 32px;
+  border: 1px solid $black-60;
   border-radius: $border-radius;
   background-color: $black-80;
 
   .chart-header {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
 
   .time-filters {
     display: flex;
-    padding-right: 50px;
-    gap: 6px;
+    gap: 16px;
 
     .time-filter {
-      padding: 4px 12px;
-      border: 1px solid $black-60;
+      display: flex;
+      width: 50px;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      border: 1px solid $black-50;
       border-radius: $border-radius;
       background-color: $black;
-      color: $black-40;
+      color: $white;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
       transition: all 0.15s;
-      @include medium;
+      @include regular;
 
       &:hover {
-        border-color: $black-50;
+        border-color: $black-40;
         background-color: $black-80;
-        color: $white;
       }
 
       &.active {
