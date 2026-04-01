@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react'
-import { useLocation } from 'react-router'
+import { useLocation } from 'react-router-dom'
 
 /* eslint-disable camelcase -- GA uses underscores for the names */
 export type AnalyticsEventNames =

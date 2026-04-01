@@ -1,5 +1,4 @@
-import { Route, useLocation, Routes } from 'react-router'
-import { Navigate } from 'react-router-dom'
+import { Route, useLocation, Routes, Navigate } from 'react-router-dom'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from 'react-query'
 import { useTranslation } from 'react-i18next'
