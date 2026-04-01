@@ -854,11 +854,8 @@
   "basic_info": "Basic Info",
   "auction": "Auction",
   "created_on": "Created On",
-  "volume_24h_tooltip": "Total DEX trade volume on this AMM from 00:00–23:59 UTC of the previous day",
   "fees_24h": "Fees (24H)",
-  "fees_24h_tooltip": "Total trading fees earned by this AMM from 00:00–23:59 UTC of the previous day",
   "apr_24h": "APR (24H)",
-  "apr_24h_tooltip": "Annualized return based on fees from 00:00–23:59 UTC of the previous day relative to TVL",
   "current_holder": "Current Holder",
   "discounted_fee": "Discounted Trading Fee",
   "price_paid": "Price Paid",
@@ -869,7 +866,6 @@
   "withdrawals": "Withdrawals",
   "lp_tokens_received": "LP Tokens Received",
   "lp_tokens_redeemed": "LP Tokens Redeemed",
-  "tvl_and_volume": "Total Value Locked and Volume",
   "no_deposits": "No deposits found.",
   "no_withdrawals": "No withdrawals found.",
   "liquidity_providers": "Liquidity Providers",
@@ -890,7 +886,12 @@
   "number_of_amms": "# of AMMs",
   "number_of_lps": "# of LPs",
   "24h_volume": "24h Volume",
+  "tvl_and_volume": "TVL and Volume",
   "apr_tooltip": "Annualized 24H fees",
   "trading_fee_tooltip": "Accumulated fees in this pool in the last 24H",
-  "number_of_amms_tooltip": "Total number of unique AMM instances"
+  "volume_24h_tooltip": "Total DEX trade volume on this AMM from 00:00–23:59 UTC of the previous day",
+  "fees_24h_tooltip": "Total trading fees earned by this AMM from 00:00–23:59 UTC of the previous day",
+  "apr_24h_tooltip": "Annualized return based on fees from 00:00–23:59 UTC of the previous day relative to TVL",
+  "number_of_amms_tooltip": "Number of active AMM pools with deposit/withdrawal activity",
+  "number_of_lps_tooltip": "Number of unique liquidity providers across all AMM pools"
 }

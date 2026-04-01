@@ -8,11 +8,15 @@ import Log from '../shared/log'
 import { AMMRankingsTable } from './AMMRankingsTable'
 import { GeneralInfoCard } from './GeneralInfoCard'
 import { TVLVolumeChart } from './TVLVolumeChart'
-import { fetchAMMRankings, fetchAggregatedStats, fetchHistoricalTrends } from './api'
+import {
+  fetchAMMRankings,
+  fetchAggregatedStats,
+  fetchHistoricalTrends,
+} from './api'
 import './ammRankings.scss'
 
 type CurrencyMode = 'usd' | 'xrp'
-type TimeRange = '1D' | '1M' | '6M' | '1Y' | '5Y'
+type TimeRange = '1W' | '1M' | '6M' | '1Y' | '5Y'
 
 export const AMMRankings: FC = () => {
   const { t } = useTranslation()
@@ -49,7 +53,9 @@ export const AMMRankings: FC = () => {
       refetchInterval: 60 * 1000,
       onError: (error) => {
         Log.error(error)
-        trackException(`AMM aggregated stats fetch --- ${JSON.stringify(error)}`)
+        trackException(
+          `AMM aggregated stats fetch --- ${JSON.stringify(error)}`,
+        )
       },
     },
   )
@@ -61,7 +67,9 @@ export const AMMRankings: FC = () => {
       refetchInterval: 60 * 1000,
       onError: (error) => {
         Log.error(error)
-        trackException(`AMM historical trends fetch --- ${JSON.stringify(error)}`)
+        trackException(
+          `AMM historical trends fetch --- ${JSON.stringify(error)}`,
+        )
       },
     },
   )
@@ -80,32 +88,39 @@ export const AMMRankings: FC = () => {
         <div className="currency-toggle-wrapper">
           <span
             className={
-              currencyMode === 'usd' ? 'currency-label active' : 'currency-label'
+              currencyMode === 'usd'
+                ? 'currency-label active'
+                : 'currency-label'
             }
           >
             USD
           </span>
-          <label className="toggle-switch">
+          <label className="toggle-switch" htmlFor="currency-toggle">
             <input
+              id="currency-toggle"
               type="checkbox"
               checked={currencyMode === 'xrp'}
               onChange={() =>
                 setCurrencyMode(currencyMode === 'usd' ? 'xrp' : 'usd')
               }
+              aria-label="Currency mode toggle"
             />
             <span className="toggle-slider" />
           </label>
           <span
             className={
-              currencyMode === 'xrp' ? 'currency-label active' : 'currency-label'
+              currencyMode === 'xrp'
+                ? 'currency-label active'
+                : 'currency-label'
             }
           >
             XRP
           </span>
         </div>
 
-        <label className="filter-checkbox">
+        <label className="filter-checkbox" htmlFor="toggle-tvl">
           <input
+            id="toggle-tvl"
             type="checkbox"
             checked={showTVL}
             onChange={(e) => setShowTVL(e.target.checked)}
@@ -113,8 +128,9 @@ export const AMMRankings: FC = () => {
           <span className="checkbox-custom" />
           <span>{t('tvl')}</span>
         </label>
-        <label className="filter-checkbox">
+        <label className="filter-checkbox" htmlFor="toggle-volume">
           <input
+            id="toggle-volume"
             type="checkbox"
             checked={showVolume}
             onChange={(e) => setShowVolume(e.target.checked)}
@@ -138,7 +154,10 @@ export const AMMRankings: FC = () => {
               currencyMode={currencyMode}
             />
 
-            <GeneralInfoCard stats={aggregatedStats} currencyMode={currencyMode} />
+            <GeneralInfoCard
+              stats={aggregatedStats}
+              currencyMode={currencyMode}
+            />
           </div>
 
           <AMMRankingsTable

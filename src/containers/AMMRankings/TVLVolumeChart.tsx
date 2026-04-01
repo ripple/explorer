@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { TooltipProps } from 'recharts'
 import { HistoricalDataPoint } from './api'
 import { parseCurrencyAmount } from '../shared/NumberFormattingUtils'
-import { useTooltip } from '../shared/components/Tooltip'
-import { DualAxisAreaChart, AxisConfig } from '../shared/components/DualAxisAreaChart'
+import {
+  DualAxisAreaChart,
+  AxisConfig,
+} from '../shared/components/DualAxisAreaChart'
 
 interface TVLVolumeChartProps {
   data: HistoricalDataPoint[]
@@ -18,7 +20,7 @@ interface TVLVolumeChartProps {
 type ValueType = number | string | Array<number | string>
 type NameType = number | string
 
-const TIME_RANGES = ['1D', '1M', '6M', '1Y', '5Y']
+const TIME_RANGES = ['1W', '1M', '6M', '1Y', '5Y']
 
 // TVL = green, Volume = purple (matching spec)
 const TVL_COLOR = '#32E685'
@@ -26,8 +28,8 @@ const VOLUME_COLOR = '#7919FF'
 
 const formatDateTick = (value: string, timeRange: string): string => {
   const date = new Date(value)
-  if (timeRange === '1D') {
-    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+  if (timeRange === '1W') {
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
   if (timeRange === '5Y') {
     return date.toLocaleDateString('en-US', { year: '2-digit' })
@@ -44,7 +46,10 @@ const formatTVLTick = (value: number, currencyMode: 'usd' | 'xrp'): string => {
   return `${prefix}${value.toFixed(0)}`
 }
 
-const formatVolumeTick = (value: number, currencyMode: 'usd' | 'xrp'): string => {
+const formatVolumeTick = (
+  value: number,
+  currencyMode: 'usd' | 'xrp',
+): string => {
   const prefix = currencyMode === 'usd' ? '$' : ''
 
   if (value === 0) return `${prefix}0`
@@ -58,7 +63,6 @@ const CustomTooltip = ({
   payload,
   label,
 }: TooltipProps<ValueType, NameType>) => {
-  const { t } = useTranslation()
   if (active && payload && payload.length > 0) {
     const date = new Date(label)
     const formattedDate = date.toLocaleDateString('en-US', {
@@ -69,8 +73,12 @@ const CustomTooltip = ({
     return (
       <div className="chart-tooltip">
         <p className="tooltip-label">{formattedDate}</p>
-        {payload.map((entry, index) => (
-          <p key={index} className="tooltip-value" style={{ color: entry.color }}>
+        {payload.map((entry) => (
+          <p
+            key={entry.dataKey}
+            className="tooltip-value"
+            style={{ color: entry.color }}
+          >
             {entry.name}: {parseCurrencyAmount(String(entry.value ?? 0))}
           </p>
         ))}
@@ -89,13 +97,14 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
   currencyMode,
 }) => {
   const { t } = useTranslation()
-  const { showTooltip, hideTooltip } = useTooltip()
 
   const chartData = data.map((point) => ({
     date: point.date,
     tvl: currencyMode === 'usd' ? point.tvl_usd : point.tvl_xrp,
     volume:
-      currencyMode === 'usd' ? point.trading_volume_usd : point.trading_volume_xrp,
+      currencyMode === 'usd'
+        ? point.trading_volume_usd
+        : point.trading_volume_xrp,
   }))
 
   const leftAxis: AxisConfig = {
@@ -142,17 +151,7 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
       />
 
       <div className="chart-legend">
-        <div
-          className="legend-item"
-          onMouseOver={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect()
-            showTooltip('text', e, t('tvl_tooltip'), {
-              x: rect.left + rect.width / 2,
-              y: rect.top - 60,
-            })
-          }}
-          onMouseLeave={() => hideTooltip()}
-        >
+        <div className="legend-item">
           <span className="legend-color tvl-color" />
           <span className="legend-text">{t('tvl')}</span>
         </div>

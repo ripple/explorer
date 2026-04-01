@@ -58,9 +58,14 @@ export interface HistoricalTrendsResponse {
 /**
  * Fetch token icon from LOS for a single token directly (client-side)
  */
-const fetchTokenIcon = async (currency: string, issuer: string): Promise<string | undefined> => {
+const fetchTokenIcon = async (
+  currency: string,
+  issuer: string,
+): Promise<string | undefined> => {
   try {
-    const response = await axios.get(`${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`)
+    const response = await axios.get(
+      `${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`,
+    )
     return response.data?.icon
   } catch (error) {
     // Silently fail - icon is optional
@@ -71,13 +76,15 @@ const fetchTokenIcon = async (currency: string, issuer: string): Promise<string 
 /**
  * Helper function to delay execution
  */
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 /**
  * Fetch token icons for AMM pools
  * Fetches icons individually from LOS API with chunking and delays to avoid rate limits
  */
-const fetchTokenIcons = async (tokenIds: string[]): Promise<Record<string, string>> => {
+const fetchTokenIcons = async (
+  tokenIds: string[],
+): Promise<Record<string, string>> => {
   if (tokenIds.length === 0) {
     return {}
   }
@@ -137,7 +144,9 @@ export const fetchAMMRankings = async (
  * Fetch token icons for a specific set of AMMs (e.g., one page)
  * This allows lazy loading of icons only when needed
  */
-export const fetchIconsForAMMs = async (amms: AMMPool[]): Promise<Record<string, string>> => {
+export const fetchIconsForAMMs = async (
+  amms: AMMPool[],
+): Promise<Record<string, string>> => {
   // Collect unique currency-issuer pairs from the provided AMMs
   // Key insight: currency_1 pairs with issuer_1, currency_2 pairs with issuer_2
   const tokenPairs = new Set<string>()
@@ -194,4 +203,3 @@ export const fetchAMMHistoricalTrends = async (
   })
   return response.data
 }
-

@@ -57,9 +57,7 @@ async function fetchAggregatedStats() {
       timeout: 30000,
     })
     .then((resp) => {
-      log.info(
-        `Successfully fetched aggregated stats, status: ${resp.status}`,
-      )
+      log.info(`Successfully fetched aggregated stats, status: ${resp.status}`)
       return resp.data
     })
     .catch((e) => {
@@ -95,7 +93,9 @@ async function cacheAMMs() {
     log.info(`Cached ${cachedAMMsList.results.length} AMMs`)
   } else if (cachedAMMsList.results.length > 0) {
     log.warn(
-      `Failed to fetch AMMs from LOS, using stale cached data (${cachedAMMsList.results.length} AMMs from ${new Date(cachedAMMsList.last_updated).toISOString()})`,
+      `Failed to fetch AMMs from LOS, using stale cached data ` +
+        `(${cachedAMMsList.results.length} AMMs from ` +
+        `${new Date(cachedAMMsList.last_updated).toISOString()})`,
     )
   } else {
     log.error('Failed to fetch AMMs from LOS and no cached data available')
@@ -112,10 +112,13 @@ async function cacheAggregatedStats() {
     log.info('Cached aggregated stats')
   } else if (cachedAggregatedStats.data) {
     log.warn(
-      `Failed to fetch aggregated stats from LOS, using stale cached data (from ${new Date(cachedAggregatedStats.last_updated).toISOString()})`,
+      `Failed to fetch aggregated stats from LOS, using stale cached data ` +
+        `(from ${new Date(cachedAggregatedStats.last_updated).toISOString()})`,
     )
   } else {
-    log.error('Failed to fetch aggregated stats from LOS and no cached data available')
+    log.error(
+      'Failed to fetch aggregated stats from LOS and no cached data available',
+    )
   }
 }
 
@@ -153,9 +156,15 @@ function sortAMMs(amms, sortField, sortOrder) {
  */
 const getAMMs = async (req, res) => {
   try {
-    const { size = 1000, sort_field = 'tvl_usd', sort_order = 'desc' } = req.query
+    const {
+      size = 1000,
+      sort_field = 'tvl_usd',
+      sort_order = 'desc',
+    } = req.query
 
-    log.info(`Fetching AMMs from cache: size=${size}, sort_field=${sort_field}, sort_order=${sort_order}`)
+    log.info(
+      `Fetching AMMs from cache: size=${size}, sort_field=${sort_field}, sort_order=${sort_order}`,
+    )
 
     // Wait for cache to be populated (with timeout)
     let timeoutLimit = 10
@@ -214,7 +223,9 @@ const getAggregatedStats = async (req, res) => {
  */
 async function fetchHistoricalTrends(ammAccountId, timeRange) {
   const url = `${process.env.VITE_LOS_URL}/amms/historical-trends`
-  log.info(`Fetching historical trends from: ${url} (amm_account_id=${ammAccountId}, time_range=${timeRange})`)
+  log.info(
+    `Fetching historical trends from: ${url} (amm_account_id=${ammAccountId}, time_range=${timeRange})`,
+  )
 
   return axios
     .get(url, {
@@ -226,7 +237,9 @@ async function fetchHistoricalTrends(ammAccountId, timeRange) {
     })
     .then((resp) => {
       log.info(
-        `Successfully fetched historical trends, status: ${resp.status}, data_points: ${resp.data?.total_data_points || 0}`,
+        `Successfully fetched historical trends, ` +
+          `status: ${resp.status}, ` +
+          `data_points: ${resp.data?.total_data_points || 0}`,
       )
       return resp.data
     })
@@ -264,16 +277,23 @@ async function cacheTrends(ammAccountId, timeRange) {
 
   if (trends) {
     log.info(`Fetched historical trends from LOS for ${cacheKey}...`)
-    cachedHistoricalTrends.set(cacheKey, { data: trends, last_updated: Date.now() })
+    cachedHistoricalTrends.set(cacheKey, {
+      data: trends,
+      last_updated: Date.now(),
+    })
     log.info(`Cached historical trends for ${cacheKey}`)
   } else {
     const existing = cachedHistoricalTrends.get(cacheKey)
     if (existing) {
       log.warn(
-        `Failed to fetch historical trends from LOS for ${cacheKey}, using stale cached data (from ${new Date(existing.last_updated).toISOString()})`,
+        `Failed to fetch historical trends from LOS for ${cacheKey}, ` +
+          `using stale cached data ` +
+          `(from ${new Date(existing.last_updated).toISOString()})`,
       )
     } else {
-      log.error(`Failed to fetch historical trends from LOS for ${cacheKey} and no cached data available`)
+      log.error(
+        `Failed to fetch historical trends from LOS for ${cacheKey} and no cached data available`,
+      )
     }
   }
 }
@@ -282,12 +302,14 @@ const getHistoricalTrends = async (req, res) => {
   try {
     const { amm_account_id = 'aggregated', time_range = '6M' } = req.query
 
-    log.info(`Fetching historical trends from cache: amm_account_id=${amm_account_id}, time_range=${time_range}`)
+    log.info(
+      `Fetching historical trends from cache: amm_account_id=${amm_account_id}, time_range=${time_range}`,
+    )
 
     const cached = getCachedTrends(amm_account_id, time_range)
 
     // If cached and fresh (within REFETCH_INTERVAL), return it
-    if (cached && (Date.now() - cached.last_updated) < REFETCH_INTERVAL) {
+    if (cached && Date.now() - cached.last_updated < REFETCH_INTERVAL) {
       log.info('Returning historical trends from cache')
       return res.status(200).json({
         ...cached.data,
@@ -315,4 +337,3 @@ module.exports = {
   getAggregatedStats,
   getHistoricalTrends,
 }
-

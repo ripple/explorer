@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import { FC } from 'react'
 import {
   AreaChart,
   Area,
@@ -96,7 +96,7 @@ export const DualAxisAreaChart: FC<DualAxisAreaChartProps> = ({
             strokeDasharray="0"
             stroke={gridStroke}
             vertical={false}
-            horizontal={true}
+            horizontal
           />
         )}
 
