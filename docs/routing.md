@@ -9,6 +9,7 @@ The explorer uses some enhancements to `react-router` to provide type checking t
 In the future these objects can provide a common way to support legacy routes.
 
 ex.
+
 ```
 export const ACCOUNT_ROUTE: RouteDefinition<{
     id?: string
@@ -21,7 +22,7 @@ export const ACCOUNT_ROUTE: RouteDefinition<{
 
 ### `useRouteParams`
 
-A new hook which takes a `RouteDefinition` and wraps `react-router`'s `useRouteParams`.  This will derive the type of the params from the definition.
+A new hook which takes a `RouteDefinition` and wraps `react-router`'s `useRouteParams`. This will derive the type of the params from the definition.
 
 ex. `const { id = '', assetType = 'issued' } = useRouteParams(ACCOUNT_ROUTE)`
 

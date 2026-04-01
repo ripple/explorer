@@ -7,7 +7,7 @@ import Currency from '../../Currency'
 const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
   const { t } = useTranslation()
   const { data } = props
-  const { price, firstCurrency, secondCurrency, pays, gets, cancel } =
+  const { price, firstCurrency, secondCurrency, pays, gets, cancel, domainID } =
     data.instructions
 
   return (
@@ -39,6 +39,11 @@ const Simple: TransactionSimpleComponent = (props: TransactionSimpleProps) => {
       {cancel && (
         <SimpleRow label={t('cancel_offer')} data-testid="cancel-id">
           #{cancel}
+        </SimpleRow>
+      )}
+      {domainID && (
+        <SimpleRow label={t('domain_id')} data-testid="domain-id">
+          {domainID}
         </SimpleRow>
       )}
     </>

@@ -5,10 +5,7 @@ import { SimpleRow } from '../SimpleRow'
 import { convertHexToString } from '../../../../../rippled/lib/utils'
 import { localizeDate } from '../../../utils'
 import { useLanguage } from '../../../hooks'
-import {
-  convertRippleDate,
-  MILLIS_PER_SECOND,
-} from '../../../../../rippled/lib/convertRippleDate'
+import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
 import { DATE_OPTIONS } from '../../../transactionUtils'
 
 const Simple: TransactionSimpleComponent = (
@@ -37,7 +34,7 @@ const Simple: TransactionSimpleComponent = (
       {expiration && (
         <SimpleRow label={t('expiration')} data-testid="expiration">
           {localizeDate(
-            new Date(convertRippleDate(expiration) * MILLIS_PER_SECOND),
+            new Date(convertRippleDate(expiration)),
             language,
             DATE_OPTIONS,
           )}

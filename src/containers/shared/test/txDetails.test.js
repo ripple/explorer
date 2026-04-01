@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../i18n/testConfig'
@@ -7,8 +7,8 @@ import { TxDetails } from '../components/TxDetails'
 import summarize from '../../../rippled/lib/txSummary'
 
 describe('TxDetails', () => {
-  const createWrapper = (tx) =>
-    mount(
+  const renderTxDetails = (tx) =>
+    render(
       <Router>
         <I18nextProvider i18n={i18n}>
           <TxDetails
@@ -22,7 +22,6 @@ describe('TxDetails', () => {
     )
 
   it('renders EnableAmendment without crashing', () => {
-    const wrapper = createWrapper(EnableAmendment)
-    wrapper.unmount()
+    renderTxDetails(EnableAmendment)
   })
 })

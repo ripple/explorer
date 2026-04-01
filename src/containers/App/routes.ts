@@ -63,6 +63,10 @@ export const AMENDMENTS_ROUTE: RouteDefinition = {
   path: '/amendments',
 }
 
+export const TOKENS_ROUTE: RouteDefinition = {
+  path: '/tokens',
+}
+
 export const AMENDMENT_ROUTE: RouteDefinition<{
   identifier: string
 }> = {
@@ -73,4 +77,14 @@ export const MPT_ROUTE: RouteDefinition<{
   id: string
 }> = {
   path: '/mpt/:id',
+}
+
+export const VAULT_ROUTE: RouteDefinition<{
+  id: string
+}> = {
+  path: '/vault/:id',
+}
+
+export const VAULTS_ROUTE: RouteDefinition = {
+  path: '/vaults',
 }

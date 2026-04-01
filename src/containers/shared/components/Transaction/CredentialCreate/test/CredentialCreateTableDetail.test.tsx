@@ -1,21 +1,23 @@
-import { createTableDetailWrapperFactory } from '../../test'
+import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import mockCredentialCreate from './mock_data/CredentialCreate.json'
 
-const createWrapper = createTableDetailWrapperFactory(TableDetail)
+const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('CredentialAcceptTableDetail ', () => {
   it('renders CredentialAcceptTableDetail', () => {
-    const wrapper = createWrapper(mockCredentialCreate)
+    const { container, unmount } = renderComponent(mockCredentialCreate)
 
-    expect(wrapper.find('[data-testid="subject"]')).toHaveText(
-      'subject: rwXChshgJHh6KwwXY8hN1iNAiuyzJkz7p6',
-    )
-    expect(wrapper.find('[data-testid="credential-type"]')).toHaveText(
-      'credential_type: My test credential',
-    )
-    expect(wrapper.find('[data-testid="uri"]')).toHaveText('uri: testURI')
+    expect(
+      container.querySelector('[data-testid="subject"]'),
+    ).toHaveTextContent('subject: rDeEwcsbGz4GXyGpyRuQo9vRGGT269Jmjk')
+    expect(
+      container.querySelector('[data-testid="credential-type"]'),
+    ).toHaveTextContent('credential_type: VerifiedAccount')
+    expect(
+      container.querySelector('[data-testid="expiration"]'),
+    ).toHaveTextContent('expiration: 844523610')
 
-    wrapper.unmount()
+    unmount()
   })
 })

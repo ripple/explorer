@@ -1,64 +1,65 @@
-import { mount } from 'enzyme'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { DropdownItem } from '../DropdownItem'
 
 describe('DropdownItem', () => {
   describe(`prop: className`, () => {
     it('renders with custom className', () => {
-      const wrapper = mount(
-        <DropdownItem className="custom">Hello</DropdownItem>,
+      render(<DropdownItem className="custom">Hello</DropdownItem>)
+      expect(screen.getByRole('menuitem')).toHaveClass(
+        'dropdown-item',
+        'custom',
       )
-      expect(wrapper.find('.dropdown-item')).toHaveClassName('custom')
     })
   })
 
   describe('prop: handler', () => {
-    let wrapper
     const handler = jest.fn()
 
     beforeEach(() => {
-      wrapper = mount(<DropdownItem handler={handler}>Hello</DropdownItem>)
+      handler.mockClear()
     })
 
     it('renders as an anchor tag', () => {
-      expect(wrapper.find('.dropdown-item')).toHaveDisplayName('a')
+      render(<DropdownItem handler={handler}>Hello</DropdownItem>)
+      const element = screen.getByRole('menuitem')
+      expect(element.tagName.toLowerCase()).toBe('a')
     })
 
-    it('executes handler on click', () => {
-      wrapper.find('.dropdown-item').simulate('click')
+    it('executes handler on click', async () => {
+      render(<DropdownItem handler={handler}>Hello</DropdownItem>)
+      await userEvent.click(screen.getByRole('menuitem'))
       expect(handler).toHaveBeenCalled()
     })
 
-    it('executes handler on keyup', () => {
-      wrapper.find('.dropdown-item').simulate('click')
+    it('executes handler on keyup', async () => {
+      render(<DropdownItem handler={handler}>Hello</DropdownItem>)
+      await userEvent.click(screen.getByRole('menuitem'))
       expect(handler).toHaveBeenCalled()
     })
   })
 
   describe('prop: href', () => {
-    let wrapper
-
-    beforeEach(() => {
-      wrapper = mount(
-        <DropdownItem href="http://google.com">Hello</DropdownItem>,
-      )
-    })
-
     it('renders as an anchor tag', () => {
-      expect(wrapper.find('.dropdown-item')).toHaveDisplayName('a')
+      render(<DropdownItem href="http://google.com">Hello</DropdownItem>)
+      const element = screen.getByRole('menuitem')
+      expect(element.tagName.toLowerCase()).toBe('a')
     })
 
     it('renders href attribute on anchor', () => {
-      expect(wrapper.find('.dropdown-item')).toHaveProp('href')
+      render(<DropdownItem href="http://google.com">Hello</DropdownItem>)
+      expect(screen.getByRole('menuitem')).toHaveAttribute('href')
     })
   })
 
   it('renders as div without handler or href', () => {
-    const wrapper = mount(<DropdownItem>Hello</DropdownItem>)
-    expect(wrapper.find('.dropdown-item')).toHaveDisplayName('div')
+    render(<DropdownItem>Hello</DropdownItem>)
+    const element = screen.getByRole('menuitem')
+    expect(element.tagName.toLowerCase()).toBe('div')
   })
 
   it('adds aria roles', () => {
-    const wrapper = mount(<DropdownItem>Hello</DropdownItem>)
-    expect(wrapper.find('.dropdown-item')).toHaveProp('role', 'menuitem')
+    render(<DropdownItem>Hello</DropdownItem>)
+    expect(screen.getByRole('menuitem')).toBeInTheDocument()
   })
 })

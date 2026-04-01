@@ -1,0 +1,527 @@
+@use '../../shared/css/variables' as *;
+
+.account-summary {
+  .card {
+    padding: 18px;
+    border: 1px solid $black-70;
+    border-radius: 8px;
+    background: $black-90;
+  }
+
+  .balances {
+    /* Frame that encompasses the 3 balance boxes */
+    display: flex;
+
+    /* Inside auto layout */
+    flex: none;
+    flex-direction: row;
+    flex-grow: 0;
+    align-items: center;
+    align-self: stretch;
+    order: 1;
+    padding: 0;
+    gap: 28px;
+
+    /* common base for all balance cards (markup uses .balance-card and modifier classes) */
+    .balance-card {
+      display: flex;
+      min-width: 0; /* allow shrinking for long content */
+      flex: 1 1 0;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .balance-title {
+      display: flex;
+      align-items: center;
+      color: $black-40;
+      font-size: 14px;
+      gap: 6px;
+      text-transform: uppercase;
+      @include semibold;
+    }
+
+    .balance-icon {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      flex: 0 0 auto;
+    }
+
+    .balance-value {
+      color: $black-0;
+      font-size: 24px;
+      @include bold;
+    }
+
+    /* shared visual box properties for the three balance tiles */
+    .xrp,
+    .usd,
+    .reserve {
+      display: flex;
+      min-width: 0;
+      height: 130px;
+      box-sizing: border-box;
+      flex: 1 1 0;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 38px;
+      border-radius: 8px;
+      gap: 12px;
+    }
+
+    /* individual visuals only set border/background/order */
+    .xrp {
+      order: 0;
+      border: 1px solid #145c35;
+      background: rgb(20 92 53 / 40%);
+    }
+
+    .usd {
+      order: 1;
+      border: 1px solid #6b0080;
+      background: rgb(64 0 76 / 50%);
+    }
+
+    .reserve {
+      order: 2;
+      border: 1px solid #004d80;
+      background: rgb(0 77 128 / 40%);
+    }
+  }
+
+  .properties {
+    /* layout for header and the chevron toggle */
+    .properties-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 24px 0;
+      gap: 2px;
+
+      h3 {
+        margin: 0;
+        color: $black-0;
+        font-size: 20px;
+      }
+
+      .properties-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      .properties-arrow {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        transform-origin: center;
+        transition: transform 180ms ease;
+      }
+
+      .properties-arrow.open {
+        transform: rotate(180deg);
+      }
+    }
+
+    .properties-grid {
+      display: grid;
+      align-items: start;
+      gap: 28px;
+      grid-template-columns: repeat(3, 1fr);
+
+      /* Custom scrollbars for Flags and Signers lists */
+      .flags-list,
+      .signers-list {
+        scrollbar-color: rgb(255 255 255 / 20%) transparent;
+
+        /* Firefox */
+        scrollbar-width: thin;
+
+        /* WebKit */
+        &::-webkit-scrollbar {
+          width: 10px;
+          height: 10px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border: 2px solid transparent; /* create padding effect */
+          border-radius: 6px;
+          background: rgb(255 255 255 / 20%);
+          background-clip: padding-box;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+          background: rgb(255 255 255 / 12%);
+        }
+      }
+
+      /* Shared visuals for both cards */
+      .flags-card,
+      .signers-card {
+        display: flex;
+        min-width: 0;
+        min-height: 0;
+        box-sizing: border-box;
+        flex: none;
+        flex-direction: column;
+        flex-grow: 0;
+        align-items: stretch;
+        padding: 20px;
+        gap: 15px;
+        isolation: isolate;
+      }
+
+      /* shared header styles to avoid duplicates */
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        .header-title {
+          color: $black-0;
+          font-size: 20px;
+          @include bold;
+        }
+      }
+
+      .flags-card {
+        grid-column: 1 / span 2;
+
+        .flags-list {
+          display: flex;
+          max-height: calc(5 * 70px);
+          flex-direction: column;
+          padding-right: 6px;
+          gap: 8px;
+          overflow-y: auto;
+        }
+
+        .flag-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px;
+          border-radius: 8px;
+          background: $black-80;
+
+          .flag-meta {
+            display: flex;
+            flex-direction: column;
+
+            .flag-title {
+              margin-bottom: 6px;
+              color: $black-0;
+              font-size: 14px;
+              @include semibold;
+
+              text-transform: uppercase;
+            }
+
+            .flag-desc {
+              color: $black-0;
+              font-size: 14px;
+            }
+          }
+
+          .flag-status {
+            min-width: 85px; // Ensures YES/NO and ENABLED/DISABLED have the same width
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            text-align: center;
+            text-transform: uppercase;
+            white-space: nowrap;
+            @include semibold;
+          }
+
+          .flag-status.enabled {
+            background: $green-50;
+            color: $black-100;
+          }
+
+          .flag-status.disabled {
+            background: $black-50;
+            color: $black-0;
+          }
+        }
+      }
+
+      .signers-card {
+        grid-column: 3 / 4;
+
+        .signers-list {
+          display: flex;
+          width: 100%;
+          max-height: calc(5 * 44px);
+          flex-direction: column;
+          align-self: stretch;
+          padding-right: 6px; /* match flags-list spacing to keep scrollbar offset consistent */
+          gap: 8px;
+          overflow-y: auto;
+        }
+
+        .signer-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px;
+          border-radius: 8px;
+          background: $black-80;
+
+          .signer-address {
+            font-size: 14px;
+          }
+
+          .signer-weight {
+            color: $blue-50;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    /* Details card styles */
+    @media (min-width: $tablet-landscape-upper-boundary) {
+      .details-card {
+        /* Ensure Details card matches Flags card width in properties grid (desktop only) */
+        grid-column: 1 / span 2;
+      }
+    }
+
+    .details-card {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      background: $black-90;
+      gap: 16px;
+
+      /* Only first two details side by side, rest full width */
+      .details-box {
+        display: flex;
+        min-width: 0;
+        flex: 1 1 180px;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid $black-70;
+        border-radius: 8px;
+        background: $black-80;
+        gap: 12px;
+      }
+
+      .details-list {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: repeat(2, 1fr);
+
+        /* Only the first two direct .details-box children are side by side on desktop */
+        > .details-box:nth-child(1) {
+          grid-column: 1;
+          grid-row: 1;
+        }
+
+        > .details-box:nth-child(2) {
+          grid-column: 2;
+          grid-row: 1;
+        }
+
+        > .details-box:nth-child(n + 3) {
+          grid-column: 1 / span 2;
+        }
+      }
+
+      .details-label {
+        color: $black-0;
+        font-size: 14px;
+        @include medium;
+
+        text-transform: none;
+      }
+
+      .details-value {
+        margin-left: auto;
+        color: $black-0;
+        font-size: 14px;
+        text-align: right;
+      }
+    }
+
+    /* Force vertical stacking for tablet portrait and smaller */
+    @media (max-width: $tablet-portrait-upper-boundary) {
+      .details-card .details-list {
+        grid-template-columns: 1fr; /* Keep grid but force 1 column */
+
+        > .details-box:nth-child(1),
+        > .details-box:nth-child(2) {
+          grid-column: 1;
+          grid-row: auto;
+        }
+
+        /* Ensure all boxes span full width in grid */
+        > .details-box:nth-child(n + 3) {
+          grid-column: 1;
+        }
+      }
+    }
+
+    @media (max-width: $tablet-landscape-upper-boundary) {
+      .details-card {
+        padding: 16px;
+      }
+
+      .details-list {
+        /* Keep as grid instead of flex to maintain alignment */
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr;
+      }
+
+      .details-box {
+        width: 100%;
+        flex: none;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px;
+        gap: 8px;
+      }
+
+      .details-label {
+        font-size: 12px;
+      }
+
+      .details-value {
+        font-size: 14px;
+      }
+    }
+
+    /* Extra narrow screens - force better text wrapping */
+    @media (max-width: $tablet-portrait-upper-boundary) {
+      .details-card {
+        padding: 12px;
+
+        .details-list {
+          gap: 8px;
+        }
+
+        .details-box {
+          overflow: hidden; /* Prevent box expansion */
+          min-height: auto;
+          padding: 10px;
+        }
+
+        .details-label {
+          line-height: 1.2;
+        }
+
+        .details-value {
+          max-width: 100%;
+          hyphens: auto; /* Allow hyphenation if supported */
+          line-height: 1.3;
+          overflow-wrap: anywhere; /* More aggressive wrapping */
+          word-break: break-all;
+        }
+      }
+    }
+  }
+
+  @media (max-width: $tablet-landscape-upper-boundary) {
+    .balances {
+      flex-direction: column;
+      margin-bottom: 24px; /* preserve spacing on mobile */
+      gap: 12px;
+
+      .balance-card {
+        width: 100%;
+        flex: none;
+      }
+
+      .xrp,
+      .usd,
+      .reserve {
+        height: auto;
+        padding: 20px;
+      }
+
+      .balance-value {
+        font-size: 18px;
+      }
+
+      .balance-icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .properties {
+      .properties-header {
+        gap: 8px;
+
+        .properties-toggle {
+          padding: 4px;
+        }
+
+        .properties-arrow {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .properties-grid {
+        margin-top: 12px;
+        gap: 12px;
+        grid-template-columns: 1fr;
+
+        .flags-card,
+        .signers-card {
+          padding: 16px;
+        }
+
+        .flags-card {
+          grid-column: auto;
+        }
+
+        .signers-card {
+          grid-column: auto;
+        }
+
+        .flags-list,
+        .signers-list {
+          max-height: calc(5 * 64px);
+          padding-inline: 4px;
+        }
+
+        .flag-item,
+        .signer-item {
+          padding: 10px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: $tablet-portrait-upper-boundary) {
+    .properties {
+      .properties-header {
+        h3 {
+          font-size: 18px;
+        }
+      }
+
+      .properties-grid .card-header .header-title {
+        font-size: 18px;
+      }
+    }
+  }
+}

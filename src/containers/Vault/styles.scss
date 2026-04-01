@@ -1,0 +1,104 @@
+@use '../shared/css/variables' as *;
+
+.vault-page {
+  width: 100%;
+  margin-top: 100px;
+
+  .loader {
+    min-height: 100px;
+  }
+}
+
+.vault-warning {
+  font-size: 14px;
+  text-align: center;
+}
+
+.vault-title-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 24px;
+  margin-bottom: 32px;
+  gap: 16px;
+
+  @include for-size(desktop-up) {
+    flex-wrap: nowrap;
+    padding: 0 64px;
+  }
+
+  .vault-title-left {
+    flex: 1;
+  }
+
+  .vault-title {
+    margin: 0 0 16px;
+    color: $white;
+    font-size: 36px;
+    @include bold;
+
+    @include for-size(desktop-up) {
+      font-size: 48px;
+    }
+  }
+
+  .vault-title-id {
+    display: flex;
+    align-items: center;
+    color: $white;
+    font-size: 14px;
+    gap: 8px;
+
+    .vault-title-id-label {
+      color: $black-40;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.currency-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.currency-toggle {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid $black-40;
+  border-radius: 6px;
+  background: transparent;
+
+  .toggle-option {
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: $black-40;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    @include medium;
+
+    &:hover:not(.disabled) {
+      color: $white;
+    }
+
+    &.active {
+      background: transparent;
+      color: $green;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+
+      &:hover {
+        color: $black-40;
+      }
+    }
+  }
+}

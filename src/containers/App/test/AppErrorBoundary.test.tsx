@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { analytics } from '../../shared/analytics'
 import AppErrorBoundary from '../AppErrorBoundary'
 
@@ -19,11 +19,11 @@ const ProblemChild = () => {
 
 describe('<AppErrorBoundary> component', () => {
   it('calls analytics with exception', () => {
-    mount(
+    render(
       <AppErrorBoundary>
         <ProblemChild />
       </AppErrorBoundary>,
     )
-    expect(analytics.trackException).toBeCalledWith(expect.anything())
+    expect(analytics.trackException).toHaveBeenCalledWith(expect.anything())
   })
 })

@@ -5,6 +5,7 @@ export interface Props {
   className?: string
   decode?: boolean
   domain: string
+  displayDomain?: string
   keepProtocol?: boolean
 }
 
@@ -13,7 +14,13 @@ const PROTOCOL_REGEX = /^([a-z][a-z0-9+\-.]*):\/\//
 const PROTOCOL_REMOVAL_REGEX = /^(https?:\/\/)?(.*?)(\/)?$/
 
 const DomainLink = (props: Props) => {
-  const { className, decode = false, domain, keepProtocol = true } = props
+  const {
+    className,
+    decode = false,
+    domain,
+    displayDomain = '',
+    keepProtocol = true,
+  } = props
 
   // If decode is true, decode the domain
   const decodedDomain = decode ? decodeHex(domain) : domain
@@ -40,7 +47,7 @@ const DomainLink = (props: Props) => {
       href={href}
       onClick={(event) => event.stopPropagation()}
     >
-      {domainText}
+      {displayDomain || domainText}
     </a>
   )
 }

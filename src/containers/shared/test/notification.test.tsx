@@ -1,16 +1,13 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import { Notification } from '../components/Notification'
 
 describe('Notification', () => {
   it('renders without crashing', () => {
-    const wrapper = mount(
-      <Notification key="key" usage="danger" message="boo!" />,
-    )
-    wrapper.unmount()
+    render(<Notification key="key" usage="danger" message="boo!" />)
   })
 
-  it('dissapears', (done) => {
-    const wrapper = mount(
+  it('disappears', async () => {
+    const { container } = render(
       <Notification
         key="key"
         usage="danger"
@@ -19,15 +16,17 @@ describe('Notification', () => {
         delay={100}
       />,
     )
-    expect(wrapper.html()).toBe(
-      '<div class="notification danger primary-theme "><span>boo!</span></div>',
+    expect(container.querySelector('.notification')).toBeInTheDocument()
+    expect(container.querySelector('.notification')).toHaveClass('danger')
+    expect(container.querySelector('.notification span')).toHaveTextContent(
+      'boo!',
     )
 
-    setTimeout(() => {
-      wrapper.update()
-      expect(wrapper.html()).toBe(null)
-      wrapper.unmount()
-      done()
-    }, 200)
+    await waitFor(
+      () => {
+        expect(container.querySelector('.notification')).not.toBeInTheDocument()
+      },
+      { timeout: 300 },
+    )
   })
 })

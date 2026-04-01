@@ -53,6 +53,21 @@ import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
 import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { UNLModifyTransaction as UNLModify } from './UNLModify'
 import { ClawbackTransaction as Clawback } from './Clawback'
+import { VaultCreateTransaction as VaultCreate } from './VaultCreate'
+import { VaultSetTransaction as VaultSet } from './VaultSet'
+import { VaultDepositTransaction as VaultDeposit } from './VaultDeposit'
+import { VaultWithdrawTransaction as VaultWithdraw } from './VaultWithdraw'
+import { VaultClawbackTransaction as VaultClawback } from './VaultClawback'
+import { VaultDeleteTransaction as VaultDelete } from './VaultDelete'
+import { LoanBrokerSetTransaction as LoanBrokerSet } from './LoanBrokerSet'
+import { LoanBrokerDeleteTransaction as LoanBrokerDelete } from './LoanBrokerDelete'
+import { LoanBrokerCoverDepositTransaction as LoanBrokerCoverDeposit } from './LoanBrokerCoverDeposit'
+import { LoanBrokerCoverWithdrawTransaction as LoanBrokerCoverWithdraw } from './LoanBrokerCoverWithdraw'
+import { LoanBrokerCoverClawbackTransaction as LoanBrokerCoverClawback } from './LoanBrokerCoverClawback'
+import { LoanSetTransaction as LoanSet } from './LoanSet'
+import { LoanDeleteTransaction as LoanDelete } from './LoanDelete'
+import { LoanManageTransaction as LoanManage } from './LoanManage'
+import { LoanPayTransaction as LoanPay } from './LoanPay'
 
 import {
   TransactionAction,
@@ -116,6 +131,21 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AMMClawback,
   TrustSet,
   UNLModify,
+  VaultCreate,
+  VaultSet,
+  VaultDeposit,
+  VaultWithdraw,
+  VaultClawback,
+  VaultDelete,
+  LoanBrokerSet,
+  LoanBrokerDelete,
+  LoanBrokerCoverDeposit,
+  LoanBrokerCoverWithdraw,
+  LoanBrokerCoverClawback,
+  LoanSet,
+  LoanDelete,
+  LoanManage,
+  LoanPay,
 }
 
 export const getAction = (type: string): TransactionAction =>

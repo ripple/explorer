@@ -1,11 +1,11 @@
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import { Route } from 'react-router'
 import mockLedger from './storedLedger.json'
 import i18n from '../../../i18n/testConfig'
 import { Ledger } from '../index'
 import { getLedger } from '../../../rippled'
 import { Error as RippledError } from '../../../rippled/lib/utils'
-import { QuickHarness, flushPromises } from '../../test/utils'
+import { QuickHarness } from '../../test/utils'
 
 jest.mock('../../../rippled', () => {
   const originalModule = jest.requireActual('../../../rippled')
@@ -20,8 +20,8 @@ jest.mock('../../../rippled', () => {
 const mockedGetLedger = getLedger
 
 describe('Ledger container', () => {
-  const createWrapper = (identifier = 38079857) =>
-    mount(
+  const renderLedger = (identifier = 38079857) =>
+    render(
       <QuickHarness i18n={i18n} initialEntries={[`/ledgers/${identifier}`]}>
         <Route path="/ledgers/:identifier" element={<Ledger />} />
       </QuickHarness>,
@@ -32,77 +32,83 @@ describe('Ledger container', () => {
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderLedger()
   })
 
   it('renders loading', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.loader').length).toBe(1)
-    wrapper.unmount()
+    const { container } = renderLedger()
+    expect(container.querySelectorAll('.loader').length).toBe(1)
   })
 
   it('renders ledger navbar', async () => {
     mockedGetLedger.mockImplementation(() => Promise.resolve(mockLedger))
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
+    const { container } = renderLedger()
 
-    const header = wrapper.find('.ledger-header')
-    expect(header.length).toBe(1)
-    expect(header.find('.ledger-nav').length).toBe(1)
-    expect(header.find('.ledger-nav a').length).toBe(2)
-    wrapper.unmount()
+    await waitFor(() => {
+      expect(container.querySelector('.ledger-header')).toBeInTheDocument()
+    })
+
+    const header = container.querySelector('.ledger-header')
+    expect(header).toBeInTheDocument()
+    expect(header.querySelectorAll('.ledger-nav').length).toBe(1)
+    expect(header.querySelectorAll('.ledger-nav a').length).toBe(2)
   })
 
   it('renders ledger summary', async () => {
     mockedGetLedger.mockImplementation(() => Promise.resolve(mockLedger))
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
+    const { container } = renderLedger()
 
-    const summary = wrapper.find('.ledger-header .ledger-info')
+    await waitFor(() => {
+      expect(
+        container.querySelector('.ledger-header .ledger-info'),
+      ).toBeInTheDocument()
+    })
 
-    expect(summary.length).toBe(1)
-    expect(summary.find('.ledger-cols').length).toBe(1)
-    expect(summary.find('.ledger-col').length).toBe(3)
-    expect(summary.find('.ledger-index').length).toBe(1)
-    expect(summary.find('.closed-date').length).toBe(1)
-    expect(summary.find('.ledger-hash').length).toBe(1)
-
-    wrapper.unmount()
+    const summary = container.querySelector('.ledger-header .ledger-info')
+    expect(summary).toBeInTheDocument()
+    expect(summary.querySelectorAll('.ledger-cols').length).toBe(1)
+    expect(summary.querySelectorAll('.ledger-col').length).toBe(3)
+    expect(summary.querySelectorAll('.ledger-index').length).toBe(1)
+    expect(summary.querySelectorAll('.closed-date').length).toBe(1)
+    expect(summary.querySelectorAll('.ledger-hash').length).toBe(1)
   })
 
   it('renders transaction table header', async () => {
     mockedGetLedger.mockImplementation(() => Promise.resolve(mockLedger))
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
+    const { container } = renderLedger()
 
-    const table = wrapper.find('.transaction-table')
-    expect(table.length).toBe(1)
-    expect(table.find('.transaction-li-header').length).toBe(1)
-    expect(table.find('.transaction-li-header .col-type').length).toBe(1)
-    expect(table.find('.transaction-li-header .col-account').length).toBe(1)
-    wrapper.unmount()
+    await waitFor(() => {
+      expect(container.querySelector('.transaction-table')).toBeInTheDocument()
+    })
+
+    const table = container.querySelector('.transaction-table')
+    expect(table).toBeInTheDocument()
+    expect(table.querySelectorAll('.transaction-li-header').length).toBe(1)
+    expect(
+      table.querySelectorAll('.transaction-li-header .col-type').length,
+    ).toBe(1)
+    expect(
+      table.querySelectorAll('.transaction-li-header .col-account').length,
+    ).toBe(1)
   })
 
   it('renders all transactions', async () => {
     mockedGetLedger.mockImplementation(() => Promise.resolve(mockLedger))
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
+    const { container } = renderLedger()
 
-    const table = wrapper.find('.transaction-table')
-    expect(table.length).toBe(1)
-    expect(table.find('.transaction-li').length).toBe(
+    await waitFor(() => {
+      expect(container.querySelector('.transaction-table')).toBeInTheDocument()
+    })
+
+    const table = container.querySelector('.transaction-table')
+    expect(table).toBeInTheDocument()
+    expect(table.querySelectorAll('.transaction-li').length).toBe(
       mockLedger.transactions.length + 1, // include the header
     )
-    wrapper.unmount()
   })
 
   it('renders 404 page on no match', async () => {
@@ -110,12 +116,15 @@ describe('Ledger container', () => {
       Promise.reject(new RippledError('ledger not found', 404)),
     )
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
+    const { container } = renderLedger()
 
-    expect(wrapper.find('.no-match .title').text()).toEqual('ledger_not_found')
-    wrapper.unmount()
+    await waitFor(() => {
+      expect(container.querySelector('.no-match .title')).toBeInTheDocument()
+    })
+
+    expect(container.querySelector('.no-match .title').textContent).toEqual(
+      'ledger_not_found',
+    )
   })
 
   it('renders server error', async () => {
@@ -123,12 +132,15 @@ describe('Ledger container', () => {
       Promise.reject(new RippledError('ledger failed', 500)),
     )
 
-    const wrapper = createWrapper()
-    await flushPromises()
-    wrapper.update()
+    const { container } = renderLedger()
 
-    expect(wrapper.find('.no-match .title').text()).toEqual('generic_error')
-    wrapper.unmount()
+    await waitFor(() => {
+      expect(container.querySelector('.no-match .title')).toBeInTheDocument()
+    })
+
+    expect(container.querySelector('.no-match .title').textContent).toEqual(
+      'generic_error',
+    )
   })
 
   it('renders invalid id error', async () => {
@@ -136,11 +148,14 @@ describe('Ledger container', () => {
       Promise.reject(new RippledError('invalid ledger index/hash', 400)),
     )
 
-    const wrapper = createWrapper('aaaa')
-    await flushPromises()
-    wrapper.update()
+    const { container } = renderLedger('aaaa')
 
-    expect(wrapper.find('.no-match .title').text()).toEqual('invalid_ledger_id')
-    wrapper.unmount()
+    await waitFor(() => {
+      expect(container.querySelector('.no-match .title')).toBeInTheDocument()
+    })
+
+    expect(container.querySelector('.no-match .title').textContent).toEqual(
+      'invalid_ledger_id',
+    )
   })
 })

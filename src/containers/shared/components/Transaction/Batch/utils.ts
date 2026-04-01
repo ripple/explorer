@@ -8,15 +8,23 @@ export async function getBatchTxStatus(rippledSocket, batchTransactions) {
   const results = await Promise.all(
     batchTransactions.map(async (tx) => {
       try {
-        await getTransaction(rippledSocket, tx.hash)
+        const res = await getTransaction(rippledSocket, tx.hash)
+        if (res.meta.TransactionResult === 'tesSUCCESS') {
+          return {
+            ...tx,
+            successful: true,
+          }
+        }
         return {
           ...tx,
-          successful: true,
+          successful: false,
+          status: res.meta.TransactionResult,
         }
       } catch (error) {
         return {
           ...tx,
           successful: false,
+          status: 'not validated',
         }
       }
     }),

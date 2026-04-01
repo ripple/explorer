@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom'
 import type i18n from '../../i18n/testConfig'
 import { testQueryClient } from './QueryClient'
 import { AnalyticsSetPath } from '../shared/analytics'
+import { TooltipProvider } from '../shared/components/Tooltip'
 
 export function flushPromises() {
   return new Promise((resolve) => setTimeout(resolve))
@@ -29,17 +30,19 @@ export const QuickHarness: FC<
   <QueryClientProvider client={testQueryClient}>
     <I18nextProvider i18n={i18nConfig}>
       <HelmetProvider>
-        <MemoryRouter
-          initialEntries={initialEntries}
-          future={V7_FUTURE_ROUTER_FLAGS}
-        >
-          <AnalyticsSetPath />
-          {isValidElement(children) && children?.type === Route ? (
-            <Routes>{children}</Routes>
-          ) : (
-            children
-          )}
-        </MemoryRouter>
+        <TooltipProvider>
+          <MemoryRouter
+            initialEntries={initialEntries}
+            future={V7_FUTURE_ROUTER_FLAGS}
+          >
+            <AnalyticsSetPath />
+            {isValidElement(children) && children?.type === Route ? (
+              <Routes>{children}</Routes>
+            ) : (
+              children
+            )}
+          </MemoryRouter>
+        </TooltipProvider>
       </HelmetProvider>
     </I18nextProvider>
   </QueryClientProvider>

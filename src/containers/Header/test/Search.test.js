@@ -1,4 +1,4 @@
-import { mount } from 'enzyme'
+import { render, fireEvent, act } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import moxios from 'moxios'
@@ -12,9 +12,9 @@ import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 import { queryClient } from '../../shared/QueryClient'
 
 describe('Search component', () => {
-  const createWrapper = () => {
+  const renderSearch = () => {
     const client = new MockWsClient()
-    return mount(
+    return render(
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
           <Router future={V7_FUTURE_ROUTER_FLAGS}>
@@ -38,24 +38,22 @@ describe('Search component', () => {
   })
 
   it('renders without crashing', () => {
-    const wrapper = createWrapper()
-    wrapper.unmount()
+    renderSearch()
   })
 
   it('renders all parts', () => {
-    const wrapper = createWrapper()
-    expect(wrapper.find('.search').length).toEqual(1)
-    expect(wrapper.find('.search input').length).toEqual(1)
-    expect(wrapper.find('.search input').prop('placeholder')).toEqual(
-      'header.search.placeholder',
-    )
-    wrapper.unmount()
+    const { container } = renderSearch()
+    expect(container.querySelectorAll('.search').length).toEqual(1)
+    expect(container.querySelectorAll('.search input').length).toEqual(1)
+    expect(
+      container.querySelector('.search input').getAttribute('placeholder'),
+    ).toEqual('header.search.placeholder')
   })
 
   it('search values', async () => {
     moxios.install()
-    const wrapper = createWrapper()
-    const input = wrapper.find('.search input')
+    const { container } = renderSearch()
+    const input = container.querySelector('.search input')
     const ledgerIndex = '123456789'
     const rippleAddress = 'rGFuMiw48HdbnrUbkRYuitXTmfrDBNTCnX'
     const rippleXAddress = 'XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG'
@@ -88,18 +86,23 @@ describe('Search component', () => {
 
     const mptoken = '00002AF2588C244FE5F74BF48B5C5E2823235B243AA34634'
     const invalidString = '123invalid'
+    const vaultID =
+      '5C60E9B76EECC8262DB29276B32B99F05B7A7DE66D6968B5959BB9E4E397643D'
 
     // mock getNFTInfo api to test transactions and nfts
     const mockAPI = jest.spyOn(rippled, 'getTransaction')
+    const mockGetVault = jest.spyOn(rippled, 'getVault')
 
     const testValue = async (searchInput, expectedPath) => {
-      input.instance().value = searchInput
-      input.simulate('keyDown', { key: 'Enter' })
-      await flushPromises()
+      input.value = searchInput
+      await act(async () => {
+        fireEvent.keyDown(input, { key: 'Enter' })
+        await flushPromises()
+      })
       expect(window.location.pathname).toEqual(expectedPath)
     }
 
-    input.simulate('keyDown', { key: 'a' })
+    fireEvent.keyDown(input, { key: 'a' })
     expect(window.location.pathname).toEqual('/')
 
     await testValue(ledgerIndex, `/ledgers/${ledgerIndex}`)
@@ -168,7 +171,11 @@ describe('Search component', () => {
     await testValue(ctid.toLowerCase(), `/transactions/${ctid}`)
 
     await testValue(mptoken, `/mpt/${mptoken}`)
-    wrapper.unmount()
+
+    // Mock the API to simulate circumstances where the ledger-object is a vault and not a transaction
+    mockAPI.mockRejectedValue()
+    mockGetVault.mockResolvedValue()
+    await testValue(vaultID, `/vault/${vaultID}`)
   })
 
   // TODO: Add custom search tests

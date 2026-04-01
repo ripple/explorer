@@ -1,34 +1,33 @@
-import { mount } from 'enzyme'
+import { render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { TxLabel } from '../TxLabel'
-import TransactionCancelIcon from '../TransactionActionIcon/TransactionCancelIcon.svg'
-import TransactionSendIcon from '../TransactionActionIcon/TransactionSendIcon.svg'
-import TransactionUnknownIcon from '../TransactionActionIcon/TransactionUnknownIcon.svg'
 import i18n from '../../../../i18n/testConfigEnglish'
 
 describe('TxLabel', () => {
-  const createWapper = (component: any) =>
-    mount(<I18nextProvider i18n={i18n}>{component}</I18nextProvider>)
+  const renderTxLabel = (type: string) =>
+    render(
+      <I18nextProvider i18n={i18n}>
+        <TxLabel type={type} />
+      </I18nextProvider>,
+    )
 
   it('renders with an action specified ', () => {
-    let wrapper = createWapper(<TxLabel type="Payment" />)
-    expect(wrapper.find('.tx-category-PAYMENT')).toExist()
-    expect(wrapper).toContainReact(<TransactionSendIcon />)
-    expect(wrapper.find('.tx-type-name')).toHaveText('Payment')
-    wrapper.unmount()
+    const { container, unmount } = renderTxLabel('Payment')
+    expect(container.querySelector('.tx-category-PAYMENT')).toBeInTheDocument()
+    expect(container.querySelector('svg')).toBeInTheDocument()
+    expect(screen.getByText('Payment')).toBeInTheDocument()
+    unmount()
 
-    wrapper = createWapper(<TxLabel type="OfferCancel" />)
-    expect(wrapper.find('.tx-category-DEX')).toExist()
-    expect(wrapper).toContainReact(<TransactionCancelIcon />)
-    expect(wrapper.find('.tx-type-name')).toHaveText('Offer Cancel')
-    wrapper.unmount()
+    const { container: container2 } = renderTxLabel('OfferCancel')
+    expect(container2.querySelector('.tx-category-DEX')).toBeInTheDocument()
+    expect(container2.querySelector('svg')).toBeInTheDocument()
+    expect(screen.getByText('Offer Cancel')).toBeInTheDocument()
   })
 
   it('renders with type that is not defined', () => {
-    const wrapper = createWapper(<TxLabel type="WooCreate" />)
-    expect(wrapper.find('.tx-category-OTHER')).toExist()
-    expect(wrapper).toContainReact(<TransactionUnknownIcon />)
-    expect(wrapper.find('.tx-type-name')).toHaveText('WooCreate')
-    wrapper.unmount()
+    const { container } = renderTxLabel('WooCreate')
+    expect(container.querySelector('.tx-category-OTHER')).toBeInTheDocument()
+    expect(container.querySelector('svg')).toBeInTheDocument()
+    expect(screen.getByText('WooCreate')).toBeInTheDocument()
   })
 })

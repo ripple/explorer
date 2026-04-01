@@ -1,26 +1,24 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
 import { isValidClassicAddress, isValidXAddress } from 'ripple-address-codec'
-import { AccountHeader } from './AccountHeader'
 import { AccountTransactionTable } from './AccountTransactionTable'
 import './styles.scss'
 import { useAnalytics } from '../shared/analytics'
-import { Tabs } from '../shared/components/Tabs'
-import { AccountAssetTab } from './AccountAssetTab/AccountAssetTab'
-import { buildPath, useRouteParams } from '../shared/routing'
+import { useRouteParams } from '../shared/routing'
 import { ACCOUNT_ROUTE } from '../App/routes'
 import { BAD_REQUEST } from '../shared/utils'
 import { getAccountState } from '../../rippled'
 import SocketContext from '../shared/SocketContext'
 import { Loader } from '../shared/components/Loader'
+import { AccountSummary } from './AccountSummary'
+import { useXRPToUSDRate } from '../shared/hooks/useXRPToUSDRate'
+import AccountAsset from './AccountAsset'
+import AccountHeader from './AccountHeader'
 
 export const Accounts = () => {
   const { trackScreenLoaded, trackException } = useAnalytics()
-  const { id: accountId = '', tab = 'transactions' } =
-    useRouteParams(ACCOUNT_ROUTE)
-  const [currencySelected, setCurrencySelected] = useState('XRP')
-  const mainPath = buildPath(ACCOUNT_ROUTE, { id: accountId })
+  const { id: accountId = '' } = useRouteParams(ACCOUNT_ROUTE)
   const rippledSocket = useContext(SocketContext)
 
   const { data: account, isLoading } = useQuery(
@@ -30,17 +28,13 @@ export const Accounts = () => {
         return Promise.reject(BAD_REQUEST)
       }
 
-      return getAccountState(accountId, rippledSocket).catch(
-        (transactionRequestError) => {
-          const status = transactionRequestError.code
-          trackException(
-            `ledger ${accountId} --- ${JSON.stringify(
-              transactionRequestError,
-            )}`,
-          )
-          return Promise.reject(status)
-        },
-      )
+      return getAccountState(accountId, rippledSocket).catch((requestError) => {
+        const status = requestError.code
+        trackException(
+          `ledger ${accountId} --- ${JSON.stringify(requestError)}`,
+        )
+        return Promise.reject(status)
+      })
     },
   )
 
@@ -50,9 +44,13 @@ export const Accounts = () => {
     return () => {
       window.scrollTo(0, 0)
     }
-  }, [tab, trackScreenLoaded])
+  }, [trackScreenLoaded])
 
-  const tabs = ['transactions', 'assets']
+  const xrpToUSDRate = useXRPToUSDRate()
+
+  const isAccountDeleted = account?.deleted === true
+  // Show account data only after account.info is loaded and account isn't deleted
+  const showAccount = !!account?.info && !isAccountDeleted
 
   return (
     <div className="accounts-page section">
@@ -60,20 +58,27 @@ export const Accounts = () => {
       {accountId && (
         <>
           <AccountHeader
-            account={account}
+            isAccountDeleted={isAccountDeleted}
             accountId={accountId}
-            onSetCurrencySelected={(currency) => setCurrencySelected(currency)}
-            currencySelected={currencySelected}
+            account={account}
           />
-          <Tabs tabs={tabs} selected={tab} path={mainPath} />
-          {tab === 'transactions' && (
-            <AccountTransactionTable
-              accountId={accountId}
-              currencySelected={currencySelected}
-              hasTokensColumn={false}
-            />
+          {showAccount && (
+            <>
+              <AccountSummary account={account} xrpToUSDRate={xrpToUSDRate} />
+              <AccountAsset
+                // Use account.account since `accountId` could be an extended account
+                accountId={account.account}
+                account={account}
+                xrpToUSDRate={xrpToUSDRate}
+              />
+            </>
           )}
-          {tab === 'assets' && account && <AccountAssetTab account={account} />}
+
+          {/* Show account transactions regardless of account delete status */}
+          <AccountTransactionTable
+            accountId={accountId}
+            hasTokensColumn={false}
+          />
         </>
       )}
       {isLoading && <Loader />}

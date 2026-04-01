@@ -6,7 +6,7 @@ import '../../styles.scss'
 import { formatAmount } from '../../../../rippled/lib/txSummary/formatAmount'
 import {
   getAccountInfo,
-  getAMMInfo,
+  getAMMInfoByAssets,
   getLedgerEntry,
 } from '../../../../rippled/lib/rippled'
 import { Tabs } from '../../../shared/components/Tabs'
@@ -76,7 +76,7 @@ export const AMMAccounts = () => {
               asset1 = temp
             }
 
-            return getAMMInfo(rippledSocket, asset1, asset2)
+            return getAMMInfoByAssets(rippledSocket, asset1, asset2)
           })
           /*
             Use the assets to get the AMM Info.

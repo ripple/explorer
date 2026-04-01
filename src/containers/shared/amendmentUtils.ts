@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { localizeDate } from './utils'
 
-let cachedRippledVersions: any = {}
+let cachedRippledVersions = new Map<string, string>()
 
 const TIME_ZONE = 'UTC'
 const DATE_OPTIONS = {
@@ -28,18 +28,14 @@ export function getExpectedDate(date: string, language: string) {
 
 async function fetchMinRippledVersions() {
   const response = await axios.get(
-    'https://raw.githubusercontent.com/XRPLF/xrpl-dev-portal/master/resources/known-amendments.md',
+    `${process.env.VITE_DATA_URL}/amendments/info`,
   )
-  const text = response.data
-  const mapping: any = {}
+  const { amendments } = response.data
+  const mapping = new Map<string, string>()
 
-  text.split('\n').forEach((line) => {
-    const found = line.match(
-      /\| \[([a-zA-Z0-9_]+)\][^\n]+\| (v[0-9]*.[0-9]*.[0-9]*|TBD) *\|/,
-    )
-    if (found) {
-      // eslint-disable-next-line prefer-destructuring
-      mapping[found[1]] = found[2]
+  amendments.forEach((amendment) => {
+    if (amendment.name && amendment.rippled_version) {
+      mapping.set(amendment.name, amendment.rippled_version)
     }
   })
 
@@ -47,9 +43,9 @@ async function fetchMinRippledVersions() {
 }
 
 export async function getRippledVersion(name: string) {
-  if (cachedRippledVersions[name]) {
-    return cachedRippledVersions[name]
+  if (cachedRippledVersions.get(name)) {
+    return cachedRippledVersions.get(name)
   }
   cachedRippledVersions = await fetchMinRippledVersions()
-  return cachedRippledVersions[name]
+  return cachedRippledVersions.get(name)
 }

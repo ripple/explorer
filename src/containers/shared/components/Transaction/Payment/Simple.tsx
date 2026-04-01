@@ -4,6 +4,7 @@ import { Amount } from '../../Amount'
 import { PaymentInstructions } from './types'
 import { TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
+import { CredentialIDs } from '../CredentialIDs'
 
 export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
   const { data } = props
@@ -18,7 +19,8 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
   }
 
   const renderPayment = () => {
-    const { max, destination, sourceTag, partial } = data.instructions
+    const { max, destination, sourceTag, partial, domainID, credentialIDs } =
+      data.instructions
 
     return (
       <>
@@ -39,9 +41,18 @@ export const Simple = (props: TransactionSimpleProps<PaymentInstructions>) => {
             {sourceTag}
           </SimpleRow>
         )}
+        {/* Note: domainID is not relevant for self-destined payment transactions */}
+        {domainID !== undefined && (
+          <SimpleRow label={t('domain_id')} data-testid="domain-id">
+            {domainID}
+          </SimpleRow>
+        )}
         <SimpleRow label={t('destination')} data-testid="destination">
           <Account account={destination} />
         </SimpleRow>
+        {credentialIDs && credentialIDs.length > 0 && (
+          <CredentialIDs credentialIDs={credentialIDs} />
+        )}
       </>
     )
   }

@@ -1,0 +1,77 @@
+{
+  "hash": "27D43BD746193512ABD670DBE9C646F341BDCEDB0741CF862F64190E2851CAD1",
+  "ledger_index": 37471281,
+  "date": "2018-03-25T04:10:21+00:00",
+  "tx": {
+    "TransactionType": "EscrowCreate",
+    "Flags": 2147483648,
+    "Sequence": 104,
+    "FinishAfter": 636368460,
+    "CancelAfter": 636368060,
+    "Amount": "997500000",
+    "Fee": "10",
+    "SigningPubKey": "02D4BAE5988733A2BEA96021337CA85F0056D9AA47BCF0E16E0E527A0A28DB100D",
+    "TxnSignature": "30440220286F11B955EF4CA3A033503DC2C8E42F259A6A3A196E362453EFBB04F8ABF62902204998A8A74EDB142456E673345AB7ABB7A36506D6C8E5694B5D707108991C32C4",
+    "Condition": "A0258020886F982742772F414243855DC13B348FC78FB3D5119412C8A6480114E36A4451810120",
+    "Account": "rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q",
+    "Destination": "rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi7q",
+    "Memos": [
+      {
+        "Memo": {
+          "MemoType": "687474703A2F2F6578616D706C652E636F6D2F6D656D6F2F67656E65726963",
+          "MemoData": ""
+        }
+      }
+    ]
+  },
+  "meta": {
+    "TransactionIndex": 7,
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "DirectoryNode",
+          "LedgerIndex": "190D286E5687F825EA226482C56EB967011B258AB1F5B8F5028534E5030CA6B8",
+          "FinalFields": {
+            "Flags": 0,
+            "RootIndex": "190D286E5687F825EA226482C56EB967011B258AB1F5B8F5028534E5030CA6B8",
+            "Owner": "rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q"
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "Escrow",
+          "LedgerIndex": "949D6E2DC8878166D6043348067D4672340C9710E950286E89D8385081B64C72",
+          "NewFields": {
+            "FinishAfter": 636368460,
+            "Amount": "997500000",
+            "Condition": "A0258020886F982742772F414243855DC13B348FC78FB3D5119412C8A6480114E36A4451810120",
+            "Account": "rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q",
+            "Destination": "rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "AccountRoot",
+          "PreviousTxnLgrSeq": 37471281,
+          "PreviousTxnID": "81D8CE5B4489301E2906632250D05B429F1849CC69F14F205C23C0E142C12B33",
+          "LedgerIndex": "BEAB548BF4AA0ED98E8DD381D566A56C35C20B49A4E9B1A10A7F334B0B50CB4C",
+          "PreviousFields": {
+            "Sequence": 104,
+            "OwnerCount": 25,
+            "Balance": "8132542897"
+          },
+          "FinalFields": {
+            "Flags": 0,
+            "Sequence": 105,
+            "OwnerCount": 26,
+            "Balance": "7135042887",
+            "Account": "rLbgNAngLq3HABBXK4uPGCHrqeZwgaYi8q"
+          }
+        }
+      }
+    ],
+    "TransactionResult": "tesSUCCESS"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "Account": "rGfNFbXcdrx1t7UDEzrJkPCVBRAR2o6HVc",
+  "Amount": "10000000",
+  "DeliverMax": "10000000",
+  "Destination": "rs6Skg9oNmbCS2FeHLkYXTvz5QmBbqotbm",
+  "Fee": "0",
+  "Flags": 1073741824,
+  "Sequence": 4105131,
+  "SigningPubKey": "",
+  "TransactionType": "Payment",
+  "ctid": "C03EA3B100010002",
+  "date": 804697300,
+  "hash": "EB5933399A49541B65552C5B5959AEECC520D10B946EC30F5A39B9EAA16C7D56",
+  "inLedger": 4105137,
+  "ledger_index": 4105137,
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rs6Skg9oNmbCS2FeHLkYXTvz5QmBbqotbm",
+            "Balance": "9999990",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 4105132
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "63BAFBAE46A0E3C6711A8E5020A49886B2FCA50AD9204017BE2BBDB02F025A88",
+          "PreviousFields": {
+            "Balance": "100000000"
+          },
+          "PreviousTxnID": "63043E9063DBF29379845C3A38D305BBC7B7622E5380193B657C29AFAF57C41E",
+          "PreviousTxnLgrSeq": 4105132
+        }
+      }
+    ],
+    "ParentBatchID": "9B956A77943DF3FB891DD14D2D41A87CD6E5FA8CC606A097F47319EE6110ABA1",
+    "TransactionIndex": 1,
+    "TransactionResult": "tecUNFUNDED_PAYMENT",
+    "delivered_amount": "10000000"
+  },
+  "validated": true
+}

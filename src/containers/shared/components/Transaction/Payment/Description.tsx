@@ -54,6 +54,13 @@ export const Description = ({ data }: TransactionDescriptionProps<Payment>) => {
           </b>
         </div>
       )}
+      {data.tx.DomainID !== undefined && (
+        <div data-testid="domain-id-line">
+          {t('domain_id')}
+          {': '}
+          <b>{data.tx.DomainID}</b>
+        </div>
+      )}
     </>
   )
 }

@@ -24,25 +24,33 @@ import {
   AMENDMENTS_ROUTE,
   AMENDMENT_ROUTE,
   MPT_ROUTE,
+  VAULT_ROUTE,
   NODES_ROUTE,
   VALIDATORS_ROUTE,
   UPGRADE_STATUS_ROUTE,
+  TOKENS_ROUTE,
+  VAULTS_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
 import { AccountsRouter } from '../Accounts/AccountsRouter'
 import { Transaction } from '../Transactions'
 import { Validator } from '../Validators'
-import { Token } from '../Token'
+import { IOU } from '../Token/IOU'
 import { NFT } from '../NFT/NFT'
 import { legacyRedirect } from './legacyRedirects'
 import { useCustomNetworks } from '../shared/hooks'
 import { Amendments } from '../Amendments'
 import { Amendment } from '../Amendment'
-import { MPT } from '../MPT/MPT'
+import { MPT } from '../Token/MPT'
 import { Nodes } from '../Network/Nodes'
 import { Validators } from '../Network/Validators'
 import { UpgradeStatus } from '../Network/UpgradeStatus'
+import { Tokens } from '../Tokens'
+import { TokenNonMain } from '../TokenNonMain'
+import { Vault } from '../Vault'
+import { Vaults } from '../Vaults'
+import { FEATURE_VAULTS_PAGE } from './featureFlags'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -64,21 +72,26 @@ export const AppWrapper = () => {
   }
 
   // Defined here rather than ./routes to avoid circular dependencies when using RouteDefinitions with <RouteLink>.
-  const routes: [RouteDefinition<any>, any][] = [
-    [LEDGERS_ROUTE, Ledgers],
-    [LEDGER_ROUTE, Ledger],
-    [ACCOUNT_ROUTE, AccountsRouter],
-    [TRANSACTION_ROUTE, Transaction],
-    [NODES_ROUTE, Nodes],
-    [VALIDATORS_ROUTE, Validators],
-    [UPGRADE_STATUS_ROUTE, UpgradeStatus],
-    [AMENDMENTS_ROUTE, Amendments],
-    [VALIDATOR_ROUTE, Validator],
-    [TOKEN_ROUTE, Token],
-    [NFT_ROUTE, NFT],
-    [AMENDMENT_ROUTE, Amendment],
-    [MPT_ROUTE, MPT],
-  ]
+  const routes = (
+    [
+      [LEDGERS_ROUTE, Ledgers],
+      [LEDGER_ROUTE, Ledger],
+      [ACCOUNT_ROUTE, AccountsRouter],
+      [TRANSACTION_ROUTE, Transaction],
+      [NODES_ROUTE, Nodes],
+      [VALIDATORS_ROUTE, Validators],
+      [UPGRADE_STATUS_ROUTE, UpgradeStatus],
+      [AMENDMENTS_ROUTE, Amendments],
+      [VALIDATOR_ROUTE, Validator],
+      [TOKEN_ROUTE, mode === 'mainnet' ? IOU : TokenNonMain],
+      [TOKENS_ROUTE, Tokens],
+      [NFT_ROUTE, NFT],
+      [AMENDMENT_ROUTE, Amendment],
+      [MPT_ROUTE, MPT],
+      [VAULT_ROUTE, Vault],
+      FEATURE_VAULTS_PAGE && [VAULTS_ROUTE, Vaults],
+    ] as (false | [RouteDefinition<any>, any])[]
+  ).filter(Boolean) as [RouteDefinition<any>, any][]
 
   const redirect = legacyRedirect(basename, location)
 
@@ -132,7 +145,6 @@ export const AppWrapper = () => {
                   ))}
                   <Route path="*" element={<NoMatch />} />
                 </Route>
-                \{' '}
               </Routes>
               <Footer />
             </div>

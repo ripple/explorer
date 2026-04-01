@@ -1,5 +1,6 @@
 const axios = require('axios')
 const { XrplClient } = require('xrpl-client')
+const log = require('./logger')({ name: 'rippled' })
 const utils = require('./utils')
 const streams = require('./streams')
 
@@ -31,10 +32,17 @@ const P2P_URL_BASE = process.env.VITE_P2P_RIPPLED_HOST
 const URL_HEALTH = `https://${P2P_URL_BASE}:${process.env.VITE_RIPPLED_PEER_PORT}/health`
 
 RIPPLED_CLIENT.on('ledger', (data) => {
+  log.info(`Received ${data?.type} message`)
   if (data.type === 'ledgerClosed') {
     streams.handleLedger(data)
   }
 })
+
+setInterval(() => {
+  log.info('Rippled client:', {
+    state: RIPPLED_CLIENT.getState?.() || 'unknown',
+  })
+}, 60_000) // Log rippled client state every 60 seconds
 
 const executeQuery = async (rippledSocket, params) =>
   rippledSocket.send(params).catch((error) => {

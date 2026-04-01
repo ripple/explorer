@@ -122,7 +122,7 @@ export const AmendmentsTable: FC<{
         {amendment.consensus ?? DEFAULT_EMPTY_VALUE}
       </td>
       <td className="enabled">
-        {renderEnabled(amendment.voted === undefined)}
+        {renderEnabled(!amendment.deprecated && amendment.voted === undefined)}
       </td>
       <td className="on_tx">{renderOnTx(amendment)}</td>
     </tr>

@@ -1,15 +1,15 @@
-import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
+import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import DIDSet from './mock_data/DIDSet.json'
 
-const createWrapper = createSimpleWrapperFactory(Simple)
+const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('DIDSet: Simple', () => {
   it('renders', () => {
-    const wrapper = createWrapper(DIDSet)
-    expectSimpleRowText(wrapper, 'uri', 'did_example')
-    expectSimpleRowText(wrapper, 'did-document', 'doc')
-    expectSimpleRowText(wrapper, 'data', 'attest')
-    wrapper.unmount()
+    const { container, unmount } = renderComponent(DIDSet)
+    expectSimpleRowText(container, 'uri', 'did_example')
+    expectSimpleRowText(container, 'did-document', 'doc')
+    expectSimpleRowText(container, 'data', 'attest')
+    unmount()
   })
 })

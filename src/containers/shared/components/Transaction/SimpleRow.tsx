@@ -4,12 +4,13 @@ import classnames from 'classnames'
 export type SimpleRowProps = PropsWithChildren<{
   className?: string
   label: string
+  'data-testid'?: string
 }>
 
 export const SimpleRow = (props: SimpleRowProps) => {
-  const { label, children, className } = props
+  const { label, children, className, 'data-testid': dataTestId } = props
   return (
-    <div className="row">
+    <div className="row" data-testid={dataTestId}>
       <div className="label">{label}</div>
       <div className={classnames(`value`, className)}>{children}</div>
     </div>

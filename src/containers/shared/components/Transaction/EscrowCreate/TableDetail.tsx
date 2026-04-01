@@ -15,7 +15,7 @@ export const TableDetail = (props: any) => {
       {amount && (
         <div>
           <span className="label">{t('amount')}</span>
-          <Amount value={amount} />
+          <Amount value={amount} data-testid="amount-line" />
         </div>
       )}
       {destination && (
