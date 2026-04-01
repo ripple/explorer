@@ -210,10 +210,7 @@ export const AMMPool = () => {
           {isLiquidated && (
             <div className="amm-liquidated-banner">
               <div className="liquidated-label">
-                <InfoIcon
-                  className="liquidated-info-icon"
-                  aria-hidden="true"
-                />
+                <InfoIcon className="liquidated-info-icon" aria-hidden="true" />
                 {t('amm_pool_liquidated_label')}
               </div>
               <div className="liquidated-message">
