@@ -162,9 +162,7 @@ describe('AMMPool Page', () => {
     renderComponent('rNonExistentAMM')
 
     await waitFor(() => {
-      expect(
-        document.querySelector('.amm-pool-header'),
-      ).not.toBeInTheDocument()
+      expect(document.querySelector('.amm-pool-header')).not.toBeInTheDocument()
     })
   })
 })
