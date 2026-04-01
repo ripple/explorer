@@ -17,30 +17,12 @@ jest.mock('../api', () => ({
   fetchAMMTransactions: jest.fn().mockResolvedValue({ data: [], total: 0 }),
 }))
 
-jest.mock('../AMMPoolHeader', () => ({
-  AMMPoolHeader: ({ asset1, asset2 }: any) => (
-    <div data-testid="amm-pool-header">
-      {asset1?.currency}/{asset2?.currency}
-    </div>
-  ),
-}))
-
-jest.mock('../InfoCards/BasicInfoCard', () => ({
-  BasicInfoCard: () => <div data-testid="basic-info-card">Basic Info</div>,
-}))
-
-jest.mock('../InfoCards/MarketDataCard', () => ({
-  MarketDataCard: () => <div data-testid="market-data-card">Market Data</div>,
-}))
-
-jest.mock('../InfoCards/AuctionCard', () => ({
-  AuctionCard: () => <div data-testid="auction-card">Auction</div>,
-}))
-
+// TVLVolumeChart must be mocked — it uses useQuery() + recharts (won't render in jsdom)
 jest.mock('../TVLVolumeChart', () => ({
   TVLVolumeChart: () => <div data-testid="tvl-volume-chart">Chart</div>,
 }))
 
+// AMMPoolTablePicker must be mocked — it uses useQuery(), useInfiniteQuery(), SocketContext, useAnalytics()
 jest.mock('../TablePicker', () => ({
   AMMPoolTablePicker: () => <div data-testid="table-picker">Table Picker</div>,
 }))
@@ -94,9 +76,9 @@ describe('AMMPool Page', () => {
     renderComponent()
 
     await waitFor(() => {
-      expect(screen.getByTestId('amm-pool-header')).toBeInTheDocument()
-      expect(screen.getByTestId('basic-info-card')).toBeInTheDocument()
-      expect(screen.getByTestId('auction-card')).toBeInTheDocument()
+      expect(document.querySelector('.amm-pool-header')).toBeInTheDocument()
+      expect(screen.getByText('basic_info')).toBeInTheDocument()
+      expect(screen.getByText('auction')).toBeInTheDocument()
       expect(screen.getByTestId('table-picker')).toBeInTheDocument()
     })
   })
@@ -107,9 +89,10 @@ describe('AMMPool Page', () => {
     renderComponent()
 
     await waitFor(() => {
-      const header = screen.getByTestId('amm-pool-header')
+      const header = document.querySelector('.amm-pool-header')
+      expect(header).toBeInTheDocument()
       // XRP should be asset2 (right side)
-      expect(header.textContent).toContain('/XRP')
+      expect(header!.textContent).toContain('/XRP')
     })
   })
 
@@ -133,8 +116,8 @@ describe('AMMPool Page', () => {
     renderComponent('rLiquidatedAMM')
 
     await waitFor(() => {
-      expect(screen.getByTestId('amm-pool-header')).toBeInTheDocument()
-      expect(screen.getByTestId('basic-info-card')).toBeInTheDocument()
+      expect(document.querySelector('.amm-pool-header')).toBeInTheDocument()
+      expect(screen.getByText('basic_info')).toBeInTheDocument()
       expect(screen.getByTestId('table-picker')).toBeInTheDocument()
     })
 
@@ -165,11 +148,11 @@ describe('AMMPool Page', () => {
     renderComponent('rLiquidatedAMM')
 
     await waitFor(() => {
-      expect(screen.getByTestId('basic-info-card')).toBeInTheDocument()
+      expect(screen.getByText('basic_info')).toBeInTheDocument()
     })
 
     // Auction card should not be rendered for liquidated pools
-    expect(screen.queryByTestId('auction-card')).not.toBeInTheDocument()
+    expect(screen.queryByText('auction')).not.toBeInTheDocument()
   })
 
   it('shows error when both amm_info and liquidation detection fail', async () => {
@@ -179,7 +162,9 @@ describe('AMMPool Page', () => {
     renderComponent('rNonExistentAMM')
 
     await waitFor(() => {
-      expect(screen.queryByTestId('amm-pool-header')).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.amm-pool-header'),
+      ).not.toBeInTheDocument()
     })
   })
 })
