@@ -1,7 +1,6 @@
 import { FC, useState, useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AMMPool, fetchIconsForAMMs } from './api'
-import SortTableColumn from '../shared/components/SortColumn'
 import Currency from '../shared/components/Currency'
 import { Account } from '../shared/components/Account'
 import {
@@ -39,11 +38,11 @@ const CATEGORY_LABELS: Record<CategoryFilter, string> = {
   defi: 'DeFi',
 }
 
-const TokenIcon: FC<{ currency: string; issuer?: string; iconUrl?: string }> = ({
-  currency,
-  issuer,
-  iconUrl
-}) => {
+const TokenIcon: FC<{
+  currency: string
+  issuer?: string
+  iconUrl?: string
+}> = ({ currency, issuer, iconUrl }) => {
   // Safety check for currency
   if (!currency) {
     return <div className="token-icon fallback">??</div>
@@ -64,19 +63,24 @@ const TokenIcon: FC<{ currency: string; issuer?: string; iconUrl?: string }> = (
       className="token-icon"
       onError={(e) => {
         // If image fails to load, replace with fallback
-        console.error(`Failed to load icon for ${currency}:`, iconUrl)
         e.currentTarget.style.display = 'none'
         e.currentTarget.parentElement?.classList.add('fallback-mode')
       }}
     />
-  ) : fallbackContent
+  ) : (
+    fallbackContent
+  )
 
   // Only tokens with issuers are clickable (not XRP)
   if (!issuer) {
     return (
       <div className="token-icon-wrapper">
         {iconContent}
-        {iconUrl && <div className="token-icon fallback" style={{ display: 'none' }}>{currency.substring(0, 2).toUpperCase()}</div>}
+        {iconUrl && (
+          <div className="token-icon fallback" style={{ display: 'none' }}>
+            {currency.substring(0, 2).toUpperCase()}
+          </div>
+        )}
       </div>
     )
   }
@@ -89,43 +93,45 @@ const TokenIcon: FC<{ currency: string; issuer?: string; iconUrl?: string }> = (
     >
       <div className="token-icon-wrapper">
         {iconContent}
-        {iconUrl && <div className="token-icon fallback" style={{ display: 'none' }}>{currency.substring(0, 2).toUpperCase()}</div>}
+        {iconUrl && (
+          <div className="token-icon fallback" style={{ display: 'none' }}>
+            {currency.substring(0, 2).toUpperCase()}
+          </div>
+        )}
       </div>
     </RouteLink>
   )
 }
 
-const PoolDisplay: FC<{ amm: AMMPool }> = ({ amm }) => {
-  return (
-    <div className="pool-display">
-      <div className="token-pair">
-        <TokenIcon
-          currency={amm.currency_1}
-          issuer={amm.issuer_1}
-          iconUrl={amm.icon_1}
-        />
-        <TokenIcon
-          currency={amm.currency_2}
-          issuer={amm.issuer_2}
-          iconUrl={amm.icon_2}
-        />
-      </div>
-      <div className="pool-name">
-        {amm.currency_1 === 'XRP' ? (
-          'XRP'
-        ) : (
-          <Currency currency={amm.currency_1} link={false} />
-        )}
-        {'/'}
-        {amm.currency_2 === 'XRP' ? (
-          'XRP'
-        ) : (
-          <Currency currency={amm.currency_2} link={false} />
-        )}
-      </div>
+const PoolDisplay: FC<{ amm: AMMPool }> = ({ amm }) => (
+  <div className="pool-display">
+    <div className="token-pair">
+      <TokenIcon
+        currency={amm.currency_1}
+        issuer={amm.issuer_1}
+        iconUrl={amm.icon_1}
+      />
+      <TokenIcon
+        currency={amm.currency_2}
+        issuer={amm.issuer_2}
+        iconUrl={amm.icon_2}
+      />
     </div>
-  )
-}
+    <div className="pool-name">
+      {amm.currency_1 === 'XRP' ? (
+        'XRP'
+      ) : (
+        <Currency currency={amm.currency_1} link={false} />
+      )}
+      /
+      {amm.currency_2 === 'XRP' ? (
+        'XRP'
+      ) : (
+        <Currency currency={amm.currency_2} link={false} />
+      )}
+    </div>
+  </div>
+)
 
 export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
   amms,
@@ -139,10 +145,11 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
   const { showTooltip, hideTooltip } = useTooltip()
   const [filterField, setFilterField] = useState<CategoryFilter | ''>('')
   const [searchQuery, setSearchQuery] = useState('')
-  const [tableCurrency, setTableCurrency] = useState<'usd' | 'xrp'>(currencyMode)
+  const [tableCurrency, setTableCurrency] = useState<'usd' | 'xrp'>(
+    currencyMode,
+  )
   const [currentPage, setCurrentPage] = useState(1)
   const [iconMap, setIconMap] = useState<Record<string, string>>({})
-  const [loadingIcons, setLoadingIcons] = useState(false)
   const pageSize = 10
 
   const renderTooltip = (key: string, yOffset = 60) => (
@@ -168,23 +175,26 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
     let result = amms
 
     if (filterField) {
-      result = result.filter((amm) =>
-        amm.asset_class === filterField ||
-        amm.asset_class_1 === filterField ||
-        amm.asset_class_2 === filterField
+      result = result.filter(
+        (amm) =>
+          amm.asset_class === filterField ||
+          amm.asset_class_1 === filterField ||
+          amm.asset_class_2 === filterField,
       )
     }
 
     if (searchQuery.trim()) {
       const q = searchQuery.trim().toLowerCase()
-      result = result.filter(
-        (amm) => {
-          const currency1 = (amm.currency_1 || '').toLowerCase()
-          const currency2 = (amm.currency_2 || '').toLowerCase()
-          const accountId = (amm.amm_account_id || '').toLowerCase()
-          return currency1.includes(q) || currency2.includes(q) || accountId.includes(q)
-        }
-      )
+      result = result.filter((amm) => {
+        const currency1 = (amm.currency_1 || '').toLowerCase()
+        const currency2 = (amm.currency_2 || '').toLowerCase()
+        const accountId = (amm.amm_account_id || '').toLowerCase()
+        return (
+          currency1.includes(q) ||
+          currency2.includes(q) ||
+          accountId.includes(q)
+        )
+      })
     }
 
     return result
@@ -199,14 +209,11 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
   // Fetch icons for the current page when page changes
   useEffect(() => {
     const loadIconsForCurrentPage = async () => {
-      setLoadingIcons(true)
       try {
         const icons = await fetchIconsForAMMs(paginatedAmms)
         setIconMap((prevMap) => ({ ...prevMap, ...icons }))
-      } catch (error) {
-        console.error('Failed to fetch icons for current page:', error)
-      } finally {
-        setLoadingIcons(false)
+      } catch {
+        // Silently fail - icons are not critical
       }
     }
 
@@ -221,26 +228,24 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
     const XRP_ICON_URL = xrpIconSvg
 
     const enriched = paginatedAmms.map((amm) => {
-      const icon_1 = amm.currency_1 === 'XRP'
-        ? XRP_ICON_URL
-        : (amm.currency_1 && amm.issuer_1
-          ? iconMap[`${amm.currency_1}.${amm.issuer_1}`]
-          : undefined)
+      let icon1
+      if (amm.currency_1 === 'XRP') {
+        icon1 = XRP_ICON_URL
+      } else if (amm.currency_1 && amm.issuer_1) {
+        icon1 = iconMap[`${amm.currency_1}.${amm.issuer_1}`]
+      }
 
-      const icon_2 = amm.currency_2 === 'XRP'
-        ? XRP_ICON_URL
-        : (amm.currency_2 && amm.issuer_2
-          ? iconMap[`${amm.currency_2}.${amm.issuer_2}`]
-          : undefined)
-
-      if (amm.currency_1 === 'XRP' || amm.currency_2 === 'XRP') {
-        console.log('XRP AMM:', amm.amm_account_id, 'icon_1:', icon_1, 'icon_2:', icon_2)
+      let icon2
+      if (amm.currency_2 === 'XRP') {
+        icon2 = XRP_ICON_URL
+      } else if (amm.currency_2 && amm.issuer_2) {
+        icon2 = iconMap[`${amm.currency_2}.${amm.issuer_2}`]
       }
 
       return {
         ...amm,
-        icon_1,
-        icon_2,
+        icon_1: icon1,
+        icon_2: icon2,
       }
     })
 
@@ -262,21 +267,24 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
     const suffix = tableCurrency === 'xrp' ? ' XRP' : ''
 
     if (value >= 1000000000) {
-      const formatted = tableCurrency === 'usd'
-        ? `$${(value / 1000000000).toFixed(2)}B`
-        : `${(value / 1000000000).toFixed(2)}B${suffix}`
+      const formatted =
+        tableCurrency === 'usd'
+          ? `$${(value / 1000000000).toFixed(2)}B`
+          : `${(value / 1000000000).toFixed(2)}B${suffix}`
       return formatted
     }
     if (value >= 1000000) {
-      const formatted = tableCurrency === 'usd'
-        ? `$${(value / 1000000).toFixed(2)}M`
-        : `${(value / 1000000).toFixed(2)}M${suffix}`
+      const formatted =
+        tableCurrency === 'usd'
+          ? `$${(value / 1000000).toFixed(2)}M`
+          : `${(value / 1000000).toFixed(2)}M${suffix}`
       return formatted
     }
     if (value >= 1000) {
-      const formatted = tableCurrency === 'usd'
-        ? `$${(value / 1000).toFixed(2)}K`
-        : `${(value / 1000).toFixed(2)}K${suffix}`
+      const formatted =
+        tableCurrency === 'usd'
+          ? `$${(value / 1000).toFixed(2)}K`
+          : `${(value / 1000).toFixed(2)}K${suffix}`
       return formatted
     }
 
@@ -292,20 +300,23 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
   const formatFeesCompact = (value: number): string => {
     const suffix = tableCurrency === 'xrp' ? ' XRP' : ''
     if (value >= 1000000) {
-      const formatted = tableCurrency === 'usd'
-        ? `$${(value / 1000000).toFixed(1)}M`
-        : `${(value / 1000000).toFixed(1)}M${suffix}`
+      const formatted =
+        tableCurrency === 'usd'
+          ? `$${(value / 1000000).toFixed(1)}M`
+          : `${(value / 1000000).toFixed(1)}M${suffix}`
       return formatted
     }
     if (value >= 1000) {
-      const formatted = tableCurrency === 'usd'
-        ? `$${(value / 1000).toFixed(1)}K`
-        : `${(value / 1000).toFixed(1)}K${suffix}`
+      const formatted =
+        tableCurrency === 'usd'
+          ? `$${(value / 1000).toFixed(1)}K`
+          : `${(value / 1000).toFixed(1)}K${suffix}`
       return formatted
     }
-    const formatted = tableCurrency === 'usd'
-      ? `$${value.toFixed(2)}`
-      : `${value.toFixed(2)}${suffix}`
+    const formatted =
+      tableCurrency === 'usd'
+        ? `$${value.toFixed(2)}`
+        : `${value.toFixed(2)}${suffix}`
     return formatted
   }
 
@@ -383,22 +394,32 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
 
         <div className="table-currency-toggle">
           <span
-            className={tableCurrency === 'usd' ? 'currency-label active' : 'currency-label'}
+            className={
+              tableCurrency === 'usd'
+                ? 'currency-label active'
+                : 'currency-label'
+            }
           >
             USD
           </span>
-          <label className="toggle-switch">
+          <label className="toggle-switch" htmlFor="table-currency-toggle">
             <input
+              id="table-currency-toggle"
               type="checkbox"
               checked={tableCurrency === 'xrp'}
               onChange={() =>
                 setTableCurrency(tableCurrency === 'usd' ? 'xrp' : 'usd')
               }
+              aria-label="Table currency toggle"
             />
             <span className="toggle-slider" />
           </label>
           <span
-            className={tableCurrency === 'xrp' ? 'currency-label active' : 'currency-label'}
+            className={
+              tableCurrency === 'xrp'
+                ? 'currency-label active'
+                : 'currency-label'
+            }
           >
             XRP
           </span>
@@ -425,11 +446,16 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
                   {renderTooltip('volume_24h')}
                 </span>
               </th>
-              <th className="fees-24h">FEES (24H)</th>
+              <th className="fees-24h has-tooltip">
+                <span className="sort-header">
+                  FEES (24H)
+                  {renderTooltip('fees_24h')}
+                </span>
+              </th>
               <th className="apr has-tooltip">
                 <span className="sort-header">
                   APR (24H)
-                  {renderTooltip('apr')}
+                  {renderTooltip('apr_24h')}
                 </span>
               </th>
             </tr>
