@@ -135,10 +135,6 @@ const PoolDisplay: FC<{ amm: AMMPool }> = ({ amm }) => (
 
 export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
   amms,
-  sortField,
-  setSortField,
-  sortOrder,
-  setSortOrder,
   currencyMode,
 }) => {
   const { t } = useTranslation()
@@ -157,7 +153,7 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
       className="hover"
       onMouseOver={(e) => {
         const rect = e.currentTarget.getBoundingClientRect()
-        showTooltip('text', e, t(`${key}_tooltip`), {
+        showTooltip('text', e, t(`${key}_tooltip` as any), {
           x: rect.left + rect.width / 2,
           y: rect.top - yOffset,
         })
@@ -177,7 +173,6 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
     if (filterField) {
       result = result.filter(
         (amm) =>
-          amm.asset_class === filterField ||
           amm.asset_class_1 === filterField ||
           amm.asset_class_2 === filterField,
       )
