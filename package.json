@@ -3,9 +3,7 @@
   "description": "XRPL Data Visualization",
   "version": "1.5.0",
   "overrides": {
-    "stylelint-config-idiomatic-order": {
-      "stylelint-order": "$stylelint-order"
-    }
+    "stylelint-order": "^8.1.1"
   },
   "dependencies": {
     "@rollup/plugin-inject": "^5.0.5",
