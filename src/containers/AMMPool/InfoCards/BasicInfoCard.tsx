@@ -7,7 +7,7 @@ import {
   shortenAccount,
   shortenLPToken,
 } from '../../shared/utils'
-import BasicInfoIcon from '../../shared/images/basic_info_icon.svg'
+import BasicInfoIcon from '../../shared/images/info_book_icon.svg'
 
 interface BasicInfoCardProps {
   ammAccountId: string
