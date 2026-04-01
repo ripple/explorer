@@ -468,6 +468,7 @@
   "last_affecting_transaction": "최종 트랜잭션에 영향을 미친 항목",
   "Version": "버전",
   "increased_by": "증가량",
+  "lp_token_balance": "유동성 공급 토큰 잔고",
   "trading_fee": "트랜잭션 수수료",
   "tvl": "총 잠긴 가치(TVL)",
   "account_address": "계정 주소",

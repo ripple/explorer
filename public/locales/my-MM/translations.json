@@ -483,6 +483,7 @@
   "last_affecting_transaction": "နောက်ဆုံး သက်ရောက်မှုရှိသော ငွေလွှဲမှု",
   "Version": "ဗားရှင်း",
   "increased_by": "တိုးလာသည်",
+  "lp_token_balance": "LP Token လက်ကျန်",
   "trading_fee": "ရောင်းဝယ်မှု အခကြေးငွေ",
   "tvl": "TVL",
   "account_address": "အကောင့် လိပ်စာ",
