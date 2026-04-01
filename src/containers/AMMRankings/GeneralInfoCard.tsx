@@ -68,7 +68,7 @@ export const GeneralInfoCard: FC<GeneralInfoCardProps> = ({
       className="hover"
       onMouseOver={(e) => {
         const rect = e.currentTarget.getBoundingClientRect()
-        showTooltip('text', e, t(`${key}_tooltip`), {
+        showTooltip('text', e, t(`${key}_tooltip` as any), {
           x: rect.left + rect.width / 2,
           y: rect.top - 60,
         })
@@ -117,7 +117,7 @@ export const GeneralInfoCard: FC<GeneralInfoCardProps> = ({
         </div>
 
         <div className="stat-row">
-          <div className="stat-label">{t('24h_volume')}</div>
+          <div className="stat-label">{t('volume_24h' as any)}</div>
           <div className="stat-value">
             {volume24h ? formatCurrencyAmount(volume24h) : DEFAULT_EMPTY_VALUE}
           </div>

@@ -148,7 +148,7 @@ export const AMMRankings: FC = () => {
             <TVLVolumeChart
               data={historicalData?.data_points || []}
               timeRange={timeRange}
-              setTimeRange={setTimeRange}
+              setTimeRange={(range: string) => setTimeRange(range as TimeRange)}
               showTVL={showTVL}
               showVolume={showVolume}
               currencyMode={currencyMode}
