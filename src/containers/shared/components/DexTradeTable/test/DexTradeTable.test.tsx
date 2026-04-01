@@ -325,6 +325,25 @@ describe('DexTradeTable Component', () => {
     expect(rows.length).toBe(mockDexTrades.length)
   })
 
+  it('hides type column when hideType is true', () => {
+    const { container } = render(
+      <TestWrapper>
+        <DexTradeTable
+          transactions={mockDexTrades}
+          totalTrades={2}
+          currentPage={1}
+          onPageChange={mockOnPageChange}
+          pageSize={10}
+          hideType
+        />
+      </TestWrapper>,
+    )
+    const headers = container.querySelectorAll('thead th')
+    expect(headers.length).toBe(8)
+    expect(screen.queryByText('Order Book')).not.toBeInTheDocument()
+    expect(screen.queryByText('AMM')).not.toBeInTheDocument()
+  })
+
   it('handles single transaction', () => {
     const singleTrade: LOSDEXTransaction[] = [mockDexTrades[0]]
     render(
