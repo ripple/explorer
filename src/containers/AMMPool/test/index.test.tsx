@@ -28,7 +28,7 @@ jest.mock('../TablePicker', () => ({
 }))
 
 const mockGetAMMInfo = rippled.getAMMInfoByAMMAccount as jest.Mock
-const mockDetectLiquidated = ammUtils.getLiquidatedAMMData as jest.Mock
+const mockDetectDeleted = ammUtils.getDeletedAMMData as jest.Mock
 
 const TEST_AMM_ID = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG'
 
@@ -67,7 +67,7 @@ describe('AMMPool Page', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     process.env.VITE_ENVIRONMENT = 'mainnet'
-    mockDetectLiquidated.mockResolvedValue(null)
+    mockDetectDeleted.mockResolvedValue(null)
   })
 
   it('renders header and cards for an active AMM pool', async () => {
@@ -96,10 +96,10 @@ describe('AMMPool Page', () => {
     })
   })
 
-  it('shows liquidated banner for a liquidated AMM pool', async () => {
+  it('shows deleted banner for a deleted AMM pool', async () => {
     mockGetAMMInfo.mockRejectedValue({ code: 35 })
-    mockDetectLiquidated.mockResolvedValue({
-      account: 'rLiquidatedAMM',
+    mockDetectDeleted.mockResolvedValue({
+      account: 'rDeletedAMM',
       asset: { currency: 'XRP' },
       asset2: {
         currency: '504958454C530000000000000000000000000000',
@@ -107,13 +107,13 @@ describe('AMMPool Page', () => {
       },
       lpToken: {
         currency: '0370963F20A61AF3C6E5D674EAAEE3E65C0BDC9F',
-        issuer: 'rLiquidatedAMM',
+        issuer: 'rDeletedAMM',
         value: '0',
       },
-      liquidationDate: 827617760,
+      deletionDate: 827617760,
     })
 
-    renderComponent('rLiquidatedAMM')
+    renderComponent('rDeletedAMM')
 
     await waitFor(() => {
       expect(document.querySelector('.amm-pool-header')).toBeInTheDocument()
@@ -123,15 +123,15 @@ describe('AMMPool Page', () => {
 
     // Liquidated banner should be shown
     await waitFor(() => {
-      const banner = document.querySelector('.amm-liquidated-banner')
+      const banner = document.querySelector('.amm-deleted-banner')
       expect(banner).toBeInTheDocument()
     })
   })
 
-  it('hides auction card for liquidated pools', async () => {
+  it('hides auction card for deleted pools', async () => {
     mockGetAMMInfo.mockRejectedValue({ code: 35 })
-    mockDetectLiquidated.mockResolvedValue({
-      account: 'rLiquidatedAMM',
+    mockDetectDeleted.mockResolvedValue({
+      account: 'rDeletedAMM',
       asset: { currency: 'XRP' },
       asset2: {
         currency: '504958454C530000000000000000000000000000',
@@ -139,25 +139,25 @@ describe('AMMPool Page', () => {
       },
       lpToken: {
         currency: '0370963F20A61AF3C6E5D674EAAEE3E65C0BDC9F',
-        issuer: 'rLiquidatedAMM',
+        issuer: 'rDeletedAMM',
         value: '0',
       },
-      liquidationDate: 827617760,
+      deletionDate: 827617760,
     })
 
-    renderComponent('rLiquidatedAMM')
+    renderComponent('rDeletedAMM')
 
     await waitFor(() => {
       expect(screen.getByText('basic_info')).toBeInTheDocument()
     })
 
-    // Auction card should not be rendered for liquidated pools
+    // Auction card should not be rendered for deleted pools
     expect(screen.queryByText('auction')).not.toBeInTheDocument()
   })
 
-  it('shows error when both amm_info and liquidation detection fail', async () => {
+  it('shows error when both amm_info and deletion detection fail', async () => {
     mockGetAMMInfo.mockRejectedValue({ code: 404 })
-    mockDetectLiquidated.mockResolvedValue(null)
+    mockDetectDeleted.mockResolvedValue(null)
 
     renderComponent('rNonExistentAMM')
 

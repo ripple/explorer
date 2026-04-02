@@ -891,6 +891,6 @@
   "lp_token_currency_code": null,
   "asset_2": null,
   "usd_value": null,
-  "amm_pool_liquidated_label": null,
-  "amm_pool_liquidated_text": null
+  "amm_pool_deleted_label": null,
+  "amm_pool_deleted_text": null
 }

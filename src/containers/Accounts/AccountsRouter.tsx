@@ -17,7 +17,7 @@ import { Error } from '../../rippled/lib/utils'
 import { BAD_REQUEST } from '../shared/utils'
 import { buildPath } from '../shared/routing'
 import { AMM_POOL_ROUTE } from '../App/routes'
-import { getLiquidatedAMMData } from '../AMMPool/utils'
+import { getDeletedAMMData } from '../AMMPool/utils'
 
 const getErrorMessage = (error: any) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -59,16 +59,16 @@ export const AccountsRouter = () => {
 
           return <Accounts />
         })
-        // Even if account info fails it might be a deleted account or liquidated AMM
+        // Even if account info fails it might be a deleted account or deleted AMM
         .catch(async (responseError: Error) => {
           if (responseError?.code === 404) {
-            // Check if this is a liquidated AMM pool
-            const liquidatedAmm = await getLiquidatedAMMData(
+            // Check if this is a deleted AMM pool
+            const deletedAmm = await getDeletedAMMData(
               rippledSocket,
               classicAddress,
             )
 
-            if (liquidatedAmm) {
+            if (deletedAmm) {
               return (
                 <Navigate
                   to={buildPath(AMM_POOL_ROUTE, { id: classicAddress })}

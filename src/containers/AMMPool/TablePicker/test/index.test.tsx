@@ -54,7 +54,7 @@ interface RenderProps {
   asset1?: FormattedBalance | null
   asset2?: FormattedBalance | null
   tvlUsd?: number
-  isLiquidated?: boolean
+  isDeleted?: boolean
 }
 
 const renderComponent = ({
@@ -69,7 +69,7 @@ const renderComponent = ({
   asset1 = defaultAsset1,
   asset2 = defaultAsset2,
   tvlUsd = 1000000,
-  isLiquidated = false,
+  isDeleted = false,
 }: RenderProps = {}) =>
   render(
     <QueryClientProvider client={queryClient}>
@@ -83,7 +83,7 @@ const renderComponent = ({
             asset1={asset1}
             asset2={asset2}
             tvlUsd={tvlUsd}
-            isLiquidated={isLiquidated}
+            isDeleted={isDeleted}
           />
         </MemoryRouter>
       </I18nextProvider>
@@ -114,8 +114,8 @@ describe('AMMPoolTablePicker', () => {
     expect(screen.queryByText('holders')).toBeNull()
   })
 
-  it('hides holders tab when pool is liquidated', () => {
-    renderComponent({ isLiquidated: true })
+  it('hides holders tab when pool is deleted', () => {
+    renderComponent({ isDeleted: true })
     expect(screen.getByText('all_transactions')).toBeInTheDocument()
     expect(screen.getByText('dex_trades')).toBeInTheDocument()
     expect(screen.queryByText('holders')).toBeNull()
