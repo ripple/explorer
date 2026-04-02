@@ -28,7 +28,7 @@
     @include medium;
 
     &.copied {
-      color: $green-30;
+      color: $white;
     }
   }
 }
@@ -77,7 +77,7 @@
       @include medium;
 
       &.copied {
-        color: $green-30;
+        color: $white;
       }
     }
   }
