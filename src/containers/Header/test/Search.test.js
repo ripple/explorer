@@ -1,6 +1,6 @@
 import { render, fireEvent, act } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import moxios from 'moxios'
 import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
@@ -8,7 +8,7 @@ import { Search } from '../Search'
 import * as rippled from '../../../rippled/lib/rippled'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
-import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
+import { flushPromises } from '../../test/utils'
 import { queryClient } from '../../shared/QueryClient'
 
 describe('Search component', () => {
@@ -17,7 +17,7 @@ describe('Search component', () => {
     return render(
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
-          <Router future={V7_FUTURE_ROUTER_FLAGS}>
+          <Router>
             <QueryClientProvider client={queryClient}>
               <Search />
             </QueryClientProvider>

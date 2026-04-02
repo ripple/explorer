@@ -3,6 +3,17 @@ import '@testing-library/jest-dom'
 
 import { TextEncoder, TextDecoder } from 'util'
 
+// ResizeObserver is not available in jsdom, needed by recharts and other libs
+/* eslint-disable class-methods-use-this */
+global.ResizeObserver = class ResizeObserver {
+  observe() {}
+
+  unobserve() {}
+
+  disconnect() {}
+}
+/* eslint-enable class-methods-use-this */
+
 const mockStorage = {}
 
 window.dataLayer = window.dataLayer || []

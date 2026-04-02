@@ -1,12 +1,13 @@
 import { KeyboardEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import CustomNetworkLogo from '../shared/images/custom_network_logo.svg'
 import RightArrow from '../shared/images/side_arrow_green.svg'
 import { useAnalytics } from '../shared/analytics'
 import './index.scss'
 import { useCustomNetworks } from '../shared/hooks'
 import { Header } from '../Header'
+import { locationAssign } from '../shared/navigate'
 
 const CustomNetworkHome = () => {
   const { track, trackScreenLoaded } = useAnalytics()
@@ -35,7 +36,7 @@ const CustomNetworkHome = () => {
     })
 
     // TODO: do some validation on this??
-    window.location.assign(url)
+    locationAssign(url)
   }
 
   function customNetworkOnKeyDown(event: KeyboardEvent<HTMLInputElement>) {

@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary -- Disabled for this file */
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { TRANSACTION_ROUTE } from '../App/routes'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import { useLanguage } from '../shared/hooks'

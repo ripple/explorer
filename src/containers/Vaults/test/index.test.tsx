@@ -1,6 +1,6 @@
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import moxios from 'moxios'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfigEnglish'
 import { Vaults } from '..'
 import NetworkContext from '../../shared/NetworkContext'
@@ -74,11 +74,11 @@ describe('Vaults Page container', () => {
     await flushPromises()
     await waitFor(() => {
       expect(container.querySelectorAll('.vaults-page').length).toBe(1)
+      expect(container.querySelectorAll('.metric').length).toBe(6)
     })
 
     // Metrics (xrpToUSDRate = 2.0)
     const metrics = container.querySelectorAll('.metric')
-    expect(metrics.length).toBe(6)
 
     // TVL: 8,000,000 * 2 = $16.0M
     expect(metrics[0].querySelector('.title')?.textContent).toContain(
@@ -279,7 +279,9 @@ describe('Vaults Page container', () => {
 
     // Pagination component should be rendered (with only 2 items and pageSize 20,
     // pagination may render but with limited controls)
-    expect(container.querySelector('.vaults-table-section')).toBeTruthy()
+    await waitFor(() => {
+      expect(container.querySelector('.vaults-table-section')).toBeTruthy()
+    })
   })
 
   it('renders disclaimer footnote', async () => {

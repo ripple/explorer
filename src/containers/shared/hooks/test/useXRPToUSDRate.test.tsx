@@ -66,7 +66,9 @@ describe('useXRPToUSDRate', () => {
     // Force useQuery to refetch
     queryClient.invalidateQueries('XRPToUSDRate')
 
-    await waitFor(() => expect(result.current).toBe(2.1))
-    expect(Log.error).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(result.current).toBe(2.1)
+      expect(Log.error).toHaveBeenCalledTimes(1)
+    })
   })
 })

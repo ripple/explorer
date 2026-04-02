@@ -99,8 +99,8 @@ $index-width: 324px;
         @include medium;
 
         color: $white;
+        overflow-wrap: break-word;
         vertical-align: middle;
-        word-break: break-word;
 
         &.text-truncate {
           @extend %truncate;

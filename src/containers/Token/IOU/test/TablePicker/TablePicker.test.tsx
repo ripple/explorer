@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import { QueryClientProvider } from 'react-query'
 import moxios from 'moxios'
 import i18n from '../../../../../i18n/testConfig'
@@ -9,7 +9,7 @@ import TEST_TRANSACTIONS_DATA from '../../../../Accounts/AccountTransactionTable
 
 import { getAccountTransactions } from '../../../../../rippled'
 import { testQueryClient } from '../../../../test/QueryClient'
-import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../../../test/utils'
+import { flushPromises } from '../../../../test/utils'
 import Mock = jest.Mock
 
 jest.mock('../../../../../rippled', () => ({
@@ -95,7 +95,7 @@ describe('TablePicker container', () => {
     return render(
       <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
-          <Router future={V7_FUTURE_ROUTER_FLAGS}>
+          <Router>
             <TablePicker
               accountId={TEST_ACCOUNT_ID}
               currency={TEST_CURRENCY}

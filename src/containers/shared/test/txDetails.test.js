@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import i18n from '../../../i18n/testConfig'
 import EnableAmendment from '../../Transactions/test/mock_data/EnableAmendment.json'
 import { TxDetails } from '../components/TxDetails'
