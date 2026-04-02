@@ -16,7 +16,7 @@
     }
 
     li {
-      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     @include for-size(tablet-landscape-up) {

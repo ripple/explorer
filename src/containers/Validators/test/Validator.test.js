@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 import { BAD_REQUEST } from '../../shared/utils'
 import { Validator } from '../index'
 import { getLedger } from '../../../rippled'

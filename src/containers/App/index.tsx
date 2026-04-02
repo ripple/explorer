@@ -1,5 +1,4 @@
-import { Route, useLocation, Routes } from 'react-router'
-import { Navigate } from 'react-router-dom'
+import { Route, useLocation, Routes, Navigate } from 'react-router'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from 'react-query'
 import { useTranslation } from 'react-i18next'
@@ -113,7 +112,10 @@ export const AppWrapper = () => {
                 {/* Start: Redirects */}
                 {/* Ensures redirects happen without loading other routes. Specifically for hash routes */}
                 {redirect && (
-                  <Route path="" element={<Navigate to={redirect} replace />} />
+                  <Route
+                    path="/"
+                    element={<Navigate to={redirect} replace />}
+                  />
                 )}
                 <Route
                   path={updatePath('/explorer')}

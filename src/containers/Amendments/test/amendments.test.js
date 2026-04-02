@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfig'
 import { Amendments } from '../index'
 import NetworkContext from '../../shared/NetworkContext'
@@ -75,7 +75,7 @@ describe('Amendments Page container', () => {
     )
 
     expect(rows[2].querySelector('.name .name-text').outerHTML).toBe(
-      '<span class="name-text"><a class="" href="/amendment/56B241D7A43D40354D02A9DC4C8DF5C7A1F930D92A9035C4E12291B3CA3E1C2B">Clawback</a></span>',
+      '<span class="name-text"><a class="" href="/amendment/56B241D7A43D40354D02A9DC4C8DF5C7A1F930D92A9035C4E12291B3CA3E1C2B" data-discover="true">Clawback</a></span>',
     )
 
     expect(rows[2].querySelector('.voters').outerHTML).toBe(
@@ -104,7 +104,7 @@ describe('Amendments Page container', () => {
     )
 
     expect(rows[4].querySelector('.name .name-text').outerHTML).toBe(
-      '<span class="name-text"><a class="" href="/amendment/75A7E01C505DD5A179DFE3E000A9B6F1EDDEB55A12F95579A23E15B15DC8BE5A">ImmediateOfferKilled</a></span>',
+      '<span class="name-text"><a class="" href="/amendment/75A7E01C505DD5A179DFE3E000A9B6F1EDDEB55A12F95579A23E15B15DC8BE5A" data-discover="true">ImmediateOfferKilled</a></span>',
     )
 
     expect(rows[4].querySelector('.enabled').outerHTML).toBe(
@@ -112,7 +112,7 @@ describe('Amendments Page container', () => {
     )
 
     expect(rows[4].querySelector('.on_tx').outerHTML).toBe(
-      '<td class="on_tx"><a class="" href="/transactions/65B8A4068B20696A866A07E5668B2AEB0451564E13B79421356FB962EC9A536B">8/21/2023</a></td>',
+      '<td class="on_tx"><a class="" href="/transactions/65B8A4068B20696A866A07E5668B2AEB0451564E13B79421356FB962EC9A536B" data-discover="true">8/21/2023</a></td>',
     )
   })
 })

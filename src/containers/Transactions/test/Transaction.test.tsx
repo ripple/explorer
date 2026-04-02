@@ -21,10 +21,6 @@ jest.mock('../../../rippled', () => {
 
 const mockedGetTransaction: Mock = getTransaction as Mock
 
-window.location.assign(
-  '/transactions/50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774',
-)
-
 describe('Transaction container', () => {
   const renderTransaction = (
     hash = '50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774',
@@ -113,10 +109,10 @@ describe('Transaction container', () => {
       const { container } = renderTransaction(mockTransaction.hash)
       await waitFor(() => {
         expect(container.querySelectorAll('.transaction').length).toBe(1)
+        expect(container.querySelector('.summary')).toBeInTheDocument()
       })
 
       const summary = container.querySelector('.summary')
-      expect(summary).toBeInTheDocument()
       expect(summary?.querySelector('.type')).toHaveTextContent('OfferCreate')
 
       const txids = container.querySelectorAll('.txid')
